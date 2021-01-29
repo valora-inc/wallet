@@ -1,4 +1,4 @@
-import { CURRENCY_ENUM } from '@celo/utils/src/currencies'
+import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'

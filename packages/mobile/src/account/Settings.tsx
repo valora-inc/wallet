@@ -6,7 +6,7 @@ import {
 } from '@celo/react-components/components/SettingsItem'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import { isE164Number } from '@celo/utils/src/phoneNumbers'
+import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'

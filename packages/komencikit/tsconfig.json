@@ -7,5 +7,4 @@
     "resolveJsonModule": true
   },
   "include": ["src/**/*", "types/**/*"],
-  "references": [{ "path": "../sdk/utils" }]
 }

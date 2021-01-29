@@ -1,4 +1,4 @@
-import { CURRENCY_ENUM } from '@celo/utils/src'
+import { CURRENCY_ENUM } from '@celo/utils/lib'
 import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState } from 'react-native'
 import { eventChannel } from 'redux-saga'

@@ -3,7 +3,7 @@ import {
   isBalanceSufficientForSigRetrieval,
   PhoneNumberHashDetails,
 } from '@celo/identity/lib/odis/phone-number-identifier'
-import { AttestationsStatus } from '@celo/utils/src/attestations'
+import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import BigNumber from 'bignumber.js'
 import dotProp from 'dot-prop-immutable'
 import { RehydrateAction } from 'redux-persist'

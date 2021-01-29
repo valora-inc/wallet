@@ -3,7 +3,7 @@ import KeyboardAwareScrollView from '@celo/react-components/components/KeyboardA
 import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/src'
+import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib'
 import { HeaderHeightContext, StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'

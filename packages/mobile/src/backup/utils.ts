@@ -1,4 +1,4 @@
-import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from '@celo/utils/src/account'
+import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from '@celo/utils/lib/account'
 import CryptoJS from 'crypto-js'
 import * as _ from 'lodash'
 import { useAsync } from 'react-async-hook'

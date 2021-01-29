@@ -1,4 +1,4 @@
-import { getRegionCodeFromCountryCode } from '@celo/utils/src/phoneNumbers'
+import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import _ from 'lodash'
 import DeviceInfo from 'react-native-device-info'
 import { createSelector } from 'reselect'

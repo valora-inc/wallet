@@ -6,9 +6,9 @@ import ValidatedTextInput from '@celo/react-components/components/ValidatedTextI
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import SmsRetriever from '@celo/react-native-sms-retriever'
-import { LocalizedCountry } from '@celo/utils/src/countries'
-import { ValidatorKind } from '@celo/utils/src/inputValidation'
-import { parsePhoneNumber } from '@celo/utils/src/phoneNumbers'
+import { LocalizedCountry } from '@celo/utils/lib/countries'
+import { ValidatorKind } from '@celo/utils/lib/inputValidation'
+import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import React, { useRef } from 'react'
 import { Platform, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 

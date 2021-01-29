@@ -1,7 +1,7 @@
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/src'
+import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib'
 import React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'

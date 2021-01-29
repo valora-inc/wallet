@@ -9,13 +9,13 @@ import {
 } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { KomenciKit } from '@celo/komencikit/src/kit'
-import { AttestationRequest } from '@celo/utils/lib/io'
-import { retryAsync } from '@celo/utils/src/async'
+import { retryAsync } from '@celo/utils/lib/async'
 import {
   AttestationsStatus,
   extractAttestationCodeFromMessage,
   extractSecurityCodeWithPrefix,
-} from '@celo/utils/src/attestations'
+} from '@celo/utils/lib/attestations'
+import { AttestationRequest } from '@celo/utils/lib/io'
 import { Platform } from 'react-native'
 import { Task } from 'redux-saga'
 import {

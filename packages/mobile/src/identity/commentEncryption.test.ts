@@ -1,6 +1,6 @@
 import { AttestationStat } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { hexToBuffer } from '@celo/utils/src/address'
+import { hexToBuffer } from '@celo/utils/lib/address'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'

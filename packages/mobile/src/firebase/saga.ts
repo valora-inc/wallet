@@ -1,4 +1,4 @@
-import { sleep } from '@celo/utils/src/async'
+import { sleep } from '@celo/utils/lib/async'
 import firebase from '@react-native-firebase/app'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import { eventChannel } from 'redux-saga'

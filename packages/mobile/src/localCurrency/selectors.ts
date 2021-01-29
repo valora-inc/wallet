@@ -1,12 +1,12 @@
-import { getRegionCode } from '@celo/utils/src/phoneNumbers'
+import { getRegionCode } from '@celo/utils/lib/phoneNumbers'
 import CountryData from 'country-data'
 import { getCurrencies } from 'react-native-localize'
 import { createSelector } from 'reselect'
 import { e164NumberSelector } from 'src/account/selectors'
 import {
-  LOCAL_CURRENCY_CODES,
   LocalCurrencyCode,
   LocalCurrencySymbol,
+  LOCAL_CURRENCY_CODES,
 } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 

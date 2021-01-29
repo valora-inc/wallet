@@ -6,7 +6,7 @@ import {
   produceResponseDeeplink,
   SignTxRequest,
   SignTxResponseSuccess,
-} from '@celo/utils/src/dappkit'
+} from '@celo/utils/lib/dappkit'
 import { call, select, takeLeading } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { navigate } from 'src/navigator/NavigationService'

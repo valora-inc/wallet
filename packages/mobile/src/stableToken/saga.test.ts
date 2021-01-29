@@ -1,4 +1,4 @@
-import { CURRENCY_ENUM } from '@celo/utils/src/currencies'
+import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
