@@ -1277,7 +1277,7 @@
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-1.0.0-beta3.tgz#29c2acd54f7158c8e9ca9c567629b65cb5d6808d"
   integrity sha512-fsMCheoFHe1ffULXeUsDtPb5UQr7P+xdCpJZIb/cYxCWNbJONYC2IAPpjGX2k75jTrw0hBKcAL5cFef2ldg4Mw==
 
-"@celo/base@1.0.1", "@celo/base@1.0.1-dev":
+"@celo/base@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-1.0.1.tgz#3a0a05ac0f1f3e9d3b918d069339b30d527dbaa4"
   integrity sha512-DvWWFroRTHAnKEz2IaXJDzSl0CsctaLjvLaEaEDJ+998FMqu8iR1bbN6gV05ZwhdHOseS7j9eTkPTH4hBcHGrA==
@@ -1297,7 +1297,7 @@
     debug "^4.1.1"
     utf8 "3.0.0"
 
-"@celo/connect@1.0.1", "@celo/connect@1.0.1-dev":
+"@celo/connect@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@celo/connect/-/connect-1.0.1.tgz#4668c2d62358de58d28a63415db8beb7ffc10c8f"
   integrity sha512-/jg1F4upqfYEqOnnp2vsE2MK8B9gdtGO+yuwRE1n3aenjCT8qAWFVqIL49tnVpQAyhfq0u4xvOaF40db5b6Qpw==
@@ -1325,7 +1325,7 @@
     io-ts "2.0.1"
     web3 "1.3.0"
 
-"@celo/contractkit@1.0.1", "@celo/contractkit@1.0.1-dev":
+"@celo/contractkit@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@celo/contractkit/-/contractkit-1.0.1.tgz#b3e0de3c20721115c3f5abf3329698f01b1319f2"
   integrity sha512-iMXcRGj2X7sbkY2Cflxg4G4lhoTRYR4EEPbslLBjQMUJZ4SgelphD9hl6WgdN/h1xIbPBLNafhbqHgXfhqBrPg==
@@ -1343,7 +1343,7 @@
     moment "^2.29.0"
     web3 "1.3.0"
 
-"@celo/identity@1.0.1-dev":
+"@celo/identity@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@celo/identity/-/identity-1.0.1.tgz#8f518eacbb4d90d4ff61556e5d0d51137b910aec"
   integrity sha512-d91pZAwNDFRIUeYtqUrWJb61Yr9GBBuoEFDyLExc/dLk6VdiLkqyE74Ca8jgIRVU+ol9LlYHD/L37hKaXeIVJg==
@@ -1360,7 +1360,7 @@
     fp-ts "2.1.1"
     io-ts "2.0.1"
 
-"@celo/network-utils@1.0.1-dev":
+"@celo/network-utils@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@celo/network-utils/-/network-utils-1.0.1.tgz#ba34af25a06a90896c881df7061c5114de71654c"
   integrity sha512-Rd4Jtu7onz0ESKURn50P/PE8AlSGXq2Ob88LhZ5fRvXQUUJpao2osWpnF1bP6HD6886ruG2k+3/Vttvq+vGiQA==
@@ -1408,7 +1408,7 @@
     web3-eth-abi "1.3.0"
     web3-utils "1.3.0"
 
-"@celo/utils@1.0.1", "@celo/utils@1.0.1-dev":
+"@celo/utils@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@celo/utils/-/utils-1.0.1.tgz#2d0220c57585e1ef6239b2841bdef077933664b4"
   integrity sha512-33Xuf1eB/Yhc/Sb+QmAv9L89IIfnYSkLwJqBcAauEY97u86T8gM/j8I1RxNSSQgVYSpV5VZJvshFUtD4m02YXw==
@@ -1504,7 +1504,7 @@
     eth-lib "^0.2.8"
     ethereumjs-util "^5.2.0"
 
-"@celo/wallet-rpc@1.0.1-dev":
+"@celo/wallet-rpc@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@celo/wallet-rpc/-/wallet-rpc-1.0.1.tgz#5a8c897741aed681999c1c838de8ac5259763771"
   integrity sha512-gW7hxVQgmHDdzcupLgf+FiEStdEJyEL4IHbjtopACI/X9ZVar/uZ73cCJGRHC1R0DoLc1slkDS4fxrZHK4Jz0Q==
