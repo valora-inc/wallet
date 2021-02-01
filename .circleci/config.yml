@@ -455,6 +455,8 @@ workflows:
       - mobile-test:
           requires:
             - lint-checks
+      - end-to-end-mobile-test-android
+      - end-to-end-mobile-test-ios
       - flakey-test-summary:
           requires:
             - end-to-end-mobile-test-android
