@@ -227,11 +227,6 @@ jobs:
       - yarn_install
 
       - run:
-          # This has to be run after `yarn install` since it uses js dependencies
-          name: Check if the test should run
-          command: ./scripts/ci_check_if_test_should_run_v2.sh @celo/mobile
-
-      - run:
           name: Build mobile dependencies
           command: |
             set -euo pipefail
@@ -291,10 +286,6 @@ jobs:
       # Not using a workspace here as Node and Yarn versions
       # differ between our macOS executor image and the Docker containers
       - yarn_install
-      - run:
-          # This has to be run after `yarn install` since it uses js dependencies
-          name: Check if the test should run
-          command: ./scripts/ci_check_if_test_should_run_v2.sh @celo/mobile
       - run:
           name: Build mobile dependencies
           command: |
