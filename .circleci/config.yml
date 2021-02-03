@@ -384,11 +384,6 @@ jobs:
           at: ~/app
 
       - run:
-          name: Check if the test should run
-          command: |
-            ./scripts/ci_check_if_test_should_run_v2.sh @celo/mobile
-
-      - run:
           name: Ensure translations are not missing
           command: |
             cd packages/mobile
