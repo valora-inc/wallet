@@ -1,6 +1,6 @@
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import { getAddressChunks } from '@celo/utils/src/address'
+import { getAddressChunks } from '@celo/utils/lib/address'
 import Clipboard from '@react-native-community/clipboard'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

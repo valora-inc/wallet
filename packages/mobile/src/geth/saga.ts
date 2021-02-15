@@ -1,5 +1,5 @@
 import { BlockHeader } from '@celo/connect'
-import { sleep } from '@celo/utils/src/async'
+import { sleep } from '@celo/utils/lib/async'
 import { NativeEventEmitter, NativeModules } from 'react-native'
 import { eventChannel } from 'redux-saga'
 import { call, cancel, cancelled, delay, fork, put, race, select, take } from 'redux-saga/effects'

@@ -19,4 +19,4 @@ export {
   CURRENCY_ENUM,
   resolveCurrency,
   SHORT_CURRENCIES,
-} from '@celo/utils/src/currencies'
+} from '@celo/utils/lib/currencies'

@@ -64,7 +64,7 @@ import {
 const MockedAnalytics = ValoraAnalytics as any
 
 jest.mock('src/web3/saga', () => ({
-  ...jest.requireActual('src/web3/saga'),
+  ...(jest.requireActual('src/web3/saga') as any),
   unlockAccount: jest.fn(),
 }))
 
@@ -91,7 +91,7 @@ jest.mock('@celo/react-native-sms-retriever', () => ({
 jest.mock('@celo/utils', () => {
   const mockParseSig = jest.fn(() => ({ r: 'r', s: 's', v: 'v' }))
   return {
-    ...jest.requireActual('@celo/utils'),
+    ...(jest.requireActual('@celo/utils') as any),
     ECIES: { Encrypt: jest.fn(() => Buffer.from('0', 'hex')) },
     SignatureUtils: { parseSignature: mockParseSig, parseSignatureWithoutPrefix: mockParseSig },
   }

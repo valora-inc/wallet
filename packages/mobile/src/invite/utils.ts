@@ -1,5 +1,5 @@
-import { trimLeading0x } from '@celo/utils/src/address'
-import { sanitizeMessageBase64 } from '@celo/utils/src/attestations'
+import { trimLeading0x } from '@celo/utils/lib/address'
+import { sanitizeMessageBase64 } from '@celo/utils/lib/attestations'
 import dynamicLinks from '@react-native-firebase/dynamic-links'
 import URLSearchParamsReal from '@ungap/url-search-params'
 import url from 'url'

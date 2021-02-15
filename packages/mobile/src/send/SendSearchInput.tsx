@@ -1,6 +1,6 @@
 import TextInput from '@celo/react-components/components/TextInput'
 import withTextSearchPasteAware from '@celo/react-components/components/WithTextSearchPasteAware'
-import { isValidAddress } from '@celo/utils/src/address'
+import { isValidAddress } from '@celo/utils/lib/address'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'

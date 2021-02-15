@@ -43,12 +43,12 @@ import { mockAccount, mockE164Number, mockInviteDetails } from 'test/values'
 const mockKey = '0x1129eb2fbccdc663f4923a6495c35b096249812b589f7c4cd1dba01e1edaf724'
 
 jest.mock('src/firebase/dynamicLinks', () => ({
-  ...jest.requireActual('src/firebase/dynamicLinks'),
+  ...(jest.requireActual('src/firebase/dynamicLinks') as any),
   generateShortInviteLink: jest.fn(async () => 'http://celo.page.link/PARAMS'),
 }))
 
 jest.mock('src/account/actions', () => ({
-  ...jest.requireActual('src/account/actions'),
+  ...(jest.requireActual('src/account/actions') as any),
   getPincode: async () => 'pin',
 }))
 
@@ -58,7 +58,7 @@ jest.mock('src/transactions/send', () => ({
 
 jest.mock('src/config', () => {
   return {
-    ...jest.requireActual('src/config'),
+    ...(jest.requireActual('src/config') as any),
     APP_STORE_ID: '1482389446',
   }
 })

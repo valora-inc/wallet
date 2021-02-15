@@ -1,4 +1,4 @@
-import { CURRENCY_ENUM } from '@celo/utils/src'
+import { CURRENCY_ENUM } from '@celo/utils/lib'
 import BigNumber from 'bignumber.js'
 import React, { FunctionComponent, useEffect } from 'react'
 import { useAsync, UseAsyncReturn } from 'react-async-hook'

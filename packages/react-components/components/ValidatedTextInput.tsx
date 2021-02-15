@@ -3,7 +3,7 @@
  */
 
 import TextInput, { TextInputProps } from '@celo/react-components/components/TextInput'
-import { validateInput, ValidatorKind } from '@celo/utils/src/inputValidation'
+import { validateInput, ValidatorKind } from '@celo/utils/lib/inputValidation'
 import * as React from 'react'
 import { KeyboardType } from 'react-native'
 

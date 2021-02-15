@@ -21,8 +21,8 @@ import {
 } from 'test/values'
 
 jest.mock('@celo/identity', () => ({
-  ...jest.requireActual('@celo/identity'),
-  ...jest.requireActual('../../__mocks__/@celo/identity/index'),
+  ...(jest.requireActual('@celo/identity') as any),
+  ...(jest.requireActual('../../__mocks__/@celo/identity/index') as any),
   OdisUtils: jest.requireActual('@celo/identity').OdisUtils,
 }))
 

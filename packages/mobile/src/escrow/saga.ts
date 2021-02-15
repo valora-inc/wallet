@@ -7,7 +7,7 @@ import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWr
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { KomenciKit } from '@celo/komencikit/lib/kit'
 import { FetchError, TxError } from '@celo/komencikit/src/errors'
-import { privateKeyToAddress } from '@celo/utils/src/address'
+import { privateKeyToAddress } from '@celo/utils/lib/address'
 import BigNumber from 'bignumber.js'
 import { all, call, put, race, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
