@@ -16,7 +16,6 @@ files=(
   "packages/mobile/ios/GoogleService-Info.mainnetdev.plist"
   "packages/mobile/ios/sentry.properties"
   "packages/mobile/secrets.json"
-  "packages/reserve-site/.env.local"
   "packages/moonpay-auth/.env"
   ".env.mnemonic"
   ".env.mnemonic.alfajores"
