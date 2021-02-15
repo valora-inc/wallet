@@ -7,8 +7,8 @@ pull_request_rules:
       - "-draft"
       # At least one approval required
       - "#approved-reviews-by>=1"
-      # Only enable this when the pull request is being merged into master
-      - "base=master"
+      # Only enable this when the pull request is being merged into main
+      - "base=main"
     actions:
       merge:
         method: squash 
