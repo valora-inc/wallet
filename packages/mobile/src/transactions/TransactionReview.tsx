@@ -1,6 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import * as React from 'react'
-import { useLayoutEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { connect } from 'react-redux'
 import { TokenTransactionType } from 'src/apollo/types'
 import ExchangeConfirmationCard, {
