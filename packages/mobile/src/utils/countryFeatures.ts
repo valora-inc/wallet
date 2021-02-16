@@ -1,4 +1,4 @@
-import { getRegionCodeFromCountryCode } from '@celo/utils/src/phoneNumbers'
+import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import { createSelector } from 'reselect'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { countryFeatures } from 'src/flags'

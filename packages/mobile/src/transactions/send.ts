@@ -1,5 +1,5 @@
 import { CeloTxObject } from '@celo/connect'
-import { CURRENCY_ENUM } from '@celo/utils/src'
+import { CURRENCY_ENUM } from '@celo/utils/lib'
 import { BigNumber } from 'bignumber.js'
 import { call, cancel, delay, fork, join, race, select, take } from 'redux-saga/effects'
 import { TransactionEvents } from 'src/analytics/Events'

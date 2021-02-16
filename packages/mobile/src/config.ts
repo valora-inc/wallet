@@ -1,4 +1,4 @@
-import { stringToBoolean } from '@celo/utils/src/parsing'
+import { stringToBoolean } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
 import Config from 'react-native-config'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'

@@ -1,4 +1,4 @@
-import { getRegionCode } from '@celo/utils/src/phoneNumbers'
+import { getRegionCode } from '@celo/utils/lib/phoneNumbers'
 import CountryData from 'country-data'
 import { getCurrencies } from 'react-native-localize'
 import { createSelector } from 'reselect'

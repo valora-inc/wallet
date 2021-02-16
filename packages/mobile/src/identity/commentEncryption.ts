@@ -1,16 +1,16 @@
 // Wallet utilities for comment encryption and comment key management
-// Use these instead of the functions in @celo/utils/src/commentEncryption
+// Use these instead of the functions in @celo/utils/lib/commentEncryption
 // because these manage comment metadata
 
 import { Address } from '@celo/base'
 import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { eqAddress, hexToBuffer } from '@celo/utils/src/address'
+import { eqAddress, hexToBuffer } from '@celo/utils/lib/address'
 import {
   decryptComment as decryptCommentRaw,
   encryptComment as encryptCommentRaw,
-} from '@celo/utils/src/commentEncryption'
-import { getPhoneHash } from '@celo/utils/src/phoneNumbers'
+} from '@celo/utils/lib/commentEncryption'
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import { memoize, values } from 'lodash'
 import { all, call, put, select } from 'redux-saga/effects'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'

@@ -1,5 +1,5 @@
 import { CeloTransactionObject } from '@celo/connect'
-import { privateKeyToAddress } from '@celo/utils/src/address'
+import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
 import BigNumber from 'bignumber.js'
 import { Platform, Share } from 'react-native'

@@ -1,4 +1,4 @@
-import { CURRENCY_ENUM } from '@celo/utils/src/currencies'
+import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { View } from 'react-native'

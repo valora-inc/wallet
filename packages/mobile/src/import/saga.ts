@@ -2,8 +2,8 @@ import {
   formatNonAccentedCharacters,
   generateKeys,
   validateMnemonic,
-} from '@celo/utils/src/account'
-import { privateKeyToAddress } from '@celo/utils/src/address'
+} from '@celo/utils/lib/account'
+import { privateKeyToAddress } from '@celo/utils/lib/address'
 import BigNumber from 'bignumber.js'
 import * as bip39 from 'react-native-bip39'
 import { call, put, spawn, takeLeading } from 'redux-saga/effects'

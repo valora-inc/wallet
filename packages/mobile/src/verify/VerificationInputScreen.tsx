@@ -7,7 +7,7 @@ import { Spacing } from '@celo/react-components/styles/styles'
 import {
   extractAttestationCodeFromMessage,
   extractSecurityCodeWithPrefix,
-} from '@celo/utils/src/attestations'
+} from '@celo/utils/lib/attestations'
 import { HeaderHeightContext, StackScreenProps } from '@react-navigation/stack'
 import dotProp from 'dot-prop-immutable'
 import * as React from 'react'

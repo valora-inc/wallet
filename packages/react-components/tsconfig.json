@@ -16,6 +16,5 @@
     "strict": true,
     "target": "es2015"
   },
-  "exclude": ["node_modules"],
-  "references": [{ "path": "../sdk/utils" }]
+  "exclude": ["node_modules"]
 }

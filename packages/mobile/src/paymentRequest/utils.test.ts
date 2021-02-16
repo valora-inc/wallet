@@ -23,7 +23,7 @@ import {
 } from 'test/values'
 
 jest.mock('crypto', () => ({
-  ...jest.requireActual('crypto'),
+  ...(jest.requireActual('crypto') as any),
   randomBytes: jest.fn(() => Buffer.from(new Uint8Array(16).fill(1))),
 }))
 

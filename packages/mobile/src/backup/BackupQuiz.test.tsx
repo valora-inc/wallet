@@ -7,12 +7,12 @@ import { createMockStore, getMockI18nProps, getMockStackScreenProps } from 'test
 import { mockAccount, mockMnemonic } from 'test/values'
 
 jest.mock('lodash', () => ({
-  ...jest.requireActual('lodash'),
+  ...(jest.requireActual('lodash') as any),
   shuffle: jest.fn((array) => array),
 }))
 
 jest.mock('src/backup/utils', () => ({
-  ...jest.requireActual('src/backup/utils'),
+  ...(jest.requireActual('src/backup/utils') as any),
   getStoredMnemonic: jest.fn(() => mockMnemonic),
 }))
 

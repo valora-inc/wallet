@@ -10,13 +10,13 @@ import {
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { FetchError, TxError } from '@celo/komencikit/src/errors'
 import { KomenciKit } from '@celo/komencikit/src/kit'
-import { AttestationRequest } from '@celo/utils/lib/io'
-import { retryAsync } from '@celo/utils/src/async'
+import { retryAsync } from '@celo/utils/lib/async'
 import {
   AttestationsStatus,
   extractAttestationCodeFromMessage,
   extractSecurityCodeWithPrefix,
-} from '@celo/utils/src/attestations'
+} from '@celo/utils/lib/attestations'
+import { AttestationRequest } from '@celo/utils/lib/io'
 import AwaitLock from 'await-lock'
 import { Platform } from 'react-native'
 import { Task } from 'redux-saga'

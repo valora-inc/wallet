@@ -16,7 +16,7 @@ jest.mock('apollo-datasource-rest', () => {
 
 jest.mock('../src/config.ts', () => {
   return {
-    ...jest.requireActual('../src/config.ts'),
+    ...(jest.requireActual('../src/config.ts') as any),
     FAUCET_ADDRESS: '0x0000000000000000000000000000000000f40c37',
   }
 })
@@ -38,7 +38,7 @@ jest.mock('../src/utils.ts', () => {
     Reserve: '0x6a61e1e693c765cbab7e02a500665f2e13ee46df',
   })
   return {
-    ...jest.requireActual('../src/utils.ts'),
+    ...(jest.requireActual('../src/utils.ts') as any),
     getContractAddresses: contractGetter,
   }
 })

@@ -1,6 +1,6 @@
 import { ActionableAttestation } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { AttestationsStatus } from '@celo/utils/src/attestations'
+import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import dotProp from 'dot-prop-immutable'
 import { RehydrateAction } from 'redux-persist'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'

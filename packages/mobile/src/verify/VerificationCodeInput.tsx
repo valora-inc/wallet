@@ -1,8 +1,8 @@
-import { hexToBuffer } from '@celo/utils/src/address'
+import { hexToBuffer } from '@celo/utils/lib/address'
 import {
   extractAttestationCodeFromMessage,
   extractSecurityCodeWithPrefix,
-} from '@celo/utils/src/attestations'
+} from '@celo/utils/lib/attestations'
 import * as React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'

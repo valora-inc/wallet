@@ -1,4 +1,4 @@
-import { parsePhoneNumber } from '@celo/utils/src/phoneNumbers'
+import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import * as fuzzysort from 'fuzzysort'
 import { TFunction } from 'i18next'
 import { MinimalContact } from 'react-native-contacts'

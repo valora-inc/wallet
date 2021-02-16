@@ -1,7 +1,7 @@
 import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
 import SearchInput from '@celo/react-components/components/SearchInput'
 import colors from '@celo/react-components/styles/colors'
-import { LocalizedCountry } from '@celo/utils/src/countries'
+import { LocalizedCountry } from '@celo/utils/lib/countries'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'

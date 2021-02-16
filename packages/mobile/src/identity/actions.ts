@@ -1,5 +1,5 @@
 import { normalizeAddressWith0x } from '@celo/base'
-import { E164Number } from '@celo/utils/src/io'
+import { E164Number } from '@celo/utils/lib/io'
 import {
   AddressToDisplayNameType,
   AddressToE164NumberType,

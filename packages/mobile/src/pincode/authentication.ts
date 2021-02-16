@@ -5,7 +5,7 @@
  * The password is a combination of the two. It is used for unlocking the account in geth
  */
 
-import { isValidAddress, normalizeAddress } from '@celo/utils/src/address'
+import { isValidAddress, normalizeAddress } from '@celo/utils/lib/address'
 import { sha256 } from 'ethereumjs-util'
 import { generateSecureRandom } from 'react-native-securerandom'
 import { call, select } from 'redux-saga/effects'

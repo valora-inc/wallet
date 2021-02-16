@@ -165,7 +165,7 @@ export async function sendTransactionAsync<T>(
   // Periodically check for an transaction receipt, and inject events if one is found.
   // This is a hack to prevent failure in cases where web3 has been obversed to
   // never get the receipt for transactions that do get mined.
-  let timerID: number | undefined
+  let timerID: any
   let emitter: any
   const pollTransactionReceipt = (txHash: string) => {
     timerID = setInterval(() => {

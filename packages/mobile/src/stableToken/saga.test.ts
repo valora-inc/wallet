@@ -1,4 +1,4 @@
-import { CURRENCY_ENUM } from '@celo/utils/src/currencies'
+import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
@@ -21,7 +21,7 @@ const TX_ID = '1234'
 const COMMENT = 'a comment'
 
 jest.mock('src/web3/actions', () => ({
-  ...jest.requireActual('src/web3/actions'),
+  ...(jest.requireActual('src/web3/actions') as any),
   unlockAccount: jest.fn(async () => true),
 }))
 

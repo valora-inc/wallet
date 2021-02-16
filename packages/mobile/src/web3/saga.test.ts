@@ -18,7 +18,7 @@ import { mockAccount } from 'test/values'
 const LAST_BLOCK_NUMBER = 200
 
 jest.mock('src/account/actions', () => ({
-  ...jest.requireActual('src/account/actions'),
+  ...(jest.requireActual('src/account/actions') as any),
   getPincode: async () => 'pin',
 }))
 

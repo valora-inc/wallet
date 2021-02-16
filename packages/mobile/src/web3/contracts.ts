@@ -4,7 +4,7 @@
  * Leaving the name for recognizability to current devs
  */
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
-import { sleep } from '@celo/utils/src/async'
+import { sleep } from '@celo/utils/lib/async'
 import { UnlockableWallet } from '@celo/wallet-base'
 import GethBridge from 'react-native-geth'
 import { call, delay, select } from 'redux-saga/effects'

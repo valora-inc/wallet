@@ -1,4 +1,4 @@
-import { getErrorMessage } from '@celo/utils/src/displayFormatting'
+import { getErrorMessage } from '@celo/utils/lib/displayFormatting'
 import * as Sentry from '@sentry/react-native'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'

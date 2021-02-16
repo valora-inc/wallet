@@ -20,7 +20,7 @@ const lastNotifiedBlock = 150
 
 jest.mock('node-fetch')
 const fetchMock: jest.Mock = require('node-fetch')
-const FetchResponse: typeof FetchResponseClass = jest.requireActual('node-fetch').Response
+const FetchResponse: typeof FetchResponseClass = (jest.requireActual('node-fetch') as any).Response
 
 jest.mock('firebase-admin')
 
@@ -66,7 +66,7 @@ jest.mock('../src/blockscout/decode', () => {
     .mockReturnValueOnce({ transfers: stableTransfers, latestBlock: 154 })
 
   return {
-    ...jest.requireActual('../src/blockscout/decode'),
+    ...(jest.requireActual('../src/blockscout/decode') as any),
     decodeLogs: decodeLogsMock,
   }
 })
@@ -89,7 +89,7 @@ jest.mock('../src/blockscout/nativeTransfersFormatter', () => {
     .mockReturnValueOnce({ transfers: transfers, latestBlock: 152 })
 
   return {
-    ...jest.requireActual('../src/blockscout/nativeTransfersFormatter'),
+    ...(jest.requireActual('../src/blockscout/nativeTransfersFormatter') as any),
     formatNativeTransfers: formatNativeTransfersMock,
   }
 })
