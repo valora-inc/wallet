@@ -1,9 +1,9 @@
 import { Result } from '@celo/base/lib/result'
-import { ContractKit } from '@celo/contractkit/src'
+import { ContractKit } from '@celo/contractkit/lib'
 import {
   ActionableAttestation,
   AttestationsWrapper,
-} from '@celo/contractkit/src/wrappers/Attestations'
+} from '@celo/contractkit/lib/wrappers/Attestations'
 import {
   CheckSessionResp,
   GetDistributedBlindedPepperResp,
@@ -28,9 +28,9 @@ import {
 } from '@celo/komencikit/src/errors'
 import { KomenciKit } from '@celo/komencikit/src/kit'
 import { verifyWallet } from '@celo/komencikit/src/verifyWallet'
-import { sleep } from '@celo/utils/src/async'
-import { AttestationsStatus } from '@celo/utils/src/attestations'
-import { getPhoneHash } from '@celo/utils/src/phoneNumbers'
+import { sleep } from '@celo/utils/lib/async'
+import { AttestationsStatus } from '@celo/utils/lib/attestations'
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import DeviceInfo from 'react-native-device-info'
 import {
   all,

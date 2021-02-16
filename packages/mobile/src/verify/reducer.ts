@@ -1,5 +1,5 @@
-import { ActionableAttestation } from '@celo/contractkit/src/wrappers/Attestations'
-import { AttestationsStatus } from '@celo/utils/src/attestations'
+import { ActionableAttestation } from '@celo/contractkit/lib/wrappers/Attestations'
+import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { createAction, createReducer } from '@reduxjs/toolkit'
 import { RootState } from 'src/redux/reducers'
 
