@@ -1,12 +1,11 @@
-import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
+import { InAppBrowser } from 'react-native-inappbrowser-reborn'
 import { useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import WebView from 'src/components/WebView'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import config from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -59,14 +58,21 @@ function MoonPayScreen({ route }: Props) {
       .catch(() => showError(ErrorMessages.FIREBASE_FAILED)) // Firebase signing function failed
   }, [])
 
+  React.useEffect(() => {
+    if (uri === '') {
+      return
+    }
+
+    InAppBrowser.open(uri, {
+      modalPresentationStyle: 'fullScreen',
+    })
+  }, [uri])
+
   return (
-    <View style={styles.container}>
-      {uri === '' ? (
-        <ActivityIndicator size="large" color={colors.greenBrand} />
-      ) : (
-        <WebView source={{ uri }} />
-      )}
-    </View>
+    // <View style={styles.container}>
+    //   {uri === '' && <ActivityIndicator size="large" color={colors.greenBrand} />}
+    // </View>
+    null
   )
 }
 

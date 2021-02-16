@@ -83,7 +83,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashIn: [
       {
         name: 'Moonpay',
-        enabled: !MOONPAY_DISABLED,
+        enabled: true,
         image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () => openMoonpay(localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
