@@ -12,6 +12,7 @@ import PincodeDisplay from 'src/pincode/PincodeDisplay'
 
 interface Props {
   title?: string
+  changePin?: boolean
   errorText?: string
   maxLength?: number
   pin: string
@@ -21,6 +22,7 @@ interface Props {
 
 function Pincode({
   title,
+  changePin = true,
   errorText,
   maxLength = PIN_LENGTH,
   pin,

@@ -2,10 +2,11 @@
  * This is a reactnavigation SCREEN to which we navigate,
  * when we need to fetch a PIN from a user.
  */
+import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -23,6 +24,7 @@ interface State {
   pin: string
   errorText: string | undefined
   pinIsCorrect: boolean
+  changePIN: boolean
 }
 
 interface StateProps {
@@ -43,8 +45,8 @@ class PincodeEnter extends React.Component<Props, State> {
     pin: '',
     errorText: undefined,
     pinIsCorrect: false,
+    changePIN: true,
   }
-
   componentWillUnmount() {
     const onCancel = this.props.route.params.onCancel
     if (onCancel && !this.state.pinIsCorrect) {
@@ -88,12 +90,12 @@ class PincodeEnter extends React.Component<Props, State> {
 
   render() {
     const { t } = this.props
-    const { pin, errorText } = this.state
+    const { pin, changePIN } = this.state
     return (
       <SafeAreaView style={styles.container}>
+        {changePIN && <Text style={styles.title}> Change PIN </Text>}
         <Pincode
           title={t('confirmPin.title')}
-          errorText={errorText}
           pin={pin}
           onChangePin={this.onChangePin}
           onCompletePin={this.onPressConfirm}
@@ -107,6 +109,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
+  },
+  title: {
+    ...fontStyles.navigationHeader,
   },
 })
 
