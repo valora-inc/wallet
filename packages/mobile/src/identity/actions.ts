@@ -6,7 +6,6 @@ import {
   AddressValidationType,
   E164NumberToAddressType,
   E164NumberToSaltType,
-  UpdatableVerificationState,
   WalletToAccountAddressType,
 } from 'src/identity/reducer'
 import { ContactMatches, ImportContactsStatus, VerificationStatus } from 'src/identity/types'
@@ -44,7 +43,6 @@ export enum Actions {
   REQUIRE_SECURE_SEND = 'IDENTITY/REQUIRE_SECURE_SEND',
   FETCH_DATA_ENCRYPTION_KEY = 'IDENTITY/FETCH_DATA_ENCRYPTION_KEY',
   UPDATE_ADDRESS_DEK_MAP = 'IDENTITY/UPDATE_ADDRESS_DEK_MAP',
-  UPDATE_VERIFICATION_STATE = 'IDENTITY/UPDATE_VERIFICATION_STATE',
   RESEND_ATTESTATIONS = 'IDENTITY/RESEND_ATTESTATIONS',
   SET_LAST_REVEAL_ATTEMPT = 'IDENTITY/SET_LAST_REVEAL_ATTEMPT',
   REPORT_REVEAL_STATUS = 'IDENTITY/REPORT_REVEAL_STATUS',
@@ -203,11 +201,6 @@ export interface UpdateAddressDekMapAction {
   dataEncryptionKey: string | null
 }
 
-export interface UpdateVerificationState {
-  type: Actions.UPDATE_VERIFICATION_STATE
-  state: UpdatableVerificationState
-}
-
 export interface ResendAttestations {
   type: Actions.RESEND_ATTESTATIONS
 }
@@ -253,7 +246,6 @@ export type ActionTypes =
   | EndFetchingAddressesAction
   | FetchDataEncryptionKeyAction
   | UpdateAddressDekMapAction
-  | UpdateVerificationState
   | ResendAttestations
   | SetLastRevealAttempt
   | ReportRevealStatusAction
@@ -463,13 +455,6 @@ export const updateAddressDekMap = (
   type: Actions.UPDATE_ADDRESS_DEK_MAP,
   address,
   dataEncryptionKey,
-})
-
-export const udpateVerificationState = (
-  state: UpdatableVerificationState
-): UpdateVerificationState => ({
-  type: Actions.UPDATE_VERIFICATION_STATE,
-  state,
 })
 
 export const resendAttestations = (): ResendAttestations => ({

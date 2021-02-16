@@ -1,13 +1,10 @@
-import { ActionableAttestation } from '@celo/contractkit/lib/wrappers/Attestations'
-import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import dotProp from 'dot-prop-immutable'
 import { RehydrateAction } from 'redux-persist'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
 import { Actions, ActionTypes } from 'src/identity/actions'
 import { ContactMatches, ImportContactsStatus, VerificationStatus } from 'src/identity/types'
 import { removeKeyFromMapping } from 'src/identity/utils'
-import { AttestationCode, NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
+import { AttestationCode } from 'src/identity/verification'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { Actions as SendActions, StoreLatestInRecentsAction } from 'src/send/actions'
@@ -69,16 +66,6 @@ export interface SecureSendDetails {
   validationSuccessful?: boolean
 }
 
-export interface UpdatableVerificationState {
-  phoneHashDetails: PhoneNumberHashDetails
-  actionableAttestations: ActionableAttestation[]
-  status: AttestationsStatus
-}
-
-export type VerificationState = State['verificationState'] & {
-  isBalanceSufficient: boolean
-}
-
 export interface State {
   attestationCodes: AttestationCode[]
   // we store acceptedAttestationCodes to tell user if code
@@ -105,11 +92,6 @@ export interface State {
   // Contacts found during the matchmaking process
   matchedContacts: ContactMatches
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
-  // verificationState is fetched from the network
-  verificationState: {
-    isLoading: boolean
-    lastFetch: number | null
-  } & UpdatableVerificationState
   lastRevealAttempt: number | null
 }
 
@@ -133,22 +115,6 @@ const initialState: State = {
   },
   matchedContacts: {},
   secureSendPhoneNumberMapping: {},
-  verificationState: {
-    isLoading: false,
-    phoneHashDetails: {
-      e164Number: '',
-      phoneHash: '',
-      pepper: '',
-    },
-    actionableAttestations: [],
-    status: {
-      isVerified: false,
-      numAttestationsRemaining: NUM_ATTESTATIONS_REQUIRED,
-      total: 0,
-      completed: 0,
-    },
-    lastFetch: null,
-  },
   lastRevealAttempt: null,
 }
 
@@ -169,7 +135,6 @@ export const reducer = (
           current: 0,
           total: 0,
         },
-        verificationState: initialState.verificationState,
       }
     }
     case Actions.RESET_VERIFICATION:
@@ -186,7 +151,6 @@ export const reducer = (
         acceptedAttestationCodes: [],
         numCompleteAttestations: 0,
         verificationStatus: VerificationStatus.Stopped,
-        verificationState: initialState.verificationState,
         lastRevealAttempt: null,
         walletToAccountAddress: removeKeyFromMapping(
           state.walletToAccountAddress,
@@ -197,10 +161,6 @@ export const reducer = (
       return {
         ...state,
         verificationStatus: action.status,
-        verificationState: {
-          ...state.verificationState,
-          isLoading: action.status === VerificationStatus.GettingStatus,
-        },
       }
     case Actions.SET_SEEN_VERIFICATION_NUX:
       return {
@@ -373,15 +333,6 @@ export const reducer = (
         e164NumberToSalt: state.e164NumberToSalt,
         matchedContacts: state.matchedContacts,
         secureSendPhoneNumberMapping: state.secureSendPhoneNumberMapping,
-      }
-    case Actions.UPDATE_VERIFICATION_STATE:
-      return {
-        ...state,
-        verificationState: {
-          lastFetch: Date.now(),
-          isLoading: state.verificationState.isLoading,
-          ...action.state,
-        },
       }
     case Actions.SET_LAST_REVEAL_ATTEMPT:
       return {
