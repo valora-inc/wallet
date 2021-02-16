@@ -320,6 +320,10 @@ export class Account extends React.Component<Props, State> {
     this.setState({ showRevokeModal: false })
   }
 
+  goToChangePin = () => {
+    this.props.navigation.navigate(Screens.PincodeEnter, {})
+  }
+
   render() {
     const { t, i18n, numberVerified, verificationPossible } = this.props
     const promptFornoModal = this.props.route.params?.promptFornoModal ?? false
@@ -350,6 +354,7 @@ export class Account extends React.Component<Props, State> {
               onPress={this.goToLocalCurrencySetting}
             />
             <SectionHead text={t('securityAndData')} style={styles.sectionTitle} />
+            <SettingsItemTextValue title={t('changePin')} onPress={this.goToChangePin} />
             <SettingsItemSwitch
               title={t('requirePinOnAppOpen')}
               value={this.props.requirePinOnAppOpen}
