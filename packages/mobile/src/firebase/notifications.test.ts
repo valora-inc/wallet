@@ -126,7 +126,6 @@ describe(handleNotification, () => {
           type: 'RECEIVED',
         },
         reviewProps: {
-          header: 'walletFlow5:transactionHeaderReceived',
           timestamp: 1,
           type: 'RECEIVED',
         },

@@ -112,6 +112,7 @@
   "transactionHeaderWithdrewCelo": "Saque CELO",
   "transactionHeaderEscrowSent": "Pagamento de caução enviado",
   "transactionHeaderReceived": "Pagamento recebido",
+  "transactionHeaderCeloDeposit": "Depósito Recebido",
   "transactionHeaderCeloReward": "Recompensa recebida",
   "transactionHeaderEscrowReceived": "Pagamento de caução recebido",
   "feedSectionHeaderRecent": "Recente"
