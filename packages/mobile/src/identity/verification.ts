@@ -124,7 +124,8 @@ export interface AttestationCode {
 const inputAttestationCodeLock = new AwaitLock()
 
 export function* startVerificationSaga({ withoutRevealing }: StartVerificationAction) {
-  ValoraAnalytics.track(VerificationEvents.verification_start)
+  const shouldUseKomenci = yield select(shouldUseKomenciSelector)
+  ValoraAnalytics.track(VerificationEvents.verification_start, { feeless: shouldUseKomenci })
   Logger.debug(TAG, 'Starting verification')
   const e164Number = yield select(e164NumberSelector)
   yield put(setOverrideWithoutVerification(withoutRevealing))
@@ -154,23 +155,27 @@ export function* startVerificationSaga({ withoutRevealing }: StartVerificationAc
     const status: AttestationsStatus = yield select(verificationStatusSelector)
     ValoraAnalytics.track(VerificationEvents.verification_resend_messages, {
       count: status.numAttestationsRemaining,
+      feeless: shouldUseKomenci,
     })
     Logger.debug(TAG, 'Verification has been restarted')
     yield put(startVerification(e164Number, false))
   } else if (success) {
-    ValoraAnalytics.track(VerificationEvents.verification_complete)
+    ValoraAnalytics.track(VerificationEvents.verification_complete, { feeless: shouldUseKomenci })
     Logger.debug(TAG, 'Verification completed successfully')
   } else if (failure) {
-    ValoraAnalytics.track(VerificationEvents.verification_error, { error: failure.payload })
+    ValoraAnalytics.track(VerificationEvents.verification_error, {
+      feeless: shouldUseKomenci,
+      error: failure.payload,
+    })
     Logger.debug(TAG, 'Verification failed')
     yield call(reportActionableAttestationsStatuses)
   } else if (cancel) {
-    ValoraAnalytics.track(VerificationEvents.verification_cancel)
+    ValoraAnalytics.track(VerificationEvents.verification_cancel, { feeless: shouldUseKomenci })
     yield put(setVerificationStatus(VerificationStatus.Stopped))
     Logger.debug(TAG, 'Verification cancelled')
     yield call(reportActionableAttestationsStatuses)
   } else if (timeout) {
-    ValoraAnalytics.track(VerificationEvents.verification_timeout)
+    ValoraAnalytics.track(VerificationEvents.verification_timeout, { feeless: shouldUseKomenci })
     Logger.debug(TAG, 'Verification timed out')
     yield put(showError(ErrorMessages.VERIFICATION_TIMEOUT))
     yield put(setVerificationStatus(VerificationStatus.Failed))
@@ -249,7 +254,9 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
       )
 
       if (!withoutRevealing) {
-        ValoraAnalytics.track(VerificationEvents.verification_reveal_all_attestations_start)
+        ValoraAnalytics.track(VerificationEvents.verification_reveal_all_attestations_start, {
+          feeless: shouldUseKomenci,
+        })
         // Request codes for the already existing attestations if any.
         // We check after which ones were successful
         const reveals: boolean[] = yield call(
@@ -274,6 +281,7 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
           // request more attestations
           ValoraAnalytics.track(VerificationEvents.verification_request_all_attestations_start, {
             attestationsToRequest,
+            feeless: shouldUseKomenci,
           })
           attestations = yield call(
             requestAndRetrieveAttestations,
@@ -288,6 +296,7 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
 
           ValoraAnalytics.track(VerificationEvents.verification_request_all_attestations_complete, {
             issuers,
+            feeless: shouldUseKomenci,
           })
 
           // start listening for the new list of attestations
@@ -308,7 +317,9 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
             attestations
           )
         }
-        ValoraAnalytics.track(VerificationEvents.verification_reveal_all_attestations_complete)
+        ValoraAnalytics.track(VerificationEvents.verification_reveal_all_attestations_complete, {
+          feeless: shouldUseKomenci,
+        })
       }
 
       yield put(setVerificationStatus(VerificationStatus.CompletingAttestations))
@@ -549,7 +560,6 @@ function* requestAttestations(
         Logger.debug(TAG, '@feelessRequestAttestations', 'Failed request tx')
         throw requestTxResult.error
       }
-
       ValoraAnalytics.track(VerificationEvents.verification_request_attestation_approve_tx_sent, {
         feeless: true,
       })

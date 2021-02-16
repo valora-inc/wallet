@@ -234,6 +234,8 @@ describe(startVerificationSaga, () => {
     await expectSaga(startVerificationSaga, { withoutRevealing })
       .provide([
         [select(e164NumberSelector), mockE164Number],
+        [select(shouldUseKomenciSelector), true],
+
         [call(reportActionableAttestationsStatuses), null],
       ])
       .put(setOverrideWithoutVerification(withoutRevealing))
@@ -251,6 +253,7 @@ describe(startVerificationSaga, () => {
       .provide([
         [select(e164NumberSelector), mockE164Number],
         [select(verificationStatusSelector), { numAttestationsRemaining }],
+        [select(shouldUseKomenciSelector), true],
         [call(reportActionableAttestationsStatuses), null],
       ])
       .put(setOverrideWithoutVerification(withoutRevealing))
@@ -265,6 +268,7 @@ describe(startVerificationSaga, () => {
     )
     expect(MockedAnalytics.track.mock.calls[1][1]).toStrictEqual({
       count: numAttestationsRemaining,
+      feeless: true,
     })
   })
   it('tracks failure', async () => {
@@ -273,6 +277,7 @@ describe(startVerificationSaga, () => {
     await expectSaga(startVerificationSaga, { withoutRevealing })
       .provide([
         [select(e164NumberSelector), mockE164Number],
+        [select(shouldUseKomenciSelector), true],
         [call(reportActionableAttestationsStatuses), null],
       ])
       .put(setOverrideWithoutVerification(withoutRevealing))
@@ -282,13 +287,17 @@ describe(startVerificationSaga, () => {
     expect(MockedAnalytics.track.mock.calls.length).toBe(2)
     expect(MockedAnalytics.track.mock.calls[0][0]).toBe(VerificationEvents.verification_start)
     expect(MockedAnalytics.track.mock.calls[1][0]).toBe(VerificationEvents.verification_error)
-    expect(MockedAnalytics.track.mock.calls[1][1]).toStrictEqual({ error: errorMessage })
+    expect(MockedAnalytics.track.mock.calls[1][1]).toStrictEqual({
+      error: errorMessage,
+      feeless: true,
+    })
   })
 
   it('times out when verification takes too long', async () => {
     await expectSaga(startVerificationSaga, { withoutRevealing: false })
       .provide([
         [select(e164NumberSelector), mockE164Number],
+        [select(shouldUseKomenciSelector), true],
         [delay(VERIFICATION_TIMEOUT), true],
         [call(reportActionableAttestationsStatuses), null],
       ])
@@ -303,6 +312,7 @@ describe(startVerificationSaga, () => {
     await expectSaga(startVerificationSaga, { withoutRevealing: false })
       .provide([
         [select(e164NumberSelector), mockE164Number],
+        [select(shouldUseKomenciSelector), true],
         [call(reportActionableAttestationsStatuses), null],
       ])
       .dispatch(cancelVerification())

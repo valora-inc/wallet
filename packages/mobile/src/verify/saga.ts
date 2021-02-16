@@ -43,6 +43,8 @@ import {
   takeEvery,
   takeLatest,
 } from 'redux-saga/effects'
+import { VerificationEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import networkConfig from 'src/geth/networkConfig'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
@@ -392,6 +394,10 @@ function* fetchPhoneNumberDetailsSaga() {
     }
     yield put(setPhoneHash(phoneHash))
     Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Phone Hash is set')
+    ValoraAnalytics.track(VerificationEvents.verification_hash_retrieved, {
+      phoneHash,
+      address: walletAddress,
+    })
   }
 
   if (shouldUseKomenci) {

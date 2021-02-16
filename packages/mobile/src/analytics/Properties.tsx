@@ -251,19 +251,6 @@ interface VerificationEventsProperties {
     address: string
     feeless?: boolean
   }
-  [VerificationEvents.verification_fetch_status_start]:
-    | {
-        feeless?: boolean
-      }
-    | undefined
-  [VerificationEvents.verification_fetch_status_complete]: {
-    isVerified: boolean
-    numAttestationsRemaining: number
-    total: number
-    completed: number
-    feeless?: boolean
-  }
-
   [VerificationEvents.verification_request_all_attestations_start]: {
     attestationsToRequest: number
     feeless?: boolean

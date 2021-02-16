@@ -119,8 +119,6 @@ export enum VerificationEvents {
   verification_timeout = 'verification_timeout',
 
   verification_hash_retrieved = 'verification_hash_retrieved',
-  verification_fetch_status_start = 'verification_fetch_status_start',
-  verification_fetch_status_complete = 'verification_fetch_status_complete',
 
   verification_request_all_attestations_start = 'verification_request_all_attestations_start',
   verification_request_all_attestations_refresh_progress = 'verification_request_all_attestations_refresh_progress',
