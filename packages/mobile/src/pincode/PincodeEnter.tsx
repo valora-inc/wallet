@@ -45,7 +45,7 @@ class PincodeEnter extends React.Component<Props, State> {
     pin: '',
     errorText: undefined,
     pinIsCorrect: false,
-    changePIN: true,
+    changePIN: false,
   }
   componentWillUnmount() {
     const onCancel = this.props.route.params.onCancel
@@ -89,8 +89,8 @@ class PincodeEnter extends React.Component<Props, State> {
   }
 
   render() {
-    const { t } = this.props
-    const { pin, changePIN } = this.state
+    const { t, changePIN } = this.props
+    const { pin } = this.state
     return (
       <SafeAreaView style={styles.container}>
         {changePIN && <Text style={styles.title}> Change PIN </Text>}
