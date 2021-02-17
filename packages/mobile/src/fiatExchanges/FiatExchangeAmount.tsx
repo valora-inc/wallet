@@ -111,12 +111,6 @@ function FiatExchangeAmount({ route }: Props) {
     localCurrencyExchangeRate
   )?.toFixed(0)
 
-  const exchangeRateDisplay = getRateForMakerToken(
-    exchangeRatePair,
-    CURRENCY_ENUM.GOLD,
-    CURRENCY_ENUM.DOLLAR
-  )
-
   const dispatch = useDispatch()
 
   React.useEffect(() => {
