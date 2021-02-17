@@ -24,7 +24,6 @@ interface State {
   pin: string
   errorText: string | undefined
   pinIsCorrect: boolean
-  changePIN: boolean
 }
 
 interface StateProps {
@@ -45,8 +44,8 @@ class PincodeEnter extends React.Component<Props, State> {
     pin: '',
     errorText: undefined,
     pinIsCorrect: false,
-    changePIN: false,
   }
+
   componentWillUnmount() {
     const onCancel = this.props.route.params.onCancel
     if (onCancel && !this.state.pinIsCorrect) {
@@ -89,11 +88,11 @@ class PincodeEnter extends React.Component<Props, State> {
   }
 
   render() {
-    const { t, changePIN } = this.props
+    const { t, route } = this.props
     const { pin } = this.state
     return (
       <SafeAreaView style={styles.container}>
-        {changePIN && <Text style={styles.title}> Change PIN </Text>}
+        {route.params.changePin && <Text style={styles.title}> Change PIN </Text>}
         <Pincode
           title={t('confirmPin.title')}
           pin={pin}
