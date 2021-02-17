@@ -1,5 +1,5 @@
 import { Result } from '@celo/base/lib/result'
-import { ContractKit } from '@celo/contractkit/lib'
+import { Address, ContractKit } from '@celo/contractkit/lib'
 import {
   ActionableAttestation,
   AttestationsWrapper,
@@ -116,7 +116,7 @@ function* checkTooManyErrors() {
   }
 }
 
-function* fetchKomenciReadiness(komenciKit: KomenciKit) {
+export function* fetchKomenciReadiness(komenciKit: KomenciKit) {
   for (let i = 0; i < KOMENCI_READINESS_RETRIES; i += 1) {
     const serviceStatusResult: Result<true, KomenciDown> = yield call([
       komenciKit,
@@ -125,7 +125,7 @@ function* fetchKomenciReadiness(komenciKit: KomenciKit) {
 
     if (!serviceStatusResult.ok) {
       Logger.debug(TAG, '@fetchKomenciReadiness', 'Komenci service is down')
-      yield checkTooManyErrors()
+      yield call(checkTooManyErrors)
       if (serviceStatusResult.error instanceof KomenciDown) {
         yield sleep(2 ** i * 5000)
       } else {
@@ -137,7 +137,7 @@ function* fetchKomenciReadiness(komenciKit: KomenciKit) {
   return true
 }
 
-function* fetchKomenciSession(komenciKit: KomenciKit, e164Number: string) {
+export function* fetchKomenciSession(komenciKit: KomenciKit, e164Number: string) {
   Logger.debug(TAG, '@fetchKomenciSession', 'Starting fetch')
   const [komenciContext, pepperCache, sessionStatusResult]: [
     KomenciContext,
@@ -205,10 +205,7 @@ function* startOrResumeKomenciSessionSaga() {
   const contractKit = yield call(getContractKit)
   const walletAddress = yield call(getConnectedUnlockedAccount)
   const komenci = yield select(komenciContextSelector)
-  const komenciKit = new KomenciKit(contractKit, walletAddress, {
-    url: komenci.callbackUrl || networkConfig.komenciUrl,
-    token: komenci.sessionToken,
-  })
+  const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
   const { sessionActive, captchaToken } = komenci
   let { sessionToken } = komenci
@@ -249,20 +246,28 @@ function* startOrResumeKomenciSessionSaga() {
   yield put(fetchPhoneNumberDetails())
 }
 
-function* checkIfKomenciAvailableSaga() {
-  const contractKit = yield call(getContractKit)
-  const walletAddress = yield call(getAccount)
-  const komenci = yield select(komenciContextSelector)
-  const komenciKit = new KomenciKit(contractKit, walletAddress, {
+export function getKomenciKit(
+  contractKit: ContractKit,
+  walletAddress: Address,
+  komenci: KomenciContext
+) {
+  return new KomenciKit(contractKit, walletAddress, {
     url: komenci.callbackUrl || networkConfig.komenciUrl,
     token: komenci.sessionToken,
   })
+}
+
+export function* checkIfKomenciAvailableSaga() {
+  const contractKit = yield call(getContractKit)
+  const walletAddress = yield call(getAccount)
+  const komenci = yield select(komenciContextSelector)
+  const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
   const isKomenciAvailable = yield call(fetchKomenciReadiness, komenciKit)
   yield put(setKomenciAvailable(isKomenciAvailable))
 }
 
-function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof start>) {
+export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof start>) {
   // TODO: Move this out of saga
   try {
     yield call(navigate, Screens.VerificationLoadingScreen, {
@@ -288,10 +293,7 @@ function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof start>)
     if (shouldUseKomenci) {
       try {
         const komenci = yield select(komenciContextSelector)
-        const komenciKit = new KomenciKit(contractKit, walletAddress, {
-          url: komenci.callbackUrl || networkConfig.komenciUrl,
-          token: komenci.sessionToken,
-        })
+        const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
         yield call(fetchKomenciSession, komenciKit, e164Number)
         if (!komenci.sessionActive) {
           yield put(ensureRealHumanUser())
@@ -324,9 +326,7 @@ function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof start>)
       )
       if (!isBalanceSufficientForSigRetrieval) {
         Logger.debug(TAG, '@startSaga', 'Insufficient balance for sig retrieval')
-
-        // TODO: redirect to buy more quota screen instead of Failed
-
+        yield put(fail(ErrorMessages.VERIFICATION_FAILURE))
         return
       }
       yield put(fetchPhoneNumberDetails())
@@ -365,10 +365,7 @@ function* fetchPhoneNumberDetailsSaga() {
         Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Fetching from Komenci')
 
         const komenci = yield select(komenciContextSelector)
-        const komenciKit = new KomenciKit(contractKit, walletAddress, {
-          url: komenci.callbackUrl || networkConfig.komenciUrl,
-          token: komenci.sessionToken,
-        })
+        const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
         const blsBlindingClient = new ReactBlsBlindingClient(networkConfig.odisPubKey)
         const pepperQueryResult: Result<GetDistributedBlindedPepperResp, FetchError> = yield call(
@@ -483,10 +480,7 @@ function* fetchOrDeployMtwSaga() {
   const contractKit = yield call(getContractKit)
   const walletAddress = yield call(getConnectedUnlockedAccount)
   const komenci = yield select(komenciContextSelector)
-  const komenciKit = new KomenciKit(contractKit, walletAddress, {
-    url: komenci.callbackUrl || networkConfig.komenciUrl,
-    token: komenci.sessionToken,
-  })
+  const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
   try {
     // Now that we are guarnateed to have the phoneHash, check again to see if the

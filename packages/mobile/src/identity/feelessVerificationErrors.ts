@@ -19,6 +19,7 @@ export class KomenciErrorQuotaExceeded extends RootError<
 > {
   constructor() {
     super(FeelessVerificationErrors.KomenciErrorQuotaExceeded)
+    Object.setPrototypeOf(this, KomenciErrorQuotaExceeded.prototype)
   }
 }
 
@@ -28,6 +29,7 @@ export class KomenciSessionInvalidError extends RootError<
 > {
   constructor() {
     super(FeelessVerificationErrors.KomenciSessionInvalidError)
+    Object.setPrototypeOf(this, KomenciSessionInvalidError.prototype)
   }
 }
 
@@ -37,6 +39,7 @@ export class PepperNotCachedError extends RootError<
 > {
   constructor() {
     super(FeelessVerificationErrors.PepperNotCachedError)
+    Object.setPrototypeOf(this, PepperNotCachedError.prototype)
   }
 }
 
