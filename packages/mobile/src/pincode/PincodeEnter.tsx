@@ -2,11 +2,10 @@
  * This is a reactnavigation SCREEN to which we navigate,
  * when we need to fetch a PIN from a user.
  */
-import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -88,11 +87,10 @@ class PincodeEnter extends React.Component<Props, State> {
   }
 
   render() {
-    const { t, route } = this.props
+    const { t } = this.props
     const { pin } = this.state
     return (
       <SafeAreaView style={styles.container}>
-        {route.params.changePin && <Text style={styles.title}> Change PIN </Text>}
         <Pincode
           title={t('confirmPin.title')}
           pin={pin}
@@ -108,9 +106,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
-  },
-  title: {
-    ...fontStyles.navigationHeader,
   },
 })
 

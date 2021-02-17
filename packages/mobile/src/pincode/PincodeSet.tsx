@@ -2,10 +2,11 @@
  * This is a reactnavigation SCREEN, which we use to set a PIN.
  */
 import colors from '@celo/react-components/styles/colors'
+import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { setPincode } from 'src/account/actions'
@@ -63,6 +64,9 @@ export class PincodeSet extends React.Component<Props, State> {
   navigateToNextScreen = () => {
     if (this.props.choseToRestoreAccount) {
       navigate(Screens.ImportWallet)
+      // if this prop is passed, then navigate back to Settings with a toast
+    } else if (this.props.route.params.changePin) {
+      navigate(Screens.Settings) // TODO: navigate and pass in toast?
     } else {
       navigateClearingStack(Screens.VerificationEducationScreen)
     }
