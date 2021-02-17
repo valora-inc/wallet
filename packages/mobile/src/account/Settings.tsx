@@ -43,7 +43,7 @@ import { revokeVerification } from 'src/identity/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { ensurePincode, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
@@ -321,7 +321,20 @@ export class Account extends React.Component<Props, State> {
   }
 
   goToChangePin = () => {
-    this.props.navigation.navigate(Screens.PincodeEnter, { changePin: true, onSuccess: () => {} })
+    ensurePincode()
+      .then((pinIsCorrect) => {
+        if (pinIsCorrect) {
+          this.props.navigation.navigate(Screens.PincodeSet, {
+            isVerifying: true,
+            changePin: true,
+          })
+        }
+      })
+      .catch((error) => {
+        Logger.error(`${'NavigationService'}@onPress`, 'PIN ensure error', error)
+      })
+
+    // on success, navigate to PincodeSet (with prop for change Pin design)
   }
 
   render() {

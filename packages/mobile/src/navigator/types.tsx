@@ -161,11 +161,10 @@ export type StackParamList = {
   }
   [Screens.PincodeEnter]: {
     withVerification?: boolean
-    changePin?: boolean
     onSuccess?: (pin: string) => void
     onCancel?: () => void
   }
-  [Screens.PincodeSet]: { isVerifying: boolean } | undefined
+  [Screens.PincodeSet]: { isVerifying: boolean; changePin?: boolean }
   [Screens.PhoneNumberLookupQuota]: {
     onBuy: () => void
     onSkip: () => void
