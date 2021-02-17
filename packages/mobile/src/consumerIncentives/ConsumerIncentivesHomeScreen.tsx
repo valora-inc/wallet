@@ -27,7 +27,7 @@ import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
+import useSelector from 'src/redux/useSelector'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 import Logger from 'src/utils/Logger'
@@ -52,11 +52,9 @@ const useConsumerIncentivesContent = () => {
 const useAmountToAdd = (tiers: Tier[] | undefined) => {
   const dollarBalanceString = useSelector(stableTokenBalanceSelector) ?? '0'
   const dollarBalance = new BigNumber(dollarBalanceString)
-
-  if (!tiers) {
+  if (!tiers || tiers.length === 0) {
     return []
   }
-
   if (dollarBalance.isGreaterThanOrEqualTo(tiers[tiers.length - 1].minBalanceCusd)) {
     return []
   }
@@ -73,7 +71,7 @@ const useAmountToAdd = (tiers: Tier[] | undefined) => {
 type Props = StackScreenProps<StackParamList, Screens.ConsumerIncentivesHomeScreen>
 export default function ConsumerIncentivesHomeScreen(props: Props) {
   const { t } = useTranslation(Namespaces.consumerIncentives)
-  const userIsVerified = useTypedSelector((state) => state.app.numberVerified)
+  const userIsVerified = useSelector((state) => state.app.numberVerified)
   const { content, tiers, loading, error } = useConsumerIncentivesContent()
   const [amountToAdd, nextLevel] = useAmountToAdd(tiers)
   const insets = useSafeAreaInsets()

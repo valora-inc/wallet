@@ -146,44 +146,6 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
       >
         description
       </Text>
-      <Text
-        style={
-          Array [
-            Object {
-              "color": "#2E3338",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 16,
-              "lineHeight": 22,
-              "textAlign": "center",
-            },
-            Object {
-              "marginTop": 16,
-            },
-          ]
-        }
-      >
-        <Text
-          style={
-            Object {
-              "fontWeight": "bold",
-            }
-          }
-        />
-        <Text
-          style={
-            Object {
-              "fontWeight": "bold",
-            }
-          }
-        />
-        <Text
-          style={
-            Object {
-              "fontWeight": "bold",
-            }
-          }
-        />
-      </Text>
       <View
         style={
           Object {
