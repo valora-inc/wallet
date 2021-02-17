@@ -50,6 +50,11 @@ const oneDollarAmount = {
   currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
 }
 
+const oneCeloAmount = {
+  value: new BigNumber('1'),
+  currencyCode: CURRENCIES[CURRENCY_ENUM.GOLD].code,
+}
+
 const useDollarAmount = (
   currency: CURRENCY_ENUM,
   amount: BigNumber,
@@ -58,11 +63,12 @@ const useDollarAmount = (
   exchangeRatePair: ExchangeRatePair | null
 ) => {
   if (currency === CURRENCY_ENUM.DOLLAR) {
-    return convertDollarsToMaxSupportedPrecision(
-      (!amount.isNaN() &&
-        convertLocalAmountToDollars(amount, localCurrencyCode ? localExchangeRate : 1)) ||
-        new BigNumber('0')
+    const localAmount = amount.isNaN() ? new BigNumber(0) : amount
+    const dollarAmount = convertLocalAmountToDollars(
+      localAmount,
+      localCurrencyCode ? localExchangeRate : 1
     )
+    return convertDollarsToMaxSupportedPrecision(dollarAmount ?? new BigNumber('0'))
   } else {
     const exchangeRate = getRateForMakerToken(
       exchangeRatePair,
@@ -104,6 +110,12 @@ function FiatExchangeAmount({ route }: Props) {
     DOLLAR_ADD_FUNDS_MIN_AMOUNT,
     localCurrencyExchangeRate
   )?.toFixed(0)
+
+  const exchangeRateDisplay = getRateForMakerToken(
+    exchangeRatePair,
+    CURRENCY_ENUM.GOLD,
+    CURRENCY_ENUM.DOLLAR
+  )
 
   const dispatch = useDispatch()
 
@@ -204,26 +216,31 @@ function FiatExchangeAmount({ route }: Props) {
             testID="FiatExchangeInput"
           />
         </View>
-        {isCusdCashIn && (
-          <LineItemRow
-            textStyle={styles.subtotalBodyText}
-            title={
-              <Trans i18nKey="celoDollarsAt" ns={Namespaces.fiatExchangeFlow}>
-                Celo Dollars @ <CurrencyDisplay amount={oneDollarAmount} />
-              </Trans>
-            }
-            amount={
+        <LineItemRow
+          textStyle={styles.subtotalBodyText}
+          title={
+            <Trans
+              i18nKey={isCusdCashIn ? 'celoDollarsAt' : 'inputSubtotal'}
+              ns={Namespaces.fiatExchangeFlow}
+            >
+              {isCusdCashIn ? 'Celo Dollars @ ' : 'Subtotal @ '}
               <CurrencyDisplay
-                amount={{
-                  value: dollarAmount,
-                  currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
-                }}
-                hideSymbol={true}
-                showLocalAmount={false}
+                amount={isCusdCashIn ? oneDollarAmount : oneCeloAmount}
+                showLocalAmount={true}
               />
-            }
-          />
-        )}
+            </Trans>
+          }
+          amount={
+            <CurrencyDisplay
+              amount={{
+                value: dollarAmount,
+                currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+              }}
+              hideSymbol={isCusdCashIn}
+              showLocalAmount={!isCusdCashIn}
+            />
+          }
+        />
       </KeyboardAwareScrollView>
       {isCusdCashIn && (
         <Text style={styles.disclaimerCeloDollars}>{t('disclaimerCeloDollars')}</Text>

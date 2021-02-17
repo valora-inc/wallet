@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
+import { fireEvent, render, RenderAPI } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { ExchangeRatePair } from 'src/exchange/reducer'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
@@ -14,46 +14,67 @@ const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
   currency: CURRENCY_ENUM.DOLLAR,
 })
 
+const store = createMockStore({
+  stableToken: {
+    balance: '1000.00',
+  },
+  exchange: { exchangeRatePair },
+})
+
 describe('FiatExchangeAmount', () => {
-  const store = createMockStore({
-    stableToken: {
-      balance: '1000.00',
-    },
-    exchange: { exchangeRatePair },
+  let tree: RenderAPI
+
+  beforeEach(() => {
+    tree = render(
+      <Provider store={store}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
   })
 
   it('renders correctly', () => {
-    const { toJSON } = render(
-      <Provider store={store}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
+    const { toJSON } = tree
     expect(toJSON()).toMatchSnapshot()
   })
 
-  it('validates the amount when cashing in', () => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-
-    fireEvent.changeText(getByTestId('FiatExchangeInput'), '5')
-    expect(getByTestId('FiatExchangeNextButton').props.disabled).toBe(false)
-
-    // When pressing the next button with an amount lower to the limit, we see a dialog.
-    fireEvent.press(getByTestId('FiatExchangeNextButton'))
-    expect(getByTestId('MinAmountDialog/PrimaryAction')).toBeTruthy()
-    fireEvent.press(getByTestId('MinAmountDialog/PrimaryAction'))
+  it('disables the next button if the amount is 0', () => {
+    const { getByTestId } = tree
 
     fireEvent.changeText(getByTestId('FiatExchangeInput'), '0')
     expect(getByTestId('FiatExchangeNextButton').props.disabled).toBe(true)
-    fireEvent.changeText(getByTestId('FiatExchangeInput'), '600')
+  })
+
+  it('disables the next button if the amount is 0', () => {
+    const { getByTestId } = tree
+
+    fireEvent.changeText(getByTestId('FiatExchangeInput'), '0')
+    expect(getByTestId('FiatExchangeNextButton').props.disabled).toBe(true)
+  })
+
+  it('enables the next button if the amount is greater than 0', () => {
+    const { getByTestId } = tree
+
+    fireEvent.changeText(getByTestId('FiatExchangeInput'), '5')
     expect(getByTestId('FiatExchangeNextButton').props.disabled).toBe(false)
-    // When pressing the next button with an amount higher than the daily limit, we see a dialog.
+  })
+
+  it('opens a dialog when the amount is lower than the limit', () => {
+    const { getByTestId } = tree
+
+    fireEvent.changeText(getByTestId('FiatExchangeInput'), '5')
+    fireEvent.press(getByTestId('FiatExchangeNextButton'))
+    expect(getByTestId('MinAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(getByTestId('MinAmountDialog/PrimaryAction'))
+    expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('opens a dialog when the amount is higher than the daily limit', () => {
+    const { getByTestId } = tree
+
+    fireEvent.changeText(getByTestId('FiatExchangeInput'), '600')
     fireEvent.press(getByTestId('FiatExchangeNextButton'))
     expect(getByTestId('DailyLimitDialog/PrimaryAction')).toBeTruthy()
-    fireEvent.press(getByTestId('MinAmountDialog/PrimaryAction'))
+    fireEvent.press(getByTestId('DailyLimitDialog/PrimaryAction'))
 
     expect(navigate).toHaveBeenCalledWith(Screens.ProviderOptionsScreen, {
       isCashIn: true,
@@ -63,11 +84,7 @@ describe('FiatExchangeAmount', () => {
   })
 
   it('redirects to contact screen when that option is pressed with a prefilled message', () => {
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
+    const { getByTestId } = tree
 
     fireEvent.changeText(getByTestId('FiatExchangeInput'), '600')
     fireEvent.press(getByTestId('FiatExchangeNextButton'))
