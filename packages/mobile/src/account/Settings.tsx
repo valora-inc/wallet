@@ -321,7 +321,7 @@ export class Account extends React.Component<Props, State> {
   }
 
   goToChangePin = () => {
-    this.props.navigation.navigate(Screens.PincodeEnter, {})
+    this.props.navigation.navigate(Screens.PincodeEnter, { changePin: true, onSuccess: () => {} })
   }
 
   render() {
