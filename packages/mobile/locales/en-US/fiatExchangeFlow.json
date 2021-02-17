@@ -41,7 +41,7 @@
     "body": "Providers allow you to add or withdraw funds from your account. They determine their own rates and restrictions depending on various factors. Please visit the provider’s website for specific help."
   },
   "minAmountDialog": {
-    "body": "Our providers do not support totals smaller than {{limit}}. Please enter a larger amount",
+    "body": "Our providers do not support totals smaller than {{limit}}. Please enter a larger amount.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {

@@ -88,10 +88,15 @@ function FiatExchangeAmount({ route }: Props) {
 
   const currency = route.params.currency
   const isCusdCashIn = currency === CURRENCY_ENUM.DOLLAR
+  const inputCurrencySymbol = isCusdCashIn ? currencySymbol : ''
 
   const dollarAmount = useDollarAmount(currency, parsedInputAmount)
   const localCurrencyAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
+  const minAmountInLocalCurrency = convertDollarsToLocalAmount(
+    DOLLAR_ADD_FUNDS_MIN_AMOUNT,
+    localCurrencyExchangeRate
+  )?.toFixed(0)
 
   const dispatch = useDispatch()
 
@@ -104,7 +109,7 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function onChangeExchangeAmount(amount: string) {
-    setInputAmount(amount.replace(currencySymbol, ''))
+    setInputAmount(amount.replace(inputCurrencySymbol, ''))
   }
 
   function goToProvidersScreen() {
@@ -144,8 +149,9 @@ function FiatExchangeAmount({ route }: Props) {
         isVisible={showingMinAmountDialog}
         actionText={t('minAmountDialog.dismiss')}
         actionPress={closeMinAmountDialog}
+        testID={'MinAmountDialog'}
       >
-        {t('minAmountDialog.body', { limit: `$${DOLLAR_ADD_FUNDS_MIN_AMOUNT}` })}
+        {t('minAmountDialog.body', { limit: `${currencySymbol}${minAmountInLocalCurrency}` })}
       </Dialog>
       <Dialog
         isVisible={showingDailyLimitDialog}
@@ -154,12 +160,13 @@ function FiatExchangeAmount({ route }: Props) {
         secondaryActionDisabled={false}
         secondaryActionText={t('dailyLimitDialog.contact')}
         secondaryActionPress={closeMinAmountDialogAndContact}
+        testID={'DailyLimitDialog'}
       >
         {
           <Trans
             i18nKey={'dailyLimitDialog.body'}
             ns={Namespaces.fiatExchangeFlow}
-            tOptions={{ limit: `$${dailyLimitCusd}`, contactEmail: CELO_SUPPORT_EMAIL_ADDRESS }}
+            tOptions={{ limit: `${dailyLimitCusd} cUSD`, contactEmail: CELO_SUPPORT_EMAIL_ADDRESS }}
           >
             <Text style={styles.emailLink} />
           </Trans>
@@ -180,9 +187,9 @@ function FiatExchangeAmount({ route }: Props) {
             autoFocus={true}
             keyboardType={'decimal-pad'}
             onChangeText={onChangeExchangeAmount}
-            value={inputAmount.length > 0 ? `${currencySymbol}${inputAmount}` : undefined}
+            value={inputAmount.length > 0 ? `${inputCurrencySymbol}${inputAmount}` : undefined}
             placeholderTextColor={colors.gray3}
-            placeholder={`${currencySymbol}0`}
+            placeholder={`${inputCurrencySymbol}0`}
             style={[
               styles.currencyInput,
               isCusdCashIn ? styles.dollarCurrencyColor : styles.celoCurrencyColor,
