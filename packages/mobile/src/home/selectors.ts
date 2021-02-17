@@ -55,6 +55,9 @@ export const getExtraNotifications = createSelector(
         isVersionInRange(version, notification.minVersion, notification.maxVersion) &&
         (notification.countries?.length
           ? !!countryCodeAlpha2 && notification.countries.includes(countryCodeAlpha2)
+          : true) &&
+        (notification.blacklist?.length
+          ? !!countryCodeAlpha2 && !notification.blacklist.includes(countryCodeAlpha2)
           : true)
       )
     })
