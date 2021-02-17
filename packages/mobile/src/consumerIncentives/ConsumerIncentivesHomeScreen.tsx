@@ -136,9 +136,9 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
                     level: t('level', { level: nextLevel }),
                   }}
                 >
-                  <Text style={styles.bold}></Text>
-                  <Text style={styles.bold}></Text>
-                  <Text style={styles.bold}></Text>
+                  <Text style={styles.bold} />
+                  <Text style={styles.bold} />
+                  <Text style={styles.bold} />
                 </Trans>
               </Text>
             )}
