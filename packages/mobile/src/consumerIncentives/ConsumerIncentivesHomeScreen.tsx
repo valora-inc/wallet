@@ -5,12 +5,12 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
+import BigNumber from 'bignumber.js'
 import React, { Fragment } from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import LinearGradient from 'react-native-linear-gradient'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
@@ -19,16 +19,19 @@ import { CELO_REWARDS_LINK } from 'src/brandingConfig'
 import {
   ConsumerIncentivesData,
   fetchConsumerRewardsContent,
+  Tier,
 } from 'src/consumerIncentives/contentFetcher'
-import { Namespaces } from 'src/i18n'
+import i18n, { Namespaces } from 'src/i18n'
 import { consumerIncentives, leaves } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import useTypedSelector from 'src/redux/useSelector'
+import { default as useSelector, default as useTypedSelector } from 'src/redux/useSelector'
+import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 import Logger from 'src/utils/Logger'
+import { formatFeedDate } from 'src/utils/time'
 
 const TAG = 'ConsumerIncentivesHomeScreen'
 
@@ -46,11 +49,33 @@ const useConsumerIncentivesContent = () => {
   }
 }
 
+const useAmountToAdd = (tiers: Tier[] | undefined) => {
+  const dollarBalanceString = useSelector(stableTokenBalanceSelector) ?? '0'
+  const dollarBalance = new BigNumber(dollarBalanceString)
+
+  if (!tiers) {
+    return []
+  }
+
+  if (dollarBalance.isGreaterThanOrEqualTo(tiers[tiers.length - 1].minBalanceCusd)) {
+    return []
+  }
+  let nextLevel = 1
+  while (dollarBalance.isGreaterThanOrEqualTo(tiers[nextLevel - 1].minBalanceCusd)) {
+    nextLevel++
+  }
+  return [
+    new BigNumber(tiers[nextLevel - 1].minBalanceCusd).minus(dollarBalance).toFixed(0),
+    nextLevel,
+  ]
+}
+
 type Props = StackScreenProps<StackParamList, Screens.ConsumerIncentivesHomeScreen>
 export default function ConsumerIncentivesHomeScreen(props: Props) {
   const { t } = useTranslation(Namespaces.consumerIncentives)
   const userIsVerified = useTypedSelector((state) => state.app.numberVerified)
   const { content, tiers, loading, error } = useConsumerIncentivesContent()
+  const [amountToAdd, nextLevel] = useAmountToAdd(tiers)
   const insets = useSafeAreaInsets()
   const dispatch = useDispatch()
 
@@ -100,29 +125,38 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
             <Image source={consumerIncentives} />
             <Text style={styles.title}>{t('title')}</Text>
             <Text style={[styles.body, styles.description]}>{t('description')}</Text>
-            {tiers &&
-              tiers.map((tier, index) => (
-                <Fragment key={`tier${tier.celoReward}`}>
-                  {index > 0 && (
-                    <LinearGradient
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 1, y: 0 }}
-                      colors={[colors.light, colors.dark, colors.light]}
-                      style={styles.separator}
-                    />
-                  )}
-                  <Text style={[styles.body, styles.tier]}>
-                    <Trans
-                      i18nKey={'getCeloRewards'}
-                      ns={Namespaces.consumerIncentives}
-                      tOptions={{ reward: tier.celoReward, minBalance: tier.minBalanceCusd }}
-                    >
-                      <Text style={styles.bold} />
-                      <Text style={styles.bold} />
-                    </Trans>
-                  </Text>
-                </Fragment>
-              ))}
+            {amountToAdd && (
+              <Text style={[styles.body, styles.description]}>
+                <Trans
+                  i18nKey={'addMore'}
+                  ns={Namespaces.consumerIncentives}
+                  tOptions={{
+                    cUsdToAdd: amountToAdd,
+                    date: formatFeedDate(content.nextDistribution, i18n),
+                    level: t('level', { level: nextLevel }),
+                  }}
+                >
+                  <Text style={styles.bold}></Text>
+                  <Text style={styles.bold}></Text>
+                  <Text style={styles.bold}></Text>
+                </Trans>
+              </Text>
+            )}
+            <View style={styles.tiersContainer}>
+              {tiers &&
+                tiers.map((tier, index) => (
+                  <Fragment key={`tier${tier.celoReward}`}>
+                    {index > 0 && <View style={styles.separator} />}
+                    <Text style={styles.level}>{t('level', { level: index + 1 })}</Text>
+                    <Text style={[styles.body, styles.tier]}>
+                      {t('getCeloRewards', {
+                        reward: tier.celoReward,
+                        minBalance: tier.minBalanceCusd,
+                      })}
+                    </Text>
+                  </Fragment>
+                ))}
+            </View>
             {content.extraSubtitle && <Text style={styles.subtitle}>{content.extraSubtitle}</Text>}
             {content.extraBody && <Text style={styles.body}>{content.extraBody}</Text>}
             {!userIsVerified && (
@@ -182,8 +216,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   description: {
-    marginBottom: 36,
-    marginTop: 10,
+    marginTop: 16,
+  },
+  tiersContainer: {
+    width: '100%',
+    marginTop: 32,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: colors.gray3,
+    borderRadius: 4,
   },
   subtitle: {
     ...fontStyles.h2,
@@ -192,15 +233,22 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center',
   },
+  level: {
+    ...fontStyles.regular,
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
   body: {
     ...fontStyles.regular,
     textAlign: 'center',
   },
   separator: {
     height: 1,
-    width: '100%',
-    opacity: 0.3,
-    marginVertical: 18,
+    alignSelf: 'stretch',
+    backgroundColor: colors.gray3,
+    marginVertical: 16,
+    marginHorizontal: 8,
   },
   tier: {
     marginBottom: 4,
