@@ -35,7 +35,6 @@ describe('TransactionReview', () => {
       reviewProps: {
         timestamp: Date.now(),
         type: TokenTransactionType.Sent,
-        header: 'Payment Send',
       },
     })
 
