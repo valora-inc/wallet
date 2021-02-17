@@ -21,10 +21,10 @@ import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import { CELO_SUPPORT_EMAIL_ADDRESS, DOLLAR_ADD_FUNDS_MIN_AMOUNT } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
-import { exchangeRatePairSelector } from 'src/exchange/reducer'
+import { ExchangeRatePair, exchangeRatePairSelector } from 'src/exchange/reducer'
 import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
-import { LocalCurrencySymbol } from 'src/localCurrency/consts'
+import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
   convertDollarsToLocalAmount,
   convertDollarsToMaxSupportedPrecision,
@@ -50,11 +50,13 @@ const oneDollarAmount = {
   currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
 }
 
-const useDollarAmount = (currency: CURRENCY_ENUM, amount: BigNumber) => {
-  const localExchangeRate = useSelector(getLocalCurrencyExchangeRate)
-  const localCurrencyCode = useLocalCurrencyCode()
-  const exchangeRatePair = useSelector(exchangeRatePairSelector)
-
+const useDollarAmount = (
+  currency: CURRENCY_ENUM,
+  amount: BigNumber,
+  localExchangeRate: string | null | undefined,
+  localCurrencyCode: LocalCurrencyCode,
+  exchangeRatePair: ExchangeRatePair | null
+) => {
   if (currency === CURRENCY_ENUM.DOLLAR) {
     return convertDollarsToMaxSupportedPrecision(
       (!amount.isNaN() &&
@@ -85,11 +87,17 @@ function FiatExchangeAmount({ route }: Props) {
   const localCurrencyCode = useLocalCurrencyCode()
   const currencySymbol = LocalCurrencySymbol[localCurrencyCode]
 
-  const currency = route.params.currency
+  const { currency } = route.params
   const isCusdCashIn = currency === CURRENCY_ENUM.DOLLAR
   const inputCurrencySymbol = isCusdCashIn ? currencySymbol : ''
 
-  const dollarAmount = useDollarAmount(currency, parsedInputAmount)
+  const dollarAmount = useDollarAmount(
+    currency,
+    parsedInputAmount,
+    localCurrencyExchangeRate,
+    localCurrencyCode,
+    exchangeRatePair
+  )
   const localCurrencyAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
   const minAmountInLocalCurrency = convertDollarsToLocalAmount(
@@ -132,12 +140,12 @@ function FiatExchangeAmount({ route }: Props) {
     goToProvidersScreen()
   }
 
-  const closeMinAmountDialogAndContinue = () => {
+  const closeDailyLimitDialogAndContinue = () => {
     setShowingDailyLimitDialog(false)
     goToProvidersScreen()
   }
 
-  const closeMinAmountDialogAndContact = () => {
+  const closeDailyLimitDialogAndContact = () => {
     setShowingDailyLimitDialog(false)
     navigate(Screens.SupportContact, { prefilledText: t('dailyLimitRequest') })
   }
@@ -155,10 +163,10 @@ function FiatExchangeAmount({ route }: Props) {
       <Dialog
         isVisible={showingDailyLimitDialog}
         actionText={t('dailyLimitDialog.continue')}
-        actionPress={closeMinAmountDialogAndContinue}
+        actionPress={closeDailyLimitDialogAndContinue}
         secondaryActionDisabled={false}
         secondaryActionText={t('dailyLimitDialog.contact')}
-        secondaryActionPress={closeMinAmountDialogAndContact}
+        secondaryActionPress={closeDailyLimitDialogAndContact}
         testID={'DailyLimitDialog'}
       >
         {
