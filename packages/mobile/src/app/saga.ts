@@ -91,6 +91,7 @@ export interface RemoteFeatureFlags {
   kotaniEnabled: boolean
   pontoEnabled: boolean
   celoEducationUri: string | null
+  shortVerificationCodesEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

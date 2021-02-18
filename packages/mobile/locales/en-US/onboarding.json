@@ -74,6 +74,7 @@
     "title": "Confirm",
     "body": "We sent you three messages (SMS). Please copy and paste them below.",
     "body_ios": "We sent you three messages (SMS). Please tap the link in each message to fill the codes below or copy and paste them manually.",
+    "body_short": "We sent three codes to {{phoneNumber}}, please enter them below.",
     "codeLabel1": "First Code",
     "codeLabel2": "Second Code",
     "codeLabel3": "Third Code",
@@ -84,7 +85,6 @@
     "codePlaceholder3": "Copy the third message",
     "codePlaceholder3_ios": "Tap or copy the third message",
     "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
-    "typingTip": "Typing? Try copying and pasting",
     "resendMessages": "Resend last message",
     "resendMessages_plural": "Resend {{count}} messages",
     "resendMessages_all": "Resend all messages"

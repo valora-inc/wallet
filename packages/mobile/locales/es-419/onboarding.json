@@ -74,6 +74,7 @@
     "title": "Confirmar",
     "body": "Te enviamos tres mensajes de texto (SMS). Por favor copia y pégualos abajo.",
     "body_ios": "Te enviamos tres mensajes de texto (SMS). Por favor presiona el link en cada mensaje para completar los códigos a continuación o cópialos y pégalos manualmente.",
+    "body_short": "Enviamos tres códigos al {{phoneNumber}}, ingréselos a continuación.",
     "codeLabel1": "Primer código",
     "codeLabel2": "Segundo código",
     "codeLabel3": "Tercer código",
@@ -84,7 +85,6 @@
     "codePlaceholder3": "Copia el tercer mensaje",
     "codePlaceholder3_ios": "Toca o copia el tercer mensaje",
     "codePlaceholderWithCodeInClipboard": "¡Excelente! Péguelo aquí",
-    "typingTip": "¿Mecanografía? Intenta copiar y pegar",
     "resendMessages": "Reenviar el último mensaje",
     "resendMessages_plural": "Reenviar {{count}} mensajes",
     "resendMessages_all": "Reenviar todos los mensajes"
