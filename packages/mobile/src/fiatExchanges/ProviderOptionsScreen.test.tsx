@@ -9,10 +9,13 @@ import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
+const AMOUNT_TO_CASH_IN = 100
+
 const mockScreenProps = (isCashIn: boolean) =>
   getMockStackScreenProps(Screens.ProviderOptionsScreen, {
     isCashIn,
     currency: CURRENCY_ENUM.DOLLAR,
+    amount: AMOUNT_TO_CASH_IN,
   })
 
 const mockStore = createMockStore({
@@ -54,7 +57,7 @@ describe('ProviderOptionsScreen', () => {
 
     fireEvent.press(getByTestId('Provider/Moonpay'))
     expect(navigate).toHaveBeenCalledWith(Screens.MoonPayScreen, {
-      localAmount: 0,
+      localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.BRL,
       currencyToBuy: CURRENCY_ENUM.DOLLAR,
     })
@@ -69,7 +72,7 @@ describe('ProviderOptionsScreen', () => {
 
     fireEvent.press(getByTestId('Provider/Ramp'))
     expect(navigate).toHaveBeenCalledWith(Screens.RampScreen, {
-      localAmount: 0,
+      localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.BRL,
       currencyToBuy: CURRENCY_ENUM.DOLLAR,
     })

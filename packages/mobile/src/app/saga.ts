@@ -23,9 +23,8 @@ import {
   OpenUrlAction,
   SetAppState,
   setAppState,
-  setKotaniFeatureFlag,
   setLanguage,
-  setPontoFeatureFlag,
+  updateFeatureFlags,
 } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
@@ -88,9 +87,10 @@ export function* appVersionSaga() {
   }
 }
 
-interface RemoteFeatureFlags {
+export interface RemoteFeatureFlags {
   kotaniEnabled: boolean
   pontoEnabled: boolean
+  celoEducationUri: string | null
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -101,12 +101,8 @@ export function* appRemoteFeatureFlagSaga() {
   try {
     while (true) {
       const flags: RemoteFeatureFlags = yield take(remoteFeatureFlagChannel)
-      Logger.info(
-        TAG,
-        `Updated flags to ponto: ${flags.pontoEnabled} and kotani: ${flags.kotaniEnabled}`
-      )
-      yield put(setPontoFeatureFlag(flags.pontoEnabled))
-      yield put(setKotaniFeatureFlag(flags.kotaniEnabled))
+      Logger.info(TAG, 'Updated feature flags', JSON.stringify(flags))
+      yield put(updateFeatureFlags(flags))
     }
   } catch (error) {
     Logger.error(`${TAG}@appRemoteFeatureFlagSaga`, error)

@@ -112,6 +112,7 @@
   "transactionHeaderWithdrewCelo": "CELO Withdrawal",
   "transactionHeaderEscrowSent": "Escrow Payment Sent",
   "transactionHeaderReceived": "Payment Received",
+  "transactionHeaderCeloDeposit": "Deposit Received",
   "transactionHeaderCeloReward": "Reward Received",
   "transactionHeaderEscrowReceived": "Escrow Payment Received",
   "feedSectionHeaderRecent": "Recent"

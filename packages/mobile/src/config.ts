@@ -37,7 +37,7 @@ export const NUMBER_INPUT_MAX_DECIMALS = 2
 export const MAX_COMMENT_LENGTH = 70
 export const INPUT_DEBOUNCE_TIME = 1000 // milliseconds
 // The minimum allowed value to add funds
-export const DOLLAR_ADD_FUNDS_MIN_AMOUNT = 0.01
+export const DOLLAR_ADD_FUNDS_MIN_AMOUNT = 20
 // The minimum allowed value to cash out
 export const DOLLAR_CASH_OUT_MIN_AMOUNT = 0.01
 // The minimum allowed value for a transaction such as a transfer
