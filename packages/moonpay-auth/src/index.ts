@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 import * as functions from 'firebase-functions'
 import {
+  CASH_IN_SUCCESS_DEEPLINK,
   MOONPAY_PUBLIC_KEY_PROD,
   MOONPAY_PUBLIC_KEY_STAGING,
   MOONPAY_SECRET_KEY_PROD,
@@ -19,18 +20,17 @@ export const signMoonpayStaging = functions.https.onRequest((request, response) 
   if (parseFloat(fiatAmount) < 20) {
     fiatAmount = '20' // Minimum order of 20, else Moonpay prefills to 200
   }
-  const url =
-    MOONPAY_URL_STAGING +
-    '?apiKey=' +
-    MOONPAY_PUBLIC_KEY_STAGING +
-    '&currencyCode=' +
-    request.body.currency +
-    '&walletAddress=' +
-    request.body.address +
-    '&baseCurrencyCode=' +
-    fiatCurrency +
-    '&baseCurrencyAmount=' +
-    fiatAmount
+
+  const url = `
+    ${MOONPAY_URL_STAGING}
+      ?apiKey=${MOONPAY_PUBLIC_KEY_STAGING}
+      &currencyCode=${request.body.currency}
+      &walletAddress=${request.body.address}
+      &baseCurrencyCode=${fiatCurrency}
+      &baseCurrencyAmount=${fiatAmount}
+      &finalUrl=${encodeURI(CASH_IN_SUCCESS_DEEPLINK)}
+      `.replace(/\s+/g, '')
+
   console.log(`Requested signature for: ${url}`)
 
   const signature = crypto
@@ -50,18 +50,17 @@ export const signMoonpayProd = functions.https.onRequest((request, response) => 
   if (parseFloat(fiatAmount) < 20) {
     fiatAmount = '20' // Minimum order of 20, else Moonpay prefills to 200
   }
-  const url =
-    MOONPAY_URL_PROD +
-    '?apiKey=' +
-    MOONPAY_PUBLIC_KEY_PROD +
-    '&currencyCode=' +
-    request.body.currency +
-    '&walletAddress=' +
-    request.body.address +
-    '&baseCurrencyCode=' +
-    fiatCurrency +
-    '&baseCurrencyAmount=' +
-    fiatAmount
+
+  const url = `
+    ${MOONPAY_URL_PROD}
+      ?apiKey=${MOONPAY_PUBLIC_KEY_PROD}
+      &currencyCode=${request.body.currency}
+      &walletAddress=${request.body.address}
+      &baseCurrencyCode=${fiatCurrency}
+      &baseCurrencyAmount=${fiatAmount}
+      &finalUrl=${encodeURI(CASH_IN_SUCCESS_DEEPLINK)}
+      `.replace(/\s+/g, '')
+
   console.log(`Requested signature for: ${url}`)
 
   const signature = crypto

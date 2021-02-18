@@ -12,3 +12,5 @@ export const MOONPAY_SECRET_KEY_PROD =
   (process.env.MOONPAY_SECRET_KEY_PROD as string) || config.envs.secret_key_prod // config.envs used when deployed to firebase
 export const MOONPAY_PUBLIC_KEY_PROD =
   (process.env.MOONPAY_PUBLIC_KEY_PROD as string) || config.envs.public_key_prod
+
+export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'

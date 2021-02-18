@@ -33,7 +33,7 @@ import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { appRemoteFeatureFlagChannel, appVersionDeprecationChannel } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
@@ -153,6 +153,9 @@ export function* handleDeepLink(action: OpenDeepLink) {
       navigate(Screens.FiatExchangeOptions, { isCashIn: true })
     } else if (rawParams.pathname === '/bidali') {
       navigate(Screens.BidaliScreen, { currency: CURRENCY_ENUM.DOLLAR })
+    } else if (rawParams.pathname?.includes('/cash-in-success')) {
+      // Some providers append transaction information to the redirect links so can't check for strict equality
+      navigateHome()
     } else if (isSecureOrigin && rawParams.pathname === '/openScreen' && rawParams.query) {
       // The isSecureOrigin is important. We don't want it to be possible to fire this deep link from outside
       // of our own notifications for security reasons.

@@ -1,52 +1,92 @@
-import { StyleSheet } from 'react-native'
-import { InAppBrowser } from 'react-native-inappbrowser-reborn'
-import WebView from 'src/components/WebView'
+import colors from '@celo/react-components/styles/colors'
+import React, { useEffect, useRef, useState } from 'react'
+import { ActivityIndicator, BackHandler, StyleSheet, View } from 'react-native'
+import { InAppBrowser as BroswerPackage } from 'react-native-inappbrowser-reborn'
+import WebView, { WebViewRef } from 'src/components/WebView'
+import { navigateBack } from 'src/navigator/NavigationService'
 
-const WebView = () => {
-  try {
-    const url = 'https://www.google.com'
-    if (await InAppBrowser.isAvailable()) {
-      const result = await InAppBrowser.open(url, {
-        // iOS Properties
-        dismissButtonStyle: 'cancel',
-        preferredBarTintColor: '#453AA4',
-        preferredControlTintColor: 'white',
-        readerMode: false,
-        animated: true,
-        modalPresentationStyle: 'fullScreen',
-        modalTransitionStyle: 'coverVertical',
-        modalEnabled: true,
-        enableBarCollapsing: false,
-        // Android Properties
-        showTitle: true,
-        toolbarColor: '#6200EE',
-        secondaryToolbarColor: 'black',
-        enableUrlBarHiding: true,
-        enableDefaultShare: true,
-        forceCloseOnRedirection: false,
-        // Specify full animation resource identifier(package:anim/name)
-        // or only resource name(in case of animation bundled with app).
-        animations: {
-          startEnter: 'slide_in_right',
-          startExit: 'slide_out_left',
-          endEnter: 'slide_in_left',
-          endExit: 'slide_out_right',
-        },
-        headers: {
-          'my-custom-header': 'my custom header value',
-        },
-      })
-      Alert.alert(JSON.stringify(result))
-    } else Linking.openURL(url)
-  } catch (error) {
-    Alert.alert(error.message)
+type Props = {
+  uri: string
+  onCancel?: () => void
+}
+
+enum BrowserStatuses {
+  loading = 'loading',
+  available = 'available',
+  unavailable = 'unavailable',
+}
+
+function InAppBrowser({ uri, onCancel }: Props) {
+  const [browserStatus, setBrowserStatus] = useState<BrowserStatuses>(BrowserStatuses.loading)
+  const webview = useRef<WebViewRef>(null)
+
+  const onAndroidBackPress = (): boolean => {
+    if (webview.current) {
+      webview.current.goBack()
+      return true
+    }
+    return false
   }
+
+  useEffect((): (() => void) => {
+    BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress)
+    return (): void => {
+      BackHandler.removeEventListener('hardwareBackPress', onAndroidBackPress)
+    }
+  }, [])
+
+  useEffect(() => {
+    const isBrowserAvailable = async () => {
+      setBrowserStatus(
+        (await BroswerPackage.isAvailable())
+          ? BrowserStatuses.available
+          : BrowserStatuses.unavailable
+      )
+    }
+
+    isBrowserAvailable()
+  }, [])
+
+  useEffect(() => {
+    const openBrowser = async () => {
+      const finalEvent = await BroswerPackage.open(uri, {
+        modalEnabled: true,
+        modalPresentationStyle: 'fullScreen',
+      })
+
+      if (finalEvent.type === 'cancel') {
+        onCancel ? onCancel() : navigateBack()
+      }
+    }
+
+    if (browserStatus === BrowserStatuses.available) {
+      openBrowser()
+    }
+  }, [browserStatus])
+
+  return (
+    <>
+      {browserStatus === BrowserStatuses.available && null}
+      {browserStatus !== BrowserStatuses.available && (
+        <View style={styles.container}>
+          {browserStatus === BrowserStatuses.loading && (
+            <ActivityIndicator size="large" color={colors.greenBrand} />
+          )}
+          {browserStatus === BrowserStatuses.unavailable && (
+            <WebView source={{ uri }} ref={webview} />
+          )}
+        </View>
+      )}
+    </>
+  )
 }
 
 const styles = StyleSheet.create({
-  opacityHack: {
-    opacity: 0.99,
+  container: {
+    overflow: 'hidden',
+    flex: 1,
+    justifyContent: 'center',
   },
 })
 
-export default WebView
+export default InAppBrowser

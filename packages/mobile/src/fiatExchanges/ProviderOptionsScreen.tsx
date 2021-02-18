@@ -58,7 +58,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
-  const { MOONPAY_DISABLED, RAMP_DISABLED } = useCountryFeatures()
+  const { RAMP_DISABLED } = useCountryFeatures()
   const selectedCurrency = route.params.currency || CURRENCY_ENUM.DOLLAR
 
   useLayoutEffect(() => {
