@@ -1,17 +1,22 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import * as React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { connect } from 'react-redux'
 import { TokenTransactionType } from 'src/apollo/types'
 import ExchangeConfirmationCard, {
   ExchangeConfirmationCardProps,
 } from 'src/exchange/ExchangeConfirmationCard'
-import { SecureSendPhoneNumberMapping } from 'src/identity/reducer'
+import i18n from 'src/i18n'
+import { addressToDisplayNameSelector, SecureSendPhoneNumberMapping } from 'src/identity/reducer'
+import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
+import useSelector from 'src/redux/useSelector'
 import TransferConfirmationCard, {
   TransferConfirmationCardProps,
 } from 'src/transactions/TransferConfirmationCard'
+import { exchangeReviewHeader, transferReviewHeader } from 'src/transactions/utils'
+import { getDatetimeDisplayString } from 'src/utils/time'
 
 interface StateProps {
   addressHasChanged: boolean
@@ -19,7 +24,6 @@ interface StateProps {
 export interface ReviewProps {
   type: TokenTransactionType
   timestamp: number
-  header: string
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.TransactionReview>
@@ -59,8 +63,29 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): StateProps => {
   return { addressHasChanged }
 }
 
-function TransactionReview({ route, addressHasChanged }: Props) {
-  const { confirmationProps } = route.params
+function isExchange(
+  confirmationProps: ExchangeConfirmationCardProps | TransferConfirmationCardProps
+): confirmationProps is ExchangeConfirmationCardProps {
+  return (confirmationProps as ExchangeConfirmationCardProps).makerAmount !== undefined
+}
+
+function TransactionReview({ navigation, route, addressHasChanged }: Props) {
+  const {
+    reviewProps: { type, timestamp },
+    confirmationProps,
+  } = route.params
+  const addressToDisplayName = useSelector(addressToDisplayNameSelector)
+
+  useLayoutEffect(() => {
+    const dateTimeStatus = getDatetimeDisplayString(timestamp, i18n)
+    const header = isExchange(confirmationProps)
+      ? exchangeReviewHeader(confirmationProps)
+      : transferReviewHeader(type, confirmationProps, addressToDisplayName)
+
+    navigation.setOptions({
+      headerTitle: () => <HeaderTitleWithSubtitle title={header} subTitle={dateTimeStatus} />,
+    })
+  }, [type, confirmationProps, addressToDisplayName])
 
   if (isTransferConfirmationCardProps(confirmationProps)) {
     const props = { ...confirmationProps, addressHasChanged }
@@ -69,5 +94,7 @@ function TransactionReview({ route, addressHasChanged }: Props) {
 
   return <ExchangeConfirmationCard {...confirmationProps} />
 }
+
+TransactionReview.navOptions = headerWithBackButton
 
 export default connect<StateProps, {}, OwnProps, RootState>(mapStateToProps, {})(TransactionReview)

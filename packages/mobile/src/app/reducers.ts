@@ -18,6 +18,7 @@ export interface State {
   minVersion: string | null
   pontoEnabled: boolean
   kotaniEnabled: boolean
+  celoEducationUri: string | null
   inviteModalVisible: boolean
   activeScreen: Screens
 }
@@ -36,6 +37,7 @@ const initialState = {
   minVersion: null,
   pontoEnabled: false,
   kotaniEnabled: false,
+  celoEducationUri: null,
   inviteModalVisible: false,
   activeScreen: Screens.Main,
 }
@@ -132,15 +134,12 @@ export const appReducer = (
         ...state,
         minVersion: action.minVersion,
       }
-    case Actions.SET_PONTO_FEATURE_FLAG:
+    case Actions.UPDATE_FEATURE_FLAGS:
       return {
         ...state,
-        pontoEnabled: action.enabled,
-      }
-    case Actions.SET_KOTANI_FEATURE_FLAG:
-      return {
-        ...state,
-        kotaniEnabled: action.enabled,
+        pontoEnabled: action.flags.pontoEnabled,
+        kotaniEnabled: action.flags.kotaniEnabled,
+        celoEducationUri: action.flags.celoEducationUri,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

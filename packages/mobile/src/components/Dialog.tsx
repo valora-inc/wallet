@@ -15,7 +15,7 @@ import Modal from 'src/components/Modal'
 
 interface Props {
   image?: ImageSourcePropType
-  title: string | React.ReactNode
+  title?: string | React.ReactNode
   children: React.ReactNode
   actionText: string
   actionPress: () => void
@@ -44,7 +44,7 @@ export default function Dialog({
     <Modal isVisible={isVisible}>
       <ScrollView contentContainerStyle={styles.root}>
         {image && <Image style={styles.imageContainer} source={image} resizeMode="contain" />}
-        <Text style={styles.title}>{title}</Text>
+        {title && <Text style={styles.title}>{title}</Text>}
         <Text style={styles.body}>{children}</Text>
       </ScrollView>
       <View style={styles.actions}>

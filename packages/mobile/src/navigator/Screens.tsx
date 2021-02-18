@@ -20,6 +20,7 @@ export enum Screens {
   ExchangeTradeScreen = 'ExchangeTradeScreen',
   ExternalExchanges = 'ExternalExchanges',
   FiatExchange = 'FiatExchange',
+  FiatExchangeAmount = 'FiatExchangeAmount',
   FiatExchangeOptions = 'FiatExchangeOptions',
   GoldEducation = 'GoldEducation',
   ImportContacts = 'ImportContactsScreen',
