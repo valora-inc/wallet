@@ -58,7 +58,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
-  const { RAMP_DISABLED } = useCountryFeatures()
+  const { RAMP_DISABLED, MOONPAY_DISABLED } = useCountryFeatures()
   const selectedCurrency = route.params.currency || CURRENCY_ENUM.DOLLAR
 
   useLayoutEffect(() => {
@@ -83,7 +83,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashIn: [
       {
         name: 'Moonpay',
-        enabled: true,
+        enabled: !MOONPAY_DISABLED,
         image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () => openMoonpay(localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
