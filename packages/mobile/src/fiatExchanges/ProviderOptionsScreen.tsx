@@ -85,7 +85,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         name: 'Moonpay',
         enabled: !MOONPAY_DISABLED,
         image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
-        onSelected: () => openMoonpay(localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+        onSelected: () =>
+          openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
         name: 'Simplex',
@@ -96,7 +97,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       {
         name: 'Ramp',
         enabled: !RAMP_DISABLED,
-        onSelected: () => openRamp(localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+        onSelected: () =>
+          openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
     ],
   }
