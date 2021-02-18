@@ -56,8 +56,8 @@ export const getExtraNotifications = createSelector(
         (notification.countries?.length
           ? !!countryCodeAlpha2 && notification.countries.includes(countryCodeAlpha2)
           : true) &&
-        (notification.blacklist?.length
-          ? !!countryCodeAlpha2 && !notification.blacklist.includes(countryCodeAlpha2)
+        (notification.blockedCountries?.length
+          ? !!countryCodeAlpha2 && !notification.blockedCountries.includes(countryCodeAlpha2)
           : true)
       )
     })

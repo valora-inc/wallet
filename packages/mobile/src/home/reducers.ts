@@ -17,7 +17,7 @@ export interface Notification {
   minVersion?: string
   maxVersion?: string
   countries?: string[]
-  blacklist?: string[]
+  blockedCountries?: string[]
 }
 
 export interface IdToNotification {

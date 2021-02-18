@@ -82,6 +82,17 @@ describe(getExtraNotifications, () => {
             },
             countries: ['PH'],
           },
+          notif8: {
+            ctaUri: 'https://celo.org',
+            content: {
+              en: {
+                body: 'A notification for every country except the US',
+                cta: 'Start',
+                dismiss: 'Dismiss',
+              },
+            },
+            blockedCountries: ['US'],
+          },
         },
       },
     })
