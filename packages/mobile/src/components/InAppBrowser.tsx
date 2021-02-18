@@ -6,7 +6,7 @@ import WebView, { WebViewRef } from 'src/components/WebView'
 
 type Props = {
   uri: string
-  onCancel: () => void
+  onCancel?: () => void
 }
 
 enum BrowserStatuses {
@@ -53,7 +53,7 @@ function InAppBrowser({ uri, onCancel }: Props) {
         modalPresentationStyle: 'fullScreen',
       })
 
-      if (finalEvent.type === 'cancel') {
+      if (finalEvent.type === 'cancel' && onCancel) {
         onCancel()
       }
     }
