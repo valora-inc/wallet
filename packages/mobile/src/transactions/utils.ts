@@ -1,5 +1,10 @@
+import { TokenTransactionType } from 'src/apollo/types'
+import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
+import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
+import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { FeedItem } from 'src/transactions/TransactionFeed'
+import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
 
 // Groupings:
@@ -36,4 +41,57 @@ export const groupFeedItemsInSections = (feedItems: FeedItem[]) => {
       title: key,
       data: value.data,
     }))
+}
+
+export const exchangeReviewHeader = (confirmationProps: ExchangeConfirmationCardProps) => {
+  const { makerAmount } = confirmationProps
+  const isSold = makerAmount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+  return isSold ? i18n.t('exchangeFlow9:soldGold') : i18n.t('exchangeFlow9:purchasedGold')
+}
+
+export const transferReviewHeader = (
+  type: TokenTransactionType,
+  confirmationProps: TransferConfirmationCardProps,
+  addressToDisplayName: AddressToDisplayNameType
+) => {
+  let headerText = ''
+  const isCeloTx = confirmationProps.amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+  switch (type) {
+    case TokenTransactionType.Sent:
+      headerText = i18n.t(
+        isCeloTx ? 'walletFlow5:transactionHeaderWithdrewCelo' : 'walletFlow5:transactionHeaderSent'
+      )
+      break
+    case TokenTransactionType.EscrowSent:
+      headerText = i18n.t('walletFlow5:transactionHeaderEscrowSent')
+      break
+    case TokenTransactionType.Received:
+      if (addressToDisplayName[confirmationProps.address || '']?.isCeloRewardSender) {
+        headerText = i18n.t('walletFlow5:transactionHeaderCeloReward')
+      }
+      headerText = isCeloTx
+        ? i18n.t('walletFlow5:transactionHeaderCeloDeposit')
+        : i18n.t('walletFlow5:transactionHeaderReceived')
+      break
+    case TokenTransactionType.EscrowReceived:
+      headerText = i18n.t('walletFlow5:transactionHeaderEscrowReceived')
+      break
+    case TokenTransactionType.VerificationFee:
+      headerText = i18n.t('walletFlow5:transactionHeaderVerificationFee')
+      break
+    case TokenTransactionType.Faucet:
+      headerText = i18n.t('walletFlow5:transactionHeaderFaucet')
+      break
+    case TokenTransactionType.InviteSent:
+      headerText = i18n.t('walletFlow5:transactionHeaderInviteSent')
+      break
+    case TokenTransactionType.InviteReceived:
+      headerText = i18n.t('walletFlow5:transactionHeaderInviteReceived')
+      break
+    case TokenTransactionType.NetworkFee:
+      headerText = i18n.t('walletFlow5:transactionHeaderNetworkFee')
+      break
+  }
+
+  return headerText
 }
