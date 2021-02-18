@@ -1,11 +1,6 @@
 import * as reduxSagaTestPlan from 'redux-saga-test-plan'
-import {
-  hasExceededKomenciErrorQuota,
-  KomenciErrorQuotaExceeded,
-  KomenciSessionInvalidError,
-  storeTimestampIfKomenciError,
-} from 'src/identity/feelessVerificationErrors'
-import { call, select, delay, all } from 'redux-saga/effects'
+import { KomenciErrorQuotaExceeded } from 'src/identity/feelessVerificationErrors'
+import { call, select, delay } from 'redux-saga/effects'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import {
