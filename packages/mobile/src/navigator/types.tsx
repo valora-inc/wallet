@@ -98,6 +98,9 @@ export type StackParamList = {
     currency: CURRENCY_ENUM
   }
   [Screens.FiatExchange]: undefined
+  [Screens.FiatExchangeAmount]: {
+    currency: CURRENCY_ENUM
+  }
   [Screens.FiatExchangeOptions]: {
     isCashIn?: boolean
     amount?: BigNumber
@@ -166,6 +169,7 @@ export type StackParamList = {
   [Screens.ProviderOptionsScreen]: {
     isCashIn?: boolean
     currency: CURRENCY_ENUM
+    amount: number
   }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
@@ -197,7 +201,11 @@ export type StackParamList = {
     | undefined
   [Screens.Spend]: undefined
   [Screens.Support]: undefined
-  [Screens.SupportContact]: undefined
+  [Screens.SupportContact]:
+    | {
+        prefilledText: string
+      }
+    | undefined
   [Screens.Sync]: undefined
   [Screens.TransactionReview]: {
     reviewProps: ReviewProps

@@ -5,7 +5,8 @@ import TextInput from '@celo/react-components/components/TextInput'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { anonymizedPhone } from '@celo/utils/lib/phoneNumbers'
-import React, { useCallback, useState } from 'react'
+import { StackScreenProps } from '@react-navigation/stack'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -19,6 +20,8 @@ import { sessionIdSelector } from 'src/app/selectors'
 import { CELO_SUPPORT_EMAIL_ADDRESS, DEFAULT_TESTNET } from 'src/config'
 import { Namespaces } from 'src/i18n'
 import { navigateBack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -55,7 +58,9 @@ async function sendEmailWithNonNativeApp(
   }
 }
 
-function SupportContact() {
+type Props = StackScreenProps<StackParamList, Screens.SupportContact>
+
+function SupportContact({ route }: Props) {
   const { t } = useTranslation(Namespaces.accountScreen10)
   const [message, setMessage] = useState('')
   const [attachLogs, setAttachLogs] = useState(true)
@@ -64,6 +69,13 @@ function SupportContact() {
   const currentAccount = useSelector(currentAccountSelector)
   const sessionId = useSelector(sessionIdSelector)
   const dispatch = useDispatch()
+
+  const prefilledText = route.params?.prefilledText
+  useEffect(() => {
+    if (prefilledText) {
+      setMessage(prefilledText)
+    }
+  }, [prefilledText])
 
   const navigateBackAndToast = () => {
     navigateBack()

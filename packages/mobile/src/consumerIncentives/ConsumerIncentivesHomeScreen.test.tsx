@@ -14,6 +14,7 @@ const mockScreenProps = getMockStackScreenProps(Screens.ConsumerIncentivesHomeSc
 const createStore = (numberVerified: boolean) =>
   createMockStore({
     app: { numberVerified },
+    stableToken: { balance: '1000' },
   })
 
 jest.mock('src/consumerIncentives/contentFetcher', () => ({
