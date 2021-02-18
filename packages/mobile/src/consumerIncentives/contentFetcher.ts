@@ -4,7 +4,7 @@ interface ContentType {
   [lang: string]: any
 }
 
-interface Tier {
+export interface Tier {
   minBalanceCusd: number
   celoReward: number
 }
