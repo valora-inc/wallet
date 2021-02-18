@@ -1,18 +1,24 @@
 import * as reduxSagaTestPlan from 'redux-saga-test-plan'
+import { throwError } from 'redux-saga-test-plan/providers'
+import { call, delay, select } from 'redux-saga/effects'
+import { ErrorMessages } from 'src/app/ErrorMessages'
+import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { KomenciErrorQuotaExceeded } from 'src/identity/feelessVerificationErrors'
-import { call, select, delay } from 'redux-saga/effects'
+import { BALANCE_CHECK_TIMEOUT } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { waitFor } from 'src/redux/sagas-helpers'
+import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import {
   e164NumberSelector,
+  ensureRealHumanUser,
+  fail,
   fetchPhoneNumberDetails,
+  isBalanceSufficientForSigRetrievalSelector,
   komenciContextSelector,
   setKomenciAvailable,
   shouldUseKomenciSelector,
-  ensureRealHumanUser,
   start,
-  fail,
-  isBalanceSufficientForSigRetrievalSelector,
 } from 'src/verify/reducer'
 import {
   checkIfKomenciAvailableSaga,
@@ -23,12 +29,6 @@ import {
 } from 'src/verify/saga'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getAccount, getConnectedUnlockedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
-import { throwError } from 'redux-saga-test-plan/providers'
-import { BALANCE_CHECK_TIMEOUT } from 'src/identity/verification'
-import { ErrorMessages } from 'src/app/ErrorMessages'
-import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
-import { waitFor } from 'src/redux/sagas-helpers'
 
 export const mockAccount = '0x0000000000000000000000000000000000007E57'
 export const mockKomenciContext = {
