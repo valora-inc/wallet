@@ -3,11 +3,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { ActivityIndicator, BackHandler, StyleSheet, View } from 'react-native'
 import { InAppBrowser as BroswerPackage } from 'react-native-inappbrowser-reborn'
 import WebView, { WebViewRef } from 'src/components/WebView'
-import { navigateBack } from 'src/navigator/NavigationService'
 
 type Props = {
   uri: string
-  onCancel?: () => void
+  onCancel: () => void
 }
 
 enum BrowserStatuses {
@@ -55,7 +54,7 @@ function InAppBrowser({ uri, onCancel }: Props) {
       })
 
       if (finalEvent.type === 'cancel') {
-        onCancel ? onCancel() : navigateBack()
+        onCancel()
       }
     }
 

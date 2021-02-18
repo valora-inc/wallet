@@ -6,7 +6,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import InAppBrowser from 'src/fiatExchanges/CICOInAppBrowser'
+import InAppBrowser from 'src/components/InAppBrowser'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import config from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -66,7 +66,7 @@ function MoonPayScreen({ route }: Props) {
           <ActivityIndicator size="large" color={colors.greenBrand} />
         </View>
       )}
-      {uri !== '' && <InAppBrowser uri={uri} />}
+      {uri !== '' && <InAppBrowser uri={uri} onCancel={navigateBack} />}
     </>
   )
 }

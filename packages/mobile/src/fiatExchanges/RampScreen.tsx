@@ -1,8 +1,8 @@
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { useSelector } from 'react-redux'
+import InAppBrowser from 'src/components/InAppBrowser'
 import { CASH_IN_SUCCESS_DEEPLINK, VALORA_LOGO_URL } from 'src/config'
-import InAppBrowser from 'src/fiatExchanges/CICOInAppBrowser'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import config from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -56,7 +56,7 @@ function RampScreen({ route }: Props) {
       &finalUrl=${encodeURI(CASH_IN_SUCCESS_DEEPLINK)}
     `.replace(/\s+/g, '')
 
-  return <InAppBrowser uri={uri} />
+  return <InAppBrowser uri={uri} onCancel={navigateBack} />
 }
 
 export default RampScreen
