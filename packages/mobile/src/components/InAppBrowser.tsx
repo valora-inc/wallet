@@ -3,8 +3,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import { ActivityIndicator, BackHandler, StyleSheet, View } from 'react-native'
 import { InAppBrowser as BroswerPackage } from 'react-native-inappbrowser-reborn'
 import WebView, { WebViewRef } from 'src/components/WebView'
+import Logger from 'src/utils/Logger'
 
-type Props = {
+interface Props {
   uri: string
   onCancel?: () => void
 }
@@ -14,6 +15,8 @@ enum BrowserStatuses {
   available = 'available',
   unavailable = 'unavailable',
 }
+
+const TAG = 'InAppBrowser'
 
 function InAppBrowser({ uri, onCancel }: Props) {
   const [browserStatus, setBrowserStatus] = useState<BrowserStatuses>(BrowserStatuses.loading)
@@ -43,7 +46,7 @@ function InAppBrowser({ uri, onCancel }: Props) {
       )
     }
 
-    isBrowserAvailable()
+    isBrowserAvailable().catch(() => Logger.error(TAG, 'Error checking for browser availability'))
   }, [])
 
   useEffect(() => {
@@ -59,7 +62,7 @@ function InAppBrowser({ uri, onCancel }: Props) {
     }
 
     if (browserStatus === BrowserStatuses.available) {
-      openBrowser()
+      openBrowser().catch(() => Logger.error(TAG, 'Error opening broswer'))
     }
   }, [browserStatus])
 
