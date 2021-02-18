@@ -28,7 +28,7 @@ export const signMoonpayStaging = functions.https.onRequest((request, response) 
       &walletAddress=${request.body.address}
       &baseCurrencyCode=${fiatCurrency}
       &baseCurrencyAmount=${fiatAmount}
-      &finalUrl=${encodeURI(CASH_IN_SUCCESS_DEEPLINK)}
+      &redirectURL=${encodeURI(CASH_IN_SUCCESS_DEEPLINK)}
       `.replace(/\s+/g, '')
 
   console.log(`Requested signature for: ${url}`)
@@ -58,7 +58,7 @@ export const signMoonpayProd = functions.https.onRequest((request, response) => 
       &walletAddress=${request.body.address}
       &baseCurrencyCode=${fiatCurrency}
       &baseCurrencyAmount=${fiatAmount}
-      &finalUrl=${encodeURI(CASH_IN_SUCCESS_DEEPLINK)}
+      &redirectURL=${encodeURI(CASH_IN_SUCCESS_DEEPLINK)}
       `.replace(/\s+/g, '')
 
   console.log(`Requested signature for: ${url}`)
