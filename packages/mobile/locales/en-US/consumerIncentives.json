@@ -1,6 +1,8 @@
 {
   "title": "Welcome to CELO Rewards",
   "description": "Get monthly rewards by saving cUSD in your {{appName}} account!",
-  "getCeloRewards": "<0>Get ${{reward}} in CELO</0> per month with a minimum balance of <1>{{minBalance}} cUSD</1>",
-  "addCusd": "Add cUSD"
+  "getCeloRewards": "Get ${{reward}} in CELO per month with a minimum balance of {{minBalance}} cUSD",
+  "addCusd": "Add cUSD",
+  "addMore": "Add <0>{{cUsdToAdd}}</0> more cUSD by <1>{{date}}</1> to unlock <2>{{level}}<2>",
+  "level": "Level {{level}}"
 }
