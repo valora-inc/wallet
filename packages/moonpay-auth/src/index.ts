@@ -11,7 +11,7 @@ export const signMoonpayStaging = functions.https.onRequest((request, response) 
     MOONPAY_PUBLIC_KEY_STAGING,
     MOONPAY_SECRET_KEY_STAGING,
     MOONPAY_URL_STAGING,
-  } = require('./congif')
+  } = require('./config')
   const fiatCurrency = request.body.fiatCurrency || 'USD'
   let fiatAmount = request.body.fiatAmount || '20'
   if (parseFloat(fiatAmount) < 20) {
@@ -41,7 +41,7 @@ export const signMoonpayStaging = functions.https.onRequest((request, response) 
 })
 
 export const signMoonpayProd = functions.https.onRequest((request, response) => {
-  const { MOONPAY_PUBLIC_KEY_PROD, MOONPAY_SECRET_KEY_PROD, MOONPAY_URL_PROD } = require('./congif')
+  const { MOONPAY_PUBLIC_KEY_PROD, MOONPAY_SECRET_KEY_PROD, MOONPAY_URL_PROD } = require('./config')
   console.log(`Public key (non sensitive): ${MOONPAY_PUBLIC_KEY_PROD}`)
   const fiatCurrency = request.body.fiatCurrency || 'USD'
   let fiatAmount = request.body.fiatAmount || '20'
