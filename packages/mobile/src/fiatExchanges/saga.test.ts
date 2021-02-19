@@ -5,6 +5,7 @@ import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { activeScreenChanged } from 'src/app/actions'
 import { assignProviderToTxHash, bidaliPaymentRequested } from 'src/fiatExchanges/actions'
+import { lastUsedProviderSelector } from 'src/fiatExchanges/reducer'
 import { searchNewItemsForProviderTxs, watchBidaliPaymentRequests } from 'src/fiatExchanges/saga'
 import { Actions as IdentityActions, updateKnownAddresses } from 'src/identity/actions'
 import { providerAddressesSelector } from 'src/identity/reducer'
@@ -204,7 +205,10 @@ describe(searchNewItemsForProviderTxs, () => {
     ]
 
     await expectSaga(searchNewItemsForProviderTxs, { transactions })
-      .provide([[select(providerAddressesSelector), [mockProviderAccount]]])
+      .provide([
+        [select(providerAddressesSelector), [mockProviderAccount]],
+        [select(lastUsedProviderSelector), [null]],
+      ])
       .put(assignProviderToTxHash(providerTransferHash, 'cUSD'))
       .run()
   })
