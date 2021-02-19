@@ -53,7 +53,7 @@ function RampScreen({ route }: Props) {
       &hostLogoUrl=${VALORA_LOGO_URL}
       &fiatCurrency=${currencyCode}
       &fiatValue=${localAmount || minTxAmount}
-      &finalUrl=${encodeURI(CASH_IN_SUCCESS_DEEPLINK)}
+      &finalUrl=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
     `.replace(/\s+/g, '')
 
   return <InAppBrowser uri={uri} onCancel={navigateBack} />
