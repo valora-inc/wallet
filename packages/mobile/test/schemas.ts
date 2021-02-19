@@ -484,6 +484,10 @@ export const v7Schema = {
     loading: false,
     notifications: {},
   },
+  fiatExchanges: {
+    lastUsedProvider: null,
+    txHashToProvider: {},
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
