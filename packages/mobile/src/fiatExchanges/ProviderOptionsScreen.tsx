@@ -92,7 +92,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
         image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
-        onSelected: () => openMoonpay(localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+        onSelected: () =>
+          openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
         name: 'Simplex',
@@ -107,7 +108,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         enabled: !RAMP_DISABLED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
-        onSelected: () => openRamp(localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+        onSelected: () =>
+          openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
     ],
   }

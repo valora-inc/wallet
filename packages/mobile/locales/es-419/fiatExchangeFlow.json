@@ -40,6 +40,16 @@
     "title": "Sobre proveedores",
     "body": "Estos proveedores te permiten agregar o retirar fondos de tu cuenta. Los proveedores determinan sus propias tarifas y restricciones, dependiendo de varios factores. Visita la web del proveedor para obtener ayuda."
   },
+  "minAmountDialog": {
+    "body": "Nuestros proveedores no soportan cantidades menores a {{limit}}. Por favor ingresa un monto mayor.",
+    "dismiss": "OK"
+  },
+  "dailyLimitDialog": {
+    "body": "Estás por comprar una cantidad mayor a tu límite de envío diario de {{limit}}. Por favor contacta a <0>{{contactEmail}}</0> si quieres aumentar tu límite.",
+    "contact": "Contactar",
+    "continue": "Entendido"
+  },
+  "dailyLimitRequest": "Hola! Me gustaría aumentar mi límite de envío diario por favor.",
   "pleaseSelectProvider": "Por favor, selecciona un proveedor. Estos enlaces se conectan a servicios de terceros.",
   "otherFundingOptions": "Para conocer más formas de agregar y retirar fondos, a <0>Cómo depositar fondos en mi cuenta</0>",
   "youCanTransfer": "Puedes transferir {{currency}} desde/hacia los siguientes exchanges utilizando tu Número de Cuenta (también conocido como dirección de Celo) - toca abajo para copiar.",

@@ -148,7 +148,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
     } else if (selectedPaymentMethod === PaymentMethod.ADDRESS) {
       navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
     } else {
-      navigate(Screens.ProviderOptionsScreen, { isCashIn: true, currency: selectedCurrency })
+      navigate(Screens.FiatExchangeAmount, { currency: selectedCurrency })
     }
   }
 

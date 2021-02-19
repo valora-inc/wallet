@@ -5,14 +5,17 @@ import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import SupportContact from 'src/account/SupportContact'
+import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
-import { createMockStore } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
+
+const mockScreenProps = getMockStackScreenProps(Screens.SupportContact)
 
 describe('Contact', () => {
   it('renders correctly', () => {
     const tree = renderer.create(
       <Provider store={createMockStore({})}>
-        <SupportContact />
+        <SupportContact {...mockScreenProps} />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
@@ -24,7 +27,7 @@ describe('Contact', () => {
     mockedCreateCombinedLogs.mockResolvedValue(combinedLogsPath)
     const contact = render(
       <Provider store={createMockStore({})}>
-        <SupportContact />{' '}
+        <SupportContact {...mockScreenProps} />
       </Provider>
     )
     fireEvent.press(contact.getByTestId('SubmitContactForm'))

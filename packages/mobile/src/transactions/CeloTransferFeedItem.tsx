@@ -35,18 +35,13 @@ export function CeloTransferFeedItem(props: Props) {
   const onPress = () => {
     ValoraAnalytics.track(CeloExchangeEvents.celo_transaction_select)
 
-    navigateToPaymentTransferReview(
+    navigateToPaymentTransferReview(type, timestamp, {
+      address,
+      comment,
+      amount,
       type,
-      timestamp,
-      {
-        address,
-        comment,
-        amount,
-        type,
-        // fee TODO: add fee here.
-      },
-      addressToDisplayName
-    )
+      // fee TODO: add fee here.
+    })
   }
 
   const dateTimeFormatted = getDatetimeDisplayString(timestamp, i18n)

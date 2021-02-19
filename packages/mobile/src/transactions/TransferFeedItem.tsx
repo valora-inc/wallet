@@ -7,11 +7,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType, TransferItemFragment } from 'src/apollo/types'
 import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { Namespaces } from 'src/i18n'
-import {
-  addressToDisplayNameSelector,
-  AddressToDisplayNameType,
-  AddressToE164NumberType,
-} from 'src/identity/reducer'
+import { addressToDisplayNameSelector, AddressToE164NumberType } from 'src/identity/reducer'
 import { InviteDetails } from 'src/invite/actions'
 import { getRecipientFromAddress, NumberToRecipient } from 'src/recipients/recipient'
 import { navigateToPaymentTransferReview } from 'src/transactions/actions'
@@ -42,8 +38,7 @@ function navigateToTransactionReview({
   amount,
   addressToE164Number,
   recipientCache,
-  addressToDisplayName,
-}: Props & { addressToDisplayName: AddressToDisplayNameType }) {
+}: Props) {
   // TODO: remove this when verification reward drilldown is supported
   if (type === TokenTransactionType.VerificationReward) {
     return
@@ -52,20 +47,15 @@ function navigateToTransactionReview({
   const recipient = getRecipientFromAddress(address, addressToE164Number, recipientCache)
   const e164PhoneNumber = addressToE164Number[address] || undefined
 
-  navigateToPaymentTransferReview(
+  navigateToPaymentTransferReview(type, timestamp, {
+    address,
+    comment: getDecryptedTransferFeedComment(comment, commentKey, type),
+    amount,
+    recipient,
     type,
-    timestamp,
-    {
-      address,
-      comment: getDecryptedTransferFeedComment(comment, commentKey, type),
-      amount,
-      recipient,
-      type,
-      e164PhoneNumber,
-      // fee TODO: add fee here.
-    },
-    addressToDisplayName
-  )
+    e164PhoneNumber,
+    // fee TODO: add fee here.
+  })
 }
 
 export function TransferFeedItem(props: Props) {
@@ -74,7 +64,7 @@ export function TransferFeedItem(props: Props) {
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
 
   const onPress = () => {
-    navigateToTransactionReview({ ...props, addressToDisplayName })
+    navigateToTransactionReview(props)
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
