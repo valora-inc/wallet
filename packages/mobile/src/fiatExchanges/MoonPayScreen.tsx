@@ -61,12 +61,13 @@ function MoonPayScreen({ route }: Props) {
 
   return (
     <>
-      {uri === '' && (
+      {uri === '' ? (
         <View style={styles.container}>
           <ActivityIndicator size="large" color={colors.greenBrand} />
         </View>
+      ) : (
+        <InAppBrowser uri={uri} onCancel={navigateBack} />
       )}
-      {uri !== '' && <InAppBrowser uri={uri} onCancel={navigateBack} />}
     </>
   )
 }

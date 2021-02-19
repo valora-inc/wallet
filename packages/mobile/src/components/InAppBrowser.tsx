@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { ActivityIndicator, BackHandler, StyleSheet, View } from 'react-native'
 import { InAppBrowser as BroswerPackage } from 'react-native-inappbrowser-reborn'
 import WebView, { WebViewRef } from 'src/components/WebView'
+import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
 interface Props {
@@ -51,13 +52,17 @@ function InAppBrowser({ uri, onCancel }: Props) {
 
   useEffect(() => {
     const openBrowser = async () => {
-      const finalEvent = await BroswerPackage.open(uri, {
+      const finalEvent = await BroswerPackage.openAuth(uri, 'celo://wallet', {
         modalEnabled: true,
         modalPresentationStyle: 'fullScreen',
       })
 
       if (finalEvent.type === 'cancel' && onCancel) {
         onCancel()
+      }
+
+      if (finalEvent.type === 'success' && finalEvent.url?.startsWith('celo://wallet')) {
+        navigateToURI(finalEvent.url)
       }
     }
 
@@ -68,13 +73,11 @@ function InAppBrowser({ uri, onCancel }: Props) {
 
   return (
     <>
-      {browserStatus === BrowserStatuses.available && null}
       {browserStatus !== BrowserStatuses.available && (
         <View style={styles.container}>
-          {browserStatus === BrowserStatuses.loading && (
+          {browserStatus === BrowserStatuses.loading ? (
             <ActivityIndicator size="large" color={colors.greenBrand} />
-          )}
-          {browserStatus === BrowserStatuses.unavailable && (
+          ) : (
             <WebView source={{ uri }} ref={webview} />
           )}
         </View>

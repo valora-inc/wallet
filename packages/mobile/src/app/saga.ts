@@ -149,7 +149,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
       navigate(Screens.FiatExchangeOptions, { isCashIn: true })
     } else if (rawParams.pathname === '/bidali') {
       navigate(Screens.BidaliScreen, { currency: CURRENCY_ENUM.DOLLAR })
-    } else if (rawParams.pathname?.includes('/cash-in-success')) {
+    } else if (rawParams.path.startsWith('/cash-in-success')) {
       // Some providers append transaction information to the redirect links so can't check for strict equality
       navigateHome()
     } else if (isSecureOrigin && rawParams.pathname === '/openScreen' && rawParams.query) {

@@ -3,9 +3,6 @@ import * as functions from 'firebase-functions'
 import { CASH_IN_SUCCESS_DEEPLINK } from './config'
 const URL = require('url').URL
 
-// TODO: This staging function is left in place to test the cUSD integration
-// that we are waiting on from Moonpay. It will be removed after
-// cUSD is added and tested
 export const signMoonpayStaging = functions.https.onRequest((request, response) => {
   const {
     MOONPAY_PUBLIC_KEY_STAGING,
