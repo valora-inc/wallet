@@ -1,6 +1,8 @@
 import BigNumber from 'bignumber.js'
 import { call, put, race, select, spawn, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
 import {
@@ -8,6 +10,7 @@ import {
   assignProviderToTxHash,
   BidaliPaymentRequestedAction,
 } from 'src/fiatExchanges/actions'
+import { lastUsedProviderSelector } from 'src/fiatExchanges/reducer'
 import { updateKnownAddresses } from 'src/identity/actions'
 import { providerAddressesSelector } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
@@ -108,13 +111,18 @@ export function* searchNewItemsForProviderTxs({ transactions }: NewTransactionsI
     Logger.debug(TAG + 'searchNewItemsForProviderTxs', `Checking ${transactions.length} txs`)
 
     const providerAddresses = yield select(providerAddressesSelector)
+    const lastUsedProvider = yield select(lastUsedProviderSelector)
 
     for (const tx of transactions) {
       if (tx.__typename !== 'TokenTransfer' || tx.type !== TokenTransactionType.Received) {
         continue
       }
 
-      if (providerAddresses.indexOf(tx.address) >= 0) {
+      if (providerAddresses.includes(tx.address)) {
+        ValoraAnalytics.track(FiatExchangeEvents.cash_in_success, {
+          provider: lastUsedProvider?.name ?? 'unknown',
+          currency: tx.amount.currencyCode,
+        })
         yield put(assignProviderToTxHash(tx.hash, tx.amount.currencyCode))
       }
     }
