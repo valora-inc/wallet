@@ -178,6 +178,7 @@ function* sendPayment(
       amount: amount.toString(),
       currency,
     })
+    yield call(giveProfileAccess, [recipientAddress])
   } catch (error) {
     Logger.error(`${TAG}/sendPayment`, 'Could not send payment', error)
     ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })
