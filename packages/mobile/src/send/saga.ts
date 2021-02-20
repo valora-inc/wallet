@@ -8,13 +8,14 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { calculateFee } from 'src/fees/saga'
 import { transferGoldToken } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
-import { addressToE164NumberSelector, e164NumberToAddressSelector } from 'src/identity/reducer'
+import { e164NumberToAddressSelector } from 'src/identity/reducer'
 import { InviteBy } from 'src/invite/actions'
 import { sendInvite } from 'src/invite/saga'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { completePaymentRequest } from 'src/paymentRequest/actions'
 import { handleBarcode, shareSVGImage } from 'src/qrcode/utils'
-import { recipientCacheSelector } from 'src/recipients/reducer'
+import { recipientHasNumber, RecipientInfo } from 'src/recipients/recipient'
+import { recipientInfoSelector } from 'src/recipients/reducer'
 import {
   Actions,
   HandleBarcodeDetectedAction,
@@ -87,8 +88,8 @@ export function* watchQrCodeDetections() {
   while (true) {
     const action: HandleBarcodeDetectedAction = yield take(Actions.BARCODE_DETECTED)
     Logger.debug(TAG, 'Barcode detected in watcher')
-    const addressToE164Number = yield select(addressToE164NumberSelector)
-    const recipientCache = yield select(recipientCacheSelector)
+    const recipientInfo: RecipientInfo = yield select(recipientInfoSelector)
+
     const e164NumberToAddress = yield select(e164NumberToAddressSelector)
     const isOutgoingPaymentRequest = action.isOutgoingPaymentRequest
     let secureSendTxData
@@ -103,9 +104,8 @@ export function* watchQrCodeDetections() {
       yield call(
         handleBarcode,
         action.data,
-        addressToE164Number,
-        recipientCache,
         e164NumberToAddress,
+        recipientInfo,
         secureSendTxData,
         isOutgoingPaymentRequest,
         requesterAddress
@@ -198,13 +198,9 @@ export function* sendPaymentOrInviteSaga({
   try {
     yield call(getConnectedUnlockedAccount)
 
-    if (!recipient?.e164PhoneNumber && !recipient?.address) {
-      throw new Error("Can't send to recipient without valid e164PhoneNumber or address")
-    }
-
     if (recipientAddress) {
       yield call(sendPayment, recipientAddress, amount, comment, CURRENCY_ENUM.DOLLAR)
-    } else if (recipient.e164PhoneNumber) {
+    } else if (recipientHasNumber(recipient)) {
       yield call(
         sendInvite,
         recipient.e164PhoneNumber,

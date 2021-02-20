@@ -1,4 +1,5 @@
 import { RootState } from 'src/redux/reducers'
+import { currentAccountSelector } from 'src/web3/selectors'
 
 export const getE164PhoneNumber = (state: RootState) => {
   return state.account.e164PhoneNumber

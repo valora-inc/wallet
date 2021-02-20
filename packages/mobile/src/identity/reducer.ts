@@ -21,6 +21,7 @@ import {
   ESTIMATED_COST_PER_ATTESTATION,
   NUM_ATTESTATIONS_REQUIRED,
 } from 'src/identity/verification'
+import { recipientHasAddress } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { Actions as SendActions, StoreLatestInRecentsAction } from 'src/send/actions'
@@ -403,14 +404,14 @@ export const reducer = (
         e164NumberToSalt: { ...state.e164NumberToSalt, ...action.e164NumberToSalt },
       }
     case SendActions.STORE_LATEST_IN_RECENTS:
-      if (!action.recipient.address) {
+      if (!recipientHasAddress(action.recipient)) {
         return state
       }
       action = {
         type: Actions.UPDATE_KNOWN_ADDRESSES,
         knownAddresses: {
           [action.recipient.address]: {
-            name: action.recipient.displayName,
+            name: action.recipient.name!,
             imageUrl: null,
           },
         },
