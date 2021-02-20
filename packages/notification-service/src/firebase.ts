@@ -4,6 +4,8 @@ import i18next from 'i18next'
 import { Currencies, MAX_BLOCKS_TO_WAIT } from './blockscout/transfers'
 import { NOTIFICATIONS_DISABLED, NOTIFICATIONS_TTL_MS, NotificationTypes } from './config'
 
+const NOTIFICATIONS_TAG = 'NOTIFICATIONS/'
+
 let database: admin.database.Database
 let registrationsRef: admin.database.Reference
 let lastBlockRef: admin.database.Reference
@@ -222,8 +224,10 @@ export async function sendPaymentNotification(
   recipientAddress: string,
   amount: string,
   currency: Currencies,
+  blockNumber: number,
   data: { [key: string]: string }
 ) {
+  console.log(NOTIFICATIONS_TAG, 'Block delay: ', lastBlockNotified - blockNumber)
   const t = getTranslatorForAddress(recipientAddress)
   data.type = NotificationTypes.PAYMENT_RECEIVED
   const isCeloReward = celoRewardsSenders.indexOf(senderAddress) >= 0
@@ -284,10 +288,10 @@ export async function sendNotification(
   }
 
   try {
-    console.info('Sending notification to:', address)
+    console.info(NOTIFICATIONS_TAG, 'Sending notification to:', address)
     const response = await admin.messaging().send(message, NOTIFICATIONS_DISABLED)
     console.info('Successfully sent notification for :', address, response)
   } catch (error) {
-    console.error('Error sending notification:', error)
+    console.error('Error sending notification:', address, error)
   }
 }

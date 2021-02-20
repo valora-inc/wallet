@@ -1,4 +1,5 @@
 import { notEmpty } from '@celo/utils/lib/collections'
+import { Currencies } from 'src/blockscout/transfers'
 import * as utf8 from 'utf8'
 import web3Abi, { AbiCoder } from 'web3-eth-abi'
 import { hexToUtf8 } from 'web3-utils'
@@ -11,7 +12,7 @@ const abiCoder = (web3Abi as unknown) as AbiCoder
 const transferTopic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
 const commentTopic0 = '0xe5d4e30fb8364e57bc4d662a07d0cf36f4c34552004c4c3624620a2c1d1c03dc'
 
-export function decodeLogs(logs: Log[]) {
+export function decodeLogs(logs: Log[], currency: Currencies) {
   // tx hash -> Transfers[]
   const transfersByTxHash = new Map<string, Transfer[]>()
   const comments = new Map<string, string>()
@@ -21,7 +22,7 @@ export function decodeLogs(logs: Log[]) {
     latestBlock = Math.max(latestBlock, parseInt(log.blockNumber, 16))
     const topic0 = getLogTopic0(log)
     if (topic0 === transferTopic0) {
-      const transfer = decodeTransferLog(log)
+      const transfer = decodeTransferLog(log, currency)
       if (transfer) {
         const existingTransfers = transfersByTxHash.get(log.transactionHash) || []
         existingTransfers.push(transfer)
@@ -50,7 +51,7 @@ function getLogTopic0(log: Log): string | null {
   }
 }
 
-function decodeTransferLog(log: Log): Transfer | null {
+function decodeTransferLog(log: Log, currency: Currencies): Transfer | null {
   if (!log || !log.topics || !log.data) {
     console.error('Invalid transfer log:', log)
     return null
@@ -87,6 +88,7 @@ function decodeTransferLog(log: Log): Transfer | null {
       blockNumber: parseInt(log.blockNumber, 16),
       timestamp: parseInt(log.timeStamp, 16) * 1000,
       txHash: log.transactionHash,
+      currency,
     }
   } catch (error) {
     console.error('Error decoding transfer log', error)
