@@ -13,7 +13,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { selectProvider } from 'src/fiatExchanges/actions'
-import { openMoonpay, openRamp, openSimplex } from 'src/fiatExchanges/utils'
+import { openMoonpay, openRamp, openSimplex, openTransak } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -110,6 +110,14 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
         onSelected: () =>
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+      },
+      {
+        name: 'Transak',
+        enabled: true,
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
+        onSelected: () =>
+          openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
     ],
   }
