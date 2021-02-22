@@ -344,7 +344,7 @@ export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof 
   }
 }
 
-function* fetchPhoneNumberDetailsSaga() {
+export function* fetchPhoneNumberDetailsSaga() {
   Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Starting fetch')
   const e164Number = yield select(e164NumberSelector)
   let phoneHash = yield select(phoneHashSelector)
@@ -387,10 +387,17 @@ function* fetchPhoneNumberDetailsSaga() {
         phoneHash = phoneNumberHashDetails.phoneHash
       }
       Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Pepper is fetched')
+      Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Phone Hash is set')
       yield put(updateE164PhoneNumberSalts({ [e164Number]: ownPepper }))
+      yield put(setPhoneHash(phoneHash))
     }
-    yield put(setPhoneHash(phoneHash))
-    Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Phone Hash is set')
+
+    // in case of pepper has been cached, but phoneHash is not
+    if (!phoneHash) {
+      phoneHash = getPhoneHash(e164Number, ownPepper)
+      yield put(setPhoneHash(phoneHash))
+      Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Phone Hash is set')
+    }
     ValoraAnalytics.track(VerificationEvents.verification_hash_retrieved, {
       phoneHash,
       address: walletAddress,

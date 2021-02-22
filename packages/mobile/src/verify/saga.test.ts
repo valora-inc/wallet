@@ -1,9 +1,13 @@
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import * as reduxSagaTestPlan from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, delay, select } from 'redux-saga/effects'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
+import { updateE164PhoneNumberSalts } from 'src/identity/actions'
 import { KomenciErrorQuotaExceeded } from 'src/identity/feelessVerificationErrors'
+import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
+import { e164NumberToSaltSelector } from 'src/identity/reducer'
 import { BALANCE_CHECK_TIMEOUT } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -13,10 +17,13 @@ import {
   e164NumberSelector,
   ensureRealHumanUser,
   fail,
+  fetchMtw,
   fetchPhoneNumberDetails,
   isBalanceSufficientForSigRetrievalSelector,
   komenciContextSelector,
+  phoneHashSelector,
   setKomenciAvailable,
+  setPhoneHash,
   shouldUseKomenciSelector,
   start,
 } from 'src/verify/reducer'
@@ -24,6 +31,7 @@ import {
   checkIfKomenciAvailableSaga,
   fetchKomenciReadiness,
   fetchKomenciSession,
+  fetchPhoneNumberDetailsSaga,
   getKomenciKit,
   startSaga,
 } from 'src/verify/saga'
@@ -40,6 +48,12 @@ export const mockKomenciContext = {
   captchaToken: '',
 }
 export const mockE164Number = '+14155550000'
+export const mockPepper = 'pepper'
+export const mockPhoneHash = getPhoneHash(mockE164Number, mockPepper)
+
+const mockKomenciKit = {
+  getDistributedBlindedPepper: jest.fn(),
+}
 
 describe(checkIfKomenciAvailableSaga, () => {
   it('sets komenci availability', async () => {
@@ -60,10 +74,6 @@ describe(checkIfKomenciAvailableSaga, () => {
 })
 
 describe(startSaga, () => {
-  beforeAll(() => {
-    jest.useRealTimers()
-  })
-
   it('starts with Komenci active session', async () => {
     const withoutRevealing = true
     const contractKit = await getContractKitAsync()
@@ -225,6 +235,91 @@ describe(startSaga, () => {
         [select(isBalanceSufficientForSigRetrievalSelector), true],
       ])
       .put(fetchPhoneNumberDetails())
+      .run()
+  })
+})
+
+describe(fetchPhoneNumberDetailsSaga, () => {
+  it('succeeds if phoneHash and pepper are cached', async () => {
+    const contractKit = await getContractKitAsync()
+    await reduxSagaTestPlan
+      .expectSaga(fetchPhoneNumberDetailsSaga)
+      .provide([
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [call(unlockAccount, mockAccount, true), UnlockResult.SUCCESS],
+        [select(e164NumberSelector), mockE164Number],
+        [select(shouldUseKomenciSelector), true],
+        [select(phoneHashSelector), mockPhoneHash],
+        [select(e164NumberToSaltSelector), { [mockE164Number]: mockPepper }],
+      ])
+      .put(fetchMtw())
+      .run()
+  })
+
+  it('succeeds if only pepper is cached', async () => {
+    const contractKit = await getContractKitAsync()
+    await reduxSagaTestPlan
+      .expectSaga(fetchPhoneNumberDetailsSaga)
+      .provide([
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [call(unlockAccount, mockAccount, true), UnlockResult.SUCCESS],
+        [select(e164NumberSelector), mockE164Number],
+        [select(shouldUseKomenciSelector), true],
+        [select(phoneHashSelector), null],
+        [select(e164NumberToSaltSelector), { [mockE164Number]: mockPepper }],
+      ])
+      .put(fetchMtw())
+      .put(setPhoneHash(mockPhoneHash))
+      .run()
+  })
+
+  it('succeeds if pepper is not cached with Komenci', async () => {
+    const contractKit = await getContractKitAsync()
+    const komenciKit = mockKomenciKit // getKomenciKit(contractKit, mockAccount, mockKomenciContext)
+    ;(komenciKit.getDistributedBlindedPepper as jest.Mock).mockReturnValueOnce({
+      ok: true,
+      result: { pepper: mockPepper },
+    })
+    await reduxSagaTestPlan
+      .expectSaga(fetchPhoneNumberDetailsSaga)
+      .provide([
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [call(unlockAccount, mockAccount, true), UnlockResult.SUCCESS],
+        [select(e164NumberSelector), mockE164Number],
+        [select(shouldUseKomenciSelector), true],
+        [select(phoneHashSelector), null],
+        [select(e164NumberToSaltSelector), {}],
+        [call(getKomenciKit, contractKit, mockAccount, mockKomenciContext), komenciKit],
+        [select(komenciContextSelector), mockKomenciContext],
+      ])
+      .put(updateE164PhoneNumberSalts({ [mockE164Number]: mockPepper }))
+      .put(setPhoneHash(mockPhoneHash))
+      .run()
+  })
+
+  it.only('succeeds if pepper is not cached without Komenci', async () => {
+    const contractKit = await getContractKitAsync()
+    await reduxSagaTestPlan
+      .expectSaga(fetchPhoneNumberDetailsSaga)
+      .provide([
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [call(unlockAccount, mockAccount, true), UnlockResult.SUCCESS],
+        [select(e164NumberSelector), mockE164Number],
+        [select(shouldUseKomenciSelector), false],
+        [select(phoneHashSelector), null],
+        [select(e164NumberToSaltSelector), {}],
+        [
+          call(fetchPhoneHashPrivate, mockE164Number),
+          { pepper: mockPepper, phoneHash: mockPhoneHash },
+        ],
+        [select(komenciContextSelector), mockKomenciContext],
+      ])
+      .put(updateE164PhoneNumberSalts({ [mockE164Number]: mockPepper }))
+      .put(setPhoneHash(mockPhoneHash))
       .run()
   })
 })
