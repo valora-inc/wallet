@@ -39,6 +39,7 @@ function formatTransfer(transfer: TokenTransfer, currency: Currencies): Transfer
     currency,
   }
 }
+
 function getValueFromData(transfer: TokenTransfer) {
   try {
     const decodedData = abiCoder.decodeLog(
