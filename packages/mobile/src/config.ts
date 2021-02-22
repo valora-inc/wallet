@@ -171,6 +171,8 @@ export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
 export const PONTO_URI = 'https://withponto.com/partners/celo/valora'
 export const KOTANI_URI = 'https://kotanipay.com/partners/valora'
 
+export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
+
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK

@@ -302,6 +302,7 @@ export enum FiatExchangeEvents {
 
   cico_option_chosen = 'cico_option_chosen',
   provider_chosen = 'provider_chosen',
+  cash_in_success = 'cash_in_success',
 }
 
 export enum GethEvents {

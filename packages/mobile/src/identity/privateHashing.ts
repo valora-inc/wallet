@@ -34,14 +34,15 @@ export function* fetchPhoneHashPrivate(e164Number: string) {
     const details: PhoneNumberHashDetails = yield call(doFetchPhoneHashPrivate, e164Number)
     return details
   } catch (error) {
-    if (error.message === ErrorMessages.ODIS_INSUFFICIENT_BALANCE) {
-      Logger.error(`${TAG}@fetchPhoneHashPrivate`, 'ODIS insufficient balance', error)
-      throw error
-    } else if (error.message === ErrorMessages.SALT_QUOTA_EXCEEDED) {
-      Logger.error(
-        `${TAG}@fetchPhoneHashPrivate`,
-        'Salt quota exceeded, navigating to quota purchase screen'
-      )
+    if (error.message === ErrorMessages.SALT_QUOTA_EXCEEDED) {
+      Logger.error(`${TAG}@fetchPhoneHashPrivate`, 'Salt quota exceeded')
+
+      const isBalanceSufficientForQuota = yield select(isBalanceSufficientForSigRetrievalSelector)
+      if (!isBalanceSufficientForQuota) {
+        Logger.error(`${TAG}@fetchPhoneHashPrivate`, 'ODIS insufficient balance', error)
+        throw new Error(ErrorMessages.ODIS_INSUFFICIENT_BALANCE)
+      }
+
       const quotaPurchaseSuccess: boolean = yield call(navigateToQuotaPurchaseScreen)
       if (quotaPurchaseSuccess) {
         // If quota purchase was successful, try lookup a second time
@@ -73,11 +74,7 @@ function* doFetchPhoneHashPrivate(e164Number: string) {
     return cachedDetails
   }
 
-  Logger.debug(`${TAG}@doFetchPhoneHashPrivate`, 'Salt was not cached, fetching')
-  const isBalanceSufficientForQuota = yield select(isBalanceSufficientForSigRetrievalSelector)
-  if (!isBalanceSufficientForQuota) {
-    throw new Error(ErrorMessages.ODIS_INSUFFICIENT_BALANCE)
-  }
+  Logger.debug(`${TAG}@fetchPrivatePhoneHash`, 'Salt was not cached, fetching')
   const selfPhoneDetails: PhoneNumberHashDetails | undefined = yield call(
     getUserSelfPhoneHashDetails
   )

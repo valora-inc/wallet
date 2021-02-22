@@ -2,6 +2,7 @@ import { OdisUtils } from '@celo/identity'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
+import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { PincodeType } from 'src/account/reducer'
 import { e164NumberSelector } from 'src/account/selectors'
@@ -65,7 +66,7 @@ describe('Fetch phone hash details', () => {
       .run()
   })
 
-  it('warns about insufficient balance', async () => {
+  it('warns about insufficient balance if ODIS query fails', async () => {
     const state = createMockStore({
       web3: { account: mockAccount },
       account: { pincodeType: PincodeType.CustomPin },
@@ -79,6 +80,10 @@ describe('Fetch phone hash details', () => {
           [select(e164NumberSelector), mockE164Number2],
           [select(e164NumberToSaltSelector), {}],
           [matchers.call.fn(isAccountUpToDate), true],
+          [
+            matchers.call.fn(OdisUtils.PhoneNumberIdentifier.getPhoneNumberIdentifier),
+            throwError(new Error(ErrorMessages.ODIS_QUOTA_ERROR)),
+          ],
         ])
         .withState(state)
         .run()

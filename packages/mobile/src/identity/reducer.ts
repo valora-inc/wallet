@@ -32,6 +32,7 @@ export interface AddressInfoToDisplay {
   name: string
   imageUrl: string | null
   isCeloRewardSender?: boolean
+  isProviderAddress?: boolean
 }
 
 export interface AddressToDisplayNameType {
@@ -377,3 +378,9 @@ export const importContactsProgressSelector = (state: RootState) =>
 export const matchedContactsSelector = (state: RootState) => state.identity.matchedContacts
 export const addressToDisplayNameSelector = (state: RootState) =>
   state.identity.addressToDisplayName
+
+export const providerAddressesSelector = ({ identity: { addressToDisplayName } }: RootState) => {
+  return Object.entries(addressToDisplayName)
+    .filter(([_, info]) => info?.isProviderAddress)
+    .map(([address, _]) => address)
+}
