@@ -84,11 +84,13 @@ export function notifyForNewTransfers(transfers: Transfer[]): Promise<void[]> {
   const results = new Array<Promise<void>>(transfers.length)
   for (let i = 0; i < transfers.length; i++) {
     const t = transfers[i]
-    if (!t) continue
+    if (!t) {
+      continue
+    }
 
     const currencyProcessedBlocks = processedBlocks[t.currency]
     // Skip transactions for which we've already sent notifications
-    if (!t || currencyProcessedBlocks.find((blockNumber) => blockNumber === t.blockNumber)) {
+    if (currencyProcessedBlocks.find((blockNumber) => blockNumber === t.blockNumber)) {
       continue
     }
 

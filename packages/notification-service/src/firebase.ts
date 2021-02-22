@@ -227,7 +227,7 @@ export async function sendPaymentNotification(
   blockNumber: number,
   data: { [key: string]: string }
 ) {
-  console.log(NOTIFICATIONS_TAG, 'Block delay: ', lastBlockNotified - blockNumber)
+  console.info(NOTIFICATIONS_TAG, 'Block delay: ', lastBlockNotified - blockNumber)
   const t = getTranslatorForAddress(recipientAddress)
   data.type = NotificationTypes.PAYMENT_RECEIVED
   const isCeloReward = celoRewardsSenders.indexOf(senderAddress) >= 0
