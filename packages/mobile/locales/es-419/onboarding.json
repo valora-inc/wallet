@@ -24,7 +24,7 @@
     }
   },
   "createAccount": "Crear Cuenta",
-  "restoreAccount": "Restaurar mi cuenta",
+  "restoreAccount": "Recuperar Cuenta",
   "step": "Paso {{step}} de 5",
   "selectCountryCode": "Seleccionar código de país",
   "pincodeSet": {
