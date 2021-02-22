@@ -9,7 +9,7 @@ import { addressToDisplayNameSelector, addressToE164NumberSelector } from 'src/i
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NotificationReceiveState, NotificationTypes } from 'src/notifications/types'
-import { recipientCacheSelector } from 'src/recipients/reducer'
+import { phoneRecipientCacheSelector, valoraRecipientCacheSelector } from 'src/recipients/reducer'
 
 describe(handleNotification, () => {
   beforeEach(() => {
@@ -112,7 +112,8 @@ describe(handleNotification, () => {
       await expectSaga(handleNotification, message, NotificationReceiveState.APP_OPENED_FRESH)
         .provide([
           [select(addressToE164NumberSelector), {}],
-          [select(recipientCacheSelector), {}],
+          [select(phoneRecipientCacheSelector), {}],
+          [select(valoraRecipientCacheSelector), {}],
           [select(addressToDisplayNameSelector), {}],
         ])
         .run()
@@ -122,7 +123,7 @@ describe(handleNotification, () => {
           address: '0xtest',
           amount: { currencyCode: 'cUSD', value: new BigNumber('1e-17') },
           comment: undefined,
-          recipient: undefined,
+          recipient: { address: '0xtest' },
           type: 'RECEIVED',
         },
         reviewProps: {
@@ -158,7 +159,9 @@ describe(handleNotification, () => {
       await expectSaga(handleNotification, message, NotificationReceiveState.APP_OPENED_FRESH)
         .provide([
           [select(addressToE164NumberSelector), {}],
-          [select(recipientCacheSelector), {}],
+          [select(phoneRecipientCacheSelector), {}],
+          [select(valoraRecipientCacheSelector), {}],
+          [select(addressToDisplayNameSelector), {}],
         ])
         .run()
 
@@ -168,7 +171,7 @@ describe(handleNotification, () => {
           amount: new BigNumber('10'),
           firebasePendingRequestUid: 'abc',
           reason: 'Pizza',
-          recipient: { address: '0xTEST', displayName: '0xTEST', kind: 'Address' },
+          recipient: { address: '0xTEST' },
           type: 'PAY_REQUEST',
         },
       })

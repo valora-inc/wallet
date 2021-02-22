@@ -143,7 +143,9 @@ class ReclaimPaymentConfirmationScreen extends React.Component<Props> {
           <ReclaimPaymentConfirmationCard
             recipientPhone={payment.recipientPhone}
             recipientContact={
-              undefined /* TODO get recipient contact details from recipient cache*/
+              {
+                e164PhoneNumber: payment.recipientPhone,
+              } /* TODO get recipient contact details from recipient cache*/
             }
             amount={convertedAmount}
             currency={CURRENCY_ENUM.DOLLAR} // User can only request in Dollars

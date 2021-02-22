@@ -94,12 +94,12 @@ export default function UserSection({
           <Text style={styles.sectionLabel}>{sectionLabel}</Text>
           <Touchable onPress={toggleExpanded} disabled={!expandable}>
             <>
-              <Expandable isExpandable={expandable && !e164Number} isExpanded={expanded}>
+              <Expandable isExpandable={expandable && !displayNumber} isExpanded={expanded}>
                 <Text style={styles.username}>{displayName}</Text>
               </Expandable>
-              {e164Number && (
-                <Expandable isExpandable={expandable && !!e164Number} isExpanded={expanded}>
-                  <Text style={styles.phoneNumber}>{e164Number}</Text>
+              {displayNumber && (
+                <Expandable isExpandable={expandable && !!displayNumber} isExpanded={expanded}>
+                  <Text style={styles.phoneNumber}>{displayNumber}</Text>
                 </Expandable>
               )}
             </>

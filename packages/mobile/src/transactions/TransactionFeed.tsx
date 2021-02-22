@@ -7,7 +7,8 @@ import { useSelector } from 'react-redux'
 import { TransactionFeedFragment } from 'src/apollo/types'
 import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { inviteesSelector } from 'src/invite/reducer'
-import { recipientCacheSelector } from 'src/recipients/reducer'
+import { RecipientInfo } from 'src/recipients/recipient'
+import { phoneRecipientCacheSelector, recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import CeloTransferFeedItem from 'src/transactions/CeloTransferFeedItem'
 import ExchangeFeedItem from 'src/transactions/ExchangeFeedItem'
@@ -41,9 +42,10 @@ interface Props {
 function TransactionFeed({ kind, loading, error, data }: Props) {
   const commentKey = useSelector(dataEncryptionKeySelector)
   const addressToE164Number = useSelector((state: RootState) => state.identity.addressToE164Number)
-  const recipientCache = useSelector(recipientCacheSelector)
+  const phoneRecipientCache = useSelector(phoneRecipientCacheSelector)
   const recentTxRecipientsCache = useSelector(recentTxRecipientsCacheSelector)
   const invitees = useSelector(inviteesSelector)
+  const recipientInfo: RecipientInfo = useSelector(recipientInfoSelector)
 
   const renderItem = ({ item: tx }: { item: FeedItem; index: number }) => {
     switch (tx.__typename) {
@@ -54,10 +56,11 @@ function TransactionFeed({ kind, loading, error, data }: Props) {
           return (
             <TransferFeedItem
               addressToE164Number={addressToE164Number}
-              recipientCache={recipientCache}
+              phoneRecipientCache={phoneRecipientCache}
               recentTxRecipientsCache={recentTxRecipientsCache}
               invitees={invitees}
               commentKey={commentKey}
+              recipientInfo={recipientInfo}
               {...tx}
             />
           )
