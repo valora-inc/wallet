@@ -7,7 +7,7 @@ check Komenci availability
 end note
 
 
-Preparing: if Komenci is availabe, check
+Preparing: if Komenci is available, check
 Preparing: is there an active session.
 Preparing: Otherwise check sufficient
 Preparing: balance for classic flow.
