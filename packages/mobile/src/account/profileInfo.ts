@@ -253,7 +253,7 @@ export function* uploadNameAndPicture() {
 
 // this function gives permission to the recipient to view the user's profile info
 export function* giveProfileAccess(recipientAddresses: string[]) {
-  // TODO: check if key for user already exists, skip if yes
+  // TODO: check if key for recipient already exists, skip if yes
   const account = yield select(currentAccountSelector)
   const contractKit = yield call(getContractKit)
   yield call(unlockDEK)
@@ -301,7 +301,7 @@ export function* getProfileInfo(address: string) {
     }
     return { name: name.name, thumbnailPath: picturePath }
   } catch (error) {
-    Logger.warn("can't fetch name for", address)
+    Logger.warn("can't fetch name for", address + ',', error)
   }
 }
 
