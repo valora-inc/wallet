@@ -1,44 +1,64 @@
+import { verifyWallet } from '@celo/komencikit/src/verifyWallet'
 import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import * as reduxSagaTestPlan from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, delay, select } from 'redux-saga/effects'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import networkConfig from 'src/geth/networkConfig'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
-import { updateE164PhoneNumberSalts } from 'src/identity/actions'
+import {
+  setVerificationStatus as setOldVerificationStatus,
+  updateE164PhoneNumberSalts,
+} from 'src/identity/actions'
 import { KomenciErrorQuotaExceeded } from 'src/identity/feelessVerificationErrors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { e164NumberToSaltSelector } from 'src/identity/reducer'
-import { BALANCE_CHECK_TIMEOUT } from 'src/identity/verification'
+import { VerificationStatus } from 'src/identity/types'
+import { BALANCE_CHECK_TIMEOUT, getActionableAttestations } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { waitFor } from 'src/redux/sagas-helpers'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import {
+  doVerificationFlow,
   e164NumberSelector,
   ensureRealHumanUser,
   fail,
   fetchMtw,
+  fetchOnChainData,
   fetchPhoneNumberDetails,
   isBalanceSufficientForSigRetrievalSelector,
   komenciContextSelector,
+  overrideWithoutVerificationSelector,
   phoneHashSelector,
+  setActionableAttestation,
   setKomenciAvailable,
+  setKomenciContext,
+  setOverrideWithoutVerification,
   setPhoneHash,
+  setVerificationStatus,
   shouldUseKomenciSelector,
   start,
 } from 'src/verify/reducer'
 import {
   checkIfKomenciAvailableSaga,
+  failSaga,
   fetchKomenciReadiness,
   fetchKomenciSession,
+  fetchOnChainDataSaga,
+  fetchOrDeployMtwSaga,
   fetchPhoneNumberDetailsSaga,
   getKomenciKit,
+  resetSaga,
   startSaga,
 } from 'src/verify/saga'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
+import { registerWalletAndDekViaKomenci } from 'src/web3/dataEncryptionKey'
 import { getAccount, getConnectedUnlockedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
 
 export const mockAccount = '0x0000000000000000000000000000000000007E57'
+export const mockAccount1 = '0x0000000000000000000000000000000000007E58'
+export const mockAccount2 = '0x0000000000000000000000000000000000007E59'
 export const mockKomenciContext = {
   errorTimestamps: [],
   unverifiedMtwAddress: null,
@@ -51,8 +71,22 @@ export const mockE164Number = '+14155550000'
 export const mockPepper = 'pepper'
 export const mockPhoneHash = getPhoneHash(mockE164Number, mockPepper)
 
+const mockActionableAttestation = {
+  issuer: mockAccount2,
+  blockNumber: 1,
+  attestationServiceURL: 'https://example.com',
+  name: 'test validator',
+  version: '1.0.0',
+}
+
 const mockKomenciKit = {
   getDistributedBlindedPepper: jest.fn(),
+  deployWallet: jest.fn(),
+}
+
+const mockAttestationsWrapper = {
+  lookupAccountsForIdentifier: jest.fn(),
+  getVerifiedStatus: jest.fn(),
 }
 
 describe(checkIfKomenciAvailableSaga, () => {
@@ -297,10 +331,11 @@ describe(fetchPhoneNumberDetailsSaga, () => {
       ])
       .put(updateE164PhoneNumberSalts({ [mockE164Number]: mockPepper }))
       .put(setPhoneHash(mockPhoneHash))
+      .put(fetchMtw())
       .run()
   })
 
-  it.only('succeeds if pepper is not cached without Komenci', async () => {
+  it('succeeds if pepper is not cached without Komenci', async () => {
     const contractKit = await getContractKitAsync()
     await reduxSagaTestPlan
       .expectSaga(fetchPhoneNumberDetailsSaga)
@@ -320,6 +355,330 @@ describe(fetchPhoneNumberDetailsSaga, () => {
       ])
       .put(updateE164PhoneNumberSalts({ [mockE164Number]: mockPepper }))
       .put(setPhoneHash(mockPhoneHash))
+      .put(fetchOnChainData())
+      .run()
+  })
+
+  it('fails with an error', async () => {
+    const contractKit = await getContractKitAsync()
+    await reduxSagaTestPlan
+      .expectSaga(fetchPhoneNumberDetailsSaga)
+      .provide([
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [call(unlockAccount, mockAccount, true), UnlockResult.SUCCESS],
+        [select(e164NumberSelector), mockE164Number],
+        [select(shouldUseKomenciSelector), false],
+        [select(phoneHashSelector), null],
+        [select(e164NumberToSaltSelector), {}],
+        [call(fetchPhoneHashPrivate, mockE164Number), throwError(new Error('Test Error'))],
+        [select(komenciContextSelector), mockKomenciContext],
+      ])
+      .put(fail('Test Error'))
+      .run()
+  })
+})
+
+describe(fetchOrDeployMtwSaga, () => {
+  it('fails on multiple verified addresses', async () => {
+    const contractKit = await getContractKitAsync()
+    const komenciKit = getKomenciKit(contractKit, mockAccount, mockKomenciContext)
+    ;(mockAttestationsWrapper.lookupAccountsForIdentifier as jest.Mock).mockReturnValue(['0', '1'])
+    ;(mockAttestationsWrapper.getVerifiedStatus as jest.Mock).mockReturnValue({
+      isVerified: true,
+    })
+    await reduxSagaTestPlan
+      .expectSaga(fetchOrDeployMtwSaga)
+      .provide([
+        [select(e164NumberSelector), mockE164Number],
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(komenciContextSelector), mockKomenciContext],
+        [call(getKomenciKit, contractKit, mockAccount, mockKomenciContext), komenciKit],
+        [select(shouldUseKomenciSelector), false],
+        [select(phoneHashSelector), mockPhoneHash],
+        [
+          call([contractKit.contracts, contractKit.contracts.getAttestations]),
+          mockAttestationsWrapper,
+        ],
+        [
+          call(
+            verifyWallet,
+            contractKit,
+            '0',
+            networkConfig.allowedMtwImplementations,
+            mockAccount
+          ),
+          { ok: true },
+        ],
+        [
+          call(
+            verifyWallet,
+            contractKit,
+            '1',
+            networkConfig.allowedMtwImplementations,
+            mockAccount
+          ),
+          { ok: true },
+        ],
+      ])
+      .put(
+        fail('More than one verified MTW with walletAddress as signer found. Should never happen')
+      )
+      .run()
+  })
+
+  it('succeeds for fresh new account', async () => {
+    const contractKit = await getContractKitAsync()
+    ;(mockAttestationsWrapper.lookupAccountsForIdentifier as jest.Mock).mockReturnValue([])
+    ;(mockAttestationsWrapper.getVerifiedStatus as jest.Mock).mockReturnValue({
+      isVerified: true,
+    })
+    ;(mockKomenciKit.deployWallet as jest.Mock).mockReturnValue({ ok: true, result: mockAccount1 })
+    const mockKomenciContextActive = {
+      ...mockKomenciContext,
+      sessionActive: true,
+    }
+    const mockVerifyWallet = jest.fn()
+    ;(mockVerifyWallet as jest.Mock).mockReturnValueOnce({
+      ok: true,
+    })
+    const mockRegisterWalletAndDekViaKomenci = jest.fn()
+    await reduxSagaTestPlan
+      .expectSaga(fetchOrDeployMtwSaga)
+      .provide([
+        [select(e164NumberSelector), mockE164Number],
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(komenciContextSelector), mockKomenciContextActive],
+        [call(getKomenciKit, contractKit, mockAccount, mockKomenciContextActive), mockKomenciKit],
+        [select(phoneHashSelector), mockPhoneHash],
+        [
+          call([contractKit.contracts, contractKit.contracts.getAttestations]),
+          mockAttestationsWrapper,
+        ],
+        {
+          call: ({ fn }, next) => (fn === verifyWallet ? mockVerifyWallet() : next()),
+        },
+        {
+          call: ({ fn }, next) =>
+            fn === registerWalletAndDekViaKomenci ? mockRegisterWalletAndDekViaKomenci() : next(),
+        },
+      ])
+      .put(setKomenciContext({ unverifiedMtwAddress: mockAccount1 }))
+      .put(fetchOnChainData())
+      .run()
+    expect(mockRegisterWalletAndDekViaKomenci.mock.calls.length).toBe(1)
+  })
+
+  it('succeeds for already cached unverified MTW address', async () => {
+    const contractKit = await getContractKitAsync()
+    const komenciKit = getKomenciKit(contractKit, mockAccount, mockKomenciContext)
+    ;(mockAttestationsWrapper.lookupAccountsForIdentifier as jest.Mock).mockReturnValue([
+      mockAccount1,
+    ])
+    const mockKomenciContextWithUnverifiedMtwAddress = {
+      ...mockKomenciContext,
+      unverifiedMtwAddress: mockAccount1,
+      sessionActive: true,
+    }
+    const mockVerifyWallet = jest.fn()
+    ;(mockVerifyWallet as jest.Mock).mockReturnValueOnce({
+      ok: false,
+    })
+    ;(mockVerifyWallet as jest.Mock).mockReturnValueOnce({
+      ok: true,
+    })
+    const mockRegisterWalletAndDekViaKomenci = jest.fn()
+    await reduxSagaTestPlan
+      .expectSaga(fetchOrDeployMtwSaga)
+      .provide([
+        [select(e164NumberSelector), mockE164Number],
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(komenciContextSelector), mockKomenciContextWithUnverifiedMtwAddress],
+        [
+          call(getKomenciKit, contractKit, mockAccount, mockKomenciContextWithUnverifiedMtwAddress),
+          komenciKit,
+        ],
+        [select(phoneHashSelector), mockPhoneHash],
+        [
+          call([contractKit.contracts, contractKit.contracts.getAttestations]),
+          mockAttestationsWrapper,
+        ],
+        {
+          call: ({ fn }, next) => (fn === verifyWallet ? mockVerifyWallet() : next()),
+        },
+        {
+          call: ({ fn }, next) =>
+            fn === registerWalletAndDekViaKomenci ? mockRegisterWalletAndDekViaKomenci() : next(),
+        },
+      ])
+      .put(setKomenciContext({ unverifiedMtwAddress: mockAccount1 }))
+      .put(fetchOnChainData())
+      .run()
+    expect(mockRegisterWalletAndDekViaKomenci.mock.calls.length).toBe(1)
+  })
+
+  it('succeeds if already deployed wallet is a valid MTW', async () => {
+    const contractKit = await getContractKitAsync()
+    const komenciKit = getKomenciKit(contractKit, mockAccount, mockKomenciContext)
+    ;(mockAttestationsWrapper.lookupAccountsForIdentifier as jest.Mock).mockReturnValue([
+      mockAccount1,
+    ])
+    ;(mockAttestationsWrapper.getVerifiedStatus as jest.Mock).mockReturnValue({
+      isVerified: true,
+    })
+
+    await reduxSagaTestPlan
+      .expectSaga(fetchOrDeployMtwSaga)
+      .provide([
+        [select(e164NumberSelector), mockE164Number],
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(komenciContextSelector), mockKomenciContext],
+        [call(getKomenciKit, contractKit, mockAccount, mockKomenciContext), komenciKit],
+        [select(shouldUseKomenciSelector), false],
+        [select(phoneHashSelector), mockPhoneHash],
+        [
+          call([contractKit.contracts, contractKit.contracts.getAttestations]),
+          mockAttestationsWrapper,
+        ],
+        [
+          call(
+            verifyWallet,
+            contractKit,
+            mockAccount1,
+            networkConfig.allowedMtwImplementations,
+            mockAccount
+          ),
+          { ok: true },
+        ],
+      ])
+      .put(
+        setKomenciContext({
+          unverifiedMtwAddress: mockAccount1,
+        })
+      )
+      .put(
+        setVerificationStatus({
+          isVerified: true,
+        })
+      )
+      .put(doVerificationFlow(true))
+      .run()
+  })
+})
+
+describe(fetchOnChainDataSaga, () => {
+  it('succeeds with Komenci enabled', async () => {
+    const contractKit = await getContractKitAsync()
+    ;(mockAttestationsWrapper.getVerifiedStatus as jest.Mock).mockReturnValue({
+      isVerified: false,
+    })
+    const mockKomenciContextWithUnverifiedMtwAddress = {
+      ...mockKomenciContext,
+      unverifiedMtwAddress: mockAccount1,
+      sessionActive: true,
+    }
+    const mockGetActionableAttestations = jest.fn()
+    mockGetActionableAttestations.mockReturnValue([mockActionableAttestation])
+
+    await reduxSagaTestPlan
+      .expectSaga(fetchOnChainDataSaga)
+      .provide([
+        [select(e164NumberSelector), mockE164Number],
+        [call(getContractKit), contractKit],
+        [select(komenciContextSelector), mockKomenciContextWithUnverifiedMtwAddress],
+        [select(overrideWithoutVerificationSelector), true],
+        [select(shouldUseKomenciSelector), true],
+        [select(phoneHashSelector), mockPhoneHash],
+        [
+          call([contractKit.contracts, contractKit.contracts.getAttestations]),
+          mockAttestationsWrapper,
+        ],
+        {
+          call: ({ fn }, next) =>
+            fn === getActionableAttestations ? mockGetActionableAttestations() : next(),
+        },
+      ])
+      .put(setActionableAttestation([mockActionableAttestation]))
+      .put(setOverrideWithoutVerification(undefined))
+      .put(
+        setVerificationStatus({
+          isVerified: false,
+        })
+      )
+      .put(doVerificationFlow(true))
+      .run()
+  })
+
+  it('succeeds with Komenci disabled', async () => {
+    const contractKit = await getContractKitAsync()
+    ;(mockAttestationsWrapper.getVerifiedStatus as jest.Mock).mockReturnValue({
+      isVerified: false,
+    })
+    const mockKomenciContextWithUnverifiedMtwAddress = {
+      ...mockKomenciContext,
+      unverifiedMtwAddress: mockAccount1,
+      sessionActive: true,
+    }
+    const mockGetActionableAttestations = jest.fn()
+    mockGetActionableAttestations.mockReturnValue([mockActionableAttestation])
+
+    await reduxSagaTestPlan
+      .expectSaga(fetchOnChainDataSaga)
+      .provide([
+        [select(e164NumberSelector), mockE164Number],
+        [call(getContractKit), contractKit],
+        [select(komenciContextSelector), mockKomenciContextWithUnverifiedMtwAddress],
+        [select(overrideWithoutVerificationSelector), true],
+        [select(shouldUseKomenciSelector), false],
+        [select(phoneHashSelector), mockPhoneHash],
+        [call(getAccount), mockAccount],
+        [
+          call([contractKit.contracts, contractKit.contracts.getAttestations]),
+          mockAttestationsWrapper,
+        ],
+        {
+          call: ({ fn }, next) =>
+            fn === getActionableAttestations ? mockGetActionableAttestations() : next(),
+        },
+      ])
+      .put(setActionableAttestation([mockActionableAttestation]))
+      .put(setOverrideWithoutVerification(undefined))
+      .put(
+        setVerificationStatus({
+          isVerified: false,
+        })
+      )
+      .put(doVerificationFlow(true))
+      .run()
+  })
+  it('fails', async () => {
+    await reduxSagaTestPlan
+      .expectSaga(fetchOnChainDataSaga)
+      .provide([[call(getContractKit), throwError(new Error(ErrorMessages.VERIFICATION_FAILURE))]])
+      .put(fail(ErrorMessages.VERIFICATION_FAILURE))
+      .run()
+  })
+})
+
+describe(resetSaga, () => {
+  it('resets', async () => {
+    await reduxSagaTestPlan
+      .expectSaga(resetSaga)
+      .provide([[select(e164NumberSelector), mockE164Number]])
+      .put(updateE164PhoneNumberSalts({ [mockE164Number]: null }))
+      .run()
+  })
+})
+
+describe(failSaga, () => {
+  it('fails', async () => {
+    await reduxSagaTestPlan
+      .expectSaga(failSaga, 'test')
+      .put(setOldVerificationStatus(VerificationStatus.Failed))
       .run()
   })
 })

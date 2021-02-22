@@ -356,52 +356,57 @@ export function* fetchPhoneNumberDetailsSaga() {
   const walletAddress = yield call(getConnectedUnlockedAccount)
   Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', walletAddress)
 
-  if (phoneHash && ownPepper) {
-    Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Phone Hash and Pepper is cached')
-  } else {
-    if (!ownPepper) {
-      Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Pepper not cached')
-      if (shouldUseKomenci) {
-        Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Fetching from Komenci')
+  try {
+    if (phoneHash && ownPepper) {
+      Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Phone Hash and Pepper is cached')
+    } else {
+      if (!ownPepper) {
+        Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Pepper not cached')
+        if (shouldUseKomenci) {
+          Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Fetching from Komenci')
 
-        const komenci = yield select(komenciContextSelector)
-        const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
+          const komenci = yield select(komenciContextSelector)
+          const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
-        const blsBlindingClient = new ReactBlsBlindingClient(networkConfig.odisPubKey)
-        const pepperQueryResult: Result<GetDistributedBlindedPepperResp, FetchError> = yield call(
-          [komenciKit, komenciKit.getDistributedBlindedPepper],
-          e164Number,
-          DeviceInfo.getVersion(),
-          blsBlindingClient
-        )
+          const blsBlindingClient = new ReactBlsBlindingClient(networkConfig.odisPubKey)
+          const pepperQueryResult: Result<GetDistributedBlindedPepperResp, FetchError> = yield call(
+            [komenciKit, komenciKit.getDistributedBlindedPepper],
+            e164Number,
+            DeviceInfo.getVersion(),
+            blsBlindingClient
+          )
 
-        if (!pepperQueryResult.ok) {
-          Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Unable to query for pepper')
-          throw pepperQueryResult.error
+          if (!pepperQueryResult.ok) {
+            Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Unable to query for pepper')
+            throw pepperQueryResult.error
+          }
+          ownPepper = pepperQueryResult.result.pepper
+          phoneHash = getPhoneHash(e164Number, ownPepper)
+        } else {
+          const phoneNumberHashDetails = yield call(fetchPhoneHashPrivate, e164Number)
+          ownPepper = phoneNumberHashDetails.pepper
+          phoneHash = phoneNumberHashDetails.phoneHash
         }
-        ownPepper = pepperQueryResult.result.pepper
-        phoneHash = getPhoneHash(e164Number, ownPepper)
-      } else {
-        const phoneNumberHashDetails = yield call(fetchPhoneHashPrivate, e164Number)
-        ownPepper = phoneNumberHashDetails.pepper
-        phoneHash = phoneNumberHashDetails.phoneHash
+        Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Pepper is fetched')
+        Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Phone Hash is set')
+        yield put(updateE164PhoneNumberSalts({ [e164Number]: ownPepper }))
+        yield put(setPhoneHash(phoneHash))
       }
-      Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Pepper is fetched')
-      Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Phone Hash is set')
-      yield put(updateE164PhoneNumberSalts({ [e164Number]: ownPepper }))
-      yield put(setPhoneHash(phoneHash))
-    }
 
-    // in case of pepper has been cached, but phoneHash is not
-    if (!phoneHash) {
-      phoneHash = getPhoneHash(e164Number, ownPepper)
-      yield put(setPhoneHash(phoneHash))
-      Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Phone Hash is set')
+      // in case of pepper has been cached, but phoneHash is not
+      if (!phoneHash) {
+        phoneHash = getPhoneHash(e164Number, ownPepper)
+        yield put(setPhoneHash(phoneHash))
+        Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Phone Hash is set')
+      }
+      ValoraAnalytics.track(VerificationEvents.verification_hash_retrieved, {
+        phoneHash,
+        address: walletAddress,
+      })
     }
-    ValoraAnalytics.track(VerificationEvents.verification_hash_retrieved, {
-      phoneHash,
-      address: walletAddress,
-    })
+  } catch (error) {
+    yield put(fail(error.message))
+    return
   }
 
   if (shouldUseKomenci) {
@@ -411,11 +416,9 @@ export function* fetchPhoneNumberDetailsSaga() {
   }
 }
 
-function* fetchVerifiedMtw(contractKit: ContractKit, walletAddress: string, e164Number: string) {
+function* fetchVerifiedMtw(contractKit: ContractKit, walletAddress: string) {
   Logger.debug(TAG, '@fetchVerifiedMtw', 'Starting fetch')
-  const pepperCache = yield select(e164NumberToSaltSelector)
-  const ownPepper = pepperCache[e164Number]
-  const phoneHash = getPhoneHash(e164Number, ownPepper)
+  const phoneHash = yield select(phoneHashSelector)
 
   const attestationsWrapper: AttestationsWrapper = yield call([
     contractKit.contracts,
@@ -459,12 +462,12 @@ function* fetchVerifiedMtw(contractKit: ContractKit, walletAddress: string, e164
   )
 
   if (verifiedMtwAddressIndexes.length > 1) {
-    throw Error(
-      'More than one verified MTW with walletAddress as signer found. Should never happen'
+    yield put(
+      fail('More than one verified MTW with walletAddress as signer found. Should never happen')
     )
+    return
   }
-
-  if (!verifiedMtwAddressIndexes[0]) {
+  if (!verifiedMtwAddressIndexes.length) {
     Logger.debug(TAG, '@fetchVerifiedMtw', 'No verified MTW found')
     return null
   }
@@ -482,7 +485,7 @@ function* fetchVerifiedMtw(contractKit: ContractKit, walletAddress: string, e164
   return verifiedMtwAddress
 }
 
-function* fetchOrDeployMtwSaga() {
+export function* fetchOrDeployMtwSaga() {
   const e164Number = yield select(e164NumberSelector)
   const contractKit = yield call(getContractKit)
   const walletAddress = yield call(getConnectedUnlockedAccount)
@@ -492,7 +495,7 @@ function* fetchOrDeployMtwSaga() {
   try {
     // Now that we are guarnateed to have the phoneHash, check again to see if the
     // user already has a verified MTW
-    const verifiedMtwAddress = yield call(fetchVerifiedMtw, contractKit, walletAddress, e164Number)
+    const verifiedMtwAddress = yield call(fetchVerifiedMtw, contractKit, walletAddress)
     if (verifiedMtwAddress) {
       yield put(doVerificationFlow(true))
       return
@@ -503,10 +506,10 @@ function* fetchOrDeployMtwSaga() {
     let deployedUnverifiedMtwAddress: string | null = null
     // If there isn't a MTW stored for this session, ask Komenci to deploy one
     if (!storedUnverifiedMtwAddress) {
-      // This try/catch block is a workaround because Komenci will throw an error
-      // if a wallet was already deployed in a session. This is only fatal if
-      // we can't recover the MTW address or there is no quota left on the session
       for (let i = 0; i < KOMENCI_DEPLOY_MTW_RETRIES; i += 1) {
+        // This try/catch block is a workaround because Komenci will throw an error
+        // if a wallet was already deployed in a session. This is only fatal if
+        // we can't recover the MTW address or there is no quota left on the session
         try {
           const deployWalletResult: Result<
             string,
@@ -521,6 +524,7 @@ function* fetchOrDeployMtwSaga() {
             throw deployWalletResult.error
           }
           deployedUnverifiedMtwAddress = deployWalletResult.result
+          break
         } catch (e) {
           storeTimestampIfKomenciError(e)
 
@@ -573,7 +577,7 @@ function* fetchOrDeployMtwSaga() {
     }
 
     yield put(setKomenciContext({ unverifiedMtwAddress }))
-    yield call(feelessDekAndWalletRegistration, komenciKit, walletAddress)
+    yield call(feelessDekAndWalletRegistration, komenciKit, walletAddress, unverifiedMtwAddress)
     yield put(fetchOnChainData())
   } catch (e) {
     storeTimestampIfKomenciError(e)
@@ -582,10 +586,12 @@ function* fetchOrDeployMtwSaga() {
   }
 }
 
-function* feelessDekAndWalletRegistration(komenciKit: KomenciKit, walletAddress: string) {
+function* feelessDekAndWalletRegistration(
+  komenciKit: KomenciKit,
+  walletAddress: string,
+  unverifiedMtwAddress: string
+) {
   Logger.debug(TAG, '@feelessDekAndWalletRegistration', 'Starting registration')
-  const komenci = yield select(komenciContextSelector)
-  const { unverifiedMtwAddress } = komenci
 
   // Should never happen
   if (!unverifiedMtwAddress) {
@@ -595,13 +601,13 @@ function* feelessDekAndWalletRegistration(komenciKit: KomenciKit, walletAddress:
   yield call(registerWalletAndDekViaKomenci, komenciKit, unverifiedMtwAddress, walletAddress)
 }
 
-function* fetchOnChainDataSaga() {
-  Logger.debug(TAG, '@fetchOnChainDataSaga', 'Starting fetch')
-  const contractKit = yield call(getContractKit)
-  const shouldUseKomenci = yield select(shouldUseKomenciSelector)
-  const phoneHash = yield select(phoneHashSelector)
-  let account
+export function* fetchOnChainDataSaga() {
   try {
+    Logger.debug(TAG, '@fetchOnChainDataSaga', 'Starting fetch')
+    const contractKit = yield call(getContractKit)
+    const shouldUseKomenci = yield select(shouldUseKomenciSelector)
+    const phoneHash = yield select(phoneHashSelector)
+    let account
     if (shouldUseKomenci) {
       Logger.debug(TAG, '@fetchOnChainDataSaga', 'Using Komenci')
       const komenci = yield select(komenciContextSelector)
@@ -655,17 +661,14 @@ function* fetchOnChainDataSaga() {
   }
 }
 
-function* failSaga(action: ReturnType<typeof fail>) {
+export function* failSaga(action: ReturnType<typeof fail>) {
   Logger.error(TAG, `@failSaga: ${action.payload}`)
   yield put(setOldVerificationStatus(VerificationStatus.Failed))
 }
 
-function* resetSaga(action: ReturnType<typeof fail>) {
-  Logger.debug(
-    TAG,
-    `@resetSaga: Reset the verification state with komenci set to ${action.payload}`
-  )
+export function* resetSaga() {
   const e164Number = yield select(e164NumberSelector)
+  Logger.debug(TAG, `@resetSaga: Reset verification for ${e164Number}`)
   Logger.debug(TAG, `@resetSaga: Reseting pepper`)
   yield put(updateE164PhoneNumberSalts({ [e164Number]: null }))
 }
