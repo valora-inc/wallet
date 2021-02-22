@@ -23,7 +23,8 @@
       "successWithoutMatches": "Sincronização completa"
     }
   },
-  "accountInfo": "Criar conta",
+  "createAccount": "Criar conta",
+  "restoreAccount": "Recuperar Conta",
   "step": "Etapa {{step}} de 5",
   "selectCountryCode": "Selecione o código do país",
   "pincodeSet": {
