@@ -115,6 +115,11 @@ export type StackParamList = {
     currencyCode: LocalCurrencyCode
     currencyToBuy: CURRENCY_ENUM
   }
+  [Screens.Simplex]: {
+    localAmount: number
+    currencyCode: LocalCurrencyCode
+    currencyToBuy: CURRENCY_ENUM
+  }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:
     | {

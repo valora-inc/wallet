@@ -101,7 +101,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
         image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
-        onSelected: () => openSimplex(account),
+        onSelected: () =>
+          openSimplex(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
         name: 'Ramp',
