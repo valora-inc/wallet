@@ -132,7 +132,13 @@ export default function CodeInput({
                 // on the native input. Though it doesn't work in all cases (see https://stackoverflow.com/a/33227237/158525)
                 // and has the unfortunate drawback of breaking multiline autosize.
                 // We use numberOfLines to workaround this last problem.
-                keyboardType={Platform.OS === 'android' ? 'visible-password' : undefined}
+                keyboardType={
+                  Platform.OS === 'android'
+                    ? 'visible-password'
+                    : shortVerificationCodesEnabled
+                    ? 'number-pad'
+                    : undefined
+                }
                 // numberOfLines is currently Android only on TextInput
                 // workaround is to set the minHeight on iOS :/
                 numberOfLines={Platform.OS === 'ios' ? undefined : numberOfLines}
