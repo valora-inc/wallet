@@ -266,6 +266,7 @@ export async function sendNotification(
     return
   }
 
+  // https://firebase.google.com/docs/cloud-messaging/concept-options#setting-the-priority-of-a-message
   const message: admin.messaging.Message = {
     notification: {
       title,
@@ -273,7 +274,7 @@ export async function sendNotification(
     },
     android: {
       ttl: NOTIFICATIONS_TTL_MS,
-      priority: 'high',
+      priority: 'normal',
       notification: {
         icon: 'ic_stat_rings',
         color: '#42D689',
