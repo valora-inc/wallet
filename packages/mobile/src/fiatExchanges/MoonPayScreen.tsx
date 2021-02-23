@@ -6,7 +6,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import WebView from 'src/components/WebView'
+import InAppBrowser from 'src/components/InAppBrowser'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import config from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -60,13 +60,15 @@ function MoonPayScreen({ route }: Props) {
   }, [])
 
   return (
-    <View style={styles.container}>
+    <>
       {uri === '' ? (
-        <ActivityIndicator size="large" color={colors.greenBrand} />
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color={colors.greenBrand} />
+        </View>
       ) : (
-        <WebView source={{ uri }} />
+        <InAppBrowser uri={uri} onCancel={navigateBack} />
       )}
-    </View>
+    </>
   )
 }
 
