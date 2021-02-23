@@ -1,18 +1,13 @@
 import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native'
-import { MinimalContact } from 'react-native-contacts'
-import { useSelector } from 'react-redux'
 import DefaultAvatar from 'src/icons/DefaultAvatar'
-import { addressToDisplayNameSelector } from 'src/identity/reducer'
+import { Recipient, recipientHasAddress, recipientHasNumber } from 'src/recipients/recipient'
 
 interface Props {
   style?: ViewStyle
-  contact?: MinimalContact
-  name: string | null // Requiring a value so we need to be explicit if we dont have it
-  address?: string
   size?: number
-  thumbnailPath?: string | null
+  recipient: Recipient
 }
 
 const DEFAULT_ICON_SIZE = 40
@@ -21,27 +16,19 @@ const getAddressBackgroundColor = (address: string) =>
   `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 53%, 93%)`
 const getAddressForegroundColor = (address: string) =>
   `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 67%, 24%)`
-const getContactInitial = (contact: MinimalContact) => getNameInitial(contact.displayName)
 const getNameInitial = (name: string) => name.charAt(0).toLocaleUpperCase()
 
-function ContactCircle({ contact, size, thumbnailPath, name, address, style }: Props) {
-  const addressToDisplayName = useSelector(addressToDisplayNameSelector)
-  const addressInfo = address ? addressToDisplayName[address] : undefined
-  const displayName = name || addressInfo?.name
+function ContactCircle({ size, recipient, style }: Props) {
+  const address = recipientHasAddress(recipient) && recipient.address
+  const number = recipientHasNumber(recipient) && recipient.e164PhoneNumber
   const iconSize = size || DEFAULT_ICON_SIZE
-  const iconBackgroundColor = getAddressBackgroundColor(address || '0x0')
-
-  const getInitials = () =>
-    (contact && getContactInitial(contact)) || (displayName && getNameInitial(displayName)) || '#'
+  const iconBackgroundColor = getAddressBackgroundColor(address || number || '0x0')
 
   const renderThumbnail = () => {
-    const resolvedThumbnail =
-      thumbnailPath || (contact && contact.thumbnailPath) || addressInfo?.imageUrl
-
-    if (resolvedThumbnail) {
+    if (recipient.thumbnailPath) {
       return (
         <Image
-          source={{ uri: resolvedThumbnail }}
+          source={{ uri: recipient.thumbnailPath }}
           style={[
             styles.image,
             { height: iconSize, width: iconSize, borderRadius: iconSize / 2.0 },
@@ -51,10 +38,9 @@ function ContactCircle({ contact, size, thumbnailPath, name, address, style }: P
       )
     }
 
-    const fontColor = getAddressForegroundColor(address || '0x0')
-    // Mobile # is what default display name when contact isn't saved
-    if (displayName && displayName !== 'Mobile #') {
-      const initials = getInitials()
+    const fontColor = getAddressForegroundColor(address || number || '0x0')
+    if (recipient.name) {
+      const initials = getNameInitial(recipient.name)
       return (
         <Text style={[fontStyles.iconText, { fontSize: iconSize / 2.0, color: fontColor }]}>
           {initials.toLocaleUpperCase()}

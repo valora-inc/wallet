@@ -20,6 +20,7 @@ import { getDatetimeDisplayString } from 'src/utils/time'
 
 interface StateProps {
   addressHasChanged: boolean
+  recipientInfo: RecipientInfo
 }
 export interface ReviewProps {
   type: TokenTransactionType

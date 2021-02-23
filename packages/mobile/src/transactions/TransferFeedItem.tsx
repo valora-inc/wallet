@@ -22,10 +22,11 @@ type Props = TransferItemFragment & {
   type: TokenTransactionType
   status: TransactionStatus
   addressToE164Number: AddressToE164NumberType
-  recipientCache: NumberToRecipient
+  phoneRecipientCache: NumberToRecipient
   recentTxRecipientsCache: NumberToRecipient
   invitees: InviteDetails[]
   commentKey: string | null
+  recipientInfo: RecipientInfo
 }
 
 function navigateToTransactionReview({
@@ -75,25 +76,25 @@ export function TransferFeedItem(props: Props) {
     commentKey,
     status,
     addressToE164Number,
-    recipientCache,
+    phoneRecipientCache,
     recentTxRecipientsCache,
     invitees,
+    recipientInfo,
   } = props
 
   const { title, info, recipient } = getTransferFeedParams(
     type,
     t,
-    recipientCache,
+    phoneRecipientCache,
     recentTxRecipientsCache,
     address,
     addressToE164Number,
-    addressToDisplayName,
     comment,
     commentKey,
     timestamp,
-    invitees
+    invitees,
+    recipientInfo
   )
-  const imageUrl = addressToDisplayName[address]?.imageUrl ?? null
 
   return (
     <TransactionFeedItem
@@ -101,9 +102,7 @@ export function TransferFeedItem(props: Props) {
       amount={amount}
       title={title}
       info={info}
-      icon={
-        <TransferFeedIcon type={type} recipient={recipient} address={address} imageUrl={imageUrl} />
-      }
+      icon={<TransferFeedIcon type={type} recipient={recipient} />}
       timestamp={timestamp}
       status={status}
       onPress={onPress}

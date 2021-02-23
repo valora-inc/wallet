@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RecipientItem renders correctly 1`] = `
+exports[` renders correctly 1`] = `
 <View
   accessible={true}
   focusable={true}
@@ -101,18 +101,6 @@ exports[`RecipientItem renders correctly 1`] = `
         }
       >
         John Doe
-      </Text>
-      <Text
-        style={
-          Object {
-            "color": "#9CA4A9",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 14,
-            "lineHeight": 18,
-          }
-        }
-      >
-        14155550000
       </Text>
     </View>
   </View>

@@ -37,13 +37,8 @@ function* handlePaymentRequested(
     return
   }
 
-  const addressToE164Number = yield select(addressToE164NumberSelector)
-  const recipientCache = yield select(recipientCacheSelector)
-  const targetRecipient = getRequesterFromPaymentRequest(
-    paymentRequest,
-    addressToE164Number,
-    recipientCache
-  )
+  const info: RecipientInfo = yield select(recipientInfoSelector)
+  const targetRecipient = getRecipientFromAddress(paymentRequest.requesterAddress, info)
 
   navigateToRequestedPaymentReview({
     firebasePendingRequestUid: paymentRequest.uid,
