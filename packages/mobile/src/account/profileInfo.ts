@@ -280,6 +280,7 @@ export function* giveProfileAccess(recipientAddresses: string[]) {
 }
 
 export function* getProfileInfo(address: string) {
+  // TODO: check if we already have profile info of address
   const account = yield select(currentAccountSelector)
   const contractKit = yield call(getContractKit)
   yield call(unlockDEK)
