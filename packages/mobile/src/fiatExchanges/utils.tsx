@@ -17,8 +17,16 @@ export const openMoonpay = (
   })
 }
 
-export const openSimplex = (account: string | null) => {
-  navigateToURI(`${SIMPLEX_URI}?address=${account}`)
+export const openSimplex = (
+  amount: number,
+  currencyCode: LocalCurrencyCode,
+  currencyToBuy: CURRENCY_ENUM
+) => {
+  navigate(Screens.Simplex, {
+    localAmount: amount,
+    currencyCode,
+    currencyToBuy,
+  })
 }
 
 export const openRamp = (
