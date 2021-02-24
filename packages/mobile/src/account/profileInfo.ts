@@ -124,6 +124,7 @@ class UploadServiceDataWrapper implements OffchainDataWrapper {
         }).then((x) => {
           if (!x.ok) {
             Logger.error(TAG + '@writeDataTo', 'Error uploading ' + x.headers.get('location'))
+            throw Error(`Error uploading CIP8 data, with status ${x.status}`)
           }
           return x.text()
         })
