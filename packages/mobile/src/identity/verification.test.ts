@@ -36,6 +36,7 @@ import {
   doVerificationFlow,
   fail,
   idle,
+  KomenciAvailable,
   komenciContextSelector,
   phoneHashSelector,
   setOverrideWithoutVerification,
@@ -215,8 +216,8 @@ const mockVerificationState: VerificationState = {
   actionableAttestations: [],
   retries: 0,
   currentState: idle(),
-  komenciAvailable: undefined,
-  TEMPORAR_override_withoutVerification: undefined,
+  komenciAvailable: KomenciAvailable.Unknown,
+  TEMPORARY_override_withoutVerification: undefined,
   phoneHash: mockE164NumberHash,
   e164Number: mockE164Number,
 }

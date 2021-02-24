@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import Settings from 'src/account/Settings'
 import { Screens } from 'src/navigator/Screens'
+import { KomenciAvailable } from 'src/verify/reducer'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper } from 'test/values'
 
@@ -26,7 +27,11 @@ describe('Account', () => {
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
           stableToken: { balance: '0.00' },
           goldToken: { balance: '0.00' },
-          verify: { komenciAvailable: true, komenci: { errorTimestamps: [] }, status: {} },
+          verify: {
+            komenciAvailable: KomenciAvailable.Yes,
+            komenci: { errorTimestamps: [] },
+            status: {},
+          },
         })}
       >
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
@@ -46,7 +51,11 @@ describe('Account', () => {
             devModeActive: true,
             e164PhoneNumber: mockE164Number,
           },
-          verify: { komenci: { errorTimestamps: [] }, komenciAvailable: true, status: {} },
+          verify: {
+            komenci: { errorTimestamps: [] },
+            komenciAvailable: KomenciAvailable.Yes,
+            status: {},
+          },
         })}
       >
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
@@ -70,7 +79,7 @@ describe('Account', () => {
       <Provider
         store={createMockStore({
           verify: {
-            komenciAvailable: true,
+            komenciAvailable: KomenciAvailable.Yes,
             komenci: { errorTimestamps: [now, now, now] },
             status: {},
           },

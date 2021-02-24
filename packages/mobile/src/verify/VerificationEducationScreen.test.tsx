@@ -6,7 +6,7 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { features } from 'src/flags'
 import { Screens } from 'src/navigator/Screens'
-import { idle } from 'src/verify/reducer'
+import { idle, KomenciAvailable } from 'src/verify/reducer'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
@@ -28,7 +28,7 @@ describe('VerificationEducationScreen', () => {
         currentState: idle(),
         status: { numAttestationsRemaining: 0 },
         actionableAttestations: [],
-        komenciAvailable: false,
+        komenciAvailable: KomenciAvailable.No,
       },
     })
     const { toJSON, queryByTestId, queryByText } = render(
@@ -54,7 +54,7 @@ describe('VerificationEducationScreen', () => {
         currentState: idle(),
         status: { numAttestationsRemaining: 3 },
         actionableAttestations: [],
-        komenciAvailable: false,
+        komenciAvailable: KomenciAvailable.No,
       },
     })
     const { toJSON, queryByTestId, queryByText } = render(
@@ -80,7 +80,7 @@ describe('VerificationEducationScreen', () => {
         currentState: idle(),
         status: { numAttestationsRemaining: 3 },
         actionableAttestations: [],
-        komenciAvailable: false,
+        komenciAvailable: KomenciAvailable.No,
       },
     })
     const { toJSON, queryByTestId, queryByText } = render(
@@ -106,7 +106,7 @@ describe('VerificationEducationScreen', () => {
         currentState: idle(),
         status: { numAttestationsRemaining: 3 },
         actionableAttestations: [],
-        komenciAvailable: undefined,
+        komenciAvailable: KomenciAvailable.Unknown,
       },
     })
     const { getByTestId, toJSON } = render(
@@ -143,7 +143,7 @@ describe('VerificationEducationScreen with KOMENCI enabled', () => {
         currentState: idle(),
         status: { numAttestationsRemaining: 3 },
         actionableAttestations: [],
-        komenciAvailable: true,
+        komenciAvailable: KomenciAvailable.Yes,
       },
     })
     const { toJSON, queryByTestId, queryByText } = render(
@@ -173,7 +173,7 @@ describe('VerificationEducationScreen with KOMENCI enabled', () => {
         currentState: idle(),
         status: { numAttestationsRemaining: 3 },
         actionableAttestations: [],
-        komenciAvailable: true,
+        komenciAvailable: KomenciAvailable.Yes,
       },
     })
     const { getByTestId } = render(
@@ -202,7 +202,7 @@ describe('VerificationEducationScreen with KOMENCI enabled', () => {
         currentState: idle(),
         status: { numAttestationsRemaining: 3 },
         actionableAttestations: [],
-        komenciAvailable: true,
+        komenciAvailable: KomenciAvailable.Yes,
       },
     })
     const { getByTestId } = render(

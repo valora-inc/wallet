@@ -1,6 +1,6 @@
 import { ActionableAttestation } from '@celo/contractkit/lib/wrappers/Attestations'
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
-import { createAction, createReducer } from '@reduxjs/toolkit'
+import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
 import { RootState } from 'src/redux/reducers'
 
 import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
@@ -18,7 +18,7 @@ export const setOverrideWithoutVerification = createAction<boolean | undefined>(
   'VERIFY/SET_OVERRIDE_WITHOUT_VERIFICATION'
 )
 export const checkIfKomenciAvailable = createAction('VERIFY/CHECK_IF_KOMENCI_AVAILABLE')
-export const setKomenciAvailable = createAction<boolean>('VERIFY/SET_KOMENCI_AVAILABLE')
+export const setKomenciAvailable = createAction<KomenciAvailable>('VERIFY/SET_KOMENCI_AVAILABLE')
 export const start = createAction<{ e164Number: string; withoutRevealing: boolean }>('VERIFY/START')
 export const stop = createAction('VERIFY/STOP')
 export const setUseKomenci = createAction<boolean>('VERIFY/SET_USE_KOMENCI')
@@ -134,16 +134,22 @@ export interface KomenciContext {
   captchaToken: string
 }
 
+export enum KomenciAvailable {
+  Yes = 'YES',
+  No = 'NO',
+  Unknown = 'UNKNOWN',
+}
+
 export interface State {
   status: AttestationsStatus & { komenci: boolean }
   actionableAttestations: ActionableAttestation[]
   currentState: InternalState
   komenci: KomenciContext
-  komenciAvailable: boolean | undefined
+  komenciAvailable: KomenciAvailable
   phoneHash?: string
   e164Number?: string
   retries: number
-  TEMPORAR_override_withoutVerification?: boolean
+  TEMPORARY_override_withoutVerification?: boolean
 }
 
 const initialState: State = {
@@ -165,8 +171,8 @@ const initialState: State = {
   actionableAttestations: [],
   retries: 0,
   currentState: idle(),
-  komenciAvailable: undefined,
-  TEMPORAR_override_withoutVerification: undefined,
+  komenciAvailable: KomenciAvailable.Unknown,
+  TEMPORARY_override_withoutVerification: undefined,
 }
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -266,13 +272,13 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setOverrideWithoutVerification, (state, action) => {
       return {
         ...state,
-        TEMPORAR_override_withoutVerification: action.payload,
+        TEMPORARY_override_withoutVerification: action.payload,
       }
     })
     .addCase(checkIfKomenciAvailable, (state) => {
       return {
         ...state,
-        komenciAvailable: undefined,
+        komenciAvailable: KomenciAvailable.Unknown,
       }
     })
     .addCase(setKomenciAvailable, (state, action) => {
@@ -289,13 +295,15 @@ export const reducer = createReducer(initialState, (builder) => {
           ...initialState.status,
           komenci: action.payload.komenci,
         },
-        komenciAvailable: action.payload.komenci,
+        komenciAvailable: action.payload.komenci ? KomenciAvailable.Yes : KomenciAvailable.No,
       }
     })
 })
 
-const isBalanceSufficientForAttestations = (state: RootState, attestationsRemaining: number) => {
-  const userBalance = stableTokenBalanceSelector(state) || 0
+const isBalanceSufficientForAttestations = (
+  userBalance: BigNumber.Value,
+  attestationsRemaining: number
+) => {
   return new BigNumber(userBalance).isGreaterThan(
     attestationsRemaining * ESTIMATED_COST_PER_ATTESTATION
   )
@@ -306,35 +314,49 @@ export const e164NumberSelector = (state: RootState) => state.verify.e164Number
 export const phoneHashSelector = (state: RootState) => state.verify.phoneHash
 export const komenciContextSelector = (state: RootState) => state.verify.komenci
 export const shouldUseKomenciSelector = (state: RootState) => {
-  if (state.verify.komenciAvailable === undefined) {
+  if (state.verify.komenciAvailable === KomenciAvailable.Unknown) {
     return undefined
   }
   const verificationHasStarted = state.verify.status.total > 0
   // Only use Komenci when verification has not started with classic flow
-  return state.verify.komenciAvailable && !(verificationHasStarted && !state.verify.status.komenci)
+  return (
+    state.verify.komenciAvailable === KomenciAvailable.Yes &&
+    !(verificationHasStarted && !state.verify.status.komenci)
+  )
 }
 
 export const verificationStatusSelector = (state: RootState) => state.verify.status
 export const actionableAttestationsSelector = (state: RootState): ActionableAttestation[] =>
   state.verify.actionableAttestations
 export const overrideWithoutVerificationSelector = (state: RootState): boolean | undefined =>
-  state.verify.TEMPORAR_override_withoutVerification
+  state.verify.TEMPORARY_override_withoutVerification
 
-export const isBalanceSufficientForSigRetrievalSelector = (state: RootState) => {
-  const dollarBalance = stableTokenBalanceSelector(state) || 0
-  const celoBalance = celoTokenBalanceSelector(state) || 0
-  return isBalanceSufficientForSigRetrieval(dollarBalance, celoBalance)
-}
+export const isBalanceSufficientForSigRetrievalSelector = createSelector(
+  [stableTokenBalanceSelector, celoTokenBalanceSelector],
+  (stableTokenBalance, celoTokenBalance) =>
+    isBalanceSufficientForSigRetrieval(stableTokenBalance || 0, celoTokenBalance || 0)
+)
 
-// TODO: rewrite using reselect
-export const isBalanceSufficientSelector = (state: RootState) => {
-  const actionableAttestations = actionableAttestationsSelector(state)
-  const { numAttestationsRemaining } = verificationStatusSelector(state)
-  const attestationsRemaining = numAttestationsRemaining - actionableAttestations.length
-  const phoneHash = phoneHashSelector(state)
-  const isBalanceSufficient = !phoneHash
-    ? isBalanceSufficientForSigRetrievalSelector(state)
-    : isBalanceSufficientForAttestations(state, attestationsRemaining)
+export const isBalanceSufficientSelector = createSelector(
+  [
+    stableTokenBalanceSelector,
+    actionableAttestationsSelector,
+    verificationStatusSelector,
+    phoneHashSelector,
+    isBalanceSufficientForSigRetrievalSelector,
+  ],
+  (
+    stableTokenBalance,
+    actionableAttestations,
+    { numAttestationsRemaining },
+    phoneHash,
+    balanceSufficientForSigRetrieval
+  ) => {
+    const attestationsRemaining = numAttestationsRemaining - actionableAttestations.length
+    const isBalanceSufficient = !phoneHash
+      ? balanceSufficientForSigRetrieval
+      : isBalanceSufficientForAttestations(stableTokenBalance || 0, attestationsRemaining)
 
-  return isBalanceSufficient
-}
+    return isBalanceSufficient
+  }
+)

@@ -32,17 +32,7 @@ import { sleep } from '@celo/utils/lib/async'
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import DeviceInfo from 'react-native-device-info'
-import {
-  all,
-  call,
-  delay,
-  put,
-  race,
-  select,
-  spawn,
-  takeEvery,
-  takeLatest,
-} from 'redux-saga/effects'
+import { all, call, delay, put, race, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -84,6 +74,7 @@ import {
   fetchOnChainData,
   fetchPhoneNumberDetails,
   isBalanceSufficientForSigRetrievalSelector,
+  KomenciAvailable,
   KomenciContext,
   komenciContextSelector,
   overrideWithoutVerificationSelector,
@@ -258,13 +249,14 @@ export function getKomenciKit(
 }
 
 export function* checkIfKomenciAvailableSaga() {
+  Logger.debug(TAG, '@checkIfKomenciAvailableSaga')
   const contractKit = yield call(getContractKit)
   const walletAddress = yield call(getAccount)
   const komenci = yield select(komenciContextSelector)
   const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
-  const isKomenciAvailable = yield call(fetchKomenciReadiness, komenciKit)
-  yield put(setKomenciAvailable(isKomenciAvailable))
+  const isKomenciAvailable: boolean = yield call(fetchKomenciReadiness, komenciKit)
+  yield put(setKomenciAvailable(isKomenciAvailable ? KomenciAvailable.Yes : KomenciAvailable.No))
 }
 
 export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof start>) {
@@ -304,7 +296,7 @@ export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof 
         Logger.error(TAG, '@startSaga', e)
         storeTimestampIfKomenciError(e)
         if (e instanceof KomenciErrorQuotaExceeded) {
-          yield put(setKomenciAvailable(false))
+          yield put(setKomenciAvailable(KomenciAvailable.No))
           yield put(start({ e164Number, withoutRevealing }))
         }
       }
@@ -541,7 +533,7 @@ export function* fetchOrDeployMtwSaga() {
 
             case e instanceof InvalidWallet:
             default:
-              put(setKomenciAvailable(false))
+              put(setKomenciAvailable(KomenciAvailable.No))
               put(start({ e164Number, withoutRevealing: false }))
               return
           }
@@ -581,7 +573,7 @@ export function* fetchOrDeployMtwSaga() {
     yield put(fetchOnChainData())
   } catch (e) {
     storeTimestampIfKomenciError(e)
-    put(setKomenciAvailable(false))
+    put(setKomenciAvailable(KomenciAvailable.No))
     put(start(e164Number))
   }
 }
@@ -675,7 +667,6 @@ export function* resetSaga() {
 
 export function* verifySaga() {
   Logger.debug(TAG, 'Initializing verify sagas')
-  yield spawn(checkIfKomenciAvailableSaga)
   yield takeEvery(checkIfKomenciAvailable.type, checkIfKomenciAvailableSaga)
   yield takeEvery(start.type, startSaga)
   yield takeEvery(startKomenciSession.type, startOrResumeKomenciSessionSaga)

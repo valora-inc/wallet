@@ -1,4 +1,5 @@
 import { verificationPossibleSelector } from 'src/app/selectors'
+import { KomenciAvailable } from 'src/verify/reducer'
 import { getMockStoreData } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper } from 'test/values'
 
@@ -58,7 +59,7 @@ describe(verificationPossibleSelector, () => {
           },
           verify: {
             komenci: { errorTimestamps: [now, now, now] },
-            komenciAvailable: true,
+            komenciAvailable: KomenciAvailable.Yes,
             status: {},
           },
         })
@@ -77,7 +78,11 @@ describe(verificationPossibleSelector, () => {
           identity: {
             e164NumberToSalt: {},
           },
-          verify: { komenci: { errorTimestamps: [0, 0, 0] }, komenciAvailable: true, status: {} },
+          verify: {
+            komenci: { errorTimestamps: [0, 0, 0] },
+            komenciAvailable: KomenciAvailable.Yes,
+            status: {},
+          },
         })
       )
     ).toBe(true)

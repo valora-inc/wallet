@@ -28,6 +28,7 @@ import {
   fetchOnChainData,
   fetchPhoneNumberDetails,
   isBalanceSufficientForSigRetrievalSelector,
+  KomenciAvailable,
   komenciContextSelector,
   overrideWithoutVerificationSelector,
   phoneHashSelector,
@@ -102,7 +103,7 @@ describe(checkIfKomenciAvailableSaga, () => {
         [call(getKomenciKit, contractKit, mockAccount, mockKomenciContext), komenciKit],
         [call(fetchKomenciReadiness, komenciKit), true],
       ])
-      .put(setKomenciAvailable(true))
+      .put(setKomenciAvailable(KomenciAvailable.Yes))
       .run()
   })
 })
@@ -192,7 +193,7 @@ describe(startSaga, () => {
           throwError(new KomenciErrorQuotaExceeded()),
         ],
       ])
-      .put(setKomenciAvailable(false))
+      .put(setKomenciAvailable(KomenciAvailable.No))
       .put(start({ e164Number: mockE164Number, withoutRevealing }))
       .run()
   })
