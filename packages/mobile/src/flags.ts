@@ -38,6 +38,9 @@ export const countryFeatures = {
   RAMP_DISABLED: {
     US: true,
   },
+  TRANSAK_DISABLED: {
+    US: true,
+  },
   PONTO_SUPPORTED: {
     PH: true,
   },
