@@ -133,10 +133,10 @@ export default function CodeInput({
                 // and has the unfortunate drawback of breaking multiline autosize.
                 // We use numberOfLines to workaround this last problem.
                 keyboardType={
-                  Platform.OS === 'android'
-                    ? 'visible-password'
-                    : shortVerificationCodesEnabled
+                  shortVerificationCodesEnabled
                     ? 'number-pad'
+                    : Platform.OS === 'android'
+                    ? 'visible-password'
                     : undefined
                 }
                 // numberOfLines is currently Android only on TextInput

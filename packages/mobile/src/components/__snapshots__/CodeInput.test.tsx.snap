@@ -660,7 +660,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
             allowFontScaling={true}
             autoCapitalize="none"
             autoCorrect={false}
-            keyboardType="visible-password"
+            keyboardType="number-pad"
             onBlur={[Function]}
             onChangeText={[MockFunction]}
             onFocus={[Function]}
