@@ -8,6 +8,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { FUNDING_LINK } from 'src/config'
 import { features } from 'src/flags'
@@ -25,14 +27,17 @@ function FiatExchange() {
     navigate(Screens.FiatExchangeOptions, {
       isCashIn: true,
     })
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_selected)
   }
 
   function goToCashOut() {
     navigate(Screens.FiatExchangeOptions, { isCashIn: false })
+    ValoraAnalytics.track(FiatExchangeEvents.cico_cash_out_selected)
   }
 
   function goToSpend() {
     navigate(Screens.Spend)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_spend_selected)
   }
 
   const { t } = useTranslation()
@@ -46,6 +51,7 @@ function FiatExchange() {
 
   const onOpenOtherFundingOptions = () => {
     navigateToURI(FUNDING_LINK)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_fund_info)
   }
 
   return (
