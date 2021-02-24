@@ -115,7 +115,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         name: 'Transak',
         enabled: !TRANSAK_DISABLED,
         icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
+          'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
         onSelected: () =>
           openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
