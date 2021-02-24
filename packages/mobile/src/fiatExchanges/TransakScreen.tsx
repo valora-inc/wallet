@@ -48,7 +48,7 @@ function TransakScreen({ route }: Props) {
   const uri = `
     ${TRANSAK_URI}
       ?apiKey=${networkConfig.transakApiKey}
-      &hostURL=https://www.valoraapp.com
+      &hostURL=${encodeURIComponent('https://www.valoraapp.com')}
       &walletAddress=${account}
       &disableWalletAddressForm=true
       &cryptoCurrencyCode=${asset}
