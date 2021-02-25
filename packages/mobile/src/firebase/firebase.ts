@@ -223,6 +223,7 @@ export function appRemoteFeatureFlagChannel() {
         kotaniEnabled: flags?.kotaniEnabled || false,
         pontoEnabled: flags?.pontoEnabled || false,
         celoEducationUri: flags?.celoEducationUri ?? null,
+        shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
       })
     }
     const cancel = () => {
