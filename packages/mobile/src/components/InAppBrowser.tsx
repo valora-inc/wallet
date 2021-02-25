@@ -7,7 +7,8 @@ import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
 interface Props {
-  uri: string
+  uri?: string
+  html?: string
   onCancel?: () => void
 }
 
@@ -19,7 +20,7 @@ enum BrowserStatuses {
 
 const TAG = 'InAppBrowser'
 
-function InAppBrowser({ uri, onCancel }: Props) {
+function InAppBrowser({ uri, html, onCancel }: Props) {
   const [browserStatus, setBrowserStatus] = useState<BrowserStatuses>(BrowserStatuses.loading)
   const webview = useRef<WebViewRef>(null)
 
@@ -51,6 +52,9 @@ function InAppBrowser({ uri, onCancel }: Props) {
   }, [])
 
   useEffect(() => {
+    if (!uri) {
+      return
+    }
     const openBrowser = async () => {
       const finalEvent = await BroswerPackage.openAuth(uri, 'celo://wallet', {
         modalEnabled: true,
@@ -78,7 +82,11 @@ function InAppBrowser({ uri, onCancel }: Props) {
           {browserStatus === BrowserStatuses.loading ? (
             <ActivityIndicator size="large" color={colors.greenBrand} />
           ) : (
-            <WebView source={{ uri }} ref={webview} />
+            <WebView
+              originWhitelist={html ? ['*'] : undefined}
+              source={{ uri, html: html as string }}
+              ref={webview}
+            />
           )}
         </View>
       )}
