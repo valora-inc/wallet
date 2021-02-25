@@ -77,6 +77,8 @@ function blobToBuffer(blob: Blob) {
   })
 }
 
+// This data wrapper is passed to the offchain accessors (ex. PrivateNameAccessor and PrivatePictureAccessor)
+// It provides the functionality for reading/writing data to the backend via Valora
 class UploadServiceDataWrapper implements OffchainDataWrapper {
   signer: Address
   self: Address
@@ -132,6 +134,7 @@ class UploadServiceDataWrapper implements OffchainDataWrapper {
     )
   }
 
+  // fetches encrypted data and its signature, verifies that signature matches the payload
   async readDataFromAsResult<DataType>(
     account: Address,
     dataPath: string,
@@ -175,8 +178,8 @@ class UploadServiceDataWrapper implements OffchainDataWrapper {
     return Err(new InvalidSignature())
   }
 }
-
-export function* uploadProfileInfo() {
+// ensure that accounts existing before this feature was pushed out have their profiles uploaded
+export function* checkIfProfileUploaded() {
   const isAlreadyUploaded = yield select(isProfileUploadedSelector)
   if (isAlreadyUploaded) {
     return
@@ -191,7 +194,8 @@ export function* uploadProfileInfo() {
 }
 
 // TODO: make metadata claim when registering account info, and use fetched metadata url when reading data
-
+// https://github.com/celo-org/celo-monorepo/issues/6941
+// more context here: https://github.com/celo-org/celo-monorepo/pull/6604#discussion_r564585517
 // export function* addMetadataClaim() {
 //   try {
 //     const contractKit = yield call(getContractKit)

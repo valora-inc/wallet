@@ -41,9 +41,8 @@ export const saveProfilePicture = async (dataUrl: string): Promise<string> => {
   )
 }
 
+// not adding pictures to their own folder because RNFS.mkdir seems to broken for Android API >= 23
+// https://github.com/itinance/react-native-fs/issues/677
 export const saveRecipientPicture = async (dataUrl: string, address: string): Promise<string> => {
-  return saveImageDataUrlToFile(
-    dataUrl,
-    `file://${RNFS.DocumentDirectoryPath}/CIP8/pictures/${address}`
-  )
+  return saveImageDataUrlToFile(dataUrl, `file://${RNFS.DocumentDirectoryPath}/${address}`)
 }
