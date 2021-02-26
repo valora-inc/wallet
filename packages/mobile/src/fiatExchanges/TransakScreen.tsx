@@ -61,8 +61,7 @@ function TransakScreen({ route }: Props) {
       &hideMenu=true
     `.replace(/\s+/g, '')
 
-  const onNavigationStateChange = ({ url }: any) =>
-    !url.startsWith(webRedirectUrl) && navigateHome()
+  const onNavigationStateChange = ({ url }: any) => url.startsWith(webRedirectUrl) && navigateHome()
 
   const webview = useRef<WebViewRef>(null)
   const onAndroidBackPress = (): boolean => {
