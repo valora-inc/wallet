@@ -244,6 +244,7 @@ export class NotificationBox extends React.Component<Props, State> {
               ValoraAnalytics.track(HomeEvents.notification_select, {
                 notificationType: NotificationBannerTypes.remote_notification,
                 selectedAction: NotificationBannerCTATypes.remote_notification_cta,
+                notificationId: id,
               })
               openUrl(notification.ctaUri, false, true)
             },
@@ -255,6 +256,7 @@ export class NotificationBox extends React.Component<Props, State> {
               ValoraAnalytics.track(HomeEvents.notification_select, {
                 notificationType: NotificationBannerTypes.remote_notification,
                 selectedAction: NotificationBannerCTATypes.decline,
+                notificationId: id,
               })
               this.props.dismissNotification(id)
             },
