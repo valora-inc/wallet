@@ -21,6 +21,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { profileUploaded } from 'src/account/actions'
 import { isProfileUploadedSelector, nameSelector, pictureSelector } from 'src/account/selectors'
 import config from 'src/geth/networkConfig'
+import { DEK, retrieveOrGeneratePepper } from 'src/pincode/authentication'
 import { extensionToMimeType, getDataURL, saveRecipientPicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getWallet } from 'src/web3/contracts'
@@ -107,31 +108,34 @@ class UploadServiceDataWrapper implements OffchainDataWrapper {
     )
     const authorization = await this.kit.getWallet().signPersonalMessage(this.signer, hexPayload)
     const signedUrls = await authorizeURLs(signedUrlsPayload, authorization)
-    await Promise.all(
-      signedUrls.map(({ url, fields }, i) => {
-        const formData = new FormData()
-        for (const name of Object.keys(fields)) {
-          formData.append(name, fields[name])
-        }
-        formData.append('file', dataPayloads[i])
-
-        return fetch(url, {
-          method: 'POST',
-          headers: formData.getHeaders(),
-          // Use getBuffer() which ends up transferring the body as base64 data over the RN bridge
-          // because RN doesn't support Buffer inside FormData
-          // See https://github.com/facebook/react-native/blob/b26a9549ce2dffd1d0073ae13502830459051c27/Libraries/Network/convertRequestBody.js#L34
-          // and https://github.com/facebook/react-native/blob/b26a9549ce2dffd1d0073ae13502830459051c27/Libraries/Network/FormData.js
-          body: formData.getBuffer(),
-        }).then((x) => {
-          if (!x.ok) {
-            Logger.error(TAG + '@writeDataTo', 'Error uploading ' + x.headers.get('location'))
-            throw Error(`Error uploading CIP8 data, with status ${x.status}`)
+    try{
+      await Promise.all(
+        signedUrls.map(({ url, fields }, i) => {
+          const formData = new FormData()
+          for (const name of Object.keys(fields)) {
+            formData.append(name, fields[name])
           }
-          return x.text()
+          formData.append('file', dataPayloads[i])
+
+          return fetch(url, {
+            method: 'POST',
+            headers: formData.getHeaders(),
+            // Use getBuffer() which ends up transferring the body as base64 data over the RN bridge
+            // because RN doesn't support Buffer inside FormData
+            // See https://github.com/facebook/react-native/blob/b26a9549ce2dffd1d0073ae13502830459051c27/Libraries/Network/convertRequestBody.js#L34
+            // and https://github.com/facebook/react-native/blob/b26a9549ce2dffd1d0073ae13502830459051c27/Libraries/Network/FormData.js
+            body: formData.getBuffer(),
+          }).then((x) => {
+            if (!x.ok) {
+              Logger.error(TAG + '@writeDataTo', 'Error uploading ' + x.headers.get('location'))
+            }
+            return x.text()
+          })
         })
-      })
-    )
+      )
+    } catch(error) {
+      return new FetchError(error)
+    }
   }
 
   // fetches encrypted data and its signature, verifies that signature matches the payload
@@ -178,6 +182,7 @@ class UploadServiceDataWrapper implements OffchainDataWrapper {
     return Err(new InvalidSignature())
   }
 }
+
 // ensure that accounts existing before this feature was pushed out have their profiles uploaded
 export function* checkIfProfileUploaded() {
   const isAlreadyUploaded = yield select(isProfileUploadedSelector)
@@ -259,9 +264,11 @@ export function* uploadNameAndPicture() {
 // this function gives permission to the recipient to view the user's profile info
 export function* giveProfileAccess(recipientAddresses: string[]) {
   // TODO: check if key for recipient already exists, skip if yes
+  yield call(getConnectedUnlockedAccount) 
+  yield call(unlockDEK)
+
   const account = yield select(currentAccountSelector)
   const contractKit = yield call(getContractKit)
-  yield call(unlockDEK)
   const offchainWrapper = new UploadServiceDataWrapper(contractKit, account)
 
   const nameAccessor = new PrivateNameAccessor(offchainWrapper)
@@ -319,12 +326,14 @@ function* unlockDEK(addAccount = false) {
     privateKeyToAddress(ensureLeading0x(privateDataKey))
   )
   const wallet: UnlockableWallet = yield call(getWallet)
+  // directly using pepper because we don't want to set a PIN for the DEK
+  const pepper = yield call(retrieveOrGeneratePepper, DEK)
   if (addAccount) {
     try {
-      yield call([wallet, wallet.addAccount], privateDataKey, '')
+      yield call([wallet, wallet.addAccount], privateDataKey, pepper)
     } catch (error) {
       Logger.warn('Unable to add DEK to geth wallet', error)
     }
   }
-  yield call([wallet, wallet.unlockAccount], dataKeyAddress, '', 0)
+  yield call([wallet, wallet.unlockAccount], dataKeyAddress, pepper, 0)
 }
