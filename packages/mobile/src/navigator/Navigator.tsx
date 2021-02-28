@@ -218,15 +218,7 @@ const nuxScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.NameAndPicture}
       component={NameAndPicture}
-      options={{
-        ...nuxNavigationOptions,
-        headerTitle: () => (
-          <HeaderTitleWithSubtitle
-            title={i18n.t('onboarding:accountInfo')}
-            subTitle={i18n.t('onboarding:step', { step: '1' })}
-          />
-        ),
-      }}
+      options={NameAndPicture.navOptions}
     />
     <Navigator.Screen
       name={Screens.PincodeSet}
