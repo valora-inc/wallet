@@ -119,8 +119,6 @@ export const BIDALI_URL_MAINNET = keyOrUndefined(
   'BIDALI_URL_MAINNET'
 )
 
-export const TRANSAK_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'TRANSAK_API_KEY')
-
 export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [
   {
     name: 'Binance',
@@ -178,8 +176,16 @@ export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
 export const PONTO_URI = 'https://withponto.com/partners/celo/valora'
 export const KOTANI_URI = 'https://kotanipay.com/partners/valora'
 
+export const VALORA_KEY_DISTRIBUTER_URL =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/distributeValoraKeys'
+
 export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
 
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
+
+export enum CURRENCY_CODE_ENUM {
+  CELO = 'CELO',
+  CUSD = 'CUSD',
+}
