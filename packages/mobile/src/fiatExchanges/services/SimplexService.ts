@@ -1,4 +1,5 @@
 import { CASH_IN_SUCCESS_DEEPLINK } from 'src/config'
+import config from 'src/geth/networkConfig'
 
 const uuidv4 = () =>
   (String(1e7) + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
@@ -38,7 +39,7 @@ export class SimplexService {
 
   constructor() {
     this.apiKey = `...`
-    this.baseUrl = 'https://sandbox.test-simplexcc.com'
+    this.baseUrl = config.simplexUrl
     this.appUrl = 'https://valoraapp.com'
   }
 

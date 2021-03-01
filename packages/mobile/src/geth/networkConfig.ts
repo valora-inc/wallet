@@ -28,6 +28,7 @@ interface NetworkConfig {
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
   signMoonpayUrl: string
+  simplexUrl: string
   rampWidgetUrl: string
   transakWidgetUrl: string
   transakApiKey: string
@@ -50,6 +51,9 @@ const rampWidgetProd = 'https://buy.ramp.network'
 
 const transakWidgetProd = 'https://global.transak.com'
 const transakWidgetStaging = 'https://staging-global.transak.com'
+
+const simplexUrlProd = 'https://backend-wallet-api.simplexcc.com'
+const simplexUrlStaging = 'https://sandbox.test-simplexcc.com'
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
@@ -78,6 +82,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
     transakWidgetUrl: transakWidgetStaging,
+    simplexUrl: simplexUrlStaging,
     transakApiKey: TRANSAK_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
@@ -96,6 +101,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
+    simplexUrl: simplexUrlProd,
     transakWidgetUrl: transakWidgetProd,
     transakApiKey: TRANSAK_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
