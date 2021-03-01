@@ -733,6 +733,12 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_spend_selected]: undefined
   [FiatExchangeEvents.cico_fund_info]: undefined
   [FiatExchangeEvents.cico_fund_info_cancel]: undefined
+  [FiatExchangeEvents.cico_info_icon_pressed]: {
+    isCashIn: boolean
+  }
+  [FiatExchangeEvents.cico_info_icon_cancel]: {
+    isCashIn: boolean
+  }
   [FiatExchangeEvents.cico_add_funds_continue]: {
     payMethod: string
     currency: CURRENCY_ENUM

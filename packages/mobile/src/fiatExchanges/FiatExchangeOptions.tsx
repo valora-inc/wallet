@@ -155,8 +155,14 @@ function FiatExchangeOptions({ route, navigation }: Props) {
   const onSelectCurrency = (currency: CURRENCY_ENUM) => () => setSelectedCurrency(currency)
   const onSelectPaymentMethod = (paymentMethod: PaymentMethod) => () =>
     setSelectedPaymentMethod(paymentMethod)
-  const onPressInfoIcon = () => setEducationDialogVisible(true)
-  const onPressDismissEducationDialog = () => setEducationDialogVisible(false)
+  const onPressInfoIcon = () => {
+    setEducationDialogVisible(true)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_info_icon_pressed, { isCashIn })
+  }
+  const onPressDismissEducationDialog = () => {
+    setEducationDialogVisible(false)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_info_icon_cancel, { isCashIn })
+  }
 
   return (
     <SafeAreaView style={styles.content}>

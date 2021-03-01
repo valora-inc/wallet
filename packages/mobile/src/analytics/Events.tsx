@@ -313,6 +313,9 @@ export enum FiatExchangeEvents {
   // TODO: find event trigger for cico_fund_info_cancel (FiatExchange.tsx)
   cico_fund_info_cancel = 'cico_fund_info_cancel',
 
+  cico_info_icon_pressed = 'cico_info_icon_pressed',
+  cico_info_icon_cancel = 'cico_info_icon_cancel',
+
   // Tracking for the following events is not yet implemented
   cico_add_funds_continue = 'cico_add_funds_continue',
   cico_add_funds_back = 'cico_add_funds_back',
