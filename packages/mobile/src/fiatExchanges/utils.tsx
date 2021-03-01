@@ -32,3 +32,15 @@ export const openRamp = (
     currencyToBuy,
   })
 }
+
+export const openTransak = (
+  amount: number,
+  currencyCode: LocalCurrencyCode,
+  currencyToBuy: CURRENCY_ENUM
+) => {
+  navigate(Screens.TransakScreen, {
+    localAmount: amount,
+    currencyCode,
+    currencyToBuy,
+  })
+}

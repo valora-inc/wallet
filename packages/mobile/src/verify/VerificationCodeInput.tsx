@@ -6,7 +6,6 @@ import {
 import * as React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
-import { features } from 'src/flags'
 import { ATTESTATION_CODE_PLACEHOLDER } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
 import Logger from 'src/utils/Logger'
@@ -22,6 +21,7 @@ interface Props {
   attestationCodes: AttestationCode[] // The codes in the redux store
   numCompleteAttestations: number // has the code been accepted and completed
   style?: StyleProp<ViewStyle>
+  shortVerificationCodesEnabled: boolean
 }
 
 function VerificationCodeInput({
@@ -35,14 +35,15 @@ function VerificationCodeInput({
   attestationCodes,
   numCompleteAttestations,
   style,
+  shortVerificationCodesEnabled,
 }: Props) {
   let codeStatus: CodeInputStatus = CodeInputStatus.DISABLED
   if (numCompleteAttestations > index) {
     codeStatus = CodeInputStatus.ACCEPTED
-    inputValue = getRecodedAttestationValue(attestationCodes[index])
+    inputValue = getRecodedAttestationValue(attestationCodes[index], shortVerificationCodesEnabled)
   } else if (attestationCodes.length > index) {
     codeStatus = CodeInputStatus.RECEIVED
-    inputValue = getRecodedAttestationValue(attestationCodes[index])
+    inputValue = getRecodedAttestationValue(attestationCodes[index], shortVerificationCodesEnabled)
   } else if (isCodeSubmitting) {
     codeStatus = CodeInputStatus.PROCESSING
   } else if (attestationCodes.length === index) {
@@ -56,18 +57,22 @@ function VerificationCodeInput({
       inputPlaceholder={inputPlaceholder}
       inputPlaceholderWithClipboardContent={inputPlaceholderWithClipboardContent}
       onInputChange={onInputChange}
-      shouldShowClipboard={shouldShowClipboard(attestationCodes)}
+      shouldShowClipboard={shouldShowClipboard(attestationCodes, shortVerificationCodesEnabled)}
       style={style}
+      shortVerificationCodesEnabled={shortVerificationCodesEnabled}
     />
   )
 }
 
-function getRecodedAttestationValue(attestationCode: AttestationCode) {
+function getRecodedAttestationValue(
+  attestationCode: AttestationCode,
+  shortVerificationCodesEnabled: boolean
+) {
   try {
     if (!attestationCode.code || attestationCode.code === ATTESTATION_CODE_PLACEHOLDER) {
       return ''
     }
-    if (features.SHORT_VERIFICATION_CODES && attestationCode.shortCode) {
+    if (shortVerificationCodesEnabled && attestationCode.shortCode) {
       return attestationCode.shortCode
     }
     return hexToBuffer(attestationCode.code).toString('base64')
@@ -77,15 +82,18 @@ function getRecodedAttestationValue(attestationCode: AttestationCode) {
   }
 }
 
-function shouldShowClipboard(attestationCodes: AttestationCode[]) {
+function shouldShowClipboard(
+  attestationCodes: AttestationCode[],
+  shortVerificationCodesEnabled: boolean
+) {
   return (value: string) => {
-    const extractedCode = features.SHORT_VERIFICATION_CODES
+    const extractedCode = shortVerificationCodesEnabled
       ? extractSecurityCodeWithPrefix(value)
       : extractAttestationCodeFromMessage(value)
     return (
       !!extractedCode &&
       !attestationCodes.find(
-        (c) => (features.SHORT_VERIFICATION_CODES ? c.shortCode : c.code) === extractedCode
+        (c) => (shortVerificationCodesEnabled ? c.shortCode : c.code) === extractedCode
       )
     )
   }

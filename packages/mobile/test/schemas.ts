@@ -473,6 +473,7 @@ export const v7Schema = {
     ...v6Schema.app,
     activeScreen: '',
     celoEducationUri: null,
+    shortVerificationCodesEnabled: false,
   },
   account: {
     ...v6Schema.account,
