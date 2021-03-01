@@ -120,6 +120,7 @@ export const BIDALI_URL_MAINNET = keyOrUndefined(
 )
 
 export const TRANSAK_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'TRANSAK_API_KEY')
+export const SIMPLEX_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SIMPLEX_API_KEY')
 
 export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [
   {

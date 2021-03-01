@@ -38,7 +38,7 @@ export class SimplexService {
   private appUrl: string
 
   constructor() {
-    this.apiKey = `...`
+    this.apiKey = config.simplexApiKey
     this.baseUrl = config.simplexUrl
     this.appUrl = 'https://valoraapp.com'
   }

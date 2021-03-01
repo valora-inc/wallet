@@ -11,6 +11,7 @@ import {
   RECAPTCHA_SITE_KEY_ALFAJORES,
   RECAPTCHA_SITE_KEY_MAINNET,
   TRANSAK_API_KEY,
+  SIMPLEX_API_KEY,
 } from 'src/config'
 import { GethSyncMode } from 'src/geth/consts'
 import Logger from 'src/utils/Logger'
@@ -29,6 +30,7 @@ interface NetworkConfig {
   odisPubKey: string
   signMoonpayUrl: string
   simplexUrl: string
+  simplexApiKey: string
   rampWidgetUrl: string
   transakWidgetUrl: string
   transakApiKey: string
@@ -84,6 +86,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     transakWidgetUrl: transakWidgetStaging,
     simplexUrl: simplexUrlStaging,
     transakApiKey: TRANSAK_API_KEY,
+    simplexApiKey: SIMPLEX_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_STAGING,
@@ -104,6 +107,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     simplexUrl: simplexUrlProd,
     transakWidgetUrl: transakWidgetProd,
     transakApiKey: TRANSAK_API_KEY,
+    simplexApiKey: SIMPLEX_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_MAINNET,
