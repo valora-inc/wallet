@@ -126,7 +126,9 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
                       Object {
                         "textAlignVertical": "top",
                       },
-                      undefined,
+                      Object {
+                        "minHeight": undefined,
+                      },
                     ]
                   }
                   testID="ImportWalletBackupKeyInputField"
