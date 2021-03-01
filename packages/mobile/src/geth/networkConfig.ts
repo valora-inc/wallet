@@ -10,6 +10,7 @@ import {
   GETH_USE_STATIC_NODES,
   RECAPTCHA_SITE_KEY_ALFAJORES,
   RECAPTCHA_SITE_KEY_MAINNET,
+  TRANSAK_API_KEY,
 } from 'src/config'
 import { GethSyncMode } from 'src/geth/consts'
 import Logger from 'src/utils/Logger'
@@ -28,6 +29,8 @@ interface NetworkConfig {
   odisPubKey: string
   signMoonpayUrl: string
   rampWidgetUrl: string
+  transakWidgetUrl: string
+  transakApiKey: string
   useDiscovery: boolean
   useStaticNodes: boolean
   komenciUrl: string
@@ -42,8 +45,11 @@ const signMoonpayUrlStaging =
 const signMoonpayUrlProd =
   'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/signMoonpayProd'
 
-const rampWidgetStaging = 'https://ri-widget-staging.firebaseapp.com/'
+const rampWidgetStaging = 'https://ri-widget-staging.firebaseapp.com'
 const rampWidgetProd = 'https://buy.ramp.network'
+
+const transakWidgetProd = 'https://global.transak.com'
+const transakWidgetStaging = 'https://staging-global.transak.com'
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
@@ -71,6 +77,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
+    transakWidgetUrl: transakWidgetStaging,
+    transakApiKey: TRANSAK_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_STAGING,
@@ -88,6 +96,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
+    transakWidgetUrl: transakWidgetProd,
+    transakApiKey: TRANSAK_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_MAINNET,
