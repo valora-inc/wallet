@@ -12,7 +12,7 @@ export const createApiKeyPostRequestObj = (provider: PROVIDER_ENUM) => ({
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    provider: provider,
+    provider,
     env: DEFAULT_TESTNET,
   }),
 })
