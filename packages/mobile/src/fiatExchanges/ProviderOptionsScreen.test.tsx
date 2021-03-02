@@ -2,6 +2,7 @@ import { CURRENCY_ENUM } from '@celo/utils'
 import * as React from 'react'
 import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
+import { CURRENCY_CODE_ENUM } from 'src/config'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
@@ -59,7 +60,7 @@ describe('ProviderOptionsScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.MoonPayScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.BRL,
-      currencyToBuy: CURRENCY_ENUM.DOLLAR,
+      currencyToBuy: CURRENCY_CODE_ENUM.CUSD,
     })
   })
 
@@ -74,7 +75,7 @@ describe('ProviderOptionsScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.RampScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.BRL,
-      currencyToBuy: CURRENCY_ENUM.DOLLAR,
+      currencyToBuy: CURRENCY_CODE_ENUM.CUSD,
     })
   })
 
@@ -89,7 +90,7 @@ describe('ProviderOptionsScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.TransakScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.BRL,
-      currencyToBuy: CURRENCY_ENUM.DOLLAR,
+      currencyToBuy: CURRENCY_CODE_ENUM.CUSD,
     })
   })
 })
