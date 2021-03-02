@@ -1,14 +1,12 @@
 import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { useAsync } from 'react-async-hook'
 import { ActivityIndicator, BackHandler, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import WebView, { WebViewRef } from 'src/components/WebView'
-import { VALORA_KEY_DISTRIBUTER_URL } from 'src/config'
-import { PROVIDER_ENUM } from 'src/fiatExchanges/ProviderOptionsScreen'
-import { createApiKeyPostRequestObj } from 'src/fiatExchanges/utils'
+import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { fetchProviderApiKey } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -30,7 +28,6 @@ type RouteProps = StackScreenProps<StackParamList, Screens.TransakScreen>
 type Props = RouteProps
 
 function TransakScreen({ route }: Props) {
-  const [apiKey, setApiKey] = useState<string>()
   const { localAmount, currencyCode, currencyToBuy } = route.params
   const account = useSelector(currentAccountSelector)
 
@@ -55,17 +52,8 @@ function TransakScreen({ route }: Props) {
     }
   }, [])
 
-  useEffect(() => {
-    const postRequestObject = createApiKeyPostRequestObj(PROVIDER_ENUM.TRANSAK)
-    const getApiKey = async () => {
-      const response = await fetch(VALORA_KEY_DISTRIBUTER_URL, postRequestObject)
-      return response.json()
-    }
-
-    getApiKey()
-      .then(setApiKey)
-      .catch(() => showError(ErrorMessages.FIREBASE_FAILED))
-  }, [])
+  const fetchResponse = useAsync(() => fetchProviderApiKey(Providers.TRANSAK), [])
+  const apiKey = fetchResponse?.result
 
   const uri = `
   ${TRANSAK_URI}

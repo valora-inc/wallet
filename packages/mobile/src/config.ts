@@ -181,7 +181,7 @@ export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 
-export enum CURRENCY_CODE_ENUM {
+export enum CurrencyNames {
   CELO = 'CELO',
   CUSD = 'CUSD',
 }

@@ -1,12 +1,11 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useAsync } from 'react-async-hook'
 import { useSelector } from 'react-redux'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import InAppBrowser from 'src/components/InAppBrowser'
-import { CASH_IN_SUCCESS_DEEPLINK, VALORA_KEY_DISTRIBUTER_URL, VALORA_LOGO_URL } from 'src/config'
-import { PROVIDER_ENUM } from 'src/fiatExchanges/ProviderOptionsScreen'
-import { createApiKeyPostRequestObj } from 'src/fiatExchanges/utils'
+import { CASH_IN_SUCCESS_DEEPLINK, VALORA_LOGO_URL } from 'src/config'
+import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { fetchProviderApiKey } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -28,21 +27,11 @@ type RouteProps = StackScreenProps<StackParamList, Screens.RampScreen>
 type Props = RouteProps
 
 function RampScreen({ route }: Props) {
-  const [apiKey, setApiKey] = useState<string>()
   const { localAmount, currencyCode, currencyToBuy } = route.params
   const account = useSelector(currentAccountSelector)
 
-  useEffect(() => {
-    const postRequestObject = createApiKeyPostRequestObj(PROVIDER_ENUM.RAMP)
-    const getApiKey = async () => {
-      const response = await fetch(VALORA_KEY_DISTRIBUTER_URL, postRequestObject)
-      return response.json()
-    }
-
-    getApiKey()
-      .then(setApiKey)
-      .catch(() => showError(ErrorMessages.FIREBASE_FAILED))
-  }, [])
+  const fetchResponse = useAsync(() => fetchProviderApiKey(Providers.RAMP), [])
+  const apiKey = fetchResponse?.result
 
   const uri = `
     ${RAMP_URI}

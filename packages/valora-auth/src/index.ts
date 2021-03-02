@@ -23,5 +23,5 @@ export const distributeValoraKeys = functions.https.onRequest((request, response
     apiKey = envIsProd ? MOONPAY_PUBLIC_KEY_PROD : MOONPAY_PUBLIC_KEY_STAGING
   }
 
-  response.send(apiKey)
+  response.send(JSON.stringify(apiKey))
 })
