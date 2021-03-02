@@ -1,8 +1,9 @@
 import { CASH_IN_SUCCESS_DEEPLINK } from 'src/config'
-import config from 'src/geth/networkConfig'
+import networkConfig from 'src/geth/networkConfig'
 
 const uuidv4 = () =>
   (String(1e7) + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    // tslint:disable-next-line
     (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16)
   )
 
@@ -38,8 +39,8 @@ export class SimplexService {
   private appUrl: string
 
   constructor() {
-    this.apiKey = config.simplexApiKey
-    this.baseUrl = config.simplexUrl
+    this.apiKey = networkConfig.simplexApiKey
+    this.baseUrl = networkConfig.simplexUrl
     this.appUrl = 'https://valoraapp.com'
   }
 
@@ -64,7 +65,7 @@ export class SimplexService {
 
   async paymentRequest(config: SimplexPaymentRequestConfig) {
     const paymentId = uuidv4()
-    const result = await this.post('/wallet/merchant/v2/payments/partner/data', {
+    await this.post('/wallet/merchant/v2/payments/partner/data', {
       account_details: {
         app_provider_id: 'valorapp',
         app_version_id: config.app.version,

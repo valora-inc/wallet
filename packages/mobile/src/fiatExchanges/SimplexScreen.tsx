@@ -44,6 +44,7 @@ function SimplexScreen({ route }: Props) {
 
   const [exchange, setExchange] = React.useState<any>({})
   const [paymentId, setPaymentId] = React.useState('')
+  const [redirected, setRedirected] = React.useState(false)
 
   let minTxAmount = MIN_USD_TX_AMOUNT
 
@@ -104,6 +105,9 @@ function SimplexScreen({ route }: Props) {
   }, [exchange?.quoteId])
 
   const onNavigationStateChange = ({ url }: any) => {
+    if (url?.startsWith('http')) {
+      setRedirected(true)
+    }
     if (url?.startsWith('celo://wallet')) {
       navigateToURI(url)
     }
@@ -112,21 +116,26 @@ function SimplexScreen({ route }: Props) {
   const checkoutHtml = simplex.generateForm(paymentId)
 
   return (
-    <>
-      {!paymentId ? (
-        <View style={[styles.container]}>
-          <ActivityIndicator size="large" color={colors.greenBrand} />
-        </View>
-      ) : (
-        <View style={styles.container}>
+    <View style={[styles.container]}>
+      <>
+        {paymentId && redirected ? (
+          undefined
+        ) : (
+          <View style={[styles.container, styles.indicator]}>
+            <ActivityIndicator size="large" color={colors.greenBrand} />
+          </View>
+        )}
+        {!paymentId ? (
+          undefined
+        ) : (
           <WebView
             originWhitelist={['*']}
             source={{ html: checkoutHtml }}
             onNavigationStateChange={onNavigationStateChange}
           />
-        </View>
-      )}
-    </>
+        )}
+      </>
+    </View>
   )
 }
 
@@ -135,6 +144,14 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     flex: 1,
     justifyContent: 'center',
+    position: 'relative',
+  },
+  indicator: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
   },
 })
 
