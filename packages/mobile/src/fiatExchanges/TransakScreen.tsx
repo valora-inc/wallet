@@ -7,7 +7,7 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import WebView, { WebViewRef } from 'src/components/WebView'
 import { VALORA_KEY_DISTRIBUTER_URL } from 'src/config'
-import { PROVIDER_ENUM, ProviderApiKeys } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { PROVIDER_ENUM } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { createApiKeyPostRequestObj } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -30,7 +30,7 @@ type RouteProps = StackScreenProps<StackParamList, Screens.TransakScreen>
 type Props = RouteProps
 
 function TransakScreen({ route }: Props) {
-  const [apiKeys, setApiKeys] = useState<ProviderApiKeys>()
+  const [apiKey, setApiKey] = useState<string>()
   const { localAmount, currencyCode, currencyToBuy } = route.params
   const account = useSelector(currentAccountSelector)
 
@@ -63,13 +63,13 @@ function TransakScreen({ route }: Props) {
     }
 
     getApiKey()
-      .then(setApiKeys)
+      .then(setApiKey)
       .catch(() => showError(ErrorMessages.FIREBASE_FAILED))
   }, [])
 
   const uri = `
   ${TRANSAK_URI}
-    ?apiKey=${apiKeys?.publicKey}
+    ?apiKey=${apiKey}
     &hostURL=${encodeURIComponent('https://www.valoraapp.com')}
     &walletAddress=${account}
     &disableWalletAddressForm=true
@@ -84,7 +84,7 @@ function TransakScreen({ route }: Props) {
   // support deeplink redirects
   return (
     <View style={styles.container}>
-      {!apiKeys ? (
+      {!apiKey ? (
         <ActivityIndicator size="large" color={colors.greenBrand} />
       ) : (
         <WebView ref={webview} source={{ uri }} onNavigationStateChange={onNavigationStateChange} />

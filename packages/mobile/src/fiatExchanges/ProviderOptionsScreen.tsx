@@ -59,11 +59,6 @@ export enum PROVIDER_ENUM {
   SIMPLEX = 'SIMPLEX',
 }
 
-export interface ProviderApiKeys {
-  publicKey: string
-  privateKey: string
-}
-
 const FALLBACK_CURRENCY = LocalCurrencyCode.USD
 
 function ProviderOptionsScreen({ route, navigation }: Props) {

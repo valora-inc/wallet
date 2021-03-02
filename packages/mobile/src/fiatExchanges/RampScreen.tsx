@@ -5,7 +5,7 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import InAppBrowser from 'src/components/InAppBrowser'
 import { CASH_IN_SUCCESS_DEEPLINK, VALORA_KEY_DISTRIBUTER_URL, VALORA_LOGO_URL } from 'src/config'
-import { PROVIDER_ENUM, ProviderApiKeys } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { PROVIDER_ENUM } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { createApiKeyPostRequestObj } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -28,7 +28,7 @@ type RouteProps = StackScreenProps<StackParamList, Screens.RampScreen>
 type Props = RouteProps
 
 function RampScreen({ route }: Props) {
-  const [apiKeys, setApiKeys] = useState<ProviderApiKeys>()
+  const [apiKey, setApiKey] = useState<string>()
   const { localAmount, currencyCode, currencyToBuy } = route.params
   const account = useSelector(currentAccountSelector)
 
@@ -40,13 +40,13 @@ function RampScreen({ route }: Props) {
     }
 
     getApiKey()
-      .then(setApiKeys)
+      .then(setApiKey)
       .catch(() => showError(ErrorMessages.FIREBASE_FAILED))
   }, [])
 
   const uri = `
     ${RAMP_URI}
-      ?hostApiKey=${apiKeys?.publicKey}
+      ?hostApiKey=${apiKey}
       &userAddress=${account}
       &swapAsset=${currencyToBuy}
       &hostAppName=Valora
@@ -56,7 +56,7 @@ function RampScreen({ route }: Props) {
       &finalUrl=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
     `.replace(/\s+/g, '')
 
-  return <InAppBrowser uri={uri} isLoading={!apiKeys} onCancel={navigateBack} />
+  return <InAppBrowser uri={uri} isLoading={!apiKey} onCancel={navigateBack} />
 }
 
 export default RampScreen

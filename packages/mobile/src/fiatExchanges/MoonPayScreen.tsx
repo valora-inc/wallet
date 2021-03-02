@@ -1,13 +1,10 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import crypto from 'crypto'
-import React, { useEffect, useState } from 'react'
+import BigNumber from 'bignumber.js'
+import * as React from 'react'
 import { useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import InAppBrowser from 'src/components/InAppBrowser'
-import { CASH_IN_SUCCESS_DEEPLINK, VALORA_KEY_DISTRIBUTER_URL } from 'src/config'
-import { PROVIDER_ENUM, ProviderApiKeys } from 'src/fiatExchanges/ProviderOptionsScreen'
-import { createApiKeyPostRequestObj } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -29,42 +26,35 @@ type RouteProps = StackScreenProps<StackParamList, Screens.MoonPayScreen>
 type Props = RouteProps
 
 function MoonPayScreen({ route }: Props) {
-  const [apiKeys, setApiKeys] = useState<ProviderApiKeys>()
+  const [uri, setUri] = React.useState('')
   const { localAmount, currencyCode, currencyToBuy } = route.params
   const account = useSelector(currentAccountSelector)
 
-  useEffect(() => {
-    const postRequestObject = createApiKeyPostRequestObj(PROVIDER_ENUM.MOONPAY)
-    const getApiKey = async () => {
-      const response = await fetch(VALORA_KEY_DISTRIBUTER_URL, postRequestObject)
-      return response.json()
+  React.useEffect(() => {
+    const getSignedUrl = async () => {
+      const response = await fetch(networkConfig.signMoonpayUrl, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currency: currencyToBuy,
+          address: account,
+          fiatCurrency: currencyCode,
+          fiatAmount: new BigNumber(localAmount).toString(),
+        }),
+      })
+      const json = await response.json()
+      return json.url
     }
 
-    getApiKey()
-      .then(setApiKeys)
-      .catch(() => showError(ErrorMessages.FIREBASE_FAILED))
+    getSignedUrl()
+      .then(setUri)
+      .catch(() => showError(ErrorMessages.FIREBASE_FAILED)) // Firebase signing function failed
   }, [])
 
-  const uri = `
-  ${MOONPAY_URI}
-    ?apiKey=${apiKeys?.publicKey}
-    &currencyCode=${currencyToBuy}
-    &walletAddress=${account}
-    &baseCurrencyCode=${currencyCode}
-    &baseCurrencyAmount=${localAmount}
-    &redirectURL=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
-    `.replace(/\s+/g, '')
-
-  const signature = !apiKeys?.privateKey
-    ? ''
-    : crypto
-        .createHmac('sha256', apiKeys.privateKey)
-        .update(new URL(uri).search)
-        .digest('base64')
-
-  const urlWithSignature = `${uri}&signature=${encodeURIComponent(signature)}`
-
-  return <InAppBrowser uri={urlWithSignature} isLoading={!apiKeys} onCancel={navigateBack} />
+  return <InAppBrowser uri={uri} isLoading={uri === ''} onCancel={navigateBack} />
 }
 
 export default MoonPayScreen

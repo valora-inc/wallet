@@ -27,6 +27,7 @@ interface NetworkConfig {
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
   moonpayWidgetUrl: string
+  signMoonpayUrl: string
   rampWidgetUrl: string
   transakWidgetUrl: string
   useDiscovery: boolean
@@ -40,6 +41,11 @@ interface NetworkConfig {
 
 const moonpayWidgetStaging = 'https://buy-staging.moonpay.io/'
 const moonpayWidgetProd = 'https://buy.moonpay.io/'
+
+const signMoonpayUrlStaging =
+  'https://us-central1-celo-testnet-production.cloudfunctions.net/signMoonpayStaging'
+const signMoonpayUrlProd =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/signMoonpayProd'
 
 const rampWidgetStaging = 'https://ri-widget-staging.firebaseapp.com'
 const rampWidgetProd = 'https://buy.ramp.network'
@@ -72,6 +78,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
     moonpayWidgetUrl: moonpayWidgetStaging,
+    signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
     transakWidgetUrl: transakWidgetStaging,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
@@ -90,6 +97,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
     moonpayWidgetUrl: moonpayWidgetProd,
+    signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
     transakWidgetUrl: transakWidgetProd,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
