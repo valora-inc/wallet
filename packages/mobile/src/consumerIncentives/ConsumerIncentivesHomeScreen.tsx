@@ -31,7 +31,7 @@ import useSelector from 'src/redux/useSelector'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 import Logger from 'src/utils/Logger'
-import { formatFeedDate } from 'src/utils/time'
+import { formatFeedDate, getNextMondayAt8pmUtc } from 'src/utils/time'
 
 const TAG = 'ConsumerIncentivesHomeScreen'
 
@@ -130,7 +130,7 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
                   ns={Namespaces.consumerIncentives}
                   tOptions={{
                     cUsdToAdd: amountToAdd,
-                    date: formatFeedDate(content.nextDistribution, i18n),
+                    date: formatFeedDate(getNextMondayAt8pmUtc(), i18n),
                     level: t('level', { level: nextLevel }),
                   }}
                 >
