@@ -1,8 +1,15 @@
+import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
-import { ActivityIndicator, Text, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import deviceInfoModule from 'react-native-device-info'
 import { useSelector } from 'react-redux'
+import { e164NumberSelector } from 'src/account/selectors'
+import { sessionIdSelector } from 'src/app/selectors'
+import InAppBrowser from 'src/components/InAppBrowser'
+import WebView, { WebViewRef } from 'src/components/WebView'
 import { CASH_IN_SUCCESS_DEEPLINK, VALORA_LOGO_URL } from 'src/config'
+import { SimplexService } from 'src/fiatExchanges/services/SimplexService'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import config from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -14,15 +21,8 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { currentAccountSelector } from 'src/web3/selectors'
-import { SimplexService } from 'src/fiatExchanges/services/SimplexService'
-import deviceInfoModule from 'react-native-device-info'
-import { e164NumberSelector } from 'src/account/selectors'
-import { sessionIdSelector } from 'src/app/selectors'
-import InAppBrowser from 'src/components/InAppBrowser'
-import WebView, { WebViewRef } from 'src/components/WebView'
-import colors from '@celo/react-components/styles/colors'
 import { navigateToURI } from 'src/utils/linking'
+import { currentAccountSelector } from 'src/web3/selectors'
 
 const MIN_USD_TX_AMOUNT = 15
 
@@ -78,6 +78,7 @@ function SimplexScreen({ route }: Props) {
           },
         })
       )
+      .catch(() => undefined)
   }, [])
 
   useEffect(() => {
@@ -102,6 +103,7 @@ function SimplexScreen({ route }: Props) {
         email: '',
       })
       .then((id) => setPaymentId(id))
+      .catch(() => undefined)
   }, [exchange?.quoteId])
 
   const onNavigationStateChange = ({ url }: any) => {

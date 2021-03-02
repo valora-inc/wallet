@@ -10,8 +10,8 @@ import {
   GETH_USE_STATIC_NODES,
   RECAPTCHA_SITE_KEY_ALFAJORES,
   RECAPTCHA_SITE_KEY_MAINNET,
-  TRANSAK_API_KEY,
   SIMPLEX_API_KEY,
+  TRANSAK_API_KEY,
 } from 'src/config'
 import { GethSyncMode } from 'src/geth/consts'
 import Logger from 'src/utils/Logger'
