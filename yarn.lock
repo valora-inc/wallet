@@ -1347,14 +1347,14 @@
     moment "^2.29.0"
     web3 "1.3.0"
 
-"@celo/identity@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@celo/identity/-/identity-1.0.1.tgz#8f518eacbb4d90d4ff61556e5d0d51137b910aec"
-  integrity sha512-d91pZAwNDFRIUeYtqUrWJb61Yr9GBBuoEFDyLExc/dLk6VdiLkqyE74Ca8jgIRVU+ol9LlYHD/L37hKaXeIVJg==
+"@celo/identity@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@celo/identity/-/identity-1.0.2.tgz#41f0f67b79a3a62e4076507313a5a51ff9f51b02"
+  integrity sha512-Pl2M1B5QclFaW6Z6CZnMisJCLRS/WsgHlOZSQfiYvRSxo+qI3h4cw+UdOOR43f0ePIPafzfRZ9nFlBKQG7owFg==
   dependencies:
-    "@celo/base" "1.0.1"
-    "@celo/contractkit" "1.0.1"
-    "@celo/utils" "1.0.1"
+    "@celo/base" "1.0.2"
+    "@celo/contractkit" "1.0.2"
+    "@celo/utils" "1.0.2"
     "@types/debug" "^4.1.5"
     bignumber.js "^9.0.0"
     blind-threshold-bls "https://github.com/celo-org/blind-threshold-bls-wasm#e1e2f8a"
@@ -1507,28 +1507,28 @@
     eth-lib "^0.2.8"
     ethereumjs-util "^5.2.0"
 
-"@celo/wallet-remote@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@celo/wallet-remote/-/wallet-remote-1.0.1.tgz#b4bb7568aa044af0fc2d8c8a5bd820bb670af0f8"
-  integrity sha512-EyPh6fuOQyrdTOdOlcWX0koIqIzclqp7Lpb6l1X0rVp954G2qiU6LaWpefBZtsmkM968LnJeydCMRLVRZgJ/rg==
+"@celo/wallet-remote@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@celo/wallet-remote/-/wallet-remote-1.0.2.tgz#bdfce18d2dd2efa38b2dfc3ee5eb93bb8b89c8c6"
+  integrity sha512-D5AR/6oC/B/OtCD8FXRuBKFLh4PHJEznzwm9FkSLbHct8C3veIWFV8l+FqORNnBLNvfXXWUW1h9WE9yBbGuhyg==
   dependencies:
-    "@celo/connect" "1.0.1"
-    "@celo/utils" "1.0.1"
-    "@celo/wallet-base" "1.0.1"
+    "@celo/connect" "1.0.2"
+    "@celo/utils" "1.0.2"
+    "@celo/wallet-base" "1.0.2"
     "@types/debug" "^4.1.5"
     "@types/ethereumjs-util" "^5.2.0"
     eth-lib "^0.2.8"
     ethereumjs-util "^5.2.0"
 
-"@celo/wallet-rpc@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@celo/wallet-rpc/-/wallet-rpc-1.0.1.tgz#5a8c897741aed681999c1c838de8ac5259763771"
-  integrity sha512-gW7hxVQgmHDdzcupLgf+FiEStdEJyEL4IHbjtopACI/X9ZVar/uZ73cCJGRHC1R0DoLc1slkDS4fxrZHK4Jz0Q==
+"@celo/wallet-rpc@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@celo/wallet-rpc/-/wallet-rpc-1.0.2.tgz#41dc77cae444feaf3dcfb5853a5797634752611b"
+  integrity sha512-x0K0DL0YXrEdNHI3OudVsYI0ac+3PnVn+rlGFQPqCj4KfMeeXeYMbXwOh8/0gBokLYxTDz9eHuSLe1hv93XzrQ==
   dependencies:
-    "@celo/connect" "1.0.1"
-    "@celo/utils" "1.0.1"
-    "@celo/wallet-base" "1.0.1"
-    "@celo/wallet-remote" "1.0.1"
+    "@celo/connect" "1.0.2"
+    "@celo/utils" "1.0.2"
+    "@celo/wallet-base" "1.0.2"
+    "@celo/wallet-remote" "1.0.2"
     bignumber.js "^9.0.0"
     debug "^4.1.1"
 
