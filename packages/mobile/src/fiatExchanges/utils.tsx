@@ -6,22 +6,20 @@ import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
 
 export const fetchProviderApiKey = async (provider: Providers) => {
-  const postRequestObject = createApiKeyPostRequestObj(provider)
-  const response = await fetch(VALORA_KEY_DISTRIBUTER_URL, postRequestObject)
+  const response = await fetch(VALORA_KEY_DISTRIBUTER_URL, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      provider,
+      env: DEFAULT_TESTNET,
+    }),
+  })
+
   return response.json()
 }
-
-const createApiKeyPostRequestObj = (provider: Providers) => ({
-  method: 'POST',
-  headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    provider,
-    env: DEFAULT_TESTNET,
-  }),
-})
 
 export const openMoonpay = (
   amount: number,
