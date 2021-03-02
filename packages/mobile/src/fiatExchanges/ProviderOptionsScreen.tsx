@@ -52,6 +52,13 @@ interface Provider {
   onSelected: () => void
 }
 
+export enum PROVIDER_ENUM {
+  MOONPAY = 'MOONPAY',
+  RAMP = 'RAMP',
+  TRANSAK = 'TRANSAK',
+  SIMPLEX = 'SIMPLEX',
+}
+
 export interface ProviderApiKeys {
   publicKey: string
   privateKey: string

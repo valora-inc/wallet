@@ -5,8 +5,9 @@ import { useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import InAppBrowser from 'src/components/InAppBrowser'
-import { CASH_IN_SUCCESS_DEEPLINK, DEFAULT_TESTNET, VALORA_KEY_DISTRIBUTER_URL } from 'src/config'
-import { ProviderApiKeys } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { CASH_IN_SUCCESS_DEEPLINK, VALORA_KEY_DISTRIBUTER_URL } from 'src/config'
+import { ProviderApiKeys, PROVIDER_ENUM } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { createApiKeyPostRequestObj } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -33,19 +34,9 @@ function MoonPayScreen({ route }: Props) {
   const account = useSelector(currentAccountSelector)
 
   useEffect(() => {
+    const postRequestObject = createApiKeyPostRequestObj(PROVIDER_ENUM.MOONPAY)
     const getApiKey = async () => {
-      const response = await fetch(VALORA_KEY_DISTRIBUTER_URL, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          provider: 'moonpay',
-          env: DEFAULT_TESTNET,
-        }),
-      })
-
+      const response = await fetch(VALORA_KEY_DISTRIBUTER_URL, postRequestObject)
       return response.json()
     }
 

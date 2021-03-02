@@ -91,11 +91,7 @@ export const GETH_START_HTTP_RPC_SERVER = stringToBoolean(
 export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SEGMENT_API_KEY')
 export const FIREBASE_WEB_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'FIREBASE_WEB_KEY')
 export const SENTRY_URL = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SENTRY_URL')
-export const MOONPAY_PUBLIC_KEY = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'MOONPAY_PUBLIC_KEY'
-)
+
 export const RECAPTCHA_SITE_KEY_ALFAJORES = keyOrUndefined(
   secretsFile,
   Config.SECRETS_KEY,
@@ -107,7 +103,7 @@ export const RECAPTCHA_SITE_KEY_MAINNET = keyOrUndefined(
   'RECAPTCHA_SITE_KEY_MAINNET'
 )
 export const SAFETYNET_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SAFETYNET_KEY')
-export const MOONPAY_RATE_API = `https://api.moonpay.io/v3/currencies/celo/price?apiKey=${MOONPAY_PUBLIC_KEY}`
+
 export const BIDALI_URL_ALFAJORES = keyOrUndefined(
   secretsFile,
   Config.SECRETS_KEY,
