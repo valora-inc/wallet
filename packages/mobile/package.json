@@ -41,7 +41,7 @@
   "dependencies": {
     "@celo/client": "0.0.319",
     "@celo/connect": "1.0.1",
-    "@celo/contractkit": "1.0.1",
+    "@celo/contractkit": "1.0.2",
     "@celo/identity": "1.0.1",
     "@celo/komencikit": "0.0.1-dev",
     "@celo/network-utils": "1.0.1",
