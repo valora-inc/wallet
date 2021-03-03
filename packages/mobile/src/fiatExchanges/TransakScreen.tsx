@@ -4,7 +4,7 @@ import { BackHandler, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import WebView, { WebViewRef } from 'src/components/WebView'
 import { CURRENCY_ENUM } from 'src/geth/consts'
-import config from 'src/geth/networkConfig'
+import { default as config, default as networkConfig } from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
@@ -50,7 +50,7 @@ function TransakScreen({ route }: Props) {
 
   const uri = `
     ${TRANSAK_URI}
-      ?apiKey=${config.transakApiKey}
+      ?apiKey=${networkConfig.transakApiKey}
       &hostURL=${encodeURIComponent('https://www.valoraapp.com')}
       &walletAddress=${account}
       &disableWalletAddressForm=true
