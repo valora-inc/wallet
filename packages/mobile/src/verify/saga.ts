@@ -89,6 +89,8 @@ import {
   shouldUseKomenciSelector,
   start,
   startKomenciSession,
+  stop,
+  withoutRevealingSelector,
 } from 'src/verify/reducer'
 import { getContractKit } from 'src/web3/contracts'
 import { registerWalletAndDekViaKomenci } from 'src/web3/dataEncryptionKey'
@@ -186,6 +188,12 @@ export function* fetchKomenciSession(komenciKit: KomenciKit, e164Number: string)
 }
 
 function* startOrResumeKomenciSessionSaga() {
+  const withoutRevealing = yield select(withoutRevealingSelector)
+  // TODO: Move this out of saga
+  yield call(navigate, Screens.VerificationLoadingScreen, {
+    withoutRevealing,
+  })
+
   Logger.debug(TAG, '@startOrResumeKomenciSession', 'Starting session')
   // Fetch session state to make sure we have the most up-to-date session info
   // yield call(fetchKomenciSessionState, komenciKit, e164Number)
@@ -260,12 +268,7 @@ export function* checkIfKomenciAvailableSaga() {
 }
 
 export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof start>) {
-  // TODO: Move this out of saga
   try {
-    yield call(navigate, Screens.VerificationLoadingScreen, {
-      withoutRevealing,
-    })
-
     const contractKit = yield call(getContractKit)
     const walletAddress = yield call(getConnectedUnlockedAccount)
 
@@ -290,6 +293,10 @@ export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof 
         if (!komenci.sessionActive) {
           yield put(ensureRealHumanUser())
         } else {
+          // TODO: Move this out of saga
+          yield call(navigate, Screens.VerificationLoadingScreen, {
+            withoutRevealing,
+          })
           yield put(fetchPhoneNumberDetails())
         }
       } catch (e) {
@@ -665,6 +672,12 @@ export function* resetSaga() {
   yield put(updateE164PhoneNumberSalts({ [e164Number]: null }))
 }
 
+export function* stopSaga() {
+  Logger.error(TAG, `@stopSaga called`)
+  // TODO: Move this out of saga
+  yield call(navigate, Screens.VerificationEducationScreen, {})
+}
+
 export function* verifySaga() {
   Logger.debug(TAG, 'Initializing verify sagas')
   yield takeEvery(checkIfKomenciAvailable.type, checkIfKomenciAvailableSaga)
@@ -676,6 +689,7 @@ export function* verifySaga() {
   yield takeLatest(doVerificationFlow.type, doVerificationFlowSaga)
   yield takeEvery(fail.type, failSaga)
   yield takeEvery(reset.type, resetSaga)
+  yield takeEvery(stop.type, stopSaga)
   // TODO: this can be calculated in reducer, once we stop using identify/reducer for verification
   yield takeEvery(Actions.COMPLETE_ATTESTATION_CODE, fetchOnChainDataSaga)
 }

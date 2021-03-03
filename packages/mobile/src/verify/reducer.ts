@@ -149,6 +149,7 @@ export interface State {
   phoneHash?: string
   e164Number?: string
   retries: number
+  withoutRevealing: boolean
   TEMPORARY_override_withoutVerification?: boolean
 }
 
@@ -172,6 +173,7 @@ const initialState: State = {
   retries: 0,
   currentState: idle(),
   komenciAvailable: KomenciAvailable.Unknown,
+  withoutRevealing: false,
   TEMPORARY_override_withoutVerification: undefined,
 }
 
@@ -200,6 +202,7 @@ export const reducer = createReducer(initialState, (builder) => {
         ...state,
         e164Number: action.payload.e164Number,
         currentState: preparing(),
+        withoutRevealing: action.payload.withoutRevealing,
       }
     })
     .addCase(ensureRealHumanUser, (state) => {
@@ -360,3 +363,4 @@ export const isBalanceSufficientSelector = createSelector(
     return isBalanceSufficient
   }
 )
+export const withoutRevealingSelector = (state: RootState) => state.verify.withoutRevealing
