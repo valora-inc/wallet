@@ -21,7 +21,7 @@ const MIN_USD_TX_AMOUNT = 15
 
 export const rampOptions = () => ({
   ...emptyHeader,
-  headerTitle: (RAMP_URI.match(/(?!(w+)\.)\w*(?:\w+\.)+\w+/) || [])[0],
+  headerTitle: (RAMP_URI.match(/(?!(w+)\.)(-|\w)*(?:\w+\.)+\w+/) || [])[0],
   headerLeft: () => <TopBarTextButton title={i18n.t('global:done')} onPress={navigateBack} />,
 })
 
