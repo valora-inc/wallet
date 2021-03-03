@@ -31,7 +31,7 @@ const TAG = 'transactions/TransactionsList'
 export const POLL_INTERVAL = 10000 // 10 secs
 
 interface OwnProps {
-  currency: CURRENCY_ENUM
+  feedType: FeedType
 }
 
 interface StateProps {
@@ -49,7 +49,7 @@ interface DispatchProps {
 type Props = OwnProps & StateProps & DispatchProps
 
 export const TRANSACTIONS_QUERY = gql`
-  query UserTransactions($address: Address!, $token: Token!, $localCurrencyCode: String) {
+  query UserTransactions($address: Address!, $token: Token, $localCurrencyCode: String) {
     tokenTransactions(address: $address, token: $token, localCurrencyCode: $localCurrencyCode) {
       edges {
         node {
@@ -230,15 +230,15 @@ export class TransactionsList extends React.PureComponent<Props> {
   render() {
     const {
       address,
-      currency,
+      feedType,
       localCurrencyCode,
       localCurrencyExchangeRate,
       standbyTransactions,
     } = this.props
 
     const queryAddress = address || ''
-    const token = currency === CURRENCY_ENUM.GOLD ? Token.CGld : Token.CUsd
-    const kind = currency === CURRENCY_ENUM.GOLD ? FeedType.EXCHANGE : FeedType.HOME
+    const token = feedType === FeedType.EXCHANGE ? Token.CGld : null
+    const currency = feedType === FeedType.EXCHANGE ? CURRENCY_ENUM.GOLD : CURRENCY_ENUM.DOLLAR
 
     const UserTransactions = ({
       loading,
@@ -254,13 +254,9 @@ export class TransactionsList extends React.PureComponent<Props> {
       const queryDataTxHashes = new Set(transactions.map((tx) => tx.hash))
       const standbyTxs = standbyTransactions
         .filter((tx) => {
-          const isForQueriedCurrency =
-            (tx as TransferStandby).symbol === currency ||
-            (tx as ExchangeStandby).inSymbol === currency ||
-            (tx as ExchangeStandby).outSymbol === currency
           const notInQueryTxs =
             (!tx.hash || !queryDataTxHashes.has(tx.hash)) && tx.status !== TransactionStatus.Failed
-          return isForQueriedCurrency && notInQueryTxs
+          return notInQueryTxs
         })
         .map(
           mapStandbyTransactionToFeedItem(currency, localCurrencyCode, localCurrencyExchangeRate)
@@ -268,7 +264,7 @@ export class TransactionsList extends React.PureComponent<Props> {
 
       const feedData = [...standbyTxs, ...transactions].map(mapInvite)
 
-      return <TransactionFeed kind={kind} loading={loading} error={error} data={feedData} />
+      return <TransactionFeed kind={feedType} loading={loading} error={error} data={feedData} />
     }
 
     return (

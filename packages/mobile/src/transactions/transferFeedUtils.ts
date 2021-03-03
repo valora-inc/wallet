@@ -80,7 +80,8 @@ export function getTransferFeedParams(
   rawComment: string | null,
   commentKey: string | null,
   timestamp: number,
-  invitees: InviteDetails[]
+  invitees: InviteDetails[],
+  isCeloRewardSender: boolean
 ) {
   const e164PhoneNumber = addressToE164Number[address]
   const recipient = getRecipient(
@@ -144,8 +145,13 @@ export function getTransferFeedParams(
       break
     }
     case TokenTransactionType.Received: {
-      title = t('feedItemReceivedTitle', { displayName })
-      info = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
+      if (isCeloRewardSender) {
+        title = t('feedItemRewardReceivedTitle')
+        info = t('feedItemRewardReceivedInfo')
+      } else {
+        title = t('feedItemReceivedTitle', { displayName })
+        info = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
+      }
       break
     }
     case TokenTransactionType.EscrowSent: {

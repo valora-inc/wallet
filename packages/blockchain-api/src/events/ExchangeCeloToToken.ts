@@ -1,3 +1,4 @@
+import { CUSD } from '../currencyConversion/consts'
 import { EventBuilder } from '../helpers/EventBuilder'
 import { Transaction } from '../transaction/Transaction'
 import { TransactionType } from '../transaction/TransactionType'
@@ -28,7 +29,7 @@ export class ExchangeCeloToToken extends TransactionType {
       transaction,
       inTransfer,
       outTransfer,
-      this.context.token,
+      this.context.token || CUSD,
       transaction.fees
     )
   }
