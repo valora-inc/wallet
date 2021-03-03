@@ -47,7 +47,8 @@ function RampScreen({ route }: Props) {
 
   const uri = `
     ${RAMP_URI}
-      ?userAddress=${account}
+      ?hostApiKey=${config.rampApiKey}
+      &userAddress=${account}
       &swapAsset=${asset}
       &hostAppName=Valora
       &hostLogoUrl=${VALORA_LOGO_URL}

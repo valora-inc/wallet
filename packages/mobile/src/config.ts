@@ -119,6 +119,8 @@ export const BIDALI_URL_MAINNET = keyOrUndefined(
   'BIDALI_URL_MAINNET'
 )
 
+export const RAMP_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'RAMP_API_KEY')
+
 export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [
   {
     name: 'Binance',

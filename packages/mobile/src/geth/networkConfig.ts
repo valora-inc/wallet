@@ -8,6 +8,7 @@ import {
   FORNO_ENABLED_INITIALLY,
   GETH_USE_FULL_NODE_DISCOVERY,
   GETH_USE_STATIC_NODES,
+  RAMP_API_KEY,
   RECAPTCHA_SITE_KEY_ALFAJORES,
   RECAPTCHA_SITE_KEY_MAINNET,
 } from 'src/config'
@@ -28,6 +29,7 @@ interface NetworkConfig {
   odisPubKey: string
   signMoonpayUrl: string
   rampWidgetUrl: string
+  rampApiKey: string
   useDiscovery: boolean
   useStaticNodes: boolean
   komenciUrl: string
@@ -71,6 +73,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
+    rampApiKey: RAMP_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_STAGING,
@@ -88,6 +91,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
+    rampApiKey: RAMP_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_MAINNET,
