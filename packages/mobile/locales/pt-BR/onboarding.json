@@ -1,118 +1,118 @@
 {
   "education": {
-    "step1": "{{appName}} é uma nova forma de enviar e receber valores em todo o mundo",
-    "step2": "Envie fundos internacionalmente",
-    "step3": "Conveniente, confiável e seguro. Seu celular é a sua conta"
+    "step1": "{{appName}} is a new way to send and receive value worldwide",
+    "step2": "Send funds across borders",
+    "step3": "Convenient, reliable, and secure. Your phone is your wallet"
   },
   "welcome": {
-    "title": "Compartilhe dinheiro com quem você valoriza",
-    "createAccount": "Criar nova conta",
-    "restoreAccount": "Já tenho uma conta"
+    "title": "Share money with those you value",
+    "createAccount": "Create new account",
+    "restoreAccount": "I have an account"
   },
   "contacts": {
-    "header": "Conectar contatos",
-    "body": "Adicionar seus contatos facilita o envio e solicitação de pagamentos dos seus amigos. Conectar-se não envia convites para seus contatos.",
-    "findSwitch": "Permita que seus contatos encontrem você",
+    "header": "Connect Contacts",
+    "body": "Adding your contacts makes it easy to send and request payments with your friends. Connecting does not send invites to your contacts.",
+    "findSwitch": "Allow contacts to find you",
     "syncing": {
-      "loadingHeader": "Sincronizando...",
-      "loadingStatus0": "Importando contatos",
-      "loadingStatus1": "Processando {{total}} contatos",
-      "loadingStatus2": "Encontrar amigos",
-      "successHeader": "Concluído",
-      "successWithMatches": "{{matches}} amigos em {{appName}} ",
-      "successWithoutMatches": "Sincronização completa"
+      "loadingHeader": "Syncing...",
+      "loadingStatus0": "Importing contacts",
+      "loadingStatus1": "Processing {{total}} contacts",
+      "loadingStatus2": "Finding friends",
+      "successHeader": "Completed",
+      "successWithMatches": "{{matches}} friends on {{appName}}",
+      "successWithoutMatches": "Syncing complete"
     }
   },
-  "createAccount": "Criar conta",
-  "restoreAccount": "Restaurar minha conta",
-  "step": "Etapa {{step}} de 5",
-  "selectCountryCode": "Selecione o código do país",
+  "createAccount": "Create Account",
+  "restoreAccount": "Restore my Account",
+  "step": "Step {{step}} of 5",
+  "selectCountryCode": "Select Country Code",
   "pincodeSet": {
-    "create": "Criar um PIN",
-    "verify": "Insira o PIN novamente",
-    "pinsDontMatch": "Os PINs não coincidem",
-    "invalidPin": "Use um PIN mais forte"
+    "create": "Create a PIN",
+    "verify": "Enter PIN again",
+    "pinsDontMatch": "The PINs didn't match",
+    "invalidPin": "Please use a stronger PIN"
   },
   "inviteCode": {
-    "title": "Código de convite",
-    "body": "Você recebeu um pagamento ou convite? Em caso afirmativo, copie e cole o código de convite abaixo.",
-    "label": "Código de convite",
-    "codePlaceholder": "Insira o código de convite",
-    "noCode": "Não tenho um código de convite",
-    "nodeCodeInviteLink": "Não tem um código de convite? Solicite um em <0>celo.org/developers/wallet</0> ou <1>continue sem</1>",
-    "loadingHeader": "Criando conta...",
-    "loadingBody": "Isso pode levar até 90 segundos"
+    "title": "Invite Code",
+    "body": "Did you receive a payment or invite? If so, please copy and paste the Invite Code below.",
+    "label": "Invite Code",
+    "codePlaceholder": "Enter invite code",
+    "noCode": "Don’t have an Invite Code",
+    "nodeCodeInviteLink": "Don’t have an invite code? Request one at <0>celo.org/developers/wallet</0> or <1>continue without</1>",
+    "loadingHeader": "Creating account...",
+    "loadingBody": "This can take up to 90 seconds"
   },
   "verificationEducation": {
-    "title": "Número de telefone",
-    "header": "Conecte seu número de telefone",
-    "body": "Para ter certeza de que seu número é realmente seu, enviaremos três mensagens que custarão cerca de 0,05 cUSD cada.\n\nA confirmação do seu número leva cerca de três minutos.",
-    "feelessBody": "A conexão leva cerca de três minutos. Para confirmar seu número, você receberá três mensagens.",
-    "start": "Iniciar",
-    "resume": "Continuar",
-    "doINeedToConfirm": "Preciso confirmar?",
-    "skipForNow": "Pular por enquanto",
-    "bodyInsufficientBalance": "Seu saldo atual não é alto o suficiente para concluir o processo de verificação.\n\nTente novamente quando tiver adicionado fundos à sua conta.",
-    "bodyAlreadyVerified": "Seu número já está confirmado!"
+    "title": "Phone Number",
+    "header": "Connect your phone number",
+    "body": "To make sure your number is really yours, we’re going to send you three messages that will cost about 0.05 cUSD each.\n\nConfirming your number takes about three minutes.",
+    "feelessBody": "Connecting takes about three minutes. To confirm your number, you’ll receive three messages.",
+    "start": "Start",
+    "resume": "Resume",
+    "doINeedToConfirm": "Do I need to confirm?",
+    "skipForNow": "Skip for now",
+    "bodyInsufficientBalance": "Your current balance is not high enough to complete the verification process.\n\nPlease try again when you have added funds to your wallet.",
+    "bodyAlreadyVerified": "Your number is already confirmed!"
   },
   "verificationSkipDialog": {
-    "title": "Tem certeza?",
-    "body": "A confirmação permite enviar e receber fundos facilmente para o seu número de telefone.\n\nContas não confirmadas só podem enviar pagamentos usando endereços Celo ou códigos QR.",
-    "cancel": "Voltar",
-    "confirm": "Pular por enquanto"
+    "title": "Are you sure?",
+    "body": "Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.",
+    "cancel": "Go Back",
+    "confirm": "Skip for now"
   },
-  "verificationPrematureRevealMessage": "Espere um minuto antes de reenviar",
+  "verificationPrematureRevealMessage": "Please wait one minute before resending",
   "verificationLearnMoreDialog": {
-    "title": "Números de telefone e {{appName}} ",
-    "body": "A confirmação torna mais fácil se conectar com seus amigos, permitindo que você envie e receba fundos em seu número de telefone.\n\n<0>Posso fazer isso mais tarde?</0>\n\n Sim, mas contas não confirmadas só podem enviar pagamentos com códigos QR ou números de conta (endereços).\n\n<1>Seguro e Privado</1>\n\nO Valora usa criptografia de última geração para manter o seu número de telefone privado.",
-    "dismiss": "Ignorar"
+    "title": "Phone Numbers and {{appName}}",
+    "body": "Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but unconfirmed accounts can only send payments with QR codes or account numbers (addresses).\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
+    "dismiss": "Dismiss"
   },
   "importExistingKey": {
-    "explanation": "Sua Chave de Conta é uma frase de 24 palavras que você anotou e salvou ao configurar sua conta. Insira-a aqui para restaurar sua conta.",
-    "keyPlaceholder": "cavalo leopardo cachorro macaco..."
+    "explanation": "Your Account Key is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
+    "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
-    "title": "Confirmar",
-    "body": "Enviamos três mensagens para você (SMS). Copie e cole-os abaixo.",
-    "body_ios": "Enviamos três mensagens para você (SMS). Toque no link de cada mensagem para preencher os códigos abaixo ou copie e cole-os manualmente.",
-    "body_short": "Enviamos três códigos para {{phoneNumber}}, insira-os abaixo.",
-    "codeLabel1": "Primeiro código",
-    "codeLabel2": "Segundo código",
-    "codeLabel3": "Terceiro código",
-    "codePlaceholder1": "Copiar a primeira mensagem",
-    "codePlaceholder1_ios": "Toque ou copie a primeira mensagem",
-    "codePlaceholder2": "Copiar a segunda mensagem",
-    "codePlaceholder2_ios": "Toque ou copie a segunda mensagem",
-    "codePlaceholder3": "Copiar a terceira mensagem",
-    "codePlaceholder3_ios": "Toque ou copie a terceira mensagem",
-    "codePlaceholderWithCodeInClipboard": "Ótimo! Cole aqui",
-    "resendMessages": "Reenviar última mensagem",
-    "resendMessages_plural": "Reenviar {{count}} mensagens",
-    "resendMessages_all": "Reenviar todas as mensagens"
+    "title": "Confirm",
+    "body": "We sent you three messages (SMS). Please copy and paste them below.",
+    "body_ios": "We sent you three messages (SMS). Please tap the link in each message to fill the codes below or copy and paste them manually.",
+    "body_short": "We sent three codes to {{phoneNumber}}, please enter them below.",
+    "codeLabel1": "First Code",
+    "codeLabel2": "Second Code",
+    "codeLabel3": "Third Code",
+    "codePlaceholder1": "Copy the first message",
+    "codePlaceholder1_ios": "Tap or copy the first message",
+    "codePlaceholder2": "Copy the second message",
+    "codePlaceholder2_ios": "Tap or copy the second message",
+    "codePlaceholder3": "Copy the third message",
+    "codePlaceholder3_ios": "Tap or copy the third message",
+    "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
+    "resendMessages": "Resend last message",
+    "resendMessages_plural": "Resend {{count}} messages",
+    "resendMessages_all": "Resend all messages"
   },
   "verificationInputHelpDialog": {
-    "title": "Ajuda",
+    "title": "Help",
     "bodySection1": {
-      "title": "Você recebeu todas as três mensagens?",
-      "content": "Se suas mensagens tiverem um link, basta tocar neles para confirmar.\n\nSe não houver links, copie e cole as mensagens nos campos. Você pode colar a mensagem inteira."
+      "title": "Received all three messages?",
+      "content": "If your messages contain a link, simply tap the links to confirm.\n\nIf there are no links, please copy and paste the messages into the fields. You’re welcome to paste the entire message."
     },
     "bodySection2": {
-      "title": "Estão faltando algumas ou todas as mensagens?",
-      "defaultContent": "Se você estiver tendo problemas para receber mensagens, você pode pular esta etapa por enquanto e tentar novamente mais tarde. Às vezes, pode levar alguns minutos para que as mensagens cheguem.",
+      "title": "Missing some or all messages?",
+      "defaultContent": "If you’re having trouble receiving messages, you can skip this step for now and try again later. Sometimes it can take a few minutes for messages to arrive.",
       "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
-      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) A opção de ignorar abaixo estará disponível em {{count}} segundo.",
-      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) A opção de ignorar abaixo estará disponível em {{count}} segundos."
+      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} second.",
+      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) The skip option below will be available in {{count}} seconds."
     },
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
-    "skip": "Pular por enquanto",
-    "back": "Voltar"
+    "skip": "Skip for now",
+    "back": "Go Back"
   },
   "emptyAccount": {
-    "description": "Esta conta não tem fundos. Você ainda gostaria de usar?",
-    "useAccount": "Usar conta",
-    "title": "Saldo <0></0>"
+    "description": "This account doesn’t have any funds. Would you still like to use it?",
+    "useAccount": "Use Account",
+    "title": "Balance <0></0>"
   },
   "success": {
-    "message": "Tudo pronto!"
+    "message": "You're all set!"
   }
 }
