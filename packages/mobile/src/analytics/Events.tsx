@@ -313,8 +313,14 @@ export enum FiatExchangeEvents {
   // TODO: find event trigger for cico_fund_info_cancel (FiatExchange.tsx)
   cico_fund_info_cancel = 'cico_fund_info_cancel',
 
+  cico_external_exchanges_back = 'cico_external_exchanges_back',
   cico_info_icon_pressed = 'cico_info_icon_pressed',
   cico_info_icon_cancel = 'cico_info_icon_cancel',
+
+  cico_add_funds_amount_continue = 'cico_add_funds_amount_continue',
+  cico_add_funds_amount_back = 'cico_add_funds_amount_back',
+  cico_add_funds_amount_insufficient = 'cico_add_funds_amount_insufficient',
+  cico_add_funds_amount_dialog_cancel = 'cico_add_funds_amount_dialog_cancel',
 
   // Tracking for the following events is not yet implemented
   cico_add_funds_continue = 'cico_add_funds_continue',

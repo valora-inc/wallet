@@ -1,4 +1,5 @@
 import { CURRENCY_ENUM } from '@celo/utils'
+import BigNumber from 'bignumber.js'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
@@ -733,12 +734,21 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_spend_selected]: undefined
   [FiatExchangeEvents.cico_fund_info]: undefined
   [FiatExchangeEvents.cico_fund_info_cancel]: undefined
+  [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_info_icon_pressed]: {
     isCashIn: boolean
   }
   [FiatExchangeEvents.cico_info_icon_cancel]: {
     isCashIn: boolean
   }
+  [FiatExchangeEvents.cico_add_funds_amount_continue]: {
+    dollarAmount: BigNumber
+  }
+  [FiatExchangeEvents.cico_add_funds_amount_back]: undefined
+  [FiatExchangeEvents.cico_add_funds_amount_insufficient]: {
+    dollarAmount: BigNumber
+  }
+  [FiatExchangeEvents.cico_add_funds_amount_dialog_cancel]: undefined
   [FiatExchangeEvents.cico_add_funds_continue]: {
     payMethod: string
     currency: CURRENCY_ENUM

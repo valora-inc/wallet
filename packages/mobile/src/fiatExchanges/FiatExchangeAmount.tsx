@@ -15,6 +15,8 @@ import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { cUsdDailyLimitSelector } from 'src/account/selectors'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
@@ -83,7 +85,10 @@ function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
 
   const [showingMinAmountDialog, setShowingMinAmountDialog] = useState(false)
-  const closeMinAmountDialog = () => setShowingMinAmountDialog(false)
+  const closeMinAmountDialog = () => {
+    setShowingMinAmountDialog(false)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_dialog_cancel)
+  }
   const [showingDailyLimitDialog, setShowingDailyLimitDialog] = useState(false)
 
   const [inputAmount, setInputAmount] = useState('')
@@ -136,6 +141,9 @@ function FiatExchangeAmount({ route }: Props) {
   function onPressContinue() {
     if (dollarAmount.isLessThan(DOLLAR_ADD_FUNDS_MIN_AMOUNT)) {
       setShowingMinAmountDialog(true)
+      ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_insufficient, {
+        dollarAmount,
+      })
       return
     }
     if (dollarAmount.isGreaterThan(dailyLimitCusd)) {
@@ -143,6 +151,9 @@ function FiatExchangeAmount({ route }: Props) {
       return
     }
 
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_continue, {
+      dollarAmount,
+    })
     goToProvidersScreen()
   }
 
@@ -260,9 +271,11 @@ FiatExchangeAmount.navOptions = ({
 }: {
   route: RouteProp<StackParamList, Screens.FiatExchangeAmount>
 }) => {
+  const eventName = FiatExchangeEvents.cico_add_funds_amount_back
+
   return {
     ...emptyHeader,
-    headerLeft: () => <BackButton />,
+    headerLeft: () => <BackButton eventName={eventName} />,
     headerTitle: () => (
       <HeaderTitleWithBalance
         title={i18n.t('fiatExchangeFlow:addFunds')}
