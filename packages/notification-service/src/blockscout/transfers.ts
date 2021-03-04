@@ -57,22 +57,12 @@ async function getLatestTokenTransfers(
   return { transfers, latestBlock }
 }
 
-function toTransferArray(transfersByTx: Map<string, Transfer[]>) {
-  return [...transfersByTx?.values()]
-    .filter((transferList) => transferList.length > 0)
-    .map((transferList) => {
-      const amount = Math.max(...transferList.map((t) => parseFloat(t.value)))
-      const transfer = transferList.find((t) => parseFloat(t.value) === amount)
-      return transfer!
-    })
-}
-
 export function filterAndJoinTransfers(
   celoTransfersByTx: Map<string, Transfer[]> | null,
   stableTransfersByTx: Map<string, Transfer[]> | null
 ): Transfer[] {
-  const stableTransfers = stableTransfersByTx ? toTransferArray(stableTransfersByTx) : []
-  const celoTransfers = celoTransfersByTx ? toTransferArray(celoTransfersByTx) : []
+  const stableTransfers = stableTransfersByTx ? flat([...stableTransfersByTx.values()]) : []
+  const celoTransfers = celoTransfersByTx ? flat([...celoTransfersByTx.values()]) : []
 
   // Exclude transaction found in both maps as those are from exchanges
   const filteredCelo = celoTransfers.filter((t) => !stableTransfersByTx?.has(t.txHash))
