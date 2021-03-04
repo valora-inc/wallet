@@ -8,7 +8,6 @@ import {
   FORNO_ENABLED_INITIALLY,
   GETH_USE_FULL_NODE_DISCOVERY,
   GETH_USE_STATIC_NODES,
-  RAMP_API_KEY,
   RECAPTCHA_SITE_KEY_ALFAJORES,
   RECAPTCHA_SITE_KEY_MAINNET,
 } from 'src/config'
@@ -30,7 +29,6 @@ interface NetworkConfig {
   moonpayWidgetUrl: string
   signMoonpayUrl: string
   rampWidgetUrl: string
-  rampApiKey: string
   transakWidgetUrl: string
   useDiscovery: boolean
   useStaticNodes: boolean
@@ -82,7 +80,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     moonpayWidgetUrl: moonpayWidgetStaging,
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
-    rampApiKey: RAMP_API_KEY,
     transakWidgetUrl: transakWidgetStaging,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
@@ -102,7 +99,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     moonpayWidgetUrl: moonpayWidgetProd,
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
-    rampApiKey: RAMP_API_KEY,
     transakWidgetUrl: transakWidgetProd,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
