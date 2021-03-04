@@ -1,20 +1,20 @@
 {
-  "steps":  [
+  "steps": [
     {
-    "title": "O que é CELO?",
-    "text": "O CELO ajuda a manter a Rede Celo funcionando e o Celo Dólar estável."
+      "title": "What is CELO?",
+      "text": "CELO helps keep the Celo Network running and the Celo Dollar stable."
     },
     {
-      "title": "Alterações de preço do CELO",
-      "text": "Ao contrário dos Celo Dólares, o valor do CELO muda. Se mais pessoas usarem o Celo Dólar, o valor do CELO aumenta."
+      "title": "CELO’s price changes",
+      "text": "Unlike Celo Dollars, the value of CELO changes. If more people use Celo Dollar, the value of CELO increases."
     },
     {
-      "title": "Molde a Rede Celo",
-      "text": "Ao manter o CELO, você pode votar nas alterações e recursos que gostaria de ver na Rede Celo."
+      "title": "Shape the Celo Network",
+      "text": "By holding CELO, you have the ability to vote for changes and features you’d like to see on the Celo Network."
     },
     {
-      "title": "Compre e venda com responsabilidade",
-      "text": "{{appName}} permite que você compre e venda CELO. O CELO apresenta risco de perda financeira, use com cuidado."
+      "title": "Please buy and sell responsibly",
+      "text": "{{appName}} allows you to buy and sell CELO. CELO presents a risk of financial loss, please exercise caution."
     }
-  ] 
+  ]
 }
