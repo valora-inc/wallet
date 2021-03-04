@@ -29,6 +29,8 @@ export class ExchangeCeloToToken extends TransactionType {
       transaction,
       inTransfer,
       outTransfer,
+      // TODO: this will need to be updated once cEUR is introduced
+      // see https://github.com/celo-org/wallet/pull/90#discussion_r587308620
       this.context.token || CUSD,
       transaction.fees
     )
