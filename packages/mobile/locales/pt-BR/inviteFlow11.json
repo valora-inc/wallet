@@ -1,36 +1,36 @@
 {
-  "cancel": "Cancelar",
-  "inviteWithWhatsapp": "Convidar com o WhatsApp",
-  "inviteWithSMS": "Convidar com SMS",
-  "inviteFee": "Taxa de convite",
-  "whySendFees": "Esta taxa cobre os custos para o novo usuário verificar seu número de telefone",
-  "whyReceiveFees": "Você recebeu dinheiro para verificar sua conta",
-  "edit": "Editar",
-  "to": "Para",
-  "inviteSent": "Convite enviado",
-  "searchForSomeone": "Pesquise alguém usando o nome ou número de telefone",
-  "redeemFailed": "Falha ao resgatar o código ",
-  "redeemInviteTimeout": "O convite para resgatar expirou",
-  "accountSetupFailed": "Falha ao criar sua conta",
-  "emptyInviteCode": "O código do convite não tem fundos",
-  "transferDollarsToAccount": "Dólares transferidos para sua conta!",
-  "inviteAnyone": "Envie facilmente para seus amigos adicionando seus contatos",
-  "inviteReceived": "Convite recebido",
-  "escrowPaymentNotificationTitle": "{{mobile}} foi convidado",
+  "cancel": "Cancel",
+  "inviteWithWhatsapp": "Invite with WhatsApp",
+  "inviteWithSMS": "Invite with SMS",
+  "inviteFee": "Invite Fee",
+  "whySendFees": "This fee covers costs for the new user to verify their phone number",
+  "whyReceiveFees": "You were sent some money to verify your account",
+  "edit": "Edit",
+  "to": "To",
+  "inviteSent": "Invite Sent",
+  "searchForSomeone": "Search for someone using their name or phone number",
+  "redeemFailed": "Failure redeeming code ",
+  "redeemInviteTimeout": "Redeem Invite Timed out",
+  "accountSetupFailed": "Failed to create your wallet",
+  "emptyInviteCode": "Invite code has no funds",
+  "transferDollarsToAccount": "Dollars transferred to your account!",
+  "inviteAnyone": "Send easily to your friends by adding your contacts",
+  "inviteReceived": "Invite Received",
+  "escrowPaymentNotificationTitle": "Invited {{mobile}}",
   "inviteDialog": {
-    "title": "Convide um amigo",
-    "body": "Conecte-se e compartilhe valor com seus amigos e familiares no Valora.",
-    "button": "Convidar"
+    "title": "Invite a Friend",
+    "body": "Connect and share value with your friends and family on Valora.",
+    "button": "Invite"
   },
-  "sendAndInvite": "Enviar e convidar",
+  "sendAndInvite": "Send & Invite",
   "inviteAndSendDialog": {
-    "title": "Convidar e enviar",
-    "body": "Seu pagamento para {{name}} estará esperando por ele(a) assim que o número de telefone for verificado. Compartilhe uma mensagem de convite com eles para se inscrever no {{appName}} e reivindicar seu pagamento!",
-    "button": "Convidar"
+    "title": "Invite and Send",
+    "body": "Your payment to {{name}} will be waiting for them once they verify their phone number. Share an invitation message with them to join {{appName}} and redeem your payment!",
+    "button": "Invite"
   },
   "inviteRewardsBanner": {
-    "title": "Ganhe até US$5 ao indicar amigos!",
-    "body": "Envie valor para um amigo para ganhar $ 1 no CELO quando ele se cadastrar. Até 5 amigos por semana."
+    "title": "Get up to $5 by referring friends!",
+    "body": "Send value to a friend to earn $1 in CELO when they join. Up to 5 friends per week"
   },
-  "getReward": "Receba ${{reward}}"
+  "getReward": "Get ${{reward}}"
 }
