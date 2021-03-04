@@ -8,6 +8,7 @@ import {
   FORNO_ENABLED_INITIALLY,
   GETH_USE_FULL_NODE_DISCOVERY,
   GETH_USE_STATIC_NODES,
+  RAMP_API_KEY,
   RECAPTCHA_SITE_KEY_ALFAJORES,
   RECAPTCHA_SITE_KEY_MAINNET,
   TRANSAK_API_KEY,
@@ -29,6 +30,7 @@ interface NetworkConfig {
   odisPubKey: string
   signMoonpayUrl: string
   rampWidgetUrl: string
+  rampApiKey: string
   transakWidgetUrl: string
   transakApiKey: string
   useDiscovery: boolean
@@ -77,6 +79,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
+    rampApiKey: RAMP_API_KEY,
     transakWidgetUrl: transakWidgetStaging,
     transakApiKey: TRANSAK_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
@@ -96,6 +99,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
+    rampApiKey: RAMP_API_KEY,
     transakWidgetUrl: transakWidgetProd,
     transakApiKey: TRANSAK_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,

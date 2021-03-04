@@ -27,5 +27,10 @@
     "title": "Invita y envía",
     "body": "Tu pago estará esperando hasta que {{name}} confirme su número de teléfono. ¡Envíale una invitación para que se registre en {{appName}} y reciba tu pago!",
     "button": "Invitar"
-  }
+  },
+  "inviteRewardsBanner": {
+    "title": "Obtén hasta US$5 al referir amigos!",
+    "body": "Envía valor a un amigo para ganar US$1 en CELO cuando se une. Hasta 5 amigos por semana."
+  },
+  "getReward": "Obtén ${{reward}}"
 }
