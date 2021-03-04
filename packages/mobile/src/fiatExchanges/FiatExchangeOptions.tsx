@@ -44,9 +44,13 @@ export const fiatExchangesOptionsScreenOptions = ({
 }: {
   route: RouteProp<StackParamList, Screens.FiatExchangeOptions>
 }) => {
+  const eventName = route.params?.isCashIn
+    ? FiatExchangeEvents.cico_add_funds_back
+    : FiatExchangeEvents.cico_cash_out_back
+
   return {
     ...emptyHeader,
-    headerLeft: () => <BackButton />,
+    headerLeft: () => <BackButton eventName={eventName} />,
     headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
     headerRightContainerStyle: { paddingRight: 16 },
   }
@@ -157,11 +161,17 @@ function FiatExchangeOptions({ route, navigation }: Props) {
     setSelectedPaymentMethod(paymentMethod)
   const onPressInfoIcon = () => {
     setEducationDialogVisible(true)
-    ValoraAnalytics.track(FiatExchangeEvents.cico_info_icon_pressed, { isCashIn })
+    ValoraAnalytics.track(
+      isCashIn ? FiatExchangeEvents.cico_add_funds_info : FiatExchangeEvents.cico_cash_out_info
+    )
   }
   const onPressDismissEducationDialog = () => {
     setEducationDialogVisible(false)
-    ValoraAnalytics.track(FiatExchangeEvents.cico_info_icon_cancel, { isCashIn })
+    ValoraAnalytics.track(
+      isCashIn
+        ? FiatExchangeEvents.cico_add_funds_info_cancel
+        : FiatExchangeEvents.cico_cash_out_info_cancel
+    )
   }
 
   return (
