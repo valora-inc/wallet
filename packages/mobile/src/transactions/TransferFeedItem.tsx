@@ -95,7 +95,8 @@ export function TransferFeedItem(props: Props) {
     comment,
     commentKey,
     timestamp,
-    invitees
+    invitees,
+    addressToDisplayName[address]?.isCeloRewardSender ?? false
   )
   const imageUrl = (txInfo?.icon || addressToDisplayName[address]?.imageUrl) ?? null
 
