@@ -1,0 +1,10 @@
+{
+  "receivedPayment": "Pago recibido",
+  "receivedEscrowPayment": "Received Escrow Payment",
+  "from": "from",
+  "celoWallet": "{{appName}}",
+  "at": "a",
+  "receivedDollars": "Received Celo Dollars",
+  "verificationMessage": "You paid a fee to verify your account. Welcome to {{appName}}!",
+  "receivedAmountFromCelo": "You received this amount from the Faucet!"
+}
