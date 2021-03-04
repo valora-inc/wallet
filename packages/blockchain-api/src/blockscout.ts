@@ -184,7 +184,7 @@ export class BlockscoutAPI extends RESTDataSource {
 
     return events
       .filter((e) => e)
-      .filter((event) => event.amount.currencyCode === token)
+      .filter((event) => (token ? event.amount.currencyCode === token : true))
       .sort((a, b) => b.timestamp - a.timestamp)
   }
 }

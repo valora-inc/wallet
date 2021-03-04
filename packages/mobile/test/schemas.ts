@@ -489,6 +489,12 @@ export const v7Schema = {
     lastUsedProvider: null,
     txHashToProvider: {},
   },
+  send: {
+    ...v6Schema.send,
+    inviteRewardsEnabled: false,
+    inviteRewardCusd: 1,
+    inviteRewardWeeklyLimit: 5,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
