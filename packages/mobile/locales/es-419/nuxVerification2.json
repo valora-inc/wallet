@@ -3,20 +3,20 @@
   "notReadyForCode": "Aún no está listo para ingresar el código",
   "emptyVerificationCode": "Sin Código en el Portapapeles",
   "invalidVerificationCode": "Código de Confirmación Inválido",
-  "repeatVerificationCode": "Código de confirmación Repetido",
+  "repeatVerificationCode": "Código de Confirmación Repetido",
   "revealAttestationFailure": "Error al solicitar mensaje SMS",
-  "verificationFailure": "Fallo en la confirmación",
+  "verificationFailure": "Fallo en la Confirmación",
   "cantVerifyRevokedAccount": "Esta cuenta ha sido revocada previamente. Crea una nueva cuenta e inténtalo de nuevo.",
-  "verificationTimeout": "Confirmación no pudo ser confirmado a tiempo",
+  "verificationTimeout": "Confirmación no pudo ser confirmada a tiempo",
   "errorRequestCode": "Error al solicitar los códigos.",
   "errorRedeemingCode": "Error al canjear el código.",
   "pleaseRetry": "Por favor reinicie la confirmación.",
   "retryVerification": "Reintentar la confirmación",
   "education": {
-    "header": "Confirmar el celular",
-    "body1": "Te solicitamos que confirmar tu número telefónico.",
+    "header": "Confirmes el celular",
+    "body1": "Te solicitamos que confirmes tu número telefónico.",
     "body2": "Esto facilita el envío y la recepción de valores entre amigos. Puede omitir este paso ahora y hacerlo después.",
-    "learnMore": "Más información sobre la confirmación telefónica",
+    "learnMore": "Más información sobre la confirmación del número telefónico",
     "start": "Comenzar la confirmación",
     "skip": "Omitir por ahora"
   },
@@ -39,7 +39,7 @@
   },
   "skipModal": {
     "header": "¿Omitir la confirmación?",
-    "body1": "La confirmación permite que otras personas te envíen valores a tu número telefónico.",
+    "body1": "La confirmación permite que otras personas te envíen valor a tu número telefónico.",
     "body2": "Sin la confirmación, igual podrá recibir pagos, pero solo mediante las direcciones de cuenta o códigos QR."
   },
   "failModal": {
@@ -59,7 +59,7 @@
     "body2": "Ahorro de Datos le permite comunicarse en la red de Celo de manera más consistente utilizando una conexión confiable",
     "retryButton": "Reintentar con Ahorro de Datos"
   },
-  "congratsVerified": "¡Felicitaciones se ha confirmados tu usuario!",
+  "congratsVerified": "¡Felicitaciones se ha confirmado tu usuario!",
   "notification": {
     "body": "Recibe pagos directamente a tu número de teléfono",
     "cta": "Confirma Ahora"
