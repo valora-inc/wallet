@@ -5,8 +5,13 @@ import colors from '@celo/react-components/styles/colors'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import Dialog from 'src/components/Dialog'
+import Touchable from '@celo/react-components/components/Touchable'
+import InfoIcon from 'src/icons/InfoIcon'
+import variables from '@celo/react-components/styles/variables'
 
 interface Props {
+  service: string
   currencyToBuy: CURRENCY_ENUM
   localCurrency: LocalCurrencyCode
   crypto: {
@@ -20,7 +25,12 @@ interface Props {
   }
 }
 
-export default function ReviewFees({ crypto, fiat, localCurrency, currencyToBuy }: Props) {
+export default function ReviewFees({ service, crypto, fiat, localCurrency, currencyToBuy }: Props) {
+  const [showingTerms, setShowingTerms] = React.useState(false)
+
+  const closeTerms = () => setShowingTerms(false)
+  const openTerms = () => setShowingTerms(true)
+
   const showAmount = (value: number, isCelo: boolean = false, styles: any[] = []) => (
     <CurrencyDisplay
       amount={{
@@ -42,6 +52,14 @@ export default function ReviewFees({ crypto, fiat, localCurrency, currencyToBuy 
 
   return (
     <View style={[styles.review]}>
+      <Dialog isVisible={showingTerms} actionText={'OK'} actionPress={closeTerms}>
+        <View>
+          <Text style={[fontStyles.large600]}>{service} Fees (TBD)</Text>
+        </View>
+        <View>
+          <Text style={[fontStyles.regular]}>Body</Text>
+        </View>
+      </Dialog>
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText]}>Amount ({currencyToBuy})</Text>
         <Text style={[styles.reviewLineText]}>{showAmount(crypto.amount, true)}</Text>
@@ -58,7 +76,12 @@ export default function ReviewFees({ crypto, fiat, localCurrency, currencyToBuy 
         <Text style={[styles.reviewLineText]}>{showAmount(fiat.amount)}</Text>
       </View>
       <View style={[styles.reviewLine]}>
-        <Text style={[styles.reviewLineText]}>Simplex Fee</Text>
+        <View style={[styles.reviewLineInfo]}>
+          <Text style={[styles.reviewLineText]}>{service} Fee</Text>
+          <Touchable style={[styles.icon]} onPress={openTerms} hitSlop={variables.iconHitslop}>
+            <InfoIcon color={colors.gray3} size={14} />
+          </Touchable>
+        </View>
         <Text style={[styles.reviewLineText]}>{showAmount(fiat.fees)}</Text>
       </View>
       <View style={[styles.line]} />
@@ -84,6 +107,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  reviewLineInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
   reviewLineText: {
     ...fontStyles.regular,
   },
@@ -98,5 +125,10 @@ const styles = StyleSheet.create({
     height: 1,
     width: '100%',
     backgroundColor: colors.gray2,
+  },
+  icon: {
+    position: 'relative',
+    top: 5,
+    marginLeft: 6,
   },
 })

@@ -26,7 +26,6 @@ import BackButton from 'src/components/BackButton'
 import ReviewFees from 'src/fiatExchanges/ReviewFees'
 import { currentAccountSelector } from 'src/web3/selectors'
 import TextButton from '@celo/react-components/components/TextButton'
-import Dialog from 'src/components/Dialog'
 import Button, { BtnSizes } from '@celo/react-components/components/Button'
 
 const MIN_USD_TX_AMOUNT = 15
@@ -51,7 +50,6 @@ function SimplexScreen({ route, navigation }: Props) {
   const [paymentId, setPaymentId] = React.useState('')
   const [continueToService, setContinueToService] = React.useState(false)
   const [redirected, setRedirected] = React.useState(false)
-  const [showingTerms, setShowingTerms] = React.useState(false)
 
   let minTxAmount = MIN_USD_TX_AMOUNT
 
@@ -135,9 +133,14 @@ function SimplexScreen({ route, navigation }: Props) {
     }
   }
 
-  const onContinueToServce = () => setContinueToService(true)
-
-  const closeTerms = () => setShowingTerms(false)
+  const onContinueToServce = () => {
+    setContinueToService(true)
+    navigation.setOptions({
+      ...emptyHeader,
+      headerLeft: () => <BackButton />,
+      headerTitle: 'Simplex',
+    })
+  }
 
   const checkoutHtml = simplex.generateForm(paymentId)
 
@@ -153,10 +156,8 @@ function SimplexScreen({ route, navigation }: Props) {
         )}
         {exchange && !continueToService ? (
           <View style={[styles.review]}>
-            <Dialog isVisible={showingTerms} actionText={'OK'} actionPress={closeTerms}>
-              TBD
-            </Dialog>
             <ReviewFees
+              service="Simplex"
               currencyToBuy={currencyToBuy}
               localCurrency={currencyCode}
               fiat={exchange.fiat}
