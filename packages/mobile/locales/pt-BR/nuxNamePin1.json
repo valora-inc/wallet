@@ -1,41 +1,41 @@
 {
-  "continue": "Continuar",
-  "welcomeCelo": "Bem-vindo ao {{appName}} ",
-  "chooseCountryCode": "Código do país",
-  "chooseCountry": "País",
-  "joinText": "{{appName}} ajuda você a enviar, receber e economizar na Rede Celo.",
-  "phoneNumber": "Número de telefone",
+  "continue": "Continue",
+  "welcomeCelo": "Welcome to {{appName}}",
+  "chooseCountryCode": "Country Code",
+  "chooseCountry": "Country",
+  "joinText": "{{appName}} helps you to send, receive, and save value on the Celo Network.",
+  "phoneNumber": "Phone Number",
   "terms": {
-    "title": "Termos e Condições",
-    "heading1": "Dados e Privacidade",
-    "heading2": "Ativos Celo e Conta {{appName}} ",
-    "privacy": "Ao aderir a esta rede, você nos dá permissão para coletar informações anônimas sobre o seu uso do aplicativo. Além disso, se você verificar o seu número de telefone, uma cópia hash dele será armazenada na Rede Celo. Saiba mais em <0>{{tosLink}}</0> ",
-    "goldDisclaimer": "Quando você cria uma conta no {{appName}}, você está criando uma conta digital para a qual apenas você detém as chaves.  Nenhuma outra pessoa ou entidade, incluindo a cLabs, pode recuperar sua chave, alterar ou desfazer transações ou recuperar fundos perdidos. Esteja ciente de que o CELO e o cUSD fazem parte de uma nova classe de ativos e apresentam risco de perda financeira.  Considere cuidadosamente sua situação financeira e tolerância ao risco financeiro antes de comprar qualquer um dos dois. Você só pode enviar até 500 cUSD por dia {{appName}} (o \"limite diário\").  Você deve entrar em contato com support@cLabs.co e fornecer informações pessoais adicionais para solicitar o aumento deste limite diário. Pode haver um atraso para conduzir a conformidade exigida."
+    "title": "Terms and Conditions",
+    "heading1": "Data and Privacy",
+    "heading2": "Celo Assets and {{appName}} Account",
+    "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you verify your phone number, a hashed copy of it will be stored on the Celo Network. Learn more at <0>{{tosLink}}</0> ",
+    "goldDisclaimer": "When you create an ‘account’ with {{appName}} you are creating a digital wallet to which only you hold the keys.  No other person or entity, including cLabs, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO and cUSD are part of a new asset class and present a risk of financial loss.  Carefully consider your financial circumstances and tolerance for financial risk before purchasing either. You can only send up to 500 cUSD per day through {{appName}} (the “Daily Limit”).  You must contact support@cLabs.co and provide additional, personal information to request increasing this Daily Limit. There could be a delay to conduct required compliance."
   },
-  "fullName": "Nome completo",
-  "fullNamePlaceholder": "Nome e sobrenome",
-  "importIt": "Restaurar conta existente",
-  "cancel": "Cancelar",
-  "important": "Importante",
+  "fullName": "Full Name",
+  "fullNamePlaceholder": "First Last",
+  "importIt": "Restore Existing Wallet",
+  "cancel": "Cancel",
+  "important": "Important",
   "createPin": {
-    "title": "Defina um PIN de 6 dígitos",
-    "yourPin": "Seu PIN"
+    "title": "Set a 6 digit PIN",
+    "yourPin": "Your PIN"
   },
   "verifyPin": {
-    "title": "Reinserir PIN"
+    "title": "Re-Enter PIN"
   },
   "confirmPin": {
-    "title": "Inserir PIN"
+    "title": "Enter PIN"
   },
-  "goToSystemSecuritySettingsActionLabel": "Ir para segurança",
-  "enableSystemScreenLockFailedMessage": "Falha ao ativar o bloqueio de tela",
-  "initKeystoreFailureMessage": "Falha ao iniciar o keystore",
-  "pinLostForeverMessage": "Você removeu o bloqueio de tela, o PIN foi perdido",
+  "goToSystemSecuritySettingsActionLabel": "Go to security",
+  "enableSystemScreenLockFailedMessage": "Failed to enable screen lock",
+  "initKeystoreFailureMessage": "Failed to init keystore",
+  "pinLostForeverMessage": "You removed the screen lock, the PIN is lost",
   "importContactsPermission": {
-    "title": "Importar contatos",
-    "0": "Conectar seu catálogo de endereços facilita o envio e a solicitação de pagamentos dos seus amigos. Caso contrário, você terá que inserir essas informações individualmente.",
-    "1": "Não se preocupe, conectar-se não envia convites aos seus contatos.",
-    "enable": "Habilitar acesso aos contatos",
-    "loading": "Encontrando amigos no {{appName}}..."
+    "title": "Import Contacts",
+    "0": "Connecting your address book makes it easy to send and request payments with your friends. Otherwise, you’ll have to enter their info individually.",
+    "1": "Don’t worry—connecting does not send invites to your contacts.",
+    "enable": "Enable Contact Access",
+    "loading": "Finding friends on {{appName}}..."
   }
 }
