@@ -220,6 +220,7 @@ const mockVerificationState: VerificationState = {
   komenciAvailable: KomenciAvailable.Unknown,
   TEMPORARY_override_withoutVerification: undefined,
   phoneHash: mockE164NumberHash,
+  withoutRevealing: false,
   e164Number: mockE164Number,
 }
 
