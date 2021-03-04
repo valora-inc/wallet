@@ -26,6 +26,9 @@ export function formatTransfers(transfers: TokenTransfer[], currency: Currencies
 function formatTransfer(transfer: TokenTransfer, currency: Currencies): Transfer | null {
   const value = transfer.data ? getValueFromData(transfer) : transfer.amount
   if (!value) {
+    console.info(
+      `Failed to find value for transfer. txHash: ${transfer.transactionHash}. Data: ${transfer.data}`
+    )
     return null
   }
 
