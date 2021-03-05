@@ -658,68 +658,7 @@ describe('Blockscout', () => {
           "type": "EXCHANGE",
         },
         Object {
-          "address": "0x8b7649116f169d2d2aebb6ea1a77f0baf31f2811",
-          "amount": Object {
-            "currencyCode": "cUSD",
-            "timestamp": 1566346276000,
-            "value": "-0.15",
-          },
-          "block": "90719",
-          "comment": "",
-          "fees": Array [
-            Object {
-              "amount": Object {
-                "currencyCode": "cUSD",
-                "timestamp": 1566346276000,
-                "value": "0.01",
-              },
-              "type": "GATEWAY_FEE",
-            },
-            Object {
-              "amount": Object {
-                "currencyCode": "cUSD",
-                "timestamp": 1566346276000,
-                "value": "0.0056589",
-              },
-              "type": "SECURITY_FEE",
-            },
-          ],
-          "hash": "0x21dd2c18ae6c80d61ffbddaa073f7cde7bbfe9436fdf5059b506f1686326a2fb",
-          "timestamp": 1566346276000,
-          "type": "SENT",
-        },
-        Object {
-          "address": "0xa12a699c641cc875a7ca57495861c79c33d293b4",
-          "amount": Object {
-            "currencyCode": "cUSD",
-            "timestamp": 1566346276000,
-            "value": "-0.15",
-          },
-          "block": "90791",
-          "comment": "",
-          "fees": Array [
-            Object {
-              "amount": Object {
-                "currencyCode": "cUSD",
-                "timestamp": 1566346276000,
-                "value": "0.01",
-              },
-              "type": "GATEWAY_FEE",
-            },
-            Object {
-              "amount": Object {
-                "currencyCode": "cUSD",
-                "timestamp": 1566346276000,
-                "value": "0.0056589",
-              },
-              "type": "SECURITY_FEE",
-            },
-          ],
-          "hash": "0x21dd2c18ae6c80d61ffbddaa073f7cde7bbfe9436fdf5059b506f1686326a2ff",
-          "timestamp": 1566346276000,
-          "type": "SENT",
-        },
-        Object {
+          "account": "0x6a0edf42f5e618bee697e7718fa05efb1ea5d11c",
           "address": "0x6a0edf42f5e618bee697e7718fa05efb1ea5d11c",
           "amount": Object {
             "currencyCode": "cUSD",
@@ -751,6 +690,71 @@ describe('Blockscout', () => {
           "type": "SENT",
         },
         Object {
+          "account": "0xa12a699c641cc875a7ca57495861c79c33d293b4",
+          "address": "0xa12a699c641cc875a7ca57495861c79c33d293b4",
+          "amount": Object {
+            "currencyCode": "cUSD",
+            "timestamp": 1566346276000,
+            "value": "-0.15",
+          },
+          "block": "90791",
+          "comment": "",
+          "fees": Array [
+            Object {
+              "amount": Object {
+                "currencyCode": "cUSD",
+                "timestamp": 1566346276000,
+                "value": "0.01",
+              },
+              "type": "GATEWAY_FEE",
+            },
+            Object {
+              "amount": Object {
+                "currencyCode": "cUSD",
+                "timestamp": 1566346276000,
+                "value": "0.0056589",
+              },
+              "type": "SECURITY_FEE",
+            },
+          ],
+          "hash": "0x21dd2c18ae6c80d61ffbddaa073f7cde7bbfe9436fdf5059b506f1686326a2ff",
+          "timestamp": 1566346276000,
+          "type": "SENT",
+        },
+        Object {
+          "account": "0x8b7649116f169d2d2aebb6ea1a77f0baf31f2811",
+          "address": "0x8b7649116f169d2d2aebb6ea1a77f0baf31f2811",
+          "amount": Object {
+            "currencyCode": "cUSD",
+            "timestamp": 1566346276000,
+            "value": "-0.15",
+          },
+          "block": "90719",
+          "comment": "",
+          "fees": Array [
+            Object {
+              "amount": Object {
+                "currencyCode": "cUSD",
+                "timestamp": 1566346276000,
+                "value": "0.01",
+              },
+              "type": "GATEWAY_FEE",
+            },
+            Object {
+              "amount": Object {
+                "currencyCode": "cUSD",
+                "timestamp": 1566346276000,
+                "value": "0.0056589",
+              },
+              "type": "SECURITY_FEE",
+            },
+          ],
+          "hash": "0x21dd2c18ae6c80d61ffbddaa073f7cde7bbfe9436fdf5059b506f1686326a2fb",
+          "timestamp": 1566346276000,
+          "type": "SENT",
+        },
+        Object {
+          "account": "0xf4314cb9046bece6aa54bb9533155434d0c76910",
           "address": "0xf4314cb9046bece6aa54bb9533155434d0c76909",
           "amount": Object {
             "currencyCode": "cUSD",
@@ -764,6 +768,7 @@ describe('Blockscout', () => {
           "type": "RECEIVED",
         },
         Object {
+          "account": "0xf4314cb9046bece6aa54bb9533155434d0c76909",
           "address": "0xf4314cb9046bece6aa54bb9533155434d0c76909",
           "amount": Object {
             "currencyCode": "cGLD",
@@ -795,6 +800,7 @@ describe('Blockscout', () => {
           "type": "SENT",
         },
         Object {
+          "account": "0xf4314cb9046bece6aa54bb9533155434d0c76910",
           "address": "0xf4314cb9046bece6aa54bb9533155434d0c76909",
           "amount": Object {
             "currencyCode": "cGLD",
@@ -818,6 +824,7 @@ describe('Blockscout', () => {
           "type": "SENT",
         },
         Object {
+          "account": "0xf4314cb9046bece6aa54bb9533155434d0c76909",
           "address": "0xf4314cb9046bece6aa54bb9533155434d0c76909",
           "amount": Object {
             "currencyCode": "cGLD",
@@ -831,6 +838,7 @@ describe('Blockscout', () => {
           "type": "RECEIVED",
         },
         Object {
+          "account": "0x0000000000000000000000000000000000f40c37",
           "address": "0x0000000000000000000000000000000000f40c37",
           "amount": Object {
             "currencyCode": "cGLD",
@@ -844,6 +852,7 @@ describe('Blockscout', () => {
           "type": "FAUCET",
         },
         Object {
+          "account": "0x0000000000000000000000000000000000a77327",
           "address": "0x0000000000000000000000000000000000a77327",
           "amount": Object {
             "currencyCode": "cUSD",
@@ -867,6 +876,7 @@ describe('Blockscout', () => {
           "type": "ESCROW_SENT",
         },
         Object {
+          "account": "0x0000000000000000000000000000000000a77357",
           "address": "0x0000000000000000000000000000000000a77357",
           "amount": Object {
             "currencyCode": "cUSD",
@@ -890,6 +900,7 @@ describe('Blockscout', () => {
           "type": "VERIFICATION_FEE",
         },
         Object {
+          "account": "0x0000000000000000000000000000000000007E57",
           "address": "0x0000000000000000000000000000000000007E57",
           "amount": Object {
             "currencyCode": "cUSD",
