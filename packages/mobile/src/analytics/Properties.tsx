@@ -734,13 +734,13 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_spend_selected]: undefined
   [FiatExchangeEvents.cico_fund_info]: undefined
   [FiatExchangeEvents.cico_fund_info_cancel]: undefined
-  [FiatExchangeEvents.cico_external_exchanges_back]: undefined
-  [FiatExchangeEvents.cico_info_icon_pressed]: {
-    isCashIn: boolean
+  [FiatExchangeEvents.cico_add_funds_continue]: {
+    payMethod: string
+    currency: CURRENCY_ENUM
   }
-  [FiatExchangeEvents.cico_info_icon_cancel]: {
-    isCashIn: boolean
-  }
+  [FiatExchangeEvents.cico_add_funds_back]: undefined
+  [FiatExchangeEvents.cico_add_funds_info]: undefined
+  [FiatExchangeEvents.cico_add_funds_info_cancel]: undefined
   [FiatExchangeEvents.cico_add_funds_amount_continue]: {
     dollarAmount: BigNumber
   }
@@ -749,13 +749,6 @@ interface FiatExchangeEventsProperties {
     dollarAmount: BigNumber
   }
   [FiatExchangeEvents.cico_add_funds_amount_dialog_cancel]: undefined
-  [FiatExchangeEvents.cico_add_funds_continue]: {
-    payMethod: string
-    currency: CURRENCY_ENUM
-  }
-  [FiatExchangeEvents.cico_add_funds_back]: undefined
-  [FiatExchangeEvents.cico_add_funds_info]: undefined
-  [FiatExchangeEvents.cico_add_funds_info_cancel]: undefined
   [FiatExchangeEvents.cico_add_funds_select_provider]: {
     provider: string
   }
@@ -774,6 +767,7 @@ interface FiatExchangeEventsProperties {
     provider: string
   }
   [FiatExchangeEvents.cico_cash_out_select_provider_back]: undefined
+  [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
   [FiatExchangeEvents.cico_spend_select_provider]: {
     provider: string

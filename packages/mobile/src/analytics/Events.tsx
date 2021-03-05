@@ -308,43 +308,38 @@ export enum FiatExchangeEvents {
 
   cico_add_funds_selected = 'cico_add_funds_selected',
   cico_cash_out_selected = 'cico_cash_out_selected',
-  cico_spend_selected = 'cico_spend_selected',
+  cico_spend_selected = 'cico_spend_selected', // untested
   cico_fund_info = 'cico_fund_info',
-  // TODO: find event trigger for cico_fund_info_cancel (FiatExchange.tsx)
-  cico_fund_info_cancel = 'cico_fund_info_cancel',
+  cico_fund_info_cancel = 'cico_fund_info_cancel', // TODO
 
-  cico_external_exchanges_back = 'cico_external_exchanges_back',
-  cico_info_icon_pressed = 'cico_info_icon_pressed',
-  cico_info_icon_cancel = 'cico_info_icon_cancel',
+  cico_add_funds_continue = 'cico_add_funds_continue', // cico_option_chosen
+  cico_add_funds_back = 'cico_add_funds_back',
+  cico_add_funds_info = 'cico_add_funds_info',
+  cico_add_funds_info_cancel = 'cico_add_funds_info_cancel', // TODO
 
   cico_add_funds_amount_continue = 'cico_add_funds_amount_continue',
   cico_add_funds_amount_back = 'cico_add_funds_amount_back',
   cico_add_funds_amount_insufficient = 'cico_add_funds_amount_insufficient',
   cico_add_funds_amount_dialog_cancel = 'cico_add_funds_amount_dialog_cancel',
 
-  // Tracking for the following events is not yet implemented
-  cico_add_funds_continue = 'cico_add_funds_continue',
-  cico_add_funds_back = 'cico_add_funds_back',
-  cico_add_funds_info = 'cico_add_funds_info',
-  cico_add_funds_info_cancel = 'cico_add_funds_info_cancel',
-
-  cico_add_funds_select_provider = 'cico_add_funds_select_provider',
+  cico_add_funds_select_provider = 'cico_add_funds_select_provider', // provider_chosen
   cico_add_funds_select_provider_back = 'cico_add_funds_select_provider_back',
   cico_add_funds_select_provider_info = 'cico_add_funds_select_provider_info',
   cico_add_funds_select_provider_info_cancel = 'cico_add_funds_select_provider_info_cancel',
 
-  cico_cash_out_continue = 'cico_cash_out_continue',
+  cico_cash_out_continue = 'cico_cash_out_continue', // cico_option_chosen
   cico_cash_out_back = 'cico_cash_out_back',
   cico_cash_out_info = 'cico_cash_out_info',
-  cico_cash_out_info_support = 'cico_cash_out_info_support',
+  cico_cash_out_info_support = 'cico_cash_out_info_support', // TODO
   cico_cash_out_info_cancel = 'cico_cash_out_info_cancel',
 
-  cico_cash_out_select_provider = 'cico_cash_out_select_provider',
-  cico_cash_out_select_provider_back = 'cico_cash_out_select_provider_back',
+  cico_cash_out_select_provider = 'cico_cash_out_select_provider', // provider_chosen, untested
+  cico_cash_out_select_provider_back = 'cico_cash_out_select_provider_back', // untested
+  cico_external_exchanges_back = 'cico_external_exchanges_back',
   cico_cash_out_copy_address = 'cico_cash_out_copy_address',
 
-  cico_spend_select_provider = 'cico_spend_select_provider', // PH only
-  cico_spend_select_provider_back = 'cico_spend_select_provider_back', // PH only
+  cico_spend_select_provider = 'cico_spend_select_provider', // PH only, untested
+  cico_spend_select_provider_back = 'cico_spend_select_provider_back', // PH only, untested
 }
 
 export enum GethEvents {

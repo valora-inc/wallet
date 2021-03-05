@@ -40,6 +40,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
+import Logger from 'src/utils/Logger'
 
 const { decimalSeparator } = getNumberFormatSettings()
 
@@ -139,6 +140,7 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function onPressContinue() {
+    Logger.debug(`Input: ${dollarAmount}`)
     if (dollarAmount.isLessThan(DOLLAR_ADD_FUNDS_MIN_AMOUNT)) {
       setShowingMinAmountDialog(true)
       ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_insufficient, {
