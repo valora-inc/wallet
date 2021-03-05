@@ -24,7 +24,7 @@
     }
   },
   "createAccount": "Crear Cuenta",
-  "restoreAccount": "Restore my Account",
+  "restoreAccount": "Restaurar mi cuenta",
   "step": "Paso {{step}} de 5",
   "selectCountryCode": "Seleccionar código de país",
   "pincodeSet": {
@@ -75,7 +75,7 @@
     "title": "Confirmar",
     "body": "Te enviamos tres mensajes de texto (SMS). Por favor copia y pégualos abajo.",
     "body_ios": "Te enviamos tres mensajes de texto (SMS). Por favor presiona el link en cada mensaje para completar los códigos a continuación o cópialos y pégalos manualmente.",
-    "body_short": "We sent three codes to {{phoneNumber}}, please enter them below.",
+    "body_short": "Enviamos tres códigos al {{phoneNumber}}, ingréselos a continuación.",
     "codeLabel1": "Primer código",
     "codeLabel2": "Segundo código",
     "codeLabel3": "Tercer código",
