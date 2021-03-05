@@ -195,11 +195,6 @@ function* startOrResumeKomenciSessionSaga() {
   })
 
   Logger.debug(TAG, '@startOrResumeKomenciSession', 'Starting session')
-  // Fetch session state to make sure we have the most up-to-date session info
-  // yield call(fetchKomenciSessionState, komenciKit, e164Number)
-  // const feelessVerificationState: FeelessVerificationState = yield select(
-  // feelessVerificationStateSelector
-  // )
 
   const contractKit = yield call(getContractKit)
   const walletAddress = yield call(getConnectedUnlockedAccount)
