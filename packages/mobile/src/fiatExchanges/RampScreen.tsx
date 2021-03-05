@@ -3,9 +3,8 @@ import React from 'react'
 import { useAsync } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import InAppBrowser from 'src/components/InAppBrowser'
-import { CASH_IN_SUCCESS_DEEPLINK, VALORA_LOGO_URL } from 'src/config'
 import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
-import { fetchProviderApiKey } from 'src/fiatExchanges/utils'
+import { fetchProviderUrl } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -30,22 +29,20 @@ function RampScreen({ route }: Props) {
   const { localAmount, currencyCode, currencyToBuy } = route.params
   const account = useSelector(currentAccountSelector)
 
-  const fetchResponse = useAsync(() => fetchProviderApiKey(Providers.RAMP), [])
-  const apiKey = fetchResponse?.result
+  const fetchResponse = useAsync(
+    () =>
+      fetchProviderUrl(Providers.RAMP, {
+        address: account,
+        digitalAsset: currencyToBuy,
+        fiatCurrency: currencyCode,
+        fiatAmount: localAmount,
+      }),
+    []
+  )
 
-  const uri = `
-    ${RAMP_URI}
-      ?hostApiKey=${apiKey}
-      &userAddress=${account}
-      &swapAsset=${currencyToBuy}
-      &hostAppName=Valora
-      &hostLogoUrl=${VALORA_LOGO_URL}
-      &fiatCurrency=${currencyCode}
-      &fiatValue=${localAmount}
-      &finalUrl=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
-    `.replace(/\s+/g, '')
+  const url = fetchResponse?.result
 
-  return <InAppBrowser uri={uri} isLoading={!apiKey} onCancel={navigateBack} />
+  return <InAppBrowser uri={url} isLoading={!url} onCancel={navigateBack} />
 }
 
 export default RampScreen

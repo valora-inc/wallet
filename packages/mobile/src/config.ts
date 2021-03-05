@@ -172,8 +172,8 @@ export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
 export const PONTO_URI = 'https://withponto.com/partners/celo/valora'
 export const KOTANI_URI = 'https://kotanipay.com/partners/valora'
 
-export const VALORA_KEY_DISTRIBUTER_URL =
-  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/distributeValoraKeys'
+export const PROVIDER_URL_COMPOSER =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/composeCicoProviderUrl'
 
 export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
 

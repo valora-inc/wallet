@@ -6,7 +6,7 @@ import { ActivityIndicator, BackHandler, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import WebView, { WebViewRef } from 'src/components/WebView'
 import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
-import { fetchProviderApiKey } from 'src/fiatExchanges/utils'
+import { fetchProviderUrl } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -52,30 +52,31 @@ function TransakScreen({ route }: Props) {
     }
   }, [])
 
-  const fetchResponse = useAsync(() => fetchProviderApiKey(Providers.TRANSAK), [])
-  const apiKey = fetchResponse?.result
+  const fetchResponse = useAsync(
+    () =>
+      fetchProviderUrl(Providers.TRANSAK, {
+        address: account,
+        digitalAsset: currencyToBuy,
+        fiatCurrency: currencyCode,
+        fiatAmount: localAmount,
+      }),
+    []
+  )
 
-  const uri = `
-  ${TRANSAK_URI}
-    ?apiKey=${apiKey}
-    &hostURL=${encodeURIComponent('https://www.valoraapp.com')}
-    &walletAddress=${account}
-    &disableWalletAddressForm=true
-    &cryptoCurrencyCode=${currencyToBuy}
-    &fiatCurrency=${currencyCode}
-    &defaultFiatAmount=${localAmount}
-    &redirectURL=${encodeURIComponent(webRedirectUrl)}
-    &hideMenu=true
-  `.replace(/\s+/g, '')
+  const url = fetchResponse?.result
 
   // Using Webview instead of InAppBrowswer because Transak doesn't
   // support deeplink redirects
   return (
     <View style={styles.container}>
-      {!apiKey ? (
+      {!url ? (
         <ActivityIndicator size="large" color={colors.greenBrand} />
       ) : (
-        <WebView ref={webview} source={{ uri }} onNavigationStateChange={onNavigationStateChange} />
+        <WebView
+          ref={webview}
+          source={{ uri: url }}
+          onNavigationStateChange={onNavigationStateChange}
+        />
       )}
     </View>
   )

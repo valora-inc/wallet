@@ -1,20 +1,28 @@
-import { CurrencyNames, DEFAULT_TESTNET, SIMPLEX_URI, VALORA_KEY_DISTRIBUTER_URL } from 'src/config'
+import { CurrencyNames, DEFAULT_TESTNET, PROVIDER_URL_COMPOSER, SIMPLEX_URI } from 'src/config'
 import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
 
-export const fetchProviderApiKey = async (provider: Providers) => {
-  const response = await fetch(VALORA_KEY_DISTRIBUTER_URL, {
+interface RequestData {
+  address: string | null
+  digitalAsset: string
+  fiatCurrency: string
+  fiatAmount: number
+}
+
+export const fetchProviderUrl = async (provider: Providers, requestData: RequestData) => {
+  const response = await fetch(PROVIDER_URL_COMPOSER, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
+      ...requestData,
       provider,
-      env: DEFAULT_TESTNET,
+      env: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'staging',
     }),
   })
 

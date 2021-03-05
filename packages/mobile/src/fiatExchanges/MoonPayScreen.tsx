@@ -1,9 +1,10 @@
 import { StackScreenProps } from '@react-navigation/stack'
-import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { useAsync } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import InAppBrowser from 'src/components/InAppBrowser'
+import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { fetchProviderUrl } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -28,28 +29,20 @@ function MoonPayScreen({ route }: Props) {
   const { localAmount, currencyCode, currencyToBuy } = route.params
   const account = useSelector(currentAccountSelector)
 
-  const getSignedUrl = async () => {
-    const response = await fetch(networkConfig.signMoonpayUrl, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        currency: currencyToBuy,
+  const fetchResponse = useAsync(
+    () =>
+      fetchProviderUrl(Providers.MOONPAY, {
         address: account,
+        digitalAsset: currencyToBuy,
         fiatCurrency: currencyCode,
-        fiatAmount: new BigNumber(localAmount).toString(),
+        fiatAmount: localAmount,
       }),
-    })
-    const json = await response.json()
-    return json.url
-  }
+    []
+  )
 
-  const fetchResponse = useAsync(getSignedUrl, [])
-  const uri = fetchResponse?.result
+  const url = fetchResponse?.result
 
-  return <InAppBrowser uri={uri} isLoading={!uri} onCancel={navigateBack} />
+  return <InAppBrowser uri={url} isLoading={!url} onCancel={navigateBack} />
 }
 
 export default MoonPayScreen
