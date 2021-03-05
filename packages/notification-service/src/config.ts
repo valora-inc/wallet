@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import i18next from 'i18next'
+import secrets from './secrets.json'
 
 // Load environment variables from .env file
 dotenv.config()
@@ -24,6 +25,16 @@ export function getFirebaseAdminCreds(admin: any) {
   }
 }
 
+function getSecrets(deployEnv: string) {
+  const envSecrets = (secrets as any)[deployEnv]
+  if (!envSecrets) {
+    console.warn(`No secrets found for deploy env ${deployEnv}`)
+    return {}
+  }
+
+  return envSecrets
+}
+
 export const VERSION = process.env.GAE_VERSION
 export const ENVIRONMENT = process.env.ENVIRONMENT
 export const PORT = Number(process.env.PORT) || 8080
@@ -35,6 +46,9 @@ export const BLOCKSCOUT_API = process.env.BLOCKSCOUT_API
 export const DEFAULT_LOCALE = process.env.DEFAULT_LOCALE
 export const POLLING_INTERVAL = Number(process.env.POLLING_INTERVAL) || 1000
 export const NOTIFICATIONS_TTL_MS = Number(process.env.NOTIFICATION_TTL_MS) || 3600 * 1000 * 24 * 7 // 1 week in milliseconds
+export const RAMP_KEY = process.env.RAMP_KEY
+
+export const { MOONPAY_API_KEY, TRANSAK_API_KEY } = getSecrets(ENVIRONMENT || 'local')
 
 export const EXCHANGE_POLLING_INTERVAL =
   Number(process.env.EXCHANGE_POLLING_INTERVAL) || 30 * 60 * 1000 // 30 minutes in milliseconds

@@ -15,6 +15,7 @@ export interface Registrations {
     | {
         fcmToken: string
         language?: string
+        txHashes?: { [txHash: string]: string | undefined }
       }
     | undefined
     | null
@@ -291,4 +292,9 @@ export async function sendNotification(
   } catch (error) {
     console.error('Error sending notification:', error)
   }
+}
+
+export function saveTxHashProvider(address: string, txHash: string, provider: string) {
+  database.ref(`/registrations/${address}/txHashes/${txHash}`).set(provider)
+  console.info(`Linked provider ${provider} to tx hash ${txHash} for address ${address}`)
 }

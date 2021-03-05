@@ -13,3 +13,6 @@ node_modules/
 # Exclude secrets
 serviceAccountKey.json
 .env
+src/secrets.json
+config/rampProduction.pem
+config/rampStaging.pem
