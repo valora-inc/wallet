@@ -22,7 +22,6 @@ import CeloGoldOverview from 'src/exchange/CeloGoldOverview'
 import { useExchangeRate } from 'src/exchange/hooks'
 import { exchangeHistorySelector } from 'src/exchange/reducer'
 import RestrictedCeloExchange from 'src/exchange/RestrictedCeloExchange'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -34,6 +33,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList from 'src/transactions/TransactionsList'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { goldToDollarAmount } from 'src/utils/currencyExchange'
@@ -188,7 +188,7 @@ function ExchangeHomeScreen({ navigation }: Props) {
             />
           )}
           <SectionHead text={t('global:activity')} />
-          <TransactionsList currency={CURRENCY_ENUM.GOLD} />
+          <TransactionsList feedType={FeedType.EXCHANGE} />
         </SafeAreaView>
       </Animated.ScrollView>
     </SafeAreaView>

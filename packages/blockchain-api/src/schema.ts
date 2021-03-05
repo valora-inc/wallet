@@ -65,7 +65,7 @@ export type Token = 'cUSD' | 'cGLD'
 
 export interface TokenTransactionArgs {
   address: string
-  token: Token
+  token: Token | null
   localCurrencyCode: string
 }
 
@@ -209,7 +209,7 @@ export const typeDefs = gql`
   type Query {
     tokenTransactions(
       address: Address!
-      token: Token!
+      token: Token
       localCurrencyCode: String
       # pagination
       before: String
