@@ -21,7 +21,7 @@ const MIN_USD_TX_AMOUNT = 15
 
 export const rampOptions = () => ({
   ...emptyHeader,
-  headerTitle: (RAMP_URI.match(/(?!(w+)\.)\w*(?:\w+\.)+\w+/) || [])[0],
+  headerTitle: (RAMP_URI.match(/(?!(w+)\.)(-|\w)*(?:\w+\.)+\w+/) || [])[0],
   headerLeft: () => <TopBarTextButton title={i18n.t('global:done')} onPress={navigateBack} />,
 })
 
@@ -47,7 +47,8 @@ function RampScreen({ route }: Props) {
 
   const uri = `
     ${RAMP_URI}
-      ?userAddress=${account}
+      ?hostApiKey=${config.rampApiKey}
+      &userAddress=${account}
       &swapAsset=${asset}
       &hostAppName=Valora
       &hostLogoUrl=${VALORA_LOGO_URL}

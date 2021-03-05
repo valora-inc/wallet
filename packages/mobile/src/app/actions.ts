@@ -107,7 +107,7 @@ interface MinAppVersionDeterminedAction {
   minVersion: string | null
 }
 
-interface UpdateFeatureFlagsAction {
+export interface UpdateFeatureFlagsAction {
   type: Actions.UPDATE_FEATURE_FLAGS
   flags: RemoteFeatureFlags
 }
