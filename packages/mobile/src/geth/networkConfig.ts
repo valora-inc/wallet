@@ -63,12 +63,10 @@ const CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET: Address =
 const CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING: Address =
   '0x5C9a6E3c3E862eD306E2E3348EBC8b8310A99e5A'
 
-const CIP8_AUTHORIZER_URL_STAGING =
-  'https://kc0pg67dfa.execute-api.eu-west-1.amazonaws.com/alfajores/authorize'
-const CIP8_METADATA_URL_STAGING = 'https://d2dmse0lp0z44h.cloudfront.net'
-const CIP8_AUTHORIZER_URL_PROD =
-  'https://4za9j6ke6i.execute-api.eu-west-1.amazonaws.com/mainnet/authorize'
-const CIP8_METADATA_URL_PROD = 'https://d24lgi26ne6o8w.cloudfront.net'
+const CIP8_AUTHORIZER_URL_STAGING = 'https://alfajores-stokado.celo-testnet.org/api/authorize'
+const CIP8_METADATA_URL_STAGING = 'https://alfajores-stokado-data.celo-testnet.org'
+const CIP8_AUTHORIZER_URL_PROD = 'https://rc1-stokado.celo-testnet.org/api/authorize'
+const CIP8_METADATA_URL_PROD = 'https://rc1-stokado-data.celo-testnet.org'
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {

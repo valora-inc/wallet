@@ -94,14 +94,17 @@ class UploadServiceDataWrapper implements OffchainDataWrapper {
     dataPath: string
   ): Promise<OffchainErrors | void> {
     const dataPayloads = [data, signature]
-    const signedUrlsPayload = [
-      {
-        path: dataPath,
-      },
-      {
-        path: `${dataPath}.signature`,
-      },
-    ]
+    const signedUrlsPayload = {
+      address: this.signer,
+      data: [
+        {
+          path: dataPath,
+        },
+        {
+          path: `${dataPath}.signature`,
+        },
+      ]
+    }
 
     const hexPayload = ensureLeading0x(
       Buffer.from(JSON.stringify(signedUrlsPayload)).toString('hex')
