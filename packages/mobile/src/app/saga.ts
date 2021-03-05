@@ -92,6 +92,9 @@ export interface RemoteFeatureFlags {
   pontoEnabled: boolean
   celoEducationUri: string | null
   shortVerificationCodesEnabled: boolean
+  inviteRewardCusd: number
+  inviteRewardWeeklyLimit: number
+  inviteRewardsEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

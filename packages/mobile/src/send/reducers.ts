@@ -1,3 +1,4 @@
+import { Actions as AppActions, UpdateFeatureFlagsAction } from 'src/app/actions'
 import { areRecipientsEquivalent, Recipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { Actions, ActionTypes } from 'src/send/actions'
@@ -17,17 +18,23 @@ export interface State {
   recentRecipients: Recipient[]
   // Keep a list of recent (last 24 hours) payments
   recentPayments: PaymentInfo[]
+  inviteRewardsEnabled: boolean
+  inviteRewardCusd: number
+  inviteRewardWeeklyLimit: number
 }
 
 const initialState = {
   isSending: false,
   recentRecipients: [],
   recentPayments: [],
+  inviteRewardsEnabled: false,
+  inviteRewardCusd: 0,
+  inviteRewardWeeklyLimit: 0,
 }
 
 export const sendReducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction
+  action: ActionTypes | RehydrateAction | UpdateFeatureFlagsAction
 ) => {
   switch (action.type) {
     case REHYDRATE: {
@@ -63,6 +70,13 @@ export const sendReducer = (
       }
     case Actions.STORE_LATEST_IN_RECENTS:
       return storeLatestRecentReducer(state, action.recipient)
+    case AppActions.UPDATE_FEATURE_FLAGS:
+      return {
+        ...state,
+        inviteRewardsEnabled: action.flags.inviteRewardsEnabled,
+        inviteRewardCusd: action.flags.inviteRewardCusd,
+        inviteRewardWeeklyLimit: action.flags.inviteRewardWeeklyLimit,
+      }
     default:
       return state
   }
