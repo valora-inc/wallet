@@ -26,7 +26,7 @@ import { extensionToMimeType, getDataURL, saveRecipientPicture } from 'src/utils
 import Logger from 'src/utils/Logger'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
-import { currentAccountSelector, dataEncryptionKeySelector } from 'src/web3/selectors'
+import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
 const TAG = 'account/profileInfo'
 
@@ -108,7 +108,7 @@ class UploadServiceDataWrapper implements OffchainDataWrapper {
     )
     const authorization = await this.kit.getWallet().signPersonalMessage(this.signer, hexPayload)
     const signedUrls = await authorizeURLs(signedUrlsPayload, authorization)
-    try{
+    try {
       await Promise.all(
         signedUrls.map(({ url, fields }, i) => {
           const formData = new FormData()
@@ -133,7 +133,7 @@ class UploadServiceDataWrapper implements OffchainDataWrapper {
           })
         })
       )
-    } catch(error) {
+    } catch (error) {
       return new FetchError(error)
     }
   }
@@ -230,11 +230,9 @@ export function* checkIfProfileUploaded() {
 
 // requires that the DEK has already been registered on chain
 export function* uploadNameAndPicture() {
-  yield call(getConnectedUnlockedAccount)
   yield call(unlockDEK, true)
-
   const contractKit = yield call(getContractKit)
-  const account = yield select(currentAccountSelector)
+  const account = yield call(getConnectedUnlockedAccount)
   const offchainWrapper = new UploadServiceDataWrapper(contractKit, account)
 
   const name = yield select(nameSelector)
@@ -264,10 +262,8 @@ export function* uploadNameAndPicture() {
 // this function gives permission to the recipient to view the user's profile info
 export function* giveProfileAccess(recipientAddresses: string[]) {
   // TODO: check if key for recipient already exists, skip if yes
-  yield call(getConnectedUnlockedAccount) 
   yield call(unlockDEK)
-
-  const account = yield select(currentAccountSelector)
+  const account = yield call(getConnectedUnlockedAccount)
   const contractKit = yield call(getContractKit)
   const offchainWrapper = new UploadServiceDataWrapper(contractKit, account)
 
@@ -293,7 +289,7 @@ export function* giveProfileAccess(recipientAddresses: string[]) {
 
 export function* getProfileInfo(address: string) {
   // TODO: check if we already have profile info of address
-  const account = yield select(currentAccountSelector)
+  const account = yield call(getConnectedUnlockedAccount)
   const contractKit = yield call(getContractKit)
   yield call(unlockDEK)
   const offchainWrapper = new UploadServiceDataWrapper(contractKit, account)
@@ -317,7 +313,7 @@ export function* getProfileInfo(address: string) {
   }
 }
 
-function* unlockDEK(addAccount = false) {
+export function* unlockDEK(addAccount = false) {
   const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
   if (!privateDataKey) {
     throw new Error('No data key in store. Should never happen.')

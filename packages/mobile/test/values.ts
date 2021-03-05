@@ -1,4 +1,5 @@
 /* Shared mock values to facilitate testing */
+import { UnlockableWallet } from '@celo/wallet-base'
 import { StackNavigationProp } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import { MinimalContact } from 'react-native-contacts'
@@ -363,4 +364,18 @@ export const mockQRCodeRecipient: RecipientWithQrCode = {
   phoneNumberLabel: undefined,
   thumbnailPath: undefined,
   contactId: undefined,
+}
+
+export const mockWallet: UnlockableWallet = {
+  unlockAccount: jest.fn(),
+  isAccountUnlocked: jest.fn(),
+  addAccount: jest.fn(),
+  getAccounts: jest.fn(),
+  removeAccount: jest.fn(),
+  hasAccount: jest.fn(),
+  signTransaction: jest.fn(),
+  signTypedData: jest.fn(),
+  signPersonalMessage: jest.fn(),
+  decrypt: jest.fn(),
+  computeSharedSecret: jest.fn(),
 }
