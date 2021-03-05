@@ -1,73 +1,73 @@
 {
-  "getVerified": "Verify Phone Number",
-  "notReadyForCode": "Not yet ready for code entry",
-  "emptyVerificationCode": "No Verification Code in Clipboard",
-  "invalidVerificationCode": "Invalid Verification Code",
-  "repeatVerificationCode": "Repeated Verification Code",
-  "revealAttestationFailure": "Error requesting SMS message",
-  "verificationFailure": "Verification Failed",
-  "cantVerifyRevokedAccount": "This account has been previously revoked. Please create a new account and try again.",
-  "verificationTimeout": "Verification Timed Out",
-  "errorRequestCode": "Failed to request codes.",
-  "errorRedeemingCode": "Failed to redeem code.",
-  "pleaseRetry": "Please retry verification.",
-  "retryVerification": "Retry Verification",
+  "getVerified": "Verifique o número de telefone",
+  "notReadyForCode": "Ainda não está pronto para inserir o código",
+  "emptyVerificationCode": "Nenhum código de verificação na área de transferência",
+  "invalidVerificationCode": "Código de verificação inválido",
+  "repeatVerificationCode": "Código de verificação repetido",
+  "revealAttestationFailure": "Erro ao solicitar mensagem de SMS",
+  "verificationFailure": "Falha na verificação",
+  "cantVerifyRevokedAccount": "Essa conta já foi revogada uma vez. Por favor, crie uma nova conta e tente novamente.",
+  "verificationTimeout": "A verificação expirou",
+  "errorRequestCode": "Falha ao solicitar códigos.",
+  "errorRedeemingCode": "Falha ao resgatar código.",
+  "pleaseRetry": "Tente verificar novamente.",
+  "retryVerification": "Tentar verificar novamente",
   "education": {
-    "header": "Verify Your Phone",
-    "body1": "Next, please verify your phone number.",
-    "body2": "Verifying makes it easier to send and receive with friends. You can also skip this step and return to it later.",
-    "learnMore": "Learn more about phone verification",
-    "start": "Start Verification",
-    "skip": "Skip For Now"
+    "header": "Verifique seu telefone",
+    "body1": "Em seguida, verifique o seu número de telefone.",
+    "body2": "A verificação facilita enviar e receber de amigos. Você também pode pular esta etapa e retornar a ela mais tarde.",
+    "learnMore": "Saiba mais sobre a verificação de telefone",
+    "start": "Iniciar verificação",
+    "skip": "Pular por enquanto"
   },
   "learnMore": {
-    "header": "Phone Number Verification",
-    "intro": "Phone number verification works by associating your {{appName}} account with your phone number.",
-    "section1Header": "Do I need to complete this?",
-    "section1Body": "Verification is not required. However, without verifying, it is only possible to send and receive value using QR codes or addresses.",
-    "section2Header": "Security and Privacy",
-    "section2Body": "To protect your privacy, only an obfuscated version of your phone number is stored on the Celo blockchain."
+    "header": "Verificação do número de telefone",
+    "intro": "A verificação do número de telefone funciona associando sua conta do {{appName}} ao seu número de telefone.",
+    "section1Header": "Eu preciso completar essa etapa?",
+    "section1Body": "A verificação não é necessária. No entanto, sem verificar, só é possível enviar e receber valores usando códigos QR ou endereços.",
+    "section2Header": "Segurança e Privacidade",
+    "section2Body": "Para proteger sua privacidade, apenas uma versão ofuscada do seu número de telefone é armazenada no blockchain da Celo."
   },
   "loading": {
-    "confirming": "Confirming…",
-    "pleaseKeepAppOpen": "Please keep the app open",
-    "learnMore": "Learn more",
-    "card1": "To make sure your phone number is really yours, we're sending you three messages.",
-    "card2": "Once your number is confirmed, you can send and receive funds easily to your phone number.",
-    "card3": "Confirming also allows you to see which of your friends are on {{appName}}.",
-    "card4": "We require three confirmation messages to keep your account more secure."
+    "confirming": "Confirmando...",
+    "pleaseKeepAppOpen": "Mantenha o aplicativo aberto",
+    "learnMore": "Saiba mais",
+    "card1": "Para garantir que o seu número de telefone seja realmente seu, estamos enviando três mensagens para você.",
+    "card2": "Assim que o seu número for confirmado, você pode enviar e receber fundos facilmente em seu número de telefone.",
+    "card3": "A confirmação também permite que você veja quais de seus amigos estão no {{appName}}.",
+    "card4": "Exigimos três mensagens de confirmação para manter sua conta mais segura."
   },
   "skipModal": {
-    "header": "Skip Verification?",
-    "body1": "Verifying allows others to send value to your phone number.",
-    "body2": "Without verification, you can still send payments, but only using account numbers or QR codes."
+    "header": "Pular verificação?",
+    "body1": "A verificação permite que outras pessoas enviem valores para o seu número de telefone.",
+    "body2": "Sem a verificação, você ainda pode enviar pagamentos, mas apenas usando números de conta ou códigos QR."
   },
   "failModal": {
-    "header": "Verification Error",
-    "body1": "An issue has occurred while verifying your phone number.",
-    "body2": "You can skip verification for now and try again later.",
-    "body1InsufficientBalance": "Your current balance is not high enough to complete the verification process.",
-    "body2InsufficientBalance": "Please try again when you have added funds to your wallet.",
-    "body1SaltQuotaExceeded": "Your phone number lookup quota is used up",
-    "body2SaltQuotaExceeded": "Please try again when you have purchased more lookups",
-    "enterCodesBody": "If you already received three codes via SMS, you can still enter them.",
-    "enterCodesButton": "Enter Codes"
+    "header": "Erro de verificação",
+    "body1": "Ocorreu um problema ao verificar o seu número de telefone.",
+    "body2": "Você pode pular a verificação por enquanto e tentar novamente mais tarde.",
+    "body1InsufficientBalance": "Seu saldo atual não é alto o suficiente para concluir o processo de verificação.\n\n",
+    "body2InsufficientBalance": "Tente novamente quando tiver adicionado fundos à sua conta.",
+    "body1SaltQuotaExceeded": "Sua cota de busca de número de telefone acabou",
+    "body2SaltQuotaExceeded": "Tente novamente quando tiver comprado mais buscas",
+    "enterCodesBody": "Se você já recebeu três códigos por SMS, ainda poderá inseri-los.",
+    "enterCodesButton": "Inserir os códigos"
   },
   "retryWithFornoModal": {
-    "header": "Retry Verification with Data Saver?",
-    "body1": "An issue has occurred while verifying your phone number. We recommend trying again with Data Saver mode enabled.",
-    "body2": "Data Saver mode allows you to communicate with the Celo Network more consistently using a trusted connection.",
-    "retryButton": "Retry with Data Saver"
+    "header": "Tentar verificar novamente com o modo de Economia de Dados?",
+    "body1": "Ocorreu um problema ao verificar o seu número de telefone. Recomendamos tentar novamente com o modo de Economia de Dados ativado.",
+    "body2": "O modo de Economia de Dados permite que você se comunique com a Rede Celo de forma mais consistente por meio de uma conexão confiável.",
+    "retryButton": "Tentar novamente com o modo de Economia de Dados"
   },
-  "congratsVerified": "Congratulations you are now verified!",
+  "congratsVerified": "Parabéns, você já foi verificado!",
   "notification": {
-    "body": "Receive payments directly to your phone number",
-    "cta": "Confirm Now"
+    "body": "Receba pagamentos diretamente no seu número de telefone",
+    "cta": "Confirmar agora"
   },
   "quotaLookup": {
-    "title": "Lookup quota exceeded",
-    "body1": "To keep your phone number safe and private, {{appName}} limits how many phone numbers users can lookup.",
-    "body2": "You can purchase more lookups for a small fee.",
-    "cta": "Purchase lookups (2)"
+    "title": "Limite de busca excedido",
+    "body1": "Para manter seu número de telefone seguro e privado, o {{appName}} limita a quantidade de números de telefone que os usuários podem consultar.",
+    "body2": "Você pode comprar mais buscas por uma pequena taxa.",
+    "cta": "Comprar buscas (2)"
   }
 }
