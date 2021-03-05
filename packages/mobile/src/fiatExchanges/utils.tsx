@@ -29,6 +29,14 @@ export const fetchProviderUrl = async (provider: Providers, requestData: Request
   return response.json()
 }
 
+export const isExpectedUrl = (fetchedUrl: string, providerUrl: string) => {
+  if (fetchedUrl.startsWith(providerUrl)) {
+    return true
+  }
+
+  return false
+}
+
 export const openMoonpay = (
   amount: number,
   currencyCode: LocalCurrencyCode,

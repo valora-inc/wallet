@@ -6,7 +6,7 @@ import { ActivityIndicator, BackHandler, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import WebView, { WebViewRef } from 'src/components/WebView'
 import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
-import { fetchProviderUrl } from 'src/fiatExchanges/utils'
+import { fetchProviderUrl, isExpectedUrl } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -64,6 +64,10 @@ function TransakScreen({ route }: Props) {
   )
 
   const url = fetchResponse?.result
+  // This should never happen
+  if (url && !isExpectedUrl(url, TRANSAK_URI)) {
+    return
+  }
 
   // Using Webview instead of InAppBrowswer because Transak doesn't
   // support deeplink redirects

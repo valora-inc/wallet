@@ -4,7 +4,7 @@ import { useAsync } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import InAppBrowser from 'src/components/InAppBrowser'
 import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
-import { fetchProviderUrl } from 'src/fiatExchanges/utils'
+import { fetchProviderUrl, isExpectedUrl } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -41,6 +41,10 @@ function RampScreen({ route }: Props) {
   )
 
   const url = fetchResponse?.result
+  // This should never happen
+  if (url && !isExpectedUrl(url, RAMP_URI)) {
+    return
+  }
 
   return <InAppBrowser uri={url} isLoading={!url} onCancel={navigateBack} />
 }

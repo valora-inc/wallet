@@ -31,18 +31,18 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
     const { url, public_key, private_key } = MOONPAY_DATA[env]
 
     finalUrl = `
-    ${url}
-      ?apiKey=${public_key}
-      &currencyCode=${digitalAsset}
-      &walletAddress=${address}
-      &baseCurrencyCode=${fiatCurrency}
-      &baseCurrencyAmount=${fiatAmount}
-      &redirectURL=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
-      `.replace(/\s+/g, '')
+      ${url}
+        ?apiKey=${public_key}
+        &currencyCode=${digitalAsset}
+        &walletAddress=${address}
+        &baseCurrencyCode=${fiatCurrency}
+        &baseCurrencyAmount=${fiatAmount}
+        &redirectURL=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
+        `.replace(/\s+/g, '')
 
     const signature = crypto
       .createHmac('sha256', private_key)
-      .update(new URL(url).search)
+      .update(new URL(finalUrl).search)
       .digest('base64')
 
     finalUrl = `${finalUrl}&signature=${encodeURIComponent(signature)}`
@@ -50,31 +50,31 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
     const { url, public_key } = RAMP_DATA[env]
 
     finalUrl = `
-    ${url}
-      ?hostApiKey=${public_key}
-      &userAddress=${address}
-      &swapAsset=${digitalAsset}
-      &hostAppName=Valora
-      &hostLogoUrl=${VALORA_LOGO_URL}
-      &fiatCurrency=${fiatCurrency}
-      &fiatValue=${fiatAmount}
-      &finalUrl=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
-    `.replace(/\s+/g, '')
+      ${url}
+        ?hostApiKey=${public_key}
+        &userAddress=${address}
+        &swapAsset=${digitalAsset}
+        &hostAppName=Valora
+        &hostLogoUrl=${VALORA_LOGO_URL}
+        &fiatCurrency=${fiatCurrency}
+        &fiatValue=${fiatAmount}
+        &finalUrl=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
+      `.replace(/\s+/g, '')
   } else if (providerName === 'transak') {
     const { url, public_key } = TRANSAK_DATA[env]
 
     finalUrl = `
-    ${url}
-      ?apiKey=${public_key}
-      &hostURL=${encodeURIComponent('https://www.valoraapp.com')}
-      &walletAddress=${address}
-      &disableWalletAddressForm=true
-      &cryptoCurrencyCode=${digitalAsset}
-      &fiatCurrency=${fiatCurrency}
-      &defaultFiatAmount=${fiatAmount}
-      &redirectURL=${encodeURIComponent(CASH_IN_SUCCESS_URL)}
-      &hideMenu=true
-    `.replace(/\s+/g, '')
+      ${url}
+        ?apiKey=${public_key}
+        &hostURL=${encodeURIComponent('https://www.valoraapp.com')}
+        &walletAddress=${address}
+        &disableWalletAddressForm=true
+        &cryptoCurrencyCode=${digitalAsset}
+        &fiatCurrency=${fiatCurrency}
+        &defaultFiatAmount=${fiatAmount}
+        &redirectURL=${encodeURIComponent(CASH_IN_SUCCESS_URL)}
+        &hideMenu=true
+      `.replace(/\s+/g, '')
   }
 
   response.send(JSON.stringify(finalUrl))
