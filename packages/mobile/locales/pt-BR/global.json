@@ -1,6 +1,6 @@
 {
   "accept": "Accept",
-  "at": "at",
+  "at": "em",
   "yourClockIsBroke": "Your phone date and time is inaccurate",
   "adjustYourClock": "Adjust your clock to read time automatically and try again. If the issue persists, you may need to restart the application",
   "adjustDate": "Adjust Date",
@@ -34,7 +34,7 @@
   "edit": "Edit",
   "paste": "Paste",
   "choose": "Choose",
-  "receivedPayment": "Received Payment",
+  "receivedPayment": "Pagamento recebido",
   "getStarted": "Get Started",
   "manageCeloDollars": "Manage Celo Dollars",
   "sendCeloDollars": "Send Celo Dollars",
