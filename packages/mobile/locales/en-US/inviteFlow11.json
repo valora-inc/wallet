@@ -27,5 +27,10 @@
     "title": "Invite and Send",
     "body": "Your payment to {{name}} will be waiting for them once they confirm their phone number. Share an invitation message with them to join {{appName}} and redeem your payment!",
     "button": "Invite"
-  }
+  },
+  "inviteRewardsBanner": {
+    "title": "Get up to $5 by referring friends!",
+    "body": "Send value to a friend to earn $1 in CELO when they join. Up to 5 friends per week"
+  },
+  "getReward": "Get ${{reward}}"
 }
