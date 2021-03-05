@@ -1,3 +1,5 @@
+import Button, { BtnSizes } from '@celo/react-components/components/Button'
+import TextButton from '@celo/react-components/components/TextButton'
 import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect } from 'react'
@@ -6,9 +8,11 @@ import deviceInfoModule from 'react-native-device-info'
 import { useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
 import { sessionIdSelector } from 'src/app/selectors'
+import BackButton from 'src/components/BackButton'
 import InAppBrowser from 'src/components/InAppBrowser'
 import WebView, { WebViewRef } from 'src/components/WebView'
 import { CASH_IN_SUCCESS_DEEPLINK, VALORA_LOGO_URL } from 'src/config'
+import ReviewFees from 'src/fiatExchanges/ReviewFees'
 import { SimplexService } from 'src/fiatExchanges/services/SimplexService'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import config from 'src/geth/networkConfig'
@@ -22,11 +26,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { navigateToURI } from 'src/utils/linking'
-import BackButton from 'src/components/BackButton'
-import ReviewFees from 'src/fiatExchanges/ReviewFees'
 import { currentAccountSelector } from 'src/web3/selectors'
-import TextButton from '@celo/react-components/components/TextButton'
-import Button, { BtnSizes } from '@celo/react-components/components/Button'
 
 const MIN_USD_TX_AMOUNT = 15
 
@@ -162,6 +162,7 @@ function SimplexScreen({ route, navigation }: Props) {
               localCurrency={currencyCode}
               fiat={exchange.fiat}
               crypto={exchange.crypto}
+              feesContent="Fees content"
             />
             <Button
               style={styles.button}

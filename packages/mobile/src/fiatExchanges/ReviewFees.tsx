@@ -1,14 +1,14 @@
-import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import fontStyles from '@celo/react-components/styles/fonts'
-import colors from '@celo/react-components/styles/colors'
-import { CURRENCY_ENUM } from 'src/geth/consts'
-import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import Dialog from 'src/components/Dialog'
 import Touchable from '@celo/react-components/components/Touchable'
-import InfoIcon from 'src/icons/InfoIcon'
+import colors from '@celo/react-components/styles/colors'
+import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
+import Dialog from 'src/components/Dialog'
+import { CURRENCY_ENUM } from 'src/geth/consts'
+import InfoIcon from 'src/icons/InfoIcon'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 
 interface Props {
   service: string
@@ -23,15 +23,23 @@ interface Props {
     fees: number
     total: number
   }
+  feesContent: string
 }
 
-export default function ReviewFees({ service, crypto, fiat, localCurrency, currencyToBuy }: Props) {
+export default function ReviewFees({
+  service,
+  crypto,
+  fiat,
+  localCurrency,
+  currencyToBuy,
+  feesContent,
+}: Props) {
   const [showingTerms, setShowingTerms] = React.useState(false)
 
   const closeTerms = () => setShowingTerms(false)
   const openTerms = () => setShowingTerms(true)
 
-  const showAmount = (value: number, isCelo: boolean = false, styles: any[] = []) => (
+  const showAmount = (value: number, isCelo: boolean = false, textStyle: any[] = []) => (
     <CurrencyDisplay
       amount={{
         value: 0,
@@ -46,19 +54,16 @@ export default function ReviewFees({ service, crypto, fiat, localCurrency, curre
       showLocalAmount={true}
       hideSign={true}
       showExplicitPositiveSign={false}
-      style={[...styles]}
+      style={[...textStyle]}
     />
   )
 
   return (
     <View style={[styles.review]}>
       <Dialog isVisible={showingTerms} actionText={'OK'} actionPress={closeTerms}>
-        <View>
-          <Text style={[fontStyles.large600]}>{service} Fees (TBD)</Text>
-        </View>
-        <View>
-          <Text style={[fontStyles.regular]}>Body</Text>
-        </View>
+        <Text style={[fontStyles.large600]}>{service} Fees (TBD)</Text>
+        {'\n\n'}
+        <Text style={[fontStyles.regular]}>{feesContent}</Text>
       </Dialog>
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText]}>Amount ({currencyToBuy})</Text>
@@ -96,6 +101,23 @@ export default function ReviewFees({ service, crypto, fiat, localCurrency, curre
 }
 
 const styles = StyleSheet.create({
+  dialog: {
+    textAlign: 'center',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: 'green',
+  },
+  dialogContent: {
+    backgroundColor: 'red',
+    width: '100%',
+    textAlign: 'center',
+  },
+  dialogTitle: {
+    marginBottom: 12,
+    display: 'flex',
+    width: '100%',
+  },
   review: {
     paddingVertical: 16,
     paddingHorizontal: 16,
