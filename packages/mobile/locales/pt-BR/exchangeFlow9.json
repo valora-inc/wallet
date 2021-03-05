@@ -1,5 +1,5 @@
 {
-  "learnMore": "Learn More",
+  "learnMore": "Saiba mais",
   "equalToAmount": "Equal to <1></1>",
   "whatIsGold": "{{appName}} allows you to buy and sell CELO",
   "manageCelo": "Manage Celo Dollars",
@@ -31,7 +31,7 @@
   "edit": "Edit",
   "notEnoughDollars": "Not enough Celo Dollars to make exchange",
   "notEnoughGold": "Not enough CELO to make exchange",
-  "pending": "Pending",
+  "pending": "Pendente",
   "loadingExchangeRate": "Loading Exchange Rate...",
   "errorRefreshingRate": "Could not refresh exchange rate",
   "exchangeRateChange": "Exchange rate has changed, please retry",
