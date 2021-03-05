@@ -1,6 +1,8 @@
+import { Address } from '@celo/base'
 import { ActionableAttestation } from '@celo/contractkit/lib/wrappers/Attestations'
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
+import _ from 'lodash'
 import { RootState } from 'src/redux/reducers'
 
 import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
@@ -14,12 +16,9 @@ const ESTIMATED_COST_PER_ATTESTATION = 0.051
 const rehydrate = createAction<any>(REHYDRATE)
 
 export const setKomenciContext = createAction<Partial<KomenciContext>>('VERIFY/SET_KOMENCI_CONTEXT')
-export const setOverrideWithoutVerification = createAction<boolean | undefined>(
-  'VERIFY/SET_OVERRIDE_WITHOUT_VERIFICATION'
-)
 export const checkIfKomenciAvailable = createAction('VERIFY/CHECK_IF_KOMENCI_AVAILABLE')
 export const setKomenciAvailable = createAction<KomenciAvailable>('VERIFY/SET_KOMENCI_AVAILABLE')
-export const start = createAction<{ e164Number: string; withoutRevealing: boolean }>('VERIFY/START')
+export const start = createAction<{ e164Number: string }>('VERIFY/START')
 export const stop = createAction('VERIFY/STOP')
 export const setUseKomenci = createAction<boolean>('VERIFY/SET_USE_KOMENCI')
 export const ensureRealHumanUser = createAction('VERIFY/ENSURE_REAL_HUMAN_USER')
@@ -27,6 +26,9 @@ export const startKomenciSession = createAction('VERIFY/START_KOMENCI_SESSION')
 export const fetchPhoneNumberDetails = createAction('VERIFY/FETCH_PHONE_NUMBER')
 export const fetchMtw = createAction('VERIFY/FETCH_MTW')
 export const fetchOnChainData = createAction('VERIFY/FETCH_ON_CHAIN_DATA')
+export const requestAttestations = createAction('VERIFY/REQUEST_ATTESTATIONS')
+export const revealAttestations = createAction('VERIFY/REVEAL_ATTESTATIONS')
+export const completeAttestations = createAction('VERIFY/COMPLETE_ATTESTATIONS')
 export const fail = createAction<string>('VERIFY/FAIL')
 export const succeed = createAction('VERIFY/SUCCEED')
 export const doVerificationFlow = createAction<boolean>('VERIFY/DO_VERIFICATION_FLOW')
@@ -38,6 +40,10 @@ export const setVerificationStatus = createAction<Partial<AttestationsStatus>>(
 export const setActionableAttestation = createAction<ActionableAttestation[]>(
   'VERIFY/SET_ACTIONABLE_ATTESTATIONS'
 )
+export const setRevealStatuses = createAction<Record<Address, RevealStatus>>(
+  'VERIFY/SET_REVEAL_STATUSES'
+)
+export const setAllRevealStatuses = createAction<RevealStatus>('VERIFY/SET_ALL_REVEAL_STATUSES')
 
 export enum StateType {
   Idle = 'Idle',
@@ -47,6 +53,9 @@ export enum StateType {
   FetchingPhoneNumberDetails = 'FetchingPhoneNumberDetails',
   FetchingMtw = 'FetchingMtw',
   FetchingOnChainData = 'FetchingOnChainData',
+  RequestingAttestations = 'RequestingAttestations',
+  RevealingAttestations = 'RevealingAttestations',
+  CompletingAttestations = 'CompletingAttestations',
   Error = 'Error',
 }
 
@@ -105,6 +114,30 @@ export const fetchingOnChainData = (): FetchingOnChainData => ({
   type: StateType.FetchingOnChainData,
 })
 
+// RequestingAttestations State
+interface RequestingAttestations {
+  type: StateType.RequestingAttestations
+}
+export const requestingAttestations = (): RequestingAttestations => ({
+  type: StateType.RequestingAttestations,
+})
+
+// RevealingAttestations State
+interface RevealingAttestations {
+  type: StateType.RevealingAttestations
+}
+export const revealingAttestations = (): RevealingAttestations => ({
+  type: StateType.RevealingAttestations,
+})
+
+// CompletingAttestations State
+interface CompletingAttestations {
+  type: StateType.CompletingAttestations
+}
+export const completingAttestations = (): CompletingAttestations => ({
+  type: StateType.CompletingAttestations,
+})
+
 // Error State
 interface Error {
   type: StateType.Error
@@ -123,6 +156,9 @@ type InternalState =
   | FetchingPhoneNumberDetails
   | FetchingMtw
   | FetchingOnChainData
+  | RequestingAttestations
+  | RevealingAttestations
+  | CompletingAttestations
   | Error
 
 export interface KomenciContext {
@@ -140,17 +176,21 @@ export enum KomenciAvailable {
   Unknown = 'UNKNOWN',
 }
 
+export enum RevealStatus {
+  NotRevealed = 'NOT_REVEALED',
+  Revealed = 'REVEALED',
+  Failed = 'FAILED',
+}
+
 export interface State {
   status: AttestationsStatus & { komenci: boolean }
   actionableAttestations: ActionableAttestation[]
+  revealStatuses: Record<Address, RevealStatus>
   currentState: InternalState
   komenci: KomenciContext
   komenciAvailable: KomenciAvailable
   phoneHash?: string
   e164Number?: string
-  retries: number
-  withoutRevealing: boolean
-  TEMPORARY_override_withoutVerification?: boolean
 }
 
 const initialState: State = {
@@ -170,11 +210,9 @@ const initialState: State = {
     komenci: true,
   },
   actionableAttestations: [],
-  retries: 0,
+  revealStatuses: {},
   currentState: idle(),
   komenciAvailable: KomenciAvailable.Unknown,
-  withoutRevealing: false,
-  TEMPORARY_override_withoutVerification: undefined,
 }
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -202,7 +240,6 @@ export const reducer = createReducer(initialState, (builder) => {
         ...state,
         e164Number: action.payload.e164Number,
         currentState: preparing(),
-        withoutRevealing: action.payload.withoutRevealing,
       }
     })
     .addCase(ensureRealHumanUser, (state) => {
@@ -267,15 +304,23 @@ export const reducer = createReducer(initialState, (builder) => {
       }
     })
     .addCase(setActionableAttestation, (state, action) => {
+      const actionableIssuers = action.payload.map((a) => a.issuer)
       return {
         ...state,
+        revealStatuses: _.pick(state.revealStatuses, actionableIssuers),
         actionableAttestations: action.payload,
       }
     })
-    .addCase(setOverrideWithoutVerification, (state, action) => {
+    .addCase(setRevealStatuses, (state, action) => {
       return {
         ...state,
-        TEMPORARY_override_withoutVerification: action.payload,
+        revealStatuses: { ...state.revealStatuses, ...action.payload },
+      }
+    })
+    .addCase(setAllRevealStatuses, (state, action) => {
+      return {
+        ...state,
+        revealStatuses: _.mapValues(state.revealStatuses, () => action.payload),
       }
     })
     .addCase(checkIfKomenciAvailable, (state) => {
@@ -331,8 +376,6 @@ export const shouldUseKomenciSelector = (state: RootState) => {
 export const verificationStatusSelector = (state: RootState) => state.verify.status
 export const actionableAttestationsSelector = (state: RootState): ActionableAttestation[] =>
   state.verify.actionableAttestations
-export const overrideWithoutVerificationSelector = (state: RootState): boolean | undefined =>
-  state.verify.TEMPORARY_override_withoutVerification
 
 export const isBalanceSufficientForSigRetrievalSelector = createSelector(
   [stableTokenBalanceSelector, celoTokenBalanceSelector],
@@ -363,4 +406,3 @@ export const isBalanceSufficientSelector = createSelector(
     return isBalanceSufficient
   }
 )
-export const withoutRevealingSelector = (state: RootState) => state.verify.withoutRevealing

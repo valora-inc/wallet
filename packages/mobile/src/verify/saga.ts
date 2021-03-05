@@ -77,20 +77,18 @@ import {
   KomenciAvailable,
   KomenciContext,
   komenciContextSelector,
-  overrideWithoutVerificationSelector,
   phoneHashSelector,
   reset,
   setActionableAttestation,
   setKomenciAvailable,
   setKomenciContext,
-  setOverrideWithoutVerification,
   setPhoneHash,
   setVerificationStatus,
   shouldUseKomenciSelector,
   start,
   startKomenciSession,
   stop,
-  withoutRevealingSelector,
+  requestAttestations,
 } from 'src/verify/reducer'
 import { getContractKit } from 'src/web3/contracts'
 import { registerWalletAndDekViaKomenci } from 'src/web3/dataEncryptionKey'
@@ -188,11 +186,8 @@ export function* fetchKomenciSession(komenciKit: KomenciKit, e164Number: string)
 }
 
 function* startOrResumeKomenciSessionSaga() {
-  const withoutRevealing = yield select(withoutRevealingSelector)
   // TODO: Move this out of saga
-  yield call(navigate, Screens.VerificationLoadingScreen, {
-    withoutRevealing,
-  })
+  yield call(navigate, Screens.VerificationLoadingScreen)
 
   Logger.debug(TAG, '@startOrResumeKomenciSession', 'Starting session')
 
@@ -262,7 +257,7 @@ export function* checkIfKomenciAvailableSaga() {
   yield put(setKomenciAvailable(isKomenciAvailable ? KomenciAvailable.Yes : KomenciAvailable.No))
 }
 
-export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof start>) {
+export function* startSaga() {
   try {
     const contractKit = yield call(getContractKit)
     const walletAddress = yield call(getConnectedUnlockedAccount)
@@ -289,9 +284,7 @@ export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof 
           yield put(ensureRealHumanUser())
         } else {
           // TODO: Move this out of saga
-          yield call(navigate, Screens.VerificationLoadingScreen, {
-            withoutRevealing,
-          })
+          yield call(navigate, Screens.VerificationLoadingScreen)
           yield put(fetchPhoneNumberDetails())
         }
       } catch (e) {
@@ -299,7 +292,7 @@ export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof 
         storeTimestampIfKomenciError(e)
         if (e instanceof KomenciErrorQuotaExceeded) {
           yield put(setKomenciAvailable(KomenciAvailable.No))
-          yield put(start({ e164Number, withoutRevealing }))
+          yield put(start({ e164Number }))
         }
       }
     } else {
@@ -536,7 +529,7 @@ export function* fetchOrDeployMtwSaga() {
             case e instanceof InvalidWallet:
             default:
               put(setKomenciAvailable(KomenciAvailable.No))
-              put(start({ e164Number, withoutRevealing: false }))
+              put(start({ e164Number }))
               return
           }
         }
@@ -642,18 +635,16 @@ export function* fetchOnChainDataSaga() {
     )
     Logger.debug(TAG, '@fetchOnChainDataSaga', 'Fetched actionable attestations')
     yield put(setActionableAttestation(actionableAttestations))
-    const overrideWithoutVerification = yield select(overrideWithoutVerificationSelector)
-    const withoutRevealing =
-      overrideWithoutVerification ??
-      actionableAttestations.length === status.numAttestationsRemaining
+    const withoutRevealing = actionableAttestations.length === status.numAttestationsRemaining
 
-    yield put(setOverrideWithoutVerification(undefined))
     yield put(doVerificationFlow(withoutRevealing))
   } catch (error) {
     Logger.error(TAG, '@fetchOnChainDataSaga', error)
     yield put(fail(ErrorMessages.VERIFICATION_FAILURE))
   }
 }
+
+export function* requestAttestationsSaga(action: ReturnType<typeof requestAttestations>) {}
 
 export function* failSaga(action: ReturnType<typeof fail>) {
   Logger.error(TAG, `@failSaga: ${action.payload}`)
