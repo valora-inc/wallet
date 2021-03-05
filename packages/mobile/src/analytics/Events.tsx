@@ -338,7 +338,7 @@ export enum FiatExchangeEvents {
   cico_external_exchanges_back = 'cico_external_exchanges_back',
   cico_cash_out_copy_address = 'cico_cash_out_copy_address',
 
-  cico_spend_select_provider = 'cico_spend_select_provider', // PH only, untested
+  cico_spend_select_provider = 'cico_spend_select_provider', // PH only, unimplemented
   cico_spend_select_provider_back = 'cico_spend_select_provider_back', // PH only, untested
 }
 
