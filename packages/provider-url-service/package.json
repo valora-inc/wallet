@@ -1,7 +1,7 @@
 {
-  "name": "@wallet/valora-auth",
+  "name": "@wallet/provider-url-service",
   "version": "1.0.0",
-  "description": "Access Valora API keys",
+  "description": "Serves 3rd party URLs with API keys and relevant signatures",
   "author": "Celo",
   "license": "Apache-2.0",
   "main": "dist/index.js",
