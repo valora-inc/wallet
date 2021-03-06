@@ -44,7 +44,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    fireEvent.press(getByTestId('Provider/Simplex'))
+    fireEvent.press(getByTestId('Provider/SIMPLEX'))
     expect(navigateToURI).toHaveBeenCalled()
   })
 
@@ -55,7 +55,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    fireEvent.press(getByTestId('Provider/Moonpay'))
+    fireEvent.press(getByTestId('Provider/MOONPAY'))
     expect(navigate).toHaveBeenCalledWith(Screens.MoonPayScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.BRL,
@@ -70,7 +70,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    fireEvent.press(getByTestId('Provider/Ramp'))
+    fireEvent.press(getByTestId('Provider/RAMP'))
     expect(navigate).toHaveBeenCalledWith(Screens.RampScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.BRL,
@@ -85,7 +85,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    fireEvent.press(getByTestId('Provider/Transak'))
+    fireEvent.press(getByTestId('Provider/TRANSAK'))
     expect(navigate).toHaveBeenCalledWith(Screens.TransakScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.BRL,

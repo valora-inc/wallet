@@ -6,19 +6,19 @@ import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { selectProvider } from 'src/fiatExchanges/actions'
+import { CiCoProvider, providersDisplayInfo } from 'src/fiatExchanges/reducer'
 import { openMoonpay, openRamp, openSimplex, openTransak } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
 import QuestionIcon from 'src/icons/QuestionIcon'
-import { moonpayLogo, simplexLogo } from 'src/images/Images'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -44,9 +44,8 @@ ProviderOptionsScreen.navigationOptions = ({
 }
 
 interface Provider {
-  name: string
+  id: CiCoProvider
   enabled: boolean
-  icon: string
   image?: React.ReactNode
   onSelected: () => void
 }
@@ -87,35 +86,25 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashOut: [],
     cashIn: [
       {
-        name: 'Moonpay',
+        id: CiCoProvider.MOONPAY,
         enabled: !MOONPAY_DISABLED,
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
-        image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () =>
           openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
-        name: 'Simplex',
+        id: CiCoProvider.SIMPLEX,
         enabled: true,
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
-        image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () => openSimplex(account),
       },
       {
-        name: 'Ramp',
+        id: CiCoProvider.RAMP,
         enabled: !RAMP_DISABLED,
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
         onSelected: () =>
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
-        name: 'Transak',
+        id: CiCoProvider.TRANSAK,
         enabled: !TRANSAK_DISABLED,
-        icon:
-          'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
         onSelected: () =>
           openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
@@ -125,9 +114,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const providerOnPress = (provider: Provider) => () => {
     ValoraAnalytics.track(FiatExchangeEvents.provider_chosen, {
       isCashIn,
-      provider: provider.name,
+      provider: provider.id,
     })
-    dispatch(selectProvider(provider.name, provider.icon))
+    dispatch(selectProvider(provider.id))
     provider.onSelected()
   }
 
@@ -139,9 +128,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
           {providers[isCashIn ? 'cashIn' : 'cashOut']
             .filter((provider) => provider.enabled)
             .map((provider) => (
-              <ListItem key={provider.name} onPress={providerOnPress(provider)}>
-                <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
-                  <Text style={styles.optionTitle}>{provider.name}</Text>
+              <ListItem key={provider.id} onPress={providerOnPress(provider)}>
+                <View style={styles.providerListItem} testID={`Provider/${provider.id}`}>
+                  <Text style={styles.optionTitle}>{providersDisplayInfo[provider.id].name}</Text>
                   <LinkArrow />
                 </View>
               </ListItem>
