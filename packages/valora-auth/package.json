@@ -8,7 +8,8 @@
   "scripts": {
     "serve": "firebase serve --only functions",
     "update-firebase-config": "./firebase-env-config.sh",
-    "deploy": "firebase use default && yarn update-firebase-config && firebase deploy",
+    "deploy:prod": "firebase use prod && yarn update-firebase-config && firebase deploy",
+    "deploy:staging": "firebase use staging && yarn update-firebase-config && firebase deploy",
     "clean": "tsc -b . --clean",
     "build": "tsc -b .",
     "lint": "tslint --project ."

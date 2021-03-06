@@ -43,7 +43,7 @@ function RampScreen({ route }: Props) {
   const url = fetchResponse?.result
   // This should never happen
   if (url && !isExpectedUrl(url, RAMP_URI)) {
-    return
+    return null
   }
 
   return <InAppBrowser uri={url} isLoading={!url} onCancel={navigateBack} />

@@ -66,7 +66,7 @@ function TransakScreen({ route }: Props) {
   const url = fetchResponse?.result
   // This should never happen
   if (url && !isExpectedUrl(url, TRANSAK_URI)) {
-    return
+    return null
   }
 
   // Using Webview instead of InAppBrowswer because Transak doesn't

@@ -12,7 +12,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
-import { CurrencyNames } from 'src/config'
+import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import { openMoonpay, openRamp, openSimplex, openTransak } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
@@ -71,8 +71,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const isCashIn = route.params?.isCashIn ?? true
   const { RAMP_DISABLED, MOONPAY_DISABLED, TRANSAK_DISABLED } = useCountryFeatures()
   const selectedCurrency = {
-    [CURRENCY_ENUM.GOLD]: CurrencyNames.CELO,
-    [CURRENCY_ENUM.DOLLAR]: CurrencyNames.CUSD,
+    [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
+    [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
   }[route.params.currency || CURRENCY_ENUM.DOLLAR]
 
   const dispatch = useDispatch()

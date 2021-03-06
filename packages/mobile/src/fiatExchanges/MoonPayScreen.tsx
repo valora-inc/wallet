@@ -43,7 +43,7 @@ function MoonPayScreen({ route }: Props) {
   const url = fetchResponse?.result
   // This should never happen
   if (url && !isExpectedUrl(url, MOONPAY_URI)) {
-    return
+    return null
   }
 
   return <InAppBrowser uri={url} isLoading={!url} onCancel={navigateBack} />

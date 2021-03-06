@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "celo-mobile-mainnet"
+    "staging": "celo-testnet-production",
+    "prod": "celo-mobile-mainnet"
   }
 }

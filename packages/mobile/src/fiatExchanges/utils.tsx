@@ -1,4 +1,10 @@
-import { CurrencyNames, DEFAULT_TESTNET, PROVIDER_URL_COMPOSER, SIMPLEX_URI } from 'src/config'
+import {
+  CurrencyCode,
+  DEFAULT_TESTNET,
+  PROVIDER_URL_COMPOSER_PROD,
+  PROVIDER_URL_COMPOSER_STAGING,
+  SIMPLEX_URI,
+} from 'src/config'
 import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
@@ -13,34 +19,32 @@ interface RequestData {
 }
 
 export const fetchProviderUrl = async (provider: Providers, requestData: RequestData) => {
-  const response = await fetch(PROVIDER_URL_COMPOSER, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      ...requestData,
-      provider,
-      env: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'staging',
-    }),
-  })
+  const response = await fetch(
+    DEFAULT_TESTNET === 'mainnet' ? PROVIDER_URL_COMPOSER_PROD : PROVIDER_URL_COMPOSER_STAGING,
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...requestData,
+        provider,
+        env: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'staging',
+      }),
+    }
+  )
 
   return response.json()
 }
 
-export const isExpectedUrl = (fetchedUrl: string, providerUrl: string) => {
-  if (fetchedUrl.startsWith(providerUrl)) {
-    return true
-  }
-
-  return false
-}
+export const isExpectedUrl = (fetchedUrl: string, providerUrl: string) =>
+  fetchedUrl.startsWith(providerUrl)
 
 export const openMoonpay = (
   amount: number,
   currencyCode: LocalCurrencyCode,
-  currencyToBuy: CurrencyNames
+  currencyToBuy: CurrencyCode
 ) => {
   navigate(Screens.MoonPayScreen, {
     localAmount: amount,
@@ -56,7 +60,7 @@ export const openSimplex = (account: string | null) => {
 export const openRamp = (
   amount: number,
   currencyCode: LocalCurrencyCode,
-  currencyToBuy: CurrencyNames
+  currencyToBuy: CurrencyCode
 ) => {
   navigate(Screens.RampScreen, {
     localAmount: amount,
@@ -68,7 +72,7 @@ export const openRamp = (
 export const openTransak = (
   amount: number,
   currencyCode: LocalCurrencyCode,
-  currencyToBuy: CurrencyNames
+  currencyToBuy: CurrencyCode
 ) => {
   navigate(Screens.TransakScreen, {
     localAmount: amount,

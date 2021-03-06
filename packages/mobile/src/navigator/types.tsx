@@ -7,7 +7,7 @@ import {
 } from '@celo/utils'
 import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
-import { CurrencyNames } from 'src/config'
+import { CurrencyCode } from 'src/config'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { AddressValidationType } from 'src/identity/reducer'
@@ -109,17 +109,17 @@ export type StackParamList = {
   [Screens.MoonPayScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CurrencyNames
+    currencyToBuy: CurrencyCode
   }
   [Screens.RampScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CurrencyNames
+    currencyToBuy: CurrencyCode
   }
   [Screens.TransakScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CurrencyNames
+    currencyToBuy: CurrencyCode
   }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:

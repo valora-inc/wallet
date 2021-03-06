@@ -172,8 +172,11 @@ export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
 export const PONTO_URI = 'https://withponto.com/partners/celo/valora'
 export const KOTANI_URI = 'https://kotanipay.com/partners/valora'
 
-export const PROVIDER_URL_COMPOSER =
+export const PROVIDER_URL_COMPOSER_PROD =
   'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/composeCicoProviderUrl'
+
+export const PROVIDER_URL_COMPOSER_STAGING =
+  'https://us-central1-celo-testnet-production.cloudfunctions.net/composeCicoProviderUrl'
 
 export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
 
@@ -181,7 +184,7 @@ export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 
-export enum CurrencyNames {
+export enum CurrencyCode {
   CELO = 'CELO',
   CUSD = 'CUSD',
 }
