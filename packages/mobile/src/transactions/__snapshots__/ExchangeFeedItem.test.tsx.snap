@@ -79,7 +79,7 @@ exports[`ExchangeFeedItem renders correctly 1`] = `
             }
           }
         >
-          feedItemExchangeTitle
+          feedItemBoughtCeloTitle
         </Text>
         <Text
           numberOfLines={1}
@@ -102,6 +102,7 @@ exports[`ExchangeFeedItem renders correctly 1`] = `
             ]
           }
         >
+          -
           $
           1.33
         </Text>
@@ -117,20 +118,7 @@ exports[`ExchangeFeedItem renders correctly 1`] = `
           }
         }
       >
-        <Text
-          numberOfLines={1}
-          style={
-            Array [
-              undefined,
-              Object {
-                "color": "#2E3338",
-              },
-            ]
-          }
-        >
-          
-          10.000
-        </Text>
+        feedItemExchangeCeloInfo
       </Text>
     </View>
   </View>
