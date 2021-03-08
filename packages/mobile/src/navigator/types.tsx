@@ -100,6 +100,7 @@ export type StackParamList = {
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
     currency: CURRENCY_ENUM
+    type: 'card' | 'bank'
   }
   [Screens.FiatExchangeOptions]: {
     isCashIn?: boolean
@@ -175,6 +176,7 @@ export type StackParamList = {
     isCashIn?: boolean
     currency: CURRENCY_ENUM
     amount: number
+    type: 'card' | 'bank'
   }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {

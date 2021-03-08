@@ -46,6 +46,7 @@ ProviderOptionsScreen.navigationOptions = ({
 interface Provider {
   name: string
   enabled: boolean
+  allow: Array<'card' | 'bank'>
   icon: string
   image?: React.ReactNode
   onSelected: () => void
@@ -63,6 +64,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const isCashIn = route.params?.isCashIn ?? true
   const { RAMP_DISABLED, MOONPAY_DISABLED, TRANSAK_DISABLED } = useCountryFeatures()
   const selectedCurrency = route.params.currency || CURRENCY_ENUM.DOLLAR
+  const { type } = route.params
 
   const dispatch = useDispatch()
 
@@ -89,6 +91,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       {
         name: 'Moonpay',
         enabled: !MOONPAY_DISABLED,
+        allow: ['card', 'bank'],
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
         image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
@@ -98,6 +101,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       {
         name: 'Simplex',
         enabled: true,
+        allow: ['card', 'bank'],
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
         image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
@@ -106,6 +110,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       {
         name: 'Ramp',
         enabled: !RAMP_DISABLED,
+        allow: ['card', 'bank'],
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
         onSelected: () =>
@@ -114,6 +119,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       {
         name: 'Transak',
         enabled: !TRANSAK_DISABLED,
+        allow: ['card', 'bank'],
         icon:
           'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
         onSelected: () =>
@@ -137,7 +143,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         <Text style={styles.pleaseSelectProvider}>{t('pleaseSelectProvider')}</Text>
         <View style={styles.providersContainer}>
           {providers[isCashIn ? 'cashIn' : 'cashOut']
-            .filter((provider) => provider.enabled)
+            .filter((provider) => provider.enabled && provider.allow.includes(type))
             .map((provider) => (
               <ListItem key={provider.name} onPress={providerOnPress(provider)}>
                 <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>

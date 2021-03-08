@@ -93,7 +93,7 @@ function FiatExchangeAmount({ route }: Props) {
   const localCurrencyCode = useLocalCurrencyCode()
   const currencySymbol = LocalCurrencySymbol[localCurrencyCode]
 
-  const { currency } = route.params
+  const { currency, type } = route.params
   const isCusdCashIn = currency === CURRENCY_ENUM.DOLLAR
   const inputCurrencySymbol = isCusdCashIn ? currencySymbol : ''
 
@@ -128,6 +128,7 @@ function FiatExchangeAmount({ route }: Props) {
   function goToProvidersScreen() {
     navigate(Screens.ProviderOptionsScreen, {
       isCashIn: true,
+      type,
       currency: route.params.currency,
       amount: localCurrencyAmount?.toNumber() || 0,
     })

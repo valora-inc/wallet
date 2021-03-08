@@ -31,7 +31,8 @@ type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeOptions>
 type Props = RouteProps
 
 export enum PaymentMethod {
-  FIAT = 'FIAT',
+  CARD = 'CARD',
+  BANK = 'BANK',
   EXCHANGE = 'EXCHANGE',
   ADDRESS = 'ADDRESS',
   PONTO = 'PONTO',
@@ -125,7 +126,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
   const isCeloCashInOptionAvailable = !MOONPAY_DISABLED
   const [selectedCurrency, setSelectedCurrency] = useState<CURRENCY_ENUM>(CURRENCY_ENUM.DOLLAR)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod>(
-    isCashIn ? PaymentMethod.FIAT : PaymentMethod.EXCHANGE
+    isCashIn ? PaymentMethod.CARD : PaymentMethod.EXCHANGE
   )
   const [isEducationDialogVisible, setEducationDialogVisible] = useState(false)
 
@@ -148,7 +149,10 @@ function FiatExchangeOptions({ route, navigation }: Props) {
     } else if (selectedPaymentMethod === PaymentMethod.ADDRESS) {
       navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
     } else {
-      navigate(Screens.FiatExchangeAmount, { currency: selectedCurrency })
+      navigate(Screens.FiatExchangeAmount, {
+        currency: selectedCurrency,
+        type: selectedPaymentMethod === PaymentMethod.CARD ? 'card' : 'bank',
+      })
     }
   }
 
@@ -192,7 +196,8 @@ function FiatExchangeOptions({ route, navigation }: Props) {
             }}
             enabled={
               isCeloCashInOptionAvailable ||
-              (selectedPaymentMethod !== PaymentMethod.FIAT &&
+              (selectedPaymentMethod !== PaymentMethod.CARD &&
+                selectedPaymentMethod !== PaymentMethod.BANK &&
                 selectedPaymentMethod !== PaymentMethod.GIFT_CARD)
             }
           />
@@ -204,15 +209,26 @@ function FiatExchangeOptions({ route, navigation }: Props) {
         </Text>
         <View style={styles.paymentMethodsContainer}>
           {isCashIn && (
-            <PaymentMethodRadioItem
-              text={t('payWithFiat')}
-              selected={selectedPaymentMethod === PaymentMethod.FIAT}
-              onSelect={onSelectPaymentMethod(PaymentMethod.FIAT)}
-              enabled={
-                selectedCurrency === CURRENCY_ENUM.DOLLAR ||
-                (selectedCurrency === CURRENCY_ENUM.GOLD && isCeloCashInOptionAvailable)
-              }
-            />
+            <>
+              <PaymentMethodRadioItem
+                text={t('payWithFiatCard')}
+                selected={selectedPaymentMethod === PaymentMethod.CARD}
+                onSelect={onSelectPaymentMethod(PaymentMethod.CARD)}
+                enabled={
+                  selectedCurrency === CURRENCY_ENUM.DOLLAR ||
+                  (selectedCurrency === CURRENCY_ENUM.GOLD && isCeloCashInOptionAvailable)
+                }
+              />
+              <PaymentMethodRadioItem
+                text={t('payWithFiatBank')}
+                selected={selectedPaymentMethod === PaymentMethod.BANK}
+                onSelect={onSelectPaymentMethod(PaymentMethod.BANK)}
+                enabled={
+                  selectedCurrency === CURRENCY_ENUM.DOLLAR ||
+                  (selectedCurrency === CURRENCY_ENUM.GOLD && isCeloCashInOptionAvailable)
+                }
+              />
+            </>
           )}
           <PaymentMethodRadioItem
             text={t('payWithExchange')}
