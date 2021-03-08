@@ -19,6 +19,7 @@ export interface State {
   pontoEnabled: boolean
   kotaniEnabled: boolean
   celoEducationUri: string | null
+  shortVerificationCodesEnabled: boolean
   inviteModalVisible: boolean
   activeScreen: Screens
 }
@@ -37,6 +38,7 @@ const initialState = {
   minVersion: null,
   pontoEnabled: false,
   kotaniEnabled: false,
+  shortVerificationCodesEnabled: false,
   celoEducationUri: null,
   inviteModalVisible: false,
   activeScreen: Screens.Main,
@@ -140,6 +142,7 @@ export const appReducer = (
         pontoEnabled: action.flags.pontoEnabled,
         kotaniEnabled: action.flags.kotaniEnabled,
         celoEducationUri: action.flags.celoEducationUri,
+        shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

@@ -198,3 +198,108 @@ exports[`VerificationCodeRow renders correctly for input 1`] = `
   </View>
 </View>
 `;
+
+exports[`VerificationCodeRow renders correctly with short codes 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "padding": 16,
+      },
+      Object {
+        "borderRadius": 8,
+      },
+      undefined,
+      Array [
+        Object {
+          "backgroundColor": "rgba(103, 99, 86, 0.1)",
+          "padding": 0,
+        },
+        undefined,
+      ],
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "borderRadius": 8,
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "flexDirection": "row",
+          "padding": 20,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "marginLeft": 4,
+            "width": 32,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "flex": 1,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#A49B80",
+              "fontFamily": "Inter-SemiBold",
+              "fontSize": 13,
+              "lineHeight": 16,
+              "marginBottom": 4,
+              "opacity": 0.5,
+              "textAlign": "center",
+            }
+          }
+        >
+          Test label
+        </Text>
+        <Text
+          numberOfLines={1}
+          style={
+            Object {
+              "color": "#A49B80",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 18,
+              "lineHeight": 24,
+              "textAlign": "center",
+            }
+          }
+        >
+          ab8049b95ac02e989aae8b61fddc10fe9b3ac3c6aebcd3e68be495570b2d3da15aabc691ab88de69648f988fab653ac943f67404e532cfd1013627f56365f36501
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "marginLeft": 4,
+            "width": 32,
+          }
+        }
+      >
+        <ActivityIndicator
+          animating={true}
+          color="#1AB775"
+          hidesWhenStopped={true}
+          size="small"
+        />
+      </View>
+    </View>
+  </View>
+</View>
+`;

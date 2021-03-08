@@ -80,6 +80,7 @@ interface HomeEventsProperties {
   [HomeEvents.notification_select]: {
     notificationType: NotificationBannerTypes
     selectedAction: NotificationBannerCTATypes
+    notificationId?: string
   }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
@@ -723,6 +724,10 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.provider_chosen]: {
     isCashIn: boolean
     provider: string
+  }
+  [FiatExchangeEvents.cash_in_success]: {
+    provider: string
+    currency: string
   }
 }
 

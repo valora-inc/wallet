@@ -473,6 +473,7 @@ export const v7Schema = {
     ...v6Schema.app,
     activeScreen: '',
     celoEducationUri: null,
+    shortVerificationCodesEnabled: false,
   },
   account: {
     ...v6Schema.account,
@@ -483,6 +484,16 @@ export const v7Schema = {
   home: {
     loading: false,
     notifications: {},
+  },
+  fiatExchanges: {
+    lastUsedProvider: null,
+    txHashToProvider: {},
+  },
+  send: {
+    ...v6Schema.send,
+    inviteRewardsEnabled: false,
+    inviteRewardCusd: 1,
+    inviteRewardWeeklyLimit: 5,
   },
 }
 

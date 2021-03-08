@@ -20,6 +20,30 @@ describe('CodeInput', () => {
           inputPlaceholder={'placeholder'}
           onInputChange={jest.fn()}
           shouldShowClipboard={jest.fn()}
+          shortVerificationCodesEnabled={false}
+        />
+      )
+      expect(toJSON()).toMatchSnapshot()
+    })
+  })
+
+  it('renders correctly for all CodeInputStatus states with short codes', () => {
+    ;[
+      CodeInputStatus.DISABLED,
+      CodeInputStatus.INPUTTING,
+      CodeInputStatus.PROCESSING,
+      CodeInputStatus.RECEIVED,
+      CodeInputStatus.ACCEPTED,
+    ].map((status) => {
+      const { toJSON } = render(
+        <CodeInput
+          label="label"
+          status={status}
+          inputValue={'test'}
+          inputPlaceholder={'placeholder'}
+          onInputChange={jest.fn()}
+          shouldShowClipboard={jest.fn()}
+          shortVerificationCodesEnabled={true}
         />
       )
       expect(toJSON()).toMatchSnapshot()
@@ -35,6 +59,7 @@ describe('CodeInput', () => {
         inputPlaceholder={'placeholder'}
         onInputChange={jest.fn()}
         shouldShowClipboard={jest.fn()}
+        shortVerificationCodesEnabled={false}
       />
     )
 

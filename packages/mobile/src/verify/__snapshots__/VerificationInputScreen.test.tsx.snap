@@ -174,7 +174,9 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                             "paddingVertical": 12,
                           },
                           undefined,
-                          undefined,
+                          Object {
+                            "minHeight": undefined,
+                          },
                         ]
                       }
                       underlineColorAndroid="transparent"
@@ -397,49 +399,6 @@ exports[`VerificationInputScreen renders correctly 1`] = `
         </View>
       </View>
     </RCTScrollView>
-    <View
-      pointerEvents="none"
-      style={
-        Object {
-          "alignItems": "center",
-          "bottom": 0,
-          "left": 0,
-          "position": "absolute",
-          "right": 0,
-        }
-      }
-    >
-      <View
-        style={
-          Array [
-            Object {
-              "backgroundColor": "#0768AE",
-              "borderRadius": 4,
-              "marginHorizontal": 16,
-              "marginVertical": 16,
-              "opacity": 0,
-            },
-            false,
-          ]
-        }
-      >
-        <Text
-          style={
-            Object {
-              "color": "#FFFFFF",
-              "fontFamily": "Inter-Medium",
-              "fontSize": 14,
-              "lineHeight": 18,
-              "paddingHorizontal": 16,
-              "paddingVertical": 8,
-              "textAlign": "center",
-            }
-          }
-        >
-          verificationInput.typingTip
-        </Text>
-      </View>
-    </View>
   </View>
   <Modal
     animationType="none"
