@@ -17,7 +17,7 @@ files=(
   "packages/mobile/ios/sentry.properties"
   "packages/mobile/secrets.json"
   "packages/moonpay-auth/.env"
-  "packages/valora-auth/.env"
+  "packages/provider-url-service/.env"
   ".env.mnemonic"
   ".env.mnemonic.alfajores"
   ".env.mnemonic.baklava"

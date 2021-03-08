@@ -28,10 +28,10 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
   let finalUrl
 
   if (providerName === 'moonpay') {
-    const { url, public_key, private_key } = MOONPAY_DATA[env]
+    const { widgetUrl, public_key, private_key } = MOONPAY_DATA[env]
 
     finalUrl = `
-      ${url}
+      ${widgetUrl}
         ?apiKey=${public_key}
         &currencyCode=${digitalAsset}
         &walletAddress=${address}
@@ -47,10 +47,10 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
 
     finalUrl = `${finalUrl}&signature=${encodeURIComponent(signature)}`
   } else if (providerName === 'ramp') {
-    const { url, public_key } = RAMP_DATA[env]
+    const { widgetUrl, public_key } = RAMP_DATA[env]
 
     finalUrl = `
-      ${url}
+      ${widgetUrl}
         ?hostApiKey=${public_key}
         &userAddress=${address}
         &swapAsset=${digitalAsset}
@@ -61,10 +61,10 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &finalUrl=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
       `.replace(/\s+/g, '')
   } else if (providerName === 'transak') {
-    const { url, public_key } = TRANSAK_DATA[env]
+    const { widgetUrl, public_key } = TRANSAK_DATA[env]
 
     finalUrl = `
-      ${url}
+      ${widgetUrl}
         ?apiKey=${public_key}
         &hostURL=${encodeURIComponent('https://www.valoraapp.com')}
         &walletAddress=${address}
