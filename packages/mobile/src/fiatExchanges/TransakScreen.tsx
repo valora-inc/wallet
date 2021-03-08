@@ -31,10 +31,10 @@ function TransakScreen({ route }: Props) {
   const { localAmount, currencyCode, currencyToBuy } = route.params
   const account = useSelector(currentAccountSelector)
 
-  // Replace with CASH_IN_SUCCESS_DEEPLINK when Transak supports deeplinks
+  // Remove when Transak supports deeplinks
   const webRedirectUrl = 'https://valoraapp.com/?done=true'
-
-  const onNavigationStateChange = ({ url }: any) => url.startsWith(webRedirectUrl) && navigateHome()
+  const onNavigationStateChange = (event: any) =>
+    event?.url?.startsWith(webRedirectUrl) && navigateHome()
 
   const webview = useRef<WebViewRef>(null)
   const onAndroidBackPress = (): boolean => {
