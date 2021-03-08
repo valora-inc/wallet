@@ -54,3 +54,5 @@ export const VALORA_LOGO_URL =
 export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
 
 export const CASH_IN_SUCCESS_URL = 'https://valoraapp.com/?done=true'
+
+export const MOONPAY_API_URL = 'https://api.moonpay.com'
