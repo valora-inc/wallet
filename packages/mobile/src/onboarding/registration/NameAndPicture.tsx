@@ -3,7 +3,7 @@ import FormInput from '@celo/react-components/components/FormInput'
 import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
 import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -14,7 +14,8 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import DevSkipButton from 'src/components/DevSkipButton'
-import { Namespaces } from 'src/i18n'
+import i18n, { Namespaces } from 'src/i18n'
+import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -24,13 +25,27 @@ import { saveProfilePicture } from 'src/utils/image'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
-function NameAndPicture({}: Props) {
+function NameAndPicture({ navigation }: Props) {
   const [nameInput, setNameInput] = useState('')
   const cachedName = useTypedSelector((state) => state.account.name)
   const picture = useTypedSelector((state) => state.account.pictureUri)
+  const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
   const dispatch = useDispatch()
 
   const { t } = useTranslation(Namespaces.nuxNamePin1)
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <HeaderTitleWithSubtitle
+          title={i18n.t(
+            choseToRestoreAccount ? 'onboarding:restoreAccount' : 'onboarding:createAccount'
+          )}
+          subTitle={i18n.t('onboarding:step', { step: '1' })}
+        />
+      ),
+    })
+  }, [navigation, choseToRestoreAccount])
 
   const goToNextScreen = () => {
     navigate(Screens.PincodeSet)
@@ -105,6 +120,8 @@ function NameAndPicture({}: Props) {
     </SafeAreaView>
   )
 }
+
+NameAndPicture.navOptions = nuxNavigationOptions
 
 export default NameAndPicture
 

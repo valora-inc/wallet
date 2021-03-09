@@ -7,11 +7,13 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { useDispatch } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
-import { openMoonpay, openRamp, openSimplex } from 'src/fiatExchanges/utils'
+import { selectProvider } from 'src/fiatExchanges/actions'
+import { openMoonpay, openRamp, openSimplex, openTransak } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -44,6 +46,7 @@ ProviderOptionsScreen.navigationOptions = ({
 interface Provider {
   name: string
   enabled: boolean
+  icon: string
   image?: React.ReactNode
   onSelected: () => void
 }
@@ -58,8 +61,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
-  const { MOONPAY_DISABLED, RAMP_DISABLED } = useCountryFeatures()
+  const { RAMP_DISABLED, MOONPAY_DISABLED, TRANSAK_DISABLED } = useCountryFeatures()
   const selectedCurrency = route.params.currency || CURRENCY_ENUM.DOLLAR
+
+  const dispatch = useDispatch()
 
   useLayoutEffect(() => {
     const showExplanation = () => setShowExplanation(true)
@@ -84,6 +89,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       {
         name: 'Moonpay',
         enabled: !MOONPAY_DISABLED,
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
         image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () =>
           openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
@@ -91,14 +98,26 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       {
         name: 'Simplex',
         enabled: true,
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
         image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () => openSimplex(account),
       },
       {
         name: 'Ramp',
         enabled: !RAMP_DISABLED,
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
         onSelected: () =>
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+      },
+      {
+        name: 'Transak',
+        enabled: !TRANSAK_DISABLED,
+        icon:
+          'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
+        onSelected: () =>
+          openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
     ],
   }
@@ -108,6 +127,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       isCashIn,
       provider: provider.name,
     })
+    dispatch(selectProvider(provider.name, provider.icon))
     provider.onSelected()
   }
 

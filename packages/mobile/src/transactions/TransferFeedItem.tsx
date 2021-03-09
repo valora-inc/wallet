@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType, TransferItemFragment } from 'src/apollo/types'
+import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { Namespaces } from 'src/i18n'
 import { addressToDisplayNameSelector, AddressToE164NumberType } from 'src/identity/reducer'
 import { InviteDetails } from 'src/invite/actions'
@@ -60,6 +61,7 @@ function navigateToTransactionReview({
 export function TransferFeedItem(props: Props) {
   const { t } = useTranslation(Namespaces.walletFlow5)
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
+  const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
 
   const onPress = () => {
     navigateToTransactionReview(props)
@@ -71,6 +73,7 @@ export function TransferFeedItem(props: Props) {
     address,
     timestamp,
     type,
+    hash,
     comment,
     commentKey,
     status,
@@ -79,21 +82,23 @@ export function TransferFeedItem(props: Props) {
     recentTxRecipientsCache,
     invitees,
   } = props
+  const txInfo = txHashToFeedInfo[hash]
 
   const { title, info, recipient } = getTransferFeedParams(
     type,
     t,
     recipientCache,
     recentTxRecipientsCache,
+    txInfo?.name || addressToDisplayName[address]?.name,
     address,
     addressToE164Number,
-    addressToDisplayName,
     comment,
     commentKey,
     timestamp,
-    invitees
+    invitees,
+    addressToDisplayName[address]?.isCeloRewardSender ?? false
   )
-  const imageUrl = addressToDisplayName[address]?.imageUrl ?? null
+  const imageUrl = (txInfo?.icon || addressToDisplayName[address]?.imageUrl) ?? null
 
   return (
     <TransactionFeedItem
