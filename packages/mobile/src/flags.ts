@@ -34,12 +34,6 @@ export const countryFeatures = {
   MOONPAY_DISABLED: {
     US: true,
   },
-  RAMP_DISABLED: {
-    US: true,
-  },
-  TRANSAK_DISABLED: {
-    US: true,
-  },
   PONTO_SUPPORTED: {
     PH: true,
   },
@@ -71,7 +65,6 @@ export const providerAvailability = {
   },
   RAMP_RESTRICTED: {
     US: {
-      CA: true,
       HI: true,
       NY: true,
       NE: true,

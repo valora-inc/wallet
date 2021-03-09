@@ -117,6 +117,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   }, [])
 
   const fetchResponse = useAsync(fetchUserIpAddress, [])
+
   useEffect(() => {
     const { result, status } = fetchResponse
 
@@ -127,7 +128,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       const alpha2 = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
       setUserLocation({ country: alpha2, state: null })
     }
-  }, [fetchResponse.result])
+  }, [fetchResponse.status])
 
   const providers: {
     cashOut: Provider[]

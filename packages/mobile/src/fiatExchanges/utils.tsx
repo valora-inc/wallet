@@ -128,11 +128,11 @@ type Entries<T> = Array<{ [K in keyof T]: [K, T[K]] }[keyof T]>
 export function getProviderAvailability(
   userLocation: UserLocation | undefined
 ): SpecificProviderAvailability {
-  // tslint:disable-next-line: no-object-literal-type-assertion
   const { countryCodeAlpha2, stateCode } = userLocation
     ? { countryCodeAlpha2: userLocation.country, stateCode: userLocation.state }
     : { countryCodeAlpha2: null, stateCode: null }
 
+  // tslint:disable-next-line: no-object-literal-type-assertion
   const features = {} as SpecificProviderAvailability
   for (const [key, value] of Object.entries(providerAvailability) as Entries<
     ProviderAvailability
