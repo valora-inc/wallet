@@ -45,3 +45,6 @@ export const numberVerifiedSelector = (state: RootState) => state.app.numberVeri
 export const pontoEnabledSelector = (state: RootState) => state.app.pontoEnabled
 
 export const kotaniEnabledSelector = (state: RootState) => state.app.kotaniEnabled
+
+export const shortVerificationCodesEnabledSelector = (state: RootState) =>
+  state.app.shortVerificationCodesEnabled

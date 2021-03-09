@@ -75,6 +75,7 @@
     "title": "Confirmar",
     "body": "Enviamos três mensagens para você (SMS). Copie e cole-os abaixo.",
     "body_ios": "Enviamos três mensagens para você (SMS). Toque no link de cada mensagem para preencher os códigos abaixo ou copie e cole-os manualmente.",
+    "body_short": "Enviamos três códigos para {{phoneNumber}}, insira-os abaixo.",
     "codeLabel1": "Primeiro código",
     "codeLabel2": "Segundo código",
     "codeLabel3": "Terceiro código",
@@ -85,7 +86,6 @@
     "codePlaceholder3": "Copiar a terceira mensagem",
     "codePlaceholder3_ios": "Toque ou copie a terceira mensagem",
     "codePlaceholderWithCodeInClipboard": "Ótimo! Cole aqui",
-    "typingTip": "Você está digitando? Tente copiar e colar",
     "resendMessages": "Reenviar última mensagem",
     "resendMessages_plural": "Reenviar {{count}} mensagens",
     "resendMessages_all": "Reenviar todas as mensagens"
