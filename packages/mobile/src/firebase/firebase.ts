@@ -145,12 +145,6 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
     yield call(handleNotification, initialNotification, NotificationReceiveState.APP_OPENED_FRESH)
   }
-
-  app.messaging().setBackgroundMessageHandler((remoteMessage) => {
-    Logger.info(TAG, 'received Notification while app in Background')
-    // Nothing to do while app is in background
-    return Promise.resolve() // need to return a resolved promise so native code releases the JS context
-  })
 }
 
 export const registerTokenToDb = async (
