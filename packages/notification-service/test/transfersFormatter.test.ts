@@ -1,5 +1,6 @@
 import { TokenTransfer } from '../src/blockscout/blockscout'
-import { formatNativeTransfers } from '../src/blockscout/nativeTransfersFormatter'
+import { Currencies } from '../src/blockscout/transfers'
+import { formatTransfers } from '../src/blockscout/transfersFormatter'
 
 const TRANSFERS: TokenTransfer[] = [
   {
@@ -47,7 +48,7 @@ const TRANSFERS: TokenTransfer[] = [
 
 describe('formatNativeTransfers', () => {
   it('should format transfers correctly', () => {
-    const { transfers, latestBlock } = formatNativeTransfers(TRANSFERS)
+    const { transfers, latestBlock } = formatTransfers(TRANSFERS, Currencies.GOLD)
     expect(latestBlock).toBe(3440605)
 
     // The second transaction uses an ERC-20 token so it's ignored.
@@ -56,11 +57,23 @@ describe('formatNativeTransfers', () => {
         "0x924d9446580937be2a0aecf952e9c96186501eeef5a0af1873ef5863f9d3fa2b" => Array [
           Object {
             "blockNumber": 3440605,
+            "currency": "gold",
             "recipient": "0x6131a6d616a4be3737b38988847270a64bc10caa",
             "sender": "0xa7ed835288aa4524bb6c73dd23c0bf4315d9fe3e",
             "timestamp": 1612470404000,
             "txHash": "0x924d9446580937be2a0aecf952e9c96186501eeef5a0af1873ef5863f9d3fa2b",
             "value": "1105441065380215190",
+          },
+        ],
+        "0xdcaa21f784824ace60221a63e12f6748cf992a4db727aa240c3487e6849cc126" => Array [
+          Object {
+            "blockNumber": 333990,
+            "currency": "gold",
+            "recipient": "0x6131a6d616a4be3737b38988847270a64bc10caa",
+            "sender": "0xa7ed835288aa4524bb6c73dd23c0bf4315d9fe3e",
+            "timestamp": 1588169195000,
+            "txHash": "0xdcaa21f784824ace60221a63e12f6748cf992a4db727aa240c3487e6849cc126",
+            "value": "54331585667327701",
           },
         ],
       }
