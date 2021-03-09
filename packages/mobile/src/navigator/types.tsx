@@ -7,6 +7,7 @@ import {
 } from '@celo/utils'
 import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
+import { cicoProviderSupport } from 'src/config'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { AddressValidationType } from 'src/identity/reducer'
@@ -62,6 +63,7 @@ export type StackParamList = {
         navigatedFromSettings: boolean
       }
   [Screens.BidaliScreen]: { currency: CURRENCY_ENUM }
+  [Screens.CashInSuccess]: { service?: cicoProviderSupport }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountAuth]: {
     dappKitRequest: AccountAuthRequest

@@ -155,7 +155,8 @@ export function* handleDeepLink(action: OpenDeepLink) {
       navigate(Screens.BidaliScreen, { currency: CURRENCY_ENUM.DOLLAR })
     } else if (rawParams.path.startsWith('/cash-in-success')) {
       // Some providers append transaction information to the redirect links so can't check for strict equality
-      navigateHome()
+      const service: any = (rawParams.path.match(/cash-in-success\/(.+)/) || [])[1]
+      navigate(Screens.CashInSuccess, { service })
     } else if (isSecureOrigin && rawParams.pathname === '/openScreen' && rawParams.query) {
       // The isSecureOrigin is important. We don't want it to be possible to fire this deep link from outside
       // of our own notifications for security reasons.

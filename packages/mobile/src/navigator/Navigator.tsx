@@ -34,6 +34,7 @@ import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScree
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
+import CashInSuccess, { cashInSuccessOptions } from 'src/fiatExchanges/CashInSuccess'
 import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
@@ -455,6 +456,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={localProviderCashOutOptions}
       name={Screens.LocalProviderCashOut}
       component={LocalProviderCashOut}
+    />
+    <Navigator.Screen
+      options={cashInSuccessOptions}
+      name={Screens.CashInSuccess}
+      component={CashInSuccess}
     />
     <Navigator.Screen
       options={moonPayOptions}

@@ -185,3 +185,13 @@ export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
+
+// CICO Providers support emails
+export const cicoProvidersSupportEmail = {
+  simplex: 'support@simplex.com',
+  transak: 'support@transak.com ',
+  ramp: 'support@ramp.com',
+}
+export type cicoProviderSupport = keyof typeof cicoProvidersSupportEmail
+export const getCashInSuccessDeeplink = (service: cicoProviderSupport) =>
+  `${CASH_IN_SUCCESS_DEEPLINK}/${service}`
