@@ -9,10 +9,8 @@
     "serve": "firebase serve --only functions",
     "update-firebase-staging-config": "./firebase-staging-env-config.sh",
     "update-firebase-prod-config": "./firebase-prod-env-config.sh",
-    "deploy-providerUrl:prod": "firebase use prod && yarn update-firebase-prod-config && firebase deploy --only functions:composeCicoProviderUrl",
-    "deploy-providerUrl:staging": "firebase use staging && yarn update-firebase-staging-config && firebase deploy --only functions:composeCicoProviderUrl",
-    "deploy-ipAddress:prod": "firebase use prod && yarn update-firebase-prod-config && firebase deploy --only functions:determineIpAddressLocation",
-    "deploy-ipAddress:staging": "firebase use staging && yarn update-firebase-staging-config && firebase deploy --only functions:determineIpAddressLocation",
+    "deploy:prod": "firebase use prod && yarn update-firebase-prod-config && firebase deploy",
+    "deploy:staging": "firebase use staging && yarn update-firebase-staging-config && firebase deploy",
     "clean": "tsc -b . --clean",
     "build": "tsc -b .",
     "lint": "tslint --project ."

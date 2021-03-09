@@ -9,31 +9,38 @@ import {
   VALORA_LOGO_URL,
 } from './config'
 const URL = require('url').URL
-const fetch = require('node-fetch')
 
-type Environment = 'production' | 'staging'
-interface ProviderUrlRequestData {
-  env: Environment
+type Environments = 'production' | 'staging'
+interface IpRequestData {
+  urlType: 'ip'
+  env: Environments
+}
+interface WidgetRequestData {
+  urlType: 'widget'
   provider: string
+  env: Environments
   address: string
   digitalAsset: string
   fiatCurrency: string
   fiatAmount: string
 }
 
-interface IpAddressRequestData {
-  env: Environment
-}
-
-interface IpAddressResponseData {
-  alpha2: string
-  alpha3: string
-  state: string
-  ipAddress: string
-}
+type RequestData = IpRequestData | WidgetRequestData
 
 export const composeCicoProviderUrl = functions.https.onRequest((request, response) => {
-  const requestData: ProviderUrlRequestData = request.body
+  const requestData: RequestData = request.body
+
+  let url
+  if (requestData.urlType === 'widget') {
+    url = composeWidgetUrl(requestData)
+  } else if (requestData.urlType === 'ip') {
+    url = composeIpUrl(requestData)
+  }
+
+  response.send(JSON.stringify(url))
+})
+
+const composeWidgetUrl = (requestData: WidgetRequestData) => {
   const { provider, env, address, digitalAsset, fiatCurrency, fiatAmount } = requestData
   const providerName = provider.toLowerCase()
   let finalUrl
@@ -88,11 +95,10 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
       `.replace(/\s+/g, '')
   }
 
-  response.send(JSON.stringify(finalUrl))
-})
+  return finalUrl
+}
 
-export const determineIpAddressLocation = functions.https.onRequest(async (request, response) => {
-  const requestData: IpAddressRequestData = request.body
+const composeIpUrl = (requestData: IpRequestData) => {
   const { apiUrl, public_key } = MOONPAY_DATA[requestData.env]
 
   const url = `
@@ -100,8 +106,5 @@ export const determineIpAddressLocation = functions.https.onRequest(async (reque
         ?apiKey=${public_key}
       `.replace(/\s+/g, '')
 
-  const ipAddressFetchResponse = await fetch(url)
-  const ipAddressData: IpAddressResponseData = await ipAddressFetchResponse.json()
-
-  response.send(JSON.stringify(ipAddressData))
-})
+  return url
+}
