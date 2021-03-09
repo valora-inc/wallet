@@ -10,13 +10,15 @@ import {
 } from './config'
 const URL = require('url').URL
 
+type Environments = 'production' | 'staging'
 interface IpRequestData {
   urlType: 'ip'
+  env: Environments
 }
 interface WidgetRequestData {
   urlType: 'widget'
   provider: string
-  env: 'production' | 'staging'
+  env: Environments
   address: string
   digitalAsset: string
   fiatCurrency: string
@@ -27,10 +29,12 @@ type RequestData = IpRequestData | WidgetRequestData
 
 export const composeCicoProviderUrl = functions.https.onRequest((request, response) => {
   const requestData: RequestData = request.body
+
   let url
   if (requestData.urlType === 'widget') {
     url = composeWidgetUrl(requestData)
   } else if (requestData.urlType === 'ip') {
+    url = composeIpUrl(requestData)
   }
 
   response.send(JSON.stringify(url))
@@ -94,17 +98,13 @@ const composeWidgetUrl = (requestData: WidgetRequestData) => {
   return finalUrl
 }
 
-const composeIpUrl = () => {
+const composeIpUrl = (requestData: IpRequestData) => {
+  const { apiUrl, public_key } = MOONPAY_DATA[requestData.env]
+
   const url = `
-  ${MOONPAY_API_URL}/v4/ip_address
-    ?apiKey=${public_key}
-    &hostURL=${encodeURIComponent('https://www.valoraapp.com')}
-    &walletAddress=${address}
-    &disableWalletAddressForm=true
-    &cryptoCurrencyCode=${digitalAsset}
-    &fiatCurrency=${fiatCurrency}
-    &defaultFiatAmount=${fiatAmount}
-    &redirectURL=${encodeURIComponent(CASH_IN_SUCCESS_URL)}
-    &hideMenu=true
-  `.replace(/\s+/g, '')
+    ${apiUrl}/v4/ip_address
+        ?apiKey=${public_key}
+      `.replace(/\s+/g, '')
+
+  return url
 }

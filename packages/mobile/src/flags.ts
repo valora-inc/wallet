@@ -50,3 +50,43 @@ export const countryFeatures = {
     PH: true,
   },
 }
+
+export const providerAvailability = {
+  MOONPAY_RESTRICTED: {
+    US: {
+      HI: true,
+      NY: true,
+      RI: true,
+      AS: true,
+      GU: true,
+      MP: true,
+      VI: true,
+    },
+  },
+  SIMPLEX_RESTRICTED: {
+    US: {
+      HI: true,
+      NY: true,
+    },
+  },
+  RAMP_RESTRICTED: {
+    US: {
+      CA: true,
+      HI: true,
+      NY: true,
+      NE: true,
+    },
+  },
+  TRANSAK_RESTRICTED: {
+    US: {
+      HI: true,
+      NY: true,
+      NH: true,
+      VT: true,
+      VA: true,
+      NC: true,
+      CT: true,
+      TX: true,
+    },
+  },
+}

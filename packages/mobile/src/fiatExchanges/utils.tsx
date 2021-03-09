@@ -6,6 +6,7 @@ import {
   SIMPLEX_URI,
 } from 'src/config'
 import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { providerAvailability } from 'src/flags'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -18,7 +19,19 @@ interface RequestData {
   fiatAmount: number
 }
 
-export const fetchProviderUrl = async (provider: Providers, requestData: RequestData) => {
+interface IpAddressData {
+  alpha2: string
+  alpha3: string
+  state: string
+  ipAddress: string
+}
+
+export interface UserLocation {
+  country: string | null
+  state: string | null
+}
+
+export const fetchProviderWidgetUrl = async (provider: Providers, requestData: RequestData) => {
   const response = await fetch(
     DEFAULT_TESTNET === 'mainnet' ? PROVIDER_URL_COMPOSER_PROD : PROVIDER_URL_COMPOSER_STAGING,
     {
@@ -29,6 +42,7 @@ export const fetchProviderUrl = async (provider: Providers, requestData: Request
       },
       body: JSON.stringify({
         ...requestData,
+        urlType: 'widget',
         provider,
         env: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'staging',
       }),
@@ -36,6 +50,31 @@ export const fetchProviderUrl = async (provider: Providers, requestData: Request
   )
 
   return response.json()
+}
+
+export const fetchUserIpAddress = async () => {
+  const urlFetchResponse = await fetch(
+    DEFAULT_TESTNET === 'mainnet' ? PROVIDER_URL_COMPOSER_PROD : PROVIDER_URL_COMPOSER_STAGING,
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        urlType: 'ip',
+        env: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'staging',
+      }),
+    }
+  )
+
+  const url = await urlFetchResponse.json()
+
+  if (url?.startsWith('http')) {
+    const ipAddressFetchResponse = await fetch(url)
+    const ipAddressObj: IpAddressData = await ipAddressFetchResponse.json()
+    return ipAddressObj
+  }
 }
 
 export const isExpectedUrl = (fetchedUrl: string, providerUrl: string) =>
@@ -79,4 +118,34 @@ export const openTransak = (
     currencyCode,
     currencyToBuy,
   })
+}
+
+type ProviderAvailability = typeof providerAvailability
+type SpecificProviderAvailability = { [K in keyof ProviderAvailability]: boolean }
+
+type Entries<T> = Array<{ [K in keyof T]: [K, T[K]] }[keyof T]>
+
+export function getProviderAvailability(
+  userLocation: UserLocation | undefined
+): SpecificProviderAvailability {
+  // tslint:disable-next-line: no-object-literal-type-assertion
+  const { countryCodeAlpha2, stateCode } = userLocation
+    ? { countryCodeAlpha2: userLocation.country, stateCode: userLocation.state }
+    : { countryCodeAlpha2: null, stateCode: null }
+
+  const features = {} as SpecificProviderAvailability
+  for (const [key, value] of Object.entries(providerAvailability) as Entries<
+    ProviderAvailability
+  >) {
+    if (!countryCodeAlpha2) {
+      features[key] = false
+    } else {
+      if (countryCodeAlpha2 === 'US' && (value as any)[countryCodeAlpha2] !== true) {
+        features[key] = stateCode ? (value as any)[countryCodeAlpha2][stateCode] ?? false : false
+      } else {
+        features[key] = (value as any)[countryCodeAlpha2] ?? false
+      }
+    }
+  }
+  return features
 }
