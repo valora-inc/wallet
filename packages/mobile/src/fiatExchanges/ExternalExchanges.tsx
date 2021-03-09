@@ -73,7 +73,7 @@ function ExternalExchanges({ route }: Props) {
             <Text style={styles.accountNoText}>Account</Text>
             <Text style={styles.accountNoText}>No.</Text>
           </View>
-          <AccountNumber address={account || ''} />
+          <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
         </View>
         <View style={styles.providersContainer}>
           {providers.map((provider, idx) => {
