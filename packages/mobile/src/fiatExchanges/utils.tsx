@@ -1,6 +1,8 @@
 import {
   CurrencyCode,
   DEFAULT_TESTNET,
+  IP_ADDRESS_LOCATION_URL_PROD,
+  IP_ADDRESS_LOCATION_URL_STAGING,
   PROVIDER_URL_COMPOSER_PROD,
   PROVIDER_URL_COMPOSER_STAGING,
   SIMPLEX_URI,
@@ -18,14 +20,6 @@ interface RequestData {
   fiatCurrency: string
   fiatAmount: number
 }
-
-interface IpAddressData {
-  alpha2: string
-  alpha3: string
-  state: string
-  ipAddress: string
-}
-
 export interface UserLocation {
   country: string | null
   state: string | null
@@ -42,7 +36,6 @@ export const fetchProviderWidgetUrl = async (provider: Providers, requestData: R
       },
       body: JSON.stringify({
         ...requestData,
-        urlType: 'widget',
         provider,
         env: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'staging',
       }),
@@ -53,8 +46,8 @@ export const fetchProviderWidgetUrl = async (provider: Providers, requestData: R
 }
 
 export const fetchUserIpAddress = async () => {
-  const urlFetchResponse = await fetch(
-    DEFAULT_TESTNET === 'mainnet' ? PROVIDER_URL_COMPOSER_PROD : PROVIDER_URL_COMPOSER_STAGING,
+  const response = await fetch(
+    DEFAULT_TESTNET === 'mainnet' ? IP_ADDRESS_LOCATION_URL_PROD : IP_ADDRESS_LOCATION_URL_STAGING,
     {
       method: 'POST',
       headers: {
@@ -68,13 +61,7 @@ export const fetchUserIpAddress = async () => {
     }
   )
 
-  const url = await urlFetchResponse.json()
-
-  if (url?.startsWith('http')) {
-    const ipAddressFetchResponse = await fetch(url)
-    const ipAddressObj: IpAddressData = await ipAddressFetchResponse.json()
-    return ipAddressObj
-  }
+  return response.json()
 }
 
 export const isExpectedUrl = (fetchedUrl: string, providerUrl: string) =>

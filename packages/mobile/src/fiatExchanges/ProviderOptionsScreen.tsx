@@ -77,6 +77,13 @@ export enum Providers {
   SIMPLEX = 'SIMPLEX',
 }
 
+interface IpAddressData {
+  alpha2: string
+  alpha3: string
+  state: string
+  ipAddress: string
+}
+
 const FALLBACK_CURRENCY = LocalCurrencyCode.USD
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
@@ -116,7 +123,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     })
   }, [])
 
-  const fetchResponse = useAsync(fetchUserIpAddress, [])
+  const fetchResponse = useAsync<IpAddressData>(fetchUserIpAddress, [])
   useEffect(() => {
     const { result, status } = fetchResponse
 
