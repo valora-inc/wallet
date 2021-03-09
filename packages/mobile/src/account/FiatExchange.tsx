@@ -3,13 +3,14 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib'
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { AppState } from 'src/app/actions'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { FUNDING_LINK } from 'src/config'
 import { features } from 'src/flags'
@@ -18,11 +19,27 @@ import { fiatExchange } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import useTypedSelector from 'src/redux/useSelector'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { navigateToURI } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 
 function FiatExchange() {
+  const [timestamp, setTimestamp] = useState<number | null>(null)
+  const appState = useTypedSelector((state) => state.app.appState)
+
+  useEffect(() => {
+    if (appState === AppState.Active && timestamp) {
+      const timeElapsed: number = Date.now() - timestamp
+      Logger.debug('Time Elapsed', timeElapsed)
+      ValoraAnalytics.track(FiatExchangeEvents.cico_fund_info_cancel, {
+        timeElapsed,
+      })
+      setTimestamp(null)
+    }
+  }, [appState])
+
   function goToAddFunds() {
     navigate(Screens.FiatExchangeOptions, {
       isCashIn: true,
@@ -52,6 +69,7 @@ function FiatExchange() {
   const onOpenOtherFundingOptions = () => {
     navigateToURI(FUNDING_LINK)
     ValoraAnalytics.track(FiatExchangeEvents.cico_fund_info)
+    setTimestamp(Date.now())
   }
 
   return (

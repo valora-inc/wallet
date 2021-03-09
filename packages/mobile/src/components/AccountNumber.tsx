@@ -24,7 +24,6 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
       return
     }
     Clipboard.setString(address)
-    ValoraAnalytics.track(FiatExchangeEvents.cico_cash_out_copy_address)
     Logger.showMessage(t('addressCopied'))
 
     if (location === Screens.DrawerNavigator) {
@@ -33,6 +32,10 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
 
     if (location === Screens.TransactionReview) {
       ValoraAnalytics.track(HomeEvents.transaction_feed_address_copy)
+    }
+
+    if (location === Screens.ExternalExchanges) {
+      ValoraAnalytics.track(FiatExchangeEvents.cico_cash_out_copy_address)
     }
   }
   // Turns '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'

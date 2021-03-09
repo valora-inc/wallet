@@ -310,12 +310,13 @@ export enum FiatExchangeEvents {
   cico_cash_out_selected = 'cico_cash_out_selected',
   cico_spend_selected = 'cico_spend_selected', // untested
   cico_fund_info = 'cico_fund_info',
-  cico_fund_info_cancel = 'cico_fund_info_cancel', // TODO
+  cico_fund_info_cancel = 'cico_fund_info_cancel',
 
   cico_add_funds_continue = 'cico_add_funds_continue', // cico_option_chosen
   cico_add_funds_back = 'cico_add_funds_back',
   cico_add_funds_info = 'cico_add_funds_info',
-  cico_add_funds_info_cancel = 'cico_add_funds_info_cancel', // TODO
+  cico_add_funds_info_support = 'cico_add_funds_info_support',
+  cico_add_funds_info_cancel = 'cico_add_funds_info_cancel',
 
   cico_add_funds_amount_continue = 'cico_add_funds_amount_continue',
   cico_add_funds_amount_back = 'cico_add_funds_amount_back',
@@ -330,7 +331,7 @@ export enum FiatExchangeEvents {
   cico_cash_out_continue = 'cico_cash_out_continue', // cico_option_chosen
   cico_cash_out_back = 'cico_cash_out_back',
   cico_cash_out_info = 'cico_cash_out_info',
-  cico_cash_out_info_support = 'cico_cash_out_info_support', // TODO
+  cico_cash_out_info_support = 'cico_cash_out_info_support',
   cico_cash_out_info_cancel = 'cico_cash_out_info_cancel',
 
   cico_cash_out_select_provider = 'cico_cash_out_select_provider', // provider_chosen, untested

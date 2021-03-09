@@ -733,13 +733,16 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_cash_out_selected]: undefined
   [FiatExchangeEvents.cico_spend_selected]: undefined
   [FiatExchangeEvents.cico_fund_info]: undefined
-  [FiatExchangeEvents.cico_fund_info_cancel]: undefined
+  [FiatExchangeEvents.cico_fund_info_cancel]: {
+    timeElapsed: number
+  }
   [FiatExchangeEvents.cico_add_funds_continue]: {
     payMethod: string
     currency: CURRENCY_ENUM
   }
   [FiatExchangeEvents.cico_add_funds_back]: undefined
   [FiatExchangeEvents.cico_add_funds_info]: undefined
+  [FiatExchangeEvents.cico_add_funds_info_support]: undefined
   [FiatExchangeEvents.cico_add_funds_info_cancel]: undefined
   [FiatExchangeEvents.cico_add_funds_amount_continue]: {
     dollarAmount: BigNumber
