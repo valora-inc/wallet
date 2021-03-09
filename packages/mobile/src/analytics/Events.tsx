@@ -308,7 +308,7 @@ export enum FiatExchangeEvents {
 
   cico_add_funds_selected = 'cico_add_funds_selected',
   cico_cash_out_selected = 'cico_cash_out_selected',
-  cico_spend_selected = 'cico_spend_selected', // untested
+  cico_spend_selected = 'cico_spend_selected',
   cico_fund_info = 'cico_fund_info',
   cico_fund_info_cancel = 'cico_fund_info_cancel',
 
@@ -337,10 +337,10 @@ export enum FiatExchangeEvents {
   cico_cash_out_select_provider = 'cico_cash_out_select_provider', // provider_chosen, untested
   cico_cash_out_select_provider_back = 'cico_cash_out_select_provider_back', // untested
   cico_external_exchanges_back = 'cico_external_exchanges_back',
-  cico_cash_out_copy_address = 'cico_cash_out_copy_address',
+  cico_cash_out_copy_address = 'cico_cash_out_copy_address', // TODO: fix location prop in AccountNumber.tsx
 
-  cico_spend_select_provider = 'cico_spend_select_provider', // PH only, unimplemented
-  cico_spend_select_provider_back = 'cico_spend_select_provider_back', // PH only, untested
+  cico_spend_select_provider = 'cico_spend_select_provider', // spend_merchant_link
+  cico_spend_select_provider_back = 'cico_spend_select_provider_back',
 }
 
 export enum GethEvents {

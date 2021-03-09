@@ -43,6 +43,7 @@ function Spend(props: Props) {
         name,
         link,
       })
+      console.log('Provider: ', name, link)
       navigateToURI(link)
     }
   }
