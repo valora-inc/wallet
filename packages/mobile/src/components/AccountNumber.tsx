@@ -25,7 +25,6 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
     }
     Clipboard.setString(address)
     Logger.showMessage(t('addressCopied'))
-    Logger.debug('Location:', location)
 
     if (location === Screens.DrawerNavigator) {
       ValoraAnalytics.track(HomeEvents.drawer_address_copy)

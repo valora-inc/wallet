@@ -32,7 +32,7 @@ function FiatExchange() {
   useEffect(() => {
     if (appState === AppState.Active && timestamp) {
       const timeElapsed: number = Date.now() - timestamp
-      Logger.debug('Time Elapsed', timeElapsed)
+      Logger.debug('Time Elapsed', String(timeElapsed))
       ValoraAnalytics.track(FiatExchangeEvents.cico_fund_info_cancel, {
         timeElapsed,
       })
