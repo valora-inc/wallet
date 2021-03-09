@@ -312,7 +312,6 @@ export enum FiatExchangeEvents {
   cico_fund_info = 'cico_fund_info',
   cico_fund_info_cancel = 'cico_fund_info_cancel',
 
-  cico_add_funds_continue = 'cico_add_funds_continue', // cico_option_chosen
   cico_add_funds_back = 'cico_add_funds_back',
   cico_add_funds_info = 'cico_add_funds_info',
   cico_add_funds_info_support = 'cico_add_funds_info_support',
@@ -323,12 +322,10 @@ export enum FiatExchangeEvents {
   cico_add_funds_amount_insufficient = 'cico_add_funds_amount_insufficient',
   cico_add_funds_amount_dialog_cancel = 'cico_add_funds_amount_dialog_cancel',
 
-  cico_add_funds_select_provider = 'cico_add_funds_select_provider', // provider_chosen
   cico_add_funds_select_provider_back = 'cico_add_funds_select_provider_back',
   cico_add_funds_select_provider_info = 'cico_add_funds_select_provider_info',
   cico_add_funds_select_provider_info_cancel = 'cico_add_funds_select_provider_info_cancel',
 
-  cico_cash_out_continue = 'cico_cash_out_continue', // cico_option_chosen
   cico_cash_out_back = 'cico_cash_out_back',
   cico_cash_out_info = 'cico_cash_out_info',
   cico_cash_out_info_support = 'cico_cash_out_info_support',
@@ -336,10 +333,10 @@ export enum FiatExchangeEvents {
 
   cico_cash_out_select_provider = 'cico_cash_out_select_provider', // provider_chosen, untested
   cico_cash_out_select_provider_back = 'cico_cash_out_select_provider_back', // untested
+
   cico_external_exchanges_back = 'cico_external_exchanges_back',
   cico_cash_out_copy_address = 'cico_cash_out_copy_address', // TODO: fix location prop in AccountNumber.tsx
 
-  cico_spend_select_provider = 'cico_spend_select_provider', // spend_merchant_link
   cico_spend_select_provider_back = 'cico_spend_select_provider_back',
 }
 

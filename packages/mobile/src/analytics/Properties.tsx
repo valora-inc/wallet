@@ -736,10 +736,6 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_fund_info_cancel]: {
     timeElapsed: number
   }
-  [FiatExchangeEvents.cico_add_funds_continue]: {
-    payMethod: string
-    currency: CURRENCY_ENUM
-  }
   [FiatExchangeEvents.cico_add_funds_back]: undefined
   [FiatExchangeEvents.cico_add_funds_info]: undefined
   [FiatExchangeEvents.cico_add_funds_info_support]: undefined
@@ -752,16 +748,9 @@ interface FiatExchangeEventsProperties {
     dollarAmount: BigNumber
   }
   [FiatExchangeEvents.cico_add_funds_amount_dialog_cancel]: undefined
-  [FiatExchangeEvents.cico_add_funds_select_provider]: {
-    provider: string
-  }
   [FiatExchangeEvents.cico_add_funds_select_provider_back]: undefined
   [FiatExchangeEvents.cico_add_funds_select_provider_info]: undefined
   [FiatExchangeEvents.cico_add_funds_select_provider_info_cancel]: undefined
-  [FiatExchangeEvents.cico_cash_out_continue]: {
-    payMethod: string
-    currency: CURRENCY_ENUM
-  }
   [FiatExchangeEvents.cico_cash_out_back]: undefined
   [FiatExchangeEvents.cico_cash_out_info]: undefined
   [FiatExchangeEvents.cico_cash_out_info_support]: undefined
@@ -772,9 +761,6 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_cash_out_select_provider_back]: undefined
   [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
-  [FiatExchangeEvents.cico_spend_select_provider]: {
-    provider: string
-  }
   [FiatExchangeEvents.cico_spend_select_provider_back]: undefined
 }
 
