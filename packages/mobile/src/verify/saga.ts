@@ -31,8 +31,9 @@ import { verifyWallet } from '@celo/komencikit/src/verifyWallet'
 import { sleep } from '@celo/utils/lib/async'
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
+import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import { all, call, delay, put, race, select, takeEvery, takeLatest } from 'redux-saga/effects'
+import { all, call, delay, put, race, select, takeEvery } from 'redux-saga/effects'
 import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -40,6 +41,7 @@ import networkConfig from 'src/geth/networkConfig'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import {
   Actions,
+  setLastRevealAttempt,
   setVerificationStatus as setOldVerificationStatus,
   updateE164PhoneNumberSalts,
 } from 'src/identity/actions'
@@ -54,9 +56,10 @@ import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { e164NumberToSaltSelector, E164NumberToSaltType } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
 import {
-  doVerificationFlowSaga,
   getActionableAttestations,
   getAttestationsStatus,
+  requestAndRetrieveAttestations,
+  tryRevealPhoneNumber,
 } from 'src/identity/verification'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -65,8 +68,8 @@ import { waitFor } from 'src/redux/sagas-helpers'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import Logger from 'src/utils/Logger'
 import {
+  actionableAttestationsSelector,
   checkIfKomenciAvailable,
-  doVerificationFlow,
   e164NumberSelector,
   ensureRealHumanUser,
   fail,
@@ -78,17 +81,22 @@ import {
   KomenciContext,
   komenciContextSelector,
   phoneHashSelector,
+  requestAttestations,
   reset,
+  revealAttestations,
+  RevealStatus,
+  revealStatusesSelector,
   setActionableAttestation,
   setKomenciAvailable,
   setKomenciContext,
   setPhoneHash,
+  setRevealStatuses,
   setVerificationStatus,
   shouldUseKomenciSelector,
   start,
   startKomenciSession,
   stop,
-  requestAttestations,
+  verificationStatusSelector,
 } from 'src/verify/reducer'
 import { getContractKit } from 'src/web3/contracts'
 import { registerWalletAndDekViaKomenci } from 'src/web3/dataEncryptionKey'
@@ -98,6 +106,7 @@ const TAG = 'verify/saga'
 const BALANCE_CHECK_TIMEOUT = 5 * 1000 // 5 seconds
 const KOMENCI_READINESS_RETRIES = 3
 const KOMENCI_DEPLOY_MTW_RETRIES = 3
+const ANDROID_DELAY_REVEAL_ATTESTATION = 5000 // 5 sec after each
 
 function* checkTooManyErrors() {
   const komenci = yield select(komenciContextSelector)
@@ -484,7 +493,8 @@ export function* fetchOrDeployMtwSaga() {
     // user already has a verified MTW
     const verifiedMtwAddress = yield call(fetchVerifiedMtw, contractKit, walletAddress)
     if (verifiedMtwAddress) {
-      yield put(doVerificationFlow(true))
+      // TODO: Address this
+      // yield put(doVerificationFlow(true))
       return
     }
 
@@ -635,16 +645,134 @@ export function* fetchOnChainDataSaga() {
     )
     Logger.debug(TAG, '@fetchOnChainDataSaga', 'Fetched actionable attestations')
     yield put(setActionableAttestation(actionableAttestations))
-    const withoutRevealing = actionableAttestations.length === status.numAttestationsRemaining
 
-    yield put(doVerificationFlow(withoutRevealing))
+    yield put(requestAttestations())
   } catch (error) {
     Logger.error(TAG, '@fetchOnChainDataSaga', error)
     yield put(fail(ErrorMessages.VERIFICATION_FAILURE))
   }
 }
 
-export function* requestAttestationsSaga(action: ReturnType<typeof requestAttestations>) {}
+function* getKomenciAwareAccount() {
+  const komenci: KomenciContext = yield select(komenciContextSelector)
+  const { unverifiedMtwAddress } = komenci
+  const shouldUseKomenci = yield select(shouldUseKomenciSelector)
+  return shouldUseKomenci && unverifiedMtwAddress
+    ? unverifiedMtwAddress
+    : yield call(getConnectedUnlockedAccount)
+}
+
+function* getPhoneHashDetails() {
+  const pepperCache = yield select(e164NumberToSaltSelector)
+  const phoneHash = yield select(phoneHashSelector)
+  const e164Number = yield select(e164NumberSelector)
+  const pepper = pepperCache[e164Number]
+
+  return {
+    e164Number,
+    phoneHash,
+    pepper,
+  }
+}
+
+export function* requestAttestationsSaga() {
+  const shouldUseKomenci = yield select(shouldUseKomenciSelector)
+  const account: string = yield call(getKomenciAwareAccount)
+  const contractKit = yield call(getContractKit)
+
+  const attestationsWrapper: AttestationsWrapper = yield call([
+    contractKit.contracts,
+    contractKit.contracts.getAttestations,
+  ])
+  const phoneHash = yield select(phoneHashSelector)
+
+  const status = yield select(verificationStatusSelector)
+  const revealStatuses = yield select(revealStatusesSelector)
+  const numberOfAttestationsToRequest =
+    status.numAttestationsRemaining -
+    Object.values(revealStatuses).filter((rS) => rS === RevealStatus.Revealed).length
+  if (numberOfAttestationsToRequest <= 0) {
+    return yield put(revealAttestations())
+  }
+  let actionableAttestations: ActionableAttestation[] = yield select(actionableAttestationsSelector)
+
+  ValoraAnalytics.track(VerificationEvents.verification_request_all_attestations_start, {
+    attestationsToRequest: numberOfAttestationsToRequest,
+    feeless: shouldUseKomenci,
+  })
+  actionableAttestations = yield call(
+    requestAndRetrieveAttestations,
+    attestationsWrapper,
+    phoneHash,
+    account,
+    actionableAttestations,
+    actionableAttestations.length + numberOfAttestationsToRequest,
+    shouldUseKomenci
+  )
+  const issuers = actionableAttestations.map((a) => a.issuer)
+  yield put(setActionableAttestation(actionableAttestations))
+
+  ValoraAnalytics.track(VerificationEvents.verification_request_all_attestations_complete, {
+    issuers,
+    feeless: shouldUseKomenci,
+  })
+  return yield put(revealAttestations())
+}
+
+export function* revealAttestationsSaga() {
+  const shouldUseKomenci = yield select(shouldUseKomenciSelector)
+  const account: string = yield call(getAccount)
+  const contractKit = yield call(getContractKit)
+  const revealStatuses = yield select(revealStatusesSelector)
+  const actionableAttestations: ActionableAttestation[] = yield select(
+    actionableAttestationsSelector
+  )
+
+  const attestationsWrapper: AttestationsWrapper = yield call([
+    contractKit.contracts,
+    contractKit.contracts.getAttestations,
+  ])
+  const phoneHashDetails = yield call(getPhoneHashDetails)
+
+  Logger.debug(
+    TAG + '@revealAttestations',
+    `Revealing ${actionableAttestations.length} attestations`
+  )
+  const notRevealedActionableAttestations = actionableAttestations.filter(
+    (a) => revealStatuses[a.issuer] === RevealStatus.NotRevealed
+  )
+  for (const attestation of notRevealedActionableAttestations) {
+    const issuer = attestation.issuer
+    ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_start, {
+      issuer,
+      feeless: shouldUseKomenci,
+    })
+    const success = yield call(
+      tryRevealPhoneNumber,
+      attestationsWrapper,
+      account,
+      phoneHashDetails,
+      attestation,
+      shouldUseKomenci
+    )
+    yield put(
+      setRevealStatuses({ [issuer]: success ? RevealStatus.Revealed : RevealStatus.Failed })
+    )
+
+    // TODO (i1skn): remove this clause when
+    // https://github.com/celo-org/celo-monorepo/issues/6262 is resolved
+    // This sends messages with 5000ms delay on Android if reveals is successful
+    if (success && Platform.OS === 'android') {
+      Logger.debug(
+        TAG + '@revealAttestations',
+        `Delaying the next one for: ${ANDROID_DELAY_REVEAL_ATTESTATION}ms`
+      )
+      yield delay(ANDROID_DELAY_REVEAL_ATTESTATION)
+    }
+  }
+
+  yield put(setLastRevealAttempt(Date.now()))
+}
 
 export function* failSaga(action: ReturnType<typeof fail>) {
   Logger.error(TAG, `@failSaga: ${action.payload}`)
@@ -672,7 +800,6 @@ export function* verifySaga() {
   yield takeEvery(fetchPhoneNumberDetails.type, fetchPhoneNumberDetailsSaga)
   yield takeEvery(fetchMtw.type, fetchOrDeployMtwSaga)
   yield takeEvery(fetchOnChainData.type, fetchOnChainDataSaga)
-  yield takeLatest(doVerificationFlow.type, doVerificationFlowSaga)
   yield takeEvery(fail.type, failSaga)
   yield takeEvery(reset.type, resetSaga)
   yield takeEvery(stop.type, stopSaga)

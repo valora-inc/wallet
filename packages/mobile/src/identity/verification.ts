@@ -55,10 +55,8 @@ import {
   ReportRevealStatusAction,
   ResendAttestations,
   setCompletedCodes,
-  setLastRevealAttempt,
   setVerificationStatus,
   startVerification,
-  StartVerificationAction,
 } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import {
@@ -75,13 +73,11 @@ import Logger from 'src/utils/Logger'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import {
   actionableAttestationsSelector,
-  doVerificationFlow,
   fail,
   KomenciContext,
   komenciContextSelector,
   phoneHashSelector,
   setActionableAttestation,
-  setOverrideWithoutVerification,
   shouldUseKomenciSelector,
   start,
   succeed,
@@ -99,7 +95,6 @@ export const VERIFICATION_TIMEOUT = 10 * 60 * 1000 // 10 minutes
 export const BALANCE_CHECK_TIMEOUT = 5 * 1000 // 5 seconds
 export const MAX_ACTIONABLE_ATTESTATIONS = 5
 export const REVEAL_RETRY_DELAY = 10 * 1000 // 10 seconds
-export const ANDROID_DELAY_REVEAL_ATTESTATION = 5000 // 5 sec after each
 
 // Using hard-coded gas value to avoid running gas estimation.
 // Note: This is fragile and needs be updated if there are significant
@@ -123,13 +118,13 @@ export interface AttestationCode {
 
 const inputAttestationCodeLock = new AwaitLock()
 
-export function* startVerificationSaga({ withoutRevealing }: StartVerificationAction) {
+export function* startVerificationSaga() {
   const shouldUseKomenci = yield select(shouldUseKomenciSelector)
   ValoraAnalytics.track(VerificationEvents.verification_start, { feeless: shouldUseKomenci })
   Logger.debug(TAG, 'Starting verification')
   const e164Number = yield select(e164NumberSelector)
-  yield put(setOverrideWithoutVerification(withoutRevealing))
-  yield put(start({ e164Number, withoutRevealing: !!withoutRevealing }))
+  // yield put(setOverrideWithoutVerification(withoutRevealing))
+  yield put(start({ e164Number }))
 
   const {
     cancel,
@@ -183,10 +178,11 @@ export function* startVerificationSaga({ withoutRevealing }: StartVerificationAc
   }
 }
 
-export function* doVerificationFlowSaga(action: ReturnType<typeof doVerificationFlow>) {
+export function* doVerificationFlowSaga() {
   let receiveMessageTask: Task | undefined
   let autoRetrievalTask: Task | undefined
-  const withoutRevealing = action.payload
+  // TODO: Address this
+  const withoutRevealing = false
   const shouldUseKomenci = yield select(shouldUseKomenciSelector)
   try {
     yield put(setVerificationStatus(VerificationStatus.Prepping))
@@ -259,13 +255,14 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
         })
         // Request codes for the already existing attestations if any.
         // We check after which ones were successful
-        const reveals: boolean[] = yield call(
-          revealAttestations,
-          attestationsWrapper,
-          account,
-          phoneHashDetails,
-          attestations
-        )
+        const reveals: boolean[] = []
+        // yield call(
+        // revealAttestations,
+        // attestationsWrapper,
+        // account,
+        // phoneHashDetails,
+        // attestations
+        // )
 
         // count how much more attestations we need to request
         const attestationsToRequest =
@@ -309,13 +306,13 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
 
           // Request codes for the new list of attestations. We ignore unsuccessfull reveals here,
           // cause we do not want to go into a loop of re-requesting more and more attestations
-          yield call(
-            revealAttestations,
-            attestationsWrapper,
-            account,
-            phoneHashDetails,
-            attestations
-          )
+          // yield call(
+          // revealAttestations,
+          // attestationsWrapper,
+          // account,
+          // phoneHashDetails,
+          // attestations
+          // )
         }
         ValoraAnalytics.track(VerificationEvents.verification_reveal_all_attestations_complete, {
           feeless: shouldUseKomenci,
@@ -767,39 +764,38 @@ function* isCodeAlreadyAccepted(code: string) {
   return existingCodes.find((c) => c.code === code)
 }
 
-export function* revealAttestations(
-  attestationsWrapper: AttestationsWrapper,
-  account: string,
-  phoneHashDetails: PhoneNumberHashDetails,
-  attestations: ActionableAttestation[],
-  isFeelessVerification: boolean = false
-) {
-  Logger.debug(TAG + '@revealAttestations', `Revealing ${attestations.length} attestations`)
-  const reveals = []
-  for (const attestation of attestations) {
-    const success = yield call(
-      revealAttestation,
-      attestationsWrapper,
-      account,
-      phoneHashDetails,
-      attestation,
-      isFeelessVerification
-    )
-    // TODO (i1skn): remove this clause when
-    // https://github.com/celo-org/celo-monorepo/issues/6262 is resolved
-    // This sends messages with 5000ms delay on Android if reveals is successful
-    if (success && Platform.OS === 'android') {
-      Logger.debug(
-        TAG + '@revealAttestations',
-        `Delaying the next one for: ${ANDROID_DELAY_REVEAL_ATTESTATION}ms`
-      )
-      yield delay(ANDROID_DELAY_REVEAL_ATTESTATION)
-    }
-    reveals.push(success)
-  }
-  yield put(setLastRevealAttempt(Date.now()))
-  return reveals
-}
+// export function* revealAttestations(
+// attestationsWrapper: AttestationsWrapper,
+// account: string,
+// phoneHashDetails: PhoneNumberHashDetails,
+// attestations: ActionableAttestation[],
+// isFeelessVerification: boolean = false
+// ) {
+// Logger.debug(TAG + '@revealAttestations', `Revealing ${attestations.length} attestations`)
+// const reveals = []
+// for (const attestation of attestations) {
+// const success = yield call(
+// revealAttestation,
+// attestationsWrapper,
+// account,
+// phoneHashDetails,
+// attestation,
+// isFeelessVerification
+// )
+// // TODO (i1skn): remove this clause when
+// // https://github.com/celo-org/celo-monorepo/issues/6262 is resolved
+// // This sends messages with 5000ms delay on Android if reveals is successful
+// if (success && Platform.OS === 'android') {
+// Logger.debug(
+// TAG + '@revealAttestations',
+// `Delaying the next one for: ${ANDROID_DELAY_REVEAL_ATTESTATION}ms`
+// )
+// yield delay(ANDROID_DELAY_REVEAL_ATTESTATION)
+// }
+// reveals.push(success)
+// }
+// return reveals
+// }
 
 export function* completeAttestations(
   attestationsWrapper: AttestationsWrapper,
@@ -833,27 +829,27 @@ export function* completeAttestations(
   )
 }
 
-export function* revealAttestation(
-  attestationsWrapper: AttestationsWrapper,
-  account: string,
-  phoneHashDetails: PhoneNumberHashDetails,
-  attestation: ActionableAttestation,
-  isFeelessVerification: boolean
-) {
-  const issuer = attestation.issuer
-  ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_start, {
-    issuer,
-    feeless: isFeelessVerification,
-  })
-  return yield call(
-    tryRevealPhoneNumber,
-    attestationsWrapper,
-    account,
-    phoneHashDetails,
-    attestation,
-    isFeelessVerification
-  )
-}
+// export function* revealAttestation(
+// attestationsWrapper: AttestationsWrapper,
+// account: string,
+// phoneHashDetails: PhoneNumberHashDetails,
+// attestation: ActionableAttestation,
+// isFeelessVerification: boolean
+// ) {
+// const issuer = attestation.issuer
+// ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_start, {
+// issuer,
+// feeless: isFeelessVerification,
+// })
+// return yield call(
+// tryRevealPhoneNumber,
+// attestationsWrapper,
+// account,
+// phoneHashDetails,
+// attestation,
+// isFeelessVerification
+// )
+// }
 
 // Codes that are auto-imported or pasted in quick sucsession may revert due to being submitted by Komenci
 // with the same nonce as the previous code. Adding retry logic to attempt the tx again in that case
@@ -979,9 +975,6 @@ export function* tryRevealPhoneNumber(
   try {
     // Only include retriever app sig for android, iOS doesn't support auto-read
     const smsRetrieverAppSig = Platform.OS === 'android' ? SMS_RETRIEVER_APP_SIGNATURE : undefined
-
-    // Proxy required for any network where attestation service domains are not static
-    // This works around TLS issues
 
     const language = yield select(currentLanguageSelector)
     const revealRequest: AttestationRequest = {

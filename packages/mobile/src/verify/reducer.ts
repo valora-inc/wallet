@@ -31,7 +31,6 @@ export const revealAttestations = createAction('VERIFY/REVEAL_ATTESTATIONS')
 export const completeAttestations = createAction('VERIFY/COMPLETE_ATTESTATIONS')
 export const fail = createAction<string>('VERIFY/FAIL')
 export const succeed = createAction('VERIFY/SUCCEED')
-export const doVerificationFlow = createAction<boolean>('VERIFY/DO_VERIFICATION_FLOW')
 export const reset = createAction<{ komenci: boolean }>('VERIFY/RESET')
 export const setPhoneHash = createAction<string>('VERIFY/SET_PHONE_HASH')
 export const setVerificationStatus = createAction<Partial<AttestationsStatus>>(
@@ -376,6 +375,9 @@ export const shouldUseKomenciSelector = (state: RootState) => {
 export const verificationStatusSelector = (state: RootState) => state.verify.status
 export const actionableAttestationsSelector = (state: RootState): ActionableAttestation[] =>
   state.verify.actionableAttestations
+
+export const revealStatusesSelector = (state: RootState): State['revealStatuses'] =>
+  state.verify.revealStatuses
 
 export const isBalanceSufficientForSigRetrievalSelector = createSelector(
   [stableTokenBalanceSelector, celoTokenBalanceSelector],
