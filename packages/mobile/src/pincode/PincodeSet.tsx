@@ -6,7 +6,7 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { setPincode } from 'src/account/actions'
@@ -122,11 +122,13 @@ export class PincodeSet extends React.Component<Props, State> {
   render() {
     const { route } = this.props
     const isVerifying = route.params?.isVerifying
+    const changePin = route.params?.changePin
     const { pin1, pin2, errorText } = this.state
 
     return (
       <SafeAreaView style={styles.container}>
         <DevSkipButton onSkip={this.navigateToNextScreen} />
+        {changePin && <Text style={styles.changePinHeading}>Change PIN</Text>}
         {isVerifying ? (
           // Verify
           <Pincode
@@ -137,12 +139,14 @@ export class PincodeSet extends React.Component<Props, State> {
           />
         ) : (
           // Create
-          <Pincode
-            errorText={errorText}
-            pin={pin1}
-            onChangePin={this.onChangePin1}
-            onCompletePin={this.onCompletePin1}
-          />
+          <>
+            <Pincode
+              errorText={errorText}
+              pin={pin1}
+              onChangePin={this.onChangePin1}
+              onCompletePin={this.onCompletePin1}
+            />
+          </>
         )}
       </SafeAreaView>
     )
@@ -154,6 +158,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.onboardingBackground,
     justifyContent: 'space-between',
+  },
+  changePinHeading: {
+    display: 'flex',
+    justifyContent: 'center',
+    ...fontStyles.navigationHeader,
   },
 })
 

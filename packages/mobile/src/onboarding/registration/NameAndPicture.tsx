@@ -48,7 +48,7 @@ function NameAndPicture({ navigation }: Props) {
   }, [navigation, choseToRestoreAccount])
 
   const goToNextScreen = () => {
-    navigate(Screens.PincodeSet)
+    navigate(Screens.PincodeSet, { isVerifying: false, changePin: false })
   }
 
   const onPressContinue = () => {
