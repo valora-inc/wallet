@@ -30,7 +30,6 @@ export const fetchProviderUrl = async (provider: Providers, requestData: Request
       body: JSON.stringify({
         ...requestData,
         provider,
-        env: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'staging',
       }),
     }
   )

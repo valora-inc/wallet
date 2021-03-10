@@ -7,10 +7,10 @@
   "main": "dist/index.js",
   "scripts": {
     "serve": "firebase serve --only functions",
-    "update-firebase-staging-config": "./firebase-staging-env-config.sh",
-    "update-firebase-prod-config": "./firebase-prod-env-config.sh",
-    "deploy:prod": "firebase use prod && yarn update-firebase-prod-config && firebase deploy",
-    "deploy:staging": "firebase use staging && yarn update-firebase-staging-config && firebase deploy",
+    "update-firebase-alfajores-config": "./firebase-alfajores-env-config.sh",
+    "update-firebase-mainnet-config": "./firebase-mainnet-env-config.sh",
+    "deploy:alfajores": "firebase use alfajores && yarn update-firebase-alfajores-config && firebase deploy --only functions:composeCicoProviderUrl",
+    "deploy:mainnet": "firebase use mainnet && yarn update-firebase-mainnet-config && firebase deploy --only functions:composeCicoProviderUrl",
     "clean": "tsc -b . --clean",
     "build": "tsc -b .",
     "lint": "tslint --project ."

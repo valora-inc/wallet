@@ -3,36 +3,43 @@ import * as functions from 'firebase-functions'
 import {
   CASH_IN_SUCCESS_DEEPLINK,
   CASH_IN_SUCCESS_URL,
-  MOONPAY_DATA,
-  RAMP_DATA,
-  TRANSAK_DATA,
+  MOONPAY_KEYS,
+  PROJECT_ID,
+  RAMP_KEYS,
+  TRANSAK_KEYS,
   VALORA_LOGO_URL,
+  WIDGET_URLS,
 } from './config'
 const URL = require('url').URL
 
 interface RequestData {
-  provider: string
-  env: 'production' | 'staging'
+  provider: Providers
   address: string
   digitalAsset: string
   fiatCurrency: string
   fiatAmount: string
 }
 
+enum Providers {
+  MOONPAY = 'MOONPAY',
+  RAMP = 'RAMP',
+  TRANSAK = 'TRANSAK',
+  SIMPLEX = 'SIMPLEX',
+}
+
 export const composeCicoProviderUrl = functions.https.onRequest((request, response) => {
   const requestData: RequestData = request.body
-  const { provider, env, address, digitalAsset, fiatCurrency, fiatAmount } = requestData
+  const { provider, address, digitalAsset, fiatCurrency, fiatAmount } = requestData
 
-  const providerName = provider.toLowerCase()
+  const env = PROJECT_ID === 'celo-mobile-mainnet' ? 'production' : 'staging'
+  console.log(PROJECT_ID)
 
   let finalUrl
 
-  if (providerName === 'moonpay') {
-    const { widgetUrl, public_key, private_key } = MOONPAY_DATA[env]
-
+  if (provider === Providers.MOONPAY) {
     finalUrl = `
-      ${widgetUrl}
-        ?apiKey=${public_key}
+      ${WIDGET_URLS[env].moonpay}
+        ?apiKey=${MOONPAY_KEYS.public_key}
         &currencyCode=${digitalAsset}
         &walletAddress=${address}
         &baseCurrencyCode=${fiatCurrency}
@@ -41,17 +48,15 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         `.replace(/\s+/g, '')
 
     const signature = crypto
-      .createHmac('sha256', private_key)
+      .createHmac('sha256', MOONPAY_KEYS.private_key)
       .update(new URL(finalUrl).search)
       .digest('base64')
 
     finalUrl = `${finalUrl}&signature=${encodeURIComponent(signature)}`
-  } else if (providerName === 'ramp') {
-    const { widgetUrl, public_key } = RAMP_DATA[env]
-
+  } else if (provider === Providers.RAMP) {
     finalUrl = `
-      ${widgetUrl}
-        ?hostApiKey=${public_key}
+      ${WIDGET_URLS[env].ramp}
+        ?hostApiKey=${RAMP_KEYS.public_key}
         &userAddress=${address}
         &swapAsset=${digitalAsset}
         &hostAppName=Valora
@@ -60,12 +65,10 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &fiatValue=${fiatAmount}
         &finalUrl=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
       `.replace(/\s+/g, '')
-  } else if (providerName === 'transak') {
-    const { widgetUrl, public_key } = TRANSAK_DATA[env]
-
+  } else if (provider === Providers.TRANSAK) {
     finalUrl = `
-      ${widgetUrl}
-        ?apiKey=${public_key}
+      ${WIDGET_URLS[env].transak}
+        ?apiKey=${TRANSAK_KEYS.public_key}
         &hostURL=${encodeURIComponent('https://www.valoraapp.com')}
         &walletAddress=${address}
         &disableWalletAddressForm=true
