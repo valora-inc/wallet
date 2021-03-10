@@ -7,7 +7,7 @@
   "welcome": {
     "title": "Comparte dinero con quienes valoras",
     "createAccount": "Crear una cuenta",
-    "restoreAccount": "Reestablecer mi cuenta"
+    "restoreAccount": "Restaurar conta existente"
   },
   "contacts": {
     "header": "Conectar Contactos",
@@ -113,6 +113,6 @@
     "title": "Saldo <0></0>"
   },
   "success": {
-    "message": "Estás listo!"
+    "message": "¡Todo listo!"
   }
 }
