@@ -33,7 +33,7 @@ function NameAndPicture({}: Props) {
   const { t } = useTranslation(Namespaces.nuxNamePin1)
 
   const goToNextScreen = () => {
-    navigate(Screens.PincodeSet)
+    navigate(Screens.PincodeSet, { isVerifying: false, changePin: false })
   }
 
   const onPressContinue = () => {

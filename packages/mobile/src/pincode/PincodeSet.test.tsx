@@ -6,7 +6,7 @@ import { Screens } from 'src/navigator/Screens'
 import PincodeSet from 'src/pincode/PincodeSet'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet)
+const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { isVerifying: true })
 const mockStore = createMockStore()
 const mockPin = '112233'
 
