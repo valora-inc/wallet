@@ -38,12 +38,12 @@ const UNRESTRICTED_USER_LOCATION = JSON.stringify({
 
 const MIXED_RESTRICTION_USER_LOCATION = JSON.stringify({
   alpha2: 'US',
-  state: 'VI',
+  state: 'CA',
 })
 
 const RESTRICTED_USER_LOCATION = JSON.stringify({
-  alpha2: 'US',
-  state: 'NY',
+  alpha2: 'KP',
+  state: null,
 })
 
 describe('ProviderOptionsScreen', () => {

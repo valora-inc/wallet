@@ -52,7 +52,7 @@ export const fetchProviderWidgetUrl = async (provider: Providers, requestData: R
   return response.json()
 }
 
-export const fetchUserIpAddress = async () => {
+export const fetchLocationFromIpAddress = async () => {
   const urlFetchResponse = await fetch(
     DEFAULT_TESTNET === 'mainnet' ? PROVIDER_URL_COMPOSER_PROD : PROVIDER_URL_COMPOSER_STAGING,
     {
@@ -128,9 +128,8 @@ type Entries<T> = Array<{ [K in keyof T]: [K, T[K]] }[keyof T]>
 export function getProviderAvailability(
   userLocation: UserLocation | undefined
 ): SpecificProviderAvailability {
-  const { countryCodeAlpha2, stateCode } = userLocation
-    ? { countryCodeAlpha2: userLocation.country, stateCode: userLocation.state }
-    : { countryCodeAlpha2: null, stateCode: null }
+  const countryCodeAlpha2 = userLocation?.country ?? null
+  const stateCode = userLocation?.state ?? null
 
   // tslint:disable-next-line: no-object-literal-type-assertion
   const features = {} as SpecificProviderAvailability

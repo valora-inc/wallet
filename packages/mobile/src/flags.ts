@@ -47,39 +47,22 @@ export const countryFeatures = {
 
 export const providerAvailability = {
   MOONPAY_RESTRICTED: {
-    US: {
-      HI: true,
-      NY: true,
-      RI: true,
-      AS: true,
-      GU: true,
-      MP: true,
-      VI: true,
-    },
+    US: true,
+    KP: true,
   },
   SIMPLEX_RESTRICTED: {
     US: {
       HI: true,
       NY: true,
     },
+    KP: true,
   },
   RAMP_RESTRICTED: {
-    US: {
-      HI: true,
-      NY: true,
-      NE: true,
-    },
+    US: true,
+    KP: true,
   },
   TRANSAK_RESTRICTED: {
-    US: {
-      HI: true,
-      NY: true,
-      NH: true,
-      VT: true,
-      VA: true,
-      NC: true,
-      CT: true,
-      TX: true,
-    },
+    US: true,
+    KP: true,
   },
 }

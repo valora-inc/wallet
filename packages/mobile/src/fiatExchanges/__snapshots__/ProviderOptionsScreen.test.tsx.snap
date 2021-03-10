@@ -300,6 +300,18 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                   >
                     Ramp
                   </Text>
+                  <Text
+                    style={
+                      Object {
+                        "color": "#9CA4A9",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 14,
+                        "lineHeight": 18,
+                      }
+                    }
+                  >
+                    restrictedRegion
+                  </Text>
                 </View>
                 <Image
                   source={
@@ -382,6 +394,18 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     }
                   >
                     Transak
+                  </Text>
+                  <Text
+                    style={
+                      Object {
+                        "color": "#9CA4A9",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 14,
+                        "lineHeight": 18,
+                      }
+                    }
+                  >
+                    restrictedRegion
                   </Text>
                 </View>
                 <Image
