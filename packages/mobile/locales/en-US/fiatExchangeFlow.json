@@ -56,5 +56,7 @@
   "useBalanceWithMerchants": "Use your balance with supporting merchants",
   "findMerchants": "Find local merchants near you",
   "celoDeposit": "CELO Purchase",
-  "cUsdDeposit": "cUSD Purchase"
+  "cUsdDeposit": "cUSD Purchase",
+  "successTitle": "Transaction initiated!",
+  "successContent": "To get the latest information on the transaction please contact <0>{{contactEmail}}</0>"
 }

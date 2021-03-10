@@ -56,5 +56,7 @@
   "useBalanceWithMerchants": "Use seu saldo com comerciantes apoiadores",
   "findMerchants": "Encontre comerciantes locais perto de você",
   "celoDeposit": "Compra de CELO",
-  "cUsdDeposit": "Compra de cUSD"
+  "cUsdDeposit": "Compra de cUSD",
+  "successTitle": "Transação iniciada!",
+  "successContent": "Para obter as informações mais recentes sobre a transação, entre em contato com  <0>{{contactEmail}}</0>"
 }

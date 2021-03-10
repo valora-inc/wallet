@@ -3,13 +3,14 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useRef } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { BackHandler, Image, StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import WebView, { WebViewRef } from 'src/components/WebView'
 import { cicoProvidersSupportEmail } from 'src/config'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import { default as config, default as networkConfig } from 'src/geth/networkConfig'
-import i18n from 'src/i18n'
+import { Namespaces } from 'src/i18n'
 import { fiatExchange } from 'src/images/Images'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
@@ -29,6 +30,8 @@ type RouteProps = StackScreenProps<StackParamList, Screens.CashInSuccess>
 type Props = RouteProps
 
 function CashInSuccessScreen({ route }: Props) {
+  const { t } = useTranslation(Namespaces.fiatExchangeFlow)
+
   const { service } = route.params
   const email = cicoProvidersSupportEmail[service!]
 
@@ -36,16 +39,28 @@ function CashInSuccessScreen({ route }: Props) {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image source={fiatExchange} style={styles.image} resizeMode={'contain'} />
-        <Text style={styles.title}>Transaction initiated!</Text>
+        <Text style={styles.title}>{t('successTitle')}</Text>
       </View>
       <View style={styles.content}>
         <Text style={styles.contentText}>
-          To get the latest information on the transaction please contact{' '}
-          {email ? <Text style={styles.emailLink}>{email}</Text> : 'service support'}
+          {
+            <Trans
+              i18nKey={'successContent'}
+              ns={Namespaces.fiatExchangeFlow}
+              tOptions={{ contactEmail: email }}
+            >
+              <Text style={styles.emailLink} />
+            </Trans>
+          }
         </Text>
 
         <View style={styles.buttonContainer}>
-          <Button style={styles.button} text={'Continue'} onPress={navigateHome} />
+          <Button
+            style={styles.button}
+            text={t('global:continue')}
+            accessibilityLabel={t('global:continue')}
+            onPress={navigateHome}
+          />
         </View>
       </View>
     </View>
