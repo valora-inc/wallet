@@ -19,6 +19,8 @@
   "dollarsNotYetEnabledNote": "Os Celo Dólares ainda não estão disponíveis em nenhum provedor. Para obter Celo Dólares, adquira o CELO e troque por Celo Dólares na aba CELO.",
   "selectDigitalCurrency": "Selecione uma moeda digital",
   "selectPaymentMethod": "Pagar com:",
+  "payWithFiatCard": "Cartão de débito",
+  "payWithFiatBank": "Conta bancária",
   "payWithFiat": "Cartão de débito ou conta bancária",
   "payWithExchange": "Exchange de criptomoeda",
   "selectCashOutMethod": "Receber fundos em:",
