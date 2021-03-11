@@ -12,6 +12,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
+import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import { openMoonpay, openRamp, openSimplex, openTransak } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
@@ -51,6 +52,13 @@ interface Provider {
   onSelected: () => void
 }
 
+export enum Providers {
+  MOONPAY = 'MOONPAY',
+  RAMP = 'RAMP',
+  TRANSAK = 'TRANSAK',
+  SIMPLEX = 'SIMPLEX',
+}
+
 const FALLBACK_CURRENCY = LocalCurrencyCode.USD
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
@@ -62,7 +70,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
   const { RAMP_DISABLED, MOONPAY_DISABLED, TRANSAK_DISABLED } = useCountryFeatures()
-  const selectedCurrency = route.params.currency || CURRENCY_ENUM.DOLLAR
+  const selectedCurrency = {
+    [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
+    [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
+  }[route.params.currency || CURRENCY_ENUM.DOLLAR]
 
   const dispatch = useDispatch()
 
