@@ -33,18 +33,6 @@ export class ValoraWalletConnectClient  {
 
 
    onSessionProposal = (proposal: SessionTypes.Proposal) => {
-    const response: SessionTypes.Response = {
-      metadata: {
-        name: 'Wallet',
-        description: 'A mobile payments wallet that works worldwide',
-        url: 'https://wallet.com',
-        icons: ['https://wallet.com/favicon.ico'],
-      },
-      state: {
-        accounts: [`${account}@celo:44787`],
-      },
-    }
-    return client.approve({ proposal, response })
   }
    onSessionCreated = (session: SessionTypes.Created) => {
     sessionTopic = session.topic

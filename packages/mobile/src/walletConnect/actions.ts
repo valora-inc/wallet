@@ -1,16 +1,8 @@
 import WalletConnectClient from '@walletconnect/client'
 import { PairingTypes, SessionTypes } from '@walletconnect/types'
-import { SendOrigin } from 'src/analytics/types'
-import { TokenTransactionType } from 'src/apollo/types'
-import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { TransactionDataInput } from 'src/send/SendAmount'
-import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 
 export enum Actions {
   CLIENT_INITIALISED = 'WALLETCONNECT/CLIENT_INITIALISED',
-  SESSION_REQUEST = 'WALLETCONNECT/SESSION_REQUEST',
 
   SESSION_PROPOSAL = 'WALLETCONNECT/SESSION_PROPOSAL',
   SESSION_CREATED = 'WALLETCONNECT/SESSION_CREATED',
@@ -29,10 +21,6 @@ export interface ClientInitialised {
   client: WalletConnectClient
 }
 
-export interface SessionRequest {
-  type: Actions.SESSION_REQUEST
-  uri: string
-}
 export interface SessionProposal {
   type: Actions.SESSION_PROPOSAL
   session: SessionTypes.Proposal
@@ -42,12 +30,16 @@ export interface SessionCreated {
   session: SessionTypes.Created
 }
 export interface SessionUpdated {
-  type: Actions.SESSION_REQUEST
+  type: Actions.SESSION_UPDATED
   session: SessionTypes.Update
 }
 export interface SessionDeleted {
   type: Actions.SESSION_DELETED
   session: SessionTypes.DeleteParams
+}
+export interface SessionPayload {
+  type: Actions.SESSION_PAYLOAD
+  session: SessionTypes.Payload
 }
 export interface PairingProposal {
   type: Actions.PAIRING_PROPOSAL
@@ -66,11 +58,21 @@ export interface PairingDeleted {
   pairing: PairingTypes.DeleteParams
 }
 
-export type ActionTypes = SessionRequest | ClientInitialised
+export type ActionTypes =
+  | ClientInitialised
+  | SessionProposal
+  | SessionCreated
+  | SessionUpdated
+  | SessionDeleted
+  | SessionPayload
+  | PairingProposal
+  | PairingCreated
+  | PairingUpdated
+  | PairingDeleted
 
-export const newSessionRequest = (uri: string): SessionRequest => ({
-  type: Actions.SESSION_REQUEST,
-  uri,
+export const clientInitialised = (client: WalletConnectClient) => ({
+  type: Actions.CLIENT_INITIALISED,
+  client,
 })
 
 export const sessionProposal = (session: SessionTypes.Proposal): SessionProposal => ({
@@ -82,7 +84,7 @@ export const sessionCreated = (session: SessionTypes.Created) => ({
   session,
 })
 export const sessionUpdated = (session: SessionTypes.Update) => ({
-  type: Actions.SESSION_REQUEST,
+  type: Actions.SESSION_UPDATED,
   session,
 })
 export const sessionDeleted = (session: SessionTypes.DeleteParams) => ({
@@ -110,34 +112,3 @@ export const pairingDeleted = (pairing: PairingTypes.DeleteParams) => ({
   type: Actions.PAIRING_DELETED,
   pairing,
 })
-
-export const navigateToPaymentTransferReview = (
-  type: TokenTransactionType,
-  timestamp: number,
-  confirmationProps: TransferConfirmationCardProps
-) => {
-  navigate(Screens.TransactionReview, {
-    reviewProps: {
-      type,
-      timestamp,
-    },
-    confirmationProps,
-  })
-}
-
-export const navigateToExchangeReview = (
-  timestamp: number,
-  confirmationProps: ExchangeConfirmationCardProps
-) => {
-  navigate(Screens.TransactionReview, {
-    reviewProps: {
-      type: TokenTransactionType.Exchange,
-      timestamp,
-    },
-    confirmationProps,
-  })
-}
-
-export const navigateToRequestedPaymentReview = (transactionData: TransactionDataInput) => {
-  navigate(Screens.SendConfirmation, { transactionData, origin: SendOrigin.AppRequestFlow })
-}

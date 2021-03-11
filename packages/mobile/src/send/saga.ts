@@ -100,8 +100,6 @@ export function* watchQrCodeDetections() {
       requesterAddress = action.requesterAddress
     }
 
-    console.log(action)
-
     try {
       yield call(
         handleBarcode,
