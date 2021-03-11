@@ -1,5 +1,5 @@
 {
-  "receivedPayment": "Pago recibido",
+  "receivedPayment": "Pago recibido test3",
   "receivedEscrowPayment": "Pago de fideicomiso recibido",
   "from": "de",
   "celoWallet": "{{appName}}",
