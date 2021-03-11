@@ -269,17 +269,18 @@ function simpleReadChannel(key: string) {
       Logger.debug(`Got value from Firebase for key ${key}: ${JSON.stringify(value)}`)
       emit(value || {})
     }
+
+    const onValueChange = firebase
+      .database()
+      .ref(key)
+      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
+
     const cancel = () => {
       firebase
         .database()
         .ref(key)
-        .off(VALUE_CHANGE_HOOK, emitter)
+        .off(VALUE_CHANGE_HOOK, onValueChange)
     }
-
-    firebase
-      .database()
-      .ref(key)
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
 
     return cancel
   })
