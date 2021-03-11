@@ -99,13 +99,16 @@ function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerScen
   const onBarCodeDetected = memoize(
     (qrCode: QrCode) => {
       Logger.debug('QRScanner', 'Bar code detected')
+
+      const isWalletConnectRequest = qrCode.data.startsWith('wc:') || undefined
       dispatch(
         handleBarcodeDetected(
           qrCode,
           scanIsForSecureSend,
           transactionData,
           isOutgoingPaymentRequest,
-          requesterAddress
+          requesterAddress,
+          isWalletConnectRequest
         )
       )
     },

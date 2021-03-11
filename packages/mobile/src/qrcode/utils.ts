@@ -91,6 +91,10 @@ function* handleSecureSend(
   return true
 }
 
+export function handleWalletConnectUri(uri: string) {
+  navigate(Screens.WalletConnectRequest, { uri })
+}
+
 export function* handleBarcode(
   barcode: QrCode,
   addressToE164Number: AddressToE164NumberType,
@@ -98,8 +102,13 @@ export function* handleBarcode(
   e164NumberToAddress: E164NumberToAddressType,
   secureSendTxData?: TransactionDataInput,
   isOutgoingPaymentRequest?: true,
-  requesterAddress?: string
+  requesterAddress?: string,
+  isWalletConnectRequest?: true
 ) {
+  if (isWalletConnectRequest) {
+    return handleWalletConnectUri(barcode.data)
+  }
+
   let qrData: UriData
   try {
     qrData = uriDataFromUrl(barcode.data)

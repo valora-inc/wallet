@@ -27,6 +27,7 @@ export interface HandleBarcodeDetectedAction {
   transactionData?: TransactionDataInput
   isOutgoingPaymentRequest?: true
   requesterAddress?: string
+  isWalletConnectRequest?: true
 }
 
 export interface ShareQRCodeAction {
@@ -77,7 +78,8 @@ export const handleBarcodeDetected = (
   scanIsForSecureSend?: true,
   transactionData?: TransactionDataInput,
   isOutgoingPaymentRequest?: true,
-  requesterAddress?: string
+  requesterAddress?: string,
+  isWalletConnectRequest?: true
 ): HandleBarcodeDetectedAction => ({
   type: Actions.BARCODE_DETECTED,
   data,
@@ -85,6 +87,7 @@ export const handleBarcodeDetected = (
   transactionData,
   isOutgoingPaymentRequest,
   requesterAddress,
+  isWalletConnectRequest,
 })
 
 export const shareQRCode = (qrCodeSvg: SVG): ShareQRCodeAction => ({

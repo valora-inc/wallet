@@ -1,11 +1,13 @@
+import TextButton from '@celo/react-components/components/TextButton'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { RNCamera } from 'react-native-camera'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Defs, Mask, Rect, Svg } from 'react-native-svg'
+import Modal from 'src/components/Modal'
 import { Namespaces } from 'src/i18n'
 import NotAuthorizedView from 'src/qrcode/NotAuthorizedView'
 import { QrCode } from 'src/send/actions'
@@ -47,6 +49,10 @@ const SeeThroughOverlay = () => {
 export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const inset = useSafeAreaInsets()
+  const [manualValue, setManualValue] = useState('hello')
+  const [displayManual, setDisplayManual] = useState(false)
+
+  console.log(displayManual, manualValue)
 
   return (
     <RNCamera
@@ -64,7 +70,44 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
       testID={'Camera'}
     >
       <SeeThroughOverlay />
-      <Text style={[styles.infoText, { marginBottom: inset.bottom }]}>{t('cameraScanInfo')}</Text>
+
+      <TouchableOpacity onPress={() => setDisplayManual(true)}>
+        <Text style={[styles.infoText, { marginBottom: inset.bottom, paddingHorizontal: 30 }]}>
+          {t('cameraScanInfo')}
+        </Text>
+      </TouchableOpacity>
+
+      <Modal isVisible={displayManual}>
+        <Text style={styles.title}>Enter QR code</Text>
+        <TextInput
+          autoFocus
+          value={manualValue}
+          style={styles.currencyInput}
+          autoCapitalize="none"
+          onChangeText={(text) => setManualValue(text)}
+        />
+        {/* {t('promptFornoModal.body')} */}
+        <View style={styles.actions}>
+          <TextButton
+            style={{ color: colors.gray5 }}
+            onPress={() => {
+              setDisplayManual(false)
+              setManualValue('')
+            }}
+          >
+            {'Cancel'}
+          </TextButton>
+          <TextButton
+            style={{}}
+            onPress={() => {
+              console.log('>><', manualValue)
+              onBarCodeDetected({ type: '', data: manualValue })
+            }}
+          >
+            {'Submit'}
+          </TextButton>
+        </View>
+      </Modal>
     </RNCamera>
   )
 }
@@ -83,5 +126,44 @@ const styles = StyleSheet.create({
     lineHeight: undefined,
     color: colors.light,
     textAlign: 'center',
+  },
+  currencyInput: {
+    ...fontStyles.regular,
+    marginBottom: 12,
+    // paddingTop: 0,
+    // paddingLeft: 10,
+    // paddingRight: 10,
+    // flex: 1,
+    // textAlign: 'right',
+    // fontSize: 24,
+    // lineHeight: Platform.select({ android: 39, ios: 30 }), // vertical align = center
+    // height: 60, // setting height manually b.c. of bug causing text to jump on Android
+    // color: colors.goldDark,
+    // borderWidth: 1,
+    // borderRadius: 8,
+    // borderColor: colors.gray5,
+
+    ...fontStyles.regular,
+    paddingHorizontal: 12,
+    paddingVertical: 0,
+    marginTop: 8,
+    alignItems: 'flex-start',
+    borderColor: colors.gray3,
+    borderRadius: 4,
+    borderWidth: 1.5,
+    color: colors.dark,
+    height: 80,
+    maxHeight: 150,
+  },
+  title: {
+    // textAlign: 'center',
+    marginBottom: 6,
+    ...fontStyles.h2,
+  },
+  actions: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    maxWidth: '100%',
+    flexWrap: 'wrap',
   },
 })

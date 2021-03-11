@@ -73,6 +73,7 @@ export enum Screens {
   VerificationInputScreen = 'VerificationInputScreen',
   VerificationLoadingScreen = 'VerificationLoadingScreen',
   WalletHome = 'WalletHome',
+  WalletConnectRequest = 'WalletConnectRequest',
   WebViewScreen = 'WebViewScreen',
   Welcome = 'Welcome',
   WithdrawCeloQrScannerScreen = 'WithdrawCeloQrScannerScreen',
