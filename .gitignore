@@ -78,7 +78,7 @@ lerna-debug.log
 # keys
 .env.mnemonic*
 !.env.mnemonic*.enc
-provider-url-service/.env.*
+*/provider-url-service/.env.*
 
 .terraform/
 tsconfig.tsbuildinfo
