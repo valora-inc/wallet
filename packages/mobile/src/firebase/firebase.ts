@@ -185,17 +185,19 @@ export function appVersionDeprecationChannel() {
       const minVersion = snapshot.val().minVersion
       emit(minVersion)
     }
+
+    const onValueChange = firebase
+      .database()
+      .ref('versions')
+      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
+
     const cancel = () => {
       firebase
         .database()
         .ref('versions')
-        .off(VALUE_CHANGE_HOOK, emitter)
+        .off(VALUE_CHANGE_HOOK, onValueChange)
     }
 
-    firebase
-      .database()
-      .ref('versions')
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
     return cancel
   })
 }
