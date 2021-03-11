@@ -2,34 +2,21 @@ const functions = require('firebase-functions')
 // This allows us to access Cloud Function environment variables
 export const config = functions.config()
 
-const FIREBASE_CONFIG = process.env.FIREBASE_CONFIG && JSON.parse(process.env.FIREBASE_CONFIG)
-export const PROJECT_ID = FIREBASE_CONFIG.projectId
-
-export const MOONPAY_KEYS = {
+export const MOONPAY_DATA = {
+  widget_url: config.moonpay.widget_url,
   public_key: config.moonpay.public_key,
   private_key: config.moonpay.private_key,
 }
 
-export const RAMP_KEYS = {
+export const RAMP_DATA = {
+  widget_url: config.ramp.widget_url,
   public_key: config.ramp.public_key,
 }
 
-export const TRANSAK_KEYS = {
+export const TRANSAK_DATA = {
+  widget_url: config.transak.widget_url,
   public_key: config.transak.public_key,
   private_key: config.transak.private_key,
-}
-
-export const WIDGET_URLS = {
-  production: {
-    moonpay: 'https://buy.moonpay.io/',
-    ramp: 'https://buy.ramp.network',
-    transak: 'https://global.transak.com',
-  },
-  staging: {
-    moonpay: 'https://buy-staging.moonpay.io/',
-    ramp: 'https://ri-widget-staging.firebaseapp.com',
-    transak: 'https://staging-global.transak.com',
-  },
 }
 
 export const VALORA_LOGO_URL =
