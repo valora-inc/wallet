@@ -734,7 +734,7 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_cash_out_selected]: undefined
   [FiatExchangeEvents.cico_spend_selected]: undefined
   [FiatExchangeEvents.cico_fund_info]: undefined
-  [FiatExchangeEvents.cico_fund_info_cancel]: {
+  [FiatExchangeEvents.cico_fund_info_return]: {
     timeElapsed: number
   }
   [FiatExchangeEvents.cico_add_funds_back]: undefined

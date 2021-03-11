@@ -310,7 +310,7 @@ export enum FiatExchangeEvents {
   cico_cash_out_selected = 'cico_cash_out_selected',
   cico_spend_selected = 'cico_spend_selected',
   cico_fund_info = 'cico_fund_info',
-  cico_fund_info_cancel = 'cico_fund_info_cancel',
+  cico_fund_info_return = 'cico_fund_info_return',
 
   cico_add_funds_back = 'cico_add_funds_back',
   cico_add_funds_info = 'cico_add_funds_info',
@@ -335,7 +335,7 @@ export enum FiatExchangeEvents {
   cico_cash_out_select_provider_back = 'cico_cash_out_select_provider_back', // untested
 
   cico_external_exchanges_back = 'cico_external_exchanges_back',
-  cico_cash_out_copy_address = 'cico_cash_out_copy_address', // TODO: fix location prop in AccountNumber.tsx
+  cico_cash_out_copy_address = 'cico_cash_out_copy_address',
 
   cico_spend_select_provider_back = 'cico_spend_select_provider_back',
 }
