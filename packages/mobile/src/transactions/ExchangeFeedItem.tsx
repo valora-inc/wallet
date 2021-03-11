@@ -1,15 +1,16 @@
 import gql from 'graphql-tag'
 import * as React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet } from 'react-native'
 import { ExchangeItemFragment } from 'src/apollo/types'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { Namespaces } from 'src/i18n'
 import { transactionExchange } from 'src/images/Images'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigateToExchangeReview } from 'src/transactions/actions'
 import TransactionFeedItem from 'src/transactions/TransactionFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
+import { getLocalCurrencyDisplayValue, getMoneyDisplayValue } from 'src/utils/formatting'
 
 type Props = ExchangeItemFragment & {
   status: TransactionStatus
@@ -34,16 +35,17 @@ export function ExchangeFeedItem(props: Props) {
     <TransactionFeedItem
       type={type}
       amount={amount}
-      title={t('feedItemExchangeTitle')}
-      info={
-        <Trans
-          i18nKey="feedItemExchangeInfo"
-          ns={Namespaces.walletFlow5}
-          tOptions={{ context: boughtGold ? 'boughtGold' : 'soldGold' }}
-        >
-          <CurrencyDisplay amount={goldAmount} showLocalAmount={false} hideSymbol={true} />
-        </Trans>
-      }
+      title={t(boughtGold ? 'feedItemBoughtCeloTitle' : 'feedItemSoldCeloTitle')}
+      info={t('feedItemExchangeCeloInfo', {
+        amount: getMoneyDisplayValue(goldAmount.value, CURRENCY_ENUM.GOLD),
+        price: goldAmount.localAmount
+          ? getLocalCurrencyDisplayValue(
+              goldAmount.localAmount.exchangeRate,
+              goldAmount.localAmount.currencyCode as LocalCurrencyCode,
+              true
+            )
+          : '-',
+      })}
       icon={<Image source={icon} style={styles.image} resizeMode="contain" />}
       timestamp={timestamp}
       status={status}

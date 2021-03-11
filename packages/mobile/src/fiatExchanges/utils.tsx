@@ -42,7 +42,6 @@ export const fetchProviderWidgetUrl = async (provider: Providers, requestData: R
       },
       body: JSON.stringify({
         ...requestData,
-        urlType: 'widget',
         provider,
       }),
     }
