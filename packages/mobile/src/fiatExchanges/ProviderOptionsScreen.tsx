@@ -19,7 +19,6 @@ import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
 import QuestionIcon from 'src/icons/QuestionIcon'
-import { moonpayLogo, simplexLogo } from 'src/images/Images'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -48,6 +47,7 @@ interface Provider {
   name: string
   enabled: boolean
   icon: string
+  iconColor?: string
   image?: React.ReactNode
   onSelected: () => void
 }
@@ -102,7 +102,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         enabled: !MOONPAY_DISABLED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
-        image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
+        iconColor: 'rgba(0, 0, 0, 0.07)',
         onSelected: () =>
           openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
@@ -111,7 +111,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         enabled: true,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
-        image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
+        iconColor: 'rgba(96, 169, 64, 0.07)',
         onSelected: () => openSimplex(account),
       },
       {
@@ -119,6 +119,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         enabled: !RAMP_DISABLED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
+        iconColor: 'rgba(2, 194, 108, 0.07)',
         onSelected: () =>
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
@@ -152,8 +153,27 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
             .map((provider) => (
               <ListItem key={provider.name} onPress={providerOnPress(provider)}>
                 <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
-                  <Text style={styles.optionTitle}>{provider.name}</Text>
-                  <LinkArrow />
+                  <View
+                    style={[
+                      styles.iconContainer,
+                      { backgroundColor: provider.iconColor || colors.gray1 },
+                    ]}
+                  >
+                    <Image
+                      source={{ uri: provider.icon }}
+                      style={styles.iconImage}
+                      resizeMode="contain"
+                    />
+                  </View>
+                  <View style={styles.option}>
+                    <View>
+                      <Text style={styles.optionTitle}>{provider.name}</Text>
+                      <Text style={styles.optionFeesData}>Fee: $3.99 or 4.5%</Text>
+                    </View>
+                    <View>
+                      <Text style={styles.optionTitle}>€2.34 fee</Text>
+                    </View>
+                  </View>
                 </View>
               </ListItem>
             ))}
@@ -187,8 +207,17 @@ const styles = StyleSheet.create({
     marginBottom: variables.contentPadding,
     paddingLeft: variables.contentPadding,
   },
-  logo: {
-    height: 30,
+  iconContainer: {
+    height: 48,
+    width: 48,
+    borderRadius: 48 / 2,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconImage: {
+    height: 28,
+    width: 28,
   },
   provider: {
     marginVertical: 24,
@@ -208,6 +237,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   optionTitle: {
-    ...fontStyles.regular,
+    ...fontStyles.regular500,
+  },
+  optionFeesData: {
+    ...fontStyles.small,
+    color: colors.gray4,
+    marginTop: 4,
+  },
+  option: {
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    paddingLeft: 8,
   },
 })
