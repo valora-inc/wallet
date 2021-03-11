@@ -57,7 +57,7 @@ export const initializeAuth = async (app: ReactNativeFirebase.Module, address: s
 
   const userRef = app.database().ref('users')
   // Save some user data in DB if it's not there yet
-  await userRef.child(user.user.uid).transaction((userData?: { address: string }) => {
+  await userRef.child(user.user.uid).transaction((userData: { address?: string }) => {
     if (userData == null) {
       return { address }
     } else if (userData.address !== undefined && userData.address !== address) {
