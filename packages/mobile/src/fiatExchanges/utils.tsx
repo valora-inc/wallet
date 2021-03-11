@@ -44,7 +44,6 @@ export const fetchProviderWidgetUrl = async (provider: Providers, requestData: R
         ...requestData,
         urlType: 'widget',
         provider,
-        env: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'staging',
       }),
     }
   )

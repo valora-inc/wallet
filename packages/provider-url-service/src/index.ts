@@ -10,47 +10,31 @@ import {
 } from './config'
 const URL = require('url').URL
 
-type Environments = 'production' | 'staging'
-interface IpRequestData {
-  urlType: 'ip'
-  env: Environments
-}
-interface WidgetRequestData {
-  urlType: 'widget'
-  provider: string
-  env: Environments
+interface RequestData {
+  provider: Providers
   address: string
   digitalAsset: string
   fiatCurrency: string
   fiatAmount: string
 }
 
-type RequestData = IpRequestData | WidgetRequestData
+enum Providers {
+  MOONPAY = 'MOONPAY',
+  RAMP = 'RAMP',
+  TRANSAK = 'TRANSAK',
+  SIMPLEX = 'SIMPLEX',
+}
 
 export const composeCicoProviderUrl = functions.https.onRequest((request, response) => {
   const requestData: RequestData = request.body
+  const { provider, address, digitalAsset, fiatCurrency, fiatAmount } = requestData
 
-  let url
-  if (requestData.urlType === 'widget') {
-    url = composeWidgetUrl(requestData)
-  } else if (requestData.urlType === 'ip') {
-    url = composeIpUrl(requestData)
-  }
-
-  response.send(JSON.stringify(url))
-})
-
-const composeWidgetUrl = (requestData: WidgetRequestData) => {
-  const { provider, env, address, digitalAsset, fiatCurrency, fiatAmount } = requestData
-  const providerName = provider.toLowerCase()
   let finalUrl
 
-  if (providerName === 'moonpay') {
-    const { widgetUrl, public_key, private_key } = MOONPAY_DATA[env]
-
+  if (provider === Providers.MOONPAY) {
     finalUrl = `
-      ${widgetUrl}
-        ?apiKey=${public_key}
+      ${MOONPAY_DATA.widget_url}
+        ?apiKey=${MOONPAY_DATA.public_key}
         &currencyCode=${digitalAsset}
         &walletAddress=${address}
         &baseCurrencyCode=${fiatCurrency}
@@ -59,17 +43,15 @@ const composeWidgetUrl = (requestData: WidgetRequestData) => {
         `.replace(/\s+/g, '')
 
     const signature = crypto
-      .createHmac('sha256', private_key)
+      .createHmac('sha256', MOONPAY_DATA.private_key)
       .update(new URL(finalUrl).search)
       .digest('base64')
 
     finalUrl = `${finalUrl}&signature=${encodeURIComponent(signature)}`
-  } else if (providerName === 'ramp') {
-    const { widgetUrl, public_key } = RAMP_DATA[env]
-
+  } else if (provider === Providers.RAMP) {
     finalUrl = `
-      ${widgetUrl}
-        ?hostApiKey=${public_key}
+      ${RAMP_DATA.widget_url}
+        ?hostApiKey=${RAMP_DATA.public_key}
         &userAddress=${address}
         &swapAsset=${digitalAsset}
         &hostAppName=Valora
@@ -78,12 +60,10 @@ const composeWidgetUrl = (requestData: WidgetRequestData) => {
         &fiatValue=${fiatAmount}
         &finalUrl=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
       `.replace(/\s+/g, '')
-  } else if (providerName === 'transak') {
-    const { widgetUrl, public_key } = TRANSAK_DATA[env]
-
+  } else if (provider === Providers.TRANSAK) {
     finalUrl = `
-      ${widgetUrl}
-        ?apiKey=${public_key}
+      ${TRANSAK_DATA.widget_url}
+        ?apiKey=${TRANSAK_DATA.public_key}
         &hostURL=${encodeURIComponent('https://www.valoraapp.com')}
         &walletAddress=${address}
         &disableWalletAddressForm=true
@@ -95,16 +75,5 @@ const composeWidgetUrl = (requestData: WidgetRequestData) => {
       `.replace(/\s+/g, '')
   }
 
-  return finalUrl
-}
-
-const composeIpUrl = (requestData: IpRequestData) => {
-  const { apiUrl, public_key } = MOONPAY_DATA[requestData.env]
-
-  const url = `
-    ${apiUrl}/v4/ip_address
-        ?apiKey=${public_key}
-      `.replace(/\s+/g, '')
-
-  return url
-}
+  response.send(JSON.stringify(finalUrl))
+})

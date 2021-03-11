@@ -1,6 +1,6 @@
 {
   "projects": {
-    "staging": "celo-testnet-production",
-    "prod": "celo-mobile-mainnet"
+    "alfajores": "celo-mobile-alfajores",
+    "mainnet": "celo-mobile-mainnet"
   }
 }
