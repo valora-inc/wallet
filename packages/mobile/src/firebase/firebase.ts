@@ -225,17 +225,19 @@ export function appRemoteFeatureFlagChannel() {
         inviteRewardWeeklyLimit: flags?.inviteRewardCusd ?? 5,
       })
     }
+
+    const onValueChange = firebase
+      .database()
+      .ref('versions/flags')
+      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
+
     const cancel = () => {
       firebase
         .database()
         .ref('versions/flags')
-        .off(VALUE_CHANGE_HOOK, emitter)
+        .off(VALUE_CHANGE_HOOK, onValueChange)
     }
 
-    firebase
-      .database()
-      .ref('versions/flags')
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
     return cancel
   })
 }
