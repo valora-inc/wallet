@@ -28,6 +28,8 @@ import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { CicoService, SimplexService } from 'src/fiatExchanges/services'
+import CurrencyDisplay from 'src/components/CurrencyDisplay'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
 
@@ -50,6 +52,7 @@ interface Provider {
   iconColor?: string
   image?: React.ReactNode
   onSelected: () => void
+  service?: CicoService
 }
 
 export enum Providers {
@@ -61,9 +64,12 @@ export enum Providers {
 
 const FALLBACK_CURRENCY = LocalCurrencyCode.USD
 
+const simplexService = SimplexService.getInstance()
+
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
   const onDismissExplanation = () => setShowExplanation(false)
+  const [providerFees, setProviderFees] = useState({} as any)
 
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
   const account = useSelector(currentAccountSelector)
@@ -113,6 +119,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
         iconColor: 'rgba(96, 169, 64, 0.07)',
         onSelected: () => openSimplex(account),
+        service: simplexService,
       },
       {
         name: 'Ramp',
@@ -134,6 +141,25 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     ],
   }
 
+  const selectedProviders = providers[isCashIn ? 'cashIn' : 'cashOut']
+
+  React.useEffect(() => {
+    selectedProviders.map(async ({ name, service }) => {
+      setProviderFees({
+        ...providerFees,
+        [name]: (await service?.getFees?.(selectedCurrency, localCurrency, route.params.amount))
+          ?.fee,
+      })
+    })
+  }, [
+    route.params.amount,
+    localCurrency,
+    selectedCurrency,
+    ...selectedProviders.map(({ name }) => name),
+  ])
+
+  console.log(providerFees)
+
   const providerOnPress = (provider: Provider) => () => {
     ValoraAnalytics.track(FiatExchangeEvents.provider_chosen, {
       isCashIn,
@@ -148,7 +174,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       <SafeAreaView style={styles.content}>
         <Text style={styles.pleaseSelectProvider}>{t('pleaseSelectProvider')}</Text>
         <View style={styles.providersContainer}>
-          {providers[isCashIn ? 'cashIn' : 'cashOut']
+          {selectedProviders
             .filter((provider) => provider.enabled)
             .map((provider) => (
               <ListItem key={provider.name} onPress={providerOnPress(provider)}>
@@ -171,7 +197,29 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                       <Text style={styles.optionFeesData}>Fee: $3.99 or 4.5%</Text>
                     </View>
                     <View>
-                      <Text style={styles.optionTitle}>€2.34 fee</Text>
+                      <Text style={styles.optionTitle}>
+                        {providerFees[provider.name] ? (
+                          <CurrencyDisplay
+                            amount={{
+                              value: 0,
+                              localAmount: {
+                                value: providerFees[provider.name],
+                                currencyCode: localCurrency,
+                                exchangeRate: 1,
+                              },
+                              currencyCode: localCurrency,
+                            }}
+                            hideSymbol={false}
+                            showLocalAmount={true}
+                            hideSign={true}
+                            showExplicitPositiveSign={false}
+                            style={[styles.optionTitle]}
+                          />
+                        ) : (
+                          '-'
+                        )}{' '}
+                        fee
+                      </Text>
                     </View>
                   </View>
                 </View>
