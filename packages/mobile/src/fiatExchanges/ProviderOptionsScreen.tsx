@@ -28,7 +28,7 @@ import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { CicoService, SimplexService } from 'src/fiatExchanges/services'
+import { CicoService, SimplexService, TransakService } from 'src/fiatExchanges/services'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
@@ -65,6 +65,7 @@ export enum Providers {
 const FALLBACK_CURRENCY = LocalCurrencyCode.USD
 
 const simplexService = SimplexService.getInstance()
+const transakService = TransakService.getInstance()
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
@@ -137,6 +138,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
           'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
         onSelected: () =>
           openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+        service: transakService,
       },
     ],
   }
@@ -144,21 +146,19 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const selectedProviders = providers[isCashIn ? 'cashIn' : 'cashOut']
 
   React.useEffect(() => {
-    selectedProviders.map(async ({ name, service }) => {
-      setProviderFees({
-        ...providerFees,
-        [name]: (await service?.getFees?.(selectedCurrency, localCurrency, route.params.amount))
-          ?.fee,
-      })
-    })
+    const fees = selectedProviders.map(async ({ name, service }) => [
+      name,
+      (await service?.getFees?.(selectedCurrency, localCurrency, route.params.amount))?.fee,
+    ])
+    Promise.all(fees)
+      .then((list) => list.reduce((acc, [name, fee]) => ({ ...acc, [name as string]: fee }), {}))
+      .then((feesValues) => setProviderFees(feesValues))
   }, [
     route.params.amount,
     localCurrency,
     selectedCurrency,
     ...selectedProviders.map(({ name }) => name),
   ])
-
-  console.log(providerFees)
 
   const providerOnPress = (provider: Provider) => () => {
     ValoraAnalytics.track(FiatExchangeEvents.provider_chosen, {

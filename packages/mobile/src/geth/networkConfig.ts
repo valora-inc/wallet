@@ -30,6 +30,7 @@ interface NetworkConfig {
   signMoonpayUrl: string
   rampWidgetUrl: string
   transakWidgetUrl: string
+  transakApiUrl: string
   useDiscovery: boolean
   useStaticNodes: boolean
   komenciUrl: string
@@ -52,6 +53,8 @@ const rampWidgetProd = 'https://buy.ramp.network'
 
 const transakWidgetProd = 'https://global.transak.com'
 const transakWidgetStaging = 'https://staging-global.transak.com'
+const transakApiProd = ''
+const transakApiStaging = 'https://stoplight.io/mocks/transak/transak-docs/995828' // https://staging-api.transak.com/api/v2
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
@@ -81,6 +84,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
     transakWidgetUrl: transakWidgetStaging,
+    transakApiUrl: transakApiStaging,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_STAGING,
@@ -100,6 +104,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
     transakWidgetUrl: transakWidgetProd,
+    transakApiUrl: transakApiProd,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_MAINNET,
