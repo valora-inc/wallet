@@ -31,7 +31,8 @@ async function ensureNavigator() {
     !navigatorIsReadyRef.current &&
     retries < NAVIGATOR_INIT_RETRIES
   ) {
-    await sleep(200)
+    console.log('Trying to navigate')
+    await sleep(1000)
     retries++
   }
   if (!navigationRef.current || !navigatorIsReadyRef.current) {

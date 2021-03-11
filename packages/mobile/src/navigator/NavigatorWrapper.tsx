@@ -178,7 +178,10 @@ export const NavigatorWrapper = () => {
     await Share.share({ message })
   }
 
+  console.log('Navigator Wrapper', navigatorIsReadyRef.current)
+
   const onReady = () => {
+    console.log('Navigator Wrapper onReady')
     navigatorIsReadyRef.current = true
   }
 

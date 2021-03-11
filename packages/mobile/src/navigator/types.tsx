@@ -268,6 +268,7 @@ export type QRTabParamList = {
         transactionData?: TransactionDataInput
         isOutgoingPaymentRequest?: true
         requesterAddress?: string
+        isWalletConnectRequest?: true
       }
     | undefined
 }

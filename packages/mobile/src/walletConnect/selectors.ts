@@ -5,7 +5,7 @@ export function getWalletConnectClient(state: RootState) {
 }
 
 export function selectPendingSession(state: RootState) {
-  console.log(state.walletConnect.sessions)
+  console.log(state.walletConnect)
   // return state.walletConnect.sessions.find(s => )
 }
 

@@ -52,8 +52,6 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
   const [manualValue, setManualValue] = useState('hello')
   const [displayManual, setDisplayManual] = useState(false)
 
-  console.log(displayManual, manualValue)
-
   return (
     <RNCamera
       style={styles.camera}
@@ -100,8 +98,9 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
           <TextButton
             style={{}}
             onPress={() => {
-              console.log('>><', manualValue)
               onBarCodeDetected({ type: '', data: manualValue })
+              setDisplayManual(false)
+              setManualValue('')
             }}
           >
             {'Submit'}

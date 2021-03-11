@@ -104,6 +104,7 @@ export function* handleBarcode(
 ) {
   if (isWalletConnectRequest) {
     yield initialiseClient(barcode.data)
+    navigate(Screens.WalletConnectSessionRequest)
     return
   }
 

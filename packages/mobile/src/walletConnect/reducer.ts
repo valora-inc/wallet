@@ -19,7 +19,7 @@ const initialState: State = {
 }
 
 export const reducer = (
-  state: State = initialState,
+  state: State | undefined = initialState,
   action: ActionTypes | RehydrateAction
 ): State => {
   switch (action.type) {
