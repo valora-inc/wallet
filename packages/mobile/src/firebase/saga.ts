@@ -99,21 +99,22 @@ function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
     // timestamp + 1 is used because .startAt is inclusive
     const startAt = lastTimeUpdated + 1 || now - MAX_HISTORY_RETENTION
 
+    const onValueChange = firebase
+      .database()
+      .ref(`${EXCHANGE_RATES}/cGLD/cUSD`)
+      .orderByChild('timestamp')
+      .startAt(startAt)
+      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
+
     const cancel = () => {
       firebase
         .database()
         .ref(`${EXCHANGE_RATES}/cGLD/cUSD`)
         .orderByChild('timestamp')
         .startAt(startAt)
-        .off(VALUE_CHANGE_HOOK, emitter)
+        .off(VALUE_CHANGE_HOOK, onValueChange)
     }
 
-    firebase
-      .database()
-      .ref(`${EXCHANGE_RATES}/cGLD/cUSD`)
-      .orderByChild('timestamp')
-      .startAt(startAt)
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
     return cancel
   })
 }
