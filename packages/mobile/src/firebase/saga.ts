@@ -91,7 +91,7 @@ function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
       const result: ExchangeRate[] = []
       snapshot.forEach((childSnapshot: FirebaseDatabaseTypes.DataSnapshot) => {
         result.push(childSnapshot.val())
-        return false
+        return undefined
       })
       emit(result)
     }
