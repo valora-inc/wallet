@@ -1,4 +1,3 @@
 {
-  "firebaseDisabled": "FireBase está desactivado, la carga de notificaciones y registros no funcionará",
-  "someNewKey": "Just testing"
+  "firebaseDisabled": "FireBase está desactivado, la carga de notificaciones y registros no funcionará"
 }
