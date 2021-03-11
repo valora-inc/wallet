@@ -5,7 +5,7 @@ import variables from '@celo/react-components/styles/variables'
 import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import {
@@ -116,20 +116,19 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     })
   }, [])
 
-  useAsync(async () => {
-    try {
-      const locationData = await fetchLocationFromIpAddress()
-      if (!locationData) {
-        throw Error('Url returned from service is invalid')
-      }
+  const fetchResponse = useAsync(fetchLocationFromIpAddress, [])
 
-      const { alpha2, state } = locationData
+  useEffect(() => {
+    const { result, status } = fetchResponse
+
+    if (result && status === 'success') {
+      const { alpha2, state } = result
       setUserLocation({ country: alpha2, state })
-    } catch (error) {
-      const country = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
-      setUserLocation({ country, state: null })
+    } else if (status === 'error') {
+      const alpha2 = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
+      setUserLocation({ country: alpha2, state: null })
     }
-  }, [])
+  }, [fetchResponse.status])
 
   const providers: {
     cashOut: Provider[]

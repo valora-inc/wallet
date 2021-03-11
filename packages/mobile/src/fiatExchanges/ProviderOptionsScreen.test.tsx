@@ -29,8 +29,6 @@ const mockStore = createMockStore({
   },
 })
 
-const SUCCESSFUL_URL_FETCH = JSON.stringify('https://www.moonpay.com/api')
-
 const UNRESTRICTED_USER_LOCATION = JSON.stringify({
   alpha2: 'MX',
   state: null,
@@ -54,7 +52,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('renders correctly', async () => {
-    mockFetch.mockResponses(SUCCESSFUL_URL_FETCH, MIXED_RESTRICTION_USER_LOCATION)
+    mockFetch.mockResponseOnce(MIXED_RESTRICTION_USER_LOCATION)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -68,7 +66,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('opens Simplex correctly', async () => {
-    mockFetch.mockResponses(SUCCESSFUL_URL_FETCH, UNRESTRICTED_USER_LOCATION)
+    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -83,7 +81,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('opens MoonPay correctly', async () => {
-    mockFetch.mockResponses(SUCCESSFUL_URL_FETCH, UNRESTRICTED_USER_LOCATION)
+    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -102,7 +100,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('opens Ramp correctly', async () => {
-    mockFetch.mockResponses(SUCCESSFUL_URL_FETCH, UNRESTRICTED_USER_LOCATION)
+    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -121,7 +119,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('opens Transak correctly', async () => {
-    mockFetch.mockResponses(SUCCESSFUL_URL_FETCH, UNRESTRICTED_USER_LOCATION)
+    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -140,7 +138,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('show a warning if user region is not supported', async () => {
-    mockFetch.mockResponses(SUCCESSFUL_URL_FETCH, RESTRICTED_USER_LOCATION)
+    mockFetch.mockResponseOnce(RESTRICTED_USER_LOCATION)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -155,7 +153,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('does not show a warning if user region is supported', async () => {
-    mockFetch.mockResponses(SUCCESSFUL_URL_FETCH, UNRESTRICTED_USER_LOCATION)
+    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
 
     const tree = render(
       <Provider store={mockStore}>

@@ -1,6 +1,7 @@
 import {
   CurrencyCode,
   DEFAULT_TESTNET,
+  MOONPAY_API_KEY,
   PROVIDER_URL_COMPOSER_PROD,
   PROVIDER_URL_COMPOSER_STAGING,
   SIMPLEX_URI,
@@ -51,28 +52,11 @@ export const fetchProviderWidgetUrl = async (provider: Providers, requestData: R
 }
 
 export const fetchLocationFromIpAddress = async () => {
-  const urlFetchResponse = await fetch(
-    DEFAULT_TESTNET === 'mainnet' ? PROVIDER_URL_COMPOSER_PROD : PROVIDER_URL_COMPOSER_STAGING,
-    {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        urlType: 'ip',
-        env: DEFAULT_TESTNET === 'mainnet' ? 'production' : 'staging',
-      }),
-    }
+  const ipAddressFetchResponse = await fetch(
+    `https://api.moonpay.com/v4/ip_address?apiKey=${MOONPAY_API_KEY}`
   )
-
-  const url = await urlFetchResponse.json()
-
-  if (url?.startsWith('http')) {
-    const ipAddressFetchResponse = await fetch(url)
-    const ipAddressObj: IpAddressData = await ipAddressFetchResponse.json()
-    return ipAddressObj
-  }
+  const ipAddressObj: IpAddressData = await ipAddressFetchResponse.json()
+  return ipAddressObj
 }
 
 export const isExpectedUrl = (fetchedUrl: string, providerUrl: string) =>
