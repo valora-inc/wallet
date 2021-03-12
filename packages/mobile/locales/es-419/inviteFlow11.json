@@ -3,8 +3,8 @@
   "inviteWithWhatsapp": "Invitar con WhatsApp",
   "inviteWithSMS": "Invitar con SMS",
   "inviteFee": "Comisión de invitación",
-  "whySendFees": "Esta comisión cubre los costos de confirmar el n.º de teléfono del usuario nuevo",
-  "whyReceiveFees": "Te enviaron dinero para confirmar tu cuenta",
+  "whySendFees": "This fee covers costs for the new user to confirm their phone number",
+  "whyReceiveFees": "You were sent some money to confirm your account",
   "edit": "Editar",
   "to": "Para",
   "inviteSent": "Invitación enviada",
@@ -25,7 +25,7 @@
   "sendAndInvite": "Envía e invita",
   "inviteAndSendDialog": {
     "title": "Invita y envía",
-    "body": "Tu pago estará esperando hasta que {{name}} confirme su número de teléfono. ¡Envíale una invitación para que se registre en {{appName}} y reciba tu pago!",
+    "body": "Your payment to {{name}} will be waiting for them once they confirm their phone number. Share an invitation message with them to join {{appName}} and redeem your payment!",
     "button": "Invitar"
   },
   "inviteRewardsBanner": {
