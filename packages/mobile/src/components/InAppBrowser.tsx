@@ -52,9 +52,6 @@ function InAppBrowser({ uri, isLoading, onCancel }: Props) {
   }, [])
 
   useEffect(() => {
-    if (!uri) {
-      return
-    }
     const openBrowser = async () => {
       const finalEvent = await BroswerPackage.openAuth(uri, 'celo://wallet', {
         modalEnabled: true,
