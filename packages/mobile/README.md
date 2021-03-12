@@ -398,7 +398,7 @@ Translation process overview:
 1. We can then manually check and edit the translated strings in the Crowdin UI. The changes will be reflected in the PR after 10 mins.
 1. When we are happy with the changes, we can merge the PR and delete the related `l10n/main` branch to avoid possible future conflicts. Once new translations are made in Crowdin, a new `l10n/main` branch will be automatically created again.
 
-When making a release, we should make sure there is no outstanding translation changes not yet merged into `main`.
+When making a release, we should make sure there are no outstanding translation changes not yet merged into `main`.
 i.e. no Crowdin PR open and the translation status for all supported languages is at 100% and approved on Crowdin.
 
 ### Configuring the SMS Retriever
