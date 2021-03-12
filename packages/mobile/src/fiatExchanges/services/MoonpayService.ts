@@ -1,37 +1,38 @@
 import networkConfig from 'src/geth/networkConfig'
 import { CicoService } from 'src/fiatExchanges/services/CicoService.abstract'
 
-export class TransakService extends CicoService {
+export class MoonpayService extends CicoService {
   static getInstance() {
     if (!this.instance) {
-      this.instance = new TransakService()
+      this.instance = new MoonpayService()
     }
     return this.instance
   }
 
-  private static instance: TransakService
+  private static instance: MoonpayService
 
+  private apiKey: string
   private baseUrl: string
 
   constructor() {
     super()
 
-    this.baseUrl = networkConfig.transakApiUrl
+    this.apiKey = networkConfig.moonpayApiKey
+    this.baseUrl = networkConfig.moonpayApiUrl
   }
 
   getFees(cryptoAsset: string, fiatAsset: string, requestedFiatAmount: number) {
-    return this.get('/currencies/price', {
-      fiatCurrency: fiatAsset,
-      cryptoCurrency: cryptoAsset,
-      isBuyOrSell: 'BUY',
-      fiatAmount: requestedFiatAmount,
+    return this.get(`/currencies/${cryptoAsset.toLowerCase()}/buy_quote`, {
+      baseCurrencyCode: fiatAsset.toLowerCase(),
+      baseCurrencyAmount: requestedFiatAmount,
+      paymentMethod: 'credit_debit_card',
     })
       .then((response) => response.json())
-      .then(({ response: { totalFee: fee } }) => ({ fee }))
+      .then(({ feeAmount: fee }) => ({ fee }))
   }
 
   private get(path: string, body: { [key: string]: string | number }) {
-    const params = Object.entries(body)
+    const params = Object.entries({ ...body, apiKey: this.apiKey })
       .map(([key, value]) => encodeURI(`${key}=${value}`))
       .join('&')
     return fetch(`${this.baseUrl}${path}?${params}`, {

@@ -10,6 +10,7 @@ import {
   GETH_USE_STATIC_NODES,
   RECAPTCHA_SITE_KEY_ALFAJORES,
   RECAPTCHA_SITE_KEY_MAINNET,
+  MOONPAY_API_KEY,
 } from 'src/config'
 import { GethSyncMode } from 'src/geth/consts'
 import Logger from 'src/utils/Logger'
@@ -27,6 +28,8 @@ interface NetworkConfig {
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
   moonpayWidgetUrl: string
+  moonpayApiUrl: string
+  moonpayApiKey: string
   signMoonpayUrl: string
   rampWidgetUrl: string
   transakWidgetUrl: string
@@ -42,6 +45,8 @@ interface NetworkConfig {
 
 const moonpayWidgetStaging = 'https://buy-staging.moonpay.io/'
 const moonpayWidgetProd = 'https://buy.moonpay.io/'
+const moonpayApiStaging = 'https://api.moonpay.com/v3'
+const moonpayApiProd = 'https://api.moonpay.com/v3'
 
 const signMoonpayUrlStaging =
   'https://us-central1-celo-testnet-production.cloudfunctions.net/signMoonpayStaging'
@@ -81,6 +86,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
     moonpayWidgetUrl: moonpayWidgetStaging,
+    moonpayApiUrl: moonpayApiStaging,
+    moonpayApiKey: MOONPAY_API_KEY,
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
     transakWidgetUrl: transakWidgetStaging,
@@ -101,6 +108,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
     moonpayWidgetUrl: moonpayWidgetProd,
+    moonpayApiUrl: moonpayApiProd,
+    moonpayApiKey: MOONPAY_API_KEY,
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
     transakWidgetUrl: transakWidgetProd,

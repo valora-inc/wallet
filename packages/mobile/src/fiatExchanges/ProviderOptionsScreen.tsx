@@ -28,7 +28,12 @@ import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { CicoService, SimplexService, TransakService } from 'src/fiatExchanges/services'
+import {
+  CicoService,
+  MoonpayService,
+  SimplexService,
+  TransakService,
+} from 'src/fiatExchanges/services'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
@@ -66,6 +71,7 @@ const FALLBACK_CURRENCY = LocalCurrencyCode.USD
 
 const simplexService = SimplexService.getInstance()
 const transakService = TransakService.getInstance()
+const moonpayService = MoonpayService.getInstance()
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
@@ -112,6 +118,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         iconColor: 'rgba(0, 0, 0, 0.07)',
         onSelected: () =>
           openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+        service: moonpayService,
       },
       {
         name: 'Simplex',
