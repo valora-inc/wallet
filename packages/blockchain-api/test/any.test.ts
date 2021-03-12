@@ -1,5 +1,5 @@
 import { Any } from '../src/events/Any'
-import { apiMetrics } from '../src/metrics'
+import { metrics } from '../src/metrics'
 
 // Wrap counters in a class like this: https://github.com/celo-org/celo-oracle/blob/main/test/exchange_adapters/base.test.ts#L78
 
@@ -7,12 +7,10 @@ import { apiMetrics } from '../src/metrics'
 // finish this describe block
 // call any.getEvent
 // expect the counter to be incremented
-describe('AnyType', () => {
-  let metrics: apiMetrics
 
-  beforeEach(() => {
-    let metrics = new apiMetrics()
-  })
+jest.mock('../src/metrics')
+
+describe('AnyType', () => {
   it('Should throw an Error when invalid context is received.', async () => {
     let context = {
       userAddress: 'invalidAddress',
@@ -33,7 +31,10 @@ describe('AnyType', () => {
     }
 
     let transaction = new Any(context)
-    transaction.getEvent(null as any)
+    try {
+      transaction.getEvent(null as any)
+    } catch (Error) {}
+
     expect(metrics.unknownTransaction).toBeCalled()
   })
 })
