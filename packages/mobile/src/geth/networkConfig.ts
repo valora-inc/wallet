@@ -54,7 +54,7 @@ const rampWidgetProd = 'https://buy.ramp.network'
 const transakWidgetProd = 'https://global.transak.com'
 const transakWidgetStaging = 'https://staging-global.transak.com'
 const transakApiProd = ''
-const transakApiStaging = 'https://stoplight.io/mocks/transak/transak-docs/995828' // https://staging-api.transak.com/api/v2
+const transakApiStaging = 'https://staging-api.transak.com/api/v2'
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
