@@ -46,7 +46,7 @@ export const fetchUserInitData = async (deviceId: string) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      deviceId: 'AAE54D94-1E96-4644-AA85-1E2731F51645',
+      deviceId,
     }),
   })
 
