@@ -10,6 +10,11 @@
     "signTX": "Sign TX",
     "details": "Show details"
   },
-  "sessionInfo": "This application could ask to perform the following actions",
-  "data": "Data"
+  "sessionInfo": "This application could ask to perform the following actions. Please read them carefully and ensure you're happy before proceeding",
+  "data": "Data",
+  "moreInfo": "Confused by anything here?",
+  "noConnectedApps": "No connected applications yet, click here to get started",
+
+  "sessionsTitle": "Connected DApps",
+  "sessionsSubTitle": "Here you can connect Valora to decentralized applications (DApps) just by scanning a QR code."
 }

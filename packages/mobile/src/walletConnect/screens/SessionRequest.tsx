@@ -1,15 +1,14 @@
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import ItemSeparator from '@celo/react-components/components/ItemSeparator'
-import PhoneNumberWithFlag from '@celo/react-components/components/PhoneNumberWithFlag'
+import ListItem from '@celo/react-components/components/ListItem'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
-import AccountNumber from 'src/components/AccountNumber'
 import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -20,13 +19,21 @@ import { humanReadableAction, SupportedActions } from '../constants'
 
 const TAG = 'WalletConnect/RequestScreen'
 
+function deduplicateArray(array: any[]) {
+  return [...new Set(array)]
+}
+
 function ActionList({ actions }: { actions: string[] }) {
-  const descriptions = [...new Set(actions.map((a) => humanReadableAction(a as SupportedActions)))]
+  const descriptions = deduplicateArray(
+    actions.map((a) => humanReadableAction(a as SupportedActions)).filter(Boolean)
+  )
 
   return (
     <View>
       {descriptions.map((d) => (
-        <Text>{d}</Text>
+        <ListItem>
+          <Text>{d}</Text>
+        </ListItem>
       ))}
     </View>
   )
@@ -39,7 +46,6 @@ export default function WalletConnectRequestScreen(props: Props) {
   const session = useSelector(selectPendingSession)
   const { t } = useTranslation(Namespaces.walletConnect)
   const dispatch = useDispatch()
-  console.log('>>> WalletConnectRequestScreen', JSON.stringify(session))
 
   if (!session) {
     return null
@@ -57,36 +63,26 @@ export default function WalletConnectRequestScreen(props: Props) {
 
   const icon = session.proposer.metadata.icons[0] || `${session.proposer.metadata.url}/favicon.ico`
   return (
-    <SafeAreaView style={styles.container}>
-      {/* <TopBarTextButton title={t('cancel')} onPress={cancel} titleStyle={styles.cancelButton} /> */}
-
+    <SafeAreaView style={styles.screen}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View>
+        <View style={styles.content}>
           <Image
             style={{ height: 40, width: 40, marginBottom: 12 }}
             source={{ uri: icon }}
             height={40}
             width={40}
           />
-        </View>
-        <Text style={styles.header}>
-          {t('connectToWallet', { dappName: session.proposer.metadata.name })}
-        </Text>
-
-        <Text style={styles.share}>{t('sessionInfo')}</Text>
-
-        <ItemSeparator />
-
-        <ActionList actions={session.permissions.jsonrpc.methods} />
-
-        <View style={styles.sectionDivider}>
-          <Text style={styles.sectionHeaderText}>{t('phoneNumber')}</Text>
-          <PhoneNumberWithFlag e164PhoneNumber={''} />
-          <Text style={styles.sectionHeaderText}>{t('address')}</Text>
-          <AccountNumber address={''} location={Screens.DrawerNavigator} />
+          <Text style={styles.header}>
+            {t('connectToWallet', { dappName: session.proposer.metadata.name })}
+          </Text>
+          <Text style={styles.share}>{t('sessionInfo')}</Text>
         </View>
 
-        <View>
+        <View style={[styles.content, { paddingTop: 12 }]}>
+          <ActionList actions={session.permissions.jsonrpc.methods} />
+        </View>
+
+        <View style={styles.actionContainer}>
           <Button
             style={styles.button}
             type={BtnTypes.SECONDARY}
@@ -102,13 +98,19 @@ export default function WalletConnectRequestScreen(props: Props) {
             onPress={confirm}
           />
         </View>
+
+        <View style={[styles.content, { paddingTop: 12 }]}>
+          <TouchableOpacity onPress={() => navigate(Screens.Support)}>
+            <Text style={styles.share}>{t('moreInfo')}</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
   },
   scrollContainer: {
@@ -116,10 +118,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  content: {
+    paddingHorizontal: 30,
+  },
   header: {
     ...fontStyles.h1,
     textAlign: 'center',
-    paddingHorizontal: 30,
     paddingBottom: 16,
   },
   share: {
@@ -141,5 +145,11 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     color: colors.dark,
+  },
+  actionContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
   },
 })

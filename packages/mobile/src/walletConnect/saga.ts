@@ -68,58 +68,62 @@ export function* watchWalletConnectChannel() {
 
 export function* createWalletConnectChannel() {
   Logger.debug(TAG + '@initialiseClient', `init start`)
-  const client = yield call(WalletConnectClient.init, {
-    relayProvider: 'wss://bridge.walletconnect.org/',
-    storageOptions: {
-      asyncStorage: AsyncStorage,
-    },
-    logger: 'error',
-  })
-  yield put(clientInitialised(client))
-  Logger.debug(TAG + '@initialiseClient', `init end`)
+  try {
+    const client = yield call(WalletConnectClient.init, {
+      relayProvider: 'wss://staging.walletconnect.org',
+      storageOptions: {
+        asyncStorage: AsyncStorage,
+      },
+      logger: 'error',
+    })
+    Logger.debug(TAG + '@initialiseClient', `init end`)
+    yield put(clientInitialised(client))
 
-  return eventChannel((emit: any) => {
-    console.log('event channel')
-    client.on(CLIENT_EVENTS.session.proposal, (session: SessionTypes.Proposal) => {
-      console.log('emitting')
-      emit(sessionProposal(session))
-    })
-    client.on(CLIENT_EVENTS.session.created, (session: SessionTypes.Created) => {
-      console.log('emitting')
-      emit(sessionCreated(session))
-    })
-    client.on(CLIENT_EVENTS.session.updated, (session: SessionTypes.Update) => {
-      console.log('emitting')
-      emit(sessionUpdated(session))
-    })
-    client.on(CLIENT_EVENTS.session.deleted, (session: SessionTypes.DeleteParams) => {
-      console.log('emitting')
-      emit(sessionDeleted(session))
-    })
-    client.on(CLIENT_EVENTS.session.payload, (payload: SessionTypes.PayloadEvent) => {
-      console.log('emitting')
-      emit(sessionPayload(payload))
-    })
+    return eventChannel((emit: any) => {
+      console.log('event channel')
+      client.on(CLIENT_EVENTS.session.proposal, (session: SessionTypes.Proposal) => {
+        console.log('emitting')
+        emit(sessionProposal(session))
+      })
+      client.on(CLIENT_EVENTS.session.created, (session: SessionTypes.Created) => {
+        console.log('emitting')
+        emit(sessionCreated(session))
+      })
+      client.on(CLIENT_EVENTS.session.updated, (session: SessionTypes.Update) => {
+        console.log('emitting')
+        emit(sessionUpdated(session))
+      })
+      client.on(CLIENT_EVENTS.session.deleted, (session: SessionTypes.DeleteParams) => {
+        console.log('emitting')
+        emit(sessionDeleted(session))
+      })
+      client.on(CLIENT_EVENTS.session.payload, (payload: SessionTypes.PayloadEvent) => {
+        console.log('emitting')
+        emit(sessionPayload(payload))
+      })
 
-    client.on(CLIENT_EVENTS.pairing.proposal, (pairing: PairingTypes.Proposal) => {
-      console.log('emitting')
-      emit(pairingProposal(pairing))
-    })
-    client.on(CLIENT_EVENTS.pairing.created, (pairing: PairingTypes.Created) => {
-      console.log('emitting')
-      emit(pairingCreated(pairing))
-    })
-    client.on(CLIENT_EVENTS.pairing.updated, (pairing: PairingTypes.Update) => {
-      console.log('emitting')
-      emit(pairingUpdated(pairing))
-    })
-    client.on(CLIENT_EVENTS.pairing.deleted, (pairing: PairingTypes.DeleteParams) => {
-      console.log('emitting')
-      emit(pairingDeleted(pairing))
-    })
+      client.on(CLIENT_EVENTS.pairing.proposal, (pairing: PairingTypes.Proposal) => {
+        console.log('emitting')
+        emit(pairingProposal(pairing))
+      })
+      client.on(CLIENT_EVENTS.pairing.created, (pairing: PairingTypes.Created) => {
+        console.log('emitting')
+        emit(pairingCreated(pairing))
+      })
+      client.on(CLIENT_EVENTS.pairing.updated, (pairing: PairingTypes.Update) => {
+        console.log('emitting')
+        emit(pairingUpdated(pairing))
+      })
+      client.on(CLIENT_EVENTS.pairing.deleted, (pairing: PairingTypes.DeleteParams) => {
+        console.log('emitting')
+        emit(pairingDeleted(pairing))
+      })
 
-    return () => {}
-  })
+      return () => {}
+    })
+  } catch (e) {
+    console.log('uncaught e', e)
+  }
 }
 
 // export function* initialiseClient() {
@@ -197,6 +201,7 @@ export function* initialiseWalletConnect(uri: string) {
   if (!client) {
     yield put(initialiseClientAction())
     yield take(Actions.CLIENT_INITIALISED)
+  } else {
   }
   yield put(initialisePairingAction(uri))
 }

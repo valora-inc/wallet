@@ -16,7 +16,8 @@ const humanReadableActions: { [action in SupportedActions]: string } = {
 export function humanReadableAction(action: SupportedActions): string {
   const value = humanReadableActions[action]
   if (!value) {
-    throw new Error('Unsupported action')
+    return ''
+    // throw new Error('Unsupported action')
   }
 
   return value
