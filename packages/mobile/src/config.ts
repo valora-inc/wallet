@@ -178,6 +178,9 @@ export const PROVIDER_URL_COMPOSER_PROD =
 export const PROVIDER_URL_COMPOSER_STAGING =
   'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/composeCicoProviderUrl'
 
+export const USER_DATA_URL =
+  'https://us-central1-celo-testnet-production.cloudfunctions.net/queryForUserInitData'
+
 export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
 
 export const APP_STORE_ID = Config.APP_STORE_ID

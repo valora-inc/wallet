@@ -5,8 +5,10 @@ import variables from '@celo/react-components/styles/variables'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 import { useDispatch } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -14,7 +16,13 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
-import { openMoonpay, openRamp, openSimplex, openTransak } from 'src/fiatExchanges/utils'
+import {
+  fetchUserInitData,
+  openMoonpay,
+  openRamp,
+  openSimplex,
+  openTransak,
+} from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -90,6 +98,11 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       ),
     })
   }, [])
+
+  const fetchResponse = useAsync(() => fetchUserInitData(DeviceInfo.getUniqueId()), [])
+
+  const data = fetchResponse?.result
+  console.log('DATA: ', data)
 
   const providers: {
     cashOut: Provider[]

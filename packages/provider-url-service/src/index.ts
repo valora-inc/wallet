@@ -1,3 +1,4 @@
+const { BigQuery } = require('@google-cloud/bigquery')
 import crypto from 'crypto'
 import * as functions from 'firebase-functions'
 import {
@@ -76,4 +77,43 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
   }
 
   response.send(JSON.stringify(finalUrl))
+})
+
+export const queryForUserInitData = functions.https.onRequest(async (request, response) => {
+  const projectId = 'celo-testnet-production'
+  const dataset = 'mobile_wallet_production'
+  const bigQuery = new BigQuery({ projectId: `${projectId}` })
+
+  const { deviceId } = request.body
+  console.log(deviceId)
+
+  const [data] = await bigQuery.query(`
+    SELECT context_ip, device_info_user_agent, timestamp FROM ${projectId}.${dataset}.app_launched
+    WHERE user_address = (
+        SELECT user_address
+        FROM ${projectId}.${dataset}.app_launched
+        WHERE device_info_unique_id= "${deviceId}"
+        AND user_address IS NOT NULL
+        ORDER BY timestamp DESC
+        LIMIT 1
+    )
+    ORDER BY timestamp ASC
+    LIMIT 1
+  `)
+
+  const userInitData = {
+    ipAddress: '',
+    timestamp: '',
+    userAgent: '',
+  }
+
+  if (data.length) {
+    const { context_ip, device_info_user_agent, timestamp } = data[0]
+    userInitData.ipAddress = context_ip
+    userInitData.timestamp = timestamp
+    userInitData.userAgent = device_info_user_agent
+  }
+
+  console.log(userInitData)
+  response.send(JSON.stringify(userInitData))
 })

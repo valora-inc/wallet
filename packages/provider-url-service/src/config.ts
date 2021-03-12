@@ -3,20 +3,20 @@ const functions = require('firebase-functions')
 export const config = functions.config()
 
 export const MOONPAY_DATA = {
-  widget_url: config.moonpay.widget_url,
-  public_key: config.moonpay.public_key,
-  private_key: config.moonpay.private_key,
+  widget_url: config.moonpay?.widget_url,
+  public_key: config.moonpay?.public_key,
+  private_key: config.moonpay?.private_key,
 }
 
 export const RAMP_DATA = {
-  widget_url: config.ramp.widget_url,
-  public_key: config.ramp.public_key,
+  widget_url: config.ramp?.widget_url,
+  public_key: config.ramp?.public_key,
 }
 
 export const TRANSAK_DATA = {
-  widget_url: config.transak.widget_url,
-  public_key: config.transak.public_key,
-  private_key: config.transak.private_key,
+  widget_url: config.transak?.widget_url,
+  public_key: config.transak?.public_key,
+  private_key: config.transak?.private_key,
 }
 
 export const VALORA_LOGO_URL =
