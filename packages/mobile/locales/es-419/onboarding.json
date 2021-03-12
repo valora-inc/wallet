@@ -52,7 +52,7 @@
     "resume": "Reanudar",
     "doINeedToConfirm": "¿Necesito confirmar?",
     "skipForNow": "Saltar por ahora",
-    "bodyInsufficientBalance": "Tu saldo actual no es lo suficientemente alto para completar el proceso de confirmación.\n\nIntenta nuevamente cuando hayas agregado fondos a tu app.",
+    "bodyInsufficientBalance": "Your current balance is not high enough to complete the confirmation process.\n\nPlease try again when you have added funds to your wallet.",
     "bodyAlreadyVerified": "¡Tu número ya está confirmado!"
   },
   "verificationSkipDialog": {
