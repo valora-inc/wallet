@@ -26,7 +26,7 @@
   "inviteFee": "Comisión de Invitación",
   "feeEducation": "Enviar pagos y hacer cambios incluye una pequeña comisión de seguridad y mantenimiento.",
   "learnMore": "Saber más",
-  "inviteMoneyEscrow": "Invitaremos a este contacto y mantendremos seguros tus fondos hasta que confirme su cuenta.",
+  "inviteMoneyEscrow": "We’ll invite this contact and keep their funds safe until they confirm their account.",
   "reviewPayment": "Revisar pago",
   "requestPayment": "Solicitar pago",
   "continue": "Continuar",
@@ -36,7 +36,7 @@
   "inviteSendTo": "Invitar y enviar a",
   "keepMoneySafe": "Mantendremos este dinero seguro hasta que tu amigo cree una cuenta de {{appName}}",
   "searchFriends": "Ingrese un número de teléfono si no encuentra a la persona que busca",
-  "inviteVerifyPayment": "Invitar y verificar el pago",
+  "inviteVerifyPayment": "Invite & Confirm Payment",
   "inviteFriends": "Invitar a amigos",
   "noResultsFor": "Sin resultados para",
   "noContacts": "No se encontraron contactos",
@@ -63,15 +63,15 @@
   "reminderSent": "Recordatorio Enviado",
   "reclaimPayment": "Reclamar el Pago",
   "totalRefunded": "Total Reembolsado",
-  "loadingVerificationStatus": "Comprobando la confirmación del destinatario",
+  "loadingVerificationStatus": "Checking recipient confirmation",
   "askForContactsPermissionAction": "Accede a tus contactos",
   "newAccountBalance": "Nuevo saldo de cuenta: ",
   "estimatingFee": "Estimando tarifa ",
   "estimatedFee": "Tarifa estimada: ",
   "verificationCta": {
     "header": "¿Enviar a un amigo?",
-    "body": "Confirma tu celular y sincroniza tus contactos para poder enviar dinero rápidamente a tus amigos.",
-    "cta": "Confirma tu número"
+    "body": "Confirm your phone and sync your contacts to quickly send to your friends.",
+    "cta": "Start Confirmation"
   },
   "importContactsCta": {
     "header": "Importar contactos",
