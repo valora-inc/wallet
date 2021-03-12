@@ -4,6 +4,7 @@ import {
   MOONPAY_API_KEY,
   PROVIDER_URL_COMPOSER_PROD,
   PROVIDER_URL_COMPOSER_STAGING,
+  USER_DATA_URL,
 } from 'src/config'
 import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { providerAvailability } from 'src/flags'
@@ -55,6 +56,21 @@ export const fetchLocationFromIpAddress = async () => {
   )
   const ipAddressObj: IpAddressData = await ipAddressFetchResponse.json()
   return ipAddressObj
+}
+
+export const fetchUserInitData = async (deviceId: string) => {
+  const response = await fetch(USER_DATA_URL, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      deviceId: 'AAE54D94-1E96-4644-AA85-1E2731F51645',
+    }),
+  })
+
+  return response.json()
 }
 
 export const isExpectedUrl = (fetchedUrl: string, providerUrl: string) =>

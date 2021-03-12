@@ -17,6 +17,7 @@ import {
   Text,
   View,
 } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -27,6 +28,7 @@ import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import {
   fetchLocationFromIpAddress,
+  fetchUserInitData,
   getProviderAvailability,
   openMoonpay,
   openRamp,
@@ -128,6 +130,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     RAMP_RESTRICTED,
     TRANSAK_RESTRICTED,
   } = getProviderAvailability(userLocation)
+  const fetchResponse = useAsync(() => fetchUserInitData(DeviceInfo.getUniqueId()), [])
+
+  const data = fetchResponse?.result
+  console.log('DATA: ', data)
 
   const providers: {
     cashOut: Provider[]
