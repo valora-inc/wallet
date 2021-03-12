@@ -5,7 +5,9 @@ import variables from '@celo/react-components/styles/variables'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
+import Logo from 'src/icons/Logo'
 import { getRecipientThumbnail, Recipient } from 'src/recipients/recipient'
+import GetRewardPill from 'src/send/GetRewardPill'
 
 interface Props {
   recipient: Recipient
@@ -35,6 +37,9 @@ class RecipientItem extends React.PureComponent<Props> {
             </Text>
             <Text style={styles.phone}>{recipient.displayId}</Text>
           </View>
+          <View style={styles.rightIconContainer}>
+            {recipient.address ? <Logo style={styles.logo} /> : <GetRewardPill />}
+          </View>
         </View>
       </Touchable>
     )
@@ -60,6 +65,13 @@ const styles = StyleSheet.create({
   phone: {
     ...fontStyles.small,
     color: colors.gray4,
+  },
+  rightIconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    marginRight: 16,
   },
 })
 

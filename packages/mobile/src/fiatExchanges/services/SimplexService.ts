@@ -1,7 +1,9 @@
 import { CASH_IN_SUCCESS_DEEPLINK } from 'src/config'
+import networkConfig from 'src/geth/networkConfig'
 
 const uuidv4 = () =>
   (String(1e7) + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
+    // tslint:disable-next-line
     (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16)
   )
 
@@ -37,8 +39,8 @@ export class SimplexService {
   private appUrl: string
 
   constructor() {
-    this.apiKey = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXJ0bmVyIjoidmFsb3JhcHAiLCJpcCI6WyIxLjIuMy40Il0sInNhbmRib3giOnRydWV9.7cGx60gkefkR2bxDCtm-WBB7HGgs9R3lyVt34gZ2Sqc`
-    this.baseUrl = 'https://sandbox.test-simplexcc.com'
+    this.apiKey = networkConfig.simplexApiKey
+    this.baseUrl = networkConfig.simplexUrl
     this.appUrl = 'https://valoraapp.com'
   }
 
@@ -63,7 +65,7 @@ export class SimplexService {
 
   async paymentRequest(config: SimplexPaymentRequestConfig) {
     const paymentId = uuidv4()
-    const result = await this.post('/wallet/merchant/v2/payments/partner/data', {
+    await this.post('/wallet/merchant/v2/payments/partner/data', {
       account_details: {
         app_provider_id: 'valorapp',
         app_version_id: config.app.version,
@@ -103,11 +105,11 @@ export class SimplexService {
         },
       },
     })
-    console.log({ result: await result.json(), quoteId: config.quoteId, paymentId })
     return paymentId
   }
 
   generateForm(paymentId: string) {
+    const finalUrl = CASH_IN_SUCCESS_DEEPLINK
     return `
       <html>
         <body>
@@ -115,12 +117,8 @@ export class SimplexService {
             <input type="hidden" name="version" value="1">
             <input type="hidden" name="partner" value="valorapp">
             <input type="hidden" name="payment_flow_type" value="wallet">
-            <input type="hidden" name="return_url_success" value="${encodeURIComponent(
-              CASH_IN_SUCCESS_DEEPLINK
-            )}">
-            <input type="hidden" name="return_url_fail" value="${encodeURIComponent(
-              CASH_IN_SUCCESS_DEEPLINK
-            )}">
+            <input type="hidden" name="return_url_success" value="${finalUrl}">
+            <input type="hidden" name="return_url_fail" value="${finalUrl}">
             <input type="hidden" name="payment_id" value="${paymentId}">
           </form>
           <script type="text/javascript">

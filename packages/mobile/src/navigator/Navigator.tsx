@@ -49,6 +49,7 @@ import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import RampScreen, { rampOptions } from 'src/fiatExchanges/RampScreen'
 import SimplexScreen, { simplexOptions } from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
+import TransakScreen, { transakOptions } from 'src/fiatExchanges/TransakScreen'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
@@ -218,15 +219,7 @@ const nuxScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.NameAndPicture}
       component={NameAndPicture}
-      options={{
-        ...nuxNavigationOptions,
-        headerTitle: () => (
-          <HeaderTitleWithSubtitle
-            title={i18n.t('onboarding:accountInfo')}
-            subTitle={i18n.t('onboarding:step', { step: '1' })}
-          />
-        ),
-      }}
+      options={NameAndPicture.navOptions}
     />
     <Navigator.Screen
       name={Screens.PincodeSet}
@@ -471,6 +464,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen options={rampOptions} name={Screens.RampScreen} component={RampScreen} />
     <Navigator.Screen options={simplexOptions} name={Screens.Simplex} component={SimplexScreen} />
+    <Navigator.Screen
+      options={transakOptions}
+      name={Screens.TransakScreen}
+      component={TransakScreen}
+    />
     <Navigator.Screen
       options={ProviderOptionsScreen.navigationOptions}
       name={Screens.ProviderOptionsScreen}

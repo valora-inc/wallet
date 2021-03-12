@@ -13,7 +13,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { selectProvider } from 'src/fiatExchanges/actions'
-import { openMoonpay, openRamp, openSimplex } from 'src/fiatExchanges/utils'
+import { openMoonpay, openRamp, openSimplex, openTransak } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -27,7 +27,6 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
-import { currentAccountSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
 
@@ -58,10 +57,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const onDismissExplanation = () => setShowExplanation(false)
 
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
-  const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
-  const { RAMP_DISABLED, MOONPAY_DISABLED } = useCountryFeatures()
+  const { RAMP_DISABLED, MOONPAY_DISABLED, TRANSAK_DISABLED } = useCountryFeatures()
   const selectedCurrency = route.params.currency || CURRENCY_ENUM.DOLLAR
 
   const dispatch = useDispatch()
@@ -111,6 +109,14 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
         onSelected: () =>
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+      },
+      {
+        name: 'Transak',
+        enabled: !TRANSAK_DISABLED,
+        icon:
+          'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
+        onSelected: () =>
+          openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
     ],
   }

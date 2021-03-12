@@ -8,8 +8,11 @@ import {
   FORNO_ENABLED_INITIALLY,
   GETH_USE_FULL_NODE_DISCOVERY,
   GETH_USE_STATIC_NODES,
+  RAMP_API_KEY,
   RECAPTCHA_SITE_KEY_ALFAJORES,
   RECAPTCHA_SITE_KEY_MAINNET,
+  SIMPLEX_API_KEY,
+  TRANSAK_API_KEY,
 } from 'src/config'
 import { GethSyncMode } from 'src/geth/consts'
 import Logger from 'src/utils/Logger'
@@ -27,7 +30,12 @@ interface NetworkConfig {
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
   signMoonpayUrl: string
+  simplexUrl: string
+  simplexApiKey: string
   rampWidgetUrl: string
+  rampApiKey: string
+  transakWidgetUrl: string
+  transakApiKey: string
   useDiscovery: boolean
   useStaticNodes: boolean
   komenciUrl: string
@@ -42,8 +50,14 @@ const signMoonpayUrlStaging =
 const signMoonpayUrlProd =
   'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/signMoonpayProd'
 
-const rampWidgetStaging = 'https://ri-widget-staging.firebaseapp.com/'
+const rampWidgetStaging = 'https://ri-widget-staging.firebaseapp.com'
 const rampWidgetProd = 'https://buy.ramp.network'
+
+const transakWidgetProd = 'https://global.transak.com'
+const transakWidgetStaging = 'https://staging-global.transak.com'
+
+const simplexUrlProd = 'https://backend-wallet-api.simplexcc.com'
+const simplexUrlStaging = 'https://sandbox.test-simplexcc.com'
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
@@ -71,6 +85,11 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
+    rampApiKey: RAMP_API_KEY,
+    transakWidgetUrl: transakWidgetStaging,
+    simplexUrl: simplexUrlStaging,
+    transakApiKey: TRANSAK_API_KEY,
+    simplexApiKey: SIMPLEX_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_STAGING,
@@ -88,6 +107,11 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
+    rampApiKey: RAMP_API_KEY,
+    simplexUrl: simplexUrlProd,
+    transakWidgetUrl: transakWidgetProd,
+    transakApiKey: TRANSAK_API_KEY,
+    simplexApiKey: SIMPLEX_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_MAINNET,

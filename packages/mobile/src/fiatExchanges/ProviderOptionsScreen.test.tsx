@@ -77,4 +77,19 @@ describe('ProviderOptionsScreen', () => {
       currencyToBuy: CURRENCY_ENUM.DOLLAR,
     })
   })
+
+  it('opens Transak correctly', () => {
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true)} />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('Provider/Transak'))
+    expect(navigate).toHaveBeenCalledWith(Screens.TransakScreen, {
+      localAmount: AMOUNT_TO_CASH_IN,
+      currencyCode: LocalCurrencyCode.BRL,
+      currencyToBuy: CURRENCY_ENUM.DOLLAR,
+    })
+  })
 })
