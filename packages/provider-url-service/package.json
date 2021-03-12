@@ -7,8 +7,8 @@
   "main": "dist/index.js",
   "scripts": {
     "serve": "firebase serve --only functions",
-    "update-firebase-alfajores-config": " firebase use alfajores && ./firebase-env-config.sh -e alfajores",
-    "update-firebase-mainnet-config": " firebase use mainnet && ./firebase-env-config.sh -e mainnet",
+    "update-firebase-alfajores-config": "firebase use alfajores && ./firebase-env-config.sh -e alfajores",
+    "update-firebase-mainnet-config": "firebase use mainnet && ./firebase-env-config.sh -e mainnet",
     "deploy:alfajores": "yarn update-firebase-alfajores-config && firebase deploy --only functions:composeCicoProviderUrl",
     "deploy:mainnet": "yarn update-firebase-mainnet-config && firebase deploy --only functions:composeCicoProviderUrl",
     "clean": "tsc -b . --clean",
