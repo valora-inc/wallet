@@ -14,5 +14,7 @@ export class apiMetrics {
     this.unknownTransactionCounter.inc()
   }
 }
+let metrics = new apiMetrics()
+export { metrics }
 
-export enum Context {}
+// export enum Context { }
