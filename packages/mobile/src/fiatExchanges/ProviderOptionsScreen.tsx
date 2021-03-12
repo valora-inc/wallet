@@ -5,7 +5,7 @@ import variables from '@celo/react-components/styles/variables'
 import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import {
@@ -81,20 +81,12 @@ const FALLBACK_CURRENCY = LocalCurrencyCode.USD
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
-  const [userLocation, setUserLocation] = useState<UserLocation>()
   const onDismissExplanation = () => setShowExplanation(false)
-
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
   const countryCallingCode = useSelector(defaultCountryCodeSelector)
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
-  const {
-    MOONPAY_RESTRICTED,
-    SIMPLEX_RESTRICTED,
-    RAMP_RESTRICTED,
-    TRANSAK_RESTRICTED,
-  } = getProviderAvailability(userLocation)
   const selectedCurrency = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
     [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
@@ -116,19 +108,24 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     })
   }, [])
 
-  const fetchResponse = useAsync(fetchLocationFromIpAddress, [])
-
-  useEffect(() => {
-    const { result, status } = fetchResponse
-
-    if (result && status === 'success') {
-      const { alpha2, state } = result
-      setUserLocation({ country: alpha2, state })
-    } else if (status === 'error') {
+  const asyncUserLocation = useAsync(async () => {
+    try {
+      const { alpha2, state } = await fetchLocationFromIpAddress()
+      return { country: alpha2, state }
+    } catch (error) {
       const alpha2 = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
-      setUserLocation({ country: alpha2, state: null })
+      return { country: alpha2, state: null }
     }
-  }, [fetchResponse.status])
+  }, [])
+
+  const userLocation: UserLocation | undefined = asyncUserLocation.result
+
+  const {
+    MOONPAY_RESTRICTED,
+    SIMPLEX_RESTRICTED,
+    RAMP_RESTRICTED,
+    TRANSAK_RESTRICTED,
+  } = getProviderAvailability(userLocation)
 
   const providers: {
     cashOut: Provider[]
