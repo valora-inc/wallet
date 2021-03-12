@@ -111,6 +111,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const asyncUserLocation = useAsync(async () => {
     try {
       const { alpha2, state } = await fetchLocationFromIpAddress()
+      if (!alpha2) {
+        throw Error('Could not determine country from IP address')
+      }
+
       return { country: alpha2, state }
     } catch (error) {
       const alpha2 = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
