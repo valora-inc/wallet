@@ -66,12 +66,14 @@ export default function WalletConnectRequestScreen(props: Props) {
     <SafeAreaView style={styles.screen}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.content}>
-          <Image
-            style={{ height: 40, width: 40, marginBottom: 12 }}
-            source={{ uri: icon }}
-            height={40}
-            width={40}
-          />
+          <View style={{ display: 'flex', alignItems: 'center' }}>
+            <Image
+              style={{ height: 40, width: 40, marginBottom: 12, marginHorizontal: 'auto' }}
+              source={{ uri: icon }}
+              height={40}
+              width={40}
+            />
+          </View>
           <Text style={styles.header}>
             {t('connectToWallet', { dappName: session.proposer.metadata.name })}
           </Text>
@@ -99,7 +101,7 @@ export default function WalletConnectRequestScreen(props: Props) {
           />
         </View>
 
-        <View style={[styles.content, { paddingTop: 12 }]}>
+        <View style={[styles.content, { paddingTop: 40 }]}>
           <TouchableOpacity onPress={() => navigate(Screens.Support)}>
             <Text style={styles.share}>{t('moreInfo')}</Text>
           </TouchableOpacity>

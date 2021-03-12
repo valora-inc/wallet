@@ -5,7 +5,6 @@ export function pendingConnectionSelector(state: RootState) {
 }
 
 export function selectPendingSession(state: RootState) {
-  console.log(state.walletConnect)
   return state.walletConnect.pendingSessions[0]
 }
 

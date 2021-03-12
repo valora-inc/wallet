@@ -8,6 +8,9 @@ export enum Actions {
   ACCEPT_SESSION = 'WALLETCONNECT/ACCEPT_SESSION',
   DENY_SESSION = 'WALLETCONNECT/DENY_SESSION',
 
+  ACCEPT_REQUEST = 'WALLETCONNECT/ACCEPT_REQUEST',
+  DENY_REQUEST = 'WALLETCONNECT/ACCEPT_REQUEST',
+
   CLIENT_INITIALISED = 'WALLETCONNECT/CLIENT_INITIALISED',
 
   SESSION_PROPOSAL = 'WALLETCONNECT/SESSION_PROPOSAL',
@@ -39,6 +42,17 @@ export interface DenySession {
   proposal: SessionTypes.Proposal
 }
 
+export interface AcceptRequest {
+  type: Actions.ACCEPT_REQUEST
+  id: string
+  topic: string
+  result: any
+}
+export interface DenyRequest {
+  type: Actions.DENY_REQUEST
+  proposal: SessionTypes.Proposal
+}
+
 export interface InitialisePairing {
   type: Actions.INITIALISE_PAIRING
   uri: string
@@ -62,7 +76,7 @@ export interface SessionDeleted {
 }
 export interface SessionPayload {
   type: Actions.SESSION_PAYLOAD
-  session: SessionTypes.Payload
+  payload: SessionTypes.Payload
 }
 export interface PairingProposal {
   type: Actions.PAIRING_PROPOSAL
@@ -112,6 +126,16 @@ export const denySession = (proposal: SessionTypes.Proposal): DenySession => ({
   proposal,
 })
 
+export const acceptRequest = (topic: string, id: string, result: any): AcceptRequest => ({
+  type: Actions.ACCEPT_REQUEST,
+  topic,
+  id,
+  result,
+})
+export const denyRequest = (): DenyRequest => ({
+  type: Actions.DENY_REQUEST,
+})
+
 export const clientInitialised = (client: WalletConnectClient) => ({
   type: Actions.CLIENT_INITIALISED,
   client,
@@ -133,7 +157,7 @@ export const sessionDeleted = (session: SessionTypes.DeleteParams) => ({
   type: Actions.SESSION_DELETED,
   session,
 })
-export const sessionPayload = (payload: SessionTypes.PayloadEvent) => ({
+export const sessionPayload = (payload: SessionTypes.PayloadEvent): SessionPayload => ({
   type: Actions.SESSION_PAYLOAD,
   payload,
 })

@@ -18,6 +18,47 @@ const TAG = 'WalletConnect/RequestScreen'
 type RouteProps = StackScreenProps<StackParamList, Screens.WalletConnectRequest>
 type Props = RouteProps
 
+// yield put()
+//   const {
+//     topic,
+//     // @ts-ignore todo: ask Pedro why this isn't typed
+//     payload: { id, method },
+//   } = payload;
+
+//   let result: any
+
+//   if (method === SupportedMethods.personalSign) {
+//     const { payload, from } = parsePersonalSign(event)
+//     result = await wallet.signPersonalMessage(from, payload)
+//   } else if (method === SupportedMethods.signTypedData) {
+//     const { from, payload } = parseSignTypedData(event)
+//     result = await wallet.signTypedData(from, payload)
+//   } else if (method === SupportedMethods.signTransaction) {
+//     const tx = parseSignTransaction(event)
+//     result = await wallet.signTransaction(tx)
+//   } else if (method === SupportedMethods.computeSharedSecret) {
+//     const { from, publicKey } = parseComputeSharedSecret(event)
+//     result = (await wallet.computeSharedSecret(from, publicKey)).toString('hex')
+//   } else if (method === SupportedMethods.decrypt) {
+//     const { from, payload } = parseDecrypt(event)
+//     result = (await wallet.decrypt(from, payload)).toString('hex')
+//   } else {
+//     // client.reject({})
+//     // in memory wallet should always approve actions
+//     debug('unknown method', method)
+//     return
+//   }
+
+//   return client.respond({
+//     topic,
+//     response: {
+//       id,
+//       jsonrpc: '2.0',
+//       result,
+//     },
+//   })
+// }
+
 export default function WalletConnectRequestScreen(props: Props) {
   const linkBack = () => {
     const { account, route, phoneNumber } = this.props

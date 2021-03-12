@@ -9,8 +9,12 @@ import { spawn } from 'redux-saga-test-plan/matchers'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { readGenesisBlockFile } from 'src/geth/geth'
 import networkConfig from 'src/geth/networkConfig'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import {
+  AcceptRequest,
+  AcceptSession,
   Actions,
   clientInitialised,
   initialiseClient as initialiseClientAction,
@@ -30,7 +34,7 @@ import { getAccountAddress } from 'src/web3/saga'
 
 const TAG = 'WalletConnect/saga'
 
-export function* acceptSession(proposal: SessionTypes.Proposal) {
+export function* acceptSession({ proposal }: AcceptSession) {
   const { nodeDir } = networkConfig
   const genesis: string = yield call(readGenesisBlockFile, nodeDir)
   const networkId: number = GenesisBlockUtils.getChainIdFromGenesis(genesis)
@@ -49,9 +53,26 @@ export function* acceptSession(proposal: SessionTypes.Proposal) {
       accounts: [`${account}@celo:${networkId}`],
     },
   }
+  console.log('acceptSession', proposal, response)
 
-  client.approve({ proposal, response })
+  yield call(client.approve.bind(client), { proposal, response })
 }
+
+export function* acceptRequest({ id, topic, result }: AcceptRequest) {
+  const client = yield select(walletConnectClientSelector)
+
+  yield call(client.respond, {
+    topic,
+    response: {
+      id,
+      jsonrpc: '2.0',
+      result,
+    },
+  })
+  navigate(Screens.WalletConnectSessions)
+}
+
+export function* denyRequest() {}
 
 export function* startWalletConnectChannel() {
   yield takeLeading(Actions.INITIALISE_CLIENT, watchWalletConnectChannel)
@@ -126,52 +147,9 @@ export function* createWalletConnectChannel() {
   }
 }
 
-// export function* initialiseClient() {
-//   try {
-//     const onSessionPayload = async (event: SessionTypes.PayloadEvent) => {
-//       const {
-//         topic,
-//         // @ts-ignore todo: ask Pedro why this isn't typed
-//         payload: { id, method },
-//       } = event
-
-//       let result: any
-
-//       // if (method === SupportedMethods.personalSign) {
-//       //   const { payload, from } = parsePersonalSign(event)
-//       //   result = await wallet.signPersonalMessage(from, payload)
-//       // } else if (method === SupportedMethods.signTypedData) {
-//       //   const { from, payload } = parseSignTypedData(event)
-//       //   result = await wallet.signTypedData(from, payload)
-//       // } else if (method === SupportedMethods.signTransaction) {
-//       //   const tx = parseSignTransaction(event)
-//       //   result = await wallet.signTransaction(tx)
-//       // } else if (method === SupportedMethods.computeSharedSecret) {
-//       //   const { from, publicKey } = parseComputeSharedSecret(event)
-//       //   result = (await wallet.computeSharedSecret(from, publicKey)).toString('hex')
-//       // } else if (method === SupportedMethods.decrypt) {
-//       //   const { from, payload } = parseDecrypt(event)
-//       //   result = (await wallet.decrypt(from, payload)).toString('hex')
-//       // } else {
-//       //   // client.reject({})
-//       //   // in memory wallet should always approve actions
-//       //   debug('unknown method', method)
-//       //   return
-//       // }
-
-//       // return client.respond({
-//       //   topic,
-//       //   response: {
-//       //     id,
-//       //     jsonrpc: '2.0',
-//       //     result,
-//       //   },
-//       // })
-//     }
-//   } catch (e) {
-//     console.log('>>>', e)
-//   }
-// }
+export function* navigateToPendingRequests() {
+  navigate(Screens.WalletConnectRequest)
+}
 
 export function* initialisePairing() {
   console.log('initialisePairing')
@@ -194,6 +172,13 @@ export function* initialisePairing() {
 export function* walletConnectSaga() {
   yield spawn(startWalletConnectChannel)
   yield takeEvery(Actions.INITIALISE_PAIRING, initialisePairing)
+
+  yield takeEvery(Actions.ACCEPT_SESSION, acceptSession)
+  // yield takeEvery(Actions.DENY_SESSION, denySession)
+  yield takeEvery(Actions.ACCEPT_REQUEST, acceptRequest)
+  yield takeEvery(Actions.DENY_REQUEST, denyRequest)
+
+  yield takeEvery(Actions.SESSION_PAYLOAD, navigateToPendingRequests)
 }
 
 export function* initialiseWalletConnect(uri: string) {
