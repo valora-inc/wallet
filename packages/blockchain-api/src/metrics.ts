@@ -1,6 +1,6 @@
 import { Counter } from 'prom-client'
 
-export class apiMetrics {
+export class ApiMetrics {
   private unknownTransactionCounter: Counter<string>
 
   constructor() {
@@ -14,7 +14,6 @@ export class apiMetrics {
     this.unknownTransactionCounter.inc()
   }
 }
-let metrics = new apiMetrics()
-export { metrics }
+export const metrics = new ApiMetrics()
 
 // export enum Context { }
