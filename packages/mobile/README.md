@@ -1,6 +1,6 @@
 # Mobile (Celo Wallet)
 
-- [Mobile (Celo Wallet)](<#mobile-(celo-wallet)>)
+- [Mobile (Celo Wallet)](#mobile-celo-wallet)
   - [Overview](#overview)
   - [Architecture](#architecture)
   - [Setup](#setup)
@@ -16,7 +16,7 @@
     - [iOS](#ios-1)
     - [Android](#android-1)
     - [Running in forno (data saver) mode](<#running-in-forno-(data-saver)-mode>)
-  - [Debugging & App Profiling](#debugging-&-app-profiling)
+  - [Debugging & App Profiling](#debugging--app-profiling)
     - [Debugging](#debugging)
       - [Optional: Install React Native Debugger](#optional-install-react-native-debugger)
     - [App Profiling](#app-profiling)
@@ -25,14 +25,15 @@
     - [React component unit testing](#react-component-unit-testing)
     - [Saga testing](#saga-testing)
     - [End-to-End testing](#end-to-end-testing)
-  - [Building APKs / Bundles](#building-apks-/-bundles)
+  - [Building APKs / Bundles](#building-apks--bundles)
     - [Creating a fake keystore](#creating-a-fake-keystore)
     - [Building an APK or Bundle](#building-an-apk-or-bundle)
   - [Other](#other)
+    - [Localization (l10n) / translation process](#localization-l10n--translation-process)
     - [Configuring the SMS Retriever](#configuring-the-sms-retriever)
     - [Generating GraphQL Types](#generating-graphql-types)
     - [How we handle Geth crashes in wallet app on Android](#how-we-handle-geth-crashes-in-wallet-app-on-android)
-    - [Why do we use http(s) provider?](<#why-do-we-use-http(s)-provider?>)
+    - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
     - [Troubleshooting](#troubleshooting)
       - [`Activity class {org.celo.mobile.staging/org.celo.mobile.MainActivity} does not exist.`](#activity-class-orgcelomobilestagingorgcelomobilemainactivity-does-not-exist)
 
@@ -94,15 +95,14 @@ bundle exec pod install
 
 If your machine does not recognize the `gem` command, you may need to [download Ruby](https://rubyinstaller.org/) first.
 
-
-1. Run `yarn install` in the monorepo root `/celo-monorepo`. 
-2. Install Google Cloud by running `brew install google-cloud-sdk`. 
-  2a. Follow instructions here for logging in with Google credentials. https://github.com/celo-org/bootnode/blob/4bdd7e7ecb91db54dc2a307ec45887d73aa75394/engsetup/README.md
+1. Run `yarn install` in the monorepo root `/celo-monorepo`.
+2. Install Google Cloud by running `brew install google-cloud-sdk`.
+   2a. Follow instructions here for logging in with Google credentials. https://github.com/celo-org/bootnode/blob/4bdd7e7ecb91db54dc2a307ec45887d73aa75394/engsetup/README.md
 3. Run `yarn build:wallet` from the monorepo root `/celo-monorepo`.
 
-4. Run `yarn dev:ios` in the `/celo-monorepo/packages/mobile/ios` folder. 
+4. Run `yarn dev:ios` in the `/celo-monorepo/packages/mobile/ios` folder.
 
-And the app should be running in the simulator! If you run into any issues, see below for troubleshooting. 
+And the app should be running in the simulator! If you run into any issues, see below for troubleshooting.
 
 ### Android
 
@@ -382,6 +382,25 @@ Where `YOUR_BUILD_VARIANT` can be any of the app's build variants, such as debug
 
 ## Other
 
+### Localization (l10n) / translation process
+
+We are using [Crowdin](https://clabs.crowdin.com/) to manage the translation of all user facing strings in the app.
+
+During development, developers should only update the main language files in English (en-US).
+
+The `main` branch of this repository is automatically synced with our Crowdin project. Source files in Crowdin are updated automatically and ready translations are pushed as a pull request.
+
+Translation process overview:
+
+1. Developers update the English strings in the branch they are working on.
+1. When the corresponding PR is merged into `main`, Crowdin integration automatically picks up changes to the English strings.
+1. Crowdin then auto translates the new strings and opens a PR with them from the `l10n/main` branch
+1. We can then manually check and edit the translated strings in the Crowdin UI. The changes will be reflected in the PR after 10 mins.
+1. When we are happy with the changes, we can merge the PR.
+
+When making a release, we should make sure there is no outstanding translation changes not yet merged into `main`.
+i.e. no Crowdin PR open and the translation status for all supported languages is at 100% and approved on Crowdin.
+
 ### Configuring the SMS Retriever
 
 On Android, the wallet app uses the SMS Retriever API to automatically input codes during phone number verification. When creating a new app build type this needs to be properly configured.
@@ -446,13 +465,14 @@ To attach:
 
 ### Troubleshooting
 
-
 #### Postinstall script
-If you're having an error with installing packages, or `secrets.json` not existing: 
 
-try to run `yarn postinstall` in the monorepo root folder after running `yarn install`. 
+If you're having an error with installing packages, or `secrets.json` not existing:
 
-A successful `yarn postinstall` looks like: 
+try to run `yarn postinstall` in the monorepo root folder after running `yarn install`.
+
+A successful `yarn postinstall` looks like:
+
 ```
 $ yarn postinstall
 yarn run v1.22.10
@@ -491,13 +511,12 @@ $ bash scripts/key_placer.sh decrypt
 Processing encrypted files
 
 Encrypted files decrypted
-✨  Done in 24.82s. 
-``` 
+✨  Done in 24.82s.
+```
 
-#### Google Cloud Setup (for cLabs employees only) 
- 
-Make sure to follow the steps [here](https://github.com/celo-org/celo-labs/blob/master/packages/docs/eng-setup.md) to set up Google Cloud correctly with the wallet. 
+#### Google Cloud Setup (for cLabs employees only)
 
+Make sure to follow the steps [here](https://github.com/celo-org/celo-labs/blob/master/packages/docs/eng-setup.md) to set up Google Cloud correctly with the wallet.
 
 #### `Activity class {org.celo.mobile.staging/org.celo.mobile.MainActivity} does not exist.`
 
