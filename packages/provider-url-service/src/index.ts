@@ -85,7 +85,6 @@ export const queryForUserInitData = functions.https.onRequest(async (request, re
   const bigQuery = new BigQuery({ projectId: `${projectId}` })
 
   const { deviceId } = request.body
-  console.log(deviceId)
 
   const [data] = await bigQuery.query(`
     SELECT context_ip, device_info_user_agent, timestamp FROM ${projectId}.${dataset}.app_launched
@@ -110,10 +109,9 @@ export const queryForUserInitData = functions.https.onRequest(async (request, re
   if (data.length) {
     const { context_ip, device_info_user_agent, timestamp } = data[0]
     userInitData.ipAddress = context_ip
-    userInitData.timestamp = timestamp
+    userInitData.timestamp = timestamp.value
     userInitData.userAgent = device_info_user_agent
   }
 
-  console.log(userInitData)
   response.send(JSON.stringify(userInitData))
 })
