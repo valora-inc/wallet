@@ -1,3 +1,5 @@
 files:
   - source: /packages/mobile/locales/en-US/*.json
     translation: /packages/mobile/locales/%locale%/%original_file_name%
+  - source: /packages/notification-service/locales/en.json
+    translation: /packages/notification-service/locales/%two_letters_code%.json
