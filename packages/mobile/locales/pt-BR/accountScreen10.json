@@ -38,7 +38,7 @@
   },
   "promptConfirmRevokeModal": {
     "header": "Tem certeza de que quer desvincular o seu número de celular da sua conta da Valora?",
-    "body": "Once revoked, this account will not be able to reconfirm. Only revoke if you are sure you will never need this account again.",
+    "body": "Se a conta for desvinculada, ela não poderá mais ser associada a um número novamente. Apenas desvincule uma conta se você tiver certeza de que nunca mais precisará dela.",
     "revoke": "Desvincular"
   },
   "testFaqLink": " Perguntas frequentes do {{appName}} ",
