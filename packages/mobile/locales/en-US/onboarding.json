@@ -52,7 +52,7 @@
     "resume": "Resume",
     "doINeedToConfirm": "Do I need to confirm?",
     "skipForNow": "Skip for now",
-    "bodyInsufficientBalance": "Your current balance is not high enough to complete the verification process.\n\nPlease try again when you have added funds to your wallet.",
+    "bodyInsufficientBalance": "Your current balance is not high enough to complete the confirmation process.\n\nPlease try again when you have added funds to your wallet.",
     "bodyAlreadyVerified": "Your number is already confirmed!"
   },
   "verificationSkipDialog": {
@@ -74,7 +74,7 @@
   "verificationInput": {
     "title": "Confirm",
     "body": "We sent you three messages (SMS). Please copy and paste them below.",
-    "body_ios": "We sent you three messages (SMS). Please tap the link in each message to fill the codes below or copy and paste them manually.",
+    "body_ios": "We sent you three messages (SMS). Please tap the link in each message to fill the codes below or copy and paste them manually.",    
     "body_short": "We sent three codes to {{phoneNumber}}, please enter them below.",
     "codeLabel1": "First Code",
     "codeLabel2": "Second Code",
