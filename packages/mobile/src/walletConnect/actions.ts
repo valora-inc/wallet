@@ -2,6 +2,12 @@ import WalletConnectClient from '@walletconnect/client'
 import { PairingTypes, SessionTypes } from '@walletconnect/types'
 
 export enum Actions {
+  INITIALISE_CLIENT = 'WALLETCONNECT/INITIALISE_CLIENT',
+  INITIALISE_PAIRING = 'WALLETCONNECT/INITIALISE_CONNECTION',
+
+  ACCEPT_SESSION = 'WALLETCONNECT/ACCEPT_SESSION',
+  DENY_SESSION = 'WALLETCONNECT/DENY_SESSION',
+
   CLIENT_INITIALISED = 'WALLETCONNECT/CLIENT_INITIALISED',
 
   SESSION_PROPOSAL = 'WALLETCONNECT/SESSION_PROPOSAL',
@@ -19,6 +25,23 @@ export enum Actions {
 export interface ClientInitialised {
   type: Actions.CLIENT_INITIALISED
   client: WalletConnectClient
+}
+export interface InitialiseClient {
+  type: Actions.INITIALISE_CLIENT
+}
+
+export interface AcceptSession {
+  type: Actions.ACCEPT_SESSION
+  proposal: SessionTypes.Proposal
+}
+export interface DenySession {
+  type: Actions.DENY_SESSION
+  proposal: SessionTypes.Proposal
+}
+
+export interface InitialisePairing {
+  type: Actions.INITIALISE_PAIRING
+  uri: string
 }
 
 export interface SessionProposal {
@@ -59,6 +82,8 @@ export interface PairingDeleted {
 }
 
 export type ActionTypes =
+  | InitialiseClient
+  | InitialisePairing
   | ClientInitialised
   | SessionProposal
   | SessionCreated
@@ -69,6 +94,23 @@ export type ActionTypes =
   | PairingCreated
   | PairingUpdated
   | PairingDeleted
+
+export const initialiseClient = (): InitialiseClient => ({
+  type: Actions.INITIALISE_CLIENT,
+})
+export const initialisePairing = (uri: string): InitialisePairing => ({
+  type: Actions.INITIALISE_PAIRING,
+  uri,
+})
+
+export const acceptSession = (proposal: SessionTypes.Proposal): AcceptSession => ({
+  type: Actions.ACCEPT_SESSION,
+  proposal,
+})
+export const denySession = (proposal: SessionTypes.Proposal): DenySession => ({
+  type: Actions.DENY_SESSION,
+  proposal,
+})
 
 export const clientInitialised = (client: WalletConnectClient) => ({
   type: Actions.CLIENT_INITIALISED,

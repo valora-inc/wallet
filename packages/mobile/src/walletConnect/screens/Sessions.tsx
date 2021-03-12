@@ -1,63 +1,87 @@
+import ItemSeparator from '@celo/react-components/components/ItemSeparator'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
+import variables from '@celo/react-components/styles/variables'
 import React from 'react'
 import { Button, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { getSessions } from 'src/walletConnect/selectors'
 
 export default function WalletConnectSessionsScreen() {
   const sessions = useSelector(getSessions)
+  // const sessions = useSelector()
+
+  console.log(sessions)
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.screen}>
       <DrawerTopBar />
-      <View>
-        <Text style={styles.title}>Connected Applications</Text>
-
-        <Text style={styles.details}>
-          Here you can connect Valora to decentralized applications (DApps) just by scanning a QR
-          code.
-        </Text>
-      </View>
-
-      {sessions.length === 0 ? (
-        <View>
-          <Text>No connected applications, click here to get started</Text>
+      <ScrollView testID="SettingsScrollView">
+        <View style={styles.container}>
+          <Text style={styles.title}>Connected Applications</Text>
+          <Text style={styles.subTitle}>
+            Here you can connect Valora to decentralized applications (DApps) just by scanning a QR
+            code.
+          </Text>
         </View>
-      ) : (
-        <View>
-          {sessions.map((s) => (
+
+        <ItemSeparator />
+
+        <View style={[styles.container, { paddingVertical: 16 }]}>
+          {pen}
+
+          {sessions.length === 0 ? (
             <View>
-              <Text>{s.peer.metadata.name}</Text>
-
-              <Button title="Kill" onPress={() => {}}></Button>
+              <TouchableOpacity
+                onPress={() =>
+                  navigate(Screens.QRNavigator, {
+                    screen: Screens.QRScanner,
+                  })
+                }
+              >
+                <Text>No connected applications, click here to get started</Text>
+              </TouchableOpacity>
             </View>
-          ))}
+          ) : (
+            <View>
+              {sessions.map((s) => (
+                <View>
+                  <Text>{s.peer.metadata.name}</Text>
+
+                  <Button title="Kill" onPress={() => {}}></Button>
+                </View>
+              ))}
+            </View>
+          )}
         </View>
-      )}
+      </ScrollView>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
+  },
+  container: {
+    paddingHorizontal: variables.contentPadding,
   },
   title: {
     ...fontStyles.h1,
-    margin: 16,
+    // marginHorizontal: 16,
+    marginTop: 16,
   },
-  scrollContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header: {
-    ...fontStyles.h1,
-    textAlign: 'center',
-    paddingBottom: 16,
+  subTitle: {
+    ...fontStyles.small,
+    color: colors.gray4,
+    paddingVertical: 16,
+    // paddingRight: 16,
+    // marginHorizontal: 16,
   },
   share: {
     ...fontStyles.regular,

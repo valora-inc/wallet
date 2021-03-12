@@ -16,7 +16,7 @@ import { QrCode, SVG } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { handleSendPaymentData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
-import { initialiseClient } from 'src/walletConnect/saga'
+import { initialiseWalletConnect } from 'src/walletConnect/saga'
 
 export enum BarcodeTypes {
   QR_CODE = 'QR_CODE',
@@ -103,7 +103,7 @@ export function* handleBarcode(
   isWalletConnectRequest?: true
 ) {
   if (isWalletConnectRequest) {
-    yield initialiseClient(barcode.data)
+    yield initialiseWalletConnect(barcode.data)
     navigate(Screens.WalletConnectSessionRequest)
     return
   }

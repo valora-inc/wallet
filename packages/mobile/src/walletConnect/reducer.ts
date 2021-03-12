@@ -6,16 +6,19 @@ import { Actions, ActionTypes } from 'src/walletConnect/actions'
 export interface State {
   pendingActions: any[]
   client: WalletConnectClient | null
+  pairings: PairingTypes.Created[]
   sessions: SessionTypes.Created[]
-
-  pairing: PairingTypes.Settled | null
+  pendingSessions: SessionTypes.Proposal[]
+  pendingConnections: string[]
 }
 
 const initialState: State = {
   client: null,
-  pairing: null,
+  pairings: [],
   sessions: [],
+  pendingSessions: [],
   pendingActions: [],
+  pendingConnections: [],
 }
 
 export const reducer = (
@@ -23,29 +26,39 @@ export const reducer = (
   action: ActionTypes | RehydrateAction
 ): State => {
   switch (action.type) {
+    case Actions.INITIALISE_PAIRING:
+      return {
+        ...state,
+        pendingConnections: [...state.pendingConnections, action.uri],
+      }
     case Actions.CLIENT_INITIALISED:
       return {
         ...state,
         client: action.client,
       }
-    case Actions.PAIRING_PROPOSAL:
+
+    // case Actions.PAIRING_PROPOSAL:
     case Actions.PAIRING_CREATED:
-      // @ts-ignore
-      state.pairing = action.pairing
-      return state
-    case Actions.PAIRING_UPDATED:
-      state.pairing!.peer.metadata = action.pairing.peer.metadata
-      return state
-    case Actions.PAIRING_DELETED:
       return {
         ...state,
-        pairing: null,
+        pairings: [...state.pairings, action.pairing],
+      }
+    case Actions.PAIRING_UPDATED:
+      console.log('reducer: pairing updated', action)
+      return {
+        ...state,
+        pairings: [], // state.pairings.map(p => p.topic === action.pairing.peer,
+      }
+    case Actions.PAIRING_DELETED:
+      console.log('reducer: pairing deleted', action)
+      return {
+        ...state,
+        pairings: state.pairings.filter((p) => p.topic !== action.pairing.topic),
       }
     case Actions.SESSION_PROPOSAL:
       return {
         ...state,
-        // @ts-ignore
-        sessions: [...state.sessions, action.session],
+        pendingSessions: [...state.pendingSessions, action.session],
       }
     case Actions.SESSION_PAYLOAD:
       return {
@@ -53,23 +66,29 @@ export const reducer = (
         pendingActions: [...state.pendingActions, action.session],
       }
     case Actions.SESSION_CREATED:
+      return {
+        ...state,
+        pendingSessions: state.pendingSessions.filter((s) => s.topic !== action.session.topic),
+        sessions: [...state.sessions, action.session],
+      }
     case Actions.SESSION_UPDATED:
-      // @ts-ignore
-      const existing = state.sessions.ma((s) => s.topic === action.session.topic)
-      if (existing) {
-        return {
-          ...state,
+      return {
+        ...state,
+        // @ts-ignore
+        sessions: state.sessions.map((s) => {
           // @ts-ignore
-          sessions: state.sessions.map((s) =>
-            // @ts-ignore
-            s.topic === action.session.topic ? action.session : s
-          ),
-        }
+          if (s.topic === action.session.topic) {
+            return {
+              ...s,
+              state: action.session.state,
+            }
+          }
+          return s
+        }),
       }
     case Actions.SESSION_DELETED:
       return {
         ...state,
-        // @ts-ignore
         sessions: state.sessions.filter((s) => s.topic !== action.session.topic),
       }
 
