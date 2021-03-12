@@ -15,5 +15,3 @@ export class ApiMetrics {
   }
 }
 export const metrics = new ApiMetrics()
-
-// export enum Context { }
