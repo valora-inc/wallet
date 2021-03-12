@@ -86,24 +86,24 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashOut: [],
     cashIn: [
       {
-        id: CiCoProvider.MOONPAY,
+        id: CiCoProvider.Moonpay,
         enabled: !MOONPAY_DISABLED,
         onSelected: () =>
           openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
-        id: CiCoProvider.SIMPLEX,
+        id: CiCoProvider.Simplex,
         enabled: true,
         onSelected: () => openSimplex(account),
       },
       {
-        id: CiCoProvider.RAMP,
+        id: CiCoProvider.Ramp,
         enabled: !RAMP_DISABLED,
         onSelected: () =>
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
-        id: CiCoProvider.TRANSAK,
+        id: CiCoProvider.Transak,
         enabled: !TRANSAK_DISABLED,
         onSelected: () =>
           openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),

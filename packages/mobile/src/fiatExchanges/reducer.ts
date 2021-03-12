@@ -6,32 +6,32 @@ import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 
 export enum CiCoProvider {
-  MOONPAY = 'MOONPAY',
-  RAMP = 'RAMP',
-  SIMPLEX = 'SIMPLEX',
-  TRANSAK = 'TRANSAK',
+  Moonpay = 'Moonpay',
+  Ramp = 'Ramp',
+  Simplex = 'Simplex',
+  Transak = 'Transak',
 }
 
 export const providersDisplayInfo: { [provider in CiCoProvider]: ProviderFeedInfo } = {
-  [CiCoProvider.MOONPAY]: {
+  [CiCoProvider.Moonpay]: {
     name: 'Moonpay',
     icon:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
   },
-  [CiCoProvider.RAMP]: {
+  [CiCoProvider.Ramp]: {
     name: 'Ramp',
     icon:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
   },
-  [CiCoProvider.SIMPLEX]: {
+  [CiCoProvider.Simplex]: {
     name: 'Simplex',
     icon:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
   },
-  [CiCoProvider.TRANSAK]: {
+  [CiCoProvider.Transak]: {
     name: 'Transak',
     icon:
-      'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
   },
 }
 
@@ -72,7 +72,7 @@ export const reducer = (state: State = initialState, action: ActionTypes | Rehyd
         lastUsedProvider: action.provider,
       }
     case Actions.ASSIGN_PROVIDER_TO_TX_HASH:
-      // Don't override in case it came from Firebase (Actions.SET_PROVIDERS_FOR_TX_HASHES).
+      // Don't override if the tx already has a provider assigned.
       if (state.txHashToProvider[action.txHash]) {
         return state
       }
