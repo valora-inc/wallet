@@ -756,9 +756,6 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_cash_out_info]: undefined
   [FiatExchangeEvents.cico_cash_out_info_support]: undefined
   [FiatExchangeEvents.cico_cash_out_info_cancel]: undefined
-  [FiatExchangeEvents.cico_cash_out_select_provider]: {
-    provider: string
-  }
   [FiatExchangeEvents.cico_cash_out_select_provider_back]: undefined
   [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined

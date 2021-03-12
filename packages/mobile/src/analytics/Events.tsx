@@ -331,8 +331,7 @@ export enum FiatExchangeEvents {
   cico_cash_out_info_support = 'cico_cash_out_info_support',
   cico_cash_out_info_cancel = 'cico_cash_out_info_cancel',
 
-  cico_cash_out_select_provider = 'cico_cash_out_select_provider', // provider_chosen, untested
-  cico_cash_out_select_provider_back = 'cico_cash_out_select_provider_back', // untested
+  cico_cash_out_select_provider_back = 'cico_cash_out_select_provider_back',
 
   cico_external_exchanges_back = 'cico_external_exchanges_back',
   cico_cash_out_copy_address = 'cico_cash_out_copy_address',
