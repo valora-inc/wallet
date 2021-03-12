@@ -38,13 +38,13 @@
   },
   "promptConfirmRevokeModal": {
     "header": "¿Estás seguro de que quieres revocar tu cuenta de Valora?",
-    "body": "Una vez revocada, esta cuenta no podrá volver a confirmar. Revoque solo si está seguro de que nunca volverá a necesitar esta cuenta.",
+    "body": "Once revoked, this account will not be able to reconfirm. Only revoke if you are sure you will never need this account again.",
     "revoke": "Revocar"
   },
   "testFaqLink": "Las Preguntas Frecuentes del {{appName}}",
   "termsOfServiceLink": "Condiciones de Servicio",
   "editProfile": "Editar perfil",
-  "confirmNumber": "Confirmar número telefónico",
+  "confirmNumber": "Verificar número telefónico",
   "cancel": "Cancelar",
   "changeProfilePhoto": "Cambiar la foto de perfil",
   "name": "Nombre y apellido",
