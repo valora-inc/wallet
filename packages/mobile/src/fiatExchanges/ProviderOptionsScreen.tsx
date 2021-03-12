@@ -2,18 +2,38 @@ import ListItem from '@celo/react-components/components/ListItem'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
+import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import { useDispatch } from 'react-redux'
+import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
+import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
-import { openMoonpay, openRamp, openSimplex, openTransak } from 'src/fiatExchanges/utils'
+import {
+  fetchLocationFromIpAddress,
+  getProviderAvailability,
+  openMoonpay,
+  openRamp,
+  openSimplex,
+  openTransak,
+  UserLocation,
+} from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -26,7 +46,6 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
-import { useCountryFeatures } from 'src/utils/countryFeatures'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
 
@@ -44,10 +63,17 @@ ProviderOptionsScreen.navigationOptions = ({
 
 interface Provider {
   name: string
-  enabled: boolean
+  restricted: boolean
   icon: string
   image?: React.ReactNode
   onSelected: () => void
+}
+
+export enum Providers {
+  MOONPAY = 'MOONPAY',
+  RAMP = 'RAMP',
+  TRANSAK = 'TRANSAK',
+  SIMPLEX = 'SIMPLEX',
 }
 
 const FALLBACK_CURRENCY = LocalCurrencyCode.USD
@@ -55,12 +81,14 @@ const FALLBACK_CURRENCY = LocalCurrencyCode.USD
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
   const onDismissExplanation = () => setShowExplanation(false)
-
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
+  const countryCallingCode = useSelector(defaultCountryCodeSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
-  const { RAMP_DISABLED, MOONPAY_DISABLED, TRANSAK_DISABLED } = useCountryFeatures()
-  const selectedCurrency = route.params.currency || CURRENCY_ENUM.DOLLAR
+  const selectedCurrency = {
+    [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
+    [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
+  }[route.params.currency || CURRENCY_ENUM.DOLLAR]
 
   const dispatch = useDispatch()
 
@@ -78,6 +106,29 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     })
   }, [])
 
+  const asyncUserLocation = useAsync(async () => {
+    try {
+      const { alpha2, state } = await fetchLocationFromIpAddress()
+      if (!alpha2) {
+        throw Error('Could not determine country from IP address')
+      }
+
+      return { country: alpha2, state }
+    } catch (error) {
+      const alpha2 = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
+      return { country: alpha2, state: null }
+    }
+  }, [])
+
+  const userLocation: UserLocation | undefined = asyncUserLocation.result
+
+  const {
+    MOONPAY_RESTRICTED,
+    SIMPLEX_RESTRICTED,
+    RAMP_RESTRICTED,
+    TRANSAK_RESTRICTED,
+  } = getProviderAvailability(userLocation)
+
   const providers: {
     cashOut: Provider[]
     cashIn: Provider[]
@@ -86,7 +137,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashIn: [
       {
         name: 'Moonpay',
-        enabled: !MOONPAY_DISABLED,
+        restricted: MOONPAY_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
         image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
@@ -95,7 +146,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       },
       {
         name: 'Simplex',
-        enabled: true,
+        restricted: SIMPLEX_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
         image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
@@ -104,7 +155,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       },
       {
         name: 'Ramp',
-        enabled: !RAMP_DISABLED,
+        restricted: RAMP_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
         onSelected: () =>
@@ -112,7 +163,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       },
       {
         name: 'Transak',
-        enabled: !TRANSAK_DISABLED,
+        restricted: TRANSAK_RESTRICTED,
         icon:
           'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
         onSelected: () =>
@@ -130,21 +181,28 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     provider.onSelected()
   }
 
-  return (
+  return !userLocation ? (
+    <View style={styles.container}>
+      <ActivityIndicator size="large" color={colors.greenBrand} />
+    </View>
+  ) : (
     <ScrollView style={styles.container}>
       <SafeAreaView style={styles.content}>
         <Text style={styles.pleaseSelectProvider}>{t('pleaseSelectProvider')}</Text>
         <View style={styles.providersContainer}>
-          {providers[isCashIn ? 'cashIn' : 'cashOut']
-            .filter((provider) => provider.enabled)
-            .map((provider) => (
-              <ListItem key={provider.name} onPress={providerOnPress(provider)}>
-                <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
+          {providers[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
+            <ListItem key={provider.name} onPress={providerOnPress(provider)}>
+              <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
+                <View style={styles.providerTextContainer}>
                   <Text style={styles.optionTitle}>{provider.name}</Text>
-                  <LinkArrow />
+                  {provider.restricted && (
+                    <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
+                  )}
                 </View>
-              </ListItem>
-            ))}
+                <LinkArrow />
+              </View>
+            </ListItem>
+          ))}
         </View>
         <Dialog
           title={t('explanationModal.title')}
@@ -194,6 +252,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  providerTextContainer: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  restrictedText: {
+    ...fontStyles.small,
+    color: colors.gray4,
   },
   optionTitle: {
     ...fontStyles.regular,

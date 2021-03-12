@@ -7,8 +7,8 @@ import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
 interface Props {
-  uri?: string
-  html?: string
+  uri: string
+  isLoading: boolean
   onCancel?: () => void
 }
 
@@ -20,7 +20,7 @@ enum BrowserStatuses {
 
 const TAG = 'InAppBrowser'
 
-function InAppBrowser({ uri, html, onCancel }: Props) {
+function InAppBrowser({ uri, isLoading, onCancel }: Props) {
   const [browserStatus, setBrowserStatus] = useState<BrowserStatuses>(BrowserStatuses.loading)
   const webview = useRef<WebViewRef>(null)
 
@@ -70,24 +70,21 @@ function InAppBrowser({ uri, html, onCancel }: Props) {
       }
     }
 
-    if (browserStatus === BrowserStatuses.available) {
+    if (browserStatus === BrowserStatuses.available && !isLoading) {
       openBrowser().catch(() => Logger.error(TAG, 'Error opening broswer'))
     }
-  }, [browserStatus])
+  }, [browserStatus, isLoading])
 
   return (
     <>
-      {browserStatus !== BrowserStatuses.available && (
+      {(isLoading || browserStatus === BrowserStatuses.loading) && (
         <View style={styles.container}>
-          {browserStatus === BrowserStatuses.loading ? (
-            <ActivityIndicator size="large" color={colors.greenBrand} />
-          ) : (
-            <WebView
-              originWhitelist={html ? ['*'] : undefined}
-              source={{ uri, html: html as string }}
-              ref={webview}
-            />
-          )}
+          <ActivityIndicator size="large" color={colors.greenBrand} />
+        </View>
+      )}
+      {browserStatus === BrowserStatuses.unavailable && (
+        <View style={styles.container}>
+          <WebView source={{ uri }} ref={webview} />
         </View>
       )}
     </>

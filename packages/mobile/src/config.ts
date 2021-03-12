@@ -91,11 +91,7 @@ export const GETH_START_HTTP_RPC_SERVER = stringToBoolean(
 export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SEGMENT_API_KEY')
 export const FIREBASE_WEB_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'FIREBASE_WEB_KEY')
 export const SENTRY_URL = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SENTRY_URL')
-export const MOONPAY_PUBLIC_KEY = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'MOONPAY_PUBLIC_KEY'
-)
+
 export const RECAPTCHA_SITE_KEY_ALFAJORES = keyOrUndefined(
   secretsFile,
   Config.SECRETS_KEY,
@@ -107,7 +103,9 @@ export const RECAPTCHA_SITE_KEY_MAINNET = keyOrUndefined(
   'RECAPTCHA_SITE_KEY_MAINNET'
 )
 export const SAFETYNET_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SAFETYNET_KEY')
-export const MOONPAY_RATE_API = `https://api.moonpay.io/v3/currencies/celo/price?apiKey=${MOONPAY_PUBLIC_KEY}`
+
+export const MOONPAY_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'MOONPAY_API_KEY')
+
 export const BIDALI_URL_ALFAJORES = keyOrUndefined(
   secretsFile,
   Config.SECRETS_KEY,
@@ -181,8 +179,19 @@ export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
 export const PONTO_URI = 'https://withponto.com/partners/celo/valora'
 export const KOTANI_URI = 'https://kotanipay.com/partners/valora'
 
+export const PROVIDER_URL_COMPOSER_PROD =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/composeCicoProviderUrl'
+
+export const PROVIDER_URL_COMPOSER_STAGING =
+  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/composeCicoProviderUrl'
+
 export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
 
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
+
+export enum CurrencyCode {
+  CELO = 'CELO',
+  CUSD = 'CUSD',
+}

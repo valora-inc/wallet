@@ -4,15 +4,15 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
+import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
-import { CURRENCY_ENUM } from 'src/geth/consts'
+import { CurrencyCode } from 'src/config'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 
 interface Props {
   service: string
-  currencyToBuy: CURRENCY_ENUM
+  currencyToBuy: CurrencyCode
   localCurrency: LocalCurrencyCode
   crypto: {
     amount: number

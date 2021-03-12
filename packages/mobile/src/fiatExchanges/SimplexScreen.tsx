@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
 import BackButton from 'src/components/BackButton'
 import WebView from 'src/components/WebView'
+import { CurrencyCode } from 'src/config'
 import ReviewFees from 'src/fiatExchanges/ReviewFees'
 import { SimplexService } from 'src/fiatExchanges/services/SimplexService'
 import { CURRENCY_ENUM } from 'src/geth/consts'
@@ -51,27 +52,23 @@ function SimplexScreen({ route, navigation }: Props) {
     minTxAmount = localTxMin?.toNumber() || MIN_USD_TX_AMOUNT
   }
 
-  const asset = {
-    [CURRENCY_ENUM.GOLD]: 'CELO',
-    [CURRENCY_ENUM.DOLLAR]: 'CUSD',
-  }[currencyToBuy]
-
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const userId = deviceInfoModule.getUniqueId()
 
   useLayoutEffect(() => {
+    const token = currencyToBuy === CurrencyCode.CELO ? CURRENCY_ENUM.GOLD : CURRENCY_ENUM.DOLLAR
     navigation.setOptions({
       ...emptyHeader,
       headerLeft: () => <BackButton />,
       headerTitle: () => (
-        <HeaderTitleWithBalance title={i18n.t('fiatExchangeFlow:addFunds')} token={currencyToBuy} />
+        <HeaderTitleWithBalance title={i18n.t('fiatExchangeFlow:addFunds')} token={token} />
       ),
     })
   }, [])
 
   useEffect(() => {
     simplex
-      .getQuote(userId, asset, currencyCode, currencyCode, localAmount)
+      .getQuote(userId, currencyToBuy, currencyCode, currencyCode, localAmount)
       .then((_) => _.json())
       .then(({ quote_id, fiat_money, digital_money }) =>
         setExchange({
@@ -105,7 +102,7 @@ function SimplexScreen({ route, navigation }: Props) {
           installDate: deviceInfoModule.getFirstInstallTimeSync(),
         },
         address: account || '',
-        asset,
+        asset: currencyToBuy,
         verified: {
           email: false,
           phone: true,
