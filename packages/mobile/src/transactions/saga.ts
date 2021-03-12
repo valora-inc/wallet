@@ -1,6 +1,7 @@
 import { CeloTransactionObject } from '@celo/connect'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
+import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -17,7 +18,9 @@ import {
   NewTransactionsInFeedAction,
   removeStandbyTransaction,
   transactionConfirmed,
+  TransactionConfirmedAction,
   transactionFailed,
+  TransactionFailedAction,
   updateRecentTxRecipientsCache,
 } from 'src/transactions/actions'
 import { TxPromises } from 'src/transactions/contract-utils'
@@ -51,10 +54,13 @@ function* cleanupStandbyTransactions({ transactions }: NewTransactionsInFeedActi
 
 export function* waitForTransactionWithId(txId: string) {
   while (true) {
-    const action = yield take([Actions.TRANSACTION_CONFIRMED, Actions.TRANSACTION_FAILED])
+    const action: TransactionConfirmedAction | TransactionFailedAction = yield take([
+      Actions.TRANSACTION_CONFIRMED,
+      Actions.TRANSACTION_FAILED,
+    ])
     if (action.txId === txId) {
-      // Return true for success, false otherwise
-      return action.type === Actions.TRANSACTION_CONFIRMED
+      // Return the receipt on success and undefined otherwise.
+      return action.type === Actions.TRANSACTION_CONFIRMED ? action.receipt : undefined
     }
   }
 }
@@ -64,37 +70,43 @@ export function* sendAndMonitorTransaction<T>(
   account: string,
   context: TransactionContext,
   currency?: CURRENCY_ENUM,
-  feeCurrency?: CURRENCY_ENUM
+  feeCurrency?: CURRENCY_ENUM,
+  gas?: number,
+  gasPrice?: BigNumber
 ) {
   try {
     Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
     const sendTxMethod = function*(nonce?: number) {
-      const { transactionHash, confirmation }: TxPromises = yield call(
+      const { transactionHash, receipt }: TxPromises = yield call(
         sendTransactionPromises,
         tx.txo,
         account,
         context,
         feeCurrency,
+        gas,
+        gasPrice,
         nonce
       )
       const hash = yield transactionHash
       yield put(addHashToStandbyTransaction(context.id, hash))
-      const result = yield confirmation
-      return result
+      return yield receipt
     }
-    yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
-    yield put(transactionConfirmed(context.id))
+    const txReceipt = yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
+    yield put(transactionConfirmed(context.id, txReceipt))
 
-    if (currency === CURRENCY_ENUM.GOLD) {
+    // Determine which balances may be affected by the transaction and fetch updated balances.
+    const balancesAffected = new Set([
+      ...(currency ? [currency] : [CURRENCY_ENUM.DOLLAR, CURRENCY_ENUM.GOLD]),
+      feeCurrency ?? CURRENCY_ENUM.DOLLAR,
+    ])
+    if (balancesAffected.has(CURRENCY_ENUM.GOLD)) {
       yield put(fetchGoldBalance())
-    } else if (currency === CURRENCY_ENUM.DOLLAR) {
-      yield put(fetchDollarBalance())
-    } else {
-      // Fetch both balances for exchange
-      yield put(fetchGoldBalance())
+    }
+    if (balancesAffected.has(CURRENCY_ENUM.DOLLAR)) {
       yield put(fetchDollarBalance())
     }
+    return txReceipt
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
     yield put(removeStandbyTransaction(context.id))

@@ -6,12 +6,26 @@ import { Provider } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import { getReclaimEscrowFee, reclaimFromEscrow } from 'src/escrow/saga'
-import { SHORT_CURRENCIES, WEI_PER_CELO } from 'src/geth/consts'
+import { CURRENCY_ENUM, SHORT_CURRENCIES, WEI_PER_TOKEN } from 'src/geth/consts'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockAccount2, mockE164Number } from 'test/values'
 
-const TEST_FEE = new BigNumber(10000000000000000)
+// A fee of 0.01 cUSD.
+const TEST_FEE_INFO_CUSD = {
+  fee: new BigNumber(10).pow(16),
+  gas: new BigNumber(200000),
+  gasPrice: new BigNumber(10).pow(10).times(5),
+  currency: CURRENCY_ENUM.DOLLAR,
+}
+
+// A fee of 0.01 CELO.
+const TEST_FEE_INFO_CELO = {
+  fee: new BigNumber(10).pow(16),
+  gas: new BigNumber(200000),
+  gasPrice: new BigNumber(10).pow(10).times(5),
+  currency: CURRENCY_ENUM.GOLD,
+}
 
 jest.mock('src/escrow/saga')
 
@@ -26,7 +40,7 @@ const mockScreenProps = getMockStackScreenProps(Screens.ReclaimPaymentConfirmati
     recipientPhone: mockE164Number,
     paymentID: mockAccount,
     currency: SHORT_CURRENCIES.DOLLAR,
-    amount: new BigNumber(10 * WEI_PER_CELO),
+    amount: new BigNumber(10).times(WEI_PER_TOKEN),
     timestamp: new BigNumber(10000),
     expirySeconds: new BigNumber(50000),
   },
@@ -41,26 +55,46 @@ describe('ReclaimPaymentConfirmationScreen', () => {
     mockedGetReclaimEscrowFee.mockClear()
   })
 
-  it('renders correctly', async () => {
-    mockedGetReclaimEscrowFee.mockImplementation(async () => TEST_FEE)
+  it('renders correctly with fee in Celo dollars', async () => {
+    mockedGetReclaimEscrowFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
 
-    const { queryByText, queryAllByText, toJSON } = render(
+    const { getByText, queryByText, queryAllByText, toJSON } = render(
       <Provider store={store}>
         <ReclaimPaymentConfirmationScreen {...mockScreenProps} />
       </Provider>
     )
 
-    // Initial render
+    // Initial render should not contain a fee.
     expect(toJSON()).toMatchSnapshot()
     expect(queryAllByText('securityFee')).toHaveLength(2)
-    expect(queryByText('$0.001')).toBeNull()
+    expect(queryByText(/-\s*\$\s*0\.0133/s)).toBeNull()
 
-    // Wait for fee to be calculated and displayed
-    // TODO fix and re-enable, seeing the same issue as in TransferReviewCard
-    // await waitForElement(() => getByText('$0.001'))
+    // Wait for fee to be calculated and displayed as "$0.013"
+    // NOTE: Use regex here because the text may be split by a newline.
+    await waitForElement(() => getByText(/-\s*\$\s*0\.0133/s))
+    expect(toJSON()).toMatchSnapshot()
+    expect(queryByText(/\$\s*13\.28/s)).not.toBeNull()
+  })
 
-    // expect(queryByText('$9.99')).not.toBeNull()
-    // expect(toJSON()).toMatchSnapshot()
+  it('renders correctly in with fee in CELO', async () => {
+    mockedGetReclaimEscrowFee.mockImplementation(async () => TEST_FEE_INFO_CELO)
+
+    const { getByText, queryByText, queryAllByText, toJSON } = render(
+      <Provider store={store}>
+        <ReclaimPaymentConfirmationScreen {...mockScreenProps} />
+      </Provider>
+    )
+
+    // Initial render should not contain a fee.
+    expect(toJSON()).toMatchSnapshot()
+    expect(queryAllByText('securityFee')).toHaveLength(2)
+    expect(queryByText(/-\s*0\.01/s)).toBeNull()
+
+    // Wait for fee to be calculated and displayed as "0.01"
+    // NOTE: Use regex here because the text may be split by a newline.
+    await waitForElement(() => getByText(/-\s*0\.01/s))
+    expect(toJSON()).toMatchSnapshot()
+    expect(queryByText(/\$\s*13\.28/s)).not.toBeNull()
   })
 
   it('renders correctly when fee calculation fails', async () => {
@@ -88,7 +122,7 @@ describe('ReclaimPaymentConfirmationScreen', () => {
   })
 
   it('shows the activity indicator when a reclaim is in progress', async () => {
-    mockedGetReclaimEscrowFee.mockImplementation(async () => TEST_FEE)
+    mockedGetReclaimEscrowFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
 
     const tree = render(
       <Provider store={store}>
@@ -100,7 +134,7 @@ describe('ReclaimPaymentConfirmationScreen', () => {
   })
 
   it('clears the activity indicator when a reclaim fails', async () => {
-    mockedGetReclaimEscrowFee.mockImplementation(async () => TEST_FEE)
+    mockedGetReclaimEscrowFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
     mockedReclaimPayment.mockImplementation(async () => {
       throw Error(ErrorMessages.TRANSACTION_FAILED)
     })

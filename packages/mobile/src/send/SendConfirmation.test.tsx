@@ -6,12 +6,13 @@ import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { features } from 'src/flags'
+import { CURRENCY_ENUM } from 'src/geth/consts'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getSendFee } from 'src/send/saga'
 import SendConfirmation from 'src/send/SendConfirmation'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
 import {
   mockAccount2Invite,
   mockAccountInvite,
@@ -20,7 +21,21 @@ import {
   mockTransactionData,
 } from 'test/values'
 
-const TEST_FEE = new BigNumber(10000000000000000)
+// A fee of 0.01 cUSD.
+const TEST_FEE_INFO_CUSD = {
+  fee: new BigNumber(10).pow(16),
+  gas: new BigNumber(200000),
+  gasPrice: new BigNumber(10).pow(10).times(5),
+  currency: CURRENCY_ENUM.DOLLAR,
+}
+
+// A fee of 0.01 CELO.
+const TEST_FEE_INFO_CELO = {
+  fee: new BigNumber(10).pow(16),
+  gas: new BigNumber(200000),
+  gasPrice: new BigNumber(10).pow(10).times(5),
+  currency: CURRENCY_ENUM.GOLD,
+}
 
 jest.mock('src/send/saga')
 
@@ -52,8 +67,42 @@ describe('SendConfirmation', () => {
     mockedGetSendFee.mockClear()
   })
 
-  it('renders correctly for send payment confirmation', async () => {
-    mockedGetSendFee.mockImplementation(async () => TEST_FEE)
+  it('renders correctly for send payment confirmation with cUSD fees', async () => {
+    mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
+
+    const store = createMockStore({
+      stableToken: {
+        balance: '200',
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <SendConfirmation {...mockScreenProps} />
+      </Provider>
+    )
+
+    // Initial render.
+    expect(tree).toMatchSnapshot()
+    fireEvent.press(tree.getByText('feeEstimate'))
+
+    // Run timers, because Touchable adds some delay.
+    // jest.runAllTimers()
+    await sleep(1000)
+    expect(tree).toMatchSnapshot()
+    expect(tree.queryAllByText('securityFee')).toHaveLength(2)
+    expect(tree.queryByText(/\$\s*0\.0133/s)).toBeNull()
+
+    // Wait for fee to be calculated and displayed as "$0.0013".
+    // NOTE: Use regex here because the text may be split by a newline.
+    await waitForElement(() => tree.getByText(/\$\s*0\.0133/s))
+    // expect(queryByText('0.001')).not.toBeNull()
+
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('renders correctly for send payment confirmation with CELO fees', async () => {
+    mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CELO)
 
     const store = createMockStore({
       stableToken: {
@@ -293,7 +342,7 @@ describe('SendConfirmation with Komenci enabled', () => {
   })
 
   it('renders correct modal for invitations', async () => {
-    mockedGetSendFee.mockImplementation(async () => TEST_FEE)
+    mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
 
     const store = createMockStore({
       stableToken: {
