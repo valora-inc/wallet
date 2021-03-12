@@ -28,23 +28,31 @@ import {
 } from '@celo/komencikit/src/errors'
 import { KomenciKit } from '@celo/komencikit/src/kit'
 import { verifyWallet } from '@celo/komencikit/src/verifyWallet'
+import { eqAddress } from '@celo/utils/lib/address'
 import { sleep } from '@celo/utils/lib/async'
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import { all, call, delay, put, race, select, takeEvery } from 'redux-saga/effects'
+import {
+  all,
+  call,
+  cancel as cancelTask,
+  delay,
+  fork,
+  put,
+  race,
+  select,
+  take,
+  takeEvery,
+} from 'redux-saga/effects'
+import { showError } from 'src/alert/actions'
 import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import networkConfig from 'src/geth/networkConfig'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
-import {
-  Actions,
-  setLastRevealAttempt,
-  setVerificationStatus as setOldVerificationStatus,
-  updateE164PhoneNumberSalts,
-} from 'src/identity/actions'
+import { setLastRevealAttempt, updateE164PhoneNumberSalts } from 'src/identity/actions'
 import { ReactBlsBlindingClient } from 'src/identity/bls-blinding-client'
 import {
   hasExceededKomenciErrorQuota,
@@ -54,8 +62,8 @@ import {
 } from 'src/identity/feelessVerificationErrors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { e164NumberToSaltSelector, E164NumberToSaltType } from 'src/identity/reducer'
-import { VerificationStatus } from 'src/identity/types'
 import {
+  completeAttestation,
   getActionableAttestations,
   getAttestationsStatus,
   requestAndRetrieveAttestations,
@@ -69,7 +77,9 @@ import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import Logger from 'src/utils/Logger'
 import {
   actionableAttestationsSelector,
+  cancel,
   checkIfKomenciAvailable,
+  completeAttestations,
   e164NumberSelector,
   ensureRealHumanUser,
   fail,
@@ -82,6 +92,7 @@ import {
   komenciContextSelector,
   phoneHashSelector,
   requestAttestations,
+  resendMessages,
   reset,
   revealAttestations,
   RevealStatus,
@@ -96,6 +107,7 @@ import {
   start,
   startKomenciSession,
   stop,
+  succeed,
   verificationStatusSelector,
 } from 'src/verify/reducer'
 import { getContractKit } from 'src/web3/contracts'
@@ -107,6 +119,7 @@ const BALANCE_CHECK_TIMEOUT = 5 * 1000 // 5 seconds
 const KOMENCI_READINESS_RETRIES = 3
 const KOMENCI_DEPLOY_MTW_RETRIES = 3
 const ANDROID_DELAY_REVEAL_ATTESTATION = 5000 // 5 sec after each
+const VERIFICATION_TIMEOUT = 10 * 60 * 1000 // 10 minutes
 
 function* checkTooManyErrors() {
   const komenci = yield select(komenciContextSelector)
@@ -604,7 +617,7 @@ export function* fetchOnChainDataSaga() {
     const contractKit = yield call(getContractKit)
     const shouldUseKomenci = yield select(shouldUseKomenciSelector)
     const phoneHash = yield select(phoneHashSelector)
-    let account
+    let account: Address
     if (shouldUseKomenci) {
       Logger.debug(TAG, '@fetchOnChainDataSaga', 'Using Komenci')
       const komenci = yield select(komenciContextSelector)
@@ -636,6 +649,22 @@ export function* fetchOnChainDataSaga() {
 
     Logger.debug(TAG, '@fetchOnChainDataSaga', 'Fetched status')
     yield put(setVerificationStatus(status))
+
+    // If attestation status has more than one completed attestation, then the account
+    // must be assoicated with identifier. Otherwise, it is likely an account that
+    // has been revoked and cannot currently be reverified
+    if (status.completed > 0) {
+      const associatedAccounts: Address[] = yield call(
+        [attestationsWrapper, attestationsWrapper.lookupAccountsForIdentifier],
+        phoneHash
+      )
+      const associated = associatedAccounts.some((acc) => eqAddress(acc, account))
+      if (!associated) {
+        yield put(showError(ErrorMessages.CANT_VERIFY_REVOKED_ACCOUNT, 10000))
+        yield put(fail(ErrorMessages.CANT_VERIFY_REVOKED_ACCOUNT))
+        return
+      }
+    }
 
     const actionableAttestations: ActionableAttestation[] = yield call(
       getActionableAttestations,
@@ -774,9 +803,62 @@ export function* revealAttestationsSaga() {
   yield put(setLastRevealAttempt(Date.now()))
 }
 
+export function* completeAttestationsSaga() {
+  const account: string = yield call(getAccount)
+  const contractKit = yield call(getContractKit)
+  const actionableAttestations: ActionableAttestation[] = yield select(
+    actionableAttestationsSelector
+  )
+  const attestationsWrapper: AttestationsWrapper = yield call([
+    contractKit.contracts,
+    contractKit.contracts.getAttestations,
+  ])
+  const phoneHashDetails = yield call(getPhoneHashDetails)
+  const walletAddress = yield call(getConnectedUnlockedAccount)
+  const komenci = yield select(komenciContextSelector)
+  const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
+
+  yield all(
+    actionableAttestations.map((attestation) => {
+      return call(
+        completeAttestation,
+        attestationsWrapper,
+        account,
+        phoneHashDetails,
+        attestation,
+        komenciKit
+      )
+    })
+  )
+
+  yield put(succeed())
+}
+
+export function* resendMessagesSaga() {
+  Logger.error(TAG, `@resendMessagesSaga has started`)
+
+  const status = yield select(verificationStatusSelector)
+  const revealStatuses = yield select(revealStatusesSelector)
+  const numberOfAttestationsToRequest =
+    status.numAttestationsRemaining -
+    Object.values(revealStatuses).filter((rS) => rS === RevealStatus.Revealed).length
+  if (numberOfAttestationsToRequest <= 0) {
+    return yield put(revealAttestations())
+  }
+  const actionableAttestations: ActionableAttestation[] = yield select(
+    actionableAttestationsSelector
+  )
+  const revealStatusesToUpdate: Record<Address, RevealStatus> = {}
+  // Reset reveal statuses for all actionable attestations
+  for (const actionableAttestation of actionableAttestations) {
+    revealStatusesToUpdate[actionableAttestation.issuer] = RevealStatus.NotRevealed
+  }
+  yield put(setRevealStatuses(revealStatusesToUpdate))
+  yield put(revealAttestations())
+}
+
 export function* failSaga(action: ReturnType<typeof fail>) {
   Logger.error(TAG, `@failSaga: ${action.payload}`)
-  yield put(setOldVerificationStatus(VerificationStatus.Failed))
 }
 
 export function* resetSaga() {
@@ -793,16 +875,54 @@ export function* stopSaga() {
 }
 
 export function* verifySaga() {
-  Logger.debug(TAG, 'Initializing verify sagas')
-  yield takeEvery(checkIfKomenciAvailable.type, checkIfKomenciAvailableSaga)
-  yield takeEvery(start.type, startSaga)
-  yield takeEvery(startKomenciSession.type, startOrResumeKomenciSessionSaga)
-  yield takeEvery(fetchPhoneNumberDetails.type, fetchPhoneNumberDetailsSaga)
-  yield takeEvery(fetchMtw.type, fetchOrDeployMtwSaga)
-  yield takeEvery(fetchOnChainData.type, fetchOnChainDataSaga)
-  yield takeEvery(fail.type, failSaga)
-  yield takeEvery(reset.type, resetSaga)
-  yield takeEvery(stop.type, stopSaga)
-  // TODO: this can be calculated in reducer, once we stop using identify/reducer for verification
-  yield takeEvery(Actions.COMPLETE_ATTESTATION_CODE, fetchOnChainDataSaga)
+  Logger.debug(TAG, 'Verification Saga has started')
+  while (true) {
+    const task = yield fork(function*() {
+      yield takeEvery(checkIfKomenciAvailable.type, checkIfKomenciAvailableSaga)
+      yield takeEvery(start.type, startSaga)
+      yield takeEvery(startKomenciSession.type, startOrResumeKomenciSessionSaga)
+      yield takeEvery(fetchPhoneNumberDetails.type, fetchPhoneNumberDetailsSaga)
+      yield takeEvery(fetchMtw.type, fetchOrDeployMtwSaga)
+      yield takeEvery(fetchOnChainData.type, fetchOnChainDataSaga)
+      yield takeEvery(fail.type, failSaga)
+      yield takeEvery(reset.type, resetSaga)
+      yield takeEvery(stop.type, stopSaga)
+      yield takeEvery(requestAttestations.type, requestAttestationsSaga)
+      yield takeEvery(revealAttestations.type, revealAttestationsSaga)
+      yield takeEvery(completeAttestations.type, completeAttestationsSaga)
+      yield takeEvery(resendMessages.type, resendMessagesSaga)
+    })
+    yield race({ cancel: take(cancel.type), timeout: delay(VERIFICATION_TIMEOUT) })
+    yield cancelTask(task)
+    // if (restart) {
+    // const status: AttestationsStatus = yield select(verificationStatusSelector)
+    // ValoraAnalytics.track(VerificationEvents.verification_resend_messages, {
+    // count: status.numAttestationsRemaining,
+    // feeless: shouldUseKomenci,
+    // })
+    // Logger.debug(TAG, 'Verification has been restarted')
+    // yield put(startVerification(e164Number, false))
+    // } else if (success) {
+    // ValoraAnalytics.track(VerificationEvents.verification_complete, { feeless: shouldUseKomenci })
+    // Logger.debug(TAG, 'Verification completed successfully')
+    // } else if (failure) {
+    // ValoraAnalytics.track(VerificationEvents.verification_error, {
+    // feeless: shouldUseKomenci,
+    // error: failure.payload,
+    // })
+    // Logger.debug(TAG, 'Verification failed')
+    // yield call(reportActionableAttestationsStatuses)
+    // } else if (cancel) {
+    // ValoraAnalytics.track(VerificationEvents.verification_cancel, { feeless: shouldUseKomenci })
+    // yield put(setVerificationStatus(VerificationStatus.Stopped))
+    // Logger.debug(TAG, 'Verification cancelled')
+    // yield call(reportActionableAttestationsStatuses)
+    // } else if (timeout) {
+    // ValoraAnalytics.track(VerificationEvents.verification_timeout, { feeless: shouldUseKomenci })
+    // Logger.debug(TAG, 'Verification timed out')
+    // yield put(showError(ErrorMessages.VERIFICATION_TIMEOUT))
+    // yield put(setVerificationStatus(VerificationStatus.Failed))
+    // yield call(reportActionableAttestationsStatuses)
+    // }
+  }
 }

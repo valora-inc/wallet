@@ -44,26 +44,9 @@ import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
 import { SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
-import {
-  Actions,
-  CancelVerificationAction,
-  completeAttestationCode,
-  inputAttestationCode,
-  InputAttestationCodeAction,
-  ReceiveAttestationMessageAction,
-  reportRevealStatus,
-  ReportRevealStatusAction,
-  ResendAttestations,
-  setCompletedCodes,
-  setVerificationStatus,
-  startVerification,
-} from 'src/identity/actions'
+import { Actions, reportRevealStatus, ReportRevealStatusAction } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import {
-  acceptedAttestationCodesSelector,
-  attestationCodesSelector,
-  e164NumberToSaltSelector,
-} from 'src/identity/reducer'
+import { e164NumberToSaltSelector } from 'src/identity/reducer'
 import { getAttestationCodeForSecurityCode } from 'src/identity/securityCode'
 import { startAutoSmsRetrieval } from 'src/identity/smsRetrieval'
 import { VerificationStatus } from 'src/identity/types'
@@ -118,66 +101,6 @@ export interface AttestationCode {
 
 const inputAttestationCodeLock = new AwaitLock()
 
-export function* startVerificationSaga() {
-  const shouldUseKomenci = yield select(shouldUseKomenciSelector)
-  ValoraAnalytics.track(VerificationEvents.verification_start, { feeless: shouldUseKomenci })
-  Logger.debug(TAG, 'Starting verification')
-  const e164Number = yield select(e164NumberSelector)
-  // yield put(setOverrideWithoutVerification(withoutRevealing))
-  yield put(start({ e164Number }))
-
-  const {
-    cancel,
-    timeout,
-    restart,
-    success,
-    failure,
-  }: {
-    cancel: CancelVerificationAction
-    timeout: true
-    restart: ResendAttestations
-    success: ReturnType<typeof succeed>
-    failure: ReturnType<typeof fail>
-  } = yield race({
-    cancel: take(Actions.CANCEL_VERIFICATION),
-    timeout: delay(VERIFICATION_TIMEOUT),
-    restart: take(Actions.RESEND_ATTESTATIONS),
-    success: take(succeed.type),
-    failure: take(fail.type),
-  })
-
-  if (restart) {
-    const status: AttestationsStatus = yield select(verificationStatusSelector)
-    ValoraAnalytics.track(VerificationEvents.verification_resend_messages, {
-      count: status.numAttestationsRemaining,
-      feeless: shouldUseKomenci,
-    })
-    Logger.debug(TAG, 'Verification has been restarted')
-    yield put(startVerification(e164Number, false))
-  } else if (success) {
-    ValoraAnalytics.track(VerificationEvents.verification_complete, { feeless: shouldUseKomenci })
-    Logger.debug(TAG, 'Verification completed successfully')
-  } else if (failure) {
-    ValoraAnalytics.track(VerificationEvents.verification_error, {
-      feeless: shouldUseKomenci,
-      error: failure.payload,
-    })
-    Logger.debug(TAG, 'Verification failed')
-    yield call(reportActionableAttestationsStatuses)
-  } else if (cancel) {
-    ValoraAnalytics.track(VerificationEvents.verification_cancel, { feeless: shouldUseKomenci })
-    yield put(setVerificationStatus(VerificationStatus.Stopped))
-    Logger.debug(TAG, 'Verification cancelled')
-    yield call(reportActionableAttestationsStatuses)
-  } else if (timeout) {
-    ValoraAnalytics.track(VerificationEvents.verification_timeout, { feeless: shouldUseKomenci })
-    Logger.debug(TAG, 'Verification timed out')
-    yield put(showError(ErrorMessages.VERIFICATION_TIMEOUT))
-    yield put(setVerificationStatus(VerificationStatus.Failed))
-    yield call(reportActionableAttestationsStatuses)
-  }
-}
-
 export function* doVerificationFlowSaga() {
   let receiveMessageTask: Task | undefined
   let autoRetrievalTask: Task | undefined
@@ -185,8 +108,6 @@ export function* doVerificationFlowSaga() {
   const withoutRevealing = false
   const shouldUseKomenci = yield select(shouldUseKomenciSelector)
   try {
-    yield put(setVerificationStatus(VerificationStatus.Prepping))
-
     const status: AttestationsStatus = yield select(verificationStatusSelector)
     const actionableAttestations: ActionableAttestation[] = yield select(
       actionableAttestationsSelector
@@ -219,22 +140,21 @@ export function* doVerificationFlowSaga() {
       // If attestation status has more than one completed attestation, then the account
       // must be assoicated with identifier. Otherwise, it is likely an account that
       // has been revoked and cannot currently be reverified
-      if (status.completed > 0) {
-        const associatedAccounts: Address[] = yield call(
-          [attestationsWrapper, attestationsWrapper.lookupAccountsForIdentifier],
-          phoneHash
-        )
-        const associated = associatedAccounts.some((acc) => eqAddress(acc, account))
-        if (!associated) {
-          yield put(showError(ErrorMessages.CANT_VERIFY_REVOKED_ACCOUNT, 10000))
-          yield put(setVerificationStatus(VerificationStatus.Failed))
-          yield put(fail(ErrorMessages.CANT_VERIFY_REVOKED_ACCOUNT))
-          return
-        }
-      }
+      // if (status.completed > 0) {
+      // const associatedAccounts: Address[] = yield call(
+      // [attestationsWrapper, attestationsWrapper.lookupAccountsForIdentifier],
+      // phoneHash
+      // )
+      // const associated = associatedAccounts.some((acc) => eqAddress(acc, account))
+      // if (!associated) {
+      // yield put(showError(ErrorMessages.CANT_VERIFY_REVOKED_ACCOUNT, 10000))
+      // yield put(setVerificationStatus(VerificationStatus.Failed))
+      // yield put(fail(ErrorMessages.CANT_VERIFY_REVOKED_ACCOUNT))
+      // return
+      // }
+      // }
 
       // Mark codes completed in previous attempts
-      yield put(setCompletedCodes(NUM_ATTESTATIONS_REQUIRED - status.numAttestationsRemaining))
 
       let attestations = actionableAttestations
 
@@ -274,7 +194,6 @@ export function* doVerificationFlowSaga() {
         }
 
         if (attestationsToRequest) {
-          yield put(setVerificationStatus(VerificationStatus.RequestingAttestations))
           // request more attestations
           ValoraAnalytics.track(VerificationEvents.verification_request_all_attestations_start, {
             attestationsToRequest,
@@ -319,18 +238,17 @@ export function* doVerificationFlowSaga() {
         })
       }
 
-      yield put(setVerificationStatus(VerificationStatus.CompletingAttestations))
-      yield race({
-        actionableAttestationCompleted: call(
-          completeAttestations,
-          attestationsWrapper,
-          account,
-          phoneHashDetails,
-          attestations
-        ),
-        // This is needed, because we can have more actionableAttestations than NUM_ATTESTATIONS_REQUIRED
-        requiredAttestationsCompleted: call(requiredAttestationsCompleted),
-      })
+      // yield race({
+      // actionableAttestationCompleted: call(
+      // completeAttestations,
+      // attestationsWrapper,
+      // account,
+      // phoneHashDetails,
+      // attestations
+      // ),
+      // // This is needed, because we can have more actionableAttestations than NUM_ATTESTATIONS_REQUIRED
+      // requiredAttestationsCompleted: call(requiredAttestationsCompleted),
+      // })
 
       // Set acccount and data encryption key in Accounts contract
       // This is done in other places too, intentionally keeping it for more coverage
@@ -344,17 +262,16 @@ export function* doVerificationFlowSaga() {
       }
     }
 
-    yield put(setVerificationStatus(VerificationStatus.Done))
     yield put(setNumberVerified(true))
     yield put(succeed())
   } catch (error) {
     Logger.error(TAG, 'Error occured during verification flow', error)
     if (error.message === ErrorMessages.SALT_QUOTA_EXCEEDED) {
-      yield put(setVerificationStatus(VerificationStatus.SaltQuotaExceeded))
+      // yield put(setVerificationStatus(VerificationStatus.SaltQuotaExceeded))
     } else if (error.message === ErrorMessages.ODIS_INSUFFICIENT_BALANCE) {
-      yield put(setVerificationStatus(VerificationStatus.InsufficientBalance))
+      // yield put(setVerificationStatus(VerificationStatus.InsufficientBalance))
     } else {
-      yield put(setVerificationStatus(VerificationStatus.Failed))
+      // yield put(setVerificationStatus(VerificationStatus.Failed))
       yield put(showErrorOrFallback(error, ErrorMessages.VERIFICATION_FAILURE))
     }
     yield put(fail(error.message))
@@ -797,37 +714,37 @@ function* isCodeAlreadyAccepted(code: string) {
 // return reveals
 // }
 
-export function* completeAttestations(
-  attestationsWrapper: AttestationsWrapper,
-  account: string,
-  phoneHashDetails: PhoneNumberHashDetails,
-  attestations: ActionableAttestation[]
-) {
-  Logger.debug(
-    TAG + '@completeNeededAttestations',
-    `Completing ${attestations.length} attestations`
-  )
-  const contractKit = yield call(getContractKit)
-  const komenci = yield select(komenciContextSelector)
-  const walletAddress = yield call(getConnectedUnlockedAccount)
-  const komenciKit = new KomenciKit(contractKit, walletAddress, {
-    url: komenci.callbackUrl || networkConfig.komenciUrl,
-    token: komenci.sessionToken,
-  })
+// export function* completeAttestations(
+// attestationsWrapper: AttestationsWrapper,
+// account: string,
+// phoneHashDetails: PhoneNumberHashDetails,
+// attestations: ActionableAttestation[]
+// ) {
+// Logger.debug(
+// TAG + '@completeNeededAttestations',
+// `Completing ${attestations.length} attestations`
+// )
+// const contractKit = yield call(getContractKit)
+// const komenci = yield select(komenciContextSelector)
+// const walletAddress = yield call(getConnectedUnlockedAccount)
+// const komenciKit = new KomenciKit(contractKit, walletAddress, {
+// url: komenci.callbackUrl || networkConfig.komenciUrl,
+// token: komenci.sessionToken,
+// })
 
-  yield all(
-    attestations.map((attestation) => {
-      return call(
-        completeAttestation,
-        attestationsWrapper,
-        account,
-        phoneHashDetails,
-        attestation,
-        komenciKit
-      )
-    })
-  )
-}
+// yield all(
+// attestations.map((attestation) => {
+// return call(
+// completeAttestation,
+// attestationsWrapper,
+// account,
+// phoneHashDetails,
+// attestation,
+// komenciKit
+// )
+// })
+// )
+// }
 
 // export function* revealAttestation(
 // attestationsWrapper: AttestationsWrapper,
@@ -886,7 +803,7 @@ function* submitCompleteTxAndRetryOnRevert(
   }
 }
 
-function* completeAttestation(
+export function* completeAttestation(
   attestationsWrapper: AttestationsWrapper,
   account: string,
   phoneHashDetails: PhoneNumberHashDetails,
@@ -1174,7 +1091,7 @@ function* waitForAttestationCode(issuer: string) {
   }
 
   while (true) {
-    const action: InputAttestationCodeAction = yield take(Actions.INPUT_ATTESTATION_CODE)
+    const action: InputAttestationCodeAction = yield take(inputAttestationCode.type)
     if (action.code.issuer === issuer) {
       return action.code
     }

@@ -8,23 +8,10 @@ import {
   E164NumberToSaltType,
   WalletToAccountAddressType,
 } from 'src/identity/reducer'
-import { ContactMatches, ImportContactsStatus, VerificationStatus } from 'src/identity/types'
-import { AttestationCode, CodeInputType } from 'src/identity/verification'
+import { ContactMatches, ImportContactsStatus } from 'src/identity/types'
 import { Recipient } from 'src/recipients/recipient'
 
 export enum Actions {
-  START_VERIFICATION = 'IDENTITY/START_VERIFICATION',
-  CANCEL_VERIFICATION = 'IDENTITY/CANCEL_VERIFICATION',
-  RESET_VERIFICATION = 'IDENTITY/RESET_VERIFICATION',
-  SET_VERIFICATION_STATUS = 'IDENTITY/SET_VERIFICATION_STATUS',
-  SET_SEEN_VERIFICATION_NUX = 'IDENTITY/SET_SEEN_VERIFICATION_NUX',
-  SET_COMPLETED_CODES = 'IDENTITY/SET_COMPLETED_CODES',
-  REVOKE_VERIFICATION = 'IDENTITY/REVOKE_VERIFICATION',
-  REVOKE_VERIFICATION_STATE = 'IDENTITY/REVOKE_VERIFICATION_STATE',
-  FEELESS_REVOKE_VERIFICATION_STATE = 'IDENTITY/FEELESS_REVOKE_VERIFICATION_STATE',
-  RECEIVE_ATTESTATION_MESSAGE = 'IDENTITY/RECEIVE_ATTESTATION_MESSAGE',
-  INPUT_ATTESTATION_CODE = 'IDENTITY/INPUT_ATTESTATION_CODE',
-  COMPLETE_ATTESTATION_CODE = 'IDENTITY/COMPLETE_ATTESTATION_CODE',
   UPDATE_E164_PHONE_NUMBER_ADDRESSES = 'IDENTITY/UPDATE_E164_PHONE_NUMBER_ADDRESSES',
   UPDATE_WALLET_TO_ACCOUNT_ADDRESS = 'UPDATE_WALLET_TO_ACCOUNT_ADDRESS',
   UPDATE_E164_PHONE_NUMBER_SALT = 'IDENTITY/UPDATE_E164_PHONE_NUMBER_SALT',
@@ -43,63 +30,8 @@ export enum Actions {
   REQUIRE_SECURE_SEND = 'IDENTITY/REQUIRE_SECURE_SEND',
   FETCH_DATA_ENCRYPTION_KEY = 'IDENTITY/FETCH_DATA_ENCRYPTION_KEY',
   UPDATE_ADDRESS_DEK_MAP = 'IDENTITY/UPDATE_ADDRESS_DEK_MAP',
-  RESEND_ATTESTATIONS = 'IDENTITY/RESEND_ATTESTATIONS',
   SET_LAST_REVEAL_ATTEMPT = 'IDENTITY/SET_LAST_REVEAL_ATTEMPT',
   REPORT_REVEAL_STATUS = 'IDENTITY/REPORT_REVEAL_STATUS',
-}
-
-export interface StartVerificationAction {
-  type: Actions.START_VERIFICATION
-  withoutRevealing: boolean | undefined
-  e164Number: string
-}
-
-export interface SetVerificationStatusAction {
-  type: Actions.SET_VERIFICATION_STATUS
-  status: VerificationStatus
-}
-
-export interface SetHasSeenVerificationNux {
-  type: Actions.SET_SEEN_VERIFICATION_NUX
-  status: boolean
-}
-
-export interface CancelVerificationAction {
-  type: Actions.CANCEL_VERIFICATION
-}
-
-export interface ResetVerificationAction {
-  type: Actions.RESET_VERIFICATION
-}
-
-export interface RevokeVerificationAction {
-  type: Actions.REVOKE_VERIFICATION
-}
-
-export interface RevokeVerificationStateAction {
-  type: Actions.REVOKE_VERIFICATION_STATE
-  walletAddress: string
-}
-
-export interface ReceiveAttestationMessageAction {
-  type: Actions.RECEIVE_ATTESTATION_MESSAGE
-  message: string
-  inputType: CodeInputType
-}
-
-export interface SetCompletedCodesAction {
-  type: Actions.SET_COMPLETED_CODES
-  numComplete: number
-}
-
-export interface InputAttestationCodeAction {
-  type: Actions.INPUT_ATTESTATION_CODE
-  code: AttestationCode
-}
-
-export interface CompleteAttestationCodeAction {
-  type: Actions.COMPLETE_ATTESTATION_CODE
-  code: AttestationCode
 }
 
 export interface UpdateE164PhoneNumberAddressesAction {
@@ -201,10 +133,6 @@ export interface UpdateAddressDekMapAction {
   dataEncryptionKey: string | null
 }
 
-export interface ResendAttestations {
-  type: Actions.RESEND_ATTESTATIONS
-}
-
 export interface SetLastRevealAttempt {
   type: Actions.SET_LAST_REVEAL_ATTEMPT
   time: number
@@ -220,15 +148,6 @@ export interface ReportRevealStatusAction {
 }
 
 export type ActionTypes =
-  | StartVerificationAction
-  | CancelVerificationAction
-  | ResetVerificationAction
-  | SetVerificationStatusAction
-  | SetHasSeenVerificationNux
-  | SetCompletedCodesAction
-  | ReceiveAttestationMessageAction
-  | InputAttestationCodeAction
-  | CompleteAttestationCodeAction
   | UpdateE164PhoneNumberAddressesAction
   | UpdateWalletToAccountAddressAction
   | UpdateE164PhoneNumberSaltAction
@@ -246,71 +165,8 @@ export type ActionTypes =
   | EndFetchingAddressesAction
   | FetchDataEncryptionKeyAction
   | UpdateAddressDekMapAction
-  | ResendAttestations
   | SetLastRevealAttempt
   | ReportRevealStatusAction
-  | RevokeVerificationStateAction
-
-export const startVerification = (
-  e164Number: string,
-  withoutRevealing: boolean | undefined
-): StartVerificationAction => ({
-  type: Actions.START_VERIFICATION,
-  withoutRevealing,
-  e164Number,
-})
-
-export const cancelVerification = (): CancelVerificationAction => ({
-  type: Actions.CANCEL_VERIFICATION,
-})
-
-export const resetVerification = (): ResetVerificationAction => ({
-  type: Actions.RESET_VERIFICATION,
-})
-
-export const setVerificationStatus = (status: VerificationStatus): SetVerificationStatusAction => ({
-  type: Actions.SET_VERIFICATION_STATUS,
-  status,
-})
-
-export const setHasSeenVerificationNux = (status: boolean): SetHasSeenVerificationNux => ({
-  type: Actions.SET_SEEN_VERIFICATION_NUX,
-  status,
-})
-
-export const revokeVerification = (): RevokeVerificationAction => ({
-  type: Actions.REVOKE_VERIFICATION,
-})
-
-// Will properly clear verification state when called
-export const revokeVerificationState = (walletAddress: string): RevokeVerificationStateAction => ({
-  type: Actions.REVOKE_VERIFICATION_STATE,
-  walletAddress,
-})
-
-export const receiveAttestationMessage = (
-  message: string,
-  inputType: CodeInputType
-): ReceiveAttestationMessageAction => ({
-  type: Actions.RECEIVE_ATTESTATION_MESSAGE,
-  message,
-  inputType,
-})
-
-export const setCompletedCodes = (numComplete: number): SetCompletedCodesAction => ({
-  type: Actions.SET_COMPLETED_CODES,
-  numComplete,
-})
-
-export const inputAttestationCode = (code: AttestationCode): InputAttestationCodeAction => ({
-  type: Actions.INPUT_ATTESTATION_CODE,
-  code,
-})
-
-export const completeAttestationCode = (code: AttestationCode): CompleteAttestationCodeAction => ({
-  type: Actions.COMPLETE_ATTESTATION_CODE,
-  code,
-})
 
 export const fetchAddressesAndValidate = (
   e164Number: string,
@@ -455,10 +311,6 @@ export const updateAddressDekMap = (
   type: Actions.UPDATE_ADDRESS_DEK_MAP,
   address,
   dataEncryptionKey,
-})
-
-export const resendAttestations = (): ResendAttestations => ({
-  type: Actions.RESEND_ATTESTATIONS,
 })
 
 export const setLastRevealAttempt = (time: number): SetLastRevealAttempt => ({

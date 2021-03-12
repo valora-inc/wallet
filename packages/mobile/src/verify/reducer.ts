@@ -8,13 +8,18 @@ import { RootState } from 'src/redux/reducers'
 import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
 import BigNumber from 'bignumber.js'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
+import { AttestationCode, CodeInputType } from 'src/identity/verification'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+
+export const ATTESTATION_CODE_PLACEHOLDER = 'ATTESTATION_CODE_PLACEHOLDER'
+export const ATTESTATION_ISSUER_PLACEHOLDER = 'ATTESTATION_ISSUER_PLACEHOLDER'
 
 const ESTIMATED_COST_PER_ATTESTATION = 0.051
 
 const rehydrate = createAction<any>(REHYDRATE)
 
+export const setSeenVerificationNux = createAction<boolean>('VERIFY/SET_SEEN_VERIFICATION_NUX')
 export const setKomenciContext = createAction<Partial<KomenciContext>>('VERIFY/SET_KOMENCI_CONTEXT')
 export const checkIfKomenciAvailable = createAction('VERIFY/CHECK_IF_KOMENCI_AVAILABLE')
 export const setKomenciAvailable = createAction<KomenciAvailable>('VERIFY/SET_KOMENCI_AVAILABLE')
@@ -32,6 +37,18 @@ export const completeAttestations = createAction('VERIFY/COMPLETE_ATTESTATIONS')
 export const fail = createAction<string>('VERIFY/FAIL')
 export const succeed = createAction('VERIFY/SUCCEED')
 export const reset = createAction<{ komenci: boolean }>('VERIFY/RESET')
+export const revoke = createAction('VERIFY/REVOKE')
+export const cancel = createAction('VERIFY/CANCEL')
+export const resendMessages = createAction('VERIFY/RESEND_MESSAGES')
+export const receiveAttestationCode = createAction<{ message: string; inputType: CodeInputType }>(
+  'VERIFY/RECEIVE_ATTESTATION_CODE'
+)
+export const inputAttestationCode = createAction<AttestationCode>('VERIFY/INPUT_ATTESTATION_CODE')
+export const completeAttestationCode = createAction<AttestationCode>(
+  'VERIFY/COMPLETE_ATTESTATION_CODE'
+)
+export const setCompletedCodes = createAction<number>('VERIFY/SET_COMPLETED_CODES')
+
 export const setPhoneHash = createAction<string>('VERIFY/SET_PHONE_HASH')
 export const setVerificationStatus = createAction<Partial<AttestationsStatus>>(
   'VERIFY/SET_VERIFICATION_STATUS'
@@ -182,6 +199,7 @@ export enum RevealStatus {
 }
 
 export interface State {
+  seenVerificationNux: boolean
   status: AttestationsStatus & { komenci: boolean }
   actionableAttestations: ActionableAttestation[]
   revealStatuses: Record<Address, RevealStatus>
@@ -190,9 +208,12 @@ export interface State {
   komenciAvailable: KomenciAvailable
   phoneHash?: string
   e164Number?: string
+  attestationCodes: AttestationCode[]
+  completedAttestationCodes: AttestationCode[]
 }
 
 const initialState: State = {
+  seenVerificationNux: false,
   komenci: {
     errorTimestamps: [],
     unverifiedMtwAddress: null,
@@ -212,6 +233,8 @@ const initialState: State = {
   revealStatuses: {},
   currentState: idle(),
   komenciAvailable: KomenciAvailable.Unknown,
+  attestationCodes: [],
+  completedAttestationCodes: [],
 }
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -343,6 +366,69 @@ export const reducer = createReducer(initialState, (builder) => {
           komenci: action.payload.komenci,
         },
         komenciAvailable: action.payload.komenci ? KomenciAvailable.Yes : KomenciAvailable.No,
+      }
+    })
+    .addCase(revoke, () => {
+      return {
+        ...initialState,
+      }
+    })
+    .addCase(setSeenVerificationNux, (state, action) => {
+      return {
+        ...state,
+        seenVerificationNux: action.payload,
+      }
+    })
+    .addCase(setCompletedCodes, (state, action) => {
+      // Ensure action.payload many codes are filled
+      const attestationCodes = [...state.attestationCodes]
+      for (let i = 0; i < action.payload; i++) {
+        attestationCodes[i] = state.completedAttestationCodes[i] || {
+          code: ATTESTATION_CODE_PLACEHOLDER,
+          issuer: ATTESTATION_ISSUER_PLACEHOLDER,
+        }
+      }
+      return {
+        ...state,
+        attestationCodes,
+      }
+    })
+    .addCase(inputAttestationCode, (state, action) => {
+      return {
+        ...state,
+        attestationCodes: [...state.attestationCodes, action.payload],
+      }
+    })
+    .addCase(inputAttestationCode, (state, action) => {
+      return {
+        ...state,
+        attestationCodes: [...state.attestationCodes, action.payload],
+      }
+    })
+    .addCase(completeAttestationCode, (state, action) => {
+      return {
+        ...state,
+        status: {
+          ...state.status,
+          numAttestationsRemaining: state.status.numAttestationsRemaining - 1,
+          completed: state.status.completed + 1,
+        },
+        completedAttestationCodes: [...state.completedAttestationCodes, action.payload],
+      }
+    })
+    .addCase(receiveAttestationCode, (state, action) => {
+      return {
+        ...state,
+      }
+    })
+    .addCase(completeAttestationCode, (state, action) => {
+      return {
+        ...state,
+      }
+    })
+    .addCase(setCompletedCodes, (state, action) => {
+      return {
+        ...state,
       }
     })
 })

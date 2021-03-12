@@ -24,11 +24,7 @@ import BackButton from 'src/components/BackButton'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { ALERT_BANNER_DURATION, ATTESTATION_REVEAL_TIMEOUT_SECONDS } from 'src/config'
 import i18n, { Namespaces, withTranslation } from 'src/i18n'
-import {
-  cancelVerification,
-  receiveAttestationMessage,
-  resendAttestations,
-} from 'src/identity/actions'
+import { cancelVerification, receiveAttestationMessage } from 'src/identity/actions'
 import { VerificationStatus } from 'src/identity/types'
 import {
   AttestationCode,
@@ -43,6 +39,7 @@ import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboardin
 import { RootState } from 'src/redux/reducers'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInSeconds } from 'src/utils/time'
+import { resendMessages } from 'src/verify/reducer'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
 import VerificationInputHelpDialog from 'src/verify/VerificationInputHelpDialog'
 
@@ -63,7 +60,7 @@ interface StateProps {
 interface DispatchProps {
   cancelVerification: typeof cancelVerification
   receiveAttestationMessage: typeof receiveAttestationMessage
-  resendAttestations: typeof resendAttestations
+  resendMessages: typeof resendMessages
   hideAlert: typeof hideAlert
   showMessage: typeof showMessage
 }
@@ -80,7 +77,7 @@ interface State {
 const mapDispatchToProps = {
   cancelVerification,
   receiveAttestationMessage,
-  resendAttestations,
+  resendMessages,
   hideAlert,
   showMessage,
 }
@@ -229,7 +226,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
       timeDeltaInSeconds(Date.now(), lastRevealAttempt) > ATTESTATION_REVEAL_TIMEOUT_SECONDS
 
     if (isRevealAllowed) {
-      this.props.resendAttestations()
+      this.props.resendMessages()
     } else {
       this.props.showMessage(
         this.props.t('verificationPrematureRevealMessage'),
