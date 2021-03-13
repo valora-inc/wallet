@@ -87,20 +87,17 @@ describe('SendConfirmation', () => {
     fireEvent.press(tree.getByText('feeEstimate'))
 
     // Run timers, because Touchable adds some delay.
-    // jest.runAllTimers()
+    jest.runAllTimers()
+    // Prevents an unexplained error: TypeError: require(...) is not a function
     await sleep(1000)
-    expect(tree).toMatchSnapshot()
-    expect(tree.queryAllByText('securityFee')).toHaveLength(2)
-    expect(tree.queryByText(/\$\s*0\.0133/s)).toBeNull()
 
-    // Wait for fee to be calculated and displayed as "$0.0013".
+    // Wait for fee to be calculated and displayed as "$0.013".
     // NOTE: Use regex here because the text may be split by a newline.
     await waitForElement(() => tree.getByText(/\$\s*0\.0133/s))
-    // expect(queryByText('0.001')).not.toBeNull()
-
     expect(tree).toMatchSnapshot()
   })
 
+  // TODO: Use the logic above for CELO fees
   it('renders correctly for send payment confirmation with CELO fees', async () => {
     mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CELO)
 
