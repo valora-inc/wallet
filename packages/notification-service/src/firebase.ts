@@ -2,7 +2,14 @@ import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils'
 import * as admin from 'firebase-admin'
 import i18next from 'i18next'
 import { Currencies, MAX_BLOCKS_TO_WAIT } from './blockscout/transfers'
-import { NOTIFICATIONS_DISABLED, NOTIFICATIONS_TTL_MS, NotificationTypes } from './config'
+import {
+  ENVIRONMENT,
+  NOTIFICATIONS_DISABLED,
+  NOTIFICATIONS_TTL_MS,
+  NotificationTypes,
+} from './config'
+
+const NOTIFICATIONS_TAG = 'NOTIFICATIONS/'
 
 let database: admin.database.Database
 let registrationsRef: admin.database.Reference
@@ -155,12 +162,7 @@ export function initializeDb() {
 }
 
 export function getTokenFromAddress(address: string) {
-  const registration = registrations[address]
-  if (registration) {
-    return registration.fcmToken
-  } else {
-    return null
-  }
+  return registrations[address]?.fcmToken ?? null
 }
 
 export function getTranslatorForAddress(address: string) {
@@ -185,6 +187,9 @@ export function getPendingRequests() {
 }
 
 export function setPaymentRequestNotified(uid: string): Promise<void> {
+  if (ENVIRONMENT === 'local') {
+    return Promise.resolve()
+  }
   return database.ref(`/pendingRequests/${uid}`).update({ notified: true })
 }
 
@@ -194,6 +199,9 @@ export function writeExchangeRatePair(
   exchangeRate: string,
   timestamp: number
 ) {
+  if (ENVIRONMENT === 'local') {
+    return
+  }
   const pair = `${CURRENCIES[takerToken].code}/${CURRENCIES[makerToken].code}`
   const exchangeRateRecord: ExchangeRateObject = {
     exchangeRate,
@@ -214,6 +222,9 @@ export function setLastBlockNotified(newBlock: number): Promise<void> | undefine
   // we set it here ourselves to avoid race condition where we check for notifications
   // again before it syncs
   lastBlockNotified = newBlock
+  if (ENVIRONMENT === 'local') {
+    return
+  }
   return lastBlockRef.set(newBlock)
 }
 
@@ -222,8 +233,10 @@ export async function sendPaymentNotification(
   recipientAddress: string,
   amount: string,
   currency: Currencies,
+  blockNumber: number,
   data: { [key: string]: string }
 ) {
+  console.info(NOTIFICATIONS_TAG, 'Block delay: ', lastBlockNotified - blockNumber)
   const t = getTranslatorForAddress(recipientAddress)
   data.type = NotificationTypes.PAYMENT_RECEIVED
   const isCeloReward = celoRewardsSenders.indexOf(senderAddress) >= 0
@@ -285,10 +298,10 @@ export async function sendNotification(
   }
 
   try {
-    console.info('Sending notification to:', address)
+    console.info(NOTIFICATIONS_TAG, 'Sending notification to:', address)
     const response = await admin.messaging().send(message, NOTIFICATIONS_DISABLED)
     console.info('Successfully sent notification for :', address, response)
   } catch (error) {
-    console.error('Error sending notification:', error)
+    console.error('Error sending notification:', address, error)
   }
 }

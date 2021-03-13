@@ -36,7 +36,7 @@ describe('sendPaymentNotification', () => {
       },
     })
 
-    await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.DOLLAR, {})
+    await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.DOLLAR, 150, {})
 
     expect(mockedMessagingSend).toHaveBeenCalledTimes(1)
     expect(mockedMessagingSend.mock.calls[0]).toMatchInlineSnapshot(`
@@ -73,7 +73,7 @@ describe('sendPaymentNotification', () => {
       },
     })
 
-    await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.DOLLAR, {})
+    await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.DOLLAR, 150, {})
 
     expect(mockedMessagingSend).toHaveBeenCalledTimes(1)
     expect(mockedMessagingSend.mock.calls[0][0].notification.title).toEqual('Reward Received')

@@ -1,3 +1,4 @@
+import { Currencies } from './transfers'
 export interface Response<T> {
   status: string
   result: T[]
@@ -51,7 +52,7 @@ export interface Transfer {
   txHash: string
   timestamp: number
   comment?: string
-  currency?: Currencies
+  currency: Currencies
 }
 
 export interface TokenTransfer extends Log {
