@@ -73,6 +73,7 @@ describe('ReclaimPaymentConfirmationScreen', () => {
     // NOTE: Use regex here because the text may be split by a newline.
     await waitForElement(() => getByText(/-\s*\$\s*0\.0133/s))
     expect(toJSON()).toMatchSnapshot()
+    // Query for the total amount, which should deduct the fee.
     expect(queryByText(/\$\s*13\.28/s)).not.toBeNull()
   })
 
@@ -94,6 +95,7 @@ describe('ReclaimPaymentConfirmationScreen', () => {
     // NOTE: Use regex here because the text may be split by a newline.
     await waitForElement(() => getByText(/-\s*0\.01/s))
     expect(toJSON()).toMatchSnapshot()
+    // Query for the total amount, which should deduct the fee.
     expect(queryByText(/\$\s*13\.28/s)).not.toBeNull()
   })
 

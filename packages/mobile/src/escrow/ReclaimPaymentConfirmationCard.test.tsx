@@ -11,9 +11,9 @@ import { mockE164Number, mockRecipient } from 'test/values'
 const store = createMockStore()
 
 const TEST_FEE_INFO = {
-  fee: new BigNumber(10).pow(15),
+  fee: new BigNumber(10).pow(16),
   gas: new BigNumber(200000),
-  gasPrice: new BigNumber(10).pow(9).times(5),
+  gasPrice: new BigNumber(10).pow(10).times(5),
   currency: CURRENCY_ENUM.DOLLAR,
 }
 
