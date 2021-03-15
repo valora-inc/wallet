@@ -20,6 +20,8 @@ files=(
   "packages/notification-service/config/rampStaging.pem"
   "packages/notification-service/config/rampProduction.pem"
   "packages/moonpay-auth/.env"
+  "packages/provider-url-service/.env.mainnet"
+  "packages/provider-url-service/.env.alfajores"
   ".env.mnemonic"
   ".env.mnemonic.alfajores"
   ".env.mnemonic.baklava"

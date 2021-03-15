@@ -55,21 +55,21 @@ function createPaymentRequestChannel(address: string, addressKeyField: ADDRESS_K
       }
     }
 
+    const onValueChange = firebase
+      .database()
+      .ref(REQUEST_DB)
+      .orderByChild(addressKeyField)
+      .equalTo(address)
+      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
+
     const cancel = () => {
       firebase
         .database()
         .ref(REQUEST_DB)
         .orderByChild(addressKeyField)
         .equalTo(address)
-        .off(VALUE_CHANGE_HOOK, emitter)
+        .off(VALUE_CHANGE_HOOK, onValueChange)
     }
-
-    firebase
-      .database()
-      .ref(REQUEST_DB)
-      .orderByChild(addressKeyField)
-      .equalTo(address)
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
 
     return cancel
   })
