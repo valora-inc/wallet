@@ -308,6 +308,15 @@ export async function sendNotification(
 }
 
 export function saveTxHashProvider(address: string, txHash: string, provider: string) {
-  database.ref(`/registrations/${address}/txHashes/${txHash}`).set(provider)
-  console.info(`Linked provider ${provider} to tx hash ${txHash} for address ${address}`)
+  database
+    .ref(`/registrations/${address}/txHashes/${txHash}`)
+    .set(provider)
+    .then(() =>
+      console.info(`Linked provider ${provider} to tx hash ${txHash} for address ${address}`)
+    )
+    .catch(() =>
+      console.error(
+        `ERROR while linking provider ${provider} to tx hash ${txHash} for address ${address}`
+      )
+    )
 }

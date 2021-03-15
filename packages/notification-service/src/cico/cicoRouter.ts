@@ -17,7 +17,7 @@ export enum Provider {
 
 const rampKey = readFileSync(`./config/${RAMP_KEY}`).toString()
 
-const verifyRampSignature = (signature: string | undefined, body: any) => {
+function verifyRampSignature(signature: string | undefined, body: any) {
   if (!signature || !body) {
     return false
   }
@@ -60,7 +60,7 @@ router.post('/ramp', (req, res) => {
 
 const MOONPAY_SIGNATURE_HEADER = 'Moonpay-Signature-V2'
 
-const verifyMoonPaySignature = (signatureHeader: string | undefined, body: string) => {
+function verifyMoonPaySignature(signatureHeader: string | undefined, body: string) {
   if (!signatureHeader) {
     return false
   }
