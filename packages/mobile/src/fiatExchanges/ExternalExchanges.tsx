@@ -22,9 +22,11 @@ import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 export const externalExchangesScreenOptions = () => {
+  const eventName = FiatExchangeEvents.cico_external_exchanges_back
+
   return {
     ...emptyHeader,
-    headerLeft: () => <BackButton />,
+    headerLeft: () => <BackButton eventName={eventName} />,
     headerTitle: i18n.t('fiatExchangeFlow:exchanges'),
   }
 }
@@ -71,7 +73,7 @@ function ExternalExchanges({ route }: Props) {
             <Text style={styles.accountNoText}>Account</Text>
             <Text style={styles.accountNoText}>No.</Text>
           </View>
-          <AccountNumber address={account || ''} />
+          <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
         </View>
         <View style={styles.providersContainer}>
           {providers.map((provider, idx) => {
