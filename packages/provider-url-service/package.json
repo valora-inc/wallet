@@ -1,0 +1,28 @@
+{
+  "name": "@wallet/provider-url-service",
+  "version": "1.0.0",
+  "description": "Serves 3rd party URLs with API keys and relevant signatures",
+  "author": "Celo",
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "serve": "firebase serve --only functions",
+    "update-firebase-alfajores-config": "firebase use alfajores && ./firebase-env-config.sh -e alfajores",
+    "update-firebase-mainnet-config": "firebase use mainnet && ./firebase-env-config.sh -e mainnet",
+    "deploy:alfajores": "yarn update-firebase-alfajores-config && firebase deploy --only functions:composeCicoProviderUrl",
+    "deploy:mainnet": "yarn update-firebase-mainnet-config && firebase deploy --only functions:composeCicoProviderUrl",
+    "clean": "tsc -b . --clean",
+    "build": "tsc -b .",
+    "lint": "tslint --project ."
+  },
+  "dependencies": {
+    "firebase-admin": "^8.10.0",
+    "firebase-functions": "^3.6.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^0.2.0"
+  },
+  "engines": {
+    "node": "10"
+  }
+}
