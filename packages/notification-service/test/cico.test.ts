@@ -14,7 +14,7 @@ jest.mock('../src/firebase')
 jest.mock('crypto', () => ({
   ...(jest.requireActual('crypto') as any),
   createVerify: jest.fn(() => ({
-    update: () => {},
+    update: jest.fn(),
     verify: mockVerify,
   })),
 }))

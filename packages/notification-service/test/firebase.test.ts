@@ -47,7 +47,7 @@ describe('sendPaymentNotification', () => {
               "color": "#42D689",
               "icon": "ic_stat_rings",
             },
-            "priority": "high",
+            "priority": "normal",
             "ttl": 604800000,
           },
           "data": Object {
