@@ -257,9 +257,9 @@ export async function sendPaymentNotification(
   data: { [key: string]: string }
 ) {
   console.info(NOTIFICATIONS_TAG, 'Block delay: ', lastBlockNotified - blockNumber)
+  const t = getTranslatorForAddress(recipientAddress)
   data.type = NotificationTypes.PAYMENT_RECEIVED
   const { title, body } = notificationTitleAndBody(senderAddress, currency)
-  const t = getTranslatorForAddress(recipientAddress)
   return sendNotification(
     t(title),
     t(body, {
