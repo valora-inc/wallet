@@ -228,6 +228,26 @@ export function setLastBlockNotified(newBlock: number): Promise<void> | undefine
   return lastBlockRef.set(newBlock)
 }
 
+function notificationTitleAndBody(senderAddress: string, currency: Currencies) {
+  const isCeloReward = celoRewardsSenders.indexOf(senderAddress) >= 0
+  if (isCeloReward) {
+    return {
+      title: 'rewardReceivedTitle',
+      body: 'paymentReceivedBody',
+    }
+  }
+  return {
+    [Currencies.DOLLAR]: {
+      title: 'paymentReceivedTitle',
+      body: 'paymentReceivedBody',
+    },
+    [Currencies.GOLD]: {
+      title: 'celoReceivedTitle',
+      body: 'celoReceivedBody',
+    },
+  }[currency]
+}
+
 export async function sendPaymentNotification(
   senderAddress: string,
   recipientAddress: string,
@@ -237,12 +257,12 @@ export async function sendPaymentNotification(
   data: { [key: string]: string }
 ) {
   console.info(NOTIFICATIONS_TAG, 'Block delay: ', lastBlockNotified - blockNumber)
-  const t = getTranslatorForAddress(recipientAddress)
   data.type = NotificationTypes.PAYMENT_RECEIVED
-  const isCeloReward = celoRewardsSenders.indexOf(senderAddress) >= 0
+  const { title, body } = notificationTitleAndBody(senderAddress, currency)
+  const t = getTranslatorForAddress(recipientAddress)
   return sendNotification(
-    t(isCeloReward ? 'rewardReceivedTitle' : 'paymentReceivedTitle'),
-    t('paymentReceivedBody', {
+    t(title),
+    t(body, {
       amount,
       currency: t(currency, { count: parseInt(amount, 10) }),
     }),
