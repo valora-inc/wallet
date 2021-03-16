@@ -388,7 +388,7 @@ jobs:
           command: |
             mkdir -p test-results/jest
             yarn run lerna \
-              --ignore '@celo/wallet-*' \
+              --ignore @celo/mobile \
               run test
 
       - store_test_results:
