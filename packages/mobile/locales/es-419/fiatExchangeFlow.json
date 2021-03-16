@@ -57,6 +57,7 @@
   "findMerchants": "Encuentra comercios asociados cerca de ti",
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
+  "restrictedRegion": "Soporte limitado en la región",
   "successTitle": "¡Transacción iniciada!",
   "successContent": "Para conseguir la última información sobre la transacción contacta con <0>{{contactEmail}}</0>"
 }

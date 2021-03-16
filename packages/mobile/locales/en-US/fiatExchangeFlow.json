@@ -57,6 +57,7 @@
   "findMerchants": "Find local merchants near you",
   "celoDeposit": "CELO Purchase",
   "cUsdDeposit": "cUSD Purchase",
+  "restrictedRegion": "Limited support in region",
   "successTitle": "Transaction initiated!",
   "successContent": "To get the latest information on the transaction please contact <0>{{contactEmail}}</0>"
 }

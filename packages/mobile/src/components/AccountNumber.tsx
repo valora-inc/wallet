@@ -5,7 +5,7 @@ import Clipboard from '@react-native-community/clipboard'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { HomeEvents } from 'src/analytics/Events'
+import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Namespaces } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
@@ -32,6 +32,10 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
 
     if (location === Screens.TransactionReview) {
       ValoraAnalytics.track(HomeEvents.transaction_feed_address_copy)
+    }
+
+    if (location === Screens.ExternalExchanges) {
+      ValoraAnalytics.track(FiatExchangeEvents.cico_cash_out_copy_address)
     }
   }
   // Turns '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'
