@@ -6,6 +6,8 @@ import { useAsync } from 'react-async-hook'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { numberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import WebView from 'src/components/WebView'
@@ -87,6 +89,10 @@ function SimplexScreen({ route, navigation }: Props) {
   }, [])
 
   const simplexPaymentRequest = asyncSimplexPaymentRequest?.result
+
+  if (asyncSimplexPaymentRequest.status === 'error') {
+    showError(ErrorMessages.SIMPLEX_PURCHASE_FETCH_FAILED)
+  }
 
   const currencyToBuy =
     simplexQuote.digital_money.currency.toUpperCase() === 'CUSD'

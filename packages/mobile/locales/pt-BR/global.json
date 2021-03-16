@@ -189,5 +189,6 @@
   "withdraw": "Sacar",
   "countryNotAvailable": "{{appName}} não está disponível no seu país",
   "firebaseFetchFailed": "A conexão com o servidor falhou",
-  "pictureLoadFailed": "Ocorreu um erro ao carregar sua imagem"
+  "pictureLoadFailed": "Ocorreu um erro ao carregar sua imagem",
+  "simplexPurchaseFetchFailed": "Falha ao recuperar uma cotação do Simplex. Por favor, tente novamente mais tarde"
 }
