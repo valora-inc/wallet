@@ -2,7 +2,7 @@ import dotProp from 'dot-prop-immutable'
 import { RehydrateAction } from 'redux-persist'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
 import { Actions, ActionTypes } from 'src/identity/actions'
-import { ContactMatches, ImportContactsStatus, VerificationStatus } from 'src/identity/types'
+import { ContactMatches, ImportContactsStatus } from 'src/identity/types'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { Actions as SendActions, StoreLatestInRecentsAction } from 'src/send/actions'
@@ -115,7 +115,6 @@ export const reducer = (
       return {
         ...state,
         ...rehydratedState,
-        verificationStatus: VerificationStatus.Stopped,
         importContactsProgress: {
           status: ImportContactsStatus.Stopped,
           current: 0,

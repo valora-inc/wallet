@@ -24,8 +24,6 @@ import BackButton from 'src/components/BackButton'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { ALERT_BANNER_DURATION, ATTESTATION_REVEAL_TIMEOUT_SECONDS } from 'src/config'
 import i18n, { Namespaces, withTranslation } from 'src/i18n'
-import { cancelVerification, receiveAttestationMessage } from 'src/identity/actions'
-import { VerificationStatus } from 'src/identity/types'
 import {
   AttestationCode,
   CodeInputType,
@@ -39,7 +37,13 @@ import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboardin
 import { RootState } from 'src/redux/reducers'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInSeconds } from 'src/utils/time'
-import { resendMessages } from 'src/verify/reducer'
+import {
+  cancel as cancelVerification,
+  OnChainVerificationStatus,
+  receiveAttestationCode,
+  resendMessages,
+  VerificationState,
+} from 'src/verify/reducer'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
 import VerificationInputHelpDialog from 'src/verify/VerificationInputHelpDialog'
 
@@ -50,8 +54,8 @@ type ScreenProps = StackScreenProps<StackParamList, Screens.VerificationInputScr
 interface StateProps {
   e164Number: string | null
   attestationCodes: AttestationCode[]
-  numCompleteAttestations: number
-  verificationStatus: VerificationStatus
+  verificationStatus: OnChainVerificationStatus
+  verificationState: VerificationState
   underlyingError: ErrorMessages | null | undefined
   lastRevealAttempt: number | null
   shortVerificationCodesEnabled: boolean
@@ -59,7 +63,7 @@ interface StateProps {
 
 interface DispatchProps {
   cancelVerification: typeof cancelVerification
-  receiveAttestationMessage: typeof receiveAttestationMessage
+  receiveAttestationCode: typeof receiveAttestationCode
   resendMessages: typeof resendMessages
   hideAlert: typeof hideAlert
   showMessage: typeof showMessage
@@ -76,22 +80,21 @@ interface State {
 
 const mapDispatchToProps = {
   cancelVerification,
-  receiveAttestationMessage,
+  receiveAttestationCode,
   resendMessages,
   hideAlert,
   showMessage,
 }
 
 const mapStateToProps = (state: RootState): StateProps => {
-  const attestationCodes = state.identity.attestationCodes
-  const numCompleteAttestations = state.identity.numCompleteAttestations
+  const attestationCodes = state.verify.attestationCodes
   const lastRevealAttempt = state.identity.lastRevealAttempt
 
   return {
     e164Number: state.account.e164PhoneNumber,
     attestationCodes,
-    numCompleteAttestations,
-    verificationStatus: state.identity.verificationStatus,
+    verificationState: state.verify.currentState,
+    verificationStatus: state.verify.status,
     underlyingError: errorSelector(state),
     shortVerificationCodesEnabled: shortVerificationCodesEnabledSelector(state),
     lastRevealAttempt,
@@ -166,8 +169,8 @@ class VerificationInputScreen extends React.Component<Props, State> {
 
   isVerificationComplete = (prevProps: Props) => {
     return (
-      prevProps.numCompleteAttestations < NUM_ATTESTATIONS_REQUIRED &&
-      this.props.numCompleteAttestations >= NUM_ATTESTATIONS_REQUIRED
+      prevProps.verificationStatus.completed < NUM_ATTESTATIONS_REQUIRED &&
+      this.props.verificationStatus.completed >= NUM_ATTESTATIONS_REQUIRED
     )
   }
 
@@ -197,7 +200,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
         extractAttestationCodeFromMessage(value)
       ) {
         this.setState((state) => dotProp.set(state, `codeSubmittingStatuses.${index}`, true))
-        this.props.receiveAttestationMessage(value, CodeInputType.MANUAL)
+        this.props.receiveAttestationCode({ message: value, inputType: CodeInputType.MANUAL })
       }
     }
   }
@@ -241,9 +244,9 @@ class VerificationInputScreen extends React.Component<Props, State> {
     const {
       t,
       attestationCodes,
-      numCompleteAttestations,
       route,
       shortVerificationCodesEnabled,
+      verificationStatus,
     } = this.props
 
     const showHelpDialog = route.params?.showHelpDialog || false
@@ -292,7 +295,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
                           isCodeSubmitting={codeSubmittingStatuses[i]}
                           onInputChange={this.onChangeInputCode(i, shortVerificationCodesEnabled)}
                           attestationCodes={attestationCodes}
-                          numCompleteAttestations={numCompleteAttestations}
+                          numCompleteAttestations={verificationStatus.completed}
                           style={styles.codeInput}
                           shortVerificationCodesEnabled={shortVerificationCodesEnabled}
                         />
@@ -301,8 +304,10 @@ class VerificationInputScreen extends React.Component<Props, State> {
                     <View style={styles.spacer} />
                     <TextButton style={styles.resendButton} onPress={this.onPressResend}>
                       {t(
-                        `verificationInput.resendMessages${numCompleteAttestations ? '' : '_all'}`,
-                        { count: NUM_ATTESTATIONS_REQUIRED - numCompleteAttestations }
+                        `verificationInput.resendMessages${
+                          verificationStatus.completed ? '' : '_all'
+                        }`,
+                        { count: NUM_ATTESTATIONS_REQUIRED - verificationStatus.completed }
                       )}
                     </TextButton>
                   </KeyboardAwareScrollView>

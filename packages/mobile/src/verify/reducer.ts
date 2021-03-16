@@ -61,7 +61,7 @@ export const setRevealStatuses = createAction<Record<Address, RevealStatus>>(
 )
 export const setAllRevealStatuses = createAction<RevealStatus>('VERIFY/SET_ALL_REVEAL_STATUSES')
 
-export enum StateType {
+export enum VerificationStateType {
   Idle = 'Idle',
   Preparing = 'Preparing',
   EnsuringRealHumanUser = 'EnsuringRealHumanUser',
@@ -73,98 +73,107 @@ export enum StateType {
   RevealingAttestations = 'RevealingAttestations',
   CompletingAttestations = 'CompletingAttestations',
   Error = 'Error',
+  Success = 'Success',
 }
 
 // Idle State
 interface Idle {
-  type: StateType.Idle
+  type: VerificationStateType.Idle
 }
-export const idle = (): Idle => ({ type: StateType.Idle })
+export const idle = (): Idle => ({ type: VerificationStateType.Idle })
 
 // PreparingKomenci State
 interface Preparing {
-  type: StateType.Preparing
+  type: VerificationStateType.Preparing
 }
 // {}: Omit<PreparingKomenci, 'type'>
 export const preparing = (): Preparing => ({
-  type: StateType.Preparing,
+  type: VerificationStateType.Preparing,
 })
 
 // EnsuringRealHumanUser State
 interface EnsuringRealHumanUser {
-  type: StateType.EnsuringRealHumanUser
+  type: VerificationStateType.EnsuringRealHumanUser
 }
 export const ensuringRealHumanUser = (): EnsuringRealHumanUser => ({
-  type: StateType.EnsuringRealHumanUser,
+  type: VerificationStateType.EnsuringRealHumanUser,
 })
 
 // StartingKomenciSession State
 interface StartingKomenciSession {
-  type: StateType.StartingKomenciSession
+  type: VerificationStateType.StartingKomenciSession
 }
 export const startingKomenciSession = (): StartingKomenciSession => ({
-  type: StateType.StartingKomenciSession,
+  type: VerificationStateType.StartingKomenciSession,
 })
 
 // FetchingPhoneNumberDetails State
 interface FetchingPhoneNumberDetails {
-  type: StateType.FetchingPhoneNumberDetails
+  type: VerificationStateType.FetchingPhoneNumberDetails
 }
 export const fetchingPhoneNumberDetails = (): FetchingPhoneNumberDetails => ({
-  type: StateType.FetchingPhoneNumberDetails,
+  type: VerificationStateType.FetchingPhoneNumberDetails,
 })
 
 // FetchingMtw State
 interface FetchingMtw {
-  type: StateType.FetchingMtw
+  type: VerificationStateType.FetchingMtw
 }
 export const fetchingMtw = (): FetchingMtw => ({
-  type: StateType.FetchingMtw,
+  type: VerificationStateType.FetchingMtw,
 })
 
 // FetchingVerificationOnChain State
 interface FetchingOnChainData {
-  type: StateType.FetchingOnChainData
+  type: VerificationStateType.FetchingOnChainData
 }
 export const fetchingOnChainData = (): FetchingOnChainData => ({
-  type: StateType.FetchingOnChainData,
+  type: VerificationStateType.FetchingOnChainData,
 })
 
 // RequestingAttestations State
 interface RequestingAttestations {
-  type: StateType.RequestingAttestations
+  type: VerificationStateType.RequestingAttestations
 }
 export const requestingAttestations = (): RequestingAttestations => ({
-  type: StateType.RequestingAttestations,
+  type: VerificationStateType.RequestingAttestations,
 })
 
 // RevealingAttestations State
 interface RevealingAttestations {
-  type: StateType.RevealingAttestations
+  type: VerificationStateType.RevealingAttestations
 }
 export const revealingAttestations = (): RevealingAttestations => ({
-  type: StateType.RevealingAttestations,
+  type: VerificationStateType.RevealingAttestations,
 })
 
 // CompletingAttestations State
 interface CompletingAttestations {
-  type: StateType.CompletingAttestations
+  type: VerificationStateType.CompletingAttestations
 }
 export const completingAttestations = (): CompletingAttestations => ({
-  type: StateType.CompletingAttestations,
+  type: VerificationStateType.CompletingAttestations,
 })
 
 // Error State
 interface Error {
-  type: StateType.Error
+  type: VerificationStateType.Error
   message: string
 }
 export const error = (message: string): Error => ({
-  type: StateType.Error,
+  type: VerificationStateType.Error,
   message,
 })
 
-type InternalState =
+// Succees State
+interface Success {
+  type: VerificationStateType.Success
+}
+export const success = (): Success => ({
+  type: VerificationStateType.Success,
+})
+
+export type VerificationState =
   | Idle
   | Preparing
   | EnsuringRealHumanUser
@@ -176,6 +185,7 @@ type InternalState =
   | RevealingAttestations
   | CompletingAttestations
   | Error
+  | Success
 
 export interface KomenciContext {
   errorTimestamps: number[]
@@ -198,12 +208,16 @@ export enum RevealStatus {
   Failed = 'FAILED',
 }
 
+export type OnChainVerificationStatus = AttestationsStatus & { komenci: boolean }
+
+export type RevealStatuses = Record<Address, RevealStatus>
+
 export interface State {
   seenVerificationNux: boolean
-  status: AttestationsStatus & { komenci: boolean }
+  status: OnChainVerificationStatus
   actionableAttestations: ActionableAttestation[]
-  revealStatuses: Record<Address, RevealStatus>
-  currentState: InternalState
+  revealStatuses: RevealStatuses
+  currentState: VerificationState
   komenci: KomenciContext
   komenciAvailable: KomenciAvailable
   phoneHash?: string
@@ -368,6 +382,18 @@ export const reducer = createReducer(initialState, (builder) => {
         komenciAvailable: action.payload.komenci ? KomenciAvailable.Yes : KomenciAvailable.No,
       }
     })
+    .addCase(fail, (state, action) => {
+      return {
+        ...state,
+        currentState: error(action.payload),
+      }
+    })
+    .addCase(succeed, (state) => {
+      return {
+        ...state,
+        currentState: success(),
+      }
+    })
     .addCase(revoke, () => {
       return {
         ...initialState,
@@ -381,22 +407,17 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setCompletedCodes, (state, action) => {
       // Ensure action.payload many codes are filled
-      const attestationCodes = [...state.attestationCodes]
+      const attestationCodes = []
       for (let i = 0; i < action.payload; i++) {
         attestationCodes[i] = state.completedAttestationCodes[i] || {
           code: ATTESTATION_CODE_PLACEHOLDER,
           issuer: ATTESTATION_ISSUER_PLACEHOLDER,
         }
       }
+      console.log(attestationCodes, action.payload)
       return {
         ...state,
         attestationCodes,
-      }
-    })
-    .addCase(inputAttestationCode, (state, action) => {
-      return {
-        ...state,
-        attestationCodes: [...state.attestationCodes, action.payload],
       }
     })
     .addCase(inputAttestationCode, (state, action) => {
@@ -416,19 +437,22 @@ export const reducer = createReducer(initialState, (builder) => {
         completedAttestationCodes: [...state.completedAttestationCodes, action.payload],
       }
     })
-    .addCase(receiveAttestationCode, (state, action) => {
+    .addCase(requestAttestations, (state, action) => {
       return {
         ...state,
+        currentState: requestingAttestations(),
       }
     })
-    .addCase(completeAttestationCode, (state, action) => {
+    .addCase(revealAttestations, (state, action) => {
       return {
         ...state,
+        currentState: revealingAttestations(),
       }
     })
-    .addCase(setCompletedCodes, (state, action) => {
+    .addCase(completeAttestations, (state, action) => {
       return {
         ...state,
+        currentState: completingAttestations(),
       }
     })
 })
@@ -459,10 +483,13 @@ export const shouldUseKomenciSelector = (state: RootState) => {
 }
 
 export const verificationStatusSelector = (state: RootState) => state.verify.status
+export const attestationCodesSelector = (state: RootState) => state.verify.attestationCodes
+export const completedAttestationCodesSelector = (state: RootState) =>
+  state.verify.completedAttestationCodes
 export const actionableAttestationsSelector = (state: RootState): ActionableAttestation[] =>
   state.verify.actionableAttestations
 
-export const revealStatusesSelector = (state: RootState): State['revealStatuses'] =>
+export const revealStatusesSelector = (state: RootState): RevealStatuses =>
   state.verify.revealStatuses
 
 export const isBalanceSufficientForSigRetrievalSelector = createSelector(

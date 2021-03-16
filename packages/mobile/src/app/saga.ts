@@ -31,7 +31,6 @@ import { getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selecto
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { appRemoteFeatureFlagChannel, appVersionDeprecationChannel } from 'src/firebase/firebase'
-import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -40,6 +39,7 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
+import { receiveAttestationCode } from 'src/verify/reducer'
 import { parse } from 'url'
 
 const TAG = 'app/saga'
@@ -147,7 +147,12 @@ export function* handleDeepLink(action: OpenDeepLink) {
   const rawParams = parse(deepLink)
   if (rawParams.path) {
     if (rawParams.path.startsWith('/v/')) {
-      yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
+      yield put(
+        receiveAttestationCode({
+          message: rawParams.path.substr(3),
+          inputType: CodeInputType.DEEP_LINK,
+        })
+      )
     } else if (rawParams.path.startsWith('/pay')) {
       yield call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {

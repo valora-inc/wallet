@@ -1,6 +1,6 @@
 import { eqAddress, Result } from '@celo/base'
 import { CeloTransactionObject, CeloTxReceipt } from '@celo/connect'
-import { Address } from '@celo/contractkit'
+import { Address, ContractKit } from '@celo/contractkit'
 import {
   ActionableAttestation,
   AttestationsWrapper,
@@ -18,6 +18,7 @@ import {
 } from '@celo/utils/lib/attestations'
 import { AttestationRequest } from '@celo/utils/lib/io'
 import AwaitLock from 'await-lock'
+import { Language } from 'country-data'
 import { Platform } from 'react-native'
 import { Task } from 'redux-saga'
 import {
@@ -56,7 +57,9 @@ import Logger from 'src/utils/Logger'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import {
   actionableAttestationsSelector,
+  attestationCodesSelector,
   fail,
+  inputAttestationCode,
   KomenciContext,
   komenciContextSelector,
   phoneHashSelector,
@@ -65,6 +68,7 @@ import {
   start,
   succeed,
   verificationStatusSelector,
+  completeAttestationCode,
 } from 'src/verify/reducer'
 import { getContractKit } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
@@ -415,10 +419,10 @@ function* requestAttestations(
   account: string,
   shouldUseKomenci: boolean
 ) {
-  const contractKit = yield call(getContractKit)
-  const walletAddress = yield call(getConnectedUnlockedAccount)
-  const komenci = yield select(komenciContextSelector)
-  const komenciKit = new KomenciKit(contractKit, walletAddress, {
+  const contractKit: ContractKit = yield call(getContractKit)
+  const walletAddress: Address = yield call(getConnectedUnlockedAccount)
+  const komenci: KomenciContext = yield select(komenciContextSelector)
+  const komenciKit: KomenciKit = new KomenciKit(contractKit, walletAddress, {
     url: komenci.callbackUrl || networkConfig.komenciUrl,
     token: komenci.sessionToken,
   })
@@ -435,12 +439,12 @@ function* requestAttestations(
     account
   )
 
-  let isUnselectedRequestValid = unselectedRequest.blockNumber !== 0
+  let isUnselectedRequestValid: boolean = unselectedRequest.blockNumber !== 0
   if (isUnselectedRequestValid) {
-    isUnselectedRequestValid = !(yield call(
+    isUnselectedRequestValid = yield call(
       [attestationsWrapper, attestationsWrapper.isAttestationExpired],
       unselectedRequest.blockNumber
-    ))
+    )
   }
 
   // If any attestations require issuer selection, no new requests can be made
@@ -459,7 +463,7 @@ function* requestAttestations(
 
     if (shouldUseKomenci) {
       Logger.debug(
-        `${TAG}@feelessRequestAttestations`,
+        `${TAG}@requestAttestations`,
         `Approving and requesting ${numAttestationsRequestsNeeded} new attestations`
       )
 
@@ -473,7 +477,7 @@ function* requestAttestations(
       )
 
       if (!requestTxResult.ok) {
-        Logger.debug(TAG, '@feelessRequestAttestations', 'Failed request tx')
+        Logger.debug(TAG, '@requestAttestations', 'Failed request tx')
         throw requestTxResult.error
       }
       ValoraAnalytics.track(VerificationEvents.verification_request_attestation_approve_tx_sent, {
@@ -569,116 +573,101 @@ export function attestationCodeReceiver(
   attestations: ActionableAttestation[],
   isFeelessVerification: boolean = false
 ) {
-  return function*(action: ReceiveAttestationMessageAction) {
-    const shortVerificationCodesEnabled = yield select(shortVerificationCodesEnabledSelector)
-    if (!action || !action.message) {
-      Logger.error(TAG + '@attestationCodeReceiver', 'Received empty code. Ignoring.')
-      ValoraAnalytics.track(VerificationEvents.verification_code_received, {
-        context: 'Empty code',
-        feeless: isFeelessVerification,
-      })
-      return
-    }
-
-    const allIssuers = attestations.map((a) => a.issuer)
-    let securityCodeWithPrefix: string | null = null
-    let message = action.message
-
-    try {
-      if (shortVerificationCodesEnabled) {
-        securityCodeWithPrefix = extractSecurityCodeWithPrefix(message)
-        const signer = yield call(getConnectedUnlockedAccount)
-        if (securityCodeWithPrefix) {
-          message = yield call(
-            getAttestationCodeForSecurityCode,
-            attestationsWrapper,
-            phoneHashDetails,
-            account,
-            attestations,
-            securityCodeWithPrefix,
-            signer
-          )
-        } else {
-          Logger.error(TAG + '@attestationCodeReceiver', 'No security code in received message')
-        }
-      }
-
-      const attestationCode = message && extractAttestationCodeFromMessage(message)
-
-      if (!attestationCode) {
-        throw new Error('No code extracted from message')
-      }
-
-      const existingCode: string = yield call(isCodeAlreadyAccepted, attestationCode)
-
-      if (existingCode) {
-        Logger.warn(TAG + '@attestationCodeReceiver', 'Code already exists in store, skipping.')
-        ValoraAnalytics.track(VerificationEvents.verification_code_received, {
-          context: 'Code already exists',
-          feeless: isFeelessVerification,
-        })
-        if (
-          CodeInputType.MANUAL === action.inputType ||
-          CodeInputType.DEEP_LINK === action.inputType
-        ) {
-          yield put(showError(ErrorMessages.REPEAT_ATTESTATION_CODE))
-        }
-        return
-      }
-      ValoraAnalytics.track(VerificationEvents.verification_code_received, {
-        feeless: isFeelessVerification,
-      })
-      const issuer = yield call(
-        [attestationsWrapper, attestationsWrapper.findMatchingIssuer],
-        phoneHashDetails.phoneHash,
-        account,
-        attestationCode,
-        allIssuers
-      )
-      if (!issuer) {
-        throw new Error('No issuer found for attestion code')
-      }
-
-      Logger.debug(TAG + '@attestationCodeReceiver', `Received code for issuer ${issuer}`)
-
-      ValoraAnalytics.track(VerificationEvents.verification_code_validate_start, {
-        issuer,
-        feeless: isFeelessVerification,
-      })
-      const isValidRequest = yield call(
-        [attestationsWrapper, attestationsWrapper.validateAttestationCode],
-        phoneHashDetails.phoneHash,
-        account,
-        issuer,
-        attestationCode
-      )
-      ValoraAnalytics.track(VerificationEvents.verification_code_validate_complete, {
-        issuer,
-        feeless: isFeelessVerification,
-      })
-
-      if (!isValidRequest) {
-        throw new Error('Code is not valid')
-      }
-
-      yield put(
-        inputAttestationCode({ code: attestationCode, shortCode: securityCodeWithPrefix, issuer })
-      )
-    } catch (error) {
-      Logger.error(TAG + '@attestationCodeReceiver', 'Error processing attestation code', error)
-      yield put(showError(ErrorMessages.INVALID_ATTESTATION_CODE))
-    }
+  return function*() {
+    // const shortVerificationCodesEnabled = yield select(shortVerificationCodesEnabledSelector)
+    // if (!action || !action.message) {
+    // Logger.error(TAG + '@attestationCodeReceiver', 'Received empty code. Ignoring.')
+    // ValoraAnalytics.track(VerificationEvents.verification_code_received, {
+    // context: 'Empty code',
+    // feeless: isFeelessVerification,
+    // })
+    // return
+    // }
+    // const allIssuers = attestations.map((a) => a.issuer)
+    // let securityCodeWithPrefix: string | null = null
+    // let message: string = action.message
+    // try {
+    // if (shortVerificationCodesEnabled) {
+    // securityCodeWithPrefix = extractSecurityCodeWithPrefix(message)
+    // const signer: Address = yield call(getConnectedUnlockedAccount)
+    // if (securityCodeWithPrefix) {
+    // message = yield call(
+    // getAttestationCodeForSecurityCode,
+    // attestationsWrapper,
+    // phoneHashDetails,
+    // account,
+    // attestations,
+    // securityCodeWithPrefix,
+    // signer
+    // )
+    // } else {
+    // Logger.error(TAG + '@attestationCodeReceiver', 'No security code in received message')
+    // }
+    // }
+    // const attestationCode = message && extractAttestationCodeFromMessage(message)
+    // if (!attestationCode) {
+    // throw new Error('No code extracted from message')
+    // }
+    // const existingCode: string = yield call(isCodeAlreadyAccepted, attestationCode)
+    // if (existingCode) {
+    // Logger.warn(TAG + '@attestationCodeReceiver', 'Code already exists in store, skipping.')
+    // ValoraAnalytics.track(VerificationEvents.verification_code_received, {
+    // context: 'Code already exists',
+    // feeless: isFeelessVerification,
+    // })
+    // if (
+    // CodeInputType.MANUAL === action.inputType ||
+    // CodeInputType.DEEP_LINK === action.inputType
+    // ) {
+    // yield put(showError(ErrorMessages.REPEAT_ATTESTATION_CODE))
+    // }
+    // return
+    // }
+    // ValoraAnalytics.track(VerificationEvents.verification_code_received, {
+    // feeless: isFeelessVerification,
+    // })
+    // const issuer: Address = yield call(
+    // [attestationsWrapper, attestationsWrapper.findMatchingIssuer],
+    // phoneHashDetails.phoneHash,
+    // account,
+    // attestationCode,
+    // allIssuers
+    // )
+    // if (!issuer) {
+    // throw new Error('No issuer found for attestion code')
+    // }
+    // Logger.debug(TAG + '@attestationCodeReceiver', `Received code for issuer ${issuer}`)
+    // ValoraAnalytics.track(VerificationEvents.verification_code_validate_start, {
+    // issuer,
+    // feeless: isFeelessVerification,
+    // })
+    // const isValidRequest: boolean = yield call(
+    // [attestationsWrapper, attestationsWrapper.validateAttestationCode],
+    // phoneHashDetails.phoneHash,
+    // account,
+    // issuer,
+    // attestationCode
+    // )
+    // ValoraAnalytics.track(VerificationEvents.verification_code_validate_complete, {
+    // issuer,
+    // feeless: isFeelessVerification,
+    // })
+    // if (!isValidRequest) {
+    // throw new Error('Code is not valid')
+    // }
+    // yield put(
+    // inputAttestationCode({ code: attestationCode, shortCode: securityCodeWithPrefix, issuer })
+    // )
+    // } catch (error) {
+    // Logger.error(TAG + '@attestationCodeReceiver', 'Error processing attestation code', error)
+    // yield put(showError(ErrorMessages.INVALID_ATTESTATION_CODE))
+    // }
   }
 }
 
-function* getCodeForIssuer(issuer: string) {
+function* getCodeForIssuer(issuer: string): Generator<any, AttestationCode | undefined, any> {
   const existingCodes: AttestationCode[] = yield select(attestationCodesSelector)
   return existingCodes.find((c) => c.issuer === issuer)
-}
-
-function* isCodeAlreadyAccepted(code: string) {
-  const existingCodes: AttestationCode[] = yield select(acceptedAttestationCodesSelector)
-  return existingCodes.find((c) => c.code === code)
 }
 
 // export function* revealAttestations(
@@ -818,7 +807,8 @@ export function* completeAttestation(
   })
   const code: AttestationCode = yield call(waitForAttestationCode, issuer)
   const existingCodes: AttestationCode[] = yield select(attestationCodesSelector)
-  const codePosition = existingCodes.indexOf(code)
+  const codePosition = existingCodes.findIndex((existingCode) => existingCode.issuer === issuer)
+  console.log('The code and position', code, codePosition)
 
   ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_await_code_complete, {
     issuer,
@@ -887,13 +877,13 @@ export function* tryRevealPhoneNumber(
   const issuer = attestation.issuer
   Logger.debug(TAG + '@tryRevealPhoneNumber', `Revealing an attestation for issuer: ${issuer}`)
 
-  const shortVerificationCodesEnabled = yield select(shortVerificationCodesEnabledSelector)
+  const shortVerificationCodesEnabled: boolean = yield select(shortVerificationCodesEnabledSelector)
 
   try {
     // Only include retriever app sig for android, iOS doesn't support auto-read
     const smsRetrieverAppSig = Platform.OS === 'android' ? SMS_RETRIEVER_APP_SIGNATURE : undefined
 
-    const language = yield select(currentLanguageSelector)
+    const language: string = yield select(currentLanguageSelector)
     const revealRequest: AttestationRequest = {
       account,
       issuer,
@@ -1008,7 +998,7 @@ export function* reportRevealStatusSaga({
   pepper,
 }: ReportRevealStatusAction) {
   let aggregatedResponse: undefined | { ok: boolean; status: number; body: any }
-  const contractKit = yield call(getContractKit)
+  const contractKit: ContractKit = yield call(getContractKit)
   const attestationsWrapper: AttestationsWrapper = yield call([
     contractKit.contracts,
     contractKit.contracts.getAttestations,
@@ -1018,7 +1008,7 @@ export function* reportRevealStatusSaga({
     `Start for service url ${attestationServiceUrl}`
   )
   try {
-    const response = yield call(
+    const response: object = yield call(
       attestationsWrapper.getRevealStatus,
       e164Number,
       account,
@@ -1026,7 +1016,7 @@ export function* reportRevealStatusSaga({
       attestationServiceUrl,
       pepper
     )
-    const body = yield call(response.json.bind(response))
+    const body: object = yield call(response.json.bind(response))
     aggregatedResponse = { ok: response.ok, body, status: response.status }
   } catch (error) {
     Logger.error(`${TAG}@reportAttestationRevealStatus`, 'Error calling proxyRevealStatus', error)
@@ -1083,7 +1073,7 @@ export function* reportActionableAttestationsStatuses() {
 }
 
 // Get the code from the store if it's already there, otherwise wait for it
-function* waitForAttestationCode(issuer: string) {
+function* waitForAttestationCode(issuer: string): Generator<any, AttestationCode, any> {
   Logger.debug(TAG + '@waitForAttestationCode', `Waiting for code for issuer ${issuer}`)
   const code = yield call(getCodeForIssuer, issuer)
   if (code) {
@@ -1091,9 +1081,9 @@ function* waitForAttestationCode(issuer: string) {
   }
 
   while (true) {
-    const action: InputAttestationCodeAction = yield take(inputAttestationCode.type)
-    if (action.code.issuer === issuer) {
-      return action.code
+    const action: ReturnType<typeof inputAttestationCode> = yield take(inputAttestationCode.type)
+    if (action.payload.issuer === issuer) {
+      return action.payload
     }
   }
 }

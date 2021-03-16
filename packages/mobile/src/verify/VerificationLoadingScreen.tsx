@@ -18,8 +18,6 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import CancelButton from 'src/components/CancelButton'
 import Carousel, { CarouselItem } from 'src/components/Carousel'
 import { Namespaces } from 'src/i18n'
-import { cancelVerification } from 'src/identity/actions'
-import { VerificationStatus } from 'src/identity/types'
 import {
   verificationEducation1,
   verificationEducation2,
@@ -33,6 +31,11 @@ import { RootState } from 'src/redux/reducers'
 import Logger from 'src/utils/Logger'
 import useBackHandler from 'src/utils/useBackHandler'
 import AlternatingText from 'src/verify/AlternatingText'
+import {
+  cancel as cancelVerification,
+  VerificationState,
+  VerificationStateType,
+} from 'src/verify/reducer'
 import VerificationCountdown from 'src/verify/VerificationCountdown'
 import { VerificationFailedModal } from 'src/verify/VerificationFailedModal'
 
@@ -41,15 +44,15 @@ const TAG = 'VerificationLoadingScreen'
 const mapStateToProps = (state: RootState) => {
   return {
     e164Number: state.account.e164PhoneNumber,
-    verificationStatus: state.identity.verificationStatus,
+    verificationState: state.verify.currentState,
     retryWithForno: state.account.retryVerificationWithForno,
     fornoMode: state.web3.fornoMode,
   }
 }
 
 export default function VerificationLoadingScreen() {
-  const verificationStatusRef = useRef<VerificationStatus | undefined>()
-  const { fornoMode, retryWithForno, verificationStatus } = useSelector(
+  const verificationStateRef = useRef<VerificationState | undefined>()
+  const { fornoMode, retryWithForno, verificationState } = useSelector(
     mapStateToProps,
     shallowEqual
   )
@@ -66,17 +69,17 @@ export default function VerificationLoadingScreen() {
   )
 
   useEffect(() => {
-    if (!isFocused || verificationStatusRef.current === verificationStatus) {
+    if (!isFocused || verificationStateRef.current === verificationState) {
       return
     }
-    verificationStatusRef.current = verificationStatus
+    verificationStateRef.current = verificationState
 
-    if (verificationStatus === VerificationStatus.CompletingAttestations) {
+    if (verificationState.type === VerificationStateType.CompletingAttestations) {
       navigate(Screens.VerificationInputScreen)
-    } else if (verificationStatus === VerificationStatus.Done) {
+    } else if (verificationState.type === VerificationStateType.Success) {
       navigate(Screens.ImportContacts)
     }
-  }, [verificationStatus, isFocused])
+  }, [verificationState, isFocused])
 
   useBackHandler(() => {
     // Cancel verification when user presses back button on this screen
@@ -92,8 +95,8 @@ export default function VerificationLoadingScreen() {
 
   const onFinishCountdown = () => {
     // For now switch to the verification screen
-    // if we haven't reached the reveal stage yet
-    if (!isFocused || verificationStatus === VerificationStatus.CompletingAttestations) {
+    // if we haven't reached the completion stage yet
+    if (!isFocused || verificationState.type === VerificationStateType.CompletingAttestations) {
       return
     }
     navigate(Screens.VerificationInputScreen)
@@ -243,7 +246,7 @@ export default function VerificationLoadingScreen() {
         />
       </Animated.ScrollView>
       <VerificationFailedModal
-        verificationStatus={verificationStatus}
+        verificationState={verificationState}
         retryWithForno={retryWithForno}
         fornoMode={fornoMode}
       />

@@ -2,21 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { setRetryVerificationWithForno } from 'src/account/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import Dialog from 'src/components/Dialog'
 import { Namespaces } from 'src/i18n'
-import { cancelVerification } from 'src/identity/actions'
-import { VerificationStatus } from 'src/identity/types'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import {
+  cancel as cancelVerification,
+  VerificationState,
+  VerificationStateType,
+} from 'src/verify/reducer'
 import { toggleFornoMode } from 'src/web3/actions'
 
 interface Props {
-  verificationStatus: VerificationStatus
+  verificationState: VerificationState
   retryWithForno: boolean
   fornoMode: boolean
 }
 
-export function VerificationFailedModal({ verificationStatus, retryWithForno, fornoMode }: Props) {
+export function VerificationFailedModal({ verificationState, retryWithForno, fornoMode }: Props) {
   const dispatch = useDispatch()
   const { t } = useTranslation(Namespaces.nuxVerification2)
   const [isDismissed, setIsDismissed] = useState(true)
@@ -37,14 +41,14 @@ export function VerificationFailedModal({ verificationStatus, retryWithForno, fo
     navigate(Screens.VerificationEducationScreen)
   }
 
-  const userBalanceInsufficient = verificationStatus === VerificationStatus.InsufficientBalance
-  const saltQuotaExceeded = verificationStatus === VerificationStatus.SaltQuotaExceeded
+  const userBalanceInsufficient =
+    verificationState.type === VerificationStateType.Error &&
+    verificationState.message === ErrorMessages.INSUFFICIENT_BALANCE
+  const saltQuotaExceeded =
+    verificationState.type === VerificationStateType.Error &&
+    verificationState.message === ErrorMessages.SALT_QUOTA_EXCEEDED
 
-  const isVisible =
-    (verificationStatus === VerificationStatus.Failed ||
-      userBalanceInsufficient ||
-      saltQuotaExceeded) &&
-    !isDismissed
+  const isVisible = verificationState.type === VerificationStateType.Error && !isDismissed
 
   // Only prompt forno switch if not already in forno mode and failure
   // wasn't due to insuffuicient balance or exceeded quota for lookups
