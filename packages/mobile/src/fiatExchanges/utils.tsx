@@ -2,7 +2,6 @@ import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import { default as DeviceInfo } from 'react-native-device-info'
 import getIpAddress from 'react-native-public-ip'
 import {
-  CurrencyCode,
   DEFAULT_TESTNET,
   PROVIDER_URL_COMPOSER_PROD,
   PROVIDER_URL_COMPOSER_STAGING,
@@ -11,9 +10,6 @@ import {
 import MoonPay from 'src/fiatExchanges/MoonPay'
 import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { providerAvailability } from 'src/flags'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 
 interface WidgetRequestData {
   address: string | null
@@ -111,42 +107,6 @@ export const fetchUserAccountCreationData = async (currentIpAddress: string) => 
 
 export const isExpectedUrl = (fetchedUrl: string, providerUrl: string) =>
   fetchedUrl.startsWith(providerUrl)
-
-export const openMoonpay = (
-  amount: number,
-  currencyCode: LocalCurrencyCode,
-  currencyToBuy: CurrencyCode
-) => {
-  navigate(Screens.MoonPayScreen, {
-    localAmount: amount,
-    currencyCode,
-    currencyToBuy,
-  })
-}
-
-export const openRamp = (
-  amount: number,
-  currencyCode: LocalCurrencyCode,
-  currencyToBuy: CurrencyCode
-) => {
-  navigate(Screens.RampScreen, {
-    localAmount: amount,
-    currencyCode,
-    currencyToBuy,
-  })
-}
-
-export const openTransak = (
-  amount: number,
-  currencyCode: LocalCurrencyCode,
-  currencyToBuy: CurrencyCode
-) => {
-  navigate(Screens.TransakScreen, {
-    localAmount: amount,
-    currencyCode,
-    currencyToBuy,
-  })
-}
 
 type ProviderAvailability = typeof providerAvailability
 type SpecificProviderAvailability = { [K in keyof ProviderAvailability]: boolean }

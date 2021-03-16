@@ -25,19 +25,12 @@ import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import Simplex from 'src/fiatExchanges/Simplex'
-import {
-  fetchUserLocationData,
-  getProviderAvailability,
-  openMoonpay,
-  openRamp,
-  openTransak,
-} from 'src/fiatExchanges/utils'
+import { fetchUserLocationData, getProviderAvailability } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
 import QuestionIcon from 'src/icons/QuestionIcon'
 import { moonpayLogo, simplexLogo } from 'src/images/Images'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -80,8 +73,6 @@ export enum Providers {
   TRANSAK = 'TRANSAK',
   SIMPLEX = 'SIMPLEX',
 }
-
-const FALLBACK_CURRENCY = LocalCurrencyCode.USD
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
@@ -146,6 +137,12 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     TRANSAK_RESTRICTED,
   } = getProviderAvailability(userLocation)
 
+  const providerWidgetInputs = {
+    localAmount: route.params.amount,
+    currencyCode: localCurrency,
+    currencyToBuy: selectedCurrency,
+  }
+
   const providers: {
     cashOut: Provider[]
     cashIn: Provider[]
@@ -158,8 +155,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
         image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
-        onSelected: () =>
-          openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+        onSelected: () => navigate(Screens.MoonPayScreen, providerWidgetInputs),
       },
       {
         name: 'Simplex',
@@ -179,16 +175,14 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         restricted: RAMP_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
-        onSelected: () =>
-          openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+        onSelected: () => navigate(Screens.RampScreen, providerWidgetInputs),
       },
       {
         name: 'Transak',
         restricted: TRANSAK_RESTRICTED,
         icon:
           'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
-        onSelected: () =>
-          openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+        onSelected: () => navigate(Screens.TransakScreen, providerWidgetInputs),
       },
     ],
   }

@@ -1,6 +1,6 @@
 import { MOONPAY_API_KEY } from 'src/config'
 
-interface IpAddressData {
+export interface MoonPayIpAddressData {
   alpha2: string
   alpha3: string
   state: string
@@ -8,11 +8,11 @@ interface IpAddressData {
 }
 
 const MoonPay = {
-  fetchLocationFromIpAddress: async () => {
+  fetchUserLocationData: async () => {
     const ipAddressFetchResponse = await fetch(
       `https://api.moonpay.com/v4/ip_address?apiKey=${MOONPAY_API_KEY}`
     )
-    const ipAddressObj: IpAddressData = await ipAddressFetchResponse.json()
+    const ipAddressObj: MoonPayIpAddressData = await ipAddressFetchResponse.json()
     return ipAddressObj
   },
 }
