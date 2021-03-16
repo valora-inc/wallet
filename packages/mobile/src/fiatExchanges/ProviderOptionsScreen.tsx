@@ -3,7 +3,7 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
-import { RouteProp } from '@react-navigation/native'
+import { RouteProp, useIsFocused } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -17,7 +17,6 @@ import {
   Text,
   View,
 } from 'react-native'
-import DeviceInfo from 'react-native-device-info'
 import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -28,11 +27,10 @@ import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import {
   fetchLocationFromIpAddress,
-  fetchUserInitData,
+  fetchSimplexQuote,
   getProviderAvailability,
   openMoonpay,
   openRamp,
-  openSimplex,
   openTransak,
   UserLocation,
 } from 'src/fiatExchanges/utils'
@@ -44,10 +42,12 @@ import { moonpayLogo, simplexLogo } from 'src/images/Images'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
+import { currentAccountSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
 
@@ -68,6 +68,7 @@ interface Provider {
   restricted: boolean
   icon: string
   image?: React.ReactNode
+  isFeeDataLoading?: boolean
   onSelected: () => void
 }
 
@@ -82,10 +83,13 @@ const FALLBACK_CURRENCY = LocalCurrencyCode.USD
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
+  const [userIpAddress, setUserIpAddress] = useState<string | undefined>()
+
   const onDismissExplanation = () => setShowExplanation(false)
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
   const countryCallingCode = useSelector(defaultCountryCodeSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
+  const account = useSelector(currentAccountSelector)
   const isCashIn = route.params?.isCashIn ?? true
   const selectedCurrency = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
@@ -93,6 +97,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   }[route.params.currency || CURRENCY_ENUM.DOLLAR]
 
   const dispatch = useDispatch()
+  const isFocused = useIsFocused()
 
   useLayoutEffect(() => {
     const showExplanation = () => setShowExplanation(true)
@@ -110,7 +115,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
   const asyncUserLocation = useAsync(async () => {
     try {
-      const { alpha2, state } = await fetchLocationFromIpAddress()
+      const { alpha2, state, ipAddress } = await fetchLocationFromIpAddress()
+      setUserIpAddress(ipAddress)
       if (!alpha2) {
         throw Error('Could not determine country from IP address')
       }
@@ -124,16 +130,28 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
   const userLocation: UserLocation | undefined = asyncUserLocation.result
 
+  const asyncSimplexQuote = useAsync(async () => {
+    if (!account || !userIpAddress) {
+      return
+    }
+
+    return fetchSimplexQuote(
+      account,
+      userIpAddress,
+      selectedCurrency,
+      localCurrency,
+      route.params.amount
+    )
+  }, [userIpAddress, isFocused])
+
+  const simplexQuote = asyncSimplexQuote.result
+
   const {
     MOONPAY_RESTRICTED,
     SIMPLEX_RESTRICTED,
     RAMP_RESTRICTED,
     TRANSAK_RESTRICTED,
   } = getProviderAvailability(userLocation)
-  const fetchResponse = useAsync(() => fetchUserInitData(DeviceInfo.getUniqueId()), [])
-
-  const data = fetchResponse?.result
-  console.log('DATA: ', data)
 
   const providers: {
     cashOut: Provider[]
@@ -156,8 +174,12 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
         image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
-        onSelected: () =>
-          openSimplex(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+        isFeeDataLoading: !simplexQuote?.quote_id,
+        onSelected: () => {
+          if (simplexQuote && userIpAddress) {
+            navigate(Screens.Simplex, { simplexQuote, userIpAddress })
+          }
+        },
       },
       {
         name: 'Ramp',
@@ -205,7 +227,11 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                     <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
                   )}
                 </View>
-                <LinkArrow />
+                {provider.isFeeDataLoading ? (
+                  <ActivityIndicator size="small" color={colors.greenBrand} />
+                ) : (
+                  <LinkArrow />
+                )}
               </View>
             </ListItem>
           ))}

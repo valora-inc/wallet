@@ -1,28 +1,25 @@
 import Button, { BtnSizes } from '@celo/react-components/components/Button'
 import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
-import deviceInfoModule from 'react-native-device-info'
 import { useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
+import { numberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import WebView from 'src/components/WebView'
 import { CurrencyCode } from 'src/config'
 import ReviewFees from 'src/fiatExchanges/ReviewFees'
-import { SimplexService } from 'src/fiatExchanges/services/SimplexService'
+import { fetchSimplexPaymentRequest, generateSimplexCheckoutForm } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
-import { getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
+import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
-
-const MIN_USD_TX_AMOUNT = 15
 
 export const simplexOptions = () => ({
   ...emptyHeader,
@@ -33,86 +30,16 @@ export const simplexOptions = () => ({
 type RouteProps = StackScreenProps<StackParamList, Screens.Simplex>
 type Props = RouteProps
 
-const simplex = SimplexService.getInstance()
-
 function SimplexScreen({ route, navigation }: Props) {
-  const { localAmount, currencyCode, currencyToBuy } = route.params
+  const [loadSimplexCheckout, setLoadSimplexCheckout] = useState(false)
+  const [redirected, setRedirected] = useState(false)
+
+  const { simplexQuote, userIpAddress } = route.params
+
   const account = useSelector(currentAccountSelector)
-  const localCurrencyExchangeRate = useSelector(getLocalCurrencyExchangeRate)
-
-  const [exchange, setExchange] = React.useState<any>(null)
-  const [paymentId, setPaymentId] = React.useState('')
-  const [continueToService, setContinueToService] = React.useState(false)
-  const [redirected, setRedirected] = React.useState(false)
-
-  let minTxAmount = MIN_USD_TX_AMOUNT
-
-  if (currencyCode !== LocalCurrencyCode.USD) {
-    const localTxMin = convertDollarsToLocalAmount(minTxAmount, localCurrencyExchangeRate)
-    minTxAmount = localTxMin?.toNumber() || MIN_USD_TX_AMOUNT
-  }
-
   const e164PhoneNumber = useSelector(e164NumberSelector)
-  const userId = deviceInfoModule.getUniqueId()
-
-  useLayoutEffect(() => {
-    const token = currencyToBuy === CurrencyCode.CELO ? CURRENCY_ENUM.GOLD : CURRENCY_ENUM.DOLLAR
-    navigation.setOptions({
-      ...emptyHeader,
-      headerLeft: () => <BackButton />,
-      headerTitle: () => (
-        <HeaderTitleWithBalance title={i18n.t('fiatExchangeFlow:addFunds')} token={token} />
-      ),
-    })
-  }, [])
-
-  useEffect(() => {
-    simplex
-      .getQuote(userId, currencyToBuy, currencyCode, currencyCode, localAmount)
-      .then((_) => _.json())
-      .then(({ quote_id, fiat_money, digital_money }) =>
-        setExchange({
-          quoteId: quote_id,
-          fiat: {
-            currency: fiat_money.currency,
-            amount: fiat_money.base_amount,
-            total: fiat_money.total_amount,
-            fees: fiat_money.total_amount - fiat_money.base_amount,
-          },
-          crypto: {
-            currency: digital_money.currency,
-            amount: digital_money.amount,
-            price: fiat_money.base_amount / digital_money.amount,
-          },
-        })
-      )
-      .catch(console.error)
-  }, [])
-
-  useEffect(() => {
-    if (!exchange?.quoteId) {
-      return
-    }
-    simplex
-      .paymentRequest({
-        userId,
-        quoteId: exchange?.quoteId,
-        app: {
-          version: deviceInfoModule.getVersion(),
-          installDate: deviceInfoModule.getFirstInstallTimeSync(),
-        },
-        address: account || '',
-        asset: currencyToBuy,
-        verified: {
-          email: false,
-          phone: true,
-        },
-        phone: e164PhoneNumber || '',
-        email: '',
-      })
-      .then((id) => setPaymentId(id))
-      .catch(console.error)
-  }, [exchange?.quoteId])
+  const phoneNumberConfirmed = useSelector(numberVerifiedSelector)
+  const localCurrency = useSelector(getLocalCurrencyCode)
 
   const onNavigationStateChange = ({ url }: any) => {
     if (url?.startsWith('http')) {
@@ -123,8 +50,8 @@ function SimplexScreen({ route, navigation }: Props) {
     }
   }
 
-  const onContinueToServce = () => {
-    setContinueToService(true)
+  const onButtonPress = () => {
+    setLoadSimplexCheckout(true)
     navigation.setOptions({
       ...emptyHeader,
       headerLeft: () => <BackButton />,
@@ -132,49 +59,79 @@ function SimplexScreen({ route, navigation }: Props) {
     })
   }
 
-  const checkoutHtml = simplex.generateForm(paymentId)
+  useLayoutEffect(() => {
+    const token =
+      simplexQuote.digital_money.currency.toLowerCase() === 'cusd'
+        ? CURRENCY_ENUM.DOLLAR
+        : CURRENCY_ENUM.GOLD
+    navigation.setOptions({
+      ...emptyHeader,
+      headerLeft: () => <BackButton />,
+      headerTitle: () => (
+        <HeaderTitleWithBalance title={i18n.t('fiatExchangeFlow:addFunds')} token={token} />
+      ),
+    })
+  }, [])
+
+  const asyncSimplexPaymentRequest = useAsync(async () => {
+    if (!account) {
+      return
+    }
+    return fetchSimplexPaymentRequest(
+      account,
+      e164PhoneNumber,
+      phoneNumberConfirmed,
+      simplexQuote,
+      userIpAddress
+    )
+  }, [])
+
+  const simplexPaymentRequest = asyncSimplexPaymentRequest?.result
+
+  const currencyToBuy =
+    simplexQuote.digital_money.currency.toUpperCase() === 'CUSD'
+      ? CurrencyCode.CUSD
+      : CurrencyCode.CELO
 
   return (
     <View style={[styles.container]}>
-      <>
-        {!paymentId || !exchange || (!redirected && continueToService) ? (
-          <View style={[styles.container, styles.indicator]}>
-            <ActivityIndicator size="large" color={colors.greenBrand} />
-          </View>
-        ) : (
-          undefined
-        )}
-        {exchange && !continueToService ? (
-          <View style={[styles.review]}>
-            <ReviewFees
-              service="Simplex"
-              currencyToBuy={currencyToBuy}
-              localCurrency={currencyCode}
-              fiat={exchange.fiat}
-              crypto={exchange.crypto}
-              feesContent="Fees content"
-            />
-            <Button
-              style={styles.button}
-              size={BtnSizes.FULL}
-              text={'Continue to Simplex'}
-              onPress={onContinueToServce}
-              disabled={!paymentId}
-            />
-          </View>
-        ) : (
-          undefined
-        )}
-        {paymentId ? (
-          <WebView
-            originWhitelist={['*']}
-            source={{ html: checkoutHtml }}
-            onNavigationStateChange={onNavigationStateChange}
+      {loadSimplexCheckout && simplexPaymentRequest && !redirected && (
+        <View style={[styles.container, styles.indicator]}>
+          <ActivityIndicator size="large" color={colors.greenBrand} />
+        </View>
+      )}
+      {!loadSimplexCheckout || !simplexPaymentRequest ? (
+        <View style={[styles.review]}>
+          <ReviewFees
+            service="Simplex"
+            currencyToBuy={currencyToBuy}
+            localCurrency={localCurrency}
+            fiat={{
+              subTotal: simplexQuote.fiat_money.base_amount,
+              total: simplexQuote.fiat_money.total_amount,
+              fees: simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount,
+            }}
+            crypto={{
+              amount: simplexQuote.digital_money.amount,
+              price: simplexQuote.fiat_money.base_amount / simplexQuote.digital_money.amount,
+            }}
+            feesContent="Fees content"
           />
-        ) : (
-          undefined
-        )}
-      </>
+          <Button
+            style={styles.button}
+            size={BtnSizes.FULL}
+            text={'Continue to Simplex'}
+            onPress={onButtonPress}
+            showLoading={!simplexPaymentRequest?.paymentId}
+          />
+        </View>
+      ) : (
+        <WebView
+          originWhitelist={['*']}
+          source={{ html: generateSimplexCheckoutForm(simplexPaymentRequest.paymentId) }}
+          onNavigationStateChange={onNavigationStateChange}
+        />
+      )}
     </View>
   )
 }
@@ -205,75 +162,3 @@ const styles = StyleSheet.create({
 })
 
 export default SimplexScreen
-
-// {
-//   "digital_money": {
-//     "amount": 76.84858032,
-//     "currency": "CUSD"
-//   },
-//   "fiat_money": {
-//     "base_amount": 66.71,
-//     "currency": "EUR",
-//     "total_amount": 75
-//   },
-//   "quote_id": "3a4f4103-ec45-4294-9333-68173f5738c1",
-//   "supported_digital_currencies": [
-//     "CUSD",
-//     "CELO"
-//   ],
-//   "supported_fiat_currencies": [
-//     "EUR",
-//     "JPY",
-//     "CAD",
-//     "GBP",
-//     "RUB",
-//     "AUD",
-//     "KRW",
-//     "CHF",
-//     "CZK",
-//     "DKK",
-//     "NOK",
-//     "NZD",
-//     "PLN",
-//     "SEK",
-//     "TRY",
-//     "ZAR",
-//     "HUF",
-//     "ILS",
-//     "INR",
-//     "UAH",
-//     "HKD",
-//     "MYR",
-//     "NGN",
-//     "SGD",
-//     "TWD",
-//     "BGN",
-//     "BRL",
-//     "MAD",
-//     "RON",
-//     "MXN",
-//     "VND",
-//     "KZT",
-//     "PHP",
-//     "DOP",
-//     "PEN",
-//     "ARS",
-//     "COP",
-//     "MDL",
-//     "QAR",
-//     "UZS",
-//     "GEL",
-//     "CNY",
-//     "UYU",
-//     "CLP",
-//     "CRC",
-//     "AZN",
-//     "NAD",
-//     "USD",
-//     "AED",
-//     "IDR"
-//   ],
-//   "user_id": "a0b28d4747484c66",
-//   "valid_until": "2021-03-03T14:52:05.897Z",
-//   "wallet_id": "valorapp"
-// }

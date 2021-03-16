@@ -10,6 +10,7 @@ import { SendOrigin } from 'src/analytics/types'
 import { CurrencyCode } from 'src/config'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
+import { SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -122,9 +123,8 @@ export type StackParamList = {
     currencyToBuy: CurrencyCode
   }
   [Screens.Simplex]: {
-    localAmount: number
-    currencyCode: LocalCurrencyCode
-    currencyToBuy: CurrencyCode
+    simplexQuote: SimplexQuote
+    userIpAddress: string
   }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:

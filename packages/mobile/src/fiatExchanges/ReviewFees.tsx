@@ -19,7 +19,7 @@ interface Props {
     price: number
   }
   fiat: {
-    amount: number
+    subTotal: number
     fees: number
     total: number
   }
@@ -78,7 +78,7 @@ export default function ReviewFees({
       <View style={[styles.line]} />
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText]}>Subtotal @ {crypto.price.toFixed(2)}</Text>
-        <Text style={[styles.reviewLineText]}>{showAmount(fiat.amount)}</Text>
+        <Text style={[styles.reviewLineText]}>{showAmount(fiat.subTotal)}</Text>
       </View>
       <View style={[styles.reviewLine]}>
         <View style={[styles.reviewLineInfo]}>
