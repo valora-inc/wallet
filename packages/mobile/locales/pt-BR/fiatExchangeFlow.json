@@ -61,5 +61,6 @@
   "findMerchants": "Encontre comerciantes locais perto de você",
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
-  "restrictedRegion": "Suporte limitado na região"
+  "restrictedRegion": "Suporte limitado na região",
+  "pricePer": "Preço por {{coin}}"
 }

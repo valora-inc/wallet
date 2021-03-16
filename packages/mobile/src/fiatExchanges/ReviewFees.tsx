@@ -75,18 +75,22 @@ export default function ReviewFees({
         </Text>
       </Dialog>
       <View style={[styles.reviewLine]}>
-        <Text style={[styles.reviewLineText]}>Amount ({currencyToBuy})</Text>
+        <Text style={[styles.reviewLineText]}>
+          {t('global:amount')} ({currencyToBuy})
+        </Text>
         <Text style={[styles.reviewLineText]}>{showAmount(crypto.amount, true)}</Text>
       </View>
       <View style={[styles.reviewLine]}>
-        <Text style={[styles.reviewLineText, styles.reviewLineTextAlt]}>{currencyToBuy} price</Text>
+        <Text style={[styles.reviewLineText, styles.reviewLineTextAlt]}>
+          {t('pricePer', { coin: currencyToBuy })}
+        </Text>
         <Text style={[styles.reviewLineText, styles.reviewLineTextAlt]}>
           {showAmount(crypto.price, false, [styles.reviewLineTextAlt])}
         </Text>
       </View>
       <View style={[styles.line]} />
       <View style={[styles.reviewLine]}>
-        <Text style={[styles.reviewLineText]}>Subtotal @ {crypto.price.toFixed(2)}</Text>
+        <Text style={[styles.reviewLineText]}>{t('global:subtotal')}</Text>
         <Text style={[styles.reviewLineText]}>{showAmount(fiat.subTotal)}</Text>
       </View>
       <View style={[styles.reviewLine]}>
@@ -100,7 +104,7 @@ export default function ReviewFees({
       </View>
       <View style={[styles.line]} />
       <View style={[styles.reviewLine]}>
-        <Text style={[styles.reviewLineText, styles.reviewLineTextTotal]}>Total</Text>
+        <Text style={[styles.reviewLineText, styles.reviewLineTextTotal]}>{t('global:Total')}</Text>
         <Text style={[styles.reviewLineText, styles.reviewLineTextTotal]}>
           {showAmount(fiat.total, false, [styles.reviewLineTextTotal])}
         </Text>
@@ -115,10 +119,8 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: 'green',
   },
   dialogContent: {
-    backgroundColor: 'red',
     width: '100%',
     textAlign: 'center',
   },
