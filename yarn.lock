@@ -19844,10 +19844,10 @@ react-native-debugger-open@^0.3.17:
     minimist "^1.2.0"
     semver "^5.4.1"
 
-react-native-device-info@^5.5.6:
-  version "5.5.6"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-5.5.6.tgz#139466e6e995e512bb03d5bdeef59bd4cfe21dcf"
-  integrity sha512-3slUaygctIs1UqsTeZIMpskOWm1FC9SouBxyX7rp6PbOmokZiSCO/c5noUx+ihGNRfUDTbyjZDrJBYEfRNXoZg==
+react-native-device-info@^8.0.5:
+  version "8.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-8.0.5.tgz#9b7e576533c4117af39581bfe75c9d81aab274a9"
+  integrity sha512-yVQMu5xW9lmQGl7iyT/lrn6wddbDypQ/bjJHWClY4Ic/AS0CitQUV8RGUzJG+SG+5VGwf96Y50fUzYBALok2FQ==
 
 react-native-email-link@^1.9.1:
   version "1.9.2"
