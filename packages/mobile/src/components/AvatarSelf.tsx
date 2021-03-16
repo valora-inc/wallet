@@ -26,7 +26,6 @@ export function AvatarSelf({ iconSize, displayNameStyle }: Props) {
       contactId: contactDetails.contactId || 'none',
       thumbnailPath: contactDetails.thumbnailPath || undefined,
       displayName,
-      e164PhoneNumber,
     }
   } else if (account) {
     recipient = {
