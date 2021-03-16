@@ -9,6 +9,8 @@ import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { useTranslation, Trans } from 'react-i18next'
+import { Namespaces } from 'src/i18n'
 
 interface Props {
   service: string
@@ -35,6 +37,7 @@ export default function ReviewFees({
   feesContent,
 }: Props) {
   const [showingTerms, setShowingTerms] = React.useState(false)
+  const { t } = useTranslation(Namespaces.fiatExchangeFlow)
 
   const closeTerms = () => setShowingTerms(false)
   const openTerms = () => setShowingTerms(true)
@@ -61,9 +64,15 @@ export default function ReviewFees({
   return (
     <View style={[styles.review]}>
       <Dialog isVisible={showingTerms} actionText={'OK'} actionPress={closeTerms}>
-        <Text style={[fontStyles.large600]}>{service} Fees (TBD)</Text>
+        <Text style={[fontStyles.large600]}>{t('providerFeesDialog.title')}</Text>
         {'\n\n'}
-        <Text style={[fontStyles.regular]}>{feesContent}</Text>
+        <Text style={[fontStyles.regular]}>
+          {
+            <Trans i18nKey="providerFeesDialog.body" ns={Namespaces.fiatExchangeFlow}>
+              <Text style={styles.emailLink} />
+            </Trans>
+          }
+        </Text>
       </Dialog>
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText]}>Amount ({currencyToBuy})</Text>
@@ -152,5 +161,8 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: 5,
     marginLeft: 6,
+  },
+  emailLink: {
+    color: colors.greenUI,
   },
 })

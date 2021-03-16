@@ -49,6 +49,10 @@
     "contact": "Contact",
     "continue": "I Understand"
   },
+  "providerFeesDialog": {
+    "title": "Provider Fees",
+    "body": "Provider fees are set by each provider individually and include an exchange fee and liquidity fee, among others. To learn more please visit <0>support page</0>"
+  },
   "dailyLimitRequest": "Hi! I'd like to increase my daily send limit please.",
   "pleaseSelectProvider": "Please select a provider below. These links connect to a third party service.",
   "otherFundingOptions": "For more ways to add and withdraw funds, visit <0>How to fund your account</0>",

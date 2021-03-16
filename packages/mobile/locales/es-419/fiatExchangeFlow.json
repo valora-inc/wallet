@@ -49,6 +49,10 @@
     "contact": "Contactar",
     "continue": "Entendido"
   },
+  "providerFeesDialog": {
+    "title": "Tarifas de los proveedores",
+    "body": "Las tarifas de los proveedores son fijadas por cada uno de ellos de forma individual e incluyen una comisión de intercambio y una comisión de liquidez, entre otras. Para obtener más información, visite la <0>página de soporte</0>."
+  },
   "dailyLimitRequest": "Hola! Me gustaría aumentar mi límite de envío diario por favor.",
   "pleaseSelectProvider": "Por favor, selecciona un proveedor. Estos enlaces se conectan a servicios de terceros.",
   "otherFundingOptions": "Para conocer más formas de agregar y retirar fondos, a <0>Cómo depositar fondos en mi cuenta</0>",
