@@ -55,9 +55,13 @@ ProviderOptionsScreen.navigationOptions = ({
 }: {
   route: RouteProp<StackParamList, Screens.ProviderOptionsScreen>
 }) => {
+  const eventName = route.params?.isCashIn
+    ? FiatExchangeEvents.cico_add_funds_select_provider_back
+    : FiatExchangeEvents.cico_cash_out_select_provider_back
+
   return {
     ...emptyHeader,
-    headerLeft: () => <BackButton />,
+    headerLeft: () => <BackButton eventName={eventName} />,
     headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
   }
 }
@@ -81,7 +85,10 @@ const FALLBACK_CURRENCY = LocalCurrencyCode.USD
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
-  const onDismissExplanation = () => setShowExplanation(false)
+  const onDismissExplanation = () => {
+    setShowExplanation(false)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_select_provider_info_cancel)
+  }
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
   const countryCallingCode = useSelector(defaultCountryCodeSelector)
   const account = useSelector(currentAccountSelector)
@@ -95,7 +102,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
 
   useLayoutEffect(() => {
-    const showExplanation = () => setShowExplanation(true)
+    const showExplanation = () => {
+      setShowExplanation(true)
+      ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_select_provider_info)
+    }
 
     navigation.setOptions({
       headerRightContainerStyle: { paddingRight: 16 },
