@@ -297,7 +297,6 @@ function SendConfirmation(props: Props) {
         dekFee = fee.dividedBy(2)
       }
 
-      // DO NOT MERGE: Test this out.
       if (feeInfoUpdated) {
         ValoraAnalytics.track(FeeEvents.fee_rendered, {
           feeType: 'Security',

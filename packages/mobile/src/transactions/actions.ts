@@ -1,5 +1,5 @@
-import { SendOrigin } from 'src/analytics/types'
 import { CeloTxReceipt } from '@celo/connect'
+import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { navigate } from 'src/navigator/NavigationService'
