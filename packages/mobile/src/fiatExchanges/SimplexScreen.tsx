@@ -13,7 +13,7 @@ import BackButton from 'src/components/BackButton'
 import WebView from 'src/components/WebView'
 import { CurrencyCode } from 'src/config'
 import ReviewFees from 'src/fiatExchanges/ReviewFees'
-import { fetchSimplexPaymentRequest, generateSimplexCheckoutForm } from 'src/fiatExchanges/utils'
+import Simplex from 'src/fiatExchanges/Simplex'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -79,7 +79,7 @@ function SimplexScreen({ route, navigation }: Props) {
     if (!account) {
       return
     }
-    return fetchSimplexPaymentRequest(
+    return Simplex.fetchPaymentRequest(
       account,
       e164PhoneNumber,
       phoneNumberConfirmed,
@@ -134,7 +134,7 @@ function SimplexScreen({ route, navigation }: Props) {
       ) : (
         <WebView
           originWhitelist={['*']}
-          source={{ html: generateSimplexCheckoutForm(simplexPaymentRequest.paymentId) }}
+          source={{ html: Simplex.generateCheckoutForm(simplexPaymentRequest.paymentId) }}
           onNavigationStateChange={onNavigationStateChange}
         />
       )}

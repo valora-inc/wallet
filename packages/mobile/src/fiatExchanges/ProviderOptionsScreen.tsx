@@ -2,7 +2,6 @@ import ListItem from '@celo/react-components/components/ListItem'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import { RouteProp, useIsFocused } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
@@ -25,14 +24,13 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
+import Simplex from 'src/fiatExchanges/Simplex'
 import {
-  fetchLocationFromIpAddress,
-  fetchSimplexQuote,
+  fetchUserLocationData,
   getProviderAvailability,
   openMoonpay,
   openRamp,
   openTransak,
-  UserLocation,
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
@@ -87,7 +85,6 @@ const FALLBACK_CURRENCY = LocalCurrencyCode.USD
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
-  const [userIpAddress, setUserIpAddress] = useState<string | undefined>()
 
   const onDismissExplanation = () => {
     setShowExplanation(false)
@@ -123,36 +120,22 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     })
   }, [])
 
-  const asyncUserLocation = useAsync(async () => {
-    try {
-      const { alpha2, state, ipAddress } = await fetchLocationFromIpAddress()
-      setUserIpAddress(ipAddress)
-      if (!alpha2) {
-        throw Error('Could not determine country from IP address')
-      }
-
-      return { country: alpha2, state }
-    } catch (error) {
-      const alpha2 = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
-      return { country: alpha2, state: null }
-    }
-  }, [])
-
-  const userLocation: UserLocation | undefined = asyncUserLocation.result
+  const asyncUserLocation = useAsync(async () => fetchUserLocationData(countryCallingCode), [])
+  const userLocation = asyncUserLocation.result
 
   const asyncSimplexQuote = useAsync(async () => {
-    if (!account || !userIpAddress) {
+    if (!account || !userLocation?.ipAddress) {
       return
     }
 
-    return fetchSimplexQuote(
+    return Simplex.fetchQuote(
       account,
-      userIpAddress,
+      userLocation.ipAddress,
       selectedCurrency,
       localCurrency,
       route.params.amount
     )
-  }, [userIpAddress, isFocused])
+  }, [userLocation?.ipAddress, isFocused])
 
   const simplexQuote = asyncSimplexQuote.result
 
@@ -186,8 +169,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
         isFeeDataLoading: !simplexQuote?.quote_id,
         onSelected: () => {
-          if (simplexQuote && userIpAddress) {
-            navigate(Screens.Simplex, { simplexQuote, userIpAddress })
+          if (simplexQuote && userLocation?.ipAddress) {
+            navigate(Screens.Simplex, { simplexQuote, userIpAddress: userLocation.ipAddress })
           }
         },
       },
