@@ -2,19 +2,38 @@ import ListItem from '@celo/react-components/components/ListItem'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
+import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import { useDispatch } from 'react-redux'
+import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
-import { openMoonpay, openRamp, openSimplex, openTransak } from 'src/fiatExchanges/utils'
+import {
+  fetchLocationFromIpAddress,
+  getProviderAvailability,
+  openMoonpay,
+  openRamp,
+  openSimplex,
+  openTransak,
+  UserLocation,
+} from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -26,7 +45,6 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
-import { useCountryFeatures } from 'src/utils/countryFeatures'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   CicoService,
@@ -52,7 +70,7 @@ ProviderOptionsScreen.navigationOptions = ({
 
 interface Provider {
   name: string
-  enabled: boolean
+  restricted: boolean
   icon: string
   iconColor?: string
   image?: React.ReactNode
@@ -79,10 +97,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const [providerFees, setProviderFees] = useState({} as any)
 
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
+  const countryCallingCode = useSelector(defaultCountryCodeSelector)
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
-  const { RAMP_DISABLED, MOONPAY_DISABLED, TRANSAK_DISABLED } = useCountryFeatures()
   const selectedCurrency = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
     [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
@@ -104,6 +122,29 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     })
   }, [])
 
+  const asyncUserLocation = useAsync(async () => {
+    try {
+      const { alpha2, state } = await fetchLocationFromIpAddress()
+      if (!alpha2) {
+        throw Error('Could not determine country from IP address')
+      }
+
+      return { country: alpha2, state }
+    } catch (error) {
+      const alpha2 = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
+      return { country: alpha2, state: null }
+    }
+  }, [])
+
+  const userLocation: UserLocation | undefined = asyncUserLocation.result
+
+  const {
+    MOONPAY_RESTRICTED,
+    SIMPLEX_RESTRICTED,
+    RAMP_RESTRICTED,
+    TRANSAK_RESTRICTED,
+  } = getProviderAvailability(userLocation)
+
   const providers: {
     cashOut: Provider[]
     cashIn: Provider[]
@@ -112,7 +153,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashIn: [
       {
         name: 'Moonpay',
-        enabled: !MOONPAY_DISABLED,
+        restricted: MOONPAY_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
         iconColor: 'rgba(0, 0, 0, 0.07)',
@@ -122,7 +163,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       },
       {
         name: 'Simplex',
-        enabled: true,
+        restricted: SIMPLEX_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
         iconColor: 'rgba(96, 169, 64, 0.07)',
@@ -131,7 +172,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       },
       {
         name: 'Ramp',
-        enabled: !RAMP_DISABLED,
+        restricted: RAMP_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
         iconColor: 'rgba(2, 194, 108, 0.07)',
@@ -140,7 +181,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       },
       {
         name: 'Transak',
-        enabled: !TRANSAK_DISABLED,
+        restricted: TRANSAK_RESTRICTED,
         icon:
           'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
         onSelected: () =>
@@ -176,62 +217,68 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     provider.onSelected()
   }
 
-  return (
+  return !userLocation ? (
+    <View style={styles.container}>
+      <ActivityIndicator size="large" color={colors.greenBrand} />
+    </View>
+  ) : (
     <ScrollView style={styles.container}>
       <SafeAreaView style={styles.content}>
         <Text style={styles.pleaseSelectProvider}>{t('pleaseSelectProvider')}</Text>
         <View style={styles.providersContainer}>
-          {selectedProviders
-            .filter((provider) => provider.enabled)
-            .map((provider) => (
-              <ListItem key={provider.name} onPress={providerOnPress(provider)}>
-                <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
-                  <View
-                    style={[
-                      styles.iconContainer,
-                      { backgroundColor: provider.iconColor || colors.gray1 },
-                    ]}
-                  >
-                    <Image
-                      source={{ uri: provider.icon }}
-                      style={styles.iconImage}
-                      resizeMode="contain"
-                    />
-                  </View>
-                  <View style={styles.option}>
-                    <View>
-                      <Text style={styles.optionTitle}>{provider.name}</Text>
+          {selectedProviders.map((provider) => (
+            <ListItem key={provider.name} onPress={providerOnPress(provider)}>
+              <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
+                <View
+                  style={[
+                    styles.iconContainer,
+                    { backgroundColor: provider.iconColor || colors.gray1 },
+                  ]}
+                >
+                  <Image
+                    source={{ uri: provider.icon }}
+                    style={styles.iconImage}
+                    resizeMode="contain"
+                  />
+                </View>
+                <View style={styles.option}>
+                  <View>
+                    <Text style={styles.optionTitle}>{provider.name}</Text>
+                    {provider.restricted ? (
+                      <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
+                    ) : (
                       <Text style={styles.optionFeesData}>Fee: $3.99 or 4.5%</Text>
-                    </View>
-                    <View>
-                      <Text style={styles.optionTitle}>
-                        {providerFees[provider.name] ? (
-                          <CurrencyDisplay
-                            amount={{
-                              value: 0,
-                              localAmount: {
-                                value: providerFees[provider.name],
-                                currencyCode: localCurrency,
-                                exchangeRate: 1,
-                              },
+                    )}
+                  </View>
+                  <View>
+                    <Text style={styles.optionTitle}>
+                      {providerFees[provider.name] ? (
+                        <CurrencyDisplay
+                          amount={{
+                            value: 0,
+                            localAmount: {
+                              value: providerFees[provider.name],
                               currencyCode: localCurrency,
-                            }}
-                            hideSymbol={false}
-                            showLocalAmount={true}
-                            hideSign={true}
-                            showExplicitPositiveSign={false}
-                            style={[styles.optionTitle]}
-                          />
-                        ) : (
-                          '-'
-                        )}{' '}
-                        fee
-                      </Text>
-                    </View>
+                              exchangeRate: 1,
+                            },
+                            currencyCode: localCurrency,
+                          }}
+                          hideSymbol={false}
+                          showLocalAmount={true}
+                          hideSign={true}
+                          showExplicitPositiveSign={false}
+                          style={[styles.optionTitle]}
+                        />
+                      ) : (
+                        '-'
+                      )}{' '}
+                      fee
+                    </Text>
                   </View>
                 </View>
-              </ListItem>
-            ))}
+              </View>
+            </ListItem>
+          ))}
         </View>
         <Dialog
           title={t('explanationModal.title')}
@@ -290,6 +337,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  providerTextContainer: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  restrictedText: {
+    ...fontStyles.small,
+    color: colors.gray4,
   },
   optionTitle: {
     ...fontStyles.regular500,

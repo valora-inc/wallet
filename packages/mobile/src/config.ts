@@ -107,6 +107,8 @@ export const RECAPTCHA_SITE_KEY_MAINNET = keyOrUndefined(
 )
 export const SAFETYNET_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SAFETYNET_KEY')
 
+export const MOONPAY_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'MOONPAY_API_KEY')
+
 export const BIDALI_URL_ALFAJORES = keyOrUndefined(
   secretsFile,
   Config.SECRETS_KEY,
