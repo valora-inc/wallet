@@ -218,18 +218,11 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     Simplex
                   </Text>
                 </View>
-                <Image
-                  source={
-                    Object {
-                      "testUri": "../../../packages/mobile/src/images/link-arrow.png",
-                    }
-                  }
-                  style={
-                    Object {
-                      "height": 32,
-                      "width": 32,
-                    }
-                  }
+                <ActivityIndicator
+                  animating={true}
+                  color="#42D689"
+                  hidesWhenStopped={true}
+                  size="small"
                 />
               </View>
             </View>
