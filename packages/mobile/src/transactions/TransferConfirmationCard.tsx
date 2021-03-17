@@ -174,8 +174,9 @@ function PaymentSentContent({
   const { t } = useTranslation(Namespaces.sendFlow7)
   const sentAmount = amount
   // TODO: Use real fee
-  const securityFee = new BigNumber(0)
-  const totalAmount = amount
+  const securityFee = new BigNumber(0.0301) // using < 0.001 so we can test rounding
+  // TODO: round up AFTER currency conversion
+  const totalAmount = amount // TODO: displayed total should probably include total fees
   const totalFee = securityFee
 
   const isCeloWithdrawal = amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
