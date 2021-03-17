@@ -1,7 +1,7 @@
 import Button, { BtnSizes } from '@celo/react-components/components/Button'
 import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
@@ -44,7 +44,7 @@ function SimplexScreen({ route, navigation }: Props) {
   const localCurrency = useSelector(getLocalCurrencyCode)
 
   const onNavigationStateChange = ({ url }: any) => {
-    if (url?.startsWith('http')) {
+    if (url?.endsWith('step=card_details')) {
       setRedirected(true)
     }
     if (url?.startsWith('celo://wallet')) {
@@ -90,14 +90,11 @@ function SimplexScreen({ route, navigation }: Props) {
 
   const simplexPaymentRequest = asyncSimplexPaymentRequest?.result
 
-  if (asyncSimplexPaymentRequest.status === 'error') {
-    showError(ErrorMessages.SIMPLEX_PURCHASE_FETCH_FAILED)
-  }
-
-  const currencyToBuy =
-    simplexQuote.digital_money.currency.toUpperCase() === 'CUSD'
-      ? CurrencyCode.CUSD
-      : CurrencyCode.CELO
+  useEffect(() => {
+    if (asyncSimplexPaymentRequest.status === 'error') {
+      showError(ErrorMessages.SIMPLEX_PURCHASE_FETCH_FAILED)
+    }
+  }, [asyncSimplexPaymentRequest.status])
 
   return (
     <View style={[styles.container]}>
@@ -110,7 +107,11 @@ function SimplexScreen({ route, navigation }: Props) {
         <View style={[styles.review]}>
           <ReviewFees
             service="Simplex"
-            currencyToBuy={currencyToBuy}
+            currencyToBuy={
+              simplexQuote.digital_money.currency.toUpperCase() === 'CUSD'
+                ? CurrencyCode.CUSD
+                : CurrencyCode.CELO
+            }
             localCurrency={localCurrency}
             fiat={{
               subTotal: simplexQuote.fiat_money.base_amount,
@@ -128,7 +129,8 @@ function SimplexScreen({ route, navigation }: Props) {
             size={BtnSizes.FULL}
             text={'Continue to Simplex'}
             onPress={onButtonPress}
-            showLoading={!simplexPaymentRequest?.paymentId}
+            disabled={!simplexPaymentRequest?.paymentId}
+            showLoading={asyncSimplexPaymentRequest.status === 'loading'}
           />
         </View>
       ) : (
@@ -136,6 +138,7 @@ function SimplexScreen({ route, navigation }: Props) {
           originWhitelist={['*']}
           source={{ html: Simplex.generateCheckoutForm(simplexPaymentRequest.paymentId) }}
           onNavigationStateChange={onNavigationStateChange}
+          style={{ opacity: redirected ? 100 : 0 }}
         />
       )}
     </View>

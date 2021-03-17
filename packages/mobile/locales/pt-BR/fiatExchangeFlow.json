@@ -62,5 +62,6 @@
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
   "restrictedRegion": "Suporte limitado na região",
+  "providerUnavailable": "Atualmente não disponível",
   "pricePer": "Preço por {{coin}}"
 }

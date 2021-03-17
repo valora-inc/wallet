@@ -25,7 +25,11 @@ import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import Simplex from 'src/fiatExchanges/Simplex'
-import { fetchUserLocationData, getProviderAvailability } from 'src/fiatExchanges/utils'
+import {
+  fetchUserLocationData,
+  getProviderAvailability,
+  sortProviders,
+} from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -58,9 +62,10 @@ ProviderOptionsScreen.navigationOptions = ({
   }
 }
 
-interface Provider {
+export interface Provider {
   name: string
   restricted: boolean
+  unavailable?: boolean
   icon: string
   image?: React.ReactNode
   isFeeDataLoading?: boolean
@@ -114,21 +119,23 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const asyncUserLocation = useAsync(async () => fetchUserLocationData(countryCallingCode), [])
   const userLocation = asyncUserLocation.result
 
-  const asyncSimplexQuote = useAsync(async () => {
+  const asyncProviderQuotes = useAsync(async () => {
     if (!account || !userLocation?.ipAddress) {
       return
     }
 
-    return Simplex.fetchQuote(
+    const simplexQuote = await Simplex.fetchQuote(
       account,
       userLocation.ipAddress,
       selectedCurrency,
       localCurrency,
       route.params.amount
     )
+
+    return { simplexQuote }
   }, [userLocation?.ipAddress, isFocused])
 
-  const simplexQuote = asyncSimplexQuote.result
+  const providerQuotes = asyncProviderQuotes.result
 
   const {
     MOONPAY_RESTRICTED,
@@ -160,13 +167,16 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       {
         name: 'Simplex',
         restricted: SIMPLEX_RESTRICTED,
+        unavailable: !providerQuotes?.simplexQuote || !userLocation?.ipAddress,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
         image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
-        isFeeDataLoading: !simplexQuote?.quote_id,
         onSelected: () => {
-          if (simplexQuote && userLocation?.ipAddress) {
-            navigate(Screens.Simplex, { simplexQuote, userIpAddress: userLocation.ipAddress })
+          if (providerQuotes?.simplexQuote && userLocation?.ipAddress) {
+            navigate(Screens.Simplex, {
+              simplexQuote: providerQuotes?.simplexQuote,
+              userIpAddress: userLocation.ipAddress,
+            })
           }
         },
       },
@@ -184,7 +194,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
           'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
         onSelected: () => navigate(Screens.TransakScreen, providerWidgetInputs),
       },
-    ],
+    ].sort(sortProviders),
   }
 
   const providerOnPress = (provider: Provider) => () => {
@@ -196,7 +206,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     provider.onSelected()
   }
 
-  return !userLocation ? (
+  return !userLocation || asyncProviderQuotes.status === 'loading' ? (
     <View style={styles.container}>
       <ActivityIndicator size="large" color={colors.greenBrand} />
     </View>
@@ -209,16 +219,22 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
             <ListItem key={provider.name} onPress={providerOnPress(provider)}>
               <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
                 <View style={styles.providerTextContainer}>
-                  <Text style={styles.optionTitle}>{provider.name}</Text>
-                  {provider.restricted && (
+                  <Text
+                    style={[
+                      styles.optionTitle,
+                      provider.unavailable ? { color: colors.gray4 } : null,
+                    ]}
+                  >
+                    {provider.name}
+                  </Text>
+                  {provider.unavailable && (
+                    <Text style={styles.restrictedText}>{t('providerUnavailable')}</Text>
+                  )}
+                  {provider.restricted && !provider.unavailable && (
                     <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
                   )}
                 </View>
-                {provider.isFeeDataLoading ? (
-                  <ActivityIndicator size="small" color={colors.greenBrand} />
-                ) : (
-                  <LinkArrow />
-                )}
+                <LinkArrow />
               </View>
             </ListItem>
           ))}

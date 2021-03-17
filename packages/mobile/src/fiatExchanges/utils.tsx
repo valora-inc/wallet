@@ -8,7 +8,7 @@ import {
   USER_DATA_URL,
 } from 'src/config'
 import MoonPay from 'src/fiatExchanges/MoonPay'
-import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { Provider, Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { providerAvailability } from 'src/flags'
 
 interface WidgetRequestData {
@@ -92,6 +92,10 @@ export const fetchUserAccountCreationData = async (currentIpAddress: string) => 
     })
 
     userAccountCreationData = await response.json()
+
+    if (userAccountCreationData.ipAddress === '') {
+      throw Error('No account creation data currently in database')
+    }
   } catch (error) {
     // If account creation data fetch fails or there is no data stored, default to current device info
     userAccountCreationData = {
@@ -135,4 +139,21 @@ export function getProviderAvailability(
     }
   }
   return features
+}
+
+// Leaving unoptimized for now because sorting is most relevant when fees will be visible
+export const sortProviders = (provider1: Provider, provider2: Provider) => {
+  if (provider1.unavailable) {
+    return 1
+  }
+
+  if (provider2.unavailable) {
+    return -1
+  }
+
+  if (provider1.restricted) {
+    return 1
+  }
+
+  return -1
 }

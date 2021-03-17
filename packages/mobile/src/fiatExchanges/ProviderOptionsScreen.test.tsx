@@ -5,12 +5,12 @@ import { fireEvent, render, waitForElement } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { CurrencyCode } from 'src/config'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
-import { createUuidv4 } from 'src/fiatExchanges/Simplex'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount } from 'test/values'
+import { v4 as uuidv4 } from 'uuid'
 
 const AMOUNT_TO_CASH_IN = 100
 
@@ -52,7 +52,7 @@ const RESTRICTED_USER_LOCATION = JSON.stringify({
 
 const MOCK_SIMPLEX_QUOTE = {
   user_id: mockAccount,
-  quote_id: createUuidv4(),
+  quote_id: uuidv4(),
   wallet_id: 'valorapp',
   digital_money: {
     currency: 'CUSD',

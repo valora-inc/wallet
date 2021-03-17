@@ -3,6 +3,10 @@ import { CASH_IN_FAILURE_DEEPLINK, CASH_IN_SUCCESS_DEEPLINK, CurrencyCode } from
 import { fetchUserAccountCreationData } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import Logger from 'src/utils/Logger'
+import { v4 as uuidv4 } from 'uuid'
+
+const TAG = 'SimplexAPI'
 
 export interface SimplexQuote {
   user_id: string
@@ -25,12 +29,6 @@ export interface SimplexPaymentRequestResponse {
   is_kyc_update_required: boolean
 }
 
-export const createUuidv4 = () =>
-  (String(1e7) + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
-    // tslint:disable-next-line
-    (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16)
-  )
-
 const Simplex = {
   fetchQuote: async (
     userAddress: string,
@@ -39,19 +37,23 @@ const Simplex = {
     fiatCurrency: LocalCurrencyCode,
     fiatAmount: number
   ) => {
-    const response = await Simplex.post('/wallet/merchant/v2/quote', {
-      end_user_id: userAddress,
-      digital_currency: currencyToBuy,
-      fiat_currency: fiatCurrency,
-      requested_currency: currencyToBuy,
-      requested_amount: fiatAmount,
-      wallet_id: 'valorapp',
-      client_ip: ipAddress,
-      payment_methods: ['credit_card'],
-    })
+    try {
+      const response = await Simplex.post('/wallet/merchant/v2/quote', {
+        end_user_id: userAddress,
+        digital_currency: currencyToBuy,
+        fiat_currency: fiatCurrency,
+        requested_currency: currencyToBuy,
+        requested_amount: fiatAmount,
+        wallet_id: 'valorapp',
+        client_ip: ipAddress,
+        payment_methods: ['credit_card'],
+      })
 
-    const simplexQuote: SimplexQuote = await response.json()
-    return simplexQuote
+      const simplexQuote: SimplexQuote = await response.json()
+      return simplexQuote
+    } catch (error) {
+      Logger.error(TAG, error.message)
+    }
   },
   fetchPaymentRequest: async (
     userAddress: string,
@@ -60,12 +62,12 @@ const Simplex = {
     simplexQuote: SimplexQuote,
     currentIpAddress: string
   ) => {
-    const paymentId = createUuidv4()
-    const orderId = createUuidv4()
+    const paymentId = uuidv4()
+    const orderId = uuidv4()
 
     const accountCreationData = await fetchUserAccountCreationData(currentIpAddress)
 
-    const response = await Simplex.post('wallet/merchant/v2/payments/partner/data', {
+    const response = await Simplex.post('/wallet/merchant/v2/payments/partner/data', {
       account_details: {
         app_provider_id: 'valorapp',
         app_end_user_id: userAddress,
