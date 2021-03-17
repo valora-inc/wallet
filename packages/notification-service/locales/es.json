@@ -1,6 +1,8 @@
 {
   "paymentReceivedTitle": "Pago Recibido",
   "paymentReceivedBody": "Has recibido {{amount}} {{currency}}",
+  "celoReceivedTitle": "Depósito de CELO recibido",
+  "celoReceivedBody": "Acabas de recibir {{amount}} CELO! Puedes ganar recompensas, ahorrar y comprar con Valora. Haz clic para saber más.",
   "dollar": "Celo Dólar",
   "dollar_plural": "Celo Dólares",
   "gold": "CELO",
