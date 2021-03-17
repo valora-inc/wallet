@@ -18,9 +18,11 @@ import { StackParamList } from 'src/navigator/types'
 import { navigateToURI } from 'src/utils/linking'
 
 export const spendScreenOptions = () => {
+  const eventName = FiatExchangeEvents.cico_spend_select_provider_back
+
   return {
     ...emptyHeader,
-    headerLeft: () => <BackButton />,
+    headerLeft: () => <BackButton eventName={eventName} />,
     headerTitle: i18n.t('fiatExchangeFlow:spend'),
   }
 }
