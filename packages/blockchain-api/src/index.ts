@@ -2,7 +2,7 @@ import express from 'express'
 import promBundle from 'express-prom-bundle'
 import { server as apolloServer } from './apolloServer'
 
-const metricsMiddleware = promBundle({ includeMethod: true })
+const metricsMiddleware = promBundle({ includeMethod: true, includePath: true })
 
 declare var process: {
   env: {
