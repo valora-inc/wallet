@@ -40,6 +40,12 @@ export const countryFeatures = {
   KOTANI_SUPPORTED: {
     KE: true,
   },
+  BITFY_SUPPORTED: {
+    BR: true,
+  },
+  FLOW_BTC_SUPPORTED: {
+    BR: true,
+  },
   FIAT_SPEND_ENABLED: {
     PH: true,
   },
