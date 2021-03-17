@@ -1,4 +1,5 @@
 import express from 'express'
+import promBundle from 'express-prom-bundle'
 import * as admin from 'firebase-admin'
 import {
   ENVIRONMENT,
@@ -15,6 +16,9 @@ import { exchangePolling, notificationPolling } from './polling'
 console.info('Service starting with environment, version:', ENVIRONMENT, VERSION)
 const START_TIME = Date.now()
 
+// Metrics Middleware
+const metricsMiddleware = promBundle({ includeMethod: true })
+
 /**
  * Create and configure Express server
  * This is a necessary requirement for an app to run stably on App Engine
@@ -24,6 +28,7 @@ const app = express()
 app.set('port', PORT)
 app.set('env', ENVIRONMENT)
 app.use(express.json())
+app.use(metricsMiddleware)
 
 // Primary app routes.
 app.get('/', (req: any, res: any) => {
