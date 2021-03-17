@@ -56,5 +56,6 @@
   "useBalanceWithMerchants": "Usa tu balance con comercios asociados",
   "findMerchants": "Encuentra comercios asociados cerca de ti",
   "celoDeposit": "Compra de CELO",
-  "cUsdDeposit": "Compra de cUSD"
+  "cUsdDeposit": "Compra de cUSD",
+  "restrictedRegion": "Limited support in region"
 }
