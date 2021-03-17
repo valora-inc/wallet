@@ -84,6 +84,7 @@ export default function FeeDrawer({
 
   return (
     // Uses View instead of Fragment to workaround a glitch with LayoutAnimation
+    // TODO: replace "No Fees" placeholder line item
     <View>
       <Touchable onPress={toggleExpanded} testID={testID}>
         <View style={styles.totalContainer}>
@@ -96,7 +97,7 @@ export default function FeeDrawer({
               totalFeeAmount && (
                 <CurrencyDisplay
                   amount={totalFeeAmount}
-                  formatType={FormatType.Fee}
+                  formatType={FormatType.FeeTopLine}
                   currencyInfo={currencyInfo}
                 />
               )
@@ -146,22 +147,26 @@ export default function FeeDrawer({
             />
           )}
 
-          <LineItemRow
-            title={t('securityFee')}
-            titleIcon={<SecurityFeeIcon />}
-            amount={
-              securityAmount && (
-                <CurrencyDisplay
-                  amount={securityAmount}
-                  formatType={FormatType.Fee}
-                  currencyInfo={currencyInfo}
-                />
-              )
-            }
-            isLoading={feeLoading}
-            hasError={feeHasError}
-            textStyle={styles.dropDownText}
-          />
+          {!securityAmount?.value.isZero() && (
+            <LineItemRow
+              title={t('securityFee')}
+              titleIcon={<SecurityFeeIcon />}
+              amount={
+                securityAmount && (
+                  <CurrencyDisplay
+                    amount={securityAmount}
+                    formatType={FormatType.Fee}
+                    currencyInfo={currencyInfo}
+                  />
+                )
+              }
+              isLoading={feeLoading}
+              hasError={feeHasError}
+              textStyle={styles.dropDownText}
+            />
+          )}
+
+          {totalFee?.isZero() && <LineItemRow title={'No Fees'} textStyle={styles.dropDownText} />}
         </View>
       )}
     </View>

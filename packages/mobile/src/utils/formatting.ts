@@ -38,11 +38,26 @@ export const getExchangeRateDisplayValue = (value: BigNumber.Value): string => {
 }
 
 export const getFeeDisplayValue = (value: BigNumber.Value | null | undefined): string => {
-  return value
+  if (!value) return ''
+  return !new BigNumber(value).isZero()
     ? // Show 0.001 if fee > 0 and <= 0.001
       BigNumber.max(value, new BigNumber(value).isZero() ? 0 : 0.001)
-        .decimalPlaces(4)
-        .toFormat()
+        .decimalPlaces(3)
+        .toFormat(3)
+    : ''
+}
+
+/**
+ * Less precise getFeeDisplayValue
+ * Used to display fees to exactly two decimal places
+ * @param value fee amount
+ */
+export const getFeeTopLineDisplayValue = (value: BigNumber.Value | null | undefined): string => {
+  return value
+    ? // Show 0.01 if fee > 0 and <= 0.01
+      BigNumber.max(value, new BigNumber(value).isZero() ? 0 : 0.01)
+        .decimalPlaces(2)
+        .toFormat(2)
     : ''
 }
 

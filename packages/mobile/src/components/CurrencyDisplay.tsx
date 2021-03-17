@@ -19,6 +19,7 @@ import {
   getCentAwareMoneyDisplay,
   getExchangeRateDisplayValue,
   getFeeDisplayValue,
+  getFeeTopLineDisplayValue,
   getMoneyDisplayValue,
   getNetworkFeeDisplayValue,
 } from 'src/utils/formatting'
@@ -35,6 +36,7 @@ export enum FormatType {
   NetworkFee,
   NetworkFeePrecise,
   ExchangeRate,
+  FeeTopLine,
 }
 
 interface Props {
@@ -119,6 +121,9 @@ function getFormatFunction(formatType: FormatType): FormatFunction {
     case FormatType.ExchangeRate:
       return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
         getExchangeRateDisplayValue(amount)
+    case FormatType.FeeTopLine:
+      return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
+        getFeeTopLineDisplayValue(amount)
   }
 }
 
