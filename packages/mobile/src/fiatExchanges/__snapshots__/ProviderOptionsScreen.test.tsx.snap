@@ -100,7 +100,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/MOONPAY"
+                testID="Provider/Moonpay"
               >
                 <View
                   style={
@@ -195,7 +195,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/SIMPLEX"
+                testID="Provider/Simplex"
               >
                 <View
                   style={
@@ -278,7 +278,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/RAMP"
+                testID="Provider/Ramp"
               >
                 <View
                   style={
@@ -373,7 +373,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/TRANSAK"
+                testID="Provider/Transak"
               >
                 <View
                   style={
