@@ -385,6 +385,10 @@ export enum PerformanceEvents {
   redux_store_size = 'redux_store_size',
 }
 
+export enum NavigationEvents {
+  navigator_not_ready = 'navigator_not_ready',
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -403,3 +407,4 @@ export type AnalyticsEventType =
   | GethEvents
   | NetworkEvents
   | PerformanceEvents
+  | NavigationEvents
