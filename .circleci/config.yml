@@ -377,6 +377,23 @@ jobs:
           at: ~/app
       - run: ./scripts/ci_check_vulnerabilities.sh
 
+  general-tests:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/app
+
+      - run:
+          name: jest tests
+          command: |
+            mkdir -p test-results/jest
+            yarn run lerna \
+              --ignore @celo/mobile \
+              run test
+
+      - store_test_results:
+          path: test-results
+
   mobile-test:
     <<: *defaults
     steps:
@@ -440,6 +457,9 @@ workflows:
       - vulnerability-checks:
           requires:
             - install_dependencies
+      - general-tests:
+          requires:
+            - lint-checks
       - mobile-test:
           requires:
             - lint-checks

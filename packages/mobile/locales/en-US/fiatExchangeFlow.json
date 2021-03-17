@@ -56,5 +56,6 @@
   "useBalanceWithMerchants": "Use your balance with supporting merchants",
   "findMerchants": "Find local merchants near you",
   "celoDeposit": "CELO Purchase",
-  "cUsdDeposit": "cUSD Purchase"
+  "cUsdDeposit": "cUSD Purchase",
+  "restrictedRegion": "Limited support in region"
 }
