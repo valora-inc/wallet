@@ -23,12 +23,6 @@ import { StackParamList } from 'src/navigator/types'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
-export const simplexOptions = () => ({
-  ...emptyHeader,
-  headerLeft: () => <BackButton />,
-  headerTitle: () => <HeaderTitleWithBalance title={i18n.t('fiatExchangeFlow:addFunds')} />,
-})
-
 type RouteProps = StackScreenProps<StackParamList, Screens.Simplex>
 type Props = RouteProps
 
@@ -144,6 +138,12 @@ function SimplexScreen({ route, navigation }: Props) {
     </View>
   )
 }
+
+SimplexScreen.navigationOptions = () => ({
+  ...emptyHeader,
+  headerLeft: () => <BackButton />,
+  headerTitle: () => <HeaderTitleWithBalance title={i18n.t('fiatExchangeFlow:addFunds')} />,
+})
 
 const styles = StyleSheet.create({
   container: {

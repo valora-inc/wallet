@@ -18,12 +18,6 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 const TRANSAK_URI = networkConfig.transakWidgetUrl
 
-export const transakOptions = () => ({
-  ...emptyHeader,
-  headerTitle: (TRANSAK_URI.match(/(?!(w+)\.)(-|\w)*(?:\w+\.)+\w+/) || [])[0],
-  headerLeft: () => <TopBarTextButton title={i18n.t('global:done')} onPress={navigateBack} />,
-})
-
 type RouteProps = StackScreenProps<StackParamList, Screens.TransakScreen>
 type Props = RouteProps
 
@@ -85,6 +79,12 @@ function TransakScreen({ route }: Props) {
     </View>
   )
 }
+
+TransakScreen.navigationOptions = () => ({
+  ...emptyHeader,
+  headerTitle: (TRANSAK_URI.match(/(?!(w+)\.)(-|\w)*(?:\w+\.)+\w+/) || [])[0],
+  headerLeft: () => <TopBarTextButton title={i18n.t('global:done')} onPress={navigateBack} />,
+})
 
 const styles = StyleSheet.create({
   container: {

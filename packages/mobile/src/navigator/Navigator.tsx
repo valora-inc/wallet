@@ -44,12 +44,12 @@ import FiatExchangeOptions, {
 import LocalProviderCashOut, {
   localProviderCashOutOptions,
 } from 'src/fiatExchanges/LocalProviderCashOut'
-import MoonPayScreen, { moonPayOptions } from 'src/fiatExchanges/MoonPayScreen'
+import MoonPayScreen from 'src/fiatExchanges/MoonPayScreen'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
-import RampScreen, { rampOptions } from 'src/fiatExchanges/RampScreen'
-import SimplexScreen, { simplexOptions } from 'src/fiatExchanges/SimplexScreen'
+import RampScreen from 'src/fiatExchanges/RampScreen'
+import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
-import TransakScreen, { transakOptions } from 'src/fiatExchanges/TransakScreen'
+import TransakScreen from 'src/fiatExchanges/TransakScreen'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
@@ -458,14 +458,22 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={LocalProviderCashOut}
     />
     <Navigator.Screen
-      options={moonPayOptions}
+      options={MoonPayScreen.navigationOptions}
       name={Screens.MoonPayScreen}
       component={MoonPayScreen}
     />
-    <Navigator.Screen options={rampOptions} name={Screens.RampScreen} component={RampScreen} />
-    <Navigator.Screen options={simplexOptions} name={Screens.Simplex} component={SimplexScreen} />
     <Navigator.Screen
-      options={transakOptions}
+      options={RampScreen.navigationOptions}
+      name={Screens.RampScreen}
+      component={RampScreen}
+    />
+    <Navigator.Screen
+      options={SimplexScreen.navigationOptions}
+      name={Screens.Simplex}
+      component={SimplexScreen}
+    />
+    <Navigator.Screen
+      options={TransakScreen.navigationOptions}
       name={Screens.TransakScreen}
       component={TransakScreen}
     />

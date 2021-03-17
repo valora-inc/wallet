@@ -16,12 +16,6 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 const RAMP_URI = networkConfig.rampWidgetUrl
 
-export const rampOptions = () => ({
-  ...emptyHeader,
-  headerTitle: (RAMP_URI.match(/(?!(w+)\.)(-|\w)*(?:\w+\.)+\w+/) || [])[0],
-  headerLeft: () => <TopBarTextButton title={i18n.t('global:done')} onPress={navigateBack} />,
-})
-
 type RouteProps = StackScreenProps<StackParamList, Screens.RampScreen>
 type Props = RouteProps
 
@@ -48,5 +42,11 @@ function RampScreen({ route }: Props) {
 
   return <InAppBrowser uri={url} isLoading={!url} onCancel={navigateBack} />
 }
+
+RampScreen.navigationOptions = () => ({
+  ...emptyHeader,
+  headerTitle: (RAMP_URI.match(/(?!(w+)\.)(-|\w)*(?:\w+\.)+\w+/) || [])[0],
+  headerLeft: () => <TopBarTextButton title={i18n.t('global:done')} onPress={navigateBack} />,
+})
 
 export default RampScreen
