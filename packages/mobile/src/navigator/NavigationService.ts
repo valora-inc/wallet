@@ -6,7 +6,7 @@ import { createRef, MutableRefObject } from 'react'
 import sleep from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
-import { OnboardingEvents } from 'src/analytics/Events'
+import { NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -34,6 +34,7 @@ async function ensureNavigator() {
     retries++
   }
   if (!navigationRef.current || !navigatorIsReadyRef.current) {
+    ValoraAnalytics.track(NavigationEvents.navigator_not_ready)
     throw new Error('navigator is not initialized')
   }
 }
