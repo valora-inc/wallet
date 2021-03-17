@@ -303,6 +303,6 @@ const styles = StyleSheet.create({
     color: colors.gray4,
   },
   optionTitle: {
-    ...fontStyles.regular,
+    ...fontStyles.regular500,
   },
 })
