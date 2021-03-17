@@ -3,17 +3,17 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import React from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
+import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { useTranslation, Trans } from 'react-i18next'
-import { Namespaces } from 'src/i18n'
 
 interface Props {
-  service: string
+  provider: string
   currencyToBuy: CurrencyCode
   localCurrency: LocalCurrencyCode
   crypto: {
@@ -25,16 +25,14 @@ interface Props {
     fees: number
     total: number
   }
-  feesContent: string
 }
 
 export default function ReviewFees({
-  service,
+  provider,
   crypto,
   fiat,
   localCurrency,
   currencyToBuy,
-  feesContent,
 }: Props) {
   const [showingTerms, setShowingTerms] = React.useState(false)
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
@@ -63,7 +61,7 @@ export default function ReviewFees({
 
   return (
     <View style={[styles.review]}>
-      <Dialog isVisible={showingTerms} actionText={'OK'} actionPress={closeTerms}>
+      <Dialog isVisible={showingTerms} actionText={t('global:ok')} actionPress={closeTerms}>
         <Text style={[fontStyles.large600]}>{t('providerFeesDialog.title')}</Text>
         {'\n\n'}
         <Text style={[fontStyles.regular]}>
@@ -95,7 +93,9 @@ export default function ReviewFees({
       </View>
       <View style={[styles.reviewLine]}>
         <View style={[styles.reviewLineInfo]}>
-          <Text style={[styles.reviewLineText]}>{service} Fee</Text>
+          <Text style={[styles.reviewLineText]}>
+            {provider} {t('exchangeFlow9:fee')}
+          </Text>
           <Touchable style={[styles.icon]} onPress={openTerms} hitSlop={variables.iconHitslop}>
             <InfoIcon color={colors.gray3} size={14} />
           </Touchable>

@@ -91,16 +91,16 @@ function SimplexScreen({ route, navigation }: Props) {
   }, [asyncSimplexPaymentRequest.status])
 
   return (
-    <View style={[styles.container]}>
+    <View style={styles.container}>
       {loadSimplexCheckout && simplexPaymentRequest && !redirected && (
         <View style={[styles.container, styles.indicator]}>
           <ActivityIndicator size="large" color={colors.greenBrand} />
         </View>
       )}
       {!loadSimplexCheckout || !simplexPaymentRequest ? (
-        <View style={[styles.review]}>
+        <View style={styles.review}>
           <ReviewFees
-            service="Simplex"
+            provider="Simplex"
             currencyToBuy={
               simplexQuote.digital_money.currency.toUpperCase() === 'CUSD'
                 ? CurrencyCode.CUSD
@@ -116,7 +116,6 @@ function SimplexScreen({ route, navigation }: Props) {
               amount: simplexQuote.digital_money.amount,
               price: simplexQuote.fiat_money.base_amount / simplexQuote.digital_money.amount,
             }}
-            feesContent="Fees content"
           />
           <Button
             style={styles.button}
