@@ -174,7 +174,7 @@ function PaymentSentContent({
   const { t } = useTranslation(Namespaces.sendFlow7)
   const sentAmount = amount
   // TODO: Use real fee
-  const securityFee = new BigNumber(0.0501) // using < 0.001 so we can test rounding
+  const securityFee = new BigNumber(0)
   const totalAmount = amount // TODO: displayed total should probably include total fees
   const totalFee = securityFee
 
