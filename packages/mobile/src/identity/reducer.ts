@@ -3,6 +3,7 @@ import { RehydrateAction } from 'redux-persist'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
 import { Actions, ActionTypes } from 'src/identity/actions'
 import { ContactMatches, ImportContactsStatus } from 'src/identity/types'
+import { removeKeyFromMapping } from 'src/identity/utils'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { Actions as SendActions, StoreLatestInRecentsAction } from 'src/send/actions'
@@ -82,7 +83,6 @@ export interface State {
   // Contacts found during the matchmaking process
   matchedContacts: ContactMatches
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
-  lastRevealAttempt: number | null
 }
 
 const initialState: State = {
@@ -101,7 +101,6 @@ const initialState: State = {
   },
   matchedContacts: {},
   secureSendPhoneNumberMapping: {},
-  lastRevealAttempt: null,
 }
 
 export const reducer = (
@@ -138,6 +137,14 @@ export const reducer = (
           ...state.walletToAccountAddress,
           ...action.walletToAccountAddress,
         },
+      }
+    case Actions.REMOVE_WALLET_TO_ACCOUNT_ADDRESS:
+      return {
+        ...state,
+        walletToAccountAddress: removeKeyFromMapping(
+          state.walletToAccountAddress,
+          action.walletAddress
+        ),
       }
     case Actions.UPDATE_E164_PHONE_NUMBER_SALT:
       return {
@@ -272,11 +279,6 @@ export const reducer = (
         e164NumberToSalt: state.e164NumberToSalt,
         matchedContacts: state.matchedContacts,
         secureSendPhoneNumberMapping: state.secureSendPhoneNumberMapping,
-      }
-    case Actions.SET_LAST_REVEAL_ATTEMPT:
-      return {
-        ...state,
-        lastRevealAttempt: action.time,
       }
     default:
       return state

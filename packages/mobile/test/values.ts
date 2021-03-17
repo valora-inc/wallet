@@ -6,7 +6,6 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { SHORT_CURRENCIES } from 'src/geth/consts'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
-import { AttestationCode } from 'src/identity/verification'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
 import { NotificationTypes } from 'src/notifications/types'
@@ -18,6 +17,7 @@ import {
   RecipientWithMobileNumber,
   RecipientWithQrCode,
 } from 'src/recipients/recipient'
+import { AttestationCode } from 'src/verify/saga'
 
 export const nullAddress = '0x0'
 

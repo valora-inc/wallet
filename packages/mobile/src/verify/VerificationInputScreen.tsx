@@ -24,11 +24,7 @@ import BackButton from 'src/components/BackButton'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { ALERT_BANNER_DURATION, ATTESTATION_REVEAL_TIMEOUT_SECONDS } from 'src/config'
 import i18n, { Namespaces, withTranslation } from 'src/i18n'
-import {
-  AttestationCode,
-  CodeInputType,
-  NUM_ATTESTATIONS_REQUIRED,
-} from 'src/identity/verification'
+import { AttestationCode, CodeInputType, NUM_ATTESTATIONS_REQUIRED } from 'src/verify/saga'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'

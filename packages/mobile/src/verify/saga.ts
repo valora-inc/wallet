@@ -3,6 +3,8 @@ import { Address, ContractKit } from '@celo/contractkit/lib'
 import {
   ActionableAttestation,
   AttestationsWrapper,
+  getSecurityCodePrefix,
+  UnselectedRequest,
 } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import {
@@ -30,7 +32,7 @@ import {
 import { KomenciKit } from '@celo/komencikit/src/kit'
 import { verifyWallet } from '@celo/komencikit/src/verifyWallet'
 import { eqAddress } from '@celo/utils/lib/address'
-import { sleep } from '@celo/utils/lib/async'
+import { retryAsync, sleep } from '@celo/utils/lib/async'
 import {
   AttestationsStatus,
   extractAttestationCodeFromMessage,
@@ -56,8 +58,9 @@ import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import networkConfig from 'src/geth/networkConfig'
+import { waitForNextBlock } from 'src/geth/saga'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
-import { setLastRevealAttempt, updateE164PhoneNumberSalts } from 'src/identity/actions'
+import { updateE164PhoneNumberSalts } from 'src/identity/actions'
 import { ReactBlsBlindingClient } from 'src/identity/bls-blinding-client'
 import {
   hasExceededKomenciErrorQuota,
@@ -67,28 +70,32 @@ import {
 } from 'src/identity/feelessVerificationErrors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { e164NumberToSaltSelector, E164NumberToSaltType } from 'src/identity/reducer'
-import {
-  AttestationCode,
-  CodeInputType,
-  completeAttestation,
-  getActionableAttestations,
-  getAttestationsStatus,
-  requestAndRetrieveAttestations,
-  tryRevealPhoneNumber,
-} from 'src/identity/verification'
 
+import { CeloTransactionObject, CeloTxReceipt } from '@celo/connect'
+import { AttestationRequest } from '@celo/utils/lib/io'
+import AwaitLock from 'await-lock'
+import { setRetryVerificationWithForno } from 'src/account/actions'
 import { setNumberVerified } from 'src/app/actions'
+import { currentLanguageSelector } from 'src/app/reducers'
+import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
+import { SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
+import { revokeSaga } from 'src/identity/revoke'
 import { getAttestationCodeForSecurityCode } from 'src/identity/securityCode'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { clearPasswordCaches } from 'src/pincode/PasswordCache'
 import { waitFor } from 'src/redux/sagas-helpers'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { sendTransaction } from 'src/transactions/send'
+import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import {
   actionableAttestationsSelector,
+  attestationCodesSelector,
   cancel,
   checkIfKomenciAvailable,
+  completeAttestationCode,
   completeAttestations,
   completedAttestationCodesSelector,
   e164NumberSelector,
@@ -105,6 +112,7 @@ import {
   OnChainVerificationStatus,
   phoneHashSelector,
   receiveAttestationCode,
+  reportRevealStatus,
   requestAttestations,
   resendMessages,
   reset,
@@ -112,10 +120,12 @@ import {
   RevealStatus,
   RevealStatuses,
   revealStatusesSelector,
+  revoke,
   setActionableAttestation,
   setCompletedCodes,
   setKomenciAvailable,
   setKomenciContext,
+  setLastRevealAttempt,
   setPhoneHash,
   setRevealStatuses,
   setVerificationStatus,
@@ -130,12 +140,561 @@ import { getContractKit } from 'src/web3/contracts'
 import { registerWalletAndDekViaKomenci } from 'src/web3/dataEncryptionKey'
 import { getAccount, getConnectedUnlockedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
 
+const inputAttestationCodeLock = new AwaitLock()
+
+export const NUM_ATTESTATIONS_REQUIRED = 3
+// export const ESTIMATED_COST_PER_ATTESTATION = 0.051
+// export const VERIFICATION_TIMEOUT = 10 * 60 * 1000 // 10 minutes
+// export const BALANCE_CHECK_TIMEOUT = 5 * 1000 // 5 seconds
+// export const MAX_ACTIONABLE_ATTESTATIONS = 5
+export const REVEAL_RETRY_DELAY = 10 * 1000 // 10 seconds
+// export const ANDROID_DELAY_REVEAL_ATTESTATION = 5000 // 5 sec after each
+
 const TAG = 'verify/saga'
 const BALANCE_CHECK_TIMEOUT = 5 * 1000 // 5 seconds
 const KOMENCI_READINESS_RETRIES = 3
 const KOMENCI_DEPLOY_MTW_RETRIES = 3
 const ANDROID_DELAY_REVEAL_ATTESTATION = 5000 // 5 sec after each
 const VERIFICATION_TIMEOUT = 10 * 60 * 1000 // 10 minutes
+// Using hard-coded gas value to avoid running gas estimation.
+// Note: This is fragile and needs be updated if there are significant
+// changes to the contract implementation.
+const APPROVE_ATTESTATIONS_TX_GAS = 150000
+const REQUEST_ATTESTATIONS_TX_GAS = 215000
+const SELECT_ISSUERS_TX_GAS = 500000
+const COMPLETE_ATTESTATION_TX_GAS = 250000
+const MINIMUM_VERSION_FOR_SHORT_CODES = '1.1.0'
+
+export interface AttestationCode {
+  code: string
+  shortCode?: string | null
+  issuer: string
+}
+
+export enum CodeInputType {
+  AUTOMATIC = 'automatic',
+  MANUAL = 'manual',
+  DEEP_LINK = 'deepLink',
+}
+
+export async function getActionableAttestations(
+  attestationsWrapper: AttestationsWrapper,
+  phoneHash: string,
+  account: string
+) {
+  const attestations = await retryAsync(
+    attestationsWrapper.getActionableAttestations.bind(attestationsWrapper),
+    NUM_ATTESTATIONS_REQUIRED,
+    [phoneHash, account]
+  )
+  return attestations
+}
+
+export async function getAttestationsStatus(
+  attestationsWrapper: AttestationsWrapper,
+  account: string,
+  phoneHash: string
+): Promise<AttestationsStatus> {
+  Logger.debug(TAG + '@getAttestationsStatus', 'Getting verification status from contract')
+
+  const attestationStatus = await attestationsWrapper.getVerifiedStatus(
+    phoneHash,
+    account,
+    NUM_ATTESTATIONS_REQUIRED
+  )
+
+  Logger.debug(
+    TAG + '@getAttestationsStatus',
+    `${attestationStatus.numAttestationsRemaining} verifications remaining. Total of ${attestationStatus.total} requested.`
+  )
+
+  // If the user has enough attestations completed to be considered verified but doesn't
+  // have an account associated with the identifer, set `isVerified` to false
+  if (attestationStatus.isVerified) {
+    Logger.debug(TAG + '@getAttestationsStatus', `Account ${account} is already verified`)
+
+    const attestedAccounts: Address[] = await attestationsWrapper.lookupAccountsForIdentifier(
+      phoneHash
+    )
+    const associated = attestedAccounts.some((acc) => eqAddress(acc, account))
+
+    if (!associated) {
+      Logger.debug(
+        TAG + '@getAttestationsStatus',
+        `Account has enough completed attestations but is not associated with the identifier. Likely a revoked account`
+      )
+      attestationStatus.isVerified = false
+    }
+  }
+
+  return attestationStatus
+}
+
+function* requestNewAttestations(
+  attestationsWrapper: AttestationsWrapper,
+  numAttestationsRequestsNeeded: number,
+  phoneHash: string,
+  account: string,
+  shouldUseKomenci: boolean
+) {
+  const contractKit: ContractKit = yield call(getContractKit)
+  const walletAddress: Address = yield call(getConnectedUnlockedAccount)
+  const komenci: KomenciContext = yield select(komenciContextSelector)
+  const komenciKit: KomenciKit = new KomenciKit(contractKit, walletAddress, {
+    url: komenci.callbackUrl || networkConfig.komenciUrl,
+    token: komenci.sessionToken,
+  })
+
+  if (numAttestationsRequestsNeeded <= 0) {
+    Logger.debug(`${TAG}@requestAttestations`, 'No additional attestations requests needed')
+    return
+  }
+
+  // Check for attestation requests that need an issuer to be selected.
+  const unselectedRequest: UnselectedRequest = yield call(
+    [attestationsWrapper, attestationsWrapper.getUnselectedRequest],
+    phoneHash,
+    account
+  )
+
+  let isUnselectedRequestValid: boolean = unselectedRequest.blockNumber !== 0
+  if (isUnselectedRequestValid) {
+    isUnselectedRequestValid = yield call(
+      [attestationsWrapper, attestationsWrapper.isAttestationExpired],
+      unselectedRequest.blockNumber
+    )
+  }
+
+  // If any attestations require issuer selection, no new requests can be made
+  // until the issuers are selected or the request expires.
+  if (isUnselectedRequestValid) {
+    Logger.debug(
+      `${TAG}@requestAttestations`,
+      `Valid unselected request found, skipping approval/request`
+    )
+  } else {
+    // Approve the attestation fee to be paid from the user's cUSD account.
+    Logger.debug(
+      `${TAG}@requestAttestations`,
+      `Approving ${numAttestationsRequestsNeeded} new attestations`
+    )
+
+    if (shouldUseKomenci) {
+      Logger.debug(
+        `${TAG}@requestAttestations`,
+        `Approving and requesting ${numAttestationsRequestsNeeded} new attestations`
+      )
+
+      // KomenciKit `requestAttestations` method now bundles in the approve tx
+      // so there is no need to approve separately
+      const requestTxResult: Result<CeloTxReceipt, FetchError | TxError> = yield call(
+        [komenciKit, komenciKit.requestAttestations],
+        account,
+        phoneHash,
+        numAttestationsRequestsNeeded
+      )
+
+      if (!requestTxResult.ok) {
+        Logger.debug(TAG, '@requestAttestations', 'Failed request tx')
+        throw requestTxResult.error
+      }
+      ValoraAnalytics.track(VerificationEvents.verification_request_attestation_approve_tx_sent, {
+        feeless: true,
+      })
+
+      ValoraAnalytics.track(VerificationEvents.verification_request_attestation_request_tx_sent, {
+        feeless: true,
+      })
+    } else {
+      const approveTx: CeloTransactionObject<boolean> = yield call(
+        [attestationsWrapper, attestationsWrapper.approveAttestationFee],
+        numAttestationsRequestsNeeded
+      )
+
+      yield call(
+        sendTransaction,
+        approveTx.txo,
+        account,
+        newTransactionContext(TAG, 'Approve attestations'),
+        APPROVE_ATTESTATIONS_TX_GAS
+      )
+
+      ValoraAnalytics.track(VerificationEvents.verification_request_attestation_approve_tx_sent)
+
+      // Request the required number of attestations.
+      Logger.debug(
+        `${TAG}@requestAttestations`,
+        `Requesting ${numAttestationsRequestsNeeded} new attestations`
+      )
+      const requestTx: CeloTransactionObject<void> = yield call(
+        [attestationsWrapper, attestationsWrapper.request],
+        phoneHash,
+        numAttestationsRequestsNeeded
+      )
+
+      yield call(
+        sendTransaction,
+        requestTx.txo,
+        account,
+        newTransactionContext(TAG, 'Request attestations'),
+        REQUEST_ATTESTATIONS_TX_GAS
+      )
+      ValoraAnalytics.track(VerificationEvents.verification_request_attestation_request_tx_sent)
+    }
+  }
+
+  // Wait for the issuer selection delay to elapse, then select issuers for the attestations.
+  Logger.debug(`${TAG}@requestAttestations`, 'Waiting for block to select issuers')
+  ValoraAnalytics.track(
+    VerificationEvents.verification_request_attestation_await_issuer_selection,
+    { feeless: shouldUseKomenci }
+  )
+
+  yield call([attestationsWrapper, attestationsWrapper.waitForSelectingIssuers], phoneHash, account)
+
+  Logger.debug(`${TAG}@requestAttestations`, 'Selecting issuers')
+  ValoraAnalytics.track(VerificationEvents.verification_request_attestation_select_issuer, {
+    feeless: shouldUseKomenci,
+  })
+
+  if (shouldUseKomenci) {
+    const selectIssuersTxResult: Result<CeloTxReceipt, FetchError | TxError> = yield call(
+      [komenciKit, komenciKit.selectIssuers],
+      account,
+      phoneHash
+    )
+
+    if (!selectIssuersTxResult.ok) {
+      Logger.debug(TAG, '@feelessRequestAttestations', 'Failed selectIssuers tx')
+      throw selectIssuersTxResult.error
+    }
+  } else {
+    const selectIssuersTx = attestationsWrapper.selectIssuers(phoneHash)
+
+    yield call(
+      sendTransaction,
+      selectIssuersTx.txo,
+      account,
+      newTransactionContext(TAG, 'Select attestation issuers'),
+      SELECT_ISSUERS_TX_GAS
+    )
+  }
+  ValoraAnalytics.track(VerificationEvents.verification_request_attestation_issuer_tx_sent, {
+    feeless: shouldUseKomenci,
+  })
+}
+
+// Requests if necessary additional attestations and returns all revealable attestations
+export function* requestAndRetrieveAttestations(
+  attestationsWrapper: AttestationsWrapper,
+  phoneHash: string,
+  account: string,
+  currentActionableAttestations: ActionableAttestation[],
+  attestationsNeeded: number,
+  isFeelessVerification: boolean = false
+) {
+  const shortVerificationCodesEnabled = yield select(shortVerificationCodesEnabledSelector)
+
+  let attestations = currentActionableAttestations
+
+  // Any verification failure past this point will be after sending a tx
+  // so do not prompt forno retry as these failures are not always
+  // light client related, and account may have insufficient balance
+  if (!isFeelessVerification) {
+    yield put(setRetryVerificationWithForno(false))
+  }
+
+  while (attestations.length < attestationsNeeded) {
+    ValoraAnalytics.track(VerificationEvents.verification_request_attestation_start, {
+      currentAttestation: attestations.length,
+      feeless: isFeelessVerification,
+    })
+    // Request any additional attestations beyond the original set
+    yield call(
+      requestNewAttestations,
+      attestationsWrapper,
+      attestationsNeeded - attestations.length,
+      phoneHash,
+      account,
+      isFeelessVerification
+    )
+
+    ValoraAnalytics.track(VerificationEvents.verification_request_attestation_complete, {
+      feeless: isFeelessVerification,
+    })
+
+    // Check if we have a sufficient set now by fetching the new total set
+    attestations = yield call(getActionableAttestations, attestationsWrapper, phoneHash, account)
+    if (shortVerificationCodesEnabled) {
+      // we only support attestation service 1.1.0 and above for short codes
+      attestations = attestations.filter(
+        (att) => !isVersionBelowMinimum(att.version, MINIMUM_VERSION_FOR_SHORT_CODES)
+      )
+    }
+
+    ValoraAnalytics.track(
+      VerificationEvents.verification_request_all_attestations_refresh_progress,
+      {
+        attestationsRemaining: attestationsNeeded - attestations.length,
+        feeless: isFeelessVerification,
+      }
+    )
+  }
+
+  return attestations
+}
+
+async function postToAttestationService(
+  attestationsWrapper: AttestationsWrapper,
+  attestationServiceUrl: string,
+  revealRequestBody: AttestationRequest
+): Promise<{ ok: boolean; status: number; body: any }> {
+  Logger.debug(
+    `${TAG}@postToAttestationService`,
+    `Revealing with contract kit for service url ${attestationServiceUrl}`
+  )
+  const response = await attestationsWrapper.revealPhoneNumberToIssuer(
+    attestationServiceUrl,
+    revealRequestBody
+  )
+  const body = await response.json()
+  return { ok: response.ok, status: response.status, body }
+}
+
+export function* tryRevealPhoneNumber(
+  attestationsWrapper: AttestationsWrapper,
+  account: string,
+  phoneHashDetails: PhoneNumberHashDetails,
+  attestation: ActionableAttestation,
+  isFeelessVerification: boolean
+) {
+  const issuer = attestation.issuer
+  Logger.debug(TAG + '@tryRevealPhoneNumber', `Revealing an attestation for issuer: ${issuer}`)
+
+  const shortVerificationCodesEnabled: boolean = yield select(shortVerificationCodesEnabledSelector)
+
+  try {
+    // Only include retriever app sig for android, iOS doesn't support auto-read
+    const smsRetrieverAppSig = Platform.OS === 'android' ? SMS_RETRIEVER_APP_SIGNATURE : undefined
+
+    const language: string = yield select(currentLanguageSelector)
+    const revealRequest: AttestationRequest = {
+      account,
+      issuer,
+      phoneNumber: phoneHashDetails.e164Number,
+      salt: phoneHashDetails.pepper,
+      smsRetrieverAppSig,
+      language,
+      securityCodePrefix: undefined,
+    }
+
+    if (shortVerificationCodesEnabled) {
+      revealRequest.securityCodePrefix = getSecurityCodePrefix(issuer)
+    }
+
+    const { ok, status, body } = yield call(
+      postToAttestationService,
+      attestationsWrapper,
+      attestation.attestationServiceURL,
+      revealRequest
+    )
+
+    if (ok) {
+      Logger.debug(TAG + '@tryRevealPhoneNumber', `Revealing for issuer ${issuer} successful`)
+      ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_revealed, {
+        neededRetry: false,
+        issuer,
+        feeless: isFeelessVerification,
+      })
+      return true
+    }
+
+    if (body.error && body.error.includes('No incomplete attestation found')) {
+      // Retry as attestation service might not yet have received the block where it was made responsible for an attestation
+      Logger.debug(TAG + '@tryRevealPhoneNumber', `Retrying revealing for issuer: ${issuer}`)
+
+      yield delay(REVEAL_RETRY_DELAY)
+
+      const { ok: retryOk, status: retryStatus } = yield call(
+        postToAttestationService,
+        attestationsWrapper,
+        attestation.attestationServiceURL,
+        revealRequest
+      )
+
+      if (retryOk) {
+        Logger.debug(`${TAG}@tryRevealPhoneNumber`, `Reveal retry for issuer ${issuer} successful`)
+        ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_revealed, {
+          neededRetry: true,
+          issuer,
+          feeless: isFeelessVerification,
+        })
+        return true
+      }
+
+      Logger.error(
+        `${TAG}@tryRevealPhoneNumber`,
+        `Reveal retry for issuer ${issuer} failed with status ${retryStatus}`
+      )
+    }
+
+    // Reveal is unsuccessfull, so asking the status of it from validator
+    yield put(
+      reportRevealStatus({
+        attestationServiceUrl: attestation.attestationServiceURL,
+        account,
+        issuer,
+        e164Number: phoneHashDetails.e164Number,
+        pepper: phoneHashDetails.pepper,
+      })
+    )
+
+    throw new Error(
+      `Error revealing to issuer ${attestation.attestationServiceURL}. Status code: ${status}`
+    )
+  } catch (error) {
+    // This is considered a recoverable error because the user may have received the code in a previous run
+    // So instead of propagating the error, we catch it just update status. This will trigger the modal,
+    // allowing the user to enter codes manually or skip verification.
+    Logger.error(TAG + '@tryRevealPhoneNumber', `Reveal for issuer ${issuer} failed`, error)
+    ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_error, {
+      issuer,
+      error: error.message,
+      feeless: isFeelessVerification,
+    })
+    return false
+  }
+}
+
+function* getCodeForIssuer(issuer: string): Generator<any, AttestationCode | undefined, any> {
+  const existingCodes: AttestationCode[] = yield select(attestationCodesSelector)
+  return existingCodes.find((c) => c.issuer === issuer)
+}
+
+// Get the code from the store if it's already there, otherwise wait for it
+function* waitForAttestationCode(issuer: string): Generator<any, AttestationCode, any> {
+  Logger.debug(TAG + '@waitForAttestationCode', `Waiting for code for issuer ${issuer}`)
+  const code = yield call(getCodeForIssuer, issuer)
+  if (code) {
+    return code
+  }
+
+  while (true) {
+    const action: ReturnType<typeof inputAttestationCode> = yield take(inputAttestationCode.type)
+    if (action.payload.issuer === issuer) {
+      return action.payload
+    }
+  }
+}
+
+// Codes that are auto-imported or pasted in quick sucsession may revert due to being submitted by Komenci
+// with the same nonce as the previous code. Adding retry logic to attempt the tx again in that case
+// TODO: Batch all available `complete` tranactions once Komenci supports it
+function* submitCompleteTxAndRetryOnRevert(
+  komenciKit: KomenciKit,
+  mtwAddress: string,
+  phoneHashDetails: PhoneNumberHashDetails,
+  code: AttestationCode
+) {
+  const numOfRetries = 3
+  let completeTxResult: Result<CeloTxReceipt, FetchError | TxError>
+  for (let i = 0; i < numOfRetries; i += 1) {
+    completeTxResult = yield call(
+      [komenciKit, komenciKit.completeAttestation],
+      mtwAddress,
+      phoneHashDetails.phoneHash,
+      code.issuer,
+      code.code
+    )
+
+    if (completeTxResult.ok) {
+      return completeTxResult
+    }
+
+    // If it's not a revert error, or this is the last retry, then return result
+    const errorString = completeTxResult.error.toString().toLowerCase()
+    if (!errorString.includes('revert') || i + 1 === numOfRetries) {
+      return completeTxResult
+    }
+
+    Logger.debug(TAG, '@feelessCompleteAttestation', `Failed complete tx on retry #${i + 1}`)
+    yield call(waitForNextBlock)
+  }
+}
+
+export function* completeAttestation(
+  attestationsWrapper: AttestationsWrapper,
+  account: string,
+  phoneHashDetails: PhoneNumberHashDetails,
+  attestation: ActionableAttestation,
+  komenciKit: KomenciKit
+) {
+  const shouldUseKomenci = yield select(shouldUseKomenciSelector)
+  const issuer = attestation.issuer
+  ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_await_code_start, {
+    issuer,
+    feeless: shouldUseKomenci,
+  })
+  const code: AttestationCode = yield call(waitForAttestationCode, issuer)
+  const existingCodes: AttestationCode[] = yield select(attestationCodesSelector)
+  const codePosition = existingCodes.findIndex((existingCode) => existingCode.issuer === issuer)
+
+  ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_await_code_complete, {
+    issuer,
+    feeless: shouldUseKomenci,
+  })
+
+  Logger.debug(TAG + '@completeAttestation', `Completing code for issuer: ${code.issuer}`)
+
+  // Make each concurrent completion attempt wait a sec for where they are relative to other codes
+  // to ensure `processingInputCode` has enough time to properly gate the tx. 0-index code
+  // will have 0 delay, 1-index code will have 1 sec delay, etc.
+  if (shouldUseKomenci) {
+    yield delay(codePosition * 1000)
+    yield inputAttestationCodeLock.acquireAsync()
+    const completeTxResult: Result<CeloTxReceipt, FetchError | TxError> = yield call(
+      submitCompleteTxAndRetryOnRevert,
+      komenciKit,
+      account,
+      phoneHashDetails,
+      code
+    )
+    yield inputAttestationCodeLock.release()
+    if (!completeTxResult.ok) {
+      Logger.debug(TAG, '@feelessCompleteAttestation', 'Failed complete tx')
+      throw completeTxResult.error
+    }
+  } else {
+    // Generate and send the transaction to complete the attestation from the given issuer.
+    const completeTx: CeloTransactionObject<void> = yield call(
+      [attestationsWrapper, attestationsWrapper.complete],
+      phoneHashDetails.phoneHash,
+      account,
+      code.issuer,
+      code.code
+    )
+    const context = newTransactionContext(TAG, `Complete attestation from ${issuer}`)
+    yield call(sendTransaction, completeTx.txo, account, context, COMPLETE_ATTESTATION_TX_GAS)
+  }
+
+  ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_complete, {
+    issuer,
+    feeless: shouldUseKomenci,
+  })
+
+  // Report reveal status from validator
+  yield put(
+    reportRevealStatus({
+      attestationServiceUrl: attestation.attestationServiceURL,
+      account,
+      issuer,
+      e164Number: phoneHashDetails.e164Number,
+      pepper: phoneHashDetails.pepper,
+    })
+  )
+  Logger.debug(TAG + '@completeAttestation', `Attestation for issuer ${issuer} completed`)
+  yield put(completeAttestationCode(code))
+}
 
 function* checkTooManyErrors() {
   const komenci: KomenciContext = yield select(komenciContextSelector)
@@ -893,8 +1452,13 @@ export function* completeAttestationsSaga() {
 
 export function* resendMessagesSaga() {
   Logger.error(TAG, `@resendMessagesSaga has started`)
-
+  const shouldUseKomenci = yield select(shouldUseKomenciSelector)
   const status = yield select(verificationStatusSelector)
+  ValoraAnalytics.track(VerificationEvents.verification_resend_messages, {
+    count: status.numAttestationsRemaining,
+    feeless: shouldUseKomenci,
+  })
+
   const revealStatuses = yield select(revealStatusesSelector)
   const numberOfAttestationsToRequest =
     status.numAttestationsRemaining -
@@ -915,7 +1479,12 @@ export function* resendMessagesSaga() {
 }
 
 export function* failSaga(action: ReturnType<typeof fail>) {
+  const shouldUseKomenci = yield select(shouldUseKomenciSelector)
   Logger.error(TAG, `@failSaga: ${action.payload}`)
+  ValoraAnalytics.track(VerificationEvents.verification_error, {
+    feeless: shouldUseKomenci,
+    error: action.payload,
+  })
 }
 
 export function* resetSaga() {
@@ -933,7 +1502,9 @@ export function* stopSaga() {
 
 export function* successSaga() {
   Logger.error(TAG, `@successSaga called`)
-  // TODO: Move this out of saga
+  const shouldUseKomenci = yield select(shouldUseKomenciSelector)
+  ValoraAnalytics.track(VerificationEvents.verification_complete, { feeless: shouldUseKomenci })
+  Logger.debug(TAG, 'Verification completed successfully')
   yield put(setNumberVerified(true))
 }
 
@@ -1051,6 +1622,77 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
   }
 }
 
+export function* reportActionableAttestationsStatuses() {
+  const account: string = yield call(getConnectedUnlockedAccount)
+  const contractKit = yield call(getContractKit)
+  const attestationsWrapper: AttestationsWrapper = yield call([
+    contractKit.contracts,
+    contractKit.contracts.getAttestations,
+  ])
+  const phoneHashDetails = yield call(getPhoneHashDetails)
+  const actionableAttestations: ActionableAttestation[] = yield call(
+    getActionableAttestations,
+    attestationsWrapper,
+    phoneHashDetails.phoneHash,
+    account
+  )
+
+  for (const attestation of actionableAttestations) {
+    yield put(
+      reportRevealStatus({
+        attestationServiceUrl: attestation.attestationServiceURL,
+        account,
+        issuer: attestation.issuer,
+        e164Number: phoneHashDetails.e164Number,
+        pepper: phoneHashDetails.pepper,
+      })
+    )
+  }
+}
+
+// Report to analytics reveal status from validator
+export function* reportRevealStatusSaga({
+  payload: { attestationServiceUrl, e164Number, account, issuer, pepper },
+}: ReturnType<typeof reportRevealStatus>) {
+  let aggregatedResponse: undefined | { ok: boolean; status: number; body: any }
+  const contractKit = yield call(getContractKit)
+  const attestationsWrapper: AttestationsWrapper = yield call([
+    contractKit.contracts,
+    contractKit.contracts.getAttestations,
+  ])
+  Logger.debug(`${TAG}@reportRevealStatusSaga`, `Start for service url ${attestationServiceUrl}`)
+  try {
+    const response = yield call(
+      attestationsWrapper.getRevealStatus,
+      e164Number,
+      account,
+      issuer,
+      attestationServiceUrl,
+      pepper
+    )
+    const body = yield call(response.json.bind(response))
+    aggregatedResponse = { ok: response.ok, body, status: response.status }
+  } catch (error) {
+    Logger.error(`${TAG}@reportRevealStatusSaga`, 'Error calling proxyRevealStatus', error)
+    aggregatedResponse = { ok: false, status: 500, body: error }
+  }
+  if (aggregatedResponse.ok) {
+    Logger.debug(
+      `${TAG}@reportRevealStatusSaga`,
+      `Successful for service url ${attestationServiceUrl}`
+    )
+    ValoraAnalytics.track(
+      VerificationEvents.verification_reveal_attestation_status,
+      aggregatedResponse.body
+    )
+  } else {
+    Logger.debug(
+      `${TAG}@reportRevealStatusSaga`,
+      `Failed for service url ${attestationServiceUrl} with Status: ${aggregatedResponse.status}`
+    )
+  }
+}
+
 export function* verifySaga() {
   while (true) {
     const task = yield fork(function*() {
@@ -1070,42 +1712,24 @@ export function* verifySaga() {
       yield takeEvery(completeAttestations.type, completeAttestationsSaga)
       yield takeEvery(resendMessages.type, resendMessagesSaga)
       yield takeEvery(receiveAttestationCode.type, receiveAttestationCodeSaga)
+      yield takeEvery(reportRevealStatus.type, reportRevealStatusSaga)
+      yield takeEvery(revoke.type, revokeSaga)
     })
-    yield race({
-      cancel: take(cancel.type),
-      timeout: delay(VERIFICATION_TIMEOUT),
+    const { cancelled, timedOut }: { cancelled: boolean; timedOut: boolean } = yield race({
+      cancelled: take(cancel.type),
+      timedOut: delay(VERIFICATION_TIMEOUT),
     })
-    yield cancelTask(task)
-    Logger.debug(TAG, 'Verification Saga has been cancelled')
-    // if (restart) {
-    // const status: AttestationsStatus = yield select(verificationStatusSelector)
-    // ValoraAnalytics.track(VerificationEvents.verification_resend_messages, {
-    // count: status.numAttestationsRemaining,
-    // feeless: shouldUseKomenci,
-    // })
-    // Logger.debug(TAG, 'Verification has been restarted')
-    // yield put(startVerification(e164Number, false))
-    // } else if (success) {
-    // ValoraAnalytics.track(VerificationEvents.verification_complete, { feeless: shouldUseKomenci })
-    // Logger.debug(TAG, 'Verification completed successfully')
-    // } else if (failure) {
-    // ValoraAnalytics.track(VerificationEvents.verification_error, {
-    // feeless: shouldUseKomenci,
-    // error: failure.payload,
-    // })
-    // Logger.debug(TAG, 'Verification failed')
-    // yield call(reportActionableAttestationsStatuses)
-    // } else if (cancel) {
-    // ValoraAnalytics.track(VerificationEvents.verification_cancel, { feeless: shouldUseKomenci })
-    // yield put(setVerificationStatus(VerificationStatus.Stopped))
-    // Logger.debug(TAG, 'Verification cancelled')
-    // yield call(reportActionableAttestationsStatuses)
-    // } else if (timeout) {
-    // ValoraAnalytics.track(VerificationEvents.verification_timeout, { feeless: shouldUseKomenci })
-    // Logger.debug(TAG, 'Verification timed out')
-    // yield put(showError(ErrorMessages.VERIFICATION_TIMEOUT))
-    // yield put(setVerificationStatus(VerificationStatus.Failed))
-    // yield call(reportActionableAttestationsStatuses)
-    // }
+    const shouldUseKomenci = yield select(shouldUseKomenciSelector)
+
+    if (cancelled) {
+      yield cancelTask(task)
+      Logger.debug(TAG, 'Verification has been cancelled')
+      ValoraAnalytics.track(VerificationEvents.verification_cancel, { feeless: shouldUseKomenci })
+    } else if (timedOut) {
+      ValoraAnalytics.track(VerificationEvents.verification_timeout, { feeless: shouldUseKomenci })
+      Logger.debug(TAG, 'Verification timed out')
+      yield put(showError(ErrorMessages.VERIFICATION_TIMEOUT))
+    }
+    yield call(reportActionableAttestationsStatuses)
   }
 }

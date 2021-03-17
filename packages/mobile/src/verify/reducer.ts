@@ -8,9 +8,9 @@ import { RootState } from 'src/redux/reducers'
 import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
 import BigNumber from 'bignumber.js'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
-import { AttestationCode, CodeInputType } from 'src/identity/verification'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { AttestationCode, CodeInputType } from 'src/verify/saga'
 
 export const ATTESTATION_CODE_PLACEHOLDER = 'ATTESTATION_CODE_PLACEHOLDER'
 export const ATTESTATION_ISSUER_PLACEHOLDER = 'ATTESTATION_ISSUER_PLACEHOLDER'
@@ -33,6 +33,13 @@ export const fetchMtw = createAction('VERIFY/FETCH_MTW')
 export const fetchOnChainData = createAction('VERIFY/FETCH_ON_CHAIN_DATA')
 export const requestAttestations = createAction('VERIFY/REQUEST_ATTESTATIONS')
 export const revealAttestations = createAction('VERIFY/REVEAL_ATTESTATIONS')
+export const reportRevealStatus = createAction<{
+  attestationServiceUrl: string
+  account: string
+  issuer: string
+  e164Number: string
+  pepper: string
+}>('VERIFY/REPORT_REVEAL_STATUS')
 export const completeAttestations = createAction('VERIFY/COMPLETE_ATTESTATIONS')
 export const fail = createAction<string>('VERIFY/FAIL')
 export const succeed = createAction('VERIFY/SUCCEED')
@@ -60,6 +67,7 @@ export const setRevealStatuses = createAction<Record<Address, RevealStatus>>(
   'VERIFY/SET_REVEAL_STATUSES'
 )
 export const setAllRevealStatuses = createAction<RevealStatus>('VERIFY/SET_ALL_REVEAL_STATUSES')
+export const setLastRevealAttempt = createAction<number>('VERIFY/SET_ALL_REVEAL_STATUSES')
 
 export enum VerificationStateType {
   Idle = 'Idle',
@@ -224,6 +232,7 @@ export interface State {
   e164Number?: string
   attestationCodes: AttestationCode[]
   completedAttestationCodes: AttestationCode[]
+  lastRevealAttempt: number | null
 }
 
 const initialState: State = {
@@ -249,6 +258,7 @@ const initialState: State = {
   komenciAvailable: KomenciAvailable.Unknown,
   attestationCodes: [],
   completedAttestationCodes: [],
+  lastRevealAttempt: null,
 }
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -414,7 +424,6 @@ export const reducer = createReducer(initialState, (builder) => {
           issuer: ATTESTATION_ISSUER_PLACEHOLDER,
         }
       }
-      console.log(attestationCodes, action.payload)
       return {
         ...state,
         attestationCodes,
@@ -437,22 +446,28 @@ export const reducer = createReducer(initialState, (builder) => {
         completedAttestationCodes: [...state.completedAttestationCodes, action.payload],
       }
     })
-    .addCase(requestAttestations, (state, action) => {
+    .addCase(requestAttestations, (state) => {
       return {
         ...state,
         currentState: requestingAttestations(),
       }
     })
-    .addCase(revealAttestations, (state, action) => {
+    .addCase(revealAttestations, (state) => {
       return {
         ...state,
         currentState: revealingAttestations(),
       }
     })
-    .addCase(completeAttestations, (state, action) => {
+    .addCase(completeAttestations, (state) => {
       return {
         ...state,
         currentState: completingAttestations(),
+      }
+    })
+    .addCase(setLastRevealAttempt, (state, action) => {
+      return {
+        ...state,
+        lastRevealAttempt: action.payload,
       }
     })
 })

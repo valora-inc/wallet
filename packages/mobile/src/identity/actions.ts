@@ -13,7 +13,8 @@ import { Recipient } from 'src/recipients/recipient'
 
 export enum Actions {
   UPDATE_E164_PHONE_NUMBER_ADDRESSES = 'IDENTITY/UPDATE_E164_PHONE_NUMBER_ADDRESSES',
-  UPDATE_WALLET_TO_ACCOUNT_ADDRESS = 'UPDATE_WALLET_TO_ACCOUNT_ADDRESS',
+  UPDATE_WALLET_TO_ACCOUNT_ADDRESS = 'IDENTITY/UPDATE_WALLET_TO_ACCOUNT_ADDRESS',
+  REMOVE_WALLET_TO_ACCOUNT_ADDRESS = 'IDENTITY/REMOVE_WALLET_TO_ACCOUNT_ADDRESS',
   UPDATE_E164_PHONE_NUMBER_SALT = 'IDENTITY/UPDATE_E164_PHONE_NUMBER_SALT',
   UPDATE_KNOWN_ADDRESSES = 'IDENTITY/UPDATE_KNOWN_ADDRESSES',
   FETCH_ADDRESSES_AND_VALIDATION_STATUS = 'IDENTITY/FETCH_ADDRESSES_AND_VALIDATION_STATUS',
@@ -30,8 +31,6 @@ export enum Actions {
   REQUIRE_SECURE_SEND = 'IDENTITY/REQUIRE_SECURE_SEND',
   FETCH_DATA_ENCRYPTION_KEY = 'IDENTITY/FETCH_DATA_ENCRYPTION_KEY',
   UPDATE_ADDRESS_DEK_MAP = 'IDENTITY/UPDATE_ADDRESS_DEK_MAP',
-  SET_LAST_REVEAL_ATTEMPT = 'IDENTITY/SET_LAST_REVEAL_ATTEMPT',
-  REPORT_REVEAL_STATUS = 'IDENTITY/REPORT_REVEAL_STATUS',
 }
 
 export interface UpdateE164PhoneNumberAddressesAction {
@@ -43,6 +42,11 @@ export interface UpdateE164PhoneNumberAddressesAction {
 export interface UpdateWalletToAccountAddressAction {
   type: Actions.UPDATE_WALLET_TO_ACCOUNT_ADDRESS
   walletToAccountAddress: WalletToAccountAddressType
+}
+
+export interface RemoveWalletToAccountAddressAction {
+  type: Actions.REMOVE_WALLET_TO_ACCOUNT_ADDRESS
+  walletAddress: string
 }
 
 export interface UpdateE164PhoneNumberSaltAction {
@@ -133,23 +137,15 @@ export interface UpdateAddressDekMapAction {
   dataEncryptionKey: string | null
 }
 
-export interface SetLastRevealAttempt {
-  type: Actions.SET_LAST_REVEAL_ATTEMPT
-  time: number
-}
-
-export interface ReportRevealStatusAction {
-  type: Actions.REPORT_REVEAL_STATUS
-  attestationServiceUrl: string
-  account: string
-  issuer: string
-  e164Number: string
-  pepper: string
-}
+// export interface SetLastRevealAttempt {
+// type: Actions.SET_LAST_REVEAL_ATTEMPT
+// time: number
+// }
 
 export type ActionTypes =
   | UpdateE164PhoneNumberAddressesAction
   | UpdateWalletToAccountAddressAction
+  | RemoveWalletToAccountAddressAction
   | UpdateE164PhoneNumberSaltAction
   | UpdateKnownAddressesAction
   | ImportContactsAction
@@ -165,8 +161,6 @@ export type ActionTypes =
   | EndFetchingAddressesAction
   | FetchDataEncryptionKeyAction
   | UpdateAddressDekMapAction
-  | SetLastRevealAttempt
-  | ReportRevealStatusAction
 
 export const fetchAddressesAndValidate = (
   e164Number: string,
@@ -212,6 +206,13 @@ export const updateWalletToAccountAddress = (
     walletToAccountAddress: newWalletToAccountAddresses,
   }
 }
+
+export const removeWalletToAccountAddress = (
+  walletAddress: string
+): RemoveWalletToAccountAddressAction => ({
+  type: Actions.REMOVE_WALLET_TO_ACCOUNT_ADDRESS,
+  walletAddress,
+})
 
 export const updateE164PhoneNumberSalts = (
   e164NumberToSalt: E164NumberToSaltType
@@ -312,25 +313,3 @@ export const updateAddressDekMap = (
   address,
   dataEncryptionKey,
 })
-
-export const setLastRevealAttempt = (time: number): SetLastRevealAttempt => ({
-  type: Actions.SET_LAST_REVEAL_ATTEMPT,
-  time,
-})
-
-export const reportRevealStatus = (
-  attestationServiceUrl: string,
-  account: string,
-  issuer: string,
-  e164Number: string,
-  pepper: string
-): ReportRevealStatusAction => {
-  return {
-    type: Actions.REPORT_REVEAL_STATUS,
-    attestationServiceUrl,
-    account,
-    issuer,
-    e164Number,
-    pepper,
-  }
-}
