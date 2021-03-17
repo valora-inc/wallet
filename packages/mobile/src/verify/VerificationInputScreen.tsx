@@ -24,7 +24,6 @@ import BackButton from 'src/components/BackButton'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { ALERT_BANNER_DURATION, ATTESTATION_REVEAL_TIMEOUT_SECONDS } from 'src/config'
 import i18n, { Namespaces, withTranslation } from 'src/i18n'
-import { AttestationCode, CodeInputType, NUM_ATTESTATIONS_REQUIRED } from 'src/verify/saga'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -40,6 +39,7 @@ import {
   resendMessages,
   VerificationState,
 } from 'src/verify/reducer'
+import { AttestationCode, CodeInputType, NUM_ATTESTATIONS_REQUIRED } from 'src/verify/saga'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
 import VerificationInputHelpDialog from 'src/verify/VerificationInputHelpDialog'
 
@@ -84,7 +84,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: RootState): StateProps => {
   const attestationCodes = state.verify.attestationCodes
-  const lastRevealAttempt = state.identity.lastRevealAttempt
+  const lastRevealAttempt = state.verify.lastRevealAttempt
 
   return {
     e164Number: state.account.e164PhoneNumber,

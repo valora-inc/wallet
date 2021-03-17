@@ -3,6 +3,7 @@ import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
 import Send from 'src/send/Send'
+import { KomenciAvailable } from 'src/verify/reducer'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockE164Number,
@@ -21,6 +22,18 @@ const defaultStore = {
   },
   app: {
     numberVerified: true,
+  },
+  verify: {
+    komenciAvailable: KomenciAvailable.Yes,
+    status: {
+      isVerified: false,
+      numAttestationsRemaining: 3,
+      total: 3,
+      completed: 0,
+    },
+    komenci: {
+      errorTimestamps: [],
+    },
   },
   recipients: {
     recipientCache: {

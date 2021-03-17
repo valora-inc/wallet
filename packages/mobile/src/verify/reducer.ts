@@ -67,7 +67,7 @@ export const setRevealStatuses = createAction<Record<Address, RevealStatus>>(
   'VERIFY/SET_REVEAL_STATUSES'
 )
 export const setAllRevealStatuses = createAction<RevealStatus>('VERIFY/SET_ALL_REVEAL_STATUSES')
-export const setLastRevealAttempt = createAction<number>('VERIFY/SET_ALL_REVEAL_STATUSES')
+export const setLastRevealAttempt = createAction<number>('VERIFY/SET_LAST_REVEAL_ATTEMPT')
 
 export enum VerificationStateType {
   Idle = 'Idle',

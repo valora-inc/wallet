@@ -144,14 +144,11 @@ const inputAttestationCodeLock = new AwaitLock()
 
 export const NUM_ATTESTATIONS_REQUIRED = 3
 // export const ESTIMATED_COST_PER_ATTESTATION = 0.051
-// export const VERIFICATION_TIMEOUT = 10 * 60 * 1000 // 10 minutes
-// export const BALANCE_CHECK_TIMEOUT = 5 * 1000 // 5 seconds
 // export const MAX_ACTIONABLE_ATTESTATIONS = 5
 export const REVEAL_RETRY_DELAY = 10 * 1000 // 10 seconds
-// export const ANDROID_DELAY_REVEAL_ATTESTATION = 5000 // 5 sec after each
 
 const TAG = 'verify/saga'
-const BALANCE_CHECK_TIMEOUT = 5 * 1000 // 5 seconds
+export const BALANCE_CHECK_TIMEOUT = 5 * 1000 // 5 seconds
 const KOMENCI_READINESS_RETRIES = 3
 const KOMENCI_DEPLOY_MTW_RETRIES = 3
 const ANDROID_DELAY_REVEAL_ATTESTATION = 5000 // 5 sec after each
@@ -1268,7 +1265,7 @@ function* getKomenciAwareAccount() {
     : yield call(getConnectedUnlockedAccount)
 }
 
-function* getPhoneHashDetails() {
+export function* getPhoneHashDetails() {
   const pepperCache = yield select(e164NumberToSaltSelector)
   const phoneHash = yield select(phoneHashSelector)
   const e164Number = yield select(e164NumberSelector)

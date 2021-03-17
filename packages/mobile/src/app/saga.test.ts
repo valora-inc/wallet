@@ -7,12 +7,12 @@ import { appLock, openDeepLink, openUrl, setAppState } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl, handleSetAppState } from 'src/app/saga'
 import { getAppLocked, getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { receiveAttestationMessage } from 'src/identity/actions'
-import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
+import { receiveAttestationCode } from 'src/verify/reducer'
+import { CodeInputType } from 'src/verify/saga'
 
 jest.mock('src/utils/time', () => ({
   clockInSync: () => true,
@@ -38,7 +38,7 @@ describe('App saga', () => {
 
   it('Handles verification deep link', async () => {
     await expectSaga(handleDeepLink, openDeepLink('celo://wallet/v/12345'))
-      .put(receiveAttestationMessage('12345', CodeInputType.DEEP_LINK))
+      .put(receiveAttestationCode({ message: '12345', inputType: CodeInputType.DEEP_LINK }))
       .run()
   })
 

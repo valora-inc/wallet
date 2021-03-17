@@ -49,8 +49,8 @@ import { RootState } from 'src/redux/reducers'
 import { restartApp } from 'src/utils/AppRestart'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { toggleFornoMode } from 'src/web3/actions'
 import { revoke } from 'src/verify/reducer'
+import { toggleFornoMode } from 'src/web3/actions'
 
 interface DispatchProps {
   revokeVerification: typeof revoke
