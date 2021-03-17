@@ -16,7 +16,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'NavigationService'
 
-const NAVIGATOR_INIT_RETRIES = 5
+const NAVIGATOR_INIT_RETRIES = 10
 
 type SafeNavigate = typeof navigate
 
@@ -27,8 +27,7 @@ navigatorIsReadyRef.current = false
 async function ensureNavigator() {
   let retries = 0
   while (
-    !navigationRef.current &&
-    !navigatorIsReadyRef.current &&
+    (!navigationRef.current || !navigatorIsReadyRef.current) &&
     retries < NAVIGATOR_INIT_RETRIES
   ) {
     await sleep(200)
