@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     color: colors.dark,
   },
   dropDownText: {
-    ...fontStyles.small,
+    ...fontStyles.regular,
     color: colors.gray4,
   },
 })
