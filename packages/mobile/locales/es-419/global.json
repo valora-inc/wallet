@@ -191,5 +191,6 @@
   "firebaseFetchFailed": "La conexión con el servidor falló",
   "pictureLoadFailed": "Hubo un error al cargar la imagen",
   "simplexPurchaseFetchFailed": "No se pudo recuperar una cotización de Simplex. Por favor, inténtelo de nuevo más tarde",
+  "providerUrlFetchFailed": "No se pudo conectar al servicio. Comuníquese con el soporte",
   "ok": "OK"
 }

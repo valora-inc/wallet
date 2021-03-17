@@ -207,7 +207,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   }
 
   return !userLocation || asyncProviderQuotes.status === 'loading' ? (
-    <View style={styles.container}>
+    <View style={styles.activityIndicatorContainer}>
       <ActivityIndicator size="large" color={colors.greenBrand} />
     </View>
   ) : (
@@ -257,6 +257,12 @@ export default ProviderOptionsScreen
 const styles = StyleSheet.create({
   container: {
     paddingVertical: variables.contentPadding,
+  },
+  activityIndicatorContainer: {
+    paddingVertical: variables.contentPadding,
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
   },
   content: {
     flex: 1,

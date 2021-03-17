@@ -1,6 +1,8 @@
 import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import { default as DeviceInfo } from 'react-native-device-info'
 import getIpAddress from 'react-native-public-ip'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   DEFAULT_TESTNET,
   PROVIDER_URL_COMPOSER_PROD,
@@ -10,7 +12,9 @@ import {
 import MoonPay from 'src/fiatExchanges/MoonPay'
 import { Provider, Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { providerAvailability } from 'src/flags'
+import Logger from 'src/utils/Logger'
 
+const TAG = 'fiatExchanges:utils'
 interface WidgetRequestData {
   address: string | null
   digitalAsset: string
@@ -34,22 +38,27 @@ export const fetchProviderWidgetUrl = async (
   provider: Providers,
   requestData: WidgetRequestData
 ) => {
-  const response = await fetch(
-    DEFAULT_TESTNET === 'mainnet' ? PROVIDER_URL_COMPOSER_PROD : PROVIDER_URL_COMPOSER_STAGING,
-    {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...requestData,
-        provider,
-      }),
-    }
-  )
+  try {
+    const response = await fetch(
+      DEFAULT_TESTNET === 'mainnet' ? PROVIDER_URL_COMPOSER_PROD : PROVIDER_URL_COMPOSER_STAGING,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...requestData,
+          provider,
+        }),
+      }
+    )
 
-  return response.json()
+    return response.json()
+  } catch (error) {
+    Logger.error(TAG, error.message)
+    showError(ErrorMessages.PROVIDER_URL_FETCH_FAILED)
+  }
 }
 
 export const fetchUserLocationData = async (countryCallingCode: string | null) => {

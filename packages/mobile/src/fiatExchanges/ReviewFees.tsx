@@ -59,6 +59,8 @@ export default function ReviewFees({
     />
   )
 
+  const token = currencyToBuy === CurrencyCode.CUSD ? 'cUSD' : 'CELO'
+
   return (
     <View style={[styles.review]}>
       <Dialog isVisible={showingTerms} actionText={t('global:ok')} actionPress={closeTerms}>
@@ -74,13 +76,13 @@ export default function ReviewFees({
       </Dialog>
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText]}>
-          {t('global:amount')} ({currencyToBuy})
+          {t('global:amount')} ({token})
         </Text>
         <Text style={[styles.reviewLineText]}>{showAmount(crypto.amount, true)}</Text>
       </View>
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText, styles.reviewLineTextAlt]}>
-          {t('pricePer', { coin: currencyToBuy })}
+          {t('pricePer', { coin: token })}
         </Text>
         <Text style={[styles.reviewLineText, styles.reviewLineTextAlt]}>
           {showAmount(crypto.price, false, [styles.reviewLineTextAlt])}
