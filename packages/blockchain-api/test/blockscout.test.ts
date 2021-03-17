@@ -658,14 +658,14 @@ describe('Blockscout', () => {
           "type": "EXCHANGE",
         },
         Object {
-          "account": "0x6a0edf42f5e618bee697e7718fa05efb1ea5d11c",
-          "address": "0x6a0edf42f5e618bee697e7718fa05efb1ea5d11c",
+          "account": "0x8b7649116f169d2d2aebb6ea1a77f0baf31f2811",
+          "address": "0x8b7649116f169d2d2aebb6ea1a77f0baf31f2811",
           "amount": Object {
             "currencyCode": "cUSD",
             "timestamp": 1566346276000,
             "value": "-0.15",
           },
-          "block": "90792",
+          "block": "90719",
           "comment": "",
           "fees": Array [
             Object {
@@ -685,7 +685,7 @@ describe('Blockscout', () => {
               "type": "SECURITY_FEE",
             },
           ],
-          "hash": "0x21dd2c18ae6c80d61ffbddaa073f7cde7bbfe9436fdf5059b506f1686326afff",
+          "hash": "0x21dd2c18ae6c80d61ffbddaa073f7cde7bbfe9436fdf5059b506f1686326a2fb",
           "timestamp": 1566346276000,
           "type": "SENT",
         },
@@ -722,14 +722,14 @@ describe('Blockscout', () => {
           "type": "SENT",
         },
         Object {
-          "account": "0x8b7649116f169d2d2aebb6ea1a77f0baf31f2811",
-          "address": "0x8b7649116f169d2d2aebb6ea1a77f0baf31f2811",
+          "account": "0x6a0edf42f5e618bee697e7718fa05efb1ea5d11c",
+          "address": "0x6a0edf42f5e618bee697e7718fa05efb1ea5d11c",
           "amount": Object {
             "currencyCode": "cUSD",
             "timestamp": 1566346276000,
             "value": "-0.15",
           },
-          "block": "90719",
+          "block": "90792",
           "comment": "",
           "fees": Array [
             Object {
@@ -749,7 +749,7 @@ describe('Blockscout', () => {
               "type": "SECURITY_FEE",
             },
           ],
-          "hash": "0x21dd2c18ae6c80d61ffbddaa073f7cde7bbfe9436fdf5059b506f1686326a2fb",
+          "hash": "0x21dd2c18ae6c80d61ffbddaa073f7cde7bbfe9436fdf5059b506f1686326afff",
           "timestamp": 1566346276000,
           "type": "SENT",
         },
