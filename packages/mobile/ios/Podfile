@@ -10,7 +10,8 @@ $RNFirebaseAsStaticFramework = true
 $static_framework = ['react-native-flipper', 'react-native-fast-crypto', 'FlipperKit', 'Flipper', 'Flipper-Folly',
   'CocoaAsyncSocket', 'ComponentKit', 'Flipper-DoubleConversion',
   'Flipper-Glog', 'Flipper-PeerTalk', 'Flipper-RSocket',
-  'CocoaLibEvent', 'OpenSSL-Universal']
+  'CocoaLibEvent', 'OpenSSL-Universal',
+  'Segment-Adjust']
 
 require_relative "../../../node_modules/react-native/scripts/react_native_pods"
 require_relative "../../../node_modules/@react-native-community/cli-platform-ios/native_modules"

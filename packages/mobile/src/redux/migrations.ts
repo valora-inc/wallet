@@ -1,3 +1,4 @@
+import { providersDisplayInfo } from 'src/fiatExchanges/reducer'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 
 export const migrations = {
@@ -109,6 +110,22 @@ export const migrations = {
       identity: {
         ...state.identity,
         addressToDisplayName: newAddressToDisplayName,
+      },
+    }
+  },
+  8: (state: any) => {
+    const lastUsedProvider = state.fiatExchanges.lastUsedProvider
+    if (!lastUsedProvider || !lastUsedProvider.name) {
+      return state
+    }
+    const lastProvider = Object.entries(providersDisplayInfo).find(
+      ([_, providerInfo]) => providerInfo.name.toLowerCase() === lastUsedProvider.name.toLowerCase()
+    )
+    return {
+      ...state,
+      fiatExchanges: {
+        ...state.fiatExchanges,
+        lastUsedProvider: lastProvider?.[0] ?? null,
       },
     }
   },

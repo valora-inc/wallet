@@ -70,6 +70,7 @@ describe(watchBidaliPaymentRequests, () => {
           '0xTEST',
           undefined,
           undefined,
+          undefined,
           true
         )
       )
@@ -112,6 +113,7 @@ describe(watchBidaliPaymentRequests, () => {
           'Some description (TEST_CHARGE_ID)',
           recipient,
           '0xTEST',
+          undefined,
           undefined,
           undefined,
           true
