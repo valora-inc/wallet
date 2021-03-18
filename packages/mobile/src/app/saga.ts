@@ -90,6 +90,7 @@ export function* appVersionSaga() {
 export interface RemoteFeatureFlags {
   kotaniEnabled: boolean
   pontoEnabled: boolean
+  simplexFeeWaived: boolean
   bitfyUrl: string | null
   flowBtcUrl: string | null
   celoEducationUri: string | null

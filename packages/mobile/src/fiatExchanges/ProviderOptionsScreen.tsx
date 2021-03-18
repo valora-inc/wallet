@@ -159,7 +159,6 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         unavailable: !providerQuotes?.simplexQuote || !userLocation?.ipAddress,
         image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () => {
-          console.log(providerQuotes, userLocation)
           if (providerQuotes?.simplexQuote && userLocation?.ipAddress) {
             navigate(Screens.Simplex, {
               simplexQuote: providerQuotes?.simplexQuote,

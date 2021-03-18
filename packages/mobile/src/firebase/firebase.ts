@@ -218,6 +218,7 @@ export function appRemoteFeatureFlagChannel() {
       emit({
         kotaniEnabled: flags?.kotaniEnabled || false,
         pontoEnabled: flags?.pontoEnabled || false,
+        simplexFeeWaived: flags?.simplexFeeWaived ?? false,
         bitfyUrl: flags?.bitfyUrl ?? null,
         flowBtcUrl: flags?.flowBtcUrl ?? null,
         celoEducationUri: flags?.celoEducationUri ?? null,

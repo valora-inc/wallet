@@ -53,7 +53,7 @@
   },
   "providerFeesDialog": {
     "title": "Tarifas de los proveedores",
-    "body": "Las tarifas de los proveedores son fijadas por cada uno de ellos de forma individual e incluyen una comisión de intercambio y una comisión de liquidez, entre otras. Para obtener más información, visite la <0>página de soporte</0>."
+    "body": "Provider fees are set by each provider individually and include an exchange fee and liquidity fee, among others. To learn more please visit <0>{{supportPage}}</0>"
   },
   "dailyLimitRequest": "Hola! Me gustaría aumentar mi límite de envío diario por favor.",
   "pleaseSelectProvider": "Por favor, selecciona un proveedor. Estos enlaces se conectan a servicios de terceros.",

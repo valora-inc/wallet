@@ -2,9 +2,9 @@ import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Linking, StyleSheet, Text, View } from 'react-native'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
@@ -25,6 +25,8 @@ interface Props {
     fees: number
     total: number
   }
+  feeWaived: boolean
+  feeUrl: string
 }
 
 export default function ReviewFees({
@@ -33,12 +35,18 @@ export default function ReviewFees({
   fiat,
   localCurrency,
   currencyToBuy,
+  feeWaived,
+  feeUrl,
 }: Props) {
-  const [showingTerms, setShowingTerms] = React.useState(false)
+  const [showFeeExplanation, setShowFeeExplanation] = useState(false)
+  const [showFeeDiscountExplanation, setShowFeeDiscountExplanation] = useState(false)
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
 
-  const closeTerms = () => setShowingTerms(false)
-  const openTerms = () => setShowingTerms(true)
+  const openFeeExplanation = () => setShowFeeExplanation(true)
+  const closeFeeExplanation = () => setShowFeeExplanation(false)
+
+  const openFeeDiscountExplanation = () => setShowFeeDiscountExplanation(true)
+  const closeFeeDiscountExplanation = () => setShowFeeDiscountExplanation(false)
 
   const showAmount = (value: number, isCelo: boolean = false, textStyle: any[] = []) => (
     <CurrencyDisplay
@@ -53,7 +61,7 @@ export default function ReviewFees({
       }}
       hideSymbol={false}
       showLocalAmount={true}
-      hideSign={true}
+      hideSign={false}
       showExplicitPositiveSign={false}
       style={[...textStyle]}
     />
@@ -63,16 +71,31 @@ export default function ReviewFees({
 
   return (
     <View style={[styles.review]}>
-      <Dialog isVisible={showingTerms} actionText={t('global:ok')} actionPress={closeTerms}>
+      <Dialog
+        isVisible={showFeeExplanation}
+        actionText={t('global:ok')}
+        actionPress={closeFeeExplanation}
+      >
         <Text style={[fontStyles.large600]}>{t('providerFeesDialog.title')}</Text>
         {'\n\n'}
-        <Text style={[fontStyles.regular]}>
-          {
-            <Trans i18nKey="providerFeesDialog.body" ns={Namespaces.fiatExchangeFlow}>
-              <Text style={styles.emailLink} />
-            </Trans>
-          }
+        <Text style={[fontStyles.regular]}>{t('providerFeesDialog.body1')}</Text>
+        <Text
+          style={{ color: colors.greenUI }}
+          onPress={() => {
+            Linking.openURL(feeUrl)
+          }}
+        >
+          {t('providerFeesDialog.body2', { providerName: provider })}
         </Text>
+      </Dialog>
+      <Dialog
+        isVisible={showFeeDiscountExplanation}
+        actionText={t('global:ok')}
+        actionPress={closeFeeDiscountExplanation}
+      >
+        <Text style={[fontStyles.large600]}>{t('providerFeeDiscountDialog.title')}</Text>
+        {'\n\n'}
+        <Text style={[fontStyles.regular]}>{t('providerFeeDiscountDialog.body')}</Text>
       </Dialog>
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText]}>
@@ -98,16 +121,35 @@ export default function ReviewFees({
           <Text style={[styles.reviewLineText]}>
             {provider} {t('exchangeFlow9:fee')}
           </Text>
-          <Touchable style={[styles.icon]} onPress={openTerms} hitSlop={variables.iconHitslop}>
+          <Touchable
+            style={[styles.icon]}
+            onPress={openFeeExplanation}
+            hitSlop={variables.iconHitslop}
+          >
             <InfoIcon color={colors.gray3} size={14} />
           </Touchable>
         </View>
-        <Text style={[styles.reviewLineText]}>{showAmount(fiat.fees)}</Text>
+        <Text>{showAmount(fiat.fees, false, [styles.reviewLineText])}</Text>
       </View>
+      {feeWaived && (
+        <View style={[styles.reviewLine]}>
+          <View style={[styles.reviewLineInfo]}>
+            <Text style={[styles.reviewLineText]}>{t('feeDiscount')}</Text>
+            <Touchable
+              style={[styles.icon]}
+              onPress={openFeeDiscountExplanation}
+              hitSlop={variables.iconHitslop}
+            >
+              <InfoIcon color={colors.gray3} size={14} />
+            </Touchable>
+          </View>
+          <Text>{showAmount(fiat.fees * -1, false, [styles.feeWaivedText])}</Text>
+        </View>
+      )}
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText, styles.reviewLineTextTotal]}>{t('global:Total')}</Text>
         <Text style={[styles.reviewLineText, styles.reviewLineTextTotal]}>
-          {showAmount(fiat.total, false, [styles.reviewLineTextTotal])}
+          {showAmount(feeWaived ? fiat.subTotal : fiat.total, false, [styles.reviewLineTextTotal])}
         </Text>
       </View>
     </View>
@@ -147,6 +189,10 @@ const styles = StyleSheet.create({
   },
   reviewLineText: {
     ...fontStyles.regular,
+  },
+  feeWaivedText: {
+    ...fontStyles.regular,
+    color: colors.greenUI,
   },
   reviewLineTextAlt: {
     color: colors.gray4,

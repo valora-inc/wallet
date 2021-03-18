@@ -44,6 +44,7 @@ export const numberVerifiedSelector = (state: RootState) => state.app.numberVeri
 
 export const pontoEnabledSelector = (state: RootState) => state.app.pontoEnabled
 export const kotaniEnabledSelector = (state: RootState) => state.app.kotaniEnabled
+export const simplexFeeWaivedSelector = (state: RootState) => state.app.simplexFeeWaived
 export const bitfyUrlSelector = (state: RootState) => state.app.bitfyUrl
 export const flowBtcUrlSelector = (state: RootState) => state.app.flowBtcUrl
 

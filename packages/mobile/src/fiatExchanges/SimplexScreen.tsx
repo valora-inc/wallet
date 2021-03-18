@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedSelector } from 'src/app/selectors'
+import { numberVerifiedSelector, simplexFeeWaivedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import WebView from 'src/components/WebView'
 import { CurrencyCode } from 'src/config'
@@ -26,6 +26,9 @@ import { currentAccountSelector } from 'src/web3/selectors'
 type RouteProps = StackScreenProps<StackParamList, Screens.Simplex>
 type Props = RouteProps
 
+const SIMPLEX_FEES_URL =
+  'https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-am-I-paying-'
+
 function SimplexScreen({ route, navigation }: Props) {
   const [loadSimplexCheckout, setLoadSimplexCheckout] = useState(false)
   const [redirected, setRedirected] = useState(false)
@@ -36,6 +39,7 @@ function SimplexScreen({ route, navigation }: Props) {
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const phoneNumberConfirmed = useSelector(numberVerifiedSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
+  const simplexFeeWaived = useSelector(simplexFeeWaivedSelector)
 
   const onNavigationStateChange = ({ url }: any) => {
     if (url?.endsWith('step=card_details')) {
@@ -116,6 +120,8 @@ function SimplexScreen({ route, navigation }: Props) {
               amount: simplexQuote.digital_money.amount,
               price: simplexQuote.fiat_money.base_amount / simplexQuote.digital_money.amount,
             }}
+            feeWaived={simplexFeeWaived}
+            feeUrl={SIMPLEX_FEES_URL}
           />
           <Button
             style={styles.button}

@@ -18,6 +18,7 @@ export interface State {
   minVersion: string | null
   pontoEnabled: boolean
   kotaniEnabled: boolean
+  simplexFeeWaived: boolean
   bitfyUrl: string | null
   flowBtcUrl: string | null
   celoEducationUri: string | null
@@ -40,6 +41,7 @@ const initialState = {
   minVersion: null,
   pontoEnabled: false,
   kotaniEnabled: false,
+  simplexFeeWaived: false,
   bitfyUrl: null,
   flowBtcUrl: null,
   shortVerificationCodesEnabled: false,
@@ -145,6 +147,7 @@ export const appReducer = (
         ...state,
         pontoEnabled: action.flags.pontoEnabled,
         kotaniEnabled: action.flags.kotaniEnabled,
+        simplexFeeWaived: action.flags.simplexFeeWaived,
         bitfyUrl: action.flags.bitfyUrl,
         flowBtcUrl: action.flags.flowBtcUrl,
         celoEducationUri: action.flags.celoEducationUri,

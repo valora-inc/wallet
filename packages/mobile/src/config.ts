@@ -94,7 +94,6 @@ export const RECAPTCHA_SITE_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, '
 export const SAFETYNET_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SAFETYNET_KEY')
 export const MOONPAY_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'MOONPAY_API_KEY')
 export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')
-
 export const SIMPLEX_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SIMPLEX_API_KEY')
 
 export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [

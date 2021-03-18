@@ -130,7 +130,6 @@ const Simplex = {
     </html>
   `,
   post: async (path: string, body: any) => {
-    console.log(networkConfig.simplexUrl, SIMPLEX_API_KEY)
     return fetch(`${networkConfig.simplexUrl}${path}`, {
       method: 'POST',
       headers: {

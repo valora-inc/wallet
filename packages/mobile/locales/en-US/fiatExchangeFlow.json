@@ -53,7 +53,12 @@
   },
   "providerFeesDialog": {
     "title": "Provider Fees",
-    "body": "Provider fees are set by each provider individually and include an exchange fee and liquidity fee, among others. To learn more please visit <0>support page</0>"
+    "body1": "Provider fees are set by each provider individually and include an exchange fee and liquidity fee, among others. To learn more please visit ",
+    "body2": "{{providerName}}'s website"
+  },
+  "providerFeeDiscountDialog": {
+    "title": "Fee Discount",
+    "body": "As a promotion, fees are temporarily subsidized to celebrate the launch of Valora!"
   },
   "dailyLimitRequest": "Hi! I'd like to increase my daily send limit please.",
   "pleaseSelectProvider": "Please select a provider below. These links connect to a third party service.",
@@ -65,5 +70,6 @@
   "cUsdDeposit": "cUSD Purchase",
   "restrictedRegion": "Limited support in region",
   "providerUnavailable": "Not currently available",
-  "pricePer": "Price per {{coin}}"
+  "pricePer": "Price per {{coin}}",
+  "feeDiscount": "Fee Discount"
 }
