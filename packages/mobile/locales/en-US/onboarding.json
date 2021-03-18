@@ -7,7 +7,7 @@
   "welcome": {
     "title": "Share money with those you value",
     "createAccount": "Create new account",
-    "restoreAccount": "I have an account"
+    "restoreAccount": "Restore my account"
   },
   "contacts": {
     "header": "Connect Contacts",
@@ -24,7 +24,7 @@
     }
   },
   "createAccount": "Create Account",
-  "restoreAccount": "Restore my Account",
+  "restoreAccount": "Restore My Account",
   "step": "Step {{step}} of 5",
   "selectCountryCode": "Select Country Code",
   "pincodeSet": {
@@ -74,7 +74,7 @@
   "verificationInput": {
     "title": "Confirm",
     "body": "We sent you three messages (SMS). Please copy and paste them below.",
-    "body_ios": "We sent you three messages (SMS). Please tap the link in each message to fill the codes below or copy and paste them manually.",    
+    "body_ios": "We sent you three messages (SMS). Please tap the link in each message to fill the codes below or copy and paste them manually.",
     "body_short": "We sent three codes to {{phoneNumber}}, please enter them below.",
     "codeLabel1": "First Code",
     "codeLabel2": "Second Code",
