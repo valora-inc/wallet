@@ -104,7 +104,6 @@ export default function ReviewFees({
         </View>
         <Text style={[styles.reviewLineText]}>{showAmount(fiat.fees)}</Text>
       </View>
-      <View style={[styles.line]} />
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText, styles.reviewLineTextTotal]}>{t('global:Total')}</Text>
         <Text style={[styles.reviewLineText, styles.reviewLineTextTotal]}>

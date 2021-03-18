@@ -1,6 +1,7 @@
 import { CURRENCY_ENUM } from '@celo/utils'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
+import { Text } from 'react-native'
 import { fireEvent, render, waitForElement } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { CurrencyCode } from 'src/config'
@@ -73,6 +74,7 @@ describe('ProviderOptionsScreen', () => {
   const mockFetch = fetch as FetchMock
   beforeEach(() => {
     jest.useRealTimers()
+    jest.clearAllMocks()
     mockFetch.resetMocks()
   })
 
@@ -165,7 +167,63 @@ describe('ProviderOptionsScreen', () => {
     })
   })
 
-  it('show a warning if user region is not supported', async () => {
+  it('moves available providers to the top of the list', async () => {
+    mockFetch.mockResponses(MIXED_RESTRICTION_USER_LOCATION, MOCK_SIMPLEX_QUOTE_FETCH_RESPONSE)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+
+    const elements = tree.queryAllByType(Text)
+    // The first text element is the info, the second text element is the first provider
+    expect(elements[1].props.children).toEqual('Simplex')
+  })
+
+  it('moves unavailable providers to the bottom of the list', async () => {
+    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
+    // The only quote endpoint is currently Simplex's so it's
+    // the only provider that can be disabled
+    mockFetch.mockReject(new Error('API fetch failed'))
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+
+    const elements = tree.queryAllByType(Text)
+    // The last few text elements belong to the modal + subtext for the last provider
+    const lastProviderName = elements[elements.length - 5].props.children
+    expect(lastProviderName).toEqual('Simplex')
+  })
+
+  it('disables a provider if they are unavailable', async () => {
+    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
+    // The only quote endpoint is currently Simplex's sp it's
+    // the only provider that can be disabled
+    mockFetch.mockReject(new Error('API fetch failed'))
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+
+    const elements = tree.queryAllByText('providerUnavailable')
+    expect(elements).toHaveLength(1)
+    fireEvent.press(tree.getByTestId('Provider/Simplex'))
+    expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('shows a warning if user region is not supported', async () => {
     mockFetch.mockResponseOnce(RESTRICTED_USER_LOCATION)
 
     const tree = render(
