@@ -20,10 +20,10 @@ interface RequestData {
 }
 
 enum Providers {
-  MOONPAY = 'MOONPAY',
-  RAMP = 'RAMP',
-  TRANSAK = 'TRANSAK',
-  SIMPLEX = 'SIMPLEX',
+  Moonpay = 'Moonpay',
+  Ramp = 'Ramp',
+  Simplex = 'Simplex',
+  Transak = 'Transak',
 }
 
 export const composeCicoProviderUrl = functions.https.onRequest((request, response) => {
@@ -32,7 +32,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
 
   let finalUrl
 
-  if (provider === Providers.MOONPAY) {
+  if (provider === Providers.Moonpay) {
     finalUrl = `
       ${MOONPAY_DATA.widget_url}
         ?apiKey=${MOONPAY_DATA.public_key}
@@ -49,7 +49,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
       .digest('base64')
 
     finalUrl = `${finalUrl}&signature=${encodeURIComponent(signature)}`
-  } else if (provider === Providers.RAMP) {
+  } else if (provider === Providers.Ramp) {
     finalUrl = `
       ${RAMP_DATA.widget_url}
         ?hostApiKey=${RAMP_DATA.public_key}
@@ -61,7 +61,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &fiatValue=${fiatAmount}
         &finalUrl=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
       `.replace(/\s+/g, '')
-  } else if (provider === Providers.TRANSAK) {
+  } else if (provider === Providers.Transak) {
     finalUrl = `
       ${TRANSAK_DATA.widget_url}
         ?apiKey=${TRANSAK_DATA.public_key}

@@ -24,6 +24,7 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
+import { CiCoProvider } from 'src/fiatExchanges/reducer'
 import Simplex from 'src/fiatExchanges/Simplex'
 import {
   fetchUserLocationData,
@@ -61,22 +62,12 @@ ProviderOptionsScreen.navigationOptions = ({
     headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
   }
 }
-
-export interface Provider {
-  name: string
+export interface CicoProviderData {
+  id: CiCoProvider
   restricted: boolean
   unavailable?: boolean
-  icon: string
   image?: React.ReactNode
-  isFeeDataLoading?: boolean
   onSelected: () => void
-}
-
-export enum Providers {
-  MOONPAY = 'MOONPAY',
-  RAMP = 'RAMP',
-  TRANSAK = 'TRANSAK',
-  SIMPLEX = 'SIMPLEX',
 }
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
@@ -151,25 +142,21 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   }
 
   const providers: {
-    cashOut: Provider[]
-    cashIn: Provider[]
+    cashOut: CicoProviderData[]
+    cashIn: CicoProviderData[]
   } = {
     cashOut: [],
     cashIn: [
       {
-        name: 'Moonpay',
+        id: CiCoProvider.Moonpay,
         restricted: MOONPAY_RESTRICTED,
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
         image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () => navigate(Screens.MoonPayScreen, providerWidgetInputs),
       },
       {
-        name: 'Simplex',
+        id: CiCoProvider.Simplex,
         restricted: SIMPLEX_RESTRICTED,
         unavailable: !providerQuotes?.simplexQuote || !userLocation?.ipAddress,
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
         image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () => {
           if (providerQuotes?.simplexQuote && userLocation?.ipAddress) {
@@ -181,28 +168,24 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         },
       },
       {
-        name: 'Ramp',
+        id: CiCoProvider.Ramp,
         restricted: RAMP_RESTRICTED,
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
         onSelected: () => navigate(Screens.RampScreen, providerWidgetInputs),
       },
       {
-        name: 'Transak',
+        id: CiCoProvider.Transak,
         restricted: TRANSAK_RESTRICTED,
-        icon:
-          'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
         onSelected: () => navigate(Screens.TransakScreen, providerWidgetInputs),
       },
     ].sort(sortProviders),
   }
 
-  const providerOnPress = (provider: Provider) => () => {
+  const providerOnPress = (provider: CicoProviderData) => () => {
     ValoraAnalytics.track(FiatExchangeEvents.provider_chosen, {
       isCashIn,
-      provider: provider.name,
+      provider: provider.id,
     })
-    dispatch(selectProvider(provider.name, provider.icon))
+    dispatch(selectProvider(provider.id))
     provider.onSelected()
   }
 
@@ -216,8 +199,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         <Text style={styles.pleaseSelectProvider}>{t('pleaseSelectProvider')}</Text>
         <View style={styles.providersContainer}>
           {providers[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
-            <ListItem key={provider.name} onPress={providerOnPress(provider)}>
-              <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
+            <ListItem key={provider.id} onPress={providerOnPress(provider)}>
+              <View style={styles.providerListItem} testID={`Provider/${provider.id}`}>
                 <View style={styles.providerTextContainer}>
                   <Text
                     style={[
@@ -225,7 +208,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                       provider.unavailable ? { color: colors.gray4 } : null,
                     ]}
                   >
-                    {provider.name}
+                    {provider.id}
                   </Text>
                   {provider.unavailable && (
                     <Text style={styles.restrictedText}>{t('providerUnavailable')}</Text>

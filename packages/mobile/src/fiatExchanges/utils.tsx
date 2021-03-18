@@ -10,7 +10,8 @@ import {
   USER_DATA_URL,
 } from 'src/config'
 import MoonPay from 'src/fiatExchanges/MoonPay'
-import { Provider, Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { CicoProviderData } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { CiCoProvider } from 'src/fiatExchanges/reducer'
 import { providerAvailability } from 'src/flags'
 import Logger from 'src/utils/Logger'
 
@@ -35,7 +36,7 @@ export interface UserAccountCreationData {
 }
 
 export const fetchProviderWidgetUrl = async (
-  provider: Providers,
+  provider: CiCoProvider,
   requestData: WidgetRequestData
 ) => {
   try {
@@ -151,7 +152,7 @@ export function getProviderAvailability(
 }
 
 // Leaving unoptimized for now because sorting is most relevant when fees will be visible
-export const sortProviders = (provider1: Provider, provider2: Provider) => {
+export const sortProviders = (provider1: CicoProviderData, provider2: CicoProviderData) => {
   if (provider1.unavailable) {
     return 1
   }

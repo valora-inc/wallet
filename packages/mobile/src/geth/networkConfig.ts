@@ -1,15 +1,13 @@
 import { Address } from '@celo/base'
 import { OdisUtils } from '@celo/identity'
 import {
-  BIDALI_URL_ALFAJORES,
-  BIDALI_URL_MAINNET,
+  BIDALI_URL,
   DEFAULT_SYNC_MODE,
   DEFAULT_TESTNET,
   FORNO_ENABLED_INITIALLY,
   GETH_USE_FULL_NODE_DISCOVERY,
   GETH_USE_STATIC_NODES,
-  RECAPTCHA_SITE_KEY_ALFAJORES,
-  RECAPTCHA_SITE_KEY_MAINNET,
+  RECAPTCHA_SITE_KEY,
   SIMPLEX_API_KEY,
 } from 'src/config'
 import { GethSyncMode } from 'src/geth/consts'
@@ -94,8 +92,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     komenciUrl: KOMENCI_URL_STAGING,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_STAGING,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
-    recaptchaSiteKey: RECAPTCHA_SITE_KEY_ALFAJORES,
-    bidaliUrl: BIDALI_URL_ALFAJORES,
+    recaptchaSiteKey: RECAPTCHA_SITE_KEY,
+    bidaliUrl: BIDALI_URL,
   },
   [Testnets.mainnet]: {
     nodeDir: `.${Testnets.mainnet}`,
@@ -115,8 +113,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     komenciUrl: KOMENCI_URL_MAINNET,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_MAINNET,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
-    recaptchaSiteKey: RECAPTCHA_SITE_KEY_MAINNET,
-    bidaliUrl: BIDALI_URL_MAINNET,
+    recaptchaSiteKey: RECAPTCHA_SITE_KEY,
+    bidaliUrl: BIDALI_URL,
   },
 }
 

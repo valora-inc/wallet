@@ -6,7 +6,7 @@ import { createRef, MutableRefObject } from 'react'
 import sleep from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
-import { OnboardingEvents } from 'src/analytics/Events'
+import { NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -16,7 +16,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'NavigationService'
 
-const NAVIGATOR_INIT_RETRIES = 5
+const NAVIGATOR_INIT_RETRIES = 10
 
 type SafeNavigate = typeof navigate
 
@@ -27,14 +27,14 @@ navigatorIsReadyRef.current = false
 async function ensureNavigator() {
   let retries = 0
   while (
-    !navigationRef.current &&
-    !navigatorIsReadyRef.current &&
+    (!navigationRef.current || !navigatorIsReadyRef.current) &&
     retries < NAVIGATOR_INIT_RETRIES
   ) {
     await sleep(200)
     retries++
   }
   if (!navigationRef.current || !navigatorIsReadyRef.current) {
+    ValoraAnalytics.track(NavigationEvents.navigator_not_ready)
     throw new Error('navigator is not initialized')
   }
 }

@@ -1,3 +1,4 @@
+import { CeloTxReceipt } from '@celo/connect'
 import { CURRENCY_ENUM } from '@celo/utils'
 import BigNumber from 'bignumber.js'
 import { Linking, Platform, Share } from 'react-native'
@@ -42,6 +43,27 @@ import { mockAccount, mockE164Number, mockInviteDetails } from 'test/values'
 
 const mockKey = '0x1129eb2fbccdc663f4923a6495c35b096249812b589f7c4cd1dba01e1edaf724'
 
+const mockReceipt: CeloTxReceipt = {
+  status: true,
+  transactionHash: '0x50194f663a5d590376366998b81a3ef38dbc506f88040e52e886389933384df1',
+  transactionIndex: 0,
+  blockHash: '0x3894884029bccc7e759a0e375731aca84623737c613c5c2e3990f959a0da4541',
+  blockNumber: 4031079,
+  from: '0xA76df5D1caE697479fA08Afa7b0D35E182e0137a',
+  to: '0x471EcE3750Da237f93B8E339c536989b8978a438',
+  cumulativeGasUsed: 31502,
+  gasUsed: 31502,
+  logs: [],
+  logsBloom: '',
+}
+
+const TEST_FEE_INFO_CUSD = {
+  fee: new BigNumber(10).pow(16),
+  gas: new BigNumber(200000),
+  gasPrice: new BigNumber(10).pow(9).times(5),
+  currency: CURRENCY_ENUM.DOLLAR,
+}
+
 jest.mock('src/firebase/dynamicLinks', () => ({
   ...(jest.requireActual('src/firebase/dynamicLinks') as any),
   generateShortInviteLink: jest.fn(async () => 'http://celo.page.link/PARAMS'),
@@ -53,7 +75,7 @@ jest.mock('src/account/actions', () => ({
 }))
 
 jest.mock('src/transactions/send', () => ({
-  sendTransaction: async () => true,
+  sendTransaction: async () => mockReceipt,
 }))
 
 jest.mock('src/config', () => {
@@ -97,7 +119,7 @@ describe(watchSendInvite, () => {
       ])
       .withState(state)
       .dispatch(sendInvite(mockInviteDetails.e164Number, InviteBy.SMS))
-      .dispatch(transactionConfirmed('a uuid'))
+      .dispatch(transactionConfirmed('a uuid', mockReceipt))
       .put(
         transferStableToken({
           recipientAddress: mockAccount,
@@ -128,7 +150,7 @@ describe(watchSendInvite, () => {
       ])
       .withState(state)
       .dispatch(sendInvite(mockInviteDetails.e164Number, InviteBy.SMS))
-      .dispatch(transactionConfirmed('a uuid'))
+      .dispatch(transactionConfirmed('a uuid', mockReceipt))
       .put(
         transferStableToken({
           recipientAddress: mockAccount,
@@ -159,7 +181,7 @@ describe(watchSendInvite, () => {
       ])
       .withState(state)
       .dispatch(sendInvite(mockInviteDetails.e164Number, InviteBy.WhatsApp))
-      .dispatch(transactionConfirmed('a uuid'))
+      .dispatch(transactionConfirmed('a uuid', mockReceipt))
       .put(
         transferStableToken({
           recipientAddress: mockAccount,
@@ -184,7 +206,7 @@ describe(watchSendInvite, () => {
       ])
       .withState(state)
       .dispatch(sendInvite(mockInviteDetails.e164Number, InviteBy.WhatsApp))
-      .dispatch(transactionConfirmed('a uuid'))
+      .dispatch(transactionConfirmed('a uuid', mockReceipt))
       .put(
         transferStableToken({
           recipientAddress: mockAccount,
@@ -232,7 +254,7 @@ describe('watchSendInvite with Komenci enabled', () => {
       .dispatch(
         sendInvite(mockInviteDetails.e164Number, InviteBy.SMS, AMOUNT_TO_SEND, CURRENCY_ENUM.DOLLAR)
       )
-      .dispatch(transactionConfirmed('a uuid'))
+      .dispatch(transactionConfirmed('a uuid', mockReceipt))
       .run()
 
     expect(i18n.t).toHaveBeenCalledWith('sendFlow7:inviteWithEscrowedPayment', {
@@ -253,7 +275,7 @@ describe(watchRedeemInvite, () => {
       .provide([
         [call(waitWeb3LastBlock), true],
         [call(getOrCreateAccount), mockAccount],
-        [matchers.call.fn(getSendFee), 0.1],
+        [matchers.call.fn(getSendFee), TEST_FEE_INFO_CUSD],
       ])
       .withState(state)
       .dispatch(redeemInvite(mockKey))
