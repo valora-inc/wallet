@@ -218,6 +218,8 @@ export function appRemoteFeatureFlagChannel() {
       emit({
         kotaniEnabled: flags?.kotaniEnabled || false,
         pontoEnabled: flags?.pontoEnabled || false,
+        bitfyUrl: flags?.bitfyUrl ?? null,
+        flowBtcUrl: flags?.flowBtcUrl ?? null,
         celoEducationUri: flags?.celoEducationUri ?? null,
         shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
         inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,
@@ -252,6 +254,10 @@ export async function notificationsChannel() {
 
 export async function cUsdDailyLimitChannel(address: string) {
   return simpleReadChannel(`registrations/${address}/dailyLimitCusd`)
+}
+
+export async function providerTxHashesChannel(address: string) {
+  return simpleReadChannel(`registrations/${address}/txHashes`)
 }
 
 function simpleReadChannel(key: string) {
