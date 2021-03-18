@@ -1,16 +1,13 @@
 import { Address } from '@celo/base'
 import { OdisUtils } from '@celo/identity'
 import {
-  BIDALI_URL_ALFAJORES,
-  BIDALI_URL_MAINNET,
+  BIDALI_URL,
   DEFAULT_SYNC_MODE,
   DEFAULT_TESTNET,
   FORNO_ENABLED_INITIALLY,
   GETH_USE_FULL_NODE_DISCOVERY,
   GETH_USE_STATIC_NODES,
-  RAMP_API_KEY,
-  RECAPTCHA_SITE_KEY_ALFAJORES,
-  RECAPTCHA_SITE_KEY_MAINNET,
+  RECAPTCHA_SITE_KEY,
 } from 'src/config'
 import { GethSyncMode } from 'src/geth/consts'
 import Logger from 'src/utils/Logger'
@@ -27,9 +24,10 @@ interface NetworkConfig {
   blockchainApiUrl: string
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
+  moonpayWidgetUrl: string
   signMoonpayUrl: string
   rampWidgetUrl: string
-  rampApiKey: string
+  transakWidgetUrl: string
   useDiscovery: boolean
   useStaticNodes: boolean
   komenciUrl: string
@@ -39,13 +37,19 @@ interface NetworkConfig {
   bidaliUrl: string
 }
 
+const moonpayWidgetStaging = 'https://buy-staging.moonpay.io/'
+const moonpayWidgetProd = 'https://buy.moonpay.io/'
+
 const signMoonpayUrlStaging =
   'https://us-central1-celo-testnet-production.cloudfunctions.net/signMoonpayStaging'
 const signMoonpayUrlProd =
   'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/signMoonpayProd'
 
-const rampWidgetStaging = 'https://ri-widget-staging.firebaseapp.com/'
+const rampWidgetStaging = 'https://ri-widget-staging.firebaseapp.com'
 const rampWidgetProd = 'https://buy.ramp.network'
+
+const transakWidgetProd = 'https://global.transak.com'
+const transakWidgetStaging = 'https://staging-global.transak.com'
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
@@ -71,16 +75,17 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com/',
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
+    moonpayWidgetUrl: moonpayWidgetStaging,
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
-    rampApiKey: RAMP_API_KEY,
+    transakWidgetUrl: transakWidgetStaging,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_STAGING,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_STAGING,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
-    recaptchaSiteKey: RECAPTCHA_SITE_KEY_ALFAJORES,
-    bidaliUrl: BIDALI_URL_ALFAJORES,
+    recaptchaSiteKey: RECAPTCHA_SITE_KEY,
+    bidaliUrl: BIDALI_URL,
   },
   [Testnets.mainnet]: {
     nodeDir: `.${Testnets.mainnet}`,
@@ -89,16 +94,17 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com/',
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
+    moonpayWidgetUrl: moonpayWidgetProd,
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
-    rampApiKey: RAMP_API_KEY,
+    transakWidgetUrl: transakWidgetProd,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_MAINNET,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_MAINNET,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
-    recaptchaSiteKey: RECAPTCHA_SITE_KEY_MAINNET,
-    bidaliUrl: BIDALI_URL_MAINNET,
+    recaptchaSiteKey: RECAPTCHA_SITE_KEY,
+    bidaliUrl: BIDALI_URL,
   },
 }
 

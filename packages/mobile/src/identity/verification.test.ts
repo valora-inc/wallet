@@ -9,6 +9,7 @@ import { AppEvents, VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import {
   Actions,
@@ -674,6 +675,7 @@ describe(doVerificationFlow, () => {
     await expectSaga(doVerificationFlow)
       .provide([
         [select(verificationStateSelector), mockVerificationStateUnverified],
+        [select(shortVerificationCodesEnabledSelector), false],
         [call(getConnectedUnlockedAccount), mockAccount],
         // TODO (i1skn): remove next two lines when
         // https://github.com/celo-org/celo-monorepo/issues/6262 is resolved
@@ -731,6 +733,7 @@ describe(doVerificationFlow, () => {
     await expectSaga(doVerificationFlow)
       .provide([
         [select(verificationStateSelector), mockVerificationStatePartlyVerified],
+        [select(shortVerificationCodesEnabledSelector), false],
         [call(getConnectedUnlockedAccount), mockAccount],
         // TODO (i1skn): remove next two lines when
         // https://github.com/celo-org/celo-monorepo/issues/6262 is resolved
@@ -835,6 +838,7 @@ describe(doVerificationFlow, () => {
           select(verificationStateSelector),
           mockVerificationStateUnverifiedWithActionableAttestations,
         ],
+        [select(shortVerificationCodesEnabledSelector), false],
         [call(getConnectedUnlockedAccount), mockAccount],
         // TODO (i1skn): remove next two lines when
         // https://github.com/celo-org/celo-monorepo/issues/6262 is resolved

@@ -25,7 +25,7 @@ describe('sendPaymentNotification', () => {
     mockedMessagingSend.mockClear()
   })
 
-  it('should send a payment notification', async () => {
+  it('should send a payment notification for cUSD', async () => {
     expect.hasAssertions()
 
     _setTestRegistrations({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } })
@@ -36,7 +36,7 @@ describe('sendPaymentNotification', () => {
       },
     })
 
-    await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.DOLLAR, {})
+    await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.DOLLAR, 150, {})
 
     expect(mockedMessagingSend).toHaveBeenCalledTimes(1)
     expect(mockedMessagingSend.mock.calls[0]).toMatchInlineSnapshot(`
@@ -47,7 +47,7 @@ describe('sendPaymentNotification', () => {
               "color": "#42D689",
               "icon": "ic_stat_rings",
             },
-            "priority": "high",
+            "priority": "normal",
             "ttl": 604800000,
           },
           "data": Object {
@@ -64,6 +64,24 @@ describe('sendPaymentNotification', () => {
     `)
   })
 
+  it('should send a deposit received notification for CELO', async () => {
+    _setTestRegistrations({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } })
+    updateCeloRewardsSenderAddresses({
+      [SENDER_ADDRESS]: {
+        name: '(not) CELO Rewards',
+        isCeloRewardSender: false,
+      },
+    })
+
+    await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.GOLD, 150, {})
+
+    expect(mockedMessagingSend).toHaveBeenCalledTimes(1)
+    expect(mockedMessagingSend.mock.calls[0][0].notification.title).toEqual('CELO deposit received')
+    expect(mockedMessagingSend.mock.calls[0][0].notification.body).toEqual(
+      'You just received 10 CELO! You can earn, save and spend in Valora. Tap to learn more.'
+    )
+  })
+
   it('should send a reward received notification', async () => {
     _setTestRegistrations({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } })
     updateCeloRewardsSenderAddresses({
@@ -73,9 +91,12 @@ describe('sendPaymentNotification', () => {
       },
     })
 
-    await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.DOLLAR, {})
+    await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.GOLD, 150, {})
 
     expect(mockedMessagingSend).toHaveBeenCalledTimes(1)
     expect(mockedMessagingSend.mock.calls[0][0].notification.title).toEqual('Reward Received')
+    expect(mockedMessagingSend.mock.calls[0][0].notification.body).toEqual(
+      "You've received 10 CELO"
+    )
   })
 })

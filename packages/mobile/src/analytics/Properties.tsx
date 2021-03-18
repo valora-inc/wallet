@@ -1,4 +1,5 @@
 import { CURRENCY_ENUM } from '@celo/utils'
+import BigNumber from 'bignumber.js'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
@@ -11,6 +12,7 @@ import {
   HomeEvents,
   IdentityEvents,
   InviteEvents,
+  NavigationEvents,
   NetworkEvents,
   OnboardingEvents,
   PerformanceEvents,
@@ -80,6 +82,7 @@ interface HomeEventsProperties {
   [HomeEvents.notification_select]: {
     notificationType: NotificationBannerTypes
     selectedAction: NotificationBannerCTATypes
+    notificationId?: string
   }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
@@ -602,6 +605,7 @@ interface TransactionEventsProperties {
   [TransactionEvents.transaction_gas_estimated]: {
     txId: string
     estimatedGas: number
+    prefilled: boolean
   }
   [TransactionEvents.transaction_hash_received]: {
     txId: string
@@ -728,6 +732,36 @@ interface FiatExchangeEventsProperties {
     provider: string
     currency: string
   }
+  [FiatExchangeEvents.cico_add_funds_selected]: undefined
+  [FiatExchangeEvents.cico_cash_out_selected]: undefined
+  [FiatExchangeEvents.cico_spend_selected]: undefined
+  [FiatExchangeEvents.cico_fund_info]: undefined
+  [FiatExchangeEvents.cico_fund_info_return]: {
+    timeElapsed: number
+  }
+  [FiatExchangeEvents.cico_add_funds_back]: undefined
+  [FiatExchangeEvents.cico_add_funds_info]: undefined
+  [FiatExchangeEvents.cico_add_funds_info_support]: undefined
+  [FiatExchangeEvents.cico_add_funds_info_cancel]: undefined
+  [FiatExchangeEvents.cico_add_funds_amount_continue]: {
+    dollarAmount: BigNumber
+  }
+  [FiatExchangeEvents.cico_add_funds_amount_back]: undefined
+  [FiatExchangeEvents.cico_add_funds_amount_insufficient]: {
+    dollarAmount: BigNumber
+  }
+  [FiatExchangeEvents.cico_add_funds_amount_dialog_cancel]: undefined
+  [FiatExchangeEvents.cico_add_funds_select_provider_back]: undefined
+  [FiatExchangeEvents.cico_add_funds_select_provider_info]: undefined
+  [FiatExchangeEvents.cico_add_funds_select_provider_info_cancel]: undefined
+  [FiatExchangeEvents.cico_cash_out_back]: undefined
+  [FiatExchangeEvents.cico_cash_out_info]: undefined
+  [FiatExchangeEvents.cico_cash_out_info_support]: undefined
+  [FiatExchangeEvents.cico_cash_out_info_cancel]: undefined
+  [FiatExchangeEvents.cico_cash_out_select_provider_back]: undefined
+  [FiatExchangeEvents.cico_external_exchanges_back]: undefined
+  [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
+  [FiatExchangeEvents.cico_spend_select_provider_back]: undefined
 }
 
 interface GethEventsProperties {
@@ -805,6 +839,10 @@ interface PerformanceProperties {
   }
 }
 
+interface NavigationProperties {
+  [NavigationEvents.navigator_not_ready]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -823,4 +861,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   GethEventsProperties &
   NetworkEventsProperties &
   ContractKitEventsProperties &
-  PerformanceProperties
+  PerformanceProperties &
+  NavigationProperties
