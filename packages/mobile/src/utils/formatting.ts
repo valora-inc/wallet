@@ -38,10 +38,7 @@ export const getExchangeRateDisplayValue = (value: BigNumber.Value): string => {
 }
 
 export const getFeeDisplayValue = (value: BigNumber.Value | null | undefined): string => {
-  if (!value) {
-    return ''
-  }
-  return !new BigNumber(value).isZero()
+  return value
     ? // Show 0.001 if fee > 0 and <= 0.001
       BigNumber.max(value, new BigNumber(value).isZero() ? 0 : 0.001)
         .decimalPlaces(3)
@@ -51,16 +48,24 @@ export const getFeeDisplayValue = (value: BigNumber.Value | null | undefined): s
 
 /**
  * Less precise getFeeDisplayValue
- * Used to display fees to exactly two decimal places
+ * Used to display fees to exactly two decimal places; rounds up
  * @param value fee amount
  */
 export const getFeeTopLineDisplayValue = (value: BigNumber.Value | null | undefined): string => {
-  return value
-    ? // Show 0.01 if fee > 0 and <= 0.01
-      BigNumber.max(value, new BigNumber(value).isZero() ? 0 : 0.01)
-        .decimalPlaces(2)
-        .toFormat(2)
-    : ''
+  if (!value) {
+    return ''
+  } else if (new BigNumber(value).isZero()) {
+    return ''
+  } else if (value < 0) {
+    // This should never happen
+    return '-1'
+  } else if (value <= 0.01) {
+    // Show 0.01 if fee > 0 and <= 0.01
+    return new BigNumber(0.01).toFormat()
+  } else {
+    // Round up to upper-bound fees for display
+    return roundUp(value, 2).toFormat()
+  }
 }
 
 /**

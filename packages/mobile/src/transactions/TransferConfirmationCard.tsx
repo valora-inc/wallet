@@ -82,6 +82,7 @@ function InviteSentContent({
   const totalAmount = amount
   const inviteFee = getInvitationVerificationFeeInDollars()
   // TODO: Use real fee
+  // TODO: implement PaymentSent changes here also
   const securityFee = new BigNumber(0)
   const totalFee = inviteFee.plus(securityFee)
 
@@ -177,6 +178,11 @@ function PaymentSentContent({
   const securityFee = new BigNumber(0)
   const totalAmount = amount // TODO: displayed total should probably include total fees
   const totalFee = securityFee
+  // const totalValue = totalFee.plus(totalAmount.value)
+  // console.log(totalAmount.value)
+  // console.log(totalValue)
+  // totalAmount.value = totalValue
+  // console.log(totalAmount.value)
 
   const isCeloWithdrawal = amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
 

@@ -147,7 +147,7 @@ export default function FeeDrawer({
             />
           )}
 
-          {!securityAmount?.value.isZero() && (
+          {!!securityAmount && !securityAmount?.value.isZero() && (
             <LineItemRow
               title={t('securityFee')}
               titleIcon={<SecurityFeeIcon />}
@@ -166,7 +166,9 @@ export default function FeeDrawer({
             />
           )}
 
-          {totalFee?.isZero() && <LineItemRow title={'No Fees'} textStyle={styles.dropDownText} />}
+          {(!totalFee || totalFee?.isZero()) && (
+            <LineItemRow title={'No Fees'} textStyle={styles.dropDownText} />
+          )}
         </View>
       )}
     </View>
