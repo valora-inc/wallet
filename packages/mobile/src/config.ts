@@ -95,8 +95,6 @@ export const SAFETYNET_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SAFET
 export const MOONPAY_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'MOONPAY_API_KEY')
 export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')
 
-export const RAMP_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'RAMP_API_KEY')
-
 export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [
   {
     name: 'Binance',
