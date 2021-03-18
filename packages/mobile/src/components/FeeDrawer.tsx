@@ -50,12 +50,10 @@ export default function FeeDrawer({
   const { t } = useTranslation(Namespaces.sendFlow7)
   const [expanded, setExpanded] = useState(false)
 
-  const allowExpanded = !!totalFee && !totalFee.isZero()
+  const nonZeroFees = !!totalFee && !totalFee.isZero()
   const toggleExpanded = () => {
-    if (allowExpanded) {
-      LayoutAnimation.easeInEaseOut()
-      setExpanded(!expanded)
-    }
+    LayoutAnimation.easeInEaseOut()
+    setExpanded(!expanded)
   }
 
   const title = isEstimate ? t('feeEstimate') : t('feeActual')
@@ -90,13 +88,13 @@ export default function FeeDrawer({
       currencyCode: CURRENCIES[currency].code,
     }
 
-  return (
+  return nonZeroFees ? (
     // Uses View instead of Fragment to workaround a glitch with LayoutAnimation
     // TODO: replace "No Fees" placeholder line item
     <View>
       <Touchable onPress={toggleExpanded} testID={testID}>
         <View style={styles.totalContainer}>
-          <Expandable isExpandable={allowExpanded} isExpanded={expanded}>
+          <Expandable isExpandable={nonZeroFees} isExpanded={expanded}>
             <Text style={styles.title}>{title}</Text>
           </Expandable>
           <LineItemRow
@@ -106,7 +104,6 @@ export default function FeeDrawer({
               !totalFeeAmount.value.isZero() && (
                 <CurrencyDisplay
                   amount={totalFeeAmount}
-                  hideSymbol={!allowExpanded}
                   formatType={FormatType.FeeTopLine}
                   currencyInfo={currencyInfo}
                 />
@@ -175,12 +172,13 @@ export default function FeeDrawer({
               textStyle={styles.dropDownText}
             />
           )}
-
-          {(!totalFee || totalFee?.isZero()) && (
-            <LineItemRow title={'No Fees'} textStyle={styles.dropDownText} />
-          )}
         </View>
       )}
+    </View>
+  ) : (
+    <View style={styles.totalContainer}>
+      <Text style={styles.title}>{title}</Text>
+      <LineItemRow title={'-'} isLoading={feeLoading} hasError={feeHasError} />
     </View>
   )
 }
