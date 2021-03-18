@@ -47,15 +47,14 @@ export const getFeeDisplayValue = (
   value: BigNumber.Value | null | undefined,
   topLine: boolean = false
 ): string => {
-  const decimals = topLine ? 2 : 3
-  const min_display = topLine ? 0.01 : 0.001
   if (!value || new BigNumber(value).isZero()) {
     return ''
-  } else if (value <= min_display) {
-    return new BigNumber(min_display).toFormat(decimals)
-  } else {
-    return roundUp(value, decimals).toFormat(decimals)
   }
+  const decimals = topLine ? 2 : 3
+  const minDisplay = topLine ? 0.01 : 0.001
+  return value <= minDisplay
+    ? new BigNumber(minDisplay).toFormat(decimals)
+    : roundUp(value, decimals).toFormat(decimals)
 }
 
 /**

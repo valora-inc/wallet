@@ -99,7 +99,8 @@ export default function FeeDrawer({
           <LineItemRow
             title={''}
             amount={
-              totalFeeAmount && (
+              totalFeeAmount &&
+              !totalFeeAmount.value.isZero() && (
                 <CurrencyDisplay
                   amount={totalFeeAmount}
                   formatType={FormatType.FeeTopLine}
