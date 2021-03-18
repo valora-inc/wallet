@@ -95,7 +95,7 @@ export const SAFETYNET_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SAFET
 export const MOONPAY_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'MOONPAY_API_KEY')
 export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')
 
-export const SIMPLEX_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SIMPLEX_API_KEY')
+export const SIMPLEX_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SIMPLEX_API_KEY')
 
 export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [
   {

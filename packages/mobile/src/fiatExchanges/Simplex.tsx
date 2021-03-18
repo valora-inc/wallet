@@ -1,5 +1,10 @@
 import { default as DeviceInfo } from 'react-native-device-info'
-import { CASH_IN_FAILURE_DEEPLINK, CASH_IN_SUCCESS_DEEPLINK, CurrencyCode } from 'src/config'
+import {
+  CASH_IN_FAILURE_DEEPLINK,
+  CASH_IN_SUCCESS_DEEPLINK,
+  CurrencyCode,
+  SIMPLEX_API_KEY,
+} from 'src/config'
 import { fetchUserAccountCreationData } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -124,15 +129,17 @@ const Simplex = {
       </body>
     </html>
   `,
-  post: async (path: string, body: any) =>
-    fetch(`${networkConfig.simplexUrl}${path}`, {
+  post: async (path: string, body: any) => {
+    console.log(networkConfig.simplexUrl, SIMPLEX_API_KEY)
+    return fetch(`${networkConfig.simplexUrl}${path}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `ApiKey ${networkConfig.simplexApiKey}`,
+        Authorization: `ApiKey ${SIMPLEX_API_KEY}`,
       },
       body: JSON.stringify(body),
-    }),
+    })
+  },
 }
 
 export default Simplex
