@@ -19,7 +19,6 @@ import {
   getCentAwareMoneyDisplay,
   getExchangeRateDisplayValue,
   getFeeDisplayValue,
-  getFeeTopLineDisplayValue,
   getMoneyDisplayValue,
   getNetworkFeeDisplayValue,
 } from 'src/utils/formatting'
@@ -123,7 +122,7 @@ function getFormatFunction(formatType: FormatType): FormatFunction {
         getExchangeRateDisplayValue(amount)
     case FormatType.FeeTopLine:
       return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
-        getFeeTopLineDisplayValue(amount)
+        getFeeDisplayValue(amount, true)
   }
 }
 
