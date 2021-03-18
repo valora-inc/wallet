@@ -12,6 +12,7 @@ import {
   HomeEvents,
   IdentityEvents,
   InviteEvents,
+  NavigationEvents,
   NetworkEvents,
   OnboardingEvents,
   PerformanceEvents,
@@ -838,6 +839,10 @@ interface PerformanceProperties {
   }
 }
 
+interface NavigationProperties {
+  [NavigationEvents.navigator_not_ready]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -856,4 +861,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   GethEventsProperties &
   NetworkEventsProperties &
   ContractKitEventsProperties &
-  PerformanceProperties
+  PerformanceProperties &
+  NavigationProperties
