@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useAsync } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import InAppBrowser from 'src/components/InAppBrowser'
-import { CiCoProvider } from 'src/fiatExchanges/reducer'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { fetchProviderWidgetUrl, isExpectedUrl } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -25,7 +25,7 @@ function MoonPayScreen({ route }: Props) {
 
   const fetchResponse = useAsync(
     () =>
-      fetchProviderWidgetUrl(CiCoProvider.Moonpay, {
+      fetchProviderWidgetUrl(CicoProviderNames.Moonpay, {
         address: account,
         digitalAsset: currencyToBuy,
         fiatCurrency: currencyCode,

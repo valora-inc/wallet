@@ -24,7 +24,7 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
-import { CiCoProvider } from 'src/fiatExchanges/reducer'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import Simplex from 'src/fiatExchanges/Simplex'
 import {
   fetchUserLocationData,
@@ -62,8 +62,8 @@ ProviderOptionsScreen.navigationOptions = ({
     headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
   }
 }
-export interface CicoProviderData {
-  id: CiCoProvider
+export interface CicoProvider {
+  id: CicoProviderNames
   restricted: boolean
   unavailable?: boolean
   image?: React.ReactNode
@@ -142,19 +142,19 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   }
 
   const providers: {
-    cashOut: CicoProviderData[]
-    cashIn: CicoProviderData[]
+    cashOut: CicoProvider[]
+    cashIn: CicoProvider[]
   } = {
     cashOut: [],
     cashIn: [
       {
-        id: CiCoProvider.Moonpay,
+        id: CicoProviderNames.Moonpay,
         restricted: MOONPAY_RESTRICTED,
         image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () => navigate(Screens.MoonPayScreen, providerWidgetInputs),
       },
       {
-        id: CiCoProvider.Simplex,
+        id: CicoProviderNames.Simplex,
         restricted: SIMPLEX_RESTRICTED,
         unavailable: !providerQuotes?.simplexQuote || !userLocation?.ipAddress,
         image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
@@ -168,19 +168,19 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         },
       },
       {
-        id: CiCoProvider.Ramp,
+        id: CicoProviderNames.Ramp,
         restricted: RAMP_RESTRICTED,
         onSelected: () => navigate(Screens.RampScreen, providerWidgetInputs),
       },
       {
-        id: CiCoProvider.Transak,
+        id: CicoProviderNames.Transak,
         restricted: TRANSAK_RESTRICTED,
         onSelected: () => navigate(Screens.TransakScreen, providerWidgetInputs),
       },
     ].sort(sortProviders),
   }
 
-  const providerOnPress = (provider: CicoProviderData) => () => {
+  const providerOnPress = (provider: CicoProvider) => () => {
     ValoraAnalytics.track(FiatExchangeEvents.provider_chosen, {
       isCashIn,
       provider: provider.id,

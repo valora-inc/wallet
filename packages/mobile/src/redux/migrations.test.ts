@@ -1,4 +1,4 @@
-import { CiCoProvider } from 'src/fiatExchanges/reducer'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { migrations } from 'src/redux/migrations'
 import { v0Schema, v1Schema, v2Schema, vNeg1Schema } from 'test/schemas'
 
@@ -145,6 +145,6 @@ describe('Redux persist migrations', () => {
     expect(Object.keys(migratedSchema.fiatExchanges.txHashToProvider).length).toEqual(1)
     expect(migratedSchema.fiatExchanges.txHashToProvider[txHash].name).toEqual(mockName)
     expect(migratedSchema.fiatExchanges.txHashToProvider[txHash].icon).toEqual(mockIcon)
-    expect(migratedSchema.fiatExchanges.lastUsedProvider).toEqual(CiCoProvider.Simplex)
+    expect(migratedSchema.fiatExchanges.lastUsedProvider).toEqual(CicoProviderNames.Simplex)
   })
 })

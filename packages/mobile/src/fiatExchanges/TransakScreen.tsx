@@ -5,7 +5,7 @@ import { useAsync } from 'react-async-hook'
 import { ActivityIndicator, BackHandler, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import WebView, { WebViewRef } from 'src/components/WebView'
-import { CiCoProvider } from 'src/fiatExchanges/reducer'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { fetchProviderWidgetUrl, isExpectedUrl } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -48,7 +48,7 @@ function TransakScreen({ route }: Props) {
 
   const fetchResponse = useAsync(
     () =>
-      fetchProviderWidgetUrl(CiCoProvider.Transak, {
+      fetchProviderWidgetUrl(CicoProviderNames.Transak, {
         address: account,
         digitalAsset: currencyToBuy,
         fiatCurrency: currencyCode,

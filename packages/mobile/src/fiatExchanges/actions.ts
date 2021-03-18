@@ -1,4 +1,4 @@
-import { CiCoProvider, TxHashToProvider } from 'src/fiatExchanges/reducer'
+import { CicoProviderNames, TxHashToProvider } from 'src/fiatExchanges/reducer'
 
 export enum Actions {
   BIDALI_PAYMENT_REQUESTED = 'FIAT_EXCHANGES/BIDALI_PAYMENT_REQUESTED',
@@ -39,10 +39,10 @@ export const bidaliPaymentRequested = (
 
 export interface SelectProviderAction {
   type: Actions.SELECT_PROVIDER
-  provider: CiCoProvider
+  provider: CicoProviderNames
 }
 
-export const selectProvider = (provider: CiCoProvider): SelectProviderAction => ({
+export const selectProvider = (provider: CicoProviderNames): SelectProviderAction => ({
   type: Actions.SELECT_PROVIDER,
   provider,
 })
