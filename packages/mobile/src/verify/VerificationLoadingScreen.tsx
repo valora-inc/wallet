@@ -35,7 +35,7 @@ import {
   cancel as cancelVerification,
   VerificationState,
   VerificationStateType,
-} from 'src/verify/reducer'
+} from 'src/verify/module'
 import VerificationCountdown from 'src/verify/VerificationCountdown'
 import { VerificationFailedModal } from 'src/verify/VerificationFailedModal'
 

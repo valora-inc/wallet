@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import { error, idle } from 'src/verify/reducer'
+import { error, idle } from 'src/verify/module'
 import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import { createMockStore } from 'test/utils'
 

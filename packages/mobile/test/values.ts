@@ -17,7 +17,7 @@ import {
   RecipientWithMobileNumber,
   RecipientWithQrCode,
 } from 'src/recipients/recipient'
-import { AttestationCode } from 'src/verify/saga'
+import { AttestationCode } from 'src/verify/module'
 
 export const nullAddress = '0x0'
 

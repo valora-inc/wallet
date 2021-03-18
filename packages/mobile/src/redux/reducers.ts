@@ -21,7 +21,7 @@ import { recipientsReducer as recipients, State as RecipientsState } from 'src/r
 import { sendReducer as send, State as SendState } from 'src/send/reducers'
 import { reducer as stableToken, State as StableTokenState } from 'src/stableToken/reducer'
 import { reducer as transactions, State as TransactionsState } from 'src/transactions/reducer'
-import { reducer as verify, State as VerifyState } from 'src/verify/reducer'
+import { reducer as verify, State as VerifyState } from 'src/verify/module'
 import { reducer as web3, State as Web3State } from 'src/web3/reducer'
 
 const appReducer = combineReducers({

@@ -5,12 +5,16 @@ import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
 import _ from 'lodash'
 import { RootState } from 'src/redux/reducers'
 
+export const NUM_ATTESTATIONS_REQUIRED = 3
+export const REVEAL_RETRY_DELAY = 10 * 1000 // 10 seconds
+export const BALANCE_CHECK_TIMEOUT = 5 * 1000 // 5 seconds
+export const VERIFICATION_TIMEOUT = 10 * 60 * 1000 // 10 minutes
+
 import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
 import BigNumber from 'bignumber.js'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
-import { AttestationCode, CodeInputType } from 'src/verify/saga'
 
 export const ATTESTATION_CODE_PLACEHOLDER = 'ATTESTATION_CODE_PLACEHOLDER'
 export const ATTESTATION_ISSUER_PLACEHOLDER = 'ATTESTATION_ISSUER_PLACEHOLDER'
@@ -82,6 +86,18 @@ export enum VerificationStateType {
   CompletingAttestations = 'CompletingAttestations',
   Error = 'Error',
   Success = 'Success',
+}
+
+export interface AttestationCode {
+  code: string
+  shortCode?: string | null
+  issuer: string
+}
+
+export enum CodeInputType {
+  AUTOMATIC = 'automatic',
+  MANUAL = 'manual',
+  DEEP_LINK = 'deepLink',
 }
 
 // Idle State

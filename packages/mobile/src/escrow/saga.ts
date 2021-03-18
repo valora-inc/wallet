@@ -50,8 +50,12 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { komenciContextSelector, shouldUseKomenciSelector, success } from 'src/verify/reducer'
-import { NUM_ATTESTATIONS_REQUIRED } from 'src/verify/saga'
+import {
+  komenciContextSelector,
+  NUM_ATTESTATIONS_REQUIRED,
+  shouldUseKomenciSelector,
+  success,
+} from 'src/verify/module'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { mtwAddressSelector } from 'src/web3/selectors'

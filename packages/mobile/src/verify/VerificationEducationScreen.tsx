@@ -46,7 +46,7 @@ import {
   stop,
   VerificationStateType,
   verificationStatusSelector,
-} from 'src/verify/reducer'
+} from 'src/verify/module'
 import GoogleReCaptcha from 'src/verify/safety/GoogleReCaptcha'
 import { getPhoneNumberState } from 'src/verify/utils'
 import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'

@@ -11,7 +11,7 @@ import {
   cancel as cancelVerification,
   VerificationState,
   VerificationStateType,
-} from 'src/verify/reducer'
+} from 'src/verify/module'
 import { toggleFornoMode } from 'src/web3/actions'
 
 interface Props {

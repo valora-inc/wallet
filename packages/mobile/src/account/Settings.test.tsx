@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import Settings from 'src/account/Settings'
 import { Screens } from 'src/navigator/Screens'
-import { KomenciAvailable } from 'src/verify/reducer'
+import { KomenciAvailable } from 'src/verify/module'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper } from 'test/values'
 

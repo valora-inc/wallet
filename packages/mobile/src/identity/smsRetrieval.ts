@@ -2,8 +2,7 @@ import SmsRetriever from '@celo/react-native-sms-retriever'
 import { eventChannel } from 'redux-saga'
 import { call, put, take } from 'redux-saga/effects'
 import Logger from 'src/utils/Logger'
-import { receiveAttestationCode } from 'src/verify/reducer'
-import { CodeInputType, NUM_ATTESTATIONS_REQUIRED } from 'src/verify/saga'
+import { CodeInputType, NUM_ATTESTATIONS_REQUIRED, receiveAttestationCode } from 'src/verify/module'
 
 const TAG = 'identity/smsRetrieval'
 

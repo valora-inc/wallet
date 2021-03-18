@@ -11,8 +11,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
-import { receiveAttestationCode } from 'src/verify/reducer'
-import { CodeInputType } from 'src/verify/saga'
+import { CodeInputType, receiveAttestationCode } from 'src/verify/module'
 
 jest.mock('src/utils/time', () => ({
   clockInSync: () => true,

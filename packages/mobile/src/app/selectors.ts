@@ -5,7 +5,7 @@ import {
   komenciContextSelector,
   shouldUseKomenciSelector,
   verificationStatusSelector,
-} from 'src/verify/reducer'
+} from 'src/verify/module'
 
 import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
 import { RootState } from 'src/redux/reducers'

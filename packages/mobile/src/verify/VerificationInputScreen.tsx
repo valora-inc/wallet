@@ -33,13 +33,15 @@ import { RootState } from 'src/redux/reducers'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInSeconds } from 'src/utils/time'
 import {
+  AttestationCode,
   cancel as cancelVerification,
+  CodeInputType,
+  NUM_ATTESTATIONS_REQUIRED,
   OnChainVerificationStatus,
   receiveAttestationCode,
   resendMessages,
   VerificationState,
-} from 'src/verify/reducer'
-import { AttestationCode, CodeInputType, NUM_ATTESTATIONS_REQUIRED } from 'src/verify/saga'
+} from 'src/verify/module'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
 import VerificationInputHelpDialog from 'src/verify/VerificationInputHelpDialog'
 

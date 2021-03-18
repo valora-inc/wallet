@@ -49,7 +49,7 @@ import { RootState } from 'src/redux/reducers'
 import { restartApp } from 'src/utils/AppRestart'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { revoke } from 'src/verify/reducer'
+import { revoke } from 'src/verify/module'
 import { toggleFornoMode } from 'src/web3/actions'
 
 interface DispatchProps {

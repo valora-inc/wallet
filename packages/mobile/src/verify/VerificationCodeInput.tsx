@@ -7,8 +7,7 @@ import * as React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import Logger from 'src/utils/Logger'
-import { ATTESTATION_CODE_PLACEHOLDER } from 'src/verify/reducer'
-import { AttestationCode } from 'src/verify/saga'
+import { ATTESTATION_CODE_PLACEHOLDER, AttestationCode } from 'src/verify/module'
 
 interface Props {
   label: string

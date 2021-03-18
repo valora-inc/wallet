@@ -6,7 +6,7 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { features } from 'src/flags'
 import { Screens } from 'src/navigator/Screens'
-import { idle, KomenciAvailable } from 'src/verify/reducer'
+import { idle, KomenciAvailable } from 'src/verify/module'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
