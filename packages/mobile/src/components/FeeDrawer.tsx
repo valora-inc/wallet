@@ -50,9 +50,12 @@ export default function FeeDrawer({
   const { t } = useTranslation(Namespaces.sendFlow7)
   const [expanded, setExpanded] = useState(false)
 
+  const allowExpanded = !!totalFee && !totalFee.isZero()
   const toggleExpanded = () => {
-    LayoutAnimation.easeInEaseOut()
-    setExpanded(!expanded)
+    if (allowExpanded) {
+      LayoutAnimation.easeInEaseOut()
+      setExpanded(!expanded)
+    }
   }
 
   const title = isEstimate ? t('feeEstimate') : t('feeActual')
@@ -93,7 +96,7 @@ export default function FeeDrawer({
     <View>
       <Touchable onPress={toggleExpanded} testID={testID}>
         <View style={styles.totalContainer}>
-          <Expandable isExpandable={true} isExpanded={expanded}>
+          <Expandable isExpandable={allowExpanded} isExpanded={expanded}>
             <Text style={styles.title}>{title}</Text>
           </Expandable>
           <LineItemRow
@@ -103,6 +106,7 @@ export default function FeeDrawer({
               !totalFeeAmount.value.isZero() && (
                 <CurrencyDisplay
                   amount={totalFeeAmount}
+                  hideSymbol={!allowExpanded}
                   formatType={FormatType.FeeTopLine}
                   currencyInfo={currencyInfo}
                 />
