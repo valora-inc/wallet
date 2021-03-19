@@ -71,10 +71,10 @@ const CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET: Address =
 const CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING: Address =
   '0x5C9a6E3c3E862eD306E2E3348EBC8b8310A99e5A'
 
-const CIP8_AUTHORIZER_URL_STAGING = 'https://alfajores-stokado.celo-testnet.org/api/authorize'
-const CIP8_METADATA_URL_STAGING = 'https://alfajores-stokado-data.celo-testnet.org'
-const CIP8_AUTHORIZER_URL_PROD = 'https://rc1-stokado.celo-testnet.org/api/authorize'
-const CIP8_METADATA_URL_PROD = 'https://rc1-stokado-data.celo-testnet.org'
+const CIP8_AUTHORIZER_URL_ALFAJORES = 'https://alfajores-stokado.celo-testnet.org/api/authorize'
+const CIP8_METADATA_URL_ALFAJORES = 'https://alfajores-stokado-data.celo-testnet.org'
+const CIP8_AUTHORIZER_URL_MAINNET = 'https://rc1-stokado.celo-testnet.org/api/authorize'
+const CIP8_METADATA_URL_MAINNET = 'https://rc1-stokado-data.celo-testnet.org'
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
@@ -96,8 +96,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY_ALFAJORES,
     bidaliUrl: BIDALI_URL_ALFAJORES,
-    CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_STAGING,
-    CIP8MetadataUrl: CIP8_METADATA_URL_STAGING,
+    CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_ALFAJORES,
+    CIP8MetadataUrl: CIP8_METADATA_URL_ALFAJORES,
   },
   [Testnets.mainnet]: {
     nodeDir: `.${Testnets.mainnet}`,
@@ -118,8 +118,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY_MAINNET,
     bidaliUrl: BIDALI_URL_MAINNET,
-    CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_PROD,
-    CIP8MetadataUrl: CIP8_METADATA_URL_PROD,
+    CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_MAINNET,
+    CIP8MetadataUrl: CIP8_METADATA_URL_MAINNET,
   },
 }
 

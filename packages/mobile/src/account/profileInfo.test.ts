@@ -1,12 +1,193 @@
+import RNFS from 'react-native-fs'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
 import { profileUploaded } from 'src/account/actions'
-import { checkIfProfileUploaded, unlockDEK, uploadNameAndPicture } from 'src/account/profileInfo'
-import { isProfileUploadedSelector } from 'src/account/selectors'
+import {
+  checkIfProfileUploaded,
+  getProfileInfo,
+  giveProfileAccess,
+  unlockDEK,
+  uploadNameAndPicture,
+} from 'src/account/profileInfo'
+import { isProfileUploadedSelector, nameSelector, pictureSelector } from 'src/account/selectors'
 import { DEK, retrieveOrGeneratePepper } from 'src/pincode/authentication'
-import { getWallet } from 'src/web3/contracts'
+import { getContractKit, getWallet } from 'src/web3/contracts'
+import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
-import { mockWallet } from 'test/values'
+import { mockAccount, mockAccount2, mockName, mockWallet } from 'test/values'
+
+const mockNameWrite = jest.fn()
+const mockNameAllowAccess = jest.fn()
+const mockNameRead = jest.fn()
+jest.mock('@celo/identity/lib/offchain/accessors/name', () => {
+  return {
+    PrivateNameAccessor: jest.fn().mockImplementation(() => {
+      return {
+        write: mockNameWrite,
+        allowAccess: mockNameAllowAccess,
+        readAsResult: jest.fn(),
+        read: mockNameRead,
+      }
+    }),
+  }
+})
+
+const mockPictureWrite = jest.fn()
+const mockPictureAllowAccess = jest.fn()
+const mockPictureRead = jest.fn()
+jest.mock('@celo/identity/lib/offchain/accessors/pictures', () => {
+  return {
+    PrivatePictureAccessor: jest.fn().mockImplementation(() => {
+      return {
+        write: mockPictureWrite,
+        allowAccess: mockPictureAllowAccess,
+        readAsResult: jest.fn(),
+        read: mockPictureRead,
+      }
+    }),
+  }
+})
+
+jest.mock('src/account/UploadServiceDataWrapper', () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      writeDataTo: jest.fn(),
+      readDataFromAsResult: jest.fn(),
+    }
+  })
+})
+
+const imageData = 'rawImageData'
+jest.mock('react-native-fs', () => {
+  return {
+    readFile: jest.fn(() => Promise.resolve(imageData)),
+    DocumentDirectoryPath: 'document-path',
+  }
+})
+
+const contractKit = jest.fn(() => ({
+  getWallet: jest.fn(),
+  getAccounts: jest.fn(),
+}))
+const pictureUri = `file://${RNFS.DocumentDirectoryPath}/profile-now.jpg`
+
+describe(uploadNameAndPicture, () => {
+  it('upload name and picture succesfully', async () => {
+    await expectSaga(uploadNameAndPicture)
+      .provide([
+        [call(unlockDEK, true), null],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(nameSelector), mockName],
+        [select(pictureSelector), pictureUri],
+        [call(getContractKit), contractKit],
+      ])
+      .run()
+
+    expect(mockNameWrite).toBeCalledWith({ name: mockName }, [])
+    expect(mockPictureWrite).toBeCalledWith(`data:image/jpeg;base64,${imageData}`, [])
+  })
+
+  it('handles error when name fails to upload', async () => {
+    mockNameWrite.mockReturnValueOnce(Error('error'))
+    await expectSaga(uploadNameAndPicture)
+      .provide([
+        [call(unlockDEK, true), null],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(nameSelector), mockName],
+        [select(pictureSelector), pictureUri],
+        [call(getContractKit), contractKit],
+      ])
+      .run()
+      .catch((error) => {
+        expect(error).toEqual(Error('Unable to write name'))
+      })
+  })
+
+  it('handles error when picture fails to upload', async () => {
+    mockPictureWrite.mockReturnValueOnce(Error('error'))
+    await expectSaga(uploadNameAndPicture)
+      .provide([
+        [call(unlockDEK, true), null],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(nameSelector), mockName],
+        [select(pictureSelector), pictureUri],
+        [call(getContractKit), contractKit],
+      ])
+      .run()
+      .catch((error) => {
+        expect(error).toEqual(Error('Unable to write picture'))
+      })
+  })
+})
+
+describe(giveProfileAccess, () => {
+  const recipients = [mockAccount2]
+
+  it('gives profile access successfully', async () => {
+    await expectSaga(giveProfileAccess, recipients)
+      .provide([
+        [call(unlockDEK), null],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(nameSelector), mockName],
+        [select(pictureSelector), pictureUri],
+        [call(getContractKit), contractKit],
+      ])
+      .run()
+
+    expect(mockNameAllowAccess).toBeCalledWith(recipients)
+    expect(mockPictureAllowAccess).toBeCalledWith(recipients)
+  })
+
+  it('handles error when fails to give recipient access to name', async () => {
+    mockNameAllowAccess.mockReturnValueOnce(Error('error'))
+    await expectSaga(giveProfileAccess, recipients)
+      .provide([
+        [call(unlockDEK), null],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(nameSelector), mockName],
+        [select(pictureSelector), pictureUri],
+        [call(getContractKit), contractKit],
+      ])
+      .run()
+      .catch((error) => {
+        expect(error).toEqual(Error(`Unable to give ${recipients} access to name`))
+      })
+  })
+
+  it('handles error when fails to give recipient access to picture', async () => {
+    mockPictureAllowAccess.mockReturnValueOnce(Error('error'))
+    await expectSaga(giveProfileAccess, recipients)
+      .provide([
+        [call(unlockDEK), null],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(nameSelector), mockName],
+        [select(pictureSelector), pictureUri],
+        [call(getContractKit), contractKit],
+      ])
+      .run()
+      .catch((error) => {
+        expect(error).toEqual(Error(`Unable to give ${recipients} access to picture`))
+      })
+  })
+})
+
+describe(getProfileInfo, () => {
+  const address = mockAccount2
+  it('reads profile info successfully', async () => {
+    await expectSaga(getProfileInfo, address)
+      .provide([
+        [call(unlockDEK), null],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(nameSelector), mockName],
+        [select(pictureSelector), pictureUri],
+        [call(getContractKit), contractKit],
+      ])
+      .run()
+
+    expect(mockNameRead).toBeCalledWith(address)
+    expect(mockPictureRead).toBeCalledWith(address)
+  })
+})
 
 describe(unlockDEK, () => {
   it('unlocks DEK in wallet', async () => {
