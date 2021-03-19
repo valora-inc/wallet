@@ -1,4 +1,5 @@
 import { RESTDataSource } from 'apollo-datasource-rest'
+import { performance } from 'perf_hooks'
 import { BLOCKSCOUT_API, FAUCET_ADDRESS } from './config'
 import {
   Any,
@@ -25,9 +26,6 @@ import { TransactionClassifier } from './transaction/TransactionClassifier'
 import { TransferCollection } from './transaction/TransferCollection'
 import { TransfersNavigator } from './transaction/TransfersNavigator'
 import { ContractAddresses, getContractAddresses } from './utils'
-
-const { performance } = require('perf_hooks')
-
 export interface BlockscoutTransferTx {
   blockNumber: number
   transactionHash: string
