@@ -71,5 +71,6 @@
   "restrictedRegion": "Limited support in region",
   "providerUnavailable": "Not currently available",
   "pricePer": "Price per {{coin}}",
-  "feeDiscount": "Fee Discount"
+  "feeDiscount": "Fee Discount",
+  "continueToProvider": "Continue to {{provider}}"
 }

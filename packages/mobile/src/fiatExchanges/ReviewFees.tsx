@@ -18,11 +18,9 @@ interface Props {
   localCurrency: LocalCurrencyCode
   crypto: {
     amount: number
-    price: number
   }
   fiat: {
     subTotal: number
-    fees: number
     total: number
   }
   feeWaived: boolean
@@ -108,7 +106,7 @@ export default function ReviewFees({
           {t('pricePer', { coin: token })}
         </Text>
         <Text style={[styles.reviewLineText, styles.reviewLineTextAlt]}>
-          {showAmount(crypto.price, false, [styles.reviewLineTextAlt])}
+          {showAmount(fiat.subTotal / crypto.amount, false, [styles.reviewLineTextAlt])}
         </Text>
       </View>
       <View style={[styles.line]} />
@@ -129,7 +127,7 @@ export default function ReviewFees({
             <InfoIcon color={colors.gray3} size={14} />
           </Touchable>
         </View>
-        <Text>{showAmount(fiat.fees, false, [styles.reviewLineText])}</Text>
+        <Text>{showAmount(fiat.total - fiat.subTotal, false, [styles.reviewLineText])}</Text>
       </View>
       {feeWaived && (
         <View style={[styles.reviewLine]}>
@@ -143,7 +141,9 @@ export default function ReviewFees({
               <InfoIcon color={colors.gray3} size={14} />
             </Touchable>
           </View>
-          <Text>{showAmount(fiat.fees * -1, false, [styles.feeWaivedText])}</Text>
+          <Text>
+            {showAmount((fiat.total - fiat.subTotal) * -1, false, [styles.feeWaivedText])}
+          </Text>
         </View>
       )}
       <View style={[styles.reviewLine]}>

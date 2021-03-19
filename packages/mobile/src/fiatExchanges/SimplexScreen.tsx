@@ -3,6 +3,7 @@ import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
+import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
@@ -15,7 +16,7 @@ import { CurrencyCode } from 'src/config'
 import ReviewFees from 'src/fiatExchanges/ReviewFees'
 import Simplex from 'src/fiatExchanges/Simplex'
 import { CURRENCY_ENUM } from 'src/geth/consts'
-import i18n from 'src/i18n'
+import i18n, { Namespaces } from 'src/i18n'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -32,6 +33,7 @@ const SIMPLEX_FEES_URL =
 function SimplexScreen({ route, navigation }: Props) {
   const [loadSimplexCheckout, setLoadSimplexCheckout] = useState(false)
   const [redirected, setRedirected] = useState(false)
+  const { t } = useTranslation(Namespaces.fiatExchangeFlow)
 
   const { simplexQuote, userIpAddress } = route.params
 
@@ -67,9 +69,7 @@ function SimplexScreen({ route, navigation }: Props) {
     navigation.setOptions({
       ...emptyHeader,
       headerLeft: () => <BackButton />,
-      headerTitle: () => (
-        <HeaderTitleWithBalance title={i18n.t('fiatExchangeFlow:addFunds')} token={token} />
-      ),
+      headerTitle: () => <HeaderTitleWithBalance title={t('addFunds')} token={token} />,
     })
   }, [])
 
@@ -114,11 +114,9 @@ function SimplexScreen({ route, navigation }: Props) {
             fiat={{
               subTotal: simplexQuote.fiat_money.base_amount,
               total: simplexQuote.fiat_money.total_amount,
-              fees: simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount,
             }}
             crypto={{
               amount: simplexQuote.digital_money.amount,
-              price: simplexQuote.fiat_money.base_amount / simplexQuote.digital_money.amount,
             }}
             feeWaived={simplexFeeWaived}
             feeUrl={SIMPLEX_FEES_URL}
@@ -126,7 +124,7 @@ function SimplexScreen({ route, navigation }: Props) {
           <Button
             style={styles.button}
             size={BtnSizes.FULL}
-            text={'Continue to Simplex'}
+            text={t('continueToProvider', { provider: 'Simplex' })}
             onPress={onButtonPress}
             disabled={!simplexPaymentRequest?.paymentId}
             showLoading={asyncSimplexPaymentRequest.status === 'loading'}
