@@ -30,12 +30,12 @@ export class ApiMetrics {
     this.unknownTransactionCounter.inc()
   }
 
-  setRawTokenDuration(duration_ms: number) {
-    this.rawTokenTransactionsDuration.observe(duration_ms)
+  setRawTokenDuration(durationMs: number) {
+    this.rawTokenTransactionsDuration.observe(durationMs)
   }
 
-  setQueryExchangeRateDuration(duration_ms: number) {
-    this.queryExchangeRateDuration.observe(duration_ms)
+  setQueryExchangeRateDuration(durationMs: number) {
+    this.queryExchangeRateDuration.observe(durationMs)
   }
 }
 export const metrics = new ApiMetrics()
