@@ -46,6 +46,8 @@ export default function ReviewFees({
   const openFeeDiscountExplanation = () => setShowFeeDiscountExplanation(true)
   const closeFeeDiscountExplanation = () => setShowFeeDiscountExplanation(false)
 
+  const openProviderFeeUrl = () => Linking.openURL(feeUrl)
+
   const showAmount = (value: number, isCelo: boolean = false, textStyle: any[] = []) => (
     <CurrencyDisplay
       amount={{
@@ -77,12 +79,7 @@ export default function ReviewFees({
         <Text style={[fontStyles.large600]}>{t('providerFeesDialog.title')}</Text>
         {'\n\n'}
         <Text style={[fontStyles.regular]}>{t('providerFeesDialog.body1')}</Text>
-        <Text
-          style={{ color: colors.greenUI }}
-          onPress={() => {
-            Linking.openURL(feeUrl)
-          }}
-        >
+        <Text style={{ color: colors.greenUI }} onPress={openProviderFeeUrl}>
           {t('providerFeesDialog.body2', { providerName: provider })}
         </Text>
       </Dialog>
