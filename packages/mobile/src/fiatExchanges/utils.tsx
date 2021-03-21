@@ -37,7 +37,7 @@ interface MoonPayIpAddressData {
   ipAddress: string
 }
 
-interface SimplexQuote {
+export interface SimplexQuote {
   user_id: string
   quote_id: string
   wallet_id: string
