@@ -26,7 +26,6 @@ interface NetworkConfig {
   odisPubKey: string
   moonpayWidgetUrl: string
   signMoonpayUrl: string
-  simplexUrl: string
   rampWidgetUrl: string
   transakWidgetUrl: string
   useDiscovery: boolean
@@ -36,6 +35,8 @@ interface NetworkConfig {
   currentMtwImplementationAddress: string
   recaptchaSiteKey: string
   bidaliUrl: string
+  providerComposerUrl: string
+  simplexRequestUrl: string
 }
 
 const moonpayWidgetStaging = 'https://buy-staging.moonpay.io/'
@@ -51,9 +52,6 @@ const rampWidgetProd = 'https://buy.ramp.network'
 
 const transakWidgetProd = 'https://global.transak.com'
 const transakWidgetStaging = 'https://staging-global.transak.com'
-
-const simplexUrlProd = 'https://backend-wallet-api.simplexcc.com'
-const simplexUrlStaging = 'https://sandbox.test-simplexcc.com'
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
@@ -71,6 +69,17 @@ const CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET: Address =
 const CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING: Address =
   '0x5C9a6E3c3E862eD306E2E3348EBC8b8310A99e5A'
 
+const PROVIDER_URL_COMPOSER_PROD =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/composeCicoProviderUrl'
+
+const PROVIDER_URL_COMPOSER_STAGING =
+  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/composeCicoProviderUrl'
+
+const SIMPLEX_REQUEST_PROCESSOR_URL_STAGING =
+  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/processSimplexRequest'
+const SIMPLEX_REQUEST_PROCESSOR_URL_PROD =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/processSimplexRequest'
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     nodeDir: `.${Testnets.alfajores}`,
@@ -83,7 +92,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
     transakWidgetUrl: transakWidgetStaging,
-    simplexUrl: simplexUrlStaging,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_STAGING,
@@ -91,6 +99,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
+    providerComposerUrl: PROVIDER_URL_COMPOSER_STAGING,
+    simplexRequestUrl: SIMPLEX_REQUEST_PROCESSOR_URL_STAGING,
   },
   [Testnets.mainnet]: {
     nodeDir: `.${Testnets.mainnet}`,
@@ -103,7 +113,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
     transakWidgetUrl: transakWidgetProd,
-    simplexUrl: simplexUrlProd,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_MAINNET,
@@ -111,6 +120,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
+    providerComposerUrl: PROVIDER_URL_COMPOSER_PROD,
+    simplexRequestUrl: SIMPLEX_REQUEST_PROCESSOR_URL_PROD,
   },
 }
 

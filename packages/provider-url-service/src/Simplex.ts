@@ -1,17 +1,14 @@
-import { default as DeviceInfo } from 'react-native-device-info'
+import { v4 as uuidv4 } from 'uuid'
+import { UserDeviceInfo } from '.'
 import {
   CASH_IN_FAILURE_DEEPLINK,
   CASH_IN_SUCCESS_DEEPLINK,
   CurrencyCode,
-  SIMPLEX_API_KEY,
-} from 'src/config'
-import { fetchUserAccountCreationData } from 'src/fiatExchanges/utils'
-import networkConfig from 'src/geth/networkConfig'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import Logger from 'src/utils/Logger'
-import { v4 as uuidv4 } from 'uuid'
-
-const TAG = 'SimplexAPI'
+  LocalCurrencyCode,
+  SIMPLEX_DATA,
+} from './config'
+const { BigQuery } = require('@google-cloud/bigquery')
+const fetch = require('node-fetch')
 
 export interface SimplexQuote {
   user_id: string
@@ -34,6 +31,60 @@ export interface SimplexPaymentRequestResponse {
   is_kyc_update_required: boolean
 }
 
+export interface SimplexPaymentData {
+  orderId: string
+  paymentId: string
+  checkoutHtml: string
+}
+
+interface UserInitData {
+  ipAddress: string
+  timestamp: string
+  userAgent: string
+}
+
+const getUserInitData = async (
+  currentIpAddress: string,
+  deviceId: string,
+  userAgent: string
+): Promise<UserInitData> => {
+  const projectId = 'celo-testnet-production'
+  const dataset = 'mobile_wallet_production'
+  const bigQuery = new BigQuery({ projectId: `${projectId}` })
+
+  const [data] = await bigQuery.query(`
+    SELECT context_ip, device_info_user_agent, timestamp FROM ${projectId}.${dataset}.app_launched
+    WHERE user_address = (
+        SELECT user_address
+        FROM ${projectId}.${dataset}.app_launched
+        WHERE device_info_unique_id= "${deviceId}"
+        AND user_address IS NOT NULL
+        ORDER BY timestamp DESC
+        LIMIT 1
+    )
+    ORDER BY timestamp ASC
+    LIMIT 1
+  `)
+
+  if (!data.length) {
+    return {
+      ipAddress: currentIpAddress,
+      timestamp: new Date().toISOString(),
+      userAgent,
+    }
+  }
+
+  const { context_ip, device_info_user_agent, timestamp } = data[0]
+
+  const userInitData = {
+    ipAddress: context_ip,
+    timestamp: timestamp.value,
+    userAgent: device_info_user_agent,
+  }
+
+  return userInitData
+}
+
 const Simplex = {
   fetchQuote: async (
     userAddress: string,
@@ -42,41 +93,39 @@ const Simplex = {
     fiatCurrency: LocalCurrencyCode,
     fiatAmount: number
   ) => {
-    try {
-      const response = await Simplex.post('/wallet/merchant/v2/quote', {
-        end_user_id: userAddress,
-        digital_currency: currencyToBuy,
-        fiat_currency: fiatCurrency,
-        requested_currency: currencyToBuy,
-        requested_amount: fiatAmount,
-        wallet_id: 'valorapp',
-        client_ip: ipAddress,
-        payment_methods: ['credit_card'],
-      })
+    const response = await Simplex.post('/wallet/merchant/v2/quote', {
+      end_user_id: userAddress,
+      digital_currency: currencyToBuy,
+      fiat_currency: fiatCurrency,
+      requested_currency: currencyToBuy,
+      requested_amount: fiatAmount,
+      wallet_id: 'valorapp',
+      client_ip: ipAddress,
+      payment_methods: ['credit_card'],
+    })
 
-      const simplexQuote: SimplexQuote = await response.json()
-      return simplexQuote
-    } catch (error) {
-      Logger.error(TAG, error.message)
-    }
+    const simplexQuote: SimplexQuote = await response.json()
+    return simplexQuote
   },
   fetchPaymentRequest: async (
     userAddress: string,
     phoneNumber: string | null,
     phoneNumberVerified: boolean,
     simplexQuote: SimplexQuote,
-    currentIpAddress: string
+    currentIpAddress: string,
+    deviceInfo: UserDeviceInfo
   ) => {
     const paymentId = uuidv4()
     const orderId = uuidv4()
 
-    const accountCreationData = await fetchUserAccountCreationData(currentIpAddress)
+    const { id, appVersion, userAgent } = deviceInfo
+    const accountCreationData = await getUserInitData(currentIpAddress, id, userAgent)
 
     const response = await Simplex.post('/wallet/merchant/v2/payments/partner/data', {
       account_details: {
         app_provider_id: 'valorapp',
         app_end_user_id: userAddress,
-        app_version_id: DeviceInfo.getVersion(),
+        app_version_id: appVersion,
         app_install_date: accountCreationData.timestamp,
         email: '',
         phone: phoneNumber || '',
@@ -110,12 +159,14 @@ const Simplex = {
       throw Error('Simplex payment request failed')
     }
 
-    return { paymentId, orderId }
+    const checkoutHtml = Simplex.generateCheckoutForm(paymentId)
+    const simplexPaymentData: SimplexPaymentData = { paymentId, orderId, checkoutHtml }
+    return simplexPaymentData
   },
   generateCheckoutForm: (paymentId: string) => `
     <html>
       <body>
-        <form id="payment_form" action="${networkConfig.simplexUrl}/payments/new" method="post">
+        <form id="payment_form" action="${SIMPLEX_DATA.api_url}/payments/new" method="post">
           <input type="hidden" name="version" value="1">
           <input type="hidden" name="partner" value="valorapp">
           <input type="hidden" name="payment_flow_type" value="wallet">
@@ -130,11 +181,11 @@ const Simplex = {
     </html>
   `,
   post: async (path: string, body: any) => {
-    return fetch(`${networkConfig.simplexUrl}${path}`, {
+    return fetch(`${SIMPLEX_DATA.api_url}${path}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `ApiKey ${SIMPLEX_API_KEY}`,
+        Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
       },
       body: JSON.stringify(body),
     })

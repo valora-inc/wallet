@@ -938,7 +938,7 @@ exports[`SimplexScreen renders correctly 1`] = `
         >
           <ActivityIndicator
             animating={true}
-            color="#42D689"
+            color="#FFFFFF"
             hidesWhenStopped={true}
             size="small"
           />

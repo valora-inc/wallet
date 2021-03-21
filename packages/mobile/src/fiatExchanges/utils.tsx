@@ -3,16 +3,12 @@ import { default as DeviceInfo } from 'react-native-device-info'
 import getIpAddress from 'react-native-public-ip'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import {
-  DEFAULT_TESTNET,
-  PROVIDER_URL_COMPOSER_PROD,
-  PROVIDER_URL_COMPOSER_STAGING,
-  USER_DATA_URL,
-} from 'src/config'
-import MoonPay from 'src/fiatExchanges/MoonPay'
+import { CurrencyCode, MOONPAY_API_KEY } from 'src/config'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { providerAvailability } from 'src/flags'
+import networkConfig from 'src/geth/networkConfig'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'fiatExchanges:utils'
@@ -34,6 +30,44 @@ export interface UserAccountCreationData {
   timestamp: string
   userAgent: string
 }
+interface MoonPayIpAddressData {
+  alpha2: string
+  alpha3: string
+  state: string
+  ipAddress: string
+}
+
+interface SimplexQuote {
+  user_id: string
+  quote_id: string
+  wallet_id: string
+  digital_money: {
+    currency: string
+    amount: number
+  }
+  fiat_money: {
+    currency: string
+    base_amount: number
+    total_amount: number
+  }
+  valid_until: string
+  supported_digital_currencies: string[]
+}
+
+interface SimplexPaymentData {
+  orderId: string
+  paymentId: string
+  checkoutHtml: string
+}
+
+const composePostObject = (body: any) => ({
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(body),
+})
 
 export const fetchProviderWidgetUrl = async (
   provider: CicoProviderNames,
@@ -41,18 +75,8 @@ export const fetchProviderWidgetUrl = async (
 ) => {
   try {
     const response = await fetch(
-      DEFAULT_TESTNET === 'mainnet' ? PROVIDER_URL_COMPOSER_PROD : PROVIDER_URL_COMPOSER_STAGING,
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...requestData,
-          provider,
-        }),
-      }
+      networkConfig.providerComposerUrl,
+      composePostObject({ ...requestData, provider })
     )
 
     return response.json()
@@ -65,7 +89,12 @@ export const fetchProviderWidgetUrl = async (
 export const fetchUserLocationData = async (countryCallingCode: string | null) => {
   let userLocationData: UserLocationData
   try {
-    const { alpha2, state, ipAddress } = await MoonPay.fetchUserLocationData()
+    const ipAddressFetchResponse = await fetch(
+      `https://api.moonpay.com/v4/ip_address?apiKey=${MOONPAY_API_KEY}`
+    )
+    const ipAddressObj: MoonPayIpAddressData = await ipAddressFetchResponse.json()
+    const { alpha2, state, ipAddress } = ipAddressObj
+
     if (!alpha2) {
       throw Error('Could not determine country from IP address')
     }
@@ -87,36 +116,63 @@ export const fetchUserLocationData = async (countryCallingCode: string | null) =
   return userLocationData
 }
 
-export const fetchUserAccountCreationData = async (currentIpAddress: string) => {
-  let userAccountCreationData: UserAccountCreationData
+export const fetchSimplexQuote = async (
+  userAddress: string,
+  currentIpAddress: string,
+  currencyToBuy: CurrencyCode,
+  fiatCurrency: LocalCurrencyCode,
+  fiatAmount: number
+) => {
   try {
-    const response = await fetch(USER_DATA_URL, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        deviceId: DeviceInfo.getUniqueId(),
-      }),
-    })
+    const response = await fetch(
+      networkConfig.simplexRequestUrl,
+      composePostObject({
+        type: 'quote',
+        userAddress,
+        currentIpAddress,
+        currencyToBuy,
+        fiatCurrency,
+        fiatAmount,
+      })
+    )
 
-    userAccountCreationData = await response.json()
-
-    if (userAccountCreationData.ipAddress === '') {
-      throw Error('No account creation data currently in database')
-    }
+    const simplexQuote: SimplexQuote = await response.json()
+    return simplexQuote
   } catch (error) {
-    // If account creation data fetch fails or there is no data stored, default to current device info
-    userAccountCreationData = {
-      ipAddress: currentIpAddress,
-      // Using new Date because DeviceInfo.getFirstInstallTime returns incorrect date
-      timestamp: new Date().toISOString(),
-      userAgent: DeviceInfo.getUserAgentSync(),
-    }
+    Logger.error(TAG, error.message)
   }
+}
 
-  return userAccountCreationData
+export const fetchSimplexPaymentData = async (
+  userAddress: string,
+  phoneNumber: string | null,
+  phoneNumberVerified: boolean,
+  simplexQuote: SimplexQuote,
+  currentIpAddress: string
+) => {
+  try {
+    const response = await fetch(
+      networkConfig.simplexRequestUrl,
+      composePostObject({
+        type: 'payment',
+        userAddress,
+        phoneNumber,
+        phoneNumberVerified,
+        simplexQuote,
+        currentIpAddress,
+        deviceInfo: {
+          id: DeviceInfo.getUniqueId(),
+          appVersion: DeviceInfo.getVersion(),
+          userAgent: DeviceInfo.getUserAgentSync(),
+        },
+      })
+    )
+
+    const simplexPaymentData: SimplexPaymentData = await response.json()
+    return simplexPaymentData
+  } catch (error) {
+    Logger.error(TAG, error.message)
+  }
 }
 
 export const isExpectedUrl = (fetchedUrl: string, providerUrl: string) =>

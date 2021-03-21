@@ -1,17 +1,19 @@
-const { BigQuery } = require('@google-cloud/bigquery')
 import crypto from 'crypto'
 import * as functions from 'firebase-functions'
 import {
   CASH_IN_SUCCESS_DEEPLINK,
   CASH_IN_SUCCESS_URL,
+  CurrencyCode,
+  LocalCurrencyCode,
   MOONPAY_DATA,
   RAMP_DATA,
   TRANSAK_DATA,
   VALORA_LOGO_URL,
 } from './config'
+import Simplex, { SimplexPaymentData, SimplexQuote } from './Simplex'
 const URL = require('url').URL
 
-interface RequestData {
+interface UrlRequestData {
   provider: Providers
   address: string
   digitalAsset: string
@@ -27,7 +29,7 @@ enum Providers {
 }
 
 export const composeCicoProviderUrl = functions.https.onRequest((request, response) => {
-  const requestData: RequestData = request.body
+  const requestData: UrlRequestData = request.body
   const { provider, address, digitalAsset, fiatCurrency, fiatAmount } = requestData
 
   let finalUrl
@@ -79,39 +81,52 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
   response.send(JSON.stringify(finalUrl))
 })
 
-export const queryForUserInitData = functions.https.onRequest(async (request, response) => {
-  const projectId = 'celo-testnet-production'
-  const dataset = 'mobile_wallet_production'
-  const bigQuery = new BigQuery({ projectId: `${projectId}` })
+export interface UserDeviceInfo {
+  id: string
+  appVersion: string
+  userAgent: string
+}
+interface SimplexQuoteRequest {
+  type: 'quote'
+  userAddress: string
+  currentIpAddress: string
+  currencyToBuy: CurrencyCode
+  fiatCurrency: LocalCurrencyCode
+  fiatAmount: number
+}
 
-  const { deviceId } = request.body
+interface SimplexPaymentRequest {
+  type: 'payment'
+  userAddress: string
+  phoneNumber: string | null
+  phoneNumberVerified: boolean
+  simplexQuote: SimplexQuote
+  currentIpAddress: string
+  deviceInfo: UserDeviceInfo
+}
 
-  const [data] = await bigQuery.query(`
-    SELECT context_ip, device_info_user_agent, timestamp FROM ${projectId}.${dataset}.app_launched
-    WHERE user_address = (
-        SELECT user_address
-        FROM ${projectId}.${dataset}.app_launched
-        WHERE device_info_unique_id= "${deviceId}"
-        AND user_address IS NOT NULL
-        ORDER BY timestamp DESC
-        LIMIT 1
+export const processSimplexRequest = functions.https.onRequest(async (request, response) => {
+  const requestData: SimplexQuoteRequest | SimplexPaymentRequest = request.body
+  let responseData: SimplexQuote | SimplexPaymentData | undefined
+
+  if (requestData.type === 'quote') {
+    responseData = await Simplex.fetchQuote(
+      requestData.userAddress,
+      requestData.currentIpAddress,
+      requestData.currencyToBuy,
+      requestData.fiatCurrency,
+      requestData.fiatAmount
     )
-    ORDER BY timestamp ASC
-    LIMIT 1
-  `)
-
-  const userInitData = {
-    ipAddress: '',
-    timestamp: '',
-    userAgent: '',
+  } else if (requestData.type === 'payment') {
+    responseData = await Simplex.fetchPaymentRequest(
+      requestData.userAddress,
+      requestData.phoneNumber,
+      requestData.phoneNumberVerified,
+      requestData.simplexQuote,
+      requestData.currentIpAddress,
+      requestData.deviceInfo
+    )
   }
 
-  if (data.length) {
-    const { context_ip, device_info_user_agent, timestamp } = data[0]
-    userInitData.ipAddress = context_ip
-    userInitData.timestamp = timestamp.value
-    userInitData.userAgent = device_info_user_agent
-  }
-
-  response.send(JSON.stringify(userInitData))
+  response.send(JSON.stringify(responseData))
 })

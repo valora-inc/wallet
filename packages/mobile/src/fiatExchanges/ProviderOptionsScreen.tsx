@@ -25,8 +25,8 @@ import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
-import Simplex from 'src/fiatExchanges/Simplex'
 import {
+  fetchSimplexQuote,
   fetchUserLocationData,
   getProviderAvailability,
   sortProviders,
@@ -115,7 +115,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       return
     }
 
-    const simplexQuote = await Simplex.fetchQuote(
+    const simplexQuote = await fetchSimplexQuote(
       account,
       userLocation.ipAddress,
       selectedCurrency,

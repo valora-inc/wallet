@@ -14,7 +14,7 @@ import BackButton from 'src/components/BackButton'
 import WebView from 'src/components/WebView'
 import { CurrencyCode } from 'src/config'
 import ReviewFees from 'src/fiatExchanges/ReviewFees'
-import Simplex from 'src/fiatExchanges/Simplex'
+import { fetchSimplexPaymentData } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -73,11 +73,11 @@ function SimplexScreen({ route, navigation }: Props) {
     })
   }, [])
 
-  const asyncSimplexPaymentRequest = useAsync(async () => {
+  const asyncSimplexPaymentData = useAsync(async () => {
     if (!account) {
       return
     }
-    return Simplex.fetchPaymentRequest(
+    return fetchSimplexPaymentData(
       account,
       e164PhoneNumber,
       phoneNumberConfirmed,
@@ -86,19 +86,19 @@ function SimplexScreen({ route, navigation }: Props) {
     )
   }, [])
 
-  const simplexPaymentRequest = asyncSimplexPaymentRequest?.result
+  const simplexPaymentRequest = asyncSimplexPaymentData?.result
 
   useEffect(() => {
-    if (asyncSimplexPaymentRequest.status === 'error') {
+    if (asyncSimplexPaymentData.status === 'error') {
       showError(ErrorMessages.SIMPLEX_PURCHASE_FETCH_FAILED)
     }
-  }, [asyncSimplexPaymentRequest.status])
+  }, [asyncSimplexPaymentData.status])
 
   return (
     <View style={styles.container}>
       {loadSimplexCheckout && simplexPaymentRequest && !redirected && (
         <View style={[styles.container, styles.indicator]}>
-          <ActivityIndicator size="large" color={colors.light} />
+          <ActivityIndicator size="large" color={colors.greenUI} />
         </View>
       )}
       {!loadSimplexCheckout || !simplexPaymentRequest ? (
@@ -127,13 +127,14 @@ function SimplexScreen({ route, navigation }: Props) {
             text={t('continueToProvider', { provider: 'Simplex' })}
             onPress={onButtonPress}
             disabled={!simplexPaymentRequest?.paymentId}
-            showLoading={asyncSimplexPaymentRequest.status === 'loading'}
+            showLoading={asyncSimplexPaymentData.status === 'loading'}
+            loadingColor={colors.light}
           />
         </View>
       ) : (
         <WebView
           originWhitelist={['*']}
-          source={{ html: Simplex.generateCheckoutForm(simplexPaymentRequest.paymentId) }}
+          source={{ html: simplexPaymentRequest.checkoutHtml }}
           onNavigationStateChange={onNavigationStateChange}
           style={{ opacity: redirected ? 100 : 0 }}
         />
