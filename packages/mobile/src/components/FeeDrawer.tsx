@@ -90,7 +90,6 @@ export default function FeeDrawer({
 
   return nonZeroFees ? (
     // Uses View instead of Fragment to workaround a glitch with LayoutAnimation
-    // TODO: replace "No Fees" placeholder line item
     <View>
       <Touchable onPress={toggleExpanded} testID={testID}>
         <View style={styles.totalContainer}>
