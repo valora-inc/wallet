@@ -23,7 +23,7 @@ export const MNEMONIC_STORAGE_KEY = 'mnemonic'
 
 export async function createQuizWordList(mnemonic: string, language: string | null) {
   const disallowedWordSet = new Set(mnemonic.split(' '))
-  const languageWordList = getWordlist(language)
+  const languageWordList = getMnemonicLanguage(language)
   const wordOptions: string = await generateMnemonic(
     MnemonicStrength.s256_24words,
     languageWordList,
@@ -53,12 +53,8 @@ export function selectQuizWordOptions(
   return [correctWord, wordOptions]
 }
 
-export function getWordlist(language: string | null) {
-  if (!language) {
-    return MnemonicLanguages.english
-  }
-
-  switch (language.slice(0, 2)) {
+export function getMnemonicLanguage(language: string | null) {
+  switch (language?.slice(0, 2)) {
     case 'es': {
       return MnemonicLanguages.spanish
     }
