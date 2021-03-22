@@ -105,6 +105,12 @@ describe('Mnemonic validation and formatting', () => {
     'NFD'
   )
 
+  const PORTUGUESE_MNEMONIC =
+    'cheiro lealdade duplo oposto vereador acessar lanche regra prefeito apego ratazana piedade alarme marmita subsolo brochura honrado viajar magnata canoa sarjeta terno cimento prezar'
+
+  const BAD_PORTUGUESE_MNEMONIC =
+    'cheiro lealdade duplo oposto vereador acessar lanche regra prefeito apego ratazana piedade alarme marmita subsolo brochura honrado viajar magnata canoa sarjeto terno cimento prezar'
+
   const ENGLISH_MNEMONIC =
     'there resist cinnamon water salmon spare thumb explain equip uniform control divorce mushroom head vote below setup marriage oval topic husband inner surprise invest'
 
@@ -149,6 +155,11 @@ inner surprise invest`
     expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
   })
 
+  it('validates portuguese successfully', () => {
+    const mnemonic = formatNonAccentedCharacters(formatBackupPhraseOnSubmit(PORTUGUESE_MNEMONIC))
+    expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
+  })
+
   it('validates english successfully', () => {
     const mnemonic = formatNonAccentedCharacters(formatBackupPhraseOnSubmit(ENGLISH_MNEMONIC))
     expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
@@ -168,6 +179,13 @@ inner surprise invest`
 
   it('does not validate bad spanish', () => {
     const mnemonic = formatNonAccentedCharacters(formatBackupPhraseOnSubmit(BAD_SPANISH_MNEMONIC))
+    expect(validateMnemonic(mnemonic, bip39)).toBeFalsy()
+  })
+
+  it('does not validate bad portuguese', () => {
+    const mnemonic = formatNonAccentedCharacters(
+      formatBackupPhraseOnSubmit(BAD_PORTUGUESE_MNEMONIC)
+    )
     expect(validateMnemonic(mnemonic, bip39)).toBeFalsy()
   })
 })

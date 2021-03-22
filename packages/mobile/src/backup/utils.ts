@@ -62,6 +62,9 @@ export function getWordlist(language: string | null) {
     case 'es': {
       return MnemonicLanguages.spanish
     }
+    case 'pt': {
+      return MnemonicLanguages.portuguese
+    }
     default: {
       return MnemonicLanguages.english
     }
