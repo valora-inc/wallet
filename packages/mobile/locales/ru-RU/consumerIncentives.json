@@ -1,0 +1,8 @@
+{
+  "title": "Добро пожаловать в Награды CELO",
+  "description": "Получайте ежемесячные награды, сохраняя cUSD на вашем {{appName}} аккаунте!",
+  "getCeloRewards": "Получи ${{reward}} в месяц с минимальным балансом {{minBalance}} cUSD",
+  "addCusd": "Добавить cUSD",
+  "addMore": "Добавить <0>{{cUsdToAdd}}</0> больше cUSD <1>{{date}}</1>, чтобы разблокировать <2>{{level}}<2>",
+  "level": "Уровень {{level}}"
+}
