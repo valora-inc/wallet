@@ -1,4 +1,5 @@
 import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from '@celo/utils/lib/account'
+import { isValidChecksumAddress } from '@celo/utils/lib/address'
 import * as bip39 from 'react-native-bip39'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
@@ -72,7 +73,7 @@ describe(getOrCreateAccount, () => {
   `(
     'creates an account with a mnemonic in $expectedMnemonicLang when app language is $appLang',
     async ({ appLang, expectedMnemonicLang }) => {
-      await expectSaga(getOrCreateAccount)
+      const { returnValue } = await expectSaga(getOrCreateAccount)
         .withState(state)
         .provide([
           [select(currentAccountSelector), null],
@@ -85,6 +86,8 @@ describe(getOrCreateAccount, () => {
           bip39
         )
         .run()
+
+      expect(isValidChecksumAddress(returnValue)).toBe(true)
     }
   )
 })
