@@ -1,8 +1,6 @@
-import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from '@celo/utils/lib/account'
+import { MnemonicLanguages } from '@celo/utils/lib/account'
 import CryptoJS from 'crypto-js'
-import * as _ from 'lodash'
 import { useAsync } from 'react-async-hook'
-import * as bip39 from 'react-native-bip39'
 import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -21,38 +19,6 @@ export const MNEMONIC_SPLITTER = 'celo'
 
 export const MNEMONIC_STORAGE_KEY = 'mnemonic'
 
-export async function createQuizWordList(mnemonic: string, language: string | null) {
-  const disallowedWordSet = new Set(mnemonic.split(' '))
-  const languageWordList = getMnemonicLanguage(language)
-  const wordOptions: string = await generateMnemonic(
-    MnemonicStrength.s256_24words,
-    languageWordList,
-    bip39
-  )
-  return wordOptions.split(' ').filter((word: string) => !disallowedWordSet.has(word))
-}
-
-export function selectQuizWordOptions(
-  mnemonic: string,
-  allWords: string[],
-  numOptions: number
-): [string, string[]] | [] {
-  const correctWord = _.sample(mnemonic.split(' '))
-
-  if (!correctWord) {
-    // mnemonic is empty
-    return []
-  }
-
-  const wordOptions = _.chain(allWords)
-    .sampleSize(numOptions - 1)
-    .push(correctWord)
-    .shuffle()
-    .value()
-
-  return [correctWord, wordOptions]
-}
-
 export function getMnemonicLanguage(language: string | null) {
   switch (language?.slice(0, 2)) {
     case 'es': {
@@ -65,38 +31,6 @@ export function getMnemonicLanguage(language: string | null) {
       return MnemonicLanguages.english
     }
   }
-}
-
-// Split a mnemonic into two and insert the mnemonic splitter in between
-export function splitMnemonic(mnemonic: string, language: string | null): string[] {
-  // TODO use language to i18n the splitter word? For now just using 'celo' everywhere
-
-  if (!mnemonic) {
-    throw new Error('Cannot split invalid mnemonic')
-  }
-
-  const mnemonicWords = mnemonic.split(' ')
-  const firstHalf = [...mnemonicWords.slice(0, mnemonicWords.length / 2), MNEMONIC_SPLITTER]
-  const secondHalf = [MNEMONIC_SPLITTER, ...mnemonicWords.slice(mnemonicWords.length / 2)]
-  return [firstHalf.join(' '), secondHalf.join(' ')]
-}
-
-export function joinMnemonic(mnemonicShards: string[]) {
-  if (
-    !mnemonicShards ||
-    mnemonicShards.length !== 2 ||
-    !mnemonicShards[0].includes(MNEMONIC_SPLITTER) ||
-    !mnemonicShards[1].includes(MNEMONIC_SPLITTER)
-  ) {
-    throw new Error('Cannot join invalid mnemonic shards')
-  }
-
-  if (mnemonicShards[0].startsWith(MNEMONIC_SPLITTER)) {
-    mnemonicShards.reverse()
-  }
-
-  const [firstHalf, secondHalf] = mnemonicShards.map((shard) => shard.split(' '))
-  return [...firstHalf.slice(0, firstHalf.length - 1), ...secondHalf.slice(1)].join(' ')
 }
 
 export async function storeMnemonic(mnemonic: string, account: string | null) {
