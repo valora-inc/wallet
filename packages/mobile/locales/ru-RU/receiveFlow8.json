@@ -1,0 +1,10 @@
+{
+  "receivedPayment": "Полученный платеж",
+  "receivedEscrowPayment": "Получен платеж в Escrow",
+  "from": "от",
+  "celoWallet": "{{appName}}",
+  "at": "в",
+  "receivedDollars": "Полученные Celo доллары",
+  "verificationMessage": "Вы заплатили комиссию для подтверждения вашего аккаунта. Добро пожаловать на {{appName}}!",
+  "receivedAmountFromCelo": "Вы получили эту сумму от Faucet!"
+}
