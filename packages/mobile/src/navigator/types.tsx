@@ -7,6 +7,7 @@ import {
 } from '@celo/utils'
 import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
+import { CurrencyCode } from 'src/config'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { AddressValidationType } from 'src/identity/reducer'
@@ -98,6 +99,9 @@ export type StackParamList = {
     currency: CURRENCY_ENUM
   }
   [Screens.FiatExchange]: undefined
+  [Screens.FiatExchangeAmount]: {
+    currency: CURRENCY_ENUM
+  }
   [Screens.FiatExchangeOptions]: {
     isCashIn?: boolean
     amount?: BigNumber
@@ -105,12 +109,17 @@ export type StackParamList = {
   [Screens.MoonPayScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CURRENCY_ENUM
+    currencyToBuy: CurrencyCode
   }
   [Screens.RampScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CURRENCY_ENUM
+    currencyToBuy: CurrencyCode
+  }
+  [Screens.TransakScreen]: {
+    localAmount: number
+    currencyCode: LocalCurrencyCode
+    currencyToBuy: CurrencyCode
   }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:
@@ -166,6 +175,7 @@ export type StackParamList = {
   [Screens.ProviderOptionsScreen]: {
     isCashIn?: boolean
     currency: CURRENCY_ENUM
+    amount: number
   }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
@@ -197,7 +207,11 @@ export type StackParamList = {
     | undefined
   [Screens.Spend]: undefined
   [Screens.Support]: undefined
-  [Screens.SupportContact]: undefined
+  [Screens.SupportContact]:
+    | {
+        prefilledText: string
+      }
+    | undefined
   [Screens.Sync]: undefined
   [Screens.TransactionReview]: {
     reviewProps: ReviewProps

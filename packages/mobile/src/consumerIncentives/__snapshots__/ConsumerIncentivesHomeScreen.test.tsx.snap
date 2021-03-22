@@ -139,218 +139,150 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
               "textAlign": "center",
             },
             Object {
-              "marginBottom": 36,
-              "marginTop": 10,
+              "marginTop": 16,
             },
           ]
         }
       >
         description
       </Text>
-      <Text
-        style={
-          Array [
-            Object {
-              "color": "#2E3338",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 16,
-              "lineHeight": 22,
-              "textAlign": "center",
-            },
-            Object {
-              "marginBottom": 4,
-              "paddingHorizontal": 12,
-            },
-          ]
-        }
-      >
-        <Text
-          style={
-            Object {
-              "fontWeight": "bold",
-            }
-          }
-        />
-        <Text
-          style={
-            Object {
-              "fontWeight": "bold",
-            }
-          }
-        />
-      </Text>
       <View
         style={
           Object {
-            "height": 1,
-            "marginVertical": 18,
-            "opacity": 0.3,
+            "borderColor": "#B4B9BD",
+            "borderRadius": 4,
+            "borderWidth": 1,
+            "marginTop": 32,
+            "padding": 16,
             "width": "100%",
           }
         }
       >
-        <BVLinearGradient
-          borderRadii={
-            Array [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-            ]
-          }
-          colors={
-            Array [
-              -1,
-              -13749448,
-              -1,
-            ]
-          }
-          endPoint={
-            Array [
-              1,
-              0,
-            ]
-          }
-          locations={null}
-          startPoint={
-            Array [
-              0,
-              0,
-            ]
-          }
+        <Text
           style={
-            Object {
-              "bottom": 0,
-              "left": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-            }
-          }
-        />
-      </View>
-      <Text
-        style={
-          Array [
             Object {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
+              "fontWeight": "600",
               "lineHeight": 22,
+              "marginBottom": 8,
               "textAlign": "center",
-            },
-            Object {
-              "marginBottom": 4,
-              "paddingHorizontal": 12,
-            },
-          ]
-        }
-      >
+            }
+          }
+        >
+          level
+        </Text>
         <Text
           style={
+            Array [
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+                "textAlign": "center",
+              },
+              Object {
+                "marginBottom": 4,
+                "paddingHorizontal": 12,
+              },
+            ]
+          }
+        >
+          getCeloRewards
+        </Text>
+        <View
+          style={
             Object {
-              "fontWeight": "bold",
+              "alignSelf": "stretch",
+              "backgroundColor": "#B4B9BD",
+              "height": 1,
+              "marginHorizontal": 8,
+              "marginVertical": 16,
             }
           }
         />
         <Text
           style={
-            Object {
-              "fontWeight": "bold",
-            }
-          }
-        />
-      </Text>
-      <View
-        style={
-          Object {
-            "height": 1,
-            "marginVertical": 18,
-            "opacity": 0.3,
-            "width": "100%",
-          }
-        }
-      >
-        <BVLinearGradient
-          borderRadii={
-            Array [
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-            ]
-          }
-          colors={
-            Array [
-              -1,
-              -13749448,
-              -1,
-            ]
-          }
-          endPoint={
-            Array [
-              1,
-              0,
-            ]
-          }
-          locations={null}
-          startPoint={
-            Array [
-              0,
-              0,
-            ]
-          }
-          style={
-            Object {
-              "bottom": 0,
-              "left": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-            }
-          }
-        />
-      </View>
-      <Text
-        style={
-          Array [
             Object {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
+              "fontWeight": "600",
               "lineHeight": 22,
+              "marginBottom": 8,
               "textAlign": "center",
-            },
-            Object {
-              "marginBottom": 4,
-              "paddingHorizontal": 12,
-            },
-          ]
-        }
-      >
+            }
+          }
+        >
+          level
+        </Text>
         <Text
           style={
+            Array [
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+                "textAlign": "center",
+              },
+              Object {
+                "marginBottom": 4,
+                "paddingHorizontal": 12,
+              },
+            ]
+          }
+        >
+          getCeloRewards
+        </Text>
+        <View
+          style={
             Object {
-              "fontWeight": "bold",
+              "alignSelf": "stretch",
+              "backgroundColor": "#B4B9BD",
+              "height": 1,
+              "marginHorizontal": 8,
+              "marginVertical": 16,
             }
           }
         />
         <Text
           style={
             Object {
-              "fontWeight": "bold",
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "fontWeight": "600",
+              "lineHeight": 22,
+              "marginBottom": 8,
+              "textAlign": "center",
             }
           }
-        />
-      </Text>
+        >
+          level
+        </Text>
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+                "textAlign": "center",
+              },
+              Object {
+                "marginBottom": 4,
+                "paddingHorizontal": 12,
+              },
+            ]
+          }
+        >
+          getCeloRewards
+        </Text>
+      </View>
       <View
         style={
           Object {

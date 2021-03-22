@@ -38,8 +38,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { currentLanguageSelector } from 'src/app/reducers'
+import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
 import { SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
-import { features } from 'src/flags'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { refreshAllBalances } from 'src/home/actions'
 import {
@@ -459,6 +459,8 @@ export function* requestAndRetrieveAttestations(
   contractKit?: ContractKit,
   komenciKit?: KomenciKit
 ) {
+  const shortVerificationCodesEnabled = yield select(shortVerificationCodesEnabledSelector)
+
   let attestations = currentActionableAttestations
 
   // Any verification failure past this point will be after sending a tx
@@ -499,7 +501,7 @@ export function* requestAndRetrieveAttestations(
 
     // Check if we have a sufficient set now by fetching the new total set
     attestations = yield call(getActionableAttestations, attestationsWrapper, phoneHash, account)
-    if (features.SHORT_VERIFICATION_CODES) {
+    if (shortVerificationCodesEnabled) {
       // we only support attestation service 1.1.0 and above for short codes
       attestations = attestations.filter(
         (att) => !isVersionBelowMinimum(att.version, MINIMUM_VERSION_FOR_SHORT_CODES)
@@ -673,6 +675,7 @@ export function attestationCodeReceiver(
   isFeelessVerification: boolean = false
 ) {
   return function*(action: ReceiveAttestationMessageAction) {
+    const shortVerificationCodesEnabled = yield select(shortVerificationCodesEnabledSelector)
     if (!action || !action.message) {
       Logger.error(TAG + '@attestationCodeReceiver', 'Received empty code. Ignoring.')
       ValoraAnalytics.track(VerificationEvents.verification_code_received, {
@@ -687,7 +690,7 @@ export function attestationCodeReceiver(
     let message = action.message
 
     try {
-      if (features.SHORT_VERIFICATION_CODES) {
+      if (shortVerificationCodesEnabled) {
         securityCodeWithPrefix = extractSecurityCodeWithPrefix(message)
         const signer = yield call(getConnectedUnlockedAccount)
         if (securityCodeWithPrefix) {
@@ -947,6 +950,8 @@ export function* tryRevealPhoneNumber(
   const issuer = attestation.issuer
   Logger.debug(TAG + '@tryRevealPhoneNumber', `Revealing an attestation for issuer: ${issuer}`)
 
+  const shortVerificationCodesEnabled = yield select(shortVerificationCodesEnabledSelector)
+
   try {
     // Only include retriever app sig for android, iOS doesn't support auto-read
     const smsRetrieverAppSig = Platform.OS === 'android' ? SMS_RETRIEVER_APP_SIGNATURE : undefined
@@ -965,7 +970,7 @@ export function* tryRevealPhoneNumber(
       securityCodePrefix: undefined,
     }
 
-    if (features.SHORT_VERIFICATION_CODES) {
+    if (shortVerificationCodesEnabled) {
       revealRequest.securityCodePrefix = getSecurityCodePrefix(issuer)
     }
 

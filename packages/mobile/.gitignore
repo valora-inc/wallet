@@ -78,6 +78,7 @@ e2e_pidcat_run.log
 
 # keys
 secrets.json
+!__mocks__/secrets.json
 
 # Branding
 # See scripts/sync_branding.sh

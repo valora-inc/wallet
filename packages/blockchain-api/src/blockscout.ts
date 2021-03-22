@@ -41,6 +41,8 @@ export interface BlockscoutTransferTx {
 export interface BlockscoutCeloTransfer {
   fromAddressHash: string
   toAddressHash: string
+  fromAccountHash: string
+  toAccountHash: string
   token: string
   value: string
 }
@@ -80,6 +82,8 @@ export class BlockscoutAPI extends RESTDataSource {
                     node {
                       fromAddressHash
                       toAddressHash
+                      fromAccountHash
+                      toAccountHash
                       value
                       token
                     }
@@ -169,9 +173,14 @@ export class BlockscoutAPI extends RESTDataSource {
 
     const aggregatedTransactions = TransactionAggregator.aggregate(classifiedTransactions)
 
-    const events: any[] = aggregatedTransactions.map(({ transaction, type }) =>
-      type.getEvent(transaction)
-    )
+    const events: any[] = aggregatedTransactions.map(({ transaction, type }) => {
+      try {
+        return type.getEvent(transaction)
+      } catch (e) {
+        console.error('Could not map to an event', JSON.stringify(transaction))
+        console.error(e)
+      }
+    })
 
     console.info(
       `[Celo] getTokenTransactions address=${args.address} token=${token} localCurrencyCode=${args.localCurrencyCode}} rawTransactionCount=${rawTransactions.length} eventCount=${events.length}`
@@ -179,7 +188,7 @@ export class BlockscoutAPI extends RESTDataSource {
 
     return events
       .filter((e) => e)
-      .filter((event) => event.amount.currencyCode === token)
+      .filter((event) => (token ? event.amount.currencyCode === token : true))
       .sort((a, b) => b.timestamp - a.timestamp)
   }
 }

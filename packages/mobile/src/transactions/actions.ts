@@ -1,9 +1,7 @@
+import { CeloTxReceipt } from '@celo/connect'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
-import i18n from 'src/i18n'
-import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NumberToRecipient } from 'src/recipients/recipient'
@@ -46,6 +44,7 @@ export interface AddHashToStandbyTransactionAction {
 export interface TransactionConfirmedAction {
   type: Actions.TRANSACTION_CONFIRMED
   txId: string
+  receipt: CeloTxReceipt
 }
 
 export interface TransactionFailedAction {
@@ -94,9 +93,13 @@ export const resetStandbyTransactions = (): ResetStandbyTransactionsAction => ({
   type: Actions.RESET_STANDBY_TRANSACTIONS,
 })
 
-export const transactionConfirmed = (txId: string): TransactionConfirmedAction => ({
+export const transactionConfirmed = (
+  txId: string,
+  receipt: CeloTxReceipt
+): TransactionConfirmedAction => ({
   type: Actions.TRANSACTION_CONFIRMED,
   txId,
+  receipt,
 })
 
 export const transactionFailed = (txId: string): TransactionFailedAction => ({
@@ -123,53 +126,12 @@ export const newTransactionsInFeed = (
 export const navigateToPaymentTransferReview = (
   type: TokenTransactionType,
   timestamp: number,
-  confirmationProps: TransferConfirmationCardProps,
-  addressToDisplayName: AddressToDisplayNameType
+  confirmationProps: TransferConfirmationCardProps
 ) => {
-  let headerText = ''
-  switch (type) {
-    case TokenTransactionType.Sent:
-      const isCeloWithdrawal =
-        confirmationProps.amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
-      headerText = i18n.t(
-        isCeloWithdrawal
-          ? 'walletFlow5:transactionHeaderWithdrewCelo'
-          : 'walletFlow5:transactionHeaderSent'
-      )
-      break
-    case TokenTransactionType.EscrowSent:
-      headerText = i18n.t('walletFlow5:transactionHeaderEscrowSent')
-      break
-    case TokenTransactionType.Received:
-      headerText = addressToDisplayName[confirmationProps.address || '']?.isCeloRewardSender
-        ? i18n.t('walletFlow5:transactionHeaderCeloReward')
-        : i18n.t('walletFlow5:transactionHeaderReceived')
-      break
-    case TokenTransactionType.EscrowReceived:
-      headerText = i18n.t('walletFlow5:transactionHeaderEscrowReceived')
-      break
-    case TokenTransactionType.VerificationFee:
-      headerText = i18n.t('walletFlow5:transactionHeaderVerificationFee')
-      break
-    case TokenTransactionType.Faucet:
-      headerText = i18n.t('walletFlow5:transactionHeaderFaucet')
-      break
-    case TokenTransactionType.InviteSent:
-      headerText = i18n.t('walletFlow5:transactionHeaderInviteSent')
-      break
-    case TokenTransactionType.InviteReceived:
-      headerText = i18n.t('walletFlow5:transactionHeaderInviteReceived')
-      break
-    case TokenTransactionType.NetworkFee:
-      headerText = i18n.t('walletFlow5:transactionHeaderNetworkFee')
-      break
-  }
-
   navigate(Screens.TransactionReview, {
     reviewProps: {
       type,
       timestamp,
-      header: headerText,
     },
     confirmationProps,
   })
@@ -179,13 +141,10 @@ export const navigateToExchangeReview = (
   timestamp: number,
   confirmationProps: ExchangeConfirmationCardProps
 ) => {
-  const { makerAmount } = confirmationProps
-  const isSold = makerAmount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
   navigate(Screens.TransactionReview, {
     reviewProps: {
       type: TokenTransactionType.Exchange,
       timestamp,
-      header: isSold ? i18n.t('exchangeFlow9:soldGold') : i18n.t('exchangeFlow9:purchasedGold'),
     },
     confirmationProps,
   })

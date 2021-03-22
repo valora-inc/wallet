@@ -38,6 +38,7 @@ export interface Props {
   numberOfLines?: number
   testID?: string
   style?: StyleProp<ViewStyle>
+  shortVerificationCodesEnabled: boolean
 }
 
 export default function CodeInput({
@@ -52,6 +53,7 @@ export default function CodeInput({
   numberOfLines,
   testID,
   style,
+  shortVerificationCodesEnabled,
 }: Props) {
   const [forceShowingPasteIcon, clipboardContent, getFreshClipboardContent] = useClipboard()
 
@@ -83,11 +85,36 @@ export default function CodeInput({
     >
       {/* These views cannot be combined as it will cause the shadow to be clipped on iOS */}
       <View style={styles.containRadius}>
-        <View style={showInput ? styles.contentActive : styles.content}>
+        <View
+          style={
+            showInput
+              ? shortVerificationCodesEnabled
+                ? styles.contentActive
+                : styles.contentActiveLong
+              : shortVerificationCodesEnabled
+              ? styles.content
+              : styles.contentLong
+          }
+        >
+          {showStatus && shortVerificationCodesEnabled && <View style={styles.statusContainer} />}
           <View style={styles.innerContent}>
-            <Text style={showInput ? styles.labelActive : styles.label}>{label}</Text>
+            <Text
+              style={
+                showInput
+                  ? shortVerificationCodesEnabled
+                    ? styles.labelActive
+                    : styles.labelActiveLong
+                  : shortVerificationCodesEnabled
+                  ? styles.label
+                  : styles.labelLong
+              }
+            >
+              {label}
+            </Text>
+
             {showInput ? (
               <TextInput
+                showClearButton={false}
                 value={inputValue}
                 placeholder={
                   inputPlaceholderWithClipboardContent && shouldShowClipboardInternal()
@@ -105,22 +132,34 @@ export default function CodeInput({
                 // on the native input. Though it doesn't work in all cases (see https://stackoverflow.com/a/33227237/158525)
                 // and has the unfortunate drawback of breaking multiline autosize.
                 // We use numberOfLines to workaround this last problem.
-                keyboardType={Platform.OS === 'android' ? 'visible-password' : undefined}
+                keyboardType={
+                  shortVerificationCodesEnabled
+                    ? 'number-pad'
+                    : Platform.OS === 'android'
+                    ? 'visible-password'
+                    : undefined
+                }
                 // numberOfLines is currently Android only on TextInput
                 // workaround is to set the minHeight on iOS :/
                 numberOfLines={Platform.OS === 'ios' ? undefined : numberOfLines}
-                inputStyle={
-                  Platform.OS === 'ios' && numberOfLines
-                    ? {
-                        minHeight: LINE_HEIGHT * numberOfLines,
-                      }
-                    : undefined
-                }
+                inputStyle={{
+                  ...(shortVerificationCodesEnabled && {
+                    ...fontStyles.large,
+                    textAlign: 'center',
+                  }),
+                  minHeight:
+                    Platform.OS === 'ios' && numberOfLines
+                      ? LINE_HEIGHT * numberOfLines
+                      : undefined,
+                }}
                 autoCapitalize="none"
                 testID={testID}
               />
             ) : (
-              <Text style={styles.codeValue} numberOfLines={1}>
+              <Text
+                style={shortVerificationCodesEnabled ? styles.codeValue : styles.codeValueLong}
+                numberOfLines={1}
+              >
                 {inputValue || ' '}
               </Text>
             )}
@@ -158,34 +197,64 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.Smallest8,
     overflow: 'hidden',
   },
-  content: {
+  contentLong: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     padding: Spacing.Regular16,
     paddingVertical: Spacing.Small12,
   },
-  contentActive: {
+  contentActiveLong: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: Spacing.Regular16,
     paddingBottom: 4,
   },
+  content: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 20,
+    // paddingVertical: Spacing.Small12,
+  },
+  contentActive: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 20,
+    paddingBottom: 4,
+  },
   innerContent: {
     flex: 1,
   },
-  label: {
+  labelLong: {
     ...fontStyles.label,
     color: colors.onboardingBrownLight,
     opacity: 0.5,
     marginBottom: 4,
   },
-  labelActive: {
+  labelActiveLong: {
     ...fontStyles.label,
   },
-  codeValue: {
+  codeValueLong: {
     ...fontStyles.regular,
     color: colors.onboardingBrownLight,
+  },
+
+  label: {
+    ...fontStyles.label,
+    color: colors.onboardingBrownLight,
+    opacity: 0.5,
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  labelActive: {
+    ...fontStyles.label,
+    textAlign: 'center',
+  },
+  codeValue: {
+    ...fontStyles.large,
+    color: colors.onboardingBrownLight,
+    textAlign: 'center',
   },
   statusContainer: {
     width: 32,

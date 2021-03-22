@@ -304,6 +304,39 @@ export enum FiatExchangeEvents {
 
   cico_option_chosen = 'cico_option_chosen',
   provider_chosen = 'provider_chosen',
+  cash_in_success = 'cash_in_success',
+
+  cico_add_funds_selected = 'cico_add_funds_selected',
+  cico_cash_out_selected = 'cico_cash_out_selected',
+  cico_spend_selected = 'cico_spend_selected',
+  cico_fund_info = 'cico_fund_info',
+  cico_fund_info_return = 'cico_fund_info_return',
+
+  cico_add_funds_back = 'cico_add_funds_back',
+  cico_add_funds_info = 'cico_add_funds_info',
+  cico_add_funds_info_support = 'cico_add_funds_info_support',
+  cico_add_funds_info_cancel = 'cico_add_funds_info_cancel',
+
+  cico_add_funds_amount_continue = 'cico_add_funds_amount_continue',
+  cico_add_funds_amount_back = 'cico_add_funds_amount_back',
+  cico_add_funds_amount_insufficient = 'cico_add_funds_amount_insufficient',
+  cico_add_funds_amount_dialog_cancel = 'cico_add_funds_amount_dialog_cancel',
+
+  cico_add_funds_select_provider_back = 'cico_add_funds_select_provider_back',
+  cico_add_funds_select_provider_info = 'cico_add_funds_select_provider_info',
+  cico_add_funds_select_provider_info_cancel = 'cico_add_funds_select_provider_info_cancel',
+
+  cico_cash_out_back = 'cico_cash_out_back',
+  cico_cash_out_info = 'cico_cash_out_info',
+  cico_cash_out_info_support = 'cico_cash_out_info_support',
+  cico_cash_out_info_cancel = 'cico_cash_out_info_cancel',
+
+  cico_cash_out_select_provider_back = 'cico_cash_out_select_provider_back',
+
+  cico_external_exchanges_back = 'cico_external_exchanges_back',
+  cico_cash_out_copy_address = 'cico_cash_out_copy_address',
+
+  cico_spend_select_provider_back = 'cico_spend_select_provider_back',
 }
 
 export enum GethEvents {
@@ -352,6 +385,10 @@ export enum PerformanceEvents {
   redux_store_size = 'redux_store_size',
 }
 
+export enum NavigationEvents {
+  navigator_not_ready = 'navigator_not_ready',
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -370,3 +407,4 @@ export type AnalyticsEventType =
   | GethEvents
   | NetworkEvents
   | PerformanceEvents
+  | NavigationEvents

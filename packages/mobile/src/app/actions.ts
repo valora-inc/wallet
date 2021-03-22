@@ -1,3 +1,4 @@
+import { RemoteFeatureFlags } from 'src/app/saga'
 import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
@@ -26,8 +27,7 @@ export enum Actions {
   SET_SESSION_ID = 'SET_SESSION_ID',
   OPEN_URL = 'APP/OPEN_URL',
   MIN_APP_VERSION_DETERMINED = 'APP/MIN_APP_VERSION_DETERMINED',
-  SET_PONTO_FEATURE_FLAG = 'APP/SET_PONTO_FEATURE_FLAG',
-  SET_KOTANI_FEATURE_FLAG = 'APP/SET_KOTANI_FEATURE_FLAG',
+  UPDATE_FEATURE_FLAGS = 'APP/UPDATE_FEATURE_FLAGS',
   TOGGLE_INVITE_MODAL = 'APP/TOGGLE_INVITE_MODAL',
   ACTIVE_SCREEN_CHANGED = 'APP/ACTIVE_SCREEN_CHANGED',
 }
@@ -107,14 +107,9 @@ interface MinAppVersionDeterminedAction {
   minVersion: string | null
 }
 
-interface PontoFeatureFlagSetAction {
-  type: Actions.SET_PONTO_FEATURE_FLAG
-  enabled: boolean
-}
-
-interface KotaniFeatureFlagSetAction {
-  type: Actions.SET_KOTANI_FEATURE_FLAG
-  enabled: boolean
+export interface UpdateFeatureFlagsAction {
+  type: Actions.UPDATE_FEATURE_FLAGS
+  flags: RemoteFeatureFlags
 }
 
 export type ActionTypes =
@@ -131,8 +126,7 @@ export type ActionTypes =
   | SetSessionId
   | OpenUrlAction
   | MinAppVersionDeterminedAction
-  | PontoFeatureFlagSetAction
-  | KotaniFeatureFlagSetAction
+  | UpdateFeatureFlagsAction
   | InviteModalAction
   | ActiveScreenChangedAction
 
@@ -215,14 +209,9 @@ export const minAppVersionDetermined = (
   minVersion,
 })
 
-export const setPontoFeatureFlag = (enabled: boolean) => ({
-  type: Actions.SET_PONTO_FEATURE_FLAG,
-  enabled,
-})
-
-export const setKotaniFeatureFlag = (enabled: boolean) => ({
-  type: Actions.SET_KOTANI_FEATURE_FLAG,
-  enabled,
+export const updateFeatureFlags = (flags: RemoteFeatureFlags): UpdateFeatureFlagsAction => ({
+  type: Actions.UPDATE_FEATURE_FLAGS,
+  flags,
 })
 
 export const toggleInviteModal = (inviteModalVisible: boolean): InviteModalAction => ({

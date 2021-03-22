@@ -21,7 +21,6 @@ import BackupComplete from 'src/backup/BackupComplete'
 import BackupForceScreen from 'src/backup/BackupForceScreen'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
-import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
@@ -38,6 +37,7 @@ import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
+import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import FiatExchangeOptions, {
   fiatExchangesOptionsScreenOptions,
 } from 'src/fiatExchanges/FiatExchangeOptions'
@@ -48,6 +48,7 @@ import MoonPayScreen, { moonPayOptions } from 'src/fiatExchanges/MoonPayScreen'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import RampScreen, { rampOptions } from 'src/fiatExchanges/RampScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
+import TransakScreen, { transakOptions } from 'src/fiatExchanges/TransakScreen'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
@@ -101,7 +102,6 @@ import ValidateRecipientIntro, {
 import SetClock from 'src/set-clock/SetClock'
 import TransactionReview from 'src/transactions/TransactionReview'
 import Logger from 'src/utils/Logger'
-import { getDatetimeDisplayString } from 'src/utils/time'
 import { ExtractProps } from 'src/utils/typescript'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
@@ -218,15 +218,7 @@ const nuxScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.NameAndPicture}
       component={NameAndPicture}
-      options={{
-        ...nuxNavigationOptions,
-        headerTitle: () => (
-          <HeaderTitleWithSubtitle
-            title={i18n.t('onboarding:accountInfo')}
-            subTitle={i18n.t('onboarding:step', { step: '1' })}
-          />
-        ),
-      }}
+      options={NameAndPicture.navOptions}
     />
     <Navigator.Screen
       name={Screens.PincodeSet}
@@ -450,6 +442,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen options={spendScreenOptions} name={Screens.Spend} component={Spend} />
     <Navigator.Screen
+      options={FiatExchangeAmount.navOptions}
+      name={Screens.FiatExchangeAmount}
+      component={FiatExchangeAmount}
+    />
+    <Navigator.Screen
       options={fiatExchangesOptionsScreenOptions}
       name={Screens.FiatExchangeOptions}
       component={FiatExchangeOptions}
@@ -466,6 +463,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen options={rampOptions} name={Screens.RampScreen} component={RampScreen} />
     <Navigator.Screen
+      options={transakOptions}
+      name={Screens.TransakScreen}
+      component={TransakScreen}
+    />
+    <Navigator.Screen
       options={ProviderOptionsScreen.navigationOptions}
       name={Screens.ProviderOptionsScreen}
       component={ProviderOptionsScreen}
@@ -478,29 +480,13 @@ const settingsScreens = (Navigator: typeof Stack) => (
   </>
 )
 
-const transactionReviewOptions = ({
-  route,
-}: {
-  route: RouteProp<StackParamList, Screens.TransactionReview>
-}) => {
-  const { header, timestamp } = route.params?.reviewProps
-  const dateTimeStatus = getDatetimeDisplayString(timestamp, i18n)
-  return {
-    ...emptyHeader,
-    headerLeft: () => (
-      <BackButton color={colors.dark} eventName={CeloExchangeEvents.celo_transaction_back} />
-    ),
-    headerTitle: () => <HeaderTitleWithSubtitle title={header} subTitle={dateTimeStatus} />,
-  }
-}
-
 const generalScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen name={Screens.SetClock} component={SetClock} />
     <Navigator.Screen
       name={Screens.TransactionReview}
       component={TransactionReview}
-      options={transactionReviewOptions}
+      options={TransactionReview.navOptions}
     />
   </>
 )

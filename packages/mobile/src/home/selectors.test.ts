@@ -82,11 +82,33 @@ describe(getExtraNotifications, () => {
             },
             countries: ['PH'],
           },
+          notif8: {
+            ctaUri: 'https://celo.org',
+            content: {
+              en: {
+                body: 'A notification for every country except the Philippines',
+                cta: 'Start',
+                dismiss: 'Dismiss',
+              },
+            },
+            blockedCountries: ['PH'],
+          },
+          notif9: {
+            ctaUri: 'https://celo.org',
+            content: {
+              en: {
+                body: 'A notification for every country except France',
+                cta: 'Start',
+                dismiss: 'Dismiss',
+              },
+            },
+            blockedCountries: ['FR'],
+          },
         },
       },
     })
 
     const extraNotifications = getExtraNotifications(state)
-    expect(Object.keys(extraNotifications)).toEqual(['notif1', 'notif3', 'notif7'])
+    expect(Object.keys(extraNotifications)).toEqual(['notif1', 'notif3', 'notif7', 'notif9'])
   })
 })

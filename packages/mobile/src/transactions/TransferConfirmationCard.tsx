@@ -22,6 +22,7 @@ import { getInvitationVerificationFeeInDollars } from 'src/invite/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getRecipientThumbnail, Recipient } from 'src/recipients/recipient'
+import useTypedSelector from 'src/redux/useSelector'
 import BottomText from 'src/transactions/BottomText'
 import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
@@ -206,7 +207,14 @@ function PaymentSentContent({
 }
 
 function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, comment }: Props) {
+  const { t } = useTranslation(Namespaces.sendFlow7)
   const totalAmount = amount
+  const isCeloTx = amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+  const celoEducationUri = useTypedSelector((state) => state.app.celoEducationUri)
+
+  const openLearnMore = () => {
+    navigate(Screens.WebViewScreen, { uri: celoEducationUri! })
+  }
 
   return (
     <>
@@ -218,6 +226,11 @@ function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, c
         avatar={<TransferAvatars type="received" address={address} recipient={recipient} />}
       />
       <CommentSection comment={comment} />
+      {isCeloTx && celoEducationUri && (
+        <TouchableOpacity onPress={openLearnMore} testID={'celoTxReceived/learnMore'}>
+          <Text style={styles.learnMore}>{t('learnMore')}</Text>
+        </TouchableOpacity>
+      )}
       <HorizontalLine />
       <TotalLineItem amount={totalAmount} />
     </>

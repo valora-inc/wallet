@@ -57,7 +57,7 @@ export const initializeAuth = async (app: ReactNativeFirebase.Module, address: s
 
   const userRef = app.database().ref('users')
   // Save some user data in DB if it's not there yet
-  await userRef.child(user.user.uid).transaction((userData?: { address: string }) => {
+  await userRef.child(user.user.uid).transaction((userData: { address?: string }) => {
     if (userData == null) {
       return { address }
     } else if (userData.address !== undefined && userData.address !== address) {
@@ -145,12 +145,6 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
     yield call(handleNotification, initialNotification, NotificationReceiveState.APP_OPENED_FRESH)
   }
-
-  app.messaging().setBackgroundMessageHandler((remoteMessage) => {
-    Logger.info(TAG, 'received Notification while app in Background')
-    // Nothing to do while app is in background
-    return Promise.resolve() // need to return a resolved promise so native code releases the JS context
-  })
 }
 
 export const registerTokenToDb = async (
@@ -191,17 +185,19 @@ export function appVersionDeprecationChannel() {
       const minVersion = snapshot.val().minVersion
       emit(minVersion)
     }
+
+    const onValueChange = firebase
+      .database()
+      .ref('versions')
+      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
+
     const cancel = () => {
       firebase
         .database()
         .ref('versions')
-        .off(VALUE_CHANGE_HOOK, emitter)
+        .off(VALUE_CHANGE_HOOK, onValueChange)
     }
 
-    firebase
-      .database()
-      .ref('versions')
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
     return cancel
   })
 }
@@ -222,19 +218,28 @@ export function appRemoteFeatureFlagChannel() {
       emit({
         kotaniEnabled: flags?.kotaniEnabled || false,
         pontoEnabled: flags?.pontoEnabled || false,
+        bitfyUrl: flags?.bitfyUrl ?? null,
+        flowBtcUrl: flags?.flowBtcUrl ?? null,
+        celoEducationUri: flags?.celoEducationUri ?? null,
+        shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
+        inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,
+        inviteRewardCusd: flags?.inviteRewardCusd ?? 1,
+        inviteRewardWeeklyLimit: flags?.inviteRewardCusd ?? 5,
       })
     }
+
+    const onValueChange = firebase
+      .database()
+      .ref('versions/flags')
+      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
+
     const cancel = () => {
       firebase
         .database()
         .ref('versions/flags')
-        .off(VALUE_CHANGE_HOOK, emitter)
+        .off(VALUE_CHANGE_HOOK, onValueChange)
     }
 
-    firebase
-      .database()
-      .ref('versions/flags')
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
     return cancel
   })
 }
@@ -249,6 +254,10 @@ export async function notificationsChannel() {
 
 export async function cUsdDailyLimitChannel(address: string) {
   return simpleReadChannel(`registrations/${address}/dailyLimitCusd`)
+}
+
+export async function providerTxHashesChannel(address: string) {
+  return simpleReadChannel(`registrations/${address}/txHashes`)
 }
 
 function simpleReadChannel(key: string) {
@@ -266,17 +275,18 @@ function simpleReadChannel(key: string) {
       Logger.debug(`Got value from Firebase for key ${key}: ${JSON.stringify(value)}`)
       emit(value || {})
     }
+
+    const onValueChange = firebase
+      .database()
+      .ref(key)
+      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
+
     const cancel = () => {
       firebase
         .database()
         .ref(key)
-        .off(VALUE_CHANGE_HOOK, emitter)
+        .off(VALUE_CHANGE_HOOK, onValueChange)
     }
-
-    firebase
-      .database()
-      .ref(key)
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
 
     return cancel
   })

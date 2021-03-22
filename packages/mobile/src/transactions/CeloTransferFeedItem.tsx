@@ -14,6 +14,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TransferItemFragment } from 'src/apollo/types'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
+import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { Namespaces } from 'src/i18n'
 import { addressToDisplayNameSelector } from 'src/identity/reducer'
 import { navigateToPaymentTransferReview } from 'src/transactions/actions'
@@ -27,29 +28,27 @@ type Props = TransferItemFragment & {
 export function CeloTransferFeedItem(props: Props) {
   const { t, i18n } = useTranslation(Namespaces.walletFlow5)
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
-  const { address, amount, comment, status, timestamp, type } = props
+  const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
+  const { address, amount, hash, comment, status, timestamp, type } = props
+  const txInfo = txHashToFeedInfo[hash]
 
   const onPress = () => {
     ValoraAnalytics.track(CeloExchangeEvents.celo_transaction_select)
 
-    navigateToPaymentTransferReview(
+    navigateToPaymentTransferReview(type, timestamp, {
+      address,
+      comment,
+      amount,
       type,
-      timestamp,
-      {
-        address,
-        comment,
-        amount,
-        type,
-        // fee TODO: add fee here.
-      },
-      addressToDisplayName
-    )
+      // fee TODO: add fee here.
+    })
   }
 
   const dateTimeFormatted = getDatetimeDisplayString(timestamp, i18n)
   const isPending = status === TransactionStatus.Pending
   const isWithdrawal = new BigNumber(amount.value).isNegative()
-  const displayName = addressToDisplayName[address]?.name || formatShortenedAddress(address)
+  const displayName =
+    txInfo?.name || addressToDisplayName[address]?.name || formatShortenedAddress(address)
 
   return (
     <Touchable onPress={onPress}>
@@ -63,7 +62,11 @@ export function CeloTransferFeedItem(props: Props) {
             </Text>
           </View>
           <View>
-            <CurrencyDisplay amount={amount} style={styles.amount} />
+            <CurrencyDisplay
+              amount={amount}
+              style={styles.amount}
+              showExplicitPositiveSign={true}
+            />
           </View>
         </View>
         <View style={styles.secondRow}>
