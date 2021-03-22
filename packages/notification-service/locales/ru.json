@@ -1,0 +1,12 @@
+{
+  "paymentReceivedTitle": "Платёж получен",
+  "paymentReceivedBody": "Вы получили {{amount}} {{currency}}",
+  "celoReceivedTitle": "Вклад генерального директора получен",
+  "celoReceivedBody": "Вы получили {{amount}} ЦЕЛО! Вы можете заработать, сохранить и провести в Валоре. Нажмите, чтобы узнать больше.",
+  "dollar": "Доллар Цело",
+  "dollar_plural": "Доллары Цело",
+  "gold": "CELO",
+  "paymentRequestedTitle": "Платеж запрошен",
+  "paymentRequestedBody": "Была запрошена оплата {{amount}} {{currency}}",
+  "rewardReceivedTitle": "Награда получена"
+}
