@@ -1,0 +1,17 @@
+{
+  "requests": "Запросы",
+  "empty": "У вас нет запросов на платеж",
+  "celoDollarBalance": "Доллар Цело",
+  "requestDeclined": "Запрос отклонен",
+  "requestPaid": "Запросить платный",
+  "paymentRequestUpdateFailed": "Не удается обновить запрос платежа",
+  "incomingPaymentRequestNotificationTitle": "{{name}} запрошено",
+  "outgoingPaymentRequestNotificationTitle": "Ожидание {{name}}",
+  "requestUnavailableHeader": "Аккаунт {{displayName}}не подтвержден",
+  "requestUnavailableNoDisplayNameHeader": "Ваша учетная запись контакта не подтверждена",
+  "requestUnavailableBody": "Номер {{e164PhoneNumber}} не имеет учетной записи или не подтвердил ее. Запросы могут быть отправлены только на подтвержденные номера.",
+  "requestUnavailableNoNumberBody": "Ваш контакт не имеет учетной записи или не подтвердил ее. Запрос может быть отправлен только на подтвержденные номера.",
+  "requesting": "Запрашиваем",
+  "request": "Запросить",
+  "requestSent": "Запрос отправлен"
+}
