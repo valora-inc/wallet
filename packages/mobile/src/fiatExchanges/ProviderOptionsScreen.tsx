@@ -8,15 +8,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import {
-  ActivityIndicator,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -25,6 +17,7 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
+import { CiCoProvider, providersDisplayInfo } from 'src/fiatExchanges/reducer'
 import {
   fetchLocationFromIpAddress,
   getProviderAvailability,
@@ -61,15 +54,19 @@ ProviderOptionsScreen.navigationOptions = ({
 }: {
   route: RouteProp<StackParamList, Screens.ProviderOptionsScreen>
 }) => {
+  const eventName = route.params?.isCashIn
+    ? FiatExchangeEvents.cico_add_funds_select_provider_back
+    : FiatExchangeEvents.cico_cash_out_select_provider_back
+
   return {
     ...emptyHeader,
-    headerLeft: () => <BackButton />,
+    headerLeft: () => <BackButton eventName={eventName} />,
     headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
   }
 }
 
 interface Provider {
-  name: string
+  id: CiCoProvider
   restricted: boolean
   icon: string
   iconColor?: string
@@ -93,7 +90,10 @@ const moonpayService = MoonpayService.getInstance()
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
-  const onDismissExplanation = () => setShowExplanation(false)
+  const onDismissExplanation = () => {
+    setShowExplanation(false)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_select_provider_info_cancel)
+  }
   const [providerFees, setProviderFees] = useState({} as any)
 
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
@@ -109,7 +109,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
 
   useLayoutEffect(() => {
-    const showExplanation = () => setShowExplanation(true)
+    const showExplanation = () => {
+      setShowExplanation(true)
+      ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_select_provider_info)
+    }
 
     navigation.setOptions({
       headerRightContainerStyle: { paddingRight: 16 },
@@ -152,7 +155,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashOut: [],
     cashIn: [
       {
-        name: 'Moonpay',
+        id: CiCoProvider.Moonpay,
         restricted: MOONPAY_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
@@ -162,7 +165,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         service: moonpayService,
       },
       {
-        name: 'Simplex',
+        id: CiCoProvider.Simplex,
         restricted: SIMPLEX_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
@@ -171,7 +174,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         service: simplexService,
       },
       {
-        name: 'Ramp',
+        id: CiCoProvider.Ramp,
         restricted: RAMP_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
@@ -180,10 +183,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
-        name: 'Transak',
+        id: CiCoProvider.Transak,
         restricted: TRANSAK_RESTRICTED,
-        icon:
-          'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
         onSelected: () =>
           openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
         service: transakService,
@@ -211,9 +212,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const providerOnPress = (provider: Provider) => () => {
     ValoraAnalytics.track(FiatExchangeEvents.provider_chosen, {
       isCashIn,
-      provider: provider.name,
+      provider: provider.id,
     })
-    dispatch(selectProvider(provider.name, provider.icon))
+    dispatch(selectProvider(provider.id))
     provider.onSelected()
   }
 
