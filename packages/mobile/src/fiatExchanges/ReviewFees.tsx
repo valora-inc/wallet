@@ -61,7 +61,6 @@ export default function ReviewFees({
       }}
       hideSymbol={false}
       showLocalAmount={true}
-      hideSign={false}
       showExplicitPositiveSign={false}
       style={[...textStyle]}
     />
@@ -111,22 +110,23 @@ export default function ReviewFees({
         <Text style={[styles.reviewLineText]}>{t('global:subtotal')}</Text>
         <Text style={[styles.reviewLineText]}>{showAmount(fiat.subTotal)}</Text>
       </View>
-      <View style={[styles.reviewLine]}>
-        <View style={[styles.reviewLineInfo]}>
-          <Text style={[styles.reviewLineText]}>
-            {provider} {t('exchangeFlow9:fee')}
-          </Text>
-          <Touchable
-            style={[styles.icon]}
-            onPress={openFeeExplanation}
-            hitSlop={variables.iconHitslop}
-          >
-            <InfoIcon color={colors.gray3} size={14} />
-          </Touchable>
+      {!feeWaived ? (
+        <View style={[styles.reviewLine]}>
+          <View style={[styles.reviewLineInfo]}>
+            <Text style={[styles.reviewLineText]}>
+              {provider} {t('exchangeFlow9:fee')}
+            </Text>
+            <Touchable
+              style={[styles.icon]}
+              onPress={openFeeExplanation}
+              hitSlop={variables.iconHitslop}
+            >
+              <InfoIcon color={colors.gray3} size={14} />
+            </Touchable>
+          </View>
+          <Text>{showAmount(fiat.total - fiat.subTotal, false, [styles.reviewLineText])}</Text>
         </View>
-        <Text>{showAmount(fiat.total - fiat.subTotal, false, [styles.reviewLineText])}</Text>
-      </View>
-      {feeWaived && (
+      ) : (
         <View style={[styles.reviewLine]}>
           <View style={[styles.reviewLineInfo]}>
             <Text style={[styles.reviewLineText]}>{t('feeDiscount')}</Text>
@@ -138,15 +138,13 @@ export default function ReviewFees({
               <InfoIcon color={colors.gray3} size={14} />
             </Touchable>
           </View>
-          <Text>
-            {showAmount((fiat.total - fiat.subTotal) * -1, false, [styles.feeWaivedText])}
-          </Text>
+          <Text style={styles.feeWaivedText}>{t('free')}</Text>
         </View>
       )}
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText, styles.reviewLineTextTotal]}>{t('global:Total')}</Text>
         <Text style={[styles.reviewLineText, styles.reviewLineTextTotal]}>
-          {showAmount(feeWaived ? fiat.subTotal : fiat.total, false, [styles.reviewLineTextTotal])}
+          {showAmount(fiat.total, false, [styles.reviewLineTextTotal])}
         </Text>
       </View>
     </View>

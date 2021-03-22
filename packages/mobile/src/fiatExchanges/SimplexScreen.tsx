@@ -43,6 +43,16 @@ function SimplexScreen({ route, navigation }: Props) {
   const localCurrency = useSelector(getLocalCurrencyCode)
   const simplexFeeWaived = useSelector(simplexFeeWaivedSelector)
 
+  const currencyToBuy =
+    simplexQuote.digital_money.currency.toUpperCase() === 'CUSD'
+      ? CurrencyCode.CUSD
+      : CurrencyCode.CELO
+
+  const feeIsWaived =
+    simplexFeeWaived &&
+    currencyToBuy === CurrencyCode.CUSD &&
+    simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount <= 0
+
   const onNavigationStateChange = ({ url }: any) => {
     if (url?.endsWith('step=card_details')) {
       setRedirected(true)
@@ -105,11 +115,7 @@ function SimplexScreen({ route, navigation }: Props) {
         <View style={styles.review}>
           <ReviewFees
             provider="Simplex"
-            currencyToBuy={
-              simplexQuote.digital_money.currency.toUpperCase() === 'CUSD'
-                ? CurrencyCode.CUSD
-                : CurrencyCode.CELO
-            }
+            currencyToBuy={currencyToBuy}
             localCurrency={localCurrency}
             fiat={{
               subTotal: simplexQuote.fiat_money.base_amount,
@@ -118,7 +124,7 @@ function SimplexScreen({ route, navigation }: Props) {
             crypto={{
               amount: simplexQuote.digital_money.amount,
             }}
-            feeWaived={simplexFeeWaived}
+            feeWaived={feeIsWaived}
             feeUrl={SIMPLEX_FEES_URL}
           />
           <Button

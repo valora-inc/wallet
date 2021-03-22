@@ -82,10 +82,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const localCurrency = useSelector(getLocalCurrencyCode)
   const account = useSelector(currentAccountSelector)
   const isCashIn = route.params?.isCashIn ?? true
-  const selectedCurrency = {
+  const selectedCrypto = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
     [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
-  }[route.params.currency || CURRENCY_ENUM.DOLLAR]
+  }[route.params.selectedCrypto || CURRENCY_ENUM.DOLLAR]
 
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
@@ -118,9 +118,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     const simplexQuote = await fetchSimplexQuote(
       account,
       userLocation.ipAddress,
-      selectedCurrency,
+      selectedCrypto,
       localCurrency,
-      route.params.amount
+      route.params.amount.crypto,
+      false
     )
 
     return { simplexQuote }
@@ -136,9 +137,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   } = getProviderAvailability(userLocation)
 
   const providerWidgetInputs = {
-    localAmount: route.params.amount,
+    localAmount: route.params.amount.fiat,
     currencyCode: localCurrency,
-    currencyToBuy: selectedCurrency,
+    currencyToBuy: selectedCrypto,
   }
 
   const providers: {

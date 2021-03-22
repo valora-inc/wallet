@@ -92,7 +92,8 @@ interface SimplexQuoteRequest {
   currentIpAddress: string
   currencyToBuy: CurrencyCode
   fiatCurrency: LocalCurrencyCode
-  fiatAmount: number
+  amount: number
+  amountIsFiat: boolean
 }
 
 interface SimplexPaymentRequest {
@@ -115,7 +116,8 @@ export const processSimplexRequest = functions.https.onRequest(async (request, r
       requestData.currentIpAddress,
       requestData.currencyToBuy,
       requestData.fiatCurrency,
-      requestData.fiatAmount
+      requestData.amount,
+      requestData.amountIsFiat
     )
   } else if (requestData.type === 'payment') {
     responseData = await Simplex.fetchPaymentRequest(

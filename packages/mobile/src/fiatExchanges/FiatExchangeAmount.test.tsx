@@ -63,8 +63,18 @@ describe('FiatExchangeAmount', () => {
 
     fireEvent.changeText(getByTestId('FiatExchangeInput'), '5')
     fireEvent.press(getByTestId('FiatExchangeNextButton'))
-    expect(getByTestId('MinAmountDialog/PrimaryAction')).toBeTruthy()
-    fireEvent.press(getByTestId('MinAmountDialog/PrimaryAction'))
+    expect(getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(getByTestId('invalidAmountDialog/PrimaryAction'))
+    expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('opens a dialog when the amount is lower than the limit', () => {
+    const { getByTestId } = tree
+
+    fireEvent.changeText(getByTestId('FiatExchangeInput'), '20001')
+    fireEvent.press(getByTestId('FiatExchangeNextButton'))
+    expect(getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(getByTestId('invalidAmountDialog/PrimaryAction'))
     expect(navigate).not.toHaveBeenCalled()
   })
 
@@ -78,8 +88,11 @@ describe('FiatExchangeAmount', () => {
 
     expect(navigate).toHaveBeenCalledWith(Screens.ProviderOptionsScreen, {
       isCashIn: true,
-      currency: CURRENCY_ENUM.DOLLAR,
-      amount: 600,
+      selectedCrypto: CURRENCY_ENUM.DOLLAR,
+      amount: {
+        fiat: 600,
+        crypto: 600,
+      },
     })
   })
 

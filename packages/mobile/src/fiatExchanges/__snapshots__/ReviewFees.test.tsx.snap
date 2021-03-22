@@ -1558,133 +1558,6 @@ exports[`ReviewFees renders correctly 2`] = `
           ]
         }
       >
-        Simplex
-         
-        exchangeFlow9:fee
-      </Text>
-      <View
-        accessible={true}
-        focusable={true}
-        hitSlop={
-          Object {
-            "bottom": 10,
-            "left": 10,
-            "right": 10,
-            "top": 10,
-          }
-        }
-        nativeBackgroundAndroid={
-          Object {
-            "attribute": "selectableItemBackground",
-            "rippleRadius": undefined,
-            "type": "ThemeAttrAndroid",
-          }
-        }
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Array [
-            Object {
-              "marginLeft": 6,
-              "position": "relative",
-              "top": 5,
-            },
-          ]
-        }
-      >
-        <svg
-          fill="none"
-          height={14}
-          style={Object {}}
-          viewBox="0 0 16 16"
-          width={14}
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="8"
-            cy="8"
-            r="7"
-            stroke="#B4B9BD"
-            stroke-width="1.25"
-            style={Object {}}
-          />
-          <path
-            d="M8 12V7M8 6V5"
-            stroke="#B4B9BD"
-            stroke-width="1.25"
-            style={Object {}}
-          />
-        </svg>
-      </View>
-    </View>
-    <Text>
-      <Text
-        numberOfLines={1}
-        style={
-          Array [
-            Array [
-              Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 22,
-              },
-            ],
-            Object {
-              "color": "#2E3338",
-            },
-          ]
-        }
-      >
-        
-        $
-        5.91
-      </Text>
-    </Text>
-  </View>
-  <View
-    style={
-      Array [
-        Object {
-          "color": "#2E3338",
-          "display": "flex",
-          "flexDirection": "row",
-          "fontFamily": "Inter-Regular",
-          "fontSize": 16,
-          "justifyContent": "space-between",
-          "lineHeight": 22,
-          "paddingVertical": 4,
-        },
-      ]
-    }
-  >
-    <View
-      style={
-        Array [
-          Object {
-            "display": "flex",
-            "flexDirection": "row",
-          },
-        ]
-      }
-    >
-      <Text
-        style={
-          Array [
-            Object {
-              "color": "#2E3338",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 16,
-              "lineHeight": 22,
-            },
-          ]
-        }
-      >
         feeDiscount
       </Text>
       <View
@@ -1747,29 +1620,17 @@ exports[`ReviewFees renders correctly 2`] = `
         </svg>
       </View>
     </View>
-    <Text>
-      <Text
-        numberOfLines={1}
-        style={
-          Array [
-            Array [
-              Object {
-                "color": "#1AB775",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 22,
-              },
-            ],
-            Object {
-              "color": "#1AB775",
-            },
-          ]
+    <Text
+      style={
+        Object {
+          "color": "#1AB775",
+          "fontFamily": "Inter-Regular",
+          "fontSize": 16,
+          "lineHeight": 22,
         }
-      >
-        -
-        $
-        5.91
-      </Text>
+      }
+    >
+      free
     </Text>
   </View>
   <View
@@ -1846,7 +1707,7 @@ exports[`ReviewFees renders correctly 2`] = `
       >
         
         $
-        25.09
+        31.00
       </Text>
     </Text>
   </View>

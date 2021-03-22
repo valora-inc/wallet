@@ -18,8 +18,11 @@ const AMOUNT_TO_CASH_IN = 100
 const mockScreenProps = (isCashIn: boolean) =>
   getMockStackScreenProps(Screens.ProviderOptionsScreen, {
     isCashIn,
-    currency: CURRENCY_ENUM.DOLLAR,
-    amount: AMOUNT_TO_CASH_IN,
+    selectedCrypto: CURRENCY_ENUM.DOLLAR,
+    amount: {
+      crypto: AMOUNT_TO_CASH_IN,
+      fiat: AMOUNT_TO_CASH_IN,
+    },
   })
 
 const mockStore = createMockStore({

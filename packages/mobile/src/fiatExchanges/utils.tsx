@@ -121,7 +121,8 @@ export const fetchSimplexQuote = async (
   currentIpAddress: string,
   currencyToBuy: CurrencyCode,
   fiatCurrency: LocalCurrencyCode,
-  fiatAmount: number
+  amount: number,
+  amountIsFiat: boolean
 ) => {
   try {
     const response = await fetch(
@@ -132,11 +133,17 @@ export const fetchSimplexQuote = async (
         currentIpAddress,
         currencyToBuy,
         fiatCurrency,
-        fiatAmount,
+        amount,
+        amountIsFiat,
       })
     )
 
-    const simplexQuote: SimplexQuote = await response.json()
+    const simplexQuoteResponse = await response.json()
+    if (simplexQuoteResponse?.error) {
+      throw Error(simplexQuoteResponse.error)
+    }
+
+    const simplexQuote: SimplexQuote = simplexQuoteResponse
     return simplexQuote
   } catch (error) {
     Logger.error(TAG, error.message)

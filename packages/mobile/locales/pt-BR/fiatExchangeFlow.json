@@ -42,7 +42,7 @@
     "title": "Sobre os fornecedores",
     "body": "Esses provedores permitem que você adicione ou retire fundos da sua conta. Os provedores determinam suas próprias tarifas e restrições, dependendo de diversos fatores. Visite o site do provedor para obter ajuda."
   },
-  "minAmountDialog": {
+  "invalidAmountDialog": {
     "body": "Nossos provedores não aceitam valores inferiores a {{limit}}. Insira um valor maior.",
     "dismiss": "OK"
   },

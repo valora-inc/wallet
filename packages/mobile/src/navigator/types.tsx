@@ -179,8 +179,11 @@ export type StackParamList = {
   [Screens.Profile]: undefined
   [Screens.ProviderOptionsScreen]: {
     isCashIn?: boolean
-    currency: CURRENCY_ENUM
-    amount: number
+    selectedCrypto: CURRENCY_ENUM
+    amount: {
+      crypto: number
+      fiat: number
+    }
   }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {

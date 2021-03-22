@@ -91,14 +91,15 @@ const Simplex = {
     ipAddress: string,
     currencyToBuy: CurrencyCode,
     fiatCurrency: LocalCurrencyCode,
-    fiatAmount: number
+    amount: number,
+    amountIsFiat: boolean
   ) => {
     const response = await Simplex.post('/wallet/merchant/v2/quote', {
       end_user_id: userAddress,
       digital_currency: currencyToBuy,
       fiat_currency: fiatCurrency,
-      requested_currency: currencyToBuy,
-      requested_amount: fiatAmount,
+      requested_currency: amountIsFiat ? fiatCurrency : currencyToBuy,
+      requested_amount: amount,
       wallet_id: 'valorapp',
       client_ip: ipAddress,
       payment_methods: ['credit_card'],
