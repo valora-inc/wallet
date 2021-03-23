@@ -4824,16 +4824,16 @@
   resolved "https://registry.yarnpkg.com/@ungap/url-search-params/-/url-search-params-0.1.2.tgz#8ba8c0527543fe675d1c29ae0a2daca842e8ee4f"
   integrity sha512-WVk5+lJ+AoNLh2sIDMhnEAgLsVQuI067hWLJCzirErH1GYiy1gs09q4+XZxYWSvdAsslKsaO4q1iXXMx2c72dA==
 
-"@walletconnect/client@2.0.0-alpha.27":
-  version "2.0.0-alpha.27"
-  resolved "https://registry.yarnpkg.com/@walletconnect/client/-/client-2.0.0-alpha.27.tgz#bc40c9ae73b454bb153eb318e4eee5d54f5b72dc"
-  integrity sha512-gjZcHzqfGPEuAL4ErnsoIaRgOcA+CyC29FXWlleoFNVwHgXgjO/inkiECNZeRGkQVRSRE4XjP/eBqAm4ov7uZQ==
+"@walletconnect/client@2.0.0-alpha.31":
+  version "2.0.0-alpha.31"
+  resolved "https://registry.yarnpkg.com/@walletconnect/client/-/client-2.0.0-alpha.31.tgz#45811985d03072cfa5e7788c384e641f18190e16"
+  integrity sha512-gECUJ3MuoQR8D1jwFaQEoO8i1TeD/cXMM4/7n4+2gT8fLIwIjY1LCjKfU5vilvTvecLE5YHI7iBpp79HbkEDvA==
   dependencies:
     "@json-rpc-tools/provider" "^1.6.4"
     "@json-rpc-tools/utils" "^1.6.4"
     "@pedrouid/pino-utils" "^1.0.1"
-    "@walletconnect/types" "^2.0.0-alpha.27"
-    "@walletconnect/utils" "^2.0.0-alpha.27"
+    "@walletconnect/types" "^2.0.0-alpha.31"
+    "@walletconnect/utils" "^2.0.0-alpha.31"
     enc-utils "^3.0.0"
     keyvaluestorage "^0.7.1"
     pino "^6.7.0"
@@ -4841,24 +4841,23 @@
     relay-provider "^1.2.1"
     safe-json-utils "^1.1.1"
 
-"@walletconnect/types@^2.0.0-alpha.27":
-  version "2.0.0-alpha.27"
-  resolved "https://registry.yarnpkg.com/@walletconnect/types/-/types-2.0.0-alpha.27.tgz#4a4069af53d03d19386c062beb5338d6905a9b3b"
-  integrity sha512-KpqhK3EpqtPEnL1DelQn0O5jzlFWCH2/S6KR2z2DvGrEsHgMKhA9YH2FokKcyG1Nv7jSb1ZujqWWsvdPnnTikg==
+"@walletconnect/types@^2.0.0-alpha.31":
+  version "2.0.0-alpha.31"
+  resolved "https://registry.yarnpkg.com/@walletconnect/types/-/types-2.0.0-alpha.31.tgz#09bd01c6f52eb727ab9f8c4de20c0c0888d387df"
+  integrity sha512-gLZJJNhP5O/CuTRqBFbDmrTjCdv8V3SEWZxFxsEmmhK8/HjVtxFSQ6TWrud4Lrjid7WrR33uf9PRp8btLxYnjw==
   dependencies:
     "@json-rpc-tools/types" "^1.6.4"
     keyvaluestorage "^0.7.1"
     pino "^6.7.0"
     pino-pretty "^4.3.0"
 
-"@walletconnect/utils@^2.0.0-alpha.27":
-  version "2.0.0-alpha.27"
-  resolved "https://registry.yarnpkg.com/@walletconnect/utils/-/utils-2.0.0-alpha.27.tgz#94225c6af85693515427e108ace08946a5c8c724"
-  integrity sha512-WWXooRxW7IDNLUNFo0R4DoKydsFlmdZ5vzkWkowRP98OSgx6dnFZa/3y4ae3bOcWr1ZAwx3ozoMgsR9JYcy1tQ==
+"@walletconnect/utils@^2.0.0-alpha.31":
+  version "2.0.0-alpha.31"
+  resolved "https://registry.yarnpkg.com/@walletconnect/utils/-/utils-2.0.0-alpha.31.tgz#57e49522138e597627b635984323685674fe207c"
+  integrity sha512-LpEuFCOfDr4yQP8JlyMekcu//yAlIIH7A46a8GMaKKDtN9o6fnYb6uUGTZi3AvbyX84TCnNKD7RAkVNgV3pLpA==
   dependencies:
     "@json-rpc-tools/utils" "^1.6.4"
-    "@walletconnect/types" "^2.0.0-alpha.27"
-    detect-browser "^5.1.0"
+    "@walletconnect/types" "^2.0.0-alpha.31"
     ecies-25519 "^1.3.0"
     enc-utils "^3.0.0"
     query-string "^6.13.5"
@@ -9620,11 +9619,6 @@ destroy@~1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
-
-detect-browser@^5.1.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/detect-browser/-/detect-browser-5.2.0.tgz#c9cd5afa96a6a19fda0bbe9e9be48a6b6e1e9c97"
-  integrity sha512-tr7XntDAu50BVENgQfajMLzacmSe34D+qZc4zjnniz0ZVuw/TZcLcyxHQjYpJTM36sGEkZZlYLnIM1hH7alTMA==
 
 detect-file@^1.0.0:
   version "1.0.0"

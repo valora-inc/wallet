@@ -39,9 +39,10 @@ export function* acceptSession({ proposal }: AcceptSession) {
   const genesis: string = yield call(readGenesisBlockFile, nodeDir)
   const networkId: number = GenesisBlockUtils.getChainIdFromGenesis(genesis)
 
-  const account = yield select(getAccountAddress)
+  const account = yield call(getAccountAddress)
   const client = yield select(walletConnectClientSelector)
 
+  console.log('>>> account', account)
   const response: SessionTypes.Response = {
     metadata: {
       name: 'Valora',
@@ -57,6 +58,8 @@ export function* acceptSession({ proposal }: AcceptSession) {
 
   yield call(client.approve.bind(client), { proposal, response })
 }
+
+export function* denySession() {}
 
 export function* acceptRequest({ id, topic, result }: AcceptRequest) {
   const client = yield select(walletConnectClientSelector)
@@ -91,11 +94,12 @@ export function* createWalletConnectChannel() {
   Logger.debug(TAG + '@initialiseClient', `init start`)
   try {
     const client = yield call(WalletConnectClient.init, {
-      relayProvider: 'wss://staging.walletconnect.org',
+      relayProvider: 'wss://relay.walletconnect.org',
       storageOptions: {
         asyncStorage: AsyncStorage,
       },
       logger: 'error',
+      controller: true,
     })
     Logger.debug(TAG + '@initialiseClient', `init end`)
     yield put(clientInitialised(client))
@@ -118,7 +122,7 @@ export function* createWalletConnectChannel() {
         console.log('emitting')
         emit(sessionDeleted(session))
       })
-      client.on(CLIENT_EVENTS.session.payload, (payload: SessionTypes.PayloadEvent) => {
+      client.on(CLIENT_EVENTS.session.request, (payload: SessionTypes.RespondParams) => {
         console.log('emitting')
         emit(sessionPayload(payload))
       })
@@ -174,7 +178,7 @@ export function* walletConnectSaga() {
   yield takeEvery(Actions.INITIALISE_PAIRING, initialisePairing)
 
   yield takeEvery(Actions.ACCEPT_SESSION, acceptSession)
-  // yield takeEvery(Actions.DENY_SESSION, denySession)
+  yield takeEvery(Actions.DENY_SESSION, denySession)
   yield takeEvery(Actions.ACCEPT_REQUEST, acceptRequest)
   yield takeEvery(Actions.DENY_REQUEST, denyRequest)
 

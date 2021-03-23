@@ -7,6 +7,7 @@ export enum Actions {
 
   ACCEPT_SESSION = 'WALLETCONNECT/ACCEPT_SESSION',
   DENY_SESSION = 'WALLETCONNECT/DENY_SESSION',
+  CLOSE_SESSION = 'WALLETCONNECT/CLOSE_SESSION',
 
   ACCEPT_REQUEST = 'WALLETCONNECT/ACCEPT_REQUEST',
   DENY_REQUEST = 'WALLETCONNECT/ACCEPT_REQUEST',
@@ -33,6 +34,9 @@ export interface InitialiseClient {
   type: Actions.INITIALISE_CLIENT
 }
 
+/**
+ * Session objects
+ */
 export interface AcceptSession {
   type: Actions.ACCEPT_SESSION
   proposal: SessionTypes.Proposal
@@ -40,6 +44,10 @@ export interface AcceptSession {
 export interface DenySession {
   type: Actions.DENY_SESSION
   proposal: SessionTypes.Proposal
+}
+export interface CloseSession {
+  type: Actions.CLOSE_SESSION
+  session: SessionTypes.Settled
 }
 
 export interface AcceptRequest {
@@ -76,7 +84,7 @@ export interface SessionDeleted {
 }
 export interface SessionPayload {
   type: Actions.SESSION_PAYLOAD
-  payload: SessionTypes.Payload
+  payload: SessionTypes.RespondParams
 }
 export interface PairingProposal {
   type: Actions.PAIRING_PROPOSAL
@@ -125,6 +133,10 @@ export const denySession = (proposal: SessionTypes.Proposal): DenySession => ({
   type: Actions.DENY_SESSION,
   proposal,
 })
+export const closeSession = (session: SessionTypes.Settled) => ({
+  type: Actions.CLOSE_SESSION,
+  session,
+})
 
 export const acceptRequest = (topic: string, id: string, result: any): AcceptRequest => ({
   type: Actions.ACCEPT_REQUEST,
@@ -132,7 +144,7 @@ export const acceptRequest = (topic: string, id: string, result: any): AcceptReq
   id,
   result,
 })
-export const denyRequest = (): DenyRequest => ({
+export const denyRequest = (request: SessionTypes.RequestEvent): DenyRequest => ({
   type: Actions.DENY_REQUEST,
 })
 
@@ -157,7 +169,7 @@ export const sessionDeleted = (session: SessionTypes.DeleteParams) => ({
   type: Actions.SESSION_DELETED,
   session,
 })
-export const sessionPayload = (payload: SessionTypes.PayloadEvent): SessionPayload => ({
+export const sessionPayload = (payload: SessionTypes.RespondParams): SessionPayload => ({
   type: Actions.SESSION_PAYLOAD,
   payload,
 })

@@ -63,7 +63,7 @@ export const reducer = (
     case Actions.SESSION_PAYLOAD:
       return {
         ...state,
-        pendingActions: [...state.pendingActions, action.session],
+        pendingActions: [...state.pendingActions, action.payload],
       }
     case Actions.SESSION_CREATED:
       return {

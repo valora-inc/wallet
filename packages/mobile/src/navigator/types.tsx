@@ -240,7 +240,9 @@ export type StackParamList = {
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectSessionRequest]: undefined
   [Screens.WalletConnectSessions]: undefined
-  [Screens.WalletConnectRequest]: undefined
+  [Screens.WalletConnectActionRequest]: {
+    request: any
+  }
   [Screens.WalletHome]: undefined
   [Screens.WebViewScreen]: { uri: string }
   [Screens.Welcome]: undefined
