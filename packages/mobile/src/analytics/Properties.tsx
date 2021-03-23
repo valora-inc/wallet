@@ -12,6 +12,7 @@ import {
   HomeEvents,
   IdentityEvents,
   InviteEvents,
+  NavigationEvents,
   NetworkEvents,
   OnboardingEvents,
   PerformanceEvents,
@@ -604,6 +605,7 @@ interface TransactionEventsProperties {
   [TransactionEvents.transaction_gas_estimated]: {
     txId: string
     estimatedGas: number
+    prefilled: boolean
   }
   [TransactionEvents.transaction_hash_received]: {
     txId: string
@@ -837,6 +839,10 @@ interface PerformanceProperties {
   }
 }
 
+interface NavigationProperties {
+  [NavigationEvents.navigator_not_ready]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -855,4 +861,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   GethEventsProperties &
   NetworkEventsProperties &
   ContractKitEventsProperties &
-  PerformanceProperties
+  PerformanceProperties &
+  NavigationProperties

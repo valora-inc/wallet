@@ -88,34 +88,12 @@ export const GETH_START_HTTP_RPC_SERVER = stringToBoolean(
 )
 
 // SECRETS
-export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SEGMENT_API_KEY')
-export const FIREBASE_WEB_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'FIREBASE_WEB_KEY')
-export const SENTRY_URL = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SENTRY_URL')
-
-export const RECAPTCHA_SITE_KEY_ALFAJORES = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'RECAPTCHA_SITE_KEY_ALFAJORES'
-)
-export const RECAPTCHA_SITE_KEY_MAINNET = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'RECAPTCHA_SITE_KEY_MAINNET'
-)
-export const SAFETYNET_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SAFETYNET_KEY')
-
-export const MOONPAY_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'MOONPAY_API_KEY')
-
-export const BIDALI_URL_ALFAJORES = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'BIDALI_URL_ALFAJORES'
-)
-export const BIDALI_URL_MAINNET = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'BIDALI_URL_MAINNET'
-)
+export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SEGMENT_API_KEY')
+export const SENTRY_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SENTRY_URL')
+export const RECAPTCHA_SITE_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'RECAPTCHA_SITE_KEY')
+export const SAFETYNET_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SAFETYNET_KEY')
+export const MOONPAY_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'MOONPAY_API_KEY')
+export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')
 
 export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [
   {
