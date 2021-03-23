@@ -9,6 +9,7 @@ import {
 } from '@celo/utils/lib/dappkit'
 import { call, select, takeLeading } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
+import { e164NumberToSaltSelector } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { navigateToURI } from 'src/utils/linking'
@@ -48,8 +49,12 @@ function* respondToAccountAuth(action: ApproveAccountAuthAction) {
   Logger.debug(TAG, 'Approving auth account')
   const account = yield select(currentAccountSelector)
   const phoneNumber = yield select(e164NumberSelector)
+  const pepper = yield select(e164NumberToSaltSelector)
   navigateToURI(
-    produceResponseDeeplink(action.request, AccountAuthResponseSuccess(account, phoneNumber))
+    produceResponseDeeplink(
+      action.request,
+      AccountAuthResponseSuccess(account, phoneNumber, pepper)
+    )
   )
 }
 
