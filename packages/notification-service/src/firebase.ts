@@ -326,17 +326,3 @@ export async function sendNotification(
     console.error('Error sending notification:', address, error)
   }
 }
-
-export function saveTxHashProvider(address: string, txHash: string, provider: string) {
-  database
-    .ref(`/registrations/${address}/txHashes/${txHash}`)
-    .set(provider)
-    .then(() =>
-      console.info(`Linked provider ${provider} to tx hash ${txHash} for address ${address}`)
-    )
-    .catch(() =>
-      console.error(
-        `ERROR while linking provider ${provider} to tx hash ${txHash} for address ${address}`
-      )
-    )
-}

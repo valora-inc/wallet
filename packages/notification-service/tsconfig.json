@@ -8,7 +8,6 @@
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "outDir": "dist",
-    "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,

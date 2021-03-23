@@ -1,6 +1,5 @@
 import express from 'express'
 import * as admin from 'firebase-admin'
-import cicoRouter from './cico/cicoRouter'
 import {
   ENVIRONMENT,
   FIREBASE_DB,
@@ -50,8 +49,6 @@ app.get('/_ah/stop', (req: any, res: any) => {
 app.listen(PORT, () => {
   console.info(`App listening on port ${PORT} with env ${ENVIRONMENT}`)
 })
-
-app.use('/cico', cicoRouter)
 
 /**
  * Initialize Firebase Admin SDK

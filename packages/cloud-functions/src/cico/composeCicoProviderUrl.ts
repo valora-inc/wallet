@@ -7,7 +7,7 @@ import {
   RAMP_DATA,
   TRANSAK_DATA,
   VALORA_LOGO_URL,
-} from './config'
+} from '../config'
 const URL = require('url').URL
 
 interface RequestData {
@@ -18,7 +18,7 @@ interface RequestData {
   fiatAmount: string
 }
 
-enum Providers {
+export enum Providers {
   MOONPAY = 'MOONPAY',
   RAMP = 'RAMP',
   TRANSAK = 'TRANSAK',
