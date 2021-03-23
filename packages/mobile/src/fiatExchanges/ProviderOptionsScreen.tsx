@@ -125,12 +125,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
   const userLocation: UserLocation | undefined = asyncUserLocation.result
 
-  const {
-    MOONPAY_RESTRICTED,
-    SIMPLEX_RESTRICTED,
-    RAMP_RESTRICTED,
-    TRANSAK_RESTRICTED,
-  } = getProviderAvailability(userLocation)
+  const { MOONPAY_RESTRICTED, SIMPLEX_RESTRICTED, RAMP_RESTRICTED } = getProviderAvailability(
+    userLocation
+  )
 
   const providers: {
     cashOut: Provider[]

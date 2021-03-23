@@ -126,7 +126,6 @@ function FiatExchangeOptions({ route, navigation }: Props) {
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
   const isCashIn = route.params?.isCashIn ?? true
   const {
-    MOONPAY_DISABLED,
     KOTANI_SUPPORTED,
     PONTO_SUPPORTED,
     BITFY_SUPPORTED,
