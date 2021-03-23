@@ -6,7 +6,7 @@ import {
   PROVIDER_URL_COMPOSER_STAGING,
   SIMPLEX_URI,
 } from 'src/config'
-import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { Provider, Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { providerAvailability } from 'src/flags'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
@@ -129,4 +129,13 @@ export function getProviderAvailability(
     }
   }
   return features
+}
+
+// Leaving unoptimized for now because sorting is most relevant when fees will be visible
+export const sortProviders = (provider1: Provider, provider2: Provider) => {
+  if (provider1.restricted) {
+    return 1
+  }
+
+  return -1
 }
