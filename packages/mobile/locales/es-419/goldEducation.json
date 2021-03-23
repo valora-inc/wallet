@@ -1,8 +1,8 @@
 {
-  "steps":  [
+  "steps": [
     {
-    "title": "¿Qué es CELO?",
-    "text": "CELO ayuda a mantener el Celo Dólar estable y la Red Celo funcionando."
+      "title": "¿Qué es CELO?",
+      "text": "CELO ayuda a mantener el Celo Dólar estable y la Red Celo funcionando."
     },
     {
       "title": "El precio del CELO cambia",
@@ -13,8 +13,8 @@
       "text": "Al mantener presionado CELO, puede votar por los cambios y las características que le gustaría ver en la Red Celo."
     },
     {
-      "title": "Por favor, compra y venda responsablemente",
-      "text": "{{appName}} le permite comprar y vender CELO. CELO presenta un riesgo de pérdida financiera, así que por favor hazlo de manera responsable." 
+      "title": "Por favor, compra y vende responsablemente",
+      "text": "{{appName}} le permite comprar y vender CELO. CELO presenta un riesgo de pérdida financiera, así que por favor hazlo de manera responsable."
     }
-  ] 
+  ]
 }

@@ -16,7 +16,7 @@ import { reclaimEscrowPayment, reclaimEscrowPaymentCancel } from 'src/escrow/act
 import ReclaimPaymentConfirmationCard from 'src/escrow/ReclaimPaymentConfirmationCard'
 import { FeeType } from 'src/fees/actions'
 import CalculateFee, { CalculateFeeChildren } from 'src/fees/CalculateFee'
-import { getFeeDollars } from 'src/fees/selectors'
+import { getFeeInTokens } from 'src/fees/selectors'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -35,6 +35,7 @@ interface StateProps {
   e164PhoneNumber: string | null
   account: string | null
   dollarBalance: string
+  celoBalance: string
   appConnected: boolean
 }
 
@@ -58,6 +59,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     e164PhoneNumber: state.account.e164PhoneNumber,
     account: currentAccountSelector(state),
     dollarBalance: state.stableToken.balance || '0',
+    celoBalance: state.goldToken.balance || '0',
     appConnected: isAppConnected(state),
   }
 }
@@ -116,11 +118,17 @@ class ReclaimPaymentConfirmationScreen extends React.Component<Props> {
   }
 
   renderWithAsyncFee: CalculateFeeChildren = (asyncFee) => {
-    const { t, isReclaiming, appConnected, dollarBalance } = this.props
+    const { t, isReclaiming, appConnected, dollarBalance, celoBalance } = this.props
     const payment = this.getReclaimPaymentInput()
-    const fee = getFeeDollars(asyncFee.result)
+    const fee = getFeeInTokens(asyncFee.result?.fee)
+    // TODO: Although this is configured to display fees in CELO, the currency and fee is not yet
+    // plumbed through the rest of the system to ensure it actually pays for the fees in CELO if
+    // selected.
+    const feeCurrency = asyncFee.result?.currency
     const convertedAmount = divideByWei(payment.amount.valueOf())
-    const userHasEnough = fee && fee.isLessThanOrEqualTo(dollarBalance)
+    const userHasEnough = fee?.isLessThanOrEqualTo(
+      feeCurrency === CURRENCY_ENUM.DOLLAR ? dollarBalance : celoBalance
+    )
 
     return (
       <SafeAreaView style={styles.container}>
@@ -147,7 +155,7 @@ class ReclaimPaymentConfirmationScreen extends React.Component<Props> {
             }
             amount={convertedAmount}
             currency={CURRENCY_ENUM.DOLLAR} // User can only request in Dollars
-            fee={fee}
+            feeInfo={asyncFee.result}
             isLoadingFee={asyncFee.loading}
             feeError={asyncFee.error}
           />
