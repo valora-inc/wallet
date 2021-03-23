@@ -18,7 +18,7 @@ interface RequestData {
   fiatAmount: string
 }
 
-export enum Providers {
+enum Providers {
   MOONPAY = 'MOONPAY',
   RAMP = 'RAMP',
   TRANSAK = 'TRANSAK',
