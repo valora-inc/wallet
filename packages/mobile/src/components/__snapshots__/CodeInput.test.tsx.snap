@@ -188,6 +188,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
                 },
               ]
             }
+            textContentType="none"
             underlineColorAndroid="transparent"
             value="test"
           />
@@ -688,6 +689,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
                 },
               ]
             }
+            textContentType="none"
             underlineColorAndroid="transparent"
             value="test"
           />
