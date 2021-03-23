@@ -143,7 +143,6 @@ function FiatExchangeOptions({ route, navigation }: Props) {
 
   Logger.debug(`Ponto: ${pontoEnabled} Kotani: ${kotaniEnabled}`)
 
-  const isCeloCashInOptionAvailable = !MOONPAY_DISABLED
   const [selectedCurrency, setSelectedCurrency] = useState<CURRENCY_ENUM>(CURRENCY_ENUM.DOLLAR)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod>(
     isCashIn ? PaymentMethod.FIAT : PaymentMethod.EXCHANGE
@@ -227,11 +226,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
             }}
-            enabled={
-              isCeloCashInOptionAvailable ||
-              (selectedPaymentMethod !== PaymentMethod.FIAT &&
-                selectedPaymentMethod !== PaymentMethod.GIFT_CARD)
-            }
+            enabled={selectedPaymentMethod !== PaymentMethod.GIFT_CARD}
           />
         </View>
       </ScrollView>
@@ -245,10 +240,6 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               text={t('payWithFiat')}
               selected={selectedPaymentMethod === PaymentMethod.FIAT}
               onSelect={onSelectPaymentMethod(PaymentMethod.FIAT)}
-              enabled={
-                selectedCurrency === CURRENCY_ENUM.DOLLAR ||
-                (selectedCurrency === CURRENCY_ENUM.GOLD && isCeloCashInOptionAvailable)
-              }
             />
           )}
           <PaymentMethodRadioItem
