@@ -1,24 +1,38 @@
 import * as reduxSagaTestPlan from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
 import { VerificationEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { getPhoneHashDetails } from 'src/verify/komenci'
 import { e164NumberSelector, reportRevealStatus } from 'src/verify/module'
 import {
   reportActionableAttestationsStatuses,
   reportRevealStatusSaga,
 } from 'src/verify/revealAttestations'
-import {
-  mockAccountsWrapper,
-  mockActionableAttestation,
-  mockActionableAttestations,
-  mockAttestationsWrapper,
-  MockedAnalytics,
-  mockPhoneHashDetails,
-} from 'src/verify/saga.test'
+import { getPhoneHashDetails } from 'src/verify/saga'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
-import { mockAccount, mockE164Number, mockE164NumberHash, mockE164NumberPepper } from 'test/values'
+import {
+  mockAccount,
+  mockActionableAttestations,
+  mockE164Number,
+  mockE164NumberHash,
+  mockE164NumberPepper,
+  mockPhoneHashDetails,
+  mockPublicDEK,
+} from 'test/values'
+
+const mockAccountsWrapper = {
+  getWalletAddress: jest.fn(() => Promise.resolve(mockAccount)),
+  getDataEncryptionKey: jest.fn(() => Promise.resolve(mockPublicDEK)),
+}
+const MockedAnalytics = ValoraAnalytics as any
+
+const mockAttestationsWrapper = {
+  lookupAccountsForIdentifier: jest.fn(),
+  getVerifiedStatus: jest.fn(),
+  getRevealStatus: jest.fn(),
+  getActionableAttestations: jest.fn(),
+}
 
 describe(reportRevealStatusSaga, () => {
   beforeEach(() => {
@@ -31,7 +45,7 @@ describe(reportRevealStatusSaga, () => {
       json: () => body,
     })
 
-    const mockIssuer = mockActionableAttestation.issuer
+    const mockIssuer = mockActionableAttestations[0].issuer
     const body = { issuer: mockIssuer, custom: 'payload' }
     await reduxSagaTestPlan
       .expectSaga(reportRevealStatusSaga, {

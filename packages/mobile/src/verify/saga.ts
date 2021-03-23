@@ -64,7 +64,6 @@ import {
   fetchOrDeployMtwSaga,
   getKomenciAwareAccount,
   getKomenciKit,
-  getPhoneHashDetails,
   startOrResumeKomenciSessionSaga,
 } from 'src/verify/komenci'
 import {
@@ -736,6 +735,19 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
   } catch (error) {
     Logger.error(TAG + '@attestationCodeReceiver', 'Error processing attestation code', error)
     yield put(showError(ErrorMessages.INVALID_ATTESTATION_CODE))
+  }
+}
+
+export function* getPhoneHashDetails() {
+  const pepperCache = yield select(e164NumberToSaltSelector)
+  const phoneHash = yield select(phoneHashSelector)
+  const e164Number = yield select(e164NumberSelector)
+  const pepper = pepperCache[e164Number]
+
+  return {
+    e164Number,
+    phoneHash,
+    pepper,
   }
 }
 

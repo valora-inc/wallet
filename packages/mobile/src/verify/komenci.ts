@@ -70,19 +70,6 @@ export function* getKomenciAwareAccount() {
     : yield call(getConnectedUnlockedAccount)
 }
 
-export function* getPhoneHashDetails() {
-  const pepperCache = yield select(e164NumberToSaltSelector)
-  const phoneHash = yield select(phoneHashSelector)
-  const e164Number = yield select(e164NumberSelector)
-  const pepper = pepperCache[e164Number]
-
-  return {
-    e164Number,
-    phoneHash,
-    pepper,
-  }
-}
-
 export function* checkIfKomenciAvailableSaga() {
   Logger.debug(TAG, '@checkIfKomenciAvailableSaga')
   const contractKit: ContractKit = yield call(getContractKit)

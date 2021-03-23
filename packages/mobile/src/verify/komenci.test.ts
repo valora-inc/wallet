@@ -6,6 +6,7 @@ import {
   checkIfKomenciAvailableSaga,
   fetchKomenciReadiness,
   fetchOrDeployMtwSaga,
+  getKomenciAwareAccount,
   getKomenciKit,
 } from 'src/verify/komenci'
 import {
@@ -20,17 +21,63 @@ import {
   setVerificationStatus,
   shouldUseKomenciSelector,
 } from 'src/verify/module'
-import {
-  mockAccount1,
-  mockAttestationsWrapper,
-  mockKomenciContext,
-  mockKomenciKit,
-  mockPhoneHash,
-} from 'src/verify/saga.test'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { registerWalletAndDekViaKomenci } from 'src/web3/dataEncryptionKey'
 import { getAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
-import { mockAccount, mockE164Number } from 'test/values'
+import {
+  mockAccount,
+  mockAccount1,
+  mockAccount3,
+  mockE164Number,
+  mockE164NumberHash,
+  mockKomenciContext,
+  mockPublicDEK,
+} from 'test/values'
+
+export const mockKomenciKit = {
+  getDistributedBlindedPepper: jest.fn(),
+  deployWallet: jest.fn(),
+}
+
+export const mockAccountsWrapper = {
+  getWalletAddress: jest.fn(() => Promise.resolve(mockAccount)),
+  getDataEncryptionKey: jest.fn(() => Promise.resolve(mockPublicDEK)),
+}
+
+export const mockAttestationsWrapper = {
+  lookupAccountsForIdentifier: jest.fn(),
+  getVerifiedStatus: jest.fn(),
+  getRevealStatus: jest.fn(),
+  getActionableAttestations: jest.fn(),
+}
+
+describe(getKomenciAwareAccount, () => {
+  it('get MTW wallet address', async () => {
+    await reduxSagaTestPlan
+      .expectSaga(getKomenciAwareAccount)
+      .provide([
+        [
+          select(komenciContextSelector),
+          { ...mockKomenciContext, unverifiedMtwAddress: mockAccount3 },
+        ],
+        [select(shouldUseKomenciSelector), true],
+      ])
+      .returns(mockAccount3)
+      .run()
+  })
+
+  it('get account address', async () => {
+    await reduxSagaTestPlan
+      .expectSaga(getKomenciAwareAccount)
+      .provide([
+        [select(komenciContextSelector), mockKomenciContext],
+        [select(shouldUseKomenciSelector), false],
+        [call(getConnectedUnlockedAccount), mockAccount],
+      ])
+      .returns(mockAccount)
+      .run()
+  })
+})
 
 describe(checkIfKomenciAvailableSaga, () => {
   it('sets komenci availability', async () => {
@@ -67,7 +114,7 @@ describe(fetchOrDeployMtwSaga, () => {
         [select(komenciContextSelector), mockKomenciContext],
         [call(getKomenciKit, contractKit, mockAccount, mockKomenciContext), komenciKit],
         [select(shouldUseKomenciSelector), false],
-        [select(phoneHashSelector), mockPhoneHash],
+        [select(phoneHashSelector), mockE164NumberHash],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
           mockAttestationsWrapper,
@@ -123,7 +170,7 @@ describe(fetchOrDeployMtwSaga, () => {
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(komenciContextSelector), mockKomenciContextActive],
         [call(getKomenciKit, contractKit, mockAccount, mockKomenciContextActive), mockKomenciKit],
-        [select(phoneHashSelector), mockPhoneHash],
+        [select(phoneHashSelector), mockE164NumberHash],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
           mockAttestationsWrapper,
@@ -172,7 +219,7 @@ describe(fetchOrDeployMtwSaga, () => {
           call(getKomenciKit, contractKit, mockAccount, mockKomenciContextWithUnverifiedMtwAddress),
           komenciKit,
         ],
-        [select(phoneHashSelector), mockPhoneHash],
+        [select(phoneHashSelector), mockE164NumberHash],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
           mockAttestationsWrapper,
@@ -210,7 +257,7 @@ describe(fetchOrDeployMtwSaga, () => {
         [select(komenciContextSelector), mockKomenciContext],
         [call(getKomenciKit, contractKit, mockAccount, mockKomenciContext), komenciKit],
         [select(shouldUseKomenciSelector), false],
-        [select(phoneHashSelector), mockPhoneHash],
+        [select(phoneHashSelector), mockE164NumberHash],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
           mockAttestationsWrapper,
