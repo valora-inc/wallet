@@ -44,13 +44,11 @@ export const reducer = (
         pairings: [...state.pairings, action.pairing],
       }
     case Actions.PAIRING_UPDATED:
-      console.log('reducer: pairing updated', action)
       return {
         ...state,
-        pairings: [], // state.pairings.map(p => p.topic === action.pairing.peer,
+        pairings: [], // state.pairings.map(p => p.topic === action.pairing.state.,
       }
     case Actions.PAIRING_DELETED:
-      console.log('reducer: pairing deleted', action)
       return {
         ...state,
         pairings: state.pairings.filter((p) => p.topic !== action.pairing.topic),
@@ -63,7 +61,7 @@ export const reducer = (
     case Actions.SESSION_PAYLOAD:
       return {
         ...state,
-        pendingActions: [...state.pendingActions, action.payload],
+        pendingActions: [...state.pendingActions, action.request],
       }
     case Actions.SESSION_CREATED:
       return {

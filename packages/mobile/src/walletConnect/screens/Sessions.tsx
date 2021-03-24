@@ -128,7 +128,7 @@ const Requests = () => {
                   />
                   <Text
                     style={{
-                      ...fontStyles.large,
+                      ...fontStyles.small,
                       color: colors.dark,
                       paddingLeft: 16,
                     }}

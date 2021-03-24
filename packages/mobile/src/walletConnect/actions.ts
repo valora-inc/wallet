@@ -52,13 +52,11 @@ export interface CloseSession {
 
 export interface AcceptRequest {
   type: Actions.ACCEPT_REQUEST
-  id: string
-  topic: string
-  result: any
+  request: SessionTypes.RequestParams
 }
 export interface DenyRequest {
   type: Actions.DENY_REQUEST
-  request: SessionTypes.RequestEvent
+  request: SessionTypes.RequestParams
 }
 
 export interface InitialisePairing {
@@ -84,7 +82,7 @@ export interface SessionDeleted {
 }
 export interface SessionPayload {
   type: Actions.SESSION_PAYLOAD
-  payload: SessionTypes.RequestEvent
+  request: SessionTypes.RequestEvent
 }
 export interface PairingProposal {
   type: Actions.PAIRING_PROPOSAL
@@ -138,13 +136,11 @@ export const closeSession = (session: SessionTypes.Settled) => ({
   session,
 })
 
-export const acceptRequest = (topic: string, id: string, result: any): AcceptRequest => ({
+export const acceptRequest = (request: SessionTypes.RequestParams): AcceptRequest => ({
   type: Actions.ACCEPT_REQUEST,
-  topic,
-  id,
-  result,
+  request,
 })
-export const denyRequest = (request: SessionTypes.RequestEvent): DenyRequest => ({
+export const denyRequest = (request: SessionTypes.RequestParams): DenyRequest => ({
   type: Actions.DENY_REQUEST,
   request,
 })
@@ -170,9 +166,9 @@ export const sessionDeleted = (session: SessionTypes.DeleteParams) => ({
   type: Actions.SESSION_DELETED,
   session,
 })
-export const sessionPayload = (payload: SessionTypes.RequestEvent): SessionPayload => ({
+export const sessionPayload = (request: SessionTypes.RequestEvent): SessionPayload => ({
   type: Actions.SESSION_PAYLOAD,
-  payload,
+  request,
 })
 
 export const pairingProposal = (pairing: PairingTypes.Proposal) => ({

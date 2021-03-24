@@ -5,6 +5,7 @@ import {
   SignTxRequest,
   TxToSignParam,
 } from '@celo/utils'
+import { SessionTypes } from '@walletconnect/types'
 import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
@@ -241,7 +242,7 @@ export type StackParamList = {
   [Screens.WalletConnectSessionRequest]: undefined
   [Screens.WalletConnectSessions]: undefined
   [Screens.WalletConnectActionRequest]: {
-    request: any
+    request: SessionTypes.RequestParams
   }
   [Screens.WalletHome]: undefined
   [Screens.WebViewScreen]: { uri: string }
