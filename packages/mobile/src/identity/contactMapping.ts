@@ -46,6 +46,7 @@ import { checkContactsPermission } from 'src/utils/permissions'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { lostAccountsChannel } from 'src/firebase/firebase'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
@@ -256,9 +257,13 @@ function* fetchWalletAddresses(e164Number: string) {
 
 // Returns a list of account addresses for the identifier received.
 export function* lookupAccountAddressesForIdentifier(id: string) {
-  const lostAccounts = ['0xb6Fc4706762e93fe79Df1289c72635949495B2ff'].map((address) =>
-    address.toLowerCase()
-  )
+  const channel = yield call(lostAccountsChannel)
+  let lostAccounts: string[] = []
+  if (channel) {
+    const list = yield take(channel)
+    lostAccounts = list.map((address) => address.toLowerCase())
+  }
+
   const contractKit = yield call(getContractKit)
   const attestationsWrapper: AttestationsWrapper = yield call([
     contractKit.contracts,

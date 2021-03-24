@@ -252,6 +252,10 @@ export async function notificationsChannel() {
   return simpleReadChannel('notificationsV2')
 }
 
+export async function lostAccountsChannel() {
+  return simpleReadChannel('lostAccounts')
+}
+
 export async function cUsdDailyLimitChannel(address: string) {
   return simpleReadChannel(`registrations/${address}/dailyLimitCusd`)
 }

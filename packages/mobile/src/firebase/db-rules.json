@@ -61,6 +61,10 @@
     "consumerIncentives": {
       ".read": true,
       ".write": false
+    },
+    "lostAccounts": {
+      ".read": true,
+      ".write": false
     }
   }
 }
