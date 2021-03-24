@@ -188,7 +188,6 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
                 },
               ]
             }
-            textContentType="username"
             underlineColorAndroid="transparent"
             value="test"
           />
