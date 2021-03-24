@@ -88,40 +88,12 @@ export const GETH_START_HTTP_RPC_SERVER = stringToBoolean(
 )
 
 // SECRETS
-export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SEGMENT_API_KEY')
-export const FIREBASE_WEB_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'FIREBASE_WEB_KEY')
-export const SENTRY_URL = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SENTRY_URL')
-export const MOONPAY_PUBLIC_KEY = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'MOONPAY_PUBLIC_KEY'
-)
-export const RECAPTCHA_SITE_KEY_ALFAJORES = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'RECAPTCHA_SITE_KEY_ALFAJORES'
-)
-export const RECAPTCHA_SITE_KEY_MAINNET = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'RECAPTCHA_SITE_KEY_MAINNET'
-)
-export const SAFETYNET_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SAFETYNET_KEY')
-export const MOONPAY_RATE_API = `https://api.moonpay.io/v3/currencies/celo/price?apiKey=${MOONPAY_PUBLIC_KEY}`
-export const BIDALI_URL_ALFAJORES = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'BIDALI_URL_ALFAJORES'
-)
-export const BIDALI_URL_MAINNET = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'BIDALI_URL_MAINNET'
-)
-
-export const TRANSAK_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'TRANSAK_API_KEY')
-
-export const RAMP_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'RAMP_API_KEY')
+export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SEGMENT_API_KEY')
+export const SENTRY_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SENTRY_URL')
+export const RECAPTCHA_SITE_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'RECAPTCHA_SITE_KEY')
+export const SAFETYNET_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SAFETYNET_KEY')
+export const MOONPAY_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'MOONPAY_API_KEY')
+export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')
 
 export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [
   {
@@ -180,6 +152,12 @@ export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
 export const PONTO_URI = 'https://withponto.com/partners/celo/valora'
 export const KOTANI_URI = 'https://kotanipay.com/partners/valora'
 
+export const PROVIDER_URL_COMPOSER_PROD =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/composeCicoProviderUrl'
+
+export const PROVIDER_URL_COMPOSER_STAGING =
+  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/composeCicoProviderUrl'
+
 export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
 
 export const APP_STORE_ID = Config.APP_STORE_ID
@@ -195,3 +173,8 @@ export const cicoProviderSupportEmails = {
 export type cicoProviderSupport = keyof typeof cicoProviderSupportEmails
 export const getCashInSuccessDeeplink = (service: cicoProviderSupport) =>
   `${CASH_IN_SUCCESS_DEEPLINK}/${service}`
+
+export enum CurrencyCode {
+  CELO = 'CELO',
+  CUSD = 'CUSD',
+}
