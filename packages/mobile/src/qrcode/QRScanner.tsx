@@ -49,7 +49,7 @@ const SeeThroughOverlay = () => {
 export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const inset = useSafeAreaInsets()
-  const [manualValue, setManualValue] = useState('hello')
+  const [manualValue, setManualValue] = useState('')
   const [displayManual, setDisplayManual] = useState(false)
 
   return (
@@ -84,7 +84,6 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
           autoCapitalize="none"
           onChangeText={(text) => setManualValue(text)}
         />
-        {/* {t('promptFornoModal.body')} */}
         <View style={styles.actions}>
           <TextButton
             style={{ color: colors.gray5 }}
@@ -93,7 +92,7 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
               setManualValue('')
             }}
           >
-            {'Cancel'}
+            {t('cancel')}
           </TextButton>
           <TextButton
             style={{}}
@@ -103,7 +102,7 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
               setManualValue('')
             }}
           >
-            {'Submit'}
+            {t('submit')}
           </TextButton>
         </View>
       </Modal>
