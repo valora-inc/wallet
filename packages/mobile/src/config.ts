@@ -187,11 +187,11 @@ export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 
 // CICO Providers support emails
-export const cicoProvidersSupportEmail = {
+export const cicoProviderSupportEmails = {
   simplex: 'support@simplex.com',
   transak: 'support@transak.com ',
   ramp: 'support@ramp.com',
 }
-export type cicoProviderSupport = keyof typeof cicoProvidersSupportEmail
+export type cicoProviderSupport = keyof typeof cicoProviderSupportEmails
 export const getCashInSuccessDeeplink = (service: cicoProviderSupport) =>
   `${CASH_IN_SUCCESS_DEEPLINK}/${service}`

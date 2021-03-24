@@ -1,26 +1,17 @@
-import Button, { BtnSizes } from '@celo/react-components/components/Button'
+import Button from '@celo/react-components/components/Button'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { BackHandler, Image, StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
-import WebView, { WebViewRef } from 'src/components/WebView'
-import { cicoProvidersSupportEmail } from 'src/config'
-import { CURRENCY_ENUM } from 'src/geth/consts'
-import { default as config, default as networkConfig } from 'src/geth/networkConfig'
+import { Image, StyleSheet, Text, View } from 'react-native'
+import { cicoProviderSupportEmails } from 'src/config'
 import { Namespaces } from 'src/i18n'
 import { fiatExchange } from 'src/images/Images'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
-import { getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
+import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { currentAccountSelector } from 'src/web3/selectors'
 
 export const cashInSuccessOptions = () => ({
   ...emptyHeader,
@@ -33,7 +24,7 @@ function CashInSuccessScreen({ route }: Props) {
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
 
   const { service } = route.params
-  const email = cicoProvidersSupportEmail[service!]
+  const email = cicoProviderSupportEmails[service!]
 
   return (
     <View style={styles.container}>
