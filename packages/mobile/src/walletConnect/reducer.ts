@@ -63,6 +63,13 @@ export const reducer = (
         ...state,
         pendingActions: [...state.pendingActions, action.request],
       }
+    case Actions.REQUEST_FULFILLED:
+      return {
+        ...state,
+        pendingActions: state.pendingActions.filter(
+          (a) => a.request.id !== action.request.id && a.topic !== action.request.topic
+        ),
+      }
     case Actions.SESSION_CREATED:
       return {
         ...state,

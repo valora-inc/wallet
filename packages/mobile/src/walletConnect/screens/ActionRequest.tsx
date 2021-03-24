@@ -11,15 +11,30 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
+import { SupportedActions } from 'src/walletConnect/constants'
 import { getSessions } from 'src/walletConnect/selectors'
 
 const TAG = 'WalletConnect/RequestScreen'
 
-type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
+const actionToTranslationString: { [x in SupportedActions]: string } = {
+  [SupportedActions.eth_signTransaction]: 'action.signTransaction',
+  [SupportedActions.personal_sign]: 'action.sign',
+  [SupportedActions.eth_signTypedData]: 'action.sign',
+  [SupportedActions.personal_decrypt]: 'action.decrypt',
+  [SupportedActions.eth_accounts]: 'action.accounts',
+}
+function getTranslationFromAction(action: SupportedActions) {
+  const translationString = actionToTranslationString[action]
+  if (!translationString) {
+    throw new Error('Unsupported action')
+  }
 
+  return translationString
+}
+
+type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
 export default function WalletConnectRequestScreen({
   route: {
     params: { request },
@@ -37,9 +52,29 @@ export default function WalletConnectRequestScreen({
     dispatch(denyRequest(request))
   }
 
+  const {
+    request: { method, params },
+  } = request
+  const moreInfoString =
+    method === SupportedActions.eth_signTransaction
+      ? JSON.stringify(params)
+      : method === SupportedActions.eth_signTypedData
+      ? JSON.stringify(params[1])
+      : method === SupportedActions.personal_decrypt
+      ? params[1]
+      : method === SupportedActions.personal_sign
+      ? params[0]
+      : null
+
   const onMoreInfo = () => {
+    if (!moreInfoString) {
+      return
+    }
+
+    // todo: this is a short lived alternative to proper
+    // transaction decoding.
     navigate(Screens.DappKitTxDataScreen, {
-      dappKitData: request.request.params,
+      dappKitData: moreInfoString,
     })
   }
 
@@ -47,34 +82,48 @@ export default function WalletConnectRequestScreen({
 
   return (
     <SafeAreaView style={styles.container}>
-      <TopBarTextButton title={t('cancel')} onPress={onDeny} titleStyle={styles.cancelButton} />
-
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.header}>
           {t('connectToWallet', { dappName: session?.peer.metadata.name })}
         </Text>
 
-        <Text style={styles.share}> {t('shareInfo')} </Text>
+        <Text style={styles.share}> {t('action.asking')}</Text>
 
         <View style={styles.sectionDivider}>
-          <Text style={styles.sectionHeaderText}>{t('transaction.operation')}</Text>
-          <Text style={styles.bodyText}>{t('transaction.signTX')}</Text>
-          <Text style={styles.sectionHeaderText}>{t('transaction.data')}</Text>
-          <TouchableOpacity onPress={onMoreInfo}>
-            <Text style={[styles.bodyText, styles.underLine]}>{t('transaction.details')}</Text>
-          </TouchableOpacity>
+          <Text style={styles.sectionHeaderText}>{t('action.operation')}</Text>
+          <Text style={styles.bodyText}>
+            {t(getTranslationFromAction(method as SupportedActions))}
+          </Text>
+
+          {moreInfoString && (
+            <View>
+              <Text style={styles.sectionHeaderText}>{t('action.data')}</Text>
+              <TouchableOpacity onPress={onMoreInfo}>
+                <Text style={[styles.bodyText, styles.underLine]}>{t('action.details')}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
 
-        <Button
-          style={styles.button}
-          type={BtnTypes.PRIMARY}
-          size={BtnSizes.MEDIUM}
-          text={t('allow')}
-          onPress={onAccept}
-          testID="DappkitAllow"
-        />
+        <View style={styles.buttonContainer}>
+          <Button
+            style={styles.button}
+            type={BtnTypes.SECONDARY}
+            size={BtnSizes.MEDIUM}
+            text={t('cancel')}
+            onPress={onDeny}
+            testID="WalletConnectActionCancel"
+          />
+          <Button
+            style={styles.button}
+            type={BtnTypes.PRIMARY}
+            size={BtnSizes.MEDIUM}
+            text={t('allow')}
+            onPress={onAccept}
+            testID="WalletConnectActionAllow"
+          />
+        </View>
       </ScrollView>
-      <TopBarTextButton title={t('cancel')} onPress={onDeny} titleStyle={styles.cancelButton} />
     </SafeAreaView>
   )
 }
@@ -114,7 +163,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: '15%',
   },
-
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    width: '100%',
+  },
   bodyText: {
     ...fontStyles.regular,
     color: colors.gray4,

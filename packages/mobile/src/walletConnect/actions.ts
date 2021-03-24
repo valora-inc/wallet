@@ -11,6 +11,7 @@ export enum Actions {
 
   ACCEPT_REQUEST = 'WALLETCONNECT/ACCEPT_REQUEST',
   DENY_REQUEST = 'WALLETCONNECT/DENY_REQUEST',
+  REQUEST_FULFILLED = 'WALLETCONNECT/REQUEST_FULFILLED',
 
   CLIENT_INITIALISED = 'WALLETCONNECT/CLIENT_INITIALISED',
 
@@ -57,6 +58,13 @@ export interface AcceptRequest {
 export interface DenyRequest {
   type: Actions.DENY_REQUEST
   request: SessionTypes.RequestParams
+}
+export interface RequestFulfilled {
+  type: Actions.REQUEST_FULFILLED
+  request: {
+    id: number
+    topic: string
+  }
 }
 
 export interface InitialisePairing {
@@ -105,6 +113,7 @@ export type ActionTypes =
   | InitialiseClient
   | InitialisePairing
   | ClientInitialised
+  | RequestFulfilled
   | SessionProposal
   | SessionCreated
   | SessionUpdated
@@ -143,6 +152,19 @@ export const acceptRequest = (request: SessionTypes.RequestParams): AcceptReques
 export const denyRequest = (request: SessionTypes.RequestParams): DenyRequest => ({
   type: Actions.DENY_REQUEST,
   request,
+})
+export const requestFulfilled = ({
+  topic,
+  id,
+}: {
+  id: number
+  topic: string
+}): RequestFulfilled => ({
+  type: Actions.REQUEST_FULFILLED,
+  request: {
+    topic,
+    id,
+  },
 })
 
 export const clientInitialised = (client: WalletConnectClient) => ({

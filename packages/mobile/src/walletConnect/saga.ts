@@ -28,6 +28,7 @@ import {
   pairingDeleted,
   pairingProposal,
   pairingUpdated,
+  requestFulfilled,
   sessionCreated,
   sessionDeleted,
   SessionPayload,
@@ -99,6 +100,7 @@ export function* acceptRequest({
   if (method === SupportedActions.eth_signTransaction) {
     yield call(unlockAccount, account)
     result = (yield call(wallet.signTransaction.bind(wallet), params)) as EncodedTransaction
+
     // } else if (method === SupportedMethods.computeSharedSecret) {
     //   const { from, publicKey } = parseComputeSharedSecret(event)
     //   result = (await wallet.computeSharedSecret(from, publicKey)).toString('hex')
@@ -121,6 +123,7 @@ export function* acceptRequest({
       result,
     },
   })
+  yield put(requestFulfilled(id))
 
   navigateBack()
 }
@@ -146,6 +149,7 @@ export function* denyRequest({
       },
     },
   })
+  yield put(requestFulfilled(id))
 
   navigateBack()
 }

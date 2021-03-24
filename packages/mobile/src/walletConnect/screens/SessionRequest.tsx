@@ -10,7 +10,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { Namespaces } from 'src/i18n'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { acceptSession, denySession } from 'src/walletConnect/actions'
@@ -31,7 +31,7 @@ function ActionList({ actions }: { actions: string[] }) {
   return (
     <View>
       {descriptions.map((d) => (
-        <ListItem>
+        <ListItem key={d}>
           <Text>{d}</Text>
         </ListItem>
       ))}
@@ -53,12 +53,12 @@ export default function WalletConnectRequestScreen(props: Props) {
 
   const confirm = () => {
     dispatch(acceptSession(session))
-    navigate(Screens.WalletConnectSessions)
+    navigateClearingStack(Screens.WalletConnectSessions)
   }
 
   const deny = () => {
     dispatch(denySession(session))
-    navigate(Screens.WalletConnectSessions)
+    navigateClearingStack(Screens.WalletConnectSessions)
   }
 
   const icon = session.proposer.metadata.icons[0] || `${session.proposer.metadata.url}/favicon.ico`
