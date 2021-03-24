@@ -3,7 +3,7 @@ import React from 'react'
 import { useAsync } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import InAppBrowser from 'src/components/InAppBrowser'
-import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { fetchProviderWidgetUrl, isExpectedUrl } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -31,7 +31,7 @@ function RampScreen({ route }: Props) {
 
   const fetchResponse = useAsync(
     () =>
-      fetchProviderWidgetUrl(Providers.RAMP, {
+      fetchProviderWidgetUrl(CicoProviderNames.RAMP, {
         address: account,
         digitalAsset: currencyToBuy,
         fiatCurrency: currencyCode,

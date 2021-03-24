@@ -28,6 +28,7 @@ enum Providers {
 export const composeCicoProviderUrl = functions.https.onRequest((request, response) => {
   const requestData: RequestData = request.body
   const { provider, address, digitalAsset, fiatCurrency, fiatAmount } = requestData
+  const cashInSuccessDeepLink = `${CASH_IN_SUCCESS_DEEPLINK}/${provider}`
 
   let finalUrl
 
@@ -39,7 +40,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &walletAddress=${address}
         &baseCurrencyCode=${fiatCurrency}
         &baseCurrencyAmount=${fiatAmount}
-        &redirectURL=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
+        &redirectURL=${encodeURIComponent(cashInSuccessDeepLink)}
         `.replace(/\s+/g, '')
 
     const signature = crypto
@@ -58,7 +59,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &hostLogoUrl=${VALORA_LOGO_URL}
         &fiatCurrency=${fiatCurrency}
         &fiatValue=${fiatAmount}
-        &finalUrl=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
+        &finalUrl=${encodeURIComponent(cashInSuccessDeepLink)}
       `.replace(/\s+/g, '')
   } else if (provider === Providers.TRANSAK) {
     finalUrl = `

@@ -6,7 +6,7 @@ import {
   PROVIDER_URL_COMPOSER_STAGING,
   SIMPLEX_URI,
 } from 'src/config'
-import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { providerAvailability } from 'src/flags'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
@@ -32,7 +32,10 @@ export interface UserLocation {
   state: string | null
 }
 
-export const fetchProviderWidgetUrl = async (provider: Providers, requestData: RequestData) => {
+export const fetchProviderWidgetUrl = async (
+  provider: CicoProviderNames,
+  requestData: RequestData
+) => {
   const response = await fetch(
     DEFAULT_TESTNET === 'mainnet' ? PROVIDER_URL_COMPOSER_PROD : PROVIDER_URL_COMPOSER_STAGING,
     {

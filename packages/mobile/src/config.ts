@@ -171,8 +171,6 @@ export const cicoProviderSupportEmails = {
   ramp: 'support@ramp.com',
 }
 export type cicoProviderSupport = keyof typeof cicoProviderSupportEmails
-export const getCashInSuccessDeeplink = (service: cicoProviderSupport) =>
-  `${CASH_IN_SUCCESS_DEEPLINK}/${service}`
 
 export enum CurrencyCode {
   CELO = 'CELO',
