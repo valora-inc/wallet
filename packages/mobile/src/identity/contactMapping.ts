@@ -200,10 +200,7 @@ export function* fetchAddressesAndValidateSaga({
       e164Number
     )
 
-    if (addressValidationType !== AddressValidationType.NONE) {
-      yield put(requireSecureSend(e164Number, addressValidationType))
-    }
-
+    yield put(requireSecureSend(e164Number, addressValidationType))
     yield put(
       updateE164PhoneNumberAddresses(e164NumberToAddressUpdates, addressToE164NumberUpdates)
     )
@@ -259,13 +256,20 @@ function* fetchWalletAddresses(e164Number: string) {
 
 // Returns a list of account addresses for the identifier received.
 export function* lookupAccountAddressesForIdentifier(id: string) {
+  const lostAccounts = ['0xb6Fc4706762e93fe79Df1289c72635949495B2ff'].map((address) =>
+    address.toLowerCase()
+  )
   const contractKit = yield call(getContractKit)
   const attestationsWrapper: AttestationsWrapper = yield call([
     contractKit.contracts,
     contractKit.contracts.getAttestations,
   ])
 
-  return yield call([attestationsWrapper, attestationsWrapper.lookupAccountsForIdentifier], id)
+  const accounts = yield call(
+    [attestationsWrapper, attestationsWrapper.lookupAccountsForIdentifier],
+    id
+  )
+  return accounts.filter((address) => !lostAccounts.includes(address.toLowerCase()))
 }
 
 // Deconstruct the lookup result and return
