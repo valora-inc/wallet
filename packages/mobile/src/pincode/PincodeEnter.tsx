@@ -17,7 +17,6 @@ import { StackParamList } from 'src/navigator/types'
 import { checkPin } from 'src/pincode/authentication'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
-import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 interface State {
