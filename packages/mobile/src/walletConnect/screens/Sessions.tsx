@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { SceneMap, TabView } from 'react-native-tab-view'
+import { SceneMap, TabBar, TabView } from 'react-native-tab-view'
 import { useDispatch, useSelector } from 'react-redux'
 import Dialog from 'src/components/Dialog'
 import { Namespaces } from 'src/i18n'
@@ -147,13 +147,12 @@ const Requests = () => {
 
 export default function WalletConnectSessionsScreen() {
   const { t } = useTranslation(Namespaces.walletConnect)
+  const layout = useWindowDimensions()
   const [index, setIndex] = useState(0)
   const [routes] = useState([
     { key: 'sessions', title: 'Sessions' },
     { key: 'requests', title: 'Requests' },
   ])
-
-  const layout = useWindowDimensions()
 
   const renderScene = SceneMap({
     sessions: Sessions,
@@ -172,10 +171,23 @@ export default function WalletConnectSessionsScreen() {
         <ItemSeparator />
 
         <TabView
+          renderTabBar={(props) => (
+            <TabBar
+              {...props}
+              activeColor={'green'}
+              labelStyle={{
+                color: colors.dark,
+              }}
+              indicatorStyle={{
+                backgroundColor: colors.goldBrand,
+              }}
+              style={{ backgroundColor: undefined }}
+            />
+          )}
           navigationState={{ index, routes }}
           renderScene={renderScene}
           onIndexChange={setIndex}
-          initialLayout={{ width: layout.width }}
+          initialLayout={{ width: layout.width - variables.contentPadding }}
         />
       </ScrollView>
     </SafeAreaView>
