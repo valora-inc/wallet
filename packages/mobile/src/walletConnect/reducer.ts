@@ -4,7 +4,7 @@ import { RehydrateAction } from 'src/redux/persist-helper'
 import { Actions, ActionTypes } from 'src/walletConnect/actions'
 
 export interface State {
-  pendingActions: any[]
+  pendingActions: SessionTypes.RequestEvent[]
   client: WalletConnectClient | null
   pairings: PairingTypes.Created[]
   sessions: SessionTypes.Created[]

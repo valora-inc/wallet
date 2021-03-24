@@ -16,7 +16,7 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { closeSession as closeSessionAction } from 'src/walletConnect/actions'
-import { getSessions } from 'src/walletConnect/selectors'
+import { getPendingRequests, getSessions } from 'src/walletConnect/selectors'
 
 const Sessions = () => {
   const sessions = useSelector(getSessions)
@@ -91,7 +91,59 @@ const Sessions = () => {
   )
 }
 
-const Requests = () => <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
+const Requests = () => {
+  const requests = useSelector(getPendingRequests)
+  const sessions = useSelector(getSessions)
+  const { t } = useTranslation(Namespaces.walletConnect)
+
+  return (
+    <View style={[styles.container, { paddingVertical: 16 }]}>
+      {requests.length === 0 ? (
+        <View style={styles.emptyState}>
+          <Text>{t('noPendingRequests')}</Text>
+        </View>
+      ) : (
+        <View>
+          {requests.map((r) => {
+            const session = sessions.find((s) => s.topic === r.topic)
+            if (!session) {
+              return null
+            }
+
+            const title = `${r.request.method} from ${session?.peer.metadata.name}`
+            const icon =
+              session.peer.metadata.icons[0] || `${session.peer.metadata.url}/favicon.ico`
+
+            return (
+              <TouchableOpacity
+                key={r.topic}
+                onPress={() => navigate(Screens.WalletConnectActionRequest, { request: r })}
+              >
+                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                  <Image
+                    source={{ uri: icon }}
+                    height={40}
+                    width={40}
+                    style={{ height: 40, width: 40 }}
+                  />
+                  <Text
+                    style={{
+                      ...fontStyles.large,
+                      color: colors.dark,
+                      paddingLeft: 16,
+                    }}
+                  >
+                    {title}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )
+          })}
+        </View>
+      )}
+    </View>
+  )
+}
 
 export default function WalletConnectSessionsScreen() {
   const { t } = useTranslation(Namespaces.walletConnect)

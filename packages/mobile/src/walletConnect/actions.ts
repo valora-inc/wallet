@@ -58,7 +58,7 @@ export interface AcceptRequest {
 }
 export interface DenyRequest {
   type: Actions.DENY_REQUEST
-  proposal: SessionTypes.Proposal
+  request: SessionTypes.RequestEvent
 }
 
 export interface InitialisePairing {
@@ -84,7 +84,7 @@ export interface SessionDeleted {
 }
 export interface SessionPayload {
   type: Actions.SESSION_PAYLOAD
-  payload: SessionTypes.RespondParams
+  payload: SessionTypes.RequestEvent
 }
 export interface PairingProposal {
   type: Actions.PAIRING_PROPOSAL
@@ -146,6 +146,7 @@ export const acceptRequest = (topic: string, id: string, result: any): AcceptReq
 })
 export const denyRequest = (request: SessionTypes.RequestEvent): DenyRequest => ({
   type: Actions.DENY_REQUEST,
+  request,
 })
 
 export const clientInitialised = (client: WalletConnectClient) => ({
@@ -169,7 +170,7 @@ export const sessionDeleted = (session: SessionTypes.DeleteParams) => ({
   type: Actions.SESSION_DELETED,
   session,
 })
-export const sessionPayload = (payload: SessionTypes.RespondParams): SessionPayload => ({
+export const sessionPayload = (payload: SessionTypes.RequestEvent): SessionPayload => ({
   type: Actions.SESSION_PAYLOAD,
   payload,
 })

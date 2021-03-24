@@ -17,6 +17,7 @@ import {
   AcceptSession,
   Actions,
   clientInitialised,
+  CloseSession,
   initialiseClient as initialiseClientAction,
   initialisePairing as initialisePairingAction,
   pairingCreated,
@@ -60,6 +61,14 @@ export function* acceptSession({ proposal }: AcceptSession) {
 }
 
 export function* denySession() {}
+
+export function* closeSession({ session }: CloseSession) {
+  const client: WalletConnectClient = yield select(walletConnectClientSelector)
+  yield call(client.disconnect.bind(client), {
+    topic: session.topic,
+    reason: 'Closed by user',
+  })
+}
 
 export function* acceptRequest({ id, topic, result }: AcceptRequest) {
   const client = yield select(walletConnectClientSelector)
@@ -107,40 +116,32 @@ export function* createWalletConnectChannel() {
     return eventChannel((emit: any) => {
       console.log('event channel')
       client.on(CLIENT_EVENTS.session.proposal, (session: SessionTypes.Proposal) => {
-        console.log('emitting')
         emit(sessionProposal(session))
       })
       client.on(CLIENT_EVENTS.session.created, (session: SessionTypes.Created) => {
-        console.log('emitting')
         emit(sessionCreated(session))
       })
       client.on(CLIENT_EVENTS.session.updated, (session: SessionTypes.Update) => {
-        console.log('emitting')
         emit(sessionUpdated(session))
       })
       client.on(CLIENT_EVENTS.session.deleted, (session: SessionTypes.DeleteParams) => {
-        console.log('emitting')
         emit(sessionDeleted(session))
       })
-      client.on(CLIENT_EVENTS.session.request, (payload: SessionTypes.RespondParams) => {
-        console.log('emitting')
+      client.on(CLIENT_EVENTS.session.request, (payload: SessionTypes.RequestEvent) => {
         emit(sessionPayload(payload))
       })
 
       client.on(CLIENT_EVENTS.pairing.proposal, (pairing: PairingTypes.Proposal) => {
-        console.log('emitting')
         emit(pairingProposal(pairing))
       })
       client.on(CLIENT_EVENTS.pairing.created, (pairing: PairingTypes.Created) => {
-        console.log('emitting')
         emit(pairingCreated(pairing))
       })
       client.on(CLIENT_EVENTS.pairing.updated, (pairing: PairingTypes.Update) => {
-        console.log('emitting')
         emit(pairingUpdated(pairing))
       })
       client.on(CLIENT_EVENTS.pairing.deleted, (pairing: PairingTypes.DeleteParams) => {
-        console.log('emitting')
+        console.log('Pairing deleted')
         emit(pairingDeleted(pairing))
       })
 
@@ -179,6 +180,7 @@ export function* walletConnectSaga() {
 
   yield takeEvery(Actions.ACCEPT_SESSION, acceptSession)
   yield takeEvery(Actions.DENY_SESSION, denySession)
+  yield takeEvery(Actions.CLOSE_SESSION, closeSession)
   yield takeEvery(Actions.ACCEPT_REQUEST, acceptRequest)
   yield takeEvery(Actions.DENY_REQUEST, denyRequest)
 

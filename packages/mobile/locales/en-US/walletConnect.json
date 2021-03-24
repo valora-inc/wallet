@@ -14,6 +14,7 @@
   "data": "Data",
   "moreInfo": "Confused by anything here?",
   "noConnectedApps": "No connected applications yet, click here to get started",
+  "noPendingRequests": "No currently pending requests",
 
   "sessionsTitle": "Connected DApps",
   "sessionsSubTitle": "Here you can connect Valora to decentralized applications (DApps) just by scanning a QR code."
