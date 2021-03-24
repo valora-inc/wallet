@@ -76,12 +76,11 @@ export default function CodeInput({
   const showSpinner = status === CodeInputStatus.PROCESSING || status === CodeInputStatus.RECEIVED
   const showCheckmark = status === CodeInputStatus.ACCEPTED
   const showStatus = showCheckmark || showSpinner
-  const keyboardType =
-    Platform.OS === 'android'
-      ? shortVerificationCodesEnabled
-        ? 'number-pad'
-        : 'visible-password'
-      : undefined
+  const keyboardType = shortVerificationCodesEnabled
+    ? 'number-pad'
+    : Platform.OS === 'android'
+    ? 'visible-password'
+    : undefined
 
   return (
     <Card
@@ -120,7 +119,7 @@ export default function CodeInput({
 
             {showInput ? (
               <TextInput
-                textContentType="none"
+                textContentType="username"
                 showClearButton={false}
                 value={inputValue}
                 placeholder={

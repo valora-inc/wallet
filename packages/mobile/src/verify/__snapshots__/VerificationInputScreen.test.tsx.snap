@@ -179,7 +179,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
                           },
                         ]
                       }
-                      textContentType="none"
+                      textContentType="username"
                       underlineColorAndroid="transparent"
                       value=""
                     />
