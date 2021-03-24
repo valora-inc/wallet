@@ -9,7 +9,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { Namespaces } from 'src/i18n'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -31,12 +31,10 @@ export default function WalletConnectRequestScreen({
 
   const onAccept = async () => {
     dispatch(acceptRequest(request))
-    navigateBack()
   }
 
   const onDeny = () => {
     dispatch(denyRequest(request))
-    navigateBack()
   }
 
   const onMoreInfo = () => {

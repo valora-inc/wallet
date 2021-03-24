@@ -1,3 +1,4 @@
+import { EncodedTransaction } from '@celo/connect'
 import { GenesisBlockUtils } from '@celo/network-utils'
 import { UnlockableWallet } from '@celo/wallet-base'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -5,15 +6,13 @@ import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client'
 import { PairingTypes, SessionTypes } from '@walletconnect/types'
-import { eventChannel } from 'redux-saga'
+import { EventChannel, eventChannel } from 'redux-saga'
 import { spawn } from 'redux-saga-test-plan/matchers'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
-import { UNLOCK_DURATION } from 'src/geth/consts'
 import { readGenesisBlockFile } from 'src/geth/geth'
 import networkConfig from 'src/geth/networkConfig'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getPasswordSaga } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import {
   AcceptRequest,
@@ -21,6 +20,8 @@ import {
   Actions,
   clientInitialised,
   CloseSession,
+  closeSession as closeSessionAction,
+  DenyRequest,
   initialiseClient as initialiseClientAction,
   initialisePairing as initialisePairingAction,
   pairingCreated,
@@ -37,7 +38,7 @@ import {
 import { SupportedActions } from 'src/walletConnect/constants'
 import { pendingConnectionSelector, walletConnectClientSelector } from 'src/walletConnect/selectors'
 import { getWallet } from 'src/web3/contracts'
-import { getAccountAddress } from 'src/web3/saga'
+import { getAccountAddress, unlockAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'WalletConnect/saga'
@@ -73,10 +74,12 @@ export function* closeSession({ session }: CloseSession) {
     topic: session.topic,
     reason: 'Closed by user',
   })
+  yield put(closeSessionAction(session))
 }
 
 export function* acceptRequest({
   request: {
+    // @ts-ignore
     request: { id, jsonrpc, method, params },
     topic,
   },
@@ -84,10 +87,6 @@ export function* acceptRequest({
   const client: WalletConnectClient = yield select(walletConnectClientSelector)
   const account: string = yield select(currentAccountSelector)
   const wallet: UnlockableWallet = yield call(getWallet)
-  const password: string = yield call(getPasswordSaga, account, false, true)
-  yield call([wallet, wallet.unlockAccount], account, password, UNLOCK_DURATION)
-
-  console.log('unlocked')
 
   let result: any
 
@@ -98,9 +97,8 @@ export function* acceptRequest({
   //   const { from, payload } = parseSignTypedData(event)
   //   result = await wallet.signTypedData(from, payload)
   if (method === SupportedActions.eth_signTransaction) {
-    console.log('sigining', params)
-    result = yield call([wallet, wallet.signTransaction], params)
-    console.log(result)
+    yield call(unlockAccount, account)
+    result = (yield call(wallet.signTransaction.bind(wallet), params)) as EncodedTransaction
     // } else if (method === SupportedMethods.computeSharedSecret) {
     //   const { from, publicKey } = parseComputeSharedSecret(event)
     //   result = (await wallet.computeSharedSecret(from, publicKey)).toString('hex')
@@ -123,18 +121,43 @@ export function* acceptRequest({
       result,
     },
   })
+
+  navigateBack()
 }
 
-export function* denyRequest() {}
+export function* denyRequest({
+  request: {
+    // @ts-ignore
+    request: { id, jsonrpc },
+    topic,
+  },
+}: DenyRequest) {
+  const client: WalletConnectClient = yield select(walletConnectClientSelector)
+
+  console.log('saying no', topic, id)
+  yield call(client.respond.bind(client), {
+    topic,
+    response: {
+      id,
+      jsonrpc,
+      error: {
+        code: -32000,
+        reason: 'Rejected request',
+      },
+    },
+  })
+
+  navigateBack()
+}
 
 export function* startWalletConnectChannel() {
   yield takeLeading(Actions.INITIALISE_CLIENT, watchWalletConnectChannel)
 }
 
 export function* watchWalletConnectChannel() {
-  const walletConnectChannel = yield call(createWalletConnectChannel)
+  const walletConnectChannel: EventChannel<any> = yield call(createWalletConnectChannel)
   while (true) {
-    const message = yield take(walletConnectChannel)
+    const message: any = yield take(walletConnectChannel)
     Logger.debug(TAG + '@watchWalletConnectChannel', JSON.stringify(message))
     yield put(message)
   }
