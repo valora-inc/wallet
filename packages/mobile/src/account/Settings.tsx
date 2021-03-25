@@ -320,12 +320,14 @@ export class Account extends React.Component<Props, State> {
     this.setState({ showRevokeModal: false })
   }
 
+  // when change pin is clicked, we ensure that they have a pincode and then we navigate to pincode set screen with not verifying, and change pin is true
+
   goToChangePin = () => {
     ensurePincode()
       .then((pinIsCorrect) => {
         if (pinIsCorrect) {
           this.props.navigation.navigate(Screens.PincodeSet, {
-            isVerifying: true,
+            isVerifying: false,
             changePin: true,
           })
         }

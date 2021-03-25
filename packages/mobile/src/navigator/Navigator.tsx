@@ -186,15 +186,23 @@ const verificationScreens = (Navigator: typeof Stack) => {
   )
 }
 
+const getTitleCopy = (isVerifying: boolean, changePin: boolean) => {
+  if (isVerifying) {
+    return 'onboarding:pincodeSet.verify'
+  } else if (changePin) {
+    return 'onboarding:pincodeSet.changePin'
+  }
+  return 'onboarding:pincodeSet.create'
+}
+
 const pincodeSetScreenOptions = ({
   route,
 }: {
   route: RouteProp<StackParamList, Screens.PincodeSet>
 }) => {
   const isVerifying = route.params?.isVerifying
-  const title = isVerifying
-    ? i18n.t('onboarding:pincodeSet.verify')
-    : i18n.t('onboarding:pincodeSet.create')
+  const changePin = route.params?.changePin
+  const title = i18n.t(getTitleCopy(isVerifying, changePin))
   return {
     ...nuxNavigationOptions,
     headerTitle: () => (

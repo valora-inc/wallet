@@ -88,6 +88,7 @@ export class PincodeSet extends React.Component<Props, State> {
     return this.state.pin1 === pin
   }
 
+  // Function for PIN to be changed
   onCompletePin1 = () => {
     if (this.isPin1Valid(this.state.pin1)) {
       this.props.navigation.setParams({ isVerifying: true })
@@ -138,15 +139,14 @@ export class PincodeSet extends React.Component<Props, State> {
             onCompletePin={this.onCompletePin2}
           />
         ) : (
-          // Create
-          <>
-            <Pincode
-              errorText={errorText}
-              pin={pin1}
-              onChangePin={this.onChangePin1}
-              onCompletePin={this.onCompletePin1}
-            />
-          </>
+          // Change PIN
+          <Pincode
+            title="Create a new PIN"
+            errorText={errorText}
+            pin={pin1}
+            onChangePin={this.onChangePin1}
+            onCompletePin={this.onCompletePin1}
+          />
         )}
       </SafeAreaView>
     )
@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
   changePinHeading: {
     display: 'flex',
     justifyContent: 'center',
+    marginLeft: 50,
     ...fontStyles.navigationHeader,
   },
 })

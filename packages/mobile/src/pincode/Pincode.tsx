@@ -22,7 +22,6 @@ interface Props {
 
 function Pincode({
   title,
-  changePin = true,
   errorText,
   maxLength = PIN_LENGTH,
   pin,
