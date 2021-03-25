@@ -2,7 +2,6 @@ import { stringToBoolean } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
 import Config from 'react-native-config'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
 import { CURRENCY_ENUM, GethSyncMode } from 'src/geth/consts'
 // tslint:disable-next-line
@@ -167,10 +166,10 @@ export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 
 // CICO Providers support emails
 export const cicoProviderSupportEmails = {
-  [CicoProviderNames.SIMPLEX]: 'support@simplex.com',
-  [CicoProviderNames.TRANSAK]: 'support@transak.com ',
-  [CicoProviderNames.RAMP]: 'support@ramp.com',
-  [CicoProviderNames.MOONPAY]: 'support@moonpay.io',
+  SIMPLEX: 'support@simplex.com',
+  TRANSAK: 'support@transak.com ',
+  RAMP: 'support@ramp.com',
+  MOONPAY: 'support@moonpay.io',
 }
 
 export enum CurrencyCode {

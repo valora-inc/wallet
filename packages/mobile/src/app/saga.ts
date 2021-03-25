@@ -159,7 +159,6 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path.startsWith('/cash-in-success')) {
       // Some providers append transaction information to the redirect links so can't check for strict equality
       const cicoSuccessParam: any = (rawParams.path.match(/cash-in-success\/(.+)/) || [])[1]
-      // console.log('SUCCESS PARAM: ', cicoSuccessParam)
       const provider: CicoProviderNames | undefined = Object.values(CicoProviderNames).includes(
         cicoSuccessParam
       )

@@ -62,8 +62,7 @@
   "cicoSuccess": {
     "title": "Transaction started!",
     "body1": "To get the latest information on the transaction please contact ",
-    "body2WithoutEmail": "the service provider you selected",
-    "body2WithEmail": "<0>{{contactEmail}}</0>"
+    "body2": "the service provider you selected"
   },
   "restrictedRegion": "Limited support in region"
 }

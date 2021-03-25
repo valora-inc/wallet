@@ -8,14 +8,11 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import { cicoProviderSupportEmails } from 'src/config'
 import { Namespaces } from 'src/i18n'
 import { fiatExchange } from 'src/images/Images'
-import { emptyHeader } from 'src/navigator/Headers'
+import { noHeaderGestureDisabled } from 'src/navigator/Headers'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-
-export const cashInSuccessOptions = () => ({
-  ...emptyHeader,
-})
+import { navigateToURI } from 'src/utils/linking'
 
 type RouteProps = StackScreenProps<StackParamList, Screens.CashInSuccess>
 type Props = RouteProps
@@ -26,6 +23,14 @@ function CashInSuccessScreen({ route }: Props) {
   const { provider } = route.params
   const providerSupportEmail = provider ? cicoProviderSupportEmails[provider] : null
 
+  const openProviderSupportEmail = () => {
+    if (providerSupportEmail) {
+      // TODO: Add non-native email client support by generalizing the mail function
+      // used in SupportContact.tsx and using instead of `navigateToURI`
+      navigateToURI(`mailto:${providerSupportEmail}`)
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -35,9 +40,12 @@ function CashInSuccessScreen({ route }: Props) {
       <View style={styles.content}>
         <Text style={styles.contentText}>
           {t('cicoSuccess.body1')}
-          {providerSupportEmail
-            ? t('cicoSuccess.body2WithEmail', { contactEmail: providerSupportEmail })
-            : t('cicoSuccess.body2WithoutEmail')}
+          <Text
+            style={providerSupportEmail ? styles.emailLink : null}
+            onPress={openProviderSupportEmail}
+          >
+            {`${providerSupportEmail || t('cicoSuccess.body2')}`}
+          </Text>
         </Text>
         <View style={styles.buttonContainer}>
           <Button
@@ -51,6 +59,10 @@ function CashInSuccessScreen({ route }: Props) {
     </View>
   )
 }
+
+CashInSuccessScreen.navigationOptions = () => ({
+  ...noHeaderGestureDisabled,
+})
 
 const styles = StyleSheet.create({
   container: {
@@ -79,13 +91,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    alignItems: 'stretch',
   },
   contentText: {
     ...fontStyles.regular,
     textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'stretch',
   },
   buttonContainer: {
     paddingTop: 16,
