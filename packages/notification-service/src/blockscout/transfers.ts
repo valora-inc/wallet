@@ -1,11 +1,12 @@
 import BigNumber from 'bignumber.js'
 import fetch from 'node-fetch'
+import { performance } from 'perf_hooks'
 import { BLOCKSCOUT_API } from '../config'
 import { getLastBlockNotified, sendPaymentNotification, setLastBlockNotified } from '../firebase'
+import { metrics } from '../metrics'
 import { flat, getTokenAddresses, removeEmptyValuesFromObject } from '../util/utils'
 import { Log, Response, Transfer } from './blockscout'
 import { decodeLogs } from './decode'
-
 export const WEI_PER_GOLD = 1000000000000000000.0
 
 export enum Currencies {
@@ -31,10 +32,17 @@ async function getLatestTokenTransfers(
   lastBlockNotified: number,
   currency: Currencies
 ) {
+  // Measure time before query
+  const t0 = performance.now()
+
   const response: Response<Log> = await query(
     `module=logs&action=getLogs&fromBlock=${lastBlockNotified + 1}&toBlock=latest` +
       `&address=${tokenAddress}`
   )
+
+  // Measure after query
+  const t1 = performance.now()
+  metrics.setLatestTokenTransfersDuration(t1 - t0)
 
   if (!response || !response.result) {
     console.error('Invalid query response format')
@@ -130,6 +138,10 @@ export async function handleTransferNotifications(): Promise<void> {
     transfers: goldTransfers,
     latestBlock: goldTransfersLatestBlock,
   } = await getLatestTokenTransfers(goldTokenAddress, lastBlockNotified, Currencies.GOLD)
+
+  // get the last transaction in goldTransfers
+  // get the block from the transaction
+  // use it to set the block_delay
 
   const {
     transfers: stableTransfers,

@@ -138,6 +138,8 @@ export function getLastBlockNotified() {
 }
 
 export function getPendingRequests() {
+  const numPendingRequests = Object.keys(pendingRequests).length
+  metrics.setPendingRequestsSize(numPendingRequests)
   return pendingRequests
 }
 
@@ -165,6 +167,9 @@ export function setLastBlockNotified(newBlock: number): Promise<void> | undefine
     console.debug('Block number less than latest, skipping latestBlock update.')
     return
   }
+
+  // Set the metric tracking this difference
+  metrics.setBlockDelay(newBlock - lastBlockNotified)
 
   console.debug('Updating last block notified to:', newBlock)
   // Although firebase will keep our local lastBlockNotified in sync with the DB,
@@ -242,6 +247,8 @@ export async function sendNotification(
     console.info('Sending notification to:', address)
     const response = await admin.messaging().send(message, NOTIFICATIONS_DISABLED)
     console.info('Successfully sent notification for :', address, response)
+
+    // Notification metrics
     metrics.sentNotification(data.type)
     metrics.setNotificationLatency(Date.now() - Number(data.timestamp), data.type)
   } catch (error) {
