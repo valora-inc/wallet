@@ -3,7 +3,7 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { cicoProviderSupportEmails } from 'src/config'
 import { Namespaces } from 'src/i18n'
@@ -23,28 +23,22 @@ type Props = RouteProps
 function CashInSuccessScreen({ route }: Props) {
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
 
-  const { service } = route.params
-  const email = cicoProviderSupportEmails[service!]
+  const { provider } = route.params
+  const providerSupportEmail = provider ? cicoProviderSupportEmails[provider] : null
 
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image source={fiatExchange} style={styles.image} resizeMode={'contain'} />
-        <Text style={styles.title}>{t('successTitle')}</Text>
+        <Text style={styles.title}>{t('cicoSuccess.title')}</Text>
       </View>
       <View style={styles.content}>
         <Text style={styles.contentText}>
-          {
-            <Trans
-              i18nKey={'successContent'}
-              ns={Namespaces.fiatExchangeFlow}
-              tOptions={{ contactEmail: email }}
-            >
-              <Text style={styles.emailLink} />
-            </Trans>
-          }
+          {t('cicoSuccess.body1')}
+          {providerSupportEmail
+            ? t('cicoSuccess.body2WithEmail', { contactEmail: providerSupportEmail })
+            : t('cicoSuccess.body2WithoutEmail')}
         </Text>
-
         <View style={styles.buttonContainer}>
           <Button
             style={styles.button}
