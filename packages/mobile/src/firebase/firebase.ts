@@ -109,6 +109,8 @@ export function* setupMessaging(action: SetAppState) {
   const isAppActive = action.state === 'active'
   if (isAppActive) {
     yield spawn(watchFirebaseNotificationChannel, channelOnNotification)
+  } else {
+    channelOnNotification.close()
   }
 
   // Manual type checking because yield calls can't infer return type yet :'(
