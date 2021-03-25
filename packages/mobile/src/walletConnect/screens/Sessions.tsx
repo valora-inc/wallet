@@ -36,15 +36,14 @@ const Sessions = () => {
   return (
     <View style={[styles.container, { paddingVertical: 16 }]}>
       <Dialog
-        title={`Disconnect ${highlighted?.peer.metadata.name}`}
+        title={t('disconnectTitle', { appName: highlighted?.peer.metadata.name })}
         actionPress={closeSession}
-        actionText="Disconnect"
-        secondaryActionText="Cancel"
+        actionText={t('disconnect')}
+        secondaryActionText={t('cancel')}
         secondaryActionPress={() => setHighlighted(null)}
         isVisible={!!highlighted}
       >
-        Are you sure you want to disconnect from {highlighted?.peer.metadata.name}? You'll need to
-        reconnect before performing any further actions.
+        {t('disconnectBody', { appName: highlighted?.peer.metadata.name })}
       </Dialog>
 
       {sessions.length === 0 ? (
@@ -110,10 +109,8 @@ const Requests = () => {
               return null
             }
 
-            const title = `${r.request.method} from ${session?.peer.metadata.name}`
             const icon =
               session.peer.metadata.icons[0] || `${session.peer.metadata.url}/favicon.ico`
-
             return (
               <TouchableOpacity
                 key={r.topic}
@@ -133,7 +130,7 @@ const Requests = () => {
                       paddingLeft: 16,
                     }}
                   >
-                    {title}
+                    {r.request.method}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -209,32 +206,6 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: colors.gray4,
     paddingVertical: 16,
-  },
-  share: {
-    ...fontStyles.regular,
-    color: colors.gray4,
-    textAlign: 'center',
-  },
-  sectionDivider: {
-    alignItems: 'center',
-    width: 200,
-  },
-  sectionHeaderText: {
-    ...fontStyles.label,
-    marginTop: 16,
-    marginBottom: 4,
-  },
-  button: {
-    marginTop: 24,
-  },
-  cancelButton: {
-    color: colors.dark,
-  },
-  details: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    paddingTop: 16,
-    paddingRight: 16,
   },
   emptyState: {
     display: 'flex',

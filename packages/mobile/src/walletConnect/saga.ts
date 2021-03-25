@@ -50,7 +50,7 @@ let client: WalletConnectClient | null = null
 
 export function* acceptSession({ proposal }: AcceptSession) {
   if (!client) {
-    Logger.debug(TAG + '@initialiseClient', 'missing client')
+    Logger.debug(TAG + '@acceptSession', 'missing client')
     return
   }
 
@@ -76,11 +76,11 @@ export function* acceptSession({ proposal }: AcceptSession) {
 
 export function* denySession({ proposal }: DenySession) {
   if (!client) {
-    Logger.debug(TAG + '@initialiseClient', 'missing client')
+    Logger.debug(TAG + '@denySession', 'missing client')
     return
   }
 
-  client.reject({ reason: 'Denied by user', proposal })
+  yield call(client.reject.bind(client), { reason: 'Session denied by user', proposal })
 }
 
 export function* closeSession({ session }: CloseSession) {
@@ -247,15 +247,14 @@ export function* navigateToSessionRequest({ session }: SessionProposal) {
 }
 
 export function* initialisePairing({ uri }: InitialisePairing) {
-  console.log('>>> initialisePairing')
   if (!client) {
-    Logger.warn(TAG + '@initialiseClient', `missing client`)
+    Logger.warn(TAG + '@initialisePairing', `missing client`)
     return
   }
 
-  Logger.debug(TAG + '@initialiseClient', `pair start`)
+  Logger.debug(TAG + '@initialisePairing', `pair start`)
   yield call(client.pair.bind(client), { uri })
-  Logger.debug(TAG + '@initialiseClient', `pair end`)
+  Logger.debug(TAG + '@initialisePairing', `pair end`)
 }
 
 export function* walletConnectSaga() {
@@ -274,14 +273,11 @@ export function* walletConnectSaga() {
 
 export function* initialiseWalletConnect(uri: string) {
   if (!client) {
-    console.log('>>> creating client')
     yield put(initialiseClientAction())
     yield take(Actions.CLIENT_INITIALISED)
   } else {
-    console.log('Client already exists, removing old stuff')
     client.session.values.map((s) => client?.disconnect({ topic: s.topic, reason: 'Restart' }))
     client.pairing.values.map((p) => client?.pairing.delete({ topic: p.topic, reason: 'Restart' }))
   }
-  console.log('>>> initialisePairingAction')
   yield put(initialisePairingAction(uri))
 }

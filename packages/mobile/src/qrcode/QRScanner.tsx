@@ -76,11 +76,11 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
       </TouchableOpacity>
 
       <Modal isVisible={displayManual}>
-        <Text style={styles.title}>Enter QR code</Text>
+        <Text style={styles.manualTitle}>Enter QR code</Text>
         <TextInput
           autoFocus
           value={manualValue}
-          style={styles.currencyInput}
+          style={styles.manualInput}
           autoCapitalize="none"
           onChangeText={(text) => setManualValue(text)}
         />
@@ -125,23 +125,9 @@ const styles = StyleSheet.create({
     color: colors.light,
     textAlign: 'center',
   },
-  currencyInput: {
+  manualInput: {
     ...fontStyles.regular,
     marginBottom: 12,
-    // paddingTop: 0,
-    // paddingLeft: 10,
-    // paddingRight: 10,
-    // flex: 1,
-    // textAlign: 'right',
-    // fontSize: 24,
-    // lineHeight: Platform.select({ android: 39, ios: 30 }), // vertical align = center
-    // height: 60, // setting height manually b.c. of bug causing text to jump on Android
-    // color: colors.goldDark,
-    // borderWidth: 1,
-    // borderRadius: 8,
-    // borderColor: colors.gray5,
-
-    ...fontStyles.regular,
     paddingHorizontal: 12,
     paddingVertical: 0,
     marginTop: 8,
@@ -153,8 +139,7 @@ const styles = StyleSheet.create({
     height: 80,
     maxHeight: 150,
   },
-  title: {
-    // textAlign: 'center',
+  manualTitle: {
     marginBottom: 6,
     ...fontStyles.h2,
   },

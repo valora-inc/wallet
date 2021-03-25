@@ -138,9 +138,6 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 24,
   },
-  cancelButton: {
-    color: colors.dark,
-  },
   scrollContainer: {
     flexGrow: 1,
     alignItems: 'center',

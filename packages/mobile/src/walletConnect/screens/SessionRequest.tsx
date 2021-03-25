@@ -131,20 +131,8 @@ const styles = StyleSheet.create({
     color: colors.gray4,
     textAlign: 'center',
   },
-  sectionDivider: {
-    alignItems: 'center',
-    width: 200,
-  },
-  sectionHeaderText: {
-    ...fontStyles.label,
-    marginTop: 16,
-    marginBottom: 4,
-  },
   button: {
     marginTop: 24,
-  },
-  cancelButton: {
-    color: colors.dark,
   },
   actionContainer: {
     display: 'flex',

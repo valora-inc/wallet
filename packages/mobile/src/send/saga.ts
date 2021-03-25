@@ -96,7 +96,6 @@ export function* watchQrCodeDetections() {
   while (true) {
     const action: HandleBarcodeDetectedAction = yield take(Actions.BARCODE_DETECTED)
     Logger.debug(TAG, 'Barcode detected in watcher')
-
     const addressToE164Number = yield select(addressToE164NumberSelector)
     const recipientCache = yield select(recipientCacheSelector)
     const e164NumberToAddress = yield select(e164NumberToAddressSelector)
