@@ -38,9 +38,7 @@ export default function QRCodeDisplay({ qrSvgRef }: Props) {
       <View style={styles.qrContainer}>
         <QRCode value={qrContent} size={(variables.width * 3) / 4} svgRef={qrSvgRef} />
       </View>
-      <View>
-        <ShortAccountLink shortLink={link || ''} />
-      </View>
+      <ShortAccountLink shortLink={link} />
     </SafeAreaView>
   )
 }
