@@ -31,7 +31,7 @@ function MoonPayScreen({ route }: Props) {
 
   const fetchResponse = useAsync(
     () =>
-      fetchProviderWidgetUrl(CicoProviderNames.MOONPAY, {
+      fetchProviderWidgetUrl(CicoProviderNames.Moonpay, {
         address: account,
         digitalAsset: currencyToBuy,
         fiatCurrency: currencyCode,

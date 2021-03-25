@@ -76,7 +76,7 @@ describe('ProviderOptionsScreen', () => {
 
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
 
-    fireEvent.press(tree.getByTestId('Provider/SIMPLEX'))
+    fireEvent.press(tree.getByTestId('Provider/Simplex'))
     expect(navigateToURI).toHaveBeenCalled()
   })
 
@@ -91,7 +91,7 @@ describe('ProviderOptionsScreen', () => {
 
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
 
-    fireEvent.press(tree.getByTestId('Provider/MOONPAY'))
+    fireEvent.press(tree.getByTestId('Provider/Moonpay'))
     expect(navigate).toHaveBeenCalledWith(Screens.MoonPayScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.BRL,
@@ -110,7 +110,7 @@ describe('ProviderOptionsScreen', () => {
 
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
 
-    fireEvent.press(tree.getByTestId('Provider/RAMP'))
+    fireEvent.press(tree.getByTestId('Provider/Ramp'))
     expect(navigate).toHaveBeenCalledWith(Screens.RampScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.BRL,

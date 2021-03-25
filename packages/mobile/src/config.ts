@@ -166,10 +166,10 @@ export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 
 // CICO Providers support emails
 export const cicoProviderSupportEmails = {
-  SIMPLEX: 'support@simplex.com',
-  TRANSAK: 'support@transak.com ',
-  RAMP: 'support@ramp.com',
-  MOONPAY: 'support@moonpay.io',
+  Simplex: 'support@simplex.com',
+  Transak: 'support@transak.com ',
+  Ramp: 'support@ramp.com',
+  Moonpay: 'support@moonpay.io',
 }
 
 export enum CurrencyCode {

@@ -6,29 +6,29 @@ import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 
 export enum CicoProviderNames {
-  MOONPAY = 'MOONPAY',
-  RAMP = 'RAMP',
-  SIMPLEX = 'SIMPLEX',
-  TRANSAK = 'TRANSAK',
+  Moonpay = 'Moonpay',
+  Ramp = 'Ramp',
+  Simplex = 'Simplex',
+  Transak = 'Transak',
 }
 
 export const providersDisplayInfo: { [provider in CicoProviderNames]: ProviderFeedInfo } = {
-  [CicoProviderNames.MOONPAY]: {
+  [CicoProviderNames.Moonpay]: {
     name: 'Moonpay',
     icon:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
   },
-  [CicoProviderNames.RAMP]: {
+  [CicoProviderNames.Ramp]: {
     name: 'Ramp',
     icon:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
   },
-  [CicoProviderNames.SIMPLEX]: {
+  [CicoProviderNames.Simplex]: {
     name: 'Simplex',
     icon:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
   },
-  [CicoProviderNames.TRANSAK]: {
+  [CicoProviderNames.Transak]: {
     name: 'Transak',
     icon:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',

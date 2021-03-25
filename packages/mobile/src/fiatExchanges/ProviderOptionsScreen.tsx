@@ -129,18 +129,18 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashOut: [],
     cashIn: [
       {
-        id: CicoProviderNames.MOONPAY,
+        id: CicoProviderNames.Moonpay,
         restricted: MOONPAY_RESTRICTED,
         onSelected: () =>
           openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
-        id: CicoProviderNames.SIMPLEX,
+        id: CicoProviderNames.Simplex,
         restricted: SIMPLEX_RESTRICTED,
         onSelected: () => openSimplex(account),
       },
       {
-        id: CicoProviderNames.RAMP,
+        id: CicoProviderNames.Ramp,
         restricted: RAMP_RESTRICTED,
         onSelected: () =>
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),

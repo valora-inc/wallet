@@ -54,7 +54,7 @@ function TransakScreen({ route }: Props) {
 
   const fetchResponse = useAsync(
     () =>
-      fetchProviderWidgetUrl(CicoProviderNames.TRANSAK, {
+      fetchProviderWidgetUrl(CicoProviderNames.Transak, {
         address: account,
         digitalAsset: currencyToBuy,
         fiatCurrency: currencyCode,

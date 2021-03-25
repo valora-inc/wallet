@@ -31,7 +31,7 @@ function RampScreen({ route }: Props) {
 
   const fetchResponse = useAsync(
     () =>
-      fetchProviderWidgetUrl(CicoProviderNames.RAMP, {
+      fetchProviderWidgetUrl(CicoProviderNames.Ramp, {
         address: account,
         digitalAsset: currencyToBuy,
         fiatCurrency: currencyCode,
