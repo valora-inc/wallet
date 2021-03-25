@@ -91,28 +91,11 @@ export function* acceptRequest({
 
   let result: any
 
-  // if (method === SupportedMethods.personalSign) {
-  //   const { payload, from } = parsePersonalSign(event)
-  //   result = await wallet.signPersonalMessage(from, payload)
-  // } else if (method === SupportedMethods.signTypedData) {
-  //   const { from, payload } = parseSignTypedData(event)
-  //   result = await wallet.signTypedData(from, payload)
   if (method === SupportedActions.eth_signTransaction) {
     yield call(unlockAccount, account)
     result = (yield call(wallet.signTransaction.bind(wallet), params)) as EncodedTransaction
-
-    // } else if (method === SupportedMethods.computeSharedSecret) {
-    //   const { from, publicKey } = parseComputeSharedSecret(event)
-    //   result = (await wallet.computeSharedSecret(from, publicKey)).toString('hex')
-    // } else if (method === SupportedMethods.decrypt) {
-    //   const { from, payload } = parseDecrypt(event)
-    //   result = (await wallet.decrypt(from, payload)).toString('hex')
-    // } else {
-    //   // client.reject({})
-    //   // in memory wallet should always approve actions
-    //   debug('unknown method', method)
-    //   return
-    // }
+  } else {
+    throw new Error('Unsupported action')
   }
 
   yield call(client.respond.bind(client), {
@@ -137,7 +120,6 @@ export function* denyRequest({
 }: DenyRequest) {
   const client: WalletConnectClient = yield select(walletConnectClientSelector)
 
-  console.log('saying no', topic, id)
   yield call(client.respond.bind(client), {
     topic,
     response: {
@@ -169,61 +151,59 @@ export function* watchWalletConnectChannel() {
 
 export function* createWalletConnectChannel() {
   Logger.debug(TAG + '@initialiseClient', `init start`)
-  try {
-    const client: WalletConnectClient = yield call(WalletConnectClient.init, {
-      relayProvider: 'wss://relay.walletconnect.org',
-      storageOptions: {
-        asyncStorage: AsyncStorage,
-      },
-      logger: 'error',
-      controller: true,
-    })
-    Logger.debug(TAG + '@initialiseClient', `init end`)
-    yield put(clientInitialised(client))
 
-    return eventChannel((emit: any) => {
-      client.on(CLIENT_EVENTS.session.proposal, (session: SessionTypes.Proposal) => {
-        emit(sessionProposal(session))
-      })
-      client.on(CLIENT_EVENTS.session.created, (session: SessionTypes.Created) => {
-        emit(sessionCreated(session))
-      })
-      client.on(CLIENT_EVENTS.session.updated, (session: SessionTypes.Update) => {
-        emit(sessionUpdated(session))
-      })
-      client.on(CLIENT_EVENTS.session.deleted, (session: SessionTypes.DeleteParams) => {
-        emit(sessionDeleted(session))
-      })
-      client.on(CLIENT_EVENTS.session.request, (payload: SessionTypes.RequestEvent) => {
-        emit(sessionPayload(payload))
-      })
+  const client: WalletConnectClient = yield call(WalletConnectClient.init, {
+    relayProvider: 'wss://relay.walletconnect.org',
+    storageOptions: {
+      asyncStorage: AsyncStorage,
+    },
+    logger: 'error',
+    controller: true,
+  })
+  Logger.debug(TAG + '@initialiseClient', `init end`)
+  yield put(clientInitialised(client))
 
-      client.on(CLIENT_EVENTS.pairing.proposal, (pairing: PairingTypes.Proposal) => {
-        emit(pairingProposal(pairing))
-      })
-      client.on(CLIENT_EVENTS.pairing.created, (pairing: PairingTypes.Created) => {
-        emit(pairingCreated(pairing))
-      })
-      client.on(CLIENT_EVENTS.pairing.updated, (pairing: PairingTypes.Update) => {
-        emit(pairingUpdated(pairing))
-      })
-      client.on(CLIENT_EVENTS.pairing.deleted, (pairing: PairingTypes.DeleteParams) => {
-        console.log('Pairing deleted')
-        emit(pairingDeleted(pairing))
-      })
+  return eventChannel((emit: any) => {
+    const onSessionProposal = (session: SessionTypes.Proposal) => emit(sessionProposal(session))
+    const onSessionCreated = (session: SessionTypes.Created) => emit(sessionCreated(session))
+    const onSessionUpdated = (session: SessionTypes.Update) => emit(sessionUpdated(session))
+    const onSessionDeleted = (session: SessionTypes.DeleteParams) => emit(sessionDeleted(session))
+    const onSessionRequest = (request: SessionTypes.RequestEvent) => emit(sessionPayload(request))
 
-      return () => {
-        console.log(`
-        ====
-CHANNEL CLEAN UP RUNNING
-        ===
-        `)
-        // todo: deregister events and close client?
-      }
-    })
-  } catch (e) {
-    console.log('uncaught e', e)
-  }
+    const onPairingProposal = (pairing: PairingTypes.Proposal) => emit(pairingProposal(pairing))
+    const onPairingCreated = (pairing: PairingTypes.Created) => emit(pairingCreated(pairing))
+    const onPairingUpdated = (pairing: PairingTypes.Update) => emit(pairingUpdated(pairing))
+    const onPairingDeleted = (pairing: PairingTypes.DeleteParams) => emit(pairingDeleted(pairing))
+
+    client.on(CLIENT_EVENTS.session.proposal, onSessionProposal)
+    client.on(CLIENT_EVENTS.session.created, onSessionCreated)
+    client.on(CLIENT_EVENTS.session.updated, onSessionUpdated)
+    client.on(CLIENT_EVENTS.session.deleted, onSessionDeleted)
+    client.on(CLIENT_EVENTS.session.request, onSessionRequest)
+
+    client.on(CLIENT_EVENTS.pairing.proposal, onPairingProposal)
+    client.on(CLIENT_EVENTS.pairing.created, onPairingCreated)
+    client.on(CLIENT_EVENTS.pairing.updated, onPairingUpdated)
+    client.on(CLIENT_EVENTS.pairing.deleted, onPairingDeleted)
+
+    return () => {
+      client.off(CLIENT_EVENTS.session.proposal, onSessionProposal)
+      client.off(CLIENT_EVENTS.session.created, onSessionCreated)
+      client.off(CLIENT_EVENTS.session.updated, onSessionUpdated)
+      client.off(CLIENT_EVENTS.session.deleted, onSessionDeleted)
+      client.off(CLIENT_EVENTS.session.request, onSessionRequest)
+
+      client.off(CLIENT_EVENTS.pairing.proposal, onPairingProposal)
+      client.off(CLIENT_EVENTS.pairing.created, onPairingCreated)
+      client.off(CLIENT_EVENTS.pairing.updated, onPairingUpdated)
+      client.off(CLIENT_EVENTS.pairing.deleted, onPairingDeleted)
+
+      client.session.topics.map((topic) => client.disconnect({ reason: 'End of session', topic }))
+      client.pairing.topics.map((topic) =>
+        client.pairing.delete({ topic, reason: 'End of session' })
+      )
+    }
+  })
 }
 
 export function* navigateToRequest({ request }: SessionPayload) {
