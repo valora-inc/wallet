@@ -257,12 +257,7 @@ function* fetchWalletAddresses(e164Number: string) {
 
 // Returns a list of account addresses for the identifier received.
 export function* lookupAccountAddressesForIdentifier(id: string) {
-  const channel = yield call(lostAccountsChannel)
-  let lostAccounts: string[] = []
-  if (channel) {
-    const list = yield take(channel)
-    lostAccounts = list.map((address) => address.toLowerCase())
-  }
+  const lostAccounts = yield call(lostAccountsChannel)
 
   const contractKit = yield call(getContractKit)
   const attestationsWrapper: AttestationsWrapper = yield call([

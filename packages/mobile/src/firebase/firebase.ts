@@ -253,7 +253,12 @@ export async function notificationsChannel() {
 }
 
 export async function lostAccountsChannel() {
-  return simpleReadChannel('lostAccounts')
+  return firebase
+    .database()
+    .ref('lostAccounts')
+    .once(VALUE_CHANGE_HOOK)
+    .then((snapshot) => snapshot.val())
+    .then((values) => values.map((address: string) => address.toLowerCase()))
 }
 
 export async function cUsdDailyLimitChannel(address: string) {
