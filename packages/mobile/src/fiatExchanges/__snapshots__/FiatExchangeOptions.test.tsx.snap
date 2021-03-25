@@ -235,7 +235,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   cx="10"
                   cy="10"
                   r="9"
-                  stroke="#EDEEEF"
+                  stroke="#B4B9BD"
                   strokeWidth={2}
                   style={Object {}}
                 />
@@ -256,9 +256,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                       "lineHeight": 22,
                       "marginLeft": 16,
                     },
-                    Object {
-                      "color": "#B4B9BD",
-                    },
+                    Object {},
                   ]
                 }
               >
