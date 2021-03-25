@@ -6,6 +6,7 @@ import {
   PROVIDER_URL_COMPOSER_STAGING,
   SIMPLEX_URI,
 } from 'src/config'
+import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { providerAvailability } from 'src/flags'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -132,4 +133,13 @@ export function getProviderAvailability(
     }
   }
   return features
+}
+
+// Leaving unoptimized for now because sorting is most relevant when fees will be visible
+export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) => {
+  if (provider1.restricted) {
+    return 1
+  }
+
+  return -1
 }

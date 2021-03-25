@@ -118,7 +118,7 @@ describe('ProviderOptionsScreen', () => {
     })
   })
 
-  it('opens Transak correctly', async () => {
+  xit('opens Transak correctly', async () => {
     mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
 
     const tree = render(

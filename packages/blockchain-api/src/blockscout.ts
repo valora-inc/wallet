@@ -1,4 +1,5 @@
 import { RESTDataSource } from 'apollo-datasource-rest'
+import { performance } from 'perf_hooks'
 import { BLOCKSCOUT_API, FAUCET_ADDRESS } from './config'
 import {
   Any,
@@ -17,6 +18,7 @@ import { ExchangeContractCall } from './events/ExchangeContractCall'
 import { RegisterAccountDekContractCall } from './events/RegisterAccountDekContractCall'
 import { Input } from './helpers/Input'
 import { InputDecoder } from './helpers/InputDecoder'
+import { metrics } from './metrics'
 import { TokenTransactionArgs } from './schema'
 import { Transaction } from './transaction/Transaction'
 import { TransactionAggregator } from './transaction/TransactionAggregator'
@@ -24,7 +26,6 @@ import { TransactionClassifier } from './transaction/TransactionClassifier'
 import { TransferCollection } from './transaction/TransferCollection'
 import { TransfersNavigator } from './transaction/TransfersNavigator'
 import { ContractAddresses, getContractAddresses } from './utils'
-
 export interface BlockscoutTransferTx {
   blockNumber: number
   transactionHash: string
@@ -58,6 +59,8 @@ export class BlockscoutAPI extends RESTDataSource {
   async getRawTokenTransactions(address: string): Promise<Transaction[]> {
     console.info(`Getting token transactions for address: ${address}`)
 
+    // Measure time at beginning of execution
+    const t0 = performance.now()
     const contractAddresses = await this.ensureContractAddresses()
 
     const response = await this.post('', {
@@ -115,6 +118,9 @@ export class BlockscoutAPI extends RESTDataSource {
       return new Transaction(partialTransferTx, transfersNavigator, inputDecoder)
     })
 
+    // Record time at end of execution
+    const t1 = performance.now()
+    metrics.setRawTokenDuration(t1 - t0)
     return transactions
   }
 
