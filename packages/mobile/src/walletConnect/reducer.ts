@@ -64,7 +64,6 @@ export const reducer = (
     case Actions.SESSION_CREATED:
       return {
         ...state,
-        // @ts-ignore
         pendingSessions: state.pendingSessions.filter((s) => s.topic !== action.session.topic),
         sessions: [...state.sessions, action.session],
       }
@@ -85,8 +84,10 @@ export const reducer = (
         }),
       }
 
+    case Actions.DENY_SESSION:
     case Actions.CLOSE_SESSION:
     case Actions.SESSION_DELETED:
+    case Actions.CLOSE_PENDING_SESSION:
       return {
         ...state,
         sessions: state.sessions.filter((s) => s.topic !== action.session.topic),

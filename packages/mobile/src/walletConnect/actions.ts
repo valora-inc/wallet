@@ -10,6 +10,7 @@ export enum Actions {
   ACCEPT_SESSION = 'WALLETCONNECT/ACCEPT_SESSION',
   DENY_SESSION = 'WALLETCONNECT/DENY_SESSION',
   CLOSE_SESSION = 'WALLETCONNECT/CLOSE_SESSION',
+  CLOSE_PENDING_SESSION = 'WALLETCONNECT/CLOSE_PENDING_SESSION',
 
   ACCEPT_REQUEST = 'WALLETCONNECT/ACCEPT_REQUEST',
   DENY_REQUEST = 'WALLETCONNECT/DENY_REQUEST',
@@ -48,15 +49,19 @@ export interface ClientDestroyed {
  */
 export interface AcceptSession {
   type: Actions.ACCEPT_SESSION
-  proposal: SessionTypes.Proposal
+  session: SessionTypes.Proposal
 }
 export interface DenySession {
   type: Actions.DENY_SESSION
-  proposal: SessionTypes.Proposal
+  session: SessionTypes.Proposal
 }
 export interface CloseSession {
   type: Actions.CLOSE_SESSION
   session: SessionTypes.Settled
+}
+export interface ClosePendingSession {
+  type: Actions.CLOSE_PENDING_SESSION
+  session: SessionTypes.Proposal
 }
 
 export interface AcceptRequest {
@@ -135,6 +140,8 @@ export type UserActions =
   | ClientDestroyed
   | RequestFulfilled
   | CloseSession
+  | ClosePendingSession
+  | DenySession
 
 export const initialiseClient = (): InitialiseClient => ({
   type: Actions.INITIALISE_CLIENT,
@@ -144,16 +151,20 @@ export const initialisePairing = (uri: string): InitialisePairing => ({
   uri,
 })
 
-export const acceptSession = (proposal: SessionTypes.Proposal): AcceptSession => ({
+export const acceptSession = (session: SessionTypes.Proposal): AcceptSession => ({
   type: Actions.ACCEPT_SESSION,
-  proposal,
+  session,
 })
-export const denySession = (proposal: SessionTypes.Proposal): DenySession => ({
+export const denySession = (session: SessionTypes.Proposal): DenySession => ({
   type: Actions.DENY_SESSION,
-  proposal,
+  session,
 })
 export const closeSession = (session: { topic: string }) => ({
   type: Actions.CLOSE_SESSION,
+  session,
+})
+export const closePendingSession = (session: SessionTypes.Proposal): ClosePendingSession => ({
+  type: Actions.CLOSE_PENDING_SESSION,
   session,
 })
 

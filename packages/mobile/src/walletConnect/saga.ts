@@ -19,8 +19,8 @@ import {
   AcceptSession,
   Actions,
   clientInitialised,
+  closePendingSession,
   CloseSession,
-  closeSession as closeSessionAction,
   DenyRequest,
   DenySession,
   initialiseClient as initialiseClientAction,
@@ -48,7 +48,7 @@ const TAG = 'WalletConnect/saga'
 
 let client: WalletConnectClient | null = null
 
-export function* acceptSession({ proposal }: AcceptSession) {
+export function* acceptSession({ session }: AcceptSession) {
   if (!client) {
     Logger.debug(TAG + '@acceptSession', 'missing client')
     return
@@ -71,17 +71,16 @@ export function* acceptSession({ proposal }: AcceptSession) {
     },
   }
 
-  yield call(client.approve.bind(client), { proposal, response })
+  yield call(client.approve.bind(client), { proposal: session, response })
+  yield put(closePendingSession(session))
 }
 
-export function* denySession({ proposal }: DenySession) {
-  yield put(closeSessionAction(proposal))
-
+export function* denySession({ session }: DenySession) {
   if (!client) {
     Logger.debug(TAG + '@denySession', 'missing client')
     return
   }
-  yield call(client.reject.bind(client), { reason: 'Session denied by user', proposal })
+  yield call(client.reject.bind(client), { reason: 'Session denied by user', proposal: session })
 }
 
 export function* closeSession({ session }: CloseSession) {
@@ -94,7 +93,6 @@ export function* closeSession({ session }: CloseSession) {
     topic: session.topic,
     reason: 'Closed by user',
   })
-  yield put(closeSessionAction(session))
 }
 
 export function* acceptRequest({
@@ -168,7 +166,6 @@ export function* watchWalletConnectChannel() {
   const walletConnectChannel: EventChannel<any> = yield call(createWalletConnectChannel)
   while (true) {
     const message: any = yield take(walletConnectChannel)
-    Logger.debug(TAG + '@watchWalletConnectChannel', JSON.stringify(message))
     yield put(message)
   }
 }
@@ -268,8 +265,8 @@ export function* walletConnectSaga() {
   yield takeEvery(Actions.ACCEPT_REQUEST, acceptRequest)
   yield takeEvery(Actions.DENY_REQUEST, denyRequest)
 
-  yield takeEvery(Actions.SESSION_PAYLOAD, navigateToActionRequest)
   yield takeEvery(Actions.SESSION_PROPOSAL, navigateToSessionRequest)
+  yield takeEvery(Actions.SESSION_PAYLOAD, navigateToActionRequest)
 }
 
 export function* initialiseWalletConnect(uri: string) {
