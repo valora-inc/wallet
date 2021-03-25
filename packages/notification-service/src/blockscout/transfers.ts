@@ -158,10 +158,6 @@ export async function handleTransferNotifications(): Promise<void> {
     latestBlock: celoTransfersLatestBlock,
   } = await getLatestTokenTransfers(goldTokenAddress, blockToQuery, Currencies.GOLD)
 
-  // get the last transaction in goldTransfers
-  // get the block from the transaction
-  // use it to set the block_delay
-
   const {
     transfers: stableTransfers,
     latestBlock: stableTransfersLatestBlock,

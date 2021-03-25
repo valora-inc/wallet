@@ -15,15 +15,15 @@ export async function handlePaymentRequests() {
   const keys = Object.keys(allPendingRequests)
   console.debug(`Found ${keys.length} pending payment requests`)
 
-  let numUnnotifiedRequests = 0
+  let numberUnnotifiedRequests = 0
   for (const uid of keys) {
     const request = allPendingRequests[uid]
     if (request.notified) {
       continue
     }
-    numUnnotifiedRequests += 1
+    numberUnnotifiedRequests += 1
     await setPaymentRequestNotified(uid)
     await requestedPaymentNotification(uid, request)
   }
-  metrics.setNumberPendingRequests(numUnnotifiedRequests)
+  metrics.setNumberUnnotifiedRequests(numberUnnotifiedRequests)
 }
