@@ -2,6 +2,9 @@ import WalletConnectClient from '@walletconnect/client'
 import { PairingTypes, SessionTypes } from '@walletconnect/types'
 
 export enum Actions {
+  /**
+   * Actions coming as a result of user action
+   */
   INITIALISE_CLIENT = 'WALLETCONNECT/INITIALISE_CLIENT',
   INITIALISE_PAIRING = 'WALLETCONNECT/INITIALISE_CONNECTION',
 
@@ -14,7 +17,11 @@ export enum Actions {
   REQUEST_FULFILLED = 'WALLETCONNECT/REQUEST_FULFILLED',
 
   CLIENT_INITIALISED = 'WALLETCONNECT/CLIENT_INITIALISED',
+  CLIENT_DESTROYED = 'WALLETCONNECT/CLIENT_DESTROYED',
 
+  /**
+   * Actions coming from the WalletConnect client
+   */
   SESSION_PROPOSAL = 'WALLETCONNECT/SESSION_PROPOSAL',
   SESSION_CREATED = 'WALLETCONNECT/SESSION_CREATED',
   SESSION_UPDATED = 'WALLETCONNECT/SESSION_UPDATED',
@@ -27,12 +34,15 @@ export enum Actions {
   PAIRING_DELETED = 'WALLETCONNECT/PAIRING_DELETED',
 }
 
+export interface InitialiseClient {
+  type: Actions.INITIALISE_CLIENT
+}
 export interface ClientInitialised {
   type: Actions.CLIENT_INITIALISED
   client: WalletConnectClient
 }
-export interface InitialiseClient {
-  type: Actions.INITIALISE_CLIENT
+export interface ClientDestroyed {
+  type: Actions.CLIENT_DESTROYED
 }
 
 /**
@@ -53,11 +63,11 @@ export interface CloseSession {
 
 export interface AcceptRequest {
   type: Actions.ACCEPT_REQUEST
-  request: SessionTypes.RequestParams
+  request: SessionTypes.RequestEvent
 }
 export interface DenyRequest {
   type: Actions.DENY_REQUEST
-  request: SessionTypes.RequestParams
+  request: SessionTypes.RequestEvent
 }
 export interface RequestFulfilled {
   type: Actions.REQUEST_FULFILLED
@@ -78,11 +88,11 @@ export interface SessionProposal {
 }
 export interface SessionCreated {
   type: Actions.SESSION_CREATED
-  session: SessionTypes.Created
+  session: SessionTypes.CreateParams
 }
 export interface SessionUpdated {
   type: Actions.SESSION_UPDATED
-  session: SessionTypes.Update
+  session: SessionTypes.UpdateParams
 }
 export interface SessionDeleted {
   type: Actions.SESSION_DELETED
@@ -94,7 +104,7 @@ export interface SessionPayload {
 }
 export interface PairingProposal {
   type: Actions.PAIRING_PROPOSAL
-  pairing: PairingTypes.Proposal
+  pairing: PairingTypes.ProposeParams
 }
 export interface PairingCreated {
   type: Actions.PAIRING_CREATED
@@ -102,18 +112,14 @@ export interface PairingCreated {
 }
 export interface PairingUpdated {
   type: Actions.PAIRING_UPDATED
-  pairing: PairingTypes.Update
+  pairing: PairingTypes.UpdateParams
 }
 export interface PairingDeleted {
   type: Actions.PAIRING_DELETED
   pairing: PairingTypes.DeleteParams
 }
 
-export type ActionTypes =
-  | InitialiseClient
-  | InitialisePairing
-  | ClientInitialised
-  | RequestFulfilled
+export type WalletConnectActions =
   | SessionProposal
   | SessionCreated
   | SessionUpdated
@@ -123,6 +129,13 @@ export type ActionTypes =
   | PairingCreated
   | PairingUpdated
   | PairingDeleted
+
+export type UserActions =
+  | InitialiseClient
+  | InitialisePairing
+  | ClientInitialised
+  | ClientDestroyed
+  | RequestFulfilled
 
 export const initialiseClient = (): InitialiseClient => ({
   type: Actions.INITIALISE_CLIENT,
@@ -145,11 +158,11 @@ export const closeSession = (session: SessionTypes.Settled) => ({
   session,
 })
 
-export const acceptRequest = (request: SessionTypes.RequestParams): AcceptRequest => ({
+export const acceptRequest = (request: SessionTypes.RequestEvent): AcceptRequest => ({
   type: Actions.ACCEPT_REQUEST,
   request,
 })
-export const denyRequest = (request: SessionTypes.RequestParams): DenyRequest => ({
+export const denyRequest = (request: SessionTypes.RequestEvent): DenyRequest => ({
   type: Actions.DENY_REQUEST,
   request,
 })
@@ -171,16 +184,19 @@ export const clientInitialised = (client: WalletConnectClient) => ({
   type: Actions.CLIENT_INITIALISED,
   client,
 })
+export const clientDestroyed = () => ({
+  type: Actions.CLIENT_DESTROYED,
+})
 
 export const sessionProposal = (session: SessionTypes.Proposal): SessionProposal => ({
   type: Actions.SESSION_PROPOSAL,
   session,
 })
-export const sessionCreated = (session: SessionTypes.Created) => ({
+export const sessionCreated = (session: SessionTypes.CreateParams) => ({
   type: Actions.SESSION_CREATED,
   session,
 })
-export const sessionUpdated = (session: SessionTypes.Update) => ({
+export const sessionUpdated = (session: SessionTypes.UpdateParams) => ({
   type: Actions.SESSION_UPDATED,
   session,
 })
@@ -193,15 +209,15 @@ export const sessionPayload = (request: SessionTypes.RequestEvent): SessionPaylo
   request,
 })
 
-export const pairingProposal = (pairing: PairingTypes.Proposal) => ({
+export const pairingProposal = (pairing: PairingTypes.ProposeParams) => ({
   type: Actions.PAIRING_PROPOSAL,
   pairing,
 })
-export const pairingCreated = (pairing: PairingTypes.Created) => ({
+export const pairingCreated = (pairing: PairingTypes.CreateParams) => ({
   type: Actions.PAIRING_CREATED,
   pairing,
 })
-export const pairingUpdated = (pairing: PairingTypes.Update) => ({
+export const pairingUpdated = (pairing: PairingTypes.UpdateParams) => ({
   type: Actions.PAIRING_UPDATED,
   pairing,
 })

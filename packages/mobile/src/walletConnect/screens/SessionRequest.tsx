@@ -15,7 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { acceptSession, denySession } from 'src/walletConnect/actions'
 import { selectPendingSession } from 'src/walletConnect/selectors'
-import { humanReadableAction, SupportedActions } from '../constants'
+import { getTranslationDescriptionFromAction, SupportedActions } from '../constants'
 
 const TAG = 'WalletConnect/RequestScreen'
 
@@ -24,15 +24,16 @@ function deduplicateArray(array: any[]) {
 }
 
 function ActionList({ actions }: { actions: string[] }) {
+  const { t } = useTranslation(Namespaces.walletConnect)
   const descriptions = deduplicateArray(
-    actions.map((a) => humanReadableAction(a as SupportedActions)).filter(Boolean)
+    actions.map((a) => getTranslationDescriptionFromAction(a as SupportedActions))
   )
 
   return (
     <View>
       {descriptions.map((d) => (
         <ListItem key={d}>
-          <Text>{d}</Text>
+          <Text>{t(d)}</Text>
         </ListItem>
       ))}
     </View>

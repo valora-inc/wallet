@@ -1,7 +1,6 @@
 import WalletConnectClient from '@walletconnect/client'
 import { PairingTypes, SessionTypes } from '@walletconnect/types'
-import { RehydrateAction } from 'src/redux/persist-helper'
-import { Actions, ActionTypes } from 'src/walletConnect/actions'
+import { Actions, UserActions, WalletConnectActions } from 'src/walletConnect/actions'
 
 export interface State {
   pendingActions: SessionTypes.RequestEvent[]
@@ -23,7 +22,7 @@ const initialState: State = {
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction
+  action: WalletConnectActions | UserActions
 ): State => {
   switch (action.type) {
     case Actions.INITIALISE_PAIRING:
@@ -36,6 +35,11 @@ export const reducer = (
         ...state,
         client: action.client,
       }
+    case Actions.CLIENT_DESTROYED:
+      return {
+        ...state,
+        client: null,
+      }
 
     // case Actions.PAIRING_PROPOSAL:
     case Actions.PAIRING_CREATED:
@@ -46,7 +50,15 @@ export const reducer = (
     case Actions.PAIRING_UPDATED:
       return {
         ...state,
-        pairings: [], // state.pairings.map(p => p.topic === action.pairing.state.,
+        pairings: state.pairings.map((p) => {
+          if (p.topic === action.pairing.state) {
+            return {
+              ...p,
+              state: action.pairing.state,
+            }
+          }
+          return p
+        }),
       }
     case Actions.PAIRING_DELETED:
       return {
@@ -73,19 +85,21 @@ export const reducer = (
     case Actions.SESSION_CREATED:
       return {
         ...state,
+        // @ts-ignore
         pendingSessions: state.pendingSessions.filter((s) => s.topic !== action.session.topic),
-        sessions: [...state.sessions, action.session],
+        sessions: state.client!.session.values,
       }
     case Actions.SESSION_UPDATED:
       return {
         ...state,
-        // @ts-ignore
         sessions: state.sessions.map((s) => {
-          // @ts-ignore
           if (s.topic === action.session.topic) {
             return {
               ...s,
-              state: action.session.state,
+              state: {
+                ...s.state,
+                accounts: action.session.state.accounts!,
+              },
             }
           }
           return s
@@ -94,7 +108,7 @@ export const reducer = (
     case Actions.SESSION_DELETED:
       return {
         ...state,
-        sessions: state.sessions.filter((s) => s.topic !== action.session.topic),
+        sessions: state.client!.session.values,
       }
 
     default:

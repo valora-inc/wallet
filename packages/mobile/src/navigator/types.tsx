@@ -242,7 +242,7 @@ export type StackParamList = {
   [Screens.WalletConnectSessionRequest]: undefined
   [Screens.WalletConnectSessions]: undefined
   [Screens.WalletConnectActionRequest]: {
-    request: SessionTypes.RequestParams
+    request: SessionTypes.RequestEvent
   }
   [Screens.WalletHome]: undefined
   [Screens.WebViewScreen]: { uri: string }

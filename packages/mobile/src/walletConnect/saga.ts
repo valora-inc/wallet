@@ -113,7 +113,6 @@ export function* acceptRequest({
 
 export function* denyRequest({
   request: {
-    // @ts-ignore
     request: { id, jsonrpc },
     topic,
   },
@@ -165,14 +164,15 @@ export function* createWalletConnectChannel() {
 
   return eventChannel((emit: any) => {
     const onSessionProposal = (session: SessionTypes.Proposal) => emit(sessionProposal(session))
-    const onSessionCreated = (session: SessionTypes.Created) => emit(sessionCreated(session))
-    const onSessionUpdated = (session: SessionTypes.Update) => emit(sessionUpdated(session))
+    const onSessionCreated = (session: SessionTypes.CreateParams) => emit(sessionCreated(session))
+    const onSessionUpdated = (session: SessionTypes.UpdateParams) => emit(sessionUpdated(session))
     const onSessionDeleted = (session: SessionTypes.DeleteParams) => emit(sessionDeleted(session))
     const onSessionRequest = (request: SessionTypes.RequestEvent) => emit(sessionPayload(request))
 
-    const onPairingProposal = (pairing: PairingTypes.Proposal) => emit(pairingProposal(pairing))
-    const onPairingCreated = (pairing: PairingTypes.Created) => emit(pairingCreated(pairing))
-    const onPairingUpdated = (pairing: PairingTypes.Update) => emit(pairingUpdated(pairing))
+    const onPairingProposal = (pairing: PairingTypes.ProposeParams) =>
+      emit(pairingProposal(pairing))
+    const onPairingCreated = (pairing: PairingTypes.CreateParams) => emit(pairingCreated(pairing))
+    const onPairingUpdated = (pairing: PairingTypes.UpdateParams) => emit(pairingUpdated(pairing))
     const onPairingDeleted = (pairing: PairingTypes.DeleteParams) => emit(pairingDeleted(pairing))
 
     client.on(CLIENT_EVENTS.session.proposal, onSessionProposal)

@@ -13,26 +13,10 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
-import { SupportedActions } from 'src/walletConnect/constants'
+import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
 import { getSessions } from 'src/walletConnect/selectors'
 
 const TAG = 'WalletConnect/RequestScreen'
-
-const actionToTranslationString: { [x in SupportedActions]: string } = {
-  [SupportedActions.eth_signTransaction]: 'action.signTransaction',
-  [SupportedActions.personal_sign]: 'action.sign',
-  [SupportedActions.eth_signTypedData]: 'action.sign',
-  [SupportedActions.personal_decrypt]: 'action.decrypt',
-  [SupportedActions.eth_accounts]: 'action.accounts',
-}
-function getTranslationFromAction(action: SupportedActions) {
-  const translationString = actionToTranslationString[action]
-  if (!translationString) {
-    throw new Error('Unsupported action')
-  }
-
-  return translationString
-}
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
 export default function WalletConnectRequestScreen({
