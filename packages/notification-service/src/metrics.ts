@@ -5,6 +5,7 @@ export class ApiMetrics {
   private numberUnsuccessfulNotifications: Counter<string>
   private blockDelay: Gauge<string>
   private pendingRequestsSize: Gauge<string>
+  private numberUnnotifiedRequests: Gauge<string>
   private latestTokenTransfersDuration: Histogram<string>
   private notificationLatency: Histogram<string>
   private exchangeQueryDuration: Histogram<string>
@@ -31,6 +32,11 @@ export class ApiMetrics {
       name: 'pending_requests_size',
       help:
         'The current size of pendingRequestsRef, the reference to the pending requests array in Firebase.',
+    })
+
+    this.numberUnnotifiedRequests = new Gauge({
+      name: 'number_unnotified_requests',
+      help: 'The current number of pending requests where request.notified == false.',
     })
 
     this.notificationLatency = new Histogram({
@@ -64,6 +70,10 @@ export class ApiMetrics {
 
   setPendingRequestsSize(count: number) {
     this.pendingRequestsSize.set(count)
+  }
+
+  setNumberUnnotifiedRequests(count: number) {
+    this.numberUnnotifiedRequests.set(count)
   }
 
   setBlockDelay(count: number) {

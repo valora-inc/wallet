@@ -384,7 +384,7 @@ export async function sendNotification(
     metrics.sentNotification(data.type)
     metrics.setNotificationLatency(Date.now() - Number(data.timestamp), data.type)
   } catch (error) {
-    console.error('Error sending notification:', error)
+    console.error('Error sending notification:', address, error)
     metrics.failedNotification(data.type)
   }
 }
