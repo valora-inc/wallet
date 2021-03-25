@@ -77,34 +77,34 @@ export const firebaseSignOut = async (app: ReactNativeFirebase.FirebaseApp) => {
   await app.auth().signOut()
 }
 
+// Listen for notification messages while the app is open
+const channelOnNotification: EventChannel<NotificationChannelEvent> = eventChannel((emitter) => {
+  const unsubscribe = () => {
+    Logger.info(TAG, 'Notification channel closed, resetting callbacks. This is likely an error.')
+    firebase.messaging().onMessage(() => null)
+    firebase.messaging().onNotificationOpenedApp(() => null)
+  }
+
+  firebase.messaging().onMessage((message) => {
+    Logger.info(TAG, 'Notification received while open')
+    emitter({
+      message,
+      stateType: NotificationReceiveState.APP_ALREADY_OPEN,
+    })
+  })
+
+  firebase.messaging().onNotificationOpenedApp((message) => {
+    Logger.info(TAG, 'App opened via a notification')
+    emitter({
+      message,
+      stateType: NotificationReceiveState.APP_FOREGROUNDED,
+    })
+  })
+  return unsubscribe
+})
+
 export function* setupMessaging(action: SetAppState) {
   Logger.debug(TAG, `setupMessage action: ${JSON.stringify(action)}`)
-
-  // Listen for notification messages while the app is open
-  const channelOnNotification: EventChannel<NotificationChannelEvent> = eventChannel((emitter) => {
-    const unsubscribe = () => {
-      Logger.info(TAG, 'Notification channel closed, resetting callbacks. This is likely an error.')
-      firebase.messaging().onMessage(() => null)
-      firebase.messaging().onNotificationOpenedApp(() => null)
-    }
-
-    firebase.messaging().onMessage((message) => {
-      Logger.info(TAG, 'Notification received while open')
-      emitter({
-        message,
-        stateType: NotificationReceiveState.APP_ALREADY_OPEN,
-      })
-    })
-
-    firebase.messaging().onNotificationOpenedApp((message) => {
-      Logger.info(TAG, 'App opened via a notification')
-      emitter({
-        message,
-        stateType: NotificationReceiveState.APP_FOREGROUNDED,
-      })
-    })
-    return unsubscribe
-  })
 
   const isAppActive = action.state === 'active'
   if (isAppActive) {

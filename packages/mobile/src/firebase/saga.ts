@@ -2,7 +2,16 @@ import { sleep } from '@celo/utils/lib/async'
 import firebase from '@react-native-firebase/app'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import { eventChannel } from 'redux-saga'
-import { call, cancelled, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
+import {
+  call,
+  cancelled,
+  put,
+  select,
+  spawn,
+  take,
+  takeEvery,
+  takeLatest,
+} from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { Actions as AppActions, SetLanguage } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -147,5 +156,5 @@ export function* firebaseSaga() {
   yield spawn(initializeFirebase)
   yield spawn(watchLanguage)
   yield spawn(subscribeToCeloGoldExchangeRateHistory)
-  yield takeEvery(AppActions.SET_APP_STATE, setupMessaging)
+  yield takeLatest(AppActions.SET_APP_STATE, setupMessaging)
 }
