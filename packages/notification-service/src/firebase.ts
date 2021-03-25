@@ -3,12 +3,12 @@ import * as admin from 'firebase-admin'
 import i18next from 'i18next'
 import { Currencies } from './blockscout/transfers'
 import { NOTIFICATIONS_DISABLED, NOTIFICATIONS_TTL_MS, NotificationTypes } from './config'
+import { metrics } from './metrics'
 
 let database: admin.database.Database
 let registrationsRef: admin.database.Reference
 let lastBlockRef: admin.database.Reference
 let pendingRequestsRef: admin.database.Reference
-
 export interface Registrations {
   [address: string]:
     | {
@@ -242,7 +242,10 @@ export async function sendNotification(
     console.info('Sending notification to:', address)
     const response = await admin.messaging().send(message, NOTIFICATIONS_DISABLED)
     console.info('Successfully sent notification for :', address, response)
+    metrics.sentNotification(data.type)
+    metrics.setNotificationLatency(Date.now() - Number(data.timestamp), data.type)
   } catch (error) {
     console.error('Error sending notification:', error)
+    metrics.failedNotification(data.type)
   }
 }
