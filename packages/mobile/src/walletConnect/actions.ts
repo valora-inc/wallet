@@ -134,6 +134,7 @@ export type UserActions =
   | ClientInitialised
   | ClientDestroyed
   | RequestFulfilled
+  | CloseSession
 
 export const initialiseClient = (): InitialiseClient => ({
   type: Actions.INITIALISE_CLIENT,
@@ -151,7 +152,7 @@ export const denySession = (proposal: SessionTypes.Proposal): DenySession => ({
   type: Actions.DENY_SESSION,
   proposal,
 })
-export const closeSession = (session: SessionTypes.Settled) => ({
+export const closeSession = (session: { topic: string }) => ({
   type: Actions.CLOSE_SESSION,
   session,
 })

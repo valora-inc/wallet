@@ -75,11 +75,12 @@ export function* acceptSession({ proposal }: AcceptSession) {
 }
 
 export function* denySession({ proposal }: DenySession) {
+  yield put(closeSessionAction(proposal))
+
   if (!client) {
     Logger.debug(TAG + '@denySession', 'missing client')
     return
   }
-
   yield call(client.reject.bind(client), { reason: 'Session denied by user', proposal })
 }
 

@@ -84,10 +84,13 @@ export const reducer = (
           return s
         }),
       }
+
+    case Actions.CLOSE_SESSION:
     case Actions.SESSION_DELETED:
       return {
         ...state,
         sessions: state.sessions.filter((s) => s.topic !== action.session.topic),
+        pendingSessions: state.pendingSessions.filter((s) => s.topic !== action.session.topic),
       }
 
     default:

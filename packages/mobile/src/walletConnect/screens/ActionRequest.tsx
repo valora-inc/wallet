@@ -14,7 +14,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
-import { getSessions } from 'src/walletConnect/selectors'
+import { selectSessions } from 'src/walletConnect/selectors'
 
 const TAG = 'WalletConnect/RequestScreen'
 
@@ -26,7 +26,7 @@ export default function WalletConnectRequestScreen({
 }: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
   const dispatch = useDispatch()
-  const sessions = useSelector(getSessions)
+  const { sessions } = useSelector(selectSessions)
 
   const onAccept = async () => {
     dispatch(acceptRequest(request))

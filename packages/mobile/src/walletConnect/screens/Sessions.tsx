@@ -2,7 +2,7 @@ import ItemSeparator from '@celo/react-components/components/ItemSeparator'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { SessionTypes } from '@walletconnect/types'
+import { AppMetadata, SessionTypes } from '@walletconnect/types'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native'
@@ -16,10 +16,40 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { closeSession as closeSessionAction } from 'src/walletConnect/actions'
-import { getPendingRequests, getSessions } from 'src/walletConnect/selectors'
+import { getPendingRequests, selectSessions } from 'src/walletConnect/selectors'
+
+const Row = ({
+  metadata,
+  text,
+  onPress,
+}: {
+  metadata: AppMetadata
+  text: string
+  onPress: () => void
+}) => {
+  const icon = metadata.icons[0] || `${metadata.url}/favicon.ico`
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <View
+        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingBottom: 12 }}
+      >
+        <Image source={{ uri: icon }} height={30} width={30} style={{ height: 30, width: 30 }} />
+        <Text
+          style={{
+            ...fontStyles.large,
+            color: colors.dark,
+            paddingLeft: 16,
+          }}
+        >
+          {text}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  )
+}
 
 const Sessions = () => {
-  const sessions = useSelector(getSessions)
+  const { sessions, pending: pendingSessions } = useSelector(selectSessions)
   const { t } = useTranslation(Namespaces.walletConnect)
   const [highlighted, setHighlighted] = useState<SessionTypes.Settled | null>(null)
   const dispatch = useDispatch()
@@ -46,7 +76,7 @@ const Sessions = () => {
         {t('disconnectBody', { appName: highlighted?.peer.metadata.name })}
       </Dialog>
 
-      {sessions.length === 0 ? (
+      {[...sessions, ...pendingSessions].length === 0 ? (
         <View style={styles.emptyState}>
           <TouchableOpacity
             onPress={() =>
@@ -60,28 +90,21 @@ const Sessions = () => {
         </View>
       ) : (
         <View>
+          {pendingSessions.map((s) => (
+            <Row
+              metadata={s.proposer.metadata}
+              onPress={() => navigate(Screens.WalletConnectSessionRequest, { session: s })}
+              text={t('pending', { appName: s.proposer.metadata.name })}
+            />
+          ))}
+
           {sessions.map((s) => {
-            const icon = s.peer.metadata.icons[0] || `${s.peer.metadata.url}/favicon.ico`
             return (
-              <TouchableOpacity key={s.topic} onPress={() => setHighlighted(s)}>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                  <Image
-                    source={{ uri: icon }}
-                    height={40}
-                    width={40}
-                    style={{ height: 40, width: 40 }}
-                  />
-                  <Text
-                    style={{
-                      ...fontStyles.large,
-                      color: colors.dark,
-                      paddingLeft: 16,
-                    }}
-                  >
-                    {s.peer.metadata.name}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              <Row
+                metadata={s.peer.metadata}
+                onPress={() => setHighlighted(s)}
+                text={s.peer.metadata.name}
+              />
             )
           })}
         </View>
@@ -92,7 +115,7 @@ const Sessions = () => {
 
 const Requests = () => {
   const requests = useSelector(getPendingRequests)
-  const sessions = useSelector(getSessions)
+  const { sessions } = useSelector(selectSessions)
   const { t } = useTranslation(Namespaces.walletConnect)
 
   return (
@@ -109,31 +132,12 @@ const Requests = () => {
               return null
             }
 
-            const icon =
-              session.peer.metadata.icons[0] || `${session.peer.metadata.url}/favicon.ico`
             return (
-              <TouchableOpacity
-                key={r.topic}
+              <Row
+                metadata={session.peer.metadata}
                 onPress={() => navigate(Screens.WalletConnectActionRequest, { request: r })}
-              >
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                  <Image
-                    source={{ uri: icon }}
-                    height={40}
-                    width={40}
-                    style={{ height: 40, width: 40 }}
-                  />
-                  <Text
-                    style={{
-                      ...fontStyles.small,
-                      color: colors.dark,
-                      paddingLeft: 16,
-                    }}
-                  >
-                    {r.request.method}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+                text={r.request.method}
+              />
             )
           })}
         </View>

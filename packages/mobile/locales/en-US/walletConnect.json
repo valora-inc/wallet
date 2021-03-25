@@ -26,6 +26,7 @@
   "moreInfo": "Confused by anything here?",
 
   "noConnectedApps": "No connected applications yet, click here to get started",
+  "pending": "{{appName}} (pending)",
   "noPendingRequests": "No currently pending requests",
 
   "sessionsTitle": "Connected DApps",
@@ -33,5 +34,5 @@
 
   "disconnect": "Disconnect",
   "disconnectTitle": "Disconnect {{appName}}",
-  "disconnectBody": "Are you sure you want to disconnect from {{appName}? You'll need to reconnect before performing any further actions."
+  "disconnectBody": "Are you sure you want to disconnect from {{appName}}? You'll need to reconnect before performing any further actions."
 }
