@@ -5,7 +5,7 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { calculateFee } from 'src/fees/saga'
+import { calculateFee, FeeInfo } from 'src/fees/saga'
 import { transferGoldToken } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { addressToE164NumberSelector, e164NumberToAddressSelector } from 'src/identity/reducer'
@@ -38,11 +38,20 @@ import { estimateGas } from 'src/web3/utils'
 
 const TAG = 'send/saga'
 
+// All observed cUSD and CELO transfers take less than 200000 gas.
+const STATIC_SEND_TOKEN_GAS_ESTIMATE = 200000
+
 export async function getSendTxGas(
   account: string,
   currency: CURRENCY_ENUM,
-  params: BasicTokenTransfer
-) {
+  params: BasicTokenTransfer,
+  useStatic: boolean = true
+): Promise<BigNumber> {
+  if (useStatic) {
+    Logger.debug(`${TAG}/getSendTxGas`, `Using static gas of ${STATIC_SEND_TOKEN_GAS_ESTIMATE}`)
+    return new BigNumber(STATIC_SEND_TOKEN_GAS_ESTIMATE)
+  }
+
   try {
     Logger.debug(`${TAG}/getSendTxGas`, 'Getting gas estimate for send tx')
     const tx = await createTokenTransferTransaction(currency, params)
@@ -77,7 +86,7 @@ export async function getSendFee(
       gas = gas.plus(dekGas)
     }
 
-    return calculateFee(gas)
+    return calculateFee(gas, currency)
   } catch (error) {
     throw error
   }
@@ -135,7 +144,8 @@ function* sendPayment(
   recipientAddress: string,
   amount: BigNumber,
   comment: string,
-  currency: CURRENCY_ENUM
+  currency: CURRENCY_ENUM,
+  feeInfo?: FeeInfo
 ) {
   try {
     ValoraAnalytics.track(SendEvents.send_tx_start)
@@ -154,6 +164,7 @@ function* sendPayment(
             recipientAddress,
             amount: amount.toString(),
             comment: encryptedComment,
+            feeInfo,
             context,
           })
         )
@@ -165,6 +176,7 @@ function* sendPayment(
             recipientAddress,
             amount: amount.toString(),
             comment: encryptedComment,
+            feeInfo,
             context,
           })
         )
@@ -192,6 +204,7 @@ export function* sendPaymentOrInviteSaga({
   comment,
   recipient,
   recipientAddress,
+  feeInfo,
   inviteMethod,
   firebasePendingRequestUid,
   fromModal,
@@ -204,14 +217,15 @@ export function* sendPaymentOrInviteSaga({
     }
 
     if (recipientAddress) {
-      yield call(sendPayment, recipientAddress, amount, comment, CURRENCY_ENUM.DOLLAR)
+      yield call(sendPayment, recipientAddress, amount, comment, CURRENCY_ENUM.DOLLAR, feeInfo)
     } else if (recipient.e164PhoneNumber) {
       yield call(
         sendInvite,
         recipient.e164PhoneNumber,
         inviteMethod || InviteBy.SMS,
         amount,
-        CURRENCY_ENUM.DOLLAR
+        CURRENCY_ENUM.DOLLAR,
+        feeInfo
       )
     }
 

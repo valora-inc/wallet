@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { FeeInfo } from 'src/fees/saga'
 import { InviteBy } from 'src/invite/actions'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
@@ -46,6 +47,7 @@ export interface SendPaymentOrInviteAction {
   comment: string
   recipient: Recipient
   recipientAddress?: string | null
+  feeInfo?: FeeInfo
   inviteMethod?: InviteBy
   firebasePendingRequestUid: string | null | undefined
   fromModal: boolean
@@ -100,6 +102,7 @@ export const sendPaymentOrInvite = (
   comment: string,
   recipient: Recipient,
   recipientAddress: string | null | undefined,
+  feeInfo: FeeInfo | undefined,
   inviteMethod: InviteBy | undefined,
   firebasePendingRequestUid: string | null | undefined,
   fromModal: boolean
@@ -109,6 +112,7 @@ export const sendPaymentOrInvite = (
   comment,
   recipient,
   recipientAddress,
+  feeInfo,
   inviteMethod,
   firebasePendingRequestUid,
   fromModal,

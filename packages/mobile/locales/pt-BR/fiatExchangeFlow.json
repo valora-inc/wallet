@@ -26,6 +26,8 @@
   "receiveWithPonto": "GCash (com Ponto)",
   "receiveWithKotani": "M-PESA (com Kotani Pay)",
   "receiveWithBidali": "Vales-Presente e Recargas de Celular",
+  "bitfy": "Bitfy",
+  "flowBtc": "FlowBTC",
   "fundingEducationDialog": {
     "title": "Adicionar fundos com {{appName}} ",
     "body": "{{appName}} é alimentado pela Rede Celo. O {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano.Para adicionar fundos à sua conta do {{appName}}, compre o cUSD de um dos fornecedores terceirizados disponíveis em sua localidade. Para mais informações visite <0>{{link}}</0>",
@@ -56,5 +58,6 @@
   "useBalanceWithMerchants": "Use seu saldo com comerciantes apoiadores",
   "findMerchants": "Encontre comerciantes locais perto de você",
   "celoDeposit": "Compra de CELO",
-  "cUsdDeposit": "Compra de cUSD"
+  "cUsdDeposit": "Compra de cUSD",
+  "restrictedRegion": "Suporte limitado na região"
 }
