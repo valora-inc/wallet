@@ -100,7 +100,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/Simplex"
+                testID="Provider/SIMPLEX"
               >
                 <View
                   style={
@@ -183,7 +183,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/Ramp"
+                testID="Provider/RAMP"
               >
                 <View
                   style={
@@ -278,7 +278,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/Moonpay"
+                testID="Provider/MOONPAY"
               >
                 <View
                   style={
