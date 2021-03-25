@@ -1,23 +1,18 @@
-import WalletConnectClient from '@walletconnect/client'
 import { PairingTypes, SessionTypes } from '@walletconnect/types'
 import { Actions, UserActions, WalletConnectActions } from 'src/walletConnect/actions'
 
 export interface State {
   pendingActions: SessionTypes.RequestEvent[]
-  client: WalletConnectClient | null
   pairings: PairingTypes.Created[]
   sessions: SessionTypes.Created[]
   pendingSessions: SessionTypes.Proposal[]
-  pendingConnections: string[]
 }
 
 const initialState: State = {
-  client: null,
   pairings: [],
   sessions: [],
   pendingSessions: [],
   pendingActions: [],
-  pendingConnections: [],
 }
 
 export const reducer = (
@@ -25,22 +20,6 @@ export const reducer = (
   action: WalletConnectActions | UserActions
 ): State => {
   switch (action.type) {
-    case Actions.INITIALISE_PAIRING:
-      return {
-        ...state,
-        pendingConnections: [...state.pendingConnections, action.uri],
-      }
-    case Actions.CLIENT_INITIALISED:
-      return {
-        ...state,
-        client: action.client,
-      }
-    case Actions.CLIENT_DESTROYED:
-      return {
-        ...state,
-        client: null,
-      }
-
     // case Actions.PAIRING_PROPOSAL:
     case Actions.PAIRING_CREATED:
       return {
@@ -87,7 +66,7 @@ export const reducer = (
         ...state,
         // @ts-ignore
         pendingSessions: state.pendingSessions.filter((s) => s.topic !== action.session.topic),
-        sessions: state.client!.session.values,
+        sessions: [...state.sessions, action.session],
       }
     case Actions.SESSION_UPDATED:
       return {
@@ -108,7 +87,7 @@ export const reducer = (
     case Actions.SESSION_DELETED:
       return {
         ...state,
-        sessions: state.client!.session.values,
+        sessions: state.sessions.filter((s) => s.topic !== action.session.topic),
       }
 
     default:

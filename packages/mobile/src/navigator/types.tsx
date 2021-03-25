@@ -240,7 +240,9 @@ export type StackParamList = {
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
-  [Screens.WalletConnectSessionRequest]: undefined
+  [Screens.WalletConnectSessionRequest]: {
+    session: SessionTypes.Proposal
+  }
   [Screens.WalletConnectSessions]: undefined
   [Screens.WalletConnectActionRequest]: {
     request: SessionTypes.RequestEvent

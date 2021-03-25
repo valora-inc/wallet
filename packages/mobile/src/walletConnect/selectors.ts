@@ -1,15 +1,7 @@
 import { RootState } from 'src/redux/reducers'
 
-export function pendingConnectionSelector(state: RootState) {
-  return state.walletConnect.pendingConnections[0]
-}
-
 export function selectPendingSession(state: RootState) {
   return state.walletConnect.pendingSessions[0]
-}
-
-export function selectPendingConnection(state: RootState) {
-  return state.walletConnect.pendingConnections[0]
 }
 
 export function getSessions(state: RootState) {
@@ -18,8 +10,4 @@ export function getSessions(state: RootState) {
 
 export function getPendingRequests(state: RootState) {
   return state.walletConnect.pendingActions
-}
-
-export function walletConnectClientSelector(state: RootState) {
-  return state.walletConnect.client
 }

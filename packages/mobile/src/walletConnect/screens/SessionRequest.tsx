@@ -8,13 +8,12 @@ import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Namespaces } from 'src/i18n'
 import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { acceptSession, denySession } from 'src/walletConnect/actions'
-import { selectPendingSession } from 'src/walletConnect/selectors'
 import { getTranslationDescriptionFromAction, SupportedActions } from '../constants'
 
 const TAG = 'WalletConnect/RequestScreen'
@@ -40,17 +39,15 @@ function ActionList({ actions }: { actions: string[] }) {
   )
 }
 
-type RouteProps = StackScreenProps<StackParamList, Screens.WalletConnectSessionRequest>
-type Props = RouteProps
+type Props = StackScreenProps<StackParamList, Screens.WalletConnectSessionRequest>
 
-export default function WalletConnectRequestScreen(props: Props) {
-  const session = useSelector(selectPendingSession)
+export default function WalletConnectRequestScreen({
+  route: {
+    params: { session },
+  },
+}: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
   const dispatch = useDispatch()
-
-  if (!session) {
-    return null
-  }
 
   const confirm = () => {
     dispatch(acceptSession(session))

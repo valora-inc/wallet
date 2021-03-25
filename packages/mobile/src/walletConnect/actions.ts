@@ -1,4 +1,3 @@
-import WalletConnectClient from '@walletconnect/client'
 import { PairingTypes, SessionTypes } from '@walletconnect/types'
 
 export enum Actions {
@@ -39,7 +38,6 @@ export interface InitialiseClient {
 }
 export interface ClientInitialised {
   type: Actions.CLIENT_INITIALISED
-  client: WalletConnectClient
 }
 export interface ClientDestroyed {
   type: Actions.CLIENT_DESTROYED
@@ -88,7 +86,7 @@ export interface SessionProposal {
 }
 export interface SessionCreated {
   type: Actions.SESSION_CREATED
-  session: SessionTypes.CreateParams
+  session: SessionTypes.Created
 }
 export interface SessionUpdated {
   type: Actions.SESSION_UPDATED
@@ -180,9 +178,8 @@ export const requestFulfilled = ({
   },
 })
 
-export const clientInitialised = (client: WalletConnectClient) => ({
+export const clientInitialised = () => ({
   type: Actions.CLIENT_INITIALISED,
-  client,
 })
 export const clientDestroyed = () => ({
   type: Actions.CLIENT_DESTROYED,
@@ -192,7 +189,7 @@ export const sessionProposal = (session: SessionTypes.Proposal): SessionProposal
   type: Actions.SESSION_PROPOSAL,
   session,
 })
-export const sessionCreated = (session: SessionTypes.CreateParams) => ({
+export const sessionCreated = (session: SessionTypes.Created): SessionCreated => ({
   type: Actions.SESSION_CREATED,
   session,
 })
