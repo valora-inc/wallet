@@ -8,6 +8,7 @@ import {
   NOTIFICATIONS_TTL_MS,
   NotificationTypes,
 } from './config'
+import { metrics } from './metrics'
 
 const NOTIFICATIONS_TAG = 'NOTIFICATIONS/'
 
@@ -321,7 +322,10 @@ export async function sendNotification(
     console.info(NOTIFICATIONS_TAG, 'Sending notification to:', address)
     const response = await admin.messaging().send(message, NOTIFICATIONS_DISABLED)
     console.info('Successfully sent notification for :', address, response)
+    metrics.sentNotification(data.type)
+    metrics.setNotificationLatency(Date.now() - Number(data.timestamp), data.type)
   } catch (error) {
-    console.error('Error sending notification:', address, error)
+    console.error('Error sending notification:', error)
+    metrics.failedNotification(data.type)
   }
 }

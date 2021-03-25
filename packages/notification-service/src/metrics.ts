@@ -1,13 +1,20 @@
 import { Counter, Gauge } from 'prom-client'
 
 export class ApiMetrics {
-  private numberNotificationsSent: Counter<string>
+  private numberSuccessfulNotifications: Counter<string>
+  private numberUnsuccessfulNotifications: Counter<string>
   private numberBlocksUnprocessed: Gauge<string>
 
   constructor() {
-    this.numberNotificationsSent = new Counter({
-      name: 'num_notifications_sent',
-      help: 'Increments the Notifications Service dispatches a notification.',
+    this.numberSuccessfulNotifications = new Counter({
+      name: 'num_successful_notifications',
+      help: 'Increments the Notifications Service successfully dispatches a notification.',
+    })
+
+    this.numberUnsuccessfulNotifications = new Counter({
+      name: 'num_unsuccessful_notifications',
+      help:
+        'Increments the Notifications Service encounters an error while dispatching a notification.',
     })
 
     this.numberBlocksUnprocessed = new Gauge({
@@ -16,8 +23,12 @@ export class ApiMetrics {
     })
   }
 
-  sentNotification() {
-    this.numberNotificationsSent.inc()
+  sentNotification(notificationType: string) {
+    this.numberSuccessfulNotifications.inc({ notification_type: notificationType })
+  }
+
+  failedNotification(notificationType: string) {
+    this.numberUnsuccessfulNotifications.inc({ notification_type: notificationType })
   }
 
   setUnprocessedBlocks(count: number) {
