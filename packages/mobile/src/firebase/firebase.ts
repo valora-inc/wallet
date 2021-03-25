@@ -7,6 +7,7 @@ import '@react-native-firebase/messaging'
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import { eventChannel, EventChannel } from 'redux-saga'
 import { call, select, spawn, take } from 'redux-saga/effects'
+import { SetAppState } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { FIREBASE_ENABLED } from 'src/config'
 import { handleNotification } from 'src/firebase/notifications'
@@ -76,6 +77,50 @@ export const firebaseSignOut = async (app: ReactNativeFirebase.FirebaseApp) => {
   await app.auth().signOut()
 }
 
+export function* setupMessaging(action: SetAppState) {
+  Logger.debug(TAG, `setupMessage action: ${JSON.stringify(action)}`)
+
+  // Listen for notification messages while the app is open
+  const channelOnNotification: EventChannel<NotificationChannelEvent> = eventChannel((emitter) => {
+    const unsubscribe = () => {
+      Logger.info(TAG, 'Notification channel closed, resetting callbacks. This is likely an error.')
+      firebase.messaging().onMessage(() => null)
+      firebase.messaging().onNotificationOpenedApp(() => null)
+    }
+
+    firebase.messaging().onMessage((message) => {
+      Logger.info(TAG, 'Notification received while open')
+      emitter({
+        message,
+        stateType: NotificationReceiveState.APP_ALREADY_OPEN,
+      })
+    })
+
+    firebase.messaging().onNotificationOpenedApp((message) => {
+      Logger.info(TAG, 'App opened via a notification')
+      emitter({
+        message,
+        stateType: NotificationReceiveState.APP_FOREGROUNDED,
+      })
+    })
+    return unsubscribe
+  })
+
+  const isAppActive = action.state === 'active'
+  if (isAppActive) {
+    yield spawn(watchFirebaseNotificationChannel, channelOnNotification)
+  }
+
+  // Manual type checking because yield calls can't infer return type yet :'(
+  const initialNotification: Awaited<ReturnType<
+    FirebaseMessagingTypes.Module['getInitialNotification']
+  >> = yield call([firebase.messaging(), 'getInitialNotification'])
+  if (initialNotification) {
+    Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
+    yield call(handleNotification, initialNotification, NotificationReceiveState.APP_OPENED_FRESH)
+  }
+}
+
 export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, address: string) {
   Logger.info(TAG, 'Initializing Firebase Cloud Messaging')
 
@@ -109,42 +154,6 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     Logger.info(TAG, 'Cloud Messaging token refreshed')
     await registerTokenToDb(app, address, token)
   })
-
-  // Listen for notification messages while the app is open
-  const channelOnNotification: EventChannel<NotificationChannelEvent> = eventChannel((emitter) => {
-    const unsubscribe = () => {
-      Logger.info(TAG, 'Notification channel closed, resetting callbacks. This is likely an error.')
-      app.messaging().onMessage(() => null)
-      app.messaging().onNotificationOpenedApp(() => null)
-    }
-
-    app.messaging().onMessage((message) => {
-      Logger.info(TAG, 'Notification received while open')
-      emitter({
-        message,
-        stateType: NotificationReceiveState.APP_ALREADY_OPEN,
-      })
-    })
-
-    app.messaging().onNotificationOpenedApp((message) => {
-      Logger.info(TAG, 'App opened via a notification')
-      emitter({
-        message,
-        stateType: NotificationReceiveState.APP_FOREGROUNDED,
-      })
-    })
-    return unsubscribe
-  })
-  yield spawn(watchFirebaseNotificationChannel, channelOnNotification)
-
-  // Manual type checking because yield calls can't infer return type yet :'(
-  const initialNotification: Awaited<ReturnType<
-    FirebaseMessagingTypes.Module['getInitialNotification']
-  >> = yield call([app.messaging(), 'getInitialNotification'])
-  if (initialNotification) {
-    Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
-    yield call(handleNotification, initialNotification, NotificationReceiveState.APP_OPENED_FRESH)
-  }
 }
 
 export const registerTokenToDb = async (

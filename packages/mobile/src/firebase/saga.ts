@@ -10,7 +10,12 @@ import { FIREBASE_ENABLED } from 'src/config'
 import { updateCeloGoldExchangeRateHistory } from 'src/exchange/actions'
 import { exchangeHistorySelector, ExchangeRate, MAX_HISTORY_RETENTION } from 'src/exchange/reducer'
 import { Actions, firebaseAuthorized } from 'src/firebase/actions'
-import { initializeAuth, initializeCloudMessaging, setUserLanguage } from 'src/firebase/firebase'
+import {
+  initializeAuth,
+  initializeCloudMessaging,
+  setupMessaging,
+  setUserLanguage,
+} from 'src/firebase/firebase'
 import Logger from 'src/utils/Logger'
 import { getRemoteTime } from 'src/utils/time'
 import { getAccount } from 'src/web3/saga'
@@ -142,4 +147,5 @@ export function* firebaseSaga() {
   yield spawn(initializeFirebase)
   yield spawn(watchLanguage)
   yield spawn(subscribeToCeloGoldExchangeRateHistory)
+  yield takeEvery(AppActions.SET_APP_STATE, setupMessaging)
 }
