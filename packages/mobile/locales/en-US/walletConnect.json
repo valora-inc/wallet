@@ -2,26 +2,29 @@
   "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
   "cancel": "Cancel",
   "allow": "Allow",
-  "address": "Account No.",
-  "phoneNumber": "Phone Number",
+
   "action": {
-    "asking": "This application asking to perform the following action:",
+    "asking": "This application is asking to perform the following action",
     "operation": "Operation",
     "data": "Data",
     "sign": "Sign a data payload",
     "signTransaction": "Sign a Celo TX",
     "decrypt": "Decrypt a data payload",
     "accounts": "Read your Valora account address",
-    "details": "Show details"
+    "details": "Show details",
+    "computeSharedSecret": "Generate a secret"
   },
+
   "sessionInfo": "This application could ask to perform the following actions. Please read them carefully and ensure you're happy before proceeding",
   "description": {
     "sign": "Sign data payloads",
     "signTransaction": "Send funds",
     "accounts": "Request your Valora account address",
-    "decrypt": "Decrypt data payloads"
+    "decrypt": "Decrypt data payloads",
+    "computeSharedSecret": "Generate a secret"
   },
   "moreInfo": "Confused by anything here?",
+
   "noConnectedApps": "No connected applications yet, click here to get started",
   "noPendingRequests": "No currently pending requests",
 

@@ -71,7 +71,7 @@ export default function WalletConnectRequestScreen({
           {t('connectToWallet', { dappName: session?.peer.metadata.name })}
         </Text>
 
-        <Text style={styles.share}> {t('action.asking')}</Text>
+        <Text style={styles.share}> {t('action.asking')}:</Text>
 
         <View style={styles.sectionDivider}>
           <Text style={styles.sectionHeaderText}>{t('action.operation')}</Text>
