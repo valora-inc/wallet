@@ -1,5 +1,4 @@
 // Order is important, please don't change it unless you know what you're doing :D
-import './shim'
 import 'node-libs-react-native/globals'
 import 'src/missingGlobals'
 import 'src/forceCommunityAsyncStorage'
