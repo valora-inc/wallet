@@ -21,6 +21,7 @@ export const TRANSAK_DATA = {
 
 export const MOONPAY_WEBHOOK_KEY = config.moonpay.webhook_key
 export const RAMP_KEY = config.ramp.pem_file
+export const RAMP_WEBHOOK_URL = config.ramp.webhook_url
 
 export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'

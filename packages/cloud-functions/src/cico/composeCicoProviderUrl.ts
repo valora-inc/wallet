@@ -5,6 +5,7 @@ import {
   CASH_IN_SUCCESS_URL,
   MOONPAY_DATA,
   RAMP_DATA,
+  RAMP_WEBHOOK_URL,
   TRANSAK_DATA,
   VALORA_LOGO_URL,
 } from '../config'
@@ -59,6 +60,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &fiatCurrency=${fiatCurrency}
         &fiatValue=${fiatAmount}
         &finalUrl=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
+        &webhookStatusUrl=${RAMP_WEBHOOK_URL}
       `.replace(/\s+/g, '')
   } else if (provider === Providers.TRANSAK) {
     finalUrl = `
