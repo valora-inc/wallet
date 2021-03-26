@@ -298,7 +298,7 @@ async function genesisBlockAlreadyWritten(nodeDir: string): Promise<boolean> {
   return fileStat.isFile() && new BigNumber(fileStat.size, 10).isGreaterThan(0)
 }
 
-export async function readGenesisBlockFile(nodeDir: string): Promise<string> {
+async function readGenesisBlockFile(nodeDir: string): Promise<string> {
   const genesisBlockFile = getGenesisBlockFile(nodeDir)
   return RNFS.readFile(genesisBlockFile, { encoding: 'utf8' })
 }

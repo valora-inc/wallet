@@ -100,15 +100,13 @@ function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerScen
     (qrCode: QrCode) => {
       Logger.debug('QRScanner', 'Bar code detected')
 
-      const isWalletConnectRequest = qrCode.data.startsWith('wc:') || undefined
       dispatch(
         handleBarcodeDetected(
           qrCode,
           scanIsForSecureSend,
           transactionData,
           isOutgoingPaymentRequest,
-          requesterAddress,
-          isWalletConnectRequest
+          requesterAddress
         )
       )
     },

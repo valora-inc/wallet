@@ -99,10 +99,9 @@ export function* handleBarcode(
   e164NumberToAddress: E164NumberToAddressType,
   secureSendTxData?: TransactionDataInput,
   isOutgoingPaymentRequest?: true,
-  requesterAddress?: string,
-  isWalletConnectRequest?: true
+  requesterAddress?: string
 ) {
-  if (isWalletConnectRequest) {
+  if (barcode.data.startsWith('wc:')) {
     yield call(initialiseWalletConnect, barcode.data)
     return
   }
