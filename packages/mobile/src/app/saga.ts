@@ -158,9 +158,9 @@ export function* handleDeepLink(action: OpenDeepLink) {
       navigate(Screens.BidaliScreen, { currency: CURRENCY_ENUM.DOLLAR })
     } else if (rawParams.path.startsWith('/cash-in-success')) {
       // Some providers append transaction information to the redirect links so can't check for strict equality
-      const cicoSuccessParam: any = (rawParams.path.match(/cash-in-success\/(.+)/) || [])[1]
-      const provider = Object.values(CicoProviderNames).filter(
-        (name) => name.toLowerCase() === cicoSuccessParam?.toLowerCase()
+      const cicoSuccessParam = (rawParams.path.match(/cash-in-success\/(.+)/) || [])[1]
+      const provider = Object.values(CicoProviderNames).filter((name) =>
+        cicoSuccessParam?.toLowerCase().includes(name.toLowerCase())
       )[0]
       navigate(Screens.CashInSuccess, { provider })
     } else if (isSecureOrigin && rawParams.pathname === '/openScreen' && rawParams.query) {
