@@ -164,14 +164,6 @@ export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 
-// CICO Providers support emails
-export const cicoProviderSupportEmails = {
-  Simplex: 'support@simplex.com',
-  Transak: 'support@transak.com ',
-  Ramp: 'support@ramp.com',
-  Moonpay: 'support@moonpay.io',
-}
-
 export enum CurrencyCode {
   CELO = 'CELO',
   CUSD = 'CUSD',

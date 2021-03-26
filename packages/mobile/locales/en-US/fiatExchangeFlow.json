@@ -61,8 +61,8 @@
   "cUsdDeposit": "cUSD Purchase",
   "cicoSuccess": {
     "title": "Transaction started!",
-    "body1": "To get the latest information on the transaction please contact ",
-    "body2": "the service provider you selected"
+    "bodyWithProvider": "{{provider}} is processing your order. You should receive your funds within 1-2 days.",
+    "bodyWithoutProvider": "The service provider is processing your order. You should receive your funds within 1-2 days."
   },
   "restrictedRegion": "Limited support in region"
 }
