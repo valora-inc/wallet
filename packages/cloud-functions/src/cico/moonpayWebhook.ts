@@ -25,6 +25,65 @@ function verifyMoonPaySignature(signatureHeader: string | undefined, body: strin
   return Buffer.compare(signatureBuffer, expectedSignature) === 0
 }
 
+// https://www.moonpay.com/dashboard/api_reference/client_side_api/#transactions
+interface MoonpayTransaction {
+  id: string
+  createdAt: string // ISO date-time string
+  updatedAt: string // ISO date-time string
+  baseCurrencyAmount: number
+  quoteCurrencyAmount: number
+  feeAmount: number
+  extraFeeAmount: number
+  networkFeeAmount: number
+  areFeesIncluded: boolean
+  status: MoonpayTxStatus
+  failureReason: string
+  walletAddress: string
+  walletAddressTag: string
+  cryptoTransactionId: string
+  redirectUrl: string
+  returnUrl: string
+  widgetRedirectUrl?: string
+  eurRate: number
+  usdRate: number
+  gbpRate: number
+  bankDepositInformation?: any
+  bankTransferReference?: string
+  currencyId: string
+  baseCurrencyId: string
+  customerId: string
+  cardId: string
+  bankAccountId?: string
+  externalCustomerId?: string
+  externalTransactionId?: string
+  country: string
+  state: string // Only for USA customers
+  stages: any[] // This is a complex array of objects. See the docs above!
+}
+
+enum MoonpayTxStatus {
+  WaitingPayment = 'waitingPayment',
+  Pending = 'pending',
+  WaitingAuthorization = 'waitingAuthorization',
+  Failed = 'failed',
+  Completed = 'completed',
+}
+
+enum MoonpayWebhookType {
+  Started = 'transaction_started',
+  Failed = 'transaction_failed',
+  Updated = 'transaction_updated',
+  IdCheckUpdated = 'identity_check_updated',
+  SellTxCreated = 'sell_transaction_created',
+  SellTxUpdated = 'sell_transaction_updated',
+  SellTxFailed = 'sell_transaction_failed',
+  ExternalToken = 'external_token',
+}
+interface MoonpayRequestBody {
+  type: MoonpayWebhookType
+  data: MoonpayTransaction
+}
+
 export const moonpayWebhook = functions.https.onRequest((request, response) => {
   if (
     verifyMoonPaySignature(request.header(MOONPAY_SIGNATURE_HEADER), JSON.stringify(request.body))
@@ -32,7 +91,7 @@ export const moonpayWebhook = functions.https.onRequest((request, response) => {
     const {
       data: { walletAddress, cryptoTransactionId },
       type,
-    } = request.body
+    }: MoonpayRequestBody = request.body
     console.info(
       'Received MoonPay webhook',
       type,

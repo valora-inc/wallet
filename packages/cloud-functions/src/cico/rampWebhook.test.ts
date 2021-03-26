@@ -32,12 +32,7 @@ describe('Ramp cash in', () => {
         type: 'RELEASED',
         purchase: {
           receiverAddress: '0x123',
-          actions: [
-            {
-              newStatus: 'RELEASED',
-              details: '0x456',
-            },
-          ],
+          finalTxHash: '0x456',
         },
       },
       header: (head: string) => (head === 'X-Body-Signature' ? 'test signature' : undefined),
@@ -56,12 +51,7 @@ describe('Ramp cash in', () => {
         type: 'RELEASED',
         purchase: {
           receiverAddress: '0x123',
-          actions: [
-            {
-              newStatus: 'RELEASED',
-              details: '0x456',
-            },
-          ],
+          finalTxHash: '0x456',
         },
       },
       header: (head: string) => (head === 'X-Body-Signature' ? 'test signature' : undefined),
@@ -79,12 +69,7 @@ describe('Ramp cash in', () => {
         type: 'RELEASED',
         purchase: {
           receiverAddress: '0x123',
-          actions: [
-            {
-              newStatus: 'RELEASED',
-              details: undefined,
-            },
-          ],
+          finalTxHash: undefined,
         },
       },
       header: (head: string) => (head === 'X-Body-Signature' ? 'test signature' : undefined),
