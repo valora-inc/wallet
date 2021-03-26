@@ -203,14 +203,6 @@ export function* sendInvite(
       link,
     })
 
-    if (features.ESCROW_WITHOUT_CODE) {
-      if (amount) {
-        yield call(initiateEscrowTransfer, e164Number, amount, undefined, feeInfo)
-      }
-      yield call(Share.share, { message })
-      return
-    }
-
     const inviteDetails: InviteDetails = {
       timestamp: Date.now(),
       e164Number,
@@ -223,6 +215,14 @@ export function* sendInvite(
 
     // Store the Temp Address locally so we know which transactions were invites
     yield put(storeInviteeData(inviteDetails))
+
+    if (features.ESCROW_WITHOUT_CODE) {
+      if (amount) {
+        yield call(initiateEscrowTransfer, e164Number, amount, undefined, feeInfo)
+      }
+      yield call(Share.share, { message })
+      return
+    }
 
     let transferReceipt: CeloTxReceipt | undefined
     if (!features.KOMENCI) {
