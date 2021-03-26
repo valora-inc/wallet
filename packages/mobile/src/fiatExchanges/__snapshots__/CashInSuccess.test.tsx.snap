@@ -1,0 +1,325 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CashinInSuccess renders correctly with a provider 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "column",
+      "justifyContent": "space-between",
+      "overflow": "hidden",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "column",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Image
+      resizeMode="contain"
+      source={
+        Object {
+          "testUri": "../../../packages/mobile/src/images/fiat-exchange.png",
+        }
+      }
+      style={
+        Object {
+          "marginBottom": 30,
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "color": "#2E3338",
+          "fontFamily": "Inter-Medium",
+          "fontSize": 18,
+          "lineHeight": 24,
+        }
+      }
+    >
+      cicoSuccess.title
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "stretch",
+        "display": "flex",
+        "flex": 0,
+        "flexDirection": "column",
+        "justifyContent": "space-between",
+        "padding": 16,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#2E3338",
+          "fontFamily": "Inter-Regular",
+          "fontSize": 16,
+          "lineHeight": 22,
+          "textAlign": "center",
+        }
+      }
+    >
+      cicoSuccess.bodyWithProvider
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "paddingTop": 16,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            Object {
+              "alignSelf": "stretch",
+              "flex": 1,
+              "flexDirection": "column",
+              "minWidth": 200,
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "overflow": "hidden",
+              },
+              Object {
+                "borderRadius": 100,
+              },
+            ]
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
+              Object {
+                "attribute": "selectableItemBackground",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#1AB775",
+                "height": 48,
+                "justifyContent": "center",
+                "minWidth": 120,
+                "opacity": undefined,
+                "paddingHorizontal": 24,
+                "paddingVertical": 5,
+              }
+            }
+            testID="SuccessContinue"
+          >
+            <Text
+              accessibilityLabel="global:continue"
+              style={
+                Object {
+                  "color": "#FFFFFF",
+                  "fontFamily": "Inter-SemiBold",
+                  "fontSize": 16,
+                  "lineHeight": 22,
+                }
+              }
+            >
+              global:continue
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`CashinInSuccess renders correctly without a provider 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "flex": 1,
+      "flexDirection": "column",
+      "justifyContent": "space-between",
+      "overflow": "hidden",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+        "flexDirection": "column",
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Image
+      resizeMode="contain"
+      source={
+        Object {
+          "testUri": "../../../packages/mobile/src/images/fiat-exchange.png",
+        }
+      }
+      style={
+        Object {
+          "marginBottom": 30,
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "color": "#2E3338",
+          "fontFamily": "Inter-Medium",
+          "fontSize": 18,
+          "lineHeight": 24,
+        }
+      }
+    >
+      cicoSuccess.title
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "stretch",
+        "display": "flex",
+        "flex": 0,
+        "flexDirection": "column",
+        "justifyContent": "space-between",
+        "padding": 16,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#2E3338",
+          "fontFamily": "Inter-Regular",
+          "fontSize": 16,
+          "lineHeight": 22,
+          "textAlign": "center",
+        }
+      }
+    >
+      cicoSuccess.bodyWithoutProvider
+    </Text>
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "paddingTop": 16,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            Object {
+              "alignSelf": "stretch",
+              "flex": 1,
+              "flexDirection": "column",
+              "minWidth": 200,
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "overflow": "hidden",
+              },
+              Object {
+                "borderRadius": 100,
+              },
+            ]
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
+              Object {
+                "attribute": "selectableItemBackground",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#1AB775",
+                "height": 48,
+                "justifyContent": "center",
+                "minWidth": 120,
+                "opacity": undefined,
+                "paddingHorizontal": 24,
+                "paddingVertical": 5,
+              }
+            }
+            testID="SuccessContinue"
+          >
+            <Text
+              accessibilityLabel="global:continue"
+              style={
+                Object {
+                  "color": "#FFFFFF",
+                  "fontFamily": "Inter-SemiBold",
+                  "fontSize": 16,
+                  "lineHeight": 22,
+                }
+              }
+            >
+              global:continue
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

@@ -3,7 +3,7 @@ import React from 'react'
 import { useAsync } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import InAppBrowser from 'src/components/InAppBrowser'
-import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { fetchProviderWidgetUrl, isExpectedUrl } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -16,12 +16,6 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 const RAMP_URI = networkConfig.rampWidgetUrl
 
-export const rampOptions = () => ({
-  ...emptyHeader,
-  headerTitle: (RAMP_URI.match(/(?!(w+)\.)(-|\w)*(?:\w+\.)+\w+/) || [])[0],
-  headerLeft: () => <TopBarTextButton title={i18n.t('global:done')} onPress={navigateBack} />,
-})
-
 type RouteProps = StackScreenProps<StackParamList, Screens.RampScreen>
 type Props = RouteProps
 
@@ -31,7 +25,7 @@ function RampScreen({ route }: Props) {
 
   const fetchResponse = useAsync(
     () =>
-      fetchProviderWidgetUrl(Providers.RAMP, {
+      fetchProviderWidgetUrl(CicoProviderNames.Ramp, {
         address: account,
         digitalAsset: currencyToBuy,
         fiatCurrency: currencyCode,
@@ -48,5 +42,11 @@ function RampScreen({ route }: Props) {
 
   return <InAppBrowser uri={url} isLoading={!url} onCancel={navigateBack} />
 }
+
+RampScreen.navigationOptions = () => ({
+  ...emptyHeader,
+  headerTitle: (RAMP_URI.match(/(?!(w+)\.)(-|\w)*(?:\w+\.)+\w+/) || [])[0],
+  headerLeft: () => <TopBarTextButton title={i18n.t('global:done')} onPress={navigateBack} />,
+})
 
 export default RampScreen
