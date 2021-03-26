@@ -159,11 +159,9 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path.startsWith('/cash-in-success')) {
       // Some providers append transaction information to the redirect links so can't check for strict equality
       const cicoSuccessParam: any = (rawParams.path.match(/cash-in-success\/(.+)/) || [])[1]
-      const provider: CicoProviderNames | undefined = Object.values(CicoProviderNames).includes(
-        cicoSuccessParam
-      )
-        ? cicoSuccessParam
-        : undefined
+      const provider = Object.values(CicoProviderNames).filter(
+        (name) => name.toLowerCase() === cicoSuccessParam?.toLowerCase()
+      )[0]
       navigate(Screens.CashInSuccess, { provider })
     } else if (isSecureOrigin && rawParams.pathname === '/openScreen' && rawParams.query) {
       // The isSecureOrigin is important. We don't want it to be possible to fire this deep link from outside
