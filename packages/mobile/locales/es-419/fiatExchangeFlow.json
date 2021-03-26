@@ -61,8 +61,8 @@
   "cUsdDeposit": "Compra de cUSD",
   "cicoSuccess": {
     "title": "¡Transacción iniciada!",
-    "bodyWithProvider": "{{provider}} is processing your order. You should receive your funds within 1-2 days.",
-    "bodyWithoutProvider": "The service provider is processing your order. You should receive your funds within 1-2 days."
+    "bodyWithProvider": "{{provider}} está procesando su pedido. Debería recibir sus fondos en un plazo de 1-2 días.",
+    "bodyWithoutProvider": "El proveedor de servicios está procesando su pedido. Debería recibir sus fondos en un plazo de 1-2 días."
   },
   "restrictedRegion": "Soporte limitado en la región"
 }
