@@ -171,8 +171,8 @@ const Simplex = {
           <input type="hidden" name="version" value="1">
           <input type="hidden" name="partner" value="valorapp">
           <input type="hidden" name="payment_flow_type" value="wallet">
-          <input type="hidden" name="return_url_success" value="${CASH_IN_SUCCESS_DEEPLINK}">
-          <input type="hidden" name="return_url_fail" value="${CASH_IN_FAILURE_DEEPLINK}">
+          <input type="hidden" name="return_url_success" value="${CASH_IN_SUCCESS_DEEPLINK}/simplex">
+          <input type="hidden" name="return_url_fail" value="${CASH_IN_FAILURE_DEEPLINK}/simplex">
           <input type="hidden" name="payment_id" value="${paymentId}">
         </form>
         <script type="text/javascript">
