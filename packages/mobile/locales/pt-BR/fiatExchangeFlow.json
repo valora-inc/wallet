@@ -59,5 +59,10 @@
   "findMerchants": "Encontre comerciantes locais perto de você",
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
+  "cicoSuccess": {
+    "title": "Transação iniciada!",
+    "bodyWithProvider": "{{provider}} está processando seu pedido. Você deve receber seus fundos dentro de 1-2 dias.",
+    "bodyWithoutProvider": "O provedor de serviços está processando seu pedido. Você deve receber seus fundos dentro de 1-2 dias."
+  },
   "restrictedRegion": "Suporte limitado na região"
 }
