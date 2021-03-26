@@ -4,13 +4,14 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { navigateToURI } from 'src/utils/linking'
 
 interface Props {
   provider: string
@@ -46,7 +47,7 @@ export default function ReviewFees({
   const openFeeDiscountExplanation = () => setShowFeeDiscountExplanation(true)
   const closeFeeDiscountExplanation = () => setShowFeeDiscountExplanation(false)
 
-  const openProviderFeeUrl = () => Linking.openURL(feeUrl)
+  const openProviderFeeUrl = () => navigateToURI(feeUrl)
 
   const showAmount = (value: number, isCelo: boolean = false, textStyle: any[] = []) => (
     <CurrencyDisplay
@@ -205,8 +206,5 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: 5,
     marginLeft: 6,
-  },
-  emailLink: {
-    color: colors.greenUI,
   },
 })

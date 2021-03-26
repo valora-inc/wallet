@@ -12,7 +12,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { numberVerifiedSelector, simplexFeeWaivedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import WebView from 'src/components/WebView'
-import { CurrencyCode } from 'src/config'
+import { CurrencyCode, SIMPLEX_FEES_URL } from 'src/config'
 import ReviewFees from 'src/fiatExchanges/ReviewFees'
 import { fetchSimplexPaymentData } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
@@ -26,9 +26,6 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 type RouteProps = StackScreenProps<StackParamList, Screens.Simplex>
 type Props = RouteProps
-
-const SIMPLEX_FEES_URL =
-  'https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-am-I-paying-'
 
 function SimplexScreen({ route, navigation }: Props) {
   const [loadSimplexCheckout, setLoadSimplexCheckout] = useState(false)

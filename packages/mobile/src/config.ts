@@ -96,7 +96,6 @@ export const RECAPTCHA_SITE_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, '
 export const SAFETYNET_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SAFETYNET_KEY')
 export const MOONPAY_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'MOONPAY_API_KEY')
 export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')
-export const SIMPLEX_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SIMPLEX_API_KEY')
 
 export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [
   {
@@ -152,11 +151,10 @@ export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
 
 export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
+export const SIMPLEX_FEES_URL =
+  'https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-am-I-paying-'
 export const PONTO_URI = 'https://withponto.com/partners/celo/valora'
 export const KOTANI_URI = 'https://kotanipay.com/partners/valora'
-
-export const USER_DATA_URL =
-  'https://us-central1-celo-testnet-production.cloudfunctions.net/queryForUserInitData'
 
 export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
 export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
