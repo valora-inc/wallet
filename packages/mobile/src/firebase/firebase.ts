@@ -104,6 +104,11 @@ const channelOnNotification: EventChannel<NotificationChannelEvent> = eventChann
 })
 
 export function* setupMessaging(action: SetAppState) {
+  if (!FIREBASE_ENABLED) {
+    // TODO(erdal) enable this once we have gcloud setup on CI
+    return
+  }
+
   Logger.debug(TAG, `setupMessage action: ${JSON.stringify(action)}`)
 
   const isAppActive = action.state === 'active'
