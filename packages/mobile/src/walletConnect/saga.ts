@@ -7,7 +7,7 @@ import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client'
 import { PairingTypes, SessionTypes } from '@walletconnect/types'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
-import { networkId } from 'src/config'
+import { NETWORK_ID, WALLETCONNECT_URL } from 'src/config'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
@@ -33,6 +33,7 @@ import {
   SessionProposal,
   sessionProposal,
   sessionUpdated,
+  WalletConnectActions,
 } from 'src/walletConnect/actions'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { getWallet } from 'src/web3/contracts'
@@ -58,13 +59,13 @@ export function* acceptSession({ session }: AcceptSession) {
         icons: ['https://valoraapp.com/favicon.ico'],
       },
       state: {
-        accounts: [`${account}@celo:${networkId}`],
+        accounts: [`${account}@celo:${NETWORK_ID}`],
       },
     }
 
     yield call(client.approve.bind(client), { proposal: session, response })
   } catch (e) {
-    Logger.debug(TAG + '@acceptSession', 'missing client')
+    Logger.debug(TAG + '@acceptSession', e.message)
   }
 }
 
@@ -149,32 +150,36 @@ export function* denyRequest({
       },
     })
   } catch (e) {
-    Logger.debug(TAG + '@denyRequest', 'missing client')
+    Logger.debug(TAG + '@denyRequest', e.message)
   } finally {
     navigateBack()
   }
 }
 
 export function* watchWalletConnectChannel() {
-  const walletConnectChannel: EventChannel<any> = yield call(createWalletConnectChannel)
+  const walletConnectChannel: EventChannel<WalletConnectActions> = yield call(
+    createWalletConnectChannel
+  )
   while (true) {
-    const message: any = yield take(walletConnectChannel)
+    const message: WalletConnectActions = yield take(walletConnectChannel)
     yield put(message)
   }
 }
 
 export function* createWalletConnectChannel() {
-  Logger.debug(TAG + '@initialiseClient', `init start`)
-  client = yield call(WalletConnectClient.init, {
-    relayProvider: 'wss://relay.walletconnect.org',
-    storageOptions: {
-      asyncStorage: AsyncStorage,
-    },
-    logger: 'error',
-    controller: true,
-  })
-  Logger.debug(TAG + '@initialiseClient', `init end`)
-  yield put(clientInitialised())
+  if (!client) {
+    Logger.debug(TAG + '@initialiseClient', `init start`)
+    client = yield call(WalletConnectClient.init, {
+      relayProvider: WALLETCONNECT_URL,
+      storageOptions: {
+        asyncStorage: AsyncStorage,
+      },
+      logger: 'error',
+      controller: true,
+    })
+    Logger.debug(TAG + '@initialiseClient', `init end`)
+    yield put(clientInitialised())
+  }
 
   return eventChannel((emit: any) => {
     const onSessionProposal = (session: SessionTypes.Proposal) => emit(sessionProposal(session))
@@ -267,9 +272,6 @@ export function* initialiseWalletConnect(uri: string) {
   if (!client) {
     yield put(initialiseClientAction())
     yield take(Actions.CLIENT_INITIALISED)
-  } else {
-    client.session.values.map((s) => client?.disconnect({ topic: s.topic, reason: 'Restart' }))
-    client.pairing.values.map((p) => client?.pairing.delete({ topic: p.topic, reason: 'Restart' }))
   }
   yield put(initialisePairingAction(uri))
 }

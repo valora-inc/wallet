@@ -87,6 +87,9 @@ export const GETH_START_HTTP_RPC_SERVER = stringToBoolean(
   Config.GETH_START_HTTP_RPC_SERVER || 'false'
 )
 
+export const WALLETCONNECT_URL = 'wss://walletconnect.celo-networks-dev.org'
+export const NETWORK_ID = Config.NETWORK_ID
+
 // SECRETS
 export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SEGMENT_API_KEY')
 export const SENTRY_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SENTRY_URL')
@@ -168,5 +171,3 @@ export enum CurrencyCode {
   CELO = 'CELO',
   CUSD = 'CUSD',
 }
-
-export const networkId = Config.NETWORK_ID

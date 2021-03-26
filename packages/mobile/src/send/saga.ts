@@ -117,8 +117,7 @@ export function* watchQrCodeDetections() {
         e164NumberToAddress,
         secureSendTxData,
         isOutgoingPaymentRequest,
-        requesterAddress,
-        action.isWalletConnectRequest
+        requesterAddress
       )
     } catch (error) {
       Logger.error(TAG, 'Error handling the barcode', error)

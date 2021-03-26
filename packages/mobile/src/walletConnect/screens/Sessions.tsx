@@ -87,9 +87,8 @@ const Sessions = () => {
           >
             <Text
               style={{
-                ...fontStyles.large,
+                ...fontStyles.small,
                 color: colors.dark,
-                paddingLeft: 16,
               }}
             >
               {t('noConnectedApps')}
