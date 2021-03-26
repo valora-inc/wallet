@@ -10,6 +10,7 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
       "flexDirection": "column",
       "justifyContent": "space-between",
       "overflow": "hidden",
+      "padding": 32,
     }
   }
 >
@@ -17,9 +18,11 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
     style={
       Object {
         "alignItems": "center",
+        "display": "flex",
         "flex": 1,
         "flexDirection": "column",
         "justifyContent": "center",
+        "padding": 16,
       }
     }
   >
@@ -30,11 +33,6 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
           "testUri": "../../../packages/mobile/src/images/fiat-exchange.png",
         }
       }
-      style={
-        Object {
-          "marginBottom": 30,
-        }
-      }
     />
     <Text
       style={
@@ -43,24 +41,13 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
           "fontFamily": "Inter-Medium",
           "fontSize": 18,
           "lineHeight": 24,
+          "paddingBottom": 16,
+          "paddingTop": 8,
         }
       }
     >
       cicoSuccess.title
     </Text>
-  </View>
-  <View
-    style={
-      Object {
-        "alignItems": "stretch",
-        "display": "flex",
-        "flex": 0,
-        "flexDirection": "column",
-        "justifyContent": "space-between",
-        "padding": 16,
-      }
-    }
-  >
     <Text
       style={
         Object {
@@ -74,87 +61,86 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
     >
       cicoSuccess.bodyWithProvider
     </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+      }
+    }
+  >
     <View
       style={
-        Object {
-          "flexDirection": "row",
-          "paddingTop": 16,
-        }
+        Array [
+          Object {
+            "flexDirection": "row",
+          },
+          Object {
+            "alignSelf": "stretch",
+            "flex": 1,
+            "flexDirection": "column",
+            "minWidth": 200,
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
           Array [
             Object {
-              "flexDirection": "row",
+              "overflow": "hidden",
             },
             Object {
-              "alignSelf": "stretch",
-              "flex": 1,
-              "flexDirection": "column",
-              "minWidth": 200,
-              "width": "100%",
+              "borderRadius": 100,
             },
           ]
         }
       >
         <View
-          style={
-            Array [
-              Object {
-                "overflow": "hidden",
-              },
-              Object {
-                "borderRadius": 100,
-              },
-            ]
-          }
-        >
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackground",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
             }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#1AB775",
+              "height": 48,
+              "justifyContent": "center",
+              "minWidth": 120,
+              "opacity": undefined,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            }
+          }
+          testID="SuccessContinue"
+        >
+          <Text
+            accessibilityLabel="global:continue"
             style={
               Object {
-                "alignItems": "center",
-                "backgroundColor": "#1AB775",
-                "height": 48,
-                "justifyContent": "center",
-                "minWidth": 120,
-                "opacity": undefined,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
+                "color": "#FFFFFF",
+                "fontFamily": "Inter-SemiBold",
+                "fontSize": 16,
+                "lineHeight": 22,
               }
             }
-            testID="SuccessContinue"
           >
-            <Text
-              accessibilityLabel="global:continue"
-              style={
-                Object {
-                  "color": "#FFFFFF",
-                  "fontFamily": "Inter-SemiBold",
-                  "fontSize": 16,
-                  "lineHeight": 22,
-                }
-              }
-            >
-              global:continue
-            </Text>
-          </View>
+            global:continue
+          </Text>
         </View>
       </View>
     </View>
@@ -172,6 +158,7 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
       "flexDirection": "column",
       "justifyContent": "space-between",
       "overflow": "hidden",
+      "padding": 32,
     }
   }
 >
@@ -179,9 +166,11 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
     style={
       Object {
         "alignItems": "center",
+        "display": "flex",
         "flex": 1,
         "flexDirection": "column",
         "justifyContent": "center",
+        "padding": 16,
       }
     }
   >
@@ -192,11 +181,6 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
           "testUri": "../../../packages/mobile/src/images/fiat-exchange.png",
         }
       }
-      style={
-        Object {
-          "marginBottom": 30,
-        }
-      }
     />
     <Text
       style={
@@ -205,24 +189,13 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
           "fontFamily": "Inter-Medium",
           "fontSize": 18,
           "lineHeight": 24,
+          "paddingBottom": 16,
+          "paddingTop": 8,
         }
       }
     >
       cicoSuccess.title
     </Text>
-  </View>
-  <View
-    style={
-      Object {
-        "alignItems": "stretch",
-        "display": "flex",
-        "flex": 0,
-        "flexDirection": "column",
-        "justifyContent": "space-between",
-        "padding": 16,
-      }
-    }
-  >
     <Text
       style={
         Object {
@@ -236,87 +209,86 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
     >
       cicoSuccess.bodyWithoutProvider
     </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+      }
+    }
+  >
     <View
       style={
-        Object {
-          "flexDirection": "row",
-          "paddingTop": 16,
-        }
+        Array [
+          Object {
+            "flexDirection": "row",
+          },
+          Object {
+            "alignSelf": "stretch",
+            "flex": 1,
+            "flexDirection": "column",
+            "minWidth": 200,
+            "width": "100%",
+          },
+        ]
       }
     >
       <View
         style={
           Array [
             Object {
-              "flexDirection": "row",
+              "overflow": "hidden",
             },
             Object {
-              "alignSelf": "stretch",
-              "flex": 1,
-              "flexDirection": "column",
-              "minWidth": 200,
-              "width": "100%",
+              "borderRadius": 100,
             },
           ]
         }
       >
         <View
-          style={
-            Array [
-              Object {
-                "overflow": "hidden",
-              },
-              Object {
-                "borderRadius": 100,
-              },
-            ]
-          }
-        >
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackground",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
             }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#1AB775",
+              "height": 48,
+              "justifyContent": "center",
+              "minWidth": 120,
+              "opacity": undefined,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            }
+          }
+          testID="SuccessContinue"
+        >
+          <Text
+            accessibilityLabel="global:continue"
             style={
               Object {
-                "alignItems": "center",
-                "backgroundColor": "#1AB775",
-                "height": 48,
-                "justifyContent": "center",
-                "minWidth": 120,
-                "opacity": undefined,
-                "paddingHorizontal": 24,
-                "paddingVertical": 5,
+                "color": "#FFFFFF",
+                "fontFamily": "Inter-SemiBold",
+                "fontSize": 16,
+                "lineHeight": 22,
               }
             }
-            testID="SuccessContinue"
           >
-            <Text
-              accessibilityLabel="global:continue"
-              style={
-                Object {
-                  "color": "#FFFFFF",
-                  "fontFamily": "Inter-SemiBold",
-                  "fontSize": 16,
-                  "lineHeight": 22,
-                }
-              }
-            >
-              global:continue
-            </Text>
-          </View>
+            global:continue
+          </Text>
         </View>
       </View>
     </View>
