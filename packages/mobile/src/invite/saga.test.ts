@@ -29,6 +29,7 @@ import {
   generateInviteLink,
   initiateEscrowTransfer,
   moveAllFundsFromAccount,
+  sendInvite as sendInviteSaga,
   watchRedeemInvite,
   watchSendInvite,
 } from 'src/invite/saga'
@@ -82,6 +83,7 @@ jest.mock('src/config', () => {
   return {
     ...(jest.requireActual('src/config') as any),
     APP_STORE_ID: '1482389446',
+    DYNAMIC_DOWNLOAD_LINK: 'http://celo.page.link/PARAMS',
   }
 })
 
@@ -262,6 +264,18 @@ describe('watchSendInvite with Komenci enabled', () => {
       link: WEB_LINK,
     })
     expect(Share.share).toHaveBeenCalledWith({ message: 'sendFlow7:inviteWithEscrowedPayment' })
+  })
+
+  it('adds invitee details when sending invite', async () => {
+    await expectSaga(
+      sendInviteSaga,
+      mockInviteDetails.e164Number,
+      InviteBy.SMS,
+      AMOUNT_TO_SEND,
+      CURRENCY_ENUM.DOLLAR
+    )
+      .put(storeInviteeData(mockInviteDetails))
+      .run()
   })
 })
 
