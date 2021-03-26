@@ -60,9 +60,9 @@
   "celoDeposit": "CELO Purchase",
   "cUsdDeposit": "cUSD Purchase",
   "cicoSuccess": {
-    "title": "Transaction started!",
-    "bodyWithProvider": "{{provider}} is processing your order. You should receive your funds within 1-2 days.",
-    "bodyWithoutProvider": "The service provider is processing your order. You should receive your funds within 1-2 days."
+    "title": "Order submitted!",
+    "bodyWithProvider": "{{provider}} is processing your order. You should receive your funds within a couple of days.",
+    "bodyWithoutProvider": "The service provider is processing your order. You should receive your funds within a couple of days."
   },
   "restrictedRegion": "Limited support in region"
 }
