@@ -59,10 +59,6 @@ export interface CloseSession {
   type: Actions.CLOSE_SESSION
   session: SessionTypes.Settled
 }
-export interface ClosePendingSession {
-  type: Actions.CLOSE_PENDING_SESSION
-  session: SessionTypes.Proposal
-}
 
 export interface AcceptRequest {
   type: Actions.ACCEPT_REQUEST
@@ -71,13 +67,6 @@ export interface AcceptRequest {
 export interface DenyRequest {
   type: Actions.DENY_REQUEST
   request: SessionTypes.RequestEvent
-}
-export interface RequestFulfilled {
-  type: Actions.REQUEST_FULFILLED
-  request: {
-    id: number
-    topic: string
-  }
 }
 
 export interface InitialisePairing {
@@ -138,10 +127,11 @@ export type UserActions =
   | InitialisePairing
   | ClientInitialised
   | ClientDestroyed
-  | RequestFulfilled
-  | CloseSession
-  | ClosePendingSession
+  | AcceptSession
   | DenySession
+  | CloseSession
+  | AcceptRequest
+  | DenyRequest
 
 export const initialiseClient = (): InitialiseClient => ({
   type: Actions.INITIALISE_CLIENT,
@@ -163,10 +153,6 @@ export const closeSession = (session: { topic: string }) => ({
   type: Actions.CLOSE_SESSION,
   session,
 })
-export const closePendingSession = (session: SessionTypes.Proposal): ClosePendingSession => ({
-  type: Actions.CLOSE_PENDING_SESSION,
-  session,
-})
 
 export const acceptRequest = (request: SessionTypes.RequestEvent): AcceptRequest => ({
   type: Actions.ACCEPT_REQUEST,
@@ -175,19 +161,6 @@ export const acceptRequest = (request: SessionTypes.RequestEvent): AcceptRequest
 export const denyRequest = (request: SessionTypes.RequestEvent): DenyRequest => ({
   type: Actions.DENY_REQUEST,
   request,
-})
-export const requestFulfilled = ({
-  topic,
-  id,
-}: {
-  id: number
-  topic: string
-}): RequestFulfilled => ({
-  type: Actions.REQUEST_FULFILLED,
-  request: {
-    topic,
-    id,
-  },
 })
 
 export const clientInitialised = () => ({

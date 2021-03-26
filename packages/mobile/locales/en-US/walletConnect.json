@@ -26,6 +26,7 @@
   "moreInfo": "Confused by anything here?",
 
   "noConnectedApps": "No connected applications yet, click here to get started",
+  "connectAnotherApp": "Click here to connect another application",
   "pending": "{{appName}} (pending)",
   "noPendingRequests": "No currently pending requests",
 

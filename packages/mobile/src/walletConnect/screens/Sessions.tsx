@@ -3,7 +3,7 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import { AppMetadata, SessionTypes } from '@walletconnect/types'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, useWindowDimensions, View } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
@@ -16,7 +16,7 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { closeSession as closeSessionAction } from 'src/walletConnect/actions'
-import { getPendingRequests, selectSessions } from 'src/walletConnect/selectors'
+import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
 
 const Row = ({
   metadata,
@@ -31,7 +31,7 @@ const Row = ({
   return (
     <TouchableOpacity onPress={onPress}>
       <View
-        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingBottom: 12 }}
+        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingBottom: 24 }}
       >
         <Image source={{ uri: icon }} height={30} width={30} style={{ height: 30, width: 30 }} />
         <Text
@@ -54,17 +54,17 @@ const Sessions = () => {
   const [highlighted, setHighlighted] = useState<SessionTypes.Settled | null>(null)
   const dispatch = useDispatch()
 
-  const closeSession = useCallback(() => {
+  const closeSession = () => {
     if (!highlighted) {
       return
     }
 
     dispatch(closeSessionAction(highlighted))
     setHighlighted(null)
-  }, [highlighted, dispatch])
+  }
 
   return (
-    <View style={[styles.container, { paddingVertical: 16 }]}>
+    <View style={[styles.container, { paddingVertical: 24 }]}>
       <Dialog
         title={t('disconnectTitle', { appName: highlighted?.peer.metadata.name })}
         actionPress={closeSession}
@@ -85,11 +85,19 @@ const Sessions = () => {
               })
             }
           >
-            <Text>{t('noConnectedApps')}</Text>
+            <Text
+              style={{
+                ...fontStyles.large,
+                color: colors.dark,
+                paddingLeft: 16,
+              }}
+            >
+              {t('noConnectedApps')}
+            </Text>
           </TouchableOpacity>
         </View>
       ) : (
-        <View>
+        <View style={{ display: 'flex' }}>
           {pendingSessions.map((s) => (
             <Row
               metadata={s.proposer.metadata}
@@ -107,6 +115,27 @@ const Sessions = () => {
               />
             )
           })}
+
+          <TouchableOpacity
+            onPress={() =>
+              navigate(Screens.QRNavigator, {
+                screen: Screens.QRScanner,
+              })
+            }
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <Text
+              style={{
+                ...fontStyles.small,
+                color: colors.dark,
+              }}
+            >
+              {t('connectAnotherApp')}
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
     </View>
@@ -114,12 +143,12 @@ const Sessions = () => {
 }
 
 const Requests = () => {
-  const requests = useSelector(getPendingRequests)
+  const requests = useSelector(selectPendingActions)
   const { sessions } = useSelector(selectSessions)
   const { t } = useTranslation(Namespaces.walletConnect)
 
   return (
-    <View style={[styles.container, { paddingVertical: 16 }]}>
+    <View style={[styles.container, { paddingVertical: 24 }]}>
       {requests.length === 0 ? (
         <View style={styles.emptyState}>
           <Text>{t('noPendingRequests')}</Text>

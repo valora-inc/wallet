@@ -1,5 +1,4 @@
 import { EncodedTransaction } from '@celo/connect'
-import { GenesisBlockUtils } from '@celo/network-utils'
 import { UnlockableWallet } from '@celo/wallet-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import '@react-native-firebase/database'
@@ -7,10 +6,8 @@ import '@react-native-firebase/messaging'
 import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client'
 import { PairingTypes, SessionTypes } from '@walletconnect/types'
 import { EventChannel, eventChannel } from 'redux-saga'
-import { spawn } from 'redux-saga-test-plan/matchers'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
-import { readGenesisBlockFile } from 'src/geth/geth'
-import networkConfig from 'src/geth/networkConfig'
+import { networkId } from 'src/config'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
@@ -19,7 +16,6 @@ import {
   AcceptSession,
   Actions,
   clientInitialised,
-  closePendingSession,
   CloseSession,
   DenyRequest,
   DenySession,
@@ -30,7 +26,6 @@ import {
   pairingDeleted,
   pairingProposal,
   pairingUpdated,
-  requestFulfilled,
   sessionCreated,
   sessionDeleted,
   SessionPayload,
@@ -49,30 +44,28 @@ const TAG = 'WalletConnect/saga'
 let client: WalletConnectClient | null = null
 
 export function* acceptSession({ session }: AcceptSession) {
-  if (!client) {
+  try {
+    if (!client) {
+      throw new Error('missing client')
+    }
+
+    const account: string = yield call(getAccountAddress)
+    const response: SessionTypes.Response = {
+      metadata: {
+        name: 'Valora',
+        description: 'A mobile payments wallet that works worldwide',
+        url: 'https://valoraapp.com',
+        icons: ['https://valoraapp.com/favicon.ico'],
+      },
+      state: {
+        accounts: [`${account}@celo:${networkId}`],
+      },
+    }
+
+    yield call(client.approve.bind(client), { proposal: session, response })
+  } catch (e) {
     Logger.debug(TAG + '@acceptSession', 'missing client')
-    return
   }
-
-  const { nodeDir } = networkConfig
-  const genesis: string = yield call(readGenesisBlockFile, nodeDir)
-  const networkId: number = GenesisBlockUtils.getChainIdFromGenesis(genesis)
-
-  const account: string = yield call(getAccountAddress)
-  const response: SessionTypes.Response = {
-    metadata: {
-      name: 'Valora',
-      description: 'A mobile payments wallet that works worldwide',
-      url: 'https://valoraapp.com',
-      icons: ['https://valoraapp.com/favicon.ico'],
-    },
-    state: {
-      accounts: [`${account}@celo:${networkId}`],
-    },
-  }
-
-  yield call(client.approve.bind(client), { proposal: session, response })
-  yield put(closePendingSession(session))
 }
 
 export function* denySession({ session }: DenySession) {
@@ -101,34 +94,36 @@ export function* acceptRequest({
     topic,
   },
 }: AcceptRequest) {
-  if (!client) {
-    Logger.debug(TAG + '@initialiseClient', 'missing client')
-    return
+  try {
+    if (!client) {
+      throw new Error('Missing client')
+    }
+
+    const account: string = yield select(currentAccountSelector)
+    const wallet: UnlockableWallet = yield call(getWallet)
+
+    let result: any
+
+    if (method === SupportedActions.eth_signTransaction) {
+      yield call(unlockAccount, account)
+      result = (yield call(wallet.signTransaction.bind(wallet), params)) as EncodedTransaction
+    } else {
+      throw new Error('Unsupported action')
+    }
+
+    yield call(client.respond.bind(client), {
+      topic,
+      response: {
+        id,
+        jsonrpc,
+        result,
+      },
+    })
+  } catch (e) {
+    Logger.debug(TAG + '@acceptRequest', e.message)
+  } finally {
+    navigateBack()
   }
-
-  const account: string = yield select(currentAccountSelector)
-  const wallet: UnlockableWallet = yield call(getWallet)
-
-  let result: any
-
-  if (method === SupportedActions.eth_signTransaction) {
-    yield call(unlockAccount, account)
-    result = (yield call(wallet.signTransaction.bind(wallet), params)) as EncodedTransaction
-  } else {
-    throw new Error('Unsupported action')
-  }
-
-  yield call(client.respond.bind(client), {
-    topic,
-    response: {
-      id,
-      jsonrpc,
-      result,
-    },
-  })
-  yield put(requestFulfilled({ topic, id }))
-
-  navigateBack()
 }
 
 export function* denyRequest({
@@ -137,29 +132,27 @@ export function* denyRequest({
     topic,
   },
 }: DenyRequest) {
-  if (!client) {
-    Logger.debug(TAG + '@initialiseClient', 'missing client')
-    return
-  }
+  try {
+    if (!client) {
+      throw new Error('Missing client')
+    }
 
-  yield call(client.respond.bind(client), {
-    topic,
-    response: {
-      id,
-      jsonrpc,
-      error: {
-        code: -32000,
-        reason: 'Rejected request',
+    yield call(client.respond.bind(client), {
+      topic,
+      response: {
+        id,
+        jsonrpc,
+        error: {
+          code: -32000,
+          reason: 'Rejected request',
+        },
       },
-    },
-  })
-  yield put(requestFulfilled({ id, topic }))
-
-  navigateBack()
-}
-
-export function* startWalletConnectChannel() {
-  yield takeLeading(Actions.INITIALISE_CLIENT, watchWalletConnectChannel)
+    })
+  } catch (e) {
+    Logger.debug(TAG + '@denyRequest', 'missing client')
+  } finally {
+    navigateBack()
+  }
 }
 
 export function* watchWalletConnectChannel() {
@@ -233,14 +226,15 @@ export function* createWalletConnectChannel() {
       client.pairing.topics.map((topic) =>
         client!.pairing.delete({ topic, reason: 'End of session' })
       )
+      client = null
     }
   })
 }
 
-export function* navigateToActionRequest({ request }: SessionPayload) {
+export function navigateToActionRequest({ request }: SessionPayload) {
   navigate(Screens.WalletConnectActionRequest, { request })
 }
-export function* navigateToSessionRequest({ session }: SessionProposal) {
+export function navigateToSessionRequest({ session }: SessionProposal) {
   navigate(Screens.WalletConnectSessionRequest, { session })
 }
 
@@ -256,7 +250,7 @@ export function* initialisePairing({ uri }: InitialisePairing) {
 }
 
 export function* walletConnectSaga() {
-  yield spawn(startWalletConnectChannel)
+  yield takeLeading(Actions.INITIALISE_CLIENT, watchWalletConnectChannel)
   yield takeEvery(Actions.INITIALISE_PAIRING, initialisePairing)
 
   yield takeEvery(Actions.ACCEPT_SESSION, acceptSession)

@@ -7,6 +7,6 @@ export function selectSessions(state: RootState) {
   }
 }
 
-export function getPendingRequests(state: RootState) {
+export function selectPendingActions(state: RootState) {
   return state.walletConnect.pendingActions
 }

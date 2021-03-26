@@ -54,11 +54,13 @@ export const reducer = (
         ...state,
         pendingActions: [...state.pendingActions, action.request],
       }
-    case Actions.REQUEST_FULFILLED:
+    case Actions.ACCEPT_REQUEST:
+    case Actions.DENY_REQUEST:
+      console.log('DENY REQUEST', action)
       return {
         ...state,
         pendingActions: state.pendingActions.filter(
-          (a) => a.request.id !== action.request.id && a.topic !== action.request.topic
+          (a) => a.request.id !== action.request.request.id && a.topic !== action.request.topic
         ),
       }
     case Actions.SESSION_CREATED:
@@ -84,6 +86,7 @@ export const reducer = (
         }),
       }
 
+    case Actions.ACCEPT_SESSION:
     case Actions.DENY_SESSION:
     case Actions.CLOSE_SESSION:
     case Actions.SESSION_DELETED:

@@ -103,7 +103,7 @@ export function* handleBarcode(
   isWalletConnectRequest?: true
 ) {
   if (isWalletConnectRequest) {
-    yield initialiseWalletConnect(barcode.data)
+    yield call(initialiseWalletConnect, barcode.data)
     return
   }
 
@@ -117,7 +117,7 @@ export function* handleBarcode(
   }
 
   if (secureSendTxData) {
-    const success = yield call(
+    const success: boolean = yield call(
       handleSecureSend,
       qrData.address,
       e164NumberToAddress,

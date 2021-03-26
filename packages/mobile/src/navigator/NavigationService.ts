@@ -3,7 +3,6 @@
 import { NavigationActions, StackActions } from '@react-navigation/compat'
 import { CommonActions, NavigationContainerRef } from '@react-navigation/native'
 import { createRef, MutableRefObject } from 'react'
-import sleep from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
@@ -30,8 +29,6 @@ async function ensureNavigator() {
     (!navigationRef.current || !navigatorIsReadyRef.current) &&
     retries < NAVIGATOR_INIT_RETRIES
   ) {
-    console.log('Trying to navigate')
-    await sleep(1000)
     retries++
   }
   if (!navigationRef.current || !navigatorIsReadyRef.current) {

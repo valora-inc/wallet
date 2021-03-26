@@ -168,3 +168,5 @@ export enum CurrencyCode {
   CELO = 'CELO',
   CUSD = 'CUSD',
 }
+
+export const networkId = Config.NETWORK_ID
