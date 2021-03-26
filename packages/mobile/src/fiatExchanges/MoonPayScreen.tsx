@@ -16,12 +16,6 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 const MOONPAY_URI = networkConfig.moonpayWidgetUrl
 
-export const moonPayOptions = () => ({
-  ...emptyHeader,
-  headerTitle: (MOONPAY_URI.match(/(?!(w+)\.)(-|\w)*(?:\w+\.)+\w+/) || [])[0],
-  headerLeft: () => <TopBarTextButton title={i18n.t('global:done')} onPress={navigateBack} />,
-})
-
 type RouteProps = StackScreenProps<StackParamList, Screens.MoonPayScreen>
 type Props = RouteProps
 
@@ -48,5 +42,11 @@ function MoonPayScreen({ route }: Props) {
 
   return <InAppBrowser uri={url} isLoading={!url} onCancel={navigateBack} />
 }
+
+MoonPayScreen.navigationOptions = () => ({
+  ...emptyHeader,
+  headerTitle: (MOONPAY_URI.match(/(?!(w+)\.)(-|\w)*(?:\w+\.)+\w+/) || [])[0],
+  headerLeft: () => <TopBarTextButton title={i18n.t('global:done')} onPress={navigateBack} />,
+})
 
 export default MoonPayScreen
