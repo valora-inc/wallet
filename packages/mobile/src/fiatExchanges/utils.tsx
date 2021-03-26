@@ -6,7 +6,8 @@ import {
   PROVIDER_URL_COMPOSER_STAGING,
   SIMPLEX_URI,
 } from 'src/config'
-import { Provider, Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { providerAvailability } from 'src/flags'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
@@ -32,7 +33,10 @@ export interface UserLocation {
   state: string | null
 }
 
-export const fetchProviderWidgetUrl = async (provider: Providers, requestData: RequestData) => {
+export const fetchProviderWidgetUrl = async (
+  provider: CicoProviderNames,
+  requestData: RequestData
+) => {
   const response = await fetch(
     DEFAULT_TESTNET === 'mainnet' ? PROVIDER_URL_COMPOSER_PROD : PROVIDER_URL_COMPOSER_STAGING,
     {
@@ -132,7 +136,7 @@ export function getProviderAvailability(
 }
 
 // Leaving unoptimized for now because sorting is most relevant when fees will be visible
-export const sortProviders = (provider1: Provider, provider2: Provider) => {
+export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) => {
   if (provider1.restricted) {
     return 1
   }
