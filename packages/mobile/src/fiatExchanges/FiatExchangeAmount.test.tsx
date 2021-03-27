@@ -3,6 +3,7 @@ import { fireEvent, render, RenderAPI } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { ExchangeRatePair } from 'src/exchange/reducer'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -12,6 +13,7 @@ const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.5', dollarMaker: '1' 
 
 const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
   currency: CURRENCY_ENUM.DOLLAR,
+  paymentMethod: PaymentMethod.BANK,
 })
 
 const store = createMockStore({
@@ -80,6 +82,7 @@ describe('FiatExchangeAmount', () => {
       isCashIn: true,
       currency: CURRENCY_ENUM.DOLLAR,
       amount: 600,
+      paymentMethod: PaymentMethod.BANK,
     })
   })
 

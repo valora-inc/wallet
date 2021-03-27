@@ -80,7 +80,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
 
-  const { paymentMethod } = route.params
+  // const { paymentMethod } = route.params
   const selectedCurrency = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
     [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,

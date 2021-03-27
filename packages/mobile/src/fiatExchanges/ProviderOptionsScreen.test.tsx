@@ -4,6 +4,7 @@ import * as React from 'react'
 import { fireEvent, render, waitForElement } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { CurrencyCode } from 'src/config'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
@@ -18,6 +19,7 @@ const mockScreenProps = (isCashIn: boolean) =>
     isCashIn,
     currency: CURRENCY_ENUM.DOLLAR,
     amount: AMOUNT_TO_CASH_IN,
+    paymentMethod: PaymentMethod.CARD,
   })
 
 const mockStore = createMockStore({

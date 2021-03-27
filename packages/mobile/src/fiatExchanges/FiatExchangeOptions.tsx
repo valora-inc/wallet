@@ -244,12 +244,12 @@ function FiatExchangeOptions({ route, navigation }: Props) {
           {isCashIn && (
             <>
               <PaymentMethodRadioItem
-                text={t('payWithFiatCard')}
+                text={t('payWithCard')}
                 selected={selectedPaymentMethod === PaymentMethod.CARD}
                 onSelect={onSelectPaymentMethod(PaymentMethod.CARD)}
               />
               <PaymentMethodRadioItem
-                text={t('payWithFiatBank')}
+                text={t('payWithBank')}
                 selected={selectedPaymentMethod === PaymentMethod.BANK}
                 onSelect={onSelectPaymentMethod(PaymentMethod.BANK)}
               />
