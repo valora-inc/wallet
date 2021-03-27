@@ -61,7 +61,7 @@ ProviderOptionsScreen.navigationOptions = ({
 export interface CicoProvider {
   id: CicoProviderNames
   restricted: boolean
-  paymentMethods: Array<PaymentMethod>
+  paymentMethods: PaymentMethod[]
   image?: React.ReactNode
   onSelected: () => void
 }
