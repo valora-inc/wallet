@@ -72,10 +72,11 @@ function Confirmed(n: number): Confirmed {
 interface EstimatedGas {
   type: SendTransactionLogEventType.EstimatedGas
   gas: number
+  prefilled: boolean
 }
 
-function EstimatedGas(gas: number): EstimatedGas {
-  return { type: SendTransactionLogEventType.EstimatedGas, gas }
+function EstimatedGas(gas: number, prefilled: boolean): EstimatedGas {
+  return { type: SendTransactionLogEventType.EstimatedGas, gas, prefilled }
 }
 
 interface ReceiptReceived {
@@ -131,7 +132,7 @@ export async function sendTransactionAsync<T>(
   account: string,
   feeCurrencyAddress: string | undefined,
   logger: TxLogger = emptyTxLogger,
-  estimatedGas?: number,
+  gas?: number,
   gasPrice?: string,
   nonce?: number
 ): Promise<TxPromises> {
@@ -205,12 +206,14 @@ export async function sendTransactionAsync<T>(
       nonce,
     }
 
-    if (estimatedGas === undefined) {
-      estimatedGas = (await estimateGas(tx, txParams)).toNumber()
-      logger(EstimatedGas(estimatedGas))
+    if (gas === undefined) {
+      gas = (await estimateGas(tx, txParams)).toNumber()
+      logger(EstimatedGas(gas, false))
+    } else {
+      logger(EstimatedGas(gas, true))
     }
 
-    emitter = tx.send({ ...txParams, gas: estimatedGas })
+    emitter = tx.send({ ...txParams, gas })
     emitter
       // @ts-ignore
       .once('receipt', (r: CeloTxReceipt) => {

@@ -1,6 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ProviderOptionsScreen renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "paddingVertical": 16,
+    }
+  }
+>
+  <ActivityIndicator
+    animating={true}
+    color="#42D689"
+    hidesWhenStopped={true}
+    size="large"
+  />
+</View>
+`;
+
+exports[`ProviderOptionsScreen renders correctly 2`] = `
 <RCTScrollView
   style={
     Object {
@@ -83,94 +100,29 @@ exports[`ProviderOptionsScreen renders correctly 1`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/Moonpay"
-              >
-                <Text
-                  style={
-                    Object {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 16,
-                      "lineHeight": 22,
-                    }
-                  }
-                >
-                  Moonpay
-                </Text>
-                <Image
-                  source={
-                    Object {
-                      "testUri": "../../../packages/mobile/src/images/link-arrow.png",
-                    }
-                  }
-                  style={
-                    Object {
-                      "height": 32,
-                      "width": 32,
-                    }
-                  }
-                />
-              </View>
-            </View>
-          </View>
-        </View>
-        <View
-          style={
-            Object {
-              "backgroundColor": "#FFFFFF",
-            }
-          }
-        >
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-          >
-            <View
-              style={
-                Object {
-                  "borderBottomColor": "#EDEEEF",
-                  "borderBottomWidth": 1,
-                  "marginLeft": 16,
-                  "paddingVertical": 16,
-                }
-              }
-            >
-              <View
-                style={
-                  Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                    "justifyContent": "space-between",
-                  }
-                }
                 testID="Provider/Simplex"
               >
-                <Text
+                <View
                   style={
                     Object {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 16,
-                      "lineHeight": 22,
+                      "flexDirection": "column",
+                      "justifyContent": "space-between",
                     }
                   }
                 >
-                  Simplex
-                </Text>
+                  <Text
+                    style={
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
+                    }
+                  >
+                    Simplex
+                  </Text>
+                </View>
                 <Image
                   source={
                     Object {
@@ -233,18 +185,39 @@ exports[`ProviderOptionsScreen renders correctly 1`] = `
                 }
                 testID="Provider/Ramp"
               >
-                <Text
+                <View
                   style={
                     Object {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 16,
-                      "lineHeight": 22,
+                      "flexDirection": "column",
+                      "justifyContent": "space-between",
                     }
                   }
                 >
-                  Ramp
-                </Text>
+                  <Text
+                    style={
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
+                    }
+                  >
+                    Ramp
+                  </Text>
+                  <Text
+                    style={
+                      Object {
+                        "color": "#9CA4A9",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 14,
+                        "lineHeight": 18,
+                      }
+                    }
+                  >
+                    restrictedRegion
+                  </Text>
+                </View>
                 <Image
                   source={
                     Object {
@@ -305,20 +278,41 @@ exports[`ProviderOptionsScreen renders correctly 1`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/Transak"
+                testID="Provider/Moonpay"
               >
-                <Text
+                <View
                   style={
                     Object {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 16,
-                      "lineHeight": 22,
+                      "flexDirection": "column",
+                      "justifyContent": "space-between",
                     }
                   }
                 >
-                  Transak
-                </Text>
+                  <Text
+                    style={
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
+                    }
+                  >
+                    Moonpay
+                  </Text>
+                  <Text
+                    style={
+                      Object {
+                        "color": "#9CA4A9",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 14,
+                        "lineHeight": 18,
+                      }
+                    }
+                  >
+                    restrictedRegion
+                  </Text>
+                </View>
                 <Image
                   source={
                     Object {

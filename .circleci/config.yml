@@ -377,6 +377,23 @@ jobs:
           at: ~/app
       - run: ./scripts/ci_check_vulnerabilities.sh
 
+  general-tests:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/app
+
+      - run:
+          name: jest tests
+          command: |
+            mkdir -p test-results/jest
+            yarn run lerna \
+              --ignore @celo/mobile \
+              run test
+
+      - store_test_results:
+          path: test-results
+
   mobile-test:
     <<: *defaults
     steps:
@@ -386,6 +403,11 @@ jobs:
       - run:
           name: Ensure translations are not missing
           command: |
+            if [[ "$CIRCLE_BRANCH" != l10n/* ]]; then
+              # We want to check translations only when they are complete
+              echo "Skipping translations check on non l10n branches"
+              exit 0
+            fi
             cd packages/mobile
             yarn --cwd packages/mobile test:verify-locales
 
@@ -435,6 +457,9 @@ workflows:
       - vulnerability-checks:
           requires:
             - install_dependencies
+      - general-tests:
+          requires:
+            - lint-checks
       - mobile-test:
           requires:
             - lint-checks

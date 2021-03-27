@@ -7,7 +7,7 @@
   "welcome": {
     "title": "Compartilhe dinheiro com quem você valoriza",
     "createAccount": "Criar nova conta",
-    "restoreAccount": "Já tenho uma conta"
+    "restoreAccount": "Restaurar conta existente"
   },
   "contacts": {
     "header": "Conectar contatos",
@@ -24,7 +24,7 @@
     }
   },
   "createAccount": "Criar conta",
-  "restoreAccount": "Restaurar minha conta",
+  "restoreAccount": "Restaurar conta existente",
   "step": "Etapa {{step}} de 5",
   "selectCountryCode": "Selecione o código do país",
   "pincodeSet": {
@@ -52,7 +52,7 @@
     "resume": "Continuar",
     "doINeedToConfirm": "Preciso confirmar?",
     "skipForNow": "Pular por enquanto",
-    "bodyInsufficientBalance": "Seu saldo atual não é alto o suficiente para concluir o processo de verificação.\n\nTente novamente quando tiver adicionado fundos à sua conta.",
+    "bodyInsufficientBalance": "Seu saldo atual não é alto o suficiente para concluir o processo de confirmação.\n\nTente novamente quando tiver adicionado fundos à sua conta.",
     "bodyAlreadyVerified": "Seu número já está confirmado!"
   },
   "verificationSkipDialog": {

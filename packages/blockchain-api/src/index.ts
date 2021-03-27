@@ -1,5 +1,8 @@
 import express from 'express'
+import promBundle from 'express-prom-bundle'
 import { server as apolloServer } from './apolloServer'
+
+const metricsMiddleware = promBundle({ includeMethod: true, includePath: true })
 
 declare var process: {
   env: {
@@ -14,6 +17,8 @@ const PORT: number = Number(process.env.PORT) || 8080
 const INTERFACE: string = process.env.INTERFACE || '0.0.0.0'
 
 const app = express()
+
+app.use(metricsMiddleware)
 
 app.get('/robots.txt', (_req, res) => {
   res.type('text/plain')
