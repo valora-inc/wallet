@@ -48,8 +48,9 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
   signer: Address
   self: Address
 
-  constructor(readonly kit: ContractKit, address: Address) {
-    this.signer = this.self = address
+  constructor(readonly kit: ContractKit, address: Address, dataEncryptionKey: Address) {
+    this.signer = dataEncryptionKey
+    this.self = address
   }
 
   sendFormData(url: string, formData: typeof FormData): Promise<string> {
@@ -93,7 +94,8 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
   ): Promise<OffchainErrors | void> {
     const dataPayloads = [data, signature]
     const signedUrlsPayload = {
-      address: this.signer,
+      address: this.self,
+      signer: this.signer,
       data: [
         {
           path: dataPath,
@@ -164,9 +166,6 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
     if (!signatureResponse.ok) {
       return Err(new FetchError(new Error(signatureResponse.statusText)))
     }
-
-    console.log(await (await dataResponse.blob()).arrayBuffer())
-    console.log(signatureResponse)
 
     const [dataBody, signatureBody] = await Promise.all([
       this.responseBuffer(dataResponse),

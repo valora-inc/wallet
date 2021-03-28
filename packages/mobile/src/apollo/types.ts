@@ -273,6 +273,7 @@ export interface TransferItemFragment {
   hash: string
   timestamp: number
   address: string
+  account: string
   comment: Maybe<string>
   amount: {
     __typename?: 'MoneyAmount'

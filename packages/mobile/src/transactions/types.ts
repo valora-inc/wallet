@@ -23,6 +23,7 @@ export interface TransferStandby {
   symbol: CURRENCY_ENUM
   timestamp: number
   address: string
+  account: string
   hash?: string
 }
 
