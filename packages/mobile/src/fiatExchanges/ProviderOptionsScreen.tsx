@@ -25,6 +25,7 @@ import {
   openMoonpay,
   openRamp,
   openSimplex,
+  openTransak,
   sortProviders,
   UserLocation,
 } from 'src/fiatExchanges/utils'
@@ -121,9 +122,12 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
   const userLocation: UserLocation | undefined = asyncUserLocation.result
 
-  const { MOONPAY_RESTRICTED, SIMPLEX_RESTRICTED, RAMP_RESTRICTED } = getProviderAvailability(
-    userLocation
-  )
+  const {
+    MOONPAY_RESTRICTED,
+    SIMPLEX_RESTRICTED,
+    RAMP_RESTRICTED,
+    TRANSAK_RESTRICTED,
+  } = getProviderAvailability(userLocation)
 
   const providers: {
     cashOut: CicoProvider[]
@@ -151,14 +155,13 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         onSelected: () =>
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
-      // Commenting out until we have completed KYB for Transak
-      // {
-      //   id: CiCoProvider.Transak,
-      //   paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
-      //   restricted: TRANSAK_RESTRICTED,
-      //   onSelected: () =>
-      //     openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
-      // },
+      {
+        id: CicoProviderNames.Transak,
+        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
+        restricted: TRANSAK_RESTRICTED,
+        onSelected: () =>
+          openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+      },
     ].sort(sortProviders),
   }
 
