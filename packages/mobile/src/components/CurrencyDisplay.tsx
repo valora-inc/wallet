@@ -110,7 +110,8 @@ function getFormatFunction(formatType: FormatType): FormatFunction {
       return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
         getCentAwareMoneyDisplay(amount)
     case FormatType.Fee:
-      return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) => getFeeDisplayValue(amount)
+      return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
+        getFeeDisplayValue(amount, false, _currency === CURRENCY_ENUM.GOLD)
     case FormatType.NetworkFee:
       return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
         getNetworkFeeDisplayValue(amount)
@@ -122,7 +123,7 @@ function getFormatFunction(formatType: FormatType): FormatFunction {
         getExchangeRateDisplayValue(amount)
     case FormatType.FeeTopLine:
       return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
-        getFeeDisplayValue(amount, true)
+        getFeeDisplayValue(amount, true, _currency === CURRENCY_ENUM.GOLD)
   }
 }
 

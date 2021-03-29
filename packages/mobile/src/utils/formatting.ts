@@ -45,13 +45,14 @@ export const getExchangeRateDisplayValue = (value: BigNumber.Value): string => {
  */
 export const getFeeDisplayValue = (
   value: BigNumber.Value | null | undefined,
-  topLine: boolean = false
+  topLine: boolean = false,
+  isCELO: boolean
 ): string => {
   if (!value || new BigNumber(value).isZero()) {
     return ''
   }
-  const decimals = topLine ? 2 : 3
-  const minDisplay = topLine ? 0.01 : 0.001
+  const decimals = isCELO ? 4 : topLine ? 2 : 3
+  const minDisplay = Math.pow(10, 0 - decimals)
   return value <= minDisplay
     ? new BigNumber(minDisplay).toFormat(decimals)
     : roundUp(value, decimals).toFormat(decimals)
