@@ -3,6 +3,7 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import Clipboard from '@react-native-community/clipboard'
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import CopyIcon from 'src/icons/CopyIcon'
 import Logger from 'src/utils/Logger'
 
 interface Props {
@@ -22,6 +23,7 @@ export default function ShortAccountLink({ shortLink, touchDisabled }: Props) {
   const formattedLink = (
     <View style={[styles.line]}>
       <Text style={[styles.text]}>{shortLink}</Text>
+      <CopyIcon />
     </View>
   )
 
@@ -36,14 +38,14 @@ export default function ShortAccountLink({ shortLink, touchDisabled }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 180,
+    width: 200,
     backgroundColor: colors.gray2,
     borderRadius: 50,
     paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
   },
   line: {
-    width: 150,
+    width: 200,
     justifyContent: 'center',
     flexDirection: 'row',
   },

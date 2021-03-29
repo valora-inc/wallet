@@ -12,6 +12,7 @@ export const circularProgressBig = require('src/images/circular-progress-big.png
 export const clockIcon = require('src/images/clock-icon.png')
 export const consumerIncentives = require('src/images/consumerIncentives.png')
 export const contactPermission = require('src/images/contact-permission.png')
+export const copyIcon = require('src/images/copy-icon.png')
 export const fiatExchange = require('src/images/fiat-exchange.png')
 export const getVerified = require('src/images/get-verified.png')
 export const inviteFriends = require('src/images/invite-friends.png')
