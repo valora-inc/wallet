@@ -1,3 +1,4 @@
+import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { migrations } from 'src/redux/migrations'
 import { v0Schema, v1Schema, v2Schema, vNeg1Schema } from 'test/schemas'
@@ -146,5 +147,15 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema.fiatExchanges.txHashToProvider[txHash].name).toEqual(mockName)
     expect(migratedSchema.fiatExchanges.txHashToProvider[txHash].icon).toEqual(mockIcon)
     expect(migratedSchema.fiatExchanges.lastUsedProvider).toEqual(CicoProviderNames.Simplex)
+  })
+
+  it('works for v8 to v9', () => {
+    const v8Stub = {
+      account: {
+        dailyLimitCusd: 500,
+      },
+    }
+    const migratedSchema = migrations[9](v8Stub)
+    expect(migratedSchema.account.dailyLimitCusd).toEqual(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD)
   })
 })
