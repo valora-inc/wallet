@@ -30,13 +30,18 @@ export default function QRCodeDisplay({ qrSvgRef }: Props) {
     data.displayName,
     data.e164PhoneNumber,
   ])
+  const horizPadding = 40
+  const getQRSize = () => {
+    return Math.min((variables.width * 3) / 4, variables.width - horizPadding * 2)
+  }
+
   // const link = generateInviteLink()
   const link = 'celo.org/abcdef'
   return (
     <SafeAreaView style={styles.container}>
       <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} />
       <View style={styles.qrContainer}>
-        <QRCode value={qrContent} size={(variables.width * 3) / 4} svgRef={qrSvgRef} />
+        <QRCode value={qrContent} size={getQRSize()} svgRef={qrSvgRef} />
       </View>
       <ShortAccountLink shortLink={link} />
     </SafeAreaView>
@@ -49,6 +54,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.light,
+    paddingHorizontal: 40,
   },
   qrContainer: {
     paddingTop: 16,
