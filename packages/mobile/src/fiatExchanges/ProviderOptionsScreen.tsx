@@ -24,6 +24,7 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import {
   fetchSimplexQuote,
@@ -66,6 +67,7 @@ export interface CicoProvider {
   id: CicoProviderNames
   restricted: boolean
   unavailable?: boolean
+  paymentMethods: PaymentMethod[]
   image?: React.ReactNode
   onSelected: () => void
 }
@@ -82,6 +84,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const localCurrency = useSelector(getLocalCurrencyCode)
   const account = useSelector(currentAccountSelector)
   const isCashIn = route.params?.isCashIn ?? true
+
+  const { paymentMethod } = route.params
   const selectedCrypto = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
     [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
@@ -150,12 +154,14 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashIn: [
       {
         id: CicoProviderNames.Moonpay,
+        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
         restricted: MOONPAY_RESTRICTED,
         image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () => navigate(Screens.MoonPayScreen, providerWidgetInputs),
       },
       {
         id: CicoProviderNames.Simplex,
+        paymentMethods: [PaymentMethod.CARD],
         restricted: SIMPLEX_RESTRICTED,
         unavailable: !providerQuotes?.simplexQuote || !userLocation?.ipAddress,
         image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
@@ -170,11 +176,13 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       },
       {
         id: CicoProviderNames.Ramp,
+        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
         restricted: RAMP_RESTRICTED,
         onSelected: () => navigate(Screens.RampScreen, providerWidgetInputs),
       },
       {
         id: CicoProviderNames.Transak,
+        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
         restricted: TRANSAK_RESTRICTED,
         onSelected: () => navigate(Screens.TransakScreen, providerWidgetInputs),
       },
@@ -216,6 +224,16 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                   )}
                   {provider.restricted && !provider.unavailable && (
                     <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
+                  )}
+                  {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) && (
+                    <Text style={styles.restrictedText}>
+                      {t('unsupportedPaymentMethod', {
+                        paymentMethod:
+                          paymentMethod === PaymentMethod.BANK
+                            ? 'bank account'
+                            : 'debit or credit card',
+                      })}
+                    </Text>
                   )}
                 </View>
                 <LinkArrow />

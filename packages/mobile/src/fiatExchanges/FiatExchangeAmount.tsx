@@ -149,6 +149,7 @@ function FiatExchangeAmount({ route }: Props) {
         // be necessary once we support inputting an amount in crypto or fiat
         fiat: Math.round(localCurrencyAmount?.toNumber() || 0),
       },
+      paymentMethod: route.params.paymentMethod,
     })
   }
 

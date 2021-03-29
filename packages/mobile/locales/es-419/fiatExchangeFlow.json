@@ -19,7 +19,6 @@
   "dollarsNotYetEnabledNote": "Los Celo Dólares aún no están disponibles en ningún proveedor. Para obtener Celo Dólares, compra CELO y cámbialos por Celo Dólares dentro de Valora, bajo la pestaña CELO.",
   "selectDigitalCurrency": "Selecciona una moneda digital",
   "selectPaymentMethod": "Pague con:",
-  "payWithFiat": "Tarjeta de débito o cuenta bancaria",
   "payWithExchange": "Exchange de criptomonedas",
   "selectCashOutMethod": "Recibe los fondos en:",
   "receiveOnAddress": "Dirección de cUSD/CELO",
@@ -56,7 +55,7 @@
     "body": "Provider fees are set by each provider individually and include an exchange fee and liquidity fee, among others. To learn more please visit <0>{{supportPage}}</0>"
   },
   "dailyLimitRequest": "Hola! Me gustaría aumentar mi límite de envío diario por favor.",
-  "pleaseSelectProvider": "Por favor, selecciona un proveedor. Estos enlaces se conectan a servicios de terceros.",
+  "pleaseSelectProvider": "Por favor selecciona un proveedor. Estos enlaces te conectarán a servicios de terceros.",
   "otherFundingOptions": "Para conocer más formas de agregar y retirar fondos, a <0>Cómo depositar fondos en mi cuenta</0>",
   "youCanTransfer": "Puedes transferir {{currency}} desde/hacia los siguientes exchanges utilizando tu Número de Cuenta (también conocido como dirección de Celo) - toca abajo para copiar.",
   "useBalanceWithMerchants": "Usa tu balance con comercios asociados",

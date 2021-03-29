@@ -5,6 +5,7 @@ import { Text } from 'react-native'
 import { fireEvent, render, waitForElement } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { CurrencyCode } from 'src/config'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
@@ -15,7 +16,10 @@ import { v4 as uuidv4 } from 'uuid'
 
 const AMOUNT_TO_CASH_IN = 100
 
-const mockScreenProps = (isCashIn: boolean) =>
+const mockScreenProps = (
+  isCashIn: boolean,
+  paymentMethod: PaymentMethod.CARD | PaymentMethod.BANK
+) =>
   getMockStackScreenProps(Screens.ProviderOptionsScreen, {
     isCashIn,
     selectedCrypto: CURRENCY_ENUM.DOLLAR,
@@ -23,6 +27,7 @@ const mockScreenProps = (isCashIn: boolean) =>
       crypto: AMOUNT_TO_CASH_IN,
       fiat: AMOUNT_TO_CASH_IN,
     },
+    paymentMethod,
   })
 
 const mockStore = createMockStore({
@@ -86,7 +91,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -100,7 +105,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -118,7 +123,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -137,7 +142,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -156,7 +161,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -231,7 +236,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -246,7 +251,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -256,12 +261,42 @@ describe('ProviderOptionsScreen', () => {
     expect(elements).toHaveLength(0)
   })
 
+  it('show a warning if the selected payment method is not supported', async () => {
+    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.BANK)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+
+    const elements = tree.queryAllByText('unsupportedPaymentMethod')
+    expect(elements).not.toHaveLength(0)
+  })
+
+  it('does not show a warning if the selected payment method is supported', async () => {
+    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+
+    const elements = tree.queryAllByText('unsupportedPaymentMethod')
+    expect(elements).toHaveLength(0)
+  })
+
   it('uses country code if IP address endpoint errors', async () => {
     mockFetch.mockReject(new Error('API fetch failed'))
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
