@@ -1,3 +1,4 @@
+import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { providersDisplayInfo } from 'src/fiatExchanges/reducer'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 
@@ -126,6 +127,19 @@ export const migrations = {
       fiatExchanges: {
         ...state.fiatExchanges,
         lastUsedProvider: lastProvider?.[0] ?? null,
+      },
+    }
+  },
+  9: (state: any) => {
+    if (state.account.dailyLimitCusd >= DEFAULT_DAILY_PAYMENT_LIMIT_CUSD) {
+      return state
+    }
+
+    return {
+      ...state,
+      account: {
+        ...state.account,
+        dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
       },
     }
   },
