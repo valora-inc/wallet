@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { fireEvent, render, RenderAPI } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
+import { DOLLAR_ADD_FUNDS_MAX_AMOUNT, DOLLAR_ADD_FUNDS_MIN_AMOUNT } from 'src/config'
 import { ExchangeRatePair } from 'src/exchange/reducer'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
@@ -63,17 +64,23 @@ describe('FiatExchangeAmount', () => {
   it('opens a dialog when the amount is lower than the limit', () => {
     const { getByTestId } = tree
 
-    fireEvent.changeText(getByTestId('FiatExchangeInput'), '5')
+    fireEvent.changeText(
+      getByTestId('FiatExchangeInput'),
+      (DOLLAR_ADD_FUNDS_MIN_AMOUNT - 1).toString()
+    )
     fireEvent.press(getByTestId('FiatExchangeNextButton'))
     expect(getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
     fireEvent.press(getByTestId('invalidAmountDialog/PrimaryAction'))
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  it('opens a dialog when the amount is lower than the limit', () => {
+  it('opens a dialog when the amount is higher than the limit', () => {
     const { getByTestId } = tree
 
-    fireEvent.changeText(getByTestId('FiatExchangeInput'), '20001')
+    fireEvent.changeText(
+      getByTestId('FiatExchangeInput'),
+      (DOLLAR_ADD_FUNDS_MAX_AMOUNT + 1).toString()
+    )
     fireEvent.press(getByTestId('FiatExchangeNextButton'))
     expect(getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
     fireEvent.press(getByTestId('invalidAmountDialog/PrimaryAction'))

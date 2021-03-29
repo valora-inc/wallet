@@ -36,7 +36,7 @@ interface NetworkConfig {
   recaptchaSiteKey: string
   bidaliUrl: string
   providerComposerUrl: string
-  simplexRequestUrl: string
+  simplexApiUrl: string
 }
 
 const moonpayWidgetStaging = 'https://buy-staging.moonpay.io/'
@@ -75,9 +75,9 @@ const PROVIDER_URL_COMPOSER_PROD =
 const PROVIDER_URL_COMPOSER_STAGING =
   'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/composeCicoProviderUrl'
 
-const SIMPLEX_REQUEST_PROCESSOR_URL_STAGING =
+const SIMPLEX_API_URL_STAGING =
   'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/processSimplexRequest'
-const SIMPLEX_REQUEST_PROCESSOR_URL_PROD =
+const SIMPLEX_API_URL_PROD =
   'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/processSimplexRequest'
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
@@ -100,7 +100,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
     providerComposerUrl: PROVIDER_URL_COMPOSER_STAGING,
-    simplexRequestUrl: SIMPLEX_REQUEST_PROCESSOR_URL_STAGING,
+    simplexApiUrl: SIMPLEX_API_URL_STAGING,
   },
   [Testnets.mainnet]: {
     nodeDir: `.${Testnets.mainnet}`,
@@ -121,7 +121,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
     providerComposerUrl: PROVIDER_URL_COMPOSER_PROD,
-    simplexRequestUrl: SIMPLEX_REQUEST_PROCESSOR_URL_PROD,
+    simplexApiUrl: SIMPLEX_API_URL_PROD,
   },
 }
 

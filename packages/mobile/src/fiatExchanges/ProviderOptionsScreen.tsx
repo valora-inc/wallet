@@ -86,7 +86,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const isCashIn = route.params?.isCashIn ?? true
 
   const { paymentMethod } = route.params
-  const selectedCrypto = {
+  const currencyToBuy = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
     [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
   }[route.params.selectedCrypto || CURRENCY_ENUM.DOLLAR]
@@ -122,7 +122,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     const simplexQuote = await fetchSimplexQuote(
       account,
       userLocation.ipAddress,
-      selectedCrypto,
+      currencyToBuy,
       localCurrency,
       route.params.amount.crypto,
       false
@@ -143,7 +143,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const providerWidgetInputs = {
     localAmount: route.params.amount.fiat,
     currencyCode: localCurrency,
-    currencyToBuy: selectedCrypto,
+    currencyToBuy,
   }
 
   const providers: {

@@ -126,7 +126,7 @@ export const fetchSimplexQuote = async (
 ) => {
   try {
     const response = await fetch(
-      networkConfig.simplexRequestUrl,
+      networkConfig.simplexApiUrl,
       composePostObject({
         type: 'quote',
         userAddress,
@@ -159,7 +159,7 @@ export const fetchSimplexPaymentData = async (
 ) => {
   try {
     const response = await fetch(
-      networkConfig.simplexRequestUrl,
+      networkConfig.simplexApiUrl,
       composePostObject({
         type: 'payment',
         userAddress,

@@ -79,7 +79,5 @@
     "title": "Order submitted!",
     "bodyWithProvider": "{{provider}} is processing your order. You should receive your funds within a couple of days.",
     "bodyWithoutProvider": "The service provider is processing your order. You should receive your funds within a couple of days."
-  },
-  "restrictedRegion": "Limited support in region",
-  "unsupportedPaymentMethod": "Paying with a {{paymentMethod}} is not supported in your region"
+  }
 }

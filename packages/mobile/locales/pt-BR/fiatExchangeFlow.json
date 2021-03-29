@@ -42,7 +42,6 @@
     "body": "Esses provedores permitem que você adicione ou retire fundos da sua conta. Os provedores determinam suas próprias tarifas e restrições, dependendo de diversos fatores. Visite o site do provedor para obter ajuda."
   },
   "invalidAmountDialog": {
-    "body": "Nossos provedores não aceitam valores inferiores a {{limit}}. Insira um valor maior.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
@@ -62,7 +61,5 @@
   "findMerchants": "Encontre comerciantes locais perto de você",
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
-  "restrictedRegion": "Suporte limitado na região",
-  "providerUnavailable": "Atualmente não disponível",
-  "pricePer": "Preço por {{coin}}"
+  "restrictedRegion": "Suporte limitado na região"
 }

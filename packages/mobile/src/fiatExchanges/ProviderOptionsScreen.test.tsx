@@ -180,7 +180,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -199,7 +199,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -213,13 +213,13 @@ describe('ProviderOptionsScreen', () => {
 
   it('disables a provider if they are unavailable', async () => {
     mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
-    // The only quote endpoint is currently Simplex's sp it's
+    // The only quote endpoint is currently Simplex's so it's
     // the only provider that can be disabled
     mockFetch.mockReject(new Error('API fetch failed'))
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 

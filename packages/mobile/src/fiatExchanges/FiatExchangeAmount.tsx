@@ -145,8 +145,8 @@ function FiatExchangeAmount({ route }: Props) {
       selectedCrypto: route.params.currency,
       amount: {
         crypto: parsedInputAmount.toNumber(),
-        // Rounding up to avoid decimal errors from providers. Won't
-        // be necessary once we support inputting an amount in crypto or fiat
+        // Rounding up to avoid decimal errors from providers. Won't be
+        // necessary once we support inputting an amount in both crypto and fiat
         fiat: Math.round(localCurrencyAmount?.toNumber() || 0),
       },
       paymentMethod: route.params.paymentMethod,
