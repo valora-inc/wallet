@@ -60,7 +60,7 @@
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
   "cicoSuccess": {
-    "title": "Pedido enviado!",
+    "title": "Ordem enviada!",
     "bodyWithProvider": "{{provider}} está processando seu pedido. Você deve receber seus fundos dentro de alguns dias.",
     "bodyWithoutProvider": "O provedor de serviços está processando o seu pedido. Você deve receber os seus fundos dentro de alguns dias."
   },
