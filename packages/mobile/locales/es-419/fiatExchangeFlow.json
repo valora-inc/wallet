@@ -19,7 +19,8 @@
   "dollarsNotYetEnabledNote": "Los Celo Dólares aún no están disponibles en ningún proveedor. Para obtener Celo Dólares, compra CELO y cámbialos por Celo Dólares dentro de Valora, bajo la pestaña CELO.",
   "selectDigitalCurrency": "Selecciona una moneda digital",
   "selectPaymentMethod": "Pague con:",
-  "payWithFiat": "Tarjeta de débito o cuenta bancaria",
+  "payWithBank": "Cuenta bancaria",
+  "payWithCard": "Tarjeta de débito",
   "payWithExchange": "Exchange de criptomonedas",
   "selectCashOutMethod": "Recibe los fondos en:",
   "receiveOnAddress": "Dirección de cUSD/CELO",
@@ -64,5 +65,6 @@
     "bodyWithProvider": "{{provider}} está procesando tu orden. Recibirás tus fondos en un par de días.",
     "bodyWithoutProvider": "El proveedor de servicios está procesando tu orden. Recibirás tus fondos dentro de un par de días."
   },
-  "restrictedRegion": "Soporte limitado en la región"
+  "restrictedRegion": "Soporte limitado en la región",
+  "unsupportedPaymentMethod": "Pagar con un {{paymentMethod}} no es compatible en tu región"
 }
