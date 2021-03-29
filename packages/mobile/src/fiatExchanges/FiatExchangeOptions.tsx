@@ -36,7 +36,8 @@ type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeOptions>
 type Props = RouteProps
 
 export enum PaymentMethod {
-  FIAT = 'FIAT',
+  CARD = 'CARD',
+  BANK = 'BANK',
   EXCHANGE = 'EXCHANGE',
   ADDRESS = 'ADDRESS',
   PONTO = 'PONTO',
@@ -144,7 +145,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
 
   const [selectedCurrency, setSelectedCurrency] = useState<CURRENCY_ENUM>(CURRENCY_ENUM.DOLLAR)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod>(
-    isCashIn ? PaymentMethod.FIAT : PaymentMethod.EXCHANGE
+    isCashIn ? PaymentMethod.CARD : PaymentMethod.EXCHANGE
   )
   const [isEducationDialogVisible, setEducationDialogVisible] = useState(false)
 
@@ -170,8 +171,14 @@ function FiatExchangeOptions({ route, navigation }: Props) {
       navigate(Screens.BidaliScreen, { currency: selectedCurrency })
     } else if (selectedPaymentMethod === PaymentMethod.ADDRESS) {
       navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
-    } else {
-      navigate(Screens.FiatExchangeAmount, { currency: selectedCurrency })
+    } else if (
+      selectedPaymentMethod === PaymentMethod.BANK ||
+      selectedPaymentMethod === PaymentMethod.CARD
+    ) {
+      navigate(Screens.FiatExchangeAmount, {
+        currency: selectedCurrency,
+        paymentMethod: selectedPaymentMethod,
+      })
     }
   }
 
@@ -235,11 +242,18 @@ function FiatExchangeOptions({ route, navigation }: Props) {
         </Text>
         <View style={styles.paymentMethodsContainer}>
           {isCashIn && (
-            <PaymentMethodRadioItem
-              text={t('payWithFiat')}
-              selected={selectedPaymentMethod === PaymentMethod.FIAT}
-              onSelect={onSelectPaymentMethod(PaymentMethod.FIAT)}
-            />
+            <>
+              <PaymentMethodRadioItem
+                text={t('payWithCard')}
+                selected={selectedPaymentMethod === PaymentMethod.CARD}
+                onSelect={onSelectPaymentMethod(PaymentMethod.CARD)}
+              />
+              <PaymentMethodRadioItem
+                text={t('payWithBank')}
+                selected={selectedPaymentMethod === PaymentMethod.BANK}
+                onSelect={onSelectPaymentMethod(PaymentMethod.BANK)}
+              />
+            </>
           )}
           <PaymentMethodRadioItem
             text={t('payWithExchange')}
