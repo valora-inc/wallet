@@ -92,7 +92,7 @@ export function* uploadNameAndPicture() {
 // this function gives permission to the recipient to view the user's profile info
 export function* giveProfileAccess(recipientAddresses: string[]) {
   // TODO: check if key for recipient already exists, skip if yes
-  const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper, true)
+  const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper)
   const nameAccessor = new PrivateNameAccessor(offchainWrapper)
   let writeError = yield call([nameAccessor, 'allowAccess'], recipientAddresses)
   if (writeError) {
@@ -115,7 +115,7 @@ export function* giveProfileAccess(recipientAddresses: string[]) {
 
 export function* getProfileInfo(address: string) {
   // TODO: check if we already have profile info of address
-  const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper, true)
+  const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper)
   const nameAccessor = new PrivateNameAccessor(offchainWrapper)
   try {
     const name = yield call([nameAccessor, 'read'], address)
@@ -157,7 +157,7 @@ export function* getProfileInfo(address: string) {
 //   yield call([wallet, wallet.unlockAccount], dataKeyAddress, pepper, 0)
 // }
 
-function* getOffchainWrapper(addAccount = false) {
+export function* getOffchainWrapper(addAccount = false) {
   const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
   if (!privateDataKey) {
     throw new Error('No data key in store. Should never happen.')

@@ -3,7 +3,7 @@ import { FetchError } from '@celo/identity/lib/offchain-data-wrapper'
 import FormData from 'form-data/lib/form_data'
 import UploadServiceDataWrapper from 'src/account/UploadServiceDataWrapper'
 import { getContractKitAsync } from 'src/web3/contracts'
-import { mockAccount, mockAccount2 } from 'test/values'
+import { mockAccount, mockAccount2, mockDEKAddress } from 'test/values'
 
 // standardize the boundary value in FormData objects
 global.Math.random = () => 0
@@ -19,7 +19,7 @@ describe(UploadServiceDataWrapper, () => {
     })
     const contractKit = await getContractKitAsync()
     const account = mockAccount
-    const offchainWrapper = new UploadServiceDataWrapper(contractKit, account)
+    const offchainWrapper = new UploadServiceDataWrapper(contractKit, account, mockDEKAddress)
 
     await offchainWrapper.writeDataTo(dataBuffer, Buffer.from('sig'), 'data')
 
@@ -42,7 +42,7 @@ describe(UploadServiceDataWrapper, () => {
     })
     const contractKit = await getContractKitAsync()
     const account = mockAccount
-    const offchainWrapper = new UploadServiceDataWrapper(contractKit, account)
+    const offchainWrapper = new UploadServiceDataWrapper(contractKit, account, mockDEKAddress)
 
     expect(await offchainWrapper.writeDataTo(dataBuffer, Buffer.from('sig'), 'data')).toEqual(
       new FetchError(error)
@@ -63,7 +63,7 @@ describe(UploadServiceDataWrapper, () => {
     })
     const contractKit = await getContractKitAsync()
     const account = mockAccount
-    const offchainWrapper = new UploadServiceDataWrapper(contractKit, account)
+    const offchainWrapper = new UploadServiceDataWrapper(contractKit, account, mockDEKAddress)
 
     await offchainWrapper.writeDataTo(dataBuffer, Buffer.from('sig'), 'data')
 
@@ -75,7 +75,7 @@ describe(UploadServiceDataWrapper, () => {
   it.skip('reads data successfully', async () => {
     const contractKit = await getContractKitAsync()
     const account = mockAccount
-    const offchainWrapper = new UploadServiceDataWrapper(contractKit, account)
+    const offchainWrapper = new UploadServiceDataWrapper(contractKit, account, mockDEKAddress)
 
     const readAddress = mockAccount2
     const responseBuffer = (UploadServiceDataWrapper.prototype.responseBuffer = jest.fn())
