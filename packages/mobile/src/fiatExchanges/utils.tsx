@@ -119,9 +119,9 @@ export function getProviderAvailability(
 
   // tslint:disable-next-line: no-object-literal-type-assertion
   const features = {} as SpecificProviderAvailability
-  for (const [key, value] of Object.entries(providerAvailability) as Entries<
-    ProviderAvailability
-  >) {
+  for (const [key, value] of Object.entries(
+    providerAvailability
+  ) as Entries<ProviderAvailability>) {
     if (!countryCodeAlpha2) {
       features[key] = false
     } else {
