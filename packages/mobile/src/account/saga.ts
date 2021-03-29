@@ -25,6 +25,7 @@ import { removeAccountLocally } from 'src/pincode/authentication'
 import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
+import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { getAccount, getOrCreateAccount } from 'src/web3/saga'
 
 const TAG = 'account/saga'
@@ -132,4 +133,5 @@ export function* accountSaga() {
   yield spawn(watchInitializeAccount)
   yield spawn(watchSaveNameAndPicture)
   yield spawn(watchDailyLimit)
+  yield spawn(registerAccountDek)
 }

@@ -136,27 +136,6 @@ export function* getProfileInfo(address: string) {
   // not throwing error for failed fetches, as addresses may have not uploaded their info
 }
 
-// export function* unlockDEK(addAccount = false) {
-//   const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
-//   if (!privateDataKey) {
-//     throw new Error('No data key in store. Should never happen.')
-//   }
-//   const dataKeyAddress = normalizeAddressWith0x(
-//     privateKeyToAddress(ensureLeading0x(privateDataKey))
-//   )
-//   const wallet: UnlockableWallet = yield call(getWallet)
-//   // directly using pepper because we don't want to set a PIN for the DEK
-//   const pepper = yield call(retrieveOrGeneratePepper, DEK)
-//   if (addAccount) {
-//     try {
-//       yield call([wallet, wallet.addAccount], privateDataKey, pepper)
-//     } catch (error) {
-//       Logger.warn('Unable to add DEK to geth wallet', error)
-//     }
-//   }
-//   yield call([wallet, wallet.unlockAccount], dataKeyAddress, pepper, 0)
-// }
-
 export function* getOffchainWrapper(addAccount = false) {
   const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
   if (!privateDataKey) {

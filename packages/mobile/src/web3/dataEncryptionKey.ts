@@ -35,7 +35,7 @@ import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { registerDataEncryptionKey, setDataEncryptionKey } from 'src/web3/actions'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
-import { getAccountAddress, getConnectedUnlockedAccount } from 'src/web3/saga'
+import { getAccount, getAccountAddress, getConnectedUnlockedAccount } from 'src/web3/saga'
 import {
   dataEncryptionKeySelector,
   isDekRegisteredSelector,
@@ -124,7 +124,7 @@ function* sendUserFundedSetAccountTx(
 // Register the address and DEK with the Accounts contract
 // A no-op if registration has already been done
 // pendingMtwAddress is only passed during feeless verification flow
-export function* registerAccountDek(walletAddress: string) {
+export function* registerAccountDek() {
   try {
     const isAlreadyRegistered = yield select(isDekRegisteredSelector)
     if (isAlreadyRegistered) {
@@ -155,6 +155,7 @@ export function* registerAccountDek(walletAddress: string) {
     ])
 
     const accountAddress: string = yield call(getAccountAddress)
+    const walletAddress: string = yield call(getAccount)
 
     const upToDate: boolean = yield call(
       isAccountUpToDate,

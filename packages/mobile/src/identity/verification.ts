@@ -406,7 +406,7 @@ export function* doVerificationFlow(withoutRevealing: boolean = false) {
 
       // Set acccount and data encryption key in Accounts contract
       // This is done in other places too, intentionally keeping it for more coverage
-      yield spawn(registerAccountDek, account)
+      yield spawn(registerAccountDek)
 
       receiveMessageTask?.cancel()
       if (Platform.OS === 'android') {
