@@ -70,23 +70,28 @@ export function* acceptSession({ session }: AcceptSession) {
 }
 
 export function* denySession({ session }: DenySession) {
-  if (!client) {
-    Logger.debug(TAG + '@denySession', 'missing client')
-    return
+  try {
+    if (!client) {
+      throw new Error('missing client')
+    }
+    yield call(client.reject.bind(client), { reason: 'Session denied by user', proposal: session })
+  } catch (e) {
+    Logger.debug(TAG + '@denySession', e.message)
   }
-  yield call(client.reject.bind(client), { reason: 'Session denied by user', proposal: session })
 }
 
 export function* closeSession({ session }: CloseSession) {
-  if (!client) {
-    Logger.debug(TAG + '@initialiseClient', 'missing client')
-    return
+  try {
+    if (!client) {
+      throw new Error('missing client')
+    }
+    yield call(client.disconnect.bind(client), {
+      topic: session.topic,
+      reason: 'Closed by user',
+    })
+  } catch (e) {
+    Logger.debug(TAG + '@closeSession', e.message)
   }
-
-  yield call(client.disconnect.bind(client), {
-    topic: session.topic,
-    reason: 'Closed by user',
-  })
 }
 
 export function* acceptRequest({
@@ -244,14 +249,17 @@ export function navigateToSessionRequest({ session }: SessionProposal) {
 }
 
 export function* initialisePairing({ uri }: InitialisePairing) {
-  if (!client) {
-    Logger.warn(TAG + '@initialisePairing', `missing client`)
-    return
-  }
+  try {
+    if (!client) {
+      throw new Error(`missing client`)
+    }
 
-  Logger.debug(TAG + '@initialisePairing', `pair start`)
-  yield call(client.pair.bind(client), { uri })
-  Logger.debug(TAG + '@initialisePairing', `pair end`)
+    Logger.debug(TAG + '@initialisePairing', `pair start`)
+    yield call(client.pair.bind(client), { uri })
+    Logger.debug(TAG + '@initialisePairing', `pair end`)
+  } catch (e) {
+    Logger.debug(TAG + '@initialisePairing', e.message)
+  }
 }
 
 export function* walletConnectSaga() {
