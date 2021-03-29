@@ -80,7 +80,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
 
-  // const { paymentMethod } = route.params
+  const { paymentMethod } = route.params
   const selectedCurrency = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
     [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
@@ -187,6 +187,16 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                   <Text style={styles.optionTitle}>{providersDisplayInfo[provider.id].name}</Text>
                   {provider.restricted && (
                     <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
+                  )}
+                  {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) && (
+                    <Text style={styles.restrictedText}>
+                      {t('unsupportedPaymentMethod', {
+                        paymentMethod:
+                          paymentMethod === PaymentMethod.BANK
+                            ? 'bank account'
+                            : 'debit or credit card',
+                      })}
+                    </Text>
                   )}
                 </View>
                 <LinkArrow />

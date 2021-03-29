@@ -14,12 +14,15 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const AMOUNT_TO_CASH_IN = 100
 
-const mockScreenProps = (isCashIn: boolean) =>
+const mockScreenProps = (
+  isCashIn: boolean,
+  paymentMethod: PaymentMethod.CARD | PaymentMethod.BANK
+) =>
   getMockStackScreenProps(Screens.ProviderOptionsScreen, {
     isCashIn,
     currency: CURRENCY_ENUM.DOLLAR,
     amount: AMOUNT_TO_CASH_IN,
-    paymentMethod: PaymentMethod.CARD,
+    paymentMethod,
   })
 
 const mockStore = createMockStore({
@@ -58,7 +61,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -72,7 +75,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -87,7 +90,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -106,7 +109,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -125,7 +128,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -144,7 +147,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -159,7 +162,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
@@ -169,12 +172,42 @@ describe('ProviderOptionsScreen', () => {
     expect(elements).toHaveLength(0)
   })
 
+  it('show a warning if the selected payment method is not supported', async () => {
+    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.BANK)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+
+    const elements = tree.queryAllByText('unsupportedPaymentMethod')
+    expect(elements).not.toHaveLength(0)
+  })
+
+  it('does not show a warning if the selected payment method is supported', async () => {
+    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+
+    const elements = tree.queryAllByText('unsupportedPaymentMethod')
+    expect(elements).toHaveLength(0)
+  })
+
   it('uses country code if IP address endpoint errors', async () => {
     mockFetch.mockReject(new Error('API fetch failed'))
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
       </Provider>
     )
 
