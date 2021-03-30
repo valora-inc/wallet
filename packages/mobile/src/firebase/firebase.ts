@@ -86,7 +86,7 @@ export function* setupMessaging(action: SetAppState) {
   // Listen for notification messages while the app is open
   const channelOnNotification: EventChannel<NotificationChannelEvent> = eventChannel((emitter) => {
     const unsubscribe = () => {
-      Logger.info(TAG, 'Notification channel closed, resetting callbacks. This is likely an error.')
+      Logger.info(TAG, 'Notification channel closed, resetting callbacks.')
       firebase.messaging().onMessage(() => null)
       firebase.messaging().onNotificationOpenedApp(() => null)
     }
@@ -113,6 +113,7 @@ export function* setupMessaging(action: SetAppState) {
 
   const isAppActive = action.state === 'active'
   if (isAppActive) {
+    // TODO(erdal): is spawn the right one to use here?
     yield spawn(watchFirebaseNotificationChannel, channelOnNotification)
   } else {
     channelOnNotification.close()
