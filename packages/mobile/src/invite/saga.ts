@@ -132,6 +132,20 @@ export async function generateInviteLink(inviteCode?: string) {
   return shortUrl
 }
 
+export async function generateLinkWithPath(path: string) {
+  let bundleId = DeviceInfo.getBundleId()
+  bundleId = bundleId.replace(/\.(debug|dev)$/g, '.alfajores')
+
+  // trying to fetch appStoreId needed to build a dynamic link
+  const shortUrl = await generateShortInviteLink({
+    link: `https://valoraapp.com/${path}`,
+    appStoreId: APP_STORE_ID,
+    bundleId,
+  })
+
+  return shortUrl
+}
+
 export async function sendSms(toPhone: string, msg: string) {
   return new Promise((resolve, reject) => {
     try {

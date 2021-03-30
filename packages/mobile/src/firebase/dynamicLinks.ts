@@ -1,6 +1,5 @@
 import dynamicLinks, { FirebaseDynamicLinksTypes } from '@react-native-firebase/dynamic-links'
 import { DYNAMIC_LINK_DOMAIN } from 'src/config'
-
 import Logger from 'src/utils/Logger'
 
 const TAG = 'firebase/dynamicLink'

@@ -1,4 +1,5 @@
 import { CURRENCY_ENUM } from '@celo/utils/lib'
+import { firebase } from '@react-native-firebase/dynamic-links'
 import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState } from 'react-native'
 import { eventChannel } from 'redux-saga'
@@ -141,14 +142,23 @@ function convertQueryToScreenParams(query: string) {
 export function* handleDeepLink(action: OpenDeepLink) {
   const { deepLink, isSecureOrigin } = action
   Logger.debug(TAG, 'Handling deep link', deepLink)
-  const rawParams = parse(deepLink)
+  var link = deepLink
+  console.log(deepLink)
+  console.log(deepLink.startsWith('https://vlra.app'))
+  if (deepLink.startsWith('https://vlra.app')) {
+    const dynamicLink = yield call([firebase.dynamicLinks(), 'resolveLink'], deepLink)
+    link = dynamicLink.url
+    console.log('Link resolved')
+    console.log(link)
+  }
+  const rawParams = parse(link)
   if (rawParams.path) {
     if (rawParams.path.startsWith('/v/')) {
       yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
     } else if (rawParams.path.startsWith('/pay')) {
-      yield call(handlePaymentDeeplink, deepLink)
+      yield call(handlePaymentDeeplink, link)
     } else if (rawParams.path.startsWith('/dappkit')) {
-      handleDappkitDeepLink(deepLink)
+      handleDappkitDeepLink(link)
     } else if (rawParams.path === '/cashIn') {
       navigate(Screens.FiatExchangeOptions, { isCashIn: true })
     } else if (rawParams.pathname === '/bidali') {

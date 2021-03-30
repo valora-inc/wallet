@@ -19,10 +19,11 @@ export default function ShortAccountLink({ shortLink, touchDisabled }: Props) {
     Clipboard.setString(shortLink)
     Logger.showMessage('Short link copied')
   }
-
+  // Remove 'https://' from displayed link
+  const shorterLink = shortLink.slice(8)
   const formattedLink = (
     <View style={[styles.line]}>
-      <Text style={[styles.text]}>{shortLink}</Text>
+      <Text style={[styles.text]}>{shorterLink}</Text>
       <CopyIcon />
     </View>
   )
