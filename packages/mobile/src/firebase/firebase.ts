@@ -7,7 +7,7 @@ import '@react-native-firebase/messaging'
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import { eventChannel, EventChannel } from 'redux-saga'
 import { call, select, spawn, take } from 'redux-saga/effects'
-import { SetAppState } from 'src/app/actions'
+import { Actions as AppActions, AppMounted, AppUnmounted } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { FIREBASE_ENABLED } from 'src/config'
 import { handleNotification } from 'src/firebase/notifications'
@@ -77,7 +77,7 @@ export const firebaseSignOut = async (app: ReactNativeFirebase.FirebaseApp) => {
   await app.auth().signOut()
 }
 
-export function* setupMessaging(action: SetAppState) {
+export function* setupMessaging(action: AppMounted | AppUnmounted) {
   if (!FIREBASE_ENABLED) {
     // TODO(erdal) enable this once we have gcloud setup on CI
     return
@@ -111,8 +111,8 @@ export function* setupMessaging(action: SetAppState) {
 
   Logger.debug(TAG, `setupMessage action: ${JSON.stringify(action)}`)
 
-  const isAppActive = action.state === 'active'
-  if (isAppActive) {
+  const isAppMounted = action.type === AppActions.APP_MOUNTED
+  if (isAppMounted) {
     // TODO(erdal): is spawn the right one to use here?
     yield spawn(watchFirebaseNotificationChannel, channelOnNotification)
   } else {

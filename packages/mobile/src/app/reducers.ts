@@ -6,12 +6,14 @@ import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persi
 import { RootState } from 'src/redux/reducers'
 
 export interface State {
+  loading: boolean
   loggedIn: boolean
   numberVerified: boolean
   language: string | null
   analyticsEnabled: boolean
   requirePinOnAppOpen: boolean
   appState: AppState
+  appMounted: boolean
   locked: boolean
   lastTimeBackgrounded: number
   sessionId: string
@@ -26,7 +28,7 @@ export interface State {
   activeScreen: Screens
 }
 
-const initialState = {
+const initialState: State = {
   loading: false,
   loggedIn: false,
   numberVerified: false,
@@ -34,6 +36,7 @@ const initialState = {
   analyticsEnabled: true,
   requirePinOnAppOpen: false,
   appState: AppState.Active,
+  appMounted: false,
   locked: false,
   lastTimeBackgrounded: 0,
   sessionId: '',
@@ -129,6 +132,16 @@ export const appReducer = (
       return {
         ...state,
         locked: false,
+      }
+    case Actions.APP_MOUNTED:
+      return {
+        ...state,
+        appMounted: true,
+      }
+    case Actions.APP_UNMOUNTED:
+      return {
+        ...state,
+        appMounted: false,
       }
     case Actions.SET_SESSION_ID:
       return {

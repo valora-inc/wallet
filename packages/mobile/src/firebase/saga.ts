@@ -156,5 +156,5 @@ export function* firebaseSaga() {
   yield spawn(initializeFirebase)
   yield spawn(watchLanguage)
   yield spawn(subscribeToCeloGoldExchangeRateHistory)
-  yield takeLatest(AppActions.SET_APP_STATE, setupMessaging)
+  yield takeLatest([AppActions.APP_MOUNTED, AppActions.APP_UNMOUNTED], setupMessaging)
 }
