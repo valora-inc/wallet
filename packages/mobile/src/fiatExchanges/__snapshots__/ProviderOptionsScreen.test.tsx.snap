@@ -100,7 +100,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/Moonpay"
+                testID="Provider/Simplex"
               >
                 <View
                   style={
@@ -120,19 +120,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                       }
                     }
                   >
-                    Moonpay
-                  </Text>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#9CA4A9",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 14,
-                        "lineHeight": 18,
-                      }
-                    }
-                  >
-                    restrictedRegion
+                    Simplex
                   </Text>
                 </View>
                 <Image
@@ -195,7 +183,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/Simplex"
+                testID="Provider/Transak"
               >
                 <View
                   style={
@@ -215,7 +203,19 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                       }
                     }
                   >
-                    Simplex
+                    Transak
+                  </Text>
+                  <Text
+                    style={
+                      Object {
+                        "color": "#9CA4A9",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 14,
+                        "lineHeight": 18,
+                      }
+                    }
+                  >
+                    restrictedRegion
                   </Text>
                 </View>
                 <Image
@@ -373,7 +373,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/Transak"
+                testID="Provider/Moonpay"
               >
                 <View
                   style={
@@ -393,7 +393,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                       }
                     }
                   >
-                    Transak
+                    Moonpay
                   </Text>
                   <Text
                     style={

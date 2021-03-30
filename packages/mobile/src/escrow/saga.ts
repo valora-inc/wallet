@@ -61,6 +61,16 @@ import { estimateGas } from 'src/web3/utils'
 
 const TAG = 'escrow/saga'
 
+// Observed approve and escrow transfer transactions take less than 150k and 550k gas respectively.
+const STATIC_APPROVE_TRANSFER_GAS_ESTIMATE = 150000
+const STATIC_ESCROW_TRANSFER_GAS_ESTIMATE = 550000
+
+// NOTE: Only supports static estimation as that is what is expected to be used.
+// This function can be extended to use online estimation is needed.
+export async function getEscrowTxGas() {
+  return new BigNumber(STATIC_APPROVE_TRANSFER_GAS_ESTIMATE + STATIC_ESCROW_TRANSFER_GAS_ESTIMATE)
+}
+
 export function* transferToEscrow(action: EscrowTransferPaymentAction) {
   features.ESCROW_WITHOUT_CODE
     ? yield call(transferStableTokenToEscrowWithoutCode, action)
@@ -71,7 +81,7 @@ function* transferStableTokenToEscrow(action: EscrowTransferPaymentAction) {
   Logger.debug(TAG + '@transferToEscrow', 'Begin transfer to escrow')
   try {
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_start)
-    const { phoneHashDetails, amount, tempWalletAddress, context } = action
+    const { phoneHashDetails, amount, tempWalletAddress, feeInfo, context } = action
 
     if (!tempWalletAddress) {
       throw Error(
@@ -97,11 +107,14 @@ function* transferStableTokenToEscrow(action: EscrowTransferPaymentAction) {
     const convertedAmount = contractKit.connection.web3.utils.toWei(amount.toString())
     const approvalTx = stableToken.approve(escrow.address, convertedAmount)
 
-    yield call(
+    const approvalReceipt = yield call(
       sendTransaction,
       approvalTx.txo,
       account,
-      newTransactionContext(TAG, 'Approve transfer to Escrow')
+      newTransactionContext(TAG, 'Approve transfer to Escrow'),
+      feeInfo?.gas.toNumber(),
+      feeInfo?.gasPrice,
+      feeInfo?.currency
     )
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_approve_tx_sent)
 
@@ -118,7 +131,16 @@ function* transferStableTokenToEscrow(action: EscrowTransferPaymentAction) {
       NUM_ATTESTATIONS_REQUIRED
     )
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_transfer_tx_sent)
-    yield call(sendAndMonitorTransaction, transferTx, account, context)
+    yield call(
+      sendAndMonitorTransaction,
+      transferTx,
+      account,
+      context,
+      undefined,
+      feeInfo?.currency,
+      feeInfo?.gas.minus(approvalReceipt.gasUsed).toNumber(),
+      feeInfo?.gasPrice
+    )
     yield put(fetchSentEscrowPayments())
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_complete)
   } catch (e) {
@@ -132,7 +154,7 @@ function* transferStableTokenToEscrowWithoutCode(action: EscrowTransferPaymentAc
   Logger.debug(TAG + '@transferToEscrowWithoutCode', 'Begin transfer to escrow')
   try {
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_start)
-    const { phoneHashDetails, amount, context } = action
+    const { phoneHashDetails, amount, feeInfo, context } = action
     const { phoneHash, pepper } = phoneHashDetails
     const [contractKit, walletAddress]: [ContractKit, string] = yield all([
       call(getContractKit),
@@ -164,11 +186,14 @@ function* transferStableTokenToEscrowWithoutCode(action: EscrowTransferPaymentAc
     const convertedAmount = contractKit.connection.web3.utils.toWei(amount.toString())
     const approvalTx = stableTokenWrapper.approve(escrowWrapper.address, convertedAmount)
 
-    yield call(
+    const approvalReceipt = yield call(
       sendTransaction,
       approvalTx.txo,
       walletAddress,
-      newTransactionContext(TAG, 'Approve transfer to Escrow')
+      newTransactionContext(TAG, 'Approve transfer to Escrow'),
+      feeInfo?.gas.toNumber(),
+      feeInfo?.gasPrice,
+      feeInfo?.currency
     )
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_approve_tx_sent)
 
@@ -185,7 +210,16 @@ function* transferStableTokenToEscrowWithoutCode(action: EscrowTransferPaymentAc
       NUM_ATTESTATIONS_REQUIRED
     )
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_transfer_tx_sent)
-    yield call(sendAndMonitorTransaction, transferTx, walletAddress, context)
+    yield call(
+      sendAndMonitorTransaction,
+      transferTx,
+      walletAddress,
+      context,
+      undefined,
+      feeInfo?.currency,
+      feeInfo?.gas.minus(approvalReceipt.gasUsed).toNumber(),
+      feeInfo?.gasPrice
+    )
     yield put(fetchSentEscrowPayments())
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_complete)
   } catch (e) {
@@ -447,7 +481,7 @@ export async function getReclaimEscrowGas(account: string, paymentID: string) {
 
 export async function getReclaimEscrowFee(account: string, paymentID: string) {
   const gas = await getReclaimEscrowGas(account, paymentID)
-  return calculateFee(gas)
+  return calculateFee(gas, CURRENCY_ENUM.DOLLAR)
 }
 
 export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
@@ -458,14 +492,20 @@ export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
     const account = yield call(getConnectedUnlockedAccount)
 
     const reclaimTx = yield call(createReclaimTransaction, paymentID)
-    yield call(
-      sendTransaction,
-      reclaimTx,
-      account,
-      newTransactionContext(TAG, 'Reclaim escrowed funds'),
-      undefined,
-      EscrowActions.RECLAIM_PAYMENT_CANCEL
-    )
+    const { cancel } = yield race({
+      success: call(
+        sendTransaction,
+        reclaimTx,
+        account,
+        newTransactionContext(TAG, 'Reclaim escrowed funds')
+      ),
+      cancel: take(EscrowActions.RECLAIM_PAYMENT_CANCEL),
+    })
+    if (cancel) {
+      Logger.warn(TAG + '@reclaimFromEscrow', 'Reclaiming escrow cancelled')
+      return
+    }
+    Logger.debug(TAG + '@reclaimFromEscrow', 'Done reclaiming escrow')
 
     yield put(fetchDollarBalance())
     yield put(reclaimEscrowPaymentSuccess())

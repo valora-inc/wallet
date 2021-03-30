@@ -8,15 +8,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import {
-  ActivityIndicator,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -25,6 +17,8 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
+import { CicoProviderNames, providersDisplayInfo } from 'src/fiatExchanges/reducer'
 import {
   fetchLocationFromIpAddress,
   getProviderAvailability,
@@ -32,13 +26,13 @@ import {
   openRamp,
   openSimplex,
   openTransak,
+  sortProviders,
   UserLocation,
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
 import QuestionIcon from 'src/icons/QuestionIcon'
-import { moonpayLogo, simplexLogo } from 'src/images/Images'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -65,20 +59,12 @@ ProviderOptionsScreen.navigationOptions = ({
     headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
   }
 }
-
-interface Provider {
-  name: string
+export interface CicoProvider {
+  id: CicoProviderNames
   restricted: boolean
-  icon: string
+  paymentMethods: PaymentMethod[]
   image?: React.ReactNode
   onSelected: () => void
-}
-
-export enum Providers {
-  MOONPAY = 'MOONPAY',
-  RAMP = 'RAMP',
-  TRANSAK = 'TRANSAK',
-  SIMPLEX = 'SIMPLEX',
 }
 
 const FALLBACK_CURRENCY = LocalCurrencyCode.USD
@@ -94,6 +80,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
+
+  const { paymentMethod } = route.params
   const selectedCurrency = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
     [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
@@ -142,53 +130,47 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   } = getProviderAvailability(userLocation)
 
   const providers: {
-    cashOut: Provider[]
-    cashIn: Provider[]
+    cashOut: CicoProvider[]
+    cashIn: CicoProvider[]
   } = {
     cashOut: [],
     cashIn: [
       {
-        name: 'Moonpay',
+        id: CicoProviderNames.Moonpay,
+        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
         restricted: MOONPAY_RESTRICTED,
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
-        image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () =>
           openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
-        name: 'Simplex',
+        id: CicoProviderNames.Simplex,
+        paymentMethods: [PaymentMethod.CARD],
         restricted: SIMPLEX_RESTRICTED,
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
-        image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () => openSimplex(account),
       },
       {
-        name: 'Ramp',
+        id: CicoProviderNames.Ramp,
+        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
         restricted: RAMP_RESTRICTED,
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
         onSelected: () =>
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
-        name: 'Transak',
+        id: CicoProviderNames.Transak,
+        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
         restricted: TRANSAK_RESTRICTED,
-        icon:
-          'https://storage.cloud.google.com/celo-mobile-mainnet.appspot.com/images/transak-icon.png',
         onSelected: () =>
           openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
-    ],
+    ].sort(sortProviders),
   }
 
-  const providerOnPress = (provider: Provider) => () => {
+  const providerOnPress = (provider: CicoProvider) => () => {
     ValoraAnalytics.track(FiatExchangeEvents.provider_chosen, {
       isCashIn,
-      provider: provider.name,
+      provider: provider.id,
     })
-    dispatch(selectProvider(provider.name, provider.icon))
+    dispatch(selectProvider(provider.id))
     provider.onSelected()
   }
 
@@ -202,12 +184,22 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         <Text style={styles.pleaseSelectProvider}>{t('pleaseSelectProvider')}</Text>
         <View style={styles.providersContainer}>
           {providers[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
-            <ListItem key={provider.name} onPress={providerOnPress(provider)}>
-              <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
+            <ListItem key={provider.id} onPress={providerOnPress(provider)}>
+              <View style={styles.providerListItem} testID={`Provider/${provider.id}`}>
                 <View style={styles.providerTextContainer}>
-                  <Text style={styles.optionTitle}>{provider.name}</Text>
+                  <Text style={styles.optionTitle}>{providersDisplayInfo[provider.id].name}</Text>
                   {provider.restricted && (
                     <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
+                  )}
+                  {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) && (
+                    <Text style={styles.restrictedText}>
+                      {t('unsupportedPaymentMethod', {
+                        paymentMethod:
+                          paymentMethod === PaymentMethod.BANK
+                            ? 'bank account'
+                            : 'debit or credit card',
+                      })}
+                    </Text>
                   )}
                 </View>
                 <LinkArrow />

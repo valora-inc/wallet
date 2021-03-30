@@ -19,13 +19,16 @@
   "dollarsNotYetEnabledNote": "Celo Dollars are not yet available on any providers. To get Celo Dollars, purchase CELO and exchange it for Celo Dollars in the CELO tab.",
   "selectDigitalCurrency": "Select a digital currency",
   "selectPaymentMethod": "Pay with:",
-  "payWithFiat": "Debit card or bank account",
+  "payWithBank": "Bank account",
+  "payWithCard": "Debit card",
   "payWithExchange": "Cryptocurrency exchange",
   "selectCashOutMethod": "Receive funds in:",
   "receiveOnAddress": "cUSD/CELO address",
   "receiveWithPonto": "GCash (with Ponto)",
   "receiveWithKotani": "M-PESA (with Kotani Pay)",
   "receiveWithBidali": "Gift Cards and Mobile Top Up",
+  "bitfy": "Bitfy",
+  "flowBtc": "FlowBTC",
   "fundingEducationDialog": {
     "title": "Funding {{appName}}",
     "body": "{{appName}} is powered by the Celo Network. {{appName}} runs on Celo Dollars (cUSD), a stable digital currency tracking the US Dollar.\n\nTo fund your {{appName}} wallet, purchase cUSD from one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
@@ -57,5 +60,11 @@
   "findMerchants": "Find local merchants near you",
   "celoDeposit": "CELO Purchase",
   "cUsdDeposit": "cUSD Purchase",
-  "restrictedRegion": "Limited support in region"
+  "cicoSuccess": {
+    "title": "Order submitted!",
+    "bodyWithProvider": "{{provider}} is processing your order. You should receive your funds within a couple of days.",
+    "bodyWithoutProvider": "The service provider is processing your order. You should receive your funds within a couple of days."
+  },
+  "restrictedRegion": "Limited support in region",
+  "unsupportedPaymentMethod": "Paying with a {{paymentMethod}} is not supported in your region"
 }

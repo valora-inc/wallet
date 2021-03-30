@@ -12,7 +12,9 @@ describe(getCountryFeaturesSelector, () => {
 
     expect(getCountryFeaturesSelector(state)).toMatchInlineSnapshot(`
       Object {
+        "BITFY_SUPPORTED": false,
         "FIAT_SPEND_ENABLED": false,
+        "FLOW_BTC_SUPPORTED": false,
         "KOTANI_SUPPORTED": false,
         "MOONPAY_DISABLED": true,
         "PONTO_SUPPORTED": false,
@@ -31,7 +33,9 @@ describe(getCountryFeaturesSelector, () => {
 
     expect(getCountryFeaturesSelector(state)).toMatchInlineSnapshot(`
       Object {
+        "BITFY_SUPPORTED": false,
         "FIAT_SPEND_ENABLED": true,
+        "FLOW_BTC_SUPPORTED": false,
         "KOTANI_SUPPORTED": false,
         "MOONPAY_DISABLED": false,
         "PONTO_SUPPORTED": true,
@@ -50,7 +54,9 @@ describe(getCountryFeaturesSelector, () => {
 
     expect(getCountryFeaturesSelector(state)).toMatchInlineSnapshot(`
       Object {
+        "BITFY_SUPPORTED": false,
         "FIAT_SPEND_ENABLED": false,
+        "FLOW_BTC_SUPPORTED": false,
         "KOTANI_SUPPORTED": false,
         "MOONPAY_DISABLED": false,
         "PONTO_SUPPORTED": false,
@@ -69,12 +75,35 @@ describe(getCountryFeaturesSelector, () => {
 
     expect(getCountryFeaturesSelector(state)).toMatchInlineSnapshot(`
       Object {
+        "BITFY_SUPPORTED": false,
         "FIAT_SPEND_ENABLED": false,
+        "FLOW_BTC_SUPPORTED": false,
         "KOTANI_SUPPORTED": false,
         "MOONPAY_DISABLED": false,
         "PONTO_SUPPORTED": false,
         "RESTRICTED_CP_DOTO": false,
         "SANCTIONED_COUNTRY": true,
+      }
+    `)
+  })
+
+  it('returns the appropriate features for BR accounts', () => {
+    const state = getMockStoreData({
+      account: {
+        defaultCountryCode: '+55',
+      },
+    })
+
+    expect(getCountryFeaturesSelector(state)).toMatchInlineSnapshot(`
+      Object {
+        "BITFY_SUPPORTED": true,
+        "FIAT_SPEND_ENABLED": false,
+        "FLOW_BTC_SUPPORTED": true,
+        "KOTANI_SUPPORTED": false,
+        "MOONPAY_DISABLED": false,
+        "PONTO_SUPPORTED": false,
+        "RESTRICTED_CP_DOTO": false,
+        "SANCTIONED_COUNTRY": false,
       }
     `)
   })
