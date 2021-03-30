@@ -21,7 +21,6 @@ import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 type RouteProps = StackScreenProps<StackParamList, Screens.Simplex>
@@ -53,9 +52,6 @@ function SimplexScreen({ route, navigation }: Props) {
   const onNavigationStateChange = ({ url }: any) => {
     if (url?.endsWith('step=card_details')) {
       setRedirected(true)
-    }
-    if (url?.startsWith('celo://wallet')) {
-      navigateToURI(url)
     }
   }
 
