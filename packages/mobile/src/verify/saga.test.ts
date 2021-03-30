@@ -656,7 +656,7 @@ describe(fetchOnChainDataSaga, () => {
       .put(doVerificationFlow(true))
       .run()
   })
-  it('fails', async () => {
+  it('emits fail event if something goes wrong', async () => {
     await reduxSagaTestPlan
       .expectSaga(fetchOnChainDataSaga)
       .provide([[call(getContractKit), throwError(new Error(ErrorMessages.VERIFICATION_FAILURE))]])
@@ -666,7 +666,7 @@ describe(fetchOnChainDataSaga, () => {
 })
 
 describe(resetSaga, () => {
-  it('resets', async () => {
+  it('resets the verification process', async () => {
     await reduxSagaTestPlan
       .expectSaga(resetSaga)
       .provide([[select(e164NumberSelector), mockE164Number]])
@@ -676,7 +676,7 @@ describe(resetSaga, () => {
 })
 
 describe(failSaga, () => {
-  it('fails', async () => {
+  it('set verification status to failed', async () => {
     await reduxSagaTestPlan
       .expectSaga(failSaga, 'test')
       .put(setOldVerificationStatus(VerificationStatus.Failed))

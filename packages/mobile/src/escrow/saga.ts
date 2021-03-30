@@ -9,7 +9,7 @@ import { KomenciKit } from '@celo/komencikit/lib/kit'
 import { FetchError, TxError } from '@celo/komencikit/src/errors'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import BigNumber from 'bignumber.js'
-import { all, call, put, race, select, spawn, take, takeLeading } from 'redux-saga/effects'
+import { all, call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { EscrowEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -565,10 +565,7 @@ export function* watchFetchSentPayments() {
 
 export function* watchVerificationEnd() {
   while (true) {
-    const [update]: [SetVerificationStatusAction] = yield race([
-      take(IdentityActions.SET_VERIFICATION_STATUS),
-    ])
-
+    const update: SetVerificationStatusAction = yield take(IdentityActions.SET_VERIFICATION_STATUS)
     const shouldUseKomenci = yield select(shouldUseKomenciSelector)
     if (update?.status === VerificationStatus.Done) {
       // We wait for the next block because escrow can not

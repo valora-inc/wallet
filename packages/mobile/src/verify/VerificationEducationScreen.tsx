@@ -176,7 +176,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     return true
   }
 
-  const noActionIsRequired = numAttestationsRemaining === actionableAttestations.length
+  const noActionIsRequired = numAttestationsRemaining <= actionableAttestations.length
 
   const handleCaptchaResolved = (res: any) => {
     const captchaToken = res?.nativeEvent?.data

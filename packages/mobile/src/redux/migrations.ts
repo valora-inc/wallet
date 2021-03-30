@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 
 export const migrations = {
@@ -110,6 +111,22 @@ export const migrations = {
         ...state.identity,
         addressToDisplayName: newAddressToDisplayName,
       },
+    }
+  },
+  8: (state: any) => {
+    return {
+      ...state,
+      identity: _.omit(
+        state.identity,
+        'feelessAttestationCodes',
+        'feelessProcessingInputCode',
+        'feelessAcceptedAttestationCodes',
+        'feelessNumCompleteAttestations',
+        'feelessVerificationStatus',
+        'verificationState',
+        'feelessVerificationState',
+        'feelessLastRevealAttempt'
+      ),
     }
   },
 }
