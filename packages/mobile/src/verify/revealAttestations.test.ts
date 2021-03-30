@@ -1,15 +1,32 @@
 import * as reduxSagaTestPlan from 'redux-saga-test-plan'
-import { call, select } from 'redux-saga/effects'
+import { call, delay, select } from 'redux-saga/effects'
 import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { currentLanguageSelector } from 'src/app/reducers'
+import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { e164NumberSelector, reportRevealStatus } from 'src/verify/module'
+import { getKomenciAwareAccount } from 'src/verify/komenci'
 import {
+  actionableAttestationsSelector,
+  completeAttestations,
+  e164NumberSelector,
+  reportRevealStatus,
+  requestAttestations,
+  RevealStatus,
+  revealStatusesSelector,
+  setLastRevealAttempt,
+  setRevealStatuses,
+  shouldUseKomenciSelector,
+  verificationStatusSelector,
+} from 'src/verify/module'
+import {
+  ANDROID_DELAY_REVEAL_ATTESTATION,
   reportActionableAttestationsStatuses,
   reportRevealStatusSaga,
+  revealAttestationsSaga,
 } from 'src/verify/revealAttestations'
 import { getPhoneHashDetails } from 'src/verify/saga'
-import { getContractKitAsync } from 'src/web3/contracts'
+import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import {
   mockAccount,
@@ -32,7 +49,145 @@ const mockAttestationsWrapper = {
   getVerifiedStatus: jest.fn(),
   getRevealStatus: jest.fn(),
   getActionableAttestations: jest.fn(),
+  revealPhoneNumberToIssuer: jest.fn(),
 }
+
+describe(revealAttestationsSaga, () => {
+  const dateNowStub = jest.fn(() => 1588200517518)
+  global.Date.now = dateNowStub
+
+  beforeEach(() => {
+    MockedAnalytics.track.mockReset()
+  })
+
+  it('reveals attestations and proceed to complete stage', async () => {
+    const contractKit = await getContractKitAsync()
+    ;(mockAttestationsWrapper.revealPhoneNumberToIssuer as jest.Mock).mockReturnValue({
+      ok: true,
+      json: () => ({}),
+    })
+
+    const mockGetRevealStatuses = jest.fn(() => ({
+      [mockActionableAttestations[0].issuer]: RevealStatus.Revealed,
+      [mockActionableAttestations[1].issuer]: RevealStatus.Revealed,
+      [mockActionableAttestations[2].issuer]: RevealStatus.Revealed,
+    }))
+    mockGetRevealStatuses.mockReturnValueOnce({})
+
+    await reduxSagaTestPlan
+      .expectSaga(revealAttestationsSaga)
+      .provide([
+        {
+          select: ({ selector }, next) => {
+            if (selector === shouldUseKomenciSelector) {
+              return true
+            }
+            if (selector === shortVerificationCodesEnabledSelector) {
+              return false
+            }
+            if (selector === actionableAttestationsSelector) {
+              return mockActionableAttestations
+            }
+            if (selector === verificationStatusSelector) {
+              return { numAttestationsRemaining: 2 }
+            }
+            if (selector === revealStatusesSelector) {
+              return mockGetRevealStatuses()
+            }
+            if (selector === currentLanguageSelector) {
+              return 'en'
+            }
+            return next()
+          },
+        },
+        [delay(ANDROID_DELAY_REVEAL_ATTESTATION), true],
+        [call(getContractKit), contractKit],
+        [
+          call([contractKit.contracts, contractKit.contracts.getAttestations]),
+          mockAttestationsWrapper,
+        ],
+        [call(getKomenciAwareAccount), mockAccount],
+        [call(getPhoneHashDetails), mockPhoneHashDetails],
+      ])
+      .put(setRevealStatuses({ [mockActionableAttestations[0].issuer]: RevealStatus.Revealed }))
+      .put(setRevealStatuses({ [mockActionableAttestations[1].issuer]: RevealStatus.Revealed }))
+      .put(setRevealStatuses({ [mockActionableAttestations[2].issuer]: RevealStatus.Revealed }))
+      .put(setLastRevealAttempt(Date.now()))
+      .put(completeAttestations())
+      .run()
+    expect(MockedAnalytics.track.mock.calls.length).toBe(6)
+    expect(MockedAnalytics.track.mock.calls[0][0]).toStrictEqual(
+      VerificationEvents.verification_reveal_attestation_start
+    )
+    expect(MockedAnalytics.track.mock.calls[1][0]).toStrictEqual(
+      VerificationEvents.verification_reveal_attestation_revealed
+    )
+    expect(MockedAnalytics.track.mock.calls[2][0]).toStrictEqual(
+      VerificationEvents.verification_reveal_attestation_start
+    )
+    expect(MockedAnalytics.track.mock.calls[3][0]).toStrictEqual(
+      VerificationEvents.verification_reveal_attestation_revealed
+    )
+    expect(MockedAnalytics.track.mock.calls[4][0]).toStrictEqual(
+      VerificationEvents.verification_reveal_attestation_start
+    )
+    expect(MockedAnalytics.track.mock.calls[5][0]).toStrictEqual(
+      VerificationEvents.verification_reveal_attestation_revealed
+    )
+  })
+
+  it('reveals attestations and proceed to requesting more stage', async () => {
+    const contractKit = await getContractKitAsync()
+    ;(mockAttestationsWrapper.revealPhoneNumberToIssuer as jest.Mock).mockReturnValue({
+      ok: true,
+      json: () => ({}),
+    })
+
+    const mockGetRevealStatuses = jest.fn(() => ({}))
+
+    await reduxSagaTestPlan
+      .expectSaga(revealAttestationsSaga)
+      .provide([
+        {
+          select: ({ selector }, next) => {
+            if (selector === shouldUseKomenciSelector) {
+              return true
+            }
+            if (selector === shortVerificationCodesEnabledSelector) {
+              return false
+            }
+            if (selector === actionableAttestationsSelector) {
+              return mockActionableAttestations
+            }
+            if (selector === verificationStatusSelector) {
+              return { numAttestationsRemaining: 2 }
+            }
+            if (selector === revealStatusesSelector) {
+              return mockGetRevealStatuses()
+            }
+            if (selector === currentLanguageSelector) {
+              return 'en'
+            }
+            return next()
+          },
+        },
+        [delay(ANDROID_DELAY_REVEAL_ATTESTATION), true],
+        [call(getContractKit), contractKit],
+        [
+          call([contractKit.contracts, contractKit.contracts.getAttestations]),
+          mockAttestationsWrapper,
+        ],
+        [call(getKomenciAwareAccount), mockAccount],
+        [call(getPhoneHashDetails), mockPhoneHashDetails],
+      ])
+      .put(setRevealStatuses({ [mockActionableAttestations[0].issuer]: RevealStatus.Revealed }))
+      .put(setRevealStatuses({ [mockActionableAttestations[1].issuer]: RevealStatus.Revealed }))
+      .put(setRevealStatuses({ [mockActionableAttestations[2].issuer]: RevealStatus.Revealed }))
+      .put(setLastRevealAttempt(Date.now()))
+      .put(requestAttestations())
+      .run()
+  })
+})
 
 describe(reportRevealStatusSaga, () => {
   beforeEach(() => {

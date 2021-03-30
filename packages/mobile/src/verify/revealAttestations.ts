@@ -36,7 +36,7 @@ import { getContractKit } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 
 const TAG = 'verify/revealAttestations'
-const ANDROID_DELAY_REVEAL_ATTESTATION = 5000 // 5 sec after each
+export const ANDROID_DELAY_REVEAL_ATTESTATION = 5000 // 5 sec after each
 
 export function* revealAttestationsSaga() {
   const shouldUseKomenci: boolean = yield select(shouldUseKomenciSelector)
@@ -191,7 +191,7 @@ async function postToAttestationService(
   return { ok: response.ok, status: response.status, body }
 }
 
-export function* tryRevealPhoneNumber(
+function* tryRevealPhoneNumber(
   attestationsWrapper: AttestationsWrapper,
   account: string,
   phoneHashDetails: PhoneNumberHashDetails,
