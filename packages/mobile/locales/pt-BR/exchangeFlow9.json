@@ -1,7 +1,7 @@
 {
   "learnMore": "Saiba mais",
   "equalToAmount": "Igual a <1></1>",
-  "whatIsGold": "{{appName}} permite que você compre e venda CELO",
+  "whatIsGold": "A {{appName}} permite que você compre e venda CELO",
   "manageCelo": "Gerenciar Celo Dólares ",
   "exchangeRate": "Taxa de exchange",
   "exchangeRateValue": "<0></0> : 1 {{takerTokenCode}} ",
