@@ -538,6 +538,23 @@ export const v8Schema = {
   },
 }
 
+export const v9Schema = {
+  ...v8Schema,
+  verify: {
+    ..._.omit(
+      v8Schema.verify,
+      'TEMPORARY_override_withoutVerification',
+      'withoutRevealing',
+      'retries'
+    ),
+    seenVerificationNux: false,
+    revealStatuses: {},
+    attestationCodes: [],
+    completedAttestationCodes: [],
+    lastRevealAttempt: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v8Schema as Partial<RootState>
+  return v9Schema as Partial<RootState>
 }

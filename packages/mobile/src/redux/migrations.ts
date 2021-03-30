@@ -160,4 +160,15 @@ export const migrations = {
       ),
     }
   },
+  11: (state: any) => {
+    return {
+      ...state,
+      verify: _.omit(
+        state.verify,
+        'TEMPORARY_override_withoutVerification',
+        'withoutRevealing',
+        'retries'
+      ),
+    }
+  },
 }
