@@ -23,7 +23,7 @@
   "addFunds": "Adicionar fundos",
   "promptFornoModal": {
     "header": "Alternar modo de conexão?",
-    "body": "Notamos que você está tendo problemas para se conectar. Recomendamos ativar o modo de Economia de Dados para permitir que você continue usando o {{appName}} com conexão intermitente.",
+    "body": "Notamos que você está tendo problemas para se conectar. Recomendamos ativar o modo de Economia de Dados para permitir que você continue usando a {{appName}} com conexão intermitente.",
     "switchToDataSaver": "Alterar para o modo de Economia de Dados"
   },
   "accountKeyModal": {
