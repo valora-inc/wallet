@@ -49,10 +49,6 @@
     "contact": "Contactar",
     "continue": "Entendido"
   },
-  "providerFeesDialog": {
-    "title": "Tarifas de los proveedores",
-    "body": "Provider fees are set by each provider individually and include an exchange fee and liquidity fee, among others. To learn more please visit <0>{{supportPage}}</0>"
-  },
   "dailyLimitRequest": "Hola! Me gustaría aumentar mi límite de envío diario por favor.",
   "pleaseSelectProvider": "Por favor selecciona un proveedor. Estos enlaces te conectarán a servicios de terceros.",
   "otherFundingOptions": "Para conocer más formas de agregar y retirar fondos, a <0>Cómo depositar fondos en mi cuenta</0>",
@@ -61,7 +57,5 @@
   "findMerchants": "Encuentra comercios asociados cerca de ti",
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
-  "restrictedRegion": "Soporte limitado en la región",
-  "providerUnavailable": "No disponible actualmente",
-  "pricePer": "Precio por {{coin}}"
+  "restrictedRegion": "Soporte limitado en la región"
 }
