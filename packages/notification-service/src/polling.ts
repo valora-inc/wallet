@@ -3,11 +3,13 @@ import { handleTransferNotifications } from './blockscout/transfers'
 import { EXCHANGE_POLLING_INTERVAL, POLLING_INTERVAL } from './config'
 import { handleExchangeQuery } from './exchange/exchangeQuery'
 import { handlePaymentRequests } from './handlers'
+import { handleInvites } from './invites/invites'
 
 export const notificationPolling = AsyncPolling(async (end) => {
   try {
     await handleTransferNotifications()
     await handlePaymentRequests()
+    await handleInvites()
   } catch (e) {
     console.error('Notifications polling failed', e)
   } finally {

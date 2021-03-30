@@ -8,5 +8,7 @@
   "gold": "CELO",
   "paymentRequestedTitle": "Pago solicitado",
   "paymentRequestedBody": "Se ha solicitado pago de {{amount}} {{currency}}.",
-  "rewardReceivedTitle": "Recompensa recibida"
+  "rewardReceivedTitle": "Recompensa recibida",
+  "inviteTitle": "Tu amigo acaba de recibir tu transferencia",
+  "inviteBody": "¡La persona a la que le enviaste fondos acaba de registrarse en Valora! Ahora pueden enviarse dinero entre sí utilizando sus números de teléfono celular a tasas casi nulas."
 }
