@@ -28,11 +28,11 @@
   },
   "accountKeyModal": {
     "header": "Sem a sua Chave de Conta, você perderá o acesso aos seus fundos para sempre",
-    "body1": "Para redefinir o Valora, você precisará confirmar o que escreveu na sua Chave de Conta.",
-    "body2": "Ninguém, nem mesmo o Valora, pode recuperar sua conta sem sua chave."
+    "body1": "Para redefinir a Valora, você precisará confirmar que anotou sua Chave de Conta.",
+    "body2": "Ninguém, nem mesmo a Valora, pode recuperar sua conta sem sua chave."
   },
   "promptConfirmRemovalModal": {
-    "header": "Tem certeza de que deseja redefinir o Valora?",
+    "header": "Tem certeza de que deseja redefinir a Valora?",
     "body": "Você não poderá mais acessar seus fundos ou sua Chave de Conta a partir deste dispositivo. Não há como recuperar sua Chave de Conta se você não a anotou.",
     "resetNow": "Redefinir agora"
   },
@@ -41,7 +41,7 @@
     "body": "Se a conta for desvinculada, ela não poderá mais ser associada a um número novamente. Apenas desvincule uma conta se você tiver certeza de que nunca mais precisará dela.",
     "revoke": "Desvincular"
   },
-  "testFaqLink": " Perguntas frequentes do {{appName}} ",
+  "testFaqLink": " Perguntas frequentes da {{appName}} ",
   "termsOfServiceLink": "Termos de Serviço",
   "editProfile": "Editar perfil",
   "confirmNumber": "Confirmar o número de telefone",
@@ -63,7 +63,7 @@
   "contactText": "Não consegue encontrar o que está procurando?",
   "contactMessagePlaceholder": "Digite sua mensagem aqui...",
   "attachLogs": "Anexar registros",
-  "supportLegalCheckbox": "Ao enviar, concordo em compartilhar as informações acima e todos os dados de registro do aplicativo anexados com o serviço de suporte do {{appName}}.",
+  "supportLegalCheckbox": "Ao enviar, concordo em compartilhar as informações acima e todos os dados de registro do aplicativo anexados com o serviço de suporte da {{appName}}.",
   "contactSuccess": "Seu problema foi relatado com sucesso! Aguarde uma resposta por e-mail em breve!",
   "namePictureSaved": "Seu nome e foto foram salvos com sucesso.",
   "addPhoto": "Carregar foto",
