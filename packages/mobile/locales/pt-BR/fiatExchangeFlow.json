@@ -31,17 +31,17 @@
   "flowBtc": "FlowBTC",
   "fundingEducationDialog": {
     "title": "Adicionar fundos com a {{appName}}",
-    "body": "{{appName}} é alimentado pela Rede Celo. O {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano.Para adicionar fundos à sua conta do {{appName}}, compre o cUSD de um dos fornecedores terceirizados disponíveis em sua localidade. Para mais informações visite <0>{{link}}</0>",
+    "body": "A {{appName}} é alimentada pela Rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano. Para adicionar fundos à sua conta da {{appName}}, compre cUSD de um dos fornecedores terceirizados disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
-    "title": "Sacar do {{appName}} ",
-    "body": "{{appName}} é alimentado pela Rede Celo. O {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano.Para sacar seu saldo do {{appName}}, venda cUSD com um dos fornecedores terceirizados disponíveis em sua localidade. Para mais informações visite <0>{{link}}</0>",
+    "title": "Sacar da {{appName}}",
+    "body": "A {{appName}} é alimentada pela Rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano. Para sacar seu saldo da {{appName}}, venda cUSD com um dos fornecedores terceirizados disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
     "title": "Sobre os fornecedores",
-    "body": "Esses provedores permitem que você adicione ou retire fundos da sua conta. Os provedores determinam suas próprias tarifas e restrições, dependendo de diversos fatores. Visite o site do provedor para obter ajuda."
+    "body": "Esses provedores permitem que você adicione ou saque fundos da sua conta. Os provedores determinam suas próprias tarifas e restrições, dependendo de diversos fatores. Visite o site do provedor para obter ajuda."
   },
   "minAmountDialog": {
     "body": "Nossos provedores não aceitam valores inferiores a {{limit}}. Insira um valor maior.",
