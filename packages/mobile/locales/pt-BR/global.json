@@ -124,7 +124,7 @@
   "message": "Mensagem",
   "addressLookupFailure": "Falha ao procurar endereço do número de celular",
   "saltFetchFailure": "Falha ao recuperar segredo do número de celular",
-  "saltQuotaExceededError": "Sua cota de busca de número de telefone acabou",
+  "saltQuotaExceededError": "Sua cota de busca de número de celular acabou",
   "maxActionableAttestationsExceededError": "Falha ao reenviar mensagens",
   "odisInsufficientBalance": "Seu saldo está muito baixo para concluir este processo",
   "matchmakingQuotaExceededError": "A combinação pode ser feita apenas uma vez",
