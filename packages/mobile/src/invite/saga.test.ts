@@ -11,7 +11,7 @@ import { PincodeType } from 'src/account/reducer'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { WEB_LINK } from 'src/brandingConfig'
-import { generateShortInviteLink } from 'src/firebase/dynamicLinks'
+import { generateShortLink } from 'src/firebase/dynamicLinks'
 import { features } from 'src/flags'
 import i18n from 'src/i18n'
 import { updateE164PhoneNumberAddresses } from 'src/identity/actions'
@@ -315,8 +315,8 @@ describe(generateInviteLink, () => {
   it('Generate invite link correctly', async () => {
     const result = await generateInviteLink(mockKey)
     expect(result).toBe('http://celo.page.link/PARAMS')
-    expect(generateShortInviteLink).toBeCalledTimes(1)
-    expect(generateShortInviteLink).toHaveBeenCalledWith({
+    expect(generateShortLink).toBeCalledTimes(1)
+    expect(generateShortLink).toHaveBeenCalledWith({
       link: `https://valoraapp.com/?invite-code=${mockKey}`,
       appStoreId: '1482389446',
       bundleId: 'org.celo.mobile.alfajores',

@@ -18,7 +18,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { clearStoredMnemonic } from 'src/backup/utils'
 import { APP_STORE_ID, FIREBASE_ENABLED } from 'src/config'
-import { generateShortInviteLink } from 'src/firebase/dynamicLinks'
+import { generateShortLink } from 'src/firebase/dynamicLinks'
 import { cUsdDailyLimitChannel, firebaseSignOut } from 'src/firebase/firebase'
 import { deleteNodeData } from 'src/geth/geth'
 import { refreshAllBalances } from 'src/home/actions'
@@ -75,10 +75,11 @@ export async function generateLinkWithPath(path: string) {
   bundleId = bundleId.replace(/\.(debug|dev)$/g, '.alfajores')
 
   // trying to fetch appStoreId needed to build a dynamic link
-  const shortUrl = await generateShortInviteLink({
+  const shortUrl = await generateShortLink({
     link: `https://valoraapp.com/${path}`,
     appStoreId: APP_STORE_ID,
     bundleId,
+    shortLinkType: 'SHORT',
   })
 
   return shortUrl

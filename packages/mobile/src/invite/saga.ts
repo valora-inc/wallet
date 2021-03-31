@@ -26,7 +26,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { APP_STORE_ID, DYNAMIC_DOWNLOAD_LINK } from 'src/config'
 import { transferEscrowedPayment } from 'src/escrow/actions'
 import { calculateFee } from 'src/fees/saga'
-import { generateShortInviteLink } from 'src/firebase/dynamicLinks'
+import { generateShortLink } from 'src/firebase/dynamicLinks'
 import { features } from 'src/flags'
 import { CURRENCY_ENUM, UNLOCK_DURATION } from 'src/geth/consts'
 import { refreshAllBalances } from 'src/home/actions'
@@ -123,10 +123,11 @@ export async function generateInviteLink(inviteCode?: string) {
   bundleId = bundleId.replace(/\.(debug|dev)$/g, '.alfajores')
 
   // trying to fetch appStoreId needed to build a dynamic link
-  const shortUrl = await generateShortInviteLink({
+  const shortUrl = await generateShortLink({
     link: `https://valoraapp.com/${inviteCode ? `?invite-code=${inviteCode}` : ''}`,
     appStoreId: APP_STORE_ID,
     bundleId,
+    shortLinkType: 'UNGUESSABLE',
   })
 
   return shortUrl
