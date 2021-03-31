@@ -19,19 +19,21 @@ interface RequestData {
 }
 
 enum Providers {
-  MOONPAY = 'MOONPAY',
-  RAMP = 'RAMP',
-  TRANSAK = 'TRANSAK',
-  SIMPLEX = 'SIMPLEX',
+  Moonpay = 'Moonpay',
+  Ramp = 'Ramp',
+  Transak = 'Transak',
+  Simplex = 'Simplex',
 }
 
 export const composeCicoProviderUrl = functions.https.onRequest((request, response) => {
   const requestData: RequestData = request.body
   const { provider, address, digitalAsset, fiatCurrency, fiatAmount } = requestData
+  const providerName = provider.toLowerCase()
+  const cashInSuccessDeepLink = `${CASH_IN_SUCCESS_DEEPLINK}/${providerName}`
 
   let finalUrl
 
-  if (provider === Providers.MOONPAY) {
+  if (providerName === Providers.Moonpay.toLowerCase()) {
     finalUrl = `
       ${MOONPAY_DATA.widget_url}
         ?apiKey=${MOONPAY_DATA.public_key}
@@ -39,7 +41,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &walletAddress=${address}
         &baseCurrencyCode=${fiatCurrency}
         &baseCurrencyAmount=${fiatAmount}
-        &redirectURL=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
+        &redirectURL=${encodeURIComponent(cashInSuccessDeepLink)}
         `.replace(/\s+/g, '')
 
     const signature = crypto
@@ -48,7 +50,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
       .digest('base64')
 
     finalUrl = `${finalUrl}&signature=${encodeURIComponent(signature)}`
-  } else if (provider === Providers.RAMP) {
+  } else if (providerName === Providers.Ramp.toLowerCase()) {
     finalUrl = `
       ${RAMP_DATA.widget_url}
         ?hostApiKey=${RAMP_DATA.public_key}
@@ -58,9 +60,9 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &hostLogoUrl=${VALORA_LOGO_URL}
         &fiatCurrency=${fiatCurrency}
         &fiatValue=${fiatAmount}
-        &finalUrl=${encodeURIComponent(CASH_IN_SUCCESS_DEEPLINK)}
+        &finalUrl=${encodeURIComponent(cashInSuccessDeepLink)}
       `.replace(/\s+/g, '')
-  } else if (provider === Providers.TRANSAK) {
+  } else if (providerName === Providers.Transak.toLowerCase()) {
     finalUrl = `
       ${TRANSAK_DATA.widget_url}
         ?apiKey=${TRANSAK_DATA.public_key}
