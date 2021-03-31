@@ -2,8 +2,8 @@
   "cancel": "Cancelar",
   "inviteWithWhatsapp": "Convidar com o WhatsApp",
   "inviteWithSMS": "Convidar com SMS",
-  "inviteFee": "Taxa de convite",
-  "whySendFees": "Esta taxa cobre os custos para o novo usuário confirmar seu número de telefone",
+  "inviteFee": "Comissão de Convite",
+  "whySendFees": "Esta comissão cobre os custos para o novo usuário confirmar seu número de telefone",
   "whyReceiveFees": "Você recebeu dinheiro para confirmar sua conta",
   "edit": "Editar",
   "to": "Para",
@@ -19,13 +19,13 @@
   "escrowPaymentNotificationTitle": "{{mobile}} foi convidado",
   "inviteDialog": {
     "title": "Convide um amigo",
-    "body": "Conecte-se e compartilhe valor com seus amigos e familiares no Valora.",
+    "body": "Conecte-se e compartilhe valor com seus amigos e familiares na Valora.",
     "button": "Convidar"
   },
   "sendAndInvite": "Enviar e convidar",
   "inviteAndSendDialog": {
     "title": "Convidar e enviar",
-    "body": "Seu pagamento para {{name}} estará esperando por ele(a) assim que o número de telefone for confirmado. Compartilhe uma mensagem de convite com eles para se inscrever no {{appName}} e reivindicar seu pagamento!",
+    "body": "Seu pagamento para {{name}} estará esperando por ele(a) assim que o número de telefone for confirmado. Compartilhe uma mensagem de convite para ele(a) se inscrever na {{appName}} e resgatar seu pagamento!",
     "button": "Convidar"
   },
   "inviteRewardsBanner": {
