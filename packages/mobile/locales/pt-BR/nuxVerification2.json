@@ -13,7 +13,7 @@
   "pleaseRetry": "Por favor, tente confirmar novamente.",
   "retryVerification": "Tente confirmar novamente",
   "education": {
-    "header": "Confirme seu telefone",
+    "header": "Confirme seu celular",
     "body1": "Em seguida, confirme seu número de celular.",
     "body2": "A confirmação facilita enviar e receber de amigos. Você também pode pular esta etapa e retornar a ela mais tarde.",
     "learnMore": "Saiba mais sobre a confirmação de celular",
@@ -26,7 +26,7 @@
     "section1Header": "Eu preciso completar essa etapa?",
     "section1Body": "A confirmação não é necessária. No entanto, sem confirmar, só é possível enviar e receber valores usando QR codes ou endereços.",
     "section2Header": "Segurança e Privacidade",
-    "section2Body": "Para proteger sua privacidade, apenas uma versão ofuscada do seu número de telefone é armazenada no blockchain da Celo."
+    "section2Body": "Para proteger sua privacidade, apenas uma versão ofuscada do seu número de celular é armazenada no blockchain da Celo."
   },
   "loading": {
     "confirming": "Confirmando...",
@@ -55,18 +55,18 @@
   },
   "retryWithFornoModal": {
     "header": "Tentar confirmar novamente com o modo de Economia de Dados?",
-    "body1": "Ocorreu um problema ao confirmar o seu número de telefone. Recomendamos tentar novamente com o modo de Economia de Dados ativado.",
+    "body1": "Ocorreu um problema ao confirmar o seu número de celular. Recomendamos tentar novamente com o modo de Economia de Dados ativado.",
     "body2": "O modo de Economia de Dados permite que você se comunique com a Rede Celo de forma mais consistente por meio de uma conexão confiável.",
     "retryButton": "Tentar novamente com o modo de Economia de Dados"
   },
   "congratsVerified": "Parabéns, você já foi confirmado!",
   "notification": {
-    "body": "Receba pagamentos diretamente no seu número de telefone",
+    "body": "Receba pagamentos diretamente no seu celular",
     "cta": "Confirmar agora"
   },
   "quotaLookup": {
     "title": "Limite de busca excedido",
-    "body1": "Para manter seu número de telefone seguro e privado, o {{appName}} limita a quantidade de números de telefone que os usuários podem consultar.",
+    "body1": "Para manter seu número de celular seguro e privado, a {{appName}} limita a quantidade de números de celular que os usuários podem consultar.",
     "body2": "Você pode comprar mais buscas por uma pequena taxa.",
     "cta": "Comprar buscas (2)"
   }
