@@ -34,7 +34,7 @@
   "pending": "Pendente",
   "loadingExchangeRate": "Carregando Taxa de Câmbio...",
   "errorRefreshingRate": "Não foi possível atualizar a taxa de câmbio",
-  "exchangeRateChange": "A taxa de câmbio mudou, por favor tente novamente",
+  "exchangeRateChange": "A taxa de câmbio mudou, tente novamente",
   "feeExchangeEducation": "Ao fazer os câmbios, uma pequena comissão adicional vai para a manutenção do valor estável do Celo Dólar. Para saber mais sobre as comissões do Celo, acesse as Perguntas frequentes.",
   "goldPrice": "Preço do CELO",
   "yourGoldBalance": "Seu saldo em CELO",
