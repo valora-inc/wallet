@@ -1,6 +1,6 @@
 {
   "education": {
-    "step1": "{{appName}} é uma nova forma de enviar e receber valores em todo o mundo",
+    "step1": "A {{appName}} é uma nova forma de enviar e receber valores em todo o mundo",
     "step2": "Envie fundos internacionalmente",
     "step3": "Conveniente, confiável e seguro. Seu celular é a sua conta"
   },
@@ -19,7 +19,7 @@
       "loadingStatus1": "Processando {{total}} contatos",
       "loadingStatus2": "Encontrar amigos",
       "successHeader": "Concluído",
-      "successWithMatches": "{{matches}} amigos em {{appName}} ",
+      "successWithMatches": "{{matches}} amigos na {{appName}}",
       "successWithoutMatches": "Sincronização completa"
     }
   },
@@ -44,8 +44,8 @@
     "loadingBody": "Isso pode levar até 90 segundos"
   },
   "verificationEducation": {
-    "title": "Número de telefone",
-    "header": "Conecte seu número de telefone",
+    "title": "Número de celular",
+    "header": "Conecte seu número de celular",
     "body": "Para ter certeza de que seu número é realmente seu, enviaremos três mensagens que custarão cerca de 0,05 cUSD cada.\n\nA confirmação do seu número leva cerca de três minutos.",
     "feelessBody": "A conexão leva cerca de três minutos. Para confirmar seu número, você receberá três mensagens.",
     "start": "Iniciar",
@@ -57,7 +57,7 @@
   },
   "verificationSkipDialog": {
     "title": "Tem certeza?",
-    "body": "A confirmação permite enviar e receber fundos facilmente para o seu número de telefone.\n\nContas não confirmadas só podem enviar pagamentos usando endereços Celo ou códigos QR.",
+    "body": "A confirmação permite enviar e receber fundos facilmente para seu número de celular.\n\nContas não confirmadas só podem enviar pagamentos usando endereços Celo ou QR codes.",
     "cancel": "Voltar",
     "confirm": "Pular por enquanto"
   },
