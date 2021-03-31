@@ -27,7 +27,7 @@
     "switchToDataSaver": "Alterar para o modo de Economia de Dados"
   },
   "accountKeyModal": {
-    "header": "Sem a sua Chave de Conta, você perderá o acesso aos seus fundos para sempre",
+    "header": "Sem sua Chave de Conta, você perderá o acesso aos seus fundos para sempre",
     "body1": "Para redefinir a Valora, você precisará confirmar que anotou sua Chave de Conta.",
     "body2": "Ninguém, nem mesmo a Valora, pode recuperar sua conta sem sua chave."
   },
