@@ -21,7 +21,7 @@
   "savedConfirmation": "Sim, eu anotei minha chave.",
   "backupQuizWordCount": "Qual é a <0>{{ordinal}}</0> palavra da sua Chave de Conta?",
   "importBackupFailed": "A importação da conta falhou",
-  "backupQuizFailed": "A Chave de Conta que você inseriu está incorreta. Tente novamente.",
+  "backupQuizFailed": "A Chave de Conta que você inseriu está incorreta. Por favor, tente novamente.",
   "invalidBackupPhrase": "Chave de Conta inválida",
   "backupComplete": {
     "header": "Backup concluído",
