@@ -58,8 +58,8 @@
   "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> e <1></1> ainda não aceitaram seus convites",
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> e mais uma pessoa ainda não aceitaram seus convites",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> ainda não aceitaram seus convites",
-  "escrowedPaymentReminderSms": "Um lembrete amigável de que você ainda não resgatou seus Celo Dólares com {{appName}}! Acesse {{link}} e insira seu código para começar: {{code}} ",
-  "escrowedPaymentReminderSmsNoData": "Um lembrete amigável de que você ainda não resgatou seus Celo Dólares com {{appName}}! Baixe o aplicativo de celular para começar!",
+  "escrowedPaymentReminderSms": "Um lembrete amigável de que você ainda não resgatou seus Celo Dólares com a {{appName}}! Acesse {{link}} e insira seu código para começar: {{code}}",
+  "escrowedPaymentReminderSmsNoData": "Um lembrete amigável de que você ainda não resgatou seus Celo Dólares com a {{appName}}! Baixe o aplicativo de celular para começar!",
   "testnetAlert": {
     "0": "{{testnet}}",
     "1": "Um lembrete amigável de que você está usando a construção de rede {{testnet}} – os saldos não são reais"
