@@ -143,13 +143,13 @@ export function* handleDeepLink(action: OpenDeepLink) {
   const { deepLink, isSecureOrigin } = action
   Logger.debug(TAG, 'Handling deep link', deepLink)
   var link = deepLink
-  console.log(deepLink)
-  console.log(deepLink.startsWith('https://vlra.app'))
+  // console.log(deepLink)
+  // console.log(deepLink.startsWith('https://vlra.app'))
   if (deepLink.startsWith('https://vlra.app')) {
     const dynamicLink = yield call([firebase.dynamicLinks(), 'resolveLink'], deepLink)
     link = dynamicLink.url
-    console.log('Link resolved')
-    console.log(link)
+    // console.log('Link resolved')
+    // console.log(link)
   }
   const rawParams = parse(link)
   if (rawParams.path) {
