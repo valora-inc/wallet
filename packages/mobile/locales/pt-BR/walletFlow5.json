@@ -101,7 +101,7 @@
   "feedItemEscrowReceivedTitle": "{{nameOrNumber}}",
   "feedItemEscrowReceivedTitle_noSenderDetails": "Desconhecido",
   "feedItemEscrowReceivedInfo": "{{comment}}",
-  "feedItemEscrowReceivedInfo_noComment": "Pagamento de caução recebido",
+  "feedItemEscrowReceivedInfo_noComment": "Pagamento de custódia recebido",
   "feedItemGenericTitle": "{{nameOrNumber}}",
   "feedItemGenericTitle_noRecipientDetails": "Desconhecido",
   "feedItemGoldSold": "Vendeu",
@@ -115,10 +115,10 @@
   "transactionHeaderInviteReceived": "$t(inviteFlow11:inviteReceived)",
   "transactionHeaderSent": "Pagamento enviado",
   "transactionHeaderWithdrewCelo": "Saque CELO",
-  "transactionHeaderEscrowSent": "Pagamento de caução enviado",
+  "transactionHeaderEscrowSent": "Pagamento de custódia enviado",
   "transactionHeaderReceived": "Pagamento recebido",
   "transactionHeaderCeloDeposit": "Depósito Recebido",
   "transactionHeaderCeloReward": "Recompensa recebida",
-  "transactionHeaderEscrowReceived": "Pagamento de caução recebido",
+  "transactionHeaderEscrowReceived": "Pagamento de custódia recebido",
   "feedSectionHeaderRecent": "Recente"
 }
