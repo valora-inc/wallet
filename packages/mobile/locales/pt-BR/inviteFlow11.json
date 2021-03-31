@@ -30,7 +30,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Ganhe até US$5 ao indicar amigos!",
-    "body": "Envie valor para um amigo para ganhar $ 1 no CELO quando ele se cadastrar. Até 5 amigos por semana."
+    "body": "Envie fundos para um amigo para ganhar $ 1 em CELO quando ele se cadastrar. Até 5 amigos por semana."
   },
   "getReward": "Receba ${{reward}}"
 }
