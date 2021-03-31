@@ -10,7 +10,7 @@ const TAG = 'INVITES'
 export async function handleInvites() {
   const kit = await getContractKit()
   const fromBlock = getLastInviteBlockNotified() + 1
-  if (fromBlock < 0) {
+  if (fromBlock <= 0) {
     return
   }
   console.log(TAG, `Starting to fetch invites from block ${fromBlock}`)
@@ -23,10 +23,7 @@ export async function handleInvites() {
   let maxBlock = fromBlock
   for (const event of events) {
     maxBlock = Math.max(event.blockNumber, fromBlock)
-    const {
-      returnValues: { to },
-    } = event
-    const inviter = to.toLowerCase()
+    const inviter = event.returnValues.to.toLowerCase()
     console.log(TAG, `Sending invite notification to ${inviter}`)
     sendInviteNotification(inviter)
   }
