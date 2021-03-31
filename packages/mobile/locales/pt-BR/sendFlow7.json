@@ -1,6 +1,6 @@
 {
   "cancel": "Cancelar",
-  "dollarsSent": "Dólares Enviado",
+  "dollarsSent": "Dólares Enviados",
   "to": "Para",
   "send": "Enviar",
   "payment": "Pagamento",
@@ -21,7 +21,7 @@
   "commentLabel": "Mensagem",
   "amountSent": "Quantia enviada",
   "amountCeloWithdrawn": "Quantia (CELO)",
-  "fee": "Taxa",
+  "fee": "Comissão",
   "securityFee": "Taxa de segurança",
   "inviteFee": "Taxa de convite",
   "feeEducation": "O envio de pagamentos e a realização de exchanges incluem uma pequena taxa de segurança e manutenção do serviço.",
