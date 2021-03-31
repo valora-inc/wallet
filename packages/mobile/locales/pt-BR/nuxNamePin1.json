@@ -10,7 +10,7 @@
     "heading1": "Dados e Privacidade",
     "heading2": "Ativos Celo e Conta {{appName}} ",
     "privacy": "Ao aderir a esta rede, você nos dá permissão para coletar informações anônimas sobre seu uso do aplicativo. Além disso, se você confirmar seu número de celular, uma cópia hash dele será armazenada na Rede Celo. Saiba mais em <0>{{tosLink}}</0> ",
-    "goldDisclaimer": "Ao criar uma \"conta\" com {{appName}} você está criando uma carteira digital em que só possui as chaves. Nenhuma outra pessoa ou entidade, incluindo cLabs, pode recuperar sua chave, trocar ou desfazer transações, ou recuperar fundos perdidos. Esteja ciente de que CELO e cUSD fazem parte de uma nova classe de ativos e apresentam um risco de perda financeira. Antes de comprarem também cuidadosamente as vossas circunstâncias financeiras e a vossa tolerância em relação ao risco financeiro. Você só pode enviar até {{dailyLimitCUSD}} cUSD por dia através de {{appName}} (o “limite diário”). Você deve entrar em contato com support@cLabs.co e fornecer informações adicionais e pessoais para solicitar um aumento deste limite diário. Pode haver um atraso para conduzir a conformidade necessária."
+    "goldDisclaimer": "Ao criar uma \"conta\" com a {{appName}} você está criando uma carteira digital em que só você possui as chaves. Nenhuma outra pessoa ou entidade, incluindo cLabs, pode recuperar sua chave, trocar ou desfazer transações, ou recuperar fundos perdidos. Esteja ciente de que CELO e cUSD fazem parte de uma nova classe de ativos e apresentam um risco de perda financeira. Considere cuidadosamente sua situação financeira e tolerância ao risco antes de comprar CELO ou cUSD. Você só pode enviar até {{dailyLimitCUSD}} cUSD por dia através da {{appName}} (o “limite diário”). Você deve entrar em contato com support@cLabs.co e fornecer informações adicionais e pessoais para solicitar um aumento deste limite diário. Pode haver um atraso para conduzir a conformidade necessária."
   },
   "fullName": "Nome completo",
   "fullNamePlaceholder": "Nome e sobrenome",
@@ -36,6 +36,6 @@
     "0": "Conectar seu catálogo de endereços facilita o envio e a solicitação de pagamentos dos seus amigos. Caso contrário, você terá que inserir essas informações individualmente.",
     "1": "Não se preocupe, conectar-se não envia convites aos seus contatos.",
     "enable": "Habilitar acesso aos contatos",
-    "loading": "Encontrando amigos no {{appName}}..."
+    "loading": "Encontrando amigos na {{appName}}..."
   }
 }
