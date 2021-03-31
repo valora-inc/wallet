@@ -31,16 +31,16 @@
   "flowBtc": "FlowBTC",
   "fundingEducationDialog": {
     "title": "Adicionar fundos com a {{appName}}",
-    "body": "A {{appName}} é alimentada pela Rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano. Para adicionar fundos à sua conta da {{appName}}, compre cUSD de um dos fornecedores terceirizados disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
+    "body": "A {{appName}} é alimentada pela Rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano. Para adicionar fundos à sua conta da {{appName}}, compre cUSD com um dos provedores terceirizados disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Sacar da {{appName}}",
-    "body": "A {{appName}} é alimentada pela Rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano. Para sacar seu saldo da {{appName}}, venda cUSD com um dos fornecedores terceirizados disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
+    "body": "A {{appName}} é alimentada pela Rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano. Para sacar seu saldo da {{appName}}, venda cUSD com um dos provedores terceirizados disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
-    "title": "Sobre os fornecedores",
+    "title": "Sobre os provedores",
     "body": "Esses provedores permitem que você adicione ou saque fundos da sua conta. Os provedores determinam suas próprias tarifas e restrições, dependendo de diversos fatores. Visite o site do provedor para obter ajuda."
   },
   "minAmountDialog": {
@@ -55,7 +55,7 @@
   "dailyLimitRequest": "Olá! Eu gostaria de aumentar meu limite de envio diário, por favor.",
   "pleaseSelectProvider": "Por favor, selecione um provedor. Esses links são conectados a serviços de terceiros.",
   "otherFundingOptions": "Para conhecer mais maneiras de adicionar e sacar fundos, visite <0>Como adicionar fundos à sua conta</0>",
-  "youCanTransfer": "Você pode transferir {{currency}} de ou para os seguintes exchanges. Você precisará do seu Número da Conta (também conhecido como endereço) – toque abaixo para copiar.",
+  "youCanTransfer": "Você pode transferir {{currency}} de ou para as seguintes corretoras. Você precisará do seu Número da Conta (também conhecido como endereço) – toque abaixo para copiar.",
   "useBalanceWithMerchants": "Use seu saldo com comerciantes apoiadores",
   "findMerchants": "Encontre comerciantes locais perto de você",
   "celoDeposit": "Compra de CELO",
@@ -63,7 +63,7 @@
   "cicoSuccess": {
     "title": "Ordem enviada!",
     "bodyWithProvider": "{{provider}} está processando seu pedido. Você deve receber seus fundos dentro de alguns dias.",
-    "bodyWithoutProvider": "O provedor de serviços está processando o seu pedido. Você deve receber os seus fundos dentro de alguns dias."
+    "bodyWithoutProvider": "O provedor de serviços está processando seu pedido. Você deve receber seus fundos dentro de alguns dias."
   },
   "restrictedRegion": "Suporte limitado na região",
   "unsupportedPaymentMethod": "Não é possível pagar com {{paymentMethod}} na sua região"
