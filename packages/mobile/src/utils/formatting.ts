@@ -10,7 +10,7 @@ export const getMoneyDisplayValue = (
   includeSymbol: boolean = false,
   roundingTolerance: number = 1
 ): string => {
-  const decimals = CURRENCIES[currency].displayDecimals
+  const decimals = currency === CURRENCY_ENUM.GOLD ? 4 : CURRENCIES[currency].displayDecimals
   const symbol = CURRENCIES[currency].symbol
   const formattedValue = roundDown(value, decimals, roundingTolerance).toFormat(decimals)
   return includeSymbol ? symbol + formattedValue : formattedValue

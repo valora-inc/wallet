@@ -105,7 +105,8 @@ type FormatFunction = (amount: BigNumber.Value, currency?: CURRENCY_ENUM) => str
 function getFormatFunction(formatType: FormatType): FormatFunction {
   switch (formatType) {
     case FormatType.Default:
-      return getMoneyDisplayValue
+      return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
+        getMoneyDisplayValue(amount, _currency)
     case FormatType.CentAware:
       return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
         getCentAwareMoneyDisplay(amount)
