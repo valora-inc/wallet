@@ -33,7 +33,7 @@
   "pinLostForeverMessage": "Você removeu o bloqueio de tela, o PIN foi perdido",
   "importContactsPermission": {
     "title": "Importar contatos",
-    "0": "Conectar seu catálogo de endereços facilita o envio e a solicitação de pagamentos dos seus amigos. Caso contrário, você terá que inserir essas informações individualmente.",
+    "0": "Conectar sua lista de contatos facilita o envio e a solicitação de pagamentos dos seus amigos. Caso contrário, você terá que inserir essas informações individualmente.",
     "1": "Não se preocupe, conectar-se não envia convites aos seus contatos.",
     "enable": "Habilitar acesso aos contatos",
     "loading": "Encontrando amigos na {{appName}}..."
