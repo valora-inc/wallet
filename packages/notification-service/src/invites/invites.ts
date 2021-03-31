@@ -13,18 +13,18 @@ export async function handleInvites() {
   if (fromBlock <= 0) {
     return
   }
-  console.log(TAG, `Starting to fetch invites from block ${fromBlock}`)
+  console.debug(TAG, `Starting to fetch invites from block ${fromBlock}`)
 
   const escrow = await kit.contracts.getEscrow()
   const events = await escrow.getPastEvents('Withdrawal', {
     fromBlock,
   })
-  console.log(TAG, `Got ${events.length} escrow withdrawal events`)
+  console.debug(TAG, `Got ${events.length} escrow withdrawal events`)
   let maxBlock = fromBlock
   for (const event of events) {
     maxBlock = Math.max(event.blockNumber, fromBlock)
     const inviter = event.returnValues.to.toLowerCase()
-    console.log(TAG, `Sending invite notification to ${inviter}`)
+    console.debug(TAG, `Sending invite notification to ${inviter}`)
     sendInviteNotification(inviter)
   }
 
