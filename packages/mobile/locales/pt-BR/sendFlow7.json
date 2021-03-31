@@ -46,18 +46,18 @@
   "sentEscrowPayment": "Pagamento da caução enviado",
   "mobileNumber": "Número do celular",
   "walletAddress": "Endereço da conta",
-  "inviteWithoutPayment": "Olá! Estou usando o {{appName}} para enviar dinheiro para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}} ",
-  "inviteWithEscrowedPayment": "Olá! Estou usando o {{appName}} para enviar dinheiro para o mundo inteiro. Acabei de enviar {{amount}} Celo Dólares para você. Instale o aplicativo {{appName}} e resgate seus Celo Dólares usando este link: {{link}} ",
+  "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar dinheiro para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
+  "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar dinheiro para o mundo inteiro. Acabei de enviar {{amount}} Celo Dólares para você. Instale o aplicativo {{appName}} e resgate seus Celo Dólares usando este link: {{link}}",
   "inviteSent": "Código de convite enviado!",
   "inviteFailed": "Falha ao enviar convite",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
-  "scanQRCode": "Escanear código QR",
-  "writeStorageNeededForQrDownload": "É necessário a permissão de gravação no armazenamento para baixar o código QR",
+  "scanQRCode": "Escanear QR code",
+  "writeStorageNeededForQrDownload": "É necessário a permissão de gravação no armazenamento para baixar o QR code",
   "cameraScanInfo": "Centralize o código na caixa acima",
   "cameraNotAuthorizedTitle": "Habilitar câmera",
-  "cameraNotAuthorizedDescription": "Ative a câmera nas configurações do seu celular. Você precisará dele para ler os códigos QR.",
+  "cameraNotAuthorizedDescription": "Ative a câmera nas configurações do seu celular. Você precisará dele para ler os QR codes.",
   "cameraSettings": "Configurações",
   "toSentOrRequestPayment": "para enviar ou solicitar pagamento",
   "reminderSent": "Lembrete enviado",
@@ -89,9 +89,9 @@
     "button": "Confirmar o número da conta"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} tem várias contas associadas a ele. {{displayName}} pode ter criado uma nova conta no {{appName}}, pode ter perdido seu celular ou teve a conta comprometida.",
-    "body1NoDisplayName": "Seu contato possui várias contas associadas a ele. Seu contato pode ter criado uma nova conta no {{appName}}, pode ter perdido o celular ou teve a conta comprometida.",
-    "body2": "Você deve escanear o código QR ou confirmar o número da conta antes de realizar a transação."
+    "body1": "{{e164PhoneNumber}} tem várias contas associadas a ele. {{displayName}} pode ter criado uma nova conta na {{appName}}, pode ter perdido seu celular ou teve a conta comprometida.",
+    "body1NoDisplayName": "Seu contato possui várias contas associadas a ele. Seu contato pode ter criado uma nova conta na {{appName}}, pode ter perdido o celular ou teve a conta comprometida.",
+    "body2": "Você deve escanear o QR code ou confirmar o número da conta antes de realizar a transação."
   },
   "confirmAccountNumber": {
     "title": "Confirmar o número da conta",
@@ -119,7 +119,7 @@
   "encryption": {
     "warningLabel": "Este comentário não será criptografado",
     "warningModalHeader": "Sobre criptografia",
-    "warningModalBody": "A criptografia garante que seus comentários sejam mantidos em sigilo. O {{appName}} usa criptografia nos comentários da transação quando o remetente e o destinatário têm esse recurso configurado. A configuração normalmente ocorrerá automaticamente assim que um usuário enviar sua primeira transação.",
+    "warningModalBody": "A criptografia garante que seus comentários sejam mantidos em sigilo. A {{appName}} usa criptografia nos comentários da transação quando o remetente e o destinatário têm esse recurso configurado. A configuração normalmente ocorrerá automaticamente assim que um usuário enviar sua primeira transação.",
     "feeLabel": "Taxa única de criptografia",
     "feeModalHeader": "Taxa única de criptografia",
     "feeModalBody": "A criptografia ajuda a manter a privacidade de seus dados confidenciais. Uma pequena taxa única é adicionada à sua primeira transação para configurar a criptografia. Isso garante que seus comentários serão enviados de forma segura e privada."
