@@ -1,6 +1,6 @@
 {
   "receivedPayment": "Pagamento recebido",
-  "receivedEscrowPayment": "Pagamento de caução recebido",
+  "receivedEscrowPayment": "Pagamento de custódia recebido",
   "from": "de",
   "celoWallet": "{{appName}}",
   "at": "em",
