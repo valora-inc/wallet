@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
@@ -502,6 +503,17 @@ export const v7Schema = {
 
 export const v8Schema = {
   ...v7Schema,
+  identity: _.omit(
+    v7Schema.identity,
+    'feelessAttestationCodes',
+    'feelessProcessingInputCode',
+    'feelessAcceptedAttestationCodes',
+    'feelessNumCompleteAttestations',
+    'feelessVerificationStatus',
+    'verificationState',
+    'feelessVerificationState',
+    'feelessLastRevealAttempt'
+  ),
   verify: {
     komenci: {
       errorTimestamps: [],
