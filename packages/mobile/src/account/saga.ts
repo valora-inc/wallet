@@ -1,5 +1,6 @@
 import firebase from '@react-native-firebase/app'
 import _ from 'lodash'
+import DeviceInfo from 'react-native-device-info'
 import { call, cancelled, put, spawn, take, takeLeading } from 'redux-saga/effects'
 import {
   Actions,
@@ -16,7 +17,8 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { clearStoredMnemonic } from 'src/backup/utils'
-import { FIREBASE_ENABLED } from 'src/config'
+import { APP_STORE_ID, FIREBASE_ENABLED } from 'src/config'
+import { generateShortInviteLink } from 'src/firebase/dynamicLinks'
 import { cUsdDailyLimitChannel, firebaseSignOut } from 'src/firebase/firebase'
 import { deleteNodeData } from 'src/geth/geth'
 import { refreshAllBalances } from 'src/home/actions'
@@ -66,6 +68,20 @@ function* clearStoredAccountSaga({ account }: ClearStoredAccountAction) {
     Logger.error(TAG + '@clearStoredAccount', 'Error while removing account', error)
     yield put(showError(ErrorMessages.ACCOUNT_CLEAR_FAILED))
   }
+}
+
+export async function generateLinkWithPath(path: string) {
+  let bundleId = DeviceInfo.getBundleId()
+  bundleId = bundleId.replace(/\.(debug|dev)$/g, '.alfajores')
+
+  // trying to fetch appStoreId needed to build a dynamic link
+  const shortUrl = await generateShortInviteLink({
+    link: `https://valoraapp.com/${path}`,
+    appStoreId: APP_STORE_ID,
+    bundleId,
+  })
+
+  return shortUrl
 }
 
 function* initializeAccount() {
