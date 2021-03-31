@@ -25,7 +25,7 @@ export async function handleInvites() {
     maxBlock = Math.max(event.blockNumber, fromBlock)
     const inviter = event.returnValues.to.toLowerCase()
     console.debug(TAG, `Sending invite notification to ${inviter}`)
-    sendInviteNotification(inviter)
+    await sendInviteNotification(inviter)
   }
 
   setLastInviteBlockNotified(maxBlock)
