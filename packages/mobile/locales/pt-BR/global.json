@@ -187,7 +187,7 @@
   "commentUnavailable": "Comentário indisponível",
   "accountClearFailed": "Ocorreu um erro ao remover sua Chave de Conta. Pode ser necessário reinstalar o aplicativo para restaurar todas as funcionalidades.",
   "withdraw": "Sacar",
-  "countryNotAvailable": "{{appName}} não está disponível no seu país",
+  "countryNotAvailable": "A {{appName}} não está disponível em seu país",
   "firebaseFetchFailed": "A conexão com o servidor falhou",
   "pictureLoadFailed": "Ocorreu um erro ao carregar sua imagem"
 }
