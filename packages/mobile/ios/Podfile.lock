@@ -1,4 +1,7 @@
 PODS:
+  - Adjust (4.26.1):
+    - Adjust/Core (= 4.26.1)
+  - Adjust/Core (4.26.1)
   - Analytics (4.1.3)
   - boost-for-react-native (1.63.0)
   - CeloBlockchain (0.0.319)
@@ -51,7 +54,7 @@ PODS:
     - FirebaseCoreDiagnostics (~> 7.4)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
-  - FirebaseCoreDiagnostics (7.9.0):
+  - FirebaseCoreDiagnostics (7.8.0):
     - GoogleDataTransport (~> 8.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
@@ -61,12 +64,12 @@ PODS:
     - leveldb-library (~> 1.22)
   - FirebaseDynamicLinks (7.7.0):
     - FirebaseCore (~> 7.0)
-  - FirebaseInstallations (7.9.0):
+  - FirebaseInstallations (7.8.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
     - PromisesObjC (~> 1.2)
-  - FirebaseInstanceID (7.9.0):
+  - FirebaseInstanceID (7.8.0):
     - FirebaseCore (~> 7.0)
     - FirebaseInstallations (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
@@ -143,28 +146,28 @@ PODS:
     - GoogleUtilities/Network (~> 7.0)
     - "GoogleUtilities/NSData+zlib (~> 7.0)"
     - nanopb (~> 2.30907.0)
-  - GoogleDataTransport (8.3.1):
+  - GoogleDataTransport (8.3.0):
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30907.0)
     - PromisesObjC (~> 1.2)
-  - GoogleUtilities/AppDelegateSwizzler (7.3.1):
+  - GoogleUtilities/AppDelegateSwizzler (7.3.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.3.1):
+  - GoogleUtilities/Environment (7.3.0):
     - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Logger (7.3.1):
+  - GoogleUtilities/Logger (7.3.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (7.3.1):
+  - GoogleUtilities/MethodSwizzler (7.3.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (7.3.1):
+  - GoogleUtilities/Network (7.3.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.3.1)"
-  - GoogleUtilities/Reachability (7.3.1):
+  - "GoogleUtilities/NSData+zlib (7.3.0)"
+  - GoogleUtilities/Reachability (7.3.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.3.1):
+  - GoogleUtilities/UserDefaults (7.3.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.5.0)
   - leveldb-library (1.22.1)
@@ -460,6 +463,11 @@ PODS:
   - RNAnalytics (1.4.3):
     - Analytics
     - React-Core
+  - RNAnalyticsIntegration-Adjust (1.4.3):
+    - Analytics
+    - React
+    - RNAnalytics
+    - Segment-Adjust
   - RNAnalyticsIntegration-Firebase (1.4.3):
     - Analytics
     - React
@@ -560,6 +568,9 @@ PODS:
     - React
   - RNSVG (12.1.0):
     - React
+  - Segment-Adjust (3.1.0):
+    - Adjust (~> 4.23)
+    - Analytics
   - Segment-Firebase (2.7.2):
     - Analytics
     - Firebase/Core (~> 7.7)
@@ -650,6 +661,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../../../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
   - "RNAnalytics (from `../../../node_modules/@segment/analytics-react-native`)"
+  - "RNAnalyticsIntegration-Adjust (from `../../../node_modules/@segment/analytics-react-native-adjust`)"
   - "RNAnalyticsIntegration-Firebase (from `../../../node_modules/@segment/analytics-react-native-firebase`)"
   - "RNCAsyncStorage (from `../../../node_modules/@react-native-community/async-storage`)"
   - "RNCClipboard (from `../../../node_modules/@react-native-community/clipboard`)"
@@ -680,6 +692,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Adjust
     - Analytics
     - boost-for-react-native
     - CocoaAsyncSocket
@@ -709,6 +722,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - Segment-Adjust
     - Segment-Firebase
     - Sentry
     - Toast
@@ -816,6 +830,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native/ReactCommon"
   RNAnalytics:
     :path: "../../../node_modules/@segment/analytics-react-native"
+  RNAnalyticsIntegration-Adjust:
+    :path: "../../../node_modules/@segment/analytics-react-native-adjust"
   RNAnalyticsIntegration-Firebase:
     :path: "../../../node_modules/@segment/analytics-react-native-firebase"
   RNCAsyncStorage:
@@ -875,6 +891,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/celo-org/OpenSSL-headers.git
 
 SPEC CHECKSUMS:
+  Adjust: e8f9b8b50b3d234923389f8e0077ce911cf502d8
   Analytics: 4c01e3e19d4be86705bad6581a1c2aa5a15a9d22
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   CeloBlockchain: 2b3bc8846dff06152d3fcc59c14c43c9740c0a72
@@ -887,11 +904,11 @@ SPEC CHECKSUMS:
   FirebaseAnalytics: f3f8f75de34fe04141a69bb1c4bd7e24a80178e1
   FirebaseAuth: 76aa97ecd51e20ecd21321d08474d25f5d2b7b9f
   FirebaseCore: ac35d680a0bf32319a59966a1478e0741536b97b
-  FirebaseCoreDiagnostics: 3d36e05da74cb8b7ce30e6594a8f201b982c725c
+  FirebaseCoreDiagnostics: 066f996579cf097bdad3d7dc9a918d6b9e129c50
   FirebaseDatabase: 4da0e43266f9cb0278464a2a4b1102b3d122c245
   FirebaseDynamicLinks: 3ddc15a6f7e1813710d265acc662e5dfe034ac36
-  FirebaseInstallations: 5e777e6640fa060405cc7632447b6c5ca5af4742
-  FirebaseInstanceID: 53140c03b9f6136f890d7901399f85a4c90ab2d0
+  FirebaseInstallations: 7f7ed0e7e27fb51f57291e1876e2ddb1524126c1
+  FirebaseInstanceID: aaecc93b4528bbcafea12c477e26827719ca1183
   FirebaseMessaging: ce33c2537fdda1d1a4bc82b2245e3c3bf9107684
   FirebaseStorage: 9b940765fa33494258fab6131b6180fc7c2d80f5
   Flipper: 289ede5e376b23149e724b0a516817a62e65d170
@@ -904,8 +921,8 @@ SPEC CHECKSUMS:
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   GoogleAppMeasurement: 0c3b134b2c0a90c4c24833873894bfe0e42a0384
-  GoogleDataTransport: 8b0e733ea77c9218778e5a9e34ba9508b8328939
-  GoogleUtilities: e1d9ed4e544fc32a93e00e721400cbc3f377200d
+  GoogleDataTransport: b006084b73915a42c28a3466961a4edda3065da6
+  GoogleUtilities: abda45f519bc4073aa1171d2f8742108def46017
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
@@ -954,6 +971,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
   RNAnalytics: 43a09152058061b4096eb6cb806093e7b772b1e5
+  RNAnalyticsIntegration-Adjust: 370a0d04cd76b0df25f1e7dac9bd1053650a8804
   RNAnalyticsIntegration-Firebase: 26ed5873658af8d1a0cff73d8da389a5207a3089
   RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
   RNCClipboard: 546484405eaa1c8a3eccce77b8c8871242e73b20
@@ -979,6 +997,7 @@ SPEC CHECKSUMS:
   RNSentry: 51972e3fe50e2fb38ae459af8c87d61f63f364db
   RNShare: fea1801315aa8875d6db73a4010b14afcd568765
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
+  Segment-Adjust: 3dd5e37785aff1aed6103e4cd00ec445b5b88f12
   Segment-Firebase: bc9760fe3d1d3aaa34d2f424cd0272ca39c25d82
   Sentry: 388c9dc093b2fd3a264466a5c5b21e25959610a9
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
@@ -986,6 +1005,6 @@ SPEC CHECKSUMS:
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: a0dfbf57c70298685dd1e3a2a107f65f34e48c67
+PODFILE CHECKSUM: 5c928456ab5a6aa19d7d0e7ced5f0a88193670dd
 
 COCOAPODS: 1.10.1

@@ -473,6 +473,8 @@ export const v7Schema = {
     ...v6Schema.app,
     activeScreen: '',
     celoEducationUri: null,
+    bitfyUrl: null,
+    flowBtcUrl: null,
     shortVerificationCodesEnabled: false,
   },
   account: {
