@@ -13,7 +13,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { storeMnemonic } from 'src/backup/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import { refreshAllBalances } from 'src/home/actions'
-import { setHasSeenVerificationNux } from 'src/identity/actions'
 import {
   Actions,
   ImportBackupPhraseAction,
@@ -21,7 +20,7 @@ import {
   importBackupPhraseSuccess,
 } from 'src/import/actions'
 import { redeemInviteSuccess } from 'src/invite/actions'
-import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import Logger from 'src/utils/Logger'
@@ -83,12 +82,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     yield put(redeemInviteSuccess())
     yield put(refreshAllBalances())
 
-    if (useEmptyWallet) {
-      yield put(setHasSeenVerificationNux(true))
-      navigateHome()
-    } else {
-      navigateClearingStack(Screens.VerificationEducationScreen)
-    }
+    navigateClearingStack(Screens.VerificationEducationScreen)
 
     yield put(importBackupPhraseSuccess())
   } catch (error) {
