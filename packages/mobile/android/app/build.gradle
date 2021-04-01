@@ -162,7 +162,7 @@ android {
         minSdkVersion isDetoxTestBuild ? 18 : rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
-        versionName "1.11.1"
+        versionName "1.12.1"
         multiDexEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
