@@ -685,137 +685,80 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
         }
       }
     >
-      <View>
-        <View
-          accessible={true}
-          focusable={true}
-          nativeBackgroundAndroid={
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+          }
+        }
+      >
+        <Text
+          style={
             Object {
-              "attribute": "selectableItemBackground",
-              "rippleRadius": undefined,
-              "type": "ThemeAttrAndroid",
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
             }
           }
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          testID="feeDrawer/SendConfirmation"
+        >
+          feeEstimate
+        </Text>
+        <View
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "marginVertical": 5,
+              },
+              undefined,
+            ]
+          }
         >
           <View
             style={
               Object {
+                "alignItems": "center",
                 "flexDirection": "row",
-                "justifyContent": "space-between",
+                "marginRight": 5,
               }
             }
           >
-            <View
+            <Text
               style={
                 Array [
-                  Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                  },
-                  undefined,
-                ]
-              }
-            >
-              <Text
-                style={
                   Object {
                     "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 16,
                     "lineHeight": 22,
-                  }
-                }
-              >
-                feeEstimate
-              </Text>
-              <View
-                style={
-                  Object {
-                    "transform": Array [
-                      Object {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  }
-                }
-              >
-                <svg
-                  fill="none"
-                  height={16}
-                  viewBox="0 0 16 16"
-                  width={16}
-                >
-                  <path
-                    d="M3 6l5 5 5-5"
-                    stroke="#B4B9BD"
-                  />
-                </svg>
-              </View>
-            </View>
-            <View
-              style={
-                Array [
-                  Object {
-                    "flexDirection": "row",
-                    "justifyContent": "space-between",
-                    "marginVertical": 5,
                   },
                   undefined,
                 ]
               }
             >
-              <View
-                style={
+              -
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "transform": Array [
                   Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                    "marginRight": 5,
-                  }
-                }
-              >
-                <Text
-                  style={
-                    Array [
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                      },
-                      undefined,
-                    ]
-                  }
-                >
-                  
-                </Text>
-              </View>
-              <View
-                style={
-                  Object {
-                    "transform": Array [
-                      Object {
-                        "scale": 0.7,
-                      },
-                    ],
-                  }
-                }
-              >
-                <ActivityIndicator
-                  animating={true}
-                  color="#42D689"
-                  hidesWhenStopped={true}
-                  size="small"
-                />
-              </View>
-            </View>
+                    "scale": 0.7,
+                  },
+                ],
+              }
+            }
+          >
+            <ActivityIndicator
+              animating={true}
+              color="#42D689"
+              hidesWhenStopped={true}
+              size="small"
+            />
           </View>
         </View>
       </View>
@@ -2878,137 +2821,80 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
         }
       }
     >
-      <View>
-        <View
-          accessible={true}
-          focusable={true}
-          nativeBackgroundAndroid={
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+          }
+        }
+      >
+        <Text
+          style={
             Object {
-              "attribute": "selectableItemBackground",
-              "rippleRadius": undefined,
-              "type": "ThemeAttrAndroid",
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
             }
           }
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          testID="feeDrawer/SendConfirmation"
+        >
+          feeEstimate
+        </Text>
+        <View
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "marginVertical": 5,
+              },
+              undefined,
+            ]
+          }
         >
           <View
             style={
               Object {
+                "alignItems": "center",
                 "flexDirection": "row",
-                "justifyContent": "space-between",
+                "marginRight": 5,
               }
             }
           >
-            <View
+            <Text
               style={
                 Array [
-                  Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                  },
-                  undefined,
-                ]
-              }
-            >
-              <Text
-                style={
                   Object {
                     "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 16,
                     "lineHeight": 22,
-                  }
-                }
-              >
-                feeEstimate
-              </Text>
-              <View
-                style={
-                  Object {
-                    "transform": Array [
-                      Object {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  }
-                }
-              >
-                <svg
-                  fill="none"
-                  height={16}
-                  viewBox="0 0 16 16"
-                  width={16}
-                >
-                  <path
-                    d="M3 6l5 5 5-5"
-                    stroke="#B4B9BD"
-                  />
-                </svg>
-              </View>
-            </View>
-            <View
-              style={
-                Array [
-                  Object {
-                    "flexDirection": "row",
-                    "justifyContent": "space-between",
-                    "marginVertical": 5,
                   },
                   undefined,
                 ]
               }
             >
-              <View
-                style={
+              -
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "transform": Array [
                   Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                    "marginRight": 5,
-                  }
-                }
-              >
-                <Text
-                  style={
-                    Array [
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                      },
-                      undefined,
-                    ]
-                  }
-                >
-                  
-                </Text>
-              </View>
-              <View
-                style={
-                  Object {
-                    "transform": Array [
-                      Object {
-                        "scale": 0.7,
-                      },
-                    ],
-                  }
-                }
-              >
-                <ActivityIndicator
-                  animating={true}
-                  color="#42D689"
-                  hidesWhenStopped={true}
-                  size="small"
-                />
-              </View>
-            </View>
+                    "scale": 0.7,
+                  },
+                ],
+              }
+            }
+          >
+            <ActivityIndicator
+              animating={true}
+              color="#42D689"
+              hidesWhenStopped={true}
+              size="small"
+            />
           </View>
         </View>
       </View>
@@ -5133,137 +5019,80 @@ exports[`SendConfirmation renders correctly when there are multiple user address
         }
       }
     >
-      <View>
-        <View
-          accessible={true}
-          focusable={true}
-          nativeBackgroundAndroid={
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+          }
+        }
+      >
+        <Text
+          style={
             Object {
-              "attribute": "selectableItemBackground",
-              "rippleRadius": undefined,
-              "type": "ThemeAttrAndroid",
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
             }
           }
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          testID="feeDrawer/SendConfirmation"
+        >
+          feeEstimate
+        </Text>
+        <View
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "marginVertical": 5,
+              },
+              undefined,
+            ]
+          }
         >
           <View
             style={
               Object {
+                "alignItems": "center",
                 "flexDirection": "row",
-                "justifyContent": "space-between",
+                "marginRight": 5,
               }
             }
           >
-            <View
+            <Text
               style={
                 Array [
-                  Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                  },
-                  undefined,
-                ]
-              }
-            >
-              <Text
-                style={
                   Object {
                     "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 16,
                     "lineHeight": 22,
-                  }
-                }
-              >
-                feeEstimate
-              </Text>
-              <View
-                style={
-                  Object {
-                    "transform": Array [
-                      Object {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  }
-                }
-              >
-                <svg
-                  fill="none"
-                  height={16}
-                  viewBox="0 0 16 16"
-                  width={16}
-                >
-                  <path
-                    d="M3 6l5 5 5-5"
-                    stroke="#B4B9BD"
-                  />
-                </svg>
-              </View>
-            </View>
-            <View
-              style={
-                Array [
-                  Object {
-                    "flexDirection": "row",
-                    "justifyContent": "space-between",
-                    "marginVertical": 5,
                   },
                   undefined,
                 ]
               }
             >
-              <View
-                style={
+              -
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "transform": Array [
                   Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                    "marginRight": 5,
-                  }
-                }
-              >
-                <Text
-                  style={
-                    Array [
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                      },
-                      undefined,
-                    ]
-                  }
-                >
-                  
-                </Text>
-              </View>
-              <View
-                style={
-                  Object {
-                    "transform": Array [
-                      Object {
-                        "scale": 0.7,
-                      },
-                    ],
-                  }
-                }
-              >
-                <ActivityIndicator
-                  animating={true}
-                  color="#42D689"
-                  hidesWhenStopped={true}
-                  size="small"
-                />
-              </View>
-            </View>
+                    "scale": 0.7,
+                  },
+                ],
+              }
+            }
+          >
+            <ActivityIndicator
+              animating={true}
+              color="#42D689"
+              hidesWhenStopped={true}
+              size="small"
+            />
           </View>
         </View>
       </View>
@@ -6208,137 +6037,80 @@ exports[`SendConfirmation with Komenci enabled renders correct modal for invitat
         }
       }
     >
-      <View>
-        <View
-          accessible={true}
-          focusable={true}
-          nativeBackgroundAndroid={
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+          }
+        }
+      >
+        <Text
+          style={
             Object {
-              "attribute": "selectableItemBackground",
-              "rippleRadius": undefined,
-              "type": "ThemeAttrAndroid",
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
             }
           }
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          testID="feeDrawer/SendConfirmation"
+        >
+          feeEstimate
+        </Text>
+        <View
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "marginVertical": 5,
+              },
+              undefined,
+            ]
+          }
         >
           <View
             style={
               Object {
+                "alignItems": "center",
                 "flexDirection": "row",
-                "justifyContent": "space-between",
+                "marginRight": 5,
               }
             }
           >
-            <View
+            <Text
               style={
                 Array [
-                  Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                  },
-                  undefined,
-                ]
-              }
-            >
-              <Text
-                style={
                   Object {
                     "color": "#2E3338",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 16,
                     "lineHeight": 22,
-                  }
-                }
-              >
-                feeEstimate
-              </Text>
-              <View
-                style={
-                  Object {
-                    "transform": Array [
-                      Object {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  }
-                }
-              >
-                <svg
-                  fill="none"
-                  height={16}
-                  viewBox="0 0 16 16"
-                  width={16}
-                >
-                  <path
-                    d="M3 6l5 5 5-5"
-                    stroke="#B4B9BD"
-                  />
-                </svg>
-              </View>
-            </View>
-            <View
-              style={
-                Array [
-                  Object {
-                    "flexDirection": "row",
-                    "justifyContent": "space-between",
-                    "marginVertical": 5,
                   },
                   undefined,
                 ]
               }
             >
-              <View
-                style={
+              -
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "transform": Array [
                   Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                    "marginRight": 5,
-                  }
-                }
-              >
-                <Text
-                  style={
-                    Array [
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                      },
-                      undefined,
-                    ]
-                  }
-                >
-                  
-                </Text>
-              </View>
-              <View
-                style={
-                  Object {
-                    "transform": Array [
-                      Object {
-                        "scale": 0.7,
-                      },
-                    ],
-                  }
-                }
-              >
-                <ActivityIndicator
-                  animating={true}
-                  color="#42D689"
-                  hidesWhenStopped={true}
-                  size="small"
-                />
-              </View>
-            </View>
+                    "scale": 0.7,
+                  },
+                ],
+              }
+            }
+          >
+            <ActivityIndicator
+              animating={true}
+              color="#42D689"
+              hidesWhenStopped={true}
+              size="small"
+            />
           </View>
         </View>
       </View>

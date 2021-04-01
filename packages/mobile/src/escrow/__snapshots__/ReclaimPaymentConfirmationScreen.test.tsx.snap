@@ -1694,7 +1694,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 >
                   -
                   
-                  0.01
+                  0.0100
                 </Text>
               </Text>
             </View>

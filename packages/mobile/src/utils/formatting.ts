@@ -10,6 +10,7 @@ export const getMoneyDisplayValue = (
   includeSymbol: boolean = false,
   roundingTolerance: number = 1
 ): string => {
+  // TODO: remove the hardcoded ternary operation here when displayDecimals is updated from monorepo
   const decimals = currency === CURRENCY_ENUM.GOLD ? 4 : CURRENCIES[currency].displayDecimals
   const symbol = CURRENCIES[currency].symbol
   const formattedValue = roundDown(value, decimals, roundingTolerance).toFormat(decimals)
