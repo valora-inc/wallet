@@ -18,7 +18,7 @@ let lastEventTime = Date.now()
 
 const persistConfig: any = {
   key: 'root',
-  version: 8, // default is -1, increment as we make migrations
+  version: 10, // default is -1, increment as we make migrations
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
   blacklist: ['geth', 'networkInfo', 'alert', 'fees', 'recipients', 'imports'],
@@ -95,6 +95,7 @@ export const configureStore = (initialState = {}) => {
           'localCurrency',
           'imports',
           'paymentRequest',
+          'verify',
         ],
       })
     )
