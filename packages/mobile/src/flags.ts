@@ -31,20 +31,11 @@ export const countryFeatures = {
     SD: true,
     SY: true,
   },
-  MOONPAY_DISABLED: {
-    US: true,
-  },
   PONTO_SUPPORTED: {
     PH: true,
   },
   KOTANI_SUPPORTED: {
     KE: true,
-  },
-  BITFY_SUPPORTED: {
-    BR: true,
-  },
-  FLOW_BTC_SUPPORTED: {
-    BR: true,
   },
   FIAT_SPEND_ENABLED: {
     PH: true,

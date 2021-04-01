@@ -1,3 +1,4 @@
+import firebase from '@react-native-firebase/app'
 import BigNumber from 'bignumber.js'
 import {
   call,
@@ -145,6 +146,24 @@ export function* searchNewItemsForProviderTxs({ transactions }: NewTransactionsI
     Logger.error(TAG + 'searchNewItemsForProviderTxs', error)
   }
 }
+
+export interface LocalCicoProviders {
+  [providerName: string]: LocalCicoProviderData
+}
+
+export interface LocalCicoProviderData {
+  isActive: boolean
+  cashIn: boolean
+  cashOut: boolean
+  countries: string[]
+}
+
+export const fetchLocalCicoProviders = (): Promise<LocalCicoProviders> =>
+  firebase
+    .database()
+    .ref('localCicoProviders')
+    .once('value')
+    .then((snapshot) => snapshot.val())
 
 export function* watchProviderTxHashes() {
   const account = yield call(getAccount)

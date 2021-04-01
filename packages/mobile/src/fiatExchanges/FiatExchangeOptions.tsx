@@ -8,21 +8,18 @@ import { CURRENCY_ENUM } from '@celo/utils'
 import { RouteProp } from '@react-navigation/core'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import {
-  bitfyUrlSelector,
-  flowBtcUrlSelector,
-  kotaniEnabledSelector,
-  pontoEnabledSelector,
-} from 'src/app/selectors'
+import { kotaniEnabledSelector, pontoEnabledSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import { KOTANI_URI, PONTO_URI } from 'src/config'
 import FundingEducationDialog from 'src/fiatExchanges/FundingEducationDialog'
+import { fetchLocalCicoProviders, LocalCicoProviderData } from 'src/fiatExchanges/saga'
 import i18n, { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -42,9 +39,12 @@ export enum PaymentMethod {
   ADDRESS = 'ADDRESS',
   PONTO = 'PONTO',
   KOTANI = 'KOTANI',
-  BITFY = 'BITFY',
-  FLOW_BTC = 'FLOW_BTC',
+  LocalProvider = 'LocalProvider',
   GIFT_CARD = 'GIFT_CARD',
+}
+
+export interface LocalCicoProvider extends LocalCicoProviderData {
+  name: string
 }
 
 export const fiatExchangesOptionsScreenOptions = ({
@@ -126,20 +126,33 @@ function PaymentMethodRadioItem({
 function FiatExchangeOptions({ route, navigation }: Props) {
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
   const isCashIn = route.params?.isCashIn ?? true
-  const {
-    KOTANI_SUPPORTED,
-    PONTO_SUPPORTED,
-    BITFY_SUPPORTED,
-    FLOW_BTC_SUPPORTED,
-  } = useCountryFeatures()
+  const { KOTANI_SUPPORTED, PONTO_SUPPORTED } = useCountryFeatures()
   const pontoEnabled = useSelector(pontoEnabledSelector)
   const kotaniEnabled = useSelector(kotaniEnabledSelector)
-  const bitfyUrl = useSelector(bitfyUrlSelector)
-  const flowBtcUrl = useSelector(flowBtcUrlSelector)
   const showPonto = pontoEnabled && PONTO_SUPPORTED
   const showKotani = kotaniEnabled && KOTANI_SUPPORTED
-  const showBitfy = bitfyUrl && BITFY_SUPPORTED
-  const showFlowBtc = flowBtcUrl && FLOW_BTC_SUPPORTED
+
+  const asyncLocalCicoProviders = useAsync(fetchLocalCicoProviders, [])
+  const localCicoProviders = asyncLocalCicoProviders.result
+  let localProviderOptions
+  if (localCicoProviders) {
+    const localProviderArr = Object.entries(localCicoProviders).map<LocalCicoProvider>(
+      ([name, values]: [string, LocalCicoProviderData]) => ({
+        ...values,
+        name,
+      })
+    )
+    const availableLocalProviders = localProviderArr.filter((provider) =>
+      isCashIn ? provider.cashIn : provider.cashOut
+    )
+    localProviderOptions = availableLocalProviders.map((provider) => (
+      <PaymentMethodRadioItem
+        text={provider.name}
+        selected={selectedPaymentMethod === PaymentMethod.LocalProvider}
+        onSelect={onSelectPaymentMethod(PaymentMethod.LocalProvider, provider)}
+      />
+    ))
+  }
 
   Logger.debug(`Ponto: ${pontoEnabled} Kotani: ${kotaniEnabled}`)
 
@@ -148,6 +161,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
     isCashIn ? PaymentMethod.CARD : PaymentMethod.EXCHANGE
   )
   const [isEducationDialogVisible, setEducationDialogVisible] = useState(false)
+  const [localCicoProviderUrl, setCicoLocalProviderUrl] = useState<string>()
 
   const goToProvider = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_option_chosen, {
@@ -163,10 +177,8 @@ function FiatExchangeOptions({ route, navigation }: Props) {
       navigate(Screens.LocalProviderCashOut, { uri: PONTO_URI })
     } else if (selectedPaymentMethod === PaymentMethod.KOTANI) {
       navigate(Screens.LocalProviderCashOut, { uri: KOTANI_URI })
-    } else if (selectedPaymentMethod === PaymentMethod.BITFY && bitfyUrl) {
-      navigate(Screens.LocalProviderCashOut, { uri: bitfyUrl })
-    } else if (selectedPaymentMethod === PaymentMethod.FLOW_BTC && flowBtcUrl) {
-      navigate(Screens.LocalProviderCashOut, { uri: flowBtcUrl })
+    } else if (selectedPaymentMethod === PaymentMethod.LocalProvider && localCicoProviderUrl) {
+      navigate(Screens.LocalProviderCashOut, { uri: localCicoProviderUrl })
     } else if (selectedPaymentMethod === PaymentMethod.GIFT_CARD) {
       navigate(Screens.BidaliScreen, { currency: selectedCurrency })
     } else if (selectedPaymentMethod === PaymentMethod.ADDRESS) {
@@ -183,8 +195,13 @@ function FiatExchangeOptions({ route, navigation }: Props) {
   }
 
   const onSelectCurrency = (currency: CURRENCY_ENUM) => () => setSelectedCurrency(currency)
-  const onSelectPaymentMethod = (paymentMethod: PaymentMethod) => () =>
+  const onSelectPaymentMethod = (
+    paymentMethod: PaymentMethod,
+    localProvider?: LocalCicoProvider
+  ) => () => {
     setSelectedPaymentMethod(paymentMethod)
+    setCicoLocalProviderUrl(localProvider?.name)
+  }
   const onPressInfoIcon = () => {
     setEducationDialogVisible(true)
     ValoraAnalytics.track(
@@ -292,22 +309,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               )}
             </>
           )}
-          {showBitfy && (
-            <PaymentMethodRadioItem
-              text={t('bitfy')}
-              selected={selectedPaymentMethod === PaymentMethod.BITFY}
-              onSelect={onSelectPaymentMethod(PaymentMethod.BITFY)}
-              enabled={true}
-            />
-          )}
-          {showFlowBtc && (
-            <PaymentMethodRadioItem
-              text={t('flowBtc')}
-              selected={selectedPaymentMethod === PaymentMethod.FLOW_BTC}
-              onSelect={onSelectPaymentMethod(PaymentMethod.FLOW_BTC)}
-              enabled={true}
-            />
-          )}
+          {localProviderOptions}
         </View>
         <Button
           style={styles.goToProvider}
