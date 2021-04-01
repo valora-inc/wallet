@@ -145,7 +145,7 @@ function convertQueryToScreenParams(query: string) {
 export function* handleDeepLink(action: OpenDeepLink) {
   const { deepLink, isSecureOrigin } = action
   Logger.debug(TAG, 'Handling deep link', deepLink)
-  var link = deepLink
+  let link = deepLink
   // console.log(deepLink)
   // console.log(deepLink.startsWith('https://vlra.app'))
   if (deepLink.startsWith('https://vlra.app')) {
