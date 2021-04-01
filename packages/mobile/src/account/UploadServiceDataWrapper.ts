@@ -6,7 +6,7 @@ import {
   OffchainDataWrapper,
   OffchainErrors,
 } from '@celo/identity/lib/offchain-data-wrapper'
-import { buildEIP712TypedData, resolvePath } from '@celo/identity/lib/offchain/utils'
+import { buildEIP712TypedData, resolvePath, signBuffer } from '@celo/identity/lib/offchain/utils'
 import { toChecksumAddress } from '@celo/utils/lib/address'
 import { recoverEIP712TypedDataSigner } from '@celo/utils/lib/signatureUtils'
 import { SignedPostPolicyV4Output } from '@google-cloud/storage'
@@ -14,9 +14,10 @@ import { SignedPostPolicyV4Output } from '@google-cloud/storage'
 import FormData from 'form-data/lib/form_data'
 import * as t from 'io-ts'
 import config from 'src/geth/networkConfig'
-import { getWalletAsync } from 'src/web3/contracts'
 
 const TAG = 'UploadServiceDataWrapper'
+
+const expirationTime = 5 * 1000 * 60 // 5 minutes
 
 // Hacky way to get Buffer from Blob
 // Note: this is gonna transfer the whole data over the RN bridge (as base64 encoded string)
@@ -96,6 +97,7 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
     const signedUrlsPayload = {
       address: this.self,
       signer: this.signer,
+      expiration: Date.now() + expirationTime,
       data: [
         {
           path: dataPath,
@@ -106,16 +108,8 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
       ],
     }
 
-    const hexPayload = ensureLeading0x(
-      Buffer.from(JSON.stringify(signedUrlsPayload)).toString('hex')
-    )
-
-    const wallet = await getWalletAsync()
-    if (!wallet) {
-      Logger.error(TAG, 'writeDataTo, wallet does not exist, this should not happen')
-      throw new Error('wallet does not exist')
-    }
-    const authorization = await wallet.signPersonalMessage(this.signer, hexPayload)
+    const bufferPayload = Buffer.from(JSON.stringify(signedUrlsPayload))
+    const authorization = await signBuffer(this, dataPath, bufferPayload)
     try {
       const signedUrls = await this.authorizeURLs(signedUrlsPayload, authorization)
       await Promise.all(

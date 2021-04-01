@@ -8,6 +8,12 @@ import { mockAccount, mockAccount2, mockDEKAddress } from 'test/values'
 // standardize the boundary value in FormData objects
 global.Math.random = () => 0
 
+jest.mock('@celo/identity/lib/offchain/utils', () => {
+  return {
+    signBuffer: jest.fn(),
+  }
+})
+
 describe(UploadServiceDataWrapper, () => {
   it('write data successfully', async () => {
     const url1 = 'url1'
