@@ -1,39 +1,34 @@
 import { Actions } from 'src/fiatExchanges/actions'
-import { initialState, reducer } from 'src/fiatExchanges/reducer'
+import {
+  CicoProviderNames,
+  initialState,
+  providersDisplayInfo,
+  reducer,
+} from 'src/fiatExchanges/reducer'
 
 describe('fiat exchange reducer', () => {
   it('should return the initial state', () => {
     // @ts-ignore
     expect(reducer(undefined, {})).toEqual(initialState)
   })
-  const mockProvider1 = {
-    name: 'Provider 1 name',
-    icon: 'https://provider1.iconUrl',
-  }
-  const mockProvider2 = {
-    name: 'Provider 2 name',
-    icon: 'https://provider2.iconUrl',
-  }
 
   it('SELECT_PROVIDER should override the provider', () => {
     let updatedState = reducer(undefined, {
       type: Actions.SELECT_PROVIDER,
-      name: mockProvider1.name,
-      icon: mockProvider1.icon,
+      provider: CicoProviderNames.Moonpay,
     })
     expect(updatedState).toEqual({
       ...initialState,
-      lastUsedProvider: mockProvider1,
+      lastUsedProvider: CicoProviderNames.Moonpay,
     })
 
     updatedState = reducer(updatedState, {
       type: Actions.SELECT_PROVIDER,
-      name: mockProvider2.name,
-      icon: mockProvider2.icon,
+      provider: CicoProviderNames.Simplex,
     })
     expect(updatedState).toEqual({
       ...initialState,
-      lastUsedProvider: mockProvider2,
+      lastUsedProvider: CicoProviderNames.Simplex,
     })
   })
 
@@ -60,8 +55,7 @@ describe('fiat exchange reducer', () => {
 
     updatedState = reducer(updatedState, {
       type: Actions.SELECT_PROVIDER,
-      name: mockProvider1.name,
-      icon: mockProvider1.icon,
+      provider: CicoProviderNames.Moonpay,
     })
     updatedState = reducer(updatedState, {
       type: Actions.ASSIGN_PROVIDER_TO_TX_HASH,
@@ -77,10 +71,69 @@ describe('fiat exchange reducer', () => {
           name: 'fiatExchangeFlow:cUsdDeposit',
           icon: expect.any(String),
         },
-        [txHash2]: {
-          name: mockProvider1.name,
-          icon: mockProvider1.icon,
-        },
+        [txHash2]: providersDisplayInfo[CicoProviderNames.Moonpay],
+      },
+    })
+  })
+
+  it("ASSIGN_PROVIDER_TO_TX_HASH doesn't override tx hashes", () => {
+    const currencyCode = 'cUSD'
+    const txHash1 = '0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353'
+
+    let updatedState = reducer(initialState, {
+      type: Actions.SELECT_PROVIDER,
+      provider: CicoProviderNames.Moonpay,
+    })
+    updatedState = reducer(updatedState, {
+      type: Actions.ASSIGN_PROVIDER_TO_TX_HASH,
+      txHash: txHash1,
+      currencyCode,
+    })
+    // Now, overwriting Moonpay with Simplex should casue no effect.
+    updatedState = reducer(updatedState, {
+      type: Actions.SELECT_PROVIDER,
+      provider: CicoProviderNames.Simplex,
+    })
+    updatedState = reducer(updatedState, {
+      type: Actions.ASSIGN_PROVIDER_TO_TX_HASH,
+      txHash: txHash1,
+      currencyCode,
+    })
+
+    expect(updatedState).toEqual({
+      ...initialState,
+      lastUsedProvider: CicoProviderNames.Simplex,
+      txHashToProvider: {
+        [txHash1]: providersDisplayInfo[CicoProviderNames.Moonpay],
+      },
+    })
+  })
+
+  it('SET_PROVIDERS_FOR_TX_HASHES overwrites any pre-existing mappings', () => {
+    const currencyCode = 'cUSD'
+    const txHash1 = '0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353'
+
+    // First, set Moonpay as the provider.
+    let updatedState = reducer(initialState, {
+      type: Actions.SELECT_PROVIDER,
+      provider: CicoProviderNames.Moonpay,
+    })
+    updatedState = reducer(updatedState, {
+      type: Actions.ASSIGN_PROVIDER_TO_TX_HASH,
+      txHash: txHash1,
+      currencyCode,
+    })
+    // Then, overwrite it with the data that comes from Firebase.
+    updatedState = reducer(updatedState, {
+      type: Actions.SET_PROVIDERS_FOR_TX_HASHES,
+      txHashes: { [txHash1]: CicoProviderNames.Simplex },
+    })
+
+    expect(updatedState).toEqual({
+      ...initialState,
+      lastUsedProvider: null,
+      txHashToProvider: {
+        [txHash1]: providersDisplayInfo[CicoProviderNames.Simplex],
       },
     })
   })

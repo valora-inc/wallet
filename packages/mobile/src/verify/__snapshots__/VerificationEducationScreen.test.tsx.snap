@@ -811,7 +811,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         <div id=\\"captcha\\" style=\\"height: 100vh;\\">
            <div style=\\"text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;\\">
               <div class=\\"g-recaptcha\\" style=\\"display: inline-block; height: auto;\\" 
-                 data-sitekey=\\"undefined\\" data-callback=\\"onDataCallback\\"  
+                 data-sitekey=\\"RECAPTCHA_SITE_KEY\\" data-callback=\\"onDataCallback\\"  
                  data-expired-callback=\\"onDataExpiredCallback\\"  
                  data-error-callback=\\"onDataErrorCallback\\">
               </div>
@@ -1855,7 +1855,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
         <div id=\\"captcha\\" style=\\"height: 100vh;\\">
            <div style=\\"text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;\\">
               <div class=\\"g-recaptcha\\" style=\\"display: inline-block; height: auto;\\" 
-                 data-sitekey=\\"undefined\\" data-callback=\\"onDataCallback\\"  
+                 data-sitekey=\\"RECAPTCHA_SITE_KEY\\" data-callback=\\"onDataCallback\\"  
                  data-expired-callback=\\"onDataExpiredCallback\\"  
                  data-error-callback=\\"onDataErrorCallback\\">
               </div>
@@ -2899,7 +2899,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
         <div id=\\"captcha\\" style=\\"height: 100vh;\\">
            <div style=\\"text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;\\">
               <div class=\\"g-recaptcha\\" style=\\"display: inline-block; height: auto;\\" 
-                 data-sitekey=\\"undefined\\" data-callback=\\"onDataCallback\\"  
+                 data-sitekey=\\"RECAPTCHA_SITE_KEY\\" data-callback=\\"onDataCallback\\"  
                  data-expired-callback=\\"onDataExpiredCallback\\"  
                  data-error-callback=\\"onDataErrorCallback\\">
               </div>
@@ -3392,7 +3392,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
 </View>
 `;
 
-exports[`VerificationEducationScreen with KOMENCI enabled shows the \`continue\` button when the user is not already verified and doesnt have enough balance 1`] = `
+exports[`VerificationEducationScreen with KOMENCI enabled shows the \`continue\` button when the user is not yet verified and doesn't have enough balance 1`] = `
 <View
   style={
     Object {
@@ -3943,7 +3943,7 @@ exports[`VerificationEducationScreen with KOMENCI enabled shows the \`continue\`
         <div id=\\"captcha\\" style=\\"height: 100vh;\\">
            <div style=\\"text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;\\">
               <div class=\\"g-recaptcha\\" style=\\"display: inline-block; height: auto;\\" 
-                 data-sitekey=\\"undefined\\" data-callback=\\"onDataCallback\\"  
+                 data-sitekey=\\"RECAPTCHA_SITE_KEY\\" data-callback=\\"onDataCallback\\"  
                  data-expired-callback=\\"onDataExpiredCallback\\"  
                  data-error-callback=\\"onDataErrorCallback\\">
               </div>

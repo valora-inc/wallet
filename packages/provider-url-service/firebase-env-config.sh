@@ -10,8 +10,6 @@ while getopts 'e:' flag; do
   esac
 done
 
-echo "The environment is ${ENV_NAME}"
-
 ENV_FILENAME=".env.${ENV_NAME}"
 
 firebase functions:config:set \

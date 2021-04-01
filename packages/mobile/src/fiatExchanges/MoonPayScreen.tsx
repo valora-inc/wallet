@@ -3,8 +3,8 @@ import * as React from 'react'
 import { useAsync } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import InAppBrowser from 'src/components/InAppBrowser'
-import { Providers } from 'src/fiatExchanges/ProviderOptionsScreen'
-import { fetchProviderUrl, isExpectedUrl } from 'src/fiatExchanges/utils'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
+import { fetchProviderWidgetUrl, isExpectedUrl } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -16,12 +16,6 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 const MOONPAY_URI = networkConfig.moonpayWidgetUrl
 
-export const moonPayOptions = () => ({
-  ...emptyHeader,
-  headerTitle: (MOONPAY_URI.match(/(?!(w+)\.)(-|\w)*(?:\w+\.)+\w+/) || [])[0],
-  headerLeft: () => <TopBarTextButton title={i18n.t('global:done')} onPress={navigateBack} />,
-})
-
 type RouteProps = StackScreenProps<StackParamList, Screens.MoonPayScreen>
 type Props = RouteProps
 
@@ -31,7 +25,7 @@ function MoonPayScreen({ route }: Props) {
 
   const fetchResponse = useAsync(
     () =>
-      fetchProviderUrl(Providers.MOONPAY, {
+      fetchProviderWidgetUrl(CicoProviderNames.Moonpay, {
         address: account,
         digitalAsset: currencyToBuy,
         fiatCurrency: currencyCode,
@@ -48,5 +42,11 @@ function MoonPayScreen({ route }: Props) {
 
   return <InAppBrowser uri={url} isLoading={!url} onCancel={navigateBack} />
 }
+
+MoonPayScreen.navigationOptions = () => ({
+  ...emptyHeader,
+  headerTitle: (MOONPAY_URI.match(/(?!(w+)\.)(-|\w)*(?:\w+\.)+\w+/) || [])[0],
+  headerLeft: () => <TopBarTextButton title={i18n.t('global:done')} onPress={navigateBack} />,
+})
 
 export default MoonPayScreen

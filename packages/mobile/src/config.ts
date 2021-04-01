@@ -46,16 +46,11 @@ export const GOLD_TRANSACTION_MIN_AMOUNT = 0.001
 // The number of seconds before the sender can reclaim the payment.
 export const ESCROW_PAYMENT_EXPIRY_SECONDS = 3600 // 1 hour
 export const DEFAULT_TESTNET = Config.DEFAULT_TESTNET
-export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD = 500
+export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD = 1000
 export const SMS_RETRIEVER_APP_SIGNATURE = Config.SMS_RETRIEVER_APP_SIGNATURE
 // ODIS minimum dollar balance for pepper quota retrieval
 // TODO change this to new ODIS minimum dollar balance once deployed
 export const ODIS_MINIMUM_DOLLAR_BALANCE = 0.1
-// When user goes to VerificationEducationScreen - we fetch current verification state.
-// Then user decides on what to do and go to VerificationInputScreen.
-// If user were "deciding" for more than VERIFICATION_STATE_EXPIRY_SECONDS, then
-// we would refetch verification state before going to VerificationInputScreen
-export const VERIFICATION_STATE_EXPIRY_SECONDS = 30
 
 export const ATTESTATION_REVEAL_TIMEOUT_SECONDS = 60 // 1 minute
 
@@ -88,32 +83,12 @@ export const GETH_START_HTTP_RPC_SERVER = stringToBoolean(
 )
 
 // SECRETS
-export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SEGMENT_API_KEY')
-export const FIREBASE_WEB_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'FIREBASE_WEB_KEY')
-export const SENTRY_URL = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SENTRY_URL')
-
-export const RECAPTCHA_SITE_KEY_ALFAJORES = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'RECAPTCHA_SITE_KEY_ALFAJORES'
-)
-export const RECAPTCHA_SITE_KEY_MAINNET = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'RECAPTCHA_SITE_KEY_MAINNET'
-)
-export const SAFETYNET_KEY = keyOrUndefined(secretsFile, Config.SECRETS_KEY, 'SAFETYNET_KEY')
-
-export const BIDALI_URL_ALFAJORES = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'BIDALI_URL_ALFAJORES'
-)
-export const BIDALI_URL_MAINNET = keyOrUndefined(
-  secretsFile,
-  Config.SECRETS_KEY,
-  'BIDALI_URL_MAINNET'
-)
+export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SEGMENT_API_KEY')
+export const SENTRY_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SENTRY_URL')
+export const RECAPTCHA_SITE_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'RECAPTCHA_SITE_KEY')
+export const SAFETYNET_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SAFETYNET_KEY')
+export const MOONPAY_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'MOONPAY_API_KEY')
+export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')
 
 export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [
   {
