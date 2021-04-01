@@ -3,8 +3,8 @@ import { _persistConfig } from 'src/redux/store'
 
 describe('persistConfig', () => {
   it('points to the latest migration', () => {
-    let migrationKeys = Object.keys(migrations)
-      .map((ver) => parseInt(ver))
+    const migrationKeys = Object.keys(migrations)
+      .map((ver) => parseInt(ver, 10))
       .sort((a, b) => a - b)
 
     // If this test fails, a migration has been added without increasing the persistConfig version
