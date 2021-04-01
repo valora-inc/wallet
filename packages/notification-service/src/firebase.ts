@@ -132,6 +132,7 @@ export function initializeDb() {
       } else if (lastBlock > lastBlockNotified) {
         lastBlockNotified = lastBlock
       }
+      metrics.setLastBlockNotified(lastBlockNotified)
     },
     (errorObject: any) => {
       console.error('Latest block data read failed:', errorObject.code)
@@ -220,14 +221,12 @@ export function setLastBlockNotified(newBlock: number): Promise<void> | undefine
     return
   }
 
-  // Set the metric tracking this difference
-  metrics.setBlockDelay(newBlock - lastBlockNotified)
-
   console.debug('Updating last block notified to:', newBlock)
   // Although firebase will keep our local lastBlockNotified in sync with the DB,
   // we set it here ourselves to avoid race condition where we check for notifications
   // again before it syncs
   lastBlockNotified = newBlock
+  metrics.setLastBlockNotified(newBlock)
   if (ENVIRONMENT === 'local') {
     return
   }
@@ -263,6 +262,10 @@ export async function sendPaymentNotification(
   data: { [key: string]: string }
 ) {
   console.info(NOTIFICATIONS_TAG, 'Block delay: ', lastBlockNotified - blockNumber)
+
+  // Set the metric tracking this delay
+  metrics.setBlockDelay(lastBlockNotified - blockNumber)
+
   const t = getTranslatorForAddress(recipientAddress)
   data.type = NotificationTypes.PAYMENT_RECEIVED
   const { title, body } = notificationTitleAndBody(senderAddress, currency)

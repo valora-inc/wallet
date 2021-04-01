@@ -150,7 +150,6 @@ export async function handleTransferNotifications(): Promise<void> {
   // To account for this, we save a cache of all blocks already handled in the last |MAX_BLOCKS_TO_WAIT| blocks (|processedBlocks|),
   // so a transaction has that number of blocks to show up on Blockscout before we miss sending the notification for it.
   const blockToQuery = lastBlockNotified - MAX_BLOCKS_TO_WAIT
-
   const { goldTokenAddress, stableTokenAddress } = await getTokenAddresses()
 
   const {
@@ -164,9 +163,12 @@ export async function handleTransferNotifications(): Promise<void> {
   } = await getLatestTokenTransfers(stableTokenAddress, blockToQuery, Currencies.DOLLAR)
 
   const allTransfers = filterAndJoinTransfers(celoTransfers, stableTransfers)
+  const newCheckpointBlock = setLastBlockNotified(
+    Math.max(stableTransfersLatestBlock, celoTransfersLatestBlock)
+  )
   await notifyForNewTransfers(allTransfers)
   updateProcessedBlocks(celoTransfers, Currencies.GOLD, celoTransfersLatestBlock)
   updateProcessedBlocks(stableTransfers, Currencies.DOLLAR, stableTransfersLatestBlock)
 
-  return setLastBlockNotified(Math.max(stableTransfersLatestBlock, celoTransfersLatestBlock))
+  return newCheckpointBlock
 }
