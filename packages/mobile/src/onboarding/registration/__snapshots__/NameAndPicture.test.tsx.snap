@@ -510,18 +510,12 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
             }
             testID="NameAndPictureContinueButton"
           >
-            <Text
-              style={
-                Object {
-                  "color": "#0768AE",
-                  "fontFamily": "Inter-SemiBold",
-                  "fontSize": 16,
-                  "lineHeight": 22,
-                }
-              }
-            >
-              global:next
-            </Text>
+            <ActivityIndicator
+              animating={true}
+              color="#42D689"
+              hidesWhenStopped={true}
+              size="small"
+            />
           </View>
         </View>
       </View>
@@ -1056,18 +1050,12 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
             }
             testID="NameAndPictureContinueButton"
           >
-            <Text
-              style={
-                Object {
-                  "color": "#0768AE",
-                  "fontFamily": "Inter-SemiBold",
-                  "fontSize": 16,
-                  "lineHeight": 22,
-                }
-              }
-            >
-              global:next
-            </Text>
+            <ActivityIndicator
+              animating={true}
+              color="#42D689"
+              hidesWhenStopped={true}
+              size="small"
+            />
           </View>
         </View>
       </View>

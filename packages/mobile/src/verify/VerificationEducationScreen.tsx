@@ -38,6 +38,7 @@ import {
   actionableAttestationsSelector,
   checkIfKomenciAvailable,
   currentStateSelector,
+  isBalanceSufficientSelector,
   reset,
   setKomenciContext,
   shouldUseKomenciSelector,
@@ -149,12 +150,6 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     return response.json()
   }, [])
 
-  useEffect(() => {
-    if (verificationState.status.isVerified || feelessVerificationState.status.isVerified) {
-      dispatch(setNumberVerified(true))
-    }
-  }, [verificationState.status.isVerified, feelessVerificationState.status.isVerified])
-
   useFocusEffect(
     // useCallback is needed here: https://bit.ly/2G0WKTJ
     useCallback(() => {
@@ -222,6 +217,8 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     )
   }
 
+  const isBalanceSufficient = useSelector(isBalanceSufficientSelector)
+
   if (asyncKomenciAvailable.loading || shouldUseKomenci === undefined || !account) {
     return (
       <View style={styles.loader}>
@@ -264,7 +261,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         style={styles.startButton}
       />
     )
-  } else if (tryFeeless || verificationState.isBalanceSufficient) {
+  } else if (shouldUseKomenci || isBalanceSufficient) {
     // Sufficient balance
     bodyText = t(`verificationEducation.${shouldUseKomenci ? 'feelessBody' : 'body'}`)
     firstButton = (

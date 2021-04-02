@@ -478,7 +478,6 @@ export const v7Schema = {
     bitfyUrl: null,
     flowBtcUrl: null,
     shortVerificationCodesEnabled: false,
-    hideVerification: false,
   },
   account: {
     ...v6Schema.account,
@@ -515,6 +514,10 @@ export const v8Schema = {
     'feelessVerificationState',
     'feelessLastRevealAttempt'
   ),
+  app: {
+    ...v7Schema,
+    hideVerification: false,
+  },
   verify: {
     komenci: {
       errorTimestamps: [],
