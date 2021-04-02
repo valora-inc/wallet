@@ -8,7 +8,6 @@ import { Countries } from '@celo/utils/lib/countries'
 import { useFocusEffect } from '@react-navigation/native'
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
@@ -34,6 +33,7 @@ import { StackParamList } from 'src/navigator/types'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
+import { useAsyncKomenciAvailable } from 'src/verify/hooks'
 import {
   actionableAttestationsSelector,
   checkIfKomenciAvailable,
@@ -145,10 +145,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
 
   // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
   const hideVerification = useSelector(hideVerificationSelector)
-  const asyncKomenciAvailable = useAsync<boolean>(async () => {
-    const response = await fetch(networkConfig.komenciLoadCheckEndpoint)
-    return response.json()
-  }, [])
+  const asyncKomenciAvailable = useAsyncKomenciAvailable()
 
   useFocusEffect(
     // useCallback is needed here: https://bit.ly/2G0WKTJ
