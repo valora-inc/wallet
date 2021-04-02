@@ -8,6 +8,7 @@ import { Countries } from '@celo/utils/lib/countries'
 import { useFocusEffect } from '@react-navigation/native'
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
@@ -19,7 +20,7 @@ import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedSelector } from 'src/app/selectors'
+import { hideVerificationSelector, numberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import { WEB_LINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
@@ -37,7 +38,6 @@ import {
   actionableAttestationsSelector,
   checkIfKomenciAvailable,
   currentStateSelector,
-  isBalanceSufficientSelector,
   reset,
   setKomenciContext,
   shouldUseKomenciSelector,
@@ -142,6 +142,19 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     dispatch(checkIfKomenciAvailable())
   }, [])
 
+  // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
+  const hideVerification = useSelector(hideVerificationSelector)
+  const asyncKomenciAvailable = useAsync<boolean>(async () => {
+    const response = await fetch(networkConfig.komenciLoadCheckEndpoint)
+    return response.json()
+  }, [])
+
+  useEffect(() => {
+    if (verificationState.status.isVerified || feelessVerificationState.status.isVerified) {
+      dispatch(setNumberVerified(true))
+    }
+  }, [verificationState.status.isVerified, feelessVerificationState.status.isVerified])
+
   useFocusEffect(
     // useCallback is needed here: https://bit.ly/2G0WKTJ
     useCallback(() => {
@@ -209,9 +222,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     )
   }
 
-  const isBalanceSufficient = useSelector(isBalanceSufficientSelector)
-
-  if (shouldUseKomenci === undefined || !account) {
+  if (asyncKomenciAvailable.loading || shouldUseKomenci === undefined || !account) {
     return (
       <View style={styles.loader}>
         {account && (
@@ -243,7 +254,17 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         testID="VerificationEducationSkip"
       />
     )
-  } else if (shouldUseKomenci || isBalanceSufficient) {
+  } else if (!asyncKomenciAvailable.result || hideVerification) {
+    bodyText = t('verificationUnavailable')
+    firstButton = (
+      <Button
+        text={t('global:continue')}
+        onPress={onPressSkipConfirm}
+        type={BtnTypes.ONBOARDING}
+        style={styles.startButton}
+      />
+    )
+  } else if (tryFeeless || verificationState.isBalanceSufficient) {
     // Sufficient balance
     bodyText = t(`verificationEducation.${shouldUseKomenci ? 'feelessBody' : 'body'}`)
     firstButton = (
@@ -289,6 +310,8 @@ function VerificationEducationScreen({ route, navigation }: Props) {
           internationalPhoneNumber={phoneNumberInfo.internationalPhoneNumber}
           onPressCountry={onPressCountry}
           onChange={onChangePhoneNumberInput}
+          // CB TEMPORARY HOTFIX: Locking input field if verification unavailable
+          editable={!!asyncKomenciAvailable.result && !hideVerification}
         />
         {firstButton}
         <View style={styles.spacer} />

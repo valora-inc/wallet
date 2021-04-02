@@ -15,7 +15,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { DEFAULT_CACHE_ACCOUNT, isPinValid } from 'src/pincode/authentication'
@@ -25,6 +25,7 @@ import { RootState } from 'src/redux/reducers'
 
 interface StateProps {
   choseToRestoreAccount: boolean | undefined
+  hideVerification: boolean
 }
 
 interface DispatchProps {
@@ -44,6 +45,7 @@ type Props = ScreenProps & StateProps & DispatchProps & WithTranslation
 function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
+    hideVerification: state.app.hideVerification,
   }
 }
 
@@ -63,6 +65,8 @@ export class PincodeSet extends React.Component<Props, State> {
   navigateToNextScreen = () => {
     if (this.props.choseToRestoreAccount) {
       navigate(Screens.ImportWallet)
+    } else if (this.props.hideVerification || !this.props.route.params?.komenciAvailable) {
+      navigateHome()
     } else {
       navigateClearingStack(Screens.VerificationEducationScreen)
     }
