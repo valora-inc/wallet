@@ -115,5 +115,5 @@
   "success": {
     "message": "You're all set!"
   },
-  "verificationUnavailable": "Phone number confirmation is currently unavailable. Please try again later.\n\nYou can continue to use Valora. In the meantime, payments sent to your phone number will be safely held in escrow until your phone number is confirmed."
+  "verificationUnavailable": "Phone number confirmation is currently unavailable. Please enter your phone number and we will notify you when it is possible to confirm again.\n\nIn the meantime, you can continue to use Valora!. Payments sent to your phone number will be safely held until you redeem them by confirming your phone number."
 }
