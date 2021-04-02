@@ -20,7 +20,7 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedSelector } from 'src/app/selectors'
+import { hideVerificationSelector, numberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import { WEB_LINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
@@ -43,6 +43,7 @@ import { StackParamList } from 'src/navigator/types'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
+import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import GoogleReCaptcha from 'src/verify/safety/GoogleReCaptcha'
 import { getPhoneNumberState } from 'src/verify/utils'
 import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'
@@ -79,6 +80,16 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const country = phoneNumberInfo.countryCodeAlpha2
     ? countries.getCountryByCodeAlpha2(phoneNumberInfo.countryCodeAlpha2)
     : undefined
+
+  const onPressContinueWhenVerificationUnavailable = () => {
+    if (!canUsePhoneNumber()) {
+      return
+    }
+
+    dispatch(setHasSeenVerificationNux(true))
+    navigateHome()
+  }
+
   useEffect(() => {
     const newCountryAlpha2 = route.params?.selectedCountryCodeAlpha2
     if (newCountryAlpha2 && newCountryAlpha2 !== phoneNumberInfo.countryCodeAlpha2) {
@@ -111,6 +122,10 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       dispatch(setNumberVerified(true))
     }
   }, [verificationState.status.isVerified, feelessVerificationState.status.isVerified])
+
+  // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
+  const hideVerification = useSelector(hideVerificationSelector)
+  const asyncKomenciReadiness = useAsyncKomenciReadiness()
 
   useFocusEffect(
     // useCallback is needed here: https://bit.ly/2G0WKTJ
@@ -234,7 +249,12 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     )
   }
 
-  if (feelessVerificationState.isLoading || verificationState.isLoading || !account) {
+  if (
+    asyncKomenciReadiness.loading ||
+    feelessVerificationState.isLoading ||
+    verificationState.isLoading ||
+    !account
+  ) {
     return (
       <View style={styles.loader}>
         {account && (
@@ -260,6 +280,18 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       <Button
         text={partOfOnboarding ? t('global:continue') : t('global:goBack')}
         onPress={onPressContinue}
+        type={BtnTypes.ONBOARDING}
+        style={styles.startButton}
+        disabled={continueButtonDisabled}
+        testID="VerificationEducationSkip"
+      />
+    )
+  } else if (!asyncKomenciReadiness.result || hideVerification) {
+    bodyText = t('verificationUnavailable')
+    firstButton = (
+      <Button
+        text={t('global:continue')}
+        onPress={onPressContinueWhenVerificationUnavailable}
         type={BtnTypes.ONBOARDING}
         style={styles.startButton}
         disabled={continueButtonDisabled}
