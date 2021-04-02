@@ -44,19 +44,21 @@ export function* setPincode({ pincodeType }: SetPincodeAction) {
   }
 }
 
-function* clearStoredAccountSaga({ account }: ClearStoredAccountAction) {
+function* clearStoredAccountSaga({ account, softDelete }: ClearStoredAccountAction) {
   try {
-    yield call(removeAccountLocally, account)
-    yield call(clearStoredMnemonic)
-    yield call(ValoraAnalytics.reset)
-    yield call(deleteNodeData)
+    if (!softDelete) {
+      yield call(removeAccountLocally, account)
+      yield call(clearStoredMnemonic)
+      yield call(ValoraAnalytics.reset)
+      yield call(deleteNodeData)
 
-    // Ignore error if it was caused by Firebase.
-    try {
-      yield call(firebaseSignOut, firebase.app())
-    } catch (error) {
-      if (FIREBASE_ENABLED) {
-        Logger.error(TAG + '@clearStoredAccount', 'Failed to sign out from Firebase', error)
+      // Ignore error if it was caused by Firebase.
+      try {
+        yield call(firebaseSignOut, firebase.app())
+      } catch (error) {
+        if (FIREBASE_ENABLED) {
+          Logger.error(TAG + '@clearStoredAccount', 'Failed to sign out from Firebase', error)
+        }
       }
     }
 
