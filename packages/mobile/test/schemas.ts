@@ -478,6 +478,7 @@ export const v7Schema = {
     bitfyUrl: null,
     flowBtcUrl: null,
     shortVerificationCodesEnabled: false,
+    hideVerification: false,
   },
   account: {
     ...v6Schema.account,

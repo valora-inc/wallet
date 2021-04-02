@@ -1,6 +1,5 @@
 import QRCodeBorderlessIcon from '@celo/react-components/icons/QRCodeBorderless'
 import Times from '@celo/react-components/icons/Times'
-import VerifyPhone from '@celo/react-components/icons/VerifyPhone'
 import colors from '@celo/react-components/styles/colors'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
@@ -215,13 +214,15 @@ class Send extends React.Component<Props, State> {
   }
 
   tryImportContacts = async () => {
-    const { numberVerified, allRecipients } = this.props
+    // CB TEMPORARY HOTFIX: Disabling phone number confirmation requirement
+    // for sending to phone numbers
+    // const { numberVerified, allRecipients } = this.props
 
-    // Only import contacts if number is verified and
-    // recip cache is empty so we haven't already
-    if (!numberVerified || allRecipients.length) {
-      return
-    }
+    // // Only import contacts if number is verified and
+    // // recip cache is empty so we haven't already
+    // if (!numberVerified || allRecipients.length) {
+    //   return
+    // }
 
     const hasGivenContactPermission = await requestContactsPermission()
     this.setState({ hasGivenContactPermission })
@@ -282,21 +283,25 @@ class Send extends React.Component<Props, State> {
   }
 
   renderListHeader = () => {
-    const { t, numberVerified, verificationPossible, inviteRewardsEnabled } = this.props
+    // CB TEMPORARY HOTFIX: Disabling phone number confirmation requirement
+    // for sending to phone numbers
+    // const { t, numberVerified, verificationPossible, inviteRewardsEnabled } = this.props
+    const { t, numberVerified, inviteRewardsEnabled } = this.props
     const { hasGivenContactPermission } = this.state
 
-    if (!numberVerified && verificationPossible) {
-      return (
-        <SendCallToAction
-          icon={<VerifyPhone height={49} />}
-          header={t('verificationCta.header')}
-          body={t('verificationCta.body')}
-          cta={t('verificationCta.cta')}
-          onPressCta={this.onPressStartVerification}
-        />
-      )
-    }
-    if (numberVerified && !hasGivenContactPermission) {
+    // if (!numberVerified && verificationPossible) {
+    //   return (
+    //     <SendCallToAction
+    //       icon={<VerifyPhone height={49} />}
+    //       header={t('verificationCta.header')}
+    //       body={t('verificationCta.body')}
+    //       cta={t('verificationCta.cta')}
+    //       onPressCta={this.onPressStartVerification}
+    //     />
+    //   )
+    // }
+    // if (numberVerified && !hasGivenContactPermission) {
+    if (!hasGivenContactPermission) {
       return (
         <SendCallToAction
           icon={<ContactPermission />}

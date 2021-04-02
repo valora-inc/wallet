@@ -4,6 +4,7 @@ import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
 import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -14,6 +15,7 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import DevSkipButton from 'src/components/DevSkipButton'
+import networkConfig from 'src/geth/networkConfig'
 import i18n, { Namespaces } from 'src/i18n'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -34,6 +36,12 @@ function NameAndPicture({ navigation }: Props) {
 
   const { t } = useTranslation(Namespaces.nuxNamePin1)
 
+  // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
+  const asyncKomenciAvailable = useAsync<boolean>(async () => {
+    const response = await fetch(networkConfig.komenciLoadCheckEndpoint)
+    return response.json()
+  }, [])
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
@@ -48,7 +56,7 @@ function NameAndPicture({ navigation }: Props) {
   }, [navigation, choseToRestoreAccount])
 
   const goToNextScreen = () => {
-    navigate(Screens.PincodeSet)
+    navigate(Screens.PincodeSet, { komenciAvailable: !!asyncKomenciAvailable.result })
   }
 
   const onPressContinue = () => {
@@ -114,6 +122,7 @@ function NameAndPicture({ navigation }: Props) {
           type={BtnTypes.ONBOARDING}
           disabled={!nameInput.trim()}
           testID={'NameAndPictureContinueButton'}
+          showLoading={asyncKomenciAvailable.loading}
         />
       </ScrollView>
       <KeyboardSpacer />
