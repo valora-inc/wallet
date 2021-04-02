@@ -7,7 +7,7 @@ import { Response, TokenTransfer, Transfer } from './blockscout'
 import { formatTransfers } from './transfersFormatter'
 
 export const WEI_PER_GOLD = 1000000000000000000.0
-export const MAX_BLOCKS_TO_WAIT = 600
+export const MAX_BLOCKS_TO_WAIT = 80
 
 export enum Currencies {
   GOLD = 'gold',

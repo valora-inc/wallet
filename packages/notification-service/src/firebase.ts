@@ -1,4 +1,5 @@
 import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils'
+import { DataSnapshot } from '@firebase/database-types'
 import * as admin from 'firebase-admin'
 import i18next from 'i18next'
 import { Currencies, MAX_BLOCKS_TO_WAIT } from './blockscout/transfers'
@@ -68,7 +69,7 @@ export interface AddressToDisplayNameType {
 let registrations: Registrations = {}
 let lastBlockNotified: number = -1
 
-let pendingRequests: PendingRequests = {}
+const pendingRequests: PendingRequests = {}
 let celoRewardsSenders: string[] = []
 
 export function _setTestRegistrations(testRegistrations: Registrations) {
@@ -95,6 +96,12 @@ function paymentObjectToNotification(po: PaymentRequest): { [key: string]: strin
   }
 }
 
+function firebaseFetchError(nodeKey: string) {
+  return (errorObject: any) => {
+    console.error(`${nodeKey} data read failed:`, errorObject.code)
+  }
+}
+
 export function initializeDb() {
   database = admin.database()
   registrationsRef = database.ref('/registrations')
@@ -102,18 +109,15 @@ export function initializeDb() {
   pendingRequestsRef = database.ref('/pendingRequests')
   knownAddressesRef = database.ref('/addressesExtraInfo')
 
-  // Attach to the registration ref to keep local registrations mapping up to date
-  registrationsRef.on(
-    'value',
-    (snapshot) => {
-      console.debug('Registration data updated')
-      registrations = (snapshot && snapshot.val()) || {}
-      console.debug('Total registrations found:', Object.keys(registrations).length)
-    },
-    (errorObject: any) => {
-      console.error('Registration data read failed:', errorObject.code)
+  function addOrUpdateRegistration(snapshot: DataSnapshot) {
+    const registration = (snapshot && snapshot.val()) || {}
+    console.debug('New or updated registration:', snapshot.key, registration)
+    if (snapshot.key) {
+      registrations[snapshot.key] = registration
     }
-  )
+  }
+  registrationsRef.on('child_added', addOrUpdateRegistration, firebaseFetchError('registration'))
+  registrationsRef.on('child_changed', addOrUpdateRegistration, firebaseFetchError('registration'))
 
   lastBlockRef.on(
     'value',
@@ -137,15 +141,22 @@ export function initializeDb() {
     }
   )
 
-  pendingRequestsRef.on(
-    'value',
-    (snapshot) => {
-      console.debug('Latest payment requests data updated: ', snapshot && snapshot.val())
-      pendingRequests = (snapshot && snapshot.val()) || {}
-    },
-    (errorObject: any) => {
-      console.error('Latest payment requests data read failed:', errorObject.code)
+  function addOrUpdatePendingRequest(snapshot: DataSnapshot) {
+    const pendingRequest = (snapshot && snapshot.val()) || {}
+    console.debug('New or updated pending request:', snapshot.key, pendingRequest)
+    if (snapshot.key) {
+      pendingRequests[snapshot.key] = pendingRequest
     }
+  }
+  pendingRequestsRef.on(
+    'child_added',
+    addOrUpdatePendingRequest,
+    firebaseFetchError('pendingRequests')
+  )
+  pendingRequestsRef.on(
+    'child_changed',
+    addOrUpdatePendingRequest,
+    firebaseFetchError('pendingRequests')
   )
 
   knownAddressesRef.on(
