@@ -18,11 +18,11 @@ export const devModeSelector = (state: RootState) => state.account.devModeActive
 export const nameSelector = (state: RootState) => state.account.name
 export const e164NumberSelector = (state: RootState) => state.account.e164PhoneNumber
 export const pictureSelector = (state: RootState) => state.account.pictureUri
-export const defaultCountryCodeSelector = (state: RootState) =>
+export const defaultCountryCodeSelector = () =>
   createSelector(
     (state: RootState) => state.account.defaultCountryCode,
     (defaultCountryCode) => defaultCountryCode || inferCountryCode()
-  )(state)
+  )
 export const userContactDetailsSelector = (state: RootState) => state.account.contactDetails
 export const pincodeTypeSelector = (state: RootState) => state.account.pincodeType
 export const promptFornoIfNeededSelector = (state: RootState) => state.account.promptFornoIfNeeded

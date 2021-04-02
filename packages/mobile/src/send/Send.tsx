@@ -85,7 +85,7 @@ type RouteProps = StackScreenProps<StackParamList, Screens.Send>
 type Props = StateProps & DispatchProps & WithTranslation & RouteProps
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  defaultCountryCode: defaultCountryCodeSelector(state),
+  defaultCountryCode: defaultCountryCodeSelector()(state),
   e164PhoneNumber: state.account.e164PhoneNumber,
   numberVerified: state.app.numberVerified,
   verificationPossible: verificationPossibleSelector(state),
