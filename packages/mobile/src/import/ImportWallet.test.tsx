@@ -37,6 +37,7 @@ describe('ImportWallet', () => {
           isImportingWallet={false}
           connected={true}
           isRecoveringFromStoreWipe={false}
+          accountToRecoverFromStoreWipe={undefined}
           {...mockScreenProps}
           {...getMockI18nProps()}
         />
