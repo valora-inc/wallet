@@ -8,6 +8,7 @@ import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { connect } from 'react-redux'
+import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
@@ -84,7 +85,7 @@ type RouteProps = StackScreenProps<StackParamList, Screens.Send>
 type Props = StateProps & DispatchProps & WithTranslation & RouteProps
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  defaultCountryCode: state.account.defaultCountryCode,
+  defaultCountryCode: defaultCountryCodeSelector(state),
   e164PhoneNumber: state.account.e164PhoneNumber,
   numberVerified: state.app.numberVerified,
   verificationPossible: verificationPossibleSelector(state),
