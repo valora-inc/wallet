@@ -114,5 +114,6 @@
   },
   "success": {
     "message": "¡Todo listo!"
-  }
+  },
+  "verificationUnavailable": "La confirmación del número de teléfono no está disponible actualmente. Por favor, introduzca su número de teléfono y le notificaremos cuando sea posible confirmar de nuevo.\n\nMientras tanto, ¡puedes seguir usando Valora!. Los pagos enviados a su número de teléfono serán retenidos de forma segura hasta que usted los canjee mediante la confirmación de su número de teléfono."
 }
