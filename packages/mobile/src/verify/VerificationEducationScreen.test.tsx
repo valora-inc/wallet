@@ -7,12 +7,12 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { features } from 'src/flags'
 import { Screens } from 'src/navigator/Screens'
-import { useAsyncKomenciAvailable } from 'src/verify/hooks'
+import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-const mockedUseAsyncKomenciAvailable = useAsyncKomenciAvailable as jest.Mock
+const mockedUseAsyncKomenciAvailable = useAsyncKomenciReadiness as jest.Mock
 
 beforeEach(() => {
   jest.clearAllMocks()

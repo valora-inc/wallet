@@ -4,7 +4,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'verify/hooks'
 
-export function useAsyncKomenciAvailable() {
+export function useAsyncKomenciReadiness() {
   return useAsync<boolean>(async () => {
     Logger.info(TAG, 'Determining komenci readiness...')
     const response = await fetch(networkConfig.komenciLoadCheckEndpoint)

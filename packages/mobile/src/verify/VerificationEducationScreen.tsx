@@ -33,7 +33,7 @@ import { StackParamList } from 'src/navigator/types'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
-import { useAsyncKomenciAvailable } from 'src/verify/hooks'
+import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import {
   actionableAttestationsSelector,
   checkIfKomenciAvailable,
@@ -145,7 +145,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
 
   // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
   const hideVerification = useSelector(hideVerificationSelector)
-  const asyncKomenciAvailable = useAsyncKomenciAvailable()
+  const asyncKomenciReadiness = useAsyncKomenciReadiness()
 
   useFocusEffect(
     // useCallback is needed here: https://bit.ly/2G0WKTJ
@@ -216,7 +216,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
 
   const isBalanceSufficient = useSelector(isBalanceSufficientSelector)
 
-  if (asyncKomenciAvailable.loading || shouldUseKomenci === undefined || !account) {
+  if (asyncKomenciReadiness.loading || shouldUseKomenci === undefined || !account) {
     return (
       <View style={styles.loader}>
         {account && (
@@ -248,7 +248,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         testID="VerificationEducationSkip"
       />
     )
-  } else if (!asyncKomenciAvailable.result || hideVerification) {
+  } else if (!asyncKomenciReadiness.result || hideVerification) {
     bodyText = t('verificationUnavailable')
     firstButton = (
       <Button
@@ -306,7 +306,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
           onPressCountry={onPressCountry}
           onChange={onChangePhoneNumberInput}
           // CB TEMPORARY HOTFIX: Locking input field if verification unavailable
-          editable={!!asyncKomenciAvailable.result && !hideVerification}
+          editable={!!asyncKomenciReadiness.result && !hideVerification}
         />
         {firstButton}
         <View style={styles.spacer} />
