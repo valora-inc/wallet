@@ -4,14 +4,14 @@
   "languageSettings": "Idioma",
   "localCurrencySetting": "Moeda",
   "licenses": "Licenças",
-  "removeAccountTitle": "Redefinir o Valora",
+  "removeAccountTitle": "Redefinir a Valora",
   "removeAccountDetails": "A redefinição removerá sua conta deste dispositivo. Seus fundos permanecerão na conta, mas só estarão acessíveis com a Chave de Conta",
   "legal": "Jurídico",
   "securityAndData": "Segurança e Dados",
   "requirePinOnAppOpen": "Exigir PIN ao abrir o aplicativo",
   "analytics": "Estatísticas",
   "shareAnalytics": "Compartilhar estatísticas",
-  "shareAnalytics_detail": "Coletamos dados anônimos sobre como você usa o {{appName}} para ajudar a melhorar o aplicativo para todos.",
+  "shareAnalytics_detail": "Coletamos dados anônimos sobre como você usa a {{appName}} para ajudar a melhorar o aplicativo para todos.",
   "dataSaver": "Modo de Economia de Dados",
   "enableDataSaver": "Ativar o modo de Economia de Dados",
   "dataSaverDetail": "O modo de Economia de Dados permite a comunicação com a Rede Celo por meio de um nó confiável. Você sempre pode alterar este modo nas configurações do aplicativo.",
@@ -23,16 +23,16 @@
   "addFunds": "Adicionar fundos",
   "promptFornoModal": {
     "header": "Alternar modo de conexão?",
-    "body": "Notamos que você está tendo problemas para se conectar. Recomendamos ativar o modo de Economia de Dados para permitir que você continue usando o {{appName}} com conexão intermitente.",
+    "body": "Notamos que você está tendo problemas para se conectar. Recomendamos ativar o modo de Economia de Dados para permitir que você continue usando a {{appName}} com conexão intermitente.",
     "switchToDataSaver": "Alterar para o modo de Economia de Dados"
   },
   "accountKeyModal": {
-    "header": "Sem a sua Chave de Conta, você perderá o acesso aos seus fundos para sempre",
-    "body1": "Para redefinir o Valora, você precisará confirmar o que escreveu na sua Chave de Conta.",
-    "body2": "Ninguém, nem mesmo o Valora, pode recuperar sua conta sem sua chave."
+    "header": "Sem sua Chave de Conta, você perderá o acesso aos seus fundos para sempre",
+    "body1": "Para redefinir a Valora, você precisará confirmar que anotou sua Chave de Conta.",
+    "body2": "Ninguém, nem mesmo a Valora, pode recuperar sua conta sem sua chave."
   },
   "promptConfirmRemovalModal": {
-    "header": "Tem certeza de que deseja redefinir o Valora?",
+    "header": "Tem certeza de que deseja redefinir a Valora?",
     "body": "Você não poderá mais acessar seus fundos ou sua Chave de Conta a partir deste dispositivo. Não há como recuperar sua Chave de Conta se você não a anotou.",
     "resetNow": "Redefinir agora"
   },
@@ -41,10 +41,10 @@
     "body": "Se a conta for desvinculada, ela não poderá mais ser associada a um número novamente. Apenas desvincule uma conta se você tiver certeza de que nunca mais precisará dela.",
     "revoke": "Desvincular"
   },
-  "testFaqLink": " Perguntas frequentes do {{appName}} ",
+  "testFaqLink": " Perguntas frequentes da {{appName}} ",
   "termsOfServiceLink": "Termos de Serviço",
   "editProfile": "Editar perfil",
-  "confirmNumber": "Confirmar o número de telefone",
+  "confirmNumber": "Confirmar o número de celular",
   "cancel": "Cancelar",
   "changeProfilePhoto": "Mudar a foto do perfil",
   "name": "Nome",
@@ -63,11 +63,14 @@
   "contactText": "Não consegue encontrar o que está procurando?",
   "contactMessagePlaceholder": "Digite sua mensagem aqui...",
   "attachLogs": "Anexar registros",
-  "supportLegalCheckbox": "Ao enviar, concordo em compartilhar as informações acima e todos os dados de registro do aplicativo anexados com o serviço de suporte do {{appName}}.",
+  "supportLegalCheckbox": "Ao enviar, concordo em compartilhar as informações acima e todos os dados de registro do aplicativo anexados com o serviço de suporte da {{appName}}.",
   "contactSuccess": "Seu problema foi relatado com sucesso! Aguarde uma resposta por e-mail em breve!",
   "namePictureSaved": "Seu nome e foto foram salvos com sucesso.",
   "addPhoto": "Carregar foto",
   "chooseFromLibrary": "Escolha na galeria",
   "takePhoto": "Tirar Foto",
-  "removePhoto": "Deletar Foto"
+  "removePhoto": "Deletar Foto",
+  "storeRecoveryTitle": "Precisamos que você configure sua conta novamente",
+  "storeRecoveryBody": "Houve um erro. Estamos cientes do problema e trabalhando para corrigi-lo. Enquanto isso, você precisará passar pelo processo de configuração novamente.",
+  "storeRecoveryButton": "Restaurar conta"
 }
