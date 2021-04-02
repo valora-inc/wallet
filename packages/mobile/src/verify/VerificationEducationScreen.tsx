@@ -111,6 +111,15 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     }
   }
 
+  const onPressContinueWhenVerificationUnavailable = () => {
+    if (!canUsePhoneNumber()) {
+      return
+    }
+
+    dispatch(setHasSeenVerificationNux(true))
+    navigateHome()
+  }
+
   const onPressLearnMore = () => {
     setShowLearnMoreDialog(true)
   }
@@ -253,9 +262,10 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     firstButton = (
       <Button
         text={t('global:continue')}
-        onPress={onPressSkipConfirm}
+        onPress={onPressContinueWhenVerificationUnavailable}
         type={BtnTypes.ONBOARDING}
         style={styles.startButton}
+        disabled={continueButtonDisabled}
         testID="VerificationEducationSkip"
       />
     )
@@ -305,8 +315,6 @@ function VerificationEducationScreen({ route, navigation }: Props) {
           internationalPhoneNumber={phoneNumberInfo.internationalPhoneNumber}
           onPressCountry={onPressCountry}
           onChange={onChangePhoneNumberInput}
-          // CB TEMPORARY HOTFIX: Locking input field if verification unavailable
-          editable={!!asyncKomenciReadiness.result && !hideVerification}
         />
         {firstButton}
         <View style={styles.spacer} />
