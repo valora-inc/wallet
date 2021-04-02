@@ -224,6 +224,11 @@ class Send extends React.Component<Props, State> {
     //   return
     // }
 
+    const { allRecipients } = this.props
+    if (allRecipients.length) {
+      return
+    }
+
     const hasGivenContactPermission = await requestContactsPermission()
     this.setState({ hasGivenContactPermission })
     this.props.importContacts()

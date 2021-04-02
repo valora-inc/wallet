@@ -1,5 +1,4 @@
 import * as React from 'react'
-import 'react-native'
 import { ActivityIndicator } from 'react-native'
 import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
