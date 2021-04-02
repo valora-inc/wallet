@@ -30,7 +30,8 @@ export interface State {
   acceptedTerms: boolean
   hasMigratedToNewBip39: boolean
   choseToRestoreAccount: boolean | undefined
-  recoveringFromStoreWipe: boolean
+  recoveringFromStoreWipe: boolean | undefined
+  accountToRecoverFromStoreWipe: string | undefined
   dailyLimitCusd: number
 }
 
@@ -70,6 +71,7 @@ export const initialState = {
   hasMigratedToNewBip39: false,
   choseToRestoreAccount: false,
   recoveringFromStoreWipe: false,
+  accountToRecoverFromStoreWipe: undefined,
   dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
 }
 
@@ -103,6 +105,7 @@ export const reducer = (
         ...state,
         choseToRestoreAccount: true,
         recoveringFromStoreWipe: true,
+        accountToRecoverFromStoreWipe: action.accountToRecover,
         pincodeType: PincodeType.CustomPin,
         acceptedTerms: true,
       }

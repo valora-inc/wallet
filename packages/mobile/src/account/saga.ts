@@ -44,9 +44,9 @@ export function* setPincode({ pincodeType }: SetPincodeAction) {
   }
 }
 
-function* clearStoredAccountSaga({ account, softDelete }: ClearStoredAccountAction) {
+function* clearStoredAccountSaga({ account, onlyReduxState }: ClearStoredAccountAction) {
   try {
-    if (!softDelete) {
+    if (!onlyReduxState) {
       yield call(removeAccountLocally, account)
       yield call(clearStoredMnemonic)
       yield call(ValoraAnalytics.reset)

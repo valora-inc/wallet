@@ -1,11 +1,11 @@
-import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
 import TextButton from '@celo/react-components/components/TextButton'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { startStoreWipeRecovery } from 'src/account/actions'
 import { Namespaces } from 'src/i18n'
@@ -28,7 +28,7 @@ function StoreWipeRecoveryScreen({ route }: Props) {
     try {
       const account = route.params.account
       await requestPincodeInput(true, false, account)
-      dispatch(startStoreWipeRecovery())
+      dispatch(startStoreWipeRecovery(account))
       navigate(Screens.NameAndPicture)
     } catch (error) {
       Logger.error(`${TAG}@goToOnboarding`, 'PIN error', error)
@@ -36,17 +36,15 @@ function StoreWipeRecoveryScreen({ route }: Props) {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <SafeAreaView edges={['bottom']} style={styles.content}>
-        <Text style={styles.title} testID={'StoreWipeRecovery'}>
-          {t('storeRecoveryTitle')}
-        </Text>
-        <Text style={styles.body}>{t('storeRecoveryBody')}</Text>
-        <TextButton onPress={goToOnboarding} testID="GoToOnboarding">
-          {t('storeRecoveryButton')}
-        </TextButton>
-      </SafeAreaView>
-    </ScrollView>
+    <SafeAreaView style={styles.content}>
+      <Text style={styles.title} testID={'StoreWipeRecovery'}>
+        {t('storeRecoveryTitle')}
+      </Text>
+      <Text style={styles.body}>{t('storeRecoveryBody')}</Text>
+      <TextButton onPress={goToOnboarding} testID="GoToOnboarding">
+        {t('storeRecoveryButton')}
+      </TextButton>
+    </SafeAreaView>
   )
 }
 

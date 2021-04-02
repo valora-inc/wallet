@@ -11,7 +11,7 @@ import { Trans, WithTranslation } from 'react-i18next'
 import { Dimensions, Keyboard, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
-import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
+import { accountToRecoverSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -35,7 +35,6 @@ import UseBackToWelcomeScreen from 'src/onboarding/UseBackToWelcomeScreen'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
 import Logger from 'src/utils/Logger'
-import { getWalletAsync } from 'src/web3/contracts'
 
 const AVERAGE_WORD_WIDTH = 80
 const AVERAGE_SEED_WIDTH = AVERAGE_WORD_WIDTH * 24
@@ -56,6 +55,7 @@ interface StateProps {
   isImportingWallet: boolean
   connected: boolean
   isRecoveringFromStoreWipe: boolean
+  accountToRecoverFromStoreWipe: string | undefined
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.ImportWallet>
@@ -67,6 +67,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     isImportingWallet: state.imports.isImportingWallet,
     connected: isAppConnected(state),
     isRecoveringFromStoreWipe: recoveringFromStoreWipeSelector(state),
+    accountToRecoverFromStoreWipe: accountToRecoverSelector(state),
   }
 }
 
@@ -109,9 +110,10 @@ export class ImportWallet extends React.Component<Props, State> {
   }
 
   async autocompleteSavedMnemonic() {
-    const wallet = await getWalletAsync()
-    const account = wallet?.getAccounts()[0]
-    const mnemonic = await getStoredMnemonic(account)
+    if (!this.props.accountToRecoverFromStoreWipe) {
+      return
+    }
+    const mnemonic = await getStoredMnemonic(this.props.accountToRecoverFromStoreWipe)
     if (mnemonic) {
       this.setState({ backupPhrase: mnemonic })
       this.onPressRestore()
