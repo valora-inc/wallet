@@ -71,6 +71,6 @@
   "takePhoto": "Tirar Foto",
   "removePhoto": "Deletar Foto",
   "storeRecoveryTitle": "Precisamos que você configure sua conta novamente",
-  "storeRecoveryBody": "Houve um erro. Estamos cientes do problema e trabalhando para corrigi-lo. Enquanto isso, você precisará passar pelo processo de configuração novamente.",
+  "storeRecoveryBody": "Houve um erro. Estamos cientes do problema e estamos trabalhando para corrigi-lo. Enquanto isso, você precisará passar pelo processo de configuração novamente.",
   "storeRecoveryButton": "Restaurar conta"
 }
