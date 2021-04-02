@@ -256,6 +256,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         onPress={onPressSkipConfirm}
         type={BtnTypes.ONBOARDING}
         style={styles.startButton}
+        testID="VerificationEducationSkip"
       />
     )
   } else if (shouldUseKomenci || isBalanceSufficient) {
