@@ -126,7 +126,7 @@
   "saltFetchFailure": "Falha ao recuperar segredo do número de celular",
   "saltQuotaExceededError": "Sua cota de busca de número de celular acabou",
   "maxActionableAttestationsExceededError": "Falha ao reenviar mensagens",
-  "odisInsufficientBalance": "Seu saldo está muito baixo para concluir este processo",
+  "odisInsufficientBalance": "Por favor, confirme seu número antes de enviar cUSD para um contato",
   "matchmakingQuotaExceededError": "A combinação pode ser feita apenas uma vez",
   "paymentLimitReached": "O limite diário é de {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) restantes",
   "requestLimitError": "Não é possível solicitar mais do que o limite diário de {{limit}} cUSD.",
