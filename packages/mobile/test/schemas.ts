@@ -540,6 +540,7 @@ export const v8Schema = {
   account: {
     ...v7Schema.account,
     recoveringFromStoreWipe: false,
+    accountToRecoverFromStoreWipe: undefined,
   },
 }
 
