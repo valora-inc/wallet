@@ -9,6 +9,7 @@ import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { setName, setPicture, setPromptForno } from 'src/account/actions'
+import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -30,6 +31,7 @@ function NameAndPicture({ navigation }: Props) {
   const cachedName = useTypedSelector((state) => state.account.name)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
+  const recoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
   const dispatch = useDispatch()
 
   const { t } = useTranslation(Namespaces.nuxNamePin1)
@@ -48,7 +50,11 @@ function NameAndPicture({ navigation }: Props) {
   }, [navigation, choseToRestoreAccount])
 
   const goToNextScreen = () => {
-    navigate(Screens.PincodeSet)
+    if (recoveringFromStoreWipe) {
+      navigate(Screens.ImportWallet)
+    } else {
+      navigate(Screens.PincodeSet)
+    }
   }
 
   const onPressContinue = () => {

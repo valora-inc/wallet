@@ -167,6 +167,7 @@ export type StackParamList = {
     withVerification?: boolean
     onSuccess: (pin: string) => void
     onCancel: () => void
+    account?: string
   }
   [Screens.PincodeSet]: { isVerifying: boolean } | undefined
   [Screens.PhoneNumberLookupQuota]: {
@@ -211,6 +212,7 @@ export type StackParamList = {
     | { promptFornoModal?: boolean; promptConfirmRemovalModal?: boolean }
     | undefined
   [Screens.Spend]: undefined
+  [Screens.StoreWipeRecoveryScreen]: { account: string }
   [Screens.Support]: undefined
   [Screens.SupportContact]:
     | {
