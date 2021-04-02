@@ -1,3 +1,4 @@
+import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import {
   CurrencyCode,
   DEFAULT_TESTNET,
@@ -6,8 +7,10 @@ import {
   PROVIDER_URL_COMPOSER_STAGING,
   SIMPLEX_URI,
 } from 'src/config'
+import { LocalCicoProvider } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
+import { LocalCicoProviderData, LocalCicoProviders } from 'src/fiatExchanges/saga'
 import { providerAvailability } from 'src/flags'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
@@ -142,4 +145,36 @@ export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) 
   }
 
   return -1
+}
+
+export const getAvailableLocalProviders = (
+  localCicoProviders: LocalCicoProviders | undefined,
+  isCashIn: boolean,
+  countryCode: string | null
+) => {
+  if (!localCicoProviders || !countryCode) {
+    return []
+  }
+
+  const localProviderArr = Object.entries(localCicoProviders).map<LocalCicoProvider>(
+    ([name, values]: [string, LocalCicoProviderData]) => ({
+      ...values,
+      name,
+    })
+  )
+
+  const activeLocalProviders = localProviderArr.filter((provider) =>
+    isCashIn ? provider.cashIn : provider.cashOut
+  )
+
+  let availableLocalProviders: LocalCicoProvider[] = []
+
+  const regionCode = getRegionCodeFromCountryCode(countryCode)
+  if (regionCode) {
+    availableLocalProviders = activeLocalProviders.filter((provider) =>
+      provider.countries.includes(regionCode)
+    )
+  }
+
+  return availableLocalProviders
 }

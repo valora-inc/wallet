@@ -216,10 +216,6 @@ export function appRemoteFeatureFlagChannel() {
       const flags = snapshot.val()
       Logger.debug(`Updated feature flags: ${JSON.stringify(flags)}`)
       emit({
-        kotaniEnabled: flags?.kotaniEnabled || false,
-        pontoEnabled: flags?.pontoEnabled || false,
-        bitfyUrl: flags?.bitfyUrl ?? null,
-        flowBtcUrl: flags?.flowBtcUrl ?? null,
         celoEducationUri: flags?.celoEducationUri ?? null,
         shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
         inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,

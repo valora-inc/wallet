@@ -499,6 +499,8 @@ export const v7Schema = {
   },
 }
 
+//TODO: new schema
+
 export function getLatestSchema(): Partial<RootState> {
   return v7Schema as Partial<RootState>
 }

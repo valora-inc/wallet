@@ -31,12 +31,6 @@ export const countryFeatures = {
     SD: true,
     SY: true,
   },
-  PONTO_SUPPORTED: {
-    PH: true,
-  },
-  KOTANI_SUPPORTED: {
-    KE: true,
-  },
   FIAT_SPEND_ENABLED: {
     PH: true,
   },

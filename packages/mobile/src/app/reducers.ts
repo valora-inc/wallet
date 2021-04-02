@@ -16,8 +16,6 @@ export interface State {
   lastTimeBackgrounded: number
   sessionId: string
   minVersion: string | null
-  pontoEnabled: boolean
-  kotaniEnabled: boolean
   celoEducationUri: string | null
   shortVerificationCodesEnabled: boolean
   inviteModalVisible: boolean
@@ -36,8 +34,6 @@ const initialState = {
   lastTimeBackgrounded: 0,
   sessionId: '',
   minVersion: null,
-  pontoEnabled: false,
-  kotaniEnabled: false,
   shortVerificationCodesEnabled: false,
   celoEducationUri: null,
   inviteModalVisible: false,
@@ -139,8 +135,6 @@ export const appReducer = (
     case Actions.UPDATE_FEATURE_FLAGS:
       return {
         ...state,
-        pontoEnabled: action.flags.pontoEnabled,
-        kotaniEnabled: action.flags.kotaniEnabled,
         celoEducationUri: action.flags.celoEducationUri,
         shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
       }

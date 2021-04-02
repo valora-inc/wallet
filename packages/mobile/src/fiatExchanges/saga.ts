@@ -156,6 +156,7 @@ export interface LocalCicoProviderData {
   cashIn: boolean
   cashOut: boolean
   countries: string[]
+  url: string
 }
 
 export const fetchLocalCicoProviders = (): Promise<LocalCicoProviders> =>

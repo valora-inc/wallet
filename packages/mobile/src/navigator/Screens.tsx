@@ -30,7 +30,6 @@ export enum Screens {
   Language = 'Language',
   LanguageModal = 'LanguageModal',
   Licenses = 'Licenses',
-  LocalProviderCashOut = 'LocalProviderCashOut',
   Main = 'Main',
   MoonPayScreen = 'MoonPayScreen',
   NameAndPicture = 'NameAndPicture',

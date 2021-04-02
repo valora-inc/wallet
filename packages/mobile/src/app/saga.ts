@@ -89,8 +89,6 @@ export function* appVersionSaga() {
 }
 
 export interface RemoteFeatureFlags {
-  kotaniEnabled: boolean
-  pontoEnabled: boolean
   celoEducationUri: string | null
   shortVerificationCodesEnabled: boolean
   inviteRewardCusd: number

@@ -12,11 +12,7 @@ describe(getCountryFeaturesSelector, () => {
 
     expect(getCountryFeaturesSelector(state)).toMatchInlineSnapshot(`
       Object {
-        "BITFY_SUPPORTED": false,
         "FIAT_SPEND_ENABLED": false,
-        "FLOW_BTC_SUPPORTED": false,
-        "KOTANI_SUPPORTED": false,
-        "PONTO_SUPPORTED": false,
         "RESTRICTED_CP_DOTO": false,
         "SANCTIONED_COUNTRY": false,
       }
@@ -32,11 +28,7 @@ describe(getCountryFeaturesSelector, () => {
 
     expect(getCountryFeaturesSelector(state)).toMatchInlineSnapshot(`
       Object {
-        "BITFY_SUPPORTED": false,
         "FIAT_SPEND_ENABLED": true,
-        "FLOW_BTC_SUPPORTED": false,
-        "KOTANI_SUPPORTED": false,
-        "PONTO_SUPPORTED": true,
         "RESTRICTED_CP_DOTO": true,
         "SANCTIONED_COUNTRY": false,
       }
@@ -52,11 +44,7 @@ describe(getCountryFeaturesSelector, () => {
 
     expect(getCountryFeaturesSelector(state)).toMatchInlineSnapshot(`
       Object {
-        "BITFY_SUPPORTED": false,
         "FIAT_SPEND_ENABLED": false,
-        "FLOW_BTC_SUPPORTED": false,
-        "KOTANI_SUPPORTED": false,
-        "PONTO_SUPPORTED": false,
         "RESTRICTED_CP_DOTO": true,
         "SANCTIONED_COUNTRY": false,
       }
@@ -72,11 +60,7 @@ describe(getCountryFeaturesSelector, () => {
 
     expect(getCountryFeaturesSelector(state)).toMatchInlineSnapshot(`
       Object {
-        "BITFY_SUPPORTED": false,
         "FIAT_SPEND_ENABLED": false,
-        "FLOW_BTC_SUPPORTED": false,
-        "KOTANI_SUPPORTED": false,
-        "PONTO_SUPPORTED": false,
         "RESTRICTED_CP_DOTO": false,
         "SANCTIONED_COUNTRY": true,
       }
@@ -92,11 +76,8 @@ describe(getCountryFeaturesSelector, () => {
 
     expect(getCountryFeaturesSelector(state)).toMatchInlineSnapshot(`
       Object {
-        "BITFY_SUPPORTED": true,
         "FIAT_SPEND_ENABLED": false,
         "FLOW_BTC_SUPPORTED": true,
-        "KOTANI_SUPPORTED": false,
-        "PONTO_SUPPORTED": false,
         "RESTRICTED_CP_DOTO": false,
         "SANCTIONED_COUNTRY": false,
       }
