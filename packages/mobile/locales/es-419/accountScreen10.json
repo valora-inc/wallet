@@ -70,7 +70,7 @@
   "chooseFromLibrary": "Elegir de la galería de fotos",
   "takePhoto": "Tomar Foto",
   "removePhoto": "Borrar Foto",
-  "storeRecoveryTitle": "Necesitamos que vuelva a configurar su cuenta",
-  "storeRecoveryBody": "Ha habido un error. Somos conscientes del problema y trabajamos para solucionarlo. Mientras tanto, necesitará pasar por el proceso de configuración de nuevo.",
-  "storeRecoveryButton": "Restaurar cuenta"
+  "storeRecoveryTitle": "Necesitamos que vuelvas a configurar tu cuenta",
+  "storeRecoveryBody": "Ha habido un error. Estamos al tanto del problema y estamos trabajamos para solucionarlo. Mientras tanto, tendrás que volver a completar el proceso de configuración.",
+  "storeRecoveryButton": "Restablecer cuenta"
 }
