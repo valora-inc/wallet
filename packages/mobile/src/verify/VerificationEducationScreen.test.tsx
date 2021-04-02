@@ -12,11 +12,11 @@ import { idle, KomenciAvailable } from 'src/verify/reducer'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-const mockedUseAsyncKomenciAvailable = useAsyncKomenciReadiness as jest.Mock
+const mockedUseAsyncKomenciReadiness = useAsyncKomenciReadiness as jest.Mock
 
 beforeEach(() => {
   jest.clearAllMocks()
-  mockedUseAsyncKomenciAvailable.mockReturnValue({
+  mockedUseAsyncKomenciReadiness.mockReturnValue({
     loading: false,
     error: undefined,
     result: true,
@@ -149,7 +149,7 @@ describe('VerificationEducationScreen with KOMENCI enabled', () => {
 
   it('shows the loading state when komenci readiness is being determined', () => {
     // loading state
-    mockedUseAsyncKomenciAvailable.mockReturnValue({
+    mockedUseAsyncKomenciReadiness.mockReturnValue({
       loading: true,
       error: undefined,
       result: undefined,
@@ -185,7 +185,7 @@ describe('VerificationEducationScreen with KOMENCI enabled', () => {
 
   it('shows the `skip` button when komenci is not ready', () => {
     // not ready state
-    mockedUseAsyncKomenciAvailable.mockReturnValue({
+    mockedUseAsyncKomenciReadiness.mockReturnValue({
       loading: false,
       error: undefined,
       result: false,
