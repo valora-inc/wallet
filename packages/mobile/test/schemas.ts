@@ -484,6 +484,7 @@ export const v7Schema = {
     dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
     recoveringFromStoreWipe: false,
     accountToRecoverFromStoreWipe: undefined,
+    hideVerification: false,
   },
   home: {
     loading: false,

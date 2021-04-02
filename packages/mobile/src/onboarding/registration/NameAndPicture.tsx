@@ -23,6 +23,7 @@ import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import useTypedSelector from 'src/redux/useSelector'
 import { saveProfilePicture } from 'src/utils/image'
+import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
@@ -35,6 +36,9 @@ function NameAndPicture({ navigation }: Props) {
   const dispatch = useDispatch()
 
   const { t } = useTranslation(Namespaces.nuxNamePin1)
+
+  // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
+  const asyncKomenciReadiness = useAsyncKomenciReadiness()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -53,7 +57,7 @@ function NameAndPicture({ navigation }: Props) {
     if (recoveringFromStoreWipe) {
       navigate(Screens.ImportWallet)
     } else {
-      navigate(Screens.PincodeSet)
+      navigate(Screens.PincodeSet, { komenciAvailable: !!asyncKomenciReadiness.result })
     }
   }
 
@@ -120,6 +124,7 @@ function NameAndPicture({ navigation }: Props) {
           type={BtnTypes.ONBOARDING}
           disabled={!nameInput.trim()}
           testID={'NameAndPictureContinueButton'}
+          showLoading={asyncKomenciReadiness.loading}
         />
       </ScrollView>
       <KeyboardSpacer />

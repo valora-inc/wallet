@@ -29,6 +29,10 @@ export const sessionIdSelector = (state: RootState) => {
 export const verificationPossibleSelector = (state: RootState): boolean => {
   const e164Number = e164NumberSelector(state)
   const saltCache = e164NumberToSaltSelector(state)
+  const hideVerification = hideVerificationSelector(state)
+  if (hideVerification) {
+    return false
+  }
 
   if (tryFeelessOnboardingSelector(state)) {
     return true
@@ -49,3 +53,5 @@ export const flowBtcUrlSelector = (state: RootState) => state.app.flowBtcUrl
 
 export const shortVerificationCodesEnabledSelector = (state: RootState) =>
   state.app.shortVerificationCodesEnabled
+
+export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
