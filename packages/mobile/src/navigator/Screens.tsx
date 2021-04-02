@@ -61,6 +61,7 @@ export enum Screens {
   Settings = 'Settings',
   Simplex = 'Simplex',
   Spend = 'Spend',
+  StoreWipeRecoveryScreen = 'StoreWipeRecoveryScreen',
   Support = 'Support',
   SupportContact = 'SupportContact',
   Sync = 'Sync',

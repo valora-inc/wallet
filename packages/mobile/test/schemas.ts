@@ -482,6 +482,8 @@ export const v7Schema = {
     backupRequiredTime: null,
     pictureUri: null,
     dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
+    recoveringFromStoreWipe: false,
+    accountToRecoverFromStoreWipe: undefined,
   },
   home: {
     loading: false,
