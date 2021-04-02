@@ -69,7 +69,7 @@ export interface AddressToDisplayNameType {
 let registrations: Registrations = {}
 let lastBlockNotified: number = -1
 
-let pendingRequests: PendingRequests = {}
+const pendingRequests: PendingRequests = {}
 let celoRewardsSenders: string[] = []
 
 export function _setTestRegistrations(testRegistrations: Registrations) {
