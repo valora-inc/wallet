@@ -8,7 +8,6 @@ import { Countries } from '@celo/utils/lib/countries'
 import { useFocusEffect } from '@react-navigation/native'
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
@@ -34,6 +33,7 @@ import { StackParamList } from 'src/navigator/types'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
+import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import {
   actionableAttestationsSelector,
   checkIfKomenciAvailable,
@@ -111,6 +111,15 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     }
   }
 
+  const onPressContinueWhenVerificationUnavailable = () => {
+    if (!canUsePhoneNumber()) {
+      return
+    }
+
+    dispatch(setHasSeenVerificationNux(true))
+    navigateHome()
+  }
+
   const onPressLearnMore = () => {
     setShowLearnMoreDialog(true)
   }
@@ -145,10 +154,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
 
   // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
   const hideVerification = useSelector(hideVerificationSelector)
-  const asyncKomenciAvailable = useAsync<boolean>(async () => {
-    const response = await fetch(networkConfig.komenciLoadCheckEndpoint)
-    return response.json()
-  }, [])
+  const asyncKomenciReadiness = useAsyncKomenciReadiness()
 
   useFocusEffect(
     // useCallback is needed here: https://bit.ly/2G0WKTJ
@@ -219,7 +225,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
 
   const isBalanceSufficient = useSelector(isBalanceSufficientSelector)
 
-  if (asyncKomenciAvailable.loading || shouldUseKomenci === undefined || !account) {
+  if (asyncKomenciReadiness.loading || shouldUseKomenci === undefined || !account) {
     return (
       <View style={styles.loader}>
         {account && (
@@ -251,14 +257,16 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         testID="VerificationEducationSkip"
       />
     )
-  } else if (!asyncKomenciAvailable.result || hideVerification) {
+  } else if (!asyncKomenciReadiness.result || hideVerification) {
     bodyText = t('verificationUnavailable')
     firstButton = (
       <Button
         text={t('global:continue')}
-        onPress={onPressSkipConfirm}
+        onPress={onPressContinueWhenVerificationUnavailable}
         type={BtnTypes.ONBOARDING}
         style={styles.startButton}
+        disabled={continueButtonDisabled}
+        testID="VerificationEducationSkip"
       />
     )
   } else if (shouldUseKomenci || isBalanceSufficient) {
@@ -307,8 +315,6 @@ function VerificationEducationScreen({ route, navigation }: Props) {
           internationalPhoneNumber={phoneNumberInfo.internationalPhoneNumber}
           onPressCountry={onPressCountry}
           onChange={onChangePhoneNumberInput}
-          // CB TEMPORARY HOTFIX: Locking input field if verification unavailable
-          editable={!!asyncKomenciAvailable.result && !hideVerification}
         />
         {firstButton}
         <View style={styles.spacer} />

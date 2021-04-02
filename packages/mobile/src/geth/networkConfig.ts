@@ -68,8 +68,8 @@ const CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET: Address =
 const CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING: Address =
   '0x5C9a6E3c3E862eD306E2E3348EBC8b8310A99e5A'
 
-const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'PUT_ENDPOINT_HERE'
-const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'PUT_ENDPOINT_HERE'
+const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'https://staging-komenci.azurefd.net/v1/ready'
+const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1/ready'
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
