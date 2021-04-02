@@ -26,3 +26,7 @@ export const userContactDetailsSelector = (state: RootState) => state.account.co
 export const pincodeTypeSelector = (state: RootState) => state.account.pincodeType
 export const promptFornoIfNeededSelector = (state: RootState) => state.account.promptFornoIfNeeded
 export const cUsdDailyLimitSelector = (state: RootState) => state.account.dailyLimitCusd
+export const recoveringFromStoreWipeSelector = (state: RootState) =>
+  state.account.recoveringFromStoreWipe ?? false
+export const accountToRecoverSelector = (state: RootState) =>
+  state.account.accountToRecoverFromStoreWipe

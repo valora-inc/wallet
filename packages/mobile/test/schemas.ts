@@ -541,6 +541,11 @@ export const v8Schema = {
     withoutRevealing: false,
     TEMPORARY_override_withoutVerification: undefined,
   },
+  account: {
+    ...v7Schema.account,
+    recoveringFromStoreWipe: false,
+    accountToRecoverFromStoreWipe: undefined,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
