@@ -45,6 +45,9 @@ const persistConfig: any = {
   timeout: null,
 }
 
+// For testing only!
+export const _persistConfig = persistConfig
+
 // We used to use AsyncStorage to save the state, but moved to file system storage because of problems with Android
 // maximum size limits. To keep backwards compatibility, we first try to read from the file system but if nothing is found
 // it means it's an old version so we read the state from AsyncStorage.
