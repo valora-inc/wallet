@@ -36,8 +36,8 @@ function StoreWipeRecoveryScreen({ route }: Props) {
   }
 
   return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
+    <ScrollView style={styles.container}>
+      <SafeAreaView edges={['bottom']} style={styles.content}>
         <Text style={styles.title} testID={'StoreWipeRecovery'}>
           {t('storeRecoveryTitle')}
         </Text>
@@ -45,9 +45,8 @@ function StoreWipeRecoveryScreen({ route }: Props) {
         <TextButton onPress={goToOnboarding} testID="GoToOnboarding">
           {t('storeRecoveryButton')}
         </TextButton>
-      </ScrollView>
-      <KeyboardSpacer />
-    </View>
+      </SafeAreaView>
+    </ScrollView>
   )
 }
 
