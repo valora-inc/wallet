@@ -514,6 +514,10 @@ export const v8Schema = {
     'feelessVerificationState',
     'feelessLastRevealAttempt'
   ),
+  app: {
+    ...v7Schema.app,
+    hideVerification: false,
+  },
   verify: {
     komenci: {
       errorTimestamps: [],

@@ -3898,7 +3898,7 @@ exports[`VerificationEducationScreen with KOMENCI enabled shows the \`continue\`
           cacheEnabled={true}
           javaScriptEnabled={true}
           messagingEnabled={true}
-          messagingModuleName="WebViewMessageHandler4"
+          messagingModuleName="WebViewMessageHandler5"
           mixedContentMode="always"
           onHttpError={[Function]}
           onLoadingError={[Function]}

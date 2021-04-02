@@ -1,14 +1,26 @@
 import * as React from 'react'
-import 'react-native'
+import { ActivityIndicator } from 'react-native'
 import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { features } from 'src/flags'
 import { Screens } from 'src/navigator/Screens'
+import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+
+const mockedUseAsyncKomenciReadiness = useAsyncKomenciReadiness as jest.Mock
+
+beforeEach(() => {
+  jest.clearAllMocks()
+  mockedUseAsyncKomenciReadiness.mockReturnValue({
+    loading: false,
+    error: undefined,
+    result: true,
+  })
+})
 
 describe('VerificationEducationScreen', () => {
   const komenciEnabled = features.KOMENCI
@@ -132,6 +144,78 @@ describe('VerificationEducationScreen with KOMENCI enabled', () => {
 
   afterAll(() => {
     features.KOMENCI = komenciEnabled
+  })
+
+  it('shows the loading state when komenci readiness is being determined', () => {
+    // loading state
+    mockedUseAsyncKomenciReadiness.mockReturnValue({
+      loading: true,
+      error: undefined,
+      result: undefined,
+    })
+
+    const store = createMockStore({
+      stableToken: {
+        balance: '0',
+      },
+      verify: {
+        currentState: idle(),
+        status: { numAttestationsRemaining: 3 },
+        actionableAttestations: [],
+        komenciAvailable: KomenciAvailable.Yes,
+      },
+    })
+    const { getByTestId, queryByText, queryByTestId, queryByType } = render(
+      <Provider store={store}>
+        <VerificationEducationScreen
+          {...getMockStackScreenProps(Screens.VerificationEducationScreen, {
+            showSkipDialog: true,
+          })}
+        />
+      </Provider>
+    )
+    expect(queryByType(ActivityIndicator)).toBeTruthy()
+    expect(getByTestId('VerificationSkipDialog').props.isVisible).toBe(true)
+    expect(queryByText('verificationEducation.bodyInsufficientBalance')).toBeFalsy()
+    expect(queryByTestId('VerificationEducationSkip')).toBeFalsy()
+    expect(queryByTestId('VerificationEducationContinue')).toBeFalsy()
+    expect(queryByTestId('VerificationEducationAlready')).toBeFalsy()
+  })
+
+  it('shows the `skip` button when komenci is not ready', () => {
+    // not ready state
+    mockedUseAsyncKomenciReadiness.mockReturnValue({
+      loading: false,
+      error: undefined,
+      result: false,
+    })
+
+    const store = createMockStore({
+      stableToken: {
+        balance: '0',
+      },
+      verify: {
+        currentState: idle(),
+        status: { numAttestationsRemaining: 3 },
+        actionableAttestations: [],
+        komenciAvailable: KomenciAvailable.Yes,
+      },
+    })
+    const { getByTestId, queryByText, queryByTestId, queryByType } = render(
+      <Provider store={store}>
+        <VerificationEducationScreen
+          {...getMockStackScreenProps(Screens.VerificationEducationScreen, {
+            showSkipDialog: true,
+          })}
+        />
+      </Provider>
+    )
+    expect(queryByType(ActivityIndicator)).toBeFalsy()
+    expect(getByTestId('VerificationSkipDialog').props.isVisible).toBe(true)
+    expect(queryByText('verificationUnavailable')).toBeTruthy()
+    expect(queryByTestId('VerificationEducationSkip')).toBeTruthy()
+    expect(queryByTestId('VerificationEducationContinue')).toBeFalsy()
+    expect(queryByTestId('VerificationEducationAlready')).toBeFalsy()
   })
 
   it("shows the `continue` button when the user is not yet verified and doesn't have enough balance", () => {
