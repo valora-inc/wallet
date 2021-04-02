@@ -14,7 +14,6 @@ describe('utils->formatting', () => {
   describe('getMoneyDisplayValue', () => {
     const UNROUNDED_NUMBER = 5.239835
     const ROUNDED_NUMBER_2_DECIMALS = '5.24'
-    const ROUNDED_NUMBER_3_DECIMALS = '5.239'
     const ROUNDED_NUMBER_4_DECIMALS = '5.2398'
 
     it('formats correctly for default case', () => {
