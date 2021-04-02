@@ -515,7 +515,7 @@ export const v8Schema = {
     'feelessLastRevealAttempt'
   ),
   app: {
-    ...v7Schema,
+    ...v7Schema.app,
     hideVerification: false,
   },
   verify: {
