@@ -4,6 +4,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'verify/hooks'
 
+// CB TEMPORARY HOTFIX: helper for Komenci endpoint to ensure availability
 export function useAsyncKomenciReadiness() {
   return useAsync<boolean>(async () => {
     Logger.info(TAG, 'Determining komenci readiness...')
