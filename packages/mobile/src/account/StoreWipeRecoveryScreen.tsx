@@ -8,12 +8,14 @@ import { StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { startStoreWipeRecovery } from 'src/account/actions'
+import { currentLanguageSelector } from 'src/app/reducers'
 import { Namespaces } from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { requestPincodeInput } from 'src/pincode/authentication'
+import useSelector from 'src/redux/useSelector'
 import Logger from 'src/utils/Logger'
 
 type Props = StackScreenProps<StackParamList, Screens.StoreWipeRecoveryScreen>
@@ -23,13 +25,18 @@ const TAG = 'StoreWipeRecoveryScreen'
 function StoreWipeRecoveryScreen({ route }: Props) {
   const { t } = useTranslation(Namespaces.accountScreen10)
   const dispatch = useDispatch()
+  const language = useSelector(currentLanguageSelector)
 
   const goToOnboarding = async () => {
     try {
       const account = route.params.account
       await requestPincodeInput(true, false, account)
       dispatch(startStoreWipeRecovery(account))
-      navigate(Screens.NameAndPicture)
+      if (language) {
+        navigate(Screens.NameAndPicture)
+      } else {
+        navigate(Screens.Language, { nextScreen: Screens.NameAndPicture })
+      }
     } catch (error) {
       Logger.error(`${TAG}@goToOnboarding`, 'PIN error', error)
     }
