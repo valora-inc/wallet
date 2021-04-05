@@ -46,7 +46,8 @@ export const getExtraNotifications = createSelector(
   (notifications, countryCallingCode) => {
     const version = DeviceInfo.getVersion()
     const countryCodeAlpha2 = countryCallingCode
-      ? getRegionCodeFromCountryCode(countryCallingCode)
+      ? // @ts-ignore-next-line
+        getRegionCodeFromCountryCode(countryCallingCode)
       : null
     return _.pickBy(notifications, (notification) => {
       return (
