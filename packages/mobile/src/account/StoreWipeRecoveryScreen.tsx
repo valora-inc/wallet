@@ -52,7 +52,7 @@ function StoreWipeRecoveryScreen({ route }: Props) {
 
 StoreWipeRecoveryScreen.navOptions = {
   ...emptyHeader,
-  headerLeft: null,
+  headerLeft: () => null,
 }
 
 const styles = StyleSheet.create({
