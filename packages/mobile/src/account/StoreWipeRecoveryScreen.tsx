@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { startStoreWipeRecovery } from 'src/account/actions'
 import { Namespaces } from 'src/i18n'
-import { emptyHeader } from 'src/navigator/Headers'
+import { noHeaderGestureDisabled } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -50,10 +50,7 @@ function StoreWipeRecoveryScreen({ route }: Props) {
   )
 }
 
-StoreWipeRecoveryScreen.navOptions = {
-  ...emptyHeader,
-  headerLeft: () => null,
-}
+StoreWipeRecoveryScreen.navOptions = noHeaderGestureDisabled
 
 const styles = StyleSheet.create({
   container: {
