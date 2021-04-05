@@ -4,9 +4,13 @@
   </a>
 </p>
 
-**Valora Monorepo - Official repository for Valora**
+**Official repository for Valora**
 
-This repository contains the source code for Valora, on both iOS and Android. 
+Valora is a mobile wallet focused on making global peer-to-peer payments simple and accessible to anyone. It supports the Celo Identity Protocol which allows users to verify their phone number and send payments to their contacts.
+
+- [valoraapp.com](https://valoraapp.com)
+- Platforms: iOS, Android
+- Maintainers: [cLabs](https://clabs.co)
 
 <!-- row 1 - status -->
 
@@ -54,7 +58,7 @@ Contents:
   <!-- /TOC -->
   
 ## 🥅 <a id="build"></a>How to Build Valora Locally 
-Follow instructions [here](https://github.com/celo-org/celo-monorepo/blob/master/SETUP.md#running-the-mobile-wallet). (This part of the READ.me is in construction! To be rewritten) 
+To setup Valora locally, follow directions here: https://github.com/celo-org/wallet/tree/main/packages/mobile. 
 
 
 ## 🥅 <a id="mission"></a>Celo's Mission - Prosperity for All
