@@ -74,7 +74,6 @@ export async function generateLinkWithPath(path: string) {
   let bundleId = DeviceInfo.getBundleId()
   bundleId = bundleId.replace(/\.(debug|dev)$/g, '.alfajores')
 
-  // trying to fetch appStoreId needed to build a dynamic link
   const shortUrl = await generateShortLink({
     link: `https://valoraapp.com/${path}`,
     appStoreId: APP_STORE_ID,

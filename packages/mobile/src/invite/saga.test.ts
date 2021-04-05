@@ -67,7 +67,7 @@ const TEST_FEE_INFO_CUSD = {
 
 jest.mock('src/firebase/dynamicLinks', () => ({
   ...(jest.requireActual('src/firebase/dynamicLinks') as any),
-  generateShortInviteLink: jest.fn(async () => 'http://celo.page.link/PARAMS'),
+  generateShortLink: jest.fn(async () => 'http://celo.page.link/PARAMS'),
 }))
 
 jest.mock('src/account/actions', () => ({
@@ -356,6 +356,7 @@ describe(generateInviteLink, () => {
       link: `https://valoraapp.com/?invite-code=${mockKey}`,
       appStoreId: '1482389446',
       bundleId: 'org.celo.mobile.alfajores',
+      shortLinkType: 'UNGUESSABLE',
     })
   })
 })
