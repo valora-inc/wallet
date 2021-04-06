@@ -25,18 +25,28 @@ const App = ({ metadata, onPress }: { metadata: AppMetadata; onPress: () => void
       <View
         style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingBottom: 24 }}
       >
-        <Image source={{ uri: icon }} height={30} width={30} style={{ height: 30, width: 30 }} />
-        <View>
+        <Image source={{ uri: icon }} height={40} width={40} style={{ height: 40, width: 40 }} />
+        <View
+          style={{
+            paddingLeft: 12,
+          }}
+        >
           <Text
             style={{
-              ...fontStyles.large,
+              ...fontStyles.regular,
               color: colors.dark,
-              paddingLeft: 16,
             }}
           >
             {metadata.name}
           </Text>
-          <Text>{t('tapToDisconnect')}</Text>
+          <Text
+            style={{
+              ...fontStyles.small,
+              color: colors.gray4,
+            }}
+          >
+            {t('tapToDisconnect')}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -45,7 +55,7 @@ const App = ({ metadata, onPress }: { metadata: AppMetadata; onPress: () => void
 
 function WalletConnectSessionsScreen() {
   const { t } = useTranslation(Namespaces.walletConnect)
-  const { sessions, pending: pendingSessions } = useSelector(selectSessions)
+  const { sessions } = useSelector(selectSessions)
   const [highlighted, setHighlighted] = useState<SessionTypes.Settled | null>(null)
   const dispatch = useDispatch()
 

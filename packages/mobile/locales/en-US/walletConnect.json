@@ -23,6 +23,7 @@
     "decrypt": "Decrypt Data",
     "computeSharedSecret": "Generate a secret"
   },
+  "tapToDisconnect": "Tap to Disconnect",
   "moreInfo": "Confused by anything here?",
 
   "noConnectedApps": "No connected applications yet, click here to get started",
@@ -34,6 +35,6 @@
   "sessionsSubTitle": "The following apps are connected to Valora. You can connect to more apps by  by scanning their QR code.",
 
   "disconnect": "Disconnect",
-  "disconnectTitle": "Disconnect {{appName}}",
-  "disconnectBody": "Are you sure you want to disconnect from {{appName}}? You'll need to reconnect before performing any further actions."
+  "disconnectTitle": "Disconnect {{appName}}?",
+  "disconnectBody": "Are you sure you want to disconnect from {{appName}}?"
 }
