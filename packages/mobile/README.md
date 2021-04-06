@@ -143,8 +143,8 @@ sudo apt install openjdk-8-jdk
 Install the Android SDK and platform tools:
 
 ```bash
-brew cask install android-sdk
-brew cask install android-platform-tools
+brew install --cask android-sdk
+brew install --cask android-platform-tools
 ```
 
 Next install [Android Studio][android studio] and add the [Android NDK][android ndk].
