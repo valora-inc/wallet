@@ -12,15 +12,15 @@
     "decrypt": "Decrypt a data payload",
     "accounts": "Read your Valora account address",
     "details": "Show details",
-    "computeSharedSecret": "Generate a secret"
+    "computeSharedSecret": "Generate Secrets"
   },
 
-  "sessionInfo": "This application could ask to perform the following actions. Please read them carefully and ensure you're happy before proceeding",
+  "sessionInfo": "This application may ask to perform the following actions:",
   "description": {
-    "sign": "Sign data payloads",
+    "sign": "Sign Payloads",
     "signTransaction": "Send funds",
-    "accounts": "Request your Valora account address",
-    "decrypt": "Decrypt data payloads",
+    "accounts": "Read Address",
+    "decrypt": "Decrypt Data",
     "computeSharedSecret": "Generate a secret"
   },
   "moreInfo": "Confused by anything here?",

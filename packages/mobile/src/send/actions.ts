@@ -28,7 +28,6 @@ export interface HandleBarcodeDetectedAction {
   transactionData?: TransactionDataInput
   isOutgoingPaymentRequest?: true
   requesterAddress?: string
-  isWalletConnectRequest?: true
 }
 
 export interface ShareQRCodeAction {

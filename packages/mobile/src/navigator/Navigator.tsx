@@ -155,6 +155,7 @@ const commonScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.WalletConnectSessionRequest}
         component={WalletConnectSessionRequestScreen}
+        options={WalletConnectSessionRequestScreen.navigationOptions}
       />
       <Navigator.Screen
         name={Screens.WalletConnectActionRequest}

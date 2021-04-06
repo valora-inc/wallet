@@ -111,9 +111,9 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
           <TextButton
             style={{}}
             onPress={() => {
-              onBarCodeDetected({ type: '', data: manualValue })
-              setDisplayManual(false)
-              setManualValue('')
+              onBarCodeDetected({ type: '', data: value })
+              setDisplayEntryModal(false)
+              setValue('')
             }}
           >
             {t('submit')}

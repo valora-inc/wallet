@@ -1,19 +1,21 @@
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import ListItem from '@celo/react-components/components/ListItem'
+import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Namespaces } from 'src/i18n'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { emptyHeader } from 'src/navigator/Headers'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { acceptSession, denySession } from 'src/walletConnect/actions'
+import { selectSessions } from 'src/walletConnect/selectors'
 import { getTranslationDescriptionFromAction, SupportedActions } from '../constants'
 
 const TAG = 'WalletConnect/RequestScreen'
@@ -31,16 +33,14 @@ function ActionList({ actions }: { actions: string[] }) {
   return (
     <View>
       {descriptions.map((d) => (
-        <ListItem key={d}>
-          <Text>{t(d)}</Text>
-        </ListItem>
+        <Text style={styles.actionItem}>{t(d)}</Text>
       ))}
     </View>
   )
 }
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectSessionRequest>
-export default function WalletConnectRequestScreen({
+function WalletConnectRequestScreen({
   route: {
     params: { session },
   },
@@ -62,28 +62,28 @@ export default function WalletConnectRequestScreen({
   return (
     <SafeAreaView style={styles.screen}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.content}>
+        <View>
           <View style={{ display: 'flex', alignItems: 'center' }}>
             <Image
-              style={{ height: 40, width: 40, marginBottom: 12, marginHorizontal: 'auto' }}
+              style={{ height: 80, width: 80, marginHorizontal: 'auto' }}
               source={{ uri: icon }}
-              height={40}
-              width={40}
+              height={80}
+              width={80}
             />
           </View>
           <Text style={styles.header}>
             {t('connectToWallet', { dappName: session.proposer.metadata.name })}
           </Text>
-          <Text style={styles.share}>{t('sessionInfo')}</Text>
+          <Text style={styles.subHeader}>{t('sessionInfo')}</Text>
         </View>
 
-        <View style={[styles.content, { paddingTop: 12 }]}>
+        <View style={styles.content}>
           <ActionList actions={session.permissions.jsonrpc.methods} />
         </View>
 
         <View style={styles.actionContainer}>
           <Button
-            style={styles.button}
+            style={{ marginRight: 8 }}
             type={BtnTypes.SECONDARY}
             size={BtnSizes.MEDIUM}
             text={t('cancel')}
@@ -97,46 +97,64 @@ export default function WalletConnectRequestScreen({
             onPress={confirm}
           />
         </View>
-
-        <View style={[styles.content, { paddingTop: 40 }]}>
-          <TouchableOpacity onPress={() => navigate(Screens.Support)}>
-            <Text style={styles.share}>{t('moreInfo')}</Text>
-          </TouchableOpacity>
-        </View>
       </ScrollView>
     </SafeAreaView>
   )
 }
 
+WalletConnectRequestScreen.navigationOptions = () => {
+  return {
+    ...emptyHeader,
+    headerLeft: () => {
+      const dispatch = useDispatch()
+      const { pending } = useSelector(selectSessions)
+
+      const deny = () => {
+        dispatch(denySession(pending[0]))
+        navigateBack()
+      }
+
+      return <TopBarIconButton icon={<Times />} onPress={deny} />
+    },
+    headerLeftContainerStyle: { paddingLeft: 20 },
+  }
+}
+
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    marginHorizontal: 24,
   },
   scrollContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  content: {
-    paddingHorizontal: 30,
-  },
   header: {
     ...fontStyles.h1,
     textAlign: 'center',
-    paddingBottom: 16,
+    paddingTop: 16,
+    paddingBottom: 24,
   },
-  share: {
+  subHeader: {
     ...fontStyles.regular,
-    color: colors.gray4,
+    color: colors.gray5,
     textAlign: 'center',
   },
-  button: {
-    marginTop: 24,
+  content: {
+    paddingTop: 16,
+    paddingBottom: 24,
+  },
+  actionItem: {
+    ...fontStyles.regular,
+    color: colors.gray5,
+    paddingBottom: 8,
   },
   actionContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
+    justifyContent: 'center',
   },
 })
+
+export default WalletConnectRequestScreen

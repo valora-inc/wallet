@@ -36,6 +36,7 @@ import {
   WalletConnectActions,
 } from 'src/walletConnect/actions'
 import { SupportedActions } from 'src/walletConnect/constants'
+import { selectSessions } from 'src/walletConnect/selectors'
 import { getWallet } from 'src/web3/contracts'
 import { getAccountAddress, unlockAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -244,7 +245,13 @@ export function* createWalletConnectChannel() {
 export function navigateToActionRequest({ request }: SessionPayload) {
   navigate(Screens.WalletConnectActionRequest, { request })
 }
-export function navigateToSessionRequest({ session }: SessionProposal) {
+export function* handleIncomingSessionRequest({ session }: SessionProposal) {
+  const { pending }: { pending: any[] } = yield select(selectSessions)
+  if (pending.length) {
+    Logger.debug(TAG + '@handleIncomingSessionRequest', 'existing pending session')
+    // return
+  }
+
   navigate(Screens.WalletConnectSessionRequest, { session })
 }
 
@@ -254,9 +261,9 @@ export function* initialisePairing({ uri }: InitialisePairing) {
       throw new Error(`missing client`)
     }
 
-    Logger.debug(TAG + '@initialisePairing', `pair start`)
+    Logger.debug(TAG + '@initialisePairing', 'pair start')
     yield call(client.pair.bind(client), { uri })
-    Logger.debug(TAG + '@initialisePairing', `pair end`)
+    Logger.debug(TAG + '@initialisePairing', 'pair end')
   } catch (e) {
     Logger.debug(TAG + '@initialisePairing', e.message)
   }
@@ -272,7 +279,7 @@ export function* walletConnectSaga() {
   yield takeEvery(Actions.ACCEPT_REQUEST, acceptRequest)
   yield takeEvery(Actions.DENY_REQUEST, denyRequest)
 
-  yield takeEvery(Actions.SESSION_PROPOSAL, navigateToSessionRequest)
+  yield takeEvery(Actions.SESSION_PROPOSAL, handleIncomingSessionRequest)
   yield takeEvery(Actions.SESSION_PAYLOAD, navigateToActionRequest)
 }
 
