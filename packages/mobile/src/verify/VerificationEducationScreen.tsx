@@ -15,6 +15,7 @@ import Modal from 'react-native-modal'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount, setPhoneNumber } from 'src/account/actions'
+import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -69,7 +70,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const partOfOnboarding = !route.params?.hideOnboardingStep
 
   const cachedNumber = useTypedSelector((state) => state.account.e164PhoneNumber)
-  const cachedCountryCallingCode = useTypedSelector((state) => state.account.defaultCountryCode)
+  const cachedCountryCallingCode = useTypedSelector(defaultCountryCodeSelector)
   const [phoneNumberInfo, setPhoneNumberInfo] = useState(() =>
     getPhoneNumberState(
       cachedNumber || '',
