@@ -96,7 +96,6 @@ export class App extends React.Component<Props> {
   }
 
   handleOpenURL = async (event: any) => {
-    // console.log('Opening URL')
     await waitUntilSagasFinishLoading()
     store.dispatch(openDeepLink(event.url))
   }
