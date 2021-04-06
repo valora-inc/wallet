@@ -5,12 +5,6 @@ const AMOUNT_TO_SEND = '0.1'
 const RANDOM_COMMENT = 'poker night winnings'
 
 export default Send = () => {
-  beforeAll(async () => {
-    await device.launchApp({
-      permissions: { notifications: 'YES', contacts: 'YES' },
-    })
-  })
-
   it('Send cUSD to address', async () => {
     await element(by.id('SendOrRequestBar/SendButton')).tap()
 
@@ -40,6 +34,7 @@ export default Send = () => {
 
     // Confirm and input PIN if necessary.
     await element(by.id('ConfirmButton')).tap()
+    await sleep(3000)
     await enterPinUiIfNecessary()
 
     // Return to home.
