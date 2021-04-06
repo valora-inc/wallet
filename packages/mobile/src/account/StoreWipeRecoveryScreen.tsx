@@ -9,12 +9,13 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { startStoreWipeRecovery } from 'src/account/actions'
 import { Namespaces } from 'src/i18n'
-import { emptyHeader } from 'src/navigator/Headers'
+import { noHeaderGestureDisabled } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { requestPincodeInput } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
+import { getWalletAsync } from 'src/web3/contracts'
 
 type Props = StackScreenProps<StackParamList, Screens.StoreWipeRecoveryScreen>
 
@@ -26,7 +27,8 @@ function StoreWipeRecoveryScreen({ route }: Props) {
 
   const goToOnboarding = async () => {
     try {
-      const account = route.params.account
+      const wallet = await getWalletAsync()
+      const account = wallet.getAccounts()[0]
       await requestPincodeInput(true, false, account)
       dispatch(startStoreWipeRecovery(account))
       navigate(Screens.NameAndPicture)
@@ -48,9 +50,7 @@ function StoreWipeRecoveryScreen({ route }: Props) {
   )
 }
 
-StoreWipeRecoveryScreen.navOptions = {
-  ...emptyHeader,
-}
+StoreWipeRecoveryScreen.navOptions = noHeaderGestureDisabled
 
 const styles = StyleSheet.create({
   container: {

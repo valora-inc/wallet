@@ -2,6 +2,7 @@ import { UnlockableWallet } from '@celo/wallet-base'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { currentLanguageSelector } from 'src/app/reducers'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getWallet } from 'src/web3/contracts'
@@ -19,6 +20,11 @@ export function* checkAccountExistenceSaga() {
     ValoraAnalytics.track(AppEvents.redux_keychain_mismatch, {
       account,
     })
-    navigateClearingStack(Screens.StoreWipeRecoveryScreen, { account })
+    const language: string | undefined = yield select(currentLanguageSelector)
+    if (!language) {
+      navigateClearingStack(Screens.Language, { nextScreen: Screens.StoreWipeRecoveryScreen })
+    } else {
+      navigateClearingStack(Screens.StoreWipeRecoveryScreen)
+    }
   }
 }

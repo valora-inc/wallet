@@ -8,7 +8,7 @@ import { WithTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
-import { setPincode } from 'src/account/actions'
+import { initializeAccount, setPincode } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -30,6 +30,7 @@ interface StateProps {
 
 interface DispatchProps {
   setPincode: typeof setPincode
+  initializeAccount: typeof initializeAccount
 }
 
 interface State {
@@ -51,6 +52,7 @@ function mapStateToProps(state: RootState): StateProps {
 
 const mapDispatchToProps = {
   setPincode,
+  initializeAccount,
 }
 
 export class PincodeSet extends React.Component<Props, State> {
@@ -66,6 +68,7 @@ export class PincodeSet extends React.Component<Props, State> {
     if (this.props.choseToRestoreAccount) {
       navigate(Screens.ImportWallet)
     } else if (this.props.hideVerification || !this.props.route.params?.komenciAvailable) {
+      this.props.initializeAccount()
       navigateHome()
     } else {
       navigateClearingStack(Screens.VerificationEducationScreen)
