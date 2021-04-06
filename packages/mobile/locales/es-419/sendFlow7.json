@@ -17,7 +17,7 @@
   "sentTo": "Enviado A",
   "withdrawnTo": "Retirado en",
   "receivedFrom": "Recibido De",
-  "accountNumberLabel": "Cuenta\nNo.",
+  "accountNumberLabel": "Número de \nCuenta",
   "commentLabel": "Mensaje",
   "amountSent": "Cantidad Enviada",
   "amountCeloWithdrawn": "Cantidad (CELO)",
