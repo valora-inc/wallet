@@ -1,25 +1,28 @@
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
+import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { Namespaces } from 'src/i18n'
-import { navigate } from 'src/navigator/NavigationService'
+import { emptyHeader } from 'src/navigator/Headers'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
-import { selectSessions } from 'src/walletConnect/selectors'
+import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
 
 const TAG = 'WalletConnect/RequestScreen'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
-export default function WalletConnectRequestScreen({
+function WalletConnectRequestScreen({
   route: {
     params: { request },
   },
@@ -28,7 +31,7 @@ export default function WalletConnectRequestScreen({
   const dispatch = useDispatch()
   const { sessions } = useSelector(selectSessions)
 
-  const onAccept = async () => {
+  const onAccept = () => {
     dispatch(acceptRequest(request))
   }
 
@@ -63,10 +66,13 @@ export default function WalletConnectRequestScreen({
   }
 
   const session = sessions.find((s) => s.topic === request.topic)
-
+  const icon = session?.peer.metadata.icons[0] ?? `${session?.peer.metadata.url}/favicon.ico`
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={{ display: 'flex', alignItems: 'center' }}>
+          <Image style={{ height: 80, width: 80 }} source={{ uri: icon }} height={80} width={80} />
+        </View>
         <Text style={styles.header}>
           {t('connectToWallet', { dappName: session?.peer.metadata.name })}
         </Text>
@@ -112,6 +118,24 @@ export default function WalletConnectRequestScreen({
   )
 }
 
+WalletConnectRequestScreen.navigationOptions = () => {
+  return {
+    ...emptyHeader,
+    headerLeft: () => {
+      const dispatch = useDispatch()
+      const [action] = useSelector(selectPendingActions)
+
+      const deny = () => {
+        dispatch(denyRequest(action))
+        navigateBack()
+      }
+
+      return <TopBarIconButton icon={<Times />} onPress={deny} />
+    },
+    headerLeftContainerStyle: { paddingLeft: 20 },
+  }
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -119,7 +143,7 @@ const styles = StyleSheet.create({
   header: {
     ...fontStyles.h1,
     textAlign: 'center',
-    paddingBottom: 16,
+    paddingVertical: 16,
   },
   share: {
     ...fontStyles.regular,
@@ -160,3 +184,5 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
 })
+
+export default WalletConnectRequestScreen

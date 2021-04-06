@@ -78,6 +78,7 @@ export const reducer = (
         ...state,
         sessions: state.sessions.filter((s) => s.topic !== action.session.topic),
         pendingSessions: state.pendingSessions.filter((s) => s.topic !== action.session.topic),
+        pendingActions: state.pendingActions.filter((a) => a.topic !== action.session.topic),
       }
 
     case Actions.SESSION_PAYLOAD:

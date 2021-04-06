@@ -160,6 +160,7 @@ const commonScreens = (Navigator: typeof Stack) => {
       <Navigator.Screen
         name={Screens.WalletConnectActionRequest}
         component={WalletConnectActionRequestScreen}
+        options={WalletConnectActionRequestScreen.navigationOptions}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
       <Navigator.Screen

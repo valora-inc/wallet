@@ -36,7 +36,7 @@ import {
   WalletConnectActions,
 } from 'src/walletConnect/actions'
 import { SupportedActions } from 'src/walletConnect/constants'
-import { selectSessions } from 'src/walletConnect/selectors'
+import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
 import { getWallet } from 'src/web3/contracts'
 import { getAccountAddress, unlockAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -128,9 +128,15 @@ export function* acceptRequest({
     })
   } catch (e) {
     Logger.debug(TAG + '@acceptRequest', e.message)
-  } finally {
-    navigateBack()
   }
+
+  const [, nextRequest] = yield select(selectPendingActions)
+  if (nextRequest) {
+    navigate(Screens.WalletConnectActionRequest, { request: nextRequest })
+    return
+  }
+
+  navigateBack()
 }
 
 export function* denyRequest({
@@ -242,14 +248,21 @@ export function* createWalletConnectChannel() {
   })
 }
 
-export function navigateToActionRequest({ request }: SessionPayload) {
+export function* handleIncomingActionRequest({ request }: SessionPayload) {
+  const pendingActions: SessionTypes.RequestEvent[] = yield select(selectPendingActions)
+  if (pendingActions.length > 1) {
+    // we handle this case in the {accept/deny}Request methods
+    // and direct the user to the next request
+    return
+  }
+
   navigate(Screens.WalletConnectActionRequest, { request })
 }
 export function* handleIncomingSessionRequest({ session }: SessionProposal) {
   const { pending }: { pending: any[] } = yield select(selectSessions)
   if (pending.length) {
+    // TODO: what shall we do here?
     Logger.debug(TAG + '@handleIncomingSessionRequest', 'existing pending session')
-    // return
   }
 
   navigate(Screens.WalletConnectSessionRequest, { session })
@@ -280,7 +293,7 @@ export function* walletConnectSaga() {
   yield takeEvery(Actions.DENY_REQUEST, denyRequest)
 
   yield takeEvery(Actions.SESSION_PROPOSAL, handleIncomingSessionRequest)
-  yield takeEvery(Actions.SESSION_PAYLOAD, navigateToActionRequest)
+  yield takeEvery(Actions.SESSION_PAYLOAD, handleIncomingActionRequest)
 }
 
 export function* initialiseWalletConnect(uri: string) {

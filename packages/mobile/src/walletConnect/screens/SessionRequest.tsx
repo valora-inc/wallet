@@ -90,7 +90,6 @@ function WalletConnectRequestScreen({
             onPress={deny}
           />
           <Button
-            style={styles.button}
             type={BtnTypes.PRIMARY}
             size={BtnSizes.MEDIUM}
             text={t('allow')}
