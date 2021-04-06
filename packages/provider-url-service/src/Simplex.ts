@@ -10,6 +10,12 @@ import {
 const { BigQuery } = require('@google-cloud/bigquery')
 const fetch = require('node-fetch')
 
+const gcloudProject = process.env.GCLOUD_PROJECT
+const bigQueryProjectId = 'celo-testnet-production'
+const bigQueryDataset =
+  gcloudProject === 'celo-mobile-alfajores' ? 'mobile_wallet_dev' : 'mobile_wallet_production'
+const bigQuery = new BigQuery({ projectId: `${bigQueryProjectId}` })
+
 export interface SimplexQuote {
   user_id: string
   quote_id: string
@@ -48,16 +54,12 @@ const getUserInitData = async (
   deviceId: string,
   userAgent: string
 ): Promise<UserInitData> => {
-  const projectId = 'celo-testnet-production'
-  const dataset = 'mobile_wallet_production'
-  const bigQuery = new BigQuery({ projectId: `${projectId}` })
-
   const [data] = await bigQuery.query(`
     SELECT context_ip, device_info_user_agent, timestamp
-    FROM ${projectId}.${dataset}.app_launched
+    FROM ${bigQueryProjectId}.${bigQueryDataset}.app_launched
     WHERE user_address = (
         SELECT user_address
-        FROM ${projectId}.${dataset}.app_launched
+        FROM ${bigQueryProjectId}.${bigQueryDataset}.app_launched
         WHERE device_info_unique_id= "${deviceId}"
         AND user_address IS NOT NULL
         ORDER BY timestamp DESC
@@ -87,13 +89,9 @@ const getUserInitData = async (
 }
 
 const getOrCreateUuid = async (userAddress: string) => {
-  const projectId = 'celo-testnet-production'
-  const dataset = 'mobile_wallet_production'
-  const bigQuery = new BigQuery({ projectId: `${projectId}` })
-
   const [data] = await bigQuery.query(`
     SELECT uuid
-    FROM ${projectId}.${dataset}.simplex_uuid_mapping
+    FROM ${bigQueryProjectId}.${bigQueryDataset}.simplex_uuid_mapping
     WHERE address = "${userAddress}"
   `)
 
@@ -103,7 +101,7 @@ const getOrCreateUuid = async (userAddress: string) => {
 
   const newUuid = uuidv4()
   await bigQuery.query(`
-    INSERT INTO ${projectId}.${dataset}.simplex_uuid_mapping
+    INSERT INTO ${bigQueryProjectId}.${bigQueryDataset}.simplex_uuid_mapping
     VALUES ("${userAddress}", "${newUuid}")
   `)
 
