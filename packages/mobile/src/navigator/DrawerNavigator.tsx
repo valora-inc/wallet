@@ -47,7 +47,6 @@ import WalletHome from 'src/home/WalletHome'
 import i18n, { Namespaces } from 'src/i18n'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
-import { Applications } from 'src/icons/navigator/Applications'
 import { Gold } from 'src/icons/navigator/Gold'
 import { Help } from 'src/icons/navigator/Help'
 import { Home } from 'src/icons/navigator/Home'
@@ -62,7 +61,6 @@ import { Screens } from 'src/navigator/Screens'
 import { default as useSelector } from 'src/redux/useSelector'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import Logger from 'src/utils/Logger'
-import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'NavigationService'
@@ -294,11 +292,6 @@ export default function DrawerNavigator() {
         name={Screens.Settings}
         component={SettingsScreen}
         options={{ title: t('settings'), drawerIcon: Settings }}
-      />
-      <Drawer.Screen
-        name={Screens.WalletConnectSessions}
-        component={WalletConnectSessionsScreen}
-        options={{ title: t('Applications'), drawerIcon: Applications }}
       />
       <Drawer.Screen
         name={Screens.Support}

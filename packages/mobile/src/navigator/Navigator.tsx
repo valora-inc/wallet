@@ -157,10 +157,6 @@ const commonScreens = (Navigator: typeof Stack) => {
         component={WalletConnectSessionRequestScreen}
       />
       <Navigator.Screen
-        name={Screens.WalletConnectSessions}
-        component={WalletConnectSessionsScreen}
-      />
-      <Navigator.Screen
         name={Screens.WalletConnectActionRequest}
         component={WalletConnectActionRequestScreen}
       />
@@ -439,6 +435,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.SelectLocalCurrency}
       component={SelectLocalCurrency}
       options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.WalletConnectSessions}
+      component={WalletConnectSessionsScreen}
+      options={WalletConnectSessionsScreen.navigationOptions}
     />
     <Navigator.Screen
       options={Licenses.navigationOptions}

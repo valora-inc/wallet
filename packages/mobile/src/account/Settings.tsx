@@ -79,6 +79,7 @@ interface StateProps {
   gethStartedThisSession: boolean
   preferredCurrencyCode: LocalCurrencyCode
   sessionId: string
+  connectedApplications: number
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
@@ -100,6 +101,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     gethStartedThisSession: state.geth.gethStartedThisSession,
     preferredCurrencyCode: getLocalCurrencyCode(state),
     sessionId: sessionIdSelector(state),
+    connectedApplications: state.walletConnect.sessions.length,
   }
 }
 
@@ -148,6 +150,10 @@ export class Account extends React.Component<Props, State> {
 
   goToLocalCurrencySetting = () => {
     this.props.navigation.navigate(Screens.SelectLocalCurrency)
+  }
+
+  goToConnectedApplications = () => {
+    this.props.navigation.navigate(Screens.WalletConnectSessions)
   }
 
   goToLicenses = () => {
@@ -350,6 +356,11 @@ export class Account extends React.Component<Props, State> {
               onPress={this.goToLocalCurrencySetting}
             />
             <SectionHead text={t('securityAndData')} style={styles.sectionTitle} />
+            <SettingsItemTextValue
+              title={t('connectedApplications')}
+              value={this.props.connectedApplications.toString()}
+              onPress={this.goToConnectedApplications}
+            />
             <SettingsItemSwitch
               title={t('requirePinOnAppOpen')}
               value={this.props.requirePinOnAppOpen}

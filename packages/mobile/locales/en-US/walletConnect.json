@@ -30,8 +30,8 @@
   "pending": "{{appName}} (pending)",
   "noPendingRequests": "No currently pending requests",
 
-  "sessionsTitle": "Connected DApps",
-  "sessionsSubTitle": "Here you can connect Valora to decentralized applications (DApps) just by scanning a QR code.",
+  "sessionsTitle": "Connected Apps",
+  "sessionsSubTitle": "The following apps are connected to Valora. You can connect to more apps by  by scanning their QR code.",
 
   "disconnect": "Disconnect",
   "disconnectTitle": "Disconnect {{appName}}",
