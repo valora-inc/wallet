@@ -53,7 +53,8 @@ const getUserInitData = async (
   const bigQuery = new BigQuery({ projectId: `${projectId}` })
 
   const [data] = await bigQuery.query(`
-    SELECT context_ip, device_info_user_agent, timestamp FROM ${projectId}.${dataset}.app_launched
+    SELECT context_ip, device_info_user_agent, timestamp
+    FROM ${projectId}.${dataset}.app_launched
     WHERE user_address = (
         SELECT user_address
         FROM ${projectId}.${dataset}.app_launched
@@ -85,6 +86,30 @@ const getUserInitData = async (
   return userInitData
 }
 
+const getOrCreateUuid = async (userAddress: string) => {
+  const projectId = 'celo-testnet-production'
+  const dataset = 'mobile_wallet_production'
+  const bigQuery = new BigQuery({ projectId: `${projectId}` })
+
+  const [data] = await bigQuery.query(`
+    SELECT uuid
+    FROM ${projectId}.${dataset}.simplex_uuid_mapping
+    WHERE address = "${userAddress}"
+  `)
+
+  if (data[0]) {
+    return data[0].uuid
+  }
+
+  const newUuid = uuidv4()
+  await bigQuery.query(`
+    INSERT INTO ${projectId}.${dataset}.simplex_uuid_mapping
+    VALUES ("${userAddress}", "${newUuid}")
+  `)
+
+  return newUuid
+}
+
 const Simplex = {
   fetchQuote: async (
     userAddress: string,
@@ -94,8 +119,10 @@ const Simplex = {
     amount: number,
     amountIsFiat: boolean
   ) => {
+    const userUuid = await getOrCreateUuid(userAddress)
+
     const response = await Simplex.post('/wallet/merchant/v2/quote', {
-      end_user_id: userAddress,
+      end_user_id: userUuid,
       digital_currency: currencyToBuy,
       fiat_currency: fiatCurrency,
       requested_currency: amountIsFiat ? fiatCurrency : currencyToBuy,
