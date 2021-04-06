@@ -149,6 +149,9 @@ brew install --cask android-platform-tools
 
 Next install [Android Studio][android studio] and add the [Android NDK][android ndk].
 
+To add Android NDK, naivgate on the home screen of Android Studio under "Configure". 
+![image](https://user-images.githubusercontent.com/12700801/113786130-63c1e880-96ed-11eb-9282-c6baaf74e42b.png)
+
 Execute the following (and make sure the lines are in your `~/.bash_profile`).
 
 _Note that these paths may differ on your machine. You can find the path to the SDK and NDK via the [Android Studio menu](https://stackoverflow.com/questions/40520324/how-to-find-the-path-to-ndk)._
