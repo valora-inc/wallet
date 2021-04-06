@@ -126,7 +126,6 @@
   "saltFetchFailure": "Error al recuperar el secreto del número de teléfono",
   "saltQuotaExceededError": "Tu cuota de búsqueda de número de teléfono está agotada",
   "maxActionableAttestationsExceededError": "Error al reenviar mensajes",
-  "odisInsufficientBalance": "Tu saldo es demasiado bajo para completar este proceso",
   "matchmakingQuotaExceededError": "Solo puedes conectar tus contactos una vez",
   "paymentLimitReached": "El límite diario es {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) restante",
   "requestLimitError": "No se puede solicitar más del límite diario de {{limit}} cUSD.",

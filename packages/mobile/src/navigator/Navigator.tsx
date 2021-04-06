@@ -9,6 +9,7 @@ import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
 import { PincodeType } from 'src/account/reducer'
+import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
@@ -407,6 +408,11 @@ const backupScreens = (Navigator: typeof Stack) => (
       options={navOptionsForQuiz}
     />
     <Navigator.Screen name={Screens.BackupComplete} component={BackupComplete} options={noHeader} />
+    <Navigator.Screen
+      name={Screens.StoreWipeRecoveryScreen}
+      component={StoreWipeRecoveryScreen}
+      options={StoreWipeRecoveryScreen.navOptions}
+    />
   </>
 )
 

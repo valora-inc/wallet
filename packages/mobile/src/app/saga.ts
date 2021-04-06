@@ -99,6 +99,7 @@ export interface RemoteFeatureFlags {
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
+  hideVerification: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

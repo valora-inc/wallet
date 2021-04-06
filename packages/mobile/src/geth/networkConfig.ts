@@ -37,6 +37,7 @@ interface NetworkConfig {
   bidaliUrl: string
   providerComposerUrl: string
   simplexApiUrl: string
+  komenciLoadCheckEndpoint: string
 }
 
 const moonpayWidgetStaging = 'https://buy-staging.moonpay.io/'
@@ -79,6 +80,8 @@ const SIMPLEX_API_URL_STAGING =
   'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/processSimplexRequest'
 const SIMPLEX_API_URL_PROD =
   'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/processSimplexRequest'
+const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'https://staging-komenci.azurefd.net/v1/ready'
+const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1/ready'
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
@@ -101,6 +104,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     bidaliUrl: BIDALI_URL,
     providerComposerUrl: PROVIDER_URL_COMPOSER_STAGING,
     simplexApiUrl: SIMPLEX_API_URL_STAGING,
+    komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
   },
   [Testnets.mainnet]: {
     nodeDir: `.${Testnets.mainnet}`,
@@ -122,6 +126,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     bidaliUrl: BIDALI_URL,
     providerComposerUrl: PROVIDER_URL_COMPOSER_PROD,
     simplexApiUrl: SIMPLEX_API_URL_PROD,
+    komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
   },
 }
 

@@ -125,6 +125,7 @@ export const NavigatorWrapper = () => {
     }
     RNShake.addEventListener('ShakeEvent', () => {
       Logger.info('NavigatorWrapper', 'Shake Event')
+      // TODO: Cancel all modals before this
       navigate(Screens.SupportContact)
     })
     return () => {

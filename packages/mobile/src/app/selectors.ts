@@ -1,10 +1,13 @@
 import { e164NumberSelector } from 'src/account/selectors'
-import {
-  e164NumberToSaltSelector,
-  isBalanceSufficientForSigRetrievalSelector,
-  tryFeelessOnboardingSelector,
-} from 'src/identity/reducer'
+import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
+import { e164NumberToSaltSelector } from 'src/identity/reducer'
 import { RootState } from 'src/redux/reducers'
+import {
+  isBalanceSufficientForSigRetrievalSelector,
+  komenciContextSelector,
+  shouldUseKomenciSelector,
+  verificationStatusSelector,
+} from 'src/verify/reducer'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
@@ -29,14 +32,20 @@ export const sessionIdSelector = (state: RootState) => {
 export const verificationPossibleSelector = (state: RootState): boolean => {
   const e164Number = e164NumberSelector(state)
   const saltCache = e164NumberToSaltSelector(state)
-
-  if (tryFeelessOnboardingSelector(state)) {
-    return true
+  const shouldUseKomenci = shouldUseKomenciSelector(state)
+  const { komenci } = verificationStatusSelector(state)
+  const hideVerification = hideVerificationSelector(state)
+  if (hideVerification) {
+    return false
   }
 
+  const { errorTimestamps } = komenciContextSelector(state)
+
   return !!(
-    (e164Number && saltCache[e164Number]) ||
-    isBalanceSufficientForSigRetrievalSelector(state)
+    !hasExceededKomenciErrorQuota(errorTimestamps) &&
+    ((e164Number && saltCache[e164Number] && !komenci) ||
+      isBalanceSufficientForSigRetrievalSelector(state) ||
+      shouldUseKomenci)
   )
 }
 
@@ -50,3 +59,5 @@ export const flowBtcUrlSelector = (state: RootState) => state.app.flowBtcUrl
 
 export const shortVerificationCodesEnabledSelector = (state: RootState) =>
   state.app.shortVerificationCodesEnabled
+
+export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
