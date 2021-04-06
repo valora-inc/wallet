@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { RNCamera } from 'react-native-camera'
+import DeviceInfo from 'react-native-device-info'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Defs, Mask, Rect, Svg } from 'react-native-svg'
 import Modal from 'src/components/Modal'
@@ -49,8 +50,13 @@ const SeeThroughOverlay = () => {
 export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const inset = useSafeAreaInsets()
-  const [manualValue, setManualValue] = useState('')
-  const [displayManual, setDisplayManual] = useState(false)
+
+  /**
+   * Emulator only. When in the emulator we want to be able
+   * to enter QR codes manually.
+   */
+  const [value, setValue] = useState('')
+  const [displayEntryModal, setDisplayEntryModal] = useState(false)
 
   return (
     <RNCamera
@@ -69,27 +75,35 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
     >
       <SeeThroughOverlay />
 
-      <TouchableOpacity onPress={() => setDisplayManual(true)}>
-        <Text style={[styles.infoText, { marginBottom: inset.bottom, paddingHorizontal: 30 }]}>
-          {t('cameraScanInfo')}
-        </Text>
-      </TouchableOpacity>
+      <View>
+        {DeviceInfo.isEmulator() ? (
+          <TouchableOpacity onPress={() => setDisplayEntryModal(true)}>
+            <Text style={[styles.infoText, { marginBottom: inset.bottom, paddingHorizontal: 30 }]}>
+              {t('cameraScanInfo')}
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <Text style={[styles.infoText, { marginBottom: inset.bottom, paddingHorizontal: 30 }]}>
+            {t('cameraScanInfo')}
+          </Text>
+        )}
+      </View>
 
-      <Modal isVisible={displayManual}>
+      <Modal isVisible={displayEntryModal}>
         <Text style={styles.manualTitle}>Enter QR code</Text>
         <TextInput
           autoFocus
-          value={manualValue}
+          value={value}
           style={styles.manualInput}
           autoCapitalize="none"
-          onChangeText={(text) => setManualValue(text)}
+          onChangeText={(text) => setValue(text)}
         />
         <View style={styles.actions}>
           <TextButton
             style={{ color: colors.gray5 }}
             onPress={() => {
-              setDisplayManual(false)
-              setManualValue('')
+              setDisplayEntryModal(false)
+              setValue('')
             }}
           >
             {t('cancel')}
