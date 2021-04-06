@@ -83,6 +83,8 @@ See the [issue backlog](https://github.com/celo-org/celo-monorepo/issues) for a 
 The repository has the following packages (sub projects):
 
 - [mobile](packages/mobile) - Android wallet app for the Celo platform ([docs](https://docs.celo.org/getting-started/using-the-mobile-wallet), [live](https://play.google.com/store/apps/details?id=org.celo.mobile.alfajores))
+- [blockchain-api](packages/blockchain-api) - service that uses Blockscout to present view of transactions by account for Celo Wallet activity feed
+- [notification-service](packages/notification-service) - service for managing push notifications for Celo Wallet
 
 Code owners for each package can be found in [.github/CODEOWNERS](.github/CODEOWNERS).
 
