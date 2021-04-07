@@ -26,8 +26,11 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import FundingEducationDialog from 'src/fiatExchanges/FundingEducationDialog'
-import { fetchLocalCicoProviders, LocalCicoProviderData } from 'src/fiatExchanges/saga'
-import { getAvailableLocalProviders } from 'src/fiatExchanges/utils'
+import {
+  fetchLocalCicoProviders,
+  getAvailableLocalProviders,
+  LocalCicoProvider,
+} from 'src/fiatExchanges/utils'
 import i18n, { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -45,10 +48,6 @@ export enum PaymentMethod {
   ADDRESS = 'ADDRESS',
   LocalProvider = 'LocalProvider',
   GIFT_CARD = 'GIFT_CARD',
-}
-
-export interface LocalCicoProvider extends LocalCicoProviderData {
-  name: string
 }
 
 export const fiatExchangesOptionsScreenOptions = ({
@@ -136,8 +135,11 @@ function FiatExchangeOptions({ route, navigation }: Props) {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod>(
     isCashIn ? PaymentMethod.CARD : PaymentMethod.EXCHANGE
   )
+  const [selectedLocalProvider, setSelectedLocalProvider] = useState<LocalCicoProvider>()
   const [isEducationDialogVisible, setEducationDialogVisible] = useState(false)
-  const [localCicoProviderUrl, setCicoLocalProviderUrl] = useState<string>()
+
+  const asset = selectedCurrency === CURRENCY_ENUM.DOLLAR ? 'cusd' : 'celo'
+  const flow = isCashIn ? 'cashIn' : 'cashOut'
 
   const goToProvider = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_option_chosen, {
@@ -149,11 +151,8 @@ function FiatExchangeOptions({ route, navigation }: Props) {
       navigate(Screens.ExternalExchanges, {
         currency: selectedCurrency,
       })
-    } else if (
-      selectedPaymentMethod === PaymentMethod.LocalProvider &&
-      localCicoProviderUrl?.length
-    ) {
-      navigate(Screens.WebViewScreen, { uri: localCicoProviderUrl })
+    } else if (selectedPaymentMethod === PaymentMethod.LocalProvider && selectedLocalProvider) {
+      navigate(Screens.WebViewScreen, { uri: selectedLocalProvider[asset].url })
     } else if (selectedPaymentMethod === PaymentMethod.GIFT_CARD) {
       navigate(Screens.BidaliScreen, { currency: selectedCurrency })
     } else if (selectedPaymentMethod === PaymentMethod.ADDRESS) {
@@ -170,19 +169,22 @@ function FiatExchangeOptions({ route, navigation }: Props) {
   }
 
   const onSelectCurrency = (currency: CURRENCY_ENUM) => () => setSelectedCurrency(currency)
+
   const onSelectPaymentMethod = (
     paymentMethod: PaymentMethod,
     localProvider?: LocalCicoProvider
   ) => () => {
     setSelectedPaymentMethod(paymentMethod)
-    setCicoLocalProviderUrl(localProvider?.url)
+    setSelectedLocalProvider(localProvider)
   }
+
   const onPressInfoIcon = () => {
     setEducationDialogVisible(true)
     ValoraAnalytics.track(
       isCashIn ? FiatExchangeEvents.cico_add_funds_info : FiatExchangeEvents.cico_cash_out_info
     )
   }
+
   const onPressDismissEducationDialog = () => {
     setEducationDialogVisible(false)
     ValoraAnalytics.track(
@@ -274,15 +276,19 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                 selected={selectedPaymentMethod === PaymentMethod.EXCHANGE}
                 onSelect={onSelectPaymentMethod(PaymentMethod.EXCHANGE)}
               />
-              {getAvailableLocalProviders(localCicoProviders, isCashIn, countryCode).map(
-                (provider) => (
-                  <PaymentMethodRadioItem
-                    text={provider.name}
-                    selected={selectedPaymentMethod === PaymentMethod.LocalProvider}
-                    onSelect={onSelectPaymentMethod(PaymentMethod.LocalProvider, provider)}
-                  />
-                )
-              )}
+              {getAvailableLocalProviders(
+                localCicoProviders,
+                isCashIn,
+                countryCode,
+                selectedCurrency
+              ).map((provider) => (
+                <PaymentMethodRadioItem
+                  text={provider.name}
+                  selected={selectedLocalProvider?.name === provider.name}
+                  onSelect={onSelectPaymentMethod(PaymentMethod.LocalProvider, provider)}
+                  enabled={provider[asset][flow]}
+                />
+              ))}
             </View>
           )}
         </View>
