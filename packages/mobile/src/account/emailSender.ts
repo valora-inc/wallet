@@ -19,7 +19,7 @@ export interface Email {
 export async function sendEmailWithNonNativeApp(
   emailSubect: string,
   message: string,
-  deviceInfo: {},
+  deviceInfo?: {},
   combinedLogsPath?: string | false
 ) {
   try {
@@ -29,7 +29,7 @@ export async function sendEmailWithNonNativeApp(
     await openComposer({
       to: CELO_SUPPORT_EMAIL_ADDRESS,
       subject: emailSubect,
-      body: `${message}\n${JSON.stringify(deviceInfo)}\n${supportLogsMessage}`,
+      body: `${message}\n${deviceInfo ? JSON.stringify(deviceInfo) : ''}\n${supportLogsMessage}`,
     })
     return { success: true }
   } catch (error) {
@@ -39,7 +39,7 @@ export async function sendEmailWithNonNativeApp(
 
 export async function sendEmail(
   email: Email,
-  deviceInfo: {} = {},
+  deviceInfo?: {},
   combinedLogsPath: string | false = false
 ) {
   return new Promise<void>((resolve, reject) => {

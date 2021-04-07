@@ -293,6 +293,14 @@ function simpleReadChannel(key: string) {
   })
 }
 
+export async function readOnceFromFirebase(path: string) {
+  return firebase
+    .database()
+    .ref(path)
+    .once('value')
+    .then((snapshot) => snapshot.val())
+}
+
 export async function setUserLanguage(address: string, language: string) {
   try {
     Logger.info(TAG, `Setting language selection for user ${address}`)

@@ -2,7 +2,6 @@ import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Bu
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import firebase from '@react-native-firebase/app'
 import React, { useEffect, useMemo } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
@@ -15,24 +14,19 @@ import { DailyLimitRequestStatus } from 'src/account/reducer'
 import { cUsdDailyLimitSelector, dailyLimitRequestStatusSelector } from 'src/account/selectors'
 import { showMessage } from 'src/alert/actions'
 import { CELO_SUPPORT_EMAIL_ADDRESS } from 'src/config'
+import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n, { Namespaces } from 'src/i18n'
 import ApprovedIcon from 'src/icons/ApprovedIcon'
 import DeniedIcon from 'src/icons/DeniedIcon'
 import InProgressIcon from 'src/icons/InProgressIcon'
 import { headerWithBackButton } from 'src/navigator/Headers'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const UNLIMITED_THRESHOLD = 99999999
-
-export const fetchConsumerRewardsContent = (address: string) =>
-  firebase
-    .database()
-    .ref(`dailyLimitRequest/${address}`)
-    .once('value')
-    .then((snapshot) => snapshot.val())
 
 const RaiseLimitScreen = () => {
   const { t } = useTranslation(Namespaces.accountScreen10)
@@ -46,7 +40,7 @@ const RaiseLimitScreen = () => {
     if (!address) {
       return null
     }
-    return fetchConsumerRewardsContent(address)
+    return readOnceFromFirebase(`dailyLimitRequest/${address}`)
   }, [])
 
   useEffect(() => {
@@ -57,7 +51,7 @@ const RaiseLimitScreen = () => {
 
   useEffect(() => {
     if (
-      dailyLimitRequestStatus != DailyLimitRequestStatus.Approved &&
+      dailyLimitRequestStatus !== DailyLimitRequestStatus.Approved &&
       dailyLimit > UNLIMITED_THRESHOLD
     ) {
       dispatch(updateDailyLimitRequestStatus(DailyLimitRequestStatus.Approved))
@@ -109,6 +103,11 @@ const RaiseLimitScreen = () => {
 
   const onPressButton = async () => {
     try {
+      console.log('ASDASD', numberIsVerified)
+      if (!numberIsVerified) {
+        navigate(Screens.VerificationEducationScreen)
+        return
+      }
       await sendEmail({
         subject: t('raiseLimitEmailSubject'),
         recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
@@ -141,7 +140,9 @@ const RaiseLimitScreen = () => {
           <Text style={styles.labelText}>{t('dailyLimitApplicationStatus')}</Text>
           <View style={styles.applicationStatusContainer}>
             {applicationStatusTexts.icon}
-            <Text style={styles.applicationStatusTitle}>{applicationStatusTexts.title}</Text>
+            <Text style={styles.applicationStatusTitle} testID="ApplicationStatus">
+              {applicationStatusTexts.title}
+            </Text>
           </View>
 
           <Text style={styles.bodyText}>{applicationStatusTexts.description}</Text>
