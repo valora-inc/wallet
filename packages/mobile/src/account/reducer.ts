@@ -30,6 +30,8 @@ export interface State {
   acceptedTerms: boolean
   hasMigratedToNewBip39: boolean
   choseToRestoreAccount: boolean | undefined
+  recoveringFromStoreWipe: boolean | undefined
+  accountToRecoverFromStoreWipe: string | undefined
   dailyLimitCusd: number
 }
 
@@ -68,6 +70,8 @@ export const initialState = {
   retryVerificationWithForno: features.VERIFICATION_FORNO_RETRY,
   hasMigratedToNewBip39: false,
   choseToRestoreAccount: false,
+  recoveringFromStoreWipe: false,
+  accountToRecoverFromStoreWipe: undefined,
   dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
 }
 
@@ -96,10 +100,20 @@ export const reducer = (
         ...state,
         choseToRestoreAccount: true,
       }
+    case Actions.START_STORE_WIPE_RECOVERY:
+      return {
+        ...state,
+        choseToRestoreAccount: true,
+        recoveringFromStoreWipe: true,
+        accountToRecoverFromStoreWipe: action.accountToRecover,
+        pincodeType: PincodeType.CustomPin,
+        acceptedTerms: true,
+      }
     case Actions.CANCEL_CREATE_OR_RESTORE_ACCOUNT:
       return {
         ...state,
         choseToRestoreAccount: false,
+        recoveringFromStoreWipe: false,
         pincodeType: PincodeType.Unset,
         isSettingPin: false,
       }
