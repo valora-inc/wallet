@@ -1,4 +1,4 @@
-import { PincodeType } from 'src/account/reducer'
+import { DailyLimitRequestStatus, PincodeType } from 'src/account/reducer'
 
 export enum Actions {
   CHOOSE_CREATE_ACCOUNT = 'ACCOUNT/CHOOSE_CREATE',
@@ -30,6 +30,7 @@ export enum Actions {
   ACCEPT_TERMS = 'ACCOUNT/ACCEPT_TERMS',
   CLEAR_STORED_ACCOUNT = 'ACCOUNT/CLEAR_STORED_ACCOUNT',
   UPDATE_DAILY_LIMIT = 'ACCOUNT/UPDATE_DAILY_LIMIT',
+  UPDATE_DAILY_LIMIT_REQUEST_STATUS = 'ACCOUNT/UPDATE_DAILY_LIMIT_REQUEST_STATUS',
 }
 
 export interface ChooseCreateAccountAction {
@@ -163,6 +164,11 @@ export interface UpdateDailyLimitAction {
   newLimit: number
 }
 
+export interface UpdateDailyLimitRequestStatusAction {
+  type: Actions.UPDATE_DAILY_LIMIT_REQUEST_STATUS
+  dailyLimitRequestStatus: DailyLimitRequestStatus
+}
+
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -193,6 +199,7 @@ export type ActionTypes =
   | AcceptTermsAction
   | ClearStoredAccountAction
   | UpdateDailyLimitAction
+  | UpdateDailyLimitRequestStatusAction
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -353,4 +360,9 @@ export const clearStoredAccount = (
 export const updateCusdDailyLimit = (newLimit: number): UpdateDailyLimitAction => ({
   type: Actions.UPDATE_DAILY_LIMIT,
   newLimit,
+})
+
+export const updateDailyLimitRequestStatus = (status: DailyLimitRequestStatus) => ({
+  type: Actions.UPDATE_DAILY_LIMIT_REQUEST_STATUS,
+  dailyLimitRequestStatus: status,
 })

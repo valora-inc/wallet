@@ -184,6 +184,7 @@ export type StackParamList = {
     paymentMethod: PaymentMethod.CARD | PaymentMethod.BANK
   }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
+  [Screens.RaiseLimitScreen]: undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
     reclaimPaymentInput: EscrowedPayment
     onCancel?: () => void

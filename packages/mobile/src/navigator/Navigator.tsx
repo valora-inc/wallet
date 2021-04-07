@@ -8,6 +8,7 @@ import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
+import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
@@ -441,6 +442,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={headerWithBackButton}
       name={Screens.SupportContact}
       component={SupportContact}
+    />
+    <Navigator.Screen
+      options={RaiseLimitScreen.navOptions}
+      name={Screens.RaiseLimitScreen}
+      component={RaiseLimitScreen}
     />
     <Navigator.Screen
       options={externalExchangesScreenOptions}

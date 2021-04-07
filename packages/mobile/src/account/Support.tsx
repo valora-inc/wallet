@@ -17,6 +17,10 @@ const onPressContact = () => {
   navigate(Screens.SupportContact)
 }
 
+const onPressRaiseLimit = () => {
+  navigate(Screens.RaiseLimitScreen)
+}
+
 const Support = () => {
   const { t } = useTranslation(Namespaces.accountScreen10)
   return (
@@ -31,6 +35,11 @@ const Support = () => {
             testID="FAQLink"
             title={t('faq')}
             onPress={openExternalLink(FAQ_LINK)}
+          />
+          <SettingsItemTextValue
+            testID="RaiseLimit"
+            title={t('raiseLimit')}
+            onPress={onPressRaiseLimit}
           />
           <SettingsItemTextValue
             testID="ForumLink"
