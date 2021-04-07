@@ -33,7 +33,9 @@ function ActionList({ actions }: { actions: string[] }) {
   return (
     <View>
       {descriptions.map((d) => (
-        <Text style={styles.actionItem}>{t(d)}</Text>
+        <Text key={d} style={styles.actionItem}>
+          {t(d)}
+        </Text>
       ))}
     </View>
   )

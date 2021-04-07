@@ -5,6 +5,7 @@ import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client'
 import { PairingTypes, SessionTypes } from '@walletconnect/types'
+import { ERROR as WalletConnectErrors, getError } from '@walletconnect/utils'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { NETWORK_ID, WALLETCONNECT_URL } from 'src/config'
@@ -75,7 +76,10 @@ export function* denySession({ session }: DenySession) {
     if (!client) {
       throw new Error('missing client')
     }
-    yield call(client.reject.bind(client), { reason: 'Session denied by user', proposal: session })
+    yield call(client.reject.bind(client), {
+      reason: getError(WalletConnectErrors.NOT_APPROVED),
+      proposal: session,
+    })
   } catch (e) {
     Logger.debug(TAG + '@denySession', e.message)
   }
@@ -88,7 +92,7 @@ export function* closeSession({ session }: CloseSession) {
     }
     yield call(client.disconnect.bind(client), {
       topic: session.topic,
-      reason: 'Closed by user',
+      reason: getError(WalletConnectErrors.USER_DISCONNECTED),
     })
   } catch (e) {
     Logger.debug(TAG + '@closeSession', e.message)
@@ -155,10 +159,7 @@ export function* denyRequest({
       response: {
         id,
         jsonrpc,
-        error: {
-          code: -32000,
-          reason: 'Rejected request',
-        },
+        error: getError(WalletConnectErrors.NOT_APPROVED),
       },
     })
   } catch (e) {
@@ -239,10 +240,9 @@ export function* createWalletConnectChannel() {
       client.off(CLIENT_EVENTS.pairing.updated, onPairingUpdated)
       client.off(CLIENT_EVENTS.pairing.deleted, onPairingDeleted)
 
-      client.session.topics.map((topic) => client!.disconnect({ reason: 'End of session', topic }))
-      client.pairing.topics.map((topic) =>
-        client!.pairing.delete({ topic, reason: 'End of session' })
-      )
+      const reason = getError(WalletConnectErrors.EXPIRED)
+      client.session.topics.map((topic) => client!.disconnect({ reason, topic }))
+      client.pairing.topics.map((topic) => client!.pairing.delete({ topic, reason }))
       client = null
     }
   })

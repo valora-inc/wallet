@@ -32,7 +32,7 @@
   "noPendingRequests": "No currently pending requests",
 
   "sessionsTitle": "Connected Apps",
-  "sessionsSubTitle": "The following apps are connected to Valora. You can connect to more apps by  by scanning their QR code.",
+  "sessionsSubTitle": "The following apps are connected to Valora. You can connect to more apps by scanning their QR code.",
 
   "disconnect": "Disconnect",
   "disconnectTitle": "Disconnect {{appName}}?",
