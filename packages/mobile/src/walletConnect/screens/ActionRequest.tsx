@@ -116,20 +116,22 @@ function WalletConnectRequestScreen({
   )
 }
 
+function LeftHeader() {
+  const dispatch = useDispatch()
+  const [action] = useSelector(selectPendingActions)
+
+  const deny = () => {
+    dispatch(denyRequest(action))
+    navigateBack()
+  }
+
+  return <TopBarIconButton icon={<Times />} onPress={deny} />
+}
+
 WalletConnectRequestScreen.navigationOptions = () => {
   return {
     ...emptyHeader,
-    headerLeft: () => {
-      const dispatch = useDispatch()
-      const [action] = useSelector(selectPendingActions)
-
-      const deny = () => {
-        dispatch(denyRequest(action))
-        navigateBack()
-      }
-
-      return <TopBarIconButton icon={<Times />} onPress={deny} />
-    },
+    headerLeft: LeftHeader,
     headerLeftContainerStyle: { paddingLeft: 20 },
   }
 }

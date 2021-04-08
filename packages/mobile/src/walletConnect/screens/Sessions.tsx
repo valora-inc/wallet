@@ -59,13 +59,21 @@ function WalletConnectSessionsScreen() {
   const [highlighted, setHighlighted] = useState<SessionTypes.Settled | null>(null)
   const dispatch = useDispatch()
 
+  const closeModal = () => {
+    setHighlighted(null)
+  }
+
+  const openModal = (session: SessionTypes.Settled) => () => {
+    setHighlighted(session)
+  }
+
   const closeSession = () => {
     if (!highlighted) {
       return
     }
 
     dispatch(closeSessionAction(highlighted))
-    setHighlighted(null)
+    closeModal()
   }
 
   return (
@@ -81,7 +89,7 @@ function WalletConnectSessionsScreen() {
           actionPress={closeSession}
           actionText={t('disconnect')}
           secondaryActionText={t('cancel')}
-          secondaryActionPress={() => setHighlighted(null)}
+          secondaryActionPress={closeModal}
           isVisible={!!highlighted}
         >
           {t('disconnectBody', { appName: highlighted?.peer.metadata.name })}
@@ -89,7 +97,7 @@ function WalletConnectSessionsScreen() {
 
         <View style={{ display: 'flex' }}>
           {sessions.map((s) => {
-            return <App metadata={s.peer.metadata} onPress={() => setHighlighted(s)} />
+            return <App key={s.topic} metadata={s.peer.metadata} onPress={openModal(s)} />
           })}
         </View>
       </View>
@@ -97,20 +105,19 @@ function WalletConnectSessionsScreen() {
   )
 }
 
+function HeaderRight() {
+  const onPress = () =>
+    navigate(Screens.QRNavigator, {
+      screen: Screens.QRScanner,
+    })
+
+  return <TopBarTextButton title={i18n.t('global:scan')} testID="ScanButton" onPress={onPress} />
+}
+
 WalletConnectSessionsScreen.navigationOptions = () => {
   return {
     ...headerWithBackButton,
-    headerRight: () => (
-      <TopBarTextButton
-        title={i18n.t('global:scan')}
-        testID="ScanButton"
-        onPress={() =>
-          navigate(Screens.QRNavigator, {
-            screen: Screens.QRScanner,
-          })
-        }
-      />
-    ),
+    headerRight: HeaderRight,
   }
 }
 

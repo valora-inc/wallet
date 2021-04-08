@@ -15,8 +15,8 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { acceptSession, denySession } from 'src/walletConnect/actions'
+import { getTranslationDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
 import { selectSessions } from 'src/walletConnect/selectors'
-import { getTranslationDescriptionFromAction, SupportedActions } from '../constants'
 
 function deduplicateArray(array: any[]) {
   return [...new Set(array)]
@@ -101,20 +101,22 @@ function WalletConnectRequestScreen({
   )
 }
 
+function LeftHeader() {
+  const dispatch = useDispatch()
+  const { pending } = useSelector(selectSessions)
+
+  const deny = () => {
+    dispatch(denySession(pending[0]))
+    navigateBack()
+  }
+
+  return <TopBarIconButton icon={<Times />} onPress={deny} />
+}
+
 WalletConnectRequestScreen.navigationOptions = () => {
   return {
     ...emptyHeader,
-    headerLeft: () => {
-      const dispatch = useDispatch()
-      const { pending } = useSelector(selectSessions)
-
-      const deny = () => {
-        dispatch(denySession(pending[0]))
-        navigateBack()
-      }
-
-      return <TopBarIconButton icon={<Times />} onPress={deny} />
-    },
+    headerLeft: LeftHeader,
     headerLeftContainerStyle: { paddingLeft: 20 },
   }
 }

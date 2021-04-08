@@ -1,7 +1,7 @@
 import TextButton from '@celo/react-components/components/TextButton'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { RNCamera } from 'react-native-camera'
@@ -12,6 +12,7 @@ import Modal from 'src/components/Modal'
 import { Namespaces } from 'src/i18n'
 import NotAuthorizedView from 'src/qrcode/NotAuthorizedView'
 import { QrCode } from 'src/send/actions'
+import Logger from 'src/utils/Logger'
 
 interface QRScannerProps {
   onBarCodeDetected: (qrCode: QrCode) => void
@@ -55,8 +56,33 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
    * Emulator only. When in the emulator we want to be able
    * to enter QR codes manually.
    */
+  const [isEmulator, setIsEmulator] = useState(false)
   const [value, setValue] = useState('')
   const [displayEntryModal, setDisplayEntryModal] = useState(false)
+
+  const openModal = () => {
+    setDisplayEntryModal(true)
+  }
+
+  const closeModal = () => {
+    setDisplayEntryModal(false)
+    setValue('')
+  }
+
+  const submitModal = () => {
+    onBarCodeDetected({ type: '', data: value })
+    closeModal()
+  }
+
+  const onModalTextChange = (text: string) => {
+    setValue(text)
+  }
+
+  useEffect(() => {
+    DeviceInfo.isEmulator()
+      .then(setIsEmulator)
+      .catch((e) => Logger.error('QRScanner/isEmulator', e))
+  }, [])
 
   return (
     <RNCamera
@@ -76,8 +102,8 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
       <SeeThroughOverlay />
 
       <View>
-        {DeviceInfo.isEmulator() ? (
-          <TouchableOpacity onPress={() => setDisplayEntryModal(true)}>
+        {isEmulator ? (
+          <TouchableOpacity onPress={openModal}>
             <Text style={[styles.infoText, { marginBottom: inset.bottom, paddingHorizontal: 30 }]}>
               {t('cameraScanInfo')}
             </Text>
@@ -92,30 +118,17 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
       <Modal isVisible={displayEntryModal}>
         <Text style={styles.manualTitle}>Enter QR code</Text>
         <TextInput
-          autoFocus
+          autoFocus={true}
           value={value}
           style={styles.manualInput}
           autoCapitalize="none"
-          onChangeText={(text) => setValue(text)}
+          onChangeText={onModalTextChange}
         />
         <View style={styles.actions}>
-          <TextButton
-            style={{ color: colors.gray5 }}
-            onPress={() => {
-              setDisplayEntryModal(false)
-              setValue('')
-            }}
-          >
+          <TextButton style={{ color: colors.gray5 }} onPress={closeModal}>
             {t('cancel')}
           </TextButton>
-          <TextButton
-            style={{}}
-            onPress={() => {
-              onBarCodeDetected({ type: '', data: value })
-              setDisplayEntryModal(false)
-              setValue('')
-            }}
-          >
+          <TextButton style={{}} onPress={submitModal}>
             {t('submit')}
           </TextButton>
         </View>

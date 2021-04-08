@@ -208,8 +208,9 @@ export function* createWalletConnectChannel() {
     const onPairingDeleted = (pairing: PairingTypes.DeleteParams) => emit(pairingDeleted(pairing))
 
     if (!client) {
-      Logger.debug(TAG + '@initialiseClient', 'missing client')
-      return () => {}
+      return () => {
+        Logger.debug(TAG + '@initialiseClient', 'missing client')
+      }
     }
 
     client.on(CLIENT_EVENTS.session.proposal, onSessionProposal)
