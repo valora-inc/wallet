@@ -12,7 +12,8 @@ import { updateDailyLimitRequestStatus } from 'src/account/actions'
 import { sendEmail } from 'src/account/emailSender'
 import { DailyLimitRequestStatus } from 'src/account/reducer'
 import { cUsdDailyLimitSelector, dailyLimitRequestStatusSelector } from 'src/account/selectors'
-import { showMessage } from 'src/alert/actions'
+import { showError, showMessage } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CELO_SUPPORT_EMAIL_ADDRESS } from 'src/config'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n, { Namespaces } from 'src/i18n'
@@ -41,7 +42,7 @@ const RaiseLimitScreen = () => {
       return null
     }
     return readOnceFromFirebase(`dailyLimitRequest/${address}`)
-  }, [])
+  }, [address])
 
   useEffect(() => {
     if (applicationStatusResult.result in DailyLimitRequestStatus) {
@@ -110,12 +111,13 @@ const RaiseLimitScreen = () => {
       await sendEmail({
         subject: t('raiseLimitEmailSubject'),
         recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
-        body: t('raiseLimitEmailBody', { address }),
+        body: t('raiseLimitEmailBody', { dailyLimit, address }),
         isHTML: true,
       })
       navigateBack()
       dispatch(showMessage(t('raiseLimitEmailSuccess')))
     } catch (error) {
+      dispatch(showError(ErrorMessages.RAISE_LIMIT_EMAIL_NOT_SENT))
       Logger.error('Error sending daily limit raise request', error)
     }
   }

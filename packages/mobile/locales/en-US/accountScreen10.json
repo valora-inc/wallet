@@ -90,8 +90,9 @@
   "raiseLimitBegin": "Begin Identity Verification",
   "raiseLimitResume": "Resume Identity Verification",
   "raiseLimitEmailSubject": "Request to raise account send limit",
-  "raiseLimitEmailBody": "I would like to request an increase to the 1000 {{appName}} daily limit for address {{address}}",
+  "raiseLimitEmailBody": "I would like to request an increase to the {{dailyLimit}} {{appName}} daily limit for address {{address}}",
   "raiseLimitEmailSuccess": "Your request has been sent successfully! Expect an email response soon!",
+  "raiseLimitEmailNotSent": "Your request was not sent. Please try again.",
   "storeRecoveryTitle": "We need you to setup your account again",
   "storeRecoveryBody": "There’s been an error. We’re aware of the issue and working to fix it. In the meantime, you will need to go through the setup process again.",
   "storeRecoveryButton": "Restore Account"
