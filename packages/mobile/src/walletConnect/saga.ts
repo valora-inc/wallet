@@ -182,7 +182,7 @@ export function* watchWalletConnectChannel() {
 export function* createWalletConnectChannel() {
   if (!client) {
     Logger.debug(TAG + '@initialiseClient', `init start`)
-    client = yield call(WalletConnectClient.init, {
+    client = yield call(WalletConnectClient.init as any, {
       relayProvider: WALLETCONNECT_URL,
       storageOptions: {
         asyncStorage: AsyncStorage,
