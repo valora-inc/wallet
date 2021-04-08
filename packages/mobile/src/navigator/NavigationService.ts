@@ -12,6 +12,7 @@ import { StackParamList } from 'src/navigator/types'
 import { requestPincodeInput } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
+import { sleep } from 'test/utils'
 
 const TAG = 'NavigationService'
 
@@ -29,6 +30,7 @@ async function ensureNavigator() {
     (!navigationRef.current || !navigatorIsReadyRef.current) &&
     retries < NAVIGATOR_INIT_RETRIES
   ) {
+    await sleep(200)
     retries++
   }
   if (!navigationRef.current || !navigatorIsReadyRef.current) {
