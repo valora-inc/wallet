@@ -26,6 +26,7 @@ import { stableTokenSaga } from 'src/stableToken/saga'
 import { transactionSaga } from 'src/transactions/saga'
 import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
+import { verifySaga } from 'src/verify/saga'
 import { walletConnectSaga } from 'src/walletConnect/saga'
 import { web3Saga } from 'src/web3/saga'
 
@@ -97,6 +98,7 @@ export function* rootSaga() {
   yield spawn(transactionSaga)
   yield spawn(homeSaga)
   yield spawn(identitySaga)
+  yield spawn(verifySaga)
   yield spawn(localCurrencySaga)
   yield spawn(feesSaga)
   yield spawn(stableTokenSaga)

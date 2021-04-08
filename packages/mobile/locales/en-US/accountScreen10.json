@@ -70,5 +70,8 @@
   "addPhoto": "Add Photo",
   "chooseFromLibrary": "Choose from Library",
   "takePhoto": "Take Photo",
-  "removePhoto": "Remove Photo"
+  "removePhoto": "Remove Photo",
+  "storeRecoveryTitle": "We need you to setup your account again",
+  "storeRecoveryBody": "There’s been an error. We’re aware of the issue and working to fix it. In the meantime, you will need to go through the setup process again.",
+  "storeRecoveryButton": "Restore Account"
 }

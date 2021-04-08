@@ -1,6 +1,6 @@
 import { Actions } from 'src/fiatExchanges/actions'
 import {
-  CiCoProvider,
+  CicoProviderNames,
   initialState,
   providersDisplayInfo,
   reducer,
@@ -15,20 +15,20 @@ describe('fiat exchange reducer', () => {
   it('SELECT_PROVIDER should override the provider', () => {
     let updatedState = reducer(undefined, {
       type: Actions.SELECT_PROVIDER,
-      provider: CiCoProvider.Moonpay,
+      provider: CicoProviderNames.Moonpay,
     })
     expect(updatedState).toEqual({
       ...initialState,
-      lastUsedProvider: CiCoProvider.Moonpay,
+      lastUsedProvider: CicoProviderNames.Moonpay,
     })
 
     updatedState = reducer(updatedState, {
       type: Actions.SELECT_PROVIDER,
-      provider: CiCoProvider.Simplex,
+      provider: CicoProviderNames.Simplex,
     })
     expect(updatedState).toEqual({
       ...initialState,
-      lastUsedProvider: CiCoProvider.Simplex,
+      lastUsedProvider: CicoProviderNames.Simplex,
     })
   })
 
@@ -55,7 +55,7 @@ describe('fiat exchange reducer', () => {
 
     updatedState = reducer(updatedState, {
       type: Actions.SELECT_PROVIDER,
-      provider: CiCoProvider.Moonpay,
+      provider: CicoProviderNames.Moonpay,
     })
     updatedState = reducer(updatedState, {
       type: Actions.ASSIGN_PROVIDER_TO_TX_HASH,
@@ -71,7 +71,7 @@ describe('fiat exchange reducer', () => {
           name: 'fiatExchangeFlow:cUsdDeposit',
           icon: expect.any(String),
         },
-        [txHash2]: providersDisplayInfo[CiCoProvider.Moonpay],
+        [txHash2]: providersDisplayInfo[CicoProviderNames.Moonpay],
       },
     })
   })
@@ -82,7 +82,7 @@ describe('fiat exchange reducer', () => {
 
     let updatedState = reducer(initialState, {
       type: Actions.SELECT_PROVIDER,
-      provider: CiCoProvider.Moonpay,
+      provider: CicoProviderNames.Moonpay,
     })
     updatedState = reducer(updatedState, {
       type: Actions.ASSIGN_PROVIDER_TO_TX_HASH,
@@ -92,7 +92,7 @@ describe('fiat exchange reducer', () => {
     // Now, overwriting Moonpay with Simplex should casue no effect.
     updatedState = reducer(updatedState, {
       type: Actions.SELECT_PROVIDER,
-      provider: CiCoProvider.Simplex,
+      provider: CicoProviderNames.Simplex,
     })
     updatedState = reducer(updatedState, {
       type: Actions.ASSIGN_PROVIDER_TO_TX_HASH,
@@ -102,9 +102,9 @@ describe('fiat exchange reducer', () => {
 
     expect(updatedState).toEqual({
       ...initialState,
-      lastUsedProvider: CiCoProvider.Simplex,
+      lastUsedProvider: CicoProviderNames.Simplex,
       txHashToProvider: {
-        [txHash1]: providersDisplayInfo[CiCoProvider.Moonpay],
+        [txHash1]: providersDisplayInfo[CicoProviderNames.Moonpay],
       },
     })
   })
@@ -116,7 +116,7 @@ describe('fiat exchange reducer', () => {
     // First, set Moonpay as the provider.
     let updatedState = reducer(initialState, {
       type: Actions.SELECT_PROVIDER,
-      provider: CiCoProvider.Moonpay,
+      provider: CicoProviderNames.Moonpay,
     })
     updatedState = reducer(updatedState, {
       type: Actions.ASSIGN_PROVIDER_TO_TX_HASH,
@@ -126,14 +126,14 @@ describe('fiat exchange reducer', () => {
     // Then, overwrite it with the data that comes from Firebase.
     updatedState = reducer(updatedState, {
       type: Actions.SET_PROVIDERS_FOR_TX_HASHES,
-      txHashes: { [txHash1]: CiCoProvider.Simplex },
+      txHashes: { [txHash1]: CicoProviderNames.Simplex },
     })
 
     expect(updatedState).toEqual({
       ...initialState,
       lastUsedProvider: null,
       txHashToProvider: {
-        [txHash1]: providersDisplayInfo[CiCoProvider.Simplex],
+        [txHash1]: providersDisplayInfo[CicoProviderNames.Simplex],
       },
     })
   })

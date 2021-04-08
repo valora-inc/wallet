@@ -127,7 +127,7 @@
   "saltFetchFailure": "Failed to retrieve phone number secret",
   "saltQuotaExceededError": "Your phone number lookup quota is used up",
   "maxActionableAttestationsExceededError": "Failed to resend messages",
-  "odisInsufficientBalance": "Your balance is too low to complete this process",
+  "odisInsufficientBalance": "Please confirm your number before sending cUSD to a contact",
   "matchmakingQuotaExceededError": "Matchmaking can be done only once",
   "paymentLimitReached": "The daily limit is {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) remaining",
   "requestLimitError": "Can't request more than the {{limit}} cUSD daily limit.",
