@@ -103,7 +103,6 @@ const RaiseLimitScreen = () => {
 
   const onPressButton = async () => {
     try {
-      console.log('ASDASD', numberIsVerified)
       if (!numberIsVerified) {
         navigate(Screens.VerificationEducationScreen)
         return
@@ -144,7 +143,6 @@ const RaiseLimitScreen = () => {
               {applicationStatusTexts.title}
             </Text>
           </View>
-
           <Text style={styles.bodyText}>{applicationStatusTexts.description}</Text>
         </>
       )}
