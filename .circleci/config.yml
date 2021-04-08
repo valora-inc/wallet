@@ -257,6 +257,9 @@ jobs:
           path: packages/mobile/e2e/artifacts
           destination: mobile/e2e/artifacts
 
+      - store_test_results:
+          path: test-results
+
       - save_cache:
           key: yarn-v4-{{ arch }}-{{ .Branch }}-{{ checksum "packages/mobile/android/build.gradle" }}-{{ checksum "packages/mobile/android/settings.gradle" }}-{{ checksum "packages/mobile/android/app/build.gradle" }}-{{ checksum "packages/mobile/.env.test" }}
           paths:
@@ -359,6 +362,9 @@ jobs:
       - store_artifacts:
           path: packages/mobile/e2e/artifacts
           destination: mobile/e2e/artifacts
+      - store_test_results:
+          path: test-results
+
 
   lint-checks:
     <<: *defaults
