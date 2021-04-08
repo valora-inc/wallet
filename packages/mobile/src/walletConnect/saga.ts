@@ -104,7 +104,7 @@ export function* acceptRequest({
     request: { id, jsonrpc, method, params },
     topic,
   },
-}: AcceptRequest) {
+}: AcceptRequest): any {
   try {
     if (!client) {
       throw new Error('Missing client')
