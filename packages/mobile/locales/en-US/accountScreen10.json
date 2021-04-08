@@ -8,7 +8,6 @@
   "removeAccountDetails": "Resetting will remove your account from this device. Your funds will remain in the account, but will only be accessible with your Account Key",
   "legal": "Legal",
   "securityAndData": "Security and Data",
-  "changePin": "Change PIN",
   "requirePinOnAppOpen": "Require PIN on App Open",
   "analytics": "Analytics",
   "shareAnalytics": "Share Analytics",
