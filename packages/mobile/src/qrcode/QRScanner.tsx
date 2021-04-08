@@ -1,18 +1,17 @@
 import TextButton from '@celo/react-components/components/TextButton'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { RNCamera } from 'react-native-camera'
-import DeviceInfo from 'react-native-device-info'
+import { useIsEmulator } from 'react-native-device-info'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Defs, Mask, Rect, Svg } from 'react-native-svg'
 import Modal from 'src/components/Modal'
 import { Namespaces } from 'src/i18n'
 import NotAuthorizedView from 'src/qrcode/NotAuthorizedView'
 import { QrCode } from 'src/send/actions'
-import Logger from 'src/utils/Logger'
 
 interface QRScannerProps {
   onBarCodeDetected: (qrCode: QrCode) => void
@@ -51,12 +50,12 @@ const SeeThroughOverlay = () => {
 export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const inset = useSafeAreaInsets()
+  const isEmulator = useIsEmulator()
 
   /**
    * Emulator only. When in the emulator we want to be able
    * to enter QR codes manually.
    */
-  const [isEmulator, setIsEmulator] = useState(false)
   const [value, setValue] = useState('')
   const [displayEntryModal, setDisplayEntryModal] = useState(false)
 
@@ -77,12 +76,6 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
   const onModalTextChange = (text: string) => {
     setValue(text)
   }
-
-  useEffect(() => {
-    DeviceInfo.isEmulator()
-      .then(setIsEmulator)
-      .catch((e) => Logger.error('QRScanner/isEmulator', e))
-  }, [])
 
   return (
     <RNCamera
