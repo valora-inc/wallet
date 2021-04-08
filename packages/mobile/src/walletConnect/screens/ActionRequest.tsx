@@ -19,8 +19,6 @@ import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
 import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
 
-const TAG = 'WalletConnect/RequestScreen'
-
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
 function WalletConnectRequestScreen({
   route: {

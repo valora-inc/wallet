@@ -18,8 +18,6 @@ import { acceptSession, denySession } from 'src/walletConnect/actions'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { getTranslationDescriptionFromAction, SupportedActions } from '../constants'
 
-const TAG = 'WalletConnect/RequestScreen'
-
 function deduplicateArray(array: any[]) {
   return [...new Set(array)]
 }
