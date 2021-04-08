@@ -3,6 +3,7 @@
 import { NavigationActions, StackActions } from '@react-navigation/compat'
 import { CommonActions, NavigationContainerRef } from '@react-navigation/native'
 import { createRef, MutableRefObject } from 'react'
+import { sleep } from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
@@ -12,7 +13,6 @@ import { StackParamList } from 'src/navigator/types'
 import { requestPincodeInput } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
-import { sleep } from 'test/utils'
 
 const TAG = 'NavigationService'
 

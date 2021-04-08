@@ -99,7 +99,6 @@ function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerScen
   const onBarCodeDetected = memoize(
     (qrCode: QrCode) => {
       Logger.debug('QRScanner', 'Bar code detected')
-
       dispatch(
         handleBarcodeDetected(
           qrCode,

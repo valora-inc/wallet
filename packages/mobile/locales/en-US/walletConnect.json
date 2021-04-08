@@ -26,11 +26,6 @@
   "tapToDisconnect": "Tap to Disconnect",
   "moreInfo": "Confused by anything here?",
 
-  "noConnectedApps": "No connected applications yet, click here to get started",
-  "connectAnotherApp": "Click here to connect another application",
-  "pending": "{{appName}} (pending)",
-  "noPendingRequests": "No currently pending requests",
-
   "sessionsTitle": "Connected Apps",
   "sessionsSubTitle": "The following apps are connected to Valora. You can connect to more apps by scanning their QR code.",
 
