@@ -30,7 +30,6 @@
   "pincodeSet": {
     "create": "Create a PIN",
     "changePIN": "Change PIN",
-    "verify": "Enter PIN again",
     "pinsDontMatch": "The PINs didn't match",
     "invalidPin": "Please use a stronger PIN"
   },
