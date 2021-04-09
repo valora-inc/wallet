@@ -35,6 +35,7 @@ interface NetworkConfig {
   currentMtwImplementationAddress: string
   recaptchaSiteKey: string
   bidaliUrl: string
+  komenciLoadCheckEndpoint: string
 }
 
 const moonpayWidgetStaging = 'https://buy-staging.moonpay.io/'
@@ -67,6 +68,9 @@ const CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET: Address =
 const CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING: Address =
   '0x5C9a6E3c3E862eD306E2E3348EBC8b8310A99e5A'
 
+const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'https://staging-komenci.azurefd.net/v1/ready'
+const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1/ready'
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     nodeDir: `.${Testnets.alfajores}`,
@@ -86,6 +90,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
+    komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
   },
   [Testnets.mainnet]: {
     nodeDir: `.${Testnets.mainnet}`,
@@ -105,6 +110,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
+    komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
   },
 }
 

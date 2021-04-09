@@ -1,8 +1,17 @@
+import { generateMnemonic, MnemonicLanguages, MnemonicStrength } from '@celo/utils/lib/account'
+import { isValidChecksumAddress } from '@celo/utils/lib/address'
+import * as bip39 from 'react-native-bip39'
 import { expectSaga } from 'redux-saga-test-plan'
+import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, delay, select } from 'redux-saga/effects'
-import { pincodeTypeSelector } from 'src/account/selectors'
+import { currentLanguageSelector } from 'src/app/reducers'
 import { navigateToError } from 'src/navigator/NavigationService'
-import { completeWeb3Sync, updateWeb3SyncProgress } from 'src/web3/actions'
+import {
+  completeWeb3Sync,
+  setAccount,
+  setDataEncryptionKey,
+  updateWeb3SyncProgress,
+} from 'src/web3/actions'
 import { getWeb3Async } from 'src/web3/contracts'
 import {
   checkWeb3SyncProgress,
@@ -29,26 +38,58 @@ jest.mock('src/navigator/NavigationService', () => ({
 const state = createMockStore({ web3: { account: mockAccount } }).getState()
 
 describe(getOrCreateAccount, () => {
-  beforeAll(() => {
-    jest.useRealTimers()
-  })
-
   it('returns an existing account', async () => {
     await expectSaga(getOrCreateAccount)
       .withState(state)
-      .provide([[select(currentAccountSelector), '123']])
-      .returns('123')
+      .not.call.fn(generateMnemonic)
+      .returns('0x0000000000000000000000000000000000007e57')
       .run()
   })
 
   it('creates a new account', async () => {
+    const MNEMONIC =
+      'avellana novio zona pinza ducha íntimo amante diluir toldo peón ocio encía gen balcón carro lingote millón amasar mármol bondad toser soledad croqueta agosto'
+    const EXPECTED_ADDRESS = '0xE025583d25Eff2C254999b5904C97bAe9B3F8D83'
+    const EXPECTED_DEK = '0xb6812219f7003c27cc1ef17c2033c033a38cfc52d83f176a0667086787d59d39'
+
     await expectSaga(getOrCreateAccount)
       .withState(state)
-      .provide([[select(currentAccountSelector), null]])
-      .provide([[select(pincodeTypeSelector), '123']])
-      .returns('0x0000000000000000000000000000000000007e57')
+      .provide([
+        [select(currentAccountSelector), null],
+        [matchers.call.fn(generateMnemonic), MNEMONIC],
+      ])
+      .put(setAccount(EXPECTED_ADDRESS))
+      .put(setDataEncryptionKey(EXPECTED_DEK))
+      .returns(EXPECTED_ADDRESS)
       .run()
   })
+
+  it.each`
+    appLang             | expectedMnemonicLang
+    ${'en-US'}          | ${MnemonicLanguages[MnemonicLanguages.english]}
+    ${'es-419'}         | ${MnemonicLanguages[MnemonicLanguages.spanish]}
+    ${'pt-BR'}          | ${MnemonicLanguages[MnemonicLanguages.portuguese]}
+    ${'incorrect-lang'} | ${MnemonicLanguages[MnemonicLanguages.english]}
+  `(
+    'creates an account with a mnemonic in $expectedMnemonicLang when app language is $appLang',
+    async ({ appLang, expectedMnemonicLang }) => {
+      const { returnValue } = await expectSaga(getOrCreateAccount)
+        .withState(state)
+        .provide([
+          [select(currentAccountSelector), null],
+          [select(currentLanguageSelector), appLang],
+        ])
+        .call(
+          generateMnemonic,
+          MnemonicStrength.s256_24words,
+          (MnemonicLanguages[expectedMnemonicLang] as unknown) as MnemonicLanguages,
+          bip39
+        )
+        .run()
+
+      expect(isValidChecksumAddress(returnValue)).toBe(true)
+    }
+  )
 })
 
 describe(waitForWeb3Sync, () => {
@@ -77,6 +118,10 @@ describe(waitForWeb3Sync, () => {
 })
 
 describe(checkWeb3SyncProgress, () => {
+  beforeAll(() => {
+    jest.useRealTimers()
+  })
+
   it('reports web3 status correctly', async () => {
     const web3 = await getWeb3Async(false)
     web3.eth.isSyncing

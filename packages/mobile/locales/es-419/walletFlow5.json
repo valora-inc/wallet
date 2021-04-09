@@ -97,7 +97,7 @@
   "feedItemEscrowSentTitle": "{{nameOrNumber}}",
   "feedItemEscrowSentTitle_noReceiverDetails": "Desconocido",
   "feedItemEscrowSentInfo": "{{comment}}",
-  "feedItemEscrowSentInfo_noComment": "Escrow Pago Enviado",
+  "feedItemEscrowSentInfo_noComment": "Invitación enviada",
   "feedItemEscrowReceivedTitle": "{{nameOrNumber}}",
   "feedItemEscrowReceivedTitle_noSenderDetails": "Desconocido",
   "feedItemEscrowReceivedInfo": "{{comment}}",

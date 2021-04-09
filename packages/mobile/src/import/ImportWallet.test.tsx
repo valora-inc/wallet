@@ -36,6 +36,8 @@ describe('ImportWallet', () => {
           hideAlert={jest.fn()}
           isImportingWallet={false}
           connected={true}
+          isRecoveringFromStoreWipe={false}
+          accountToRecoverFromStoreWipe={undefined}
           {...mockScreenProps}
           {...getMockI18nProps()}
         />
