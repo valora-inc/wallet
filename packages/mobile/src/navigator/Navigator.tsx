@@ -193,9 +193,7 @@ const pincodeSetScreenOptions = ({
 }) => {
   const isVerifying = route.params?.isVerifying
   const changePin = route.params?.changePin
-  const title = isVerifying
-    ? i18n.t('onboarding:pincodeSet.verify')
-    : changePin
+  const title = changePin
     ? i18n.t('onboarding:pincodeSet.changePIN')
     : i18n.t('onboarding:pincodeSet.create')
 
