@@ -191,7 +191,6 @@ const pincodeSetScreenOptions = ({
 }: {
   route: RouteProp<StackParamList, Screens.PincodeSet>
 }) => {
-  const isVerifying = route.params?.isVerifying
   const changePin = route.params?.changePin
   const title = changePin
     ? i18n.t('onboarding:pincodeSet.changePIN')
@@ -200,7 +199,10 @@ const pincodeSetScreenOptions = ({
   return {
     ...nuxNavigationOptions,
     headerTitle: () => (
-      <HeaderTitleWithSubtitle title={title} subTitle={i18n.t('onboarding:step', { step: '2' })} />
+      <HeaderTitleWithSubtitle
+        title={title}
+        subTitle={changePin ? '' : i18n.t('onboarding:step', { step: '2' })}
+      />
     ),
   }
 }

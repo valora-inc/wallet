@@ -129,7 +129,7 @@ export class PincodeSet extends React.Component<Props, State> {
     const { pin1, pin2, errorText } = this.state
 
     return (
-      <SafeAreaView style={changePin ? styles.container : styles.changePinContainer}>
+      <SafeAreaView style={changePin ? styles.changePinContainer : styles.container}>
         <DevSkipButton onSkip={this.navigateToNextScreen} />
         {isVerifying ? (
           <Pincode
