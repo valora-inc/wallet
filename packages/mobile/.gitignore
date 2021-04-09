@@ -75,7 +75,7 @@ android/.settings
 e2e/artifacts/
 e2e_run.log
 e2e_pidcat_run.log
-test-results/*
+e2e/test-results/*
 
 # keys
 secrets.json

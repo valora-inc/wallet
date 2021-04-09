@@ -8,13 +8,13 @@
     "detox/runners/jest/streamlineReporter",
     ["jest-html-reporter", {
       "pageTitle": "E2E Test Report",
-      "outputPath": "test-results/index.html",
+      "outputPath": "e2e/test-results/index.html",
       "executionTimeWarningThreshold": 90,
       "includeFailureMsg": true
     }],
     ["jest-junit", {
       "suiteName": "E2E Test Report",
-      "outputDirectory": "./test-results",
+      "outputDirectory": "e2e/test-results",
       "outputName": "junit.xml",
       "reportTestSuiteErrors": true
     }]
