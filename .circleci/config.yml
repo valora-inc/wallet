@@ -257,6 +257,10 @@ jobs:
           path: packages/mobile/e2e/artifacts
           destination: mobile/e2e/artifacts
 
+      - store_artifacts:
+          path: packages/mobile/e2e/test-results
+          destination: mobile/e2e/artifacts
+
       - store_test_results:
           path: packages/mobile/e2e/test-results
 
@@ -361,6 +365,9 @@ jobs:
             yarn run test:e2e:ios
       - store_artifacts:
           path: packages/mobile/e2e/artifacts
+          destination: mobile/e2e/artifacts
+      - store_artifacts:
+          path: packages/mobile/e2e/test-results
           destination: mobile/e2e/artifacts
       - store_test_results:
           path: packages/mobile/e2e/test-results
