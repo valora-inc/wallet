@@ -79,7 +79,7 @@ function ActionRequest({
         <View style={styles.sectionDivider}>
           <Text style={styles.sectionHeaderText}>{t('action.operation')}</Text>
           <Text style={styles.bodyText}>
-            {t(getTranslationFromAction(method as SupportedActions))}
+            {getTranslationFromAction(method as SupportedActions)}
           </Text>
 
           {moreInfoString && (

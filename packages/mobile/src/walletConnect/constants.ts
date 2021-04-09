@@ -1,3 +1,5 @@
+import i18n from 'src/i18n'
+
 export enum SupportedActions {
   eth_accounts = 'eth_accounts',
   eth_signTransaction = 'eth_signTransaction',
@@ -8,21 +10,21 @@ export enum SupportedActions {
 }
 
 const actionDescriptionTranslations: { [action in SupportedActions]: string } = {
-  [SupportedActions.eth_accounts]: 'description.accounts',
-  [SupportedActions.eth_signTransaction]: 'description.signTransaction',
-  [SupportedActions.eth_signTypedData]: 'description.sign',
-  [SupportedActions.personal_sign]: 'description.sign',
-  [SupportedActions.personal_decrypt]: 'description.decrypt',
-  [SupportedActions.computeSharedSecret]: 'description.computeSharedSecret',
+  [SupportedActions.eth_accounts]: i18n.t('description.accounts'),
+  [SupportedActions.eth_signTransaction]: i18n.t('description.signTransaction'),
+  [SupportedActions.eth_signTypedData]: i18n.t('description.sign'),
+  [SupportedActions.personal_sign]: i18n.t('description.sign'),
+  [SupportedActions.personal_decrypt]: i18n.t('description.decrypt'),
+  [SupportedActions.computeSharedSecret]: i18n.t('description.computeSharedSecret'),
 }
 
 const actionTranslations: { [x in SupportedActions]: string } = {
-  [SupportedActions.eth_accounts]: 'action.accounts',
-  [SupportedActions.eth_signTransaction]: 'action.signTransaction',
-  [SupportedActions.eth_signTypedData]: 'action.sign',
-  [SupportedActions.personal_sign]: 'action.sign',
-  [SupportedActions.personal_decrypt]: 'action.decrypt',
-  [SupportedActions.computeSharedSecret]: 'action.computeSharedSecret',
+  [SupportedActions.eth_accounts]: i18n.t('action.accounts'),
+  [SupportedActions.eth_signTransaction]: i18n.t('action.signTransaction'),
+  [SupportedActions.eth_signTypedData]: i18n.t('action.sign'),
+  [SupportedActions.personal_sign]: i18n.t('action.sign'),
+  [SupportedActions.personal_decrypt]: i18n.t('action.decrypt'),
+  [SupportedActions.computeSharedSecret]: i18n.t('action.computeSharedSecret'),
 }
 
 export function getTranslationDescriptionFromAction(action: SupportedActions) {

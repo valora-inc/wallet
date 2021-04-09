@@ -11,6 +11,7 @@ import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import { NETWORK_ID, WALLETCONNECT_URL } from 'src/config'
+import i18n from 'src/i18n'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
@@ -58,7 +59,7 @@ export function* acceptSession({ session }: AcceptSession) {
     const response: SessionTypes.Response = {
       metadata: {
         name: APP_NAME,
-        description: 'A mobile payments wallet that works worldwide',
+        description: i18n.t('global:valoraDescription'),
         url: WEB_LINK,
         icons: [appendPath(WEB_LINK, '/favicon.ico')],
       },

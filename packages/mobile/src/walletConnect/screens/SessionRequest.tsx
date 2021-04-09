@@ -23,7 +23,6 @@ function deduplicateArray<T>(array: T[]) {
 }
 
 function ActionList({ actions }: { actions: string[] }) {
-  const { t } = useTranslation(Namespaces.walletConnect)
   const descriptions = deduplicateArray(
     actions.map((a) => getTranslationDescriptionFromAction(a as SupportedActions))
   )
@@ -32,7 +31,7 @@ function ActionList({ actions }: { actions: string[] }) {
     <View>
       {descriptions.map((d) => (
         <Text key={d} style={styles.actionItem}>
-          {t(d)}
+          {d}
         </Text>
       ))}
     </View>
