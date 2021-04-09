@@ -52,6 +52,17 @@ export const countryFeatures = {
 }
 
 export const providerAvailability = {
+  XANPOOL_RESTRICTED: {
+    HK: true,
+    SG: true,
+    MY: true,
+    PH: true,
+    TH: true,
+    IN: true,
+    VN: true,
+    ID: true,
+    AU: true,
+  },
   MOONPAY_RESTRICTED: {
     US: true,
     AF: true,

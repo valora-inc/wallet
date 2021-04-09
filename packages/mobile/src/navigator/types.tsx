@@ -113,6 +113,11 @@ export type StackParamList = {
     currencyCode: LocalCurrencyCode
     currencyToBuy: CurrencyCode
   }
+  [Screens.XanpoolScreen]: {
+    localAmount: number
+    currencyCode: LocalCurrencyCode
+    currencyToBuy: CurrencyCode
+  }
   [Screens.RampScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode

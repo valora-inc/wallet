@@ -78,6 +78,18 @@ export const openMoonpay = (
   })
 }
 
+export const openXanpool = (
+  amount: number,
+  currencyCode: LocalCurrencyCode,
+  currencyToBuy: CurrencyCode
+) => {
+  navigate(Screens.XanpoolScreen, {
+    localAmount: amount,
+    currencyCode,
+    currencyToBuy,
+  })
+}
+
 export const openSimplex = (account: string | null) => {
   navigateToURI(`${SIMPLEX_URI}?address=${account}`)
 }

@@ -10,6 +10,7 @@ export enum CicoProviderNames {
   Ramp = 'Ramp',
   Simplex = 'Simplex',
   Transak = 'Transak',
+  Xanpool = 'Xanpool',
 }
 
 export const providersDisplayInfo: { [provider in CicoProviderNames]: ProviderFeedInfo } = {
@@ -31,6 +32,12 @@ export const providersDisplayInfo: { [provider in CicoProviderNames]: ProviderFe
   [CicoProviderNames.Transak]: {
     name: 'Transak',
     icon:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+  },
+  [CicoProviderNames.Xanpool]: {
+    name: 'Xanpool',
+    icon:
+      // TODO: update image
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
   },
 }

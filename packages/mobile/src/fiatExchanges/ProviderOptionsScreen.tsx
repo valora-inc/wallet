@@ -22,6 +22,7 @@ import {
   fetchLocationFromIpAddress,
   getProviderAvailability,
   openMoonpay,
+  openXanpool,
   openRamp,
   openSimplex,
   sortProviders,
@@ -118,9 +119,12 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
   const userLocation: UserLocation | undefined = asyncUserLocation.result
 
-  const { MOONPAY_RESTRICTED, SIMPLEX_RESTRICTED, RAMP_RESTRICTED } = getProviderAvailability(
-    userLocation
-  )
+  const {
+    MOONPAY_RESTRICTED,
+    SIMPLEX_RESTRICTED,
+    RAMP_RESTRICTED,
+    XANPOOL_RESTRICTED,
+  } = getProviderAvailability(userLocation)
 
   const providers: {
     cashOut: CicoProvider[]
@@ -133,6 +137,12 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         restricted: MOONPAY_RESTRICTED,
         onSelected: () =>
           openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+      },
+      {
+        id: CicoProviderNames.Xanpool,
+        restricted: XANPOOL_RESTRICTED,
+        onSelected: () =>
+          openXanpool(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
         id: CicoProviderNames.Simplex,
