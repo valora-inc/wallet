@@ -22,38 +22,18 @@ const App = ({ metadata, onPress }: { metadata: AppMetadata; onPress: () => void
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <View
-        style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingBottom: 24 }}
-      >
-        <Image source={{ uri: icon }} height={40} width={40} style={{ height: 40, width: 40 }} />
-        <View
-          style={{
-            paddingLeft: 12,
-          }}
-        >
-          <Text
-            style={{
-              ...fontStyles.regular,
-              color: colors.dark,
-            }}
-          >
-            {metadata.name}
-          </Text>
-          <Text
-            style={{
-              ...fontStyles.small,
-              color: colors.gray4,
-            }}
-          >
-            {t('tapToDisconnect')}
-          </Text>
+      <View style={styles.row}>
+        <Image source={{ uri: icon }} style={styles.icon} />
+        <View style={styles.rowContent}>
+          <Text style={styles.appName}>{metadata.name}</Text>
+          <Text style={styles.disconnectButton}>{t('tapToDisconnect')}</Text>
         </View>
       </View>
     </TouchableOpacity>
   )
 }
 
-function WalletConnectSessionsScreen() {
+function Sessions() {
   const { t } = useTranslation(Namespaces.walletConnect)
   const { sessions } = useSelector(selectSessions)
   const [highlighted, setHighlighted] = useState<SessionTypes.Settled | null>(null)
@@ -78,28 +58,26 @@ function WalletConnectSessionsScreen() {
 
   return (
     <ScrollView testID="WalletConnectSessionsView">
+      <Dialog
+        title={t('disconnectTitle', { appName: highlighted?.peer.metadata.name })}
+        actionPress={closeSession}
+        actionText={t('disconnect')}
+        secondaryActionText={t('cancel')}
+        secondaryActionPress={closeModal}
+        isVisible={!!highlighted}
+      >
+        {t('disconnectBody', { appName: highlighted?.peer.metadata.name })}
+      </Dialog>
+
       <View style={styles.container}>
         <Text style={styles.title}>{t('sessionsTitle')}</Text>
         <Text style={styles.subTitle}>{t('sessionsSubTitle')}</Text>
       </View>
 
-      <View style={[styles.container, { paddingVertical: 24 }]}>
-        <Dialog
-          title={t('disconnectTitle', { appName: highlighted?.peer.metadata.name })}
-          actionPress={closeSession}
-          actionText={t('disconnect')}
-          secondaryActionText={t('cancel')}
-          secondaryActionPress={closeModal}
-          isVisible={!!highlighted}
-        >
-          {t('disconnectBody', { appName: highlighted?.peer.metadata.name })}
-        </Dialog>
-
-        <View style={{ display: 'flex' }}>
-          {sessions.map((s) => {
-            return <App key={s.topic} metadata={s.peer.metadata} onPress={openModal(s)} />
-          })}
-        </View>
+      <View style={[styles.container, styles.appsContainer]}>
+        {sessions.map((s) => {
+          return <App key={s.topic} metadata={s.peer.metadata} onPress={openModal(s)} />
+        })}
       </View>
     </ScrollView>
   )
@@ -114,7 +92,7 @@ function HeaderRight() {
   return <TopBarTextButton title={i18n.t('global:scan')} testID="ScanButton" onPress={onPress} />
 }
 
-WalletConnectSessionsScreen.navigationOptions = () => {
+Sessions.navigationOptions = () => {
   return {
     ...headerWithBackButton,
     headerRight: HeaderRight,
@@ -137,11 +115,24 @@ const styles = StyleSheet.create({
     color: colors.dark,
     paddingVertical: 16,
   },
-  emptyState: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingTop: 12,
+  appsContainer: {
+    paddingVertical: 24,
+  },
+
+  // connected apps
+  row: { display: 'flex', flexDirection: 'row', alignItems: 'center', paddingBottom: 24 },
+  icon: { height: 40, width: 40 },
+  rowContent: {
+    paddingLeft: 12,
+  },
+  appName: {
+    ...fontStyles.regular,
+    color: colors.dark,
+  },
+  disconnectButton: {
+    ...fontStyles.small,
+    color: colors.gray4,
   },
 })
 
-export default WalletConnectSessionsScreen
+export default Sessions

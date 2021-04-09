@@ -20,7 +20,7 @@ import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/co
 import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
-function WalletConnectRequestScreen({
+function ActionRequest({
   route: {
     params: { request },
   },
@@ -56,7 +56,7 @@ function WalletConnectRequestScreen({
       return
     }
 
-    // todo: this is a short lived alternative to proper
+    // TODO: this is a short lived alternative to proper
     // transaction decoding.
     navigate(Screens.DappKitTxDataScreen, {
       dappKitData: moreInfoString,
@@ -68,13 +68,12 @@ function WalletConnectRequestScreen({
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={{ display: 'flex', alignItems: 'center' }}>
-          <Image style={{ height: 80, width: 80 }} source={{ uri: icon }} height={80} width={80} />
+        <View style={styles.center}>
+          <Image style={styles.logo} source={{ uri: icon }} />
         </View>
         <Text style={styles.header}>
           {t('connectToWallet', { dappName: session?.peer.metadata.name })}
         </Text>
-
         <Text style={styles.share}> {t('action.asking')}:</Text>
 
         <View style={styles.sectionDivider}>
@@ -128,7 +127,7 @@ function LeftHeader() {
   return <TopBarIconButton icon={<Times />} onPress={deny} />
 }
 
-WalletConnectRequestScreen.navigationOptions = () => {
+ActionRequest.navigationOptions = () => {
   return {
     ...emptyHeader,
     headerLeft: LeftHeader,
@@ -140,10 +139,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  center: {
+    display: 'flex',
+    alignItems: 'center',
+  },
   header: {
     ...fontStyles.h1,
     textAlign: 'center',
     paddingVertical: 16,
+  },
+  logo: {
+    height: 80,
+    width: 80,
   },
   share: {
     ...fontStyles.regular,
@@ -185,4 +192,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default WalletConnectRequestScreen
+export default ActionRequest

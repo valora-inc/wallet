@@ -18,7 +18,7 @@ import { acceptSession, denySession } from 'src/walletConnect/actions'
 import { getTranslationDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
 import { selectSessions } from 'src/walletConnect/selectors'
 
-function deduplicateArray(array: any[]) {
+function deduplicateArray<T>(array: T[]) {
   return [...new Set(array)]
 }
 
@@ -40,7 +40,7 @@ function ActionList({ actions }: { actions: string[] }) {
 }
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectSessionRequest>
-function WalletConnectRequestScreen({
+function SessionRequest({
   route: {
     params: { session },
   },
@@ -63,13 +63,8 @@ function WalletConnectRequestScreen({
     <SafeAreaView style={styles.screen}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View>
-          <View style={{ display: 'flex', alignItems: 'center' }}>
-            <Image
-              style={{ height: 80, width: 80, marginHorizontal: 'auto' }}
-              source={{ uri: icon }}
-              height={80}
-              width={80}
-            />
+          <View style={styles.center}>
+            <Image style={styles.logo} source={{ uri: icon }} />
           </View>
           <Text style={styles.header}>
             {t('connectToWallet', { dappName: session.proposer.metadata.name })}
@@ -83,7 +78,7 @@ function WalletConnectRequestScreen({
 
         <View style={styles.actionContainer}>
           <Button
-            style={{ marginRight: 8 }}
+            style={styles.cancelButton}
             type={BtnTypes.SECONDARY}
             size={BtnSizes.MEDIUM}
             text={t('cancel')}
@@ -113,7 +108,7 @@ function LeftHeader() {
   return <TopBarIconButton icon={<Times />} onPress={deny} />
 }
 
-WalletConnectRequestScreen.navigationOptions = () => {
+SessionRequest.navigationOptions = () => {
   return {
     ...emptyHeader,
     headerLeft: LeftHeader,
@@ -131,6 +126,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logo: {
+    height: 80,
+    width: 80,
+  },
+  center: { display: 'flex', alignItems: 'center' },
   header: {
     ...fontStyles.h1,
     textAlign: 'center',
@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  cancelButton: { marginRight: 8 },
 })
 
-export default WalletConnectRequestScreen
+export default SessionRequest

@@ -1,3 +1,4 @@
+import { appendPath } from '@celo/base'
 import { EncodedTransaction } from '@celo/connect'
 import { UnlockableWallet } from '@celo/wallet-base'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -8,6 +9,7 @@ import { PairingTypes, SessionTypes } from '@walletconnect/types'
 import { ERROR as WalletConnectErrors, getError } from '@walletconnect/utils'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import { NETWORK_ID, WALLETCONNECT_URL } from 'src/config'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -55,10 +57,10 @@ export function* acceptSession({ session }: AcceptSession) {
     const account: string = yield call(getAccountAddress)
     const response: SessionTypes.Response = {
       metadata: {
-        name: 'Valora',
+        name: APP_NAME,
         description: 'A mobile payments wallet that works worldwide',
-        url: 'https://valoraapp.com',
-        icons: ['https://valoraapp.com/favicon.ico'],
+        url: WEB_LINK,
+        icons: [appendPath(WEB_LINK, '/favicon.ico')],
       },
       state: {
         accounts: [`${account}@celo:${NETWORK_ID}`],

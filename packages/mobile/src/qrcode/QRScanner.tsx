@@ -77,6 +77,10 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
     setValue(text)
   }
 
+  const cameraScanInfo = (
+    <Text style={[styles.infoText, { marginBottom: inset.bottom }]}>{t('cameraScanInfo')}</Text>
+  )
+
   return (
     <RNCamera
       style={styles.camera}
@@ -96,20 +100,14 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
 
       <View>
         {isEmulator ? (
-          <TouchableOpacity onPress={openModal}>
-            <Text style={[styles.infoText, { marginBottom: inset.bottom, paddingHorizontal: 30 }]}>
-              {t('cameraScanInfo')}
-            </Text>
-          </TouchableOpacity>
+          <TouchableOpacity onPress={openModal}>{cameraScanInfo}</TouchableOpacity>
         ) : (
-          <Text style={[styles.infoText, { marginBottom: inset.bottom, paddingHorizontal: 30 }]}>
-            {t('cameraScanInfo')}
-          </Text>
+          { cameraScanInfo }
         )}
       </View>
 
       <Modal isVisible={displayEntryModal}>
-        <Text style={styles.manualTitle}>Enter QR code</Text>
+        <Text style={styles.manualTitle}>{t('enterQRCode')}</Text>
         <TextInput
           autoFocus={true}
           value={value}
@@ -118,12 +116,10 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
           onChangeText={onModalTextChange}
         />
         <View style={styles.actions}>
-          <TextButton style={{ color: colors.gray5 }} onPress={closeModal}>
+          <TextButton style={styles.cancelButton} onPress={closeModal}>
             {t('cancel')}
           </TextButton>
-          <TextButton style={{}} onPress={submitModal}>
-            {t('submit')}
-          </TextButton>
+          <TextButton onPress={submitModal}>{t('submit')}</TextButton>
         </View>
       </Modal>
     </RNCamera>
@@ -144,6 +140,7 @@ const styles = StyleSheet.create({
     lineHeight: undefined,
     color: colors.light,
     textAlign: 'center',
+    paddingHorizontal: 30,
   },
   manualInput: {
     ...fontStyles.regular,
@@ -168,5 +165,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     maxWidth: '100%',
     flexWrap: 'wrap',
+  },
+  cancelButton: {
+    color: colors.gray5,
   },
 })
