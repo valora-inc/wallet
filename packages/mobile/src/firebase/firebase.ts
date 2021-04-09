@@ -252,7 +252,7 @@ export async function notificationsChannel() {
   return simpleReadChannel('notificationsV2')
 }
 
-export async function lostAccountsChannel() {
+export async function fetchLostAccounts() {
   return firebase
     .database()
     .ref('lostAccounts')

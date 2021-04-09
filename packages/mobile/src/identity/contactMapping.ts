@@ -46,7 +46,7 @@ import { checkContactsPermission } from 'src/utils/permissions'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { lostAccountsChannel } from 'src/firebase/firebase'
+import { fetchLostAccounts } from 'src/firebase/firebase'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
@@ -200,8 +200,9 @@ export function* fetchAddressesAndValidateSaga({
       secureSendPhoneNumberMapping,
       e164Number
     )
-
-    yield put(requireSecureSend(e164Number, addressValidationType))
+    if (addressValidationType !== AddressValidationType.NONE) {
+      yield put(requireSecureSend(e164Number, addressValidationType))
+    }
     yield put(
       updateE164PhoneNumberAddresses(e164NumberToAddressUpdates, addressToE164NumberUpdates)
     )
@@ -257,7 +258,7 @@ function* fetchWalletAddresses(e164Number: string) {
 
 // Returns a list of account addresses for the identifier received.
 export function* lookupAccountAddressesForIdentifier(id: string) {
-  const lostAccounts = yield call(lostAccountsChannel)
+  const lostAccounts = yield call(fetchLostAccounts)
 
   const contractKit = yield call(getContractKit)
   const attestationsWrapper: AttestationsWrapper = yield call([
