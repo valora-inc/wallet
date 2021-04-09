@@ -546,6 +546,12 @@ export const v8Schema = {
     recoveringFromStoreWipe: false,
     accountToRecoverFromStoreWipe: undefined,
   },
+  walletConnect: {
+    pairings: [],
+    sessions: [],
+    pendingSessions: [],
+    pendingActions: [],
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
