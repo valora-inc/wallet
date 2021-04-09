@@ -146,11 +146,12 @@ const Simplex = {
 
     const { id, appVersion, userAgent } = deviceInfo
     const accountCreationData = await getUserInitData(currentIpAddress, id, userAgent)
+    const userUuid = await getOrCreateUuid(userAddress)
 
     const response = await Simplex.post('/wallet/merchant/v2/payments/partner/data', {
       account_details: {
         app_provider_id: 'valorapp',
-        app_end_user_id: userAddress,
+        app_end_user_id: userUuid,
         app_version_id: appVersion,
         app_install_date: accountCreationData.timestamp,
         email: '',
