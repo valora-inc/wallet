@@ -369,7 +369,11 @@ export class Account extends React.Component<Props, State> {
               onPress={this.goToLocalCurrencySetting}
             />
             <SectionHead text={t('securityAndData')} style={styles.sectionTitle} />
-            <SettingsItemTextValue title={t('changePin')} onPress={this.goToChangePin} />
+            <SettingsItemTextValue
+              title={t('changePin')}
+              onPress={this.goToChangePin}
+              testID="ChangePIN"
+            />
             <SettingsItemSwitch
               title={t('requirePinOnAppOpen')}
               value={this.props.requirePinOnAppOpen}

@@ -200,7 +200,7 @@ const pincodeSetScreenOptions = ({
     ...nuxNavigationOptions,
     headerTitle: () =>
       changePin ? (
-        <HeaderTitleWithSubtitle title={title} subTitle={'hello'} />
+        <HeaderTitleWithSubtitle title={title} subTitle={' '} />
       ) : (
         <HeaderTitleWithSubtitle
           title={title}
