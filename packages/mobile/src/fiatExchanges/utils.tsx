@@ -149,19 +149,21 @@ export const renderFeesPolicy = (feesPolicy?: CicoServiceFeesPolicy) => {
   if (!feesPolicy) {
     return 'Unknown'
   }
-  const { percentage, extraPercentage, minimum } = feesPolicy
-  let policy = ''
+  const { percentage, extraPercentage, minimum, extraNetwork } = feesPolicy
+  const policy = []
   if (!isNaN(percentage as any)) {
-    policy += percentage + '% '
-  }
-  if (percentage instanceof Array) {
-    policy += `${percentage[0]}%~${percentage[1]}% `
+    policy.push(percentage + '%')
+  } else if (percentage instanceof Array) {
+    policy.push(`${percentage[0]}%~${percentage[1]}%`)
   }
   if (extraPercentage) {
-    policy += `+ $${extraPercentage.toFixed(2)} `
+    policy.push(`+ $${extraPercentage.toFixed(2)}`)
   }
   if (minimum) {
-    policy += `($${minimum.toFixed(2)} minimum)`
+    policy.push(`($${minimum.toFixed(2)} minimum)`)
   }
-  return policy
+  if (extraNetwork) {
+    policy.push('+ network fee')
+  }
+  return policy.join(' ')
 }

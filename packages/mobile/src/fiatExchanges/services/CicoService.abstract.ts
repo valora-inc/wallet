@@ -6,6 +6,7 @@ export interface CicoServiceFeesPolicy {
   percentage?: Range | number
   extraPercentage?: number
   minimum?: number
+  extraNetwork?: boolean
 }
 
 export abstract class CicoService {

@@ -262,7 +262,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                   />
                 </View>
                 <View style={styles.option}>
-                  <View>
+                  <View style={styles.optionTitle}>
                     <Text style={styles.optionTitle}>{providersDisplayInfo[provider.id].name}</Text>
                     {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) ? (
                       <Text style={styles.restrictedText}>
@@ -368,6 +368,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    maxWidth: '100%',
   },
   providerTextContainer: {
     flexDirection: 'column',
@@ -391,5 +392,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     paddingLeft: 8,
+  },
+  optionTitle: {
+    flex: 1,
+    paddingRight: 12,
   },
 })

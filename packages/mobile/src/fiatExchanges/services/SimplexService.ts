@@ -1,6 +1,7 @@
 import { CASH_IN_SUCCESS_DEEPLINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
 import { CicoService } from 'src/fiatExchanges/services/CicoService.abstract'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 
 const uuidv4 = () =>
   (String(1e7) + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
@@ -64,6 +65,14 @@ export class SimplexService extends CicoService {
       client_ip: '0.0.0.0',
       payment_methods: ['credit_card'],
     })
+  }
+
+  getFeesPolicy(paymentMethod: PaymentMethod) {
+    // From: https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-do-you-charge-for-card-payments
+    return {
+      percentage: [2.5, 5],
+      minimum: 10,
+    }
   }
 
   getFees(cryptoAsset: string, fiatAsset: string, requestedFiatAmount: number) {
