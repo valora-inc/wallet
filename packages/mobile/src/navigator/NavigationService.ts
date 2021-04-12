@@ -3,7 +3,7 @@
 import { NavigationActions, StackActions } from '@react-navigation/compat'
 import { CommonActions, NavigationContainerRef } from '@react-navigation/native'
 import { createRef, MutableRefObject } from 'react'
-import { sleep } from 'sleep-promise'
+import sleep from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { NavigationEvents, OnboardingEvents } from 'src/analytics/Events'

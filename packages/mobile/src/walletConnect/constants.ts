@@ -10,21 +10,21 @@ export enum SupportedActions {
 }
 
 const actionDescriptionTranslations: { [action in SupportedActions]: string } = {
-  [SupportedActions.eth_accounts]: i18n.t('description.accounts'),
-  [SupportedActions.eth_signTransaction]: i18n.t('description.signTransaction'),
-  [SupportedActions.eth_signTypedData]: i18n.t('description.sign'),
-  [SupportedActions.personal_sign]: i18n.t('description.sign'),
-  [SupportedActions.personal_decrypt]: i18n.t('description.decrypt'),
-  [SupportedActions.computeSharedSecret]: i18n.t('description.computeSharedSecret'),
+  [SupportedActions.eth_accounts]: i18n.t('walletConnect:description.accounts'),
+  [SupportedActions.eth_signTransaction]: i18n.t('walletConnect:description.signTransaction'),
+  [SupportedActions.eth_signTypedData]: i18n.t('walletConnect:description.sign'),
+  [SupportedActions.personal_sign]: i18n.t('walletConnect:description.sign'),
+  [SupportedActions.personal_decrypt]: i18n.t('walletConnect:description.decrypt'),
+  [SupportedActions.computeSharedSecret]: i18n.t('walletConnect:description.computeSharedSecret'),
 }
 
 const actionTranslations: { [x in SupportedActions]: string } = {
-  [SupportedActions.eth_accounts]: i18n.t('action.accounts'),
-  [SupportedActions.eth_signTransaction]: i18n.t('action.signTransaction'),
-  [SupportedActions.eth_signTypedData]: i18n.t('action.sign'),
-  [SupportedActions.personal_sign]: i18n.t('action.sign'),
-  [SupportedActions.personal_decrypt]: i18n.t('action.decrypt'),
-  [SupportedActions.computeSharedSecret]: i18n.t('action.computeSharedSecret'),
+  [SupportedActions.eth_accounts]: i18n.t('walletConnect:action.accounts'),
+  [SupportedActions.eth_signTransaction]: i18n.t('walletConnect:action.signTransaction'),
+  [SupportedActions.eth_signTypedData]: i18n.t('walletConnect:action.sign'),
+  [SupportedActions.personal_sign]: i18n.t('walletConnect:action.sign'),
+  [SupportedActions.personal_decrypt]: i18n.t('walletConnect:action.decrypt'),
+  [SupportedActions.computeSharedSecret]: i18n.t('walletConnect:action.computeSharedSecret'),
 }
 
 export function getTranslationDescriptionFromAction(action: SupportedActions) {

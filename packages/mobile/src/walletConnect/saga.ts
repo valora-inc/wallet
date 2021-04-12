@@ -10,7 +10,7 @@ import { ERROR as WalletConnectErrors, getError } from '@walletconnect/utils'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
-import { NETWORK_ID, WALLETCONNECT_URL } from 'src/config'
+import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -64,7 +64,7 @@ export function* acceptSession({ session }: AcceptSession) {
         icons: [appendPath(WEB_LINK, '/favicon.ico')],
       },
       state: {
-        accounts: [`${account}@celo:${NETWORK_ID}`],
+        accounts: [`${account}@celo:${networkConfig.networkId}`],
       },
     }
 
@@ -184,16 +184,16 @@ export function* watchWalletConnectChannel() {
 
 export function* createWalletConnectChannel() {
   if (!client) {
-    Logger.debug(TAG + '@initialiseClient', `init start`)
+    Logger.debug(TAG + '@createWalletConnectChannel', `init start`)
     client = yield call(WalletConnectClient.init as any, {
-      relayProvider: WALLETCONNECT_URL,
+      relayProvider: networkConfig.walletConnectEndpoint,
       storageOptions: {
         asyncStorage: AsyncStorage,
       },
       logger: 'error',
       controller: true,
     })
-    Logger.debug(TAG + '@initialiseClient', `init end`)
+    Logger.debug(TAG + '@createWalletConnectChannel', `init end`)
     yield put(clientInitialised())
   }
 
@@ -212,7 +212,7 @@ export function* createWalletConnectChannel() {
 
     if (!client) {
       return () => {
-        Logger.debug(TAG + '@initialiseClient', 'missing client')
+        Logger.debug(TAG + '@createWalletConnectChannel', 'missing client clean up')
       }
     }
 
@@ -229,9 +229,11 @@ export function* createWalletConnectChannel() {
 
     return () => {
       if (!client) {
-        Logger.debug(TAG + '@initialiseClient', 'missing client')
+        Logger.debug(TAG + '@createWalletConnectChannel', 'clean up but missing client')
         return
       }
+
+      Logger.debug(TAG + '@createWalletConnectChannel', 'clean up')
 
       client.off(CLIENT_EVENTS.session.proposal, onSessionProposal)
       client.off(CLIENT_EVENTS.session.created, onSessionCreated)
@@ -252,24 +254,28 @@ export function* createWalletConnectChannel() {
   })
 }
 
+/**
+ * When handling incoming requests (actions or sessions) we need to handle
+ * them in order. That means if a request comes in, and we already have a
+ * pending one, ignore it. Once a request is dealt with we handle the new
+ * requests accordingly.
+ */
+
+export function* handleIncomingSessionRequest({ session }: SessionProposal) {
+  const { pending }: { pending: SessionTypes.Proposal[] } = yield select(selectSessions)
+  if (pending.length > 1) {
+    return
+  }
+
+  navigate(Screens.WalletConnectSessionRequest, { session })
+}
 export function* handleIncomingActionRequest({ request }: SessionPayload) {
   const pendingActions: SessionTypes.RequestEvent[] = yield select(selectPendingActions)
   if (pendingActions.length > 1) {
-    // we handle this case in the {accept/deny}Request methods
-    // and direct the user to the next request
     return
   }
 
   navigate(Screens.WalletConnectActionRequest, { request })
-}
-export function* handleIncomingSessionRequest({ session }: SessionProposal) {
-  const { pending }: { pending: any[] } = yield select(selectSessions)
-  if (pending.length) {
-    // TODO: what shall we do here?
-    Logger.debug(TAG + '@handleIncomingSessionRequest', 'existing pending session')
-  }
-
-  navigate(Screens.WalletConnectSessionRequest, { session })
 }
 
 export function* initialisePairing({ uri }: InitialisePairing) {
@@ -286,6 +292,23 @@ export function* initialisePairing({ uri }: InitialisePairing) {
   }
 }
 
+function* checkPersistedState(): any {
+  const {
+    pending: [session],
+  } = yield select(selectSessions)
+  if (session) {
+    yield put(initialiseClientAction())
+    navigate(Screens.WalletConnectSessionRequest, { session })
+    return
+  }
+
+  const [request] = yield select(selectPendingActions)
+  if (request) {
+    yield put(initialiseClientAction())
+    navigate(Screens.WalletConnectActionRequest, { request })
+  }
+}
+
 export function* walletConnectSaga() {
   yield takeLeading(Actions.INITIALISE_CLIENT, watchWalletConnectChannel)
   yield takeEvery(Actions.INITIALISE_PAIRING, initialisePairing)
@@ -298,6 +321,8 @@ export function* walletConnectSaga() {
 
   yield takeEvery(Actions.SESSION_PROPOSAL, handleIncomingSessionRequest)
   yield takeEvery(Actions.SESSION_PAYLOAD, handleIncomingActionRequest)
+
+  yield call(checkPersistedState)
 }
 
 export function* initialiseWalletConnect(uri: string) {
