@@ -204,20 +204,22 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const selectedProviders = providers[isCashIn ? 'cashIn' : 'cashOut']
 
   React.useEffect(() => {
-    const fees = selectedProviders
+    const feesMap: any = {}
+    selectedProviders
       .filter(({ restricted }) => !restricted)
       .map(async ({ id, service }) => [
         id,
         (
-          await service
+          (await service
             ?.getFees?.(selectedCurrency, localCurrency, route.params.amount)
-            .catch(() => ({ fee: undefined }))
+            .catch(() => ({ fee: null }))) || { fee: null }
         )?.fee,
       ])
-    setTimeout(async () => console.log(await Promise.all(fees)), 1000)
-    Promise.all(fees)
-      .then((list) => list.reduce((acc, [name, fee]) => ({ ...acc, [name as string]: fee }), {}))
-      .then((feesValues) => setProviderFees(feesValues))
+      .forEach(async (result) => {
+        const [name, fee] = await result
+        feesMap[name] = fee
+        setProviderFees({ ...providerFees, ...feesMap })
+      })
   }, [
     route.params.amount,
     localCurrency,
@@ -293,34 +295,14 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                           showExplicitPositiveSign={false}
                           style={[styles.optionTitle]}
                         />
-                      ) : (
+                      ) : providerFees[provider.id] === null ? (
                         '-'
+                      ) : (
+                        <ActivityIndicator size={14} color={colors.greenBrand} />
                       )}{' '}
                       fee
                     </Text>
                   </View>
-                  {/*
-=======
-          {providers[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
-            <ListItem key={provider.id} onPress={providerOnPress(provider)}>
-              <View style={styles.providerListItem} testID={`Provider/${provider.id}`}>
-                <View style={styles.providerTextContainer}>
-                  <Text style={styles.optionTitle}>{providersDisplayInfo[provider.id].name}</Text>
-                  {provider.restricted && (
-                    <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
-                  )}
-                  {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) && (
-                    <Text style={styles.restrictedText}>
-                      {t('unsupportedPaymentMethod', {
-                        paymentMethod:
-                          paymentMethod === PaymentMethod.BANK
-                            ? 'bank account'
-                            : 'debit or credit card',
-                      })}
-                    </Text>
-                  )}
->>>>>>> main
-*/}
                 </View>
               </View>
             </ListItem>
