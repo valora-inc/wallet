@@ -134,6 +134,7 @@ function FiatExchangeAmount({ route }: Props) {
   function goToProvidersScreen() {
     navigate(Screens.ProviderOptionsScreen, {
       isCashIn: true,
+      paymentMethod: route.params.paymentMethod,
       currency: route.params.currency,
       amount: localCurrencyAmount?.toNumber() || 0,
     })

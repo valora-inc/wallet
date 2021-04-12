@@ -8,7 +8,15 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -17,7 +25,8 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
-import { CiCoProvider, providersDisplayInfo } from 'src/fiatExchanges/reducer'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
+import { CicoProviderNames, providersDisplayInfo } from 'src/fiatExchanges/reducer'
 import {
   fetchLocationFromIpAddress,
   getProviderAvailability,
@@ -25,6 +34,7 @@ import {
   openRamp,
   openSimplex,
   openTransak,
+  sortProviders,
   UserLocation,
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
@@ -64,22 +74,15 @@ ProviderOptionsScreen.navigationOptions = ({
     headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
   }
 }
-
-interface Provider {
-  id: CiCoProvider
+export interface CicoProvider {
+  id: CicoProviderNames
   restricted: boolean
   icon: string
   iconColor?: string
+  paymentMethods: PaymentMethod[]
   image?: React.ReactNode
   onSelected: () => void
   service?: CicoService
-}
-
-export enum Providers {
-  MOONPAY = 'MOONPAY',
-  RAMP = 'RAMP',
-  TRANSAK = 'TRANSAK',
-  SIMPLEX = 'SIMPLEX',
 }
 
 const FALLBACK_CURRENCY = LocalCurrencyCode.USD
@@ -101,6 +104,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
+
+  const { paymentMethod } = route.params
   const selectedCurrency = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
     [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
@@ -149,13 +154,14 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   } = getProviderAvailability(userLocation)
 
   const providers: {
-    cashOut: Provider[]
-    cashIn: Provider[]
+    cashOut: CicoProvider[]
+    cashIn: CicoProvider[]
   } = {
     cashOut: [],
     cashIn: [
       {
-        id: CiCoProvider.Moonpay,
+        id: CicoProviderNames.Moonpay,
+        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
         restricted: MOONPAY_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
@@ -165,7 +171,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         service: moonpayService,
       },
       {
-        id: CiCoProvider.Simplex,
+        id: CicoProviderNames.Simplex,
+        paymentMethods: [PaymentMethod.CARD],
         restricted: SIMPLEX_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
@@ -174,7 +181,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         service: simplexService,
       },
       {
-        id: CiCoProvider.Ramp,
+        id: CicoProviderNames.Ramp,
+        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
         restricted: RAMP_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
@@ -183,22 +191,30 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
-        id: CiCoProvider.Transak,
+        id: CicoProviderNames.Transak,
+        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
         restricted: TRANSAK_RESTRICTED,
         onSelected: () =>
           openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
         service: transakService,
       },
-    ],
+    ].sort(sortProviders),
   }
 
   const selectedProviders = providers[isCashIn ? 'cashIn' : 'cashOut']
 
   React.useEffect(() => {
-    const fees = selectedProviders.map(async ({ name, service }) => [
-      name,
-      (await service?.getFees?.(selectedCurrency, localCurrency, route.params.amount))?.fee,
-    ])
+    const fees = selectedProviders
+      .filter(({ restricted }) => !restricted)
+      .map(async ({ id, service }) => [
+        id,
+        (
+          await service
+            ?.getFees?.(selectedCurrency, localCurrency, route.params.amount)
+            .catch(() => ({ fee: undefined }))
+        )?.fee,
+      ])
+    setTimeout(async () => console.log(await Promise.all(fees)), 1000)
     Promise.all(fees)
       .then((list) => list.reduce((acc, [name, fee]) => ({ ...acc, [name as string]: fee }), {}))
       .then((feesValues) => setProviderFees(feesValues))
@@ -206,10 +222,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     route.params.amount,
     localCurrency,
     selectedCurrency,
-    ...selectedProviders.map(({ name }) => name),
+    ...selectedProviders.map(({ id }) => id),
   ])
 
-  const providerOnPress = (provider: Provider) => () => {
+  const providerOnPress = (provider: CicoProvider) => () => {
     ValoraAnalytics.track(FiatExchangeEvents.provider_chosen, {
       isCashIn,
       provider: provider.id,
@@ -228,8 +244,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         <Text style={styles.pleaseSelectProvider}>{t('pleaseSelectProvider')}</Text>
         <View style={styles.providersContainer}>
           {selectedProviders.map((provider) => (
-            <ListItem key={provider.name} onPress={providerOnPress(provider)}>
-              <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
+            <ListItem key={provider.id} onPress={providerOnPress(provider)}>
+              <View style={styles.providerListItem} testID={`Provider/${provider.id}`}>
                 <View
                   style={[
                     styles.iconContainer,
@@ -244,21 +260,28 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                 </View>
                 <View style={styles.option}>
                   <View>
-                    <Text style={styles.optionTitle}>{provider.name}</Text>
-                    {provider.restricted ? (
-                      <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
+                    <Text style={styles.optionTitle}>{providersDisplayInfo[provider.id].name}</Text>
+                    {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) ? (
+                      <Text style={styles.restrictedText}>
+                        {t('unsupportedPaymentMethod', {
+                          paymentMethod:
+                            paymentMethod === PaymentMethod.BANK
+                              ? 'bank account'
+                              : 'debit or credit card',
+                        })}
+                      </Text>
                     ) : (
                       <Text style={styles.optionFeesData}>Fee: $3.99 or 4.5%</Text>
                     )}
                   </View>
                   <View>
                     <Text style={styles.optionTitle}>
-                      {providerFees[provider.name] ? (
+                      {providerFees[provider.id] ? (
                         <CurrencyDisplay
                           amount={{
                             value: 0,
                             localAmount: {
-                              value: providerFees[provider.name],
+                              value: providerFees[provider.id],
                               currencyCode: localCurrency,
                               exchangeRate: 1,
                             },
@@ -276,6 +299,28 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                       fee
                     </Text>
                   </View>
+                  {/*
+=======
+          {providers[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
+            <ListItem key={provider.id} onPress={providerOnPress(provider)}>
+              <View style={styles.providerListItem} testID={`Provider/${provider.id}`}>
+                <View style={styles.providerTextContainer}>
+                  <Text style={styles.optionTitle}>{providersDisplayInfo[provider.id].name}</Text>
+                  {provider.restricted && (
+                    <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
+                  )}
+                  {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) && (
+                    <Text style={styles.restrictedText}>
+                      {t('unsupportedPaymentMethod', {
+                        paymentMethod:
+                          paymentMethod === PaymentMethod.BANK
+                            ? 'bank account'
+                            : 'debit or credit card',
+                      })}
+                    </Text>
+                  )}
+>>>>>>> main
+*/}
                 </View>
               </View>
             </ListItem>

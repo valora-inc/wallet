@@ -43,7 +43,7 @@ export class SimplexService extends CicoService {
     super()
 
     this.apiKey = networkConfig.simplexApiKey
-    this.baseUrl = networkConfig.simplexUrl
+    this.baseUrl = networkConfig.simplexApiUrl
     this.appUrl = 'https://valoraapp.com'
   }
 

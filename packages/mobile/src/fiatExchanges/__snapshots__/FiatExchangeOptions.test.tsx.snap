@@ -235,7 +235,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   cx="10"
                   cy="10"
                   r="9"
-                  stroke="#EDEEEF"
+                  stroke="#B4B9BD"
                   strokeWidth={2}
                   style={Object {}}
                 />
@@ -256,9 +256,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                       "lineHeight": 22,
                       "marginLeft": 16,
                     },
-                    Object {
-                      "color": "#B4B9BD",
-                    },
+                    Object {},
                   ]
                 }
               >
@@ -358,7 +356,67 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                 ]
               }
             >
-              payWithFiat
+              payWithCard
+            </Text>
+          </View>
+        </View>
+      </RNGestureHandlerButton>
+      <RNGestureHandlerButton
+        collapsable={false}
+        onGestureEvent={[Function]}
+        onGestureHandlerEvent={[Function]}
+        onGestureHandlerStateChange={[Function]}
+        onHandlerStateChange={[Function]}
+        rippleColor={0}
+      >
+        <View
+          accessible={true}
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+                "padding": 8,
+              }
+            }
+          >
+            <svg
+              height={20}
+              style={Object {}}
+              viewBox="0 0 20 20"
+              width={20}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="10"
+                cy="10"
+                r="9"
+                stroke="#B4B9BD"
+                strokeWidth={2}
+                style={Object {}}
+              />
+              <circle
+                cx="10"
+                cy="10"
+                r="6"
+                style={Object {}}
+              />
+            </svg>
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                    "marginLeft": 8,
+                  },
+                  Object {},
+                ]
+              }
+            >
+              payWithBank
             </Text>
           </View>
         </View>

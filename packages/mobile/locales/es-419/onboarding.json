@@ -11,8 +11,8 @@
   },
   "contacts": {
     "header": "Conectar Contactos",
-    "body": "Agregar tus contactos hace que sea fácil enviar y solicitar pagos a tus amigos. La conexión no envía invitaciones a tus contactos.",
-    "findSwitch": "Permita que los contactos lo encuentren",
+    "body": "Añadir tus contactos facilita el envío y la solicitud de pagos con tus amigos. Esta conexión no envía invitaciones a tus contactos.",
+    "findSwitch": "Permite que los contactos te encuentren",
     "syncing": {
       "loadingHeader": "Sincronizando...",
       "loadingStatus0": "Importando contactos",
@@ -114,5 +114,6 @@
   },
   "success": {
     "message": "¡Todo listo!"
-  }
+  },
+  "verificationUnavailable": "La confirmación del número de teléfono no está disponible actualmente. Por favor, introduce tu número de teléfono y te notificaremos cuando sea posible confirmar de nuevo.\n\nMientras tanto, ¡puedes seguir usando Valora! Los pagos enviados a tu número de teléfono serán retenidos de forma segura hasta que confirmes tu número de teléfono."
 }

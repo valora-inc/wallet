@@ -76,6 +76,11 @@ export default function CodeInput({
   const showSpinner = status === CodeInputStatus.PROCESSING || status === CodeInputStatus.RECEIVED
   const showCheckmark = status === CodeInputStatus.ACCEPTED
   const showStatus = showCheckmark || showSpinner
+  const keyboardType = shortVerificationCodesEnabled
+    ? 'number-pad'
+    : Platform.OS === 'android'
+    ? 'visible-password'
+    : undefined
 
   return (
     <Card
@@ -114,6 +119,7 @@ export default function CodeInput({
 
             {showInput ? (
               <TextInput
+                textContentType={shortVerificationCodesEnabled ? 'username' : undefined}
                 showClearButton={false}
                 value={inputValue}
                 placeholder={
@@ -132,13 +138,7 @@ export default function CodeInput({
                 // on the native input. Though it doesn't work in all cases (see https://stackoverflow.com/a/33227237/158525)
                 // and has the unfortunate drawback of breaking multiline autosize.
                 // We use numberOfLines to workaround this last problem.
-                keyboardType={
-                  shortVerificationCodesEnabled
-                    ? 'number-pad'
-                    : Platform.OS === 'android'
-                    ? 'visible-password'
-                    : undefined
-                }
+                keyboardType={keyboardType}
                 // numberOfLines is currently Android only on TextInput
                 // workaround is to set the minHeight on iOS :/
                 numberOfLines={Platform.OS === 'ios' ? undefined : numberOfLines}

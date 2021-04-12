@@ -9,6 +9,7 @@ import {
   GETH_USE_STATIC_NODES,
   RECAPTCHA_SITE_KEY,
   MOONPAY_API_KEY,
+  SIMPLEX_API_KEY,
 } from 'src/config'
 import { GethSyncMode } from 'src/geth/consts'
 import Logger from 'src/utils/Logger'
@@ -39,6 +40,9 @@ interface NetworkConfig {
   currentMtwImplementationAddress: string
   recaptchaSiteKey: string
   bidaliUrl: string
+  simplexApiKey: string
+  simplexApiUrl: string
+  komenciLoadCheckEndpoint: string
 }
 
 const moonpayWidgetStaging = 'https://buy-staging.moonpay.io/'
@@ -59,6 +63,11 @@ const transakWidgetStaging = 'https://staging-global.transak.com'
 const transakApiProd = ''
 const transakApiStaging = 'https://staging-api.transak.com/api/v2'
 
+const SIMPLEX_API_URL_STAGING =
+  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/processSimplexRequest'
+const SIMPLEX_API_URL_PROD =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/processSimplexRequest'
+
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
 
@@ -74,6 +83,9 @@ const CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET: Address =
   '0x6511FB5DBfe95859d8759AdAd5503D656E2555d7'
 const CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING: Address =
   '0x5C9a6E3c3E862eD306E2E3348EBC8b8310A99e5A'
+
+const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'https://staging-komenci.azurefd.net/v1/ready'
+const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1/ready'
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
@@ -97,6 +109,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
+    simplexApiUrl: SIMPLEX_API_URL_STAGING,
+    simplexApiKey: SIMPLEX_API_KEY,
+    komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
   },
   [Testnets.mainnet]: {
     nodeDir: `.${Testnets.mainnet}`,
@@ -119,6 +134,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
+    simplexApiUrl: SIMPLEX_API_URL_PROD,
+    simplexApiKey: SIMPLEX_API_KEY,
+    komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
   },
 }
 
