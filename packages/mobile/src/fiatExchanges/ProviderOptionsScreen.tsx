@@ -36,6 +36,7 @@ import {
   openTransak,
   sortProviders,
   UserLocation,
+  renderFeesPolicy,
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
@@ -273,7 +274,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                         })}
                       </Text>
                     ) : (
-                      <Text style={styles.optionFeesData}>Fee: $3.99 or 4.5%</Text>
+                      <Text style={styles.optionFeesData}>
+                        Fee: {renderFeesPolicy(provider.service?.getFeesPolicy?.(paymentMethod))}
+                      </Text>
                     )}
                   </View>
                   <View>
