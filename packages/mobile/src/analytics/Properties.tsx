@@ -63,6 +63,9 @@ interface AppEventsProperties {
   [AppEvents.redux_keychain_mismatch]: {
     account: string
   }
+  [AppEvents.redux_store_recovery_success]: {
+    account: string
+  }
 }
 
 interface HomeEventsProperties {

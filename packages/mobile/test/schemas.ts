@@ -514,6 +514,10 @@ export const v8Schema = {
     'feelessVerificationState',
     'feelessLastRevealAttempt'
   ),
+  app: {
+    ...v7Schema.app,
+    hideVerification: false,
+  },
   verify: {
     komenci: {
       errorTimestamps: [],
@@ -536,6 +540,11 @@ export const v8Schema = {
     komenciAvailable: KomenciAvailable.Unknown,
     withoutRevealing: false,
     TEMPORARY_override_withoutVerification: undefined,
+  },
+  account: {
+    ...v7Schema.account,
+    recoveringFromStoreWipe: false,
+    accountToRecoverFromStoreWipe: undefined,
   },
 }
 
