@@ -141,7 +141,7 @@ export class PincodeSet extends React.Component<Props, State> {
           />
         ) : (
           <Pincode
-            title="Create a new PIN"
+            title={changePin ? 'Create a new PIN' : ' '}
             errorText={errorText}
             pin={pin1}
             onChangePin={this.onChangePin1}

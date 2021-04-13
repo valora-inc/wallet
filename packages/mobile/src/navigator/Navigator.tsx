@@ -198,15 +198,12 @@ const pincodeSetScreenOptions = ({
 
   return {
     ...nuxNavigationOptions,
-    headerTitle: () =>
-      changePin ? (
-        <HeaderTitleWithSubtitle title={title} subTitle={' '} />
-      ) : (
-        <HeaderTitleWithSubtitle
-          title={title}
-          subTitle={changePin ? '' : i18n.t('onboarding:step', { step: '2' })}
-        />
-      ),
+    headerTitle: () => (
+      <HeaderTitleWithSubtitle
+        title={title}
+        subTitle={changePin ? ' ' : i18n.t('onboarding:step', { step: '2' })}
+      />
+    ),
   }
 }
 
