@@ -134,7 +134,7 @@ export class PincodeSet extends React.Component<Props, State> {
         <DevSkipButton onSkip={this.navigateToNextScreen} />
         {isVerifying ? (
           <Pincode
-            title="Enter PIN again to confirm"
+            title={i18n.t('onboarding:pincodeSet.verify')}
             errorText={errorText}
             pin={pin2}
             onChangePin={this.onChangePin2}
