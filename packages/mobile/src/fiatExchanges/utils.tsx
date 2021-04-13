@@ -193,11 +193,11 @@ export const fetchLocalCicoProviders = async () => {
       }))
     )
 
-  const providers: LocalCicoProvider[] = firebaseLocalProviders.filter((provider) =>
+  const localCicoProviders: LocalCicoProvider[] = firebaseLocalProviders.filter((provider) =>
     isLocalCicoProvider(provider)
   )
 
-  return providers
+  return localCicoProviders
 }
 
 export const getAvailableLocalProviders = (

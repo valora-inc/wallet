@@ -283,6 +283,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                 selectedCurrency
               ).map((provider) => (
                 <PaymentMethodRadioItem
+                  key={provider.name}
                   text={provider.name}
                   selected={selectedLocalProvider?.name === provider.name}
                   onSelect={onSelectPaymentMethod(PaymentMethod.LocalProvider, provider)}
