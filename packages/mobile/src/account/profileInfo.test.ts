@@ -79,7 +79,7 @@ const contractKit = jest.fn(() => ({
 const pictureUri = `file://${RNFS.DocumentDirectoryPath}/profile-now.jpg`
 
 describe(uploadNameAndPicture, () => {
-  it('upload name and picture succesfully', async () => {
+  it('uploads name and picture succesfully', async () => {
     await expectSaga(uploadNameAndPicture)
       .provide([
         [call(getOffchainWrapper, true), null],

@@ -14,6 +14,7 @@ import { SignedPostPolicyV4Output } from '@google-cloud/storage'
 import FormData from 'form-data/lib/form_data'
 import * as t from 'io-ts'
 import config from 'src/geth/networkConfig'
+import Logger from 'src/utils/Logger'
 
 const TAG = 'UploadServiceDataWrapper'
 
@@ -65,7 +66,7 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
       body: formData.getBuffer(),
     }).then((x) => {
       if (!x.ok) {
-        Logger.error(TAG + '@writeDataTo', 'Error uploading ' + x.headers.get('location'))
+        Logger.error(TAG + '@sendFormData', 'Error uploading ' + x.headers.get('location'))
       }
       return x.text()
     })
@@ -81,8 +82,16 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
       body: JSON.stringify(data),
     })
 
-    if (response.status >= 400) {
-      throw new Error(await response.text())
+    if (!response.ok) {
+      Logger.error(
+        TAG + '@authorizeURLs',
+        'Error authorizing urls ' + response.headers.get('location')
+      )
+      throw new Error(
+        `Error authorizing CIP8 urls, with status ${
+          response.status
+        }, text: ${await response.text()}`
+      )
     }
 
     return response.json()
@@ -124,6 +133,7 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
         })
       )
     } catch (error) {
+      Logger.error(TAG + '@writeDataTo', 'Error', error)
       return new FetchError(error)
     }
   }
@@ -165,6 +175,9 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
       this.responseBuffer(dataResponse),
       this.responseBuffer(signatureResponse),
     ])
+
+    console.log(dataBody)
+    console.log(signatureBody)
 
     const body = Buffer.from(dataBody)
     const signature = ensureLeading0x(Buffer.from(signatureBody).toString('hex'))

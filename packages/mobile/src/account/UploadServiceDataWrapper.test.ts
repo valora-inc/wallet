@@ -10,12 +10,13 @@ global.Math.random = () => 0
 
 jest.mock('@celo/identity/lib/offchain/utils', () => {
   return {
+    ...(jest.requireActual('@celo/identity/lib/offchain/utils') as any),
     signBuffer: jest.fn(),
   }
 })
 
 describe(UploadServiceDataWrapper, () => {
-  it('write data successfully', async () => {
+  it('writes data successfully', async () => {
     const url1 = 'url1'
     const dataBuffer = Buffer.from('buffer')
     const sendFormData = (UploadServiceDataWrapper.prototype.sendFormData = jest.fn())
@@ -39,7 +40,7 @@ describe(UploadServiceDataWrapper, () => {
     expect(sendFormData.mock.calls[0][0]).toEqual(url1)
   })
 
-  it('return error when fail to authorize URLs', async () => {
+  it('returns error when fail to authorize URLs', async () => {
     const error = new Error('error')
     const dataBuffer = Buffer.from('buffer')
     const authorizeURLs = (UploadServiceDataWrapper.prototype.authorizeURLs = jest.fn())
@@ -55,7 +56,7 @@ describe(UploadServiceDataWrapper, () => {
     )
   })
 
-  it('return error when fail to send form data', async () => {
+  it('returns error when fail to send form data', async () => {
     const error = new Error('error')
     const url1 = 'url1'
     const dataBuffer = Buffer.from('buffer')
@@ -70,7 +71,7 @@ describe(UploadServiceDataWrapper, () => {
     const contractKit = await getContractKitAsync()
     const account = mockAccount
     const offchainWrapper = new UploadServiceDataWrapper(contractKit, account, mockDEKAddress)
-
+    offchainWrapper.kit.connection.chainId = jest.fn(() => Promise.resolve(0))
     await offchainWrapper.writeDataTo(dataBuffer, Buffer.from('sig'), 'data')
 
     expect(await offchainWrapper.writeDataTo(dataBuffer, Buffer.from('sig'), 'data')).toEqual(
@@ -78,15 +79,21 @@ describe(UploadServiceDataWrapper, () => {
     )
   })
 
-  it.skip('reads data successfully', async () => {
+  it('reads data successfully', async () => {
     const contractKit = await getContractKitAsync()
     const account = mockAccount
     const offchainWrapper = new UploadServiceDataWrapper(contractKit, account, mockDEKAddress)
 
     const readAddress = mockAccount2
+
+    // const payload =
+    // const signature =
     const responseBuffer = (UploadServiceDataWrapper.prototype.responseBuffer = jest.fn())
-    responseBuffer.mockImplementation(() => {
-      return new ArrayBuffer(0)
+    responseBuffer.mockImplementationOnce(() => {
+      return 'payload'
+    })
+    responseBuffer.mockImplementationOnce(() => {
+      return 'signature'
     })
     // const chainID = UploadServiceDataWrapper.prototype.kit = jest.fn()
     // chainID.mockImplementation(() => Promise.resolve(0))
