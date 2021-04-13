@@ -36,12 +36,19 @@ export class TransakService extends CicoService {
     }
   }
 
-  getFees(cryptoAsset: string, fiatAsset: string, requestedFiatAmount: number) {
+  getFees(
+    cryptoAsset: string,
+    fiatAsset: string,
+    requestedFiatAmount: number,
+    paymentMethod: PaymentMethod
+  ) {
     return this.get('/currencies/price', {
       fiatCurrency: fiatAsset,
       cryptoCurrency: cryptoAsset,
       isBuyOrSell: 'BUY',
       fiatAmount: requestedFiatAmount,
+      paymentMethodId:
+        paymentMethod === PaymentMethod.BANK ? 'gbp_bank_transfer' : 'credit_debit_card',
     })
       .then((response) => response.json())
       .then(({ response: { totalFee: fee } }) => ({ fee }))

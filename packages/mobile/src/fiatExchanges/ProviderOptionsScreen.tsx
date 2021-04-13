@@ -212,7 +212,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         id,
         (
           (await service
-            ?.getFees?.(selectedCurrency, localCurrency, route.params.amount)
+            ?.getFees?.(selectedCurrency, localCurrency, route.params.amount, paymentMethod)
             .catch(() => ({ fee: null }))) || { fee: null }
         )?.fee,
       ])
