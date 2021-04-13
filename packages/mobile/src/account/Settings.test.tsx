@@ -1,3 +1,4 @@
+import { ErrorMessages } from '@celo/identity/lib/odis/query'
 import * as React from 'react'
 import 'react-native'
 import { fireEvent, render } from 'react-native-testing-library'
@@ -11,7 +12,6 @@ import { mockE164Number, mockE164NumberPepper } from 'test/values'
 
 describe('Account', () => {
   const mockedNavigate = navigate as jest.Mock
-  const mockedEnsurePincode = ensurePincode as jest.Mock
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -77,13 +77,13 @@ describe('Account', () => {
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
       </Provider>
     )
+    mockedNavigate.mockImplementationOnce(() => {
+      Promise.resolve(true)
+    })
     fireEvent.press(tree.getByTestId('ChangePIN'))
-    mockedNavigate.mockImplementationOnce((_, params) => {
-      params.onSuccess()
-      expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, {
-        isVerifying: false,
-        changePin: true,
-      })
+    expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, {
+      isVerifying: false,
+      changePin: true,
     })
   })
 
@@ -93,10 +93,10 @@ describe('Account', () => {
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
       </Provider>
     )
-    fireEvent.press(tree.getByTestId('ChangePIN'))
-    mockedEnsurePincode.mockImplementationOnce((_, params) => {
-      params.onFailure()
-      expect(navigate).not.toHaveBeenCalled()
+    mockedNavigate.mockImplementationOnce((error) => {
+      return error
     })
+    fireEvent.press(tree.getByTestId('ChangePIN'))
+    expect(navigate).not.toHaveBeenCalled()
   })
 })
