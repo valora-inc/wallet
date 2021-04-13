@@ -66,7 +66,6 @@ export class PincodeSet extends React.Component<Props, State> {
       navigate(Screens.Settings)
     } else if (this.props.choseToRestoreAccount) {
       navigate(Screens.ImportWallet)
-      // if this prop is passed, then navigate back to Settings with a toast
     } else {
       navigateClearingStack(Screens.VerificationEducationScreen)
     }
