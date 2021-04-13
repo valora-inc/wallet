@@ -63,10 +63,12 @@ const transakWidgetStaging = 'https://staging-global.transak.com'
 const transakApiProd = ''
 const transakApiStaging = 'https://staging-api.transak.com/api/v2'
 
-const SIMPLEX_API_URL_STAGING =
-  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/processSimplexRequest'
-const SIMPLEX_API_URL_PROD =
-  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/processSimplexRequest'
+// const SIMPLEX_API_URL_STAGING =
+//   'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/processSimplexRequest'
+// const SIMPLEX_API_URL_PROD =
+//   'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/processSimplexRequest'
+const SIMPLEX_API_URL_STAGING = 'https://api.sandbox.test-simplexcc.com'
+const SIMPLEX_API_URL_PROD = 'https://api.simplexcc.com'
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'

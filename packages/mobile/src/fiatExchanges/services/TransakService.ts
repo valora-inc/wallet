@@ -1,6 +1,6 @@
 import networkConfig from 'src/geth/networkConfig'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import { CicoService } from 'src/fiatExchanges/services/CicoService.abstract'
+import { CicoService, RequestBody } from 'src/fiatExchanges/services/CicoService.abstract'
 
 export class TransakService extends CicoService {
   static getInstance() {
@@ -47,11 +47,8 @@ export class TransakService extends CicoService {
       .then(({ response: { totalFee: fee } }) => ({ fee }))
   }
 
-  private get(path: string, body: { [key: string]: string | number }) {
-    const params = Object.entries(body)
-      .map(([key, value]) => encodeURI(`${key}=${value}`))
-      .join('&')
-    return fetch(`${this.baseUrl}${path}?${params}`, {
+  private get(path: string, body: RequestBody) {
+    return fetch(`${this.baseUrl}${path}?${this.bodyToParams(body)}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
