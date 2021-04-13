@@ -78,14 +78,28 @@ describe('Account', () => {
       </Provider>
     )
     fireEvent.press(tree.getByTestId('ChangePIN'))
-    try {
-      await mockedEnsurePincode()
+    mockedNavigate.mockImplementationOnce((_, params) => {
+      params.onSuccess()
       expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, {
         isVerifying: false,
         changePin: true,
       })
-    } catch (error) {
-      expect(mockedNavigate).not.toHaveBeenCalled()
-    }
+    })
+  })
+
+  it('does not navigate to PincodeSet screen if entered PIN is incorrect', async () => {
+    const tree = render(
+      <Provider store={createMockStore({})}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    fireEvent.press(tree.getByTestId('ChangePIN'))
+    mockedNavigate.mockImplementationOnce((_, params) => {
+      params.onCancel()
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, {
+      isVerifying: false,
+      changePin: true,
+    })
   })
 })
