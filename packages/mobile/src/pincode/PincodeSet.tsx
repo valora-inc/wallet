@@ -87,7 +87,6 @@ export class PincodeSet extends React.Component<Props, State> {
     return this.state.pin1 === pin
   }
 
-  // Function for PIN to be changed
   onCompletePin1 = () => {
     if (this.isPin1Valid(this.state.pin1)) {
       this.props.navigation.setParams({ isVerifying: true })
@@ -108,7 +107,9 @@ export class PincodeSet extends React.Component<Props, State> {
       this.props.setPincode(PincodeType.CustomPin)
       ValoraAnalytics.track(OnboardingEvents.pin_set)
       this.navigateToNextScreen()
-      Logger.showMessage('PIN changed')
+      if (this.props.route.params.changePin) {
+        Logger.showMessage('PIN changed')
+      }
     } else {
       this.props.navigation.setParams({ isVerifying: false })
       ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'Pins do not match' })
