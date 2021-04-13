@@ -85,6 +85,7 @@ describe('Pincode', () => {
     expect(getByText('pincodeSet.pinsDontMatch')).toBeDefined()
   })
 
+  //TODO: Fix this test for when user successfully enters pin, navigates back to the Settings screen
   it('navigates back to the Settings screen after PIN is successfully changed', async () => {
     const { getByTestId } = render(
       <Provider store={mockStore}>
