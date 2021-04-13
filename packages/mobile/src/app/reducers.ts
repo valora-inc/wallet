@@ -20,6 +20,7 @@ export interface State {
   shortVerificationCodesEnabled: boolean
   inviteModalVisible: boolean
   activeScreen: Screens
+  hideVerification: boolean
 }
 
 const initialState = {
@@ -38,6 +39,7 @@ const initialState = {
   celoEducationUri: null,
   inviteModalVisible: false,
   activeScreen: Screens.Main,
+  hideVerification: false,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -135,6 +137,7 @@ export const appReducer = (
     case Actions.UPDATE_FEATURE_FLAGS:
       return {
         ...state,
+        hideVerification: action.flags.hideVerification,
         celoEducationUri: action.flags.celoEducationUri,
         shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
       }
