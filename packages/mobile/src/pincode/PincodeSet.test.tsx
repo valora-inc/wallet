@@ -84,4 +84,18 @@ describe('Pincode', () => {
     await flushMicrotasksQueue()
     expect(getByText('pincodeSet.pinsDontMatch')).toBeDefined()
   })
+
+  it('navigates back to the Settings screen after PIN is successfully changed', async () => {
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <PincodeSet {...mockScreenProps} />
+      </Provider>
+    )
+
+    // Create pin
+    mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
+    jest.runAllTimers()
+    await flushMicrotasksQueue()
+    expect(navigateClearingStack).toBeCalledWith(Screens.Settings)
+  })
 })
