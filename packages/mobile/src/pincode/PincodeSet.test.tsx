@@ -85,9 +85,8 @@ describe('Pincode', () => {
     expect(getByText('pincodeSet.pinsDontMatch')).toBeDefined()
   })
 
-  //TODO: Fix this test for when user successfully enters pin, navigates back to the Settings screen
-  it('navigates back to the Settings screen after PIN is successfully changed', async () => {
-    const { getByTestId } = render(
+  it('navigates to the Settings screen after successfully changing PIN', async () => {
+    const { getByTestId, rerender } = render(
       <Provider store={mockStore}>
         <PincodeSet {...mockScreenProps} />
       </Provider>
@@ -97,6 +96,24 @@ describe('Pincode', () => {
     mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
     jest.runAllTimers()
     await flushMicrotasksQueue()
+    expect(mockScreenProps.navigation.setParams).toBeCalledWith({
+      isVerifying: false,
+      changePin: true,
+    })
+
+    rerender(
+      <Provider store={mockStore}>
+        <PincodeSet
+          {...getMockStackScreenProps(Screens.PincodeSet, { isVerifying: false, changePin: true })}
+        />
+      </Provider>
+    )
+
+    // Verify pin
+    mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
+    jest.runAllTimers()
+    await flushMicrotasksQueue()
+
     expect(navigateClearingStack).toBeCalledWith(Screens.Settings)
   })
 })
