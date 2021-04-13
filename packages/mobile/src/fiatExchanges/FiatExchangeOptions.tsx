@@ -47,7 +47,7 @@ export enum PaymentMethod {
   Exchange = 'Exchange',
   Address = 'Address',
   LocalProvider = 'LocalProvider',
-  Gift_Card = 'Gift_Card',
+  GiftCard = 'GiftCard',
 }
 
 export const fiatExchangesOptionsScreenOptions = ({
@@ -153,7 +153,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
       })
     } else if (selectedPaymentMethod === PaymentMethod.LocalProvider && selectedLocalProvider) {
       navigate(Screens.WebViewScreen, { uri: selectedLocalProvider[asset].url })
-    } else if (selectedPaymentMethod === PaymentMethod.Gift_Card) {
+    } else if (selectedPaymentMethod === PaymentMethod.GiftCard) {
       navigate(Screens.BidaliScreen, { currency: selectedCurrency })
     } else if (selectedPaymentMethod === PaymentMethod.Address) {
       navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
@@ -229,7 +229,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
             }}
-            enabled={selectedPaymentMethod !== PaymentMethod.Gift_Card}
+            enabled={selectedPaymentMethod !== PaymentMethod.GiftCard}
           />
         </View>
       </ScrollView>
@@ -241,7 +241,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
           {asyncLocalCicoProviders.loading ? (
             <ActivityIndicator style={styles.loading} size="small" color={colors.greenUI} />
           ) : (
-            <View>
+            <>
               {isCashIn ? (
                 <>
                   <PaymentMethodRadioItem
@@ -265,8 +265,8 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                   />
                   <PaymentMethodRadioItem
                     text={t('receiveWithBidali')}
-                    selected={selectedPaymentMethod === PaymentMethod.Gift_Card}
-                    onSelect={onSelectPaymentMethod(PaymentMethod.Gift_Card)}
+                    selected={selectedPaymentMethod === PaymentMethod.GiftCard}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.GiftCard)}
                     enabled={selectedCurrency === CURRENCY_ENUM.DOLLAR}
                   />
                 </>
@@ -289,7 +289,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                   enabled={provider[asset][flow]}
                 />
               ))}
-            </View>
+            </>
           )}
         </View>
         <Button
