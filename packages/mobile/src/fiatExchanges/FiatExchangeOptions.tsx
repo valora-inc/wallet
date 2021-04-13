@@ -42,12 +42,12 @@ type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeOptions>
 type Props = RouteProps
 
 export enum PaymentMethod {
-  CARD = 'CARD',
-  BANK = 'BANK',
-  EXCHANGE = 'EXCHANGE',
-  ADDRESS = 'ADDRESS',
+  Card = 'Card',
+  Bank = 'Bank',
+  Exchange = 'Exchange',
+  Address = 'Address',
   LocalProvider = 'LocalProvider',
-  GIFT_CARD = 'GIFT_CARD',
+  Gift_Card = 'Gift_Card',
 }
 
 export const fiatExchangesOptionsScreenOptions = ({
@@ -133,7 +133,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
 
   const [selectedCurrency, setSelectedCurrency] = useState<CURRENCY_ENUM>(CURRENCY_ENUM.DOLLAR)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod>(
-    isCashIn ? PaymentMethod.CARD : PaymentMethod.EXCHANGE
+    isCashIn ? PaymentMethod.Card : PaymentMethod.Exchange
   )
   const [selectedLocalProvider, setSelectedLocalProvider] = useState<LocalCicoProvider>()
   const [isEducationDialogVisible, setEducationDialogVisible] = useState(false)
@@ -147,19 +147,19 @@ function FiatExchangeOptions({ route, navigation }: Props) {
       paymentMethod: selectedPaymentMethod,
       currency: selectedCurrency,
     })
-    if (selectedPaymentMethod === PaymentMethod.EXCHANGE) {
+    if (selectedPaymentMethod === PaymentMethod.Exchange) {
       navigate(Screens.ExternalExchanges, {
         currency: selectedCurrency,
       })
     } else if (selectedPaymentMethod === PaymentMethod.LocalProvider && selectedLocalProvider) {
       navigate(Screens.WebViewScreen, { uri: selectedLocalProvider[asset].url })
-    } else if (selectedPaymentMethod === PaymentMethod.GIFT_CARD) {
+    } else if (selectedPaymentMethod === PaymentMethod.Gift_Card) {
       navigate(Screens.BidaliScreen, { currency: selectedCurrency })
-    } else if (selectedPaymentMethod === PaymentMethod.ADDRESS) {
+    } else if (selectedPaymentMethod === PaymentMethod.Address) {
       navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
     } else if (
-      selectedPaymentMethod === PaymentMethod.BANK ||
-      selectedPaymentMethod === PaymentMethod.CARD
+      selectedPaymentMethod === PaymentMethod.Bank ||
+      selectedPaymentMethod === PaymentMethod.Card
     ) {
       navigate(Screens.FiatExchangeAmount, {
         currency: selectedCurrency,
@@ -217,7 +217,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               borderTopLeftRadius: 8,
               borderTopRightRadius: 8,
             }}
-            enabled={selectedPaymentMethod !== PaymentMethod.ADDRESS}
+            enabled={selectedPaymentMethod !== PaymentMethod.Address}
           />
           <View style={styles.currencySeparator} />
           <CurrencyRadioItem
@@ -229,7 +229,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
             }}
-            enabled={selectedPaymentMethod !== PaymentMethod.GIFT_CARD}
+            enabled={selectedPaymentMethod !== PaymentMethod.Gift_Card}
           />
         </View>
       </ScrollView>
@@ -246,35 +246,35 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                 <>
                   <PaymentMethodRadioItem
                     text={t('payWithCard')}
-                    selected={selectedPaymentMethod === PaymentMethod.CARD}
-                    onSelect={onSelectPaymentMethod(PaymentMethod.CARD)}
+                    selected={selectedPaymentMethod === PaymentMethod.Card}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.Card)}
                   />
                   <PaymentMethodRadioItem
                     text={t('payWithBank')}
-                    selected={selectedPaymentMethod === PaymentMethod.BANK}
-                    onSelect={onSelectPaymentMethod(PaymentMethod.BANK)}
+                    selected={selectedPaymentMethod === PaymentMethod.Bank}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.Bank)}
                   />
                 </>
               ) : (
                 <>
                   <PaymentMethodRadioItem
                     text={t('receiveOnAddress')}
-                    selected={selectedPaymentMethod === PaymentMethod.ADDRESS}
-                    onSelect={onSelectPaymentMethod(PaymentMethod.ADDRESS)}
+                    selected={selectedPaymentMethod === PaymentMethod.Address}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.Address)}
                     enabled={selectedCurrency === CURRENCY_ENUM.GOLD}
                   />
                   <PaymentMethodRadioItem
                     text={t('receiveWithBidali')}
-                    selected={selectedPaymentMethod === PaymentMethod.GIFT_CARD}
-                    onSelect={onSelectPaymentMethod(PaymentMethod.GIFT_CARD)}
+                    selected={selectedPaymentMethod === PaymentMethod.Gift_Card}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.Gift_Card)}
                     enabled={selectedCurrency === CURRENCY_ENUM.DOLLAR}
                   />
                 </>
               )}
               <PaymentMethodRadioItem
                 text={t('payWithExchange')}
-                selected={selectedPaymentMethod === PaymentMethod.EXCHANGE}
-                onSelect={onSelectPaymentMethod(PaymentMethod.EXCHANGE)}
+                selected={selectedPaymentMethod === PaymentMethod.Exchange}
+                onSelect={onSelectPaymentMethod(PaymentMethod.Exchange)}
               />
               {getAvailableLocalProviders(
                 localCicoProviders,
