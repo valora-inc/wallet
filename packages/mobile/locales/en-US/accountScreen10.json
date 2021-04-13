@@ -9,6 +9,7 @@
   "legal": "Legal",
   "securityAndData": "Security and Data",
   "changePin": "Change PIN",
+  "pinChanged": "PIN changed",
   "requirePinOnAppOpen": "Require PIN on App Open",
   "analytics": "Analytics",
   "shareAnalytics": "Share Analytics",

@@ -3,6 +3,7 @@
  */
 import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
+import i18n from 'src/i18n'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -108,7 +109,7 @@ export class PincodeSet extends React.Component<Props, State> {
       ValoraAnalytics.track(OnboardingEvents.pin_set)
       this.navigateToNextScreen()
       if (this.props.route.params.changePin) {
-        Logger.showMessage('PIN changed')
+        Logger.showMessage(i18n.t('accountScreen10:pinChanged'))
       }
     } else {
       this.props.navigation.setParams({ isVerifying: false })

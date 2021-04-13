@@ -9,6 +9,7 @@
   "legal": "Jurídico",
   "securityAndData": "Segurança e Dados",
   "changePIN": "Mude o PIN",
+  "pinChanged": "PIN changed",
   "requirePinOnAppOpen": "Exigir PIN ao abrir o aplicativo",
   "analytics": "Estatísticas",
   "shareAnalytics": "Compartilhar estatísticas",
