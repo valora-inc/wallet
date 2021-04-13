@@ -331,7 +331,7 @@ export class Account extends React.Component<Props, State> {
         }
       })
       .catch((error) => {
-        Logger.error(`${'NavigationService'}@onPress`, 'PIN ensure error', error)
+        Logger.error('NavigationService@onPress', 'PIN ensure error', error)
       })
   }
 
