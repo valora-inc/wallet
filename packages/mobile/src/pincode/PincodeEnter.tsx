@@ -88,11 +88,12 @@ class PincodeEnter extends React.Component<Props, State> {
 
   render() {
     const { t } = this.props
-    const { pin } = this.state
+    const { pin, errorText } = this.state
     return (
       <SafeAreaView style={styles.container}>
         <Pincode
           title={t('confirmPin.title')}
+          errorText={errorText}
           pin={pin}
           onChangePin={this.onChangePin}
           onCompletePin={this.onPressConfirm}
