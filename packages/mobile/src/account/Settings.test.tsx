@@ -6,6 +6,7 @@ import * as renderer from 'react-test-renderer'
 import Settings from 'src/account/Settings'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { KomenciAvailable } from 'src/verify/reducer'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper } from 'test/values'
 
@@ -35,6 +36,11 @@ describe('Account', () => {
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
           stableToken: { balance: '0.00' },
           goldToken: { balance: '0.00' },
+          verify: {
+            komenciAvailable: KomenciAvailable.Yes,
+            komenci: { errorTimestamps: [] },
+            status: {},
+          },
         })}
       >
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
@@ -54,6 +60,11 @@ describe('Account', () => {
             devModeActive: true,
             e164PhoneNumber: mockE164Number,
           },
+          verify: {
+            komenci: { errorTimestamps: [] },
+            komenciAvailable: KomenciAvailable.Yes,
+            status: {},
+          },
         })}
       >
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
@@ -62,8 +73,27 @@ describe('Account', () => {
     expect(tree).toMatchSnapshot()
   })
   it('renders correctly when verification is not possible', () => {
-    const tree = renderer.create(
-      <Provider store={createMockStore({})}>
+    const now = Date.now()
+    let tree = renderer.create(
+      <Provider
+        store={createMockStore({
+          verify: { komenci: { errorTimestamps: [] }, status: {} },
+        })}
+      >
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
+    tree = renderer.create(
+      <Provider
+        store={createMockStore({
+          verify: {
+            komenciAvailable: KomenciAvailable.Yes,
+            komenci: { errorTimestamps: [now, now, now] },
+            status: {},
+          },
+        })}
+      >
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
       </Provider>
     )

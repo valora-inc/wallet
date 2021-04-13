@@ -234,6 +234,11 @@ export class Account extends React.Component<Props, State> {
             </TouchableOpacity>
           </View>
           <View style={styles.devSettingsItem}>
+            <TouchableOpacity onPress={this.wipeReduxStore}>
+              <Text>Wipe Redux Store</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.devSettingsItem}>
             <TouchableOpacity onPress={this.confirmAccountRemoval}>
               <Text>Valora Quick Reset</Text>
             </TouchableOpacity>
@@ -305,6 +310,10 @@ export class Account extends React.Component<Props, State> {
 
   hideConfirmRemovalModal = () => {
     this.props.navigation.setParams({ promptConfirmRemovalModal: false })
+  }
+
+  wipeReduxStore = () => {
+    this.props.clearStoredAccount(this.props.account || '', true)
   }
 
   confirmAccountRemoval = () => {

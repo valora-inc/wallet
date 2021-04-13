@@ -17,7 +17,8 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
-import { CiCoProvider, providersDisplayInfo } from 'src/fiatExchanges/reducer'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
+import { CicoProviderNames, providersDisplayInfo } from 'src/fiatExchanges/reducer'
 import {
   fetchLocationFromIpAddress,
   getProviderAvailability,
@@ -25,6 +26,7 @@ import {
   openRamp,
   openSimplex,
   openTransak,
+  sortProviders,
   UserLocation,
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
@@ -57,19 +59,12 @@ ProviderOptionsScreen.navigationOptions = ({
     headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
   }
 }
-
-interface Provider {
-  id: CiCoProvider
+export interface CicoProvider {
+  id: CicoProviderNames
   restricted: boolean
+  paymentMethods: PaymentMethod[]
   image?: React.ReactNode
   onSelected: () => void
-}
-
-export enum Providers {
-  MOONPAY = 'MOONPAY',
-  RAMP = 'RAMP',
-  TRANSAK = 'TRANSAK',
-  SIMPLEX = 'SIMPLEX',
 }
 
 const FALLBACK_CURRENCY = LocalCurrencyCode.USD
@@ -85,6 +80,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
+
+  const { paymentMethod } = route.params
   const selectedCurrency = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
     [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
@@ -133,38 +130,42 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   } = getProviderAvailability(userLocation)
 
   const providers: {
-    cashOut: Provider[]
-    cashIn: Provider[]
+    cashOut: CicoProvider[]
+    cashIn: CicoProvider[]
   } = {
     cashOut: [],
     cashIn: [
       {
-        id: CiCoProvider.Moonpay,
+        id: CicoProviderNames.Moonpay,
+        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
         restricted: MOONPAY_RESTRICTED,
         onSelected: () =>
           openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
-        id: CiCoProvider.Simplex,
+        id: CicoProviderNames.Simplex,
+        paymentMethods: [PaymentMethod.CARD],
         restricted: SIMPLEX_RESTRICTED,
         onSelected: () => openSimplex(account),
       },
       {
-        id: CiCoProvider.Ramp,
+        id: CicoProviderNames.Ramp,
+        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
         restricted: RAMP_RESTRICTED,
         onSelected: () =>
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
-        id: CiCoProvider.Transak,
+        id: CicoProviderNames.Transak,
+        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
         restricted: TRANSAK_RESTRICTED,
         onSelected: () =>
           openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
-    ],
+    ].sort(sortProviders),
   }
 
-  const providerOnPress = (provider: Provider) => () => {
+  const providerOnPress = (provider: CicoProvider) => () => {
     ValoraAnalytics.track(FiatExchangeEvents.provider_chosen, {
       isCashIn,
       provider: provider.id,
@@ -189,6 +190,16 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                   <Text style={styles.optionTitle}>{providersDisplayInfo[provider.id].name}</Text>
                   {provider.restricted && (
                     <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
+                  )}
+                  {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) && (
+                    <Text style={styles.restrictedText}>
+                      {t('unsupportedPaymentMethod', {
+                        paymentMethod:
+                          paymentMethod === PaymentMethod.BANK
+                            ? 'bank account'
+                            : 'debit or credit card',
+                      })}
+                    </Text>
                   )}
                 </View>
                 <LinkArrow />

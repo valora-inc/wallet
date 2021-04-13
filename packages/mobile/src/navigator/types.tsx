@@ -10,6 +10,8 @@ import { SendOrigin } from 'src/analytics/types'
 import { CurrencyCode } from 'src/config'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -63,6 +65,7 @@ export type StackParamList = {
         navigatedFromSettings: boolean
       }
   [Screens.BidaliScreen]: { currency: CURRENCY_ENUM }
+  [Screens.CashInSuccess]: { provider?: CicoProviderNames }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountAuth]: {
     dappKitRequest: AccountAuthRequest
@@ -101,6 +104,7 @@ export type StackParamList = {
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
     currency: CURRENCY_ENUM
+    paymentMethod: PaymentMethod.CARD | PaymentMethod.BANK
   }
   [Screens.FiatExchangeOptions]: {
     isCashIn?: boolean
@@ -161,10 +165,11 @@ export type StackParamList = {
   }
   [Screens.PincodeEnter]: {
     withVerification?: boolean
-    onSuccess?: (pin: string) => void
-    onCancel?: () => void
+    onSuccess: (pin: string) => void
+    onCancel: () => void
+    account?: string
   }
-  [Screens.PincodeSet]: { isVerifying: boolean; changePin?: boolean } | undefined
+  [Screens.PincodeSet]: { isVerifying?: boolean; komenciAvailable?: boolean } | undefined
   [Screens.PhoneNumberLookupQuota]: {
     onBuy: () => void
     onSkip: () => void
@@ -176,6 +181,7 @@ export type StackParamList = {
     isCashIn?: boolean
     currency: CURRENCY_ENUM
     amount: number
+    paymentMethod: PaymentMethod.CARD | PaymentMethod.BANK
   }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
@@ -206,6 +212,7 @@ export type StackParamList = {
     | { promptFornoModal?: boolean; promptConfirmRemovalModal?: boolean }
     | undefined
   [Screens.Spend]: undefined
+  [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
   [Screens.SupportContact]:
     | {

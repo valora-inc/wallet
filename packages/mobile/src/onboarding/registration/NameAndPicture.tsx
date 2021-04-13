@@ -9,6 +9,7 @@ import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { setName, setPicture, setPromptForno } from 'src/account/actions'
+import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -22,6 +23,7 @@ import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import useTypedSelector from 'src/redux/useSelector'
 import { saveProfilePicture } from 'src/utils/image'
+import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
@@ -30,9 +32,13 @@ function NameAndPicture({ navigation }: Props) {
   const cachedName = useTypedSelector((state) => state.account.name)
   const picture = useTypedSelector((state) => state.account.pictureUri)
   const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
+  const recoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
   const dispatch = useDispatch()
 
   const { t } = useTranslation(Namespaces.nuxNamePin1)
+
+  // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
+  const asyncKomenciReadiness = useAsyncKomenciReadiness()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -48,7 +54,11 @@ function NameAndPicture({ navigation }: Props) {
   }, [navigation, choseToRestoreAccount])
 
   const goToNextScreen = () => {
-    navigate(Screens.PincodeSet, { isVerifying: false, changePin: false })
+    if (recoveringFromStoreWipe) {
+      navigate(Screens.ImportWallet)
+    } else {
+      navigate(Screens.PincodeSet, { komenciAvailable: !!asyncKomenciReadiness.result })
+    }
   }
 
   const onPressContinue = () => {
@@ -114,6 +124,7 @@ function NameAndPicture({ navigation }: Props) {
           type={BtnTypes.ONBOARDING}
           disabled={!nameInput.trim()}
           testID={'NameAndPictureContinueButton'}
+          showLoading={asyncKomenciReadiness.loading}
         />
       </ScrollView>
       <KeyboardSpacer />

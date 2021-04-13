@@ -9,14 +9,14 @@ import { WithTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
-import { setPincode } from 'src/account/actions'
+import { initializeAccount, setPincode } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { DEFAULT_CACHE_ACCOUNT, isPinValid } from 'src/pincode/authentication'
@@ -27,10 +27,12 @@ import Logger from 'src/utils/Logger'
 
 interface StateProps {
   choseToRestoreAccount: boolean | undefined
+  hideVerification: boolean
 }
 
 interface DispatchProps {
   setPincode: typeof setPincode
+  initializeAccount: typeof initializeAccount
 }
 
 interface State {
@@ -46,11 +48,13 @@ type Props = ScreenProps & StateProps & DispatchProps & WithTranslation
 function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
+    hideVerification: state.app.hideVerification,
   }
 }
 
 const mapDispatchToProps = {
   setPincode,
+  initializeAccount,
 }
 
 export class PincodeSet extends React.Component<Props, State> {
@@ -67,6 +71,9 @@ export class PincodeSet extends React.Component<Props, State> {
       navigate(Screens.Settings)
     } else if (this.props.choseToRestoreAccount) {
       navigate(Screens.ImportWallet)
+    } else if (this.props.hideVerification || !this.props.route.params?.komenciAvailable) {
+      this.props.initializeAccount()
+      navigateHome()
     } else {
       navigateClearingStack(Screens.VerificationEducationScreen)
     }
