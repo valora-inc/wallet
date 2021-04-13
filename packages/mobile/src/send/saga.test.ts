@@ -2,10 +2,12 @@ import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
+import { giveProfileAccess } from 'src/account/profileInfo'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { validateRecipientAddressSuccess } from 'src/identity/actions'
+import { encryptComment } from 'src/identity/commentEncryption'
 import {
   addressToDisplayNameSelector,
   addressToE164NumberSelector,
@@ -25,6 +27,7 @@ import {
 } from 'src/send/actions'
 import { sendPaymentOrInviteSaga, watchQrCodeDetections } from 'src/send/saga'
 import { getConnectedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
+import { currentAccountSelector } from 'src/web3/selectors'
 import {
   mockAccount,
   mockAccount2Invite,
@@ -278,6 +281,28 @@ describe(sendPaymentOrInviteSaga, () => {
         [matchers.call.fn(unlockAccount), UnlockResult.CANCELED],
       ])
       .put(showError(ErrorMessages.PIN_INPUT_CANCELED))
+      .run()
+  })
+
+  it('uploads symmetric keys if transaction sent successfully', async () => {
+    const account = '0x000123'
+    const sendPaymentOrInviteAction: SendPaymentOrInviteAction = {
+      type: Actions.SEND_PAYMENT_OR_INVITE,
+      amount: new BigNumber(10),
+      comment: '',
+      recipient: mockQRCodeRecipient,
+      recipientAddress: mockQRCodeRecipient.address,
+      firebasePendingRequestUid: null,
+      fromModal: false,
+    }
+    await expectSaga(sendPaymentOrInviteSaga, sendPaymentOrInviteAction)
+      .provide([
+        [call(getConnectedAccount), account],
+        [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
+        [select(currentAccountSelector), account],
+        [call(encryptComment, 'asdf', 'asdf', 'asdf', true), 'Asdf'],
+      ])
+      .call.fn(giveProfileAccess)
       .run()
   })
 })

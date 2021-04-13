@@ -254,6 +254,7 @@ exports[`ignores failed standby transactions 1`] = `
                   ]
                 }
               >
+                -
                 $
                 0.20
               </Text>
@@ -357,7 +358,7 @@ exports[`ignores failed standby transactions 1`] = `
                   }
                 }
               >
-                feedItemExchangeTitle
+                feedItemSoldCeloTitle
               </Text>
               <Text
                 numberOfLines={1}
@@ -398,20 +399,7 @@ exports[`ignores failed standby transactions 1`] = `
                 }
               }
             >
-              <Text
-                numberOfLines={1}
-                style={
-                  Array [
-                    undefined,
-                    Object {
-                      "color": "#2E3338",
-                    },
-                  ]
-                }
-              >
-                
-                0.100
-              </Text>
+              feedItemExchangeCeloInfo
             </Text>
           </View>
         </View>
@@ -679,6 +667,7 @@ exports[`ignores pending standby transactions that are completed in the response
                   ]
                 }
               >
+                -
                 $
                 0.20
               </Text>
@@ -782,7 +771,7 @@ exports[`ignores pending standby transactions that are completed in the response
                   }
                 }
               >
-                feedItemExchangeTitle
+                feedItemSoldCeloTitle
               </Text>
               <Text
                 numberOfLines={1}
@@ -823,20 +812,7 @@ exports[`ignores pending standby transactions that are completed in the response
                 }
               }
             >
-              <Text
-                numberOfLines={1}
-                style={
-                  Array [
-                    undefined,
-                    Object {
-                      "color": "#2E3338",
-                    },
-                  ]
-                }
-              >
-                
-                0.100
-              </Text>
+              feedItemExchangeCeloInfo
             </Text>
           </View>
         </View>
@@ -1195,6 +1171,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   ]
                 }
               >
+                -
                 $
                 0.20
               </Text>
@@ -1298,7 +1275,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                feedItemExchangeTitle
+                feedItemSoldCeloTitle
               </Text>
               <Text
                 numberOfLines={1}
@@ -1339,20 +1316,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 }
               }
             >
-              <Text
-                numberOfLines={1}
-                style={
-                  Array [
-                    undefined,
-                    Object {
-                      "color": "#2E3338",
-                    },
-                  ]
-                }
-              >
-                
-                0.100
-              </Text>
+              feedItemExchangeCeloInfo
             </Text>
           </View>
         </View>
@@ -1523,6 +1487,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   ]
                 }
               >
+                -
                 $
                 133.00
               </Text>
@@ -1626,7 +1591,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                feedItemExchangeTitle
+                feedItemBoughtCeloTitle
               </Text>
               <Text
                 numberOfLines={1}
@@ -1649,6 +1614,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   ]
                 }
               >
+                -
                 $
                 26.60
               </Text>
@@ -1752,7 +1718,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                feedItemExchangeTitle
+                feedItemSoldCeloTitle
               </Text>
               <Text
                 numberOfLines={1}

@@ -27,5 +27,10 @@
     "title": "Convidar e enviar",
     "body": "Seu pagamento para {{name}} estará esperando por ele(a) assim que o número de telefone for verificado. Compartilhe uma mensagem de convite com eles para se inscrever no {{appName}} e reivindicar seu pagamento!",
     "button": "Convidar"
-  }
+  },
+  "inviteRewardsBanner": {
+    "title": "Ganhe até US$5 ao indicar amigos!",
+    "body": "Envie valor para um amigo para ganhar $ 1 no CELO quando ele se cadastrar. Até 5 amigos por semana."
+  },
+  "getReward": "Receba ${{reward}}"
 }

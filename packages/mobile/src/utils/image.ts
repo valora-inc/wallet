@@ -42,8 +42,6 @@ export const saveProfilePicture = async (dataUrl: string): Promise<string> => {
 }
 
 export const saveRecipientPicture = async (dataUrl: string, address: string): Promise<string> => {
-  return saveImageDataUrlToFile(
-    dataUrl,
-    `file://${RNFS.DocumentDirectoryPath}/CIP8/pictures/${address}`
-  )
+  await RNFS.mkdir(`${RNFS.CachesDirectoryPath}/pictures`)
+  return saveImageDataUrlToFile(dataUrl, `file://${RNFS.CachesDirectoryPath}/pictures/${address}`)
 }

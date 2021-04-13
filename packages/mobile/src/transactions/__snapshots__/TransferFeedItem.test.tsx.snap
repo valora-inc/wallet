@@ -103,6 +103,7 @@ exports[`transfer feed item renders correctly for <0.000001 network fee 1`] = `
             ]
           }
         >
+          -
           $
           &lt;0.001
         </Text>
@@ -548,6 +549,7 @@ exports[`transfer feed item renders correctly for known sent 1`] = `
             ]
           }
         >
+          -
           $
           133.00
         </Text>
@@ -673,6 +675,7 @@ exports[`transfer feed item renders correctly for known sent invite 1`] = `
             ]
           }
         >
+          -
           $
           1.33
         </Text>
@@ -830,6 +833,7 @@ exports[`transfer feed item renders correctly for known sent without recipient c
             ]
           }
         >
+          -
           $
           133.00
         </Text>
@@ -955,6 +959,7 @@ exports[`transfer feed item renders correctly for network fee 1`] = `
             ]
           }
         >
+          -
           $
           0.003
         </Text>
@@ -1560,6 +1565,7 @@ exports[`transfer feed item renders correctly for sent 1`] = `
             ]
           }
         >
+          -
           $
           133.00
         </Text>
@@ -1685,6 +1691,7 @@ exports[`transfer feed item renders correctly for sent invite 1`] = `
             ]
           }
         >
+          -
           $
           1.33
         </Text>
@@ -1842,6 +1849,7 @@ exports[`transfer feed item renders correctly for sent transaction 1`] = `
             ]
           }
         >
+          -
           $
           1.33
         </Text>
@@ -1989,6 +1997,7 @@ exports[`transfer feed item renders correctly for sent with encrypted comment 1`
             ]
           }
         >
+          -
           $
           1.33
         </Text>
@@ -2114,6 +2123,7 @@ exports[`transfer feed item renders correctly for verification fee 1`] = `
             ]
           }
         >
+          -
           $
           0.43
         </Text>

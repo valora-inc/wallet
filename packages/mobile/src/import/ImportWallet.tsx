@@ -172,12 +172,15 @@ export class ImportWallet extends React.Component<Props, State> {
                   keyboardShouldPersistTaps={'always'}
                 >
                   <CodeInput
+                    // TODO: Use a special component instead of CodeInput here,
+                    // cause it should be used for entering verification codes only
                     label={t('global:accountKey')}
                     status={codeStatus}
                     inputValue={backupPhrase}
                     inputPlaceholder={t('importExistingKey.keyPlaceholder')}
                     multiline={true}
                     numberOfLines={NUMBER_OF_LINES}
+                    shortVerificationCodesEnabled={false}
                     onInputChange={this.setBackupPhrase}
                     shouldShowClipboard={this.shouldShowClipboard}
                     testID="ImportWalletBackupKeyInputField"

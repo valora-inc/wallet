@@ -5,10 +5,11 @@ import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType, TransferItemFragment } from 'src/apollo/types'
+import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { Namespaces } from 'src/i18n'
 import { addressToDisplayNameSelector, AddressToE164NumberType } from 'src/identity/reducer'
 import { InviteDetails } from 'src/invite/actions'
-import { getRecipientFromAddress, NumberToRecipient } from 'src/recipients/recipient'
+import { getRecipientFromAddress, NumberToRecipient, RecipientInfo } from 'src/recipients/recipient'
 import { navigateToPaymentTransferReview } from 'src/transactions/actions'
 import TransactionFeedItem from 'src/transactions/TransactionFeedItem'
 import TransferFeedIcon from 'src/transactions/TransferFeedIcon'
@@ -36,16 +37,14 @@ function navigateToTransactionReview({
   commentKey,
   timestamp,
   amount,
-  addressToE164Number,
-  recipientCache,
+  recipientInfo,
 }: Props) {
   // TODO: remove this when verification reward drilldown is supported
   if (type === TokenTransactionType.VerificationReward) {
     return
   }
 
-  const recipient = getRecipientFromAddress(address, addressToE164Number, recipientCache)
-  const e164PhoneNumber = addressToE164Number[address] || undefined
+  const recipient = getRecipientFromAddress(address, recipientInfo)
 
   navigateToPaymentTransferReview(type, timestamp, {
     address,
@@ -53,7 +52,6 @@ function navigateToTransactionReview({
     amount,
     recipient,
     type,
-    e164PhoneNumber,
     // fee TODO: add fee here.
   })
 }
@@ -61,6 +59,7 @@ function navigateToTransactionReview({
 export function TransferFeedItem(props: Props) {
   const { t } = useTranslation(Namespaces.walletFlow5)
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
+  const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
 
   const onPress = () => {
     navigateToTransactionReview(props)
@@ -72,6 +71,7 @@ export function TransferFeedItem(props: Props) {
     address,
     timestamp,
     type,
+    hash,
     comment,
     commentKey,
     status,
@@ -81,6 +81,7 @@ export function TransferFeedItem(props: Props) {
     invitees,
     recipientInfo,
   } = props
+  const txInfo = txHashToFeedInfo[hash]
 
   const { title, info, recipient } = getTransferFeedParams(
     type,
@@ -93,7 +94,9 @@ export function TransferFeedItem(props: Props) {
     commentKey,
     timestamp,
     invitees,
-    recipientInfo
+    recipientInfo,
+    addressToDisplayName[address]?.isCeloRewardSender ?? false,
+    txInfo
   )
 
   return (

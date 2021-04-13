@@ -7,6 +7,7 @@ import { appReducer as app, State as AppState } from 'src/app/reducers'
 import { escrowReducer as escrow, State as EscrowState } from 'src/escrow/reducer'
 import { reducer as exchange, State as ExchangeState } from 'src/exchange/reducer'
 import { reducer as fees, State as FeesState } from 'src/fees/reducer'
+import { reducer as fiatExchanges, State as FiatExchangesState } from 'src/fiatExchanges/reducer'
 import { gethReducer as geth, State as GethState } from 'src/geth/reducer'
 import { reducer as goldToken, State as GoldTokenState } from 'src/goldToken/reducer'
 import { homeReducer as home, State as HomeState } from 'src/home/reducers'
@@ -43,6 +44,7 @@ const appReducer = combineReducers({
   localCurrency,
   imports,
   paymentRequest,
+  fiatExchanges,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -86,6 +88,7 @@ export interface RootState {
   localCurrency: LocalCurrencyState
   imports: ImportState
   paymentRequest: PaymentRequestState
+  fiatExchanges: FiatExchangesState
 }
 
 export interface PersistedRootState {
@@ -103,4 +106,5 @@ export interface PersistedRootState {
   escrow: EscrowState
   localCurrency: LocalCurrencyState
   recipients: RecipientsState
+  fiatExchanges: FiatExchangesState
 }

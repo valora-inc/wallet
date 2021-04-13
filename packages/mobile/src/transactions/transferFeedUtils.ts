@@ -7,6 +7,7 @@ import {
   UserTransactionsQuery,
 } from 'src/apollo/types'
 import { DEFAULT_TESTNET } from 'src/config'
+import { ProviderFeedInfo } from 'src/fiatExchanges/reducer'
 import { decryptComment } from 'src/identity/commentEncryption'
 import { AddressToE164NumberType } from 'src/identity/reducer'
 import { InviteDetails } from 'src/invite/actions'
@@ -15,6 +16,7 @@ import {
   getRecipientFromAddress,
   NumberToRecipient,
   Recipient,
+  recipientHasNumber,
   RecipientInfo,
 } from 'src/recipients/recipient'
 import { KnownFeedTransactionsType } from 'src/transactions/reducer'
@@ -58,8 +60,9 @@ function getRecipient(
   txTimestamp: number,
   invitees: InviteDetails[],
   address: string,
-  recipientInfo: RecipientInfo
-) {
+  recipientInfo: RecipientInfo,
+  providerInfo: ProviderFeedInfo | undefined
+): Recipient {
   let phoneNumber = e164PhoneNumber
   let recipient: Recipient
 
@@ -74,11 +77,18 @@ function getRecipient(
       : recentTxRecipientsCache[phoneNumber]
 
     if (recipient) {
-      Object.assign(recipient, { address })
+      return recipient
+    } else {
+      recipient = { e164PhoneNumber: phoneNumber }
       return recipient
     }
   }
-  return getRecipientFromAddress(address, recipientInfo)
+
+  recipient = getRecipientFromAddress(address, recipientInfo)
+  if (providerInfo) {
+    Object.assign(recipient, { name: providerInfo.name, thumbnailPath: providerInfo.icon })
+  }
+  return recipient
 }
 
 export function getTransferFeedParams(
@@ -92,7 +102,9 @@ export function getTransferFeedParams(
   commentKey: string | null,
   timestamp: number,
   invitees: InviteDetails[],
-  recipientInfo: RecipientInfo
+  recipientInfo: RecipientInfo,
+  isCeloRewardSender: boolean,
+  providerInfo: ProviderFeedInfo | undefined
 ) {
   const e164PhoneNumber = addressToE164Number[address]
   const recipient = getRecipient(
@@ -103,10 +115,12 @@ export function getTransferFeedParams(
     timestamp,
     invitees,
     address,
-    recipientInfo
+    recipientInfo,
+    providerInfo
   )
   Object.assign(recipient, { address })
-  const nameOrNumber = recipient?.name || e164PhoneNumber
+  const nameOrNumber =
+    recipient?.name || (recipientHasNumber(recipient) ? recipient.e164PhoneNumber : e164PhoneNumber)
   const displayName = getDisplayName(recipient, t)
   const comment = getDecryptedTransferFeedComment(rawComment, commentKey, type)
 
@@ -155,8 +169,13 @@ export function getTransferFeedParams(
       break
     }
     case TokenTransactionType.Received: {
-      title = t('feedItemReceivedTitle', { displayName })
-      info = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
+      if (isCeloRewardSender) {
+        title = t('feedItemRewardReceivedTitle')
+        info = t('feedItemRewardReceivedInfo')
+      } else {
+        title = t('feedItemReceivedTitle', { displayName })
+        info = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
+      }
       break
     }
     case TokenTransactionType.EscrowSent: {

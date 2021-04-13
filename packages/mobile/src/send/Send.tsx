@@ -34,6 +34,7 @@ import RecipientPicker from 'src/recipients/RecipientPicker'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { storeLatestInRecents } from 'src/send/actions'
+import { InviteRewardsBanner } from 'src/send/InviteRewardsBanner'
 import { SendCallToAction } from 'src/send/SendCallToAction'
 import { SendSearchInput } from 'src/send/SendSearchInput'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -65,6 +66,9 @@ interface StateProps {
   recentRecipients: Recipient[]
   allRecipients: NumberToRecipient
   matchedContacts: ContactMatches
+  inviteRewardsEnabled: boolean
+  inviteRewardCusd: number
+  inviteRewardWeeklyLimit: number
 }
 
 interface DispatchProps {
@@ -88,6 +92,9 @@ const mapStateToProps = (state: RootState): StateProps => ({
   recentRecipients: state.send.recentRecipients,
   allRecipients: phoneRecipientCacheSelector(state),
   matchedContacts: state.identity.matchedContacts,
+  inviteRewardsEnabled: state.send.inviteRewardsEnabled,
+  inviteRewardCusd: state.send.inviteRewardCusd,
+  inviteRewardWeeklyLimit: state.send.inviteRewardWeeklyLimit,
 })
 
 const mapDispatchToProps = {
@@ -268,31 +275,35 @@ class Send extends React.Component<Props, State> {
   }
 
   renderListHeader = () => {
-    const { t, numberVerified, verificationPossible } = this.props
+    const { t, numberVerified, verificationPossible, inviteRewardsEnabled } = this.props
     const { hasGivenContactPermission } = this.state
 
-    return (
-      <>
-        {!numberVerified && verificationPossible && (
-          <SendCallToAction
-            icon={<VerifyPhone height={49} />}
-            header={t('verificationCta.header')}
-            body={t('verificationCta.body')}
-            cta={t('verificationCta.cta')}
-            onPressCta={this.onPressStartVerification}
-          />
-        )}
-        {numberVerified && !hasGivenContactPermission && (
-          <SendCallToAction
-            icon={<ContactPermission />}
-            header={t('importContactsCta.header')}
-            body={t('importContactsCta.body')}
-            cta={t('importContactsCta.cta')}
-            onPressCta={this.onPressContactsSettings}
-          />
-        )}
-      </>
-    )
+    if (!numberVerified && verificationPossible) {
+      return (
+        <SendCallToAction
+          icon={<VerifyPhone height={49} />}
+          header={t('verificationCta.header')}
+          body={t('verificationCta.body')}
+          cta={t('verificationCta.cta')}
+          onPressCta={this.onPressStartVerification}
+        />
+      )
+    }
+    if (numberVerified && !hasGivenContactPermission) {
+      return (
+        <SendCallToAction
+          icon={<ContactPermission />}
+          header={t('importContactsCta.header')}
+          body={t('importContactsCta.body')}
+          cta={t('importContactsCta.cta')}
+          onPressCta={this.onPressContactsSettings}
+        />
+      )
+    }
+    if (numberVerified && hasGivenContactPermission && inviteRewardsEnabled) {
+      return <InviteRewardsBanner />
+    }
+    return null
   }
 
   render() {

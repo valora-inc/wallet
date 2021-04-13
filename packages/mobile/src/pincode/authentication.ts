@@ -46,6 +46,7 @@ export const PIN_LENGTH = 6
 // Pepper and pin not currently generalized to be per account
 // Using this value in the caches
 export const DEFAULT_CACHE_ACCOUNT = 'default'
+export const DEK = 'DEK'
 export const CANCELLED_PIN_INPUT = 'CANCELLED_PIN_INPUT'
 
 const PIN_BLACKLIST = [
@@ -67,8 +68,8 @@ export function isPinValid(pin: string) {
   return pin.length === PIN_LENGTH && !PIN_BLACKLIST.includes(pin)
 }
 
-export async function retrieveOrGeneratePepper() {
-  if (!getCachedPepper(DEFAULT_CACHE_ACCOUNT)) {
+export async function retrieveOrGeneratePepper(account = DEFAULT_CACHE_ACCOUNT) {
+  if (!getCachedPepper(account)) {
     let storedPepper = await retrieveStoredItem(STORAGE_KEYS.PEPPER)
     if (!storedPepper) {
       const randomBytes = await generateSecureRandom(PEPPER_LENGTH)
@@ -76,9 +77,9 @@ export async function retrieveOrGeneratePepper() {
       await storeItem({ key: STORAGE_KEYS.PEPPER, value: pepper })
       storedPepper = pepper
     }
-    setCachedPepper(DEFAULT_CACHE_ACCOUNT, storedPepper)
+    setCachedPepper(account, storedPepper)
   }
-  return getCachedPepper(DEFAULT_CACHE_ACCOUNT)!
+  return getCachedPepper(account)!
 }
 
 async function getPasswordForPin(pin: string) {

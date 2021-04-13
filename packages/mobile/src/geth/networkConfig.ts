@@ -8,8 +8,10 @@ import {
   FORNO_ENABLED_INITIALLY,
   GETH_USE_FULL_NODE_DISCOVERY,
   GETH_USE_STATIC_NODES,
+  RAMP_API_KEY,
   RECAPTCHA_SITE_KEY_ALFAJORES,
   RECAPTCHA_SITE_KEY_MAINNET,
+  TRANSAK_API_KEY,
 } from 'src/config'
 import { GethSyncMode } from 'src/geth/consts'
 import Logger from 'src/utils/Logger'
@@ -28,6 +30,9 @@ interface NetworkConfig {
   odisPubKey: string
   signMoonpayUrl: string
   rampWidgetUrl: string
+  rampApiKey: string
+  transakWidgetUrl: string
+  transakApiKey: string
   useDiscovery: boolean
   useStaticNodes: boolean
   komenciUrl: string
@@ -44,8 +49,11 @@ const signMoonpayUrlStaging =
 const signMoonpayUrlProd =
   'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/signMoonpayProd'
 
-const rampWidgetStaging = 'https://ri-widget-staging.firebaseapp.com/'
+const rampWidgetStaging = 'https://ri-widget-staging.firebaseapp.com'
 const rampWidgetProd = 'https://buy.ramp.network'
+
+const transakWidgetProd = 'https://global.transak.com'
+const transakWidgetStaging = 'https://staging-global.transak.com'
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
@@ -63,12 +71,10 @@ const CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET: Address =
 const CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING: Address =
   '0x5C9a6E3c3E862eD306E2E3348EBC8b8310A99e5A'
 
-const CIP8_AUTHORIZER_URL_STAGING =
-  'https://kc0pg67dfa.execute-api.eu-west-1.amazonaws.com/alfajores/authorize'
-const CIP8_METADATA_URL_STAGING = 'https://d2dmse0lp0z44h.cloudfront.net'
-const CIP8_AUTHORIZER_URL_PROD =
-  'https://4za9j6ke6i.execute-api.eu-west-1.amazonaws.com/mainnet/authorize'
-const CIP8_METADATA_URL_PROD = 'https://d24lgi26ne6o8w.cloudfront.net'
+const CIP8_AUTHORIZER_URL_ALFAJORES = 'https://alfajores-stokado.celo-testnet.org/api/authorize'
+const CIP8_METADATA_URL_ALFAJORES = 'https://alfajores-stokado-data.celo-testnet.org'
+const CIP8_AUTHORIZER_URL_MAINNET = 'https://rc1-stokado.celo-testnet.org/api/authorize'
+const CIP8_METADATA_URL_MAINNET = 'https://rc1-stokado-data.celo-testnet.org'
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
@@ -80,6 +86,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
+    rampApiKey: RAMP_API_KEY,
+    transakWidgetUrl: transakWidgetStaging,
+    transakApiKey: TRANSAK_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_STAGING,
@@ -87,8 +96,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY_ALFAJORES,
     bidaliUrl: BIDALI_URL_ALFAJORES,
-    CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_STAGING,
-    CIP8MetadataUrl: CIP8_METADATA_URL_STAGING,
+    CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_ALFAJORES,
+    CIP8MetadataUrl: CIP8_METADATA_URL_ALFAJORES,
   },
   [Testnets.mainnet]: {
     nodeDir: `.${Testnets.mainnet}`,
@@ -99,6 +108,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
+    rampApiKey: RAMP_API_KEY,
+    transakWidgetUrl: transakWidgetProd,
+    transakApiKey: TRANSAK_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_MAINNET,
@@ -106,8 +118,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY_MAINNET,
     bidaliUrl: BIDALI_URL_MAINNET,
-    CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_PROD,
-    CIP8MetadataUrl: CIP8_METADATA_URL_PROD,
+    CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_MAINNET,
+    CIP8MetadataUrl: CIP8_METADATA_URL_MAINNET,
   },
 }
 
