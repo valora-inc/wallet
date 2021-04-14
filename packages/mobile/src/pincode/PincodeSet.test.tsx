@@ -149,14 +149,14 @@ describe('Pincode', () => {
     jest.runAllTimers()
     await flushMicrotasksQueue()
     expect(mockScreenProps.navigation.setParams).toBeCalledWith({
-      isVerifying: false,
+      isVerifying: true,
       changePin: true,
     })
 
     rerender(
       <Provider store={mockStore}>
         <PincodeSet
-          {...getMockStackScreenProps(Screens.PincodeSet, { isVerifying: false, changePin: true })}
+          {...getMockStackScreenProps(Screens.PincodeSet, { isVerifying: true, changePin: true })}
         />
       </Provider>
     )
