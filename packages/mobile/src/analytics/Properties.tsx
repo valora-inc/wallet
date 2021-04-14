@@ -108,6 +108,12 @@ interface SettingsEventsProperties {
   [SettingsEvents.tos_view]: undefined
   [SettingsEvents.start_account_removal]: undefined
   [SettingsEvents.completed_account_removal]: undefined
+  [SettingsEvents.change_pin_start]: undefined
+  [SettingsEvents.change_pin_current_pin_entered]: undefined
+  [SettingsEvents.change_pin_current_pin_error]: undefined
+  [SettingsEvents.change_pin_new_pin_entered]: undefined
+  [SettingsEvents.change_pin_new_pin_confirmed]: undefined
+  [SettingsEvents.change_pin_new_pin_error]: undefined
 }
 
 interface OnboardingEventsProperties {

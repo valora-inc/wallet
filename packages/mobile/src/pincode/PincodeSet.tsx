@@ -11,7 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { initializeAccount, setPincode } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
-import { OnboardingEvents } from 'src/analytics/Events'
+import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { Namespaces, withTranslation } from 'src/i18n'
@@ -98,8 +98,14 @@ export class PincodeSet extends React.Component<Props, State> {
   onCompletePin1 = () => {
     if (this.isPin1Valid(this.state.pin1)) {
       this.props.navigation.setParams({ isVerifying: true })
+      if (this.props.route.params.changePin) {
+        ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_entered)
+      }
     } else {
       ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'Pin is invalid' })
+      if (this.props.route.params.changePin) {
+        ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
+      }
       this.setState({
         pin1: '',
         pin2: '',
@@ -116,9 +122,13 @@ export class PincodeSet extends React.Component<Props, State> {
       ValoraAnalytics.track(OnboardingEvents.pin_set)
       this.navigateToNextScreen()
       if (this.props.route.params.changePin) {
+        ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_confirmed)
         Logger.showMessage(i18n.t('accountScreen10:pinChanged'))
       }
     } else {
+      if (this.props.route.params.changePin) {
+        ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
+      }
       this.props.navigation.setParams({ isVerifying: false })
       ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'Pins do not match' })
       this.setState({

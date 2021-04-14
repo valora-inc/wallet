@@ -330,9 +330,11 @@ export class Account extends React.Component<Props, State> {
   }
 
   goToChangePin = () => {
+    ValoraAnalytics.track(SettingsEvents.change_pin_start)
     ensurePincode()
       .then((pinIsCorrect) => {
         if (pinIsCorrect) {
+          ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_entered)
           this.props.navigation.navigate(Screens.PincodeSet, {
             isVerifying: false,
             changePin: true,
@@ -340,6 +342,7 @@ export class Account extends React.Component<Props, State> {
         }
       })
       .catch((error) => {
+        ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_error)
         Logger.error('NavigationService@onPress', 'PIN ensure error', error)
       })
   }

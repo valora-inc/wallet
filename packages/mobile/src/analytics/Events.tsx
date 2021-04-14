@@ -36,6 +36,12 @@ export enum SettingsEvents {
   tos_view = 'tos_view',
   start_account_removal = 'start_account_removal',
   completed_account_removal = 'completed_account_removal',
+  change_pin_start = 'change_pin_start',
+  change_pin_current_pin_entered = 'change_pin_current_pin_entered',
+  change_pin_current_pin_error = 'change_pin_current_pin_error',
+  change_pin_new_pin_entered = 'change_pin_new_pin_entered',
+  change_pin_new_pin_confirmed = 'change_pin_new_pin_confirmed',
+  change_pin_new_pin_error = 'change_pin_new_pin_error',
   // intentionally not tracking analytics opt in/out
   // to avoid tracking through omission
 }
