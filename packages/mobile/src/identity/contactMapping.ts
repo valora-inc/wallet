@@ -13,6 +13,7 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { IdentityEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   Actions,
   endFetchingAddresses,
@@ -46,7 +47,6 @@ import { checkContactsPermission } from 'src/utils/permissions'
 import { getContractKit } from 'src/web3/contracts'
 import { getConnectedAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { fetchLostAccounts } from 'src/firebase/firebase'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
@@ -270,7 +270,7 @@ export function* lookupAccountAddressesForIdentifier(id: string) {
     [attestationsWrapper, attestationsWrapper.lookupAccountsForIdentifier],
     id
   )
-  return accounts.filter((address) => !lostAccounts.includes(address.toLowerCase()))
+  return accounts.filter((address: string) => !lostAccounts.includes(address.toLowerCase()))
 }
 
 // Deconstruct the lookup result and return
