@@ -104,7 +104,7 @@ export type StackParamList = {
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
     currency: CURRENCY_ENUM
-    paymentMethod: PaymentMethod.CARD | PaymentMethod.BANK
+    paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
   }
   [Screens.FiatExchangeOptions]: {
     isCashIn?: boolean
@@ -151,9 +151,6 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Licenses]: undefined
-  [Screens.LocalProviderCashOut]: {
-    uri: string
-  }
   [Screens.Main]: undefined
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestUnavailable]: {
@@ -181,7 +178,7 @@ export type StackParamList = {
     isCashIn?: boolean
     currency: CURRENCY_ENUM
     amount: number
-    paymentMethod: PaymentMethod.CARD | PaymentMethod.BANK
+    paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
   }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
