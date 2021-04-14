@@ -154,14 +154,14 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashIn: [
       {
         id: CicoProviderNames.Moonpay,
-        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
+        paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
         restricted: MOONPAY_RESTRICTED,
         image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
         onSelected: () => navigate(Screens.MoonPayScreen, providerWidgetInputs),
       },
       {
         id: CicoProviderNames.Simplex,
-        paymentMethods: [PaymentMethod.CARD],
+        paymentMethods: [PaymentMethod.Card],
         restricted: SIMPLEX_RESTRICTED,
         unavailable: !providerQuotes?.simplexQuote || !userLocation?.ipAddress,
         image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
@@ -176,13 +176,13 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       },
       {
         id: CicoProviderNames.Ramp,
-        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
+        paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
         restricted: RAMP_RESTRICTED,
         onSelected: () => navigate(Screens.RampScreen, providerWidgetInputs),
       },
       {
         id: CicoProviderNames.Transak,
-        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
+        paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
         restricted: TRANSAK_RESTRICTED,
         onSelected: () => navigate(Screens.TransakScreen, providerWidgetInputs),
       },
@@ -229,7 +229,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                     <Text style={styles.restrictedText}>
                       {t('unsupportedPaymentMethod', {
                         paymentMethod:
-                          paymentMethod === PaymentMethod.BANK
+                          paymentMethod === PaymentMethod.Bank
                             ? 'bank account'
                             : 'debit or credit card',
                       })}

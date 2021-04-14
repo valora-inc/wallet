@@ -105,7 +105,7 @@ export type StackParamList = {
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
     currency: CURRENCY_ENUM
-    paymentMethod: PaymentMethod.CARD | PaymentMethod.BANK
+    paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
   }
   [Screens.FiatExchangeOptions]: {
     isCashIn?: boolean
@@ -156,9 +156,6 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Licenses]: undefined
-  [Screens.LocalProviderCashOut]: {
-    uri: string
-  }
   [Screens.Main]: undefined
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestUnavailable]: {
@@ -189,7 +186,7 @@ export type StackParamList = {
       crypto: number
       fiat: number
     }
-    paymentMethod: PaymentMethod.CARD | PaymentMethod.BANK
+    paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
   }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
@@ -220,7 +217,7 @@ export type StackParamList = {
     | { promptFornoModal?: boolean; promptConfirmRemovalModal?: boolean }
     | undefined
   [Screens.Spend]: undefined
-  [Screens.StoreWipeRecoveryScreen]: { account: string }
+  [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
   [Screens.SupportContact]:
     | {

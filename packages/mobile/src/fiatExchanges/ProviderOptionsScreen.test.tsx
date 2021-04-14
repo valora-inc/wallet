@@ -18,7 +18,7 @@ const AMOUNT_TO_CASH_IN = 100
 
 const mockScreenProps = (
   isCashIn: boolean,
-  paymentMethod: PaymentMethod.CARD | PaymentMethod.BANK
+  paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
 ) =>
   getMockStackScreenProps(Screens.ProviderOptionsScreen, {
     isCashIn,
@@ -91,7 +91,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
       </Provider>
     )
 
@@ -105,7 +105,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
       </Provider>
     )
 
@@ -123,7 +123,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
       </Provider>
     )
 
@@ -142,7 +142,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
       </Provider>
     )
 
@@ -161,7 +161,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
       </Provider>
     )
 
@@ -236,7 +236,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
       </Provider>
     )
 
@@ -251,7 +251,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
       </Provider>
     )
 
@@ -266,7 +266,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.BANK)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Bank)} />
       </Provider>
     )
 
@@ -281,7 +281,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
       </Provider>
     )
 
@@ -296,7 +296,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
       </Provider>
     )
 

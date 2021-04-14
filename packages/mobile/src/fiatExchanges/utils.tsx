@@ -1,4 +1,5 @@
 import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
+import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
 import getIpAddress from 'react-native-public-ip'
 import { showError } from 'src/alert/actions'
@@ -7,6 +8,7 @@ import { CurrencyCode, MOONPAY_API_KEY } from 'src/config'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { providerAvailability } from 'src/flags'
+import { CURRENCY_ENUM } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import Logger from 'src/utils/Logger'
@@ -52,6 +54,21 @@ export interface SimplexQuote {
   }
   valid_until: string
   supported_digital_currencies: string[]
+}
+export interface LocalCicoProvider {
+  name: string
+  celo: {
+    cashIn: boolean
+    cashOut: boolean
+    countries: string[]
+    url: string
+  }
+  cusd: {
+    cashIn: boolean
+    cashOut: boolean
+    countries: string[]
+    url: string
+  }
 }
 
 interface SimplexPaymentData {
@@ -229,4 +246,72 @@ export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) 
   }
 
   return -1
+}
+
+const typeCheckNestedProperties = (obj: any, property: string) =>
+  obj[property] &&
+  typeof obj[property].cashIn === 'boolean' &&
+  typeof obj[property].cashOut === 'boolean' &&
+  typeof obj[property].url === 'string' &&
+  obj[property].countries instanceof Array &&
+  obj[property].countries.every(
+    (country: any) => typeof country === 'string' && country.length === 2
+  )
+
+const isLocalCicoProvider = (obj: any): obj is LocalCicoProvider => {
+  return (
+    typeof obj.name === 'string' &&
+    typeCheckNestedProperties(obj, 'celo') &&
+    typeCheckNestedProperties(obj, 'cusd')
+  )
+}
+
+export const fetchLocalCicoProviders = async () => {
+  const firebaseLocalProviders: any[] = await firebase
+    .database()
+    .ref('localCicoProviders')
+    .once('value')
+    .then((snapshot) => snapshot.val())
+    .then((providers) =>
+      Object.entries(providers).map(([name, values]: [string, any]) => ({
+        ...values,
+        name,
+      }))
+    )
+
+  const localCicoProviders: LocalCicoProvider[] = firebaseLocalProviders.filter((provider) =>
+    isLocalCicoProvider(provider)
+  )
+
+  return localCicoProviders
+}
+
+export const getAvailableLocalProviders = (
+  localCicoProviders: LocalCicoProvider[] | undefined,
+  isCashIn: boolean,
+  countryCode: string | null,
+  selectedCurrency: CURRENCY_ENUM
+) => {
+  if (!localCicoProviders || !countryCode) {
+    return []
+  }
+
+  const activeLocalProviders = localCicoProviders.filter(
+    (provider) =>
+      (isCashIn && (provider.cusd.cashIn || provider.celo.cashIn)) ||
+      (!isCashIn && (provider.cusd.cashOut || provider.celo.cashOut))
+  )
+
+  let availableLocalProviders: LocalCicoProvider[] = []
+
+  const regionCode = getRegionCodeFromCountryCode(countryCode)
+  if (regionCode) {
+    availableLocalProviders = activeLocalProviders.filter((provider) =>
+      provider[selectedCurrency === CURRENCY_ENUM.DOLLAR ? 'cusd' : 'celo'].countries.includes(
+        regionCode
+      )
+    )
+  }
+
+  return availableLocalProviders
 }

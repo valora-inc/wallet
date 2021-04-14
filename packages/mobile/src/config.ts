@@ -148,8 +148,6 @@ export const VALORA_LOGO_URL =
 export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
 export const SIMPLEX_FEES_URL =
   'https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-am-I-paying-'
-export const PONTO_URI = 'https://withponto.com/partners/celo/valora'
-export const KOTANI_URI = 'https://kotanipay.com/partners/valora'
 
 export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
 export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
