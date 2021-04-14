@@ -1,3 +1,4 @@
+import * as admin from 'firebase-admin'
 import { v4 as uuidv4 } from 'uuid'
 import { UserDeviceInfo } from '.'
 import {
@@ -7,6 +8,7 @@ import {
   LocalCurrencyCode,
   SIMPLEX_DATA,
 } from './config'
+import { getFirebaseAdminCreds } from './utils'
 const { BigQuery } = require('@google-cloud/bigquery')
 const fetch = require('node-fetch')
 
@@ -15,6 +17,12 @@ const bigQueryProjectId = 'celo-testnet-production'
 const bigQueryDataset =
   gcloudProject === 'celo-mobile-alfajores' ? 'mobile_wallet_dev' : 'mobile_wallet_production'
 const bigQuery = new BigQuery({ projectId: `${bigQueryProjectId}` })
+
+admin.initializeApp({
+  credential: getFirebaseAdminCreds(admin),
+  databaseURL: `https://${gcloudProject}.firebaseio.com`,
+  projectId: gcloudProject,
+})
 
 export interface SimplexQuote {
   user_id: string
@@ -89,23 +97,23 @@ const getUserInitData = async (
 }
 
 const getOrCreateUuid = async (userAddress: string) => {
-  const [data] = await bigQuery.query(`
-    SELECT uuid
-    FROM ${bigQueryProjectId}.${bigQueryDataset}.simplex_uuid_mapping
-    WHERE address = "${userAddress}"
-  `)
+  let simplexId = await admin
+    .database()
+    .ref(`registrations/${userAddress}/simplexId`)
+    .once('value')
+    .then((snapshot) => snapshot.val())
 
-  if (data[0]) {
-    return data[0].uuid
+  if (simplexId) {
+    return simplexId
   }
 
-  const newUuid = uuidv4()
-  await bigQuery.query(`
-    INSERT INTO ${bigQueryProjectId}.${bigQueryDataset}.simplex_uuid_mapping
-    VALUES ("${userAddress}", "${newUuid}")
-  `)
+  simplexId = uuidv4()
+  await admin
+    .database()
+    .ref(`registrations/${userAddress}`)
+    .update({ simplexId })
 
-  return newUuid
+  return simplexId
 }
 
 const Simplex = {
