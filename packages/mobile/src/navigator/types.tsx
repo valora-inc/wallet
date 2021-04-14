@@ -169,7 +169,9 @@ export type StackParamList = {
     onCancel: () => void
     account?: string
   }
-  [Screens.PincodeSet]: { isVerifying?: boolean; komenciAvailable?: boolean } | undefined
+  [Screens.PincodeSet]:
+    | { isVerifying?: boolean; changePin?: boolean; komenciAvailable?: boolean }
+    | undefined
   [Screens.PhoneNumberLookupQuota]: {
     onBuy: () => void
     onSkip: () => void
