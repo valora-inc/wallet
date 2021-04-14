@@ -1,7 +1,7 @@
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { migrations } from 'src/redux/migrations'
-import { v0Schema, v1Schema, v2Schema, vNeg1Schema } from 'test/schemas'
+import { v0Schema, v1Schema, v2Schema, v7Schema, v8Schema, vNeg1Schema } from 'test/schemas'
 
 describe('Redux persist migrations', () => {
   it('works for v-1 to v0', () => {
@@ -157,5 +157,24 @@ describe('Redux persist migrations', () => {
     }
     const migratedSchema = migrations[9](v8Stub)
     expect(migratedSchema.account.dailyLimitCusd).toEqual(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD)
+  })
+  it('works for v9 to v10', () => {
+    const v9Stub = v7Schema
+    const migratedSchema = migrations[10](v9Stub)
+    expect(migratedSchema.identity.feelessAttestationCodes).toBeUndefined()
+    expect(migratedSchema.identity.feelessProcessingInputCode).toBeUndefined()
+    expect(migratedSchema.identity.feelessAcceptedAttestationCodes).toBeUndefined()
+    expect(migratedSchema.identity.feelessNumCompleteAttestations).toBeUndefined()
+    expect(migratedSchema.identity.feelessVerificationStatus).toBeUndefined()
+    expect(migratedSchema.identity.verificationState).toBeUndefined()
+    expect(migratedSchema.identity.feelessVerificationState).toBeUndefined()
+    expect(migratedSchema.identity.feelessLastRevealAttempt).toBeUndefined()
+  })
+  it('works for v10 to v11', () => {
+    const migratedSchema = migrations[11](v8Schema)
+    expect(migratedSchema.app.pontoEnabled).toBeUndefined()
+    expect(migratedSchema.app.kotaniEnabled).toBeUndefined()
+    expect(migratedSchema.app.bitfyUrl).toBeUndefined()
+    expect(migratedSchema.app.flowBtcUrl).toBeUndefined()
   })
 })
