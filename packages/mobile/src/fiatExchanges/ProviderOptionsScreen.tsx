@@ -162,7 +162,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashIn: [
       {
         id: CicoProviderNames.Moonpay,
-        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
+        paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
         restricted: MOONPAY_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
@@ -173,7 +173,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       },
       {
         id: CicoProviderNames.Simplex,
-        paymentMethods: [PaymentMethod.CARD],
+        paymentMethods: [PaymentMethod.Card],
         restricted: SIMPLEX_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
@@ -183,7 +183,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       },
       {
         id: CicoProviderNames.Ramp,
-        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
+        paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
         restricted: RAMP_RESTRICTED,
         icon:
           'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
@@ -193,7 +193,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       },
       {
         id: CicoProviderNames.Transak,
-        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
+        paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
         restricted: TRANSAK_RESTRICTED,
         onSelected: () =>
           openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
@@ -264,6 +264,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                 <View style={styles.option}>
                   <View style={styles.optionTitle}>
                     <Text style={styles.optionTitle}>{providersDisplayInfo[provider.id].name}</Text>
+                    {provider.restricted && (
+                      <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
+                    )}
                     {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) ? (
                       <Text style={styles.restrictedText}>
                         {t('unsupportedPaymentMethod', {

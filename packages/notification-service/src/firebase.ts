@@ -15,6 +15,7 @@ const NOTIFICATIONS_TAG = 'NOTIFICATIONS/'
 let database: admin.database.Database
 let registrationsRef: admin.database.Reference
 let lastBlockRef: admin.database.Reference
+let lastInviteBlockRef: admin.database.Reference
 let pendingRequestsRef: admin.database.Reference
 let knownAddressesRef: admin.database.Reference
 
@@ -68,6 +69,7 @@ export interface AddressToDisplayNameType {
 
 let registrations: Registrations = {}
 let lastBlockNotified: number = -1
+let lastInviteBlockNotified: number = -1
 
 const pendingRequests: PendingRequests = {}
 let celoRewardsSenders: string[] = []
@@ -106,6 +108,7 @@ export function initializeDb() {
   database = admin.database()
   registrationsRef = database.ref('/registrations')
   lastBlockRef = database.ref('/lastBlockNotified')
+  lastInviteBlockRef = database.ref('/lastInviteBlockNotified')
   pendingRequestsRef = database.ref('/pendingRequests')
   knownAddressesRef = database.ref('/addressesExtraInfo')
 
@@ -138,6 +141,18 @@ export function initializeDb() {
     },
     (errorObject: any) => {
       console.error('Latest block data read failed:', errorObject.code)
+    }
+  )
+
+  lastInviteBlockRef.on(
+    'value',
+    (snapshot) => {
+      const lastBlock = (snapshot && snapshot.val()) || 0
+      console.debug('Latest invite block updated: ', lastBlock)
+      lastInviteBlockNotified = lastBlock
+    },
+    (errorObject: any) => {
+      console.error('Latest invite block read failed:', errorObject.code)
     }
   )
 
@@ -193,6 +208,10 @@ export function getLastBlockNotified() {
   return lastBlockNotified
 }
 
+export function getLastInviteBlockNotified() {
+  return lastInviteBlockNotified
+}
+
 export function getPendingRequests() {
   return pendingRequests
 }
@@ -237,6 +256,23 @@ export function setLastBlockNotified(newBlock: number): Promise<void> | undefine
     return
   }
   return lastBlockRef.set(newBlock)
+}
+
+export function setLastInviteBlockNotified(newBlock: number): Promise<void> | undefined {
+  if (newBlock <= lastInviteBlockNotified) {
+    console.debug('Block number less than latest, skipping latestInviteBlock update.')
+    return
+  }
+
+  console.debug('Updating last block notified to:', newBlock)
+  // Although firebase will keep our local lastBlockNotified in sync with the DB,
+  // we set it here ourselves to avoid race condition where we check for notifications
+  // again before it syncs
+  lastInviteBlockNotified = newBlock
+  if (ENVIRONMENT === 'local') {
+    return
+  }
+  return lastInviteBlockRef.set(newBlock)
 }
 
 function notificationTitleAndBody(senderAddress: string, currency: Currencies) {
@@ -296,6 +332,11 @@ export async function requestedPaymentNotification(uid: string, data: PaymentReq
     requesteeAddress,
     { uid, ...paymentObjectToNotification(data) }
   )
+}
+
+export async function sendInviteNotification(inviter: string) {
+  const t = getTranslatorForAddress(inviter)
+  return sendNotification(t('inviteTitle'), t('inviteBody'), inviter, {})
 }
 
 export async function sendNotification(
