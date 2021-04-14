@@ -44,11 +44,11 @@ import FiatExchangeOptions, {
   fiatExchangesOptionsScreenOptions,
 } from 'src/fiatExchanges/FiatExchangeOptions'
 import MoonPayScreen from 'src/fiatExchanges/MoonPayScreen'
-import XanpoolScreen from 'src/fiatExchanges/XanpoolScreen'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import RampScreen from 'src/fiatExchanges/RampScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
 import TransakScreen from 'src/fiatExchanges/TransakScreen'
+import XanpoolScreen from 'src/fiatExchanges/XanpoolScreen'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'

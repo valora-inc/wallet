@@ -3,6 +3,7 @@ import * as React from 'react'
 import { useAsync } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import InAppBrowser from 'src/components/InAppBrowser'
+import { CASH_IN_SUCCESS_DEEPLINK } from 'src/config'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { fetchProviderWidgetUrl, isExpectedUrl } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
@@ -13,7 +14,6 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { CASH_IN_SUCCESS_DEEPLINK } from 'src/config'
 
 const XANPOOL_URI = networkConfig.xanpoolWidgetUrl
 
@@ -47,7 +47,6 @@ function XanpoolScreen({ route }: Props) {
       &isisWebWeb=true
   `.replace(/\s+/g, '')
 
-  console.log({ url })
   // This should never happen
   if (url && !isExpectedUrl(url, XANPOOL_URI)) {
     return null

@@ -23,10 +23,10 @@ import {
   fetchLocationFromIpAddress,
   getProviderAvailability,
   openMoonpay,
-  openXanpool,
   openRamp,
   openSimplex,
   openTransak,
+  openXanpool,
   sortProviders,
   UserLocation,
 } from 'src/fiatExchanges/utils'
