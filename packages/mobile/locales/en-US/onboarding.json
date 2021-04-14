@@ -29,6 +29,7 @@
   "selectCountryCode": "Select Country Code",
   "pincodeSet": {
     "create": "Create a PIN",
+    "createNew": "Create a new PIN",
     "verify": "Enter your PIN again to confirm",
     "changePIN": "Change PIN",
     "pinsDontMatch": "The PINs didn't match",
