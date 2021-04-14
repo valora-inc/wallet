@@ -4,7 +4,7 @@ import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import Settings from 'src/account/Settings'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, ensurePincode } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { KomenciAvailable } from 'src/verify/reducer'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -106,8 +106,8 @@ describe('Account', () => {
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
       </Provider>
     )
-    mockedNavigate.mockImplementationOnce(() => {
-      Promise.resolve(true)
+    ensurePincode.mockImplementationOnce(() => {
+      return Promise.resolve(true)
     })
     fireEvent.press(tree.getByTestId('ChangePIN'))
     expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, {
@@ -122,8 +122,8 @@ describe('Account', () => {
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
       </Provider>
     )
-    mockedNavigate.mockImplementationOnce((error) => {
-      return error
+    ensurePincode.mockImplementationOnce(() => {
+      return Promise.reject()
     })
     fireEvent.press(tree.getByTestId('ChangePIN'))
     expect(navigate).not.toHaveBeenCalled()
