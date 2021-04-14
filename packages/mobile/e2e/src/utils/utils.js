@@ -53,12 +53,6 @@ export async function skipTo(nextScreen) {
   }
 }
 
-export function enterPin() {
-  setTimeout(() => {
-    exec('adb shell input text 112233 && sleep 1 && adb shell input keyevent 66')
-  }, 3000)
-}
-
 export async function enterPinUi() {
   await expect(element(by.id(`digit1`))).toBeVisible()
 

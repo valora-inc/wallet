@@ -15,11 +15,12 @@ import Modal from 'react-native-modal'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount, setPhoneNumber } from 'src/account/actions'
+import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedSelector } from 'src/app/selectors'
+import { hideVerificationSelector, numberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import { WEB_LINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
@@ -33,6 +34,7 @@ import { StackParamList } from 'src/navigator/types'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
+import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import {
   actionableAttestationsSelector,
   checkIfKomenciAvailable,
@@ -68,7 +70,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const partOfOnboarding = !route.params?.hideOnboardingStep
 
   const cachedNumber = useTypedSelector((state) => state.account.e164PhoneNumber)
-  const cachedCountryCallingCode = useTypedSelector((state) => state.account.defaultCountryCode)
+  const cachedCountryCallingCode = useTypedSelector(defaultCountryCodeSelector)
   const [phoneNumberInfo, setPhoneNumberInfo] = useState(() =>
     getPhoneNumberState(
       cachedNumber || '',
@@ -110,6 +112,15 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     }
   }
 
+  const onPressContinueWhenVerificationUnavailable = () => {
+    if (!canUsePhoneNumber()) {
+      return
+    }
+
+    dispatch(setHasSeenVerificationNux(true))
+    navigateHome()
+  }
+
   const onPressLearnMore = () => {
     setShowLearnMoreDialog(true)
   }
@@ -141,6 +152,10 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     dispatch(initializeAccount())
     dispatch(checkIfKomenciAvailable())
   }, [])
+
+  // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
+  const hideVerification = useSelector(hideVerificationSelector)
+  const asyncKomenciReadiness = useAsyncKomenciReadiness()
 
   useFocusEffect(
     // useCallback is needed here: https://bit.ly/2G0WKTJ
@@ -211,7 +226,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
 
   const isBalanceSufficient = useSelector(isBalanceSufficientSelector)
 
-  if (shouldUseKomenci === undefined || !account) {
+  if (asyncKomenciReadiness.loading || shouldUseKomenci === undefined || !account) {
     return (
       <View style={styles.loader}>
         {account && (
@@ -237,6 +252,18 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       <Button
         text={partOfOnboarding ? t('global:continue') : t('global:goBack')}
         onPress={onPressContinue}
+        type={BtnTypes.ONBOARDING}
+        style={styles.startButton}
+        disabled={continueButtonDisabled}
+        testID="VerificationEducationSkip"
+      />
+    )
+  } else if (!asyncKomenciReadiness.result || hideVerification) {
+    bodyText = t('verificationUnavailable')
+    firstButton = (
+      <Button
+        text={t('global:continue')}
+        onPress={onPressContinueWhenVerificationUnavailable}
         type={BtnTypes.ONBOARDING}
         style={styles.startButton}
         disabled={continueButtonDisabled}

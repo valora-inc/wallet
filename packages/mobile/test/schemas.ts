@@ -514,6 +514,10 @@ export const v8Schema = {
     'feelessVerificationState',
     'feelessLastRevealAttempt'
   ),
+  app: {
+    ...v7Schema.app,
+    hideVerification: false,
+  },
   verify: {
     komenci: {
       errorTimestamps: [],
@@ -537,8 +541,18 @@ export const v8Schema = {
     withoutRevealing: false,
     TEMPORARY_override_withoutVerification: undefined,
   },
+  account: {
+    ...v7Schema.account,
+    recoveringFromStoreWipe: false,
+    accountToRecoverFromStoreWipe: undefined,
+  },
+}
+
+export const v9Schema = {
+  ...v8Schema,
+  app: _.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v8Schema as Partial<RootState>
+  return v9Schema as Partial<RootState>
 }

@@ -31,13 +31,13 @@ export class ApiMetrics {
     })
 
     this.pendingRequestsSize = new Gauge({
-      name: 'pending_requests_size',
+      name: 'pending_requests_count',
       help:
         'The current size of pendingRequestsRef, the reference to the pending requests array in Firebase.',
     })
 
     this.numberUnnotifiedRequests = new Gauge({
-      name: 'number_unnotified_requests',
+      name: 'num_unnotified_requests',
       help: 'The current number of pending requests where request.notified == false.',
     })
 
