@@ -1,6 +1,6 @@
-import networkConfig from 'src/geth/networkConfig'
-import { CicoService } from 'src/fiatExchanges/services/CicoService.abstract'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
+import { CicoService } from 'src/fiatExchanges/services/CicoService.abstract'
+import networkConfig from 'src/geth/networkConfig'
 
 export class MoonpayService extends CicoService {
   static getInstance() {

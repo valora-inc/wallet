@@ -9,8 +9,8 @@ import {
   SIMPLEX_URI,
 } from 'src/config'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
-import { CicoServiceFeesPolicy } from 'src/fiatExchanges/services/CicoService.abstract'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
+import { CicoServiceFeesPolicy } from 'src/fiatExchanges/services/CicoService.abstract'
 import { providerAvailability } from 'src/flags'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'

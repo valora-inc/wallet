@@ -1,6 +1,6 @@
-import networkConfig from 'src/geth/networkConfig'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoService, RequestBody } from 'src/fiatExchanges/services/CicoService.abstract'
+import networkConfig from 'src/geth/networkConfig'
 
 export class TransakService extends CicoService {
   static getInstance() {

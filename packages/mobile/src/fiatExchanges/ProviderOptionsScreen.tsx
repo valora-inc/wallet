@@ -10,8 +10,8 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
-  SafeAreaView,
   Image,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -22,11 +22,18 @@ import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
+import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoProviderNames, providersDisplayInfo } from 'src/fiatExchanges/reducer'
+import {
+  CicoService,
+  MoonpayService,
+  SimplexService,
+  TransakService,
+} from 'src/fiatExchanges/services'
 import {
   fetchLocationFromIpAddress,
   getProviderAvailability,
@@ -34,9 +41,9 @@ import {
   openRamp,
   openSimplex,
   openTransak,
+  renderFeesPolicy,
   sortProviders,
   UserLocation,
-  renderFeesPolicy,
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
@@ -50,13 +57,6 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { currentAccountSelector } from 'src/web3/selectors'
-import {
-  CicoService,
-  MoonpayService,
-  SimplexService,
-  TransakService,
-} from 'src/fiatExchanges/services'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
 

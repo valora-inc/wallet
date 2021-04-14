@@ -7,8 +7,8 @@ import {
   FORNO_ENABLED_INITIALLY,
   GETH_USE_FULL_NODE_DISCOVERY,
   GETH_USE_STATIC_NODES,
-  RECAPTCHA_SITE_KEY,
   MOONPAY_API_KEY,
+  RECAPTCHA_SITE_KEY,
   SIMPLEX_API_KEY,
 } from 'src/config'
 import { GethSyncMode } from 'src/geth/consts'
