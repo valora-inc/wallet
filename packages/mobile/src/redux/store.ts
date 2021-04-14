@@ -18,7 +18,7 @@ let lastEventTime = Date.now()
 
 const persistConfig: any = {
   key: 'root',
-  version: 8, // default is -1, increment as we make migrations
+  version: 11, // default is -1, increment as we make migrations
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
   blacklist: ['geth', 'networkInfo', 'alert', 'fees', 'recipients', 'imports'],
@@ -44,6 +44,9 @@ const persistConfig: any = {
   },
   timeout: null,
 }
+
+// For testing only!
+export const _persistConfig = persistConfig
 
 // We used to use AsyncStorage to save the state, but moved to file system storage because of problems with Android
 // maximum size limits. To keep backwards compatibility, we first try to read from the file system but if nothing is found
@@ -95,6 +98,7 @@ export const configureStore = (initialState = {}) => {
           'localCurrency',
           'imports',
           'paymentRequest',
+          'verify',
         ],
       })
     )

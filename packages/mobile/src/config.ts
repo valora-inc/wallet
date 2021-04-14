@@ -46,16 +46,11 @@ export const GOLD_TRANSACTION_MIN_AMOUNT = 0.001
 // The number of seconds before the sender can reclaim the payment.
 export const ESCROW_PAYMENT_EXPIRY_SECONDS = 3600 // 1 hour
 export const DEFAULT_TESTNET = Config.DEFAULT_TESTNET
-export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD = 500
+export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD = 1000
 export const SMS_RETRIEVER_APP_SIGNATURE = Config.SMS_RETRIEVER_APP_SIGNATURE
 // ODIS minimum dollar balance for pepper quota retrieval
 // TODO change this to new ODIS minimum dollar balance once deployed
 export const ODIS_MINIMUM_DOLLAR_BALANCE = 0.1
-// When user goes to VerificationEducationScreen - we fetch current verification state.
-// Then user decides on what to do and go to VerificationInputScreen.
-// If user were "deciding" for more than VERIFICATION_STATE_EXPIRY_SECONDS, then
-// we would refetch verification state before going to VerificationInputScreen
-export const VERIFICATION_STATE_EXPIRY_SECONDS = 30
 
 export const ATTESTATION_REVEAL_TIMEOUT_SECONDS = 60 // 1 minute
 
@@ -149,8 +144,6 @@ export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
 
 export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
-export const PONTO_URI = 'https://withponto.com/partners/celo/valora'
-export const KOTANI_URI = 'https://kotanipay.com/partners/valora'
 
 export const PROVIDER_URL_COMPOSER_PROD =
   'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/composeCicoProviderUrl'

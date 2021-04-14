@@ -9,6 +9,7 @@ import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
 import { PincodeType } from 'src/account/reducer'
+import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import AppLoading from 'src/app/AppLoading'
@@ -42,9 +43,6 @@ import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import FiatExchangeOptions, {
   fiatExchangesOptionsScreenOptions,
 } from 'src/fiatExchanges/FiatExchangeOptions'
-import LocalProviderCashOut, {
-  localProviderCashOutOptions,
-} from 'src/fiatExchanges/LocalProviderCashOut'
 import MoonPayScreen from 'src/fiatExchanges/MoonPayScreen'
 import XanpoolScreen from 'src/fiatExchanges/XanpoolScreen'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
@@ -407,6 +405,11 @@ const backupScreens = (Navigator: typeof Stack) => (
       options={navOptionsForQuiz}
     />
     <Navigator.Screen name={Screens.BackupComplete} component={BackupComplete} options={noHeader} />
+    <Navigator.Screen
+      name={Screens.StoreWipeRecoveryScreen}
+      component={StoreWipeRecoveryScreen}
+      options={StoreWipeRecoveryScreen.navOptions}
+    />
   </>
 )
 
@@ -452,11 +455,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={fiatExchangesOptionsScreenOptions}
       name={Screens.FiatExchangeOptions}
       component={FiatExchangeOptions}
-    />
-    <Navigator.Screen
-      options={localProviderCashOutOptions}
-      name={Screens.LocalProviderCashOut}
-      component={LocalProviderCashOut}
     />
     <Navigator.Screen
       options={CashInSuccess.navigationOptions}

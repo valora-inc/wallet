@@ -10,6 +10,7 @@ import { SendOrigin } from 'src/analytics/types'
 import { CurrencyCode } from 'src/config'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -103,6 +104,7 @@ export type StackParamList = {
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
     currency: CURRENCY_ENUM
+    paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
   }
   [Screens.FiatExchangeOptions]: {
     isCashIn?: boolean
@@ -154,9 +156,6 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Licenses]: undefined
-  [Screens.LocalProviderCashOut]: {
-    uri: string
-  }
   [Screens.Main]: undefined
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestUnavailable]: {
@@ -170,8 +169,9 @@ export type StackParamList = {
     withVerification?: boolean
     onSuccess: (pin: string) => void
     onCancel: () => void
+    account?: string
   }
-  [Screens.PincodeSet]: { isVerifying: boolean } | undefined
+  [Screens.PincodeSet]: { isVerifying?: boolean; komenciAvailable?: boolean } | undefined
   [Screens.PhoneNumberLookupQuota]: {
     onBuy: () => void
     onSkip: () => void
@@ -183,6 +183,7 @@ export type StackParamList = {
     isCashIn?: boolean
     currency: CURRENCY_ENUM
     amount: number
+    paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
   }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
@@ -213,6 +214,7 @@ export type StackParamList = {
     | { promptFornoModal?: boolean; promptConfirmRemovalModal?: boolean }
     | undefined
   [Screens.Spend]: undefined
+  [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
   [Screens.SupportContact]:
     | {

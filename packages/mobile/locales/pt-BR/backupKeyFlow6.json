@@ -1,27 +1,27 @@
 {
   "headerTitle": "Chave de Conta",
   "introTitle": "Sua Chave de Conta",
-  "introBody": "A sua Chave de Conta é a parte mais importante da sua conta.\n\nEncontre um local privado para configurar sua chave. Leva apenas 5 minutos.",
+  "introBody": "Sua Chave de Conta é a parte mais importante da sua conta.\n\nEncontre um local privado para configurar sua chave. Leva apenas 5 minutos.",
   "introPrimaryAction": "Configurar agora",
   "backupSetupTitle": "Crie sua Chave de Conta",
-  "backupSetupBody": "Para que seus fundos sejam protegidos, é necessário criar a sua Chave de Conta antes de continuar usando {{appName}}.",
+  "backupSetupBody": "Para que seus fundos sejam protegidos, é necessário criar sua Chave de Conta antes de continuar usando a {{appName}}.",
   "delayBackup": "Espere uma hora",
   "postSetupTitle": "Sua Chave de Conta",
-  "postSetupBody": "Se você perder sua Chave de Conta, perderá o acesso a todos os seus Celo Dólares e CELO. Ninguém, nem mesmo {{appName}}, poderá ajudar você a recuperar sua conta sem a sua chave. Guarde-a em um local seguro e não a compartilhe.",
+  "postSetupBody": "Se você perder sua Chave de Conta, perderá o acesso a todos os seus Celo Dólares e CELO. Ninguém, nem mesmo a {{appName}}, poderá ajudar você a recuperar sua conta sem a sua chave. Guarde-a em um local seguro e não a compartilhe.",
   "postSetupCTA": "Saiba mais sobre a Chave de Conta",
-  "failedFetchMnemonic": "Falha ao obter a sua Chave de Conta",
+  "failedFetchMnemonic": "Falha ao obter sua Chave de Conta",
   "backupAndRecovery": "Backup e recuperação",
   "writeDownKey": "Escreva sua chave",
   "completeEducation": "Eu compreendo",
   "yourAccountKey": "Sua Chave de Conta",
-  "backupKeyNotification": "A sua Chave de Conta é a parte mais importante da sua conta",
-  "backupKeySummary": "Encontre um local privado e anote a sua Chave de Conta. Guarde-a em um lugar seguro. Não salve em seu telefone.",
+  "backupKeyNotification": "Sua Chave de Conta é a parte mais importante da sua conta",
+  "backupKeySummary": "Encontre um local privado e anote sua Chave de Conta. Guarde-a em um lugar seguro. Não salve em seu celular.",
   "copied": "Chave copiada para a área de transferência",
   "moreInfo": "Mais informações",
   "savedConfirmation": "Sim, eu anotei minha chave.",
-  "backupQuizWordCount": "Qual é a palavra <0>{{ordinal}}</0> da sua Chave de Conta?",
+  "backupQuizWordCount": "Qual é a <0>{{ordinal}}</0> palavra da sua Chave de Conta?",
   "importBackupFailed": "A importação da conta falhou",
-  "backupQuizFailed": "A Chave de Conta que você inseriu está incorreta. Tente novamente.",
+  "backupQuizFailed": "A Chave de Conta que você inseriu está incorreta. Por favor, tente novamente.",
   "invalidBackupPhrase": "Chave de Conta inválida",
   "backupComplete": {
     "header": "Backup concluído",
@@ -38,16 +38,16 @@
   "backupPhrasePlaceholder": "cavalo leopardo cachorro macaco tubarão tigre lêmure baleia lula lobo esquilo rato leão elefante gato camarão urso pinguim cervo tartaruga raposa zebra cabra girafa",
   "guide": [
     {
-      "title": "A sua Chave de Conta é um tipo especial de senha",
-      "text": "A sua Chave de Conta é a única maneira de acessar sua conta."
+      "title": "Sua Chave de Conta é um tipo especial de senha",
+      "text": "Sua Chave de Conta é a única maneira de acessar sua conta."
     },
     {
       "title": "Sem sua chave, você pode perder o acesso para sempre",
-      "text": "Se você perder seu telefone, deverá ter sua chave para recuperar sua conta. Ninguém, nem mesmo {{appName}}, poderá recuperar seus fundos sem ela."
+      "text": "Se você perder seu celular, deverá ter sua chave para recuperar sua conta. Ninguém, nem mesmo a {{appName}}, poderá recuperar seus fundos sem ela."
     },
     {
       "title": "Anote em segurança",
-      "text": "Anote sua Chave de Conta e guarde-a em um local seguro. Não salve em seu telefone."
+      "text": "Anote sua Chave de Conta e guarde-a em um local seguro. Não salve em seu celular."
     },
     {
       "title": "Mantenha sua chave privada",
