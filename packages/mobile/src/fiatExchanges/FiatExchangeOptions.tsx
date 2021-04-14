@@ -34,9 +34,10 @@ import {
 import i18n, { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { navigateToURI } from 'src/utils/linking'
 
 type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeOptions>
 type Props = RouteProps
@@ -152,7 +153,8 @@ function FiatExchangeOptions({ route, navigation }: Props) {
         currency: selectedCurrency,
       })
     } else if (selectedPaymentMethod === PaymentMethod.LocalProvider && selectedLocalProvider) {
-      navigate(Screens.WebViewScreen, { uri: selectedLocalProvider[asset].url })
+      navigateToURI(selectedLocalProvider[asset].url)
+      navigateHome()
     } else if (selectedPaymentMethod === PaymentMethod.GiftCard) {
       navigate(Screens.BidaliScreen, { currency: selectedCurrency })
     } else if (selectedPaymentMethod === PaymentMethod.Address) {

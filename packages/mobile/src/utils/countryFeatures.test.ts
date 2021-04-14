@@ -77,7 +77,6 @@ describe(getCountryFeaturesSelector, () => {
     expect(getCountryFeaturesSelector(state)).toMatchInlineSnapshot(`
       Object {
         "FIAT_SPEND_ENABLED": false,
-        "FLOW_BTC_SUPPORTED": true,
         "RESTRICTED_CP_DOTO": false,
         "SANCTIONED_COUNTRY": false,
       }
