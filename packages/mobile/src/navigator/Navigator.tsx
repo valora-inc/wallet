@@ -43,9 +43,6 @@ import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import FiatExchangeOptions, {
   fiatExchangesOptionsScreenOptions,
 } from 'src/fiatExchanges/FiatExchangeOptions'
-import LocalProviderCashOut, {
-  localProviderCashOutOptions,
-} from 'src/fiatExchanges/LocalProviderCashOut'
 import MoonPayScreen from 'src/fiatExchanges/MoonPayScreen'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import RampScreen from 'src/fiatExchanges/RampScreen'
@@ -457,11 +454,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={fiatExchangesOptionsScreenOptions}
       name={Screens.FiatExchangeOptions}
       component={FiatExchangeOptions}
-    />
-    <Navigator.Screen
-      options={localProviderCashOutOptions}
-      name={Screens.LocalProviderCashOut}
-      component={LocalProviderCashOut}
     />
     <Navigator.Screen
       options={CashInSuccess.navigationOptions}
