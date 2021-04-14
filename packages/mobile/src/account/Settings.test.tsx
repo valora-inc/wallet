@@ -12,7 +12,7 @@ import { mockE164Number, mockE164NumberPepper } from 'test/values'
 
 describe('Account', () => {
   const mockedNavigate = navigate as jest.Mock
-
+  const mockedEnsurePincode = ensurePincode as jest.Mock
   beforeEach(() => {
     jest.clearAllMocks()
     mockedNavigate.mockReset()
@@ -106,9 +106,7 @@ describe('Account', () => {
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
       </Provider>
     )
-    ensurePincode.mockImplementationOnce(() => {
-      return Promise.resolve(true)
-    })
+    mockedEnsurePincode.mockImplementation(() => true)
     fireEvent.press(tree.getByTestId('ChangePIN'))
     expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, {
       isVerifying: false,
@@ -122,9 +120,7 @@ describe('Account', () => {
         <Settings {...getMockStackScreenProps(Screens.Settings)} />
       </Provider>
     )
-    ensurePincode.mockImplementationOnce(() => {
-      return Promise.reject()
-    })
+    mockedEnsurePincode.mockImplementation(() => false)
     fireEvent.press(tree.getByTestId('ChangePIN'))
     expect(navigate).not.toHaveBeenCalled()
   })
