@@ -6,7 +6,6 @@ import { Screens } from 'src/navigator/Screens'
 import PincodeSet from 'src/pincode/PincodeSet'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { changePin: true })
 const mockStore = createMockStore()
 const mockPin = '112233'
 
@@ -138,6 +137,8 @@ describe('Pincode', () => {
   })
 
   it('navigates back to the Settings screen after successfully changing PIN', async () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { changePin: true })
+
     const { getByTestId, rerender } = render(
       <Provider store={mockStore}>
         <PincodeSet {...mockScreenProps} />
@@ -151,7 +152,9 @@ describe('Pincode', () => {
 
     rerender(
       <Provider store={mockStore}>
-        <PincodeSet {...getMockStackScreenProps(Screens.PincodeSet, { isVerifying: true })} />
+        <PincodeSet
+          {...getMockStackScreenProps(Screens.PincodeSet, { isVerifying: true, changePin: true })}
+        />
       </Provider>
     )
 
