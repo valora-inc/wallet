@@ -3,7 +3,6 @@
  */
 import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
-import i18n from 'src/i18n'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -14,7 +13,7 @@ import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DevSkipButton from 'src/components/DevSkipButton'
-import { Namespaces, withTranslation } from 'src/i18n'
+import i18n, { Namespaces, withTranslation } from 'src/i18n'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -67,7 +66,7 @@ export class PincodeSet extends React.Component<Props, State> {
   }
 
   navigateToNextScreen = () => {
-    if (this.props.route.params.changePin) {
+    if (this.props.route.params?.changePin) {
       navigate(Screens.Settings)
     } else if (this.props.choseToRestoreAccount) {
       navigate(Screens.ImportWallet)
@@ -98,12 +97,12 @@ export class PincodeSet extends React.Component<Props, State> {
   onCompletePin1 = () => {
     if (this.isPin1Valid(this.state.pin1)) {
       this.props.navigation.setParams({ isVerifying: true })
-      if (this.props.route.params.changePin) {
+      if (this.props.route.params?.changePin) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_entered)
       }
     } else {
       ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'Pin is invalid' })
-      if (this.props.route.params.changePin) {
+      if (this.props.route.params?.changePin) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
       }
       this.setState({

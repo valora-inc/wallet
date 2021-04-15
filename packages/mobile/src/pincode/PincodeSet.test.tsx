@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import { navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import PincodeSet from 'src/pincode/PincodeSet'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { isVerifying: true })
+const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { changePin: true })
 const mockStore = createMockStore()
 const mockPin = '112233'
 
@@ -137,27 +137,21 @@ describe('Pincode', () => {
     expect(getByText('pincodeSet.pinsDontMatch')).toBeDefined()
   })
 
-  it('navigates to the Settings screen after successfully changing PIN', async () => {
+  it('navigates back to the Settings screen after successfully changing PIN', async () => {
     const { getByTestId, rerender } = render(
       <Provider store={mockStore}>
         <PincodeSet {...mockScreenProps} />
       </Provider>
     )
 
-    // Create pin
+    // Change pin
     mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
     jest.runAllTimers()
     await flushMicrotasksQueue()
-    expect(mockScreenProps.navigation.setParams).toBeCalledWith({
-      isVerifying: true,
-      changePin: true,
-    })
 
     rerender(
       <Provider store={mockStore}>
-        <PincodeSet
-          {...getMockStackScreenProps(Screens.PincodeSet, { isVerifying: true, changePin: true })}
-        />
+        <PincodeSet {...getMockStackScreenProps(Screens.PincodeSet, { isVerifying: true })} />
       </Provider>
     )
 
@@ -166,6 +160,6 @@ describe('Pincode', () => {
     jest.runAllTimers()
     await flushMicrotasksQueue()
 
-    expect(navigateClearingStack).toBeCalledWith(Screens.Settings)
+    expect(navigate).toBeCalledWith(Screens.Settings)
   })
 })
