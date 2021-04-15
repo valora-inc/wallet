@@ -2,7 +2,16 @@ import { sleep } from '@celo/utils/lib/async'
 import firebase from '@react-native-firebase/app'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import { eventChannel } from 'redux-saga'
-import { call, cancelled, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
+import {
+  call,
+  cancelled,
+  put,
+  select,
+  spawn,
+  take,
+  takeEvery,
+  takeLatest,
+} from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { Actions as AppActions, SetLanguage } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -10,7 +19,13 @@ import { FIREBASE_ENABLED } from 'src/config'
 import { updateCeloGoldExchangeRateHistory } from 'src/exchange/actions'
 import { exchangeHistorySelector, ExchangeRate, MAX_HISTORY_RETENTION } from 'src/exchange/reducer'
 import { Actions, firebaseAuthorized } from 'src/firebase/actions'
-import { initializeAuth, initializeCloudMessaging, setUserLanguage } from 'src/firebase/firebase'
+import {
+  checkInitialNotification,
+  initializeAuth,
+  initializeCloudMessaging,
+  setUserLanguage,
+  watchFirebaseNotificationChannel,
+} from 'src/firebase/firebase'
 import Logger from 'src/utils/Logger'
 import { getRemoteTime } from 'src/utils/time'
 import { getAccount } from 'src/web3/saga'
@@ -142,4 +157,6 @@ export function* firebaseSaga() {
   yield spawn(initializeFirebase)
   yield spawn(watchLanguage)
   yield spawn(subscribeToCeloGoldExchangeRateHistory)
+  yield takeLatest(AppActions.APP_MOUNTED, watchFirebaseNotificationChannel)
+  yield takeLatest(AppActions.APP_MOUNTED, checkInitialNotification)
 }
