@@ -272,10 +272,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                     {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) ? (
                       <Text style={styles.restrictedText}>
                         {t('unsupportedPaymentMethod', {
-                          paymentMethod:
-                            paymentMethod === PaymentMethod.Bank
-                              ? 'bank account'
-                              : 'debit or credit card',
+                          paymentMethod: t(
+                            paymentMethod === PaymentMethod.Bank ? 'payWithBank' : 'payWithCard'
+                          ).toLowerCase(),
                         })}
                       </Text>
                     ) : (
