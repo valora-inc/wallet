@@ -165,7 +165,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
         restricted: MOONPAY_RESTRICTED,
         icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media&token=3617af49-7762-414d-a4d0-df05fbc49b97',
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Fmoonpay.svg?alt=media&token=e8f54502-37be-4106-951e-19240aa99c1c',
         iconColor: 'rgba(0, 0, 0, 0.07)',
         onSelected: () =>
           openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
@@ -176,7 +176,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         paymentMethods: [PaymentMethod.Card],
         restricted: SIMPLEX_RESTRICTED,
         icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media&token=6037b2f9-9d76-4076-b29e-b7e0de0b3f34',
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Fsimplex.svg?alt=media&token=6c989a40-0d98-4115-90d0-9b8eae955dc1',
         iconColor: 'rgba(96, 169, 64, 0.07)',
         onSelected: () => openSimplex(account),
         service: simplexService,
@@ -186,7 +186,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
         restricted: RAMP_RESTRICTED,
         icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media&token=548ab5b9-7b03-49a2-a196-198f45958852',
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Framp.svg?alt=media&token=8a02a1aa-0509-4d83-87f1-53a25685b34d',
         iconColor: 'rgba(2, 194, 108, 0.07)',
         onSelected: () =>
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
@@ -195,6 +195,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         id: CicoProviderNames.Transak,
         paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
         restricted: TRANSAK_RESTRICTED,
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Fmoonpay.svg?alt=media&token=e8f54502-37be-4106-951e-19240aa99c1c',
         onSelected: () =>
           openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
         service: transakService,
