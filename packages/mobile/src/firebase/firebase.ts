@@ -5,9 +5,8 @@ import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
 // tslint:disable-next-line: no-duplicate-imports
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
-import { eventChannel, EventChannel } from 'redux-saga'
-import { call, select, spawn, take } from 'redux-saga/effects'
-import { Actions as AppActions, AppMounted, AppUnmounted } from 'src/app/actions'
+import { eventChannel } from 'redux-saga'
+import { call, select, take } from 'redux-saga/effects'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { FIREBASE_ENABLED } from 'src/config'
 import { handleNotification } from 'src/firebase/notifications'
@@ -22,10 +21,16 @@ interface NotificationChannelEvent {
   stateType: NotificationReceiveState
 }
 
-// only exported for testing
-export function* watchFirebaseNotificationChannel(channel: EventChannel<NotificationChannelEvent>) {
+export function* watchFirebaseNotificationChannel() {
+  if (!FIREBASE_ENABLED) {
+    return
+  }
+
   try {
+    const channel = createFirebaseNotificationChannel()
+
     Logger.debug(`${TAG}/watchFirebaseNotificationChannel`, 'Started channel watching')
+
     while (true) {
       const event: NotificationChannelEvent = yield take(channel)
       if (!event) {
@@ -46,6 +51,24 @@ export function* watchFirebaseNotificationChannel(channel: EventChannel<Notifica
     )
   } finally {
     Logger.debug(`${TAG}/watchFirebaseNotificationChannel`, 'Notification channel terminated')
+  }
+}
+
+export function* checkInitialNotification() {
+  if (!FIREBASE_ENABLED) {
+    return
+  }
+
+  // We need this initial check because the app could be in the killed state
+  // or in the background when the push notification arrives
+
+  // Manual type checking because yield calls can't infer return type yet :'(
+  const initialNotification: Awaited<ReturnType<
+    FirebaseMessagingTypes.Module['getInitialNotification']
+  >> = yield call([firebase.messaging(), 'getInitialNotification'])
+  if (initialNotification) {
+    Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
+    yield call(handleNotification, initialNotification, NotificationReceiveState.APP_OPENED_FRESH)
   }
 }
 
@@ -77,14 +100,8 @@ export const firebaseSignOut = async (app: ReactNativeFirebase.FirebaseApp) => {
   await app.auth().signOut()
 }
 
-export function* setupMessaging(action: AppMounted | AppUnmounted) {
-  if (!FIREBASE_ENABLED) {
-    // TODO(erdal) enable this once we have gcloud setup on CI
-    return
-  }
-
-  // Listen for notification messages while the app is open
-  const channelOnNotification: EventChannel<NotificationChannelEvent> = eventChannel((emitter) => {
+function createFirebaseNotificationChannel() {
+  return eventChannel((emitter) => {
     const unsubscribe = () => {
       Logger.info(TAG, 'Notification channel closed, resetting callbacks.')
       firebase.messaging().onMessage(() => null)
@@ -108,25 +125,6 @@ export function* setupMessaging(action: AppMounted | AppUnmounted) {
     })
     return unsubscribe
   })
-
-  Logger.debug(TAG, `setupMessage action: ${JSON.stringify(action)}`)
-
-  const isAppMounted = action.type === AppActions.APP_MOUNTED
-  if (isAppMounted) {
-    // TODO(erdal): is spawn the right one to use here?
-    yield spawn(watchFirebaseNotificationChannel, channelOnNotification)
-  } else {
-    channelOnNotification.close()
-  }
-
-  // Manual type checking because yield calls can't infer return type yet :'(
-  const initialNotification: Awaited<ReturnType<
-    FirebaseMessagingTypes.Module['getInitialNotification']
-  >> = yield call([firebase.messaging(), 'getInitialNotification'])
-  if (initialNotification) {
-    Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
-    yield call(handleNotification, initialNotification, NotificationReceiveState.APP_OPENED_FRESH)
-  }
 }
 
 export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, address: string) {

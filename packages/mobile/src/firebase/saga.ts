@@ -20,10 +20,11 @@ import { updateCeloGoldExchangeRateHistory } from 'src/exchange/actions'
 import { exchangeHistorySelector, ExchangeRate, MAX_HISTORY_RETENTION } from 'src/exchange/reducer'
 import { Actions, firebaseAuthorized } from 'src/firebase/actions'
 import {
+  checkInitialNotification,
   initializeAuth,
   initializeCloudMessaging,
-  setupMessaging,
   setUserLanguage,
+  watchFirebaseNotificationChannel,
 } from 'src/firebase/firebase'
 import Logger from 'src/utils/Logger'
 import { getRemoteTime } from 'src/utils/time'
@@ -156,5 +157,6 @@ export function* firebaseSaga() {
   yield spawn(initializeFirebase)
   yield spawn(watchLanguage)
   yield spawn(subscribeToCeloGoldExchangeRateHistory)
-  yield takeLatest([AppActions.APP_MOUNTED, AppActions.APP_UNMOUNTED], setupMessaging)
+  yield takeLatest(AppActions.APP_MOUNTED, watchFirebaseNotificationChannel)
+  yield takeLatest(AppActions.APP_MOUNTED, checkInitialNotification)
 }
