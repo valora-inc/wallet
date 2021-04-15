@@ -58,7 +58,6 @@ export class EventBuilder {
     if (!tokenTransfer) {
       return undefined
     }
-
     const impliedExchangeRates: MoneyAmount['impliedExchangeRates'] = {}
     if (inTransfer!.token === CGLD && outTransfer!.token === CUSD) {
       impliedExchangeRates['cGLD/cUSD'] = new BigNumber(outTransfer!.value).dividedBy(

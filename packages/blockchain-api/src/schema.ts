@@ -62,7 +62,7 @@ export interface EventArgs {
   offset?: number
 }
 
-export type Token = 'cUSD' | 'cGLD'
+export type Token = 'cUSD' | 'cGLD' | 'cEUR'
 
 export interface TokenTransactionArgs {
   address: string

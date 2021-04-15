@@ -138,4 +138,58 @@ describe('CurrencyConversionAPI', () => {
     expect(mockDefaultGetExchangeRate).toHaveBeenCalledTimes(0)
     expect(mockGoldGetExchangeRate).toHaveBeenCalledTimes(0)
   })
+
+  it('should return 2 when using the same currency code', async () => {
+    const result = await currencyConversionAPI.getExchangeRate({
+      sourceCurrencyCode: 'cGLD',
+      currencyCode: 'EUR',
+    })
+    expect(result).toEqual(new BigNumber(2))
+    expect(mockDefaultGetExchangeRate).toHaveBeenCalledTimes(0)
+    expect(mockGoldGetExchangeRate).toHaveBeenCalledTimes(0)
+  })
+
+  // it('should return the currencies steps expected', async () => {
+  //   const result = await currencyConversionAPI.getConversionSteps(
+  //     'ABC',
+  //     'ABC',
+  //   )
+  //   expect(result).toEqual([])
+  // })
+
+  // it('should return the currencies steps CGLD -> cUSD -> USD', async () => {
+  //   const result = await currencyConversionAPI.getConversionSteps(
+  //     'cGLD',
+  //     'USD',
+  //   )
+  //   expect(result).toEqual(['cGLD', 'cUSD', 'USD'])
+  // })
+  // it('should return the currencies steps CGLD -> cEUR -> EUR', async () => {
+  //   const result = await currencyConversionAPI.getConversionSteps(
+  //     'cGLD',
+  //     'EUR',
+  //   )
+  //   expect(result).toEqual(['cGLD', 'cEUR', 'EUR'])
+  // })
+  // it('should return the currencies steps EUR -> cEUR -> CGLD', async () => {
+  //   const result = await currencyConversionAPI.getConversionSteps(
+  //     'EUR',
+  //     'cGLD',
+  //   )
+  //   expect(result).toEqual(['EUR', 'cEUR', 'cGLD'])
+  // })
+  // it('should return the currencies steps cUSD -> USD -> MXN', async () => {
+  //   const result = await currencyConversionAPI.getConversionSteps(
+  //     'cUSD',
+  //     'MXN',
+  //   )
+  //   expect(result).toEqual(['cUSD', 'USD', 'MXN'])
+  // })
+  // it('should return the currencies steps cEUR -> EUR -> MXN', async () => {
+  //   const result = await currencyConversionAPI.getConversionSteps(
+  //     'cEUR',
+  //     'MXN',
+  //   )
+  //   expect(result).toEqual(['cEUR', 'EUR', 'MXN'])
+  // })
 })

@@ -191,7 +191,6 @@ export class BlockscoutAPI extends RESTDataSource {
     console.info(
       `[Celo] getTokenTransactions address=${args.address} token=${token} localCurrencyCode=${args.localCurrencyCode}} rawTransactionCount=${rawTransactions.length} eventCount=${events.length}`
     )
-
     return events
       .filter((e) => e)
       .filter((event) => (token ? event.amount.currencyCode === token : true))

@@ -1,7 +1,15 @@
 import { DataSource, DataSourceConfig } from 'apollo-datasource'
 import BigNumber from 'bignumber.js'
 import { CurrencyConversionArgs, MoneyAmount } from '../schema'
-import { CGLD, CUSD, USD } from './consts'
+import {
+  CGLD,
+  CUSD,
+  stablePairs,
+  supportedCurrencies,
+  supportedPairs,
+  supportedStableTokens,
+  USD,
+} from './consts'
 import ExchangeRateAPI from './ExchangeRateAPI'
 import GoldExchangeRateAPI from './GoldExchangeRateAPI'
 
@@ -28,7 +36,7 @@ export default class CurrencyConversionAPI<TContext = any> extends DataSource {
     const toCode = currencyCode
 
     const steps = this.getConversionSteps(fromCode, toCode)
-
+    console.log(steps)
     const ratesPromises = []
     for (let i = 1; i < steps.length; i++) {
       const prevCode = steps[i - 1]
@@ -52,26 +60,52 @@ export default class CurrencyConversionAPI<TContext = any> extends DataSource {
       // Same code, nothing to do
       return []
     } else if (fromCode === CGLD || toCode === CGLD) {
-      // cGLD -> X (where X !== cUSD)
-      if (fromCode === CGLD && toCode !== CUSD) {
+      // cGLD -> X (where X !== celoStableToken)
+      if (fromCode === CGLD && !this.enumContains(supportedStableTokens, toCode.toUpperCase())) {
+        if (this.enumContains(supportedCurrencies, toCode) && toCode !== USD) {
+          return [CGLD, this.getStableToken(toCode), toCode]
+        }
         return [CGLD, CUSD, ...insertIf(toCode !== USD, USD), toCode]
       }
-      // X -> cGLD (where X !== cUSD)
-      else if (fromCode !== CUSD && toCode === CGLD) {
+      // Currency -> cGLD (where X !== celoStableToken)
+      else if (
+        !this.enumContains(supportedStableTokens, fromCode.toUpperCase()) &&
+        toCode === CGLD
+      ) {
+        if (this.enumContains(supportedCurrencies, fromCode) && fromCode !== USD) {
+          return [fromCode, this.getStableToken(fromCode), CGLD]
+        }
         return [fromCode, ...insertIf(fromCode !== USD, USD), CUSD, CGLD]
       }
     } else {
-      // cUSD -> X (where X !== USD)
-      if (fromCode === CUSD && toCode !== USD) {
-        return [CUSD, USD, toCode]
+      // celoStableToken -> X (where X!== currency)
+      if (
+        this.enumContains(supportedStableTokens, fromCode.toUpperCase()) &&
+        this.getCurrency(fromCode) !== toCode
+      ) {
+        return [fromCode, this.getCurrency(fromCode), toCode]
       }
-      // X -> cUSD (where X !== USD)
-      else if (fromCode !== USD && toCode === CUSD) {
-        return [fromCode, USD, CUSD]
+      // currency -> X (where X!== celoStableToken)
+      else if (
+        this.getCurrency(toCode) !== fromCode &&
+        this.enumContains(supportedStableTokens, toCode.toUpperCase())
+      ) {
+        return [fromCode, this.getCurrency(toCode), toCode]
       }
     }
-
     return [fromCode, toCode]
+  }
+
+  private enumContains(x: any, code: string) {
+    return Object.values(x).includes(code)
+  }
+
+  private getStableToken(code: string) {
+    return 'c' + code
+  }
+
+  private getCurrency(code: string) {
+    return code.substring(1)
   }
 
   private getSupportedExchangeRate(
@@ -81,15 +115,17 @@ export default class CurrencyConversionAPI<TContext = any> extends DataSource {
     impliedExchangeRates?: MoneyAmount['impliedExchangeRates']
   ): BigNumber | Promise<BigNumber> {
     const pair = `${fromCode}/${toCode}`
-
     if (impliedExchangeRates && impliedExchangeRates[pair]) {
       return new BigNumber(impliedExchangeRates[pair])
     }
-
-    if (pair === 'cUSD/USD' || pair === 'USD/cUSD') {
+    if (this.enumContains(stablePairs, pair)) {
       // TODO: use real rates once we have the data
       return new BigNumber(1)
-    } else if (pair === 'cGLD/cUSD' || pair === 'cUSD/cGLD') {
+    } else if (this.enumContains(supportedPairs, pair)) {
+      if (pair === 'cGLD/cEUR' || pair === 'cEUR/cGLD') {
+        // TODO: Get the real value
+        return new BigNumber(2)
+      }
       return this.goldExchangeRateAPI.getExchangeRate({
         sourceCurrencyCode: fromCode,
         currencyCode: toCode,
