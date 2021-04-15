@@ -329,22 +329,21 @@ export class Account extends React.Component<Props, State> {
     this.setState({ showRevokeModal: false })
   }
 
-  goToChangePin = () => {
-    ValoraAnalytics.track(SettingsEvents.change_pin_start)
-    ensurePincode()
-      .then((pinIsCorrect) => {
-        if (pinIsCorrect) {
-          ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_entered)
-          navigate(Screens.PincodeSet, {
-            isVerifying: false,
-            changePin: true,
-          })
-        }
-      })
-      .catch((error) => {
-        ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_error)
-        Logger.error('NavigationService@onPress', 'PIN ensure error', error)
-      })
+  goToChangePin = async () => {
+    try {
+      ValoraAnalytics.track(SettingsEvents.change_pin_start)
+      const pinIsCorrect = await ensurePincode()
+      if (pinIsCorrect) {
+        ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_entered)
+        navigate(Screens.PincodeSet, {
+          isVerifying: false,
+          changePin: true,
+        })
+      }
+    } catch (error) {
+      ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_error)
+      Logger.error('NavigationService@onPress', 'PIN ensure error', error)
+    }
   }
 
   render() {
