@@ -218,7 +218,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       ])
       .forEach(async (result) => {
         const [name, fee] = await result
-        feesMap[name] = fee
+        feesMap[name as string] = fee
         setProviderFees({ ...providerFees, ...feesMap })
       })
   }, [
@@ -271,7 +271,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                       <Text style={styles.restrictedText}>
                         {t('unsupportedPaymentMethod', {
                           paymentMethod:
-                            paymentMethod === PaymentMethod.BANK
+                            paymentMethod === PaymentMethod.Bank
                               ? 'bank account'
                               : 'debit or credit card',
                         })}

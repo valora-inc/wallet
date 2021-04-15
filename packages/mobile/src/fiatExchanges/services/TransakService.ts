@@ -22,14 +22,14 @@ export class TransakService extends CicoService {
 
   getFeesPolicy(paymentMethod: PaymentMethod) {
     // From: https://www.notion.so/On-ramp-Buy-Crypto-976ee96fc0764628ba990b550b1310d3
-    if (paymentMethod === PaymentMethod.CARD) {
+    if (paymentMethod === PaymentMethod.Card) {
       return {
         percentage: 3.9,
         extraPercentage: 0.3,
         minimum: 5,
       }
     }
-    if (paymentMethod === PaymentMethod.BANK) {
+    if (paymentMethod === PaymentMethod.Bank) {
       return {
         percentage: [0.25, 0.5],
       }
@@ -48,7 +48,7 @@ export class TransakService extends CicoService {
       isBuyOrSell: 'BUY',
       fiatAmount: requestedFiatAmount,
       paymentMethodId:
-        paymentMethod === PaymentMethod.BANK ? 'gbp_bank_transfer' : 'credit_debit_card',
+        paymentMethod === PaymentMethod.Bank ? 'gbp_bank_transfer' : 'credit_debit_card',
     })
       .then((response) => response.json())
       .then(({ response: { totalFee: fee } }) => ({ fee }))

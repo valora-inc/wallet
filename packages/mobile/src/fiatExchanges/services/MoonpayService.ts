@@ -24,14 +24,14 @@ export class MoonpayService extends CicoService {
 
   getFeesPolicy(paymentMethod: PaymentMethod) {
     // From: https://support.moonpay.com/hc/en-gb/articles/360011931517-How-much-does-it-cost-to-buy-cryptocurrency-with-MoonPay-
-    if (paymentMethod === PaymentMethod.CARD) {
+    if (paymentMethod === PaymentMethod.Card) {
       return {
         percentage: 4.5,
         minimum: 3.99,
         extraNetwork: true,
       }
     }
-    if (paymentMethod === PaymentMethod.BANK) {
+    if (paymentMethod === PaymentMethod.Bank) {
       return {
         percentage: 1,
         minimum: 3.99,
@@ -50,7 +50,7 @@ export class MoonpayService extends CicoService {
       baseCurrencyCode: fiatAsset.toLowerCase(),
       baseCurrencyAmount: requestedFiatAmount,
       paymentMethod:
-        paymentMethod === PaymentMethod.BANK ? 'sepa_bank_transfer' : 'credit_debit_card',
+        paymentMethod === PaymentMethod.Bank ? 'sepa_bank_transfer' : 'credit_debit_card',
     })
       .then((response) => response.json())
       .then(({ feeAmount: fee }) => ({ fee }))
