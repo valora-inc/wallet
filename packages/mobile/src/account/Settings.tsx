@@ -43,7 +43,7 @@ import { revokeVerification } from 'src/identity/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { ensurePincode, navigateBack } from 'src/navigator/NavigationService'
+import { ensurePincode, navigateBack, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
@@ -335,7 +335,7 @@ export class Account extends React.Component<Props, State> {
       .then((pinIsCorrect) => {
         if (pinIsCorrect) {
           ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_entered)
-          this.props.navigation.navigate(Screens.PincodeSet, {
+          navigate(Screens.PincodeSet, {
             isVerifying: false,
             changePin: true,
           })
