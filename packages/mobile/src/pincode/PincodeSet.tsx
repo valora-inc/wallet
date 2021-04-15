@@ -121,12 +121,12 @@ export class PincodeSet extends React.Component<Props, State> {
       this.props.setPincode(PincodeType.CustomPin)
       ValoraAnalytics.track(OnboardingEvents.pin_set)
       this.navigateToNextScreen()
-      if (this.props.route.params.changePin) {
+      if (this.props.route.params?.changePin) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_confirmed)
         Logger.showMessage(i18n.t('accountScreen10:pinChanged'))
       }
     } else {
-      if (this.props.route.params.changePin) {
+      if (this.props.route.params?.changePin) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
       }
       this.props.navigation.setParams({ isVerifying: false })
