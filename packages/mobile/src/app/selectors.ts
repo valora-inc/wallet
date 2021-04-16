@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { e164NumberSelector } from 'src/account/selectors'
 import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
 import { e164NumberToSaltSelector } from 'src/identity/reducer'
@@ -8,6 +9,7 @@ import {
   shouldUseKomenciSelector,
   verificationStatusSelector,
 } from 'src/verify/reducer'
+import { currentAccountSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
@@ -60,3 +62,13 @@ export const shortVerificationCodesEnabledSelector = (state: RootState) =>
   state.app.shortVerificationCodesEnabled
 
 export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
+
+export const showRaiseDailyLimitSelector = createSelector(
+  [currentAccountSelector, (state) => state.app.showRaiseDailyLimit],
+  (account, showRaiseDailyLimit) => {
+    if (!showRaiseDailyLimit || !account) {
+      return false
+    }
+    return account < showRaiseDailyLimit
+  }
+)

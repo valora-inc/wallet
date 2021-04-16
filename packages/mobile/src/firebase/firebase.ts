@@ -221,6 +221,7 @@ export function appRemoteFeatureFlagChannel() {
         bitfyUrl: flags?.bitfyUrl ?? null,
         flowBtcUrl: flags?.flowBtcUrl ?? null,
         hideVerification: flags?.hideVerification ?? false,
+        showRaiseDailyLimit: flags?.showRaiseDailyLimit ?? undefined,
         celoEducationUri: flags?.celoEducationUri ?? null,
         shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
         inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,
