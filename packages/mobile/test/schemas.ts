@@ -517,6 +517,7 @@ export const v8Schema = {
   app: {
     ...v7Schema.app,
     hideVerification: false,
+    showRaiseDailyLimit: undefined,
   },
   verify: {
     komenci: {
