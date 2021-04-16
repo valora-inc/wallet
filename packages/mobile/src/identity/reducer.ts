@@ -12,6 +12,7 @@ import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account
 import { VERIFICATION_STATE_EXPIRY_SECONDS } from 'src/config'
 import { features } from 'src/flags'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
+import i18n from 'src/i18n'
 import { Actions, ActionTypes } from 'src/identity/actions'
 import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
 import { ContactMatches, ImportContactsStatus, VerificationStatus } from 'src/identity/types'
@@ -21,7 +22,7 @@ import {
   ESTIMATED_COST_PER_ATTESTATION,
   NUM_ATTESTATIONS_REQUIRED,
 } from 'src/identity/verification'
-import { recipientHasAddress } from 'src/recipients/recipient'
+import { getDisplayName, recipientHasAddress } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { Actions as SendActions, StoreLatestInRecentsAction } from 'src/send/actions'
@@ -412,7 +413,7 @@ export const reducer = (
         type: Actions.UPDATE_KNOWN_ADDRESSES,
         knownAddresses: {
           [action.recipient.address]: {
-            name: action.recipient.name!,
+            name: getDisplayName(action.recipient, i18n.t),
             imageUrl: null,
           },
         },

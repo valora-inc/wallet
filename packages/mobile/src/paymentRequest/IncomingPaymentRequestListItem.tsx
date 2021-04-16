@@ -19,7 +19,7 @@ import { AddressValidationType, SecureSendDetails } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { declinePaymentRequest } from 'src/paymentRequest/actions'
-import { Recipient, recipientHasAddress, recipientHasNumber } from 'src/recipients/recipient'
+import { getAddress, getE164Number, Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import Logger from 'src/utils/Logger'
@@ -38,8 +38,8 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
   const [addressesFetched, setAddressesFetched] = useState(false)
   const navigation = useNavigation()
 
-  const e164PhoneNumber = recipientHasNumber(requester) ? requester.e164PhoneNumber : undefined
-  const requesterAddress = recipientHasAddress(requester) ? requester.address : undefined
+  const e164PhoneNumber = getE164Number(requester)
+  const requesterAddress = getAddress(requester)
 
   const secureSendDetails: SecureSendDetails | undefined = useSelector(
     (state: RootState) => state.identity.secureSendPhoneNumberMapping[e164PhoneNumber || '']

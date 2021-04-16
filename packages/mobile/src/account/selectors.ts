@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { RootState } from 'src/redux/reducers'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -15,11 +16,14 @@ export const promptFornoIfNeededSelector = (state: RootState) => state.account.p
 export const isProfileUploadedSelector = (state: RootState) => state.account.profileUploaded
 export const cUsdDailyLimitSelector = (state: RootState) => state.account.dailyLimitCusd
 
-export const currentUserRecipientSelector = (state: RootState) => {
-  return {
-    address: currentAccountSelector(state)!,
-    name: state.account.name ?? undefined,
-    thumbnailPath:
-      state.account.pictureUri ?? state.account.contactDetails.thumbnailPath ?? undefined,
+// TODO: create selector with reselect
+export const currentUserRecipientSelector = createSelector(
+  [currentAccountSelector, nameSelector, pictureSelector, userContactDetailsSelector],
+  (account, name, picture, contactDetails) => {
+    return {
+      address: account!,
+      name: name ?? undefined,
+      thumbnailPath: picture ?? contactDetails.thumbnailPath ?? undefined,
+    }
   }
-}
+)

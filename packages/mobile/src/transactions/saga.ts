@@ -9,7 +9,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import { fetchGoldBalance } from 'src/goldToken/actions'
 import { Actions as IdentityActions } from 'src/identity/actions'
-import { addressToE164NumberSelector } from 'src/identity/reducer'
+import { addressToE164NumberSelector, AddressToE164NumberType } from 'src/identity/reducer'
 import { updateValoraRecipientCache } from 'src/recipients/actions'
 import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector, valoraRecipientCacheSelector } from 'src/recipients/reducer'
@@ -107,8 +107,8 @@ export function* sendAndMonitorTransaction<T>(
 }
 
 function* refreshRecentTxRecipients() {
-  const addressToE164Number = yield select(addressToE164NumberSelector)
-  const recipientCache = yield select(phoneRecipientCacheSelector)
+  const addressToE164Number: AddressToE164NumberType = yield select(addressToE164NumberSelector)
+  const recipientCache: NumberToRecipient = yield select(phoneRecipientCacheSelector)
   const knownFeedTransactions: KnownFeedTransactionsType = yield select(
     knownFeedTransactionsSelector
   )
@@ -153,7 +153,7 @@ function* refreshRecentTxRecipients() {
 }
 
 function* addProfile(transaction: TransactionFeedFragment) {
-  const profiles = yield select(valoraRecipientCacheSelector)
+  const profiles: AddressToRecipient = yield select(valoraRecipientCacheSelector)
   // @ts-ignore transaction must have address because it is a TokenTransfer
   const address = transaction.address
   if (!profiles[address]) {

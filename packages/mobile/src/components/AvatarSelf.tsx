@@ -31,6 +31,7 @@ export function AvatarSelf({ iconSize, displayNameStyle }: Props) {
   } else {
     recipient = {
       address: account!,
+      name: displayName || undefined,
     }
   }
 

@@ -46,6 +46,14 @@ export function recipientHasContact(recipient: Recipient): recipient is ContactR
   return recipient && 'contactId' in recipient && 'name' in recipient && !!recipient.contactId
 }
 
+export function getE164Number(recipient: Recipient, e164Number?: string) {
+  return recipientHasNumber(recipient) ? recipient.e164PhoneNumber : e164Number
+}
+
+export function getAddress(recipient: Recipient) {
+  return recipientHasAddress(recipient) ? recipient.address : undefined
+}
+
 export function getDisplayName(recipient: Recipient, t: TFunction) {
   if (recipient.name) {
     return recipient.name
@@ -54,7 +62,7 @@ export function getDisplayName(recipient: Recipient, t: TFunction) {
   } else if (recipientHasNumber(recipient)) {
     return recipient.e164PhoneNumber
   } else {
-    return t('global:account') + ' ' + formatShortenedAddress(recipient.address)
+    return t('walletFlow5:feedItemAddress', formatShortenedAddress(recipient.address))
   }
 }
 
@@ -216,8 +224,8 @@ function nameCompare(a: FuzzyRecipient, b: FuzzyRecipient) {
 
 function nameCompareExceptPrioritized(prioritizedRecipients: ContactMatches) {
   return (a: FuzzyRecipient, b: FuzzyRecipient) => {
-    const e164A = recipientHasNumber(a) ? a.e164PhoneNumber : undefined
-    const e164B = recipientHasNumber(b) ? b.e164PhoneNumber : undefined
+    const e164A = getE164Number(a)
+    const e164B = getE164Number(b)
 
     if (e164A && prioritizedRecipients[e164A]) {
       if (e164B && prioritizedRecipients[e164B]) {

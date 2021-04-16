@@ -10,9 +10,9 @@ import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import { Namespaces, withTranslation } from 'src/i18n'
 import {
   getDisplayName,
+  getE164Number,
   Recipient,
   recipientHasAddress,
-  recipientHasNumber,
 } from 'src/recipients/recipient'
 
 const DEFAULT_ICON_SIZE = 40
@@ -25,10 +25,6 @@ interface OwnProps {
 }
 
 type Props = OwnProps & WithTranslation
-
-export function getE164Number(recipient: Recipient, e164Number?: string) {
-  return e164Number || (recipientHasNumber(recipient) && recipient.e164PhoneNumber)
-}
 
 export function Avatar(props: Props) {
   const defaultCountryCode = useSelector(defaultCountryCodeSelector) ?? undefined

@@ -1,6 +1,6 @@
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddressValidationType, SecureSendPhoneNumberMapping } from 'src/identity/reducer'
-import { Recipient, recipientHasNumber } from 'src/recipients/recipient'
+import { getE164Number, Recipient, recipientHasNumber } from 'src/recipients/recipient'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'identity/secureSend'
@@ -145,7 +145,7 @@ export function getAddressValidationType(
   recipient: Recipient,
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
 ) {
-  const e164PhoneNumber = recipientHasNumber(recipient) ? recipient.e164PhoneNumber : undefined
+  const e164PhoneNumber = getE164Number(recipient)
 
   if (
     !e164PhoneNumber ||
