@@ -16,10 +16,6 @@ export interface State {
   lastTimeBackgrounded: number
   sessionId: string
   minVersion: string | null
-  pontoEnabled: boolean
-  kotaniEnabled: boolean
-  bitfyUrl: string | null
-  flowBtcUrl: string | null
   celoEducationUri: string | null
   shortVerificationCodesEnabled: boolean
   inviteModalVisible: boolean
@@ -40,10 +36,6 @@ const initialState = {
   lastTimeBackgrounded: 0,
   sessionId: '',
   minVersion: null,
-  pontoEnabled: false,
-  kotaniEnabled: false,
-  bitfyUrl: null,
-  flowBtcUrl: null,
   shortVerificationCodesEnabled: false,
   celoEducationUri: null,
   inviteModalVisible: false,
@@ -147,10 +139,6 @@ export const appReducer = (
     case Actions.UPDATE_FEATURE_FLAGS:
       return {
         ...state,
-        pontoEnabled: action.flags.pontoEnabled,
-        kotaniEnabled: action.flags.kotaniEnabled,
-        bitfyUrl: action.flags.bitfyUrl,
-        flowBtcUrl: action.flags.flowBtcUrl,
         hideVerification: action.flags.hideVerification,
         showRaiseDailyLimit: action.flags.showRaiseDailyLimit,
         celoEducationUri: action.flags.celoEducationUri,

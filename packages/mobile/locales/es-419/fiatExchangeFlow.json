@@ -19,6 +19,8 @@
   "dollarsNotYetEnabledNote": "Los Celo Dólares aún no están disponibles en ningún proveedor. Para obtener Celo Dólares, compra CELO y cámbialos por Celo Dólares dentro de Valora, bajo la pestaña CELO.",
   "selectDigitalCurrency": "Selecciona una moneda digital",
   "selectPaymentMethod": "Pague con:",
+  "payWithBank": "Cuenta de banco",
+  "payWithCard": "Tarjeta de débito",
   "payWithExchange": "Exchange de criptomonedas",
   "selectCashOutMethod": "Recibe los fondos en:",
   "receiveOnAddress": "Dirección de cUSD/CELO",
@@ -28,7 +30,7 @@
   "bitfy": "Bitfy",
   "flowBtc": "FlowBTC",
   "fundingEducationDialog": {
-    "title": "Fondeando {{appName}}",
+    "title": "Agregar fondos a {{appName}}",
     "body": "{{appName}} corre sobre la Red Celo. {{appName}} funciona con Celo Dólares (cUSD), una moneda digital estable vinculada al dólar estadounidense.\n\nPara agregar fondos a {{appName}}, compra cUSD de uno de los proveedores disponibles en tu ubicación. Para más información por favor visita <0>{{link}}</0>",
     "dismiss": "OK"
   },
@@ -58,5 +60,11 @@
   "findMerchants": "Encuentra comercios asociados cerca de ti",
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
-  "restrictedRegion": "Soporte limitado en la región"
+  "cicoSuccess": {
+    "title": "¡Orden enviada!",
+    "bodyWithProvider": "{{provider}} está procesando tu orden. Recibirás tus fondos en un par de días.",
+    "bodyWithoutProvider": "El proveedor de servicios está procesando tu orden. Recibirás tus fondos dentro de un par de días."
+  },
+  "restrictedRegion": "Soporte limitado en la región",
+  "unsupportedPaymentMethod": "Pagar con {{paymentMethod}} no es compatible en tu región"
 }
