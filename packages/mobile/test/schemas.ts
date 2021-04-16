@@ -517,7 +517,6 @@ export const v8Schema = {
   app: {
     ...v7Schema.app,
     hideVerification: false,
-    showRaiseDailyLimit: undefined,
   },
   verify: {
     komenci: {
@@ -552,7 +551,10 @@ export const v8Schema = {
 
 export const v9Schema = {
   ...v8Schema,
-  app: _.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+  app: {
+    ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+    showRaiseDailyLimit: undefined,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
