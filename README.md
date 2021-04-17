@@ -4,20 +4,19 @@
   </a>
 </p>
 
-**Celo Monorepo - Official repository for core projects comprising the Celo platform**
+**Celo Wallet Monorepo - Official repository for core projects comprising the Celo Wallet**
 
-This repository contains the source code for the Celo core projects including the [smart contracts](https://github.com/celo-org/celo-monorepo/tree/master/packages/protocol), [wallet app](https://github.com/celo-org/celo-monorepo/tree/master/packages/mobile),
-and other packages. The source code for the Celo Blockchain which operates a node on the Celo Network is kept in a separate repo [here](https://github.com/celo-org/celo-blockchain).
+This repository contains the source code for the Celo mobile wallet, and other related services.
 
 <!-- row 1 - status -->
 
-[![CircleCI](https://img.shields.io/circleci/build/github/celo-org/celo-monorepo/master)](https://circleci.com/gh/celo-org/celo-monorepo/tree/master)
-[![Codecov](https://img.shields.io/codecov/c/github/celo-org/celo-monorepo)](https://codecov.io/gh/celo-org/celo-monorepo)
-[![GitHub contributors](https://img.shields.io/github/contributors/celo-org/celo-monorepo)](https://github.com/celo-org/celo-monorepo/graphs/contributors)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/celo-org/celo-monorepo)](https://github.com/celo-org/celo-monorepo/graphs/contributors)
-[![GitHub Stars](https://img.shields.io/github/stars/celo-org/celo-monorepo.svg)](https://github.com/celo-org/celo-monorepo/stargazers)
-![GitHub repo size](https://img.shields.io/github/repo-size/celo-org/celo-monorepo)
-[![GitHub](https://img.shields.io/github/license/celo-org/celo-monorepo?color=blue)](https://github.com/celo-org/celo-monorepo/blob/master/LICENSE)
+[![CircleCI](https://img.shields.io/circleci/build/github/celo-org/wallet/master)](https://circleci.com/gh/celo-org/wallet/tree/master)
+[![Codecov](https://img.shields.io/codecov/c/github/celo-org/wallet)](https://codecov.io/gh/celo-org/wallet)
+[![GitHub contributors](https://img.shields.io/github/contributors/celo-org/wallet)](https://github.com/celo-org/wallet/graphs/contributors)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/celo-org/wallet)](https://github.com/celo-org/wallet/graphs/contributors)
+[![GitHub Stars](https://img.shields.io/github/stars/celo-org/wallet.svg)](https://github.com/celo-org/wallet/stargazers)
+![GitHub repo size](https://img.shields.io/github/repo-size/celo-org/wallet)
+[![GitHub](https://img.shields.io/github/license/celo-org/wallet?color=blue)](https://github.com/celo-org/wallet/blob/master/LICENSE)
 
 <!-- row 2 - links & profiles -->
 
@@ -100,30 +99,19 @@ See [Developer's Guide](https://docs.celo.org/) for full details about the desig
 
 ## 🙋 <a id="issues"></a>Issues
 
-See the [issue backlog](https://github.com/celo-org/celo-monorepo/issues) for a list of active or proposed tasks. Feel free to create new issues to report bugs and/or request features.
+See the [issue backlog](https://github.com/celo-org/wallet/issues) for a list of active or proposed tasks. Feel free to create new issues to report bugs and/or request features.
 
 ## 📂 <a id="repo"></a>Repo Structure
 
 The repository has the following packages (sub projects):
 
-- [attestation-service](packages/attestation-service) - service run by validators on the Celo network to send SMS messages, enabling attestations of user phone numbers and their accounts on the Celo network
+
 - [blockchain-api](packages/blockchain-api) - service that uses Blockscout to present view of transactions by account for Celo Wallet activity feed
-- [celotool](packages/celotool) - scripts for deploying and managing testnets
-- [cli](packages/cli) - tool that uses ContractKit to interact with the Celo protocol ([docs](https://docs.celo.org/getting-started/using-the-cli))
-- [contractkit](packages/contractkit) - library to help developers and validators interact with the protocol and it's smart contracts ([docs](https://docs.celo.org/celo-sdk/contractkit))
-- [dappkit](packages/dappkit) - set of functions for mobile DApps to work with the wallet app (ex. sign transactions and access the user's account) ([docs](https://docs.celo.org/celo-sdk/dappkit))
 - [dev-utils](packages/dev-utils) - a utils package for use as a dev dependency
-- [docs](packages/docs) - technical documentation for the Celo project ([live](https://docs.celo.org/))
-- [faucet](packages/faucet) - faucet deployment configuration ([live](https://celo.org/build/faucet))
-- [helm-charts](packages/helm-charts) - templatized deployments of entire environments to Kubernetes clusters
 - [mobile](packages/mobile) - Android wallet app for the Celo platform ([docs](https://docs.celo.org/getting-started/using-the-mobile-wallet), [live](https://play.google.com/store/apps/details?id=org.celo.mobile.alfajores))
 - [notification-service](packages/notification-service) - service for managing push notifications for Celo Wallet
-- [protocol](packages/protocol) - identity, stability and other smart contracts for the Celo protocol ([docs](https://docs.celo.org/celo-codebase/protocol))
 - [react-components](packages/react-components) - generalized react native components
-- [reserve-site](packages/reserve-site) - website for ([Celo Reserve.org](https://celoreserve.org/))
-- [terraform-modules](packages/terraform-modules) - templatized deployments of entire VM-based testnets for Google Cloud Platform
 - [typescript](packages/typescript) - no README available (improve?)
-- [utils](packages/utils) - no README available (improve?)
 
 Code owners for each package can be found in [.github/CODEOWNERS](.github/CODEOWNERS).
 
