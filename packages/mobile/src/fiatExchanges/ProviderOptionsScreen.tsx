@@ -137,27 +137,27 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashIn: [
       {
         id: CicoProviderNames.Moonpay,
-        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
+        paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
         restricted: MOONPAY_RESTRICTED,
         onSelected: () =>
           openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
         id: CicoProviderNames.Simplex,
-        paymentMethods: [PaymentMethod.CARD],
+        paymentMethods: [PaymentMethod.Card],
         restricted: SIMPLEX_RESTRICTED,
         onSelected: () => openSimplex(account),
       },
       {
         id: CicoProviderNames.Ramp,
-        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
+        paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
         restricted: RAMP_RESTRICTED,
         onSelected: () =>
           openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
       },
       {
         id: CicoProviderNames.Transak,
-        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
+        paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
         restricted: TRANSAK_RESTRICTED,
         onSelected: () =>
           openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
@@ -195,7 +195,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                     <Text style={styles.restrictedText}>
                       {t('unsupportedPaymentMethod', {
                         paymentMethod:
-                          paymentMethod === PaymentMethod.BANK
+                          paymentMethod === PaymentMethod.Bank
                             ? 'bank account'
                             : 'debit or credit card',
                       })}
