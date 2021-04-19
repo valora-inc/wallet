@@ -123,8 +123,12 @@ export default class CurrencyConversionAPI<TContext = any> extends DataSource {
       return new BigNumber(1)
     } else if (this.enumContains(supportedPairs, pair)) {
       if (pair === 'cGLD/cEUR' || pair === 'cEUR/cGLD') {
-        // TODO: Get the real value
-        return new BigNumber(2)
+        // TODO: Get the real value. Currently firebase don't keep this rate.
+        return this.goldExchangeRateAPI.getExchangeRate({
+          sourceCurrencyCode: fromCode,
+          currencyCode: toCode,
+          timestamp,
+        })
       }
       return this.goldExchangeRateAPI.getExchangeRate({
         sourceCurrencyCode: fromCode,
