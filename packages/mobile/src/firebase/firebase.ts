@@ -271,6 +271,7 @@ export async function fetchLostAccounts() {
     .once(VALUE_CHANGE_HOOK)
     .then((snapshot) => snapshot.val())
     .then((values) => values.map((address: string) => address.toLowerCase()))
+    .catch(() => [])
 }
 
 export async function cUsdDailyLimitChannel(address: string) {
