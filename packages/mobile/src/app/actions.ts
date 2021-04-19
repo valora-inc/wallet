@@ -30,6 +30,8 @@ export enum Actions {
   UPDATE_FEATURE_FLAGS = 'APP/UPDATE_FEATURE_FLAGS',
   TOGGLE_INVITE_MODAL = 'APP/TOGGLE_INVITE_MODAL',
   ACTIVE_SCREEN_CHANGED = 'APP/ACTIVE_SCREEN_CHANGED',
+  APP_MOUNTED = 'APP/APP_MOUNTED',
+  APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
 }
 
 export interface SetAppState {
@@ -90,6 +92,14 @@ export interface Unlock {
   type: Actions.UNLOCK
 }
 
+export interface AppMounted {
+  type: Actions.APP_MOUNTED
+}
+
+export interface AppUnmounted {
+  type: Actions.APP_UNMOUNTED
+}
+
 export interface SetSessionId {
   type: Actions.SET_SESSION_ID
   sessionId: string
@@ -129,6 +139,8 @@ export type ActionTypes =
   | UpdateFeatureFlagsAction
   | InviteModalAction
   | ActiveScreenChangedAction
+  | AppMounted
+  | AppUnmounted
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -184,6 +196,14 @@ export const appLock = (): Lock => ({
 
 export const appUnlock = (): Unlock => ({
   type: Actions.UNLOCK,
+})
+
+export const appMounted = (): AppMounted => ({
+  type: Actions.APP_MOUNTED,
+})
+
+export const appUnmounted = (): AppUnmounted => ({
+  type: Actions.APP_UNMOUNTED,
 })
 
 export const setSessionId = (sessionId: string) => ({
