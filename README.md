@@ -46,33 +46,28 @@ Contents:
 
 <!-- TOC -->
 
-- [How to build Valora](#build)
 - [Celo's Mission - Prosperity for All](#mission)
 - [The Valora Stack](#stack)
-- [Documentation](#docs)
+- [Build Valora Locally](#build)
 - [Issues](#issues)
 - [Repo Structure](#repo)
 - [Contributing](#contributing)
 - [Ask Questions, Find Answers, Get in Touch](#ask)
 - [License](#license)
-  <!-- /TOC -->
-  
-## 🥅 <a id="build"></a>How to Build Valora Locally 
-To setup Valora locally, follow directions here: https://github.com/celo-org/wallet/tree/main/packages/mobile. 
 
+  <!-- /TOC -->
 
 ## 🥅 <a id="mission"></a>Celo's Mission - Prosperity for All
 
 Celo, pronounced /ˈtselo/, means ‘purpose’ in Esperanto. In a similar spirit, we are aiming to create a new platform to connect people globally and bring financial stability to those who need it most. We believe blockchain technology is one of the most exciting innovations in recent history and as a community we look to push the boundaries of what is possible with it today. More importantly, we are driven by purpose -- to solve real-world problems such as lack of access to sound currency, or friction for cash-transfer programs aimed to alleviate poverty. Our mission is to build a monetary system that creates the conditions for prosperity for all.
 
 ## 🧱 <a id="stack"></a>The Valora Stack
-(TBW) 
 
-## 📚 <a id="docs"></a>Documentation
+(TBW)
 
-Follow the instructions in [SETUP.md](SETUP.md) to get a development environment set up.
+## 🥅 <a id="build"></a>Build Valora Locally
 
-See [Developer's Guide](https://docs.celo.org/) for full details about the design of the Celo protocol and other information about running these projects.
+To setup Valora locally, follow setup instructions here: https://github.com/celo-org/wallet/tree/main/packages/mobile.
 
 ## 🙋 <a id="issues"></a>Issues
 
