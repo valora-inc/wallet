@@ -2,13 +2,13 @@
   "cancel": "Cancelar",
   "inviteWithWhatsapp": "Convidar com o WhatsApp",
   "inviteWithSMS": "Convidar com SMS",
-  "inviteFee": "Taxa de convite",
-  "whySendFees": "Esta taxa cobre os custos para o novo usuário verificar seu número de telefone",
-  "whyReceiveFees": "Você recebeu dinheiro para verificar sua conta",
+  "inviteFee": "Taxa de Convite",
+  "whySendFees": "Esta taxa cobre os custos para o novo usuário confirmar seu número de celular",
+  "whyReceiveFees": "Você recebeu dinheiro para confirmar sua conta",
   "edit": "Editar",
   "to": "Para",
   "inviteSent": "Convite enviado",
-  "searchForSomeone": "Pesquise alguém usando o nome ou número de telefone",
+  "searchForSomeone": "Pesquise alguém usando o nome ou número de celular",
   "redeemFailed": "Falha ao resgatar o código ",
   "redeemInviteTimeout": "O convite para resgatar expirou",
   "accountSetupFailed": "Falha ao criar sua conta",
@@ -19,18 +19,18 @@
   "escrowPaymentNotificationTitle": "{{mobile}} foi convidado",
   "inviteDialog": {
     "title": "Convide um amigo",
-    "body": "Conecte-se e compartilhe valor com seus amigos e familiares no Valora.",
+    "body": "Conecte-se e compartilhe valor com seus amigos e familiares na Valora.",
     "button": "Convidar"
   },
   "sendAndInvite": "Enviar e convidar",
   "inviteAndSendDialog": {
     "title": "Convidar e enviar",
-    "body": "Seu pagamento para {{name}} estará esperando por ele(a) assim que o número de telefone for verificado. Compartilhe uma mensagem de convite com eles para se inscrever no {{appName}} e reivindicar seu pagamento!",
+    "body": "Seu pagamento para {{name}} estará esperando por ele(a) assim que o número de telefone for confirmado. Compartilhe uma mensagem de convite para ele(a) se inscrever na {{appName}} e resgatar seu pagamento!",
     "button": "Convidar"
   },
   "inviteRewardsBanner": {
     "title": "Ganhe até US$5 ao indicar amigos!",
-    "body": "Envie valor para um amigo para ganhar $ 1 no CELO quando ele se cadastrar. Até 5 amigos por semana."
+    "body": "Envie fundos para um amigo para ganhar $ 1 em CELO quando ele se cadastrar. Até 5 amigos por semana."
   },
   "getReward": "Receba ${{reward}}"
 }

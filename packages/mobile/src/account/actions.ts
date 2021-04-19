@@ -3,6 +3,7 @@ import { PincodeType } from 'src/account/reducer'
 export enum Actions {
   CHOOSE_CREATE_ACCOUNT = 'ACCOUNT/CHOOSE_CREATE',
   CHOOSE_RESTORE_ACCOUNT = 'ACCOUNT/CHOOSE_RESTORE',
+  START_STORE_WIPE_RECOVERY = 'ACCOUNT/START_STORE_WIPE_RECOVERY',
   CANCEL_CREATE_OR_RESTORE_ACCOUNT = 'ACCOUNT/CANCEL_CREATE_OR_RESTORE_ACCOUNT',
   SET_NAME = 'ACCOUNT/SET_NAME',
   SET_PHONE_NUMBER = 'ACCOUNT/SET_PHONE_NUMBER',
@@ -37,6 +38,11 @@ export interface ChooseCreateAccountAction {
 }
 export interface ChooseRestoreAccountAction {
   type: Actions.CHOOSE_RESTORE_ACCOUNT
+}
+
+export interface StartStoreWipeRecoveryAction {
+  type: Actions.START_STORE_WIPE_RECOVERY
+  accountToRecover: string
 }
 
 export interface CancelCreateOrRestoreAccountAction {
@@ -150,6 +156,7 @@ export interface SetRetryVerificationWithFornoAction {
 export interface ClearStoredAccountAction {
   type: Actions.CLEAR_STORED_ACCOUNT
   account: string
+  onlyReduxState: boolean
 }
 
 export interface ProfileUploadedAction {
@@ -164,6 +171,7 @@ export interface UpdateDailyLimitAction {
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
+  | StartStoreWipeRecoveryAction
   | CancelCreateOrRestoreAccountAction
   | SetNameAction
   | SetPhoneNumberAction
@@ -201,6 +209,13 @@ export function chooseCreateAccount(): ChooseCreateAccountAction {
 export function chooseRestoreAccount(): ChooseRestoreAccountAction {
   return {
     type: Actions.CHOOSE_RESTORE_ACCOUNT,
+  }
+}
+
+export function startStoreWipeRecovery(accountToRecover: string): StartStoreWipeRecoveryAction {
+  return {
+    type: Actions.START_STORE_WIPE_RECOVERY,
+    accountToRecover,
   }
 }
 
@@ -332,9 +347,13 @@ export const setUserContactDetails = (
   thumbnailPath,
 })
 
-export const clearStoredAccount = (account: string): ClearStoredAccountAction => ({
+export const clearStoredAccount = (
+  account: string,
+  onlyReduxState: boolean = false
+): ClearStoredAccountAction => ({
   type: Actions.CLEAR_STORED_ACCOUNT,
   account,
+  onlyReduxState,
 })
 
 export const profileUploaded = (): ProfileUploadedAction => ({

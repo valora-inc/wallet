@@ -2,7 +2,16 @@ import { sleep } from '@celo/utils/lib/async'
 import firebase from '@react-native-firebase/app'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import { eventChannel } from 'redux-saga'
-import { call, cancelled, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
+import {
+  call,
+  cancelled,
+  put,
+  select,
+  spawn,
+  take,
+  takeEvery,
+  takeLatest,
+} from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { Actions as AppActions, SetLanguage } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -10,7 +19,13 @@ import { FIREBASE_ENABLED } from 'src/config'
 import { updateCeloGoldExchangeRateHistory } from 'src/exchange/actions'
 import { exchangeHistorySelector, ExchangeRate, MAX_HISTORY_RETENTION } from 'src/exchange/reducer'
 import { Actions, firebaseAuthorized } from 'src/firebase/actions'
-import { initializeAuth, initializeCloudMessaging, setUserLanguage } from 'src/firebase/firebase'
+import {
+  checkInitialNotification,
+  initializeAuth,
+  initializeCloudMessaging,
+  setUserLanguage,
+  watchFirebaseNotificationChannel,
+} from 'src/firebase/firebase'
 import Logger from 'src/utils/Logger'
 import { getRemoteTime } from 'src/utils/time'
 import { getAccount } from 'src/web3/saga'
@@ -91,7 +106,7 @@ function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
       const result: ExchangeRate[] = []
       snapshot.forEach((childSnapshot: FirebaseDatabaseTypes.DataSnapshot) => {
         result.push(childSnapshot.val())
-        return false
+        return undefined
       })
       emit(result)
     }
@@ -99,21 +114,22 @@ function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
     // timestamp + 1 is used because .startAt is inclusive
     const startAt = lastTimeUpdated + 1 || now - MAX_HISTORY_RETENTION
 
+    const onValueChange = firebase
+      .database()
+      .ref(`${EXCHANGE_RATES}/cGLD/cUSD`)
+      .orderByChild('timestamp')
+      .startAt(startAt)
+      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
+
     const cancel = () => {
       firebase
         .database()
         .ref(`${EXCHANGE_RATES}/cGLD/cUSD`)
         .orderByChild('timestamp')
         .startAt(startAt)
-        .off(VALUE_CHANGE_HOOK, emitter)
+        .off(VALUE_CHANGE_HOOK, onValueChange)
     }
 
-    firebase
-      .database()
-      .ref(`${EXCHANGE_RATES}/cGLD/cUSD`)
-      .orderByChild('timestamp')
-      .startAt(startAt)
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
     return cancel
   })
 }
@@ -141,4 +157,6 @@ export function* firebaseSaga() {
   yield spawn(initializeFirebase)
   yield spawn(watchLanguage)
   yield spawn(subscribeToCeloGoldExchangeRateHistory)
+  yield takeLatest(AppActions.APP_MOUNTED, watchFirebaseNotificationChannel)
+  yield takeLatest(AppActions.APP_MOUNTED, checkInitialNotification)
 }

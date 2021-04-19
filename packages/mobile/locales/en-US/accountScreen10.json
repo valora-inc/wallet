@@ -38,7 +38,7 @@
   },
   "promptConfirmRevokeModal": {
     "header": "Are you sure you want to revoke your Valora account?",
-    "body": "Once revoked, this account will not be able reverify. Only revoke if you are sure you will never need this account again.",
+    "body": "Once revoked, this account will not be able to reconfirm. Only revoke if you are sure you will never need this account again.",
     "revoke": "Revoke"
   },
   "testFaqLink": "{{appName}} FAQ",
@@ -69,5 +69,8 @@
   "addPhoto": "Add Photo",
   "chooseFromLibrary": "Choose from Library",
   "takePhoto": "Take Photo",
-  "removePhoto": "Remove Photo"
+  "removePhoto": "Remove Photo",
+  "storeRecoveryTitle": "We need you to setup your account again",
+  "storeRecoveryBody": "There’s been an error. We’re aware of the issue and working to fix it. In the meantime, you will need to go through the setup process again.",
+  "storeRecoveryButton": "Restore Account"
 }

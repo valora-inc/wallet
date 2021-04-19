@@ -1,8 +1,10 @@
+import _ from 'lodash'
 import { PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
+import { idle, KomenciAvailable } from 'src/verify/reducer'
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -473,6 +475,8 @@ export const v7Schema = {
     ...v6Schema.app,
     activeScreen: '',
     celoEducationUri: null,
+    bitfyUrl: null,
+    flowBtcUrl: null,
     shortVerificationCodesEnabled: false,
   },
   account: {
@@ -497,6 +501,58 @@ export const v7Schema = {
   },
 }
 
+export const v8Schema = {
+  ...v7Schema,
+  identity: _.omit(
+    v7Schema.identity,
+    'feelessAttestationCodes',
+    'feelessProcessingInputCode',
+    'feelessAcceptedAttestationCodes',
+    'feelessNumCompleteAttestations',
+    'feelessVerificationStatus',
+    'verificationState',
+    'feelessVerificationState',
+    'feelessLastRevealAttempt'
+  ),
+  app: {
+    ...v7Schema.app,
+    hideVerification: false,
+  },
+  verify: {
+    komenci: {
+      errorTimestamps: [],
+      unverifiedMtwAddress: null,
+      sessionActive: false,
+      sessionToken: '',
+      callbackUrl: undefined,
+      captchaToken: '',
+    },
+    status: {
+      isVerified: false,
+      numAttestationsRemaining: 3,
+      total: 0,
+      completed: 0,
+      komenci: true,
+    },
+    actionableAttestations: [],
+    retries: 0,
+    currentState: idle(),
+    komenciAvailable: KomenciAvailable.Unknown,
+    withoutRevealing: false,
+    TEMPORARY_override_withoutVerification: undefined,
+  },
+  account: {
+    ...v7Schema.account,
+    recoveringFromStoreWipe: false,
+    accountToRecoverFromStoreWipe: undefined,
+  },
+}
+
+export const v9Schema = {
+  ...v8Schema,
+  app: _.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v7Schema as Partial<RootState>
+  return v9Schema as Partial<RootState>
 }

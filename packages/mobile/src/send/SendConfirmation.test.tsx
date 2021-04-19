@@ -6,12 +6,13 @@ import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { features } from 'src/flags'
+import { CURRENCY_ENUM } from 'src/geth/consts'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getSendFee } from 'src/send/saga'
 import SendConfirmation from 'src/send/SendConfirmation'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
 import {
   mockAccount2Invite,
   mockAccountInvite,
@@ -20,7 +21,21 @@ import {
   mockTransactionData,
 } from 'test/values'
 
-const TEST_FEE = new BigNumber(10000000000000000)
+// A fee of 0.01 cUSD.
+const TEST_FEE_INFO_CUSD = {
+  fee: new BigNumber(10).pow(16),
+  gas: new BigNumber(200000),
+  gasPrice: new BigNumber(10).pow(10).times(5),
+  currency: CURRENCY_ENUM.DOLLAR,
+}
+
+// A fee of 0.01 CELO.
+const TEST_FEE_INFO_CELO = {
+  fee: new BigNumber(10).pow(16),
+  gas: new BigNumber(200000),
+  gasPrice: new BigNumber(10).pow(10).times(5),
+  currency: CURRENCY_ENUM.GOLD,
+}
 
 jest.mock('src/send/saga')
 
@@ -52,8 +67,8 @@ describe('SendConfirmation', () => {
     mockedGetSendFee.mockClear()
   })
 
-  it('renders correctly for send payment confirmation', async () => {
-    mockedGetSendFee.mockImplementation(async () => TEST_FEE)
+  it('renders correctly for send payment confirmation with cUSD fees', async () => {
+    mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
 
     const store = createMockStore({
       stableToken: {
@@ -67,21 +82,54 @@ describe('SendConfirmation', () => {
       </Provider>
     )
 
-    // Initial render
+    // Initial render.
     expect(tree).toMatchSnapshot()
-    // TODO: figure out why fee line items arent rendering
-    // fireEvent.press(tree.getByText('feeEstimate'))
-    // Run timers, because Touchable adds some delay
-    // jest.runAllTimers()
-    // expect(tree.queryByText('securityFee')).not.toBeNull()
-    // expect(tree.queryByText('0.0100')).toBeNull()
+    fireEvent.press(tree.getByText('feeEstimate'))
 
-    // TODO figure out why this waitForElement isn't working here and in tests below.
-    // Wait for fee to be calculated and displayed
-    // await waitForElement(() => getByText('0.001'))
-    // expect(queryByText('0.001')).not.toBeNull()
+    // Run timers, because Touchable adds some delay.
+    jest.runAllTimers()
+    // Prevents an unexplained error: TypeError: require(...) is not a function
+    await sleep(1000)
 
-    // expect(toJSON()).toMatchSnapshot()
+    // Wait for fee to be calculated and displayed as "$0.013".
+    // NOTE: Use regex here because the text may be split by a newline.
+    await waitForElement(() => tree.getByText(/\$\s*0\.0133/s))
+    expect(tree).toMatchSnapshot()
+    // Query for the total amount, which should include the fee.
+    expect(tree.queryByText(/\$\s*1\.34/s)).not.toBeNull()
+  })
+
+  // TODO: Use the logic above for CELO fees
+  it('renders correctly for send payment confirmation with CELO fees', async () => {
+    mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CELO)
+
+    const store = createMockStore({
+      stableToken: {
+        balance: '200',
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <SendConfirmation {...mockScreenProps} />
+      </Provider>
+    )
+
+    // Initial render.
+    expect(tree).toMatchSnapshot()
+    fireEvent.press(tree.getByText('feeEstimate'))
+
+    // Run timers, because Touchable adds some delay.
+    jest.runAllTimers()
+    // Prevents an unexplained error: TypeError: require(...) is not a function
+    await sleep(1000)
+
+    // Wait for fee to be calculated and displayed as "0.01".
+    await waitForElement(() => tree.getByText(/0\.01/s))
+    expect(tree).toMatchSnapshot()
+    // Query for the total amount, which should include the fee.
+    // NOTE: CELO fees are currently no combined into the total.
+    // expect(tree.queryByText(/\$\s*1\.34/s)).not.toBeNull()
   })
 
   it('shows a generic `calculateFeeFailed` error when fee estimate fails due to an unknown error', async () => {
@@ -293,7 +341,7 @@ describe('SendConfirmation with Komenci enabled', () => {
   })
 
   it('renders correct modal for invitations', async () => {
-    mockedGetSendFee.mockImplementation(async () => TEST_FEE)
+    mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
 
     const store = createMockStore({
       stableToken: {

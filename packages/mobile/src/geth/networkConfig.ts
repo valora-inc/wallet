@@ -1,17 +1,13 @@
 import { Address } from '@celo/base'
 import { OdisUtils } from '@celo/identity'
 import {
-  BIDALI_URL_ALFAJORES,
-  BIDALI_URL_MAINNET,
+  BIDALI_URL,
   DEFAULT_SYNC_MODE,
   DEFAULT_TESTNET,
   FORNO_ENABLED_INITIALLY,
   GETH_USE_FULL_NODE_DISCOVERY,
   GETH_USE_STATIC_NODES,
-  RAMP_API_KEY,
-  RECAPTCHA_SITE_KEY_ALFAJORES,
-  RECAPTCHA_SITE_KEY_MAINNET,
-  TRANSAK_API_KEY,
+  RECAPTCHA_SITE_KEY,
 } from 'src/config'
 import { GethSyncMode } from 'src/geth/consts'
 import Logger from 'src/utils/Logger'
@@ -28,11 +24,10 @@ interface NetworkConfig {
   blockchainApiUrl: string
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
+  moonpayWidgetUrl: string
   signMoonpayUrl: string
   rampWidgetUrl: string
-  rampApiKey: string
   transakWidgetUrl: string
-  transakApiKey: string
   useDiscovery: boolean
   useStaticNodes: boolean
   komenciUrl: string
@@ -42,7 +37,11 @@ interface NetworkConfig {
   bidaliUrl: string
   CIP8AuthorizerUrl: string
   CIP8MetadataUrl: string
+  komenciLoadCheckEndpoint: string
 }
+
+const moonpayWidgetStaging = 'https://buy-staging.moonpay.io/'
+const moonpayWidgetProd = 'https://buy.moonpay.io/'
 
 const signMoonpayUrlStaging =
   'https://us-central1-celo-testnet-production.cloudfunctions.net/signMoonpayStaging'
@@ -75,6 +74,8 @@ const CIP8_AUTHORIZER_URL_ALFAJORES = 'https://alfajores-stokado.celo-testnet.or
 const CIP8_METADATA_URL_ALFAJORES = 'https://alfajores-stokado-data.celo-testnet.org'
 const CIP8_AUTHORIZER_URL_MAINNET = 'https://rc1-stokado.celo-testnet.org/api/authorize'
 const CIP8_METADATA_URL_MAINNET = 'https://rc1-stokado-data.celo-testnet.org'
+const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'https://staging-komenci.azurefd.net/v1/ready'
+const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1/ready'
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
@@ -84,20 +85,20 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com/',
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
+    moonpayWidgetUrl: moonpayWidgetStaging,
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
-    rampApiKey: RAMP_API_KEY,
     transakWidgetUrl: transakWidgetStaging,
-    transakApiKey: TRANSAK_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_STAGING,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_STAGING,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
-    recaptchaSiteKey: RECAPTCHA_SITE_KEY_ALFAJORES,
-    bidaliUrl: BIDALI_URL_ALFAJORES,
     CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_ALFAJORES,
     CIP8MetadataUrl: CIP8_METADATA_URL_ALFAJORES,
+    recaptchaSiteKey: RECAPTCHA_SITE_KEY,
+    bidaliUrl: BIDALI_URL,
+    komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
   },
   [Testnets.mainnet]: {
     nodeDir: `.${Testnets.mainnet}`,
@@ -106,20 +107,20 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com/',
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
+    moonpayWidgetUrl: moonpayWidgetProd,
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
-    rampApiKey: RAMP_API_KEY,
     transakWidgetUrl: transakWidgetProd,
-    transakApiKey: TRANSAK_API_KEY,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_MAINNET,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_MAINNET,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
-    recaptchaSiteKey: RECAPTCHA_SITE_KEY_MAINNET,
-    bidaliUrl: BIDALI_URL_MAINNET,
     CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_MAINNET,
     CIP8MetadataUrl: CIP8_METADATA_URL_MAINNET,
+    recaptchaSiteKey: RECAPTCHA_SITE_KEY,
+    bidaliUrl: BIDALI_URL,
+    komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
   },
 }
 

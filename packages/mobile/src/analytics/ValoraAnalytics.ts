@@ -1,4 +1,5 @@
 import Analytics, { Analytics as analytics } from '@segment/analytics-react-native'
+import Adjust from '@segment/analytics-react-native-adjust'
 import Firebase from '@segment/analytics-react-native-firebase'
 import { sha256 } from 'ethereumjs-util'
 import DeviceInfo from 'react-native-device-info'
@@ -42,7 +43,7 @@ async function getDeviceInfo() {
 }
 
 const SEGMENT_OPTIONS: analytics.Configuration = {
-  using: [Firebase],
+  using: [Firebase, Adjust],
   flushAt: 20,
   debug: __DEV__,
   trackAppLifecycleEvents: true,

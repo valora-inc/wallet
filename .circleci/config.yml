@@ -257,6 +257,13 @@ jobs:
           path: packages/mobile/e2e/artifacts
           destination: mobile/e2e/artifacts
 
+      - store_artifacts:
+          path: packages/mobile/e2e/test-results
+          destination: mobile/e2e/artifacts
+
+      - store_test_results:
+          path: packages/mobile/e2e/test-results
+
       - save_cache:
           key: yarn-v4-{{ arch }}-{{ .Branch }}-{{ checksum "packages/mobile/android/build.gradle" }}-{{ checksum "packages/mobile/android/settings.gradle" }}-{{ checksum "packages/mobile/android/app/build.gradle" }}-{{ checksum "packages/mobile/.env.test" }}
           paths:
@@ -359,6 +366,12 @@ jobs:
       - store_artifacts:
           path: packages/mobile/e2e/artifacts
           destination: mobile/e2e/artifacts
+      - store_artifacts:
+          path: packages/mobile/e2e/test-results
+          destination: mobile/e2e/artifacts
+      - store_test_results:
+          path: packages/mobile/e2e/test-results
+
 
   lint-checks:
     <<: *defaults
@@ -377,6 +390,23 @@ jobs:
           at: ~/app
       - run: ./scripts/ci_check_vulnerabilities.sh
 
+  general-tests:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/app
+
+      - run:
+          name: jest tests
+          command: |
+            mkdir -p test-results/jest
+            yarn run lerna \
+              --ignore @celo/mobile \
+              run test
+
+      - store_test_results:
+          path: test-results
+
   mobile-test:
     <<: *defaults
     steps:
@@ -386,6 +416,11 @@ jobs:
       - run:
           name: Ensure translations are not missing
           command: |
+            if [[ "$CIRCLE_BRANCH" != l10n/* ]]; then
+              # We want to check translations only when they are complete
+              echo "Skipping translations check on non l10n branches"
+              exit 0
+            fi
             cd packages/mobile
             yarn --cwd packages/mobile test:verify-locales
 
@@ -435,6 +470,9 @@ workflows:
       - vulnerability-checks:
           requires:
             - install_dependencies
+      - general-tests:
+          requires:
+            - lint-checks
       - mobile-test:
           requires:
             - lint-checks
