@@ -107,7 +107,9 @@ function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
     const singleItemEmitter = (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
       emit([snapshot.val()])
     }
-    let cancelFunction = () => {}
+    let cancelFunction = () => {
+      return
+    }
     const listenForNewElements = (newElementsStartAt: number) => {
       cancelFunction = firebase
         .database()
@@ -136,6 +138,9 @@ function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
       .orderByChild('timestamp')
       .startAt(startAt)
       .once(VALUE_CHANGE_HOOK, fullListEmitter, errorCallback)
+      .catch((error) => {
+        Logger.error(TAG, 'Error while fetching exchange rates', error)
+      })
 
     return cancelFunction
   })
