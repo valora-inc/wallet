@@ -7,7 +7,7 @@
   "welcome": {
     "title": "Share money with those you value",
     "createAccount": "Create new account",
-    "restoreAccount": "I have an account"
+    "restoreAccount": "Restore my account"
   },
   "contacts": {
     "header": "Connect Contacts",
@@ -24,7 +24,7 @@
     }
   },
   "createAccount": "Create Account",
-  "restoreAccount": "Restore my Account",
+  "restoreAccount": "Restore My Account",
   "step": "Step {{step}} of 5",
   "selectCountryCode": "Select Country Code",
   "pincodeSet": {
@@ -52,7 +52,7 @@
     "resume": "Resume",
     "doINeedToConfirm": "Do I need to confirm?",
     "skipForNow": "Skip for now",
-    "bodyInsufficientBalance": "Your current balance is not high enough to complete the verification process.\n\nPlease try again when you have added funds to your wallet.",
+    "bodyInsufficientBalance": "Your current balance is not high enough to complete the confirmation process.\n\nPlease try again when you have added funds to your wallet.",
     "bodyAlreadyVerified": "Your number is already confirmed!"
   },
   "verificationSkipDialog": {
@@ -114,5 +114,6 @@
   },
   "success": {
     "message": "You're all set!"
-  }
+  },
+  "verificationUnavailable": "Phone number confirmation is currently unavailable. Please enter your phone number and we will notify you when it is possible to confirm again.\n\nIn the meantime, you can continue to use Valora!. Payments sent to your phone number will be safely held until you redeem them by confirming your phone number."
 }

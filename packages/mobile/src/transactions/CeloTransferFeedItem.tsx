@@ -62,7 +62,11 @@ export function CeloTransferFeedItem(props: Props) {
             </Text>
           </View>
           <View>
-            <CurrencyDisplay amount={amount} style={styles.amount} />
+            <CurrencyDisplay
+              amount={amount}
+              style={styles.amount}
+              showExplicitPositiveSign={true}
+            />
           </View>
         </View>
         <View style={styles.secondRow}>
