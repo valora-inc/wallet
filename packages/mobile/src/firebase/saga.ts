@@ -107,11 +107,8 @@ function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
     const singleItemEmitter = (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
       emit([snapshot.val()])
     }
-    let cancelFunction = () => {
-      return
-    }
     const listenForNewElements = (newElementsStartAt: number) => {
-      cancelFunction = firebase
+      firebase
         .database()
         .ref(`${EXCHANGE_RATES}/cGLD/cUSD`)
         .orderByChild('timestamp')
@@ -142,7 +139,12 @@ function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
         Logger.error(TAG, 'Error while fetching exchange rates', error)
       })
 
-    return cancelFunction
+    return () => {
+      firebase
+        .database()
+        .ref(`${EXCHANGE_RATES}/cGLD/cUSD`)
+        .off()
+    }
   })
 }
 
