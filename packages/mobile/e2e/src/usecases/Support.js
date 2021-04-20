@@ -1,12 +1,9 @@
+import errorDismiss from '../utils/banners'
+
 export default Support = () => {
   beforeEach(async () => {
     await device.reloadReactNative()
-    try {
-      await waitFor(element(by.id('ErrorIcon')))
-        .toBeVisible()
-        .withTimeout(1000)
-      await element(by.id('ErrorIcon')).tap()
-    } catch (e) {}
+    await errorDismiss()
   })
 
   if (device.getPlatform() === 'ios') {
@@ -26,6 +23,9 @@ export default Support = () => {
 
   it('Send message to support', async () => {
     await element(by.id('Hamburguer')).tap()
+    await waitFor(element(by.id('Help')))
+      .toBeVisible()
+      .withTimeout(5000)
     await element(by.id('Help')).tap()
     await element(by.id('SupportContactLink')).tap()
     await waitFor(element(by.id('MessageEntry')))

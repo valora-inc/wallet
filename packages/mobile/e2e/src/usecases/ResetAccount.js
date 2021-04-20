@@ -1,16 +1,13 @@
 import { enterPinUiIfNecessary, waitForElementId } from '../utils/utils'
 import { SAMPLE_BACKUP_KEY } from '../utils/consts'
+import { errorDismiss } from '../utils/banners'
 
 export default ResetAccount = () => {
   beforeEach(async () => {
     await device.reloadReactNative()
-    try {
-      await waitFor(element(by.id('ErrorIcon')))
-        .toBeVisible()
-        .withTimeout(1000)
-      await element(by.id('ErrorIcon')).tap()
-    } catch (e) {}
+    await errorDismiss()
   })
+
   it('Reset Account by doing the Account Key quiz', async () => {
     // This test has very high flakiness on Android. I did my best to fix it, but
     // locally it works every time but on CI it fails 50%+ of the time.

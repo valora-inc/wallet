@@ -1,4 +1,3 @@
-import dismissBanners from './utils/banners'
 import RestoreAccountOnboarding from './usecases/RestoreAccountOnboarding'
 import Send from './usecases/Send'
 import SecureSend from './usecases/SecureSend'
@@ -12,8 +11,6 @@ describe('Funded Account', () => {
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
   })
-
-  // beforeEach(dismissBanners) // Moved to individual specs
 
   describe('Onboarding', RestoreAccountOnboarding)
   describe('Support', Support)

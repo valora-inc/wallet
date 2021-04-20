@@ -1,5 +1,6 @@
 import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
+import { errorDismiss } from '../utils/banners'
 
 const AMOUNT_TO_SEND = '0.1'
 const AMOUNT_TO_REQUEST = '0.1'
@@ -8,12 +9,7 @@ const RANDOM_COMMENT = 'poker night winnings 🎰'
 export default Send = () => {
   beforeEach(async () => {
     await device.reloadReactNative()
-    try {
-      await waitFor(element(by.id('ErrorIcon')))
-        .toBeVisible()
-        .withTimeout(1000)
-      await element(by.id('ErrorIcon')).tap()
-    } catch (e) {}
+    await errorDismiss()
   })
 
   it('Send cUSD to address', async () => {
@@ -36,7 +32,7 @@ export default Send = () => {
     // will be flaky :(
     await sleep(3000)
     await waitFor(element(by.id('ConfirmButton')))
-      .toBeVisible()
+      .toExist()
       .withTimeout(6000)
     await element(by.id('ConfirmButton')).tap()
 
