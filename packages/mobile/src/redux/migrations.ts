@@ -160,4 +160,10 @@ export const migrations = {
       ),
     }
   },
+  11: (state: any) => {
+    return {
+      ...state,
+      app: _.omit(state.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+    }
+  },
 }
