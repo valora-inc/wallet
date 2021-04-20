@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedSelector, simplexFeeWaivedSelector } from 'src/app/selectors'
+import { numberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import WebView from 'src/components/WebView'
 import { CurrencyCode, SIMPLEX_FEES_URL } from 'src/config'
@@ -38,7 +38,6 @@ function SimplexScreen({ route, navigation }: Props) {
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const phoneNumberConfirmed = useSelector(numberVerifiedSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
-  const simplexFeeWaived = useSelector(simplexFeeWaivedSelector)
 
   const currencyToBuy =
     simplexQuote.digital_money.currency.toUpperCase() === 'CUSD'
@@ -46,8 +45,6 @@ function SimplexScreen({ route, navigation }: Props) {
       : CurrencyCode.CELO
 
   const feeIsWaived =
-    simplexFeeWaived &&
-    currencyToBuy === CurrencyCode.CUSD &&
     simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount <= 0
 
   const onNavigationStateChange = ({ url }: any) => {

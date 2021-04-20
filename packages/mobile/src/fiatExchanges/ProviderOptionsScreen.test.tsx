@@ -180,7 +180,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
       </Provider>
     )
 
@@ -199,7 +199,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
       </Provider>
     )
 
@@ -219,7 +219,7 @@ describe('ProviderOptionsScreen', () => {
 
     const tree = render(
       <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.CARD)} />
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
       </Provider>
     )
 
