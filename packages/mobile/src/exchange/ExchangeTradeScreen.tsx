@@ -295,7 +295,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
           keyboardShouldPersistTaps={'always'}
           contentContainerStyle={styles.contentContainer}
         >
-          <View style={styles.amountInputContainer}>
+          <View testID='Exchange' style={styles.amountInputContainer}>
             <View>
               <Text style={styles.exchangeBodyText}>
                 {t('exchangeAmount', { tokenName: this.getInputTokenDisplayText() })}

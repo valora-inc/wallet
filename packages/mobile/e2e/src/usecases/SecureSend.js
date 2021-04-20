@@ -5,6 +5,15 @@ const LAST_ACCEOUNT_CHARACTERS = 'FD08'
 const AMOUNT_TO_SEND = '0.1'
 
 export default SecureSend = () => {
+  beforeEach(async () => {
+    await device.reloadReactNative()
+    try {
+      await waitFor(element(by.id('ErrorIcon')))
+        .toBeVisible()
+        .withTimeout(1000)
+      await element(by.id('ErrorIcon')).tap()
+    } catch (e) {}
+  })
   it('Send cUSD to phone number with multiple mappings', async () => {
     await element(by.id('SendOrRequestBar/SendButton')).tap()
 

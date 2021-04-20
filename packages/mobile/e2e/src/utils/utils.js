@@ -54,17 +54,24 @@ export async function skipTo(nextScreen) {
 }
 
 export async function enterPinUi() {
-  await expect(element(by.id(`digit1`))).toBeVisible()
-
+  // await expect(element(by.id(`Keypad`))).toExist().withTimeout(2000);
   for (const digit of DEFAULT_PIN) {
-    //await expect(element(by.text(digit))).toBeVisible()
-    await element(by.id(`digit${digit}`)).tap()
+    try {
+      if(device.getPlatform() === 'ios') {
+        await element(by.id(`digit${digit}`)).atIndex(1).tap()
+      } else {
+        await element(by.id(`digit${digit}`)).atIndex(0).tap()
+      }
+    } catch {
+      await element(by.id(`digit${digit}`)).tap()
+    }
   }
 }
 
 export async function enterPinUiIfNecessary() {
-  if (await isElementVisible('digit1')) {
-    await enterPinUi()
+  // TODO(tomm): use id's for localization after pin fix
+  if(await isTextPresent('Enter PIN')) {
+    await enterPinUi();
   }
 }
 
@@ -75,10 +82,33 @@ export async function inputNumberKeypad(amount) {
   }
 }
 
-export async function isElementVisible(elementId) {
+export async function isTextPresent(text) {
   try {
-    await expect(element(by.id(elementId))).toBeVisible()
+    await expect(element(by.text(text))).toExist();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function isElementExistant(elementId) {
+  try {
+    await expect(element(by.id(elementId))).toExist();
     return true
+  } catch {
+    return false;
+  }
+}
+
+export async function isElementVisible(elementId, index) {
+  try {
+    if(index === undefined) {
+      await expect(element(by.id(elementId))).toBeVisible()
+      return true
+    } else {
+      await expect(element(by.id(elementId)).atIndex(index)).toBeVisible()
+      return true
+    }
   } catch (e) {
     return false
   }

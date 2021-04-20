@@ -4,6 +4,7 @@ import Send from './usecases/Send'
 import SecureSend from './usecases/SecureSend'
 import ExchangeCelo from './usecases/ExchangeCelo'
 import ResetAccount from './usecases/ResetAccount'
+import Support from './usecases/Support'
 
 describe('Funded Account', () => {
   beforeAll(async () => {
@@ -12,9 +13,10 @@ describe('Funded Account', () => {
     })
   })
 
-  beforeEach(dismissBanners)
+  // beforeEach(dismissBanners) // Moved to individual specs
 
   describe('Onboarding', RestoreAccountOnboarding)
+  describe('Support', Support)
   describe('Send cUSD', Send)
   describe('Secure Send', SecureSend)
   describe('Exchange CELO', ExchangeCelo)

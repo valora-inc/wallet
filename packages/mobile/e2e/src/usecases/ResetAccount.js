@@ -1,26 +1,41 @@
-import { enterPinUiIfNecessary, waitForElementId, sleep } from '../utils/utils'
+import { enterPinUiIfNecessary, waitForElementId } from '../utils/utils'
 import { SAMPLE_BACKUP_KEY } from '../utils/consts'
 
 export default ResetAccount = () => {
+  beforeEach(async () => {
+    await device.reloadReactNative()
+    try {
+      await waitFor(element(by.id('ErrorIcon')))
+        .toBeVisible()
+        .withTimeout(1000)
+      await element(by.id('ErrorIcon')).tap()
+    } catch (e) {}
+  })
   it('Reset Account by doing the Account Key quiz', async () => {
     // This test has very high flakiness on Android. I did my best to fix it, but
     // locally it works every time but on CI it fails 50%+ of the time.
     // TODO: Keep investigating the source of flakiness of this test on Android.
-    if (device.getPlatform() === 'android') {
-      return
-    }
+    // if (device.getPlatform() === 'android') {
+    //   return
+    // }
 
     // Go to Settings
     await element(by.id('Hamburguer')).tap()
-    await element(by.id('DrawerItem/Settings')).tap()
+    await element(by.id('Settings')).tap()
 
     // Scroll to bottom and start the reset process.
-    await waitForElementId('SettingsScrollView')
+    // await waitForElementId('SettingsScrollView')
     // The sleep is here to avoid flakiness on the scroll. Without it the scroll to bottom intermittently fails
     // with a ~"Can't find view" error even though the SettingsScrollView is visible.
     // This probably doesn't reduce flakiness 100%, but in practice it reduces it significantly.
-    await sleep(2000)
-    await element(by.id('SettingsScrollView')).scrollTo('bottom')
+    // await sleep(2000)
+    // await element(by.id('SettingsScrollView')).scrollTo('bottom')
+    try {
+      await waitFor(element(by.text('ResetAccount')))
+        .toBeVisible()
+        .whileElement(by.id('SettingsScrollView'))
+        .scroll(350, 'down')
+    } catch {}
     await element(by.id('ResetAccount')).tap()
     await element(by.id('RemoveAccountModal/PrimaryAction')).tap()
 
