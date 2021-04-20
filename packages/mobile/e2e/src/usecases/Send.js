@@ -35,7 +35,7 @@ export default Send = () => {
     // Wait for the confirm button to be clickable. If it takes too long this test
     // will be flaky :(
     await sleep(3000)
-    await expect(element(by.id('ConfirmButton')))
+    await waitFor(element(by.id('ConfirmButton')))
       .toBeVisible()
       .withTimeout(6000)
     await element(by.id('ConfirmButton')).tap()
