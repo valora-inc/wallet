@@ -3,7 +3,6 @@ import * as React from 'react'
 import { useAsync } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import InAppBrowser from 'src/components/InAppBrowser'
-import { CASH_IN_SUCCESS_DEEPLINK } from 'src/config'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { fetchProviderWidgetUrl, isExpectedUrl } from 'src/fiatExchanges/utils'
 import networkConfig from 'src/geth/networkConfig'
@@ -35,17 +34,7 @@ function XanpoolScreen({ route }: Props) {
     []
   )
 
-  // const url = fetchResponse?.result
-  const url = `
-    ${XANPOOL_URI}
-      ?apiKey=cc1a855fa723094ab527180a70a3b93a
-      &wallet=${account}
-      &cryptoCurrency=${currencyToBuy}
-      &currency=${currencyCode}
-      &fiat=${localAmount}
-      &redirectUrl=${CASH_IN_SUCCESS_DEEPLINK}
-      &isisWebWeb=true
-  `.replace(/\s+/g, '')
+  const url = fetchResponse?.result
 
   // This should never happen
   if (url && !isExpectedUrl(url, XANPOOL_URI)) {

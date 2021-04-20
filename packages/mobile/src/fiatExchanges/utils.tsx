@@ -96,18 +96,6 @@ export const openMoonpay = (
   })
 }
 
-export const openXanpool = (
-  amount: number,
-  currencyCode: LocalCurrencyCode,
-  currencyToBuy: CurrencyCode
-) => {
-  navigate(Screens.XanpoolScreen, {
-    localAmount: amount,
-    currencyCode,
-    currencyToBuy,
-  })
-}
-
 export const openSimplex = (account: string | null) => {
   navigateToURI(`${SIMPLEX_URI}?address=${account}`)
 }
@@ -155,7 +143,7 @@ export function getProviderAvailability(
     if (!countryCodeAlpha2) {
       features[key] = false
     } else {
-      if (countryCodeAlpha2 === 'US' && (value as any)[countryCodeAlpha2] !== true) {
+      if (countryCodeAlpha2 === 'US' && (value as any).US && (value as any).US !== true) {
         features[key] = stateCode ? (value as any)[countryCodeAlpha2][stateCode] ?? false : false
       } else {
         features[key] = (value as any)[countryCodeAlpha2] ?? false

@@ -7,6 +7,7 @@ import {
   RAMP_DATA,
   TRANSAK_DATA,
   VALORA_LOGO_URL,
+  XANPOOL_DATA,
 } from './config'
 const URL = require('url').URL
 
@@ -23,6 +24,7 @@ enum Providers {
   Ramp = 'Ramp',
   Transak = 'Transak',
   Simplex = 'Simplex',
+  Xanpool = 'Xanpool',
 }
 
 export const composeCicoProviderUrl = functions.https.onRequest((request, response) => {
@@ -74,6 +76,18 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &defaultFiatAmount=${fiatAmount}
         &redirectURL=${encodeURIComponent(CASH_IN_SUCCESS_URL)}
         &hideMenu=true
+      `.replace(/\s+/g, '')
+  } else if (providerName === Providers.Xanpool.toLowerCase()) {
+    const supportedCurrencies = ['IDR', 'VND', 'SGD', 'HKD', 'TBH', 'INR', 'MYR', 'PHP']
+
+    finalUrl = `
+      ${XANPOOL_DATA.widget_url}
+        ?apiKey=${XANPOOL_DATA.public_key}
+        &wallet=${address}
+        &cryptoCurrency=${digitalAsset}
+        ${supportedCurrencies.includes(fiatCurrency) ? `&currency=${fiatCurrency}` : ''}
+        &fiat=${fiatAmount}
+        &redirectUrl=${CASH_IN_SUCCESS_DEEPLINK}
       `.replace(/\s+/g, '')
   }
 

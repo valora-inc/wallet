@@ -26,7 +26,6 @@ import {
   openRamp,
   openSimplex,
   openTransak,
-  openXanpool,
   sortProviders,
   UserLocation,
 } from 'src/fiatExchanges/utils'
@@ -37,6 +36,7 @@ import QuestionIcon from 'src/icons/QuestionIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -146,9 +146,14 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       },
       {
         id: CicoProviderNames.Xanpool,
+        paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
         restricted: XANPOOL_RESTRICTED,
         onSelected: () =>
-          openXanpool(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+          navigate(Screens.XanpoolScreen, {
+            localAmount: route.params.amount,
+            currencyCode: localCurrency,
+            currencyToBuy: selectedCurrency,
+          }),
       },
       {
         id: CicoProviderNames.Simplex,
