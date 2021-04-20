@@ -36,7 +36,6 @@ export default class CurrencyConversionAPI<TContext = any> extends DataSource {
     const toCode = currencyCode
 
     const steps = this.getConversionSteps(fromCode, toCode)
-    console.log(steps)
     const ratesPromises = []
     for (let i = 1; i < steps.length; i++) {
       const prevCode = steps[i - 1]
