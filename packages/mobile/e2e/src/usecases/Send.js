@@ -31,21 +31,16 @@ export default Send = () => {
 
     // Write a comment.
     await element(by.id('commentInput/send')).replaceText(`${RANDOM_COMMENT}\n`)
-    // await element(by.id('commentInput/send')).tapReturnKey()
 
-    // if (device.getPlatform() === 'android') {
-    //   // Workaround keyboard remaining open on Android (tapReturnKey doesn't work there and just adds a new line)
-    //   // so we tap something else in the scrollview to hide the soft keyboard
-    //   await element(by.id('HeaderText')).tap()
-    // }
-
-    // // Wait for the confirm button to be clickable. If it takes too long this test
-    // // will be flaky :(
-    // await sleep(3000)
+    // Wait for the confirm button to be clickable. If it takes too long this test
+    // will be flaky :(
+    await sleep(3000)
+    await expect(element(by.id('ConfirmButton')))
+      .toBeVisible()
+      .withTimeout(6000)
+    await element(by.id('ConfirmButton')).tap()
 
     // Confirm and input PIN if necessary.
-    await element(by.id('ConfirmButton')).tap()
-    await sleep(3000)
     await enterPinUiIfNecessary()
 
     // Should not throw error
@@ -56,7 +51,7 @@ export default Send = () => {
     // TODO(erdal): look for the latest transaction and assert
   })
 
-  // TODO(tomm): debugg why error is thrown in e2e tests
+  // TODO(tomm): debug why error is thrown in e2e tests
   it.skip('Request cUSD from address', async () => {
     await element(by.id('SendOrRequestBar/RequestButton')).tap()
 
