@@ -1,6 +1,6 @@
 {
   "name": "@celo/mobile",
-  "version": "1.12.2",
+  "version": "1.13.0",
   "author": "Celo",
   "license": "Apache-2.0",
   "private": true,
@@ -74,7 +74,7 @@
     "Base64": "^1.0.1",
     "apollo-boost": "^0.4.9",
     "apollo-cache-persist": "^0.1.1",
-    "await-lock":"^2.1.0",
+    "await-lock": "^2.1.0",
     "bignumber.js": "^9.0.0",
     "bn.js": "4.11.8",
     "country-data": "^0.0.31",
