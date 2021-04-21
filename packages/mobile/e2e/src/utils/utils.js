@@ -54,7 +54,6 @@ export async function skipTo(nextScreen) {
 }
 
 export async function enterPinUi() {
-  // await expect(element(by.id(`Keypad`))).toExist().withTimeout(2000);
   for (const digit of DEFAULT_PIN) {
     try {
       if (device.getPlatform() === 'ios') {
@@ -129,4 +128,3 @@ export function quote(s) {
   // while on android it does not, so we add it
   return device.getPlatform() === 'ios' ? s : `"${s}"`
 }
-
