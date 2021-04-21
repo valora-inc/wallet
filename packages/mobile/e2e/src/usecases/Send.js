@@ -25,16 +25,27 @@ export default Send = () => {
     await inputNumberKeypad(AMOUNT_TO_SEND)
     await element(by.id('Review')).tap()
 
+    await sleep(1000);
+
     // Write a comment.
     await element(by.id('commentInput/send')).replaceText(`${RANDOM_COMMENT}\n`)
+    await element(by.id('commentInput/send')).tapReturnKey()
+
+    if (device.getPlatform() === 'android') {
+      // Workaround keyboard remaining open on Android (tapReturnKey doesn't work there and just adds a new line)
+      // so we tap something else in the scrollview to hide the soft keyboard
+      await element(by.id('HeaderText')).tap()
+    }
 
     // Wait for the confirm button to be clickable. If it takes too long this test
     // will be flaky :(
     await sleep(3000)
-    await waitFor(element(by.id('ConfirmButton')))
-      .toExist()
-      .withTimeout(6000)
+
+
+    // Wait for the confirm button to be clickable. If it takes too long this test
+    // will be flaky :(
     await element(by.id('ConfirmButton')).tap()
+    await sleep(3000)
 
     // Confirm and input PIN if necessary.
     await enterPinUiIfNecessary()
