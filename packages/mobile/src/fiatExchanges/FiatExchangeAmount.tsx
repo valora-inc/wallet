@@ -104,7 +104,7 @@ function FiatExchangeAmount({ route }: Props) {
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
   const exchangeRatePair = useSelector(exchangeRatePairSelector)
   const localCurrencyExchangeRate = useSelector(getLocalCurrencyExchangeRate)
-  const dollarBalance = useSelector(stableTokenBalanceSelector)
+  const cUSDBalance = useSelector(stableTokenBalanceSelector)
   const celoBalance = useSelector(celoTokenBalanceSelector)
   const localCurrencyCode = useLocalCurrencyCode()
   const currencySymbol = LocalCurrencySymbol[localCurrencyCode]
@@ -120,6 +120,15 @@ function FiatExchangeAmount({ route }: Props) {
     localCurrencyCode,
     exchangeRatePair
   )
+
+  const dollarBalance = useDollarAmount(
+    currency,
+    new BigNumber((currency === CURRENCY_ENUM.DOLLAR ? cUSDBalance : celoBalance) || 0),
+    localCurrencyExchangeRate,
+    localCurrencyCode,
+    exchangeRatePair
+  )
+
   const localCurrencyAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
   const minAmountInLocalCurrency = convertDollarsToLocalAmount(
@@ -169,18 +178,10 @@ function FiatExchangeAmount({ route }: Props) {
         dollarAmount,
       })
     } else {
-      const balance = useDollarAmount(
-        currency,
-        new BigNumber((currency === CURRENCY_ENUM.DOLLAR ? dollarBalance : celoBalance) || 0),
-        localCurrencyExchangeRate,
-        localCurrencyCode,
-        exchangeRatePair
-      )
-
-      if (dollarAmount.isGreaterThan(balance)) {
+      if (dollarAmount.isGreaterThan(dollarBalance)) {
         dispatch(
           showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
-            balance,
+            dollarBalance,
             currency: currency === CURRENCY_ENUM.DOLLAR ? 'cUSD' : 'CELO',
           })
         )
