@@ -81,4 +81,5 @@ export enum ErrorMessages {
   MAX_ESCROW_TRANSFER_EXCEEDED = 'maxEscrowTransferExceeded',
   FIREBASE_FETCH_FAILED = 'firebaseFetchFailed',
   PICTURE_LOAD_FAILED = 'pictureLoadFailed',
+  CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',
 }

@@ -105,6 +105,7 @@ export type StackParamList = {
   [Screens.FiatExchangeAmount]: {
     currency: CURRENCY_ENUM
     paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
+    isCashIn: boolean
   }
   [Screens.FiatExchangeOptions]: {
     isCashIn?: boolean
