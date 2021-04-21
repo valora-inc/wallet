@@ -39,7 +39,7 @@ function trackMoonpayEvent(body: any) {
       timestamp: Date.now() / 1000,
       user_address: walletAddress,
     })
-  } else if (MoonpayWebhookType.Failed === type) {
+  } else if (status === MoonpayTxStatus.Failed) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
       id,
       provider: Provider.Moonpay,
@@ -48,7 +48,7 @@ function trackMoonpayEvent(body: any) {
       user_address: walletAddress,
       failure_reason: failureReason,
     })
-  } else if (MoonpayWebhookType.Updated === type && status === MoonpayTxStatus.Completed) {
+  } else if (status === MoonpayTxStatus.Completed) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
       id,
       provider: Provider.Moonpay,
