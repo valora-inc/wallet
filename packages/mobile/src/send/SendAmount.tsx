@@ -45,7 +45,7 @@ import {
   getLocalCurrencyExchangeRate,
   getLocalCurrencySymbol,
 } from 'src/localCurrency/selectors'
-import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
+import { emptyHeader, HeaderTitleWithBalance, HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -87,7 +87,12 @@ export const sendAmountScreenNavOptions = ({
   return {
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={eventName} />,
-    headerTitle: () => <HeaderTitleWithBalance title={title} token={CURRENCY_ENUM.DOLLAR} />,
+    headerTitle: () =>
+      route.params?.isOutgoingPaymentRequest ? (
+        <HeaderTitleWithSubtitle title={title} subTitle={' '} />
+      ) : (
+        <HeaderTitleWithBalance title={title} token={CURRENCY_ENUM.DOLLAR} />
+      ),
   }
 }
 
