@@ -553,7 +553,7 @@ export const v9Schema = {
   ...v8Schema,
   app: {
     ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
-    showRaiseDailyLimit: undefined,
+    showRaiseDailyLimitTarget: undefined,
   },
 }
 

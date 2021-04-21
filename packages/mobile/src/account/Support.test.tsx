@@ -13,7 +13,7 @@ const renderSupport = () =>
   render(
     <Provider
       store={createMockStore({
-        app: { showRaiseDailyLimit: '0xf' },
+        app: { showRaiseDailyLimitTarget: '0xf' },
       })}
     >
       <Support />

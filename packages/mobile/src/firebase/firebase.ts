@@ -217,7 +217,7 @@ export function appRemoteFeatureFlagChannel() {
       Logger.debug(`Updated feature flags: ${JSON.stringify(flags)}`)
       emit({
         hideVerification: flags?.hideVerification ?? false,
-        showRaiseDailyLimit: flags?.showRaiseDailyLimit ?? undefined,
+        showRaiseDailyLimitTarget: flags?.showRaiseDailyLimitTarget ?? undefined,
         celoEducationUri: flags?.celoEducationUri ?? null,
         shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
         inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,

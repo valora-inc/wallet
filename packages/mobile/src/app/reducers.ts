@@ -21,7 +21,7 @@ export interface State {
   inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
-  showRaiseDailyLimit: string | undefined
+  showRaiseDailyLimitTarget: string | undefined
 }
 
 const initialState = {
@@ -41,7 +41,7 @@ const initialState = {
   inviteModalVisible: false,
   activeScreen: Screens.Main,
   hideVerification: false,
-  showRaiseDailyLimit: undefined,
+  showRaiseDailyLimitTarget: undefined,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -140,7 +140,7 @@ export const appReducer = (
       return {
         ...state,
         hideVerification: action.flags.hideVerification,
-        showRaiseDailyLimit: action.flags.showRaiseDailyLimit,
+        showRaiseDailyLimitTarget: action.flags.showRaiseDailyLimitTarget,
         celoEducationUri: action.flags.celoEducationUri,
         shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
       }

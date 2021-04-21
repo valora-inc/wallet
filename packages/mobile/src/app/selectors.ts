@@ -59,11 +59,11 @@ export const shortVerificationCodesEnabledSelector = (state: RootState) =>
 export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
 
 export const showRaiseDailyLimitSelector = createSelector(
-  [currentAccountSelector, (state) => state.app.showRaiseDailyLimit],
-  (account, showRaiseDailyLimit) => {
-    if (!showRaiseDailyLimit || !account) {
+  [currentAccountSelector, (state) => state.app.showRaiseDailyLimitTarget],
+  (account, showRaiseDailyLimitTarget) => {
+    if (!showRaiseDailyLimitTarget || !account) {
       return false
     }
-    return account < showRaiseDailyLimit
+    return account < showRaiseDailyLimitTarget
   }
 )
