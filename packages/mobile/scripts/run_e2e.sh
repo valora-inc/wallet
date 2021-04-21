@@ -98,6 +98,7 @@ runTest() {
     --record-logs=all \
     --detectOpenHandles \
     --loglevel verbose \
+    --debug-synchronization 1000\
     "${extra_param}" 
   TEST_STATUS=$?
 }

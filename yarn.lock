@@ -10276,6 +10276,11 @@ detect-newline@^3.0.0:
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
+detox-recorder@^1.0.151:
+  version "1.0.151"
+  resolved "https://registry.yarnpkg.com/detox-recorder/-/detox-recorder-1.0.151.tgz#5d59775dc01ea58595c749aade0420c5ba73dd43"
+  integrity sha512-a4ZPo7AR5XJJiLy8Xqml8YXxrIz6R7RKfiGmG9u5MBxG2I+w+yGJTj7ZhYDfoi5StpUD+dKHTCdvycZTOQ84Cw==
+
 detox@^17.13.2:
   version "17.14.0"
   resolved "https://registry.yarnpkg.com/detox/-/detox-17.14.0.tgz#c0d08c0e4ab5dbaa6ff1d72ad830eef1cf3b63f2"
@@ -10305,7 +10310,7 @@ detox@^17.13.2:
     yargs "^16.0.3"
     yargs-unparser "^2.0.0"
 
-detox@^18.10.0:
+detox@^18.12.0:
   version "18.12.0"
   resolved "https://registry.yarnpkg.com/detox/-/detox-18.12.0.tgz#2fd2c6f35b961b462c5f68dd4243a6cb3611ef0f"
   integrity sha512-AZLbI1TInfK1/aQjqIDDGYtgdlaocexnC40wN9NIa3rEwUjh21UyasYeYjG9RmHGVz3QQjVdmp2cDx+rKduDfg==
