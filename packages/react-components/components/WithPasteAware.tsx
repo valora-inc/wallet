@@ -15,6 +15,7 @@ export interface PasteAwareWrappedElementProps {
   isPasteIconVisible: boolean
   onPressPaste: () => void
   onChangeText: (text: string) => void
+  showIcon: boolean
 }
 
 interface PasteAwareState {

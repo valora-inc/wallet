@@ -8,7 +8,7 @@ import Paste from '@celo/react-components/icons/Paste'
 import Search from '@celo/react-components/icons/Search'
 import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
-import { StyleSheet, TextInputProps, View } from 'react-native'
+import { StyleSheet, Text, TextInputProps, View } from 'react-native'
 
 const HEIGHT = 36
 
@@ -17,11 +17,11 @@ export default function withTextSearchPasteAware<P extends TextInputProps>(
 ) {
   class Wrapper extends React.Component<P & PasteAwareWrappedElementProps> {
     render() {
-      const { style, isPasteIconVisible, onPressPaste } = this.props
+      const { style, isPasteIconVisible, onPressPaste, showIcon } = this.props
       return (
         <View style={[styles.container, style]}>
           <View style={styles.searchIconContainer}>
-            <Search />
+            {showIcon ? <Search /> : <Text> To </Text>}
           </View>
           <WrappedTextInput
             {...this.props}

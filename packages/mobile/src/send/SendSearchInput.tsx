@@ -27,7 +27,7 @@ export function SendSearchInput(props: SendSearchInputProps) {
     <View style={styles.textInputContainer}>
       <SearchInput
         shouldShowClipboard={isValidAddress}
-        placeholder={t('global:search')}
+        placeholder={t('global:namePhoneAddress')}
         value={input}
         onChangeText={handleChangeText}
       />
