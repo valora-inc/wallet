@@ -1,6 +1,6 @@
 import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
-import { errorDismiss } from '../utils/banners'
+import { dismissBanners } from '../utils/banners'
 
 const AMOUNT_TO_SEND = '0.1'
 const AMOUNT_TO_REQUEST = '0.1'
@@ -9,7 +9,7 @@ const RANDOM_COMMENT = 'poker night winnings 🎰'
 export default Send = () => {
   beforeEach(async () => {
     await device.reloadReactNative()
-    await errorDismiss()
+    await dismissBanners()
   })
 
   it('Send cUSD to address', async () => {
@@ -25,7 +25,7 @@ export default Send = () => {
     await inputNumberKeypad(AMOUNT_TO_SEND)
     await element(by.id('Review')).tap()
 
-    await sleep(1000);
+    await sleep(1000)
 
     // Write a comment.
     await element(by.id('commentInput/send')).replaceText(`${RANDOM_COMMENT}\n`)
@@ -40,7 +40,6 @@ export default Send = () => {
     // Wait for the confirm button to be clickable. If it takes too long this test
     // will be flaky :(
     await sleep(3000)
-
 
     // Wait for the confirm button to be clickable. If it takes too long this test
     // will be flaky :(

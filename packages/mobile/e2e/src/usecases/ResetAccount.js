@@ -1,11 +1,11 @@
 import { enterPinUiIfNecessary, waitForElementId } from '../utils/utils'
 import { SAMPLE_BACKUP_KEY } from '../utils/consts'
-import { errorDismiss } from '../utils/banners'
+import { dismissBanners } from '../utils/banners'
 
 export default ResetAccount = () => {
   beforeEach(async () => {
     await device.reloadReactNative()
-    await errorDismiss()
+    await dismissBanners()
   })
 
   it('Reset Account by doing the Account Key quiz', async () => {

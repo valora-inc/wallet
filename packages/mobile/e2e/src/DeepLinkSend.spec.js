@@ -1,9 +1,6 @@
-import dismissBanners from './utils/banners'
 import HandleDeepLinkSend from './usecases/HandleDeepLinkSend'
 
 describe('Deep link without account send', () => {
-  beforeEach(dismissBanners)
-
   // The behavior for this case is not really specified yet
   // we kind of know what we want to happen but the code is not there yet
   // added this test case as a reminder to fix that

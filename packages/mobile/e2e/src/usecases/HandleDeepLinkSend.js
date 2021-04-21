@@ -1,4 +1,5 @@
 import { quote, sleep } from '../utils/utils'
+import { dismissBanners } from '../utils/banners'
 
 export default HandleDeepLinkSend = () => {
   const PAY_URL = quote(
@@ -10,6 +11,7 @@ export default HandleDeepLinkSend = () => {
     await sleep(5000)
     await device.launchApp({ url: PAY_URL, newInstance: true })
     await sleep(5000)
+    await dismissBanners()
     // Arrived at SendAmount screen
     await expect(element(by.id('Review'))).toBeVisible()
   })

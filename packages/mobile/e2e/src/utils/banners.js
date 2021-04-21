@@ -1,11 +1,9 @@
-import { isElementExistant } from '../utils/utils'
-
 // clicks an element if it sees it
 async function bannerDismiss(inElement, tapElement) {
   try {
     await waitFor(element(inElement))
       .toBeVisible()
-      .withTimeout(500)
+      .withTimeout(1000)
     if (tapElement) {
       await element(tapElement).tap()
     } else {
@@ -16,19 +14,8 @@ async function bannerDismiss(inElement, tapElement) {
   }
 }
 
-// Dismiss firebase error - remove when firebase is enabled for testing
-export async function errorDismiss() {
-  if (isElementExistant(element(by.id('ErrorIcon')))) {
-    try {
-      await waitFor(element(by.id('ErrorIcon')))
-        .toBeVisible()
-        .withTimeout(1000)
-      await element(by.id('ErrorIcon')).tap()
-    } catch (e) {}
-  }
-}
-
-export default dismissBanners = async () => {
-  await bannerDismiss(by.id('errorBanner'))
+export async function dismissBanners() {
+  // Dismiss firebase error - remove when firebase is enabled for testing
+  await bannerDismiss(by.id('ErrorIcon'))
   await bannerDismiss(by.id('SmartTopAlertButton'))
 }

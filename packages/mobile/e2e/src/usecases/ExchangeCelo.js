@@ -1,7 +1,7 @@
 import { enterPinUiIfNecessary } from '../utils/utils'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { celoEducation } from '../utils/celoEducation'
-import { errorDismiss } from '../utils/banners'
+import { dismissBanners } from '../utils/banners'
 
 const CELO_TO_EXCHANGE = 1.1
 const CELO_TO_SEND = '0.001'
@@ -9,7 +9,7 @@ const CELO_TO_SEND = '0.001'
 export default ExchangeCelo = () => {
   beforeEach(async () => {
     await device.reloadReactNative()
-    await errorDismiss()
+    await dismissBanners()
     await element(by.id('Hamburguer')).tap()
     await element(by.id('CELO')).tap()
   })

@@ -1,5 +1,5 @@
 import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
-import { errorDismiss } from '../utils/banners'
+import { dismissBanners } from '../utils/banners'
 
 const PHONE_NUMBER = '+12057368924'
 const LAST_ACCEOUNT_CHARACTERS = 'FD08'
@@ -8,7 +8,7 @@ const AMOUNT_TO_SEND = '0.1'
 export default SecureSend = () => {
   beforeEach(async () => {
     await device.reloadReactNative()
-    await errorDismiss()
+    await dismissBanners()
   })
 
   it('Send cUSD to phone number with multiple mappings', async () => {
