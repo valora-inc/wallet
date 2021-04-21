@@ -50,15 +50,15 @@ export default RestoreAccountOnboarding = () => {
       .withTimeout(20000)
 
     await element(by.id('ImportWalletBackupKeyInputField')).tap()
-    await element(by.id('ImportWalletBackupKeyInputField')).replaceText(`${SAMPLE_BACKUP_KEY}\n`)
-    // if (device.getPlatform() === 'ios') {
-    //   // On iOS, type one more space to workaround onChangeText not being triggered with replaceText above
-    //   // and leaving the restore button disabled
-    //   await element(by.id('ImportWalletBackupKeyInputField')).typeText('\n')
-    // } else if (device.getPlatform() === 'android') {
-    //   // Press back button to close the keyboard
-    //   await device.pressBack()
-    // }
+    await element(by.id('ImportWalletBackupKeyInputField')).replaceText(`${SAMPLE_BACKUP_KEY}`)
+    if (device.getPlatform() === 'ios') {
+      // On iOS, type one more space to workaround onChangeText not being triggered with replaceText above
+      // and leaving the restore button disabled
+      await element(by.id('ImportWalletBackupKeyInputField')).typeText('\n')
+    } else if (device.getPlatform() === 'android') {
+      // Press back button to close the keyboard
+      await device.pressBack()
+    }
 
     await element(by.id('ImportWalletButton')).tap()
 
