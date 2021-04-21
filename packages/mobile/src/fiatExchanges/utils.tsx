@@ -155,6 +155,10 @@ export const fetchSimplexQuote = async (
       })
     )
 
+    if (!response.ok) {
+      throw Error(`Simplex quote endpoint responded with status ${response.status}`)
+    }
+
     const simplexQuoteResponse = await response.json()
     if (simplexQuoteResponse?.error) {
       throw Error(simplexQuoteResponse.error)
@@ -192,7 +196,16 @@ export const fetchSimplexPaymentData = async (
       })
     )
 
-    const simplexPaymentData: SimplexPaymentData = await response.json()
+    if (!response.ok) {
+      throw Error(`Simplex payment endpoint responded with status ${response.status}`)
+    }
+
+    const simplexPaymentDataResponse = await response.json()
+    if (simplexPaymentDataResponse?.error) {
+      throw Error(simplexPaymentDataResponse.error)
+    }
+
+    const simplexPaymentData: SimplexPaymentData = simplexPaymentDataResponse
     return simplexPaymentData
   } catch (error) {
     Logger.error(TAG, error.message)
