@@ -46,6 +46,8 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { ensurePincode, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { DEFAULT_CACHE_ACCOUNT } from 'src/pincode/authentication'
+import { getCachedPin } from 'src/pincode/PasswordCache'
 import { RootState } from 'src/redux/reducers'
 import { restartApp } from 'src/utils/AppRestart'
 import { navigateToURI } from 'src/utils/linking'
@@ -338,6 +340,7 @@ export class Account extends React.Component<Props, State> {
         navigate(Screens.PincodeSet, {
           isVerifying: false,
           changePin: true,
+          oldPin: getCachedPin(DEFAULT_CACHE_ACCOUNT),
         })
       }
     } catch (error) {

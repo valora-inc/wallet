@@ -121,6 +121,7 @@ export class PincodeSet extends React.Component<Props, State> {
       ValoraAnalytics.track(OnboardingEvents.pin_set)
       this.navigateToNextScreen()
       if (this.props.route.params?.changePin) {
+        // call update pin function with async/await
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_confirmed)
         Logger.showMessage(i18n.t('accountScreen10:pinChanged'))
       }

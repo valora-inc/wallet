@@ -170,7 +170,12 @@ export type StackParamList = {
     account?: string
   }
   [Screens.PincodeSet]:
-    | { isVerifying?: boolean; changePin?: boolean; komenciAvailable?: boolean }
+    | {
+        isVerifying?: boolean
+        changePin?: boolean
+        komenciAvailable?: boolean
+        oldPin?: string | null
+      }
     | undefined
   [Screens.PhoneNumberLookupQuota]: {
     onBuy: () => void
