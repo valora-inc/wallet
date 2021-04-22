@@ -83,4 +83,6 @@ export enum ErrorMessages {
   PICTURE_LOAD_FAILED = 'pictureLoadFailed',
   SIMPLEX_PURCHASE_FETCH_FAILED = 'simplexPurchaseFetchFailed',
   PROVIDER_URL_FETCH_FAILED = 'providerUrlFetchFailed',
+  CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',
+  RAISE_LIMIT_EMAIL_NOT_SENT = 'accountScreen10:raiseLimitEmailNotSent',
 }

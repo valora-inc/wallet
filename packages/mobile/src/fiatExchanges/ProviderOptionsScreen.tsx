@@ -7,15 +7,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import {
-  ActivityIndicator,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -36,7 +28,6 @@ import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
 import QuestionIcon from 'src/icons/QuestionIcon'
-import { moonpayLogo, simplexLogo } from 'src/images/Images'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -138,6 +129,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     SIMPLEX_RESTRICTED,
     RAMP_RESTRICTED,
     TRANSAK_RESTRICTED,
+    XANPOOL_RESTRICTED,
   } = getProviderAvailability(userLocation)
 
   const providerWidgetInputs = {
@@ -146,47 +138,54 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     currencyToBuy,
   }
 
+  const xanpool = {
+    id: CicoProviderNames.Xanpool,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    restricted: XANPOOL_RESTRICTED,
+    onSelected: () => navigate(Screens.XanpoolScreen, providerWidgetInputs),
+  }
+
+  const moonpay = {
+    id: CicoProviderNames.Moonpay,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    restricted: MOONPAY_RESTRICTED,
+    onSelected: () => navigate(Screens.MoonPayScreen, providerWidgetInputs),
+  }
+
+  const simplex = {
+    id: CicoProviderNames.Simplex,
+    paymentMethods: [PaymentMethod.Card],
+    restricted: SIMPLEX_RESTRICTED,
+    onSelected: () => {
+      if (providerQuotes?.simplexQuote && userLocation?.ipAddress) {
+        navigate(Screens.Simplex, {
+          simplexQuote: providerQuotes?.simplexQuote,
+          userIpAddress: userLocation.ipAddress,
+        })
+      }
+    },
+  }
+
+  const ramp = {
+    id: CicoProviderNames.Ramp,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    restricted: RAMP_RESTRICTED,
+    onSelected: () => navigate(Screens.RampScreen, providerWidgetInputs),
+  }
+
+  const transak = {
+    id: CicoProviderNames.Transak,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    restricted: TRANSAK_RESTRICTED,
+    onSelected: () => navigate(Screens.TransakScreen, providerWidgetInputs),
+  }
+
   const providers: {
     cashOut: CicoProvider[]
     cashIn: CicoProvider[]
   } = {
-    cashOut: [],
-    cashIn: [
-      {
-        id: CicoProviderNames.Moonpay,
-        paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-        restricted: MOONPAY_RESTRICTED,
-        image: <Image source={moonpayLogo} style={styles.logo} resizeMode={'contain'} />,
-        onSelected: () => navigate(Screens.MoonPayScreen, providerWidgetInputs),
-      },
-      {
-        id: CicoProviderNames.Simplex,
-        paymentMethods: [PaymentMethod.Card],
-        restricted: SIMPLEX_RESTRICTED,
-        unavailable: !providerQuotes?.simplexQuote || !userLocation?.ipAddress,
-        image: <Image source={simplexLogo} style={styles.logo} resizeMode={'contain'} />,
-        onSelected: () => {
-          if (providerQuotes?.simplexQuote && userLocation?.ipAddress) {
-            navigate(Screens.Simplex, {
-              simplexQuote: providerQuotes?.simplexQuote,
-              userIpAddress: userLocation.ipAddress,
-            })
-          }
-        },
-      },
-      {
-        id: CicoProviderNames.Ramp,
-        paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-        restricted: RAMP_RESTRICTED,
-        onSelected: () => navigate(Screens.RampScreen, providerWidgetInputs),
-      },
-      {
-        id: CicoProviderNames.Transak,
-        paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-        restricted: TRANSAK_RESTRICTED,
-        onSelected: () => navigate(Screens.TransakScreen, providerWidgetInputs),
-      },
-    ].sort(sortProviders),
+    cashOut: [xanpool].sort(sortProviders),
+    cashIn: [moonpay, simplex, xanpool, ramp, transak].sort(sortProviders),
   }
 
   const providerOnPress = (provider: CicoProvider) => () => {

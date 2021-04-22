@@ -24,6 +24,12 @@ export const SIMPLEX_DATA = {
   api_key: config.simplex.api_key,
 }
 
+export const XANPOOL_DATA = {
+  widget_url: config.xanpool.widget_url,
+  public_key: config.xanpool.public_key,
+  private_key: config.xanpool.private_key,
+}
+
 export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
 
