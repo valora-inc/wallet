@@ -133,7 +133,6 @@ TransferFeedItem.fragments = {
       }
       timestamp
       address
-      account
       comment
     }
   `,

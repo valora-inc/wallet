@@ -77,10 +77,10 @@ export function* uploadNameAndPicture() {
   const pictureUri: string | null = yield select(pictureSelector)
   if (pictureUri) {
     const data = yield call(RNFS.readFile, pictureUri, 'base64')
-    const mimeType = extensionToMimeType[pictureUri.split('.').slice(-1)] || 'image/jpeg'
+    const mimeType = extensionToMimeType[pictureUri.split('.')[-1]] || 'image/jpeg'
     const dataURL = getDataURL(mimeType, data)
     const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
-    writeError = yield call([pictureAccessor, 'write'], dataURL, [])
+    writeError = yield call([pictureAccessor, 'write'], Buffer.from(dataURL), [])
     if (writeError) {
       Logger.error(TAG + '@uploadNameAndPicture', writeError)
       throw Error('Unable to write picture')

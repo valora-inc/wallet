@@ -14,7 +14,6 @@ import TransactionFeed, { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList, { TRANSACTIONS_QUERY } from 'src/transactions/TransactionsList'
 import { StandbyTransaction, TransactionStatus } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
-import { mockAccount } from 'test/values'
 
 jest.unmock('react-apollo')
 
@@ -34,7 +33,6 @@ const standbyTransactions: StandbyTransaction[] = [
     symbol: CURRENCY_ENUM.DOLLAR,
     timestamp: 1542406110,
     address: '0072bvy2o23u',
-    account: mockAccount,
   },
   {
     context: { id: 'a-cusd-cgld-standby-exchange-id' },
@@ -82,7 +80,6 @@ const pendingStandbyTransactions: StandbyTransaction[] = [
     symbol: CURRENCY_ENUM.DOLLAR,
     timestamp: 1578530538,
     address: '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10',
-    account: mockAccount,
   },
 ]
 
