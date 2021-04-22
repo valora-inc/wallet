@@ -688,6 +688,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
                 },
               ]
             }
+            textContentType="username"
             underlineColorAndroid="transparent"
             value="test"
           />

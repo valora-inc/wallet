@@ -211,8 +211,8 @@ function fuzzysortToRecipients(
 }
 
 function nameCompare(a: FuzzyRecipient, b: FuzzyRecipient) {
-  const nameA = a.name!.toUpperCase()
-  const nameB = b.name!.toUpperCase()
+  const nameA = a.name?.toUpperCase() ?? ''
+  const nameB = b.name?.toUpperCase() ?? ''
 
   if (nameA > nameB) {
     return 1

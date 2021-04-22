@@ -6,17 +6,19 @@ import {
   OffchainDataWrapper,
   OffchainErrors,
 } from '@celo/identity/lib/offchain-data-wrapper'
-import { buildEIP712TypedData, resolvePath } from '@celo/identity/lib/offchain/utils'
-import { toChecksumAddress } from '@celo/utils/lib/address'
+import { buildEIP712TypedData, resolvePath, signBuffer } from '@celo/identity/lib/offchain/utils'
+import { publicKeyToAddress, toChecksumAddress } from '@celo/utils/lib/address'
 import { recoverEIP712TypedDataSigner } from '@celo/utils/lib/signatureUtils'
 import { SignedPostPolicyV4Output } from '@google-cloud/storage'
 // Use targetted import otherwise the RN FormData gets used which doesn't support Buffer related functionality
 import FormData from 'form-data/lib/form_data'
 import * as t from 'io-ts'
 import config from 'src/geth/networkConfig'
-import { getWalletAsync } from 'src/web3/contracts'
+import Logger from 'src/utils/Logger'
 
 const TAG = 'UploadServiceDataWrapper'
+
+const expirationTime = 5 * 1000 * 60 // 5 minutes
 
 // Hacky way to get Buffer from Blob
 // Note: this is gonna transfer the whole data over the RN bridge (as base64 encoded string)
@@ -48,8 +50,9 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
   signer: Address
   self: Address
 
-  constructor(readonly kit: ContractKit, address: Address) {
-    this.signer = this.self = address
+  constructor(readonly kit: ContractKit, address: Address, dataEncryptionKey: Address) {
+    this.signer = dataEncryptionKey
+    this.self = address
   }
 
   sendFormData(url: string, formData: typeof FormData): Promise<string> {
@@ -63,7 +66,7 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
       body: formData.getBuffer(),
     }).then((x) => {
       if (!x.ok) {
-        Logger.error(TAG + '@writeDataTo', 'Error uploading ' + x.headers.get('location'))
+        Logger.error(TAG + '@sendFormData', 'Error uploading ' + x.headers.get('location'))
       }
       return x.text()
     })
@@ -79,8 +82,16 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
       body: JSON.stringify(data),
     })
 
-    if (response.status >= 400) {
-      throw new Error(await response.text())
+    if (!response.ok) {
+      Logger.error(
+        TAG + '@authorizeURLs',
+        'Error authorizing urls ' + response.headers.get('location')
+      )
+      throw new Error(
+        `Error authorizing CIP8 urls, with status ${
+          response.status
+        }, text: ${await response.text()}`
+      )
     }
 
     return response.json()
@@ -93,7 +104,9 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
   ): Promise<OffchainErrors | void> {
     const dataPayloads = [data, signature]
     const signedUrlsPayload = {
-      address: this.signer,
+      address: this.self,
+      signer: this.signer,
+      expiration: Date.now() + expirationTime,
       data: [
         {
           path: dataPath,
@@ -104,16 +117,8 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
       ],
     }
 
-    const hexPayload = ensureLeading0x(
-      Buffer.from(JSON.stringify(signedUrlsPayload)).toString('hex')
-    )
-
-    const wallet = await getWalletAsync()
-    if (!wallet) {
-      Logger.error(TAG, 'writeDataTo, wallet does not exist, this should not happen')
-      throw new Error('wallet does not exist')
-    }
-    const authorization = await wallet.signPersonalMessage(this.signer, hexPayload)
+    const bufferPayload = Buffer.from(JSON.stringify(signedUrlsPayload))
+    const authorization = await signBuffer(this, dataPath, bufferPayload)
     try {
       const signedUrls = await this.authorizeURLs(signedUrlsPayload, authorization)
       await Promise.all(
@@ -128,6 +133,7 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
         })
       )
     } catch (error) {
+      Logger.error(TAG + '@writeDataTo', 'Error', error)
       return new FetchError(error)
     }
   }
@@ -147,12 +153,16 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
     type?: t.Type<DataType>
   ): Promise<Result<Buffer, OffchainErrors>> {
     let dataResponse, signatureResponse
-
     const accountRoot = `${config.CIP8MetadataUrl}/${toChecksumAddress(account)}`
+    const headers = {
+      headers: {
+        cache: 'no-store',
+      },
+    }
     try {
       ;[dataResponse, signatureResponse] = await Promise.all([
-        fetch(resolvePath(accountRoot, dataPath)),
-        fetch(resolvePath(accountRoot, `${dataPath}.signature`)),
+        fetch(resolvePath(accountRoot, dataPath), headers),
+        fetch(resolvePath(accountRoot, `${dataPath}.signature`), headers),
       ])
     } catch (error) {
       return Err(new FetchError(error))
@@ -165,9 +175,6 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
       return Err(new FetchError(new Error(signatureResponse.statusText)))
     }
 
-    console.log(await (await dataResponse.blob()).arrayBuffer())
-    console.log(signatureResponse)
-
     const [dataBody, signatureBody] = await Promise.all([
       this.responseBuffer(dataResponse),
       this.responseBuffer(signatureResponse),
@@ -179,10 +186,12 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
     const toParse = type ? JSON.parse(body.toString()) : body
     const typedData = await buildEIP712TypedData(this, dataPath, toParse, type)
     const guessedSigner = recoverEIP712TypedDataSigner(typedData, signature)
-    if (eqAddress(guessedSigner, account)) {
+
+    const accounts = await this.kit.contracts.getAccounts()
+    const claimedSigner = publicKeyToAddress(await accounts.getDataEncryptionKey(account))
+    if (eqAddress(guessedSigner, claimedSigner)) {
       return Ok(body)
     }
-
     return Err(new InvalidSignature())
   }
 }

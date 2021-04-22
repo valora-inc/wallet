@@ -4,17 +4,24 @@ import { call, select } from 'redux-saga/effects'
 import { profileUploaded } from 'src/account/actions'
 import {
   checkIfProfileUploaded,
+  getOffchainWrapper,
   getProfileInfo,
   giveProfileAccess,
-  unlockDEK,
   uploadNameAndPicture,
 } from 'src/account/profileInfo'
 import { isProfileUploadedSelector, nameSelector, pictureSelector } from 'src/account/selectors'
 import { DEK, retrieveOrGeneratePepper } from 'src/pincode/authentication'
 import { getContractKit, getWallet } from 'src/web3/contracts'
-import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { getAccountAddress, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
-import { mockAccount, mockAccount2, mockName, mockWallet } from 'test/values'
+import {
+  mockAccount,
+  mockAccount2,
+  mockDEKAddress,
+  mockName,
+  mockPrivateDEK,
+  mockWallet,
+} from 'test/values'
 
 const mockNameWrite = jest.fn()
 const mockNameAllowAccess = jest.fn()
@@ -72,10 +79,10 @@ const contractKit = jest.fn(() => ({
 const pictureUri = `file://${RNFS.DocumentDirectoryPath}/profile-now.jpg`
 
 describe(uploadNameAndPicture, () => {
-  it('upload name and picture succesfully', async () => {
+  it('uploads name and picture succesfully', async () => {
     await expectSaga(uploadNameAndPicture)
       .provide([
-        [call(unlockDEK, true), null],
+        [call(getOffchainWrapper, true), null],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(nameSelector), mockName],
         [select(pictureSelector), pictureUri],
@@ -91,7 +98,7 @@ describe(uploadNameAndPicture, () => {
     mockNameWrite.mockReturnValueOnce(Error('error'))
     await expectSaga(uploadNameAndPicture)
       .provide([
-        [call(unlockDEK, true), null],
+        [call(getOffchainWrapper, true), null],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(nameSelector), mockName],
         [select(pictureSelector), pictureUri],
@@ -107,7 +114,7 @@ describe(uploadNameAndPicture, () => {
     mockPictureWrite.mockReturnValueOnce(Error('error'))
     await expectSaga(uploadNameAndPicture)
       .provide([
-        [call(unlockDEK, true), null],
+        [call(getOffchainWrapper, true), null],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(nameSelector), mockName],
         [select(pictureSelector), pictureUri],
@@ -126,7 +133,7 @@ describe(giveProfileAccess, () => {
   it('gives profile access successfully', async () => {
     await expectSaga(giveProfileAccess, recipients)
       .provide([
-        [call(unlockDEK), null],
+        [call(getOffchainWrapper), null],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(nameSelector), mockName],
         [select(pictureSelector), pictureUri],
@@ -142,7 +149,7 @@ describe(giveProfileAccess, () => {
     mockNameAllowAccess.mockReturnValueOnce(Error('error'))
     await expectSaga(giveProfileAccess, recipients)
       .provide([
-        [call(unlockDEK), null],
+        [call(getOffchainWrapper), null],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(nameSelector), mockName],
         [select(pictureSelector), pictureUri],
@@ -158,7 +165,7 @@ describe(giveProfileAccess, () => {
     mockPictureAllowAccess.mockReturnValueOnce(Error('error'))
     await expectSaga(giveProfileAccess, recipients)
       .provide([
-        [call(unlockDEK), null],
+        [call(getOffchainWrapper), null],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(nameSelector), mockName],
         [select(pictureSelector), pictureUri],
@@ -176,7 +183,7 @@ describe(getProfileInfo, () => {
   it('reads profile info successfully', async () => {
     await expectSaga(getProfileInfo, address)
       .provide([
-        [call(unlockDEK), null],
+        [call(getOffchainWrapper), null],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(nameSelector), mockName],
         [select(pictureSelector), pictureUri],
@@ -189,26 +196,21 @@ describe(getProfileInfo, () => {
   })
 })
 
-describe(unlockDEK, () => {
-  it('unlocks DEK in wallet', async () => {
+describe(getOffchainWrapper, () => {
+  it('unlocks DEK and creates offchain wrapper', async () => {
     const wallet = mockWallet
     const pepper = 'asdfasdf'
-    await expectSaga(unlockDEK)
+    await expectSaga(getOffchainWrapper)
       .provide([
-        [
-          select(dataEncryptionKeySelector),
-          '0xc029c933337a6a1b08fc75c56dfba605bfbece471c356923ef79056c5f0a2e81',
-        ],
+        [select(dataEncryptionKeySelector), mockPrivateDEK],
         [call(retrieveOrGeneratePepper, DEK), pepper],
         [call(getWallet), wallet],
+        [call(getContractKit), contractKit],
+        [call(getAccountAddress), mockAccount],
       ])
       .run()
 
-    expect(wallet.unlockAccount).toHaveBeenCalledWith(
-      '0x17dd1686f1b592c7d0869b439ddd1fcd669b352f',
-      pepper,
-      0
-    )
+    expect(wallet.unlockAccount).toHaveBeenCalledWith(mockDEKAddress, pepper, 0)
   })
 })
 

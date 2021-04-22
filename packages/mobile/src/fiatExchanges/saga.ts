@@ -1,5 +1,15 @@
 import BigNumber from 'bignumber.js'
-import { call, put, race, select, spawn, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import {
+  call,
+  cancelled,
+  put,
+  race,
+  select,
+  spawn,
+  take,
+  takeEvery,
+  takeLeading,
+} from 'redux-saga/effects'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -9,8 +19,10 @@ import {
   Actions,
   assignProviderToTxHash,
   BidaliPaymentRequestedAction,
+  setProvidersForTxHashes,
 } from 'src/fiatExchanges/actions'
 import { lastUsedProviderSelector } from 'src/fiatExchanges/reducer'
+import { providerTxHashesChannel } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import { updateKnownAddresses } from 'src/identity/actions'
 import { providerAddressesSelector } from 'src/identity/reducer'
@@ -24,6 +36,7 @@ import {
   NewTransactionsInFeedAction,
 } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
+import { getAccount } from 'src/web3/saga'
 
 const TAG = 'fiatExchanges/saga'
 
@@ -135,6 +148,26 @@ export function* searchNewItemsForProviderTxs({ transactions }: NewTransactionsI
   }
 }
 
+export function* watchProviderTxHashes() {
+  const account = yield call(getAccount)
+  const channel = yield call(providerTxHashesChannel, account)
+  if (!channel) {
+    return
+  }
+  try {
+    while (true) {
+      const txHashesToProvider = yield take(channel)
+      yield put(setProvidersForTxHashes(txHashesToProvider))
+    }
+  } catch (error) {
+    Logger.error(`${TAG}@watchProviderTxHashes`, error)
+  } finally {
+    if (yield cancelled()) {
+      channel.close()
+    }
+  }
+}
+
 export function* watchBidaliPaymentRequests() {
   yield takeLeading(Actions.BIDALI_PAYMENT_REQUESTED, bidaliPaymentRequest)
 }
@@ -146,4 +179,5 @@ function* watchNewFeedTransactions() {
 export function* fiatExchangesSaga() {
   yield spawn(watchBidaliPaymentRequests)
   yield spawn(watchNewFeedTransactions)
+  yield spawn(watchProviderTxHashes)
 }

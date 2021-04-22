@@ -1,3 +1,4 @@
+import { CeloTxReceipt } from '@celo/connect'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
@@ -43,6 +44,7 @@ export interface AddHashToStandbyTransactionAction {
 export interface TransactionConfirmedAction {
   type: Actions.TRANSACTION_CONFIRMED
   txId: string
+  receipt: CeloTxReceipt
 }
 
 export interface TransactionFailedAction {
@@ -91,9 +93,13 @@ export const resetStandbyTransactions = (): ResetStandbyTransactionsAction => ({
   type: Actions.RESET_STANDBY_TRANSACTIONS,
 })
 
-export const transactionConfirmed = (txId: string): TransactionConfirmedAction => ({
+export const transactionConfirmed = (
+  txId: string,
+  receipt: CeloTxReceipt
+): TransactionConfirmedAction => ({
   type: Actions.TRANSACTION_CONFIRMED,
   txId,
+  receipt,
 })
 
 export const transactionFailed = (txId: string): TransactionFailedAction => ({

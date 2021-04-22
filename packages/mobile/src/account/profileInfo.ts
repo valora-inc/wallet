@@ -1,8 +1,9 @@
-import { ensureLeading0x, normalizeAddressWith0x } from '@celo/base'
+import { Address, ensureLeading0x, normalizeAddressWith0x } from '@celo/base'
 import { PrivateNameAccessor } from '@celo/identity/lib/offchain/accessors/name'
 import { PrivatePictureAccessor } from '@celo/identity/lib/offchain/accessors/pictures'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
+import { toChecksumAddress } from 'ethereumjs-util'
 import RNFS from 'react-native-fs'
 import { call, put, select } from 'redux-saga/effects'
 import { profileUploaded } from 'src/account/actions'
@@ -12,14 +13,14 @@ import { DEK, retrieveOrGeneratePepper } from 'src/pincode/authentication'
 import { extensionToMimeType, getDataURL, saveRecipientPicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getWallet } from 'src/web3/contracts'
-import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { getAccountAddress } from 'src/web3/saga'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
 const TAG = 'account/profileInfo'
 
 // ensure that accounts existing before this feature was pushed out have their profiles uploaded
 export function* checkIfProfileUploaded() {
-  const isAlreadyUploaded = yield select(isProfileUploadedSelector)
+  const isAlreadyUploaded: boolean = yield select(isProfileUploadedSelector)
   if (isAlreadyUploaded) {
     return
   }
@@ -62,14 +63,9 @@ export function* checkIfProfileUploaded() {
 //   }
 // }
 
-// requires that the DEK has already been registered on chain
 export function* uploadNameAndPicture() {
-  yield call(unlockDEK, true)
-  const contractKit = yield call(getContractKit)
-  const account = yield call(getConnectedUnlockedAccount)
-  const offchainWrapper = new UploadServiceDataWrapper(contractKit, account)
-
-  const name = yield select(nameSelector)
+  const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper, true)
+  const name: string = yield select(nameSelector)
   const nameAccessor = new PrivateNameAccessor(offchainWrapper)
   let writeError = yield call([nameAccessor, 'write'], { name }, [])
   if (writeError) {
@@ -78,13 +74,13 @@ export function* uploadNameAndPicture() {
   }
   Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile name')
 
-  const pictureUri = yield select(pictureSelector)
+  const pictureUri: string | null = yield select(pictureSelector)
   if (pictureUri) {
     const data = yield call(RNFS.readFile, pictureUri, 'base64')
-    const mimeType = extensionToMimeType[pictureUri.split('.').slice(-1)] || 'image/jpeg'
+    const mimeType = extensionToMimeType[pictureUri.split('.')[-1]] || 'image/jpeg'
     const dataURL = getDataURL(mimeType, data)
     const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
-    writeError = yield call([pictureAccessor, 'write'], dataURL, [])
+    writeError = yield call([pictureAccessor, 'write'], Buffer.from(dataURL), [])
     if (writeError) {
       Logger.error(TAG + '@uploadNameAndPicture', writeError)
       throw Error('Unable to write picture')
@@ -96,11 +92,7 @@ export function* uploadNameAndPicture() {
 // this function gives permission to the recipient to view the user's profile info
 export function* giveProfileAccess(recipientAddresses: string[]) {
   // TODO: check if key for recipient already exists, skip if yes
-  yield call(unlockDEK)
-  const account = yield call(getConnectedUnlockedAccount)
-  const contractKit = yield call(getContractKit)
-  const offchainWrapper = new UploadServiceDataWrapper(contractKit, account)
-
+  const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper)
   const nameAccessor = new PrivateNameAccessor(offchainWrapper)
   let writeError = yield call([nameAccessor, 'allowAccess'], recipientAddresses)
   if (writeError) {
@@ -123,11 +115,7 @@ export function* giveProfileAccess(recipientAddresses: string[]) {
 
 export function* getProfileInfo(address: string) {
   // TODO: check if we already have profile info of address
-  const account = yield call(getConnectedUnlockedAccount)
-  const contractKit = yield call(getContractKit)
-  yield call(unlockDEK)
-  const offchainWrapper = new UploadServiceDataWrapper(contractKit, account)
-
+  const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper)
   const nameAccessor = new PrivateNameAccessor(offchainWrapper)
   try {
     const name = yield call([nameAccessor, 'read'], address)
@@ -148,7 +136,7 @@ export function* getProfileInfo(address: string) {
   // not throwing error for failed fetches, as addresses may have not uploaded their info
 }
 
-export function* unlockDEK(addAccount = false) {
+export function* getOffchainWrapper(addAccount = false) {
   const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
   if (!privateDataKey) {
     throw new Error('No data key in store. Should never happen.')
@@ -158,7 +146,7 @@ export function* unlockDEK(addAccount = false) {
   )
   const wallet: UnlockableWallet = yield call(getWallet)
   // directly using pepper because we don't want to set a PIN for the DEK
-  const pepper = yield call(retrieveOrGeneratePepper, DEK)
+  const pepper: string = yield call(retrieveOrGeneratePepper, DEK)
   if (addAccount) {
     try {
       yield call([wallet, wallet.addAccount], privateDataKey, pepper)
@@ -167,4 +155,13 @@ export function* unlockDEK(addAccount = false) {
     }
   }
   yield call([wallet, wallet.unlockAccount], dataKeyAddress, pepper, 0)
+
+  const contractKit = yield call(getContractKit)
+  const account: Address = yield call(getAccountAddress)
+  const offchainWrapper = new UploadServiceDataWrapper(
+    contractKit,
+    toChecksumAddress(account),
+    dataKeyAddress
+  )
+  return offchainWrapper
 }

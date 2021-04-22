@@ -1,10 +1,14 @@
 {
   "paymentReceivedTitle": "Pago Recibido",
   "paymentReceivedBody": "Has recibido {{amount}} {{currency}}",
+  "celoReceivedTitle": "Depósito de CELO recibido",
+  "celoReceivedBody": "Acabas de recibir {{amount}} CELO! Puedes ganar recompensas, ahorrar y comprar con Valora. Haz clic para saber más.",
   "dollar": "Celo Dólar",
   "dollar_plural": "Celo Dólares",
   "gold": "CELO",
   "paymentRequestedTitle": "Pago solicitado",
   "paymentRequestedBody": "Se ha solicitado pago de {{amount}} {{currency}}.",
-  "rewardReceivedTitle": "Recompensa recibida"
+  "rewardReceivedTitle": "Recompensa recibida",
+  "inviteTitle": "¡Tu amig@ acaba de recibir tu transferencia!",
+  "inviteBody": "¡El destinatario de los fondos que has enviado acaba de suscribirte a Valora! Ahora puede enviar valor unos a otros usando sus números de teléfono con tarifas cercanas a cero"
 }

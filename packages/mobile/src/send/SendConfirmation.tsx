@@ -28,8 +28,10 @@ import CalculateFee, {
   CalculateFeeChildren,
   PropsWithoutChildren as CalculateFeeProps,
 } from 'src/fees/CalculateFee'
-import { getFeeDollars } from 'src/fees/selectors'
+import { FeeInfo } from 'src/fees/saga'
+import { getFeeInTokens } from 'src/fees/selectors'
 import { features } from 'src/flags'
+import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import i18n, { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { fetchDataEncryptionKey } from 'src/identity/actions'
@@ -84,6 +86,7 @@ function SendConfirmation(props: Props) {
   const [modalVisible, setModalVisible] = useState(false)
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState('')
+  const [feeInfo, setFeeInfo] = useState(undefined as FeeInfo | undefined)
 
   const dispatch = useDispatch()
   const { t } = useTranslation(Namespaces.sendFlow7)
@@ -116,8 +119,8 @@ function SendConfirmation(props: Props) {
   )
   const account = useSelector(currentAccountSelector)
   const isSending = useSelector(isSendingSelector)
-  // tslint:disable-next-line: react-hooks-nesting
-  const dollarBalance = useSelector(stableTokenBalanceSelector) || '0'
+  const dollarBalance = useSelector(stableTokenBalanceSelector) ?? '0'
+  const celoBalance = useSelector(celoTokenBalanceSelector) ?? '0'
   const appConnected = useSelector(isAppConnected)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
@@ -183,6 +186,7 @@ function SendConfirmation(props: Props) {
         finalComment,
         recipient,
         recipientAddress,
+        feeInfo,
         inviteMethod,
         firebasePendingRequestUid,
         fromModal
@@ -232,16 +236,31 @@ function SendConfirmation(props: Props) {
   }
 
   const renderWithAsyncFee: CalculateFeeChildren = (asyncFee) => {
-    const fee = getFeeDollars(asyncFee.result)
-    const amountWithFee = amount.plus(fee || 0)
-    const userHasEnough = !asyncFee.loading && amountWithFee.isLessThanOrEqualTo(dollarBalance)
+    const fee = getFeeInTokens(asyncFee.result?.fee)
+
+    // Check if the fee info has been updated and set it in the component state for use in sending.
+    const feeInfoUpdated = feeInfo?.fee !== asyncFee.result?.fee
+    if (asyncFee.result) {
+      setFeeInfo(asyncFee.result)
+    }
+
+    // TODO(victor): If CELO is used to pay fees, it cannot be added to the cUSD ammount. We should
+    // fix this at some point, but because only cUSD is used for fees right now, it is not an issue.
+    const amountWithFee =
+      asyncFee.result?.currency === CURRENCY_ENUM.DOLLAR ? amount.plus(fee ?? 0) : amount
+    const userHasEnough =
+      !asyncFee.loading &&
+      amountWithFee.isLessThanOrEqualTo(dollarBalance) &&
+      (asyncFee.result?.currency !== CURRENCY_ENUM.GOLD ||
+        !fee ||
+        fee?.isLessThanOrEqualTo(celoBalance))
     const isPrimaryButtonDisabled = isSending || !userHasEnough || !appConnected || !!asyncFee.error
 
     const isInvite = type === TokenTransactionType.InviteSent
     const inviteFee = getInvitationVerificationFeeInDollars()
 
     const subtotalAmount = {
-      value: amount || inviteFee,
+      value: amount.isGreaterThan(0) ? amount : inviteFee,
       currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
     }
 
@@ -276,10 +295,12 @@ function SendConfirmation(props: Props) {
         dekFee = fee.dividedBy(2)
       }
 
-      ValoraAnalytics.track(FeeEvents.fee_rendered, {
-        feeType: 'Security',
-        fee: securityFee ? securityFee.toString() : securityFee,
-      })
+      if (feeInfoUpdated) {
+        ValoraAnalytics.track(FeeEvents.fee_rendered, {
+          feeType: 'Security',
+          fee: securityFee?.toString(),
+        })
+      }
       const totalAmount = {
         value: amountWithFee,
         currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
@@ -290,7 +311,7 @@ function SendConfirmation(props: Props) {
           <FeeDrawer
             testID={'feeDrawer/SendConfirmation'}
             isEstimate={true}
-            currency={CURRENCY_ENUM.DOLLAR}
+            currency={asyncFee.result?.currency}
             inviteFee={inviteFee}
             isInvite={isInvite && !features.KOMENCI}
             securityFee={securityFee}

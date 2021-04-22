@@ -6,7 +6,7 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { calculateFee } from 'src/fees/saga'
+import { calculateFee, FeeInfo } from 'src/fees/saga'
 import { transferGoldToken } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/reducer'
@@ -33,18 +33,27 @@ import {
 } from 'src/tokens/saga'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { getRegisterDekTxGas, registerAccountDek } from 'src/web3/dataEncryptionKey'
+import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
 
 const TAG = 'send/saga'
 
+// All observed cUSD and CELO transfers take less than 200000 gas.
+const STATIC_SEND_TOKEN_GAS_ESTIMATE = 200000
+
 export async function getSendTxGas(
   account: string,
   currency: CURRENCY_ENUM,
-  params: BasicTokenTransfer
-) {
+  params: BasicTokenTransfer,
+  useStatic: boolean = true
+): Promise<BigNumber> {
+  if (useStatic) {
+    Logger.debug(`${TAG}/getSendTxGas`, `Using static gas of ${STATIC_SEND_TOKEN_GAS_ESTIMATE}`)
+    return new BigNumber(STATIC_SEND_TOKEN_GAS_ESTIMATE)
+  }
+
   try {
     Logger.debug(`${TAG}/getSendTxGas`, 'Getting gas estimate for send tx')
     const tx = await createTokenTransferTransaction(currency, params)
@@ -79,7 +88,7 @@ export async function getSendFee(
       gas = gas.plus(dekGas)
     }
 
-    return calculateFee(gas)
+    return calculateFee(gas, currency)
   } catch (error) {
     throw error
   }
@@ -134,15 +143,13 @@ function* sendPayment(
   recipientAddress: string,
   amount: BigNumber,
   comment: string,
-  currency: CURRENCY_ENUM
+  currency: CURRENCY_ENUM,
+  feeInfo?: FeeInfo
 ) {
   try {
     ValoraAnalytics.track(SendEvents.send_tx_start)
 
     const ownAddress: string = yield select(currentAccountSelector)
-    // Ensure comment encryption is possible by first ensuring the account's DEK has been registered
-    // For most users, this happens during redeem invite or verification. This is a fallback.
-    yield call(registerAccountDek, ownAddress)
     const encryptedComment = yield call(encryptComment, comment, recipientAddress, ownAddress, true)
 
     const context = newTransactionContext(TAG, 'Send payment')
@@ -153,6 +160,7 @@ function* sendPayment(
             recipientAddress,
             amount: amount.toString(),
             comment: encryptedComment,
+            feeInfo,
             context,
           })
         )
@@ -164,6 +172,7 @@ function* sendPayment(
             recipientAddress,
             amount: amount.toString(),
             comment: encryptedComment,
+            feeInfo,
             context,
           })
         )
@@ -192,6 +201,7 @@ export function* sendPaymentOrInviteSaga({
   comment,
   recipient,
   recipientAddress,
+  feeInfo,
   inviteMethod,
   firebasePendingRequestUid,
   fromModal,
@@ -200,14 +210,15 @@ export function* sendPaymentOrInviteSaga({
     yield call(getConnectedUnlockedAccount)
 
     if (recipientAddress) {
-      yield call(sendPayment, recipientAddress, amount, comment, CURRENCY_ENUM.DOLLAR)
+      yield call(sendPayment, recipientAddress, amount, comment, CURRENCY_ENUM.DOLLAR, feeInfo)
     } else if (recipientHasNumber(recipient)) {
       yield call(
         sendInvite,
         recipient.e164PhoneNumber,
         inviteMethod || InviteBy.SMS,
         amount,
-        CURRENCY_ENUM.DOLLAR
+        CURRENCY_ENUM.DOLLAR,
+        feeInfo
       )
     }
 

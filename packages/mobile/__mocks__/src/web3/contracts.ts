@@ -8,7 +8,6 @@ export const destroyContractKit = jest.fn()
 const contractKit = newKitFromWeb3(new Web3())
 
 export function* getContractKit() {
-  console.log(contractKit)
   return contractKit
 }
 
