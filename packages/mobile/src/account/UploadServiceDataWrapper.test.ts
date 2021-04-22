@@ -15,6 +15,10 @@ jest.mock('@celo/identity/lib/offchain/utils', () => {
   }
 })
 
+const mockAccountsWrapper = {
+  getDataEncryptionKey: jest.fn(() => '0xb61bff5b1529ffae8315c9bc12a42b23cd15a5b7'),
+}
+
 describe(UploadServiceDataWrapper, () => {
   it('writes data successfully', async () => {
     const url1 = 'url1'
@@ -84,24 +88,153 @@ describe(UploadServiceDataWrapper, () => {
     const account = mockAccount
     const offchainWrapper = new UploadServiceDataWrapper(contractKit, account, mockDEKAddress)
 
-    const readAddress = mockAccount2
+    const payload = Buffer.from([
+      186,
+      193,
+      139,
+      87,
+      203,
+      15,
+      238,
+      150,
+      70,
+      126,
+      154,
+      163,
+      5,
+      244,
+      82,
+      237,
+      168,
+      91,
+      142,
+      54,
+      142,
+      111,
+      172,
+      143,
+      20,
+      248,
+      254,
+      218,
+      50,
+      16,
+      65,
+    ])
+    const signature = Buffer.from([
+      99,
+      47,
+      234,
+      123,
+      124,
+      160,
+      175,
+      75,
+      197,
+      142,
+      82,
+      224,
+      128,
+      170,
+      199,
+      240,
+      8,
+      253,
+      119,
+      153,
+      182,
+      208,
+      36,
+      10,
+      23,
+      154,
+      78,
+      117,
+      165,
+      47,
+      92,
+      240,
+      59,
+      136,
+      91,
+      241,
+      174,
+      110,
+      169,
+      121,
+      133,
+      135,
+      201,
+      93,
+      226,
+      26,
+      124,
+      48,
+      119,
+      253,
+      22,
+      105,
+      124,
+      225,
+      207,
+      155,
+      89,
+      35,
+      12,
+      69,
+      158,
+      205,
+      248,
+      156,
+      0,
+    ])
 
-    // const payload =
-    // const signature =
     const responseBuffer = (UploadServiceDataWrapper.prototype.responseBuffer = jest.fn())
     responseBuffer.mockImplementationOnce(() => {
-      return 'payload'
+      return payload
     })
     responseBuffer.mockImplementationOnce(() => {
-      return 'signature'
+      return signature
     })
-    // const chainID = UploadServiceDataWrapper.prototype.kit = jest.fn()
-    // chainID.mockImplementation(() => Promise.resolve(0))
 
-    offchainWrapper.kit.connection.chainId = jest.fn(() => Promise.resolve(0))
-
-    expect(await offchainWrapper.readDataFromAsResult(readAddress, 'data path', true)).toEqual(
-      Ok(Buffer.from('Asdf'))
-    )
+    offchainWrapper.kit.connection.chainId = jest.fn(() => Promise.resolve(44787))
+    // @ts-ignore not mocking the entire AccountsWrapper because there are too many functions
+    offchainWrapper.kit.contracts.getAccounts = jest.fn(() => Promise.resolve(mockAccountsWrapper))
+    const expected = Buffer.from([
+      186,
+      193,
+      139,
+      87,
+      203,
+      15,
+      238,
+      150,
+      70,
+      126,
+      154,
+      163,
+      5,
+      244,
+      82,
+      237,
+      168,
+      91,
+      142,
+      54,
+      142,
+      111,
+      172,
+      143,
+      20,
+      248,
+      254,
+      218,
+      50,
+      16,
+      65,
+    ])
+    expect(
+      await offchainWrapper.readDataFromAsResult(mockAccount2, '/account/name.enc', true)
+    ).toEqual(Ok(expected))
   })
 })

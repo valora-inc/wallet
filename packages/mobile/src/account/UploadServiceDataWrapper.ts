@@ -7,7 +7,7 @@ import {
   OffchainErrors,
 } from '@celo/identity/lib/offchain-data-wrapper'
 import { buildEIP712TypedData, resolvePath, signBuffer } from '@celo/identity/lib/offchain/utils'
-import { toChecksumAddress } from '@celo/utils/lib/address'
+import { publicKeyToAddress, toChecksumAddress } from '@celo/utils/lib/address'
 import { recoverEIP712TypedDataSigner } from '@celo/utils/lib/signatureUtils'
 import { SignedPostPolicyV4Output } from '@google-cloud/storage'
 // Use targetted import otherwise the RN FormData gets used which doesn't support Buffer related functionality
@@ -153,12 +153,16 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
     type?: t.Type<DataType>
   ): Promise<Result<Buffer, OffchainErrors>> {
     let dataResponse, signatureResponse
-
     const accountRoot = `${config.CIP8MetadataUrl}/${toChecksumAddress(account)}`
+    const headers = {
+      headers: {
+        cache: 'no-store',
+      },
+    }
     try {
       ;[dataResponse, signatureResponse] = await Promise.all([
-        fetch(resolvePath(accountRoot, dataPath)),
-        fetch(resolvePath(accountRoot, `${dataPath}.signature`)),
+        fetch(resolvePath(accountRoot, dataPath), headers),
+        fetch(resolvePath(accountRoot, `${dataPath}.signature`), headers),
       ])
     } catch (error) {
       return Err(new FetchError(error))
@@ -176,19 +180,18 @@ export default class UploadServiceDataWrapper implements OffchainDataWrapper {
       this.responseBuffer(signatureResponse),
     ])
 
-    console.log(dataBody)
-    console.log(signatureBody)
-
     const body = Buffer.from(dataBody)
     const signature = ensureLeading0x(Buffer.from(signatureBody).toString('hex'))
 
     const toParse = type ? JSON.parse(body.toString()) : body
     const typedData = await buildEIP712TypedData(this, dataPath, toParse, type)
     const guessedSigner = recoverEIP712TypedDataSigner(typedData, signature)
-    if (eqAddress(guessedSigner, account)) {
+
+    const accounts = await this.kit.contracts.getAccounts()
+    const claimedSigner = publicKeyToAddress(await accounts.getDataEncryptionKey(account))
+    if (eqAddress(guessedSigner, claimedSigner)) {
       return Ok(body)
     }
-
     return Err(new InvalidSignature())
   }
 }

@@ -3,6 +3,7 @@ import { PrivateNameAccessor } from '@celo/identity/lib/offchain/accessors/name'
 import { PrivatePictureAccessor } from '@celo/identity/lib/offchain/accessors/pictures'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { UnlockableWallet } from '@celo/wallet-base'
+import { toChecksumAddress } from 'ethereumjs-util'
 import RNFS from 'react-native-fs'
 import { call, put, select } from 'redux-saga/effects'
 import { profileUploaded } from 'src/account/actions'
@@ -62,7 +63,6 @@ export function* checkIfProfileUploaded() {
 //   }
 // }
 
-// requires that the DEK has already been registered on chain
 export function* uploadNameAndPicture() {
   const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper, true)
   const name: string = yield select(nameSelector)
@@ -158,6 +158,10 @@ export function* getOffchainWrapper(addAccount = false) {
 
   const contractKit = yield call(getContractKit)
   const account: Address = yield call(getAccountAddress)
-  const offchainWrapper = new UploadServiceDataWrapper(contractKit, account, dataKeyAddress)
+  const offchainWrapper = new UploadServiceDataWrapper(
+    contractKit,
+    toChecksumAddress(account),
+    dataKeyAddress
+  )
   return offchainWrapper
 }
