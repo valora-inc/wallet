@@ -189,5 +189,6 @@
   "withdraw": "Sacar",
   "countryNotAvailable": "A {{appName}} não está disponível em seu país",
   "firebaseFetchFailed": "A conexão com o servidor falhou",
-  "pictureLoadFailed": "Ocorreu um erro ao carregar sua imagem"
+  "pictureLoadFailed": "Ocorreu um erro ao carregar sua imagem",
+  "cashOutLimitExceeded": "Você não pode sacar mais do que o seu saldo de {{balance}} {{currency}}"
 }
