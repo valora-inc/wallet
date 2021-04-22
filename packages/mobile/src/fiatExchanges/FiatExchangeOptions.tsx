@@ -166,6 +166,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
       navigate(Screens.FiatExchangeAmount, {
         currency: selectedCurrency,
         paymentMethod: selectedPaymentMethod,
+        isCashIn,
       })
     }
   }
@@ -259,6 +260,11 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                 </>
               ) : (
                 <>
+                  <PaymentMethodRadioItem
+                    text={t('payWithBank')}
+                    selected={selectedPaymentMethod === PaymentMethod.Bank}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.Bank)}
+                  />
                   <PaymentMethodRadioItem
                     text={t('receiveOnAddress')}
                     selected={selectedPaymentMethod === PaymentMethod.Address}

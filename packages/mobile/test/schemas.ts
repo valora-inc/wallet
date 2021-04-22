@@ -545,12 +545,16 @@ export const v8Schema = {
     ...v7Schema.account,
     recoveringFromStoreWipe: false,
     accountToRecoverFromStoreWipe: undefined,
+    dailyLimitRequestStatus: undefined,
   },
 }
 
 export const v9Schema = {
   ...v8Schema,
-  app: _.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+  app: {
+    ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+    showRaiseDailyLimitTarget: undefined,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

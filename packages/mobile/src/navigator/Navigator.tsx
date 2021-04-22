@@ -8,6 +8,7 @@ import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
+import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
@@ -48,6 +49,7 @@ import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import RampScreen from 'src/fiatExchanges/RampScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
 import TransakScreen from 'src/fiatExchanges/TransakScreen'
+import XanpoolScreen from 'src/fiatExchanges/XanpoolScreen'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
@@ -440,6 +442,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={SupportContact}
     />
     <Navigator.Screen
+      options={RaiseLimitScreen.navOptions}
+      name={Screens.RaiseLimitScreen}
+      component={RaiseLimitScreen}
+    />
+    <Navigator.Screen
       options={externalExchangesScreenOptions}
       name={Screens.ExternalExchanges}
       component={ExternalExchanges}
@@ -464,6 +471,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={MoonPayScreen.navigationOptions}
       name={Screens.MoonPayScreen}
       component={MoonPayScreen}
+    />
+    <Navigator.Screen
+      options={XanpoolScreen.navigationOptions}
+      name={Screens.XanpoolScreen}
+      component={XanpoolScreen}
     />
     <Navigator.Screen
       options={RampScreen.navigationOptions}
