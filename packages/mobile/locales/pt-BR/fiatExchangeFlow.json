@@ -39,7 +39,8 @@
     "title": "Sobre os provedores",
     "body": "Esses provedores permitem que você adicione ou saque fundos da sua conta. Os provedores determinam suas próprias tarifas e restrições, dependendo de diversos fatores. Visite o site do provedor para obter ajuda."
   },
-  "invalidAmountDialog": {
+  "minAmountDialog": {
+    "body": "Nossos provedores não aceitam valores inferiores a {{limit}}. Insira um valor maior.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {

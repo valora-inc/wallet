@@ -39,7 +39,8 @@
     "title": "Sobre proveedores",
     "body": "Estos proveedores te permiten agregar o retirar fondos de tu cuenta. Los proveedores determinan sus propias tarifas y restricciones, dependiendo de varios factores. Visita la web del proveedor para obtener ayuda."
   },
-  "invalidAmountDialog": {
+  "minAmountDialog": {
+    "body": "Nuestros proveedores no soportan cantidades menores a {{limit}}. Por favor ingresa un monto mayor.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
