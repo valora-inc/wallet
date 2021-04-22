@@ -57,6 +57,17 @@ export class GethNativeBridgeWallet extends RemoteWallet<GethNativeBridgeSigner>
     this.addSigner(resultantAddress, signer)
     return resultantAddress
   }
+  /**
+   * Updates the passphrase of an account
+   * @param account - the account to update
+   * @param oldPassphrase - the passphrase currently associated with the account
+   * @param newPassphrase - the new passphrase to use with the account
+   * @returns whether the update was successful
+   */
+  async updateAccount(account: string, oldPassphrase: string, newPassphrase: string) {
+    Logger.info(`${TAG}@updateAccount`, `Updating ${account}`)
+    return this.geth.updateAccount(account, oldPassphrase, newPassphrase)
+  }
 
   /**
    * Unlocks an account for a given duration

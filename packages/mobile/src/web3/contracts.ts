@@ -6,7 +6,6 @@
 import { Lock } from '@celo/base/lib/lock'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import { sleep } from '@celo/utils/lib/async'
-import { UnlockableWallet } from '@celo/wallet-base'
 import GethBridge from 'react-native-geth'
 import { call, delay, select } from 'redux-saga/effects'
 import { ContractKitEvents } from 'src/analytics/Events'
@@ -27,7 +26,7 @@ const KIT_INIT_RETRY_DELAY = 2000
 const CONTRACT_KIT_RETRIES = 3
 const WAIT_FOR_CONTRACT_KIT_RETRIES = 10
 
-let wallet: UnlockableWallet | undefined
+let wallet: GethNativeBridgeWallet | undefined
 let contractKit: ContractKit | undefined
 
 const initContractKitLock = new Lock()

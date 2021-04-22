@@ -33,11 +33,12 @@ export function getMnemonicLanguage(language: string | null) {
   }
 }
 
-export async function storeMnemonic(mnemonic: string, account: string | null) {
+export async function storeMnemonic(mnemonic: string, account: string | null, password?: string) {
   if (!account) {
     throw new Error('Account not yet initialized')
   }
-  const encryptedMnemonic = await encryptMnemonic(mnemonic, account)
+  const passwordToUse = password ?? (await getPassword(account))
+  const encryptedMnemonic = await encryptMnemonic(mnemonic, passwordToUse)
   return storeItem({ key: MNEMONIC_STORAGE_KEY, value: encryptedMnemonic })
 }
 
@@ -45,7 +46,10 @@ export async function clearStoredMnemonic() {
   await removeStoredItem(MNEMONIC_STORAGE_KEY)
 }
 
-export async function getStoredMnemonic(account: string | null): Promise<string | null> {
+export async function getStoredMnemonic(
+  account: string | null,
+  password?: string
+): Promise<string | null> {
   try {
     if (!account) {
       throw new Error('Account not yet initialized')
@@ -57,7 +61,8 @@ export async function getStoredMnemonic(account: string | null): Promise<string 
       throw new Error('No mnemonic found in storage')
     }
 
-    return decryptMnemonic(encryptedMnemonic, account)
+    const passwordToUse = password ?? (await getPassword(account))
+    return decryptMnemonic(encryptedMnemonic, passwordToUse)
   } catch (error) {
     Logger.error(TAG, 'Failed to retrieve mnemonic', error)
     return null
@@ -112,13 +117,11 @@ export function isValidBackupPhrase(phrase: string) {
   return isValidMnemonic(phrase, 24)
 }
 
-export async function encryptMnemonic(phrase: string, account: string) {
-  const password = await getPassword(account)
+export async function encryptMnemonic(phrase: string, password: string) {
   return CryptoJS.AES.encrypt(phrase, password).toString()
 }
 
-export async function decryptMnemonic(encryptedMnemonic: string, account: string) {
-  const password = await getPassword(account)
+export async function decryptMnemonic(encryptedMnemonic: string, password: string) {
   const bytes = CryptoJS.AES.decrypt(encryptedMnemonic, password)
   return bytes.toString(CryptoJS.enc.Utf8)
 }

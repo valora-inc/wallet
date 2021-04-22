@@ -15,6 +15,7 @@ import { pincodeTypeSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
 import { UNLOCK_DURATION } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -249,6 +250,28 @@ export async function checkPin(pin: string, account: string) {
   }
 
   return hashForPin === correctHash
+}
+
+export async function updatePin(account: string, oldPin: string, newPin: string) {
+  try {
+    clearPasswordCaches()
+    const wallet = await getWalletAsync()
+    const oldPassword = await getPasswordForPin(oldPin)
+    const newPassword = await getPasswordForPin(newPin)
+    const updated = await wallet.updateAccount(account, oldPassword, newPassword)
+    if (updated) {
+      const hash = await getPasswordHash(newPassword)
+      await storePasswordHash(hash, account)
+      const phrase = await getStoredMnemonic(account, oldPassword)
+      if (phrase) {
+        await storeMnemonic(phrase, account, newPassword)
+      } else {
+        throw new Error("Couldn't find stored mnemonic")
+      }
+    }
+  } catch (error) {
+    Logger.error(`${TAG}@updatePin`, error)
+  }
 }
 
 // Confirm password by actually attempting to unlock the account
