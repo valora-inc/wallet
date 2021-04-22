@@ -1,9 +1,9 @@
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import NumberKeypad from '@celo/react-components/components/NumberKeypad'
-import fontStyles from '@celo/react-components/styles/fonts'
 import colors from '@celo/react-components/styles/colors'
+import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
+import { CURRENCY_ENUM, CURRENCIES } from '@celo/utils/lib/currencies'
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
@@ -26,6 +26,7 @@ import {
   DOLLAR_TRANSACTION_MIN_AMOUNT,
   NUMBER_INPUT_MAX_DECIMALS,
 } from 'src/config'
+import { DOLLAR_ADD_FUNDS_MIN_AMOUNT } from 'src/config'
 import { getFeeEstimateDollars } from 'src/fees/selectors'
 import i18n, { Namespaces } from 'src/i18n'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
@@ -56,9 +57,28 @@ import { getFeeType, useDailyTransferLimitValidator } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchDollarBalance } from 'src/stableToken/actions'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
-import { DOLLAR_ADD_FUNDS_MIN_AMOUNT } from 'src/config'
 
-const MAX_ESCROW_VALUE = new BigNumber(20)
+import { ExpandableWindow } from 'src/fiatExchanges/components/ExpandableWindow'
+import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
+import SelectCurrency from 'src/fiatExchanges/SelectCurrency'
+import ArrowFilled from 'src/icons/ArrowFilled'
+import Touchable from '@celo/react-components/components/Touchable'
+
+export enum PaymentMethod {
+  Card = 'Card',
+  Bank = 'Bank',
+  Exchange = 'Exchange',
+  Address = 'Address',
+  LocalProvider = 'LocalProvider',
+  GiftCard = 'GiftCard',
+}
+
+enum OpenExtendedWindow {
+  None,
+  Currency,
+  Method,
+  Provider,
+}
 
 type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeIntegratedAmount>
 type Props = RouteProps
@@ -66,23 +86,51 @@ type Props = RouteProps
 const { decimalSeparator } = getNumberFormatSettings()
 
 export const fiatExchangeIntegratedAmountOptions = () => {
-  console.log('--------------------- options read')
   return {
     ...emptyHeader,
-    headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_add_funds_amount_continue} />,
-    headerTitle: () => <HeaderTitleWithBalance title={'title'} token={CURRENCY_ENUM.DOLLAR} />,
+    headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_add_funds_amount_back} />,
   }
 }
 
-function FiatExchangeIntegratedAmount(props: Props) {
+function FiatExchangeIntegratedAmount({ navigation }: Props) {
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
 
   const [amount, setAmount] = useState('')
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
+  const [openExtendedWindow, setOpenExtendedWindow] = useState(OpenExtendedWindow.None)
+  const [selectedCurrency, setSelectedCurrency] = useState<CURRENCY_ENUM>(CURRENCY_ENUM.DOLLAR)
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencyExchangeRate = useSelector(getLocalCurrencyExchangeRate)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+
+  const newSetOpenExtendedWindow = (newState: OpenExtendedWindow) =>
+    React.useCallback(() => {
+      setOpenExtendedWindow(newState)
+    }, [setOpenExtendedWindow])
+
+  const closeExtendedWindow = newSetOpenExtendedWindow(OpenExtendedWindow.None)
+  const showCurrencyExtendedWindow = newSetOpenExtendedWindow(OpenExtendedWindow.Currency)
+  const showMethodExtendedWindow = newSetOpenExtendedWindow(OpenExtendedWindow.Method)
+  const showProviderExtendedWindow = newSetOpenExtendedWindow(OpenExtendedWindow.Provider)
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <Touchable onPress={showCurrencyExtendedWindow}>
+          <View style={styles.selectCurrencyContainer}>
+            <Text style={styles.selectCurrency}>Add {CURRENCIES[selectedCurrency].code}</Text>
+            <ArrowFilled />
+          </View>
+        </Touchable>
+      ),
+    })
+  }, [selectedCurrency])
+
+  const onSelectCurrency = React.useCallback((currency: CURRENCY_ENUM) => {
+    setSelectedCurrency(currency)
+    setOpenExtendedWindow(OpenExtendedWindow.None)
+  }, [])
 
   const minAmountInLocalCurrency = convertDollarsToLocalAmount(
     DOLLAR_ADD_FUNDS_MIN_AMOUNT,
@@ -141,6 +189,15 @@ function FiatExchangeIntegratedAmount(props: Props) {
 
   return (
     <SafeAreaView style={styles.paddedContainer}>
+      {openExtendedWindow === OpenExtendedWindow.Currency ? (
+        <ExpandableWindow onClose={closeExtendedWindow} title="Select a Balance to Top Up">
+          <SelectCurrency selectedCurrency={selectedCurrency} onSelect={onSelectCurrency} />
+        </ExpandableWindow>
+      ) : openExtendedWindow === OpenExtendedWindow.Method ? (
+        <ExpandableWindow onClose={closeExtendedWindow} title="Select a Payment Method" />
+      ) : openExtendedWindow === OpenExtendedWindow.Provider ? (
+        <ExpandableWindow onClose={closeExtendedWindow} title="Select a Provider" />
+      ) : null}
       <DisconnectBanner />
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.showAmountContainer}>
@@ -227,6 +284,14 @@ const styles = StyleSheet.create({
   },
   nextBtn: {
     paddingVertical: variables.contentPadding,
+  },
+  selectCurrencyContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  selectCurrency: {
+    ...fontStyles.h3,
+    paddingRight: 6,
   },
 })
 

@@ -42,14 +42,8 @@ import { navigateToURI } from 'src/utils/linking'
 type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeOptions>
 type Props = RouteProps
 
-export enum PaymentMethod {
-  Card = 'Card',
-  Bank = 'Bank',
-  Exchange = 'Exchange',
-  Address = 'Address',
-  LocalProvider = 'LocalProvider',
-  GiftCard = 'GiftCard',
-}
+// TODO: Remove this temporal redirection to keep retrocompatibility
+export { PaymentMethod } from 'src/fiatExchanges/FiatExchangeIntegratedAmount'
 
 export const fiatExchangesOptionsScreenOptions = ({
   route,
