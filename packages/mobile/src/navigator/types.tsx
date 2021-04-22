@@ -105,12 +105,18 @@ export type StackParamList = {
   [Screens.FiatExchangeAmount]: {
     currency: CURRENCY_ENUM
     paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
+    isCashIn: boolean
   }
   [Screens.FiatExchangeOptions]: {
     isCashIn?: boolean
     amount?: BigNumber
   }
   [Screens.MoonPayScreen]: {
+    localAmount: number
+    currencyCode: LocalCurrencyCode
+    currencyToBuy: CurrencyCode
+  }
+  [Screens.XanpoolScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
     currencyToBuy: CurrencyCode

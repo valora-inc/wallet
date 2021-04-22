@@ -49,6 +49,7 @@ import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import RampScreen from 'src/fiatExchanges/RampScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
 import TransakScreen from 'src/fiatExchanges/TransakScreen'
+import XanpoolScreen from 'src/fiatExchanges/XanpoolScreen'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
@@ -470,6 +471,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={MoonPayScreen.navigationOptions}
       name={Screens.MoonPayScreen}
       component={MoonPayScreen}
+    />
+    <Navigator.Screen
+      options={XanpoolScreen.navigationOptions}
+      name={Screens.XanpoolScreen}
+      component={XanpoolScreen}
     />
     <Navigator.Screen
       options={RampScreen.navigationOptions}
