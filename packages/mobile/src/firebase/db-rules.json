@@ -65,6 +65,12 @@
     "localCicoProviders": {
       ".read": true,
       ".write": false
+    },
+    "dailyLimitRequest": {
+      "$address": {
+        ".write": false,
+        ".read": "auth.uid != null && $address === root.child('users').child(auth.uid).child('address').val()"
+      }
     }
   }
 }
