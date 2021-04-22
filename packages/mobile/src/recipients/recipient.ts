@@ -2,6 +2,7 @@ import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import * as fuzzysort from 'fuzzysort'
 import { TFunction } from 'i18next'
 import { MinimalContact } from 'react-native-contacts'
+import i18n from 'src/i18n'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { ContactMatches, RecipientVerificationStatus } from 'src/identity/types'
 import Logger from 'src/utils/Logger'
@@ -93,7 +94,7 @@ export function contactsToRecipients(contacts: MinimalContact[], defaultCountryC
           }
           e164NumberToRecipients[parsedNumber.e164Number] = {
             kind: RecipientKind.Contact,
-            displayName: contact.displayName,
+            displayName: contact.displayName || i18n.t('sendFlow7:mobileNumber'),
             displayId: parsedNumber.displayNumber,
             e164PhoneNumber: parsedNumber.e164Number,
             phoneNumberLabel: phoneNumber.label,
@@ -104,7 +105,7 @@ export function contactsToRecipients(contacts: MinimalContact[], defaultCountryC
         } else {
           otherRecipients[phoneNumber.number] = {
             kind: RecipientKind.Contact,
-            displayName: contact.displayName,
+            displayName: contact.displayName || i18n.t('sendFlow7:mobileNumber'),
             displayId: phoneNumber.number,
             phoneNumberLabel: phoneNumber.label,
             // @ts-ignore TODO Minimal contact type is incorrect, on android it returns id
@@ -213,8 +214,8 @@ function fuzzysortToRecipients(
 }
 
 function nameCompare(a: FuzzyRecipient, b: FuzzyRecipient) {
-  const nameA = a.displayName.toUpperCase()
-  const nameB = b.displayName.toUpperCase()
+  const nameA = a.displayName?.toUpperCase() ?? ''
+  const nameB = b.displayName?.toUpperCase() ?? ''
 
   if (nameA > nameB) {
     return 1

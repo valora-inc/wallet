@@ -13,7 +13,8 @@ const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.5', dollarMaker: '1' 
 
 const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
   currency: CURRENCY_ENUM.DOLLAR,
-  paymentMethod: PaymentMethod.BANK,
+  paymentMethod: PaymentMethod.Bank,
+  isCashIn: true,
 })
 
 const store = createMockStore({
@@ -82,7 +83,7 @@ describe('FiatExchangeAmount', () => {
       isCashIn: true,
       currency: CURRENCY_ENUM.DOLLAR,
       amount: 600,
-      paymentMethod: PaymentMethod.BANK,
+      paymentMethod: PaymentMethod.Bank,
     })
   })
 

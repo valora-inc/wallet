@@ -16,15 +16,12 @@ export interface State {
   lastTimeBackgrounded: number
   sessionId: string
   minVersion: string | null
-  pontoEnabled: boolean
-  kotaniEnabled: boolean
-  bitfyUrl: string | null
-  flowBtcUrl: string | null
   celoEducationUri: string | null
   shortVerificationCodesEnabled: boolean
   inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
+  showRaiseDailyLimitTarget: string | undefined
 }
 
 const initialState = {
@@ -39,15 +36,12 @@ const initialState = {
   lastTimeBackgrounded: 0,
   sessionId: '',
   minVersion: null,
-  pontoEnabled: false,
-  kotaniEnabled: false,
-  bitfyUrl: null,
-  flowBtcUrl: null,
   shortVerificationCodesEnabled: false,
   celoEducationUri: null,
   inviteModalVisible: false,
   activeScreen: Screens.Main,
   hideVerification: false,
+  showRaiseDailyLimitTarget: undefined,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -145,11 +139,8 @@ export const appReducer = (
     case Actions.UPDATE_FEATURE_FLAGS:
       return {
         ...state,
-        pontoEnabled: action.flags.pontoEnabled,
-        kotaniEnabled: action.flags.kotaniEnabled,
-        bitfyUrl: action.flags.bitfyUrl,
-        flowBtcUrl: action.flags.flowBtcUrl,
         hideVerification: action.flags.hideVerification,
+        showRaiseDailyLimitTarget: action.flags.showRaiseDailyLimitTarget,
         celoEducationUri: action.flags.celoEducationUri,
         shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
       }

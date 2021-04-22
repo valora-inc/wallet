@@ -36,6 +36,7 @@ import QuestionIcon from 'src/icons/QuestionIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -127,42 +128,58 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     SIMPLEX_RESTRICTED,
     RAMP_RESTRICTED,
     TRANSAK_RESTRICTED,
+    XANPOOL_RESTRICTED,
   } = getProviderAvailability(userLocation)
+
+  const xanpool = {
+    id: CicoProviderNames.Xanpool,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    restricted: XANPOOL_RESTRICTED,
+    onSelected: () =>
+      navigate(Screens.XanpoolScreen, {
+        localAmount: route.params.amount,
+        currencyCode: localCurrency,
+        currencyToBuy: selectedCurrency,
+      }),
+  }
+
+  const moonpay = {
+    id: CicoProviderNames.Moonpay,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    restricted: MOONPAY_RESTRICTED,
+    onSelected: () =>
+      openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+  }
+
+  const simplex = {
+    id: CicoProviderNames.Simplex,
+    paymentMethods: [PaymentMethod.Card],
+    restricted: SIMPLEX_RESTRICTED,
+    onSelected: () => openSimplex(account),
+  }
+
+  const ramp = {
+    id: CicoProviderNames.Ramp,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    restricted: RAMP_RESTRICTED,
+    onSelected: () =>
+      openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+  }
+
+  const transak = {
+    id: CicoProviderNames.Transak,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    restricted: TRANSAK_RESTRICTED,
+    onSelected: () =>
+      openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+  }
 
   const providers: {
     cashOut: CicoProvider[]
     cashIn: CicoProvider[]
   } = {
-    cashOut: [],
-    cashIn: [
-      {
-        id: CicoProviderNames.Moonpay,
-        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
-        restricted: MOONPAY_RESTRICTED,
-        onSelected: () =>
-          openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
-      },
-      {
-        id: CicoProviderNames.Simplex,
-        paymentMethods: [PaymentMethod.CARD],
-        restricted: SIMPLEX_RESTRICTED,
-        onSelected: () => openSimplex(account),
-      },
-      {
-        id: CicoProviderNames.Ramp,
-        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
-        restricted: RAMP_RESTRICTED,
-        onSelected: () =>
-          openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
-      },
-      {
-        id: CicoProviderNames.Transak,
-        paymentMethods: [PaymentMethod.CARD, PaymentMethod.BANK],
-        restricted: TRANSAK_RESTRICTED,
-        onSelected: () =>
-          openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
-      },
-    ].sort(sortProviders),
+    cashOut: [xanpool].sort(sortProviders),
+    cashIn: [moonpay, simplex, xanpool, ramp, transak].sort(sortProviders),
   }
 
   const providerOnPress = (provider: CicoProvider) => () => {
@@ -195,7 +212,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                     <Text style={styles.restrictedText}>
                       {t('unsupportedPaymentMethod', {
                         paymentMethod:
-                          paymentMethod === PaymentMethod.BANK
+                          paymentMethod === PaymentMethod.Bank
                             ? 'bank account'
                             : 'debit or credit card',
                       })}
