@@ -26,9 +26,6 @@ export default ExchangeCelo = () => {
 
     // Tap on the buy button, fill the amount, review and confirm.
     await element(by.text('Buy')).tap()
-    await waitFor(element(by.id('Exchange')))
-      .toBeVisible()
-      .withTimeout(3000)
     await element(by.id('ExchangeInput')).replaceText(CELO_TO_EXCHANGE.toString())
     await element(by.id('ExchangeReviewButton')).tap()
     await element(by.id('ConfirmExchange')).tap()

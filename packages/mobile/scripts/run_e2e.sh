@@ -16,6 +16,7 @@ export ENVFILE="${ENVFILE:-.env.test}"
 # -n (Optional): Network delay (gsm, hscsd, gprs, edge, umts, hsdpa, lte, evdo, none)
 # -d (Optional): Run in dev mode, which doesn't rebuild or reinstall the app and doesn't restart the packager.
 # -t (Optional): Run a specific test file only.
+# -w (Optional): Run specifies the number of emulators to run tests in parallel default is 3
 
 PLATFORM=""
 VD_NAME="Pixel_API_29_AOSP_x86_64"
@@ -23,7 +24,8 @@ RELEASE=false
 NET_DELAY="none"
 DEV_MODE=false
 FILE_TO_RUN=""
-while getopts 'p:t:v:n:rd' flag; do
+WORKERS=3
+while getopts 'p:t:v:n:w:rd' flag; do
   case "${flag}" in
     p) PLATFORM="$OPTARG" ;;
     v) VD_NAME="$OPTARG" ;;
@@ -31,6 +33,7 @@ while getopts 'p:t:v:n:rd' flag; do
     n) NET_DELAY="$OPTARG" ;;
     d) DEV_MODE=true ;;
     t) FILE_TO_RUN=$OPTARG ;;
+    w) WORKERS="$OPTARG" ;;
     *) error "Unexpected option ${flag}" ;;
   esac
 done
@@ -96,9 +99,9 @@ runTest() {
     --artifacts-location e2e/artifacts \
     --take-screenshots=all \
     --record-logs=all \
-    --detectOpenHandles \
     --loglevel verbose \
-    --debug-synchronization 1000\
+    --debug-synchronization 1000 \
+    --workers $WORKERS \
     "${extra_param}" 
   TEST_STATUS=$?
 }
@@ -140,33 +143,37 @@ if [ $PLATFORM = "android" ]; then
   if [ $DEV_MODE = false ]; then
     echo "Building detox"
     yarn detox build -c $CONFIG_NAME
-
     startPackager
-
-    NUM_DEVICES=`adb devices -l | wc -l`
-    if [ $NUM_DEVICES -gt 2 ]; then
-      echo "Emulator already running or device attached. Please shutdown / remove first"
-      exit 1
-    fi
-
-    echo "Starting the emulator"
-    $ANDROID_SDK_ROOT/emulator/emulator \
-      -avd $VD_NAME \
-      -no-boot-anim \
-      -noaudio \
-      -no-snapshot \
-      -netdelay $NET_DELAY \
-      ${CI:+-gpu swiftshader_indirect -no-window} \
-      &
-
-    echo "Waiting for device to connect to Wifi, this is a good proxy the device is ready"
-    until [ `adb shell dumpsys wifi | grep "mNetworkInfo" | grep "state: CONNECTED" | wc -l` -gt 0 ]
-    do
-      sleep 3
-    done
   fi
 
   runTest
+
+  # # Old Code to start devices - using detox instead
+  # # Limit parallel testing to 3 devices
+  #   NUM_DEVICES=`adb devices -l | wc -l`
+  #   if [ $NUM_DEVICES -gt 3 ]; then
+  #     echo "Emulator already running or device attached. Please shutdown / remove first"
+  #     exit 1
+  #   fi
+  # fi
+  # # Detox Will Star the emulator
+  # echo "Starting the emulator"
+  # $ANDROID_SDK_ROOT/emulator/emulator \
+  #   -avd $VD_NAME \
+  #   -no-boot-anim \
+  #   -noaudio \
+  #   -no-snapshot \
+  #   -netdelay $NET_DELAY \
+  #   ${CI:+-gpu swiftshader_indirect -no-window} \
+  #   &
+
+  # echo "Waiting for device to connect to Wifi, this is a good proxy the device is ready"
+  # until [ `adb shell dumpsys wifi | grep "mNetworkInfo" | grep "state: CONNECTED" | wc -l` -eq $WORKERS ]
+  # do
+  #   sleep 3
+  # done
+
+  # runTest
 
   if [ $DEV_MODE = false ]; then
     echo "Closing emulator (if active)"

@@ -1,7 +1,5 @@
-import { enterPinUi, sleep, waitForElementId } from '../utils/utils'
-import { SAMPLE_BACKUP_KEY } from '../utils/consts'
-
-const EXAMPLE_NAME = 'Test Name'
+import { enterPinUi } from '../utils/utils'
+import { EXAMPLE_NAME } from '../utils/consts'
 
 export default NewAccountOnboarding = () => {
   it('Create a new account', async () => {

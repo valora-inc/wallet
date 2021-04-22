@@ -23,6 +23,12 @@ export default Support = () => {
 
   it('Send message to support', async () => {
     await element(by.id('Hamburguer')).tap()
+    try {
+      await waitFor(element(by.text('Help')))
+        .toBeVisible()
+        .whileElement(by.id('SettingsScrollView'))
+        .scroll(350, 'down')
+    } catch {}
     await waitFor(element(by.id('Help')))
       .toExist()
       .withTimeout(5000)

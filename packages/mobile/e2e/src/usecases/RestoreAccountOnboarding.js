@@ -1,14 +1,14 @@
-import { enterPinUi, sleep, waitForElementId } from '../utils/utils'
-import { SAMPLE_BACKUP_KEY } from '../utils/consts'
-
-const EXAMPLE_NAME = 'Test Name'
+import { enterPinUi, waitForElementId } from '../utils/utils'
+import { SAMPLE_BACKUP_KEY, EXAMPLE_NAME } from '../utils/consts'
+import { dismissBanners } from '../utils/banners'
 
 export default RestoreAccountOnboarding = () => {
   // Language is auto selected if it matches one of the available locale
   // it('Language', async () => {
   //   await element(by.id('ChooseLanguage/en-US')).tap()
   // })
-
+  // Retry this test 3 times as if it fails all of the remaining test in this file will fail
+  jest.retryTimes(3)
   it('Onboarding Education', async () => {
     // Onboading education has 3 steps
     for (let i = 0; i < 3; i++) {
@@ -65,15 +65,10 @@ export default RestoreAccountOnboarding = () => {
     // Wait a little more as import can take some time
     // and triggers the firebase error banner
     // otherwise next step will tap the banner instead of the button
-    try {
-      await waitFor(element(by.id('ErrorIcon')))
-        .toBeVisible()
-        .withTimeout(5000)
-      await element(by.id('ErrorIcon')).tap()
-    } catch (e) {}
+    await dismissBanners()
   })
 
-  it('VerifyEducation', async () => {
+  it('Verify Education', async () => {
     await waitForElementId('VerificationEducationSkipHeader')
 
     // skip

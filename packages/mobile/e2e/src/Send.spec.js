@@ -1,12 +1,16 @@
+import { quickOnboarding } from './utils/utils'
 import RestoreAccountOnboarding from './usecases/RestoreAccountOnboarding'
-import HandleNotification from './usecases/HandleNotification'
+import Send from './usecases/Send'
+import SecureSend from './usecases/SecureSend'
 
-describe.skip('Handle app open from push notifications', () => {
+describe('Send CELO', () => {
   beforeAll(async () => {
     await device.launchApp({
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
     await quickOnboarding()
   })
-  describe('HandleNotification', HandleNotification)
+
+  describe('Send CELO', Send)
+  describe('SecureSend CELO', SecureSend)
 })

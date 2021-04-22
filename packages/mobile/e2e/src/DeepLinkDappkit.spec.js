@@ -1,7 +1,9 @@
-import RestoreAccountOnboarding from './usecases/RestoreAccountOnboarding'
+import { quickOnboarding } from './utils/utils'
 import HandleDeepLinkDappkit from './usecases/HandleDeepLinkDappkit'
 
 describe('Deep Link with account dappkit', () => {
-  describe('Onboarding', RestoreAccountOnboarding)
+  beforeAll(async () => {
+    await quickOnboarding()
+  })
   describe('HandleDeepLinkDappkit', HandleDeepLinkDappkit)
 })
