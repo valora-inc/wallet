@@ -178,7 +178,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashOut: CicoProvider[]
     cashIn: CicoProvider[]
   } = {
-    cashOut: [xanpool],
+    cashOut: [xanpool].sort(sortProviders),
     cashIn: [moonpay, simplex, xanpool, ramp, transak].sort(sortProviders),
   }
 

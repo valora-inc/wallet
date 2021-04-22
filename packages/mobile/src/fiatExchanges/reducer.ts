@@ -37,8 +37,7 @@ export const providersDisplayInfo: { [provider in CicoProviderNames]: ProviderFe
   [CicoProviderNames.Xanpool]: {
     name: 'Xanpool',
     icon:
-      // TODO: update image
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
   },
 }
 
