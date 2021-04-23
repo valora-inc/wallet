@@ -100,7 +100,9 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
 
       <View>
         {isEmulator ? (
-          <TouchableOpacity onPress={openModal}>{cameraScanInfo}</TouchableOpacity>
+          <TouchableOpacity testID="ManualInputButton" onPress={openModal}>
+            {cameraScanInfo}
+          </TouchableOpacity>
         ) : (
           { cameraScanInfo }
         )}
@@ -114,12 +116,15 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
           style={styles.manualInput}
           autoCapitalize="none"
           onChangeText={onModalTextChange}
+          testID="ManualInput"
         />
         <View style={styles.actions}>
           <TextButton style={styles.cancelButton} onPress={closeModal}>
             {t('cancel')}
           </TextButton>
-          <TextButton onPress={submitModal}>{t('submit')}</TextButton>
+          <TextButton onPress={submitModal} testID="ManualSubmit">
+            {t('submit')}
+          </TextButton>
         </View>
       </Modal>
     </RNCamera>

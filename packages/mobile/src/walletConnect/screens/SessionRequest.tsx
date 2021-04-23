@@ -65,7 +65,7 @@ function SessionRequest({
           <View style={styles.center}>
             <Image style={styles.logo} source={{ uri: icon }} />
           </View>
-          <Text style={styles.header}>
+          <Text style={styles.header} testID="SessionRequestHeader">
             {t('connectToWallet', { dappName: session.proposer.metadata.name })}
           </Text>
           <Text style={styles.subHeader}>{t('sessionInfo')}</Text>

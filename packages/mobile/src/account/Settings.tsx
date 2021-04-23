@@ -369,6 +369,7 @@ export class Account extends React.Component<Props, State> {
               title={t('connectedApplications')}
               value={this.props.connectedApplications.toString()}
               onPress={this.goToConnectedApplications}
+              testID="ConnectedApplications"
             />
             <SettingsItemSwitch
               title={t('requirePinOnAppOpen')}

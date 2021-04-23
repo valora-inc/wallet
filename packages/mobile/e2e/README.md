@@ -30,7 +30,8 @@ The run_e2e.sh script will take care of configuring and building the app for you
 
 The main test files are the ones on the root of the e2e/src directory. The "main" one is `FundedAccount.spec.js` which calls the specific tests which live in the `usecases` folder.
 
-While developing and adding new tests, it's useful to run only the ones we are working on and not go through the onboading on each run. To do this, the following strategy might be useful:
+While developing and adding new tests, it's useful to run only the ones we are working on and not go through the onboarding on each run. To do this, the following strategy might be useful:
+
 - First, go to `FundedAccount.spec.js` and comment out or skip all tests except the `Onboarding` one.
 - Run `yarn test:e2e:ios -t e2e/src/FundedAccount.spec.js`. Wait while the app goes through the onboarding process.
 - If the tests passes you should see the Wallet Home screen.
