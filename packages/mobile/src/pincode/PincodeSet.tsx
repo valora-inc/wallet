@@ -18,7 +18,7 @@ import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { DEFAULT_CACHE_ACCOUNT, isPinValid } from 'src/pincode/authentication'
+import { DEFAULT_CACHE_ACCOUNT, isPinValid, updatePin } from 'src/pincode/authentication'
 import { setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
@@ -120,8 +120,9 @@ export class PincodeSet extends React.Component<Props, State> {
       this.props.setPincode(PincodeType.CustomPin)
       ValoraAnalytics.track(OnboardingEvents.pin_set)
       this.navigateToNextScreen()
-      if (this.props.route.params?.changePin) {
+      if (this.props.route.params?.changePin && this.props.route.params.oldPin) {
         // call update pin function with async/await
+        await updatePin(DEFAULT_CACHE_ACCOUNT, this.props.route.params.oldPin, pin2)
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_confirmed)
         Logger.showMessage(i18n.t('accountScreen10:pinChanged'))
       }
