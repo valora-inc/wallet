@@ -43,6 +43,7 @@ type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeOptions>
 type Props = RouteProps
 
 // TODO: Remove this temporal redirection to keep retrocompatibility
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeIntegratedAmount'
 export { PaymentMethod } from 'src/fiatExchanges/FiatExchangeIntegratedAmount'
 
 export const fiatExchangesOptionsScreenOptions = ({

@@ -61,6 +61,7 @@ import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import { ExpandableWindow } from 'src/fiatExchanges/components/ExpandableWindow'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import SelectCurrency from 'src/fiatExchanges/SelectCurrency'
+import SelectPaymentMethod from 'src/fiatExchanges/SelectPaymentMethod'
 import ArrowFilled from 'src/icons/ArrowFilled'
 import ArrowEmpty from 'src/icons/ArrowEmpty'
 import Touchable from '@celo/react-components/components/Touchable'
@@ -100,6 +101,7 @@ function FiatExchangeIntegratedAmount({ navigation }: Props) {
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const [openExtendedWindow, setOpenExtendedWindow] = useState(OpenExtendedWindow.None)
   const [selectedCurrency, setSelectedCurrency] = useState<CURRENCY_ENUM>(CURRENCY_ENUM.DOLLAR)
+  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(PaymentMethod.Card)
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencyExchangeRate = useSelector(getLocalCurrencyExchangeRate)
@@ -130,6 +132,10 @@ function FiatExchangeIntegratedAmount({ navigation }: Props) {
 
   const onSelectCurrency = React.useCallback((currency: CURRENCY_ENUM) => {
     setSelectedCurrency(currency)
+    setOpenExtendedWindow(OpenExtendedWindow.None)
+  }, [])
+  const onSelectMethod = React.useCallback((method: PaymentMethod) => {
+    setSelectedMethod(method)
     setOpenExtendedWindow(OpenExtendedWindow.None)
   }, [])
 
@@ -195,7 +201,9 @@ function FiatExchangeIntegratedAmount({ navigation }: Props) {
           <SelectCurrency selectedCurrency={selectedCurrency} onSelect={onSelectCurrency} />
         </ExpandableWindow>
       ) : openExtendedWindow === OpenExtendedWindow.Method ? (
-        <ExpandableWindow onClose={closeExtendedWindow} title="Select a Payment Method" />
+        <ExpandableWindow onClose={closeExtendedWindow} title="Select a Payment Method">
+          <SelectPaymentMethod selectedMethod={selectedMethod} onSelect={onSelectMethod} />
+        </ExpandableWindow>
       ) : openExtendedWindow === OpenExtendedWindow.Provider ? (
         <ExpandableWindow onClose={closeExtendedWindow} title="Select a Provider" />
       ) : null}
@@ -223,7 +231,7 @@ function FiatExchangeIntegratedAmount({ navigation }: Props) {
         </View>
         <Touchable onPress={showMethodExtendedWindow} style={styles.buttonContainer}>
           <>
-            <Text style={styles.buttonContent}>Pay with Debit Card</Text>
+            <Text style={styles.buttonContent}>Pay with {selectedMethod}</Text>
             <ArrowEmpty />
           </>
         </Touchable>
