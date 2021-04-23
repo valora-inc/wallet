@@ -201,7 +201,7 @@ const Simplex = {
   generateCheckoutForm: (paymentId: string) => `
     <html>
       <body>
-        <form id="payment_form" action="${SIMPLEX_DATA.api_url}/payments/new" method="post">
+        <form id="payment_form" action="${SIMPLEX_DATA.checkout_url}/payments/new" method="post">
           <input type="hidden" name="version" value="1">
           <input type="hidden" name="partner" value="valorapp">
           <input type="hidden" name="payment_flow_type" value="wallet">

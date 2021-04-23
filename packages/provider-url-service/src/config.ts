@@ -21,6 +21,7 @@ export const TRANSAK_DATA = {
 
 export const SIMPLEX_DATA = {
   api_url: config.simplex.api_url,
+  checkout_url: config.simplex.checkout_url,
   api_key: config.simplex.api_key,
 }
 
