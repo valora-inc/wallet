@@ -95,6 +95,7 @@ export interface RemoteFeatureFlags {
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
   hideVerification: boolean
+  showRaiseDailyLimitTarget: string | undefined
 }
 
 export function* appRemoteFeatureFlagSaga() {

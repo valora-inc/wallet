@@ -24,6 +24,7 @@ interface NetworkConfig {
   blockchainApiUrl: string
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
+  xanpoolWidgetUrl: string
   moonpayWidgetUrl: string
   signMoonpayUrl: string
   rampWidgetUrl: string
@@ -37,6 +38,9 @@ interface NetworkConfig {
   bidaliUrl: string
   komenciLoadCheckEndpoint: string
 }
+
+const xanpoolWidgetStaging = 'https://checkout.sandbox.xanpool.com'
+const xanpoolWidgetProd = 'https://checkout.sandbox.xanpool.com'
 
 const moonpayWidgetStaging = 'https://buy-staging.moonpay.io/'
 const moonpayWidgetProd = 'https://buy.moonpay.io/'
@@ -79,6 +83,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com/',
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
+    xanpoolWidgetUrl: xanpoolWidgetStaging,
     moonpayWidgetUrl: moonpayWidgetStaging,
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
@@ -99,6 +104,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com/',
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
+    xanpoolWidgetUrl: xanpoolWidgetProd,
     moonpayWidgetUrl: moonpayWidgetProd,
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
