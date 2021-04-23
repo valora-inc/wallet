@@ -27,10 +27,11 @@ const mockScreenProps = (
 
 const mockStore = createMockStore({
   account: {
-    defaultCountryCode: '+54',
+    // North Korea country code
+    defaultCountryCode: '+850',
   },
   localCurrency: {
-    preferredCurrencyCode: LocalCurrencyCode.BRL,
+    preferredCurrencyCode: LocalCurrencyCode.USD,
   },
 })
 
@@ -99,7 +100,7 @@ describe('ProviderOptionsScreen', () => {
     fireEvent.press(tree.getByTestId('Provider/Moonpay'))
     expect(navigate).toHaveBeenCalledWith(Screens.MoonPayScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
-      currencyCode: LocalCurrencyCode.BRL,
+      currencyCode: LocalCurrencyCode.USD,
       currencyToBuy: CurrencyCode.CUSD,
     })
   })
@@ -118,7 +119,7 @@ describe('ProviderOptionsScreen', () => {
     fireEvent.press(tree.getByTestId('Provider/Ramp'))
     expect(navigate).toHaveBeenCalledWith(Screens.RampScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
-      currencyCode: LocalCurrencyCode.BRL,
+      currencyCode: LocalCurrencyCode.USD,
       currencyToBuy: CurrencyCode.CUSD,
     })
   })
@@ -137,7 +138,26 @@ describe('ProviderOptionsScreen', () => {
     fireEvent.press(tree.getByTestId('Provider/Transak'))
     expect(navigate).toHaveBeenCalledWith(Screens.TransakScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
-      currencyCode: LocalCurrencyCode.BRL,
+      currencyCode: LocalCurrencyCode.USD,
+      currencyToBuy: CurrencyCode.CUSD,
+    })
+  })
+
+  it('opens XanPool correctly', async () => {
+    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+
+    fireEvent.press(tree.getByTestId('Provider/Xanpool'))
+    expect(navigate).toHaveBeenCalledWith(Screens.XanpoolScreen, {
+      localAmount: AMOUNT_TO_CASH_IN,
+      currencyCode: LocalCurrencyCode.USD,
       currencyToBuy: CurrencyCode.CUSD,
     })
   })
@@ -169,7 +189,8 @@ describe('ProviderOptionsScreen', () => {
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
 
     const elements = tree.queryAllByText('restrictedRegion')
-    expect(elements).toHaveLength(0)
+    // Only Xanpool doesn't support Mexico
+    expect(elements).toHaveLength(1)
   })
 
   it('show a warning if the selected payment method is not supported', async () => {
@@ -213,7 +234,8 @@ describe('ProviderOptionsScreen', () => {
 
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
 
-    const element = tree.queryByText('restrictedRegion')
-    expect(element).toBeNull()
+    const elements = tree.queryAllByText('restrictedRegion')
+    // All providers restrict North Korea
+    expect(elements).toHaveLength(5)
   })
 })
