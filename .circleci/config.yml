@@ -199,14 +199,14 @@ jobs:
           paths:
             - /Users/distiller/android-tools
 
-      # - run:
-      #     name: Create Android Virtual Device (AVD)
-      #     command: |
-      #       avdmanager create avd --force --name Pixel_API_29_AOSP_x86_64 \
-      #         --package "system-images;android-29;default;x86_64" \
-      #         --device pixel
-      #       # Copy device configuarion, adv for some reason doesn't
-      #       mkdir -p ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/ && cp packages/mobile/e2e/conf/avd_conf.ini ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/config.ini
+      - run:
+          name: Create Android Virtual Device (AVD)
+          command: |
+            avdmanager create avd --force --name Pixel_API_29_AOSP_x86_64 \
+              --package "system-images;android-29;default;x86_64" \
+              --device pixel
+            # Copy device configuarion, adv for some reason doesn't
+            mkdir -p ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/ && cp packages/mobile/e2e/conf/avd_conf.ini ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/config.ini
 
       - run:
           name: Set up nodejs
