@@ -103,6 +103,92 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
+                testID="Provider/Simplex"
+              >
+                <View
+                  style={
+                    Object {
+                      "flexDirection": "column",
+                      "justifyContent": "space-between",
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#2E3338",
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        null,
+                      ]
+                    }
+                  >
+                    Simplex
+                  </Text>
+                </View>
+                <Image
+                  source={
+                    Object {
+                      "testUri": "../../../packages/mobile/src/images/link-arrow.png",
+                    }
+                  }
+                  style={
+                    Object {
+                      "height": 32,
+                      "width": 32,
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
+              Object {
+                "attribute": "selectableItemBackgroundBorderless",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomWidth": 1,
+                  "marginLeft": 16,
+                  "paddingVertical": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                  }
+                }
                 testID="Provider/Transak"
               >
                 <View
@@ -299,7 +385,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/Moonpay"
+                testID="Provider/Xanpool"
               >
                 <View
                   style={
@@ -320,101 +406,6 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                         },
                         null,
                       ]
-                    }
-                  >
-                    Moonpay
-                  </Text>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#9CA4A9",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 14,
-                        "lineHeight": 18,
-                      }
-                    }
-                  >
-                    restrictedRegion
-                  </Text>
-                </View>
-                <Image
-                  source={
-                    Object {
-                      "testUri": "../../../packages/mobile/src/images/link-arrow.png",
-                    }
-                  }
-                  style={
-                    Object {
-                      "height": 32,
-                      "width": 32,
-                    }
-                  }
-                />
-              </View>
-            </View>
-          </View>
-        </View>
-        <View
-          style={
-            Object {
-              "backgroundColor": "#FFFFFF",
-            }
-          }
-        >
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-          >
-            <View
-              style={
-                Object {
-                  "borderBottomColor": "#EDEEEF",
-                  "borderBottomWidth": 1,
-                  "marginLeft": 16,
-                  "paddingVertical": 16,
-                }
-              }
-            >
-              <View
-                style={
-                  Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                    "justifyContent": "space-between",
-                  }
-                }
-                testID="Provider/Xanpool"
-              >
-                <View
-                  style={
-                    Object {
-                      "flexDirection": "column",
-                      "justifyContent": "space-between",
-                    }
-                  }
-                >
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                      }
                     }
                   >
                     Xanpool
@@ -511,13 +502,11 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           "fontSize": 16,
                           "lineHeight": 22,
                         },
-                        Object {
-                          "color": "#9CA4A9",
-                        },
+                        null,
                       ]
                     }
                   >
-                    Simplex
+                    Moonpay
                   </Text>
                   <Text
                     style={
@@ -529,7 +518,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                       }
                     }
                   >
-                    providerUnavailable
+                    restrictedRegion
                   </Text>
                 </View>
                 <Image

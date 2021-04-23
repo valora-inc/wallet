@@ -714,9 +714,7 @@ exports[`SimplexScreen renders correctly 1`] = `
               ]
             }
           >
-            Simplex
-             
-            exchangeFlow9:fee
+            feeDiscount
           </Text>
           <View
             accessible={true}
@@ -778,29 +776,17 @@ exports[`SimplexScreen renders correctly 1`] = `
             </svg>
           </View>
         </View>
-        <Text>
-          <Text
-            numberOfLines={1}
-            style={
-              Array [
-                Array [
-                  Object {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 16,
-                    "lineHeight": 22,
-                  },
-                ],
-                Object {
-                  "color": "#2E3338",
-                },
-              ]
+        <Text
+          style={
+            Object {
+              "color": "#1AB775",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
             }
-          >
-            -
-            $
-            13.00
-          </Text>
+          }
+        >
+          free
         </Text>
       </View>
       <View
@@ -1663,9 +1649,7 @@ exports[`SimplexScreen renders correctly 2`] = `
               ]
             }
           >
-            Simplex
-             
-            exchangeFlow9:fee
+            feeDiscount
           </Text>
           <View
             accessible={true}
@@ -1727,29 +1711,17 @@ exports[`SimplexScreen renders correctly 2`] = `
             </svg>
           </View>
         </View>
-        <Text>
-          <Text
-            numberOfLines={1}
-            style={
-              Array [
-                Array [
-                  Object {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 16,
-                    "lineHeight": 22,
-                  },
-                ],
-                Object {
-                  "color": "#2E3338",
-                },
-              ]
+        <Text
+          style={
+            Object {
+              "color": "#1AB775",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
             }
-          >
-            -
-            $
-            13.00
-          </Text>
+          }
+        >
+          free
         </Text>
       </View>
       <View

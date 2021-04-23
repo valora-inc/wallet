@@ -24,6 +24,7 @@ import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
 import {
+  ALERT_BANNER_DURATION,
   CELO_SUPPORT_EMAIL_ADDRESS,
   DOLLAR_ADD_FUNDS_MAX_AMOUNT,
   DOLLAR_ADD_FUNDS_MIN_AMOUNT,

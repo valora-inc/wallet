@@ -88,7 +88,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('renders correctly', async () => {
-    mockFetch.mockResponseOnce(MIXED_RESTRICTION_USER_LOCATION)
+    mockFetch.mockResponses(MIXED_RESTRICTION_USER_LOCATION, MOCK_SIMPLEX_QUOTE_FETCH_RESPONSE)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -313,7 +313,8 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('uses country code if IP address endpoint errors', async () => {
-    mockFetch.mockReject(new Error('API fetch failed'))
+    mockFetch.mockRejectOnce(new Error('API fetch failed'))
+    mockFetch.mockResponses(mockIpAddress, MOCK_SIMPLEX_QUOTE_FETCH_RESPONSE)
 
     const tree = render(
       <Provider store={mockStore}>

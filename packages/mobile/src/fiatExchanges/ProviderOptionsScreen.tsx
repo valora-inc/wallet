@@ -72,8 +72,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   }
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
   const countryCallingCode = useSelector(defaultCountryCodeSelector)
-  const localCurrency = useSelector(getLocalCurrencyCode)
   const account = useSelector(currentAccountSelector)
+  const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
 
   const { paymentMethod } = route.params
@@ -156,6 +156,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     id: CicoProviderNames.Simplex,
     paymentMethods: [PaymentMethod.Card],
     restricted: SIMPLEX_RESTRICTED,
+    unavailable: !providerQuotes?.simplexQuote,
     onSelected: () => {
       if (providerQuotes?.simplexQuote && userLocation?.ipAddress) {
         navigate(Screens.Simplex, {
