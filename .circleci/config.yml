@@ -199,14 +199,14 @@ jobs:
           paths:
             - /Users/distiller/android-tools
 
-      - run:
-          name: Create Android Virtual Device (AVD)
-          command: |
-            avdmanager create avd --force --name Pixel_API_29_AOSP_x86_64 \
-              --package "system-images;android-29;default;x86_64" \
-              --device pixel
-            # Copy device configuarion, adv for some reason doesn't
-            mkdir -p ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/ && cp packages/mobile/e2e/conf/avd_conf.ini ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/config.ini
+      # - run:
+      #     name: Create Android Virtual Device (AVD)
+      #     command: |
+      #       avdmanager create avd --force --name Pixel_API_29_AOSP_x86_64 \
+      #         --package "system-images;android-29;default;x86_64" \
+      #         --device pixel
+      #       # Copy device configuarion, adv for some reason doesn't
+      #       mkdir -p ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/ && cp packages/mobile/e2e/conf/avd_conf.ini ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/config.ini
 
       - run:
           name: Set up nodejs
@@ -237,14 +237,14 @@ jobs:
       - restore_cache:
           key: yarn-v4-{{ arch }}-{{ .Branch }}-{{ checksum "packages/mobile/android/build.gradle" }}-{{ checksum "packages/mobile/android/settings.gradle" }}-{{ checksum "packages/mobile/android/app/build.gradle" }}-{{ checksum "packages/mobile/.env.test" }}
 
-      # hack alert! the emulator complains about disk space and not sure how to increase it
-      - run:
-          name: Delete Simulators
-          command: sudo rm -rf /Library/Developer/CoreSimulator/Profiles/Runtimes/
+      # # hack alert! the emulator complains about disk space and not sure how to increase it
+      # - run:
+      #     name: Delete Simulators
+      #     command: sudo rm -rf /Library/Developer/CoreSimulator/Profiles/Runtimes/
 
-      - run:
-          name: Check for emulator acceleration
-          command: emulator -accel-check
+      # - run:
+      #     name: Check for emulator acceleration
+      #     command: emulator -accel-check
 
       - run:
           name: Run e2e tests
