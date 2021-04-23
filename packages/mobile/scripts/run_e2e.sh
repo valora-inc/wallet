@@ -146,35 +146,10 @@ if [ $PLATFORM = "android" ]; then
     startPackager
   fi
 
+  # Detox will start the emulator
   runTest
 
-  # # Old Code to start devices - using detox instead
-  # # Limit parallel testing to 3 devices
-  #   NUM_DEVICES=`adb devices -l | wc -l`
-  #   if [ $NUM_DEVICES -gt 3 ]; then
-  #     echo "Emulator already running or device attached. Please shutdown / remove first"
-  #     exit 1
-  #   fi
-  # fi
-  # # Detox Will Star the emulator
-  # echo "Starting the emulator"
-  # $ANDROID_SDK_ROOT/emulator/emulator \
-  #   -avd $VD_NAME \
-  #   -no-boot-anim \
-  #   -noaudio \
-  #   -no-snapshot \
-  #   -netdelay $NET_DELAY \
-  #   ${CI:+-gpu swiftshader_indirect -no-window} \
-  #   &
-
-  # echo "Waiting for device to connect to Wifi, this is a good proxy the device is ready"
-  # until [ `adb shell dumpsys wifi | grep "mNetworkInfo" | grep "state: CONNECTED" | wc -l` -eq $WORKERS ]
-  # do
-  #   sleep 3
-  # done
-
-  # runTest
-
+  # Close active emulators 
   if [ $DEV_MODE = false ]; then
     echo "Closing emulator (if active)"
     adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done
