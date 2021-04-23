@@ -62,6 +62,7 @@ import { ExpandableWindow } from 'src/fiatExchanges/components/ExpandableWindow'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import SelectCurrency from 'src/fiatExchanges/SelectCurrency'
 import ArrowFilled from 'src/icons/ArrowFilled'
+import ArrowEmpty from 'src/icons/ArrowEmpty'
 import Touchable from '@celo/react-components/components/Touchable'
 
 export enum PaymentMethod {
@@ -220,6 +221,12 @@ function FiatExchangeIntegratedAmount({ navigation }: Props) {
             </Text>
           )}
         </View>
+        <Touchable onPress={showMethodExtendedWindow} style={styles.buttonContainer}>
+          <>
+            <Text style={styles.buttonContent}>Pay with Debit Card</Text>
+            <ArrowEmpty />
+          </>
+        </Touchable>
         <NumberKeypad
           onDigitPress={onDigitPress}
           onBackspacePress={onBackspacePress}
@@ -292,6 +299,26 @@ const styles = StyleSheet.create({
   selectCurrency: {
     ...fontStyles.h3,
     paddingRight: 6,
+  },
+  buttonContainer: {
+    paddingVertical: 8,
+    paddingLeft: 16,
+    paddingRight: 12,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderColor: colors.gray2,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    marginBottom: 20,
+  },
+  buttonContent: {
+    color: colors.greenBrand,
+    paddingRight: 12,
+    fontSize: 12,
+    lineHeight: 18,
+    fontWeight: '500',
   },
 })
 
