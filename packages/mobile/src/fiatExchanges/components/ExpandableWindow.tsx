@@ -1,7 +1,7 @@
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import React from 'react'
-import { StyleSheet, Text, View, ScrollView, Modal } from 'react-native'
+import { Dimensions, StyleSheet, Text, View, ScrollView, Modal } from 'react-native'
 import Touchable from '@celo/react-components/components/Touchable'
 
 export interface ExpandableWindowProps {
@@ -18,15 +18,15 @@ export function ExpandableWindow({ title, onClose, children }: ExpandableWindowP
           <View />
         </Touchable>
       </View>
-      <View style={[styles.contentWrapper]}>
-        <View style={[styles.content]}>
-          <Text style={styles.title}>{title}</Text>
-          <ScrollView style={[styles.children]}>{children}</ScrollView>
-        </View>
+      <View style={[styles.content]}>
+        <Text style={styles.title}>{title}</Text>
+        <ScrollView style={[styles.children]}>{children}</ScrollView>
       </View>
     </Modal>
   )
 }
+
+const { height: windowHeight } = Dimensions.get('window')
 
 const styles = StyleSheet.create({
   fullSize: {
@@ -43,21 +43,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.dark,
     opacity: 0.6,
   },
-  contentWrapper: {
+  content: {
     position: 'absolute',
-    top: 0,
     left: 0,
     right: 0,
     bottom: 0,
     zIndex: 99999,
-    paddingTop: 80,
-    justifyContent: 'flex-end',
-  },
-  content: {
     backgroundColor: colors.light,
     paddingTop: 24,
     borderTopStartRadius: 16,
     borderTopEndRadius: 16,
+    maxHeight: windowHeight - 80,
   },
   children: {
     paddingHorizontal: 16,
