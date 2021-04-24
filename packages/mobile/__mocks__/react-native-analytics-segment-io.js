@@ -1,25 +1,25 @@
 export default {
-  setup: function (key, options = {}) {
+  setup: function(key, options = {}) {
     return new Promise((resolve) => resolve())
   },
 
-  identify: function (userId, traits = {}) {},
+  identify: function(userId, traits = {}) {},
 
-  track: function (event, properties = {}) {},
+  track: function(event, properties = {}) {},
 
-  screen: function (name, properties = {}) {},
+  screen: function(name, properties = {}) {},
 
-  group: function (groupId, traits = {}) {},
+  group: function(groupId, traits = {}) {},
 
-  alias: function (newId) {},
+  alias: function(newId) {},
 
-  reset: function () {},
+  reset: function() {},
 
-  flush: function () {},
+  flush: function() {},
 
-  enable: function () {},
+  enable: function() {},
 
-  disable: function () {},
+  disable: function() {},
 }
 
 export const AnalyticsConstants = {

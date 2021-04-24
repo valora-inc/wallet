@@ -17,9 +17,8 @@ const GoogleReCaptcha = ({ onMessage, siteKey, style, url, languageCode }: Props
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <script src="https://recaptcha.google.com/recaptcha/api.js?explicit&hl=${
-          languageCode || 'en'
-        }"></script> 
+        <script src="https://recaptcha.google.com/recaptcha/api.js?explicit&hl=${languageCode ||
+          'en'}"></script> 
         <script type="text/javascript"> 
            var onloadCallback = function() { };  
            var onDataCallback = function(response) { 

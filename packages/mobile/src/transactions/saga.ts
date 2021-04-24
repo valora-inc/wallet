@@ -77,7 +77,7 @@ export function* sendAndMonitorTransaction<T>(
   try {
     Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
-    const sendTxMethod = function* (nonce?: number) {
+    const sendTxMethod = function*(nonce?: number) {
       const { transactionHash, receipt }: TxPromises = yield call(
         sendTransactionPromises,
         tx.txo,

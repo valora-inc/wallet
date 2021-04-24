@@ -1,7 +1,10 @@
 const { execSync } = require('child_process')
 const chalk = require('chalk')
 const path = require('path')
-const exec = (args) => execSync(args).toString().trim()
+const exec = (args) =>
+  execSync(args)
+    .toString()
+    .trim()
 
 ////////////////////////////////////////////////////////////////
 /// CONFIG

@@ -202,7 +202,7 @@ export function* sendTransaction(
   gasPrice?: BigNumber,
   feeCurrency?: CURRENCY_ENUM
 ) {
-  const sendTxMethod = function* (nonce?: number) {
+  const sendTxMethod = function*(nonce?: number) {
     const { receipt } = yield call(
       sendTransactionPromises,
       tx,

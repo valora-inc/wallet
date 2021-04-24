@@ -296,7 +296,7 @@ export const clockInSync = async () => {
 export const getLocalTimezone = () => {
   // Reference: https://momentjs.com/timezone/docs/#/using-timezones/formatting/
   const timezoneGuess = momentTimezone.tz(momentTimezone.tz.guess())
-  momentTimezone.fn.zoneName = function () {
+  momentTimezone.fn.zoneName = function() {
     const abbr = this.zoneAbbr()
     if (!i18n.language?.includes('en')) {
       return abbr

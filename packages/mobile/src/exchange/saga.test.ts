@@ -52,7 +52,9 @@ describe(doFetchTobinTax, () => {
       makerToken: CURRENCY_ENUM.DOLLAR,
       makerAmount: new BigNumber(SELL_AMOUNT),
     }
-    await expectSaga(doFetchTobinTax, tobinTaxAction).put(setTobinTax('0')).run()
+    await expectSaga(doFetchTobinTax, tobinTaxAction)
+      .put(setTobinTax('0'))
+      .run()
   })
 })
 

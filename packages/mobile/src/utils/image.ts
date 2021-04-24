@@ -14,7 +14,10 @@ export const saveImageDataUrlToFile = async (
   dataUrl: string,
   fileNameWithoutExtension: string
 ): Promise<string> => {
-  const mimeType = dataUrl.split(':')[1].split(',')[0].split(';')[0]
+  const mimeType = dataUrl
+    .split(':')[1]
+    .split(',')[0]
+    .split(';')[0]
   const extension = mimeTypeToExtension[mimeType] || '.jpg'
   const fileName = `${fileNameWithoutExtension}.${extension}`
   const data = dataUrl.substr(dataUrl.indexOf(',') + 1)

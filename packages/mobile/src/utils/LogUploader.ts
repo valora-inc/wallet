@@ -67,7 +67,9 @@ export default class FirebaseLogUploader {
 
       // Note: when this "await" finishes upload might still be pending, so, if the file gets deleted,
       // the upload will fail.
-      await storage().ref(fullUploadPath).putFile(localFilePath)
+      await storage()
+        .ref(fullUploadPath)
+        .putFile(localFilePath)
 
       Logger.debug(
         `${TAG}/uploadLogsToFirebaseStorage`,

@@ -11,7 +11,11 @@ export function obfuscateNumberForMatchmaking(e164Number: string) {
 const PEPPER_CHAR_LENGTH = 13
 export function getPepperFromThresholdSignature(sigBuf: Buffer) {
   // Currently uses 13 chars for a 78 bit pepper
-  return crypto.createHash('sha256').update(sigBuf).digest('base64').slice(0, PEPPER_CHAR_LENGTH)
+  return crypto
+    .createHash('sha256')
+    .update(sigBuf)
+    .digest('base64')
+    .slice(0, PEPPER_CHAR_LENGTH)
 }
 
 enum AuthenticationMethod {
