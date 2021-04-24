@@ -160,42 +160,6 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     Logger.info(TAG, 'Cloud Messaging token refreshed')
     await registerTokenToDb(app, address, token)
   })
-
-  // Listen for notification messages while the app is open
-  const channelOnNotification: EventChannel<NotificationChannelEvent> = eventChannel((emitter) => {
-    const unsubscribe = () => {
-      Logger.info(TAG, 'Notification channel closed, resetting callbacks. This is likely an error.')
-      app.messaging().onMessage(() => null)
-      app.messaging().onNotificationOpenedApp(() => null)
-    }
-
-    app.messaging().onMessage((message) => {
-      Logger.info(TAG, 'Notification received while open')
-      emitter({
-        message,
-        stateType: NotificationReceiveState.APP_ALREADY_OPEN,
-      })
-    })
-
-    app.messaging().onNotificationOpenedApp((message) => {
-      Logger.info(TAG, 'App opened via a notification')
-      emitter({
-        message,
-        stateType: NotificationReceiveState.APP_FOREGROUNDED,
-      })
-    })
-    return unsubscribe
-  })
-  yield spawn(watchFirebaseNotificationChannel, channelOnNotification)
-
-  // Manual type checking because yield calls can't infer return type yet :'(
-  const initialNotification: Awaited<
-    ReturnType<FirebaseMessagingTypes.Module['getInitialNotification']>
-  > = yield call([app.messaging(), 'getInitialNotification'])
-  if (initialNotification) {
-    Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
-    yield call(handleNotification, initialNotification, NotificationReceiveState.APP_OPENED_FRESH)
-  }
 }
 
 export const registerTokenToDb = async (

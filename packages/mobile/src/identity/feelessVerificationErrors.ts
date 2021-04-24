@@ -17,13 +17,6 @@ export enum FeelessVerificationErrors {
 export class KomenciErrorQuotaExceeded extends RootError<FeelessVerificationErrors.KomenciErrorQuotaExceeded> {
   constructor() {
     super(FeelessVerificationErrors.KomenciErrorQuotaExceeded)
-  }
-}
-
-// When feature flag is disabled
-export class KomenciDisabledError extends RootError<FeelessVerificationErrors.KomenciDisabledError> {
-  constructor() {
-    super(FeelessVerificationErrors.KomenciDisabledError)
     Object.setPrototypeOf(this, KomenciErrorQuotaExceeded.prototype)
   }
 }
