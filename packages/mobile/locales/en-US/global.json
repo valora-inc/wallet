@@ -190,5 +190,8 @@
   "countryNotAvailable": "{{appName}} is not available in your country",
   "firebaseFetchFailed": "Server connection failed",
   "pictureLoadFailed": "There was an error while loading your picture",
+  "simplexPurchaseFetchFailed": "Failed to retreive a quote from Simplex. Please try again later",
+  "providerUrlFetchFailed": "Could not connect to service. Please contact support",
+  "ok": "OK",
   "cashOutLimitExceeded": "You cannot cash out more than your balance of {{balance}} {{currency}}"
 }
