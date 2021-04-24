@@ -63,9 +63,9 @@ export function* checkInitialNotification() {
   // or in the background when the push notification arrives
 
   // Manual type checking because yield calls can't infer return type yet :'(
-  const initialNotification: Awaited<ReturnType<
-    FirebaseMessagingTypes.Module['getInitialNotification']
-  >> = yield call([firebase.messaging(), 'getInitialNotification'])
+  const initialNotification: Awaited<
+    ReturnType<FirebaseMessagingTypes.Module['getInitialNotification']>
+  > = yield call([firebase.messaging(), 'getInitialNotification'])
   if (initialNotification) {
     Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
     yield call(handleNotification, initialNotification, NotificationReceiveState.APP_OPENED_FRESH)
@@ -132,9 +132,9 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
 
   // this call needs to include context: https://github.com/redux-saga/redux-saga/issues/27
   // Manual type checking because yield calls can't infer return type yet :'(
-  const authStatus: Awaited<ReturnType<
-    FirebaseMessagingTypes.Module['hasPermission']
-  >> = yield call([app.messaging(), 'hasPermission'])
+  const authStatus: Awaited<
+    ReturnType<FirebaseMessagingTypes.Module['hasPermission']>
+  > = yield call([app.messaging(), 'hasPermission'])
   Logger.info(TAG, 'Current messaging authorization status', authStatus.toString())
   if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
     try {
@@ -189,9 +189,9 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   yield spawn(watchFirebaseNotificationChannel, channelOnNotification)
 
   // Manual type checking because yield calls can't infer return type yet :'(
-  const initialNotification: Awaited<ReturnType<
-    FirebaseMessagingTypes.Module['getInitialNotification']
-  >> = yield call([app.messaging(), 'getInitialNotification'])
+  const initialNotification: Awaited<
+    ReturnType<FirebaseMessagingTypes.Module['getInitialNotification']>
+  > = yield call([app.messaging(), 'getInitialNotification'])
   if (initialNotification) {
     Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
     yield call(handleNotification, initialNotification, NotificationReceiveState.APP_OPENED_FRESH)
@@ -243,10 +243,7 @@ export function appVersionDeprecationChannel() {
       .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
 
     const cancel = () => {
-      firebase
-        .database()
-        .ref('versions')
-        .off(VALUE_CHANGE_HOOK, onValueChange)
+      firebase.database().ref('versions').off(VALUE_CHANGE_HOOK, onValueChange)
     }
 
     return cancel
@@ -283,10 +280,7 @@ export function appRemoteFeatureFlagChannel() {
       .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
 
     const cancel = () => {
-      firebase
-        .database()
-        .ref('versions/flags')
-        .off(VALUE_CHANGE_HOOK, onValueChange)
+      firebase.database().ref('versions/flags').off(VALUE_CHANGE_HOOK, onValueChange)
     }
 
     return cancel
@@ -325,16 +319,10 @@ function simpleReadChannel(key: string) {
       emit(value || {})
     }
 
-    const onValueChange = firebase
-      .database()
-      .ref(key)
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
+    const onValueChange = firebase.database().ref(key).on(VALUE_CHANGE_HOOK, emitter, errorCallback)
 
     const cancel = () => {
-      firebase
-        .database()
-        .ref(key)
-        .off(VALUE_CHANGE_HOOK, onValueChange)
+      firebase.database().ref(key).off(VALUE_CHANGE_HOOK, onValueChange)
     }
 
     return cancel
