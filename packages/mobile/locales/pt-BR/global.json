@@ -190,5 +190,8 @@
   "countryNotAvailable": "A {{appName}} não está disponível em seu país",
   "firebaseFetchFailed": "A conexão com o servidor falhou",
   "pictureLoadFailed": "Ocorreu um erro ao carregar sua imagem",
+  "simplexPurchaseFetchFailed": "Falha ao recuperar a citação simples. Por favor, tente novamente mais tarde",
+  "providerUrlFetchFailed": "Não foi possível conectar ao serviço. Por favor, contate o suporte",
+  "ok": "OK",
   "cashOutLimitExceeded": "Você não pode sacar mais do que o seu saldo de {{balance}} {{currency}}"
 }
