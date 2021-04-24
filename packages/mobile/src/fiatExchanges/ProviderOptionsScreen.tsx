@@ -106,7 +106,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const userLocation = asyncUserLocation.result
 
   const asyncProviderQuotes = useAsync(async () => {
-    if (!account || !userLocation?.ipAddress) {
+    if (!account || !userLocation?.ipAddress || !isFocused) {
       return
     }
 
