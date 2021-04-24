@@ -1,9 +1,7 @@
 // clicks an element if it sees it
 async function bannerDismiss(inElement, tapElement) {
   try {
-    await waitFor(element(inElement))
-      .toBeVisible()
-      .withTimeout(500)
+    await waitFor(element(inElement)).toBeVisible().withTimeout(500)
     if (tapElement) {
       await element(tapElement).tap()
     } else {

@@ -66,7 +66,7 @@ jest.mock('src/web3/saga', () => ({
 }))
 
 const mockUnlockAccount = unlockAccount as jest.MockedFunction<typeof unlockAccount>
-mockUnlockAccount.mockImplementation(function*() {
+mockUnlockAccount.mockImplementation(function* () {
   return UnlockResult.SUCCESS
 })
 
