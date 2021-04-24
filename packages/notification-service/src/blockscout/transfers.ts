@@ -116,10 +116,7 @@ export function notifyForNewTransfers(transfers: Transfer[]): Promise<void[]> {
 }
 
 export function convertWeiValue(value: string) {
-  return new BigNumber(value)
-    .div(WEI_PER_GOLD)
-    .decimalPlaces(4)
-    .valueOf()
+  return new BigNumber(value).div(WEI_PER_GOLD).decimalPlaces(4).valueOf()
 }
 
 export function updateProcessedBlocks(
