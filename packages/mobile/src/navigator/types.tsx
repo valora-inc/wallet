@@ -12,6 +12,7 @@ import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
+import { SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -131,6 +132,10 @@ export type StackParamList = {
     currencyCode: LocalCurrencyCode
     currencyToBuy: CurrencyCode
   }
+  [Screens.Simplex]: {
+    simplexQuote: SimplexQuote
+    userIpAddress: string
+  }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:
     | {
@@ -182,8 +187,11 @@ export type StackParamList = {
   [Screens.Profile]: undefined
   [Screens.ProviderOptionsScreen]: {
     isCashIn?: boolean
-    currency: CURRENCY_ENUM
-    amount: number
+    selectedCrypto: CURRENCY_ENUM
+    amount: {
+      crypto: number
+      fiat: number
+    }
     paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
   }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
