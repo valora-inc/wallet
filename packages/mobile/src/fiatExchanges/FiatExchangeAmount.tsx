@@ -15,16 +15,23 @@ import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { cUsdDailyLimitSelector } from 'src/account/selectors'
+import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
-import { CELO_SUPPORT_EMAIL_ADDRESS, DOLLAR_ADD_FUNDS_MIN_AMOUNT } from 'src/config'
+import {
+  ALERT_BANNER_DURATION,
+  CELO_SUPPORT_EMAIL_ADDRESS,
+  DOLLAR_ADD_FUNDS_MIN_AMOUNT,
+} from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import { ExchangeRatePair, exchangeRatePairSelector } from 'src/exchange/reducer'
 import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
+import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import i18n, { Namespaces } from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
@@ -39,6 +46,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
 import Logger from 'src/utils/Logger'
 
@@ -96,6 +104,8 @@ function FiatExchangeAmount({ route }: Props) {
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
   const exchangeRatePair = useSelector(exchangeRatePairSelector)
   const localCurrencyExchangeRate = useSelector(getLocalCurrencyExchangeRate)
+  const cUSDBalance = useSelector(stableTokenBalanceSelector)
+  const celoBalance = useSelector(celoTokenBalanceSelector)
   const localCurrencyCode = useLocalCurrencyCode()
   const currencySymbol = LocalCurrencySymbol[localCurrencyCode]
 
@@ -110,6 +120,15 @@ function FiatExchangeAmount({ route }: Props) {
     localCurrencyCode,
     exchangeRatePair
   )
+
+  const dollarBalance = useDollarAmount(
+    currency,
+    new BigNumber((currency === CURRENCY_ENUM.DOLLAR ? cUSDBalance : celoBalance) || 0),
+    localCurrencyExchangeRate,
+    localCurrencyCode,
+    exchangeRatePair
+  )
+
   const localCurrencyAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
   const minAmountInLocalCurrency = convertDollarsToLocalAmount(
@@ -133,7 +152,8 @@ function FiatExchangeAmount({ route }: Props) {
 
   function goToProvidersScreen() {
     navigate(Screens.ProviderOptionsScreen, {
-      isCashIn: true,
+      isCashIn: route.params.isCashIn,
+      paymentMethod: route.params.paymentMethod,
       currency: route.params.currency,
       amount: localCurrencyAmount?.toNumber() || 0,
     })
@@ -141,21 +161,33 @@ function FiatExchangeAmount({ route }: Props) {
 
   function onPressContinue() {
     Logger.debug(`Input: ${dollarAmount}`)
-    if (dollarAmount.isLessThan(DOLLAR_ADD_FUNDS_MIN_AMOUNT)) {
-      setShowingMinAmountDialog(true)
-      ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_insufficient, {
+    if (route.params.isCashIn) {
+      if (dollarAmount.isLessThan(DOLLAR_ADD_FUNDS_MIN_AMOUNT)) {
+        setShowingMinAmountDialog(true)
+        ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_insufficient, {
+          dollarAmount,
+        })
+        return
+      }
+      if (dollarAmount.isGreaterThan(dailyLimitCusd)) {
+        setShowingDailyLimitDialog(true)
+        return
+      }
+
+      ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_continue, {
         dollarAmount,
       })
-      return
+    } else {
+      if (dollarAmount.isGreaterThan(dollarBalance)) {
+        dispatch(
+          showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
+            dollarBalance,
+            currency: currency === CURRENCY_ENUM.DOLLAR ? 'cUSD' : 'CELO',
+          })
+        )
+        return
+      }
     }
-    if (dollarAmount.isGreaterThan(dailyLimitCusd)) {
-      setShowingDailyLimitDialog(true)
-      return
-    }
-
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_continue, {
-      dollarAmount,
-    })
     goToProvidersScreen()
   }
 
@@ -280,7 +312,7 @@ FiatExchangeAmount.navOptions = ({
     headerLeft: () => <BackButton eventName={eventName} />,
     headerTitle: () => (
       <HeaderTitleWithBalance
-        title={i18n.t('fiatExchangeFlow:addFunds')}
+        title={i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`)}
         token={route.params.currency}
       />
     ),

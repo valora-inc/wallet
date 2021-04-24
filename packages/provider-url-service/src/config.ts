@@ -19,6 +19,12 @@ export const TRANSAK_DATA = {
   private_key: config.transak.private_key,
 }
 
+export const XANPOOL_DATA = {
+  widget_url: config.xanpool.widget_url,
+  public_key: config.xanpool.public_key,
+  private_key: config.xanpool.private_key,
+}
+
 export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
 

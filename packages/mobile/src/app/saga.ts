@@ -89,15 +89,13 @@ export function* appVersionSaga() {
 }
 
 export interface RemoteFeatureFlags {
-  kotaniEnabled: boolean
-  pontoEnabled: boolean
-  bitfyUrl: string | null
-  flowBtcUrl: string | null
   celoEducationUri: string | null
   shortVerificationCodesEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
+  hideVerification: boolean
+  showRaiseDailyLimitTarget: string | undefined
 }
 
 export function* appRemoteFeatureFlagSaga() {

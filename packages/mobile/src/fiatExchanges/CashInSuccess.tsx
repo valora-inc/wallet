@@ -21,25 +21,23 @@ function CashInSuccessScreen({ route }: Props) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image source={fiatExchange} style={styles.image} resizeMode={'contain'} />
-        <Text style={styles.title}>{t('cicoSuccess.title')}</Text>
-      </View>
       <View style={styles.content}>
+        <Image source={fiatExchange} resizeMode={'contain'} />
+        <Text style={styles.title}>{t('cicoSuccess.title')}</Text>
         <Text style={styles.contentText}>
           {provider
             ? t('cicoSuccess.bodyWithProvider', { provider })
             : t('cicoSuccess.bodyWithoutProvider')}
         </Text>
-        <View style={styles.buttonContainer}>
-          <Button
-            style={styles.button}
-            text={t('global:continue')}
-            accessibilityLabel={t('global:continue')}
-            onPress={navigateHome}
-            testID={'SuccessContinue'}
-          />
-        </View>
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          style={styles.button}
+          text={t('global:continue')}
+          accessibilityLabel={t('global:continue')}
+          onPress={navigateHome}
+          testID={'SuccessContinue'}
+        />
       </View>
     </View>
   )
@@ -57,33 +55,26 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  imageContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image: {
-    marginBottom: 30,
+    padding: 32,
   },
   title: {
     ...fontStyles.large500,
+    paddingTop: 8,
+    paddingBottom: 16,
   },
   content: {
-    flex: 0,
+    flex: 1,
     padding: 16,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   contentText: {
     ...fontStyles.regular,
     textAlign: 'center',
   },
   buttonContainer: {
-    paddingTop: 16,
     flexDirection: 'row',
   },
   button: {

@@ -1,4 +1,5 @@
 import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils'
+import { DataSnapshot } from '@firebase/database-types'
 import * as admin from 'firebase-admin'
 import i18next from 'i18next'
 import { Currencies, MAX_BLOCKS_TO_WAIT } from './blockscout/transfers'
@@ -8,12 +9,14 @@ import {
   NOTIFICATIONS_TTL_MS,
   NotificationTypes,
 } from './config'
+import { metrics } from './metrics'
 
 const NOTIFICATIONS_TAG = 'NOTIFICATIONS/'
 
 let database: admin.database.Database
 let registrationsRef: admin.database.Reference
 let lastBlockRef: admin.database.Reference
+let lastInviteBlockRef: admin.database.Reference
 let pendingRequestsRef: admin.database.Reference
 let knownAddressesRef: admin.database.Reference
 
@@ -67,8 +70,9 @@ export interface AddressToDisplayNameType {
 
 let registrations: Registrations = {}
 let lastBlockNotified: number = -1
+let lastInviteBlockNotified: number = -1
 
-let pendingRequests: PendingRequests = {}
+const pendingRequests: PendingRequests = {}
 let celoRewardsSenders: string[] = []
 
 export function _setTestRegistrations(testRegistrations: Registrations) {
@@ -95,25 +99,29 @@ function paymentObjectToNotification(po: PaymentRequest): { [key: string]: strin
   }
 }
 
+function firebaseFetchError(nodeKey: string) {
+  return (errorObject: any) => {
+    console.error(`${nodeKey} data read failed:`, errorObject.code)
+  }
+}
+
 export function initializeDb() {
   database = admin.database()
   registrationsRef = database.ref('/registrations')
   lastBlockRef = database.ref('/lastBlockNotified')
+  lastInviteBlockRef = database.ref('/lastInviteBlockNotified')
   pendingRequestsRef = database.ref('/pendingRequests')
   knownAddressesRef = database.ref('/addressesExtraInfo')
 
-  // Attach to the registration ref to keep local registrations mapping up to date
-  registrationsRef.on(
-    'value',
-    (snapshot) => {
-      console.debug('Registration data updated')
-      registrations = (snapshot && snapshot.val()) || {}
-      console.debug('Total registrations found:', Object.keys(registrations).length)
-    },
-    (errorObject: any) => {
-      console.error('Registration data read failed:', errorObject.code)
+  function addOrUpdateRegistration(snapshot: DataSnapshot) {
+    const registration = (snapshot && snapshot.val()) || {}
+    console.debug('New or updated registration:', snapshot.key, registration)
+    if (snapshot.key) {
+      registrations[snapshot.key] = registration
     }
-  )
+  }
+  registrationsRef.on('child_added', addOrUpdateRegistration, firebaseFetchError('registration'))
+  registrationsRef.on('child_changed', addOrUpdateRegistration, firebaseFetchError('registration'))
 
   lastBlockRef.on(
     'value',
@@ -131,21 +139,41 @@ export function initializeDb() {
       } else if (lastBlock > lastBlockNotified) {
         lastBlockNotified = lastBlock
       }
+      metrics.setLastBlockNotified(lastBlockNotified)
     },
     (errorObject: any) => {
       console.error('Latest block data read failed:', errorObject.code)
     }
   )
 
-  pendingRequestsRef.on(
+  lastInviteBlockRef.on(
     'value',
     (snapshot) => {
-      console.debug('Latest payment requests data updated: ', snapshot && snapshot.val())
-      pendingRequests = (snapshot && snapshot.val()) || {}
+      const lastBlock = (snapshot && snapshot.val()) || 0
+      console.debug('Latest invite block updated: ', lastBlock)
+      lastInviteBlockNotified = lastBlock
     },
     (errorObject: any) => {
-      console.error('Latest payment requests data read failed:', errorObject.code)
+      console.error('Latest invite block read failed:', errorObject.code)
     }
+  )
+
+  function addOrUpdatePendingRequest(snapshot: DataSnapshot) {
+    const pendingRequest = (snapshot && snapshot.val()) || {}
+    console.debug('New or updated pending request:', snapshot.key, pendingRequest)
+    if (snapshot.key) {
+      pendingRequests[snapshot.key] = pendingRequest
+    }
+  }
+  pendingRequestsRef.on(
+    'child_added',
+    addOrUpdatePendingRequest,
+    firebaseFetchError('pendingRequests')
+  )
+  pendingRequestsRef.on(
+    'child_changed',
+    addOrUpdatePendingRequest,
+    firebaseFetchError('pendingRequests')
   )
 
   knownAddressesRef.on(
@@ -182,7 +210,13 @@ export function getLastBlockNotified() {
   return lastBlockNotified
 }
 
+export function getLastInviteBlockNotified() {
+  return lastInviteBlockNotified
+}
+
 export function getPendingRequests() {
+  const numPendingRequests = Object.keys(pendingRequests).length
+  metrics.setPendingRequestsSize(numPendingRequests)
   return pendingRequests
 }
 
@@ -222,10 +256,28 @@ export function setLastBlockNotified(newBlock: number): Promise<void> | undefine
   // we set it here ourselves to avoid race condition where we check for notifications
   // again before it syncs
   lastBlockNotified = newBlock
+  metrics.setLastBlockNotified(newBlock)
   if (ENVIRONMENT === 'local') {
     return
   }
   return lastBlockRef.set(newBlock)
+}
+
+export function setLastInviteBlockNotified(newBlock: number): Promise<void> | undefined {
+  if (newBlock <= lastInviteBlockNotified) {
+    console.debug('Block number less than latest, skipping latestInviteBlock update.')
+    return
+  }
+
+  console.debug('Updating last block notified to:', newBlock)
+  // Although firebase will keep our local lastBlockNotified in sync with the DB,
+  // we set it here ourselves to avoid race condition where we check for notifications
+  // again before it syncs
+  lastInviteBlockNotified = newBlock
+  if (ENVIRONMENT === 'local') {
+    return
+  }
+  return lastInviteBlockRef.set(newBlock)
 }
 
 function notificationTitleAndBody(senderAddress: string, currency: Currencies) {
@@ -257,6 +309,10 @@ export async function sendPaymentNotification(
   data: { [key: string]: string }
 ) {
   console.info(NOTIFICATIONS_TAG, 'Block delay: ', lastBlockNotified - blockNumber)
+
+  // Set the metric tracking this delay
+  metrics.setBlockDelay(lastBlockNotified - blockNumber)
+
   const t = getTranslatorForAddress(recipientAddress)
   data.type = NotificationTypes.PAYMENT_RECEIVED
   const { title, body } = notificationTitleAndBody(senderAddress, currency)
@@ -285,6 +341,11 @@ export async function requestedPaymentNotification(uid: string, data: PaymentReq
     requesteeAddress,
     { uid, ...paymentObjectToNotification(data) }
   )
+}
+
+export async function sendInviteNotification(inviter: string) {
+  const t = getTranslatorForAddress(inviter)
+  return sendNotification(t('inviteTitle'), t('inviteBody'), inviter, {})
 }
 
 export async function sendNotification(
@@ -321,7 +382,12 @@ export async function sendNotification(
     console.info(NOTIFICATIONS_TAG, 'Sending notification to:', address)
     const response = await admin.messaging().send(message, NOTIFICATIONS_DISABLED)
     console.info('Successfully sent notification for :', address, response)
+
+    // Notification metrics
+    metrics.sentNotification(data.type)
+    metrics.setNotificationLatency(Date.now() - Number(data.timestamp), data.type)
   } catch (error) {
     console.error('Error sending notification:', address, error)
+    metrics.failedNotification(data.type)
   }
 }

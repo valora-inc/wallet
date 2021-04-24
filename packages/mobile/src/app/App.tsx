@@ -10,7 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { apolloClient } from 'src/apollo/index'
-import { openDeepLink } from 'src/app/actions'
+import { appMounted, appUnmounted, openDeepLink } from 'src/app/actions'
 import AppLoading from 'src/app/AppLoading'
 import ErrorBoundary from 'src/app/ErrorBoundary'
 import { isE2EEnv } from 'src/config'
@@ -70,6 +70,8 @@ export class App extends React.Component<Props> {
     }
 
     this.logAppLoadTime()
+
+    store.dispatch(appMounted())
   }
 
   logAppLoadTime() {
@@ -93,6 +95,7 @@ export class App extends React.Component<Props> {
 
   componentWillUnmount() {
     Linking.removeEventListener('url', this.handleOpenURL)
+    store.dispatch(appUnmounted())
   }
 
   handleOpenURL = async (event: any) => {

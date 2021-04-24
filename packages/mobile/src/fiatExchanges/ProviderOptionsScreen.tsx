@@ -17,6 +17,7 @@ import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoProviderNames, providersDisplayInfo } from 'src/fiatExchanges/reducer'
 import {
   fetchLocationFromIpAddress,
@@ -24,6 +25,7 @@ import {
   openMoonpay,
   openRamp,
   openSimplex,
+  openTransak,
   sortProviders,
   UserLocation,
 } from 'src/fiatExchanges/utils'
@@ -34,6 +36,7 @@ import QuestionIcon from 'src/icons/QuestionIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -57,10 +60,10 @@ ProviderOptionsScreen.navigationOptions = ({
     headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
   }
 }
-
 export interface CicoProvider {
   id: CicoProviderNames
   restricted: boolean
+  paymentMethods: PaymentMethod[]
   image?: React.ReactNode
   onSelected: () => void
 }
@@ -78,6 +81,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
+
+  const { paymentMethod } = route.params
   const selectedCurrency = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
     [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
@@ -118,41 +123,63 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
   const userLocation: UserLocation | undefined = asyncUserLocation.result
 
-  const { MOONPAY_RESTRICTED, SIMPLEX_RESTRICTED, RAMP_RESTRICTED } = getProviderAvailability(
-    userLocation
-  )
+  const {
+    MOONPAY_RESTRICTED,
+    SIMPLEX_RESTRICTED,
+    RAMP_RESTRICTED,
+    TRANSAK_RESTRICTED,
+    XANPOOL_RESTRICTED,
+  } = getProviderAvailability(userLocation)
+
+  const xanpool = {
+    id: CicoProviderNames.Xanpool,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    restricted: XANPOOL_RESTRICTED,
+    onSelected: () =>
+      navigate(Screens.XanpoolScreen, {
+        localAmount: route.params.amount,
+        currencyCode: localCurrency,
+        currencyToBuy: selectedCurrency,
+      }),
+  }
+
+  const moonpay = {
+    id: CicoProviderNames.Moonpay,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    restricted: MOONPAY_RESTRICTED,
+    onSelected: () =>
+      openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+  }
+
+  const simplex = {
+    id: CicoProviderNames.Simplex,
+    paymentMethods: [PaymentMethod.Card],
+    restricted: SIMPLEX_RESTRICTED,
+    onSelected: () => openSimplex(account),
+  }
+
+  const ramp = {
+    id: CicoProviderNames.Ramp,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    restricted: RAMP_RESTRICTED,
+    onSelected: () =>
+      openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+  }
+
+  const transak = {
+    id: CicoProviderNames.Transak,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    restricted: TRANSAK_RESTRICTED,
+    onSelected: () =>
+      openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+  }
 
   const providers: {
     cashOut: CicoProvider[]
     cashIn: CicoProvider[]
   } = {
-    cashOut: [],
-    cashIn: [
-      {
-        id: CicoProviderNames.Moonpay,
-        restricted: MOONPAY_RESTRICTED,
-        onSelected: () =>
-          openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
-      },
-      {
-        id: CicoProviderNames.Simplex,
-        restricted: SIMPLEX_RESTRICTED,
-        onSelected: () => openSimplex(account),
-      },
-      {
-        id: CicoProviderNames.Ramp,
-        restricted: RAMP_RESTRICTED,
-        onSelected: () =>
-          openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
-      },
-      // Commenting out until we have completed KYB for Transak
-      // {
-      //   id: CiCoProvider.Transak,
-      //   restricted: TRANSAK_RESTRICTED,
-      //   onSelected: () =>
-      //     openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
-      // },
-    ].sort(sortProviders),
+    cashOut: [xanpool].sort(sortProviders),
+    cashIn: [moonpay, simplex, xanpool, ramp, transak].sort(sortProviders),
   }
 
   const providerOnPress = (provider: CicoProvider) => () => {
@@ -180,6 +207,16 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                   <Text style={styles.optionTitle}>{providersDisplayInfo[provider.id].name}</Text>
                   {provider.restricted && (
                     <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
+                  )}
+                  {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) && (
+                    <Text style={styles.restrictedText}>
+                      {t('unsupportedPaymentMethod', {
+                        paymentMethod:
+                          paymentMethod === PaymentMethod.Bank
+                            ? 'bank account'
+                            : 'debit or credit card',
+                      })}
+                    </Text>
                   )}
                 </View>
                 <LinkArrow />

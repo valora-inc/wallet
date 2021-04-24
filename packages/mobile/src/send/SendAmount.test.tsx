@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
+import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -23,7 +24,8 @@ const AMOUNT_ZERO = '0.00'
 const AMOUNT_VALID = '4.93'
 const AMOUNT_TOO_MUCH = '106.98'
 const BALANCE_VALID = '23.85'
-const REQUEST_OVER_LIMIT = '670'
+const REQUEST_OVER_LIMIT = (DEFAULT_DAILY_PAYMENT_LIMIT_CUSD * 2).toString()
+const LARGE_BALANCE = (DEFAULT_DAILY_PAYMENT_LIMIT_CUSD * 10).toString()
 
 const storeData = {
   stableToken: { balance: BALANCE_VALID },
@@ -160,6 +162,38 @@ describe('SendAmount', () => {
           title: null,
           type: 'ALERT/SHOW',
           underlyingError: 'requestLimitError',
+        },
+      ])
+    })
+
+    it('shows an error when tapping the send button with an amount over the limit', () => {
+      const store = createMockStore({
+        ...storeData,
+        stableToken: { balance: LARGE_BALANCE },
+      })
+      const wrapper = render(
+        <Provider store={store}>
+          <SendAmount {...mockScreenProps()} />
+        </Provider>
+      )
+      enterAmount(wrapper, REQUEST_OVER_LIMIT)
+
+      const sendButton = wrapper.getByTestId('Review')
+      expect(sendButton.props.disabled).toBe(false)
+
+      store.clearActions()
+      fireEvent.press(sendButton)
+      expect(store.getActions()).toEqual([
+        {
+          action: null,
+          alertType: 'error',
+          buttonMessage: null,
+          dismissAfter: 5000,
+          displayMethod: ErrorDisplayType.BANNER,
+          message: 'paymentLimitReached',
+          title: null,
+          type: 'ALERT/SHOW',
+          underlyingError: 'paymentLimitReached',
         },
       ])
     })
