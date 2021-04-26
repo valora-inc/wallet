@@ -1,3 +1,4 @@
+import { CURRENCY_ENUM } from '@celo/utils'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoService, RequestBody } from 'src/fiatExchanges/services/CicoService.abstract'
 import networkConfig from 'src/geth/networkConfig'
@@ -42,9 +43,14 @@ export class TransakService extends CicoService {
     requestedFiatAmount: number,
     paymentMethod: PaymentMethod
   ) {
+    const cryptoCurrency =
+      {
+        [CURRENCY_ENUM.DOLLAR]: 'CUSD',
+        [CURRENCY_ENUM.GOLD]: 'CELO',
+      }[cryptoAsset] || cryptoAsset
     return this.get('/currencies/price', {
       fiatCurrency: fiatAsset,
-      cryptoCurrency: cryptoAsset,
+      cryptoCurrency,
       isBuyOrSell: 'BUY',
       fiatAmount: requestedFiatAmount,
       paymentMethodId:
