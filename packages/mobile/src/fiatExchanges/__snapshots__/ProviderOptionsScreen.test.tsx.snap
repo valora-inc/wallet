@@ -183,7 +183,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/Transak"
+                testID="Provider/Moonpay"
               >
                 <View
                   style={
@@ -203,7 +203,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                       }
                     }
                   >
-                    Transak
+                    Moonpay
                   </Text>
                   <Text
                     style={
@@ -373,7 +373,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/Moonpay"
+                testID="Provider/Transak"
               >
                 <View
                   style={
@@ -393,7 +393,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                       }
                     }
                   >
-                    Moonpay
+                    Transak
                   </Text>
                   <Text
                     style={
