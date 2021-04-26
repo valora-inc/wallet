@@ -91,10 +91,6 @@ export class TransfersNavigator {
     )
   }
 
-  print() {
-    return this.transferCollection
-  }
-
   popLastTransfer(): BlockscoutCeloTransfer | undefined {
     return this.transferCollection.pop()
   }
