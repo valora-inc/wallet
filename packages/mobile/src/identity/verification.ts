@@ -655,7 +655,7 @@ export function attestationCodeReceiver(
   attestations: ActionableAttestation[],
   isFeelessVerification: boolean = false
 ) {
-  return function*(action: ReceiveAttestationMessageAction) {
+  return function* (action: ReceiveAttestationMessageAction) {
     const shortVerificationCodesEnabled = yield select(shortVerificationCodesEnabledSelector)
     if (!action || !action.message) {
       Logger.error(TAG + '@attestationCodeReceiver', 'Received empty code. Ignoring.')

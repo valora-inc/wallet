@@ -93,19 +93,11 @@ export function formatBackupPhraseOnEdit(phrase: string) {
 // Note(Ashish) The wordlists seem to use NFD and contains lower-case words for English and Spanish.
 // I am not sure if the words are lower-case for Japanese as well but I am assuming that for now.
 export function formatBackupPhraseOnSubmit(phrase: string) {
-  return formatBackupPhraseOnEdit(phrase)
-    .trim()
-    .normalize('NFD')
-    .toLocaleLowerCase()
+  return formatBackupPhraseOnEdit(phrase).trim().normalize('NFD').toLocaleLowerCase()
 }
 
 function isValidMnemonic(phrase: string, length: number) {
-  return (
-    !!phrase &&
-    formatBackupPhraseOnEdit(phrase)
-      .trim()
-      .split(/\s+/g).length === length
-  )
+  return !!phrase && formatBackupPhraseOnEdit(phrase).trim().split(/\s+/g).length === length
 }
 
 export function isValidBackupPhrase(phrase: string) {
