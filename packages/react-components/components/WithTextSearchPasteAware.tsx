@@ -21,7 +21,7 @@ export default function withTextSearchPasteAware<P extends TextInputProps>(
       const iconToUse = leftIcon ?? <Search />
       return (
         <View style={[styles.container, style]}>
-          <View style={styles.searchIconContainer}>{iconToUse} </View>
+          <View style={styles.searchIconContainer}>{iconToUse}</View>
           <WrappedTextInput
             {...this.props}
             inputStyle={styles.input}

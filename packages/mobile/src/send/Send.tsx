@@ -335,7 +335,7 @@ class Send extends React.Component<Props, State> {
         <DisconnectBanner />
         <SendSearchInput
           onChangeText={this.onSearchQueryChanged}
-          leftIcon={<Text>i18n.t('global:to')</Text>}
+          leftIcon={<Text style={styles.leftIcon}>{i18n.t('global:to')}</Text>}
         />
         <RecipientPicker
           testID={'RecipientPicker'}
@@ -359,6 +359,9 @@ const styles = StyleSheet.create({
   },
   headerRightContainer: {
     paddingRight: 16,
+  },
+  leftIcon: {
+    color: colors.gray5,
   },
 })
 
