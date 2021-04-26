@@ -42,6 +42,7 @@ interface NetworkConfig {
   recaptchaSiteKey: string
   bidaliUrl: string
   providerComposerUrl: string
+  xanpoolApiUrl: string
   simplexApiKey: string
   simplexApiUrl: string
   komenciLoadCheckEndpoint: string
@@ -67,6 +68,9 @@ const transakWidgetProd = 'https://global.transak.com'
 const transakWidgetStaging = 'https://staging-global.transak.com'
 const transakApiProd = ''
 const transakApiStaging = 'https://staging-api.transak.com/api/v2'
+
+const xanpoolApiUrlProd = 'https://xanpool.com/'
+const xanpoolApiUrlStaging = 'https://sandbox.xanpool.com'
 
 // const SIMPLEX_API_URL_STAGING =
 //   'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/processSimplexRequest'
@@ -130,6 +134,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     providerComposerUrl: PROVIDER_URL_COMPOSER_STAGING,
     simplexApiUrl: SIMPLEX_API_URL_STAGING,
     simplexApiKey: SIMPLEX_API_KEY,
+    xanpoolApiUrl: xanpoolApiUrlStaging,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
   },
   [Testnets.mainnet]: {
@@ -157,6 +162,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     providerComposerUrl: PROVIDER_URL_COMPOSER_PROD,
     simplexApiUrl: SIMPLEX_API_URL_PROD,
     simplexApiKey: SIMPLEX_API_KEY,
+    xanpoolApiUrl: xanpoolApiUrlProd,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
   },
 }

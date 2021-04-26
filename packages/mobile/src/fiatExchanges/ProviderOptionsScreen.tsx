@@ -32,6 +32,7 @@ import {
   MoonpayService,
   SimplexService,
   TransakService,
+  XanpoolService,
 } from 'src/fiatExchanges/services'
 import {
   fetchLocationFromIpAddress,
@@ -93,6 +94,7 @@ export interface CicoProvider {
 const simplexService = SimplexService.getInstance()
 const transakService = TransakService.getInstance()
 const moonpayService = MoonpayService.getInstance()
+const xanpoolService = XanpoolService.getInstance()
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
@@ -176,6 +178,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     restricted: XANPOOL_RESTRICTED,
     onSelected: () => navigate(Screens.XanpoolScreen, providerWidgetInputs),
+    service: xanpoolService,
   }
 
   const moonpay = {
@@ -245,15 +248,15 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       .map(async ({ id, service }) => [
         id,
         (
-          (await service
+          await service
             ?.getFees?.(
               route.params.selectedCrypto,
               localCurrency,
               route.params.amount.fiat,
               paymentMethod
             )
-            .catch(() => ({ fee: null }))) || { fee: null }
-        )?.fee,
+            .catch(() => ({ fee: null }))
+        )?.fee || null,
       ])
       .forEach(async (result) => {
         const [name, fee] = await result
