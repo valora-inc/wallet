@@ -5,6 +5,7 @@ import {
   withPasteAware,
 } from '@celo/react-components/components/WithPasteAware'
 import Paste from '@celo/react-components/icons/Paste'
+import Search from '@celo/react-components/icons/Search'
 import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { StyleSheet, TextInputProps, View } from 'react-native'
@@ -17,9 +18,10 @@ export default function withTextSearchPasteAware<P extends TextInputProps>(
   class Wrapper extends React.Component<P & PasteAwareWrappedElementProps> {
     render() {
       const { style, isPasteIconVisible, onPressPaste, leftIcon } = this.props
+      const iconToUse = leftIcon ?? <Search />
       return (
         <View style={[styles.container, style]}>
-          <View style={styles.searchIconContainer}>{leftIcon} </View>
+          <View style={styles.searchIconContainer}>{iconToUse} </View>
           <WrappedTextInput
             {...this.props}
             inputStyle={styles.input}
