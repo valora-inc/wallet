@@ -8,7 +8,7 @@ mkdir -p $ANDROID_SDK_ROOT
 cd $ANDROID_SDK_ROOT
 curl https://dl.google.com/android/repository/commandlinetools-mac-6858069_latest.zip -o cli-tools.zip
 
-unzip sdk-tools.zip
+unzip cli-tools.zip
 
 cp cmdline-tools/bin/sdkmanager sdkmanager
 
