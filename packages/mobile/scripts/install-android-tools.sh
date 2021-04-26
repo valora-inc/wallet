@@ -6,9 +6,11 @@ fi
 
 mkdir -p $ANDROID_SDK_ROOT
 cd $ANDROID_SDK_ROOT
-curl https://dl.google.com/android/repository/sdk-tools-darwin-4333796.zip -o sdk-tools.zip
+curl https://dl.google.com/android/repository/commandlinetools-mac-6858069_latest.zip -o cli-tools.zip
 
 unzip sdk-tools.zip
+
+cp cmdline-tools/bin/sdkmanager sdkmanager
 
 mkdir -p "$ANDROID_SDK_ROOT/licenses"
 
