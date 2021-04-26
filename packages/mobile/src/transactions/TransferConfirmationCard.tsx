@@ -21,7 +21,7 @@ import { addressToDisplayNameSelector } from 'src/identity/reducer'
 import { getInvitationVerificationFeeInDollars } from 'src/invite/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getRecipientThumbnail, Recipient } from 'src/recipients/recipient'
+import { Recipient } from 'src/recipients/recipient'
 import useTypedSelector from 'src/redux/useSelector'
 import BottomText from 'src/transactions/BottomText'
 import CommentSection from 'src/transactions/CommentSection'
@@ -184,10 +184,8 @@ function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, c
     <>
       <UserSection
         type="received"
-        address={address}
         recipient={recipient}
-        e164PhoneNumber={e164PhoneNumber}
-        avatar={<TransferAvatars type="received" address={address} recipient={recipient} />}
+        avatar={<TransferAvatars type="received" recipient={recipient} />}
       />
       <CommentSection comment={comment} />
       {isCeloTx && celoEducationUri && (

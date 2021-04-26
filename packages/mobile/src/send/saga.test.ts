@@ -39,6 +39,7 @@ import {
   mockQrCodeData2,
   mockQRCodeRecipient,
   mockTransactionData,
+  mockValoraRecipientCache,
 } from 'test/values'
 
 jest.mock('src/utils/time', () => ({
@@ -121,7 +122,7 @@ describe(watchQrCodeDetections, () => {
       type: BarcodeTypes.QR_CODE,
       data: urlFromUriData({
         address: mockQrCodeData.address,
-        name: mockQrCodeData.displayName,
+        displayName: mockQrCodeData.displayName,
       }),
     }
 
@@ -131,7 +132,7 @@ describe(watchQrCodeDetections, () => {
         [select(phoneRecipientCacheSelector), {}],
         [select(e164NumberToAddressSelector), {}],
         [select(addressToDisplayNameSelector), {}],
-        [select(valoraRecipientCacheSelector)],
+        [select(valoraRecipientCacheSelector), mockValoraRecipientCache],
       ])
       .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .silentRun()

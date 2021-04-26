@@ -18,7 +18,6 @@ import {
   mockPhoneRecipientCache,
   mockPrivateDEK,
   mockPrivateDEK2,
-  mockRecipientCache,
   mockRecipientInfo,
 } from 'test/values'
 
@@ -48,6 +47,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -72,6 +72,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -96,6 +97,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -120,6 +122,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -144,6 +147,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -168,6 +172,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -192,6 +197,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -216,6 +222,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -240,6 +247,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -273,6 +281,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[mockStoredInviteDetails]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -297,6 +306,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -321,6 +331,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -345,6 +356,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -369,6 +381,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -393,6 +406,7 @@ describe('transfer feed item renders correctly', () => {
           recipientInfo={mockRecipientInfo}
           recentTxRecipientsCache={{}}
           invitees={[]}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -413,10 +427,11 @@ describe('transfer feed item renders correctly', () => {
           timestamp={1}
           commentKey={null}
           addressToE164Number={mockAddressToE164Number}
-          phoneRecipientCache={mockRecipientCache}
-          recentTxRecipientsCache={mockRecipientCache}
+          phoneRecipientCache={mockPhoneRecipientCache}
+          recentTxRecipientsCache={mockPhoneRecipientCache}
           invitees={[]}
           recipientInfo={mockRecipientInfo}
+          account={''}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -438,6 +453,7 @@ describe('transfer feed item renders correctly', () => {
       phoneRecipientCache={mockPhoneRecipientCache}
       recipientInfo={mockRecipientInfo}
       recentTxRecipientsCache={{}}
+      account={''}
       invitees={[]}
     />
   )

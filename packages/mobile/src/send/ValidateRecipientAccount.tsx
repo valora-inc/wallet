@@ -28,7 +28,7 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { Recipient } from 'src/recipients/recipient'
+import { getDisplayName, getNumber, Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
 
@@ -67,7 +67,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): StateProps => {
   const { route } = ownProps
   const transactionData = route.params.transactionData
   const { recipient } = transactionData
-  const { e164PhoneNumber } = recipient
+  const e164PhoneNumber = getNumber(recipient)
   const error = state.alert ? state.alert.underlyingError : null
   const validationSuccessful = e164PhoneNumber
     ? !!state.identity.secureSendPhoneNumberMapping[e164PhoneNumber]?.validationSuccessful
@@ -96,7 +96,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
   }
 
   componentDidMount = () => {
-    const { e164PhoneNumber } = this.props.recipient
+    const e164PhoneNumber = getNumber(this.props.recipient)
     if (e164PhoneNumber) {
       this.props.validateRecipientAddressReset(e164PhoneNumber)
     }
@@ -174,7 +174,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
   renderInstructionsAndInputField = () => {
     const { t, recipient, addressValidationType } = this.props
     const { inputValue, singleDigitInputValueArr } = this.state
-    const { displayName } = recipient
+    const displayName = getDisplayName(recipient, t)
 
     if (addressValidationType === AddressValidationType.FULL) {
       return (
@@ -226,7 +226,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
 
   render = () => {
     const { t, recipient, error } = this.props
-    const { displayName } = recipient
+    const displayName = getDisplayName(recipient, t)
 
     return (
       <SafeAreaView style={styles.container}>

@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import { getProfileInfo } from 'src/account/profileInfo'
 import { showError } from 'src/alert/actions'
-import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
+import { TokenTransactionType, TransferItemFragment } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import { fetchGoldBalance } from 'src/goldToken/actions'
@@ -33,6 +33,7 @@ import {
   standbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
+import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
 import { StandbyTransaction, TransactionContext, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 
@@ -151,23 +152,24 @@ function* refreshRecentTxRecipients() {
     }
 
     const e164PhoneNumber = addressToE164Number[address]
-    const cachedRecipient = recipientCache[e164PhoneNumber]
-    // Skip if there is no recipient to cache or we've already cached them
-    if (!cachedRecipient || recentTxRecipientsCache[e164PhoneNumber]) {
-      continue
-    }
+    if (!!e164PhoneNumber) {
+      const cachedRecipient = recipientCache[e164PhoneNumber]
+      // Skip if there is no recipient to cache or we've already cached them
+      if (!cachedRecipient || recentTxRecipientsCache[e164PhoneNumber]) {
+        continue
+      }
 
-    recentTxRecipientsCache[e164PhoneNumber] = cachedRecipient
-    remainingCacheStorage -= 1
+      recentTxRecipientsCache[e164PhoneNumber] = cachedRecipient
+      remainingCacheStorage -= 1
+    }
   }
 
   yield put(updateRecentTxRecipientsCache(recentTxRecipientsCache))
 }
 
-function* addProfile(transaction: TransactionFeedFragment) {
+function* addProfile(transaction: TransferItemFragment) {
   const profiles: AddressToRecipient = yield select(valoraRecipientCacheSelector)
-  // @ts-ignore transaction must have address because it is a TokenTransfer
-  const address = transaction.address
+  const address = transaction.account
   if (!profiles[address]) {
     const newProfile: AddressToRecipient = {}
     if (transaction.type === TokenTransactionType.Received) {
@@ -186,9 +188,11 @@ function* addProfile(transaction: TransactionFeedFragment) {
 
 function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
   yield all(
-    transactions
-      .filter((trans) => trans.__typename === 'TokenTransfer')
-      .map((trans) => call(addProfile, trans))
+    transactions.map((trans) => {
+      if (isTransferTransaction(trans)) {
+        return call(addProfile, trans)
+      }
+    })
   )
 }
 

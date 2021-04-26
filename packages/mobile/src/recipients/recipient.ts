@@ -46,7 +46,7 @@ export function recipientHasContact(recipient: Recipient): recipient is ContactR
   return recipient && 'contactId' in recipient && 'name' in recipient && !!recipient.contactId
 }
 
-export function getE164Number(recipient: Recipient, e164Number?: string) {
+export function getNumber(recipient: Recipient, e164Number?: string) {
   return recipientHasNumber(recipient) ? recipient.e164PhoneNumber : e164Number
 }
 
@@ -224,8 +224,8 @@ function nameCompare(a: FuzzyRecipient, b: FuzzyRecipient) {
 
 function nameCompareExceptPrioritized(prioritizedRecipients: ContactMatches) {
   return (a: FuzzyRecipient, b: FuzzyRecipient) => {
-    const e164A = getE164Number(a)
-    const e164B = getE164Number(b)
+    const e164A = getNumber(a)
+    const e164B = getNumber(b)
 
     if (e164A && prioritizedRecipients[e164A]) {
       if (e164B && prioritizedRecipients[e164B]) {
