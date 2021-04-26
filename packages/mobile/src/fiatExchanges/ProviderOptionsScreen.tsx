@@ -43,7 +43,6 @@ import {
   renderFeesPolicy,
   fetchSimplexQuote,
   fetchUserLocationData,
-  getProviderAvailability,
   sortProviders,
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
@@ -58,6 +57,8 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { providersDisplayInfo } from 'src/fiatExchanges/reducer'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
 
@@ -76,19 +77,18 @@ ProviderOptionsScreen.navigationOptions = ({
     headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
   }
 }
+
 export interface CicoProvider {
   id: CicoProviderNames
   restricted: boolean
   unavailable?: boolean
-  icon: string
+  icon?: string
   iconColor?: string
   paymentMethods: PaymentMethod[]
   image?: React.ReactNode
   onSelected: () => void
   service?: CicoService
 }
-
-const FALLBACK_CURRENCY = LocalCurrencyCode.USD
 
 const simplexService = SimplexService.getInstance()
 const transakService = TransakService.getInstance()
@@ -246,7 +246,12 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         id,
         (
           (await service
-            ?.getFees?.(selectedCurrency, localCurrency, route.params.amount, paymentMethod)
+            ?.getFees?.(
+              route.params.selectedCrypto,
+              localCurrency,
+              route.params.amount.fiat,
+              paymentMethod
+            )
             .catch(() => ({ fee: null }))) || { fee: null }
         )?.fee,
       ])
@@ -258,7 +263,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   }, [
     route.params.amount,
     localCurrency,
-    selectedCurrency,
+    route.params.selectedCrypto,
     ...selectedProviders.map(({ id }) => id),
   ])
 
