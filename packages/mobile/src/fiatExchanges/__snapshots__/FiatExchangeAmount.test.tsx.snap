@@ -146,7 +146,7 @@ exports[`FiatExchangeAmount renders correctly 1`] = `
                   }
                 }
               >
-                minAmountDialog.body
+                invalidAmountDialog.minAmount
               </Text>
             </View>
           </RCTScrollView>
@@ -177,7 +177,7 @@ exports[`FiatExchangeAmount renders correctly 1`] = `
               onResponderTerminate={[Function]}
               onResponderTerminationRequest={[Function]}
               onStartShouldSetResponder={[Function]}
-              testID="MinAmountDialog/PrimaryAction"
+              testID="invalidAmountDialog/PrimaryAction"
             >
               <Text
                 style={
@@ -194,7 +194,7 @@ exports[`FiatExchangeAmount renders correctly 1`] = `
                   ]
                 }
               >
-                minAmountDialog.dismiss
+                invalidAmountDialog.dismiss
               </Text>
             </View>
           </View>
