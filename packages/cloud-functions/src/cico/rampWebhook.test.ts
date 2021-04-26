@@ -12,7 +12,7 @@ jest.mock('crypto', () => ({
     verify: mockVerify,
   })),
 }))
-jest.mock('../config', () => ({ RAMP_KEY: 'rampStaging.pem' }))
+jest.mock('../config', () => ({ RAMP_DATA: { pem_file: 'rampStaging.pem' } }))
 
 describe('Ramp cash in', () => {
   const response: any = {

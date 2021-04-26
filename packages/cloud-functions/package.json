@@ -13,7 +13,8 @@
     "deploy:mainnet": "./deploy -e mainnet",
     "clean": "tsc -b . --clean",
     "build": "tsc -b .",
-    "lint": "tslint --project ."
+    "lint": "tslint --project .",
+    "test": "jest"
   },
   "dependencies": {
     "@google-cloud/bigquery": "^5.5.0",
