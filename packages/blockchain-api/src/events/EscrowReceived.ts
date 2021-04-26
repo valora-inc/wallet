@@ -7,10 +7,8 @@ import { Contracts } from '../utils'
 export class EscrowReceived extends TransactionType {
   matches(transaction: Transaction): boolean {
     return (
-      (transaction.transfers.length === 1 &&
-        transaction.transfers.containsTransferFrom(Contracts.Escrow)) ||
-      (transaction.transfers.length === 2 &&
-        transaction.transfers.containsAddressToEqualFromAdress(Contracts.Escrow))
+      transaction.transfers.isEscrowReceivedToEOA(Contracts.Escrow) ||
+      transaction.transfers.isEscrowReceivedToMTW(Contracts.Escrow)
     )
   }
 

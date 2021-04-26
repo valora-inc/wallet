@@ -53,12 +53,6 @@ export class TransfersNavigator {
     return this.getTransferTo(recipient) !== undefined
   }
 
-  containsAddressToEqualFromAdress(senderAddress: Contracts | string): boolean {
-    const transfer = this.getTransferFrom(senderAddress)!
-    const transferTo = this.getTransferFrom(transfer?.toAddressHash)
-    return transferTo?.fromAddressHash === transferTo?.toAccountHash
-  }
-
   getFaucetTransfer(): BlockscoutCeloTransfer | undefined {
     return this.getTransferFrom(this.faucetAddress)
   }
@@ -88,6 +82,20 @@ export class TransfersNavigator {
     return this.transferCollection.get(
       (transfer: BlockscoutCeloTransfer): boolean =>
         transfer.toAddressHash.toLowerCase() === recipient
+    )
+  }
+
+  isEscrowReceivedToEOA(senderAddress: Contracts | string): boolean {
+    return this.transferCollection.length === 1 && this.containsTransferFrom(senderAddress)
+  }
+
+  isEscrowReceivedToMTW(senderAddress: Contracts | string): boolean {
+    const transfer = this.getTransferFrom(senderAddress)!
+    const transferTo = this.getTransferFrom(transfer?.toAddressHash)
+    return (
+      this.transferCollection.length === 2 &&
+      this.containsTransferFrom(senderAddress) &&
+      transferTo?.fromAddressHash === transferTo?.toAccountHash
     )
   }
 
