@@ -27,6 +27,7 @@ export async function handleInvites() {
     console.debug(TAG, `Sending invite notification to ${inviter}`)
     await sendInviteNotification(inviter)
   }
-
-  setLastInviteBlockNotified(maxBlock)
+  if (maxBlock > fromBlock) {
+    setLastInviteBlockNotified(maxBlock)
+  }
 }
