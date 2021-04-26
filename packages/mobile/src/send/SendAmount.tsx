@@ -87,7 +87,9 @@ export const sendAmountScreenNavOptions = ({
   return {
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={eventName} />,
-    headerTitle: () => <HeaderTitleWithBalance title={title} token={CURRENCY_ENUM.DOLLAR} />,
+    headerTitle: route.params?.isOutgoingPaymentRequest
+      ? title
+      : () => <HeaderTitleWithBalance title={title} token={CURRENCY_ENUM.DOLLAR} />,
   }
 }
 

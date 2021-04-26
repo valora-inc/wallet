@@ -2,8 +2,7 @@ import ListItem from '@celo/react-components/components/ListItem'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
-import { RouteProp } from '@react-navigation/native'
+import { RouteProp, useIsFocused } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
@@ -18,22 +17,17 @@ import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import { CicoProviderNames, providersDisplayInfo } from 'src/fiatExchanges/reducer'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import {
-  fetchLocationFromIpAddress,
+  fetchSimplexQuote,
+  fetchUserLocationData,
   getProviderAvailability,
-  openMoonpay,
-  openRamp,
-  openSimplex,
-  openTransak,
   sortProviders,
-  UserLocation,
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
 import QuestionIcon from 'src/icons/QuestionIcon'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -63,15 +57,15 @@ ProviderOptionsScreen.navigationOptions = ({
 export interface CicoProvider {
   id: CicoProviderNames
   restricted: boolean
+  unavailable?: boolean
   paymentMethods: PaymentMethod[]
   image?: React.ReactNode
   onSelected: () => void
 }
 
-const FALLBACK_CURRENCY = LocalCurrencyCode.USD
-
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
+
   const onDismissExplanation = () => {
     setShowExplanation(false)
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_select_provider_info_cancel)
@@ -83,12 +77,13 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const isCashIn = route.params?.isCashIn ?? true
 
   const { paymentMethod } = route.params
-  const selectedCurrency = {
+  const currencyToBuy = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
     [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
-  }[route.params.currency || CURRENCY_ENUM.DOLLAR]
+  }[route.params.selectedCrypto || CURRENCY_ENUM.DOLLAR]
 
   const dispatch = useDispatch()
+  const isFocused = useIsFocused()
 
   useLayoutEffect(() => {
     const showExplanation = () => {
@@ -107,21 +102,27 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     })
   }, [])
 
-  const asyncUserLocation = useAsync(async () => {
-    try {
-      const { alpha2, state } = await fetchLocationFromIpAddress()
-      if (!alpha2) {
-        throw Error('Could not determine country from IP address')
-      }
+  const asyncUserLocation = useAsync(async () => fetchUserLocationData(countryCallingCode), [])
+  const userLocation = asyncUserLocation.result
 
-      return { country: alpha2, state }
-    } catch (error) {
-      const alpha2 = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
-      return { country: alpha2, state: null }
+  const asyncProviderQuotes = useAsync(async () => {
+    if (!account || !userLocation?.ipAddress || !isFocused) {
+      return
     }
-  }, [])
 
-  const userLocation: UserLocation | undefined = asyncUserLocation.result
+    const simplexQuote = await fetchSimplexQuote(
+      account,
+      userLocation.ipAddress,
+      currencyToBuy,
+      localCurrency,
+      route.params.amount.crypto,
+      false
+    )
+
+    return { simplexQuote }
+  }, [userLocation?.ipAddress, isFocused])
+
+  const providerQuotes = asyncProviderQuotes.result
 
   const {
     MOONPAY_RESTRICTED,
@@ -131,47 +132,53 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     XANPOOL_RESTRICTED,
   } = getProviderAvailability(userLocation)
 
+  const providerWidgetInputs = {
+    localAmount: route.params.amount.fiat,
+    currencyCode: localCurrency,
+    currencyToBuy,
+  }
+
   const xanpool = {
     id: CicoProviderNames.Xanpool,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     restricted: XANPOOL_RESTRICTED,
-    onSelected: () =>
-      navigate(Screens.XanpoolScreen, {
-        localAmount: route.params.amount,
-        currencyCode: localCurrency,
-        currencyToBuy: selectedCurrency,
-      }),
+    onSelected: () => navigate(Screens.XanpoolScreen, providerWidgetInputs),
   }
 
   const moonpay = {
     id: CicoProviderNames.Moonpay,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     restricted: MOONPAY_RESTRICTED,
-    onSelected: () =>
-      openMoonpay(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+    onSelected: () => navigate(Screens.MoonPayScreen, providerWidgetInputs),
   }
 
   const simplex = {
     id: CicoProviderNames.Simplex,
     paymentMethods: [PaymentMethod.Card],
     restricted: SIMPLEX_RESTRICTED,
-    onSelected: () => openSimplex(account),
+    unavailable: !providerQuotes?.simplexQuote,
+    onSelected: () => {
+      if (providerQuotes?.simplexQuote && userLocation?.ipAddress) {
+        navigate(Screens.Simplex, {
+          simplexQuote: providerQuotes?.simplexQuote,
+          userIpAddress: userLocation.ipAddress,
+        })
+      }
+    },
   }
 
   const ramp = {
     id: CicoProviderNames.Ramp,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     restricted: RAMP_RESTRICTED,
-    onSelected: () =>
-      openRamp(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+    onSelected: () => navigate(Screens.RampScreen, providerWidgetInputs),
   }
 
   const transak = {
     id: CicoProviderNames.Transak,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     restricted: TRANSAK_RESTRICTED,
-    onSelected: () =>
-      openTransak(route.params.amount, localCurrency || FALLBACK_CURRENCY, selectedCurrency),
+    onSelected: () => navigate(Screens.TransakScreen, providerWidgetInputs),
   }
 
   const providers: {
@@ -191,8 +198,8 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     provider.onSelected()
   }
 
-  return !userLocation ? (
-    <View style={styles.container}>
+  return !userLocation || asyncProviderQuotes.status === 'loading' ? (
+    <View style={styles.activityIndicatorContainer}>
       <ActivityIndicator size="large" color={colors.greenBrand} />
     </View>
   ) : (
@@ -204,8 +211,18 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
             <ListItem key={provider.id} onPress={providerOnPress(provider)}>
               <View style={styles.providerListItem} testID={`Provider/${provider.id}`}>
                 <View style={styles.providerTextContainer}>
-                  <Text style={styles.optionTitle}>{providersDisplayInfo[provider.id].name}</Text>
-                  {provider.restricted && (
+                  <Text
+                    style={[
+                      styles.optionTitle,
+                      provider.unavailable ? { color: colors.gray4 } : null,
+                    ]}
+                  >
+                    {provider.id}
+                  </Text>
+                  {provider.unavailable && (
+                    <Text style={styles.restrictedText}>{t('providerUnavailable')}</Text>
+                  )}
+                  {provider.restricted && !provider.unavailable && (
                     <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
                   )}
                   {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) && (
@@ -242,6 +259,12 @@ export default ProviderOptionsScreen
 const styles = StyleSheet.create({
   container: {
     paddingVertical: variables.contentPadding,
+  },
+  activityIndicatorContainer: {
+    paddingVertical: variables.contentPadding,
+    flex: 1,
+    alignContent: 'center',
+    justifyContent: 'center',
   },
   content: {
     flex: 1,
@@ -282,6 +305,6 @@ const styles = StyleSheet.create({
     color: colors.gray4,
   },
   optionTitle: {
-    ...fontStyles.regular,
+    ...fontStyles.regular500,
   },
 })
