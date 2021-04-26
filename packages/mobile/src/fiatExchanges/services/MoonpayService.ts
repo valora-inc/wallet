@@ -47,15 +47,15 @@ export class MoonpayService extends CicoService {
     requestedFiatAmount: number,
     paymentMethod: PaymentMethod
   ) {
-    cryptoAsset = this.currencyEnumToCurrency(cryptoAsset)
-    return this.get(`/currencies/${cryptoAsset.toLowerCase()}/buy_quote`, {
+    const cryptoAssetName = this.currencyEnumToCurrency(cryptoAsset)
+    return this.get(`/currencies/${cryptoAssetName.toLowerCase()}/buy_quote`, {
       baseCurrencyCode: fiatAsset.toLowerCase(),
       baseCurrencyAmount: requestedFiatAmount,
       paymentMethod:
         paymentMethod === PaymentMethod.Bank ? 'sepa_bank_transfer' : 'credit_debit_card',
     })
       .then((response) => response.json())
-      .then(({ feeAmount: fee }) => ({ fee }))
+      .then(({ feeAmount: fee = null }) => ({ fee }))
   }
 
   private get(path: string, body: { [key: string]: string | number }) {
