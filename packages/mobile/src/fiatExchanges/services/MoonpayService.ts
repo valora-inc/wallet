@@ -1,3 +1,4 @@
+import { CURRENCY_ENUM } from '@celo/utils'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoService } from 'src/fiatExchanges/services/CicoService.abstract'
 import networkConfig from 'src/geth/networkConfig'
@@ -46,6 +47,11 @@ export class MoonpayService extends CicoService {
     requestedFiatAmount: number,
     paymentMethod: PaymentMethod
   ) {
+    cryptoAsset =
+      {
+        [CURRENCY_ENUM.DOLLAR]: 'CUSD',
+        [CURRENCY_ENUM.GOLD]: 'CELO',
+      }[cryptoAsset] || cryptoAsset
     return this.get(`/currencies/${cryptoAsset.toLowerCase()}/buy_quote`, {
       baseCurrencyCode: fiatAsset.toLowerCase(),
       baseCurrencyAmount: requestedFiatAmount,
