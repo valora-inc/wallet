@@ -38,6 +38,8 @@ interface NetworkConfig {
   bidaliUrl: string
   CIP8AuthorizerUrl: string
   CIP8MetadataUrl: string
+  providerComposerUrl: string
+  simplexApiUrl: string
   komenciLoadCheckEndpoint: string
 }
 
@@ -78,6 +80,16 @@ const CIP8_AUTHORIZER_URL_ALFAJORES = 'https://alfajores-stokado.celo-testnet.or
 const CIP8_METADATA_URL_ALFAJORES = 'https://alfajores-stokado-data.celo-testnet.org'
 const CIP8_AUTHORIZER_URL_MAINNET = 'https://rc1-stokado.celo-testnet.org/api/authorize'
 const CIP8_METADATA_URL_MAINNET = 'https://rc1-stokado-data.celo-testnet.org'
+const PROVIDER_URL_COMPOSER_PROD =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/composeCicoProviderUrl'
+
+const PROVIDER_URL_COMPOSER_STAGING =
+  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/composeCicoProviderUrl'
+
+const SIMPLEX_API_URL_STAGING =
+  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/processSimplexRequest'
+const SIMPLEX_API_URL_PROD =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/processSimplexRequest'
 const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'https://staging-komenci.azurefd.net/v1/ready'
 const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1/ready'
 
@@ -103,6 +115,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     CIP8MetadataUrl: CIP8_METADATA_URL_ALFAJORES,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
+    providerComposerUrl: PROVIDER_URL_COMPOSER_STAGING,
+    simplexApiUrl: SIMPLEX_API_URL_STAGING,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
   },
   [Testnets.mainnet]: {
@@ -126,6 +140,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     CIP8MetadataUrl: CIP8_METADATA_URL_MAINNET,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
+    providerComposerUrl: PROVIDER_URL_COMPOSER_PROD,
+    simplexApiUrl: SIMPLEX_API_URL_PROD,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
   },
 }

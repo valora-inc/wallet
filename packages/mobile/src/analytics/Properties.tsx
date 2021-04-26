@@ -736,7 +736,7 @@ interface FiatExchangeEventsProperties {
     dollarAmount: BigNumber
   }
   [FiatExchangeEvents.cico_add_funds_amount_back]: undefined
-  [FiatExchangeEvents.cico_add_funds_amount_insufficient]: {
+  [FiatExchangeEvents.cico_add_funds_invalid_amount]: {
     dollarAmount: BigNumber
   }
   [FiatExchangeEvents.cico_add_funds_amount_dialog_cancel]: undefined

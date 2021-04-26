@@ -15,6 +15,13 @@ jest.mock('@celo/identity/lib/offchain/utils', () => {
   }
 })
 
+jest.mock('@celo/utils/lib/address', () => {
+  return {
+    ...(jest.requireActual('@celo/utils/lib/address') as any),
+    publicKeyToAddress: jest.fn(() => '0xb61bff5b1529ffae8315c9bc12a42b23cd15a5b7'),
+  }
+})
+
 const mockAccountsWrapper = {
   getDataEncryptionKey: jest.fn(() => '0xb61bff5b1529ffae8315c9bc12a42b23cd15a5b7'),
 }

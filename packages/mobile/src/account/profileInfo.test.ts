@@ -91,7 +91,7 @@ describe(uploadNameAndPicture, () => {
       .run()
 
     expect(mockNameWrite).toBeCalledWith({ name: mockName }, [])
-    expect(mockPictureWrite).toBeCalledWith(`data:image/jpeg;base64,${imageData}`, [])
+    expect(mockPictureWrite).toBeCalledWith(Buffer.from(`data:image/jpeg;base64,${imageData}`), [])
   })
 
   it('handles error when name fails to upload', async () => {
