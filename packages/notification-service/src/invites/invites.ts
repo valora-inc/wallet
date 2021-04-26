@@ -8,25 +8,16 @@ import { getContractKit } from '../util/utils'
 
 const TAG = 'INVITES'
 
-let sendingInvites = false
-
 function updateLastInviteBlock(fromBlock: number, events: EventLog[]) {
   if (events.length === 0) {
     return
   }
-  const maxBlock = events
-    .map((event) => event.blockNumber)
-    .reduce((max, current) => Math.max(max, current), fromBlock)
+  const maxBlock = events.reduce((max, event) => Math.max(max, event.blockNumber), fromBlock)
   setLastInviteBlockNotified(maxBlock)
 }
 
 export async function handleInvites() {
   try {
-    if (sendingInvites) {
-      return
-    }
-    sendingInvites = true
-
     const kit = await getContractKit()
     const fromBlock = getLastInviteBlockNotified() + 1
     if (fromBlock <= 0) {
@@ -48,7 +39,5 @@ export async function handleInvites() {
     }
   } catch (error) {
     console.error(TAG, 'Error while sending invite notifications', error)
-  } finally {
-    sendingInvites = false
   }
 }
