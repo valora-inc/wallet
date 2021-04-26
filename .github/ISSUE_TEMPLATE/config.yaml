@@ -1,0 +1,29 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🙋 Get Support for your issues
+    url: https://valoraapp.com/support
+    about: This issue tracker is not for support questions. Please refer to our support page or submit an in-app support ticket.
+  - name: Report a Security Vulnerability
+    url: https://github.com/celo-org/celo-blockchain/blob/master/SECURITY.md
+    about: How to report a sercurity vulnerability. Please do not file a public ticket mentioning any vulnerability.
+  - name: 📲 Download the App
+    url: http://valoraapp.com/
+    about: Visit to download the app.
+  - name: 💬 Join the Discussion on Discord
+    url: https://discord.gg/7tKnCbHv5j
+    about: This issue tracker is not for external development discussions. Please join our Discord to talk about developing with Valora for external apps or the CELO protocol.
+  - name: The CELO Website
+    url: https://celo.org/
+    about: The Offical Celo Website
+  - name: The CELO Blog
+    url: https://medium.com/celoorg
+    about: Learn more about what's new and coming to CELO.
+  - name: Check out CELO on Reddit
+    url: https://www.reddit.com/r/celo/
+    about: Checkout The Offical CELO Subreddit.
+  - name: The cLabs Website
+    url: http://clabs.co
+    about: Interesting in working at cLabs? Apply here!
+  - name: The cLabs Blog
+    url: https://clabs.medium.com/
+    about: See what's new with Valora and cLabs.
