@@ -10,6 +10,7 @@ const SearchInput = withTextSearchPasteAware(TextInput)
 
 interface SendSearchInputProps {
   onChangeText: (value: string) => void
+  leftIcon?: React.ReactNode
 }
 
 // Input field for Send screen
@@ -20,7 +21,7 @@ export function SendSearchInput(props: SendSearchInputProps) {
   }
 
   const { t } = useTranslation(Namespaces.sendFlow7)
-  const { onChangeText } = props
+  const { onChangeText, leftIcon } = props
   const [input, setInput] = React.useState('')
 
   return (
@@ -30,6 +31,7 @@ export function SendSearchInput(props: SendSearchInputProps) {
         placeholder={t('global:namePhoneAddress')}
         value={input}
         onChangeText={handleChangeText}
+        leftIcon={leftIcon}
       />
     </View>
   )

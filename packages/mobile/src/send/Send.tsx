@@ -6,7 +6,7 @@ import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
 import { throttle } from 'lodash'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
@@ -333,7 +333,10 @@ class Send extends React.Component<Props, State> {
       // needs fullscreen rendering
       <View style={styles.body}>
         <DisconnectBanner />
-        <SendSearchInput onChangeText={this.onSearchQueryChanged} />
+        <SendSearchInput
+          onChangeText={this.onSearchQueryChanged}
+          leftIcon={<Text>i18n.t('global:to')</Text>}
+        />
         <RecipientPicker
           testID={'RecipientPicker'}
           sections={this.buildSections()}

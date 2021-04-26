@@ -9,18 +9,20 @@ interface PasteAwareProps {
   value: string
   shouldShowClipboard: (value: string) => boolean
   onChangeText: (text: string) => void
+  leftIcon: React.ReactNode
 }
 
 export interface PasteAwareWrappedElementProps {
   isPasteIconVisible: boolean
   onPressPaste: () => void
   onChangeText: (text: string) => void
-  showIcon: boolean
+  leftIcon: React.ReactNode
 }
 
 interface PasteAwareState {
   isPasteIconVisible: boolean
   clipboardContent: string | null
+  leftIcon: React.ReactNode
 }
 
 export function withPasteAware<P extends ViewProps>(
@@ -30,6 +32,7 @@ export function withPasteAware<P extends ViewProps>(
     state: PasteAwareState = {
       isPasteIconVisible: false,
       clipboardContent: null,
+      leftIcon: null,
     }
 
     _interval?: number
