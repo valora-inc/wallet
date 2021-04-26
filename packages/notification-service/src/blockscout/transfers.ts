@@ -1,13 +1,15 @@
 import BigNumber from 'bignumber.js'
 import fetch from 'node-fetch'
+import { performance } from 'perf_hooks'
 import { BLOCKSCOUT_API } from '../config'
 import { getLastBlockNotified, sendPaymentNotification, setLastBlockNotified } from '../firebase'
+import { metrics } from '../metrics'
 import { flat, getTokenAddresses, removeEmptyValuesFromObject } from '../util/utils'
 import { Response, TokenTransfer, Transfer } from './blockscout'
 import { formatTransfers } from './transfersFormatter'
 
 export const WEI_PER_GOLD = 1000000000000000000.0
-export const MAX_BLOCKS_TO_WAIT = 600
+export const MAX_BLOCKS_TO_WAIT = 80
 
 export enum Currencies {
   GOLD = 'gold',
@@ -37,10 +39,17 @@ async function getLatestTokenTransfers(
   lastBlockNotified: number,
   currency: Currencies
 ) {
+  // Measure time before query
+  const t0 = performance.now()
+
   const response: Response<TokenTransfer> = await query(
     `module=token&action=tokentx&fromBlock=${lastBlockNotified + 1}` +
       `&toBlock=latest&contractaddress=${tokenAddress}`
   )
+
+  // Measure after query
+  const t1 = performance.now()
+  metrics.setLatestTokenTransfersDuration(t1 - t0)
 
   if (!response || !response.result) {
     console.error('Invalid query response format')
@@ -141,7 +150,6 @@ export async function handleTransferNotifications(): Promise<void> {
   // To account for this, we save a cache of all blocks already handled in the last |MAX_BLOCKS_TO_WAIT| blocks (|processedBlocks|),
   // so a transaction has that number of blocks to show up on Blockscout before we miss sending the notification for it.
   const blockToQuery = lastBlockNotified - MAX_BLOCKS_TO_WAIT
-
   const { goldTokenAddress, stableTokenAddress } = await getTokenAddresses()
 
   const {
@@ -155,9 +163,12 @@ export async function handleTransferNotifications(): Promise<void> {
   } = await getLatestTokenTransfers(stableTokenAddress, blockToQuery, Currencies.DOLLAR)
 
   const allTransfers = filterAndJoinTransfers(celoTransfers, stableTransfers)
+  const newCheckpointBlock = setLastBlockNotified(
+    Math.max(stableTransfersLatestBlock, celoTransfersLatestBlock)
+  )
   await notifyForNewTransfers(allTransfers)
   updateProcessedBlocks(celoTransfers, Currencies.GOLD, celoTransfersLatestBlock)
   updateProcessedBlocks(stableTransfers, Currencies.DOLLAR, stableTransfersLatestBlock)
 
-  return setLastBlockNotified(Math.max(stableTransfersLatestBlock, celoTransfersLatestBlock))
+  return newCheckpointBlock
 }

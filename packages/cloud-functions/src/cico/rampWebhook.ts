@@ -2,11 +2,11 @@ import crypto from 'crypto'
 import stableStringify from 'fast-json-stable-stringify'
 import * as functions from 'firebase-functions'
 import { readFileSync } from 'fs'
-import { RAMP_KEY } from '../config'
+import { RAMP_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
 import { Provider } from './Provider'
 
-const rampKey = readFileSync(`./config/${RAMP_KEY}`).toString()
+const rampKey = readFileSync(`./config/${RAMP_DATA.pem_file}`).toString()
 
 function verifyRampSignature(signature: string | undefined, body: RampRequestBody) {
   if (!signature || !body) {

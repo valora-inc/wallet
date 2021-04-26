@@ -38,6 +38,8 @@ export const MAX_COMMENT_LENGTH = 70
 export const INPUT_DEBOUNCE_TIME = 1000 // milliseconds
 // The minimum allowed value to add funds
 export const DOLLAR_ADD_FUNDS_MIN_AMOUNT = 20
+// The maximum allowed value to add funds
+export const DOLLAR_ADD_FUNDS_MAX_AMOUNT = 5000
 // The minimum allowed value to cash out
 export const DOLLAR_CASH_OUT_MIN_AMOUNT = 0.01
 // The minimum allowed value for a transaction such as a transfer
@@ -46,16 +48,11 @@ export const GOLD_TRANSACTION_MIN_AMOUNT = 0.001
 // The number of seconds before the sender can reclaim the payment.
 export const ESCROW_PAYMENT_EXPIRY_SECONDS = 3600 // 1 hour
 export const DEFAULT_TESTNET = Config.DEFAULT_TESTNET
-export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD = 500
+export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD = 1000
 export const SMS_RETRIEVER_APP_SIGNATURE = Config.SMS_RETRIEVER_APP_SIGNATURE
 // ODIS minimum dollar balance for pepper quota retrieval
 // TODO change this to new ODIS minimum dollar balance once deployed
 export const ODIS_MINIMUM_DOLLAR_BALANCE = 0.1
-// When user goes to VerificationEducationScreen - we fetch current verification state.
-// Then user decides on what to do and go to VerificationInputScreen.
-// If user were "deciding" for more than VERIFICATION_STATE_EXPIRY_SECONDS, then
-// we would refetch verification state before going to VerificationInputScreen
-export const VERIFICATION_STATE_EXPIRY_SECONDS = 30
 
 export const ATTESTATION_REVEAL_TIMEOUT_SECONDS = 60 // 1 minute
 
@@ -149,16 +146,11 @@ export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
 
 export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
-export const PONTO_URI = 'https://withponto.com/partners/celo/valora'
-export const KOTANI_URI = 'https://kotanipay.com/partners/valora'
-
-export const PROVIDER_URL_COMPOSER_PROD =
-  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/composeCicoProviderUrl'
-
-export const PROVIDER_URL_COMPOSER_STAGING =
-  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/composeCicoProviderUrl'
+export const SIMPLEX_FEES_URL =
+  'https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-am-I-paying-'
 
 export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
+export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
 
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN

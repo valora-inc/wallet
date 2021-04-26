@@ -24,3 +24,9 @@ moonpay.widget_url=$(grep MOONPAY_WIDGET_URL "$ENV_FILENAME" | cut -d '=' -f 2-)
 moonpay.public_key=$(grep MOONPAY_PUBLIC_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
 moonpay.private_key=$(grep MOONPAY_PRIVATE_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
 moonpay.webhook_key=$(grep MOONPAY_WEBHOOK_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
+simplex.api_url=$(grep SIMPLEX_API_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
+simplex.checkout_url=$(grep SIMPLEX_CHECKOUT_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
+simplex.api_key=$(grep SIMPLEX_API_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
+xanpool.widget_url=$(grep XANPOOL_WIDGET_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
+xanpool.public_key=$(grep XANPOOL_PUBLIC_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
+xanpool.private_key=$(grep XANPOOL_PRIVATE_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \

@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 import * as functions from 'firebase-functions'
-import { MOONPAY_WEBHOOK_KEY } from '../config'
+import { MOONPAY_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
 import { Provider } from './Provider'
 
@@ -16,7 +16,7 @@ function verifyMoonPaySignature(signatureHeader: string | undefined, body: strin
   const signature = second.split('=')[1]
   const signedPayload = `${timestamp}.${body}`
 
-  const hmac = crypto.createHmac('sha256', MOONPAY_WEBHOOK_KEY)
+  const hmac = crypto.createHmac('sha256', MOONPAY_DATA.webhook_key)
   hmac.write(signedPayload)
   hmac.end()
 
