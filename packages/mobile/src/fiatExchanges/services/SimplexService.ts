@@ -79,7 +79,7 @@ export class SimplexService extends CicoService {
   getFees(cryptoAsset: string, fiatAsset: string, requestedFiatAmount: number) {
     return this.getQuote(
       Math.random().toString(),
-      cryptoAsset,
+      this.currencyEnumToCurrency(cryptoAsset),
       fiatAsset,
       fiatAsset,
       requestedFiatAmount

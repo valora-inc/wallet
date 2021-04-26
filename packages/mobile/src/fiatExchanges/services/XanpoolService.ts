@@ -41,8 +41,6 @@ export class XanpoolService extends CicoService {
     })
       .then((response) => response.json())
       .then(({ serviceCharge, cryptoPrice }) => ({ fee: serviceCharge * cryptoPrice }))
-    // .then((response) => response.json())
-    // .then(({ response: { totalFee: fee } }) => ({ fee }))
   }
 
   private post(path: string, body: { [key: string]: any }) {
