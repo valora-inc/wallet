@@ -53,6 +53,12 @@ export class TransfersNavigator {
     return this.getTransferTo(recipient) !== undefined
   }
 
+  containsAddressToEqualFromAdress(senderAddress: Contracts | string): boolean {
+    const transfer = this.getTransferFrom(senderAddress)!
+    const transferTo = this.getTransferFrom(transfer?.toAddressHash)
+    return transferTo?.fromAddressHash === transferTo?.toAccountHash
+  }
+
   getFaucetTransfer(): BlockscoutCeloTransfer | undefined {
     return this.getTransferFrom(this.faucetAddress)
   }
@@ -83,6 +89,10 @@ export class TransfersNavigator {
       (transfer: BlockscoutCeloTransfer): boolean =>
         transfer.toAddressHash.toLowerCase() === recipient
     )
+  }
+
+  print() {
+    return this.transferCollection
   }
 
   popLastTransfer(): BlockscoutCeloTransfer | undefined {
