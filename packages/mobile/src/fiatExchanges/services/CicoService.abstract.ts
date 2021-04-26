@@ -1,4 +1,5 @@
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
+import { CURRENCY_ENUM } from '@celo/utils'
 
 type Range = number[]
 
@@ -15,7 +16,7 @@ export interface CicoServiceFeesPolicy {
 
 export abstract class CicoService {
   abstract getFees(
-    cryptoAsset: string,
+    cryptoAsset: CURRENCY_ENUM,
     fiatAsset: string,
     requestedFiatAmount: number,
     paymentMethod: PaymentMethod
@@ -27,5 +28,14 @@ export abstract class CicoService {
     return Object.entries(body)
       .map(([key, value]) => encodeURI(`${key}=${value}`))
       .join('&')
+  }
+
+  protected currencyEnumToCurrency(currency: CURRENCY_ENUM): string {
+    return (
+      {
+        [CURRENCY_ENUM.DOLLAR]: 'CUSD',
+        [CURRENCY_ENUM.GOLD]: 'CELO',
+      }[currency] || currency
+    )
   }
 }

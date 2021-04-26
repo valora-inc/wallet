@@ -38,16 +38,12 @@ export class TransakService extends CicoService {
   }
 
   getFees(
-    cryptoAsset: string,
+    cryptoAsset: CURRENCY_ENUM,
     fiatAsset: string,
     requestedFiatAmount: number,
     paymentMethod: PaymentMethod
   ) {
-    const cryptoCurrency =
-      {
-        [CURRENCY_ENUM.DOLLAR]: 'CUSD',
-        [CURRENCY_ENUM.GOLD]: 'CELO',
-      }[cryptoAsset] || cryptoAsset
+    const cryptoCurrency = this.currencyEnumToCurrency(cryptoAsset)
     return this.get('/currencies/price', {
       fiatCurrency: fiatAsset,
       cryptoCurrency,

@@ -42,16 +42,12 @@ export class MoonpayService extends CicoService {
   }
 
   getFees(
-    cryptoAsset: string,
+    cryptoAsset: CURRENCY_ENUM,
     fiatAsset: string,
     requestedFiatAmount: number,
     paymentMethod: PaymentMethod
   ) {
-    cryptoAsset =
-      {
-        [CURRENCY_ENUM.DOLLAR]: 'CUSD',
-        [CURRENCY_ENUM.GOLD]: 'CELO',
-      }[cryptoAsset] || cryptoAsset
+    cryptoAsset = this.currencyEnumToCurrency(cryptoAsset)
     return this.get(`/currencies/${cryptoAsset.toLowerCase()}/buy_quote`, {
       baseCurrencyCode: fiatAsset.toLowerCase(),
       baseCurrencyAmount: requestedFiatAmount,

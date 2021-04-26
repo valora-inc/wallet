@@ -1,3 +1,4 @@
+import { CURRENCY_ENUM } from '@celo/utils'
 import { CASH_IN_SUCCESS_DEEPLINK } from 'src/config'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoService } from 'src/fiatExchanges/services/CicoService.abstract'
@@ -50,14 +51,14 @@ export class SimplexService extends CicoService {
 
   getQuote(
     userId: string,
-    cryptoAsset: string,
+    cryptoAsset: CURRENCY_ENUM,
     fiatAsset: string,
     requested: string,
     requestedAmount: number
   ) {
     return this.post('/wallet/merchant/v2/quote', {
       end_user_id: userId,
-      digital_currency: cryptoAsset,
+      digital_currency: this.currencyEnumToCurrency(cryptoAsset),
       fiat_currency: fiatAsset,
       requested_currency: requested,
       requested_amount: requestedAmount,
