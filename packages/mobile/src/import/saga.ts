@@ -8,6 +8,7 @@ import BigNumber from 'bignumber.js'
 import * as bip39 from 'react-native-bip39'
 import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import { setBackupCompleted } from 'src/account/actions'
+import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
@@ -27,7 +28,6 @@ import { navigate, navigateClearingStack } from 'src/navigator/NavigationService
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import Logger from 'src/utils/Logger'
-import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { assignAccountFromPrivateKey, waitWeb3LastBlock } from 'src/web3/saga'
 
 const TAG = 'import/saga'
@@ -85,6 +85,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     // Set redeem invite complete so user isn't brought back into nux flow
     yield put(redeemInviteSuccess())
     yield put(refreshAllBalances())
+    yield call(uploadNameAndPicture)
 
     const recoveringFromStoreWipe = yield select(recoveringFromStoreWipeSelector)
     if (recoveringFromStoreWipe) {
@@ -94,7 +95,6 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     navigateClearingStack(Screens.VerificationEducationScreen)
 
     yield put(importBackupPhraseSuccess())
-    yield call(registerAccountDek)
   } catch (error) {
     Logger.error(TAG + '@importBackupPhraseSaga', 'Error importing backup phrase', error)
     yield put(showError(ErrorMessages.IMPORT_BACKUP_FAILED))
