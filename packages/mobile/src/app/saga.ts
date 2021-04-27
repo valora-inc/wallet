@@ -27,7 +27,11 @@ import {
   updateFeatureFlags,
 } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
-import { getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
+import {
+  getLastTimeBackgrounded,
+  getRequirePinOnAppOpen,
+  walletConnectEnabledSelector,
+} from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { appRemoteFeatureFlagChannel, appVersionDeprecationChannel } from 'src/firebase/firebase'
@@ -100,6 +104,7 @@ export interface RemoteFeatureFlags {
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
   hideVerification: boolean
+  walletConnectEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -145,6 +150,7 @@ function convertQueryToScreenParams(query: string) {
 
 export function* handleDeepLink(action: OpenDeepLink) {
   const { deepLink, isSecureOrigin } = action
+  const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
   Logger.debug(TAG, 'Handling deep link', deepLink)
   const rawParams = parse(deepLink)
   if (rawParams.path) {
@@ -154,7 +160,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
       yield call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {
       handleDappkitDeepLink(deepLink)
-    } else if (rawParams.path.startsWith('/wc')) {
+    } else if (rawParams.path.startsWith('/wc') && walletConnectEnabled) {
       yield call(handleWalletConnectDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
       navigate(Screens.FiatExchangeOptions, { isCashIn: true })

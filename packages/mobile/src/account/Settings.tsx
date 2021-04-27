@@ -80,6 +80,7 @@ interface StateProps {
   preferredCurrencyCode: LocalCurrencyCode
   sessionId: string
   connectedApplications: number
+  walletConnectEnabled: boolean
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
@@ -102,6 +103,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     preferredCurrencyCode: getLocalCurrencyCode(state),
     sessionId: sessionIdSelector(state),
     connectedApplications: state.walletConnect.sessions.length,
+    walletConnectEnabled: state.app.walletConnectEnabled,
   }
 }
 
@@ -365,12 +367,14 @@ export class Account extends React.Component<Props, State> {
               onPress={this.goToLocalCurrencySetting}
             />
             <SectionHead text={t('securityAndData')} style={styles.sectionTitle} />
-            <SettingsItemTextValue
-              title={t('connectedApplications')}
-              value={this.props.connectedApplications.toString()}
-              onPress={this.goToConnectedApplications}
-              testID="ConnectedApplications"
-            />
+            {this.props.walletConnectEnabled && (
+              <SettingsItemTextValue
+                title={t('connectedApplications')}
+                value={this.props.connectedApplications.toString()}
+                onPress={this.goToConnectedApplications}
+                testID="ConnectedApplications"
+              />
+            )}
             <SettingsItemSwitch
               title={t('requirePinOnAppOpen')}
               value={this.props.requirePinOnAppOpen}

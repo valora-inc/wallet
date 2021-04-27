@@ -25,6 +25,7 @@ export interface State {
   inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
+  walletConnectEnabled: boolean
 }
 
 const initialState = {
@@ -48,6 +49,7 @@ const initialState = {
   inviteModalVisible: false,
   activeScreen: Screens.Main,
   hideVerification: false,
+  walletConnectEnabled: false,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -152,6 +154,7 @@ export const appReducer = (
         hideVerification: action.flags.hideVerification,
         celoEducationUri: action.flags.celoEducationUri,
         shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
+        walletConnectEnabled: action.flags.walletConnectEnabled,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

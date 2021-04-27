@@ -226,6 +226,7 @@ export function appRemoteFeatureFlagChannel() {
         inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,
         inviteRewardCusd: flags?.inviteRewardCusd ?? 1,
         inviteRewardWeeklyLimit: flags?.inviteRewardCusd ?? 5,
+        walletConnectEnabled: flags.walletConnectEnabled ?? false,
       })
     }
 

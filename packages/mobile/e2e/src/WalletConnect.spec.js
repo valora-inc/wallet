@@ -2,7 +2,7 @@ import dismissBanners from './utils/banners'
 import RestoreAccountOnboarding from './usecases/RestoreAccountOnboarding'
 import WalletConnect from './usecases/WalletConnect'
 
-describe('WalletConnect', () => {
+describe.skip('WalletConnect', () => {
   beforeAll(async () => {
     await device.launchApp({
       permissions: { camera: 'YES' },
@@ -10,6 +10,7 @@ describe('WalletConnect', () => {
   })
 
   beforeEach(dismissBanners)
-  // describe('Onboarding', RestoreAccountOnboarding)
+
+  describe('Onboarding', RestoreAccountOnboarding)
   describe('SignTransaction', WalletConnect)
 })
