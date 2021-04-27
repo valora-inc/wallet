@@ -594,7 +594,7 @@ const mockTokenTxs = {
               edges: [
                 {
                   node: {
-                    fromAddressHash: '0xf4fa51472ca8d72af678975d9f8795a504e7ada5',
+                    fromAddressHash: '0x0000000000000000000000000000000000a77327',
                     toAddressHash: '0xc85d6ccf22499898ea76aa8b7ba89a7ceddbe434',
                     token: 'cUSD',
                     value: '20000000000000000000',
@@ -610,7 +610,7 @@ const mockTokenTxs = {
                 },
               ],
             },
-            feeToken: 'cGLD',
+            feeToken: 'cUSD',
             gasPrice: '350000000',
             gasUsed: '134090',
             gatewayFee: '0',
