@@ -10,3 +10,4 @@ dist/
 
 config/rampProduction.pem
 config/rampStaging.pem
+config/serviceAccountKey.json
