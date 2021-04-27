@@ -595,6 +595,8 @@ const mockTokenTxs = {
                 {
                   node: {
                     fromAddressHash: '0x0000000000000000000000000000000000a77327',
+                    fromAccountHash: null,
+                    toAccountHash: null,
                     toAddressHash: '0xc85d6ccf22499898ea76aa8b7ba89a7ceddbe434',
                     token: 'cUSD',
                     value: '20000000000000000000',
@@ -603,14 +605,16 @@ const mockTokenTxs = {
                 {
                   node: {
                     fromAddressHash: '0xc85d6ccf22499898ea76aa8b7ba89a7ceddbe434',
+                    fromAccountHash: null,
                     toAddressHash: '0x566ce6b765f038a98b5753ced0a65fd49aa0a07c',
+                    toAccountHash: '0xc85d6ccf22499898ea76aa8b7ba89a7ceddbe434',
                     token: 'cUSD',
                     value: '20000000000000000000',
                   },
                 },
               ],
             },
-            feeToken: 'cUSD',
+            feeToken: 'cGLD',
             gasPrice: '350000000',
             gasUsed: '134090',
             gatewayFee: '0',

@@ -6,10 +6,7 @@ import { Contracts } from '../utils'
 
 export class EscrowReceived extends TransactionType {
   matches(transaction: Transaction): boolean {
-    return (
-      transaction.transfers.isEscrowReceivedToEOA(Contracts.Escrow) ||
-      transaction.transfers.isEscrowReceivedToMTW(Contracts.Escrow)
-    )
+    return this.isEscrowReceivedToEOA(transaction) || this.isEscrowReceivedToMTW(transaction)
   }
 
   getEvent(transaction: Transaction) {
@@ -30,5 +27,25 @@ export class EscrowReceived extends TransactionType {
 
   isAggregatable(): boolean {
     return false
+  }
+
+  isEscrowReceivedToEOA(transaction: Transaction): boolean {
+    return (
+      transaction.transfers.length === 1 &&
+      transaction.transfers.containsTransferFrom(Contracts.Escrow)
+    )
+  }
+
+  isEscrowReceivedToMTW(transaction: Transaction): boolean {
+    const transferToAcccount = transaction.transfers.getTransferFrom(Contracts.Escrow)!
+    const transfertoWallet = transaction.transfers.getTransferFrom(
+      transferToAcccount?.toAddressHash
+    )
+    return (
+      transaction.transfers.length === 2 &&
+      transaction.transfers.containsTransferFrom(Contracts.Escrow) &&
+      transfertoWallet?.fromAddressHash === transferToAcccount?.toAddressHash &&
+      transfertoWallet?.toAccountHash === transfertoWallet?.fromAddressHash
+    )
   }
 }

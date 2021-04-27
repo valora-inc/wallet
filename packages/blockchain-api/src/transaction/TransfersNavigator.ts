@@ -85,20 +85,6 @@ export class TransfersNavigator {
     )
   }
 
-  isEscrowReceivedToEOA(senderAddress: Contracts | string): boolean {
-    return this.transferCollection.length === 1 && this.containsTransferFrom(senderAddress)
-  }
-
-  isEscrowReceivedToMTW(senderAddress: Contracts | string): boolean {
-    const transfer = this.getTransferFrom(senderAddress)!
-    const transferTo = this.getTransferFrom(transfer?.toAddressHash)
-    return (
-      this.transferCollection.length === 2 &&
-      this.containsTransferFrom(senderAddress) &&
-      transferTo?.fromAddressHash === transferTo?.toAccountHash
-    )
-  }
-
   popLastTransfer(): BlockscoutCeloTransfer | undefined {
     return this.transferCollection.pop()
   }
