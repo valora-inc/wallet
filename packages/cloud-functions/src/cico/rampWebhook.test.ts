@@ -13,6 +13,7 @@ jest.mock('crypto', () => ({
   })),
 }))
 jest.mock('../config', () => ({ RAMP_DATA: { pem_file: 'rampStaging.pem' } }))
+jest.mock('fs', () => ({ readFileSync: jest.fn(() => 'rampKey') }))
 
 describe('Ramp cash in', () => {
   const response: any = {
