@@ -34,7 +34,11 @@ import {
   setRequirePinOnAppOpen,
   setSessionId,
 } from 'src/app/actions'
-import { sessionIdSelector, verificationPossibleSelector } from 'src/app/selectors'
+import {
+  sessionIdSelector,
+  verificationPossibleSelector,
+  walletConnectEnabledSelector,
+} from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import SessionId from 'src/components/SessionId'
 import { TOS_LINK } from 'src/config'
@@ -103,7 +107,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     preferredCurrencyCode: getLocalCurrencyCode(state),
     sessionId: sessionIdSelector(state),
     connectedApplications: state.walletConnect.sessions.length,
-    walletConnectEnabled: state.app.walletConnectEnabled,
+    walletConnectEnabled: walletConnectEnabledSelector(state),
   }
 }
 
