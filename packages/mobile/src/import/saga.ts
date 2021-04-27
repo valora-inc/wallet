@@ -27,6 +27,7 @@ import { navigate, navigateClearingStack } from 'src/navigator/NavigationService
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import Logger from 'src/utils/Logger'
+import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { assignAccountFromPrivateKey, waitWeb3LastBlock } from 'src/web3/saga'
 
 const TAG = 'import/saga'
@@ -93,6 +94,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     navigateClearingStack(Screens.VerificationEducationScreen)
 
     yield put(importBackupPhraseSuccess())
+    yield call(registerAccountDek)
   } catch (error) {
     Logger.error(TAG + '@importBackupPhraseSaga', 'Error importing backup phrase', error)
     yield put(showError(ErrorMessages.IMPORT_BACKUP_FAILED))

@@ -97,7 +97,6 @@ export function* giveProfileAccess(recipientAddresses: string[]) {
   let writeError = yield call([nameAccessor, 'allowAccess'], recipientAddresses)
   if (writeError) {
     Logger.error(TAG + '@giveProfileAccess', writeError)
-    throw Error(`Unable to give ${recipientAddresses} access to name`)
   }
 
   const pictureUri = yield select(pictureSelector)
@@ -106,9 +105,9 @@ export function* giveProfileAccess(recipientAddresses: string[]) {
     writeError = yield call([pictureAccessor, 'allowAccess'], recipientAddresses)
     if (writeError) {
       Logger.error(TAG + '@giveProfileAccess', writeError)
-      throw Error(`Unable to give ${recipientAddresses} access to picture`)
     }
   }
+  // not throwing error, because possibility the recipient doesn't have a registered DEK
 
   Logger.info(TAG + '@giveProfileAccess', 'uploaded symmetric keys for ' + recipientAddresses)
 }
