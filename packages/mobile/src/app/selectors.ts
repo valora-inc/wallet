@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { e164NumberSelector } from 'src/account/selectors'
 import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
 import { e164NumberToSaltSelector } from 'src/identity/reducer'
@@ -8,6 +9,7 @@ import {
   shouldUseKomenciSelector,
   verificationStatusSelector,
 } from 'src/verify/reducer'
+import { currentAccountSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
@@ -51,13 +53,22 @@ export const verificationPossibleSelector = (state: RootState): boolean => {
 
 export const numberVerifiedSelector = (state: RootState) => state.app.numberVerified
 
-export const pontoEnabledSelector = (state: RootState) => state.app.pontoEnabled
-export const kotaniEnabledSelector = (state: RootState) => state.app.kotaniEnabled
-export const bitfyUrlSelector = (state: RootState) => state.app.bitfyUrl
-export const flowBtcUrlSelector = (state: RootState) => state.app.flowBtcUrl
 export const walletConnectEnabledSelector = (state: RootState) => state.app.walletConnectEnabled
 
 export const shortVerificationCodesEnabledSelector = (state: RootState) =>
   state.app.shortVerificationCodesEnabled
 
 export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
+
+// showRaiseDailyLimitTarget is an account string that represents the cutoff of which accounts
+// should return true. By doing a string comparison, if the user's account is lower than the
+// target we'll return true and false otherwise.
+export const showRaiseDailyLimitSelector = createSelector(
+  [currentAccountSelector, (state) => state.app.showRaiseDailyLimitTarget],
+  (account, showRaiseDailyLimitTarget) => {
+    if (!showRaiseDailyLimitTarget || !account) {
+      return false
+    }
+    return account < showRaiseDailyLimitTarget
+  }
+)

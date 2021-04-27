@@ -38,6 +38,8 @@ export const MAX_COMMENT_LENGTH = 70
 export const INPUT_DEBOUNCE_TIME = 1000 // milliseconds
 // The minimum allowed value to add funds
 export const DOLLAR_ADD_FUNDS_MIN_AMOUNT = 20
+// The maximum allowed value to add funds
+export const DOLLAR_ADD_FUNDS_MAX_AMOUNT = 5000
 // The minimum allowed value to cash out
 export const DOLLAR_CASH_OUT_MIN_AMOUNT = 0.01
 // The minimum allowed value for a transaction such as a transfer
@@ -144,16 +146,11 @@ export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
 
 export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
-export const PONTO_URI = 'https://withponto.com/partners/celo/valora'
-export const KOTANI_URI = 'https://kotanipay.com/partners/valora'
-
-export const PROVIDER_URL_COMPOSER_PROD =
-  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/composeCicoProviderUrl'
-
-export const PROVIDER_URL_COMPOSER_STAGING =
-  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/composeCicoProviderUrl'
+export const SIMPLEX_FEES_URL =
+  'https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-am-I-paying-'
 
 export const CASH_IN_SUCCESS_DEEPLINK = 'celo://wallet/cash-in-success'
+export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
 
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN

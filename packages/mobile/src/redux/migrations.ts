@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { providersDisplayInfo } from 'src/fiatExchanges/reducer'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 
@@ -158,6 +159,22 @@ export const migrations = {
         'feelessVerificationState',
         'feelessLastRevealAttempt'
       ),
+    }
+  },
+  11: (state: any) => {
+    return {
+      ...state,
+      app: _.omit(state.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+    }
+  },
+  12: (state: any) => {
+    // Removing the exchange rate history because it's very likely that it's repeated a bunch of times.
+    return {
+      ...state,
+      exchange: {
+        ...state.exchange,
+        history: { ...exchangeInitialState.history },
+      },
     }
   },
 }

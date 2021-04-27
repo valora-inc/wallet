@@ -545,6 +545,15 @@ export const v8Schema = {
     ...v7Schema.account,
     recoveringFromStoreWipe: false,
     accountToRecoverFromStoreWipe: undefined,
+    dailyLimitRequestStatus: undefined,
+  },
+}
+
+export const v9Schema = {
+  ...v8Schema,
+  app: {
+    ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+    showRaiseDailyLimitTarget: undefined,
   },
   walletConnect: {
     pairings: [],
@@ -555,5 +564,5 @@ export const v8Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v8Schema as Partial<RootState>
+  return v9Schema as Partial<RootState>
 }
