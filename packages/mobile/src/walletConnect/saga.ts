@@ -59,7 +59,7 @@ export function* acceptSession({ session }: AcceptSession) {
     const response: SessionTypes.Response = {
       metadata: {
         name: APP_NAME,
-        description: i18n.t('global:valoraDescription'),
+        description: i18n.t('global:appDescription'),
         url: WEB_LINK,
         icons: [appendPath(WEB_LINK, '/favicon.ico')],
       },

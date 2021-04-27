@@ -191,5 +191,5 @@
   "countryNotAvailable": "{{appName}} is not available in your country",
   "firebaseFetchFailed": "Server connection failed",
   "pictureLoadFailed": "There was an error while loading your picture",
-  "valoraDescription": "'A mobile payments wallet that works worldwide"
+  "appDescription": "A mobile payments wallet that works worldwide"
 }
