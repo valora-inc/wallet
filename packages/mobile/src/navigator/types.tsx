@@ -12,6 +12,7 @@ import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
+import { SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -105,12 +106,18 @@ export type StackParamList = {
   [Screens.FiatExchangeAmount]: {
     currency: CURRENCY_ENUM
     paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
+    isCashIn: boolean
   }
   [Screens.FiatExchangeOptions]: {
     isCashIn?: boolean
     amount?: BigNumber
   }
   [Screens.MoonPayScreen]: {
+    localAmount: number
+    currencyCode: LocalCurrencyCode
+    currencyToBuy: CurrencyCode
+  }
+  [Screens.XanpoolScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
     currencyToBuy: CurrencyCode
@@ -124,6 +131,10 @@ export type StackParamList = {
     localAmount: number
     currencyCode: LocalCurrencyCode
     currencyToBuy: CurrencyCode
+  }
+  [Screens.Simplex]: {
+    simplexQuote: SimplexQuote
+    userIpAddress: string
   }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:
@@ -176,11 +187,15 @@ export type StackParamList = {
   [Screens.Profile]: undefined
   [Screens.ProviderOptionsScreen]: {
     isCashIn?: boolean
-    currency: CURRENCY_ENUM
-    amount: number
+    selectedCrypto: CURRENCY_ENUM
+    amount: {
+      crypto: number
+      fiat: number
+    }
     paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
   }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
+  [Screens.RaiseLimitScreen]: undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
     reclaimPaymentInput: EscrowedPayment
     onCancel?: () => void

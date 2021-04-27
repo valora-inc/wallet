@@ -4,4 +4,5 @@ dist/
 .firebase/
 
 # Only check in encrypted .env file
-.env
+.env.alfajores
+.env.mainnet
