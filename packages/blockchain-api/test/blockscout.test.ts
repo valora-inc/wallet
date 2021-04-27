@@ -934,4 +934,161 @@ describe('Blockscout', () => {
       ]
     `)
   })
+  it('should handle as escrow the meta-transactions coming from Komenci', async () => {
+    const result = await blockscoutAPI.getTokenTransactions({
+      address: '0x566ce6b765f038a98b5753ced0a65fd49aa0a07c',
+      token: 'cUSD',
+      localCurrencyCode: 'USD',
+    })
+
+    const transactions = result.reverse()
+    expect(transactions).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "amount": Object {
+            "currencyCode": "cUSD",
+            "impliedExchangeRates": Object {
+              "cGLD/cUSD": "10",
+            },
+            "timestamp": 1566345797000,
+            "value": "-10",
+          },
+          "block": "90608",
+          "fees": Array [
+            Object {
+              "amount": Object {
+                "currencyCode": "cUSD",
+                "timestamp": 1566345797000,
+                "value": "0",
+              },
+              "type": "GATEWAY_FEE",
+            },
+            Object {
+              "amount": Object {
+                "currencyCode": "cUSD",
+                "timestamp": 1566345797000,
+                "value": "0.010091957572465625",
+              },
+              "type": "SECURITY_FEE",
+            },
+          ],
+          "hash": "0xba620de2d812f299d987155eb5dca7abcfeaf154f5cfd99cb1773452a7df3d7a",
+          "makerAmount": Object {
+            "currencyCode": "cUSD",
+            "impliedExchangeRates": Object {
+              "cGLD/cUSD": "10",
+            },
+            "timestamp": 1566345797000,
+            "value": "10",
+          },
+          "takerAmount": Object {
+            "currencyCode": "cGLD",
+            "impliedExchangeRates": Object {
+              "cGLD/cUSD": "10",
+            },
+            "timestamp": 1566345797000,
+            "value": "1",
+          },
+          "timestamp": 1566345797000,
+          "type": "EXCHANGE",
+        },
+        Object {
+          "amount": Object {
+            "currencyCode": "cUSD",
+            "impliedExchangeRates": Object {
+              "cGLD/cUSD": "10",
+            },
+            "timestamp": 1566345866000,
+            "value": "10",
+          },
+          "block": "90637",
+          "fees": Array [
+            Object {
+              "amount": Object {
+                "currencyCode": "cUSD",
+                "timestamp": 1566345866000,
+                "value": "0",
+              },
+              "type": "GATEWAY_FEE",
+            },
+            Object {
+              "amount": Object {
+                "currencyCode": "cUSD",
+                "timestamp": 1566345866000,
+                "value": "0.01102543453093182",
+              },
+              "type": "SECURITY_FEE",
+            },
+          ],
+          "hash": "0x961403536006f9c120c23900f94da59dbf43edf10eb3569b448665483bab77b2",
+          "makerAmount": Object {
+            "currencyCode": "cGLD",
+            "impliedExchangeRates": Object {
+              "cGLD/cUSD": "10",
+            },
+            "timestamp": 1566345866000,
+            "value": "1",
+          },
+          "takerAmount": Object {
+            "currencyCode": "cUSD",
+            "impliedExchangeRates": Object {
+              "cGLD/cUSD": "10",
+            },
+            "timestamp": 1566345866000,
+            "value": "10",
+          },
+          "timestamp": 1566345866000,
+          "type": "EXCHANGE",
+        },
+        Object {
+          "account": "0x0000000000000000000000000000000000a77327",
+          "address": "0x0000000000000000000000000000000000a77327",
+          "amount": Object {
+            "currencyCode": "cUSD",
+            "timestamp": 1566483998000,
+            "value": "-0.118829058457955309",
+          },
+          "block": "117451",
+          "comment": "",
+          "fees": Array [
+            Object {
+              "amount": Object {
+                "currencyCode": "cUSD",
+                "timestamp": 1566483998000,
+                "value": "0.0005911869963022",
+              },
+              "type": "SECURITY_FEE",
+            },
+          ],
+          "hash": "0xf0592e026656f84cc17672fb08f5723deb8426787c2865aa763e859d10e85234",
+          "timestamp": 1566483998000,
+          "type": "ESCROW_SENT",
+        },
+        Object {
+          "account": "0x0000000000000000000000000000000000a77357",
+          "address": "0x0000000000000000000000000000000000a77357",
+          "amount": Object {
+            "currencyCode": "cUSD",
+            "timestamp": 1566484000000,
+            "value": "-0.2",
+          },
+          "block": "117451",
+          "comment": "",
+          "fees": Array [
+            Object {
+              "amount": Object {
+                "currencyCode": "cUSD",
+                "timestamp": 1566484000000,
+                "value": "0.00795255",
+              },
+              "type": "SECURITY_FEE",
+            },
+          ],
+          "hash": "0xcc2120e5d050fd68284dc01f6464b2ed8f7358ca80fccb20967af28eb7d79160",
+          "timestamp": 1566484000000,
+          "type": "VERIFICATION_FEE",
+        },
+      ]
+    `)
+  })
 })
