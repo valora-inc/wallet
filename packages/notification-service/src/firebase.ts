@@ -345,7 +345,9 @@ export async function requestedPaymentNotification(uid: string, data: PaymentReq
 
 export async function sendInviteNotification(inviter: string) {
   const t = getTranslatorForAddress(inviter)
-  return sendNotification(t('inviteTitle'), t('inviteBody'), inviter, {})
+  return sendNotification(t('inviteTitle'), t('inviteBody'), inviter, {
+    type: NotificationTypes.INVITE_REDEEMED,
+  })
 }
 
 export async function sendNotification(
@@ -385,7 +387,9 @@ export async function sendNotification(
 
     // Notification metrics
     metrics.sentNotification(data.type)
-    metrics.setNotificationLatency(Date.now() - Number(data.timestamp), data.type)
+    if (data.timestamp) {
+      metrics.setNotificationLatency(Date.now() - Number(data.timestamp), data.type)
+    }
   } catch (error) {
     console.error('Error sending notification:', address, error)
     metrics.failedNotification(data.type)
