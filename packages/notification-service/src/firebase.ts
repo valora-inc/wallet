@@ -25,6 +25,7 @@ export interface Registrations {
     | {
         fcmToken: string
         language?: string
+        txHashes?: { [txHash: string]: string | undefined }
       }
     | undefined
     | null
