@@ -22,7 +22,6 @@ export interface PasteAwareWrappedElementProps {
 interface PasteAwareState {
   isPasteIconVisible: boolean
   clipboardContent: string | null
-  leftIcon?: React.ReactNode
 }
 
 export function withPasteAware<P extends ViewProps>(
