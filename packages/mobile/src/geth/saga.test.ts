@@ -26,20 +26,14 @@ describe(initGethSaga, () => {
 
   it('initializes the bridge and starts the node', async () => {
     const state = createMockStore({}).getState()
-    await expectSaga(_waitForGethInit)
-      .withState(state)
-      .returns(GethInitOutcomes.SUCCESS)
-      .run()
+    await expectSaga(_waitForGethInit).withState(state).returns(GethInitOutcomes.SUCCESS).run()
     expect(state.geth.initialized).toEqual(InitializationState.INITIALIZED)
     expect(GethBridge.startNode).toHaveBeenCalledTimes(1)
   })
 
   it('initializes the bridge but does not start the node in data-saver mode', async () => {
     const state = createMockStore({ web3: { fornoMode: true } }).getState()
-    await expectSaga(_waitForGethInit)
-      .withState(state)
-      .returns(GethInitOutcomes.SUCCESS)
-      .run()
+    await expectSaga(_waitForGethInit).withState(state).returns(GethInitOutcomes.SUCCESS).run()
     expect(state.geth.initialized).toEqual(InitializationState.INITIALIZED)
     expect(GethBridge.startNode).toHaveBeenCalledTimes(0)
   })
