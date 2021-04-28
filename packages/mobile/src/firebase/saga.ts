@@ -99,7 +99,7 @@ function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
     Logger.warn(TAG, error.toString())
   }
 
-  const now = Date.now
+  const now = Date.now()
   // timestamp + 1 is used because .startAt is inclusive
   const startAt = Math.max(lastTimeUpdated + 1, now - MAX_HISTORY_RETENTION)
 
