@@ -95,7 +95,7 @@ describe('SendConfirmation', () => {
     // Query for the total amount, which should include the fee.
     expect(tree.queryByText(/\$\s*1\.34/s)).not.toBeNull()
     // Prevents an unexplained error: TypeError: require(...) is not a function
-    return await sleep(1000)
+    return sleep(1000)
   })
 
   // TODO: Use the logic above for CELO fees
@@ -125,7 +125,7 @@ describe('SendConfirmation', () => {
     // NOTE: CELO fees are currently no combined into the total.
     // expect(tree.queryByText(/\$\s*1\.34/s)).not.toBeNull()
     // Prevents an unexplained error: TypeError: require(...) is not a function
-    return await sleep(1000)
+    return sleep(1000)
   })
 
   it('shows a generic `calculateFeeFailed` error when fee estimate fails due to an unknown error', async () => {
