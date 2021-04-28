@@ -54,11 +54,11 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
           },
         ]
       }
-      testID="Hamburger"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -463,11 +463,11 @@ exports[`Testnet banner Renders when disconnected 1`] = `
           },
         ]
       }
-      testID="Hamburger"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -872,11 +872,11 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
           },
         ]
       }
-      testID="Hamburger"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >

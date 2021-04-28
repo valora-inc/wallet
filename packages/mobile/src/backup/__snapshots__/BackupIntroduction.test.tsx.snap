@@ -54,11 +54,11 @@ exports[`BackupIntroduction renders correctly when backup completed 1`] = `
           },
         ]
       }
-      testID="Hamburger"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -262,11 +262,11 @@ exports[`BackupIntroduction renders correctly when backup not complete 1`] = `
           },
         ]
       }
-      testID="Hamburger"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >

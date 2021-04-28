@@ -448,6 +448,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 <svg
                   fill="none"
                   height="32"
+                  testID="Hamburger"
                   viewBox="0 0 32 32"
                   width="32"
                 >
@@ -1543,6 +1544,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 <svg
                   fill="none"
                   height="32"
+                  testID="Hamburger"
                   viewBox="0 0 32 32"
                   width="32"
                 >

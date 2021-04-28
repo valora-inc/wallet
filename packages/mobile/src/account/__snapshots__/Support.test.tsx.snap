@@ -53,11 +53,11 @@ exports[`Support renders correctly 1`] = `
           },
         ]
       }
-      testID="Hamburger"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
