@@ -268,9 +268,11 @@ export async function updatePin(account: string, oldPin: string, newPin: string)
       } else {
         throw new Error("Couldn't find stored mnemonic")
       }
+      return true
     }
   } catch (error) {
     Logger.error(`${TAG}@updatePin`, error)
+    return false
   }
 }
 

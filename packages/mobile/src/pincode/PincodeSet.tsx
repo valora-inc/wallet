@@ -19,7 +19,7 @@ import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/Nav
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { DEFAULT_CACHE_ACCOUNT, isPinValid, updatePin } from 'src/pincode/authentication'
-import { setCachedPin } from 'src/pincode/PasswordCache'
+import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
 import Logger from 'src/utils/Logger'
@@ -27,6 +27,7 @@ import Logger from 'src/utils/Logger'
 interface StateProps {
   choseToRestoreAccount: boolean | undefined
   hideVerification: boolean
+  account: string
 }
 
 interface DispatchProps {
@@ -35,6 +36,7 @@ interface DispatchProps {
 }
 
 interface State {
+  oldPin: string
   pin1: string
   pin2: string
   errorText: string | undefined
@@ -48,6 +50,7 @@ function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     hideVerification: state.app.hideVerification,
+    account: state.web3.account || '',
   }
 }
 
@@ -60,13 +63,26 @@ export class PincodeSet extends React.Component<Props, State> {
   static navigationOptions = nuxNavigationOptions
 
   state = {
+    oldPin: '',
     pin1: '',
     pin2: '',
     errorText: undefined,
   }
 
+  componentDidMount = () => {
+    if (this.isChangingPin()) {
+      // If we're changing PIN the PIN was asked just before navigating to this screen
+      // so it should always be in the cache.
+      this.setState({ oldPin: getCachedPin(DEFAULT_CACHE_ACCOUNT) ?? '' })
+    }
+  }
+
+  isChangingPin() {
+    return this.props.route.params?.changePin
+  }
+
   navigateToNextScreen = () => {
-    if (this.props.route.params?.changePin) {
+    if (this.isChangingPin()) {
       navigate(Screens.Settings)
     } else if (this.props.choseToRestoreAccount) {
       navigate(Screens.ImportWallet)
@@ -97,12 +113,12 @@ export class PincodeSet extends React.Component<Props, State> {
   onCompletePin1 = () => {
     if (this.isPin1Valid(this.state.pin1)) {
       this.props.navigation.setParams({ isVerifying: true })
-      if (this.props.route.params?.changePin) {
+      if (this.isChangingPin()) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_entered)
       }
     } else {
       ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'Pin is invalid' })
-      if (this.props.route.params?.changePin) {
+      if (this.isChangingPin()) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
       }
       this.setState({
@@ -120,14 +136,15 @@ export class PincodeSet extends React.Component<Props, State> {
       this.props.setPincode(PincodeType.CustomPin)
       ValoraAnalytics.track(OnboardingEvents.pin_set)
       this.navigateToNextScreen()
-      if (this.props.route.params?.changePin && this.props.route.params.oldPin) {
-        // call update pin function with async/await
-        await updatePin(DEFAULT_CACHE_ACCOUNT, this.props.route.params.oldPin, pin2)
+      if (this.isChangingPin()) {
+        const updated = await updatePin(this.props.account, this.state.oldPin, pin2)
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_confirmed)
-        Logger.showMessage(i18n.t('accountScreen10:pinChanged'))
+        Logger.showMessage(
+          updated ? i18n.t('accountScreen10:pinChanged') : i18n.t('accountScreen10:pinChangeFailed')
+        )
       }
     } else {
-      if (this.props.route.params?.changePin) {
+      if (this.isChangingPin()) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
       }
       this.props.navigation.setParams({ isVerifying: false })

@@ -10,6 +10,7 @@
   "securityAndData": "Security and Data",
   "changePin": "Change PIN",
   "pinChanged": "PIN changed",
+  "pinChangeFailed": "Changing the PIN failed",
   "requirePinOnAppOpen": "Require PIN on App Open",
   "analytics": "Analytics",
   "shareAnalytics": "Share Analytics",
