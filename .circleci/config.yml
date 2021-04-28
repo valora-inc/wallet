@@ -237,14 +237,14 @@ jobs:
       - restore_cache:
           key: yarn-v4-{{ arch }}-{{ .Branch }}-{{ checksum "packages/mobile/android/build.gradle" }}-{{ checksum "packages/mobile/android/settings.gradle" }}-{{ checksum "packages/mobile/android/app/build.gradle" }}-{{ checksum "packages/mobile/.env.test" }}
 
-      # # hack alert! the emulator complains about disk space and not sure how to increase it
-      # - run:
-      #     name: Delete Simulators
-      #     command: sudo rm -rf /Library/Developer/CoreSimulator/Profiles/Runtimes/
+      # hack alert! the emulator complains about disk space and not sure how to increase it
+      - run:
+          name: Delete Simulators
+          command: sudo rm -rf /Library/Developer/CoreSimulator/Profiles/Runtimes/
 
-      # - run:
-      #     name: Check for emulator acceleration
-      #     command: emulator -accel-check
+      - run:
+          name: Check for emulator acceleration
+          command: emulator -accel-check
 
       - run:
           name: Run e2e tests
