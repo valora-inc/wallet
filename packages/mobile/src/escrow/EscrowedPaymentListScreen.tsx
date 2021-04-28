@@ -6,8 +6,6 @@ import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { sentEscrowedPaymentsSelector } from 'src/escrow/reducer'
 import i18n, { Namespaces, withTranslation } from 'src/i18n'
-import { InviteDetails } from 'src/invite/actions'
-import { inviteesSelector } from 'src/invite/reducer'
 import {
   NotificationList,
   titleWithBalanceNavigationOptions,
@@ -20,48 +18,31 @@ interface StateProps {
   dollarBalance: string | null
   sentEscrowedPayments: EscrowedPayment[]
   recipientCache: NumberToRecipient
-  invitees: InviteDetails[]
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
   dollarBalance: state.stableToken.balance,
   sentEscrowedPayments: sentEscrowedPaymentsSelector(state),
   recipientCache: recipientCacheSelector(state),
-  invitees: inviteesSelector(state),
 })
-
-interface SentEscrowPaymentsAndInvitees {
-  payment: EscrowedPayment
-  invitees: InviteDetails[]
-}
 
 type Props = WithTranslation & StateProps
 
-export const listItemRenderer = (
-  item: SentEscrowPaymentsAndInvitees,
-  key: number | undefined = undefined
-) => {
-  const { payment, invitees } = item
+export const listItemRenderer = (payment: EscrowedPayment, key: number | undefined = undefined) => {
   return (
     <View key={key}>
-      <EscrowedPaymentListItem payment={payment} invitees={invitees} />
+      <EscrowedPaymentListItem payment={payment} />
     </View>
   )
 }
 
-const EscrowedPaymentListScreen = (props: Props) => {
-  const items: SentEscrowPaymentsAndInvitees[] = props.sentEscrowedPayments.map((payment) => ({
-    payment,
-    invitees: props.invitees,
-  }))
-  return (
-    <NotificationList
-      items={items}
-      listItemRenderer={listItemRenderer}
-      dollarBalance={props.dollarBalance}
-    />
-  )
-}
+const EscrowedPaymentListScreen = (props: Props) => (
+  <NotificationList
+    items={props.sentEscrowedPayments}
+    listItemRenderer={listItemRenderer}
+    dollarBalance={props.dollarBalance}
+  />
+)
 
 EscrowedPaymentListScreen.navigationOptions = titleWithBalanceNavigationOptions(
   i18n.t('walletFlow5:escrowedPaymentReminder')

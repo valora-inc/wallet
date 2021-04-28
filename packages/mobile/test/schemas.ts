@@ -555,6 +555,10 @@ export const v9Schema = {
     ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     showRaiseDailyLimitTarget: undefined,
   },
+  identity: {
+    ...v8Schema.identity,
+    identifierToE164Number: {},
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

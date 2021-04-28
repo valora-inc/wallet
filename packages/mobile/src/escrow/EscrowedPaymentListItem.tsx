@@ -1,10 +1,9 @@
 import RequestMessagingCard from '@celo/react-components/components/RequestMessagingCard'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Share, StyleSheet, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
@@ -12,8 +11,6 @@ import { useEscrowPaymentRecipientName } from 'src/escrow/utils'
 import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { Namespaces } from 'src/i18n'
-import { InviteDetails } from 'src/invite/actions'
-import { sendSms } from 'src/invite/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { divideByWei } from 'src/utils/formatting'
@@ -21,14 +18,13 @@ import Logger from 'src/utils/Logger'
 
 interface Props {
   payment: EscrowedPayment
-  invitees: InviteDetails[]
 }
 
 const TAG = 'EscrowedPaymentListItem'
 
 const testID = 'EscrowedPaymentListItem'
 
-function EscrowedPaymentListItem({ payment, invitees }: Props) {
+function EscrowedPaymentListItem({ payment }: Props) {
   const { t } = useTranslation(Namespaces.inviteFlow11)
   const displayName = useEscrowPaymentRecipientName(payment)
 
@@ -40,26 +36,9 @@ function EscrowedPaymentListItem({ payment, invitees }: Props) {
     })
 
     try {
-      const inviteDetails = invitees.find(
-        (inviteeObj) => recipientPhoneNumber === inviteeObj.e164Number
-      )
-
-      let message
-      if (!inviteDetails) {
-        message = t('walletFlow5:escrowedPaymentReminderSmsNoData')
-      } else {
-        const { inviteCode, inviteLink } = inviteDetails
-        message = t('walletFlow5:escrowedPaymentReminderSms', {
-          code: inviteCode,
-          link: inviteLink,
-        })
-      }
-
-      await sendSms(recipientPhoneNumber, message)
+      await Share.share({ message: t('walletFlow5:escrowedPaymentReminderSmsNoData') })
     } catch (error) {
-      // TODO: use the showError saga instead of the Logger.showError, which is a hacky temp thing we used for a while that doesn't actually work on iOS
-      Logger.showError(ErrorMessages.SMS_ERROR)
-      Logger.error(TAG, `Error sending SMS to ${recipientPhoneNumber}`, error)
+      Logger.error(TAG, `Error sending reminder to ${recipientPhoneNumber}`, error)
     }
   }
 
@@ -74,7 +53,7 @@ function EscrowedPaymentListItem({ payment, invitees }: Props) {
 
   const getCTA = () => {
     const ctas = []
-    if (payment.recipientPhone) {
+    if (displayName) {
       ctas.push({
         text: t('global:remind'),
         onPress: onRemind,

@@ -44,5 +44,5 @@ export const useEscrowPaymentRecipientName = (payment: EscrowedPayment) => {
   const phoneNumber = identifierToe164Number[recipientIdentifier] ?? recipientPhone
   const recipient = recipientCache[phoneNumber]
 
-  return recipient?.displayName || recipientPhone
+  return recipient?.displayName || phoneNumber
 }
