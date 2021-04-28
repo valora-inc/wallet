@@ -1,7 +1,14 @@
 import * as admin from 'firebase-admin'
-import * as functions from 'firebase-functions'
+import { getFirebaseAdminCreds } from './cico/utils'
 
-admin.initializeApp(functions.config().firebase)
+if (process.env.NODE_ENV !== 'test') {
+  const gcloudProject = process.env.GCLOUD_PROJECT
+  admin.initializeApp({
+    credential: getFirebaseAdminCreds(admin),
+    databaseURL: `https://${gcloudProject}.firebaseio.com`,
+    projectId: gcloudProject,
+  })
+}
 
 export function saveTxHashProvider(address: string, txHash: string, provider: string) {
   admin

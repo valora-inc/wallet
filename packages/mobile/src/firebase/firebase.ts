@@ -5,8 +5,8 @@ import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
 // tslint:disable-next-line: no-duplicate-imports
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
-import { eventChannel, EventChannel } from 'redux-saga'
-import { call, select, spawn, take } from 'redux-saga/effects'
+import { eventChannel } from 'redux-saga'
+import { call, select, take } from 'redux-saga/effects'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { FIREBASE_ENABLED } from 'src/config'
 import { handleNotification } from 'src/firebase/notifications'
@@ -21,10 +21,16 @@ interface NotificationChannelEvent {
   stateType: NotificationReceiveState
 }
 
-// only exported for testing
-export function* watchFirebaseNotificationChannel(channel: EventChannel<NotificationChannelEvent>) {
+export function* watchFirebaseNotificationChannel() {
+  if (!FIREBASE_ENABLED) {
+    return
+  }
+
   try {
+    const channel = createFirebaseNotificationChannel()
+
     Logger.debug(`${TAG}/watchFirebaseNotificationChannel`, 'Started channel watching')
+
     while (true) {
       const event: NotificationChannelEvent = yield take(channel)
       if (!event) {
@@ -45,6 +51,24 @@ export function* watchFirebaseNotificationChannel(channel: EventChannel<Notifica
     )
   } finally {
     Logger.debug(`${TAG}/watchFirebaseNotificationChannel`, 'Notification channel terminated')
+  }
+}
+
+export function* checkInitialNotification() {
+  if (!FIREBASE_ENABLED) {
+    return
+  }
+
+  // We need this initial check because the app could be in the killed state
+  // or in the background when the push notification arrives
+
+  // Manual type checking because yield calls can't infer return type yet :'(
+  const initialNotification: Awaited<
+    ReturnType<FirebaseMessagingTypes.Module['getInitialNotification']>
+  > = yield call([firebase.messaging(), 'getInitialNotification'])
+  if (initialNotification) {
+    Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
+    yield call(handleNotification, initialNotification, NotificationReceiveState.APP_OPENED_FRESH)
   }
 }
 
@@ -76,14 +100,41 @@ export const firebaseSignOut = async (app: ReactNativeFirebase.FirebaseApp) => {
   await app.auth().signOut()
 }
 
+function createFirebaseNotificationChannel() {
+  return eventChannel((emitter) => {
+    const unsubscribe = () => {
+      Logger.info(TAG, 'Notification channel closed, resetting callbacks.')
+      firebase.messaging().onMessage(() => null)
+      firebase.messaging().onNotificationOpenedApp(() => null)
+    }
+
+    firebase.messaging().onMessage((message) => {
+      Logger.info(TAG, 'Notification received while open')
+      emitter({
+        message,
+        stateType: NotificationReceiveState.APP_ALREADY_OPEN,
+      })
+    })
+
+    firebase.messaging().onNotificationOpenedApp((message) => {
+      Logger.info(TAG, 'App opened via a notification')
+      emitter({
+        message,
+        stateType: NotificationReceiveState.APP_FOREGROUNDED,
+      })
+    })
+    return unsubscribe
+  })
+}
+
 export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, address: string) {
   Logger.info(TAG, 'Initializing Firebase Cloud Messaging')
 
   // this call needs to include context: https://github.com/redux-saga/redux-saga/issues/27
   // Manual type checking because yield calls can't infer return type yet :'(
-  const authStatus: Awaited<ReturnType<
-    FirebaseMessagingTypes.Module['hasPermission']
-  >> = yield call([app.messaging(), 'hasPermission'])
+  const authStatus: Awaited<
+    ReturnType<FirebaseMessagingTypes.Module['hasPermission']>
+  > = yield call([app.messaging(), 'hasPermission'])
   Logger.info(TAG, 'Current messaging authorization status', authStatus.toString())
   if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
     try {
@@ -109,42 +160,6 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     Logger.info(TAG, 'Cloud Messaging token refreshed')
     await registerTokenToDb(app, address, token)
   })
-
-  // Listen for notification messages while the app is open
-  const channelOnNotification: EventChannel<NotificationChannelEvent> = eventChannel((emitter) => {
-    const unsubscribe = () => {
-      Logger.info(TAG, 'Notification channel closed, resetting callbacks. This is likely an error.')
-      app.messaging().onMessage(() => null)
-      app.messaging().onNotificationOpenedApp(() => null)
-    }
-
-    app.messaging().onMessage((message) => {
-      Logger.info(TAG, 'Notification received while open')
-      emitter({
-        message,
-        stateType: NotificationReceiveState.APP_ALREADY_OPEN,
-      })
-    })
-
-    app.messaging().onNotificationOpenedApp((message) => {
-      Logger.info(TAG, 'App opened via a notification')
-      emitter({
-        message,
-        stateType: NotificationReceiveState.APP_FOREGROUNDED,
-      })
-    })
-    return unsubscribe
-  })
-  yield spawn(watchFirebaseNotificationChannel, channelOnNotification)
-
-  // Manual type checking because yield calls can't infer return type yet :'(
-  const initialNotification: Awaited<ReturnType<
-    FirebaseMessagingTypes.Module['getInitialNotification']
-  >> = yield call([app.messaging(), 'getInitialNotification'])
-  if (initialNotification) {
-    Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
-    yield call(handleNotification, initialNotification, NotificationReceiveState.APP_OPENED_FRESH)
-  }
 }
 
 export const registerTokenToDb = async (
@@ -192,10 +207,7 @@ export function appVersionDeprecationChannel() {
       .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
 
     const cancel = () => {
-      firebase
-        .database()
-        .ref('versions')
-        .off(VALUE_CHANGE_HOOK, onValueChange)
+      firebase.database().ref('versions').off(VALUE_CHANGE_HOOK, onValueChange)
     }
 
     return cancel
@@ -216,10 +228,8 @@ export function appRemoteFeatureFlagChannel() {
       const flags = snapshot.val()
       Logger.debug(`Updated feature flags: ${JSON.stringify(flags)}`)
       emit({
-        kotaniEnabled: flags?.kotaniEnabled || false,
-        pontoEnabled: flags?.pontoEnabled || false,
-        bitfyUrl: flags?.bitfyUrl ?? null,
-        flowBtcUrl: flags?.flowBtcUrl ?? null,
+        hideVerification: flags?.hideVerification ?? false,
+        showRaiseDailyLimitTarget: flags?.showRaiseDailyLimitTarget ?? undefined,
         celoEducationUri: flags?.celoEducationUri ?? null,
         shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
         inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,
@@ -234,10 +244,7 @@ export function appRemoteFeatureFlagChannel() {
       .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
 
     const cancel = () => {
-      firebase
-        .database()
-        .ref('versions/flags')
-        .off(VALUE_CHANGE_HOOK, onValueChange)
+      firebase.database().ref('versions/flags').off(VALUE_CHANGE_HOOK, onValueChange)
     }
 
     return cancel
@@ -276,20 +283,22 @@ function simpleReadChannel(key: string) {
       emit(value || {})
     }
 
-    const onValueChange = firebase
-      .database()
-      .ref(key)
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
+    const onValueChange = firebase.database().ref(key).on(VALUE_CHANGE_HOOK, emitter, errorCallback)
 
     const cancel = () => {
-      firebase
-        .database()
-        .ref(key)
-        .off(VALUE_CHANGE_HOOK, onValueChange)
+      firebase.database().ref(key).off(VALUE_CHANGE_HOOK, onValueChange)
     }
 
     return cancel
   })
+}
+
+export async function readOnceFromFirebase(path: string) {
+  return firebase
+    .database()
+    .ref(path)
+    .once('value')
+    .then((snapshot) => snapshot.val())
 }
 
 export async function setUserLanguage(address: string, language: string) {

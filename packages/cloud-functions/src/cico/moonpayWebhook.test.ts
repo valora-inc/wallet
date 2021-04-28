@@ -12,7 +12,7 @@ jest.mock('crypto', () => ({
     verify: mockVerify,
   })),
 }))
-jest.mock('../config', () => ({ MOONPAY_WEBHOOK_KEY: 'some_key' }))
+jest.mock('../config', () => ({ MOONPAY_DATA: { webhook_key: 'some_key' } }))
 
 describe('Moonpay cash in', () => {
   const response: any = {

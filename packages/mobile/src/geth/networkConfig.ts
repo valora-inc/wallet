@@ -24,6 +24,7 @@ interface NetworkConfig {
   blockchainApiUrl: string
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
+  xanpoolWidgetUrl: string
   moonpayWidgetUrl: string
   signMoonpayUrl: string
   rampWidgetUrl: string
@@ -35,7 +36,13 @@ interface NetworkConfig {
   currentMtwImplementationAddress: string
   recaptchaSiteKey: string
   bidaliUrl: string
+  providerComposerUrl: string
+  simplexApiUrl: string
+  komenciLoadCheckEndpoint: string
 }
+
+const xanpoolWidgetStaging = 'https://checkout.sandbox.xanpool.com'
+const xanpoolWidgetProd = 'https://checkout.sandbox.xanpool.com'
 
 const moonpayWidgetStaging = 'https://buy-staging.moonpay.io/'
 const moonpayWidgetProd = 'https://buy.moonpay.io/'
@@ -67,6 +74,19 @@ const CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET: Address =
 const CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING: Address =
   '0x5C9a6E3c3E862eD306E2E3348EBC8b8310A99e5A'
 
+const PROVIDER_URL_COMPOSER_PROD =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/composeCicoProviderUrl'
+
+const PROVIDER_URL_COMPOSER_STAGING =
+  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/composeCicoProviderUrl'
+
+const SIMPLEX_API_URL_STAGING =
+  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/processSimplexRequest'
+const SIMPLEX_API_URL_PROD =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/processSimplexRequest'
+const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'https://staging-komenci.azurefd.net/v1/ready'
+const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1/ready'
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     nodeDir: `.${Testnets.alfajores}`,
@@ -75,6 +95,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com/',
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
+    xanpoolWidgetUrl: xanpoolWidgetStaging,
     moonpayWidgetUrl: moonpayWidgetStaging,
     signMoonpayUrl: signMoonpayUrlStaging,
     rampWidgetUrl: rampWidgetStaging,
@@ -86,6 +107,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
+    providerComposerUrl: PROVIDER_URL_COMPOSER_STAGING,
+    simplexApiUrl: SIMPLEX_API_URL_STAGING,
+    komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
   },
   [Testnets.mainnet]: {
     nodeDir: `.${Testnets.mainnet}`,
@@ -94,6 +118,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com/',
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
+    xanpoolWidgetUrl: xanpoolWidgetProd,
     moonpayWidgetUrl: moonpayWidgetProd,
     signMoonpayUrl: signMoonpayUrlProd,
     rampWidgetUrl: rampWidgetProd,
@@ -105,6 +130,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
+    providerComposerUrl: PROVIDER_URL_COMPOSER_PROD,
+    simplexApiUrl: SIMPLEX_API_URL_PROD,
+    komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
   },
 }
 

@@ -3,11 +3,11 @@ import stableStringify from 'fast-json-stable-stringify'
 import * as functions from 'firebase-functions'
 import { readFileSync } from 'fs'
 import { trackEvent } from '../bigQuery'
-import { BIGQUERY_PROVIDER_STATUS_TABLE, RAMP_KEY } from '../config'
+import { BIGQUERY_PROVIDER_STATUS_TABLE, RAMP_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
 import { CashInStatus, Provider } from './Provider'
 
-const rampKey = readFileSync(`./config/${RAMP_KEY}`).toString()
+const rampKey = readFileSync(`./config/${RAMP_DATA.pem_file}`).toString()
 
 function verifyRampSignature(signature: string | undefined, body: RampRequestBody) {
   if (!signature || !body) {

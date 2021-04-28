@@ -206,12 +206,17 @@ export async function getPincode(withVerification = true) {
 }
 
 // Navigate to the pincode enter screen and check pin
-export async function requestPincodeInput(withVerification = true, shouldNavigateBack = true) {
+export async function requestPincodeInput(
+  withVerification = true,
+  shouldNavigateBack = true,
+  account?: string
+) {
   const pin = await new Promise((resolve: PinCallback, reject: (error: string) => void) => {
     navigate(Screens.PincodeEnter, {
       onSuccess: resolve,
       onCancel: () => reject(CANCELLED_PIN_INPUT),
       withVerification,
+      account,
     })
   })
 

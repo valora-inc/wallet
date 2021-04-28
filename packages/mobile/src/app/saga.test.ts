@@ -94,17 +94,13 @@ describe('App saga', () => {
 
     describe('when openExternal is `false` or not specified', () => {
       it('opens http links using WebViewScreen', async () => {
-        await expectSaga(handleOpenUrl, openUrl(httpLink))
-          .not.call.fn(handleDeepLink)
-          .run()
+        await expectSaga(handleOpenUrl, openUrl(httpLink)).not.call.fn(handleDeepLink).run()
         expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, { uri: httpLink })
         expect(navigateToURI).not.toHaveBeenCalled()
       })
 
       it('opens http or https links using WebViewScreen', async () => {
-        await expectSaga(handleOpenUrl, openUrl(httpsLink))
-          .not.call.fn(handleDeepLink)
-          .run()
+        await expectSaga(handleOpenUrl, openUrl(httpsLink)).not.call.fn(handleDeepLink).run()
         expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, { uri: httpsLink })
         expect(navigateToURI).not.toHaveBeenCalled()
       })
@@ -120,9 +116,7 @@ describe('App saga', () => {
       // openExternal is more of a preference, that's why we still open other links externally
       // because we wouldn't know what to do with them anyway
       it('opens other links externally', async () => {
-        await expectSaga(handleOpenUrl, openUrl(otherDeepLink))
-          .not.call.fn(handleDeepLink)
-          .run()
+        await expectSaga(handleOpenUrl, openUrl(otherDeepLink)).not.call.fn(handleDeepLink).run()
         expect(navigate).not.toHaveBeenCalled()
         expect(navigateToURI).toHaveBeenCalledWith(otherDeepLink)
       })
@@ -130,17 +124,13 @@ describe('App saga', () => {
 
     describe('when openExternal is `true`', () => {
       it('opens http links externally', async () => {
-        await expectSaga(handleOpenUrl, openUrl(httpLink, true))
-          .not.call.fn(handleDeepLink)
-          .run()
+        await expectSaga(handleOpenUrl, openUrl(httpLink, true)).not.call.fn(handleDeepLink).run()
         expect(navigate).not.toHaveBeenCalled()
         expect(navigateToURI).toHaveBeenCalledWith(httpLink)
       })
 
       it('opens https links externally', async () => {
-        await expectSaga(handleOpenUrl, openUrl(httpsLink, true))
-          .not.call.fn(handleDeepLink)
-          .run()
+        await expectSaga(handleOpenUrl, openUrl(httpsLink, true)).not.call.fn(handleDeepLink).run()
         expect(navigate).not.toHaveBeenCalled()
         expect(navigateToURI).toHaveBeenCalledWith(httpsLink)
       })

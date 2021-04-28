@@ -34,6 +34,7 @@ export const NOTIFICATIONS_DISABLED = !ENFORCE_NOTIFICATIONS && ENVIRONMENT === 
 export const BLOCKSCOUT_API = process.env.BLOCKSCOUT_API
 export const DEFAULT_LOCALE = process.env.DEFAULT_LOCALE
 export const POLLING_INTERVAL = Number(process.env.POLLING_INTERVAL) || 1000
+export const INVITES_POLLING_INTERVAL = Number(process.env.INVITES_POLLING_INTERVAL) || 10000
 export const NOTIFICATIONS_TTL_MS = Number(process.env.NOTIFICATION_TTL_MS) || 3600 * 1000 * 24 * 7 // 1 week in milliseconds
 
 export const EXCHANGE_POLLING_INTERVAL =
@@ -43,6 +44,7 @@ export const WEB3_PROVIDER_URL = process.env.WEB3_PROVIDER_URL || 'UNDEFINED'
 export enum NotificationTypes {
   PAYMENT_RECEIVED = 'PAYMENT_RECEIVED',
   PAYMENT_REQUESTED = 'PAYMENT_REQUESTED',
+  INVITE_REDEEMED = 'INVITE_REDEEMED',
 }
 
 const en = require('../locales/en.json')
