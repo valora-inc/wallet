@@ -242,6 +242,7 @@ class Send extends React.Component<Props, State> {
     this.props.hideAlert()
     const isOutgoingPaymentRequest = this.props.route.params?.isOutgoingPaymentRequest
 
+    // TODO: move this to after a payment has been sent, or else a misclicked recipient will show up in recents
     this.props.storeLatestInRecents(recipient)
 
     ValoraAnalytics.track(

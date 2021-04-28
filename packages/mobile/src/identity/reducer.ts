@@ -1,15 +1,13 @@
 import dotProp from 'dot-prop-immutable'
 import { RehydrateAction } from 'redux-persist'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
-import i18n from 'src/i18n'
 import { Actions, ActionTypes } from 'src/identity/actions'
 import { ContactMatches, ImportContactsStatus, VerificationStatus } from 'src/identity/types'
 import { removeKeyFromMapping } from 'src/identity/utils'
 import { AttestationCode } from 'src/identity/verification'
-import { getDisplayName, recipientHasAddress } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
-import { Actions as SendActions, StoreLatestInRecentsAction } from 'src/send/actions'
+import { StoreLatestInRecentsAction } from 'src/send/actions'
 
 export const ATTESTATION_CODE_PLACEHOLDER = 'ATTESTATION_CODE_PLACEHOLDER'
 export const ATTESTATION_ISSUER_PLACEHOLDER = 'ATTESTATION_ISSUER_PLACEHOLDER'
@@ -37,6 +35,8 @@ export interface AddressInfoToDisplay {
   isProviderAddress?: boolean
 }
 
+// This mapping is just for storing provider info from firebase
+// other known recipient should be stored in the valoraRecipientCache
 export interface AddressToDisplayNameType {
   [address: string]: AddressInfoToDisplay | undefined
 }
@@ -207,19 +207,6 @@ export const reducer = (
       return {
         ...state,
         e164NumberToSalt: { ...state.e164NumberToSalt, ...action.e164NumberToSalt },
-      }
-    case SendActions.STORE_LATEST_IN_RECENTS:
-      if (!recipientHasAddress(action.recipient)) {
-        return state
-      }
-      action = {
-        type: Actions.UPDATE_KNOWN_ADDRESSES,
-        knownAddresses: {
-          [action.recipient.address]: {
-            name: getDisplayName(action.recipient, i18n.t),
-            imageUrl: null,
-          },
-        },
       }
     case Actions.UPDATE_KNOWN_ADDRESSES:
       return {

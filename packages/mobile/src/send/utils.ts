@@ -25,6 +25,7 @@ import {
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
+import { updateValoraRecipientCache } from 'src/recipients/actions'
 import {
   AddressRecipient,
   Recipient,
@@ -205,6 +206,11 @@ export function* handleSendPaymentData(
     contactId: cachedRecipient?.contactId,
   }
   yield put(storeLatestInRecents(recipient))
+  yield put(
+    updateValoraRecipientCache({
+      [data.address.toLowerCase()]: recipient,
+    })
+  )
 
   if (data.amount) {
     if (data.token === 'CELO') {
