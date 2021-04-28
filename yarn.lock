@@ -10339,10 +10339,10 @@ detox@^17.13.2:
     yargs "^16.0.3"
     yargs-unparser "^2.0.0"
 
-detox@^18.12.0:
-  version "18.12.0"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-18.12.0.tgz#2fd2c6f35b961b462c5f68dd4243a6cb3611ef0f"
-  integrity sha512-AZLbI1TInfK1/aQjqIDDGYtgdlaocexnC40wN9NIa3rEwUjh21UyasYeYjG9RmHGVz3QQjVdmp2cDx+rKduDfg==
+detox@^18.12.2:
+  version "18.12.2"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-18.12.2.tgz#8fa01e22ea7f627ef041824af15dc2bc3c2e46f9"
+  integrity sha512-D9BBIUe+NhFuEQQMI2dHGDg03Hw64AlSdCnF82MOjRRkLWio4ZpE/8SZsAnPGfPqb06fPAAvcBmVq5pmqCzlIw==
   dependencies:
     bunyan "^1.8.12"
     bunyan-debug-stream "^1.1.0"
