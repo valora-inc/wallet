@@ -50,7 +50,7 @@ export default function FeeDrawer({
   const { t } = useTranslation(Namespaces.sendFlow7)
   const [expanded, setExpanded] = useState(false)
 
-  const nonZeroFees = !!totalFee && !totalFee.isZero()
+  const hasNonZeroFees = totalFee && !totalFee.isZero()
   const toggleExpanded = () => {
     LayoutAnimation.easeInEaseOut()
     setExpanded(!expanded)
@@ -88,12 +88,12 @@ export default function FeeDrawer({
       currencyCode: CURRENCIES[currency].code,
     }
 
-  return nonZeroFees ? (
+  return hasNonZeroFees ? (
     // Uses View instead of Fragment to workaround a glitch with LayoutAnimation
     <View>
       <Touchable onPress={toggleExpanded} testID={testID}>
         <View style={styles.totalContainer}>
-          <Expandable isExpandable={nonZeroFees} isExpanded={expanded}>
+          <Expandable isExpandable={hasNonZeroFees} isExpanded={expanded}>
             <Text style={styles.title}>{title}</Text>
           </Expandable>
           <LineItemRow

@@ -46,7 +46,7 @@ export const getExchangeRateDisplayValue = (value: BigNumber.Value): string => {
  */
 export const getFeeDisplayValue = (
   value: BigNumber.Value | null | undefined,
-  topLine: boolean = false,
+  topLine: boolean = true,
   isCELO: boolean
 ): string => {
   if (!value || new BigNumber(value).isZero()) {
