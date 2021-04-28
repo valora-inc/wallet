@@ -53,7 +53,7 @@ exports[`Account renders correctly 1`] = `
           },
         ]
       }
-      testID="Hamburguer"
+      testID="Hamburger"
     >
       <svg
         fill="none"
@@ -2314,7 +2314,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
           },
         ]
       }
-      testID="Hamburguer"
+      testID="Hamburger"
     >
       <svg
         fill="none"
@@ -4896,7 +4896,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           },
         ]
       }
-      testID="Hamburguer"
+      testID="Hamburger"
     >
       <svg
         fill="none"
@@ -7078,7 +7078,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           },
         ]
       }
-      testID="Hamburguer"
+      testID="Hamburger"
     >
       <svg
         fill="none"

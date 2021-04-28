@@ -10,7 +10,7 @@ export default ExchangeCelo = () => {
   beforeEach(async () => {
     await device.reloadReactNative()
     await dismissBanners()
-    await element(by.id('Hamburguer')).tap()
+    await element(by.id('Hamburger')).tap()
     await element(by.id('CELO')).tap()
   })
 

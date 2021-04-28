@@ -22,7 +22,7 @@ export default Support = () => {
   }
 
   it('Send message to support', async () => {
-    await element(by.id('Hamburguer')).tap()
+    await element(by.id('Hamburger')).tap()
     try {
       await waitFor(element(by.text('Help')))
         .toBeVisible()

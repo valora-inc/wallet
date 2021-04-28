@@ -58,7 +58,7 @@ exports[`renders correctly 1`] = `
           },
         ]
       }
-      testID="Hamburguer"
+      testID="Hamburger"
     >
       <svg
         fill="none"

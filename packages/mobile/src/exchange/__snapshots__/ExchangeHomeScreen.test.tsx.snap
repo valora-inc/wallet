@@ -59,7 +59,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
           },
         ]
       }
-      testID="Hamburguer"
+      testID="Hamburger"
     >
       <svg
         fill="none"
@@ -521,7 +521,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
           },
         ]
       }
-      testID="Hamburguer"
+      testID="Hamburger"
     >
       <svg
         fill="none"

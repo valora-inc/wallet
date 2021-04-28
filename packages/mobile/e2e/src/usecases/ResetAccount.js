@@ -17,7 +17,7 @@ export default ResetAccount = () => {
     // }
 
     // Go to Settings
-    await element(by.id('Hamburguer')).tap()
+    await element(by.id('Hamburger')).tap()
     await element(by.id('Settings')).tap()
 
     // Scroll to bottom and start the reset process.

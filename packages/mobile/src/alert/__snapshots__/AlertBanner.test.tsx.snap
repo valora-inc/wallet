@@ -119,12 +119,12 @@ exports[`AlertBanner when error message passed in renders error message 1`] = `
           "marginRight": 8,
         }
       }
-      testID="ErrorIcon"
     >
       <svg
         fill="none"
         height={16}
         style={Object {}}
+        testID="ErrorIcon"
         viewBox="0 0 16 16"
         width={16}
         xmlns="http://www.w3.org/2000/svg"

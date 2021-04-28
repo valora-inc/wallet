@@ -3,7 +3,7 @@ import { Line, Svg } from 'react-native-svg'
 
 const Hamburger = () => {
   return (
-    <Svg testID="Hamburger" width="32" height="32" viewBox="0 0 32 32" fill="none">
+    <Svg width="32" height="32" viewBox="0 0 32 32" fill="none">
       <Line
         x1="7.25"
         y1="9.75"
