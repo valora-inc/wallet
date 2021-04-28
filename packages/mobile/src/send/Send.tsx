@@ -357,9 +357,6 @@ const styles = StyleSheet.create({
   headerRightContainer: {
     paddingRight: 16,
   },
-  leftIcon: {
-    color: colors.gray5,
-  },
 })
 
 export default connect<StateProps, DispatchProps, {}, RootState>(
