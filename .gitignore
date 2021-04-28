@@ -89,3 +89,5 @@ packages/docs/_book/
 
 */.next/*
 .env.local
+
+packages/provider-url-service/*
