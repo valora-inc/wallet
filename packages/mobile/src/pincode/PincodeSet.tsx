@@ -23,6 +23,7 @@ import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
 import Logger from 'src/utils/Logger'
+import { currentAccountSelector } from 'src/web3/selectors'
 
 interface StateProps {
   choseToRestoreAccount: boolean | undefined
@@ -50,7 +51,7 @@ function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     hideVerification: state.app.hideVerification,
-    account: state.web3.account || '',
+    account: currentAccountSelector(state) ?? '',
   }
 }
 
@@ -160,12 +161,12 @@ export class PincodeSet extends React.Component<Props, State> {
   render() {
     const { route } = this.props
     const isVerifying = route.params?.isVerifying
-    const changePin = route.params?.changePin
+    const changingPin = this.isChangingPin()
 
     const { pin1, pin2, errorText } = this.state
 
     return (
-      <SafeAreaView style={changePin ? styles.changePinContainer : styles.container}>
+      <SafeAreaView style={changingPin ? styles.changePinContainer : styles.container}>
         <DevSkipButton onSkip={this.navigateToNextScreen} />
         {isVerifying ? (
           <Pincode
@@ -177,7 +178,7 @@ export class PincodeSet extends React.Component<Props, State> {
           />
         ) : (
           <Pincode
-            title={changePin ? i18n.t('onboarding:pincodeSet.createNew') : ' '}
+            title={changingPin ? i18n.t('onboarding:pincodeSet.createNew') : ' '}
             errorText={errorText}
             pin={pin1}
             onChangePin={this.onChangePin1}

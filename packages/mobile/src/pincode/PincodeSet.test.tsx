@@ -3,10 +3,17 @@ import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-li
 import { Provider } from 'react-redux'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { DEFAULT_CACHE_ACCOUNT, updatePin } from 'src/pincode/authentication'
+import { setCachedPin } from 'src/pincode/PasswordCache'
 import PincodeSet from 'src/pincode/PincodeSet'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockAccount } from 'test/values'
 
-const mockStore = createMockStore()
+const mockStore = createMockStore({
+  web3: {
+    account: mockAccount,
+  },
+})
 const mockPin = '112233'
 
 describe('Pincode', () => {
@@ -137,6 +144,8 @@ describe('Pincode', () => {
   })
 
   it('navigates back to the Settings screen after successfully changing PIN', async () => {
+    const oldPin = '123123'
+    setCachedPin(DEFAULT_CACHE_ACCOUNT, oldPin)
     const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { changePin: true })
 
     const { getByTestId, rerender } = render(
@@ -163,6 +172,7 @@ describe('Pincode', () => {
     jest.runAllTimers()
     await flushMicrotasksQueue()
 
+    expect(updatePin).toHaveBeenCalledWith(mockAccount.toLowerCase(), oldPin, mockPin)
     expect(navigate).toBeCalledWith(Screens.Settings)
   })
 })
