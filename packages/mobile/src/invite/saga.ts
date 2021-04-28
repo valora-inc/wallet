@@ -369,7 +369,7 @@ export function* redeemInviteSaga({ tempAccountPrivateKey }: RedeemInviteAction)
     navigate(Screens.VerificationEducationScreen)
     // Note: We are ok with this succeeding or failing silently in the background,
     // user will have another chance to register DEK when sending their first tx
-    yield spawn(registerAccountDek, result.newAccount)
+    yield spawn(registerAccountDek)
   } else if (result?.success === false) {
     Logger.debug(TAG, 'Redeem Invite failed')
     yield put(redeemInviteFailure())
