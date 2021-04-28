@@ -131,7 +131,7 @@ export class RecipientPicker extends React.Component<RecipientProps> {
     const { t, onSelectRecipient } = this.props
     const recipient: RecipientWithMobileNumber = {
       kind: RecipientKind.MobileNumber,
-      displayName: t('mobileNumber'),
+      displayName: t('sendToMobileNumber'),
       displayId,
       e164PhoneNumber,
     }
@@ -161,7 +161,7 @@ export class RecipientPicker extends React.Component<RecipientProps> {
     } else {
       const recipient: RecipientWithAddress = {
         kind: RecipientKind.Address,
-        displayName: t('walletAddress'),
+        displayName: t('sendToAddress'),
         displayId: searchedAddress.substring(2, 17) + '...',
         address: searchedAddress,
       }

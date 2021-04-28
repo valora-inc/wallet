@@ -9,12 +9,14 @@ interface PasteAwareProps {
   value: string
   shouldShowClipboard: (value: string) => boolean
   onChangeText: (text: string) => void
+  leftIcon?: React.ReactNode
 }
 
 export interface PasteAwareWrappedElementProps {
   isPasteIconVisible: boolean
   onPressPaste: () => void
   onChangeText: (text: string) => void
+  leftIcon?: React.ReactNode
 }
 
 interface PasteAwareState {

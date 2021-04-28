@@ -1,15 +1,17 @@
 import TextInput from '@celo/react-components/components/TextInput'
 import withTextSearchPasteAware from '@celo/react-components/components/WithTextSearchPasteAware'
+import colors from '@celo/react-components/styles/colors'
 import { isValidAddress } from '@celo/utils/lib/address'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
-import { Namespaces } from 'src/i18n'
+import { StyleSheet, Text, View } from 'react-native'
+import i18n, { Namespaces } from 'src/i18n'
 
 const SearchInput = withTextSearchPasteAware(TextInput)
 
 interface SendSearchInputProps {
   onChangeText: (value: string) => void
+  leftIcon?: React.ReactNode
 }
 
 // Input field for Send screen
@@ -27,9 +29,10 @@ export function SendSearchInput(props: SendSearchInputProps) {
     <View style={styles.textInputContainer}>
       <SearchInput
         shouldShowClipboard={isValidAddress}
-        placeholder={t('global:search')}
+        placeholder={t('global:namePhoneAddress')}
         value={input}
         onChangeText={handleChangeText}
+        leftIcon={<Text style={styles.leftIcon}>{i18n.t('global:to')}</Text>}
       />
     </View>
   )
@@ -40,5 +43,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 16,
     paddingBottom: 12,
+  },
+  leftIcon: {
+    color: colors.gray5,
   },
 })
