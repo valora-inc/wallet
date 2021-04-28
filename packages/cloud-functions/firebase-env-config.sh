@@ -13,7 +13,6 @@ done
 ENV_FILENAME=".env.${ENV_NAME}"
 
 firebase functions:config:set \
-env.name="${ENV_NAME}" \
 transak.widget_url=$(grep TRANSAK_WIDGET_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
 transak.public_key=$(grep TRANSAK_PUBLIC_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
 transak.private_key=$(grep TRANSAK_PRIVATE_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
