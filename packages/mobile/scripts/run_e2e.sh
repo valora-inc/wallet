@@ -44,6 +44,12 @@ export NUM_RETRIES='0'
 [ -z "$PLATFORM" ] && echo "Need to set the PLATFORM via the -p flag" && exit 1;
 echo "Network delay: $NET_DELAY"
 
+# Android is can't handle multiple instances
+if [ "$PLATFORM" == "android" ]; then
+  WORKERS=1
+fi
+
+
 # Start the packager and wait until ready
 startPackager() {
     if [ "$RELEASE" = true ]; then
