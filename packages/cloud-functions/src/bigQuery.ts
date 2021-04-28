@@ -1,8 +1,8 @@
 import { BigQuery } from '@google-cloud/bigquery'
 
 const gcloudProject = process.env.GCLOUD_PROJECT
-const bigQueryProjectId = 'celo-testnet-production'
-const bigQueryDataset =
+export const bigQueryProjectId = 'celo-testnet-production'
+export const bigQueryDataset =
   gcloudProject === 'celo-mobile-alfajores' ? 'mobile_wallet_dev' : 'mobile_wallet_production'
 const bigQuery = new BigQuery({ projectId: `${bigQueryProjectId}` })
 

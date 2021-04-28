@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin'
 import { v4 as uuidv4 } from 'uuid'
-import { getBigQueryInstance } from '../bigQuery'
+import { bigQueryDataset, bigQueryProjectId, getBigQueryInstance } from '../bigQuery'
 import {
   CASH_IN_FAILURE_DEEPLINK,
   CASH_IN_SUCCESS_DEEPLINK,
