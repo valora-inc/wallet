@@ -1,7 +1,7 @@
 export function getFirebaseAdminCreds(admin: any) {
   if (!process.env.GCLOUD_PROJECT) {
     try {
-      const serviceAccount = require('../serviceAccountKey.json')
+      const serviceAccount = require('../../config/serviceAccountKey.json')
       return admin.credential.cert(serviceAccount)
     } catch (error) {
       console.error(

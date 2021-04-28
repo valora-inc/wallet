@@ -4,5 +4,10 @@ dist/
 .firebase/
 
 # Only check in encrypted .env file
+.env
 .env.alfajores
 .env.mainnet
+
+config/rampProduction.pem
+config/rampStaging.pem
+config/serviceAccountKey.json

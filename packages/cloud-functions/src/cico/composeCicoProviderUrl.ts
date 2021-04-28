@@ -10,7 +10,7 @@ import {
   TRANSAK_DATA,
   VALORA_LOGO_URL,
   XANPOOL_DATA,
-} from './config'
+} from '../config'
 import Simplex, { SimplexPaymentData, SimplexQuote } from './Simplex'
 const URL = require('url').URL
 
@@ -66,6 +66,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &fiatCurrency=${fiatCurrency}
         &fiatValue=${fiatAmount}
         &finalUrl=${encodeURIComponent(cashInSuccessDeepLink)}
+        &webhookStatusUrl=${RAMP_DATA.webhook_url}
       `.replace(/\s+/g, '')
   } else if (providerName === Providers.Transak.toLowerCase()) {
     finalUrl = `
