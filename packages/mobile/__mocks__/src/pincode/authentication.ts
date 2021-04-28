@@ -6,7 +6,7 @@ module.exports = {
   getPassword: jest.fn(
     async () => '0000000000000000000000000000000000000000000000000000000000000001' + '111555'
   ),
-  getPasswordSaga: jest.fn(function*() {
+  getPasswordSaga: jest.fn(function* () {
     return '0000000000000000000000000000000000000000000000000000000000000001' + '111555'
   }),
 }

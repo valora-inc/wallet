@@ -26,6 +26,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import {
   ALERT_BANNER_DURATION,
   CELO_SUPPORT_EMAIL_ADDRESS,
+  DOLLAR_ADD_FUNDS_MAX_AMOUNT,
   DOLLAR_ADD_FUNDS_MIN_AMOUNT,
 } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
@@ -93,9 +94,9 @@ const useDollarAmount = (
 function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
 
-  const [showingMinAmountDialog, setShowingMinAmountDialog] = useState(false)
-  const closeMinAmountDialog = () => {
-    setShowingMinAmountDialog(false)
+  const [showingInvalidAmountDialog, setShowingInvalidAmountDialog] = useState(false)
+  const closeInvalidAmountDialog = () => {
+    setShowingInvalidAmountDialog(false)
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_dialog_cancel)
   }
   const [showingDailyLimitDialog, setShowingDailyLimitDialog] = useState(false)
@@ -135,6 +136,10 @@ function FiatExchangeAmount({ route }: Props) {
     DOLLAR_ADD_FUNDS_MIN_AMOUNT,
     localCurrencyExchangeRate
   )?.toFixed(0)
+  const maxAmountInLocalCurrency = convertDollarsToLocalAmount(
+    DOLLAR_ADD_FUNDS_MAX_AMOUNT,
+    localCurrencyExchangeRate
+  )?.toFixed(0)
 
   const dispatch = useDispatch()
 
@@ -153,18 +158,26 @@ function FiatExchangeAmount({ route }: Props) {
   function goToProvidersScreen() {
     navigate(Screens.ProviderOptionsScreen, {
       isCashIn: route.params.isCashIn,
+      selectedCrypto: route.params.currency,
+      amount: {
+        crypto: parsedInputAmount.toNumber(),
+        // Rounding up to avoid decimal errors from providers. Won't be
+        // necessary once we support inputting an amount in both crypto and fiat
+        fiat: Math.round(localCurrencyAmount?.toNumber() || 0),
+      },
       paymentMethod: route.params.paymentMethod,
-      currency: route.params.currency,
-      amount: localCurrencyAmount?.toNumber() || 0,
     })
   }
 
   function onPressContinue() {
     Logger.debug(`Input: ${dollarAmount}`)
     if (route.params.isCashIn) {
-      if (dollarAmount.isLessThan(DOLLAR_ADD_FUNDS_MIN_AMOUNT)) {
-        setShowingMinAmountDialog(true)
-        ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_insufficient, {
+      if (
+        dollarAmount.isLessThan(DOLLAR_ADD_FUNDS_MIN_AMOUNT) ||
+        dollarAmount.isGreaterThan(DOLLAR_ADD_FUNDS_MAX_AMOUNT)
+      ) {
+        setShowingInvalidAmountDialog(true)
+        ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_invalid_amount, {
           dollarAmount,
         })
         return
@@ -188,6 +201,10 @@ function FiatExchangeAmount({ route }: Props) {
         return
       }
     }
+
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_continue, {
+      dollarAmount,
+    })
     goToProvidersScreen()
   }
 
@@ -204,12 +221,18 @@ function FiatExchangeAmount({ route }: Props) {
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <Dialog
-        isVisible={showingMinAmountDialog}
-        actionText={t('minAmountDialog.dismiss')}
-        actionPress={closeMinAmountDialog}
-        testID={'MinAmountDialog'}
+        isVisible={showingInvalidAmountDialog}
+        actionText={t('invalidAmountDialog.dismiss')}
+        actionPress={closeInvalidAmountDialog}
+        testID={'invalidAmountDialog'}
       >
-        {t('minAmountDialog.body', { limit: `${currencySymbol}${minAmountInLocalCurrency}` })}
+        {dollarAmount.isLessThan(DOLLAR_ADD_FUNDS_MIN_AMOUNT)
+          ? t('invalidAmountDialog.minAmount', {
+              limit: `${currencySymbol}${minAmountInLocalCurrency}`,
+            })
+          : t('invalidAmountDialog.maxAmount', {
+              limit: `${currencySymbol}${maxAmountInLocalCurrency}`,
+            })}
       </Dialog>
       <Dialog
         isVisible={showingDailyLimitDialog}

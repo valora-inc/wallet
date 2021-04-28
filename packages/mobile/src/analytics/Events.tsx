@@ -324,7 +324,7 @@ export enum FiatExchangeEvents {
 
   cico_add_funds_amount_continue = 'cico_add_funds_amount_continue',
   cico_add_funds_amount_back = 'cico_add_funds_amount_back',
-  cico_add_funds_amount_insufficient = 'cico_add_funds_amount_insufficient',
+  cico_add_funds_invalid_amount = 'cico_add_funds_invalid_amount',
   cico_add_funds_amount_dialog_cancel = 'cico_add_funds_amount_dialog_cancel',
 
   cico_add_funds_select_provider_back = 'cico_add_funds_select_provider_back',
