@@ -9,7 +9,6 @@ export const notificationPolling = AsyncPolling(async (end) => {
   try {
     await handleTransferNotifications()
     await handlePaymentRequests()
-    await handleInvites()
   } catch (e) {
     console.error('Notifications polling failed', e)
   } finally {

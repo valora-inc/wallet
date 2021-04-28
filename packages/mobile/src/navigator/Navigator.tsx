@@ -47,6 +47,7 @@ import FiatExchangeOptions, {
 import MoonPayScreen from 'src/fiatExchanges/MoonPayScreen'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import RampScreen from 'src/fiatExchanges/RampScreen'
+import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
 import TransakScreen from 'src/fiatExchanges/TransakScreen'
 import XanpoolScreen from 'src/fiatExchanges/XanpoolScreen'
@@ -481,6 +482,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={RampScreen.navigationOptions}
       name={Screens.RampScreen}
       component={RampScreen}
+    />
+    <Navigator.Screen
+      options={SimplexScreen.navigationOptions}
+      name={Screens.Simplex}
+      component={SimplexScreen}
     />
     <Navigator.Screen
       options={TransakScreen.navigationOptions}
