@@ -1,5 +1,4 @@
 import * as React from 'react'
-import 'react-native'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import EscrowedPaymentLineItem from 'src/escrow/EscrowedPaymentLineItem'
