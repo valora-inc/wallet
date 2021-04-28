@@ -4,7 +4,7 @@ import { View } from 'react-native'
 import { connect } from 'react-redux'
 import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
-import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
+import { sentEscrowedPaymentsSelector } from 'src/escrow/reducer'
 import i18n, { Namespaces, withTranslation } from 'src/i18n'
 import { InviteDetails } from 'src/invite/actions'
 import { inviteesSelector } from 'src/invite/reducer'
@@ -25,7 +25,7 @@ interface StateProps {
 
 const mapStateToProps = (state: RootState): StateProps => ({
   dollarBalance: state.stableToken.balance,
-  sentEscrowedPayments: getReclaimableEscrowPayments(state),
+  sentEscrowedPayments: sentEscrowedPaymentsSelector(state),
   recipientCache: recipientCacheSelector(state),
   invitees: inviteesSelector(state),
 })

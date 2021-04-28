@@ -1,6 +1,6 @@
 import RequestMessagingCard from '@celo/react-components/components/RequestMessagingCard'
 import * as React from 'react'
-import { WithTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -8,9 +8,10 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
+import { useEscrowPaymentRecipientName } from 'src/escrow/utils'
 import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { Namespaces } from 'src/i18n'
 import { InviteDetails } from 'src/invite/actions'
 import { sendSms } from 'src/invite/saga'
 import { navigate } from 'src/navigator/NavigationService'
@@ -18,20 +19,20 @@ import { Screens } from 'src/navigator/Screens'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 
-interface OwnProps {
+interface Props {
   payment: EscrowedPayment
   invitees: InviteDetails[]
 }
-
-type Props = OwnProps & WithTranslation
 
 const TAG = 'EscrowedPaymentListItem'
 
 const testID = 'EscrowedPaymentListItem'
 
-export class EscrowedPaymentListItem extends React.PureComponent<Props> {
-  onRemind = async () => {
-    const { payment, t, invitees } = this.props
+function EscrowedPaymentListItem({ payment, invitees }: Props) {
+  const { t } = useTranslation(Namespaces.inviteFlow11)
+  const displayName = useEscrowPaymentRecipientName(payment)
+
+  const onRemind = async () => {
     const recipientPhoneNumber = payment.recipientPhone
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.escrow_tx_pending,
@@ -61,8 +62,8 @@ export class EscrowedPaymentListItem extends React.PureComponent<Props> {
       Logger.error(TAG, `Error sending SMS to ${recipientPhoneNumber}`, error)
     }
   }
-  onReclaimPayment = () => {
-    const { payment } = this.props
+
+  const onReclaimPayment = () => {
     const reclaimPaymentInput = payment
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.escrow_tx_pending,
@@ -70,54 +71,45 @@ export class EscrowedPaymentListItem extends React.PureComponent<Props> {
     })
     navigate(Screens.ReclaimPaymentConfirmationScreen, { reclaimPaymentInput })
   }
-  getCTA = () => {
-    const { t } = this.props
+
+  const getCTA = () => {
     const ctas = []
-    if (this.getDisplayName()) {
+    if (payment.recipientPhone) {
       ctas.push({
         text: t('global:remind'),
-        onPress: this.onRemind,
+        onPress: onRemind,
       })
     }
     ctas.push({
       text: t('global:reclaim'),
-      onPress: this.onReclaimPayment,
+      onPress: onReclaimPayment,
     })
     return ctas
   }
 
-  getDisplayName() {
-    const { payment } = this.props
-    // TODO(Rossy) Get contact number from recipient cache here
-    return payment.recipientPhone
+  const nameToShow = displayName ?? t('global:unknown')
+  const amount = {
+    value: divideByWei(payment.amount),
+    currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
   }
 
-  render() {
-    const { t, payment } = this.props
-    const mobile = this.getDisplayName() || t('global:unknown').toLowerCase()
-    const amount = {
-      value: divideByWei(payment.amount),
-      currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
-    }
-
-    return (
-      <View style={styles.container}>
-        <RequestMessagingCard
-          title={t('escrowPaymentNotificationTitle', { mobile })}
-          amount={<CurrencyDisplay amount={amount} />}
-          details={payment.message}
-          icon={
-            <ContactCircle
-              name={mobile}
-              // TODO: Add thumbnailPath={}
-            />
-          }
-          callToActions={this.getCTA()}
-          testID={testID}
-        />
-      </View>
-    )
-  }
+  return (
+    <View style={styles.container}>
+      <RequestMessagingCard
+        title={t('escrowPaymentNotificationTitle', { mobile: nameToShow })}
+        amount={<CurrencyDisplay amount={amount} />}
+        details={payment.message}
+        icon={
+          <ContactCircle
+            name={nameToShow}
+            // TODO: Add thumbnailPath={}
+          />
+        }
+        callToActions={getCTA()}
+        testID={testID}
+      />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -126,4 +118,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>(Namespaces.inviteFlow11)(EscrowedPaymentListItem)
+export default EscrowedPaymentListItem

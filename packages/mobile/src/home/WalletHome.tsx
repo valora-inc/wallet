@@ -105,6 +105,7 @@ export class WalletHome extends React.Component<Props, State> {
 
     ValoraAnalytics.setUserAddress(this.props.address)
 
+    this.props.refreshAllBalances()
     // Waiting 1/2 sec before triggering to allow
     // rest of feed to load unencumbered
     setTimeout(this.tryImportContacts, 500)

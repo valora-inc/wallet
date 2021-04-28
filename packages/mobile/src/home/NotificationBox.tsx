@@ -15,7 +15,7 @@ import { openUrl as openUrlAction } from 'src/app/actions'
 import { verificationPossibleSelector } from 'src/app/selectors'
 import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
-import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
+import { sentEscrowedPaymentsSelector } from 'src/escrow/reducer'
 import { pausedFeatures } from 'src/flags'
 import { dismissNotification } from 'src/home/actions'
 import { IdToNotification } from 'src/home/reducers'
@@ -97,7 +97,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   dismissedGetVerified: state.account.dismissedGetVerified,
   verificationPossible: verificationPossibleSelector(state),
   dismissedGoldEducation: state.account.dismissedGoldEducation,
-  reclaimableEscrowPayments: getReclaimableEscrowPayments(state),
+  reclaimableEscrowPayments: sentEscrowedPaymentsSelector(state),
   invitees: inviteesSelector(state),
 })
 

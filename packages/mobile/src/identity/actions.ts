@@ -117,7 +117,6 @@ export interface UpdateE164PhoneNumberSaltAction {
   type: Actions.UPDATE_E164_PHONE_NUMBER_SALT
   e164NumberToSalt: E164NumberToSaltType
 }
-
 export interface UpdateKnownAddressesAction {
   type: Actions.UPDATE_KNOWN_ADDRESSES
   knownAddresses: AddressToDisplayNameType
