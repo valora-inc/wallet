@@ -94,12 +94,12 @@ export function* watchLanguage() {
   yield takeEvery(AppActions.SET_LANGUAGE, syncLanguageSelection)
 }
 
-function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
+function* celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
   const errorCallback = (error: Error) => {
     Logger.warn(TAG, error.toString())
   }
 
-  const now = Date.now()
+  const now = yield getRemoteTime()
   // timestamp + 1 is used because .startAt is inclusive
   const startAt = Math.max(lastTimeUpdated + 1, now - MAX_HISTORY_RETENTION)
 
@@ -152,7 +152,7 @@ export function* subscribeToCeloGoldExchangeRateHistory() {
   try {
     while (true) {
       const exchangeRates = yield take(channel)
-      const now = getRemoteTime()
+      const now = yield getRemoteTime()
       yield put(updateCeloGoldExchangeRateHistory(exchangeRates, now))
     }
   } catch (error) {

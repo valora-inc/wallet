@@ -1,6 +1,6 @@
 {
-  "name": "react-native-clock-sync",
-  "version": "1.0.0",
+  "name": "react-native-ntp-client",
+  "version": "1.0.3",
   "description": "Sync clock across mobile devices using NTP",
   "main": "index"
 }
