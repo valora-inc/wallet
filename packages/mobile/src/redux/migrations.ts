@@ -117,7 +117,7 @@ export const migrations = {
     }
   },
   8: (state: any) => {
-    const lastUsedProvider = state.fiatExchanges.lastUsedProvider
+    const lastUsedProvider = state.fiatExchanges?.lastUsedProvider
     if (!lastUsedProvider || !lastUsedProvider.name) {
       return state
     }
