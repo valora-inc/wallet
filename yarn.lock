@@ -2535,11 +2535,7 @@
   dependencies:
     tslib "^1.11.1"
 
-<<<<<<< HEAD
 "@google-cloud/bigquery@~5.5.0":
-=======
-"@google-cloud/bigquery@^5.5.0":
->>>>>>> main
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@google-cloud/bigquery/-/bigquery-5.5.0.tgz#cfe72f8d056abd9c8289c724150d1082a0a6367d"
   integrity sha512-hMje0+Fd1B/b29yMUGvnTUXEaUQQD1zyvYjGEu/HCh9w2ek47DQr1zVrHdstlpstUZfaeRCjxK/c3HY6wWrVFg==
