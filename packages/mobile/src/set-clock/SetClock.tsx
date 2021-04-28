@@ -9,9 +9,22 @@ import * as AndroidOpenSettings from 'react-native-android-open-settings'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { clockIcon } from 'src/images/Images'
 import { restartApp } from 'src/utils/AppRestart'
-import { getLocalTimezone } from 'src/utils/time'
+import { getLocalTimezone, getRemoteTime } from 'src/utils/time'
 
-export class SetClock extends React.Component<WithTranslation> {
+interface State {
+  correctTime: number
+}
+
+export class SetClock extends React.Component<WithTranslation, State> {
+  state = {
+    correctTime: Date.now(),
+  }
+
+  componentDidMount = async () => {
+    const correctTime = await getRemoteTime()
+    this.setState({ correctTime })
+  }
+
   goToSettingsOrRestart = () => {
     if (Platform.OS === 'android') {
       return AndroidOpenSettings.dateSettings()
@@ -32,7 +45,7 @@ export class SetClock extends React.Component<WithTranslation> {
         <View style={styles.header}>
           <Image source={clockIcon} style={styles.clockImage} resizeMode="contain" />
           <Text style={[fontStyles.h1, styles.time]} testID="SetClockTitle">
-            {format(Date.now(), 'Pp')}
+            {format(this.state.correctTime, 'Pp')}
           </Text>
           <Text style={fontStyles.regular} testID="SetClockTitle">
             ({getLocalTimezone()})
