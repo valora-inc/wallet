@@ -4,7 +4,7 @@ PODS:
   - Adjust/Core (4.26.1)
   - Analytics (4.1.3)
   - boost-for-react-native (1.63.0)
-  - CeloBlockchain (0.0.319)
+  - CeloBlockchain (0.0.351)
   - CocoaAsyncSocket (7.6.5)
   - CocoaLibEvent (1.0.0)
   - DoubleConversion (1.1.6)
@@ -894,7 +894,7 @@ SPEC CHECKSUMS:
   Adjust: e8f9b8b50b3d234923389f8e0077ce911cf502d8
   Analytics: 4c01e3e19d4be86705bad6581a1c2aa5a15a9d22
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  CeloBlockchain: 2b3bc8846dff06152d3fcc59c14c43c9740c0a72
+  CeloBlockchain: 07c2efe5ac94f5ad0fc929bc87cfc05c37503765
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
   DoubleConversion: cde416483dac037923206447da6e1454df403714

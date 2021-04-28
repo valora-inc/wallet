@@ -2068,10 +2068,10 @@
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-1.1.0-beta.1.tgz#9b2881272dd430b22abe07ed2839bab62a7aa193"
   integrity sha512-5e16xaYZX6GWXCoVnGpO1U+dsaSl5XKvBDhrrO88ZlbGdUtlPQVu2oNPtOH2KlQRAC8aU9KigkG5QaiIYiilpw==
 
-"@celo/client@0.0.319":
-  version "0.0.319"
-  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.319.tgz#d8ec1f265fed3b73ec72ba2a34e043c6d400c7c4"
-  integrity sha512-5pjqAOju4NCFzYvnkPIiQnfVxqggB/8Ol8Js4ysdqHa6o/fg3u4noCkDqGc31kZzZniQvfal6a0wn9OXXSMWow==
+"@celo/client@0.0.351":
+  version "0.0.351"
+  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.351.tgz#1f75ae1b083b7d52c3d2415d25407a345cd22c7b"
+  integrity sha512-jVgri6VbzbEKEimaDunifRBgGD+MhjcM8PyB0PVq2qwpY2LCDl0yLFnm3tKOUr9kFLk82J/knMAfjzgWXyxprA==
 
 "@celo/connect@1.1.0-beta.1":
   version "1.1.0-beta.1"
@@ -20842,9 +20842,9 @@ react-native-gesture-handler@^1.9.0:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
-"react-native-geth@https://github.com/celo-org/react-native-geth#21d7c2a":
+"react-native-geth@https://github.com/celo-org/react-native-geth#b735736":
   version "1.0.0"
-  resolved "https://github.com/celo-org/react-native-geth#21d7c2a77e42e221a3be8dcfed936c8e7d19cf3c"
+  resolved "https://github.com/celo-org/react-native-geth#b7357364dfe61df68c09ce7aa8e69c9224cfa20b"
 
 "react-native-google-safetynet@https://github.com/celo-org/react-native-google-safetynet#8a0355f":
   version "1.0.0"
