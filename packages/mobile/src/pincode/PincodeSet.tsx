@@ -139,10 +139,13 @@ export class PincodeSet extends React.Component<Props, State> {
       this.navigateToNextScreen()
       if (this.isChangingPin()) {
         const updated = await updatePin(this.props.account, this.state.oldPin, pin2)
-        ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_confirmed)
-        Logger.showMessage(
-          updated ? i18n.t('accountScreen10:pinChanged') : i18n.t('accountScreen10:pinChangeFailed')
-        )
+        if (updated) {
+          ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_confirmed)
+          Logger.showMessage(i18n.t('accountScreen10:pinChanged'))
+        } else {
+          ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
+          Logger.showMessage(i18n.t('accountScreen10:pinChangeFailed'))
+        }
       }
     } else {
       if (this.isChangingPin()) {

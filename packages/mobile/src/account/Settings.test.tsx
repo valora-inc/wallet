@@ -10,13 +10,11 @@ import { KomenciAvailable } from 'src/verify/reducer'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper } from 'test/values'
 
-const mockedNavigate = navigate as jest.Mock
 const mockedEnsurePincode = ensurePincode as jest.Mock
 
 describe('Account', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    mockedNavigate.mockReset()
   })
 
   beforeAll(() => {
