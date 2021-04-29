@@ -118,9 +118,10 @@ export class RecipientPicker extends React.Component<RecipientProps> {
   )
 
   renderSendToPhoneNumber = (displayNumber: string, e164PhoneNumber: string) => {
-    const { onSelectRecipient } = this.props
+    const { onSelectRecipient, t } = this.props
     const recipient: MobileRecipient = {
       displayNumber,
+      name: t('sendToMobileNumber'),
       e164PhoneNumber,
     }
     return (
@@ -132,7 +133,7 @@ export class RecipientPicker extends React.Component<RecipientProps> {
   }
 
   renderSendToAddress = () => {
-    const { searchQuery, recipientInfo, onSelectRecipient } = this.props
+    const { searchQuery, recipientInfo, onSelectRecipient, t } = this.props
     const searchedAddress = searchQuery.toLowerCase()
     const existingContact = getRecipientFromAddress(searchedAddress, recipientInfo)
     if (existingContact) {
@@ -144,6 +145,7 @@ export class RecipientPicker extends React.Component<RecipientProps> {
       )
     } else {
       const recipient: AddressRecipient = {
+        name: t('sendToAddress'),
         address: searchedAddress,
       }
 
