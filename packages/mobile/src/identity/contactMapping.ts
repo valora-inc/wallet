@@ -221,7 +221,12 @@ export function* fetchAddressesAndValidateSaga({
 function* getAccountAddresses(e164Number: string) {
   const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, e164Number)
   const phoneHash = phoneHashDetails.phoneHash
-  const accountAddresses: Address[] = yield call(lookupAccountAddressesForIdentifier, phoneHash)
+  const lostAccounts = yield call(fetchLostAccounts)
+  const accountAddresses: Address[] = yield call(
+    lookupAccountAddressesForIdentifier,
+    phoneHash,
+    lostAccounts
+  )
   return yield call(filterNonVerifiedAddresses, accountAddresses, phoneHash)
 }
 
@@ -257,9 +262,7 @@ function* fetchWalletAddresses(e164Number: string) {
 }
 
 // Returns a list of account addresses for the identifier received.
-export function* lookupAccountAddressesForIdentifier(id: string) {
-  const lostAccounts = yield call(fetchLostAccounts)
-
+export function* lookupAccountAddressesForIdentifier(id: string, lostAccounts: string[] = []) {
   const contractKit = yield call(getContractKit)
   const attestationsWrapper: AttestationsWrapper = yield call([
     contractKit.contracts,
