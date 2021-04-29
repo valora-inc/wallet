@@ -1,9 +1,8 @@
-import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import _ from 'lodash'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { providersDisplayInfo } from 'src/fiatExchanges/reducer'
-import { AddressToDisplayNameType, IdentifierToE164NumberType } from 'src/identity/reducer'
+import { AddressToDisplayNameType } from 'src/identity/reducer'
 
 export const migrations = {
   0: (state: any) => {
@@ -175,23 +174,6 @@ export const migrations = {
       exchange: {
         ...state.exchange,
         history: { ...exchangeInitialState.history },
-      },
-    }
-  },
-  13: (state: any) => {
-    const identifierToE164Number: IdentifierToE164NumberType = {}
-    for (const e164Number of Object.keys(state.identity.e164NumberToSalt)) {
-      const pepper = state.identity.e164NumberToSalt[e164Number]
-      if (pepper) {
-        const phoneHash = getPhoneHash(e164Number, pepper)
-        identifierToE164Number[phoneHash] = e164Number
-      }
-    }
-    return {
-      ...state,
-      identity: {
-        ...state.identity,
-        identifierToE164Number,
       },
     }
   },

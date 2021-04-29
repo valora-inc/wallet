@@ -1,6 +1,7 @@
 import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import dotProp from 'dot-prop-immutable'
 import { RehydrateAction } from 'redux-persist'
+import { createSelector } from 'reselect'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
 import { Actions, ActionTypes } from 'src/identity/actions'
 import { ContactMatches, ImportContactsStatus, VerificationStatus } from 'src/identity/types'
@@ -88,7 +89,6 @@ export interface State {
   // and is needed to query for a user's DEK while knowing only their walletAddress
   walletToAccountAddress: WalletToAccountAddressType
   e164NumberToSalt: E164NumberToSaltType
-  identifierToE164Number: IdentifierToE164NumberType
   addressToDataEncryptionKey: AddressToDataEncryptionKeyType
   // Doesn't contain all known addresses, use only as a fallback.
   // TODO: Remove if unused after CIP-8 implementation.
@@ -112,7 +112,6 @@ const initialState: State = {
   e164NumberToAddress: {},
   walletToAccountAddress: {},
   e164NumberToSalt: {},
-  identifierToE164Number: {},
   addressToDataEncryptionKey: {},
   addressToDisplayName: {},
   askedContactsPermission: false,
@@ -209,21 +208,9 @@ export const reducer = (
         },
       }
     case Actions.UPDATE_E164_PHONE_NUMBER_SALT:
-      const newIdentifierToE164Numbers: IdentifierToE164NumberType = {}
-      for (const e164Number of Object.keys(action.e164NumberToSalt)) {
-        const pepper = action.e164NumberToSalt[e164Number]
-        if (pepper) {
-          const phoneHash = getPhoneHash(e164Number, pepper)
-          newIdentifierToE164Numbers[phoneHash] = e164Number
-        }
-      }
       return {
         ...state,
         e164NumberToSalt: { ...state.e164NumberToSalt, ...action.e164NumberToSalt },
-        identifierToE164Number: {
-          ...state.identifierToE164Number,
-          ...newIdentifierToE164Numbers,
-        },
       }
     case SendActions.STORE_LATEST_IN_RECENTS:
       if (!action.recipient.address) {
@@ -391,8 +378,6 @@ export const walletToAccountAddressSelector = (state: RootState) =>
 export const addressToDataEncryptionKeySelector = (state: RootState) =>
   state.identity.addressToDataEncryptionKey
 export const e164NumberToSaltSelector = (state: RootState) => state.identity.e164NumberToSalt
-export const identifierToe164NumberSelector = (state: RootState) =>
-  state.identity.identifierToE164Number
 export const secureSendPhoneNumberMappingSelector = (state: RootState) =>
   state.identity.secureSendPhoneNumberMapping
 export const importContactsProgressSelector = (state: RootState) =>
@@ -406,3 +391,18 @@ export const providerAddressesSelector = ({ identity: { addressToDisplayName } }
     .filter(([_, info]) => info?.isProviderAddress)
     .map(([address, _]) => address)
 }
+
+export const identifierToe164NumberSelector = createSelector(
+  e164NumberToSaltSelector,
+  (e164NumberToSalt) => {
+    const identifierToE164Numbers: IdentifierToE164NumberType = {}
+    for (const e164Number of Object.keys(e164NumberToSalt)) {
+      const pepper = e164NumberToSalt[e164Number]
+      if (pepper) {
+        const phoneHash = getPhoneHash(e164Number, pepper)
+        identifierToE164Numbers[phoneHash] = e164Number
+      }
+    }
+    return identifierToE164Numbers
+  }
+)
