@@ -2,15 +2,11 @@ import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { migrations } from 'src/redux/migrations'
-import {
-  v0Schema,
-  v1Schema,
-  v2Schema,
-  v6Schema,
-  v7Schema,
-  v8Schema,
-  vNeg1Schema,
-} from 'test/schemas'
+import { v0Schema, v1Schema, v2Schema, v7Schema, v8Schema, vNeg1Schema } from 'test/schemas'
+
+const migrationKeys = Object.keys(migrations)
+  .map((ver) => parseInt(ver, 10))
+  .sort((a, b) => a - b) as Array<keyof typeof migrations>
 
 describe('Redux persist migrations', () => {
   it('works for v-1 to v0', () => {
@@ -25,6 +21,19 @@ describe('Redux persist migrations', () => {
     }
     const migratedSchema = migrations[0](vNeg1Stub)
     expect(migratedSchema.identity.e164NumberToAddress).toEqual({ [mockNumber]: [mockAddress] })
+  })
+
+  // This ensures all migrations can be run from the initial state
+  it(`works for v-1 to v${migrationKeys[migrationKeys.length - 1]}`, () => {
+    const vNeg1Stub = {
+      ...vNeg1Schema,
+    }
+
+    const migratedSchema = migrationKeys.reduce(
+      (state, migrationKey) => migrations[migrationKey](state),
+      vNeg1Stub
+    )
+    expect(typeof migratedSchema).toBe('object')
   })
 
   it('works for v0 to v1', () => {
@@ -130,15 +139,6 @@ describe('Redux persist migrations', () => {
     expect(Object.keys(migratedSchema.identity.addressToDisplayName).length).toEqual(1)
     expect(migratedSchema.identity.addressToDisplayName[mockAddress].name).toEqual(mockName)
     expect(migratedSchema.identity.addressToDisplayName[mockAddress].imageUrl).toBeNull()
-  })
-
-  it('works for v6 to v8', () => {
-    const v6Stub = {
-      ...v6Schema,
-    }
-    const migratedSchema = migrations[8](v6Stub)
-    // state should be the same
-    expect(migratedSchema).toEqual(v6Stub)
   })
 
   it('works for v7 to v8', () => {
