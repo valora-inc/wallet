@@ -13,6 +13,10 @@ import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl as openUrlAction } from 'src/app/actions'
 import { verificationPossibleSelector } from 'src/app/selectors'
+import {
+  RewardsScreenOrigin,
+  trackRewardsScreenOpenEvent,
+} from 'src/consumerIncentives/analyticsEventsTracker'
 import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
@@ -247,6 +251,7 @@ export class NotificationBox extends React.Component<Props, State> {
                 notificationId: id,
               })
               openUrl(notification.ctaUri, false, true)
+              trackRewardsScreenOpenEvent(notification.ctaUri, RewardsScreenOrigin.NotificationBox)
             },
           },
           {
