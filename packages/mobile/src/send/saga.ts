@@ -1,6 +1,7 @@
 import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
+import { giveProfileAccess } from 'src/account/profileInfo'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -31,7 +32,7 @@ import {
 } from 'src/tokens/saga'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { getRegisterDekTxGas, registerAccountDek } from 'src/web3/dataEncryptionKey'
+import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
@@ -149,9 +150,6 @@ function* sendPayment(
     ValoraAnalytics.track(SendEvents.send_tx_start)
 
     const ownAddress: string = yield select(currentAccountSelector)
-    // Ensure comment encryption is possible by first ensuring the account's DEK has been registered
-    // For most users, this happens during redeem invite or verification. This is a fallback.
-    yield call(registerAccountDek, ownAddress)
     const encryptedComment = yield call(encryptComment, comment, recipientAddress, ownAddress, true)
 
     const context = newTransactionContext(TAG, 'Send payment')
@@ -190,6 +188,7 @@ function* sendPayment(
       amount: amount.toString(),
       currency,
     })
+    yield call(giveProfileAccess, [recipientAddress])
   } catch (error) {
     Logger.error(`${TAG}/sendPayment`, 'Could not send payment', error)
     ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })

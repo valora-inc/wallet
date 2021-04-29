@@ -30,6 +30,7 @@ export interface State {
   acceptedTerms: boolean
   hasMigratedToNewBip39: boolean
   choseToRestoreAccount: boolean | undefined
+  profileUploaded: boolean | undefined
   recoveringFromStoreWipe: boolean | undefined
   accountToRecoverFromStoreWipe: string | undefined
   dailyLimitCusd: number
@@ -78,6 +79,7 @@ export const initialState = {
   retryVerificationWithForno: features.VERIFICATION_FORNO_RETRY,
   hasMigratedToNewBip39: false,
   choseToRestoreAccount: false,
+  profileUploaded: false,
   recoveringFromStoreWipe: false,
   accountToRecoverFromStoreWipe: undefined,
   dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
@@ -257,6 +259,12 @@ export const reducer = (
       return {
         ...state,
         hasMigratedToNewBip39: true,
+      }
+    }
+    case Actions.PROFILE_UPLOADED: {
+      return {
+        ...state,
+        profileUploaded: true,
       }
     }
     default:

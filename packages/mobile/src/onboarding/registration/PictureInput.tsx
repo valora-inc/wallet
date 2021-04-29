@@ -7,6 +7,7 @@ import ImagePicker from 'react-native-image-crop-picker'
 import OptionsChooser from 'src/components/OptionsChooser'
 import { Namespaces } from 'src/i18n'
 import Photo from 'src/icons/Photo'
+import { getDataURL } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 
 interface Props {
@@ -24,8 +25,8 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
   const pickPhoto = async (pickerFunction: typeof ImagePicker.openPicker) => {
     try {
       const image = await pickerFunction({
-        width: 200,
-        height: 200,
+        width: 150,
+        height: 150,
         cropping: true,
         includeBase64: true,
         cropperCircleOverlay: true,
@@ -33,7 +34,7 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
         cropperCancelText: t('global:cancel'),
       })
       // @ts-ignore
-      onPhotoChosen(`data:${image.mime};base64,${image.data}`)
+      onPhotoChosen(getDataURL(image.mime, image.data))
     } catch (e) {
       Logger.error('Error while fetching image from picker', e)
     }
