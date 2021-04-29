@@ -229,6 +229,7 @@ export function appRemoteFeatureFlagChannel() {
       Logger.debug(`Updated feature flags: ${JSON.stringify(flags)}`)
       emit({
         hideVerification: flags?.hideVerification ?? false,
+        showRaiseDailyLimitTarget: flags?.showRaiseDailyLimitTarget ?? undefined,
         celoEducationUri: flags?.celoEducationUri ?? null,
         shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
         inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,
@@ -303,6 +304,14 @@ function simpleReadChannel(key: string) {
 
     return cancel
   })
+}
+
+export async function readOnceFromFirebase(path: string) {
+  return firebase
+    .database()
+    .ref(path)
+    .once('value')
+    .then((snapshot) => snapshot.val())
 }
 
 export async function setUserLanguage(address: string, language: string) {

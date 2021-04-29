@@ -34,9 +34,7 @@ export default function SimpleMessagingCard({
         testID={`${testID}/Icon`}
       />
     )
-  ) : (
-    undefined
-  )
+  ) : undefined
 
   return (
     <MessagingCard style={darkMode ? styles.darkModeContainer : styles.container} testID={testID}>
