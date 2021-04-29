@@ -9,11 +9,6 @@ import PincodeSet from 'src/pincode/PincodeSet'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount } from 'test/values'
 
-const mockStore = createMockStore({
-  web3: {
-    account: mockAccount,
-  },
-})
 const mockPin = '112233'
 
 describe('Pincode', () => {
@@ -144,6 +139,12 @@ describe('Pincode', () => {
   })
 
   it('navigates back to the Settings screen after successfully changing PIN', async () => {
+    const mockStore = createMockStore({
+      web3: {
+        account: mockAccount,
+      },
+    })
+
     const oldPin = '123123'
     setCachedPin(DEFAULT_CACHE_ACCOUNT, oldPin)
     const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { changePin: true })
