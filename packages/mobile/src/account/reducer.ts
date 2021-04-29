@@ -188,7 +188,7 @@ export const reducer = (
     case Actions.SET_ACCOUNT_CREATION_TIME:
       return {
         ...state,
-        accountCreationTime: Date.now(),
+        accountCreationTime: action.now,
       }
     case Actions.SET_BACKUP_COMPLETED:
       return {
@@ -198,7 +198,7 @@ export const reducer = (
     case Actions.SET_BACKUP_DELAYED:
       return {
         ...state,
-        backupRequiredTime: Date.now() + DAYS_TO_DELAY * ONE_DAY_IN_MILLIS,
+        backupRequiredTime: action.now + DAYS_TO_DELAY * ONE_DAY_IN_MILLIS,
       }
     case Actions.TOGGLE_BACKUP_STATE:
       return {

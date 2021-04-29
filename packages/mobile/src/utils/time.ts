@@ -289,7 +289,7 @@ export const getRemoteTime = async () => {
   }
 }
 
-const DRIFT_THRESHOLD_IN_MS = 1000 * 4 // 4 seconds - Clique future block allowed time is 5 seconds
+export const DRIFT_THRESHOLD_IN_MS = 1000 * 4 // 4 seconds - Clique future block allowed time is 5 seconds
 
 export const clockInSync = async () => {
   const localTime = Date.now()
