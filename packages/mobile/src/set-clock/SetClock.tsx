@@ -1,21 +1,29 @@
 import Button, { BtnTypes } from '@celo/react-components/components/Button'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
+import { StackScreenProps } from '@react-navigation/stack'
 import format from 'date-fns/esm/format'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { Image, Platform, StyleSheet, Text, View } from 'react-native'
+import { AppState, Image, Platform, StyleSheet, Text, View } from 'react-native'
 import * as AndroidOpenSettings from 'react-native-android-open-settings'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { clockIcon } from 'src/images/Images'
+import { navigateHome } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
 import { restartApp } from 'src/utils/AppRestart'
-import { getLocalTimezone, getRemoteTime } from 'src/utils/time'
+import Logger from 'src/utils/Logger'
+import { DRIFT_THRESHOLD_IN_MS, getLocalTimezone, getRemoteTime } from 'src/utils/time'
 
 interface State {
-  correctTime: number
+  correctTime: number | null
 }
 
-export class SetClock extends React.Component<WithTranslation, State> {
+type ScreenProps = StackScreenProps<StackParamList, Screens.SetClock>
+type Props = WithTranslation & ScreenProps
+
+export class SetClock extends React.Component<Props, State> {
   state = {
     correctTime: Date.now(),
   }
@@ -23,6 +31,19 @@ export class SetClock extends React.Component<WithTranslation, State> {
   componentDidMount = async () => {
     const correctTime = await getRemoteTime()
     this.setState({ correctTime })
+    AppState.addEventListener('change', this.navigateHomeIfSynced)
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.navigateHomeIfSynced)
+  }
+
+  navigateHomeIfSynced = () => {
+    const drift = Math.abs((this.state.correctTime || 0) - Date.now())
+    Logger.info(`Drift is currently ${drift} ms`)
+    if (drift < DRIFT_THRESHOLD_IN_MS) {
+      navigateHome()
+    }
   }
 
   goToSettingsOrRestart = () => {
@@ -45,7 +66,7 @@ export class SetClock extends React.Component<WithTranslation, State> {
         <View style={styles.header}>
           <Image source={clockIcon} style={styles.clockImage} resizeMode="contain" />
           <Text style={[fontStyles.h1, styles.time]} testID="SetClockTitle">
-            {format(this.state.correctTime, 'Pp')}
+            {format(this.state.correctTime || Date.now(), 'Pp')}
           </Text>
           <Text style={fontStyles.regular} testID="SetClockTitle">
             ({getLocalTimezone()})
