@@ -394,6 +394,11 @@ export enum NavigationEvents {
   navigator_not_ready = 'navigator_not_ready',
 }
 
+export enum RewardsEvents {
+  rewards_screen_opened = 'rewards_screen_opened',
+  rewards_screen_cta_pressed = 'rewards_screen_cta_pressed',
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -413,3 +418,4 @@ export type AnalyticsEventType =
   | NetworkEvents
   | PerformanceEvents
   | NavigationEvents
+  | RewardsEvents

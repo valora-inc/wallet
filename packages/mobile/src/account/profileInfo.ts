@@ -91,25 +91,33 @@ export function* uploadNameAndPicture() {
 
 // this function gives permission to the recipient to view the user's profile info
 export function* giveProfileAccess(recipientAddresses: string[]) {
-  // TODO: check if key for recipient already exists, skip if yes
-  const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper)
-  const nameAccessor = new PrivateNameAccessor(offchainWrapper)
-  let writeError = yield call([nameAccessor, 'allowAccess'], recipientAddresses)
-  if (writeError) {
-    Logger.error(TAG + '@giveProfileAccess', writeError)
-  }
-
-  const pictureUri = yield select(pictureSelector)
-  if (pictureUri) {
-    const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
-    writeError = yield call([pictureAccessor, 'allowAccess'], recipientAddresses)
+  try {
+    // TODO: check if key for recipient already exists, skip if yes
+    const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper)
+    const nameAccessor = new PrivateNameAccessor(offchainWrapper)
+    let writeError = yield call([nameAccessor, 'allowAccess'], recipientAddresses)
     if (writeError) {
       Logger.error(TAG + '@giveProfileAccess', writeError)
     }
-  }
-  // not throwing error, because possibility the recipient doesn't have a registered DEK
 
-  Logger.info(TAG + '@giveProfileAccess', 'uploaded symmetric keys for ' + recipientAddresses)
+    const pictureUri = yield select(pictureSelector)
+    if (pictureUri) {
+      const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
+      writeError = yield call([pictureAccessor, 'allowAccess'], recipientAddresses)
+      if (writeError) {
+        Logger.error(TAG + '@giveProfileAccess', writeError)
+      }
+    }
+    // not throwing error, because possibility the recipient doesn't have a registered DEK
+
+    Logger.info(TAG + '@giveProfileAccess', 'uploaded symmetric keys for ' + recipientAddresses)
+  } catch (error) {
+    Logger.error(
+      TAG + '@giveProfileAccess',
+      'error when giving access to ' + recipientAddresses,
+      error
+    )
+  }
 }
 
 export function* getProfileInfo(address: string) {
