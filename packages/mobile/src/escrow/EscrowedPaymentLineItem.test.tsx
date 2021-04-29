@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
-import { escrowPaymentDouble } from 'src/escrow/__mocks__'
 import EscrowedPaymentLineItem from 'src/escrow/EscrowedPaymentLineItem'
+import { escrowPaymentDouble } from 'src/escrow/__mocks__'
 import { RecipientKind } from 'src/recipients/recipient'
 import { createMockStore } from 'test/utils'
-import { mockE164Number, mockE164NumberHash } from 'test/values'
+import { mockE164Number, mockE164NumberHashWithPepper, mockE164NumberPepper } from 'test/values'
 
 const mockName = 'Hello World'
 
@@ -24,8 +24,8 @@ describe(EscrowedPaymentLineItem, () => {
   it('fetches the correct phone number from the identifier mapping', () => {
     const store = createMockStore({
       identity: {
-        identifierToE164Number: {
-          [mockE164NumberHash]: mockE164Number,
+        e164NumberToSalt: {
+          [mockE164Number]: mockE164NumberPepper,
         },
       },
     })
@@ -33,7 +33,7 @@ describe(EscrowedPaymentLineItem, () => {
       <Provider store={store}>
         <EscrowedPaymentLineItem
           payment={escrowPaymentDouble({
-            recipientIdentifier: mockE164NumberHash,
+            recipientIdentifier: mockE164NumberHashWithPepper,
           })}
         />
       </Provider>
@@ -45,8 +45,8 @@ describe(EscrowedPaymentLineItem, () => {
   it('fetches the correct name from the recipient cache', () => {
     const store = createMockStore({
       identity: {
-        identifierToE164Number: {
-          [mockE164NumberHash]: mockE164Number,
+        e164NumberToSalt: {
+          [mockE164Number]: mockE164NumberPepper,
         },
       },
       recipients: {
@@ -63,7 +63,7 @@ describe(EscrowedPaymentLineItem, () => {
       <Provider store={store}>
         <EscrowedPaymentLineItem
           payment={escrowPaymentDouble({
-            recipientIdentifier: mockE164NumberHash,
+            recipientIdentifier: mockE164NumberHashWithPepper,
           })}
         />
       </Provider>

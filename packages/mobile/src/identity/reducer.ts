@@ -338,7 +338,6 @@ export const reducer = (
         addressToE164Number: state.addressToE164Number,
         e164NumberToAddress: state.e164NumberToAddress,
         e164NumberToSalt: state.e164NumberToSalt,
-        identifierToE164Number: state.identifierToE164Number,
         matchedContacts: state.matchedContacts,
         secureSendPhoneNumberMapping: state.secureSendPhoneNumberMapping,
       }
