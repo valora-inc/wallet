@@ -13,7 +13,7 @@ import { Actions as IdentityActions } from 'src/identity/actions'
 import { addressToE164NumberSelector, AddressToE164NumberType } from 'src/identity/reducer'
 import { updateValoraRecipientCache } from 'src/recipients/actions'
 import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
-import { phoneRecipientCacheSelector, valoraRecipientCacheSelector } from 'src/recipients/reducer'
+import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { fetchDollarBalance } from 'src/stableToken/actions'
 import {
   Actions,
@@ -152,7 +152,7 @@ function* refreshRecentTxRecipients() {
     }
 
     const e164PhoneNumber = addressToE164Number[address]
-    if (!!e164PhoneNumber) {
+    if (e164PhoneNumber) {
       const cachedRecipient = recipientCache[e164PhoneNumber]
       // Skip if there is no recipient to cache or we've already cached them
       if (!cachedRecipient || recentTxRecipientsCache[e164PhoneNumber]) {
@@ -168,12 +168,11 @@ function* refreshRecentTxRecipients() {
 }
 
 function* addProfile(transaction: TransferItemFragment) {
-  const profiles: AddressToRecipient = yield select(valoraRecipientCacheSelector)
   const address = transaction.account
-  if (!profiles[address]) {
-    const newProfile: AddressToRecipient = {}
-    if (transaction.type === TokenTransactionType.Received) {
-      const info = yield call(getProfileInfo, address)
+  const newProfile: AddressToRecipient = {}
+  if (transaction.type === TokenTransactionType.Received) {
+    const info = yield call(getProfileInfo, address)
+    if (info) {
       newProfile[address] = {
         address,
         name: info?.name,

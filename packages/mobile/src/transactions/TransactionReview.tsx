@@ -10,7 +10,7 @@ import { addressToDisplayNameSelector, SecureSendPhoneNumberMapping } from 'src/
 import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { RecipientInfo } from 'src/recipients/recipient'
+import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import useSelector from 'src/redux/useSelector'

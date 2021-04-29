@@ -8,6 +8,7 @@ exports[`ignores failed standby transactions 1`] = `
         "data": Array [
           Object {
             "__typename": "TokenTransfer",
+            "account": "0xsflkj",
             "address": "0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10",
             "amount": Object {
               "__typename": "MoneyAmount",
@@ -231,7 +232,7 @@ exports[`ignores failed standby transactions 1`] = `
                   }
                 }
               >
-                global:account 0xce10...ce10
+                walletFlow5:feedItemAddress
               </Text>
               <Text
                 numberOfLines={1}
@@ -421,6 +422,7 @@ exports[`ignores pending standby transactions that are completed in the response
         "data": Array [
           Object {
             "__typename": "TokenTransfer",
+            "account": "0xsflkj",
             "address": "0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10",
             "amount": Object {
               "__typename": "MoneyAmount",
@@ -644,7 +646,7 @@ exports[`ignores pending standby transactions that are completed in the response
                   }
                 }
               >
-                global:account 0xce10...ce10
+                walletFlow5:feedItemAddress
               </Text>
               <Text
                 numberOfLines={1}
@@ -834,6 +836,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
         "data": Array [
           Object {
             "__typename": "TokenTransfer",
+            "account": "0xsflkj",
             "address": "0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10",
             "amount": Object {
               "__typename": "MoneyAmount",
@@ -899,6 +902,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
         "data": Array [
           Object {
             "__typename": "TokenTransfer",
+            "account": "0072bvy2o23u",
             "address": "0072bvy2o23u",
             "amount": Object {
               "currencyCode": "cUSD",
@@ -1148,7 +1152,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                global:account 0xce10...ce10
+                walletFlow5:feedItemAddress
               </Text>
               <Text
                 numberOfLines={1}
@@ -1464,7 +1468,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                global:account 0072bv...o23u
+                walletFlow5:feedItemAddress
               </Text>
               <Text
                 numberOfLines={1}

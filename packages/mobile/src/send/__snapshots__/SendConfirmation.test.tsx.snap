@@ -1168,7 +1168,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
                         "justifyContent": "center",
                       },
                       Object {
-                        "backgroundColor": "hsl(195, 53%, 93%)",
+                        "backgroundColor": "hsl(0, 53%, 93%)",
                         "borderRadius": 20,
                         "height": 40,
                         "width": 40,
@@ -1185,7 +1185,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
                           "fontSize": 16,
                         },
                         Object {
-                          "color": "hsl(195, 67%, 24%)",
+                          "color": "hsl(0, 67%, 24%)",
                           "fontSize": 20,
                         },
                       ]
@@ -2270,7 +2270,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
                         "justifyContent": "center",
                       },
                       Object {
-                        "backgroundColor": "hsl(195, 53%, 93%)",
+                        "backgroundColor": "hsl(0, 53%, 93%)",
                         "borderRadius": 20,
                         "height": 40,
                         "width": 40,
@@ -2287,7 +2287,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
                           "fontSize": 16,
                         },
                         Object {
-                          "color": "hsl(195, 67%, 24%)",
+                          "color": "hsl(0, 67%, 24%)",
                           "fontSize": 20,
                         },
                       ]
@@ -3361,7 +3361,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
                         "justifyContent": "center",
                       },
                       Object {
-                        "backgroundColor": "hsl(195, 53%, 93%)",
+                        "backgroundColor": "hsl(0, 53%, 93%)",
                         "borderRadius": 20,
                         "height": 40,
                         "width": 40,
@@ -3378,7 +3378,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
                           "fontSize": 16,
                         },
                         Object {
-                          "color": "hsl(195, 67%, 24%)",
+                          "color": "hsl(0, 67%, 24%)",
                           "fontSize": 20,
                         },
                       ]
