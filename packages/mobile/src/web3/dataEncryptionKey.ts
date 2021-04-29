@@ -18,6 +18,7 @@ import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import { compressedPubKey, deriveDek } from '@celo/utils/lib/dataEncryptionKey'
 import * as bip39 from 'react-native-bip39'
 import { call, put, select } from 'redux-saga/effects'
+import { checkIfProfileUploaded } from 'src/account/profileInfo'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -34,7 +35,7 @@ import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { registerDataEncryptionKey, setDataEncryptionKey } from 'src/web3/actions'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
-import { getAccountAddress, getConnectedUnlockedAccount } from 'src/web3/saga'
+import { getAccount, getAccountAddress, getConnectedUnlockedAccount } from 'src/web3/saga'
 import {
   dataEncryptionKeySelector,
   isDekRegisteredSelector,
@@ -123,10 +124,11 @@ function* sendUserFundedSetAccountTx(
 // Register the address and DEK with the Accounts contract
 // A no-op if registration has already been done
 // pendingMtwAddress is only passed during feeless verification flow
-export function* registerAccountDek(walletAddress: string) {
+export function* registerAccountDek() {
   try {
     const isAlreadyRegistered = yield select(isDekRegisteredSelector)
     if (isAlreadyRegistered) {
+      yield call(checkIfProfileUploaded)
       return
     }
     ValoraAnalytics.track(OnboardingEvents.account_dek_register_start)
@@ -153,6 +155,7 @@ export function* registerAccountDek(walletAddress: string) {
     ])
 
     const accountAddress: string = yield call(getAccountAddress)
+    const walletAddress: string = yield call(getAccount)
 
     const upToDate: boolean = yield call(
       isAccountUpToDate,
@@ -187,6 +190,7 @@ export function* registerAccountDek(walletAddress: string) {
     ValoraAnalytics.track(OnboardingEvents.account_dek_register_complete, {
       newRegistration: true,
     })
+    yield call(checkIfProfileUploaded)
   } catch (error) {
     // DEK registration failures are not considered fatal. Swallow the error and allow calling saga to proceed.
     // Registration will be re-attempted on next payment send
@@ -273,6 +277,8 @@ export function* registerWalletAndDekViaKomenci(
     newRegistration: true,
     feeless: true,
   })
+
+  yield call(checkIfProfileUploaded)
 }
 
 // Check if account address and DEK match what's in

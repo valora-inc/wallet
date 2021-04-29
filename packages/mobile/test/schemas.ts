@@ -546,6 +546,7 @@ export const v8Schema = {
     recoveringFromStoreWipe: false,
     accountToRecoverFromStoreWipe: undefined,
     dailyLimitRequestStatus: undefined,
+    profileUploaded: false,
   },
 }
 

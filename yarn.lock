@@ -2068,10 +2068,10 @@
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-1.1.0-beta.1.tgz#9b2881272dd430b22abe07ed2839bab62a7aa193"
   integrity sha512-5e16xaYZX6GWXCoVnGpO1U+dsaSl5XKvBDhrrO88ZlbGdUtlPQVu2oNPtOH2KlQRAC8aU9KigkG5QaiIYiilpw==
 
-"@celo/client@0.0.319":
-  version "0.0.319"
-  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.319.tgz#d8ec1f265fed3b73ec72ba2a34e043c6d400c7c4"
-  integrity sha512-5pjqAOju4NCFzYvnkPIiQnfVxqggB/8Ol8Js4ysdqHa6o/fg3u4noCkDqGc31kZzZniQvfal6a0wn9OXXSMWow==
+"@celo/client@0.0.336":
+  version "0.0.336"
+  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.336.tgz#6b5cb88c3879f93e6d1e9d9348c4326c08f3c2d0"
+  integrity sha512-mszyuJb5Us2M2WLY6gWiZVkf/5w+fipA4TVQ21TaUlz6+COcM+qsjGv5Cs00rCJmxXV+PgQeZJPixk8BhBAIYQ==
 
 "@celo/connect@1.1.0-beta.1":
   version "1.1.0-beta.1"
@@ -12756,6 +12756,15 @@ form-data@^3.0.0:
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
 
+form-data@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
+  integrity sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.8"
+    mime-types "^2.1.12"
+
 form-data@~2.3.2:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.3.3.tgz#dcce52c05f644f298c6a7ab936bd724ceffbf3a6"
@@ -21333,9 +21342,9 @@ react-native-gesture-handler@^1.9.0:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
-"react-native-geth@https://github.com/celo-org/react-native-geth#5864c09":
+"react-native-geth@https://github.com/celo-org/react-native-geth#a25c945d898":
   version "1.0.0"
-  resolved "https://github.com/celo-org/react-native-geth#5864c09ce2ab4f112b46fa56f399a72fb9b5c966"
+  resolved "https://github.com/celo-org/react-native-geth#a25c945d8983e0b46e99b5c94460896affe04a11"
 
 "react-native-google-safetynet@https://github.com/celo-org/react-native-google-safetynet#8a0355f":
   version "1.0.0"

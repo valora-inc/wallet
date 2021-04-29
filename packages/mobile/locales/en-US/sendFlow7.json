@@ -46,6 +46,8 @@
   "sentPayment": "Sent Payment",
   "sentEscrowPayment": "Sent Escrow Payment",
   "mobileNumber": "Mobile #",
+  "sendToMobileNumber": "Send to Phone Number",
+  "sendToAddress": "Send to Address",
   "walletAddress": "Wallet Address",
   "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send money worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
   "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send money worldwide. I just sent you {{amount}} Celo Dollars. Please download the {{appName}} App and redeem your Celo Dollars using this link: {{link}}",
