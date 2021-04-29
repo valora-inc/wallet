@@ -85,7 +85,12 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     // Set redeem invite complete so user isn't brought back into nux flow
     yield put(redeemInviteSuccess())
     yield put(refreshAllBalances())
-    yield call(uploadNameAndPicture)
+    try {
+      yield call(uploadNameAndPicture)
+    } catch (error) {
+      // The error is logged by uploadNameAndPicture, but we don't want to interrupt the flow if it fails.
+      // TODO: Add some retry mechanism.
+    }
 
     const recoveringFromStoreWipe = yield select(recoveringFromStoreWipeSelector)
     if (recoveringFromStoreWipe) {
