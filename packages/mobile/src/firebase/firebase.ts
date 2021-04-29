@@ -260,6 +260,9 @@ export async function notificationsChannel() {
 }
 
 export async function fetchLostAccounts() {
+  if (!FIREBASE_ENABLED) {
+    return []
+  }
   return firebase
     .database()
     .ref('lostAccounts')
