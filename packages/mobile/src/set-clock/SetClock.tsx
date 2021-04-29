@@ -125,4 +125,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<WithTranslation>(Namespaces.global)(SetClock)
+export default withTranslation<Props>(Namespaces.global)(SetClock)
