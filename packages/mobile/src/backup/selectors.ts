@@ -1,13 +1,13 @@
 import { DAYS_TO_BACKUP } from 'src/backup/utils'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
-import { getRemoteTime, ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 export const shouldForceBackupSelector = (state: RootState) => {
   if (state.account.backupCompleted) {
     return false
   }
-  const time = getRemoteTime()
+  const time = Date.now()
   if (time < state.account.accountCreationTime + DAYS_TO_BACKUP * ONE_DAY_IN_MILLIS) {
     return false
   }
