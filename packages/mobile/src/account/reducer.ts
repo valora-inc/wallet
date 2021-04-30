@@ -5,7 +5,7 @@ import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEV_SETTINGS_ACTIVE_INITIALLY } from 
 import { features } from 'src/flags'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import Logger from 'src/utils/Logger'
-import { getRemoteTime, ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { Actions as Web3Actions, ActionTypes as Web3ActionTypes } from 'src/web3/actions'
 
 export interface State {
@@ -30,6 +30,7 @@ export interface State {
   acceptedTerms: boolean
   hasMigratedToNewBip39: boolean
   choseToRestoreAccount: boolean | undefined
+  profileUploaded: boolean | undefined
   recoveringFromStoreWipe: boolean | undefined
   accountToRecoverFromStoreWipe: string | undefined
   dailyLimitCusd: number
@@ -78,6 +79,7 @@ export const initialState = {
   retryVerificationWithForno: features.VERIFICATION_FORNO_RETRY,
   hasMigratedToNewBip39: false,
   choseToRestoreAccount: false,
+  profileUploaded: false,
   recoveringFromStoreWipe: false,
   accountToRecoverFromStoreWipe: undefined,
   dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
@@ -188,7 +190,7 @@ export const reducer = (
     case Actions.SET_ACCOUNT_CREATION_TIME:
       return {
         ...state,
-        accountCreationTime: getRemoteTime(),
+        accountCreationTime: action.now,
       }
     case Actions.SET_BACKUP_COMPLETED:
       return {
@@ -198,7 +200,7 @@ export const reducer = (
     case Actions.SET_BACKUP_DELAYED:
       return {
         ...state,
-        backupRequiredTime: getRemoteTime() + DAYS_TO_DELAY * ONE_DAY_IN_MILLIS,
+        backupRequiredTime: action.now + DAYS_TO_DELAY * ONE_DAY_IN_MILLIS,
       }
     case Actions.TOGGLE_BACKUP_STATE:
       return {
@@ -257,6 +259,12 @@ export const reducer = (
       return {
         ...state,
         hasMigratedToNewBip39: true,
+      }
+    }
+    case Actions.PROFILE_UPLOADED: {
+      return {
+        ...state,
+        profileUploaded: true,
       }
     }
     default:

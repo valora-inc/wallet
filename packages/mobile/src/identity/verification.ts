@@ -338,7 +338,7 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
       // Set acccount and data encryption key in Accounts contract
       // This is done in other places too, intentionally keeping it for more coverage
       if (!shouldUseKomenci) {
-        yield spawn(registerAccountDek, account)
+        yield spawn(registerAccountDek)
       }
 
       receiveMessageTask?.cancel()

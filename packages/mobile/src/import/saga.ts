@@ -8,6 +8,7 @@ import BigNumber from 'bignumber.js'
 import * as bip39 from 'react-native-bip39'
 import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import { setBackupCompleted } from 'src/account/actions'
+import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
@@ -84,6 +85,12 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     // Set redeem invite complete so user isn't brought back into nux flow
     yield put(redeemInviteSuccess())
     yield put(refreshAllBalances())
+    try {
+      yield call(uploadNameAndPicture)
+    } catch (error) {
+      // The error is logged by uploadNameAndPicture, but we don't want to interrupt the flow if it fails.
+      // TODO: Add some retry mechanism.
+    }
 
     const recoveringFromStoreWipe = yield select(recoveringFromStoreWipeSelector)
     if (recoveringFromStoreWipe) {
