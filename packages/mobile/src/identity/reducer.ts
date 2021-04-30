@@ -391,7 +391,7 @@ export const providerAddressesSelector = ({ identity: { addressToDisplayName } }
     .map(([address, _]) => address)
 }
 
-export const identifierToe164NumberSelector = createSelector(
+export const identifierToE164NumberSelector = createSelector(
   e164NumberToSaltSelector,
   (e164NumberToSalt) => {
     const identifierToE164Numbers: IdentifierToE164NumberType = {}

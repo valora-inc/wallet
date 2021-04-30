@@ -105,6 +105,13 @@ export class WalletHome extends React.Component<Props, State> {
 
     ValoraAnalytics.setUserAddress(this.props.address)
 
+    // TODO: Fire refreshAllBalances when the app state changes to active. It's easier to do that when we
+    // transform this into a function component.
+    // useEffect(() => {
+    //   if (appState === AppState.Active) {
+    //     dispatch(refreshAllBalances())
+    //   }
+    // }, [appState])
     this.props.refreshAllBalances()
     // Waiting 1/2 sec before triggering to allow
     // rest of feed to load unencumbered
