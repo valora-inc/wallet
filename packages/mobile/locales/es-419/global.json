@@ -2,7 +2,7 @@
   "accept": "Aceptar",
   "at": "a",
   "yourClockIsBroke": "La fecha y hora de tu celular son incorrectas",
-  "adjustYourClock": "Ajuste la hora correcta o ajuste su reloj para leer la hora automáticamente.",
+  "adjustYourClock": "Ajusta la hora correcta o ajusta tu reloj para leer la hora automáticamente.",
   "adjustDate": "Arreglar hora",
   "submit": "Enviar",
   "continue": "Continuar",
@@ -192,7 +192,7 @@
   "firebaseFetchFailed": "La conexión con el servidor falló",
   "pictureLoadFailed": "Hubo un error al cargar la imagen",
   "simplexPurchaseFetchFailed": "Error al recuperar una cita de Simplex. Inténtalo de nuevo más tarde",
-  "providerUrlFetchFailed": "No se pudo conectar al servicio. Póngase en contacto con el soporte técnico",
+  "providerUrlFetchFailed": "No se pudo conectar al servicio. Ponte en contacto con el soporte técnico",
   "ok": "OK",
   "cashOutLimitExceeded": "No puedes retirar más de tu saldo de {{currency}}{{balance}}"
 }
