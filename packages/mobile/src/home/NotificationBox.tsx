@@ -19,15 +19,13 @@ import {
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
-import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
+import { sentEscrowedPaymentsSelector } from 'src/escrow/reducer'
 import { pausedFeatures } from 'src/flags'
 import { dismissNotification } from 'src/home/actions'
 import { IdToNotification } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { backupKey, getVerified, inviteFriends, learnCelo } from 'src/images/Images'
-import { InviteDetails } from 'src/invite/actions'
-import { inviteesSelector } from 'src/invite/reducer'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import IncomingPaymentRequestSummaryNotification from 'src/paymentRequest/IncomingPaymentRequestSummaryNotification'
@@ -77,7 +75,6 @@ interface StateProps {
   outgoingPaymentRequests: PaymentRequest[]
   extraNotifications: IdToNotification
   reclaimableEscrowPayments: EscrowedPayment[]
-  invitees: InviteDetails[]
 }
 
 interface DispatchProps {
@@ -101,8 +98,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   dismissedGetVerified: state.account.dismissedGetVerified,
   verificationPossible: verificationPossibleSelector(state),
   dismissedGoldEducation: state.account.dismissedGoldEducation,
-  reclaimableEscrowPayments: getReclaimableEscrowPayments(state),
-  invitees: inviteesSelector(state),
+  reclaimableEscrowPayments: sentEscrowedPaymentsSelector(state),
 })
 
 const mapDispatchToProps = {
@@ -123,14 +119,10 @@ export class NotificationBox extends React.Component<Props, State> {
   }
 
   escrowedPaymentReminderNotification = () => {
-    const { reclaimableEscrowPayments, invitees } = this.props
+    const { reclaimableEscrowPayments } = this.props
     if (reclaimableEscrowPayments && reclaimableEscrowPayments.length) {
       return [
-        <EscrowedPaymentReminderSummaryNotification
-          key={1}
-          payments={reclaimableEscrowPayments}
-          invitees={invitees}
-        />,
+        <EscrowedPaymentReminderSummaryNotification key={1} payments={reclaimableEscrowPayments} />,
       ]
     }
     return []
