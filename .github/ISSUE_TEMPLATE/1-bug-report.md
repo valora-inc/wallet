@@ -8,7 +8,7 @@ assignees: ''
 
 <!-- 👋 Use the template below to report a bug. Fill in as much info as possible. 
 
-Have an issue that needs support e.g. transaction issues specific to an account? Contact our support team in-app or 👉 https://valoraapp.com/support
+Have an issue that needs support, e.g. transaction issues specific to an account? Contact our support team in-app, the preferred method, by shaking your device or navigating to: ☰ > (?) Help > Contact. Alternatively, contact support from our website 👉 https://valoraapp.com/support
 
 Have a question about development? Join our Discord 👉 https://discord.gg/7tKnCbHv5j
 
@@ -18,7 +18,7 @@ As an open source project - it may take some time for your issue to be addressed
 <!-- A description including screenshots, videos, etc. -->
 
 ### Desired behavior
-<!-- Remember, we are not familiar with the application you're testing, so please provide a clear description of what should happen.-->
+<!-- Please provide a clear description of what should happen.-->
 
 ### Steps to Reproduce
 <!-- Provide steps that we emulate on our machine to see the issue. -->
