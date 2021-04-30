@@ -4,10 +4,6 @@ import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { migrations } from 'src/redux/migrations'
 import { v0Schema, v1Schema, v2Schema, v7Schema, v8Schema, vNeg1Schema } from 'test/schemas'
 
-const migrationKeys = Object.keys(migrations)
-  .map((ver) => parseInt(ver, 10))
-  .sort((a, b) => a - b) as Array<keyof typeof migrations>
-
 describe('Redux persist migrations', () => {
   it('works for v-1 to v0', () => {
     const mockNumber = '+111111111111'
@@ -21,19 +17,6 @@ describe('Redux persist migrations', () => {
     }
     const migratedSchema = migrations[0](vNeg1Stub)
     expect(migratedSchema.identity.e164NumberToAddress).toEqual({ [mockNumber]: [mockAddress] })
-  })
-
-  // This ensures all migrations can be run from the initial state
-  it(`works for v-1 to v${migrationKeys[migrationKeys.length - 1]}`, () => {
-    const vNeg1Stub = {
-      ...vNeg1Schema,
-    }
-
-    const migratedSchema = migrationKeys.reduce(
-      (state, migrationKey) => migrations[migrationKey](state),
-      vNeg1Stub
-    )
-    expect(typeof migratedSchema).toBe('object')
   })
 
   it('works for v0 to v1', () => {
