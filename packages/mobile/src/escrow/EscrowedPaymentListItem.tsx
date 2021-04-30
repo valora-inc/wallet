@@ -7,7 +7,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { useEscrowPaymentRecipientName } from 'src/escrow/utils'
+import { useEscrowPaymentRecipient } from 'src/escrow/utils'
 import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { Namespaces } from 'src/i18n'
@@ -26,10 +26,9 @@ const testID = 'EscrowedPaymentListItem'
 
 function EscrowedPaymentListItem({ payment }: Props) {
   const { t } = useTranslation(Namespaces.inviteFlow11)
-  const displayName = useEscrowPaymentRecipientName(payment)
+  const [displayName, recipientPhoneNumber] = useEscrowPaymentRecipient(payment)
 
   const onRemind = async () => {
-    const recipientPhoneNumber = payment.recipientPhone
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.escrow_tx_pending,
       selectedAction: NotificationBannerCTATypes.remind,

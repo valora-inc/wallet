@@ -36,13 +36,13 @@ export const generateUniquePaymentId = (
   }
 }
 
-export const useEscrowPaymentRecipientName = (payment: EscrowedPayment) => {
+export const useEscrowPaymentRecipient = (payment: EscrowedPayment) => {
   const { recipientPhone, recipientIdentifier } = payment
 
-  const identifierToe164Number = useSelector(identifierToE164NumberSelector)
+  const identifierToE164Number = useSelector(identifierToE164NumberSelector)
   const recipientCache = useSelector(recipientCacheSelector)
-  const phoneNumber = identifierToe164Number[recipientIdentifier] ?? recipientPhone
+  const phoneNumber = identifierToE164Number[recipientIdentifier] ?? recipientPhone
   const recipient = recipientCache[phoneNumber]
 
-  return recipient?.displayName || phoneNumber
+  return [recipient?.displayName || phoneNumber, phoneNumber]
 }

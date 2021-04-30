@@ -574,6 +574,8 @@ function* doFetchSentPayments() {
       const escrowPaymentWithRecipient: EscrowedPayment = {
         paymentID: address,
         senderAddress: payment[1],
+        // TODO: Remove the phone from here and calculate it using the identifier where needed
+        // since identifier mapping could be fetched after this is called.
         recipientPhone: recipientPhoneNumber,
         recipientIdentifier: payment.recipientIdentifier,
         currency: SHORT_CURRENCIES.DOLLAR, // Only dollars can be escrowed
