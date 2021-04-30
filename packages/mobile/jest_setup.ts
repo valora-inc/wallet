@@ -30,7 +30,7 @@ jest.mock(
   () => 'RCTScrollView'
 )
 
-// More ToastAndroid as it's not done automatically
+// Mock ToastAndroid as it's not done automatically
 jest.mock('react-native/Libraries/Components/ToastAndroid/ToastAndroid.android.js', () => ({
   show: jest.fn(),
   showWithGravity: jest.fn(),
