@@ -2068,10 +2068,10 @@
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-1.1.0-beta.1.tgz#9b2881272dd430b22abe07ed2839bab62a7aa193"
   integrity sha512-5e16xaYZX6GWXCoVnGpO1U+dsaSl5XKvBDhrrO88ZlbGdUtlPQVu2oNPtOH2KlQRAC8aU9KigkG5QaiIYiilpw==
 
-"@celo/client@0.0.319":
-  version "0.0.319"
-  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.319.tgz#d8ec1f265fed3b73ec72ba2a34e043c6d400c7c4"
-  integrity sha512-5pjqAOju4NCFzYvnkPIiQnfVxqggB/8Ol8Js4ysdqHa6o/fg3u4noCkDqGc31kZzZniQvfal6a0wn9OXXSMWow==
+"@celo/client@0.0.336":
+  version "0.0.336"
+  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.336.tgz#6b5cb88c3879f93e6d1e9d9348c4326c08f3c2d0"
+  integrity sha512-mszyuJb5Us2M2WLY6gWiZVkf/5w+fipA4TVQ21TaUlz6+COcM+qsjGv5Cs00rCJmxXV+PgQeZJPixk8BhBAIYQ==
 
 "@celo/connect@1.1.0-beta.1":
   version "1.1.0-beta.1"
@@ -5111,6 +5111,13 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
+
+"@types/jsonwebtoken@~8.5.0":
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-8.5.0.tgz#2531d5e300803aa63279b232c014acf780c981c5"
+  integrity sha512-9bVao7LvyorRGZCw0VmH/dr7Og+NdjYSsKAxB43OQoComFbBgsEpoR9JW6+qSq/ogwVBg8GI2MfAlk4SYI4OLg==
+  dependencies:
+    "@types/node" "*"
 
 "@types/keygrip@*":
   version "1.0.2"
@@ -10860,6 +10867,11 @@ es6-promisify@^5.0.0:
   dependencies:
     es6-promise "^4.0.3"
 
+es6-promisify@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/es6-promisify/-/es6-promisify-6.1.1.tgz#46837651b7b06bf6fff893d03f29393668d01621"
+  integrity sha512-HBL8I3mIki5C1Cc9QjKUenHtnG0A5/xA8Q/AllRcfiwl2CZFXGK7ddBiCoRwAix4i2KxcQfjtIVcrVbB3vbmwg==
+
 es6-symbol@^3.1.1, es6-symbol@~3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/es6-symbol/-/es6-symbol-3.1.3.tgz#bad5d3c1bcdac28269f4cb331e431c78ac705d18"
@@ -11948,7 +11960,7 @@ fast-json-stable-stringify@2.x:
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.0.0.tgz#d5142c0caee6b1189f87d3a76111064f86c8bbf2"
   integrity sha1-1RQsDK7msRifh9OnYREGT4bIu/I=
 
-fast-json-stable-stringify@^2.0.0:
+fast-json-stable-stringify@^2.0.0, fast-json-stable-stringify@~2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.1.0.tgz#874bf69c6f404c2b5d99c481341399fd55892633"
   integrity sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==
@@ -12428,6 +12440,15 @@ form-data@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-3.0.0.tgz#31b7e39c85f1355b7139ee0c647cf0de7f83c682"
   integrity sha512-CKMFDglpbMi6PyN+brwB9Q/GOw0eAnsrEZDgcsH5Krhz5Od/haKHAX0NmQfha2zPPz0JpWzA7GJHGSnvCRLWsg==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.8"
+    mime-types "^2.1.12"
+
+form-data@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
+  integrity sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
   dependencies:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
@@ -16037,7 +16058,7 @@ jsonparse@^1.2.0:
   resolved "https://registry.yarnpkg.com/jsonparse/-/jsonparse-1.3.1.tgz#3f4dae4a91fac315f71062f8521cc239f1366280"
   integrity sha1-P02uSpH6wxX3EGL4UhzCOfE2YoA=
 
-jsonwebtoken@^8.1.0, jsonwebtoken@^8.3.0, jsonwebtoken@^8.5.1:
+jsonwebtoken@^8.1.0, jsonwebtoken@^8.3.0, jsonwebtoken@^8.5.1, jsonwebtoken@~8.5.1:
   version "8.5.1"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz#00e71e0b8df54c2121a1f26137df2280673bcc0d"
   integrity sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w==
@@ -20801,13 +20822,6 @@ react-native-camera@^3.23.1:
   dependencies:
     prop-types "^15.6.2"
 
-react-native-clock-sync@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-clock-sync/-/react-native-clock-sync-1.0.0.tgz#7275fa8497250259d063a9581c0adbdab4216545"
-  integrity sha512-juEvbXTCfTIH3bubgZOvBj0H0Oh+7Gve9lbIqOUwJYrO7SJWASQ0ezmFAw0HMarnziG03ZZeiEpYQlC2LWxdZw==
-  dependencies:
-    react-native-ntp-client "0.5.5"
-
 "react-native-config@https://github.com/luggit/react-native-config#2f68b94":
   version "1.3.3"
   resolved "https://github.com/luggit/react-native-config#2f68b94065a0e1e1ddba8e860a696c6e8bc5912d"
@@ -20883,9 +20897,9 @@ react-native-gesture-handler@^1.9.0:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
-"react-native-geth@https://github.com/celo-org/react-native-geth#5864c09":
+"react-native-geth@https://github.com/celo-org/react-native-geth#a25c945d898":
   version "1.0.0"
-  resolved "https://github.com/celo-org/react-native-geth#5864c09ce2ab4f112b46fa56f399a72fb9b5c966"
+  resolved "https://github.com/celo-org/react-native-geth#a25c945d8983e0b46e99b5c94460896affe04a11"
 
 "react-native-google-safetynet@https://github.com/celo-org/react-native-google-safetynet#8a0355f":
   version "1.0.0"
@@ -20946,7 +20960,7 @@ react-native-modal@^11.5.6:
     prop-types "^15.6.2"
     react-native-animatable "1.3.3"
 
-react-native-ntp-client@0.5.5, react-native-ntp-client@^1.0.0:
+react-native-ntp-client@^1.0.0, react-native-ntp-client@^1.0.3:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-native-ntp-client/-/react-native-ntp-client-1.0.1.tgz#d05ad60a5fbe93b6bb3f9b5a10aa2b8a3684b2e2"
   integrity sha512-TbLbWrKbb6k1EaiFWCUS0aiuAynOy6ZYucI2WhtlYuowV5qZCBYaDNGVsvHIDfrRJ+pGq6zjjmpeJHjidfsquQ==

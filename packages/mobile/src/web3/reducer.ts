@@ -5,8 +5,8 @@ import { Actions, ActionTypes, Web3SyncProgress } from 'src/web3/actions'
 export interface State {
   syncProgress: Web3SyncProgress
   latestBlockNumber: number
-  account: string | null
-  mtwAddress: string | null
+  account: string | null // this is the wallet address (EOA)
+  mtwAddress: string | null // this is the account address
   accountInWeb3Keystore: string | null
   // The DEK private key
   dataEncryptionKey: string | null
