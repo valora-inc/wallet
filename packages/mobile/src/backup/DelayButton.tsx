@@ -16,7 +16,7 @@ export default function DelayButton() {
   const dispatch = useDispatch()
 
   const onPressDelay = React.useCallback(() => {
-    dispatch(setBackupDelayed())
+    dispatch(setBackupDelayed(Date.now()))
     ValoraAnalytics.track(OnboardingEvents.backup_delay)
     navigateHome()
   }, [dispatch])

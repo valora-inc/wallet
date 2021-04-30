@@ -87,7 +87,7 @@ export async function isElementVisible(elementId) {
 export async function waitForElementId(elementId) {
   await waitFor(element(by.id(elementId)))
     .toBeVisible()
-    .withTimeout(10000)
+    .withTimeout(30000)
 }
 
 export function quote(s) {
