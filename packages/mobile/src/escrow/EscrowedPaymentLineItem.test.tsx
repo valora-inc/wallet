@@ -1,20 +1,74 @@
 import * as React from 'react'
-import 'react-native'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import { escrowPaymentDouble } from 'src/escrow/__mocks__'
 import EscrowedPaymentLineItem from 'src/escrow/EscrowedPaymentLineItem'
+import { RecipientKind } from 'src/recipients/recipient'
 import { createMockStore } from 'test/utils'
+import { mockE164Number, mockE164NumberHashWithPepper, mockE164NumberPepper } from 'test/values'
 
-const mockedPayment = escrowPaymentDouble({})
+const mockName = 'Hello World'
 
-it('renders correctly', () => {
-  const store = createMockStore({})
-  const tree = renderer.create(
-    <Provider store={store}>
-      <EscrowedPaymentLineItem payment={mockedPayment} />
-    </Provider>
-  )
+describe(EscrowedPaymentLineItem, () => {
+  it('renders correctly', () => {
+    const store = createMockStore({})
+    const tree = renderer.create(
+      <Provider store={store}>
+        <EscrowedPaymentLineItem payment={escrowPaymentDouble({})} />
+      </Provider>
+    )
 
-  expect(tree).toMatchSnapshot()
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('fetches the correct phone number from the identifier mapping', () => {
+    const store = createMockStore({
+      identity: {
+        e164NumberToSalt: {
+          [mockE164Number]: mockE164NumberPepper,
+        },
+      },
+    })
+    const tree = renderer.create(
+      <Provider store={store}>
+        <EscrowedPaymentLineItem
+          payment={escrowPaymentDouble({
+            recipientIdentifier: mockE164NumberHashWithPepper,
+          })}
+        />
+      </Provider>
+    )
+
+    expect(tree.toJSON()).toEqual(mockE164Number)
+  })
+
+  it('fetches the correct name from the recipient cache', () => {
+    const store = createMockStore({
+      identity: {
+        e164NumberToSalt: {
+          [mockE164Number]: mockE164NumberPepper,
+        },
+      },
+      recipients: {
+        recipientCache: {
+          [mockE164Number]: {
+            kind: RecipientKind.Contact,
+            displayName: mockName,
+            contactId: '123',
+          },
+        },
+      },
+    })
+    const tree = renderer.create(
+      <Provider store={store}>
+        <EscrowedPaymentLineItem
+          payment={escrowPaymentDouble({
+            recipientIdentifier: mockE164NumberHashWithPepper,
+          })}
+        />
+      </Provider>
+    )
+
+    expect(tree.toJSON()).toEqual(mockName)
+  })
 })

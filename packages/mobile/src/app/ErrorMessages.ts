@@ -63,7 +63,6 @@ export enum ErrorMessages {
   CONTRACT_KIT_INIT_FAILED = 'contractKitInitFailed',
   CALCULATE_FEE_FAILED = 'calculateFeeFailed',
   FAILED_TO_SWITCH_SYNC_MODES = 'failedToSwitchSyncModes',
-  SMS_ERROR = 'walletFlow5:SMSError',
   PAYMENT_REQUEST_UPDATE_FAILED = 'paymentRequestFlow:paymentRequestUpdateFailed',
   ADDRESS_VALIDATION_ERROR = 'addressValidationError',
   ADDRESS_VALIDATION_NO_MATCH = 'addressValidationNoMatch',
