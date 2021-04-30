@@ -8,11 +8,11 @@ import Logger from 'src/utils/Logger'
 const TAG = 'redux/migrate'
 
 export default function createMigrate(migrations: MigrationManifest) {
-  return (state: PersistedState, currentVersion: number): Promise<PersistedState> => {
+  return async (state: PersistedState, currentVersion: number): Promise<PersistedState> => {
     try {
       if (!state) {
         Logger.info(TAG, 'no inbound state, skipping migration')
-        return Promise.resolve(undefined)
+        return undefined
       }
 
       const inboundVersion: number =
@@ -21,11 +21,11 @@ export default function createMigrate(migrations: MigrationManifest) {
           : DEFAULT_VERSION
       if (inboundVersion === currentVersion) {
         Logger.info(TAG, 'versions match, noop migration')
-        return Promise.resolve(state)
+        return state
       }
       if (inboundVersion > currentVersion) {
         Logger.error(TAG, 'downgrading version is not supported')
-        return Promise.resolve(state)
+        return state
       }
 
       const migrationKeys = Object.keys(migrations)
@@ -38,11 +38,11 @@ export default function createMigrate(migrations: MigrationManifest) {
         Logger.info(TAG, 'running migration for versionKey', versionKey)
         return migrations[versionKey](currentState)
       }, state)
-      return Promise.resolve(migratedState)
+      return migratedState
     } catch (err) {
       Sentry.captureException(err)
       Logger.error(TAG, 'Failed to migrate state', err)
-      return Promise.reject(err)
+      throw err
     }
   }
 }
