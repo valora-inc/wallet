@@ -1,12 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage'
 import * as Sentry from '@sentry/react-native'
 import { applyMiddleware, compose, createStore } from 'redux'
-import { createMigrate, getStoredState, persistReducer, persistStore } from 'redux-persist'
+import { getStoredState, persistReducer, persistStore } from 'redux-persist'
 import FSStorage from 'redux-persist-fs-storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import createSagaMiddleware from 'redux-saga'
 import { PerformanceEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import createMigrate from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
 import rootReducer from 'src/redux/reducers'
 import { rootSaga } from 'src/redux/sagas'
@@ -23,7 +24,7 @@ const persistConfig: any = {
   storage: FSStorage(),
   blacklist: ['geth', 'networkInfo', 'alert', 'fees', 'recipients', 'imports'],
   stateReconciler: autoMergeLevel2,
-  migrate: createMigrate(migrations, { debug: true }),
+  migrate: createMigrate(migrations),
   serialize: (data: any) => {
     // We're using this to send the size of the store to analytics while using the default implementation of JSON.stringify.
     const stringifiedData = JSON.stringify(data)
