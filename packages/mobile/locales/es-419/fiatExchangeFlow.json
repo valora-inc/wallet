@@ -40,8 +40,8 @@
     "body": "Estos proveedores te permiten agregar o retirar fondos de tu cuenta. Los proveedores determinan sus propias tarifas y restricciones, dependiendo de varios factores. Visita la web del proveedor para obtener ayuda."
   },
   "invalidAmountDialog": {
-    "minAmount": "Nuestros proveedores no soportan cantidades menores a {{limit}}. Por favor ingresa un monto mayor.",
-    "maxAmount": "Nuestros proveedores no soportan totales superiores a {{limit}}. Por favor, introduzca una cantidad más pequeña.",
+    "minAmount": "Nuestros proveedores no soportan cantidades menores a {{limit}}. Por favor, ingresa un monto mayor.",
+    "maxAmount": "Nuestros proveedores no soportan totales superiores a {{limit}}. Por favor, introduce una cantidad más pequeña.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
@@ -50,8 +50,8 @@
     "continue": "Entendido"
   },
   "providerFeesDialog": {
-    "title": "Tasas de Proveedores",
-    "body1": "Las comisiones de proveedores son fijadas por cada proveedor de forma individual e incluyen una tasa de cambio y una tasa de liquidez, entre otros. Para obtener más información, visite ",
+    "title": "Tasas de proveedores",
+    "body1": "Las comisiones de proveedores son fijadas por cada proveedor de forma individual e incluyen una tasa de cambio y una tasa de liquidez, entre otros. Para obtener más información, visita ",
     "body2": "Sitio web de {{providerName}}"
   },
   "providerFeeDiscountDialog": {
