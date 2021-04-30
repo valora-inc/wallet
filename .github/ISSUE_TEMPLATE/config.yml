@@ -7,7 +7,7 @@ contact_links:
     url: https://github.com/celo-org/celo-blockchain/blob/master/SECURITY.md
     about: How to report a sercurity vulnerability. Please do not file a public ticket mentioning any vulnerability.
   - name: 📲 Download the App
-    url: http://valoraapp.com/
+    url: https://valoraapp.com/
     about: Visit to download the app.
   - name: 💬 Join the Discussion on Discord
     url: https://discord.gg/7tKnCbHv5j
@@ -22,7 +22,7 @@ contact_links:
     url: https://www.reddit.com/r/celo/
     about: Checkout The Offical CELO Subreddit.
   - name: The cLabs Website
-    url: http://clabs.co
+    url: https://clabs.co
     about: Interested in working at cLabs? Apply here!
   - name: The cLabs Blog
     url: https://clabs.medium.com/
