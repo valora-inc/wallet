@@ -72,8 +72,9 @@ export class PincodeSet extends React.Component<Props, State> {
 
   componentDidMount = () => {
     if (this.isChangingPin()) {
-      // If we're changing PIN the PIN was asked just before navigating to this screen
-      // so it should always be in the cache.
+      // We're storing the PIN on the state because it will definitely be in the cache now
+      // but it might expire by the time the user enters their new PIN if they take more
+      // than 5 minutes to do so.
       this.setState({ oldPin: getCachedPin(DEFAULT_CACHE_ACCOUNT) ?? '' })
     }
   }

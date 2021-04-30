@@ -255,12 +255,12 @@ export async function checkPin(pin: string, account: string) {
 
 export async function updatePin(account: string, oldPin: string, newPin: string) {
   try {
-    clearPasswordCaches()
     const wallet = await getWalletAsync()
     const oldPassword = await getPasswordForPin(oldPin)
     const newPassword = await getPasswordForPin(newPin)
     const updated = await wallet.updateAccount(account, oldPassword, newPassword)
     if (updated) {
+      clearPasswordCaches()
       const hash = await getPasswordHash(newPassword)
       await storePasswordHash(hash, account)
       const phrase = await getStoredMnemonic(account, oldPassword)
