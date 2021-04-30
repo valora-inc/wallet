@@ -8,13 +8,13 @@ import Logger from 'src/utils/Logger'
 const TAG = 'redux/migrate'
 
 export default function createMigrate(migrations: MigrationManifest) {
-  return function (state: PersistedState, currentVersion: number): Promise<PersistedState> {
+  return (state: PersistedState, currentVersion: number): Promise<PersistedState> => {
     if (!state) {
       Logger.info(TAG, 'no inbound state, skipping migration')
       return Promise.resolve(undefined)
     }
 
-    let inboundVersion: number =
+    const inboundVersion: number =
       state._persist && state._persist.version !== undefined
         ? state._persist.version
         : DEFAULT_VERSION
@@ -27,16 +27,16 @@ export default function createMigrate(migrations: MigrationManifest) {
       return Promise.resolve(state)
     }
 
-    let migrationKeys = Object.keys(migrations)
-      .map((ver) => parseInt(ver))
+    const migrationKeys = Object.keys(migrations)
+      .map((ver) => parseInt(ver, 10))
       .filter((key) => currentVersion >= key && key > inboundVersion)
       .sort((a, b) => a - b)
 
     Logger.info(TAG, 'migrationKeys', migrationKeys)
     try {
-      let migratedState = migrationKeys.reduce<PersistedState>((state, versionKey) => {
+      const migratedState = migrationKeys.reduce<PersistedState>((currentState, versionKey) => {
         Logger.info(TAG, 'running migration for versionKey', versionKey)
-        return migrations[versionKey](state)
+        return migrations[versionKey](currentState)
       }, state)
       return Promise.resolve(migratedState)
     } catch (err) {
