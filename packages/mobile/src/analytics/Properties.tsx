@@ -17,6 +17,7 @@ import {
   OnboardingEvents,
   PerformanceEvents,
   RequestEvents,
+  RewardsEvents,
   SendEvents,
   SettingsEvents,
   TransactionEvents,
@@ -24,6 +25,10 @@ import {
 } from 'src/analytics/Events'
 import { BackQuizProgress, ScrollDirection, SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import {
+  RewardsScreenCta,
+  RewardsScreenOrigin,
+} from 'src/consumerIncentives/analyticsEventsTracker'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -61,6 +66,9 @@ interface AppEventsProperties {
     goldBalance?: string
   }
   [AppEvents.redux_keychain_mismatch]: {
+    account: string
+  }
+  [AppEvents.redux_store_recovery_success]: {
     account: string
   }
 }
@@ -254,19 +262,6 @@ interface VerificationEventsProperties {
     address: string
     feeless?: boolean
   }
-  [VerificationEvents.verification_fetch_status_start]:
-    | {
-        feeless?: boolean
-      }
-    | undefined
-  [VerificationEvents.verification_fetch_status_complete]: {
-    isVerified: boolean
-    numAttestationsRemaining: number
-    total: number
-    completed: number
-    feeless?: boolean
-  }
-
   [VerificationEvents.verification_request_all_attestations_start]: {
     attestationsToRequest: number
     feeless?: boolean
@@ -747,7 +742,7 @@ interface FiatExchangeEventsProperties {
     dollarAmount: BigNumber
   }
   [FiatExchangeEvents.cico_add_funds_amount_back]: undefined
-  [FiatExchangeEvents.cico_add_funds_amount_insufficient]: {
+  [FiatExchangeEvents.cico_add_funds_invalid_amount]: {
     dollarAmount: BigNumber
   }
   [FiatExchangeEvents.cico_add_funds_amount_dialog_cancel]: undefined
@@ -843,6 +838,15 @@ interface NavigationProperties {
   [NavigationEvents.navigator_not_ready]: undefined
 }
 
+interface RewardsProperties {
+  [RewardsEvents.rewards_screen_opened]: {
+    origin: RewardsScreenOrigin
+  }
+  [RewardsEvents.rewards_screen_cta_pressed]: {
+    buttonPressed: RewardsScreenCta
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -862,4 +866,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NetworkEventsProperties &
   ContractKitEventsProperties &
   PerformanceProperties &
-  NavigationProperties
+  NavigationProperties &
+  RewardsProperties

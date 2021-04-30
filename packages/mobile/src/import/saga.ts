@@ -6,14 +6,17 @@ import {
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import BigNumber from 'bignumber.js'
 import * as bip39 from 'react-native-bip39'
-import { call, put, spawn, takeLeading } from 'redux-saga/effects'
+import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
 import { setBackupCompleted } from 'src/account/actions'
+import { uploadNameAndPicture } from 'src/account/profileInfo'
+import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
+import { AppEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { storeMnemonic } from 'src/backup/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import { refreshAllBalances } from 'src/home/actions'
-import { setHasSeenVerificationNux } from 'src/identity/actions'
 import {
   Actions,
   ImportBackupPhraseAction,
@@ -21,7 +24,7 @@ import {
   importBackupPhraseSuccess,
 } from 'src/import/actions'
 import { redeemInviteSuccess } from 'src/invite/actions'
-import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import Logger from 'src/utils/Logger'
@@ -82,13 +85,19 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     // Set redeem invite complete so user isn't brought back into nux flow
     yield put(redeemInviteSuccess())
     yield put(refreshAllBalances())
-
-    if (useEmptyWallet) {
-      yield put(setHasSeenVerificationNux(true))
-      navigateHome()
-    } else {
-      navigateClearingStack(Screens.VerificationEducationScreen)
+    try {
+      yield call(uploadNameAndPicture)
+    } catch (error) {
+      // The error is logged by uploadNameAndPicture, but we don't want to interrupt the flow if it fails.
+      // TODO: Add some retry mechanism.
     }
+
+    const recoveringFromStoreWipe = yield select(recoveringFromStoreWipeSelector)
+    if (recoveringFromStoreWipe) {
+      ValoraAnalytics.track(AppEvents.redux_store_recovery_success, { account })
+    }
+
+    navigateClearingStack(Screens.VerificationEducationScreen)
 
     yield put(importBackupPhraseSuccess())
   } catch (error) {

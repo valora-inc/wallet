@@ -8,42 +8,47 @@ import { CURRENCY_ENUM } from '@celo/utils'
 import { RouteProp } from '@react-navigation/core'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { SafeAreaView, ScrollView, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { useSelector } from 'react-redux'
+import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import {
-  bitfyUrlSelector,
-  flowBtcUrlSelector,
-  kotaniEnabledSelector,
-  pontoEnabledSelector,
-} from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
-import { KOTANI_URI, PONTO_URI } from 'src/config'
 import FundingEducationDialog from 'src/fiatExchanges/FundingEducationDialog'
+import {
+  fetchLocalCicoProviders,
+  getAvailableLocalProviders,
+  LocalCicoProvider,
+} from 'src/fiatExchanges/utils'
 import i18n, { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { useCountryFeatures } from 'src/utils/countryFeatures'
-import Logger from 'src/utils/Logger'
+import { navigateToURI } from 'src/utils/linking'
 
 type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeOptions>
 type Props = RouteProps
 
 export enum PaymentMethod {
-  FIAT = 'FIAT',
-  EXCHANGE = 'EXCHANGE',
-  ADDRESS = 'ADDRESS',
-  PONTO = 'PONTO',
-  KOTANI = 'KOTANI',
-  BITFY = 'BITFY',
-  FLOW_BTC = 'FLOW_BTC',
-  GIFT_CARD = 'GIFT_CARD',
+  Card = 'Card',
+  Bank = 'Bank',
+  Exchange = 'Exchange',
+  Address = 'Address',
+  LocalProvider = 'LocalProvider',
+  GiftCard = 'GiftCard',
 }
 
 export const fiatExchangesOptionsScreenOptions = ({
@@ -125,30 +130,17 @@ function PaymentMethodRadioItem({
 function FiatExchangeOptions({ route, navigation }: Props) {
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
   const isCashIn = route.params?.isCashIn ?? true
-  const {
-    MOONPAY_DISABLED,
-    KOTANI_SUPPORTED,
-    PONTO_SUPPORTED,
-    BITFY_SUPPORTED,
-    FLOW_BTC_SUPPORTED,
-  } = useCountryFeatures()
-  const pontoEnabled = useSelector(pontoEnabledSelector)
-  const kotaniEnabled = useSelector(kotaniEnabledSelector)
-  const bitfyUrl = useSelector(bitfyUrlSelector)
-  const flowBtcUrl = useSelector(flowBtcUrlSelector)
-  const showPonto = pontoEnabled && PONTO_SUPPORTED
-  const showKotani = kotaniEnabled && KOTANI_SUPPORTED
-  const showBitfy = bitfyUrl && BITFY_SUPPORTED
-  const showFlowBtc = flowBtcUrl && FLOW_BTC_SUPPORTED
+  const countryCode = useSelector(defaultCountryCodeSelector)
 
-  Logger.debug(`Ponto: ${pontoEnabled} Kotani: ${kotaniEnabled}`)
-
-  const isCeloCashInOptionAvailable = !MOONPAY_DISABLED
   const [selectedCurrency, setSelectedCurrency] = useState<CURRENCY_ENUM>(CURRENCY_ENUM.DOLLAR)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod>(
-    isCashIn ? PaymentMethod.FIAT : PaymentMethod.EXCHANGE
+    isCashIn ? PaymentMethod.Card : PaymentMethod.Exchange
   )
+  const [selectedLocalProvider, setSelectedLocalProvider] = useState<LocalCicoProvider>()
   const [isEducationDialogVisible, setEducationDialogVisible] = useState(false)
+
+  const asset = selectedCurrency === CURRENCY_ENUM.DOLLAR ? 'cusd' : 'celo'
+  const flow = isCashIn ? 'cashIn' : 'cashOut'
 
   const goToProvider = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_option_chosen, {
@@ -156,36 +148,46 @@ function FiatExchangeOptions({ route, navigation }: Props) {
       paymentMethod: selectedPaymentMethod,
       currency: selectedCurrency,
     })
-    if (selectedPaymentMethod === PaymentMethod.EXCHANGE) {
+    if (selectedPaymentMethod === PaymentMethod.Exchange) {
       navigate(Screens.ExternalExchanges, {
         currency: selectedCurrency,
       })
-    } else if (selectedPaymentMethod === PaymentMethod.PONTO) {
-      navigate(Screens.LocalProviderCashOut, { uri: PONTO_URI })
-    } else if (selectedPaymentMethod === PaymentMethod.KOTANI) {
-      navigate(Screens.LocalProviderCashOut, { uri: KOTANI_URI })
-    } else if (selectedPaymentMethod === PaymentMethod.BITFY && bitfyUrl) {
-      navigate(Screens.LocalProviderCashOut, { uri: bitfyUrl })
-    } else if (selectedPaymentMethod === PaymentMethod.FLOW_BTC && flowBtcUrl) {
-      navigate(Screens.LocalProviderCashOut, { uri: flowBtcUrl })
-    } else if (selectedPaymentMethod === PaymentMethod.GIFT_CARD) {
+    } else if (selectedPaymentMethod === PaymentMethod.LocalProvider && selectedLocalProvider) {
+      navigateToURI(selectedLocalProvider[asset].url)
+      navigateHome()
+    } else if (selectedPaymentMethod === PaymentMethod.GiftCard) {
       navigate(Screens.BidaliScreen, { currency: selectedCurrency })
-    } else if (selectedPaymentMethod === PaymentMethod.ADDRESS) {
+    } else if (selectedPaymentMethod === PaymentMethod.Address) {
       navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
-    } else {
-      navigate(Screens.FiatExchangeAmount, { currency: selectedCurrency })
+    } else if (
+      selectedPaymentMethod === PaymentMethod.Bank ||
+      selectedPaymentMethod === PaymentMethod.Card
+    ) {
+      navigate(Screens.FiatExchangeAmount, {
+        currency: selectedCurrency,
+        paymentMethod: selectedPaymentMethod,
+        isCashIn,
+      })
     }
   }
 
   const onSelectCurrency = (currency: CURRENCY_ENUM) => () => setSelectedCurrency(currency)
-  const onSelectPaymentMethod = (paymentMethod: PaymentMethod) => () =>
+
+  const onSelectPaymentMethod = (
+    paymentMethod: PaymentMethod,
+    localProvider?: LocalCicoProvider
+  ) => () => {
     setSelectedPaymentMethod(paymentMethod)
+    setSelectedLocalProvider(localProvider)
+  }
+
   const onPressInfoIcon = () => {
     setEducationDialogVisible(true)
     ValoraAnalytics.track(
       isCashIn ? FiatExchangeEvents.cico_add_funds_info : FiatExchangeEvents.cico_cash_out_info
     )
   }
+
   const onPressDismissEducationDialog = () => {
     setEducationDialogVisible(false)
     ValoraAnalytics.track(
@@ -194,6 +196,9 @@ function FiatExchangeOptions({ route, navigation }: Props) {
         : FiatExchangeEvents.cico_cash_out_info_cancel
     )
   }
+
+  const asyncLocalCicoProviders = useAsync(fetchLocalCicoProviders, [])
+  const localCicoProviders = asyncLocalCicoProviders.result
 
   return (
     <SafeAreaView style={styles.content}>
@@ -215,7 +220,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               borderTopLeftRadius: 8,
               borderTopRightRadius: 8,
             }}
-            enabled={selectedPaymentMethod !== PaymentMethod.ADDRESS}
+            enabled={selectedPaymentMethod !== PaymentMethod.Address}
           />
           <View style={styles.currencySeparator} />
           <CurrencyRadioItem
@@ -227,11 +232,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
             }}
-            enabled={
-              isCeloCashInOptionAvailable ||
-              (selectedPaymentMethod !== PaymentMethod.FIAT &&
-                selectedPaymentMethod !== PaymentMethod.GIFT_CARD)
-            }
+            enabled={selectedPaymentMethod !== PaymentMethod.GiftCard}
           />
         </View>
       </ScrollView>
@@ -240,69 +241,64 @@ function FiatExchangeOptions({ route, navigation }: Props) {
           {t(isCashIn ? 'selectPaymentMethod' : 'selectCashOutMethod')}
         </Text>
         <View style={styles.paymentMethodsContainer}>
-          {isCashIn && (
-            <PaymentMethodRadioItem
-              text={t('payWithFiat')}
-              selected={selectedPaymentMethod === PaymentMethod.FIAT}
-              onSelect={onSelectPaymentMethod(PaymentMethod.FIAT)}
-              enabled={
-                selectedCurrency === CURRENCY_ENUM.DOLLAR ||
-                (selectedCurrency === CURRENCY_ENUM.GOLD && isCeloCashInOptionAvailable)
-              }
-            />
-          )}
-          <PaymentMethodRadioItem
-            text={t('payWithExchange')}
-            selected={selectedPaymentMethod === PaymentMethod.EXCHANGE}
-            onSelect={onSelectPaymentMethod(PaymentMethod.EXCHANGE)}
-          />
-          {!isCashIn && (
+          {asyncLocalCicoProviders.loading ? (
+            <ActivityIndicator style={styles.loading} size="small" color={colors.greenUI} />
+          ) : (
             <>
-              <PaymentMethodRadioItem
-                text={t('receiveOnAddress')}
-                selected={selectedPaymentMethod === PaymentMethod.ADDRESS}
-                onSelect={onSelectPaymentMethod(PaymentMethod.ADDRESS)}
-                enabled={selectedCurrency === CURRENCY_ENUM.GOLD}
-              />
-              <PaymentMethodRadioItem
-                text={t('receiveWithBidali')}
-                selected={selectedPaymentMethod === PaymentMethod.GIFT_CARD}
-                onSelect={onSelectPaymentMethod(PaymentMethod.GIFT_CARD)}
-                enabled={selectedCurrency === CURRENCY_ENUM.DOLLAR}
-              />
-              {showPonto && (
-                <PaymentMethodRadioItem
-                  text={t('receiveWithPonto')}
-                  selected={selectedPaymentMethod === PaymentMethod.PONTO}
-                  onSelect={onSelectPaymentMethod(PaymentMethod.PONTO)}
-                  enabled={true}
-                />
+              {isCashIn ? (
+                <>
+                  <PaymentMethodRadioItem
+                    text={t('payWithCard')}
+                    selected={selectedPaymentMethod === PaymentMethod.Card}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.Card)}
+                  />
+                  <PaymentMethodRadioItem
+                    text={t('payWithBank')}
+                    selected={selectedPaymentMethod === PaymentMethod.Bank}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.Bank)}
+                  />
+                </>
+              ) : (
+                <>
+                  <PaymentMethodRadioItem
+                    text={t('payWithBank')}
+                    selected={selectedPaymentMethod === PaymentMethod.Bank}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.Bank)}
+                  />
+                  <PaymentMethodRadioItem
+                    text={t('receiveOnAddress')}
+                    selected={selectedPaymentMethod === PaymentMethod.Address}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.Address)}
+                    enabled={selectedCurrency === CURRENCY_ENUM.GOLD}
+                  />
+                  <PaymentMethodRadioItem
+                    text={t('receiveWithBidali')}
+                    selected={selectedPaymentMethod === PaymentMethod.GiftCard}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.GiftCard)}
+                    enabled={selectedCurrency === CURRENCY_ENUM.DOLLAR}
+                  />
+                </>
               )}
-              {showKotani && (
+              <PaymentMethodRadioItem
+                text={t('payWithExchange')}
+                selected={selectedPaymentMethod === PaymentMethod.Exchange}
+                onSelect={onSelectPaymentMethod(PaymentMethod.Exchange)}
+              />
+              {getAvailableLocalProviders(
+                localCicoProviders,
+                isCashIn,
+                countryCode,
+                selectedCurrency
+              ).map((provider) => (
                 <PaymentMethodRadioItem
-                  text={t('receiveWithKotani')}
-                  selected={selectedPaymentMethod === PaymentMethod.KOTANI}
-                  onSelect={onSelectPaymentMethod(PaymentMethod.KOTANI)}
-                  enabled={true}
+                  key={provider.name}
+                  text={provider.name}
+                  selected={selectedLocalProvider?.name === provider.name}
+                  onSelect={onSelectPaymentMethod(PaymentMethod.LocalProvider, provider)}
+                  enabled={provider[asset][flow]}
                 />
-              )}
+              ))}
             </>
-          )}
-          {showBitfy && (
-            <PaymentMethodRadioItem
-              text={t('bitfy')}
-              selected={selectedPaymentMethod === PaymentMethod.BITFY}
-              onSelect={onSelectPaymentMethod(PaymentMethod.BITFY)}
-              enabled={true}
-            />
-          )}
-          {showFlowBtc && (
-            <PaymentMethodRadioItem
-              text={t('flowBtc')}
-              selected={selectedPaymentMethod === PaymentMethod.FLOW_BTC}
-              onSelect={onSelectPaymentMethod(PaymentMethod.FLOW_BTC)}
-              enabled={true}
-            />
           )}
         </View>
         <Button
@@ -379,6 +375,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.gray3,
     borderRadius: 8,
+    minHeight: 100,
   },
   paymentMethodItemContainer: {
     flexDirection: 'row',
@@ -393,6 +390,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 40,
     marginBottom: 24,
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
   },
 })
 

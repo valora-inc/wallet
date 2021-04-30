@@ -203,14 +203,6 @@ export function* sendInvite(
       link,
     })
 
-    if (features.ESCROW_WITHOUT_CODE) {
-      if (amount) {
-        yield call(initiateEscrowTransfer, e164Number, amount, undefined, feeInfo)
-      }
-      yield call(Share.share, { message })
-      return
-    }
-
     const inviteDetails: InviteDetails = {
       timestamp: Date.now(),
       e164Number,
@@ -223,6 +215,14 @@ export function* sendInvite(
 
     // Store the Temp Address locally so we know which transactions were invites
     yield put(storeInviteeData(inviteDetails))
+
+    if (features.ESCROW_WITHOUT_CODE) {
+      if (amount) {
+        yield call(initiateEscrowTransfer, e164Number, amount, undefined, feeInfo)
+      }
+      yield call(Share.share, { message })
+      return
+    }
 
     let transferReceipt: CeloTxReceipt | undefined
     if (!features.KOMENCI) {
@@ -369,7 +369,7 @@ export function* redeemInviteSaga({ tempAccountPrivateKey }: RedeemInviteAction)
     navigate(Screens.VerificationEducationScreen)
     // Note: We are ok with this succeeding or failing silently in the background,
     // user will have another chance to register DEK when sending their first tx
-    yield spawn(registerAccountDek, result.newAccount)
+    yield spawn(registerAccountDek)
   } else if (result?.success === false) {
     Logger.debug(TAG, 'Redeem Invite failed')
     yield put(redeemInviteFailure())

@@ -29,10 +29,11 @@ import {
 import { currentLanguageSelector } from 'src/app/reducers'
 import { getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { appRemoteFeatureFlagChannel, appVersionDeprecationChannel } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
@@ -88,15 +89,13 @@ export function* appVersionSaga() {
 }
 
 export interface RemoteFeatureFlags {
-  kotaniEnabled: boolean
-  pontoEnabled: boolean
-  bitfyUrl: string | null
-  flowBtcUrl: string | null
   celoEducationUri: string | null
   shortVerificationCodesEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
+  hideVerification: boolean
+  showRaiseDailyLimitTarget: string | undefined
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -157,7 +156,14 @@ export function* handleDeepLink(action: OpenDeepLink) {
       navigate(Screens.BidaliScreen, { currency: CURRENCY_ENUM.DOLLAR })
     } else if (rawParams.path.startsWith('/cash-in-success')) {
       // Some providers append transaction information to the redirect links so can't check for strict equality
-      navigateHome()
+      const cicoSuccessParam = (rawParams.path.match(/cash-in-success\/(.+)/) || [])[1]
+      const provider = Object.values(CicoProviderNames).filter((name) =>
+        cicoSuccessParam?.toLowerCase().includes(name.toLowerCase())
+      )[0]
+      navigate(Screens.CashInSuccess, { provider })
+      // Some providers append transaction information to the redirect links so can't check for strict equality
+    } else if (rawParams.path.startsWith('/cash-in-failure')) {
+      navigate(Screens.FiatExchange)
     } else if (isSecureOrigin && rawParams.pathname === '/openScreen' && rawParams.query) {
       // The isSecureOrigin is important. We don't want it to be possible to fire this deep link from outside
       // of our own notifications for security reasons.

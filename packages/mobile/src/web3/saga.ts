@@ -12,7 +12,7 @@ import { GethEvents, NetworkEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { currentLanguageSelector } from 'src/app/reducers'
-import { getWordlist, storeMnemonic } from 'src/backup/utils'
+import { getMnemonicLanguage, storeMnemonic } from 'src/backup/utils'
 import { features } from 'src/flags'
 import { cancelGethSaga } from 'src/geth/actions'
 import { UNLOCK_DURATION } from 'src/geth/consts'
@@ -171,8 +171,13 @@ export function* getOrCreateAccount() {
   try {
     Logger.debug(TAG + '@getOrCreateAccount', 'Creating a new account')
 
-    const wordlist = getWordlist(yield select(currentLanguageSelector))
-    let mnemonic: string = yield call(generateMnemonic, MNEMONIC_BIT_LENGTH, wordlist, bip39)
+    const mnemonicLanguage = getMnemonicLanguage(yield select(currentLanguageSelector))
+    let mnemonic: string = yield call(
+      generateMnemonic,
+      MNEMONIC_BIT_LENGTH,
+      mnemonicLanguage,
+      bip39
+    )
 
     // Ensure no duplicates in mnemonic
     const checkDuplicate = (someString: string) => {
@@ -181,7 +186,7 @@ export function* getOrCreateAccount() {
     let duplicateInMnemonic = checkDuplicate(mnemonic)
     while (duplicateInMnemonic) {
       Logger.debug(TAG + '@getOrCreateAccount', 'Regenerating mnemonic to avoid duplicates')
-      mnemonic = yield call(generateMnemonic, MNEMONIC_BIT_LENGTH, wordlist, bip39)
+      mnemonic = yield call(generateMnemonic, MNEMONIC_BIT_LENGTH, mnemonicLanguage, bip39)
       duplicateInMnemonic = checkDuplicate(mnemonic)
     }
 
@@ -234,7 +239,7 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
 
     Logger.debug(TAG + '@assignAccountFromPrivateKey', `Added to wallet: ${account}`)
     yield put(setAccount(account))
-    yield put(setAccountCreationTime())
+    yield put(setAccountCreationTime(Date.now()))
     yield call(createAccountDek, mnemonic)
     ValoraAnalytics.setUserAddress(account)
     return account

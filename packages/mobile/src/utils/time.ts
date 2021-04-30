@@ -1,4 +1,5 @@
 const momentTimezone = require('moment-timezone')
+const { promisify } = require('es6-promisify')
 
 import differenceInYears from 'date-fns/esm/differenceInYears'
 import format from 'date-fns/esm/format'
@@ -7,11 +8,9 @@ import startOfWeek from 'date-fns/esm/startOfWeek'
 import { i18n as i18nType } from 'i18next'
 import locales from 'locales'
 import _ from 'lodash'
-import clockSync from 'react-native-clock-sync'
+import ntpClient from 'react-native-ntp-client'
 import i18n from 'src/i18n'
 import Logger from 'src/utils/Logger'
-
-const clock = new clockSync({})
 
 // Source: https://github.com/webmania2014/angular-source1/blob/master/front/app/filters/tznames.js
 // Offsets reversed from original because moment returns with flipped sign
@@ -274,15 +273,27 @@ export const getDatetimeDisplayString = (timestamp: number, i18next: i18nType) =
   return `${dateFormatted} ${i18n.t('global:at')} ${timeFormatted}`
 }
 
-export const getRemoteTime = () => {
-  return clock.getTime()
+export const getRemoteTime = async () => {
+  const getNetworkTime = promisify(ntpClient.getNetworkTime)
+  try {
+    const networkTime = await getNetworkTime('time.google.com', 123)
+    return new Date(networkTime).getTime()
+  } catch (error) {
+    try {
+      const networkTime = await getNetworkTime('time.cloudflare.com', 123)
+      return new Date(networkTime).getTime()
+    } catch (error) {
+      console.error('Error getting remote date: ', error)
+      return Date.now()
+    }
+  }
 }
 
-const DRIFT_THRESHOLD_IN_MS = 1000 * 4 // 4 seconds - Clique future block allowed time is 5 seconds
+export const DRIFT_THRESHOLD_IN_MS = 1000 * 4 // 4 seconds - Clique future block allowed time is 5 seconds
 
 export const clockInSync = async () => {
   const localTime = Date.now()
-  const syncTime = getRemoteTime()
+  const syncTime = await getRemoteTime()
   const drift = localTime - syncTime // in milliseconds
   Logger.info(
     `clockInSync`,
@@ -296,7 +307,7 @@ export const clockInSync = async () => {
 export const getLocalTimezone = () => {
   // Reference: https://momentjs.com/timezone/docs/#/using-timezones/formatting/
   const timezoneGuess = momentTimezone.tz(momentTimezone.tz.guess())
-  momentTimezone.fn.zoneName = function() {
+  momentTimezone.fn.zoneName = function () {
     const abbr = this.zoneAbbr()
     if (!i18n.language?.includes('en')) {
       return abbr

@@ -10,6 +10,7 @@ export enum AppEvents {
   fetch_balance = 'fetch_balance',
   fetch_balance_error = 'fetch_balance_error',
   redux_keychain_mismatch = 'redux_keychain_mismatch',
+  redux_store_recovery_success = 'redux_store_recovery_success',
 }
 
 export enum HomeEvents {
@@ -119,8 +120,6 @@ export enum VerificationEvents {
   verification_timeout = 'verification_timeout',
 
   verification_hash_retrieved = 'verification_hash_retrieved',
-  verification_fetch_status_start = 'verification_fetch_status_start',
-  verification_fetch_status_complete = 'verification_fetch_status_complete',
 
   verification_request_all_attestations_start = 'verification_request_all_attestations_start',
   verification_request_all_attestations_refresh_progress = 'verification_request_all_attestations_refresh_progress',
@@ -319,7 +318,7 @@ export enum FiatExchangeEvents {
 
   cico_add_funds_amount_continue = 'cico_add_funds_amount_continue',
   cico_add_funds_amount_back = 'cico_add_funds_amount_back',
-  cico_add_funds_amount_insufficient = 'cico_add_funds_amount_insufficient',
+  cico_add_funds_invalid_amount = 'cico_add_funds_invalid_amount',
   cico_add_funds_amount_dialog_cancel = 'cico_add_funds_amount_dialog_cancel',
 
   cico_add_funds_select_provider_back = 'cico_add_funds_select_provider_back',
@@ -389,6 +388,11 @@ export enum NavigationEvents {
   navigator_not_ready = 'navigator_not_ready',
 }
 
+export enum RewardsEvents {
+  rewards_screen_opened = 'rewards_screen_opened',
+  rewards_screen_cta_pressed = 'rewards_screen_cta_pressed',
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -408,3 +412,4 @@ export type AnalyticsEventType =
   | NetworkEvents
   | PerformanceEvents
   | NavigationEvents
+  | RewardsEvents

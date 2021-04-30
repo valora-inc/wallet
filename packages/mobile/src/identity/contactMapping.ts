@@ -13,6 +13,7 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { IdentityEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   Actions,
   endFetchingAddresses,
@@ -199,11 +200,9 @@ export function* fetchAddressesAndValidateSaga({
       secureSendPhoneNumberMapping,
       e164Number
     )
-
     if (addressValidationType !== AddressValidationType.NONE) {
       yield put(requireSecureSend(e164Number, addressValidationType))
     }
-
     yield put(
       updateE164PhoneNumberAddresses(e164NumberToAddressUpdates, addressToE164NumberUpdates)
     )
@@ -222,7 +221,12 @@ export function* fetchAddressesAndValidateSaga({
 function* getAccountAddresses(e164Number: string) {
   const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, e164Number)
   const phoneHash = phoneHashDetails.phoneHash
-  const accountAddresses: Address[] = yield call(lookupAccountAddressesForIdentifier, phoneHash)
+  const lostAccounts = yield call(fetchLostAccounts)
+  const accountAddresses: Address[] = yield call(
+    lookupAccountAddressesForIdentifier,
+    phoneHash,
+    lostAccounts
+  )
   return yield call(filterNonVerifiedAddresses, accountAddresses, phoneHash)
 }
 
@@ -258,14 +262,18 @@ function* fetchWalletAddresses(e164Number: string) {
 }
 
 // Returns a list of account addresses for the identifier received.
-export function* lookupAccountAddressesForIdentifier(id: string) {
+export function* lookupAccountAddressesForIdentifier(id: string, lostAccounts: string[] = []) {
   const contractKit = yield call(getContractKit)
   const attestationsWrapper: AttestationsWrapper = yield call([
     contractKit.contracts,
     contractKit.contracts.getAttestations,
   ])
 
-  return yield call([attestationsWrapper, attestationsWrapper.lookupAccountsForIdentifier], id)
+  const accounts = yield call(
+    [attestationsWrapper, attestationsWrapper.lookupAccountsForIdentifier],
+    id
+  )
+  return accounts.filter((address: string) => !lostAccounts.includes(address.toLowerCase()))
 }
 
 // Deconstruct the lookup result and return

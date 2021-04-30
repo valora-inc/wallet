@@ -2,7 +2,7 @@
   "accept": "Accept",
   "at": "at",
   "yourClockIsBroke": "Your phone date and time is inaccurate",
-  "adjustYourClock": "Adjust your clock to read time automatically and try again. If the issue persists, you may need to restart the application",
+  "adjustYourClock": "Set the correct time or adjust your clock to read time automatically.",
   "adjustDate": "Adjust Date",
   "submit": "Submit",
   "continue": "Continue",
@@ -20,6 +20,7 @@
   "wallet": "Wallet",
   "send": "Send",
   "search": "Search",
+  "namePhoneAddress": "Name, phone, or address",
   "payments": "Payments",
   "exchange": "Exchange",
   "learnMore": "Learn More",
@@ -126,7 +127,7 @@
   "saltFetchFailure": "Failed to retrieve phone number secret",
   "saltQuotaExceededError": "Your phone number lookup quota is used up",
   "maxActionableAttestationsExceededError": "Failed to resend messages",
-  "odisInsufficientBalance": "Your balance is too low to complete this process",
+  "odisInsufficientBalance": "Please confirm your number before sending cUSD to a contact",
   "matchmakingQuotaExceededError": "Matchmaking can be done only once",
   "paymentLimitReached": "The daily limit is {{dailyLimitcUSD}} cUSD ({{currencySymbol}}{{dailyLimit}})\n{{dailyRemainingcUSD}} cUSD ({{currencySymbol}}{{dailyRemaining}}) remaining",
   "requestLimitError": "Can't request more than the {{limit}} cUSD daily limit.",
@@ -189,5 +190,9 @@
   "withdraw": "Withdraw",
   "countryNotAvailable": "{{appName}} is not available in your country",
   "firebaseFetchFailed": "Server connection failed",
-  "pictureLoadFailed": "There was an error while loading your picture"
+  "pictureLoadFailed": "There was an error while loading your picture",
+  "simplexPurchaseFetchFailed": "Failed to retreive a quote from Simplex. Please try again later",
+  "providerUrlFetchFailed": "Could not connect to service. Please contact support",
+  "ok": "OK",
+  "cashOutLimitExceeded": "You cannot cash out more than your balance of {{balance}} {{currency}}"
 }

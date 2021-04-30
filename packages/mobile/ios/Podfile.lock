@@ -4,7 +4,7 @@ PODS:
   - Adjust/Core (4.26.1)
   - Analytics (4.1.3)
   - boost-for-react-native (1.63.0)
-  - CeloBlockchain (0.0.319)
+  - CeloBlockchain (0.0.336)
   - CocoaAsyncSocket (7.6.5)
   - CocoaLibEvent (1.0.0)
   - DoubleConversion (1.1.6)
@@ -479,8 +479,8 @@ PODS:
     - React-Core
   - RNCMaskedView (0.1.10):
     - React
-  - RNDeviceInfo (5.5.6):
-    - React
+  - RNDeviceInfo (8.0.5):
+    - React-Core
   - RNExitApp (1.1.0):
     - React
   - RNFBApp (11.0.0):
@@ -894,7 +894,7 @@ SPEC CHECKSUMS:
   Adjust: e8f9b8b50b3d234923389f8e0077ce911cf502d8
   Analytics: 4c01e3e19d4be86705bad6581a1c2aa5a15a9d22
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  CeloBlockchain: 2b3bc8846dff06152d3fcc59c14c43c9740c0a72
+  CeloBlockchain: 813c9a576db1e4bdc1c58777951bbdbbb129e8d9
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
   DoubleConversion: cde416483dac037923206447da6e1454df403714
@@ -976,7 +976,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
   RNCClipboard: 546484405eaa1c8a3eccce77b8c8871242e73b20
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
-  RNDeviceInfo: 722dc13c269b9dbf305aa4b790d36731602e99b7
+  RNDeviceInfo: 7828eb110e3146324c0583c134e59db5d39f7e8b
   RNExitApp: c4e052df2568b43bec8a37c7cd61194d4cfee2c3
   RNFBApp: b0784033a57d461239197db2079a7ca928457c34
   RNFBAuth: f8c8cd22a1b0a9289b6b9145486d7114349f5c9d

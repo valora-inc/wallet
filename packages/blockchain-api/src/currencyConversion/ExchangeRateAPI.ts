@@ -1,10 +1,11 @@
 import { RESTDataSource } from 'apollo-datasource-rest'
 import BigNumber from 'bignumber.js'
 import { EXCHANGE_RATES_API, EXCHANGE_RATES_API_ACCESS_KEY } from '../config'
+import { metrics } from '../metrics'
 import { CurrencyConversionArgs } from '../schema'
 import { formatDateString } from '../utils'
 import { USD } from './consts'
-
+const { performance } = require('perf_hooks')
 interface ExchangeRateApiResult {
   success: boolean
   quotes: { [currencyCode: string]: number }
@@ -37,6 +38,8 @@ export default class ExchangeRateAPI extends RESTDataSource {
   }
 
   private async queryExchangeRate(sourceCurrencyCode: string, currencyCode: string, date: Date) {
+    // Record time at beginning of execution
+    const t0 = performance.now()
     const pair = `${sourceCurrencyCode}/${currencyCode}`
     const path = `/historical`
     const params = {
@@ -55,6 +58,9 @@ export default class ExchangeRateAPI extends RESTDataSource {
       throw new Error(`No matching data for ${pair}`)
     }
 
+    // Record time at end of execution
+    const t1 = performance.now()
+    metrics.setQueryExchangeRateDuration(t1 - t0)
     return rate
   }
 

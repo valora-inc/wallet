@@ -7,6 +7,7 @@ import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   requireSecureSend,
   updateE164PhoneNumberAddresses,
@@ -104,6 +105,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
@@ -158,6 +160,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
@@ -210,6 +213,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
@@ -271,6 +275,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), {}],
+        [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
@@ -339,6 +344,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), {}],
+        [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
