@@ -39,14 +39,12 @@ export default function ShortAccountLink({ shortLink, touchDisabled }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 200,
     backgroundColor: colors.gray2,
     borderRadius: 50,
     paddingVertical: 10,
-    paddingHorizontal: 5,
+    paddingHorizontal: 15,
   },
   line: {
-    width: 200,
     justifyContent: 'center',
     flexDirection: 'row',
   },

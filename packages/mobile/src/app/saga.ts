@@ -31,6 +31,7 @@ import { currentLanguageSelector } from 'src/app/reducers'
 import { getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
+import { DEEPLINK_QUERY_PARAM } from 'src/firebase/dynamicLinks'
 import { appRemoteFeatureFlagChannel, appVersionDeprecationChannel } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
@@ -143,14 +144,25 @@ function convertQueryToScreenParams(query: string) {
   return params
 }
 
-export function* handleDeepLink(action: OpenDeepLink) {
-  const { deepLink, isSecureOrigin } = action
-  Logger.debug(TAG, 'Handling deep link', deepLink)
+function* parseShortLink(deepLink: string) {
   let link = deepLink
   if (deepLink.startsWith('https://vlra.app')) {
     const dynamicLink = yield call([dynamicLinks(), 'resolveLink'], deepLink)
     link = dynamicLink.url
+    const deepLinkParams = parse(link)
+    if (!deepLinkParams.query) {
+      return link
+    }
+    const decodedParams = new URLSearchParamsReal(decodeURIComponent(deepLinkParams.query))
+    link = decodedParams.get(DEEPLINK_QUERY_PARAM)
   }
+  return link
+}
+
+export function* handleDeepLink(action: OpenDeepLink) {
+  const { deepLink, isSecureOrigin } = action
+  Logger.debug(TAG, 'Handling deep link', deepLink)
+  const link = yield call(parseShortLink, deepLink)
   const rawParams = parse(link)
   if (rawParams.path) {
     if (rawParams.path.startsWith('/v/')) {

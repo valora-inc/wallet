@@ -43,8 +43,3 @@ export const urlFromUriData = (data: Partial<UriData>, method: UriMethod = UriMe
   const params = new URLSearchParams(stripUndefined(data))
   return encodeURI(`celo://wallet/${method.toString()}?${params.toString()}`)
 }
-
-export const pathFromUriData = (data: Partial<UriData>, method: UriMethod = UriMethod.pay) => {
-  const params = new URLSearchParams(stripUndefined(data))
-  return encodeURI(`${method.toString()}?${params.toString()}`)
-}

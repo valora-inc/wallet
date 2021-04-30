@@ -10,7 +10,7 @@ import { generateLinkWithPath } from 'src/account/saga'
 import { AvatarSelf } from 'src/components/AvatarSelf'
 import ShortAccountLink from 'src/components/ShortAccountLink'
 import QRCode from 'src/qrcode/QRGen'
-import { pathFromUriData, UriData, urlFromUriData } from 'src/qrcode/schema'
+import { UriData, urlFromUriData } from 'src/qrcode/schema'
 import { RootState } from 'src/redux/reducers'
 import { SVG } from 'src/send/actions'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -32,16 +32,11 @@ export default function QRCodeDisplay({ qrSvgRef }: Props) {
     data.displayName,
     data.e164PhoneNumber,
   ])
-  const path = useMemo(() => pathFromUriData(data), [
-    data.address,
-    data.displayName,
-    data.e164PhoneNumber,
-  ])
-  const horizPadding = 40
+  const horizontalPadding = 40
   const getQRSize = () => {
-    return Math.min((variables.width * 3) / 4, variables.width - horizPadding * 2)
+    return Math.min((variables.width * 3) / 4, variables.width - horizontalPadding * 2)
   }
-  const link = useAsync(() => generateLinkWithPath(path), [path])
+  const link = useAsync(() => generateLinkWithPath(qrContent), [qrContent])
   return (
     <SafeAreaView style={styles.container}>
       <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} />
@@ -59,7 +54,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.light,
-    paddingHorizontal: 40,
   },
   qrContainer: {
     paddingTop: 16,

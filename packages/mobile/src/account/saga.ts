@@ -17,8 +17,8 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { clearStoredMnemonic } from 'src/backup/utils'
-import { APP_STORE_ID, FIREBASE_ENABLED } from 'src/config'
-import { generateShortLink } from 'src/firebase/dynamicLinks'
+import { APP_STORE_ID, FIREBASE_ENABLED, WEB_LINK } from 'src/config'
+import { DEEPLINK_QUERY_PARAM, generateShortLink } from 'src/firebase/dynamicLinks'
 import { cUsdDailyLimitChannel, firebaseSignOut } from 'src/firebase/firebase'
 import { deleteNodeData } from 'src/geth/geth'
 import { refreshAllBalances } from 'src/home/actions'
@@ -77,7 +77,7 @@ export async function generateLinkWithPath(path: string) {
   bundleId = bundleId.replace(/\.(debug|dev)$/g, '.alfajores')
 
   const shortUrl = await generateShortLink({
-    link: `https://valoraapp.com/${path}`,
+    link: `${WEB_LINK}?${DEEPLINK_QUERY_PARAM}=${path}`,
     appStoreId: APP_STORE_ID,
     bundleId,
     shortLinkType: 'SHORT',

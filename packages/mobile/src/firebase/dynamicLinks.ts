@@ -3,6 +3,7 @@ import { DYNAMIC_LINK_DOMAIN } from 'src/config'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'firebase/dynamicLink'
+export const DEEPLINK_QUERY_PARAM = 'deeplink'
 
 export async function generateShortLink({
   link,
