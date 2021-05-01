@@ -4,6 +4,7 @@ import { SHORT_CURRENCIES } from 'src/geth/consts'
 import { multiplyByWei } from 'src/utils/formatting'
 
 const recipientPhone = '+491522345678'
+const recipientIdentifier = '0xabc123'
 const senderAddress = '0x000000000000000000000ce10'
 const currency = SHORT_CURRENCIES.DOLLAR
 
@@ -15,6 +16,7 @@ export function escrowPaymentDouble(partial: object): EscrowedPayment {
   return {
     senderAddress,
     recipientPhone,
+    recipientIdentifier,
     paymentID: 'FAKE_ID_1',
     currency,
     amount: multiplyByWei(new BigNumber(7)),

@@ -36,6 +36,8 @@ interface NetworkConfig {
   currentMtwImplementationAddress: string
   recaptchaSiteKey: string
   bidaliUrl: string
+  CIP8AuthorizerUrl: string
+  CIP8MetadataUrl: string
   providerComposerUrl: string
   simplexApiUrl: string
   komenciLoadCheckEndpoint: string
@@ -74,6 +76,10 @@ const CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET: Address =
 const CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING: Address =
   '0x5C9a6E3c3E862eD306E2E3348EBC8b8310A99e5A'
 
+const CIP8_AUTHORIZER_URL_ALFAJORES = 'https://alfajores-stokado.celo-testnet.org/api/authorize'
+const CIP8_METADATA_URL_ALFAJORES = 'https://alfajores-stokado-data.celo-testnet.org'
+const CIP8_AUTHORIZER_URL_MAINNET = 'https://rc1-stokado.celo-testnet.org/api/authorize'
+const CIP8_METADATA_URL_MAINNET = 'https://rc1-stokado-data.celo-testnet.org'
 const PROVIDER_URL_COMPOSER_PROD =
   'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/composeCicoProviderUrl'
 
@@ -105,6 +111,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     komenciUrl: KOMENCI_URL_STAGING,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_STAGING,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_STAGING,
+    CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_ALFAJORES,
+    CIP8MetadataUrl: CIP8_METADATA_URL_ALFAJORES,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
     providerComposerUrl: PROVIDER_URL_COMPOSER_STAGING,
@@ -128,6 +136,8 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     komenciUrl: KOMENCI_URL_MAINNET,
     allowedMtwImplementations: ALLOWED_MTW_IMPLEMENTATIONS_MAINNET,
     currentMtwImplementationAddress: CURRENT_MTW_IMPLEMENTATION_ADDRESS_MAINNET,
+    CIP8AuthorizerUrl: CIP8_AUTHORIZER_URL_MAINNET,
+    CIP8MetadataUrl: CIP8_METADATA_URL_MAINNET,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
     providerComposerUrl: PROVIDER_URL_COMPOSER_PROD,

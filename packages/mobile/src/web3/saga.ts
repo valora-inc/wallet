@@ -239,7 +239,7 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
 
     Logger.debug(TAG + '@assignAccountFromPrivateKey', `Added to wallet: ${account}`)
     yield put(setAccount(account))
-    yield put(setAccountCreationTime())
+    yield put(setAccountCreationTime(Date.now()))
     yield call(createAccountDek, mnemonic)
     ValoraAnalytics.setUserAddress(account)
     return account

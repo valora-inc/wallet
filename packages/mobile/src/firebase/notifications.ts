@@ -4,6 +4,10 @@ import { call, put, select } from 'redux-saga/effects'
 import { showMessage } from 'src/alert/actions'
 import { TokenTransactionType } from 'src/apollo/types'
 import { openUrl } from 'src/app/actions'
+import {
+  RewardsScreenOrigin,
+  trackRewardsScreenOpenEvent,
+} from 'src/consumerIncentives/analyticsEventsTracker'
 import { CURRENCIES, resolveCurrency } from 'src/geth/consts'
 import { addressToE164NumberSelector } from 'src/identity/reducer'
 import {
@@ -87,6 +91,9 @@ export function* handleNotification(
 ) {
   // See if this is a notification with an open url or webview action (`ou` prop in the data)
   const urlToOpen = message.data?.ou
+  if (urlToOpen) {
+    trackRewardsScreenOpenEvent(urlToOpen, RewardsScreenOrigin.PushNotification)
+  }
   const openExternal = message.data?.openExternal === 'true'
   const openUrlAction = urlToOpen ? openUrl(urlToOpen, openExternal, true) : null
 
