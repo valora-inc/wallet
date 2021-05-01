@@ -41,7 +41,7 @@
   },
   "invalidAmountDialog": {
     "minAmount": "Nossos provedores não aceitam valores inferiores a {{limit}}. Insira um valor maior.",
-    "maxAmount": "Nossos provedores não suportam totais maiores que {{limit}}. Por favor, insira um valor menor.",
+    "maxAmount": "Nossos provedores não aceitam valores maiores de {{limit}}. Insira um valor menor.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
