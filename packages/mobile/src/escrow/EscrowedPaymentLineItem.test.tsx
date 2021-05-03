@@ -1,9 +1,8 @@
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
-import { escrowPaymentDouble } from 'src/escrow/__mocks__'
 import EscrowedPaymentLineItem from 'src/escrow/EscrowedPaymentLineItem'
-import { RecipientKind } from 'src/recipients/recipient'
+import { escrowPaymentDouble } from 'src/escrow/__mocks__'
 import { createMockStore } from 'test/utils'
 import { mockE164Number, mockE164NumberHashWithPepper, mockE164NumberPepper } from 'test/values'
 
@@ -50,10 +49,9 @@ describe(EscrowedPaymentLineItem, () => {
         },
       },
       recipients: {
-        recipientCache: {
+        phoneRecipientCache: {
           [mockE164Number]: {
-            kind: RecipientKind.Contact,
-            displayName: mockName,
+            name: mockName,
             contactId: '123',
           },
         },

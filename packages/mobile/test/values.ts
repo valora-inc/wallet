@@ -147,17 +147,17 @@ export const mockInvitableRecipient3: ContactRecipient = {
   contactId: 'contactId',
 }
 
-export const mockRecipient: ContactRecipient = {
+export const mockRecipient: ContactRecipient & AddressRecipient = {
   ...mockInvitableRecipient,
   address: mockAccount,
 }
 
-export const mockRecipient2: ContactRecipient = {
+export const mockRecipient2: ContactRecipient & AddressRecipient = {
   ...mockInvitableRecipient2,
   address: mockAccountInvite,
 }
 
-export const mockRecipient3: ContactRecipient = {
+export const mockRecipient3: ContactRecipient & AddressRecipient = {
   ...mockInvitableRecipient3,
   address: mockAccount2Invite,
 }

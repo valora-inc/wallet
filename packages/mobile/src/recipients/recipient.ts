@@ -53,10 +53,12 @@ export function getDisplayName(recipient: Recipient, t: TFunction) {
     return recipient.name
   } else if (recipient.displayNumber) {
     return recipient.displayNumber
-  } else if (recipientHasNumber(recipient)) {
+  } else if (recipient.e164PhoneNumber) {
     return recipient.e164PhoneNumber
-  } else {
+  } else if (recipient.address) {
     return t('walletFlow5:feedItemAddress', { address: formatShortenedAddress(recipient.address) })
+  } else {
+    return t('global:unknown')
   }
 }
 

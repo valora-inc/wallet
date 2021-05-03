@@ -42,7 +42,11 @@ export const useEscrowPaymentRecipient = (payment: EscrowedPayment): ContactReci
   const identifierToE164Number = useSelector(identifierToE164NumberSelector)
   const recipientCache = useSelector((state) => state.recipients.phoneRecipientCache)
   const phoneNumber = identifierToE164Number[recipientIdentifier] ?? recipientPhone
-  const recipient = recipientCache[phoneNumber]
+  const recipient = recipientCache[phoneNumber] ?? {
+    name: phoneNumber,
+    e164PhoneNumber: phoneNumber,
+    contactId: '',
+  }
 
   return recipient
 }
