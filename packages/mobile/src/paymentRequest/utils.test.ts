@@ -2,13 +2,8 @@ import { hexToBuffer } from '@celo/utils/lib/address'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
 import { PaymentRequest } from 'src/paymentRequest/types'
-import {
-  decryptPaymentRequest,
-  encryptPaymentRequest,
-  getRequesteeFromPaymentRequest,
-  getRequesterFromPaymentRequest,
-} from 'src/paymentRequest/utils'
-import { RecipientKind } from 'src/recipients/recipient'
+import { decryptPaymentRequest, encryptPaymentRequest } from 'src/paymentRequest/utils'
+import { getRecipientFromAddress } from 'src/recipients/recipient'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
 import {
   mockAccount,
@@ -32,34 +27,44 @@ const req = mockPaymentRequests[0]
 describe('getRequesterFromPaymentRequest', () => {
   const address = req.requesterAddress
   const addressToE164Number = { [address]: mockE164Number }
-  const recipientCache = { [mockE164Number]: mockRecipient }
+  const phoneRecipientCache = { [mockE164Number]: mockRecipient }
 
   it('gets requester when only address is known', () => {
-    const recipient = getRequesterFromPaymentRequest(req, {}, {})
+    const recipient = getRecipientFromAddress(address, {
+      phoneRecipientCache: {},
+      valoraRecipientCache: {},
+      addressToE164Number: {},
+      addressToDisplayName: {},
+    })
     expect(recipient).toMatchObject({
-      kind: RecipientKind.MobileNumber,
       address,
-      displayName: mockE164Number,
     })
   })
 
   it('gets requester when address is cached but not recipient', () => {
-    const recipient = getRequesterFromPaymentRequest(req, addressToE164Number, {})
+    const recipient = getRecipientFromAddress(address, {
+      phoneRecipientCache: {},
+      valoraRecipientCache: {},
+      addressToE164Number,
+      addressToDisplayName: {},
+    })
     expect(recipient).toMatchObject({
-      kind: RecipientKind.MobileNumber,
       address,
       e164PhoneNumber: mockE164Number,
-      displayName: mockE164Number,
     })
   })
 
   it('gets requester when address and recip are cached', () => {
-    const recipient = getRequesterFromPaymentRequest(req, addressToE164Number, recipientCache)
+    const recipient = getRecipientFromAddress(address, {
+      phoneRecipientCache,
+      valoraRecipientCache: {},
+      addressToE164Number,
+      addressToDisplayName: {},
+    })
     expect(recipient).toMatchObject({
-      kind: RecipientKind.Address,
       address,
       e164PhoneNumber: mockE164Number,
-      displayName: mockName,
+      name: mockName,
     })
   })
 })
@@ -67,34 +72,44 @@ describe('getRequesterFromPaymentRequest', () => {
 describe('getRequesteeFromPaymentRequest', () => {
   const address = req.requesteeAddress
   const addressToE164Number = { [address]: mockE164Number }
-  const recipientCache = { [mockE164Number]: mockRecipient }
+  const phoneRecipientCache = { [mockE164Number]: mockRecipient }
 
   it('gets requestee when only address is known', () => {
-    const recipient = getRequesteeFromPaymentRequest(req, {}, {})
+    const recipient = getRecipientFromAddress(address, {
+      phoneRecipientCache: {},
+      valoraRecipientCache: {},
+      addressToE164Number: {},
+      addressToDisplayName: {},
+    })
     expect(recipient).toMatchObject({
-      kind: RecipientKind.Address,
       address,
-      displayName: address,
     })
   })
 
   it('gets requestee when address is cached but not recipient', () => {
-    const recipient = getRequesteeFromPaymentRequest(req, addressToE164Number, {})
+    const recipient = getRecipientFromAddress(address, {
+      phoneRecipientCache: {},
+      valoraRecipientCache: {},
+      addressToE164Number,
+      addressToDisplayName: {},
+    })
     expect(recipient).toMatchObject({
-      kind: RecipientKind.MobileNumber,
       address,
       e164PhoneNumber: mockE164Number,
-      displayName: mockE164Number,
     })
   })
 
   it('gets requestee when address and recip are cached', () => {
-    const recipient = getRequesteeFromPaymentRequest(req, addressToE164Number, recipientCache)
+    const recipient = getRecipientFromAddress(address, {
+      phoneRecipientCache,
+      valoraRecipientCache: {},
+      addressToE164Number,
+      addressToDisplayName: {},
+    })
     expect(recipient).toMatchObject({
-      kind: RecipientKind.Address,
       address,
       e164PhoneNumber: mockE164Number,
-      displayName: mockName,
+      name: mockName,
     })
   })
 })

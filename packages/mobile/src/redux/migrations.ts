@@ -98,7 +98,7 @@ export const migrations = {
     }
   },
   7: (state: any) => {
-    const newAddressToDisplayName = Object.keys(state.identity.addressToDisplayName).reduce(
+    const newAddressToDisplayName = Object.keys(state.identity.addressToDisplayName || {}).reduce(
       (newMapping: AddressToDisplayNameType, address: string) => {
         newMapping[address] = {
           name: state.identity.addressToDisplayName[address],
@@ -117,7 +117,7 @@ export const migrations = {
     }
   },
   8: (state: any) => {
-    const lastUsedProvider = state.fiatExchanges.lastUsedProvider
+    const lastUsedProvider = state.fiatExchanges?.lastUsedProvider
     if (!lastUsedProvider || !lastUsedProvider.name) {
       return state
     }
