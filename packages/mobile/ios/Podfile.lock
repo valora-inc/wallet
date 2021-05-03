@@ -1,10 +1,10 @@
 PODS:
-  - Adjust (4.26.1):
-    - Adjust/Core (= 4.26.1)
-  - Adjust/Core (4.26.1)
+  - Adjust (4.29.1):
+    - Adjust/Core (= 4.29.1)
+  - Adjust/Core (4.29.1)
   - Analytics (4.1.3)
   - boost-for-react-native (1.63.0)
-  - CeloBlockchain (0.0.351)
+  - CeloBlockchain (0.0.352)
   - CocoaAsyncSocket (7.6.5)
   - CocoaLibEvent (1.0.0)
   - DoubleConversion (1.1.6)
@@ -460,17 +460,17 @@ PODS:
     - React-Core (= 0.63.4)
     - React-cxxreact (= 0.63.4)
     - React-jsi (= 0.63.4)
-  - RNAnalytics (1.4.3):
+  - RNAnalytics (1.4.4):
     - Analytics
     - React-Core
-  - RNAnalyticsIntegration-Adjust (1.4.3):
+  - RNAnalyticsIntegration-Adjust (1.4.4):
     - Analytics
-    - React
+    - React-Core
     - RNAnalytics
     - Segment-Adjust
-  - RNAnalyticsIntegration-Firebase (1.4.3):
+  - RNAnalyticsIntegration-Firebase (1.4.4):
     - Analytics
-    - React
+    - React-Core
     - RNAnalytics
     - Segment-Firebase
   - RNCAsyncStorage (1.9.0):
@@ -568,8 +568,8 @@ PODS:
     - React
   - RNSVG (12.1.0):
     - React
-  - Segment-Adjust (3.1.0):
-    - Adjust (~> 4.23)
+  - Segment-Adjust (3.1.1):
+    - Adjust (~> 4.28)
     - Analytics
   - Segment-Firebase (2.7.2):
     - Analytics
@@ -891,10 +891,10 @@ CHECKOUT OPTIONS:
     :git: https://github.com/celo-org/OpenSSL-headers.git
 
 SPEC CHECKSUMS:
-  Adjust: e8f9b8b50b3d234923389f8e0077ce911cf502d8
+  Adjust: 5caa50e140484d30cce45085ea261144f123391c
   Analytics: 4c01e3e19d4be86705bad6581a1c2aa5a15a9d22
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  CeloBlockchain: 07c2efe5ac94f5ad0fc929bc87cfc05c37503765
+  CeloBlockchain: a53a2bdfb7bca7e09a9ff21675e589e454f55563
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
   DoubleConversion: cde416483dac037923206447da6e1454df403714
@@ -970,9 +970,9 @@ SPEC CHECKSUMS:
   React-RCTText: 5c51df3f08cb9dedc6e790161195d12bac06101c
   React-RCTVibration: ae4f914cfe8de7d4de95ae1ea6cc8f6315d73d9d
   ReactCommon: 73d79c7039f473b76db6ff7c6b159c478acbbb3b
-  RNAnalytics: 43a09152058061b4096eb6cb806093e7b772b1e5
-  RNAnalyticsIntegration-Adjust: 370a0d04cd76b0df25f1e7dac9bd1053650a8804
-  RNAnalyticsIntegration-Firebase: 26ed5873658af8d1a0cff73d8da389a5207a3089
+  RNAnalytics: b00cb3e511c2c8a4682d70b2f92986f4ea1d0c76
+  RNAnalyticsIntegration-Adjust: 8c6c4112b5619a88d13b7ff2ce4f7d1b411fb757
+  RNAnalyticsIntegration-Firebase: bddc5ecf0787c7b78552e820135d311a5c6e180e
   RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
   RNCClipboard: 546484405eaa1c8a3eccce77b8c8871242e73b20
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
@@ -997,7 +997,7 @@ SPEC CHECKSUMS:
   RNSentry: 51972e3fe50e2fb38ae459af8c87d61f63f364db
   RNShare: fea1801315aa8875d6db73a4010b14afcd568765
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
-  Segment-Adjust: 3dd5e37785aff1aed6103e4cd00ec445b5b88f12
+  Segment-Adjust: 5c45cd11f3ed647967c54e93c267f8e8c987f849
   Segment-Firebase: bc9760fe3d1d3aaa34d2f424cd0272ca39c25d82
   Sentry: 388c9dc093b2fd3a264466a5c5b21e25959610a9
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
