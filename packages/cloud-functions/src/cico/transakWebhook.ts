@@ -11,6 +11,15 @@ enum TransakEvent {
   Completed = 'ORDER_COMPLETED',
 }
 
+function createEventBase(id: string, address: string) {
+  return {
+    id,
+    provider: Provider.Transak,
+    timestamp: Date.now() / 1000,
+    user_address: address,
+  }
+}
+
 function trackTransakEvent(body: any) {
   const {
     eventID,
@@ -18,28 +27,19 @@ function trackTransakEvent(body: any) {
   } = body
   if (eventID === TransakEvent.Created) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      id,
-      provider: Provider.Transak,
+      ...createEventBase(id, walletAddress),
       status: CashInStatus.Started,
-      timestamp: Date.now() / 1000,
-      user_address: walletAddress,
     })
   } else if (eventID === TransakEvent.Failed) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      id,
-      provider: Provider.Transak,
+      ...createEventBase(id, walletAddress),
       status: CashInStatus.Failure,
-      timestamp: Date.now() / 1000,
-      user_address: walletAddress,
       failure_reason: statusReason,
     })
   } else if (eventID === TransakEvent.Completed) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      id,
-      provider: Provider.Transak,
+      ...createEventBase(id, walletAddress),
       status: CashInStatus.Success,
-      timestamp: Date.now() / 1000,
-      user_address: walletAddress,
     })
   }
 }
@@ -73,8 +73,6 @@ export const transakWebhook = functions.https.onRequest((request, response) => {
     )
     if (transactionHash) {
       saveTxHashProvider(walletAddress, transactionHash, Provider.Transak)
-    } else {
-      console.error('Tx hash not found on Transak webhook')
     }
     response.status(204).send()
   } catch (error) {
