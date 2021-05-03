@@ -68,9 +68,9 @@ export function getDisplayName(recipient: Recipient, t: TFunction) {
 
 export function getDisplayDetail(recipient: Recipient) {
   if (recipientHasNumber(recipient)) {
-    return recipient.displayNumber
+    return recipient.displayNumber || recipient.e164PhoneNumber
   } else {
-    return recipient.address
+    return recipient.address.substring(2, 17) + '...'
   }
 }
 

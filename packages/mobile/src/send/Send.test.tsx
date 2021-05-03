@@ -9,7 +9,7 @@ import {
   mockE164NumberInvite,
   mockRecipient,
   mockRecipient2,
-  mockRecipient3,
+  mockRecipient4,
 } from 'test/values'
 
 const mockScreenProps = getMockStackScreenProps(Screens.Send)
@@ -25,7 +25,7 @@ const defaultStore = {
   recipients: {
     phoneRecipientCache: {
       [mockE164Number]: mockRecipient2,
-      [mockE164NumberInvite]: mockRecipient3,
+      [mockE164NumberInvite]: mockRecipient4,
     },
   },
 }
