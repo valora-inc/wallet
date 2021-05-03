@@ -3,7 +3,6 @@ import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import { escrowPaymentDouble } from 'src/escrow/__mocks__'
 import EscrowedPaymentLineItem from 'src/escrow/EscrowedPaymentLineItem'
-import { RecipientKind } from 'src/recipients/recipient'
 import { createMockStore } from 'test/utils'
 import { mockE164Number, mockE164NumberHashWithPepper, mockE164NumberPepper } from 'test/values'
 
@@ -28,6 +27,9 @@ describe(EscrowedPaymentLineItem, () => {
           [mockE164Number]: mockE164NumberPepper,
         },
       },
+      recipients: {
+        phoneRecipientCache: {},
+      },
     })
     const tree = renderer.create(
       <Provider store={store}>
@@ -50,10 +52,9 @@ describe(EscrowedPaymentLineItem, () => {
         },
       },
       recipients: {
-        recipientCache: {
+        phoneRecipientCache: {
           [mockE164Number]: {
-            kind: RecipientKind.Contact,
-            displayName: mockName,
+            name: mockName,
             contactId: '123',
           },
         },
