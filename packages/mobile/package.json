@@ -115,7 +115,7 @@
     "react-native-flag-secure-android": "git://github.com/kristiansorens/react-native-flag-secure-android#e234251",
     "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f",
     "react-native-gesture-handler": "^1.9.0",
-    "react-native-geth": "https://github.com/celo-org/react-native-geth#b735736",
+    "react-native-geth": "https://github.com/celo-org/react-native-geth#a5ef0a1",
     "react-native-google-safetynet": "https://github.com/celo-org/react-native-google-safetynet#8a0355f",
     "react-native-image-crop-picker": "^0.35.1",
     "react-native-inappbrowser-reborn": "^3.5.1",
