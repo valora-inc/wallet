@@ -140,10 +140,7 @@ function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
       })
 
     return () => {
-      firebase
-        .database()
-        .ref(`${EXCHANGE_RATES}/cGLD/cUSD`)
-        .off()
+      firebase.database().ref(`${EXCHANGE_RATES}/cGLD/cUSD`).off()
     }
   })
 }
@@ -155,7 +152,7 @@ export function* subscribeToCeloGoldExchangeRateHistory() {
   try {
     while (true) {
       const exchangeRates = yield take(channel)
-      const now = getRemoteTime()
+      const now = yield getRemoteTime()
       yield put(updateCeloGoldExchangeRateHistory(exchangeRates, now))
     }
   } catch (error) {
