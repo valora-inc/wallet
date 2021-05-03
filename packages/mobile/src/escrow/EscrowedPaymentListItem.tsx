@@ -22,11 +22,9 @@ interface Props {
 
 const TAG = 'EscrowedPaymentListItem'
 
-const testID = 'EscrowedPaymentListItem'
-
 function EscrowedPaymentListItem({ payment }: Props) {
   const { t } = useTranslation(Namespaces.inviteFlow11)
-  const [displayName, recipientPhoneNumber] = useEscrowPaymentRecipient(payment)
+  const recipient = useEscrowPaymentRecipient(payment)
 
   const onRemind = async () => {
     ValoraAnalytics.track(HomeEvents.notification_select, {
@@ -37,7 +35,7 @@ function EscrowedPaymentListItem({ payment }: Props) {
     try {
       await Share.share({ message: t('walletFlow5:escrowedPaymentReminderSmsNoData') })
     } catch (error) {
-      Logger.error(TAG, `Error sending reminder to ${recipientPhoneNumber}`, error)
+      Logger.error(TAG, `Error sending reminder to ${recipient.e164PhoneNumber}`, error)
     }
   }
 
@@ -52,7 +50,7 @@ function EscrowedPaymentListItem({ payment }: Props) {
 
   const getCTA = () => {
     const ctas = []
-    if (displayName) {
+    if (recipient.e164PhoneNumber) {
       ctas.push({
         text: t('global:remind'),
         onPress: onRemind,
@@ -65,7 +63,7 @@ function EscrowedPaymentListItem({ payment }: Props) {
     return ctas
   }
 
-  const nameToShow = displayName ?? t('global:unknown')
+  const nameToShow = recipient.name ?? t('global:unknown')
   const amount = {
     value: divideByWei(payment.amount),
     currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
@@ -77,14 +75,9 @@ function EscrowedPaymentListItem({ payment }: Props) {
         title={t('escrowPaymentNotificationTitle', { mobile: nameToShow })}
         amount={<CurrencyDisplay amount={amount} />}
         details={payment.message}
-        icon={
-          <ContactCircle
-            name={nameToShow}
-            // TODO: Add thumbnailPath={}
-          />
-        }
+        icon={<ContactCircle recipient={recipient} />}
         callToActions={getCTA()}
-        testID={testID}
+        testID={'EscrowedPaymentListItem'}
       />
     </View>
   )

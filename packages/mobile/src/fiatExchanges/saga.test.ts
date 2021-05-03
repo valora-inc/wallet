@@ -11,7 +11,7 @@ import { Actions as IdentityActions, updateKnownAddresses } from 'src/identity/a
 import { providerAddressesSelector } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { RecipientKind, RecipientWithAddress } from 'src/recipients/recipient'
+import { AddressRecipient } from 'src/recipients/recipient'
 import {
   sendPaymentOrInvite,
   sendPaymentOrInviteFailure,
@@ -24,11 +24,9 @@ Date.now = jest.fn(() => now)
 
 describe(watchBidaliPaymentRequests, () => {
   const amount = new BigNumber(20)
-  const recipient: RecipientWithAddress = {
-    kind: RecipientKind.Address,
+  const recipient: AddressRecipient = {
     address: '0xTEST',
-    displayId: 'BIDALI',
-    displayName: 'Bidali',
+    name: 'Bidali',
     thumbnailPath:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fbidali.png?alt=media',
   }
@@ -48,7 +46,7 @@ describe(watchBidaliPaymentRequests, () => {
     await expectSaga(watchBidaliPaymentRequests)
       .put(
         updateKnownAddresses({
-          '0xTEST': { name: recipient.displayName, imageUrl: recipient.thumbnailPath || null },
+          '0xTEST': { name: recipient.name!, imageUrl: recipient.thumbnailPath || null },
         })
       )
       .dispatch(

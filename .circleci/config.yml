@@ -374,7 +374,6 @@ jobs:
       - store_test_results:
           path: packages/mobile/e2e/test-results
 
-
   lint-checks:
     <<: *defaults
     steps:
@@ -394,6 +393,7 @@ jobs:
 
   general-tests:
     <<: *defaults
+    resource_class: large
     steps:
       - attach_workspace:
           at: ~/app
