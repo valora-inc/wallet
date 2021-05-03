@@ -1,5 +1,7 @@
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import dotProp from 'dot-prop-immutable'
 import { RehydrateAction } from 'redux-persist'
+import { createSelector } from 'reselect'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
 import { Actions, ActionTypes } from 'src/identity/actions'
 import { ContactMatches, ImportContactsStatus, VerificationStatus } from 'src/identity/types'
@@ -22,6 +24,10 @@ export interface E164NumberToAddressType {
 
 export interface E164NumberToSaltType {
   [e164PhoneNumber: string]: string | null // null means unverified
+}
+
+export interface IdentifierToE164NumberType {
+  [identifier: string]: string | null // null means no number
 }
 
 export interface AddressToDataEncryptionKeyType {
@@ -373,3 +379,18 @@ export const providerAddressesSelector = ({ identity: { addressToDisplayName } }
     .filter(([_, info]) => info?.isProviderAddress)
     .map(([address, _]) => address)
 }
+
+export const identifierToE164NumberSelector = createSelector(
+  e164NumberToSaltSelector,
+  (e164NumberToSalt) => {
+    const identifierToE164Numbers: IdentifierToE164NumberType = {}
+    for (const e164Number of Object.keys(e164NumberToSalt)) {
+      const pepper = e164NumberToSalt[e164Number]
+      if (pepper) {
+        const phoneHash = getPhoneHash(e164Number, pepper)
+        identifierToE164Numbers[phoneHash] = e164Number
+      }
+    }
+    return identifierToE164Numbers
+  }
+)

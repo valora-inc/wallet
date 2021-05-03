@@ -19,6 +19,16 @@ const mockState = (
   })
 
 describe('backup/selectors', () => {
+  let dateNowSpy: any
+  beforeAll(() => {
+    dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => mockCurrentTime)
+  })
+
+  afterAll(() => {
+    // Unlock Time
+    dateNowSpy.mockRestore()
+  })
+
   describe('shouldForceBackupSelector', () => {
     it("should not force account key prompt if enough time hasn't passed since creation", () => {
       // Account created 12 hours ago, no delay and no backup.
