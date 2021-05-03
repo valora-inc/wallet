@@ -29,6 +29,7 @@ export enum Actions {
   SET_RETRY_VERIFICATION_WITH_FORNO = 'ACCOUNT/SET_RETRY_VERIFICATION_WITH_FORNO',
   ACCEPT_TERMS = 'ACCOUNT/ACCEPT_TERMS',
   CLEAR_STORED_ACCOUNT = 'ACCOUNT/CLEAR_STORED_ACCOUNT',
+  PROFILE_UPLOADED = 'ACCOUNT/PROFILE_UPLOADED',
   UPDATE_DAILY_LIMIT = 'ACCOUNT/UPDATE_DAILY_LIMIT',
   UPDATE_DAILY_LIMIT_REQUEST_STATUS = 'ACCOUNT/UPDATE_DAILY_LIMIT_REQUEST_STATUS',
 }
@@ -111,6 +112,7 @@ export interface InitializeAccountFailureAction {
 
 export interface SetAccountCreationAction {
   type: Actions.SET_ACCOUNT_CREATION_TIME
+  now: number
 }
 
 export interface SetBackupCompletedAction {
@@ -119,6 +121,7 @@ export interface SetBackupCompletedAction {
 
 export interface SetBackupDelayedAction {
   type: Actions.SET_BACKUP_DELAYED
+  now: number
 }
 
 export interface ToggleBackupState {
@@ -157,6 +160,10 @@ export interface ClearStoredAccountAction {
   type: Actions.CLEAR_STORED_ACCOUNT
   account: string
   onlyReduxState: boolean
+}
+
+export interface ProfileUploadedAction {
+  type: Actions.PROFILE_UPLOADED
 }
 
 export interface UpdateDailyLimitAction {
@@ -198,6 +205,7 @@ export type ActionTypes =
   | SetRetryVerificationWithFornoAction
   | AcceptTermsAction
   | ClearStoredAccountAction
+  | ProfileUploadedAction
   | UpdateDailyLimitAction
   | UpdateDailyLimitRequestStatusAction
 
@@ -299,16 +307,18 @@ export const initializeAccountFailure = (): InitializeAccountFailureAction => ({
   type: Actions.INITIALIZE_ACCOUNT_FAILURE,
 })
 
-export const setAccountCreationTime = (): SetAccountCreationAction => ({
+export const setAccountCreationTime = (now: number): SetAccountCreationAction => ({
   type: Actions.SET_ACCOUNT_CREATION_TIME,
+  now,
 })
 
 export const setBackupCompleted = (): SetBackupCompletedAction => ({
   type: Actions.SET_BACKUP_COMPLETED,
 })
 
-export const setBackupDelayed = (): SetBackupDelayedAction => ({
+export const setBackupDelayed = (now: number): SetBackupDelayedAction => ({
   type: Actions.SET_BACKUP_DELAYED,
+  now,
 })
 
 export const toggleBackupState = (): ToggleBackupState => ({
@@ -355,6 +365,10 @@ export const clearStoredAccount = (
   type: Actions.CLEAR_STORED_ACCOUNT,
   account,
   onlyReduxState,
+})
+
+export const profileUploaded = (): ProfileUploadedAction => ({
+  type: Actions.PROFILE_UPLOADED,
 })
 
 export const updateCusdDailyLimit = (newLimit: number): UpdateDailyLimitAction => ({

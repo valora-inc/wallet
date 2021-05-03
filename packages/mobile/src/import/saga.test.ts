@@ -3,6 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
 import { setBackupCompleted } from 'src/account/actions'
+import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -33,6 +34,7 @@ describe('Import wallet saga', () => {
         [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
         [call(storeMnemonic, phrase, mockAccount), true],
         [select(recoveringFromStoreWipeSelector), false],
+        [call(uploadNameAndPicture)],
       ])
       .put(setBackupCompleted())
       .put(redeemInviteSuccess())

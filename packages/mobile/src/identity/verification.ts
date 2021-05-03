@@ -338,7 +338,7 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
       // Set acccount and data encryption key in Accounts contract
       // This is done in other places too, intentionally keeping it for more coverage
       if (!shouldUseKomenci) {
-        yield spawn(registerAccountDek, account)
+        yield spawn(registerAccountDek)
       }
 
       receiveMessageTask?.cancel()
@@ -655,7 +655,7 @@ export function attestationCodeReceiver(
   attestations: ActionableAttestation[],
   isFeelessVerification: boolean = false
 ) {
-  return function*(action: ReceiveAttestationMessageAction) {
+  return function* (action: ReceiveAttestationMessageAction) {
     const shortVerificationCodesEnabled = yield select(shortVerificationCodesEnabledSelector)
     if (!action || !action.message) {
       Logger.error(TAG + '@attestationCodeReceiver', 'Received empty code. Ignoring.')
