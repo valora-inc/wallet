@@ -113,12 +113,7 @@ export class EscrowedPaymentListItem extends React.PureComponent<Props> {
           title={t('escrowPaymentNotificationTitle', { mobile: payment.recipientPhone })}
           amount={<CurrencyDisplay amount={amount} />}
           details={payment.message}
-          icon={
-            <ContactCircle
-              recipient={recipient}
-              // TODO: Add thumbnailPath={}
-            />
-          }
+          icon={<ContactCircle recipient={recipient} />}
           callToActions={this.getCTA()}
           testID={testID}
         />

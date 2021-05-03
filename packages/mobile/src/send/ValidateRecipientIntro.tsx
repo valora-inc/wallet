@@ -14,7 +14,7 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getDisplayName, getNumber } from 'src/recipients/recipient'
+import { getDisplayName } from 'src/recipients/recipient'
 
 const AVATAR_SIZE = 64
 
@@ -65,7 +65,7 @@ class ValidateRecipientIntro extends React.Component<Props> {
     const { t } = this.props
     const { recipient } = this.props.route.params.transactionData
     const displayName = getDisplayName(recipient, t)
-    const e164PhoneNumber = getNumber(recipient)
+    const e164PhoneNumber = recipient.e164PhoneNumber
 
     return (
       <SafeAreaView style={styles.container}>

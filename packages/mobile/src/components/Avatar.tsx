@@ -8,7 +8,7 @@ import { defaultCountryCodeSelector } from 'src/account/selectors'
 import ContactCircle from 'src/components/ContactCircle'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import { Namespaces, withTranslation } from 'src/i18n'
-import { getDisplayName, getNumber, Recipient, recipientHasAddress } from 'src/recipients/recipient'
+import { getDisplayName, Recipient } from 'src/recipients/recipient'
 
 const DEFAULT_ICON_SIZE = 40
 
@@ -26,8 +26,8 @@ export function Avatar(props: Props) {
   const { recipient, e164Number, iconSize = DEFAULT_ICON_SIZE, displayNameStyle, t } = props
 
   const name = getDisplayName(recipient, t)
-  const address = recipientHasAddress(recipient) && recipient.address
-  const e164NumberToShow = getNumber(recipient, e164Number)
+  const address = recipient.address
+  const e164NumberToShow = recipient.e164PhoneNumber || e164Number
 
   return (
     <View style={styles.container}>

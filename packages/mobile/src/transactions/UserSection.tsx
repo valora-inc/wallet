@@ -9,12 +9,7 @@ import { LayoutAnimation, StyleSheet, Text, View } from 'react-native'
 import AccountNumber from 'src/components/AccountNumber'
 import { Namespaces } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
-import {
-  getDisplayName,
-  Recipient,
-  recipientHasAddress,
-  recipientHasNumber,
-} from 'src/recipients/recipient'
+import { getDisplayName, Recipient, recipientHasNumber } from 'src/recipients/recipient'
 
 interface Props {
   type: 'sent' | 'received' | 'withdrawn'
@@ -43,7 +38,7 @@ export default function UserSection({
   const displayNumber = recipientHasNumber(recipient)
     ? getDisplayNumberInternational(recipient.e164PhoneNumber)
     : undefined
-  const address = recipientHasAddress(recipient) ? recipient.address : ''
+  const address = recipient.address || ''
 
   const sectionLabel = {
     received: t('receivedFrom'),

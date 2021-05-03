@@ -199,7 +199,7 @@ export function* handleSendPaymentData(
 ) {
   const recipient: AddressRecipient = {
     address: data.address.toLowerCase(),
-    name: data.displayName || cachedRecipient?.name || 'anonymous',
+    name: data.displayName || cachedRecipient?.name || undefined,
     e164PhoneNumber: data.e164PhoneNumber,
     displayNumber: cachedRecipient?.displayNumber,
     thumbnailPath: cachedRecipient?.thumbnailPath,

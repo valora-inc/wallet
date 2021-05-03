@@ -18,6 +18,8 @@ export type Recipient = {
   contactId?: string // unique ID given by phone OS
   thumbnailPath?: string
   displayNumber?: string
+  e164PhoneNumber?: string
+  address?: string
 } & ({ e164PhoneNumber: string } | { address: string })
 
 export type MobileRecipient = Recipient & {
@@ -44,14 +46,6 @@ export function recipientHasAddress(recipient: Recipient): recipient is AddressR
 
 export function recipientHasContact(recipient: Recipient): recipient is ContactRecipient {
   return recipient && 'contactId' in recipient && 'name' in recipient && !!recipient.contactId
-}
-
-export function getNumber(recipient: Recipient, e164Number?: string) {
-  return recipientHasNumber(recipient) ? recipient.e164PhoneNumber : e164Number
-}
-
-export function getAddress(recipient: Recipient) {
-  return recipientHasAddress(recipient) ? recipient.address : undefined
 }
 
 export function getDisplayName(recipient: Recipient, t: TFunction) {
@@ -224,8 +218,8 @@ function nameCompare(a: FuzzyRecipient, b: FuzzyRecipient) {
 
 function nameCompareExceptPrioritized(prioritizedRecipients: ContactMatches) {
   return (a: FuzzyRecipient, b: FuzzyRecipient) => {
-    const e164A = getNumber(a)
-    const e164B = getNumber(b)
+    const e164A = a.e164PhoneNumber
+    const e164B = b.e164PhoneNumber
 
     if (e164A && prioritizedRecipients[e164A]) {
       if (e164B && prioritizedRecipients[e164B]) {

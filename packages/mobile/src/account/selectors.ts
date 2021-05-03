@@ -29,7 +29,6 @@ export const promptFornoIfNeededSelector = (state: RootState) => state.account.p
 export const isProfileUploadedSelector = (state: RootState) => state.account.profileUploaded
 export const cUsdDailyLimitSelector = (state: RootState) => state.account.dailyLimitCusd
 
-// TODO: create selector with reselect
 export const currentUserRecipientSelector = createSelector(
   [currentAccountSelector, nameSelector, pictureSelector, userContactDetailsSelector],
   (account, name, picture, contactDetails) => {
