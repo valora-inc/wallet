@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
-import { escrowPaymentDouble } from 'src/escrow/__mocks__'
 import EscrowedPaymentLineItem from 'src/escrow/EscrowedPaymentLineItem'
+import { escrowPaymentDouble } from 'src/escrow/__mocks__'
 import { createMockStore } from 'test/utils'
 import { mockE164Number, mockE164NumberHashWithPepper, mockE164NumberPepper } from 'test/values'
 
@@ -26,6 +26,9 @@ describe(EscrowedPaymentLineItem, () => {
         e164NumberToSalt: {
           [mockE164Number]: mockE164NumberPepper,
         },
+      },
+      recipients: {
+        phoneRecipientCache: {},
       },
     })
     const tree = renderer.create(

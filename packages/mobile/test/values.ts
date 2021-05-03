@@ -362,7 +362,7 @@ export const mockUriData: UriData[] = [
 export const mockQRCodeRecipient: AddressRecipient = {
   address: mockUriData[3].address.toLowerCase(),
   displayNumber: mockUriData[3].e164PhoneNumber,
-  name: mockUriData[3].displayName || 'anonymous',
+  name: mockUriData[3].displayName,
   e164PhoneNumber: mockUriData[3].e164PhoneNumber,
   thumbnailPath: undefined,
   contactId: undefined,

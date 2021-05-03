@@ -98,7 +98,6 @@ describe(watchQrCodeDetections, () => {
       isFromScan: true,
       recipient: {
         address: mockAccount.toLowerCase(),
-        name: 'anonymous',
         e164PhoneNumber: mockE164Number,
         contactId: undefined,
         thumbnailPath: undefined,
