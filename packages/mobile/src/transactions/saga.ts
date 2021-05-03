@@ -2,15 +2,18 @@ import { CeloTransactionObject } from '@celo/connect'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
-import { call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
+import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
+import { getProfileInfo } from 'src/account/profileInfo'
 import { showError } from 'src/alert/actions'
+import { TokenTransactionType, TransferItemFragment } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import { fetchGoldBalance } from 'src/goldToken/actions'
 import { Actions as IdentityActions } from 'src/identity/actions'
-import { addressToE164NumberSelector } from 'src/identity/reducer'
-import { NumberToRecipient } from 'src/recipients/recipient'
-import { recipientCacheSelector } from 'src/recipients/reducer'
+import { addressToE164NumberSelector, AddressToE164NumberType } from 'src/identity/reducer'
+import { updateValoraRecipientCache } from 'src/recipients/actions'
+import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
+import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { fetchDollarBalance } from 'src/stableToken/actions'
 import {
   Actions,
@@ -30,6 +33,7 @@ import {
   standbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
+import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
 import { StandbyTransaction, TransactionContext, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 
@@ -116,8 +120,8 @@ export function* sendAndMonitorTransaction<T>(
 }
 
 function* refreshRecentTxRecipients() {
-  const addressToE164Number = yield select(addressToE164NumberSelector)
-  const recipientCache = yield select(recipientCacheSelector)
+  const addressToE164Number: AddressToE164NumberType = yield select(addressToE164NumberSelector)
+  const recipientCache: NumberToRecipient = yield select(phoneRecipientCacheSelector)
   const knownFeedTransactions: KnownFeedTransactionsType = yield select(
     knownFeedTransactionsSelector
   )
@@ -148,21 +152,52 @@ function* refreshRecentTxRecipients() {
     }
 
     const e164PhoneNumber = addressToE164Number[address]
-    const cachedRecipient = recipientCache[e164PhoneNumber]
-    // Skip if there is no recipient to cache or we've already cached them
-    if (!cachedRecipient || recentTxRecipientsCache[e164PhoneNumber]) {
-      continue
-    }
+    if (e164PhoneNumber) {
+      const cachedRecipient = recipientCache[e164PhoneNumber]
+      // Skip if there is no recipient to cache or we've already cached them
+      if (!cachedRecipient || recentTxRecipientsCache[e164PhoneNumber]) {
+        continue
+      }
 
-    recentTxRecipientsCache[e164PhoneNumber] = cachedRecipient
-    remainingCacheStorage -= 1
+      recentTxRecipientsCache[e164PhoneNumber] = cachedRecipient
+      remainingCacheStorage -= 1
+    }
   }
 
   yield put(updateRecentTxRecipientsCache(recentTxRecipientsCache))
 }
 
+function* addProfile(transaction: TransferItemFragment) {
+  const address = transaction.account
+  const newProfile: AddressToRecipient = {}
+  if (transaction.type === TokenTransactionType.Received) {
+    const info = yield call(getProfileInfo, address)
+    if (info) {
+      newProfile[address] = {
+        address,
+        name: info?.name,
+        thumbnailPath: info?.thumbnailPath,
+      }
+
+      yield put(updateValoraRecipientCache(newProfile))
+      Logger.info(TAG, `added ${newProfile} to valoraRecipientCache`)
+    }
+  }
+}
+
+function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
+  yield all(
+    transactions.map((trans) => {
+      if (isTransferTransaction(trans)) {
+        return call(addProfile, trans)
+      }
+    })
+  )
+}
+
 function* watchNewFeedTransactions() {
   yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, cleanupStandbyTransactions)
+  yield takeEvery(Actions.NEW_TRANSACTIONS_IN_FEED, addRecipientProfiles)
   yield takeLatest(Actions.NEW_TRANSACTIONS_IN_FEED, refreshRecentTxRecipients)
 }
 

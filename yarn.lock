@@ -2068,10 +2068,10 @@
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-1.1.0-beta.1.tgz#9b2881272dd430b22abe07ed2839bab62a7aa193"
   integrity sha512-5e16xaYZX6GWXCoVnGpO1U+dsaSl5XKvBDhrrO88ZlbGdUtlPQVu2oNPtOH2KlQRAC8aU9KigkG5QaiIYiilpw==
 
-"@celo/client@0.0.336":
-  version "0.0.336"
-  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.336.tgz#6b5cb88c3879f93e6d1e9d9348c4326c08f3c2d0"
-  integrity sha512-mszyuJb5Us2M2WLY6gWiZVkf/5w+fipA4TVQ21TaUlz6+COcM+qsjGv5Cs00rCJmxXV+PgQeZJPixk8BhBAIYQ==
+"@celo/client@0.0.352":
+  version "0.0.352"
+  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.352.tgz#e9860a1b69916263e6bf5911a625d9924bd051f7"
+  integrity sha512-BaruxsUvFv4zm3v5DqmMzbNmcOLCBy3z49CjmYpiouQ9OOc6uNXHoozOq5QkIWK5r4lCodpH+tHHP7R1lskCUg==
 
 "@celo/connect@1.1.0-beta.1":
   version "1.1.0-beta.1"
@@ -4514,20 +4514,20 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@segment/analytics-react-native-adjust@^1.4.3":
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-adjust/-/analytics-react-native-adjust-1.4.3.tgz#b390fe32a190a7c0ccc2f00bcba697300388bac3"
-  integrity sha512-G20iwIUlOQnQ4xnvwU+X40JCXFBEw9cn0i+dJ3QqctMmG36skf0eycodRHN7fi1aYAFzBtyHUonrRTmkUMqYYg==
+"@segment/analytics-react-native-adjust@^1.4.4":
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-adjust/-/analytics-react-native-adjust-1.4.4.tgz#d95641044369c1e3f36269a0a96e3b2c0e19e252"
+  integrity sha512-/OyFlfrAzqtTuyolwCv4XiAfQN7nBpg3klVfcEkO/rfa7eTUPo1P+CtDTsDzs/11/DLiwl+hpwErqYpB+XMCOw==
 
-"@segment/analytics-react-native-firebase@^1.4.3":
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-firebase/-/analytics-react-native-firebase-1.4.3.tgz#8727680a1664169d52c670e52507b95a04257592"
-  integrity sha512-AYev8gJMQ/VRwws/LLEwk7BmZChzLMdO2XuKxTy9egMchCZZmSy6DZoPj6o1qBMLaSK2vM5wYAp/jYcmbQ5WhQ==
+"@segment/analytics-react-native-firebase@^1.4.4":
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-firebase/-/analytics-react-native-firebase-1.4.4.tgz#72d3101d13cc54c5274c00d7e574761ea4d3740d"
+  integrity sha512-jLAg58Fsyh4zgVdwPrgyxPi+dCNMkVA7WOkzYhh/Uypc0G9/He4tXqLj9v1jdqtr5QdadBzQVGNMPRyuNLUvUg==
 
-"@segment/analytics-react-native@^1.4.3":
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-1.4.3.tgz#82e9f3cb52c0ad4c61e1035dc20201cf0ccb5f81"
-  integrity sha512-pVFId6wonpU72COAhIwnUsrWVX/IDHqE6d4mSWRts0z+xoqFOHGh1TqXFGjnCEi3R0i0DtsN1dnWok8IhKew+A==
+"@segment/analytics-react-native@^1.4.4":
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-1.4.4.tgz#1c5e4f18ac46dd899947c758f104004fc7d5ffce"
+  integrity sha512-zSgoGvw3VNqam0QoumOGiNr97ar3tutSwuMJPj2Da6mcJBVohMYHQcpShyufWfsiDeX8oMnu+UJx5eo+cxskrw==
 
 "@sentry/browser@5.28.0":
   version "5.28.0"

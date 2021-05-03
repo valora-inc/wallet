@@ -213,7 +213,8 @@ jobs:
           command: |
             echo `. ~/.bash_profile` # for some mreason just `source ~/.bash_profile` makes the build fail
             # install nvm
-            HOMEBREW_NO_AUTO_UPDATE=1 brew install wget
+            brew update
+            brew install wget
             wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.0/install.sh | bash
             echo -e '\nexport NVM_DIR="$HOME/.nvm"' >> ~/.bash_profile
             echo -e '\n[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bash_profile # add nvm to path
@@ -281,11 +282,12 @@ jobs:
           command: |
             echo 'export PATH=/usr/local/opt/node@10/bin:$PATH' >> $BASH_ENV
             source $BASH_ENV
+      # brew update added as temporary fix to deal with bintray sunset
       - run:
           name: Install needed tools
           command: |
             set -euo pipefail
-            export HOMEBREW_NO_AUTO_UPDATE=1
+            brew update
             brew install node@10
             brew tap wix/brew
             brew install applesimutils
@@ -372,7 +374,6 @@ jobs:
       - store_test_results:
           path: packages/mobile/e2e/test-results
 
-
   lint-checks:
     <<: *defaults
     steps:
@@ -392,6 +393,7 @@ jobs:
 
   general-tests:
     <<: *defaults
+    resource_class: large
     steps:
       - attach_workspace:
           at: ~/app
