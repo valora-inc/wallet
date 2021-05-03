@@ -526,7 +526,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
 
 const generalScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen name={Screens.SetClock} component={SetClock} />
+    <Navigator.Screen
+      name={Screens.SetClock}
+      component={SetClock}
+      options={noHeaderGestureDisabled}
+    />
     <Navigator.Screen
       name={Screens.TransactionReview}
       component={TransactionReview}
