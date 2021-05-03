@@ -132,7 +132,7 @@
     "react-native-randombytes": "^3.6.0",
     "react-native-reanimated": "^2.0.0-rc.1",
     "react-native-restart-android": "^0.0.7",
-    "react-native-safe-area-context": "^3.0.6",
+    "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^2.7.0",
     "react-native-securerandom": "^1.0.0",
     "react-native-send-intent": "git+https://github.com/celo-org/react-native-send-intent#a0f4b00",
