@@ -282,7 +282,7 @@ As an alternative, Flipper can be used instead.
 
 #### Install Flipper
 
-[Flipper][flipper] is a platform for debugging iOS, Android and React Native apps. Visualize, inspect, and control your apps from a simple desktop interface.
+[Flipper][flipper] is a platform for debugging iOS, Android and React Native apps. Visualize, inspect, and control your apps from a simple desktop interface. Download on the web or through brew.
 
 ```sh
 brew install flipper
