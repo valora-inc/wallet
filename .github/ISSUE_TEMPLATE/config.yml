@@ -1,12 +1,12 @@
 blank_issues_enabled: true
 contact_links:
-  - name: 🙋 Get Support for your issues.
+  - name: 🙋 Get Support for your issues
     url: https://valoraapp.com/support
     about: This issue tracker is not for support questions. Please refer to our support page or submit an in-app support ticket.
-  - name: 📲 Download the App
+  - name: 📲 Download Valora
     url: https://valoraapp.com/
-    about: Visit to download the app
-  - name: 💬 Join the Discussion on Discord.
+    about: Visit to download Valora on a mobile device.
+  - name: 💬 Join the Discussion on Discord
     url: https://discord.gg/7tKnCbHv5j
     about: This issue tracker is not for external development discussions. Please join our Discord to talk about developing with Valora for external apps or the CELO protocol.
   - name: The CELO Website
@@ -15,7 +15,7 @@ contact_links:
   - name: The CELO Blog
     url: https://medium.com/celoorg
     about: Learn more about what's new and coming to CELO.
-  - name: Check out CELO on Reddit!
+  - name: CELO on Reddit
     url: https://www.reddit.com/r/celo/
     about: Check out The Official CELO Subreddit.
   - name: The cLabs Website
