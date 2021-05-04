@@ -6,6 +6,7 @@ describe('AnalyticsEvents', () => {
     const eventsEnums = Object.keys(AnalyticsEvents)
 
     for (const eventEnumKey of eventsEnums) {
+      // @ts-ignore
       const eventEnum = AnalyticsEvents[eventEnumKey]
 
       for (const [key, value] of Object.entries(eventEnum)) {
