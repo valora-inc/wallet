@@ -140,10 +140,7 @@ function celoGoldExchangeRateHistoryChannel(lastTimeUpdated: number) {
       })
 
     return () => {
-      firebase
-        .database()
-        .ref(`${EXCHANGE_RATES}/cGLD/cUSD`)
-        .off()
+      firebase.database().ref(`${EXCHANGE_RATES}/cGLD/cUSD`).off()
     }
   })
 }

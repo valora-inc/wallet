@@ -101,10 +101,7 @@ const getOrCreateUuid = async (userAddress: string) => {
   }
 
   simplexId = uuidv4()
-  await admin
-    .database()
-    .ref(`registrations/${userAddress}`)
-    .update({ simplexId })
+  await admin.database().ref(`registrations/${userAddress}`).update({ simplexId })
 
   return simplexId
 }
