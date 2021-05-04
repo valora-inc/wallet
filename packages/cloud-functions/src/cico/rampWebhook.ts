@@ -4,7 +4,7 @@ import * as functions from 'firebase-functions'
 import { readFileSync } from 'fs'
 import { RAMP_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
-import { Provider } from './Provider'
+import { Providers } from './fetchProviders'
 
 const rampKey = readFileSync(`./config/${RAMP_DATA.pem_file}`).toString()
 
@@ -84,7 +84,7 @@ export const rampWebhook = functions.https.onRequest((request, response) => {
       const address = receiverAddress
 
       if (finalTxHash) {
-        saveTxHashProvider(address, finalTxHash, Provider.Ramp)
+        saveTxHashProvider(address, finalTxHash, Providers.Ramp)
       } else {
         console.error('Tx hash not found for Ramp release action')
       }

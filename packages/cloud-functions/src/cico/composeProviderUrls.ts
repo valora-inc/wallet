@@ -66,14 +66,16 @@ export const composeProviderUrl = (provider: Providers, requestData: ProviderReq
   }
 
   if (provider === Providers.Xanpool) {
-    const supportedCurrencies = ['IDR', 'VND', 'SGD', 'HKD', 'TBH', 'INR', 'MYR', 'PHP']
-
     return `
       ${XANPOOL_DATA.widget_url}
         ?apiKey=${XANPOOL_DATA.public_key}
         &wallet=${walletAddress}
         &cryptoCurrency=${digitalAsset}
-        ${supportedCurrencies.includes(fiatCurrency) ? `&currency=${fiatCurrency}` : ''}
+        ${
+          XANPOOL_DATA.supported_currencies.includes(fiatCurrency)
+            ? `&currency=${fiatCurrency}`
+            : ''
+        }
         &fiat=${fiatAmount}
         &redirectUrl=${cashInSuccessDeepLink}
       `.replace(/\s+/g, '')

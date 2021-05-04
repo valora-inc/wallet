@@ -32,6 +32,7 @@ export const XANPOOL_DATA = {
   widget_url: config.xanpool.widget_url,
   public_key: config.xanpool.public_key,
   private_key: config.xanpool.private_key,
+  supported_currencies: ['IDR', 'VND', 'SGD', 'HKD', 'TBH', 'INR', 'MYR', 'PHP'],
 }
 
 export const VALORA_LOGO_URL =

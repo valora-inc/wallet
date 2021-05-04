@@ -1,5 +1,5 @@
 import { saveTxHashProvider } from '../firebase'
-import { Provider } from './Provider'
+import { Providers } from './fetchProviders'
 import { rampWebhook } from './rampWebhook'
 
 const mockVerify = jest.fn()
@@ -42,7 +42,7 @@ describe('Ramp cash in', () => {
 
     expect(response.status).toHaveBeenCalledWith(204)
     expect(saveTxHashProvider).toHaveBeenCalledTimes(1)
-    expect(saveTxHashProvider).toHaveBeenCalledWith('0x123', '0x456', Provider.Ramp)
+    expect(saveTxHashProvider).toHaveBeenCalledWith('0x123', '0x456', Providers.Ramp)
   })
 
   it('POST /ramp - wrong signature', async () => {

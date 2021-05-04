@@ -6,7 +6,6 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CurrencyCode, MOONPAY_API_KEY } from 'src/config'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -23,7 +22,7 @@ interface ProviderRequestData {
 }
 
 export interface Provider {
-  name: CicoProviderNames
+  name: string
   restricted: boolean
   unavailable?: boolean
   paymentMethods: PaymentMethod[]
@@ -104,6 +103,11 @@ export const fetchProviders = async (
 ): Promise<Provider[] | undefined> => {
   try {
     const response = await fetch(networkConfig.providerFetchUrl, composePostObject(requestData))
+
+    if (!response.ok) {
+      throw Error(`fetchProviders failed with status ${response.status}`)
+    }
+
     return response.json()
   } catch (error) {
     Logger.error(TAG, error.message)
@@ -114,11 +118,14 @@ export const fetchProviders = async (
 export const fetchUserLocationData = async (countryCallingCode: string | null) => {
   let userLocationData: UserLocationData
   try {
-    const ipAddressFetchResponse = await fetch(
-      `https://api.moonpay.com/v4/ip_address?apiKey=${MOONPAY_API_KEY}`
-    )
-    const ipAddressObj: MoonPayIpAddressData = await ipAddressFetchResponse.json()
-    const { alpha2, state, ipAddress } = ipAddressObj
+    const response = await fetch(`https://api.moonpay.com/v4/ip_address?apiKey=${MOONPAY_API_KEY}`)
+
+    if (!response.ok) {
+      throw Error(`fetchUserLocationData failed with status ${response.status}`)
+    }
+
+    const locationData: MoonPayIpAddressData = await response.json()
+    const { alpha2, state, ipAddress } = locationData
 
     if (!alpha2) {
       throw Error('Could not determine country from IP address')
@@ -126,6 +133,7 @@ export const fetchUserLocationData = async (countryCallingCode: string | null) =
 
     userLocationData = { country: alpha2, state, ipAddress }
   } catch (error) {
+    Logger.error(TAG, error.message)
     // If MoonPay endpoint fails then use country code to determine location
     const country = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
     let ipAddress
@@ -139,44 +147,6 @@ export const fetchUserLocationData = async (countryCallingCode: string | null) =
   }
 
   return userLocationData
-}
-
-export const fetchSimplexQuote = async (
-  userAddress: string,
-  currentIpAddress: string,
-  currencyToBuy: CurrencyCode,
-  fiatCurrency: LocalCurrencyCode,
-  amount: number,
-  amountIsFiat: boolean
-) => {
-  try {
-    const response = await fetch(
-      networkConfig.simplexApiUrl,
-      composePostObject({
-        type: 'quote',
-        userAddress,
-        currentIpAddress,
-        currencyToBuy,
-        fiatCurrency,
-        amount,
-        amountIsFiat,
-      })
-    )
-
-    if (!response.ok) {
-      throw Error(`Simplex quote endpoint responded with status ${response.status}`)
-    }
-
-    const simplexQuoteResponse = await response.json()
-    if (simplexQuoteResponse?.error) {
-      throw Error(simplexQuoteResponse.error)
-    }
-
-    const simplexQuote: SimplexQuote = simplexQuoteResponse
-    return simplexQuote
-  } catch (error) {
-    Logger.error(TAG, error.message)
-  }
 }
 
 export const fetchSimplexPaymentData = async (
@@ -219,9 +189,6 @@ export const fetchSimplexPaymentData = async (
     Logger.error(TAG, error.message)
   }
 }
-
-export const isExpectedUrl = (fetchedUrl: string, providerUrl: string) =>
-  fetchedUrl.startsWith(providerUrl)
 
 // Leaving unoptimized for now because sorting is most relevant when fees will be visible
 export const sortProviders = (provider1: Provider, provider2: Provider) => {

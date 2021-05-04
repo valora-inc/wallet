@@ -36,28 +36,11 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { navigateToURI } from 'src/utils/linking'
-import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'ProviderOptionsScreen'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
-
-ProviderOptionsScreen.navigationOptions = ({
-  route,
-}: {
-  route: RouteProp<StackParamList, Screens.ProviderOptionsScreen>
-}) => {
-  const eventName = route.params?.isCashIn
-    ? FiatExchangeEvents.cico_add_funds_select_provider_back
-    : FiatExchangeEvents.cico_cash_out_select_provider_back
-
-  return {
-    ...emptyHeader,
-    headerLeft: () => <BackButton eventName={eventName} />,
-    headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
-  }
-}
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
@@ -103,22 +86,22 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
   const asyncProviders = useAsync(async () => {
     if (!userLocation) {
-      Logger.error(TAG, 'User location not yet set')
+      console.error(TAG, 'User location not yet set')
       return
     }
 
     if (!isFocused) {
-      Logger.error(TAG, 'Screen is not in focus')
+      console.error(TAG, 'Screen is not in focus')
       return
     }
 
     if (!account) {
-      Logger.error(TAG, 'No account set')
+      console.error(TAG, 'No account set')
       return
     }
 
     if (!route.params.amount.fiat && !route.params.amount.crypto) {
-      Logger.error(TAG, 'No fiat or crypto purchase amount set')
+      console.error(TAG, 'No fiat or crypto purchase amount set')
       return
     }
 
@@ -220,6 +203,22 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       </SafeAreaView>
     </ScrollView>
   )
+}
+
+ProviderOptionsScreen.navigationOptions = ({
+  route,
+}: {
+  route: RouteProp<StackParamList, Screens.ProviderOptionsScreen>
+}) => {
+  const eventName = route.params?.isCashIn
+    ? FiatExchangeEvents.cico_add_funds_select_provider_back
+    : FiatExchangeEvents.cico_cash_out_select_provider_back
+
+  return {
+    ...emptyHeader,
+    headerLeft: () => <BackButton eventName={eventName} />,
+    headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
+  }
 }
 
 export default ProviderOptionsScreen

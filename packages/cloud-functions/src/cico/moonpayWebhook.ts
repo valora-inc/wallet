@@ -2,7 +2,7 @@ import crypto from 'crypto'
 import * as functions from 'firebase-functions'
 import { MOONPAY_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
-import { Provider } from './Provider'
+import { Providers } from './fetchProviders'
 
 const MOONPAY_SIGNATURE_HEADER = 'Moonpay-Signature-V2'
 
@@ -102,7 +102,7 @@ export const moonpayWebhook = functions.https.onRequest((request, response) => {
     )
 
     if (cryptoTransactionId) {
-      saveTxHashProvider(walletAddress, cryptoTransactionId, Provider.Moonpay)
+      saveTxHashProvider(walletAddress, cryptoTransactionId, Providers.Moonpay)
     } else {
       console.error('Tx hash not found on MoonPay webhook')
     }
