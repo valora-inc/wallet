@@ -14,6 +14,7 @@ import {
   mockContactWithPhone,
   mockCountryCode,
   mockE164Number,
+  mockRecipient,
 } from 'test/values'
 
 const celoRewardSenderAddress = '0x123456'
@@ -40,6 +41,7 @@ describe('TransferConfirmationCard', () => {
       address: mockAccount,
       comment: '',
       amount: { value: '-0.3', currencyCode: 'cUSD', localAmount: null },
+      recipient: mockRecipient,
     }
 
     const tree = renderer.create(
@@ -57,6 +59,7 @@ describe('TransferConfirmationCard', () => {
       address: mockAccount,
       comment: '',
       amount: { value: '100', currencyCode: 'cUSD', localAmount: null },
+      recipient: mockRecipient,
     }
 
     const tree = renderer.create(
@@ -76,6 +79,7 @@ describe('TransferConfirmationCard', () => {
       amount: { value: '100', currencyCode: 'cUSD', localAmount: null },
       contact: mockContactWithPhone,
       e164PhoneNumber: mockE164Number,
+      recipient: mockRecipient,
     }
 
     const tree = renderer.create(
@@ -93,6 +97,7 @@ describe('TransferConfirmationCard', () => {
       address: celoRewardSenderAddress,
       comment: '',
       amount: { value: '100', currencyCode: 'cUSD', localAmount: null },
+      recipient: mockRecipient,
     }
 
     const tree = render(
@@ -114,6 +119,7 @@ describe('TransferConfirmationCard', () => {
       amount: { value: '100', currencyCode: 'cUSD', localAmount: null },
       contact: mockContactWithPhone,
       e164PhoneNumber: mockE164Number,
+      recipient: mockRecipient,
     }
 
     const tree = renderer.create(
@@ -133,6 +139,7 @@ describe('TransferConfirmationCard', () => {
       amount: { value: '-100', currencyCode: 'cUSD', localAmount: null },
       contact: mockContactWithPhone,
       e164PhoneNumber: mockE164Number,
+      recipient: mockRecipient,
       fee: new BigNumber(0.01),
     }
 
@@ -153,6 +160,7 @@ describe('TransferConfirmationCard', () => {
       comment: mockComment,
       amount: { value: '-100', currencyCode: 'cGLD', localAmount: null },
       fee: new BigNumber(0.01),
+      recipient: mockRecipient,
     }
 
     const tree = renderer.create(
@@ -174,6 +182,7 @@ describe('TransferConfirmationCard', () => {
       contact: mockContactWithPhone,
       e164PhoneNumber: mockE164Number,
       fee: new BigNumber(0.01),
+      recipient: mockRecipient,
     }
 
     const tree = renderer.create(

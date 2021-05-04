@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import Avatar from 'src/components/Avatar'
-import { RecipientKind } from 'src/recipients/recipient'
 import { createMockStore } from 'test/utils'
 
 const mockName = 'mockName'
@@ -16,33 +15,34 @@ const store = createMockStore({
 })
 
 describe(Avatar, () => {
-  it('renders correctly with contact but without number', () => {
+  it('renders correctly with number and name', () => {
     const tree = renderer.create(
       <Provider store={store}>
-        <Avatar
-          iconSize={40}
-          recipient={{
-            kind: RecipientKind.Contact,
-            contactId: 'none',
-            displayName: mockName,
-          }}
-        />
+        <Avatar recipient={{ name: mockName, e164PhoneNumber: mockNumber }} iconSize={40} />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
   })
-  it('renders correctly with number but without contact', () => {
+  it('renders correctly with just number', () => {
     const tree = renderer.create(
       <Provider store={store}>
-        <Avatar iconSize={40} e164Number={mockNumber} />
+        <Avatar recipient={{ e164PhoneNumber: mockNumber }} iconSize={40} />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
   })
-  it('renders correctly with address but without contact nor number', () => {
+  it('renders correctly with address and name but no number', () => {
     const tree = renderer.create(
       <Provider store={store}>
-        <Avatar iconSize={40} address={mockAccount} />
+        <Avatar recipient={{ name: mockName, address: mockAccount }} iconSize={40} />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
+  })
+  it('renders correctly with address but no name nor number', () => {
+    const tree = renderer.create(
+      <Provider store={store}>
+        <Avatar recipient={{ address: mockAccount }} iconSize={40} />
       </Provider>
     )
     expect(tree).toMatchSnapshot()

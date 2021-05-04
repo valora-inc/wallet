@@ -489,6 +489,10 @@ export const v7Schema = {
     loading: false,
     notifications: {},
   },
+  recipients: {
+    phoneRecipientCache: {},
+    valoraRecipientCache: {},
+  },
   fiatExchanges: {
     lastUsedProvider: null,
     txHashToProvider: {},

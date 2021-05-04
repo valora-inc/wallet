@@ -45,7 +45,7 @@ export interface TxHashToProvider {
   [txHash: string]: CicoProviderNames | undefined
 }
 
-interface ProviderFeedInfo {
+export interface ProviderFeedInfo {
   name: string
   icon: string
 }

@@ -1,6 +1,6 @@
 {
   "name": "@celo/mobile",
-  "version": "1.12.2",
+  "version": "1.13.1",
   "author": "Celo",
   "license": "Apache-2.0",
   "private": true,
@@ -39,7 +39,7 @@
     ]
   },
   "dependencies": {
-    "@celo/client": "0.0.336",
+    "@celo/client": "0.0.352",
     "@celo/connect": "1.1.0-beta.1",
     "@celo/contractkit": "1.1.0-beta.1",
     "@celo/identity": "1.1.0-beta.1",
@@ -74,7 +74,7 @@
     "Base64": "^1.0.1",
     "apollo-boost": "^0.4.9",
     "apollo-cache-persist": "^0.1.1",
-    "await-lock":"^2.1.0",
+    "await-lock": "^2.1.0",
     "bignumber.js": "^9.0.0",
     "bn.js": "4.11.8",
     "country-data": "^0.0.31",
@@ -132,7 +132,7 @@
     "react-native-randombytes": "^3.6.0",
     "react-native-reanimated": "^2.0.0-rc.1",
     "react-native-restart-android": "^0.0.7",
-    "react-native-safe-area-context": "^3.0.6",
+    "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^2.7.0",
     "react-native-securerandom": "^1.0.0",
     "react-native-send-intent": "git+https://github.com/celo-org/react-native-send-intent#a0f4b00",
