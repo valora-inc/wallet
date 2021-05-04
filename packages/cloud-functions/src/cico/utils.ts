@@ -1,3 +1,82 @@
+import * as admin from 'firebase-admin'
+import { v4 as uuidv4 } from 'uuid'
+import { ASYNC_TIMEOUT } from '../config'
+const { BigQuery } = require('@google-cloud/bigquery')
+
+const gcloudProject = process.env.GCLOUD_PROJECT
+const bigQueryProjectId = 'celo-testnet-production'
+const bigQueryDataset =
+  gcloudProject === 'celo-mobile-alfajores' ? 'mobile_wallet_dev' : 'mobile_wallet_production'
+const bigQuery = new BigQuery({ projectId: `${bigQueryProjectId}` })
+
+export interface UserDeviceInfo {
+  id: string
+  appVersion: string
+  userAgent: string
+}
+
+interface UserInitData {
+  ipAddress: string
+  timestamp: string
+  userAgent: string
+}
+
+export const getUserInitData = async (
+  currentIpAddress: string,
+  deviceId: string,
+  userAgent: string
+): Promise<UserInitData> => {
+  const [data] = await bigQuery.query(`
+    SELECT context_ip, device_info_user_agent, timestamp
+    FROM ${bigQueryProjectId}.${bigQueryDataset}.app_launched
+    WHERE user_address = (
+        SELECT user_address
+        FROM ${bigQueryProjectId}.${bigQueryDataset}.app_launched
+        WHERE device_info_unique_id= "${deviceId}"
+        AND user_address IS NOT NULL
+        ORDER BY timestamp DESC
+        LIMIT 1
+    )
+    ORDER BY timestamp ASC
+    LIMIT 1
+  `)
+
+  if (!data.length) {
+    return {
+      ipAddress: currentIpAddress,
+      timestamp: new Date().toISOString(),
+      userAgent,
+    }
+  }
+
+  const { context_ip, device_info_user_agent, timestamp } = data[0]
+
+  const userInitData = {
+    ipAddress: context_ip,
+    timestamp: timestamp.value,
+    userAgent: device_info_user_agent,
+  }
+
+  return userInitData
+}
+
+export const getOrCreateUuid = async (userAddress: string) => {
+  let simplexId = await admin
+    .database()
+    .ref(`registrations/${userAddress}/simplexId`)
+    .once('value')
+    .then((snapshot) => snapshot.val())
+
+  if (simplexId) {
+    return simplexId
+  }
+
+  simplexId = uuidv4()
+  await admin.database().ref(`registrations/${userAddress}`).update({ simplexId })
+
+  return simplexId
+}
+
 export function getFirebaseAdminCreds(admin: any) {
   if (!process.env.GCLOUD_PROJECT) {
     try {
@@ -16,4 +95,15 @@ export function getFirebaseAdminCreds(admin: any) {
       console.error('Error: Could not retrieve default app creds', error)
     }
   }
+}
+
+export const promiseWithTimeout = async (promise: Promise<any>): Promise<any> => {
+  const timeout = new Promise<undefined>((resolve, reject) => {
+    const id = setTimeout(() => {
+      clearTimeout(id)
+      reject(`Request timed out after ${ASYNC_TIMEOUT}ms`)
+    }, ASYNC_TIMEOUT)
+  })
+
+  return Promise.race([promise, timeout])
 }

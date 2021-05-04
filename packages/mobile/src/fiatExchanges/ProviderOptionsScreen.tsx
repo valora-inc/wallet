@@ -19,6 +19,7 @@ import { selectProvider } from 'src/fiatExchanges/actions'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import {
+  fetchProviderUrls,
   fetchSimplexQuote,
   fetchUserLocationData,
   getProviderAvailability,
@@ -35,6 +36,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
+import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
@@ -105,6 +107,27 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const asyncUserLocation = useAsync(async () => fetchUserLocationData(countryCallingCode), [])
   const userLocation = asyncUserLocation.result
 
+  const asyncProviderUrls = useAsync(async () => {
+    if (!account || !userLocation?.ipAddress || !isFocused) {
+      return
+    }
+
+    const { fiat, crypto } = route.params.amount
+    if (!fiat && !crypto) {
+      return
+    }
+
+    return fetchProviderUrls({
+      address: account,
+      fiatCurrency: localCurrency,
+      digitalAsset: currencyToBuy,
+      fiatAmount: fiat,
+      digiatAssetAmount: crypto,
+    })
+  }, [userLocation?.ipAddress, isFocused])
+
+  const providerUrls = asyncProviderUrls.result
+
   const asyncProviderQuotes = useAsync(async () => {
     if (!account || !userLocation?.ipAddress || !isFocused) {
       return
@@ -142,7 +165,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     id: CicoProviderNames.Xanpool,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     restricted: XANPOOL_RESTRICTED,
-    onSelected: () => navigate(Screens.XanpoolScreen, providerWidgetInputs),
+    onSelected: () => navigateToURI(providerUrls[CicoProviderNames]),
   }
 
   const moonpay = {
@@ -198,7 +221,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     provider.onSelected()
   }
 
-  return !userLocation || asyncProviderQuotes.status === 'loading' ? (
+  return !userLocation ||
+    asyncProviderQuotes.status === 'loading' ||
+    asyncProviderUrls.status === 'loading' ? (
     <View style={styles.activityIndicatorContainer}>
       <ActivityIndicator size="large" color={colors.greenBrand} />
     </View>

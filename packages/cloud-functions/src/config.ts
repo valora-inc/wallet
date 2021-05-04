@@ -42,7 +42,7 @@ export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
 
 export const CASH_IN_SUCCESS_URL = 'https://valoraapp.com/?done=true'
 
-export enum LocalCurrencyCode {
+export enum FiatCurrency {
   USD = 'USD',
   CAD = 'CAD',
   EUR = 'EUR',
@@ -60,7 +60,9 @@ export enum LocalCurrencyCode {
   AUD = 'AUD',
 }
 
-export enum CurrencyCode {
+export enum DigitalAsset {
   CELO = 'CELO',
   CUSD = 'CUSD',
 }
+
+export const ASYNC_TIMEOUT = 15000 // 15 seconds

@@ -6,7 +6,6 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CurrencyCode, MOONPAY_API_KEY } from 'src/config'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { providerAvailability } from 'src/flags'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
@@ -14,11 +13,12 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'fiatExchanges:utils'
-interface WidgetRequestData {
+interface ProviderUrlsRequestData {
   address: string | null
-  digitalAsset: string
   fiatCurrency: string
-  fiatAmount: number
+  digitalAsset: string
+  fiatAmount?: number
+  digiatAssetAmount?: number
 }
 
 export interface UserLocationData {
@@ -77,6 +77,10 @@ interface SimplexPaymentData {
   checkoutHtml: string
 }
 
+interface ProviderUrls {
+  [providerName: string]: string
+}
+
 const composePostObject = (body: any) => ({
   method: 'POST',
   headers: {
@@ -86,16 +90,11 @@ const composePostObject = (body: any) => ({
   body: JSON.stringify(body),
 })
 
-export const fetchProviderWidgetUrl = async (
-  provider: CicoProviderNames,
-  requestData: WidgetRequestData
-) => {
+export const fetchProviderUrls = async (
+  requestData: ProviderUrlsRequestData
+): Promise<ProviderUrls | undefined> => {
   try {
-    const response = await fetch(
-      networkConfig.providerComposerUrl,
-      composePostObject({ ...requestData, provider })
-    )
-
+    const response = await fetch(networkConfig.providerComposerUrl, composePostObject(requestData))
     return response.json()
   } catch (error) {
     Logger.error(TAG, error.message)
