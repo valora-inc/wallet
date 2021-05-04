@@ -5,20 +5,33 @@ import getIpAddress from 'react-native-public-ip'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CurrencyCode, MOONPAY_API_KEY } from 'src/config'
-import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
-import { providerAvailability } from 'src/flags'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'fiatExchanges:utils'
-interface ProviderUrlsRequestData {
-  address: string | null
-  fiatCurrency: string
-  digitalAsset: string
+interface ProviderRequestData {
+  userLocation: UserLocationData
+  walletAddress: string
+  fiatCurrency: LocalCurrencyCode
+  digitalAsset: CurrencyCode
   fiatAmount?: number
-  digiatAssetAmount?: number
+  digitalAssetAmount?: number
+}
+
+export interface Provider {
+  name: CicoProviderNames
+  restricted: boolean
+  unavailable?: boolean
+  paymentMethods: PaymentMethod[]
+  url?: string
+  logo: string
+  quote?: SimplexQuote
+  cashIn: boolean
+  cashOut: boolean
 }
 
 export interface UserLocationData {
@@ -77,10 +90,6 @@ interface SimplexPaymentData {
   checkoutHtml: string
 }
 
-interface ProviderUrls {
-  [providerName: string]: string
-}
-
 const composePostObject = (body: any) => ({
   method: 'POST',
   headers: {
@@ -90,15 +99,15 @@ const composePostObject = (body: any) => ({
   body: JSON.stringify(body),
 })
 
-export const fetchProviderUrls = async (
-  requestData: ProviderUrlsRequestData
-): Promise<ProviderUrls | undefined> => {
+export const fetchProviders = async (
+  requestData: ProviderRequestData
+): Promise<Provider[] | undefined> => {
   try {
-    const response = await fetch(networkConfig.providerComposerUrl, composePostObject(requestData))
+    const response = await fetch(networkConfig.providerFetchUrl, composePostObject(requestData))
     return response.json()
   } catch (error) {
     Logger.error(TAG, error.message)
-    showError(ErrorMessages.PROVIDER_URL_FETCH_FAILED)
+    showError(ErrorMessages.PROVIDER_FETCH_FAILED)
   }
 }
 
@@ -214,37 +223,8 @@ export const fetchSimplexPaymentData = async (
 export const isExpectedUrl = (fetchedUrl: string, providerUrl: string) =>
   fetchedUrl.startsWith(providerUrl)
 
-type ProviderAvailability = typeof providerAvailability
-type SpecificProviderAvailability = { [K in keyof ProviderAvailability]: boolean }
-
-type Entries<T> = Array<{ [K in keyof T]: [K, T[K]] }[keyof T]>
-
-export function getProviderAvailability(
-  userLocation: UserLocationData | undefined
-): SpecificProviderAvailability {
-  const countryCodeAlpha2 = userLocation?.country ?? null
-  const stateCode = userLocation?.state ?? null
-
-  // tslint:disable-next-line: no-object-literal-type-assertion
-  const features = {} as SpecificProviderAvailability
-  for (const [key, value] of Object.entries(
-    providerAvailability
-  ) as Entries<ProviderAvailability>) {
-    if (!countryCodeAlpha2) {
-      features[key] = false
-    } else {
-      if (countryCodeAlpha2 === 'US' && (value as any).US && (value as any).US !== true) {
-        features[key] = stateCode ? (value as any)[countryCodeAlpha2][stateCode] ?? false : false
-      } else {
-        features[key] = (value as any)[countryCodeAlpha2] ?? false
-      }
-    }
-  }
-  return features
-}
-
 // Leaving unoptimized for now because sorting is most relevant when fees will be visible
-export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) => {
+export const sortProviders = (provider1: Provider, provider2: Provider) => {
   if (provider1.unavailable) {
     return 1
   }

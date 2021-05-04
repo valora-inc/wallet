@@ -33,13 +33,15 @@ export enum PaymentMethod {
 }
 
 export interface Provider {
-  provider: Providers
+  name: Providers
   restricted: boolean
   unavailable?: boolean
   paymentMethods: PaymentMethod[]
   url?: string
   logo: string
   quote?: SimplexQuote
+  cashIn: boolean
+  cashOut: boolean
 }
 
 export const fetchProviders = functions.https.onRequest(async (request, response) => {
@@ -66,45 +68,55 @@ export const fetchProviders = functions.https.onRequest(async (request, response
 
   const providers: Provider[] = [
     {
-      provider: Providers.Moonpay,
+      name: Providers.Moonpay,
       restricted: MOONPAY_RESTRICTED,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Moonpay, requestData),
       logo:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+      cashIn: true,
+      cashOut: false,
     },
     {
-      provider: Providers.Ramp,
+      name: Providers.Ramp,
       restricted: RAMP_RESTRICTED,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Ramp, requestData),
       logo:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+      cashIn: true,
+      cashOut: false,
     },
     {
-      provider: Providers.Xanpool,
+      name: Providers.Xanpool,
       restricted: XANPOOL_RESTRICTED,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Xanpool, requestData),
       logo:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
+      cashIn: true,
+      cashOut: true,
     },
     {
-      provider: Providers.Transak,
+      name: Providers.Transak,
       restricted: TRANSAK_RESTRICTED,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Transak, requestData),
       logo:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+      cashIn: true,
+      cashOut: false,
     },
     {
-      provider: Providers.Simplex,
+      name: Providers.Simplex,
       restricted: SIMPLEX_RESTRICTED,
       unavailable: !simplexQuote,
       paymentMethods: [PaymentMethod.Card],
       logo:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
       quote: simplexQuote,
+      cashIn: true,
+      cashOut: false,
     },
   ]
 

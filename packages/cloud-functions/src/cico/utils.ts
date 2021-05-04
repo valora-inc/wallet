@@ -77,11 +77,11 @@ export const getOrCreateUuid = async (userAddress: string) => {
   return simplexId
 }
 
-export function getFirebaseAdminCreds(admin: any) {
+export function getFirebaseAdminCreds(localAdmin: any) {
   if (!process.env.GCLOUD_PROJECT) {
     try {
       const serviceAccount = require('../../config/serviceAccountKey.json')
-      return admin.credential.cert(serviceAccount)
+      return localAdmin.credential.cert(serviceAccount)
     } catch (error) {
       console.error(
         'Error: Could not initialize admin credentials. Is serviceAccountKey.json missing?',
@@ -90,7 +90,7 @@ export function getFirebaseAdminCreds(admin: any) {
     }
   } else {
     try {
-      return admin.credential.applicationDefault()
+      return localAdmin.credential.applicationDefault()
     } catch (error) {
       console.error('Error: Could not retrieve default app creds', error)
     }
@@ -98,6 +98,7 @@ export function getFirebaseAdminCreds(admin: any) {
 }
 
 export const promiseWithTimeout = async (promise: Promise<any>): Promise<any> => {
+  // @ts-ignore
   const timeout = new Promise<undefined>((resolve, reject) => {
     const id = setTimeout(() => {
       clearTimeout(id)
