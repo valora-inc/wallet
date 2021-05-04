@@ -821,6 +821,8 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
                     ]
                   }
                 >
+                  
+                  
                   0.0100
                 </Text>
               </Text>
