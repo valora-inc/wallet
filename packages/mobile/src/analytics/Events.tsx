@@ -318,7 +318,7 @@ export enum FiatExchangeEvents {
 
   cico_add_funds_amount_continue = 'cico_add_funds_amount_continue',
   cico_add_funds_amount_back = 'cico_add_funds_amount_back',
-  cico_add_funds_amount_insufficient = 'cico_add_funds_amount_insufficient',
+  cico_add_funds_invalid_amount = 'cico_add_funds_invalid_amount',
   cico_add_funds_amount_dialog_cancel = 'cico_add_funds_amount_dialog_cancel',
 
   cico_add_funds_select_provider_back = 'cico_add_funds_select_provider_back',
@@ -388,6 +388,11 @@ export enum NavigationEvents {
   navigator_not_ready = 'navigator_not_ready',
 }
 
+export enum RewardsEvents {
+  rewards_screen_opened = 'rewards_screen_opened',
+  rewards_screen_cta_pressed = 'rewards_screen_cta_pressed',
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -407,3 +412,4 @@ export type AnalyticsEventType =
   | NetworkEvents
   | PerformanceEvents
   | NavigationEvents
+  | RewardsEvents
