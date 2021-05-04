@@ -10,20 +10,16 @@ import {
   NotificationList,
   titleWithBalanceNavigationOptions,
 } from 'src/notifications/NotificationList'
-import { NumberToRecipient } from 'src/recipients/recipient'
-import { recipientCacheSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 
 interface StateProps {
   dollarBalance: string | null
   sentEscrowedPayments: EscrowedPayment[]
-  recipientCache: NumberToRecipient
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
   dollarBalance: state.stableToken.balance,
   sentEscrowedPayments: sentEscrowedPaymentsSelector(state),
-  recipientCache: recipientCacheSelector(state),
 })
 
 type Props = WithTranslation & StateProps

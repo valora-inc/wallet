@@ -3,7 +3,7 @@ import { generateDeterministicInviteCode } from '@celo/utils/lib/account'
 import { publicKeyToAddress } from '@celo/utils/lib/address'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { identifierToE164NumberSelector } from 'src/identity/reducer'
-import { recipientCacheSelector } from 'src/recipients/reducer'
+import { ContactRecipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 
 export const generateEscrowPaymentIdAndPk = (
@@ -36,13 +36,17 @@ export const generateUniquePaymentId = (
   }
 }
 
-export const useEscrowPaymentRecipient = (payment: EscrowedPayment) => {
+export const useEscrowPaymentRecipient = (payment: EscrowedPayment): ContactRecipient => {
   const { recipientPhone, recipientIdentifier } = payment
 
   const identifierToE164Number = useSelector(identifierToE164NumberSelector)
-  const recipientCache = useSelector(recipientCacheSelector)
+  const recipientCache = useSelector((state) => state.recipients.phoneRecipientCache)
   const phoneNumber = identifierToE164Number[recipientIdentifier] ?? recipientPhone
-  const recipient = recipientCache[phoneNumber]
+  const recipient = recipientCache[phoneNumber] ?? {
+    name: phoneNumber,
+    e164PhoneNumber: phoneNumber,
+    contactId: '',
+  }
 
-  return [recipient?.displayName || phoneNumber, phoneNumber]
+  return recipient
 }
