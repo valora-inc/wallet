@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { providersDisplayInfo } from 'src/fiatExchanges/reducer'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 
@@ -97,7 +98,7 @@ export const migrations = {
     }
   },
   7: (state: any) => {
-    const newAddressToDisplayName = Object.keys(state.identity.addressToDisplayName).reduce(
+    const newAddressToDisplayName = Object.keys(state.identity.addressToDisplayName || {}).reduce(
       (newMapping: AddressToDisplayNameType, address: string) => {
         newMapping[address] = {
           name: state.identity.addressToDisplayName[address],
@@ -116,7 +117,7 @@ export const migrations = {
     }
   },
   8: (state: any) => {
-    const lastUsedProvider = state.fiatExchanges.lastUsedProvider
+    const lastUsedProvider = state.fiatExchanges?.lastUsedProvider
     if (!lastUsedProvider || !lastUsedProvider.name) {
       return state
     }
@@ -164,6 +165,16 @@ export const migrations = {
     return {
       ...state,
       app: _.omit(state.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+    }
+  },
+  12: (state: any) => {
+    // Removing the exchange rate history because it's very likely that it's repeated a bunch of times.
+    return {
+      ...state,
+      exchange: {
+        ...state.exchange,
+        history: { ...exchangeInitialState.history },
+      },
     }
   },
 }

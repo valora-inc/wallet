@@ -13,6 +13,7 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { IdentityEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   Actions,
   endFetchingAddresses,
@@ -38,7 +39,7 @@ import {
 } from 'src/identity/reducer'
 import { checkIfValidationRequired } from 'src/identity/secureSend'
 import { ImportContactsStatus } from 'src/identity/types'
-import { setRecipientCache } from 'src/recipients/actions'
+import { setPhoneRecipientCache } from 'src/recipients/actions'
 import { contactsToRecipients, NumberToRecipient } from 'src/recipients/recipient'
 import { getAllContacts } from 'src/utils/contacts'
 import Logger from 'src/utils/Logger'
@@ -104,15 +105,15 @@ function* doImportContacts(doMatchmaking: boolean) {
   yield put(updateImportContactsProgress(ImportContactsStatus.Processing, 0, contacts.length))
 
   const defaultCountryCode: string = yield select(defaultCountryCodeSelector)
-  const recipients = contactsToRecipients(contacts, defaultCountryCode)
-  if (!recipients) {
+  const e164NumberToRecipients = contactsToRecipients(contacts, defaultCountryCode)
+  if (!e164NumberToRecipients) {
     Logger.warn(TAG, 'No recipients found')
     return true
   }
-  const { e164NumberToRecipients, otherRecipients } = recipients
 
   yield call(updateUserContact, e164NumberToRecipients)
-  yield call(updateRecipientsCache, e164NumberToRecipients, otherRecipients)
+  Logger.debug(TAG, 'Updating recipients cache')
+  yield put(setPhoneRecipientCache(e164NumberToRecipients))
 
   ValoraAnalytics.track(IdentityEvents.contacts_processing_complete)
 
@@ -143,14 +144,6 @@ function* updateUserContact(e164NumberToRecipients: NumberToRecipient) {
   }
 
   yield put(setUserContactDetails(userRecipient.contactId, userRecipient.thumbnailPath || null))
-}
-
-function* updateRecipientsCache(
-  e164NumberToRecipients: NumberToRecipient,
-  otherRecipients: NumberToRecipient
-) {
-  Logger.debug(TAG, 'Updating recipients cache')
-  yield put(setRecipientCache({ ...e164NumberToRecipients, ...otherRecipients }))
 }
 
 export function* fetchAddressesAndValidateSaga({
@@ -199,11 +192,9 @@ export function* fetchAddressesAndValidateSaga({
       secureSendPhoneNumberMapping,
       e164Number
     )
-
     if (addressValidationType !== AddressValidationType.NONE) {
       yield put(requireSecureSend(e164Number, addressValidationType))
     }
-
     yield put(
       updateE164PhoneNumberAddresses(e164NumberToAddressUpdates, addressToE164NumberUpdates)
     )
@@ -222,7 +213,12 @@ export function* fetchAddressesAndValidateSaga({
 function* getAccountAddresses(e164Number: string) {
   const phoneHashDetails: PhoneNumberHashDetails = yield call(fetchPhoneHashPrivate, e164Number)
   const phoneHash = phoneHashDetails.phoneHash
-  const accountAddresses: Address[] = yield call(lookupAccountAddressesForIdentifier, phoneHash)
+  const lostAccounts = yield call(fetchLostAccounts)
+  const accountAddresses: Address[] = yield call(
+    lookupAccountAddressesForIdentifier,
+    phoneHash,
+    lostAccounts
+  )
   return yield call(filterNonVerifiedAddresses, accountAddresses, phoneHash)
 }
 
@@ -258,14 +254,18 @@ function* fetchWalletAddresses(e164Number: string) {
 }
 
 // Returns a list of account addresses for the identifier received.
-export function* lookupAccountAddressesForIdentifier(id: string) {
+export function* lookupAccountAddressesForIdentifier(id: string, lostAccounts: string[] = []) {
   const contractKit = yield call(getContractKit)
   const attestationsWrapper: AttestationsWrapper = yield call([
     contractKit.contracts,
     contractKit.contracts.getAttestations,
   ])
 
-  return yield call([attestationsWrapper, attestationsWrapper.lookupAccountsForIdentifier], id)
+  const accounts = yield call(
+    [attestationsWrapper, attestationsWrapper.lookupAccountsForIdentifier],
+    id
+  )
+  return accounts.filter((address: string) => !lostAccounts.includes(address.toLowerCase()))
 }
 
 // Deconstruct the lookup result and return

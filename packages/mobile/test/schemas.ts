@@ -489,6 +489,10 @@ export const v7Schema = {
     loading: false,
     notifications: {},
   },
+  recipients: {
+    phoneRecipientCache: {},
+    valoraRecipientCache: {},
+  },
   fiatExchanges: {
     lastUsedProvider: null,
     txHashToProvider: {},
@@ -545,12 +549,17 @@ export const v8Schema = {
     ...v7Schema.account,
     recoveringFromStoreWipe: false,
     accountToRecoverFromStoreWipe: undefined,
+    dailyLimitRequestStatus: undefined,
+    profileUploaded: false,
   },
 }
 
 export const v9Schema = {
   ...v8Schema,
-  app: _.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+  app: {
+    ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+    showRaiseDailyLimitTarget: undefined,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

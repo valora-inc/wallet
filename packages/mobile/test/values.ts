@@ -1,4 +1,5 @@
 /* Shared mock values to facilitate testing */
+import { UnlockableWallet } from '@celo/wallet-base'
 import { StackNavigationProp } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import { MinimalContact } from 'react-native-contacts'
@@ -13,10 +14,12 @@ import { NotificationTypes } from 'src/notifications/types'
 import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
 import { UriData } from 'src/qrcode/schema'
 import {
-  RecipientKind,
-  RecipientWithContact,
-  RecipientWithMobileNumber,
-  RecipientWithQrCode,
+  AddressRecipient,
+  AddressToRecipient,
+  ContactRecipient,
+  MobileRecipient,
+  NumberToRecipient,
+  RecipientInfo,
 } from 'src/recipients/recipient'
 
 export const nullAddress = '0x0'
@@ -36,8 +39,10 @@ export const mockMnemonicShard2 =
 
 export const mockPrivateDEK = '41e8e8593108eeedcbded883b8af34d2f028710355c57f4c10a056b72486aa04'
 export const mockPublicDEK = '02c9cacca8c5c5ebb24dc6080a933f6d52a072136a069083438293d71da36049dc'
+export const mockDEKAddress = '0xa81a5f8c5894676fc11c0e3b6f75aa89cf117240'
 export const mockPrivateDEK2 = '855c5f9d5fc53962537eaf9a0f3ea40a7bc7e57a119e8473fffef24be20bffff'
 export const mockPublicDEK2 = '024c158e98449d9ca4dddeaa12c2432a5e7d38a48a53299fd22c51daf8d409957a'
+export const mockDEKAddress2 = '0x5fB37627975be239eDaf3A41852A12E7cd3965d1'
 
 export const mockContractAddress = '0x000000000000000000000000000000000000CE10'
 export const mockE164Number = '+14155550000'
@@ -109,22 +114,18 @@ export const mockInviteDetails3 = {
   inviteLink: 'http://celo.page.link/PARAMS',
 }
 
-export const mockInvitableRecipient: RecipientWithContact = {
-  kind: RecipientKind.Contact,
-  displayName: mockName,
-  displayId: '14155550000',
+export const mockInvitableRecipient: ContactRecipient = {
+  name: mockName,
+  displayNumber: '14155550000',
   e164PhoneNumber: mockE164Number,
   contactId: 'contactId',
-  phoneNumberLabel: 'phoneNumLabel',
 }
 
-export const mockInvitableRecipient2: RecipientWithContact = {
-  kind: RecipientKind.Contact,
-  displayName: mockNameInvite,
-  displayId: mockDisplayNumberInvite,
+export const mockInvitableRecipient2: ContactRecipient = {
+  name: mockNameInvite,
+  displayNumber: mockDisplayNumberInvite,
   e164PhoneNumber: mockE164NumberInvite,
   contactId: 'contactId',
-  phoneNumberLabel: 'phoneNumLabel',
 }
 
 export const mockTransactionData = {
@@ -139,34 +140,32 @@ export const mockInviteTransactionData = {
   type: TokenTransactionType.InviteSent,
 }
 
-export const mockInvitableRecipient3: RecipientWithContact = {
-  kind: RecipientKind.Contact,
-  displayName: mockName2Invite,
-  displayId: mockDisplayNumber2Invite,
+export const mockInvitableRecipient3: ContactRecipient = {
+  name: mockName2Invite,
+  displayNumber: mockDisplayNumber2Invite,
   e164PhoneNumber: mockE164Number2Invite,
   contactId: 'contactId',
-  phoneNumberLabel: 'phoneNumLabel',
 }
 
-export const mockRecipient: RecipientWithContact = {
+export const mockRecipient: ContactRecipient & AddressRecipient = {
   ...mockInvitableRecipient,
   address: mockAccount,
 }
 
-export const mockRecipient2: RecipientWithContact = {
+export const mockRecipient2: ContactRecipient & AddressRecipient = {
   ...mockInvitableRecipient2,
   address: mockAccountInvite,
 }
 
-export const mockRecipient3: RecipientWithContact = {
+export const mockRecipient3: ContactRecipient & AddressRecipient = {
   ...mockInvitableRecipient3,
   address: mockAccount2Invite,
 }
 
-export const mockRecipient4: RecipientWithContact = {
-  kind: RecipientKind.Contact,
-  displayName: 'Zebra Zone',
+export const mockRecipient4: ContactRecipient = {
+  name: 'Zebra Zone',
   contactId: 'contactId4',
+  e164PhoneNumber: '+14163957395',
 }
 
 export const mockE164NumberToInvitableRecipient = {
@@ -175,17 +174,22 @@ export const mockE164NumberToInvitableRecipient = {
   [mockE164Number2Invite]: mockInvitableRecipient3,
 }
 
-export const mockRecipientCache = {
+export const mockPhoneRecipientCache: NumberToRecipient = {
   [mockE164Number]: mockRecipient,
   [mockE164NumberInvite]: mockInvitableRecipient2,
   [mockE164Number2Invite]: mockInvitableRecipient3,
 }
 
-export const mockRecipientWithPhoneNumber: RecipientWithMobileNumber = {
-  kind: RecipientKind.MobileNumber,
+export const mockValoraRecipientCache: AddressToRecipient = {
+  [mockAccount]: mockRecipient,
+  [mockAccountInvite]: mockRecipient2,
+  [mockAccount2Invite]: mockRecipient3,
+}
+
+export const mockRecipientWithPhoneNumber: MobileRecipient = {
   address: mockAccount,
-  displayName: mockName,
-  displayId: '14155550000',
+  name: mockName,
+  displayNumber: '14155550000',
   e164PhoneNumber: mockE164Number,
 }
 
@@ -246,6 +250,7 @@ export const mockContactList = [mockContactWithPhone2, mockContactWithPhone]
 export const mockEscrowedPayment: EscrowedPayment = {
   senderAddress: mockAccount2,
   recipientPhone: mockE164Number,
+  recipientIdentifier: mockE164NumberHashWithPepper,
   paymentID: mockAccount,
   currency: SHORT_CURRENCIES.DOLLAR,
   amount: new BigNumber(10),
@@ -354,13 +359,32 @@ export const mockUriData: UriData[] = [
   },
 ]
 
-export const mockQRCodeRecipient: RecipientWithQrCode = {
-  kind: RecipientKind.QrCode,
+export const mockQRCodeRecipient: AddressRecipient = {
   address: mockUriData[3].address.toLowerCase(),
-  displayId: mockUriData[3].e164PhoneNumber,
-  displayName: mockUriData[3].displayName || 'anonymous',
+  displayNumber: mockUriData[3].e164PhoneNumber,
+  name: mockUriData[3].displayName,
   e164PhoneNumber: mockUriData[3].e164PhoneNumber,
-  phoneNumberLabel: undefined,
   thumbnailPath: undefined,
   contactId: undefined,
+}
+
+export const mockRecipientInfo: RecipientInfo = {
+  phoneRecipientCache: mockPhoneRecipientCache,
+  valoraRecipientCache: mockValoraRecipientCache,
+  addressToE164Number: mockAddressToE164Number,
+  addressToDisplayName: {},
+}
+
+export const mockWallet: UnlockableWallet = {
+  unlockAccount: jest.fn(),
+  isAccountUnlocked: jest.fn(),
+  addAccount: jest.fn(),
+  getAccounts: jest.fn(),
+  removeAccount: jest.fn(),
+  hasAccount: jest.fn(),
+  signTransaction: jest.fn(),
+  signTypedData: jest.fn(),
+  signPersonalMessage: jest.fn(),
+  decrypt: jest.fn(),
+  computeSharedSecret: jest.fn(),
 }

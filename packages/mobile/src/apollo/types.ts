@@ -272,7 +272,8 @@ export interface TransferItemFragment {
   type: TokenTransactionType
   hash: string
   timestamp: number
-  address: string
+  address: string // wallet address (EOA)
+  account: string // account address (MTW)
   comment: Maybe<string>
   amount: {
     __typename?: 'MoneyAmount'

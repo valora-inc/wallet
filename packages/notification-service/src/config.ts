@@ -44,6 +44,7 @@ export const WEB3_PROVIDER_URL = process.env.WEB3_PROVIDER_URL || 'UNDEFINED'
 export enum NotificationTypes {
   PAYMENT_RECEIVED = 'PAYMENT_RECEIVED',
   PAYMENT_REQUESTED = 'PAYMENT_REQUESTED',
+  INVITE_REDEEMED = 'INVITE_REDEEMED',
 }
 
 const en = require('../locales/en.json')

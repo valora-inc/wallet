@@ -1,6 +1,7 @@
 import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
+import { giveProfileAccess } from 'src/account/profileInfo'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -8,13 +9,14 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { calculateFee, FeeInfo } from 'src/fees/saga'
 import { transferGoldToken } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
-import { addressToE164NumberSelector, e164NumberToAddressSelector } from 'src/identity/reducer'
+import { e164NumberToAddressSelector } from 'src/identity/reducer'
 import { InviteBy } from 'src/invite/actions'
 import { sendInvite } from 'src/invite/saga'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { completePaymentRequest } from 'src/paymentRequest/actions'
 import { handleBarcode, shareSVGImage } from 'src/qrcode/utils'
-import { recipientCacheSelector } from 'src/recipients/reducer'
+import { recipientHasNumber, RecipientInfo } from 'src/recipients/recipient'
+import { recipientInfoSelector } from 'src/recipients/reducer'
 import {
   Actions,
   HandleBarcodeDetectedAction,
@@ -31,7 +33,7 @@ import {
 } from 'src/tokens/saga'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { getRegisterDekTxGas, registerAccountDek } from 'src/web3/dataEncryptionKey'
+import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
@@ -96,8 +98,8 @@ export function* watchQrCodeDetections() {
   while (true) {
     const action: HandleBarcodeDetectedAction = yield take(Actions.BARCODE_DETECTED)
     Logger.debug(TAG, 'Barcode detected in watcher')
-    const addressToE164Number = yield select(addressToE164NumberSelector)
-    const recipientCache = yield select(recipientCacheSelector)
+    const recipientInfo: RecipientInfo = yield select(recipientInfoSelector)
+
     const e164NumberToAddress = yield select(e164NumberToAddressSelector)
     const isOutgoingPaymentRequest = action.isOutgoingPaymentRequest
     let secureSendTxData
@@ -112,9 +114,8 @@ export function* watchQrCodeDetections() {
       yield call(
         handleBarcode,
         action.data,
-        addressToE164Number,
-        recipientCache,
         e164NumberToAddress,
+        recipientInfo,
         secureSendTxData,
         isOutgoingPaymentRequest,
         requesterAddress
@@ -149,9 +150,6 @@ function* sendPayment(
     ValoraAnalytics.track(SendEvents.send_tx_start)
 
     const ownAddress: string = yield select(currentAccountSelector)
-    // Ensure comment encryption is possible by first ensuring the account's DEK has been registered
-    // For most users, this happens during redeem invite or verification. This is a fallback.
-    yield call(registerAccountDek, ownAddress)
     const encryptedComment = yield call(encryptComment, comment, recipientAddress, ownAddress, true)
 
     const context = newTransactionContext(TAG, 'Send payment')
@@ -190,6 +188,7 @@ function* sendPayment(
       amount: amount.toString(),
       currency,
     })
+    yield call(giveProfileAccess, [recipientAddress])
   } catch (error) {
     Logger.error(`${TAG}/sendPayment`, 'Could not send payment', error)
     ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })
@@ -210,13 +209,9 @@ export function* sendPaymentOrInviteSaga({
   try {
     yield call(getConnectedUnlockedAccount)
 
-    if (!recipient?.e164PhoneNumber && !recipient?.address) {
-      throw new Error("Can't send to recipient without valid e164PhoneNumber or address")
-    }
-
     if (recipientAddress) {
       yield call(sendPayment, recipientAddress, amount, comment, CURRENCY_ENUM.DOLLAR, feeInfo)
-    } else if (recipient.e164PhoneNumber) {
+    } else if (recipientHasNumber(recipient)) {
       yield call(
         sendInvite,
         recipient.e164PhoneNumber,

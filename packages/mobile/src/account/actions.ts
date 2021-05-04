@@ -1,4 +1,4 @@
-import { PincodeType } from 'src/account/reducer'
+import { DailyLimitRequestStatus, PincodeType } from 'src/account/reducer'
 
 export enum Actions {
   CHOOSE_CREATE_ACCOUNT = 'ACCOUNT/CHOOSE_CREATE',
@@ -29,7 +29,9 @@ export enum Actions {
   SET_RETRY_VERIFICATION_WITH_FORNO = 'ACCOUNT/SET_RETRY_VERIFICATION_WITH_FORNO',
   ACCEPT_TERMS = 'ACCOUNT/ACCEPT_TERMS',
   CLEAR_STORED_ACCOUNT = 'ACCOUNT/CLEAR_STORED_ACCOUNT',
+  PROFILE_UPLOADED = 'ACCOUNT/PROFILE_UPLOADED',
   UPDATE_DAILY_LIMIT = 'ACCOUNT/UPDATE_DAILY_LIMIT',
+  UPDATE_DAILY_LIMIT_REQUEST_STATUS = 'ACCOUNT/UPDATE_DAILY_LIMIT_REQUEST_STATUS',
 }
 
 export interface ChooseCreateAccountAction {
@@ -110,6 +112,7 @@ export interface InitializeAccountFailureAction {
 
 export interface SetAccountCreationAction {
   type: Actions.SET_ACCOUNT_CREATION_TIME
+  now: number
 }
 
 export interface SetBackupCompletedAction {
@@ -118,6 +121,7 @@ export interface SetBackupCompletedAction {
 
 export interface SetBackupDelayedAction {
   type: Actions.SET_BACKUP_DELAYED
+  now: number
 }
 
 export interface ToggleBackupState {
@@ -158,9 +162,18 @@ export interface ClearStoredAccountAction {
   onlyReduxState: boolean
 }
 
+export interface ProfileUploadedAction {
+  type: Actions.PROFILE_UPLOADED
+}
+
 export interface UpdateDailyLimitAction {
   type: Actions.UPDATE_DAILY_LIMIT
   newLimit: number
+}
+
+export interface UpdateDailyLimitRequestStatusAction {
+  type: Actions.UPDATE_DAILY_LIMIT_REQUEST_STATUS
+  dailyLimitRequestStatus: DailyLimitRequestStatus
 }
 
 export type ActionTypes =
@@ -192,7 +205,9 @@ export type ActionTypes =
   | SetRetryVerificationWithFornoAction
   | AcceptTermsAction
   | ClearStoredAccountAction
+  | ProfileUploadedAction
   | UpdateDailyLimitAction
+  | UpdateDailyLimitRequestStatusAction
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -292,16 +307,18 @@ export const initializeAccountFailure = (): InitializeAccountFailureAction => ({
   type: Actions.INITIALIZE_ACCOUNT_FAILURE,
 })
 
-export const setAccountCreationTime = (): SetAccountCreationAction => ({
+export const setAccountCreationTime = (now: number): SetAccountCreationAction => ({
   type: Actions.SET_ACCOUNT_CREATION_TIME,
+  now,
 })
 
 export const setBackupCompleted = (): SetBackupCompletedAction => ({
   type: Actions.SET_BACKUP_COMPLETED,
 })
 
-export const setBackupDelayed = (): SetBackupDelayedAction => ({
+export const setBackupDelayed = (now: number): SetBackupDelayedAction => ({
   type: Actions.SET_BACKUP_DELAYED,
+  now,
 })
 
 export const toggleBackupState = (): ToggleBackupState => ({
@@ -350,7 +367,16 @@ export const clearStoredAccount = (
   onlyReduxState,
 })
 
+export const profileUploaded = (): ProfileUploadedAction => ({
+  type: Actions.PROFILE_UPLOADED,
+})
+
 export const updateCusdDailyLimit = (newLimit: number): UpdateDailyLimitAction => ({
   type: Actions.UPDATE_DAILY_LIMIT,
   newLimit,
+})
+
+export const updateDailyLimitRequestStatus = (status: DailyLimitRequestStatus) => ({
+  type: Actions.UPDATE_DAILY_LIMIT_REQUEST_STATUS,
+  dailyLimitRequestStatus: status,
 })

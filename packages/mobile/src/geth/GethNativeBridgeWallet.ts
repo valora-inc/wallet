@@ -13,7 +13,8 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'geth/GethNativeBridgeWallet'
 
-export class GethNativeBridgeWallet extends RemoteWallet<GethNativeBridgeSigner>
+export class GethNativeBridgeWallet
+  extends RemoteWallet<GethNativeBridgeSigner>
   implements UnlockableWallet {
   /**
    * Construct a React Native geth wallet which uses the bridge methods

@@ -14,8 +14,11 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
+import { RewardsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CELO_REWARDS_LINK } from 'src/brandingConfig'
+import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
 import {
   ConsumerIncentivesData,
   fetchConsumerRewardsContent,
@@ -90,6 +93,9 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
     } else {
       navigate(Screens.VerificationEducationScreen, { hideOnboardingStep: true })
     }
+    ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
+      buttonPressed: userIsVerified ? RewardsScreenCta.CashIn : RewardsScreenCta.VerifyPhone,
+    })
   }
 
   const onLearnMore = () => navigate(Screens.WebViewScreen, { uri: CELO_REWARDS_LINK })
