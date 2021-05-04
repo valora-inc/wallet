@@ -8,17 +8,12 @@ import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
-import {
-  addressToE164NumberSelector,
-  e164NumberToAddressSelector,
-  E164NumberToAddressType,
-} from 'src/identity/reducer'
+import { e164NumberToAddressSelector, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { urlFromUriData } from 'src/qrcode/schema'
 import { BarcodeTypes } from 'src/qrcode/utils'
-import { RecipientKind } from 'src/recipients/recipient'
-import { recipientCacheSelector } from 'src/recipients/reducer'
+import { recipientInfoSelector } from 'src/recipients/reducer'
 import {
   Actions,
   HandleBarcodeDetectedAction,
@@ -38,6 +33,7 @@ import {
   mockQrCodeData,
   mockQrCodeData2,
   mockQRCodeRecipient,
+  mockRecipientInfo,
   mockTransactionData,
 } from 'test/values'
 
@@ -63,9 +59,8 @@ describe(watchQrCodeDetections, () => {
 
     await expectSaga(watchQrCodeDetections)
       .provide([
-        [select(addressToE164NumberSelector), {}],
-        [select(recipientCacheSelector), {}],
-        [select(e164NumberToAddressSelector), {}],
+        [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .silentRun()
@@ -74,12 +69,9 @@ describe(watchQrCodeDetections, () => {
       isFromScan: true,
       recipient: {
         address: mockAccount.toLowerCase(),
-        displayName: mockName,
-        displayId: mockE164Number,
+        name: mockName,
         e164PhoneNumber: mockE164Number,
-        kind: RecipientKind.QrCode,
         contactId: undefined,
-        phoneNumberLabel: undefined,
         thumbnailPath: undefined,
       },
     })
@@ -96,9 +88,8 @@ describe(watchQrCodeDetections, () => {
 
     await expectSaga(watchQrCodeDetections)
       .provide([
-        [select(addressToE164NumberSelector), {}],
-        [select(recipientCacheSelector), {}],
         [select(e164NumberToAddressSelector), {}],
+        [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .silentRun()
@@ -107,12 +98,8 @@ describe(watchQrCodeDetections, () => {
       isFromScan: true,
       recipient: {
         address: mockAccount.toLowerCase(),
-        displayName: 'anonymous',
-        displayId: mockE164Number,
         e164PhoneNumber: mockE164Number,
-        kind: RecipientKind.QrCode,
         contactId: undefined,
-        phoneNumberLabel: undefined,
         thumbnailPath: undefined,
       },
     })
@@ -129,9 +116,8 @@ describe(watchQrCodeDetections, () => {
 
     await expectSaga(watchQrCodeDetections)
       .provide([
-        [select(addressToE164NumberSelector), {}],
-        [select(recipientCacheSelector), {}],
         [select(e164NumberToAddressSelector), {}],
+        [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .silentRun()
@@ -140,13 +126,11 @@ describe(watchQrCodeDetections, () => {
       isFromScan: true,
       recipient: {
         address: mockAccount.toLowerCase(),
-        displayName: mockName,
-        displayId: undefined,
+        name: mockName,
+        displayNumber: undefined,
         e164PhoneNumber: undefined,
         contactId: undefined,
-        phoneNumberLabel: undefined,
         thumbnailPath: undefined,
-        kind: RecipientKind.QrCode,
       },
     })
   })
@@ -157,9 +141,8 @@ describe(watchQrCodeDetections, () => {
 
     await expectSaga(watchQrCodeDetections)
       .provide([
-        [select(addressToE164NumberSelector), {}],
-        [select(recipientCacheSelector), {}],
         [select(e164NumberToAddressSelector), {}],
+        [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
@@ -177,9 +160,8 @@ describe(watchQrCodeDetections, () => {
 
     await expectSaga(watchQrCodeDetections)
       .provide([
-        [select(addressToE164NumberSelector), {}],
-        [select(recipientCacheSelector), {}],
         [select(e164NumberToAddressSelector), {}],
+        [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
@@ -197,9 +179,8 @@ describe(watchQrCodeDetections, () => {
     }
     await expectSaga(watchQrCodeDetections)
       .provide([
-        [select(addressToE164NumberSelector), {}],
-        [select(recipientCacheSelector), {}],
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch(qrAction)
       .put(validateRecipientAddressSuccess(mockE164NumberInvite, mockAccount2Invite.toLowerCase()))
@@ -222,9 +203,8 @@ describe(watchQrCodeDetections, () => {
     }
     await expectSaga(watchQrCodeDetections)
       .provide([
-        [select(addressToE164NumberSelector), {}],
-        [select(recipientCacheSelector), {}],
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch(qrAction)
       .put(validateRecipientAddressSuccess(mockE164NumberInvite, mockAccount2Invite.toLowerCase()))
@@ -245,9 +225,8 @@ describe(watchQrCodeDetections, () => {
     }
     await expectSaga(watchQrCodeDetections)
       .provide([
-        [select(addressToE164NumberSelector), {}],
-        [select(recipientCacheSelector), {}],
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch(qrAction)
       .put(showMessage(ErrorMessages.QR_FAILED_INVALID_RECIPIENT))

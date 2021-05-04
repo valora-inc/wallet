@@ -2068,10 +2068,10 @@
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-1.1.0-beta.1.tgz#9b2881272dd430b22abe07ed2839bab62a7aa193"
   integrity sha512-5e16xaYZX6GWXCoVnGpO1U+dsaSl5XKvBDhrrO88ZlbGdUtlPQVu2oNPtOH2KlQRAC8aU9KigkG5QaiIYiilpw==
 
-"@celo/client@0.0.336":
-  version "0.0.336"
-  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.336.tgz#6b5cb88c3879f93e6d1e9d9348c4326c08f3c2d0"
-  integrity sha512-mszyuJb5Us2M2WLY6gWiZVkf/5w+fipA4TVQ21TaUlz6+COcM+qsjGv5Cs00rCJmxXV+PgQeZJPixk8BhBAIYQ==
+"@celo/client@0.0.352":
+  version "0.0.352"
+  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.352.tgz#e9860a1b69916263e6bf5911a625d9924bd051f7"
+  integrity sha512-BaruxsUvFv4zm3v5DqmMzbNmcOLCBy3z49CjmYpiouQ9OOc6uNXHoozOq5QkIWK5r4lCodpH+tHHP7R1lskCUg==
 
 "@celo/connect@1.1.0-beta.1":
   version "1.1.0-beta.1"

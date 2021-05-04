@@ -161,11 +161,9 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
               Object {
                 "address": "0x0000000000000000000000000000000000007E57",
                 "contactId": "contactId",
-                "displayId": "14155550000",
-                "displayName": "John Doe",
+                "displayNumber": "14155550000",
                 "e164PhoneNumber": "+14155550000",
-                "kind": "Contact",
-                "phoneNumberLabel": "phoneNumLabel",
+                "name": "John Doe",
               },
             ],
             "key": "recent",
@@ -175,16 +173,14 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
               Object {
                 "address": "0x9335BaFcE54cAa0D6690d1D4DA6406568b52488F",
                 "contactId": "contactId",
-                "displayId": "13105550000",
-                "displayName": "Jane Doe",
+                "displayNumber": "13105550000",
                 "e164PhoneNumber": "+13105550000",
-                "kind": "Contact",
-                "phoneNumberLabel": "phoneNumLabel",
+                "name": "Jane Doe",
               },
               Object {
                 "contactId": "contactId4",
-                "displayName": "Zebra Zone",
-                "kind": "Contact",
+                "e164PhoneNumber": "+14163957395",
+                "name": "Zebra Zone",
               },
             ],
             "key": "contacts",
@@ -353,18 +349,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   }
                 >
                   John Doe
-                </Text>
-                <Text
-                  style={
-                    Object {
-                      "color": "#9CA4A9",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 14,
-                      "lineHeight": 18,
-                    }
-                  }
-                >
-                  14155550000
                 </Text>
               </View>
               <View
@@ -545,18 +529,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   >
                     Jane Doe
                   </Text>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#9CA4A9",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 14,
-                        "lineHeight": 18,
-                      }
-                    }
-                  >
-                    13105550000
-                  </Text>
                 </View>
                 <View
                   style={
@@ -702,16 +674,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 >
                   Zebra Zone
                 </Text>
-                <Text
-                  style={
-                    Object {
-                      "color": "#9CA4A9",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 14,
-                      "lineHeight": 18,
-                    }
-                  }
-                />
               </View>
               <View
                 style={

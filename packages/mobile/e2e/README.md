@@ -135,3 +135,21 @@ If tests are failing, and you don't know why:
 - Rebuild, re-yarn and rerun. Sometimes the problem just goes away.
 - Delete snapshots in the emulator
 - Look at the emulator while the tests are running. Can you see anything obvious going wrong?
+
+### Sample `.zshrc` & `.bashrc`
+```sh
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+export GEM_HOME="$HOME/.gem"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export ANDROID_NDK="$HOME/Library/Android/sdk/ndk"
+export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
+export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gradle.jvmargs="-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError"'
+export ANDROID_AVD_HOME="$HOME/.android/avd"
+export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$PATH
+
+# nvm things: use `setopt interactivecomments` in your terminal to allow comments in the .zshrc 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+```
