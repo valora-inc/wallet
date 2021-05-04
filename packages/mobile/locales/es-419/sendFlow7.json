@@ -45,6 +45,8 @@
   "sentPayment": "Enviar pago",
   "sentEscrowPayment": "Pago de depósito enviado",
   "mobileNumber": "Número de teléfono",
+  "sendToMobileNumber": "Enviar a número de teléfono",
+  "sendToAddress": "Enviar a dirección",
   "walletAddress": "Dirección del Monedero",
   "inviteWithoutPayment": "Hola! Estoy usando {{appName}} para enviar dinero alrededor del mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "Hola! Estoy usando {{appName}} para enviar dinero alrededor del mundo. Acabo de enviarte {{amount}} Celo Dólares. Puedes descargar la App {{appName}} y usar tus Celo Dólares usando este link: {{link}}",
