@@ -3,7 +3,6 @@ import KeyboardAwareScrollView from '@celo/react-components/components/KeyboardA
 import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib'
 import { HeaderHeightContext, StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
@@ -34,6 +33,7 @@ import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboardin
 import UseBackToWelcomeScreen from 'src/onboarding/UseBackToWelcomeScreen'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const AVERAGE_WORD_WIDTH = 80
@@ -228,7 +228,7 @@ export class ImportWallet extends React.Component<Props, State> {
                       <CurrencyDisplay
                         amount={{
                           value: new BigNumber(0),
-                          currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+                          currencyCode: CURRENCIES[Currency.Dollar].code,
                         }}
                       />
                     </Trans>

@@ -8,12 +8,12 @@ import { Platform, StyleSheet, Text, View } from 'react-native'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import useSelector from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 export const noHeader: StackNavigationOptions = {
   headerShown: false,
@@ -114,14 +114,14 @@ export const headerWithCloseButton: StackNavigationOptions = {
 
 interface Props {
   title: string
-  token: CURRENCY_ENUM
+  token: Currency
 }
 
 export function HeaderTitleWithBalance({ title, token }: Props) {
   const dollarBalance = useSelector((state) => state.stableToken.balance)
   const goldBalance = useSelector((state) => state.goldToken.balance)
 
-  const balance = token === CURRENCY_ENUM.GOLD ? goldBalance : dollarBalance
+  const balance = token === Currency.Celo ? goldBalance : dollarBalance
 
   const subTitle =
     balance != null ? (
@@ -158,5 +158,5 @@ export function HeaderTitleWithSubtitle({
 }
 
 HeaderTitleWithBalance.defaultProps = {
-  token: CURRENCY_ENUM.DOLLAR,
+  token: Currency.Dollar,
 }

@@ -11,7 +11,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { Namespaces } from 'src/i18n'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
@@ -22,6 +21,7 @@ import { declinePaymentRequest } from 'src/paymentRequest/actions'
 import { Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 interface Props {
@@ -135,7 +135,7 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
           <CurrencyDisplay
             amount={{
               value: amount,
-              currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+              currencyCode: CURRENCIES[Currency.Dollar].code,
             }}
           />
         }

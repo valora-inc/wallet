@@ -1,5 +1,4 @@
 import { CeloTxReceipt } from '@celo/connect'
-import { CURRENCY_ENUM } from '@celo/utils'
 import BigNumber from 'bignumber.js'
 import { Linking, Platform, Share } from 'react-native'
 import SendIntentAndroid from 'react-native-send-intent'
@@ -37,6 +36,7 @@ import { getSendFee } from 'src/send/saga'
 import { fetchDollarBalance, transferStableToken } from 'src/stableToken/actions'
 import { transactionConfirmed } from 'src/transactions/actions'
 import { waitForTransactionWithId } from 'src/transactions/saga'
+import { Currency } from 'src/utils/currencies'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedUnlockedAccount, getOrCreateAccount, waitWeb3LastBlock } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
@@ -62,7 +62,7 @@ const TEST_FEE_INFO_CUSD = {
   fee: new BigNumber(10).pow(16),
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(9).times(5),
-  currency: CURRENCY_ENUM.DOLLAR,
+  currency: Currency.Dollar,
 }
 
 jest.mock('src/firebase/dynamicLinks', () => ({
@@ -254,7 +254,7 @@ describe('watchSendInvite with Komenci enabled', () => {
       ])
       .withState(state)
       .dispatch(
-        sendInvite(mockInviteDetails.e164Number, InviteBy.SMS, AMOUNT_TO_SEND, CURRENCY_ENUM.DOLLAR)
+        sendInvite(mockInviteDetails.e164Number, InviteBy.SMS, AMOUNT_TO_SEND, Currency.Dollar)
       )
       .dispatch(transactionConfirmed('a uuid', mockReceipt))
       .run()
@@ -272,7 +272,7 @@ describe('watchSendInvite with Komenci enabled', () => {
       mockInviteDetails.e164Number,
       InviteBy.SMS,
       AMOUNT_TO_SEND,
-      CURRENCY_ENUM.DOLLAR
+      Currency.Dollar
     )
       .put(storeInviteeData(mockInviteDetails))
       .run()

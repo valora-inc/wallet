@@ -3,10 +3,10 @@ import variables from '@celo/react-components/styles/variables'
 import React from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import { HeaderTitleWithBalance, headerWithBackButton } from 'src/navigator/Headers'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { Currency } from 'src/utils/currencies'
 
 const { contentPadding } = variables
 
@@ -36,7 +36,7 @@ export function NotificationList<T>(props: Props<T>) {
 export function titleWithBalanceNavigationOptions(title: string) {
   return {
     ...headerWithBackButton,
-    headerTitle: <HeaderTitleWithBalance title={title} token={CURRENCY_ENUM.DOLLAR} />,
+    headerTitle: <HeaderTitleWithBalance title={title} token={Currency.Dollar} />,
   }
 }
 

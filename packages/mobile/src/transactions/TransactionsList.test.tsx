@@ -9,10 +9,10 @@ import {
   TokenTransactionType,
   UserTransactionsQuery,
 } from 'src/apollo/types'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import TransactionFeed, { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList, { TRANSACTIONS_QUERY } from 'src/transactions/TransactionsList'
 import { StandbyTransaction, TransactionStatus } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 
 jest.unmock('react-apollo')
@@ -30,7 +30,7 @@ const standbyTransactions: StandbyTransaction[] = [
     comment: 'Eye for an Eye',
     status: TransactionStatus.Pending,
     value: '100',
-    symbol: CURRENCY_ENUM.DOLLAR,
+    symbol: Currency.Dollar,
     timestamp: 1542406110,
     address: '0072bvy2o23u',
   },
@@ -38,9 +38,9 @@ const standbyTransactions: StandbyTransaction[] = [
     context: { id: 'a-cusd-cgld-standby-exchange-id' },
     type: TokenTransactionType.Exchange,
     status: TransactionStatus.Pending,
-    inSymbol: CURRENCY_ENUM.DOLLAR,
+    inSymbol: Currency.Dollar,
     inValue: '20',
-    outSymbol: CURRENCY_ENUM.GOLD,
+    outSymbol: Currency.Celo,
     outValue: '30',
     timestamp: 1542409112,
   },
@@ -48,9 +48,9 @@ const standbyTransactions: StandbyTransaction[] = [
     context: { id: 'a-cgld-cusd-standby-exchange-id' },
     type: TokenTransactionType.Exchange,
     status: TransactionStatus.Pending,
-    inSymbol: CURRENCY_ENUM.GOLD,
+    inSymbol: Currency.Celo,
     inValue: '30',
-    outSymbol: CURRENCY_ENUM.DOLLAR,
+    outSymbol: Currency.Dollar,
     outValue: '20',
     timestamp: 1542409113,
   },
@@ -61,9 +61,9 @@ const failedStandbyTransactions: StandbyTransaction[] = [
     context: { id: '0x00000000000000000001' },
     type: TokenTransactionType.Exchange,
     status: TransactionStatus.Failed,
-    inSymbol: CURRENCY_ENUM.DOLLAR,
+    inSymbol: Currency.Dollar,
     inValue: '20',
-    outSymbol: CURRENCY_ENUM.GOLD,
+    outSymbol: Currency.Celo,
     outValue: '30',
     timestamp: 1542409112,
   },
@@ -77,7 +77,7 @@ const pendingStandbyTransactions: StandbyTransaction[] = [
     comment: 'Hi',
     status: TransactionStatus.Pending,
     value: '0.2',
-    symbol: CURRENCY_ENUM.DOLLAR,
+    symbol: Currency.Dollar,
     timestamp: 1578530538,
     address: '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10',
   },

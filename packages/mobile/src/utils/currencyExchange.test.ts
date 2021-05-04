@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { ExchangeRatePair } from 'src/exchange/reducer'
-import { CURRENCY_ENUM } from 'src/geth/consts'
+import { Currency } from 'src/utils/currencies'
 import {
   getNewMakerBalance,
   getNewTakerBalance,
@@ -12,18 +12,14 @@ const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.11', dollarMaker: '10
 
 describe('getRateForMakerToken', () => {
   it('when DOLLAR returns exchange rate', () => {
-    expect(getRateForMakerToken(exchangeRatePair, CURRENCY_ENUM.DOLLAR)).toEqual(
-      new BigNumber('10')
-    )
+    expect(getRateForMakerToken(exchangeRatePair, Currency.Dollar)).toEqual(new BigNumber('10'))
   })
 
   it('when GOLD returns exchange rate based on direction', () => {
-    expect(getRateForMakerToken(exchangeRatePair, CURRENCY_ENUM.GOLD)).toEqual(
-      new BigNumber('0.11')
-    )
+    expect(getRateForMakerToken(exchangeRatePair, Currency.Celo)).toEqual(new BigNumber('0.11'))
   })
   it('when empty rate it does not crash', () => {
-    expect(getRateForMakerToken(null, CURRENCY_ENUM.GOLD)).toEqual(new BigNumber('0'))
+    expect(getRateForMakerToken(null, Currency.Celo)).toEqual(new BigNumber('0'))
   })
 })
 

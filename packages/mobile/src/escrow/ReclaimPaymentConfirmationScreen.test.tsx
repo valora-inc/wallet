@@ -6,8 +6,9 @@ import { Provider } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import { getReclaimEscrowFee, reclaimFromEscrow } from 'src/escrow/saga'
-import { CURRENCY_ENUM, SHORT_CURRENCIES, WEI_PER_TOKEN } from 'src/geth/consts'
+import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { Screens } from 'src/navigator/Screens'
+import { Currency, ShortCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
@@ -21,7 +22,7 @@ const TEST_FEE_INFO_CUSD = {
   fee: new BigNumber(10).pow(16),
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
-  currency: CURRENCY_ENUM.DOLLAR,
+  currency: Currency.Dollar,
 }
 
 // A fee of 0.01 CELO.
@@ -29,7 +30,7 @@ const TEST_FEE_INFO_CELO = {
   fee: new BigNumber(10).pow(16),
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
-  currency: CURRENCY_ENUM.GOLD,
+  currency: Currency.Celo,
 }
 
 jest.mock('src/escrow/saga')
@@ -45,7 +46,7 @@ const mockScreenProps = getMockStackScreenProps(Screens.ReclaimPaymentConfirmati
     recipientPhone: mockE164Number,
     recipientIdentifier: mockE164NumberHashWithPepper,
     paymentID: mockAccount,
-    currency: SHORT_CURRENCIES.DOLLAR,
+    currency: ShortCurrency.Dollar,
     amount: new BigNumber(10).times(WEI_PER_TOKEN),
     timestamp: new BigNumber(10000),
     expirySeconds: new BigNumber(50000),

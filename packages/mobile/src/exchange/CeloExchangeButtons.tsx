@@ -1,7 +1,6 @@
 // VIEW which contains buy and sell buttons for CELO.
 
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import { CURRENCY_ENUM } from '@celo/utils'
 import { StackNavigationProp } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
@@ -16,7 +15,8 @@ import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { Namespaces } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   navigation: StackNavigationProp<StackParamList, Screens.ExchangeHomeScreen>
@@ -25,7 +25,7 @@ interface Props {
 export default function CeloExchangeButtons({ navigation }: Props) {
   const { t } = useTranslation(Namespaces.exchangeFlow9)
 
-  const dollarBalance = useSelector(stableTokenBalanceSelector)
+  const dollarBalance = useSelector(cUsdBalanceSelector)
   const goldBalance = useSelector(celoTokenBalanceSelector)
   const exchangeRate = useSelector(exchangeRatePairSelector)
 
@@ -36,7 +36,7 @@ export default function CeloExchangeButtons({ navigation }: Props) {
     ValoraAnalytics.track(CeloExchangeEvents.celo_home_buy)
     navigation.navigate(Screens.ExchangeTradeScreen, {
       makerTokenDisplay: {
-        makerToken: CURRENCY_ENUM.DOLLAR,
+        makerToken: Currency.Dollar,
         makerTokenBalance: dollarBalance || '0',
       },
     })
@@ -46,7 +46,7 @@ export default function CeloExchangeButtons({ navigation }: Props) {
     ValoraAnalytics.track(CeloExchangeEvents.celo_home_sell)
     navigation.navigate(Screens.ExchangeTradeScreen, {
       makerTokenDisplay: {
-        makerToken: CURRENCY_ENUM.GOLD,
+        makerToken: Currency.Celo,
         makerTokenBalance: goldBalance || '0',
       },
     })

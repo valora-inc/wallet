@@ -1,6 +1,5 @@
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -10,6 +9,7 @@ import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import { Namespaces } from 'src/i18n'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 interface Props {
   makerAmount: MoneyAmount
@@ -24,8 +24,8 @@ function getDisplayedAmount(
   localCurrencyCode: LocalCurrencyCode
 ): DisplayedAmount {
   if (
-    amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code ||
-    (amount.currencyCode === CURRENCIES[CURRENCY_ENUM.DOLLAR].code &&
+    amount.currencyCode === CURRENCIES[Currency.Celo].code ||
+    (amount.currencyCode === CURRENCIES[Currency.Dollar].code &&
       localCurrencyCode === LocalCurrencyCode.USD)
   ) {
     return amount

@@ -14,7 +14,6 @@ import { AuthSigner } from '@celo/identity/lib/odis/query'
 import { FetchError, TxError } from '@celo/komencikit/src/errors'
 import { KomenciKit } from '@celo/komencikit/src/kit'
 import { ensureLeading0x, eqAddress, hexToBuffer } from '@celo/utils/lib/address'
-import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import { compressedPubKey, deriveDek } from '@celo/utils/lib/dataEncryptionKey'
 import * as bip39 from 'react-native-bip39'
 import { call, put, select } from 'redux-saga/effects'
@@ -32,6 +31,7 @@ import { walletToAccountAddressSelector, WalletToAccountAddressType } from 'src/
 import { getCurrencyAddress } from 'src/tokens/saga'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { registerDataEncryptionKey, setDataEncryptionKey } from 'src/web3/actions'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
@@ -306,7 +306,7 @@ export async function isAccountUpToDate(
   )
 }
 
-export async function getRegisterDekTxGas(account: string, currency: CURRENCY_ENUM) {
+export async function getRegisterDekTxGas(account: string, currency: Currency) {
   try {
     Logger.debug(`${TAG}/getRegisterDekTxGas`, 'Getting gas estimate for tx')
     const contractKit = await getContractKitAsync()

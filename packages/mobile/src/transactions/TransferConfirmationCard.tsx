@@ -2,7 +2,6 @@ import HorizontalLine from '@celo/react-components/components/HorizontalLine'
 import Link from '@celo/react-components/components/Link'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -30,6 +29,7 @@ import BottomText from 'src/transactions/BottomText'
 import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import UserSection from 'src/transactions/UserSection'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 export interface TransferConfirmationCardProps {
@@ -93,7 +93,7 @@ function InviteSentContent({ addressHasChanged, recipient, amount }: Props) {
       />
       <HorizontalLine />
       <FeeDrawer
-        currency={CURRENCY_ENUM.DOLLAR}
+        currency={Currency.Dollar}
         inviteFee={inviteFee}
         isInvite={true}
         securityFee={securityFee}
@@ -147,7 +147,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
   const totalAmount = amount
   const totalFee = securityFee
 
-  const isCeloWithdrawal = amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+  const isCeloWithdrawal = amount.currencyCode === CURRENCIES[Currency.Celo].code
 
   return (
     <>
@@ -164,7 +164,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
         amount={<CurrencyDisplay amount={sentAmount} hideSign={true} />}
       />
       <FeeDrawer
-        currency={isCeloWithdrawal ? CURRENCY_ENUM.GOLD : CURRENCY_ENUM.DOLLAR}
+        currency={isCeloWithdrawal ? Currency.Celo : Currency.Dollar}
         securityFee={securityFee}
         totalFee={totalFee}
       />
@@ -176,7 +176,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
 function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, comment }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const totalAmount = amount
-  const isCeloTx = amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+  const isCeloTx = amount.currencyCode === CURRENCIES[Currency.Celo].code
   const celoEducationUri = useTypedSelector((state) => state.app.celoEducationUri)
 
   const openLearnMore = () => {

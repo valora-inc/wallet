@@ -422,7 +422,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
           >
             
             $
-            26.60
+            24.181
           </Text>
         </Text>
       </View>
@@ -965,7 +965,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
           >
             
             $
-            26.60
+            24.181
           </Text>
         </Text>
       </View>

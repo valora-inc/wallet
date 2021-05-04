@@ -1,5 +1,4 @@
 import { CeloTxObject, CeloTxReceipt } from '@celo/connect'
-import { CURRENCY_ENUM } from '@celo/utils/lib'
 import { BigNumber } from 'bignumber.js'
 import { call, cancel, cancelled, delay, fork, join, race, select } from 'redux-saga/effects'
 import { TransactionEvents } from 'src/analytics/Events'
@@ -13,6 +12,7 @@ import {
   SendTransactionLogEventType,
 } from 'src/transactions/contract-utils'
 import { TransactionContext } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { assertNever } from 'src/utils/typescript'
 import { getGasPrice } from 'src/web3/gas'
@@ -111,7 +111,7 @@ export function* sendTransactionPromises(
   tx: CeloTxObject<any>,
   account: string,
   context: TransactionContext,
-  preferredFeeCurrency: CURRENCY_ENUM = CURRENCY_ENUM.DOLLAR,
+  preferredFeeCurrency: Currency = Currency.Dollar,
   gas?: number,
   gasPrice?: BigNumber,
   nonce?: number
@@ -121,7 +121,7 @@ export function* sendTransactionPromises(
     `Going to send a transaction with id ${context.id}`
   )
 
-  const stableToken = yield getTokenContract(CURRENCY_ENUM.DOLLAR)
+  const stableToken = yield getTokenContract(Currency.Dollar)
   const stableTokenBalance = yield call([stableToken, stableToken.balanceOf], account)
   const fornoMode: boolean = yield select(fornoSelector)
 
@@ -137,9 +137,9 @@ export function* sendTransactionPromises(
   // TODO: Make it transparent for the user.
   // TODO: Check for balance should be more than fee instead of zero.
   const feeCurrency =
-    preferredFeeCurrency === CURRENCY_ENUM.DOLLAR && stableTokenBalance.isGreaterThan(0)
-      ? CURRENCY_ENUM.DOLLAR
-      : CURRENCY_ENUM.GOLD
+    preferredFeeCurrency === Currency.Dollar && stableTokenBalance.isGreaterThan(0)
+      ? Currency.Dollar
+      : Currency.Celo
   if (preferredFeeCurrency && feeCurrency !== preferredFeeCurrency) {
     Logger.warn(
       `${TAG}@sendTransactionPromises`,
@@ -158,9 +158,7 @@ export function* sendTransactionPromises(
   }
 
   const feeCurrencyAddress =
-    feeCurrency === CURRENCY_ENUM.DOLLAR
-      ? yield call(getCurrencyAddress, CURRENCY_ENUM.DOLLAR)
-      : undefined // Pass undefined to use CELO to pay for gas.
+    feeCurrency === Currency.Dollar ? yield call(getCurrencyAddress, Currency.Dollar) : undefined // Pass undefined to use CELO to pay for gas.
 
   Logger.debug(
     `${TAG}@sendTransactionPromises`,
@@ -200,7 +198,7 @@ export function* sendTransaction(
   context: TransactionContext,
   gas?: number,
   gasPrice?: BigNumber,
-  feeCurrency?: CURRENCY_ENUM
+  feeCurrency?: Currency
 ) {
   const sendTxMethod = function* (nonce?: number) {
     const { receipt } = yield call(

@@ -2,7 +2,6 @@ import ListItem from '@celo/react-components/components/ListItem'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib'
 import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
@@ -20,8 +19,9 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useTypedSelector from 'src/redux/useSelector'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/reducer'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
@@ -58,10 +58,10 @@ function FiatExchange() {
   }
 
   const { t } = useTranslation()
-  const dollarBalance = useSelector(stableTokenBalanceSelector)
+  const dollarBalance = useSelector(cUsdBalanceSelector)
   const dollarAmount = {
     value: dollarBalance ?? '0',
-    currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+    currencyCode: CURRENCIES[Currency.Dollar].code,
   }
 
   const { FIAT_SPEND_ENABLED } = useCountryFeatures()

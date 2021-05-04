@@ -1,10 +1,4 @@
-import {
-  AccountAuthRequest,
-  Countries,
-  CURRENCY_ENUM,
-  SignTxRequest,
-  TxToSignParam,
-} from '@celo/utils'
+import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
 import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
 import { CurrencyCode } from 'src/config'
@@ -21,6 +15,7 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
+import { Currency } from 'src/utils/currencies'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -65,7 +60,7 @@ export type StackParamList = {
     | {
         navigatedFromSettings: boolean
       }
-  [Screens.BidaliScreen]: { currency: CURRENCY_ENUM }
+  [Screens.BidaliScreen]: { currency: Currency }
   [Screens.CashInSuccess]: { provider?: CicoProviderNames }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountAuth]: {
@@ -86,25 +81,25 @@ export type StackParamList = {
   [Screens.ExchangeHomeScreen]: undefined
   [Screens.ExchangeReview]: {
     exchangeInput: {
-      makerToken: CURRENCY_ENUM
+      makerToken: Currency
       makerTokenBalance: string
-      inputToken: CURRENCY_ENUM
+      inputToken: Currency
       inputTokenDisplayName: string
       inputAmount: BigNumber
     }
   }
   [Screens.ExchangeTradeScreen]: {
     makerTokenDisplay: {
-      makerToken: CURRENCY_ENUM
+      makerToken: Currency
       makerTokenBalance: string
     }
   }
   [Screens.ExternalExchanges]: {
-    currency: CURRENCY_ENUM
+    currency: Currency
   }
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
-    currency: CURRENCY_ENUM
+    currency: Currency
     paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
     isCashIn: boolean
   }
@@ -187,7 +182,7 @@ export type StackParamList = {
   [Screens.Profile]: undefined
   [Screens.ProviderOptionsScreen]: {
     isCashIn?: boolean
-    selectedCrypto: CURRENCY_ENUM
+    selectedCrypto: Currency
     amount: {
       crypto: number
       fiat: number

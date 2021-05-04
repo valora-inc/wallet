@@ -17,7 +17,6 @@ import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { exchangeTokens, fetchExchangeRate, fetchTobinTax } from 'src/exchange/actions'
 import { ExchangeRatePair } from 'src/exchange/reducer'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
 import { getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
@@ -26,6 +25,7 @@ import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { getRateForMakerToken, getTakerAmount } from 'src/utils/currencyExchange'
 
 interface StateProps {
@@ -43,8 +43,8 @@ interface DispatchProps {
 }
 
 interface State {
-  makerToken: CURRENCY_ENUM
-  inputToken: CURRENCY_ENUM
+  makerToken: Currency
+  inputToken: Currency
   inputTokenDisplayName: string
   inputAmount: BigNumber
 }
@@ -64,8 +64,8 @@ const mapStateToProps = (state: RootState): StateProps => ({
 
 export class ExchangeReview extends React.Component<Props, State> {
   state: State = {
-    makerToken: CURRENCY_ENUM.GOLD,
-    inputToken: CURRENCY_ENUM.GOLD,
+    makerToken: Currency.Celo,
+    inputToken: Currency.Celo,
     inputTokenDisplayName: this.props.t('global:gold'),
     inputAmount: new BigNumber(0),
   }
@@ -74,11 +74,11 @@ export class ExchangeReview extends React.Component<Props, State> {
     const { makerToken, inputToken, inputAmount } = this.state
     const makerAmount = this.getMakerAmount()
     // BEGIN: Analytics
-    const isDollarToGold = inputToken === CURRENCY_ENUM.DOLLAR
+    const isDollarToGold = inputToken === Currency.Dollar
     const goldToDollarExchangeRate = getRateForMakerToken(
       this.props.exchangeRatePair,
       this.state.makerToken,
-      CURRENCY_ENUM.DOLLAR
+      Currency.Dollar
     )
     const goldAmount = isDollarToGold ? makerAmount : inputAmount
     const dollarAmount = isDollarToGold ? inputAmount : makerAmount
@@ -147,7 +147,7 @@ export class ExchangeReview extends React.Component<Props, State> {
     this.props.fetchExchangeRate(makerToken, makerAmount)
   }
 
-  getInputAmountInToken(token: CURRENCY_ENUM) {
+  getInputAmountInToken(token: Currency) {
     let amount = this.state.inputAmount
     if (this.state.inputToken !== token) {
       const conversionRate = getRateForMakerToken(
@@ -166,9 +166,9 @@ export class ExchangeReview extends React.Component<Props, State> {
     const exchangeRate = getRateForMakerToken(
       exchangeRatePair,
       this.state.makerToken,
-      CURRENCY_ENUM.DOLLAR
+      Currency.Dollar
     )
-    const dollarAmount = this.getInputAmountInToken(CURRENCY_ENUM.DOLLAR)
+    const dollarAmount = this.getInputAmountInToken(Currency.Dollar)
 
     const exchangeAmount = {
       value: this.state.inputAmount,
@@ -176,22 +176,22 @@ export class ExchangeReview extends React.Component<Props, State> {
     }
     const exchangeRateAmount = {
       value: exchangeRate,
-      currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+      currencyCode: CURRENCIES[Currency.Dollar].code,
     }
     const subtotalAmount = {
       value: dollarAmount,
-      currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+      currencyCode: CURRENCIES[Currency.Dollar].code,
     }
     const totalFee = new BigNumber(tobinTax).plus(fee)
 
     const totalAmount = {
       value: dollarAmount.plus(totalFee),
-      currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+      currencyCode: CURRENCIES[Currency.Dollar].code,
     }
 
     const goldAmount = {
-      value: this.getInputAmountInToken(CURRENCY_ENUM.GOLD),
-      currencyCode: CURRENCIES[CURRENCY_ENUM.GOLD].code,
+      value: this.getInputAmountInToken(Currency.Celo),
+      currencyCode: CURRENCIES[Currency.Celo].code,
     }
 
     return (
@@ -219,7 +219,7 @@ export class ExchangeReview extends React.Component<Props, State> {
               />
               <FeeDrawer
                 testID={'feeDrawer/ExchangeReview'}
-                currency={CURRENCY_ENUM.DOLLAR}
+                currency={Currency.Dollar}
                 securityFee={fee}
                 exchangeFee={tobinTax}
                 isExchange={true}
@@ -237,7 +237,7 @@ export class ExchangeReview extends React.Component<Props, State> {
           text={
             <Trans
               i18nKey={
-                this.state.makerToken === CURRENCY_ENUM.DOLLAR ? 'buyGoldAmount' : 'sellGoldAmount'
+                this.state.makerToken === Currency.Dollar ? 'buyGoldAmount' : 'sellGoldAmount'
               }
               ns={Namespaces.exchangeFlow9}
             >

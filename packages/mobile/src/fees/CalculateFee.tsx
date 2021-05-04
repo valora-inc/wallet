@@ -1,4 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils/lib'
 import BigNumber from 'bignumber.js'
 import React, { FunctionComponent, useEffect } from 'react'
 import { useAsync, UseAsyncReturn } from 'react-async-hook'
@@ -11,6 +10,7 @@ import { FeeType } from 'src/fees/actions'
 import { FeeInfo } from 'src/fees/saga'
 import { getInviteFee } from 'src/invite/saga'
 import { getSendFee } from 'src/send/saga'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 export type CalculateFeeChildren = (asyncResult: UseAsyncReturn<FeeInfo, any>) => React.ReactNode
@@ -34,7 +34,7 @@ interface SendProps extends CommonProps {
   amount: string
   comment?: string
   includeDekFee: boolean
-  currency?: CURRENCY_ENUM
+  currency?: Currency
   dollarBalance?: string
 }
 
@@ -80,7 +80,7 @@ function useAsyncShowError<R, Args extends any[]>(
 const CalculateInviteFee: FunctionComponent<InviteProps> = (props) => {
   const asyncResult = useAsyncShowError(
     (account: string, amount: BigNumber, comment: string = MAX_PLACEHOLDER_COMMENT) =>
-      getInviteFee(account, CURRENCY_ENUM.DOLLAR, amount.valueOf(), props.dollarBalance, comment),
+      getInviteFee(account, Currency.Dollar, amount.valueOf(), props.dollarBalance, comment),
     [props.account, props.amount, props.comment]
   )
   return props.children(asyncResult) as React.ReactElement
@@ -95,7 +95,7 @@ export const useSendFee = (props: Omit<SendProps, 'children'>): UseAsyncReturn<F
       dollarBalance?: string,
       comment: string = MAX_PLACEHOLDER_COMMENT,
       includeDekFee: boolean = false,
-      currency: CURRENCY_ENUM = CURRENCY_ENUM.DOLLAR
+      currency: Currency = Currency.Dollar
     ) =>
       getSendFee(
         account,

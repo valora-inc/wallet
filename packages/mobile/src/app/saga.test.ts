@@ -1,4 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils/lib'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
@@ -12,6 +11,7 @@ import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 jest.mock('src/utils/time', () => ({
@@ -68,7 +68,7 @@ describe('App saga', () => {
   it('Handles Bidali deep link', async () => {
     const deepLink = 'celo://wallet/bidali'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
-    expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: CURRENCY_ENUM.DOLLAR })
+    expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: Currency.Dollar })
   })
 
   it('Handles openScreen deep link with safe origin', async () => {

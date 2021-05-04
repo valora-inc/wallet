@@ -7,11 +7,11 @@ import { StyleSheet } from 'react-native'
 import { MoneyAmount } from 'src/apollo/types'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import LineItemRow from 'src/components/LineItemRow'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { Namespaces } from 'src/i18n'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { useExchangeRate, useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 interface Props {
   title?: string
@@ -46,7 +46,7 @@ export default function TotalLineItem({ title, amount, hideSign, currencyInfo }:
               <CurrencyDisplay
                 amount={{
                   value: new BigNumber(exchangeRate).pow(-1),
-                  currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+                  currencyCode: CURRENCIES[Currency.Dollar].code,
                 }}
                 showLocalAmount={false}
                 currencyInfo={currencyInfo}

@@ -51,7 +51,6 @@ import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
 import TransakScreen from 'src/fiatExchanges/TransakScreen'
 import XanpoolScreen from 'src/fiatExchanges/XanpoolScreen'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
@@ -103,6 +102,7 @@ import ValidateRecipientIntro, {
 } from 'src/send/ValidateRecipientIntro'
 import SetClock from 'src/set-clock/SetClock'
 import TransactionReview from 'src/transactions/TransactionReview'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
@@ -306,7 +306,7 @@ const exchangeTradeScreenOptions = ({
   route: RouteProp<StackParamList, Screens.ExchangeTradeScreen>
 }) => {
   const { makerToken } = route.params?.makerTokenDisplay
-  const isDollarToGold = makerToken === CURRENCY_ENUM.DOLLAR
+  const isDollarToGold = makerToken === Currency.Dollar
   const title = isDollarToGold ? i18n.t('exchangeFlow9:buyGold') : i18n.t('exchangeFlow9:sellGold')
   const cancelEventName = isDollarToGold
     ? CeloExchangeEvents.celo_buy_cancel
@@ -324,7 +324,7 @@ const exchangeReviewScreenOptions = ({
   route: RouteProp<StackParamList, Screens.ExchangeReview>
 }) => {
   const { makerToken } = route.params?.exchangeInput
-  const isDollarToGold = makerToken === CURRENCY_ENUM.DOLLAR
+  const isDollarToGold = makerToken === Currency.Dollar
   const title = isDollarToGold ? i18n.t('exchangeFlow9:buyGold') : i18n.t('exchangeFlow9:sellGold')
   const cancelEventName = isDollarToGold
     ? CeloExchangeEvents.celo_buy_cancel

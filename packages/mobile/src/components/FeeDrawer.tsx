@@ -2,7 +2,6 @@ import Expandable from '@celo/react-components/components/Expandable'
 import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,10 +12,11 @@ import LineItemRow from 'src/components/LineItemRow'
 import { features } from 'src/flags'
 import { Namespaces } from 'src/i18n'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 interface Props {
   isEstimate?: boolean
-  currency?: CURRENCY_ENUM
+  currency?: Currency
   inviteFee?: BigNumber
   isInvite?: boolean
   isExchange?: boolean

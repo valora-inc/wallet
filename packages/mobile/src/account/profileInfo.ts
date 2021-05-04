@@ -125,6 +125,7 @@ export function* getProfileInfo(address: string) {
   const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper)
   const nameAccessor = new PrivateNameAccessor(offchainWrapper)
   try {
+    Logger.warn(`${TAG}@getProfileInfo`, `Fetching profile info for ${address}`)
     const name = yield call([nameAccessor, 'read'], address)
 
     const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
@@ -134,11 +135,11 @@ export function* getProfileInfo(address: string) {
       const pictureURL = pictureObject.toString()
       picturePath = yield call(saveRecipientPicture, pictureURL, address)
     } catch (error) {
-      Logger.warn(`can't fetch picture for ${address}`, error)
+      Logger.warn(`${TAG}@getProfileInfo`, `can't fetch picture for ${address}`, error)
     }
     return { name: name.name, thumbnailPath: picturePath }
   } catch (error) {
-    Logger.warn(`can't fetch name for ${address}`, error)
+    Logger.warn(`${TAG}@getProfileInfo`, `can't fetch name for ${address}`, error)
   }
   // not throwing error for failed fetches, as addresses may have not uploaded their info
 }

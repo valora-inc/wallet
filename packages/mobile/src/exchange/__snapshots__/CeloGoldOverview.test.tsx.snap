@@ -74,7 +74,8 @@ exports[`renders correctly when not ready 1`] = `
       }
     >
       
-      -
+      $
+      0.000
     </Text>
   </Text>
 </View>
@@ -155,7 +156,7 @@ exports[`renders correctly when ready 1`] = `
     >
       
       $
-      731.50
+      665.000
     </Text>
   </Text>
 </View>

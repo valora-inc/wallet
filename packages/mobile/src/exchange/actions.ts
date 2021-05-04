@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { ExchangeRate, ExchangeRatePair } from 'src/exchange/reducer'
-import { CURRENCY_ENUM } from 'src/geth/consts'
+import { Currency } from 'src/utils/currencies'
 
 export enum Actions {
   FETCH_EXCHANGE_RATE = 'EXCHANGE/FETCH_EXCHANGE_RATE',
@@ -19,7 +19,7 @@ export enum Actions {
 
 export interface FetchExchangeRateAction {
   type: Actions.FETCH_EXCHANGE_RATE
-  makerToken?: CURRENCY_ENUM
+  makerToken?: Currency
   makerAmount?: BigNumber
 }
 
@@ -35,13 +35,13 @@ export interface SetTobinTaxAction {
 
 export interface FetchTobinTaxAction {
   type: Actions.FETCH_TOBIN_TAX
-  makerToken: CURRENCY_ENUM
+  makerToken: Currency
   makerAmount: BigNumber
 }
 
 export interface ExchangeTokensAction {
   type: Actions.EXCHANGE_TOKENS
-  makerToken: CURRENCY_ENUM
+  makerToken: Currency
   makerAmount: BigNumber
 }
 
@@ -73,7 +73,7 @@ export interface WithdrawCeloSuccessAction {
 }
 
 export const fetchExchangeRate = (
-  makerToken?: CURRENCY_ENUM,
+  makerToken?: Currency,
   makerAmount?: BigNumber
 ): FetchExchangeRateAction => ({
   type: Actions.FETCH_EXCHANGE_RATE,
@@ -86,7 +86,7 @@ export const setExchangeRate = (exchangeRatePair: ExchangeRatePair): SetExchange
   exchangeRatePair,
 })
 
-export const fetchTobinTax = (makerAmount: BigNumber, makerToken: CURRENCY_ENUM) => ({
+export const fetchTobinTax = (makerAmount: BigNumber, makerToken: Currency) => ({
   type: Actions.FETCH_TOBIN_TAX,
   makerAmount,
   makerToken,
@@ -107,7 +107,7 @@ export const updateCeloGoldExchangeRateHistory = (
 })
 
 export const exchangeTokens = (
-  makerToken: CURRENCY_ENUM,
+  makerToken: Currency,
   makerAmount: BigNumber
 ): ExchangeTokensAction => ({
   type: Actions.EXCHANGE_TOKENS,

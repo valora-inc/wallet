@@ -18,7 +18,7 @@ import { BALANCE_CHECK_TIMEOUT, getActionableAttestations } from 'src/identity/v
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { waitFor } from 'src/redux/sagas-helpers'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/reducer'
 import {
   doVerificationFlow,
   e164NumberSelector,
@@ -233,7 +233,7 @@ describe(startSaga, () => {
           }),
           null,
         ],
-        [call(waitFor, stableTokenBalanceSelector), 1],
+        [call(waitFor, cUsdBalanceSelector), 1],
         [call(waitFor, celoTokenBalanceSelector), 1],
         [delay(BALANCE_CHECK_TIMEOUT), true],
         [call(getContractKit), contractKit],
@@ -259,7 +259,7 @@ describe(startSaga, () => {
           }),
           null,
         ],
-        [call(waitFor, stableTokenBalanceSelector), 1],
+        [call(waitFor, cUsdBalanceSelector), 1],
         [call(waitFor, celoTokenBalanceSelector), 1],
         [delay(BALANCE_CHECK_TIMEOUT), true],
         [call(getContractKit), contractKit],

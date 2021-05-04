@@ -4,7 +4,6 @@ import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { iconHitslop } from '@celo/react-components/styles/variables'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -59,7 +58,8 @@ import { isSendingSelector } from 'src/send/selectors'
 import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchDollarBalance } from 'src/stableToken/actions'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector, isDekRegisteredSelector } from 'src/web3/selectors'
 
@@ -119,7 +119,7 @@ function SendConfirmation(props: Props) {
   )
   const account = useSelector(currentAccountSelector)
   const isSending = useSelector(isSendingSelector)
-  const dollarBalance = useSelector(stableTokenBalanceSelector) ?? '0'
+  const dollarBalance = useSelector(cUsdBalanceSelector) ?? '0'
   const celoBalance = useSelector(celoTokenBalanceSelector) ?? '0'
   const appConnected = useSelector(isAppConnected)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
@@ -247,13 +247,11 @@ function SendConfirmation(props: Props) {
     // TODO(victor): If CELO is used to pay fees, it cannot be added to the cUSD ammount. We should
     // fix this at some point, but because only cUSD is used for fees right now, it is not an issue.
     const amountWithFee =
-      asyncFee.result?.currency === CURRENCY_ENUM.DOLLAR ? amount.plus(fee ?? 0) : amount
+      asyncFee.result?.currency === Currency.Dollar ? amount.plus(fee ?? 0) : amount
     const userHasEnough =
       !asyncFee.loading &&
       amountWithFee.isLessThanOrEqualTo(dollarBalance) &&
-      (asyncFee.result?.currency !== CURRENCY_ENUM.GOLD ||
-        !fee ||
-        fee?.isLessThanOrEqualTo(celoBalance))
+      (asyncFee.result?.currency !== Currency.Celo || !fee || fee?.isLessThanOrEqualTo(celoBalance))
     const isPrimaryButtonDisabled = isSending || !userHasEnough || !appConnected || !!asyncFee.error
 
     const isInvite = type === TokenTransactionType.InviteSent
@@ -261,7 +259,7 @@ function SendConfirmation(props: Props) {
 
     const subtotalAmount = {
       value: amount.isGreaterThan(0) ? amount : inviteFee,
-      currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+      currencyCode: CURRENCIES[Currency.Dollar].code,
     }
 
     let primaryBtnInfo
@@ -303,7 +301,7 @@ function SendConfirmation(props: Props) {
       }
       const totalAmount = {
         value: amountWithFee,
-        currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+        currencyCode: CURRENCIES[Currency.Dollar].code,
       }
 
       return (

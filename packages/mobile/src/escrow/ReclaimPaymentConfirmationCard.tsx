@@ -10,9 +10,9 @@ import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { FeeInfo } from 'src/fees/saga'
 import { getFeeInTokens } from 'src/fees/selectors'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { Namespaces } from 'src/i18n'
 import { MobileRecipient } from 'src/recipients/recipient'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 interface Props {
   recipientPhone: string
@@ -21,7 +21,7 @@ interface Props {
   feeInfo?: FeeInfo
   isLoadingFee?: boolean
   feeError?: Error
-  currency: CURRENCY_ENUM
+  currency: Currency
 }
 
 export default function ReclaimPaymentConfirmationCard({

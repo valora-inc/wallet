@@ -1,16 +1,16 @@
-import { CURRENCY_ENUM } from '@celo/utils'
 import * as React from 'react'
 import { render } from 'react-native-testing-library'
 import { WebView } from 'react-native-webview'
 import { Provider } from 'react-redux'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 // tslint:disable no-eval
 
 const mockScreenProps = getMockStackScreenProps(Screens.BidaliScreen, {
-  currency: CURRENCY_ENUM.DOLLAR,
+  currency: Currency.Dollar,
 })
 
 declare global {

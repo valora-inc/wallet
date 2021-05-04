@@ -1,15 +1,15 @@
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import BigNumber from 'bignumber.js'
 import { FeeInfo } from 'src/fees/saga'
-import { SHORT_CURRENCIES } from 'src/geth/consts'
 import { TransactionContext } from 'src/transactions/types'
+import { ShortCurrency } from 'src/utils/currencies'
 
 export interface EscrowedPayment {
   senderAddress: string
   recipientPhone: string
   recipientIdentifier: string
   paymentID: string
-  currency: SHORT_CURRENCIES
+  currency: ShortCurrency
   amount: BigNumber
   message?: string
   timestamp: BigNumber

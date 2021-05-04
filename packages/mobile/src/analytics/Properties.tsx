@@ -1,4 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils'
 import BigNumber from 'bignumber.js'
 import { PincodeType } from 'src/account/reducer'
 import {
@@ -32,6 +31,7 @@ import {
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { Currency } from 'src/utils/currencies'
 
 interface AppEventsProperties {
   [AppEvents.app_launched]: {
@@ -630,19 +630,19 @@ interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_transaction_back]: undefined
 
   [CeloExchangeEvents.celo_toggle_input_currency]: {
-    to: CURRENCY_ENUM
+    to: Currency
   }
   [CeloExchangeEvents.celo_buy_continue]: {
     localCurrencyAmount: string | null
     goldAmount: string
-    inputToken: CURRENCY_ENUM
+    inputToken: Currency
     goldToDollarExchangeRate: string
   }
   [CeloExchangeEvents.celo_buy_confirm]: {
     localCurrencyAmount: string | null
     goldAmount: string
     dollarAmount: string
-    inputToken: CURRENCY_ENUM
+    inputToken: Currency
     goldToDollarExchangeRate: string
   }
   [CeloExchangeEvents.celo_buy_cancel]: undefined
@@ -653,14 +653,14 @@ interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_sell_continue]: {
     localCurrencyAmount: string | null
     goldAmount: string
-    inputToken: CURRENCY_ENUM
+    inputToken: Currency
     goldToDollarExchangeRate: string
   }
   [CeloExchangeEvents.celo_sell_confirm]: {
     localCurrencyAmount: string | null
     goldAmount: string
     dollarAmount: string
-    inputToken: CURRENCY_ENUM
+    inputToken: Currency
     goldToDollarExchangeRate: string
   }
   [CeloExchangeEvents.celo_sell_cancel]: undefined
@@ -716,7 +716,7 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_option_chosen]: {
     isCashIn: boolean
     paymentMethod: PaymentMethod
-    currency: CURRENCY_ENUM
+    currency: Currency
   }
   [FiatExchangeEvents.provider_chosen]: {
     isCashIn: boolean

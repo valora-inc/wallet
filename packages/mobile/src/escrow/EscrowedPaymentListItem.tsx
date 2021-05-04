@@ -8,11 +8,11 @@ import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { useEscrowPaymentRecipient } from 'src/escrow/utils'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 
@@ -66,7 +66,7 @@ function EscrowedPaymentListItem({ payment }: Props) {
   const nameToShow = recipient.name ?? t('global:unknown')
   const amount = {
     value: divideByWei(payment.amount),
-    currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+    currencyCode: CURRENCIES[Currency.Dollar].code,
   }
 
   return (

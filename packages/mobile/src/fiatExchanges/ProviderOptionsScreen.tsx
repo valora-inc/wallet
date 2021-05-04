@@ -24,7 +24,6 @@ import {
   getProviderAvailability,
   sortProviders,
 } from 'src/fiatExchanges/utils'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
 import QuestionIcon from 'src/icons/QuestionIcon'
@@ -35,6 +34,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
+import { Currency } from 'src/utils/currencies'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
@@ -78,9 +78,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
   const { paymentMethod } = route.params
   const currencyToBuy = {
-    [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
-    [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
-  }[route.params.selectedCrypto || CURRENCY_ENUM.DOLLAR]
+    [Currency.Celo]: CurrencyCode.CELO,
+    [Currency.Dollar]: CurrencyCode.CUSD,
+    [Currency.Euro]: CurrencyCode.CEUR,
+  }[route.params.selectedCrypto || Currency.Dollar]
 
   const dispatch = useDispatch()
   const isFocused = useIsFocused()

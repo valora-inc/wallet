@@ -7,12 +7,12 @@ import {
 } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 
-export function useExchangeRate() {
+export function useDollarToLocalRate() {
   return useSelector(getLocalCurrencyExchangeRate)
 }
 
 export function useDollarsToLocalAmount(amount: BigNumber.Value | null) {
-  const exchangeRate = useExchangeRate()
+  const exchangeRate = useDollarToLocalRate()
   const convertedAmount = convertDollarsToLocalAmount(amount, exchangeRate)
   if (!convertedAmount) {
     return null

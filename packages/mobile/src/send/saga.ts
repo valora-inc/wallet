@@ -1,4 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { giveProfileAccess } from 'src/account/profileInfo'
@@ -32,6 +31,7 @@ import {
   getCurrencyAddress,
 } from 'src/tokens/saga'
 import { newTransactionContext } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -45,7 +45,7 @@ const STATIC_SEND_TOKEN_GAS_ESTIMATE = 200000
 
 export async function getSendTxGas(
   account: string,
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   params: BasicTokenTransfer,
   useStatic: boolean = true
 ): Promise<BigNumber> {
@@ -59,7 +59,7 @@ export async function getSendTxGas(
     const tx = await createTokenTransferTransaction(currency, params)
     const txParams = {
       from: account,
-      feeCurrency: currency === CURRENCY_ENUM.GOLD ? undefined : await getCurrencyAddress(currency),
+      feeCurrency: currency === Currency.Celo ? undefined : await getCurrencyAddress(currency),
     }
     const gas = await estimateGas(tx.txo, txParams)
     Logger.debug(`${TAG}/getSendTxGas`, `Estimated gas of ${gas.toString()}`)
@@ -72,7 +72,7 @@ export async function getSendTxGas(
 
 export async function getSendFee(
   account: string,
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   params: BasicTokenTransfer,
   includeDekFee: boolean = false,
   dollarBalance?: string
@@ -143,7 +143,7 @@ function* sendPayment(
   recipientAddress: string,
   amount: BigNumber,
   comment: string,
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   feeInfo?: FeeInfo
 ) {
   try {
@@ -154,7 +154,7 @@ function* sendPayment(
 
     const context = newTransactionContext(TAG, 'Send payment')
     switch (currency) {
-      case CURRENCY_ENUM.GOLD: {
+      case Currency.Celo: {
         yield put(
           transferGoldToken({
             recipientAddress,
@@ -166,7 +166,7 @@ function* sendPayment(
         )
         break
       }
-      case CURRENCY_ENUM.DOLLAR: {
+      case Currency.Dollar: {
         yield put(
           transferStableToken({
             recipientAddress,
@@ -210,14 +210,14 @@ export function* sendPaymentOrInviteSaga({
     yield call(getConnectedUnlockedAccount)
 
     if (recipientAddress) {
-      yield call(sendPayment, recipientAddress, amount, comment, CURRENCY_ENUM.DOLLAR, feeInfo)
+      yield call(sendPayment, recipientAddress, amount, comment, Currency.Dollar, feeInfo)
     } else if (recipientHasNumber(recipient)) {
       yield call(
         sendInvite,
         recipient.e164PhoneNumber,
         inviteMethod || InviteBy.SMS,
         amount,
-        CURRENCY_ENUM.DOLLAR,
+        Currency.Dollar,
         feeInfo
       )
     }

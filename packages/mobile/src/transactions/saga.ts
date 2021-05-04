@@ -7,7 +7,6 @@ import { getProfileInfo } from 'src/account/profileInfo'
 import { showError } from 'src/alert/actions'
 import { TokenTransactionType, TransferItemFragment } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { fetchGoldBalance } from 'src/goldToken/actions'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { addressToE164NumberSelector, AddressToE164NumberType } from 'src/identity/reducer'
@@ -35,6 +34,7 @@ import {
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
 import { StandbyTransaction, TransactionContext, TransactionStatus } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'transactions/saga'
@@ -73,8 +73,8 @@ export function* sendAndMonitorTransaction<T>(
   tx: CeloTransactionObject<T>,
   account: string,
   context: TransactionContext,
-  currency?: CURRENCY_ENUM,
-  feeCurrency?: CURRENCY_ENUM,
+  currency?: Currency,
+  feeCurrency?: Currency,
   gas?: number,
   gasPrice?: BigNumber
 ) {
@@ -101,13 +101,13 @@ export function* sendAndMonitorTransaction<T>(
 
     // Determine which balances may be affected by the transaction and fetch updated balances.
     const balancesAffected = new Set([
-      ...(currency ? [currency] : [CURRENCY_ENUM.DOLLAR, CURRENCY_ENUM.GOLD]),
-      feeCurrency ?? CURRENCY_ENUM.DOLLAR,
+      ...(currency ? [currency] : [Currency.Dollar, Currency.Celo]),
+      feeCurrency ?? Currency.Dollar,
     ])
-    if (balancesAffected.has(CURRENCY_ENUM.GOLD)) {
+    if (balancesAffected.has(Currency.Celo)) {
       yield put(fetchGoldBalance())
     }
-    if (balancesAffected.has(CURRENCY_ENUM.DOLLAR)) {
+    if (balancesAffected.has(Currency.Dollar)) {
       yield put(fetchDollarBalance())
     }
     return txReceipt
@@ -180,7 +180,7 @@ function* addProfile(transaction: TransferItemFragment) {
       }
 
       yield put(updateValoraRecipientCache(newProfile))
-      Logger.info(TAG, `added ${newProfile} to valoraRecipientCache`)
+      Logger.info(TAG, `added ${JSON.stringify(newProfile)} to valoraRecipientCache`)
     }
   }
 }

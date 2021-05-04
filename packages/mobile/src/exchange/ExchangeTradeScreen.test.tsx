@@ -4,9 +4,9 @@ import { Provider } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { ExchangeTradeScreen } from 'src/exchange/ExchangeTradeScreen'
 import { ExchangeRatePair } from 'src/exchange/reducer'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockI18nProps, getMockStackScreenProps } from 'test/utils'
 
 const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.11', dollarMaker: '10' }
@@ -19,7 +19,7 @@ const store = createMockStore({
 
 const mockScreenProps = getMockStackScreenProps(Screens.ExchangeTradeScreen, {
   makerTokenDisplay: {
-    makerToken: CURRENCY_ENUM.GOLD,
+    makerToken: Currency.Celo,
     makerTokenBalance: '20',
   },
 })
@@ -92,7 +92,7 @@ describe(ExchangeTradeScreen, () => {
         <ExchangeTradeScreen
           {...getMockStackScreenProps(Screens.ExchangeTradeScreen, {
             makerTokenDisplay: {
-              makerToken: CURRENCY_ENUM.DOLLAR,
+              makerToken: Currency.Dollar,
               makerTokenBalance: '20.02', // equals 400.4 MXN
             },
           })}
@@ -159,7 +159,7 @@ describe(ExchangeTradeScreen, () => {
         <ExchangeTradeScreen
           {...getMockStackScreenProps(Screens.ExchangeTradeScreen, {
             makerTokenDisplay: {
-              makerToken: CURRENCY_ENUM.DOLLAR,
+              makerToken: Currency.Dollar,
               makerTokenBalance: '200',
             },
           })}

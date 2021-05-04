@@ -3,13 +3,13 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet } from 'react-native'
 import { ExchangeItemFragment } from 'src/apollo/types'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { Namespaces } from 'src/i18n'
 import { transactionExchange } from 'src/images/Images'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigateToExchangeReview } from 'src/transactions/actions'
 import TransactionFeedItem from 'src/transactions/TransactionFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { getLocalCurrencyDisplayValue, getMoneyDisplayValue } from 'src/utils/formatting'
 
 type Props = ExchangeItemFragment & {
@@ -27,7 +27,7 @@ export function ExchangeFeedItem(props: Props) {
     })
   }
 
-  const boughtGold = takerAmount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+  const boughtGold = takerAmount.currencyCode === CURRENCIES[Currency.Celo].code
   const icon = transactionExchange
   const goldAmount = boughtGold ? takerAmount : makerAmount
 
@@ -37,7 +37,7 @@ export function ExchangeFeedItem(props: Props) {
       amount={amount}
       title={t(boughtGold ? 'feedItemBoughtCeloTitle' : 'feedItemSoldCeloTitle')}
       info={t('feedItemExchangeCeloInfo', {
-        amount: getMoneyDisplayValue(goldAmount.value, CURRENCY_ENUM.GOLD),
+        amount: getMoneyDisplayValue(goldAmount.value, Currency.Celo),
         price: goldAmount.localAmount
           ? getLocalCurrencyDisplayValue(
               goldAmount.localAmount.exchangeRate,

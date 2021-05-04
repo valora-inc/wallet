@@ -1,14 +1,18 @@
 import { getRegionCode } from '@celo/utils/lib/phoneNumbers'
+import BigNumber from 'bignumber.js'
 import CountryData from 'country-data'
 import { getCurrencies } from 'react-native-localize'
 import { createSelector } from 'reselect'
 import { e164NumberSelector } from 'src/account/selectors'
+import { getExchangeRatePair } from 'src/exchange/selectors'
 import {
-  LOCAL_CURRENCY_CODES,
   LocalCurrencyCode,
   LocalCurrencySymbol,
+  LOCAL_CURRENCY_CODES,
 } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
+import { Currency } from 'src/utils/currencies'
+import { getRateForMakerToken } from 'src/utils/currencyExchange'
 
 const MIN_UPDATE_INTERVAL = 12 * 3600 * 1000 // 12 hours
 
@@ -50,16 +54,31 @@ export function getLocalCurrencySymbol(state: RootState): LocalCurrencySymbol | 
   return LocalCurrencySymbol[getLocalCurrencyCode(state)]
 }
 
-export function getLocalCurrencyExchangeRate(state: RootState) {
-  const { exchangeRate, fetchedCurrencyCode } = state.localCurrency
+export function localCurrencyExchangeRateSelector(state: RootState) {
+  const { exchangeRate, eurExchangeRate, fetchedCurrencyCode } = state.localCurrency
 
   const localCurrencyCode = getLocalCurrencyCode(state)
   if (localCurrencyCode !== fetchedCurrencyCode) {
     // This makes sure we don't return stale exchange rate when the currency code changed
-    return null
+    return {}
   }
 
-  return exchangeRate
+  const celoToDollarRate = getRateForMakerToken(
+    getExchangeRatePair(state),
+    Currency.Celo,
+    Currency.Dollar
+  )
+
+  return {
+    [Currency.Celo]: celoToDollarRate.multipliedBy(new BigNumber(exchangeRate ?? '1')),
+    [Currency.Dollar]: exchangeRate,
+    [Currency.Euro]: eurExchangeRate,
+  }
+}
+
+export function getLocalCurrencyExchangeRate(state: RootState) {
+  const exchangeRates = localCurrencyExchangeRateSelector(state)
+  return exchangeRates?.[Currency.Dollar]
 }
 
 export function shouldFetchCurrentRate(state: RootState): boolean {

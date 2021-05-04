@@ -4,8 +4,8 @@ import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import ExchangeReview from 'src/exchange/ExchangeReview'
 import { ExchangeRatePair } from 'src/exchange/reducer'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.11', dollarMaker: '10' }
@@ -28,9 +28,9 @@ const store = createMockStore({
 
 const mockScreenProps = getMockStackScreenProps(Screens.ExchangeReview, {
   exchangeInput: {
-    makerToken: CURRENCY_ENUM.GOLD,
+    makerToken: Currency.Celo,
     makerTokenBalance: '20',
-    inputToken: CURRENCY_ENUM.GOLD,
+    inputToken: Currency.Celo,
     inputTokenDisplayName: 'gold',
     inputAmount: new BigNumber(10),
   },

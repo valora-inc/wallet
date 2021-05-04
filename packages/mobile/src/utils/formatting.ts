@@ -1,12 +1,13 @@
 import colors from '@celo/react-components/styles/colors'
 import BigNumber from 'bignumber.js'
-import { CURRENCIES, CURRENCY_ENUM, WEI_PER_TOKEN } from 'src/geth/consts'
+import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 // Returns a localized string that represents the number with the right decimal points.
 export const getMoneyDisplayValue = (
   value: BigNumber.Value,
-  currency: CURRENCY_ENUM = CURRENCY_ENUM.DOLLAR,
+  currency: Currency = Currency.Dollar,
   includeSymbol: boolean = false,
   roundingTolerance: number = 1
 ): string => {
@@ -104,11 +105,12 @@ export function roundUp(
   return new BigNumber(value).decimalPlaces(decimals, BigNumber.ROUND_UP)
 }
 
-export const getCurrencyColor = (currencyType: CURRENCY_ENUM): string => {
+export const getCurrencyColor = (currencyType: Currency): string => {
   switch (currencyType) {
-    case CURRENCY_ENUM.DOLLAR:
+    case Currency.Dollar:
+    case Currency.Euro:
       return colors.greenBrand
-    case CURRENCY_ENUM.GOLD:
+    case Currency.Celo:
       return colors.goldBrand
   }
 }

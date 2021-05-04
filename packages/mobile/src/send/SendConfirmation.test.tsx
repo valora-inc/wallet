@@ -6,12 +6,12 @@ import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { features } from 'src/flags'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getSendFee } from 'src/send/saga'
 import SendConfirmation from 'src/send/SendConfirmation'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
 import {
   mockAccount2Invite,
@@ -26,7 +26,7 @@ const TEST_FEE_INFO_CUSD = {
   fee: new BigNumber(10).pow(16),
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
-  currency: CURRENCY_ENUM.DOLLAR,
+  currency: Currency.Dollar,
 }
 
 // A fee of 0.01 CELO.
@@ -34,7 +34,7 @@ const TEST_FEE_INFO_CELO = {
   fee: new BigNumber(10).pow(16),
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
-  currency: CURRENCY_ENUM.GOLD,
+  currency: Currency.Celo,
 }
 
 jest.mock('src/send/saga')

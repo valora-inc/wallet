@@ -1,25 +1,30 @@
-import { spawn } from 'redux-saga/effects'
-import { CURRENCY_ENUM } from 'src/geth/consts'
+import { put } from 'redux-saga-test-plan/matchers'
+import { call, spawn, takeEvery } from 'redux-saga/effects'
 import { Actions, fetchGoldBalance, setBalance } from 'src/goldToken/actions'
-import { tokenFetchFactory, tokenTransferFactory } from 'src/tokens/saga'
+import { fetchToken, tokenTransferFactory } from 'src/tokens/saga'
+import { Currency } from 'src/utils/currencies'
 
 const tag = 'goldToken/saga'
 
-export const goldFetch = tokenFetchFactory({
-  actionName: Actions.FETCH_BALANCE,
-  token: CURRENCY_ENUM.GOLD,
-  actionCreator: setBalance,
-  tag,
-})
+function* fetchCeloBalance() {
+  const balance: string | undefined = yield call(fetchToken, Currency.Celo, tag)
+  if (balance) {
+    yield put(setBalance(balance))
+  }
+}
+
+function* watchFetchCeloBalance() {
+  yield takeEvery(Actions.FETCH_BALANCE, fetchCeloBalance)
+}
 
 export const goldTransfer = tokenTransferFactory({
   actionName: Actions.TRANSFER,
   tag,
-  currency: CURRENCY_ENUM.GOLD,
+  currency: Currency.Celo,
   fetchAction: fetchGoldBalance,
 })
 
 export function* goldTokenSaga() {
-  yield spawn(goldFetch)
+  yield spawn(watchFetchCeloBalance)
   yield spawn(goldTransfer)
 }

@@ -29,7 +29,7 @@ import { getEscrowTxGas } from 'src/escrow/saga'
 import { calculateFee, FeeInfo } from 'src/fees/saga'
 import { generateShortInviteLink } from 'src/firebase/dynamicLinks'
 import { features } from 'src/flags'
-import { CURRENCY_ENUM, UNLOCK_DURATION } from 'src/geth/consts'
+import { UNLOCK_DURATION } from 'src/geth/consts'
 import { refreshAllBalances } from 'src/home/actions'
 import i18n from 'src/i18n'
 import { updateE164PhoneNumberAddresses } from 'src/identity/actions'
@@ -57,6 +57,7 @@ import { createTokenTransferTransaction, fetchTokenBalanceInWeiWithRetry } from 
 import { waitForTransactionWithId } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import { getContractKitAsync, getWallet, getWeb3 } from 'src/web3/contracts'
@@ -69,7 +70,7 @@ export const INVITE_FEE = '0.30'
 
 export async function getInviteTxGas(
   account: string,
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   amount: BigNumber.Value,
   comment: string
 ) {
@@ -94,7 +95,7 @@ export async function getInviteTxGas(
 
 export async function getInviteFee(
   account: string,
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   amount: string,
   dollarBalance: string,
   comment: string
@@ -172,7 +173,7 @@ export function* sendInvite(
   e164Number: string,
   inviteMode: InviteBy,
   amount?: BigNumber,
-  currency?: CURRENCY_ENUM,
+  currency?: Currency,
   feeInfo?: FeeInfo
 ) {
   const escrowIncluded = !!amount
@@ -245,7 +246,7 @@ export function* sendInvite(
     }
 
     // If this invitation has a payment attached to it, send the payment to the escrow.
-    if (currency === CURRENCY_ENUM.DOLLAR && amount) {
+    if (currency === Currency.Dollar && amount) {
       yield call(
         initiateEscrowTransfer,
         e164Number,
@@ -391,7 +392,7 @@ export function* doRedeemInvite(tempAccountPrivateKey: string) {
     Logger.debug(TAG + '@doRedeemInvite', 'Invite code contains temp account', tempAccount)
 
     const [tempAccountBalanceWei, newAccount]: [BigNumber, string] = yield all([
-      call(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.DOLLAR, tempAccount),
+      call(fetchTokenBalanceInWeiWithRetry, Currency.Dollar, tempAccount),
       call(getOrCreateAccount),
       call(addTempAccountToWallet, tempAccountPrivateKey),
     ])
@@ -410,7 +411,7 @@ export function* doRedeemInvite(tempAccountPrivateKey: string) {
       tempAccount,
       tempAccountBalanceWei,
       newAccount,
-      CURRENCY_ENUM.DOLLAR,
+      Currency.Dollar,
       SENTINEL_INVITE_COMMENT
     )
     ValoraAnalytics.track(OnboardingEvents.invite_redeem_move_funds_complete)
@@ -453,7 +454,7 @@ export function* moveAllFundsFromAccount(
   account: string,
   accountBalanceWei: BigNumber,
   toAccount: string,
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   comment: string
 ) {
   Logger.debug(TAG + '@moveAllFundsFromAccount', 'Unlocking account')

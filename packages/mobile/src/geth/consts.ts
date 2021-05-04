@@ -17,12 +17,3 @@ export enum GethSyncMode {
   // Value of 4 corresponds to a deprecated sync mode.
   Lightest = 5,
 }
-
-// Re-export from utils for convinience since we use these often
-export {
-  CURRENCIES,
-  currencyToShortMap,
-  CURRENCY_ENUM,
-  resolveCurrency,
-  SHORT_CURRENCIES,
-} from '@celo/utils/lib/currencies'

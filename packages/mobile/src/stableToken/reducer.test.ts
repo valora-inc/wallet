@@ -11,7 +11,7 @@ describe('stableToken reducer', () => {
     expect(
       reducer(undefined, {
         type: Actions.SET_BALANCE,
-        balance: '10',
+        cUsdBalance: '10',
       })
     ).toEqual({
       ...initialState,

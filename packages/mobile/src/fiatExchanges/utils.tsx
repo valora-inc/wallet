@@ -8,9 +8,9 @@ import { CurrencyCode, MOONPAY_API_KEY } from 'src/config'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { providerAvailability } from 'src/flags'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'fiatExchanges:utils'
@@ -303,7 +303,7 @@ export const getAvailableLocalProviders = (
   localCicoProviders: LocalCicoProvider[] | undefined,
   isCashIn: boolean,
   countryCode: string | null,
-  selectedCurrency: CURRENCY_ENUM
+  selectedCurrency: Currency
 ) => {
   if (!localCicoProviders || !countryCode) {
     return []
@@ -320,7 +320,7 @@ export const getAvailableLocalProviders = (
   const regionCode = getRegionCodeFromCountryCode(countryCode)
   if (regionCode) {
     availableLocalProviders = activeLocalProviders.filter((provider) =>
-      provider[selectedCurrency === CURRENCY_ENUM.DOLLAR ? 'cusd' : 'celo'].countries.includes(
+      provider[selectedCurrency === Currency.Dollar ? 'cusd' : 'celo'].countries.includes(
         regionCode
       )
     )

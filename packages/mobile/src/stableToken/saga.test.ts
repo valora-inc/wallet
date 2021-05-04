@@ -1,12 +1,12 @@
-import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
 import { TokenTransactionType } from 'src/apollo/types'
 import { fetchDollarBalance, setBalance, transferStableToken } from 'src/stableToken/actions'
-import { stableTokenFetch, stableTokenTransfer } from 'src/stableToken/saga'
+import { stableTokenTransfer, watchFetchStableBalances } from 'src/stableToken/saga'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { TransactionStatus } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { waitWeb3LastBlock } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
@@ -39,7 +39,7 @@ describe('stableToken saga', () => {
   jest.useRealTimers()
 
   it('should fetch the balance and put the new balance', async () => {
-    await expectSaga(stableTokenFetch)
+    await expectSaga(watchFetchStableBalances)
       .provide([[call(waitWeb3LastBlock), true]])
       .withState(state)
       .dispatch(fetchDollarBalance())
@@ -51,7 +51,7 @@ describe('stableToken saga', () => {
     const stableToken = await (await getContractKitAsync()).contracts.getStableToken()
     // @ts-ignore Jest Mock
     stableToken.balanceOf.mockResolvedValueOnce(new BigNumber(10000001))
-    await expectSaga(stableTokenFetch)
+    await expectSaga(watchFetchStableBalances)
       .provide([[call(waitWeb3LastBlock), true]])
       .withState(state)
       .dispatch(fetchDollarBalance())
@@ -70,7 +70,7 @@ describe('stableToken saga', () => {
           comment: COMMENT,
           status: TransactionStatus.Pending,
           value: BALANCE,
-          symbol: CURRENCY_ENUM.DOLLAR,
+          symbol: Currency.Dollar,
           timestamp: Math.floor(Date.now() / 1000),
           address: mockAccount,
         })
@@ -90,7 +90,7 @@ describe('stableToken saga', () => {
           comment: COMMENT,
           status: TransactionStatus.Pending,
           value: BALANCE,
-          symbol: CURRENCY_ENUM.DOLLAR,
+          symbol: Currency.Dollar,
           timestamp: Math.floor(Date.now() / 1000),
           address: mockAccount,
         })

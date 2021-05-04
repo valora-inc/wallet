@@ -5,15 +5,15 @@ import { DOLLAR_ADD_FUNDS_MAX_AMOUNT, DOLLAR_ADD_FUNDS_MIN_AMOUNT } from 'src/co
 import { ExchangeRatePair } from 'src/exchange/reducer'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.5', dollarMaker: '1' }
 
 const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-  currency: CURRENCY_ENUM.DOLLAR,
+  currency: Currency.Dollar,
   paymentMethod: PaymentMethod.Bank,
   isCashIn: true,
 })
@@ -98,7 +98,7 @@ describe('FiatExchangeAmount', () => {
 
     expect(navigate).toHaveBeenCalledWith(Screens.ProviderOptionsScreen, {
       isCashIn: true,
-      selectedCrypto: CURRENCY_ENUM.DOLLAR,
+      selectedCrypto: Currency.Dollar,
       amount: {
         fiat: 600,
         crypto: 600,

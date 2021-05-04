@@ -1,25 +1,29 @@
-import { spawn } from 'redux-saga/effects'
-import { CURRENCY_ENUM } from 'src/geth/consts'
+import { all, call, put, spawn, take } from 'redux-saga/effects'
 import { Actions, fetchDollarBalance, setBalance } from 'src/stableToken/actions'
-import { tokenFetchFactory, tokenTransferFactory } from 'src/tokens/saga'
+import { fetchToken, tokenTransferFactory } from 'src/tokens/saga'
+import { Currency } from 'src/utils/currencies'
 
 const tag = 'stableToken/saga'
 
-export const stableTokenFetch = tokenFetchFactory({
-  actionName: Actions.FETCH_BALANCE,
-  token: CURRENCY_ENUM.DOLLAR,
-  actionCreator: setBalance,
-  tag,
-})
+export function* watchFetchStableBalances() {
+  while (true) {
+    yield take(Actions.FETCH_BALANCE)
+    const [cUsdBalance, cEurBalance]: [string | undefined, string | undefined] = yield all([
+      call(fetchToken, Currency.Dollar, tag),
+      call(fetchToken, Currency.Euro, tag),
+    ])
+    yield put(setBalance(cUsdBalance, cEurBalance))
+  }
+}
 
 export const stableTokenTransfer = tokenTransferFactory({
   actionName: Actions.TRANSFER,
   tag,
-  currency: CURRENCY_ENUM.DOLLAR,
+  currency: Currency.Dollar,
   fetchAction: fetchDollarBalance,
 })
 
 export function* stableTokenSaga() {
-  yield spawn(stableTokenFetch)
+  yield spawn(watchFetchStableBalances)
   yield spawn(stableTokenTransfer)
 }

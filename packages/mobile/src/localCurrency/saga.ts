@@ -12,11 +12,15 @@ import {
 } from 'src/localCurrency/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'localCurrency/saga'
 
-export async function fetchExchangeRate(currencyCode: string): Promise<string> {
+export async function fetchExchangeRate(
+  localCurrencyCode: string,
+  baseCurrency: Currency
+): Promise<string> {
   const response = await apolloClient.query<ExchangeRateQuery, ExchangeRateQueryVariables>({
     query: gql`
       query ExchangeRate($currencyCode: String!) {
@@ -25,12 +29,13 @@ export async function fetchExchangeRate(currencyCode: string): Promise<string> {
         }
       }
     `,
-    variables: { currencyCode },
+    variables: { currencyCode: localCurrencyCode },
     fetchPolicy: 'network-only',
     errorPolicy: 'all',
   })
 
   const rate = response.data.currencyConversion?.rate
+  console.log('ZXCZXCZXCZXC2', response.data)
   if (typeof rate !== 'number' && typeof rate !== 'string') {
     throw new Error(`Invalid response data ${response.data}`)
   }
@@ -44,8 +49,9 @@ export function* fetchLocalCurrencyRateSaga() {
     if (!localCurrencyCode) {
       throw new Error("Can't fetch local currency rate without a currency code")
     }
-    const rate = yield call(fetchExchangeRate, localCurrencyCode)
-    yield put(fetchCurrentRateSuccess(localCurrencyCode, rate, Date.now()))
+    const usdRate = yield call(fetchExchangeRate, localCurrencyCode, Currency.Dollar)
+    const euroRate = yield call(fetchExchangeRate, localCurrencyCode, Currency.Euro)
+    yield put(fetchCurrentRateSuccess(localCurrencyCode, usdRate, euroRate, Date.now()))
   } catch (error) {
     Logger.error(`${TAG}@fetchLocalCurrencyRateSaga`, error)
     yield put(fetchCurrentRateFailure())

@@ -1,13 +1,12 @@
 import { ActionableAttestation } from '@celo/contractkit/lib/wrappers/Attestations'
+import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
-import { RootState } from 'src/redux/reducers'
-
-import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
 import BigNumber from 'bignumber.js'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { RootState } from 'src/redux/reducers'
+import { cUsdBalanceSelector } from 'src/stableToken/reducer'
 
 const ESTIMATED_COST_PER_ATTESTATION = 0.051
 
@@ -335,14 +334,14 @@ export const overrideWithoutVerificationSelector = (state: RootState): boolean |
   state.verify.TEMPORARY_override_withoutVerification
 
 export const isBalanceSufficientForSigRetrievalSelector = createSelector(
-  [stableTokenBalanceSelector, celoTokenBalanceSelector],
+  [cUsdBalanceSelector, celoTokenBalanceSelector],
   (stableTokenBalance, celoTokenBalance) =>
     isBalanceSufficientForSigRetrieval(stableTokenBalance || 0, celoTokenBalance || 0)
 )
 
 export const isBalanceSufficientSelector = createSelector(
   [
-    stableTokenBalanceSelector,
+    cUsdBalanceSelector,
     actionableAttestationsSelector,
     verificationStatusSelector,
     phoneHashSelector,

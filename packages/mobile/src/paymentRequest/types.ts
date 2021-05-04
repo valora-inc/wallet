@@ -1,5 +1,5 @@
-import { SHORT_CURRENCIES } from 'src/geth/consts'
 import { NotificationTypes } from 'src/notifications/types'
+import { ShortCurrency } from 'src/utils/currencies'
 
 export enum PaymentRequestStatus {
   REQUESTED = 'REQUESTED',
@@ -16,7 +16,7 @@ export interface PaymentRequest {
   requesterAddress: string
   requesteeAddress: string
   requesterE164Number?: string
-  currency: SHORT_CURRENCIES
+  currency: ShortCurrency
   status: PaymentRequestStatus
   notified: boolean
   type?: NotificationTypes.PAYMENT_REQUESTED

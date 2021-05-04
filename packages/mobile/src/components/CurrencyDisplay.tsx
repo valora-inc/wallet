@@ -4,17 +4,16 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ColorValue, StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native'
 import { MoneyAmount } from 'src/apollo/types'
-import { useExchangeRate as useGoldToDollarRate } from 'src/exchange/hooks'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
+import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import {
-  useExchangeRate as useDollarToLocalRate,
-  useLocalCurrencyCode,
-} from 'src/localCurrency/hooks'
+  getLocalCurrencyCode,
+  localCurrencyExchangeRateSelector,
+} from 'src/localCurrency/selectors'
+import useSelector from 'src/redux/useSelector'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
-import { goldToDollarAmount } from 'src/utils/currencyExchange'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import {
   getCentAwareMoneyDisplay,
   getExchangeRateDisplayValue,
@@ -71,24 +70,13 @@ function getBigSymbolStyle(fontSize: number, color: ColorValue | undefined): Sty
 function getLocalAmount(
   amount: MoneyAmount,
   localCurrencyCode: LocalCurrencyCode,
-  dollarToLocalRate: BigNumber.Value | null | undefined,
-  goldToDollarRate: BigNumber
+  exchangeRate: BigNumber.Value | null | undefined
 ) {
   if (amount.localAmount) {
     return amount.localAmount
   }
 
-  let dollarValue = null
-  if (amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code) {
-    dollarValue = goldToDollarAmount(amount.value, goldToDollarRate)
-  } else if (amount.currencyCode === CURRENCIES[CURRENCY_ENUM.DOLLAR].code) {
-    dollarValue = amount.value
-  } else {
-    // Can't convert other currencies for now
-    return null
-  }
-
-  const localValue = convertDollarsToLocalAmount(dollarValue, dollarToLocalRate)
+  const localValue = convertCurrencyToLocalAmount(amount.value, exchangeRate)
   if (!localValue) {
     return null
   }
@@ -99,34 +87,33 @@ function getLocalAmount(
   }
 }
 
-type FormatFunction = (amount: BigNumber.Value, currency?: CURRENCY_ENUM) => string
+type FormatFunction = (amount: BigNumber.Value, currency?: Currency) => string
 
 function getFormatFunction(formatType: FormatType): FormatFunction {
   switch (formatType) {
     case FormatType.Default:
       return getMoneyDisplayValue
     case FormatType.CentAware:
-      return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
-        getCentAwareMoneyDisplay(amount)
+      return (amount: BigNumber.Value, _currency?: Currency) => getCentAwareMoneyDisplay(amount)
     case FormatType.Fee:
-      return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) => getFeeDisplayValue(amount)
+      return (amount: BigNumber.Value, _currency?: Currency) => getFeeDisplayValue(amount)
     case FormatType.NetworkFee:
-      return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
-        getNetworkFeeDisplayValue(amount)
+      return (amount: BigNumber.Value, _currency?: Currency) => getNetworkFeeDisplayValue(amount)
     case FormatType.NetworkFeePrecise:
-      return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
+      return (amount: BigNumber.Value, _currency?: Currency) =>
         getNetworkFeeDisplayValue(amount, true)
     case FormatType.ExchangeRate:
-      return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
-        getExchangeRateDisplayValue(amount)
+      return (amount: BigNumber.Value, _currency?: Currency) => getExchangeRateDisplayValue(amount)
   }
 }
 
-function getFullCurrencyName(currency: CURRENCY_ENUM | null) {
+function getFullCurrencyName(currency: Currency | null) {
   switch (currency) {
-    case CURRENCY_ENUM.DOLLAR:
+    case Currency.Dollar:
       return i18n.t('global:celoDollars')
-    case CURRENCY_ENUM.GOLD:
+    case Currency.Euro:
+      return i18n.t('global:celoEuros')
+    case Currency.Celo:
       return i18n.t('global:celoGold')
     default:
       return null
@@ -149,29 +136,23 @@ export default function CurrencyDisplay({
   currencyInfo,
   testID,
 }: Props) {
-  let localCurrencyCode = useLocalCurrencyCode()
-  let dollarToLocalRate = useDollarToLocalRate()
+  let localCurrencyCode = useSelector(getLocalCurrencyCode)
+  const localRates = useSelector(localCurrencyExchangeRateSelector)
   if (currencyInfo) {
     localCurrencyCode = currencyInfo.localCurrencyCode
-    dollarToLocalRate = currencyInfo.localExchangeRate
+    localRates[Currency.Dollar] = currencyInfo.localExchangeRate
   }
-  const goldToDollarRate = useGoldToDollarRate()
 
-  const currency =
-    amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
-      ? CURRENCY_ENUM.GOLD
-      : CURRENCY_ENUM.DOLLAR
+  const currency: Currency =
+    (Object.entries(CURRENCIES).find(
+      ([_, currencyInfo]) => currencyInfo.code === amount.currencyCode
+    )?.[0] as Currency) ?? Currency.Dollar
 
-  // Show local amount only if explicitly set to true when currency is gold
-  const shouldShowLocalAmount = showLocalAmount ?? currency !== CURRENCY_ENUM.GOLD
+  // Show local amount only if explicitly set to true when currency is CELO
+  const shouldShowLocalAmount = showLocalAmount ?? currency !== Currency.Celo
   const displayAmount = shouldShowLocalAmount
-    ? getLocalAmount(amount, localCurrencyCode, dollarToLocalRate, goldToDollarRate)
+    ? getLocalAmount(amount, localCurrencyCode, localRates[currency])
     : amount
-  const displayCurrency = displayAmount
-    ? displayAmount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
-      ? CURRENCY_ENUM.GOLD
-      : CURRENCY_ENUM.DOLLAR
-    : null
   const currencySymbol = displayAmount
     ? shouldShowLocalAmount
       ? LocalCurrencySymbol[displayAmount.currencyCode as LocalCurrencyCode]
@@ -180,13 +161,12 @@ export default function CurrencyDisplay({
   const value = displayAmount ? new BigNumber(displayAmount.value) : null
   const sign = value?.isNegative() ? '-' : showExplicitPositiveSign ? '+' : ''
   const formatAmount = getFormatFunction(formatType)
-  const formattedValue =
-    value && displayCurrency ? formatAmount(value.absoluteValue(), displayCurrency) : '-'
+  const formattedValue = value && currency ? formatAmount(value.absoluteValue(), currency) : '-'
   const code = displayAmount?.currencyCode
-  const fullCurrencyName = getFullCurrencyName(displayCurrency)
+  const fullCurrencyName = getFullCurrencyName(currency)
 
   const color = useColors
-    ? currency === CURRENCY_ENUM.GOLD
+    ? currency === Currency.Celo
       ? colors.goldBrand
       : colors.greenBrand
     : StyleSheet.flatten(style)?.color ?? colors.dark

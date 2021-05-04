@@ -1,12 +1,12 @@
 import BigNumber from 'bignumber.js'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { SHORT_CURRENCIES } from 'src/geth/consts'
+import { ShortCurrency } from 'src/utils/currencies'
 import { multiplyByWei } from 'src/utils/formatting'
 
 const recipientPhone = '+491522345678'
 const recipientIdentifier = '0xabc123'
 const senderAddress = '0x000000000000000000000ce10'
-const currency = SHORT_CURRENCIES.DOLLAR
+const currency = ShortCurrency.Dollar
 
 const date = new BigNumber(
   new Date('Tue Mar 05 2019 13:44:06 GMT-0800 (Pacific Standard Time)').getTime()

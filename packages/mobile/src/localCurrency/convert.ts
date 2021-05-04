@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 
-export function convertDollarsToLocalAmount(
+export function convertCurrencyToLocalAmount(
   amount: BigNumber.Value | null,
   exchangeRate: BigNumber.Value | null | undefined
 ) {
@@ -9,6 +9,13 @@ export function convertDollarsToLocalAmount(
   }
 
   return new BigNumber(amount).multipliedBy(exchangeRate)
+}
+
+export function convertDollarsToLocalAmount(
+  amount: BigNumber.Value | null,
+  exchangeRate: BigNumber.Value | null | undefined
+) {
+  return convertCurrencyToLocalAmount(amount, exchangeRate)
 }
 
 export function convertLocalAmountToDollars(

@@ -1,7 +1,6 @@
 import PhoneNumberWithFlag from '@celo/react-components/components/PhoneNumberWithFlag'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib'
 import {
   createDrawerNavigator,
   DrawerContentComponentProps,
@@ -20,7 +19,6 @@ import {
   useLinkBuilder,
 } from '@react-navigation/native'
 import { TransitionPresets } from '@react-navigation/stack'
-import BigNumber from 'bignumber.js'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -37,12 +35,9 @@ import { toggleInviteModal } from 'src/app/actions'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
-import { GOLD_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { features } from 'src/flags'
-import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import WalletHome from 'src/home/WalletHome'
 import i18n, { Namespaces } from 'src/i18n'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
@@ -53,13 +48,13 @@ import { Home } from 'src/icons/navigator/Home'
 import { Invite } from 'src/icons/navigator/Invite'
 import { Settings } from 'src/icons/navigator/Settings'
 import InviteFriendModal from 'src/invite/InviteFriendModal'
+import BalancesDisplay from 'src/navigator/BalancesDisplay'
 import DrawerItem from 'src/navigator/DrawerItem'
 import { ensurePincode } from 'src/navigator/NavigationService'
 import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
 import { default as useSelector } from 'src/redux/useSelector'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -143,17 +138,6 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
   const displayName = useSelector(nameSelector)
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
-  const dollarBalance = useSelector(stableTokenBalanceSelector)
-  const dollarAmount = {
-    value: dollarBalance ?? '0',
-    currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
-  }
-  const celoBalance = useSelector(celoTokenBalanceSelector)
-  const celoAmount = {
-    value: new BigNumber(celoBalance ?? '0'),
-    currencyCode: CURRENCIES[CURRENCY_ENUM.GOLD].code,
-  }
-  const hasCeloBalance = celoAmount.value.isGreaterThan(GOLD_TRANSACTION_MIN_AMOUNT)
   const account = useSelector(currentAccountSelector)
   const appVersion = deviceInfoModule.getVersion()
 
@@ -178,40 +162,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
           />
         )}
         <View style={styles.border} />
-        <CurrencyDisplay
-          style={fontStyles.regular500}
-          amount={dollarAmount}
-          showLocalAmount={true}
-          testID="LocalDollarBalance"
-        />
-        <CurrencyDisplay
-          style={styles.amountLabelSmall}
-          amount={dollarAmount}
-          showLocalAmount={false}
-          hideFullCurrencyName={false}
-          hideSymbol={true}
-          testID="DollarBalance"
-        />
-        <View style={styles.borderBottom} />
-        {hasCeloBalance && (
-          <>
-            <CurrencyDisplay
-              style={fontStyles.regular500}
-              amount={celoAmount}
-              showLocalAmount={true}
-              testID="LocalCeloBalance"
-            />
-            <CurrencyDisplay
-              style={styles.amountLabelSmall}
-              amount={celoAmount}
-              showLocalAmount={false}
-              hideFullCurrencyName={false}
-              hideSymbol={true}
-              testID="CeloBalance"
-            />
-            <View style={styles.borderBottom} />
-          </>
-        )}
+        <BalancesDisplay />
       </View>
       <CustomDrawerItemList {...props} protectedRoutes={[Screens.BackupIntroduction]} />
       <View style={styles.drawerBottom}>
@@ -324,18 +275,6 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: colors.gray2,
     alignSelf: 'stretch',
-  },
-  amountLabelSmall: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    marginTop: 2,
-  },
-  borderBottom: {
-    height: 1,
-    backgroundColor: colors.gray2,
-    alignSelf: 'stretch',
-    marginTop: 12,
-    marginBottom: 12,
   },
   drawerBottom: {
     marginVertical: 32,

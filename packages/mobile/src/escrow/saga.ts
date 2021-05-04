@@ -30,7 +30,6 @@ import {
 import { generateEscrowPaymentIdAndPk, generateUniquePaymentId } from 'src/escrow/utils'
 import { calculateFee } from 'src/fees/saga'
 import { features } from 'src/flags'
-import { CURRENCY_ENUM, SHORT_CURRENCIES } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
 import i18n from 'src/i18n'
@@ -52,6 +51,7 @@ import {
   TransactionContext,
   TransactionStatus,
 } from 'src/transactions/types'
+import { Currency, ShortCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { komenciContextSelector, shouldUseKomenciSelector } from 'src/verify/reducer'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
@@ -236,7 +236,7 @@ function* registerStandbyTransaction(context: TransactionContext, value: string,
       type: TokenTransactionType.EscrowSent,
       status: TransactionStatus.Pending,
       value,
-      symbol: CURRENCY_ENUM.DOLLAR,
+      symbol: Currency.Dollar,
       timestamp: Math.floor(Date.now() / 1000),
       address,
       comment: '',
@@ -472,7 +472,7 @@ export async function getReclaimEscrowGas(account: string, paymentID: string) {
   const tx = await createReclaimTransaction(paymentID)
   const txParams = {
     from: account,
-    feeCurrency: await getCurrencyAddress(CURRENCY_ENUM.DOLLAR),
+    feeCurrency: await getCurrencyAddress(Currency.Dollar),
   }
   const gas = await estimateGas(tx, txParams)
   Logger.debug(`${TAG}/getReclaimEscrowGas`, `Estimated gas of ${gas.toString()}}`)
@@ -481,7 +481,7 @@ export async function getReclaimEscrowGas(account: string, paymentID: string) {
 
 export async function getReclaimEscrowFee(account: string, paymentID: string) {
   const gas = await getReclaimEscrowGas(account, paymentID)
-  return calculateFee(gas, CURRENCY_ENUM.DOLLAR)
+  return calculateFee(gas, Currency.Dollar)
 }
 
 export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
@@ -578,7 +578,7 @@ function* doFetchSentPayments() {
         // since identifier mapping could be fetched after this is called.
         recipientPhone: recipientPhoneNumber,
         recipientIdentifier: payment.recipientIdentifier,
-        currency: SHORT_CURRENCIES.DOLLAR, // Only dollars can be escrowed
+        currency: ShortCurrency.Dollar, // Only dollars can be escrowed
         amount: payment[3],
         timestamp: payment[6],
         expirySeconds: payment[7],

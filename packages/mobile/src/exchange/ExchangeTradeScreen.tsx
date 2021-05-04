@@ -25,7 +25,6 @@ import LineItemRow from 'src/components/LineItemRow'
 import { DOLLAR_TRANSACTION_MIN_AMOUNT, GOLD_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import { ExchangeRatePair } from 'src/exchange/reducer'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { Namespaces, withTranslation } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -40,13 +39,14 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { getRateForMakerToken, getTakerAmount } from 'src/utils/currencyExchange'
 
 const { decimalSeparator } = getNumberFormatSettings()
 
 interface State {
-  inputToken: CURRENCY_ENUM
-  makerToken: CURRENCY_ENUM
+  inputToken: Currency
+  makerToken: Currency
   makerTokenAvailableBalance: string
   inputAmount: string
   exchangeRateInfoDialogVisible: boolean
@@ -78,8 +78,8 @@ const mapStateToProps = (state: RootState): StateProps => ({
 
 export class ExchangeTradeScreen extends React.Component<Props, State> {
   state: State = {
-    inputToken: CURRENCY_ENUM.GOLD,
-    makerToken: CURRENCY_ENUM.DOLLAR,
+    inputToken: Currency.Celo,
+    makerToken: Currency.Dollar,
     makerTokenAvailableBalance: '',
     inputAmount: '', // Raw amount entered, can be cGLD, cUSD or local currency
     exchangeRateInfoDialogVisible: false,
@@ -132,7 +132,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
     const goldToDollarExchangeRate = getRateForMakerToken(
       this.props.exchangeRatePair,
       this.state.makerToken,
-      CURRENCY_ENUM.DOLLAR
+      Currency.Dollar
     )
     const goldAmount = this.isDollarToGold()
       ? this.getOppositeInputTokenAmount(inputAmount)
@@ -190,7 +190,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
 
     const exchangeRate = getRateForMakerToken(this.props.exchangeRatePair, this.state.makerToken)
     const exchangeRateIsInvalid = exchangeRate.isLessThanOrEqualTo(0)
-    const takerToken = this.isDollarToGold() ? CURRENCY_ENUM.GOLD : CURRENCY_ENUM.DOLLAR
+    const takerToken = this.isDollarToGold() ? Currency.Celo : Currency.Dollar
     const takerAmountIsInvalid = getTakerAmount(
       tokenAmount,
       exchangeRate,
@@ -201,11 +201,11 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
   }
 
   isDollarToGold = () => {
-    return this.state.makerToken === CURRENCY_ENUM.DOLLAR
+    return this.state.makerToken === Currency.Dollar
   }
 
   isDollarInput = () => {
-    return this.state.inputToken === CURRENCY_ENUM.DOLLAR
+    return this.state.inputToken === Currency.Dollar
   }
 
   getInputValue = () => {
@@ -221,7 +221,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
   getInputTokenAmount = () => {
     const parsedInputAmount = parseInputAmount(this.state.inputAmount, decimalSeparator)
 
-    if (this.state.inputToken === CURRENCY_ENUM.GOLD) {
+    if (this.state.inputToken === Currency.Celo) {
       return parsedInputAmount
     }
 
@@ -242,7 +242,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
   }
 
   getOppositeInputToken = () => {
-    return this.isDollarInput() ? CURRENCY_ENUM.GOLD : CURRENCY_ENUM.DOLLAR
+    return this.isDollarInput() ? Currency.Celo : Currency.Dollar
   }
 
   getOppositeInputTokenAmount = (tokenAmount: BigNumber) => {
@@ -285,7 +285,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
     const exchangeRateDisplay = getRateForMakerToken(
       exchangeRatePair,
       this.state.makerToken,
-      CURRENCY_ENUM.DOLLAR
+      Currency.Dollar
     )
 
     return (
@@ -330,7 +330,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
                 <CurrencyDisplay
                   amount={{
                     value: exchangeRateDisplay,
-                    currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+                    currencyCode: CURRENCIES[Currency.Dollar].code,
                   }}
                 />
               </Trans>

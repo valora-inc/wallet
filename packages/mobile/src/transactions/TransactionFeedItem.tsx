@@ -8,9 +8,9 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { MoneyAmount, TokenTransactionType } from 'src/apollo/types'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { Namespaces } from 'src/i18n'
 import { TransactionStatus } from 'src/transactions/types'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 interface Props {
   type: TokenTransactionType
@@ -32,7 +32,7 @@ export function TransactionFeedItem(props: Props) {
   const isPending = status === TransactionStatus.Pending
 
   const subtitle = isPending ? t('confirmingTransaction') : info
-  const isCeloTx = amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+  const isCeloTx = amount.currencyCode === CURRENCIES[Currency.Celo].code
 
   return (
     <Touchable onPress={onPress}>

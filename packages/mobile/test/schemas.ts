@@ -560,6 +560,10 @@ export const v9Schema = {
     ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     showRaiseDailyLimitTarget: undefined,
   },
+  stableToken: {
+    ...v8Schema.stableToken,
+    cEurBalance: null,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

@@ -10,7 +10,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { ALERT_BANNER_DURATION } from 'src/config'
 import { exchangeRatePairSelector } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/actions'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
 import { E164NumberToAddressType, SecureSendPhoneNumberMapping } from 'src/identity/reducer'
 import { RecipientVerificationStatus } from 'src/identity/types'
@@ -36,6 +35,7 @@ import { storeLatestInRecents } from 'src/send/actions'
 import { PaymentInfo } from 'src/send/reducers'
 import { getRecentPayments } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { Currency } from 'src/utils/currencies'
 import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInHours } from 'src/utils/time'
@@ -107,21 +107,17 @@ function dailySpent(now: number, recentPayments: PaymentInfo[]) {
 
 export function useDailyTransferLimitValidator(
   amount: BigNumber,
-  currency: CURRENCY_ENUM
+  currency: Currency
 ): [boolean, () => void] {
   const dispatch = useDispatch()
 
   const exchangeRatePair = useSelector(exchangeRatePairSelector)
 
   const dollarAmount = useMemo(() => {
-    if (currency === CURRENCY_ENUM.DOLLAR) {
+    if (currency === Currency.Dollar) {
       return amount
     } else {
-      const exchangeRate = getRateForMakerToken(
-        exchangeRatePair,
-        CURRENCY_ENUM.DOLLAR,
-        CURRENCY_ENUM.GOLD
-      )
+      const exchangeRate = getRateForMakerToken(exchangeRatePair, Currency.Dollar, Currency.Celo)
       return goldToDollarAmount(amount, exchangeRate) || new BigNumber(0)
     }
   }, [amount, currency])
@@ -224,7 +220,7 @@ export function* handleSendPaymentData(
       const currency = data.currencyCode
         ? (data.currencyCode as LocalCurrencyCode)
         : yield select(getLocalCurrencyCode)
-      const exchangeRate: string = yield call(fetchExchangeRate, currency)
+      const exchangeRate: string = yield call(fetchExchangeRate, currency, Currency.Dollar)
       const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
       if (!dollarAmount) {
         Logger.warn(TAG, '@handleSendPaymentData null amount')

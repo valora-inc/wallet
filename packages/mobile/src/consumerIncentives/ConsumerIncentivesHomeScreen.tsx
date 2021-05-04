@@ -31,7 +31,7 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/reducer'
 import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 import Logger from 'src/utils/Logger'
 import { formatFeedDate, getNextMondayAt8pmUtc } from 'src/utils/time'
@@ -53,7 +53,7 @@ const useConsumerIncentivesContent = () => {
 }
 
 const useAmountToAdd = (tiers: Tier[] | undefined) => {
-  const dollarBalanceString = useSelector(stableTokenBalanceSelector) ?? '0'
+  const dollarBalanceString = useSelector(cUsdBalanceSelector) ?? '0'
   const dollarBalance = new BigNumber(dollarBalanceString)
   if (!tiers || tiers.length === 0) {
     return []

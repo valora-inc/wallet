@@ -5,7 +5,6 @@ import BigNumber from 'bignumber.js'
 import { MinimalContact } from 'react-native-contacts'
 import { TokenTransactionType } from 'src/apollo/types'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { SHORT_CURRENCIES } from 'src/geth/consts'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -21,6 +20,7 @@ import {
   NumberToRecipient,
   RecipientInfo,
 } from 'src/recipients/recipient'
+import { ShortCurrency } from 'src/utils/currencies'
 
 export const nullAddress = '0x0'
 
@@ -252,14 +252,14 @@ export const mockEscrowedPayment: EscrowedPayment = {
   recipientPhone: mockE164Number,
   recipientIdentifier: mockE164NumberHashWithPepper,
   paymentID: mockAccount,
-  currency: SHORT_CURRENCIES.DOLLAR,
+  currency: ShortCurrency.Dollar,
   amount: new BigNumber(10),
   timestamp: new BigNumber(10000),
   expirySeconds: new BigNumber(50000),
 }
 
 const date = new Date('Tue Mar 05 2019 13:44:06 GMT-0800 (Pacific Standard Time)')
-const currency = SHORT_CURRENCIES.DOLLAR
+const currency = ShortCurrency.Dollar
 export const mockPaymentRequests: PaymentRequest[] = [
   {
     amount: '200000.00',

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { CURRENCY_ENUM } from 'src/geth/consts'
+import { Currency } from 'src/utils/currencies'
 import {
   divideByWei,
   getCentAwareMoneyDisplay,
@@ -21,25 +21,23 @@ describe('utils->formatting', () => {
     })
 
     it('formats correctly for dollars', () => {
-      expect(getMoneyDisplayValue(UNROUNDED_NUMBER, CURRENCY_ENUM.DOLLAR)).toBe(
+      expect(getMoneyDisplayValue(UNROUNDED_NUMBER, Currency.Dollar)).toBe(
         ROUNDED_NUMBER_2_DECIMALS
       )
     })
 
     it('formats correctly for dollars', () => {
-      expect(getMoneyDisplayValue(UNROUNDED_NUMBER, CURRENCY_ENUM.GOLD)).toBe(
-        ROUNDED_NUMBER_3_DECIMALS
-      )
+      expect(getMoneyDisplayValue(UNROUNDED_NUMBER, Currency.Celo)).toBe(ROUNDED_NUMBER_3_DECIMALS)
     })
 
     it('includes dollar symbol', () => {
-      expect(getMoneyDisplayValue(UNROUNDED_NUMBER, CURRENCY_ENUM.DOLLAR, true)).toBe(
+      expect(getMoneyDisplayValue(UNROUNDED_NUMBER, Currency.Dollar, true)).toBe(
         '$' + ROUNDED_NUMBER_2_DECIMALS
       )
     })
 
     it('includes gold symbol (which is nothing)', () => {
-      expect(getMoneyDisplayValue(UNROUNDED_NUMBER, CURRENCY_ENUM.GOLD, true)).toBe(
+      expect(getMoneyDisplayValue(UNROUNDED_NUMBER, Currency.Celo, true)).toBe(
         ROUNDED_NUMBER_3_DECIMALS
       )
     })

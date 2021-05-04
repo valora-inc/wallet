@@ -9,7 +9,8 @@ export enum Actions {
 
 export interface SetBalanceAction {
   type: Actions.SET_BALANCE
-  balance: string
+  cUsdBalance?: string
+  cEurBalance?: string
 }
 
 export interface SetEducationCompletedAction {
@@ -35,9 +36,10 @@ export const fetchDollarBalance = (): FetchBalanceAction => ({
   type: Actions.FETCH_BALANCE,
 })
 
-export const setBalance = (balance: string): SetBalanceAction => ({
+export const setBalance = (cUsdBalance?: string, cEurBalance?: string): SetBalanceAction => ({
   type: Actions.SET_BALANCE,
-  balance,
+  cUsdBalance,
+  cEurBalance,
 })
 
 export const transferStableToken = ({

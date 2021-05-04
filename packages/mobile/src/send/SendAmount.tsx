@@ -2,7 +2,6 @@ import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Bu
 import NumberKeypad from '@celo/react-components/components/NumberKeypad'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
@@ -59,7 +58,8 @@ import useSelector from 'src/redux/useSelector'
 import { getFeeType, useDailyTransferLimitValidator } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchDollarBalance } from 'src/stableToken/actions'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { Currency } from 'src/utils/currencies'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
 
@@ -94,7 +94,7 @@ export const sendAmountScreenNavOptions = ({
     headerLeft: () => <BackButton eventName={eventName} />,
     headerTitle: route.params?.isOutgoingPaymentRequest
       ? title
-      : () => <HeaderTitleWithBalance title={title} token={CURRENCY_ENUM.DOLLAR} />,
+      : () => <HeaderTitleWithBalance title={title} token={Currency.Dollar} />,
   }
 }
 
@@ -110,7 +110,7 @@ function SendAmount(props: Props) {
   const localCurrencyExchangeRate = useSelector(getLocalCurrencyExchangeRate)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
-  const dollarBalance = useSelector(stableTokenBalanceSelector)
+  const dollarBalance = useSelector(cUsdBalanceSelector)
   const recipientVerificationStatus = getRecipientVerificationStatus(recipient, e164NumberToAddress)
   const feeType = getFeeType(recipientVerificationStatus)
   const estimateFeeDollars = useSelector(getFeeEstimateDollars(feeType))
@@ -238,7 +238,7 @@ function SendAmount(props: Props) {
 
   const [isTransferLimitReached, showLimitReachedBanner] = useDailyTransferLimitValidator(
     dollarAmount,
-    CURRENCY_ENUM.DOLLAR
+    Currency.Dollar
   )
 
   const onReviewButtonPressed = () => setReviewButtonPressed(true)

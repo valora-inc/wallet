@@ -4,7 +4,6 @@ import * as React from 'react'
 import { Query, QueryResult } from 'react-apollo'
 import { connect } from 'react-redux'
 import { MoneyAmount, Token, TokenTransactionType, UserTransactionsQuery } from 'src/apollo/types'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { SENTINEL_INVITE_COMMENT } from 'src/invite/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode, getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
@@ -23,6 +22,7 @@ import {
   TransactionStatus,
   TransferStandby,
 } from 'src/transactions/types'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -91,7 +91,7 @@ function resolveAmount(
 
 function mapExchangeStandbyToFeedItem(
   standbyTx: ExchangeStandby,
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   localCurrencyCode: LocalCurrencyCode,
   localCurrencyExchangeRate: string | null | undefined
 ): FeedItem {
@@ -109,11 +109,11 @@ function mapExchangeStandbyToFeedItem(
   const exchangeRate = new BigNumber(outAmount.value).dividedBy(inAmount.value)
   const localExchangeRate = new BigNumber(localCurrencyExchangeRate ?? 0)
   const makerLocalExchangeRate =
-    inAmount.currencyCode === CURRENCIES[CURRENCY_ENUM.DOLLAR].code
+    inAmount.currencyCode === CURRENCIES[Currency.Dollar].code
       ? localExchangeRate
       : exchangeRate.multipliedBy(localExchangeRate)
   const takerLocalExchangeRate =
-    outAmount.currencyCode === CURRENCIES[CURRENCY_ENUM.DOLLAR].code
+    outAmount.currencyCode === CURRENCIES[Currency.Dollar].code
       ? localExchangeRate
       : exchangeRate.pow(-1).multipliedBy(localExchangeRate)
 
@@ -183,7 +183,7 @@ function mapTransferStandbyToFeedItem(
 }
 
 function mapStandbyTransactionToFeedItem(
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   localCurrencyCode: LocalCurrencyCode,
   localCurrencyExchangeRate: string | null | undefined
 ) {
@@ -240,7 +240,7 @@ export class TransactionsList extends React.PureComponent<Props> {
 
     const queryAddress = address || ''
     const token = feedType === FeedType.EXCHANGE ? Token.CGld : null
-    const currency = feedType === FeedType.EXCHANGE ? CURRENCY_ENUM.GOLD : CURRENCY_ENUM.DOLLAR
+    const currency = feedType === FeedType.EXCHANGE ? Currency.Celo : Currency.Dollar
 
     const UserTransactions = ({
       loading,

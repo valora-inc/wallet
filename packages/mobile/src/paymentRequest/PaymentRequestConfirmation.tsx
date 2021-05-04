@@ -1,7 +1,7 @@
 import ReviewFrame from '@celo/react-components/components/ReviewFrame'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib/currencies'
+import { CURRENCIES } from '@celo/utils/lib/currencies'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
@@ -16,7 +16,6 @@ import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay, { DisplayType } from 'src/components/CurrencyDisplay'
 import TotalLineItem from 'src/components/TotalLineItem'
-import { currencyToShortMap } from 'src/geth/consts'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
@@ -27,6 +26,7 @@ import { getDisplayName } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { ConfirmationInput, getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { Currency, currencyToShortMap } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -118,7 +118,7 @@ class PaymentRequestConfirmation extends React.Component<Props> {
       requesterAddress: address,
       requesterE164Number: this.props.e164PhoneNumber ?? undefined,
       requesteeAddress: requesteeAddress.toLowerCase(),
-      currency: currencyToShortMap[CURRENCY_ENUM.DOLLAR],
+      currency: currencyToShortMap[Currency.Dollar],
       status: PaymentRequestStatus.REQUESTED,
       notified: false,
     }
@@ -131,7 +131,7 @@ class PaymentRequestConfirmation extends React.Component<Props> {
   renderFooter = () => {
     const amount = {
       value: this.props.confirmationInput.amount,
-      currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code, // Only cUSD for now
+      currencyCode: CURRENCIES[Currency.Dollar].code, // Only cUSD for now
     }
 
     return (
@@ -146,7 +146,7 @@ class PaymentRequestConfirmation extends React.Component<Props> {
     const { recipient } = confirmationInput
     const amount = {
       value: this.props.confirmationInput.amount,
-      currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code, // Only cUSD for now
+      currencyCode: CURRENCIES[Currency.Dollar].code, // Only cUSD for now
     }
 
     return (

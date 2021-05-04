@@ -8,7 +8,7 @@ import { feeEstimated, FeeType } from 'src/fees/actions'
 import { estimateFeeSaga } from 'src/fees/saga'
 import { getInvitationVerificationFeeInWei, getInviteTxGas } from 'src/invite/saga'
 import { getSendTxGas } from 'src/send/saga'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/reducer'
 import { getConnectedAccount } from 'src/web3/saga'
 import { mockAccount } from 'test/values'
 
@@ -25,7 +25,7 @@ describe(estimateFeeSaga, () => {
         [call(getConnectedAccount), mockAccount],
         [matchers.call.fn(getInviteTxGas), new BigNumber(GAS_AMOUNT)],
         [matchers.call.fn(getInviteTxGas), new BigNumber(GAS_AMOUNT)],
-        [select(stableTokenBalanceSelector), '1'],
+        [select(cUsdBalanceSelector), '1'],
       ])
       .put(
         feeEstimated(
@@ -45,7 +45,7 @@ describe(estimateFeeSaga, () => {
       .provide([
         [call(getConnectedAccount), mockAccount],
         [matchers.call.fn(getSendTxGas), new BigNumber(GAS_AMOUNT)],
-        [select(stableTokenBalanceSelector), '1'],
+        [select(cUsdBalanceSelector), '1'],
       ])
       .put(
         feeEstimated(
@@ -61,7 +61,7 @@ describe(estimateFeeSaga, () => {
       .provide([
         [call(getConnectedAccount), mockAccount],
         [matchers.call.fn(getReclaimEscrowGas), new BigNumber(GAS_AMOUNT)],
-        [select(stableTokenBalanceSelector), '1'],
+        [select(cUsdBalanceSelector), '1'],
       ])
       .put(
         feeEstimated(
@@ -75,7 +75,7 @@ describe(estimateFeeSaga, () => {
   it("doesn't calculates fee if the balance is zero", async () => {
     await expectSaga(estimateFeeSaga, { feeType: FeeType.SEND })
       .provide([
-        [select(stableTokenBalanceSelector), '0'],
+        [select(cUsdBalanceSelector), '0'],
         [matchers.call.fn(getSendTxGas), new BigNumber(GAS_AMOUNT)],
       ])
       .put(feeEstimated(FeeType.SEND, '0'))

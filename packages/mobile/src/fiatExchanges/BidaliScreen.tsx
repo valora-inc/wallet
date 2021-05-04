@@ -1,5 +1,4 @@
 import colors from '@celo/react-components/styles/colors'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { ActivityIndicator, StyleSheet } from 'react-native'
@@ -18,10 +17,11 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 function useInitialJavaScript(
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   jsonBalances: string,
   e164PhoneNumber: string | null
 ) {
@@ -100,7 +100,7 @@ function BidaliScreen({ route, navigation }: Props) {
   }
 
   const webViewRef = useRef<WebViewRef>(null)
-  const cusdBalance = useSelector(stableTokenBalanceSelector)
+  const cusdBalance = useSelector(cUsdBalanceSelector)
   const celoBalance = useSelector(celoTokenBalanceSelector)
   const jsonBalances = useMemo(
     () =>

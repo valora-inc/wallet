@@ -24,7 +24,6 @@ import CeloAmountInput from 'src/components/CeloAmountInput'
 import { exchangeRatePairSelector } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/actions'
 import { useSendFee } from 'src/fees/CalculateFee'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import { HeaderTitleWithBalance, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -33,6 +32,7 @@ import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { useDailyTransferLimitValidator } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { Currency } from 'src/utils/currencies'
 import { divideByWei } from 'src/utils/formatting'
 
 type Props = StackScreenProps<StackParamList, Screens.WithdrawCeloScreen>
@@ -58,13 +58,13 @@ function WithdrawCeloScreen({ route }: Props) {
 
   const [isTransferLimitReached, showLimitReachedBanner] = useDailyTransferLimitValidator(
     celoToTransfer,
-    CURRENCY_ENUM.GOLD
+    Currency.Celo
   )
 
   const { result } = useSendFee({
     feeType: FeeType.SEND,
     account: RANDOM_ADDRESS,
-    currency: CURRENCY_ENUM.GOLD,
+    currency: Currency.Celo,
     recipientAddress: RANDOM_ADDRESS,
     amount: goldBalance || '0',
     includeDekFee: false,
@@ -139,7 +139,7 @@ WithdrawCeloScreen.navigationOptions = ({
         title={i18n.t(
           route.params?.isCashOut ? 'fiatExchangeFlow:cashOut' : 'exchangeFlow9:withdrawCelo'
         )}
-        token={CURRENCY_ENUM.GOLD}
+        token={Currency.Celo}
       />
     ),
   }

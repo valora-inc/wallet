@@ -1,4 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils/lib'
 import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState } from 'react-native'
 import { eventChannel } from 'redux-saga'
@@ -37,9 +36,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { clockInSync } from 'src/utils/time'
 import { parse } from 'url'
 
 const TAG = 'app/saga'
@@ -59,11 +58,11 @@ export function* appInit() {
     yield put(setLanguage(language))
   }
 
-  const inSync = yield call(clockInSync)
-  if (!inSync) {
-    navigate(Screens.SetClock)
-    return
-  }
+  // const inSync = yield call(clockInSync)
+  // if (!inSync) {
+  //   navigate(Screens.SetClock)
+  //   return
+  // }
 }
 
 export function* appVersionSaga() {
@@ -153,7 +152,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path === '/cashIn') {
       navigate(Screens.FiatExchangeOptions, { isCashIn: true })
     } else if (rawParams.pathname === '/bidali') {
-      navigate(Screens.BidaliScreen, { currency: CURRENCY_ENUM.DOLLAR })
+      navigate(Screens.BidaliScreen, { currency: Currency.Dollar })
     } else if (rawParams.path.startsWith('/cash-in-success')) {
       // Some providers append transaction information to the redirect links so can't check for strict equality
       const cicoSuccessParam = (rawParams.path.match(/cash-in-success\/(.+)/) || [])[1]

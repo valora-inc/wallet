@@ -3,7 +3,8 @@ import BigNumber from 'bignumber.js'
 import Config from 'react-native-config'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
-import { CURRENCY_ENUM, GethSyncMode } from 'src/geth/consts'
+import { GethSyncMode } from 'src/geth/consts'
+import { Currency } from 'src/utils/currencies'
 // tslint:disable-next-line
 import * as secretsFile from '../secrets.json'
 
@@ -96,37 +97,37 @@ export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [
   {
     name: 'Binance',
     link: 'https://www.binance.com/en/trade/CELO_USDT',
-    currencies: [CURRENCY_ENUM.GOLD],
+    currencies: [Currency.Celo],
   },
   {
     name: 'Bittrex',
     link: 'https://bittrex.com/Market/Index?MarketName=USD-CELO',
-    currencies: [CURRENCY_ENUM.GOLD, CURRENCY_ENUM.DOLLAR],
+    currencies: [Currency.Celo, Currency.Dollar],
   },
   {
     name: 'Coinbase (CELO as CGLD)',
     link: 'https://www.coinbase.com',
-    currencies: [CURRENCY_ENUM.GOLD],
+    currencies: [Currency.Celo],
   },
   {
     name: 'Coinbase Pro (CELO as CGLD)',
     link: 'https://pro.coinbase.com/trade/CGLD-USD',
-    currencies: [CURRENCY_ENUM.GOLD],
+    currencies: [Currency.Celo],
   },
   {
     name: 'CoinList Pro',
     link: 'https://coinlist.co/asset/celo',
-    currencies: [CURRENCY_ENUM.GOLD, CURRENCY_ENUM.DOLLAR],
+    currencies: [Currency.Celo, Currency.Dollar],
   },
   {
     name: 'OKCoin',
     link: 'https://www.okcoin.com/en/spot/trade/cusd-usd/',
-    currencies: [CURRENCY_ENUM.GOLD, CURRENCY_ENUM.DOLLAR],
+    currencies: [Currency.Celo, Currency.Dollar],
   },
   {
     name: 'OKEx',
     link: 'https://www.okex.com/spot/trade/CELO-USDT',
-    currencies: [CURRENCY_ENUM.GOLD],
+    currencies: [Currency.Celo],
   },
 ]
 
@@ -159,4 +160,5 @@ export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 export enum CurrencyCode {
   CELO = 'CELO',
   CUSD = 'CUSD',
+  CEUR = 'CEUR',
 }

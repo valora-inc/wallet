@@ -1,10 +1,10 @@
-import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import ReclaimPaymentConfirmationCard from 'src/escrow/ReclaimPaymentConfirmationCard'
 import {} from 'src/home/NotificationBox'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import { mockE164Number, mockRecipient } from 'test/values'
 
@@ -14,7 +14,7 @@ const TEST_FEE_INFO = {
   fee: new BigNumber(10).pow(16),
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(10).times(5),
-  currency: CURRENCY_ENUM.DOLLAR,
+  currency: Currency.Dollar,
 }
 
 describe('ReclaimPaymentConfirmationCard', () => {
@@ -25,7 +25,7 @@ describe('ReclaimPaymentConfirmationCard', () => {
           recipientPhone={mockE164Number}
           recipientContact={mockRecipient}
           amount={new BigNumber(10)}
-          currency={CURRENCY_ENUM.DOLLAR}
+          currency={Currency.Dollar}
           feeInfo={TEST_FEE_INFO}
         />
       </Provider>

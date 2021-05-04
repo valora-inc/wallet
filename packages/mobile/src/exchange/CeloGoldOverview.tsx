@@ -1,7 +1,6 @@
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib'
 import React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -10,6 +9,7 @@ import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import useBalanceAutoRefresh from 'src/home/useBalanceAutoRefresh'
 import { Namespaces, withTranslation } from 'src/i18n'
 import useSelector from 'src/redux/useSelector'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 interface OwnProps {
   testID: string
@@ -22,7 +22,7 @@ export function CeloGoldOverview({ t, testID }: Props) {
   const goldBalance = useSelector(celoTokenBalanceSelector)
 
   const goldBalanceAmount = goldBalance
-    ? { value: goldBalance, currencyCode: CURRENCIES[CURRENCY_ENUM.GOLD].code }
+    ? { value: goldBalance, currencyCode: CURRENCIES[Currency.Celo].code }
     : null
 
   return (

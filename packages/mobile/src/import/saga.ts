@@ -15,7 +15,6 @@ import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { storeMnemonic } from 'src/backup/utils'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { refreshAllBalances } from 'src/home/actions'
 import {
   Actions,
@@ -27,6 +26,7 @@ import { redeemInviteSuccess } from 'src/invite/actions'
 import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { assignAccountFromPrivateKey, waitWeb3LastBlock } from 'src/web3/saga'
 
@@ -56,13 +56,13 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
 
       const dollarBalance: BigNumber = yield call(
         fetchTokenBalanceInWeiWithRetry,
-        CURRENCY_ENUM.DOLLAR,
+        Currency.Dollar,
         backupAccount
       )
 
       const goldBalance: BigNumber = yield call(
         fetchTokenBalanceInWeiWithRetry,
-        CURRENCY_ENUM.GOLD,
+        Currency.Celo,
         backupAccount
       )
 

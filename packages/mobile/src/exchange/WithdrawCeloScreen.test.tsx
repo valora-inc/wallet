@@ -4,9 +4,9 @@ import 'react-native'
 import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const SAMPLE_ADDRESS = '0xcc642068bdbbdeb91f348213492d2a80ab1ed23c'
@@ -23,7 +23,7 @@ const mockFeeInfo = {
   fee: new BigNumber(10).pow(15),
   gas: new BigNumber(200000),
   gasPrice: new BigNumber(10).pow(9).times(5),
-  currency: CURRENCY_ENUM.GOLD,
+  currency: Currency.Celo,
 }
 
 jest.mock('src/fees/CalculateFee', () => ({

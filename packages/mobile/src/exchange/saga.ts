@@ -24,7 +24,6 @@ import {
   withdrawCeloSuccess,
 } from 'src/exchange/actions'
 import { ExchangeRatePair, exchangeRatePairSelector } from 'src/exchange/reducer'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { sendPaymentOrInviteSuccess } from 'src/send/actions'
@@ -37,6 +36,7 @@ import {
   TransactionContext,
   TransactionStatus,
 } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import {
   getRateForMakerToken,
   getTakerAmount,
@@ -55,7 +55,7 @@ const EXCHANGE_DIFFERENCE_PERCENT_TOLERATED = 0.01 // Maximum % difference betwe
 export function* doFetchTobinTax({ makerAmount, makerToken }: FetchTobinTaxAction) {
   try {
     let tobinTax
-    if (makerToken === CURRENCY_ENUM.GOLD) {
+    if (makerToken === Currency.Celo) {
       yield call(getConnectedAccount)
 
       const contractKit = yield call(getContractKit)
@@ -110,11 +110,11 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
     // If makerAmount and makerToken are given, use them to estimate the exchange rate,
     // as exchange rate depends on amount sold. Else default to preset large sell amount.
     const goldMakerAmount =
-      makerAmountInWei && !makerAmountInWei.isZero() && makerToken === CURRENCY_ENUM.GOLD
+      makerAmountInWei && !makerAmountInWei.isZero() && makerToken === Currency.Celo
         ? makerAmountInWei
         : CELO_AMOUNT_FOR_ESTIMATE
     const dollarMakerAmount =
-      makerAmountInWei && !makerAmountInWei.isZero() && makerToken === CURRENCY_ENUM.DOLLAR
+      makerAmountInWei && !makerAmountInWei.isZero() && makerToken === Currency.Dollar
         ? makerAmountInWei
         : DOLLAR_AMOUNT_FOR_ESTIMATE
 
@@ -210,7 +210,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       yield call(convertToContractDecimals, makerAmount, makerToken),
       0
     ) // Nearest integer in wei
-    const sellGold = makerToken === CURRENCY_ENUM.GOLD
+    const sellGold = makerToken === Currency.Celo
 
     const updatedExchangeRate: BigNumber = yield call(
       // Updating with actual makerAmount, rather than conservative estimate displayed
@@ -220,7 +220,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
     )
 
     const exceedsExpectedSize =
-      makerToken === CURRENCY_ENUM.GOLD
+      makerToken === Currency.Celo
         ? convertedMakerAmount.isGreaterThan(CELO_AMOUNT_FOR_ESTIMATE)
         : convertedMakerAmount.isGreaterThan(DOLLAR_AMOUNT_FOR_ESTIMATE)
 
@@ -252,8 +252,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       return
     }
 
-    const takerToken =
-      makerToken === CURRENCY_ENUM.DOLLAR ? CURRENCY_ENUM.GOLD : CURRENCY_ENUM.DOLLAR
+    const takerToken = makerToken === Currency.Dollar ? Currency.Celo : Currency.Dollar
     const convertedTakerAmount: BigNumber = roundDown(
       yield call(convertToContractDecimals, minimumTakerAmount, takerToken),
       0
@@ -266,12 +265,12 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
 
     // Generate and send a transaction to approve payment to the exchange.
     let approveTx
-    if (makerToken === CURRENCY_ENUM.GOLD) {
+    if (makerToken === Currency.Celo) {
       approveTx = goldTokenContract.approve(
         exchangeContract.address,
         convertedMakerAmount.toString()
       )
-    } else if (makerToken === CURRENCY_ENUM.DOLLAR) {
+    } else if (makerToken === Currency.Dollar) {
       approveTx = stableTokenContract.approve(
         exchangeContract.address,
         convertedMakerAmount.toString()
@@ -327,7 +326,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
   } catch (error) {
     ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, { error: error.message })
     Logger.error(TAG, 'Error doing exchange', error)
-    const isDollarToGold = makerToken === CURRENCY_ENUM.DOLLAR
+    const isDollarToGold = makerToken === Currency.Dollar
 
     ValoraAnalytics.track(
       isDollarToGold ? CeloExchangeEvents.celo_buy_error : CeloExchangeEvents.celo_sell_error,
@@ -343,11 +342,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
   }
 }
 
-function* createStandbyTx(
-  makerToken: CURRENCY_ENUM,
-  makerAmount: BigNumber,
-  exchangeRate: BigNumber
-) {
+function* createStandbyTx(makerToken: Currency, makerAmount: BigNumber, exchangeRate: BigNumber) {
   const takerAmount = getTakerAmount(makerAmount, exchangeRate)
   const context = newTransactionContext(TAG, `Exchange ${makerToken}`)
   yield put(
@@ -357,7 +352,7 @@ function* createStandbyTx(
       status: TransactionStatus.Pending,
       inSymbol: makerToken,
       inValue: makerAmount.toString(),
-      outSymbol: makerToken === CURRENCY_ENUM.DOLLAR ? CURRENCY_ENUM.GOLD : CURRENCY_ENUM.DOLLAR,
+      outSymbol: makerToken === Currency.Dollar ? Currency.Celo : Currency.Dollar,
       outValue: takerAmount.toString(),
       timestamp: Math.floor(Date.now() / 1000),
     })
@@ -367,11 +362,7 @@ function* createStandbyTx(
 
 function* celoToDollarAmount(amount: BigNumber) {
   const exchangeRatePair: ExchangeRatePair = yield select(exchangeRatePairSelector)
-  const exchangeRate = getRateForMakerToken(
-    exchangeRatePair,
-    CURRENCY_ENUM.DOLLAR,
-    CURRENCY_ENUM.GOLD
-  )
+  const exchangeRate = getRateForMakerToken(exchangeRatePair, Currency.Dollar, Currency.Celo)
   return goldToDollarAmount(amount, exchangeRate) || new BigNumber(0)
 }
 
@@ -391,7 +382,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
         comment: '',
         status: TransactionStatus.Pending,
         value: amount.toString(),
-        symbol: CURRENCY_ENUM.GOLD,
+        symbol: Currency.Celo,
         timestamp: Math.floor(Date.now() / 1000),
         address: recipientAddress,
       })
@@ -399,7 +390,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
 
     const tx: CeloTransactionObject<boolean> = yield call(
       createTokenTransferTransaction,
-      CURRENCY_ENUM.GOLD,
+      Currency.Celo,
       {
         recipientAddress,
         amount,
@@ -407,14 +398,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
       }
     )
 
-    yield call(
-      sendAndMonitorTransaction,
-      tx,
-      account,
-      context,
-      CURRENCY_ENUM.GOLD,
-      CURRENCY_ENUM.GOLD
-    )
+    yield call(sendAndMonitorTransaction, tx, account, context, Currency.Celo, Currency.Celo)
 
     const dollarAmount = yield call(celoToDollarAmount, amount)
     yield put(sendPaymentOrInviteSuccess(dollarAmount))

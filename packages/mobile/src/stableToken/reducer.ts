@@ -2,13 +2,15 @@ import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/stableToken/actions'
 
 export interface State {
-  balance: string | null
+  balance: string | null // For legacy reasons, balance alone is cUsdBalance
+  cEurBalance: string | null
   lastFetch: number | null
   educationCompleted: boolean
 }
 
 export const initialState = {
   balance: null,
+  cEurBalance: null,
   lastFetch: null,
   educationCompleted: false,
 }
@@ -18,7 +20,8 @@ export const reducer = (state: State | undefined = initialState, action: ActionT
     case Actions.SET_BALANCE:
       return {
         ...state,
-        balance: action.balance,
+        balance: action.cUsdBalance ?? state.balance,
+        cEurBalance: action.cEurBalance ?? state.cEurBalance,
         lastFetch: Date.now(),
       }
     case Actions.SET_EDUCATION_COMPLETED:
@@ -31,4 +34,5 @@ export const reducer = (state: State | undefined = initialState, action: ActionT
   }
 }
 
-export const stableTokenBalanceSelector = (state: RootState) => state.stableToken.balance
+export const cUsdBalanceSelector = (state: RootState) => state.stableToken.balance
+export const cEurBalanceSelector = (state: RootState) => state.stableToken.cEurBalance

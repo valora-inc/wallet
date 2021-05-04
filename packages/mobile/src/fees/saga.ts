@@ -1,4 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils/lib'
 import BigNumber from 'bignumber.js'
 import { call, CallEffect, put, select, takeLatest } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
@@ -9,8 +8,9 @@ import { getReclaimEscrowGas } from 'src/escrow/saga'
 import { Actions, EstimateFeeAction, feeEstimated, FeeType } from 'src/fees/actions'
 import { getInvitationVerificationFeeInWei, getInviteTxGas } from 'src/invite/saga'
 import { getSendTxGas } from 'src/send/saga'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/reducer'
 import { BasicTokenTransfer } from 'src/tokens/saga'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getGasPrice } from 'src/web3/gas'
 import { getConnectedAccount } from 'src/web3/saga'
@@ -21,7 +21,7 @@ export interface FeeInfo {
   fee: BigNumber
   gas: BigNumber
   gasPrice: BigNumber
-  currency: CURRENCY_ENUM
+  currency: Currency
 }
 
 // TODO(victor): This fee caching mechansim is only being used by the balance check on the send
@@ -42,7 +42,7 @@ const placeholderSendTx: BasicTokenTransfer = {
 export function* estimateFeeSaga({ feeType }: EstimateFeeAction) {
   Logger.debug(`${TAG}/estimateFeeSaga`, `updating for ${feeType}`)
 
-  const balance = yield select(stableTokenBalanceSelector)
+  const balance = yield select(cUsdBalanceSelector)
 
   if (!balance) {
     Logger.warn(`${TAG}/estimateFeeSaga`, 'Balance is null or empty string')
@@ -71,7 +71,7 @@ export function* estimateFeeSaga({ feeType }: EstimateFeeAction) {
           call(
             getInviteTxGas,
             account,
-            CURRENCY_ENUM.DOLLAR,
+            Currency.Dollar,
             placeholderSendTx.amount,
             placeholderSendTx.comment
           )
@@ -82,7 +82,7 @@ export function* estimateFeeSaga({ feeType }: EstimateFeeAction) {
         feeInWei = yield call(
           getOrSetFee,
           FeeType.SEND,
-          call(getSendTxGas, account, CURRENCY_ENUM.DOLLAR, placeholderSendTx)
+          call(getSendTxGas, account, Currency.Dollar, placeholderSendTx)
         )
         break
       case FeeType.EXCHANGE:
@@ -115,11 +115,11 @@ function* getOrSetFee(feeType: FeeType, gasGetter: CallEffect) {
   }
   // Note: This code path only supports cUSD fees. It is not the most widely used version of fee
   // estimation, and should be refactored or removed.
-  const feeInfo: FeeInfo = yield call(calculateFee, feeGasCache.get(feeType)!, CURRENCY_ENUM.DOLLAR)
+  const feeInfo: FeeInfo = yield call(calculateFee, feeGasCache.get(feeType)!, Currency.Dollar)
   return feeInfo.fee
 }
 
-export async function calculateFee(gas: BigNumber, currency: CURRENCY_ENUM): Promise<FeeInfo> {
+export async function calculateFee(gas: BigNumber, currency: Currency): Promise<FeeInfo> {
   const gasPrice = await getGasPrice(currency)
   const feeInWei = gas.multipliedBy(gasPrice)
   Logger.debug(`${TAG}/calculateFee`, `Calculated ${currency} fee is: ${feeInWei.toString()}`)
