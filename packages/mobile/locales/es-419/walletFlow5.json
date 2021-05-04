@@ -10,7 +10,6 @@
   "outgoingPaymentRequestsSummaryDetails_exactly2Items": "Estás esperando los pagos de <0></0> y <1></1>",
   "outgoingPaymentRequestsSummaryDetails_exactly3Items": "Estás esperando los pagos de <0></0>, <1></1> y otro",
   "outgoingPaymentRequestsSummaryDetails_moreThan3Items": "Estás esperando los pagos de <0></0>, <1></1> y otros",
-  "SMSError": "Error al enviar SMS",
   "notifications": "Notificaciones",
   "activity": "Actividad",
   "wallet": "Monedero",
