@@ -4,13 +4,13 @@ export enum Currency {
   Euro = 'Celo Euro',
 }
 
-interface CurrencyType {
+interface CurrencyInfo {
   symbol: string
   code: string
   displayDecimals: number
 }
 
-type CurrencyObject = { [key in Currency]: CurrencyType }
+type CurrencyObject = { [key in Currency]: CurrencyInfo }
 
 export const CURRENCIES: CurrencyObject = {
   [Currency.Celo]: {
@@ -28,6 +28,15 @@ export const CURRENCIES: CurrencyObject = {
     code: 'cEUR',
     displayDecimals: 2,
   },
+}
+
+export const currencyByCode = (code: string): Currency => {
+  for (const [currency, currencyInfo] of Object.entries(CURRENCIES)) {
+    if (currencyInfo.code === code) {
+      return currency as Currency
+    }
+  }
+  return Currency.Dollar
 }
 
 export const resolveCurrency = (label: string): Currency => {

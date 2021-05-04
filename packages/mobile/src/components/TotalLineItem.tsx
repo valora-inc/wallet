@@ -8,10 +8,9 @@ import { MoneyAmount } from 'src/apollo/types'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import LineItemRow from 'src/components/LineItemRow'
 import { Namespaces } from 'src/i18n'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { useExchangeRate, useLocalCurrencyCode } from 'src/localCurrency/hooks'
+import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   title?: string
@@ -20,16 +19,19 @@ interface Props {
   currencyInfo?: CurrencyInfo
 }
 
-export default function TotalLineItem({ title, amount, hideSign, currencyInfo }: Props) {
-  let localCurrencyCode = useLocalCurrencyCode()
-  let localCurrencyExchangeRate = useExchangeRate()
-  if (currencyInfo) {
-    localCurrencyCode = currencyInfo.localCurrencyCode
-    localCurrencyExchangeRate = currencyInfo.localExchangeRate
-  }
-  const { t } = useTranslation(Namespaces.global)
+const totalAmountKey = {
+  [Currency.Dollar]: 'totalInDollars',
+  [Currency.Euro]: 'totalInEuros',
+  [Currency.Celo]: 'totalInCelo',
+}
 
-  const exchangeRate = amount.localAmount?.exchangeRate || localCurrencyExchangeRate
+export default function TotalLineItem({ title, amount, hideSign, currencyInfo }: Props) {
+  const { localCurrencyExchangeRate: exchangeRate, txCurrency } = useLocalCurrencyToShow(
+    amount,
+    currencyInfo
+  )
+
+  const { t } = useTranslation(Namespaces.global)
 
   return (
     <>
@@ -38,15 +40,14 @@ export default function TotalLineItem({ title, amount, hideSign, currencyInfo }:
         textStyle={fontStyles.regular600}
         amount={<CurrencyDisplay amount={amount} hideSign={hideSign} currencyInfo={currencyInfo} />}
       />
-      {localCurrencyCode !== LocalCurrencyCode.USD && exchangeRate && (
+      {exchangeRate && txCurrency !== Currency.Celo && (
         <LineItemRow
           title={
-            <Trans i18nKey="totalInDollars" ns={Namespaces.global}>
-              Celo Dollars @{' '}
+            <Trans i18nKey={totalAmountKey[txCurrency]} ns={Namespaces.global}>
               <CurrencyDisplay
                 amount={{
                   value: new BigNumber(exchangeRate).pow(-1),
-                  currencyCode: CURRENCIES[Currency.Dollar].code,
+                  currencyCode: amount.currencyCode,
                 }}
                 showLocalAmount={false}
                 currencyInfo={currencyInfo}

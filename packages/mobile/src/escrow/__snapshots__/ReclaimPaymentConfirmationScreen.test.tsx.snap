@@ -785,8 +785,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     ]
                   }
                 >
-                  Celo Dollars @
-                   
                   <Text
                     numberOfLines={1}
                     style={
@@ -1808,8 +1806,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     ]
                   }
                 >
-                  Celo Dollars @
-                   
                   <Text
                     numberOfLines={1}
                     style={
@@ -2820,8 +2816,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     ]
                   }
                 >
-                  Celo Dollars @
-                   
                   <Text
                     numberOfLines={1}
                     style={
@@ -3829,8 +3823,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     ]
                   }
                 >
-                  Celo Dollars @
-                   
                   <Text
                     numberOfLines={1}
                     style={
@@ -4841,8 +4833,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     ]
                   }
                 >
-                  Celo Dollars @
-                   
                   <Text
                     numberOfLines={1}
                     style={
@@ -5864,8 +5854,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     ]
                   }
                 >
-                  Celo Dollars @
-                   
                   <Text
                     numberOfLines={1}
                     style={

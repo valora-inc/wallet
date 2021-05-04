@@ -57,7 +57,7 @@ import { sendPaymentOrInvite } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { fetchDollarBalance } from 'src/stableToken/actions'
+import { fetchStableBalances } from 'src/stableToken/actions'
 import { cUsdBalanceSelector } from 'src/stableToken/reducer'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -135,7 +135,7 @@ function SendConfirmation(props: Props) {
   }
 
   useEffect(() => {
-    dispatch(fetchDollarBalance())
+    dispatch(fetchStableBalances())
     if (addressJustValidated) {
       Logger.showMessage(t('sendFlow7:addressConfirmed'))
     }

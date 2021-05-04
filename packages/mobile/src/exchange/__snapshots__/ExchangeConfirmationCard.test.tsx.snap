@@ -438,8 +438,6 @@ exports[`renders correctly with giant numbers 1`] = `
                   ]
                 }
               >
-                Celo Dollars @
-                 
                 <Text
                   numberOfLines={1}
                   style={
@@ -936,8 +934,6 @@ exports[`renders correctly with no exchange rate 1`] = `
                   ]
                 }
               >
-                Celo Dollars @
-                 
                 <Text
                   numberOfLines={1}
                   style={

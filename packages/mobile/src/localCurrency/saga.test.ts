@@ -1,7 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { select } from 'redux-saga/effects'
+import { call, select } from 'redux-saga/effects'
 import {
   fetchCurrentRate,
   fetchCurrentRateFailure,
@@ -15,6 +15,7 @@ import {
   watchSelectPreferredCurrency,
 } from 'src/localCurrency/saga'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { Currency } from 'src/utils/currencies'
 
 const now = Date.now()
 Date.now = jest.fn(() => now)
@@ -32,9 +33,11 @@ describe(watchFetchCurrentRate, () => {
     await expectSaga(watchFetchCurrentRate)
       .provide([
         [select(getLocalCurrencyCode), LocalCurrencyCode.MXN],
-        [matchers.call.fn(fetchExchangeRate), '1.33'],
+        [call(fetchExchangeRate, LocalCurrencyCode.MXN, Currency.Dollar), '1.33'],
+        [call(fetchExchangeRate, LocalCurrencyCode.MXN, Currency.Euro), '2.12'],
+        [call(fetchExchangeRate, LocalCurrencyCode.MXN, Currency.Celo), '3.543'],
       ])
-      .put(fetchCurrentRateSuccess(LocalCurrencyCode.MXN, '1.33', now))
+      .put(fetchCurrentRateSuccess(LocalCurrencyCode.MXN, '1.33', '2.12', '3.543', now))
       .dispatch(fetchCurrentRate())
       .run()
   })

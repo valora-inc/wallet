@@ -188,6 +188,7 @@ export interface Transfer {
 
 export interface ExchangeRateQueryVariables {
   currencyCode: Scalars['String']
+  sourceCurrencyCode?: Maybe<Scalars['String']>
 }
 
 export interface ExchangeRateQuery {

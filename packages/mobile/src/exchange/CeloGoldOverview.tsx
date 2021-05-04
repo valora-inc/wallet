@@ -19,22 +19,22 @@ type Props = WithTranslation & OwnProps
 
 export function CeloGoldOverview({ t, testID }: Props) {
   useBalanceAutoRefresh()
-  const goldBalance = useSelector(celoTokenBalanceSelector)
+  const celoBalance = useSelector(celoTokenBalanceSelector)
 
-  const goldBalanceAmount = goldBalance
-    ? { value: goldBalance, currencyCode: CURRENCIES[Currency.Celo].code }
+  const celoBalanceAmount = celoBalance
+    ? { value: celoBalance, currencyCode: CURRENCIES[Currency.Celo].code }
     : null
 
   return (
     <View style={styles.container} testID={testID}>
       <Text style={styles.title}>{t('yourGoldBalance')}</Text>
       <Text style={styles.balance} testID="CeloBalance">
-        {goldBalanceAmount && <CurrencyDisplay amount={goldBalanceAmount} />}
+        {celoBalanceAmount && <CurrencyDisplay amount={celoBalanceAmount} />}
       </Text>
       <Text style={styles.localBalance}>
-        {goldBalanceAmount ? (
+        {celoBalanceAmount ? (
           <Trans i18nKey="equalToAmount" ns={Namespaces.exchangeFlow9}>
-            Equal to <CurrencyDisplay amount={goldBalanceAmount} showLocalAmount={true} />
+            Equal to <CurrencyDisplay amount={celoBalanceAmount} showLocalAmount={true} />
           </Trans>
         ) : (
           t('loadingExchangeRate')

@@ -11,8 +11,6 @@ import useSelector from 'src/redux/useSelector'
 import { cEurBalanceSelector, cUsdBalanceSelector } from 'src/stableToken/reducer'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 
-interface Props {}
-
 function useAmount(currency: Currency, selector: (state: RootState) => string | null) {
   const balance = useSelector(selector)
   return {
@@ -21,7 +19,7 @@ function useAmount(currency: Currency, selector: (state: RootState) => string | 
   }
 }
 
-export function BalancesDisplay({}: Props) {
+export function BalancesDisplay() {
   const dollarAmount = useAmount(Currency.Dollar, cUsdBalanceSelector)
   const euroAmount = useAmount(Currency.Euro, cEurBalanceSelector)
   const celoAmount = useAmount(Currency.Celo, celoTokenBalanceSelector)

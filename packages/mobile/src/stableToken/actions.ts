@@ -32,7 +32,7 @@ export type ActionTypes =
   | FetchBalanceAction
   | TransferAction
 
-export const fetchDollarBalance = (): FetchBalanceAction => ({
+export const fetchStableBalances = (): FetchBalanceAction => ({
   type: Actions.FETCH_BALANCE,
 })
 

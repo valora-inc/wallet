@@ -740,8 +740,6 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           ]
         }
       >
-        Celo Dollars @
-         
         <Text
           numberOfLines={1}
           style={

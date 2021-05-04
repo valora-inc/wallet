@@ -15,9 +15,14 @@ jest.mock('src/home/WalletHome')
 describe('DrawerNavigator', () => {
   it('renders correctly with both cUSD and CELO balances', () => {
     const store = createMockStore({
-      stableToken: { balance: '10' },
+      stableToken: { balance: '10', cEurBalance: '15' },
       goldToken: { balance: '2' },
       exchange: { exchangeRatePair },
+      localCurrency: {
+        exchangeRate: '1.33',
+        eurExchangeRate: '2',
+        celoExchangeRate: '3',
+      },
     })
 
     const tree = render(
@@ -31,13 +36,16 @@ describe('DrawerNavigator', () => {
     expect(getElementText(tree.getByTestId('LocalDollarBalance'))).toEqual('$13.30')
     expect(getElementText(tree.getByTestId('DollarBalance'))).toEqual('10.00 global:celoDollars')
 
-    expect(getElementText(tree.getByTestId('LocalCeloBalance'))).toEqual('$26.60')
+    expect(getElementText(tree.getByTestId('LocalEuroBalance'))).toEqual('$30.00')
+    expect(getElementText(tree.getByTestId('EuroBalance'))).toEqual('15.00 global:celoEuros')
+
+    expect(getElementText(tree.getByTestId('LocalCeloBalance'))).toEqual('$6.00')
     expect(getElementText(tree.getByTestId('CeloBalance'))).toEqual('2.000 global:celoGold')
   })
 
-  it('renders only with the cUSD balance when the CELO balance is (almost) 0', () => {
+  it('renders only with the cUSD balance when the cEUR and CELO balances are (almost) 0', () => {
     const store = createMockStore({
-      stableToken: { balance: '10' },
+      stableToken: { balance: '10', cEurBalance: '0.001' },
       goldToken: { balance: '0.001' },
       exchange: { exchangeRatePair },
     })
@@ -52,6 +60,9 @@ describe('DrawerNavigator', () => {
 
     expect(getElementText(tree.getByTestId('LocalDollarBalance'))).toEqual('$13.30')
     expect(getElementText(tree.getByTestId('DollarBalance'))).toEqual('10.00 global:celoDollars')
+
+    expect(tree.queryByTestId('LocalEuroBalance')).toBeFalsy()
+    expect(tree.queryByTestId('EuroBalance')).toBeFalsy()
 
     expect(tree.queryByTestId('LocalCeloBalance')).toBeFalsy()
     expect(tree.queryByTestId('CeloBalance')).toBeFalsy()

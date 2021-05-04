@@ -52,7 +52,7 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getPasswordSaga } from 'src/pincode/authentication'
 import { getSendFee, getSendTxGas } from 'src/send/saga'
-import { fetchDollarBalance, transferStableToken } from 'src/stableToken/actions'
+import { fetchStableBalances, transferStableToken } from 'src/stableToken/actions'
 import { createTokenTransferTransaction, fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
 import { waitForTransactionWithId } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
@@ -416,7 +416,7 @@ export function* doRedeemInvite(tempAccountPrivateKey: string) {
     )
     ValoraAnalytics.track(OnboardingEvents.invite_redeem_move_funds_complete)
 
-    yield put(fetchDollarBalance())
+    yield put(fetchStableBalances())
     ValoraAnalytics.track(OnboardingEvents.invite_redeem_complete)
     return { success: true, newAccount }
   } catch (e) {

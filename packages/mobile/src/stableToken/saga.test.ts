@@ -1,8 +1,10 @@
+import { StableToken } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
 import { TokenTransactionType } from 'src/apollo/types'
-import { fetchDollarBalance, setBalance, transferStableToken } from 'src/stableToken/actions'
+import { WEI_PER_TOKEN } from 'src/geth/consts'
+import { fetchStableBalances, setBalance, transferStableToken } from 'src/stableToken/actions'
 import { stableTokenTransfer, watchFetchStableBalances } from 'src/stableToken/saga'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { TransactionStatus } from 'src/transactions/types'
@@ -15,7 +17,9 @@ import { mockAccount } from 'test/values'
 const now = Date.now()
 Date.now = jest.fn(() => now)
 
-const BALANCE = '1'
+// The balances must match the mocks in the contractkit mock file.
+const CUSD_BALANCE = '1'
+const CEUR_BALANCE = '2'
 const TX_ID = '1234'
 const COMMENT = 'a comment'
 
@@ -30,31 +34,43 @@ const state = createMockStore().getState()
 
 const TRANSFER_ACTION = transferStableToken({
   recipientAddress: mockAccount,
-  amount: BALANCE,
+  amount: CUSD_BALANCE,
   comment: COMMENT,
   context: { id: TX_ID },
 })
+
+const mockStableBalance = async (token: StableToken, value: BigNumber) => {
+  const stableToken = await (await getContractKitAsync()).contracts.getStableToken(token)
+  // @ts-ignore Jest Mock
+  stableToken.balanceOf.mockResolvedValueOnce(value)
+}
 
 describe('stableToken saga', () => {
   jest.useRealTimers()
 
   it('should fetch the balance and put the new balance', async () => {
+    await mockStableBalance(
+      StableToken.cUSD,
+      new BigNumber(CUSD_BALANCE).multipliedBy(WEI_PER_TOKEN)
+    )
+    await mockStableBalance(
+      StableToken.cEUR,
+      new BigNumber(CEUR_BALANCE).multipliedBy(WEI_PER_TOKEN)
+    )
     await expectSaga(watchFetchStableBalances)
       .provide([[call(waitWeb3LastBlock), true]])
       .withState(state)
-      .dispatch(fetchDollarBalance())
-      .put(setBalance(BALANCE))
+      .dispatch(fetchStableBalances())
+      .put(setBalance(CUSD_BALANCE, CEUR_BALANCE))
       .run()
   })
 
   it('should not update the balance if it is too large', async () => {
-    const stableToken = await (await getContractKitAsync()).contracts.getStableToken()
-    // @ts-ignore Jest Mock
-    stableToken.balanceOf.mockResolvedValueOnce(new BigNumber(10000001))
+    await mockStableBalance(StableToken.cUSD, new BigNumber(10000001))
     await expectSaga(watchFetchStableBalances)
       .provide([[call(waitWeb3LastBlock), true]])
       .withState(state)
-      .dispatch(fetchDollarBalance())
+      .dispatch(fetchStableBalances())
       .run()
   })
 
@@ -69,7 +85,7 @@ describe('stableToken saga', () => {
           type: TokenTransactionType.Sent,
           comment: COMMENT,
           status: TransactionStatus.Pending,
-          value: BALANCE,
+          value: CUSD_BALANCE,
           symbol: Currency.Dollar,
           timestamp: Math.floor(Date.now() / 1000),
           address: mockAccount,
@@ -89,7 +105,7 @@ describe('stableToken saga', () => {
           type: TokenTransactionType.Sent,
           comment: COMMENT,
           status: TransactionStatus.Pending,
-          value: BALANCE,
+          value: CUSD_BALANCE,
           symbol: Currency.Dollar,
           timestamp: Math.floor(Date.now() / 1000),
           address: mockAccount,

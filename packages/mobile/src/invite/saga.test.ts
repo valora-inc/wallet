@@ -1,4 +1,5 @@
 import { CeloTxReceipt } from '@celo/connect'
+import { StableToken } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
 import { Linking, Platform, Share } from 'react-native'
 import SendIntentAndroid from 'react-native-send-intent'
@@ -33,7 +34,7 @@ import {
   watchSendInvite,
 } from 'src/invite/saga'
 import { getSendFee } from 'src/send/saga'
-import { fetchDollarBalance, transferStableToken } from 'src/stableToken/actions'
+import { fetchStableBalances, transferStableToken } from 'src/stableToken/actions'
 import { transactionConfirmed } from 'src/transactions/actions'
 import { waitForTransactionWithId } from 'src/transactions/saga'
 import { Currency } from 'src/utils/currencies'
@@ -293,7 +294,7 @@ describe(watchRedeemInvite, () => {
       ])
       .withState(state)
       .dispatch(redeemInvite(mockKey))
-      .put(fetchDollarBalance())
+      .put(fetchStableBalances())
       .put(redeemInviteSuccess())
       .run()
   })
@@ -313,7 +314,9 @@ describe(watchRedeemInvite, () => {
   })
 
   it('fails with a valid private key but no money on key', async () => {
-    const stableToken = await (await getContractKitAsync()).contracts.getStableToken()
+    const stableToken = await (await getContractKitAsync()).contracts.getStableToken(
+      StableToken.cUSD
+    )
     // @ts-ignore Jest Mock
     stableToken.balanceOf.mockResolvedValueOnce(new BigNumber(0))
 

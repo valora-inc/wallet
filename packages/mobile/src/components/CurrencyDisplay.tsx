@@ -7,13 +7,9 @@ import { MoneyAmount } from 'src/apollo/types'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
-import {
-  getLocalCurrencyCode,
-  localCurrencyExchangeRateSelector,
-} from 'src/localCurrency/selectors'
-import useSelector from 'src/redux/useSelector'
+import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { CURRENCIES, Currency, currencyByCode } from 'src/utils/currencies'
 import {
   getCentAwareMoneyDisplay,
   getExchangeRateDisplayValue,
@@ -107,7 +103,7 @@ function getFormatFunction(formatType: FormatType): FormatFunction {
   }
 }
 
-function getFullCurrencyName(currency: Currency | null) {
+export function getFullCurrencyName(currency: Currency | null) {
   switch (currency) {
     case Currency.Dollar:
       return i18n.t('global:celoDollars')
@@ -136,37 +132,32 @@ export default function CurrencyDisplay({
   currencyInfo,
   testID,
 }: Props) {
-  let localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const localRates = useSelector(localCurrencyExchangeRateSelector)
-  if (currencyInfo) {
-    localCurrencyCode = currencyInfo.localCurrencyCode
-    localRates[Currency.Dollar] = currencyInfo.localExchangeRate
-  }
-
-  const currency: Currency =
-    (Object.entries(CURRENCIES).find(
-      ([_, currencyInfo]) => currencyInfo.code === amount.currencyCode
-    )?.[0] as Currency) ?? Currency.Dollar
+  const { localCurrencyCode, localCurrencyExchangeRate, txCurrency } = useLocalCurrencyToShow(
+    amount,
+    currencyInfo
+  )
 
   // Show local amount only if explicitly set to true when currency is CELO
-  const shouldShowLocalAmount = showLocalAmount ?? currency !== Currency.Celo
+  const shouldShowLocalAmount = showLocalAmount ?? txCurrency !== Currency.Celo
   const displayAmount = shouldShowLocalAmount
-    ? getLocalAmount(amount, localCurrencyCode, localRates[currency])
+    ? getLocalAmount(amount, localCurrencyCode, localCurrencyExchangeRate)
     : amount
+  const displayCurrency = displayAmount ? currencyByCode(displayAmount.currencyCode) : undefined
   const currencySymbol = displayAmount
     ? shouldShowLocalAmount
       ? LocalCurrencySymbol[displayAmount.currencyCode as LocalCurrencyCode]
-      : CURRENCIES[currency].symbol
+      : CURRENCIES[txCurrency].symbol
     : null
   const value = displayAmount ? new BigNumber(displayAmount.value) : null
   const sign = value?.isNegative() ? '-' : showExplicitPositiveSign ? '+' : ''
   const formatAmount = getFormatFunction(formatType)
-  const formattedValue = value && currency ? formatAmount(value.absoluteValue(), currency) : '-'
+  const formattedValue =
+    value && txCurrency ? formatAmount(value.absoluteValue(), displayCurrency) : '-'
   const code = displayAmount?.currencyCode
-  const fullCurrencyName = getFullCurrencyName(currency)
+  const fullCurrencyName = getFullCurrencyName(txCurrency)
 
   const color = useColors
-    ? currency === Currency.Celo
+    ? txCurrency === Currency.Celo
       ? colors.goldBrand
       : colors.greenBrand
     : StyleSheet.flatten(style)?.color ?? colors.dark

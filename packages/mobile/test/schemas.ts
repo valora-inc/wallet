@@ -564,6 +564,11 @@ export const v9Schema = {
     ...v8Schema.stableToken,
     cEurBalance: null,
   },
+  localCurrency: {
+    ...v8Schema.localCurrency,
+    eurExchangeRate: '2',
+    celoExchangeRate: '3',
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

@@ -7,6 +7,7 @@ export interface State {
   preferredCurrencyCode?: LocalCurrencyCode
   exchangeRate?: string | null
   eurExchangeRate?: string | null
+  celoExchangeRate?: string | null
   lastSuccessfulUpdate?: number
   fetchedCurrencyCode?: LocalCurrencyCode
 }
@@ -39,8 +40,9 @@ export const reducer = (
       return {
         ...state,
         isLoading: false,
-        exchangeRate: action.exchangeRate,
-        eurExchangeRate: action.exchangeRate,
+        exchangeRate: action.exchangeRate ?? state.exchangeRate,
+        eurExchangeRate: action.eurExchangeRate ?? state.eurExchangeRate,
+        celoExchangeRate: action.celoExchangeRate ?? state.celoExchangeRate,
         lastSuccessfulUpdate: action.now,
         fetchedCurrencyCode: action.currencyCode,
       }

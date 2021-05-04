@@ -937,8 +937,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
               ]
             }
           >
-            Celo Dollars @
-             
             <Text
               numberOfLines={1}
               style={
@@ -2039,8 +2037,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
               ]
             }
           >
-            Celo Dollars @
-             
             <Text
               numberOfLines={1}
               style={
@@ -3130,8 +3126,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
               ]
             }
           >
-            Celo Dollars @
-             
             <Text
               numberOfLines={1}
               style={
@@ -4232,8 +4226,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
               ]
             }
           >
-            Celo Dollars @
-             
             <Text
               numberOfLines={1}
               style={
@@ -5385,8 +5377,6 @@ exports[`SendConfirmation renders correctly when there are multiple user address
               ]
             }
           >
-            Celo Dollars @
-             
             <Text
               numberOfLines={1}
               style={
@@ -6460,8 +6450,6 @@ exports[`SendConfirmation with Komenci enabled renders correct modal for invitat
               ]
             }
           >
-            Celo Dollars @
-             
             <Text
               numberOfLines={1}
               style={

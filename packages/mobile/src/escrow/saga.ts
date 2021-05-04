@@ -41,7 +41,7 @@ import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { isValidPrivateKey } from 'src/invite/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { RootState } from 'src/redux/reducers'
-import { fetchDollarBalance } from 'src/stableToken/actions'
+import { fetchStableBalances } from 'src/stableToken/actions'
 import { getCurrencyAddress } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
@@ -391,7 +391,7 @@ function* withdrawFromEscrowWithoutCode(komenciActive: boolean = false) {
       throw Error('Unable to withdraw any pending escrow transactions')
     }
 
-    yield put(fetchDollarBalance())
+    yield put(fetchStableBalances())
     Logger.showMessage(i18n.t('inviteFlow11:transferDollarsToAccount'))
     ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete)
   } catch (e) {
@@ -450,7 +450,7 @@ export function* withdrawFromEscrow() {
     const context = newTransactionContext(TAG, 'Withdraw from escrow')
     yield call(sendTransaction, withdrawTx.txo, account, context)
 
-    yield put(fetchDollarBalance())
+    yield put(fetchStableBalances())
     Logger.showMessage(i18n.t('inviteFlow11:transferDollarsToAccount'))
     ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete)
   } catch (e) {
@@ -507,7 +507,7 @@ export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
     }
     Logger.debug(TAG + '@reclaimFromEscrow', 'Done reclaiming escrow')
 
-    yield put(fetchDollarBalance())
+    yield put(fetchStableBalances())
     yield put(reclaimEscrowPaymentSuccess())
 
     yield call(navigateHome)

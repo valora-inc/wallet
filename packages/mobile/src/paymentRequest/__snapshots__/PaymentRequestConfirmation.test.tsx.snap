@@ -317,8 +317,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               ]
             }
           >
-            Celo Dollars @
-             
             <Text
               numberOfLines={1}
               style={

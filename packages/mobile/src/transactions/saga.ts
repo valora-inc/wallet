@@ -13,7 +13,7 @@ import { addressToE164NumberSelector, AddressToE164NumberType } from 'src/identi
 import { updateValoraRecipientCache } from 'src/recipients/actions'
 import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
-import { fetchDollarBalance } from 'src/stableToken/actions'
+import { fetchStableBalances } from 'src/stableToken/actions'
 import {
   Actions,
   addHashToStandbyTransaction,
@@ -108,7 +108,7 @@ export function* sendAndMonitorTransaction<T>(
       yield put(fetchGoldBalance())
     }
     if (balancesAffected.has(Currency.Dollar)) {
-      yield put(fetchDollarBalance())
+      yield put(fetchStableBalances())
     }
     return txReceipt
   } catch (error) {

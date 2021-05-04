@@ -443,8 +443,6 @@ exports[`ExchangeReview renders correctly 1`] = `
                   ]
                 }
               >
-                Celo Dollars @
-                 
                 <Text
                   numberOfLines={1}
                   style={

@@ -57,7 +57,7 @@ import {
 import useSelector from 'src/redux/useSelector'
 import { getFeeType, useDailyTransferLimitValidator } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { fetchDollarBalance } from 'src/stableToken/actions'
+import { fetchStableBalances } from 'src/stableToken/actions'
 import { cUsdBalanceSelector } from 'src/stableToken/reducer'
 import { Currency } from 'src/utils/currencies'
 
@@ -118,7 +118,7 @@ function SendAmount(props: Props) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchDollarBalance())
+    dispatch(fetchStableBalances())
     if (recipientHasAddress(recipient)) {
       return
     }
