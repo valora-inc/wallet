@@ -55,6 +55,10 @@ export interface CicoProvider {
   cashOut: boolean
 }
 
+export enum IntegratedCicoProviders {
+  Simplex = 'Simplex',
+}
+
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
 
@@ -99,6 +103,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
   const asyncProviders = useAsync(async () => {
     if (!userLocation) {
+      // Logger.error is returning a strange output so using console.error instead
       console.error(TAG, 'User location not yet set')
       return
     }
@@ -155,7 +160,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
     dispatch(selectProvider(provider.name))
 
-    if (provider.name === 'Simplex') {
+    if (provider.name === IntegratedCicoProviders.Simplex) {
       if (provider.quote && userLocation?.ipAddress) {
         navigate(Screens.Simplex, {
           simplexQuote: provider.quote,

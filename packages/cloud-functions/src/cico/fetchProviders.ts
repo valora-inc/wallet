@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions'
 import { DigitalAsset, FiatCurrency } from '../config'
-import { composeProviderUrl } from './composeProviderUrls'
+import { composeProviderUrl } from './composeProviderUrl'
 import { getProviderAvailability } from './providerAvailability'
 import Simplex, { SimplexQuote } from './Simplex'
 
