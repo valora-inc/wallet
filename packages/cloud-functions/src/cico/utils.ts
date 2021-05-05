@@ -2,6 +2,8 @@ import * as admin from 'firebase-admin'
 import { v4 as uuidv4 } from 'uuid'
 import { bigQueryDataset, bigQueryProjectId, getBigQueryInstance } from '../bigQuery'
 
+const fetch = require('node-fetch')
+
 const bigQuery = getBigQueryInstance()
 
 export interface UserDeviceInfo {
