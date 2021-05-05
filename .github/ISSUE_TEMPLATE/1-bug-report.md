@@ -25,5 +25,5 @@ As an open source project - it may take some time for your issue to be addressed
 
 ### Versions
 
-<!-- Valora version, operating system - iOS or Android, devices e.g. LG K7i(6.0), and any additional information as needed -->
+<!-- Valora version, operating system e.g. iOS (14.5) or Android (11), device e.g. iPhone 12 Max and any additional information as needed -->
 <!-- If possible, please update Valora to latest version and check if the bug is still present. -->
