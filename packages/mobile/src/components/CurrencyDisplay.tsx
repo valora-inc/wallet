@@ -152,7 +152,7 @@ export default function CurrencyDisplay({
   const sign = value?.isNegative() ? '-' : showExplicitPositiveSign ? '+' : ''
   const formatAmount = getFormatFunction(formatType)
   const formattedValue =
-    value && txCurrency ? formatAmount(value.absoluteValue(), displayCurrency) : '-'
+    value && displayCurrency ? formatAmount(value.absoluteValue(), displayCurrency) : '-'
   const code = displayAmount?.currencyCode
   const fullCurrencyName = getFullCurrencyName(txCurrency)
 

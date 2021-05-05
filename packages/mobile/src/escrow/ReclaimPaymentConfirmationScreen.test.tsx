@@ -121,12 +121,12 @@ describe('ReclaimPaymentConfirmationScreen', () => {
     expect(toJSON()).toMatchSnapshot()
     expect(queryAllByText('securityFee')).toHaveLength(2)
     expect(queryByText('$0.001')).toBeNull()
-    expect(queryAllByText('10.00')).toHaveLength(1)
+    expect(queryAllByText('$10.00')).toHaveLength(1)
 
     // Wait for fee error
     await waitForElement(() => getByText('---'))
 
-    expect(queryAllByText('10.00')).toHaveLength(1)
+    expect(queryAllByText('$10.00')).toHaveLength(1)
     expect(toJSON()).toMatchSnapshot()
   })
 

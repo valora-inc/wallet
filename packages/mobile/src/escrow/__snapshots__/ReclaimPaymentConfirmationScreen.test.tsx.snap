@@ -832,6 +832,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                   }
                 >
                   
+                  $
                   10.00
                 </Text>
               </Text>
@@ -1853,6 +1854,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                   }
                 >
                   
+                  $
                   9.99
                 </Text>
               </Text>
@@ -2863,6 +2865,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                   }
                 >
                   
+                  $
                   10.00
                 </Text>
               </Text>
@@ -3870,6 +3873,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                   }
                 >
                   
+                  $
                   10.00
                 </Text>
               </Text>
@@ -4880,6 +4884,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                   }
                 >
                   
+                  $
                   10.00
                 </Text>
               </Text>
@@ -5901,6 +5906,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                   }
                 >
                   
+                  $
                   9.99
                 </Text>
               </Text>

@@ -984,6 +984,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
             }
           >
             
+            $
             1.00
           </Text>
         </Text>
@@ -2084,6 +2085,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
             }
           >
             
+            $
             1.00
           </Text>
         </Text>
@@ -3173,6 +3175,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
             }
           >
             
+            $
             1.00
           </Text>
         </Text>
@@ -4273,6 +4276,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
             }
           >
             
+            $
             1.01
           </Text>
         </Text>
@@ -5424,6 +5428,7 @@ exports[`SendConfirmation renders correctly when there are multiple user address
             }
           >
             
+            $
             1.00
           </Text>
         </Text>
@@ -6497,6 +6502,7 @@ exports[`SendConfirmation with Komenci enabled renders correct modal for invitat
             }
           >
             
+            $
             1.00
           </Text>
         </Text>

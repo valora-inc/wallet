@@ -10,7 +10,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import { Namespaces } from 'src/i18n'
 import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
-import { Currency } from 'src/utils/currencies'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 interface Props {
   title?: string
@@ -40,14 +40,14 @@ export default function TotalLineItem({ title, amount, hideSign, currencyInfo }:
         textStyle={fontStyles.regular600}
         amount={<CurrencyDisplay amount={amount} hideSign={hideSign} currencyInfo={currencyInfo} />}
       />
-      {exchangeRate && txCurrency !== Currency.Celo && (
+      {exchangeRate && (
         <LineItemRow
           title={
             <Trans i18nKey={totalAmountKey[txCurrency]} ns={Namespaces.global}>
               <CurrencyDisplay
                 amount={{
-                  value: new BigNumber(exchangeRate).pow(-1),
-                  currencyCode: amount.currencyCode,
+                  value: new BigNumber(exchangeRate).pow(txCurrency === Currency.Celo ? 1 : -1),
+                  currencyCode: CURRENCIES[Currency.Dollar].code,
                 }}
                 showLocalAmount={false}
                 currencyInfo={currencyInfo}
@@ -57,8 +57,8 @@ export default function TotalLineItem({ title, amount, hideSign, currencyInfo }:
           amount={
             <CurrencyDisplay
               amount={amount}
-              showLocalAmount={false}
-              hideSymbol={true}
+              showLocalAmount={txCurrency === Currency.Celo}
+              hideSymbol={false}
               hideSign={hideSign}
               currencyInfo={currencyInfo}
             />

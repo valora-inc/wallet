@@ -635,6 +635,98 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
           </Text>
         </Text>
       </View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "marginVertical": 5,
+            },
+            Object {
+              "marginVertical": 0,
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "marginRight": 5,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#2E3338",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 22,
+                },
+                Object {
+                  "color": "#9CA4A9",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                },
+              ]
+            }
+          >
+            <Text
+              numberOfLines={1}
+              style={
+                Array [
+                  undefined,
+                  Object {
+                    "color": "#2E3338",
+                  },
+                ]
+              }
+            >
+              
+              $
+              3.00
+            </Text>
+          </Text>
+        </View>
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              },
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              },
+            ]
+          }
+        >
+          <Text
+            numberOfLines={1}
+            style={
+              Array [
+                undefined,
+                Object {
+                  "color": "#2E3338",
+                },
+              ]
+            }
+          >
+            $
+            300.00
+          </Text>
+        </Text>
+      </View>
     </RNCSafeAreaView>
   </View>
 </RCTScrollView>
@@ -822,6 +914,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
             }
           >
             
+            $
             100.00
           </Text>
         </Text>
@@ -1329,6 +1422,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
             }
           >
             
+            $
             100.00
           </Text>
         </Text>
@@ -1811,6 +1905,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
             }
           >
             
+            $
             100.00
           </Text>
         </Text>
@@ -2293,6 +2388,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
             }
           >
             
+            $
             100.00
           </Text>
         </Text>
@@ -3024,6 +3120,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
               ]
             }
           >
+            $
             100.00
           </Text>
         </Text>
@@ -3755,6 +3852,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
               ]
             }
           >
+            $
             100.00
           </Text>
         </Text>
@@ -3944,6 +4042,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
               ]
             }
           >
+            $
             0.30
           </Text>
         </Text>

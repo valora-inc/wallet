@@ -485,6 +485,7 @@ exports[`renders correctly with giant numbers 1`] = `
                 }
               >
                 
+                $
                 24,000,000.00
               </Text>
             </Text>
@@ -981,6 +982,7 @@ exports[`renders correctly with no exchange rate 1`] = `
                 }
               >
                 
+                $
                 1.99
               </Text>
             </Text>

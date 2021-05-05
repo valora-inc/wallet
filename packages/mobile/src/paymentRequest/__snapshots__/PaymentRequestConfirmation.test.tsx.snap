@@ -364,6 +364,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             }
           >
             
+            $
             1.00
           </Text>
         </Text>

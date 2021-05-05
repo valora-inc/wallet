@@ -39,6 +39,7 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { clockInSync } from 'src/utils/time'
 import { parse } from 'url'
 
 const TAG = 'app/saga'
@@ -58,11 +59,11 @@ export function* appInit() {
     yield put(setLanguage(language))
   }
 
-  // const inSync = yield call(clockInSync)
-  // if (!inSync) {
-  //   navigate(Screens.SetClock)
-  //   return
-  // }
+  const inSync = yield call(clockInSync)
+  if (!inSync) {
+    navigate(Screens.SetClock)
+    return
+  }
 }
 
 export function* appVersionSaga() {

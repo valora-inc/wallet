@@ -787,6 +787,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
         }
       >
         
+        $
         9.99
       </Text>
     </Text>

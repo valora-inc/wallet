@@ -490,6 +490,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                 }
               >
                 
+                $
                 90.90
               </Text>
             </Text>

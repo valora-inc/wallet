@@ -125,7 +125,7 @@ export function* getProfileInfo(address: string) {
   const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper)
   const nameAccessor = new PrivateNameAccessor(offchainWrapper)
   try {
-    Logger.warn(`${TAG}@getProfileInfo`, `Fetching profile info for ${address}`)
+    Logger.info(`${TAG}@getProfileInfo`, `Fetching profile info for ${address}`)
     const name = yield call([nameAccessor, 'read'], address)
 
     const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
