@@ -112,6 +112,7 @@ export interface InitializeAccountFailureAction {
 
 export interface SetAccountCreationAction {
   type: Actions.SET_ACCOUNT_CREATION_TIME
+  now: number
 }
 
 export interface SetBackupCompletedAction {
@@ -120,6 +121,7 @@ export interface SetBackupCompletedAction {
 
 export interface SetBackupDelayedAction {
   type: Actions.SET_BACKUP_DELAYED
+  now: number
 }
 
 export interface ToggleBackupState {
@@ -305,16 +307,18 @@ export const initializeAccountFailure = (): InitializeAccountFailureAction => ({
   type: Actions.INITIALIZE_ACCOUNT_FAILURE,
 })
 
-export const setAccountCreationTime = (): SetAccountCreationAction => ({
+export const setAccountCreationTime = (now: number): SetAccountCreationAction => ({
   type: Actions.SET_ACCOUNT_CREATION_TIME,
+  now,
 })
 
 export const setBackupCompleted = (): SetBackupCompletedAction => ({
   type: Actions.SET_BACKUP_COMPLETED,
 })
 
-export const setBackupDelayed = (): SetBackupDelayedAction => ({
+export const setBackupDelayed = (now: number): SetBackupDelayedAction => ({
   type: Actions.SET_BACKUP_DELAYED,
+  now,
 })
 
 export const toggleBackupState = (): ToggleBackupState => ({

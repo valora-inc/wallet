@@ -17,6 +17,7 @@ import {
   OnboardingEvents,
   PerformanceEvents,
   RequestEvents,
+  RewardsEvents,
   SendEvents,
   SettingsEvents,
   TransactionEvents,
@@ -24,10 +25,13 @@ import {
 } from 'src/analytics/Events'
 import { BackQuizProgress, ScrollDirection, SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import {
+  RewardsScreenCta,
+  RewardsScreenOrigin,
+} from 'src/consumerIncentives/analyticsEventsTracker'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { RecipientKind } from 'src/recipients/recipient'
 
 interface AppEventsProperties {
   [AppEvents.app_launched]: {
@@ -474,7 +478,7 @@ interface EscrowEventsProperties {
 interface SendEventsProperties {
   [SendEvents.send_scan]: undefined
   [SendEvents.send_select_recipient]: {
-    recipientKind: RecipientKind
+    // TODO: decide what recipient info to collect, now that RecipientKind doesn't exist
     usedSearchBar: boolean
   }
   [SendEvents.send_cancel]: undefined
@@ -544,7 +548,7 @@ interface RequestEventsProperties {
   [RequestEvents.request_cancel]: undefined
   [RequestEvents.request_scan]: undefined
   [RequestEvents.request_select_recipient]: {
-    recipientKind: RecipientKind
+    // TODO: decide what recipient info to collect, now that RecipientKind doesn't exist
     usedSearchBar: boolean
   }
   [RequestEvents.request_amount_continue]: {
@@ -833,6 +837,15 @@ interface NavigationProperties {
   [NavigationEvents.navigator_not_ready]: undefined
 }
 
+interface RewardsProperties {
+  [RewardsEvents.rewards_screen_opened]: {
+    origin: RewardsScreenOrigin
+  }
+  [RewardsEvents.rewards_screen_cta_pressed]: {
+    buttonPressed: RewardsScreenCta
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -852,4 +865,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NetworkEventsProperties &
   ContractKitEventsProperties &
   PerformanceProperties &
-  NavigationProperties
+  NavigationProperties &
+  RewardsProperties

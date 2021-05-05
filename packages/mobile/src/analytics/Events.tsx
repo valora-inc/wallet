@@ -49,8 +49,8 @@ export enum OnboardingEvents {
   create_account_start = 'create_account_start',
   create_account_cancel = 'create_account_cancel',
 
-  restore_account_start = 'create_account_start',
-  restore_account_cancel = 'create_account_cancel',
+  restore_account_start = 'restore_account_start',
+  restore_account_cancel = 'restore_account_cancel',
 
   backup_education_start = 'backup_education_start',
   backup_education_scroll = 'backup_education_scroll',
@@ -388,6 +388,11 @@ export enum NavigationEvents {
   navigator_not_ready = 'navigator_not_ready',
 }
 
+export enum RewardsEvents {
+  rewards_screen_opened = 'rewards_screen_opened',
+  rewards_screen_cta_pressed = 'rewards_screen_cta_pressed',
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -407,3 +412,4 @@ export type AnalyticsEventType =
   | NetworkEvents
   | PerformanceEvents
   | NavigationEvents
+  | RewardsEvents

@@ -107,6 +107,7 @@ const mockQueryData: UserTransactionsQuery = {
           },
           timestamp: 1578530538,
           address: '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10',
+          account: '0xsflkj',
           comment: 'Hi',
         },
       },
