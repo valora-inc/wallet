@@ -1,5 +1,5 @@
 import { saveTxHashProvider } from '../firebase'
-import { Providers } from './fetchProviders'
+import { Providers } from './Providers'
 import { rampWebhook } from './rampWebhook'
 
 const mockVerify = jest.fn()

@@ -1,6 +1,6 @@
 import { saveTxHashProvider } from '../firebase'
-import { Providers } from './fetchProviders'
 import { moonpayWebhook } from './moonpayWebhook'
+import { Providers } from './Providers'
 
 const mockVerify = jest.fn()
 

@@ -2,9 +2,10 @@ import crypto from 'crypto'
 import stableStringify from 'fast-json-stable-stringify'
 import * as functions from 'firebase-functions'
 import { readFileSync } from 'fs'
-import { RAMP_DATA } from '../config'
+import { trackEvent } from '../bigQuery'
+import { BIGQUERY_PROVIDER_STATUS_TABLE, RAMP_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
-import { Providers } from './fetchProviders'
+import { CashInStatus, Providers } from './Providers'
 
 const rampKey = readFileSync(`./config/${RAMP_DATA.pem_file}`).toString()
 
@@ -18,6 +19,38 @@ function verifyRampSignature(signature: string | undefined, body: RampRequestBod
   return verifier.verify(rampKey, signature, 'base64')
 }
 
+function trackRampEvent(body: any) {
+  const {
+    type,
+    purchase: { id, receiverAddress, status },
+  } = body
+  if (RampWebhookType.Created === type) {
+    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      id,
+      provider: Providers.Ramp,
+      status: CashInStatus.Started,
+      timestamp: Date.now() / 1000,
+      user_address: receiverAddress,
+    })
+  } else if (status === PurchaseStatus.Expired || status === PurchaseStatus.Cancelled) {
+    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      id,
+      provider: Providers.Ramp,
+      status: CashInStatus.Failure,
+      timestamp: Date.now() / 1000,
+      user_address: receiverAddress,
+      failure_reason: status,
+    })
+  } else if (PurchaseStatus.Released === status) {
+    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      id,
+      provider: Providers.Ramp,
+      status: CashInStatus.Success,
+      timestamp: Date.now() / 1000,
+      user_address: receiverAddress,
+    })
+  }
+}
 interface RampPurchase {
   id: number
   endTime: string | null // datestring
@@ -74,12 +107,13 @@ const RAMP_SIGNATURE_HEADER = 'X-Body-Signature'
 
 export const rampWebhook = functions.https.onRequest((request, response) => {
   if (verifyRampSignature(request.header(RAMP_SIGNATURE_HEADER), request.body)) {
+    trackRampEvent(request.body)
     const {
       type,
-      purchase: { receiverAddress, finalTxHash },
+      purchase: { receiverAddress, finalTxHash, status },
     }: RampRequestBody = request.body
 
-    console.info('Received Ramp webhook', type, receiverAddress)
+    console.info('Received Ramp webhook', type, receiverAddress, status)
     if (type === RampWebhookType.Released) {
       const address = receiverAddress
 

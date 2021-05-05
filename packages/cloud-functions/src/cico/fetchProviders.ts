@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions'
 import { DigitalAsset, FiatCurrency } from '../config'
 import { composeProviderUrl } from './composeProviderUrl'
 import { getProviderAvailability } from './providerAvailability'
+import { Providers } from './Providers'
 import Simplex, { SimplexQuote } from './Simplex'
 
 export interface UserLocationData {
@@ -17,14 +18,6 @@ export interface ProviderRequestData {
   digitalAsset: DigitalAsset
   fiatAmount?: number
   digitalAssetAmount?: number
-}
-
-export enum Providers {
-  Moonpay = 'Moonpay',
-  Ramp = 'Ramp',
-  Transak = 'Transak',
-  Simplex = 'Simplex',
-  Xanpool = 'Xanpool',
 }
 
 export enum PaymentMethod {

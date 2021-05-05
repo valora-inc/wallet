@@ -43,6 +43,8 @@ export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
 
 export const CASH_IN_SUCCESS_URL = 'https://valoraapp.com/?done=true'
 
+export const BIGQUERY_PROVIDER_STATUS_TABLE = 'cico_provider_status'
+
 export enum FiatCurrency {
   USD = 'USD',
   CAD = 'CAD',

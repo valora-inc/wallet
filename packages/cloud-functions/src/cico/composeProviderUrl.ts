@@ -8,7 +8,8 @@ import {
   VALORA_LOGO_URL,
   XANPOOL_DATA,
 } from '../config'
-import { ProviderRequestData, Providers } from './fetchProviders'
+import { ProviderRequestData } from './fetchProviders'
+import { Providers } from './Providers'
 const URL = require('url').URL
 
 export const composeProviderUrl = (provider: Providers, requestData: ProviderRequestData) => {

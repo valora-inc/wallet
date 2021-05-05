@@ -1,8 +1,9 @@
 import crypto from 'crypto'
 import * as functions from 'firebase-functions'
-import { MOONPAY_DATA } from '../config'
+import { trackEvent } from '../bigQuery'
+import { BIGQUERY_PROVIDER_STATUS_TABLE, MOONPAY_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
-import { Providers } from './fetchProviders'
+import { CashInStatus, Providers } from './Providers'
 
 const MOONPAY_SIGNATURE_HEADER = 'Moonpay-Signature-V2'
 
@@ -23,6 +24,39 @@ function verifyMoonPaySignature(signatureHeader: string | undefined, body: strin
   const expectedSignature = Buffer.from(hmac.read().toString('hex'))
   const signatureBuffer = Buffer.from(signature)
   return Buffer.compare(signatureBuffer, expectedSignature) === 0
+}
+
+function trackMoonpayEvent(body: any) {
+  const {
+    data: { id, walletAddress, status, failureReason },
+    type,
+  } = body
+  if (MoonpayWebhookType.Started === type) {
+    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      id,
+      provider: Providers.Moonpay,
+      status: CashInStatus.Started,
+      timestamp: Date.now() / 1000,
+      user_address: walletAddress,
+    })
+  } else if (status === MoonpayTxStatus.Failed) {
+    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      id,
+      provider: Providers.Moonpay,
+      status: CashInStatus.Failure,
+      timestamp: Date.now() / 1000,
+      user_address: walletAddress,
+      failure_reason: failureReason,
+    })
+  } else if (status === MoonpayTxStatus.Completed) {
+    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      id,
+      provider: Providers.Moonpay,
+      status: CashInStatus.Success,
+      timestamp: Date.now() / 1000,
+      user_address: walletAddress,
+    })
+  }
 }
 
 // https://www.moonpay.com/dashboard/api_reference/client_side_api/#transactions
@@ -88,6 +122,7 @@ export const moonpayWebhook = functions.https.onRequest((request, response) => {
   if (
     verifyMoonPaySignature(request.header(MOONPAY_SIGNATURE_HEADER), JSON.stringify(request.body))
   ) {
+    trackMoonpayEvent(request.body)
     const {
       data: { walletAddress, cryptoTransactionId },
       type,
