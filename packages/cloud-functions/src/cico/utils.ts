@@ -8,6 +8,7 @@ const bigQueryProjectId = 'celo-testnet-production'
 const bigQueryDataset =
   gcloudProject === 'celo-mobile-alfajores' ? 'mobile_wallet_dev' : 'mobile_wallet_production'
 const bigQuery = new BigQuery({ projectId: `${bigQueryProjectId}` })
+const fetch = require('node-fetch')
 
 export interface UserDeviceInfo {
   id: string
@@ -107,4 +108,24 @@ export const promiseWithTimeout = async (promise: Promise<any>): Promise<any> =>
   })
 
   return Promise.race([promise, timeout])
+}
+
+export const fetchWithTimeout = async (
+  url: string,
+  body: any | null,
+  duration: number
+): Promise<Response | undefined> => {
+  try {
+    // @ts-ignore
+    const timeout = new Promise<undefined>((resolve, reject) => {
+      const id = setTimeout(() => {
+        clearTimeout(id)
+        reject(Error(`Request timed out after ${duration}ms`))
+      }, duration)
+    })
+
+    return Promise.race([body ? fetch(url, body) : fetch(url), timeout])
+  } catch (error) {
+    throw error
+  }
 }

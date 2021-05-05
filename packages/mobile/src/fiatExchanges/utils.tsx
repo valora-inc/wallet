@@ -2,14 +2,15 @@ import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
 import getIpAddress from 'react-native-public-ip'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CurrencyCode, MOONPAY_API_KEY } from 'src/config'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
+
+const FETCH_TIMEOUT = 15000 // 15 seconds
 
 const TAG = 'fiatExchanges:utils'
 interface ProviderRequestData {
@@ -21,7 +22,7 @@ interface ProviderRequestData {
   digitalAssetAmount?: number
 }
 
-export interface Provider {
+export interface CicoProvider {
   name: string
   restricted: boolean
   unavailable?: boolean
@@ -100,28 +101,36 @@ const composePostObject = (body: any) => ({
 
 export const fetchProviders = async (
   requestData: ProviderRequestData
-): Promise<Provider[] | undefined> => {
+): Promise<CicoProvider[] | undefined> => {
   try {
-    const response = await fetch(networkConfig.providerFetchUrl, composePostObject(requestData))
+    const response = await fetchWithTimeout(
+      networkConfig.providerFetchUrl,
+      composePostObject(requestData),
+      FETCH_TIMEOUT
+    )
 
-    if (!response.ok) {
-      throw Error(`fetchProviders failed with status ${response.status}`)
+    if (!response || !response.ok) {
+      throw Error(`Fetch failed with status ${response?.status}`)
     }
 
     return response.json()
   } catch (error) {
-    Logger.error(TAG, error.message)
-    showError(ErrorMessages.PROVIDER_FETCH_FAILED)
+    Logger.error(`${TAG}:fetchProviders`, error.message)
+    throw error
   }
 }
 
 export const fetchUserLocationData = async (countryCallingCode: string | null) => {
   let userLocationData: UserLocationData
   try {
-    const response = await fetch(`https://api.moonpay.com/v4/ip_address?apiKey=${MOONPAY_API_KEY}`)
+    const response = await fetchWithTimeout(
+      `https://api.moonpay.com/v4/ip_address?apiKey=${MOONPAY_API_KEY}`,
+      null,
+      FETCH_TIMEOUT
+    )
 
-    if (!response.ok) {
-      throw Error(`fetchUserLocationData failed with status ${response.status}`)
+    if (!response || !response.ok) {
+      throw Error(`Fetch failed with status ${response?.status}`)
     }
 
     const locationData: MoonPayIpAddressData = await response.json()
@@ -133,7 +142,7 @@ export const fetchUserLocationData = async (countryCallingCode: string | null) =
 
     userLocationData = { country: alpha2, state, ipAddress }
   } catch (error) {
-    Logger.error(TAG, error.message)
+    Logger.error(`${TAG}:fetchUserLocationData`, error.message)
     // If MoonPay endpoint fails then use country code to determine location
     const country = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
     let ipAddress
@@ -157,7 +166,7 @@ export const fetchSimplexPaymentData = async (
   currentIpAddress: string
 ) => {
   try {
-    const response = await fetch(
+    const response = await fetchWithTimeout(
       networkConfig.simplexApiUrl,
       composePostObject({
         type: 'payment',
@@ -171,11 +180,12 @@ export const fetchSimplexPaymentData = async (
           appVersion: DeviceInfo.getVersion(),
           userAgent: DeviceInfo.getUserAgentSync(),
         },
-      })
+      }),
+      FETCH_TIMEOUT
     )
 
-    if (!response.ok) {
-      throw Error(`Simplex payment endpoint responded with status ${response.status}`)
+    if (!response || !response.ok) {
+      throw Error(`Fetch failed with status ${response?.status}`)
     }
 
     const simplexPaymentDataResponse = await response.json()
@@ -186,12 +196,13 @@ export const fetchSimplexPaymentData = async (
     const simplexPaymentData: SimplexPaymentData = simplexPaymentDataResponse
     return simplexPaymentData
   } catch (error) {
-    Logger.error(TAG, error.message)
+    Logger.error(`${TAG}:fetchSimplexPaymentData`, error.message)
+    throw error
   }
 }
 
 // Leaving unoptimized for now because sorting is most relevant when fees will be visible
-export const sortProviders = (provider1: Provider, provider2: Provider) => {
+export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) => {
   if (provider1.unavailable) {
     return 1
   }

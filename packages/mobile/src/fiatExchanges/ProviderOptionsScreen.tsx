@@ -10,17 +10,19 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
+import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import {
+  CicoProvider,
   fetchProviders,
   fetchUserLocationData,
-  Provider,
   sortProviders,
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
@@ -104,29 +106,32 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       return
     }
 
-    return fetchProviders({
-      userLocation,
-      walletAddress: account,
-      fiatCurrency: localCurrency,
-      digitalAsset: currencyToBuy,
-      fiatAmount: route.params.amount.fiat,
-      digitalAssetAmount: route.params.amount.crypto,
-    })
+    try {
+      const providers = await fetchProviders({
+        userLocation,
+        walletAddress: account,
+        fiatCurrency: localCurrency,
+        digitalAsset: currencyToBuy,
+        fiatAmount: route.params.amount.fiat,
+        digitalAssetAmount: route.params.amount.crypto,
+      })
+      return providers
+    } catch (error) {
+      dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
+    }
   }, [userLocation, isFocused])
 
   const activeProviders = asyncProviders.result
 
   const providers: {
-    cashOut: Provider[]
-    cashIn: Provider[]
+    cashOut: CicoProvider[]
+    cashIn: CicoProvider[]
   } = {
     cashOut: activeProviders?.filter((provider) => provider.cashOut).sort(sortProviders) || [],
     cashIn: activeProviders?.filter((provider) => provider.cashIn).sort(sortProviders) || [],
   }
 
-  const providerOnPress = (provider: Provider) => () => {
-    console.log(provider)
-
+  const providerOnPress = (provider: CicoProvider) => () => {
     if (provider.unavailable) {
       return
     }

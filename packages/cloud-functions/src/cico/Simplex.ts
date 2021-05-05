@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import {
+  ASYNC_TIMEOUT,
   CASH_IN_FAILURE_DEEPLINK,
   CASH_IN_SUCCESS_DEEPLINK,
   DigitalAsset,
@@ -7,9 +8,7 @@ import {
   SIMPLEX_DATA,
 } from '../config'
 import { UserDeviceInfo } from './composeCicoProviderUrl'
-import { getOrCreateUuid, getUserInitData, promiseWithTimeout } from './utils'
-
-const fetch = require('node-fetch')
+import { fetchWithTimeout, getOrCreateUuid, getUserInitData } from './utils'
 
 export interface SimplexQuote {
   user_id: string
@@ -152,17 +151,30 @@ const Simplex = {
       </body>
     </html>
   `,
-  post: async (path: string, body: any) =>
-    promiseWithTimeout(
-      fetch(`${SIMPLEX_DATA.api_url}${path}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
+  post: async (path: string, body: any) => {
+    try {
+      const response = await fetchWithTimeout(
+        `${SIMPLEX_DATA.api_url}${path}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
+          },
+          body: JSON.stringify(body),
         },
-        body: JSON.stringify(body),
-      })
-    ),
+        ASYNC_TIMEOUT
+      )
+
+      if (!response || !response.ok) {
+        throw Error(`Simplex post request failed with status ${response?.status}`)
+      }
+
+      return response
+    } catch (error) {
+      throw error
+    }
+  },
 }
 
 export default Simplex

@@ -1,3 +1,5 @@
+// DEPRECATE CLOUD FUNCTION & DELETE FILE ONCE MAJORITY OF USERS ARE ON VERSION >=1.15.0
+
 import crypto from 'crypto'
 import * as functions from 'firebase-functions'
 import {
