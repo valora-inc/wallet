@@ -80,6 +80,4 @@ export const composeProviderUrl = (provider: Providers, requestData: ProviderReq
         &redirectUrl=${cashInSuccessDeepLink}
       `.replace(/\s+/g, '')
   }
-
-  return ''
 }
