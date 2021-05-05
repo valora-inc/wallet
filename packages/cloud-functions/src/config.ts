@@ -66,4 +66,4 @@ export enum DigitalAsset {
   CUSD = 'CUSD',
 }
 
-export const ASYNC_TIMEOUT = 15000 // 15 seconds
+export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds

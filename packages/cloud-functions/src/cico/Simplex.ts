@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid'
 import {
-  ASYNC_TIMEOUT,
   CASH_IN_FAILURE_DEEPLINK,
   CASH_IN_SUCCESS_DEEPLINK,
   DigitalAsset,
+  FETCH_TIMEOUT_DURATION,
   FiatCurrency,
   SIMPLEX_DATA,
 } from '../config'
@@ -163,7 +163,7 @@ const Simplex = {
           },
           body: JSON.stringify(body),
         },
-        ASYNC_TIMEOUT
+        FETCH_TIMEOUT_DURATION
       )
 
       if (!response || !response.ok) {

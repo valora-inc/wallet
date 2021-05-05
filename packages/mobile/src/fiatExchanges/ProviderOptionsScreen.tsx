@@ -20,9 +20,9 @@ import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import {
-  CicoProvider,
   fetchProviders,
   fetchUserLocationData,
+  SimplexQuote,
   sortProviders,
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
@@ -42,6 +42,18 @@ import { currentAccountSelector } from 'src/web3/selectors'
 const TAG = 'ProviderOptionsScreen'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
+
+export interface CicoProvider {
+  name: string
+  restricted: boolean
+  unavailable?: boolean
+  paymentMethods: PaymentMethod[]
+  url?: string
+  logo: string
+  quote?: SimplexQuote
+  cashIn: boolean
+  cashOut: boolean
+}
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
@@ -123,7 +135,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
   const activeProviders = asyncProviders.result
 
-  const providers: {
+  const cicoProviders: {
     cashOut: CicoProvider[]
     cashIn: CicoProvider[]
   } = {
@@ -168,7 +180,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       <SafeAreaView style={styles.content}>
         <Text style={styles.pleaseSelectProvider}>{t('pleaseSelectProvider')}</Text>
         <View style={styles.providersContainer}>
-          {providers[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
+          {cicoProviders[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
             <ListItem key={provider.name} onPress={providerOnPress(provider)}>
               <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
                 <View style={styles.providerTextContainer}>

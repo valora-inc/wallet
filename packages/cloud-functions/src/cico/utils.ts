@@ -1,6 +1,5 @@
 import * as admin from 'firebase-admin'
 import { v4 as uuidv4 } from 'uuid'
-import { ASYNC_TIMEOUT } from '../config'
 const { BigQuery } = require('@google-cloud/bigquery')
 
 const gcloudProject = process.env.GCLOUD_PROJECT
@@ -96,18 +95,6 @@ export function getFirebaseAdminCreds(localAdmin: any) {
       console.error('Error: Could not retrieve default app creds', error)
     }
   }
-}
-
-export const promiseWithTimeout = async (promise: Promise<any>): Promise<any> => {
-  // @ts-ignore
-  const timeout = new Promise<undefined>((resolve, reject) => {
-    const id = setTimeout(() => {
-      clearTimeout(id)
-      reject(`Request timed out after ${ASYNC_TIMEOUT}ms`)
-    }, ASYNC_TIMEOUT)
-  })
-
-  return Promise.race([promise, timeout])
 }
 
 export const fetchWithTimeout = async (

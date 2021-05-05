@@ -3,16 +3,17 @@ import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
 import getIpAddress from 'react-native-public-ip'
 import { CurrencyCode, MOONPAY_API_KEY } from 'src/config'
-import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
+import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 
-const FETCH_TIMEOUT = 15000 // 15 seconds
+const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
 
 const TAG = 'fiatExchanges:utils'
+
 interface ProviderRequestData {
   userLocation: UserLocationData
   walletAddress: string
@@ -20,18 +21,6 @@ interface ProviderRequestData {
   digitalAsset: CurrencyCode
   fiatAmount?: number
   digitalAssetAmount?: number
-}
-
-export interface CicoProvider {
-  name: string
-  restricted: boolean
-  unavailable?: boolean
-  paymentMethods: PaymentMethod[]
-  url?: string
-  logo: string
-  quote?: SimplexQuote
-  cashIn: boolean
-  cashOut: boolean
 }
 
 export interface UserLocationData {
@@ -106,7 +95,7 @@ export const fetchProviders = async (
     const response = await fetchWithTimeout(
       networkConfig.providerFetchUrl,
       composePostObject(requestData),
-      FETCH_TIMEOUT
+      FETCH_TIMEOUT_DURATION
     )
 
     if (!response || !response.ok) {
@@ -126,7 +115,7 @@ export const fetchUserLocationData = async (countryCallingCode: string | null) =
     const response = await fetchWithTimeout(
       `https://api.moonpay.com/v4/ip_address?apiKey=${MOONPAY_API_KEY}`,
       null,
-      FETCH_TIMEOUT
+      FETCH_TIMEOUT_DURATION
     )
 
     if (!response || !response.ok) {
@@ -181,7 +170,7 @@ export const fetchSimplexPaymentData = async (
           userAgent: DeviceInfo.getUserAgentSync(),
         },
       }),
-      FETCH_TIMEOUT
+      FETCH_TIMEOUT_DURATION
     )
 
     if (!response || !response.ok) {

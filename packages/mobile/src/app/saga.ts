@@ -156,7 +156,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path.startsWith('/cash-in-success')) {
       // Some providers append transaction information to the redirect links so can't check for strict equality
       const cicoSuccessParam = (rawParams.path.match(/cash-in-success\/(.+)/) || [])[1]
-      navigate(Screens.CashInSuccess, { provider: cicoSuccessParam })
+      navigate(Screens.CashInSuccess, { provider: cicoSuccessParam.split('/')[0] })
       // Some providers append transaction information to the redirect links so can't check for strict equality
     } else if (rawParams.path.startsWith('/cash-in-failure')) {
       navigate(Screens.FiatExchange)
