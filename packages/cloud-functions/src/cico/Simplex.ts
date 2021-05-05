@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin'
 import { v4 as uuidv4 } from 'uuid'
+import { bigQueryDataset, bigQueryProjectId, getBigQueryInstance } from '../bigQuery'
 import {
   CASH_IN_FAILURE_DEEPLINK,
   CASH_IN_SUCCESS_DEEPLINK,
@@ -8,14 +9,9 @@ import {
   SIMPLEX_DATA,
 } from '../config'
 import { UserDeviceInfo } from './composeCicoProviderUrl'
-const { BigQuery } = require('@google-cloud/bigquery')
 const fetch = require('node-fetch')
 
-const gcloudProject = process.env.GCLOUD_PROJECT
-const bigQueryProjectId = 'celo-testnet-production'
-const bigQueryDataset =
-  gcloudProject === 'celo-mobile-alfajores' ? 'mobile_wallet_dev' : 'mobile_wallet_production'
-const bigQuery = new BigQuery({ projectId: `${bigQueryProjectId}` })
+const bigQuery = getBigQueryInstance()
 
 export interface SimplexQuote {
   user_id: string
