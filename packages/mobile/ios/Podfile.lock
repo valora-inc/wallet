@@ -392,8 +392,8 @@ PODS:
     - React
   - react-native-randombytes (3.6.0):
     - React-Core
-  - react-native-safe-area-context (3.0.6):
-    - React
+  - react-native-safe-area-context (3.2.0):
+    - React-Core
   - react-native-shake (3.5.0):
     - React-Core
   - react-native-simple-toast (1.1.2):
@@ -955,7 +955,7 @@ SPEC CHECKSUMS:
   react-native-mail: 88305252f4c3fb0157015ff8a7ac9c41b321a0dd
   react-native-netinfo: b9650ab1b8b4362b3c455b1274e4bc48223cc957
   react-native-randombytes: b6677f7d495c27e9ee0dbd77ebc97b3c59173729
-  react-native-safe-area-context: e22a8ca00f758273d2408953965cb8db67da7925
+  react-native-safe-area-context: f0906bf8bc9835ac9a9d3f97e8bde2a997d8da79
   react-native-shake: 41a1ea8ec541fccf3f01566edef8d3cb722b00e3
   react-native-simple-toast: 58b71ef003f01d2c0bf5dcd2fdccc75861dabade
   react-native-sms: 31fbb9d6ebb565ad32e409eaf9dc70329936a129
