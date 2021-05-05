@@ -8,15 +8,15 @@ export default class ReactNativeLogger {
    * In case the file name is ambigous, add the parent directory name to it.
    * For example, `send/actions/refreshGasPrice` since there are many actions.ts files.
    */
-  debug = (tag: string, ...messages: string[]) => {
+  debug = (tag: string, ...messages: any[]) => {
     console.debug(`${tag}/${messages.join(', ')}`)
   }
 
-  info = (tag: string, ...messages: string[]) => {
+  info = (tag: string, ...messages: any[]) => {
     console.info(`${tag}/${messages.join(', ')}`)
   }
 
-  warn = (tag: string, ...messages: string[]) => {
+  warn = (tag: string, ...messages: any[]) => {
     // console.warn would display yellow box, therefore, we will log to console.info instead.
     console.info(`${tag}/${messages.join(', ')}`)
   }

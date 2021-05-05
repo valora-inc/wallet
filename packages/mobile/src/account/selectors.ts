@@ -3,6 +3,7 @@ import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
 import i18n from 'src/i18n'
 import { RootState } from 'src/redux/reducers'
+import { currentAccountSelector } from 'src/web3/selectors'
 
 const inferCountryCode = () => {
   const localizedCountry = new Countries(i18n.language).getCountryByCodeAlpha2(
@@ -27,6 +28,17 @@ export const pincodeTypeSelector = (state: RootState) => state.account.pincodeTy
 export const promptFornoIfNeededSelector = (state: RootState) => state.account.promptFornoIfNeeded
 export const isProfileUploadedSelector = (state: RootState) => state.account.profileUploaded
 export const cUsdDailyLimitSelector = (state: RootState) => state.account.dailyLimitCusd
+
+export const currentUserRecipientSelector = createSelector(
+  [currentAccountSelector, nameSelector, pictureSelector, userContactDetailsSelector],
+  (account, name, picture, contactDetails) => {
+    return {
+      address: account!,
+      name: name ?? undefined,
+      thumbnailPath: picture ?? contactDetails.thumbnailPath ?? undefined,
+    }
+  }
+)
 export const dailyLimitRequestStatusSelector = (state: RootState) =>
   state.account.dailyLimitRequestStatus
 export const recoveringFromStoreWipeSelector = (state: RootState) =>

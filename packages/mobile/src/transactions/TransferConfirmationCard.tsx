@@ -24,7 +24,7 @@ import { addressToDisplayNameSelector } from 'src/identity/reducer'
 import { getInvitationVerificationFeeInDollars } from 'src/invite/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getRecipientThumbnail, Recipient } from 'src/recipients/recipient'
+import { Recipient } from 'src/recipients/recipient'
 import useTypedSelector from 'src/redux/useSelector'
 import BottomText from 'src/transactions/BottomText'
 import CommentSection from 'src/transactions/CommentSection'
@@ -44,6 +44,7 @@ export interface TransferConfirmationCardProps {
 
 type Props = TransferConfirmationCardProps & {
   addressHasChanged: boolean
+  recipient: Recipient
 }
 
 const onPressGoToFaq = () => {
@@ -74,13 +75,7 @@ function VerificationContent({ amount }: Props) {
   )
 }
 
-function InviteSentContent({
-  address,
-  addressHasChanged,
-  recipient,
-  e164PhoneNumber,
-  amount,
-}: Props) {
+function InviteSentContent({ addressHasChanged, recipient, amount }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const totalAmount = amount
   const inviteFee = getInvitationVerificationFeeInDollars()
@@ -92,17 +87,9 @@ function InviteSentContent({
     <>
       <UserSection
         type="sent"
-        address={address}
         addressHasChanged={addressHasChanged}
         recipient={recipient}
-        e164PhoneNumber={e164PhoneNumber}
-        avatar={
-          <ContactCircle
-            name={recipient ? recipient.displayName : null}
-            address={address}
-            thumbnailPath={getRecipientThumbnail(recipient)}
-          />
-        }
+        avatar={<ContactCircle recipient={recipient} />}
       />
       <HorizontalLine />
       <FeeDrawer
@@ -118,13 +105,7 @@ function InviteSentContent({
   )
 }
 
-function InviteReceivedContent({
-  address,
-  addressHasChanged,
-  recipient,
-  e164PhoneNumber,
-  amount,
-}: Props) {
+function InviteReceivedContent({ addressHasChanged, recipient, amount }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const totalAmount = amount
 
@@ -132,17 +113,9 @@ function InviteReceivedContent({
     <>
       <UserSection
         type="received"
-        address={address}
         addressHasChanged={addressHasChanged}
         recipient={recipient}
-        e164PhoneNumber={e164PhoneNumber}
-        avatar={
-          <ContactCircle
-            name={recipient ? recipient.displayName : null}
-            address={address}
-            thumbnailPath={getRecipientThumbnail(recipient)}
-          />
-        }
+        avatar={<ContactCircle recipient={recipient} />}
       />
       <HorizontalLine />
       <TotalLineItem amount={totalAmount} />
@@ -166,14 +139,7 @@ function NetworkFeeContent({ amount }: Props) {
   )
 }
 
-function PaymentSentContent({
-  address,
-  addressHasChanged,
-  recipient,
-  e164PhoneNumber,
-  amount,
-  comment,
-}: Props) {
+function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const sentAmount = amount
   // TODO: Use real fee
@@ -187,11 +153,9 @@ function PaymentSentContent({
     <>
       <UserSection
         type={isCeloWithdrawal ? 'withdrawn' : 'sent'}
-        address={address}
         addressHasChanged={addressHasChanged}
         recipient={recipient}
-        e164PhoneNumber={e164PhoneNumber}
-        avatar={<TransferAvatars type="sent" address={address} recipient={recipient} />}
+        avatar={<TransferAvatars type="sent" recipient={recipient} />}
       />
       <CommentSection comment={comment} />
       <HorizontalLine />
@@ -223,10 +187,8 @@ function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, c
     <>
       <UserSection
         type="received"
-        address={address}
         recipient={recipient}
-        e164PhoneNumber={e164PhoneNumber}
-        avatar={<TransferAvatars type="received" address={address} recipient={recipient} />}
+        avatar={<TransferAvatars type="received" recipient={recipient} />}
       />
       <CommentSection comment={comment} />
       {isCeloTx && celoEducationUri && (
@@ -240,7 +202,7 @@ function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, c
   )
 }
 
-function CeloRewardContent({ address, amount, recipient }: Props) {
+function CeloRewardContent({ amount, recipient }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
 
   const openLearnMore = () => {
@@ -254,9 +216,9 @@ function CeloRewardContent({ address, amount, recipient }: Props) {
     <>
       <UserSection
         type="received"
-        address={address}
         expandable={false}
-        avatar={<TransferAvatars type="received" address={address} recipient={recipient} />}
+        recipient={recipient}
+        avatar={<TransferAvatars type="received" recipient={recipient} />}
       />
       <TouchableOpacity onPress={openLearnMore} testID={'celoRewards/learnMore'}>
         <Text style={styles.learnMore}>{t('learnMore')}</Text>
