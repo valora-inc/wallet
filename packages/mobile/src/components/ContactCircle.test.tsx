@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Image } from 'react-native'
 import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import ContactCircle from 'src/components/ContactCircle'
 import { createMockStore } from 'test/utils'
 
@@ -14,7 +13,7 @@ const mockStore = createMockStore()
 describe('ContactCircle', () => {
   describe('when given recipient with only address', () => {
     it('uses DefaultAvatar svg', () => {
-      const tree = renderer.create(
+      const wrapper = render(
         <Provider store={mockStore}>
           <ContactCircle
             size={30}
@@ -24,7 +23,7 @@ describe('ContactCircle', () => {
           />
         </Provider>
       )
-      expect(tree).toMatchSnapshot()
+      expect(wrapper).toMatchSnapshot()
     })
   })
   describe('when has a thumbnail and name', () => {

@@ -25,6 +25,7 @@ import {
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
+import { updateValoraRecipientCache } from 'src/recipients/actions'
 import {
   AddressRecipient,
   Recipient,
@@ -198,13 +199,18 @@ export function* handleSendPaymentData(
 ) {
   const recipient: AddressRecipient = {
     address: data.address.toLowerCase(),
-    name: data.displayName || cachedRecipient?.name || 'anonymous',
+    name: data.displayName || cachedRecipient?.name,
     e164PhoneNumber: data.e164PhoneNumber,
     displayNumber: cachedRecipient?.displayNumber,
     thumbnailPath: cachedRecipient?.thumbnailPath,
     contactId: cachedRecipient?.contactId,
   }
   yield put(storeLatestInRecents(recipient))
+  yield put(
+    updateValoraRecipientCache({
+      [data.address.toLowerCase()]: recipient,
+    })
+  )
 
   if (data.amount) {
     if (data.token === 'CELO') {

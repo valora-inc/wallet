@@ -18,6 +18,8 @@ export type Recipient = {
   contactId?: string // unique ID given by phone OS
   thumbnailPath?: string
   displayNumber?: string
+  e164PhoneNumber?: string
+  address?: string
 } & ({ e164PhoneNumber: string } | { address: string })
 
 export type MobileRecipient = Recipient & {
@@ -51,16 +53,18 @@ export function getDisplayName(recipient: Recipient, t: TFunction) {
     return recipient.name
   } else if (recipient.displayNumber) {
     return recipient.displayNumber
-  } else if (recipientHasNumber(recipient)) {
+  } else if (recipient.e164PhoneNumber) {
     return recipient.e164PhoneNumber
-  } else {
+  } else if (recipient.address) {
     return t('walletFlow5:feedItemAddress', { address: formatShortenedAddress(recipient.address) })
+  } else {
+    return t('global:unknown')
   }
 }
 
 export function getDisplayDetail(recipient: Recipient) {
   if (recipientHasNumber(recipient)) {
-    return recipient.displayNumber
+    return recipient.displayNumber || recipient.e164PhoneNumber
   } else {
     return formatShortenedAddress(recipient.address)
   }
@@ -203,8 +207,8 @@ function fuzzysortToRecipients(
 }
 
 function nameCompare(a: FuzzyRecipient, b: FuzzyRecipient) {
-  const nameA = a.name!.toUpperCase()
-  const nameB = b.name!.toUpperCase()
+  const nameA = a.name?.toUpperCase() ?? ''
+  const nameB = b.name?.toUpperCase() ?? ''
 
   if (nameA > nameB) {
     return 1

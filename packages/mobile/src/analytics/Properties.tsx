@@ -1,4 +1,5 @@
 import { CURRENCY_ENUM } from '@celo/utils'
+import BigNumber from 'bignumber.js'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
@@ -11,10 +12,12 @@ import {
   HomeEvents,
   IdentityEvents,
   InviteEvents,
+  NavigationEvents,
   NetworkEvents,
   OnboardingEvents,
   PerformanceEvents,
   RequestEvents,
+  RewardsEvents,
   SendEvents,
   SettingsEvents,
   TransactionEvents,
@@ -22,6 +25,10 @@ import {
 } from 'src/analytics/Events'
 import { BackQuizProgress, ScrollDirection, SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import {
+  RewardsScreenCta,
+  RewardsScreenOrigin,
+} from 'src/consumerIncentives/analyticsEventsTracker'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -60,6 +67,9 @@ interface AppEventsProperties {
   [AppEvents.redux_keychain_mismatch]: {
     account: string
   }
+  [AppEvents.redux_store_recovery_success]: {
+    account: string
+  }
 }
 
 interface HomeEventsProperties {
@@ -79,6 +89,7 @@ interface HomeEventsProperties {
   [HomeEvents.notification_select]: {
     notificationType: NotificationBannerTypes
     selectedAction: NotificationBannerCTATypes
+    notificationId?: string
   }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
@@ -250,19 +261,6 @@ interface VerificationEventsProperties {
     address: string
     feeless?: boolean
   }
-  [VerificationEvents.verification_fetch_status_start]:
-    | {
-        feeless?: boolean
-      }
-    | undefined
-  [VerificationEvents.verification_fetch_status_complete]: {
-    isVerified: boolean
-    numAttestationsRemaining: number
-    total: number
-    completed: number
-    feeless?: boolean
-  }
-
   [VerificationEvents.verification_request_all_attestations_start]: {
     attestationsToRequest: number
     feeless?: boolean
@@ -601,6 +599,7 @@ interface TransactionEventsProperties {
   [TransactionEvents.transaction_gas_estimated]: {
     txId: string
     estimatedGas: number
+    prefilled: boolean
   }
   [TransactionEvents.transaction_hash_received]: {
     txId: string
@@ -723,6 +722,40 @@ interface FiatExchangeEventsProperties {
     isCashIn: boolean
     provider: string
   }
+  [FiatExchangeEvents.cash_in_success]: {
+    provider: string
+    currency: string
+  }
+  [FiatExchangeEvents.cico_add_funds_selected]: undefined
+  [FiatExchangeEvents.cico_cash_out_selected]: undefined
+  [FiatExchangeEvents.cico_spend_selected]: undefined
+  [FiatExchangeEvents.cico_fund_info]: undefined
+  [FiatExchangeEvents.cico_fund_info_return]: {
+    timeElapsed: number
+  }
+  [FiatExchangeEvents.cico_add_funds_back]: undefined
+  [FiatExchangeEvents.cico_add_funds_info]: undefined
+  [FiatExchangeEvents.cico_add_funds_info_support]: undefined
+  [FiatExchangeEvents.cico_add_funds_info_cancel]: undefined
+  [FiatExchangeEvents.cico_add_funds_amount_continue]: {
+    dollarAmount: BigNumber
+  }
+  [FiatExchangeEvents.cico_add_funds_amount_back]: undefined
+  [FiatExchangeEvents.cico_add_funds_invalid_amount]: {
+    dollarAmount: BigNumber
+  }
+  [FiatExchangeEvents.cico_add_funds_amount_dialog_cancel]: undefined
+  [FiatExchangeEvents.cico_add_funds_select_provider_back]: undefined
+  [FiatExchangeEvents.cico_add_funds_select_provider_info]: undefined
+  [FiatExchangeEvents.cico_add_funds_select_provider_info_cancel]: undefined
+  [FiatExchangeEvents.cico_cash_out_back]: undefined
+  [FiatExchangeEvents.cico_cash_out_info]: undefined
+  [FiatExchangeEvents.cico_cash_out_info_support]: undefined
+  [FiatExchangeEvents.cico_cash_out_info_cancel]: undefined
+  [FiatExchangeEvents.cico_cash_out_select_provider_back]: undefined
+  [FiatExchangeEvents.cico_external_exchanges_back]: undefined
+  [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
+  [FiatExchangeEvents.cico_spend_select_provider_back]: undefined
 }
 
 interface GethEventsProperties {
@@ -800,6 +833,19 @@ interface PerformanceProperties {
   }
 }
 
+interface NavigationProperties {
+  [NavigationEvents.navigator_not_ready]: undefined
+}
+
+interface RewardsProperties {
+  [RewardsEvents.rewards_screen_opened]: {
+    origin: RewardsScreenOrigin
+  }
+  [RewardsEvents.rewards_screen_cta_pressed]: {
+    buttonPressed: RewardsScreenCta
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -818,4 +864,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   GethEventsProperties &
   NetworkEventsProperties &
   ContractKitEventsProperties &
-  PerformanceProperties
+  PerformanceProperties &
+  NavigationProperties &
+  RewardsProperties

@@ -1,18 +1,19 @@
 import { CeloTransactionObject } from '@celo/connect'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
+import BigNumber from 'bignumber.js'
 import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import { getProfileInfo } from 'src/account/profileInfo'
 import { showError } from 'src/alert/actions'
-import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
+import { TokenTransactionType, TransferItemFragment } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import { fetchGoldBalance } from 'src/goldToken/actions'
 import { Actions as IdentityActions } from 'src/identity/actions'
-import { addressToE164NumberSelector } from 'src/identity/reducer'
+import { addressToE164NumberSelector, AddressToE164NumberType } from 'src/identity/reducer'
 import { updateValoraRecipientCache } from 'src/recipients/actions'
 import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
-import { phoneRecipientCacheSelector, valoraRecipientCacheSelector } from 'src/recipients/reducer'
+import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { fetchDollarBalance } from 'src/stableToken/actions'
 import {
   Actions,
@@ -20,7 +21,9 @@ import {
   NewTransactionsInFeedAction,
   removeStandbyTransaction,
   transactionConfirmed,
+  TransactionConfirmedAction,
   transactionFailed,
+  TransactionFailedAction,
   updateRecentTxRecipientsCache,
 } from 'src/transactions/actions'
 import { TxPromises } from 'src/transactions/contract-utils'
@@ -30,6 +33,7 @@ import {
   standbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
+import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
 import { StandbyTransaction, TransactionContext, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 
@@ -54,10 +58,13 @@ function* cleanupStandbyTransactions({ transactions }: NewTransactionsInFeedActi
 
 export function* waitForTransactionWithId(txId: string) {
   while (true) {
-    const action = yield take([Actions.TRANSACTION_CONFIRMED, Actions.TRANSACTION_FAILED])
+    const action: TransactionConfirmedAction | TransactionFailedAction = yield take([
+      Actions.TRANSACTION_CONFIRMED,
+      Actions.TRANSACTION_FAILED,
+    ])
     if (action.txId === txId) {
-      // Return true for success, false otherwise
-      return action.type === Actions.TRANSACTION_CONFIRMED
+      // Return the receipt on success and undefined otherwise.
+      return action.type === Actions.TRANSACTION_CONFIRMED ? action.receipt : undefined
     }
   }
 }
@@ -67,37 +74,43 @@ export function* sendAndMonitorTransaction<T>(
   account: string,
   context: TransactionContext,
   currency?: CURRENCY_ENUM,
-  feeCurrency?: CURRENCY_ENUM
+  feeCurrency?: CURRENCY_ENUM,
+  gas?: number,
+  gasPrice?: BigNumber
 ) {
   try {
     Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
-    const sendTxMethod = function*(nonce?: number) {
-      const { transactionHash, confirmation }: TxPromises = yield call(
+    const sendTxMethod = function* (nonce?: number) {
+      const { transactionHash, receipt }: TxPromises = yield call(
         sendTransactionPromises,
         tx.txo,
         account,
         context,
         feeCurrency,
+        gas,
+        gasPrice,
         nonce
       )
       const hash = yield transactionHash
       yield put(addHashToStandbyTransaction(context.id, hash))
-      const result = yield confirmation
-      return result
+      return yield receipt
     }
-    yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
-    yield put(transactionConfirmed(context.id))
+    const txReceipt = yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
+    yield put(transactionConfirmed(context.id, txReceipt))
 
-    if (currency === CURRENCY_ENUM.GOLD) {
+    // Determine which balances may be affected by the transaction and fetch updated balances.
+    const balancesAffected = new Set([
+      ...(currency ? [currency] : [CURRENCY_ENUM.DOLLAR, CURRENCY_ENUM.GOLD]),
+      feeCurrency ?? CURRENCY_ENUM.DOLLAR,
+    ])
+    if (balancesAffected.has(CURRENCY_ENUM.GOLD)) {
       yield put(fetchGoldBalance())
-    } else if (currency === CURRENCY_ENUM.DOLLAR) {
-      yield put(fetchDollarBalance())
-    } else {
-      // Fetch both balances for exchange
-      yield put(fetchGoldBalance())
+    }
+    if (balancesAffected.has(CURRENCY_ENUM.DOLLAR)) {
       yield put(fetchDollarBalance())
     }
+    return txReceipt
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
     yield put(removeStandbyTransaction(context.id))
@@ -107,8 +120,8 @@ export function* sendAndMonitorTransaction<T>(
 }
 
 function* refreshRecentTxRecipients() {
-  const addressToE164Number = yield select(addressToE164NumberSelector)
-  const recipientCache = yield select(phoneRecipientCacheSelector)
+  const addressToE164Number: AddressToE164NumberType = yield select(addressToE164NumberSelector)
+  const recipientCache: NumberToRecipient = yield select(phoneRecipientCacheSelector)
   const knownFeedTransactions: KnownFeedTransactionsType = yield select(
     knownFeedTransactionsSelector
   )
@@ -139,27 +152,27 @@ function* refreshRecentTxRecipients() {
     }
 
     const e164PhoneNumber = addressToE164Number[address]
-    const cachedRecipient = recipientCache[e164PhoneNumber]
-    // Skip if there is no recipient to cache or we've already cached them
-    if (!cachedRecipient || recentTxRecipientsCache[e164PhoneNumber]) {
-      continue
-    }
+    if (e164PhoneNumber) {
+      const cachedRecipient = recipientCache[e164PhoneNumber]
+      // Skip if there is no recipient to cache or we've already cached them
+      if (!cachedRecipient || recentTxRecipientsCache[e164PhoneNumber]) {
+        continue
+      }
 
-    recentTxRecipientsCache[e164PhoneNumber] = cachedRecipient
-    remainingCacheStorage -= 1
+      recentTxRecipientsCache[e164PhoneNumber] = cachedRecipient
+      remainingCacheStorage -= 1
+    }
   }
 
   yield put(updateRecentTxRecipientsCache(recentTxRecipientsCache))
 }
 
-function* addProfile(transaction: TransactionFeedFragment) {
-  const profiles = yield select(valoraRecipientCacheSelector)
-  // @ts-ignore transaction must have address because it is a TokenTransfer
-  const address = transaction.address
-  if (!profiles[address]) {
-    const newProfile: AddressToRecipient = {}
-    if (transaction.type === TokenTransactionType.Received) {
-      const info = yield call(getProfileInfo, address)
+function* addProfile(transaction: TransferItemFragment) {
+  const address = transaction.account
+  const newProfile: AddressToRecipient = {}
+  if (transaction.type === TokenTransactionType.Received) {
+    const info = yield call(getProfileInfo, address)
+    if (info) {
       newProfile[address] = {
         address,
         name: info?.name,
@@ -174,9 +187,11 @@ function* addProfile(transaction: TransactionFeedFragment) {
 
 function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
   yield all(
-    transactions
-      .filter((trans) => trans.__typename === 'TokenTransfer')
-      .map((trans) => call(addProfile, trans))
+    transactions.map((trans) => {
+      if (isTransferTransaction(trans)) {
+        return call(addProfile, trans)
+      }
+    })
   )
 }
 

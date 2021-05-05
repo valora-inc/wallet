@@ -10,6 +10,8 @@ import { addressToDisplayNameSelector, SecureSendPhoneNumberMapping } from 'src/
 import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
+import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import useSelector from 'src/redux/useSelector'
 import TransferConfirmationCard, {
@@ -60,8 +62,9 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): StateProps => {
   const { confirmationProps } = ownProps.route.params
   const { secureSendPhoneNumberMapping } = state.identity
   const addressHasChanged = hasAddressChanged(confirmationProps, secureSendPhoneNumberMapping)
+  const recipientInfo = recipientInfoSelector(state)
 
-  return { addressHasChanged }
+  return { addressHasChanged, recipientInfo }
 }
 
 function isExchange(
@@ -70,7 +73,7 @@ function isExchange(
   return (confirmationProps as ExchangeConfirmationCardProps).makerAmount !== undefined
 }
 
-function TransactionReview({ navigation, route, addressHasChanged }: Props) {
+function TransactionReview({ navigation, route, addressHasChanged, recipientInfo }: Props) {
   const {
     reviewProps: { type, timestamp },
     confirmationProps,
@@ -89,7 +92,11 @@ function TransactionReview({ navigation, route, addressHasChanged }: Props) {
   }, [type, confirmationProps, addressToDisplayName])
 
   if (isTransferConfirmationCardProps(confirmationProps)) {
-    const props = { ...confirmationProps, addressHasChanged }
+    // @ts-ignore, address should never be undefined
+    const recipient = getRecipientFromAddress(confirmationProps.address, recipientInfo)
+    Object.assign(recipient, { e164PhoneNumber: confirmationProps.e164PhoneNumber })
+
+    const props = { ...confirmationProps, addressHasChanged, recipient }
     return <TransferConfirmationCard {...props} />
   }
 

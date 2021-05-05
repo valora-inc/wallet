@@ -35,7 +35,7 @@ function accidentallyBypassedValidation(
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
 ) {
   const validatedAddress =
-    secureSendPhoneNumberMapping[e164Number] || secureSendPhoneNumberMapping[e164Number].address
+    secureSendPhoneNumberMapping[e164Number] && secureSendPhoneNumberMapping[e164Number].address
   return newAddresses && newAddresses.length > 1 && !validatedAddress
 }
 
@@ -145,7 +145,7 @@ export function getAddressValidationType(
   recipient: Recipient,
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
 ) {
-  const e164PhoneNumber = recipientHasNumber(recipient) ? recipient.e164PhoneNumber : undefined
+  const e164PhoneNumber = recipient.e164PhoneNumber
 
   if (
     !e164PhoneNumber ||

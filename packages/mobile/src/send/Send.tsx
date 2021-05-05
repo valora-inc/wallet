@@ -1,6 +1,5 @@
 import QRCodeBorderlessIcon from '@celo/react-components/icons/QRCodeBorderless'
 import Times from '@celo/react-components/icons/Times'
-import VerifyPhone from '@celo/react-components/icons/VerifyPhone'
 import colors from '@celo/react-components/styles/colors'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
@@ -9,6 +8,7 @@ import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { connect } from 'react-redux'
+import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
@@ -35,6 +35,7 @@ import RecipientPicker from 'src/recipients/RecipientPicker'
 import { phoneRecipientCacheSelector, valoraRecipientCacheSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { storeLatestInRecents } from 'src/send/actions'
+import { InviteRewardsBanner } from 'src/send/InviteRewardsBanner'
 import { SendCallToAction } from 'src/send/SendCallToAction'
 import { SendSearchInput } from 'src/send/SendSearchInput'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -68,6 +69,9 @@ interface StateProps {
   phoneRecipients: NumberToRecipient
   valoraRecipients: AddressToRecipient
   matchedContacts: ContactMatches
+  inviteRewardsEnabled: boolean
+  inviteRewardCusd: number
+  inviteRewardWeeklyLimit: number
 }
 
 interface DispatchProps {
@@ -83,7 +87,7 @@ type RouteProps = StackScreenProps<StackParamList, Screens.Send>
 type Props = StateProps & DispatchProps & WithTranslation & RouteProps
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  defaultCountryCode: state.account.defaultCountryCode,
+  defaultCountryCode: defaultCountryCodeSelector(state),
   e164PhoneNumber: state.account.e164PhoneNumber,
   numberVerified: state.app.numberVerified,
   verificationPossible: verificationPossibleSelector(state),
@@ -92,6 +96,9 @@ const mapStateToProps = (state: RootState): StateProps => ({
   phoneRecipients: phoneRecipientCacheSelector(state),
   valoraRecipients: valoraRecipientCacheSelector(state),
   matchedContacts: state.identity.matchedContacts,
+  inviteRewardsEnabled: state.send.inviteRewardsEnabled,
+  inviteRewardCusd: state.send.inviteRewardCusd,
+  inviteRewardWeeklyLimit: state.send.inviteRewardWeeklyLimit,
 })
 
 const mapDispatchToProps = {
@@ -229,11 +236,18 @@ class Send extends React.Component<Props, State> {
   }
 
   tryImportContacts = async () => {
-    const { numberVerified, phoneRecipients } = this.props
+    // CB TEMPORARY HOTFIX: Disabling phone number confirmation requirement
+    // for sending to phone numbers
+    // const { numberVerified, allRecipients } = this.props
 
-    // Only import contacts if number is verified and
-    // recip cache is empty so we haven't already
-    if (!numberVerified || phoneRecipients.length) {
+    // // Only import contacts if number is verified and
+    // // recip cache is empty so we haven't already
+    // if (!numberVerified || allRecipients.length) {
+    //   return
+    // }
+
+    const { phoneRecipients } = this.props
+    if (phoneRecipients.length) {
       return
     }
 
@@ -250,6 +264,7 @@ class Send extends React.Component<Props, State> {
     this.props.hideAlert()
     const isOutgoingPaymentRequest = this.props.route.params?.isOutgoingPaymentRequest
 
+    // TODO: move this to after a payment has been sent, or else a misclicked recipient will show up in recents
     this.props.storeLatestInRecents(recipient)
 
     ValoraAnalytics.track(
@@ -291,31 +306,39 @@ class Send extends React.Component<Props, State> {
   }
 
   renderListHeader = () => {
-    const { t, numberVerified, verificationPossible } = this.props
+    // CB TEMPORARY HOTFIX: Disabling phone number confirmation requirement
+    // for sending to phone numbers
+    // const { t, numberVerified, verificationPossible, inviteRewardsEnabled } = this.props
+    const { t, numberVerified, inviteRewardsEnabled } = this.props
     const { hasGivenContactPermission } = this.state
 
-    return (
-      <>
-        {!numberVerified && verificationPossible && (
-          <SendCallToAction
-            icon={<VerifyPhone height={49} />}
-            header={t('verificationCta.header')}
-            body={t('verificationCta.body')}
-            cta={t('verificationCta.cta')}
-            onPressCta={this.onPressStartVerification}
-          />
-        )}
-        {numberVerified && !hasGivenContactPermission && (
-          <SendCallToAction
-            icon={<ContactPermission />}
-            header={t('importContactsCta.header')}
-            body={t('importContactsCta.body')}
-            cta={t('importContactsCta.cta')}
-            onPressCta={this.onPressContactsSettings}
-          />
-        )}
-      </>
-    )
+    // if (!numberVerified && verificationPossible) {
+    //   return (
+    //     <SendCallToAction
+    //       icon={<VerifyPhone height={49} />}
+    //       header={t('verificationCta.header')}
+    //       body={t('verificationCta.body')}
+    //       cta={t('verificationCta.cta')}
+    //       onPressCta={this.onPressStartVerification}
+    //     />
+    //   )
+    // }
+    // if (numberVerified && !hasGivenContactPermission) {
+    if (!hasGivenContactPermission) {
+      return (
+        <SendCallToAction
+          icon={<ContactPermission />}
+          header={t('importContactsCta.header')}
+          body={t('importContactsCta.body')}
+          cta={t('importContactsCta.cta')}
+          onPressCta={this.onPressContactsSettings}
+        />
+      )
+    }
+    if (numberVerified && hasGivenContactPermission && inviteRewardsEnabled) {
+      return <InviteRewardsBanner />
+    }
+    return null
   }
 
   render() {

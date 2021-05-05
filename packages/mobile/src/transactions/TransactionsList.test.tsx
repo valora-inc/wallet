@@ -10,7 +10,7 @@ import {
   UserTransactionsQuery,
 } from 'src/apollo/types'
 import { CURRENCY_ENUM } from 'src/geth/consts'
-import TransactionFeed from 'src/transactions/TransactionFeed'
+import TransactionFeed, { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList, { TRANSACTIONS_QUERY } from 'src/transactions/TransactionsList'
 import { StandbyTransaction, TransactionStatus } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
@@ -107,6 +107,7 @@ const mockQueryData: UserTransactionsQuery = {
           },
           timestamp: 1578530538,
           address: '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10',
+          account: '0xsflkj',
           comment: 'Hi',
         },
       },
@@ -158,7 +159,7 @@ const mockQueryData: UserTransactionsQuery = {
 
 const variables = {
   address: '0x0000000000000000000000000000000000007e57',
-  token: 'cUSD',
+  token: null,
   localCurrencyCode: 'MXN',
 }
 
@@ -188,7 +189,7 @@ it('renders the received data along with the standby transactions', async () => 
   const { getByType, toJSON } = render(
     <Provider store={store}>
       <MockedProvider mocks={mocks} addTypename={true} cache={mockCache}>
-        <TransactionsList currency={CURRENCY_ENUM.DOLLAR} />
+        <TransactionsList feedType={FeedType.HOME} />
       </MockedProvider>
     </Provider>
   )
@@ -286,7 +287,7 @@ it('ignores pending standby transactions that are completed in the response', as
   const { getByType, toJSON } = render(
     <Provider store={store}>
       <MockedProvider mocks={mocks} addTypename={true} cache={mockCache}>
-        <TransactionsList currency={CURRENCY_ENUM.DOLLAR} />
+        <TransactionsList feedType={FeedType.HOME} />
       </MockedProvider>
     </Provider>
   )
@@ -304,7 +305,7 @@ it('ignores failed standby transactions', async () => {
   const { getByType, toJSON } = render(
     <Provider store={store}>
       <MockedProvider mocks={mocks} addTypename={true} cache={mockCache}>
-        <TransactionsList currency={CURRENCY_ENUM.DOLLAR} />
+        <TransactionsList feedType={FeedType.HOME} />
       </MockedProvider>
     </Provider>
   )

@@ -8,24 +8,24 @@ import {
   extractAttestationCodeFromMessage,
   extractSecurityCodeWithPrefix,
 } from '@celo/utils/lib/attestations'
+import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import { HeaderHeightContext, StackScreenProps } from '@react-navigation/stack'
 import dotProp from 'dot-prop-immutable'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
-import { LayoutAnimation, Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { connect, useDispatch } from 'react-redux'
 import { hideAlert, showMessage } from 'src/alert/actions'
 import { errorSelector } from 'src/alert/reducer'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { ALERT_BANNER_DURATION, ATTESTATION_REVEAL_TIMEOUT_SECONDS } from 'src/config'
-import { features } from 'src/flags'
 import i18n, { Namespaces, withTranslation } from 'src/i18n'
 import {
   cancelVerification,
-  feelessResendAttestations,
   receiveAttestationMessage,
   resendAttestations,
 } from 'src/identity/actions'
@@ -57,14 +57,13 @@ interface StateProps {
   verificationStatus: VerificationStatus
   underlyingError: ErrorMessages | null | undefined
   lastRevealAttempt: number | null
-  feelessIsActive: boolean
+  shortVerificationCodesEnabled: boolean
 }
 
 interface DispatchProps {
   cancelVerification: typeof cancelVerification
   receiveAttestationMessage: typeof receiveAttestationMessage
   resendAttestations: typeof resendAttestations
-  feelessResendAttestations: typeof feelessResendAttestations
   hideAlert: typeof hideAlert
   showMessage: typeof showMessage
 }
@@ -75,7 +74,6 @@ interface State {
   timer: number
   codeInputValues: string[]
   codeSubmittingStatuses: boolean[]
-  isTipVisible: boolean
   isKeyboardVisible: boolean
 }
 
@@ -83,26 +81,14 @@ const mapDispatchToProps = {
   cancelVerification,
   receiveAttestationMessage,
   resendAttestations,
-  feelessResendAttestations,
   hideAlert,
   showMessage,
 }
 
 const mapStateToProps = (state: RootState): StateProps => {
-  const feelessIsActive = state.identity.feelessVerificationState.isActive
-  let attestationCodes
-  let numCompleteAttestations
-  let lastRevealAttempt
-
-  if (feelessIsActive) {
-    attestationCodes = state.identity.feelessAttestationCodes
-    numCompleteAttestations = state.identity.feelessNumCompleteAttestations
-    lastRevealAttempt = state.identity.feelessLastRevealAttempt
-  } else {
-    attestationCodes = state.identity.attestationCodes
-    numCompleteAttestations = state.identity.numCompleteAttestations
-    lastRevealAttempt = state.identity.lastRevealAttempt
-  }
+  const attestationCodes = state.identity.attestationCodes
+  const numCompleteAttestations = state.identity.numCompleteAttestations
+  const lastRevealAttempt = state.identity.lastRevealAttempt
 
   return {
     e164Number: state.account.e164PhoneNumber,
@@ -110,8 +96,8 @@ const mapStateToProps = (state: RootState): StateProps => {
     numCompleteAttestations,
     verificationStatus: state.identity.verificationStatus,
     underlyingError: errorSelector(state),
+    shortVerificationCodesEnabled: shortVerificationCodesEnabledSelector(state),
     lastRevealAttempt,
-    feelessIsActive,
   }
 }
 
@@ -149,14 +135,12 @@ class VerificationInputScreen extends React.Component<Props, State> {
     ),
   })
 
-  tipHideTimer?: number
   interval?: number
 
   state: State = {
     timer: 60,
     codeInputValues: ['', '', ''],
     codeSubmittingStatuses: [false, false, false],
-    isTipVisible: false,
     isKeyboardVisible: false,
   }
 
@@ -181,7 +165,6 @@ class VerificationInputScreen extends React.Component<Props, State> {
 
   componentWillUnmount() {
     clearInterval(this.interval)
-    clearTimeout(this.tipHideTimer)
   }
 
   isVerificationComplete = (prevProps: Props) => {
@@ -208,12 +191,12 @@ class VerificationInputScreen extends React.Component<Props, State> {
     navigate(Screens.ImportContacts)
   }
 
-  onChangeInputCode = (index: number) => {
+  onChangeInputCode = (index: number, shortVerificationCodesEnabled: boolean) => {
     return (value: string) => {
       // TODO(Rossy) Add test this of typing codes gradually
       this.setState((state) => dotProp.set(state, `codeInputValues.${index}`, value))
       if (
-        (features.SHORT_VERIFICATION_CODES && extractSecurityCodeWithPrefix(value)) ||
+        (shortVerificationCodesEnabled && extractSecurityCodeWithPrefix(value)) ||
         extractAttestationCodeFromMessage(value)
       ) {
         this.setState((state) => dotProp.set(state, `codeSubmittingStatuses.${index}`, true))
@@ -223,14 +206,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
   }
 
   onKeyboardToggle = (visible: boolean) => {
-    clearTimeout(this.tipHideTimer)
-    this.setState({ isKeyboardVisible: visible, isTipVisible: visible })
-    if (visible) {
-      this.tipHideTimer = window.setTimeout(() => {
-        LayoutAnimation.easeInEaseOut()
-        this.setState({ isTipVisible: false })
-      }, 3000)
-    }
+    this.setState({ isKeyboardVisible: visible })
   }
 
   onPressCodesNotReceived = () => {
@@ -247,17 +223,13 @@ class VerificationInputScreen extends React.Component<Props, State> {
   }
 
   onPressResend = () => {
-    const { lastRevealAttempt, feelessIsActive } = this.props
+    const { lastRevealAttempt } = this.props
     const isRevealAllowed =
       !lastRevealAttempt ||
       timeDeltaInSeconds(Date.now(), lastRevealAttempt) > ATTESTATION_REVEAL_TIMEOUT_SECONDS
 
     if (isRevealAllowed) {
-      if (feelessIsActive) {
-        this.props.feelessResendAttestations()
-      } else {
-        this.props.resendAttestations()
-      }
+      this.props.resendAttestations()
     } else {
       this.props.showMessage(
         this.props.t('verificationPrematureRevealMessage'),
@@ -268,16 +240,19 @@ class VerificationInputScreen extends React.Component<Props, State> {
   }
 
   render() {
+    const { codeInputValues, codeSubmittingStatuses, isKeyboardVisible, timer } = this.state
     const {
-      codeInputValues,
-      codeSubmittingStatuses,
-      isTipVisible,
-      isKeyboardVisible,
-      timer,
-    } = this.state
-    const { t, attestationCodes, numCompleteAttestations, route } = this.props
+      t,
+      attestationCodes,
+      numCompleteAttestations,
+      route,
+      shortVerificationCodesEnabled,
+    } = this.props
+
     const showHelpDialog = route.params?.showHelpDialog || false
     const translationPlatformContext = Platform.select({ ios: 'ios' })
+
+    const parsedNumber = parsePhoneNumber(this.props.e164Number ?? '')
 
     return (
       <HeaderHeightContext.Consumer>
@@ -296,7 +271,12 @@ class VerificationInputScreen extends React.Component<Props, State> {
                   >
                     <DevSkipButton nextScreen={Screens.WalletHome} />
                     <Text style={styles.body}>
-                      {t('verificationInput.body', { context: translationPlatformContext })}
+                      {t('verificationInput.body', {
+                        context: shortVerificationCodesEnabled
+                          ? 'short'
+                          : translationPlatformContext,
+                        phoneNumber: parsedNumber ? parsedNumber.displayNumberInternational : '',
+                      })}
                     </Text>
                     {[0, 1, 2].map((i) => (
                       <View key={'verificationCodeRow' + i}>
@@ -307,14 +287,17 @@ class VerificationInputScreen extends React.Component<Props, State> {
                           inputPlaceholder={t('verificationInput.codePlaceholder' + (i + 1), {
                             context: translationPlatformContext,
                           })}
-                          inputPlaceholderWithClipboardContent={t(
-                            'verificationInput.codePlaceholderWithCodeInClipboard'
-                          )}
+                          inputPlaceholderWithClipboardContent={
+                            shortVerificationCodesEnabled
+                              ? '12345678'
+                              : t('verificationInput.codePlaceholderWithCodeInClipboard')
+                          }
                           isCodeSubmitting={codeSubmittingStatuses[i]}
-                          onInputChange={this.onChangeInputCode(i)}
+                          onInputChange={this.onChangeInputCode(i, shortVerificationCodesEnabled)}
                           attestationCodes={attestationCodes}
                           numCompleteAttestations={numCompleteAttestations}
                           style={styles.codeInput}
+                          shortVerificationCodesEnabled={shortVerificationCodesEnabled}
                         />
                       </View>
                     ))}
@@ -326,14 +309,6 @@ class VerificationInputScreen extends React.Component<Props, State> {
                       )}
                     </TextButton>
                   </KeyboardAwareScrollView>
-                  <View style={styles.tipContainer} pointerEvents="none">
-                    <View
-                      key={isTipVisible ? 'tip' : undefined}
-                      style={[styles.tip, isTipVisible && { opacity: 1.0 }]}
-                    >
-                      <Text style={styles.tipText}>{t('verificationInput.typingTip')}</Text>
-                    </View>
-                  </View>
                 </View>
                 <VerificationInputHelpDialog
                   isVisible={showHelpDialog}
@@ -371,27 +346,6 @@ const styles = StyleSheet.create({
   },
   codeInput: {
     marginBottom: Spacing.Thick24,
-  },
-  tipContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    alignItems: 'center',
-  },
-  tip: {
-    opacity: 0,
-    backgroundColor: colors.onboardingBlue,
-    borderRadius: 4,
-    marginHorizontal: Spacing.Regular16,
-    marginVertical: Spacing.Regular16,
-  },
-  tipText: {
-    ...fontStyles.small500,
-    textAlign: 'center',
-    color: colors.light,
-    paddingVertical: Spacing.Smallest8,
-    paddingHorizontal: Spacing.Regular16,
   },
   resendButton: {
     textAlign: 'center',

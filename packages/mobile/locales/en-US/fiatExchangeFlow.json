@@ -19,12 +19,11 @@
   "dollarsNotYetEnabledNote": "Celo Dollars are not yet available on any providers. To get Celo Dollars, purchase CELO and exchange it for Celo Dollars in the CELO tab.",
   "selectDigitalCurrency": "Select a digital currency",
   "selectPaymentMethod": "Pay with:",
-  "payWithFiat": "Debit card or bank account",
+  "payWithBank": "Bank account",
+  "payWithCard": "Debit card",
   "payWithExchange": "Cryptocurrency exchange",
   "selectCashOutMethod": "Receive funds in:",
   "receiveOnAddress": "cUSD/CELO address",
-  "receiveWithPonto": "GCash (with Ponto)",
-  "receiveWithKotani": "M-PESA (with Kotani Pay)",
   "receiveWithBidali": "Gift Cards and Mobile Top Up",
   "fundingEducationDialog": {
     "title": "Funding {{appName}}",
@@ -40,8 +39,9 @@
     "title": "About Providers",
     "body": "Providers allow you to add or withdraw funds from your account. They determine their own rates and restrictions depending on various factors. Please visit the provider’s website for specific help."
   },
-  "minAmountDialog": {
-    "body": "Our providers do not support totals smaller than {{limit}}. Please enter a larger amount.",
+  "invalidAmountDialog": {
+    "minAmount": "Our providers do not support totals smaller than {{limit}}. Please enter a larger amount.",
+    "maxAmount": "Our providers do not support totals larger than {{limit}}. Please enter a smaller amount.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
@@ -49,10 +49,33 @@
     "contact": "Contact",
     "continue": "I Understand"
   },
+  "providerFeesDialog": {
+    "title": "Provider Fees",
+    "body1": "Provider fees are set by each provider individually and include an exchange fee and liquidity fee, among others. To learn more please visit ",
+    "body2": "{{providerName}}'s website"
+  },
+  "providerFeeDiscountDialog": {
+    "title": "Fee Discount",
+    "body": "As a promotion, fees are temporarily subsidized to celebrate the launch of Valora!"
+  },
   "dailyLimitRequest": "Hi! I'd like to increase my daily send limit please.",
   "pleaseSelectProvider": "Please select a provider below. These links connect to a third party service.",
   "otherFundingOptions": "For more ways to add and withdraw funds, visit <0>How to fund your account</0>",
   "youCanTransfer": "You can transfer {{currency}} to or from the following exchanges. You'll need your Account Number (also known as an address) - tap below to copy.",
   "useBalanceWithMerchants": "Use your balance with supporting merchants",
-  "findMerchants": "Find local merchants near you"
+  "findMerchants": "Find local merchants near you",
+  "celoDeposit": "CELO Purchase",
+  "cUsdDeposit": "cUSD Purchase",
+  "providerUnavailable": "Not currently available",
+  "pricePer": "Price per {{coin}}",
+  "feeDiscount": "Fee Discount",
+  "free": "FREE",
+  "continueToProvider": "Continue to {{provider}}",
+  "cicoSuccess": {
+    "title": "Order submitted!",
+    "bodyWithProvider": "{{provider}} is processing your order. You should receive your funds within a couple of days.",
+    "bodyWithoutProvider": "The service provider is processing your order. You should receive your funds within a couple of days."
+  },
+  "restrictedRegion": "Limited support in region",
+  "unsupportedPaymentMethod": "Paying with a {{paymentMethod}} is not supported in your region"
 }

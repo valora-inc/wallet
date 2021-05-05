@@ -1,5 +1,5 @@
 import { CeloTransactionObject } from '@celo/connect'
-import { ContractKit } from '@celo/contractkit'
+import { ContractKit } from '@celo/contractkit/lib/kit'
 import { AttestationsWrapper } from '@celo/contractkit/lib/wrappers/Attestations'
 import { MetaTransactionWalletWrapper } from '@celo/contractkit/lib/wrappers/MetaTransactionWallet'
 import { eqAddress } from '@celo/utils/lib/address'
@@ -8,7 +8,7 @@ import { e164NumberSelector } from 'src/account/selectors'
 import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
-import { feelessRevokeVerificationState, revokeVerificationState } from 'src/identity/actions'
+import { revokeVerificationState } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
@@ -83,11 +83,11 @@ export function* revokeVerificationSaga() {
       )
     }
 
-    const relevantStateRevoke = mtwAddress
-      ? () => feelessRevokeVerificationState(walletAddress)
-      : () => revokeVerificationState()
-
-    yield all([put(relevantStateRevoke()), put(setNumberVerified(false)), put(setMtwAddress(null))])
+    yield all([
+      put(revokeVerificationState(walletAddress)),
+      put(setNumberVerified(false)),
+      put(setMtwAddress(null)),
+    ])
     ValoraAnalytics.track(VerificationEvents.verification_revoke_finish, { feeless: !!mtwAddress })
     Logger.showMessage('Address revoke was successful')
   } catch (err) {

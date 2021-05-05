@@ -2,52 +2,38 @@
 import { RootError } from '@celo/base'
 import { FetchErrorTypes, KomenciKitErrorTypes, TxErrorTypes } from '@celo/komencikit/src/errors'
 import { put, select } from 'redux-saga/effects'
-import { feelessUpdateVerificationState } from 'src/identity/actions'
-import { FeelessVerificationState, feelessVerificationStateSelector } from 'src/identity/reducer'
+import { komenciContextSelector, setKomenciContext } from 'src/verify/reducer'
 
 const KOMENCI_ERROR_WINDOW = 1000 * 60 * 60 * 3 // 3 hours
 const KOMENCI_ERROR_ALLOTMENT = 2
 
 export enum FeelessVerificationErrors {
   KomenciErrorQuotaExceeded = 'KomenciErrorQuotaExceeded',
-  KomenciDisabledError = 'KomenciDisabledError',
   KomenciSessionInvalidError = 'KomenciSessionInvalidError',
   PepperNotCachedError = 'PepperNotCachedError',
 }
 
 // When Komenci has failed more than allowed within a given window
-export class KomenciErrorQuotaExceeded extends RootError<
-  FeelessVerificationErrors.KomenciErrorQuotaExceeded
-> {
+export class KomenciErrorQuotaExceeded extends RootError<FeelessVerificationErrors.KomenciErrorQuotaExceeded> {
   constructor() {
     super(FeelessVerificationErrors.KomenciErrorQuotaExceeded)
-  }
-}
-
-// When feature flag is disabled
-export class KomenciDisabledError extends RootError<
-  FeelessVerificationErrors.KomenciDisabledError
-> {
-  constructor() {
-    super(FeelessVerificationErrors.KomenciDisabledError)
+    Object.setPrototypeOf(this, KomenciErrorQuotaExceeded.prototype)
   }
 }
 
 // When the Komenci session is no longer valid
-export class KomenciSessionInvalidError extends RootError<
-  FeelessVerificationErrors.KomenciSessionInvalidError
-> {
+export class KomenciSessionInvalidError extends RootError<FeelessVerificationErrors.KomenciSessionInvalidError> {
   constructor() {
     super(FeelessVerificationErrors.KomenciSessionInvalidError)
+    Object.setPrototypeOf(this, KomenciSessionInvalidError.prototype)
   }
 }
 
 // When the pepper is not in the redux store
-export class PepperNotCachedError extends RootError<
-  FeelessVerificationErrors.PepperNotCachedError
-> {
+export class PepperNotCachedError extends RootError<FeelessVerificationErrors.PepperNotCachedError> {
   constructor() {
     super(FeelessVerificationErrors.PepperNotCachedError)
+    Object.setPrototypeOf(this, PepperNotCachedError.prototype)
   }
 }
 
@@ -63,15 +49,12 @@ export const hasExceededKomenciErrorQuota = (komenciErrorTimestamps: number[]) =
 }
 
 // If an error occurs during the feeless verification flow that is `unexpected` and likely
-// due to a Komenci service failure, add the timestamp of it's occurrence to `feelessVerificationState`.
+// due to a Komenci service failure, add the timestamp of it's occurrence to komenci Context.
 // If the user encounters more errors than we feel comfortable with during a given window,
 // we won't allow them to attempt feeless verifciation until a certain amount of time has passed
 // in order to give cLabs time to remediate the issue
-export function* storeTimestampIfKomenciError(error: Error, errorOccuredInMainFlow: boolean) {
-  const feelessVerificationState: FeelessVerificationState = yield select(
-    feelessVerificationStateSelector
-  )
-
+export function* storeTimestampIfKomenciError(error: Error) {
+  const komenci = yield select(komenciContextSelector)
   let unexpectedKomenciError = false
   const errorString = error.toString()
 
@@ -92,20 +75,12 @@ export function* storeTimestampIfKomenciError(error: Error, errorOccuredInMainFl
     errorString === FetchErrorTypes.QuotaExceededError ||
     errorString === FeelessVerificationErrors.KomenciSessionInvalidError ||
     errorString === FeelessVerificationErrors.PepperNotCachedError ||
-    (errorString === FetchErrorTypes.Unauthorised && !errorOccuredInMainFlow)
+    errorString === FetchErrorTypes.Unauthorised
   ) {
     return
   }
 
-  const { errorTimestamps } = feelessVerificationState.komenci
+  const { errorTimestamps } = komenci
   errorTimestamps.push(Date.now())
-  yield put(
-    feelessUpdateVerificationState({
-      ...feelessVerificationState,
-      komenci: {
-        ...feelessVerificationState.komenci,
-        errorTimestamps,
-      },
-    })
-  )
+  yield put(setKomenciContext({ errorTimestamps }))
 }

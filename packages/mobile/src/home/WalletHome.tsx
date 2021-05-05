@@ -18,7 +18,6 @@ import { connect } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ALERT_BANNER_DURATION, DEFAULT_TESTNET, SHOW_TESTNET_BANNER } from 'src/config'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { refreshAllBalances, setLoading } from 'src/home/actions'
 import NotificationBox from 'src/home/NotificationBox'
 import { callToActNotificationSelector, getActiveNotificationCount } from 'src/home/selectors'
@@ -32,6 +31,7 @@ import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
 import { initializeSentryUserContext } from 'src/sentry/actions'
+import { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList from 'src/transactions/TransactionsList'
 import { checkContactsPermission } from 'src/utils/permissions'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -105,6 +105,14 @@ export class WalletHome extends React.Component<Props, State> {
 
     ValoraAnalytics.setUserAddress(this.props.address)
 
+    // TODO: Fire refreshAllBalances when the app state changes to active. It's easier to do that when we
+    // transform this into a function component.
+    // useEffect(() => {
+    //   if (appState === AppState.Active) {
+    //     dispatch(refreshAllBalances())
+    //   }
+    // }, [appState])
+    this.props.refreshAllBalances()
     // Waiting 1/2 sec before triggering to allow
     // rest of feed to load unencumbered
     setTimeout(this.tryImportContacts, 500)
@@ -169,9 +177,7 @@ export class WalletHome extends React.Component<Props, State> {
 
     sections.push({
       data: [{}],
-      renderItem: () => (
-        <TransactionsList key={'TransactionList'} currency={CURRENCY_ENUM.DOLLAR} />
-      ),
+      renderItem: () => <TransactionsList key={'TransactionList'} feedType={FeedType.HOME} />,
     })
 
     return (

@@ -13,17 +13,19 @@ import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl as openUrlAction } from 'src/app/actions'
 import { verificationPossibleSelector } from 'src/app/selectors'
+import {
+  RewardsScreenOrigin,
+  trackRewardsScreenOpenEvent,
+} from 'src/consumerIncentives/analyticsEventsTracker'
 import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
-import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
+import { sentEscrowedPaymentsSelector } from 'src/escrow/reducer'
 import { pausedFeatures } from 'src/flags'
 import { dismissNotification } from 'src/home/actions'
 import { IdToNotification } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { backupKey, getVerified, inviteFriends, learnCelo } from 'src/images/Images'
-import { InviteDetails } from 'src/invite/actions'
-import { inviteesSelector } from 'src/invite/reducer'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import IncomingPaymentRequestSummaryNotification from 'src/paymentRequest/IncomingPaymentRequestSummaryNotification'
@@ -73,7 +75,6 @@ interface StateProps {
   outgoingPaymentRequests: PaymentRequest[]
   extraNotifications: IdToNotification
   reclaimableEscrowPayments: EscrowedPayment[]
-  invitees: InviteDetails[]
 }
 
 interface DispatchProps {
@@ -97,8 +98,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   dismissedGetVerified: state.account.dismissedGetVerified,
   verificationPossible: verificationPossibleSelector(state),
   dismissedGoldEducation: state.account.dismissedGoldEducation,
-  reclaimableEscrowPayments: getReclaimableEscrowPayments(state),
-  invitees: inviteesSelector(state),
+  reclaimableEscrowPayments: sentEscrowedPaymentsSelector(state),
 })
 
 const mapDispatchToProps = {
@@ -119,14 +119,10 @@ export class NotificationBox extends React.Component<Props, State> {
   }
 
   escrowedPaymentReminderNotification = () => {
-    const { reclaimableEscrowPayments, invitees } = this.props
+    const { reclaimableEscrowPayments } = this.props
     if (reclaimableEscrowPayments && reclaimableEscrowPayments.length) {
       return [
-        <EscrowedPaymentReminderSummaryNotification
-          key={1}
-          payments={reclaimableEscrowPayments}
-          invitees={invitees}
-        />,
+        <EscrowedPaymentReminderSummaryNotification key={1} payments={reclaimableEscrowPayments} />,
       ]
     }
     return []
@@ -244,8 +240,10 @@ export class NotificationBox extends React.Component<Props, State> {
               ValoraAnalytics.track(HomeEvents.notification_select, {
                 notificationType: NotificationBannerTypes.remote_notification,
                 selectedAction: NotificationBannerCTATypes.remote_notification_cta,
+                notificationId: id,
               })
               openUrl(notification.ctaUri, false, true)
+              trackRewardsScreenOpenEvent(notification.ctaUri, RewardsScreenOrigin.NotificationBox)
             },
           },
           {
@@ -255,6 +253,7 @@ export class NotificationBox extends React.Component<Props, State> {
               ValoraAnalytics.track(HomeEvents.notification_select, {
                 notificationType: NotificationBannerTypes.remote_notification,
                 selectedAction: NotificationBannerCTATypes.decline,
+                notificationId: id,
               })
               this.props.dismissNotification(id)
             },

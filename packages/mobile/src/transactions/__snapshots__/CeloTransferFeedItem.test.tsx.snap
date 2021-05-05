@@ -176,7 +176,7 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
             ]
           }
         >
-          
+          +
           
           1.005
         </Text>

@@ -5,7 +5,7 @@ import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEV_SETTINGS_ACTIVE_INITIALLY } from 
 import { features } from 'src/flags'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import Logger from 'src/utils/Logger'
-import { getRemoteTime, ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { Actions as Web3Actions, ActionTypes as Web3ActionTypes } from 'src/web3/actions'
 
 export interface State {
@@ -31,7 +31,10 @@ export interface State {
   hasMigratedToNewBip39: boolean
   choseToRestoreAccount: boolean | undefined
   profileUploaded: boolean
+  recoveringFromStoreWipe: boolean | undefined
+  accountToRecoverFromStoreWipe: string | undefined
   dailyLimitCusd: number
+  dailyLimitRequestStatus: DailyLimitRequestStatus | undefined
 }
 
 export enum PincodeType {
@@ -42,6 +45,13 @@ export enum PincodeType {
 export interface UserContactDetails {
   contactId: string | null
   thumbnailPath: string | null
+}
+
+export enum DailyLimitRequestStatus {
+  InReview = 'InReview',
+  Approved = 'Approved',
+  Incomplete = 'Incomplete',
+  Denied = 'Denied',
 }
 
 export const initialState = {
@@ -70,7 +80,10 @@ export const initialState = {
   hasMigratedToNewBip39: false,
   choseToRestoreAccount: false,
   profileUploaded: false,
+  recoveringFromStoreWipe: false,
+  accountToRecoverFromStoreWipe: undefined,
   dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
+  dailyLimitRequestStatus: undefined,
 }
 
 export const reducer = (
@@ -98,10 +111,20 @@ export const reducer = (
         ...state,
         choseToRestoreAccount: true,
       }
+    case Actions.START_STORE_WIPE_RECOVERY:
+      return {
+        ...state,
+        choseToRestoreAccount: true,
+        recoveringFromStoreWipe: true,
+        accountToRecoverFromStoreWipe: action.accountToRecover,
+        pincodeType: PincodeType.CustomPin,
+        acceptedTerms: true,
+      }
     case Actions.CANCEL_CREATE_OR_RESTORE_ACCOUNT:
       return {
         ...state,
         choseToRestoreAccount: false,
+        recoveringFromStoreWipe: false,
         pincodeType: PincodeType.Unset,
         isSettingPin: false,
       }
@@ -167,7 +190,7 @@ export const reducer = (
     case Actions.SET_ACCOUNT_CREATION_TIME:
       return {
         ...state,
-        accountCreationTime: getRemoteTime(),
+        accountCreationTime: action.now,
       }
     case Actions.SET_BACKUP_COMPLETED:
       return {
@@ -177,7 +200,7 @@ export const reducer = (
     case Actions.SET_BACKUP_DELAYED:
       return {
         ...state,
-        backupRequiredTime: getRemoteTime() + DAYS_TO_DELAY * ONE_DAY_IN_MILLIS,
+        backupRequiredTime: action.now + DAYS_TO_DELAY * ONE_DAY_IN_MILLIS,
       }
     case Actions.TOGGLE_BACKUP_STATE:
       return {
@@ -226,6 +249,11 @@ export const reducer = (
         ...state,
         // We don't allow minimum daily limits lower than the default to avoid human error when setting them.
         dailyLimitCusd: Math.max(action.newLimit, DEFAULT_DAILY_PAYMENT_LIMIT_CUSD),
+      }
+    case Actions.UPDATE_DAILY_LIMIT_REQUEST_STATUS:
+      return {
+        ...state,
+        dailyLimitRequestStatus: action.dailyLimitRequestStatus,
       }
     case Web3Actions.SET_ACCOUNT: {
       return {

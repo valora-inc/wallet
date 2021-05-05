@@ -3,37 +3,62 @@ import FormInput from '@celo/react-components/components/FormInput'
 import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
 import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { setName, setPicture, setPromptForno } from 'src/account/actions'
+import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import DevSkipButton from 'src/components/DevSkipButton'
-import { Namespaces } from 'src/i18n'
+import i18n, { Namespaces } from 'src/i18n'
+import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import useTypedSelector from 'src/redux/useSelector'
 import { saveProfilePicture } from 'src/utils/image'
+import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 
 type Props = StackScreenProps<StackParamList, Screens.NameAndPicture>
 
-function NameAndPicture({}: Props) {
+function NameAndPicture({ navigation }: Props) {
   const [nameInput, setNameInput] = useState('')
   const cachedName = useTypedSelector((state) => state.account.name)
   const picture = useTypedSelector((state) => state.account.pictureUri)
+  const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
+  const recoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
   const dispatch = useDispatch()
 
   const { t } = useTranslation(Namespaces.nuxNamePin1)
 
+  // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
+  const asyncKomenciReadiness = useAsyncKomenciReadiness()
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <HeaderTitleWithSubtitle
+          title={i18n.t(
+            choseToRestoreAccount ? 'onboarding:restoreAccount' : 'onboarding:createAccount'
+          )}
+          subTitle={i18n.t('onboarding:step', { step: '1' })}
+        />
+      ),
+    })
+  }, [navigation, choseToRestoreAccount])
+
   const goToNextScreen = () => {
-    navigate(Screens.PincodeSet)
+    if (recoveringFromStoreWipe) {
+      navigate(Screens.ImportWallet)
+    } else {
+      navigate(Screens.PincodeSet, { komenciAvailable: !!asyncKomenciReadiness.result })
+    }
   }
 
   const onPressContinue = () => {
@@ -99,12 +124,15 @@ function NameAndPicture({}: Props) {
           type={BtnTypes.ONBOARDING}
           disabled={!nameInput.trim()}
           testID={'NameAndPictureContinueButton'}
+          showLoading={asyncKomenciReadiness.loading}
         />
       </ScrollView>
       <KeyboardSpacer />
     </SafeAreaView>
   )
 }
+
+NameAndPicture.navOptions = nuxNavigationOptions
 
 export default NameAndPicture
 

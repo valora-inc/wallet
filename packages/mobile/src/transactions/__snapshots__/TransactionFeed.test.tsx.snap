@@ -209,7 +209,7 @@ exports[`renders for gold to dollar exchange properly 1`] = `
                   }
                 }
               >
-                feedItemExchangeTitle
+                feedItemBoughtCeloTitle
               </Text>
               <Text
                 numberOfLines={1}
@@ -232,6 +232,7 @@ exports[`renders for gold to dollar exchange properly 1`] = `
                   ]
                 }
               >
+                -
                 $
                 39.90
               </Text>
@@ -247,20 +248,7 @@ exports[`renders for gold to dollar exchange properly 1`] = `
                 }
               }
             >
-              <Text
-                numberOfLines={1}
-                style={
-                  Array [
-                    undefined,
-                    Object {
-                      "color": "#2E3338",
-                    },
-                  ]
-                }
-              >
-                
-                200.000
-              </Text>
+              feedItemExchangeCeloInfo
             </Text>
           </View>
         </View>

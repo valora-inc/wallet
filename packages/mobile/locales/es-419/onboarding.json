@@ -11,8 +11,8 @@
   },
   "contacts": {
     "header": "Conectar Contactos",
-    "body": "Agregar tus contactos hace que sea fácil enviar y solicitar pagos a tus amigos. La conexión no envía invitaciones a tus contactos.",
-    "findSwitch": "Permita que los contactos lo encuentren",
+    "body": "Añadir tus contactos facilita el envío y la solicitud de pagos con tus amigos. Esta conexión no envía invitaciones a tus contactos.",
+    "findSwitch": "Permite que los contactos te encuentren",
     "syncing": {
       "loadingHeader": "Sincronizando...",
       "loadingStatus0": "Importando contactos",
@@ -23,7 +23,8 @@
       "successWithoutMatches": "Sincronización completa"
     }
   },
-  "accountInfo": "Crear Cuenta",
+  "createAccount": "Crear Cuenta",
+  "restoreAccount": "Restaurar conta existente",
   "step": "Paso {{step}} de 5",
   "selectCountryCode": "Seleccionar código de país",
   "pincodeSet": {
@@ -51,7 +52,7 @@
     "resume": "Reanudar",
     "doINeedToConfirm": "¿Necesito confirmar?",
     "skipForNow": "Saltar por ahora",
-    "bodyInsufficientBalance": "Tu saldo actual no es lo suficientemente alto para completar el proceso de verificación.\n\nIntenta nuevamente cuando hayas agregado fondos a tu app.",
+    "bodyInsufficientBalance": "Tu saldo actual no es lo suficientemente alto para completar el proceso de confirmación.\n\nIntenta nuevamente cuando hayas agregado fondos a tu app.",
     "bodyAlreadyVerified": "¡Tu número ya está confirmado!"
   },
   "verificationSkipDialog": {
@@ -74,6 +75,7 @@
     "title": "Confirmar",
     "body": "Te enviamos tres mensajes de texto (SMS). Por favor copia y pégualos abajo.",
     "body_ios": "Te enviamos tres mensajes de texto (SMS). Por favor presiona el link en cada mensaje para completar los códigos a continuación o cópialos y pégalos manualmente.",
+    "body_short": "Enviamos tres códigos al {{phoneNumber}}, ingréselos a continuación.",
     "codeLabel1": "Primer código",
     "codeLabel2": "Segundo código",
     "codeLabel3": "Tercer código",
@@ -84,7 +86,6 @@
     "codePlaceholder3": "Copia el tercer mensaje",
     "codePlaceholder3_ios": "Toca o copia el tercer mensaje",
     "codePlaceholderWithCodeInClipboard": "¡Excelente! Péguelo aquí",
-    "typingTip": "¿Mecanografía? Intenta copiar y pegar",
     "resendMessages": "Reenviar el último mensaje",
     "resendMessages_plural": "Reenviar {{count}} mensajes",
     "resendMessages_all": "Reenviar todos los mensajes"
@@ -112,6 +113,7 @@
     "title": "Saldo <0></0>"
   },
   "success": {
-    "message": "Estás listo!"
-  }
+    "message": "¡Todo listo!"
+  },
+  "verificationUnavailable": "La confirmación del número de teléfono no está disponible actualmente. Por favor, introduce tu número de teléfono y te notificaremos cuando sea posible confirmar de nuevo.\n\nMientras tanto, ¡puedes seguir usando Valora! Los pagos enviados a tu número de teléfono serán retenidos de forma segura hasta que confirmes tu número de teléfono."
 }

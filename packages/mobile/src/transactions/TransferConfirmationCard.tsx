@@ -9,6 +9,8 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
+import { RewardsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { MoneyAmount, TokenTransactionType } from 'src/apollo/types'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
@@ -16,12 +18,13 @@ import FeeDrawer from 'src/components/FeeDrawer'
 import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { FAQ_LINK } from 'src/config'
+import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import { Namespaces } from 'src/i18n'
 import { addressToDisplayNameSelector } from 'src/identity/reducer'
 import { getInvitationVerificationFeeInDollars } from 'src/invite/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getRecipientThumbnail, Recipient } from 'src/recipients/recipient'
+import { Recipient } from 'src/recipients/recipient'
 import useTypedSelector from 'src/redux/useSelector'
 import BottomText from 'src/transactions/BottomText'
 import CommentSection from 'src/transactions/CommentSection'
@@ -184,10 +187,8 @@ function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, c
     <>
       <UserSection
         type="received"
-        address={address}
         recipient={recipient}
-        e164PhoneNumber={e164PhoneNumber}
-        avatar={<TransferAvatars type="received" address={address} recipient={recipient} />}
+        avatar={<TransferAvatars type="received" recipient={recipient} />}
       />
       <CommentSection comment={comment} />
       {isCeloTx && celoEducationUri && (
@@ -206,6 +207,9 @@ function CeloRewardContent({ amount, recipient }: Props) {
 
   const openLearnMore = () => {
     navigate(Screens.ConsumerIncentivesHomeScreen)
+    ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+      origin: RewardsScreenOrigin.PaymentDetail,
+    })
   }
 
   return (

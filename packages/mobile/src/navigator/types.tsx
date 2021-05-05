@@ -7,8 +7,12 @@ import {
 } from '@celo/utils'
 import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
+import { CurrencyCode } from 'src/config'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
+import { CicoProviderNames } from 'src/fiatExchanges/reducer'
+import { SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -62,6 +66,7 @@ export type StackParamList = {
         navigatedFromSettings: boolean
       }
   [Screens.BidaliScreen]: { currency: CURRENCY_ENUM }
+  [Screens.CashInSuccess]: { provider?: CicoProviderNames }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountAuth]: {
     dappKitRequest: AccountAuthRequest
@@ -100,6 +105,8 @@ export type StackParamList = {
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
     currency: CURRENCY_ENUM
+    paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
+    isCashIn: boolean
   }
   [Screens.FiatExchangeOptions]: {
     isCashIn?: boolean
@@ -108,12 +115,26 @@ export type StackParamList = {
   [Screens.MoonPayScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CURRENCY_ENUM
+    currencyToBuy: CurrencyCode
+  }
+  [Screens.XanpoolScreen]: {
+    localAmount: number
+    currencyCode: LocalCurrencyCode
+    currencyToBuy: CurrencyCode
   }
   [Screens.RampScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CURRENCY_ENUM
+    currencyToBuy: CurrencyCode
+  }
+  [Screens.TransakScreen]: {
+    localAmount: number
+    currencyCode: LocalCurrencyCode
+    currencyToBuy: CurrencyCode
+  }
+  [Screens.Simplex]: {
+    simplexQuote: SimplexQuote
+    userIpAddress: string
   }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:
@@ -141,9 +162,6 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Licenses]: undefined
-  [Screens.LocalProviderCashOut]: {
-    uri: string
-  }
   [Screens.Main]: undefined
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestUnavailable]: {
@@ -157,8 +175,9 @@ export type StackParamList = {
     withVerification?: boolean
     onSuccess: (pin: string) => void
     onCancel: () => void
+    account?: string
   }
-  [Screens.PincodeSet]: { isVerifying: boolean } | undefined
+  [Screens.PincodeSet]: { isVerifying?: boolean; komenciAvailable?: boolean } | undefined
   [Screens.PhoneNumberLookupQuota]: {
     onBuy: () => void
     onSkip: () => void
@@ -168,10 +187,15 @@ export type StackParamList = {
   [Screens.Profile]: undefined
   [Screens.ProviderOptionsScreen]: {
     isCashIn?: boolean
-    currency: CURRENCY_ENUM
-    amount: number
+    selectedCrypto: CURRENCY_ENUM
+    amount: {
+      crypto: number
+      fiat: number
+    }
+    paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
   }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
+  [Screens.RaiseLimitScreen]: undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
     reclaimPaymentInput: EscrowedPayment
     onCancel?: () => void
@@ -200,6 +224,7 @@ export type StackParamList = {
     | { promptFornoModal?: boolean; promptConfirmRemovalModal?: boolean }
     | undefined
   [Screens.Spend]: undefined
+  [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
   [Screens.SupportContact]:
     | {

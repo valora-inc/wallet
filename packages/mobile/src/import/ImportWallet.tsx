@@ -11,12 +11,14 @@ import { Trans, WithTranslation } from 'react-i18next'
 import { Dimensions, Keyboard, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
+import { accountToRecoverSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   formatBackupPhraseOnEdit,
   formatBackupPhraseOnSubmit,
+  getStoredMnemonic,
   isValidBackupPhrase,
 } from 'src/backup/utils'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
@@ -32,6 +34,7 @@ import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboardin
 import UseBackToWelcomeScreen from 'src/onboarding/UseBackToWelcomeScreen'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
+import Logger from 'src/utils/Logger'
 
 const AVERAGE_WORD_WIDTH = 80
 const AVERAGE_SEED_WIDTH = AVERAGE_WORD_WIDTH * 24
@@ -51,6 +54,8 @@ interface DispatchProps {
 interface StateProps {
   isImportingWallet: boolean
   connected: boolean
+  isRecoveringFromStoreWipe: boolean
+  accountToRecoverFromStoreWipe: string | undefined
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.ImportWallet>
@@ -61,6 +66,8 @@ const mapStateToProps = (state: RootState): StateProps => {
   return {
     isImportingWallet: state.imports.isImportingWallet,
     connected: isAppConnected(state),
+    isRecoveringFromStoreWipe: recoveringFromStoreWipeSelector(state),
+    accountToRecoverFromStoreWipe: accountToRecoverSelector(state),
   }
 }
 
@@ -90,10 +97,27 @@ export class ImportWallet extends React.Component<Props, State> {
   componentDidMount() {
     ValoraAnalytics.track(OnboardingEvents.wallet_import_start)
     this.props.navigation.addListener('focus', this.checkCleanBackupPhrase)
+
+    if (this.props.isRecoveringFromStoreWipe) {
+      this.autocompleteSavedMnemonic().catch((error) =>
+        Logger.error('Error while trying to recover account from store wipe:', error)
+      )
+    }
   }
 
   componentWillUnmount() {
     this.props.navigation.removeListener('focus', this.checkCleanBackupPhrase)
+  }
+
+  async autocompleteSavedMnemonic() {
+    if (!this.props.accountToRecoverFromStoreWipe) {
+      return
+    }
+    const mnemonic = await getStoredMnemonic(this.props.accountToRecoverFromStoreWipe)
+    if (mnemonic) {
+      this.setState({ backupPhrase: mnemonic })
+      this.onPressRestore()
+    }
   }
 
   checkCleanBackupPhrase = () => {
@@ -172,12 +196,15 @@ export class ImportWallet extends React.Component<Props, State> {
                   keyboardShouldPersistTaps={'always'}
                 >
                   <CodeInput
+                    // TODO: Use a special component instead of CodeInput here,
+                    // cause it should be used for entering verification codes only
                     label={t('global:accountKey')}
                     status={codeStatus}
                     inputValue={backupPhrase}
                     inputPlaceholder={t('importExistingKey.keyPlaceholder')}
                     multiline={true}
                     numberOfLines={NUMBER_OF_LINES}
+                    shortVerificationCodesEnabled={false}
                     onInputChange={this.setBackupPhrase}
                     shouldShowClipboard={this.shouldShowClipboard}
                     testID="ImportWalletBackupKeyInputField"

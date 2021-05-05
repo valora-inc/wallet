@@ -5,7 +5,6 @@ import React, { useMemo } from 'react'
 import { FlatList, SectionList, SectionListData } from 'react-native'
 import { useSelector } from 'react-redux'
 import { TransactionFeedFragment } from 'src/apollo/types'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { inviteesSelector } from 'src/invite/reducer'
 import { RecipientInfo } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector, recipientInfoSelector } from 'src/recipients/reducer'
@@ -50,7 +49,7 @@ function TransactionFeed({ kind, loading, error, data }: Props) {
   const renderItem = ({ item: tx }: { item: FeedItem; index: number }) => {
     switch (tx.__typename) {
       case 'TokenTransfer':
-        if (tx.amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code) {
+        if (kind === FeedType.EXCHANGE) {
           return <CeloTransferFeedItem {...tx} />
         } else {
           return (
@@ -91,8 +90,8 @@ function TransactionFeed({ kind, loading, error, data }: Props) {
   }, [kind, data])
 
   if (error) {
+    // Log an error, but continue to show any events we have cached.
     Logger.error(TAG, 'Failure while loading transaction feed', error)
-    return <NoActivity kind={kind} loading={loading} error={error} />
   }
 
   if (!data || data.length === 0) {

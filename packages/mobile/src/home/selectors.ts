@@ -3,7 +3,7 @@ import _ from 'lodash'
 import DeviceInfo from 'react-native-device-info'
 import { createSelector } from 'reselect'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
-import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
+import { sentEscrowedPaymentsSelector } from 'src/escrow/reducer'
 import {
   getIncomingPaymentRequests,
   getOutgoingPaymentRequests,
@@ -17,7 +17,7 @@ export const getActiveNotificationCount = createSelector(
   [
     getIncomingPaymentRequests,
     getOutgoingPaymentRequests,
-    getReclaimableEscrowPayments,
+    sentEscrowedPaymentsSelector,
     (state) => state.account.backupCompleted,
   ],
   (incomingPaymentReqs, outgoingPaymentRequests, reclaimableEscrowPayments, backupCompleted) => {
@@ -46,7 +46,8 @@ export const getExtraNotifications = createSelector(
   (notifications, countryCallingCode) => {
     const version = DeviceInfo.getVersion()
     const countryCodeAlpha2 = countryCallingCode
-      ? getRegionCodeFromCountryCode(countryCallingCode)
+      ? // @ts-ignore-next-line
+        getRegionCodeFromCountryCode(countryCallingCode)
       : null
     return _.pickBy(notifications, (notification) => {
       return (
@@ -55,6 +56,9 @@ export const getExtraNotifications = createSelector(
         isVersionInRange(version, notification.minVersion, notification.maxVersion) &&
         (notification.countries?.length
           ? !!countryCodeAlpha2 && notification.countries.includes(countryCodeAlpha2)
+          : true) &&
+        (notification.blockedCountries?.length
+          ? !!countryCodeAlpha2 && !notification.blockedCountries.includes(countryCodeAlpha2)
           : true)
       )
     })

@@ -1,81 +1,45 @@
 import RequestMessagingCard from '@celo/react-components/components/RequestMessagingCard'
 import * as React from 'react'
-import { WithTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
-import { connect } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { Share, StyleSheet, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
+import { useEscrowPaymentRecipient } from 'src/escrow/utils'
 import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
-import { Namespaces, withTranslation } from 'src/i18n'
-import { InviteDetails } from 'src/invite/actions'
-import { sendSms } from 'src/invite/saga'
+import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { NumberToRecipient, Recipient } from 'src/recipients/recipient'
-import { RootState } from 'src/redux/reducers'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 
-interface OwnProps {
+interface Props {
   payment: EscrowedPayment
-  invitees: InviteDetails[]
 }
-
-interface StateProps {
-  phoneRecipientCache: NumberToRecipient
-}
-
-type Props = OwnProps & WithTranslation & StateProps
 
 const TAG = 'EscrowedPaymentListItem'
 
-const testID = 'EscrowedPaymentListItem'
+function EscrowedPaymentListItem({ payment }: Props) {
+  const { t } = useTranslation(Namespaces.inviteFlow11)
+  const recipient = useEscrowPaymentRecipient(payment)
 
-const mapStateToProps = (state: RootState): StateProps => {
-  return {
-    phoneRecipientCache: state.recipients.phoneRecipientCache,
-  }
-}
-
-export class EscrowedPaymentListItem extends React.PureComponent<Props> {
-  onRemind = async () => {
-    const { payment, t, invitees } = this.props
-    const recipientPhoneNumber = payment.recipientPhone
+  const onRemind = async () => {
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.escrow_tx_pending,
       selectedAction: NotificationBannerCTATypes.remind,
     })
 
     try {
-      const inviteDetails = invitees.find(
-        (inviteeObj) => recipientPhoneNumber === inviteeObj.e164Number
-      )
-
-      let message
-      if (!inviteDetails) {
-        message = t('walletFlow5:escrowedPaymentReminderSmsNoData')
-      } else {
-        const { inviteCode, inviteLink } = inviteDetails
-        message = t('walletFlow5:escrowedPaymentReminderSms', {
-          code: inviteCode,
-          link: inviteLink,
-        })
-      }
-
-      await sendSms(recipientPhoneNumber, message)
+      await Share.share({ message: t('walletFlow5:escrowedPaymentReminderSmsNoData') })
     } catch (error) {
-      // TODO: use the showError saga instead of the Logger.showError, which is a hacky temp thing we used for a while that doesn't actually work on iOS
-      Logger.showError(ErrorMessages.SMS_ERROR)
-      Logger.error(TAG, `Error sending SMS to ${recipientPhoneNumber}`, error)
+      Logger.error(TAG, `Error sending reminder to ${recipient.e164PhoneNumber}`, error)
     }
   }
-  onReclaimPayment = () => {
-    const { payment } = this.props
+
+  const onReclaimPayment = () => {
     const reclaimPaymentInput = payment
     ValoraAnalytics.track(HomeEvents.notification_select, {
       notificationType: NotificationBannerTypes.escrow_tx_pending,
@@ -83,48 +47,40 @@ export class EscrowedPaymentListItem extends React.PureComponent<Props> {
     })
     navigate(Screens.ReclaimPaymentConfirmationScreen, { reclaimPaymentInput })
   }
-  getCTA = () => {
-    const { t } = this.props
+
+  const getCTA = () => {
     const ctas = []
-    ctas.push({
-      text: t('global:remind'),
-      onPress: this.onRemind,
-    })
+    if (recipient.e164PhoneNumber) {
+      ctas.push({
+        text: t('global:remind'),
+        onPress: onRemind,
+      })
+    }
     ctas.push({
       text: t('global:reclaim'),
-      onPress: this.onReclaimPayment,
+      onPress: onReclaimPayment,
     })
     return ctas
   }
 
-  render() {
-    const { t, payment, phoneRecipientCache } = this.props
-    const amount = {
-      value: divideByWei(payment.amount),
-      currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
-    }
-    const recipient: Recipient = phoneRecipientCache[payment.recipientPhone] ?? {
-      e164PhoneNumber: payment.recipientPhone,
-    }
-
-    return (
-      <View style={styles.container}>
-        <RequestMessagingCard
-          title={t('escrowPaymentNotificationTitle', { mobile: payment.recipientPhone })}
-          amount={<CurrencyDisplay amount={amount} />}
-          details={payment.message}
-          icon={
-            <ContactCircle
-              recipient={recipient}
-              // TODO: Add thumbnailPath={}
-            />
-          }
-          callToActions={this.getCTA()}
-          testID={testID}
-        />
-      </View>
-    )
+  const nameToShow = recipient.name ?? t('global:unknown')
+  const amount = {
+    value: divideByWei(payment.amount),
+    currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
   }
+
+  return (
+    <View style={styles.container}>
+      <RequestMessagingCard
+        title={t('escrowPaymentNotificationTitle', { mobile: nameToShow })}
+        amount={<CurrencyDisplay amount={amount} />}
+        details={payment.message}
+        icon={<ContactCircle recipient={recipient} />}
+        callToActions={getCTA()}
+        testID={'EscrowedPaymentListItem'}
+      />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -133,7 +89,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect<StateProps, {}, {}, RootState>(
-  mapStateToProps,
-  {}
-)(withTranslation<Props>(Namespaces.inviteFlow11)(EscrowedPaymentListItem))
+export default EscrowedPaymentListItem

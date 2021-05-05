@@ -55,21 +55,21 @@ function createPaymentRequestChannel(address: string, addressKeyField: ADDRESS_K
       }
     }
 
+    const onValueChange = firebase
+      .database()
+      .ref(REQUEST_DB)
+      .orderByChild(addressKeyField)
+      .equalTo(address)
+      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
+
     const cancel = () => {
       firebase
         .database()
         .ref(REQUEST_DB)
         .orderByChild(addressKeyField)
         .equalTo(address)
-        .off(VALUE_CHANGE_HOOK, emitter)
+        .off(VALUE_CHANGE_HOOK, onValueChange)
     }
-
-    firebase
-      .database()
-      .ref(REQUEST_DB)
-      .orderByChild(addressKeyField)
-      .equalTo(address)
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
 
     return cancel
   })
@@ -141,12 +141,7 @@ function* paymentRequestWriter({ paymentRequest }: WritePaymentRequestAction) {
 function* updatePaymentRequestNotified({ id, notified }: UpdatePaymentRequestNotifiedAction) {
   try {
     Logger.debug(TAG, 'Updating payment request', id, `notified: ${notified}`)
-    yield call(() =>
-      firebase
-        .database()
-        .ref(`${REQUEST_DB}/${id}`)
-        .update({ notified })
-    )
+    yield call(() => firebase.database().ref(`${REQUEST_DB}/${id}`).update({ notified }))
     Logger.debug(TAG, 'Payment request notified updated', id)
   } catch (error) {
     yield put(showError(ErrorMessages.PAYMENT_REQUEST_UPDATE_FAILED))
@@ -160,12 +155,7 @@ function* updatePaymentRequestStatus({
 }: (DeclinePaymentRequestAction | CompletePaymentRequestAction) | CancelPaymentRequestAction) {
   try {
     Logger.debug(TAG, 'Updating payment request', id, `status: ${status}`)
-    yield call(() =>
-      firebase
-        .database()
-        .ref(`${REQUEST_DB}/${id}`)
-        .update({ status })
-    )
+    yield call(() => firebase.database().ref(`${REQUEST_DB}/${id}`).update({ status }))
     Logger.debug(TAG, 'Payment request status updated', id)
   } catch (error) {
     yield put(showError(ErrorMessages.PAYMENT_REQUEST_UPDATE_FAILED))

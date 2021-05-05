@@ -22,10 +22,7 @@ export const saveImageDataUrlToFile = async (
   dataUrl: string,
   fileNameWithoutExtension: string
 ): Promise<string> => {
-  const mimeType = dataUrl
-    .split(':')[1]
-    .split(',')[0]
-    .split(';')[0]
+  const mimeType = dataUrl.split(':')[1].split(',')[0].split(';')[0]
   const extension = mimeTypeToExtension[mimeType] || 'jpg'
   const fileName = `${fileNameWithoutExtension}.${extension}`
   const data = dataUrl.substr(dataUrl.indexOf(',') + 1)
@@ -42,8 +39,6 @@ export const saveProfilePicture = async (dataUrl: string): Promise<string> => {
 }
 
 export const saveRecipientPicture = async (dataUrl: string, address: string): Promise<string> => {
-  return saveImageDataUrlToFile(
-    dataUrl,
-    `file://${RNFS.DocumentDirectoryPath}/CIP8/pictures/${address}`
-  )
+  await RNFS.mkdir(`${RNFS.CachesDirectoryPath}/pictures`)
+  return saveImageDataUrlToFile(dataUrl, `file://${RNFS.CachesDirectoryPath}/pictures/${address}`)
 }

@@ -9,7 +9,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { WALLET_BALANCE_UPPER_BOUND } from 'src/config'
-import { CURRENCY_ENUM } from 'src/geth/consts'
+import { FeeInfo } from 'src/fees/saga'
+import { CURRENCY_ENUM, WEI_PER_TOKEN } from 'src/geth/consts'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
@@ -22,8 +23,8 @@ const TAG = 'tokens/saga'
 
 // The number of wei that represent one unit in a contract
 const contractWeiPerUnit: { [key in CURRENCY_ENUM]: BigNumber | null } = {
-  [CURRENCY_ENUM.GOLD]: null,
-  [CURRENCY_ENUM.DOLLAR]: null,
+  [CURRENCY_ENUM.GOLD]: WEI_PER_TOKEN,
+  [CURRENCY_ENUM.DOLLAR]: WEI_PER_TOKEN,
 }
 
 function* getWeiPerUnit(token: CURRENCY_ENUM) {
@@ -94,7 +95,7 @@ export function tokenFetchFactory({ actionName, token, actionCreator, tag }: Tok
     }
   }
 
-  return function*() {
+  return function* () {
     return yield takeEvery(actionName, tokenFetch)
   }
 }
@@ -109,6 +110,7 @@ export interface TokenTransfer {
   recipientAddress: string
   amount: string
   comment: string
+  feeInfo?: FeeInfo
   context: TransactionContext
 }
 
@@ -119,6 +121,7 @@ interface TokenTransferFactory {
   tag: string
   currency: CURRENCY_ENUM
   fetchAction: () => any
+  staticGas?: number
 }
 
 // TODO(martinvol) this should go to the SDK
@@ -161,18 +164,21 @@ export function tokenTransferFactory({
   tag,
   currency,
   fetchAction,
+  staticGas,
 }: TokenTransferFactory) {
-  return function*() {
+  return function* () {
     while (true) {
       const transferAction: TokenTransferAction = yield take(actionName)
-      const { recipientAddress, amount, comment, context } = transferAction
+      const { recipientAddress, amount, comment, feeInfo, context } = transferAction
 
       Logger.debug(
         tag,
         'Transferring token',
-        amount,
+        context.description ?? 'No description',
         context.id,
-        context.description ?? 'No description'
+        currency,
+        amount,
+        feeInfo ? JSON.stringify(feeInfo) : 'undefined'
       )
 
       yield put(
@@ -201,7 +207,16 @@ export function tokenTransferFactory({
           }
         )
 
-        yield call(sendAndMonitorTransaction, tx, account, context, currency)
+        yield call(
+          sendAndMonitorTransaction,
+          tx,
+          account,
+          context,
+          currency,
+          feeInfo?.currency,
+          feeInfo?.gas?.toNumber(),
+          feeInfo?.gasPrice
+        )
       } catch (error) {
         Logger.error(tag, 'Error transfering token', error)
         yield put(removeStandbyTransaction(context.id))

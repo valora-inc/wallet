@@ -358,6 +358,7 @@ const mockTokenTxs = {
                 {
                   node: {
                     fromAddressHash: '0xf4314cb9046bece6aa54bb9533155434d0c76909',
+                    fromAccountHash: '0xf4314cb9046bece6aa54bb9533155434d0c76910', // this should go to the `account` field
                     toAddressHash: '0x0000000000000000000000000000000000007E57',
                     token: 'cUSD',
                     value: '10000000000000000000',
@@ -367,6 +368,7 @@ const mockTokenTxs = {
                   node: {
                     fromAddressHash: '0xf4314cb9046bece6aa54bb9533155434d0c76909',
                     toAddressHash: '0xa12a699c641cc875a7ca57495861c79c33d293b4',
+                    toAccountHash: null,
                     token: 'cUSD',
                     value: '1297230000000000',
                   },
@@ -375,6 +377,7 @@ const mockTokenTxs = {
                   node: {
                     fromAddressHash: '0xf4314cb9046bece6aa54bb9533155434d0c76909',
                     toAddressHash: '0x2a43f97f8bf959e31f69a894ebd80a88572c8553',
+                    toAccountHash: null,
                     token: 'cUSD',
                     value: '5188920000000000',
                   },
@@ -383,6 +386,7 @@ const mockTokenTxs = {
                   node: {
                     fromAddressHash: '0xf4314cb9046bece6aa54bb9533155434d0c76909',
                     toAddressHash: '0xfcf7fc2f0c1f06fb6314f9fa2a53e9805aa863e0',
+                    toAccountHash: null,
                     token: 'cUSD',
                     value: '0',
                   },
@@ -409,6 +413,7 @@ const mockTokenTxs = {
                   node: {
                     fromAddressHash: '0x0000000000000000000000000000000000007E57',
                     toAddressHash: '0xf4314cb9046bece6aa54bb9533155434d0c76909',
+                    toAccountHash: '0xf4314cb9046bece6aa54bb9533155434d0c76910', // this should go to the `account` field
                     token: 'cGLD',
                     value: '1000000000000000000',
                   },
@@ -579,6 +584,45 @@ const mockTokenTxs = {
               '0x095ea7b30000000000000000000000000000000000000000000000000000000000a7732700000000000000000000000000000000000000000000000001a62a662a616bed',
             timestamp: '2019-08-22T14:26:39.000000Z',
             transactionHash: '0xfe39014b70746259a1dc4cc99c67acbb986d68f32cdb42e68a2678082a1695dc',
+          },
+        },
+        // Escrow MTW
+        {
+          node: {
+            blockNumber: 6203333,
+            celoTransfer: {
+              edges: [
+                {
+                  node: {
+                    fromAddressHash: '0x0000000000000000000000000000000000a77327',
+                    fromAccountHash: null,
+                    toAccountHash: null,
+                    toAddressHash: '0xc85d6ccf22499898ea76aa8b7ba89a7ceddbe434',
+                    token: 'cUSD',
+                    value: '20000000000000000000',
+                  },
+                },
+                {
+                  node: {
+                    fromAddressHash: '0xc85d6ccf22499898ea76aa8b7ba89a7ceddbe434',
+                    fromAccountHash: null,
+                    toAddressHash: '0x566ce6b765f038a98b5753ced0a65fd49aa0a07c',
+                    toAccountHash: '0xc85d6ccf22499898ea76aa8b7ba89a7ceddbe434',
+                    token: 'cUSD',
+                    value: '20000000000000000000',
+                  },
+                },
+              ],
+            },
+            feeToken: 'cGLD',
+            gasPrice: '350000000',
+            gasUsed: '134090',
+            gatewayFee: '0',
+            gatewayFeeRecipient: null,
+            input:
+              '0xea36cbc5000000000000000000000000c85d6ccf22499898ea76aa8b7ba89a7ceddbe434000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000001b5b8810ad4a549eb9420e8db333fa0df7eb68ae912a973511498980e81758fb2d4d19effe750e259e716324351f11623f6b694682e4eec89ec16f69bf9e011ffc00000000000000000000000000000000000000000000000000000000000002a4c23bfbf7000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000014000000000000000000000000000000000000000000000000000000000000002400000000000000000000000000000000000000000000000000000000000000002000000000000000000000000f4fa51472ca8d72af678975d9f8795a504e7ada5000000000000000000000000765de816845861e75a25fca122bb6898b8b1282a00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c83e68d5d7000000000000000000000000fd68c8da806dbb339a4105ca06e22db4e0ad90d0000000000000000000000000000000000000000000000000000000000000001b0d94ccdf3600d80b5b33d77c067bb8a3f0f202a934e682269e18ba5384c6b07a2df73ac19a3c68ed687f3e028218cf3439fabc6a0fd6a423ee41a495dc45f0aaa9059cbb000000000000000000000000566ce6b765f038a98b5753ced0a65fd49aa0a07c000000000000000000000000000000000000000000000001158e460913d0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000084000000000000000000000000000000000000000000000000000000000000004400000000000000000000000000000000000000000000000000000000',
+            timestamp: '2021-04-16T17:10:19.000000Z',
+            transactionHash: '0x8323ad9ea0961221e146aa086b9cda858acbf7a4058a23061c9e0d52a0e2d9b1',
           },
         },
         // Verification fee sent (no gateway fee recipient)

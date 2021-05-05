@@ -5,11 +5,11 @@ import { showMessage } from 'src/alert/actions'
 import { SendOrigin } from 'src/analytics/types'
 import { openUrl } from 'src/app/actions'
 import { handleNotification } from 'src/firebase/notifications'
-import { addressToDisplayNameSelector, addressToE164NumberSelector } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NotificationReceiveState, NotificationTypes } from 'src/notifications/types'
-import { phoneRecipientCacheSelector, valoraRecipientCacheSelector } from 'src/recipients/reducer'
+import { recipientInfoSelector } from 'src/recipients/reducer'
+import { mockRecipientInfo } from 'test/values'
 
 describe(handleNotification, () => {
   beforeEach(() => {
@@ -110,12 +110,7 @@ describe(handleNotification, () => {
 
     it('navigates to the transaction review screen if the app is not already in the foreground', async () => {
       await expectSaga(handleNotification, message, NotificationReceiveState.APP_OPENED_FRESH)
-        .provide([
-          [select(addressToE164NumberSelector), {}],
-          [select(phoneRecipientCacheSelector), {}],
-          [select(valoraRecipientCacheSelector), {}],
-          [select(addressToDisplayNameSelector), {}],
-        ])
+        .provide([[select(recipientInfoSelector), mockRecipientInfo]])
         .run()
 
       expect(navigate).toHaveBeenCalledWith(Screens.TransactionReview, {
@@ -157,12 +152,7 @@ describe(handleNotification, () => {
 
     it('navigates to the send confirmation screen if the app is not already in the foreground', async () => {
       await expectSaga(handleNotification, message, NotificationReceiveState.APP_OPENED_FRESH)
-        .provide([
-          [select(addressToE164NumberSelector), {}],
-          [select(phoneRecipientCacheSelector), {}],
-          [select(valoraRecipientCacheSelector), {}],
-          [select(addressToDisplayNameSelector), {}],
-        ])
+        .provide([[select(recipientInfoSelector), mockRecipientInfo]])
         .run()
 
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
