@@ -58,14 +58,19 @@ export const reducer = (state: State = initialState, action: ActionTypes | Rehyd
         return state
       }
 
-      const nameKey =
-        action.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
-          ? 'fiatExchangeFlow:celoDeposit'
-          : 'fiatExchangeFlow:cUsdDeposit'
-      const displayInfo = {
-        name: i18n.t(nameKey),
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Fcelo.jpg?alt=media',
+      let displayInfo
+      if (state.lastUsedProvider) {
+        displayInfo = state.providerLogos[state.lastUsedProvider]
+      } else {
+        const nameKey =
+          action.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+            ? 'fiatExchangeFlow:celoDeposit'
+            : 'fiatExchangeFlow:cUsdDeposit'
+        displayInfo = {
+          name: i18n.t(nameKey),
+          icon:
+            'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Fcelo.jpg?alt=media',
+        }
       }
 
       return {
