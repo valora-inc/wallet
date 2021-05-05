@@ -39,14 +39,24 @@
     "title": "Sobre os provedores",
     "body": "Esses provedores permitem que você adicione ou saque fundos da sua conta. Os provedores determinam suas próprias tarifas e restrições, dependendo de diversos fatores. Visite o site do provedor para obter ajuda."
   },
-  "minAmountDialog": {
-    "body": "Nossos provedores não aceitam valores inferiores a {{limit}}. Insira um valor maior.",
+  "invalidAmountDialog": {
+    "minAmount": "Nossos provedores não aceitam valores inferiores a {{limit}}. Insira um valor maior.",
+    "maxAmount": "Nossos provedores não aceitam valores maiores de {{limit}}. Insira um valor menor.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
     "body": "Você está prestes a comprar mais do que seu limite de envio diário de {{limit}}. Entre em contato com <0>{{contactEmail}}</0> se quiser aumentar seu limite.",
     "contact": "Contato",
     "continue": "Compreendo"
+  },
+  "providerFeesDialog": {
+    "title": "Taxas de provedor",
+    "body1": "As taxas de provedor são definidas individualmente por cada provedor e incluem uma taxa de câmbio e uma de liquidez, entre outras. Para saber mais, visite ",
+    "body2": "Site do provedor {{providerName}}"
+  },
+  "providerFeeDiscountDialog": {
+    "title": "Desconto da taxa",
+    "body": "Como oferta especial de lançamento, as taxas são oferecidas momentaneamente pela Valora!"
   },
   "dailyLimitRequest": "Olá! Eu gostaria de aumentar meu limite de envio diário, por favor.",
   "pleaseSelectProvider": "Por favor, selecione um provedor. Esses links são conectados a serviços de terceiros.",
@@ -56,6 +66,11 @@
   "findMerchants": "Encontre comerciantes locais perto de você",
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
+  "providerUnavailable": "Não disponível no momento",
+  "pricePer": "Preço por {{coin}}",
+  "feeDiscount": "Desconto da taxa",
+  "free": "GRÁTIS",
+  "continueToProvider": "Continuar para {{provider}}",
   "cicoSuccess": {
     "title": "Ordem enviada!",
     "bodyWithProvider": "{{provider}} está processando seu pedido. Você deve receber seus fundos dentro de alguns dias.",

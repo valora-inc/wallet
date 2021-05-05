@@ -2,7 +2,7 @@
   "accept": "Aceptar",
   "at": "a",
   "yourClockIsBroke": "La fecha y hora de tu celular son incorrectas",
-  "adjustYourClock": "Ajusta tu reloj para leer la hora automáticamente y vuelve a intentarlo. Si el problema persiste, puede que sea necesario reinicializar la aplicación",
+  "adjustYourClock": "Ajusta la hora correcta o ajusta tu reloj para leer la hora automáticamente.",
   "adjustDate": "Arreglar hora",
   "submit": "Enviar",
   "continue": "Continuar",
@@ -20,6 +20,7 @@
   "wallet": "Monedero",
   "send": "Enviar",
   "search": "Buscar",
+  "namePhoneAddress": "Nombre, teléfono o dirección",
   "payments": "Pagos",
   "exchange": "Cambio",
   "learnMore": "Saber más",
@@ -189,5 +190,9 @@
   "withdraw": "Retirar",
   "countryNotAvailable": "{{appName}} no está disponible en tu país",
   "firebaseFetchFailed": "La conexión con el servidor falló",
-  "pictureLoadFailed": "Hubo un error al cargar la imagen"
+  "pictureLoadFailed": "Hubo un error al cargar la imagen",
+  "simplexPurchaseFetchFailed": "Error al recuperar una cita de Simplex. Inténtalo de nuevo más tarde",
+  "providerUrlFetchFailed": "No se pudo conectar al servicio. Ponte en contacto con el soporte técnico",
+  "ok": "OK",
+  "cashOutLimitExceeded": "No puedes retirar más de tu saldo de {{currency}}{{balance}}"
 }
