@@ -55,7 +55,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.light,
   },
-  qrContainer: {
-    paddingTop: 16,
-  },
+  qrContainer: {},
 })
