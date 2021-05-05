@@ -104,7 +104,7 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
             {cameraScanInfo}
           </TouchableOpacity>
         ) : (
-          { cameraScanInfo }
+          cameraScanInfo
         )}
       </View>
 
