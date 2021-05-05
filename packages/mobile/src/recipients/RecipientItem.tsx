@@ -3,16 +3,25 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import * as React from 'react'
+import { WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
+import { Namespaces, withTranslation } from 'src/i18n'
 import Logo from 'src/icons/Logo'
-import { getRecipientThumbnail, Recipient } from 'src/recipients/recipient'
+import {
+  getDisplayDetail,
+  getDisplayName,
+  Recipient,
+  recipientHasAddress,
+} from 'src/recipients/recipient'
 import GetRewardPill from 'src/send/GetRewardPill'
 
-interface Props {
+interface OwnProps {
   recipient: Recipient
   onSelectRecipient(recipient: Recipient): void
 }
+
+type Props = OwnProps & WithTranslation
 
 class RecipientItem extends React.PureComponent<Props> {
   onPress = () => {
@@ -20,25 +29,22 @@ class RecipientItem extends React.PureComponent<Props> {
   }
 
   render() {
-    const { recipient } = this.props
+    const { recipient, t } = this.props
 
     return (
       <Touchable onPress={this.onPress} testID="RecipientItem">
         <View style={styles.row}>
-          <ContactCircle
-            style={styles.avatar}
-            name={recipient.displayName}
-            thumbnailPath={getRecipientThumbnail(recipient)}
-            address={recipient.address}
-          />
+          <ContactCircle style={styles.avatar} recipient={recipient} />
           <View style={styles.contentContainer}>
             <Text numberOfLines={1} ellipsizeMode={'tail'} style={styles.name}>
-              {recipient.displayName}
+              {getDisplayName(recipient, t)}
             </Text>
-            <Text style={styles.phone}>{recipient.displayId}</Text>
+            {!recipient.name ? (
+              <Text style={styles.phone}>{getDisplayDetail(recipient)}</Text>
+            ) : null}
           </View>
           <View style={styles.rightIconContainer}>
-            {recipient.address ? <Logo style={styles.logo} /> : <GetRewardPill />}
+            {recipientHasAddress(recipient) ? <Logo style={styles.logo} /> : <GetRewardPill />}
           </View>
         </View>
       </Touchable>
@@ -75,4 +81,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default RecipientItem
+export default withTranslation<Props>(Namespaces.paymentRequestFlow)(RecipientItem)

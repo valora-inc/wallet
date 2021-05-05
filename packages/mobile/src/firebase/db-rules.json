@@ -66,6 +66,10 @@
       ".read": true,
       ".write": false
     },
+    "lostAccounts": {
+      ".read": true,
+      ".write": false
+    },
     "dailyLimitRequest": {
       "$address": {
         ".write": false,

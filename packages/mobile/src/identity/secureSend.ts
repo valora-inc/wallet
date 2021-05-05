@@ -1,6 +1,6 @@
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddressValidationType, SecureSendPhoneNumberMapping } from 'src/identity/reducer'
-import { Recipient } from 'src/recipients/recipient'
+import { Recipient, recipientHasNumber } from 'src/recipients/recipient'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'identity/secureSend'
@@ -35,7 +35,7 @@ function accidentallyBypassedValidation(
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
 ) {
   const validatedAddress =
-    secureSendPhoneNumberMapping[e164Number] || secureSendPhoneNumberMapping[e164Number].address
+    secureSendPhoneNumberMapping[e164Number] && secureSendPhoneNumberMapping[e164Number].address
   return newAddresses && newAddresses.length > 1 && !validatedAddress
 }
 
@@ -145,7 +145,7 @@ export function getAddressValidationType(
   recipient: Recipient,
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
 ) {
-  const { e164PhoneNumber } = recipient
+  const e164PhoneNumber = recipient.e164PhoneNumber
 
   if (
     !e164PhoneNumber ||
@@ -162,7 +162,7 @@ export function getSecureSendAddress(
   recipient: Recipient,
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
 ) {
-  const { e164PhoneNumber } = recipient
+  const e164PhoneNumber = recipientHasNumber(recipient) ? recipient.e164PhoneNumber : undefined
   if (!e164PhoneNumber || !secureSendPhoneNumberMapping[e164PhoneNumber]) {
     return undefined
   }

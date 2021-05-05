@@ -489,6 +489,10 @@ export const v7Schema = {
     loading: false,
     notifications: {},
   },
+  recipients: {
+    phoneRecipientCache: {},
+    valoraRecipientCache: {},
+  },
   fiatExchanges: {
     lastUsedProvider: null,
     txHashToProvider: {},
@@ -546,6 +550,7 @@ export const v8Schema = {
     recoveringFromStoreWipe: false,
     accountToRecoverFromStoreWipe: undefined,
     dailyLimitRequestStatus: undefined,
+    profileUploaded: false,
   },
 }
 
