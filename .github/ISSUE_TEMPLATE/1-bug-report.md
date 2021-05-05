@@ -2,7 +2,7 @@
 name: "🐛 Bug report"
 about: Report a bug found while using Valora.
 title: ''
-labels: ''
+labels: 'bug'
 assignees: ''
 ---
 
