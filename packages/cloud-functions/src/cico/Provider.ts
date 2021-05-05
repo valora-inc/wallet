@@ -4,3 +4,9 @@ export enum Provider {
   Ramp = 'Ramp',
   Transak = 'Transak',
 }
+
+export enum CashInStatus {
+  Started = 'Started',
+  Success = 'Success',
+  Failure = 'Failure',
+}
