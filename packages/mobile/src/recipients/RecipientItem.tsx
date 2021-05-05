@@ -7,8 +7,7 @@ import { WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
 import { Namespaces, withTranslation } from 'src/i18n'
-import Logo from 'src/icons/Logo'
-import Valora from 'src/icons/Valora'
+import Logo, { LogoTypes } from 'src/icons/Logo'
 import {
   getDisplayDetail,
   getDisplayName,
@@ -47,7 +46,7 @@ class RecipientItem extends React.PureComponent<Props> {
           <View style={styles.rightIconContainer}>
             {recipientHasAddress(recipient) ? <Logo style={styles.logo} /> : <GetRewardPill />}
           </View>
-          {recipientHasAddress(recipient) ? <Valora /> : null}
+          {recipientHasAddress(recipient) ? <Logo type={LogoTypes.GREEN} height={17} /> : null}
         </View>
       </Touchable>
     )

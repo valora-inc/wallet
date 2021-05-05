@@ -183,7 +183,6 @@ class Send extends React.Component<Props, State> {
   componentDidUpdate(prevProps: Props) {
     const { recentRecipients, phoneRecipients, valoraRecipients } = this.props
 
-    // TODO: also check valoraRecipients
     if (
       recentRecipients !== prevProps.recentRecipients ||
       phoneRecipients !== prevProps.phoneRecipients ||
@@ -222,8 +221,6 @@ class Send extends React.Component<Props, State> {
         true
       )
     }
-
-    // TODO: update valoraRecipients filter
 
     this.throttledSearch = throttle((searchQuery: string) => {
       this.setState({
