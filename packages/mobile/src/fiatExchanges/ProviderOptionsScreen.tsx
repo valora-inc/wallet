@@ -17,7 +17,6 @@ import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import {
   fetchProviders,
   fetchUserLocationData,
@@ -133,7 +132,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
     dispatch(selectProvider(provider.name))
 
-    if (provider.name === CicoProviderNames.Simplex) {
+    if (provider.name === 'Simplex') {
       if (provider.quote && userLocation?.ipAddress) {
         navigate(Screens.Simplex, {
           simplexQuote: provider.quote,

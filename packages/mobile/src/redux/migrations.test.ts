@@ -1,6 +1,5 @@
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { migrations } from 'src/redux/migrations'
 import { v0Schema, v1Schema, v2Schema, v7Schema, v8Schema, vNeg1Schema } from 'test/schemas'
 
@@ -147,7 +146,7 @@ describe('Redux persist migrations', () => {
     expect(Object.keys(migratedSchema.fiatExchanges.txHashToProvider).length).toEqual(1)
     expect(migratedSchema.fiatExchanges.txHashToProvider[txHash].name).toEqual(mockName)
     expect(migratedSchema.fiatExchanges.txHashToProvider[txHash].icon).toEqual(mockIcon)
-    expect(migratedSchema.fiatExchanges.lastUsedProvider).toEqual(CicoProviderNames.Simplex)
+    expect(migratedSchema.fiatExchanges.lastUsedProvider).toEqual('Simplex')
   })
 
   it('works for v8 to v9', () => {

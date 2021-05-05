@@ -5,44 +5,12 @@ import i18n from 'src/i18n'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 
-export enum CicoProviderNames {
-  Moonpay = 'Moonpay',
-  Ramp = 'Ramp',
-  Simplex = 'Simplex',
-  Transak = 'Transak',
-  Xanpool = 'Xanpool',
-}
-
-export const providersDisplayInfo: { [provider in CicoProviderNames]: ProviderFeedInfo } = {
-  [CicoProviderNames.Moonpay]: {
-    name: 'Moonpay',
-    icon:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
-  },
-  [CicoProviderNames.Ramp]: {
-    name: 'Ramp',
-    icon:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
-  },
-  [CicoProviderNames.Simplex]: {
-    name: 'Simplex',
-    icon:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-  },
-  [CicoProviderNames.Transak]: {
-    name: 'Transak',
-    icon:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
-  },
-  [CicoProviderNames.Xanpool]: {
-    name: 'Xanpool',
-    icon:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
-  },
+export interface ProviderLogos {
+  [providerName: string]: string
 }
 
 export interface TxHashToProvider {
-  [txHash: string]: CicoProviderNames | undefined
+  [txHash: string]: string | undefined
 }
 
 export interface ProviderFeedInfo {
@@ -55,13 +23,15 @@ interface TxHashToDisplayInfo {
 }
 
 export interface State {
-  lastUsedProvider: CicoProviderNames | null
+  lastUsedProvider: string | null
   txHashToProvider: TxHashToDisplayInfo
+  providerLogos: ProviderLogos
 }
 
 export const initialState = {
   lastUsedProvider: null,
   txHashToProvider: {},
+  providerLogos: {},
 }
 
 export const reducer = (state: State = initialState, action: ActionTypes | RehydrateAction) => {
@@ -72,6 +42,11 @@ export const reducer = (state: State = initialState, action: ActionTypes | Rehyd
         ...getRehydratePayload(action, 'fiatExchanges'),
       }
     }
+    case Actions.SET_PROVIDER_LOGOS:
+      return {
+        ...state,
+        providerLogos: action.providerLogos,
+      }
     case Actions.SELECT_PROVIDER:
       return {
         ...state,
@@ -82,20 +57,17 @@ export const reducer = (state: State = initialState, action: ActionTypes | Rehyd
       if (state.txHashToProvider[action.txHash]) {
         return state
       }
-      let displayInfo = null
-      if (state.lastUsedProvider) {
-        displayInfo = providersDisplayInfo[state.lastUsedProvider]
-      } else {
-        const nameKey =
-          action.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
-            ? 'fiatExchangeFlow:celoDeposit'
-            : 'fiatExchangeFlow:cUsdDeposit'
-        displayInfo = {
-          name: i18n.t(nameKey),
-          icon:
-            'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Fcelo.jpg?alt=media',
-        }
+
+      const nameKey =
+        action.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+          ? 'fiatExchangeFlow:celoDeposit'
+          : 'fiatExchangeFlow:cUsdDeposit'
+      const displayInfo = {
+        name: i18n.t(nameKey),
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Fcelo.jpg?alt=media',
       }
+
       return {
         ...state,
         lastUsedProvider: null,
@@ -107,8 +79,11 @@ export const reducer = (state: State = initialState, action: ActionTypes | Rehyd
     case Actions.SET_PROVIDERS_FOR_TX_HASHES:
       const txHashToDisplayInfo: TxHashToDisplayInfo = {}
       for (const [txHash, provider] of Object.entries(action.txHashes)) {
-        if (provider && providersDisplayInfo[provider]) {
-          txHashToDisplayInfo[txHash] = providersDisplayInfo[provider]
+        if (provider && state.providerLogos[provider]) {
+          txHashToDisplayInfo[txHash] = {
+            name: provider,
+            icon: state.providerLogos[provider],
+          }
         }
       }
 
