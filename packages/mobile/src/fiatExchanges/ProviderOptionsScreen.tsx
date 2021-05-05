@@ -125,6 +125,12 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   }
 
   const providerOnPress = (provider: Provider) => () => {
+    console.log(provider)
+
+    if (provider.unavailable) {
+      return
+    }
+
     ValoraAnalytics.track(FiatExchangeEvents.provider_chosen, {
       isCashIn,
       provider: provider.name,
