@@ -8,6 +8,7 @@
   "continue": "Continue",
   "connect": "Connect",
   "save": "Save",
+  "scan": "Scan",
   "next": "Next",
   "skip": "Skip",
   "copy": "Copy",
@@ -197,5 +198,6 @@
   "simplexPurchaseFetchFailed": "Failed to retreive a quote from Simplex. Please try again later",
   "providerUrlFetchFailed": "Could not connect to service. Please contact support",
   "ok": "OK",
-  "cashOutLimitExceeded": "You cannot cash out more than your balance of {{balance}} {{currency}}"
+  "cashOutLimitExceeded": "You cannot cash out more than your balance of {{balance}} {{currency}}",
+  "appDescription": "A mobile payments wallet that works worldwide"
 }
