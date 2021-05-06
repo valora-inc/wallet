@@ -2,7 +2,9 @@ import Analytics, { Analytics as analytics } from '@segment/analytics-react-nati
 import Adjust from '@segment/analytics-react-native-adjust'
 import Firebase from '@segment/analytics-react-native-firebase'
 import { sha256 } from 'ethereumjs-util'
+import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 import { AppEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import { DEFAULT_TESTNET, SEGMENT_API_KEY } from 'src/config'
@@ -88,7 +90,7 @@ class ValoraAnalytics {
     return !__DEV__ && store.getState().app.analyticsEnabled
   }
 
-  startSession(
+  async startSession(
     eventName: typeof AppEvents.app_launched,
     eventProperties: AnalyticsPropertiesList[AppEvents.app_launched]
   ) {
@@ -96,6 +98,20 @@ class ValoraAnalytics {
       deviceInfo: this.deviceInfo,
       ...eventProperties,
     })
+
+    if (Platform.OS === 'ios') {
+      const appTrackingStatus = await check(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY)
+      Logger.debug(TAG, `iOS tracking authorization status: ${appTrackingStatus}`)
+      if (appTrackingStatus === RESULTS.DENIED) {
+        // The permission has not been requested / is denied but requestable
+        Logger.debug(TAG, `iOS requesting tracking`)
+        const newAppTrackingStatus = await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY)
+        Logger.debug(
+          TAG,
+          `iOS tracking authorization status after request: ${newAppTrackingStatus}`
+        )
+      }
+    }
   }
 
   getSessionId() {
