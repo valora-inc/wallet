@@ -7,8 +7,17 @@ import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'sentry/Sentry'
 
+// Set this to true, if you want to test Sentry on dev builds
+export const SENTRY_ENABLED = !__DEV__ || false
+
+if (SENTRY_ENABLED) {
+  installSentry()
+} else {
+  Logger.info(TAG, 'Sentry not enabled')
+}
+
 // This should be called as early in the lifecycle of the app as possible.
-export async function installSentry() {
+async function installSentry() {
   if (!SENTRY_URL) {
     Logger.info(TAG, 'installSentry', 'Sentry URL not found, skiping instalation')
     return
