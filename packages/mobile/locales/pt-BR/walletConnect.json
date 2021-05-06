@@ -1,0 +1,31 @@
+{
+  "connectToWallet": "{{dappName}} gostaria de se conectar a {{appName}} ",
+  "cancel": "Cancelar",
+  "allow": "Permitir",
+  "action": {
+    "asking": "Este aplicativo está pedindo para executar a seguinte ação",
+    "operation": "Operação",
+    "data": "Dados",
+    "sign": "Assinar um payload de dados",
+    "signTransaction": "Assine um Elo TX",
+    "decrypt": "Descriptografar um payload de dados",
+    "accounts": "Leia seu endereço da conta {{appName}}",
+    "details": "Mostrar detalhes",
+    "computeSharedSecret": "Gerar Segredos"
+  },
+  "sessionInfo": "Esta aplicação pode pedir para executar as seguintes ações:",
+  "description": {
+    "sign": "Assinar Pagamentos",
+    "signTransaction": "Enviar fundos",
+    "accounts": "Ler endereço",
+    "decrypt": "Descriptografar dados",
+    "computeSharedSecret": "Gerar um segredo"
+  },
+  "tapToDisconnect": "Toque para desconectar",
+  "moreInfo": "Confuso com alguma coisa aqui?",
+  "sessionsTitle": "Apps conectados",
+  "sessionsSubTitle": "Os seguintes aplicativos estão conectados a {{appName}}. Você pode se conectar a mais aplicativos escaneando o código QR.",
+  "disconnect": "Desconectar",
+  "disconnectTitle": "Desconectar {{dappName}}?",
+  "disconnectBody": "Tem certeza de que deseja desconectar de {{dappName}}?"
+}
