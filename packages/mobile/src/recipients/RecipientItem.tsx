@@ -39,14 +39,17 @@ class RecipientItem extends React.PureComponent<Props> {
             <Text numberOfLines={1} ellipsizeMode={'tail'} style={styles.name}>
               {getDisplayName(recipient, t)}
             </Text>
-            {!recipient.name ? (
+            {recipient.name ? (
               <Text style={styles.phone}>{getDisplayDetail(recipient)}</Text>
             ) : null}
           </View>
           <View style={styles.rightIconContainer}>
-            {recipientHasAddress(recipient) ? <Logo style={styles.logo} /> : <GetRewardPill />}
+            {recipientHasAddress(recipient) ? (
+              <Logo style={styles.logo} type={LogoTypes.GREEN} height={24} />
+            ) : (
+              <GetRewardPill />
+            )}
           </View>
-          {recipientHasAddress(recipient) ? <Logo type={LogoTypes.GREEN} height={17} /> : null}
         </View>
       </Touchable>
     )
@@ -78,7 +81,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    marginRight: 16,
+    marginRight: 20,
   },
 })
 
