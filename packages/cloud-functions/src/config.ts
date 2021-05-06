@@ -4,6 +4,7 @@ export const config = functions.config()
 
 export const MOONPAY_DATA = {
   widget_url: config.moonpay.widget_url,
+  api_url: config.moonpay.api_url,
   public_key: config.moonpay.public_key,
   private_key: config.moonpay.private_key,
   webhook_key: config.moonpay.webhook_key,
