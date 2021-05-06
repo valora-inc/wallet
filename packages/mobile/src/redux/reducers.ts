@@ -22,6 +22,7 @@ import { sendReducer as send, State as SendState } from 'src/send/reducers'
 import { reducer as stableToken, State as StableTokenState } from 'src/stableToken/reducer'
 import { reducer as transactions, State as TransactionsState } from 'src/transactions/reducer'
 import { reducer as verify, State as VerifyState } from 'src/verify/reducer'
+import { reducer as walletConnect, State as WalletConnectState } from 'src/walletConnect/reducer'
 import { reducer as web3, State as Web3State } from 'src/web3/reducer'
 
 const appReducer = combineReducers({
@@ -47,6 +48,7 @@ const appReducer = combineReducers({
   imports,
   paymentRequest,
   fiatExchanges,
+  walletConnect,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -92,6 +94,7 @@ export interface RootState {
   imports: ImportState
   paymentRequest: PaymentRequestState
   fiatExchanges: FiatExchangesState
+  walletConnect: WalletConnectState
 }
 
 export interface PersistedRootState {

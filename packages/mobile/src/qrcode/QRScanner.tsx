@@ -1,11 +1,14 @@
+import TextButton from '@celo/react-components/components/TextButton'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { RNCamera } from 'react-native-camera'
+import DeviceInfo from 'react-native-device-info'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Defs, Mask, Rect, Svg } from 'react-native-svg'
+import Modal from 'src/components/Modal'
 import { Namespaces } from 'src/i18n'
 import NotAuthorizedView from 'src/qrcode/NotAuthorizedView'
 import { QrCode } from 'src/send/actions'
@@ -47,6 +50,36 @@ const SeeThroughOverlay = () => {
 export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const inset = useSafeAreaInsets()
+  const isEmulator = DeviceInfo.useIsEmulator ? DeviceInfo.useIsEmulator().result : false
+
+  /**
+   * Emulator only. When in the emulator we want to be able
+   * to enter QR codes manually.
+   */
+  const [value, setValue] = useState('')
+  const [displayEntryModal, setDisplayEntryModal] = useState(false)
+
+  const openModal = () => {
+    setDisplayEntryModal(true)
+  }
+
+  const closeModal = () => {
+    setDisplayEntryModal(false)
+    setValue('')
+  }
+
+  const submitModal = () => {
+    onBarCodeDetected({ type: '', data: value })
+    closeModal()
+  }
+
+  const onModalTextChange = (text: string) => {
+    setValue(text)
+  }
+
+  const cameraScanInfo = (
+    <Text style={[styles.infoText, { marginBottom: inset.bottom }]}>{t('cameraScanInfo')}</Text>
+  )
 
   return (
     <RNCamera
@@ -64,7 +97,36 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
       testID={'Camera'}
     >
       <SeeThroughOverlay />
-      <Text style={[styles.infoText, { marginBottom: inset.bottom }]}>{t('cameraScanInfo')}</Text>
+
+      <View>
+        {isEmulator ? (
+          <TouchableOpacity testID="ManualInputButton" onPress={openModal}>
+            {cameraScanInfo}
+          </TouchableOpacity>
+        ) : (
+          cameraScanInfo
+        )}
+      </View>
+
+      <Modal isVisible={displayEntryModal}>
+        <Text style={styles.manualTitle}>{t('enterQRCode')}</Text>
+        <TextInput
+          autoFocus={true}
+          value={value}
+          style={styles.manualInput}
+          autoCapitalize="none"
+          onChangeText={onModalTextChange}
+          testID="ManualInput"
+        />
+        <View style={styles.actions}>
+          <TextButton style={styles.cancelButton} onPress={closeModal}>
+            {t('cancel')}
+          </TextButton>
+          <TextButton onPress={submitModal} testID="ManualSubmit">
+            {t('submit')}
+          </TextButton>
+        </View>
+      </Modal>
     </RNCamera>
   )
 }
@@ -83,5 +145,33 @@ const styles = StyleSheet.create({
     lineHeight: undefined,
     color: colors.light,
     textAlign: 'center',
+    paddingHorizontal: 30,
+  },
+  manualInput: {
+    ...fontStyles.regular,
+    marginBottom: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 0,
+    marginTop: 8,
+    alignItems: 'flex-start',
+    borderColor: colors.gray3,
+    borderRadius: 4,
+    borderWidth: 1.5,
+    color: colors.dark,
+    height: 80,
+    maxHeight: 150,
+  },
+  manualTitle: {
+    marginBottom: 6,
+    ...fontStyles.h2,
+  },
+  actions: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    maxWidth: '100%',
+    flexWrap: 'wrap',
+  },
+  cancelButton: {
+    color: colors.gray5,
   },
 })
