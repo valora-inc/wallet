@@ -24,8 +24,9 @@ RELEASE=false
 NET_DELAY="none"
 DEV_MODE=false
 FILE_TO_RUN=""
-WORKERS=3
-while getopts 'p:t:v:n:w:rd' flag; do
+WORKERS=2
+RETRIES=3
+while getopts 'p:t:v:n:w:j:rd' flag; do
   case "${flag}" in
     p) PLATFORM="$OPTARG" ;;
     v) VD_NAME="$OPTARG" ;;
@@ -34,6 +35,7 @@ while getopts 'p:t:v:n:w:rd' flag; do
     d) DEV_MODE=true ;;
     t) FILE_TO_RUN=$OPTARG ;;
     w) WORKERS="$OPTARG" ;;
+    j) RETRIES="$OPTARG" ;;
     *) error "Unexpected option ${flag}" ;;
   esac
 done
@@ -108,6 +110,7 @@ runTest() {
     --loglevel verbose \
     --debug-synchronization 1000 \
     --workers $WORKERS \
+    --retries $RETRIES \
     "${extra_param}" 
   TEST_STATUS=$?
 }
