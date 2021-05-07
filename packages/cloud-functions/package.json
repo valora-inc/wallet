@@ -17,7 +17,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@google-cloud/bigquery": "^5.5.0",
+    "@google-cloud/bigquery": "~5.5.0",
     "fast-json-stable-stringify": "~2.1.0",
     "firebase-admin": "^9.5.0",
     "firebase-functions": "^3.6.0",

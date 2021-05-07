@@ -6,7 +6,7 @@
 
 import { Result } from '@celo/base'
 import { CeloTransactionObject, CeloTxReceipt } from '@celo/connect'
-import { ContractKit } from '@celo/contractkit'
+import { ContractKit } from '@celo/contractkit/lib/kit'
 import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import { MetaTransactionWalletWrapper } from '@celo/contractkit/lib/wrappers/MetaTransactionWallet'
 import { OdisUtils } from '@celo/identity'
