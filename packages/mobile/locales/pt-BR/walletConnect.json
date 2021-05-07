@@ -7,7 +7,7 @@
     "operation": "Operação",
     "data": "Dados",
     "sign": "Assinar um payload de dados",
-    "signTransaction": "Assine um Elo TX",
+    "signTransaction": "Assinar um Elo TX",
     "decrypt": "Descriptografar um payload de dados",
     "accounts": "Leia seu endereço da conta {{appName}}",
     "details": "Mostrar detalhes",
