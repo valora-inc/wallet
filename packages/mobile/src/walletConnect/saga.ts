@@ -304,7 +304,6 @@ export function* handleInitialisePairing({ uri }: InitialisePairing) {
 }
 
 function* handlePendingState(): any {
-  console.log('handlePendingState')
   const {
     pending: [session],
   } = yield select(selectSessions)
