@@ -90,7 +90,7 @@ class ValoraAnalytics {
     return !__DEV__ && store.getState().app.analyticsEnabled
   }
 
-  async startSession(
+  startSession(
     eventName: typeof AppEvents.app_launched,
     eventProperties: AnalyticsPropertiesList[AppEvents.app_launched]
   ) {
@@ -99,19 +99,9 @@ class ValoraAnalytics {
       ...eventProperties,
     })
 
-    if (Platform.OS === 'ios') {
-      const appTrackingStatus = await check(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY)
-      Logger.debug(TAG, `iOS tracking authorization status: ${appTrackingStatus}`)
-      if (appTrackingStatus === RESULTS.DENIED) {
-        // The permission has not been requested / is denied but requestable
-        Logger.debug(TAG, `iOS requesting tracking`)
-        const newAppTrackingStatus = await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY)
-        Logger.debug(
-          TAG,
-          `iOS tracking authorization status after request: ${newAppTrackingStatus}`
-        )
-      }
-    }
+    this.requestTrackingPermissionIfNeeded().catch((error) => {
+      Logger.error(TAG, 'Failure while requesting tracking permission', error)
+    })
   }
 
   getSessionId() {
@@ -176,6 +166,36 @@ class ValoraAnalytics {
       await Analytics.reset()
     } catch (error) {
       Logger.error(TAG, 'Error resetting analytics', error)
+    }
+  }
+
+  private async requestTrackingPermissionIfNeeded() {
+    if (Platform.OS !== 'ios') {
+      return
+    }
+
+    const appTrackingPermission = await check(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY)
+    Logger.debug(TAG, `iOS tracking permission: ${appTrackingPermission}`)
+    if (appTrackingPermission !== RESULTS.DENIED) {
+      // The permission has already been requested / is not requestable
+      // See https://github.com/zoontek/react-native-permissions#permissions-statuses
+      return
+    }
+
+    Logger.debug(TAG, `iOS requesting tracking permission`)
+    this.track(AppEvents.request_tracking_permission_started, {
+      currentPermission: appTrackingPermission,
+    })
+    const newAppTrackingPermission = await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY)
+    Logger.debug(TAG, `iOS tracking permission after request: ${newAppTrackingPermission}`)
+    if (newAppTrackingPermission === RESULTS.GRANTED) {
+      this.track(AppEvents.request_tracking_permission_accepted, {
+        newPermission: newAppTrackingPermission,
+      })
+    } else {
+      this.track(AppEvents.request_tracking_permission_declined, {
+        newPermission: newAppTrackingPermission,
+      })
     }
   }
 }
