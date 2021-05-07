@@ -22,6 +22,7 @@ export interface State {
   activeScreen: Screens
   hideVerification: boolean
   showRaiseDailyLimitTarget: string | undefined
+  walletConnectEnabled: boolean
 }
 
 const initialState = {
@@ -42,6 +43,7 @@ const initialState = {
   activeScreen: Screens.Main,
   hideVerification: false,
   showRaiseDailyLimitTarget: undefined,
+  walletConnectEnabled: false,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -143,6 +145,7 @@ export const appReducer = (
         showRaiseDailyLimitTarget: action.flags.showRaiseDailyLimitTarget,
         celoEducationUri: action.flags.celoEducationUri,
         shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
+        walletConnectEnabled: action.flags.walletConnectEnabled,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

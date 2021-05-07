@@ -22,7 +22,7 @@ const persistConfig: any = {
   version: 12, // default is -1, increment as we make migrations
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
-  blacklist: ['geth', 'networkInfo', 'alert', 'fees', 'recipients', 'imports'],
+  blacklist: ['geth', 'networkInfo', 'alert', 'fees', 'imports'],
   stateReconciler: autoMergeLevel2,
   migrate: createMigrate(migrations),
   serialize: (data: any) => {
@@ -52,16 +52,30 @@ export const _persistConfig = persistConfig
 // We used to use AsyncStorage to save the state, but moved to file system storage because of problems with Android
 // maximum size limits. To keep backwards compatibility, we first try to read from the file system but if nothing is found
 // it means it's an old version so we read the state from AsyncStorage.
-persistConfig.getStoredState = (config: any) =>
-  getStoredState(config)
-    .then(
-      (state) =>
-        state ?? getStoredState({ ...config, storage: AsyncStorage, keyPrefix: 'persist:' })
-    )
-    .catch((error) => {
-      Sentry.captureException(error)
-      Logger.error('redux/store', 'Failed to retrieve redux state.', error)
+persistConfig.getStoredState = async (config: any) => {
+  Logger.info('redux/store', 'persistConfig.getStoredState')
+  try {
+    // throw new Error("testing exception in getStoredState")
+    const state = await getStoredState(config)
+    if (state) {
+      return state
+    }
+
+    const oldState = await getStoredState({
+      ...config,
+      storage: AsyncStorage,
+      keyPrefix: 'persist:',
     })
+    if (oldState) {
+      return oldState
+    }
+
+    return null
+  } catch (error) {
+    Sentry.captureException(error)
+    Logger.error('redux/store', 'Failed to retrieve redux state.', error)
+  }
+}
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 

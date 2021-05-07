@@ -9,16 +9,14 @@ import {
   trackRewardsScreenOpenEvent,
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { CURRENCIES, resolveCurrency } from 'src/geth/consts'
-import { addressToE164NumberSelector } from 'src/identity/reducer'
 import {
   NotificationReceiveState,
   NotificationTypes,
   TransferNotificationData,
 } from 'src/notifications/types'
 import { PaymentRequest } from 'src/paymentRequest/types'
-import { getRequesterFromPaymentRequest } from 'src/paymentRequest/utils'
-import { getRecipientFromAddress } from 'src/recipients/recipient'
-import { recipientCacheSelector } from 'src/recipients/reducer'
+import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
+import { recipientInfoSelector } from 'src/recipients/reducer'
 import {
   navigateToPaymentTransferReview,
   navigateToRequestedPaymentReview,
@@ -41,13 +39,8 @@ function* handlePaymentRequested(
     return
   }
 
-  const addressToE164Number = yield select(addressToE164NumberSelector)
-  const recipientCache = yield select(recipientCacheSelector)
-  const targetRecipient = getRequesterFromPaymentRequest(
-    paymentRequest,
-    addressToE164Number,
-    recipientCache
-  )
+  const info: RecipientInfo = yield select(recipientInfoSelector)
+  const targetRecipient = getRecipientFromAddress(paymentRequest.requesterAddress, info)
 
   navigateToRequestedPaymentReview({
     firebasePendingRequestUid: paymentRequest.uid,
@@ -63,8 +56,7 @@ function* handlePaymentReceived(
   notificationState: NotificationReceiveState
 ) {
   if (notificationState !== NotificationReceiveState.APP_ALREADY_OPEN) {
-    const recipientCache = yield select(recipientCacheSelector)
-    const addressToE164Number = yield select(addressToE164NumberSelector)
+    const info: RecipientInfo = yield select(recipientInfoSelector)
     const address = transferNotification.sender.toLowerCase()
     const currency = resolveCurrency(transferNotification.currency)
 
@@ -78,7 +70,7 @@ function* handlePaymentReceived(
         },
         address: transferNotification.sender.toLowerCase(),
         comment: transferNotification.comment,
-        recipient: getRecipientFromAddress(address, addressToE164Number, recipientCache),
+        recipient: getRecipientFromAddress(address, info),
         type: TokenTransactionType.Received,
       }
     )

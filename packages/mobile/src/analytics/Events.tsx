@@ -55,8 +55,8 @@ export enum OnboardingEvents {
   create_account_start = 'create_account_start',
   create_account_cancel = 'create_account_cancel',
 
-  restore_account_start = 'create_account_start',
-  restore_account_cancel = 'create_account_cancel',
+  restore_account_start = 'restore_account_start',
+  restore_account_cancel = 'restore_account_cancel',
 
   backup_education_start = 'backup_education_start',
   backup_education_scroll = 'backup_education_scroll',

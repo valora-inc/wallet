@@ -489,6 +489,10 @@ export const v7Schema = {
     loading: false,
     notifications: {},
   },
+  recipients: {
+    phoneRecipientCache: {},
+    valoraRecipientCache: {},
+  },
   fiatExchanges: {
     lastUsedProvider: null,
     txHashToProvider: {},
@@ -555,6 +559,13 @@ export const v9Schema = {
   app: {
     ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     showRaiseDailyLimitTarget: undefined,
+    walletConnectEnabled: false,
+  },
+  walletConnect: {
+    pairings: [],
+    sessions: [],
+    pendingSessions: [],
+    pendingActions: [],
   },
 }
 

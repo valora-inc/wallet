@@ -9,7 +9,7 @@ import { removeKeyFromMapping } from 'src/identity/utils'
 import { AttestationCode } from 'src/identity/verification'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
-import { Actions as SendActions, StoreLatestInRecentsAction } from 'src/send/actions'
+import { StoreLatestInRecentsAction } from 'src/send/actions'
 
 export const ATTESTATION_CODE_PLACEHOLDER = 'ATTESTATION_CODE_PLACEHOLDER'
 export const ATTESTATION_ISSUER_PLACEHOLDER = 'ATTESTATION_ISSUER_PLACEHOLDER'
@@ -41,6 +41,8 @@ export interface AddressInfoToDisplay {
   isProviderAddress?: boolean
 }
 
+// This mapping is just for storing provider info from firebase
+// other known recipient should be stored in the valoraRecipientCache
 export interface AddressToDisplayNameType {
   [address: string]: AddressInfoToDisplay | undefined
 }
@@ -211,19 +213,6 @@ export const reducer = (
       return {
         ...state,
         e164NumberToSalt: { ...state.e164NumberToSalt, ...action.e164NumberToSalt },
-      }
-    case SendActions.STORE_LATEST_IN_RECENTS:
-      if (!action.recipient.address) {
-        return state
-      }
-      action = {
-        type: Actions.UPDATE_KNOWN_ADDRESSES,
-        knownAddresses: {
-          [action.recipient.address]: {
-            name: action.recipient.displayName,
-            imageUrl: null,
-          },
-        },
       }
     case Actions.UPDATE_KNOWN_ADDRESSES:
       return {

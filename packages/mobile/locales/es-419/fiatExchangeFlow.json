@@ -39,14 +39,24 @@
     "title": "Sobre proveedores",
     "body": "Estos proveedores te permiten agregar o retirar fondos de tu cuenta. Los proveedores determinan sus propias tarifas y restricciones, dependiendo de varios factores. Visita la web del proveedor para obtener ayuda."
   },
-  "minAmountDialog": {
-    "body": "Nuestros proveedores no soportan cantidades menores a {{limit}}. Por favor ingresa un monto mayor.",
+  "invalidAmountDialog": {
+    "minAmount": "Nuestros proveedores no soportan cantidades menores a {{limit}}. Por favor, ingresa un monto mayor.",
+    "maxAmount": "Nuestros proveedores no soportan totales superiores a {{limit}}. Por favor, introduce una cantidad más pequeña.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
     "body": "Estás por comprar una cantidad mayor a tu límite de envío diario de {{limit}}. Por favor contacta a <0>{{contactEmail}}</0> si quieres aumentar tu límite.",
     "contact": "Contactar",
     "continue": "Entendido"
+  },
+  "providerFeesDialog": {
+    "title": "Tasas de proveedores",
+    "body1": "Las comisiones de proveedores son fijadas por cada proveedor de forma individual e incluyen una tasa de cambio y una tasa de liquidez, entre otros. Para obtener más información, visita ",
+    "body2": "Sitio web de {{providerName}}"
+  },
+  "providerFeeDiscountDialog": {
+    "title": "Descuento de comisión",
+    "body": "¡Como promoción, las tarifas están temporalmente subvencionadas para celebrar el lanzamiento de Valora!"
   },
   "dailyLimitRequest": "Hola! Me gustaría aumentar mi límite de envío diario por favor.",
   "pleaseSelectProvider": "Por favor selecciona un proveedor. Estos enlaces te conectarán a servicios de terceros.",
@@ -56,6 +66,11 @@
   "findMerchants": "Encuentra comercios asociados cerca de ti",
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
+  "providerUnavailable": "No disponible actualmente",
+  "pricePer": "Precio por {{coin}}",
+  "feeDiscount": "Descuento de comisión",
+  "free": "GRATIS",
+  "continueToProvider": "Continuar a {{provider}}",
   "cicoSuccess": {
     "title": "¡Orden enviada!",
     "bodyWithProvider": "{{provider}} está procesando tu orden. Recibirás tus fondos en un par de días.",
