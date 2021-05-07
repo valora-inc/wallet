@@ -57,7 +57,7 @@
   "myCode": "Meu código",
   "scanCode": "Escanear",
   "scanQRCode": "Escanear QR code",
-  "enterQRCode": "Enter QR Code",
+  "enterQRCode": "Ler QR Code",
   "writeStorageNeededForQrDownload": "É necessário a permissão de gravação no armazenamento para baixar o QR code",
   "cameraScanInfo": "Centralize o código na caixa acima",
   "cameraNotAuthorizedTitle": "Habilitar câmera",
