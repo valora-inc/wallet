@@ -1,5 +1,6 @@
 {
   "cancel": "Cancel",
+  "submit": "Submit",
   "dollarsSent": "Dollars Sent",
   "to": "To",
   "send": "Send",
@@ -56,6 +57,7 @@
   "myCode": "My Code",
   "scanCode": "Scan",
   "scanQRCode": "Scan QR Code",
+  "enterQRCode": "Enter QR Code",
   "writeStorageNeededForQrDownload": "Storage write permission is needed for downloading the QR code",
   "cameraScanInfo": "Center code in the box above",
   "cameraNotAuthorizedTitle": "Enable Camera",
