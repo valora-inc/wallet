@@ -1,7 +1,7 @@
 /* DO NOT EDIT MANUALLY, SEE scripts/sync_ios_info_plist_strings.sh */
 
-"NSCameraUsageDescription" = "Conectar sua câmera permite que você digitalize códigos para pagamentos.";
-"NSContactsUsageDescription" = "Adicionar seus contatos facilita enviar e solicitar pagamentos com seus amigos.";
-"NSPhotoLibraryAddUsageDescription" = "Conectar sua biblioteca de fotos permite que você salve o seu código em suas fotos.";
-"NSPhotoLibraryUsageDescription" = "Isto é necessário para que você escolha uma foto de perfil.";
+"NSCameraUsageDescription" = "Conectar a sua câmera permite que você possa escanear códigos de pagamento.";
+"NSContactsUsageDescription" = "Adicionar os seus contatos torna fácil enviar e solicitar pagamentos a seus amigos.";
+"NSPhotoLibraryAddUsageDescription" = "Conectar a sua galeria de fotos nos permite salvar seu código junto às suas fotos.";
+"NSPhotoLibraryUsageDescription" = "É necessária permissão para escolher uma foto de perfil.";
 "NSUserTrackingUsageDescription" = "Seus dados serão utilizados para controlar a eficiência da publicidade.";
