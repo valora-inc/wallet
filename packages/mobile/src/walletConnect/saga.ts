@@ -167,9 +167,15 @@ export function* denyRequest({
     })
   } catch (e) {
     Logger.debug(TAG + '@denyRequest', e.message)
-  } finally {
-    navigateBack()
   }
+
+  const [, nextRequest] = yield select(selectPendingActions)
+  if (nextRequest) {
+    navigate(Screens.WalletConnectActionRequest, { request: nextRequest })
+    return
+  }
+
+  navigateBack()
 }
 
 export function* watchWalletConnectChannel() {
@@ -294,6 +300,7 @@ export function* initialisePairing({ uri }: InitialisePairing) {
 
 function* checkPersistedState(): any {
   const {
+    sessions,
     pending: [session],
   } = yield select(selectSessions)
   if (session) {
@@ -306,6 +313,10 @@ function* checkPersistedState(): any {
   if (request) {
     yield put(initialiseClientAction())
     navigate(Screens.WalletConnectActionRequest, { request })
+  }
+
+  if (sessions.length) {
+    yield put(initialiseClientAction())
   }
 }
 
