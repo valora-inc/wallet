@@ -5,7 +5,7 @@ set -euo pipefail
 # Sync the English infoPlist.strings from the actual Info.plist to be used by Crowdin
 # ========================================
 
-scriptDir="$( cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd )"
+scriptDir="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 cd "$scriptDir/.."
 
 plist_keys=(
