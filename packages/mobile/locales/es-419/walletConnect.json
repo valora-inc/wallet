@@ -6,7 +6,7 @@
     "asking": "Esta aplicación está pidiendo realizar la siguiente acción",
     "operation": "Operación",
     "data": "Datos",
-    "sign": "Firmar un payload de datos",
+    "sign": "Firmar una carga útil de datos",
     "signTransaction": "Firmar un Celo TX",
     "decrypt": "Descifrar un payload de datos",
     "accounts": "Leer su dirección de cuenta de {{appName}}",
