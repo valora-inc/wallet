@@ -29,6 +29,7 @@ import {
 } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
+import { DYNAMIC_LINK_DOMAIN } from 'src/config'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { DEEPLINK_QUERY_PARAM } from 'src/firebase/dynamicLinks'
@@ -146,8 +147,9 @@ function convertQueryToScreenParams(query: string) {
 
 function* parseShortLink(deepLink: string) {
   let link = deepLink
-  if (deepLink.startsWith('https://vlra.app')) {
+  if (deepLink.startsWith(DYNAMIC_LINK_DOMAIN)) {
     const dynamicLink = yield call([dynamicLinks(), 'resolveLink'], deepLink)
+    console.log(dynamicLink)
     link = dynamicLink.url
     const deepLinkParams = parse(link)
     if (!deepLinkParams.query) {

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { TextStyle } from 'react-native'
-import { nameSelector, userContactDetailsSelector } from 'src/account/selectors'
+import { nameSelector, pictureSelector, userContactDetailsSelector } from 'src/account/selectors'
 import Avatar from 'src/components/Avatar'
 import { Recipient, RecipientKind } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
@@ -14,6 +14,7 @@ interface Props {
 // An avatar for the wallet user themselves
 export function AvatarSelf({ iconSize, displayNameStyle }: Props) {
   const displayName = useSelector(nameSelector)
+  const userPicture = useSelector(pictureSelector)
   const contactDetails = useSelector(userContactDetailsSelector)
   const account = useSelector(currentAccountSelector)
 
@@ -23,7 +24,7 @@ export function AvatarSelf({ iconSize, displayNameStyle }: Props) {
     recipient = {
       kind: RecipientKind.Contact,
       contactId: contactDetails.contactId || 'none',
-      thumbnailPath: contactDetails.thumbnailPath || undefined,
+      thumbnailPath: userPicture || contactDetails.thumbnailPath || undefined,
       displayName,
     }
   } else if (account) {

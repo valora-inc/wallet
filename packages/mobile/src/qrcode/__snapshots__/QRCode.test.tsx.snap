@@ -8,7 +8,6 @@ exports[`QRCode renders correctly 1`] = `
       "backgroundColor": "#FFFFFF",
       "flex": 1,
       "justifyContent": "center",
-      "paddingHorizontal": 40,
     }
   }
 >
@@ -113,11 +112,7 @@ exports[`QRCode renders correctly 1`] = `
     </Text>
   </View>
   <View
-    style={
-      Object {
-        "paddingTop": 16,
-      }
-    }
+    style={Object {}}
   >
     <svg
       height={562.5}
