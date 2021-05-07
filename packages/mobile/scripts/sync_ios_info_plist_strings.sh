@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # ========================================
-# Sync the Egnlish infoPlist.strings from the actual Info.plist to be used by Crowdin
+# Sync the English infoPlist.strings from the actual Info.plist to be used by Crowdin
 # ========================================
 
 scriptDir="$( cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd )"
