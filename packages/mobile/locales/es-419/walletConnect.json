@@ -6,10 +6,10 @@
     "asking": "Esta aplicación está pidiendo realizar la siguiente acción",
     "operation": "Operación",
     "data": "Datos",
-    "sign": "Firmar una carga útil de datos",
+    "sign": "Firmar un payload de datos",
     "signTransaction": "Firmar un Celo TX",
     "decrypt": "Descifrar un payload de datos",
-    "accounts": "Leer su dirección de cuenta de {{appName}}",
+    "accounts": "Lee tu dirección de cuenta de {{appName}}",
     "details": "Mostrar detalles",
     "computeSharedSecret": "Generar secretos"
   },
@@ -22,10 +22,10 @@
     "computeSharedSecret": "Generar un secreto"
   },
   "tapToDisconnect": "Toca para desconectar",
-  "moreInfo": "¿Confundido por algo?",
+  "moreInfo": "¿Algo no está claro?",
   "sessionsTitle": "Aplicaciones conectadas",
   "sessionsSubTitle": "Las siguientes aplicaciones están conectadas a {{appName}}. Puedes conectarte a más aplicaciones escaneando su código QR.",
   "disconnect": "Desconectar",
   "disconnectTitle": "¿Desconectar {{dappName}}?",
-  "disconnectBody": "¿Está seguro que desea desconectar de {{dappName}}?"
+  "disconnectBody": "¿Confirmas que quieres desconectarte de {{dappName}}?"
 }
