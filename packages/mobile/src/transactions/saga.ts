@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import { getProfileInfo } from 'src/account/profileInfo'
 import { showError } from 'src/alert/actions'
-import { TokenTransactionType, TransferItemFragment } from 'src/apollo/types'
+import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import { fetchGoldBalance } from 'src/goldToken/actions'
@@ -167,31 +167,33 @@ function* refreshRecentTxRecipients() {
   yield put(updateRecentTxRecipientsCache(recentTxRecipientsCache))
 }
 
-function* addProfile(transaction: TransferItemFragment) {
-  const address = transaction.account
-  const newProfile: AddressToRecipient = {}
-  if (transaction.type === TokenTransactionType.Received) {
-    const info = yield call(getProfileInfo, address)
-    if (info) {
-      newProfile[address] = {
+function* addProfile(address: string) {
+  const info = yield call(getProfileInfo, address)
+  if (info) {
+    const newProfile: AddressToRecipient = {
+      [address]: {
         address,
         name: info?.name,
         thumbnailPath: info?.thumbnailPath,
-      }
-
-      yield put(updateValoraRecipientCache(newProfile))
-      Logger.info(TAG, `added ${newProfile} to valoraRecipientCache`)
+      },
     }
+    yield put(updateValoraRecipientCache(newProfile))
+    Logger.info(TAG, `added ${newProfile} to valoraRecipientCache`)
   }
 }
 
 function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
   yield all(
-    transactions.map((trans) => {
-      if (isTransferTransaction(trans)) {
-        return call(addProfile, trans)
-      }
-    })
+    Array.from(
+      new Set(
+        transactions
+          .filter(
+            (trans) => isTransferTransaction(trans) && trans.type === TokenTransactionType.Received
+          )
+          // @ts-ignore isTransferTransaction ensures that trans is of TransferItemFragment type and has address
+          .map((trans) => trans.address)
+      )
+    ).map((address) => call(addProfile, address))
   )
 }
 

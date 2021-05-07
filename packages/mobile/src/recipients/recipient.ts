@@ -108,7 +108,7 @@ export function contactsToRecipients(contacts: MinimalContact[], defaultCountryC
             e164PhoneNumber: parsedNumber.e164Number,
             // @ts-ignore TODO Minimal contact type is incorrect, on android it returns id
             contactId: contact.recordID || contact.id,
-            thumbnailPath: contact.thumbnailPath,
+            // we are no longer using local contact pictures
           }
         } else {
           // don't do anything for contacts without e164PhoneNumber, as we can't interact with them anyways

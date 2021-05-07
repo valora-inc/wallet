@@ -70,7 +70,6 @@ export function* uploadNameAndPicture() {
   let writeError = yield call([nameAccessor, 'write'], { name }, [])
   if (writeError) {
     Logger.error(TAG + '@uploadNameAndPicture', writeError)
-    throw Error('Unable to write name')
   }
   Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile name')
 
@@ -83,7 +82,6 @@ export function* uploadNameAndPicture() {
     writeError = yield call([pictureAccessor, 'write'], Buffer.from(dataURL), [])
     if (writeError) {
       Logger.error(TAG + '@uploadNameAndPicture', writeError)
-      throw Error('Unable to write picture')
     }
     Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile picture')
   }
