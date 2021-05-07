@@ -66,6 +66,22 @@ After english was selected, detox will tap the button to submit our language of 
 
 The function needs to be `async`, and you will need to `await` all calls to detox functions.
 
+### Recording a test
+On macOS it is possible to record a test using [Detox Recorder](https://github.com/wix/DetoxRecorder).
+
+1. Run the app with `dev:ios` from `wallet/packages/mobile`.
+
+2. Navigate to the root folder `wallet`.
+
+3. Run the Detox Recorder.
+
+```sh
+# Running Detox Recorder from the wallet folder
+detox recorder --bundleId "org.celo.mobile.alfajores.dev" --simulatorId booted --outputTestFile "~/Desktop/RecordedTest.js" --testName "My Recorded Test" --record
+```
+
+4. Use the it block in the recorded test as a starting point for the new e2e test. Add expects where appropriate and structure it like existing tests in `wallet/packages/mobile/e2e/src/usecases`.
+
 ## Adding TestIDs
 
 A TestID is a unique string that you should give to the components you want to test. The build-in components from react native support adding testIDs like this:
