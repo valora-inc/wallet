@@ -136,8 +136,6 @@ export class PincodeSet extends React.Component<Props, State> {
     if (this.isPin1Valid(pin1) && this.isPin2Valid(pin2)) {
       setCachedPin(DEFAULT_CACHE_ACCOUNT, pin1)
       this.props.setPincode(PincodeType.CustomPin)
-      ValoraAnalytics.track(OnboardingEvents.pin_set)
-      this.navigateToNextScreen()
       if (this.isChangingPin()) {
         const updated = await updatePin(this.props.account, this.state.oldPin, pin2)
         if (updated) {
@@ -147,7 +145,10 @@ export class PincodeSet extends React.Component<Props, State> {
           ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
           Logger.showMessage(i18n.t('accountScreen10:pinChangeFailed'))
         }
+      } else {
+        ValoraAnalytics.track(OnboardingEvents.pin_set)
       }
+      this.navigateToNextScreen()
     } else {
       if (this.isChangingPin()) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
