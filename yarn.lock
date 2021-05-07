@@ -10866,6 +10866,35 @@ detox-recorder@^1.0.151:
   resolved "https://registry.yarnpkg.com/detox-recorder/-/detox-recorder-1.0.151.tgz#5d59775dc01ea58595c749aade0420c5ba73dd43"
   integrity sha512-a4ZPo7AR5XJJiLy8Xqml8YXxrIz6R7RKfiGmG9u5MBxG2I+w+yGJTj7ZhYDfoi5StpUD+dKHTCdvycZTOQ84Cw==
 
+detox@^17.13.2:
+  version "17.14.9"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-17.14.9.tgz#e269de0937e615eac92ac283b2303751bcf2c072"
+  integrity sha512-WLpl7BJ2xecZJ02hFFWgzo61RnlO/LlsH/U8GWztoXsT0z0t9iKsBci8AhSSErQfH0IHnNtDcZknIxt0gzNhoQ==
+  dependencies:
+    bunyan "^1.8.12"
+    bunyan-debug-stream "^1.1.0"
+    chalk "^2.4.2"
+    child-process-promise "^2.2.0"
+    find-up "^4.1.0"
+    fs-extra "^4.0.2"
+    funpermaproxy "^1.0.1"
+    get-port "^2.1.0"
+    ini "^1.3.4"
+    lodash "^4.17.5"
+    minimist "^1.2.0"
+    proper-lockfile "^3.0.2"
+    resolve-from "^5.0.0"
+    sanitize-filename "^1.6.1"
+    shell-quote "^1.7.2"
+    signal-exit "^3.0.3"
+    tail "^2.0.0"
+    telnet-client "1.2.8"
+    tempfile "^2.0.0"
+    which "^1.3.1"
+    ws "^3.3.1"
+    yargs "^16.0.3"
+    yargs-unparser "^2.0.0"
+
 detox@^18.12.2:
   version "18.12.2"
   resolved "https://registry.yarnpkg.com/detox/-/detox-18.12.2.tgz#8fa01e22ea7f627ef041824af15dc2bc3c2e46f9"
@@ -27362,7 +27391,7 @@ ws@^1.1.0, ws@^1.1.5:
     options ">=0.0.5"
     ultron "1.0.x"
 
-ws@^3.0.0:
+ws@^3.0.0, ws@^3.3.1:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/ws/-/ws-3.3.3.tgz#f1cf84fe2d5e901ebce94efaece785f187a228f2"
   integrity sha512-nnWLa/NwZSt4KQJu51MYlCcSQ5g7INpOrOMt4XV8j4dqTXdmlUmSHQ8/oLC069ckre0fRsgfvsKwbTdtKLCDkA==
