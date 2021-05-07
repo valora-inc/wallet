@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
@@ -32,6 +33,9 @@ import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Currency } from 'src/utils/currencies'
+import { Awaited } from 'src/utils/typescript'
+
+type PermissionStatus = Awaited<ReturnType<typeof check>>
 
 interface AppEventsProperties {
   [AppEvents.app_launched]: {
@@ -69,6 +73,15 @@ interface AppEventsProperties {
   }
   [AppEvents.redux_store_recovery_success]: {
     account: string
+  }
+  [AppEvents.request_tracking_permission_started]: {
+    currentPermission: PermissionStatus
+  }
+  [AppEvents.request_tracking_permission_declined]: {
+    newPermission: PermissionStatus
+  }
+  [AppEvents.request_tracking_permission_accepted]: {
+    newPermission: 'granted'
   }
 }
 
