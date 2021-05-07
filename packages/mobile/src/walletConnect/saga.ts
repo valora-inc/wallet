@@ -23,9 +23,9 @@ import {
   CloseSession,
   DenyRequest,
   DenySession,
-  initialiseClient as initialiseClientAction,
+  initialiseClient,
   InitialisePairing,
-  initialisePairing as initialisePairingAction,
+  initialisePairing,
   pairingCreated,
   pairingDeleted,
   pairingProposal,
@@ -40,7 +40,11 @@ import {
   WalletConnectActions,
 } from 'src/walletConnect/actions'
 import { SupportedActions } from 'src/walletConnect/constants'
-import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
+import {
+  selectHasPendingState,
+  selectPendingActions,
+  selectSessions,
+} from 'src/walletConnect/selectors'
 import { getWallet } from 'src/web3/contracts'
 import { getAccountAddress, unlockAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -72,6 +76,8 @@ export function* acceptSession({ session }: AcceptSession) {
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
   }
+
+  yield call(handlePendingState)
 }
 
 export function* denySession({ session }: DenySession) {
@@ -86,6 +92,8 @@ export function* denySession({ session }: DenySession) {
   } catch (e) {
     Logger.debug(TAG + '@denySession', e.message)
   }
+
+  yield call(handlePendingState)
 }
 
 export function* closeSession({ session }: CloseSession) {
@@ -99,6 +107,15 @@ export function* closeSession({ session }: CloseSession) {
     })
   } catch (e) {
     Logger.debug(TAG + '@closeSession', e.message)
+  }
+}
+
+function* handlePendingStateOrNavigateBack() {
+  const hasPendingState: boolean = yield select(selectHasPendingState)
+  if (hasPendingState) {
+    yield call(handlePendingState)
+  } else {
+    navigateBack()
   }
 }
 
@@ -137,13 +154,7 @@ export function* acceptRequest({
     Logger.debug(TAG + '@acceptRequest', e.message)
   }
 
-  const [, nextRequest] = yield select(selectPendingActions)
-  if (nextRequest) {
-    navigate(Screens.WalletConnectActionRequest, { request: nextRequest })
-    return
-  }
-
-  navigateBack()
+  yield call(handlePendingStateOrNavigateBack)
 }
 
 export function* denyRequest({
@@ -169,16 +180,10 @@ export function* denyRequest({
     Logger.debug(TAG + '@denyRequest', e.message)
   }
 
-  const [, nextRequest] = yield select(selectPendingActions)
-  if (nextRequest) {
-    navigate(Screens.WalletConnectActionRequest, { request: nextRequest })
-    return
-  }
-
-  navigateBack()
+  yield call(handlePendingStateOrNavigateBack)
 }
 
-export function* watchWalletConnectChannel() {
+export function* handleInitialiseWalletConnect() {
   const walletConnectChannel: EventChannel<WalletConnectActions> = yield call(
     createWalletConnectChannel
   )
@@ -284,45 +289,53 @@ export function* handleIncomingActionRequest({ request }: SessionPayload) {
   navigate(Screens.WalletConnectActionRequest, { request })
 }
 
-export function* initialisePairing({ uri }: InitialisePairing) {
+export function* handleInitialisePairing({ uri }: InitialisePairing) {
   try {
     if (!client) {
       throw new Error(`missing client`)
     }
 
-    Logger.debug(TAG + '@initialisePairing', 'pair start')
+    Logger.debug(TAG + '@handleInitialisePairing', 'pair start')
     yield call(client.pair.bind(client), { uri })
-    Logger.debug(TAG + '@initialisePairing', 'pair end')
+    Logger.debug(TAG + '@handleInitialisePairing', 'pair end')
   } catch (e) {
-    Logger.debug(TAG + '@initialisePairing', e.message)
+    Logger.debug(TAG + '@handleInitialisePairing', e.message)
   }
 }
 
-function* checkPersistedState(): any {
+function* handlePendingState(): any {
+  console.log('handlePendingState')
   const {
-    sessions,
     pending: [session],
   } = yield select(selectSessions)
   if (session) {
-    yield put(initialiseClientAction())
     navigate(Screens.WalletConnectSessionRequest, { session })
     return
   }
 
   const [request] = yield select(selectPendingActions)
   if (request) {
-    yield put(initialiseClientAction())
     navigate(Screens.WalletConnectActionRequest, { request })
   }
+}
 
+function* checkPersistedState(): any {
+  const hasPendingState = yield select(selectHasPendingState)
+  if (hasPendingState) {
+    yield put(initialiseClient())
+    yield call(handlePendingState)
+    return
+  }
+
+  const { sessions } = yield select(selectSessions)
   if (sessions.length) {
-    yield put(initialiseClientAction())
+    yield put(initialiseClient())
   }
 }
 
 export function* walletConnectSaga() {
-  yield takeLeading(Actions.INITIALISE_CLIENT, watchWalletConnectChannel)
-  yield takeEvery(Actions.INITIALISE_PAIRING, initialisePairing)
+  yield takeLeading(Actions.INITIALISE_CLIENT, handleInitialiseWalletConnect)
+  yield takeEvery(Actions.INITIALISE_PAIRING, handleInitialisePairing)
 
   yield takeEvery(Actions.ACCEPT_SESSION, acceptSession)
   yield takeEvery(Actions.DENY_SESSION, denySession)
@@ -338,8 +351,8 @@ export function* walletConnectSaga() {
 
 export function* initialiseWalletConnect(uri: string) {
   if (!client) {
-    yield put(initialiseClientAction())
+    yield put(initialiseClient())
     yield take(Actions.CLIENT_INITIALISED)
   }
-  yield put(initialisePairingAction(uri))
+  yield put(initialisePairing(uri))
 }
