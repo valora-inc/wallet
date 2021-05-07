@@ -7,7 +7,7 @@ import DeviceInfo from 'react-native-device-info'
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 import { AppEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
-import { DEFAULT_TESTNET, SEGMENT_API_KEY } from 'src/config'
+import { DEFAULT_TESTNET, isE2EEnv, SEGMENT_API_KEY } from 'src/config'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
 
@@ -170,7 +170,8 @@ class ValoraAnalytics {
   }
 
   private async requestTrackingPermissionIfNeeded() {
-    if (Platform.OS !== 'ios') {
+    // TODO: remove `isE2EEnv` and set permission via Detox when we upgrade
+    if (Platform.OS !== 'ios' || isE2EEnv) {
       return
     }
 
