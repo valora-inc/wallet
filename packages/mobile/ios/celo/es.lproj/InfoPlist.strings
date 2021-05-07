@@ -1,7 +1,0 @@
-/* DO NOT EDIT MANUALLY, SEE scripts/sync_ios_info_plist_strings.sh */
-
-"NSCameraUsageDescription" = "Conectar tu cámara te permite escanear códigos para pagos.";
-"NSContactsUsageDescription" = "Añadir tus contactos facilita el envío y la solicitud de pagos con tus amigos.";
-"NSPhotoLibraryAddUsageDescription" = "Conectar tu biblioteca de fotos te permite guardar tu código en tus fotos.";
-"NSPhotoLibraryUsageDescription" = "Esto es necesario para que elijas una foto de perfil.";
-"NSUserTrackingUsageDescription" = "Sus datos se utilizarán para hacer un seguimiento de la eficacia de la publicidad.";
