@@ -11,18 +11,18 @@
     "decrypt": "Descriptografar um payload de dados",
     "accounts": "Leia seu endereço da conta {{appName}}",
     "details": "Mostrar detalhes",
-    "computeSharedSecret": "Gerar Segredos"
+    "computeSharedSecret": "Gerar segredos"
   },
-  "sessionInfo": "Esta aplicação pode pedir para executar as seguintes ações:",
+  "sessionInfo": "Este aplicativo pode pedir para executar as seguintes ações:",
   "description": {
-    "sign": "Assinar Pagamentos",
+    "sign": "Assinar pagamentos",
     "signTransaction": "Enviar fundos",
     "accounts": "Ler endereço",
     "decrypt": "Descriptografar dados",
     "computeSharedSecret": "Gerar um segredo"
   },
   "tapToDisconnect": "Toque para desconectar",
-  "moreInfo": "Confuso com alguma coisa aqui?",
+  "moreInfo": "Tudo claro?",
   "sessionsTitle": "Apps conectados",
   "sessionsSubTitle": "Os seguintes aplicativos estão conectados a {{appName}}. Você pode se conectar a mais aplicativos escaneando o código QR.",
   "disconnect": "Desconectar",
