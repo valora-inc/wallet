@@ -8,6 +8,7 @@
   "continue": "Continuar",
   "connect": "Conectar",
   "save": "Guarda",
+  "scan": "Escanear",
   "next": "Siguiente",
   "skip": "Saltar",
   "copy": "Copiar",
@@ -194,5 +195,6 @@
   "simplexPurchaseFetchFailed": "Error al recuperar una cita de Simplex. Inténtalo de nuevo más tarde",
   "providerUrlFetchFailed": "No se pudo conectar al servicio. Ponte en contacto con el soporte técnico",
   "ok": "OK",
-  "cashOutLimitExceeded": "No puedes retirar más de tu saldo de {{currency}}{{balance}}"
+  "cashOutLimitExceeded": "No puedes retirar más de tu saldo de {{currency}}{{balance}}",
+  "appDescription": "Una cartera de pagos móviles que funciona en todo el mundo"
 }
