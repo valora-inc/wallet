@@ -196,5 +196,5 @@
   "providerUrlFetchFailed": "Não foi possível conectar ao serviço. Entre em contato o suporte",
   "ok": "OK",
   "cashOutLimitExceeded": "Você não pode sacar mais do que o seu saldo de {{currency}} {{balance}}",
-  "appDescription": "Uma carteira de pagamentos móveis que funciona em todo o mundo"
+  "appDescription": "Uma conta de pagamentos móveis que funciona em todo o mundo"
 }
