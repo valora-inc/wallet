@@ -4,7 +4,7 @@ export enum Currency {
   Euro = 'Celo Euro',
 }
 
-interface CurrencyInfo {
+export interface CurrencyInfo {
   symbol: string
   code: string
   displayDecimals: number
@@ -63,3 +63,5 @@ export const currencyToShortMap = {
   [Currency.Celo]: ShortCurrency.Celo,
   [Currency.Euro]: ShortCurrency.Euro,
 }
+
+export const STABLE_CURRENCIES = [Currency.Dollar, Currency.Euro]

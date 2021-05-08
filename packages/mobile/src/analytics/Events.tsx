@@ -230,6 +230,8 @@ export enum SendEvents {
   send_tx_start = 'send_tx_start',
   send_tx_complete = 'send_tx_complete', // when a send or invite transaction has successfully completed
   send_tx_error = 'send_tx_error', // when there is an error sending a transaction
+
+  token_selected = 'token_selected', // A token was selected in CurrencyPicker.
 }
 
 export enum RequestEvents {

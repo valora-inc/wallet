@@ -72,6 +72,8 @@
   "newAccountBalance": "New account balance: ",
   "estimatingFee": "Estimating fee ",
   "estimatedFee": "Estimated fee: ",
+  "selectBalance": "Select Balance",
+  "stableBalance": "{{token}} Balance",
   "verificationCta": {
     "header": "Sending to a friend?",
     "body": "Confirm your phone and sync your contacts to quickly send to your friends.",

@@ -1,0 +1,242 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CurrencyPicker renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "bottom": 0,
+      "justifyContent": "flex-end",
+      "left": 0,
+      "position": "absolute",
+      "right": 0,
+      "top": 0,
+    }
+  }
+  testID="CurrencyPickerContainer"
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#1B392F",
+        "height": "100%",
+        "opacity": 0.5,
+        "position": "absolute",
+        "width": "100%",
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "borderTopLeftRadius": 16,
+        "borderTopRightRadius": 16,
+        "opacity": 1,
+        "padding": 24,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#2E3338",
+          "fontFamily": "Jost-Medium",
+          "fontSize": 22,
+          "lineHeight": 28,
+          "marginBottom": 8,
+        }
+      }
+    >
+      selectBalance
+    </Text>
+    <RNGestureHandlerButton
+      collapsable={false}
+      onGestureEvent={[Function]}
+      onGestureHandlerEvent={[Function]}
+      onGestureHandlerStateChange={[Function]}
+      onHandlerStateChange={[Function]}
+      rippleColor={0}
+      testID="cUSDTouchable"
+    >
+      <View
+        accessible={true}
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "height": 72,
+            },
+            Object {
+              "opacity": 1,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#2E3338",
+              "flex": 1,
+              "fontFamily": "Inter-Medium",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          stableBalance
+        </Text>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-end",
+            }
+          }
+        >
+          <Text
+            numberOfLines={1}
+            style={
+              Array [
+                Object {
+                  "color": "#2E3338",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 22,
+                },
+                Object {
+                  "color": "#2E3338",
+                },
+              ]
+            }
+            testID="LocalcUSDBalance"
+          >
+            
+            $
+            13.30
+          </Text>
+          <Text
+            numberOfLines={1}
+            style={
+              Array [
+                Object {
+                  "color": "#9CA4A9",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                },
+                Object {
+                  "color": "#9CA4A9",
+                },
+              ]
+            }
+            testID="cUSDBalance"
+          >
+            
+            10.00
+             cUSD
+          </Text>
+        </View>
+      </View>
+    </RNGestureHandlerButton>
+    <View
+      style={
+        Object {
+          "backgroundColor": "#EDEEEF",
+          "height": 1,
+          "width": "100%",
+        }
+      }
+    />
+    <RNGestureHandlerButton
+      collapsable={false}
+      onGestureEvent={[Function]}
+      onGestureHandlerEvent={[Function]}
+      onGestureHandlerStateChange={[Function]}
+      onHandlerStateChange={[Function]}
+      rippleColor={0}
+      testID="cEURTouchable"
+    >
+      <View
+        accessible={true}
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "height": 72,
+            },
+            Object {
+              "opacity": 1,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#2E3338",
+              "flex": 1,
+              "fontFamily": "Inter-Medium",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          stableBalance
+        </Text>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-end",
+            }
+          }
+        >
+          <Text
+            numberOfLines={1}
+            style={
+              Array [
+                Object {
+                  "color": "#2E3338",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 22,
+                },
+                Object {
+                  "color": "#2E3338",
+                },
+              ]
+            }
+            testID="LocalcEURBalance"
+          >
+            
+            $
+            40.00
+          </Text>
+          <Text
+            numberOfLines={1}
+            style={
+              Array [
+                Object {
+                  "color": "#9CA4A9",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                },
+                Object {
+                  "color": "#9CA4A9",
+                },
+              ]
+            }
+            testID="cEURBalance"
+          >
+            
+            20.00
+             cEUR
+          </Text>
+        </View>
+      </View>
+    </RNGestureHandlerButton>
+  </View>
+</View>
+`;
