@@ -16,25 +16,31 @@ exports[`CurrencyPicker renders correctly 1`] = `
 >
   <View
     style={
-      Object {
-        "backgroundColor": "#1B392F",
-        "height": "100%",
-        "opacity": 0.5,
-        "position": "absolute",
-        "width": "100%",
-      }
+      Array [
+        Object {
+          "backgroundColor": "#1B392F",
+          "height": "100%",
+          "opacity": 0.5,
+          "position": "absolute",
+          "width": "100%",
+        },
+        undefined,
+      ]
     }
   />
   <View
     style={
-      Object {
-        "backgroundColor": "#FFFFFF",
-        "borderTopLeftRadius": 16,
-        "borderTopRightRadius": 16,
-        "opacity": 1,
-        "padding": 24,
-        "width": "100%",
-      }
+      Array [
+        Object {
+          "backgroundColor": "#FFFFFF",
+          "borderTopLeftRadius": 16,
+          "borderTopRightRadius": 16,
+          "opacity": 1,
+          "padding": 24,
+          "width": "100%",
+        },
+        undefined,
+      ]
     }
   >
     <Text

@@ -2,13 +2,15 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import BigNumber from 'bignumber.js'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
+import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import { Namespaces } from 'src/i18n'
 import { useCurrencyBalance } from 'src/stableToken/hooks'
 import { CURRENCIES, Currency, CurrencyInfo, STABLE_CURRENCIES } from 'src/utils/currencies'
@@ -66,11 +68,13 @@ function CurrencyOption({
   )
 }
 
+const PICKER_HEIGHT = 250
+
 function CurrencyPicker({ isVisible, origin, onCurrencySelected }: Props) {
+  const [showingOptions, setOptionsVisible] = useState(isVisible)
+
   const { t } = useTranslation(Namespaces.sendFlow7)
-  if (!isVisible) {
-    return null
-  }
+
   const onCurrencyPressed = (currency: Currency) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
@@ -78,10 +82,30 @@ function CurrencyPicker({ isVisible, origin, onCurrencySelected }: Props) {
     })
     onCurrencySelected(currency)
   }
+
+  const progress = useSharedValue(0)
+  const animatedPickerPosition = useAnimatedStyle(() => ({
+    transform: [{ translateY: (1 - progress.value) * PICKER_HEIGHT }],
+  }))
+  const animatedOpacity = useAnimatedStyle(() => ({
+    opacity: 0.5 * progress.value,
+  }))
+
+  useShowOrHideAnimation(
+    progress,
+    isVisible,
+    () => setOptionsVisible(true),
+    () => setOptionsVisible(false)
+  )
+
+  if (!showingOptions) {
+    return null
+  }
+
   return (
     <View style={styles.container} testID="CurrencyPickerContainer">
-      <View style={styles.background} />
-      <View style={styles.contentContainer}>
+      <Animated.View style={[styles.background, animatedOpacity]} />
+      <Animated.View style={[styles.contentContainer, animatedPickerPosition]}>
         <Text style={styles.title}>{t('selectBalance')}</Text>
         {STABLE_CURRENCIES.map((currency, index) => {
           return (
@@ -95,7 +119,7 @@ function CurrencyPicker({ isVisible, origin, onCurrencySelected }: Props) {
             </>
           )
         })}
-      </View>
+      </Animated.View>
     </View>
   )
 }
