@@ -85,7 +85,9 @@ function FiatExchange() {
 
       <View style={styles.optionsListContainer}>
         <ListItem onPress={goToAddFunds}>
-          <Text style={styles.optionTitle}>{t('fiatExchangeFlow:addFunds')}</Text>
+          <Text testID="addFunds" style={styles.optionTitle}>
+            {t('fiatExchangeFlow:addFunds')}
+          </Text>
           <Text style={styles.optionSubtitle}>{t('fiatExchangeFlow:addFundsSubtitle')}</Text>
         </ListItem>
         {features.SHOW_CASH_OUT ? (
