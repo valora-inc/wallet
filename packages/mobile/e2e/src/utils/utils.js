@@ -131,55 +131,57 @@ export function quote(s) {
 }
 
 export async function quickOnboarding() {
-  // Quickly pass through openning slides
-  for (let i = 0; i < 3; i++) {
-    await element(by.id('Education/progressButton')).tap()
-  }
+  try {
+    // Quickly pass through openning slides
+    for (let i = 0; i < 3; i++) {
+      await element(by.id('Education/progressButton')).tap()
+    }
 
-  // Tap Restore Account
-  await element(by.id('RestoreAccountButton')).tap()
+    // Tap Restore Account
+    await element(by.id('RestoreAccountButton')).tap()
 
-  // Accept Terms
-  await element(by.id('scrollView')).scrollTo('bottom')
-  await expect(element(by.id('AcceptTermsButton'))).toBeVisible()
-  await element(by.id('AcceptTermsButton')).tap()
+    // Accept Terms
+    await element(by.id('scrollView')).scrollTo('bottom')
+    await expect(element(by.id('AcceptTermsButton'))).toBeVisible()
+    await element(by.id('AcceptTermsButton')).tap()
 
-  // Name and Picture
-  await element(by.id('NameEntry')).replaceText(EXAMPLE_NAME)
-  await element(by.id('NameAndPictureContinueButton')).tap()
+    // Name and Picture
+    await element(by.id('NameEntry')).replaceText(EXAMPLE_NAME)
+    await element(by.id('NameAndPictureContinueButton')).tap()
 
-  // Set pin
-  await enterPinUi()
-  // Verify pin
-  await enterPinUi()
+    // Set pin
+    await enterPinUi()
+    // Verify pin
+    await enterPinUi()
 
-  // Restore existing wallet
-  await waitFor(element(by.id('connectingToCelo')))
-    .not.toBeVisible()
-    .withTimeout(20000)
-  // Input Wallet Backup Key
-  await element(by.id('ImportWalletBackupKeyInputField')).tap()
-  await element(by.id('ImportWalletBackupKeyInputField')).replaceText(`${SAMPLE_BACKUP_KEY}`)
-  if (device.getPlatform() === 'ios') {
-    // On iOS, type one more space to workaround onChangeText not being triggered with replaceText above
-    // and leaving the restore button disabled
-    await element(by.id('ImportWalletBackupKeyInputField')).typeText('\n')
-  } else if (device.getPlatform() === 'android') {
-    // Press back button to close the keyboard
-    await device.pressBack()
-  }
-  await element(by.id('ImportWalletButton')).tap()
+    // Restore existing wallet
+    await waitFor(element(by.id('connectingToCelo')))
+      .not.toBeVisible()
+      .withTimeout(20000)
+    // Input Wallet Backup Key
+    await element(by.id('ImportWalletBackupKeyInputField')).tap()
+    await element(by.id('ImportWalletBackupKeyInputField')).replaceText(`${SAMPLE_BACKUP_KEY}`)
+    if (device.getPlatform() === 'ios') {
+      // On iOS, type one more space to workaround onChangeText not being triggered with replaceText above
+      // and leaving the restore button disabled
+      await element(by.id('ImportWalletBackupKeyInputField')).typeText('\n')
+    } else if (device.getPlatform() === 'android') {
+      // Press back button to close the keyboard
+      await device.pressBack()
+    }
+    await element(by.id('ImportWalletButton')).tap()
 
-  // Dismiss banners if present
-  await dismissBanners()
+    // Dismiss banners if present
+    await dismissBanners()
 
-  // Verify Education
-  await waitForElementId('VerificationEducationSkipHeader')
-  // Skip
-  await element(by.id('VerificationEducationSkipHeader')).tap()
-  // Confirmation popup skip
-  await element(by.id('VerificationSkipDialog/PrimaryAction')).tap()
+    // Verify Education
+    await waitForElementId('VerificationEducationSkipHeader')
+    // Skip
+    await element(by.id('VerificationEducationSkipHeader')).tap()
+    // Confirmation popup skip
+    await element(by.id('VerificationSkipDialog/PrimaryAction')).tap()
 
-  // Assert on Wallet Home Screen
-  await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+    // Assert on Wallet Home Screen
+    await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+  } catch {}
 }
