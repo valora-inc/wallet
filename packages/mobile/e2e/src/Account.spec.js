@@ -1,7 +1,4 @@
 import RestoreAccountOnboarding from './usecases/RestoreAccountOnboarding'
-import Send from './usecases/Send'
-import SecureSend from './usecases/SecureSend'
-import ExchangeCelo from './usecases/ExchangeCelo'
 import ResetAccount from './usecases/ResetAccount'
 import Support from './usecases/Support'
 
