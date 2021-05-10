@@ -490,8 +490,9 @@ interface SendEventsProperties {
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [SendEvents.send_confirm_back]: undefined
   [SendEvents.send_confirm_send]: {
@@ -557,20 +558,24 @@ interface RequestEventsProperties {
     usedSearchBar: boolean
   }
   [RequestEvents.request_amount_continue]: {
+    origin: SendOrigin
     isScan: boolean
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [RequestEvents.request_unavailable]: {
+    origin: SendOrigin
     isScan: boolean
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {

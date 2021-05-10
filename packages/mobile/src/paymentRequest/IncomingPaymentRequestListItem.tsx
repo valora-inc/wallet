@@ -74,6 +74,7 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
       reason: comment,
       recipient: requester,
       amount: new BigNumber(amount),
+      currency: Currency.Dollar,
       type: TokenTransactionType.PayRequest,
       firebasePendingRequestUid: id,
     }

@@ -62,7 +62,7 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { clearPasswordCaches } from 'src/pincode/PasswordCache'
 import { waitFor } from 'src/redux/sagas-helpers'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import Logger from 'src/utils/Logger'
 import {
   checkIfKomenciAvailable,

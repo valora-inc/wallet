@@ -10,6 +10,7 @@ exports[`CurrencyPicker renders correctly 1`] = `
       "position": "absolute",
       "right": 0,
       "top": 0,
+      "zIndex": 1,
     }
   }
   testID="CurrencyPickerContainer"

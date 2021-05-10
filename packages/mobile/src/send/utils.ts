@@ -8,18 +8,21 @@ import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { ALERT_BANNER_DURATION } from 'src/config'
-import { exchangeRatePairSelector } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/actions'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
 import { E164NumberToAddressType, SecureSendPhoneNumberMapping } from 'src/identity/reducer'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { convertDollarsToLocalAmount, convertLocalAmountToDollars } from 'src/localCurrency/convert'
+import {
+  convertCurrencyToLocalAmount,
+  convertDollarsToLocalAmount,
+  convertLocalAmountToDollars,
+} from 'src/localCurrency/convert'
 import { fetchExchangeRate } from 'src/localCurrency/saga'
 import {
   getLocalCurrencyCode,
-  getLocalCurrencyExchangeRate,
   getLocalCurrencySymbol,
+  localCurrencyExchangeRateSelector,
 } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -36,7 +39,6 @@ import { PaymentInfo } from 'src/send/reducers'
 import { getRecentPayments } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { Currency } from 'src/utils/currencies'
-import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInHours } from 'src/utils/time'
 
@@ -105,25 +107,26 @@ function dailySpent(now: number, recentPayments: PaymentInfo[]) {
   return amount
 }
 
+/**
+ * Everything in this function is mapped to dollar amounts
+ */
 export function useDailyTransferLimitValidator(
   amount: BigNumber,
   currency: Currency
 ): [boolean, () => void] {
   const dispatch = useDispatch()
 
-  const exchangeRatePair = useSelector(exchangeRatePairSelector)
+  const localExchangeRates = useSelector(localCurrencyExchangeRateSelector)
 
   const dollarAmount = useMemo(() => {
     if (currency === Currency.Dollar) {
       return amount
-    } else {
-      const exchangeRate = getRateForMakerToken(exchangeRatePair, Currency.Dollar, Currency.Celo)
-      return goldToDollarAmount(amount, exchangeRate) || new BigNumber(0)
     }
+    const localAmount = convertCurrencyToLocalAmount(amount, localExchangeRates[currency])
+    return convertLocalAmountToDollars(localAmount, localExchangeRates[Currency.Dollar])
   }, [amount, currency])
 
   const recentPayments = useSelector(getRecentPayments)
-  const localCurrencyExchangeRate = useSelector(getLocalCurrencyExchangeRate)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
 
@@ -132,7 +135,7 @@ export function useDailyTransferLimitValidator(
   const isLimitReached = _isPaymentLimitReached(
     now,
     recentPayments,
-    dollarAmount.toNumber(),
+    dollarAmount?.toNumber() ?? 0, // TODO: Handle error case better
     dailyLimitCusd
   )
   const showLimitReachedBanner = () => {
@@ -140,7 +143,7 @@ export function useDailyTransferLimitValidator(
       showLimitReachedError(
         now,
         recentPayments,
-        localCurrencyExchangeRate,
+        localExchangeRates[Currency.Dollar],
         localCurrencySymbol,
         dailyLimitCusd
       )
@@ -229,6 +232,7 @@ export function* handleSendPaymentData(
       const transactionData: TransactionDataInput = {
         recipient,
         amount: dollarAmount,
+        currency: Currency.Dollar,
         reason: data.comment,
         type: TokenTransactionType.PayPrefill,
       }

@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 
 const ESTIMATED_COST_PER_ATTESTATION = 0.051
 

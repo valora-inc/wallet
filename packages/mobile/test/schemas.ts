@@ -4,6 +4,7 @@ import { AppState } from 'src/app/actions'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
+import { Currency } from 'src/utils/currencies'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
 
 // Default (version -1 schema)
@@ -575,6 +576,10 @@ export const v9Schema = {
     ...v8Schema.localCurrency,
     eurExchangeRate: '2',
     celoExchangeRate: '3',
+  },
+  send: {
+    ...v8Schema.send,
+    lastUsedCurrency: Currency.Dollar,
   },
 }
 

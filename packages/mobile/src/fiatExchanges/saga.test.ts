@@ -17,6 +17,7 @@ import {
   sendPaymentOrInviteFailure,
   sendPaymentOrInviteSuccess,
 } from 'src/send/actions'
+import { Currency } from 'src/utils/currencies'
 import { mockAccount } from 'test/values'
 
 const now = Date.now()
@@ -79,6 +80,7 @@ describe(watchBidaliPaymentRequests, () => {
       origin: SendOrigin.Bidali,
       transactionData: {
         amount,
+        currency: Currency.Dollar,
         reason: 'Some description (TEST_CHARGE_ID)',
         recipient,
         type: TokenTransactionType.PayPrefill,
@@ -125,6 +127,7 @@ describe(watchBidaliPaymentRequests, () => {
       origin: SendOrigin.Bidali,
       transactionData: {
         amount,
+        currency: Currency.Dollar,
         reason: 'Some description (TEST_CHARGE_ID)',
         recipient,
         type: TokenTransactionType.PayPrefill,

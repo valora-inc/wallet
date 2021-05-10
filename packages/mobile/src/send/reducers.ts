@@ -2,6 +2,7 @@ import { Actions as AppActions, UpdateFeatureFlagsAction } from 'src/app/actions
 import { areRecipientsEquivalent, Recipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { Actions, ActionTypes } from 'src/send/actions'
+import { Currency } from 'src/utils/currencies'
 import { timeDeltaInHours } from 'src/utils/time'
 
 // Sets the limit of recent recipients we want to store
@@ -21,6 +22,7 @@ export interface State {
   inviteRewardsEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
+  lastUsedCurrency: Currency
 }
 
 const initialState = {
@@ -30,10 +32,11 @@ const initialState = {
   inviteRewardsEnabled: false,
   inviteRewardCusd: 0,
   inviteRewardWeeklyLimit: 0,
+  lastUsedCurrency: Currency.Dollar,
 }
 
 export const sendReducer = (
-  state: State | undefined = initialState,
+  state: State = initialState,
   action: ActionTypes | RehydrateAction | UpdateFeatureFlagsAction
 ) => {
   switch (action.type) {
@@ -76,6 +79,11 @@ export const sendReducer = (
         inviteRewardsEnabled: action.flags.inviteRewardsEnabled,
         inviteRewardCusd: action.flags.inviteRewardCusd,
         inviteRewardWeeklyLimit: action.flags.inviteRewardWeeklyLimit,
+      }
+    case Actions.UPDATE_LAST_USED_CURRENCY:
+      return {
+        ...state,
+        lastUsedCurrency: action.currency,
       }
     default:
       return state

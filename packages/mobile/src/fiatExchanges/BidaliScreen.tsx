@@ -17,7 +17,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 function useInitialJavaScript(

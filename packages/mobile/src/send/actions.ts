@@ -3,6 +3,7 @@ import { FeeInfo } from 'src/fees/saga'
 import { InviteBy } from 'src/invite/actions'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { Currency } from 'src/utils/currencies'
 import { Svg } from 'svgs'
 
 export interface QrCode {
@@ -19,6 +20,7 @@ export enum Actions {
   SEND_PAYMENT_OR_INVITE = 'SEND/SEND_PAYMENT_OR_INVITE',
   SEND_PAYMENT_OR_INVITE_SUCCESS = 'SEND/SEND_PAYMENT_OR_INVITE_SUCCESS',
   SEND_PAYMENT_OR_INVITE_FAILURE = 'SEND/SEND_PAYMENT_OR_INVITE_FAILURE',
+  UPDATE_LAST_USED_CURRENCY = 'SEND/UPDATE_LAST_USED_CURRENCY',
 }
 
 export interface HandleBarcodeDetectedAction {
@@ -61,6 +63,11 @@ export interface SendPaymentOrInviteFailureAction {
   type: Actions.SEND_PAYMENT_OR_INVITE_FAILURE
 }
 
+export interface UpdateLastUsedCurrencyAction {
+  type: Actions.UPDATE_LAST_USED_CURRENCY
+  currency: Currency
+}
+
 export type ActionTypes =
   | HandleBarcodeDetectedAction
   | ShareQRCodeAction
@@ -68,6 +75,7 @@ export type ActionTypes =
   | SendPaymentOrInviteAction
   | SendPaymentOrInviteSuccessAction
   | SendPaymentOrInviteFailureAction
+  | UpdateLastUsedCurrencyAction
 
 export const storeLatestInRecents = (recipient: Recipient): StoreLatestInRecentsAction => ({
   type: Actions.STORE_LATEST_IN_RECENTS,
@@ -124,4 +132,9 @@ export const sendPaymentOrInviteSuccess = (
 
 export const sendPaymentOrInviteFailure = (): SendPaymentOrInviteFailureAction => ({
   type: Actions.SEND_PAYMENT_OR_INVITE_FAILURE,
+})
+
+export const updateLastUsedCurrency = (currency: Currency): UpdateLastUsedCurrencyAction => ({
+  type: Actions.UPDATE_LAST_USED_CURRENCY,
+  currency,
 })

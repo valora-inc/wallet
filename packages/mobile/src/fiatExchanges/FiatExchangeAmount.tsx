@@ -36,8 +36,8 @@ import i18n, { Namespaces } from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
   convertDollarsToLocalAmount,
-  convertDollarsToMaxSupportedPrecision,
   convertLocalAmountToDollars,
+  convertToMaxSupportedPrecision,
 } from 'src/localCurrency/convert'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import { getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
@@ -46,7 +46,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
 import Logger from 'src/utils/Logger'
@@ -80,7 +80,7 @@ const useDollarAmount = (
       localAmount,
       localCurrencyCode ? localExchangeRate : 1
     )
-    return convertDollarsToMaxSupportedPrecision(dollarAmount ?? new BigNumber('0'))
+    return convertToMaxSupportedPrecision(dollarAmount ?? new BigNumber('0'))
   } else {
     const exchangeRate = getRateForMakerToken(exchangeRatePair, Currency.Dollar, Currency.Celo)
     return goldToDollarAmount(amount, exchangeRate) || new BigNumber(0)

@@ -13,6 +13,7 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import useSelector from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { balancesSelector } from 'src/stableToken/selectors'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 export const noHeader: StackNavigationOptions = {
@@ -24,7 +25,7 @@ export const noHeaderGestureDisabled: StackNavigationOptions = {
   gestureEnabled: false,
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   headerTitle: {
     ...fontStyles.navigationHeader,
   },
@@ -113,26 +114,24 @@ export const headerWithCloseButton: StackNavigationOptions = {
 }
 
 interface Props {
-  title: string
+  title: string | JSX.Element
   token: Currency
 }
 
 export function HeaderTitleWithBalance({ title, token }: Props) {
-  const dollarBalance = useSelector((state) => state.stableToken.balance)
-  const goldBalance = useSelector((state) => state.goldToken.balance)
-
-  const balance = token === Currency.Celo ? goldBalance : dollarBalance
+  const balances = useSelector(balancesSelector)
+  const balance = balances[token]
 
   const subTitle =
     balance != null ? (
       <Trans i18nKey="balanceAvailable" ns={Namespaces.global}>
         <CurrencyDisplay
+          style={styles.headerSubTitle}
           amount={{
             value: balance,
             currencyCode: CURRENCIES[token].code,
           }}
-        />{' '}
-        available
+        />
       </Trans>
     ) : (
       // TODO: a null balance doesn't necessarily mean it's loading

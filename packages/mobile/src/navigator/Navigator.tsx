@@ -92,7 +92,7 @@ import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
-import SendAmount, { sendAmountScreenNavOptions } from 'src/send/SendAmount'
+import SendAmount from 'src/send/SendAmount'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
@@ -260,11 +260,7 @@ const nuxScreens = (Navigator: typeof Stack) => (
 
 const sendScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen
-      name={Screens.SendAmount}
-      component={SendAmount}
-      options={sendAmountScreenNavOptions}
-    />
+    <Navigator.Screen name={Screens.SendAmount} component={SendAmount} options={noHeader} />
     <Navigator.Screen
       name={Screens.SendConfirmation}
       component={SendConfirmation}

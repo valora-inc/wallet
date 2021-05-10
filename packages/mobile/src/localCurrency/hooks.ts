@@ -1,7 +1,12 @@
 import BigNumber from 'bignumber.js'
+import { useMemo } from 'react'
 import { MoneyAmount } from 'src/apollo/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
+import {
+  convertCurrencyToLocalAmount,
+  convertDollarsToLocalAmount,
+  convertLocalAmountToCurrency,
+} from 'src/localCurrency/convert'
 import {
   getLocalCurrencyCode,
   getLocalCurrencyExchangeRate,
@@ -10,7 +15,7 @@ import {
 } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
-import { currencyByCode } from 'src/utils/currencies'
+import { Currency, currencyByCode } from 'src/utils/currencies'
 
 export function useDollarToLocalRate() {
   return useSelector(getLocalCurrencyExchangeRate)
@@ -46,4 +51,25 @@ export function useLocalCurrencyCode() {
 
 export function useLocalCurrencySymbol() {
   return useSelector(getLocalCurrencySymbol)
+}
+
+export function useLocalAmountInStableCurrency(amount: BigNumber, currency: Currency) {
+  const exchangeRate = useSelector(localCurrencyExchangeRateSelector)[currency]
+  return useMemo(() => convertLocalAmountToCurrency(amount, exchangeRate), [amount, exchangeRate])
+}
+
+export function useStableCurrencyAmountInLocal(amount: BigNumber, currency: Currency) {
+  const exchangeRate = useSelector(localCurrencyExchangeRateSelector)[currency]
+  return useMemo(() => convertCurrencyToLocalAmount(amount, exchangeRate), [amount, exchangeRate])
+}
+
+export function useConvertBetweenCurrencies(amount: BigNumber, from: Currency, to: Currency) {
+  const exchangeRates = useSelector(localCurrencyExchangeRateSelector)
+  return useMemo(() => {
+    if (from === to) {
+      return amount
+    }
+    const localAmount = convertCurrencyToLocalAmount(amount, exchangeRates[from])
+    return convertLocalAmountToCurrency(localAmount, exchangeRates[to])
+  }, [amount, exchangeRates, from, to])
 }

@@ -20,7 +20,7 @@ import {
   NumberToRecipient,
   RecipientInfo,
 } from 'src/recipients/recipient'
-import { ShortCurrency } from 'src/utils/currencies'
+import { Currency, ShortCurrency } from 'src/utils/currencies'
 
 export const nullAddress = '0x0'
 
@@ -131,12 +131,14 @@ export const mockInvitableRecipient2: ContactRecipient = {
 export const mockTransactionData = {
   recipient: mockInvitableRecipient2,
   amount: new BigNumber(1),
+  currency: Currency.Dollar,
   type: TokenTransactionType.Sent,
 }
 
 export const mockInviteTransactionData = {
   recipient: mockInvitableRecipient2,
   amount: new BigNumber(1),
+  currency: Currency.Dollar,
   type: TokenTransactionType.InviteSent,
 }
 

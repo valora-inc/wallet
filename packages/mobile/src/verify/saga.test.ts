@@ -18,7 +18,7 @@ import { BALANCE_CHECK_TIMEOUT, getActionableAttestations } from 'src/identity/v
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { waitFor } from 'src/redux/sagas-helpers'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import {
   doVerificationFlow,
   e164NumberSelector,

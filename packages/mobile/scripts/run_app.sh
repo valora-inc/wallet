@@ -113,7 +113,7 @@ elif [ "$PLATFORM" = "ios" ]; then
   startPackager
   simulator_param=""
   if [ -n "$SIMULATOR" ]; then
-    simulator_param="--simulator=\"$SIMULATOR)\""
+    simulator_param="--simulator=\"$SIMULATOR\""
   fi
   yarn react-native run-ios --scheme "celo-${ENV_NAME}" --configuration "$CONFIGURATION" --no-packager "${simulator_param}"
 
