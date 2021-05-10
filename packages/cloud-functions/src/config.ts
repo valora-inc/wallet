@@ -19,6 +19,7 @@ export const RAMP_DATA = {
 
 export const TRANSAK_DATA = {
   widget_url: config.transak.widget_url,
+  api_url: config.transak.api_url,
   public_key: config.transak.public_key,
   private_key: config.transak.private_key,
 }

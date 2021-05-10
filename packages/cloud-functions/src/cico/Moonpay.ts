@@ -45,14 +45,12 @@ const Moonpay = {
   // From: https://support.moonpay.com/hc/en-gb/articles/360011931517-How-much-does-it-cost-to-buy-cryptocurrency-with-MoonPay-
   getFeePolicy: () => ({
     [PaymentMethod.Card]: {
-      percentage: 4.5,
+      percent: 4.5,
       minimum: 3.99,
-      extraNetwork: true,
     },
     [PaymentMethod.Bank]: {
-      percentage: 1,
+      percent: 1,
       minimum: 3.99,
-      extraNetwork: true,
     },
   }),
   fetchQuote: async (digitalAsset: DigitalAsset, fiatCurrency: string, fiatAmount: number) => {
@@ -73,9 +71,26 @@ const Moonpay = {
         paymentMethods.map((method) => Moonpay.get(`${baseUrl}&paymentMethod=${method}`))
       )
 
+      if (responses.every((response) => !response.ok)) {
+        throw Error(
+          `Fetchs failed with status codes ${responses[0].status} & ${responses[1].status}`
+        )
+      }
+
       const [bankQuote, cardQuote]: MoonpayQuote[] = await Promise.all(
         responses.map((response) => response.json())
       )
+
+      return {
+        bank: {
+          fee: bankQuote.feeAmount + bankQuote.extraFeeAmount + bankQuote.networkFeeAmount,
+          totalAssetsAcquired: bankQuote.quoteCurrencyAmount,
+        },
+        card: {
+          fee: cardQuote.feeAmount + cardQuote.extraFeeAmount + cardQuote.networkFeeAmount,
+          totalAssetsAcquired: cardQuote.quoteCurrencyAmount,
+        },
+      }
     } catch (error) {
       console.error('Error fetching Moonpay quote: ', error)
     }
@@ -85,7 +100,7 @@ const Moonpay = {
       const response = await fetchWithTimeout(path, null, FETCH_TIMEOUT_DURATION)
 
       if (!response || !response.ok) {
-        throw Error(`Moonpay post request failed with status ${response?.status}`)
+        throw Error(`Moonpay get request failed with status ${response?.status}`)
       }
 
       return response

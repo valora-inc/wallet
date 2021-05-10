@@ -8,6 +8,7 @@ import {
   SIMPLEX_DATA,
 } from '../config'
 import { UserDeviceInfo } from './composeCicoProviderUrl'
+import { PaymentMethod } from './fetchProviders'
 import { fetchWithTimeout, getOrCreateUuid, getUserInitData } from './utils'
 
 export interface SimplexQuote {
@@ -38,6 +39,14 @@ export interface SimplexPaymentData {
 }
 
 const Simplex = {
+  // From: https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-do-you-charge-for-card-payments
+  getFeesPolicy: () => ({
+    [PaymentMethod.Card]: {
+      percentage: [2.5, 5],
+      minimum: 10,
+      extraNetwork: true,
+    },
+  }),
   fetchQuote: async (
     userAddress: string,
     ipAddress: string | null,
