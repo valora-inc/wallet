@@ -9,6 +9,7 @@
   "legal": "Jurídico",
   "securityAndData": "Segurança e Dados",
   "requirePinOnAppOpen": "Exigir PIN ao abrir o aplicativo",
+  "connectedApplications": "Apps conectados",
   "analytics": "Estatísticas",
   "shareAnalytics": "Compartilhar estatísticas",
   "shareAnalytics_detail": "Coletamos dados anônimos sobre como você usa a {{appName}} para ajudar a melhorar o aplicativo para todos.",
