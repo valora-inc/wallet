@@ -81,7 +81,7 @@ export enum ErrorMessages {
   FIREBASE_FETCH_FAILED = 'firebaseFetchFailed',
   PICTURE_LOAD_FAILED = 'pictureLoadFailed',
   SIMPLEX_PURCHASE_FETCH_FAILED = 'simplexPurchaseFetchFailed',
-  PROVIDER_URL_FETCH_FAILED = 'providerUrlFetchFailed',
+  PROVIDER_FETCH_FAILED = 'providerFetchFailed',
   CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',
   RAISE_LIMIT_EMAIL_NOT_SENT = 'accountScreen10:raiseLimitEmailNotSent',
 }

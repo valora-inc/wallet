@@ -62,6 +62,10 @@
       ".read": true,
       ".write": false
     },
+    "providerLogos": {
+      ".read": true,
+      ".write": false
+    },
     "localCicoProviders": {
       ".read": true,
       ".write": false
