@@ -1,11 +1,12 @@
 import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
@@ -20,6 +21,7 @@ import { QrCode, SVG } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { handleSendPaymentData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
+import { initialiseWalletConnect } from 'src/walletConnect/saga'
 
 export enum BarcodeTypes {
   QR_CODE = 'QR_CODE',
@@ -103,6 +105,12 @@ export function* handleBarcode(
   isOutgoingPaymentRequest?: true,
   requesterAddress?: string
 ) {
+  const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
+  if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
+    yield call(initialiseWalletConnect, barcode.data)
+    return
+  }
+
   let qrData: UriData
   try {
     qrData = uriDataFromUrl(barcode.data)
@@ -113,7 +121,7 @@ export function* handleBarcode(
   }
 
   if (secureSendTxData) {
-    const success = yield call(
+    const success: boolean = yield call(
       handleSecureSend,
       qrData.address,
       e164NumberToAddress,
