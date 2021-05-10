@@ -18,6 +18,7 @@ export enum Testnets {
 }
 
 interface NetworkConfig {
+  networkId: string
   nodeDir: string
   syncMode: GethSyncMode
   initiallyForno: boolean
@@ -36,6 +37,7 @@ interface NetworkConfig {
   providerFetchUrl: string
   simplexApiUrl: string
   komenciLoadCheckEndpoint: string
+  walletConnectEndpoint: string
 }
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
@@ -73,6 +75,7 @@ const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
+    networkId: '44787',
     nodeDir: `.${Testnets.alfajores}`,
     syncMode: DEFAULT_SYNC_MODE,
     initiallyForno: FORNO_ENABLED_INITIALLY,
@@ -91,8 +94,10 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     providerFetchUrl: PROVIDER_FETCH_URL_ALFAJORES,
     simplexApiUrl: SIMPLEX_API_URL_STAGING,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
+    walletConnectEndpoint: 'wss://walletconnect.celo-networks-dev.org',
   },
   [Testnets.mainnet]: {
+    networkId: '42220',
     nodeDir: `.${Testnets.mainnet}`,
     syncMode: DEFAULT_SYNC_MODE,
     initiallyForno: FORNO_ENABLED_INITIALLY,
@@ -111,6 +116,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     providerFetchUrl: PROVIDER_FETCH_URL_MAINNET,
     simplexApiUrl: SIMPLEX_API_URL_PROD,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
+    walletConnectEndpoint: 'wss://walletconnect.celo.org',
   },
 }
 
