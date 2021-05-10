@@ -5,6 +5,7 @@ import {
   SignTxRequest,
   TxToSignParam,
 } from '@celo/utils'
+import { SessionTypes } from '@walletconnect/types'
 import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
 import { CurrencyCode } from 'src/config'
@@ -257,6 +258,13 @@ export type StackParamList = {
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
+  [Screens.WalletConnectSessionRequest]: {
+    session: SessionTypes.Proposal
+  }
+  [Screens.WalletConnectSessions]: undefined
+  [Screens.WalletConnectActionRequest]: {
+    request: SessionTypes.RequestEvent
+  }
   [Screens.WalletHome]: undefined
   [Screens.WebViewScreen]: { uri: string }
   [Screens.Welcome]: undefined
