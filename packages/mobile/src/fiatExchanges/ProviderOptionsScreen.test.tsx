@@ -4,12 +4,12 @@ import * as React from 'react'
 import { Text } from 'react-native'
 import { fireEvent, render, waitForElement } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import { CurrencyCode } from 'src/config'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
+import ProviderOptionsScreen, { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { navigateToURI } from 'src/utils/linking'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
@@ -40,24 +40,12 @@ const mockStore = createMockStore({
   },
 })
 
-const mockIpAddress = '1.1.1.1.1.0'
+const MOCK_IP_ADDRESS = '1.1.1.1.1.0'
 
-const UNRESTRICTED_USER_LOCATION = JSON.stringify({
+const MOCK_USER_LOCATION = JSON.stringify({
   alpha2: 'MX',
   state: null,
-  ipAddress: mockIpAddress,
-})
-
-const MIXED_RESTRICTION_USER_LOCATION = JSON.stringify({
-  alpha2: 'US',
-  state: 'CA',
-  ipAddress: mockIpAddress,
-})
-
-const RESTRICTED_USER_LOCATION = JSON.stringify({
-  alpha2: 'KP',
-  state: null,
-  ipAddress: mockIpAddress,
+  ipAddress: MOCK_IP_ADDRESS,
 })
 
 const MOCK_SIMPLEX_QUOTE = {
@@ -77,7 +65,62 @@ const MOCK_SIMPLEX_QUOTE = {
   supported_digital_currencies: ['CUSD', 'CELO'],
 }
 
-const MOCK_SIMPLEX_QUOTE_FETCH_RESPONSE = JSON.stringify(MOCK_SIMPLEX_QUOTE)
+export const mockProviders: CicoProvider[] = [
+  {
+    name: 'Simplex',
+    restricted: false,
+    unavailable: false,
+    paymentMethods: [PaymentMethod.Card],
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    quote: MOCK_SIMPLEX_QUOTE,
+    cashIn: true,
+    cashOut: false,
+  },
+  {
+    name: 'Moonpay',
+    restricted: false,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    url: 'https://www.moonpay.com/',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+    cashIn: true,
+    cashOut: false,
+  },
+  {
+    name: 'Ramp',
+    restricted: false,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    url: 'www.fakewebsite.com',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+    cashIn: true,
+    cashOut: false,
+  },
+  {
+    name: 'Xanpool',
+    restricted: true,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    url: 'www.fakewebsite.com',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
+    cashIn: true,
+    cashOut: true,
+  },
+  {
+    name: 'Transak',
+    restricted: false,
+    unavailable: true,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    url: 'www.fakewebsite.com',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+    cashIn: true,
+    cashOut: false,
+  },
+]
+
+const MOCK_PROVIDER_FETCH = JSON.stringify(mockProviders)
 
 describe('ProviderOptionsScreen', () => {
   const mockFetch = fetch as FetchMock
@@ -88,7 +131,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('renders correctly', async () => {
-    mockFetch.mockResponses(MIXED_RESTRICTION_USER_LOCATION, MOCK_SIMPLEX_QUOTE_FETCH_RESPONSE)
+    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -102,7 +145,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('opens Simplex correctly', async () => {
-    mockFetch.mockResponses(UNRESTRICTED_USER_LOCATION, MOCK_SIMPLEX_QUOTE_FETCH_RESPONSE)
+    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -115,12 +158,12 @@ describe('ProviderOptionsScreen', () => {
     fireEvent.press(tree.getByTestId('Provider/Simplex'))
     expect(navigate).toHaveBeenCalledWith(Screens.Simplex, {
       simplexQuote: MOCK_SIMPLEX_QUOTE,
-      userIpAddress: mockIpAddress,
+      userIpAddress: MOCK_IP_ADDRESS,
     })
   })
 
-  it('opens MoonPay correctly', async () => {
-    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
+  it('opens a non-integrated provider correctly', async () => {
+    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -131,72 +174,11 @@ describe('ProviderOptionsScreen', () => {
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
 
     fireEvent.press(tree.getByTestId('Provider/Moonpay'))
-    expect(navigate).toHaveBeenCalledWith(Screens.MoonPayScreen, {
-      localAmount: AMOUNT_TO_CASH_IN,
-      currencyCode: LocalCurrencyCode.USD,
-      currencyToBuy: CurrencyCode.CUSD,
-    })
-  })
-
-  it('opens Ramp correctly', async () => {
-    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
-
-    const tree = render(
-      <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
-      </Provider>
-    )
-
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
-
-    fireEvent.press(tree.getByTestId('Provider/Ramp'))
-    expect(navigate).toHaveBeenCalledWith(Screens.RampScreen, {
-      localAmount: AMOUNT_TO_CASH_IN,
-      currencyCode: LocalCurrencyCode.USD,
-      currencyToBuy: CurrencyCode.CUSD,
-    })
-  })
-
-  it('opens Transak correctly', async () => {
-    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
-
-    const tree = render(
-      <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
-      </Provider>
-    )
-
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
-
-    fireEvent.press(tree.getByTestId('Provider/Transak'))
-    expect(navigate).toHaveBeenCalledWith(Screens.TransakScreen, {
-      localAmount: AMOUNT_TO_CASH_IN,
-      currencyCode: LocalCurrencyCode.USD,
-      currencyToBuy: CurrencyCode.CUSD,
-    })
-  })
-
-  it('opens XanPool correctly', async () => {
-    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
-
-    const tree = render(
-      <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
-      </Provider>
-    )
-
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
-
-    fireEvent.press(tree.getByTestId('Provider/Xanpool'))
-    expect(navigate).toHaveBeenCalledWith(Screens.XanpoolScreen, {
-      localAmount: AMOUNT_TO_CASH_IN,
-      currencyCode: LocalCurrencyCode.USD,
-      currencyToBuy: CurrencyCode.CUSD,
-    })
+    expect(navigateToURI).toHaveBeenCalledWith(mockProviders[1].url)
   })
 
   it('moves available providers to the top of the list', async () => {
-    mockFetch.mockResponses(MIXED_RESTRICTION_USER_LOCATION, MOCK_SIMPLEX_QUOTE_FETCH_RESPONSE)
+    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -212,10 +194,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('moves unavailable providers to the bottom of the list', async () => {
-    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
-    // The only quote endpoint is currently Simplex's so it's
-    // the only provider that can be disabled
-    mockFetch.mockReject(new Error('API fetch failed'))
+    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -228,14 +207,11 @@ describe('ProviderOptionsScreen', () => {
     const elements = tree.queryAllByType(Text)
     // The last few text elements belong to the modal + subtext for the last provider
     const lastProviderName = elements[elements.length - 5].props.children
-    expect(lastProviderName).toEqual('Simplex')
+    expect(lastProviderName).toEqual('Transak')
   })
 
   it('disables a provider if they are unavailable', async () => {
-    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
-    // The only quote endpoint is currently Simplex's so it's
-    // the only provider that can be disabled
-    mockFetch.mockReject(new Error('API fetch failed'))
+    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -247,12 +223,12 @@ describe('ProviderOptionsScreen', () => {
 
     const elements = tree.queryAllByText('providerUnavailable')
     expect(elements).toHaveLength(1)
-    fireEvent.press(tree.getByTestId('Provider/Simplex'))
-    expect(navigate).not.toHaveBeenCalled()
+    fireEvent.press(tree.getByTestId('Provider/Transak'))
+    expect(navigateToURI).not.toHaveBeenCalled()
   })
 
   it('shows a warning if user region is not supported', async () => {
-    mockFetch.mockResponseOnce(RESTRICTED_USER_LOCATION)
+    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -263,27 +239,12 @@ describe('ProviderOptionsScreen', () => {
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
 
     const elements = tree.queryAllByText('restrictedRegion')
-    expect(elements).not.toHaveLength(0)
-  })
-
-  it('does not show a warning if user region is supported', async () => {
-    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
-
-    const tree = render(
-      <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
-      </Provider>
-    )
-
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
-
-    const elements = tree.queryAllByText('restrictedRegion')
-    // Only Xanpool doesn't support Mexico
+    // Only Xanpool is restricted in mock
     expect(elements).toHaveLength(1)
   })
 
-  it('show a warning if the selected payment method is not supported', async () => {
-    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
+  it('shows a warning if the selected payment method is not supported', async () => {
+    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -294,38 +255,7 @@ describe('ProviderOptionsScreen', () => {
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
 
     const elements = tree.queryAllByText('unsupportedPaymentMethod')
-    expect(elements).not.toHaveLength(0)
-  })
-
-  it('does not show a warning if the selected payment method is supported', async () => {
-    mockFetch.mockResponseOnce(UNRESTRICTED_USER_LOCATION)
-
-    const tree = render(
-      <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
-      </Provider>
-    )
-
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
-
-    const elements = tree.queryAllByText('unsupportedPaymentMethod')
-    expect(elements).toHaveLength(0)
-  })
-
-  it('uses country code if IP address endpoint errors', async () => {
-    mockFetch.mockRejectOnce(new Error('API fetch failed'))
-    mockFetch.mockResponses(mockIpAddress, MOCK_SIMPLEX_QUOTE_FETCH_RESPONSE)
-
-    const tree = render(
-      <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
-      </Provider>
-    )
-
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
-
-    const elements = tree.queryAllByText('restrictedRegion')
-    // All providers restrict North Korea
-    expect(elements).toHaveLength(5)
+    // Only Simplex doesn't support bank accounts
+    expect(elements).toHaveLength(1)
   })
 })
