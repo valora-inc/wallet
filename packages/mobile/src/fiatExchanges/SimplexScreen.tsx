@@ -1,11 +1,11 @@
 import Button, { BtnSizes } from '@celo/react-components/components/Button'
 import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -38,6 +38,8 @@ function SimplexScreen({ route, navigation }: Props) {
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const phoneNumberConfirmed = useSelector(numberVerifiedSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
+
+  const dispatch = useDispatch()
 
   const currencyToBuy =
     simplexQuote.digital_money.currency.toUpperCase() === 'CUSD'
@@ -80,22 +82,21 @@ function SimplexScreen({ route, navigation }: Props) {
     if (!account) {
       return
     }
-    return fetchSimplexPaymentData(
-      account,
-      e164PhoneNumber,
-      phoneNumberConfirmed,
-      simplexQuote,
-      userIpAddress
-    )
+    try {
+      const simplexPaymentData = fetchSimplexPaymentData(
+        account,
+        e164PhoneNumber,
+        phoneNumberConfirmed,
+        simplexQuote,
+        userIpAddress
+      )
+      return simplexPaymentData
+    } catch (error) {
+      dispatch(showError(ErrorMessages.SIMPLEX_PURCHASE_FETCH_FAILED))
+    }
   }, [])
 
   const simplexPaymentRequest = asyncSimplexPaymentData?.result
-
-  useEffect(() => {
-    if (asyncSimplexPaymentData.status === 'error') {
-      showError(ErrorMessages.SIMPLEX_PURCHASE_FETCH_FAILED)
-    }
-  }, [asyncSimplexPaymentData.status])
 
   return (
     <View style={styles.container}>
