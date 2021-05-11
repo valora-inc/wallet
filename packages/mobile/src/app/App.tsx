@@ -59,7 +59,9 @@ interface Props {
 
 export class App extends React.Component<Props> {
   reactLoadTime: number = Date.now()
-  unsubscribe: () => void = () => {}
+  unsubscribe: () => void = () => {
+    return
+  }
 
   async componentDidMount() {
     await ValoraAnalytics.init()
