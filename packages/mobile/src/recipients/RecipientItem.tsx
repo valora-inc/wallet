@@ -39,9 +39,7 @@ class RecipientItem extends React.PureComponent<Props> {
             <Text numberOfLines={1} ellipsizeMode={'tail'} style={styles.name}>
               {getDisplayName(recipient, t)}
             </Text>
-            {!recipient.name ? (
-              <Text style={styles.phone}>{getDisplayDetail(recipient)}</Text>
-            ) : null}
+            <Text style={styles.phone}>{getDisplayDetail(recipient)}</Text>
           </View>
           <View style={styles.rightIconContainer}>
             {recipientHasAddress(recipient) ? <Logo style={styles.logo} /> : <GetRewardPill />}
