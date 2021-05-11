@@ -3,7 +3,7 @@ import _ from 'lodash'
 import DeviceInfo from 'react-native-device-info'
 import { createSelector } from 'reselect'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
-import { sentEscrowedPaymentsSelector } from 'src/escrow/reducer'
+import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import {
   getIncomingPaymentRequests,
   getOutgoingPaymentRequests,
@@ -17,7 +17,7 @@ export const getActiveNotificationCount = createSelector(
   [
     getIncomingPaymentRequests,
     getOutgoingPaymentRequests,
-    sentEscrowedPaymentsSelector,
+    getReclaimableEscrowPayments,
     (state) => state.account.backupCompleted,
   ],
   (incomingPaymentReqs, outgoingPaymentRequests, reclaimableEscrowPayments, backupCompleted) => {
