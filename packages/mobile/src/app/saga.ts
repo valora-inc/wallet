@@ -1,5 +1,4 @@
 import { CURRENCY_ENUM } from '@celo/utils/lib'
-import dynamicLinks from '@react-native-firebase/dynamic-links'
 import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState } from 'react-native'
 import { eventChannel } from 'redux-saga'
@@ -29,7 +28,7 @@ import {
 } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
-import { DYNAMIC_LINK_DOMAIN } from 'src/config'
+import { WEB_LINK } from 'src/brandingConfig'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { DEEPLINK_QUERY_PARAM } from 'src/firebase/dynamicLinks'
@@ -147,11 +146,13 @@ function convertQueryToScreenParams(query: string) {
 
 function* parseShortLink(deepLink: string) {
   let link = deepLink
-  if (deepLink.startsWith(DYNAMIC_LINK_DOMAIN)) {
-    const dynamicLink = yield call([dynamicLinks(), 'resolveLink'], deepLink)
-    console.log(dynamicLink)
-    link = dynamicLink.url
-    const deepLinkParams = parse(link)
+  // expecting deepLink = 'vlra.app/...'
+  // with getInitialLink: deepLink = 'valoraapp.com/...'
+  if (deepLink.startsWith(WEB_LINK)) {
+    // const dynamicLink = yield call([dynamicLinks(), 'resolveLink'], deepLink)
+    // console.log(dynamicLink)
+    // link = dynamicLink.url
+    const deepLinkParams = parse(deepLink)
     if (!deepLinkParams.query) {
       return link
     }

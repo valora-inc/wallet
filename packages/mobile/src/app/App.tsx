@@ -1,3 +1,4 @@
+import dynamicLinks from '@react-native-firebase/dynamic-links'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ApolloProvider } from 'react-apollo'
@@ -58,11 +59,17 @@ interface Props {
 
 export class App extends React.Component<Props> {
   reactLoadTime: number = Date.now()
+  unsubscribe: () => void = () => {}
 
   async componentDidMount() {
     await ValoraAnalytics.init()
 
     Linking.addEventListener('url', this.handleOpenURL)
+    // console.log('added url listener in componentDidMount')
+    this.unsubscribe = dynamicLinks().onLink(this.handleOpenURL)
+    dynamicLinks()
+      .getInitialLink()
+      .then(this.handleOpenURL)
 
     const url = await Linking.getInitialURL()
     if (url) {
@@ -92,10 +99,15 @@ export class App extends React.Component<Props> {
   }
 
   componentWillUnmount() {
+    this.unsubscribe()
     Linking.removeEventListener('url', this.handleOpenURL)
   }
 
   handleOpenURL = async (event: any) => {
+    // console.log('handleOpenURL called')
+    if (!event?.url) {
+      return
+    }
     await waitUntilSagasFinishLoading()
     store.dispatch(openDeepLink(event.url))
   }
