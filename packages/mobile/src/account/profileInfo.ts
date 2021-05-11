@@ -9,6 +9,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { profileUploaded } from 'src/account/actions'
 import { isProfileUploadedSelector, nameSelector, pictureSelector } from 'src/account/selectors'
 import UploadServiceDataWrapper from 'src/account/UploadServiceDataWrapper'
+import { walletToAccountAddressSelector, WalletToAccountAddressType } from 'src/identity/reducer'
 import { DEK, retrieveOrGeneratePepper } from 'src/pincode/authentication'
 import { extensionToMimeType, getDataURL, saveRecipientPicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
@@ -90,31 +91,42 @@ export function* uploadNameAndPicture() {
 }
 
 // this function gives permission to the recipient to view the user's profile info
-export function* giveProfileAccess(recipientAddresses: string[]) {
+export function* giveProfileAccess(recipientAddress: string) {
+  // TODO: check if key for recipient already exists, skip if yes
   try {
-    // TODO: check if key for recipient already exists, skip if yes
+    const walletToAccountAddress: WalletToAccountAddressType = yield select(
+      walletToAccountAddressSelector
+    )
+    const accountAddress = walletToAccountAddress[recipientAddress]
+    if (!accountAddress) {
+      Logger.info(TAG, 'cannot find account address for wallet address', recipientAddress)
+      return
+    }
+
     const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper)
     const nameAccessor = new PrivateNameAccessor(offchainWrapper)
-    let writeError = yield call([nameAccessor, 'allowAccess'], recipientAddresses)
+    let writeError = yield call([nameAccessor, 'allowAccess'], [accountAddress])
     if (writeError) {
       Logger.error(TAG + '@giveProfileAccess', writeError)
+      return
     }
 
     const pictureUri = yield select(pictureSelector)
     if (pictureUri) {
       const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
-      writeError = yield call([pictureAccessor, 'allowAccess'], recipientAddresses)
+      writeError = yield call([pictureAccessor, 'allowAccess'], [accountAddress])
       if (writeError) {
         Logger.error(TAG + '@giveProfileAccess', writeError)
+        return
       }
     }
     // not throwing error, because possibility the recipient doesn't have a registered DEK
 
-    Logger.info(TAG + '@giveProfileAccess', 'uploaded symmetric keys for ' + recipientAddresses)
+    Logger.info(TAG + '@giveProfileAccess', 'uploaded symmetric keys for ' + accountAddress)
   } catch (error) {
     Logger.error(
       TAG + '@giveProfileAccess',
-      'error when giving access to ' + recipientAddresses,
+      'error when giving access to ' + recipientAddress,
       error
     )
   }
@@ -165,6 +177,7 @@ export function* getOffchainWrapper(addAccount = false) {
 
   const contractKit = yield call(getContractKit)
   const account: Address = yield call(getAccountAddress)
+  Logger.info(TAG, 'uploading information for', account)
   const offchainWrapper = new UploadServiceDataWrapper(
     contractKit,
     toChecksumAddress(account),

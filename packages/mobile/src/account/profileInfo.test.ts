@@ -128,7 +128,7 @@ describe(uploadNameAndPicture, () => {
 })
 
 describe(giveProfileAccess, () => {
-  const recipients = [mockAccount2]
+  const recipients = mockAccount2
 
   it('gives profile access successfully', async () => {
     await expectSaga(giveProfileAccess, recipients)
