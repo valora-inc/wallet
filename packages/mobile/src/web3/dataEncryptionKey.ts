@@ -133,7 +133,6 @@ export function* registerAccountDek() {
       yield call(checkIfProfileUploaded)
       return
     }
-    ValoraAnalytics.track(OnboardingEvents.account_dek_register_start)
 
     const stableBalance = yield select(stableTokenBalanceSelector)
     const celoBalance = yield select(celoTokenBalanceSelector)
@@ -148,6 +147,7 @@ export function* registerAccountDek() {
       return
     }
 
+    ValoraAnalytics.track(OnboardingEvents.account_dek_register_start)
     Logger.debug(
       `${TAG}@registerAccountDek`,
       'Setting wallet address and public data encryption key'
