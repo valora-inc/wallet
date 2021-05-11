@@ -49,7 +49,12 @@ import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getRecipientVerificationStatus, Recipient, RecipientKind } from 'src/recipients/recipient'
+import {
+  getRecipientVerificationStatus,
+  Recipient,
+  recipientHasAddress,
+  recipientHasNumber,
+} from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import { getFeeType, useDailyTransferLimitValidator } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -87,7 +92,9 @@ export const sendAmountScreenNavOptions = ({
   return {
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={eventName} />,
-    headerTitle: () => <HeaderTitleWithBalance title={title} token={CURRENCY_ENUM.DOLLAR} />,
+    headerTitle: route.params?.isOutgoingPaymentRequest
+      ? title
+      : () => <HeaderTitleWithBalance title={title} token={CURRENCY_ENUM.DOLLAR} />,
   }
 }
 
@@ -112,11 +119,11 @@ function SendAmount(props: Props) {
 
   useEffect(() => {
     dispatch(fetchDollarBalance())
-    if (recipient.kind === RecipientKind.QrCode || recipient.kind === RecipientKind.Address) {
+    if (recipientHasAddress(recipient)) {
       return
     }
 
-    if (!recipient.e164PhoneNumber) {
+    if (!recipientHasNumber(recipient)) {
       throw Error('Recipient phone number is required if not sending via QR Code or address')
     }
 
@@ -254,11 +261,7 @@ function SendAmount(props: Props) {
 
     dispatch(hideAlert())
 
-    if (
-      addressValidationType !== AddressValidationType.NONE &&
-      recipient.kind !== RecipientKind.QrCode &&
-      recipient.kind !== RecipientKind.Address
-    ) {
+    if (addressValidationType !== AddressValidationType.NONE && !recipientHasAddress(recipient)) {
       navigate(Screens.ValidateRecipientIntro, {
         transactionData,
         addressValidationType,
@@ -286,11 +289,7 @@ function SendAmount(props: Props) {
 
     const transactionData = getTransactionData(TokenTransactionType.PayRequest)
 
-    if (
-      addressValidationType !== AddressValidationType.NONE &&
-      recipient.kind !== RecipientKind.QrCode &&
-      recipient.kind !== RecipientKind.Address
-    ) {
+    if (addressValidationType !== AddressValidationType.NONE && !recipientHasAddress(recipient)) {
       navigate(Screens.ValidateRecipientIntro, {
         transactionData,
         addressValidationType,

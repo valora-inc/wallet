@@ -19,15 +19,17 @@ import {
   Actions,
   assignProviderToTxHash,
   BidaliPaymentRequestedAction,
+  setProviderLogos,
   setProvidersForTxHashes,
 } from 'src/fiatExchanges/actions'
-import { lastUsedProviderSelector } from 'src/fiatExchanges/reducer'
-import { providerTxHashesChannel } from 'src/firebase/firebase'
+import { lastUsedProviderSelector, ProviderLogos } from 'src/fiatExchanges/reducer'
+import { providerTxHashesChannel, readOnceFromFirebase } from 'src/firebase/firebase'
+import i18n from 'src/i18n'
 import { updateKnownAddresses } from 'src/identity/actions'
 import { providerAddressesSelector } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { RecipientKind, RecipientWithAddress } from 'src/recipients/recipient'
+import { AddressRecipient, getDisplayName } from 'src/recipients/recipient'
 import { Actions as SendActions } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import {
@@ -59,11 +61,9 @@ function* bidaliPaymentRequest({
     throw new Error(`Unsupported payment currency from Bidali: ${currency}`)
   }
 
-  const recipient: RecipientWithAddress = {
-    kind: RecipientKind.Address,
+  const recipient: AddressRecipient = {
     address,
-    displayId: 'BIDALI',
-    displayName: 'Bidali',
+    name: 'Bidali',
     thumbnailPath:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fbidali.png?alt=media',
   }
@@ -106,7 +106,10 @@ function* bidaliPaymentRequest({
       // Keep address mapping locally
       yield put(
         updateKnownAddresses({
-          [address]: { name: recipient.displayName, imageUrl: recipient.thumbnailPath || null },
+          [address]: {
+            name: getDisplayName(recipient, i18n.t),
+            imageUrl: recipient.thumbnailPath || null,
+          },
         })
       )
       break
@@ -166,6 +169,11 @@ export function* watchProviderTxHashes() {
   }
 }
 
+export function* importProviderLogos() {
+  const providerLogos: ProviderLogos = yield readOnceFromFirebase('providerLogos')
+  setProviderLogos(providerLogos)
+}
+
 export function* watchBidaliPaymentRequests() {
   yield takeLeading(Actions.BIDALI_PAYMENT_REQUESTED, bidaliPaymentRequest)
 }
@@ -178,4 +186,5 @@ export function* fiatExchangesSaga() {
   yield spawn(watchBidaliPaymentRequests)
   yield spawn(watchNewFeedTransactions)
   yield spawn(watchProviderTxHashes)
+  yield spawn(importProviderLogos)
 }

@@ -1,0 +1,35 @@
+{
+  "name": "@wallet/cloud-functions",
+  "version": "1.0.0",
+  "description": "This package holds all our cloud functions",
+  "author": "Celo",
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "serve": "firebase serve --only functions",
+    "update-firebase-alfajores-config": "firebase use alfajores && ./firebase-env-config.sh -e alfajores",
+    "update-firebase-mainnet-config": "firebase use mainnet && ./firebase-env-config.sh -e mainnet",
+    "deploy:alfajores": "./deploy.sh -e alfajores",
+    "deploy:mainnet": "./deploy.sh -e mainnet",
+    "clean": "tsc -b . --clean",
+    "build": "tsc -b .",
+    "lint": "tslint --project .",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@google-cloud/bigquery": "~5.5.0",
+    "fast-json-stable-stringify": "~2.1.0",
+    "firebase-admin": "^9.5.0",
+    "firebase-functions": "^3.6.0",
+    "jsonwebtoken": "~8.5.1",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "~8.5.0",
+    "@types/uuid": "^8.3.0",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "engines": {
+    "node": "10"
+  }
+}

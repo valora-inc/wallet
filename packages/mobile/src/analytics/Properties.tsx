@@ -1,5 +1,6 @@
 import { CURRENCY_ENUM } from '@celo/utils'
 import BigNumber from 'bignumber.js'
+import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
@@ -17,6 +18,7 @@ import {
   OnboardingEvents,
   PerformanceEvents,
   RequestEvents,
+  RewardsEvents,
   SendEvents,
   SettingsEvents,
   TransactionEvents,
@@ -24,10 +26,16 @@ import {
 } from 'src/analytics/Events'
 import { BackQuizProgress, ScrollDirection, SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import {
+  RewardsScreenCta,
+  RewardsScreenOrigin,
+} from 'src/consumerIncentives/analyticsEventsTracker'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { RecipientKind } from 'src/recipients/recipient'
+import { Awaited } from 'src/utils/typescript'
+
+type PermissionStatus = Awaited<ReturnType<typeof check>>
 
 interface AppEventsProperties {
   [AppEvents.app_launched]: {
@@ -65,6 +73,15 @@ interface AppEventsProperties {
   }
   [AppEvents.redux_store_recovery_success]: {
     account: string
+  }
+  [AppEvents.request_tracking_permission_started]: {
+    currentPermission: PermissionStatus
+  }
+  [AppEvents.request_tracking_permission_declined]: {
+    newPermission: PermissionStatus
+  }
+  [AppEvents.request_tracking_permission_accepted]: {
+    newPermission: 'granted'
   }
 }
 
@@ -474,7 +491,7 @@ interface EscrowEventsProperties {
 interface SendEventsProperties {
   [SendEvents.send_scan]: undefined
   [SendEvents.send_select_recipient]: {
-    recipientKind: RecipientKind
+    // TODO: decide what recipient info to collect, now that RecipientKind doesn't exist
     usedSearchBar: boolean
   }
   [SendEvents.send_cancel]: undefined
@@ -544,7 +561,7 @@ interface RequestEventsProperties {
   [RequestEvents.request_cancel]: undefined
   [RequestEvents.request_scan]: undefined
   [RequestEvents.request_select_recipient]: {
-    recipientKind: RecipientKind
+    // TODO: decide what recipient info to collect, now that RecipientKind doesn't exist
     usedSearchBar: boolean
   }
   [RequestEvents.request_amount_continue]: {
@@ -737,7 +754,7 @@ interface FiatExchangeEventsProperties {
     dollarAmount: BigNumber
   }
   [FiatExchangeEvents.cico_add_funds_amount_back]: undefined
-  [FiatExchangeEvents.cico_add_funds_amount_insufficient]: {
+  [FiatExchangeEvents.cico_add_funds_invalid_amount]: {
     dollarAmount: BigNumber
   }
   [FiatExchangeEvents.cico_add_funds_amount_dialog_cancel]: undefined
@@ -833,6 +850,15 @@ interface NavigationProperties {
   [NavigationEvents.navigator_not_ready]: undefined
 }
 
+interface RewardsProperties {
+  [RewardsEvents.rewards_screen_opened]: {
+    origin: RewardsScreenOrigin
+  }
+  [RewardsEvents.rewards_screen_cta_pressed]: {
+    buttonPressed: RewardsScreenCta
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -852,4 +878,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NetworkEventsProperties &
   ContractKitEventsProperties &
   PerformanceProperties &
-  NavigationProperties
+  NavigationProperties &
+  RewardsProperties

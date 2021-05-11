@@ -12,11 +12,11 @@ import { FeeInfo } from 'src/fees/saga'
 import { getFeeInTokens } from 'src/fees/selectors'
 import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { Namespaces } from 'src/i18n'
-import { RecipientWithContact } from 'src/recipients/recipient'
+import { MobileRecipient } from 'src/recipients/recipient'
 
 interface Props {
   recipientPhone: string
-  recipientContact?: RecipientWithContact
+  recipientContact: MobileRecipient
   amount: BigNumber
   feeInfo?: FeeInfo
   isLoadingFee?: boolean

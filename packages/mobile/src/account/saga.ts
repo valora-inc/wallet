@@ -1,7 +1,7 @@
 import firebase from '@react-native-firebase/app'
 import _ from 'lodash'
 import DeviceInfo from 'react-native-device-info'
-import { call, cancelled, put, spawn, take, takeLeading } from 'redux-saga/effects'
+import { call, cancelled, put, spawn, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import {
   Actions,
   ClearStoredAccountAction,
@@ -12,6 +12,7 @@ import {
   setPincodeSuccess,
   updateCusdDailyLimit,
 } from 'src/account/actions'
+import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -27,6 +28,7 @@ import { removeAccountLocally } from 'src/pincode/authentication'
 import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
+import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { getAccount, getOrCreateAccount } from 'src/web3/saga'
 
 const TAG = 'account/saga'
@@ -140,9 +142,15 @@ export function* watchInitializeAccount() {
   yield takeLeading(Actions.INITIALIZE_ACCOUNT, initializeAccount)
 }
 
+export function* watchSaveNameAndPicture() {
+  yield takeEvery(Actions.SAVE_NAME_AND_PICTURE, uploadNameAndPicture)
+}
+
 export function* accountSaga() {
   yield spawn(watchSetPincode)
   yield spawn(watchClearStoredAccount)
   yield spawn(watchInitializeAccount)
+  yield spawn(watchSaveNameAndPicture)
   yield spawn(watchDailyLimit)
+  yield spawn(registerAccountDek)
 }

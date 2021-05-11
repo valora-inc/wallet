@@ -41,6 +41,7 @@ describe('CeloTransferFeedItem', () => {
           hash={'0x'}
           amount={{ value: '-1.005', currencyCode: 'cGLD', localAmount }}
           address={SAMPLE_ADDRESS}
+          account={''}
           comment={''}
           timestamp={1}
           {...getMockI18nProps()}
@@ -71,6 +72,7 @@ describe('CeloTransferFeedItem', () => {
           hash={'0x'}
           amount={{ value: '1.005', currencyCode: 'cGLD', localAmount }}
           address={mockAccount}
+          account={''}
           comment={''}
           timestamp={1}
           {...getMockI18nProps()}

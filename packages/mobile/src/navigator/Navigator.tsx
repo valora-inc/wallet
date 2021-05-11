@@ -8,6 +8,7 @@ import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import GoldEducation from 'src/account/GoldEducation'
 import Licenses from 'src/account/Licenses'
 import Profile from 'src/account/Profile'
+import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { PincodeType } from 'src/account/reducer'
 import StoreWipeRecoveryScreen from 'src/account/StoreWipeRecoveryScreen'
 import SupportContact from 'src/account/SupportContact'
@@ -43,14 +44,9 @@ import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import FiatExchangeOptions, {
   fiatExchangesOptionsScreenOptions,
 } from 'src/fiatExchanges/FiatExchangeOptions'
-import LocalProviderCashOut, {
-  localProviderCashOutOptions,
-} from 'src/fiatExchanges/LocalProviderCashOut'
-import MoonPayScreen from 'src/fiatExchanges/MoonPayScreen'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
-import RampScreen from 'src/fiatExchanges/RampScreen'
+import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
-import TransakScreen from 'src/fiatExchanges/TransakScreen'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
@@ -108,6 +104,9 @@ import { ExtractProps } from 'src/utils/typescript'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
 import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
+import WalletConnectActionRequestScreen from 'src/walletConnect/screens/ActionRequest'
+import WalletConnectSessionRequestScreen from 'src/walletConnect/screens/SessionRequest'
+import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 
 const TAG = 'Navigator'
 
@@ -150,6 +149,16 @@ const commonScreens = (Navigator: typeof Stack) => {
         name={Screens.DappKitTxDataScreen}
         component={DappKitTxDataScreen}
         options={DappKitTxDataScreen.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.WalletConnectSessionRequest}
+        component={WalletConnectSessionRequestScreen}
+        options={WalletConnectSessionRequestScreen.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.WalletConnectActionRequest}
+        component={WalletConnectActionRequestScreen}
+        options={WalletConnectActionRequestScreen.navigationOptions}
       />
       <Navigator.Screen name={Screens.Debug} component={Debug} options={Debug.navigationOptions} />
       <Navigator.Screen
@@ -433,6 +442,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={headerWithBackButton}
     />
     <Navigator.Screen
+      name={Screens.WalletConnectSessions}
+      component={WalletConnectSessionsScreen}
+      options={WalletConnectSessionsScreen.navigationOptions}
+    />
+    <Navigator.Screen
       options={Licenses.navigationOptions}
       name={Screens.Licenses}
       component={Licenses}
@@ -441,6 +455,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={headerWithBackButton}
       name={Screens.SupportContact}
       component={SupportContact}
+    />
+    <Navigator.Screen
+      options={RaiseLimitScreen.navOptions}
+      name={Screens.RaiseLimitScreen}
+      component={RaiseLimitScreen}
     />
     <Navigator.Screen
       options={externalExchangesScreenOptions}
@@ -459,29 +478,14 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={FiatExchangeOptions}
     />
     <Navigator.Screen
-      options={localProviderCashOutOptions}
-      name={Screens.LocalProviderCashOut}
-      component={LocalProviderCashOut}
-    />
-    <Navigator.Screen
       options={CashInSuccess.navigationOptions}
       name={Screens.CashInSuccess}
       component={CashInSuccess}
     />
     <Navigator.Screen
-      options={MoonPayScreen.navigationOptions}
-      name={Screens.MoonPayScreen}
-      component={MoonPayScreen}
-    />
-    <Navigator.Screen
-      options={RampScreen.navigationOptions}
-      name={Screens.RampScreen}
-      component={RampScreen}
-    />
-    <Navigator.Screen
-      options={TransakScreen.navigationOptions}
-      name={Screens.TransakScreen}
-      component={TransakScreen}
+      options={SimplexScreen.navigationOptions}
+      name={Screens.Simplex}
+      component={SimplexScreen}
     />
     <Navigator.Screen
       options={ProviderOptionsScreen.navigationOptions}
@@ -498,7 +502,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
 
 const generalScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen name={Screens.SetClock} component={SetClock} />
+    <Navigator.Screen
+      name={Screens.SetClock}
+      component={SetClock}
+      options={noHeaderGestureDisabled}
+    />
     <Navigator.Screen
       name={Screens.TransactionReview}
       component={TransactionReview}

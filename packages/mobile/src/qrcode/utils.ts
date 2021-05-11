@@ -1,21 +1,27 @@
 import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { validateRecipientAddressSuccess } from 'src/identity/actions'
-import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
+import { E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
-import { getRecipientFromAddress, NumberToRecipient } from 'src/recipients/recipient'
+import {
+  getRecipientFromAddress,
+  recipientHasNumber,
+  RecipientInfo,
+} from 'src/recipients/recipient'
 import { QrCode, SVG } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { handleSendPaymentData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
+import { initialiseWalletConnect } from 'src/walletConnect/saga'
 
 export enum BarcodeTypes {
   QR_CODE = 'QR_CODE',
@@ -55,8 +61,8 @@ function* handleSecureSend(
   secureSendTxData: TransactionDataInput,
   requesterAddress?: string
 ) {
-  if (!secureSendTxData.recipient.e164PhoneNumber) {
-    throw Error(`Invalid recipient type for Secure Send: ${secureSendTxData.recipient.kind}`)
+  if (!recipientHasNumber(secureSendTxData.recipient)) {
+    throw Error('Invalid recipient type for Secure Send, has no mobile number')
   }
 
   const userScannedAddress = address.toLowerCase()
@@ -93,13 +99,18 @@ function* handleSecureSend(
 
 export function* handleBarcode(
   barcode: QrCode,
-  addressToE164Number: AddressToE164NumberType,
-  recipientCache: NumberToRecipient,
   e164NumberToAddress: E164NumberToAddressType,
+  recipientInfo: RecipientInfo,
   secureSendTxData?: TransactionDataInput,
   isOutgoingPaymentRequest?: true,
   requesterAddress?: string
 ) {
+  const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
+  if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
+    yield call(initialiseWalletConnect, barcode.data)
+    return
+  }
+
   let qrData: UriData
   try {
     qrData = uriDataFromUrl(barcode.data)
@@ -110,7 +121,7 @@ export function* handleBarcode(
   }
 
   if (secureSendTxData) {
-    const success = yield call(
+    const success: boolean = yield call(
       handleSecureSend,
       qrData.address,
       e164NumberToAddress,
@@ -137,11 +148,7 @@ export function* handleBarcode(
     return
   }
 
-  const cachedRecipient = getRecipientFromAddress(
-    qrData.address,
-    addressToE164Number,
-    recipientCache
-  )
+  const cachedRecipient = getRecipientFromAddress(qrData.address, recipientInfo)
 
   yield call(handleSendPaymentData, qrData, cachedRecipient, isOutgoingPaymentRequest, true)
 }

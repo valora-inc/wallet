@@ -5,13 +5,14 @@ import {
   SignTxRequest,
   TxToSignParam,
 } from '@celo/utils'
+import { SessionTypes } from '@walletconnect/types'
 import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
 import { CurrencyCode } from 'src/config'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
+import { SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -65,7 +66,7 @@ export type StackParamList = {
         navigatedFromSettings: boolean
       }
   [Screens.BidaliScreen]: { currency: CURRENCY_ENUM }
-  [Screens.CashInSuccess]: { provider?: CicoProviderNames }
+  [Screens.CashInSuccess]: { provider?: string }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountAuth]: {
     dappKitRequest: AccountAuthRequest
@@ -104,13 +105,19 @@ export type StackParamList = {
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
     currency: CURRENCY_ENUM
-    paymentMethod: PaymentMethod.CARD | PaymentMethod.BANK
+    paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
+    isCashIn: boolean
   }
   [Screens.FiatExchangeOptions]: {
     isCashIn?: boolean
     amount?: BigNumber
   }
   [Screens.MoonPayScreen]: {
+    localAmount: number
+    currencyCode: LocalCurrencyCode
+    currencyToBuy: CurrencyCode
+  }
+  [Screens.XanpoolScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
     currencyToBuy: CurrencyCode
@@ -124,6 +131,10 @@ export type StackParamList = {
     localAmount: number
     currencyCode: LocalCurrencyCode
     currencyToBuy: CurrencyCode
+  }
+  [Screens.Simplex]: {
+    simplexQuote: SimplexQuote
+    userIpAddress: string
   }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:
@@ -151,9 +162,6 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Licenses]: undefined
-  [Screens.LocalProviderCashOut]: {
-    uri: string
-  }
   [Screens.Main]: undefined
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestUnavailable]: {
@@ -179,11 +187,15 @@ export type StackParamList = {
   [Screens.Profile]: undefined
   [Screens.ProviderOptionsScreen]: {
     isCashIn?: boolean
-    currency: CURRENCY_ENUM
-    amount: number
-    paymentMethod: PaymentMethod.CARD | PaymentMethod.BANK
+    selectedCrypto: CURRENCY_ENUM
+    amount: {
+      crypto: number
+      fiat: number
+    }
+    paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
   }
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
+  [Screens.RaiseLimitScreen]: undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
     reclaimPaymentInput: EscrowedPayment
     onCancel?: () => void
@@ -246,6 +258,13 @@ export type StackParamList = {
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
+  [Screens.WalletConnectSessionRequest]: {
+    session: SessionTypes.Proposal
+  }
+  [Screens.WalletConnectSessions]: undefined
+  [Screens.WalletConnectActionRequest]: {
+    request: SessionTypes.RequestEvent
+  }
   [Screens.WalletHome]: undefined
   [Screens.WebViewScreen]: { uri: string }
   [Screens.Welcome]: undefined

@@ -17,20 +17,18 @@ import {
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { Namespaces, withTranslation } from 'src/i18n'
-import { AddressToE164NumberType } from 'src/identity/reducer'
 import {
+  AddressRecipient,
   getRecipientFromAddress,
-  NumberToRecipient,
+  MobileRecipient,
   Recipient,
-  RecipientKind,
-  RecipientWithAddress,
-  RecipientWithMobileNumber,
+  recipientHasContact,
+  recipientHasNumber,
+  RecipientInfo,
 } from 'src/recipients/recipient'
 import RecipientItem from 'src/recipients/RecipientItem'
-import { recipientCacheSelector } from 'src/recipients/reducer'
+import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
-import Logger from 'src/utils/Logger'
-import { assertUnreachable } from 'src/utils/typescript'
 
 interface Section {
   key: string
@@ -47,15 +45,13 @@ interface Props {
 }
 
 interface StateProps {
-  addressToE164Number: AddressToE164NumberType
-  recipientCache: NumberToRecipient
+  recipientInfo: RecipientInfo
 }
 
 type RecipientProps = Props & WithTranslation & StateProps
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  addressToE164Number: state.identity.addressToE164Number,
-  recipientCache: recipientCacheSelector(state),
+  recipientInfo: recipientInfoSelector(state),
 })
 
 export class RecipientPicker extends React.Component<RecipientProps> {
@@ -76,18 +72,12 @@ export class RecipientPicker extends React.Component<RecipientProps> {
   )
 
   keyExtractor = (item: Recipient, index: number) => {
-    switch (item.kind) {
-      case RecipientKind.Contact:
-        return item.contactId + item.phoneNumberLabel + index
-      case RecipientKind.MobileNumber:
-        return item.e164PhoneNumber + index
-      case RecipientKind.QrCode:
-        return item.address + index
-      case RecipientKind.Address:
-        return item.address + index
-      default:
-        Logger.error('RecipientPicker', 'Unsupported recipient kind', item)
-        throw assertUnreachable(item)
+    if (recipientHasContact(item)) {
+      return item.contactId + item.e164PhoneNumber + index
+    } else if (recipientHasNumber(item)) {
+      return item.e164PhoneNumber + index
+    } else {
+      return item.address + index
     }
   }
 
@@ -127,12 +117,11 @@ export class RecipientPicker extends React.Component<RecipientProps> {
     </View>
   )
 
-  renderSendToPhoneNumber = (displayId: string, e164PhoneNumber: string) => {
-    const { t, onSelectRecipient } = this.props
-    const recipient: RecipientWithMobileNumber = {
-      kind: RecipientKind.MobileNumber,
-      displayName: t('mobileNumber'),
-      displayId,
+  renderSendToPhoneNumber = (displayNumber: string, e164PhoneNumber: string) => {
+    const { onSelectRecipient, t } = this.props
+    const recipient: MobileRecipient = {
+      displayNumber,
+      name: t('sendToMobileNumber'),
       e164PhoneNumber,
     }
     return (
@@ -144,13 +133,9 @@ export class RecipientPicker extends React.Component<RecipientProps> {
   }
 
   renderSendToAddress = () => {
-    const { t, searchQuery, addressToE164Number, recipientCache, onSelectRecipient } = this.props
+    const { searchQuery, recipientInfo, onSelectRecipient, t } = this.props
     const searchedAddress = searchQuery.toLowerCase()
-    const existingContact = getRecipientFromAddress(
-      searchedAddress,
-      addressToE164Number,
-      recipientCache
-    )
+    const existingContact = getRecipientFromAddress(searchedAddress, recipientInfo)
     if (existingContact) {
       return (
         <>
@@ -159,10 +144,8 @@ export class RecipientPicker extends React.Component<RecipientProps> {
         </>
       )
     } else {
-      const recipient: RecipientWithAddress = {
-        kind: RecipientKind.Address,
-        displayName: t('walletAddress'),
-        displayId: searchedAddress.substring(2, 17) + '...',
+      const recipient: AddressRecipient = {
+        name: t('sendToAddress'),
         address: searchedAddress,
       }
 
