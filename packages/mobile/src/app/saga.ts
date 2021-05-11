@@ -144,14 +144,10 @@ function convertQueryToScreenParams(query: string) {
   return params
 }
 
+// Removes one level of abstraction from deeplinks beginning with 'https://valoraapp.com'
 function* parseShortLink(deepLink: string) {
   let link = deepLink
-  // expecting deepLink = 'vlra.app/...'
-  // with getInitialLink: deepLink = 'valoraapp.com/...'
   if (deepLink.startsWith(WEB_LINK)) {
-    // const dynamicLink = yield call([dynamicLinks(), 'resolveLink'], deepLink)
-    // console.log(dynamicLink)
-    // link = dynamicLink.url
     const deepLinkParams = parse(deepLink)
     if (!deepLinkParams.query) {
       return link

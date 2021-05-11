@@ -65,7 +65,6 @@ export class App extends React.Component<Props> {
     await ValoraAnalytics.init()
 
     Linking.addEventListener('url', this.handleOpenURL)
-    // console.log('added url listener in componentDidMount')
     this.unsubscribe = dynamicLinks().onLink(this.handleOpenURL)
     dynamicLinks()
       .getInitialLink()
@@ -104,7 +103,6 @@ export class App extends React.Component<Props> {
   }
 
   handleOpenURL = async (event: any) => {
-    // console.log('handleOpenURL called')
     if (!event?.url) {
       return
     }
