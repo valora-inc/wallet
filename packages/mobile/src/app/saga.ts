@@ -27,10 +27,13 @@ import {
   updateFeatureFlags,
 } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
-import { getLastTimeBackgrounded, getRequirePinOnAppOpen, walletConnectEnabledSelector } from 'src/app/selectors'
+import {
+  getLastTimeBackgrounded,
+  getRequirePinOnAppOpen,
+  walletConnectEnabledSelector,
+} from 'src/app/selectors'
 import { WEB_LINK } from 'src/brandingConfig'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { DEEPLINK_QUERY_PARAM } from 'src/firebase/dynamicLinks'
 import { appRemoteFeatureFlagChannel, appVersionDeprecationChannel } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'

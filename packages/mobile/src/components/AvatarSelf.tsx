@@ -20,7 +20,7 @@ export function AvatarSelf({ iconSize, displayNameStyle }: Props) {
 
   // Recipient refering to the wallet user, used for the avatar
   let recipient: Recipient
-  if (displayName && e164PhoneNumber) {
+  if (displayName) {
     recipient = {
       contactId: contactDetails.contactId || 'none',
       thumbnailPath: userPicture || contactDetails.thumbnailPath || undefined,
