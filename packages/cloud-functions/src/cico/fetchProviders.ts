@@ -83,7 +83,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     {
       name: Providers.Xanpool,
       restricted: XANPOOL_RESTRICTED,
-      paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+      paymentMethods: [PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Xanpool, requestData),
       logo:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
