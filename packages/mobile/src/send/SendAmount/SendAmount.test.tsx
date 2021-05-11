@@ -332,6 +332,13 @@ describe('SendAmount', () => {
           },
         },
         ...storeData,
+        stableToken: {
+          balance: BALANCE_VALID,
+          cEurBalance: BALANCE_VALID,
+        },
+        send: {
+          lastUsedCurrency: Currency.Euro,
+        },
       })
 
       const tree = render(
@@ -344,7 +351,11 @@ describe('SendAmount', () => {
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
         origin: SendOrigin.AppSendFlow,
         isFromScan: false,
-        transactionData: mockTransactionData2,
+        transactionData: {
+          ...mockTransactionData2,
+          amount: new BigNumber('2.465'),
+          currency: Currency.Euro,
+        },
       })
     })
 
