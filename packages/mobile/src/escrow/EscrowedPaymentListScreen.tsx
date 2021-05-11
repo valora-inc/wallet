@@ -4,7 +4,7 @@ import { View } from 'react-native'
 import { connect } from 'react-redux'
 import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
-import { sentEscrowedPaymentsSelector } from 'src/escrow/reducer'
+import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import i18n, { Namespaces, withTranslation } from 'src/i18n'
 import {
   NotificationList,
@@ -19,7 +19,7 @@ interface StateProps {
 
 const mapStateToProps = (state: RootState): StateProps => ({
   dollarBalance: state.stableToken.balance,
-  sentEscrowedPayments: sentEscrowedPaymentsSelector(state),
+  sentEscrowedPayments: getReclaimableEscrowPayments(state),
 })
 
 type Props = WithTranslation & StateProps

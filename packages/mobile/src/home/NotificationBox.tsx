@@ -19,7 +19,7 @@ import {
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
-import { sentEscrowedPaymentsSelector } from 'src/escrow/reducer'
+import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { pausedFeatures } from 'src/flags'
 import { dismissNotification } from 'src/home/actions'
 import { IdToNotification } from 'src/home/reducers'
@@ -98,7 +98,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   dismissedGetVerified: state.account.dismissedGetVerified,
   verificationPossible: verificationPossibleSelector(state),
   dismissedGoldEducation: state.account.dismissedGoldEducation,
-  reclaimableEscrowPayments: sentEscrowedPaymentsSelector(state),
+  reclaimableEscrowPayments: getReclaimableEscrowPayments(state),
 })
 
 const mapDispatchToProps = {
