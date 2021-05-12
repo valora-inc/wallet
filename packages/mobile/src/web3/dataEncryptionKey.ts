@@ -13,7 +13,12 @@ import { OdisUtils } from '@celo/identity'
 import { AuthSigner } from '@celo/identity/lib/odis/query'
 import { FetchError, TxError } from '@celo/komencikit/src/errors'
 import { KomenciKit } from '@celo/komencikit/src/kit'
-import { ensureLeading0x, eqAddress, hexToBuffer } from '@celo/utils/lib/address'
+import {
+  ensureLeading0x,
+  eqAddress,
+  hexToBuffer,
+  normalizeAddressWith0x,
+} from '@celo/utils/lib/address'
 import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import { compressedPubKey, deriveDek } from '@celo/utils/lib/dataEncryptionKey'
 import * as bip39 from 'react-native-bip39'
@@ -63,7 +68,8 @@ export function* doFetchDataEncryptionKey(walletAddress: string) {
   const walletToAccountAddress: WalletToAccountAddressType = yield select(
     walletToAccountAddressSelector
   )
-  const accountAddress = walletToAccountAddress[walletAddress] ?? walletAddress
+  const accountAddress =
+    walletToAccountAddress[normalizeAddressWith0x(walletAddress)] ?? walletAddress
   const dek: string = yield call(accountsWrapper.getDataEncryptionKey, accountAddress)
   yield put(updateAddressDekMap(accountAddress, dek || null))
   return !dek ? null : hexToBuffer(dek)
