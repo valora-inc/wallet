@@ -13,7 +13,12 @@ import { OdisUtils } from '@celo/identity'
 import { AuthSigner } from '@celo/identity/lib/odis/query'
 import { FetchError, TxError } from '@celo/komencikit/src/errors'
 import { KomenciKit } from '@celo/komencikit/src/kit'
-import { ensureLeading0x, eqAddress, hexToBuffer } from '@celo/utils/lib/address'
+import {
+  ensureLeading0x,
+  eqAddress,
+  hexToBuffer,
+  normalizeAddressWith0x,
+} from '@celo/utils/lib/address'
 import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import { compressedPubKey, deriveDek } from '@celo/utils/lib/dataEncryptionKey'
 import * as bip39 from 'react-native-bip39'
@@ -23,12 +28,14 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { features } from 'src/flags'
+import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import {
   FetchDataEncryptionKeyAction,
   updateAddressDekMap,
   updateWalletToAccountAddress,
 } from 'src/identity/actions'
 import { walletToAccountAddressSelector, WalletToAccountAddressType } from 'src/identity/reducer'
+import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import { getCurrencyAddress } from 'src/tokens/saga'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
@@ -63,7 +70,8 @@ export function* doFetchDataEncryptionKey(walletAddress: string) {
   const walletToAccountAddress: WalletToAccountAddressType = yield select(
     walletToAccountAddressSelector
   )
-  const accountAddress = walletToAccountAddress[walletAddress] ?? walletAddress
+  const accountAddress =
+    walletToAccountAddress[normalizeAddressWith0x(walletAddress)] ?? walletAddress
   const dek: string = yield call(accountsWrapper.getDataEncryptionKey, accountAddress)
   yield put(updateAddressDekMap(accountAddress, dek || null))
   return !dek ? null : hexToBuffer(dek)
@@ -128,18 +136,32 @@ export function* registerAccountDek() {
   try {
     const isAlreadyRegistered = yield select(isDekRegisteredSelector)
     if (isAlreadyRegistered) {
+      Logger.debug(
+        `${TAG}@registerAccountDek`,
+        'Skipping DEK registration because its already registered'
+      )
       yield call(checkIfProfileUploaded)
       return
     }
-    ValoraAnalytics.track(OnboardingEvents.account_dek_register_start)
 
+    const stableBalance = yield select(stableTokenBalanceSelector)
+    const celoBalance = yield select(celoTokenBalanceSelector)
+    if (
+      (stableBalance === null || stableBalance === '0') &&
+      (celoBalance === null || celoBalance === '0')
+    ) {
+      Logger.debug(
+        `${TAG}@registerAccountDek`,
+        'Skipping DEK registration because there are no funds'
+      )
+      return
+    }
+
+    ValoraAnalytics.track(OnboardingEvents.account_dek_register_start)
     Logger.debug(
       `${TAG}@registerAccountDek`,
       'Setting wallet address and public data encryption key'
     )
-
-    yield call(getConnectedUnlockedAccount)
-    ValoraAnalytics.track(OnboardingEvents.account_dek_register_account_unlocked)
 
     const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
     if (!privateDataKey) {
@@ -174,6 +196,9 @@ export function* registerAccountDek() {
       })
       return
     }
+
+    yield call(getConnectedUnlockedAccount)
+    ValoraAnalytics.track(OnboardingEvents.account_dek_register_account_unlocked)
 
     yield call(
       sendUserFundedSetAccountTx,

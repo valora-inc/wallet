@@ -12,7 +12,6 @@ import { CurrencyCode } from 'src/config'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -67,7 +66,7 @@ export type StackParamList = {
         navigatedFromSettings: boolean
       }
   [Screens.BidaliScreen]: { currency: CURRENCY_ENUM }
-  [Screens.CashInSuccess]: { provider?: CicoProviderNames }
+  [Screens.CashInSuccess]: { provider?: string }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountAuth]: {
     dappKitRequest: AccountAuthRequest

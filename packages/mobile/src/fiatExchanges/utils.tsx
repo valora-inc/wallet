@@ -2,23 +2,25 @@ import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
 import getIpAddress from 'react-native-public-ip'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CurrencyCode, MOONPAY_API_KEY } from 'src/config'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
-import { providerAvailability } from 'src/flags'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 
+const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
+
 const TAG = 'fiatExchanges:utils'
-interface WidgetRequestData {
-  address: string | null
-  digitalAsset: string
-  fiatCurrency: string
-  fiatAmount: number
+
+interface ProviderRequestData {
+  userLocation: UserLocationData
+  walletAddress: string
+  fiatCurrency: LocalCurrencyCode
+  digitalAsset: CurrencyCode
+  fiatAmount?: number
+  digitalAssetAmount?: number
 }
 
 export interface UserLocationData {
@@ -86,31 +88,42 @@ const composePostObject = (body: any) => ({
   body: JSON.stringify(body),
 })
 
-export const fetchProviderWidgetUrl = async (
-  provider: CicoProviderNames,
-  requestData: WidgetRequestData
-) => {
+export const fetchProviders = async (
+  requestData: ProviderRequestData
+): Promise<CicoProvider[] | undefined> => {
   try {
-    const response = await fetch(
-      networkConfig.providerComposerUrl,
-      composePostObject({ ...requestData, provider })
+    const response = await fetchWithTimeout(
+      networkConfig.providerFetchUrl,
+      composePostObject(requestData),
+      FETCH_TIMEOUT_DURATION
     )
+
+    if (!response || !response.ok) {
+      throw Error(`Fetch failed with status ${response?.status}`)
+    }
 
     return response.json()
   } catch (error) {
-    Logger.error(TAG, error.message)
-    showError(ErrorMessages.PROVIDER_URL_FETCH_FAILED)
+    Logger.error(`${TAG}:fetchProviders`, error.message)
+    throw error
   }
 }
 
 export const fetchUserLocationData = async (countryCallingCode: string | null) => {
   let userLocationData: UserLocationData
   try {
-    const ipAddressFetchResponse = await fetch(
-      `https://api.moonpay.com/v4/ip_address?apiKey=${MOONPAY_API_KEY}`
+    const response = await fetchWithTimeout(
+      `https://api.moonpay.com/v4/ip_address?apiKey=${MOONPAY_API_KEY}`,
+      null,
+      FETCH_TIMEOUT_DURATION
     )
-    const ipAddressObj: MoonPayIpAddressData = await ipAddressFetchResponse.json()
-    const { alpha2, state, ipAddress } = ipAddressObj
+
+    if (!response || !response.ok) {
+      throw Error(`Fetch failed with status ${response?.status}`)
+    }
+
+    const locationData: MoonPayIpAddressData = await response.json()
+    const { alpha2, state, ipAddress } = locationData
 
     if (!alpha2) {
       throw Error('Could not determine country from IP address')
@@ -118,6 +131,7 @@ export const fetchUserLocationData = async (countryCallingCode: string | null) =
 
     userLocationData = { country: alpha2, state, ipAddress }
   } catch (error) {
+    Logger.error(`${TAG}:fetchUserLocationData`, error.message)
     // If MoonPay endpoint fails then use country code to determine location
     const country = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
     let ipAddress
@@ -133,44 +147,6 @@ export const fetchUserLocationData = async (countryCallingCode: string | null) =
   return userLocationData
 }
 
-export const fetchSimplexQuote = async (
-  userAddress: string,
-  currentIpAddress: string,
-  currencyToBuy: CurrencyCode,
-  fiatCurrency: LocalCurrencyCode,
-  amount: number,
-  amountIsFiat: boolean
-) => {
-  try {
-    const response = await fetch(
-      networkConfig.simplexApiUrl,
-      composePostObject({
-        type: 'quote',
-        userAddress,
-        currentIpAddress,
-        currencyToBuy,
-        fiatCurrency,
-        amount,
-        amountIsFiat,
-      })
-    )
-
-    if (!response.ok) {
-      throw Error(`Simplex quote endpoint responded with status ${response.status}`)
-    }
-
-    const simplexQuoteResponse = await response.json()
-    if (simplexQuoteResponse?.error) {
-      throw Error(simplexQuoteResponse.error)
-    }
-
-    const simplexQuote: SimplexQuote = simplexQuoteResponse
-    return simplexQuote
-  } catch (error) {
-    Logger.error(TAG, error.message)
-  }
-}
-
 export const fetchSimplexPaymentData = async (
   userAddress: string,
   phoneNumber: string | null,
@@ -179,7 +155,7 @@ export const fetchSimplexPaymentData = async (
   currentIpAddress: string
 ) => {
   try {
-    const response = await fetch(
+    const response = await fetchWithTimeout(
       networkConfig.simplexApiUrl,
       composePostObject({
         type: 'payment',
@@ -193,11 +169,12 @@ export const fetchSimplexPaymentData = async (
           appVersion: DeviceInfo.getVersion(),
           userAgent: DeviceInfo.getUserAgentSync(),
         },
-      })
+      }),
+      FETCH_TIMEOUT_DURATION
     )
 
-    if (!response.ok) {
-      throw Error(`Simplex payment endpoint responded with status ${response.status}`)
+    if (!response || !response.ok) {
+      throw Error(`Fetch failed with status ${response?.status}`)
     }
 
     const simplexPaymentDataResponse = await response.json()
@@ -208,40 +185,9 @@ export const fetchSimplexPaymentData = async (
     const simplexPaymentData: SimplexPaymentData = simplexPaymentDataResponse
     return simplexPaymentData
   } catch (error) {
-    Logger.error(TAG, error.message)
+    Logger.error(`${TAG}:fetchSimplexPaymentData`, error.message)
+    throw error
   }
-}
-
-export const isExpectedUrl = (fetchedUrl: string, providerUrl: string) =>
-  fetchedUrl.startsWith(providerUrl)
-
-type ProviderAvailability = typeof providerAvailability
-type SpecificProviderAvailability = { [K in keyof ProviderAvailability]: boolean }
-
-type Entries<T> = Array<{ [K in keyof T]: [K, T[K]] }[keyof T]>
-
-export function getProviderAvailability(
-  userLocation: UserLocationData | undefined
-): SpecificProviderAvailability {
-  const countryCodeAlpha2 = userLocation?.country ?? null
-  const stateCode = userLocation?.state ?? null
-
-  // tslint:disable-next-line: no-object-literal-type-assertion
-  const features = {} as SpecificProviderAvailability
-  for (const [key, value] of Object.entries(
-    providerAvailability
-  ) as Entries<ProviderAvailability>) {
-    if (!countryCodeAlpha2) {
-      features[key] = false
-    } else {
-      if (countryCodeAlpha2 === 'US' && (value as any).US && (value as any).US !== true) {
-        features[key] = stateCode ? (value as any)[countryCodeAlpha2][stateCode] ?? false : false
-      } else {
-        features[key] = (value as any)[countryCodeAlpha2] ?? false
-      }
-    }
-  }
-  return features
 }
 
 // Leaving unoptimized for now because sorting is most relevant when fees will be visible

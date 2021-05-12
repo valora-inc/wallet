@@ -102,6 +102,18 @@ exports[` renders correctly 1`] = `
       >
         John Doe
       </Text>
+      <Text
+        style={
+          Object {
+            "color": "#9CA4A9",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 14,
+            "lineHeight": 18,
+          }
+        }
+      >
+        14155550000
+      </Text>
     </View>
     <View
       style={
