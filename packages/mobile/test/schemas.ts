@@ -567,6 +567,10 @@ export const v9Schema = {
     pendingSessions: [],
     pendingActions: [],
   },
+  fiatExchanges: {
+    ...v8Schema.fiatExchanges,
+    providerLogos: {},
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
