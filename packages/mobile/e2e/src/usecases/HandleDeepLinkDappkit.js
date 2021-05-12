@@ -1,4 +1,4 @@
-import { quote, sleep } from '../utils/utils'
+import { enterPinUiIfNecessary, quote, sleep } from '../utils/utils'
 
 export default HandleDeepLinkDappkit = () => {
   const DAPPKIT_URL = quote(
@@ -15,6 +15,7 @@ export default HandleDeepLinkDappkit = () => {
     await sleep(5000)
 
     await device.takeScreenshot('dappkit screen')
+    await enterPinUiIfNecessary()
 
     // press Allow button on DappKitSignTxScreen
     await element(by.id('DappkitAllow')).tap()
