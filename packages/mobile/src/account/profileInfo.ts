@@ -97,7 +97,8 @@ export function* giveProfileAccess(walletAddress: string) {
     const walletToAccountAddress: WalletToAccountAddressType = yield select(
       walletToAccountAddressSelector
     )
-    const accountAddress = walletToAccountAddress[walletAddress] ?? walletAddress
+    const accountAddress =
+      walletToAccountAddress[normalizeAddressWith0x(walletAddress)] ?? walletAddress
 
     const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper)
     const nameAccessor = new PrivateNameAccessor(offchainWrapper)
