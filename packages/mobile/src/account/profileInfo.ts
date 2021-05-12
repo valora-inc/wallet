@@ -70,8 +70,9 @@ export function* uploadNameAndPicture() {
   let writeError = yield call([nameAccessor, 'write'], { name }, [])
   if (writeError) {
     Logger.error(TAG + '@uploadNameAndPicture', writeError)
+  } else {
+    Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile name')
   }
-  Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile name')
 
   const pictureUri: string | null = yield select(pictureSelector)
   if (pictureUri) {
@@ -82,8 +83,9 @@ export function* uploadNameAndPicture() {
     writeError = yield call([pictureAccessor, 'write'], Buffer.from(dataURL), [])
     if (writeError) {
       Logger.error(TAG + '@uploadNameAndPicture', writeError)
+    } else {
+      Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile picture')
     }
-    Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile picture')
   }
 }
 

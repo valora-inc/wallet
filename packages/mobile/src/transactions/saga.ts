@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import { getProfileInfo } from 'src/account/profileInfo'
 import { showError } from 'src/alert/actions'
-import { TokenTransactionType } from 'src/apollo/types'
+import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import { fetchGoldBalance } from 'src/goldToken/actions'
@@ -182,19 +182,21 @@ function* addProfile(address: string) {
   }
 }
 
-function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
-  yield all(
-    Array.from(
-      new Set(
-        transactions
-          .filter(
-            (trans) => isTransferTransaction(trans) && trans.type === TokenTransactionType.Received
-          )
-          // @ts-ignore isTransferTransaction ensures that trans is of TransferItemFragment type and has address
-          .map((trans) => trans.address)
-      )
-    ).map((address) => call(addProfile, address))
+function getDistinctReceivedAddresses(transactions: TransactionFeedFragment[]) {
+  return Array.from(
+    new Set(
+      transactions
+        .filter(
+          (trans) => isTransferTransaction(trans) && trans.type === TokenTransactionType.Received
+        )
+        // @ts-ignore isTransferTransaction ensures that trans is of TransferItemFragment type and has address
+        .map((trans) => trans.address)
+    )
   )
+}
+
+function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
+  yield all(getDistinctReceivedAddresses(transactions).map((address) => call(addProfile, address)))
 }
 
 function* watchNewFeedTransactions() {
