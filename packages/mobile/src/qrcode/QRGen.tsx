@@ -1,6 +1,8 @@
+import fontStyles from '@celo/react-components/styles/fonts'
 import _QRCode, { QRCodeErrorCorrectionLevel } from 'qrcode'
 import React, { useMemo } from 'react'
 import Svg, { Path, Rect } from 'react-native-svg'
+import { AvatarSelf } from 'src/components/AvatarSelf'
 import { SVG } from 'src/send/actions'
 
 export function genMatrix(value: string, errorCorrectionLevel: QRCodeErrorCorrectionLevel) {
@@ -101,6 +103,18 @@ function QRCode({
     <Svg ref={svgRef} width={size} height={size}>
       <Rect width={size} height={size} fill={backgroundColor} />
       {path && cellSize && <Path d={path} stroke={color} strokeWidth={cellSize} />}
+    </Svg>
+  )
+}
+
+interface SharedProps {
+  svgRef: React.MutableRefObject<SVG>
+}
+
+export function QRShared({ svgRef }: SharedProps) {
+  return (
+    <Svg ref={svgRef}>
+      <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} />
     </Svg>
   )
 }
