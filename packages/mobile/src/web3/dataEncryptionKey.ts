@@ -130,6 +130,10 @@ export function* registerAccountDek() {
   try {
     const isAlreadyRegistered = yield select(isDekRegisteredSelector)
     if (isAlreadyRegistered) {
+      Logger.debug(
+        `${TAG}@registerAccountDek`,
+        'Skipping DEK registration because its already registered'
+      )
       yield call(checkIfProfileUploaded)
       return
     }
@@ -153,7 +157,6 @@ export function* registerAccountDek() {
       'Setting wallet address and public data encryption key'
     )
 
-    yield call(getConnectedUnlockedAccount)
     ValoraAnalytics.track(OnboardingEvents.account_dek_register_account_unlocked)
 
     const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
@@ -189,6 +192,8 @@ export function* registerAccountDek() {
       })
       return
     }
+
+    yield call(getConnectedUnlockedAccount)
 
     yield call(
       sendUserFundedSetAccountTx,
