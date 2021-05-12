@@ -163,8 +163,6 @@ export function* registerAccountDek() {
       'Setting wallet address and public data encryption key'
     )
 
-    ValoraAnalytics.track(OnboardingEvents.account_dek_register_account_unlocked)
-
     const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
     if (!privateDataKey) {
       throw new Error('No data key in store. Should never happen.')
@@ -200,6 +198,7 @@ export function* registerAccountDek() {
     }
 
     yield call(getConnectedUnlockedAccount)
+    ValoraAnalytics.track(OnboardingEvents.account_dek_register_account_unlocked)
 
     yield call(
       sendUserFundedSetAccountTx,
