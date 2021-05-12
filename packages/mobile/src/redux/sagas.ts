@@ -116,6 +116,8 @@ export function* rootSaga() {
     yield spawn(walletConnectSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
+    // Propagate so it's handled by Sentry
+    throw error
   } finally {
     sagasFinishedLoading = true
   }
