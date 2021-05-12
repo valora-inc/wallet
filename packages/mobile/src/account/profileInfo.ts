@@ -27,8 +27,10 @@ export function* checkIfProfileUploaded() {
   }
   try {
     // TODO: yield call(addMetadataClaim)
-    yield call(uploadNameAndPicture)
-    yield put(profileUploaded())
+    const uploadSuccessful = yield call(uploadNameAndPicture)
+    if (uploadSuccessful) {
+      yield put(profileUploaded())
+    }
   } catch (e) {
     Logger.error(TAG + '@uploadProfileInfo', 'Error uploading profile', e)
   }
@@ -65,28 +67,36 @@ export function* checkIfProfileUploaded() {
 // }
 
 export function* uploadNameAndPicture() {
-  const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper, true)
-  const name: string = yield select(nameSelector)
-  const nameAccessor = new PrivateNameAccessor(offchainWrapper)
-  let writeError = yield call([nameAccessor, 'write'], { name }, [])
-  if (writeError) {
-    Logger.error(TAG + '@uploadNameAndPicture', writeError)
-  } else {
-    Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile name')
-  }
-
-  const pictureUri: string | null = yield select(pictureSelector)
-  if (pictureUri) {
-    const data = yield call(RNFS.readFile, pictureUri, 'base64')
-    const mimeType = extensionToMimeType[pictureUri.split('.')[-1]] || 'image/jpeg'
-    const dataURL = getDataURL(mimeType, data)
-    const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
-    writeError = yield call([pictureAccessor, 'write'], Buffer.from(dataURL), [])
-    if (writeError) {
-      Logger.error(TAG + '@uploadNameAndPicture', writeError)
+  try {
+    const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper, true)
+    const name: string = yield select(nameSelector)
+    const nameAccessor = new PrivateNameAccessor(offchainWrapper)
+    const nameWriteError = yield call([nameAccessor, 'write'], { name }, [])
+    if (nameWriteError) {
+      Logger.error(TAG + '@uploadNameAndPicture error writing name', nameWriteError)
+      return false
     } else {
-      Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile picture')
+      Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile name')
     }
+
+    const pictureUri: string | null = yield select(pictureSelector)
+    if (pictureUri) {
+      const data = yield call(RNFS.readFile, pictureUri, 'base64')
+      const mimeType = extensionToMimeType[pictureUri.split('.')[-1]] || 'image/jpeg'
+      const dataURL = getDataURL(mimeType, data)
+      const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
+      const pictureWriteError = yield call([pictureAccessor, 'write'], Buffer.from(dataURL), [])
+      if (pictureWriteError) {
+        Logger.error(TAG + '@uploadNameAndPicture error writing picture', pictureWriteError)
+        return false
+      } else {
+        Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile picture')
+      }
+    }
+    return true
+  } catch (error) {
+    Logger.error(TAG + '@uploadNameAndPicture got error', error)
+    return false
   }
 }
 
