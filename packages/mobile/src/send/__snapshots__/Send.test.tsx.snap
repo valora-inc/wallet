@@ -350,6 +350,18 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 >
                   John Doe
                 </Text>
+                <Text
+                  style={
+                    Object {
+                      "color": "#9CA4A9",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                    }
+                  }
+                >
+                  14155550000
+                </Text>
               </View>
               <View
                 style={
@@ -529,6 +541,18 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   >
                     Jane Doe
                   </Text>
+                  <Text
+                    style={
+                      Object {
+                        "color": "#9CA4A9",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 14,
+                        "lineHeight": 18,
+                      }
+                    }
+                  >
+                    13105550000
+                  </Text>
                 </View>
                 <View
                   style={
@@ -673,6 +697,18 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   }
                 >
                   Zebra Zone
+                </Text>
+                <Text
+                  style={
+                    Object {
+                      "color": "#9CA4A9",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                    }
+                  }
+                >
+                  +14163957395
                 </Text>
               </View>
               <View
