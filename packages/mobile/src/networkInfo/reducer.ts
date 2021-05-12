@@ -4,11 +4,13 @@ import { Actions, ActionTypes } from 'src/networkInfo/actions'
 export interface State {
   connected: boolean // True if the phone thinks it has a data connection (cellular/Wi-Fi), false otherwise.
   rehydrated: boolean
+  networkCountry: string | null
 }
 
 const initialState = {
   connected: false,
   rehydrated: false,
+  networkCountry: null,
 }
 
 export const reducer = (
@@ -20,6 +22,11 @@ export const reducer = (
       return {
         ...state,
         connected: action.connected,
+      }
+    case Actions.SET_NETWORK_COUNTRY:
+      return {
+        ...state,
+        networkCountry: action.country,
       }
     case REHYDRATE:
       return {

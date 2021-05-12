@@ -1,7 +1,7 @@
 import NetInfo, { NetInfoState } from '@react-native-community/netinfo'
 import { eventChannel } from 'redux-saga'
 import { call, cancelled, put, spawn, take } from 'redux-saga/effects'
-import { setNetworkConnectivity } from 'src/networkInfo/actions'
+import { setNetworkConnectivity, setNetworkCountry } from 'src/networkInfo/actions'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'networkInfo/saga'
@@ -34,6 +34,13 @@ function* subscribeToNetworkStatus() {
   }
 }
 
+function* fetchNetworkCountryCode() {
+  const { country_code } = yield fetch('https://ipapi.co/json/').then((response) => response.json())
+
+  yield put(setNetworkCountry(country_code))
+}
+
 export function* networkInfoSaga() {
   yield spawn(subscribeToNetworkStatus)
+  yield spawn(fetchNetworkCountryCode)
 }
