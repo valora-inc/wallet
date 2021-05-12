@@ -1,3 +1,4 @@
+import { normalizeAddressWith0x } from '@celo/utils/lib/address'
 import RNFS from 'react-native-fs'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
@@ -10,6 +11,7 @@ import {
   uploadNameAndPicture,
 } from 'src/account/profileInfo'
 import { isProfileUploadedSelector, nameSelector, pictureSelector } from 'src/account/selectors'
+import { walletToAccountAddressSelector } from 'src/identity/reducer'
 import { DEK, retrieveOrGeneratePepper } from 'src/pincode/authentication'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import { getAccountAddress, getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -128,11 +130,14 @@ describe(uploadNameAndPicture, () => {
 })
 
 describe(giveProfileAccess, () => {
-  const recipients = [mockAccount2]
+  const walletAddress = mockAccount2
+  const accountAddress = '0xTEST'
+  const walletToAccountAddress = { [normalizeAddressWith0x(walletAddress)]: accountAddress }
 
   it('gives profile access successfully', async () => {
-    await expectSaga(giveProfileAccess, recipients)
+    await expectSaga(giveProfileAccess, walletAddress)
       .provide([
+        [select(walletToAccountAddressSelector), walletToAccountAddress],
         [call(getOffchainWrapper), null],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(nameSelector), mockName],
@@ -141,14 +146,15 @@ describe(giveProfileAccess, () => {
       ])
       .run()
 
-    expect(mockNameAllowAccess).toBeCalledWith(recipients)
-    expect(mockPictureAllowAccess).toBeCalledWith(recipients)
+    expect(mockNameAllowAccess).toBeCalledWith([accountAddress])
+    expect(mockPictureAllowAccess).toBeCalledWith([accountAddress])
   })
 
   it('handles error when fails to give recipient access to name', async () => {
     mockNameAllowAccess.mockReturnValueOnce(Error('error'))
-    await expectSaga(giveProfileAccess, recipients)
+    await expectSaga(giveProfileAccess, walletAddress)
       .provide([
+        [select(walletToAccountAddressSelector), walletToAccountAddress],
         [call(getOffchainWrapper), null],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(nameSelector), mockName],
@@ -157,14 +163,15 @@ describe(giveProfileAccess, () => {
       ])
       .run()
       .catch((error) => {
-        expect(error).toEqual(Error(`Unable to give ${recipients} access to name`))
+        expect(error).toEqual(Error(`Unable to give ${walletAddress} access to name`))
       })
   })
 
   it('handles error when fails to give recipient access to picture', async () => {
     mockPictureAllowAccess.mockReturnValueOnce(Error('error'))
-    await expectSaga(giveProfileAccess, recipients)
+    await expectSaga(giveProfileAccess, walletAddress)
       .provide([
+        [select(walletToAccountAddressSelector), walletToAccountAddress],
         [call(getOffchainWrapper), null],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(nameSelector), mockName],
@@ -173,7 +180,7 @@ describe(giveProfileAccess, () => {
       ])
       .run()
       .catch((error) => {
-        expect(error).toEqual(Error(`Unable to give ${recipients} access to picture`))
+        expect(error).toEqual(Error(`Unable to give ${walletAddress} access to picture`))
       })
   })
 })
