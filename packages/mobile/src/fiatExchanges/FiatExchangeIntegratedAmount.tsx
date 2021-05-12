@@ -20,6 +20,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
+import SwapArrows from 'src/icons/SwapArrows'
 import {
   ALERT_BANNER_DURATION,
   DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
@@ -94,10 +95,14 @@ export const fiatExchangeIntegratedAmountOptions = () => {
   }
 }
 
+const toDecimals = (number: BigNumber | null, decimals: number) =>
+  number?.dp(decimals)?.toFixed() || '0'
+
 function FiatExchangeIntegratedAmount({ navigation }: Props) {
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
 
   const [amount, setAmount] = useState('')
+  const [isLocal, setIsLocal] = useState(true)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const [openExtendedWindow, setOpenExtendedWindow] = useState(OpenExtendedWindow.None)
   const [selectedCurrency, setSelectedCurrency] = useState<CURRENCY_ENUM>(CURRENCY_ENUM.DOLLAR)
@@ -106,6 +111,13 @@ function FiatExchangeIntegratedAmount({ navigation }: Props) {
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencyExchangeRate = useSelector(getLocalCurrencyExchangeRate)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+
+  const localAmount = isLocal
+    ? amount
+    : toDecimals(
+        convertLocalAmountToDollars(new BigNumber(amount || 0), localCurrencyExchangeRate),
+        2
+      )
 
   const newSetOpenExtendedWindow = (newState: OpenExtendedWindow) =>
     React.useCallback(() => {
@@ -154,6 +166,8 @@ function FiatExchangeIntegratedAmount({ navigation }: Props) {
     return decimalPos + NUMBER_INPUT_MAX_DECIMALS + 1
   }, [amount, decimalSeparator])
 
+  console.log({ amount, localAmount })
+
   const onDigitPress = React.useCallback(
     (digit) => {
       if ((amount === '' && digit === 0) || (maxLength && amount.length + 1 > maxLength)) {
@@ -167,6 +181,27 @@ function FiatExchangeIntegratedAmount({ navigation }: Props) {
   const onBackspacePress = React.useCallback(() => {
     setAmount(amount.substr(0, amount.length - 1))
   }, [amount, setAmount])
+
+  const onSwapPress = React.useCallback(() => {
+    const local = !isLocal
+    const amountBn = new BigNumber(amount || 0)
+
+    console.log({
+      local,
+      amount,
+      swap: convertDollarsToLocalAmount(
+        new BigNumber(amount || 0),
+        localCurrencyExchangeRate
+      )?.toFixed(4),
+    })
+
+    setIsLocal(local)
+    if (local) {
+      setAmount(localAmount)
+    } else {
+      setAmount(toDecimals(convertDollarsToLocalAmount(amountBn, localCurrencyExchangeRate), 4))
+    }
+  }, [amount, isLocal, setIsLocal])
 
   const onDecimalPress = React.useCallback(() => {
     const decimalPos = amount.indexOf(decimalSeparator ?? '.')
@@ -211,16 +246,16 @@ function FiatExchangeIntegratedAmount({ navigation }: Props) {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.showAmountContainer}>
           <View style={styles.amountLine}>
-            <View style={styles.currencySymbolContainer}>
-              <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.currencySymbol}>
-                {localCurrencySymbol || localCurrencyCode}
-              </Text>
-            </View>
             <View style={styles.amountContainer}>
               <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.amount}>
+                {isLocal && (localCurrencySymbol || localCurrencyCode)}
                 {amount ? amount : '0'}
+                {!isLocal && ' ' + CURRENCIES[selectedCurrency].code}
               </Text>
             </View>
+            <Touchable onPress={onSwapPress} style={styles.reverseValue}>
+              <SwapArrows />
+            </Touchable>
           </View>
           {showMinError && (
             <Text style={styles.amountError}>
@@ -270,32 +305,34 @@ const styles = StyleSheet.create({
   amountContainer: {
     justifyContent: 'center',
     maxWidth: '75%',
+    marginEnd: 'auto',
+    marginStart: 'auto',
   },
   amountLine: {
     flexDirection: 'row',
     justifyContent: 'center',
+    paddingLeft: 40,
   },
   amountError: {
     ...fontStyles.small,
     color: colors.gray4,
     textAlign: 'center',
   },
-  currencySymbolContainer: {
-    justifyContent: 'center',
-  },
-  currencySymbol: {
-    ...fontStyles.regular,
-    fontSize: 32,
-    lineHeight: 64,
-    marginRight: 8,
-  },
-  currencySymbolTransparent: {
-    color: 'transparent',
-  },
   amount: {
     ...fontStyles.regular,
     fontSize: 64,
     lineHeight: undefined,
+  },
+  reverseValue: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    borderColor: colors.gray2,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   nextBtn: {
     paddingVertical: variables.contentPadding,
