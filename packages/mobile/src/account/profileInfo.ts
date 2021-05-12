@@ -91,17 +91,13 @@ export function* uploadNameAndPicture() {
 }
 
 // this function gives permission to the recipient to view the user's profile info
-export function* giveProfileAccess(recipientAddress: string) {
+export function* giveProfileAccess(walletAddress: string) {
   // TODO: check if key for recipient already exists, skip if yes
   try {
     const walletToAccountAddress: WalletToAccountAddressType = yield select(
       walletToAccountAddressSelector
     )
-    const accountAddress = walletToAccountAddress[recipientAddress]
-    if (!accountAddress) {
-      Logger.info(TAG, 'cannot find account address for wallet address', recipientAddress)
-      return
-    }
+    const accountAddress = walletToAccountAddress[walletAddress] ?? walletAddress
 
     const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper)
     const nameAccessor = new PrivateNameAccessor(offchainWrapper)
@@ -120,15 +116,10 @@ export function* giveProfileAccess(recipientAddress: string) {
         return
       }
     }
-    // not throwing error, because possibility the recipient doesn't have a registered DEK
 
     Logger.info(TAG + '@giveProfileAccess', 'uploaded symmetric keys for ' + accountAddress)
   } catch (error) {
-    Logger.error(
-      TAG + '@giveProfileAccess',
-      'error when giving access to ' + recipientAddress,
-      error
-    )
+    Logger.error(TAG + '@giveProfileAccess', 'error when giving access to ' + walletAddress, error)
   }
 }
 
