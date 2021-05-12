@@ -27,6 +27,10 @@ export interface SimplexQuote {
   supported_digital_currencies: string[]
 }
 
+export interface SimplexError {
+  error: string
+}
+
 export interface SimplexPaymentRequestResponse {
   is_kyc_update_required: boolean
 }
@@ -67,7 +71,11 @@ const Simplex = {
         payment_methods: ['credit_card'],
       })
 
-      const simplexQuote: SimplexQuote = await response.json()
+      const simplexQuote: SimplexQuote | SimplexError = await response.json()
+      if ('error' in simplexQuote) {
+        throw simplexQuote.error
+      }
+
       return simplexQuote
     } catch (error) {
       console.error('Error fetching Simplex quote: ', error)
@@ -122,7 +130,14 @@ const Simplex = {
         },
       })
 
-      const simplexPaymentRequestResponse: SimplexPaymentRequestResponse = await response.json()
+      const simplexPaymentRequestResponse:
+        | SimplexPaymentRequestResponse
+        | SimplexError = await response.json()
+
+      if ('error' in simplexPaymentRequestResponse) {
+        throw simplexPaymentRequestResponse.error
+      }
+
       if (simplexPaymentRequestResponse.is_kyc_update_required === undefined) {
         throw Error('Simplex payment request failed')
       }
