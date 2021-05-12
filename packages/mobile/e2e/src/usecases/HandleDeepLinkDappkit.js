@@ -14,6 +14,8 @@ export default HandleDeepLinkDappkit = () => {
     // this second sleep is to allow for navigation to reach the desired deep link handler
     await sleep(5000)
 
+    await device.takeScreenshot('dappkit screen')
+
     // press Allow button on DappKitSignTxScreen
     await element(by.id('DappkitAllow')).tap()
 
