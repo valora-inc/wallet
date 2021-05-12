@@ -28,12 +28,14 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { features } from 'src/flags'
+import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import {
   FetchDataEncryptionKeyAction,
   updateAddressDekMap,
   updateWalletToAccountAddress,
 } from 'src/identity/actions'
 import { walletToAccountAddressSelector, WalletToAccountAddressType } from 'src/identity/reducer'
+import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import { getCurrencyAddress } from 'src/tokens/saga'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
@@ -134,18 +136,32 @@ export function* registerAccountDek() {
   try {
     const isAlreadyRegistered = yield select(isDekRegisteredSelector)
     if (isAlreadyRegistered) {
+      Logger.debug(
+        `${TAG}@registerAccountDek`,
+        'Skipping DEK registration because its already registered'
+      )
       yield call(checkIfProfileUploaded)
       return
     }
-    ValoraAnalytics.track(OnboardingEvents.account_dek_register_start)
 
+    const stableBalance = yield select(stableTokenBalanceSelector)
+    const celoBalance = yield select(celoTokenBalanceSelector)
+    if (
+      (stableBalance === null || stableBalance === '0') &&
+      (celoBalance === null || celoBalance === '0')
+    ) {
+      Logger.debug(
+        `${TAG}@registerAccountDek`,
+        'Skipping DEK registration because there are no funds'
+      )
+      return
+    }
+
+    ValoraAnalytics.track(OnboardingEvents.account_dek_register_start)
     Logger.debug(
       `${TAG}@registerAccountDek`,
       'Setting wallet address and public data encryption key'
     )
-
-    yield call(getConnectedUnlockedAccount)
-    ValoraAnalytics.track(OnboardingEvents.account_dek_register_account_unlocked)
 
     const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
     if (!privateDataKey) {
@@ -180,6 +196,9 @@ export function* registerAccountDek() {
       })
       return
     }
+
+    yield call(getConnectedUnlockedAccount)
+    ValoraAnalytics.track(OnboardingEvents.account_dek_register_account_unlocked)
 
     yield call(
       sendUserFundedSetAccountTx,
