@@ -193,7 +193,7 @@
   "firebaseFetchFailed": "La conexión con el servidor falló",
   "pictureLoadFailed": "Hubo un error al cargar la imagen",
   "simplexPurchaseFetchFailed": "Error al recuperar una cita de Simplex. Inténtalo de nuevo más tarde",
-  "providerUrlFetchFailed": "No se pudo conectar al servicio. Ponte en contacto con el soporte técnico",
+  "providerFetchFailed": "No se pudo conectar al servicio. Ponte en contacto con el soporte técnico",
   "ok": "OK",
   "cashOutLimitExceeded": "No puedes retirar más de tu saldo de {{currency}}{{balance}}",
   "appDescription": "Una cartera de pagos móviles que funciona en todo el mundo"

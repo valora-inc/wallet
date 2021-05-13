@@ -33,7 +33,6 @@ import {
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { appRemoteFeatureFlagChannel, appVersionDeprecationChannel } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
@@ -166,10 +165,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path.startsWith('/cash-in-success')) {
       // Some providers append transaction information to the redirect links so can't check for strict equality
       const cicoSuccessParam = (rawParams.path.match(/cash-in-success\/(.+)/) || [])[1]
-      const provider = Object.values(CicoProviderNames).filter((name) =>
-        cicoSuccessParam?.toLowerCase().includes(name.toLowerCase())
-      )[0]
-      navigate(Screens.CashInSuccess, { provider })
+      navigate(Screens.CashInSuccess, { provider: cicoSuccessParam.split('/')[0] })
       // Some providers append transaction information to the redirect links so can't check for strict equality
     } else if (rawParams.path.startsWith('/cash-in-failure')) {
       navigate(Screens.FiatExchange)

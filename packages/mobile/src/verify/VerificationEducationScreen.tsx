@@ -8,6 +8,7 @@ import { Countries } from '@celo/utils/lib/countries'
 import { useFocusEffect } from '@react-navigation/native'
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
@@ -31,6 +32,7 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
@@ -148,7 +150,8 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     }
   }, [route.params?.selectedCountryCodeAlpha2])
 
-  useEffect(() => {
+  useAsync(async () => {
+    await waitUntilSagasFinishLoading()
     dispatch(initializeAccount())
     dispatch(checkIfKomenciAvailable())
   }, [])
