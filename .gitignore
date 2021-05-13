@@ -91,3 +91,4 @@ packages/docs/_book/
 .env.local
 
 packages/provider-url-service/*
+packages/komencikit/*
