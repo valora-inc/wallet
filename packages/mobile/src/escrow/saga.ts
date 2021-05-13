@@ -49,6 +49,7 @@ import {
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { komenciContextSelector, shouldUseKomenciSelector } from 'src/verify/reducer'
+import { getKomenciKit } from 'src/verify/saga'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { mtwAddressSelector } from 'src/web3/selectors'
@@ -278,7 +279,8 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
         if (!komenciActive) {
           yield call(sendTransaction, withdrawAndTransferTx.txo, walletAddress, context)
         } else {
-          const komenciKit = yield select(komenciContextSelector)
+          const komenci = yield select(komenciContextSelector)
+          const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
           const withdrawAndTransferTxResult: Result<
             CeloTxReceipt,
