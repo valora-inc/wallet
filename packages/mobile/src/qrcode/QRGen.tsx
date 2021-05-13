@@ -115,10 +115,12 @@ interface SharedProps {
 }
 
 /* TODO:
- * Edit QRProps (remove/optionalize svgRef)
+ * Edit QRProps (remove svgRef)
  * Change Logo to correct icon
  * Put icon and acct number on same line
  * Get address for acct number
+ *
+ * call and assign to variable without printing/returning variable?
  */
 export function QRShared({ value, svgRef }: SharedProps) {
   return (
