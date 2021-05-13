@@ -18,6 +18,5 @@
     "strict": true
   },
   "include": ["src", "../contractkit/types"],
-  "exclude": ["node_modules", "vendor", ".bundle"],
-  "references": [{ "path": "../komencikit" }]
+  "exclude": ["node_modules", "vendor", ".bundle"]
 }

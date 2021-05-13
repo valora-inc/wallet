@@ -571,6 +571,13 @@ export const v9Schema = {
     ...v8Schema.fiatExchanges,
     providerLogos: {},
   },
+  verify: {
+    ...v8Schema.verify,
+    komenciConfig: {
+      useLightProxy: false,
+      allowedDeployers: [],
+    },
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

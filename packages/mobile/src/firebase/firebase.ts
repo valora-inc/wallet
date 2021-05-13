@@ -236,6 +236,10 @@ export function appRemoteFeatureFlagChannel() {
         inviteRewardCusd: flags?.inviteRewardCusd ?? 1,
         inviteRewardWeeklyLimit: flags?.inviteRewardCusd ?? 5,
         walletConnectEnabled: flags?.walletConnectEnabled ?? false,
+        komenci: {
+          useLightProxy: flags?.komenci?.useLightProxy ?? false,
+          allowedDeployers: flags?.komenci?.allowedDeployers ?? [],
+        },
       })
     }
 

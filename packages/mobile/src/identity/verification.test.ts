@@ -222,6 +222,10 @@ const mockVerificationState: VerificationState = {
   phoneHash: mockE164NumberHash,
   withoutRevealing: false,
   e164Number: mockE164Number,
+  komenciConfig: {
+    useLightProxy: false,
+    allowedDeployers: [],
+  },
 }
 
 beforeEach(() => {

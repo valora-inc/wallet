@@ -8,8 +8,6 @@ import {
   UnselectedRequest,
 } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { FetchError, TxError } from '@celo/komencikit/src/errors'
-import { KomenciKit } from '@celo/komencikit/src/kit'
 import { retryAsync } from '@celo/utils/lib/async'
 import {
   AttestationsStatus,
@@ -17,6 +15,8 @@ import {
   extractSecurityCodeWithPrefix,
 } from '@celo/utils/lib/attestations'
 import { AttestationRequest } from '@celo/utils/lib/io'
+import { FetchError, TxError } from '@komenci/kit/lib/errors'
+import { KomenciKit } from '@komenci/kit/lib/kit'
 import AwaitLock from 'await-lock'
 import { Platform } from 'react-native'
 import { Task } from 'redux-saga'
@@ -42,7 +42,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
 import { SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
-import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
 import {
   Actions,
@@ -87,6 +86,7 @@ import {
   succeed,
   verificationStatusSelector,
 } from 'src/verify/reducer'
+import { getKomenciKit } from 'src/verify/saga'
 import { getContractKit } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -504,10 +504,7 @@ function* requestAttestations(
   const contractKit = yield call(getContractKit)
   const walletAddress = yield call(getConnectedUnlockedAccount)
   const komenci = yield select(komenciContextSelector)
-  const komenciKit = new KomenciKit(contractKit, walletAddress, {
-    url: komenci.callbackUrl || networkConfig.komenciUrl,
-    token: komenci.sessionToken,
-  })
+  const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
   if (numAttestationsRequestsNeeded <= 0) {
     Logger.debug(`${TAG}@requestAttestations`, 'No additional attestations requests needed')
@@ -814,10 +811,7 @@ export function* completeAttestations(
   const contractKit = yield call(getContractKit)
   const komenci = yield select(komenciContextSelector)
   const walletAddress = yield call(getConnectedUnlockedAccount)
-  const komenciKit = new KomenciKit(contractKit, walletAddress, {
-    url: komenci.callbackUrl || networkConfig.komenciUrl,
-    token: komenci.sessionToken,
-  })
+  const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
   yield all(
     attestations.map((attestation) => {

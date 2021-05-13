@@ -101,6 +101,10 @@ export interface RemoteFeatureFlags {
   hideVerification: boolean
   showRaiseDailyLimitTarget: string | undefined
   walletConnectEnabled: boolean
+  komenci: {
+    useLightProxy: boolean
+    allowedDeployers: string[]
+  }
 }
 
 export function* appRemoteFeatureFlagSaga() {
