@@ -16,6 +16,7 @@ import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   Actions,
+  androidMobileServicesAvailabilityChecked,
   appLock,
   minAppVersionDetermined,
   OpenDeepLink,
@@ -23,7 +24,6 @@ import {
   OpenUrlAction,
   SetAppState,
   setAppState,
-  androidMobileServicesAvailabilityChecked,
   setLanguage,
   updateFeatureFlags,
 } from 'src/app/actions'
@@ -157,6 +157,10 @@ export interface RemoteFeatureFlags {
   rewardsPercent: number
   rewardsStartDate: number
   rewardsMax: number
+  komenci: {
+    useLightProxy: boolean
+    allowedDeployers: string[]
+  }
 }
 
 export function* appRemoteFeatureFlagSaga() {

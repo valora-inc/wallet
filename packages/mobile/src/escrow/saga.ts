@@ -5,8 +5,7 @@ import { EscrowWrapper } from '@celo/contractkit/lib/wrappers/Escrow'
 import { MetaTransactionWalletWrapper } from '@celo/contractkit/lib/wrappers/MetaTransactionWallet'
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { KomenciKit } from '@celo/komencikit/lib/kit'
-import { FetchError, TxError } from '@celo/komencikit/src/errors'
+import { FetchError, TxError } from '@komenci/kit/lib/errors'
 import BigNumber from 'bignumber.js'
 import { all, call, put, race, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
@@ -29,7 +28,6 @@ import {
 import { generateEscrowPaymentIdAndPk, generateUniquePaymentId } from 'src/escrow/utils'
 import { calculateFee } from 'src/fees/saga'
 import { WEI_DECIMALS } from 'src/geth/consts'
-import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
 import i18n from 'src/i18n'
 import { Actions as IdentityActions, SetVerificationStatusAction } from 'src/identity/actions'
@@ -280,11 +278,7 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
         if (!komenciActive) {
           yield call(sendTransaction, withdrawAndTransferTx.txo, walletAddress, context)
         } else {
-          const komenci = yield select(komenciContextSelector)
-          const komenciKit = new KomenciKit(contractKit, walletAddress, {
-            url: komenci.callbackUrl || networkConfig.komenciUrl,
-            token: komenci.sessionToken,
-          })
+          const komenciKit = yield select(komenciContextSelector)
 
           const withdrawAndTransferTxResult: Result<
             CeloTxReceipt,

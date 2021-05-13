@@ -702,6 +702,13 @@ export const v16Schema = {
     exchangeRates: null,
     exchangeRatePair: undefined,
   },
+  verify: {
+    ...v15Schema.verify,
+    komenciConfig: {
+      useLightProxy: false,
+      allowedDeployers: [],
+    },
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

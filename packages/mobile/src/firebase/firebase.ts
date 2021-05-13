@@ -241,6 +241,10 @@ export function appRemoteFeatureFlagChannel() {
         rewardsPercent: flags?.rewardsPercent ?? 5,
         rewardsStartDate: flags?.rewardsStartDate ?? 1622505600000,
         rewardsMax: flags?.rewardsMax ?? 1000,
+        komenci: {
+          useLightProxy: flags?.komenci?.useLightProxy ?? false,
+          allowedDeployers: flags?.komenci?.allowedDeployers ?? [],
+        },
       })
     }
 

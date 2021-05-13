@@ -3796,6 +3796,11 @@
     iterall "^1.1.3"
     uuid "^3.1.0"
 
+"@komenci/contracts@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@komenci/contracts/-/contracts-1.1.0.tgz#73772e653661b22601b19f025097a4be20d2cc0f"
+  integrity sha512-IV/5d5neXgAO/urFEl2v/EtADO62O9fX0gRGwNZOJfJEuIU/rhdXYo2HIQORthoQriNl2C0yVzF/3NQux4fwGg==
+
 "@komenci/kit@1.0.0-beta1":
   version "1.0.0-beta1"
   resolved "https://registry.yarnpkg.com/@komenci/kit/-/kit-1.0.0-beta1.tgz#2d86a216a126fb1d267d76ddfb21232aafa15ea5"
