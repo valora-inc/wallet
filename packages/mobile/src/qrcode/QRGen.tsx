@@ -2,7 +2,9 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import _QRCode, { QRCodeErrorCorrectionLevel } from 'qrcode'
 import React, { useMemo } from 'react'
 import Svg, { Path, Rect } from 'react-native-svg'
+import AccountNumberCard from 'src/components/AccountNumberCard'
 import { AvatarSelf } from 'src/components/AvatarSelf'
+import Logo from 'src/icons/Logo'
 import { SVG } from 'src/send/actions'
 
 export function genMatrix(value: string, errorCorrectionLevel: QRCodeErrorCorrectionLevel) {
@@ -108,13 +110,23 @@ function QRCode({
 }
 
 interface SharedProps {
+  value: string
   svgRef: React.MutableRefObject<SVG>
 }
 
-export function QRShared({ svgRef }: SharedProps) {
+/* TODO:
+ * Edit QRProps (remove/optionalize svgRef)
+ * Change Logo to correct icon
+ * Put icon and acct number on same line
+ * Get address for acct number
+ */
+export function QRShared({ value, svgRef }: SharedProps) {
   return (
     <Svg ref={svgRef}>
       <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} />
+      <QRCode value={value} size={240} svgRef={svgRef} />
+      <Logo height={32} />
+      <AccountNumberCard address={''} />
     </Svg>
   )
 }

@@ -71,6 +71,7 @@ export class App extends React.Component<Props> {
     dynamicLinks()
       .getInitialLink()
       .then(this.handleOpenURL)
+      .catch((error) => Logger.error('App/dynamicLinkGetInitialLink', 'Failed to open URL', error))
 
     const url = await Linking.getInitialURL()
     if (url) {

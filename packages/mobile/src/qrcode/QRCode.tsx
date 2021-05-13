@@ -37,6 +37,7 @@ export default function QRCodeDisplay({ qrSvgRef }: Props) {
     return Math.min((variables.width * 3) / 4, variables.width - horizontalPadding * 2)
   }
   const link = useAsync(() => generateLinkWithPath(qrContent), [qrContent])
+
   return (
     <SafeAreaView style={styles.container}>
       <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} />

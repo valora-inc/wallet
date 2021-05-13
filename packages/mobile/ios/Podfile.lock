@@ -1,8 +1,8 @@
 PODS:
-  - Adjust (4.29.1):
-    - Adjust/Core (= 4.29.1)
-  - Adjust/Core (4.29.1)
-  - Analytics (4.1.3)
+  - Adjust (4.29.2):
+    - Adjust/Core (= 4.29.2)
+  - Adjust/Core (4.29.2)
+  - Analytics (4.1.4)
   - boost-for-react-native (1.63.0)
   - CeloBlockchain (0.0.352)
   - CocoaAsyncSocket (7.6.5)
@@ -15,6 +15,8 @@ PODS:
     - React-Core (= 0.63.4)
     - React-jsi (= 0.63.4)
     - ReactCommon/turbomodule/core (= 0.63.4)
+  - Firebase (7.7.0):
+    - Firebase/Core (= 7.7.0)
   - Firebase/Auth (7.7.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 7.7.0)
@@ -53,7 +55,7 @@ PODS:
     - FirebaseCoreDiagnostics (~> 7.4)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
-  - FirebaseCoreDiagnostics (7.8.0):
+  - FirebaseCoreDiagnostics (7.9.0):
     - GoogleDataTransport (~> 8.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Logger (~> 7.0)
@@ -63,12 +65,12 @@ PODS:
     - leveldb-library (~> 1.22)
   - FirebaseDynamicLinks (7.7.0):
     - FirebaseCore (~> 7.0)
-  - FirebaseInstallations (7.8.0):
+  - FirebaseInstallations (7.11.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
     - PromisesObjC (~> 1.2)
-  - FirebaseInstanceID (7.8.0):
+  - FirebaseInstanceID (7.11.0):
     - FirebaseCore (~> 7.0)
     - FirebaseInstallations (~> 7.0)
     - GoogleUtilities/Environment (~> 7.0)
@@ -156,28 +158,28 @@ PODS:
     - GoogleUtilities/Network (~> 7.0)
     - "GoogleUtilities/NSData+zlib (~> 7.0)"
     - nanopb (~> 2.30907.0)
-  - GoogleDataTransport (8.3.0):
+  - GoogleDataTransport (8.3.1):
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30907.0)
     - PromisesObjC (~> 1.2)
-  - GoogleUtilities/AppDelegateSwizzler (7.3.1):
+  - GoogleUtilities/AppDelegateSwizzler (7.4.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.3.1):
+  - GoogleUtilities/Environment (7.4.1):
     - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Logger (7.3.1):
+  - GoogleUtilities/Logger (7.4.1):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (7.3.1):
+  - GoogleUtilities/MethodSwizzler (7.4.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (7.3.1):
+  - GoogleUtilities/Network (7.4.1):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.3.1)"
-  - GoogleUtilities/Reachability (7.3.1):
+  - "GoogleUtilities/NSData+zlib (7.4.1)"
+  - GoogleUtilities/Reachability (7.4.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.3.1):
+  - GoogleUtilities/UserDefaults (7.4.1):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.5.0)
   - leveldb-library (1.22.1)
@@ -582,13 +584,15 @@ PODS:
   - Segment-Adjust (3.1.1):
     - Adjust (~> 4.28)
     - Analytics
-  - Segment-Firebase (2.7.2):
+  - Segment-Firebase (2.7.3):
     - Analytics
+    - Firebase (~> 7.7)
     - Firebase/Core (~> 7.7)
     - FirebaseAnalytics (~> 7.7)
-    - Segment-Firebase/Core (= 2.7.2)
-  - Segment-Firebase/Core (2.7.2):
+    - Segment-Firebase/Core (= 2.7.3)
+  - Segment-Firebase/Core (2.7.3):
     - Analytics
+    - Firebase (~> 7.7)
     - Firebase/Core (~> 7.7)
     - FirebaseAnalytics (~> 7.7)
   - Sentry (6.0.9):
@@ -898,8 +902,8 @@ EXTERNAL SOURCES:
     :path: "../../../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  Adjust: 5caa50e140484d30cce45085ea261144f123391c
-  Analytics: 4c01e3e19d4be86705bad6581a1c2aa5a15a9d22
+  Adjust: 0b649decc070365365bec4e4b8d8bf6e49fe1746
+  Analytics: 7bdc735c456434b4eaa2eacdcf122bb03d51ede7
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   CeloBlockchain: a53a2bdfb7bca7e09a9ff21675e589e454f55563
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
@@ -910,11 +914,11 @@ SPEC CHECKSUMS:
   FirebaseAnalytics: f3f8f75de34fe04141a69bb1c4bd7e24a80178e1
   FirebaseAuth: 76aa97ecd51e20ecd21321d08474d25f5d2b7b9f
   FirebaseCore: ac35d680a0bf32319a59966a1478e0741536b97b
-  FirebaseCoreDiagnostics: 066f996579cf097bdad3d7dc9a918d6b9e129c50
+  FirebaseCoreDiagnostics: 3d36e05da74cb8b7ce30e6594a8f201b982c725c
   FirebaseDatabase: 4da0e43266f9cb0278464a2a4b1102b3d122c245
   FirebaseDynamicLinks: 3ddc15a6f7e1813710d265acc662e5dfe034ac36
-  FirebaseInstallations: 7f7ed0e7e27fb51f57291e1876e2ddb1524126c1
-  FirebaseInstanceID: aaecc93b4528bbcafea12c477e26827719ca1183
+  FirebaseInstallations: a58d4f72ec5861840b84df489f2668d970df558a
+  FirebaseInstanceID: ad5135045a498d7775903efd39762d2cdfa1be27
   FirebaseMessaging: ce33c2537fdda1d1a4bc82b2245e3c3bf9107684
   FirebaseStorage: 9b940765fa33494258fab6131b6180fc7c2d80f5
   Flipper: 1bd2db48dcc31e4b167b9a33ec1df01c2ded4893
@@ -927,8 +931,8 @@ SPEC CHECKSUMS:
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
   GoogleAppMeasurement: 0c3b134b2c0a90c4c24833873894bfe0e42a0384
-  GoogleDataTransport: b006084b73915a42c28a3466961a4edda3065da6
-  GoogleUtilities: e1d9ed4e544fc32a93e00e721400cbc3f377200d
+  GoogleDataTransport: 8b0e733ea77c9218778e5a9e34ba9508b8328939
+  GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
@@ -1006,7 +1010,7 @@ SPEC CHECKSUMS:
   RNShare: fea1801315aa8875d6db73a4010b14afcd568765
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   Segment-Adjust: 5c45cd11f3ed647967c54e93c267f8e8c987f849
-  Segment-Firebase: bc9760fe3d1d3aaa34d2f424cd0272ca39c25d82
+  Segment-Firebase: a411a172b900656b7fb0b528b96ea0a35014ceb2
   Sentry: 388c9dc093b2fd3a264466a5c5b21e25959610a9
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
