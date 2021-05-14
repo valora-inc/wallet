@@ -7,9 +7,10 @@ import DeviceInfo from 'react-native-device-info'
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 import { AppEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
-import { DEFAULT_TESTNET, isE2EEnv, SEGMENT_API_KEY } from 'src/config'
+import { DEFAULT_TESTNET, FIREBASE_ENABLED, isE2EEnv, SEGMENT_API_KEY } from 'src/config'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
+import { isPresent } from 'src/utils/typescript'
 
 const TAG = 'ValoraAnalytics'
 
@@ -45,7 +46,7 @@ async function getDeviceInfo() {
 }
 
 const SEGMENT_OPTIONS: analytics.Configuration = {
-  using: [Firebase, Adjust],
+  using: [FIREBASE_ENABLED ? Firebase : undefined, Adjust].filter(isPresent),
   flushAt: 20,
   debug: __DEV__,
   trackAppLifecycleEvents: true,
