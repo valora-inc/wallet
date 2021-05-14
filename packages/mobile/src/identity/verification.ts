@@ -918,7 +918,7 @@ function* completeAttestation(
   // to ensure `processingInputCode` has enough time to properly gate the tx. 0-index code
   // will have 0 delay, 1-index code will have 1 sec delay, etc.
   if (shouldUseKomenci) {
-    yield delay(codePosition * 1000)
+    yield delay(codePosition * 3000)
     yield inputAttestationCodeLock.acquireAsync()
     const completeTxResult: Result<CeloTxReceipt, FetchError | TxError> = yield call(
       submitCompleteTxAndRetryOnRevert,
