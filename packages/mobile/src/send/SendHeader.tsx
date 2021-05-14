@@ -24,8 +24,6 @@ function SendHeader({ isOutgoingPaymentRequest }: Props) {
       },
     })
 
-  const title = isOutgoingPaymentRequest ? t('paymentRequestFlow:request') : t('sendFlow7:send')
-
   return (
     <CustomHeader
       left={
@@ -37,7 +35,7 @@ function SendHeader({ isOutgoingPaymentRequest }: Props) {
           }
         />
       }
-      title={title}
+      title={isOutgoingPaymentRequest ? t('paymentRequestFlow:request') : t('sendFlow7:send')}
       right={
         <TopBarIconButton
           icon={<QRCodeBorderlessIcon height={32} color={colors.greenUI} />}
