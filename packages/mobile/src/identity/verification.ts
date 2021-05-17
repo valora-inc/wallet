@@ -346,10 +346,10 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
       if (Platform.OS === 'android') {
         autoRetrievalTask?.cancel()
       }
+
+      yield put(setMtwAddress(unverifiedMtwAddress))
     }
 
-    const komenci: KomenciContext = yield select(komenciContextSelector)
-    yield put(setMtwAddress(komenci.unverifiedMtwAddress))
     yield put(setVerificationStatus(VerificationStatus.Done))
     yield put(setNumberVerified(true))
     yield put(succeed())
