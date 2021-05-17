@@ -45,7 +45,7 @@ export async function getAttestationCodeForSecurityCode(
   )
 
   if (lookupAttestations.length <= 0) {
-    // This shouldn't happen
+    // This shouldn't happen when the code is legit
     throw new Error(
       `Unable to find possible issuers for security code: ${securityCodeWithPrefix}, attestation issuers: [${attestations.map(
         (attestation) => attestation.issuer
