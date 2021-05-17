@@ -69,7 +69,7 @@ The function needs to be `async`, and you will need to `await` all calls to deto
 ### Recording a test
 On macOS it is possible to record a test using [Detox Recorder](https://github.com/wix/DetoxRecorder).
 
-1. Run the app with `dev:ios` from `wallet/packages/mobile`.
+1. Run the app with `yarn dev:ios` from `wallet/packages/mobile`.
 
 2. Navigate to the root folder `wallet`.
 
