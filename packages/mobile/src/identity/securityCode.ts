@@ -22,7 +22,10 @@ async function raceUntilSuccess<T>(promises: Array<Promise<T>>) {
         })
       })
     )
-    return Promise.reject(errors)
+    // TODO: use AggregateError when available
+    return Promise.reject(
+      new Error(`raceUntilSuccess all failed:\n${errors.map((error) => String(error)).join('\n')}`)
+    )
   } catch (firstValue) {
     return Promise.resolve(firstValue)
   }
@@ -40,6 +43,15 @@ export async function getAttestationCodeForSecurityCode(
   const lookupAttestations = attestations.filter(
     (attestation) => getSecurityCodePrefix(attestation.issuer) === securityCodePrefix
   )
+
+  if (lookupAttestations.length <= 0) {
+    // This shouldn't happen
+    throw new Error(
+      `Unable to find possible issuers for security code: ${securityCodeWithPrefix}, attestation issuers: [${attestations.map(
+        (attestation) => attestation.issuer
+      )}]`
+    )
+  }
 
   // Recover the full attestation code from the matching issuer's attestation services
   return raceUntilSuccess(
@@ -78,7 +90,7 @@ async function requestValidator(
       securityCode,
     }
 
-    return attestationsWrapper.getAttestationForSecurityCode(
+    return await attestationsWrapper.getAttestationForSecurityCode(
       attestation.attestationServiceURL,
       requestBody,
       signer
