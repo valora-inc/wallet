@@ -13,12 +13,14 @@ const WEI_PER_UNIT = 1000000000000000000
 const SELL_AMOUNTS = {
   [CURRENCY_ENUM.DOLLAR]: new BigNumber(0.01 * WEI_PER_UNIT), // 0.01 dollar
   [CURRENCY_ENUM.GOLD]: new BigNumber(0.01 * WEI_PER_UNIT), // 0.01 gold
+  [CURRENCY_ENUM.EURO]: new BigNumber(0.01 * WEI_PER_UNIT), // 0.01 euro
 }
 
 export async function handleExchangeQuery() {
   const contractKitInstance = await getContractKit()
   const fetchTime = Date.now()
-  const [dollarMakerRate, goldMakerRate] = await Promise.all([
+  const [euroMakerRate, dollarMakerRate, goldMakerRate] = await Promise.all([
+    getExchangeRate(CURRENCY_ENUM.EURO, contractKitInstance),
     getExchangeRate(CURRENCY_ENUM.DOLLAR, contractKitInstance),
     getExchangeRate(CURRENCY_ENUM.GOLD, contractKitInstance),
   ])
@@ -35,6 +37,8 @@ export async function handleExchangeQuery() {
     goldMakerRate.toString(),
     fetchTime
   )
+  writeExchangeRatePair(CURRENCY_ENUM.GOLD, CURRENCY_ENUM.EURO, euroMakerRate.toString(), fetchTime)
+  writeExchangeRatePair(CURRENCY_ENUM.EURO, CURRENCY_ENUM.GOLD, goldMakerRate.toString(), fetchTime)
 }
 
 // Note difference in gold vs dollar rate due the Exchange's forced spread of 0.5%
