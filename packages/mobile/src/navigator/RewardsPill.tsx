@@ -6,7 +6,7 @@ import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import i18n from 'src/i18n'
-import Gift from 'src/icons/Gift'
+import Rings from 'src/icons/Rings'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 
@@ -20,8 +20,8 @@ function RewardsPill() {
 
   return (
     <TouchableOpacity style={styles.rewardsContainer} onPress={onOpenRewards} testID="EarnRewards">
-      <Gift />
-      <Text style={styles.earnRewardsText}>{i18n.t('global:earnRewards')}</Text>
+      <Rings />
+      <Text style={styles.earnRewardsText}>{i18n.t('global:earn')}</Text>
     </TouchableOpacity>
   )
 }

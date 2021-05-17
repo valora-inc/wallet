@@ -101,6 +101,10 @@ export interface RemoteFeatureFlags {
   hideVerification: boolean
   showRaiseDailyLimitTarget: string | undefined
   walletConnectEnabled: boolean
+  rewardsABTestThreshold: string
+  rewardsAPercent: number
+  rewardsBPercent: number
+  rewardsStartDate: number
 }
 
 export function* appRemoteFeatureFlagSaga() {
