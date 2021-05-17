@@ -2,7 +2,7 @@ import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils'
 
 export const CGLD = CURRENCIES[CURRENCY_ENUM.GOLD].code
 export const CUSD = CURRENCIES[CURRENCY_ENUM.DOLLAR].code
-export const CEUR = 'cEUR'
+export const CEUR = CURRENCIES[CURRENCY_ENUM.EURO].code
 export const EUR = 'EUR'
 export const USD = 'USD'
 export enum supportedStableTokens {

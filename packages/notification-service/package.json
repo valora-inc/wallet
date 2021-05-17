@@ -16,8 +16,8 @@
     "deploy": "./deploy.sh"
   },
   "dependencies": {
-    "@celo/contractkit": "1.1.0-beta.1",
-    "@celo/utils": "1.1.0-beta.1",
+    "@celo/contractkit": "1.2.2-beta",
+    "@celo/utils": "1.2.2-beta",
     "@ethersproject/abi": "5.0.4",
     "async-polling": "^0.2.1",
     "bignumber.js": "^9.0.0",
@@ -43,7 +43,7 @@
     "typescript": "^3.8.3"
   },
   "engines": {
-    "node": "10"
+    "node": ">=10"
   },
   "resolutions": {
     "web3-eth-abi/**/@ethersproject/abi": "5.0.4",
