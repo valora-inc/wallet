@@ -16,14 +16,12 @@ describe('contactsToRecipients', () => {
         displayNumber: '(415) 555-0000',
         e164PhoneNumber: '+14155550000',
         contactId: '2',
-        thumbnailPath: '',
       },
       '+12095559790': {
         name: 'Alice The Person',
         displayNumber: '(209) 555-9790',
         e164PhoneNumber: '+12095559790',
         contactId: '1',
-        thumbnailPath: '//path/',
       },
     })
   })

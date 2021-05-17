@@ -189,7 +189,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/Transak"
+                testID="Provider/Moonpay"
               >
                 <View
                   style={
@@ -212,19 +212,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                       ]
                     }
                   >
-                    Transak
-                  </Text>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#9CA4A9",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 14,
-                        "lineHeight": 18,
-                      }
-                    }
-                  >
-                    restrictedRegion
+                    Moonpay
                   </Text>
                 </View>
                 <Image
@@ -311,18 +299,6 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     }
                   >
                     Ramp
-                  </Text>
-                  <Text
-                    style={
-                      Object {
-                        "color": "#9CA4A9",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 14,
-                        "lineHeight": 18,
-                      }
-                    }
-                  >
-                    restrictedRegion
                   </Text>
                 </View>
                 <Image
@@ -483,7 +459,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     "justifyContent": "space-between",
                   }
                 }
-                testID="Provider/Moonpay"
+                testID="Provider/Transak"
               >
                 <View
                   style={
@@ -502,11 +478,13 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           "fontSize": 16,
                           "lineHeight": 22,
                         },
-                        null,
+                        Object {
+                          "color": "#9CA4A9",
+                        },
                       ]
                     }
                   >
-                    Moonpay
+                    Transak
                   </Text>
                   <Text
                     style={
@@ -518,7 +496,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                       }
                     }
                   >
-                    restrictedRegion
+                    providerUnavailable
                   </Text>
                 </View>
                 <Image

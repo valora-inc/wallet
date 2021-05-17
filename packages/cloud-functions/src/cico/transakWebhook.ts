@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import { trackEvent } from '../bigQuery'
 import { BIGQUERY_PROVIDER_STATUS_TABLE, TRANSAK_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
-import { CashInStatus, Provider } from './Provider'
+import { CashInStatus, Providers } from './Providers'
 
 enum TransakEvent {
   Created = 'ORDER_CREATED',
@@ -14,7 +14,7 @@ enum TransakEvent {
 function createEventBase(id: string, address: string) {
   return {
     id,
-    provider: Provider.Transak,
+    provider: Providers.Transak,
     timestamp: Date.now() / 1000,
     user_address: address,
   }
@@ -72,7 +72,7 @@ export const transakWebhook = functions.https.onRequest((request, response) => {
       - status: ${status} (${statusReason})- eventID: ${eventID} - txHash: ${transactionHash}`
     )
     if (transactionHash) {
-      saveTxHashProvider(walletAddress, transactionHash, Provider.Transak)
+      saveTxHashProvider(walletAddress, transactionHash, Providers.Transak)
     }
     response.status(204).send()
   } catch (error) {

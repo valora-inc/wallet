@@ -5,7 +5,7 @@ import { readFileSync } from 'fs'
 import { trackEvent } from '../bigQuery'
 import { BIGQUERY_PROVIDER_STATUS_TABLE, RAMP_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
-import { CashInStatus, Provider } from './Provider'
+import { CashInStatus, Providers } from './Providers'
 
 const rampKey = readFileSync(`./config/${RAMP_DATA.pem_file}`).toString()
 
@@ -27,7 +27,7 @@ function trackRampEvent(body: any) {
   if (RampWebhookType.Created === type) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
       id,
-      provider: Provider.Ramp,
+      provider: Providers.Ramp,
       status: CashInStatus.Started,
       timestamp: Date.now() / 1000,
       user_address: receiverAddress,
@@ -35,7 +35,7 @@ function trackRampEvent(body: any) {
   } else if (status === PurchaseStatus.Expired || status === PurchaseStatus.Cancelled) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
       id,
-      provider: Provider.Ramp,
+      provider: Providers.Ramp,
       status: CashInStatus.Failure,
       timestamp: Date.now() / 1000,
       user_address: receiverAddress,
@@ -44,7 +44,7 @@ function trackRampEvent(body: any) {
   } else if (PurchaseStatus.Released === status) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
       id,
-      provider: Provider.Ramp,
+      provider: Providers.Ramp,
       status: CashInStatus.Success,
       timestamp: Date.now() / 1000,
       user_address: receiverAddress,
@@ -118,7 +118,7 @@ export const rampWebhook = functions.https.onRequest((request, response) => {
       const address = receiverAddress
 
       if (finalTxHash) {
-        saveTxHashProvider(address, finalTxHash, Provider.Ramp)
+        saveTxHashProvider(address, finalTxHash, Providers.Ramp)
       } else {
         console.error('Tx hash not found for Ramp release action')
       }

@@ -258,8 +258,12 @@ export function* checkIfKomenciAvailableSaga() {
   const komenci = yield select(komenciContextSelector)
   const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
-  const isKomenciAvailable: boolean = yield call(fetchKomenciReadiness, komenciKit)
-  yield put(setKomenciAvailable(isKomenciAvailable ? KomenciAvailable.Yes : KomenciAvailable.No))
+  try {
+    const isKomenciAvailable: boolean = yield call(fetchKomenciReadiness, komenciKit)
+    yield put(setKomenciAvailable(isKomenciAvailable ? KomenciAvailable.Yes : KomenciAvailable.No))
+  } catch (error) {
+    yield put(setKomenciAvailable(KomenciAvailable.No))
+  }
 }
 
 export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof start>) {
