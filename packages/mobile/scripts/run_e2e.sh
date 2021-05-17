@@ -25,7 +25,7 @@ NET_DELAY="none"
 DEV_MODE=false
 FILE_TO_RUN=""
 WORKERS=2
-RETRIES=3
+RETRIES=0
 while getopts 'p:t:v:n:w:j:rd' flag; do
   case "${flag}" in
     p) PLATFORM="$OPTARG" ;;
