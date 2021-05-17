@@ -92,7 +92,6 @@ import {
   stop,
   withoutRevealingSelector,
 } from 'src/verify/reducer'
-import { setMtwAddress } from 'src/web3/actions'
 import { getContractKit } from 'src/web3/contracts'
 import { registerWalletAndDekViaKomenci } from 'src/web3/dataEncryptionKey'
 import { getAccount, getConnectedUnlockedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
@@ -497,7 +496,6 @@ export function* fetchOrDeployMtwSaga() {
     const verifiedMtwAddress = yield call(fetchVerifiedMtw, contractKit, walletAddress)
     if (verifiedMtwAddress) {
       yield put(doVerificationFlow(true))
-      yield put(setMtwAddress(verifiedMtwAddress))
       return
     }
 
@@ -579,7 +577,6 @@ export function* fetchOrDeployMtwSaga() {
     yield put(setKomenciContext({ unverifiedMtwAddress }))
     yield call(feelessDekAndWalletRegistration, komenciKit, walletAddress, unverifiedMtwAddress)
     yield put(fetchOnChainData())
-    yield put(setMtwAddress(unverifiedMtwAddress))
   } catch (e) {
     storeTimestampIfKomenciError(e)
     put(setKomenciAvailable(KomenciAvailable.No))

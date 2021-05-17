@@ -87,6 +87,7 @@ import {
   succeed,
   verificationStatusSelector,
 } from 'src/verify/reducer'
+import { setMtwAddress } from 'src/web3/actions'
 import { getContractKit } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -347,6 +348,8 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
       }
     }
 
+    const komenci: KomenciContext = yield select(komenciContextSelector)
+    yield put(setMtwAddress(komenci.unverifiedMtwAddress))
     yield put(setVerificationStatus(VerificationStatus.Done))
     yield put(setNumberVerified(true))
     yield put(succeed())
