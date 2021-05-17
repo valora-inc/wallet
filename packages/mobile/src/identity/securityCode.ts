@@ -78,15 +78,16 @@ async function requestValidator(
       securityCode,
     }
 
-    return attestationsWrapper.getAttestationForSecurityCode(
+    const attestationCode = await attestationsWrapper.getAttestationForSecurityCode(
       attestation.attestationServiceURL,
       requestBody,
       signer
     )
+    return attestationCode
   } catch (error) {
     Logger.error(
       TAG + '@getAttestationCodeFromSecurityCode',
-      `get for issuer ${issuer} failed`,
+      `get for issuer ${issuer} failed - ${JSON.stringify(error)}`,
       error
     )
     throw error
