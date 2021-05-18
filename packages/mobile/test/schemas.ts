@@ -560,6 +560,19 @@ export const v9Schema = {
     showRaiseDailyLimitTarget: undefined,
     walletConnectEnabled: false,
   },
+  verify: {
+    ..._.omit(
+      v8Schema.verify,
+      'TEMPORARY_override_withoutVerification',
+      'withoutRevealing',
+      'retries'
+    ),
+    seenVerificationNux: false,
+    revealStatuses: {},
+    attestationCodes: [],
+    completedAttestationCodes: [],
+    lastRevealAttempt: null,
+  },
   walletConnect: {
     pairings: [],
     sessions: [],
