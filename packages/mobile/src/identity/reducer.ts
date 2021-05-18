@@ -361,11 +361,11 @@ export const reducer = (
 }
 
 const completeCodeReducer = (state: State, numCompleteAttestations: number) => {
-  const { acceptedAttestationCodes } = state
+  const { attestationCodes, acceptedAttestationCodes } = state
   // Ensure numCompleteAttestations many codes are filled
-  const attestationCodes = [...state.attestationCodes]
+  const updatedAttestationCodes: AttestationCode[] = []
   for (let i = 0; i < numCompleteAttestations; i++) {
-    attestationCodes[i] = acceptedAttestationCodes[i] || {
+    updatedAttestationCodes[i] = acceptedAttestationCodes[i] || {
       code: ATTESTATION_CODE_PLACEHOLDER,
       issuer: ATTESTATION_ISSUER_PLACEHOLDER,
     }
@@ -373,17 +373,17 @@ const completeCodeReducer = (state: State, numCompleteAttestations: number) => {
   for (let i = numCompleteAttestations; i < NUM_ATTESTATIONS_REQUIRED; i++) {
     if (
       attestationCodes[i] &&
-      isCodeRepeated(
-        attestationCodes.map((code) => code.code),
+      !isCodeRepeated(
+        attestationCodes.filter((code) => code).map((code) => code.code),
         attestationCodes[i].code
       )
     ) {
-      attestationCodes[i] = undefined
+      updatedAttestationCodes.push(attestationCodes[i])
     }
   }
   return {
     numCompleteAttestations,
-    attestationCodes: attestationCodes.filter((code) => code),
+    attestationCodes: updatedAttestationCodes,
   }
 }
 
