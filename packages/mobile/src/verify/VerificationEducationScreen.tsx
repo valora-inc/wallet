@@ -35,6 +35,7 @@ import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
+import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import {
   actionableAttestationsSelector,
   checkIfKomenciAvailable,
@@ -55,7 +56,6 @@ import { getPhoneNumberState } from 'src/verify/utils'
 import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'
 import VerificationSkipDialog from 'src/verify/VerificationSkipDialog'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.VerificationEducationScreen>
 
