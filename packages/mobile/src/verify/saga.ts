@@ -108,8 +108,8 @@ import {
   startKomenciSession,
   stop,
   succeed,
-  verificationStatusSelector,
   VERIFICATION_TIMEOUT,
+  verificationStatusSelector,
 } from 'src/verify/module'
 import { requestAttestationsSaga } from 'src/verify/requestAttestations'
 import {
