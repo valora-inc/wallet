@@ -161,7 +161,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     dispatch(selectProvider(provider.name))
 
     if (provider.name === IntegratedCicoProviders.Simplex) {
-      if (provider.quote && userLocation?.ipAddress && isSimplexQuote(provider.quote)) {
+      if (provider.quote && userLocation?.ipAddress) {
         navigate(Screens.Simplex, {
           simplexQuote: provider.quote,
           userIpAddress: userLocation.ipAddress,

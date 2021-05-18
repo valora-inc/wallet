@@ -12,7 +12,7 @@ import { CurrencyCode } from 'src/config'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import { SimplexQuote } from 'src/fiatExchanges/utils'
+import { ProviderQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
@@ -133,7 +133,7 @@ export type StackParamList = {
     currencyToBuy: CurrencyCode
   }
   [Screens.Simplex]: {
-    simplexQuote: SimplexQuote
+    simplexQuote: ProviderQuote
     userIpAddress: string
   }
   [Screens.GoldEducation]: undefined

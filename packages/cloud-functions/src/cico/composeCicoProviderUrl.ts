@@ -13,6 +13,7 @@ import {
   VALORA_LOGO_URL,
   XANPOOL_DATA,
 } from '../config'
+import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
 import Simplex, { SimplexPaymentData, SimplexQuote } from './Simplex'
 const URL = require('url').URL
 
@@ -100,6 +101,8 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
   response.send(JSON.stringify(finalUrl))
 })
 
+const isSimplexQuote = (quote: SimplexQuote | ProviderQuote): quote is SimplexQuote =>
+  'wallet_id' in quote
 export interface UserDeviceInfo {
   id: string
   appVersion: string
@@ -120,30 +123,51 @@ interface SimplexPaymentRequest {
   userAddress: string
   phoneNumber: string | null
   phoneNumberVerified: boolean
-  simplexQuote: SimplexQuote
+  simplexQuote: SimplexQuote | ProviderQuote
   currentIpAddress: string
   deviceInfo: UserDeviceInfo
 }
 
 export const processSimplexRequest = functions.https.onRequest(async (request, response) => {
   const requestData: SimplexQuoteRequest | SimplexPaymentRequest = request.body
-  let responseData: SimplexQuote | SimplexPaymentData | undefined
+  let responseData: ProviderQuote[] | SimplexQuote | SimplexPaymentData | undefined
 
   if (requestData.type === 'quote') {
+    const userLocation: UserLocationData = {
+      country: null,
+      state: null,
+      ipAddress: requestData.currentIpAddress,
+    }
     responseData = await Simplex.fetchQuote(
-      requestData.userAddress,
-      requestData.currentIpAddress,
       requestData.currencyToBuy,
       requestData.fiatCurrency,
       requestData.amount,
-      requestData.amountIsFiat
+      requestData.amountIsFiat,
+      requestData.userAddress,
+      userLocation,
+      false
     )
   } else if (requestData.type === 'payment') {
+    const quote: ProviderQuote = isSimplexQuote(requestData.simplexQuote)
+      ? {
+          quoteId: requestData.simplexQuote.quote_id,
+          userId: requestData.simplexQuote.user_id,
+          walletId: requestData.simplexQuote.wallet_id,
+          paymentMethod: PaymentMethod.Card,
+          fiatFee:
+            requestData.simplexQuote.fiat_money.total_amount -
+            requestData.simplexQuote.fiat_money.base_amount,
+          digitalAssetsAmount: requestData.simplexQuote.digital_money.amount,
+          digitalAsset: requestData.simplexQuote.digital_money.currency.toUpperCase(),
+          fiatCurrency: requestData.simplexQuote.fiat_money.currency,
+        }
+      : requestData.simplexQuote
+
     responseData = await Simplex.fetchPaymentRequest(
       requestData.userAddress,
       requestData.phoneNumber,
       requestData.phoneNumberVerified,
-      requestData.simplexQuote,
+      quote,
       requestData.currentIpAddress,
       requestData.deviceInfo
     )
