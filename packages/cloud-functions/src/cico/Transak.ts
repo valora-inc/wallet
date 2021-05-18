@@ -1,5 +1,5 @@
 import { DigitalAsset, FETCH_TIMEOUT_DURATION, TRANSAK_DATA } from '../config'
-import { PaymentMethod } from './fetchProviders'
+import { PaymentMethod, UserLocationData } from './fetchProviders'
 import { fetchWithTimeout } from './utils'
 
 interface TransakQuote {
@@ -48,8 +48,22 @@ const Transak = {
       minimum: 5,
     },
   }),
-  fetchQuote: async (digitalAsset: DigitalAsset, fiatCurrency: string, fiatAmount: number) => {
+  fetchQuote: async (
+    digitalAsset: DigitalAsset,
+    fiatCurrency: string,
+    fiatAmount: number | undefined,
+    userLocation: UserLocationData,
+    unsupported: boolean
+  ) => {
     try {
+      if (unsupported) {
+        throw Error('Location not supported')
+      }
+
+      if (!fiatAmount) {
+        throw Error('Purchase amount not provided')
+      }
+
       const paymentMethods = [
         'sepa_bank_transfer',
         'gbp_bank_transfer',
@@ -78,33 +92,48 @@ const Transak = {
         )
       }
 
-      const [sepaQuote, gbpQuote, neftQuote, cardQuote]: TransakQuote[] = await Promise.all(
-        responses.map((response) => response.json())
+      const [sepaQuote, gbpQuote, neftQuote, cardQuote]:
+        | TransakQuote[]
+        | null[] = await Promise.all(
+        responses.map(async (response) => {
+          if (response.ok) {
+            return await response.json()
+          }
+          return null
+        })
       )
 
-      return {
-        bank: [
-          {
-            type: 'sepa',
-            fee: sepaQuote.totalFee,
-            totalAssetsAcquired: sepaQuote.cryptoAmount,
-          },
-          {
-            type: 'gbp',
-            fee: gbpQuote.totalFee,
-            totalAssetsAcquired: gbpQuote.cryptoAmount,
-          },
-          {
-            type: 'neft',
-            fee: neftQuote.totalFee,
-            totalAssetsAcquired: neftQuote.cryptoAmount,
-          },
-        ],
-        card: {
+      const quotes = []
+
+      if (neftQuote && userLocation.country === 'IN') {
+        quotes.push({
+          paymentMethod: PaymentMethod.Bank,
+          fee: neftQuote.totalFee,
+          totalAssetsAcquired: neftQuote.cryptoAmount,
+        })
+      } else if (gbpQuote && userLocation.country === 'GB') {
+        quotes.push({
+          paymentMethod: PaymentMethod.Bank,
+          fee: gbpQuote.totalFee,
+          totalAssetsAcquired: gbpQuote.cryptoAmount,
+        })
+      } else if (sepaQuote) {
+        quotes.push({
+          paymentMethod: PaymentMethod.Bank,
+          fee: sepaQuote.totalFee,
+          totalAssetsAcquired: sepaQuote.cryptoAmount,
+        })
+      }
+
+      if (cardQuote) {
+        quotes.push({
+          paymentMethod: PaymentMethod.Card,
           fee: cardQuote.totalFee,
           totalAssetsAcquired: cardQuote.cryptoAmount,
-        },
+        })
       }
+
+      return quotes
     } catch (error) {
       console.error('Error fetching Transak quote: ', error)
     }

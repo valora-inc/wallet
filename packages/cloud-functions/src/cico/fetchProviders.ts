@@ -1,9 +1,12 @@
 import * as functions from 'firebase-functions'
 import { DigitalAsset, FiatCurrency } from '../config'
 import { composeProviderUrl } from './composeProviderUrl'
+import Moonpay from './Moonpay'
 import { getProviderAvailability } from './providerAvailability'
 import { Providers } from './Providers'
 import Simplex, { SimplexQuote } from './Simplex'
+import Transak from './Transak'
+import Xanpool from './Xanpool'
 
 export interface UserLocationData {
   country: string | null
@@ -50,16 +53,49 @@ export const fetchProviders = functions.https.onRequest(async (request, response
 
   const [simplexQuote] = await Promise.all([
     Simplex.fetchQuote(
-      requestData.walletAddress,
-      requestData.userLocation.ipAddress,
       requestData.digitalAsset,
       requestData.fiatCurrency,
       requestData.fiatAmount || requestData.digitalAssetAmount,
-      !!requestData.fiatAmount
+      !!requestData.fiatAmount,
+      requestData.walletAddress,
+      requestData.userLocation,
+      SIMPLEX_RESTRICTED
+    ),
+    Moonpay.fetchQuote(
+      requestData.digitalAsset,
+      requestData.fiatCurrency,
+      requestData.fiatAmount,
+      requestData.userLocation,
+      MOONPAY_RESTRICTED
+    ),
+    Xanpool.fetchQuote(
+      requestData.digitalAsset,
+      requestData.fiatCurrency,
+      requestData.fiatAmount,
+      requestData.userLocation,
+      XANPOOL_RESTRICTED
+    ),
+    Transak.fetchQuote(
+      requestData.digitalAsset,
+      requestData.fiatCurrency,
+      requestData.fiatAmount,
+      requestData.userLocation,
+      TRANSAK_RESTRICTED
     ),
   ])
 
   const providers: Provider[] = [
+    {
+      name: Providers.Simplex,
+      restricted: SIMPLEX_RESTRICTED,
+      unavailable: !simplexQuote,
+      paymentMethods: [PaymentMethod.Card],
+      logo:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+      quote: simplexQuote,
+      cashIn: true,
+      cashOut: false,
+    },
     {
       name: Providers.Moonpay,
       restricted: MOONPAY_RESTRICTED,
@@ -97,17 +133,6 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       url: composeProviderUrl(Providers.Transak, requestData),
       logo:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
-      cashIn: true,
-      cashOut: false,
-    },
-    {
-      name: Providers.Simplex,
-      restricted: SIMPLEX_RESTRICTED,
-      unavailable: !simplexQuote,
-      paymentMethods: [PaymentMethod.Card],
-      logo:
-        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-      quote: simplexQuote,
       cashIn: true,
       cashOut: false,
     },

@@ -1,5 +1,5 @@
 import { DigitalAsset, FETCH_TIMEOUT_DURATION, MOONPAY_DATA } from '../config'
-import { PaymentMethod } from './fetchProviders'
+import { PaymentMethod, UserLocationData } from './fetchProviders'
 import { fetchWithTimeout } from './utils'
 
 interface MoonpayQuote {
@@ -42,20 +42,23 @@ interface MoonpayQuote {
 }
 
 const Moonpay = {
-  // From: https://support.moonpay.com/hc/en-gb/articles/360011931517-How-much-does-it-cost-to-buy-cryptocurrency-with-MoonPay-
-  getFeePolicy: () => ({
-    [PaymentMethod.Card]: {
-      percent: 4.5,
-      minimum: 3.99,
-    },
-    [PaymentMethod.Bank]: {
-      percent: 1,
-      minimum: 3.99,
-    },
-  }),
-  fetchQuote: async (digitalAsset: DigitalAsset, fiatCurrency: string, fiatAmount: number) => {
+  fetchQuote: async (
+    digitalAsset: DigitalAsset,
+    fiatCurrency: string,
+    fiatAmount: number | undefined,
+    userLocation: UserLocationData,
+    unsupported: boolean
+  ) => {
     try {
-      const paymentMethods = ['sepa_bank_transfer', 'credit_debit_card']
+      if (unsupported) {
+        throw Error('Location not supported')
+      }
+
+      if (!fiatAmount) {
+        throw Error('Purchase amount not provided')
+      }
+
+      const paymentMethods = ['sepa_bank_transfer', 'gbp_bank_transfer', 'credit_debit_card']
       const baseUrl = `
         ${MOONPAY_DATA.api_url}
         /v3
@@ -64,7 +67,7 @@ const Moonpay = {
         /buy_quote
         /?apiKey=${MOONPAY_DATA.public_key}
         &baseCurrencyCode=${fiatCurrency}
-        &baseCurrencyAmount=${fiatAmount}
+        {fiat&baseCurrencyAmount=${fiatAmount}
       `.replace(/\s+/g, '')
 
       const responses: Response[] = await Promise.all(
@@ -77,20 +80,40 @@ const Moonpay = {
         )
       }
 
-      const [bankQuote, cardQuote]: MoonpayQuote[] = await Promise.all(
-        responses.map((response) => response.json())
+      const [sepaQuote, gbpQuote, cardQuote]: MoonpayQuote[] | null[] = await Promise.all(
+        responses.map(async (response) => {
+          if (response.ok) {
+            return await response.json()
+          }
+          return null
+        })
       )
 
-      return {
-        bank: {
-          fee: bankQuote.feeAmount + bankQuote.extraFeeAmount + bankQuote.networkFeeAmount,
-          totalAssetsAcquired: bankQuote.quoteCurrencyAmount,
-        },
-        card: {
+      const quotes = []
+
+      if (gbpQuote && userLocation.country === 'GB') {
+        quotes.push({
+          paymentMethod: PaymentMethod.Bank,
+          fee: gbpQuote.feeAmount + gbpQuote.extraFeeAmount + gbpQuote.networkFeeAmount,
+          totalAssetsAcquired: gbpQuote.quoteCurrencyAmount,
+        })
+      } else if (sepaQuote) {
+        quotes.push({
+          paymentMethod: PaymentMethod.Bank,
+          fee: sepaQuote.feeAmount + sepaQuote.extraFeeAmount + sepaQuote.networkFeeAmount,
+          totalAssetsAcquired: sepaQuote.quoteCurrencyAmount,
+        })
+      }
+
+      if (cardQuote) {
+        quotes.push({
+          paymentMethod: PaymentMethod.Card,
           fee: cardQuote.feeAmount + cardQuote.extraFeeAmount + cardQuote.networkFeeAmount,
           totalAssetsAcquired: cardQuote.quoteCurrencyAmount,
-        },
+        })
       }
+
+      return quotes
     } catch (error) {
       console.error('Error fetching Moonpay quote: ', error)
     }

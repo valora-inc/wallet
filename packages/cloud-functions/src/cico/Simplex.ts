@@ -8,7 +8,7 @@ import {
   SIMPLEX_DATA,
 } from '../config'
 import { UserDeviceInfo } from './composeCicoProviderUrl'
-import { PaymentMethod } from './fetchProviders'
+import { UserLocationData } from './fetchProviders'
 import { fetchWithTimeout, getOrCreateUuid, getUserInitData } from './utils'
 
 export interface SimplexQuote {
@@ -39,24 +39,21 @@ export interface SimplexPaymentData {
 }
 
 const Simplex = {
-  // From: https://support.simplex.com/hc/en-gb/articles/360014078420-What-fees-do-you-charge-for-card-payments
-  getFeesPolicy: () => ({
-    [PaymentMethod.Card]: {
-      percentage: [2.5, 5],
-      minimum: 10,
-      extraNetwork: true,
-    },
-  }),
   fetchQuote: async (
-    userAddress: string,
-    ipAddress: string | null,
     currencyToBuy: DigitalAsset,
     fiatCurrency: FiatCurrency,
     amount: number | undefined,
-    amountIsFiat: boolean
+    amountIsFiat: boolean,
+    userAddress: string,
+    userLocation: UserLocationData,
+    unsupported: boolean
   ) => {
     try {
-      if (!ipAddress) {
+      if (unsupported) {
+        throw Error('Location not supported')
+      }
+
+      if (!userLocation.ipAddress) {
         throw Error('No IP address provided')
       }
 
@@ -72,7 +69,7 @@ const Simplex = {
         requested_currency: amountIsFiat ? fiatCurrency : currencyToBuy,
         requested_amount: amount,
         wallet_id: 'valorapp',
-        client_ip: ipAddress,
+        client_ip: userLocation.ipAddress,
         payment_methods: ['credit_card'],
       })
 
