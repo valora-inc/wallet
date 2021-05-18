@@ -10,7 +10,9 @@
       "pageTitle": "E2E Test Report",
       "outputPath": "e2e/test-results/index.html",
       "executionTimeWarningThreshold": 90,
-      "includeFailureMsg": true
+      "includeFailureMsg": true,
+      "styleOverridePath": "../assets/teststyle.css",
+      "logo": "../assets/valora-icon.png"
     }],
     ["jest-junit", {
       "suiteName": "E2E Test Report",
