@@ -22,7 +22,9 @@ import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import {
   fetchProviders,
   fetchUserLocationData,
+  isSimplexQuote,
   ProviderQuote,
+  SimplexQuote,
   sortProviders,
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
@@ -50,7 +52,7 @@ export interface CicoProvider {
   paymentMethods: PaymentMethod[]
   url?: string
   logo: string
-  quote?: ProviderQuote
+  quote?: SimplexQuote | ProviderQuote
   cashIn: boolean
   cashOut: boolean
 }
@@ -161,7 +163,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     dispatch(selectProvider(provider.name))
 
     if (provider.name === IntegratedCicoProviders.Simplex) {
-      if (provider.quote && userLocation?.ipAddress) {
+      if (provider.quote && userLocation?.ipAddress && isSimplexQuote(provider.quote)) {
         navigate(Screens.Simplex, {
           simplexQuote: provider.quote,
           userIpAddress: userLocation.ipAddress,

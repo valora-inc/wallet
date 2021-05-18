@@ -4,7 +4,7 @@ import { composeProviderUrl } from './composeProviderUrl'
 import Moonpay from './Moonpay'
 import { getProviderAvailability } from './providerAvailability'
 import { Providers } from './Providers'
-import Simplex from './Simplex'
+import Simplex, { SimplexQuote } from './Simplex'
 import Transak from './Transak'
 import Xanpool from './Xanpool'
 
@@ -46,7 +46,7 @@ export interface Provider {
   paymentMethods: PaymentMethod[]
   url?: string
   logo: string
-  quote?: ProviderQuote[]
+  quote?: SimplexQuote | ProviderQuote[]
   cashIn: boolean
   cashOut: boolean
 }
@@ -64,12 +64,12 @@ export const fetchProviders = functions.https.onRequest(async (request, response
 
   const [simplexQuote, moonpayQuote, xanpoolQuote, transakQuote] = await Promise.all([
     Simplex.fetchQuote(
+      requestData.walletAddress,
+      requestData.userLocation.ipAddress,
       requestData.digitalAsset,
       requestData.fiatCurrency,
       requestData.fiatAmount || requestData.digitalAssetAmount,
       !!requestData.fiatAmount,
-      requestData.walletAddress,
-      requestData.userLocation,
       SIMPLEX_RESTRICTED
     ),
     Moonpay.fetchQuote(

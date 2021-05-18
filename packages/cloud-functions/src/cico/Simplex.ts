@@ -8,7 +8,6 @@ import {
   SIMPLEX_DATA,
 } from '../config'
 import { UserDeviceInfo } from './composeCicoProviderUrl'
-import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
 import { fetchWithTimeout, getOrCreateUuid, getUserInitData } from './utils'
 
 export interface SimplexQuote {
@@ -40,20 +39,20 @@ export interface SimplexPaymentData {
 
 const Simplex = {
   fetchQuote: async (
+    userAddress: string,
+    ipAddress: string | null,
     currencyToBuy: DigitalAsset,
     fiatCurrency: FiatCurrency,
     amount: number | undefined,
     amountIsFiat: boolean,
-    userAddress: string,
-    userLocation: UserLocationData,
-    unsupported: boolean
+    unsupported?: boolean
   ) => {
     try {
       if (unsupported) {
         throw Error('Location not supported')
       }
 
-      if (!userLocation.ipAddress) {
+      if (!ipAddress) {
         throw Error('No IP address provided')
       }
 
@@ -69,25 +68,12 @@ const Simplex = {
         requested_currency: amountIsFiat ? fiatCurrency : currencyToBuy,
         requested_amount: amount,
         wallet_id: 'valorapp',
-        client_ip: userLocation.ipAddress,
+        client_ip: ipAddress,
         payment_methods: ['credit_card'],
       })
 
       const simplexQuote: SimplexQuote = await response.json()
-      const quotes: ProviderQuote[] = [
-        {
-          quoteId: simplexQuote.quote_id,
-          userId: simplexQuote.user_id,
-          walletId: simplexQuote.wallet_id,
-          paymentMethod: PaymentMethod.Card,
-          fiatFee: simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount,
-          digitalAssetsAmount: simplexQuote.digital_money.amount,
-          digitalAsset: simplexQuote.digital_money.currency.toUpperCase(),
-          fiatCurrency,
-        },
-      ]
-
-      return quotes
+      return simplexQuote
     } catch (error) {
       console.error('Error fetching Simplex quote: ', error)
     }
@@ -96,7 +82,7 @@ const Simplex = {
     userAddress: string,
     phoneNumber: string | null,
     phoneNumberVerified: boolean,
-    simplexQuote: ProviderQuote,
+    simplexQuote: SimplexQuote,
     currentIpAddress: string,
     deviceInfo: UserDeviceInfo
   ) => {
@@ -128,11 +114,11 @@ const Simplex = {
         },
         transaction_details: {
           payment_details: {
-            quote_id: simplexQuote.quoteId,
+            quote_id: simplexQuote.quote_id,
             payment_id: paymentId,
             order_id: orderId,
             destination_wallet: {
-              currency: simplexQuote.digitalAsset,
+              currency: simplexQuote.digital_money.currency,
               address: userAddress,
               tag: '',
             },

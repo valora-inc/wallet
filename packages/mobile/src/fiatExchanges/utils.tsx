@@ -52,6 +52,23 @@ export interface ProviderQuote {
   fiatCurrency: string
   fiatFee: number
 }
+
+export interface SimplexQuote {
+  user_id: string
+  quote_id: string
+  wallet_id: string
+  digital_money: {
+    currency: string
+    amount: number
+  }
+  fiat_money: {
+    currency: string
+    base_amount: number
+    total_amount: number
+  }
+  valid_until: string
+  supported_digital_currencies: string[]
+}
 export interface LocalCicoProvider {
   name: string
   celo: {
