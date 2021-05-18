@@ -1,10 +1,8 @@
-import { gql } from 'apollo-boost'
 import BigNumber from 'bignumber.js'
 import * as admin from 'firebase-admin'
 import { v4 as uuidv4 } from 'uuid'
-import { apolloClient } from '../apollo'
-import { ExchangeRateQuery, ExchangeRateQueryVariables } from '../apollo/types'
 import { bigQueryDataset, bigQueryProjectId, getBigQueryInstance } from '../bigQuery'
+import { config } from '../config'
 
 const fetch = require('node-fetch')
 
@@ -122,17 +120,25 @@ export const fetchExchangeRate = async (
   sourceCurrencyCode: string,
   localCurrencyCode: string
 ): Promise<number> => {
-  const response = await apolloClient.query<ExchangeRateQuery, ExchangeRateQueryVariables>({
-    query: gql`
-      query ExchangeRate($currencyCode: String!) {
-        currencyConversion(currencyCode: $currencyCode) {
-          rate
+  if (sourceCurrencyCode === localCurrencyCode) {
+    return 1
+  }
+
+  const response = await fetch(config.blockchainApiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: `
+        query ExchangeRate($sourceCurrencyCode: String!, $currencyCode: String!) {
+          currencyConversion(sourceCurrencyCode: $sourceCurrencyCode, currencyCode: $currencyCode) {
+            rate
+          }
         }
-      }
-    `,
-    variables: { sourceCurrencyCode, currencyCode: localCurrencyCode },
-    fetchPolicy: 'network-only',
-    errorPolicy: 'all',
+      `,
+      variables: { sourceCurrencyCode, currencyCode: localCurrencyCode },
+    }),
   })
 
   const exchangeRate = response.data.currencyConversion?.rate

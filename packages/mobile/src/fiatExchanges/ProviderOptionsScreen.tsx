@@ -43,6 +43,12 @@ const TAG = 'ProviderOptionsScreen'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
 
+interface StandardizedProviderQuote {
+  paymentMethod: PaymentMethod
+  fee: number
+  totalAssetsAcquired: number
+}
+
 export interface CicoProvider {
   name: string
   restricted: boolean
@@ -50,7 +56,7 @@ export interface CicoProvider {
   paymentMethods: PaymentMethod[]
   url?: string
   logo: string
-  quote?: SimplexQuote
+  quote?: SimplexQuote | StandardizedProviderQuote
   cashIn: boolean
   cashOut: boolean
 }
@@ -58,6 +64,13 @@ export interface CicoProvider {
 export enum IntegratedCicoProviders {
   Simplex = 'Simplex',
 }
+
+const isSimplexQuote = (quote: SimplexQuote | StandardizedProviderQuote): quote is SimplexQuote =>
+  'wallet_id' in quote
+
+const isStandardizedProviderQuote = (
+  quote: SimplexQuote | StandardizedProviderQuote
+): quote is SimplexQuote => 'totalAssetsAcquired' in quote
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)
@@ -161,7 +174,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     dispatch(selectProvider(provider.name))
 
     if (provider.name === IntegratedCicoProviders.Simplex) {
-      if (provider.quote && userLocation?.ipAddress) {
+      if (provider.quote && userLocation?.ipAddress && isSimplexQuote(provider.quote)) {
         navigate(Screens.Simplex, {
           simplexQuote: provider.quote,
           userIpAddress: userLocation.ipAddress,

@@ -1,5 +1,5 @@
 import { DigitalAsset, FETCH_TIMEOUT_DURATION, MOONPAY_DATA } from '../config'
-import { PaymentMethod, UserLocationData } from './fetchProviders'
+import { PaymentMethod, StandardizedProviderQuote, UserLocationData } from './fetchProviders'
 import { fetchWithTimeout } from './utils'
 
 interface MoonpayQuote {
@@ -89,7 +89,7 @@ const Moonpay = {
         })
       )
 
-      const quotes = []
+      const quotes: StandardizedProviderQuote[] = []
 
       if (gbpQuote && userLocation.country === 'GB') {
         quotes.push({

@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "@google-cloud/bigquery": "~5.5.0",
-    "apollo-boost": "^0.4.9",
     "bignumber.js": "^9.0.0",
     "fast-json-stable-stringify": "~2.1.0",
     "firebase-admin": "^9.5.0",

@@ -28,6 +28,12 @@ export enum PaymentMethod {
   Bank = 'Bank',
 }
 
+export interface StandardizedProviderQuote {
+  paymentMethod: PaymentMethod
+  fee: number
+  totalAssetsAcquired: number
+}
+
 export interface Provider {
   name: Providers
   restricted: boolean
@@ -35,7 +41,7 @@ export interface Provider {
   paymentMethods: PaymentMethod[]
   url?: string
   logo: string
-  quote?: SimplexQuote
+  quote?: SimplexQuote | StandardizedProviderQuote[]
   cashIn: boolean
   cashOut: boolean
 }
@@ -51,7 +57,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     XANPOOL_RESTRICTED,
   } = getProviderAvailability(requestData.userLocation)
 
-  const [simplexQuote] = await Promise.all([
+  const [simplexQuote, moonpayQuote, xanpoolQuote, transakQuote] = await Promise.all([
     Simplex.fetchQuote(
       requestData.digitalAsset,
       requestData.fiatCurrency,
@@ -103,6 +109,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       url: composeProviderUrl(Providers.Moonpay, requestData),
       logo:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+      quote: moonpayQuote,
       cashIn: true,
       cashOut: false,
     },
@@ -123,6 +130,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       url: composeProviderUrl(Providers.Xanpool, requestData),
       logo:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
+      quote: xanpoolQuote,
       cashIn: true,
       cashOut: true,
     },
@@ -133,6 +141,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       url: composeProviderUrl(Providers.Transak, requestData),
       logo:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+      quote: transakQuote,
       cashIn: true,
       cashOut: false,
     },

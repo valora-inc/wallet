@@ -1,5 +1,5 @@
 import { DigitalAsset, FETCH_TIMEOUT_DURATION, TRANSAK_DATA } from '../config'
-import { PaymentMethod, UserLocationData } from './fetchProviders'
+import { PaymentMethod, StandardizedProviderQuote, UserLocationData } from './fetchProviders'
 import { fetchWithTimeout } from './utils'
 
 interface TransakQuote {
@@ -103,7 +103,7 @@ const Transak = {
         })
       )
 
-      const quotes = []
+      const quotes: StandardizedProviderQuote[] = []
 
       if (neftQuote && userLocation.country === 'IN') {
         quotes.push({
