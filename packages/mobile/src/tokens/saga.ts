@@ -95,7 +95,7 @@ export function tokenFetchFactory({ actionName, token, actionCreator, tag }: Tok
     }
   }
 
-  return function*() {
+  return function* () {
     return yield takeEvery(actionName, tokenFetch)
   }
 }
@@ -166,7 +166,7 @@ export function tokenTransferFactory({
   fetchAction,
   staticGas,
 }: TokenTransferFactory) {
-  return function*() {
+  return function* () {
     while (true) {
       const transferAction: TokenTransferAction = yield take(actionName)
       const { recipientAddress, amount, comment, feeInfo, context } = transferAction

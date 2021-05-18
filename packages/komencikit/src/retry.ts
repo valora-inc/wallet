@@ -23,7 +23,7 @@ export const retry = <TArgs extends any[], TError extends RootError<any>>(
     if (!actual) {
       throw Error('@retry used on an method which is undefined')
     }
-    descriptor.value = async function(...args: TArgs): Promise<Result<any, TError>> {
+    descriptor.value = async function (...args: TArgs): Promise<Result<any, TError>> {
       let tries = 1
       while (true) {
         const res = await actual.apply(this, args)

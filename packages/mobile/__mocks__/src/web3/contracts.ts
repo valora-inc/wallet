@@ -5,12 +5,14 @@ import Web3 from 'web3'
 export const initContractKit = jest.fn()
 export const destroyContractKit = jest.fn()
 
+const contractKit = newKitFromWeb3(new Web3())
+
 export function* getContractKit() {
-  return newKitFromWeb3(new Web3())
+  return contractKit
 }
 
 export async function getContractKitAsync() {
-  return newKitFromWeb3(new Web3())
+  return contractKit
 }
 
 const mockGethWallet = {
@@ -19,6 +21,7 @@ const mockGethWallet = {
   ),
   unlockAccount: jest.fn(),
   isAccountUnlocked: jest.fn(() => true),
+  signPersonalMessage: jest.fn(),
 }
 
 export function* getWallet() {

@@ -488,6 +488,10 @@ export const v7Schema = {
     loading: false,
     notifications: {},
   },
+  recipients: {
+    phoneRecipientCache: {},
+    valoraRecipientCache: {},
+  },
   fiatExchanges: {
     lastUsedProvider: null,
     txHashToProvider: {},
@@ -513,6 +517,10 @@ export const v8Schema = {
     'feelessVerificationState',
     'feelessLastRevealAttempt'
   ),
+  app: {
+    ...v7Schema.app,
+    hideVerification: false,
+  },
   verify: {
     komenci: {
       errorTimestamps: [],
@@ -536,22 +544,31 @@ export const v8Schema = {
     withoutRevealing: false,
     TEMPORARY_override_withoutVerification: undefined,
   },
+  account: {
+    ...v7Schema.account,
+    recoveringFromStoreWipe: false,
+    accountToRecoverFromStoreWipe: undefined,
+    dailyLimitRequestStatus: undefined,
+    profileUploaded: false,
+  },
 }
 
 export const v9Schema = {
   ...v8Schema,
-  verify: {
-    ..._.omit(
-      v8Schema.verify,
-      'TEMPORARY_override_withoutVerification',
-      'withoutRevealing',
-      'retries'
-    ),
-    seenVerificationNux: false,
-    revealStatuses: {},
-    attestationCodes: [],
-    completedAttestationCodes: [],
-    lastRevealAttempt: null,
+  app: {
+    ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+    showRaiseDailyLimitTarget: undefined,
+    walletConnectEnabled: false,
+  },
+  walletConnect: {
+    pairings: [],
+    sessions: [],
+    pendingSessions: [],
+    pendingActions: [],
+  },
+  fiatExchanges: {
+    ...v8Schema.fiatExchanges,
+    providerLogos: {},
   },
 }
 

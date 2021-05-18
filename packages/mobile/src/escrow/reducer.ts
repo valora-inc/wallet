@@ -45,7 +45,6 @@ export const escrowReducer = (state: State | undefined = initialState, action: A
 }
 
 export const sentEscrowedPaymentsSelector = (state: RootState) => state.escrow.sentEscrowedPayments
-
 export const getReclaimableEscrowPayments = createSelector(
   sentEscrowedPaymentsSelector,
   (sentPayments) => {

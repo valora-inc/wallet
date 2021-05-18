@@ -7,6 +7,7 @@ import { TransactionContext } from 'src/transactions/types'
 export interface EscrowedPayment {
   senderAddress: string
   recipientPhone: string
+  recipientIdentifier: string
   paymentID: string
   currency: SHORT_CURRENCIES
   amount: BigNumber

@@ -2,11 +2,11 @@ import * as reduxSagaTestPlan from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, delay, select } from 'redux-saga/effects'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { updateE164PhoneNumberSalts } from 'src/identity/actions'
+import { e164NumberToSaltSelector } from 'src/identity/reducer'
+import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { KomenciErrorQuotaExceeded } from 'src/identity/feelessVerificationErrors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { e164NumberToSaltSelector } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { waitFor } from 'src/redux/sagas-helpers'
@@ -27,6 +27,9 @@ import {
   requestAttestations,
   setActionableAttestation,
   setKomenciAvailable,
+  phoneHashSelector,
+  setActionableAttestation,
+  setKomenciAvailable,
   setPhoneHash,
   setVerificationStatus,
   shouldUseKomenciSelector,
@@ -38,6 +41,11 @@ import {
   fetchPhoneNumberDetailsSaga,
   getActionableAttestations,
   getPhoneHashDetails,
+} from 'src/verify/reducer'
+import {
+  failSaga,
+  fetchOnChainDataSaga,
+  fetchPhoneNumberDetailsSaga,
   resetSaga,
   startSaga,
 } from 'src/verify/saga'

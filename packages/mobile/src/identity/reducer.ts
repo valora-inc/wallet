@@ -1,3 +1,4 @@
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import dotProp from 'dot-prop-immutable'
 import { RehydrateAction } from 'redux-persist'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
@@ -6,7 +7,7 @@ import { ContactMatches, ImportContactsStatus } from 'src/identity/types'
 import { removeKeyFromMapping } from 'src/identity/utils'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
-import { Actions as SendActions, StoreLatestInRecentsAction } from 'src/send/actions'
+import { StoreLatestInRecentsAction } from 'src/send/actions'
 
 export interface AddressToE164NumberType {
   [address: string]: string | null
@@ -20,6 +21,10 @@ export interface E164NumberToSaltType {
   [e164PhoneNumber: string]: string | null // null means unverified
 }
 
+export interface IdentifierToE164NumberType {
+  [identifier: string]: string | null // null means no number
+}
+
 export interface AddressToDataEncryptionKeyType {
   [address: string]: string | null // null means no DEK registered
 }
@@ -31,6 +36,8 @@ export interface AddressInfoToDisplay {
   isProviderAddress?: boolean
 }
 
+// This mapping is just for storing provider info from firebase
+// other known recipient should be stored in the valoraRecipientCache
 export interface AddressToDisplayNameType {
   [address: string]: AddressInfoToDisplay | undefined
 }
@@ -150,19 +157,6 @@ export const reducer = (
       return {
         ...state,
         e164NumberToSalt: { ...state.e164NumberToSalt, ...action.e164NumberToSalt },
-      }
-    case SendActions.STORE_LATEST_IN_RECENTS:
-      if (!action.recipient.address) {
-        return state
-      }
-      action = {
-        type: Actions.UPDATE_KNOWN_ADDRESSES,
-        knownAddresses: {
-          [action.recipient.address]: {
-            name: action.recipient.displayName,
-            imageUrl: null,
-          },
-        },
       }
     case Actions.UPDATE_KNOWN_ADDRESSES:
       return {
@@ -305,3 +299,18 @@ export const providerAddressesSelector = ({ identity: { addressToDisplayName } }
     .filter(([_, info]) => info?.isProviderAddress)
     .map(([address, _]) => address)
 }
+
+export const identifierToE164NumberSelector = createSelector(
+  e164NumberToSaltSelector,
+  (e164NumberToSalt) => {
+    const identifierToE164Numbers: IdentifierToE164NumberType = {}
+    for (const e164Number of Object.keys(e164NumberToSalt)) {
+      const pepper = e164NumberToSalt[e164Number]
+      if (pepper) {
+        const phoneHash = getPhoneHash(e164Number, pepper)
+        identifierToE164Numbers[phoneHash] = e164Number
+      }
+    }
+    return identifierToE164Numbers
+  }
+)

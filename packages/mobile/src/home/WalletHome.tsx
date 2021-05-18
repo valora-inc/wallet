@@ -27,7 +27,7 @@ import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { NumberToRecipient } from 'src/recipients/recipient'
-import { recipientCacheSelector } from 'src/recipients/reducer'
+import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
 import { initializeSentryUserContext } from 'src/sentry/actions'
@@ -69,7 +69,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   address: currentAccountSelector(state),
   activeNotificationCount: getActiveNotificationCount(state),
   callToActNotification: callToActNotificationSelector(state),
-  recipientCache: recipientCacheSelector(state),
+  recipientCache: phoneRecipientCacheSelector(state),
   appConnected: isAppConnected(state),
   numberVerified: state.app.numberVerified,
 })
@@ -105,6 +105,14 @@ export class WalletHome extends React.Component<Props, State> {
 
     ValoraAnalytics.setUserAddress(this.props.address)
 
+    // TODO: Fire refreshAllBalances when the app state changes to active. It's easier to do that when we
+    // transform this into a function component.
+    // useEffect(() => {
+    //   if (appState === AppState.Active) {
+    //     dispatch(refreshAllBalances())
+    //   }
+    // }, [appState])
+    this.props.refreshAllBalances()
     // Waiting 1/2 sec before triggering to allow
     // rest of feed to load unencumbered
     setTimeout(this.tryImportContacts, 500)

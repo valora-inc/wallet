@@ -17,12 +17,11 @@ export default function withTextSearchPasteAware<P extends TextInputProps>(
 ) {
   class Wrapper extends React.Component<P & PasteAwareWrappedElementProps> {
     render() {
-      const { style, isPasteIconVisible, onPressPaste } = this.props
+      const { style, isPasteIconVisible, onPressPaste, leftIcon } = this.props
+      const iconToUse = leftIcon ?? <Search />
       return (
         <View style={[styles.container, style]}>
-          <View style={styles.searchIconContainer}>
-            <Search />
-          </View>
+          <View style={styles.searchIconContainer}>{iconToUse}</View>
           <WrappedTextInput
             {...this.props}
             inputStyle={styles.input}

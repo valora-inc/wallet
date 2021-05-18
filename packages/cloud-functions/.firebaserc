@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "alfajores": "celo-mobile-alfajores",
+    "mainnet": "celo-mobile-mainnet",
+    "testnet": "celo-testnet-production"
+  }
+}

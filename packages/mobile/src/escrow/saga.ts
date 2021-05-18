@@ -35,7 +35,7 @@ import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
 import i18n from 'src/i18n'
 import { getUserSelfPhoneHashDetails } from 'src/identity/privateHashing'
-import { addressToE164NumberSelector } from 'src/identity/reducer'
+import { identifierToE164NumberSelector } from 'src/identity/reducer'
 import { isValidPrivateKey } from 'src/invite/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { RootState } from 'src/redux/reducers'
@@ -563,11 +563,11 @@ function* doFetchSentPayments() {
       sentPaymentIDs.map((paymentID) => call(getEscrowedPayment, escrow, paymentID))
     )
 
-    const addressToE164Number = yield select(addressToE164NumberSelector)
+    const identifierToE164Number = yield select(identifierToE164NumberSelector)
     const sentPayments: EscrowedPayment[] = []
     for (let i = 0; i < sentPaymentsRaw.length; i++) {
       const address = sentPaymentIDs[i].toLowerCase()
-      const recipientPhoneNumber = addressToE164Number[address]
+      const recipientPhoneNumber = identifierToE164Number[sentPaymentsRaw[i].recipientIdentifier]
       const payment = sentPaymentsRaw[i]
       if (!payment) {
         continue
@@ -576,7 +576,10 @@ function* doFetchSentPayments() {
       const escrowPaymentWithRecipient: EscrowedPayment = {
         paymentID: address,
         senderAddress: payment[1],
+        // TODO: Remove the phone from here and calculate it using the identifier where needed
+        // since identifier mapping could be fetched after this is called.
         recipientPhone: recipientPhoneNumber,
+        recipientIdentifier: payment.recipientIdentifier,
         currency: SHORT_CURRENCIES.DOLLAR, // Only dollars can be escrowed
         amount: payment[3],
         timestamp: payment[6],

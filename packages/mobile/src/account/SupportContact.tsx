@@ -10,10 +10,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import { openComposer } from 'react-native-email-link'
-import * as RNFS from 'react-native-fs'
-import Mailer from 'react-native-mail'
 import { useDispatch, useSelector } from 'react-redux'
+import { Email, sendEmail } from 'src/account/emailSender'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showMessage } from 'src/alert/actions'
 import { sessionIdSelector } from 'src/app/selectors'
@@ -24,39 +22,6 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
-
-interface Email {
-  subject: string
-  recipients: [string]
-  body: string
-  isHTML: boolean
-  attachments?: Array<{
-    path: string
-    type: string
-    name: string
-  }>
-}
-
-async function sendEmailWithNonNativeApp(
-  emailSubect: string,
-  message: string,
-  deviceInfo: {},
-  combinedLogsPath?: string | false
-) {
-  try {
-    const supportLogsMessage = combinedLogsPath
-      ? `Support logs: ${!combinedLogsPath || (await RNFS.readFile(combinedLogsPath))}`
-      : ''
-    await openComposer({
-      to: CELO_SUPPORT_EMAIL_ADDRESS,
-      subject: emailSubect,
-      body: `${message}\n${JSON.stringify(deviceInfo)}\n${supportLogsMessage}`,
-    })
-    return { success: true }
-  } catch (error) {
-    return { error }
-  }
-}
 
 type Props = StackScreenProps<StackParamList, Screens.SupportContact>
 
@@ -82,7 +47,7 @@ function SupportContact({ route }: Props) {
     dispatch(showMessage(t('contactSuccess')))
   }
 
-  const sendEmail = useCallback(async () => {
+  const onPressSendEmail = useCallback(async () => {
     setInProgress(true)
     const deviceInfo = {
       version: DeviceInfo.getVersion(),
@@ -101,7 +66,7 @@ function SupportContact({ route }: Props) {
       body: `${message}<br/><br/><b>${JSON.stringify(deviceInfo)}</b>`,
       isHTML: true,
     }
-    let combinedLogsPath: string | false
+    let combinedLogsPath: string | false = false
     if (attachLogs) {
       combinedLogsPath = await Logger.createCombinedLogs()
       if (combinedLogsPath) {
@@ -116,26 +81,12 @@ function SupportContact({ route }: Props) {
       }
     }
     setInProgress(false)
-
-    // Try to send with native mail app with logs as attachment
-    // if fails user can choose mail app but logs sent in message
-    Mailer.mail(email, async (error: any, event: string) => {
-      if (event === 'sent') {
-        navigateBackAndToast()
-      } else if (error) {
-        const emailSent = await sendEmailWithNonNativeApp(
-          emailSubject,
-          message,
-          deviceInfo,
-          combinedLogsPath
-        )
-        if (emailSent.success) {
-          navigateBackAndToast()
-        } else {
-          Logger.showError(error + ' ' + emailSent.error)
-        }
-      }
-    })
+    try {
+      await sendEmail(email, deviceInfo, combinedLogsPath)
+      navigateBackAndToast()
+    } catch (error) {
+      Logger.error('Error while sending logs to support', error)
+    }
   }, [message, attachLogs, e164PhoneNumber])
 
   return (
@@ -177,7 +128,7 @@ function SupportContact({ route }: Props) {
         </View>
         <Button
           disabled={!message || inProgress}
-          onPress={sendEmail}
+          onPress={onPressSendEmail}
           text={t('global:submit')}
           type={BtnTypes.PRIMARY}
           testID="SubmitContactForm"

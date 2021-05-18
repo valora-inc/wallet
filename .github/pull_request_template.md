@@ -11,6 +11,11 @@ _Describe any minor or "drive-by" changes here._
 
 _An explanation of how the changes were tested or an explanation as to why they don't need to be._
 
+
+### How others should test
+
+_Does this need to be tested by QA in the next release cycle? If so please give a brief explanation of how to test these changes._
+
 ### Related issues
 
 - Fixes #[issue number here]

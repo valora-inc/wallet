@@ -1,0 +1,74 @@
+import * as React from 'react'
+import { render } from 'react-native-testing-library'
+import { Provider } from 'react-redux'
+import { CurrencyCode } from 'src/config'
+import ReviewFees from 'src/fiatExchanges/ReviewFees'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { createMockStore } from 'test/utils'
+
+const mockStore = createMockStore()
+
+const fiatSubTotal = 25.09
+const fiatTotal = 31
+const cusdAmount = 25
+
+const mockScreenProps = (feeWaived: boolean) => ({
+  provider: 'Simplex',
+  currencyToBuy: CurrencyCode.CELO,
+  localCurrency: LocalCurrencyCode.USD,
+  crypto: {
+    amount: cusdAmount,
+  },
+  fiat: {
+    subTotal: fiatSubTotal,
+    total: fiatTotal,
+  },
+  feeWaived,
+  feeUrl: 'google.com',
+})
+
+describe('ReviewFees', () => {
+  beforeEach(() => {
+    jest.useRealTimers()
+    jest.clearAllMocks()
+  })
+
+  it('renders correctly', async () => {
+    const tree = render(
+      <Provider store={mockStore}>
+        <ReviewFees {...mockScreenProps(false)} />
+      </Provider>
+    )
+
+    expect(tree).toMatchSnapshot()
+
+    tree.rerender(
+      <Provider store={mockStore}>
+        <ReviewFees {...mockScreenProps(true)} />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('shows the fee discount when enabled', async () => {
+    const tree = render(
+      <Provider store={mockStore}>
+        <ReviewFees {...mockScreenProps(true)} />
+      </Provider>
+    )
+
+    const elements = tree.queryAllByText('feeDiscount')
+    expect(elements).toHaveLength(1)
+  })
+
+  it('does not show the fee discount when disabled', async () => {
+    const tree = render(
+      <Provider store={mockStore}>
+        <ReviewFees {...mockScreenProps(false)} />
+      </Provider>
+    )
+
+    const elements = tree.queryAllByText('feeDiscount')
+    expect(elements).toHaveLength(0)
+  })
+})

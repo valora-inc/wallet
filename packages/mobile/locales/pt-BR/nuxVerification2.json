@@ -1,5 +1,5 @@
 {
-  "getVerified": "Confirme o número de telefone",
+  "getVerified": "Confirme o número de celular",
   "notReadyForCode": "Ainda não está pronto para inserir o código",
   "emptyVerificationCode": "Nenhum código de confirmação na área de transferência",
   "invalidVerificationCode": "Código de confirmação inválido",
@@ -10,63 +10,63 @@
   "verificationTimeout": "A confirmação expirou",
   "errorRequestCode": "Falha ao solicitar códigos.",
   "errorRedeemingCode": "Falha ao resgatar código.",
-  "pleaseRetry": "Tente confirmar novamente.",
-  "retryVerification": "Tentar confirmar novamente",
+  "pleaseRetry": "Por favor, tente confirmar novamente.",
+  "retryVerification": "Tente confirmar novamente",
   "education": {
-    "header": "Confirme seu telefone",
-    "body1": "Em seguida, confirme o seu número de telefone.",
+    "header": "Confirme seu celular",
+    "body1": "Em seguida, confirme seu número de celular.",
     "body2": "A confirmação facilita enviar e receber de amigos. Você também pode pular esta etapa e retornar a ela mais tarde.",
-    "learnMore": "Saiba mais sobre a confirmação de telefone",
+    "learnMore": "Saiba mais sobre a confirmação de celular",
     "start": "Iniciar confirmação",
     "skip": "Pular por enquanto"
   },
   "learnMore": {
-    "header": "Confirmação do número de telefone",
-    "intro": "A confirmação do número de telefone funciona associando sua conta do {{appName}} ao seu número de telefone.",
+    "header": "Confirmação do número de celular",
+    "intro": "A confirmação do número de celular funciona associando sua conta da {{appName}} ao seu número de celular.",
     "section1Header": "Eu preciso completar essa etapa?",
-    "section1Body": "A confirmação não é necessária. No entanto, sem confirmar, só é possível enviar e receber valores usando códigos QR ou endereços.",
+    "section1Body": "A confirmação não é necessária. No entanto, sem confirmar, só é possível enviar e receber valores usando QR codes ou endereços.",
     "section2Header": "Segurança e Privacidade",
-    "section2Body": "Para proteger sua privacidade, apenas uma versão ofuscada do seu número de telefone é armazenada no blockchain da Celo."
+    "section2Body": "Para proteger sua privacidade, apenas uma versão ofuscada do seu número de celular é armazenada no blockchain da Celo."
   },
   "loading": {
     "confirming": "Confirmando...",
     "pleaseKeepAppOpen": "Mantenha o aplicativo aberto",
     "learnMore": "Saiba mais",
-    "card1": "Para garantir que o seu número de telefone seja realmente seu, estamos enviando três mensagens para você.",
-    "card2": "Assim que o seu número for confirmado, você pode enviar e receber fundos facilmente em seu número de telefone.",
-    "card3": "A confirmação também permite que você veja quais de seus amigos estão no {{appName}}.",
+    "card1": "Para garantirmos que o número de celular informado seja realmente seu, estamos enviando três mensagens para você.",
+    "card2": "Assim que o seu número for confirmado, você pode enviar e receber fundos facilmente em seu número de celular.",
+    "card3": "A confirmação também permite que você veja quais de seus amigos estão na {{appName}}.",
     "card4": "Exigimos três mensagens de confirmação para manter sua conta mais segura."
   },
   "skipModal": {
     "header": "Pular confirmação?",
-    "body1": "A confirmação permite que outras pessoas enviem valores para o seu número de telefone.",
-    "body2": "Sem a confirmação, você ainda pode enviar pagamentos, mas apenas usando números de conta ou códigos QR."
+    "body1": "A confirmação permite que outras pessoas enviem valores para o seu número de celular.",
+    "body2": "Sem a confirmação, você ainda pode enviar pagamentos, mas apenas usando números de conta ou QR codes."
   },
   "failModal": {
     "header": "Erro de confirmação",
-    "body1": "Ocorreu um problema ao confirmar o seu número de telefone.",
+    "body1": "Ocorreu um problema ao confirmar o seu número de celular.",
     "body2": "Você pode pular a confirmação por enquanto e tentar novamente mais tarde.",
     "body1InsufficientBalance": "Seu saldo atual não é alto o suficiente para concluir o processo de confirmação.\n\n",
     "body2InsufficientBalance": "Tente novamente quando tiver adicionado fundos à sua conta.",
-    "body1SaltQuotaExceeded": "Sua cota de busca de número de telefone acabou",
+    "body1SaltQuotaExceeded": "Sua cota de busca de número de celular acabou",
     "body2SaltQuotaExceeded": "Tente novamente quando tiver comprado mais buscas",
     "enterCodesBody": "Se você já recebeu três códigos por SMS, ainda poderá inseri-los.",
     "enterCodesButton": "Inserir os códigos"
   },
   "retryWithFornoModal": {
     "header": "Tentar confirmar novamente com o modo de Economia de Dados?",
-    "body1": "Ocorreu um problema ao confirmar o seu número de telefone. Recomendamos tentar novamente com o modo de Economia de Dados ativado.",
+    "body1": "Ocorreu um problema ao confirmar o seu número de celular. Recomendamos tentar novamente com o modo de Economia de Dados ativado.",
     "body2": "O modo de Economia de Dados permite que você se comunique com a Rede Celo de forma mais consistente por meio de uma conexão confiável.",
     "retryButton": "Tentar novamente com o modo de Economia de Dados"
   },
   "congratsVerified": "Parabéns, você já foi confirmado!",
   "notification": {
-    "body": "Receba pagamentos diretamente no seu número de telefone",
+    "body": "Receba pagamentos diretamente no seu celular",
     "cta": "Confirmar agora"
   },
   "quotaLookup": {
     "title": "Limite de busca excedido",
-    "body1": "Para manter seu número de telefone seguro e privado, o {{appName}} limita a quantidade de números de telefone que os usuários podem consultar.",
+    "body1": "Para manter seu número de celular seguro e privado, a {{appName}} limita a quantidade de números de celular que os usuários podem consultar.",
     "body2": "Você pode comprar mais buscas por uma pequena taxa.",
     "cta": "Comprar buscas (2)"
   }

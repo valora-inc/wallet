@@ -8,50 +8,30 @@ import { defaultCountryCodeSelector } from 'src/account/selectors'
 import ContactCircle from 'src/components/ContactCircle'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import { Namespaces, withTranslation } from 'src/i18n'
-import { getRecipientThumbnail, Recipient } from 'src/recipients/recipient'
+import { getDisplayName, Recipient } from 'src/recipients/recipient'
 
 const DEFAULT_ICON_SIZE = 40
 
 interface OwnProps {
-  recipient?: Recipient
+  recipient: Recipient
   e164Number?: string
-  address?: string
   iconSize?: number
   displayNameStyle?: TextStyle
 }
 
 type Props = OwnProps & WithTranslation
 
-// When redesigning, consider using getDisplayName from recipient.ts
-function getDisplayName({ recipient, e164Number, address, t }: Props) {
-  if (recipient && recipient.displayName) {
-    return recipient.displayName
-  }
-  if (getE164Number(e164Number, recipient)) {
-    return t('mobileNumber')
-  }
-  if (address) {
-    return t('walletAddress')
-  }
-  // Rare but possible, such as when a user skips onboarding flow (in dev mode) and then views their own avatar
-  return t('global:unknown')
-}
-
-export function getE164Number(e164Number?: string, recipient?: Recipient) {
-  return e164Number || (recipient && recipient.e164PhoneNumber)
-}
-
 export function Avatar(props: Props) {
   const defaultCountryCode = useSelector(defaultCountryCodeSelector) ?? undefined
-  const { address, recipient, e164Number, iconSize = DEFAULT_ICON_SIZE, displayNameStyle } = props
+  const { recipient, e164Number, iconSize = DEFAULT_ICON_SIZE, displayNameStyle, t } = props
 
-  const name = getDisplayName(props)
-  const e164NumberToShow = getE164Number(e164Number, recipient)
-  const thumbnailPath = getRecipientThumbnail(recipient)
+  const name = getDisplayName(recipient, t)
+  const address = recipient.address
+  const e164NumberToShow = recipient.e164PhoneNumber || e164Number
 
   return (
     <View style={styles.container}>
-      <ContactCircle thumbnailPath={thumbnailPath} name={name} address={address} size={iconSize} />
+      <ContactCircle recipient={recipient} size={iconSize} />
       <Text
         style={[displayNameStyle || fontStyles.small500, styles.contactName]}
         numberOfLines={1}

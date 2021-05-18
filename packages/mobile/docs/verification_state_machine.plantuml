@@ -14,7 +14,7 @@ Preparing: balance for classic flow.
 
 state a <<choice>>
 state b <<choice>>
-Preparing -left-> a 
+Preparing -left-> a
 a -left-> Error: !sufficientBalance
 a --> b
 b --> EnsuringRealHumanUser
@@ -23,7 +23,7 @@ komenciAvailable
 AND
 !activeKomenciSession
 end note
-b --> FetchingPhoneNumberDetails 
+b --> FetchingPhoneNumberDetails
 note on link
 !komenciAvailable
 OR
@@ -45,28 +45,15 @@ FetchingMtw --> FetchingOnChainData
 FetchingMtw: fetching existing or deploing new MTW wallet
 FetchingPhoneNumberDetails --> FetchingOnChainData
 
-FetchingOnChainData --> RequestingAttestations
-RequestingAttestations: Request more if we do not have enough actionable attestations,
-RequestingAttestations: which are not yet or already been successfully revealed
+state doVerificationFlowSaga {
+  [*] --> RequestingAttestations
+  RequestingAttestations --> RevealingAttestations
+  RevealingAttestations --> CompletingAttestations
+}
+doVerificationFlowSaga: this part has not been implemented yet
 
-RequestingAttestations --> RevealingAttestations
-RevealingAttestations: Reveal all attestations, which were not revealed before
-
-state enoughAttestations <<choice>>
-RevealingAttestations --> enoughAttestations
-note on link
-Do we have enough successfully revealed actionable attestations?
-end note
-enoughAttestations --> RequestingAttestations: No
-enoughAttestations --> CompletingAttestations: Yes
-
-
-CompletingAttestations: Waiting for user to enter attestation codes from SMSs
-
+FetchingOnChainData --> doVerificationFlowSaga
 CompletingAttestations --> Success
-
 Success --> [*]
-Success: Navigate user away from verification
 Error --> [*]
-Error: Show an error
 @enduml

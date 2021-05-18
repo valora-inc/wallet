@@ -198,10 +198,7 @@ export async function initGeth(shouldStartNode: boolean = true): Promise<boolean
 }
 
 export function isProviderConnectionError(error: any) {
-  return error
-    ?.toString()
-    ?.toLowerCase()
-    .includes(PROVIDER_CONNECTION_ERROR)
+  return error?.toString()?.toLowerCase().includes(PROVIDER_CONNECTION_ERROR)
 }
 
 async function getStaticNodes(): Promise<string[]> {

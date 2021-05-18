@@ -14,9 +14,7 @@ export enum FeelessVerificationErrors {
 }
 
 // When Komenci has failed more than allowed within a given window
-export class KomenciErrorQuotaExceeded extends RootError<
-  FeelessVerificationErrors.KomenciErrorQuotaExceeded
-> {
+export class KomenciErrorQuotaExceeded extends RootError<FeelessVerificationErrors.KomenciErrorQuotaExceeded> {
   constructor() {
     super(FeelessVerificationErrors.KomenciErrorQuotaExceeded)
     Object.setPrototypeOf(this, KomenciErrorQuotaExceeded.prototype)
@@ -24,9 +22,7 @@ export class KomenciErrorQuotaExceeded extends RootError<
 }
 
 // When the Komenci session is no longer valid
-export class KomenciSessionInvalidError extends RootError<
-  FeelessVerificationErrors.KomenciSessionInvalidError
-> {
+export class KomenciSessionInvalidError extends RootError<FeelessVerificationErrors.KomenciSessionInvalidError> {
   constructor() {
     super(FeelessVerificationErrors.KomenciSessionInvalidError)
     Object.setPrototypeOf(this, KomenciSessionInvalidError.prototype)
@@ -34,9 +30,7 @@ export class KomenciSessionInvalidError extends RootError<
 }
 
 // When the pepper is not in the redux store
-export class PepperNotCachedError extends RootError<
-  FeelessVerificationErrors.PepperNotCachedError
-> {
+export class PepperNotCachedError extends RootError<FeelessVerificationErrors.PepperNotCachedError> {
   constructor() {
     super(FeelessVerificationErrors.PepperNotCachedError)
     Object.setPrototypeOf(this, PepperNotCachedError.prototype)

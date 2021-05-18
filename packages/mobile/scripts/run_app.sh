@@ -9,15 +9,18 @@ set -euo pipefail
 # -p: Platform (android or ios)
 # -e (Optional): Name of the env to run
 # -r (Optional): Use release build (by default uses debug). Note: on Android the release keystore needs to be present and the password in the env variable for this to work.
+# -s (Optional): Name of the simulator to run (iOS only)
 
 PLATFORM=""
 ENV_NAME="alfajoresdev"
 RELEASE=false
+SIMULATOR=""
 
-while getopts 'p:e:r' flag; do
+while getopts 'p:e:s:r' flag; do
   case "${flag}" in
     p) PLATFORM="$OPTARG" ;;
     e) ENV_NAME="$OPTARG" ;;
+    s) SIMULATOR="$OPTARG" ;;
     r) RELEASE=true ;;
     *) error "Unexpected option ${flag}" ;;
   esac
@@ -108,7 +111,11 @@ elif [ "$PLATFORM" = "ios" ]; then
 
   # Launch our packager directly as RN launchPackager doesn't work correctly with monorepos
   startPackager
-  yarn react-native run-ios --scheme "celo-${ENV_NAME}" --configuration "$CONFIGURATION" --no-packager
+  simulator_param=""
+  if [ -n "$SIMULATOR" ]; then
+    simulator_param="--simulator=\"$SIMULATOR)\""
+  fi
+  yarn react-native run-ios --scheme "celo-${ENV_NAME}" --configuration "$CONFIGURATION" --no-packager "${simulator_param}"
 
 else
   echo "Invalid value for platform, must be 'android' or 'ios'"

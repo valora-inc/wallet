@@ -27,9 +27,12 @@ import {
   updateFeatureFlags,
 } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
-import { getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
+import {
+  getLastTimeBackgrounded,
+  getRequirePinOnAppOpen,
+  walletConnectEnabledSelector,
+} from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { appRemoteFeatureFlagChannel, appVersionDeprecationChannel } from 'src/firebase/firebase'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -39,6 +42,7 @@ import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
 import { CodeInputType, receiveAttestationCode } from 'src/verify/module'
+import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 
 const TAG = 'app/saga'
@@ -88,15 +92,14 @@ export function* appVersionSaga() {
 }
 
 export interface RemoteFeatureFlags {
-  kotaniEnabled: boolean
-  pontoEnabled: boolean
-  bitfyUrl: string | null
-  flowBtcUrl: string | null
   celoEducationUri: string | null
   shortVerificationCodesEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
+  hideVerification: boolean
+  showRaiseDailyLimitTarget: string | undefined
+  walletConnectEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -142,6 +145,7 @@ function convertQueryToScreenParams(query: string) {
 
 export function* handleDeepLink(action: OpenDeepLink) {
   const { deepLink, isSecureOrigin } = action
+  const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
   Logger.debug(TAG, 'Handling deep link', deepLink)
   const rawParams = parse(deepLink)
   if (rawParams.path) {
@@ -156,6 +160,8 @@ export function* handleDeepLink(action: OpenDeepLink) {
       yield call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {
       handleDappkitDeepLink(deepLink)
+    } else if (rawParams.path.startsWith('/wc') && walletConnectEnabled) {
+      yield call(handleWalletConnectDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
       navigate(Screens.FiatExchangeOptions, { isCashIn: true })
     } else if (rawParams.pathname === '/bidali') {
@@ -163,10 +169,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path.startsWith('/cash-in-success')) {
       // Some providers append transaction information to the redirect links so can't check for strict equality
       const cicoSuccessParam = (rawParams.path.match(/cash-in-success\/(.+)/) || [])[1]
-      const provider = Object.values(CicoProviderNames).filter((name) =>
-        cicoSuccessParam?.toLowerCase().includes(name.toLowerCase())
-      )[0]
-      navigate(Screens.CashInSuccess, { provider })
+      navigate(Screens.CashInSuccess, { provider: cicoSuccessParam.split('/')[0] })
+      // Some providers append transaction information to the redirect links so can't check for strict equality
+    } else if (rawParams.path.startsWith('/cash-in-failure')) {
+      navigate(Screens.FiatExchange)
     } else if (isSecureOrigin && rawParams.pathname === '/openScreen' && rawParams.query) {
       // The isSecureOrigin is important. We don't want it to be possible to fire this deep link from outside
       // of our own notifications for security reasons.
