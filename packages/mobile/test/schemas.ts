@@ -571,10 +571,6 @@ export const v9Schema = {
     ...v8Schema.fiatExchanges,
     providerLogos: {},
   },
-  fiatExchanges: {
-    ...v8Schema.fiatExchanges,
-    providerLogos: {},
-  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
