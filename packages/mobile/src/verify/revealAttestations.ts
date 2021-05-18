@@ -279,14 +279,16 @@ function* tryRevealPhoneNumber(
       })
     )
 
-    throw new Error(
-      `Error revealing to issuer ${attestation.attestationServiceURL}. Status code: ${status}`
-    )
+    throw new Error(`Status code: ${status}. Error: ${body.error}`)
   } catch (error) {
     // This is considered a recoverable error because the user may have received the code in a previous run
     // So instead of propagating the error, we catch it just update status. This will trigger the modal,
     // allowing the user to enter codes manually or skip verification.
-    Logger.error(TAG + '@tryRevealPhoneNumber', `Reveal for issuer ${issuer} failed`, error)
+    Logger.error(
+      TAG + '@tryRevealPhoneNumber',
+      `Reveal for issuer ${issuer} with url ${attestation.attestationServiceURL} failed`,
+      error
+    )
     ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_error, {
       issuer,
       error: error.message,
