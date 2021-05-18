@@ -87,6 +87,7 @@ import {
   succeed,
   verificationStatusSelector,
 } from 'src/verify/reducer'
+import { setMtwAddress } from 'src/web3/actions'
 import { getContractKit } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -345,6 +346,8 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
       if (Platform.OS === 'android') {
         autoRetrievalTask?.cancel()
       }
+
+      yield put(setMtwAddress(unverifiedMtwAddress))
     }
 
     yield put(setVerificationStatus(VerificationStatus.Done))
@@ -665,6 +668,12 @@ export function attestationCodeReceiver(
       })
       return
     }
+    Logger.debug(
+      TAG + '@attestationCodeReceiver',
+      'Received attestation:',
+      action.message,
+      action.inputType
+    )
 
     const allIssuers = attestations.map((a) => a.issuer)
     let securityCodeWithPrefix: string | null = null
@@ -694,6 +703,7 @@ export function attestationCodeReceiver(
       if (!attestationCode) {
         throw new Error('No code extracted from message')
       }
+      Logger.debug(TAG + '@attestationCodeReceiver', 'Received attestation code:', attestationCode)
 
       const existingCode: string = yield call(isCodeAlreadyAccepted, attestationCode)
 
@@ -747,6 +757,10 @@ export function attestationCodeReceiver(
         throw new Error('Code is not valid')
       }
 
+      Logger.debug(
+        TAG + '@attestationCodeReceiver',
+        `Validated attestation code (${message}) successfully for issuer ${issuer}`
+      )
       yield put(
         inputAttestationCode({ code: attestationCode, shortCode: securityCodeWithPrefix, issuer })
       )
@@ -866,7 +880,14 @@ function* submitCompleteTxAndRetryOnRevert(
 ) {
   const numOfRetries = 3
   let completeTxResult: Result<CeloTxReceipt, FetchError | TxError>
+  Logger.debug(
+    TAG,
+    '@submitCompleteTxAndRetryOnRevert',
+    'Starting to complete attestation',
+    code.shortCode
+  )
   for (let i = 0; i < numOfRetries; i += 1) {
+    Logger.debug(TAG, '@submitCompleteTxAndRetryOnRevert', `try ${i} for ${code.shortCode}`)
     completeTxResult = yield call(
       [komenciKit, komenciKit.completeAttestation],
       mtwAddress,
@@ -874,18 +895,28 @@ function* submitCompleteTxAndRetryOnRevert(
       code.issuer,
       code.code
     )
-
+    Logger.debug(
+      TAG,
+      '@submitCompleteTxAndRetryOnRevert',
+      `result ${i} for ${code.shortCode}`,
+      JSON.stringify(completeTxResult)
+    )
     if (completeTxResult.ok) {
       return completeTxResult
     }
 
     // If it's not a revert error, or this is the last retry, then return result
     const errorString = completeTxResult.error.toString().toLowerCase()
+    Logger.debug(
+      TAG,
+      '@submitCompleteTxAndRetryOnRevert',
+      `Failed complete tx on retry #${i + 1} - ${code.shortCode} - ${errorString}`
+    )
     if (!errorString.includes('revert') || i + 1 === numOfRetries) {
       return completeTxResult
     }
 
-    Logger.debug(TAG, '@feelessCompleteAttestation', `Failed complete tx on retry #${i + 1}`)
+    Logger.debug(TAG, '@submitCompleteTxAndRetryOnRevert', `Failed complete tx on retry #${i + 1}`)
     yield call(waitForNextBlock)
   }
 }
@@ -912,25 +943,39 @@ function* completeAttestation(
     feeless: shouldUseKomenci,
   })
 
-  Logger.debug(TAG + '@completeAttestation', `Completing code for issuer: ${code.issuer}`)
+  Logger.debug(
+    TAG + '@completeAttestation',
+    `Completing code (${code.shortCode} ${codePosition}) for issuer: ${code.issuer}`
+  )
 
   // Make each concurrent completion attempt wait a sec for where they are relative to other codes
   // to ensure `processingInputCode` has enough time to properly gate the tx. 0-index code
   // will have 0 delay, 1-index code will have 1 sec delay, etc.
   if (shouldUseKomenci) {
-    yield delay(codePosition * 1000)
+    yield delay(codePosition * 5000)
     yield inputAttestationCodeLock.acquireAsync()
-    const completeTxResult: Result<CeloTxReceipt, FetchError | TxError> = yield call(
-      submitCompleteTxAndRetryOnRevert,
-      komenciKit,
-      account,
-      phoneHashDetails,
-      code
-    )
-    yield inputAttestationCodeLock.release()
-    if (!completeTxResult.ok) {
-      Logger.debug(TAG, '@feelessCompleteAttestation', 'Failed complete tx')
-      throw completeTxResult.error
+    try {
+      Logger.debug(TAG + '@completeAttestation', `Call complete for ${code.shortCode}`)
+      const completeTxResult: Result<CeloTxReceipt, FetchError | TxError> = yield call(
+        submitCompleteTxAndRetryOnRevert,
+        komenciKit,
+        account,
+        phoneHashDetails,
+        code
+      )
+      Logger.debug(
+        TAG + '@completeAttestation',
+        `Complete result for ${code.shortCode}`,
+        JSON.stringify(completeTxResult)
+      )
+      if (!completeTxResult.ok) {
+        throw completeTxResult.error
+      }
+    } catch (error) {
+      Logger.error(TAG, '@completeAttestation - Failed to complete tx', error)
+      throw error
+    } finally {
+      yield inputAttestationCodeLock.release()
     }
   } else {
     // Generate and send the transaction to complete the attestation from the given issuer.
@@ -1055,14 +1100,16 @@ export function* tryRevealPhoneNumber(
       )
     )
 
-    throw new Error(
-      `Error revealing to issuer ${attestation.attestationServiceURL}. Status code: ${status}`
-    )
+    throw new Error(`Status code: ${status}. Error: ${body.error}`)
   } catch (error) {
     // This is considered a recoverable error because the user may have received the code in a previous run
     // So instead of propagating the error, we catch it just update status. This will trigger the modal,
     // allowing the user to enter codes manually or skip verification.
-    Logger.error(TAG + '@tryRevealPhoneNumber', `Reveal for issuer ${issuer} failed`, error)
+    Logger.error(
+      TAG + '@tryRevealPhoneNumber',
+      `Reveal for issuer ${issuer} with url ${attestation.attestationServiceURL} failed`,
+      error
+    )
     ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_error, {
       issuer,
       error: error.message,

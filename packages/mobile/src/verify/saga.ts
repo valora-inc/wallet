@@ -39,7 +39,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import networkConfig from 'src/geth/networkConfig'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import {
-  Actions,
   setVerificationStatus as setOldVerificationStatus,
   updateE164PhoneNumberSalts,
 } from 'src/identity/actions'
@@ -689,6 +688,4 @@ export function* verifySaga() {
   yield takeEvery(fail.type, failSaga)
   yield takeEvery(reset.type, resetSaga)
   yield takeEvery(stop.type, stopSaga)
-  // TODO: this can be calculated in reducer, once we stop using identify/reducer for verification
-  yield takeEvery(Actions.COMPLETE_ATTESTATION_CODE, fetchOnChainDataSaga)
 }
