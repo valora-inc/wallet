@@ -753,7 +753,7 @@ export function* getPhoneHashDetails() {
 
 export function* verifySaga() {
   while (true) {
-    const task = yield fork(function*() {
+    const task = yield fork(function* () {
       Logger.debug(TAG, 'Verification Saga has started')
       yield takeEvery(checkIfKomenciAvailable.type, checkIfKomenciAvailableSaga)
       yield takeEvery(start.type, startSaga)
