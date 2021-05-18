@@ -1,7 +1,7 @@
 import { DigitalAsset, FETCH_TIMEOUT_DURATION, XANPOOL_DATA } from '../config'
 import { PaymentMethod, UserLocationData } from './fetchProviders'
 import { countryToCurrency } from './providerAvailability'
-import { fetchWithTimeout } from './utils'
+import { fetchExchangeRate, fetchWithTimeout } from './utils'
 
 interface XanpoolQuote {
   crypto: number
@@ -37,10 +37,17 @@ const Xanpool = {
       }
 
       const localFiatCurrency = countryToCurrency[userLocation.country]
-      const localFiatCurrencyAmount = fiatAmount
-
       if (!XANPOOL_DATA.supported_currencies.includes(localFiatCurrency)) {
         throw Error('Currency not supported')
+      }
+
+      let localFiatCurrencyAmount
+      if (fiatCurrency !== localFiatCurrency) {
+        const exchangeRate = await fetchExchangeRate(fiatCurrency, localFiatCurrency)
+        localFiatCurrencyAmount = fiatAmount * exchangeRate
+        console.log(`Exchange rate of ${fiatCurrency} to ${localFiatCurrency} is ${exchangeRate}`)
+      } else {
+        localFiatCurrencyAmount = fiatAmount
       }
 
       const url = `
@@ -64,13 +71,15 @@ const Xanpool = {
       const bankQuote: XanpoolQuote = await response.json()
       const fee = bankQuote.serviceCharge * bankQuote.cryptoPrice
 
-      return [{
-        paymentMethod: PaymentMethod.Bank,
-        fee,
-        totalAssetsAcquired: bankQuote.total,
+      return [
+        {
+          paymentMethod: PaymentMethod.Bank,
+          fee,
+          totalAssetsAcquired: bankQuote.total,
+        },
       ]
     } catch (error) {
-      console.error('Error fetching Transak quote: ', error)
+      console.error('Error fetching Xanpool quote: ', error)
     }
   },
   post: async (path: string, body: any) => {

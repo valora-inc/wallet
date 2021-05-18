@@ -1,5 +1,9 @@
+import { gql } from 'apollo-boost'
+import BigNumber from 'bignumber.js'
 import * as admin from 'firebase-admin'
 import { v4 as uuidv4 } from 'uuid'
+import { apolloClient } from '../apollo'
+import { ExchangeRateQuery, ExchangeRateQueryVariables } from '../apollo/types'
 import { bigQueryDataset, bigQueryProjectId, getBigQueryInstance } from '../bigQuery'
 
 const fetch = require('node-fetch')
@@ -112,4 +116,29 @@ export const fetchWithTimeout = async (
   } catch (error) {
     throw error
   }
+}
+
+export const fetchExchangeRate = async (
+  sourceCurrencyCode: string,
+  localCurrencyCode: string
+): Promise<number> => {
+  const response = await apolloClient.query<ExchangeRateQuery, ExchangeRateQueryVariables>({
+    query: gql`
+      query ExchangeRate($currencyCode: String!) {
+        currencyConversion(currencyCode: $currencyCode) {
+          rate
+        }
+      }
+    `,
+    variables: { sourceCurrencyCode, currencyCode: localCurrencyCode },
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+  })
+
+  const exchangeRate = response.data.currencyConversion?.rate
+  if (typeof exchangeRate !== 'number' && typeof exchangeRate !== 'string') {
+    throw new Error(`Invalid response data ${response.data}`)
+  }
+
+  return new BigNumber(exchangeRate).toNumber()
 }
