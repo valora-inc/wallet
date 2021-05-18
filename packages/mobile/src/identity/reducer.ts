@@ -1,6 +1,7 @@
 import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import dotProp from 'dot-prop-immutable'
 import { RehydrateAction } from 'redux-persist'
+import { createSelector } from 'reselect'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
 import { Actions, ActionTypes } from 'src/identity/actions'
 import { ContactMatches, ImportContactsStatus } from 'src/identity/types'
