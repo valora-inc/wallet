@@ -82,6 +82,9 @@ export default class CurrencyConversionAPI<TContext = any> extends DataSource {
         this.enumContains(supportedStableTokens, fromCode.toUpperCase()) &&
         this.getCurrency(fromCode) !== toCode
       ) {
+        if (this.enumContains(supportedStableTokens, toCode.toUpperCase())) {
+          return [fromCode, this.getCurrency(fromCode), this.getCurrency(toCode), toCode]
+        }
         return [fromCode, this.getCurrency(fromCode), toCode]
       }
       // currency -> X (where X!== celoStableToken)
@@ -121,14 +124,6 @@ export default class CurrencyConversionAPI<TContext = any> extends DataSource {
       // TODO: use real rates once we have the data
       return new BigNumber(1)
     } else if (this.enumContains(supportedPairs, pair)) {
-      if (pair === 'cGLD/cEUR' || pair === 'cEUR/cGLD') {
-        // TODO: Get the real value. Currently firebase don't keep this rate.
-        return this.goldExchangeRateAPI.getExchangeRate({
-          sourceCurrencyCode: fromCode,
-          currencyCode: toCode,
-          timestamp,
-        })
-      }
       return this.goldExchangeRateAPI.getExchangeRate({
         sourceCurrencyCode: fromCode,
         currencyCode: toCode,
