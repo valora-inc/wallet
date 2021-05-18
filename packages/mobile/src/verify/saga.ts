@@ -1,4 +1,5 @@
 import { Result } from '@celo/base/lib/result'
+import { CeloTransactionObject, CeloTxReceipt } from '@celo/connect'
 import { Address, ContractKit } from '@celo/contractkit/lib'
 import {
   ActionableAttestation,
@@ -16,6 +17,7 @@ import {
   extractSecurityCodeWithPrefix,
 } from '@celo/utils/lib/attestations'
 import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
+import AwaitLock from 'await-lock'
 import DeviceInfo from 'react-native-device-info'
 import {
   all,
@@ -32,6 +34,7 @@ import {
 import { showError } from 'src/alert/actions'
 import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
@@ -44,10 +47,6 @@ import {
 } from 'src/identity/feelessVerificationErrors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { e164NumberToSaltSelector } from 'src/identity/reducer'
-
-import { CeloTransactionObject, CeloTxReceipt } from '@celo/connect'
-import AwaitLock from 'await-lock'
-import { setNumberVerified } from 'src/app/actions'
 import { revokeSaga } from 'src/identity/revoke'
 import { getAttestationCodeForSecurityCode } from 'src/identity/securityCode'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -109,8 +108,8 @@ import {
   startKomenciSession,
   stop,
   succeed,
-  VERIFICATION_TIMEOUT,
   verificationStatusSelector,
+  VERIFICATION_TIMEOUT,
 } from 'src/verify/module'
 import { requestAttestationsSaga } from 'src/verify/requestAttestations'
 import {
@@ -218,7 +217,14 @@ export function* submitCompleteTxAndRetryOnRevert(
 ) {
   const numOfRetries = 3
   let completeTxResult: Result<CeloTxReceipt, FetchError | TxError>
+  Logger.debug(
+    TAG,
+    '@submitCompleteTxAndRetryOnRevert',
+    'Starting to complete attestation',
+    code.shortCode
+  )
   for (let i = 0; i < numOfRetries; i += 1) {
+    Logger.debug(TAG, '@submitCompleteTxAndRetryOnRevert', `try ${i} for ${code.shortCode}`)
     completeTxResult = yield call(
       [komenciKit, komenciKit.completeAttestation],
       mtwAddress,
@@ -226,13 +232,23 @@ export function* submitCompleteTxAndRetryOnRevert(
       code.issuer,
       code.code
     )
-
+    Logger.debug(
+      TAG,
+      '@submitCompleteTxAndRetryOnRevert',
+      `result ${i} for ${code.shortCode}`,
+      JSON.stringify(completeTxResult)
+    )
     if (completeTxResult.ok) {
       return completeTxResult
     }
 
     // If it's not a revert error, or this is the last retry, then return result
     const errorString = completeTxResult.error.toString().toLowerCase()
+    Logger.debug(
+      TAG,
+      '@submitCompleteTxAndRetryOnRevert',
+      `Failed complete tx on retry #${i + 1} - ${code.shortCode} - ${errorString}`
+    )
     if (!errorString.includes('revert') || i + 1 === numOfRetries) {
       return completeTxResult
     }
@@ -264,25 +280,41 @@ export function* completeAttestation(
     feeless: shouldUseKomenci,
   })
 
-  Logger.debug(TAG + '@completeAttestation', `Completing code for issuer: ${code.issuer}`)
+  Logger.debug(
+    TAG + '@completeAttestation',
+    `Completing code (${code.shortCode} ${codePosition}) for issuer: ${code.issuer}`
+  )
 
   // Make each concurrent completion attempt wait a sec for where they are relative to other codes
   // to ensure `processingInputCode` has enough time to properly gate the tx. 0-index code
   // will have 0 delay, 1-index code will have 1 sec delay, etc.
   if (shouldUseKomenci) {
-    yield delay(codePosition * 1000)
+    yield delay(codePosition * 5000)
     yield inputAttestationCodeLock.acquireAsync()
-    const completeTxResult: Result<CeloTxReceipt, FetchError | TxError> = yield call(
-      submitCompleteTxAndRetryOnRevert,
-      komenciKit,
-      account,
-      phoneHashDetails,
-      code
-    )
-    yield inputAttestationCodeLock.release()
-    if (!completeTxResult.ok) {
-      Logger.debug(TAG, '@feelessCompleteAttestation', 'Failed complete tx')
-      throw completeTxResult.error
+    try {
+      Logger.debug(TAG + '@completeAttestation', `Call complete for ${code.shortCode}`)
+      const completeTxResult: Result<CeloTxReceipt, FetchError | TxError> = yield call(
+        submitCompleteTxAndRetryOnRevert,
+        komenciKit,
+        account,
+        phoneHashDetails,
+        code
+      )
+      Logger.debug(
+        TAG + '@completeAttestation',
+        `Complete result for ${code.shortCode}`,
+        JSON.stringify(completeTxResult)
+      )
+      yield inputAttestationCodeLock.release()
+      if (!completeTxResult.ok) {
+        Logger.debug(TAG, '@feelessCompleteAttestation', 'Failed complete tx')
+        throw completeTxResult.error
+      }
+    } catch (error) {
+      Logger.error(TAG, '@completeAttestation - Failed to complete tx', error)
+      throw error
+    } finally {
+      yield inputAttestationCodeLock.release()
     }
   } else {
     // Generate and send the transaction to complete the attestation from the given issuer.
@@ -636,6 +668,12 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
     })
     return
   }
+  Logger.debug(
+    TAG + '@attestationCodeReceiver',
+    'Received attestation:',
+    action.payload.message,
+    action.payload.inputType
+  )
 
   const actionableAttestations: ActionableAttestation[] = yield select(
     actionableAttestationsSelector
@@ -675,6 +713,7 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
     if (!attestationCode) {
       throw new Error('No code extracted from message')
     }
+    Logger.debug(TAG + '@attestationCodeReceiver', 'Received attestation code:', attestationCode)
 
     const existingCodes: AttestationCode[] = yield select(completedAttestationCodesSelector)
     const existingCode = existingCodes.find((c) => c.code === attestationCode)
@@ -728,6 +767,11 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
     if (!isValidRequest) {
       throw new Error('Code is not valid')
     }
+
+    Logger.debug(
+      TAG + '@attestationCodeReceiver',
+      `Validated attestation code (${message}) successfully for issuer ${issuer}`
+    )
 
     yield put(
       inputAttestationCode({ code: attestationCode, shortCode: securityCodeWithPrefix, issuer })
