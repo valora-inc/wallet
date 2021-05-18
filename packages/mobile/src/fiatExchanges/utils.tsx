@@ -3,6 +3,7 @@ import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
 import getIpAddress from 'react-native-public-ip'
 import { CurrencyCode, MOONPAY_API_KEY } from 'src/config'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
@@ -41,21 +42,15 @@ interface MoonPayIpAddressData {
   ipAddress: string
 }
 
-export interface SimplexQuote {
-  user_id: string
-  quote_id: string
-  wallet_id: string
-  digital_money: {
-    currency: string
-    amount: number
-  }
-  fiat_money: {
-    currency: string
-    base_amount: number
-    total_amount: number
-  }
-  valid_until: string
-  supported_digital_currencies: string[]
+export interface ProviderQuote {
+  quoteId?: string
+  userId?: string
+  walletId?: string
+  paymentMethod: PaymentMethod
+  digitalAsset: string
+  digitalAssetsAmount: number
+  fiatCurrency: string
+  fiatFee: number
 }
 export interface LocalCicoProvider {
   name: string
@@ -190,6 +185,12 @@ export const fetchSimplexPaymentData = async (
   }
 }
 
+export const isSimplexQuote = (quote: SimplexQuote | ProviderQuote): quote is SimplexQuote =>
+  'wallet_id' in quote
+
+export const isProviderQuote = (quote: SimplexQuote | ProviderQuote): quote is SimplexQuote =>
+  'digitalAssetsAmount' in quote
+
 // Leaving unoptimized for now because sorting is most relevant when fees will be visible
 export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) => {
   if (provider1.unavailable) {
@@ -201,6 +202,14 @@ export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) 
   }
 
   if (provider1.restricted) {
+    return 1
+  }
+
+  if (provider1.restricted) {
+    return -1
+  }
+
+  if (provider1.quote) {
     return 1
   }
 

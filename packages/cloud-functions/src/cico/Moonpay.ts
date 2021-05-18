@@ -1,5 +1,5 @@
 import { DigitalAsset, FETCH_TIMEOUT_DURATION, MOONPAY_DATA } from '../config'
-import { PaymentMethod, StandardizedProviderQuote, UserLocationData } from './fetchProviders'
+import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
 import { fetchWithTimeout } from './utils'
 
 interface MoonpayQuote {
@@ -89,27 +89,33 @@ const Moonpay = {
         })
       )
 
-      const quotes: StandardizedProviderQuote[] = []
+      const quotes: ProviderQuote[] = []
 
       if (gbpQuote && userLocation.country === 'GB') {
         quotes.push({
           paymentMethod: PaymentMethod.Bank,
-          fee: gbpQuote.feeAmount + gbpQuote.extraFeeAmount + gbpQuote.networkFeeAmount,
-          totalAssetsAcquired: gbpQuote.quoteCurrencyAmount,
+          fiatFee: gbpQuote.feeAmount + gbpQuote.extraFeeAmount + gbpQuote.networkFeeAmount,
+          digitalAssetsAmount: gbpQuote.quoteCurrencyAmount,
+          digitalAsset: gbpQuote.currency.code,
+          fiatCurrency: gbpQuote.baseCurrency.code,
         })
       } else if (sepaQuote) {
         quotes.push({
           paymentMethod: PaymentMethod.Bank,
-          fee: sepaQuote.feeAmount + sepaQuote.extraFeeAmount + sepaQuote.networkFeeAmount,
-          totalAssetsAcquired: sepaQuote.quoteCurrencyAmount,
+          fiatFee: sepaQuote.feeAmount + sepaQuote.extraFeeAmount + sepaQuote.networkFeeAmount,
+          digitalAssetsAmount: sepaQuote.quoteCurrencyAmount,
+          digitalAsset: sepaQuote.currency.code,
+          fiatCurrency: sepaQuote.baseCurrency.code,
         })
       }
 
       if (cardQuote) {
         quotes.push({
           paymentMethod: PaymentMethod.Card,
-          fee: cardQuote.feeAmount + cardQuote.extraFeeAmount + cardQuote.networkFeeAmount,
-          totalAssetsAcquired: cardQuote.quoteCurrencyAmount,
+          fiatFee: cardQuote.feeAmount + cardQuote.extraFeeAmount + cardQuote.networkFeeAmount,
+          digitalAssetsAmount: cardQuote.quoteCurrencyAmount,
+          digitalAsset: cardQuote.currency.code,
+          fiatCurrency: cardQuote.baseCurrency.code,
         })
       }
 

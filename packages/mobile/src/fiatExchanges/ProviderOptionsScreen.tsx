@@ -22,7 +22,7 @@ import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import {
   fetchProviders,
   fetchUserLocationData,
-  SimplexQuote,
+  ProviderQuote,
   sortProviders,
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
@@ -43,12 +43,6 @@ const TAG = 'ProviderOptionsScreen'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
 
-interface StandardizedProviderQuote {
-  paymentMethod: PaymentMethod
-  fee: number
-  totalAssetsAcquired: number
-}
-
 export interface CicoProvider {
   name: string
   restricted: boolean
@@ -56,7 +50,7 @@ export interface CicoProvider {
   paymentMethods: PaymentMethod[]
   url?: string
   logo: string
-  quote?: SimplexQuote | StandardizedProviderQuote
+  quote?: ProviderQuote
   cashIn: boolean
   cashOut: boolean
 }
@@ -64,13 +58,6 @@ export interface CicoProvider {
 export enum IntegratedCicoProviders {
   Simplex = 'Simplex',
 }
-
-const isSimplexQuote = (quote: SimplexQuote | StandardizedProviderQuote): quote is SimplexQuote =>
-  'wallet_id' in quote
-
-const isStandardizedProviderQuote = (
-  quote: SimplexQuote | StandardizedProviderQuote
-): quote is SimplexQuote => 'totalAssetsAcquired' in quote
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
   const [showingExplanation, setShowExplanation] = useState(false)

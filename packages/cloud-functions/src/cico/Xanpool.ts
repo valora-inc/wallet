@@ -1,5 +1,5 @@
 import { DigitalAsset, FETCH_TIMEOUT_DURATION, XANPOOL_DATA } from '../config'
-import { PaymentMethod, StandardizedProviderQuote, UserLocationData } from './fetchProviders'
+import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
 import { countryToCurrency } from './providerAvailability'
 import { fetchExchangeRate, fetchWithTimeout } from './utils'
 
@@ -66,11 +66,13 @@ const Xanpool = {
       const bankQuote: XanpoolQuote = await response.json()
       const fee = (bankQuote.serviceCharge * bankQuote.cryptoPrice) / exchangeRate
 
-      const quotes: StandardizedProviderQuote[] = [
+      const quotes: ProviderQuote[] = [
         {
           paymentMethod: PaymentMethod.Bank,
-          fee,
-          totalAssetsAcquired: bankQuote.total,
+          fiatFee: fee,
+          digitalAssetsAmount: bankQuote.total,
+          digitalAsset,
+          fiatCurrency,
         },
       ]
 

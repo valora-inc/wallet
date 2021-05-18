@@ -4,7 +4,7 @@ import { composeProviderUrl } from './composeProviderUrl'
 import Moonpay from './Moonpay'
 import { getProviderAvailability } from './providerAvailability'
 import { Providers } from './Providers'
-import Simplex, { SimplexQuote } from './Simplex'
+import Simplex from './Simplex'
 import Transak from './Transak'
 import Xanpool from './Xanpool'
 
@@ -28,10 +28,15 @@ export enum PaymentMethod {
   Bank = 'Bank',
 }
 
-export interface StandardizedProviderQuote {
+export interface ProviderQuote {
+  quoteId?: string
+  userId?: string
+  walletId?: string
   paymentMethod: PaymentMethod
-  fee: number
-  totalAssetsAcquired: number
+  digitalAsset: string
+  digitalAssetsAmount: number
+  fiatCurrency: string
+  fiatFee: number
 }
 
 export interface Provider {
@@ -41,7 +46,7 @@ export interface Provider {
   paymentMethods: PaymentMethod[]
   url?: string
   logo: string
-  quote?: SimplexQuote | StandardizedProviderQuote[]
+  quote?: ProviderQuote[]
   cashIn: boolean
   cashOut: boolean
 }

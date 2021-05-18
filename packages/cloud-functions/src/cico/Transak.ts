@@ -1,5 +1,5 @@
 import { DigitalAsset, FETCH_TIMEOUT_DURATION, TRANSAK_DATA } from '../config'
-import { PaymentMethod, StandardizedProviderQuote, UserLocationData } from './fetchProviders'
+import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
 import { fetchWithTimeout } from './utils'
 
 interface TransakQuote {
@@ -103,33 +103,41 @@ const Transak = {
         })
       )
 
-      const quotes: StandardizedProviderQuote[] = []
+      const quotes: ProviderQuote[] = []
 
       if (neftQuote && userLocation.country === 'IN') {
         quotes.push({
           paymentMethod: PaymentMethod.Bank,
-          fee: neftQuote.totalFee,
-          totalAssetsAcquired: neftQuote.cryptoAmount,
+          fiatFee: neftQuote.totalFee,
+          digitalAssetsAmount: neftQuote.cryptoAmount,
+          digitalAsset: neftQuote.cryptoCurrency,
+          fiatCurrency: neftQuote.fiatCurrency,
         })
       } else if (gbpQuote && userLocation.country === 'GB') {
         quotes.push({
           paymentMethod: PaymentMethod.Bank,
-          fee: gbpQuote.totalFee,
-          totalAssetsAcquired: gbpQuote.cryptoAmount,
+          fiatFee: gbpQuote.totalFee,
+          digitalAssetsAmount: gbpQuote.cryptoAmount,
+          digitalAsset: gbpQuote.cryptoCurrency,
+          fiatCurrency: gbpQuote.fiatCurrency,
         })
       } else if (sepaQuote) {
         quotes.push({
           paymentMethod: PaymentMethod.Bank,
-          fee: sepaQuote.totalFee,
-          totalAssetsAcquired: sepaQuote.cryptoAmount,
+          fiatFee: sepaQuote.totalFee,
+          digitalAssetsAmount: sepaQuote.cryptoAmount,
+          digitalAsset: sepaQuote.cryptoCurrency,
+          fiatCurrency: sepaQuote.fiatCurrency,
         })
       }
 
       if (cardQuote) {
         quotes.push({
           paymentMethod: PaymentMethod.Card,
-          fee: cardQuote.totalFee,
-          totalAssetsAcquired: cardQuote.cryptoAmount,
+          fiatFee: cardQuote.totalFee,
+          digitalAssetsAmount: cardQuote.cryptoAmount,
+          digitalAsset: cardQuote.cryptoCurrency,
+          fiatCurrency: cardQuote.fiatCurrency,
         })
       }
 

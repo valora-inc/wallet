@@ -8,7 +8,7 @@ import {
   SIMPLEX_DATA,
 } from '../config'
 import { UserDeviceInfo } from './composeCicoProviderUrl'
-import { UserLocationData } from './fetchProviders'
+import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
 import { fetchWithTimeout, getOrCreateUuid, getUserInitData } from './utils'
 
 export interface SimplexQuote {
@@ -74,7 +74,20 @@ const Simplex = {
       })
 
       const simplexQuote: SimplexQuote = await response.json()
-      return simplexQuote
+      const quotes: ProviderQuote[] = [
+        {
+          quoteId: simplexQuote.quote_id,
+          userId: simplexQuote.user_id,
+          walletId: simplexQuote.wallet_id,
+          paymentMethod: PaymentMethod.Card,
+          fiatFee: simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount,
+          digitalAssetsAmount: simplexQuote.digital_money.amount,
+          digitalAsset: simplexQuote.digital_money.currency.toUpperCase(),
+          fiatCurrency,
+        },
+      ]
+
+      return quotes
     } catch (error) {
       console.error('Error fetching Simplex quote: ', error)
     }
@@ -83,7 +96,7 @@ const Simplex = {
     userAddress: string,
     phoneNumber: string | null,
     phoneNumberVerified: boolean,
-    simplexQuote: SimplexQuote,
+    simplexQuote: ProviderQuote,
     currentIpAddress: string,
     deviceInfo: UserDeviceInfo
   ) => {
@@ -115,11 +128,11 @@ const Simplex = {
         },
         transaction_details: {
           payment_details: {
-            quote_id: simplexQuote.quote_id,
+            quote_id: simplexQuote.quoteId,
             payment_id: paymentId,
             order_id: orderId,
             destination_wallet: {
-              currency: simplexQuote.digital_money.currency,
+              currency: simplexQuote.digitalAsset,
               address: userAddress,
               tag: '',
             },
