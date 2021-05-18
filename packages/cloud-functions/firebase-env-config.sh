@@ -14,6 +14,7 @@ ENV_FILENAME=".env.${ENV_NAME}"
 
 firebase functions:config:set \
 transak.widget_url=$(grep TRANSAK_WIDGET_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
+transak.api_url=$(grep TRANSAK_API_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
 transak.public_key=$(grep TRANSAK_PUBLIC_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
 transak.private_key=$(grep TRANSAK_PRIVATE_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
 ramp.widget_url=$(grep RAMP_WIDGET_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \

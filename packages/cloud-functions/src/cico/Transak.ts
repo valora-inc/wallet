@@ -36,18 +36,6 @@ interface TransakQuote {
 }
 
 const Transak = {
-  // From: https://www.notion.so/On-ramp-Buy-Crypto-976ee96fc0764628ba990b550b1310d3
-  getFeePolicy: () => ({
-    [PaymentMethod.Card]: {
-      percentage: 3.9,
-      fixedFee: 0.3,
-      minimum: 5,
-    },
-    [PaymentMethod.Bank]: {
-      percentage: [0.25, 0.5],
-      minimum: 5,
-    },
-  }),
   fetchQuote: async (
     digitalAsset: DigitalAsset,
     fiatCurrency: string,
@@ -75,8 +63,7 @@ const Transak = {
         /v2
         /currencies
         /price
-        ?partnerApiKey=${TRANSAK_DATA.public_key}
-        &cryptocurrency=${digitalAsset}
+        /cryptocurrency=${digitalAsset}
         &fiatCurrency=${fiatCurrency}
         &fiatAmount=${fiatAmount}
         &isBuyOrSell='BUY'
