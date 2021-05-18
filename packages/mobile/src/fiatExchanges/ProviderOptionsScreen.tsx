@@ -7,7 +7,15 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
@@ -15,6 +23,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
+import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
@@ -22,6 +31,7 @@ import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import {
   fetchProviders,
   fetchUserLocationData,
+  isProviderQuote,
   isSimplexQuote,
   ProviderQuote,
   SimplexQuote,
@@ -29,7 +39,6 @@ import {
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
-import LinkArrow from 'src/icons/LinkArrow'
 import QuestionIcon from 'src/icons/QuestionIcon'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -190,6 +199,13 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
           {cicoProviders[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
             <ListItem key={provider.name} onPress={providerOnPress(provider)}>
               <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
+                <View style={[styles.iconContainer]}>
+                  <Image
+                    source={{ uri: provider.logo }}
+                    style={styles.iconImage}
+                    resizeMode="contain"
+                  />
+                </View>
                 <View style={styles.providerTextContainer}>
                   <Text
                     style={[
@@ -216,7 +232,29 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                     </Text>
                   )}
                 </View>
-                <LinkArrow />
+                <Text style={styles.optionTitle}>
+                  <CurrencyDisplay
+                    amount={{
+                      value: 0,
+                      localAmount: {
+                        value: isSimplexQuote(provider.quote)
+                          ? provider.quote.fiat_money.total_amount -
+                            provider.quote.fiat_money.base_amount
+                          : isProviderQuote(provider.quote)
+                          ? provider.quote.fiatFee
+                          : 0,
+                        currencyCode: localCurrency,
+                        exchangeRate: 1,
+                      },
+                      currencyCode: localCurrency,
+                    }}
+                    hideSymbol={false}
+                    showLocalAmount={true}
+                    hideSign={true}
+                    showExplicitPositiveSign={false}
+                    style={[styles.optionTitle]}
+                  />
+                </Text>
               </View>
             </ListItem>
           ))}
@@ -279,8 +317,11 @@ const styles = StyleSheet.create({
     marginVertical: 24,
   },
   providersContainer: {
+    display: 'flex',
     flex: 1,
-    flexDirection: 'column',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    paddingLeft: 8,
   },
   separator: {
     height: 1,
@@ -302,5 +343,19 @@ const styles = StyleSheet.create({
   },
   optionTitle: {
     ...fontStyles.regular500,
+    flex: 1,
+    paddingRight: 12,
+  },
+  iconContainer: {
+    height: 48,
+    width: 48,
+    borderRadius: 48 / 2,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iconImage: {
+    height: 28,
+    width: 28,
   },
 })

@@ -43,9 +43,6 @@ interface MoonPayIpAddressData {
 }
 
 export interface ProviderQuote {
-  quoteId?: string
-  userId?: string
-  walletId?: string
   paymentMethod: PaymentMethod
   digitalAsset: string
   digitalAssetsAmount: number
@@ -202,11 +199,11 @@ export const fetchSimplexPaymentData = async (
   }
 }
 
-export const isSimplexQuote = (quote: SimplexQuote | ProviderQuote): quote is SimplexQuote =>
-  'wallet_id' in quote
+export const isSimplexQuote = (quote?: SimplexQuote | ProviderQuote): quote is SimplexQuote =>
+  !!quote && 'wallet_id' in quote
 
-export const isProviderQuote = (quote: SimplexQuote | ProviderQuote): quote is SimplexQuote =>
-  'digitalAssetsAmount' in quote
+export const isProviderQuote = (quote?: SimplexQuote | ProviderQuote): quote is ProviderQuote =>
+  !!quote && 'digitalAssetsAmount' in quote
 
 // Leaving unoptimized for now because sorting is most relevant when fees will be visible
 export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) => {
@@ -222,15 +219,27 @@ export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) 
     return 1
   }
 
-  if (provider1.restricted) {
+  if (provider2.restricted) {
     return -1
   }
 
-  if (provider1.quote) {
+  if (!provider1.quote) {
     return 1
   }
 
-  return -1
+  if (!provider2.quote) {
+    return -1
+  }
+
+  if (isSimplexQuote(provider1.quote) && isProviderQuote(provider2.quote)) {
+    return provider1.quote.digital_money.amount - provider2.quote.digitalAssetsAmount
+  }
+
+  if (isProviderQuote(provider1.quote) && isSimplexQuote(provider2.quote)) {
+    return provider1.quote.digitalAssetsAmount - provider2.quote.digital_money.amount
+  }
+
+  return 0
 }
 
 const typeCheckNestedProperties = (obj: any, property: string) =>

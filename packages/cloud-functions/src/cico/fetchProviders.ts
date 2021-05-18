@@ -29,9 +29,6 @@ export enum PaymentMethod {
 }
 
 export interface ProviderQuote {
-  quoteId?: string
-  userId?: string
-  walletId?: string
   paymentMethod: PaymentMethod
   digitalAsset: string
   digitalAssetsAmount: number
