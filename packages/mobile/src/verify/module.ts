@@ -1,20 +1,19 @@
 import { Address } from '@celo/base'
 import { ActionableAttestation } from '@celo/contractkit/lib/wrappers/Attestations'
+import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
+import BigNumber from 'bignumber.js'
 import _ from 'lodash'
+import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
+import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
+import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 
 export const NUM_ATTESTATIONS_REQUIRED = 3
 export const REVEAL_RETRY_DELAY = 10 * 1000 // 10 seconds
 export const BALANCE_CHECK_TIMEOUT = 5 * 1000 // 5 seconds
 export const VERIFICATION_TIMEOUT = 10 * 60 * 1000 // 10 minutes
-
-import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
-import BigNumber from 'bignumber.js'
-import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
-import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 
 export const ATTESTATION_CODE_PLACEHOLDER = 'ATTESTATION_CODE_PLACEHOLDER'
 export const ATTESTATION_ISSUER_PLACEHOLDER = 'ATTESTATION_ISSUER_PLACEHOLDER'
