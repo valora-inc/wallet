@@ -21,6 +21,7 @@ export default CashIn = () => {
     await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
     await expect(element(by.id('Provider/Ramp'))).toBeVisible()
     await expect(element(by.id('Provider/Transak'))).toBeVisible()
+    await sleep(5000)
     const imagePath = await device.takeScreenshot('All Providers US')
     pixelDiff(
       imagePath,
