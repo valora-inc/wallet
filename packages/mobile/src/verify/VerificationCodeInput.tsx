@@ -3,8 +3,7 @@ import {
   extractAttestationCodeFromMessage,
   extractSecurityCodeWithPrefix,
 } from '@celo/utils/lib/attestations'
-import * as React from 'react'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
@@ -25,7 +24,7 @@ interface Props {
   inputValue: string // the raw code inputed by the user
   inputPlaceholder: string
   inputPlaceholderWithClipboardContent: string
-  onInputChange: (value: string, runValidations?: boolean) => void
+  onInputChange: (value: string, processCodeIfValid?: boolean) => void
   style?: StyleProp<ViewStyle>
   shortVerificationCodesEnabled: boolean
 }
@@ -66,27 +65,27 @@ function VerificationCodeInput({
     const isAccepted =
       attestationCodes[index] &&
       isAttestationAccepted(acceptedAttestationCodes, attestationCodes[index])
-    let status
+    let initialStatus
     if (isAccepted) {
-      status = CodeInputStatus.Accepted
+      initialStatus = CodeInputStatus.Accepted
     } else if (initialValue) {
-      status = CodeInputStatus.Received
+      initialStatus = CodeInputStatus.Received
     } else {
-      status = CodeInputStatus.Inputting
+      initialStatus = CodeInputStatus.Inputting
       for (let i = 0; i < index; i++) {
         // If a previous input is empty (and hence inputting), this one should be disabled.
         if (!attestationCodes[i]) {
-          status = CodeInputStatus.Disabled
+          initialStatus = CodeInputStatus.Disabled
         }
       }
     }
-    dispatch(setAttestationInputStatus(index, status))
-    onInputChange(initialValue, status === CodeInputStatus.Received)
+    dispatch(setAttestationInputStatus(index, initialStatus))
+    onInputChange(initialValue, initialStatus === CodeInputStatus.Received)
   }, [])
 
   // Check if this attestation was accepted and mark it as such.
   useEffect(() => {
-    if (attestationCodes[index] && status != CodeInputStatus.Accepted) {
+    if (attestationCodes[index] && status !== CodeInputStatus.Accepted) {
       if (isAttestationAccepted(acceptedAttestationCodes, attestationCodes[index])) {
         dispatch(setAttestationInputStatus(index, CodeInputStatus.Accepted))
       }
