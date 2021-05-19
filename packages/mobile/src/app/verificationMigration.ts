@@ -4,7 +4,7 @@ import { isAccountConsideredVerified } from '@celo/utils/lib/attestations'
 import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import { call, put, select } from 'redux-saga-test-plan/matchers'
 import { verificationMigrationRan } from 'src/app/actions'
-import { ranVerificationMigrationSelector } from 'src/app/selectors'
+import { numberVerifiedSelector, ranVerificationMigrationSelector } from 'src/app/selectors'
 import { e164NumberToSaltSelector, E164NumberToSaltType } from 'src/identity/reducer'
 import Logger from 'src/utils/Logger'
 import { e164NumberSelector, KomenciContext, komenciContextSelector } from 'src/verify/reducer'
@@ -53,6 +53,7 @@ export function* runVerificationMigration() {
     return
   }
   Logger.debug(TAG, 'Starting to run verification migration for 1.13 errors')
+  const numberVerified: boolean = yield select(numberVerifiedSelector)
   const mtwAddress: string | null = yield select(mtwAddressSelector)
   const komenci: KomenciContext = yield select(komenciContextSelector)
   const address = mtwAddress ?? komenci.unverifiedMtwAddress
@@ -61,7 +62,15 @@ export function* runVerificationMigration() {
     `mtwAddress: ${mtwAddress} - unverifiedMtwAddress: ${komenci.unverifiedMtwAddress}`
   )
 
-  const isVerified: boolean = yield call(isAddressVerified, address)
-  Logger.debug(TAG, `address ${address} is verified: ${isVerified}`)
-  yield put(verificationMigrationRan(isVerified ? address : null, isVerified))
+  if (address) {
+    const isVerified: boolean = yield call(isAddressVerified, address)
+    Logger.debug(TAG, `address ${address} is verified: ${isVerified}`)
+    yield put(verificationMigrationRan(isVerified ? address : null, isVerified))
+  } else {
+    Logger.debug(
+      TAG,
+      `address not present, leaving previous verification status: ${numberVerified}`
+    )
+    yield put(verificationMigrationRan(mtwAddress, numberVerified))
+  }
 }

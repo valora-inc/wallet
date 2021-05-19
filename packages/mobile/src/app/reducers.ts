@@ -25,7 +25,7 @@ export interface State {
   walletConnectEnabled: boolean
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
-  ranVerificationMigration: boolean
+  ranVerificationMigrationAt: number | null
 }
 
 const initialState = {
@@ -47,7 +47,7 @@ const initialState = {
   hideVerification: false,
   showRaiseDailyLimitTarget: undefined,
   walletConnectEnabled: false,
-  ranVerificationMigration: false,
+  ranVerificationMigrationAt: null,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -164,7 +164,7 @@ export const appReducer = (
     case Actions.VERIFICATION_MIGRATION_RAN:
       return {
         ...state,
-        ranVerificationMigration: true,
+        ranVerificationMigrationAt: Date.now(),
         numberVerified: action.isVerified,
       }
     default:

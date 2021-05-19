@@ -2,7 +2,7 @@ import { AttestationStat } from '@celo/contractkit/lib/wrappers/Attestations'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga-test-plan/matchers'
 import { verificationMigrationRan } from 'src/app/actions'
-import { ranVerificationMigrationSelector } from 'src/app/selectors'
+import { numberVerifiedSelector, ranVerificationMigrationSelector } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { e164NumberToSaltSelector } from 'src/identity/reducer'
 import { e164NumberSelector, komenciContextSelector } from 'src/verify/reducer'
@@ -28,6 +28,7 @@ describe('verificationMigration', () => {
     await expectSaga(runVerificationMigration)
       .provide([
         [select(ranVerificationMigrationSelector), false],
+        [select(numberVerifiedSelector), true],
         [select(mtwAddressSelector), mockAccount],
         [select(komenciContextSelector), { unverifiedMtwAddress: mockAccount }],
         [select(e164NumberSelector), mockE164Number],
@@ -51,6 +52,7 @@ describe('verificationMigration', () => {
     await expectSaga(runVerificationMigration)
       .provide([
         [select(ranVerificationMigrationSelector), false],
+        [select(numberVerifiedSelector), true],
         [select(mtwAddressSelector), null],
         [select(komenciContextSelector), { unverifiedMtwAddress: mockAccount }],
         [select(e164NumberSelector), mockE164Number],
@@ -74,6 +76,7 @@ describe('verificationMigration', () => {
     await expectSaga(runVerificationMigration)
       .provide([
         [select(ranVerificationMigrationSelector), false],
+        [select(numberVerifiedSelector), true],
         [select(mtwAddressSelector), mockAccount],
         [select(komenciContextSelector), { unverifiedMtwAddress: mockAccount }],
         [select(e164NumberSelector), mockE164Number],
@@ -97,6 +100,7 @@ describe('verificationMigration', () => {
     await expectSaga(runVerificationMigration)
       .provide([
         [select(ranVerificationMigrationSelector), false],
+        [select(numberVerifiedSelector), false],
         [select(mtwAddressSelector), null],
         [select(komenciContextSelector), { unverifiedMtwAddress: mockAccount }],
         [select(e164NumberSelector), mockE164Number],
@@ -104,6 +108,20 @@ describe('verificationMigration', () => {
         [call([kit.contracts, kit.contracts.getAttestations]), mockAttestationsWrapper],
       ])
       .put(verificationMigrationRan(mockAccount, true))
+      .run()
+  })
+
+  it("doesn't change anything if no mtwAddress is present (could be an old install)", async () => {
+    await expectSaga(runVerificationMigration)
+      .provide([
+        [select(ranVerificationMigrationSelector), false],
+        [select(numberVerifiedSelector), true],
+        [select(mtwAddressSelector), null],
+        [select(komenciContextSelector), { unverifiedMtwAddress: null }],
+        [select(e164NumberSelector), mockE164Number],
+        [select(e164NumberToSaltSelector), { [mockE164Number]: mockE164NumberPepper }],
+      ])
+      .put(verificationMigrationRan(null, true))
       .run()
   })
 
@@ -120,6 +138,7 @@ describe('verificationMigration', () => {
     await expectSaga(runVerificationMigration)
       .provide([
         [select(ranVerificationMigrationSelector), true],
+        [select(numberVerifiedSelector), false],
         [select(mtwAddressSelector), mockAccount],
         [select(komenciContextSelector), { unverifiedMtwAddress: mockAccount }],
         [select(e164NumberSelector), mockE164Number],
