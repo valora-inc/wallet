@@ -49,6 +49,7 @@ import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { e164NumberToSaltSelector } from 'src/identity/reducer'
 import { revokeSaga } from 'src/identity/revoke'
 import { getAttestationCodeForSecurityCode } from 'src/identity/securityCode'
+import { startAutoSmsRetrieval } from 'src/identity/smsRetrieval'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { clearPasswordCaches } from 'src/pincode/PasswordCache'
@@ -314,7 +315,9 @@ export function* completeAttestation(
       Logger.error(TAG, '@completeAttestation - Failed to complete tx', error)
       throw error
     } finally {
-      yield inputAttestationCodeLock.release()
+      if (inputAttestationCodeLock.acquired) {
+        yield inputAttestationCodeLock.release()
+      }
     }
   } else {
     // Generate and send the transaction to complete the attestation from the given issuer.
@@ -809,6 +812,8 @@ export function* verifySaga() {
       yield takeEvery(reset.type, resetSaga)
       yield takeEvery(stop.type, stopSaga)
       yield takeEvery(succeed.type, successSaga)
+      // TODO(erdal): move the smsRetrieval file from src/identity to src/verify
+      yield takeEvery(requestAttestations.type, startAutoSmsRetrieval)
       yield takeEvery(requestAttestations.type, requestAttestationsSaga)
       yield takeEvery(revealAttestations.type, revealAttestationsSaga)
       yield takeEvery(completeAttestations.type, completeAttestationsSaga)
