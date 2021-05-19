@@ -179,14 +179,14 @@ class VerificationInputScreen extends React.Component<Props, State> {
   }
 
   onChangeInputCode = (index: number, shortVerificationCodesEnabled: boolean) => {
-    return (value: string, runValidations: boolean = true) => {
+    return (value: string, processCodeIfValid: boolean = true) => {
       // TODO(Rossy) Add test this of typing codes gradually
       this.setState((state) => dotProp.set(state, `codeInputValues.${index}`, value))
       if (value && isCodeRepeated(this.state.codeInputValues, value)) {
         this.setState((state) => dotProp.set(state, `codeInputValues.${index}`, ''))
         this.props.showError(ErrorMessages.REPEAT_ATTESTATION_CODE)
       } else if (
-        runValidations &&
+        processCodeIfValid &&
         ((shortVerificationCodesEnabled && extractSecurityCodeWithPrefix(value)) ||
           extractAttestationCodeFromMessage(value))
       ) {

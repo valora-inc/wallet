@@ -8,8 +8,10 @@ describe('CodeInput', () => {
     ;[
       CodeInputStatus.Disabled,
       CodeInputStatus.Inputting,
+      CodeInputStatus.Received,
       CodeInputStatus.Processing,
       CodeInputStatus.Accepted,
+      CodeInputStatus.Error,
     ].map((status) => {
       const { toJSON } = render(
         <CodeInput
@@ -30,8 +32,10 @@ describe('CodeInput', () => {
     ;[
       CodeInputStatus.Disabled,
       CodeInputStatus.Inputting,
+      CodeInputStatus.Received,
       CodeInputStatus.Processing,
       CodeInputStatus.Accepted,
+      CodeInputStatus.Error,
     ].map((status) => {
       const { toJSON } = render(
         <CodeInput

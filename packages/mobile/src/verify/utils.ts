@@ -27,7 +27,13 @@ export function getPhoneNumberState(
 }
 
 export function isCodeRepeated(codes: string[], value: string) {
-  return codes.reduce((count, item) => count + (item === value ? 1 : 0), 0) >= 2
+  let repetitions = 0
+  for (const code of codes) {
+    if (code === value) {
+      repetitions++
+    }
+  }
+  return repetitions >= 2
 }
 
 /**
