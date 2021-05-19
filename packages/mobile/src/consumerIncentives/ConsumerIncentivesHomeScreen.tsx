@@ -57,23 +57,6 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
 
   const onLearnMore = () => navigate(Screens.WebViewScreen, { uri: CELO_REWARDS_LINK })
 
-  // const scrollPosition = new Animated.Value(0)
-  // const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
-  // const bottomContainerStyle = React.useMemo(
-  //   () => ({
-  //     marginVertical: 16,
-  //     marginHorizontal: 24,
-  //     borderTopWidth: 1,
-  //     borderBottomColor: cond(
-  //       greaterThan(scrollPosition ?? new Animated.Value(0), 0),
-  //       // TODO: fix type
-  //       processColor(colors.gray2) as any,
-  //       processColor('transparent') as any
-  //     ),
-  //   }),
-  //   [scrollPosition]
-  // )
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
