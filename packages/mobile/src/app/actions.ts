@@ -126,7 +126,7 @@ export interface UpdateFeatureFlagsAction {
 
 export interface VerificationMigrationRanAction {
   type: Actions.VERIFICATION_MIGRATION_RAN
-  address: string | null
+  mtwAddress: string | null
   isVerified: boolean
 }
 
@@ -253,8 +253,11 @@ export const activeScreenChanged = (activeScreen: Screens): ActiveScreenChangedA
   activeScreen,
 })
 
-export const verificationMigrationRan = (mtwAddress: string | null, isVerified: boolean) => ({
+export const verificationMigrationRan = (
+  mtwAddress: string | null,
+  isVerified: boolean
+): VerificationMigrationRanAction => ({
   type: Actions.VERIFICATION_MIGRATION_RAN,
-  address: mtwAddress,
+  mtwAddress,
   isVerified,
 })
