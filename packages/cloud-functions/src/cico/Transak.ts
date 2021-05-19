@@ -52,12 +52,16 @@ const Transak = {
         throw Error('Purchase amount not provided')
       }
 
-      const paymentMethods = [
-        'sepa_bank_transfer',
-        'gbp_bank_transfer',
-        'neft_bank_transfer',
-        'credit_debit_card',
-      ]
+      const paymentMethods = ['credit_debit_card']
+
+      if (userLocation.country === 'IN') {
+        paymentMethods.push('neft_bank_transfer')
+      } else if (userLocation.country === 'GB') {
+        paymentMethods.push('gbp_bank_transfer')
+      } else {
+        paymentMethods.push('sepa_bank_transfer')
+      }
+
       const baseUrl = `
         ${TRANSAK_DATA.api_url}
         /v2
@@ -79,9 +83,7 @@ const Transak = {
         )
       }
 
-      const [sepaQuote, gbpQuote, neftQuote, cardQuote]:
-        | TransakQuote[]
-        | null[] = await Promise.all(
+      const [cardQuote, bankQuote]: TransakQuote[] | null[] = await Promise.all(
         responses.map(async (response) => {
           if (response.ok) {
             return await response.json()
@@ -92,32 +94,6 @@ const Transak = {
 
       const quotes: ProviderQuote[] = []
 
-      if (neftQuote && userLocation.country === 'IN') {
-        quotes.push({
-          paymentMethod: PaymentMethod.Bank,
-          fiatFee: neftQuote.totalFee,
-          digitalAssetsAmount: neftQuote.cryptoAmount,
-          digitalAsset: neftQuote.cryptoCurrency,
-          fiatCurrency: neftQuote.fiatCurrency,
-        })
-      } else if (gbpQuote && userLocation.country === 'GB') {
-        quotes.push({
-          paymentMethod: PaymentMethod.Bank,
-          fiatFee: gbpQuote.totalFee,
-          digitalAssetsAmount: gbpQuote.cryptoAmount,
-          digitalAsset: gbpQuote.cryptoCurrency,
-          fiatCurrency: gbpQuote.fiatCurrency,
-        })
-      } else if (sepaQuote) {
-        quotes.push({
-          paymentMethod: PaymentMethod.Bank,
-          fiatFee: sepaQuote.totalFee,
-          digitalAssetsAmount: sepaQuote.cryptoAmount,
-          digitalAsset: sepaQuote.cryptoCurrency,
-          fiatCurrency: sepaQuote.fiatCurrency,
-        })
-      }
-
       if (cardQuote) {
         quotes.push({
           paymentMethod: PaymentMethod.Card,
@@ -125,6 +101,16 @@ const Transak = {
           digitalAssetsAmount: cardQuote.cryptoAmount,
           digitalAsset: cardQuote.cryptoCurrency,
           fiatCurrency: cardQuote.fiatCurrency,
+        })
+      }
+
+      if (bankQuote) {
+        quotes.push({
+          paymentMethod: PaymentMethod.Bank,
+          fiatFee: bankQuote.totalFee,
+          digitalAssetsAmount: bankQuote.cryptoAmount,
+          digitalAsset: bankQuote.cryptoCurrency,
+          fiatCurrency: bankQuote.fiatCurrency,
         })
       }
 

@@ -58,7 +58,14 @@ const Moonpay = {
         throw Error('Purchase amount not provided')
       }
 
-      const paymentMethods = ['sepa_bank_transfer', 'gbp_bank_transfer', 'credit_debit_card']
+      const paymentMethods = ['credit_debit_card']
+
+      if (userLocation.country === 'GB') {
+        paymentMethods.push('gbp_bank_transfer')
+      } else {
+        paymentMethods.push('sepa_bank_transfer')
+      }
+
       const baseUrl = `
         ${MOONPAY_DATA.api_url}
         /v3
@@ -80,7 +87,7 @@ const Moonpay = {
         )
       }
 
-      const [sepaQuote, gbpQuote, cardQuote]: MoonpayQuote[] | null[] = await Promise.all(
+      const [cardQuote, bankQuote]: MoonpayQuote[] | null[] = await Promise.all(
         responses.map(async (response) => {
           if (response.ok) {
             return await response.json()
@@ -91,24 +98,6 @@ const Moonpay = {
 
       const quotes: ProviderQuote[] = []
 
-      if (gbpQuote && userLocation.country === 'GB') {
-        quotes.push({
-          paymentMethod: PaymentMethod.Bank,
-          fiatFee: gbpQuote.feeAmount + gbpQuote.extraFeeAmount + gbpQuote.networkFeeAmount,
-          digitalAssetsAmount: gbpQuote.quoteCurrencyAmount,
-          digitalAsset: gbpQuote.currency.code,
-          fiatCurrency: gbpQuote.baseCurrency.code,
-        })
-      } else if (sepaQuote) {
-        quotes.push({
-          paymentMethod: PaymentMethod.Bank,
-          fiatFee: sepaQuote.feeAmount + sepaQuote.extraFeeAmount + sepaQuote.networkFeeAmount,
-          digitalAssetsAmount: sepaQuote.quoteCurrencyAmount,
-          digitalAsset: sepaQuote.currency.code,
-          fiatCurrency: sepaQuote.baseCurrency.code,
-        })
-      }
-
       if (cardQuote) {
         quotes.push({
           paymentMethod: PaymentMethod.Card,
@@ -116,6 +105,16 @@ const Moonpay = {
           digitalAssetsAmount: cardQuote.quoteCurrencyAmount,
           digitalAsset: cardQuote.currency.code,
           fiatCurrency: cardQuote.baseCurrency.code,
+        })
+      }
+
+      if (bankQuote) {
+        quotes.push({
+          paymentMethod: PaymentMethod.Bank,
+          fiatFee: bankQuote.feeAmount + bankQuote.extraFeeAmount + bankQuote.networkFeeAmount,
+          digitalAssetsAmount: bankQuote.quoteCurrencyAmount,
+          digitalAsset: bankQuote.currency.code,
+          fiatCurrency: bankQuote.baseCurrency.code,
         })
       }
 

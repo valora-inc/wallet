@@ -60,7 +60,7 @@ const Xanpool = {
 
       const response: Response = await Xanpool.post(url, requestBody)
       if (!response.ok) {
-        throw Error(`Fetch failed with status codes ${response.status}`)
+        throw Error(`Fetch failed with status code ${response.status}`)
       }
 
       const bankQuote: XanpoolQuote = await response.json()
