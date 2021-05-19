@@ -293,6 +293,8 @@ const styles = StyleSheet.create({
   providerTextContainer: {
     flexDirection: 'column',
     justifyContent: 'space-between',
+    flex: 1,
+    paddingRight: 8,
   },
   restrictedText: {
     ...fontStyles.small,
