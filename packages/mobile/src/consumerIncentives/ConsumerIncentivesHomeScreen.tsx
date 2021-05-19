@@ -23,8 +23,6 @@ import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { accountAddressSelector } from 'src/web3/selectors'
 
-const TAG = 'ConsumerIncentivesHomeScreen'
-
 type Props = StackScreenProps<StackParamList, Screens.ConsumerIncentivesHomeScreen>
 export default function ConsumerIncentivesHomeScreen(props: Props) {
   const { t } = useTranslation(Namespaces.consumerIncentives)
@@ -59,11 +57,29 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
 
   const onLearnMore = () => navigate(Screens.WebViewScreen, { uri: CELO_REWARDS_LINK })
 
+  // const scrollPosition = new Animated.Value(0)
+  // const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPosition } } }])
+  // const bottomContainerStyle = React.useMemo(
+  //   () => ({
+  //     marginVertical: 16,
+  //     marginHorizontal: 24,
+  //     borderTopWidth: 1,
+  //     borderBottomColor: cond(
+  //       greaterThan(scrollPosition ?? new Animated.Value(0), 0),
+  //       // TODO: fix type
+  //       processColor(colors.gray2) as any,
+  //       processColor('transparent') as any
+  //     ),
+  //   }),
+  //   [scrollPosition]
+  // )
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
+        // onScroll={onScroll}
       >
         <Touchable
           style={[styles.closeButton, { marginTop: insets.top }]}
@@ -159,8 +175,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {
-    marginVertical: 16,
-    marginHorizontal: 24,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    borderTopColor: colors.gray2,
+    borderTopWidth: 1,
   },
   learnMore: {
     ...fontStyles.notificationHeadline,
