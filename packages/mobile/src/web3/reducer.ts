@@ -100,7 +100,7 @@ export const reducer = (
     case AppActions.VERIFICATION_MIGRATION_RAN:
       return {
         ...state,
-        mtwAddress: action.address,
+        mtwAddress: action.mtwAddress,
       }
     default:
       return state
