@@ -1,3 +1,4 @@
+import { Actions as AppActions, VerificationMigrationRanAction } from 'src/app/actions'
 import networkConfig from 'src/geth/networkConfig'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { Actions, ActionTypes, Web3SyncProgress } from 'src/web3/actions'
@@ -32,7 +33,7 @@ const initialState: State = {
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction
+  action: ActionTypes | RehydrateAction | VerificationMigrationRanAction
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
@@ -95,6 +96,11 @@ export const reducer = (
       return {
         ...state,
         syncProgress: action.payload,
+      }
+    case AppActions.VERIFICATION_MIGRATION_RAN:
+      return {
+        ...state,
+        mtwAddress: action.address,
       }
     default:
       return state

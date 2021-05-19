@@ -32,6 +32,8 @@ export enum Actions {
   ACTIVE_SCREEN_CHANGED = 'APP/ACTIVE_SCREEN_CHANGED',
   APP_MOUNTED = 'APP/APP_MOUNTED',
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
+
+  VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
 }
 
 export interface SetAppState {
@@ -122,6 +124,12 @@ export interface UpdateFeatureFlagsAction {
   flags: RemoteFeatureFlags
 }
 
+export interface VerificationMigrationRanAction {
+  type: Actions.VERIFICATION_MIGRATION_RAN
+  address: string | null
+  isVerified: boolean
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -141,6 +149,7 @@ export type ActionTypes =
   | ActiveScreenChangedAction
   | AppMounted
   | AppUnmounted
+  | VerificationMigrationRanAction
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -242,4 +251,10 @@ export const toggleInviteModal = (inviteModalVisible: boolean): InviteModalActio
 export const activeScreenChanged = (activeScreen: Screens): ActiveScreenChangedAction => ({
   type: Actions.ACTIVE_SCREEN_CHANGED,
   activeScreen,
+})
+
+export const verificationMigrationRan = (mtwAddress: string | null, isVerified: boolean) => ({
+  type: Actions.VERIFICATION_MIGRATION_RAN,
+  address: mtwAddress,
+  isVerified,
 })
