@@ -1,6 +1,9 @@
 import { SAMPLE_BACKUP_KEY, EXAMPLE_NAME, DEFAULT_PIN } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
 const childProcess = require('child_process')
+const fs = require('fs')
+const PNG = require('pngjs').PNG
+const pixelmatch = require('pixelmatch')
 
 function exec(command, options = { cwd: process.cwd() }) {
   return new Promise((resolve, reject) => {
@@ -184,4 +187,46 @@ export async function quickOnboarding() {
     // Assert on Wallet Home Screen
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
   } catch {}
+}
+
+export function pixelDiff(imagePath, expectedImagePath, acceptableDiffPercent = 1) {
+  const img1 = PNG.sync.read(fs.readFileSync(imagePath))
+  const img2 = PNG.sync.read(fs.readFileSync(expectedImagePath))
+  const { width, height } = img1
+  const totalPixels = width * height
+  const allowableError = (totalPixels / 100) * acceptableDiffPercent
+  const diff = new PNG({ width, height })
+  let diffPixels = pixelmatch(img1.data, img2.data, diff.data, width, height, { threshold: 0.1 })
+  if (diffPixels > allowableError) {
+    // TODO: Write diff.png to artifacts if failed
+    // fs.writeFileSync('diff.png', PNG.sync.write(diff))
+    throw new Error(
+      `Expected image at ${imagePath} to match to image at ${expectedImagePath}, but it had ${diffPixels} different pixels!`
+    )
+  }
+}
+
+export async function setDemoMode() {
+  if (device.getPlatform() === 'ios') {
+    exec(
+      'xcrun simctl status_bar "iPhone 11" override --time "12:00" --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularMode active --cellularBars 4'
+    )
+  } else {
+    // enter demo mode
+    exec('adb shell settings put global sysui_demo_allowed 1')
+    // display time 12:00
+    exec('adb shell am broadcast -a com.android.systemui.demo -e command clock -e hhmm 1200')
+    // Display full mobile data with 4g type and no wifi
+    exec(
+      'adb shell am broadcast -a com.android.systemui.demo -e command network -e mobile show -e level 4 -e datatype 4g -e wifi false'
+    )
+    // Hide notifications
+    exec(
+      'adb shell am broadcast -a com.android.systemui.demo -e command notifications -e visible false'
+    )
+    // Show full battery but not in charging state
+    exec(
+      'adb shell am broadcast -a com.android.systemui.demo -e command battery -e plugged false -e level 100'
+    )
+  }
 }
