@@ -138,6 +138,9 @@ export function* acceptRequest({
     if (method === SupportedActions.eth_signTransaction) {
       yield call(unlockAccount, account)
       result = (yield call(wallet.signTransaction.bind(wallet), params)) as EncodedTransaction
+    } else if (method == SupportedActions.eth_signTypedData) {
+      yield call(unlockAccount, account)
+      result = yield call(wallet.signTypedData.bind(wallet), account, JSON.parse(params[1]))
     } else {
       throw new Error('Unsupported action')
     }
