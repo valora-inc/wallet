@@ -10,9 +10,9 @@ import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import { setAttestationInputStatus } from 'src/identity/actions'
 import {
   acceptedAttestationCodesSelector,
+  ATTESTATION_CODE_PLACEHOLDER,
   attestationCodesSelector,
   attestationInputStatusSelector,
-  ATTESTATION_CODE_PLACEHOLDER,
 } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
 import Logger from 'src/utils/Logger'
