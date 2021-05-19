@@ -31,7 +31,7 @@ import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import {
   fetchProviders,
   fetchUserLocationData,
-  isProviderQuote,
+  getLowestFeeValueFromQuotes,
   isSimplexQuote,
   ProviderQuote,
   SimplexQuote,
@@ -61,7 +61,7 @@ export interface CicoProvider {
   paymentMethods: PaymentMethod[]
   url?: string
   logo: string
-  quote?: SimplexQuote | ProviderQuote
+  quote?: SimplexQuote | ProviderQuote[]
   cashIn: boolean
   cashOut: boolean
 }
@@ -172,9 +172,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     dispatch(selectProvider(provider.name))
 
     if (provider.name === IntegratedCicoProviders.Simplex) {
-      if (provider.quote && userLocation?.ipAddress && isSimplexQuote(provider.quote)) {
+      const providerQuote = Array.isArray(provider.quote) ? provider.quote[0] : provider.quote
+      if (provider.quote && userLocation?.ipAddress && isSimplexQuote(providerQuote)) {
         navigate(Screens.Simplex, {
-          simplexQuote: provider.quote,
+          simplexQuote: providerQuote,
           userIpAddress: userLocation.ipAddress,
         })
       }
@@ -233,27 +234,26 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                   )}
                 </View>
                 <Text style={styles.optionTitle}>
-                  <CurrencyDisplay
-                    amount={{
-                      value: 0,
-                      localAmount: {
-                        value: isSimplexQuote(provider.quote)
-                          ? provider.quote.fiat_money.total_amount -
-                            provider.quote.fiat_money.base_amount
-                          : isProviderQuote(provider.quote)
-                          ? provider.quote.fiatFee
-                          : 0,
+                  {getLowestFeeValueFromQuotes(provider.quote) ? (
+                    <CurrencyDisplay
+                      amount={{
+                        value: 0,
+                        localAmount: {
+                          value: getLowestFeeValueFromQuotes(provider.quote) || 0,
+                          currencyCode: localCurrency,
+                          exchangeRate: 1,
+                        },
                         currencyCode: localCurrency,
-                        exchangeRate: 1,
-                      },
-                      currencyCode: localCurrency,
-                    }}
-                    hideSymbol={false}
-                    showLocalAmount={true}
-                    hideSign={true}
-                    showExplicitPositiveSign={false}
-                    style={[styles.optionTitle]}
-                  />
+                      }}
+                      hideSymbol={false}
+                      showLocalAmount={true}
+                      hideSign={true}
+                      showExplicitPositiveSign={false}
+                      style={[styles.optionTitle]}
+                    />
+                  ) : (
+                    '-'
+                  )}
                 </Text>
               </View>
             </ListItem>

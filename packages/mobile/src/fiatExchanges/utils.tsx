@@ -205,6 +205,22 @@ export const isSimplexQuote = (quote?: SimplexQuote | ProviderQuote): quote is S
 export const isProviderQuote = (quote?: SimplexQuote | ProviderQuote): quote is ProviderQuote =>
   !!quote && 'digitalAssetsAmount' in quote
 
+export const getLowestFeeValueFromQuotes = (quote?: SimplexQuote | ProviderQuote[]) => {
+  if (!quote) {
+    return
+  }
+
+  if (Array.isArray(quote)) {
+    if (quote.length > 1 && isProviderQuote(quote[0]) && isProviderQuote(quote[1])) {
+      return quote[0].fiatFee < quote[1].fiatFee ? quote[0].fiatFee : quote[1].fiatFee
+    } else if (isProviderQuote(quote[0])) {
+      return quote[0].fiatFee
+    }
+  } else if (isSimplexQuote(quote)) {
+    return quote.fiat_money.total_amount - quote.fiat_money.base_amount
+  }
+}
+
 // Leaving unoptimized for now because sorting is most relevant when fees will be visible
 export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) => {
   if (provider1.unavailable) {
@@ -231,12 +247,14 @@ export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) 
     return -1
   }
 
-  if (isSimplexQuote(provider1.quote) && isProviderQuote(provider2.quote)) {
-    return provider1.quote.digital_money.amount - provider2.quote.digitalAssetsAmount
+  const providerFee1 = getLowestFeeValueFromQuotes(provider1.quote) || 0
+  const providerFee2 = getLowestFeeValueFromQuotes(provider2.quote) || 0
+  if (providerFee1 > providerFee2) {
+    return 1
   }
 
-  if (isProviderQuote(provider1.quote) && isSimplexQuote(provider2.quote)) {
-    return provider1.quote.digitalAssetsAmount - provider2.quote.digital_money.amount
+  if (providerFee1 <= providerFee2) {
+    return -1
   }
 
   return 0
