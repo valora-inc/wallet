@@ -1,5 +1,6 @@
 import { normalizeAddressWith0x } from '@celo/base'
 import { E164Number } from '@celo/utils/lib/io'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import {
   AddressToDisplayNameType,
   AddressToE164NumberType,
@@ -46,6 +47,7 @@ export enum Actions {
   RESEND_ATTESTATIONS = 'IDENTITY/RESEND_ATTESTATIONS',
   SET_LAST_REVEAL_ATTEMPT = 'IDENTITY/SET_LAST_REVEAL_ATTEMPT',
   REPORT_REVEAL_STATUS = 'IDENTITY/REPORT_REVEAL_STATUS',
+  SET_ATTESTATION_INPUT_STATUS = 'IDENTITY/SET_ATTESTATION_INPUT_STATUS',
 }
 
 export interface StartVerificationAction {
@@ -85,6 +87,7 @@ export interface ReceiveAttestationMessageAction {
   type: Actions.RECEIVE_ATTESTATION_MESSAGE
   message: string
   inputType: CodeInputType
+  index?: number
 }
 
 export interface SetCompletedCodesAction {
@@ -219,6 +222,12 @@ export interface ReportRevealStatusAction {
   pepper: string
 }
 
+export interface SetAttestationStatusAction {
+  type: Actions.SET_ATTESTATION_INPUT_STATUS
+  index: number
+  status: CodeInputStatus
+}
+
 export type ActionTypes =
   | StartVerificationAction
   | CancelVerificationAction
@@ -250,6 +259,7 @@ export type ActionTypes =
   | SetLastRevealAttempt
   | ReportRevealStatusAction
   | RevokeVerificationStateAction
+  | SetAttestationStatusAction
 
 export const startVerification = (
   e164Number: string,
@@ -290,11 +300,13 @@ export const revokeVerificationState = (walletAddress: string): RevokeVerificati
 
 export const receiveAttestationMessage = (
   message: string,
-  inputType: CodeInputType
+  inputType: CodeInputType,
+  index?: number
 ): ReceiveAttestationMessageAction => ({
   type: Actions.RECEIVE_ATTESTATION_MESSAGE,
   message,
   inputType,
+  index,
 })
 
 export const setCompletedCodes = (numComplete: number): SetCompletedCodesAction => ({
@@ -482,3 +494,12 @@ export const reportRevealStatus = (
     pepper,
   }
 }
+
+export const setAttestationInputStatus = (
+  index: number,
+  status: CodeInputStatus
+): SetAttestationStatusAction => ({
+  type: Actions.SET_ATTESTATION_INPUT_STATUS,
+  index,
+  status,
+})

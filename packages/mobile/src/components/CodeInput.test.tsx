@@ -6,11 +6,12 @@ import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 describe('CodeInput', () => {
   it('renders correctly for all CodeInputStatus states', () => {
     ;[
-      CodeInputStatus.DISABLED,
-      CodeInputStatus.INPUTTING,
-      CodeInputStatus.PROCESSING,
-      CodeInputStatus.RECEIVED,
-      CodeInputStatus.ACCEPTED,
+      CodeInputStatus.Disabled,
+      CodeInputStatus.Inputting,
+      CodeInputStatus.Received,
+      CodeInputStatus.Processing,
+      CodeInputStatus.Accepted,
+      CodeInputStatus.Error,
     ].map((status) => {
       const { toJSON } = render(
         <CodeInput
@@ -29,11 +30,12 @@ describe('CodeInput', () => {
 
   it('renders correctly for all CodeInputStatus states with short codes', () => {
     ;[
-      CodeInputStatus.DISABLED,
-      CodeInputStatus.INPUTTING,
-      CodeInputStatus.PROCESSING,
-      CodeInputStatus.RECEIVED,
-      CodeInputStatus.ACCEPTED,
+      CodeInputStatus.Disabled,
+      CodeInputStatus.Inputting,
+      CodeInputStatus.Received,
+      CodeInputStatus.Processing,
+      CodeInputStatus.Accepted,
+      CodeInputStatus.Error,
     ].map((status) => {
       const { toJSON } = render(
         <CodeInput
@@ -54,7 +56,7 @@ describe('CodeInput', () => {
     const { getByType } = render(
       <CodeInput
         label="label"
-        status={CodeInputStatus.INPUTTING}
+        status={CodeInputStatus.Inputting}
         inputValue={'test'}
         inputPlaceholder={'placeholder'}
         onInputChange={jest.fn()}
