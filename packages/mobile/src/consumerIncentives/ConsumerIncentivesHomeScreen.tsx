@@ -37,16 +37,14 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
     rewardsAPercent,
     rewardsBPercent,
     rewardsStartDate,
+    rewardsMax,
   } = useSelector((state) => state.app)
   const startDate = new Date(rewardsStartDate).toLocaleDateString(undefined, {
     month: 'long',
     day: 'numeric',
   })
-  const rate =
-    parseInt(accountAddress!, undefined) < parseInt(rewardsABTestThreshold, undefined)
-      ? rewardsAPercent
-      : rewardsBPercent
-  const maxSaving = rate * 10
+  const rate = accountAddress! < rewardsABTestThreshold ? rewardsAPercent : rewardsBPercent
+  const maxSaving = (rate / 100) * rewardsMax
 
   const onPressCTA = () => {
     if (userIsVerified) {
@@ -100,7 +98,9 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
           <Image source={earn3} style={styles.sectionImage} resizeMode="contain" />
           <View style={styles.sectionText}>
             <Text style={fontStyles.regular600}>{t('saveMoreEarnMore.header')}</Text>
-            <Text style={fontStyles.small}>{t('saveMoreEarnMore.text', { maxSaving })}</Text>
+            <Text style={fontStyles.small}>
+              {t('saveMoreEarnMore.text', { maxSaving, rewardsMax })}
+            </Text>
           </View>
         </View>
         <Text style={[styles.description, { marginTop: 24 }]}>{t('conclusion')}</Text>

@@ -12,7 +12,7 @@
   },
   "saveMoreEarnMore": {
     "header": "Save more to earn more",
-    "text": "Earn up to {{maxSaving}} cUSD per year by saving 1000 cUSD."
+    "text": "Earn up to {{maxSaving}} cUSD per year by saving {{rewardsMax}} cUSD."
   },
   "conclusion": "It’s that simple. Start saving for your future today.",
   "addCusd": "Add cUSD",

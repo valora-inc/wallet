@@ -27,6 +27,7 @@ export interface State {
   rewardsAPercent: number
   rewardsBPercent: number
   rewardsStartDate: number
+  rewardsMax: number
 }
 
 const initialState = {
@@ -48,10 +49,11 @@ const initialState = {
   hideVerification: false,
   showRaiseDailyLimitTarget: undefined,
   walletConnectEnabled: false,
-  rewardsABTestThreshold: '0x8000000000000000000000000000000000000000',
+  rewardsABTestThreshold: '0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
   rewardsAPercent: 5,
   rewardsBPercent: 8,
   rewardsStartDate: 1622505600000,
+  rewardsMax: 1000,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -158,6 +160,7 @@ export const appReducer = (
         rewardsAPercent: action.flags.rewardsAPercent,
         rewardsBPercent: action.flags.rewardsBPercent,
         rewardsStartDate: action.flags.rewardsStartDate,
+        rewardsMax: action.flags.rewardsMax,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

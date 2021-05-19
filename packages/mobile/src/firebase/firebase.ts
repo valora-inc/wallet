@@ -237,10 +237,11 @@ export function appRemoteFeatureFlagChannel() {
         inviteRewardWeeklyLimit: flags?.inviteRewardCusd ?? 5,
         walletConnectEnabled: flags?.walletConnectEnabled ?? false,
         rewardsABTestThreshold:
-          flags?.rewardsABTestThreshold ?? '0x8000000000000000000000000000000000000000',
+          flags?.rewardsABTestThreshold ?? '0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
         rewardsAPercent: flags?.rewardsAPercent ?? 5,
         rewardsBPercent: flags?.rewardsBPercent ?? 8,
         rewardsStartDate: flags?.rewardsStartDate ?? 1622505600000,
+        rewardsMax: flags?.rewardsMax ?? 1000,
       })
     }
 
