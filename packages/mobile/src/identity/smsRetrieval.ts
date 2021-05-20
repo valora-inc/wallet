@@ -20,7 +20,7 @@ export function* startAutoSmsRetrieval() {
   })
   yield call(startSmsRetriever)
   try {
-    let messages: string[] = []
+    const messages: string[] = []
     while (true) {
       const { message } = yield take(autoSmsChannel)
       if (!messages.includes(message)) {
