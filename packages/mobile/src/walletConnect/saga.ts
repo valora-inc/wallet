@@ -163,7 +163,7 @@ export function* acceptRequest({
 
     yield call(client.respond.bind(client), {
       topic,
-      response: response,
+      response,
     })
   } catch (e) {
     Logger.debug(TAG + '@acceptRequest', e.message)
