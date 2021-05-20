@@ -194,9 +194,23 @@ export const reducer = (
         ...completeCodeReducer(state, action.numComplete),
       }
     case Actions.INPUT_ATTESTATION_CODE:
+      const codeAlreadyAdded = state.attestationCodes.some((code) => code.code === action.code.code)
+      const attestationCodes = codeAlreadyAdded
+        ? state.attestationCodes
+        : [...state.attestationCodes, action.code]
+      const attestationInputStatus = action.index
+        ? updatedInputStatuses(
+            state,
+            action.index,
+            codeAlreadyAdded || attestationCodes[action.index]?.code !== action.code.code
+              ? CodeInputStatus.Error
+              : CodeInputStatus.Processing
+          )
+        : state.attestationInputStatus
       return {
         ...state,
-        attestationCodes: [...state.attestationCodes, action.code],
+        attestationCodes,
+        attestationInputStatus,
       }
     case Actions.COMPLETE_ATTESTATION_CODE:
       return {
@@ -348,16 +362,20 @@ export const reducer = (
         lastRevealAttempt: action.time,
       }
     case Actions.SET_ATTESTATION_INPUT_STATUS:
-      const newStatuses = [...state.attestationInputStatus]
-      newStatuses[action.index] = action.status
-      Logger.debug('identityReducer@attestationInputStatus', newStatuses)
       return {
         ...state,
-        attestationInputStatus: newStatuses,
+        attestationInputStatus: updatedInputStatuses(state, action.index, action.status),
       }
     default:
       return state
   }
+}
+
+function updatedInputStatuses(state: State, index: number, status: CodeInputStatus) {
+  const newStatuses = [...state.attestationInputStatus]
+  newStatuses[index] = status
+  Logger.debug('identityReducer@attestationInputStatus', newStatuses)
+  return newStatuses
 }
 
 const completeCodeReducer = (state: State, numCompleteAttestations: number) => {
