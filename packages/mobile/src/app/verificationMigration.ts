@@ -59,7 +59,7 @@ export function* runVerificationMigration() {
   const address = mtwAddress ?? komenci.unverifiedMtwAddress
   Logger.debug(
     TAG,
-    `mtwAddress: ${mtwAddress} - unverifiedMtwAddress: ${komenci.unverifiedMtwAddress}`
+    `mtwAddress: ${mtwAddress}, unverifiedMtwAddress: ${komenci.unverifiedMtwAddress}, numberVerified: ${numberVerified}`
   )
 
   if (address) {
@@ -67,10 +67,11 @@ export function* runVerificationMigration() {
     Logger.debug(TAG, `address ${address} is verified: ${isVerified}`)
     yield put(verificationMigrationRan(isVerified ? address : null, isVerified))
   } else {
+    // Likely older install before the MTW was introduced, or unverified account
     Logger.debug(
       TAG,
-      `address not present, leaving previous verification status: ${numberVerified}`
+      `mtw address not present, leaving previous verification status: ${numberVerified}`
     )
-    yield put(verificationMigrationRan(mtwAddress, numberVerified))
+    yield put(verificationMigrationRan(null, numberVerified))
   }
 }
