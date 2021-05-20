@@ -133,25 +133,30 @@ export function* acceptRequest({
     const account: string = yield select(currentAccountSelector)
     const wallet: UnlockableWallet = yield call(getWallet)
 
-    let result: any
+    let response: any
 
-    if (method === SupportedActions.eth_signTransaction) {
-      yield call(unlockAccount, account)
-      result = (yield call(wallet.signTransaction.bind(wallet), params)) as EncodedTransaction
-    } else if (method == SupportedActions.eth_signTypedData) {
-      yield call(unlockAccount, account)
-      result = yield call(wallet.signTypedData.bind(wallet), account, JSON.parse(params[1]))
-    } else {
-      throw new Error('Unsupported action')
+    try {
+      let result: any
+      switch (method) {
+        case SupportedActions.eth_signTransaction:
+          yield call(unlockAccount, account)
+          result = (yield call(wallet.signTransaction.bind(wallet), params)) as EncodedTransaction
+          break
+        case SupportedActions.eth_signTypedData:
+          yield call(unlockAccount, account)
+          result = yield call(wallet.signTypedData.bind(wallet), account, JSON.parse(params[1]))
+          break
+        default:
+          throw new Error('Unsupported action')
+      }
+      response = { id, jsonrpc, result }
+    } catch (e) {
+      Logger.debug(TAG + '@acceptRequest error obtaining result: ', e.message)
+      response = { id, jsonrpc, error: getError(WalletConnectErrors.GENERIC, e.message) }
     }
-
     yield call(client.respond.bind(client), {
       topic,
-      response: {
-        id,
-        jsonrpc,
-        result,
-      },
+      response: response,
     })
   } catch (e) {
     Logger.debug(TAG + '@acceptRequest', e.message)
