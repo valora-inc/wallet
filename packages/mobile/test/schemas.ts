@@ -561,6 +561,7 @@ export const v9Schema = {
     ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     showRaiseDailyLimitTarget: undefined,
     walletConnectEnabled: false,
+    ranVerificationMigrationAt: null,
   },
   walletConnect: {
     pairings: [],
