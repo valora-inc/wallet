@@ -3,13 +3,16 @@ import dotProp from 'dot-prop-immutable'
 import { RehydrateAction } from 'redux-persist'
 import { createSelector } from 'reselect'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import { Actions, ActionTypes } from 'src/identity/actions'
 import { ContactMatches, ImportContactsStatus, VerificationStatus } from 'src/identity/types'
 import { removeKeyFromMapping } from 'src/identity/utils'
-import { AttestationCode } from 'src/identity/verification'
+import { AttestationCode, NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { StoreLatestInRecentsAction } from 'src/send/actions'
+import Logger from 'src/utils/Logger'
+import { isCodeRepeated } from 'src/verify/utils'
 
 export const ATTESTATION_CODE_PLACEHOLDER = 'ATTESTATION_CODE_PLACEHOLDER'
 export const ATTESTATION_ISSUER_PLACEHOLDER = 'ATTESTATION_ISSUER_PLACEHOLDER'
@@ -80,6 +83,8 @@ export interface State {
   // we store acceptedAttestationCodes to tell user if code
   // was already used even after Actions.RESET_VERIFICATION
   acceptedAttestationCodes: AttestationCode[]
+  // Represents the status in the UI. Should be of size 3.
+  attestationInputStatus: CodeInputStatus[]
   // numCompleteAttestations is controlled locally
   numCompleteAttestations: number
   verificationStatus: VerificationStatus
@@ -107,6 +112,11 @@ export interface State {
 const initialState: State = {
   attestationCodes: [],
   acceptedAttestationCodes: [],
+  attestationInputStatus: [
+    CodeInputStatus.Inputting,
+    CodeInputStatus.Disabled,
+    CodeInputStatus.Disabled,
+  ],
   numCompleteAttestations: 0,
   verificationStatus: VerificationStatus.Stopped,
   hasSeenVerificationNux: false,
@@ -135,6 +145,7 @@ export const reducer = (
     case REHYDRATE: {
       // Ignore some persisted properties
       const rehydratedState = getRehydratePayload(action, 'identity')
+
       return {
         ...state,
         ...rehydratedState,
@@ -144,6 +155,7 @@ export const reducer = (
           current: 0,
           total: 0,
         },
+        attestationInputStatus: initialState.attestationInputStatus,
       }
     }
     case Actions.RESET_VERIFICATION:
@@ -182,9 +194,23 @@ export const reducer = (
         ...completeCodeReducer(state, action.numComplete),
       }
     case Actions.INPUT_ATTESTATION_CODE:
+      const codeAlreadyAdded = state.attestationCodes.some((code) => code.code === action.code.code)
+      const attestationCodes = codeAlreadyAdded
+        ? state.attestationCodes
+        : [...state.attestationCodes, action.code]
+      const attestationInputStatus = action.index
+        ? updatedInputStatuses(
+            state,
+            action.index,
+            codeAlreadyAdded || attestationCodes[action.index]?.code !== action.code.code
+              ? CodeInputStatus.Error
+              : CodeInputStatus.Processing
+          )
+        : state.attestationInputStatus
       return {
         ...state,
-        attestationCodes: [...state.attestationCodes, action.code],
+        attestationCodes,
+        attestationInputStatus,
       }
     case Actions.COMPLETE_ATTESTATION_CODE:
       return {
@@ -335,30 +361,55 @@ export const reducer = (
         ...state,
         lastRevealAttempt: action.time,
       }
+    case Actions.SET_ATTESTATION_INPUT_STATUS:
+      return {
+        ...state,
+        attestationInputStatus: updatedInputStatuses(state, action.index, action.status),
+      }
     default:
       return state
   }
 }
 
+function updatedInputStatuses(state: State, index: number, status: CodeInputStatus) {
+  const newStatuses = [...state.attestationInputStatus]
+  newStatuses[index] = status
+  Logger.debug('identityReducer@attestationInputStatus', newStatuses)
+  return newStatuses
+}
+
 const completeCodeReducer = (state: State, numCompleteAttestations: number) => {
-  const { acceptedAttestationCodes } = state
+  const { attestationCodes, acceptedAttestationCodes } = state
   // Ensure numCompleteAttestations many codes are filled
-  const attestationCodes = [...state.attestationCodes]
+  const updatedAttestationCodes: AttestationCode[] = []
   for (let i = 0; i < numCompleteAttestations; i++) {
-    attestationCodes[i] = acceptedAttestationCodes[i] || {
+    updatedAttestationCodes[i] = acceptedAttestationCodes[i] || {
       code: ATTESTATION_CODE_PLACEHOLDER,
       issuer: ATTESTATION_ISSUER_PLACEHOLDER,
     }
   }
+  for (let i = numCompleteAttestations; i < NUM_ATTESTATIONS_REQUIRED; i++) {
+    if (
+      attestationCodes[i] &&
+      !isCodeRepeated(
+        attestationCodes.filter((code) => code).map((code) => code.code),
+        attestationCodes[i].code
+      )
+    ) {
+      updatedAttestationCodes.push(attestationCodes[i])
+    }
+  }
   return {
     numCompleteAttestations,
-    attestationCodes,
+    attestationCodes: updatedAttestationCodes,
   }
 }
 
 export const attestationCodesSelector = (state: RootState) => state.identity.attestationCodes
 export const acceptedAttestationCodesSelector = (state: RootState) =>
   state.identity.acceptedAttestationCodes
+export const attestationInputStatusSelector = (state: RootState) =>
+  state.identity.attestationInputStatus
 export const e164NumberToAddressSelector = (state: RootState) => state.identity.e164NumberToAddress
 export const addressToE164NumberSelector = (state: RootState) => state.identity.addressToE164Number
 export const walletToAccountAddressSelector = (state: RootState) =>
