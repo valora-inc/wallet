@@ -128,6 +128,7 @@ export interface VerificationMigrationRanAction {
   type: Actions.VERIFICATION_MIGRATION_RAN
   mtwAddress: string | null
   isVerified: boolean
+  now: number
 }
 
 export type ActionTypes =
@@ -260,4 +261,5 @@ export const verificationMigrationRan = (
   type: Actions.VERIFICATION_MIGRATION_RAN,
   mtwAddress,
   isVerified,
+  now: Date.now(),
 })

@@ -164,7 +164,7 @@ export const appReducer = (
     case Actions.VERIFICATION_MIGRATION_RAN:
       return {
         ...state,
-        ranVerificationMigrationAt: Date.now(),
+        ranVerificationMigrationAt: action.now,
         numberVerified: action.isVerified,
       }
     default:
