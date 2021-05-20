@@ -25,7 +25,7 @@ export interface State {
   walletConnectEnabled: boolean
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
-  ranVerificationMigrationAt: number | null
+  ranVerificationMigrationAt: number | null | undefined
 }
 
 const initialState = {
