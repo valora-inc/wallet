@@ -20,21 +20,22 @@ interface XanpoolQuote {
 
 const Xanpool = {
   fetchQuote: async (
+    txType: 'buy' | 'sell',
     digitalAsset: DigitalAsset,
     fiatCurrency: string,
-    fiatAmount: number | undefined,
+    amount: number | undefined,
     userLocation: UserLocationData
   ) => {
     try {
-      if (!fiatAmount) {
-        throw Error('Purchase amount not provided')
+      if (!amount) {
+        throw Error('Amount not provided')
       }
 
       const { localCurrency, exchangeRate } = await fetchLocalCurrencyAndExchangeRate(
         userLocation.country,
         fiatCurrency
       )
-      const localFiatAmount = fiatAmount * exchangeRate
+      const localFiatAmount = amount * exchangeRate
 
       if (!XANPOOL_DATA.supported_currencies.includes(localCurrency)) {
         throw Error('Currency not supported')
@@ -46,12 +47,20 @@ const Xanpool = {
         /estimate
       `.replace(/\s+/g, '')
 
-      const requestBody = {
-        type: 'buy',
-        cryptoCurrency: digitalAsset,
-        currency: localCurrency,
-        fiat: localFiatAmount,
-      }
+      const requestBody =
+        txType === 'buy'
+          ? {
+              type: 'buy',
+              cryptoCurrency: digitalAsset,
+              currency: localCurrency,
+              fiat: localFiatAmount,
+            }
+          : {
+              type: 'sell',
+              cryptoCurrency: digitalAsset,
+              currency: localCurrency,
+              crypto: amount,
+            }
 
       const bankQuote = await Xanpool.post(url, requestBody)
       if (!bankQuote) {
@@ -62,7 +71,7 @@ const Xanpool = {
         {
           paymentMethod: PaymentMethod.Bank,
           fiatFee: (bankQuote.serviceCharge * bankQuote.cryptoPrice) / exchangeRate,
-          digitalAssetsAmount: bankQuote.total,
+          returnedAmount: bankQuote.total,
           digitalAsset,
         },
       ]

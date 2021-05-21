@@ -136,12 +136,17 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
     try {
       const providers = await fetchProviders({
-        userLocation,
+        userLocation: {
+          ipAddress: '1.0.0',
+          country: 'PH',
+          state: null,
+        },
         walletAddress: account,
         fiatCurrency: localCurrency,
         digitalAsset: currencyToBuy,
         fiatAmount: route.params.amount.fiat,
         digitalAssetAmount: route.params.amount.crypto,
+        txType: isCashIn ? 'buy' : 'sell',
       })
       return providers
     } catch (error) {

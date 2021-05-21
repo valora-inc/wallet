@@ -21,6 +21,7 @@ export interface ProviderRequestData {
   digitalAsset: DigitalAsset
   fiatAmount?: number
   digitalAssetAmount?: number
+  txType: 'buy' | 'sell'
 }
 
 export enum PaymentMethod {
@@ -31,7 +32,7 @@ export enum PaymentMethod {
 export interface ProviderQuote {
   paymentMethod: PaymentMethod
   digitalAsset: string
-  digitalAssetsAmount: number
+  returnedAmount: number
   fiatFee: number
 }
 
@@ -74,6 +75,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       requestData.userLocation
     ),
     Xanpool.fetchQuote(
+      requestData.txType,
       requestData.digitalAsset,
       requestData.fiatCurrency,
       requestData.fiatAmount,

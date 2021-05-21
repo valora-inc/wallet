@@ -93,7 +93,7 @@ const Transak = {
         quotes.push({
           paymentMethod,
           fiatFee: quote.totalFee / exchangeRate,
-          digitalAssetsAmount: quote.cryptoAmount,
+          returnedAmount: quote.cryptoAmount,
           digitalAsset: quote.cryptoCurrency,
         })
       }

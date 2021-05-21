@@ -22,6 +22,7 @@ interface ProviderRequestData {
   digitalAsset: CurrencyCode
   fiatAmount?: number
   digitalAssetAmount?: number
+  txType: 'buy' | 'sell'
 }
 
 export interface UserLocationData {
@@ -45,7 +46,7 @@ interface MoonPayIpAddressData {
 export interface ProviderQuote {
   paymentMethod: PaymentMethod
   digitalAsset: string
-  digitalAssetsAmount: number
+  returnedAmount: number
   fiatFee: number
 }
 
@@ -202,7 +203,7 @@ export const isSimplexQuote = (quote?: SimplexQuote | ProviderQuote): quote is S
   !!quote && 'wallet_id' in quote
 
 export const isProviderQuote = (quote?: SimplexQuote | ProviderQuote): quote is ProviderQuote =>
-  !!quote && 'digitalAssetsAmount' in quote
+  !!quote && 'returnedAmount' in quote
 
 export const getLowestFeeValueFromQuotes = (quote?: SimplexQuote | ProviderQuote[]) => {
   if (!quote) {

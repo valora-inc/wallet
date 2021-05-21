@@ -107,7 +107,7 @@ const Moonpay = {
         quotes.push({
           paymentMethod,
           fiatFee: (feeAmount + extraFeeAmount + networkFeeAmount) / exchangeRate,
-          digitalAssetsAmount: quote.quoteCurrencyAmount,
+          returnedAmount: quote.quoteCurrencyAmount,
           digitalAsset: quote.currency.code,
         })
       }
