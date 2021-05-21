@@ -209,24 +209,26 @@ export function pixelDiff(imagePath, expectedImagePath, acceptableDiffPercent = 
 export async function setDemoMode() {
   if (device.getPlatform() === 'ios') {
     exec(
-      'xcrun simctl status_bar "iPhone 11" override --time "12:00" --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularMode active --cellularBars 4'
+      `xcrun simctl status_bar "${device.id}" override --time "12:00" --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularMode active --cellularBars 4`
     )
   } else {
     // enter demo mode
-    exec('adb shell settings put global sysui_demo_allowed 1')
+    exec(`adb -s ${device.id} shell settings put global sysui_demo_allowed 1`)
     // display time 12:00
-    exec('adb shell am broadcast -a com.android.systemui.demo -e command clock -e hhmm 1200')
+    exec(
+      `adb -s ${device.id} shell am broadcast -a com.android.systemui.demo -e command clock -e hhmm 1200`
+    )
     // Display full mobile data with 4g type and no wifi
     exec(
-      'adb shell am broadcast -a com.android.systemui.demo -e command network -e mobile show -e level 4 -e datatype 4g -e wifi false'
+      `adb -s ${device.id} shell am broadcast -a com.android.systemui.demo -e command network -e mobile show -e level 4 -e datatype 4g -e wifi false`
     )
     // Hide notifications
     exec(
-      'adb shell am broadcast -a com.android.systemui.demo -e command notifications -e visible false'
+      `adb -s ${device.id} shell am broadcast -a com.android.systemui.demo -e command notifications -e visible false`
     )
     // Show full battery but not in charging state
     exec(
-      'adb shell am broadcast -a com.android.systemui.demo -e command battery -e plugged false -e level 100'
+      `adb -s ${device.id} shell am broadcast -a com.android.systemui.demo -e command battery -e plugged false -e level 100`
     )
   }
 }
