@@ -77,7 +77,6 @@ interface QRProps {
   size?: number
   color?: string
   backgroundColor?: string
-  svgRef: React.MutableRefObject<SVG>
   ecl?: QRCodeErrorCorrectionLevel
   onError?: any
 }
@@ -90,7 +89,6 @@ function QRCode({
   size = 100,
   color = 'black',
   backgroundColor = 'white',
-  svgRef,
   ecl = 'M',
   onError,
 }: QRProps) {
@@ -102,7 +100,7 @@ function QRCode({
   ])
 
   return (
-    <Svg ref={svgRef} width={size} height={size}>
+    <Svg width={size} height={size}>
       <Rect width={size} height={size} fill={backgroundColor} />
       {path && cellSize && <Path d={path} stroke={color} strokeWidth={cellSize} />}
     </Svg>
@@ -114,11 +112,10 @@ interface SharedProps {
   svgRef: React.MutableRefObject<SVG>
 }
 
-/* TODO:
+/* TODO (anton):
  * Edit QRProps (remove svgRef)
- * Change Logo to correct icon
+ * Change Logo to correct icon (the rings)
  * Put icon and acct number on same line
- * Get address for acct number
  *
  * call and assign to variable without printing/returning variable?
  */
@@ -126,7 +123,7 @@ export function QRShared({ value, svgRef }: SharedProps) {
   return (
     <Svg ref={svgRef}>
       <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} />
-      <QRCode value={value} size={240} svgRef={svgRef} />
+      <QRCode value={value} size={240} />
       <Logo height={32} />
       <AccountNumberCard address={''} />
     </Svg>
