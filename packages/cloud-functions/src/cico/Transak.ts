@@ -114,12 +114,12 @@ const Transak = {
         throw Error('Received no response')
       }
 
-      const body = await response.json()
+      const data = await response.json()
       if (!response.ok) {
-        throw Error(`Response body: ${JSON.stringify(body)}`)
+        throw Error(`Response body: ${JSON.stringify(data)}`)
       }
 
-      return body.response
+      return data.response
     } catch (error) {
       console.error(`Transak get request failed.\nURL: ${path}\n`, error)
       return null

@@ -128,12 +128,12 @@ const Moonpay = {
         throw Error('Received no response')
       }
 
-      const body = await response.json()
+      const data = await response.json()
       if (!response.ok) {
-        throw Error(`Response body: ${JSON.stringify(body)}`)
+        throw Error(`Response body: ${JSON.stringify(data)}`)
       }
 
-      return body
+      return data
     } catch (error) {
       console.error(`Moonpay get request failed.\nURL: ${path}\n`, error)
       return null
