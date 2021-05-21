@@ -176,7 +176,7 @@ const Simplex = {
 
       const data = await response.json()
       if (!response.ok) {
-        throw Error(`Response body ${data}`)
+        throw Error(`Response body ${JSON.stringify(data)}`)
       }
 
       return data
