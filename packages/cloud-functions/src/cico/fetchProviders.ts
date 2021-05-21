@@ -32,7 +32,6 @@ export interface ProviderQuote {
   paymentMethod: PaymentMethod
   digitalAsset: string
   digitalAssetsAmount: number
-  fiatCurrency: string
   fiatFee: number
 }
 
@@ -66,29 +65,25 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       requestData.digitalAsset,
       requestData.fiatCurrency,
       requestData.fiatAmount || requestData.digitalAssetAmount,
-      !!requestData.fiatAmount,
-      SIMPLEX_RESTRICTED
+      !!requestData.fiatAmount
     ),
     Moonpay.fetchQuote(
       requestData.digitalAsset,
       requestData.fiatCurrency,
       requestData.fiatAmount,
-      requestData.userLocation,
-      MOONPAY_RESTRICTED
+      requestData.userLocation
     ),
     Xanpool.fetchQuote(
       requestData.digitalAsset,
       requestData.fiatCurrency,
       requestData.fiatAmount,
-      requestData.userLocation,
-      XANPOOL_RESTRICTED
+      requestData.userLocation
     ),
     Transak.fetchQuote(
       requestData.digitalAsset,
       requestData.fiatCurrency,
       requestData.fiatAmount,
-      requestData.userLocation,
-      TRANSAK_RESTRICTED
+      requestData.userLocation
     ),
   ])
 
@@ -106,7 +101,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Moonpay,
-      restricted: MOONPAY_RESTRICTED,
+      restricted: MOONPAY_RESTRICTED || !moonpayQuote,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Moonpay, requestData),
       logo:
@@ -127,7 +122,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Xanpool,
-      restricted: XANPOOL_RESTRICTED,
+      restricted: XANPOOL_RESTRICTED || !xanpoolQuote,
       paymentMethods: [PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Xanpool, requestData),
       logo:
@@ -138,7 +133,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Transak,
-      restricted: TRANSAK_RESTRICTED,
+      restricted: TRANSAK_RESTRICTED || !transakQuote,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Transak, requestData),
       logo:

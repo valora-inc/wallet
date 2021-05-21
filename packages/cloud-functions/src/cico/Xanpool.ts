@@ -1,7 +1,6 @@
 import { DigitalAsset, FETCH_TIMEOUT_DURATION, XANPOOL_DATA } from '../config'
 import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
-import { countryToCurrency } from './providerAvailability'
-import { fetchExchangeRate, fetchWithTimeout } from './utils'
+import { fetchLocalCurrencyAndExchangeRate, fetchWithTimeout } from './utils'
 
 interface XanpoolQuote {
   crypto: number
@@ -24,26 +23,22 @@ const Xanpool = {
     digitalAsset: DigitalAsset,
     fiatCurrency: string,
     fiatAmount: number | undefined,
-    userLocation: UserLocationData,
-    unsupported: boolean
+    userLocation: UserLocationData
   ) => {
     try {
-      if (unsupported || !userLocation.country) {
-        throw Error('Location not supported')
-      }
-
       if (!fiatAmount) {
         throw Error('Purchase amount not provided')
       }
 
-      const localFiatCurrency = countryToCurrency[userLocation.country]
-      if (!XANPOOL_DATA.supported_currencies.includes(localFiatCurrency)) {
+      const { localCurrency, exchangeRate } = await fetchLocalCurrencyAndExchangeRate(
+        userLocation.country,
+        fiatCurrency
+      )
+      const localFiatAmount = fiatAmount * exchangeRate
+
+      if (!XANPOOL_DATA.supported_currencies.includes(localCurrency)) {
         throw Error('Currency not supported')
       }
-
-      const exchangeRate = await fetchExchangeRate(fiatCurrency, localFiatCurrency)
-      const localFiatCurrencyAmount = fiatAmount * exchangeRate
-      console.log(`Exchange rate of ${fiatCurrency} to ${localFiatCurrency} is ${exchangeRate}`)
 
       const url = `
         ${XANPOOL_DATA.api_url}
@@ -54,27 +49,27 @@ const Xanpool = {
       const requestBody = {
         type: 'buy',
         cryptoCurrency: digitalAsset,
-        currency: localFiatCurrency,
-        fiat: localFiatCurrencyAmount,
+        currency: localCurrency,
+        fiat: localFiatAmount,
       }
 
-      const response: Response = await Xanpool.post(url, requestBody)
-      if (!response.ok) {
-        throw Error(`Fetch failed with status code ${response.status}`)
+      const bankQuote = await Xanpool.post(url, requestBody)
+      if (!bankQuote) {
+        throw Error('Could not fetch any quotes')
       }
-
-      const bankQuote: XanpoolQuote = await response.json()
-      const fee = (bankQuote.serviceCharge * bankQuote.cryptoPrice) / exchangeRate
 
       const quotes: ProviderQuote[] = [
         {
           paymentMethod: PaymentMethod.Bank,
-          fiatFee: fee,
+          fiatFee: (bankQuote.serviceCharge * bankQuote.cryptoPrice) / exchangeRate,
           digitalAssetsAmount: bankQuote.total,
           digitalAsset,
-          fiatCurrency,
         },
       ]
+
+      if (!quotes.length) {
+        return
+      }
 
       return quotes
     } catch (error) {
@@ -95,13 +90,20 @@ const Xanpool = {
         FETCH_TIMEOUT_DURATION
       )
 
-      if (!response || !response.ok) {
-        throw Error(`Xanpool post request failed with status ${response?.status}`)
+      if (!response) {
+        throw Error('Received no response')
       }
 
-      return response
+      const data = await response.json()
+      if (!response.ok) {
+        throw Error(`Response body: ${JSON.stringify(data)}`)
+      }
+
+      const quote: XanpoolQuote = data
+      return quote
     } catch (error) {
-      throw error
+      console.error(`Xanpool post request failed.\nURL: ${path}\n`, error)
+      return null
     }
   },
 }

@@ -46,7 +46,6 @@ export interface ProviderQuote {
   paymentMethod: PaymentMethod
   digitalAsset: string
   digitalAssetsAmount: number
-  fiatCurrency: string
   fiatFee: number
 }
 

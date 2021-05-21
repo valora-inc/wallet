@@ -33,4 +33,4 @@ xanpool.widget_url=$(grep XANPOOL_WIDGET_URL "$ENV_FILENAME" | cut -d '=' -f 2-)
 xanpool.api_url=$(grep XANPOOL_API_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
 xanpool.public_key=$(grep XANPOOL_PUBLIC_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
 xanpool.private_key=$(grep XANPOOL_PRIVATE_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
-blockchainApiUrl=$(grep BLOCKCHAIN_API_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
+blockchain_api.url=$(grep BLOCKCHAIN_API_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \

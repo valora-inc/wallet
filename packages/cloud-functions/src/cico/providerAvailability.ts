@@ -892,7 +892,13 @@ export const countryToCurrency: { [country: string]: string } = {
   MZ: 'MZN',
 }
 
-export const bankingSystemToCountry = {
+interface BankingSystemToCountry {
+  [bankingSystem: string]: {
+    [countryCode: string]: boolean
+  }
+}
+
+export const bankingSystemToCountry: BankingSystemToCountry = {
   sepa: {
     FI: true,
     AD: true,
@@ -940,5 +946,8 @@ export const bankingSystemToCountry = {
   },
   gbp: {
     GB: true,
+  },
+  neft: {
+    IN: true,
   },
 }

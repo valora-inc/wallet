@@ -44,14 +44,9 @@ const Simplex = {
     currencyToBuy: DigitalAsset,
     fiatCurrency: FiatCurrency,
     amount: number | undefined,
-    amountIsFiat: boolean,
-    unsupported?: boolean
+    amountIsFiat: boolean
   ) => {
     try {
-      if (unsupported) {
-        throw Error('Location not supported')
-      }
-
       if (!ipAddress) {
         throw Error('No IP address provided')
       }
@@ -61,18 +56,20 @@ const Simplex = {
       }
 
       const userUuid = await getOrCreateUuid(userAddress)
-      const response = await Simplex.post('/wallet/merchant/v2/quote', {
-        end_user_id: userUuid,
-        digital_currency: currencyToBuy,
-        fiat_currency: fiatCurrency,
-        requested_currency: amountIsFiat ? fiatCurrency : currencyToBuy,
-        requested_amount: amount,
-        wallet_id: 'valorapp',
-        client_ip: ipAddress,
-        payment_methods: ['credit_card'],
-      })
+      const simplexQuote: SimplexQuote = await Simplex.post(
+        `${SIMPLEX_DATA.api_url}/wallet/merchant/v2/quote`,
+        {
+          end_user_id: userUuid,
+          digital_currency: currencyToBuy,
+          fiat_currency: fiatCurrency,
+          requested_currency: amountIsFiat ? fiatCurrency : currencyToBuy,
+          requested_amount: amount,
+          wallet_id: 'valorapp',
+          client_ip: ipAddress,
+          payment_methods: ['credit_card'],
+        }
+      )
 
-      const simplexQuote: SimplexQuote = await response.json()
       return simplexQuote
     } catch (error) {
       console.error('Error fetching Simplex quote: ', error)
@@ -94,40 +91,42 @@ const Simplex = {
       const accountCreationData = await getUserInitData(currentIpAddress, id, userAgent)
       const userUuid = await getOrCreateUuid(userAddress)
 
-      const response = await Simplex.post('/wallet/merchant/v2/payments/partner/data', {
-        account_details: {
-          app_provider_id: 'valorapp',
-          app_end_user_id: userUuid,
-          app_version_id: appVersion,
-          app_install_date: accountCreationData.timestamp,
-          email: '',
-          phone: phoneNumber || '',
-          verified_details: [
-            // 'email', Currently no way to verify email in Valora
-            phoneNumberVerified && 'phone',
-          ].filter((_) => !!_),
-          signup_login: {
-            ip: accountCreationData.ipAddress,
-            user_agent: accountCreationData.userAgent,
-            timestamp: accountCreationData.timestamp,
-          },
-        },
-        transaction_details: {
-          payment_details: {
-            quote_id: simplexQuote.quote_id,
-            payment_id: paymentId,
-            order_id: orderId,
-            destination_wallet: {
-              currency: simplexQuote.digital_money.currency,
-              address: userAddress,
-              tag: '',
+      const simplexPaymentRequestResponse: SimplexPaymentRequestResponse = await Simplex.post(
+        `${SIMPLEX_DATA.api_url}/wallet/merchant/v2/payments/partner/data`,
+        {
+          account_details: {
+            app_provider_id: 'valorapp',
+            app_end_user_id: userUuid,
+            app_version_id: appVersion,
+            app_install_date: accountCreationData.timestamp,
+            email: '',
+            phone: phoneNumber || '',
+            verified_details: [
+              // 'email', Currently no way to verify email in Valora
+              phoneNumberVerified && 'phone',
+            ].filter((_) => !!_),
+            signup_login: {
+              ip: accountCreationData.ipAddress,
+              user_agent: accountCreationData.userAgent,
+              timestamp: accountCreationData.timestamp,
             },
-            original_http_ref_url: 'https://valoraapp.com',
           },
-        },
-      })
+          transaction_details: {
+            payment_details: {
+              quote_id: simplexQuote.quote_id,
+              payment_id: paymentId,
+              order_id: orderId,
+              destination_wallet: {
+                currency: simplexQuote.digital_money.currency,
+                address: userAddress,
+                tag: '',
+              },
+              original_http_ref_url: 'https://valoraapp.com',
+            },
+          },
+        }
+      )
 
-      const simplexPaymentRequestResponse: SimplexPaymentRequestResponse = await response.json()
       if (simplexPaymentRequestResponse.is_kyc_update_required === undefined) {
         throw Error('Simplex payment request failed')
       }
@@ -159,7 +158,7 @@ const Simplex = {
   post: async (path: string, body: any) => {
     try {
       const response = await fetchWithTimeout(
-        `${SIMPLEX_DATA.api_url}${path}`,
+        path,
         {
           method: 'POST',
           headers: {
@@ -171,12 +170,18 @@ const Simplex = {
         FETCH_TIMEOUT_DURATION
       )
 
-      if (!response || !response.ok) {
-        throw Error(`Simplex post request failed with status ${response?.status}`)
+      if (!response) {
+        throw Error('No response')
       }
 
-      return response
+      const data = await response.json()
+      if (!response.ok) {
+        throw Error(`Response body ${data}`)
+      }
+
+      return data
     } catch (error) {
+      console.error(`Simplex post request failed.\nURL: ${path}\n`, error)
       throw error
     }
   },

@@ -1,6 +1,7 @@
 import { DigitalAsset, FETCH_TIMEOUT_DURATION, TRANSAK_DATA } from '../config'
 import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
-import { fetchWithTimeout } from './utils'
+import { bankingSystemToCountry } from './providerAvailability'
+import { fetchLocalCurrencyAndExchangeRate, fetchWithTimeout } from './utils'
 
 interface TransakQuote {
   quoteId: string
@@ -40,26 +41,28 @@ const Transak = {
     digitalAsset: DigitalAsset,
     fiatCurrency: string,
     fiatAmount: number | undefined,
-    userLocation: UserLocationData,
-    unsupported: boolean
+    userLocation: UserLocationData
   ) => {
     try {
-      if (unsupported) {
-        throw Error('Location not supported')
-      }
-
       if (!fiatAmount) {
         throw Error('Purchase amount not provided')
       }
 
-      const paymentMethods = ['credit_debit_card']
+      const { localCurrency, exchangeRate } = await fetchLocalCurrencyAndExchangeRate(
+        userLocation.country,
+        fiatCurrency
+      )
+      const localFiatAmount = fiatAmount * exchangeRate
 
-      if (userLocation.country === 'IN') {
-        paymentMethods.push('neft_bank_transfer')
-      } else if (userLocation.country === 'GB') {
-        paymentMethods.push('gbp_bank_transfer')
-      } else {
-        paymentMethods.push('sepa_bank_transfer')
+      const paymentMethods = ['credit_debit_card']
+      if (userLocation.country) {
+        if (bankingSystemToCountry.neft[userLocation.country]) {
+          paymentMethods.push('neft_bank_transfer')
+        } else if (bankingSystemToCountry.gbp[userLocation.country]) {
+          paymentMethods.push('gbp_bank_transfer')
+        } else if (bankingSystemToCountry.sepa[userLocation.country]) {
+          paymentMethods.push('sepa_bank_transfer')
+        }
       }
 
       const baseUrl = `
@@ -67,51 +70,36 @@ const Transak = {
         /v2
         /currencies
         /price
-        /cryptocurrency=${digitalAsset}
-        &fiatCurrency=${fiatCurrency}
-        &fiatAmount=${fiatAmount}
-        &isBuyOrSell='BUY'
+        ?partnerApiKey=${TRANSAK_DATA.public_key}
+        &cryptoCurrency=${digitalAsset}
+        &fiatCurrency=${localCurrency}
+        &fiatAmount=${localFiatAmount}
+        &isBuyOrSell=BUY
       `.replace(/\s+/g, '')
 
-      const responses: Response[] = await Promise.all(
+      const rawQuotes: Array<TransakQuote | null> = await Promise.all(
         paymentMethods.map((method) => Transak.get(`${baseUrl}&paymentMethodId=${method}`))
       )
 
-      if (responses.every((response) => !response.ok)) {
-        throw Error(
-          `Fetchs failed with status codes ${responses[0].status} & ${responses[1].status}`
-        )
-      }
-
-      const [cardQuote, bankQuote]: TransakQuote[] | null[] = await Promise.all(
-        responses.map(async (response) => {
-          if (response.ok) {
-            return await response.json()
-          }
-          return null
-        })
-      )
-
       const quotes: ProviderQuote[] = []
+      for (const quote of rawQuotes) {
+        if (!quote) {
+          continue
+        }
 
-      if (cardQuote) {
+        const paymentMethod =
+          quote.paymentMethod === 'credit_debit_card' ? PaymentMethod.Card : PaymentMethod.Bank
+
         quotes.push({
-          paymentMethod: PaymentMethod.Card,
-          fiatFee: cardQuote.totalFee,
-          digitalAssetsAmount: cardQuote.cryptoAmount,
-          digitalAsset: cardQuote.cryptoCurrency,
-          fiatCurrency: cardQuote.fiatCurrency,
+          paymentMethod,
+          fiatFee: quote.totalFee / exchangeRate,
+          digitalAssetsAmount: quote.cryptoAmount,
+          digitalAsset: quote.cryptoCurrency,
         })
       }
 
-      if (bankQuote) {
-        quotes.push({
-          paymentMethod: PaymentMethod.Bank,
-          fiatFee: bankQuote.totalFee,
-          digitalAssetsAmount: bankQuote.cryptoAmount,
-          digitalAsset: bankQuote.cryptoCurrency,
-          fiatCurrency: bankQuote.fiatCurrency,
-        })
+      if (!quotes.length) {
+        return
       }
 
       return quotes
@@ -122,14 +110,19 @@ const Transak = {
   get: async (path: string) => {
     try {
       const response = await fetchWithTimeout(path, null, FETCH_TIMEOUT_DURATION)
-
-      if (!response || !response.ok) {
-        throw Error(`Transak get request failed with status ${response?.status}`)
+      if (!response) {
+        throw Error('Received no response')
       }
 
-      return response
+      const body = await response.json()
+      if (!response.ok) {
+        throw Error(`Response body: ${JSON.stringify(body)}`)
+      }
+
+      return body.response
     } catch (error) {
-      throw error
+      console.error(`Transak get request failed.\nURL: ${path}\n`, error)
+      return null
     }
   },
 }

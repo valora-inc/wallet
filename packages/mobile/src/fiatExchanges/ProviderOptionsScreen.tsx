@@ -194,67 +194,72 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     </View>
   ) : (
     <ScrollView style={styles.container}>
-      <SafeAreaView style={styles.content}>
+      <SafeAreaView>
         <Text style={styles.pleaseSelectProvider}>{t('pleaseSelectProvider')}</Text>
         <View style={styles.providersContainer}>
           {cicoProviders[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
             <ListItem key={provider.name} onPress={providerOnPress(provider)}>
               <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
-                <View style={[styles.iconContainer]}>
-                  <Image
-                    source={{ uri: provider.logo }}
-                    style={styles.iconImage}
-                    resizeMode="contain"
-                  />
-                </View>
-                <View style={styles.providerTextContainer}>
-                  <Text
-                    style={[
-                      styles.optionTitle,
-                      provider.unavailable ? { color: colors.gray4 } : null,
-                    ]}
-                  >
-                    {provider.name}
-                  </Text>
-                  {provider.unavailable && (
-                    <Text style={styles.restrictedText}>{t('providerUnavailable')}</Text>
-                  )}
-                  {provider.restricted && !provider.unavailable && (
-                    <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
-                  )}
-                  {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) && (
-                    <Text style={styles.restrictedText}>
-                      {t('unsupportedPaymentMethod', {
-                        paymentMethod:
-                          paymentMethod === PaymentMethod.Bank
-                            ? 'bank account'
-                            : 'debit or credit card',
-                      })}
-                    </Text>
-                  )}
-                </View>
-                <Text style={styles.optionTitle}>
-                  {getLowestFeeValueFromQuotes(provider.quote) ? (
-                    <CurrencyDisplay
-                      amount={{
-                        value: 0,
-                        localAmount: {
-                          value: getLowestFeeValueFromQuotes(provider.quote) || 0,
-                          currencyCode: localCurrency,
-                          exchangeRate: 1,
-                        },
-                        currencyCode: localCurrency,
-                      }}
-                      hideSymbol={false}
-                      showLocalAmount={true}
-                      hideSign={true}
-                      showExplicitPositiveSign={false}
-                      style={[styles.optionTitle]}
+                <View style={styles.providerTextAndIconContainer}>
+                  <View style={[styles.iconContainer]}>
+                    <Image
+                      source={{ uri: provider.logo }}
+                      style={styles.iconImage}
+                      resizeMode="contain"
                     />
-                  ) : (
-                    '-'
-                  )}
-                </Text>
+                  </View>
+                  <View style={styles.providerTextContainer}>
+                    <Text
+                      style={[styles.text, provider.unavailable ? { color: colors.gray4 } : null]}
+                    >
+                      {provider.name}
+                    </Text>
+                    <View style={styles.providerSubtextContainer}>
+                      {provider.unavailable && (
+                        <Text style={styles.restrictedText}>{t('providerUnavailable')}</Text>
+                      )}
+                      {provider.restricted && !provider.unavailable && (
+                        <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
+                      )}
+                      {!provider.unavailable &&
+                        !provider.restricted &&
+                        !provider.paymentMethods.includes(paymentMethod) && (
+                          <Text style={styles.restrictedText}>
+                            {t('unsupportedPaymentMethod', {
+                              paymentMethod:
+                                paymentMethod === PaymentMethod.Bank
+                                  ? 'bank account'
+                                  : 'debit or credit card',
+                            })}
+                          </Text>
+                        )}
+                    </View>
+                  </View>
+                </View>
+                <View style={styles.feeContainer}>
+                  <Text style={styles.text}>
+                    {getLowestFeeValueFromQuotes(provider.quote) ? (
+                      <CurrencyDisplay
+                        amount={{
+                          value: 0,
+                          localAmount: {
+                            value: getLowestFeeValueFromQuotes(provider.quote) || 0,
+                            currencyCode: localCurrency,
+                            exchangeRate: 1,
+                          },
+                          currencyCode: localCurrency,
+                        }}
+                        hideSymbol={false}
+                        showLocalAmount={true}
+                        hideSign={true}
+                        showExplicitPositiveSign={false}
+                        style={[styles.text]}
+                      />
+                    ) : (
+                      '-'
+                    )}
+                  </Text>
+                </View>
               </View>
             </ListItem>
           ))}
@@ -292,7 +297,7 @@ export default ProviderOptionsScreen
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: variables.contentPadding,
+    paddingBottom: variables.contentPadding,
   },
   activityIndicatorContainer: {
     paddingVertical: variables.contentPadding,
@@ -300,51 +305,44 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
   },
-  content: {
-    flex: 1,
-    flexDirection: 'column',
-    marginRight: variables.contentPadding,
-  },
   pleaseSelectProvider: {
     ...fontStyles.regular,
-    marginBottom: variables.contentPadding,
-    paddingLeft: variables.contentPadding,
-  },
-  logo: {
-    height: 30,
-  },
-  provider: {
-    marginVertical: 24,
+    padding: variables.contentPadding,
   },
   providersContainer: {
-    display: 'flex',
     flex: 1,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    paddingLeft: 8,
-  },
-  separator: {
-    height: 1,
-    width: '100%',
-    backgroundColor: colors.gray2,
   },
   providerListItem: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  providerTextAndIconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
   },
   providerTextContainer: {
+    paddingLeft: 8,
+    flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between',
+  },
+  providerSubtextContainer: {
+    flexDirection: 'row',
+  },
+  feeContainer: {
+    paddingRight: 8,
+    minWidth: 32,
+    textAlign: 'center',
   },
   restrictedText: {
     ...fontStyles.small,
     color: colors.gray4,
-  },
-  optionTitle: {
-    ...fontStyles.regular500,
     flex: 1,
-    paddingRight: 12,
+    flexWrap: 'wrap',
+  },
+  text: {
+    ...fontStyles.regular500,
   },
   iconContainer: {
     height: 48,
@@ -353,6 +351,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: colors.gray1,
   },
   iconImage: {
     height: 28,

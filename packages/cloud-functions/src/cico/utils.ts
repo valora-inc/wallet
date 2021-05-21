@@ -3,6 +3,7 @@ import * as admin from 'firebase-admin'
 import { v4 as uuidv4 } from 'uuid'
 import { bigQueryDataset, bigQueryProjectId, getBigQueryInstance } from '../bigQuery'
 import { config } from '../config'
+import { countryToCurrency } from './providerAvailability'
 
 const fetch = require('node-fetch')
 
@@ -116,7 +117,7 @@ export const fetchWithTimeout = async (
   }
 }
 
-export const fetchExchangeRate = async (
+const fetchExchangeRate = async (
   sourceCurrencyCode: string,
   localCurrencyCode: string
 ): Promise<number> => {
@@ -124,27 +125,53 @@ export const fetchExchangeRate = async (
     return 1
   }
 
-  const response = await fetch(config.blockchainApiUrl, {
+  const response = await fetch(config.blockchain_api.url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      query: `
-        query ExchangeRate($sourceCurrencyCode: String!, $currencyCode: String!) {
-          currencyConversion(sourceCurrencyCode: $sourceCurrencyCode, currencyCode: $currencyCode) {
-            rate
-          }
+      operationName: null,
+      variables: {},
+      query: `{
+        currencyConversion(sourceCurrencyCode: "${sourceCurrencyCode}", currencyCode: "${localCurrencyCode}") {
+          rate
         }
-      `,
-      variables: { sourceCurrencyCode, currencyCode: localCurrencyCode },
+      }`,
     }),
   })
 
-  const exchangeRate = response.data.currencyConversion?.rate
-  if (typeof exchangeRate !== 'number' && typeof exchangeRate !== 'string') {
-    throw new Error(`Invalid response data ${response.data}`)
+  const exchangeRate = await response.json()
+  const rate = exchangeRate?.data?.currencyConversion?.rate
+  if (typeof rate !== 'number' && typeof rate !== 'string') {
+    throw Error(`Invalid response data ${response}`)
   }
 
-  return new BigNumber(exchangeRate).toNumber()
+  return new BigNumber(rate).toNumber()
+}
+
+export const fetchLocalCurrencyAndExchangeRate = async (
+  country: string | null,
+  baseCurrency: string,
+  localCurrency?: string
+) => {
+  const result = { localCurrency: baseCurrency, exchangeRate: 1 }
+
+  if (!country) {
+    return result
+  }
+
+  const localFiatCurrency = localCurrency || countryToCurrency[country]
+  if (localFiatCurrency === baseCurrency) {
+    return result
+  }
+
+  try {
+    result.exchangeRate = await fetchExchangeRate(baseCurrency, localFiatCurrency)
+    result.localCurrency = localFiatCurrency
+  } catch (error) {
+    console.error('Error fetching exchange rate: ', error)
+  }
+
+  return result
 }

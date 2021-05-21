@@ -8,6 +8,7 @@ export const MOONPAY_DATA = {
   public_key: config.moonpay.public_key,
   private_key: config.moonpay.private_key,
   webhook_key: config.moonpay.webhook_key,
+  supported_currencies: ['USD', 'EUR', 'GBP'],
 }
 
 export const RAMP_DATA = {

@@ -1,6 +1,7 @@
 import { DigitalAsset, FETCH_TIMEOUT_DURATION, MOONPAY_DATA } from '../config'
 import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
-import { fetchWithTimeout } from './utils'
+import { bankingSystemToCountry } from './providerAvailability'
+import { fetchLocalCurrencyAndExchangeRate, fetchWithTimeout } from './utils'
 
 interface MoonpayQuote {
   baseCurrency: {
@@ -46,76 +47,73 @@ const Moonpay = {
     digitalAsset: DigitalAsset,
     fiatCurrency: string,
     fiatAmount: number | undefined,
-    userLocation: UserLocationData,
-    unsupported: boolean
+    userLocation: UserLocationData
   ) => {
     try {
-      if (unsupported) {
-        throw Error('Location not supported')
-      }
-
       if (!fiatAmount) {
         throw Error('Purchase amount not provided')
       }
 
-      const paymentMethods = ['credit_debit_card']
+      let { localCurrency, exchangeRate } = await fetchLocalCurrencyAndExchangeRate(
+        userLocation.country,
+        fiatCurrency
+      )
 
-      if (userLocation.country === 'GB') {
-        paymentMethods.push('gbp_bank_transfer')
-      } else {
-        paymentMethods.push('sepa_bank_transfer')
+      // If the local currency is not supported by Moonpay, then get estimate in USD
+      if (!MOONPAY_DATA.supported_currencies.includes(localCurrency)) {
+        ;({ localCurrency, exchangeRate } = await fetchLocalCurrencyAndExchangeRate(
+          userLocation.country,
+          fiatCurrency,
+          'USD'
+        ))
+      }
+
+      const localFiatAmount = fiatAmount * exchangeRate
+
+      const paymentMethods = ['credit_debit_card']
+      if (userLocation.country) {
+        if (bankingSystemToCountry.gbp[userLocation.country]) {
+          paymentMethods.push('gbp_bank_transfer')
+        } else if (bankingSystemToCountry.sepa[userLocation.country]) {
+          paymentMethods.push('sepa_bank_transfer')
+        }
       }
 
       const baseUrl = `
         ${MOONPAY_DATA.api_url}
         /v3
         /currencies
-        /${digitalAsset}
+        /${digitalAsset.toLowerCase()}
         /buy_quote
         /?apiKey=${MOONPAY_DATA.public_key}
-        &baseCurrencyCode=${fiatCurrency}
-        {fiat&baseCurrencyAmount=${fiatAmount}
+        &baseCurrencyCode=${localCurrency.toLowerCase()}
+        &baseCurrencyAmount=${localFiatAmount.toFixed(2)}
       `.replace(/\s+/g, '')
 
-      const responses: Response[] = await Promise.all(
+      const rawQuotes: Array<MoonpayQuote | null> = await Promise.all(
         paymentMethods.map((method) => Moonpay.get(`${baseUrl}&paymentMethod=${method}`))
       )
 
-      if (responses.every((response) => !response.ok)) {
-        throw Error(
-          `Fetchs failed with status codes ${responses[0].status} & ${responses[1].status}`
-        )
-      }
-
-      const [cardQuote, bankQuote]: MoonpayQuote[] | null[] = await Promise.all(
-        responses.map(async (response) => {
-          if (response.ok) {
-            return await response.json()
-          }
-          return null
-        })
-      )
-
       const quotes: ProviderQuote[] = []
+      for (const quote of rawQuotes) {
+        if (!quote) {
+          continue
+        }
 
-      if (cardQuote) {
+        const paymentMethod =
+          quote.paymentMethod === 'credit_debit_card' ? PaymentMethod.Card : PaymentMethod.Bank
+
+        const { feeAmount, extraFeeAmount, networkFeeAmount } = quote
         quotes.push({
-          paymentMethod: PaymentMethod.Card,
-          fiatFee: cardQuote.feeAmount + cardQuote.extraFeeAmount + cardQuote.networkFeeAmount,
-          digitalAssetsAmount: cardQuote.quoteCurrencyAmount,
-          digitalAsset: cardQuote.currency.code,
-          fiatCurrency: cardQuote.baseCurrency.code,
+          paymentMethod,
+          fiatFee: (feeAmount + extraFeeAmount + networkFeeAmount) / exchangeRate,
+          digitalAssetsAmount: quote.quoteCurrencyAmount,
+          digitalAsset: quote.currency.code,
         })
       }
 
-      if (bankQuote) {
-        quotes.push({
-          paymentMethod: PaymentMethod.Bank,
-          fiatFee: bankQuote.feeAmount + bankQuote.extraFeeAmount + bankQuote.networkFeeAmount,
-          digitalAssetsAmount: bankQuote.quoteCurrencyAmount,
-          digitalAsset: bankQuote.currency.code,
-          fiatCurrency: bankQuote.baseCurrency.code,
-        })
+      if (!quotes.length) {
+        return
       }
 
       return quotes
@@ -126,14 +124,19 @@ const Moonpay = {
   get: async (path: string) => {
     try {
       const response = await fetchWithTimeout(path, null, FETCH_TIMEOUT_DURATION)
-
-      if (!response || !response.ok) {
-        throw Error(`Moonpay get request failed with status ${response?.status}`)
+      if (!response) {
+        throw Error('Received no response')
       }
 
-      return response
+      const body = await response.json()
+      if (!response.ok) {
+        throw Error(`Response body: ${JSON.stringify(body)}`)
+      }
+
+      return body
     } catch (error) {
-      throw error
+      console.error(`Moonpay get request failed.\nURL: ${path}\n`, error)
+      return null
     }
   },
 }
