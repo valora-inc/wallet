@@ -1,6 +1,11 @@
 import { dismissBanners } from '../utils/banners'
+import { pixelDiff, setDemoMode, sleep, webViewBack } from '../utils/utils'
 
 export default Support = () => {
+  beforeAll(async () => {
+    await setDemoMode()
+  })
+
   beforeEach(async () => {
     await device.reloadReactNative()
     await dismissBanners()
@@ -16,8 +21,16 @@ export default Support = () => {
         .toBeVisible()
         .withTimeout(5000)
       await expect(element(by.id('SwitchLogs'))).toHaveToggleValue(true)
-      // TODO(Tom): Find a better selector
-      // await expect(element(by.id('Legal'))).toHaveText('By submitting, I agree to share the above information and any attached application log data with Valora Support.');
+      await expect(element(by.id('Legal'))).toHaveText(
+        'By submitting, I agree to share the above information and any attached application log data with Valora Support.'
+      )
+      const imagePath = await device.takeScreenshot('Support - ios')
+      pixelDiff(
+        imagePath,
+        device.getPlatform() === 'ios'
+          ? './e2e/assets/Support - ios.png'
+          : './e2e/assets/Support - android.png'
+      )
     })
   }
 
@@ -37,8 +50,8 @@ export default Support = () => {
     await waitFor(element(by.id('MessageEntry')))
       .toBeVisible()
       .withTimeout(5000)
-    await element(by.id('MessageEntry')).replaceText('This is a test - 🧪')
-    await expect(element(by.id('MessageEntry'))).toHaveText('This is a test - 🧪')
+    await element(by.id('MessageEntry')).replaceText('This is a test from cLabs')
+    await expect(element(by.id('MessageEntry'))).toHaveText('This is a test from cLabs')
     // TODO: Send Request after briefing support if appropriate
   })
 }
