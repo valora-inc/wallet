@@ -135,7 +135,7 @@ export function* acceptRequest({
 
     let result: any
     // Default error
-    let error: ErrorType = WalletConnectErrors.GENERIC
+    let error: ErrorType | undefined
     try {
       // If no `result` is set here, error is presumed
       switch (method) {
@@ -152,14 +152,13 @@ export function* acceptRequest({
       }
     } catch (e) {
       Logger.debug(TAG + '@acceptRequest error obtaining result: ', e.message)
+      error = WalletConnectErrors.GENERIC
     }
     const partialResponse = { id, jsonrpc }
-    let response
-
-    response =
+    const response =
       result !== undefined
         ? { ...partialResponse, result }
-        : { ...partialResponse, error: getError(error) }
+        : { ...partialResponse, error: getError(error!) }
 
     yield call(client.respond.bind(client), {
       topic,
