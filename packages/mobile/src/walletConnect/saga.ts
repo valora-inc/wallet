@@ -134,10 +134,9 @@ export function* acceptRequest({
     const wallet: UnlockableWallet = yield call(getWallet)
 
     let result: any
-    // Default error
     let error: ErrorType | undefined
     try {
-      // If no `result` is set here, error is presumed
+      // Set `result` or `error` accordingly
       switch (method) {
         case SupportedActions.eth_signTransaction:
           yield call(unlockAccount, account)
