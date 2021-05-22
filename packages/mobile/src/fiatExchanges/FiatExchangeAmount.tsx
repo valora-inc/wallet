@@ -167,7 +167,7 @@ function FiatExchangeAmount({ route }: Props) {
   function onPressContinue() {
     if (!route.params.isCashIn && currency === CURRENCY_ENUM.GOLD) {
       Logger.debug(
-        'Got to FiatExchangeAmountScreen with CELO as the cash-out asset - should never happen'
+        'Error: Got to FiatExchangeAmountScreen with CELO as the cash-out asset - should never happen'
       )
       return
     }
@@ -195,7 +195,7 @@ function FiatExchangeAmount({ route }: Props) {
       const localBalance =
         cUSDBalance && localCurrencyExchangeRate
           ? new BigNumber(cUSDBalance).times(localCurrencyExchangeRate)
-          : new BigNumber(0)
+          : new BigNumber(cUSDBalance || 0)
       dispatch(
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
           balance: localBalance.toFixed(2),
