@@ -146,11 +146,16 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function goToProvidersScreen() {
+    const selectedCrypto = route.params.currency
+    const { isCashIn } = route.params
     navigate(Screens.ProviderOptionsScreen, {
-      isCashIn: route.params.isCashIn,
-      selectedCrypto: route.params.currency,
+      isCashIn,
+      selectedCrypto,
       amount: {
-        crypto: parsedInputAmount.toNumber(),
+        crypto:
+          selectedCrypto === CURRENCY_ENUM.GOLD
+            ? parsedInputAmount.toNumber()
+            : dollarAmount.toNumber(),
         // Rounding up to avoid decimal errors from providers. Won't be
         // necessary once we support inputting an amount in both crypto and fiat
         fiat: Math.round(localCurrencyAmount?.toNumber() || 0),
@@ -160,8 +165,10 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function onPressContinue() {
-    if (currency === CURRENCY_ENUM.GOLD) {
-      Logger.debug('Got to FiatExchangeAmountScreen with CELO as asset - should never happen')
+    if (!route.params.isCashIn && currency === CURRENCY_ENUM.GOLD) {
+      Logger.debug(
+        'Got to FiatExchangeAmountScreen with CELO as the cash-out asset - should never happen'
+      )
       return
     }
 
