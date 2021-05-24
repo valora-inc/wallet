@@ -5,6 +5,7 @@ import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import _ from 'lodash'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
@@ -43,6 +44,9 @@ export const reportRevealStatus = createAction<{
   e164Number: string
   pepper: string
 }>('VERIFY/REPORT_REVEAL_STATUS')
+export const setAttestationInputStatus = createAction<{ index: number; status: CodeInputStatus }>(
+  'VERIFY/SET_ATTESTATION_INPUT_STATUS'
+)
 export const completeAttestations = createAction('VERIFY/COMPLETE_ATTESTATIONS')
 export const fail = createAction<string>('VERIFY/FAIL')
 export const succeed = createAction('VERIFY/SUCCEED')
@@ -50,9 +54,11 @@ export const reset = createAction<{ komenci: boolean }>('VERIFY/RESET')
 export const revoke = createAction('VERIFY/REVOKE')
 export const cancel = createAction('VERIFY/CANCEL')
 export const resendMessages = createAction('VERIFY/RESEND_MESSAGES')
-export const receiveAttestationCode = createAction<{ message: string; inputType: CodeInputType }>(
-  'VERIFY/RECEIVE_ATTESTATION_CODE'
-)
+export const receiveAttestationCode = createAction<{
+  message: string
+  inputType: CodeInputType
+  index?: number
+}>('VERIFY/RECEIVE_ATTESTATION_CODE')
 export const inputAttestationCode = createAction<AttestationCode>('VERIFY/INPUT_ATTESTATION_CODE')
 export const completeAttestationCode = createAction<AttestationCode>(
   'VERIFY/COMPLETE_ATTESTATION_CODE'

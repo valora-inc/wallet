@@ -109,8 +109,8 @@ import {
   startKomenciSession,
   stop,
   succeed,
-  VERIFICATION_TIMEOUT,
   verificationStatusSelector,
+  VERIFICATION_TIMEOUT,
 } from 'src/verify/module'
 import { requestAttestationsSaga } from 'src/verify/requestAttestations'
 import {
@@ -664,7 +664,7 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
   const shouldUseKomenci = yield select(shouldUseKomenciSelector)
 
   if (!action.payload.message) {
-    Logger.error(TAG + '@attestationCodeReceiver', 'Received empty code. Ignoring.')
+    Logger.error(TAG + '@receiveAttestationCodeSaga', 'Received empty code. Ignoring.')
     ValoraAnalytics.track(VerificationEvents.verification_code_received, {
       context: 'Empty code',
       feeless: shouldUseKomenci,
@@ -672,11 +672,23 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
     return
   }
   Logger.debug(
-    TAG + '@attestationCodeReceiver',
+    TAG + '@receiveAttestationCodeSaga',
     'Received attestation:',
     action.payload.message,
-    action.payload.inputType
+    action.payload.inputType,
+    action.index
   )
+
+  const attestationInputStatus = yield select(attestationInputStatusSelector)
+  const index = action.index ?? indexReadyForInput(attestationInputStatus)
+  if (index >= NUM_ATTESTATIONS_REQUIRED) {
+    Logger.error(
+      TAG + '@attestationCodeReceiver',
+      'All attestation code positions are full. Ignoring.'
+    )
+    return
+  }
+  yield put(setAttestationInputStatus(index, CodeInputStatus.Received))
 
   const actionableAttestations: ActionableAttestation[] = yield select(
     actionableAttestationsSelector
@@ -708,7 +720,7 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
         signer
       )
     } else {
-      Logger.error(TAG + '@attestationCodeReceiver', 'No security code in received message')
+      throw new Error(`No security code in received message: ${message}`)
     }
 
     const attestationCode = message && extractAttestationCodeFromMessage(message)
@@ -716,13 +728,13 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
     if (!attestationCode) {
       throw new Error('No code extracted from message')
     }
-    Logger.debug(TAG + '@attestationCodeReceiver', 'Received attestation code:', attestationCode)
+    Logger.debug(TAG + '@receiveAttestationCodeSaga', 'Received attestation code:', attestationCode)
 
     const existingCodes: AttestationCode[] = yield select(completedAttestationCodesSelector)
     const existingCode = existingCodes.find((c) => c.code === attestationCode)
 
     if (existingCode) {
-      Logger.warn(TAG + '@attestationCodeReceiver', 'Code already exists in store, skipping.')
+      Logger.warn(TAG + '@receiveAttestationCodeSaga', 'Code already exists in store, skipping.')
       ValoraAnalytics.track(VerificationEvents.verification_code_received, {
         context: 'Code already exists',
         feeless: shouldUseKomenci,
@@ -732,6 +744,7 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
         CodeInputType.DEEP_LINK === action.payload.inputType
       ) {
         yield put(showError(ErrorMessages.REPEAT_ATTESTATION_CODE))
+        yield put(setAttestationInputStatus(index, CodeInputStatus.Error))
       }
       return
     }
@@ -746,10 +759,10 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
       allIssuers
     )
     if (!issuer) {
-      throw new Error('No issuer found for attestion code')
+      throw new Error(`No issuer found for attestion code ${message}`)
     }
 
-    Logger.debug(TAG + '@attestationCodeReceiver', `Received code for issuer ${issuer}`)
+    Logger.debug(TAG + '@receiveAttestationCodeSaga', `Received code for issuer ${issuer}`)
 
     ValoraAnalytics.track(VerificationEvents.verification_code_validate_start, {
       issuer,
@@ -768,20 +781,28 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
     })
 
     if (!isValidRequest) {
-      throw new Error('Code is not valid')
+      throw new Error(`Attestation code (${message}) is not valid (issuer: ${issuer})`)
     }
 
     Logger.debug(
-      TAG + '@attestationCodeReceiver',
-      `Validated attestation code (${message}) successfully for issuer ${issuer}`
+      TAG + '@receiveAttestationCodeSaga',
+      `Attestation code (${message}) is valid, starting processing (issuer: ${issuer})`
     )
 
     yield put(
-      inputAttestationCode({ code: attestationCode, shortCode: securityCodeWithPrefix, issuer })
+      inputAttestationCode(
+        { code: attestationCode, shortCode: securityCodeWithPrefix, issuer },
+        index
+      )
     )
   } catch (error) {
-    Logger.error(TAG + '@attestationCodeReceiver', 'Error processing attestation code', error)
+    Logger.error(
+      TAG + '@attestationCodeReceiver',
+      `Error processing attestation code ${message} in index ${index}`,
+      error
+    )
     yield put(showError(ErrorMessages.INVALID_ATTESTATION_CODE))
+    yield put(setAttestationInputStatus(index, CodeInputStatus.Error))
   }
 }
 
