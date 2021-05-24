@@ -73,9 +73,9 @@ export const mockProviders: CicoProvider[] = [
     paymentMethods: [PaymentMethod.Card],
     logo:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    quote: MOCK_SIMPLEX_QUOTE,
     cashIn: true,
     cashOut: false,
+    quote: MOCK_SIMPLEX_QUOTE,
   },
   {
     name: 'Moonpay',
@@ -86,6 +86,10 @@ export const mockProviders: CicoProvider[] = [
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
     cashIn: true,
     cashOut: false,
+    quote: [
+      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 95, fiatFee: 5 },
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 90, fiatFee: 10 },
+    ],
   },
   {
     name: 'Ramp',
@@ -106,6 +110,9 @@ export const mockProviders: CicoProvider[] = [
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
     cashIn: true,
     cashOut: true,
+    quote: [
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 97, fiatFee: 3 },
+    ],
   },
   {
     name: 'Transak',
@@ -117,6 +124,10 @@ export const mockProviders: CicoProvider[] = [
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
     cashIn: true,
     cashOut: false,
+    quote: [
+      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 94, fiatFee: 6 },
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 88, fiatFee: 12 },
+    ],
   },
 ]
 
@@ -206,7 +217,7 @@ describe('ProviderOptionsScreen', () => {
 
     const elements = tree.queryAllByType(Text)
     // The last few text elements belong to the modal + subtext for the last provider
-    const lastProviderName = elements[elements.length - 6].props.children
+    const lastProviderName = elements[elements.length - 7].props.children
     expect(lastProviderName).toEqual('Transak')
   })
 
