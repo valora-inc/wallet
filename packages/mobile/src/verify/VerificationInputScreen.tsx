@@ -16,7 +16,7 @@ import { WithTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { connect, useDispatch } from 'react-redux'
-import { hideAlert, showMessage } from 'src/alert/actions'
+import { hideAlert, showError, showMessage } from 'src/alert/actions'
 import { errorSelector } from 'src/alert/reducer'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
@@ -40,8 +40,10 @@ import {
   OnChainVerificationStatus,
   receiveAttestationCode,
   resendMessages,
+  setAttestationInputStatus,
   VerificationState,
 } from 'src/verify/module'
+import { isCodeRepeated } from 'src/verify/utils'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
 import VerificationInputHelpDialog from 'src/verify/VerificationInputHelpDialog'
 
@@ -63,8 +65,10 @@ interface DispatchProps {
   cancelVerification: typeof cancelVerification
   receiveAttestationCode: typeof receiveAttestationCode
   resendMessages: typeof resendMessages
+  setAttestationInputStatus: typeof setAttestationInputStatus
   hideAlert: typeof hideAlert
   showMessage: typeof showMessage
+  showError: typeof showError
 }
 
 type Props = StateProps & DispatchProps & WithTranslation & ScreenProps
@@ -72,7 +76,6 @@ type Props = StateProps & DispatchProps & WithTranslation & ScreenProps
 interface State {
   timer: number
   codeInputValues: string[]
-  codeSubmittingStatuses: boolean[]
   isKeyboardVisible: boolean
 }
 
@@ -80,8 +83,10 @@ const mapDispatchToProps = {
   cancelVerification,
   receiveAttestationCode,
   resendMessages,
+  setAttestationInputStatus,
   hideAlert,
   showMessage,
+  showError,
 }
 
 const mapStateToProps = (state: RootState): StateProps => {
@@ -138,7 +143,6 @@ class VerificationInputScreen extends React.Component<Props, State> {
   state: State = {
     timer: 60,
     codeInputValues: ['', '', ''],
-    codeSubmittingStatuses: [false, false, false],
     isKeyboardVisible: false,
   }
 
@@ -156,9 +160,6 @@ class VerificationInputScreen extends React.Component<Props, State> {
     if (this.isVerificationComplete(prevProps)) {
       return this.finishVerification()
     }
-    if (this.isCodeRejected() && this.isAnyCodeSubmitting()) {
-      this.setState({ codeSubmittingStatuses: [false, false, false] })
-    }
   }
 
   componentWillUnmount() {
@@ -172,17 +173,6 @@ class VerificationInputScreen extends React.Component<Props, State> {
     )
   }
 
-  isCodeRejected = () => {
-    return (
-      this.props.underlyingError === ErrorMessages.INVALID_ATTESTATION_CODE ||
-      this.props.underlyingError === ErrorMessages.REPEAT_ATTESTATION_CODE
-    )
-  }
-
-  isAnyCodeSubmitting = () => {
-    return this.state.codeSubmittingStatuses.filter((c) => c).length > 0
-  }
-
   finishVerification = () => {
     Logger.debug(TAG + '@finishVerification', 'Verification finished, navigating to next screen.')
     this.props.hideAlert()
@@ -190,15 +180,23 @@ class VerificationInputScreen extends React.Component<Props, State> {
   }
 
   onChangeInputCode = (index: number, shortVerificationCodesEnabled: boolean) => {
-    return (value: string) => {
+    return (value: string, processCodeIfValid: boolean = true) => {
       // TODO(Rossy) Add test this of typing codes gradually
       this.setState((state) => dotProp.set(state, `codeInputValues.${index}`, value))
-      if (
-        (shortVerificationCodesEnabled && extractSecurityCodeWithPrefix(value)) ||
-        extractAttestationCodeFromMessage(value)
+      if (value && isCodeRepeated(this.state.codeInputValues, value)) {
+        this.setState((state) => dotProp.set(state, `codeInputValues.${index}`, ''))
+        this.props.showError(ErrorMessages.REPEAT_ATTESTATION_CODE)
+      } else if (
+        processCodeIfValid &&
+        ((shortVerificationCodesEnabled && extractSecurityCodeWithPrefix(value)) ||
+          extractAttestationCodeFromMessage(value))
       ) {
         this.setState((state) => dotProp.set(state, `codeSubmittingStatuses.${index}`, true))
-        this.props.receiveAttestationCode({ message: value, inputType: CodeInputType.MANUAL })
+        this.props.receiveAttestationCode({
+          message: value,
+          inputType: CodeInputType.MANUAL,
+          index,
+        })
       }
     }
   }
@@ -222,6 +220,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
 
   onPressResend = () => {
     const { lastRevealAttempt } = this.props
+
     const isRevealAllowed =
       !lastRevealAttempt ||
       timeDeltaInSeconds(Date.now(), lastRevealAttempt) > ATTESTATION_REVEAL_TIMEOUT_SECONDS
@@ -238,7 +237,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
   }
 
   render() {
-    const { codeInputValues, codeSubmittingStatuses, isKeyboardVisible, timer } = this.state
+    const { codeInputValues, isKeyboardVisible, timer } = this.state
     const {
       t,
       attestationCodes,
@@ -290,10 +289,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
                               ? '12345678'
                               : t('verificationInput.codePlaceholderWithCodeInClipboard')
                           }
-                          isCodeSubmitting={codeSubmittingStatuses[i]}
                           onInputChange={this.onChangeInputCode(i, shortVerificationCodesEnabled)}
-                          attestationCodes={attestationCodes}
-                          numCompleteAttestations={verificationStatus.completed}
                           style={styles.codeInput}
                           shortVerificationCodesEnabled={shortVerificationCodesEnabled}
                         />

@@ -119,6 +119,7 @@ export const reducer = (
     case REHYDRATE: {
       // Ignore some persisted properties
       const rehydratedState = getRehydratePayload(action, 'identity')
+
       return {
         ...state,
         ...rehydratedState,
@@ -127,6 +128,7 @@ export const reducer = (
           current: 0,
           total: 0,
         },
+        attestationInputStatus: initialState.attestationInputStatus,
       }
     }
     case Actions.UPDATE_E164_PHONE_NUMBER_ADDRESSES:

@@ -226,6 +226,9 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         phoneNumberInfo.countryCodeAlpha2
       )
     )
+    if (noActionIsRequired) {
+      dispatch(reset({ komenci: shouldUseKomenci ?? true }))
+    }
   }
 
   const isBalanceSufficient = useSelector(isBalanceSufficientSelector)

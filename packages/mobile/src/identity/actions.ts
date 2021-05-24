@@ -142,6 +142,12 @@ export interface UpdateAddressDekMapAction {
 // time: number
 // }
 
+// export interface SetAttestationStatusAction {
+//   type: Actions.SET_ATTESTATION_INPUT_STATUS
+//   index: number
+//   status: CodeInputStatus
+// }
+
 export type ActionTypes =
   | UpdateE164PhoneNumberAddressesAction
   | UpdateWalletToAccountAddressAction
@@ -313,3 +319,12 @@ export const updateAddressDekMap = (
   address,
   dataEncryptionKey,
 })
+
+// export const setAttestationInputStatus = (
+//   index: number,
+//   status: CodeInputStatus
+// ): SetAttestationStatusAction => ({
+//   type: Actions.SET_ATTESTATION_INPUT_STATUS,
+//   index,
+//   status,
+// })

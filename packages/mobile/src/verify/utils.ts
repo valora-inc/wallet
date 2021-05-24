@@ -1,4 +1,5 @@
 import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
+import { CodeInputStatus } from 'src/components/CodeInput'
 
 export function getPhoneNumberState(
   phoneNumber: string,
@@ -23,4 +24,30 @@ export function getPhoneNumberState(
       countryCodeAlpha2,
     }
   }
+}
+
+export function isCodeRepeated(codes: string[], value: string) {
+  let repetitions = 0
+  for (const code of codes) {
+    if (code === value) {
+      repetitions++
+    }
+  }
+  return repetitions >= 2
+}
+
+/**
+ * @returns the index in which a new attestaion code can be input.
+ * Note that this will return |NUM_ATTESTATIONS_REQUIRED| if all positions are full.
+ */
+export function indexReadyForInput(attestationInputStatus: CodeInputStatus[]) {
+  const isPositionBusy = (index: number) =>
+    [CodeInputStatus.Processing, CodeInputStatus.Accepted, CodeInputStatus.Received].includes(
+      attestationInputStatus[index]
+    )
+  let shouldBeInputtingIndex = 0
+  while (isPositionBusy(shouldBeInputtingIndex)) {
+    shouldBeInputtingIndex++
+  }
+  return shouldBeInputtingIndex
 }

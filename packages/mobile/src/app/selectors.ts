@@ -63,6 +63,9 @@ export const shortVerificationCodesEnabledSelector = (state: RootState) =>
 
 export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
 
+export const ranVerificationMigrationSelector = (state: RootState) =>
+  state.app.ranVerificationMigrationAt
+
 // showRaiseDailyLimitTarget is an account string that represents the cutoff of which accounts
 // should return true. By doing a string comparison, if the user's account is lower than the
 // target we'll return true and false otherwise.
