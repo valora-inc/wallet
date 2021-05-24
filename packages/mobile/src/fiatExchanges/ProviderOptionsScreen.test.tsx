@@ -206,7 +206,7 @@ describe('ProviderOptionsScreen', () => {
 
     const elements = tree.queryAllByType(Text)
     // The last few text elements belong to the modal + subtext for the last provider
-    const lastProviderName = elements[elements.length - 5].props.children
+    const lastProviderName = elements[elements.length - 6].props.children
     expect(lastProviderName).toEqual('Transak')
   })
 
