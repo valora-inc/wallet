@@ -1,10 +1,14 @@
 import { dismissBanners } from '../utils/banners'
-import { pixelDiff, setDemoMode, sleep } from '../utils/utils'
+import { pixelDiff, setDemoMode, sleep, webViewBack } from '../utils/utils'
 
 export default CashIn = () => {
+  beforeAll(async () => {
+    await setDemoMode()
+  })
+
   beforeEach(async () => {
     await device.reloadReactNative()
-    await setDemoMode()
+    // await webViewBack()
     await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
@@ -31,33 +35,55 @@ export default CashIn = () => {
     )
   })
 
-  // These Tests are Flaky on Android at Present - Emulator Needs an Update
-  if (device.getPlatform() === 'ios') {
-    it('Should Navigate to Simplex', async () => {
-      await element(by.id('Provider/Simplex')).tap()
-      await element(by.text('Continue to Simplex')).tap()
-      //TODO: find element to implicitly wait on
-      await sleep(5000)
-      const imagePath = await device.takeScreenshot('Simplex')
-      pixelDiff(
-        imagePath,
-        device.getPlatform() === 'ios'
-          ? './e2e/assets/Simplex - ios.png'
-          : './e2e/assets/Simplex - android.png'
-      )
-    })
+  // These Tests are Flaky as they interact with elements outside of the tested app
+  it.skip('Should Navigate to Moonpay', async () => {
+    await element(by.id('Provider/Moonpay')).tap()
+    await sleep(5000)
+    const imagePath = await device.takeScreenshot('Moonpay - ios')
+    pixelDiff(
+      imagePath,
+      device.getPlatform() === 'ios'
+        ? './e2e/assets/Moonpay - ios.png'
+        : './e2e/assets/Moonpay - android.png'
+    )
+  })
 
-    it('Should Navigate to Transak', async () => {
-      await element(by.id('Provider/Transak')).tap()
-      //TODO: find element to implicitly wait on
-      await sleep(5000)
-      const imagePath = await device.takeScreenshot('Transak')
-      pixelDiff(
-        imagePath,
-        device.getPlatform() === 'ios'
-          ? './e2e/assets/Transak - ios.png'
-          : './e2e/assets/Transak - android.png'
-      )
-    })
-  }
+  it.skip('Should Navigate to Xanpool', async () => {
+    await element(by.id('Provider/Xanpool')).tap()
+    await sleep(5000)
+    const imagePath = await device.takeScreenshot('Xanpool - ios')
+    pixelDiff(
+      imagePath,
+      device.getPlatform() === 'ios'
+        ? './e2e/assets/Xanpool - ios.png'
+        : './e2e/assets/Xanpool - android.png'
+    )
+  })
+
+  it.skip('Should Navigate to Simplex', async () => {
+    await element(by.id('Provider/Simplex')).tap()
+    await element(by.text('Continue to Simplex')).tap()
+    //TODO: find element to implicitly wait on
+    await sleep(5000)
+    const imagePath = await device.takeScreenshot('Simplex')
+    pixelDiff(
+      imagePath,
+      device.getPlatform() === 'ios'
+        ? './e2e/assets/Simplex - ios.png'
+        : './e2e/assets/Simplex - android.png'
+    )
+  })
+
+  it.skip('Should Navigate to Transak', async () => {
+    await element(by.id('Provider/Transak')).tap()
+    //TODO: find element to implicitly wait on
+    await sleep(5000)
+    const imagePath = await device.takeScreenshot('Transak')
+    pixelDiff(
+      imagePath,
+      device.getPlatform() === 'ios'
+        ? './e2e/assets/Transak - ios.png'
+        : './e2e/assets/Transak - android.png'
+    )
+  })
 }

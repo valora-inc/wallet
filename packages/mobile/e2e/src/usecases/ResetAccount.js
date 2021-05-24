@@ -1,4 +1,4 @@
-import { enterPinUiIfNecessary, waitForElementId } from '../utils/utils'
+import { enterPinUiIfNecessary, pixelDiff, waitForElementId } from '../utils/utils'
 import { SAMPLE_BACKUP_KEY } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
 
@@ -54,5 +54,12 @@ export default ResetAccount = () => {
     // await element(by.id('ConfirmAccountRemovalModal/PrimaryAction')).tap()
     await waitForElementId('ConfirmAccountRemovalModal/PrimaryAction')
     await expect(element(by.id('ConfirmAccountRemovalModal/PrimaryAction'))).toBeVisible()
+    const imagePath = await device.takeScreenshot('Reset Account')
+    pixelDiff(
+      imagePath,
+      device.getPlatform() === 'ios'
+        ? './e2e/assets/Reset Account - ios.png'
+        : './e2e/assets/Reset Account - android.png'
+    )
   })
 }

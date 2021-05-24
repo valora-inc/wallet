@@ -10895,10 +10895,10 @@ detox@^17.13.2:
     yargs "^16.0.3"
     yargs-unparser "^2.0.0"
 
-detox@^18.13.0:
-  version "18.13.0"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-18.13.0.tgz#c6108bfcc0a5579ea5f1f975222ca62773511b3c"
-  integrity sha512-YQPhi+uUGhVXYQm4W76EyKXdDKXnxq3dO+9ua22gGhNGwiJDbV8TUOavZNMbjBKWLb+OueGKOEBp4uNGOrVANw==
+detox@^18.14.1:
+  version "18.14.1"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-18.14.1.tgz#dd36fbe51a1c626c104f4c9787f9b22a934d95ad"
+  integrity sha512-BOrf7rKgee7zZYmUIHQeomQ8SoQWEOJ9aNAM8lFQoON/RJrBi/NRUlO/jh4XFFepOkeJ5gr85Kz7g3pQxIPXow==
   dependencies:
     bunyan "^1.8.12"
     bunyan-debug-stream "^1.1.0"
@@ -12521,6 +12521,11 @@ fake-merkle-patricia-tree@^1.0.1:
   integrity sha1-S4w6z7Ugr635hgsfFM2M40As3dM=
   dependencies:
     checkpoint-store "^1.1.0"
+
+faker@^5.5.3:
+  version "5.5.3"
+  resolved "https://registry.yarnpkg.com/faker/-/faker-5.5.3.tgz#c57974ee484431b25205c2c8dc09fda861e51e0e"
+  integrity sha512-wLTv2a28wjUyWkbnX7u/ABZBkUkIF2fCd73V6P2oFqEGEktDfzWx4UxrSqtPRw0xPRAcjeAOIiJWqZm3pP4u3g==
 
 fancy-log@^1.3.2:
   version "1.3.2"

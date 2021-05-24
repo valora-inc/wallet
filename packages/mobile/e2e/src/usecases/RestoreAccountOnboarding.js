@@ -3,14 +3,18 @@ import { SAMPLE_BACKUP_KEY, EXAMPLE_NAME } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
 
 export default RestoreAccountOnboarding = () => {
+  beforeAll(async () => {
+    await device.launchApp({
+      delete: true,
+      permissions: { notifications: 'YES', contacts: 'YES' },
+    })
+  })
   // Language is auto selected if it matches one of the available locale
   // it('Language', async () => {
   //   await element(by.id('ChooseLanguage/en-US')).tap()
   // })
-  // Retry this test 3 times as if it fails all of the remaining test in this file will fail
-  jest.retryTimes(3)
   it('Onboarding Education', async () => {
-    // Onboading education has 3 steps
+    // Onboarding education has 3 steps
     for (let i = 0; i < 3; i++) {
       await element(by.id('Education/progressButton')).tap()
     }

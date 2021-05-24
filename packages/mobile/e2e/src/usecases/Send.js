@@ -1,10 +1,10 @@
 import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
+var faker = require('faker')
 
 const AMOUNT_TO_SEND = '0.1'
 const AMOUNT_TO_REQUEST = '0.1'
-const RANDOM_COMMENT = 'poker night winnings 🎰'
 
 export default Send = () => {
   beforeEach(async () => {
@@ -13,6 +13,7 @@ export default Send = () => {
   })
 
   it('Send cUSD to address', async () => {
+    let randomContent = faker.lorem.words()
     await element(by.id('SendOrRequestBar/SendButton')).tap()
 
     // Look for an address and tap on it.
@@ -28,7 +29,7 @@ export default Send = () => {
     await sleep(1000)
 
     // Write a comment.
-    await element(by.id('commentInput/send')).replaceText(`${RANDOM_COMMENT}\n`)
+    await element(by.id('commentInput/send')).replaceText(`${randomContent}\n`)
     await element(by.id('commentInput/send')).tapReturnKey()
 
     if (device.getPlatform() === 'android') {
@@ -54,11 +55,16 @@ export default Send = () => {
 
     // Return to home.
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
-    // TODO(erdal): look for the latest transaction and assert
+
+    // Look for the latest transaction and assert
+    await waitFor(element(by.text(`${randomContent}`)))
+      .toBeVisible()
+      .withTimeout(20000)
   })
 
   // TODO(tomm): debug why error is thrown in e2e tests
   it.skip('Request cUSD from address', async () => {
+    let randomContent = faker.lorem.words()
     await element(by.id('SendOrRequestBar/RequestButton')).tap()
 
     // Look for an address and tap on it.
@@ -72,7 +78,7 @@ export default Send = () => {
     await element(by.id('Review')).tap()
 
     // Write a comment.
-    await element(by.id('commentInput/request')).replaceText(`${RANDOM_COMMENT}\n`)
+    await element(by.id('commentInput/request')).replaceText(`${randomContent}\n`)
 
     // Confirm and input PIN if necessary.
     await enterPinUiIfNecessary()

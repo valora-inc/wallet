@@ -4,6 +4,7 @@ import ExchangeCelo from './usecases/ExchangeCelo'
 describe('Exchange', () => {
   beforeAll(async () => {
     await device.launchApp({
+      delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
     await quickOnboarding()

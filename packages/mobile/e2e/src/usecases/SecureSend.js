@@ -1,5 +1,6 @@
 import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
 import { dismissBanners } from '../utils/banners'
+var faker = require('faker')
 
 const PHONE_NUMBER = '+12057368924'
 const LAST_ACCEOUNT_CHARACTERS = 'FD08'
@@ -12,6 +13,7 @@ export default SecureSend = () => {
   })
 
   it('Send cUSD to phone number with multiple mappings', async () => {
+    let randomContent = faker.lorem.words()
     await element(by.id('SendOrRequestBar/SendButton')).tap()
 
     // Look for an address and tap on it.
@@ -24,8 +26,10 @@ export default SecureSend = () => {
     await inputNumberKeypad(AMOUNT_TO_SEND)
     await element(by.id('Review')).tap()
 
-    // hack: we shouldn't need this but the test fails without
-    await sleep(3000)
+    // Implicitly wait for element receiving next tap
+    await waitFor(element(by.id('confirmAccountButton')))
+      .toBeVisible()
+      .withTimeout(10000)
 
     // Use the last digits of the account to confirm the sender.
     await element(by.id('confirmAccountButton')).tap()
@@ -35,9 +39,11 @@ export default SecureSend = () => {
     }
     await element(by.id('ConfirmAccountButton')).tap()
 
-    // Wait for the confirm button to be clickable. If it takes too long this test
-    // will be flaky :(
-    await sleep(3000)
+    // Write a comment.
+    await waitFor(element(by.id('commentInput/send')))
+      .toBeVisible()
+      .withTimeout(10000)
+    await element(by.id('commentInput/send')).replaceText(`${randomContent}\n`)
 
     // Confirm and input PIN if necessary.
     await element(by.id('ConfirmButton')).tap()
@@ -45,5 +51,10 @@ export default SecureSend = () => {
 
     // Return to home screen.
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+
+    // Look for the latest transaction and assert
+    await waitFor(element(by.text(`${randomContent}`)))
+      .toBeVisible()
+      .withTimeout(20000)
   })
 }

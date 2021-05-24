@@ -206,6 +206,7 @@ export function pixelDiff(imagePath, expectedImagePath, acceptableDiffPercent = 
   }
 }
 
+//** Sets device demo mode on devices for consistent screenshots */
 export async function setDemoMode() {
   if (device.getPlatform() === 'ios') {
     exec(
@@ -231,4 +232,19 @@ export async function setDemoMode() {
       `adb -s ${device.id} shell am broadcast -a com.android.systemui.demo -e command battery -e plugged false -e level 100`
     )
   }
+}
+/**
+ * Scrolls to an element within another
+ * @param {string} scrollTo - The element to scroll to by textID.
+ * @param {string} scrollIn - The element to scroll within to by textID.
+ * @param {number} [speed=350] -  The speed at which to scroll
+ * @param {string} [direction='down'] - The direction of which to scroll
+ */
+export async function scrollIntoView(scrollTo, scrollIn, speed = 350, direction = 'down') {
+  try {
+    await waitFor(element(by.text(scrollTo)))
+      .toBeVisible()
+      .whileElement(by.id(scrollIn))
+      .scroll(speed, direction)
+  } catch {}
 }
