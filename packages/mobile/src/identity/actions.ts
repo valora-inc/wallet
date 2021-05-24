@@ -1,5 +1,6 @@
 import { normalizeAddressWith0x } from '@celo/base'
 import { E164Number } from '@celo/utils/lib/io'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import {
   AddressToDisplayNameType,
   AddressToE164NumberType,
@@ -12,6 +13,21 @@ import { ContactMatches, ImportContactsStatus } from 'src/identity/types'
 import { Recipient } from 'src/recipients/recipient'
 
 export enum Actions {
+<<<<<<< HEAD
+=======
+  START_VERIFICATION = 'IDENTITY/START_VERIFICATION',
+  CANCEL_VERIFICATION = 'IDENTITY/CANCEL_VERIFICATION',
+  RESET_VERIFICATION = 'IDENTITY/RESET_VERIFICATION',
+  SET_VERIFICATION_STATUS = 'IDENTITY/SET_VERIFICATION_STATUS',
+  SET_SEEN_VERIFICATION_NUX = 'IDENTITY/SET_SEEN_VERIFICATION_NUX',
+  SET_COMPLETED_CODES = 'IDENTITY/SET_COMPLETED_CODES',
+  REVOKE_VERIFICATION = 'IDENTITY/REVOKE_VERIFICATION',
+  REVOKE_VERIFICATION_STATE = 'IDENTITY/REVOKE_VERIFICATION_STATE',
+  FEELESS_REVOKE_VERIFICATION_STATE = 'IDENTITY/FEELESS_REVOKE_VERIFICATION_STATE',
+  RECEIVE_ATTESTATION_MESSAGE = 'IDENTITY/RECEIVE_ATTESTATION_MESSAGE',
+  INPUT_ATTESTATION_CODE = 'IDENTITY/INPUT_ATTESTATION_CODE',
+  COMPLETE_ATTESTATION_CODE = 'IDENTITY/COMPLETE_ATTESTATION_CODE',
+>>>>>>> main
   UPDATE_E164_PHONE_NUMBER_ADDRESSES = 'IDENTITY/UPDATE_E164_PHONE_NUMBER_ADDRESSES',
   UPDATE_WALLET_TO_ACCOUNT_ADDRESS = 'IDENTITY/UPDATE_WALLET_TO_ACCOUNT_ADDRESS',
   REMOVE_WALLET_TO_ACCOUNT_ADDRESS = 'IDENTITY/REMOVE_WALLET_TO_ACCOUNT_ADDRESS',
@@ -31,6 +47,69 @@ export enum Actions {
   REQUIRE_SECURE_SEND = 'IDENTITY/REQUIRE_SECURE_SEND',
   FETCH_DATA_ENCRYPTION_KEY = 'IDENTITY/FETCH_DATA_ENCRYPTION_KEY',
   UPDATE_ADDRESS_DEK_MAP = 'IDENTITY/UPDATE_ADDRESS_DEK_MAP',
+<<<<<<< HEAD
+=======
+  RESEND_ATTESTATIONS = 'IDENTITY/RESEND_ATTESTATIONS',
+  SET_LAST_REVEAL_ATTEMPT = 'IDENTITY/SET_LAST_REVEAL_ATTEMPT',
+  REPORT_REVEAL_STATUS = 'IDENTITY/REPORT_REVEAL_STATUS',
+  SET_ATTESTATION_INPUT_STATUS = 'IDENTITY/SET_ATTESTATION_INPUT_STATUS',
+}
+
+export interface StartVerificationAction {
+  type: Actions.START_VERIFICATION
+  withoutRevealing: boolean | undefined
+  e164Number: string
+}
+
+export interface SetVerificationStatusAction {
+  type: Actions.SET_VERIFICATION_STATUS
+  status: VerificationStatus
+}
+
+export interface SetHasSeenVerificationNux {
+  type: Actions.SET_SEEN_VERIFICATION_NUX
+  status: boolean
+}
+
+export interface CancelVerificationAction {
+  type: Actions.CANCEL_VERIFICATION
+}
+
+export interface ResetVerificationAction {
+  type: Actions.RESET_VERIFICATION
+}
+
+export interface RevokeVerificationAction {
+  type: Actions.REVOKE_VERIFICATION
+}
+
+export interface RevokeVerificationStateAction {
+  type: Actions.REVOKE_VERIFICATION_STATE
+  walletAddress: string
+}
+
+export interface ReceiveAttestationMessageAction {
+  type: Actions.RECEIVE_ATTESTATION_MESSAGE
+  message: string
+  inputType: CodeInputType
+  index?: number
+}
+
+export interface SetCompletedCodesAction {
+  type: Actions.SET_COMPLETED_CODES
+  numComplete: number
+}
+
+export interface InputAttestationCodeAction {
+  type: Actions.INPUT_ATTESTATION_CODE
+  code: AttestationCode
+  index?: number
+}
+
+export interface CompleteAttestationCodeAction {
+  type: Actions.COMPLETE_ATTESTATION_CODE
+  code: AttestationCode
+>>>>>>> main
 }
 
 export interface UpdateE164PhoneNumberAddressesAction {
@@ -137,12 +216,50 @@ export interface UpdateAddressDekMapAction {
   dataEncryptionKey: string | null
 }
 
+<<<<<<< HEAD
 // export interface SetLastRevealAttempt {
 // type: Actions.SET_LAST_REVEAL_ATTEMPT
 // time: number
 // }
+=======
+export interface ResendAttestations {
+  type: Actions.RESEND_ATTESTATIONS
+}
+
+export interface SetLastRevealAttempt {
+  type: Actions.SET_LAST_REVEAL_ATTEMPT
+  time: number
+}
+
+export interface ReportRevealStatusAction {
+  type: Actions.REPORT_REVEAL_STATUS
+  attestationServiceUrl: string
+  account: string
+  issuer: string
+  e164Number: string
+  pepper: string
+}
+>>>>>>> main
+
+export interface SetAttestationStatusAction {
+  type: Actions.SET_ATTESTATION_INPUT_STATUS
+  index: number
+  status: CodeInputStatus
+}
 
 export type ActionTypes =
+<<<<<<< HEAD
+=======
+  | StartVerificationAction
+  | CancelVerificationAction
+  | ResetVerificationAction
+  | SetVerificationStatusAction
+  | SetHasSeenVerificationNux
+  | SetCompletedCodesAction
+  | ReceiveAttestationMessageAction
+  | InputAttestationCodeAction
+  | CompleteAttestationCodeAction
+>>>>>>> main
   | UpdateE164PhoneNumberAddressesAction
   | UpdateWalletToAccountAddressAction
   | RemoveWalletToAccountAddressAction
@@ -161,6 +278,81 @@ export type ActionTypes =
   | EndFetchingAddressesAction
   | FetchDataEncryptionKeyAction
   | UpdateAddressDekMapAction
+<<<<<<< HEAD
+=======
+  | ResendAttestations
+  | SetLastRevealAttempt
+  | ReportRevealStatusAction
+  | RevokeVerificationStateAction
+  | SetAttestationStatusAction
+
+export const startVerification = (
+  e164Number: string,
+  withoutRevealing: boolean | undefined
+): StartVerificationAction => ({
+  type: Actions.START_VERIFICATION,
+  withoutRevealing,
+  e164Number,
+})
+
+export const cancelVerification = (): CancelVerificationAction => ({
+  type: Actions.CANCEL_VERIFICATION,
+})
+
+export const resetVerification = (): ResetVerificationAction => ({
+  type: Actions.RESET_VERIFICATION,
+})
+
+export const setVerificationStatus = (status: VerificationStatus): SetVerificationStatusAction => ({
+  type: Actions.SET_VERIFICATION_STATUS,
+  status,
+})
+
+export const setHasSeenVerificationNux = (status: boolean): SetHasSeenVerificationNux => ({
+  type: Actions.SET_SEEN_VERIFICATION_NUX,
+  status,
+})
+
+export const revokeVerification = (): RevokeVerificationAction => ({
+  type: Actions.REVOKE_VERIFICATION,
+})
+
+// Will properly clear verification state when called
+export const revokeVerificationState = (walletAddress: string): RevokeVerificationStateAction => ({
+  type: Actions.REVOKE_VERIFICATION_STATE,
+  walletAddress,
+})
+
+export const receiveAttestationMessage = (
+  message: string,
+  inputType: CodeInputType,
+  index?: number
+): ReceiveAttestationMessageAction => ({
+  type: Actions.RECEIVE_ATTESTATION_MESSAGE,
+  message,
+  inputType,
+  index,
+})
+
+export const setCompletedCodes = (numComplete: number): SetCompletedCodesAction => ({
+  type: Actions.SET_COMPLETED_CODES,
+  numComplete,
+})
+
+export const inputAttestationCode = (
+  code: AttestationCode,
+  index?: number
+): InputAttestationCodeAction => ({
+  type: Actions.INPUT_ATTESTATION_CODE,
+  code,
+  index,
+})
+
+export const completeAttestationCode = (code: AttestationCode): CompleteAttestationCodeAction => ({
+  type: Actions.COMPLETE_ATTESTATION_CODE,
+  code,
+})
+>>>>>>> main
 
 export const fetchAddressesAndValidate = (
   e164Number: string,
@@ -313,3 +505,41 @@ export const updateAddressDekMap = (
   address,
   dataEncryptionKey,
 })
+<<<<<<< HEAD
+=======
+
+export const resendAttestations = (): ResendAttestations => ({
+  type: Actions.RESEND_ATTESTATIONS,
+})
+
+export const setLastRevealAttempt = (time: number): SetLastRevealAttempt => ({
+  type: Actions.SET_LAST_REVEAL_ATTEMPT,
+  time,
+})
+
+export const reportRevealStatus = (
+  attestationServiceUrl: string,
+  account: string,
+  issuer: string,
+  e164Number: string,
+  pepper: string
+): ReportRevealStatusAction => {
+  return {
+    type: Actions.REPORT_REVEAL_STATUS,
+    attestationServiceUrl,
+    account,
+    issuer,
+    e164Number,
+    pepper,
+  }
+}
+
+export const setAttestationInputStatus = (
+  index: number,
+  status: CodeInputStatus
+): SetAttestationStatusAction => ({
+  type: Actions.SET_ATTESTATION_INPUT_STATUS,
+  index,
+  status,
+})
+>>>>>>> main

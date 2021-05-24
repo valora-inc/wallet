@@ -95,7 +95,7 @@ function CustomDrawerItemList({
     const { title, drawerLabel, drawerIcon } = descriptors[route.key].options
     const navigateToItem = () => {
       ValoraAnalytics.track(HomeEvents.drawer_navigation, {
-        navigateTo: title || route.name,
+        navigateTo: route.name,
       })
       navigation.dispatch({
         ...(focused ? DrawerActions.closeDrawer() : CommonActions.navigate(route.name)),

@@ -16,14 +16,16 @@ export interface State {
   lastTimeBackgrounded: number
   sessionId: string
   minVersion: string | null
-  pontoEnabled: boolean
-  kotaniEnabled: boolean
-  bitfyUrl: string | null
-  flowBtcUrl: string | null
   celoEducationUri: string | null
   shortVerificationCodesEnabled: boolean
   inviteModalVisible: boolean
   activeScreen: Screens
+  hideVerification: boolean
+  showRaiseDailyLimitTarget: string | undefined
+  walletConnectEnabled: boolean
+  // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
+  // for the migration code. We can remove all the code associated with this after some time has passed.
+  ranVerificationMigrationAt: number | null | undefined
 }
 
 const initialState = {
@@ -38,14 +40,14 @@ const initialState = {
   lastTimeBackgrounded: 0,
   sessionId: '',
   minVersion: null,
-  pontoEnabled: false,
-  kotaniEnabled: false,
-  bitfyUrl: null,
-  flowBtcUrl: null,
   shortVerificationCodesEnabled: false,
   celoEducationUri: null,
   inviteModalVisible: false,
   activeScreen: Screens.Main,
+  hideVerification: false,
+  showRaiseDailyLimitTarget: undefined,
+  walletConnectEnabled: false,
+  ranVerificationMigrationAt: null,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -143,12 +145,11 @@ export const appReducer = (
     case Actions.UPDATE_FEATURE_FLAGS:
       return {
         ...state,
-        pontoEnabled: action.flags.pontoEnabled,
-        kotaniEnabled: action.flags.kotaniEnabled,
-        bitfyUrl: action.flags.bitfyUrl,
-        flowBtcUrl: action.flags.flowBtcUrl,
+        hideVerification: action.flags.hideVerification,
+        showRaiseDailyLimitTarget: action.flags.showRaiseDailyLimitTarget,
         celoEducationUri: action.flags.celoEducationUri,
         shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
+        walletConnectEnabled: action.flags.walletConnectEnabled,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
@@ -159,6 +160,12 @@ export const appReducer = (
       return {
         ...state,
         activeScreen: action.activeScreen,
+      }
+    case Actions.VERIFICATION_MIGRATION_RAN:
+      return {
+        ...state,
+        ranVerificationMigrationAt: action.now,
+        numberVerified: action.isVerified,
       }
     default:
       return state

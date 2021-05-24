@@ -12,13 +12,45 @@ const mockScreenProps = (isCashIn: boolean) =>
     amount: new BigNumber('1'),
   })
 
+jest.mock('src/fiatExchanges/utils', () => ({
+  ...(jest.requireActual('src/fiatExchanges/utils') as any),
+  fetchLocalCicoProviders: jest.fn(() => [
+    {
+      name: 'CryptoProvider',
+      celo: {
+        cashIn: true,
+        cashOut: true,
+        countries: ['US'],
+        url: 'https://www.fakecryptoprovider.com/celo',
+      },
+      cusd: {
+        cashIn: true,
+        cashOut: true,
+        countries: ['US'],
+        url: 'https://www.fakecryptoprovider.com/celo',
+      },
+    },
+  ]),
+}))
+
 describe('FiatExchangeOptions', () => {
+  beforeEach(() => {
+    jest.useRealTimers()
+  })
+
   it('renders correctly', () => {
-    const { toJSON } = render(
+    const tree = render(
       <Provider store={createMockStore({})}>
         <FiatExchangeOptions {...mockScreenProps(true)} />
       </Provider>
     )
-    expect(toJSON()).toMatchSnapshot()
+    expect(tree).toMatchSnapshot()
+
+    tree.rerender(
+      <Provider store={createMockStore({})}>
+        <FiatExchangeOptions {...mockScreenProps(true)} />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
   })
 })

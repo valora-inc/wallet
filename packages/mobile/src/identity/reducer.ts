@@ -1,12 +1,32 @@
+<<<<<<< HEAD
+=======
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
+>>>>>>> main
 import dotProp from 'dot-prop-immutable'
 import { RehydrateAction } from 'redux-persist'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
+<<<<<<< HEAD
 import { Actions, ActionTypes } from 'src/identity/actions'
 import { ContactMatches, ImportContactsStatus } from 'src/identity/types'
 import { removeKeyFromMapping } from 'src/identity/utils'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { Actions as SendActions, StoreLatestInRecentsAction } from 'src/send/actions'
+=======
+import { CodeInputStatus } from 'src/components/CodeInput'
+import { Actions, ActionTypes } from 'src/identity/actions'
+import { ContactMatches, ImportContactsStatus, VerificationStatus } from 'src/identity/types'
+import { removeKeyFromMapping } from 'src/identity/utils'
+import { AttestationCode, NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
+import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
+import { RootState } from 'src/redux/reducers'
+import { StoreLatestInRecentsAction } from 'src/send/actions'
+import Logger from 'src/utils/Logger'
+import { isCodeRepeated } from 'src/verify/utils'
+
+export const ATTESTATION_CODE_PLACEHOLDER = 'ATTESTATION_CODE_PLACEHOLDER'
+export const ATTESTATION_ISSUER_PLACEHOLDER = 'ATTESTATION_ISSUER_PLACEHOLDER'
+>>>>>>> main
 
 export interface AddressToE164NumberType {
   [address: string]: string | null
@@ -20,6 +40,10 @@ export interface E164NumberToSaltType {
   [e164PhoneNumber: string]: string | null // null means unverified
 }
 
+export interface IdentifierToE164NumberType {
+  [identifier: string]: string | null // null means no number
+}
+
 export interface AddressToDataEncryptionKeyType {
   [address: string]: string | null // null means no DEK registered
 }
@@ -31,6 +55,8 @@ export interface AddressInfoToDisplay {
   isProviderAddress?: boolean
 }
 
+// This mapping is just for storing provider info from firebase
+// other known recipient should be stored in the valoraRecipientCache
 export interface AddressToDisplayNameType {
   [address: string]: AddressInfoToDisplay | undefined
 }
@@ -64,7 +90,19 @@ export interface SecureSendDetails {
 }
 
 export interface State {
+<<<<<<< HEAD
   // numCompleteAttestations is controlled locally
+=======
+  attestationCodes: AttestationCode[]
+  // we store acceptedAttestationCodes to tell user if code
+  // was already used even after Actions.RESET_VERIFICATION
+  acceptedAttestationCodes: AttestationCode[]
+  // Represents the status in the UI. Should be of size 3.
+  attestationInputStatus: CodeInputStatus[]
+  // numCompleteAttestations is controlled locally
+  numCompleteAttestations: number
+  verificationStatus: VerificationStatus
+>>>>>>> main
   hasSeenVerificationNux: boolean
   addressToE164Number: AddressToE164NumberType
   // Note: Do not access values in this directly, use the `getAddressFromPhoneNumber` helper in contactMapping
@@ -83,9 +121,25 @@ export interface State {
   // Contacts found during the matchmaking process
   matchedContacts: ContactMatches
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
+<<<<<<< HEAD
 }
 
 const initialState: State = {
+=======
+  lastRevealAttempt: number | null
+}
+
+const initialState: State = {
+  attestationCodes: [],
+  acceptedAttestationCodes: [],
+  attestationInputStatus: [
+    CodeInputStatus.Inputting,
+    CodeInputStatus.Disabled,
+    CodeInputStatus.Disabled,
+  ],
+  numCompleteAttestations: 0,
+  verificationStatus: VerificationStatus.Stopped,
+>>>>>>> main
   hasSeenVerificationNux: false,
   addressToE164Number: {},
   e164NumberToAddress: {},
@@ -101,6 +155,10 @@ const initialState: State = {
   },
   matchedContacts: {},
   secureSendPhoneNumberMapping: {},
+<<<<<<< HEAD
+=======
+  lastRevealAttempt: null,
+>>>>>>> main
 }
 
 export const reducer = (
@@ -111,16 +169,87 @@ export const reducer = (
     case REHYDRATE: {
       // Ignore some persisted properties
       const rehydratedState = getRehydratePayload(action, 'identity')
+
       return {
         ...state,
         ...rehydratedState,
+<<<<<<< HEAD
+=======
+        verificationStatus: VerificationStatus.Stopped,
+>>>>>>> main
         importContactsProgress: {
           status: ImportContactsStatus.Stopped,
           current: 0,
           total: 0,
         },
+<<<<<<< HEAD
       }
     }
+=======
+        attestationInputStatus: initialState.attestationInputStatus,
+      }
+    }
+    case Actions.RESET_VERIFICATION:
+      return {
+        ...state,
+        attestationCodes: [],
+        numCompleteAttestations: 0,
+        verificationStatus: VerificationStatus.Stopped,
+      }
+    case Actions.REVOKE_VERIFICATION_STATE:
+      return {
+        ...state,
+        attestationCodes: [],
+        acceptedAttestationCodes: [],
+        numCompleteAttestations: 0,
+        verificationStatus: VerificationStatus.Stopped,
+        lastRevealAttempt: null,
+        walletToAccountAddress: removeKeyFromMapping(
+          state.walletToAccountAddress,
+          action.walletAddress
+        ),
+      }
+    case Actions.SET_VERIFICATION_STATUS:
+      return {
+        ...state,
+        verificationStatus: action.status,
+      }
+    case Actions.SET_SEEN_VERIFICATION_NUX:
+      return {
+        ...state,
+        hasSeenVerificationNux: action.status,
+      }
+    case Actions.SET_COMPLETED_CODES:
+      return {
+        ...state,
+        ...completeCodeReducer(state, action.numComplete),
+      }
+    case Actions.INPUT_ATTESTATION_CODE:
+      const codeAlreadyAdded = state.attestationCodes.some((code) => code.code === action.code.code)
+      const attestationCodes = codeAlreadyAdded
+        ? state.attestationCodes
+        : [...state.attestationCodes, action.code]
+      const attestationInputStatus = action.index
+        ? updatedInputStatuses(
+            state,
+            action.index,
+            codeAlreadyAdded || attestationCodes[action.index]?.code !== action.code.code
+              ? CodeInputStatus.Error
+              : CodeInputStatus.Processing
+          )
+        : state.attestationInputStatus
+      return {
+        ...state,
+        attestationCodes,
+        attestationInputStatus,
+      }
+    case Actions.COMPLETE_ATTESTATION_CODE:
+      return {
+        ...state,
+        numCompleteAttestations: state.numCompleteAttestations + 1,
+        acceptedAttestationCodes: [...state.acceptedAttestationCodes, action.code],
+      }
+>>>>>>> main
     case Actions.UPDATE_E164_PHONE_NUMBER_ADDRESSES:
       return {
         ...state,
@@ -150,19 +279,6 @@ export const reducer = (
       return {
         ...state,
         e164NumberToSalt: { ...state.e164NumberToSalt, ...action.e164NumberToSalt },
-      }
-    case SendActions.STORE_LATEST_IN_RECENTS:
-      if (!action.recipient.address) {
-        return state
-      }
-      action = {
-        type: Actions.UPDATE_KNOWN_ADDRESSES,
-        knownAddresses: {
-          [action.recipient.address]: {
-            name: action.recipient.displayName,
-            imageUrl: null,
-          },
-        },
       }
     case Actions.UPDATE_KNOWN_ADDRESSES:
       return {
@@ -280,11 +396,66 @@ export const reducer = (
         matchedContacts: state.matchedContacts,
         secureSendPhoneNumberMapping: state.secureSendPhoneNumberMapping,
       }
+<<<<<<< HEAD
+=======
+    case Actions.SET_LAST_REVEAL_ATTEMPT:
+      return {
+        ...state,
+        lastRevealAttempt: action.time,
+      }
+    case Actions.SET_ATTESTATION_INPUT_STATUS:
+      return {
+        ...state,
+        attestationInputStatus: updatedInputStatuses(state, action.index, action.status),
+      }
+>>>>>>> main
     default:
       return state
   }
 }
 
+<<<<<<< HEAD
+=======
+function updatedInputStatuses(state: State, index: number, status: CodeInputStatus) {
+  const newStatuses = [...state.attestationInputStatus]
+  newStatuses[index] = status
+  Logger.debug('identityReducer@attestationInputStatus', newStatuses)
+  return newStatuses
+}
+
+const completeCodeReducer = (state: State, numCompleteAttestations: number) => {
+  const { attestationCodes, acceptedAttestationCodes } = state
+  // Ensure numCompleteAttestations many codes are filled
+  const updatedAttestationCodes: AttestationCode[] = []
+  for (let i = 0; i < numCompleteAttestations; i++) {
+    updatedAttestationCodes[i] = acceptedAttestationCodes[i] || {
+      code: ATTESTATION_CODE_PLACEHOLDER,
+      issuer: ATTESTATION_ISSUER_PLACEHOLDER,
+    }
+  }
+  for (let i = numCompleteAttestations; i < NUM_ATTESTATIONS_REQUIRED; i++) {
+    if (
+      attestationCodes[i] &&
+      !isCodeRepeated(
+        attestationCodes.filter((code) => code).map((code) => code.code),
+        attestationCodes[i].code
+      )
+    ) {
+      updatedAttestationCodes.push(attestationCodes[i])
+    }
+  }
+  return {
+    numCompleteAttestations,
+    attestationCodes: updatedAttestationCodes,
+  }
+}
+
+export const attestationCodesSelector = (state: RootState) => state.identity.attestationCodes
+export const acceptedAttestationCodesSelector = (state: RootState) =>
+  state.identity.acceptedAttestationCodes
+export const attestationInputStatusSelector = (state: RootState) =>
+  state.identity.attestationInputStatus
+>>>>>>> main
 export const e164NumberToAddressSelector = (state: RootState) => state.identity.e164NumberToAddress
 export const addressToE164NumberSelector = (state: RootState) => state.identity.addressToE164Number
 export const walletToAccountAddressSelector = (state: RootState) =>
@@ -305,3 +476,18 @@ export const providerAddressesSelector = ({ identity: { addressToDisplayName } }
     .filter(([_, info]) => info?.isProviderAddress)
     .map(([address, _]) => address)
 }
+
+export const identifierToE164NumberSelector = createSelector(
+  e164NumberToSaltSelector,
+  (e164NumberToSalt) => {
+    const identifierToE164Numbers: IdentifierToE164NumberType = {}
+    for (const e164Number of Object.keys(e164NumberToSalt)) {
+      const pepper = e164NumberToSalt[e164Number]
+      if (pepper) {
+        const phoneHash = getPhoneHash(e164Number, pepper)
+        identifierToE164Numbers[phoneHash] = e164Number
+      }
+    }
+    return identifierToE164Numbers
+  }
+)

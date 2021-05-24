@@ -2,12 +2,15 @@ import Analytics, { Analytics as analytics } from '@segment/analytics-react-nati
 import Adjust from '@segment/analytics-react-native-adjust'
 import Firebase from '@segment/analytics-react-native-firebase'
 import { sha256 } from 'ethereumjs-util'
+import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 import { AppEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
-import { DEFAULT_TESTNET, SEGMENT_API_KEY } from 'src/config'
+import { DEFAULT_TESTNET, FIREBASE_ENABLED, isE2EEnv, SEGMENT_API_KEY } from 'src/config'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
+import { isPresent } from 'src/utils/typescript'
 
 const TAG = 'ValoraAnalytics'
 
@@ -43,7 +46,7 @@ async function getDeviceInfo() {
 }
 
 const SEGMENT_OPTIONS: analytics.Configuration = {
-  using: [Firebase, Adjust],
+  using: [FIREBASE_ENABLED ? Firebase : undefined, Adjust].filter(isPresent),
   flushAt: 20,
   debug: __DEV__,
   trackAppLifecycleEvents: true,
@@ -95,6 +98,10 @@ class ValoraAnalytics {
     this.track(eventName, {
       deviceInfo: this.deviceInfo,
       ...eventProperties,
+    })
+
+    this.requestTrackingPermissionIfNeeded().catch((error) => {
+      Logger.error(TAG, 'Failure while requesting tracking permission', error)
     })
   }
 
@@ -160,6 +167,37 @@ class ValoraAnalytics {
       await Analytics.reset()
     } catch (error) {
       Logger.error(TAG, 'Error resetting analytics', error)
+    }
+  }
+
+  private async requestTrackingPermissionIfNeeded() {
+    // TODO: remove `isE2EEnv` and set permission via Detox when we upgrade
+    if (Platform.OS !== 'ios' || isE2EEnv) {
+      return
+    }
+
+    const appTrackingPermission = await check(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY)
+    Logger.debug(TAG, `iOS tracking permission: ${appTrackingPermission}`)
+    if (appTrackingPermission !== RESULTS.DENIED) {
+      // The permission has already been requested / is not requestable
+      // See https://github.com/zoontek/react-native-permissions#permissions-statuses
+      return
+    }
+
+    Logger.debug(TAG, `iOS requesting tracking permission`)
+    this.track(AppEvents.request_tracking_permission_started, {
+      currentPermission: appTrackingPermission,
+    })
+    const newAppTrackingPermission = await request(PERMISSIONS.IOS.APP_TRACKING_TRANSPARENCY)
+    Logger.debug(TAG, `iOS tracking permission after request: ${newAppTrackingPermission}`)
+    if (newAppTrackingPermission === RESULTS.GRANTED) {
+      this.track(AppEvents.request_tracking_permission_accepted, {
+        newPermission: newAppTrackingPermission,
+      })
+    } else {
+      this.track(AppEvents.request_tracking_permission_declined, {
+        newPermission: newAppTrackingPermission,
+      })
     }
   }
 }

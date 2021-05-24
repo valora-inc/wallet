@@ -27,6 +27,10 @@ import { transactionSaga } from 'src/transactions/saga'
 import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
 import { verifySaga } from 'src/verify/saga'
+<<<<<<< HEAD
+=======
+import { walletConnectSaga } from 'src/walletConnect/saga'
+>>>>>>> main
 import { web3Saga } from 'src/web3/saga'
 
 const loggerBlacklist = [
@@ -78,11 +82,13 @@ export async function waitUntilSagasFinishLoading() {
 }
 
 export function* rootSaga() {
-  // Delay all sagas until rehydrate is done
-  // This prevents them from running with missing state
-  yield call(waitForRehydrate)
-  yield call(appInit)
+  try {
+    // Delay all sagas until rehydrate is done
+    // This prevents them from running with missing state
+    yield call(waitForRehydrate)
+    yield call(appInit)
 
+<<<<<<< HEAD
   // Note, the order of these does matter in certain cases
   yield spawn(appVersionSaga)
   yield spawn(appRemoteFeatureFlagSaga)
@@ -113,4 +119,42 @@ export function* rootSaga() {
   yield spawn(fiatExchangesSaga)
 
   sagasFinishedLoading = true
+=======
+    // Note, the order of these does matter in certain cases
+    yield spawn(appVersionSaga)
+    yield spawn(appRemoteFeatureFlagSaga)
+    yield spawn(loggerSaga)
+    yield spawn(appSaga)
+    yield spawn(sentrySaga)
+    yield spawn(networkInfoSaga)
+    yield spawn(gethSaga)
+    yield spawn(web3Saga)
+    yield spawn(accountSaga)
+    yield spawn(firebaseSaga)
+    yield spawn(transactionSaga)
+    yield spawn(homeSaga)
+    yield spawn(identitySaga)
+    yield spawn(verifySaga)
+    yield spawn(localCurrencySaga)
+    yield spawn(feesSaga)
+    yield spawn(stableTokenSaga)
+    yield spawn(goldTokenSaga)
+    yield spawn(sendSaga)
+    yield spawn(exchangeSaga)
+    yield spawn(paymentRequestSaga)
+    yield spawn(escrowSaga)
+    yield spawn(inviteSaga)
+    yield spawn(importSaga)
+    yield spawn(dappKitSaga)
+    yield spawn(checkAccountExistenceSaga)
+    yield spawn(fiatExchangesSaga)
+    yield spawn(walletConnectSaga)
+  } catch (error) {
+    Logger.error('@rootSaga', 'Error while initializing sagas', error)
+    // Propagate so it's handled by Sentry
+    throw error
+  } finally {
+    sagasFinishedLoading = true
+  }
+>>>>>>> main
 }

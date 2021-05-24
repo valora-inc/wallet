@@ -86,7 +86,32 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                     }
                   }
                 >
-                  0x 0000…7E57
+                  John Doe
+                </Text>
+              </View>
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#9CA4A9",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                      "marginRight": 7,
+                    }
+                  }
+                >
+                  +1 415-555-0000
                 </Text>
                 <View
                   style={
@@ -162,13 +187,23 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                     ]
                   }
                 >
-                  <svg
-                    fill="hsl(0, 53%, 93%)"
-                    height="40"
-                    style={Object {}}
-                    viewBox="0 0 40 40"
-                    width="40"
-                  />
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#FFFFFF",
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 16,
+                        },
+                        Object {
+                          "color": "hsl(0, 67%, 24%)",
+                          "fontSize": 20,
+                        },
+                      ]
+                    }
+                  >
+                    J
+                  </Text>
                 </View>
               </View>
               <View
@@ -991,7 +1026,32 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                     }
                   }
                 >
-                  CELO Rewards
+                  John Doe
+                </Text>
+              </View>
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#9CA4A9",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                      "marginRight": 7,
+                    }
+                  }
+                >
+                  +1 415-555-0000
                 </Text>
               </View>
             </View>
@@ -1034,7 +1094,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                         "justifyContent": "center",
                       },
                       Object {
-                        "backgroundColor": "hsl(291, 53%, 93%)",
+                        "backgroundColor": "hsl(0, 53%, 93%)",
                         "borderRadius": 20,
                         "height": 40,
                         "width": 40,
@@ -1051,13 +1111,13 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                           "fontSize": 16,
                         },
                         Object {
-                          "color": "hsl(291, 67%, 24%)",
+                          "color": "hsl(0, 67%, 24%)",
                           "fontSize": 20,
                         },
                       ]
                     }
                   >
-                    C
+                    J
                   </Text>
                 </View>
               </View>
@@ -1461,6 +1521,31 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                     }
                   }
                 >
+                  John Doe
+                </Text>
+              </View>
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#9CA4A9",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                      "marginRight": 7,
+                    }
+                  }
+                >
                   +1 415-555-0000
                 </Text>
                 <View
@@ -1535,13 +1620,23 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                     ]
                   }
                 >
-                  <svg
-                    fill="hsl(0, 53%, 93%)"
-                    height="40"
-                    style={Object {}}
-                    viewBox="0 0 40 40"
-                    width="40"
-                  />
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#FFFFFF",
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 16,
+                        },
+                        Object {
+                          "color": "hsl(0, 67%, 24%)",
+                          "fontSize": 20,
+                        },
+                      ]
+                    }
+                  >
+                    J
+                  </Text>
                 </View>
               </View>
               <View
@@ -1910,6 +2005,31 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                     }
                   }
                 >
+                  John Doe
+                </Text>
+              </View>
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#9CA4A9",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                      "marginRight": 7,
+                    }
+                  }
+                >
                   +1 415-555-0000
                 </Text>
                 <View
@@ -1984,13 +2104,23 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                     ]
                   }
                 >
-                  <svg
-                    fill="hsl(0, 53%, 93%)"
-                    height="40"
-                    style={Object {}}
-                    viewBox="0 0 40 40"
-                    width="40"
-                  />
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#FFFFFF",
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 16,
+                        },
+                        Object {
+                          "color": "hsl(0, 67%, 24%)",
+                          "fontSize": 20,
+                        },
+                      ]
+                    }
+                  >
+                    J
+                  </Text>
                 </View>
               </View>
               <View
@@ -2359,6 +2489,31 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                     }
                   }
                 >
+                  John Doe
+                </Text>
+              </View>
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#9CA4A9",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                      "marginRight": 7,
+                    }
+                  }
+                >
                   +1 415-555-0000
                 </Text>
                 <View
@@ -2435,13 +2590,23 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                     ]
                   }
                 >
-                  <svg
-                    fill="hsl(0, 53%, 93%)"
-                    height="40"
-                    style={Object {}}
-                    viewBox="0 0 40 40"
-                    width="40"
-                  />
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#FFFFFF",
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 16,
+                        },
+                        Object {
+                          "color": "hsl(0, 67%, 24%)",
+                          "fontSize": 20,
+                        },
+                      ]
+                    }
+                  >
+                    J
+                  </Text>
                 </View>
               </View>
               <View
@@ -3057,6 +3222,31 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                     }
                   }
                 >
+                  John Doe
+                </Text>
+              </View>
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    },
+                    undefined,
+                  ]
+                }
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#9CA4A9",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                      "marginRight": 7,
+                    }
+                  }
+                >
                   +1 415-555-0000
                 </Text>
                 <View
@@ -3133,13 +3323,23 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                     ]
                   }
                 >
-                  <svg
-                    fill="hsl(0, 53%, 93%)"
-                    height="40"
-                    style={Object {}}
-                    viewBox="0 0 40 40"
-                    width="40"
-                  />
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#FFFFFF",
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 16,
+                        },
+                        Object {
+                          "color": "hsl(0, 67%, 24%)",
+                          "fontSize": 20,
+                        },
+                      ]
+                    }
+                  >
+                    J
+                  </Text>
                 </View>
               </View>
               <View

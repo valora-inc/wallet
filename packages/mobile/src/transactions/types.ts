@@ -1,3 +1,4 @@
+import { Address } from '@celo/base'
 import { TokenTransactionType } from 'src/apollo/types'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import { v4 as uuidv4 } from 'uuid'
@@ -22,7 +23,7 @@ export interface TransferStandby {
   comment: string
   symbol: CURRENCY_ENUM
   timestamp: number
-  address: string
+  address: Address
   hash?: string
 }
 

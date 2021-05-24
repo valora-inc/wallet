@@ -20,7 +20,11 @@ import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 import { waitForTransactionWithId } from 'src/transactions/saga'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+<<<<<<< HEAD
 import { isBalanceSufficientForSigRetrievalSelector } from 'src/verify/module'
+=======
+import { isBalanceSufficientForSigRetrievalSelector } from 'src/verify/reducer'
+>>>>>>> main
 import { getAuthSignerForAccount } from 'src/web3/dataEncryptionKey'
 import { getAccount, getAccountAddress, unlockAccount, UnlockResult } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'

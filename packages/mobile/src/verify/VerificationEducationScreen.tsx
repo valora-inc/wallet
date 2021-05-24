@@ -8,6 +8,7 @@ import { Countries } from '@celo/utils/lib/countries'
 import { useFocusEffect } from '@react-navigation/native'
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
@@ -15,23 +16,33 @@ import Modal from 'react-native-modal'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount, setPhoneNumber } from 'src/account/actions'
+import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedSelector } from 'src/app/selectors'
+import { hideVerificationSelector, numberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import { WEB_LINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
 import i18n, { Namespaces } from 'src/i18n'
+<<<<<<< HEAD
+=======
+import { setHasSeenVerificationNux, startVerification } from 'src/identity/actions'
+>>>>>>> main
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
+<<<<<<< HEAD
+=======
+import { useAsyncKomenciReadiness } from 'src/verify/hooks'
+>>>>>>> main
 import {
   actionableAttestationsSelector,
   checkIfKomenciAvailable,
@@ -39,6 +50,7 @@ import {
   isBalanceSufficientSelector,
   reset,
   setKomenciContext,
+<<<<<<< HEAD
   setSeenVerificationNux,
   shouldUseKomenciSelector,
   start as startVerification,
@@ -47,6 +59,14 @@ import {
   VerificationStateType,
   verificationStatusSelector,
 } from 'src/verify/module'
+=======
+  shouldUseKomenciSelector,
+  startKomenciSession,
+  StateType,
+  stop,
+  verificationStatusSelector,
+} from 'src/verify/reducer'
+>>>>>>> main
 import GoogleReCaptcha from 'src/verify/safety/GoogleReCaptcha'
 import { getPhoneNumberState } from 'src/verify/utils'
 import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'
@@ -69,7 +89,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const partOfOnboarding = !route.params?.hideOnboardingStep
 
   const cachedNumber = useTypedSelector((state) => state.account.e164PhoneNumber)
-  const cachedCountryCallingCode = useTypedSelector((state) => state.account.defaultCountryCode)
+  const cachedCountryCallingCode = useTypedSelector(defaultCountryCodeSelector)
   const [phoneNumberInfo, setPhoneNumberInfo] = useState(() =>
     getPhoneNumberState(
       cachedNumber || '',
@@ -89,8 +109,13 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     if (!canUsePhoneNumber()) {
       return
     }
+<<<<<<< HEAD
     dispatch(setSeenVerificationNux(true))
     dispatch(startVerification({ e164Number: phoneNumberInfo.e164Number }))
+=======
+    dispatch(setHasSeenVerificationNux(true))
+    dispatch(startVerification(phoneNumberInfo.e164Number, noActionIsRequired))
+>>>>>>> main
   }
 
   const onPressSkipCancel = () => {
@@ -98,12 +123,20 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   }
 
   const onPressSkipConfirm = () => {
+<<<<<<< HEAD
     dispatch(setSeenVerificationNux(true))
+=======
+    dispatch(setHasSeenVerificationNux(true))
+>>>>>>> main
     navigateHome()
   }
 
   const onPressContinue = () => {
+<<<<<<< HEAD
     dispatch(setSeenVerificationNux(true))
+=======
+    dispatch(setHasSeenVerificationNux(true))
+>>>>>>> main
     if (partOfOnboarding) {
       navigation.navigate(Screens.ImportContacts)
     } else {
@@ -111,6 +144,18 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     }
   }
 
+<<<<<<< HEAD
+=======
+  const onPressContinueWhenVerificationUnavailable = () => {
+    if (!canUsePhoneNumber()) {
+      return
+    }
+
+    dispatch(setHasSeenVerificationNux(true))
+    navigateHome()
+  }
+
+>>>>>>> main
   const onPressLearnMore = () => {
     setShowLearnMoreDialog(true)
   }
@@ -138,11 +183,23 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     }
   }, [route.params?.selectedCountryCodeAlpha2])
 
+<<<<<<< HEAD
   useEffect(() => {
+=======
+  useAsync(async () => {
+    await waitUntilSagasFinishLoading()
+>>>>>>> main
     dispatch(initializeAccount())
     dispatch(checkIfKomenciAvailable())
   }, [])
 
+<<<<<<< HEAD
+=======
+  // CB TEMPORARY HOTFIX: Pinging Komenci endpoint to ensure availability
+  const hideVerification = useSelector(hideVerificationSelector)
+  const asyncKomenciReadiness = useAsyncKomenciReadiness()
+
+>>>>>>> main
   useFocusEffect(
     // useCallback is needed here: https://bit.ly/2G0WKTJ
     useCallback(() => {
@@ -208,11 +265,18 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         phoneNumberInfo.countryCodeAlpha2
       )
     )
+    if (noActionIsRequired) {
+      dispatch(reset({ komenci: shouldUseKomenci ?? true }))
+    }
   }
 
   const isBalanceSufficient = useSelector(isBalanceSufficientSelector)
 
+<<<<<<< HEAD
   if (shouldUseKomenci === undefined || !account) {
+=======
+  if (asyncKomenciReadiness.loading || shouldUseKomenci === undefined || !account) {
+>>>>>>> main
     return (
       <View style={styles.loader}>
         {account && (
@@ -244,6 +308,21 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         testID="VerificationEducationSkip"
       />
     )
+<<<<<<< HEAD
+=======
+  } else if (!asyncKomenciReadiness.result || hideVerification) {
+    bodyText = t('verificationUnavailable')
+    firstButton = (
+      <Button
+        text={t('global:continue')}
+        onPress={onPressContinueWhenVerificationUnavailable}
+        type={BtnTypes.ONBOARDING}
+        style={styles.startButton}
+        disabled={continueButtonDisabled}
+        testID="VerificationEducationSkip"
+      />
+    )
+>>>>>>> main
   } else if (shouldUseKomenci || isBalanceSufficient) {
     // Sufficient balance
     bodyText = t(`verificationEducation.${shouldUseKomenci ? 'feelessBody' : 'body'}`)
@@ -298,7 +377,11 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         </TextButton>
       </ScrollView>
       <Modal
+<<<<<<< HEAD
         isVisible={currentState.type === VerificationStateType.EnsuringRealHumanUser}
+=======
+        isVisible={currentState.type === StateType.EnsuringRealHumanUser}
+>>>>>>> main
         style={styles.recaptchaModal}
       >
         <TopBarTextButton

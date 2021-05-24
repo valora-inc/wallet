@@ -10,7 +10,7 @@ import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
-import { getRecipientThumbnail, Recipient } from 'src/recipients/recipient'
+import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import Logger from 'src/utils/Logger'
 
 interface OwnProps {
@@ -59,7 +59,6 @@ export class OutgoingPaymentRequestListItem extends React.Component<Props> {
 
   render() {
     const { requestee, id, comment, t } = this.props
-    const name = requestee.displayName
     const amount = {
       value: this.props.amount,
       currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
@@ -69,16 +68,12 @@ export class OutgoingPaymentRequestListItem extends React.Component<Props> {
       <View style={styles.container}>
         <RequestMessagingCard
           testID={`OutgoingPaymentRequestNotification/${id}`}
-          title={t('outgoingPaymentRequestNotificationTitle', { name })}
+          title={t('outgoingPaymentRequestNotificationTitle', {
+            name: getDisplayName(requestee, t),
+          })}
           amount={<CurrencyDisplay amount={amount} />}
           details={comment}
-          icon={
-            <ContactCircle
-              address={requestee.address}
-              name={name}
-              thumbnailPath={getRecipientThumbnail(requestee)}
-            />
-          }
+          icon={<ContactCircle recipient={requestee} />}
           callToActions={this.getCTA()}
         />
       </View>

@@ -1,9 +1,14 @@
 import _ from 'lodash'
 import { PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { RootState } from 'src/redux/reducers'
+<<<<<<< HEAD
 import { idle, KomenciAvailable, NUM_ATTESTATIONS_REQUIRED } from 'src/verify/module'
+=======
+import { idle, KomenciAvailable } from 'src/verify/reducer'
+>>>>>>> main
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -488,6 +493,10 @@ export const v7Schema = {
     loading: false,
     notifications: {},
   },
+  recipients: {
+    phoneRecipientCache: {},
+    valoraRecipientCache: {},
+  },
   fiatExchanges: {
     lastUsedProvider: null,
     txHashToProvider: {},
@@ -513,6 +522,13 @@ export const v8Schema = {
     'feelessVerificationState',
     'feelessLastRevealAttempt'
   ),
+<<<<<<< HEAD
+=======
+  app: {
+    ...v7Schema.app,
+    hideVerification: false,
+  },
+>>>>>>> main
   verify: {
     komenci: {
       errorTimestamps: [],
@@ -536,10 +552,21 @@ export const v8Schema = {
     withoutRevealing: false,
     TEMPORARY_override_withoutVerification: undefined,
   },
+<<<<<<< HEAD
+=======
+  account: {
+    ...v7Schema.account,
+    recoveringFromStoreWipe: false,
+    accountToRecoverFromStoreWipe: undefined,
+    dailyLimitRequestStatus: undefined,
+    profileUploaded: false,
+  },
+>>>>>>> main
 }
 
 export const v9Schema = {
   ...v8Schema,
+<<<<<<< HEAD
   verify: {
     ..._.omit(
       v8Schema.verify,
@@ -552,6 +579,31 @@ export const v9Schema = {
     attestationCodes: [],
     completedAttestationCodes: [],
     lastRevealAttempt: null,
+=======
+  app: {
+    ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+    showRaiseDailyLimitTarget: undefined,
+    walletConnectEnabled: false,
+    ranVerificationMigrationAt: null,
+  },
+  walletConnect: {
+    pairings: [],
+    sessions: [],
+    pendingSessions: [],
+    pendingActions: [],
+  },
+  fiatExchanges: {
+    ...v8Schema.fiatExchanges,
+    providerLogos: {},
+  },
+  identity: {
+    ...v8Schema.identity,
+    attestationInputStatus: [
+      CodeInputStatus.Inputting,
+      CodeInputStatus.Disabled,
+      CodeInputStatus.Disabled,
+    ],
+>>>>>>> main
   },
 }
 

@@ -45,6 +45,7 @@ FetchingMtw --> FetchingOnChainData
 FetchingMtw: fetching existing or deploing new MTW wallet
 FetchingPhoneNumberDetails --> FetchingOnChainData
 
+<<<<<<< HEAD
 FetchingOnChainData --> RequestingAttestations
 RequestingAttestations: Request more if we do not have enough actionable attestations,
 RequestingAttestations: which are not yet or already been successfully revealed
@@ -69,4 +70,17 @@ Success --> [*]
 Success: Navigate user away from verification
 Error --> [*]
 Error: Show an error
+=======
+state doVerificationFlowSaga {
+  [*] --> RequestingAttestations
+  RequestingAttestations --> RevealingAttestations
+  RevealingAttestations --> CompletingAttestations
+}
+doVerificationFlowSaga: this part has not been implemented yet
+
+FetchingOnChainData --> doVerificationFlowSaga
+CompletingAttestations --> Success
+Success --> [*]
+Error --> [*]
+>>>>>>> main
 @enduml

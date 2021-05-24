@@ -1,6 +1,5 @@
-# Mobile (Celo Wallet)
+# Mobile (Valora)
 
-- [Mobile (Celo Wallet)](#mobile-celo-wallet)
   - [Overview](#overview)
   - [Architecture](#architecture)
   - [Setup](#setup)
@@ -39,10 +38,8 @@
 
 ## Overview
 
-This is a wallet application for the [Celo platform].
-It's a self-soverign wallet that enables anyone to onboard onto the Celo network, manage their currencies, and send payments.
-
-![](https://storage.googleapis.com/celo-website/docs/wallet-preview.png)
+This package contains the code for the Valora mobile apps for Android and iOS.
+Valora is a self-soverign wallet that enables anyone to onboard onto the Celo network, manage their currencies, and send payments.
 
 ## Architecture
 
@@ -282,7 +279,7 @@ As an alternative, Flipper can be used instead.
 
 #### Install Flipper
 
-[Flipper][flipper] is a platform for debugging iOS, Android and React Native apps. Visualize, inspect, and control your apps from a simple desktop interface.
+[Flipper][flipper] is a platform for debugging iOS, Android and React Native apps. Visualize, inspect, and control your apps from a simple desktop interface. Download on the web or through brew.
 
 ```sh
 brew install flipper

@@ -34,8 +34,16 @@ import { CURRENCY_ENUM, SHORT_CURRENCIES } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
 import i18n from 'src/i18n'
+<<<<<<< HEAD
 import { getUserSelfPhoneHashDetails } from 'src/identity/privateHashing'
 import { addressToE164NumberSelector } from 'src/identity/reducer'
+=======
+import { Actions as IdentityActions, SetVerificationStatusAction } from 'src/identity/actions'
+import { getUserSelfPhoneHashDetails } from 'src/identity/privateHashing'
+import { identifierToE164NumberSelector } from 'src/identity/reducer'
+import { VerificationStatus } from 'src/identity/types'
+import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
+>>>>>>> main
 import { isValidPrivateKey } from 'src/invite/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { RootState } from 'src/redux/reducers'
@@ -50,12 +58,16 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+<<<<<<< HEAD
 import {
   komenciContextSelector,
   NUM_ATTESTATIONS_REQUIRED,
   shouldUseKomenciSelector,
   success,
 } from 'src/verify/module'
+=======
+import { komenciContextSelector, shouldUseKomenciSelector } from 'src/verify/reducer'
+>>>>>>> main
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { mtwAddressSelector } from 'src/web3/selectors'
@@ -563,11 +575,11 @@ function* doFetchSentPayments() {
       sentPaymentIDs.map((paymentID) => call(getEscrowedPayment, escrow, paymentID))
     )
 
-    const addressToE164Number = yield select(addressToE164NumberSelector)
+    const identifierToE164Number = yield select(identifierToE164NumberSelector)
     const sentPayments: EscrowedPayment[] = []
     for (let i = 0; i < sentPaymentsRaw.length; i++) {
       const address = sentPaymentIDs[i].toLowerCase()
-      const recipientPhoneNumber = addressToE164Number[address]
+      const recipientPhoneNumber = identifierToE164Number[sentPaymentsRaw[i].recipientIdentifier]
       const payment = sentPaymentsRaw[i]
       if (!payment) {
         continue
@@ -576,7 +588,10 @@ function* doFetchSentPayments() {
       const escrowPaymentWithRecipient: EscrowedPayment = {
         paymentID: address,
         senderAddress: payment[1],
+        // TODO: Remove the phone from here and calculate it using the identifier where needed
+        // since identifier mapping could be fetched after this is called.
         recipientPhone: recipientPhoneNumber,
+        recipientIdentifier: payment.recipientIdentifier,
         currency: SHORT_CURRENCIES.DOLLAR, // Only dollars can be escrowed
         amount: payment[3],
         timestamp: payment[6],
@@ -607,6 +622,7 @@ export function* watchFetchSentPayments() {
 
 export function* watchVerificationEnd() {
   while (true) {
+<<<<<<< HEAD
     yield take(success)
     const shouldUseKomenci = yield select(shouldUseKomenciSelector)
     // We wait for the next block because escrow can not
@@ -616,6 +632,19 @@ export function* watchVerificationEnd() {
       yield call(withdrawFromEscrowWithoutCode, shouldUseKomenci)
     } else {
       yield call(withdrawFromEscrow)
+=======
+    const update: SetVerificationStatusAction = yield take(IdentityActions.SET_VERIFICATION_STATUS)
+    const shouldUseKomenci = yield select(shouldUseKomenciSelector)
+    if (update?.status === VerificationStatus.Done) {
+      // We wait for the next block because escrow can not
+      // be redeemed without all the attestations completed
+      yield waitForNextBlock()
+      if (features.ESCROW_WITHOUT_CODE) {
+        yield call(withdrawFromEscrowWithoutCode, shouldUseKomenci)
+      } else {
+        yield call(withdrawFromEscrow)
+      }
+>>>>>>> main
     }
   }
 }

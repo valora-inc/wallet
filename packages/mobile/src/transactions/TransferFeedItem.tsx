@@ -9,7 +9,7 @@ import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { Namespaces } from 'src/i18n'
 import { addressToDisplayNameSelector, AddressToE164NumberType } from 'src/identity/reducer'
 import { InviteDetails } from 'src/invite/actions'
-import { getRecipientFromAddress, NumberToRecipient } from 'src/recipients/recipient'
+import { getRecipientFromAddress, NumberToRecipient, RecipientInfo } from 'src/recipients/recipient'
 import { navigateToPaymentTransferReview } from 'src/transactions/actions'
 import TransactionFeedItem from 'src/transactions/TransactionFeedItem'
 import TransferFeedIcon from 'src/transactions/TransferFeedIcon'
@@ -23,10 +23,11 @@ type Props = TransferItemFragment & {
   type: TokenTransactionType
   status: TransactionStatus
   addressToE164Number: AddressToE164NumberType
-  recipientCache: NumberToRecipient
+  phoneRecipientCache: NumberToRecipient
   recentTxRecipientsCache: NumberToRecipient
   invitees: InviteDetails[]
   commentKey: string | null
+  recipientInfo: RecipientInfo
 }
 
 function navigateToTransactionReview({
@@ -36,16 +37,14 @@ function navigateToTransactionReview({
   commentKey,
   timestamp,
   amount,
-  addressToE164Number,
-  recipientCache,
+  recipientInfo,
 }: Props) {
   // TODO: remove this when verification reward drilldown is supported
   if (type === TokenTransactionType.VerificationReward) {
     return
   }
 
-  const recipient = getRecipientFromAddress(address, addressToE164Number, recipientCache)
-  const e164PhoneNumber = addressToE164Number[address] || undefined
+  const recipient = getRecipientFromAddress(address, recipientInfo)
 
   navigateToPaymentTransferReview(type, timestamp, {
     address,
@@ -53,7 +52,6 @@ function navigateToTransactionReview({
     amount,
     recipient,
     type,
-    e164PhoneNumber,
     // fee TODO: add fee here.
   })
 }
@@ -78,27 +76,28 @@ export function TransferFeedItem(props: Props) {
     commentKey,
     status,
     addressToE164Number,
-    recipientCache,
+    phoneRecipientCache,
     recentTxRecipientsCache,
     invitees,
+    recipientInfo,
   } = props
   const txInfo = txHashToFeedInfo[hash]
 
   const { title, info, recipient } = getTransferFeedParams(
     type,
     t,
-    recipientCache,
+    phoneRecipientCache,
     recentTxRecipientsCache,
-    txInfo?.name || addressToDisplayName[address]?.name,
     address,
     addressToE164Number,
     comment,
     commentKey,
     timestamp,
     invitees,
-    addressToDisplayName[address]?.isCeloRewardSender ?? false
+    recipientInfo,
+    addressToDisplayName[address]?.isCeloRewardSender ?? false,
+    txInfo
   )
-  const imageUrl = (txInfo?.icon || addressToDisplayName[address]?.imageUrl) ?? null
 
   return (
     <TransactionFeedItem
@@ -106,9 +105,7 @@ export function TransferFeedItem(props: Props) {
       amount={amount}
       title={title}
       info={info}
-      icon={
-        <TransferFeedIcon type={type} recipient={recipient} address={address} imageUrl={imageUrl} />
-      }
+      icon={<TransferFeedIcon type={type} recipient={recipient} />}
       timestamp={timestamp}
       status={status}
       onPress={onPress}
@@ -133,6 +130,7 @@ TransferFeedItem.fragments = {
       }
       timestamp
       address
+      account
       comment
     }
   `,

@@ -349,6 +349,20 @@ describe('Blockscout', () => {
           "timestamp": 1602667173000,
           "type": "SENT",
         },
+        Object {
+          "account": "0x0000000000000000000000000000000000a77327",
+          "address": "0x0000000000000000000000000000000000a77327",
+          "amount": Object {
+            "currencyCode": "cUSD",
+            "timestamp": 1618593019000,
+            "value": "20",
+          },
+          "block": "6203333",
+          "comment": "",
+          "hash": "0x8323ad9ea0961221e146aa086b9cda858acbf7a4058a23061c9e0d52a0e2d9b1",
+          "timestamp": 1618593019000,
+          "type": "ESCROW_RECEIVED",
+        },
       ]
     `)
   })
@@ -930,6 +944,20 @@ describe('Blockscout', () => {
           "hash": "0x34e6e74bc01c7112817e669a8057ae7f4c1ed49d8de824bea8ecbdb945b41345",
           "timestamp": 1602667173000,
           "type": "SENT",
+        },
+        Object {
+          "account": "0x0000000000000000000000000000000000a77327",
+          "address": "0x0000000000000000000000000000000000a77327",
+          "amount": Object {
+            "currencyCode": "cUSD",
+            "timestamp": 1618593019000,
+            "value": "20",
+          },
+          "block": "6203333",
+          "comment": "",
+          "hash": "0x8323ad9ea0961221e146aa086b9cda858acbf7a4058a23061c9e0d52a0e2d9b1",
+          "timestamp": 1618593019000,
+          "type": "ESCROW_RECEIVED",
         },
       ]
     `)

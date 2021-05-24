@@ -1,7 +1,7 @@
 import i18n from 'src/i18n'
 
 export const getContentForCurrentLang = (content: { [lang: string]: any }) => {
-  const language = i18n.language.toLowerCase()
+  const language = i18n.language?.toLowerCase() ?? 'en'
   const texts = content[language] || content[language.slice(0, 2)] || content.en
   for (const key of Object.keys(texts)) {
     if (typeof texts[key] === 'string') {

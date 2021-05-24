@@ -1,5 +1,5 @@
 import { CeloTransactionObject } from '@celo/connect'
-import { ContractKit } from '@celo/contractkit'
+import { ContractKit } from '@celo/contractkit/lib/kit'
 import { AttestationsWrapper } from '@celo/contractkit/lib/wrappers/Attestations'
 import { MetaTransactionWalletWrapper } from '@celo/contractkit/lib/wrappers/MetaTransactionWallet'
 import { eqAddress } from '@celo/utils/lib/address'
@@ -8,7 +8,11 @@ import { e164NumberSelector } from 'src/account/selectors'
 import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
+<<<<<<< HEAD
 import { removeWalletToAccountAddress } from 'src/identity/actions'
+=======
+import { revokeVerificationState } from 'src/identity/actions'
+>>>>>>> main
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
@@ -85,7 +89,11 @@ export function* revokeSaga(action: ReturnType<typeof revoke>) {
     }
 
     yield all([
+<<<<<<< HEAD
       put(removeWalletToAccountAddress(walletAddress)),
+=======
+      put(revokeVerificationState(walletAddress)),
+>>>>>>> main
       put(setNumberVerified(false)),
       put(setMtwAddress(null)),
     ])

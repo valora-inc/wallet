@@ -9,7 +9,12 @@ import { getReclaimEscrowFee, reclaimFromEscrow } from 'src/escrow/saga'
 import { CURRENCY_ENUM, SHORT_CURRENCIES, WEI_PER_TOKEN } from 'src/geth/consts'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockAccount2, mockE164Number } from 'test/values'
+import {
+  mockAccount,
+  mockAccount2,
+  mockE164Number,
+  mockE164NumberHashWithPepper,
+} from 'test/values'
 
 // A fee of 0.01 cUSD.
 const TEST_FEE_INFO_CUSD = {
@@ -38,6 +43,7 @@ const mockScreenProps = getMockStackScreenProps(Screens.ReclaimPaymentConfirmati
   reclaimPaymentInput: {
     senderAddress: mockAccount2,
     recipientPhone: mockE164Number,
+    recipientIdentifier: mockE164NumberHashWithPepper,
     paymentID: mockAccount,
     currency: SHORT_CURRENCIES.DOLLAR,
     amount: new BigNumber(10).times(WEI_PER_TOKEN),

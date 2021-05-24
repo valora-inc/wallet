@@ -75,8 +75,9 @@ class PincodeEnter extends React.Component<Props, State> {
     const { route, currentAccount } = this.props
     const { pin } = this.state
     const withVerification = route.params.withVerification
-    if (withVerification && currentAccount) {
-      if (await checkPin(pin, currentAccount)) {
+    const account = currentAccount ?? route.params.account
+    if (withVerification && account) {
+      if (await checkPin(pin, account)) {
         this.onCorrectPin(pin)
       } else {
         this.onWrongPin()

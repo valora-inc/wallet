@@ -19,9 +19,17 @@ export function* startAutoSmsRetrieval() {
   })
   yield call(startSmsRetriever)
   try {
+    const messages: string[] = []
     while (true) {
       const { message } = yield take(autoSmsChannel)
+<<<<<<< HEAD
       yield put(receiveAttestationCode({ message, inputType: CodeInputType.AUTOMATIC }))
+=======
+      if (!messages.includes(message)) {
+        messages.push(message)
+        yield put(receiveAttestationMessage(message, CodeInputType.AUTOMATIC))
+      }
+>>>>>>> main
     }
   } catch (error) {
     Logger.error(TAG + '@SmsRetriever', 'Error while retrieving code', error)

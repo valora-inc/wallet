@@ -6,6 +6,12 @@ import ExchangeCelo from './usecases/ExchangeCelo'
 import ResetAccount from './usecases/ResetAccount'
 
 describe('Funded Account', () => {
+  beforeAll(async () => {
+    await device.launchApp({
+      permissions: { notifications: 'YES', contacts: 'YES' },
+    })
+  })
+
   beforeEach(dismissBanners)
 
   describe('Onboarding', RestoreAccountOnboarding)

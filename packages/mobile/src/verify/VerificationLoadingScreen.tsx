@@ -44,7 +44,11 @@ const TAG = 'VerificationLoadingScreen'
 const mapStateToProps = (state: RootState) => {
   return {
     e164Number: state.account.e164PhoneNumber,
+<<<<<<< HEAD
     verificationState: state.verify.currentState,
+=======
+    verificationStatus: state.identity.verificationStatus,
+>>>>>>> main
     retryWithForno: state.account.retryVerificationWithForno,
     fornoMode: state.web3.fornoMode,
   }

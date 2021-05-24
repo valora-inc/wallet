@@ -36,7 +36,7 @@ const defaultStore = {
     },
   },
   recipients: {
-    recipientCache: {
+    phoneRecipientCache: {
       [mockE164Number]: mockRecipient2,
       [mockE164NumberInvite]: mockRecipient4,
     },

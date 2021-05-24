@@ -22,7 +22,8 @@ export const getCountryFeaturesSelector = createSelector(
   defaultCountryCodeSelector,
   (countryCallingCode) => {
     const countryCodeAlpha2 = countryCallingCode
-      ? getRegionCodeFromCountryCode(countryCallingCode)
+      ? // @ts-ignore-next-line
+        getRegionCodeFromCountryCode(countryCallingCode)
       : null
     return getCountryFeatures(countryCodeAlpha2)
   }

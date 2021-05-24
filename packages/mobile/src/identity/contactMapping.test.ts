@@ -7,6 +7,7 @@ import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { fetchLostAccounts } from 'src/firebase/firebase'
 import {
   requireSecureSend,
   updateE164PhoneNumberAddresses,
@@ -19,7 +20,7 @@ import {
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/reducer'
-import { setRecipientCache } from 'src/recipients/actions'
+import { setPhoneRecipientCache } from 'src/recipients/actions'
 import { contactsToRecipients } from 'src/recipients/recipient'
 import { getAllContacts } from 'src/utils/contacts'
 import { getContractKitAsync } from 'src/web3/contracts'
@@ -37,9 +38,6 @@ import {
 } from 'test/values'
 
 const recipients = contactsToRecipients(mockContactList, '+1')
-const e164NumberRecipients = recipients!.e164NumberToRecipients
-const otherRecipients = recipients!.otherRecipients
-const allRecipients = { ...e164NumberRecipients, ...otherRecipients }
 
 describe('Import Contacts Saga', () => {
   it('imports contacts and creates contact mappings correctly', async () => {
@@ -56,7 +54,7 @@ describe('Import Contacts Saga', () => {
           mockContactWithPhone2.thumbnailPath || null
         )
       )
-      .put(setRecipientCache(allRecipients))
+      .put(setPhoneRecipientCache(recipients))
       .run()
   })
 
@@ -104,6 +102,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
@@ -158,6 +157,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
@@ -210,6 +210,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
@@ -271,6 +272,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), {}],
+        [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
@@ -339,6 +341,7 @@ describe('Fetch Addresses Saga', () => {
     })
       .provide([
         [select(e164NumberToAddressSelector), {}],
+        [call(fetchLostAccounts), []],
         [call(fetchPhoneHashPrivate, mockE164Number), { phoneHash: mockE164NumberHash }],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),

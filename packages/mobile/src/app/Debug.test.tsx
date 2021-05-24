@@ -1,13 +1,13 @@
 import * as React from 'react'
 import 'react-native'
+import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import Debug from 'src/app/Debug'
 import { createMockStore } from 'test/utils'
 
 describe('Debug', () => {
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={createMockStore()}>
         <Debug />
       </Provider>

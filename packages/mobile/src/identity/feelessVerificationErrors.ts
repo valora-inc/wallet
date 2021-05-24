@@ -2,7 +2,11 @@
 import { RootError } from '@celo/base'
 import { FetchErrorTypes, KomenciKitErrorTypes, TxErrorTypes } from '@celo/komencikit/src/errors'
 import { put, select } from 'redux-saga/effects'
+<<<<<<< HEAD
 import { komenciContextSelector, setKomenciContext } from 'src/verify/module'
+=======
+import { komenciContextSelector, setKomenciContext } from 'src/verify/reducer'
+>>>>>>> main
 
 const KOMENCI_ERROR_WINDOW = 1000 * 60 * 60 * 3 // 3 hours
 const KOMENCI_ERROR_ALLOTMENT = 2
@@ -14,9 +18,7 @@ export enum FeelessVerificationErrors {
 }
 
 // When Komenci has failed more than allowed within a given window
-export class KomenciErrorQuotaExceeded extends RootError<
-  FeelessVerificationErrors.KomenciErrorQuotaExceeded
-> {
+export class KomenciErrorQuotaExceeded extends RootError<FeelessVerificationErrors.KomenciErrorQuotaExceeded> {
   constructor() {
     super(FeelessVerificationErrors.KomenciErrorQuotaExceeded)
     Object.setPrototypeOf(this, KomenciErrorQuotaExceeded.prototype)
@@ -24,9 +26,7 @@ export class KomenciErrorQuotaExceeded extends RootError<
 }
 
 // When the Komenci session is no longer valid
-export class KomenciSessionInvalidError extends RootError<
-  FeelessVerificationErrors.KomenciSessionInvalidError
-> {
+export class KomenciSessionInvalidError extends RootError<FeelessVerificationErrors.KomenciSessionInvalidError> {
   constructor() {
     super(FeelessVerificationErrors.KomenciSessionInvalidError)
     Object.setPrototypeOf(this, KomenciSessionInvalidError.prototype)
@@ -34,9 +34,7 @@ export class KomenciSessionInvalidError extends RootError<
 }
 
 // When the pepper is not in the redux store
-export class PepperNotCachedError extends RootError<
-  FeelessVerificationErrors.PepperNotCachedError
-> {
+export class PepperNotCachedError extends RootError<FeelessVerificationErrors.PepperNotCachedError> {
   constructor() {
     super(FeelessVerificationErrors.PepperNotCachedError)
     Object.setPrototypeOf(this, PepperNotCachedError.prototype)

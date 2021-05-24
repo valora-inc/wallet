@@ -50,10 +50,7 @@ describe(estimateFeeSaga, () => {
       .put(
         feeEstimated(
           FeeType.SEND,
-          new BigNumber(10000)
-            .times(GAS_PRICE_INFLATION_FACTOR)
-            .times(GAS_AMOUNT)
-            .toString()
+          new BigNumber(10000).times(GAS_PRICE_INFLATION_FACTOR).times(GAS_AMOUNT).toString()
         )
       )
       .run()
@@ -69,10 +66,7 @@ describe(estimateFeeSaga, () => {
       .put(
         feeEstimated(
           FeeType.SEND,
-          new BigNumber(10000)
-            .times(GAS_PRICE_INFLATION_FACTOR)
-            .times(GAS_AMOUNT)
-            .toString()
+          new BigNumber(10000).times(GAS_PRICE_INFLATION_FACTOR).times(GAS_AMOUNT).toString()
         )
       )
       .run()

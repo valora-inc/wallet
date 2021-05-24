@@ -10,7 +10,11 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { updateE164PhoneNumberSalts } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { e164NumberToSaltSelector } from 'src/identity/reducer'
+<<<<<<< HEAD
 import { isBalanceSufficientForSigRetrievalSelector } from 'src/verify/module'
+=======
+import { isBalanceSufficientForSigRetrievalSelector } from 'src/verify/reducer'
+>>>>>>> main
 import { isAccountUpToDate } from 'src/web3/dataEncryptionKey'
 import { getConnectedAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'

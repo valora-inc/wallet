@@ -1,5 +1,9 @@
 import { verificationPossibleSelector } from 'src/app/selectors'
+<<<<<<< HEAD
 import { KomenciAvailable } from 'src/verify/module'
+=======
+import { KomenciAvailable } from 'src/verify/reducer'
+>>>>>>> main
 import { getMockStoreData } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper } from 'test/values'
 

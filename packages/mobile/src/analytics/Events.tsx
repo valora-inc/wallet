@@ -10,6 +10,11 @@ export enum AppEvents {
   fetch_balance = 'fetch_balance',
   fetch_balance_error = 'fetch_balance_error',
   redux_keychain_mismatch = 'redux_keychain_mismatch',
+  redux_store_recovery_success = 'redux_store_recovery_success',
+
+  request_tracking_permission_started = 'request_tracking_permission_started',
+  request_tracking_permission_declined = 'request_tracking_permission_declined',
+  request_tracking_permission_accepted = 'request_tracking_permission_accepted',
 }
 
 export enum HomeEvents {
@@ -48,8 +53,8 @@ export enum OnboardingEvents {
   create_account_start = 'create_account_start',
   create_account_cancel = 'create_account_cancel',
 
-  restore_account_start = 'create_account_start',
-  restore_account_cancel = 'create_account_cancel',
+  restore_account_start = 'restore_account_start',
+  restore_account_cancel = 'restore_account_cancel',
 
   backup_education_start = 'backup_education_start',
   backup_education_scroll = 'backup_education_scroll',
@@ -317,7 +322,7 @@ export enum FiatExchangeEvents {
 
   cico_add_funds_amount_continue = 'cico_add_funds_amount_continue',
   cico_add_funds_amount_back = 'cico_add_funds_amount_back',
-  cico_add_funds_amount_insufficient = 'cico_add_funds_amount_insufficient',
+  cico_add_funds_invalid_amount = 'cico_add_funds_invalid_amount',
   cico_add_funds_amount_dialog_cancel = 'cico_add_funds_amount_dialog_cancel',
 
   cico_add_funds_select_provider_back = 'cico_add_funds_select_provider_back',
@@ -387,6 +392,11 @@ export enum NavigationEvents {
   navigator_not_ready = 'navigator_not_ready',
 }
 
+export enum RewardsEvents {
+  rewards_screen_opened = 'rewards_screen_opened',
+  rewards_screen_cta_pressed = 'rewards_screen_cta_pressed',
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -406,3 +416,4 @@ export type AnalyticsEventType =
   | NetworkEvents
   | PerformanceEvents
   | NavigationEvents
+  | RewardsEvents

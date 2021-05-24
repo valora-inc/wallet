@@ -1,6 +1,5 @@
 import QRCodeBorderlessIcon from '@celo/react-components/icons/QRCodeBorderless'
 import Times from '@celo/react-components/icons/Times'
-import VerifyPhone from '@celo/react-components/icons/VerifyPhone'
 import colors from '@celo/react-components/styles/colors'
 import { RouteProp } from '@react-navigation/native'
 import { StackScreenProps, TransitionPresets } from '@react-navigation/stack'
@@ -9,11 +8,11 @@ import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { connect } from 'react-redux'
+import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { verificationPossibleSelector } from 'src/app/selectors'
 import { estimateFee, FeeType } from 'src/fees/actions'
 import i18n, { Namespaces, withTranslation } from 'src/i18n'
@@ -32,7 +31,7 @@ import {
   sortRecipients,
 } from 'src/recipients/recipient'
 import RecipientPicker from 'src/recipients/RecipientPicker'
-import { recipientCacheSelector } from 'src/recipients/reducer'
+import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { storeLatestInRecents } from 'src/send/actions'
 import { InviteRewardsBanner } from 'src/send/InviteRewardsBanner'
@@ -85,13 +84,13 @@ type RouteProps = StackScreenProps<StackParamList, Screens.Send>
 type Props = StateProps & DispatchProps & WithTranslation & RouteProps
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  defaultCountryCode: state.account.defaultCountryCode,
+  defaultCountryCode: defaultCountryCodeSelector(state),
   e164PhoneNumber: state.account.e164PhoneNumber,
   numberVerified: state.app.numberVerified,
   verificationPossible: verificationPossibleSelector(state),
   devModeActive: state.account.devModeActive,
   recentRecipients: state.send.recentRecipients,
-  allRecipients: recipientCacheSelector(state),
+  allRecipients: phoneRecipientCacheSelector(state),
   matchedContacts: state.identity.matchedContacts,
   inviteRewardsEnabled: state.send.inviteRewardsEnabled,
   inviteRewardCusd: state.send.inviteRewardCusd,
@@ -215,11 +214,18 @@ class Send extends React.Component<Props, State> {
   }
 
   tryImportContacts = async () => {
-    const { numberVerified, allRecipients } = this.props
+    // CB TEMPORARY HOTFIX: Disabling phone number confirmation requirement
+    // for sending to phone numbers
+    // const { numberVerified, allRecipients } = this.props
 
-    // Only import contacts if number is verified and
-    // recip cache is empty so we haven't already
-    if (!numberVerified || allRecipients.length) {
+    // // Only import contacts if number is verified and
+    // // recip cache is empty so we haven't already
+    // if (!numberVerified || allRecipients.length) {
+    //   return
+    // }
+
+    const { allRecipients } = this.props
+    if (allRecipients.length) {
       return
     }
 
@@ -236,11 +242,7 @@ class Send extends React.Component<Props, State> {
     this.props.hideAlert()
     const isOutgoingPaymentRequest = this.props.route.params?.isOutgoingPaymentRequest
 
-    if (!recipient.e164PhoneNumber && !recipient.address) {
-      this.props.showError(ErrorMessages.CANT_SELECT_INVALID_PHONE)
-      return
-    }
-
+    // TODO: move this to after a payment has been sent, or else a misclicked recipient will show up in recents
     this.props.storeLatestInRecents(recipient)
 
     ValoraAnalytics.track(
@@ -248,7 +250,6 @@ class Send extends React.Component<Props, State> {
         ? RequestEvents.request_select_recipient
         : SendEvents.send_select_recipient,
       {
-        recipientKind: recipient.kind,
         usedSearchBar: this.state.searchQuery.length > 0,
       }
     )
@@ -282,21 +283,25 @@ class Send extends React.Component<Props, State> {
   }
 
   renderListHeader = () => {
-    const { t, numberVerified, verificationPossible, inviteRewardsEnabled } = this.props
+    // CB TEMPORARY HOTFIX: Disabling phone number confirmation requirement
+    // for sending to phone numbers
+    // const { t, numberVerified, verificationPossible, inviteRewardsEnabled } = this.props
+    const { t, numberVerified, inviteRewardsEnabled } = this.props
     const { hasGivenContactPermission } = this.state
 
-    if (!numberVerified && verificationPossible) {
-      return (
-        <SendCallToAction
-          icon={<VerifyPhone height={49} />}
-          header={t('verificationCta.header')}
-          body={t('verificationCta.body')}
-          cta={t('verificationCta.cta')}
-          onPressCta={this.onPressStartVerification}
-        />
-      )
-    }
-    if (numberVerified && !hasGivenContactPermission) {
+    // if (!numberVerified && verificationPossible) {
+    //   return (
+    //     <SendCallToAction
+    //       icon={<VerifyPhone height={49} />}
+    //       header={t('verificationCta.header')}
+    //       body={t('verificationCta.body')}
+    //       cta={t('verificationCta.cta')}
+    //       onPressCta={this.onPressStartVerification}
+    //     />
+    //   )
+    // }
+    // if (numberVerified && !hasGivenContactPermission) {
+    if (!hasGivenContactPermission) {
       return (
         <SendCallToAction
           icon={<ContactPermission />}

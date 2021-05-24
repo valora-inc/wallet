@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
-import { providersDisplayInfo } from 'src/fiatExchanges/reducer'
+import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 
 export const migrations = {
@@ -97,7 +97,7 @@ export const migrations = {
     }
   },
   7: (state: any) => {
-    const newAddressToDisplayName = Object.keys(state.identity.addressToDisplayName).reduce(
+    const newAddressToDisplayName = Object.keys(state.identity.addressToDisplayName || {}).reduce(
       (newMapping: AddressToDisplayNameType, address: string) => {
         newMapping[address] = {
           name: state.identity.addressToDisplayName[address],
@@ -116,11 +116,44 @@ export const migrations = {
     }
   },
   8: (state: any) => {
-    const lastUsedProvider = state.fiatExchanges.lastUsedProvider
+    const lastUsedProvider = state.fiatExchanges?.lastUsedProvider
     if (!lastUsedProvider || !lastUsedProvider.name) {
       return state
     }
+<<<<<<< HEAD
     const lastProvider = Object.entries(providersDisplayInfo).find(
+=======
+
+    const providerDisplayInfo = {
+      Moonpay: {
+        name: 'Moonpay',
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+      },
+      Ramp: {
+        name: 'Ramp',
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+      },
+      Simplex: {
+        name: 'Simplex',
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+      },
+      Transak: {
+        name: 'Transak',
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+      },
+      Xanpool: {
+        name: 'Xanpool',
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
+      },
+    }
+
+    const lastProvider = Object.entries(providerDisplayInfo).find(
+>>>>>>> main
       ([, providerInfo]) => providerInfo.name.toLowerCase() === lastUsedProvider.name.toLowerCase()
     )
     return {
@@ -163,12 +196,26 @@ export const migrations = {
   11: (state: any) => {
     return {
       ...state,
+<<<<<<< HEAD
       verify: _.omit(
         state.verify,
         'TEMPORARY_override_withoutVerification',
         'withoutRevealing',
         'retries'
       ),
+=======
+      app: _.omit(state.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
+    }
+  },
+  12: (state: any) => {
+    // Removing the exchange rate history because it's very likely that it's repeated a bunch of times.
+    return {
+      ...state,
+      exchange: {
+        ...state.exchange,
+        history: { ...exchangeInitialState.history },
+      },
+>>>>>>> main
     }
   },
 }

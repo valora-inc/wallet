@@ -31,6 +31,7 @@ export enum Namespaces {
   onboarding = 'onboarding',
   fiatExchangeFlow = 'fiatExchangeFlow',
   consumerIncentives = 'consumerIncentives',
+  walletConnect = 'walletConnect',
 }
 
 function getAvailableResources() {

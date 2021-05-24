@@ -1,7 +1,9 @@
 import { ContractKit } from '@celo/contractkit'
 import { CURRENCY_ENUM } from '@celo/utils'
 import BigNumber from 'bignumber.js'
+import { performance } from 'perf_hooks'
 import { writeExchangeRatePair } from '../firebase'
+import { metrics } from '../metrics'
 import { getContractKit } from '../util/utils'
 
 // Amounts to estimate the exchange rate, as the rate varies based on transaction size
@@ -39,9 +41,18 @@ export async function handleExchangeQuery() {
 // TODO: Fetch this data by listening directly for a MedianUpdated event on chain
 async function getExchangeRate(makerToken: CURRENCY_ENUM, contractKitInstance: ContractKit) {
   const exchange = await contractKitInstance.contracts.getExchange()
+
+  // Measure time before query
+  const t0 = performance.now()
+
   const rate = await exchange.getExchangeRate(
     SELL_AMOUNTS[makerToken],
     makerToken === CURRENCY_ENUM.GOLD
   )
+
+  // Measure time after query
+  const t1 = performance.now()
+  metrics.setExchangeQueryDuration(t1 - t0)
+
   return rate
 }

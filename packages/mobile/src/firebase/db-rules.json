@@ -61,6 +61,24 @@
     "consumerIncentives": {
       ".read": true,
       ".write": false
+    },
+    "providerLogos": {
+      ".read": true,
+      ".write": false
+    },
+    "localCicoProviders": {
+      ".read": true,
+      ".write": false
+    },
+    "lostAccounts": {
+      ".read": true,
+      ".write": false
+    },
+    "dailyLimitRequest": {
+      "$address": {
+        ".write": false,
+        ".read": "auth.uid != null && $address === root.child('users').child(auth.uid).child('address').val()"
+      }
     }
   }
 }
