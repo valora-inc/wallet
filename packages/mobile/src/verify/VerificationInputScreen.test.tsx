@@ -6,6 +6,7 @@ import { Screens } from 'src/navigator/Screens'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
+// TODO: Add better tests for this
 describe('VerificationInputScreen', () => {
   const store = createMockStore({})
 
