@@ -16,7 +16,6 @@ import GoldExchangeRateAPI from './GoldExchangeRateAPI'
 function insertIf<T>(condition: boolean, element: T) {
   return condition ? [element] : []
 }
-
 export default class CurrencyConversionAPI<TContext = any> extends DataSource {
   exchangeRateAPI = new ExchangeRateAPI()
   goldExchangeRateAPI = new GoldExchangeRateAPI()
@@ -32,7 +31,7 @@ export default class CurrencyConversionAPI<TContext = any> extends DataSource {
     timestamp,
     impliedExchangeRates,
   }: CurrencyConversionArgs): Promise<BigNumber> {
-    const fromCode = sourceCurrencyCode || USD
+    const fromCode = sourceCurrencyCode!
     const toCode = currencyCode
 
     const steps = this.getConversionSteps(fromCode, toCode)
