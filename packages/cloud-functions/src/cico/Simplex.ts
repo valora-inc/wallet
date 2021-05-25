@@ -170,10 +170,6 @@ const Simplex = {
         FETCH_TIMEOUT_DURATION
       )
 
-      if (!response) {
-        throw Error('No response')
-      }
-
       const data = await response.json()
       if (!response.ok) {
         throw Error(`Response body ${JSON.stringify(data)}`)

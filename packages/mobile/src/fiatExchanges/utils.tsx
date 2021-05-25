@@ -107,7 +107,7 @@ export const fetchProviders = async (
       FETCH_TIMEOUT_DURATION
     )
 
-    if (!response || !response.ok) {
+    if (!response.ok) {
       throw Error(`Fetch failed with status ${response?.status}`)
     }
 
@@ -127,7 +127,7 @@ export const fetchUserLocationData = async (countryCallingCode: string | null) =
       FETCH_TIMEOUT_DURATION
     )
 
-    if (!response || !response.ok) {
+    if (!response.ok) {
       throw Error(`Fetch failed with status ${response?.status}`)
     }
 
@@ -182,7 +182,7 @@ export const fetchSimplexPaymentData = async (
       FETCH_TIMEOUT_DURATION
     )
 
-    if (!response || !response.ok) {
+    if (!response.ok) {
       throw Error(`Fetch failed with status ${response?.status}`)
     }
 
