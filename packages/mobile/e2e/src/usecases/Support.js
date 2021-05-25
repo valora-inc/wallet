@@ -21,9 +21,10 @@ export default Support = () => {
         .toBeVisible()
         .withTimeout(5000)
       await expect(element(by.id('SwitchLogs'))).toHaveToggleValue(true)
-      await expect(element(by.id('Legal'))).toHaveText(
-        'By submitting, I agree to share the above information and any attached application log data with Valora Support.'
-      )
+      // TODO: enable when branding is present
+      // await expect(element(by.id('Legal'))).toHaveText(
+      //   'By submitting, I agree to share the above information and any attached application log data with Valora Support.'
+      // )
     })
   }
 
@@ -38,6 +39,7 @@ export default Support = () => {
     await waitFor(element(by.id('MessageEntry')))
       .toBeVisible()
       .withTimeout(5000)
+    await element(by.id('MessageEntry')).tap()
     await element(by.id('MessageEntry')).replaceText('This is a test from cLabs')
     await expect(element(by.id('MessageEntry'))).toHaveText('This is a test from cLabs')
     const imagePath = await device.takeScreenshot('Support')

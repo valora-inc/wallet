@@ -3,7 +3,7 @@ import ResetAccount from './usecases/ResetAccount'
 import Support from './usecases/Support'
 import Settings from './usecases/Settings'
 
-describe('Account Support', () => {
+describe('Account', () => {
   beforeAll(async () => {
     await device.launchApp({
       delete: true,
