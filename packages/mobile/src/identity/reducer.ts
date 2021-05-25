@@ -128,7 +128,6 @@ export const reducer = (
           current: 0,
           total: 0,
         },
-        attestationInputStatus: initialState.attestationInputStatus,
       }
     }
     case Actions.UPDATE_E164_PHONE_NUMBER_ADDRESSES:

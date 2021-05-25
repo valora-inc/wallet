@@ -572,7 +572,7 @@ export const v9Schema = {
     seenVerificationNux: false,
     revealStatuses: {},
     attestationCodes: [],
-    completedAttestationCodes: [],
+    acceptedAttestationCodes: [],
     lastRevealAttempt: null,
   },
   walletConnect: {

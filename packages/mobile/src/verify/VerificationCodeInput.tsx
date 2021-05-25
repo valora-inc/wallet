@@ -8,7 +8,15 @@ import { StyleProp, ViewStyle } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import Logger from 'src/utils/Logger'
-import { ATTESTATION_CODE_PLACEHOLDER, AttestationCode } from 'src/verify/module'
+import {
+  AttestationCode,
+  attestationCodesSelector,
+  attestationInputStatusSelector,
+  ATTESTATION_CODE_PLACEHOLDER,
+  acceptedAttestationCodesSelector,
+  setAttestationInputStatus,
+} from 'src/verify/module'
+import { indexReadyForInput } from 'src/verify/utils'
 
 interface Props {
   label: string

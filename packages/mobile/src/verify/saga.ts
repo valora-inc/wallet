@@ -76,7 +76,7 @@ import {
   CodeInputType,
   completeAttestationCode,
   completeAttestations,
-  completedAttestationCodesSelector,
+  acceptedAttestationCodesSelector,
   e164NumberSelector,
   ensureRealHumanUser,
   fail,
@@ -730,7 +730,7 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
     }
     Logger.debug(TAG + '@receiveAttestationCodeSaga', 'Received attestation code:', attestationCode)
 
-    const existingCodes: AttestationCode[] = yield select(completedAttestationCodesSelector)
+    const existingCodes: AttestationCode[] = yield select(acceptedAttestationCodesSelector)
     const existingCode = existingCodes.find((c) => c.code === attestationCode)
 
     if (existingCode) {

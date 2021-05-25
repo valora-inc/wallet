@@ -252,8 +252,14 @@ export interface State {
   phoneHash?: string
   e164Number?: string
   attestationCodes: AttestationCode[]
-  completedAttestationCodes: AttestationCode[]
   lastRevealAttempt: number | null
+  // we store acceptedAttestationCodes to tell user if code
+  // was already used even after Actions.RESET_VERIFICATION
+  acceptedAttestationCodes: AttestationCode[]
+  // Represents the status in the UI. Should be of size 3.
+  attestationInputStatus: CodeInputStatus[]
+  // numCompleteAttestations is controlled locally
+  numCompleteAttestations: number
 }
 
 const initialState: State = {
@@ -278,8 +284,14 @@ const initialState: State = {
   currentState: idle(),
   komenciAvailable: KomenciAvailable.Unknown,
   attestationCodes: [],
-  completedAttestationCodes: [],
   lastRevealAttempt: null,
+  acceptedAttestationCodes: [],
+  attestationInputStatus: [
+    CodeInputStatus.Inputting,
+    CodeInputStatus.Disabled,
+    CodeInputStatus.Disabled,
+  ],
+  numCompleteAttestations: 0,
 }
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -297,6 +309,7 @@ export const reducer = createReducer(initialState, (builder) => {
         },
         retries: 0,
         currentState: idle(),
+        attestationInputStatus: initialState.attestationInputStatus,
       }
     })
     .addCase(stop, (state) => {
@@ -411,6 +424,8 @@ export const reducer = createReducer(initialState, (builder) => {
           komenci: action.payload.komenci,
         },
         komenciAvailable: action.payload.komenci ? KomenciAvailable.Yes : KomenciAvailable.No,
+        attestationCodes: [],
+        numCompleteAttestations: 0,
       }
     })
     .addCase(fail, (state, action) => {
@@ -428,6 +443,10 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(revoke, () => {
       return {
         ...initialState,
+        attestationCodes: [],
+        acceptedAttestationCodes: [],
+        numCompleteAttestations: 0,
+        lastRevealAttempt: null,
       }
     })
     .addCase(setSeenVerificationNux, (state, action) => {
@@ -440,7 +459,7 @@ export const reducer = createReducer(initialState, (builder) => {
       // Ensure action.payload many codes are filled
       const attestationCodes = []
       for (let i = 0; i < action.payload; i++) {
-        attestationCodes[i] = state.completedAttestationCodes[i] || {
+        attestationCodes[i] = state.acceptedAttestationCodes[i] || {
           code: ATTESTATION_CODE_PLACEHOLDER,
           issuer: ATTESTATION_ISSUER_PLACEHOLDER,
         }
@@ -464,7 +483,7 @@ export const reducer = createReducer(initialState, (builder) => {
           numAttestationsRemaining: state.status.numAttestationsRemaining - 1,
           completed: state.status.completed + 1,
         },
-        completedAttestationCodes: [...state.completedAttestationCodes, action.payload],
+        acceptedAttestationCodes: [...state.acceptedAttestationCodes, action.payload],
       }
     })
     .addCase(requestAttestations, (state) => {
@@ -488,10 +507,22 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setLastRevealAttempt, (state, action) => {
       return {
         ...state,
-        lastRevealAttempt: action.payload,
+        lastRevealAttempt: action.time,
+      }
+    })
+    .addCase(setAttestationInputStatus, (state, action) => {
+      return {
+        ...state,
+        attestationInputStatus: updatedInputStatuses(state, action.index, action.status),
       }
     })
 })
+
+function updatedInputStatuses(state: State, index: number, status: CodeInputStatus) {
+  const newStatuses = [...state.attestationInputStatus]
+  newStatuses[index] = status
+  return newStatuses
+}
 
 const isBalanceSufficientForAttestations = (
   userBalance: BigNumber.Value,
@@ -502,6 +533,8 @@ const isBalanceSufficientForAttestations = (
   )
 }
 
+export const attestationInputStatusSelector = (state: RootState) =>
+  state.identity.attestationInputStatus
 export const currentStateSelector = (state: RootState) => state.verify.currentState
 export const e164NumberSelector = (state: RootState) => state.verify.e164Number
 export const phoneHashSelector = (state: RootState) => state.verify.phoneHash
@@ -520,8 +553,8 @@ export const shouldUseKomenciSelector = (state: RootState) => {
 
 export const verificationStatusSelector = (state: RootState) => state.verify.status
 export const attestationCodesSelector = (state: RootState) => state.verify.attestationCodes
-export const completedAttestationCodesSelector = (state: RootState) =>
-  state.verify.completedAttestationCodes
+export const acceptedAttestationCodesSelector = (state: RootState) =>
+  state.verify.acceptedAttestationCodes
 export const actionableAttestationsSelector = (state: RootState): ActionableAttestation[] =>
   state.verify.actionableAttestations
 
