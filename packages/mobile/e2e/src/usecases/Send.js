@@ -59,7 +59,7 @@ export default Send = () => {
     // Look for the latest transaction and assert
     await waitFor(element(by.text(`${randomContent}`)))
       .toBeVisible()
-      .withTimeout(20000)
+      .withTimeout(30000)
   })
 
   // TODO(tomm): debug why error is thrown in e2e tests
@@ -83,7 +83,7 @@ export default Send = () => {
     // Confirm and input PIN if necessary.
     await enterPinUiIfNecessary()
 
-    // Should not throw error
+    // Should not throw error - enable firebase needed
     await expect(element(by.id('errorBanner'))).not.toBeVisible()
 
     // Return to home.

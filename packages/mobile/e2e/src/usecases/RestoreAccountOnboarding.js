@@ -1,13 +1,17 @@
-import { enterPinUi, waitForElementId } from '../utils/utils'
+import { enterPinUi, waitForElementId, sleep } from '../utils/utils'
 import { SAMPLE_BACKUP_KEY, EXAMPLE_NAME } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
 
 export default RestoreAccountOnboarding = () => {
   beforeAll(async () => {
+    await device.terminateApp()
+    await sleep(5000)
     await device.launchApp({
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
+    await sleep(5000)
+    await dismissBanners()
   })
   // Language is auto selected if it matches one of the available locale
   // it('Language', async () => {

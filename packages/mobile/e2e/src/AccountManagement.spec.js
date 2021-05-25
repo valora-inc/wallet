@@ -6,7 +6,6 @@ import Settings from './usecases/Settings'
 describe('Account', () => {
   beforeAll(async () => {
     await device.launchApp({
-      delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
     await device.reloadReactNative()

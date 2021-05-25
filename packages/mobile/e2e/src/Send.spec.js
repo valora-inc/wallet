@@ -6,7 +6,6 @@ import SecureSend from './usecases/SecureSend'
 describe('Send CELO', () => {
   beforeAll(async () => {
     await device.launchApp({
-      delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
     await quickOnboarding()

@@ -28,7 +28,7 @@ export default Support = () => {
     })
   }
 
-  it('Send message to support', async () => {
+  it('Send Message to Support', async () => {
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Help', 'SettingsScrollView')
     await waitFor(element(by.id('Help')))
