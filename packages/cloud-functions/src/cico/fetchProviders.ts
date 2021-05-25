@@ -103,7 +103,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Moonpay,
-      restricted: MOONPAY_RESTRICTED || !moonpayQuote,
+      restricted: MOONPAY_RESTRICTED || !moonpayQuote.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Moonpay, requestData),
       logo:
@@ -124,7 +124,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Xanpool,
-      restricted: XANPOOL_RESTRICTED || !xanpoolQuote,
+      restricted: XANPOOL_RESTRICTED || !xanpoolQuote.length,
       paymentMethods: [PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Xanpool, requestData),
       logo:
@@ -135,7 +135,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Transak,
-      restricted: TRANSAK_RESTRICTED || !transakQuote,
+      restricted: TRANSAK_RESTRICTED || !transakQuote.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Transak, requestData),
       logo:

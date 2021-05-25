@@ -87,24 +87,19 @@ const Transak = {
           continue
         }
 
-        const paymentMethod =
-          quote.paymentMethod === 'credit_debit_card' ? PaymentMethod.Card : PaymentMethod.Bank
-
         quotes.push({
-          paymentMethod,
+          paymentMethod:
+            quote.paymentMethod === 'credit_debit_card' ? PaymentMethod.Card : PaymentMethod.Bank,
           fiatFee: quote.totalFee / exchangeRate,
           returnedAmount: quote.cryptoAmount,
           digitalAsset: quote.cryptoCurrency,
         })
       }
 
-      if (!quotes.length) {
-        return
-      }
-
       return quotes
     } catch (error) {
       console.error('Error fetching Transak quote: ', error)
+      return []
     }
   },
   get: async (path: string) => {

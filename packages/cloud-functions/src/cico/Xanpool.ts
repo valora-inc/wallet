@@ -41,7 +41,7 @@ const Xanpool = {
         throw Error('Currency not supported')
       }
 
-      const url = `
+      const baseUrl = `
         ${XANPOOL_DATA.api_url}
         /transactions
         /estimate
@@ -62,27 +62,22 @@ const Xanpool = {
               crypto: amount,
             }
 
-      const bankQuote = await Xanpool.post(url, requestBody)
-      if (!bankQuote) {
-        throw Error('Could not fetch any quotes')
-      }
+      const bankQuote = await Xanpool.post(baseUrl, requestBody)
 
-      const quotes: ProviderQuote[] = [
-        {
+      const quotes: ProviderQuote[] = []
+      if (bankQuote) {
+        quotes.push({
           paymentMethod: PaymentMethod.Bank,
           fiatFee: (bankQuote.serviceCharge * bankQuote.cryptoPrice) / exchangeRate,
           returnedAmount: bankQuote.total,
           digitalAsset,
-        },
-      ]
-
-      if (!quotes.length) {
-        return
+        })
       }
 
       return quotes
     } catch (error) {
       console.error('Error fetching Xanpool quote: ', error)
+      return []
     }
   },
   post: async (path: string, body: any) => {

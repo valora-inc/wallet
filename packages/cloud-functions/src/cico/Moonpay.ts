@@ -100,25 +100,20 @@ const Moonpay = {
           continue
         }
 
-        const paymentMethod =
-          quote.paymentMethod === 'credit_debit_card' ? PaymentMethod.Card : PaymentMethod.Bank
-
         const { feeAmount, extraFeeAmount, networkFeeAmount } = quote
         quotes.push({
-          paymentMethod,
+          paymentMethod:
+            quote.paymentMethod === 'credit_debit_card' ? PaymentMethod.Card : PaymentMethod.Bank,
           fiatFee: (feeAmount + extraFeeAmount + networkFeeAmount) / exchangeRate,
           returnedAmount: quote.quoteCurrencyAmount,
           digitalAsset: quote.currency.code,
         })
       }
 
-      if (!quotes.length) {
-        return
-      }
-
       return quotes
     } catch (error) {
       console.error('Error fetching Moonpay quote: ', error)
+      return []
     }
   },
   get: async (path: string) => {
