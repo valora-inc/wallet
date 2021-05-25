@@ -36,6 +36,7 @@ import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
@@ -67,16 +68,17 @@ import {
   startOrResumeKomenciSessionSaga,
 } from 'src/verify/komenci'
 import {
+  acceptedAttestationCodesSelector,
   actionableAttestationsSelector,
   AttestationCode,
   attestationCodesSelector,
+  attestationInputStatusSelector,
   BALANCE_CHECK_TIMEOUT,
   cancel,
   checkIfKomenciAvailable,
   CodeInputType,
   completeAttestationCode,
   completeAttestations,
-  acceptedAttestationCodesSelector,
   e164NumberSelector,
   ensureRealHumanUser,
   fail,
@@ -99,6 +101,7 @@ import {
   revealStatusesSelector,
   revoke,
   setActionableAttestation,
+  setAttestationInputStatus,
   setCompletedCodes,
   setKomenciAvailable,
   setPhoneHash,
@@ -118,6 +121,7 @@ import {
   reportRevealStatusSaga,
   revealAttestationsSaga,
 } from 'src/verify/revealAttestations'
+import { indexReadyForInput } from 'src/verify/utils'
 import { getContractKit } from 'src/web3/contracts'
 import { getAccount, getConnectedUnlockedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
 
@@ -676,11 +680,11 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
     'Received attestation:',
     action.payload.message,
     action.payload.inputType,
-    action.index
+    action.payload.index
   )
 
   const attestationInputStatus = yield select(attestationInputStatusSelector)
-  const index = action.index ?? indexReadyForInput(attestationInputStatus)
+  const index = action.payload.index ?? indexReadyForInput(attestationInputStatus)
   if (index >= NUM_ATTESTATIONS_REQUIRED) {
     Logger.error(
       TAG + '@attestationCodeReceiver',
