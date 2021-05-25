@@ -77,7 +77,7 @@ function* subscribeToNetworkStatus() {
 function* fetchUserLocationData() {
   let userLocationData: UserLocationData
   try {
-    // NOTE: Need to pay for this API if we decide to use it at scale
+    // NOTE: Need to pay for this API if we decideq to use it at scale
     const response: Response = yield fetchWithTimeout(
       'https://ipapi.co/json/',
       null,

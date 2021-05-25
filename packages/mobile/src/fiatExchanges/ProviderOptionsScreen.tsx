@@ -9,7 +9,6 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
-import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -19,12 +18,7 @@ import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import {
-  fetchProviders,
-  fetchUserLocationData,
-  SimplexQuote,
-  sortProviders,
-} from 'src/fiatExchanges/utils'
+import { fetchProviders, SimplexQuote, sortProviders } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
@@ -35,6 +29,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -67,7 +62,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_select_provider_info_cancel)
   }
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
-  const countryCallingCode = useSelector(defaultCountryCodeSelector)
+  const userLocation = useSelector(userLocationDataSelector)
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
   const isCashIn = route.params?.isCashIn ?? true
@@ -98,16 +93,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     })
   }, [])
 
-  const asyncUserLocation = useAsync(async () => fetchUserLocationData(countryCallingCode), [])
-  const userLocation = asyncUserLocation.result
-
   const asyncProviders = useAsync(async () => {
-    if (!userLocation) {
-      // Logger.error is returning a strange output so using console.error instead
-      console.error(TAG, 'User location not yet set')
-      return
-    }
-
     if (!isFocused) {
       console.error(TAG, 'Screen is not in focus')
       return
@@ -136,7 +122,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     } catch (error) {
       dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
     }
-  }, [userLocation, isFocused])
+  }, [isFocused])
 
   const activeProviders = asyncProviders.result
 

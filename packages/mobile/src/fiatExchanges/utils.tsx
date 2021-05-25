@@ -1,8 +1,6 @@
-import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
-import getIpAddress from 'react-native-public-ip'
-import { CurrencyCode, FETCH_TIMEOUT_DURATION, MOONPAY_API_KEY } from 'src/config'
+import { CurrencyCode, FETCH_TIMEOUT_DURATION } from 'src/config'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
@@ -26,12 +24,6 @@ export interface UserAccountCreationData {
   ipAddress: string
   timestamp: string
   userAgent: string
-}
-interface MoonPayIpAddressData {
-  alpha2: string
-  alpha3: string
-  state: string
-  ipAddress: string
 }
 
 export interface SimplexQuote {
@@ -100,44 +92,6 @@ export const fetchProviders = async (
     Logger.error(`${TAG}:fetchProviders`, error.message)
     throw error
   }
-}
-
-export const fetchUserLocationData = async (countryCallingCode: string | null) => {
-  let userLocationData: UserLocationData
-  try {
-    const response = await fetchWithTimeout(
-      `https://api.moonpay.com/v4/ip_address?apiKey=${MOONPAY_API_KEY}`,
-      null,
-      FETCH_TIMEOUT_DURATION
-    )
-
-    if (!response || !response.ok) {
-      throw Error(`Fetch failed with status ${response?.status}`)
-    }
-
-    const locationData: MoonPayIpAddressData = await response.json()
-    const { alpha2, state, ipAddress } = locationData
-
-    if (!alpha2) {
-      throw Error('Could not determine country from IP address')
-    }
-
-    userLocationData = { country: alpha2, state, ipAddress }
-  } catch (error) {
-    Logger.error(`${TAG}:fetchUserLocationData`, error.message)
-    // If MoonPay endpoint fails then use country code to determine location
-    const country = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
-    let ipAddress
-    try {
-      ipAddress = await getIpAddress()
-    } catch (error) {
-      ipAddress = null
-    }
-
-    userLocationData = { country, state: null, ipAddress }
-  }
-
-  return userLocationData
 }
 
 export const fetchSimplexPaymentData = async (
@@ -241,10 +195,10 @@ export const fetchLocalCicoProviders = async () => {
 export const getAvailableLocalProviders = (
   localCicoProviders: LocalCicoProvider[] | undefined,
   isCashIn: boolean,
-  countryCode: string | null,
+  userCountry: string | null,
   selectedCurrency: CURRENCY_ENUM
 ) => {
-  if (!localCicoProviders || !countryCode) {
+  if (!localCicoProviders || !userCountry) {
     return []
   }
 
@@ -254,16 +208,9 @@ export const getAvailableLocalProviders = (
       (!isCashIn && (provider.cusd.cashOut || provider.celo.cashOut))
   )
 
-  let availableLocalProviders: LocalCicoProvider[] = []
-
-  const regionCode = getRegionCodeFromCountryCode(countryCode)
-  if (regionCode) {
-    availableLocalProviders = activeLocalProviders.filter((provider) =>
-      provider[selectedCurrency === CURRENCY_ENUM.DOLLAR ? 'cusd' : 'celo'].countries.includes(
-        regionCode
-      )
+  return activeLocalProviders.filter((provider) =>
+    provider[selectedCurrency === CURRENCY_ENUM.DOLLAR ? 'cusd' : 'celo'].countries.includes(
+      userCountry
     )
-  }
-
-  return availableLocalProviders
+  )
 }
