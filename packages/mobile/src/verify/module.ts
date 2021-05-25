@@ -507,13 +507,17 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setLastRevealAttempt, (state, action) => {
       return {
         ...state,
-        lastRevealAttempt: action.time,
+        lastRevealAttempt: action.payload,
       }
     })
     .addCase(setAttestationInputStatus, (state, action) => {
       return {
         ...state,
-        attestationInputStatus: updatedInputStatuses(state, action.index, action.status),
+        attestationInputStatus: updatedInputStatuses(
+          state,
+          action.payload.index,
+          action.payload.status
+        ),
       }
     })
 })
@@ -534,7 +538,7 @@ const isBalanceSufficientForAttestations = (
 }
 
 export const attestationInputStatusSelector = (state: RootState) =>
-  state.identity.attestationInputStatus
+  state.verify.attestationInputStatus
 export const currentStateSelector = (state: RootState) => state.verify.currentState
 export const e164NumberSelector = (state: RootState) => state.verify.e164Number
 export const phoneHashSelector = (state: RootState) => state.verify.phoneHash
