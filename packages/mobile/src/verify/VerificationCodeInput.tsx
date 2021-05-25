@@ -10,10 +10,10 @@ import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import Logger from 'src/utils/Logger'
 import {
   acceptedAttestationCodesSelector,
+  ATTESTATION_CODE_PLACEHOLDER,
   AttestationCode,
   attestationCodesSelector,
   attestationInputStatusSelector,
-  ATTESTATION_CODE_PLACEHOLDER,
   setAttestationInputStatus,
 } from 'src/verify/module'
 import { indexReadyForInput } from 'src/verify/utils'
