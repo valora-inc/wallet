@@ -247,17 +247,18 @@ export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) 
     return -1
   }
 
-  const providerFee1 = getLowestFeeValueFromQuotes(provider1.quote) || 0
-  const providerFee2 = getLowestFeeValueFromQuotes(provider2.quote) || 0
-  if (providerFee1 > providerFee2) {
+  const providerFee1 = getLowestFeeValueFromQuotes(provider1.quote)
+  const providerFee2 = getLowestFeeValueFromQuotes(provider2.quote)
+
+  if (providerFee1 === undefined) {
     return 1
   }
 
-  if (providerFee1 <= providerFee2) {
+  if (providerFee2 === undefined) {
     return -1
   }
 
-  return 0
+  return providerFee1 > providerFee2 ? 1 : -1
 }
 
 const typeCheckNestedProperties = (obj: any, property: string) =>
