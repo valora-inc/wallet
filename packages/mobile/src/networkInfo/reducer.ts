@@ -1,16 +1,21 @@
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { Actions, ActionTypes } from 'src/networkInfo/actions'
+import { UserLocationData } from 'src/networkInfo/saga'
 
 export interface State {
   connected: boolean // True if the phone thinks it has a data connection (cellular/Wi-Fi), false otherwise.
   rehydrated: boolean
-  networkCountry: string | null
+  userLocationData: UserLocationData
 }
 
 const initialState = {
   connected: false,
   rehydrated: false,
-  networkCountry: null,
+  userLocationData: {
+    country: null,
+    state: null,
+    ipAddress: null,
+  },
 }
 
 export const reducer = (
@@ -23,10 +28,10 @@ export const reducer = (
         ...state,
         connected: action.connected,
       }
-    case Actions.SET_NETWORK_COUNTRY:
+    case Actions.UPDATE_USER_LOCATION_DATA:
       return {
         ...state,
-        networkCountry: action.country,
+        userLocationData: action.userLocationData,
       }
     case REHYDRATE:
       return {

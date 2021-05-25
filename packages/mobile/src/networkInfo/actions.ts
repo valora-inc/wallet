@@ -1,6 +1,8 @@
+import { UserLocationData } from 'src/networkInfo/saga'
+
 export enum Actions {
   SET_CONNECTED = 'NETWORK_INFO/SET_CONNECTED',
-  SET_NETWORK_COUNTRY = 'NETWORK_INFO/SET_NETWORK_COUNTRY',
+  UPDATE_USER_LOCATION_DATA = 'NETWORK_INFO/UPDATE_USER_LOCATION_DATA',
 }
 
 interface SetNetworkConnected {
@@ -8,19 +10,19 @@ interface SetNetworkConnected {
   connected: boolean
 }
 
-interface SetNetworkCountry {
-  type: Actions.SET_NETWORK_COUNTRY
-  country: string
+interface UpdateUserLocationData {
+  type: Actions.UPDATE_USER_LOCATION_DATA
+  userLocationData: UserLocationData
 }
 
-export type ActionTypes = SetNetworkConnected | SetNetworkCountry
+export type ActionTypes = SetNetworkConnected | UpdateUserLocationData
 
 export const setNetworkConnectivity = (connected: boolean) => ({
   type: Actions.SET_CONNECTED,
   connected,
 })
 
-export const setNetworkCountry = (country: string) => ({
-  type: Actions.SET_NETWORK_COUNTRY,
-  country,
+export const updateUserLocationData = (userLocationData: UserLocationData) => ({
+  type: Actions.UPDATE_USER_LOCATION_DATA,
+  userLocationData,
 })

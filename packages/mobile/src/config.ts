@@ -160,3 +160,5 @@ export enum CurrencyCode {
   CELO = 'CELO',
   CUSD = 'CUSD',
 }
+
+export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds

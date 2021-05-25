@@ -2,15 +2,14 @@ import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
 import getIpAddress from 'react-native-public-ip'
-import { CurrencyCode, MOONPAY_API_KEY } from 'src/config'
+import { CurrencyCode, FETCH_TIMEOUT_DURATION, MOONPAY_API_KEY } from 'src/config'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { UserLocationData } from 'src/networkInfo/saga'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
-
-const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
 
 const TAG = 'fiatExchanges:utils'
 
@@ -21,12 +20,6 @@ interface ProviderRequestData {
   digitalAsset: CurrencyCode
   fiatAmount?: number
   digitalAssetAmount?: number
-}
-
-export interface UserLocationData {
-  country: string | null
-  state: string | null
-  ipAddress: string | null
 }
 
 export interface UserAccountCreationData {

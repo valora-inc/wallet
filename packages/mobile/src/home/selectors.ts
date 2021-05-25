@@ -1,9 +1,8 @@
-import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import _ from 'lodash'
 import DeviceInfo from 'react-native-device-info'
 import { createSelector } from 'reselect'
-import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import {
   getIncomingPaymentRequests,
   getOutgoingPaymentRequests,
@@ -42,13 +41,10 @@ export const callToActNotificationSelector = (state: RootState) => {
 const homeNotificationsSelector = (state: RootState) => state.home.notifications
 
 export const getExtraNotifications = createSelector(
-  [homeNotificationsSelector, defaultCountryCodeSelector],
-  (notifications, countryCallingCode) => {
+  [homeNotificationsSelector, userLocationDataSelector],
+  (notifications, userLocationData) => {
     const version = DeviceInfo.getVersion()
-    const countryCodeAlpha2 = countryCallingCode
-      ? // @ts-ignore-next-line
-        getRegionCodeFromCountryCode(countryCallingCode)
-      : null
+    const countryCodeAlpha2 = userLocationData.country
     return _.pickBy(notifications, (notification) => {
       return (
         !!notification &&

@@ -571,6 +571,14 @@ export const v9Schema = {
     ...v8Schema.fiatExchanges,
     providerLogos: {},
   },
+  networkInfo: {
+    ...v8Schema.networkInfo,
+    userLocationData: {
+      country: null,
+      state: null,
+      ipAddress: null,
+    },
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
