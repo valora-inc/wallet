@@ -574,6 +574,11 @@ export const v9Schema = {
     attestationCodes: [],
     acceptedAttestationCodes: [],
     lastRevealAttempt: null,
+    attestationInputStatus: [
+      CodeInputStatus.Inputting,
+      CodeInputStatus.Disabled,
+      CodeInputStatus.Disabled,
+    ],
   },
   walletConnect: {
     pairings: [],
@@ -584,14 +589,6 @@ export const v9Schema = {
   fiatExchanges: {
     ...v8Schema.fiatExchanges,
     providerLogos: {},
-  },
-  identity: {
-    ...v8Schema.identity,
-    attestationInputStatus: [
-      CodeInputStatus.Inputting,
-      CodeInputStatus.Disabled,
-      CodeInputStatus.Disabled,
-    ],
   },
 }
 

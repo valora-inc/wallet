@@ -794,10 +794,7 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
     )
 
     yield put(
-      inputAttestationCode(
-        { code: attestationCode, shortCode: securityCodeWithPrefix, issuer },
-        index
-      )
+      inputAttestationCode({ code: attestationCode, shortCode: securityCodeWithPrefix, issuer })
     )
   } catch (error) {
     Logger.error(

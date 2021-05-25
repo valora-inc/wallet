@@ -258,8 +258,6 @@ export interface State {
   acceptedAttestationCodes: AttestationCode[]
   // Represents the status in the UI. Should be of size 3.
   attestationInputStatus: CodeInputStatus[]
-  // numCompleteAttestations is controlled locally
-  numCompleteAttestations: number
 }
 
 const initialState: State = {
@@ -291,7 +289,6 @@ const initialState: State = {
     CodeInputStatus.Disabled,
     CodeInputStatus.Disabled,
   ],
-  numCompleteAttestations: 0,
 }
 
 export const reducer = createReducer(initialState, (builder) => {

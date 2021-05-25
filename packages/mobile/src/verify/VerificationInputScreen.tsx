@@ -238,13 +238,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
 
   render() {
     const { codeInputValues, isKeyboardVisible, timer } = this.state
-    const {
-      t,
-      attestationCodes,
-      route,
-      shortVerificationCodesEnabled,
-      verificationStatus,
-    } = this.props
+    const { t, route, shortVerificationCodesEnabled, verificationStatus } = this.props
 
     const showHelpDialog = route.params?.showHelpDialog || false
     const translationPlatformContext = Platform.select({ ios: 'ios' })
