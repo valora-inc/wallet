@@ -8,8 +8,12 @@ describe(getExtraNotifications, () => {
 
   it('only returns notifications that are not dismissed, compatible with the current app version and country', () => {
     const state = getMockStoreData({
-      account: {
-        defaultCountryCode: '+63', // PH
+      networkInfo: {
+        userLocationData: {
+          country: 'PH',
+          state: null,
+          ipAddress: null,
+        },
       },
       home: {
         notifications: {

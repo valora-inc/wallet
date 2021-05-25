@@ -12,6 +12,16 @@ const mockScreenProps = (isCashIn: boolean) =>
     amount: new BigNumber('1'),
   })
 
+const mockStore = createMockStore({
+  networkInfo: {
+    userLocationData: {
+      country: 'US',
+      state: null,
+      ipAddress: null,
+    },
+  },
+})
+
 jest.mock('src/fiatExchanges/utils', () => ({
   ...(jest.requireActual('src/fiatExchanges/utils') as any),
   fetchLocalCicoProviders: jest.fn(() => [
@@ -40,14 +50,14 @@ describe('FiatExchangeOptions', () => {
 
   it('renders correctly', () => {
     const tree = render(
-      <Provider store={createMockStore({})}>
+      <Provider store={mockStore}>
         <FiatExchangeOptions {...mockScreenProps(true)} />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
 
     tree.rerender(
-      <Provider store={createMockStore({})}>
+      <Provider store={mockStore}>
         <FiatExchangeOptions {...mockScreenProps(true)} />
       </Provider>
     )

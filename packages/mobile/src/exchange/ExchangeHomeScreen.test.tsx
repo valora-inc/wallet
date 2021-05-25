@@ -47,8 +47,12 @@ describe('ExchangeHomeScreen', () => {
 
   it('renders and behaves correctly for CP-DOTO restricted countries', () => {
     const store = createMockStore({
-      account: {
-        defaultCountryCode: '+63', // PH is restricted for CP-DOTO
+      networkInfo: {
+        userLocationData: {
+          country: 'PH',
+          state: null,
+          ipAddress: null,
+        },
       },
       goldToken: { balance: '2' },
       stableToken: { balance: '10' },

@@ -5,8 +5,12 @@ import { getMockStoreData } from 'test/utils'
 describe(getCountryFeaturesSelector, () => {
   it('returns the appropriate features for US accounts', () => {
     const state = getMockStoreData({
-      account: {
-        defaultCountryCode: '+1',
+      networkInfo: {
+        userLocationData: {
+          country: 'US',
+          state: null,
+          ipAddress: null,
+        },
       },
     })
 
@@ -21,8 +25,12 @@ describe(getCountryFeaturesSelector, () => {
 
   it('returns the appropriate features for PH accounts', () => {
     const state = getMockStoreData({
-      account: {
-        defaultCountryCode: '+63',
+      networkInfo: {
+        userLocationData: {
+          country: 'PH',
+          state: null,
+          ipAddress: null,
+        },
       },
     })
 
@@ -37,8 +45,12 @@ describe(getCountryFeaturesSelector, () => {
 
   it('returns the appropriate features for JP accounts', () => {
     const state = getMockStoreData({
-      account: {
-        defaultCountryCode: '+81',
+      networkInfo: {
+        userLocationData: {
+          country: 'JP',
+          state: null,
+          ipAddress: null,
+        },
       },
     })
 
@@ -53,8 +65,12 @@ describe(getCountryFeaturesSelector, () => {
 
   it('returns the appropriate features for CU accounts', () => {
     const state = getMockStoreData({
-      account: {
-        defaultCountryCode: '+53',
+      networkInfo: {
+        userLocationData: {
+          country: 'CU',
+          state: null,
+          ipAddress: null,
+        },
       },
     })
 
@@ -69,8 +85,12 @@ describe(getCountryFeaturesSelector, () => {
 
   it('returns the appropriate features for BR accounts', () => {
     const state = getMockStoreData({
-      account: {
-        defaultCountryCode: '+55',
+      networkInfo: {
+        userLocationData: {
+          country: 'BR',
+          state: null,
+          ipAddress: null,
+        },
       },
     })
 
