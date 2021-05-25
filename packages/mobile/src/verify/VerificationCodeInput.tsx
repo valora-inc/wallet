@@ -9,11 +9,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import Logger from 'src/utils/Logger'
 import {
+  acceptedAttestationCodesSelector,
   AttestationCode,
   attestationCodesSelector,
   attestationInputStatusSelector,
   ATTESTATION_CODE_PLACEHOLDER,
-  acceptedAttestationCodesSelector,
   setAttestationInputStatus,
 } from 'src/verify/module'
 import { indexReadyForInput } from 'src/verify/utils'
@@ -79,7 +79,7 @@ function VerificationCodeInput({
         }
       }
     }
-    dispatch(setAttestationInputStatus(index, initialStatus))
+    dispatch(setAttestationInputStatus({ index, status: initialStatus }))
     onInputChange(initialValue, initialStatus === CodeInputStatus.Received)
   }, [])
 
@@ -87,7 +87,7 @@ function VerificationCodeInput({
   useEffect(() => {
     if (attestationCodes[index] && status !== CodeInputStatus.Accepted) {
       if (isAttestationAccepted(acceptedAttestationCodes, attestationCodes[index])) {
-        dispatch(setAttestationInputStatus(index, CodeInputStatus.Accepted))
+        dispatch(setAttestationInputStatus({ index, status: CodeInputStatus.Accepted }))
       }
     }
   }, [status, attestationCodes[index], acceptedAttestationCodes])
@@ -101,7 +101,7 @@ function VerificationCodeInput({
     ) {
       const activeIndex = indexReadyForInput(attestationInputStatus)
       if (activeIndex === index) {
-        dispatch(setAttestationInputStatus(index, CodeInputStatus.Inputting))
+        dispatch(setAttestationInputStatus({ index, status: CodeInputStatus.Inputting }))
       }
     }
   }, [attestationInputStatus])

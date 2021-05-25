@@ -692,7 +692,7 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
     )
     return
   }
-  yield put(setAttestationInputStatus(index, CodeInputStatus.Received))
+  yield put(setAttestationInputStatus({ index, status: CodeInputStatus.Received }))
 
   const actionableAttestations: ActionableAttestation[] = yield select(
     actionableAttestationsSelector
@@ -748,7 +748,7 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
         CodeInputType.DEEP_LINK === action.payload.inputType
       ) {
         yield put(showError(ErrorMessages.REPEAT_ATTESTATION_CODE))
-        yield put(setAttestationInputStatus(index, CodeInputStatus.Error))
+        yield put(setAttestationInputStatus({ index, status: CodeInputStatus.Error }))
       }
       return
     }
@@ -806,7 +806,7 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
       error
     )
     yield put(showError(ErrorMessages.INVALID_ATTESTATION_CODE))
-    yield put(setAttestationInputStatus(index, CodeInputStatus.Error))
+    yield put(setAttestationInputStatus({ index, status: CodeInputStatus.Error }))
   }
 }
 
