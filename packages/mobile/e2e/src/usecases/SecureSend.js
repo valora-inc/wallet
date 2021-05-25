@@ -44,6 +44,7 @@ export default SecureSend = () => {
       .toBeVisible()
       .withTimeout(10000)
     await element(by.id('commentInput/send')).replaceText(`${randomContent}\n`)
+    await element(by.id('commentInput/send')).tapReturnKey()
 
     // Confirm and input PIN if necessary.
     await element(by.id('ConfirmButton')).tap()

@@ -40,7 +40,7 @@ export default Support = () => {
       .toBeVisible()
       .withTimeout(5000)
     await element(by.id('MessageEntry')).tap()
-    await element(by.id('MessageEntry')).replaceText('This is a test from cLabs')
+    await element(by.id('MessageEntry')).typeText('This is a test from cLabs')
     await expect(element(by.id('MessageEntry'))).toHaveText('This is a test from cLabs')
     const imagePath = await device.takeScreenshot('Support')
     pixelDiff(
