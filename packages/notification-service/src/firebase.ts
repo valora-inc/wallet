@@ -39,6 +39,7 @@ let lastBlockNotified: number = -1
 let lastInviteBlockNotified: number = -1
 
 let rewardsSenders: string[] = []
+let inviteRewardsSenders: string[] = []
 
 export function _setTestRegistrations(testRegistrations: Registrations) {
   registrations = testRegistrations
@@ -115,6 +116,14 @@ export function initializeDb() {
       console.error('Rewards senders data read failed:', errorObject.code)
     }
   )
+
+  database.ref('/inviteRewardAddresses').on('value', (snapshot) => {
+    const addresses = (snapshot && snapshot.val()) ?? []
+    console.debug(`inviteRewardAddresses fetched: ${addresses}`)
+    if (addresses.length > 0) {
+      inviteRewardsSenders = addresses
+    }
+  })
 }
 
 export function getTokenFromAddress(address: string) {
@@ -178,11 +187,18 @@ export function setLastInviteBlockNotified(newBlock: number): Promise<void> | un
 }
 
 function notificationTitleAndBody(senderAddress: string, currency: Currencies) {
-  const isRewardSender = rewardsSenders.indexOf(senderAddress) >= 0
+  const isRewardSender = rewardsSenders.includes(senderAddress)
   if (isRewardSender) {
     return {
       title: 'rewardReceivedTitle',
       body: 'rewardReceivedBody',
+    }
+  }
+  const isInvite = inviteRewardsSenders.includes(senderAddress)
+  if (isInvite) {
+    return {
+      title: 'inviteRewardTitle',
+      body: 'inviteRewardBody',
     }
   }
   return {
@@ -216,6 +232,7 @@ export async function sendPaymentNotification(
 
   const t = getTranslatorForAddress(recipientAddress)
   data.type = NotificationTypes.PAYMENT_RECEIVED
+
   const { title, body } = notificationTitleAndBody(senderAddress, currency)
   return sendNotification(
     t(title),

@@ -13,5 +13,7 @@
   "rewardReceivedTitle": "You just earned more cUSD 📈",
   "rewardReceivedBody": "Your weekly earnings have arrived! Add cUSD to earn even more next week.",
   "inviteTitle": "Your friend just received your transfer!",
-  "inviteBody": "The recipient of the funds you sent just signed up for Valora! You can now send value to each other using your phone numbers with near-zero fees"
+  "inviteBody": "The recipient of the funds you sent just signed up for Valora! You can now send value to each other using your phone numbers with near-zero fees",
+  "inviteRewardTitle": "Invite Accepted",
+  "inviteRewardBody": "Your friend accepted your Valora invite, and you earned 1 cUSD!"
 }
