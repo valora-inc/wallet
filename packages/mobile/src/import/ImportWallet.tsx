@@ -174,9 +174,9 @@ export class ImportWallet extends React.Component<Props, State> {
     const { backupPhrase, keyboardVisible } = this.state
     const { t, isImportingWallet, connected, route } = this.props
 
-    let codeStatus = CodeInputStatus.INPUTTING
+    let codeStatus = CodeInputStatus.Inputting
     if (isImportingWallet) {
-      codeStatus = CodeInputStatus.PROCESSING
+      codeStatus = CodeInputStatus.Processing
     }
     return (
       <HeaderHeightContext.Consumer>

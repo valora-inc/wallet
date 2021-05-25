@@ -39,7 +39,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import networkConfig from 'src/geth/networkConfig'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import {
-  Actions,
   setVerificationStatus as setOldVerificationStatus,
   updateE164PhoneNumberSalts,
 } from 'src/identity/actions'
@@ -258,8 +257,12 @@ export function* checkIfKomenciAvailableSaga() {
   const komenci = yield select(komenciContextSelector)
   const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
-  const isKomenciAvailable: boolean = yield call(fetchKomenciReadiness, komenciKit)
-  yield put(setKomenciAvailable(isKomenciAvailable ? KomenciAvailable.Yes : KomenciAvailable.No))
+  try {
+    const isKomenciAvailable: boolean = yield call(fetchKomenciReadiness, komenciKit)
+    yield put(setKomenciAvailable(isKomenciAvailable ? KomenciAvailable.Yes : KomenciAvailable.No))
+  } catch (error) {
+    yield put(setKomenciAvailable(KomenciAvailable.No))
+  }
 }
 
 export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof start>) {
@@ -685,6 +688,4 @@ export function* verifySaga() {
   yield takeEvery(fail.type, failSaga)
   yield takeEvery(reset.type, resetSaga)
   yield takeEvery(stop.type, stopSaga)
-  // TODO: this can be calculated in reducer, once we stop using identify/reducer for verification
-  yield takeEvery(Actions.COMPLETE_ATTESTATION_CODE, fetchOnChainDataSaga)
 }

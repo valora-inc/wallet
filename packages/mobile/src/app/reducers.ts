@@ -28,6 +28,9 @@ export interface State {
   rewardsBPercent: number
   rewardsStartDate: number
   rewardsMax: number
+  // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
+  // for the migration code. We can remove all the code associated with this after some time has passed.
+  ranVerificationMigrationAt: number | null | undefined
 }
 
 const initialState = {
@@ -54,6 +57,7 @@ const initialState = {
   rewardsBPercent: 8,
   rewardsStartDate: 1622505600000,
   rewardsMax: 1000,
+  ranVerificationMigrationAt: null,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -171,6 +175,12 @@ export const appReducer = (
       return {
         ...state,
         activeScreen: action.activeScreen,
+      }
+    case Actions.VERIFICATION_MIGRATION_RAN:
+      return {
+        ...state,
+        ranVerificationMigrationAt: action.now,
+        numberVerified: action.isVerified,
       }
     default:
       return state

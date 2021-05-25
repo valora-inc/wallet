@@ -19,11 +19,12 @@ import ClipboardAwarePasteButton from 'src/components/ClipboardAwarePasteButton'
 import { useClipboard } from 'src/utils/useClipboard'
 
 export enum CodeInputStatus {
-  DISABLED, // input disabled
-  INPUTTING, // input enabled
-  PROCESSING, // is the inputted code being processed
-  RECEIVED, // is the inputted code received but not yet confirmed
-  ACCEPTED, // has the code been accepted and completed
+  Disabled = 'Disabled', // input disabled
+  Inputting = 'Inputting', // input enabled
+  Received = 'Received', // code received, still not validated
+  Processing = 'Processing', // code validated, now trying to send it
+  Error = 'Error', // the code processing failed and it's waiting to be input again.
+  Accepted = 'Accepted', // the code has been accepted and completed
 }
 
 export interface Props {
@@ -60,7 +61,7 @@ export default function CodeInput({
   // LayoutAnimation when switching to/from input
   useLayoutEffect(() => {
     LayoutAnimation.easeInEaseOut()
-  }, [status === CodeInputStatus.INPUTTING])
+  }, [status === CodeInputStatus.Inputting])
 
   function shouldShowClipboardInternal() {
     if (forceShowingPasteIcon) {
@@ -72,9 +73,9 @@ export default function CodeInput({
     )
   }
 
-  const showInput = status === CodeInputStatus.INPUTTING
-  const showSpinner = status === CodeInputStatus.PROCESSING || status === CodeInputStatus.RECEIVED
-  const showCheckmark = status === CodeInputStatus.ACCEPTED
+  const showInput = status === CodeInputStatus.Inputting
+  const showSpinner = status === CodeInputStatus.Processing || status === CodeInputStatus.Received
+  const showCheckmark = status === CodeInputStatus.Accepted
   const showStatus = showCheckmark || showSpinner
   const keyboardType = shortVerificationCodesEnabled
     ? 'number-pad'
