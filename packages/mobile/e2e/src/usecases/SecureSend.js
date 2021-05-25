@@ -26,10 +26,8 @@ export default SecureSend = () => {
     await inputNumberKeypad(AMOUNT_TO_SEND)
     await element(by.id('Review')).tap()
 
-    // Implicitly wait for element receiving next tap
-    await waitFor(element(by.id('confirmAccountButton')))
-      .toBeVisible()
-      .withTimeout(10000)
+    // hack: we shouldn't need this but the test fails without
+    await sleep(3000)
 
     // Use the last digits of the account to confirm the sender.
     await element(by.id('confirmAccountButton')).tap()
@@ -40,11 +38,12 @@ export default SecureSend = () => {
     await element(by.id('ConfirmAccountButton')).tap()
 
     // Write a comment.
-    await waitFor(element(by.id('commentInput/send')))
-      .toBeVisible()
-      .withTimeout(10000)
     await element(by.id('commentInput/send')).replaceText(`${randomContent}\n`)
     await element(by.id('commentInput/send')).tapReturnKey()
+
+    // Wait for the confirm button to be clickable. If it takes too long this test
+    // will be flaky :(
+    await sleep(3000)
 
     // Confirm and input PIN if necessary.
     await element(by.id('ConfirmButton')).tap()
