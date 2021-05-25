@@ -493,6 +493,87 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 5`] = `
 </View>
 `;
 
+exports[`CodeInput renders correctly for all CodeInputStatus states 6`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "padding": 16,
+      },
+      Object {
+        "borderRadius": 8,
+      },
+      undefined,
+      Array [
+        Object {
+          "backgroundColor": "rgba(103, 99, 86, 0.1)",
+          "padding": 0,
+        },
+        undefined,
+      ],
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "borderRadius": 8,
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "flexDirection": "row",
+          "padding": 16,
+          "paddingVertical": 12,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flex": 1,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#A49B80",
+              "fontFamily": "Inter-SemiBold",
+              "fontSize": 13,
+              "lineHeight": 16,
+              "marginBottom": 4,
+              "opacity": 0.5,
+            }
+          }
+        >
+          label
+        </Text>
+        <Text
+          numberOfLines={1}
+          style={
+            Object {
+              "color": "#A49B80",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+            }
+          }
+        >
+          test
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
 exports[`CodeInput renders correctly for all CodeInputStatus states with short codes 1`] = `
 <View
   style={
@@ -1015,6 +1096,88 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
             style={Object {}}
           />
         </svg>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`CodeInput renders correctly for all CodeInputStatus states with short codes 6`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#FFFFFF",
+        "padding": 16,
+      },
+      Object {
+        "borderRadius": 8,
+      },
+      undefined,
+      Array [
+        Object {
+          "backgroundColor": "rgba(103, 99, 86, 0.1)",
+          "padding": 0,
+        },
+        undefined,
+      ],
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "borderRadius": 8,
+        "overflow": "hidden",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flex": 1,
+          "flexDirection": "row",
+          "padding": 20,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "flex": 1,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#A49B80",
+              "fontFamily": "Inter-SemiBold",
+              "fontSize": 13,
+              "lineHeight": 16,
+              "marginBottom": 4,
+              "opacity": 0.5,
+              "textAlign": "center",
+            }
+          }
+        >
+          label
+        </Text>
+        <Text
+          numberOfLines={1}
+          style={
+            Object {
+              "color": "#A49B80",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 18,
+              "lineHeight": 24,
+              "textAlign": "center",
+            }
+          }
+        >
+          test
+        </Text>
       </View>
     </View>
   </View>

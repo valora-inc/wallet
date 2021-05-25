@@ -32,7 +32,6 @@ import {
 import { fetchExchangeRate } from 'src/exchange/actions'
 import { ExchangeRatePair, exchangeRatePairSelector } from 'src/exchange/reducer'
 import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
-import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import i18n, { Namespaces } from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
@@ -106,7 +105,6 @@ function FiatExchangeAmount({ route }: Props) {
   const exchangeRatePair = useSelector(exchangeRatePairSelector)
   const localCurrencyExchangeRate = useSelector(getLocalCurrencyExchangeRate)
   const cUSDBalance = useSelector(stableTokenBalanceSelector)
-  const celoBalance = useSelector(celoTokenBalanceSelector)
   const localCurrencyCode = useLocalCurrencyCode()
   const currencySymbol = LocalCurrencySymbol[localCurrencyCode]
 
@@ -117,14 +115,6 @@ function FiatExchangeAmount({ route }: Props) {
   const dollarAmount = useDollarAmount(
     currency,
     parsedInputAmount,
-    localCurrencyExchangeRate,
-    localCurrencyCode,
-    exchangeRatePair
-  )
-
-  const dollarBalance = useDollarAmount(
-    currency,
-    new BigNumber((currency === CURRENCY_ENUM.DOLLAR ? cUSDBalance : celoBalance) || 0),
     localCurrencyExchangeRate,
     localCurrencyCode,
     exchangeRatePair
@@ -156,11 +146,16 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function goToProvidersScreen() {
+    const selectedCrypto = route.params.currency
+    const { isCashIn } = route.params
     navigate(Screens.ProviderOptionsScreen, {
-      isCashIn: route.params.isCashIn,
-      selectedCrypto: route.params.currency,
+      isCashIn,
+      selectedCrypto,
       amount: {
-        crypto: parsedInputAmount.toNumber(),
+        crypto:
+          selectedCrypto === CURRENCY_ENUM.GOLD
+            ? parsedInputAmount.toNumber()
+            : dollarAmount.toNumber(),
         // Rounding up to avoid decimal errors from providers. Won't be
         // necessary once we support inputting an amount in both crypto and fiat
         fiat: Math.round(localCurrencyAmount?.toNumber() || 0),
@@ -170,7 +165,13 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function onPressContinue() {
-    Logger.debug(`Input: ${dollarAmount}`)
+    if (!route.params.isCashIn && currency === CURRENCY_ENUM.GOLD) {
+      Logger.debug(
+        'Error: Got to FiatExchangeAmountScreen with CELO as the cash-out asset - should never happen'
+      )
+      return
+    }
+
     if (route.params.isCashIn) {
       if (
         dollarAmount.isLessThan(DOLLAR_ADD_FUNDS_MIN_AMOUNT) ||
@@ -190,16 +191,18 @@ function FiatExchangeAmount({ route }: Props) {
       ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_continue, {
         dollarAmount,
       })
-    } else {
-      if (dollarAmount.isGreaterThan(dollarBalance)) {
-        dispatch(
-          showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
-            dollarBalance,
-            currency: currency === CURRENCY_ENUM.DOLLAR ? 'cUSD' : 'CELO',
-          })
-        )
-        return
-      }
+    } else if (dollarAmount.isGreaterThan(cUSDBalance || 0)) {
+      const localBalance =
+        cUSDBalance && localCurrencyExchangeRate
+          ? new BigNumber(cUSDBalance).times(localCurrencyExchangeRate)
+          : new BigNumber(cUSDBalance || 0)
+      dispatch(
+        showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
+          balance: localBalance.toFixed(2),
+          currency: localCurrencyCode,
+        })
+      )
+      return
     }
 
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_continue, {
