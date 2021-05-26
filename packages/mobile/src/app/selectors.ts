@@ -71,6 +71,7 @@ export const ranVerificationMigrationSelector = (state: RootState) =>
 export const showRaiseDailyLimitSelector = createSelector(
   [currentAccountSelector, (state) => state.app.showRaiseDailyLimitTarget],
   (account, showRaiseDailyLimitTarget) => {
+    return true
     if (!showRaiseDailyLimitTarget || !account) {
       return false
     }

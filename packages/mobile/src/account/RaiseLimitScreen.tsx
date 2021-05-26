@@ -33,7 +33,7 @@ const RaiseLimitScreen = () => {
   const { t } = useTranslation(Namespaces.accountScreen10)
   const dailyLimit = useSelector(cUsdDailyLimitSelector)
   const dailyLimitRequestStatus = useSelector(dailyLimitRequestStatusSelector)
-  const numberIsVerified = useSelector((state) => state.app.numberVerified)
+  const numberIsVerified = useSelector((state) => true)
   const address = useSelector(currentAccountSelector)
   const dispatch = useDispatch()
 
