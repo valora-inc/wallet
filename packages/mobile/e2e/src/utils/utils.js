@@ -98,7 +98,7 @@ export async function isTextPresent(text) {
   }
 }
 
-export async function isElementExistant(elementId) {
+export async function isElementExistent(elementId) {
   try {
     await expect(element(by.id(elementId))).toExist()
     return true
