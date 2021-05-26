@@ -143,10 +143,12 @@ export async function quickOnboarding() {
     // Tap Restore Account
     await element(by.id('RestoreAccountButton')).tap()
 
-    // Accept Terms
-    await element(by.id('scrollView')).scrollTo('bottom')
-    await expect(element(by.id('AcceptTermsButton'))).toBeVisible()
-    await element(by.id('AcceptTermsButton')).tap()
+    // Accept Terms - if present
+    try {
+      await element(by.id('scrollView')).scrollTo('bottom')
+      await expect(element(by.id('AcceptTermsButton'))).toBeVisible()
+      await element(by.id('AcceptTermsButton')).tap()
+    } catch {}
 
     // Name and Picture
     await element(by.id('NameEntry')).replaceText(EXAMPLE_NAME)
