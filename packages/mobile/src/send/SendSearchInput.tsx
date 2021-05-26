@@ -10,20 +10,18 @@ import i18n, { Namespaces } from 'src/i18n'
 const SearchInput = withTextSearchPasteAware(TextInput)
 
 interface SendSearchInputProps {
+  input: string
   onChangeText: (value: string) => void
   leftIcon?: React.ReactNode
 }
 
 // Input field for Send screen
-export function SendSearchInput(props: SendSearchInputProps) {
+export function SendSearchInput({ input, onChangeText, leftIcon }: SendSearchInputProps) {
   const handleChangeText = (value: string) => {
-    setInput(value)
     onChangeText(value)
   }
 
   const { t } = useTranslation(Namespaces.sendFlow7)
-  const { onChangeText } = props
-  const [input, setInput] = React.useState('')
 
   return (
     <View style={styles.textInputContainer}>
