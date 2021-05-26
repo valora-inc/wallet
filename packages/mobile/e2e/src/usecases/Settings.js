@@ -1,6 +1,6 @@
 import { dismissBanners } from '../utils/banners'
 import { scrollIntoView, sleep } from '../utils/utils'
-var faker = require('faker')
+const faker = require('faker')
 
 export default Settings = () => {
   beforeEach(async () => {
@@ -16,7 +16,7 @@ export default Settings = () => {
   })
 
   it('Edit Profile Name', async () => {
-    const randomName = faker.lorem.words()
+    let randomName = faker.lorem.words()
     await element(by.id('EditProfile')).tap()
     await element(by.id('ProfileEditName')).tap()
     await element(by.id('ProfileEditName')).clearText()

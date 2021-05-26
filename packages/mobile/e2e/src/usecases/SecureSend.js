@@ -1,6 +1,6 @@
 import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
 import { dismissBanners } from '../utils/banners'
-var faker = require('faker')
+const faker = require('faker')
 
 const PHONE_NUMBER = '+12057368924'
 const LAST_ACCEOUNT_CHARACTERS = 'FD08'
