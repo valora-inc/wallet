@@ -189,7 +189,8 @@ export async function quickOnboarding() {
   } catch {}
 }
 
-export function pixelDiff(imagePath, expectedImagePath, acceptableDiffPercent = 10) {
+export async function pixelDiff(imagePath, expectedImagePath, acceptableDiffPercent = 10) {
+  await setDemoMode()
   const img1 = PNG.sync.read(fs.readFileSync(imagePath))
   const img2 = PNG.sync.read(fs.readFileSync(expectedImagePath))
   const { width, height } = img1

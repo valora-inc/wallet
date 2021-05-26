@@ -1,11 +1,7 @@
 import { dismissBanners } from '../utils/banners'
-import { pixelDiff, setDemoMode, sleep, webViewBack } from '../utils/utils'
+import { pixelDiff, sleep } from '../utils/utils'
 
 export default CashIn = () => {
-  beforeAll(async () => {
-    await setDemoMode()
-  })
-
   beforeEach(async () => {
     await device.reloadReactNative()
     // await webViewBack()
@@ -27,7 +23,7 @@ export default CashIn = () => {
     await expect(element(by.id('Provider/Transak'))).toBeVisible()
     await sleep(5000)
     const imagePath = await device.takeScreenshot('All Providers US')
-    pixelDiff(
+    await pixelDiff(
       imagePath,
       device.getPlatform() === 'ios'
         ? './e2e/assets/All Providers US - ios.png'
@@ -40,7 +36,7 @@ export default CashIn = () => {
     await element(by.id('Provider/Moonpay')).tap()
     await sleep(5000)
     const imagePath = await device.takeScreenshot('Moonpay - ios')
-    pixelDiff(
+    await pixelDiff(
       imagePath,
       device.getPlatform() === 'ios'
         ? './e2e/assets/Moonpay - ios.png'
@@ -52,7 +48,7 @@ export default CashIn = () => {
     await element(by.id('Provider/Xanpool')).tap()
     await sleep(5000)
     const imagePath = await device.takeScreenshot('Xanpool - ios')
-    pixelDiff(
+    await pixelDiff(
       imagePath,
       device.getPlatform() === 'ios'
         ? './e2e/assets/Xanpool - ios.png'
@@ -66,7 +62,7 @@ export default CashIn = () => {
     //TODO: find element to implicitly wait on
     await sleep(5000)
     const imagePath = await device.takeScreenshot('Simplex')
-    pixelDiff(
+    await pixelDiff(
       imagePath,
       device.getPlatform() === 'ios'
         ? './e2e/assets/Simplex - ios.png'
@@ -79,7 +75,7 @@ export default CashIn = () => {
     //TODO: find element to implicitly wait on
     await sleep(5000)
     const imagePath = await device.takeScreenshot('Transak')
-    pixelDiff(
+    await pixelDiff(
       imagePath,
       device.getPlatform() === 'ios'
         ? './e2e/assets/Transak - ios.png'

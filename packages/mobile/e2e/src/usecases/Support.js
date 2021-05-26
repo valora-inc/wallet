@@ -1,11 +1,7 @@
 import { dismissBanners } from '../utils/banners'
-import { pixelDiff, setDemoMode, scrollIntoView } from '../utils/utils'
+import { pixelDiff, scrollIntoView } from '../utils/utils'
 
 export default Support = () => {
-  beforeAll(async () => {
-    await setDemoMode()
-  })
-
   beforeEach(async () => {
     await device.reloadReactNative()
     await dismissBanners()
@@ -43,7 +39,7 @@ export default Support = () => {
     await element(by.id('MessageEntry')).typeText('This is a test from cLabs')
     await expect(element(by.id('MessageEntry'))).toHaveText('This is a test from cLabs')
     const imagePath = await device.takeScreenshot('Support')
-    pixelDiff(
+    await pixelDiff(
       imagePath,
       device.getPlatform() === 'ios'
         ? './e2e/assets/Support - ios.png'

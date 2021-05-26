@@ -1,12 +1,8 @@
 import { dismissBanners } from '../utils/banners'
-import { setDemoMode, scrollIntoView } from '../utils/utils'
+import { scrollIntoView, sleep } from '../utils/utils'
 var faker = require('faker')
 
 export default Settings = () => {
-  beforeAll(async () => {
-    await setDemoMode()
-  })
-
   beforeEach(async () => {
     await device.reloadReactNative()
     await dismissBanners()
@@ -16,6 +12,7 @@ export default Settings = () => {
       .toBeVisible()
       .withTimeout(30000)
     await element(by.id('Settings')).tap()
+    await sleep(3000)
   })
 
   it('Edit Profile Name', async () => {

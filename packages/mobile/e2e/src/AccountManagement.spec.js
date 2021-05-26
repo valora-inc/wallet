@@ -5,10 +5,6 @@ import Settings from './usecases/Settings'
 
 describe('Account', () => {
   beforeAll(async () => {
-    await device.launchApp({
-      permissions: { notifications: 'YES', contacts: 'YES' },
-    })
-    await device.reloadReactNative()
     await quickOnboarding()
   })
 
