@@ -15,5 +15,5 @@ async function bannerDismiss(inElement, tapElement) {
 export async function dismissBanners() {
   // Dismiss firebase error - remove when firebase is enabled for testing
   await bannerDismiss(by.id('ErrorIcon'))
-  await bannerDismiss(by.id('SmartTopAlertButton'))
+  await bannerDismiss(by.id('SmartTopAlertTouchable'))
 }

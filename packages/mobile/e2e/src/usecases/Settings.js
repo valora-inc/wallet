@@ -22,8 +22,7 @@ export default Settings = () => {
     await element(by.id('ProfileEditName')).clearText()
     await element(by.id('ProfileEditName')).replaceText(`${randomName}`)
     await element(by.id('SaveButton')).tap()
-    await expect(element(by.id('SmartTopAlertTouchable'))).toBeVisible()
-    await element(by.id('SmartTopAlertTouchable')).tap()
+    await dismissBanners()
     await element(by.id('Hamburger')).tap()
     // TODO replace this with an ID selector
     await expect(element(by.text(`${randomName}`))).toBeVisible()
