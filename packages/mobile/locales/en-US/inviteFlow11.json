@@ -30,7 +30,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Get ${{amount}} by referring a friend!",
-    "body": "Send value to a friend to earn $1 in CELO when they join. <0>Learn more ›</0>"
+    "body": "Earn {{amount}} cUSD when you send money to a friend and they join. <0>Learn more</0>"
   },
   "getReward": "Get ${{reward}}"
 }

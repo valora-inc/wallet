@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
 import { Namespaces } from 'src/i18n'
-import Logo from 'src/icons/Logo'
+import Logo, { LogoTypes } from 'src/icons/Logo'
 import { getDisplayDetail, getDisplayName, Recipient } from 'src/recipients/recipient'
 
 interface Props {
@@ -34,7 +34,7 @@ function RecipientItem({ recipient, onSelectRecipient }: Props) {
           {recipient.name && <Text style={styles.phone}>{getDisplayDetail(recipient)}</Text>}
         </View>
         <View style={styles.rightIconContainer}>
-          {recipient.address ? <Logo style={styles.logo} /> : null}
+          {recipient.address ? <Logo style={styles.logo} type={LogoTypes.GREEN} /> : null}
         </View>
       </View>
     </Touchable>

@@ -31,7 +31,11 @@ export function InviteRewardsBanner() {
           {t('inviteRewardsBanner.title', { amount: rewardAmount })}
         </Text>
         <Text style={styles.bodyText}>
-          <Trans i18nKey={'inviteRewardsBanner.body'} ns={Namespaces.inviteFlow11}>
+          <Trans
+            i18nKey={'inviteRewardsBanner.body'}
+            tOptions={{ amount: rewardAmount }}
+            ns={Namespaces.inviteFlow11}
+          >
             <Text style={styles.learnMore} />
           </Trans>
         </Text>
