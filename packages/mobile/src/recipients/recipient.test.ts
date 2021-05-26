@@ -1,19 +1,37 @@
+import { MinimalContact } from 'react-native-contacts'
 import { contactsToRecipients, sortRecipients } from 'src/recipients/recipient'
-import { mockContactList, mockRecipient, mockRecipient2, mockRecipient3 } from 'test/values'
+import { mockRecipient, mockRecipient2, mockRecipient3 } from 'test/values'
 
 describe('contactsToRecipients', () => {
   it('returns a recipient per phone number', () => {
     const countryCode = '+1'
-    const recipients = contactsToRecipients(mockContactList, countryCode)
+    const mockContacts: MinimalContact[] = [
+      {
+        recordID: '1',
+        displayName: 'Alice The Person',
+        phoneNumbers: [
+          {
+            label: 'mobile',
+            number: '(209) 555-9790',
+          },
+        ],
+      },
+      {
+        recordID: '2',
+        displayName: 'Bob Bobson',
+        phoneNumbers: [
+          { label: 'home', number: '+14155550000' },
+          { label: 'mobile', number: '100200' },
+        ],
+      },
+    ]
 
-    if (!recipients) {
-      return expect(false).toBeTruthy()
-    }
+    const recipients = contactsToRecipients(mockContacts, countryCode)
 
     expect(recipients).toMatchObject({
       '+14155550000': {
         name: 'Bob Bobson',
-        displayNumber: '(415) 555-0000',
+        displayNumber: '+14155550000',
         e164PhoneNumber: '+14155550000',
         contactId: '2',
       },
