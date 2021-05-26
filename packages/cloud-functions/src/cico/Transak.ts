@@ -42,28 +42,17 @@ const Transak = {
     fiatCurrency: string,
     fiatAmount: number | undefined,
     userLocation: UserLocationData
-  ) => {
+  ): Promise<ProviderQuote[]> => {
     try {
       if (!fiatAmount) {
         throw Error('Purchase amount not provided')
       }
 
-      const { localCurrency, exchangeRate } = await fetchLocalCurrencyAndExchangeRate(
+      const { localCurrency, localAmount, exchangeRate } = await Transak.convertToLocalCurrency(
         userLocation.country,
-        fiatCurrency
+        fiatCurrency,
+        fiatAmount
       )
-      const localFiatAmount = fiatAmount * exchangeRate
-
-      const paymentMethods = ['credit_debit_card']
-      if (userLocation.country) {
-        if (bankingSystemToCountry.neft[userLocation.country]) {
-          paymentMethods.push('neft_bank_transfer')
-        } else if (bankingSystemToCountry.gbp[userLocation.country]) {
-          paymentMethods.push('gbp_bank_transfer')
-        } else if (bankingSystemToCountry.sepa[userLocation.country]) {
-          paymentMethods.push('sepa_bank_transfer')
-        }
-      }
 
       const baseUrl = `
         ${TRANSAK_DATA.api_url}
@@ -73,34 +62,68 @@ const Transak = {
         ?partnerApiKey=${TRANSAK_DATA.public_key}
         &cryptoCurrency=${digitalAsset}
         &fiatCurrency=${localCurrency}
-        &fiatAmount=${localFiatAmount}
+        &fiatAmount=${localAmount}
         &isBuyOrSell=BUY
       `.replace(/\s+/g, '')
 
+      const validPaymentMethods = Transak.determineValidPaymentMethods(userLocation.country)
+
       const rawQuotes: Array<TransakQuote | null> = await Promise.all(
-        paymentMethods.map((method) => Transak.get(`${baseUrl}&paymentMethodId=${method}`))
+        validPaymentMethods.map((method) => Transak.get(`${baseUrl}&paymentMethodId=${method}`))
       )
 
-      const quotes: ProviderQuote[] = []
-      for (const quote of rawQuotes) {
-        if (!quote) {
-          continue
-        }
-
-        quotes.push({
-          paymentMethod:
-            quote.paymentMethod === 'credit_debit_card' ? PaymentMethod.Card : PaymentMethod.Bank,
-          fiatFee: quote.totalFee / exchangeRate,
-          returnedAmount: quote.cryptoAmount,
-          digitalAsset: quote.cryptoCurrency,
-        })
-      }
-
-      return quotes
+      return Transak.processRawQuotes(rawQuotes, exchangeRate)
     } catch (error) {
       console.error('Error fetching Transak quote: ', error)
       return []
     }
+  },
+  convertToLocalCurrency: async (
+    country: string | null,
+    baseCurrency: string,
+    baseCurrencyAmount: number
+  ) => {
+    const { localCurrency, exchangeRate } = await fetchLocalCurrencyAndExchangeRate(
+      country,
+      baseCurrency
+    )
+
+    return {
+      localCurrency,
+      exchangeRate,
+      localAmount: baseCurrencyAmount * exchangeRate,
+    }
+  },
+  determineValidPaymentMethods: (country: string | null) => {
+    const validPaymentMethods = ['credit_debit_card']
+    if (country) {
+      if (bankingSystemToCountry.neft[country]) {
+        validPaymentMethods.push('neft_bank_transfer')
+      } else if (bankingSystemToCountry.gbp[country]) {
+        validPaymentMethods.push('gbp_bank_transfer')
+      } else if (bankingSystemToCountry.sepa[country]) {
+        validPaymentMethods.push('sepa_bank_transfer')
+      }
+    }
+    return validPaymentMethods
+  },
+  processRawQuotes: (rawQuotes: Array<TransakQuote | null>, exchangeRate: number) => {
+    const quotes: ProviderQuote[] = []
+    for (const quote of rawQuotes) {
+      if (!quote) {
+        continue
+      }
+
+      quotes.push({
+        paymentMethod:
+          quote.paymentMethod === 'credit_debit_card' ? PaymentMethod.Card : PaymentMethod.Bank,
+        fiatFee: quote.totalFee / exchangeRate,
+        returnedAmount: quote.cryptoAmount,
+        digitalAsset: quote.cryptoCurrency,
+      })
+    }
+
+    return quotes
   },
   get: async (path: string) => {
     try {

@@ -25,17 +25,17 @@ const Xanpool = {
     fiatCurrency: string,
     amount: number | undefined,
     userLocation: UserLocationData
-  ) => {
+  ): Promise<ProviderQuote[]> => {
     try {
       if (!amount) {
         throw Error('Amount not provided')
       }
 
-      const { localCurrency, exchangeRate } = await fetchLocalCurrencyAndExchangeRate(
+      const { localCurrency, localAmount, exchangeRate } = await Xanpool.convertToLocalCurrency(
         userLocation.country,
-        fiatCurrency
+        fiatCurrency,
+        amount
       )
-      const localFiatAmount = amount * exchangeRate
 
       if (!XANPOOL_DATA.supported_currencies.includes(localCurrency)) {
         throw Error('Currency not supported')
@@ -53,7 +53,7 @@ const Xanpool = {
               type: 'buy',
               cryptoCurrency: digitalAsset,
               currency: localCurrency,
-              fiat: localFiatAmount,
+              fiat: localAmount,
             }
           : {
               type: 'sell',
@@ -62,23 +62,46 @@ const Xanpool = {
               crypto: amount,
             }
 
-      const bankQuote = await Xanpool.post(baseUrl, requestBody)
+      const quote = await Xanpool.post(baseUrl, requestBody)
 
-      const quotes: ProviderQuote[] = []
-      if (bankQuote) {
-        quotes.push({
-          paymentMethod: PaymentMethod.Bank,
-          fiatFee: (bankQuote.serviceCharge * bankQuote.cryptoPrice) / exchangeRate,
-          returnedAmount: bankQuote.total,
-          digitalAsset,
-        })
-      }
-
-      return quotes
+      return Xanpool.processRawQuotes(quote, exchangeRate, digitalAsset)
     } catch (error) {
       console.error('Error fetching Xanpool quote: ', error)
       return []
     }
+  },
+  convertToLocalCurrency: async (
+    country: string | null,
+    baseCurrency: string,
+    baseCurrencyAmount: number
+  ) => {
+    const { localCurrency, exchangeRate } = await fetchLocalCurrencyAndExchangeRate(
+      country,
+      baseCurrency
+    )
+
+    return {
+      localCurrency,
+      exchangeRate,
+      localAmount: baseCurrencyAmount * exchangeRate,
+    }
+  },
+  processRawQuotes: (
+    quote: XanpoolQuote | null,
+    exchangeRate: number,
+    digitalAsset: DigitalAsset
+  ) => {
+    const quotes: ProviderQuote[] = []
+    if (quote) {
+      quotes.push({
+        paymentMethod: PaymentMethod.Bank,
+        fiatFee: (quote.serviceCharge * quote.cryptoPrice) / exchangeRate,
+        returnedAmount: quote.total,
+        digitalAsset,
+      })
+    }
+
+    return quotes
   },
   post: async (path: string, body: any) => {
     try {
