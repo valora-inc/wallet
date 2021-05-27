@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[` renders correctly 1`] = `
+exports[`RecipientItem renders correctly 1`] = `
 <View
   accessible={true}
   focusable={true}
