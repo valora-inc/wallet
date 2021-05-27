@@ -9,7 +9,7 @@ import SmsRetriever from '@celo/react-native-sms-retriever'
 import { LocalizedCountry } from '@celo/utils/lib/countries'
 import { ValidatorKind } from '@celo/utils/lib/inputValidation'
 import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Platform, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 
 const TAG = 'PhoneNumberInput'
@@ -48,6 +48,7 @@ export default function PhoneNumberInput({
   editable = true,
 }: Props) {
   const shouldRequestPhoneNumberRef = useRef(internationalPhoneNumber.length === 0)
+  const phoneInputRef = useRef<any>()
   const flagEmoji = country?.emoji
   const countryCallingCode = country?.countryCallingCode ?? ''
   const numberPlaceholder = country?.countryPhonePlaceholder.national ?? ''
@@ -83,6 +84,12 @@ export default function PhoneNumberInput({
     }
   }
 
+  useEffect(() => {
+    if (country && phoneInputRef.current) {
+      phoneInputRef.current.focus()
+    }
+  }, [country, phoneInputRef])
+
   return (
     <FormField style={[styles.container, style]} label={label}>
       <View style={styles.phoneNumberContainer}>
@@ -105,6 +112,7 @@ export default function PhoneNumberInput({
           </View>
         </Touchable>
         <ValidatedTextInput
+          forwardedRef={phoneInputRef}
           InputComponent={FormTextInput}
           style={styles.phoneNumberInput}
           value={internationalPhoneNumber}
