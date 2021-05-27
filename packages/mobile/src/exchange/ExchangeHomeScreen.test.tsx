@@ -29,13 +29,13 @@ describe('ExchangeHomeScreen', () => {
     jest.clearAllMocks()
     fireEvent.press(tree.getByTestId('BuyCelo'))
     expect(mockScreenProps.navigation.navigate).toHaveBeenCalledWith(Screens.ExchangeTradeScreen, {
-      makerTokenDisplay: { makerToken: 'Celo Dollar', makerTokenBalance: '10' },
+      makerTokenDisplay: { makerToken: 'cUSD', makerTokenBalance: '10' },
     })
 
     jest.clearAllMocks()
     fireEvent.press(tree.getByTestId('SellCelo'))
     expect(mockScreenProps.navigation.navigate).toHaveBeenCalledWith(Screens.ExchangeTradeScreen, {
-      makerTokenDisplay: { makerToken: 'Celo Gold', makerTokenBalance: '2' },
+      makerTokenDisplay: { makerToken: 'cGLD', makerTokenBalance: '2' },
     })
 
     jest.clearAllMocks()

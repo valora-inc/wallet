@@ -150,7 +150,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('opens a dialog when the CELO amount is lower than the limit', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.GOLD,
+      currency: Currency.Celo,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
@@ -213,7 +213,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('opens a dialog when the CELO amount is higher than the limit', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.GOLD,
+      currency: Currency.Celo,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
