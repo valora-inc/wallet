@@ -2,6 +2,8 @@ import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
 import { call, put, select } from 'redux-saga/effects'
 import { showMessage } from 'src/alert/actions'
+import { AppEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { openUrl } from 'src/app/actions'
 import {
@@ -81,6 +83,11 @@ export function* handleNotification(
   message: FirebaseMessagingTypes.RemoteMessage,
   notificationState: NotificationReceiveState
 ) {
+  ValoraAnalytics.track(AppEvents.push_notification_opened, {
+    id: message.data?.id,
+    state: notificationState,
+    type: message.data?.type,
+  })
   // See if this is a notification with an open url or webview action (`ou` prop in the data)
   const urlToOpen = message.data?.ou
   if (urlToOpen) {

@@ -16,7 +16,7 @@ export interface TransferNotificationData {
 }
 
 export enum NotificationReceiveState {
-  APP_ALREADY_OPEN,
-  APP_FOREGROUNDED,
-  APP_OPENED_FRESH,
+  APP_ALREADY_OPEN = 'APP_ALREADY_OPEN',
+  APP_FOREGROUNDED = 'APP_FOREGROUNDED',
+  APP_OPENED_FRESH = 'APP_OPENED_FRESH',
 }
