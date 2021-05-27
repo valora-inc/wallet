@@ -561,7 +561,7 @@ export const v9Schema = {
     ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     showRaiseDailyLimitTarget: undefined,
     walletConnectEnabled: false,
-    rewardsABTestThreshold: '0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF',
+    rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
     rewardsAPercent: 5,
     rewardsBPercent: 8,
     rewardsStartDate: 1622505600000,

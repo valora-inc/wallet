@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { MoneyAmount, TokenTransactionType } from 'src/apollo/types'
+import { REWARDS_T_AND_C } from 'src/brandingConfig'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import FeeDrawer from 'src/components/FeeDrawer'
@@ -178,9 +179,14 @@ function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, c
   const totalAmount = amount
   const isCeloTx = amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
   const celoEducationUri = useTypedSelector((state) => state.app.celoEducationUri)
+  const rewardsEnabled = useTypedSelector((state) => state.account.rewardsEnabled)
 
   const openLearnMore = () => {
-    navigate(Screens.WebViewScreen, { uri: celoEducationUri! })
+    if (rewardsEnabled) {
+      navigate(Screens.WebViewScreen, { uri: celoEducationUri! })
+    } else {
+      navigateToURI(REWARDS_T_AND_C)
+    }
   }
 
   return (

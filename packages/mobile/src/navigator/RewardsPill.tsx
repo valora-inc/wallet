@@ -9,6 +9,7 @@ import i18n from 'src/i18n'
 import Rings from 'src/icons/Rings'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import useSelector from 'src/redux/useSelector'
 
 function RewardsPill() {
   const onOpenRewards = () => {
@@ -18,6 +19,11 @@ function RewardsPill() {
     })
   }
 
+  const rewardsEnabled = useSelector((state) => state.account.rewardsEnabled)
+
+  if (!rewardsEnabled) {
+    return null
+  }
   return (
     <TouchableOpacity style={styles.rewardsContainer} onPress={onOpenRewards} testID="EarnRewards">
       <Rings />

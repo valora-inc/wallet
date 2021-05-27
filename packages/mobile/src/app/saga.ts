@@ -12,6 +12,7 @@ import {
   takeEvery,
   takeLatest,
 } from 'redux-saga/effects'
+import { setRewardsEnabled } from 'src/account/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -45,6 +46,7 @@ import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
+import { accountAddressSelector } from 'src/web3/selectors'
 import { parse } from 'url'
 
 const TAG = 'app/saga'
@@ -103,8 +105,7 @@ export interface RemoteFeatureFlags {
   showRaiseDailyLimitTarget: string | undefined
   walletConnectEnabled: boolean
   rewardsABTestThreshold: string
-  rewardsAPercent: number
-  rewardsBPercent: number
+  rewardsPercent: number
   rewardsStartDate: number
   rewardsMax: number
 }
@@ -119,6 +120,9 @@ export function* appRemoteFeatureFlagSaga() {
       const flags: RemoteFeatureFlags = yield take(remoteFeatureFlagChannel)
       Logger.info(TAG, 'Updated feature flags', JSON.stringify(flags))
       yield put(updateFeatureFlags(flags))
+      const accountAddress: string = yield select(accountAddressSelector)
+      const rewardsEnabled = accountAddress < flags.rewardsABTestThreshold
+      yield put(setRewardsEnabled(rewardsEnabled))
     }
   } catch (error) {
     Logger.error(`${TAG}@appRemoteFeatureFlagSaga`, error)

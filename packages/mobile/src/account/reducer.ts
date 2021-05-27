@@ -1,5 +1,6 @@
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { Actions, ActionTypes } from 'src/account/actions'
+import { ActionTypes as AppActionTypes } from 'src/app/actions'
 import { DAYS_TO_DELAY } from 'src/backup/utils'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
 import { features } from 'src/flags'
@@ -35,6 +36,7 @@ export interface State {
   accountToRecoverFromStoreWipe: string | undefined
   dailyLimitCusd: number
   dailyLimitRequestStatus: DailyLimitRequestStatus | undefined
+  rewardsEnabled: boolean
 }
 
 export enum PincodeType {
@@ -84,11 +86,12 @@ export const initialState = {
   accountToRecoverFromStoreWipe: undefined,
   dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
   dailyLimitRequestStatus: undefined,
+  rewardsEnabled: false,
 }
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction | Web3ActionTypes
+  action: ActionTypes | RehydrateAction | Web3ActionTypes | AppActionTypes
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
@@ -265,6 +268,12 @@ export const reducer = (
       return {
         ...state,
         profileUploaded: true,
+      }
+    }
+    case Actions.SET_REWARDS_ENABLED: {
+      return {
+        ...state,
+        rewardsEnabled: action.rewardsEnabled,
       }
     }
     default:

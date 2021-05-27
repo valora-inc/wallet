@@ -32,6 +32,7 @@ export enum Actions {
   PROFILE_UPLOADED = 'ACCOUNT/PROFILE_UPLOADED',
   UPDATE_DAILY_LIMIT = 'ACCOUNT/UPDATE_DAILY_LIMIT',
   UPDATE_DAILY_LIMIT_REQUEST_STATUS = 'ACCOUNT/UPDATE_DAILY_LIMIT_REQUEST_STATUS',
+  SET_REWARDS_ENABLED = 'ACCOUNT/SET_REWARDS_ENABLED',
 }
 
 export interface ChooseCreateAccountAction {
@@ -176,6 +177,11 @@ export interface UpdateDailyLimitRequestStatusAction {
   dailyLimitRequestStatus: DailyLimitRequestStatus
 }
 
+export interface SetRewardsEnabledAction {
+  type: Actions.SET_REWARDS_ENABLED
+  rewardsEnabled: boolean
+}
+
 export type ActionTypes =
   | ChooseCreateAccountAction
   | ChooseRestoreAccountAction
@@ -208,6 +214,7 @@ export type ActionTypes =
   | ProfileUploadedAction
   | UpdateDailyLimitAction
   | UpdateDailyLimitRequestStatusAction
+  | SetRewardsEnabledAction
 
 export function chooseCreateAccount(): ChooseCreateAccountAction {
   return {
@@ -379,4 +386,9 @@ export const updateCusdDailyLimit = (newLimit: number): UpdateDailyLimitAction =
 export const updateDailyLimitRequestStatus = (status: DailyLimitRequestStatus) => ({
   type: Actions.UPDATE_DAILY_LIMIT_REQUEST_STATUS,
   dailyLimitRequestStatus: status,
+})
+
+export const setRewardsEnabled = (rewardsEnabled: boolean): SetRewardsEnabledAction => ({
+  type: Actions.SET_REWARDS_ENABLED,
+  rewardsEnabled,
 })

@@ -21,28 +21,19 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
-import { accountAddressSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.ConsumerIncentivesHomeScreen>
 export default function ConsumerIncentivesHomeScreen(props: Props) {
   const { t } = useTranslation(Namespaces.consumerIncentives)
   const userIsVerified = useSelector((state) => state.app.numberVerified)
-  const accountAddress = useSelector(accountAddressSelector)
   const insets = useSafeAreaInsets()
 
-  const {
-    rewardsABTestThreshold,
-    rewardsAPercent,
-    rewardsBPercent,
-    rewardsStartDate,
-    rewardsMax,
-  } = useSelector((state) => state.app)
+  const { rewardsPercent, rewardsStartDate, rewardsMax } = useSelector((state) => state.app)
   const startDate = new Date(rewardsStartDate).toLocaleDateString(undefined, {
     month: 'long',
     day: 'numeric',
   })
-  const rate = accountAddress! < rewardsABTestThreshold ? rewardsAPercent : rewardsBPercent
-  const maxSaving = (rate / 100) * rewardsMax
+  const maxSaving = (rewardsPercent / 100) * rewardsMax
 
   const onPressCTA = () => {
     if (userIsVerified) {
@@ -62,7 +53,6 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
       <ScrollView
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
-        // onScroll={onScroll}
       >
         <Touchable
           style={[styles.closeButton, { marginTop: insets.top }]}
@@ -74,7 +64,9 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
         </Touchable>
         <Image source={earnMain} />
         <Text style={styles.title}>{t('title')}</Text>
-        <Text style={styles.description}>{t('summary', { date: startDate, percent: rate })}</Text>
+        <Text style={styles.description}>
+          {t('summary', { date: startDate, percent: rewardsPercent })}
+        </Text>
         <View style={styles.section}>
           <Image source={earn1} style={styles.sectionImage} resizeMode="contain" />
           <View style={styles.sectionText}>
