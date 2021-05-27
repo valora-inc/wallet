@@ -393,10 +393,4 @@ const styles = StyleSheet.create({
     color: colors.gray4,
     textAlign: 'center',
   },
-  dollarsNotYetEnabledNote: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    textAlign: 'center',
-    paddingHorizontal: 10,
-  },
 })

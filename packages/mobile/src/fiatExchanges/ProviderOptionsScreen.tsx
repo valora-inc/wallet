@@ -270,20 +270,9 @@ const styles = StyleSheet.create({
     marginBottom: variables.contentPadding,
     paddingLeft: variables.contentPadding,
   },
-  logo: {
-    height: 30,
-  },
-  provider: {
-    marginVertical: 24,
-  },
   providersContainer: {
     flex: 1,
     flexDirection: 'column',
-  },
-  separator: {
-    height: 1,
-    width: '100%',
-    backgroundColor: colors.gray2,
   },
   providerListItem: {
     flexDirection: 'row',

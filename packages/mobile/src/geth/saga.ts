@@ -137,26 +137,24 @@ export function* waitForGethSync() {
   }
 }
 
-function pollGethSyncStatusAsync() {
-  return new Promise(async (resolve, reject) => {
-    const dateLimit = Date.now() + GETH_SYNC_TIMEOUT
+async function pollGethSyncStatusAsync() {
+  const dateLimit = Date.now() + GETH_SYNC_TIMEOUT
 
-    while (Date.now() <= dateLimit) {
-      const head = chainHeadSelector(store.getState())
-      if (!head) {
-        await sleep(GETH_POLLING_INTERVAL)
-        continue
-      }
-
-      if (blockIsFresh(head)) {
-        resolve()
-      }
-
+  while (Date.now() <= dateLimit) {
+    const head = chainHeadSelector(store.getState())
+    if (!head) {
       await sleep(GETH_POLLING_INTERVAL)
+      continue
     }
 
-    reject()
-  })
+    if (blockIsFresh(head)) {
+      return
+    }
+
+    await sleep(GETH_POLLING_INTERVAL)
+  }
+
+  throw new Error('pollGethSyncStatusAsync timeout')
 }
 
 export async function waitForGethSyncAsync() {

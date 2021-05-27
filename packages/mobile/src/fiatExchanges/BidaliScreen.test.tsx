@@ -39,6 +39,7 @@ describe(BidaliScreen, () => {
 
     const webView = getByType(WebView)
     expect(webView).toBeDefined()
+    // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
     expect(window.valora).toMatchInlineSnapshot(`
       Object {
@@ -66,6 +67,7 @@ describe(BidaliScreen, () => {
     )
     const webView = getByType(WebView)
     expect(webView).toBeDefined()
+    // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
     expect(window.valora).toMatchInlineSnapshot(`
       Object {
