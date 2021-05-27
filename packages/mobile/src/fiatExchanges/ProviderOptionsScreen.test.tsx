@@ -15,7 +15,7 @@ import { mockAccount } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
 
 const AMOUNT_TO_CASH_IN = 100
-const MOCK_IP_ADDRESS = '1.1.1.1.1.0'
+const MOCK_IP_ADDRESS = '1.1.1.7'
 
 const mockScreenProps = (
   isCashIn: boolean,
