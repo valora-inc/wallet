@@ -73,7 +73,6 @@ export interface SecureSendDetails {
 
 export interface State {
   // numCompleteAttestations is controlled locally
-  hasSeenVerificationNux: boolean
   addressToE164Number: AddressToE164NumberType
   // Note: Do not access values in this directly, use the `getAddressFromPhoneNumber` helper in contactMapping
   e164NumberToAddress: E164NumberToAddressType
@@ -94,7 +93,6 @@ export interface State {
 }
 
 const initialState: State = {
-  hasSeenVerificationNux: false,
   addressToE164Number: {},
   e164NumberToAddress: {},
   walletToAccountAddress: {},
