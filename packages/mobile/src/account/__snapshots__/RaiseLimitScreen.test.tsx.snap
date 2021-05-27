@@ -45,7 +45,7 @@ exports[`RaiseLimitScreen renders correctly 1`] = `
       }
     }
   >
-    verifyNumberToRaiseLimit
+    verifyIdentityToRaiseLimit
   </Text>
   <View
     style={
