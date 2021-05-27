@@ -9,6 +9,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { profileUploaded } from 'src/account/actions'
 import { isProfileUploadedSelector, nameSelector, pictureSelector } from 'src/account/selectors'
 import UploadServiceDataWrapper from 'src/account/UploadServiceDataWrapper'
+import { walletToAccountAddressSelector, WalletToAccountAddressType } from 'src/identity/reducer'
 import { DEK, retrieveOrGeneratePepper } from 'src/pincode/authentication'
 import { extensionToMimeType, getDataURL, saveRecipientPicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
@@ -26,8 +27,10 @@ export function* checkIfProfileUploaded() {
   }
   try {
     // TODO: yield call(addMetadataClaim)
-    yield call(uploadNameAndPicture)
-    yield put(profileUploaded())
+    const uploadSuccessful = yield call(uploadNameAndPicture)
+    if (uploadSuccessful) {
+      yield put(profileUploaded())
+    }
   } catch (e) {
     Logger.error(TAG + '@uploadProfileInfo', 'Error uploading profile', e)
   }
@@ -64,59 +67,70 @@ export function* checkIfProfileUploaded() {
 // }
 
 export function* uploadNameAndPicture() {
-  const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper, true)
-  const name: string = yield select(nameSelector)
-  const nameAccessor = new PrivateNameAccessor(offchainWrapper)
-  let writeError = yield call([nameAccessor, 'write'], { name }, [])
-  if (writeError) {
-    Logger.error(TAG + '@uploadNameAndPicture', writeError)
-    throw Error('Unable to write name')
-  }
-  Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile name')
-
-  const pictureUri: string | null = yield select(pictureSelector)
-  if (pictureUri) {
-    const data = yield call(RNFS.readFile, pictureUri, 'base64')
-    const mimeType = extensionToMimeType[pictureUri.split('.')[-1]] || 'image/jpeg'
-    const dataURL = getDataURL(mimeType, data)
-    const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
-    writeError = yield call([pictureAccessor, 'write'], Buffer.from(dataURL), [])
-    if (writeError) {
-      Logger.error(TAG + '@uploadNameAndPicture', writeError)
-      throw Error('Unable to write picture')
+  try {
+    const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper, true)
+    const name: string = yield select(nameSelector)
+    const nameAccessor = new PrivateNameAccessor(offchainWrapper)
+    const nameWriteError = yield call([nameAccessor, 'write'], { name }, [])
+    if (nameWriteError) {
+      Logger.error(TAG + '@uploadNameAndPicture error writing name', nameWriteError)
+      return false
+    } else {
+      Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile name')
     }
-    Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile picture')
+
+    const pictureUri: string | null = yield select(pictureSelector)
+    if (pictureUri) {
+      const data = yield call(RNFS.readFile, pictureUri, 'base64')
+      const mimeType = extensionToMimeType[pictureUri.split('.')[-1]] || 'image/jpeg'
+      const dataURL = getDataURL(mimeType, data)
+      const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
+      const pictureWriteError = yield call([pictureAccessor, 'write'], Buffer.from(dataURL), [])
+      if (pictureWriteError) {
+        Logger.error(TAG + '@uploadNameAndPicture error writing picture', pictureWriteError)
+        return false
+      } else {
+        Logger.info(TAG + 'uploadNameAndPicture', 'uploaded profile picture')
+      }
+    }
+    return true
+  } catch (error) {
+    Logger.error(TAG + '@uploadNameAndPicture got error', error)
+    return false
   }
 }
 
 // this function gives permission to the recipient to view the user's profile info
-export function* giveProfileAccess(recipientAddresses: string[]) {
+export function* giveProfileAccess(walletAddress: string) {
+  // TODO: check if key for recipient already exists, skip if yes
   try {
-    // TODO: check if key for recipient already exists, skip if yes
+    const walletToAccountAddress: WalletToAccountAddressType = yield select(
+      walletToAccountAddressSelector
+    )
+    const accountAddress =
+      walletToAccountAddress[normalizeAddressWith0x(walletAddress)] ?? walletAddress
+
     const offchainWrapper: UploadServiceDataWrapper = yield call(getOffchainWrapper)
     const nameAccessor = new PrivateNameAccessor(offchainWrapper)
-    let writeError = yield call([nameAccessor, 'allowAccess'], recipientAddresses)
+    let writeError = yield call([nameAccessor, 'allowAccess'], [accountAddress])
     if (writeError) {
       Logger.error(TAG + '@giveProfileAccess', writeError)
+      return
     }
 
     const pictureUri = yield select(pictureSelector)
     if (pictureUri) {
       const pictureAccessor = new PrivatePictureAccessor(offchainWrapper)
-      writeError = yield call([pictureAccessor, 'allowAccess'], recipientAddresses)
+      writeError = yield call([pictureAccessor, 'allowAccess'], [accountAddress])
       if (writeError) {
         Logger.error(TAG + '@giveProfileAccess', writeError)
+        return
       }
     }
-    // not throwing error, because possibility the recipient doesn't have a registered DEK
 
-    Logger.info(TAG + '@giveProfileAccess', 'uploaded symmetric keys for ' + recipientAddresses)
+    Logger.info(TAG + '@giveProfileAccess', 'uploaded symmetric keys for ' + accountAddress)
   } catch (error) {
-    Logger.error(
-      TAG + '@giveProfileAccess',
-      'error when giving access to ' + recipientAddresses,
-      error
-    )
+    Logger.error(TAG + '@giveProfileAccess', 'error when giving access to ' + walletAddress, error)
   }
 }
 
@@ -166,6 +180,7 @@ export function* getOffchainWrapper(addAccount = false) {
 
   const contractKit = yield call(getContractKit)
   const account: Address = yield call(getAccountAddress)
+  Logger.info(TAG, 'uploading information for', account)
   const offchainWrapper = new UploadServiceDataWrapper(
     contractKit,
     toChecksumAddress(account),

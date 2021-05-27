@@ -1,10 +1,12 @@
+// DEPRECATE CLOUD FUNCTION & DELETE FILE ONCE MAJORITY OF USERS ARE ON VERSION >=1.15.0
+
 import crypto from 'crypto'
 import * as functions from 'firebase-functions'
 import {
   CASH_IN_SUCCESS_DEEPLINK,
   CASH_IN_SUCCESS_URL,
-  CurrencyCode,
-  LocalCurrencyCode,
+  DigitalAsset,
+  FiatCurrency,
   MOONPAY_DATA,
   RAMP_DATA,
   TRANSAK_DATA,
@@ -107,8 +109,8 @@ interface SimplexQuoteRequest {
   type: 'quote'
   userAddress: string
   currentIpAddress: string
-  currencyToBuy: CurrencyCode
-  fiatCurrency: LocalCurrencyCode
+  currencyToBuy: DigitalAsset
+  fiatCurrency: FiatCurrency
   amount: number
   amountIsFiat: boolean
 }

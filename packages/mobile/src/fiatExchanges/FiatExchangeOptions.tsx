@@ -264,18 +264,19 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                     text={t('payWithBank')}
                     selected={selectedPaymentMethod === PaymentMethod.Bank}
                     onSelect={onSelectPaymentMethod(PaymentMethod.Bank)}
-                  />
-                  <PaymentMethodRadioItem
-                    text={t('receiveOnAddress')}
-                    selected={selectedPaymentMethod === PaymentMethod.Address}
-                    onSelect={onSelectPaymentMethod(PaymentMethod.Address)}
-                    enabled={selectedCurrency === Currency.Celo}
+                    enabled={selectedCurrency === Currency.Dollar}
                   />
                   <PaymentMethodRadioItem
                     text={t('receiveWithBidali')}
                     selected={selectedPaymentMethod === PaymentMethod.GiftCard}
                     onSelect={onSelectPaymentMethod(PaymentMethod.GiftCard)}
                     enabled={selectedCurrency === Currency.Dollar}
+                  />
+                  <PaymentMethodRadioItem
+                    text={t('receiveOnAddress')}
+                    selected={selectedPaymentMethod === PaymentMethod.Address}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.Address)}
+                    enabled={selectedCurrency === Currency.Celo}
                   />
                 </>
               )}

@@ -1,121 +1,409 @@
 import * as React from 'react'
-import { fireEvent, render, RenderAPI } from 'react-native-testing-library'
+import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import { DOLLAR_ADD_FUNDS_MAX_AMOUNT, DOLLAR_ADD_FUNDS_MIN_AMOUNT } from 'src/config'
+import { showError } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
+import {
+  DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
+  DOLLAR_ADD_FUNDS_MAX_AMOUNT,
+  DOLLAR_ADD_FUNDS_MIN_AMOUNT,
+} from 'src/config'
 import { ExchangeRatePair } from 'src/exchange/reducer'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.5', dollarMaker: '1' }
+const usdToPHPExchangeRate = 50
 
-const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-  currency: Currency.Dollar,
-  paymentMethod: PaymentMethod.Bank,
-  isCashIn: true,
-})
-
-const store = createMockStore({
+const storeWithUSD = createMockStore({
   stableToken: {
     balance: '1000.00',
+  },
+  goldToken: {
+    balance: '5.5',
+  },
+  localCurrency: {
+    fetchedCurrencyCode: LocalCurrencyCode.USD,
+    preferredCurrencyCode: LocalCurrencyCode.USD,
+    exchangeRate: '1',
   },
   exchange: { exchangeRatePair },
 })
 
-describe('FiatExchangeAmount', () => {
-  let tree: RenderAPI
+const storeWithPHP = createMockStore({
+  stableToken: {
+    balance: '1000.00',
+  },
+  goldToken: {
+    balance: '5.5',
+  },
+  localCurrency: {
+    fetchedCurrencyCode: LocalCurrencyCode.PHP,
+    preferredCurrencyCode: LocalCurrencyCode.PHP,
+    exchangeRate: usdToPHPExchangeRate.toString(),
+  },
+  exchange: { exchangeRatePair },
+})
 
+describe('FiatExchangeAmount cashIn', () => {
   beforeEach(() => {
-    tree = render(
-      <Provider store={store}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
+    jest.clearAllMocks()
+    jest.useRealTimers()
+    storeWithUSD.clearActions()
+    storeWithPHP.clearActions()
   })
 
   it('renders correctly', () => {
-    const { toJSON } = tree
-    expect(toJSON()).toMatchSnapshot()
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: Currency.Dollar,
+      paymentMethod: PaymentMethod.Bank,
+      isCashIn: true,
+    })
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
   })
 
-  it('disables the next button if the amount is 0', () => {
-    const { getByTestId } = tree
+  it('disables the next button if the cUSD amount is 0', () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: Currency.Dollar,
+      paymentMethod: PaymentMethod.Bank,
+      isCashIn: true,
+    })
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
 
-    fireEvent.changeText(getByTestId('FiatExchangeInput'), '0')
-    expect(getByTestId('FiatExchangeNextButton').props.disabled).toBe(true)
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '0')
+    expect(tree.getByTestId('FiatExchangeNextButton').props.disabled).toBe(true)
   })
 
-  it('disables the next button if the amount is 0', () => {
-    const { getByTestId } = tree
+  it('enables the next button if the cUSD amount is greater than 0', () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: Currency.Dollar,
+      paymentMethod: PaymentMethod.Bank,
+      isCashIn: true,
+    })
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
 
-    fireEvent.changeText(getByTestId('FiatExchangeInput'), '0')
-    expect(getByTestId('FiatExchangeNextButton').props.disabled).toBe(true)
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '5')
+    expect(tree.getByTestId('FiatExchangeNextButton').props.disabled).toBe(false)
   })
 
-  it('enables the next button if the amount is greater than 0', () => {
-    const { getByTestId } = tree
-
-    fireEvent.changeText(getByTestId('FiatExchangeInput'), '5')
-    expect(getByTestId('FiatExchangeNextButton').props.disabled).toBe(false)
-  })
-
-  it('opens a dialog when the amount is lower than the limit', () => {
-    const { getByTestId } = tree
+  it('opens a dialog when the cUSD amount is lower than the limit', () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: Currency.Dollar,
+      paymentMethod: PaymentMethod.Bank,
+      isCashIn: true,
+    })
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
 
     fireEvent.changeText(
-      getByTestId('FiatExchangeInput'),
+      tree.getByTestId('FiatExchangeInput'),
       (DOLLAR_ADD_FUNDS_MIN_AMOUNT - 1).toString()
     )
-    fireEvent.press(getByTestId('FiatExchangeNextButton'))
-    expect(getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
-    fireEvent.press(getByTestId('invalidAmountDialog/PrimaryAction'))
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  it('opens a dialog when the amount is higher than the limit', () => {
-    const { getByTestId } = tree
+  it('opens a dialog when the cUSD amount (in non-USD currency) is lower than the limit', () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: Currency.Dollar,
+      paymentMethod: PaymentMethod.Bank,
+      isCashIn: true,
+    })
+    const tree = render(
+      <Provider store={storeWithPHP}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
 
     fireEvent.changeText(
-      getByTestId('FiatExchangeInput'),
-      (DOLLAR_ADD_FUNDS_MAX_AMOUNT + 1).toString()
+      tree.getByTestId('FiatExchangeInput'),
+      (DOLLAR_ADD_FUNDS_MIN_AMOUNT * usdToPHPExchangeRate - 1).toString()
     )
-    fireEvent.press(getByTestId('FiatExchangeNextButton'))
-    expect(getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
-    fireEvent.press(getByTestId('invalidAmountDialog/PrimaryAction'))
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
     expect(navigate).not.toHaveBeenCalled()
   })
 
-  it('opens a dialog when the amount is higher than the daily limit', () => {
-    const { getByTestId } = tree
+  it('opens a dialog when the CELO amount is lower than the limit', () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: CURRENCY_ENUM.GOLD,
+      paymentMethod: PaymentMethod.Bank,
+      isCashIn: true,
+    })
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
 
-    fireEvent.changeText(getByTestId('FiatExchangeInput'), '600')
-    fireEvent.press(getByTestId('FiatExchangeNextButton'))
-    expect(getByTestId('DailyLimitDialog/PrimaryAction')).toBeTruthy()
-    fireEvent.press(getByTestId('DailyLimitDialog/PrimaryAction'))
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '0.5')
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
+    expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('opens a dialog when the cUSD amount is higher than the limit', () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: Currency.Dollar,
+      paymentMethod: PaymentMethod.Bank,
+      isCashIn: true,
+    })
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+
+    fireEvent.changeText(
+      tree.getByTestId('FiatExchangeInput'),
+      (DOLLAR_ADD_FUNDS_MAX_AMOUNT + 1).toString()
+    )
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
+    expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('opens a dialog when the cUSD amount (in non-USD currency) is higher than the limit', () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: Currency.Dollar,
+      paymentMethod: PaymentMethod.Bank,
+      isCashIn: true,
+    })
+    const tree = render(
+      <Provider store={storeWithPHP}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+
+    fireEvent.changeText(
+      tree.getByTestId('FiatExchangeInput'),
+      (DOLLAR_ADD_FUNDS_MAX_AMOUNT * usdToPHPExchangeRate + 1).toString()
+    )
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
+    expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('opens a dialog when the CELO amount is higher than the limit', () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: CURRENCY_ENUM.GOLD,
+      paymentMethod: PaymentMethod.Bank,
+      isCashIn: true,
+    })
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+
+    const overLimitAmount = (DOLLAR_ADD_FUNDS_MAX_AMOUNT + 1) / Number(exchangeRatePair.goldMaker)
+
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), overLimitAmount.toString())
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
+    expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('opens a dialog when the cUSD amount is higher than the daily limit', () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: Currency.Dollar,
+      paymentMethod: PaymentMethod.Bank,
+      isCashIn: true,
+    })
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+
+    const overLimitAmount = DEFAULT_DAILY_PAYMENT_LIMIT_CUSD + 1
+
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), overLimitAmount.toString())
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(tree.getByTestId('DailyLimitDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('DailyLimitDialog/PrimaryAction'))
 
     expect(navigate).toHaveBeenCalledWith(Screens.ProviderOptionsScreen, {
       isCashIn: true,
       selectedCrypto: Currency.Dollar,
       amount: {
-        fiat: 600,
-        crypto: 600,
+        fiat: overLimitAmount,
+        crypto: overLimitAmount,
+      },
+      paymentMethod: PaymentMethod.Bank,
+    })
+  })
+
+  it('opens a dialog when the cUSD amount (in non-USD currency) is higher than the daily limit', () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: Currency.Dollar,
+      paymentMethod: PaymentMethod.Bank,
+      isCashIn: true,
+    })
+    const tree = render(
+      <Provider store={storeWithPHP}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+
+    const overLimitAmount = DEFAULT_DAILY_PAYMENT_LIMIT_CUSD * usdToPHPExchangeRate + 1
+
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), overLimitAmount.toString())
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(tree.getByTestId('DailyLimitDialog/PrimaryAction')).toBeTruthy()
+    fireEvent.press(tree.getByTestId('DailyLimitDialog/PrimaryAction'))
+
+    expect(navigate).toHaveBeenCalledWith(Screens.ProviderOptionsScreen, {
+      isCashIn: true,
+      selectedCrypto: Currency.Dollar,
+      amount: {
+        fiat: overLimitAmount,
+        crypto: overLimitAmount / usdToPHPExchangeRate,
       },
       paymentMethod: PaymentMethod.Bank,
     })
   })
 
   it('redirects to contact screen when that option is pressed with a prefilled message', () => {
-    const { getByTestId } = tree
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: Currency.Dollar,
+      paymentMethod: PaymentMethod.Bank,
+      isCashIn: true,
+    })
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
 
-    fireEvent.changeText(getByTestId('FiatExchangeInput'), '600')
-    fireEvent.press(getByTestId('FiatExchangeNextButton'))
-    fireEvent.press(getByTestId('DailyLimitDialog/SecondaryAction'))
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '600')
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    fireEvent.press(tree.getByTestId('DailyLimitDialog/SecondaryAction'))
 
     expect(navigate).toHaveBeenCalledWith(Screens.SupportContact, {
       prefilledText: 'dailyLimitRequest',
+    })
+  })
+})
+
+describe('FiatExchangeAmount cashOut', () => {
+  const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+    currency: Currency.Dollar,
+    paymentMethod: PaymentMethod.Bank,
+    isCashIn: false,
+  })
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.useRealTimers()
+    storeWithUSD.clearActions()
+    storeWithPHP.clearActions()
+  })
+
+  it('disables the next button if the cUSD amount is 0', () => {
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '0')
+    expect(tree.getByTestId('FiatExchangeNextButton').props.disabled).toBe(true)
+  })
+
+  it('shows an error banner if the user balance is less than the requested cash-out amount', () => {
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '1001')
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(storeWithUSD.getActions()).toEqual(
+      expect.arrayContaining([showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED)])
+    )
+  })
+
+  it('shows an error banner if the user balance (in non- USD currency) is less than the requested cash-out amount', () => {
+    const tree = render(
+      <Provider store={storeWithPHP}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '75000')
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(storeWithPHP.getActions()).toEqual(
+      expect.arrayContaining([showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED)])
+    )
+  })
+
+  it('navigates to the ProviderOptionsScreen if the user balance is greater than the requested cash-out amount', () => {
+    const tree = render(
+      <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '750')
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(navigate).toHaveBeenCalledWith(Screens.ProviderOptionsScreen, {
+      isCashIn: false,
+      selectedCrypto: Currency.Dollar,
+      amount: {
+        fiat: 750,
+        crypto: 750,
+      },
+      paymentMethod: PaymentMethod.Bank,
+    })
+  })
+
+  it('navigates to the ProviderOptionsScreen if the user balance (in non- USD currency) is greater than the requested cash-out amount', () => {
+    const tree = render(
+      <Provider store={storeWithPHP}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '25000')
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(navigate).toHaveBeenCalledWith(Screens.ProviderOptionsScreen, {
+      isCashIn: false,
+      selectedCrypto: Currency.Dollar,
+      amount: {
+        fiat: 25000,
+        crypto: 500,
+      },
+      paymentMethod: PaymentMethod.Bank,
     })
   })
 })

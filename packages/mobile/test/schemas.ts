@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
@@ -560,6 +561,7 @@ export const v9Schema = {
     ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     showRaiseDailyLimitTarget: undefined,
     walletConnectEnabled: false,
+    ranVerificationMigrationAt: null,
   },
   walletConnect: {
     pairings: [],
@@ -575,6 +577,18 @@ export const v9Schema = {
     ...v8Schema.localCurrency,
     eurExchangeRate: '2',
     celoExchangeRate: '3',
+  },
+  fiatExchanges: {
+    ...v8Schema.fiatExchanges,
+    providerLogos: {},
+  },
+  identity: {
+    ...v8Schema.identity,
+    attestationInputStatus: [
+      CodeInputStatus.Inputting,
+      CodeInputStatus.Disabled,
+      CodeInputStatus.Disabled,
+    ],
   },
 }
 
