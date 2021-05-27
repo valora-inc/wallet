@@ -47,7 +47,7 @@ The app uses [React Native][react native] and a geth [light node][light node].
 
 ## Setup
 
-**You must have the [celo-monorepo] successfully set up and built before setting up and running the mobile wallet.**
+**You must have the [wallet] monorepo successfully set up and built before setting up and running the mobile wallet.** To do this, follow the [setup instructions][setup].
 
 To do this, follow the [setup instructions][setup].
 
@@ -92,12 +92,11 @@ bundle exec pod install
 
 If your machine does not recognize the `gem` command, you may need to [download Ruby](https://rubyinstaller.org/) first.
 
-1. Run `yarn install` in the monorepo root `/celo-monorepo`.
+1. Run `yarn install` in the monorepo root `/wallet`.
 2. Install Google Cloud by running `brew install google-cloud-sdk`.
    2a. Follow instructions here for logging in with Google credentials. https://github.com/celo-org/bootnode/blob/4bdd7e7ecb91db54dc2a307ec45887d73aa75394/engsetup/README.md
-3. Run `yarn build:wallet` from the monorepo root `/celo-monorepo`.
-
-4. Run `yarn dev:ios` in the `/celo-monorepo/packages/mobile/ios` folder.
+3. Run `yarn build:wallet` from the monorepo root `/wallet`.
+4. Run `yarn dev:ios` in the `/wallet/packages/mobile/ios` folder.
 
 And the app should be running in the simulator! If you run into any issues, see below for troubleshooting.
 
@@ -168,35 +167,34 @@ sdkmanager 'platforms;android-29'
 
 You can download the complete Android Studio and SDK from the [Android Developer download site](https://developer.android.com/studio/#downloads).
 
-The steps are:
-
-1.  Unpack the .zip file you downloaded to an appropriate location for your applications, such as within `/usr/local/` for your user profile, or `/opt/` for shared users.
-
-    If you're using a 64-bit version of Linux, make sure you first install the [required libraries for 64-bit machines](https://developer.android.com/studio/install#64bit-libs).
-
-2.  To launch Android Studio, open a terminal, navigate to the `android-studio/bin/` directory, and execute `studio.sh`.
-
-3.  Select whether you want to import previous Android Studio settings or not, then click OK.
-
-4.  The Android Studio Setup Wizard guides you through the rest of the setup, which includes downloading Android SDK components that are required for development.
-
 You can find the complete instructions about how to install the tools in Linux environments in the [Documentation page](https://developer.android.com/studio/install#linux).
+
+Set the following environment variables and optionally add to your shell profile (_e.g._, `.bash_profile`):
+
+```bash
+export ANDROID_HOME=/usr/local/share/android-sdk
+export ANDROID_SDK_ROOT=/usr/local/share/android-sdk
+# this is an optional gradle configuration that should make builds faster
+export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gradle.jvmargs="-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError"'
+# this is used to launch the react native packager in its own terminal
+export TERM_PROGRAM=xterm  # or whatever your favorite terminal is
+```
 
 #### Optional: Install an Android emulator
 
 ##### Configure an emulator using the Android SDK Manager
+
+Set your `PATH` environment variable and optionally update your shell profile (_e.g._, `.bash_profile`):
+
+```bash
+export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH
+```
 
 Install the Android 29 system image and create an Android Virtual Device:
 
 ```bash
 sdkmanager "system-images;android-29;default;x86_64"
 avdmanager create avd --force --name Pixel_API_29_AOSP_x86_64 --device pixel -k "system-images;android-29;default;x86_64"
-```
-
-Execute the following and add it to your `~/.bash_profile`:
-
-```bash
-export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$PATH
 ```
 
 Run the emulator with:
@@ -264,7 +262,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 ### Running in forno (data saver) mode
 
-By default, the mobile wallet app runs geth in lightest sync mode where all the epoch headers are fetched. The default sync mode is defined in [packages/mobile/.env](https://github.com/celo-org/celo-monorepo/blob/master/packages/mobile/.env#L4) file.
+By default, the mobile wallet app runs geth in lightest sync mode where all the epoch headers are fetched. The default sync mode is defined in by `SYNC_DEFAULT_MODE` in the `.env` files in [wallet/packages/mobile](wallet/packages/mobile).
 
 To run the wallet in forno (Data Saver) mode, using a trusted node rather than the local geth node as a provider, turn it on from the Data Saver page in settings or update the `FORNO_ENABLED_INITIALLY` parameter in the .env file linked above. When forno mode is turned back off, the wallet will switch to the default sync mode as specified in the .env file. By default, the trusted node is `https://{TESTNET}-forno.celo-testnet.org`, however any trusted node can be used by updating `DEFAULT_FORNO_URL`. In forno mode, the wallet signs transactions locally in web3 then sends them to the trusted node.
 
@@ -425,12 +423,6 @@ Sentry, the crash logging mechanism we use, can catch both Javascript Errors as 
 
 We cannot use libraries like [Bugsnag](https://www.bugsnag.com) since they do not allow us to extract logcat logs immediately after the crash. Therefore, We use [jndcrash](https://github.com/ivanarh/jndcrash), which uses [ndcrash](https://github.com/ivanarh/ndcrash) and enable us to log the logcat logs immediately after a native crash. We capture the results into a file and on next restart Sentry reads it. We need to do this two-step setup because once a native crash happens, running code to upload the data would be fragile. An error in sentry looks like [this](https://sentry.io/organizations/celo/issues/918120991/events/48285729031/)
 
-Relevant code references:
-
-1. [NDKCrashService](https://github.com/celo-org/celo-monorepo/blob/master/packages/mobile/android/app/src/main/java/org/celo/mobile/NdkCrashService.java)
-2. [Initialization](https://github.com/celo-org/celo-monorepo/blob/8689634a1d10d74ba6d4f3b36b2484db60a95bdb/packages/mobile/android/app/src/main/java/org/celo/mobile/MainApplication.java#L156) of the NDKCrashService
-3. [Sentry code](https://github.com/celo-org/celo-monorepo/blob/799d74675dc09327543c210e88cbf5cc796721a0/packages/mobile/src/sentry/Sentry.ts#L53) to read NDK crash logs on restart
-
 There are two major differences in Forno mode:
 
 1.  Geth won't run at all. Instead, web3 connects to <testnet>-forno.celo-testnet.org using an https provider, for example, [https://integration-forno.celo-testnet.org](https://integration-forno.celo-testnet.org).
@@ -537,7 +529,7 @@ $ adb kill-server && adb start-server
 ```
 
 [celo platform]: https://celo.org
-[celo-monorepo]: https://github.com/celo-org/celo-monorepo
+[wallet]: https://github.com/celo-org/wallet
 [celo-blockchain]: https://github.com/celo-org/celo-blockchain
 [apple developer program]: https://developer.apple.com/programs/
 [detox]: https://github.com/wix/Detox
