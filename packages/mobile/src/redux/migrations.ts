@@ -205,4 +205,17 @@ export const migrations = {
       },
     }
   },
+  13: (state: any) => {
+    return {
+      ...state,
+      networkInfo: {
+        ...state.networkInfo,
+        userLocationData: {
+          country: null,
+          state: null,
+          ipAddress: null,
+        },
+      },
+    }
+  },
 }
