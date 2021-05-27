@@ -104,7 +104,8 @@ export function contactsToRecipients(contacts: MinimalContact[], defaultCountryC
           }
           e164NumberToRecipients[parsedNumber.e164Number] = {
             name: contact.displayName,
-            displayNumber: parsedNumber.displayNumber,
+            // We intentionally use phoneNumber.number rather than parsedNumber.displayNumber.
+            displayNumber: phoneNumber.number,
             e164PhoneNumber: parsedNumber.e164Number,
             // @ts-ignore TODO Minimal contact type is incorrect, on android it returns id
             contactId: contact.recordID || contact.id,
