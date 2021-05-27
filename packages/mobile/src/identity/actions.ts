@@ -98,6 +98,7 @@ export interface SetCompletedCodesAction {
 export interface InputAttestationCodeAction {
   type: Actions.INPUT_ATTESTATION_CODE
   code: AttestationCode
+  index?: number
 }
 
 export interface CompleteAttestationCodeAction {
@@ -314,9 +315,13 @@ export const setCompletedCodes = (numComplete: number): SetCompletedCodesAction 
   numComplete,
 })
 
-export const inputAttestationCode = (code: AttestationCode): InputAttestationCodeAction => ({
+export const inputAttestationCode = (
+  code: AttestationCode,
+  index?: number
+): InputAttestationCodeAction => ({
   type: Actions.INPUT_ATTESTATION_CODE,
   code,
+  index,
 })
 
 export const completeAttestationCode = (code: AttestationCode): CompleteAttestationCodeAction => ({

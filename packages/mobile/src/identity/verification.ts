@@ -779,9 +779,11 @@ export function attestationCodeReceiver(
         `Attestation code (${message}) is valid, starting processing (issuer: ${issuer})`
       )
 
-      yield put(setAttestationInputStatus(index, CodeInputStatus.Processing))
       yield put(
-        inputAttestationCode({ code: attestationCode, shortCode: securityCodeWithPrefix, issuer })
+        inputAttestationCode(
+          { code: attestationCode, shortCode: securityCodeWithPrefix, issuer },
+          index
+        )
       )
     } catch (error) {
       Logger.error(
