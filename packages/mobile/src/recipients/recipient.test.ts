@@ -9,6 +9,7 @@ describe('contactsToRecipients', () => {
       {
         recordID: '1',
         displayName: 'Alice The Person',
+        thumbnailPath: 'does-not-matter',
         phoneNumbers: [
           {
             label: 'mobile',
@@ -18,6 +19,7 @@ describe('contactsToRecipients', () => {
       },
       {
         recordID: '2',
+        thumbnailPath: 'does-not-matter',
         displayName: 'Bob Bobson',
         phoneNumbers: [
           { label: 'home', number: '+14155550000' },
