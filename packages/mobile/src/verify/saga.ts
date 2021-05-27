@@ -122,6 +122,7 @@ import {
   revealAttestationsSaga,
 } from 'src/verify/revealAttestations'
 import { indexReadyForInput } from 'src/verify/utils'
+import { setMtwAddress } from 'src/web3/actions'
 import { getContractKit } from 'src/web3/contracts'
 import { getAccount, getConnectedUnlockedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
 
@@ -602,6 +603,7 @@ export function* completeAttestationsSaga() {
     })
   )
 
+  yield put(setMtwAddress(komenci.unverifiedMtwAddress))
   yield put(succeed())
 }
 
