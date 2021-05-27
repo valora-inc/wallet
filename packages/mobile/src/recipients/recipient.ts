@@ -86,8 +86,8 @@ export function contactsToRecipients(contacts: MinimalContact[], defaultCountryC
   try {
     //  We need a map of e164Number to recipients so we can efficiently
     //    update them later as the latest contact mappings arrive from the contact calls.
-    const e164NumberToRecipients: NumberToRecipient = {}
 
+    const e164NumberToRecipients: NumberToRecipient = {}
     for (const contact of contacts) {
       if (!contact.phoneNumbers || !contact.phoneNumbers.length) {
         // Skip contacts without phone numbers

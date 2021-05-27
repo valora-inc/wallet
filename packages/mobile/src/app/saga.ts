@@ -32,6 +32,7 @@ import {
   getRequirePinOnAppOpen,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
+import { runVerificationMigration } from 'src/app/verificationMigration'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { appRemoteFeatureFlagChannel, appVersionDeprecationChannel } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
@@ -246,5 +247,6 @@ export function* appSaga() {
   yield spawn(watchDeepLinks)
   yield spawn(watchOpenUrl)
   yield spawn(watchAppState)
+  yield spawn(runVerificationMigration)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
 }
