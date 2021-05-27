@@ -54,7 +54,7 @@ import {
   komenciContextSelector,
   NUM_ATTESTATIONS_REQUIRED,
   shouldUseKomenciSelector,
-  success,
+  succeed,
 } from 'src/verify/module'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -610,7 +610,7 @@ export function* watchFetchSentPayments() {
 
 export function* watchVerificationEnd() {
   while (true) {
-    yield take(success)
+    yield take(succeed.type)
     const shouldUseKomenci = yield select(shouldUseKomenciSelector)
     // We wait for the next block because escrow can not
     // be redeemed without all the attestations completed
