@@ -15,8 +15,8 @@ const mockScreenProps = (isCashIn: boolean) =>
 const mockStore = createMockStore({
   networkInfo: {
     userLocationData: {
-      country: 'US',
-      state: null,
+      countryCodeAlpha2: 'US',
+      region: null,
       ipAddress: null,
     },
   },

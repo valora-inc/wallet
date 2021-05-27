@@ -41,8 +41,8 @@ const mockStore = createMockStore({
   },
   networkInfo: {
     userLocationData: {
-      country: 'MX',
-      state: null,
+      countryCodeAlpha2: 'MX',
+      region: null,
       ipAddress: MOCK_IP_ADDRESS,
     },
   },

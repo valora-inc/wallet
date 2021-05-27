@@ -41,8 +41,8 @@ interface IpAddressData {
 }
 
 export interface UserLocationData {
-  country: string | null
-  state: string | null
+  countryCodeAlpha2: string | null
+  region: string | null
   ipAddress: string | null
 }
 
@@ -87,16 +87,18 @@ function* fetchUserLocationData() {
     const ipAddressData: IpAddressData = yield response.json()
 
     if (!response.ok) {
-      throw Error(`IP address fetch failed. Error: ${JSON.stringify(ipAddressData)}`)
+      throw new Error(`IP address fetch failed. Error: ${JSON.stringify(ipAddressData)}`)
     }
 
     const { country_code, region_code, ip } = ipAddressData
-    userLocationData = { country: country_code, state: region_code, ipAddress: ip }
+    userLocationData = { countryCodeAlpha2: country_code, region: region_code, ipAddress: ip }
   } catch (error) {
     Logger.error(`${TAG}:fetchUserLocationData`, error.message)
     // If endpoint fails then use country code to determine location
     const countryCallingCode: string | null = yield select(defaultCountryCodeSelector)
-    const country = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
+    const countryCodeAlpha2 = countryCallingCode
+      ? getRegionCodeFromCountryCode(countryCallingCode)
+      : null
     let ipAddress: string | null
     try {
       ipAddress = yield getIpAddress()
@@ -104,7 +106,7 @@ function* fetchUserLocationData() {
       ipAddress = null
     }
 
-    userLocationData = { country, state: null, ipAddress }
+    userLocationData = { countryCodeAlpha2, region: null, ipAddress }
   }
 
   yield put(updateUserLocationData(userLocationData))

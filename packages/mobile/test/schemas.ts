@@ -584,8 +584,8 @@ export const v9Schema = {
   networkInfo: {
     ...v8Schema.networkInfo,
     userLocationData: {
-      country: 'US',
-      state: null,
+      countryCodeAlpha2: 'US',
+      region: null,
       ipAddress: null,
     },
   },

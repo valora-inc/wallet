@@ -210,6 +210,6 @@ describe('Redux persist migrations', () => {
     const stub = v9Schema
     const migratedSchema = migrations[13](stub)
     expect(migratedSchema.networkInfo.userLocationData).toBeDefined()
-    expect(migratedSchema.networkInfo.userLocationData.country).toEqual(null)
+    expect(migratedSchema.networkInfo.userLocationData.countryCodeAlpha2).toEqual(null)
   })
 })

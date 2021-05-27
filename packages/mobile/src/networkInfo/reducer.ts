@@ -12,8 +12,8 @@ const initialState = {
   connected: false,
   rehydrated: false,
   userLocationData: {
-    country: null,
-    state: null,
+    countryCodeAlpha2: null,
+    region: null,
     ipAddress: null,
   },
 }

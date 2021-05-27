@@ -5,9 +5,11 @@ import { getProviderAvailability } from './providerAvailability'
 import { Providers } from './Providers'
 import Simplex, { SimplexQuote } from './Simplex'
 
+// REMINDER: Check if property name changes are backwards compatible...probably will be fine given
+// we are moving location check to server-side
 export interface UserLocationData {
-  country: string | null
-  state: string | null
+  countryCodeAlpha2: string | null
+  region: string | null
   ipAddress: string | null
 }
 

@@ -10,8 +10,8 @@ describe(getExtraNotifications, () => {
     const state = getMockStoreData({
       networkInfo: {
         userLocationData: {
-          country: 'PH',
-          state: null,
+          countryCodeAlpha2: 'PH',
+          region: null,
           ipAddress: null,
         },
       },

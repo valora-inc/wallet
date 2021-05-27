@@ -17,8 +17,9 @@ export function getCountryFeatures(countryCodeAlpha2: string | null): SpecificCo
   return features
 }
 
-export const getCountryFeaturesSelector = createSelector(userLocationDataSelector, ({ country }) =>
-  getCountryFeatures(country)
+export const getCountryFeaturesSelector = createSelector(
+  userLocationDataSelector,
+  ({ countryCodeAlpha2 }) => getCountryFeatures(countryCodeAlpha2)
 )
 
 export function useCountryFeatures() {

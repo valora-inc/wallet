@@ -211,8 +211,8 @@ export const migrations = {
       networkInfo: {
         ...state.networkInfo,
         userLocationData: {
-          country: null,
-          state: null,
+          countryCodeAlpha2: null,
+          region: null,
           ipAddress: null,
         },
       },

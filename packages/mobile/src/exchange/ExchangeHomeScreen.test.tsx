@@ -49,8 +49,8 @@ describe('ExchangeHomeScreen', () => {
     const store = createMockStore({
       networkInfo: {
         userLocationData: {
-          country: 'PH', // PH is restricted for CP-DOTO
-          state: null,
+          countryCodeAlpha2: 'PH', // PH is restricted for CP-DOTO
+          region: null,
           ipAddress: null,
         },
       },

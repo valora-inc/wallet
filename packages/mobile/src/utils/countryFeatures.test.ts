@@ -7,8 +7,8 @@ describe(getCountryFeaturesSelector, () => {
     const state = getMockStoreData({
       networkInfo: {
         userLocationData: {
-          country: 'US',
-          state: null,
+          countryCodeAlpha2: 'US',
+          region: null,
           ipAddress: null,
         },
       },
@@ -27,8 +27,8 @@ describe(getCountryFeaturesSelector, () => {
     const state = getMockStoreData({
       networkInfo: {
         userLocationData: {
-          country: 'PH',
-          state: null,
+          countryCodeAlpha2: 'PH',
+          region: null,
           ipAddress: null,
         },
       },
@@ -47,8 +47,8 @@ describe(getCountryFeaturesSelector, () => {
     const state = getMockStoreData({
       networkInfo: {
         userLocationData: {
-          country: 'JP',
-          state: null,
+          countryCodeAlpha2: 'JP',
+          region: null,
           ipAddress: null,
         },
       },
@@ -67,8 +67,8 @@ describe(getCountryFeaturesSelector, () => {
     const state = getMockStoreData({
       networkInfo: {
         userLocationData: {
-          country: 'CU',
-          state: null,
+          countryCodeAlpha2: 'CU',
+          region: null,
           ipAddress: null,
         },
       },
@@ -87,8 +87,8 @@ describe(getCountryFeaturesSelector, () => {
     const state = getMockStoreData({
       networkInfo: {
         userLocationData: {
-          country: 'BR',
-          state: null,
+          countryCodeAlpha2: 'BR',
+          region: null,
           ipAddress: null,
         },
       },

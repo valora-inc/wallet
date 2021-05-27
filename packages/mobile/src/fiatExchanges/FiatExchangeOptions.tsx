@@ -288,7 +288,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               {getAvailableLocalProviders(
                 localCicoProviders,
                 isCashIn,
-                userLocationData.country,
+                userLocationData.countryCodeAlpha2,
                 selectedCurrency
               ).map((provider) => (
                 <PaymentMethodRadioItem
