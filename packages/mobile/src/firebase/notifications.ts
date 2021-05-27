@@ -32,7 +32,7 @@ function* handlePaymentRequested(
   paymentRequest: PaymentRequest,
   notificationState: NotificationReceiveState
 ) {
-  if (notificationState === NotificationReceiveState.APP_ALREADY_OPEN) {
+  if (notificationState === NotificationReceiveState.AppAlreadyOpen) {
     return
   }
 
@@ -57,7 +57,7 @@ function* handlePaymentReceived(
   transferNotification: TransferNotificationData,
   notificationState: NotificationReceiveState
 ) {
-  if (notificationState !== NotificationReceiveState.APP_ALREADY_OPEN) {
+  if (notificationState !== NotificationReceiveState.AppAlreadyOpen) {
     const info: RecipientInfo = yield select(recipientInfoSelector)
     const address = transferNotification.sender.toLowerCase()
     const currency = resolveCurrency(transferNotification.currency)
@@ -96,7 +96,7 @@ export function* handleNotification(
   const openExternal = message.data?.openExternal === 'true'
   const openUrlAction = urlToOpen ? openUrl(urlToOpen, openExternal, true) : null
 
-  if (notificationState === NotificationReceiveState.APP_ALREADY_OPEN) {
+  if (notificationState === NotificationReceiveState.AppAlreadyOpen) {
     const { title, body } = message.notification ?? {}
     if (title) {
       yield put(showMessage(body || title, undefined, null, openUrlAction, body ? title : null))
