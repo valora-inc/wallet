@@ -1,9 +1,9 @@
+import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { INVITE_REWARDS_TERMS_LINK } from 'src/config'
 import { Namespaces } from 'src/i18n'
 import { notificationInvite } from 'src/images/Images'
@@ -20,11 +20,7 @@ export function InviteRewardsBanner() {
   }
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      testID="InviteRewardsBanner"
-      onPress={openInviteTerms}
-    >
+    <Touchable style={styles.container} testID="InviteRewardsBanner" onPress={openInviteTerms}>
       <Image source={notificationInvite} resizeMode="contain" />
       <View style={styles.textContainer}>
         <Text style={fontStyles.small500}>
@@ -40,7 +36,7 @@ export function InviteRewardsBanner() {
           </Trans>
         </Text>
       </View>
-    </TouchableOpacity>
+    </Touchable>
   )
 }
 
