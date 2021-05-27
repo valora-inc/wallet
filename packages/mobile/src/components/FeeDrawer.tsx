@@ -12,7 +12,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import { features } from 'src/flags'
 import { Namespaces } from 'src/i18n'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   isEstimate?: boolean
@@ -60,31 +60,31 @@ export default function FeeDrawer({
   const securityAmount = securityFee &&
     currency && {
       value: securityFee,
-      currencyCode: CURRENCIES[currency].code,
+      currencyCode: currency,
     }
 
   const exchangeAmount = exchangeFee &&
     currency && {
       value: exchangeFee,
-      currencyCode: CURRENCIES[currency].code,
+      currencyCode: currency,
     }
 
   const inviteFeeAmount = inviteFee &&
     currency && {
       value: inviteFee,
-      currencyCode: CURRENCIES[currency].code,
+      currencyCode: currency,
     }
 
   const dekFeeAmount = dekFee &&
     currency && {
       value: dekFee,
-      currencyCode: CURRENCIES[currency].code,
+      currencyCode: currency,
     }
 
   const totalFeeAmount = totalFee &&
     currency && {
       value: totalFee,
-      currencyCode: CURRENCIES[currency].code,
+      currencyCode: currency,
     }
 
   return (

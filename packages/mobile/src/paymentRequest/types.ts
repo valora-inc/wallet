@@ -1,5 +1,5 @@
 import { NotificationTypes } from 'src/notifications/types'
-import { ShortCurrency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 export enum PaymentRequestStatus {
   REQUESTED = 'REQUESTED',
@@ -16,7 +16,7 @@ export interface PaymentRequest {
   requesterAddress: string
   requesteeAddress: string
   requesterE164Number?: string
-  currency: ShortCurrency
+  currency: Currency
   status: PaymentRequestStatus
   notified: boolean
   type?: NotificationTypes.PAYMENT_REQUESTED

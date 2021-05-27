@@ -20,7 +20,6 @@ import {
   navigateToPaymentTransferReview,
   navigateToRequestedPaymentReview,
 } from 'src/transactions/actions'
-import { CURRENCIES, resolveCurrency } from 'src/utils/currencies'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 
@@ -58,7 +57,6 @@ function* handlePaymentReceived(
   if (notificationState !== NotificationReceiveState.APP_ALREADY_OPEN) {
     const info: RecipientInfo = yield select(recipientInfoSelector)
     const address = transferNotification.sender.toLowerCase()
-    const currency = resolveCurrency(transferNotification.currency)
 
     navigateToPaymentTransferReview(
       TokenTransactionType.Received,
@@ -66,7 +64,7 @@ function* handlePaymentReceived(
       {
         amount: {
           value: divideByWei(transferNotification.value),
-          currencyCode: CURRENCIES[currency].code,
+          currencyCode: transferNotification.currency,
         },
         address: transferNotification.sender.toLowerCase(),
         comment: transferNotification.comment,

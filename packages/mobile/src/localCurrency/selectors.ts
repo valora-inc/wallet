@@ -4,9 +4,9 @@ import { getCurrencies } from 'react-native-localize'
 import { createSelector } from 'reselect'
 import { e164NumberSelector } from 'src/account/selectors'
 import {
-  LOCAL_CURRENCY_CODES,
   LocalCurrencyCode,
   LocalCurrencySymbol,
+  LOCAL_CURRENCY_CODES,
 } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
@@ -51,7 +51,7 @@ export function getLocalCurrencySymbol(state: RootState): LocalCurrencySymbol | 
   return LocalCurrencySymbol[getLocalCurrencyCode(state)]
 }
 
-export function localCurrencyExchangeRateSelector(state: RootState) {
+export function localCurrencyExchangeRatesSelector(state: RootState) {
   const {
     exchangeRate,
     eurExchangeRate,
@@ -72,8 +72,9 @@ export function localCurrencyExchangeRateSelector(state: RootState) {
   }
 }
 
-export function getLocalCurrencyExchangeRate(state: RootState) {
-  const exchangeRates = localCurrencyExchangeRateSelector(state)
+// deprecated, please use |localCurrencyExchangeRatesSelector| instead.
+export function getLocalCurrencyToDollarsExchangeRate(state: RootState) {
+  const exchangeRates = localCurrencyExchangeRatesSelector(state)
   return exchangeRates?.[Currency.Dollar]
 }
 

@@ -2,7 +2,6 @@ import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@ce
 import { SessionTypes } from '@walletconnect/types'
 import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
-import { CurrencyCode } from 'src/config'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
@@ -16,7 +15,7 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -111,22 +110,22 @@ export type StackParamList = {
   [Screens.MoonPayScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CurrencyCode
+    currencyToBuy: CiCoCurrency
   }
   [Screens.XanpoolScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CurrencyCode
+    currencyToBuy: CiCoCurrency
   }
   [Screens.RampScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CurrencyCode
+    currencyToBuy: CiCoCurrency
   }
   [Screens.TransakScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CurrencyCode
+    currencyToBuy: CiCoCurrency
   }
   [Screens.Simplex]: {
     simplexQuote: SimplexQuote

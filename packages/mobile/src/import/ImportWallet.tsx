@@ -33,7 +33,7 @@ import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboardin
 import UseBackToWelcomeScreen from 'src/onboarding/UseBackToWelcomeScreen'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const AVERAGE_WORD_WIDTH = 80
@@ -228,7 +228,7 @@ export class ImportWallet extends React.Component<Props, State> {
                       <CurrencyDisplay
                         amount={{
                           value: new BigNumber(0),
-                          currencyCode: CURRENCIES[Currency.Dollar].code,
+                          currencyCode: Currency.Dollar,
                         }}
                       />
                     </Trans>

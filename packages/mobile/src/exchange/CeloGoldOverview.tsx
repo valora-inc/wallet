@@ -9,7 +9,7 @@ import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import useBalanceAutoRefresh from 'src/home/useBalanceAutoRefresh'
 import { Namespaces, withTranslation } from 'src/i18n'
 import useSelector from 'src/redux/useSelector'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 interface OwnProps {
   testID: string
@@ -21,9 +21,7 @@ export function CeloGoldOverview({ t, testID }: Props) {
   useBalanceAutoRefresh()
   const celoBalance = useSelector(celoTokenBalanceSelector)
 
-  const celoBalanceAmount = celoBalance
-    ? { value: celoBalance, currencyCode: CURRENCIES[Currency.Celo].code }
-    : null
+  const celoBalanceAmount = celoBalance ? { value: celoBalance, currencyCode: Currency.Celo } : null
 
   return (
     <View style={styles.container} testID={testID}>

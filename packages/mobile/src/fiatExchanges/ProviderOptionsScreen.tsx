@@ -14,7 +14,6 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
-import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
@@ -34,7 +33,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
@@ -78,9 +77,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
   const { paymentMethod } = route.params
   const currencyToBuy = {
-    [Currency.Celo]: CurrencyCode.CELO,
-    [Currency.Dollar]: CurrencyCode.CUSD,
-    [Currency.Euro]: CurrencyCode.CEUR,
+    [Currency.Celo]: CiCoCurrency.CELO,
+    [Currency.Dollar]: CiCoCurrency.CUSD,
+    [Currency.Euro]: CiCoCurrency.CEUR,
   }[route.params.selectedCrypto || Currency.Dollar]
 
   const dispatch = useDispatch()

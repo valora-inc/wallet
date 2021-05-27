@@ -45,6 +45,7 @@ export const DOLLAR_ADD_FUNDS_MAX_AMOUNT = 5000
 export const DOLLAR_CASH_OUT_MIN_AMOUNT = 0.01
 // The minimum allowed value for a transaction such as a transfer
 export const DOLLAR_TRANSACTION_MIN_AMOUNT = 0.01
+export const EURO_TRANSACTION_MIN_AMOUNT = 0.01
 export const GOLD_TRANSACTION_MIN_AMOUNT = 0.001
 // The number of seconds before the sender can reclaim the payment.
 export const ESCROW_PAYMENT_EXPIRY_SECONDS = 3600 // 1 hour
@@ -156,9 +157,3 @@ export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
-
-export enum CurrencyCode {
-  CELO = 'CELO',
-  CUSD = 'CUSD',
-  CEUR = 'CEUR',
-}

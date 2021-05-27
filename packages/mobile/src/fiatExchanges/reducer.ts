@@ -3,7 +3,7 @@ import { Actions, ActionTypes } from 'src/fiatExchanges/actions'
 import i18n from 'src/i18n'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 export enum CicoProviderNames {
   Moonpay = 'Moonpay',
@@ -87,7 +87,7 @@ export const reducer = (state: State = initialState, action: ActionTypes | Rehyd
         displayInfo = providersDisplayInfo[state.lastUsedProvider]
       } else {
         const nameKey =
-          action.currencyCode === CURRENCIES[Currency.Celo].code
+          action.currencyCode === Currency.Celo
             ? 'fiatExchangeFlow:celoDeposit'
             : 'fiatExchangeFlow:cUsdDeposit'
         displayInfo = {

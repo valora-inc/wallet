@@ -4,22 +4,22 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
 import {
   getLocalCurrencyCode,
-  getLocalCurrencyExchangeRate,
   getLocalCurrencySymbol,
-  localCurrencyExchangeRateSelector,
+  getLocalCurrencyToDollarsExchangeRate,
+  localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
-import { currencyByCode } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 export function useDollarToLocalRate() {
-  return useSelector(getLocalCurrencyExchangeRate)
+  return useSelector(getLocalCurrencyToDollarsExchangeRate)
 }
 
 export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: CurrencyInfo) {
   let localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const txCurrency = currencyByCode(amount.currencyCode)
-  let localCurrencyExchangeRate = useSelector(localCurrencyExchangeRateSelector)[txCurrency]
+  const amountCurrency = amount.currencyCode as Currency
+  let localCurrencyExchangeRate = useSelector(localCurrencyExchangeRatesSelector)[amountCurrency]
   if (currencyInfo) {
     localCurrencyCode = currencyInfo.localCurrencyCode
     localCurrencyExchangeRate = currencyInfo.localExchangeRate
@@ -28,7 +28,7 @@ export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: Curre
     localCurrencyExchangeRate = amount.localAmount.exchangeRate.toString()
   }
 
-  return { localCurrencyCode, localCurrencyExchangeRate, txCurrency }
+  return { localCurrencyCode, localCurrencyExchangeRate, txCurrency: amountCurrency }
 }
 
 export function useDollarsToLocalAmount(amount: BigNumber.Value | null) {

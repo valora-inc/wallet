@@ -9,7 +9,7 @@ import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import { Namespaces } from 'src/i18n'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   makerAmount: MoneyAmount
@@ -24,9 +24,8 @@ function getDisplayedAmount(
   localCurrencyCode: LocalCurrencyCode
 ): DisplayedAmount {
   if (
-    amount.currencyCode === CURRENCIES[Currency.Celo].code ||
-    (amount.currencyCode === CURRENCIES[Currency.Dollar].code &&
-      localCurrencyCode === LocalCurrencyCode.USD)
+    amount.currencyCode === Currency.Celo ||
+    (amount.currencyCode === Currency.Dollar && localCurrencyCode === LocalCurrencyCode.USD)
   ) {
     return amount
   }

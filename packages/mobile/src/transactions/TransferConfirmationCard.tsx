@@ -29,7 +29,7 @@ import BottomText from 'src/transactions/BottomText'
 import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import UserSection from 'src/transactions/UserSection'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 export interface TransferConfirmationCardProps {
@@ -147,7 +147,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
   const totalAmount = amount
   const totalFee = securityFee
 
-  const isCeloWithdrawal = amount.currencyCode === CURRENCIES[Currency.Celo].code
+  const isCeloWithdrawal = amount.currencyCode === Currency.Celo
 
   return (
     <>
@@ -176,7 +176,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
 function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, comment }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const totalAmount = amount
-  const isCeloTx = amount.currencyCode === CURRENCIES[Currency.Celo].code
+  const isCeloTx = amount.currencyCode === Currency.Celo
   const celoEducationUri = useTypedSelector((state) => state.app.celoEducationUri)
 
   const openLearnMore = () => {

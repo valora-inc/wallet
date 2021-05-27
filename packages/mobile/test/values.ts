@@ -20,7 +20,7 @@ import {
   NumberToRecipient,
   RecipientInfo,
 } from 'src/recipients/recipient'
-import { ShortCurrency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 export const nullAddress = '0x0'
 
@@ -252,14 +252,14 @@ export const mockEscrowedPayment: EscrowedPayment = {
   recipientPhone: mockE164Number,
   recipientIdentifier: mockE164NumberHashWithPepper,
   paymentID: mockAccount,
-  currency: ShortCurrency.Dollar,
+  currency: Currency.Dollar,
   amount: new BigNumber(10),
   timestamp: new BigNumber(10000),
   expirySeconds: new BigNumber(50000),
 }
 
 const date = new Date('Tue Mar 05 2019 13:44:06 GMT-0800 (Pacific Standard Time)')
-const currency = ShortCurrency.Dollar
+const currency = Currency.Dollar
 export const mockPaymentRequests: PaymentRequest[] = [
   {
     amount: '200000.00',

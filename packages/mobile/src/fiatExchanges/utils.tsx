@@ -4,13 +4,13 @@ import { default as DeviceInfo } from 'react-native-device-info'
 import getIpAddress from 'react-native-public-ip'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { CurrencyCode, MOONPAY_API_KEY } from 'src/config'
+import { MOONPAY_API_KEY } from 'src/config'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { providerAvailability } from 'src/flags'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'fiatExchanges:utils'
@@ -136,7 +136,7 @@ export const fetchUserLocationData = async (countryCallingCode: string | null) =
 export const fetchSimplexQuote = async (
   userAddress: string,
   currentIpAddress: string,
-  currencyToBuy: CurrencyCode,
+  currencyToBuy: CiCoCurrency,
   fiatCurrency: LocalCurrencyCode,
   amount: number,
   amountIsFiat: boolean

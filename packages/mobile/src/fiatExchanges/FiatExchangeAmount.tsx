@@ -40,14 +40,14 @@ import {
   convertLocalAmountToDollars,
 } from 'src/localCurrency/convert'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
-import { getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
+import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selectors'
 import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { cUsdBalanceSelector } from 'src/stableToken/reducer'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
 import Logger from 'src/utils/Logger'
 
@@ -59,12 +59,12 @@ type Props = RouteProps
 
 const oneDollarAmount = {
   value: new BigNumber('1'),
-  currencyCode: CURRENCIES[Currency.Dollar].code,
+  currencyCode: Currency.Dollar,
 }
 
 const oneCeloAmount = {
   value: new BigNumber('1'),
-  currencyCode: CURRENCIES[Currency.Celo].code,
+  currencyCode: Currency.Celo,
 }
 
 const useDollarAmount = (
@@ -100,7 +100,7 @@ function FiatExchangeAmount({ route }: Props) {
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
   const exchangeRatePair = useSelector(exchangeRatePairSelector)
-  const localCurrencyExchangeRate = useSelector(getLocalCurrencyExchangeRate)
+  const localCurrencyExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const cUSDBalance = useSelector(cUsdBalanceSelector)
   const celoBalance = useSelector(celoTokenBalanceSelector)
   const localCurrencyCode = useLocalCurrencyCode()
@@ -292,7 +292,7 @@ function FiatExchangeAmount({ route }: Props) {
             <CurrencyDisplay
               amount={{
                 value: dollarAmount,
-                currencyCode: CURRENCIES[Currency.Dollar].code,
+                currencyCode: Currency.Dollar,
               }}
               hideSymbol={isCusdCashIn}
               showLocalAmount={!isCusdCashIn}

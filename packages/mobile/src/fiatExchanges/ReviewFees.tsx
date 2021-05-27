@@ -7,15 +7,15 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
-import { CurrencyCode } from 'src/config'
 import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 interface Props {
   provider: string
-  currencyToBuy: CurrencyCode
+  currencyToBuy: CiCoCurrency
   localCurrency: LocalCurrencyCode
   crypto: {
     amount: number
@@ -67,7 +67,7 @@ export default function ReviewFees({
     />
   )
 
-  const token = currencyToBuy === CurrencyCode.CUSD ? 'cUSD' : 'CELO'
+  const token = currencyToBuy === CiCoCurrency.CUSD ? 'cUSD' : 'CELO'
 
   return (
     <View style={[styles.review]}>

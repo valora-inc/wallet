@@ -3,13 +3,12 @@ import * as React from 'react'
 import { Text } from 'react-native'
 import { fireEvent, render, waitForElement } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import { CurrencyCode } from 'src/config'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Currency } from 'src/utils/currencies'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
@@ -134,7 +133,7 @@ describe('ProviderOptionsScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.MoonPayScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.USD,
-      currencyToBuy: CurrencyCode.CUSD,
+      currencyToBuy: CiCoCurrency.CUSD,
     })
   })
 
@@ -153,7 +152,7 @@ describe('ProviderOptionsScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.RampScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.USD,
-      currencyToBuy: CurrencyCode.CUSD,
+      currencyToBuy: CiCoCurrency.CUSD,
     })
   })
 
@@ -172,7 +171,7 @@ describe('ProviderOptionsScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.TransakScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.USD,
-      currencyToBuy: CurrencyCode.CUSD,
+      currencyToBuy: CiCoCurrency.CUSD,
     })
   })
 
@@ -191,7 +190,7 @@ describe('ProviderOptionsScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.XanpoolScreen, {
       localAmount: AMOUNT_TO_CASH_IN,
       currencyCode: LocalCurrencyCode.USD,
-      currencyToBuy: CurrencyCode.CUSD,
+      currencyToBuy: CiCoCurrency.CUSD,
     })
   })
 

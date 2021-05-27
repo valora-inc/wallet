@@ -51,7 +51,7 @@ import {
   TransactionContext,
   TransactionStatus,
 } from 'src/transactions/types'
-import { Currency, ShortCurrency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { komenciContextSelector, shouldUseKomenciSelector } from 'src/verify/reducer'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
@@ -578,7 +578,7 @@ function* doFetchSentPayments() {
         // since identifier mapping could be fetched after this is called.
         recipientPhone: recipientPhoneNumber,
         recipientIdentifier: payment.recipientIdentifier,
-        currency: ShortCurrency.Dollar, // Only dollars can be escrowed
+        currency: Currency.Dollar, // Only dollars can be escrowed
         amount: payment[3],
         timestamp: payment[6],
         expirySeconds: payment[7],

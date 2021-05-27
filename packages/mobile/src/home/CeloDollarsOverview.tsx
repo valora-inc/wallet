@@ -1,7 +1,6 @@
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { CURRENCIES } from '@celo/utils/lib'
 import * as React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -22,7 +21,7 @@ function CeloDollarsOverview({ t }: Props) {
 
   const isUsdLocalCurrency = localCurrencyCode === LocalCurrencyCode.USD
   const dollarBalanceAmount = dollarBalance
-    ? { value: dollarBalance, currencyCode: CURRENCIES[Currency.Dollar].code }
+    ? { value: dollarBalance, currencyCode: Currency.Dollar }
     : null
 
   return (

@@ -10,7 +10,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import { Namespaces } from 'src/i18n'
 import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   title?: string
@@ -47,7 +47,7 @@ export default function TotalLineItem({ title, amount, hideSign, currencyInfo }:
               <CurrencyDisplay
                 amount={{
                   value: new BigNumber(exchangeRate).pow(txCurrency === Currency.Celo ? 1 : -1),
-                  currencyCode: CURRENCIES[Currency.Dollar].code,
+                  currencyCode: Currency.Dollar, // The currency is actually the local amount
                 }}
                 showLocalAmount={false}
                 currencyInfo={currencyInfo}
