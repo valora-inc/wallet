@@ -46,16 +46,13 @@ export const isUserLocationDataDeprecated = (
 export const fetchProviders = functions.https.onRequest(async (request, response) => {
   const requestData: ProviderRequestData = request.body
 
-  let userLocationData: UserLocationData
-  if (isUserLocationDataDeprecated(requestData.userLocation)) {
-    userLocationData = {
-      countryCodeAlpha2: requestData.userLocation.country,
-      region: requestData.userLocation.state,
-      ipAddress: requestData.userLocation.ipAddress,
-    }
-  } else {
-    userLocationData = requestData.userLocation
-  }
+  const userLocationData: UserLocationData = isUserLocationDataDeprecated(requestData.userLocation)
+    ? {
+        countryCodeAlpha2: requestData.userLocation.country,
+        region: requestData.userLocation.state,
+        ipAddress: requestData.userLocation.ipAddress,
+      }
+    : requestData.userLocation
 
   const {
     MOONPAY_RESTRICTED,
