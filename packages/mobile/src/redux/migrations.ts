@@ -192,6 +192,12 @@ export const migrations = {
   11: (state: any) => {
     return {
       ...state,
+      verify: _.omit(
+        state.verify,
+        'TEMPORARY_override_withoutVerification',
+        'withoutRevealing',
+        'retries'
+      ),
       app: _.omit(state.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     }
   },
