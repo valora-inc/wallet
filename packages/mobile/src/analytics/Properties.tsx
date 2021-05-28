@@ -33,6 +33,7 @@ import {
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { NotificationReceiveState } from 'src/notifications/types'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
@@ -73,6 +74,11 @@ interface AppEventsProperties {
   }
   [AppEvents.redux_store_recovery_success]: {
     account: string
+  }
+  [AppEvents.push_notification_opened]: {
+    id?: string
+    state: NotificationReceiveState
+    type?: string
   }
   [AppEvents.request_tracking_permission_started]: {
     currentPermission: PermissionStatus
