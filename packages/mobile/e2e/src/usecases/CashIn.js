@@ -39,7 +39,7 @@ export default CashIn = () => {
   if (device.getPlatform() === 'ios') {
     it('Should Navigate to Moonpay', async () => {
       await element(by.id('Provider/Moonpay')).tap()
-      await sleep(6000)
+      await sleep(10000)
       const imagePath = await device.takeScreenshot('Moonpay - ios')
       await pixelDiff(
         imagePath,
@@ -51,7 +51,7 @@ export default CashIn = () => {
 
     it('Should Navigate to Xanpool', async () => {
       await element(by.id('Provider/Xanpool')).tap()
-      await sleep(5000)
+      await sleep(10000)
       const imagePath = await device.takeScreenshot('Xanpool - ios')
       await pixelDiff(
         imagePath,
@@ -63,7 +63,7 @@ export default CashIn = () => {
 
     it('Should Navigate to Transak', async () => {
       await element(by.id('Provider/Transak')).tap()
-      await sleep(5000)
+      await sleep(10000)
       const imagePath = await device.takeScreenshot('Transak')
       await pixelDiff(
         imagePath,
@@ -79,7 +79,7 @@ export default CashIn = () => {
   it('Should Navigate to Simplex', async () => {
     await element(by.id('Provider/Simplex')).tap()
     await element(by.text('Continue to Simplex')).tap()
-    await sleep(5000)
+    await sleep(10000)
     const imagePath = await device.takeScreenshot('Simplex')
     await pixelDiff(
       imagePath,
