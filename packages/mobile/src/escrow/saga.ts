@@ -34,11 +34,8 @@ import { CURRENCY_ENUM, SHORT_CURRENCIES } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
 import i18n from 'src/i18n'
-import { Actions as IdentityActions, SetVerificationStatusAction } from 'src/identity/actions'
 import { getUserSelfPhoneHashDetails } from 'src/identity/privateHashing'
 import { identifierToE164NumberSelector } from 'src/identity/reducer'
-import { VerificationStatus } from 'src/identity/types'
-import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { isValidPrivateKey } from 'src/invite/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { RootState } from 'src/redux/reducers'
@@ -53,7 +50,12 @@ import {
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { komenciContextSelector, shouldUseKomenciSelector } from 'src/verify/reducer'
+import {
+  komenciContextSelector,
+  NUM_ATTESTATIONS_REQUIRED,
+  shouldUseKomenciSelector,
+  succeed,
+} from 'src/verify/module'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { mtwAddressSelector } from 'src/web3/selectors'
@@ -608,17 +610,15 @@ export function* watchFetchSentPayments() {
 
 export function* watchVerificationEnd() {
   while (true) {
-    const update: SetVerificationStatusAction = yield take(IdentityActions.SET_VERIFICATION_STATUS)
+    yield take(succeed.type)
     const shouldUseKomenci = yield select(shouldUseKomenciSelector)
-    if (update?.status === VerificationStatus.Done) {
-      // We wait for the next block because escrow can not
-      // be redeemed without all the attestations completed
-      yield waitForNextBlock()
-      if (features.ESCROW_WITHOUT_CODE) {
-        yield call(withdrawFromEscrowWithoutCode, shouldUseKomenci)
-      } else {
-        yield call(withdrawFromEscrow)
-      }
+    // We wait for the next block because escrow can not
+    // be redeemed without all the attestations completed
+    yield waitForNextBlock()
+    if (features.ESCROW_WITHOUT_CODE) {
+      yield call(withdrawFromEscrowWithoutCode, shouldUseKomenci)
+    } else {
+      yield call(withdrawFromEscrow)
     }
   }
 }
