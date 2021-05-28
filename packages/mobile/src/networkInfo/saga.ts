@@ -49,13 +49,14 @@ function* subscribeToNetworkStatus() {
 function* fetchUserLocationData() {
   let userLocationData: UserLocationData
   try {
-    const response: Response = yield fetchWithTimeout(
+    const response: Response = yield call(
+      fetchWithTimeout,
       networkConfig.fetchUserLocationDataUrl,
       null,
       FETCH_TIMEOUT_DURATION
     )
 
-    userLocationData = yield response.json()
+    userLocationData = yield call(response.json)
 
     if (!response.ok) {
       throw new Error(`IP address fetch failed. Error: ${JSON.stringify(userLocationData)}`)
@@ -69,7 +70,7 @@ function* fetchUserLocationData() {
       : null
     let ipAddress: string | null
     try {
-      ipAddress = yield getIpAddress()
+      ipAddress = yield call(getIpAddress)
     } catch (error) {
       ipAddress = null
     }
