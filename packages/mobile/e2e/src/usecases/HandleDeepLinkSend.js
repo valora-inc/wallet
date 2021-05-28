@@ -16,12 +16,13 @@ export default HandleDeepLinkSend = () => {
     await expect(element(by.id('Review'))).toBeVisible()
   })
 
-  it.skip('Send url while app is in background, back pressed', async () => {
+  it('Send url while app is in background, back pressed', async () => {
     // on android there are two ways to "exit" the app
     // 1. home button
     // 2. back button
     // there is a slight but important difference because with the back button
     // the activity gets destroyed and listeners go away which can cause subtle bugs
+    await device.reloadReactNative()
     if (device.getPlatform() === 'android') {
       await device.pressBack()
     } else {
