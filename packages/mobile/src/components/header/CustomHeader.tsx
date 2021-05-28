@@ -1,6 +1,6 @@
 import variables from '@celo/react-components/styles/variables'
-import React, { useMemo } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import { styles as headerStyles } from 'src/navigator/Headers'
 
 interface Props {
@@ -10,13 +10,8 @@ interface Props {
 }
 
 function CustomHeader({ left, right, title }: Props) {
-  const titleComponent = useMemo(() => {
-    if (typeof title === 'string') {
-      return <Text style={headerStyles.headerTitle}>{title}</Text>
-    } else {
-      return title
-    }
-  }, [title])
+  const titleComponent =
+    typeof title === 'string' ? <Text style={headerStyles.headerTitle}>{title}</Text> : title
   return (
     <View style={styles.container}>
       {left && <View style={styles.buttonContainer}>{left}</View>}
@@ -28,7 +23,7 @@ function CustomHeader({ left, right, title }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    height: 56,
+    height: Platform.OS === 'ios' ? 44 : 56,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',

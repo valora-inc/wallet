@@ -12,15 +12,10 @@ const SearchInput = withTextSearchPasteAware(TextInput)
 interface SendSearchInputProps {
   input: string
   onChangeText: (value: string) => void
-  leftIcon?: React.ReactNode
 }
 
 // Input field for Send screen
-export function SendSearchInput({ input, onChangeText, leftIcon }: SendSearchInputProps) {
-  const handleChangeText = (value: string) => {
-    onChangeText(value)
-  }
-
+export function SendSearchInput({ input, onChangeText }: SendSearchInputProps) {
   const { t } = useTranslation(Namespaces.sendFlow7)
 
   return (
@@ -29,7 +24,7 @@ export function SendSearchInput({ input, onChangeText, leftIcon }: SendSearchInp
         shouldShowClipboard={isValidAddress}
         placeholder={t('global:namePhoneAddress')}
         value={input}
-        onChangeText={handleChangeText}
+        onChangeText={onChangeText}
         leftIcon={<Text style={styles.leftIcon}>{i18n.t('global:to')}</Text>}
       />
     </View>
