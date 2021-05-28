@@ -1,22 +1,42 @@
+import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
-import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { Trans, useTranslation } from 'react-i18next'
+import { Image, StyleSheet, Text, View } from 'react-native'
+import { INVITE_REWARDS_TERMS_LINK } from 'src/config'
 import { Namespaces } from 'src/i18n'
-import Invite from 'src/icons/Invite'
+import { notificationInvite } from 'src/images/Images'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import useSelector from 'src/redux/useSelector'
 
 export function InviteRewardsBanner() {
   const { t } = useTranslation(Namespaces.inviteFlow11)
+  const rewardAmount = useSelector((state) => state.send.inviteRewardCusd)
+
+  const openInviteTerms = () => {
+    navigate(Screens.WebViewScreen, { uri: INVITE_REWARDS_TERMS_LINK })
+  }
 
   return (
-    <View style={styles.container} testID="InviteRewardsBanner">
-      <Invite />
+    <Touchable style={styles.container} testID="InviteRewardsBanner" onPress={openInviteTerms}>
+      <Image source={notificationInvite} resizeMode="contain" />
       <View style={styles.textContainer}>
-        <Text style={fontStyles.small500}>{t('inviteRewardsBanner.title')}</Text>
-        <Text style={styles.bodyText}>{t('inviteRewardsBanner.body')}</Text>
+        <Text style={fontStyles.small500}>
+          {t('inviteRewardsBanner.title', { amount: rewardAmount })}
+        </Text>
+        <Text style={styles.bodyText}>
+          <Trans
+            i18nKey={'inviteRewardsBanner.body'}
+            tOptions={{ amount: rewardAmount }}
+            ns={Namespaces.inviteFlow11}
+          >
+            <Text style={styles.learnMore} />
+          </Trans>
+        </Text>
       </View>
-    </View>
+    </Touchable>
   )
 }
 
@@ -33,5 +53,9 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     ...fontStyles.small,
+  },
+  learnMore: {
+    ...fontStyles.small,
+    color: colors.greenUI,
   },
 })
