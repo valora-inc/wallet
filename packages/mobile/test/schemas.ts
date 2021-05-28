@@ -581,8 +581,12 @@ export const v9Schema = {
       CodeInputStatus.Disabled,
     ],
   },
+}
+
+export const v10Schema = {
+  ...v9Schema,
   networkInfo: {
-    ...v8Schema.networkInfo,
+    ...v9Schema.networkInfo,
     userLocationData: {
       countryCodeAlpha2: 'US',
       region: null,
@@ -592,5 +596,5 @@ export const v9Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v9Schema as Partial<RootState>
+  return v10Schema as Partial<RootState>
 }
