@@ -1,12 +1,12 @@
 import * as functions from 'firebase-functions'
 import { DigitalAsset, FiatCurrency } from '../config'
 import { composeProviderUrl } from './composeProviderUrl'
-import Moonpay from './Moonpay'
+import { Moonpay } from './Moonpay'
 import { getProviderAvailability } from './providerAvailability'
 import { Providers } from './Providers'
-import Simplex, { SimplexQuote } from './Simplex'
-import Transak from './Transak'
-import Xanpool from './Xanpool'
+import { Simplex, SimplexQuote } from './Simplex'
+import { Transak } from './Transak'
+import { Xanpool } from './Xanpool'
 
 export interface UserLocationData {
   country: string | null

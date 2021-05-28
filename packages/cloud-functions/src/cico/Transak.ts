@@ -36,7 +36,7 @@ interface TransakQuote {
   convertedFiatCurrency: string
 }
 
-const Transak = {
+export const Transak = {
   fetchQuote: async (
     digitalAsset: DigitalAsset,
     fiatCurrency: string,
@@ -140,5 +140,3 @@ const Transak = {
     }
   },
 }
-
-export default Transak

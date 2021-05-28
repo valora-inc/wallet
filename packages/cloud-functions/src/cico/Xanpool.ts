@@ -18,7 +18,7 @@ interface XanpoolQuote {
   currency: string
 }
 
-const Xanpool = {
+export const Xanpool = {
   fetchQuote: async (
     txType: 'buy' | 'sell',
     digitalAsset: DigitalAsset,
@@ -130,5 +130,3 @@ const Xanpool = {
     }
   },
 }
-
-export default Xanpool

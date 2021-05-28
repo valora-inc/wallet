@@ -37,7 +37,7 @@ export interface SimplexPaymentData {
   checkoutHtml: string
 }
 
-const Simplex = {
+export const Simplex = {
   fetchQuote: async (
     userAddress: string,
     ipAddress: string | null,
@@ -182,5 +182,3 @@ const Simplex = {
     }
   },
 }
-
-export default Simplex

@@ -42,7 +42,7 @@ interface MoonpayQuote {
   totalAmount: number
 }
 
-const Moonpay = {
+export const Moonpay = {
   fetchQuote: async (
     digitalAsset: DigitalAsset,
     fiatCurrency: string,
@@ -154,5 +154,3 @@ const Moonpay = {
     }
   },
 }
-
-export default Moonpay
