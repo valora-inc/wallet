@@ -156,6 +156,9 @@ export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 
+export const CELO_IMAGE_URL =
+  'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Fcelo.jpg?alt=media'
+
 export enum CurrencyCode {
   CELO = 'CELO',
   CUSD = 'CUSD',

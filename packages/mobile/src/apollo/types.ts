@@ -172,6 +172,10 @@ export type TokenTransfer = TokenTransaction & {
   comment?: Maybe<Scalars['String']>
   token: Token
   hash: Scalars['String']
+  isBalanceReward: Scalars['Boolean']
+  isInviteReward: Scalars['Boolean']
+  name: Scalars['String']
+  imageUrl: Scalars['String']
 }
 
 export interface Transfer {
@@ -275,6 +279,10 @@ export interface TransferItemFragment {
   address: string // wallet address (EOA)
   account: string // account address (MTW)
   comment: Maybe<string>
+  isBalanceReward: boolean
+  isInviteReward: boolean
+  name: string | null
+  imageUrl: string | null
   amount: {
     __typename?: 'MoneyAmount'
     value: BigNumber.Value

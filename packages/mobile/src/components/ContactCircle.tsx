@@ -33,6 +33,7 @@ function ContactCircle({ size, recipient, style }: Props) {
             { height: iconSize, width: iconSize, borderRadius: iconSize / 2.0 },
           ]}
           resizeMode={'cover'}
+          testID={'ContactCircle/Image'}
         />
       )
     }

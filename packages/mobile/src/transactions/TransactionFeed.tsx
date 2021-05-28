@@ -5,15 +5,10 @@ import React, { useMemo } from 'react'
 import { FlatList, SectionList, SectionListData } from 'react-native'
 import { useSelector } from 'react-redux'
 import { TransactionFeedFragment } from 'src/apollo/types'
-import { inviteesSelector } from 'src/invite/reducer'
-import { RecipientInfo } from 'src/recipients/recipient'
-import { phoneRecipientCacheSelector, recipientInfoSelector } from 'src/recipients/reducer'
-import { RootState } from 'src/redux/reducers'
 import CeloTransferFeedItem from 'src/transactions/CeloTransferFeedItem'
 import ExchangeFeedItem from 'src/transactions/ExchangeFeedItem'
 import GoldTransactionFeedItem from 'src/transactions/GoldTransactionFeedItem'
 import NoActivity from 'src/transactions/NoActivity'
-import { recentTxRecipientsCacheSelector } from 'src/transactions/reducer'
 import TransferFeedItem from 'src/transactions/TransferFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
@@ -40,11 +35,6 @@ interface Props {
 
 function TransactionFeed({ kind, loading, error, data }: Props) {
   const commentKey = useSelector(dataEncryptionKeySelector)
-  const addressToE164Number = useSelector((state: RootState) => state.identity.addressToE164Number)
-  const phoneRecipientCache = useSelector(phoneRecipientCacheSelector)
-  const recentTxRecipientsCache = useSelector(recentTxRecipientsCacheSelector)
-  const invitees = useSelector(inviteesSelector)
-  const recipientInfo: RecipientInfo = useSelector(recipientInfoSelector)
 
   const renderItem = ({ item: tx }: { item: FeedItem; index: number }) => {
     switch (tx.__typename) {
@@ -52,17 +42,7 @@ function TransactionFeed({ kind, loading, error, data }: Props) {
         if (kind === FeedType.EXCHANGE) {
           return <CeloTransferFeedItem {...tx} />
         } else {
-          return (
-            <TransferFeedItem
-              addressToE164Number={addressToE164Number}
-              phoneRecipientCache={phoneRecipientCache}
-              recentTxRecipientsCache={recentTxRecipientsCache}
-              invitees={invitees}
-              commentKey={commentKey}
-              recipientInfo={recipientInfo}
-              {...tx}
-            />
-          )
+          return <TransferFeedItem commentKey={commentKey} {...tx} />
         }
       case 'TokenExchange':
         if (kind === FeedType.HOME) {

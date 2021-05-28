@@ -2,7 +2,6 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
-import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { FeedItem } from 'src/transactions/TransactionFeed'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
@@ -51,8 +50,7 @@ export const exchangeReviewHeader = (confirmationProps: ExchangeConfirmationCard
 
 export const transferReviewHeader = (
   type: TokenTransactionType,
-  confirmationProps: TransferConfirmationCardProps,
-  addressToDisplayName: AddressToDisplayNameType
+  confirmationProps: TransferConfirmationCardProps
 ) => {
   let headerText = ''
   const isCeloTx = confirmationProps.amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
@@ -66,10 +64,9 @@ export const transferReviewHeader = (
       headerText = i18n.t('walletFlow5:transactionHeaderEscrowSent')
       break
     case TokenTransactionType.Received:
-      if (addressToDisplayName[confirmationProps.address || '']?.isCeloRewardSender) {
-        headerText = i18n.t('walletFlow5:transactionHeaderCeloReward')
-      }
-      headerText = isCeloTx
+      headerText = confirmationProps.isReward
+        ? i18n.t('walletFlow5:transactionHeaderCeloReward')
+        : isCeloTx
         ? i18n.t('walletFlow5:transactionHeaderCeloDeposit')
         : i18n.t('walletFlow5:transactionHeaderReceived')
       break

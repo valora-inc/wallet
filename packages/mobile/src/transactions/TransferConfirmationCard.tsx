@@ -8,7 +8,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { MoneyAmount, TokenTransactionType } from 'src/apollo/types'
@@ -20,7 +19,6 @@ import TotalLineItem from 'src/components/TotalLineItem'
 import { FAQ_LINK } from 'src/config'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import { Namespaces } from 'src/i18n'
-import { addressToDisplayNameSelector } from 'src/identity/reducer'
 import { getInvitationVerificationFeeInDollars } from 'src/invite/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -39,7 +37,8 @@ export interface TransferConfirmationCardProps {
   type: TokenTransactionType
   e164PhoneNumber?: string
   dollarBalance?: BigNumber
-  recipient?: Recipient
+  recipient: Recipient
+  isReward?: boolean
 }
 
 type Props = TransferConfirmationCardProps & {
@@ -231,7 +230,6 @@ function CeloRewardContent({ amount, recipient }: Props) {
 
 // Differs from TransferReviewCard which is used during Send flow, this is for completed txs
 export default function TransferConfirmationCard(props: Props) {
-  const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   let content
 
   switch (props.type) {
@@ -256,7 +254,7 @@ export default function TransferConfirmationCard(props: Props) {
       break
     case TokenTransactionType.EscrowReceived:
     case TokenTransactionType.Received:
-      content = addressToDisplayName[props.address || '']?.isCeloRewardSender ? (
+      content = props.isReward ? (
         <CeloRewardContent {...props} />
       ) : (
         <PaymentReceivedContent {...props} />

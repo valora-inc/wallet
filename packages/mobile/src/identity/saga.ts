@@ -1,10 +1,8 @@
 import {
-  call,
   cancelled,
   put,
   select,
   spawn,
-  take,
   takeEvery,
   takeLatest,
   takeLeading,
@@ -13,20 +11,14 @@ import { showErrorInline } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { knownAddressesChannel } from 'src/firebase/firebase'
 import {
   Actions,
-  updateKnownAddresses,
   ValidateRecipientAddressAction,
   validateRecipientAddressSuccess,
 } from 'src/identity/actions'
 import { checkTxsForIdentityMetadata } from 'src/identity/commentEncryption'
 import { doImportContactsWrapper, fetchAddressesAndValidateSaga } from 'src/identity/contactMapping'
-import {
-  AddressToDisplayNameType,
-  AddressValidationType,
-  e164NumberToAddressSelector,
-} from 'src/identity/reducer'
+import { AddressValidationType, e164NumberToAddressSelector } from 'src/identity/reducer'
 import { validateAndReturnMatch } from 'src/identity/secureSend'
 import { recipientHasNumber } from 'src/recipients/recipient'
 import { Actions as TransactionActions } from 'src/transactions/actions'
@@ -95,25 +87,6 @@ export function* validateRecipientAddressSaga({
   }
 }
 
-function* fetchKnownAddresses() {
-  const addressesChannel = yield call(knownAddressesChannel)
-  if (!addressesChannel) {
-    return
-  }
-  try {
-    while (true) {
-      const addresses: AddressToDisplayNameType = yield take(addressesChannel)
-      yield put(updateKnownAddresses(addresses))
-    }
-  } catch (error) {
-    Logger.error(`${TAG}@fetchKnownAddresses`, error)
-  } finally {
-    if (yield cancelled()) {
-      addressesChannel.close()
-    }
-  }
-}
-
 function* watchContactMapping() {
   yield takeLeading(Actions.IMPORT_CONTACTS, doImportContactsWrapper)
   yield takeEvery(Actions.FETCH_ADDRESSES_AND_VALIDATION_STATUS, fetchAddressesAndValidateSaga)
@@ -138,7 +111,6 @@ export function* identitySaga() {
     yield spawn(watchValidateRecipientAddress)
     yield spawn(watchNewFeedTransactions)
     yield spawn(watchFetchDataEncryptionKey)
-    yield spawn(fetchKnownAddresses)
   } catch (error) {
     Logger.error(TAG, 'Error initializing identity sagas', error)
   } finally {

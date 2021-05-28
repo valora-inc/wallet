@@ -62,6 +62,14 @@ function* handlePaymentReceived(
     const address = transferNotification.sender.toLowerCase()
     const currency = resolveCurrency(transferNotification.currency)
 
+    const recipient = getRecipientFromAddress(address, info)
+    if (transferNotification.senderName) {
+      Object.assign(recipient, {
+        name: transferNotification.senderName,
+        thumbnailPath: transferNotification.senderImageUrl,
+      })
+    }
+
     navigateToPaymentTransferReview(
       TokenTransactionType.Received,
       new BigNumber(transferNotification.timestamp).toNumber(),
@@ -72,7 +80,8 @@ function* handlePaymentReceived(
         },
         address: transferNotification.sender.toLowerCase(),
         comment: transferNotification.comment,
-        recipient: getRecipientFromAddress(address, info),
+        recipient,
+        isReward: transferNotification.isReward,
         type: TokenTransactionType.Received,
       }
     )

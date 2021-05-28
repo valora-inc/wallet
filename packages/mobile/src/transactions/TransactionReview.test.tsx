@@ -31,6 +31,10 @@ describe('TransactionReview', () => {
         },
         type: TokenTransactionType.Sent,
         e164PhoneNumber: mockE164NumberInvite,
+        recipient: {
+          address: mockAccount,
+          e164PhoneNumber: mockE164NumberInvite,
+        },
       },
       reviewProps: {
         timestamp: Date.now(),

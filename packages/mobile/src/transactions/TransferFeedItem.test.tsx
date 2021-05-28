@@ -4,7 +4,7 @@ import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import { TokenTransactionType } from 'src/apollo/types'
-import { RecipientInfo } from 'src/recipients/recipient'
+import { CELO_IMAGE_URL } from 'src/config'
 import { TransferFeedItem } from 'src/transactions/TransferFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
 import { createMockStore, getMockI18nProps } from 'test/utils'
@@ -16,10 +16,8 @@ import {
   mockE164Number,
   mockInviteDetails,
   mockInviteDetails2,
-  mockPhoneRecipientCache,
   mockPrivateDEK,
   mockPrivateDEK2,
-  mockRecipientInfo,
 } from 'test/values'
 
 // Mock encrypted comment from account 1 to account 2.
@@ -43,12 +41,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockAccount}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={{}}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -68,12 +65,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockAccount2}
           timestamp={1}
           commentKey={mockPrivateDEK}
-          addressToE164Number={{}}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -93,12 +89,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockAccount}
           timestamp={1}
           commentKey={mockPrivateDEK2}
-          addressToE164Number={{}}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -118,12 +113,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockAccount}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={{}}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -143,12 +137,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockAccount}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={{}}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -168,12 +161,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockAccount}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={{}}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -193,12 +185,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockAccount}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={{}}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -218,12 +209,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockAccount}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={{}}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -243,12 +233,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockInviteDetails.e164Number}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={{}}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -277,12 +266,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockInviteDetails.e164Number}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={mockAddressToE164Number}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[mockStoredInviteDetails]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -302,12 +290,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockInviteDetails2.e164Number}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={{}}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -327,12 +314,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockAccount}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={{}}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -352,12 +338,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockAccount}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={mockAddressToE164Number}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -377,12 +362,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockAccount}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={{}}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -402,12 +386,11 @@ describe('transfer feed item renders correctly', () => {
           address={mockAccount}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={mockAddressToE164Number}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recipientInfo={mockRecipientInfo}
-          recentTxRecipientsCache={{}}
-          invitees={[]}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -427,19 +410,18 @@ describe('transfer feed item renders correctly', () => {
           address={mockAccount}
           timestamp={1}
           commentKey={null}
-          addressToE164Number={mockAddressToE164Number}
-          phoneRecipientCache={mockPhoneRecipientCache}
-          recentTxRecipientsCache={mockPhoneRecipientCache}
-          invitees={[]}
-          recipientInfo={mockRecipientInfo}
           account={''}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
   })
-  const renderFeedItemForSendWithoutCaches = (address: string, recipientInfo: RecipientInfo) => (
+  const renderFeedItemForSend = (address: string, overrides: any = {}) => (
     <TransferFeedItem
       __typename="TokenTransfer"
       status={TransactionStatus.Complete}
@@ -450,30 +432,57 @@ describe('transfer feed item renders correctly', () => {
       address={address}
       timestamp={1}
       commentKey={null}
-      addressToE164Number={{}}
-      phoneRecipientCache={{}}
-      recipientInfo={recipientInfo}
-      recentTxRecipientsCache={{}}
       account={''}
-      invitees={[]}
+      isBalanceReward={false}
+      isInviteReward={false}
+      name={null}
+      imageUrl={null}
+      {...overrides}
     />
   )
+  it('when name and image come from server, they are displayed', () => {
+    const mockName = 'mock name'
+    const mockImage = 'mock image'
+    const tree = render(
+      <Provider store={createMockStore()}>
+        {renderFeedItemForSend('0x123', { name: mockName, imageUrl: mockImage })}
+      </Provider>
+    )
+    expect(tree.queryByText(mockName)).toBeTruthy()
+    const image = tree.queryByTestId('ContactCircle/Image')
+    expect(image?.props.source?.uri).toEqual(mockImage)
+  })
+  it("when it's a reward, the right name/image are displayed", () => {
+    const tree = render(
+      <Provider store={createMockStore()}>
+        {renderFeedItemForSend('0x123', { isBalanceReward: true })}
+      </Provider>
+    )
+    expect(tree.queryByText('walletFlow5:feedItemRewardReceivedTitle')).toBeTruthy()
+    const image = tree.queryByTestId('ContactCircle/Image')
+    expect(image?.props.source?.uri).toEqual(CELO_IMAGE_URL)
+  })
   it('for known address display name show stored name on feed item', () => {
     const contactName = 'Some name'
-    const recipientInfo = {
-      phoneRecipientCache: {},
-      valoraRecipientCache: {},
-      addressToE164Number: {},
-      addressToDisplayName: {
-        [mockAccount]: {
-          name: contactName,
-          imageUrl: '',
-        },
-      },
-    }
     const tree = render(
-      <Provider store={createMockStore({})}>
-        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo)}
+      <Provider
+        store={createMockStore({
+          recipients: {
+            phoneRecipientCache: {},
+            valoraRecipientCache: {},
+          },
+          identity: {
+            addressToE164Number: {},
+            addressToDisplayName: {
+              [mockAccount]: {
+                name: contactName,
+                imageUrl: '',
+              },
+            },
+          },
+        })}
+      >
+        {renderFeedItemForSend(mockAccount)}
       </Provider>
     )
     expect(tree.queryByText(contactName)).toBeTruthy()
@@ -481,20 +490,25 @@ describe('transfer feed item renders correctly', () => {
   })
   it('for unknown address display name show phone number on feed item', () => {
     const contactName = 'Some name'
-    const recipientInfo = {
-      phoneRecipientCache: {},
-      valoraRecipientCache: {},
-      addressToE164Number: mockAddressToE164Number,
-      addressToDisplayName: {
-        [mockAccount2]: {
-          name: contactName,
-          imageUrl: '',
-        },
-      },
-    }
     const tree = render(
-      <Provider store={createMockStore({})}>
-        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo)}
+      <Provider
+        store={createMockStore({
+          recipients: {
+            phoneRecipientCache: {},
+            valoraRecipientCache: {},
+          },
+          identity: {
+            addressToE164Number: mockAddressToE164Number,
+            addressToDisplayName: {
+              [mockAccount2]: {
+                name: contactName,
+                imageUrl: '',
+              },
+            },
+          },
+        })}
+      >
+        {renderFeedItemForSend(mockAccount)}
       </Provider>
     )
     expect(tree.queryByText(contactName)).toBeFalsy()

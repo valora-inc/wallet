@@ -252,10 +252,6 @@ export function appRemoteFeatureFlagChannel() {
   })
 }
 
-export async function knownAddressesChannel() {
-  return simpleReadChannel('addressesExtraInfo')
-}
-
 export async function notificationsChannel() {
   return simpleReadChannel('notificationsV2')
 }

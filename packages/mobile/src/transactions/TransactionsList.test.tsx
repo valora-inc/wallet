@@ -109,6 +109,10 @@ const mockQueryData: UserTransactionsQuery = {
           address: '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10',
           account: '0xsflkj',
           comment: 'Hi',
+          name: null,
+          imageUrl: null,
+          isBalanceReward: false,
+          isInviteReward: false,
         },
       },
       {

@@ -1,25 +1,29 @@
 import { TFunction } from 'i18next'
 import * as _ from 'lodash'
+import { useSelector } from 'react-redux'
 import {
   ExchangeItemFragment,
   TokenTransactionType,
   TransferItemFragment,
   UserTransactionsQuery,
 } from 'src/apollo/types'
-import { DEFAULT_TESTNET } from 'src/config'
+import { CELO_IMAGE_URL, DEFAULT_TESTNET } from 'src/config'
 import { ProviderFeedInfo } from 'src/fiatExchanges/reducer'
+import i18n from 'src/i18n'
 import { decryptComment } from 'src/identity/commentEncryption'
-import { AddressToE164NumberType } from 'src/identity/reducer'
 import { InviteDetails } from 'src/invite/actions'
+import { inviteesSelector } from 'src/invite/reducer'
 import {
   getDisplayName,
   getRecipientFromAddress,
-  NumberToRecipient,
   Recipient,
-  recipientHasNumber,
   RecipientInfo,
 } from 'src/recipients/recipient'
-import { KnownFeedTransactionsType } from 'src/transactions/reducer'
+import { phoneRecipientCacheSelector, recipientInfoSelector } from 'src/recipients/reducer'
+import {
+  KnownFeedTransactionsType,
+  recentTxRecipientsCacheSelector,
+} from 'src/transactions/reducer'
 import { isPresent } from 'src/utils/typescript'
 
 export function getDecryptedTransferFeedComment(
@@ -52,17 +56,21 @@ function getEscrowSentRecipientPhoneNumber(invitees: InviteDetails[], txTimestam
   return possiblePhoneNumbers.values().next().value
 }
 
-function getRecipient(
+export function useRecipient(
   type: TokenTransactionType,
   e164PhoneNumber: string | null,
-  recipientCache: NumberToRecipient,
-  recentTxRecipientsCache: NumberToRecipient,
   txTimestamp: number,
-  invitees: InviteDetails[],
   address: string,
-  recipientInfo: RecipientInfo,
-  providerInfo: ProviderFeedInfo | undefined
+  providerInfo: ProviderFeedInfo | undefined,
+  isReward: boolean,
+  name: string | null,
+  imageUrl: string | null
 ): Recipient {
+  const phoneRecipientCache = useSelector(phoneRecipientCacheSelector)
+  const recentTxRecipientsCache = useSelector(recentTxRecipientsCacheSelector)
+  const invitees = useSelector(inviteesSelector)
+  const recipientInfo: RecipientInfo = useSelector(recipientInfoSelector)
+
   let phoneNumber = e164PhoneNumber
   let recipient: Recipient
 
@@ -72,8 +80,8 @@ function getRecipient(
 
   if (phoneNumber) {
     // Use the recentTxRecipientCache until the full cache is populated
-    recipient = Object.keys(recipientCache).length
-      ? recipientCache[phoneNumber]
+    recipient = Object.keys(phoneRecipientCache).length
+      ? phoneRecipientCache[phoneNumber]
       : recentTxRecipientsCache[phoneNumber]
 
     if (recipient) {
@@ -85,45 +93,30 @@ function getRecipient(
   }
 
   recipient = getRecipientFromAddress(address, recipientInfo)
-  if (providerInfo) {
-    Object.assign(recipient, { name: providerInfo.name, thumbnailPath: providerInfo.icon })
+  const overwriteName = providerInfo?.name ?? name
+  const overwriteImageUrl = providerInfo?.icon ?? imageUrl
+  if (overwriteName) {
+    Object.assign(recipient, { name: overwriteName, thumbnailPath: overwriteImageUrl })
+  } else if (isReward) {
+    Object.assign(recipient, {
+      name: i18n.t('walletFlow5:feedItemRewardReceivedTitle'),
+      thumbnailPath: CELO_IMAGE_URL,
+    })
   }
   return recipient
 }
 
-export function getTransferFeedParams(
+export function useTransferFeedParams(
   type: TokenTransactionType,
   t: TFunction,
-  phoneRecipientCache: NumberToRecipient,
-  recentTxRecipientsCache: NumberToRecipient,
-  address: string,
-  addressToE164Number: AddressToE164NumberType,
+  recipient: Recipient,
   rawComment: string | null,
   commentKey: string | null,
-  timestamp: number,
-  invitees: InviteDetails[],
-  recipientInfo: RecipientInfo,
-  isCeloRewardSender: boolean,
-  providerInfo: ProviderFeedInfo | undefined
+  isRewardSender: boolean
 ) {
-  const e164PhoneNumber = addressToE164Number[address]
-  const recipient = getRecipient(
-    type,
-    e164PhoneNumber,
-    phoneRecipientCache,
-    recentTxRecipientsCache,
-    timestamp,
-    invitees,
-    address,
-    recipientInfo,
-    providerInfo
-  )
-  Object.assign(recipient, { address })
-  const nameOrNumber =
-    recipient?.name || (recipientHasNumber(recipient) ? recipient.e164PhoneNumber : e164PhoneNumber)
   const displayName = getDisplayName(recipient, t)
   const comment = getDecryptedTransferFeedComment(rawComment, commentKey, type)
-
+  const nameOrNumber = recipient?.name ?? recipient?.e164PhoneNumber
   let title, info
 
   switch (type) {
@@ -169,7 +162,7 @@ export function getTransferFeedParams(
       break
     }
     case TokenTransactionType.Received: {
-      if (isCeloRewardSender) {
+      if (isRewardSender) {
         title = t('feedItemRewardReceivedTitle')
         info = t('feedItemRewardReceivedInfo')
       } else {

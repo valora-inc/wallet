@@ -23,14 +23,6 @@ const store = createMockStore({
   account: {
     defaultCountryCode: mockCountryCode,
   },
-  identity: {
-    addressToDisplayName: {
-      [celoRewardSenderAddress]: {
-        name: 'CELO Rewards',
-        isCeloRewardSender: true,
-      },
-    },
-  },
 })
 
 describe('TransferConfirmationCard', () => {
@@ -97,6 +89,7 @@ describe('TransferConfirmationCard', () => {
       address: celoRewardSenderAddress,
       comment: '',
       amount: { value: '100', currencyCode: 'cUSD', localAmount: null },
+      isReward: true,
       recipient: mockRecipient,
     }
 

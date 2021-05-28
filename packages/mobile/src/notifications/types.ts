@@ -12,6 +12,9 @@ export interface TransferNotificationData {
   timestamp: string
   comment: string
   currency: string
+  senderName: string
+  senderImageUrl: string
+  isReward: boolean
   type?: NotificationTypes.PAYMENT_RECEIVED
 }
 

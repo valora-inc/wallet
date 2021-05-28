@@ -6,14 +6,13 @@ import ExchangeConfirmationCard, {
   ExchangeConfirmationCardProps,
 } from 'src/exchange/ExchangeConfirmationCard'
 import i18n from 'src/i18n'
-import { addressToDisplayNameSelector, SecureSendPhoneNumberMapping } from 'src/identity/reducer'
+import { SecureSendPhoneNumberMapping } from 'src/identity/reducer'
 import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
+import { RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
-import useSelector from 'src/redux/useSelector'
 import TransferConfirmationCard, {
   TransferConfirmationCardProps,
 } from 'src/transactions/TransferConfirmationCard'
@@ -78,25 +77,23 @@ function TransactionReview({ navigation, route, addressHasChanged, recipientInfo
     reviewProps: { type, timestamp },
     confirmationProps,
   } = route.params
-  const addressToDisplayName = useSelector(addressToDisplayNameSelector)
 
   useLayoutEffect(() => {
     const dateTimeStatus = getDatetimeDisplayString(timestamp, i18n)
     const header = isExchange(confirmationProps)
       ? exchangeReviewHeader(confirmationProps)
-      : transferReviewHeader(type, confirmationProps, addressToDisplayName)
+      : transferReviewHeader(type, confirmationProps)
 
     navigation.setOptions({
       headerTitle: () => <HeaderTitleWithSubtitle title={header} subTitle={dateTimeStatus} />,
     })
-  }, [type, confirmationProps, addressToDisplayName])
+  }, [type, confirmationProps])
 
   if (isTransferConfirmationCardProps(confirmationProps)) {
-    // @ts-ignore, address should never be undefined
-    const recipient = getRecipientFromAddress(confirmationProps.address, recipientInfo)
-    Object.assign(recipient, { e164PhoneNumber: confirmationProps.e164PhoneNumber })
-
-    const props = { ...confirmationProps, addressHasChanged, recipient }
+    const props = {
+      ...confirmationProps,
+      addressHasChanged,
+    }
     return <TransferConfirmationCard {...props} />
   }
 

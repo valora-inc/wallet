@@ -7,27 +7,22 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType, TransferItemFragment } from 'src/apollo/types'
 import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { Namespaces } from 'src/i18n'
-import { addressToDisplayNameSelector, AddressToE164NumberType } from 'src/identity/reducer'
-import { InviteDetails } from 'src/invite/actions'
-import { getRecipientFromAddress, NumberToRecipient, RecipientInfo } from 'src/recipients/recipient'
+import { addressToE164NumberSelector } from 'src/identity/reducer'
+import { Recipient } from 'src/recipients/recipient'
 import { navigateToPaymentTransferReview } from 'src/transactions/actions'
 import TransactionFeedItem from 'src/transactions/TransactionFeedItem'
 import TransferFeedIcon from 'src/transactions/TransferFeedIcon'
 import {
   getDecryptedTransferFeedComment,
-  getTransferFeedParams,
+  useRecipient,
+  useTransferFeedParams,
 } from 'src/transactions/transferFeedUtils'
 import { TransactionStatus } from 'src/transactions/types'
 
 type Props = TransferItemFragment & {
   type: TokenTransactionType
   status: TransactionStatus
-  addressToE164Number: AddressToE164NumberType
-  phoneRecipientCache: NumberToRecipient
-  recentTxRecipientsCache: NumberToRecipient
-  invitees: InviteDetails[]
   commentKey: string | null
-  recipientInfo: RecipientInfo
 }
 
 function navigateToTransactionReview({
@@ -37,14 +32,14 @@ function navigateToTransactionReview({
   commentKey,
   timestamp,
   amount,
-  recipientInfo,
-}: Props) {
+  recipient,
+  isBalanceReward,
+  isInviteReward,
+}: Props & { recipient: Recipient }) {
   // TODO: remove this when verification reward drilldown is supported
   if (type === TokenTransactionType.VerificationReward) {
     return
   }
-
-  const recipient = getRecipientFromAddress(address, recipientInfo)
 
   navigateToPaymentTransferReview(type, timestamp, {
     address,
@@ -52,19 +47,15 @@ function navigateToTransactionReview({
     amount,
     recipient,
     type,
+    isReward: isBalanceReward || isInviteReward,
     // fee TODO: add fee here.
   })
 }
 
 export function TransferFeedItem(props: Props) {
   const { t } = useTranslation(Namespaces.walletFlow5)
-  const addressToDisplayName = useSelector(addressToDisplayNameSelector)
+  const addressToE164Number = useSelector(addressToE164NumberSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
-
-  const onPress = () => {
-    navigateToTransactionReview(props)
-    ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
-  }
 
   const {
     amount,
@@ -75,29 +66,33 @@ export function TransferFeedItem(props: Props) {
     comment,
     commentKey,
     status,
-    addressToE164Number,
-    phoneRecipientCache,
-    recentTxRecipientsCache,
-    invitees,
-    recipientInfo,
+    isBalanceReward,
+    isInviteReward,
+    name,
+    imageUrl,
   } = props
+  const isReward = isBalanceReward || isInviteReward
   const txInfo = txHashToFeedInfo[hash]
 
-  const { title, info, recipient } = getTransferFeedParams(
+  const e164PhoneNumber = addressToE164Number[address]
+  const recipient = useRecipient(
     type,
-    t,
-    phoneRecipientCache,
-    recentTxRecipientsCache,
-    address,
-    addressToE164Number,
-    comment,
-    commentKey,
+    e164PhoneNumber,
     timestamp,
-    invitees,
-    recipientInfo,
-    addressToDisplayName[address]?.isCeloRewardSender ?? false,
-    txInfo
+    address,
+    txInfo,
+    isReward,
+    name,
+    imageUrl
   )
+  Object.assign(recipient, { address })
+
+  const { title, info } = useTransferFeedParams(type, t, recipient, comment, commentKey, isReward)
+
+  const onPress = () => {
+    navigateToTransactionReview({ ...props, recipient })
+    ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
+  }
 
   return (
     <TransactionFeedItem
@@ -132,6 +127,10 @@ TransferFeedItem.fragments = {
       address
       account
       comment
+      isBalanceReward
+      isInviteReward
+      name
+      imageUrl
     }
   `,
 }
