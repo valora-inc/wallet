@@ -2,8 +2,6 @@ import * as functions from 'firebase-functions'
 import { FETCH_TIMEOUT_DURATION, IP_API_KEY } from '../config'
 import { fetchWithTimeout } from './utils'
 
-// REMINDER: Check if property name changes are backwards compatible...probably will be fine given
-// we are moving location check to server-side
 export interface UserLocationData {
   countryCodeAlpha2: string | null
   region: string | null

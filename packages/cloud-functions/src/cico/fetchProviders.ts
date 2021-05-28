@@ -6,8 +6,15 @@ import { getProviderAvailability } from './providerAvailability'
 import { Providers } from './Providers'
 import Simplex, { SimplexQuote } from './Simplex'
 
+// Requests made from v.14.2 and below had a different format for UserLocationData
+export interface UserLocationDataDeprecated {
+  country: string | null
+  state: string | null
+  ipAddress: string | null
+}
+
 export interface ProviderRequestData {
-  userLocation: UserLocationData
+  userLocation: UserLocationData | UserLocationDataDeprecated
   walletAddress: string
   fiatCurrency: FiatCurrency
   digitalAsset: DigitalAsset
@@ -32,8 +39,23 @@ export interface Provider {
   cashOut: boolean
 }
 
+export const isUserLocationDataDeprecated = (
+  locationData: UserLocationData | UserLocationDataDeprecated
+): locationData is UserLocationDataDeprecated => 'country' in locationData
+
 export const fetchProviders = functions.https.onRequest(async (request, response) => {
   const requestData: ProviderRequestData = request.body
+
+  let userLocationData: UserLocationData
+  if (isUserLocationDataDeprecated(requestData.userLocation)) {
+    userLocationData = {
+      countryCodeAlpha2: requestData.userLocation.country,
+      region: requestData.userLocation.state,
+      ipAddress: requestData.userLocation.ipAddress,
+    }
+  } else {
+    userLocationData = requestData.userLocation
+  }
 
   const {
     MOONPAY_RESTRICTED,
@@ -41,7 +63,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     RAMP_RESTRICTED,
     TRANSAK_RESTRICTED,
     XANPOOL_RESTRICTED,
-  } = getProviderAvailability(requestData.userLocation)
+  } = getProviderAvailability(userLocationData)
 
   const [simplexQuote] = await Promise.all([
     Simplex.fetchQuote(
