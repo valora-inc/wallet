@@ -16,7 +16,7 @@ export default HandleDeepLinkSend = () => {
     await expect(element(by.id('Review'))).toBeVisible()
   })
 
-  it('Send url while app is in background, back pressed', async () => {
+  it.skip('Send url while app is in background, back pressed', async () => {
     // on android there are two ways to "exit" the app
     // 1. home button
     // 2. back button
