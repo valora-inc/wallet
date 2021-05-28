@@ -12,7 +12,7 @@ import { HomeEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl as openUrlAction } from 'src/app/actions'
-import { verificationPossibleSelector } from 'src/app/selectors'
+import { rewardsEnabledSelector, verificationPossibleSelector } from 'src/app/selectors'
 import {
   RewardsScreenOrigin,
   trackRewardsScreenOpenEvent,
@@ -100,7 +100,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   verificationPossible: verificationPossibleSelector(state),
   dismissedGoldEducation: state.account.dismissedGoldEducation,
   reclaimableEscrowPayments: getReclaimableEscrowPayments(state),
-  rewardsEnabled: state.account.rewardsEnabled,
+  rewardsEnabled: rewardsEnabledSelector(state),
 })
 
 const mapDispatchToProps = {
@@ -231,45 +231,41 @@ export class NotificationBox extends React.Component<Props, State> {
       if (!texts) {
         continue
       }
-
-      if (
-        !(notification.ctaUri.includes(Screens.ConsumerIncentivesHomeScreen) && !rewardsEnabled)
-      ) {
-        actions.push({
-          text: texts.body,
-          icon: notification.iconUrl ? { uri: notification.iconUrl } : undefined,
-          darkMode: notification.darkMode,
-          callToActions: [
-            {
-              text: texts.cta,
-              onPress: () => {
-                ValoraAnalytics.track(HomeEvents.notification_select, {
-                  notificationType: NotificationBannerTypes.remote_notification,
-                  selectedAction: NotificationBannerCTATypes.remote_notification_cta,
-                  notificationId: id,
-                })
-                openUrl(notification.ctaUri, false, true)
-                trackRewardsScreenOpenEvent(
-                  notification.ctaUri,
-                  RewardsScreenOrigin.NotificationBox
-                )
-              },
-            },
-            {
-              text: texts.dismiss,
-              dim: notification.darkMode,
-              onPress: () => {
-                ValoraAnalytics.track(HomeEvents.notification_select, {
-                  notificationType: NotificationBannerTypes.remote_notification,
-                  selectedAction: NotificationBannerCTATypes.decline,
-                  notificationId: id,
-                })
-                this.props.dismissNotification(id)
-              },
-            },
-          ],
-        })
+      if (notification.ctaUri.includes(Screens.ConsumerIncentivesHomeScreen) && !rewardsEnabled) {
+        continue
       }
+
+      actions.push({
+        text: texts.body,
+        icon: notification.iconUrl ? { uri: notification.iconUrl } : undefined,
+        darkMode: notification.darkMode,
+        callToActions: [
+          {
+            text: texts.cta,
+            onPress: () => {
+              ValoraAnalytics.track(HomeEvents.notification_select, {
+                notificationType: NotificationBannerTypes.remote_notification,
+                selectedAction: NotificationBannerCTATypes.remote_notification_cta,
+                notificationId: id,
+              })
+              openUrl(notification.ctaUri, false, true)
+              trackRewardsScreenOpenEvent(notification.ctaUri, RewardsScreenOrigin.NotificationBox)
+            },
+          },
+          {
+            text: texts.dismiss,
+            dim: notification.darkMode,
+            onPress: () => {
+              ValoraAnalytics.track(HomeEvents.notification_select, {
+                notificationType: NotificationBannerTypes.remote_notification,
+                selectedAction: NotificationBannerCTATypes.decline,
+                notificationId: id,
+              })
+              this.props.dismissNotification(id)
+            },
+          },
+        ],
+      })
     }
 
     if (!dismissedGoldEducation && !goldEducationCompleted) {

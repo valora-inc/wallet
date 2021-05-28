@@ -4,6 +4,7 @@ import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { rewardsEnabledSelector } from 'src/app/selectors'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import i18n from 'src/i18n'
 import Rings from 'src/icons/Rings'
@@ -19,7 +20,7 @@ function RewardsPill() {
     })
   }
 
-  const rewardsEnabled = useSelector((state) => state.account.rewardsEnabled)
+  const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
   if (!rewardsEnabled) {
     return null

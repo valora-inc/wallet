@@ -12,3 +12,5 @@ export const FUNDING_LINK = 'https://celo.org/fund-wallet'
 export const CELO_REWARDS_LINK = 'https://celo.org/support'
 export const FORUM_LINK = 'https://forum.celo.org/c/support'
 export const CELO_SUPPORT_EMAIL_ADDRESS = 'support@celo.org'
+// Note: the actual link doesn't exist on celo.org and is overridden by the Valora branding
+export const CELO_REWARDS_T_AND_C = 'https://celo.org/support'

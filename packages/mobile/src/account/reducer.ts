@@ -36,7 +36,6 @@ export interface State {
   accountToRecoverFromStoreWipe: string | undefined
   dailyLimitCusd: number
   dailyLimitRequestStatus: DailyLimitRequestStatus | undefined
-  rewardsEnabled: boolean
 }
 
 export enum PincodeType {
@@ -56,7 +55,7 @@ export enum DailyLimitRequestStatus {
   Denied = 'Denied',
 }
 
-export const initialState = {
+export const initialState: State = {
   name: null,
   e164PhoneNumber: null,
   pictureUri: null,
@@ -86,7 +85,6 @@ export const initialState = {
   accountToRecoverFromStoreWipe: undefined,
   dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
   dailyLimitRequestStatus: undefined,
-  rewardsEnabled: false,
 }
 
 export const reducer = (
@@ -268,12 +266,6 @@ export const reducer = (
       return {
         ...state,
         profileUploaded: true,
-      }
-    }
-    case Actions.SET_REWARDS_ENABLED: {
-      return {
-        ...state,
-        rewardsEnabled: action.rewardsEnabled,
       }
     }
     default:

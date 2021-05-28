@@ -12,7 +12,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { CELO_REWARDS_LINK } from 'src/brandingConfig'
+import { CELO_REWARDS_T_AND_C } from 'src/brandingConfig'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
 import { Namespaces } from 'src/i18n'
 import { earn1, earn2, earn3, earnMain } from 'src/images/Images'
@@ -21,6 +21,7 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
+import { navigateToURI } from 'src/utils/linking'
 
 type Props = StackScreenProps<StackParamList, Screens.ConsumerIncentivesHomeScreen>
 export default function ConsumerIncentivesHomeScreen(props: Props) {
@@ -46,7 +47,7 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
     })
   }
 
-  const onLearnMore = () => navigate(Screens.WebViewScreen, { uri: CELO_REWARDS_LINK })
+  const onLearnMore = () => navigateToURI(CELO_REWARDS_T_AND_C)
 
   return (
     <SafeAreaView style={styles.container}>

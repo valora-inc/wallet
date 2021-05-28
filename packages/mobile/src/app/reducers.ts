@@ -26,6 +26,7 @@ export interface State {
   rewardsPercent: number
   rewardsStartDate: number
   rewardsMax: number
+  rewardsABTestThreshold: string
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
   ranVerificationMigrationAt: number | null | undefined
@@ -53,6 +54,7 @@ const initialState = {
   rewardsPercent: 5,
   rewardsStartDate: 1622505600000,
   rewardsMax: 1000,
+  rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
   ranVerificationMigrationAt: null,
 }
 
@@ -159,6 +161,7 @@ export const appReducer = (
         rewardsPercent: action.flags.rewardsPercent,
         rewardsStartDate: action.flags.rewardsStartDate,
         rewardsMax: action.flags.rewardsMax,
+        rewardsABTestThreshold: action.flags.rewardsABTestThreshold,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
