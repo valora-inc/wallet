@@ -4,11 +4,6 @@ import { handleExchangeQuery } from '.'
 
 // TODO: There's too much mocking in this test, write e2e tests that run using a node.
 
-const pushMock = jest.fn()
-const refMock = jest.fn((path: string) => ({
-  push: (rate: BigNumber) => pushMock(path, rate),
-}))
-
 const CELO_EXCHANGE_RATES = {
   [StableToken.cUSD]: {
     buy: 6,
@@ -20,9 +15,13 @@ const CELO_EXCHANGE_RATES = {
   },
 }
 
+const writeExchangeMock = jest.fn()
+
 jest.mock('../firebase', () => ({
   database: () => ({
-    ref: refMock,
+    ref: jest.fn((path: string) => ({
+      push: (rate: BigNumber) => writeExchangeMock(path, rate),
+    })),
   }),
 }))
 jest.mock('../contractKit', () => ({
@@ -49,26 +48,26 @@ describe('updateExchangeRates', () => {
   it('write correct values', async () => {
     await handleExchangeQuery()
 
-    expect(pushMock).toHaveBeenCalledTimes(4)
-    expect(pushMock).toHaveBeenCalledWith(
+    expect(writeExchangeMock).toHaveBeenCalledTimes(4)
+    expect(writeExchangeMock).toHaveBeenCalledWith(
       '/exchangeRates/cGLD/cUSD',
       expect.objectContaining({
         exchangeRate: CELO_EXCHANGE_RATES[StableToken.cUSD].sell.toString(),
       })
     )
-    expect(pushMock).toHaveBeenCalledWith(
+    expect(writeExchangeMock).toHaveBeenCalledWith(
       '/exchangeRates/cUSD/cGLD',
       expect.objectContaining({
         exchangeRate: CELO_EXCHANGE_RATES[StableToken.cUSD].buy.toString(),
       })
     )
-    expect(pushMock).toHaveBeenCalledWith(
+    expect(writeExchangeMock).toHaveBeenCalledWith(
       '/exchangeRates/cGLD/cEUR',
       expect.objectContaining({
         exchangeRate: CELO_EXCHANGE_RATES[StableToken.cEUR].sell.toString(),
       })
     )
-    expect(pushMock).toHaveBeenCalledWith(
+    expect(writeExchangeMock).toHaveBeenCalledWith(
       '/exchangeRates/cEUR/cGLD',
       expect.objectContaining({
         exchangeRate: CELO_EXCHANGE_RATES[StableToken.cEUR].buy.toString(),
