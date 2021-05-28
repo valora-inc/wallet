@@ -2,9 +2,7 @@ import { dismissBanners } from '../utils/banners'
 import { pixelDiff, sleep } from '../utils/utils'
 
 export default CashIn = () => {
-  beforeEach(async () => {
-    await device.reloadReactNative()
-    // await webViewBack()
+  beforeAll(async () => {
     await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
@@ -14,7 +12,13 @@ export default CashIn = () => {
     await element(by.id('FiatExchangeNextButton')).tap()
   })
 
-  it('Should Display All Providers - US', async () => {
+  beforeEach(async () => {
+    await device.sendToHome()
+    await device.launchApp({ newInstance: false })
+    // TODO: If on Simplex Press Back Button
+  })
+
+  it('Should Display All Providers', async () => {
     // Check All Providers for US
     await expect(element(by.id('Provider/Moonpay'))).toBeVisible()
     await expect(element(by.id('Provider/Simplex'))).toBeVisible()
@@ -31,35 +35,50 @@ export default CashIn = () => {
     )
   })
 
-  // These Tests are Flaky as they interact with elements outside of the tested app
-  it.skip('Should Navigate to Moonpay', async () => {
-    await element(by.id('Provider/Moonpay')).tap()
-    await sleep(5000)
-    const imagePath = await device.takeScreenshot('Moonpay - ios')
-    await pixelDiff(
-      imagePath,
-      device.getPlatform() === 'ios'
-        ? './e2e/assets/Moonpay - ios.png'
-        : './e2e/assets/Moonpay - android.png'
-    )
-  })
+  // TODO: Check providers on Android
+  if (device.getPlatform() === 'ios') {
+    it('Should Navigate to Moonpay', async () => {
+      await element(by.id('Provider/Moonpay')).tap()
+      await sleep(6000)
+      const imagePath = await device.takeScreenshot('Moonpay - ios')
+      await pixelDiff(
+        imagePath,
+        device.getPlatform() === 'ios'
+          ? './e2e/assets/Moonpay - ios.png'
+          : './e2e/assets/Moonpay - android.png'
+      )
+    })
 
-  it.skip('Should Navigate to Xanpool', async () => {
-    await element(by.id('Provider/Xanpool')).tap()
-    await sleep(5000)
-    const imagePath = await device.takeScreenshot('Xanpool - ios')
-    await pixelDiff(
-      imagePath,
-      device.getPlatform() === 'ios'
-        ? './e2e/assets/Xanpool - ios.png'
-        : './e2e/assets/Xanpool - android.png'
-    )
-  })
+    it('Should Navigate to Xanpool', async () => {
+      await element(by.id('Provider/Xanpool')).tap()
+      await sleep(5000)
+      const imagePath = await device.takeScreenshot('Xanpool - ios')
+      await pixelDiff(
+        imagePath,
+        device.getPlatform() === 'ios'
+          ? './e2e/assets/Xanpool - ios.png'
+          : './e2e/assets/Xanpool - android.png'
+      )
+    })
 
-  it.skip('Should Navigate to Simplex', async () => {
+    it('Should Navigate to Transak', async () => {
+      await element(by.id('Provider/Transak')).tap()
+      await sleep(5000)
+      const imagePath = await device.takeScreenshot('Transak')
+      await pixelDiff(
+        imagePath,
+        device.getPlatform() === 'ios'
+          ? './e2e/assets/Transak - ios.png'
+          : './e2e/assets/Transak - android.png'
+      )
+    })
+  }
+
+  // Check Simplex keep test spec last in use case
+  // TODO: setup back method in beforeEach if on Simplex view
+  it('Should Navigate to Simplex', async () => {
     await element(by.id('Provider/Simplex')).tap()
     await element(by.text('Continue to Simplex')).tap()
-    //TODO: find element to implicitly wait on
     await sleep(5000)
     const imagePath = await device.takeScreenshot('Simplex')
     await pixelDiff(
@@ -67,19 +86,6 @@ export default CashIn = () => {
       device.getPlatform() === 'ios'
         ? './e2e/assets/Simplex - ios.png'
         : './e2e/assets/Simplex - android.png'
-    )
-  })
-
-  it.skip('Should Navigate to Transak', async () => {
-    await element(by.id('Provider/Transak')).tap()
-    //TODO: find element to implicitly wait on
-    await sleep(5000)
-    const imagePath = await device.takeScreenshot('Transak')
-    await pixelDiff(
-      imagePath,
-      device.getPlatform() === 'ios'
-        ? './e2e/assets/Transak - ios.png'
-        : './e2e/assets/Transak - android.png'
     )
   })
 }
