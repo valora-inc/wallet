@@ -5,40 +5,12 @@ import { eventChannel } from 'redux-saga'
 import { call, cancelled, put, select, spawn, take } from 'redux-saga/effects'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { FETCH_TIMEOUT_DURATION } from 'src/config'
+import networkConfig from 'src/geth/networkConfig'
 import { setNetworkConnectivity, updateUserLocationData } from 'src/networkInfo/actions'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'networkInfo/saga'
-
-interface IpAddressData {
-  ip: string
-  version: string
-  city: string
-  region: string
-  region_code: string
-  country: string
-  country_name: string
-  country_code: string
-  country_code_iso3: string
-  country_capital: string
-  country_tld: string
-  continent_code: string
-  in_eu: boolean
-  postal: number
-  latitude: number
-  longitude: number
-  timezone: string
-  utc_offset: number
-  country_calling_code: string
-  currency: string
-  currency_name: string
-  languages: string
-  country_area: number
-  country_population: number
-  asn: string
-  org: string
-}
 
 export interface UserLocationData {
   countryCodeAlpha2: string | null
@@ -77,21 +49,17 @@ function* subscribeToNetworkStatus() {
 function* fetchUserLocationData() {
   let userLocationData: UserLocationData
   try {
-    // NOTE: Need to pay for this API if we decideq to use it at scale
     const response: Response = yield fetchWithTimeout(
-      'https://ipapi.co/json/',
+      networkConfig.fetchUserLocationDataUrl,
       null,
       FETCH_TIMEOUT_DURATION
     )
 
-    const ipAddressData: IpAddressData = yield response.json()
+    userLocationData = yield response.json()
 
     if (!response.ok) {
-      throw new Error(`IP address fetch failed. Error: ${JSON.stringify(ipAddressData)}`)
+      throw new Error(`IP address fetch failed. Error: ${JSON.stringify(userLocationData)}`)
     }
-
-    const { country_code, region_code, ip } = ipAddressData
-    userLocationData = { countryCodeAlpha2: country_code, region: region_code, ipAddress: ip }
   } catch (error) {
     Logger.error(`${TAG}:fetchUserLocationData`, error.message)
     // If endpoint fails then use country code to determine location

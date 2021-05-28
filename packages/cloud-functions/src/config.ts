@@ -2,6 +2,8 @@ const functions = require('firebase-functions')
 // This allows us to access Cloud Function environment variables
 export const config = functions.config()
 
+export const IP_API_KEY = config.ip_api.key
+
 export const MOONPAY_DATA = {
   widget_url: config.moonpay.widget_url,
   public_key: config.moonpay.public_key,
