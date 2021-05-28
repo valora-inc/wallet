@@ -44,6 +44,10 @@ describe('CeloTransferFeedItem', () => {
           account={''}
           comment={''}
           timestamp={1}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={null}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -54,17 +58,7 @@ describe('CeloTransferFeedItem', () => {
   it("renders correctly when there's a known address", () => {
     const mockName = 'This is a Test'
     const tree = renderer.create(
-      <Provider
-        store={createMockStore({
-          identity: {
-            addressToDisplayName: {
-              [mockAccount]: {
-                name: mockName,
-              },
-            },
-          },
-        })}
-      >
+      <Provider store={createMockStore()}>
         <CeloTransferFeedItem
           status={TransactionStatus.Complete}
           __typename="TokenTransfer"
@@ -75,6 +69,10 @@ describe('CeloTransferFeedItem', () => {
           account={''}
           comment={''}
           timestamp={1}
+          isBalanceReward={false}
+          isInviteReward={false}
+          name={mockName}
+          imageUrl={null}
           {...getMockI18nProps()}
         />
       </Provider>

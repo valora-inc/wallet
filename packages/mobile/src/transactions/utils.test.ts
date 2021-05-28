@@ -18,6 +18,10 @@ const mockFeedItem = (timestamp: number, comment: string): FeedItem => {
     address: '0xanything',
     account: '',
     comment,
+    name: null,
+    imageUrl: null,
+    isBalanceReward: false,
+    isInviteReward: false,
     status: TransactionStatus.Complete,
   }
 }

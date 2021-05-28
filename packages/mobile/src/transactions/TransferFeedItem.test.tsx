@@ -245,15 +245,6 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for known sent invite', () => {
-    const mockStoredInviteDetails = {
-      timestamp: 10,
-      e164Number: mockInviteDetails.e164Number,
-      tempWalletAddress: '0x',
-      tempWalletPrivateKey: 'secretkey',
-      tempWalletRedeemed: false,
-      inviteCode: 'join me!',
-      inviteLink: 'joinme.com',
-    }
     const tree = renderer.create(
       <Provider store={mockStore}>
         <TransferFeedItem

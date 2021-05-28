@@ -13,11 +13,11 @@ import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TransferItemFragment } from 'src/apollo/types'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
-import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { Namespaces } from 'src/i18n'
-import { addressToDisplayNameSelector } from 'src/identity/reducer'
+import { getDisplayName } from 'src/recipients/recipient'
 import { navigateToPaymentTransferReview } from 'src/transactions/actions'
+import { useRecipient } from 'src/transactions/transferFeedUtils'
 import { TransactionStatus } from 'src/transactions/types'
 import { getDatetimeDisplayString } from 'src/utils/time'
 
@@ -27,10 +27,23 @@ type Props = TransferItemFragment & {
 
 export function CeloTransferFeedItem(props: Props) {
   const { t, i18n } = useTranslation(Namespaces.walletFlow5)
-  const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
-  const { address, amount, hash, comment, status, timestamp, type } = props
+  const {
+    address,
+    amount,
+    hash,
+    comment,
+    status,
+    timestamp,
+    type,
+    isBalanceReward,
+    isInviteReward,
+    name,
+    imageUrl,
+  } = props
+  const isReward = isBalanceReward || isInviteReward
   const txInfo = txHashToFeedInfo[hash]
+  const recipient = useRecipient(type, null, timestamp, address, txInfo, isReward, name, imageUrl)
 
   const onPress = () => {
     ValoraAnalytics.track(CeloExchangeEvents.celo_transaction_select)
@@ -40,6 +53,7 @@ export function CeloTransferFeedItem(props: Props) {
       comment,
       amount,
       type,
+      recipient,
       // fee TODO: add fee here.
     })
   }
@@ -47,8 +61,6 @@ export function CeloTransferFeedItem(props: Props) {
   const dateTimeFormatted = getDatetimeDisplayString(timestamp, i18n)
   const isPending = status === TransactionStatus.Pending
   const isWithdrawal = new BigNumber(amount.value).isNegative()
-  const displayName =
-    txInfo?.name || addressToDisplayName[address]?.name || formatShortenedAddress(address)
 
   return (
     <Touchable onPress={onPress}>
@@ -57,7 +69,7 @@ export function CeloTransferFeedItem(props: Props) {
           <View style={styles.desc}>
             <Text style={styles.txMode}>
               {t(isWithdrawal ? 'feedItemGoldWithdrawal' : 'feedItemGoldReceived', {
-                displayName,
+                displayName: getDisplayName(recipient, t),
               })}
             </Text>
           </View>

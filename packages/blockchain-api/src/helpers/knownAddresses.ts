@@ -7,7 +7,6 @@ function errorLogger(error: any) {
 export interface KnownAddressInfo {
   name: string
   imageUrl?: string
-  isCeloRewardSender?: boolean
 }
 
 export interface AddressToDisplayNameType {
@@ -37,7 +36,7 @@ database.ref('balanceRewardAddresses').on(
 database.ref('addressesExtraInfo').on(
   'value',
   (snapshot: any) => {
-    knownAddresses = (snapshot && snapshot.val()) || []
+    knownAddresses = (snapshot && snapshot.val()) || {}
   },
   errorLogger
 )
