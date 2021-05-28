@@ -68,7 +68,7 @@ export function* checkInitialNotification() {
   > = yield call([firebase.messaging(), 'getInitialNotification'])
   if (initialNotification) {
     Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
-    yield call(handleNotification, initialNotification, NotificationReceiveState.APP_OPENED_FRESH)
+    yield call(handleNotification, initialNotification, NotificationReceiveState.AppColdStart)
   }
 }
 
@@ -112,7 +112,7 @@ function createFirebaseNotificationChannel() {
       Logger.info(TAG, 'Notification received while open')
       emitter({
         message,
-        stateType: NotificationReceiveState.APP_ALREADY_OPEN,
+        stateType: NotificationReceiveState.AppAlreadyOpen,
       })
     })
 
@@ -120,7 +120,7 @@ function createFirebaseNotificationChannel() {
       Logger.info(TAG, 'App opened via a notification')
       emitter({
         message,
-        stateType: NotificationReceiveState.APP_FOREGROUNDED,
+        stateType: NotificationReceiveState.AppOpenedFromBackground,
       })
     })
     return unsubscribe
@@ -229,7 +229,7 @@ export function appRemoteFeatureFlagChannel() {
       Logger.debug(`Updated feature flags: ${JSON.stringify(flags)}`)
       emit({
         hideVerification: flags?.hideVerification ?? false,
-        showRaiseDailyLimitTarget: flags?.showRaiseDailyLimitTarget ?? undefined,
+        showRaiseDailyLimitTarget: flags?.showRaiseDailyLimitTargetV2 ?? undefined,
         celoEducationUri: flags?.celoEducationUri ?? null,
         shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
         inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,
