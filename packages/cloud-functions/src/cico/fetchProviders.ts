@@ -6,7 +6,7 @@ import { getProviderAvailability } from './providerAvailability'
 import { Providers } from './Providers'
 import Simplex, { SimplexQuote } from './Simplex'
 
-// Requests made from v.14.2 and below had a different format for UserLocationData
+// Requests made from v1.14.2 and below had a different format for UserLocationData
 export interface UserLocationDataDeprecated {
   country: string | null
   state: string | null
