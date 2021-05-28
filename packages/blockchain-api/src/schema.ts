@@ -176,6 +176,10 @@ export const typeDefs = gql`
     comment: String
     token: Token!
     hash: String!
+    isBalanceReward: Boolean
+    isInviteReward: Boolean
+    name: String
+    imageUrl: String
     fees: [Fee]
   }
 

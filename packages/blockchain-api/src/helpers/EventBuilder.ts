@@ -1,6 +1,7 @@
 import { BigNumber } from 'bignumber.js'
 import { BlockscoutCeloTransfer } from '../blockscout'
 import { CGLD, CUSD } from '../currencyConversion/consts'
+import { knownAddressesFields } from '../helpers/knownAddresses'
 import { EventTypes, Fee as FormattedFee, MoneyAmount } from '../schema'
 import { Fee, Transaction } from '../transaction/Transaction'
 import { WEI_PER_GOLD } from '../utils'
@@ -29,6 +30,7 @@ export class EventBuilder {
       hash,
       address,
       account: account ? account : address,
+      ...knownAddressesFields(address),
       amount: {
         // Signed amount relative to the account currency
         value: new BigNumber(transfer.value)
