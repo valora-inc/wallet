@@ -1,10 +1,16 @@
 import { ContractKit, StableToken } from '@celo/contractkit'
-import { CURRENCY_ENUM } from '@celo/utils'
+import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils'
 import BigNumber from 'bignumber.js'
+import * as functions from 'firebase-functions'
 import { performance } from 'perf_hooks'
-import { writeExchangeRatePair } from '../firebase'
+import { getContractKit } from '../contractKit'
+import { database } from '../firebase'
 import { metrics } from '../metrics'
-import { getContractKit } from '../util/utils'
+
+interface ExchangeRateObject {
+  exchangeRate: string
+  timestamp: number // timestamp in milliseconds
+}
 
 // Amounts to estimate the exchange rate, as the rate varies based on transaction size
 // A small amount returns a rate closer to the median rate
@@ -17,16 +23,16 @@ const SELL_AMOUNTS = {
 }
 
 export async function handleExchangeQuery() {
-  const contractKitInstance = await getContractKit()
+  const kit = await getContractKit()
   const fetchTime = Date.now()
   const [dollarMakerRate, goldMakerRate] = await Promise.all([
-    getExchangeRate(CURRENCY_ENUM.DOLLAR, contractKitInstance, StableToken.cUSD),
-    getExchangeRate(CURRENCY_ENUM.GOLD, contractKitInstance, StableToken.cUSD),
+    getExchangeRate(CURRENCY_ENUM.DOLLAR, kit, StableToken.cUSD),
+    getExchangeRate(CURRENCY_ENUM.GOLD, kit, StableToken.cUSD),
   ])
 
   const [euroMakerRate, goldMakerRateEur] = await Promise.all([
-    getExchangeRate(CURRENCY_ENUM.EURO, contractKitInstance, StableToken.cEUR),
-    getExchangeRate(CURRENCY_ENUM.GOLD, contractKitInstance, StableToken.cEUR),
+    getExchangeRate(CURRENCY_ENUM.EURO, kit, StableToken.cEUR),
+    getExchangeRate(CURRENCY_ENUM.GOLD, kit, StableToken.cEUR),
   ])
 
   writeExchangeRatePair(
@@ -54,12 +60,11 @@ export async function handleExchangeQuery() {
 // TODO: Fetch this data by listening directly for a MedianUpdated event on chain
 async function getExchangeRate(
   makerToken: CURRENCY_ENUM,
-  contractKitInstance: ContractKit,
+  kit: ContractKit,
   stableToken: StableToken
 ) {
-  const exchange = await contractKitInstance.contracts.getExchange(stableToken)
+  const exchange = await kit.contracts.getExchange(stableToken)
 
-  // Measure time before query
   const t0 = performance.now()
 
   const rate = await exchange.getExchangeRate(
@@ -67,9 +72,27 @@ async function getExchangeRate(
     makerToken === CURRENCY_ENUM.GOLD
   )
 
-  // Measure time after query
   const t1 = performance.now()
   metrics.setExchangeQueryDuration(t1 - t0)
 
   return rate
 }
+
+function writeExchangeRatePair(
+  takerToken: CURRENCY_ENUM,
+  makerToken: CURRENCY_ENUM,
+  exchangeRate: string,
+  timestamp: number
+) {
+  const pair = `${CURRENCIES[takerToken].code}/${CURRENCIES[makerToken].code}`
+  const exchangeRateRecord: ExchangeRateObject = {
+    exchangeRate,
+    timestamp,
+  }
+  database().ref(`/exchangeRates/${pair}`).push(exchangeRateRecord)
+  console.debug(`Recorded exchange rate for ${pair}`, exchangeRateRecord)
+}
+
+export const updateExchangeRates = functions.pubsub
+  .schedule('*/30 * * * *')
+  .onRun(handleExchangeQuery)
