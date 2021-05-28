@@ -44,7 +44,7 @@ export const getExtraNotifications = createSelector(
   [homeNotificationsSelector, userLocationDataSelector],
   (notifications, userLocationData) => {
     const version = DeviceInfo.getVersion()
-    const countryCodeAlpha2 = userLocationData.countryCodeAlpha2
+    const { countryCodeAlpha2 } = userLocationData
     return _.pickBy(notifications, (notification) => {
       return (
         !!notification &&

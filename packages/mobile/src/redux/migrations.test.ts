@@ -207,8 +207,7 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema.exchange.history).toEqual(exchangeInitialState.history)
   })
   it('works for v12 to v13', () => {
-    const stub = v9Schema
-    const migratedSchema = migrations[13](stub)
+    const migratedSchema = migrations[13](v9Schema)
     expect(migratedSchema.networkInfo.userLocationData).toBeDefined()
     expect(migratedSchema.networkInfo.userLocationData.countryCodeAlpha2).toEqual(null)
   })

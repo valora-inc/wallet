@@ -45,8 +45,6 @@ export const fetchUserLocationData = functions.https.onRequest(async (req, res) 
     req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress
 
-  console.log('User IP Address: ', ipAddress)
-
   const response = await fetchWithTimeout(
     `http://api.ipapi.com/api/${ipAddress}?access_key=${IP_API_KEY}`,
     null,

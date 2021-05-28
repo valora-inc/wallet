@@ -1,4 +1,4 @@
-import { UserLocationData } from './fetchProviders'
+import { UserLocationData } from './fetchUserLocationData'
 
 type Entries<T> = Array<{ [K in keyof T]: [K, T[K]] }[keyof T]>
 type ProviderAvailability = typeof providerAvailability
