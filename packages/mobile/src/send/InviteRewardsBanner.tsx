@@ -20,21 +20,23 @@ export function InviteRewardsBanner() {
   }
 
   return (
-    <Touchable style={styles.container} testID="InviteRewardsBanner" onPress={openInviteTerms}>
-      <Image source={notificationInvite} resizeMode="contain" />
-      <View style={styles.textContainer}>
-        <Text style={fontStyles.small500}>
-          {t('inviteRewardsBanner.title', { amount: rewardAmount })}
-        </Text>
-        <Text style={styles.bodyText}>
-          <Trans
-            i18nKey={'inviteRewardsBanner.body'}
-            tOptions={{ amount: rewardAmount }}
-            ns={Namespaces.inviteFlow11}
-          >
-            <Text style={styles.learnMore} />
-          </Trans>
-        </Text>
+    <Touchable testID="InviteRewardsBanner" onPress={openInviteTerms}>
+      <View style={styles.container}>
+        <Image source={notificationInvite} resizeMode="contain" />
+        <View style={styles.textContainer}>
+          <Text style={fontStyles.small500}>
+            {t('inviteRewardsBanner.title', { amount: rewardAmount })}
+          </Text>
+          <Text style={styles.bodyText}>
+            <Trans
+              i18nKey={'inviteRewardsBanner.body'}
+              tOptions={{ amount: rewardAmount }}
+              ns={Namespaces.inviteFlow11}
+            >
+              <Text style={styles.learnMore} />
+            </Trans>
+          </Text>
+        </View>
       </View>
     </Touchable>
   )
