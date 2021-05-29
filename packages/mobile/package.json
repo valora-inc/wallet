@@ -5,8 +5,7 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "eslint": "eslint --ext=.tsx,.ts src/",
-    "lint": "tslint -c tslint.json --project tsconfig.json",
+    "lint": "eslint --ext=.tsx,.ts src/",
     "build": "yarn run build:ts && yarn run build:metro",
     "build:ts": "tsc --noEmit",
     "build:metro": "yarn run react-native bundle --entry-file index.js --bundle-output bundle.js; rm bundle.js",
@@ -173,7 +172,6 @@
     "@babel/plugin-proposal-decorators": "^7.12.1",
     "@celo/eslint-config-typescript": "0.0.1",
     "@celo/flake-tracker": "0.0.1-dev",
-    "@celo/typescript": "0.0.1",
     "@graphql-codegen/add": "^1.10.0",
     "@graphql-codegen/cli": "^1.10.0",
     "@graphql-codegen/fragment-matcher": "1.10.0",
@@ -221,8 +219,7 @@
     "redux-flipper": "^1.4.2",
     "redux-mock-store": "^1.5.3",
     "redux-saga-test-plan": "^4.0.0-beta.2",
-    "remote-redux-devtools": "^0.5.12",
-    "tslint-react-native": "^0.0.7"
+    "remote-redux-devtools": "^0.5.12"
   },
   "resolutions": {
     "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f"

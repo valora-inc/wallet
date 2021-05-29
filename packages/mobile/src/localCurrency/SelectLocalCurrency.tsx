@@ -19,7 +19,6 @@ function keyExtractor(item: LocalCurrencyCode) {
 }
 
 function SelectLocalCurrency() {
-  // tslint:disable-next-line: react-hooks-nesting
   const selectedCurrencyCode = useLocalCurrencyCode() || DEFAULT_CURRENCY_CODE
   const dispatch = useDispatch()
   const { t } = useTranslation(Namespaces.accountScreen10)

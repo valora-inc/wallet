@@ -147,7 +147,6 @@ export async function sendSms(toPhone: string, msg: string) {
       } else {
         // react-native-sms types are incorrect
         // react-native-sms doesn't seem to work on Xcode emulator but works on device
-        // tslint:disable-next-line: no-floating-promises
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         SendSMS.send(
           {

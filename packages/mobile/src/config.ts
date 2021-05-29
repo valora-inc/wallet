@@ -4,7 +4,6 @@ import Config from 'react-native-config'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
 import { CURRENCY_ENUM, GethSyncMode } from 'src/geth/consts'
-// tslint:disable-next-line
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
 

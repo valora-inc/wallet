@@ -7,8 +7,6 @@ import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-// tslint:disable no-eval
-
 const mockScreenProps = getMockStackScreenProps(Screens.BidaliScreen, {
   currency: CURRENCY_ENUM.DOLLAR,
 })
