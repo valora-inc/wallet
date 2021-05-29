@@ -143,6 +143,7 @@ export const Moonpay = {
     try {
       const response = await fetchWithTimeout(path, null, FETCH_TIMEOUT_DURATION)
       const data = await response.json()
+
       if (!response.ok) {
         throw Error(`Response body: ${JSON.stringify(data)}`)
       }

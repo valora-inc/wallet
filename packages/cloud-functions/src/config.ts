@@ -1,6 +1,6 @@
 const functions = require('firebase-functions')
 // This allows us to access Cloud Function environment variables
-export const config = functions.config()
+const config = functions.config()
 
 export const MOONPAY_DATA = {
   widget_url: config.moonpay.widget_url,
@@ -38,6 +38,8 @@ export const XANPOOL_DATA = {
   private_key: config.xanpool.private_key,
   supported_currencies: ['IDR', 'VND', 'SGD', 'HKD', 'TBH', 'INR', 'MYR', 'PHP'],
 }
+
+export const BLOCKCHAIN_API_URL = config.blockchain_api.url
 
 export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'

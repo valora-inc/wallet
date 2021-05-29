@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import * as admin from 'firebase-admin'
 import { v4 as uuidv4 } from 'uuid'
 import { bigQueryDataset, bigQueryProjectId, getBigQueryInstance } from '../bigQuery'
-import { config } from '../config'
+import { BLOCKCHAIN_API_URL } from '../config'
 import { countryToCurrency } from './providerAvailability'
 
 const fetch = require('node-fetch')
@@ -19,6 +19,14 @@ interface UserInitData {
   ipAddress: string
   timestamp: string
   userAgent: string
+}
+
+interface BlockchainApiExchangeRate {
+  data: {
+    currencyConversion: {
+      rate: number
+    }
+  }
 }
 
 export const getUserInitData = async (
@@ -130,7 +138,7 @@ const fetchExchangeRate = async (
     return 1
   }
 
-  const response = await fetch(config.blockchain_api.url, {
+  const response: Response = await fetch(BLOCKCHAIN_API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -146,7 +154,7 @@ const fetchExchangeRate = async (
     }),
   })
 
-  const exchangeRate = await response.json()
+  const exchangeRate: BlockchainApiExchangeRate = await response.json()
   const rate = exchangeRate?.data?.currencyConversion?.rate
   if (typeof rate !== 'number' && typeof rate !== 'string') {
     throw Error(`Invalid response data ${response}`)
