@@ -3,7 +3,7 @@ import { database } from '../firebase'
 import { getTranslatorForAddress, sendNotification } from '../notifications'
 import { Currencies, NotificationTypes } from '../notifications/types'
 
-enum PaymentRequestStatus {
+export enum PaymentRequestStatus {
   REQUESTED = 'REQUESTED',
   COMPLETED = 'COMPLETED',
   DECLINED = 'DECLINED',
@@ -23,7 +23,7 @@ interface PaymentRequest {
   type?: NotificationTypes.PAYMENT_REQUESTED
 }
 
-async function notifyPaymentRequest(id: string, request: PaymentRequest) {
+export async function notifyPaymentRequest(id: string, request: PaymentRequest) {
   if (request.notified) {
     return
   }
@@ -49,7 +49,6 @@ function paymentObjectToNotification(po: PaymentRequest): { [key: string]: strin
 export async function sendRequestedPaymentNotification(id: string, data: PaymentRequest) {
   const { requesteeAddress, amount, currency } = data
   const t = await getTranslatorForAddress(requesteeAddress)
-
   data.type = NotificationTypes.PAYMENT_REQUESTED
   return sendNotification(
     t('paymentRequestedTitle'),
