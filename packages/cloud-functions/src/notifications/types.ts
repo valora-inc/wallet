@@ -5,7 +5,7 @@ export enum NotificationTypes {
 }
 
 export enum Currencies {
-  Celo = 'CELO',
+  Celo = 'cGLD',
   Dollar = 'cUSD',
   Euro = 'cEUR',
 }

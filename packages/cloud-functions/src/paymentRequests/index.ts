@@ -27,7 +27,7 @@ export async function notifyPaymentRequest(id: string, request: PaymentRequest) 
   if (request.notified) {
     return
   }
-  console.info('Received payment request', id, JSON.stringify(request))
+  console.info('Received payment request', id)
   await database().ref(`/pendingRequests/${id}`).update({ notified: true })
   await sendRequestedPaymentNotification(id, request)
 }

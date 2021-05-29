@@ -5,9 +5,7 @@ if (process.env.NODE_ENV !== 'test') {
   const gcloudProject = process.env.GCLOUD_PROJECT
   admin.initializeApp({
     credential: getFirebaseAdminCreds(admin),
-    databaseURL: gcloudProject
-      ? `https://${gcloudProject}.firebaseio.com`
-      : 'http://localhost:9000/?ns=celo-mobile-alfajores',
+    databaseURL: `https://${gcloudProject}.firebaseio.com`,
     projectId: gcloudProject,
   })
 }

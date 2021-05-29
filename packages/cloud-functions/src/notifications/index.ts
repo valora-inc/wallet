@@ -66,9 +66,6 @@ export async function sendNotification(
 
   try {
     console.info(TAG, 'Sending notification to:', address)
-    Object.keys(data).forEach((key) => {
-      console.info(key, typeof data[key] === 'string')
-    })
     const response = await messaging().send(message)
     console.info(TAG, 'Successfully sent notification for :', address, response)
 
