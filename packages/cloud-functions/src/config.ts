@@ -1,4 +1,6 @@
-const functions = require('firebase-functions')
+import * as functions from 'firebase-functions'
+import i18next from 'i18next'
+
 // This allows us to access Cloud Function environment variables
 export const config = functions.config()
 
@@ -71,3 +73,28 @@ export enum DigitalAsset {
 }
 
 export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
+export const NOTIFICATIONS_TTL_MS = 3600 * 1000 * 24 * 7 // 1 week in milliseconds
+
+const en = require('../locales/en.json')
+const es = require('../locales/es.json')
+const pt = require('../locales/pt.json')
+
+i18next
+  .init({
+    lng: 'en',
+    resources: {
+      en: {
+        translation: en,
+      },
+      es: {
+        translation: es,
+      },
+      pt: {
+        translation: pt,
+      },
+    },
+    fallbackLng: {
+      default: ['en'],
+    },
+  })
+  .catch((reason: any) => console.error('Config', 'Failed to init i18n', reason))

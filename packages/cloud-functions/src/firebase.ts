@@ -5,13 +5,19 @@ if (process.env.NODE_ENV !== 'test') {
   const gcloudProject = process.env.GCLOUD_PROJECT
   admin.initializeApp({
     credential: getFirebaseAdminCreds(admin),
-    databaseURL: `https://${gcloudProject}.firebaseio.com`,
+    databaseURL: gcloudProject
+      ? `https://${gcloudProject}.firebaseio.com`
+      : 'http://localhost:9000/?ns=celo-mobile-alfajores',
     projectId: gcloudProject,
   })
 }
 
 export function database() {
   return admin.database()
+}
+
+export function messaging() {
+  return admin.messaging()
 }
 
 export function saveTxHashProvider(address: string, txHash: string, provider: string) {
