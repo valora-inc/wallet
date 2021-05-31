@@ -562,6 +562,34 @@ export const v9Schema = {
     walletConnectEnabled: false,
     ranVerificationMigrationAt: null,
   },
+  walletConnect: {
+    pairings: [],
+    sessions: [],
+    pendingSessions: [],
+    pendingActions: [],
+  },
+  fiatExchanges: {
+    ...v8Schema.fiatExchanges,
+    providerLogos: {},
+  },
+}
+
+// Skipping to v13 to keep in sync with migrations.ts
+export const v13Schema = {
+  storeVersion: 13,
+  ...v9Schema,
+  identity: {
+    ..._.omit(
+      v9Schema.identity,
+      'attestationCodes',
+      'acceptedAttestationCodes',
+      'attestationInputStatus',
+      'numCompleteAttestations',
+      'verificationStatus',
+      'hasSeenVerificationNux',
+      'lastRevealAttempt'
+    ),
+  },
   verify: {
     ..._.omit(
       v8Schema.verify,
@@ -580,34 +608,8 @@ export const v9Schema = {
       CodeInputStatus.Disabled,
     ],
   },
-  walletConnect: {
-    pairings: [],
-    sessions: [],
-    pendingSessions: [],
-    pendingActions: [],
-  },
-  fiatExchanges: {
-    ...v8Schema.fiatExchanges,
-    providerLogos: {},
-  },
 }
 
-export const v10Schema = {
-  ...v9Schema,
-  identity: {
-    ..._.omit(
-      v9Schema.identity,
-      'attestationCodes',
-      'acceptedAttestationCodes',
-      'attestationInputStatus',
-      'numCompleteAttestations',
-      'verificationStatus',
-      'hasSeenVerificationNux',
-      'lastRevealAttempt'
-    ),
-  },
-}
-
-export function getLatestSchema(): Partial<RootState> {
-  return v10Schema as Partial<RootState>
+export function getLatestSchema(): Partial<RootState> & { storeVersion: number } {
+  return v13Schema as Partial<RootState> & { storeVersion: number }
 }

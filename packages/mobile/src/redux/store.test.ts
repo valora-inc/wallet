@@ -1,5 +1,6 @@
 import { migrations } from 'src/redux/migrations'
 import { _persistConfig } from 'src/redux/store'
+import { getLatestSchema } from 'test/schemas'
 
 describe('persistConfig', () => {
   it('points to the latest migration', () => {
@@ -9,5 +10,8 @@ describe('persistConfig', () => {
 
     // If this test fails, a migration has been added without increasing the persistConfig version
     expect(_persistConfig.version).toEqual(migrationKeys[migrationKeys.length - 1])
+  })
+  it('is in sync with the test schema', () => {
+    expect(_persistConfig.version).toEqual(getLatestSchema().storeVersion)
   })
 })
