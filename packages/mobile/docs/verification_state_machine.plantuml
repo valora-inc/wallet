@@ -14,7 +14,7 @@ Preparing: balance for classic flow.
 
 state a <<choice>>
 state b <<choice>>
-Preparing -left-> a
+Preparing -left-> a 
 a -left-> Error: !sufficientBalance
 a --> b
 b --> EnsuringRealHumanUser
@@ -23,7 +23,7 @@ komenciAvailable
 AND
 !activeKomenciSession
 end note
-b --> FetchingPhoneNumberDetails
+b --> FetchingPhoneNumberDetails 
 note on link
 !komenciAvailable
 OR

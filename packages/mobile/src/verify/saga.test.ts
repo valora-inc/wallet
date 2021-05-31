@@ -1,19 +1,26 @@
+import { verifyWallet } from '@celo/komencikit/src/verifyWallet'
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import * as reduxSagaTestPlan from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, delay, select } from 'redux-saga/effects'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import networkConfig from 'src/geth/networkConfig'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
-import { updateE164PhoneNumberSalts } from 'src/identity/actions'
+import {
+  setVerificationStatus as setOldVerificationStatus,
+  updateE164PhoneNumberSalts,
+} from 'src/identity/actions'
 import { KomenciErrorQuotaExceeded } from 'src/identity/feelessVerificationErrors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { e164NumberToSaltSelector } from 'src/identity/reducer'
+import { VerificationStatus } from 'src/identity/types'
+import { BALANCE_CHECK_TIMEOUT, getActionableAttestations } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { waitFor } from 'src/redux/sagas-helpers'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
-import { fetchKomenciSession, getKomenciKit } from 'src/verify/komenci'
 import {
-  BALANCE_CHECK_TIMEOUT,
+  doVerificationFlow,
   e164NumberSelector,
   ensureRealHumanUser,
   fail,
@@ -23,36 +30,55 @@ import {
   isBalanceSufficientForSigRetrievalSelector,
   KomenciAvailable,
   komenciContextSelector,
+  overrideWithoutVerificationSelector,
   phoneHashSelector,
-  requestAttestations,
   setActionableAttestation,
   setKomenciAvailable,
+  setKomenciContext,
+  setOverrideWithoutVerification,
   setPhoneHash,
   setVerificationStatus,
   shouldUseKomenciSelector,
   start,
-} from 'src/verify/module'
+} from 'src/verify/reducer'
 import {
+  checkIfKomenciAvailableSaga,
   failSaga,
+  fetchKomenciReadiness,
+  fetchKomenciSession,
   fetchOnChainDataSaga,
+  fetchOrDeployMtwSaga,
   fetchPhoneNumberDetailsSaga,
-  getActionableAttestations,
-  getPhoneHashDetails,
+  getKomenciKit,
   resetSaga,
   startSaga,
 } from 'src/verify/saga'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
+import { registerWalletAndDekViaKomenci } from 'src/web3/dataEncryptionKey'
 import { getAccount, getConnectedUnlockedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
-import {
-  mockAccount,
-  mockAccount1,
-  mockActionableAttestations,
-  mockE164Number,
-  mockE164NumberHash,
-  mockE164NumberHashWithPepper,
-  mockE164NumberPepper,
-  mockKomenciContext,
-} from 'test/values'
+
+export const mockAccount = '0x0000000000000000000000000000000000007E57'
+export const mockAccount1 = '0x0000000000000000000000000000000000007E58'
+export const mockAccount2 = '0x0000000000000000000000000000000000007E59'
+export const mockKomenciContext = {
+  errorTimestamps: [],
+  unverifiedMtwAddress: null,
+  sessionActive: false,
+  sessionToken: '',
+  callbackUrl: undefined,
+  captchaToken: '',
+}
+export const mockE164Number = '+14155550000'
+export const mockPepper = 'pepper'
+export const mockPhoneHash = getPhoneHash(mockE164Number, mockPepper)
+
+const mockActionableAttestation = {
+  issuer: mockAccount2,
+  blockNumber: 1,
+  attestationServiceURL: 'https://example.com',
+  name: 'test validator',
+  version: '1.0.0',
+}
 
 const mockKomenciKit = {
   getDistributedBlindedPepper: jest.fn(),
@@ -62,12 +88,29 @@ const mockKomenciKit = {
 const mockAttestationsWrapper = {
   lookupAccountsForIdentifier: jest.fn(),
   getVerifiedStatus: jest.fn(),
-  getRevealStatus: jest.fn(),
-  getActionableAttestations: jest.fn(),
 }
+
+describe(checkIfKomenciAvailableSaga, () => {
+  it('sets komenci availability', async () => {
+    const contractKit = await getContractKitAsync()
+    const komenciKit = getKomenciKit(contractKit, mockAccount, mockKomenciContext)
+    await reduxSagaTestPlan
+      .expectSaga(checkIfKomenciAvailableSaga)
+      .provide([
+        [call(getContractKit), contractKit],
+        [call(getAccount), mockAccount],
+        [select(komenciContextSelector), mockKomenciContext],
+        [call(getKomenciKit, contractKit, mockAccount, mockKomenciContext), komenciKit],
+        [call(fetchKomenciReadiness, komenciKit), true],
+      ])
+      .put(setKomenciAvailable(KomenciAvailable.Yes))
+      .run()
+  })
+})
 
 describe(startSaga, () => {
   it('starts with Komenci active session', async () => {
+    const withoutRevealing = true
     const contractKit = await getContractKitAsync()
     const activeSessionMockKomenciContext = {
       ...mockKomenciContext,
@@ -75,9 +118,14 @@ describe(startSaga, () => {
     }
     const komenciKit = getKomenciKit(contractKit, mockAccount, activeSessionMockKomenciContext)
     await reduxSagaTestPlan
-      .expectSaga(startSaga)
+      .expectSaga(startSaga, { payload: withoutRevealing })
       .provide([
-        [call(navigate, Screens.VerificationLoadingScreen), null],
+        [
+          call(navigate, Screens.VerificationLoadingScreen, {
+            withoutRevealing,
+          }),
+          null,
+        ],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [call(unlockAccount, mockAccount, true), UnlockResult.SUCCESS],
@@ -95,12 +143,18 @@ describe(startSaga, () => {
   })
 
   it('starts with Komenci inactive session', async () => {
+    const withoutRevealing = true
     const contractKit = await getContractKitAsync()
     const komenciKit = getKomenciKit(contractKit, mockAccount, mockKomenciContext)
     await reduxSagaTestPlan
-      .expectSaga(startSaga)
+      .expectSaga(startSaga, { payload: withoutRevealing })
       .provide([
-        [call(navigate, Screens.VerificationLoadingScreen), null],
+        [
+          call(navigate, Screens.VerificationLoadingScreen, {
+            withoutRevealing,
+          }),
+          null,
+        ],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [call(unlockAccount, mockAccount, true), UnlockResult.SUCCESS],
@@ -115,12 +169,18 @@ describe(startSaga, () => {
   })
 
   it('disables Komenci if unrecoverable error has occured', async () => {
+    const withoutRevealing = true
     const contractKit = await getContractKitAsync()
     const komenciKit = getKomenciKit(contractKit, mockAccount, mockKomenciContext)
     await reduxSagaTestPlan
-      .expectSaga(startSaga)
+      .expectSaga(startSaga, { payload: { withoutRevealing } })
       .provide([
-        [call(navigate, Screens.VerificationLoadingScreen), null],
+        [
+          call(navigate, Screens.VerificationLoadingScreen, {
+            withoutRevealing,
+          }),
+          null,
+        ],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [call(unlockAccount, mockAccount, true), UnlockResult.SUCCESS],
@@ -134,16 +194,22 @@ describe(startSaga, () => {
         ],
       ])
       .put(setKomenciAvailable(KomenciAvailable.No))
-      .put(start({ e164Number: mockE164Number }))
+      .put(start({ e164Number: mockE164Number, withoutRevealing }))
       .run()
   })
 
   it('fails if komenci is disabled and balance fetch timeouts', async () => {
+    const withoutRevealing = true
     const contractKit = await getContractKitAsync()
     await reduxSagaTestPlan
-      .expectSaga(startSaga)
+      .expectSaga(startSaga, { payload: withoutRevealing })
       .provide([
-        [call(navigate, Screens.VerificationLoadingScreen), null],
+        [
+          call(navigate, Screens.VerificationLoadingScreen, {
+            withoutRevealing,
+          }),
+          null,
+        ],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [call(unlockAccount, mockAccount, true), UnlockResult.SUCCESS],
@@ -156,11 +222,17 @@ describe(startSaga, () => {
   })
 
   it('fails if komenci is disabled and balance is insufficient', async () => {
+    const withoutRevealing = true
     const contractKit = await getContractKitAsync()
     await reduxSagaTestPlan
-      .expectSaga(startSaga)
+      .expectSaga(startSaga, { payload: withoutRevealing })
       .provide([
-        [call(navigate, Screens.VerificationLoadingScreen), null],
+        [
+          call(navigate, Screens.VerificationLoadingScreen, {
+            withoutRevealing,
+          }),
+          null,
+        ],
         [call(waitFor, stableTokenBalanceSelector), 1],
         [call(waitFor, celoTokenBalanceSelector), 1],
         [delay(BALANCE_CHECK_TIMEOUT), true],
@@ -176,11 +248,17 @@ describe(startSaga, () => {
   })
 
   it('starts with Komenci disabled', async () => {
+    const withoutRevealing = true
     const contractKit = await getContractKitAsync()
     await reduxSagaTestPlan
-      .expectSaga(startSaga)
+      .expectSaga(startSaga, { payload: withoutRevealing })
       .provide([
-        [call(navigate, Screens.VerificationLoadingScreen), null],
+        [
+          call(navigate, Screens.VerificationLoadingScreen, {
+            withoutRevealing,
+          }),
+          null,
+        ],
         [call(waitFor, stableTokenBalanceSelector), 1],
         [call(waitFor, celoTokenBalanceSelector), 1],
         [delay(BALANCE_CHECK_TIMEOUT), true],
@@ -207,8 +285,8 @@ describe(fetchPhoneNumberDetailsSaga, () => {
         [call(unlockAccount, mockAccount, true), UnlockResult.SUCCESS],
         [select(e164NumberSelector), mockE164Number],
         [select(shouldUseKomenciSelector), true],
-        [select(phoneHashSelector), mockE164NumberHash],
-        [select(e164NumberToSaltSelector), { [mockE164Number]: mockE164NumberPepper }],
+        [select(phoneHashSelector), mockPhoneHash],
+        [select(e164NumberToSaltSelector), { [mockE164Number]: mockPepper }],
       ])
       .put(fetchMtw())
       .run()
@@ -225,10 +303,10 @@ describe(fetchPhoneNumberDetailsSaga, () => {
         [select(e164NumberSelector), mockE164Number],
         [select(shouldUseKomenciSelector), true],
         [select(phoneHashSelector), null],
-        [select(e164NumberToSaltSelector), { [mockE164Number]: mockE164NumberPepper }],
+        [select(e164NumberToSaltSelector), { [mockE164Number]: mockPepper }],
       ])
       .put(fetchMtw())
-      .put(setPhoneHash(mockE164NumberHashWithPepper))
+      .put(setPhoneHash(mockPhoneHash))
       .run()
   })
 
@@ -237,7 +315,7 @@ describe(fetchPhoneNumberDetailsSaga, () => {
     const komenciKit = mockKomenciKit // getKomenciKit(contractKit, mockAccount, mockKomenciContext)
     ;(komenciKit.getDistributedBlindedPepper as jest.Mock).mockReturnValueOnce({
       ok: true,
-      result: { pepper: mockE164NumberPepper },
+      result: { pepper: mockPepper },
     })
     await reduxSagaTestPlan
       .expectSaga(fetchPhoneNumberDetailsSaga)
@@ -252,8 +330,8 @@ describe(fetchPhoneNumberDetailsSaga, () => {
         [call(getKomenciKit, contractKit, mockAccount, mockKomenciContext), komenciKit],
         [select(komenciContextSelector), mockKomenciContext],
       ])
-      .put(updateE164PhoneNumberSalts({ [mockE164Number]: mockE164NumberPepper }))
-      .put(setPhoneHash(mockE164NumberHashWithPepper))
+      .put(updateE164PhoneNumberSalts({ [mockE164Number]: mockPepper }))
+      .put(setPhoneHash(mockPhoneHash))
       .put(fetchMtw())
       .run()
   })
@@ -272,12 +350,12 @@ describe(fetchPhoneNumberDetailsSaga, () => {
         [select(e164NumberToSaltSelector), {}],
         [
           call(fetchPhoneHashPrivate, mockE164Number),
-          { pepper: mockE164NumberPepper, phoneHash: mockE164NumberHashWithPepper },
+          { pepper: mockPepper, phoneHash: mockPhoneHash },
         ],
         [select(komenciContextSelector), mockKomenciContext],
       ])
-      .put(updateE164PhoneNumberSalts({ [mockE164Number]: mockE164NumberPepper }))
-      .put(setPhoneHash(mockE164NumberHashWithPepper))
+      .put(updateE164PhoneNumberSalts({ [mockE164Number]: mockPepper }))
+      .put(setPhoneHash(mockPhoneHash))
       .put(fetchOnChainData())
       .run()
   })
@@ -302,6 +380,197 @@ describe(fetchPhoneNumberDetailsSaga, () => {
   })
 })
 
+describe(fetchOrDeployMtwSaga, () => {
+  it('fails on multiple verified addresses', async () => {
+    const contractKit = await getContractKitAsync()
+    const komenciKit = getKomenciKit(contractKit, mockAccount, mockKomenciContext)
+    ;(mockAttestationsWrapper.lookupAccountsForIdentifier as jest.Mock).mockReturnValue(['0', '1'])
+    ;(mockAttestationsWrapper.getVerifiedStatus as jest.Mock).mockReturnValue({
+      isVerified: true,
+    })
+    await reduxSagaTestPlan
+      .expectSaga(fetchOrDeployMtwSaga)
+      .provide([
+        [select(e164NumberSelector), mockE164Number],
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(komenciContextSelector), mockKomenciContext],
+        [call(getKomenciKit, contractKit, mockAccount, mockKomenciContext), komenciKit],
+        [select(shouldUseKomenciSelector), false],
+        [select(phoneHashSelector), mockPhoneHash],
+        [
+          call([contractKit.contracts, contractKit.contracts.getAttestations]),
+          mockAttestationsWrapper,
+        ],
+        [
+          call(
+            verifyWallet,
+            contractKit,
+            '0',
+            networkConfig.allowedMtwImplementations,
+            mockAccount
+          ),
+          { ok: true },
+        ],
+        [
+          call(
+            verifyWallet,
+            contractKit,
+            '1',
+            networkConfig.allowedMtwImplementations,
+            mockAccount
+          ),
+          { ok: true },
+        ],
+      ])
+      .put(
+        fail('More than one verified MTW with walletAddress as signer found. Should never happen')
+      )
+      .run()
+  })
+
+  it('succeeds for fresh new account', async () => {
+    const contractKit = await getContractKitAsync()
+    ;(mockAttestationsWrapper.lookupAccountsForIdentifier as jest.Mock).mockReturnValue([])
+    ;(mockAttestationsWrapper.getVerifiedStatus as jest.Mock).mockReturnValue({
+      isVerified: true,
+    })
+    ;(mockKomenciKit.deployWallet as jest.Mock).mockReturnValue({ ok: true, result: mockAccount1 })
+    const mockKomenciContextActive = {
+      ...mockKomenciContext,
+      sessionActive: true,
+    }
+    const mockVerifyWallet = jest.fn()
+    ;(mockVerifyWallet as jest.Mock).mockReturnValueOnce({
+      ok: true,
+    })
+    const mockRegisterWalletAndDekViaKomenci = jest.fn()
+    await reduxSagaTestPlan
+      .expectSaga(fetchOrDeployMtwSaga)
+      .provide([
+        [select(e164NumberSelector), mockE164Number],
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(komenciContextSelector), mockKomenciContextActive],
+        [call(getKomenciKit, contractKit, mockAccount, mockKomenciContextActive), mockKomenciKit],
+        [select(phoneHashSelector), mockPhoneHash],
+        [
+          call([contractKit.contracts, contractKit.contracts.getAttestations]),
+          mockAttestationsWrapper,
+        ],
+        {
+          call: ({ fn }, next) => (fn === verifyWallet ? mockVerifyWallet() : next()),
+        },
+        {
+          call: ({ fn }, next) =>
+            fn === registerWalletAndDekViaKomenci ? mockRegisterWalletAndDekViaKomenci() : next(),
+        },
+      ])
+      .put(setKomenciContext({ unverifiedMtwAddress: mockAccount1 }))
+      .put(fetchOnChainData())
+      .run()
+    expect(mockRegisterWalletAndDekViaKomenci.mock.calls.length).toBe(1)
+  })
+
+  it('succeeds for already cached unverified MTW address', async () => {
+    const contractKit = await getContractKitAsync()
+    const komenciKit = getKomenciKit(contractKit, mockAccount, mockKomenciContext)
+    ;(mockAttestationsWrapper.lookupAccountsForIdentifier as jest.Mock).mockReturnValue([
+      mockAccount1,
+    ])
+    const mockKomenciContextWithUnverifiedMtwAddress = {
+      ...mockKomenciContext,
+      unverifiedMtwAddress: mockAccount1,
+      sessionActive: true,
+    }
+    const mockVerifyWallet = jest.fn()
+    ;(mockVerifyWallet as jest.Mock).mockReturnValueOnce({
+      ok: false,
+    })
+    ;(mockVerifyWallet as jest.Mock).mockReturnValueOnce({
+      ok: true,
+    })
+    const mockRegisterWalletAndDekViaKomenci = jest.fn()
+    await reduxSagaTestPlan
+      .expectSaga(fetchOrDeployMtwSaga)
+      .provide([
+        [select(e164NumberSelector), mockE164Number],
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(komenciContextSelector), mockKomenciContextWithUnverifiedMtwAddress],
+        [
+          call(getKomenciKit, contractKit, mockAccount, mockKomenciContextWithUnverifiedMtwAddress),
+          komenciKit,
+        ],
+        [select(phoneHashSelector), mockPhoneHash],
+        [
+          call([contractKit.contracts, contractKit.contracts.getAttestations]),
+          mockAttestationsWrapper,
+        ],
+        {
+          call: ({ fn }, next) => (fn === verifyWallet ? mockVerifyWallet() : next()),
+        },
+        {
+          call: ({ fn }, next) =>
+            fn === registerWalletAndDekViaKomenci ? mockRegisterWalletAndDekViaKomenci() : next(),
+        },
+      ])
+      .put(setKomenciContext({ unverifiedMtwAddress: mockAccount1 }))
+      .put(fetchOnChainData())
+      .run()
+    expect(mockRegisterWalletAndDekViaKomenci.mock.calls.length).toBe(1)
+  })
+
+  it('succeeds if already deployed wallet is a valid MTW', async () => {
+    const contractKit = await getContractKitAsync()
+    const komenciKit = getKomenciKit(contractKit, mockAccount, mockKomenciContext)
+    ;(mockAttestationsWrapper.lookupAccountsForIdentifier as jest.Mock).mockReturnValue([
+      mockAccount1,
+    ])
+    ;(mockAttestationsWrapper.getVerifiedStatus as jest.Mock).mockReturnValue({
+      isVerified: true,
+    })
+
+    await reduxSagaTestPlan
+      .expectSaga(fetchOrDeployMtwSaga)
+      .provide([
+        [select(e164NumberSelector), mockE164Number],
+        [call(getContractKit), contractKit],
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [select(komenciContextSelector), mockKomenciContext],
+        [call(getKomenciKit, contractKit, mockAccount, mockKomenciContext), komenciKit],
+        [select(shouldUseKomenciSelector), false],
+        [select(phoneHashSelector), mockPhoneHash],
+        [
+          call([contractKit.contracts, contractKit.contracts.getAttestations]),
+          mockAttestationsWrapper,
+        ],
+        [
+          call(
+            verifyWallet,
+            contractKit,
+            mockAccount1,
+            networkConfig.allowedMtwImplementations,
+            mockAccount
+          ),
+          { ok: true },
+        ],
+      ])
+      .put(
+        setKomenciContext({
+          unverifiedMtwAddress: mockAccount1,
+        })
+      )
+      .put(
+        setVerificationStatus({
+          isVerified: true,
+        })
+      )
+      .put(doVerificationFlow(true))
+      .run()
+  })
+})
+
 describe(fetchOnChainDataSaga, () => {
   it('succeeds with Komenci enabled', async () => {
     const contractKit = await getContractKitAsync()
@@ -314,7 +583,7 @@ describe(fetchOnChainDataSaga, () => {
       sessionActive: true,
     }
     const mockGetActionableAttestations = jest.fn()
-    mockGetActionableAttestations.mockReturnValue(mockActionableAttestations)
+    mockGetActionableAttestations.mockReturnValue([mockActionableAttestation])
 
     await reduxSagaTestPlan
       .expectSaga(fetchOnChainDataSaga)
@@ -322,8 +591,9 @@ describe(fetchOnChainDataSaga, () => {
         [select(e164NumberSelector), mockE164Number],
         [call(getContractKit), contractKit],
         [select(komenciContextSelector), mockKomenciContextWithUnverifiedMtwAddress],
+        [select(overrideWithoutVerificationSelector), true],
         [select(shouldUseKomenciSelector), true],
-        [select(phoneHashSelector), mockE164NumberHash],
+        [select(phoneHashSelector), mockPhoneHash],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
           mockAttestationsWrapper,
@@ -333,13 +603,14 @@ describe(fetchOnChainDataSaga, () => {
             fn === getActionableAttestations ? mockGetActionableAttestations() : next(),
         },
       ])
-      .put(setActionableAttestation(mockActionableAttestations))
+      .put(setActionableAttestation([mockActionableAttestation]))
+      .put(setOverrideWithoutVerification(undefined))
       .put(
         setVerificationStatus({
           isVerified: false,
         })
       )
-      .put(requestAttestations())
+      .put(doVerificationFlow(true))
       .run()
   })
 
@@ -354,7 +625,7 @@ describe(fetchOnChainDataSaga, () => {
       sessionActive: true,
     }
     const mockGetActionableAttestations = jest.fn()
-    mockGetActionableAttestations.mockReturnValue(mockActionableAttestations)
+    mockGetActionableAttestations.mockReturnValue([mockActionableAttestation])
 
     await reduxSagaTestPlan
       .expectSaga(fetchOnChainDataSaga)
@@ -362,8 +633,9 @@ describe(fetchOnChainDataSaga, () => {
         [select(e164NumberSelector), mockE164Number],
         [call(getContractKit), contractKit],
         [select(komenciContextSelector), mockKomenciContextWithUnverifiedMtwAddress],
+        [select(overrideWithoutVerificationSelector), true],
         [select(shouldUseKomenciSelector), false],
-        [select(phoneHashSelector), mockE164NumberHash],
+        [select(phoneHashSelector), mockPhoneHash],
         [call(getAccount), mockAccount],
         [
           call([contractKit.contracts, contractKit.contracts.getAttestations]),
@@ -374,13 +646,14 @@ describe(fetchOnChainDataSaga, () => {
             fn === getActionableAttestations ? mockGetActionableAttestations() : next(),
         },
       ])
-      .put(setActionableAttestation(mockActionableAttestations))
+      .put(setActionableAttestation([mockActionableAttestation]))
+      .put(setOverrideWithoutVerification(undefined))
       .put(
         setVerificationStatus({
           isVerified: false,
         })
       )
-      .put(requestAttestations())
+      .put(doVerificationFlow(true))
       .run()
   })
   it('emits fail event if something goes wrong', async () => {
@@ -406,25 +679,7 @@ describe(failSaga, () => {
   it('set verification status to failed', async () => {
     await reduxSagaTestPlan
       .expectSaga(failSaga, 'test')
-      .provide([[select(shouldUseKomenciSelector), true]])
-      .run()
-  })
-})
-
-describe(getPhoneHashDetails, () => {
-  it('succeeds', async () => {
-    await reduxSagaTestPlan
-      .expectSaga(getPhoneHashDetails)
-      .provide([
-        [select(e164NumberToSaltSelector), { [mockE164Number]: mockE164NumberPepper }],
-        [select(phoneHashSelector), mockE164NumberHash],
-        [select(e164NumberSelector), mockE164Number],
-      ])
-      .returns({
-        e164Number: mockE164Number,
-        phoneHash: mockE164NumberHash,
-        pepper: mockE164NumberPepper,
-      })
+      .put(setOldVerificationStatus(VerificationStatus.Failed))
       .run()
   })
 })
