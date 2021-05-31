@@ -31,7 +31,6 @@ import {
   revealStatusesSelector,
   setActionableAttestation,
   shouldUseKomenciSelector,
-  startKomenciSession,
   verificationStatusSelector,
 } from 'src/verify/module'
 import {
@@ -113,12 +112,9 @@ export function* requestAttestationsSaga() {
       feeless: shouldUseKomenci,
     })
     yield put(revealAttestations())
-  } catch (e) {
-    if (shouldUseKomenci) {
-      yield put(startKomenciSession())
-    } else {
-      yield put(fail(e.message))
-    }
+  } catch (error) {
+    // The error will be caught by the error handler
+    throw error
   }
 }
 
