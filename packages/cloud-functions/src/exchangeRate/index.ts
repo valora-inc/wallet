@@ -94,5 +94,5 @@ function writeExchangeRatePair(
 }
 
 export const updateExchangeRates = functions.pubsub
-  .schedule('*/30 * * * *')
+  .schedule('*/30 * * * *') // every 30 mins
   .onRun(handleExchangeQuery)
