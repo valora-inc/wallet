@@ -192,12 +192,6 @@ export const migrations = {
   11: (state: any) => {
     return {
       ...state,
-      verify: _.omit(
-        state.verify,
-        'TEMPORARY_override_withoutVerification',
-        'withoutRevealing',
-        'retries'
-      ),
       app: _.omit(state.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     }
   },
@@ -208,6 +202,32 @@ export const migrations = {
       exchange: {
         ...state.exchange,
         history: { ...exchangeInitialState.history },
+      },
+    }
+  },
+  13: (state: any) => {
+    return {
+      ...state,
+      identity: {
+        ..._.omit(
+          state.identity,
+          'attestationCodes',
+          'acceptedAttestationCodes',
+          'attestationInputStatus',
+          'numCompleteAttestations',
+          'verificationStatus',
+          'hasSeenVerificationNux',
+          'lastRevealAttempt'
+        ),
+      },
+      verify: {
+        ..._.omit(
+          state.verify,
+          'TEMPORARY_override_withoutVerification',
+          'withoutRevealing',
+          'retries'
+        ),
+        seenVerificationNux: state.identity.hasSeenVerificationNux ?? false,
       },
     }
   },
