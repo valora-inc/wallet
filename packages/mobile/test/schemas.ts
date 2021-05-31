@@ -592,6 +592,22 @@ export const v9Schema = {
   },
 }
 
+export const v10Schema = {
+  ...v9Schema,
+  identity: {
+    ..._.omit(
+      v9Schema.identity,
+      'attestationCodes',
+      'acceptedAttestationCodes',
+      'attestationInputStatus',
+      'numCompleteAttestations',
+      'verificationStatus',
+      'hasSeenVerificationNux',
+      'lastRevealAttempt'
+    ),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v9Schema as Partial<RootState>
+  return v10Schema as Partial<RootState>
 }
