@@ -24,7 +24,7 @@ export const noHeaderGestureDisabled: StackNavigationOptions = {
   gestureEnabled: false,
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   headerTitle: {
     ...fontStyles.navigationHeader,
   },
