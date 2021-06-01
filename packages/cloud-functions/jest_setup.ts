@@ -40,5 +40,8 @@ jest.mock('firebase-functions', () => ({
     blockchain_api: {
       url: 'blockchain.api.com',
     },
+    full_node: {
+      url: 'forno.celo.org',
+    },
   })),
 }))
