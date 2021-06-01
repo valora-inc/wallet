@@ -8,6 +8,7 @@
   "continue": "Continuar",
   "connect": "Conectar",
   "save": "Salvar",
+  "scan": "Escanear",
   "next": "Próximo",
   "skip": "Pular",
   "copy": "Copiar",
@@ -192,7 +193,8 @@
   "firebaseFetchFailed": "A conexão com o servidor falhou",
   "pictureLoadFailed": "Ocorreu um erro ao carregar sua imagem",
   "simplexPurchaseFetchFailed": "Ocorreu um erro ao recuperar a cotação do Simplex. Tente novamente mais tarde",
-  "providerUrlFetchFailed": "Não foi possível conectar ao serviço. Entre em contato o suporte",
+  "providerFetchFailed": "Não foi possível conectar ao serviço. Entre em contato o suporte",
   "ok": "OK",
-  "cashOutLimitExceeded": "Você não pode sacar mais do que o seu saldo de {{currency}} {{balance}}"
+  "cashOutLimitExceeded": "Você não pode sacar mais do que o seu saldo de {{currency}} {{balance}}",
+  "appDescription": "Uma conta de pagamentos móveis que funciona em todo o mundo"
 }

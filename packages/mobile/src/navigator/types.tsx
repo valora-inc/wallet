@@ -12,7 +12,6 @@ import { CurrencyCode } from 'src/config'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -67,7 +66,7 @@ export type StackParamList = {
         navigatedFromSettings: boolean
       }
   [Screens.BidaliScreen]: { currency: CURRENCY_ENUM }
-  [Screens.CashInSuccess]: { provider?: CicoProviderNames }
+  [Screens.CashInSuccess]: { provider?: string }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountAuth]: {
     dappKitRequest: AccountAuthRequest
@@ -215,12 +214,12 @@ export type StackParamList = {
   [Screens.SelectLocalCurrency]: undefined
   [Screens.Send]:
     | {
-        isOutgoingPaymentRequest?: true
+        isOutgoingPaymentRequest?: boolean
       }
     | undefined
   [Screens.SendAmount]: {
     recipient: Recipient
-    isOutgoingPaymentRequest?: true
+    isOutgoingPaymentRequest?: boolean
     isFromScan?: boolean
     origin: SendOrigin
   }
@@ -262,7 +261,7 @@ export type StackParamList = {
     | { showSkipDialog?: boolean; hideOnboardingStep?: boolean; selectedCountryCodeAlpha2?: string }
     | undefined
   [Screens.VerificationInputScreen]: { showHelpDialog: boolean } | undefined
-  [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
+  [Screens.VerificationLoadingScreen]: undefined
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectSessionRequest]: {
@@ -298,7 +297,7 @@ export type QRTabParamList = {
     | {
         scanIsForSecureSend?: true
         transactionData?: TransactionDataInput
-        isOutgoingPaymentRequest?: true
+        isOutgoingPaymentRequest?: boolean
         requesterAddress?: string
       }
     | undefined

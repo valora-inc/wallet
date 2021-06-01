@@ -11,6 +11,11 @@ export enum AppEvents {
   fetch_balance_error = 'fetch_balance_error',
   redux_keychain_mismatch = 'redux_keychain_mismatch',
   redux_store_recovery_success = 'redux_store_recovery_success',
+  push_notification_opened = 'push_notification_opened',
+
+  request_tracking_permission_started = 'request_tracking_permission_started',
+  request_tracking_permission_declined = 'request_tracking_permission_declined',
+  request_tracking_permission_accepted = 'request_tracking_permission_accepted',
 }
 
 export enum HomeEvents {

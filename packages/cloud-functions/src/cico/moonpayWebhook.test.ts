@@ -1,6 +1,6 @@
 import { saveTxHashProvider } from '../firebase'
 import { moonpayWebhook } from './moonpayWebhook'
-import { Provider } from './Provider'
+import { Providers } from './Providers'
 
 const mockVerify = jest.fn()
 
@@ -44,7 +44,7 @@ describe('Moonpay cash in', () => {
 
     expect(response.status).toHaveBeenCalledWith(204)
     expect(saveTxHashProvider).toHaveBeenCalledTimes(1)
-    expect(saveTxHashProvider).toHaveBeenCalledWith('0x123', '0x456', Provider.Moonpay)
+    expect(saveTxHashProvider).toHaveBeenCalledWith('0x123', '0x456', Providers.Moonpay)
   })
 
   it('POST /moonpay - wrong signature', async () => {

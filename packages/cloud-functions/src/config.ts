@@ -32,7 +32,10 @@ export const XANPOOL_DATA = {
   widget_url: config.xanpool.widget_url,
   public_key: config.xanpool.public_key,
   private_key: config.xanpool.private_key,
+  supported_currencies: ['IDR', 'VND', 'SGD', 'HKD', 'TBH', 'INR', 'MYR', 'PHP'],
 }
+
+export const FULL_NODE_URL = config.full_node.url
 
 export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
@@ -44,7 +47,7 @@ export const CASH_IN_SUCCESS_URL = 'https://valoraapp.com/?done=true'
 
 export const BIGQUERY_PROVIDER_STATUS_TABLE = 'cico_provider_status'
 
-export enum LocalCurrencyCode {
+export enum FiatCurrency {
   USD = 'USD',
   CAD = 'CAD',
   EUR = 'EUR',
@@ -62,7 +65,9 @@ export enum LocalCurrencyCode {
   AUD = 'AUD',
 }
 
-export enum CurrencyCode {
+export enum DigitalAsset {
   CELO = 'CELO',
   CUSD = 'CUSD',
 }
+
+export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds

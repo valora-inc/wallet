@@ -1,59 +1,47 @@
 import * as React from 'react'
 import 'react-native'
 import { render } from 'react-native-testing-library'
+import { Provider } from 'react-redux'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
+import { createMockStore } from 'test/utils'
 import { mockAttestationMessage } from 'test/values'
 
-describe('VerificationCodeRow', () => {
-  it('renders correctly for input', () => {
-    const { toJSON } = render(
-      <VerificationCodeInput
-        shortVerificationCodesEnabled={false}
-        label="Test label"
-        index={0}
-        inputValue={mockAttestationMessage.code}
-        inputPlaceholder="Test placeholder"
-        inputPlaceholderWithClipboardContent="Test clipboard"
-        onInputChange={jest.fn()}
-        isCodeSubmitting={true}
-        attestationCodes={[]}
-        numCompleteAttestations={0}
-      />
-    )
-    expect(toJSON()).toMatchSnapshot()
+// TODO: Add better tests for this
+describe('VerificationCodeInput', () => {
+  const store = createMockStore({
+    verify: {
+      attestationCodes: [
+        { code: 'longCode', shortCode: '1', issuer: '10' },
+        { code: 'longCode2', shortCode: '2', issuer: '20' },
+      ],
+      acceptedAttestationCodes: [{ code: 'longCode', shortCode: '1', issuer: '10' }],
+      attestationInputStatus: [
+        CodeInputStatus.Accepted,
+        CodeInputStatus.Processing,
+        CodeInputStatus.Inputting,
+      ],
+    },
   })
-  it('renders correctly for accepted code', () => {
-    const { toJSON } = render(
-      <VerificationCodeInput
-        shortVerificationCodesEnabled={false}
-        label="Test label"
-        index={0}
-        inputValue={mockAttestationMessage.code}
-        inputPlaceholder="Test placeholder"
-        inputPlaceholderWithClipboardContent="Test clipboard"
-        onInputChange={jest.fn()}
-        isCodeSubmitting={true}
-        attestationCodes={[mockAttestationMessage]}
-        numCompleteAttestations={1}
-      />
+
+  function renderInput() {
+    return render(
+      <Provider store={store}>
+        <VerificationCodeInput
+          shortVerificationCodesEnabled={false}
+          label="Test label"
+          index={0}
+          inputValue={mockAttestationMessage.code}
+          inputPlaceholder="Test placeholder"
+          inputPlaceholderWithClipboardContent="Test clipboard"
+          onInputChange={jest.fn()}
+        />
+      </Provider>
     )
-    expect(toJSON()).toMatchSnapshot()
-  })
-  it('renders correctly with short codes', () => {
-    const { toJSON } = render(
-      <VerificationCodeInput
-        shortVerificationCodesEnabled={true}
-        label="Test label"
-        index={0}
-        inputValue={mockAttestationMessage.code}
-        inputPlaceholder="Test placeholder"
-        inputPlaceholderWithClipboardContent="Test clipboard"
-        onInputChange={jest.fn()}
-        isCodeSubmitting={true}
-        attestationCodes={[]}
-        numCompleteAttestations={0}
-      />
-    )
+  }
+
+  it('renders correctly', () => {
+    const { toJSON } = renderInput()
     expect(toJSON()).toMatchSnapshot()
   })
 })

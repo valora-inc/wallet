@@ -10,18 +10,19 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
+import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import {
-  fetchSimplexQuote,
+  fetchProviders,
   fetchUserLocationData,
-  getProviderAvailability,
+  SimplexQuote,
   sortProviders,
 } from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
@@ -35,32 +36,27 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
+import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
+
+const TAG = 'ProviderOptionsScreen'
 
 type Props = StackScreenProps<StackParamList, Screens.ProviderOptionsScreen>
 
-ProviderOptionsScreen.navigationOptions = ({
-  route,
-}: {
-  route: RouteProp<StackParamList, Screens.ProviderOptionsScreen>
-}) => {
-  const eventName = route.params?.isCashIn
-    ? FiatExchangeEvents.cico_add_funds_select_provider_back
-    : FiatExchangeEvents.cico_cash_out_select_provider_back
-
-  return {
-    ...emptyHeader,
-    headerLeft: () => <BackButton eventName={eventName} />,
-    headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
-  }
-}
 export interface CicoProvider {
-  id: CicoProviderNames
+  name: string
   restricted: boolean
   unavailable?: boolean
   paymentMethods: PaymentMethod[]
-  image?: React.ReactNode
-  onSelected: () => void
+  url?: string
+  logo: string
+  quote?: SimplexQuote
+  cashIn: boolean
+  cashOut: boolean
+}
+
+export enum IntegratedCicoProviders {
+  Simplex = 'Simplex',
 }
 
 function ProviderOptionsScreen({ route, navigation }: Props) {
@@ -105,100 +101,82 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const asyncUserLocation = useAsync(async () => fetchUserLocationData(countryCallingCode), [])
   const userLocation = asyncUserLocation.result
 
-  const asyncProviderQuotes = useAsync(async () => {
-    if (!account || !userLocation?.ipAddress || !isFocused) {
+  const asyncProviders = useAsync(async () => {
+    if (!userLocation) {
+      // Logger.error is returning a strange output so using console.error instead
+      console.error(TAG, 'User location not yet set')
       return
     }
 
-    const simplexQuote = await fetchSimplexQuote(
-      account,
-      userLocation.ipAddress,
-      currencyToBuy,
-      localCurrency,
-      route.params.amount.crypto,
-      false
-    )
+    if (!isFocused) {
+      console.error(TAG, 'Screen is not in focus')
+      return
+    }
 
-    return { simplexQuote }
-  }, [userLocation?.ipAddress, isFocused])
+    if (!account) {
+      console.error(TAG, 'No account set')
+      return
+    }
 
-  const providerQuotes = asyncProviderQuotes.result
+    if (!route.params.amount.fiat && !route.params.amount.crypto) {
+      console.error(TAG, 'No fiat or crypto purchase amount set')
+      return
+    }
 
-  const {
-    MOONPAY_RESTRICTED,
-    SIMPLEX_RESTRICTED,
-    RAMP_RESTRICTED,
-    TRANSAK_RESTRICTED,
-    XANPOOL_RESTRICTED,
-  } = getProviderAvailability(userLocation)
+    try {
+      const providers = await fetchProviders({
+        userLocation,
+        walletAddress: account,
+        fiatCurrency: localCurrency,
+        digitalAsset: currencyToBuy,
+        fiatAmount: route.params.amount.fiat,
+        digitalAssetAmount: route.params.amount.crypto,
+      })
+      return providers
+    } catch (error) {
+      dispatch(showError(ErrorMessages.PROVIDER_FETCH_FAILED))
+    }
+  }, [userLocation, isFocused])
 
-  const providerWidgetInputs = {
-    localAmount: route.params.amount.fiat,
-    currencyCode: localCurrency,
-    currencyToBuy,
-  }
+  const activeProviders = asyncProviders.result
 
-  const xanpool = {
-    id: CicoProviderNames.Xanpool,
-    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-    restricted: XANPOOL_RESTRICTED,
-    onSelected: () => navigate(Screens.XanpoolScreen, providerWidgetInputs),
-  }
-
-  const moonpay = {
-    id: CicoProviderNames.Moonpay,
-    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-    restricted: MOONPAY_RESTRICTED,
-    onSelected: () => navigate(Screens.MoonPayScreen, providerWidgetInputs),
-  }
-
-  const simplex = {
-    id: CicoProviderNames.Simplex,
-    paymentMethods: [PaymentMethod.Card],
-    restricted: SIMPLEX_RESTRICTED,
-    unavailable: !providerQuotes?.simplexQuote,
-    onSelected: () => {
-      if (providerQuotes?.simplexQuote && userLocation?.ipAddress) {
-        navigate(Screens.Simplex, {
-          simplexQuote: providerQuotes?.simplexQuote,
-          userIpAddress: userLocation.ipAddress,
-        })
-      }
-    },
-  }
-
-  const ramp = {
-    id: CicoProviderNames.Ramp,
-    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-    restricted: RAMP_RESTRICTED,
-    onSelected: () => navigate(Screens.RampScreen, providerWidgetInputs),
-  }
-
-  const transak = {
-    id: CicoProviderNames.Transak,
-    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
-    restricted: TRANSAK_RESTRICTED,
-    onSelected: () => navigate(Screens.TransakScreen, providerWidgetInputs),
-  }
-
-  const providers: {
+  const cicoProviders: {
     cashOut: CicoProvider[]
     cashIn: CicoProvider[]
   } = {
-    cashOut: [xanpool].sort(sortProviders),
-    cashIn: [moonpay, simplex, xanpool, ramp, transak].sort(sortProviders),
+    cashOut: activeProviders?.filter((provider) => provider.cashOut).sort(sortProviders) || [],
+    cashIn: activeProviders?.filter((provider) => provider.cashIn).sort(sortProviders) || [],
   }
 
   const providerOnPress = (provider: CicoProvider) => () => {
+    if (provider.unavailable) {
+      return
+    }
+
     ValoraAnalytics.track(FiatExchangeEvents.provider_chosen, {
       isCashIn,
-      provider: provider.id,
+      provider: provider.name,
     })
-    dispatch(selectProvider(provider.id))
-    provider.onSelected()
+
+    dispatch(selectProvider(provider.name))
+
+    if (provider.name === IntegratedCicoProviders.Simplex) {
+      if (provider.quote && userLocation?.ipAddress) {
+        navigate(Screens.Simplex, {
+          simplexQuote: provider.quote,
+          userIpAddress: userLocation.ipAddress,
+        })
+      }
+      return
+    }
+
+    if (provider.url) {
+      navigateToURI(provider.url)
+      return
+    }
   }
 
-  return !userLocation || asyncProviderQuotes.status === 'loading' ? (
+  return !userLocation || asyncProviders.status === 'loading' ? (
     <View style={styles.activityIndicatorContainer}>
       <ActivityIndicator size="large" color={colors.greenBrand} />
     </View>
@@ -207,9 +185,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       <SafeAreaView style={styles.content}>
         <Text style={styles.pleaseSelectProvider}>{t('pleaseSelectProvider')}</Text>
         <View style={styles.providersContainer}>
-          {providers[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
-            <ListItem key={provider.id} onPress={providerOnPress(provider)}>
-              <View style={styles.providerListItem} testID={`Provider/${provider.id}`}>
+          {cicoProviders[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
+            <ListItem key={provider.name} onPress={providerOnPress(provider)}>
+              <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
                 <View style={styles.providerTextContainer}>
                   <Text
                     style={[
@@ -217,7 +195,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                       provider.unavailable ? { color: colors.gray4 } : null,
                     ]}
                   >
-                    {provider.id}
+                    {provider.name}
                   </Text>
                   {provider.unavailable && (
                     <Text style={styles.restrictedText}>{t('providerUnavailable')}</Text>
@@ -252,6 +230,22 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       </SafeAreaView>
     </ScrollView>
   )
+}
+
+ProviderOptionsScreen.navigationOptions = ({
+  route,
+}: {
+  route: RouteProp<StackParamList, Screens.ProviderOptionsScreen>
+}) => {
+  const eventName = route.params?.isCashIn
+    ? FiatExchangeEvents.cico_add_funds_select_provider_back
+    : FiatExchangeEvents.cico_cash_out_select_provider_back
+
+  return {
+    ...emptyHeader,
+    headerLeft: () => <BackButton eventName={eventName} />,
+    headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
+  }
 }
 
 export default ProviderOptionsScreen
