@@ -9,7 +9,7 @@ import {
   shouldUseKomenciSelector,
   verificationStatusSelector,
 } from 'src/verify/module'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { accountAddressSelector, currentAccountSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
