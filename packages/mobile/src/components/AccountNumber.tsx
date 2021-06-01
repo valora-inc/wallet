@@ -41,39 +41,42 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
   // Turns '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'
   // into 'ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10'
   const addressChunks = getAddressChunks(address)
+  const addressString = '0x ' + addressChunks.reduce((x, y) => x + ' ' + y)
 
-  const formattedAddress = (
-    <>
-      <View style={[styles.line]}>
-        <View style={[styles.miniChunk]}>
-          <Text style={[styles.text]}>0x</Text>
-        </View>
-        {addressChunks.slice(0, 5).map((chunk, i) => (
-          <View key={i} style={[styles.chunk]}>
-            <Text style={[styles.text]}>{chunk}</Text>
-          </View>
-        ))}
-      </View>
-      <View style={[styles.line]}>
-        <View style={[styles.miniChunk]} />
-        {addressChunks.slice(5).map((chunk, i) => (
-          <View key={i} style={[styles.chunk]}>
-            <Text style={[styles.text]}>{chunk}</Text>
-          </View>
-        ))}
-      </View>
-    </>
-  )
+  // const formattedAddress = (
+  //   <>
+  //     <View style={[styles.line]}>
+  //       <View style={[styles.miniChunk]}>
+  //         <Text style={[styles.text]}>0x</Text>
+  //       </View>
+  //       {addressChunks.slice(0, 5).map((chunk, i) => (
+  //         <View key={i} style={[styles.chunk]}>
+  //           <Text style={[styles.text]}>{chunk}</Text>
+  //         </View>
+  //       ))}
+  //     </View>
+  //     <View style={[styles.line]}>
+  //       <View style={[styles.miniChunk]} />
+  //       {addressChunks.slice(5).map((chunk, i) => (
+  //         <View key={i} style={[styles.chunk]}>
+  //           <Text style={[styles.text]}>{chunk}</Text>
+  //         </View>
+  //       ))}
+  //     </View>
+  //   </>
+  // )
 
   return touchDisabled ? (
-    <View style={styles.container}>{formattedAddress}</View>
+    <View style={styles.container}>
+      <Text style={styles.text}>{addressString}</Text>
+    </View>
   ) : (
     <TouchableOpacity
       style={styles.container}
       onLongPress={onPressAddress}
       onPress={onPressAddress}
     >
-      {formattedAddress}
+      <Text style={styles.text}>{addressString}</Text>
     </TouchableOpacity>
   )
 }
@@ -89,6 +92,7 @@ const styles = StyleSheet.create({
   text: {
     ...fontStyles.small,
     color: colors.gray4,
+    marginVertical: 8,
   },
   miniChunk: {
     width: 23,
