@@ -1,4 +1,4 @@
-import { DigitalAsset, FETCH_TIMEOUT_DURATION, XANPOOL_DATA } from '../config'
+import { DigitalAsset, XANPOOL_DATA } from '../config'
 import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
 import { fetchLocalCurrencyAndExchangeRate, fetchWithTimeout, findContinguousSpaces } from './utils'
 
@@ -105,17 +105,13 @@ export const Xanpool = {
   },
   post: async (path: string, body: any) => {
     try {
-      const response = await fetchWithTimeout(
-        path,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(body),
+      const response = await fetchWithTimeout(path, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        FETCH_TIMEOUT_DURATION
-      )
+        body: JSON.stringify(body),
+      })
 
       const data = await response.json()
       if (!response.ok) {

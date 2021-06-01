@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import * as admin from 'firebase-admin'
 import { v4 as uuidv4 } from 'uuid'
 import { bigQueryDataset, bigQueryProjectId, getBigQueryInstance } from '../bigQuery'
-import { BLOCKCHAIN_API_URL } from '../config'
+import { BLOCKCHAIN_API_URL, FETCH_TIMEOUT_DURATION } from '../config'
 import { countryToCurrency } from './providerAvailability'
 
 const fetch = require('node-fetch')
@@ -107,8 +107,8 @@ export function getFirebaseAdminCreds(localAdmin: any) {
 }
 export const fetchWithTimeout = async (
   url: string,
-  body: any | null,
-  duration: number
+  body: any | null = null,
+  duration: number = FETCH_TIMEOUT_DURATION
 ): Promise<Response> => {
   try {
     // @ts-ignore

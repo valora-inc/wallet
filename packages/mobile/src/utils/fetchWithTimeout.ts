@@ -1,7 +1,9 @@
+import { FETCH_TIMEOUT_DURATION } from 'src/config'
+
 export const fetchWithTimeout = async (
   url: string,
-  body: any | null,
-  duration: number
+  body: any | null = null,
+  duration: number = FETCH_TIMEOUT_DURATION
 ): Promise<Response> => {
   try {
     const timeout = new Promise<undefined>((resolve, reject) => {

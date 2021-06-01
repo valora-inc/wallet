@@ -1,4 +1,4 @@
-import { DigitalAsset, FETCH_TIMEOUT_DURATION, TRANSAK_DATA } from '../config'
+import { DigitalAsset, TRANSAK_DATA } from '../config'
 import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
 import { bankingSystemToCountry } from './providerAvailability'
 import { fetchLocalCurrencyAndExchangeRate, fetchWithTimeout } from './utils'
@@ -127,7 +127,7 @@ export const Transak = {
   },
   get: async (path: string) => {
     try {
-      const response = await fetchWithTimeout(path, null, FETCH_TIMEOUT_DURATION)
+      const response = await fetchWithTimeout(path)
       const data = await response.json()
       if (!response.ok) {
         throw Error(`Response body: ${JSON.stringify(data)}`)

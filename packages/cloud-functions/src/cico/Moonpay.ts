@@ -1,4 +1,4 @@
-import { DigitalAsset, FETCH_TIMEOUT_DURATION, MOONPAY_DATA } from '../config'
+import { DigitalAsset, MOONPAY_DATA } from '../config'
 import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
 import { bankingSystemToCountry } from './providerAvailability'
 import { fetchLocalCurrencyAndExchangeRate, fetchWithTimeout, findContinguousSpaces } from './utils'
@@ -141,7 +141,7 @@ export const Moonpay = {
   },
   get: async (path: string) => {
     try {
-      const response = await fetchWithTimeout(path, null, FETCH_TIMEOUT_DURATION)
+      const response = await fetchWithTimeout(path)
       const data = await response.json()
 
       if (!response.ok) {

@@ -4,7 +4,6 @@ import { getIpAddress } from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import { call, cancelled, put, select, spawn, take } from 'redux-saga/effects'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
-import { FETCH_TIMEOUT_DURATION } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
 import { setNetworkConnectivity, updateUserLocationData } from 'src/networkInfo/actions'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
@@ -49,12 +48,7 @@ function* subscribeToNetworkStatus() {
 function* fetchUserLocationData() {
   let userLocationData: UserLocationData
   try {
-    const response: Response = yield call(
-      fetchWithTimeout,
-      networkConfig.fetchUserLocationDataUrl,
-      null,
-      FETCH_TIMEOUT_DURATION
-    )
+    const response: Response = yield call(fetchWithTimeout, networkConfig.fetchUserLocationDataUrl)
 
     userLocationData = yield call(response.json)
 

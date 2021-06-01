@@ -1,6 +1,6 @@
 import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
-import { CurrencyCode, FETCH_TIMEOUT_DURATION } from 'src/config'
+import { CurrencyCode } from 'src/config'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
 import { CURRENCY_ENUM } from 'src/geth/consts'
@@ -88,8 +88,7 @@ export const fetchProviders = async (
   try {
     const response = await fetchWithTimeout(
       networkConfig.providerFetchUrl,
-      composePostObject(requestData),
-      FETCH_TIMEOUT_DURATION
+      composePostObject(requestData)
     )
 
     if (!response.ok) {
@@ -125,8 +124,7 @@ export const fetchSimplexPaymentData = async (
           appVersion: DeviceInfo.getVersion(),
           userAgent: DeviceInfo.getUserAgentSync(),
         },
-      }),
-      FETCH_TIMEOUT_DURATION
+      })
     )
 
     if (!response.ok) {

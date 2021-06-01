@@ -3,7 +3,6 @@ import {
   CASH_IN_FAILURE_DEEPLINK,
   CASH_IN_SUCCESS_DEEPLINK,
   DigitalAsset,
-  FETCH_TIMEOUT_DURATION,
   FiatCurrency,
   SIMPLEX_DATA,
 } from '../config'
@@ -157,18 +156,14 @@ export const Simplex = {
   `,
   post: async (path: string, body: any) => {
     try {
-      const response = await fetchWithTimeout(
-        path,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
-          },
-          body: JSON.stringify(body),
+      const response = await fetchWithTimeout(path, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
         },
-        FETCH_TIMEOUT_DURATION
-      )
+        body: JSON.stringify(body),
+      })
 
       const data = await response.json()
       if (!response.ok) {
