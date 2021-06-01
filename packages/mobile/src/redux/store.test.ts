@@ -11,7 +11,10 @@ describe('persistConfig', () => {
     // If this test fails, a migration has been added without increasing the persistConfig version
     expect(_persistConfig.version).toEqual(migrationKeys[migrationKeys.length - 1])
   })
+
   it('is in sync with the test schema', () => {
-    expect(_persistConfig.version).toEqual(getLatestSchema().storeVersion)
+    // This is a good practice, we want to keep the test schema in sync with the migrations
+    // so we can more easily test them
+    expect(_persistConfig.version).toEqual(getLatestSchema()._persist?.version)
   })
 })

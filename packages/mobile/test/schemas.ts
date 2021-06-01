@@ -572,12 +572,20 @@ export const v9Schema = {
     ...v8Schema.fiatExchanges,
     providerLogos: {},
   },
+  identity: {
+    ...v8Schema.identity,
+    attestationInputStatus: [
+      CodeInputStatus.Inputting,
+      CodeInputStatus.Disabled,
+      CodeInputStatus.Disabled,
+    ],
+  },
 }
 
 // Skipping to v13 to keep in sync with migrations.ts
 export const v13Schema = {
-  storeVersion: 13,
   ...v9Schema,
+  _persist: { version: 13, rehydrated: true },
   identity: {
     ..._.omit(
       v9Schema.identity,
@@ -592,7 +600,7 @@ export const v13Schema = {
   },
   verify: {
     ..._.omit(
-      v8Schema.verify,
+      v9Schema.verify,
       'TEMPORARY_override_withoutVerification',
       'withoutRevealing',
       'retries'
@@ -610,6 +618,6 @@ export const v13Schema = {
   },
 }
 
-export function getLatestSchema(): Partial<RootState> & { storeVersion: number } {
-  return v13Schema as Partial<RootState> & { storeVersion: number }
+export function getLatestSchema(): Partial<RootState> {
+  return v13Schema as Partial<RootState>
 }
