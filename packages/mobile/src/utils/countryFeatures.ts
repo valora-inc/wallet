@@ -1,7 +1,6 @@
-import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import { createSelector } from 'reselect'
-import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { countryFeatures } from 'src/flags'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 
 type CountryFeatures = typeof countryFeatures
@@ -18,14 +17,8 @@ export function getCountryFeatures(countryCodeAlpha2: string | null): SpecificCo
 }
 
 export const getCountryFeaturesSelector = createSelector(
-  defaultCountryCodeSelector,
-  (countryCallingCode) => {
-    const countryCodeAlpha2 = countryCallingCode
-      ? // @ts-ignore-next-line
-        getRegionCodeFromCountryCode(countryCallingCode)
-      : null
-    return getCountryFeatures(countryCodeAlpha2)
-  }
+  userLocationDataSelector,
+  ({ countryCodeAlpha2 }) => getCountryFeatures(countryCodeAlpha2)
 )
 
 export function useCountryFeatures() {
