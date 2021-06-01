@@ -6,6 +6,11 @@ jest.mock('firebase-functions', () => ({
   https: {
     onRequest: jest.fn,
   },
+  pubsub: {
+    schedule: () => ({
+      onRun: jest.fn,
+    }),
+  },
   config: jest.fn(() => ({
     moonpay: {
       widget_url: 'moonpay.com',
