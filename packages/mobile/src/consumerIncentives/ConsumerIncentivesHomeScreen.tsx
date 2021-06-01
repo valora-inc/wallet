@@ -21,7 +21,6 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
-import { navigateToURI } from 'src/utils/linking'
 
 type Props = StackScreenProps<StackParamList, Screens.ConsumerIncentivesHomeScreen>
 export default function ConsumerIncentivesHomeScreen(props: Props) {
@@ -47,7 +46,7 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
     })
   }
 
-  const onLearnMore = () => navigateToURI(CELO_REWARDS_T_AND_C)
+  const onLearnMore = () => navigate(Screens.WebViewScreen, { uri: CELO_REWARDS_T_AND_C })
 
   return (
     <SafeAreaView style={styles.container}>

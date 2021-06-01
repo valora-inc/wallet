@@ -1,6 +1,5 @@
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { Actions, ActionTypes } from 'src/account/actions'
-import { ActionTypes as AppActionTypes } from 'src/app/actions'
 import { DAYS_TO_DELAY } from 'src/backup/utils'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
 import { features } from 'src/flags'
@@ -89,7 +88,7 @@ export const initialState: State = {
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction | Web3ActionTypes | AppActionTypes
+  action: ActionTypes | RehydrateAction | Web3ActionTypes
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
