@@ -100,9 +100,6 @@ Sessions.navigationOptions = () => {
 }
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-  },
   container: {
     paddingHorizontal: variables.contentPadding,
   },

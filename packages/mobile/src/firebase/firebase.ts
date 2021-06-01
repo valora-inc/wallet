@@ -3,7 +3,6 @@ import '@react-native-firebase/auth'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
-// tslint:disable-next-line: no-duplicate-imports
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'

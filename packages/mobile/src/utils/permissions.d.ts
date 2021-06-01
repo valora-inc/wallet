@@ -5,10 +5,14 @@
 import DefaultAndroid, * as android from './permissions.android'
 import DefaultIos, * as ios from './permissions.ios'
 
+// eslint-disable-next-line no-var
 declare var _test: typeof ios
+// eslint-disable-next-line no-var
 declare var _test: typeof android
 
+// eslint-disable-next-line no-var
 declare var _testDefault: typeof DefaultIos
+// eslint-disable-next-line no-var
 declare var _testDefault: typeof DefaultAndroid
 
 export * from './permissions.ios'
