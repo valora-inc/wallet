@@ -620,6 +620,10 @@ export const v13Schema = {
 
 export const v14Schema = {
   ...v13Schema,
+  _persist: {
+    ...v13Schema._persist,
+    version: 14,
+  },
   networkInfo: {
     ...v13Schema.networkInfo,
     userLocationData: {
