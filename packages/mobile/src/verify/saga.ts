@@ -211,15 +211,19 @@ function* waitForAttestationCode(issuer: string): Generator<any, AttestationCode
     return code
   }
 
-  const {
-    success,
-  }: {
-    success: ReturnType<typeof inputAttestationCode>
-  } = yield race({
-    success: take(inputAttestationCode.type),
-    cancel: take(revealAttestations.type),
-  })
-  return success?.payload.issuer === issuer ? success.payload : null
+  while (true) {
+    const {
+      success,
+    }: {
+      success: ReturnType<typeof inputAttestationCode>
+    } = yield race({
+      success: take(inputAttestationCode.type),
+      cancel: take(revealAttestations.type),
+    })
+    if (success?.payload.issuer === issuer) {
+      return success.payload
+    }
+  }
 }
 
 // Codes that are auto-imported or pasted in quick sucsession may revert due to being submitted by Komenci
