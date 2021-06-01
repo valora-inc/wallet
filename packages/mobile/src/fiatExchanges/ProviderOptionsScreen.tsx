@@ -7,21 +7,36 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
+import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import { fetchProviders, SimplexQuote, sortProviders } from 'src/fiatExchanges/utils'
+import {
+  fetchProviders,
+  getLowestFeeValueFromQuotes,
+  isSimplexQuote,
+  ProviderQuote,
+  SimplexQuote,
+  sortProviders,
+} from 'src/fiatExchanges/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
-import LinkArrow from 'src/icons/LinkArrow'
 import QuestionIcon from 'src/icons/QuestionIcon'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -45,7 +60,7 @@ export interface CicoProvider {
   paymentMethods: PaymentMethod[]
   url?: string
   logo: string
-  quote?: SimplexQuote
+  quote?: SimplexQuote | ProviderQuote[]
   cashIn: boolean
   cashOut: boolean
 }
@@ -117,6 +132,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
         digitalAsset: currencyToBuy,
         fiatAmount: route.params.amount.fiat,
         digitalAssetAmount: route.params.amount.crypto,
+        txType: isCashIn ? 'buy' : 'sell',
       })
       return providers
     } catch (error) {
@@ -147,9 +163,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     dispatch(selectProvider(provider.name))
 
     if (provider.name === IntegratedCicoProviders.Simplex) {
-      if (provider.quote && userLocation?.ipAddress) {
+      const providerQuote = Array.isArray(provider.quote) ? provider.quote[0] : provider.quote
+      if (provider.quote && userLocation?.ipAddress && isSimplexQuote(providerQuote)) {
         navigate(Screens.Simplex, {
-          simplexQuote: provider.quote,
+          simplexQuote: providerQuote,
           userIpAddress: userLocation.ipAddress,
         })
       }
@@ -168,39 +185,72 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     </View>
   ) : (
     <ScrollView style={styles.container}>
-      <SafeAreaView style={styles.content}>
+      <SafeAreaView>
         <Text style={styles.pleaseSelectProvider}>{t('pleaseSelectProvider')}</Text>
         <View style={styles.providersContainer}>
           {cicoProviders[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
             <ListItem key={provider.name} onPress={providerOnPress(provider)}>
               <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
-                <View style={styles.providerTextContainer}>
-                  <Text
-                    style={[
-                      styles.optionTitle,
-                      provider.unavailable ? { color: colors.gray4 } : null,
-                    ]}
-                  >
-                    {provider.name}
-                  </Text>
-                  {provider.unavailable && (
-                    <Text style={styles.restrictedText}>{t('providerUnavailable')}</Text>
-                  )}
-                  {provider.restricted && !provider.unavailable && (
-                    <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
-                  )}
-                  {!provider.restricted && !provider.paymentMethods.includes(paymentMethod) && (
-                    <Text style={styles.restrictedText}>
-                      {t('unsupportedPaymentMethod', {
-                        paymentMethod:
-                          paymentMethod === PaymentMethod.Bank
-                            ? 'bank account'
-                            : 'debit or credit card',
-                      })}
+                <View style={styles.providerTextAndIconContainer}>
+                  <View style={[styles.iconContainer]}>
+                    <Image
+                      source={{ uri: provider.logo }}
+                      style={styles.iconImage}
+                      resizeMode="contain"
+                    />
+                  </View>
+                  <View style={styles.providerTextContainer}>
+                    <Text
+                      style={[styles.text, provider.unavailable ? { color: colors.gray4 } : null]}
+                    >
+                      {provider.name}
                     </Text>
-                  )}
+                    <View style={styles.providerSubtextContainer}>
+                      {provider.unavailable && (
+                        <Text style={styles.restrictedText}>{t('providerUnavailable')}</Text>
+                      )}
+                      {provider.restricted && !provider.unavailable && (
+                        <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
+                      )}
+                      {!provider.unavailable &&
+                        !provider.restricted &&
+                        !provider.paymentMethods.includes(paymentMethod) && (
+                          <Text style={styles.restrictedText}>
+                            {t('unsupportedPaymentMethod', {
+                              paymentMethod:
+                                paymentMethod === PaymentMethod.Bank
+                                  ? 'bank account'
+                                  : 'debit or credit card',
+                            })}
+                          </Text>
+                        )}
+                    </View>
+                  </View>
                 </View>
-                <LinkArrow />
+                <View style={styles.feeContainer}>
+                  <Text style={styles.text}>
+                    {getLowestFeeValueFromQuotes(provider.quote) ? (
+                      <CurrencyDisplay
+                        amount={{
+                          value: 0,
+                          localAmount: {
+                            value: getLowestFeeValueFromQuotes(provider.quote) || 0,
+                            currencyCode: localCurrency,
+                            exchangeRate: 1,
+                          },
+                          currencyCode: localCurrency,
+                        }}
+                        hideSymbol={false}
+                        showLocalAmount={true}
+                        hideSign={true}
+                        showExplicitPositiveSign={false}
+                        style={[styles.text]}
+                      />
+                    ) : (
+                      '-'
+                    )}
+                  </Text>
+                </View>
               </View>
             </ListItem>
           ))}
@@ -238,7 +288,8 @@ export default ProviderOptionsScreen
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: variables.contentPadding,
+    paddingBottom: variables.contentPadding,
+    paddingRight: 8,
   },
   activityIndicatorContainer: {
     paddingVertical: variables.contentPadding,
@@ -246,34 +297,56 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
   },
-  content: {
-    flex: 1,
-    flexDirection: 'column',
-    marginRight: variables.contentPadding,
-  },
   pleaseSelectProvider: {
     ...fontStyles.regular,
-    marginBottom: variables.contentPadding,
-    paddingLeft: variables.contentPadding,
+    padding: variables.contentPadding,
   },
   providersContainer: {
     flex: 1,
-    flexDirection: 'column',
   },
   providerListItem: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  providerTextAndIconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
   },
   providerTextContainer: {
+    paddingLeft: 8,
+    flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between',
+  },
+  providerSubtextContainer: {
+    flexDirection: 'row',
+  },
+  feeContainer: {
+    paddingRight: 8,
+    minWidth: 32,
+    textAlign: 'center',
   },
   restrictedText: {
     ...fontStyles.small,
     color: colors.gray4,
+    flex: 1,
+    flexWrap: 'wrap',
   },
-  optionTitle: {
+  text: {
     ...fontStyles.regular500,
+  },
+  iconContainer: {
+    height: 48,
+    width: 48,
+    borderRadius: 48 / 2,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.gray1,
+  },
+  iconImage: {
+    height: 28,
+    width: 28,
   },
 })

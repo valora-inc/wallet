@@ -24,20 +24,13 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
 <RCTScrollView
   style={
     Object {
-      "paddingVertical": 16,
+      "paddingBottom": 16,
+      "paddingRight": 8,
     }
   }
 >
   <View>
-    <View
-      style={
-        Object {
-          "flex": 1,
-          "flexDirection": "column",
-          "marginRight": 16,
-        }
-      }
-    >
+    <View>
       <Text
         style={
           Object {
@@ -45,8 +38,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
             "fontFamily": "Inter-Regular",
             "fontSize": 16,
             "lineHeight": 22,
-            "marginBottom": 16,
-            "paddingLeft": 16,
+            "padding": 16,
           }
         }
       >
@@ -56,7 +48,6 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
         style={
           Object {
             "flex": 1,
-            "flexDirection": "column",
           }
         }
       >
@@ -108,40 +99,117 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                 <View
                   style={
                     Object {
-                      "flexDirection": "column",
-                      "justifyContent": "space-between",
+                      "alignItems": "center",
+                      "flex": 1,
+                      "flexDirection": "row",
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "#F8F9F9",
+                          "borderRadius": 24,
+                          "display": "flex",
+                          "height": 48,
+                          "justifyContent": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    <Image
+                      resizeMode="contain"
+                      source={
+                        Object {
+                          "uri": "https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media",
+                        }
+                      }
+                      style={
+                        Object {
+                          "height": 28,
+                          "width": 28,
+                        }
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      Object {
+                        "flex": 1,
+                        "flexDirection": "column",
+                        "paddingLeft": 8,
+                      }
+                    }
+                  >
+                    <Text
+                      style={
+                        Array [
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
+                          null,
+                        ]
+                      }
+                    >
+                      Simplex
+                    </Text>
+                    <View
+                      style={
+                        Object {
+                          "flexDirection": "row",
+                        }
+                      }
+                    />
+                  </View>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "minWidth": 32,
+                      "paddingRight": 8,
+                      "textAlign": "center",
                     }
                   }
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
-                          "color": "#2E3338",
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        null,
-                      ]
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Medium",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
                     }
                   >
-                    Simplex
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        Array [
+                          Array [
+                            Object {
+                              "color": "#2E3338",
+                              "fontFamily": "Inter-Medium",
+                              "fontSize": 16,
+                              "lineHeight": 22,
+                            },
+                          ],
+                          Object {
+                            "color": "#2E3338",
+                          },
+                        ]
+                      }
+                    >
+                      $
+                      13.00
+                    </Text>
                   </Text>
                 </View>
-                <Image
-                  source={
-                    Object {
-                      "testUri": "../../../packages/mobile/src/images/link-arrow.png",
-                    }
-                  }
-                  style={
-                    Object {
-                      "height": 32,
-                      "width": 32,
-                    }
-                  }
-                />
               </View>
             </View>
           </View>
@@ -194,40 +262,117 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                 <View
                   style={
                     Object {
-                      "flexDirection": "column",
-                      "justifyContent": "space-between",
+                      "alignItems": "center",
+                      "flex": 1,
+                      "flexDirection": "row",
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "#F8F9F9",
+                          "borderRadius": 24,
+                          "display": "flex",
+                          "height": 48,
+                          "justifyContent": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    <Image
+                      resizeMode="contain"
+                      source={
+                        Object {
+                          "uri": "https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media",
+                        }
+                      }
+                      style={
+                        Object {
+                          "height": 28,
+                          "width": 28,
+                        }
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      Object {
+                        "flex": 1,
+                        "flexDirection": "column",
+                        "paddingLeft": 8,
+                      }
+                    }
+                  >
+                    <Text
+                      style={
+                        Array [
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
+                          null,
+                        ]
+                      }
+                    >
+                      Moonpay
+                    </Text>
+                    <View
+                      style={
+                        Object {
+                          "flexDirection": "row",
+                        }
+                      }
+                    />
+                  </View>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "minWidth": 32,
+                      "paddingRight": 8,
+                      "textAlign": "center",
                     }
                   }
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
-                          "color": "#2E3338",
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        null,
-                      ]
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Medium",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
                     }
                   >
-                    Moonpay
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        Array [
+                          Array [
+                            Object {
+                              "color": "#2E3338",
+                              "fontFamily": "Inter-Medium",
+                              "fontSize": 16,
+                              "lineHeight": 22,
+                            },
+                          ],
+                          Object {
+                            "color": "#2E3338",
+                          },
+                        ]
+                      }
+                    >
+                      $
+                      5.00
+                    </Text>
                   </Text>
                 </View>
-                <Image
-                  source={
-                    Object {
-                      "testUri": "../../../packages/mobile/src/images/link-arrow.png",
-                    }
-                  }
-                  style={
-                    Object {
-                      "height": 32,
-                      "width": 32,
-                    }
-                  }
-                />
               </View>
             </View>
           </View>
@@ -280,40 +425,97 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                 <View
                   style={
                     Object {
-                      "flexDirection": "column",
-                      "justifyContent": "space-between",
+                      "alignItems": "center",
+                      "flex": 1,
+                      "flexDirection": "row",
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "#F8F9F9",
+                          "borderRadius": 24,
+                          "display": "flex",
+                          "height": 48,
+                          "justifyContent": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    <Image
+                      resizeMode="contain"
+                      source={
+                        Object {
+                          "uri": "https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media",
+                        }
+                      }
+                      style={
+                        Object {
+                          "height": 28,
+                          "width": 28,
+                        }
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      Object {
+                        "flex": 1,
+                        "flexDirection": "column",
+                        "paddingLeft": 8,
+                      }
+                    }
+                  >
+                    <Text
+                      style={
+                        Array [
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
+                          null,
+                        ]
+                      }
+                    >
+                      Ramp
+                    </Text>
+                    <View
+                      style={
+                        Object {
+                          "flexDirection": "row",
+                        }
+                      }
+                    />
+                  </View>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "minWidth": 32,
+                      "paddingRight": 8,
+                      "textAlign": "center",
                     }
                   }
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
-                          "color": "#2E3338",
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        null,
-                      ]
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Medium",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
                     }
                   >
-                    Ramp
+                    -
                   </Text>
                 </View>
-                <Image
-                  source={
-                    Object {
-                      "testUri": "../../../packages/mobile/src/images/link-arrow.png",
-                    }
-                  }
-                  style={
-                    Object {
-                      "height": 32,
-                      "width": 32,
-                    }
-                  }
-                />
               </View>
             </View>
           </View>
@@ -366,52 +568,132 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                 <View
                   style={
                     Object {
-                      "flexDirection": "column",
-                      "justifyContent": "space-between",
+                      "alignItems": "center",
+                      "flex": 1,
+                      "flexDirection": "row",
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "#F8F9F9",
+                          "borderRadius": 24,
+                          "display": "flex",
+                          "height": 48,
+                          "justifyContent": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    <Image
+                      resizeMode="contain"
+                      source={
+                        Object {
+                          "uri": "https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media",
+                        }
+                      }
+                      style={
+                        Object {
+                          "height": 28,
+                          "width": 28,
+                        }
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      Object {
+                        "flex": 1,
+                        "flexDirection": "column",
+                        "paddingLeft": 8,
+                      }
+                    }
+                  >
+                    <Text
+                      style={
+                        Array [
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
+                          null,
+                        ]
+                      }
+                    >
+                      Xanpool
+                    </Text>
+                    <View
+                      style={
+                        Object {
+                          "flexDirection": "row",
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          Object {
+                            "color": "#9CA4A9",
+                            "flex": 1,
+                            "flexWrap": "wrap",
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 14,
+                            "lineHeight": 18,
+                          }
+                        }
+                      >
+                        restrictedRegion
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "minWidth": 32,
+                      "paddingRight": 8,
+                      "textAlign": "center",
                     }
                   }
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
-                          "color": "#2E3338",
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        null,
-                      ]
-                    }
-                  >
-                    Xanpool
-                  </Text>
-                  <Text
-                    style={
                       Object {
-                        "color": "#9CA4A9",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 14,
-                        "lineHeight": 18,
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Medium",
+                        "fontSize": 16,
+                        "lineHeight": 22,
                       }
                     }
                   >
-                    restrictedRegion
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        Array [
+                          Array [
+                            Object {
+                              "color": "#2E3338",
+                              "fontFamily": "Inter-Medium",
+                              "fontSize": 16,
+                              "lineHeight": 22,
+                            },
+                          ],
+                          Object {
+                            "color": "#2E3338",
+                          },
+                        ]
+                      }
+                    >
+                      $
+                      3.00
+                    </Text>
                   </Text>
                 </View>
-                <Image
-                  source={
-                    Object {
-                      "testUri": "../../../packages/mobile/src/images/link-arrow.png",
-                    }
-                  }
-                  style={
-                    Object {
-                      "height": 32,
-                      "width": 32,
-                    }
-                  }
-                />
               </View>
             </View>
           </View>
@@ -464,54 +746,134 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                 <View
                   style={
                     Object {
-                      "flexDirection": "column",
-                      "justifyContent": "space-between",
+                      "alignItems": "center",
+                      "flex": 1,
+                      "flexDirection": "row",
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "#F8F9F9",
+                          "borderRadius": 24,
+                          "display": "flex",
+                          "height": 48,
+                          "justifyContent": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    <Image
+                      resizeMode="contain"
+                      source={
+                        Object {
+                          "uri": "https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media",
+                        }
+                      }
+                      style={
+                        Object {
+                          "height": 28,
+                          "width": 28,
+                        }
+                      }
+                    />
+                  </View>
+                  <View
+                    style={
+                      Object {
+                        "flex": 1,
+                        "flexDirection": "column",
+                        "paddingLeft": 8,
+                      }
+                    }
+                  >
+                    <Text
+                      style={
+                        Array [
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
+                          Object {
+                            "color": "#9CA4A9",
+                          },
+                        ]
+                      }
+                    >
+                      Transak
+                    </Text>
+                    <View
+                      style={
+                        Object {
+                          "flexDirection": "row",
+                        }
+                      }
+                    >
+                      <Text
+                        style={
+                          Object {
+                            "color": "#9CA4A9",
+                            "flex": 1,
+                            "flexWrap": "wrap",
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 14,
+                            "lineHeight": 18,
+                          }
+                        }
+                      >
+                        providerUnavailable
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "minWidth": 32,
+                      "paddingRight": 8,
+                      "textAlign": "center",
                     }
                   }
                 >
                   <Text
                     style={
-                      Array [
-                        Object {
-                          "color": "#2E3338",
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "color": "#9CA4A9",
-                        },
-                      ]
-                    }
-                  >
-                    Transak
-                  </Text>
-                  <Text
-                    style={
                       Object {
-                        "color": "#9CA4A9",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 14,
-                        "lineHeight": 18,
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Medium",
+                        "fontSize": 16,
+                        "lineHeight": 22,
                       }
                     }
                   >
-                    providerUnavailable
+                    <Text
+                      numberOfLines={1}
+                      style={
+                        Array [
+                          Array [
+                            Object {
+                              "color": "#2E3338",
+                              "fontFamily": "Inter-Medium",
+                              "fontSize": 16,
+                              "lineHeight": 22,
+                            },
+                          ],
+                          Object {
+                            "color": "#2E3338",
+                          },
+                        ]
+                      }
+                    >
+                      $
+                      6.00
+                    </Text>
                   </Text>
                 </View>
-                <Image
-                  source={
-                    Object {
-                      "testUri": "../../../packages/mobile/src/images/link-arrow.png",
-                    }
-                  }
-                  style={
-                    Object {
-                      "height": 32,
-                      "width": 32,
-                    }
-                  }
-                />
               </View>
             </View>
           </View>

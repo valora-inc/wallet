@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions'
-import { FETCH_TIMEOUT_DURATION, IP_API_KEY } from '../config'
+import { IP_API_KEY } from '../config'
 import { fetchWithTimeout } from './utils'
 
 export interface UserLocationData {
@@ -44,9 +44,7 @@ export const fetchUserLocationData = functions.https.onRequest(async (req, res) 
     req.connection.remoteAddress
 
   const response = await fetchWithTimeout(
-    `http://api.ipapi.com/api/${ipAddress}?access_key=${IP_API_KEY}`,
-    null,
-    FETCH_TIMEOUT_DURATION
+    `http://api.ipapi.com/api/${ipAddress}?access_key=${IP_API_KEY}`
   )
 
   const ipAddressData: IpAddressData = await response?.json()

@@ -1,14 +1,16 @@
 const functions = require('firebase-functions')
 // This allows us to access Cloud Function environment variables
-export const config = functions.config()
+const config = functions.config()
 
 export const IP_API_KEY = config.ip_api.key
 
 export const MOONPAY_DATA = {
   widget_url: config.moonpay.widget_url,
+  api_url: config.moonpay.api_url,
   public_key: config.moonpay.public_key,
   private_key: config.moonpay.private_key,
   webhook_key: config.moonpay.webhook_key,
+  supported_currencies: ['USD', 'EUR', 'GBP'],
 }
 
 export const RAMP_DATA = {
@@ -20,6 +22,7 @@ export const RAMP_DATA = {
 
 export const TRANSAK_DATA = {
   widget_url: config.transak.widget_url,
+  api_url: config.transak.api_url,
   public_key: config.transak.public_key,
   private_key: config.transak.private_key,
 }
@@ -32,11 +35,13 @@ export const SIMPLEX_DATA = {
 
 export const XANPOOL_DATA = {
   widget_url: config.xanpool.widget_url,
+  api_url: config.xanpool.api_url,
   public_key: config.xanpool.public_key,
   private_key: config.xanpool.private_key,
   supported_currencies: ['IDR', 'VND', 'SGD', 'HKD', 'TBH', 'INR', 'MYR', 'PHP'],
 }
 
+export const BLOCKCHAIN_API_URL = config.blockchain_api.url
 export const FULL_NODE_URL = config.full_node.url
 
 export const VALORA_LOGO_URL =
@@ -72,4 +77,4 @@ export enum DigitalAsset {
   CUSD = 'CUSD',
 }
 
-export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
+export const FETCH_TIMEOUT_DURATION = 10000 // 10 seconds
