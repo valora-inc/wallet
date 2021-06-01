@@ -35,6 +35,8 @@ export const XANPOOL_DATA = {
   supported_currencies: ['IDR', 'VND', 'SGD', 'HKD', 'TBH', 'INR', 'MYR', 'PHP'],
 }
 
+export const FULL_NODE_URL = config.full_node.url
+
 export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
 
