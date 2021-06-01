@@ -3,7 +3,7 @@ import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
 import {
   v0Schema,
-  v10Schema,
+  v13Schema,
   v1Schema,
   v2Schema,
   v7Schema,
@@ -207,7 +207,51 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema.exchange.history).toEqual(exchangeInitialState.history)
   })
   it('works for v12 to v13', () => {
-    const migratedSchema = migrations[13](v10Schema)
+    const stub = {
+      verify: {
+        existingProperty: 'verify_existingProperty',
+        TEMPORARY_override_withoutVerification: 'oldValue',
+        withoutRevealing: true,
+        retries: 3,
+      },
+      identity: {
+        existingProperty: 'identity_existingProperty',
+        hasSeenVerificationNux: true,
+        attestationCodes: ['code1', 'code2'],
+        acceptedAttestationCodes: ['code1'],
+        attestationInputStatus: ['loading'],
+        numCompleteAttestations: 3,
+        verificationStatus: 'verified',
+        lastRevealAttempt: 'yesterday',
+      },
+    }
+    const migratedSchema = migrations[13](stub)
+    expect(migratedSchema.verify.existingProperty).toEqual('verify_existingProperty')
+    expect(migratedSchema.identity.existingProperty).toEqual('identity_existingProperty')
+    expect(migratedSchema.verify.seenVerificationNux).toEqual(true)
+    const deletedIdentityProperties = [
+      'attestationCodes',
+      'acceptedAttestationCodes',
+      'attestationInputStatus',
+      'numCompleteAttestations',
+      'verificationStatus',
+      'lastRevealAttempt',
+    ]
+    for (const deletedProperty of deletedIdentityProperties) {
+      expect(Object.keys(migratedSchema.identity).includes(deletedProperty)).toEqual(false)
+    }
+    const deletedVerifyProperties = [
+      'TEMPORARY_override_withoutVerification',
+      'withoutRevealing',
+      'retries',
+    ]
+    for (const deletedProperty of deletedVerifyProperties) {
+      expect(Object.keys(migratedSchema.verify).includes(deletedProperty)).toEqual(false)
+    }
+  })
+
+  it('works for v13 to v14', () => {
+    const migratedSchema = migrations[14](v13Schema)
     expect(migratedSchema.networkInfo.userLocationData).toBeDefined()
     expect(migratedSchema.networkInfo.userLocationData.countryCodeAlpha2).toEqual(null)
   })

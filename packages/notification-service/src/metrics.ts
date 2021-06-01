@@ -9,7 +9,6 @@ export class ApiMetrics {
   private blockDelay: Histogram<string>
   private latestTokenTransfersDuration: Histogram<string>
   private notificationLatency: Histogram<string>
-  private exchangeQueryDuration: Histogram<string>
 
   constructor() {
     this.lastBlockNotified = new Gauge({
@@ -61,13 +60,6 @@ export class ApiMetrics {
       help: 'Samples the execution duration of the getLatestTokenTransfers query to blockscout.',
       buckets: [10, 50, 100, 250, 500, 1000, 5000, 10000],
     })
-
-    this.exchangeQueryDuration = new Histogram({
-      name: 'handle_exchange_query_ms',
-      help:
-        'Samples the execution duration of the query within handleExchangeQuery, a measure of how long it takes to retrieve external exchange rates.',
-      buckets: [10, 50, 100, 250, 500, 1000, 5000, 10000],
-    })
   }
 
   setLastBlockNotified(lastBlockNotified: number) {
@@ -100,10 +92,6 @@ export class ApiMetrics {
 
   setLatestTokenTransfersDuration(durationSeconds: number) {
     this.latestTokenTransfersDuration.observe(durationSeconds)
-  }
-
-  setExchangeQueryDuration(durationSeconds: number) {
-    this.exchangeQueryDuration.observe(durationSeconds)
   }
 }
 export const metrics = new ApiMetrics()
