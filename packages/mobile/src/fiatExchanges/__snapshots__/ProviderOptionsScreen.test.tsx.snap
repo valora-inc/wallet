@@ -25,6 +25,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
   style={
     Object {
       "paddingBottom": 16,
+      "paddingRight": 8,
     }
   }
 >

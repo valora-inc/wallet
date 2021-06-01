@@ -289,6 +289,7 @@ export default ProviderOptionsScreen
 const styles = StyleSheet.create({
   container: {
     paddingBottom: variables.contentPadding,
+    paddingRight: 8,
   },
   activityIndicatorContainer: {
     paddingVertical: variables.contentPadding,
