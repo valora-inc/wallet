@@ -47,6 +47,7 @@ export default class FirebaseLogUploader {
   ): Promise<void> {
     const tmpFilePath = logFilePath + '.tmp'
     await RNFS.moveFile(logFilePath, tmpFilePath)
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     FirebaseLogUploader.uploadLogsToFirebaseStorage(tmpFilePath, uploadPath, uploadFileName).catch()
   }
 
