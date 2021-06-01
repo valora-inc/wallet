@@ -40,6 +40,7 @@ export const XANPOOL_DATA = {
 }
 
 export const BLOCKCHAIN_API_URL = config.blockchain_api.url
+export const FULL_NODE_URL = config.full_node.url
 
 export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'

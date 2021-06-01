@@ -8,7 +8,7 @@ import {
   komenciContextSelector,
   shouldUseKomenciSelector,
   verificationStatusSelector,
-} from 'src/verify/reducer'
+} from 'src/verify/module'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
@@ -36,6 +36,7 @@ export const verificationPossibleSelector = (state: RootState): boolean => {
   const saltCache = e164NumberToSaltSelector(state)
   const shouldUseKomenci = shouldUseKomenciSelector(state)
   const { komenci } = verificationStatusSelector(state)
+
   const hideVerification = hideVerificationSelector(state)
   if (hideVerification) {
     return false
@@ -61,6 +62,9 @@ export const shortVerificationCodesEnabledSelector = (state: RootState) =>
   state.app.shortVerificationCodesEnabled
 
 export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
+
+export const ranVerificationMigrationSelector = (state: RootState) =>
+  state.app.ranVerificationMigrationAt
 
 // showRaiseDailyLimitTarget is an account string that represents the cutoff of which accounts
 // should return true. By doing a string comparison, if the user's account is lower than the

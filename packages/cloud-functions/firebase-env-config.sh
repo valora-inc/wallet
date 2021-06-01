@@ -34,3 +34,4 @@ xanpool.api_url=$(grep XANPOOL_API_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
 xanpool.public_key=$(grep XANPOOL_PUBLIC_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
 xanpool.private_key=$(grep XANPOOL_PRIVATE_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
 blockchain_api.url=$(grep BLOCKCHAIN_API_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
+full_node.url=$(grep FULL_NODE_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \

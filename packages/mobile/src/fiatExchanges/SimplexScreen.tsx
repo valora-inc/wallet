@@ -50,7 +50,7 @@ function SimplexScreen({ route, navigation }: Props) {
     simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount <= 0
 
   const onNavigationStateChange = ({ url }: any) => {
-    if (url?.endsWith('step=card_details')) {
+    if (url?.includes('/payments/new')) {
       setRedirected(true)
     } else if (url?.startsWith('celo://wallet')) {
       navigateToURI(url)
@@ -102,7 +102,7 @@ function SimplexScreen({ route, navigation }: Props) {
     <View style={styles.container}>
       {loadSimplexCheckout && simplexPaymentRequest && !redirected && (
         <View style={[styles.container, styles.indicator]}>
-          <ActivityIndicator size="large" color={colors.greenUI} />
+          <ActivityIndicator size="large" color={colors.greenBrand} />
         </View>
       )}
       {!loadSimplexCheckout || !simplexPaymentRequest ? (
@@ -168,6 +168,7 @@ const styles = StyleSheet.create({
     left: 0,
     width: '100%',
     height: '100%',
+    zIndex: 1,
   },
   button: {
     margin: 16,

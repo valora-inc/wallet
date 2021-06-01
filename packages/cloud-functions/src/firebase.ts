@@ -10,9 +10,12 @@ if (process.env.NODE_ENV !== 'test') {
   })
 }
 
+export function database() {
+  return admin.database()
+}
+
 export function saveTxHashProvider(address: string, txHash: string, provider: string) {
-  admin
-    .database()
+  database()
     .ref(`/registrations/${address}/txHashes/${txHash}`)
     .set(provider)
     .then(() =>

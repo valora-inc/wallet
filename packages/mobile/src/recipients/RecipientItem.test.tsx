@@ -6,7 +6,7 @@ import RecipientItem from 'src/recipients/RecipientItem'
 import { createMockStore } from 'test/utils'
 import { mockRecipient } from 'test/values'
 
-describe(RecipientItem, () => {
+describe('RecipientItem', () => {
   it('renders correctly', () => {
     const tree = renderer.create(
       <Provider store={createMockStore({})}>

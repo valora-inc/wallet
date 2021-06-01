@@ -1,10 +1,10 @@
 import _ from 'lodash'
 import { PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
-import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
-import { idle, KomenciAvailable } from 'src/verify/reducer'
+import { idle, KomenciAvailable, NUM_ATTESTATIONS_REQUIRED } from 'src/verify/module'
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -560,6 +560,25 @@ export const v9Schema = {
     ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     showRaiseDailyLimitTarget: undefined,
     walletConnectEnabled: false,
+    ranVerificationMigrationAt: null,
+  },
+  verify: {
+    ..._.omit(
+      v8Schema.verify,
+      'TEMPORARY_override_withoutVerification',
+      'withoutRevealing',
+      'retries'
+    ),
+    seenVerificationNux: false,
+    revealStatuses: {},
+    attestationCodes: [],
+    acceptedAttestationCodes: [],
+    lastRevealAttempt: null,
+    attestationInputStatus: [
+      CodeInputStatus.Inputting,
+      CodeInputStatus.Disabled,
+      CodeInputStatus.Disabled,
+    ],
   },
   walletConnect: {
     pairings: [],
