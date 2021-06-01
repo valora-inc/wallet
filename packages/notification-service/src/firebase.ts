@@ -1,4 +1,3 @@
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils'
 import { DataSnapshot } from '@firebase/database-types'
 import * as admin from 'firebase-admin'
 import i18next from 'i18next'
@@ -52,11 +51,6 @@ interface PaymentRequest {
 
 interface PendingRequests {
   [uid: string]: PaymentRequest
-}
-
-interface ExchangeRateObject {
-  exchangeRate: string
-  timestamp: number // timestamp in milliseconds
 }
 
 export interface KnownAddressInfo {
@@ -226,24 +220,6 @@ export function setPaymentRequestNotified(uid: string): Promise<void> {
     return Promise.resolve()
   }
   return database.ref(`/pendingRequests/${uid}`).update({ notified: true })
-}
-
-export function writeExchangeRatePair(
-  takerToken: CURRENCY_ENUM,
-  makerToken: CURRENCY_ENUM,
-  exchangeRate: string,
-  timestamp: number
-) {
-  if (ENVIRONMENT === 'local') {
-    return
-  }
-  const pair = `${CURRENCIES[takerToken].code}/${CURRENCIES[makerToken].code}`
-  const exchangeRateRecord: ExchangeRateObject = {
-    exchangeRate,
-    timestamp,
-  }
-  database.ref(`/exchangeRates/${pair}`).push(exchangeRateRecord)
-  console.debug(`Recorded exchange rate for ${pair}`, exchangeRateRecord)
 }
 
 export function setLastBlockNotified(newBlock: number): Promise<void> | undefined {

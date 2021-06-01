@@ -208,12 +208,12 @@ export type StackParamList = {
   [Screens.SelectLocalCurrency]: undefined
   [Screens.Send]:
     | {
-        isOutgoingPaymentRequest?: true
+        isOutgoingPaymentRequest?: boolean
       }
     | undefined
   [Screens.SendAmount]: {
     recipient: Recipient
-    isOutgoingPaymentRequest?: true
+    isOutgoingPaymentRequest?: boolean
     isFromScan?: boolean
     origin: SendOrigin
   }
@@ -291,7 +291,7 @@ export type QRTabParamList = {
     | {
         scanIsForSecureSend?: true
         transactionData?: TransactionDataInput
-        isOutgoingPaymentRequest?: true
+        isOutgoingPaymentRequest?: boolean
         requesterAddress?: string
       }
     | undefined

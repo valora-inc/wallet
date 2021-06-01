@@ -59,7 +59,6 @@ describe('Send', () => {
 
     expect(tree).toMatchSnapshot()
     expect(tree.queryByTestId('InviteRewardsBanner')).toBeFalsy()
-    expect(tree.queryByTestId('GetRewardPill')).toBeFalsy()
   })
 
   it('renders correctly with invite rewards enabled', async () => {
@@ -79,6 +78,5 @@ describe('Send', () => {
     )
 
     expect(tree.queryByTestId('InviteRewardsBanner')).toBeTruthy()
-    expect(tree.queryAllByTestId('GetRewardPill')?.length).toEqual(1)
   })
 })
