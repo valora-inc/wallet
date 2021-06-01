@@ -6,7 +6,6 @@ import { CELO_REWARDS_T_AND_C } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { navigateToURI } from 'src/utils/linking'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const mockScreenProps = getMockStackScreenProps(Screens.ConsumerIncentivesHomeScreen)
@@ -63,6 +62,6 @@ describe('ConsumerIncentivesHomeScreen', () => {
     )
     fireEvent.press(getByTestId('ConsumerIncentives/learnMore'))
 
-    expect(navigateToURI).toHaveBeenCalledWith(CELO_REWARDS_T_AND_C)
+    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, { uri: CELO_REWARDS_T_AND_C })
   })
 })
