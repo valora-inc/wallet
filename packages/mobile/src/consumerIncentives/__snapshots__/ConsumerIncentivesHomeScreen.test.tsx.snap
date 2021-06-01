@@ -1,51 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
-<RCTScrollView
-  contentContainerStyle={
-    Object {
-      "flexGrow": 1,
-    }
-  }
-  showsVerticalScrollIndicator={false}
+<RNCSafeAreaView
   style={
     Object {
       "flex": 1,
+      "justifyContent": "space-between",
     }
   }
 >
-  <View>
-    <Image
-      resizeMode="stretch"
-      source={
-        Object {
-          "testUri": "../../../packages/mobile/src/images/leaves.png",
-        }
+  <RCTScrollView
+    contentContainerStyle={
+      Object {
+        "alignItems": "center",
+        "marginHorizontal": 24,
       }
-      style={
-        Object {
-          "left": 0,
-          "position": "absolute",
-          "right": 0,
-          "top": 0,
-          "width": "100%",
-        }
-      }
-    />
-    <RNCSafeAreaView
-      edges={
-        Array [
-          "bottom",
-        ]
-      }
-      style={
-        Object {
-          "alignItems": "center",
-          "flex": 1,
-          "marginHorizontal": 24,
-        }
-      }
-    >
+    }
+    showsVerticalScrollIndicator={false}
+  >
+    <View>
       <View
         accessible={true}
         focusable={true}
@@ -77,7 +50,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
               "alignSelf": "flex-start",
             },
             Object {
-              "marginTop": 20,
+              "marginTop": 0,
             },
           ]
         }
@@ -110,7 +83,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
       <Image
         source={
           Object {
-            "testUri": "../../../packages/mobile/src/images/consumerIncentives.png",
+            "testUri": "../../../packages/mobile/src/images/earnMain.png",
           }
         }
       />
@@ -121,7 +94,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
             "fontFamily": "Jost-Medium",
             "fontSize": 22,
             "lineHeight": 28,
-            "marginTop": 16,
+            "marginTop": 32,
             "textAlign": "center",
           }
         }
@@ -130,236 +103,211 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
       </Text>
       <Text
         style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 16,
+            "lineHeight": 22,
+            "marginTop": 12,
+            "textAlign": "center",
+          }
+        }
+      >
+        summary
+      </Text>
+      <View
+        style={
+          Object {
+            "flex": 1,
+            "flexDirection": "row",
+            "marginTop": 24,
+            "width": "100%",
+          }
+        }
+      >
+        <Image
+          resizeMode="contain"
+          source={
+            Object {
+              "testUri": "../../../packages/mobile/src/images/earn1.png",
+            }
+          }
+          style={
+            Object {
+              "marginRight": 12,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "flex": 1,
+              "flexDirection": "column",
+              "marginLeft": 12,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-SemiBold",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+          >
+            earnWeekly.header
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+          >
+            earnWeekly.text
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "flex": 1,
+            "flexDirection": "row",
+            "marginTop": 24,
+            "width": "100%",
+          }
+        }
+      >
+        <Image
+          resizeMode="contain"
+          source={
+            Object {
+              "testUri": "../../../packages/mobile/src/images/earn2.png",
+            }
+          }
+          style={
+            Object {
+              "marginRight": 12,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "flex": 1,
+              "flexDirection": "column",
+              "marginLeft": 12,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-SemiBold",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+          >
+            noMinCommitment.header
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+          >
+            noMinCommitment.earningText
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "flex": 1,
+            "flexDirection": "row",
+            "marginTop": 24,
+            "width": "100%",
+          }
+        }
+      >
+        <Image
+          resizeMode="contain"
+          source={
+            Object {
+              "testUri": "../../../packages/mobile/src/images/earn3.png",
+            }
+          }
+          style={
+            Object {
+              "marginRight": 12,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "flex": 1,
+              "flexDirection": "column",
+              "marginLeft": 12,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-SemiBold",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+          >
+            saveMoreEarnMore.header
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+          >
+            saveMoreEarnMore.text
+          </Text>
+        </View>
+      </View>
+      <Text
+        style={
           Array [
             Object {
               "color": "#2E3338",
               "fontFamily": "Inter-Regular",
               "fontSize": 16,
               "lineHeight": 22,
+              "marginTop": 12,
               "textAlign": "center",
             },
             Object {
-              "marginTop": 16,
+              "marginTop": 24,
             },
           ]
         }
       >
-        description
+        conclusion
       </Text>
-      <View
-        style={
-          Object {
-            "borderColor": "#B4B9BD",
-            "borderRadius": 4,
-            "borderWidth": 1,
-            "marginTop": 32,
-            "padding": 16,
-            "width": "100%",
-          }
-        }
-      >
-        <Text
-          style={
-            Object {
-              "color": "#2E3338",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 16,
-              "fontWeight": "600",
-              "lineHeight": 22,
-              "marginBottom": 8,
-              "textAlign": "center",
-            }
-          }
-        >
-          level
-        </Text>
-        <Text
-          style={
-            Array [
-              Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 22,
-                "textAlign": "center",
-              },
-              Object {
-                "marginBottom": 4,
-                "paddingHorizontal": 12,
-              },
-            ]
-          }
-        >
-          getCeloRewards
-        </Text>
-        <View
-          style={
-            Object {
-              "alignSelf": "stretch",
-              "backgroundColor": "#B4B9BD",
-              "height": 1,
-              "marginHorizontal": 8,
-              "marginVertical": 16,
-            }
-          }
-        />
-        <Text
-          style={
-            Object {
-              "color": "#2E3338",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 16,
-              "fontWeight": "600",
-              "lineHeight": 22,
-              "marginBottom": 8,
-              "textAlign": "center",
-            }
-          }
-        >
-          level
-        </Text>
-        <Text
-          style={
-            Array [
-              Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 22,
-                "textAlign": "center",
-              },
-              Object {
-                "marginBottom": 4,
-                "paddingHorizontal": 12,
-              },
-            ]
-          }
-        >
-          getCeloRewards
-        </Text>
-        <View
-          style={
-            Object {
-              "alignSelf": "stretch",
-              "backgroundColor": "#B4B9BD",
-              "height": 1,
-              "marginHorizontal": 8,
-              "marginVertical": 16,
-            }
-          }
-        />
-        <Text
-          style={
-            Object {
-              "color": "#2E3338",
-              "fontFamily": "Inter-Regular",
-              "fontSize": 16,
-              "fontWeight": "600",
-              "lineHeight": 22,
-              "marginBottom": 8,
-              "textAlign": "center",
-            }
-          }
-        >
-          level
-        </Text>
-        <Text
-          style={
-            Array [
-              Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 22,
-                "textAlign": "center",
-              },
-              Object {
-                "marginBottom": 4,
-                "paddingHorizontal": 12,
-              },
-            ]
-          }
-        >
-          getCeloRewards
-        </Text>
-      </View>
-      <View
-        style={
-          Object {
-            "marginTop": 36,
-            "width": "100%",
-          }
-        }
-      >
-        <View
-          style={
-            Array [
-              Object {
-                "flexDirection": "column",
-              },
-              undefined,
-            ]
-          }
-        >
-          <View
-            style={
-              Array [
-                Object {
-                  "overflow": "hidden",
-                },
-                Object {
-                  "borderRadius": 100,
-                },
-              ]
-            }
-          >
-            <View
-              accessible={true}
-              focusable={true}
-              nativeBackgroundAndroid={
-                Object {
-                  "attribute": "selectableItemBackground",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
-                }
-              }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              style={
-                Object {
-                  "alignItems": "center",
-                  "backgroundColor": "#1AB775",
-                  "flexGrow": 1,
-                  "height": 48,
-                  "justifyContent": "center",
-                  "opacity": undefined,
-                  "paddingHorizontal": 24,
-                  "paddingVertical": 5,
-                }
-              }
-              testID="ConsumerIncentives/CTA"
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#FFFFFF",
-                    "fontFamily": "Inter-SemiBold",
-                    "fontSize": 16,
-                    "lineHeight": 22,
-                  }
-                }
-              >
-                addCusd
-              </Text>
-            </View>
-          </View>
-        </View>
-      </View>
       <RNGestureHandlerButton
         collapsable={false}
         onGestureEvent={[Function]}
@@ -383,7 +331,6 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
           <Text
             style={
               Object {
-                "alignSelf": "center",
                 "color": "#1AB775",
                 "fontFamily": "Jost-Medium",
                 "fontSize": 17,
@@ -396,7 +343,86 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
           </Text>
         </View>
       </RNGestureHandlerButton>
-    </RNCSafeAreaView>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      Object {
+        "borderTopColor": "#EDEEEF",
+        "borderTopWidth": 1,
+        "paddingHorizontal": 24,
+        "paddingVertical": 16,
+      }
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "flexDirection": "column",
+          },
+          undefined,
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            Object {
+              "borderRadius": 100,
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#1AB775",
+              "flexGrow": 1,
+              "height": 48,
+              "justifyContent": "center",
+              "opacity": undefined,
+              "paddingHorizontal": 24,
+              "paddingVertical": 5,
+            }
+          }
+          testID="ConsumerIncentives/CTA"
+        >
+          <Text
+            style={
+              Object {
+                "color": "#FFFFFF",
+                "fontFamily": "Inter-SemiBold",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+          >
+            addCusd
+          </Text>
+        </View>
+      </View>
+    </View>
   </View>
-</RCTScrollView>
+</RNCSafeAreaView>
 `;
