@@ -66,11 +66,7 @@ describe('Transak', () => {
   it('fetches quotes correctly when digital asset is cUSD', async () => {
     const fiatCurrency = 'USD'
     const digitalAsset = DigitalAsset.CUSD
-    const userLocation = {
-      ipAddress: '1.0.0.7',
-      country: 'US',
-      state: 'CA',
-    }
+    const userCountry = 'US'
 
     fetchMock.mockResponse(
       createTransakQuoteResponse(fiatCurrency, digitalAsset, 'credit_debit_card')
@@ -80,7 +76,7 @@ describe('Transak', () => {
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
-      userLocation
+      userCountry
     )
 
     expect(quotes).toEqual([
@@ -96,11 +92,7 @@ describe('Transak', () => {
   it('fetches quotes correctly when digital asset is CELO', async () => {
     const fiatCurrency = 'USD'
     const digitalAsset = DigitalAsset.CELO
-    const userLocation = {
-      ipAddress: '1.0.0.7',
-      country: 'US',
-      state: 'CA',
-    }
+    const userCountry = 'US'
 
     fetchMock.mockResponse(
       createTransakQuoteResponse(fiatCurrency, digitalAsset, 'credit_debit_card')
@@ -110,7 +102,7 @@ describe('Transak', () => {
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
-      userLocation
+      userCountry
     )
 
     expect(quotes).toEqual([
@@ -126,11 +118,7 @@ describe('Transak', () => {
   it("fetches quotes correctly when fiatCurrency is not native to the user's location", async () => {
     const fiatCurrency = 'PHP'
     const digitalAsset = DigitalAsset.CUSD
-    const userLocation = {
-      ipAddress: '1.0.0.7',
-      country: 'US',
-      state: 'CA',
-    }
+    const userCountry = 'US'
 
     fetchMock.mockResponses(
       MOCK_BLOCKCHAIN_API_EXCHANGE_RATE,
@@ -141,7 +129,7 @@ describe('Transak', () => {
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
-      userLocation
+      userCountry
     )
 
     expect(quotes).toEqual([
@@ -157,11 +145,7 @@ describe('Transak', () => {
   it("fetches quotes correctly when user's location has banking cash-in options", async () => {
     const fiatCurrency = 'EUR'
     const digitalAsset = DigitalAsset.CUSD
-    const userLocation = {
-      ipAddress: '1.0.0.7',
-      country: 'FR',
-      state: null,
-    }
+    const userCountry = 'FR'
 
     fetchMock.mockResponses(
       createTransakQuoteResponse(fiatCurrency, digitalAsset, 'credit_debit_card'),
@@ -172,7 +156,7 @@ describe('Transak', () => {
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
-      userLocation
+      userCountry
     )
 
     expect(quotes).toEqual([
@@ -194,11 +178,7 @@ describe('Transak', () => {
   it('gracefully handles when a quote fetch fails', async () => {
     const fiatCurrency = 'USD'
     const digitalAsset = DigitalAsset.CUSD
-    const userLocation = {
-      ipAddress: '1.0.0.7',
-      country: 'US',
-      state: 'CA',
-    }
+    const userCountry = 'US'
 
     fetchMock.mockReject()
 
@@ -206,7 +186,7 @@ describe('Transak', () => {
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
-      userLocation
+      userCountry
     )
 
     expect(quotes).toEqual([])
@@ -215,11 +195,7 @@ describe('Transak', () => {
   it('gracefully handles when one quote fetch fails and the other succeeds', async () => {
     const fiatCurrency = 'EUR'
     const digitalAsset = DigitalAsset.CUSD
-    const userLocation = {
-      ipAddress: '1.0.0.7',
-      country: 'FR',
-      state: null,
-    }
+    const userCountry = 'FR'
 
     fetchMock.mockRejectOnce()
 
@@ -231,7 +207,7 @@ describe('Transak', () => {
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
-      userLocation
+      userCountry
     )
 
     expect(quotes).toEqual([

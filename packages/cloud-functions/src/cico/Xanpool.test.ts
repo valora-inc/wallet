@@ -43,11 +43,7 @@ describe('Xanpool', () => {
   it('fetches quotes correctly when digital asset is cUSD', async () => {
     const fiatCurrency = 'PHP'
     const digitalAsset = DigitalAsset.CUSD
-    const userLocation = {
-      ipAddress: '1.0.0.7',
-      country: 'PH',
-      state: null,
-    }
+    const userCountry = 'PH'
 
     fetchMock.mockResponse(createXanpoolQuoteResponse(fiatCurrency))
 
@@ -56,7 +52,7 @@ describe('Xanpool', () => {
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
-      userLocation
+      userCountry
     )
 
     expect(quotes).toEqual([
@@ -72,11 +68,7 @@ describe('Xanpool', () => {
   it('fetches quotes correctly when digital asset is CELO', async () => {
     const fiatCurrency = 'PHP'
     const digitalAsset = DigitalAsset.CUSD
-    const userLocation = {
-      ipAddress: '1.0.0.7',
-      country: 'PH',
-      state: null,
-    }
+    const userCountry = 'PH'
 
     fetchMock.mockResponse(createXanpoolQuoteResponse(fiatCurrency))
 
@@ -85,7 +77,7 @@ describe('Xanpool', () => {
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
-      userLocation
+      userCountry
     )
 
     expect(quotes).toEqual([
@@ -101,11 +93,7 @@ describe('Xanpool', () => {
   it("fetches quotes correctly when fiatCurrency is not native to the user's location", async () => {
     const fiatCurrency = 'USD'
     const digitalAsset = DigitalAsset.CUSD
-    const userLocation = {
-      ipAddress: '1.0.0.7',
-      country: 'PH',
-      state: null,
-    }
+    const userCountry = 'PH'
 
     fetchMock.mockResponses(
       MOCK_BLOCKCHAIN_API_EXCHANGE_RATE,
@@ -117,7 +105,7 @@ describe('Xanpool', () => {
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
-      userLocation
+      userCountry
     )
 
     expect(quotes).toEqual([
@@ -133,11 +121,7 @@ describe('Xanpool', () => {
   it('gracefully handles when a quote fetch fails', async () => {
     const fiatCurrency = 'USD'
     const digitalAsset = DigitalAsset.CUSD
-    const userLocation = {
-      ipAddress: '1.0.0.7',
-      country: 'US',
-      state: 'CA',
-    }
+    const userCountry = 'PH'
 
     fetchMock.mockReject()
 
@@ -146,7 +130,7 @@ describe('Xanpool', () => {
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
-      userLocation
+      userCountry
     )
 
     expect(quotes).toEqual([])
@@ -155,20 +139,14 @@ describe('Xanpool', () => {
   it("gracefully fails when a user's location is unsupported", async () => {
     const fiatCurrency = 'USD'
     const digitalAsset = DigitalAsset.CUSD
-    const userLocation = {
-      ipAddress: '1.0.0.7',
-      country: 'US',
-      state: 'CA',
-    }
-
-    fetchMock.mockReject()
+    const userCountry = 'US'
 
     const quotes = await Xanpool.fetchQuote(
       'buy',
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
-      userLocation
+      userCountry
     )
 
     expect(quotes).toEqual([])

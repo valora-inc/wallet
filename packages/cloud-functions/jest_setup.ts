@@ -48,5 +48,8 @@ jest.mock('firebase-functions', () => ({
     full_node: {
       url: 'forno.celo.org',
     },
+    ip_api: {
+      key: 'IP API KEY',
+    },
   })),
 }))
