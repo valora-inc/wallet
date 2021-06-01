@@ -15,6 +15,7 @@ import { mockAccount } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
 
 const AMOUNT_TO_CASH_IN = 100
+const MOCK_IP_ADDRESS = '1.1.1.7'
 
 const mockScreenProps = (
   isCashIn: boolean,
@@ -38,14 +39,13 @@ const mockStore = createMockStore({
   localCurrency: {
     preferredCurrencyCode: LocalCurrencyCode.USD,
   },
-})
-
-const MOCK_IP_ADDRESS = '1.1.1.1.1.0'
-
-const MOCK_USER_LOCATION = JSON.stringify({
-  alpha2: 'MX',
-  state: null,
-  ipAddress: MOCK_IP_ADDRESS,
+  networkInfo: {
+    userLocationData: {
+      countryCodeAlpha2: 'MX',
+      region: null,
+      ipAddress: MOCK_IP_ADDRESS,
+    },
+  },
 })
 
 const MOCK_SIMPLEX_QUOTE = {
@@ -142,7 +142,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('renders correctly', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -156,7 +156,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('opens Simplex correctly', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -174,7 +174,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('opens a non-integrated provider correctly', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -189,7 +189,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('moves available providers to the top of the list', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -205,7 +205,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('moves unavailable providers to the bottom of the list', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -222,7 +222,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('disables a provider if they are unavailable', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -239,7 +239,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('shows a warning if user region is not supported', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -255,7 +255,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('shows a warning if the selected payment method is not supported', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>

@@ -1,4 +1,4 @@
-import { UserLocationData } from './fetchProviders'
+import { UserLocationData } from './fetchUserLocationData'
 
 type Entries<T> = Array<{ [K in keyof T]: [K, T[K]] }[keyof T]>
 type ProviderAvailability = typeof providerAvailability
@@ -7,8 +7,8 @@ type SpecificProviderAvailability = { [K in keyof ProviderAvailability]: boolean
 export function getProviderAvailability(
   userLocation: UserLocationData | undefined
 ): SpecificProviderAvailability {
-  const countryCodeAlpha2 = userLocation?.country ?? null
-  const stateCode = userLocation?.state ?? null
+  const countryCodeAlpha2 = userLocation?.countryCodeAlpha2 ?? null
+  const stateCode = userLocation?.region ?? null
 
   // tslint:disable-next-line: no-object-literal-type-assertion
   const features = {} as SpecificProviderAvailability

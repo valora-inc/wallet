@@ -36,6 +36,7 @@ interface NetworkConfig {
   CIP8MetadataUrl: string
   providerFetchUrl: string
   simplexApiUrl: string
+  fetchUserLocationDataUrl: string
   komenciLoadCheckEndpoint: string
   walletConnectEndpoint: string
 }
@@ -70,6 +71,12 @@ const SIMPLEX_API_URL_STAGING =
   'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/processSimplexRequest'
 const SIMPLEX_API_URL_PROD =
   'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/processSimplexRequest'
+
+const FETCH_USER_LOCATION_DATA_STAGING =
+  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/fetchUserLocationData'
+const FETCH_USER_LOCATION_DATA_PROD =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/fetchUserLocationData'
+
 const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'https://staging-komenci.azurefd.net/v1/ready'
 const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1/ready'
 
@@ -93,6 +100,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     bidaliUrl: BIDALI_URL,
     providerFetchUrl: PROVIDER_FETCH_URL_ALFAJORES,
     simplexApiUrl: SIMPLEX_API_URL_STAGING,
+    fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_STAGING,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
     walletConnectEndpoint: 'wss://walletconnect.celo-networks-dev.org',
   },
@@ -115,6 +123,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     bidaliUrl: BIDALI_URL,
     providerFetchUrl: PROVIDER_FETCH_URL_MAINNET,
     simplexApiUrl: SIMPLEX_API_URL_PROD,
+    fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_PROD,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
     walletConnectEndpoint: 'wss://walletconnect.celo.org',
   },
