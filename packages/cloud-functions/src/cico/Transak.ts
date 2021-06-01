@@ -1,5 +1,5 @@
 import { DigitalAsset, TRANSAK_DATA } from '../config'
-import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
+import { PaymentMethod, ProviderQuote } from './fetchProviders'
 import { bankingSystemToCountry } from './providerAvailability'
 import { fetchLocalCurrencyAndExchangeRate, fetchWithTimeout } from './utils'
 
@@ -41,7 +41,7 @@ export const Transak = {
     digitalAsset: DigitalAsset,
     fiatCurrency: string,
     fiatAmount: number | undefined,
-    userLocation: UserLocationData
+    userCountry: string | null
   ): Promise<ProviderQuote[]> => {
     try {
       if (!fiatAmount) {
@@ -49,7 +49,7 @@ export const Transak = {
       }
 
       const { localCurrency, localAmount, exchangeRate } = await Transak.convertToLocalCurrency(
-        userLocation.country,
+        userCountry,
         fiatCurrency,
         fiatAmount
       )
@@ -66,7 +66,7 @@ export const Transak = {
         &isBuyOrSell=BUY
       `.replace(/\s+/g, '')
 
-      const validPaymentMethods = Transak.determineValidPaymentMethods(userLocation.country)
+      const validPaymentMethods = Transak.determineValidPaymentMethods(userCountry)
 
       const rawQuotes: Array<TransakQuote | null> = await Promise.all(
         validPaymentMethods.map((method) => Transak.get(`${baseUrl}&paymentMethodId=${method}`))

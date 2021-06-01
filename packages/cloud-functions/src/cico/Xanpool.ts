@@ -1,5 +1,5 @@
 import { DigitalAsset, XANPOOL_DATA } from '../config'
-import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
+import { PaymentMethod, ProviderQuote } from './fetchProviders'
 import { fetchLocalCurrencyAndExchangeRate, fetchWithTimeout, findContinguousSpaces } from './utils'
 
 interface XanpoolQuote {
@@ -24,7 +24,7 @@ export const Xanpool = {
     digitalAsset: DigitalAsset,
     fiatCurrency: string,
     amount: number | undefined,
-    userLocation: UserLocationData
+    userCountry: string | null
   ): Promise<ProviderQuote[]> => {
     try {
       if (!amount) {
@@ -32,7 +32,7 @@ export const Xanpool = {
       }
 
       const { localCurrency, localAmount, exchangeRate } = await Xanpool.convertToLocalCurrency(
-        userLocation.country,
+        userCountry,
         fiatCurrency,
         amount
       )

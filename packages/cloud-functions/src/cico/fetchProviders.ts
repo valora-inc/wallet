@@ -76,7 +76,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
   const [simplexQuote, moonpayQuote, xanpoolQuote, transakQuote] = await Promise.all([
     Simplex.fetchQuote(
       requestData.walletAddress,
-      requestData.userLocation.ipAddress,
+      userLocationData.ipAddress,
       requestData.digitalAsset,
       requestData.fiatCurrency,
       requestData.fiatAmount || requestData.digitalAssetAmount,
@@ -86,20 +86,20 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       requestData.digitalAsset,
       requestData.fiatCurrency,
       requestData.fiatAmount,
-      requestData.userLocation
+      userLocationData.countryCodeAlpha2
     ),
     Xanpool.fetchQuote(
       requestData.txType,
       requestData.digitalAsset,
       requestData.fiatCurrency,
       requestData.fiatAmount,
-      requestData.userLocation
+      userLocationData.countryCodeAlpha2
     ),
     Transak.fetchQuote(
       requestData.digitalAsset,
       requestData.fiatCurrency,
       requestData.fiatAmount,
-      requestData.userLocation
+      userLocationData.countryCodeAlpha2
     ),
   ])
 

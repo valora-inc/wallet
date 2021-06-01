@@ -1,5 +1,5 @@
 import { DigitalAsset, MOONPAY_DATA } from '../config'
-import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
+import { PaymentMethod, ProviderQuote } from './fetchProviders'
 import { bankingSystemToCountry } from './providerAvailability'
 import { fetchLocalCurrencyAndExchangeRate, fetchWithTimeout, findContinguousSpaces } from './utils'
 
@@ -47,7 +47,7 @@ export const Moonpay = {
     digitalAsset: DigitalAsset,
     fiatCurrency: string,
     fiatAmount: number | undefined,
-    userLocation: UserLocationData
+    userCountry: string | null
   ): Promise<ProviderQuote[]> => {
     try {
       if (!fiatAmount) {
@@ -55,7 +55,7 @@ export const Moonpay = {
       }
 
       const { localCurrency, localAmount, exchangeRate } = await Moonpay.convertToLocalCurrency(
-        userLocation.country,
+        userCountry,
         fiatCurrency,
         fiatAmount
       )
@@ -71,7 +71,7 @@ export const Moonpay = {
         &baseCurrencyAmount=${localAmount.toFixed(2)}
       `.replace(findContinguousSpaces, '')
 
-      const validPaymentMethods = Moonpay.determineValidPaymentMethods(userLocation.country)
+      const validPaymentMethods = Moonpay.determineValidPaymentMethods(userCountry)
 
       const rawQuotes: Array<MoonpayQuote | null> = await Promise.all(
         validPaymentMethods.map((method) => Moonpay.get(`${baseUrl}&paymentMethod=${method}`))
