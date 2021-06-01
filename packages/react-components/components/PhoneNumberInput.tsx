@@ -20,10 +20,12 @@ async function requestPhoneNumber() {
     if (Platform.OS === 'android') {
       phoneNumber = await SmsRetriever.requestPhoneNumber()
     } else {
+      // eslint-disable-next-line no-console
       console.info(`${TAG}/requestPhoneNumber`, 'Not implemented in this platform')
     }
     return parsePhoneNumber(phoneNumber, '')
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.info(`${TAG}/requestPhoneNumber`, 'Could not request phone', error)
   }
 }
@@ -145,10 +147,6 @@ const styles = StyleSheet.create({
   flag: {
     fontSize: 20,
     marginRight: 4,
-  },
-  phoneCountryCode: {
-    ...fontStyles.regular,
-    flex: 1,
   },
   phoneNumberInput: {
     flex: 1,
