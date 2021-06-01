@@ -291,7 +291,7 @@ export function* completeAttestation(
     issuer,
     feeless: shouldUseKomenci,
   })
-  const code: AttestationCode = yield call(waitForAttestationCode, issuer)
+  const code: AttestationCode | null = yield call(waitForAttestationCode, issuer)
   if (!code) {
     return false
   }
@@ -703,7 +703,7 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
   // the same index position for more that one. We use the lock for that.
   yield call([receiveAttestationCodeLock, receiveAttestationCodeLock.acquireAsync])
   let message: string = action.payload.message
-  let index
+  let index: number | null = null
   try {
     const attestationInputStatus = yield select(attestationInputStatusSelector)
     index = action.payload.index ?? indexReadyForInput(attestationInputStatus)
@@ -824,7 +824,7 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
       error
     )
     yield put(showError(ErrorMessages.INVALID_ATTESTATION_CODE))
-    if (index) {
+    if (index !== null) {
       yield put(setAttestationInputStatus({ index, status: CodeInputStatus.Error }))
     }
   } finally {
@@ -845,7 +845,7 @@ export function* getPhoneHashDetails() {
   }
 }
 
-function errorHandler(saga: any, sagaName: string) {
+function createErrorHandler(saga: any, sagaName: string) {
   return function* (...args: any[]) {
     try {
       yield call(saga, ...args)
@@ -894,7 +894,7 @@ export function* verifySaga() {
     const task: Task = yield fork(function* () {
       Logger.debug(TAG, 'Verification Saga has started')
       for (const [actionType, saga] of sagas) {
-        yield takeEvery(actionType, errorHandler(saga, actionType))
+        yield takeEvery(actionType, createErrorHandler(saga, actionType))
       }
     })
     const { cancelled, timedOut }: { cancelled: boolean; timedOut: boolean } = yield race({
