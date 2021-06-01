@@ -587,6 +587,9 @@ export function* fetchOnChainDataSaga() {
 export function* completeAttestationsSaga() {
   const account: string = yield call(getKomenciAwareAccount)
   const contractKit: ContractKit = yield call(getContractKit)
+  // Only try to complete attestations that haven't been completed yet, otherwise we'll try to process
+  // already-completed attestations when resending messages or retrying which will cause the whole thing
+  // to fail
   const notCompletedActionableAttestations: ActionableAttestation[] = yield select(
     notCompletedActionableAttestationsSelector
   )
@@ -612,6 +615,7 @@ export function* completeAttestationsSaga() {
     })
   )
 
+  // If some code was canceled we haven't actually finished :)
   if (results.every((result) => result)) {
     yield put(setMtwAddress(komenci.unverifiedMtwAddress))
     yield put(succeed())
