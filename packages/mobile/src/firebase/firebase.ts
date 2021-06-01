@@ -234,8 +234,13 @@ export function appRemoteFeatureFlagChannel() {
         shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
         inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,
         inviteRewardCusd: flags?.inviteRewardCusd ?? 1,
-        inviteRewardWeeklyLimit: flags?.inviteRewardCusd ?? 5,
+        inviteRewardWeeklyLimit: flags?.inviteRewardWeeklyLimit ?? 5,
         walletConnectEnabled: flags?.walletConnectEnabled ?? false,
+        rewardsABTestThreshold:
+          flags?.rewardsABTestThreshold ?? '0xffffffffffffffffffffffffffffffffffffffff',
+        rewardsPercent: flags?.rewardsPercent ?? 5,
+        rewardsStartDate: flags?.rewardsStartDate ?? 1622505600000,
+        rewardsMax: flags?.rewardsMax ?? 1000,
       })
     }
 

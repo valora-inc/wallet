@@ -560,6 +560,10 @@ export const v9Schema = {
     ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     showRaiseDailyLimitTarget: undefined,
     walletConnectEnabled: false,
+    rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
+    rewardsPercent: 5,
+    rewardsStartDate: 1622505600000,
+    rewardsMax: 1000,
     ranVerificationMigrationAt: null,
   },
   walletConnect: {
