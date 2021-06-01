@@ -14,6 +14,7 @@ import {
   XANPOOL_DATA,
 } from '../config'
 import { Simplex, SimplexPaymentData, SimplexQuote } from './Simplex'
+import { findContinguousSpaces } from './utils'
 const URL = require('url').URL
 
 interface UrlRequestData {
@@ -49,7 +50,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &baseCurrencyCode=${fiatCurrency}
         &baseCurrencyAmount=${fiatAmount}
         &redirectURL=${encodeURIComponent(cashInSuccessDeepLink)}
-        `.replace(/\s+/g, '')
+        `.replace(findContinguousSpaces, '')
 
     const signature = crypto
       .createHmac('sha256', MOONPAY_DATA.private_key)
@@ -69,7 +70,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &fiatValue=${fiatAmount}
         &finalUrl=${encodeURIComponent(cashInSuccessDeepLink)}
         &webhookStatusUrl=${RAMP_DATA.webhook_url}
-      `.replace(/\s+/g, '')
+      `.replace(findContinguousSpaces, '')
   } else if (providerName === Providers.Transak.toLowerCase()) {
     finalUrl = `
       ${TRANSAK_DATA.widget_url}
@@ -82,7 +83,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &defaultFiatAmount=${fiatAmount}
         &redirectURL=${encodeURIComponent(CASH_IN_SUCCESS_URL)}
         &hideMenu=true
-      `.replace(/\s+/g, '')
+      `.replace(findContinguousSpaces, '')
   } else if (providerName === Providers.Xanpool.toLowerCase()) {
     const supportedCurrencies = ['IDR', 'VND', 'SGD', 'HKD', 'TBH', 'INR', 'MYR', 'PHP']
 
@@ -94,7 +95,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         ${supportedCurrencies.includes(fiatCurrency) ? `&currency=${fiatCurrency}` : ''}
         &fiat=${fiatAmount}
         &redirectUrl=${CASH_IN_SUCCESS_DEEPLINK}
-      `.replace(/\s+/g, '')
+      `.replace(findContinguousSpaces, '')
   }
 
   response.send(JSON.stringify(finalUrl))

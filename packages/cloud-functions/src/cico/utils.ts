@@ -9,6 +9,7 @@ const fetch = require('node-fetch')
 
 const bigQuery = getBigQueryInstance()
 
+export const findContinguousSpaces: RegExp = /\s+/g
 export interface UserDeviceInfo {
   id: string
   appVersion: string

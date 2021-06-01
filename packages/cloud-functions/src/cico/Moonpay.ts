@@ -1,7 +1,7 @@
 import { DigitalAsset, FETCH_TIMEOUT_DURATION, MOONPAY_DATA } from '../config'
 import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
 import { bankingSystemToCountry } from './providerAvailability'
-import { fetchLocalCurrencyAndExchangeRate, fetchWithTimeout } from './utils'
+import { fetchLocalCurrencyAndExchangeRate, fetchWithTimeout, findContinguousSpaces } from './utils'
 
 interface MoonpayQuote {
   baseCurrency: {
@@ -69,7 +69,7 @@ export const Moonpay = {
         /?apiKey=${MOONPAY_DATA.public_key}
         &baseCurrencyCode=${localCurrency.toLowerCase()}
         &baseCurrencyAmount=${localAmount.toFixed(2)}
-      `.replace(/\s+/g, '')
+      `.replace(findContinguousSpaces, '')
 
       const validPaymentMethods = Moonpay.determineValidPaymentMethods(userLocation.country)
 

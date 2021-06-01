@@ -1,6 +1,6 @@
 import { DigitalAsset, FETCH_TIMEOUT_DURATION, XANPOOL_DATA } from '../config'
 import { PaymentMethod, ProviderQuote, UserLocationData } from './fetchProviders'
-import { fetchLocalCurrencyAndExchangeRate, fetchWithTimeout } from './utils'
+import { fetchLocalCurrencyAndExchangeRate, fetchWithTimeout, findContinguousSpaces } from './utils'
 
 interface XanpoolQuote {
   crypto: number
@@ -45,7 +45,7 @@ export const Xanpool = {
         ${XANPOOL_DATA.api_url}
         /transactions
         /estimate
-      `.replace(/\s+/g, '')
+      `.replace(findContinguousSpaces, '')
 
       const requestBody =
         txType === 'buy'
