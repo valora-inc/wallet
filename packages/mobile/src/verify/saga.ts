@@ -117,8 +117,8 @@ import {
   startKomenciSession,
   stop,
   succeed,
-  verificationStatusSelector,
   VERIFICATION_TIMEOUT,
+  verificationStatusSelector,
 } from 'src/verify/module'
 import { requestAttestationsSaga } from 'src/verify/requestAttestations'
 import {
@@ -212,10 +212,8 @@ function* waitForAttestationCode(issuer: string): Generator<any, AttestationCode
   }
 
   const {
-    cancel,
     success,
   }: {
-    cancel: ReturnType<typeof revealAttestations>
     success: ReturnType<typeof inputAttestationCode>
   } = yield race({
     success: take(inputAttestationCode.type),
@@ -864,7 +862,7 @@ function errorHandler(saga: any, sagaName: string) {
   }
 }
 
-const sagas: [string, any][] = [
+const sagas: Array<[string, any]> = [
   [checkIfKomenciAvailable.type, checkIfKomenciAvailableSaga],
   [start.type, startSaga],
   [startKomenciSession.type, startOrResumeKomenciSessionSaga],
