@@ -261,6 +261,7 @@ export async function updatePin(account: string, oldPin: string, newPin: string)
     const updated = await wallet.updateAccount(account, oldPassword, newPassword)
     if (updated) {
       clearPasswordCaches()
+      setCachedPin(DEFAULT_CACHE_ACCOUNT, newPin)
       const hash = await getPasswordHash(newPassword)
       await storePasswordHash(hash, account)
       const phrase = await getStoredMnemonic(account, oldPassword)
