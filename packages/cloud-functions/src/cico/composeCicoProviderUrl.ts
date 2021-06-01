@@ -13,7 +13,7 @@ import {
   VALORA_LOGO_URL,
   XANPOOL_DATA,
 } from '../config'
-import Simplex, { SimplexPaymentData, SimplexQuote } from './Simplex'
+import { Simplex, SimplexPaymentData, SimplexQuote } from './Simplex'
 const URL = require('url').URL
 
 interface UrlRequestData {
