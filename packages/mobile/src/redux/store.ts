@@ -79,6 +79,7 @@ persistConfig.getStoredState = async (config: any) => {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
+// eslint-disable-next-line no-var
 declare var window: any
 
 export const configureStore = (initialState = {}) => {
