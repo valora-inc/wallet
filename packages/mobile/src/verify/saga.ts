@@ -95,6 +95,7 @@ import {
   nonConfirmedIssuersSelector,
   notCompletedActionableAttestationsSelector,
   NUM_ATTESTATIONS_REQUIRED,
+  OnChainVerificationStatus,
   phoneHashSelector,
   receiveAttestationCode,
   reportRevealStatus,
@@ -117,8 +118,9 @@ import {
   startKomenciSession,
   stop,
   succeed,
-  VERIFICATION_TIMEOUT,
   verificationStatusSelector,
+  // tslint:disable-next-line: ordered-imports
+  VERIFICATION_TIMEOUT,
 } from 'src/verify/module'
 import { requestAttestationsSaga } from 'src/verify/requestAttestations'
 import {
@@ -226,8 +228,11 @@ function* waitForAttestationCode(issuer: string): Generator<any, AttestationCode
   }
 }
 
-// Codes that are auto-imported or pasted in quick sucsession may revert due to being submitted by Komenci
-// with the same nonce as the previous code. Adding retry logic to attempt the tx again in that case
+// We used to have this because codes that are auto-imported or pasted in quick sucsession may revert
+// due to being submitted by Komenci with the same nonce as the previous code. However, this code is
+// now being called inside an acquired lock, so that shouldn't be an issue and komencikit already has
+// a retry mechanism baked in, so it feels unnecessary. All this function can probably be replaced by
+// a single call to |komenciKit.completeAttestation|.
 // TODO: Batch all available `complete` tranactions once Komenci supports it
 export function* submitCompleteTxAndRetryOnRevert(
   komenciKit: KomenciKit,
@@ -293,7 +298,7 @@ export function* completeAttestation(
   })
   const code: AttestationCode | null = yield call(waitForAttestationCode, issuer)
   if (!code) {
-    return false
+    return
   }
   const existingCodes: AttestationCode[] = yield select(attestationCodesSelector)
   const codePosition = existingCodes.findIndex((existingCode) => existingCode.issuer === issuer)
@@ -364,7 +369,6 @@ export function* completeAttestation(
   )
   Logger.debug(TAG + '@completeAttestation', `Attestation for issuer ${issuer} completed`)
   yield put(completeAttestationCode(code))
-  return true
 }
 
 export function* startSaga() {
@@ -604,7 +608,7 @@ export function* completeAttestationsSaga() {
   const komenci = yield select(komenciContextSelector)
   const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
-  const results: boolean[] = yield all(
+  yield all(
     notCompletedActionableAttestations.map((attestation) => {
       return call(
         completeAttestation,
@@ -617,8 +621,9 @@ export function* completeAttestationsSaga() {
     })
   )
 
-  // If some code was canceled we haven't actually finished :)
-  if (results.every((result) => result)) {
+  // Some code might have been canceled, so make sure user is verified before continuing
+  const status: OnChainVerificationStatus = yield select(verificationStatusSelector)
+  if (status.numAttestationsRemaining === 0) {
     yield put(setMtwAddress(komenci.unverifiedMtwAddress))
     yield put(succeed())
   }
