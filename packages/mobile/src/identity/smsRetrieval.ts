@@ -1,9 +1,8 @@
 import SmsRetriever from '@celo/react-native-sms-retriever'
 import { eventChannel } from 'redux-saga'
 import { call, put, take } from 'redux-saga/effects'
-import { receiveAttestationMessage } from 'src/identity/actions'
-import { CodeInputType, NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import Logger from 'src/utils/Logger'
+import { CodeInputType, NUM_ATTESTATIONS_REQUIRED, receiveAttestationCode } from 'src/verify/module'
 
 const TAG = 'identity/smsRetrieval'
 
@@ -20,9 +19,13 @@ export function* startAutoSmsRetrieval() {
   })
   yield call(startSmsRetriever)
   try {
+    const messages: string[] = []
     while (true) {
       const { message } = yield take(autoSmsChannel)
-      yield put(receiveAttestationMessage(message, CodeInputType.AUTOMATIC))
+      if (!messages.includes(message)) {
+        messages.push(message)
+        yield put(receiveAttestationCode({ message, inputType: CodeInputType.AUTOMATIC }))
+      }
     }
   } catch (error) {
     Logger.error(TAG + '@SmsRetriever', 'Error while retrieving code', error)
