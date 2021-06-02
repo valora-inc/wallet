@@ -29,8 +29,8 @@
     "button": "Invitar"
   },
   "inviteRewardsBanner": {
-    "title": "Obtén hasta US$5 al referir amigos!",
-    "body": "Envía valor a un amigo para ganar US$1 en CELO cuando se une. Hasta 5 amigos por semana."
+    "title": "¡Obtén ${{amount}} por referir a un amigo!",
+    "body": "Gana {{amount}} cUSD cuando envíes dinero a un amigo y se unen. <0>Más información</0>"
   },
   "getReward": "Obtén ${{reward}}"
 }
