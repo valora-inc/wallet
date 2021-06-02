@@ -79,7 +79,7 @@ export default CashIn = () => {
   it('Should Navigate to Simplex', async () => {
     await element(by.id('Provider/Simplex')).tap()
     await element(by.text('Continue to Simplex')).tap()
-    await sleep(10000)
+    await sleep(15000)
     const imagePath = await device.takeScreenshot('Simplex')
     await pixelDiff(
       imagePath,
