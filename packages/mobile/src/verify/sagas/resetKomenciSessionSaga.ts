@@ -5,6 +5,7 @@ import { Screens } from 'src/navigator/Screens'
 // them to redo the reCaptcha. To do that they need to go back to the VerificationEducationScreen.
 // When this happens they are usually on the VerificationInputScreen, so this brings them back so
 // they have to press on 'start' again and they get the reCaptcha prompt.
+// eslint-disable-next-line require-yield
 export default function* resetKomenciSessionSaga() {
   navigate(Screens.VerificationEducationScreen)
 }
