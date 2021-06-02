@@ -49,7 +49,7 @@ interface Props {
 export default class KeyboardSpacer extends React.Component<Props> {
   static defaultProps = {
     topSpacing: 0,
-    // tslint:disable-next-line: no-empty
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onToggle: (visible: boolean, keyboardSpace: number) => {},
   }
 
