@@ -65,7 +65,7 @@ export class BlockscoutAPI extends RESTDataSource {
 
     const response = await this.post('', {
       query: `
-        query Transfers($address: String!) {
+        query Transfers($address: AddressHash!) {
           # TXs related to cUSD or cGLD transfers
           transferTxs(addressHash: $address, first: 100) {
             edges {
