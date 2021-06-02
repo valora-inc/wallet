@@ -132,7 +132,7 @@ const RaiseLimitScreen = () => {
       </Text>
       {!dailyLimitRequestStatus && (
         <Text style={styles.bodyText}>
-          {numberIsVerified ? t('verifyNumberToRaiseLimit') : t('verifyIdentityToRaiseLimit')}
+          {numberIsVerified ? t('verifyIdentityToRaiseLimit') : t('verifyNumberToRaiseLimit')}
         </Text>
       )}
       {applicationStatusTexts && (

@@ -21,7 +21,6 @@ import {
 } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { useSelector } from 'react-redux'
-import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
@@ -37,6 +36,7 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { navigateToURI } from 'src/utils/linking'
 
 type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeOptions>
@@ -130,7 +130,7 @@ function PaymentMethodRadioItem({
 function FiatExchangeOptions({ route, navigation }: Props) {
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
   const isCashIn = route.params?.isCashIn ?? true
-  const countryCode = useSelector(defaultCountryCodeSelector)
+  const userLocationData = useSelector(userLocationDataSelector)
 
   const [selectedCurrency, setSelectedCurrency] = useState<CURRENCY_ENUM>(CURRENCY_ENUM.DOLLAR)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod>(
@@ -264,18 +264,19 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                     text={t('payWithBank')}
                     selected={selectedPaymentMethod === PaymentMethod.Bank}
                     onSelect={onSelectPaymentMethod(PaymentMethod.Bank)}
-                  />
-                  <PaymentMethodRadioItem
-                    text={t('receiveOnAddress')}
-                    selected={selectedPaymentMethod === PaymentMethod.Address}
-                    onSelect={onSelectPaymentMethod(PaymentMethod.Address)}
-                    enabled={selectedCurrency === CURRENCY_ENUM.GOLD}
+                    enabled={selectedCurrency === CURRENCY_ENUM.DOLLAR}
                   />
                   <PaymentMethodRadioItem
                     text={t('receiveWithBidali')}
                     selected={selectedPaymentMethod === PaymentMethod.GiftCard}
                     onSelect={onSelectPaymentMethod(PaymentMethod.GiftCard)}
                     enabled={selectedCurrency === CURRENCY_ENUM.DOLLAR}
+                  />
+                  <PaymentMethodRadioItem
+                    text={t('receiveOnAddress')}
+                    selected={selectedPaymentMethod === PaymentMethod.Address}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.Address)}
+                    enabled={selectedCurrency === CURRENCY_ENUM.GOLD}
                   />
                 </>
               )}
@@ -287,7 +288,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               {getAvailableLocalProviders(
                 localCicoProviders,
                 isCashIn,
-                countryCode,
+                userLocationData.countryCodeAlpha2,
                 selectedCurrency
               ).map((provider) => (
                 <PaymentMethodRadioItem

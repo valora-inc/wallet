@@ -37,7 +37,6 @@ interface SendConfirmationParams {
   currencyInfo?: CurrencyInfo
 }
 
-// tslint:disable-next-line: interface-over-type-literal
 export type StackParamList = {
   [Screens.BackupComplete]:
     | undefined
@@ -208,12 +207,12 @@ export type StackParamList = {
   [Screens.SelectLocalCurrency]: undefined
   [Screens.Send]:
     | {
-        isOutgoingPaymentRequest?: true
+        isOutgoingPaymentRequest?: boolean
       }
     | undefined
   [Screens.SendAmount]: {
     recipient: Recipient
-    isOutgoingPaymentRequest?: true
+    isOutgoingPaymentRequest?: boolean
     isFromScan?: boolean
     origin: SendOrigin
   }
@@ -255,7 +254,7 @@ export type StackParamList = {
     | { showSkipDialog?: boolean; hideOnboardingStep?: boolean; selectedCountryCodeAlpha2?: string }
     | undefined
   [Screens.VerificationInputScreen]: { showHelpDialog: boolean } | undefined
-  [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
+  [Screens.VerificationLoadingScreen]: undefined
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectSessionRequest]: {
@@ -284,14 +283,13 @@ export type StackParamList = {
   }
 }
 
-// tslint:disable-next-line: interface-over-type-literal
 export type QRTabParamList = {
   [Screens.QRCode]: undefined
   [Screens.QRScanner]:
     | {
         scanIsForSecureSend?: true
         transactionData?: TransactionDataInput
-        isOutgoingPaymentRequest?: true
+        isOutgoingPaymentRequest?: boolean
         requesterAddress?: string
       }
     | undefined

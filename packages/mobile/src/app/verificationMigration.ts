@@ -7,7 +7,7 @@ import { verificationMigrationRan } from 'src/app/actions'
 import { numberVerifiedSelector, ranVerificationMigrationSelector } from 'src/app/selectors'
 import { e164NumberToSaltSelector, E164NumberToSaltType } from 'src/identity/reducer'
 import Logger from 'src/utils/Logger'
-import { e164NumberSelector, KomenciContext, komenciContextSelector } from 'src/verify/reducer'
+import { e164NumberSelector, KomenciContext, komenciContextSelector } from 'src/verify/module'
 import { getContractKit } from 'src/web3/contracts'
 import { mtwAddressSelector } from 'src/web3/selectors'
 
