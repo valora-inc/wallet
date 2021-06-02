@@ -196,5 +196,6 @@
   "providerFetchFailed": "No se pudo conectar al servicio. Ponte en contacto con el soporte técnico",
   "ok": "OK",
   "cashOutLimitExceeded": "No puedes retirar más de tu saldo de {{currency}}{{balance}}",
-  "appDescription": "Una cartera de pagos móviles que funciona en todo el mundo"
+  "appDescription": "Una cartera de pagos móviles que funciona en todo el mundo",
+  "earn": "Gana"
 }

@@ -1,6 +1,5 @@
 import { SettingsItemInput } from '@celo/react-components/components/SettingsItem'
 import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -116,9 +115,5 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  title: {
-    ...fontStyles.h2,
-    margin: 16,
   },
 })

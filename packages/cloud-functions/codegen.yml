@@ -5,9 +5,9 @@ generates:
   src/apollo/types.ts:
     plugins:
       - 'add': |
-          /* 
-           * THIS FILE HAS BEEN GENERATED. DO NOT EDIT IT DIRECTLY. 
-           * 
+          /*
+           * THIS FILE HAS BEEN GENERATED. DO NOT EDIT IT DIRECTLY.
+           *
            * REGENERATE WITH:
            * `yarn run build:gen-graphql-types`
            */

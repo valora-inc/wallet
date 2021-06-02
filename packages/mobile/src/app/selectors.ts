@@ -9,7 +9,7 @@ import {
   shouldUseKomenciSelector,
   verificationStatusSelector,
 } from 'src/verify/module'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { accountAddressSelector, currentAccountSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
@@ -76,5 +76,13 @@ export const showRaiseDailyLimitSelector = createSelector(
       return false
     }
     return account < showRaiseDailyLimitTarget
+  }
+)
+
+export const rewardsThresholdSelector = (state: RootState) => state.app.rewardsABTestThreshold
+export const rewardsEnabledSelector = createSelector(
+  [accountAddressSelector, rewardsThresholdSelector],
+  (address, rewardsThreshold) => {
+    return address! < rewardsThreshold
   }
 )

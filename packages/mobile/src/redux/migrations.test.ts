@@ -1,7 +1,15 @@
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
-import { v0Schema, v1Schema, v2Schema, v7Schema, v8Schema, vNeg1Schema } from 'test/schemas'
+import {
+  v0Schema,
+  v13Schema,
+  v1Schema,
+  v2Schema,
+  v7Schema,
+  v8Schema,
+  vNeg1Schema,
+} from 'test/schemas'
 
 describe('Redux persist migrations', () => {
   it('works for v-1 to v0', () => {
@@ -240,5 +248,11 @@ describe('Redux persist migrations', () => {
     for (const deletedProperty of deletedVerifyProperties) {
       expect(Object.keys(migratedSchema.verify).includes(deletedProperty)).toEqual(false)
     }
+  })
+
+  it('works for v13 to v14', () => {
+    const migratedSchema = migrations[14](v13Schema)
+    expect(migratedSchema.networkInfo.userLocationData).toBeDefined()
+    expect(migratedSchema.networkInfo.userLocationData.countryCodeAlpha2).toEqual(null)
   })
 })
