@@ -215,18 +215,18 @@ function* waitForAttestationCode(issuer: string): Generator<any, AttestationCode
 
   while (true) {
     const {
-      cancel,
+      cancelled,
       success,
     }: {
-      cancel: ReturnType<typeof revealAttestations>
+      cancelled: ReturnType<typeof revealAttestations>
       success: ReturnType<typeof inputAttestationCode>
     } = yield race({
       success: take(inputAttestationCode.type),
-      cancel: take(revealAttestations.type),
+      cancelled: take(revealAttestations.type),
     })
     if (success?.payload.issuer === issuer) {
       return success.payload
-    } else if (cancel) {
+    } else if (cancelled) {
       return null
     }
   }
