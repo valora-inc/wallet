@@ -1,0 +1,18 @@
+{
+  "name": "@celo/eslint-config-typescript",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Celo",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@typescript-eslint/parser": "^4.25.0"
+  },
+  "peerDependencies": {
+    "@typescript-eslint/eslint-plugin": ">=4.0.0",
+    "eslint": ">=7.0.0",
+    "eslint-plugin-import": ">=2.0.0",
+    "eslint-plugin-react": ">=7.0.0",
+    "eslint-plugin-react-hooks": ">=4.0.0",
+    "eslint-plugin-react-native": ">=3.0.0"
+  }
+}

@@ -11,7 +11,7 @@ import {
   WEB3_PROVIDER_URL,
 } from './config'
 import { getLastBlockNotified, initializeDb as initializeFirebaseDb } from './firebase'
-import { exchangePolling, invitesPolling, notificationPolling } from './polling'
+import { invitesPolling, notificationPolling } from './polling'
 
 console.info('Service starting with environment, version:', ENVIRONMENT, VERSION)
 const START_TIME = Date.now()
@@ -76,10 +76,4 @@ invitesPolling.run()
 if (!WEB3_PROVIDER_URL) {
   console.info('No Web3 provider found. Skipping exchange polling.')
   console.info('Note that you will need to manually set contract addresses.')
-} else {
-  /**
-   * Start polling the Exchange contract
-   */
-  console.info('Starting Exchange contract polling')
-  exchangePolling.run()
 }

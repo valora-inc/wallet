@@ -153,21 +153,6 @@ export default function ReviewFees({
 }
 
 const styles = StyleSheet.create({
-  dialog: {
-    textAlign: 'center',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  dialogContent: {
-    width: '100%',
-    textAlign: 'center',
-  },
-  dialogTitle: {
-    marginBottom: 12,
-    display: 'flex',
-    width: '100%',
-  },
   review: {
     paddingVertical: 16,
     paddingHorizontal: 16,

@@ -560,11 +560,51 @@ export const v9Schema = {
     ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     showRaiseDailyLimitTarget: undefined,
     walletConnectEnabled: false,
+    rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
+    rewardsPercent: 5,
+    rewardsStartDate: 1622505600000,
+    rewardsMax: 1000,
     ranVerificationMigrationAt: null,
+  },
+  walletConnect: {
+    pairings: [],
+    sessions: [],
+    pendingSessions: [],
+    pendingActions: [],
+  },
+  fiatExchanges: {
+    ...v8Schema.fiatExchanges,
+    providerLogos: {},
+  },
+  identity: {
+    ...v8Schema.identity,
+    attestationInputStatus: [
+      CodeInputStatus.Inputting,
+      CodeInputStatus.Disabled,
+      CodeInputStatus.Disabled,
+    ],
+  },
+}
+
+// Skipping to v13 to keep in sync with migrations.ts
+export const v13Schema = {
+  ...v9Schema,
+  _persist: { version: 13, rehydrated: true },
+  identity: {
+    ..._.omit(
+      v9Schema.identity,
+      'attestationCodes',
+      'acceptedAttestationCodes',
+      'attestationInputStatus',
+      'numCompleteAttestations',
+      'verificationStatus',
+      'hasSeenVerificationNux',
+      'lastRevealAttempt'
+    ),
   },
   verify: {
     ..._.omit(
-      v8Schema.verify,
+      v9Schema.verify,
       'TEMPORARY_override_withoutVerification',
       'withoutRevealing',
       'retries'
@@ -580,18 +620,24 @@ export const v9Schema = {
       CodeInputStatus.Disabled,
     ],
   },
-  walletConnect: {
-    pairings: [],
-    sessions: [],
-    pendingSessions: [],
-    pendingActions: [],
+}
+
+export const v14Schema = {
+  ...v13Schema,
+  _persist: {
+    ...v13Schema._persist,
+    version: 14,
   },
-  fiatExchanges: {
-    ...v8Schema.fiatExchanges,
-    providerLogos: {},
+  networkInfo: {
+    ...v13Schema.networkInfo,
+    userLocationData: {
+      countryCodeAlpha2: 'US',
+      region: null,
+      ipAddress: null,
+    },
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v9Schema as Partial<RootState>
+  return v14Schema as Partial<RootState>
 }

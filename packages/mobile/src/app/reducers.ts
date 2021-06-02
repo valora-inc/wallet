@@ -23,6 +23,10 @@ export interface State {
   hideVerification: boolean
   showRaiseDailyLimitTarget: string | undefined
   walletConnectEnabled: boolean
+  rewardsPercent: number
+  rewardsStartDate: number
+  rewardsMax: number
+  rewardsABTestThreshold: string
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
   ranVerificationMigrationAt: number | null | undefined
@@ -47,6 +51,10 @@ const initialState = {
   hideVerification: false,
   showRaiseDailyLimitTarget: undefined,
   walletConnectEnabled: false,
+  rewardsPercent: 5,
+  rewardsStartDate: 1622505600000,
+  rewardsMax: 1000,
+  rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
   ranVerificationMigrationAt: null,
 }
 
@@ -150,6 +158,10 @@ export const appReducer = (
         celoEducationUri: action.flags.celoEducationUri,
         shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
         walletConnectEnabled: action.flags.walletConnectEnabled,
+        rewardsPercent: action.flags.rewardsPercent,
+        rewardsStartDate: action.flags.rewardsStartDate,
+        rewardsMax: action.flags.rewardsMax,
+        rewardsABTestThreshold: action.flags.rewardsABTestThreshold,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
