@@ -105,8 +105,8 @@ runTest() {
     --configuration $CONFIG_NAME \
     "${FILE_TO_RUN}" \
     --artifacts-location e2e/artifacts \
-    --take-screenshots=all \
-    --record-logs=all \
+    --take-screenshots=failing \
+    --record-logs=failing \
     --loglevel verbose \
     --debug-synchronization 1000 \
     --workers $WORKERS \
