@@ -560,6 +560,10 @@ export const v9Schema = {
     ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     showRaiseDailyLimitTarget: undefined,
     walletConnectEnabled: false,
+    rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
+    rewardsPercent: 5,
+    rewardsStartDate: 1622505600000,
+    rewardsMax: 1000,
     ranVerificationMigrationAt: null,
   },
   walletConnect: {
@@ -618,6 +622,22 @@ export const v13Schema = {
   },
 }
 
+export const v14Schema = {
+  ...v13Schema,
+  _persist: {
+    ...v13Schema._persist,
+    version: 14,
+  },
+  networkInfo: {
+    ...v13Schema.networkInfo,
+    userLocationData: {
+      countryCodeAlpha2: 'US',
+      region: null,
+      ipAddress: null,
+    },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v13Schema as Partial<RootState>
+  return v14Schema as Partial<RootState>
 }

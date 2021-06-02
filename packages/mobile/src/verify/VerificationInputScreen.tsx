@@ -132,7 +132,6 @@ class VerificationInputScreen extends React.Component<Props, State> {
       <TopBarTextButtonOnboarding
         title={i18n.t('global:help')}
         testID="VerificationInputHelp"
-        // tslint:disable-next-line: jsx-no-lambda
         onPress={() => navigation.setParams({ showHelpDialog: true })}
       />
     ),
