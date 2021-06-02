@@ -273,7 +273,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 16,
     padding: 24,
     alignItems: 'center',
-    // flex: 1
   },
   closeButton: {
     alignSelf: 'flex-end',
