@@ -96,5 +96,8 @@
   "raiseLimitEmailNotSent": "Your request was not sent. Please try again.",
   "storeRecoveryTitle": "We need you to setup your account again",
   "storeRecoveryBody": "There’s been an error. We’re aware of the issue and working to fix it. In the meantime, you will need to go through the setup process again.",
-  "storeRecoveryButton": "Restore Account"
+  "storeRecoveryButton": "Restore Account",
+  "havingTrouble": "Having Trouble?",
+  "shakeForSupport": "This menu appears when you shake your device.",
+  "contactSupport": "Contact Support"
 }

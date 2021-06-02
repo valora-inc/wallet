@@ -1,9 +1,15 @@
+import Button, { BtnTypes } from '@celo/react-components/components/Button'
+import Touchable from '@celo/react-components/components/Touchable'
+import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
+import fontStyles from '@celo/react-components/styles/fonts'
+import variables from '@celo/react-components/styles/variables'
 import AsyncStorage from '@react-native-community/async-storage'
 import { DefaultTheme, NavigationContainer, NavigationState } from '@react-navigation/native'
 import * as React from 'react'
-import { Share, StyleSheet, View } from 'react-native'
+import { Share, StyleSheet, Text, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import Modal from 'react-native-modal'
 import RNShake from 'react-native-shake'
 import { useDispatch, useSelector } from 'react-redux'
 import AlertBanner from 'src/alert/AlertBanner'
@@ -56,6 +62,7 @@ const AppTheme = {
 export const NavigatorWrapper = () => {
   const [isReady, setIsReady] = React.useState(RESTORE_STATE ? false : true)
   const [initialState, setInitialState] = React.useState()
+  const [shakeForSupportVisible, setShakeForSupportVisible] = React.useState(false)
   const appLocked = useTypedSelector(getAppLocked)
   const minRequiredVersion = useTypedSelector((state) => state.app.minVersion)
   const isInviteModalVisible = useTypedSelector((state) => state.app.inviteModalVisible)
@@ -126,7 +133,7 @@ export const NavigatorWrapper = () => {
     RNShake.addEventListener('ShakeEvent', () => {
       Logger.info('NavigatorWrapper', 'Shake Event')
       // TODO: Cancel all modals before this
-      navigate(Screens.SupportContact)
+      setShakeForSupportVisible(true)
     })
     return () => {
       RNShake.removeEventListener('ShakeEvent')
@@ -183,6 +190,15 @@ export const NavigatorWrapper = () => {
     navigatorIsReadyRef.current = true
   }
 
+  const onCancelSupport = () => {
+    setShakeForSupportVisible(false)
+  }
+
+  const onContactSupport = () => {
+    setShakeForSupportVisible(false)
+    navigate(Screens.SupportContact)
+  }
+
   return (
     <NavigationContainer
       ref={navigationRef}
@@ -200,6 +216,26 @@ export const NavigatorWrapper = () => {
           <AlertBanner />
           <InviteFriendModal isVisible={isInviteModalVisible} onInvite={onInvite} />
         </View>
+        <Modal isVisible={shakeForSupportVisible} backdropOpacity={0.5} style={styles.modal}>
+          <View style={styles.shakeForSupport}>
+            <Touchable
+              style={styles.closeButton}
+              onPress={onCancelSupport}
+              borderless={true}
+              hitSlop={variables.iconHitslop}
+            >
+              <Times />
+            </Touchable>
+            <Text style={styles.supportTitle}>{i18n.t('accountScreen10:havingTrouble')}</Text>
+            <Text style={styles.supportSubtitle}>{i18n.t('accountScreen10:shakeForSupport')}</Text>
+            <Button
+              onPress={onContactSupport}
+              text={i18n.t('accountScreen10:contactSupport')}
+              type={BtnTypes.PRIMARY}
+              testID="ContactSupportFromShake"
+            />
+          </View>
+        </Modal>
       </View>
     </NavigationContainer>
   )
@@ -224,6 +260,34 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
+  },
+  modal: {
+    margin: 0,
+  },
+  shakeForSupport: {
+    position: 'absolute',
+    bottom: 0,
+    height: 240,
+    backgroundColor: colors.light,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    padding: 24,
+    alignItems: 'center',
+    // flex: 1
+  },
+  closeButton: {
+    alignSelf: 'flex-end',
+    margin: 2,
+  },
+  supportTitle: {
+    ...fontStyles.h2,
+    marginTop: 16,
+  },
+  supportSubtitle: {
+    ...fontStyles.regular,
+    marginTop: 8,
+    marginBottom: 16,
+    textAlign: 'center',
   },
 })
 
