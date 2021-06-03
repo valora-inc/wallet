@@ -30,7 +30,7 @@
   },
   "inviteRewardsBanner": {
     "title": "¡Obtén ${{amount}} por referir a un amigo!",
-    "body": "Gana {{amount}} cUSD cuando envíes dinero a un amigo y se unen. <0>Más información</0>"
+    "body": "Gana {{amount}} cUSD cuando envíes dinero a un amigo y se una. <0>Más información</0>"
   },
   "getReward": "Obtén ${{reward}}"
 }
