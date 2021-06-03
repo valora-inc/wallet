@@ -29,7 +29,9 @@
   "selectCountryCode": "Selecione o código do país",
   "pincodeSet": {
     "create": "Criar um PIN",
-    "verify": "Insira o PIN novamente",
+    "createNew": "Criar um novo PIN",
+    "verify": "Digite seu PIN novamente para confirmar",
+    "changePIN": "Alterar PIN",
     "pinsDontMatch": "Os PINs não coincidem",
     "invalidPin": "Use um PIN mais forte"
   },
