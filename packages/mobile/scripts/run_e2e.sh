@@ -111,6 +111,7 @@ runTest() {
     --debug-synchronization 1000 \
     --workers $WORKERS \
     --retries $RETRIES \
+    --headless \
     "${extra_param}" 
   TEST_STATUS=$?
 }
