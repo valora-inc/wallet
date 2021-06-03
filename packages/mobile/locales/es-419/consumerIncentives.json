@@ -1,20 +1,20 @@
 {
   "title": "Una nueva forma de ganar",
-  "summary": "A partir de {{date}}, ganarás un {{percent}}% anual en tu saldo cUSD.",
+  "summary": "A partir del {{date}}, ganarás un {{percent}} % anual en tu saldo cUSD.",
   "earnWeekly": {
     "header": "Gana semanalmente",
     "text": "Envía y gasta como siempre, ganarás en el saldo restante."
   },
   "noMinCommitment": {
     "header": "Sin mínimos, sin compromisos",
-    "earningText": "Ganar es gratis por estreso: Ya estás ganando.",
-    "connectText": "Ganar es libre de estrés: Conecta tu número de teléfono para empezar a ganar."
+    "earningText": "Ganar sin estrés: Ya estás ganando.",
+    "connectText": "Ganar sin todo el estrés: Conecta tu número de teléfono para empezar a ganar."
   },
   "saveMoreEarnMore": {
     "header": "Ahorra más para ganar más",
     "text": "Gana hasta {{maxSaving}} cUSD al año al ahorrar {{rewardsMax}} cUSD."
   },
-  "conclusion": "Es así de simple. Empieza a ahorrar para tu futuro hoy.",
+  "conclusion": "Es así de simple. Empieza hoy a ahorrar para tu futuro.",
   "addCusd": "Agregar cUSD",
   "connectNumber": "Número de conexión"
 }
