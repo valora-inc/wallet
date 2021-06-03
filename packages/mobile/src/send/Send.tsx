@@ -206,12 +206,6 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
   },
-  headerLeftContainer: {
-    paddingLeft: 16,
-  },
-  headerRightContainer: {
-    paddingRight: 16,
-  },
 })
 
 export default Send

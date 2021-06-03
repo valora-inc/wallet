@@ -94,8 +94,13 @@ function writeExchangeRatePair(
     exchangeRate,
     timestamp,
   }
-  database().ref(`/exchangeRates/${pair}`).push(exchangeRateRecord)
-  console.debug(`Recorded exchange rate for ${pair}`, exchangeRateRecord)
+
+  database()
+    .ref(`/exchangeRates/${pair}`)
+    .push(exchangeRateRecord)
+    .catch((error) => console.error(error))
+
+  console.info(`Recorded exchange rate for ${pair}`, exchangeRateRecord)
 }
 
 export const updateExchangeRates = functions.pubsub

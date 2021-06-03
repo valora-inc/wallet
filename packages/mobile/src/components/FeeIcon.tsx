@@ -17,7 +17,6 @@ interface State {
   isOpen: boolean
 }
 
-// /* tslint:disable:max-classes-per-file */
 class FeeIcon extends React.Component<Props, State> {
   state = {
     isOpen: false,
