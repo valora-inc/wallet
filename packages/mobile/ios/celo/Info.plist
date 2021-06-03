@@ -75,7 +75,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This is required for you to choose a profile picture.</string>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>Your data will be used to track advertising efficiency.</string>
+	<string>We use the advertising identifier to accurately attribute app installs from ad campaigns.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Hind-Bold.ttf</string>

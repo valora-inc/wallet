@@ -1,27 +1,22 @@
 {
   "compilerOptions": {
-    "plugins": [
-      {
-        "name": "typescript-tslint-plugin"
-      }
-    ],
-    "lib": ["es2017"],
-    "module": "commonjs",
-    "strict": true,
-    "allowJs": false,
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "sourceMap": true,
-    "declaration": true,
-    "target": "es2017",
-    "rootDir": "src",
-    "outDir": "./dist",
-    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "importHelpers": true,
+    "jsx": "react",
+    "lib": ["es7", "esnext", "dom"],
+    "moduleResolution": "node",
+    "noEmit": true,
+    "noImplicitAny": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "preserveConstEnums": true,
-    "composite": true
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "target": "es2015",
+    "strict": true
   },
-  "include": ["src", "index.d.ts"],
-  "compileOnSave": true
+  "include": ["src"],
+  "exclude": ["node_modules", ".bundle"]
 }

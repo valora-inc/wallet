@@ -31,7 +31,6 @@ import {
   revealStatusesSelector,
   setActionableAttestation,
   shouldUseKomenciSelector,
-  startKomenciSession,
   verificationStatusSelector,
 } from 'src/verify/module'
 import {
@@ -48,78 +47,66 @@ const TAG = 'verify/requestAttestations'
 
 export function* requestAttestationsSaga() {
   const shouldUseKomenci: boolean = yield select(shouldUseKomenciSelector)
-  try {
-    const account: string = yield call(getKomenciAwareAccount)
-    const contractKit: ContractKit = yield call(getContractKit)
+  const account: string = yield call(getKomenciAwareAccount)
+  const contractKit: ContractKit = yield call(getContractKit)
 
-    const attestationsWrapper: AttestationsWrapper = yield call([
-      contractKit.contracts,
-      contractKit.contracts.getAttestations,
-    ])
-    const phoneHash: string | undefined = yield select(phoneHashSelector)
-    if (phoneHash === undefined) {
-      yield put(fail('Phone Hash is undefined at requestAttestationsSaga'))
-      return
-    }
-
-    let actionableAttestations: ActionableAttestation[] = yield select(
-      actionableAttestationsSelector
-    )
-    const status: OnChainVerificationStatus = yield select(verificationStatusSelector)
-    const revealStatuses: RevealStatuses = yield select(revealStatusesSelector)
-
-    const alreadyRevealed = Object.values(revealStatuses).filter(
-      (rS) => rS === RevealStatus.Revealed
-    ).length
-    const withUnknownStatus = actionableAttestations.filter((aa) => !revealStatuses[aa.issuer])
-      .length
-    const failedStatus = actionableAttestations.filter(
-      (aa) => revealStatuses[aa.issuer] === RevealStatus.Failed
-    ).length
-
-    // Compensate failed attestations
-    const numberOfAttestationsToRequest =
-      status.numAttestationsRemaining - actionableAttestations.length + failedStatus
-
-    Logger.debug(
-      TAG + '@requestAttestationsSaga',
-      `Out of total ${status.numAttestationsRemaining} attestations needed to complete verification: already revealed - ${alreadyRevealed}, failed - ${failedStatus}, unknown - ${withUnknownStatus}`
-    )
-
-    if (numberOfAttestationsToRequest <= 0) {
-      yield put(revealAttestations())
-      return
-    }
-    Logger.debug(TAG + '@requestAttestationsSaga', `Requesting: ${numberOfAttestationsToRequest}`)
-
-    ValoraAnalytics.track(VerificationEvents.verification_request_all_attestations_start, {
-      attestationsToRequest: numberOfAttestationsToRequest,
-      feeless: shouldUseKomenci,
-    })
-
-    actionableAttestations = yield call(
-      requestAndRetrieveAttestations,
-      attestationsWrapper,
-      phoneHash!,
-      account,
-      actionableAttestations,
-      actionableAttestations.length + numberOfAttestationsToRequest,
-      shouldUseKomenci
-    )
-    yield put(setActionableAttestation(actionableAttestations))
-
-    ValoraAnalytics.track(VerificationEvents.verification_request_all_attestations_complete, {
-      issuers: actionableAttestations.map((a) => a.issuer),
-      feeless: shouldUseKomenci,
-    })
-    yield put(revealAttestations())
-  } catch (e) {
-    if (shouldUseKomenci) {
-      yield put(startKomenciSession())
-    } else {
-      yield put(fail(e.message))
-    }
+  const attestationsWrapper: AttestationsWrapper = yield call([
+    contractKit.contracts,
+    contractKit.contracts.getAttestations,
+  ])
+  const phoneHash: string | undefined = yield select(phoneHashSelector)
+  if (phoneHash === undefined) {
+    yield put(fail('Phone Hash is undefined at requestAttestationsSaga'))
+    return
   }
+
+  let actionableAttestations: ActionableAttestation[] = yield select(actionableAttestationsSelector)
+  const status: OnChainVerificationStatus = yield select(verificationStatusSelector)
+  const revealStatuses: RevealStatuses = yield select(revealStatusesSelector)
+
+  const alreadyRevealed = Object.values(revealStatuses).filter((rS) => rS === RevealStatus.Revealed)
+    .length
+  const withUnknownStatus = actionableAttestations.filter((aa) => !revealStatuses[aa.issuer]).length
+  const failedStatus = actionableAttestations.filter(
+    (aa) => revealStatuses[aa.issuer] === RevealStatus.Failed
+  ).length
+
+  // Compensate failed attestations
+  const numberOfAttestationsToRequest =
+    status.numAttestationsRemaining - actionableAttestations.length + failedStatus
+
+  Logger.debug(
+    TAG + '@requestAttestationsSaga',
+    `Out of total ${status.numAttestationsRemaining} attestations needed to complete verification: already revealed - ${alreadyRevealed}, failed - ${failedStatus}, unknown - ${withUnknownStatus}`
+  )
+
+  if (numberOfAttestationsToRequest <= 0) {
+    yield put(revealAttestations())
+    return
+  }
+  Logger.debug(TAG + '@requestAttestationsSaga', `Requesting: ${numberOfAttestationsToRequest}`)
+
+  ValoraAnalytics.track(VerificationEvents.verification_request_all_attestations_start, {
+    attestationsToRequest: numberOfAttestationsToRequest,
+    feeless: shouldUseKomenci,
+  })
+
+  actionableAttestations = yield call(
+    requestAndRetrieveAttestations,
+    attestationsWrapper,
+    phoneHash!,
+    account,
+    actionableAttestations,
+    actionableAttestations.length + numberOfAttestationsToRequest,
+    shouldUseKomenci
+  )
+  yield put(setActionableAttestation(actionableAttestations))
+
+  ValoraAnalytics.track(VerificationEvents.verification_request_all_attestations_complete, {
+    issuers: actionableAttestations.map((a) => a.issuer),
+    feeless: shouldUseKomenci,
+  })
+  yield put(revealAttestations())
 }
 
 function* requestNewAttestations(
