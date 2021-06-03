@@ -2,9 +2,8 @@ import * as admin from 'firebase-admin'
 import i18next, { TFunction } from 'i18next'
 import { NOTIFICATIONS_TTL_MS } from '../config'
 import { database, messaging } from '../firebase'
-import { metrics } from '../metrics'
 
-const TAG = 'Notifications/'
+const TAG = 'Notifications'
 
 export async function getTranslatorForAddress(address: string): Promise<TFunction> {
   return new Promise((resolve, reject) => {
@@ -65,17 +64,33 @@ export async function sendNotification(
   }
 
   try {
-    console.info(TAG, 'Sending notification to:', address)
+    // TODO: Use a logger that abstracts the json stringifying thing.
+    console.info(
+      JSON.stringify({
+        context: 'Sending Notification',
+        type: data.type,
+        recipient: address,
+      })
+    )
     const response = await messaging().send(message)
-    console.info(TAG, 'Successfully sent notification for :', address, response)
-
-    // Notification metrics
-    metrics.sentNotification(data.type)
-    if (data.timestamp) {
-      metrics.setNotificationLatency(Date.now() - Number(data.timestamp), data.type)
-    }
+    console.info(
+      JSON.stringify({
+        context: 'Notification Sent Successfully',
+        type: data.type,
+        recipient: address,
+        response,
+        latency: data.timestamp ? Date.now() - Number(data.timestamp) : null,
+      })
+    )
   } catch (error) {
-    console.error(TAG, 'Error sending notification:', address, error)
-    metrics.failedNotification(data.type)
+    console.error(
+      JSON.stringify({
+        context: 'Notification Send Failed',
+        type: data.type,
+        recipient: address,
+        error,
+        latency: data.timestamp ? Date.now() - Number(data.timestamp) : null,
+      })
+    )
   }
 }
