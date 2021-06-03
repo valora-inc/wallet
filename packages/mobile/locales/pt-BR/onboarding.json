@@ -91,8 +91,8 @@
     "resendMessages": "Reenviar última mensagem",
     "resendMessages_plural": "Reenviar {{count}} mensagens",
     "resendMessages_all": "Reenviar todas as mensagens",
-    "sendingMessages": "Enviando {{count}} mensagem",
-    "sendingMessages_plural": "Enviando {{count}} mensagens"
+    "sendingMessages": "Enviar {{count}} mensagem",
+    "sendingMessages_plural": "Enviar {{count}} mensagens"
   },
   "verificationInputHelpDialog": {
     "title": "Ajuda",
