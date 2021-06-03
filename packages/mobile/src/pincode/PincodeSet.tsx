@@ -10,22 +10,25 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { initializeAccount, setPincode } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
-import { OnboardingEvents } from 'src/analytics/Events'
+import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DevSkipButton from 'src/components/DevSkipButton'
-import { Namespaces, withTranslation } from 'src/i18n'
+import i18n, { Namespaces, withTranslation } from 'src/i18n'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { DEFAULT_CACHE_ACCOUNT, isPinValid } from 'src/pincode/authentication'
-import { setCachedPin } from 'src/pincode/PasswordCache'
+import { DEFAULT_CACHE_ACCOUNT, isPinValid, updatePin } from 'src/pincode/authentication'
+import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
+import Logger from 'src/utils/Logger'
+import { currentAccountSelector } from 'src/web3/selectors'
 
 interface StateProps {
   choseToRestoreAccount: boolean | undefined
   hideVerification: boolean
+  account: string
 }
 
 interface DispatchProps {
@@ -34,6 +37,7 @@ interface DispatchProps {
 }
 
 interface State {
+  oldPin: string
   pin1: string
   pin2: string
   errorText: string | undefined
@@ -47,6 +51,7 @@ function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     hideVerification: state.app.hideVerification,
+    account: currentAccountSelector(state) ?? '',
   }
 }
 
@@ -59,13 +64,29 @@ export class PincodeSet extends React.Component<Props, State> {
   static navigationOptions = nuxNavigationOptions
 
   state = {
+    oldPin: '',
     pin1: '',
     pin2: '',
     errorText: undefined,
   }
 
+  componentDidMount = () => {
+    if (this.isChangingPin()) {
+      // We're storing the PIN on the state because it will definitely be in the cache now
+      // but it might expire by the time the user enters their new PIN if they take more
+      // than 5 minutes to do so.
+      this.setState({ oldPin: getCachedPin(DEFAULT_CACHE_ACCOUNT) ?? '' })
+    }
+  }
+
+  isChangingPin() {
+    return this.props.route.params?.changePin
+  }
+
   navigateToNextScreen = () => {
-    if (this.props.choseToRestoreAccount) {
+    if (this.isChangingPin()) {
+      navigate(Screens.Settings)
+    } else if (this.props.choseToRestoreAccount) {
       navigate(Screens.ImportWallet)
     } else if (this.props.hideVerification || !this.props.route.params?.komenciAvailable) {
       this.props.initializeAccount()
@@ -94,8 +115,14 @@ export class PincodeSet extends React.Component<Props, State> {
   onCompletePin1 = () => {
     if (this.isPin1Valid(this.state.pin1)) {
       this.props.navigation.setParams({ isVerifying: true })
+      if (this.isChangingPin()) {
+        ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_entered)
+      }
     } else {
       ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'Pin is invalid' })
+      if (this.isChangingPin()) {
+        ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
+      }
       this.setState({
         pin1: '',
         pin2: '',
@@ -107,11 +134,25 @@ export class PincodeSet extends React.Component<Props, State> {
   onCompletePin2 = async (pin2: string) => {
     const { pin1 } = this.state
     if (this.isPin1Valid(pin1) && this.isPin2Valid(pin2)) {
-      setCachedPin(DEFAULT_CACHE_ACCOUNT, pin1)
       this.props.setPincode(PincodeType.CustomPin)
-      ValoraAnalytics.track(OnboardingEvents.pin_set)
+      if (this.isChangingPin()) {
+        const updated = await updatePin(this.props.account, this.state.oldPin, pin2)
+        if (updated) {
+          ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_confirmed)
+          Logger.showMessage(i18n.t('accountScreen10:pinChanged'))
+        } else {
+          ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
+          Logger.showMessage(i18n.t('accountScreen10:pinChangeFailed'))
+        }
+      } else {
+        setCachedPin(DEFAULT_CACHE_ACCOUNT, pin1)
+        ValoraAnalytics.track(OnboardingEvents.pin_set)
+      }
       this.navigateToNextScreen()
     } else {
+      if (this.isChangingPin()) {
+        ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
+      }
       this.props.navigation.setParams({ isVerifying: false })
       ValoraAnalytics.track(OnboardingEvents.pin_invalid, { error: 'Pins do not match' })
       this.setState({
@@ -125,22 +166,24 @@ export class PincodeSet extends React.Component<Props, State> {
   render() {
     const { route } = this.props
     const isVerifying = route.params?.isVerifying
+    const changingPin = this.isChangingPin()
+
     const { pin1, pin2, errorText } = this.state
 
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={changingPin ? styles.changePinContainer : styles.container}>
         <DevSkipButton onSkip={this.navigateToNextScreen} />
         {isVerifying ? (
-          // Verify
           <Pincode
+            title={i18n.t('onboarding:pincodeSet.verify')}
             errorText={errorText}
             pin={pin2}
             onChangePin={this.onChangePin2}
             onCompletePin={this.onCompletePin2}
           />
         ) : (
-          // Create
           <Pincode
+            title={changingPin ? i18n.t('onboarding:pincodeSet.createNew') : ' '}
             errorText={errorText}
             pin={pin1}
             onChangePin={this.onChangePin1}
@@ -156,6 +199,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.onboardingBackground,
+    justifyContent: 'space-between',
+  },
+  changePinContainer: {
+    flex: 1,
+    backgroundColor: 'white',
     justifyContent: 'space-between',
   },
 })

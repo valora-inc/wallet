@@ -46,7 +46,7 @@ function ActionRequest({
       : method === SupportedActions.eth_signTypedData
       ? JSON.stringify(params[1])
       : method === SupportedActions.personal_decrypt
-      ? params[1]
+      ? Buffer.from(params[1]).toString('hex')
       : method === SupportedActions.personal_sign
       ? params[0]
       : null
