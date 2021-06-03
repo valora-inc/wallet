@@ -4,7 +4,6 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { delay } from 'redux-saga/effects'
 import { setInitState } from 'src/geth/actions'
 import { InitializationState } from 'src/geth/reducer'
-// tslint:disable-next-line: ordered-imports
 import { GethInitOutcomes, GETH_RETRY_DELAY, initGethSaga, _waitForGethInit } from 'src/geth/saga'
 import { createMockStore } from 'test/utils'
 

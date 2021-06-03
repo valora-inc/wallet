@@ -90,7 +90,9 @@
     "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
     "resendMessages": "Resend last message",
     "resendMessages_plural": "Resend {{count}} messages",
-    "resendMessages_all": "Resend all messages"
+    "resendMessages_all": "Resend all messages",
+    "sendingMessages": "Sending {{count}} message",
+    "sendingMessages_plural": "Sending {{count}} messages"
   },
   "verificationInputHelpDialog": {
     "title": "Help",

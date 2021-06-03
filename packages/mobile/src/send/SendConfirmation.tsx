@@ -127,7 +127,6 @@ function SendConfirmation(props: Props) {
 
   let newCurrencyInfo: CurrencyInfo = {
     localCurrencyCode: useSelector(getLocalCurrencyCode),
-    // tslint:disable-next-line: react-hooks-nesting
     localExchangeRate: useSelector(getLocalCurrencyExchangeRate) || '',
   }
   if (currencyInfo) {

@@ -37,7 +37,6 @@ interface SendConfirmationParams {
   currencyInfo?: CurrencyInfo
 }
 
-// tslint:disable-next-line: interface-over-type-literal
 export type StackParamList = {
   [Screens.BackupComplete]:
     | undefined
@@ -290,7 +289,6 @@ export type StackParamList = {
   }
 }
 
-// tslint:disable-next-line: interface-over-type-literal
 export type QRTabParamList = {
   [Screens.QRCode]: undefined
   [Screens.QRScanner]:
