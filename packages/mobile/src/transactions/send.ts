@@ -336,9 +336,9 @@ async function verifyUrlWorksOrThrow(url: string) {
   } catch (e) {
     Logger.error(
       'contracts@verifyUrlWorksOrThrow',
-      `Failed to perform HEAD request to url: \"${url}\"`,
+      `Failed to perform HEAD request to url: "${url}"`,
       e
     )
-    throw new Error(`Failed to perform HEAD request to url: \"${url}\", is it working?`)
+    throw new Error(`Failed to perform HEAD request to url: "${url}", is it working?`)
   }
 }

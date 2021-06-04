@@ -34,8 +34,6 @@ import {
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { appRemoteFeatureFlagChannel, appVersionDeprecationChannel } from 'src/firebase/firebase'
-import { receiveAttestationMessage } from 'src/identity/actions'
-import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -44,6 +42,7 @@ import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
+import { CodeInputType, receiveAttestationCode } from 'src/verify/module'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 
@@ -102,6 +101,10 @@ export interface RemoteFeatureFlags {
   hideVerification: boolean
   showRaiseDailyLimitTarget: string | undefined
   walletConnectEnabled: boolean
+  rewardsABTestThreshold: string
+  rewardsPercent: number
+  rewardsStartDate: number
+  rewardsMax: number
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -152,7 +155,12 @@ export function* handleDeepLink(action: OpenDeepLink) {
   const rawParams = parse(deepLink)
   if (rawParams.path) {
     if (rawParams.path.startsWith('/v/')) {
-      yield put(receiveAttestationMessage(rawParams.path.substr(3), CodeInputType.DEEP_LINK))
+      yield put(
+        receiveAttestationCode({
+          message: rawParams.path.substr(3),
+          inputType: CodeInputType.DEEP_LINK,
+        })
+      )
     } else if (rawParams.path.startsWith('/pay')) {
       yield call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {

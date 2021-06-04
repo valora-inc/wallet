@@ -6,7 +6,7 @@ import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client'
 import { PairingTypes, SessionTypes } from '@walletconnect/types'
-import { ERROR as WalletConnectErrors, getError } from '@walletconnect/utils'
+import { ERROR as WalletConnectErrors, ErrorType, getError } from '@walletconnect/utils'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
@@ -134,21 +134,36 @@ export function* acceptRequest({
     const wallet: UnlockableWallet = yield call(getWallet)
 
     let result: any
-
-    if (method === SupportedActions.eth_signTransaction) {
+    let error: ErrorType | undefined
+    try {
       yield call(unlockAccount, account)
-      result = (yield call(wallet.signTransaction.bind(wallet), params)) as EncodedTransaction
-    } else {
-      throw new Error('Unsupported action')
+      // Set `result` or `error` accordingly
+      switch (method) {
+        case SupportedActions.eth_signTransaction:
+          result = (yield call(wallet.signTransaction.bind(wallet), params)) as EncodedTransaction
+          break
+        case SupportedActions.eth_signTypedData:
+          result = yield call(wallet.signTypedData.bind(wallet), account, JSON.parse(params[1]))
+          break
+        case SupportedActions.personal_decrypt:
+          result = yield call(wallet.decrypt.bind(wallet), account, Buffer.from(params[1]))
+          break
+        default:
+          error = WalletConnectErrors.JSONRPC_REQUEST_METHOD_UNSUPPORTED
+      }
+    } catch (e) {
+      Logger.debug(TAG + '@acceptRequest error obtaining result: ', e.message)
+      error = WalletConnectErrors.GENERIC
     }
+    const partialResponse = { id, jsonrpc }
+    const response =
+      result !== undefined
+        ? { ...partialResponse, result }
+        : { ...partialResponse, error: getError(error!) }
 
     yield call(client.respond.bind(client), {
       topic,
-      response: {
-        id,
-        jsonrpc,
-        result,
-      },
+      response,
     })
   } catch (e) {
     Logger.debug(TAG + '@acceptRequest', e.message)

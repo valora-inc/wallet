@@ -1,8 +1,8 @@
-// tslint:disable: max-classes-per-file
+/* eslint-disable max-classes-per-file */
 import { RootError } from '@celo/base'
 import { FetchErrorTypes, KomenciKitErrorTypes, TxErrorTypes } from '@celo/komencikit/src/errors'
 import { put, select } from 'redux-saga/effects'
-import { komenciContextSelector, setKomenciContext } from 'src/verify/reducer'
+import { komenciContextSelector, setKomenciContext } from 'src/verify/module'
 
 const KOMENCI_ERROR_WINDOW = 1000 * 60 * 60 * 3 // 3 hours
 const KOMENCI_ERROR_ALLOTMENT = 2

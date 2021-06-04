@@ -78,7 +78,6 @@ export class ImportWallet extends React.Component<Props, State> {
       <TopBarTextButtonOnboarding
         title={i18n.t('global:cancel')}
         // Note: redux state reset is handled by UseBackToWelcomeScreen
-        // tslint:disable-next-line: jsx-no-lambda
         onPress={() => navigate(Screens.Welcome)}
       />
     ),

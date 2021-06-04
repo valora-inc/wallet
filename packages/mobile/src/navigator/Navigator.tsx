@@ -202,14 +202,18 @@ const pincodeSetScreenOptions = ({
 }: {
   route: RouteProp<StackParamList, Screens.PincodeSet>
 }) => {
-  const isVerifying = route.params?.isVerifying
-  const title = isVerifying
-    ? i18n.t('onboarding:pincodeSet.verify')
+  const changePin = route.params?.changePin
+  const title = changePin
+    ? i18n.t('onboarding:pincodeSet.changePIN')
     : i18n.t('onboarding:pincodeSet.create')
+
   return {
     ...nuxNavigationOptions,
     headerTitle: () => (
-      <HeaderTitleWithSubtitle title={title} subTitle={i18n.t('onboarding:step', { step: '2' })} />
+      <HeaderTitleWithSubtitle
+        title={title}
+        subTitle={changePin ? ' ' : i18n.t('onboarding:step', { step: '2' })}
+      />
     ),
   }
 }
@@ -256,6 +260,7 @@ const nuxScreens = (Navigator: typeof Stack) => (
 
 const sendScreens = (Navigator: typeof Stack) => (
   <>
+    <Navigator.Screen name={Screens.Send} component={Send} options={Send.navigationOptions} />
     <Navigator.Screen
       name={Screens.SendAmount}
       component={SendAmount}
@@ -524,7 +529,8 @@ const mapStateToProps = (state: RootState) => {
     pincodeType: state.account.pincodeType,
     redeemComplete: state.invite.redeemComplete,
     account: state.web3.account,
-    hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
+    numberIsVerified: state.app.numberVerified,
+    hasSeenVerificationNux: state.verify.seenVerificationNux,
     askedContactsPermission: state.identity.askedContactsPermission,
   }
 }
@@ -542,6 +548,7 @@ export function MainStackScreen() {
       acceptedTerms,
       pincodeType,
       redeemComplete,
+      numberIsVerified,
       hasSeenVerificationNux,
     } = mapStateToProps(store.getState())
 
@@ -556,7 +563,7 @@ export function MainStackScreen() {
       initialRoute = choseToRestoreAccount
         ? Screens.ImportWallet
         : Screens.OnboardingEducationScreen
-    } else if (!hasSeenVerificationNux) {
+    } else if (!numberIsVerified && !hasSeenVerificationNux) {
       initialRoute = Screens.VerificationEducationScreen
     } else {
       initialRoute = Screens.DrawerNavigator
@@ -591,7 +598,6 @@ export function MainStackScreen() {
 
 const modalAnimatedScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen name={Screens.Send} component={Send} options={Send.navigationOptions} />
     <Navigator.Screen
       name={Screens.PincodeEnter}
       component={PincodeEnter}

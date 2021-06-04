@@ -1,0 +1,7 @@
+23:54:16.203 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+23:54:16.429 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+23:54:22.456 [Thread-1] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+23:54:22.467 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.Terminator$Terminator - 1 actors left to terminate: celo-mobile-mainnet
+23:54:22.476 [NamespaceSystem-akka.actor.default-dispatcher-7] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for celo-mobile-mainnet
+23:54:22.477 [NamespaceSystem-akka.actor.default-dispatcher-7] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for celo-mobile-mainnet
+23:54:22.482 [Thread-1] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.

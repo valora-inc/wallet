@@ -102,7 +102,7 @@ export function* handleBarcode(
   e164NumberToAddress: E164NumberToAddressType,
   recipientInfo: RecipientInfo,
   secureSendTxData?: TransactionDataInput,
-  isOutgoingPaymentRequest?: true,
+  isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ) {
   const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)

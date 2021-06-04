@@ -100,7 +100,7 @@ export class CTextInput extends React.Component<Props, State> {
 }
 
 const TextInput = React.forwardRef<RNTextInput, Props>((props, ref) => {
-  return <CTextInput {...props} forwardedRef={ref} />
+  return <CTextInput {...props} forwardedRef={ref || props.forwardedRef} />
 })
 
 export default TextInput

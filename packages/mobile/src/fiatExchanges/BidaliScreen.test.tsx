@@ -7,8 +7,6 @@ import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-// tslint:disable no-eval
-
 const mockScreenProps = getMockStackScreenProps(Screens.BidaliScreen, {
   currency: Currency.Dollar,
 })
@@ -39,6 +37,7 @@ describe(BidaliScreen, () => {
 
     const webView = getByType(WebView)
     expect(webView).toBeDefined()
+    // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
     expect(window.valora).toMatchInlineSnapshot(`
       Object {
@@ -66,6 +65,7 @@ describe(BidaliScreen, () => {
     )
     const webView = getByType(WebView)
     expect(webView).toBeDefined()
+    // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
     expect(window.valora).toMatchInlineSnapshot(`
       Object {

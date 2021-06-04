@@ -21,19 +21,9 @@ import { errorSelector } from 'src/alert/reducer'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
-import { CodeInputStatus } from 'src/components/CodeInput'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { ALERT_BANNER_DURATION, ATTESTATION_REVEAL_TIMEOUT_SECONDS } from 'src/config'
 import i18n, { Namespaces, withTranslation } from 'src/i18n'
-import {
-  cancelVerification,
-  receiveAttestationMessage,
-  resendAttestations,
-  setAttestationInputStatus,
-} from 'src/identity/actions'
-import { attestationInputStatusSelector } from 'src/identity/reducer'
-import { VerificationStatus } from 'src/identity/types'
-import { CodeInputType, NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -42,6 +32,17 @@ import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboardin
 import { RootState } from 'src/redux/reducers'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInSeconds } from 'src/utils/time'
+import {
+  AttestationCode,
+  cancel as cancelVerification,
+  CodeInputType,
+  NUM_ATTESTATIONS_REQUIRED,
+  OnChainVerificationStatus,
+  receiveAttestationCode,
+  resendMessages,
+  setAttestationInputStatus,
+  VerificationState,
+} from 'src/verify/module'
 import { isCodeRepeated } from 'src/verify/utils'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
 import VerificationInputHelpDialog from 'src/verify/VerificationInputHelpDialog'
@@ -52,9 +53,9 @@ type ScreenProps = StackScreenProps<StackParamList, Screens.VerificationInputScr
 
 interface StateProps {
   e164Number: string | null
-  attestationInputStatus: CodeInputStatus[]
-  numCompleteAttestations: number
-  verificationStatus: VerificationStatus
+  attestationCodes: AttestationCode[]
+  verificationStatus: OnChainVerificationStatus
+  verificationState: VerificationState
   underlyingError: ErrorMessages | null | undefined
   lastRevealAttempt: number | null
   shortVerificationCodesEnabled: boolean
@@ -62,8 +63,8 @@ interface StateProps {
 
 interface DispatchProps {
   cancelVerification: typeof cancelVerification
-  receiveAttestationMessage: typeof receiveAttestationMessage
-  resendAttestations: typeof resendAttestations
+  receiveAttestationCode: typeof receiveAttestationCode
+  resendMessages: typeof resendMessages
   setAttestationInputStatus: typeof setAttestationInputStatus
   hideAlert: typeof hideAlert
   showMessage: typeof showMessage
@@ -80,8 +81,8 @@ interface State {
 
 const mapDispatchToProps = {
   cancelVerification,
-  receiveAttestationMessage,
-  resendAttestations,
+  receiveAttestationCode,
+  resendMessages,
   setAttestationInputStatus,
   hideAlert,
   showMessage,
@@ -89,14 +90,14 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state: RootState): StateProps => {
-  const numCompleteAttestations = state.identity.numCompleteAttestations
-  const lastRevealAttempt = state.identity.lastRevealAttempt
+  const attestationCodes = state.verify.attestationCodes
+  const lastRevealAttempt = state.verify.lastRevealAttempt
 
   return {
     e164Number: state.account.e164PhoneNumber,
-    attestationInputStatus: attestationInputStatusSelector(state),
-    numCompleteAttestations,
-    verificationStatus: state.identity.verificationStatus,
+    attestationCodes,
+    verificationState: state.verify.currentState,
+    verificationStatus: state.verify.status,
     underlyingError: errorSelector(state),
     shortVerificationCodesEnabled: shortVerificationCodesEnabledSelector(state),
     lastRevealAttempt,
@@ -131,7 +132,6 @@ class VerificationInputScreen extends React.Component<Props, State> {
       <TopBarTextButtonOnboarding
         title={i18n.t('global:help')}
         testID="VerificationInputHelp"
-        // tslint:disable-next-line: jsx-no-lambda
         onPress={() => navigation.setParams({ showHelpDialog: true })}
       />
     ),
@@ -167,8 +167,8 @@ class VerificationInputScreen extends React.Component<Props, State> {
 
   isVerificationComplete = (prevProps: Props) => {
     return (
-      prevProps.numCompleteAttestations < NUM_ATTESTATIONS_REQUIRED &&
-      this.props.numCompleteAttestations >= NUM_ATTESTATIONS_REQUIRED
+      prevProps.verificationStatus.completed < NUM_ATTESTATIONS_REQUIRED &&
+      this.props.verificationStatus.completed >= NUM_ATTESTATIONS_REQUIRED
     )
   }
 
@@ -190,7 +190,12 @@ class VerificationInputScreen extends React.Component<Props, State> {
         ((shortVerificationCodesEnabled && extractSecurityCodeWithPrefix(value)) ||
           extractAttestationCodeFromMessage(value))
       ) {
-        this.props.receiveAttestationMessage(value, CodeInputType.MANUAL, index)
+        this.setState((state) => dotProp.set(state, `codeSubmittingStatuses.${index}`, true))
+        this.props.receiveAttestationCode({
+          message: value,
+          inputType: CodeInputType.MANUAL,
+          index,
+        })
       }
     }
   }
@@ -220,7 +225,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
       timeDeltaInSeconds(Date.now(), lastRevealAttempt) > ATTESTATION_REVEAL_TIMEOUT_SECONDS
 
     if (isRevealAllowed) {
-      this.props.resendAttestations()
+      this.props.resendMessages()
     } else {
       this.props.showMessage(
         this.props.t('verificationPrematureRevealMessage'),
@@ -232,7 +237,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
 
   render() {
     const { codeInputValues, isKeyboardVisible, timer } = this.state
-    const { t, numCompleteAttestations, route, shortVerificationCodesEnabled } = this.props
+    const { t, route, shortVerificationCodesEnabled, verificationStatus } = this.props
 
     const showHelpDialog = route.params?.showHelpDialog || false
     const translationPlatformContext = Platform.select({ ios: 'ios' })
@@ -286,8 +291,10 @@ class VerificationInputScreen extends React.Component<Props, State> {
                     <View style={styles.spacer} />
                     <TextButton style={styles.resendButton} onPress={this.onPressResend}>
                       {t(
-                        `verificationInput.resendMessages${numCompleteAttestations ? '' : '_all'}`,
-                        { count: NUM_ATTESTATIONS_REQUIRED - numCompleteAttestations }
+                        `verificationInput.resendMessages${
+                          verificationStatus.completed ? '' : '_all'
+                        }`,
+                        { count: NUM_ATTESTATIONS_REQUIRED - verificationStatus.completed }
                       )}
                     </TextButton>
                   </KeyboardAwareScrollView>

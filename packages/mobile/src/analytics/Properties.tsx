@@ -32,6 +32,7 @@ import {
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { NotificationReceiveState } from 'src/notifications/types'
 import { Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
@@ -73,6 +74,11 @@ interface AppEventsProperties {
   }
   [AppEvents.redux_store_recovery_success]: {
     account: string
+  }
+  [AppEvents.push_notification_opened]: {
+    id?: string
+    state: NotificationReceiveState
+    type?: string
   }
   [AppEvents.request_tracking_permission_started]: {
     currentPermission: PermissionStatus
@@ -125,6 +131,12 @@ interface SettingsEventsProperties {
   [SettingsEvents.tos_view]: undefined
   [SettingsEvents.start_account_removal]: undefined
   [SettingsEvents.completed_account_removal]: undefined
+  [SettingsEvents.change_pin_start]: undefined
+  [SettingsEvents.change_pin_current_pin_entered]: undefined
+  [SettingsEvents.change_pin_current_pin_error]: undefined
+  [SettingsEvents.change_pin_new_pin_entered]: undefined
+  [SettingsEvents.change_pin_new_pin_confirmed]: undefined
+  [SettingsEvents.change_pin_new_pin_error]: undefined
 }
 
 interface OnboardingEventsProperties {

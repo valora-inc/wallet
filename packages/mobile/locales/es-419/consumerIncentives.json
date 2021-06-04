@@ -1,8 +1,20 @@
 {
-  "title": "Bienvenido a las recompensas de CELO",
-  "description": "¡Obtén recompensas mensuales por ahorrar cUSD en tu Cuenta de {{appName}}!",
-  "getCeloRewards": "Obtén US${{reward}} en CELO por mes con un saldo mínimo de {{minBalance}} cUSD",
+  "title": "Una nueva forma de ganar",
+  "summary": "A partir de {{date}}, ganarás un {{percent}}% anual en tu saldo cUSD.",
+  "earnWeekly": {
+    "header": "Gana semanalmente",
+    "text": "Envía y gasta como siempre, ganarás en el saldo restante."
+  },
+  "noMinCommitment": {
+    "header": "Sin mínimos, sin compromisos",
+    "earningText": "Ganar es gratis por estreso: Ya estás ganando.",
+    "connectText": "Ganar es libre de estrés: Conecta tu número de teléfono para empezar a ganar."
+  },
+  "saveMoreEarnMore": {
+    "header": "Ahorra más para ganar más",
+    "text": "Gana hasta {{maxSaving}} cUSD al año al ahorrar {{rewardsMax}} cUSD."
+  },
+  "conclusion": "Es así de simple. Empieza a ahorrar para tu futuro hoy.",
   "addCusd": "Agregar cUSD",
-  "addMore": "Agrega <0>{{cUsdToAdd}}</0> cUSD antes de <1>{{date}}</1> para llegar a <2>{{level}}<2>",
-  "level": "Nivel {{level}}"
+  "connectNumber": "Número de conexión"
 }
