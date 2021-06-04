@@ -72,13 +72,15 @@ async function getExchangeRate(
   )
 
   const t1 = performance.now()
-  console.info({
-    context: 'Exchange Rate Fetch Duration',
-    duration: t1 - t0,
-    rate,
-    makerToken,
-    stableToken,
-  })
+  console.info(
+    JSON.stringify({
+      context: 'Exchange Rate Fetch Duration',
+      duration: t1 - t0,
+      rate: rate.toString(),
+      makerToken,
+      stableToken,
+    })
+  )
 
   return rate
 }
