@@ -68,7 +68,7 @@ function ExternalExchanges({ route }: Props) {
             currency: route.params.currency === CURRENCY_ENUM.DOLLAR ? t('celoDollars') : 'CELO',
           })}
         </Text>
-        <View style={styles.accountNumberContainer}>
+        <View testID="accountNumberContainer" style={styles.accountNumberContainer}>
           <View style={styles.accountNoTextContainer}>
             <Text style={styles.accountNoText}>Account</Text>
             <Text style={styles.accountNoText}>No.</Text>
@@ -79,7 +79,7 @@ function ExternalExchanges({ route }: Props) {
           {providers.map((provider, idx) => {
             return (
               <ListItem key={provider.name} onPress={goToProvider(provider)}>
-                <View style={styles.providerListItem}>
+                <View testID={provider.name} style={styles.providerListItem}>
                   <Text style={styles.optionTitle}>{provider.name}</Text>
                   <LinkArrow />
                 </View>
