@@ -38,7 +38,14 @@ export default function TotalLineItem({ title, amount, hideSign, currencyInfo }:
       <LineItemRow
         title={title || t('total')}
         textStyle={fontStyles.regular600}
-        amount={<CurrencyDisplay amount={amount} hideSign={hideSign} currencyInfo={currencyInfo} />}
+        amount={
+          <CurrencyDisplay
+            amount={amount}
+            hideSign={hideSign}
+            currencyInfo={currencyInfo}
+            testID="TotalLineItem/Total"
+          />
+        }
       />
       {exchangeRate && (
         <LineItemRow
@@ -51,6 +58,7 @@ export default function TotalLineItem({ title, amount, hideSign, currencyInfo }:
                 }}
                 showLocalAmount={false}
                 currencyInfo={currencyInfo}
+                testID="TotalLineItem/ExchangeRate"
               />
             </Trans>
           }
@@ -61,6 +69,7 @@ export default function TotalLineItem({ title, amount, hideSign, currencyInfo }:
               hideSymbol={false}
               hideSign={hideSign}
               currencyInfo={currencyInfo}
+              testID="TotalLineItem/Subtotal"
             />
           }
           style={styles.dollars}
