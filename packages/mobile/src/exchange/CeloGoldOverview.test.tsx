@@ -13,7 +13,7 @@ it('renders correctly when ready', () => {
     <Provider
       store={createMockStore({
         goldToken: { balance: SAMPLE_BALANCE },
-        localCurrency: { exchangeRates: { [Currency.Dollar]: '10' } },
+        localCurrency: { exchangeRates: { [Currency.Celo]: '10' } },
       })}
     >
       <CeloGoldOverview testID={'SnapshotCeloGoldOverview'} {...getMockI18nProps()} />

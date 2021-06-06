@@ -573,11 +573,6 @@ export const v9Schema = {
     pendingSessions: [],
     pendingActions: [],
   },
-  localCurrency: {
-    ...v8Schema.localCurrency,
-    eurExchangeRate: '2',
-    celoExchangeRate: '3',
-  },
   fiatExchanges: {
     ...v8Schema.fiatExchanges,
     providerLogos: {},
@@ -653,8 +648,8 @@ export const v15Schema = {
   localCurrency: {
     ...v14Schema.localCurrency,
     exchangeRates: {
-      [Currency.Celo]: null,
-      [Currency.Euro]: null,
+      [Currency.Celo]: '3',
+      [Currency.Euro]: '2',
       [Currency.Dollar]: v14Schema.localCurrency.exchangeRate,
     },
     exchangeRate: undefined,

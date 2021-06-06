@@ -95,7 +95,7 @@ describe(handleNotification, () => {
         type: NotificationTypes.PAYMENT_RECEIVED,
         sender: '0xTEST',
         value: '10',
-        currency: 'dollar',
+        currency: 'cUSD',
         timestamp: 1,
       },
     }
