@@ -74,7 +74,7 @@ export default function UserSection({
             </Text>
           )}
           <View style={styles.accountBox}>
-            <Text style={styles.accountLabel}>{t('dappkit:address')}</Text>
+            <Text style={styles.accountLabel}>{t('accountNumberLabel')}</Text>
             <AccountNumber address={address} location={Screens.TransactionReview} />
             <Text style={styles.link}>{t('accountScreen10:tapToCopy')}</Text>
           </View>
