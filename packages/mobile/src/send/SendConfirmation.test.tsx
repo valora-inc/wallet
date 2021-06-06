@@ -72,7 +72,7 @@ describe('SendConfirmation', () => {
 
     const store = createMockStore({
       stableToken: {
-        balance: '200',
+        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
       },
     })
 
@@ -105,7 +105,7 @@ describe('SendConfirmation', () => {
 
     const store = createMockStore({
       stableToken: {
-        balance: '200',
+        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
       },
     })
 
@@ -139,7 +139,7 @@ describe('SendConfirmation', () => {
 
     const store = createMockStore({
       stableToken: {
-        balance: '200',
+        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
       },
     })
 
@@ -176,7 +176,7 @@ describe('SendConfirmation', () => {
 
     const store = createMockStore({
       stableToken: {
-        balance: '0',
+        balances: { [Currency.Dollar]: '0', [Currency.Euro]: '0' },
       },
     })
 
@@ -213,7 +213,7 @@ describe('SendConfirmation', () => {
 
     const store = createMockStore({
       stableToken: {
-        balance: '200',
+        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
       },
       identity: {
         e164NumberToAddress: mockE164NumberToAddress,
@@ -267,7 +267,7 @@ describe('SendConfirmation', () => {
 
     const store = createMockStore({
       stableToken: {
-        balance: '200',
+        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
       },
       identity: {
         e164NumberToAddress: mockE164NumberToAddress,
@@ -301,7 +301,7 @@ describe('SendConfirmation', () => {
 
     const store = createMockStore({
       stableToken: {
-        balance: '200',
+        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
       },
       identity: {
         e164NumberToAddress: mockE164NumberToAddress,
@@ -345,7 +345,7 @@ describe('SendConfirmation with Komenci enabled', () => {
 
     const store = createMockStore({
       stableToken: {
-        balance: '200',
+        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
       },
     })
 

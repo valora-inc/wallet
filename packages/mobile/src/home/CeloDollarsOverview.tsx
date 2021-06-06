@@ -17,7 +17,7 @@ type Props = WithTranslation
 function CeloDollarsOverview({ t }: Props) {
   useBalanceAutoRefresh()
   const localCurrencyCode = useLocalCurrencyCode()
-  const dollarBalance = useSelector((state) => state.stableToken.balance)
+  const dollarBalance = useSelector((state) => state.stableToken.balances[Currency.Dollar])
 
   const isUsdLocalCurrency = localCurrencyCode === LocalCurrencyCode.USD
   const dollarBalanceAmount = dollarBalance

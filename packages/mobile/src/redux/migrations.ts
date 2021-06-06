@@ -2,6 +2,7 @@ import _ from 'lodash'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
+import { Currency } from 'src/utils/currencies'
 
 export const migrations = {
   0: (state: any) => {
@@ -239,6 +240,18 @@ export const migrations = {
         countryCodeAlpha2: null,
         region: null,
         ipAddress: null,
+      },
+    },
+  }),
+  15: (state: any) => ({
+    ...state,
+    localCurrency: {
+      ...state.localCurrency,
+      exchangeRate: undefined,
+      exchangeRates: {
+        [Currency.Dollar]: state.localCurrency.exchangeRate,
+        [Currency.Euro]: null,
+        [Currency.Celo]: null,
       },
     },
   }),

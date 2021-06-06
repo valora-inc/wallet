@@ -13,6 +13,7 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import useSelector from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { cUsdBalanceSelector } from 'src/stableToken/reducer'
 import { Currency } from 'src/utils/currencies'
 
 export const noHeader: StackNavigationOptions = {
@@ -118,7 +119,7 @@ interface Props {
 }
 
 export function HeaderTitleWithBalance({ title, token }: Props) {
-  const dollarBalance = useSelector((state) => state.stableToken.balance)
+  const dollarBalance = useSelector(cUsdBalanceSelector)
   const goldBalance = useSelector((state) => state.goldToken.balance)
 
   const balance = token === Currency.Celo ? goldBalance : dollarBalance

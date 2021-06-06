@@ -1,9 +1,11 @@
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
+import { Currency } from 'src/utils/currencies'
 import {
   v0Schema,
   v13Schema,
+  v14Schema,
   v1Schema,
   v2Schema,
   v7Schema,
@@ -254,5 +256,12 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[14](v13Schema)
     expect(migratedSchema.networkInfo.userLocationData).toBeDefined()
     expect(migratedSchema.networkInfo.userLocationData.countryCodeAlpha2).toEqual(null)
+  })
+  it('works for v14 to v15', () => {
+    const migratedSchema = migrations[15](v14Schema)
+    expect(migratedSchema.localCurrency.exchangeRates).toBeDefined()
+    expect(migratedSchema.localCurrency.exchangeRates[Currency.Dollar]).toEqual(
+      v14Schema.localCurrency.exchangeRate
+    )
   })
 })

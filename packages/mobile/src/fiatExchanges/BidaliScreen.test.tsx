@@ -26,7 +26,7 @@ describe(BidaliScreen, () => {
   it('renders correctly when no phone number is provided', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: null },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10' } },
     })
 
     const { getByType } = render(
@@ -55,7 +55,7 @@ describe(BidaliScreen, () => {
   it('renders correctly when a phone number is provided', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: '+14155556666' },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10' } },
     })
 
     const { getByType } = render(

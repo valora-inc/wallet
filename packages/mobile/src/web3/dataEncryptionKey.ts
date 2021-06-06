@@ -34,7 +34,7 @@ import {
   updateWalletToAccountAddress,
 } from 'src/identity/actions'
 import { walletToAccountAddressSelector, WalletToAccountAddressType } from 'src/identity/reducer'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/reducer'
 import { getCurrencyAddress } from 'src/tokens/saga'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
@@ -144,7 +144,7 @@ export function* registerAccountDek() {
       return
     }
 
-    const stableBalance = yield select(stableTokenBalanceSelector)
+    const stableBalance = yield select(cUsdBalanceSelector)
     const celoBalance = yield select(celoTokenBalanceSelector)
     if (
       (stableBalance === null || stableBalance === '0') &&

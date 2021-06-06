@@ -52,12 +52,22 @@ export function* fetchLocalCurrencyRateSaga() {
     if (!localCurrencyCode) {
       throw new Error("Can't fetch local currency rate without a currency code")
     }
-    const [usdRate, euroRate, celoRate] = yield all([
+    const [usdRate, euroRate, celoRate]: [string, string, string] = yield all([
       call(fetchExchangeRate, Currency.Dollar, localCurrencyCode),
       call(fetchExchangeRate, Currency.Euro, localCurrencyCode),
       call(fetchExchangeRate, Currency.Celo, localCurrencyCode),
     ])
-    yield put(fetchCurrentRateSuccess(localCurrencyCode, usdRate, euroRate, celoRate, Date.now()))
+    yield put(
+      fetchCurrentRateSuccess(
+        localCurrencyCode,
+        {
+          [Currency.Dollar]: usdRate,
+          [Currency.Euro]: euroRate,
+          [Currency.Celo]: celoRate,
+        },
+        Date.now()
+      )
+    )
   } catch (error) {
     Logger.error(`${TAG}@fetchLocalCurrencyRateSaga`, error)
     yield put(fetchCurrentRateFailure())

@@ -4,6 +4,7 @@ import { AppState } from 'src/app/actions'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { RootState } from 'src/redux/reducers'
+import { Currency } from 'src/utils/currencies'
 import { idle, KomenciAvailable, NUM_ATTESTATIONS_REQUIRED } from 'src/verify/module'
 
 // Default (version -1 schema)
@@ -572,10 +573,6 @@ export const v9Schema = {
     pendingSessions: [],
     pendingActions: [],
   },
-  stableToken: {
-    ...v8Schema.stableToken,
-    cEurBalance: null,
-  },
   localCurrency: {
     ...v8Schema.localCurrency,
     eurExchangeRate: '2',
@@ -647,6 +644,32 @@ export const v14Schema = {
   },
 }
 
+export const v15Schema = {
+  ...v14Schema,
+  _persist: {
+    ...v14Schema._persist,
+    version: 15,
+  },
+  localCurrency: {
+    ...v14Schema.localCurrency,
+    exchangeRates: {
+      [Currency.Celo]: null,
+      [Currency.Euro]: null,
+      [Currency.Dollar]: v14Schema.localCurrency.exchangeRate,
+    },
+    exchangeRate: undefined,
+    fetchRateFailed: false,
+  },
+  stableToken: {
+    ...v14Schema.stableToken,
+    balances: {
+      [Currency.Euro]: null,
+      [Currency.Dollar]: v14Schema.stableToken.balance ?? null,
+    },
+    balance: undefined,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v14Schema as Partial<RootState>
+  return v15Schema as Partial<RootState>
 }

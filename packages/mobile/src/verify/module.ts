@@ -9,7 +9,7 @@ import { CodeInputStatus } from 'src/components/CodeInput'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/reducer'
 
 export const NUM_ATTESTATIONS_REQUIRED = 3
 export const REVEAL_RETRY_DELAY = 10 * 1000 // 10 seconds
@@ -584,21 +584,21 @@ export const nonConfirmedIssuersSelector = createSelector(
 )
 
 export const isBalanceSufficientForSigRetrievalSelector = createSelector(
-  [stableTokenBalanceSelector, celoTokenBalanceSelector],
-  (stableTokenBalance, celoTokenBalance) =>
-    isBalanceSufficientForSigRetrieval(stableTokenBalance || 0, celoTokenBalance || 0)
+  [cUsdBalanceSelector, celoTokenBalanceSelector],
+  (cUsdTokenBalance, celoTokenBalance) =>
+    isBalanceSufficientForSigRetrieval(cUsdTokenBalance || 0, celoTokenBalance || 0)
 )
 
 export const isBalanceSufficientSelector = createSelector(
   [
-    stableTokenBalanceSelector,
+    cUsdBalanceSelector,
     actionableAttestationsSelector,
     verificationStatusSelector,
     phoneHashSelector,
     isBalanceSufficientForSigRetrievalSelector,
   ],
   (
-    stableTokenBalance,
+    cUsdBalance,
     actionableAttestations,
     { numAttestationsRemaining },
     phoneHash,
@@ -607,7 +607,7 @@ export const isBalanceSufficientSelector = createSelector(
     const attestationsRemaining = numAttestationsRemaining - actionableAttestations.length
     const isBalanceSufficient = !phoneHash
       ? balanceSufficientForSigRetrieval
-      : isBalanceSufficientForAttestations(stableTokenBalance || 0, attestationsRemaining)
+      : isBalanceSufficientForAttestations(cUsdBalance || 0, attestationsRemaining)
 
     return isBalanceSufficient
   }

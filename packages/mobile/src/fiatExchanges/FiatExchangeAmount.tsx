@@ -31,7 +31,6 @@ import {
 } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import { ExchangeRatePair, exchangeRatePairSelector } from 'src/exchange/reducer'
-import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import i18n, { Namespaces } from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
@@ -102,7 +101,6 @@ function FiatExchangeAmount({ route }: Props) {
   const exchangeRatePair = useSelector(exchangeRatePairSelector)
   const localCurrencyExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const cUSDBalance = useSelector(cUsdBalanceSelector)
-  const celoBalance = useSelector(celoTokenBalanceSelector)
   const localCurrencyCode = useLocalCurrencyCode()
   const currencySymbol = LocalCurrencySymbol[localCurrencyCode]
 

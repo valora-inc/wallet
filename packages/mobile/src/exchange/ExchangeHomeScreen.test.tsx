@@ -3,6 +3,7 @@ import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 // Mock this for now, as we get apollo issues
@@ -14,7 +15,7 @@ describe('ExchangeHomeScreen', () => {
   it('renders and behaves correctly for non CP-DOTO restricted countries', () => {
     const store = createMockStore({
       goldToken: { balance: '2' },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10' } },
       exchange: { exchangeRatePair: { goldMaker: '0.11', dollarMaker: '10' } },
     })
 
@@ -55,7 +56,7 @@ describe('ExchangeHomeScreen', () => {
         },
       },
       goldToken: { balance: '2' },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10' } },
       exchange: { exchangeRatePair: { goldMaker: '0.11', dollarMaker: '10' } },
     })
 

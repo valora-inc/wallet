@@ -23,7 +23,7 @@ type Props = StackScreenProps<StackParamList, Screens.PhoneNumberLookupQuota>
 
 function PhoneNumberLookupQuotaScreen(props: Props) {
   const [isSending, setIsSending] = useState(false)
-  const userBalance = useSelector(cUsdBalanceSelector)
+  const userBalance = useSelector(cUsdBalanceSelector) ?? null
   const { t } = useTranslation(Namespaces.nuxVerification2)
 
   const userBalanceIsSufficient = isUserBalanceSufficient(userBalance, LOOKUP_GAS_FEE_ESTIMATE)

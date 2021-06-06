@@ -22,7 +22,7 @@ const usdToPHPExchangeRate = 50
 
 const storeWithUSD = createMockStore({
   stableToken: {
-    balance: '1000.00',
+    balances: { [Currency.Dollar]: '1000.00' },
   },
   goldToken: {
     balance: '5.5',
@@ -30,14 +30,14 @@ const storeWithUSD = createMockStore({
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.USD,
     preferredCurrencyCode: LocalCurrencyCode.USD,
-    exchangeRate: '1',
+    exchangeRates: { [Currency.Dollar]: '1' },
   },
   exchange: { exchangeRatePair },
 })
 
 const storeWithPHP = createMockStore({
   stableToken: {
-    balance: '1000.00',
+    balances: { [Currency.Dollar]: '1000.00' },
   },
   goldToken: {
     balance: '5.5',
@@ -45,7 +45,7 @@ const storeWithPHP = createMockStore({
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.PHP,
     preferredCurrencyCode: LocalCurrencyCode.PHP,
-    exchangeRate: usdToPHPExchangeRate.toString(),
+    exchangeRates: { [Currency.Dollar]: usdToPHPExchangeRate.toString() },
   },
   exchange: { exchangeRatePair },
 })

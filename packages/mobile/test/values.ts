@@ -20,6 +20,7 @@ import {
   NumberToRecipient,
   RecipientInfo,
 } from 'src/recipients/recipient'
+import { Currency } from 'src/utils/currencies'
 import { AttestationCode } from 'src/verify/module'
 
 export const nullAddress = '0x0'

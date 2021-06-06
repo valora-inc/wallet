@@ -11,7 +11,7 @@ import useSelector from 'src/redux/useSelector'
 import { cEurBalanceSelector, cUsdBalanceSelector } from 'src/stableToken/reducer'
 import { Currency } from 'src/utils/currencies'
 
-function useAmount(currency: Currency, selector: (state: RootState) => string | null) {
+function useAmount(currency: Currency, selector: (state: RootState) => string | null | undefined) {
   const balance = useSelector(selector)
   return {
     value: new BigNumber(balance ?? '0'),

@@ -37,7 +37,13 @@ describe(watchFetchCurrentRate, () => {
         [call(fetchExchangeRate, Currency.Euro, LocalCurrencyCode.MXN), '2.12'],
         [call(fetchExchangeRate, Currency.Celo, LocalCurrencyCode.MXN), '3.543'],
       ])
-      .put(fetchCurrentRateSuccess(LocalCurrencyCode.MXN, '1.33', '2.12', '3.543', now))
+      .put(
+        fetchCurrentRateSuccess(
+          LocalCurrencyCode.MXN,
+          { [Currency.Dollar]: '1.33', [Currency.Euro]: '2.12', [Currency.Celo]: '3.543' },
+          now
+        )
+      )
       .dispatch(fetchCurrentRate())
       .run()
   })
