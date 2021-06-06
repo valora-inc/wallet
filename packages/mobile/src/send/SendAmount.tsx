@@ -245,7 +245,11 @@ function SendAmount(props: Props) {
 
   const onSend = React.useCallback(() => {
     if (!isDollarBalanceSufficient) {
-      dispatch(showError(ErrorMessages.NSF_TO_SEND))
+      dispatch(
+        showError(ErrorMessages.NSF_TO_SEND, null, {
+          amountNeeded: dollarAmount.plus(estimateFeeDollars || 0).toString(),
+        })
+      )
       return
     }
 

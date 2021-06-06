@@ -46,7 +46,7 @@
   "missingFullName": "Name cannot be empty",
   "invalidPhone": "Invalid phone number",
   "cantSelectInvalidPhone": "Cannot select contact: invalid phone number",
-  "needMoreFundsToSend": "Need more funds to send payment",
+  "needMoreFundsToSend": "You should have {{amountNeeded}} to make this transaction. Please add funds or try sending less.",
   "maxEscrowTransferExceeded": "The maximum amount to transfer to unconfirmed users is {{symbol}}{{maxAmount}}",
   "invalidAmount": "Invalid amount",
   "invalidCode": "Invalid Confirmation Code",
