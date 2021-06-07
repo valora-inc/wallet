@@ -24,9 +24,9 @@ export enum Actions {
 export interface HandleBarcodeDetectedAction {
   type: Actions.BARCODE_DETECTED
   data: QrCode
-  scanIsForSecureSend?: true
+  scanIsForSecureSend?: boolean
   transactionData?: TransactionDataInput
-  isOutgoingPaymentRequest?: true
+  isOutgoingPaymentRequest?: boolean
   requesterAddress?: string
 }
 
@@ -76,9 +76,9 @@ export const storeLatestInRecents = (recipient: Recipient): StoreLatestInRecents
 
 export const handleBarcodeDetected = (
   data: QrCode,
-  scanIsForSecureSend?: true,
+  scanIsForSecureSend?: boolean,
   transactionData?: TransactionDataInput,
-  isOutgoingPaymentRequest?: true,
+  isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ): HandleBarcodeDetectedAction => ({
   type: Actions.BARCODE_DETECTED,

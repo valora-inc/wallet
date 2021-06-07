@@ -7,6 +7,7 @@ export enum LogoTypes {
   COLOR = 'COLOR',
   DARK = 'DARK',
   LIGHT = 'LIGHT',
+  GREEN = 'GREEN',
 }
 
 interface Props {

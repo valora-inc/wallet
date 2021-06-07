@@ -54,7 +54,7 @@ export enum DailyLimitRequestStatus {
   Denied = 'Denied',
 }
 
-export const initialState = {
+export const initialState: State = {
   name: null,
   e164PhoneNumber: null,
   pictureUri: null,

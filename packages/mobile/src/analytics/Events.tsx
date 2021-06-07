@@ -11,6 +11,11 @@ export enum AppEvents {
   fetch_balance_error = 'fetch_balance_error',
   redux_keychain_mismatch = 'redux_keychain_mismatch',
   redux_store_recovery_success = 'redux_store_recovery_success',
+  push_notification_opened = 'push_notification_opened',
+
+  request_tracking_permission_started = 'request_tracking_permission_started',
+  request_tracking_permission_declined = 'request_tracking_permission_declined',
+  request_tracking_permission_accepted = 'request_tracking_permission_accepted',
 }
 
 export enum HomeEvents {
@@ -36,6 +41,12 @@ export enum SettingsEvents {
   tos_view = 'tos_view',
   start_account_removal = 'start_account_removal',
   completed_account_removal = 'completed_account_removal',
+  change_pin_start = 'change_pin_start',
+  change_pin_current_pin_entered = 'change_pin_current_pin_entered',
+  change_pin_current_pin_error = 'change_pin_current_pin_error',
+  change_pin_new_pin_entered = 'change_pin_new_pin_entered',
+  change_pin_new_pin_confirmed = 'change_pin_new_pin_confirmed',
+  change_pin_new_pin_error = 'change_pin_new_pin_error',
   // intentionally not tracking analytics opt in/out
   // to avoid tracking through omission
 }

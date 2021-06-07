@@ -3,6 +3,7 @@ import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 // Mock this for now, as we get apollo issues
@@ -14,7 +15,7 @@ describe('ExchangeHomeScreen', () => {
   it('renders and behaves correctly for non CP-DOTO restricted countries', () => {
     const store = createMockStore({
       goldToken: { balance: '2' },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10' } },
       exchange: { exchangeRatePair: { goldMaker: '0.11', dollarMaker: '10' } },
     })
 
@@ -29,13 +30,13 @@ describe('ExchangeHomeScreen', () => {
     jest.clearAllMocks()
     fireEvent.press(tree.getByTestId('BuyCelo'))
     expect(mockScreenProps.navigation.navigate).toHaveBeenCalledWith(Screens.ExchangeTradeScreen, {
-      makerTokenDisplay: { makerToken: 'Celo Dollar', makerTokenBalance: '10' },
+      makerTokenDisplay: { makerToken: 'cUSD', makerTokenBalance: '10' },
     })
 
     jest.clearAllMocks()
     fireEvent.press(tree.getByTestId('SellCelo'))
     expect(mockScreenProps.navigation.navigate).toHaveBeenCalledWith(Screens.ExchangeTradeScreen, {
-      makerTokenDisplay: { makerToken: 'Celo Gold', makerTokenBalance: '2' },
+      makerTokenDisplay: { makerToken: 'cGLD', makerTokenBalance: '2' },
     })
 
     jest.clearAllMocks()
@@ -47,11 +48,15 @@ describe('ExchangeHomeScreen', () => {
 
   it('renders and behaves correctly for CP-DOTO restricted countries', () => {
     const store = createMockStore({
-      account: {
-        defaultCountryCode: '+63', // PH is restricted for CP-DOTO
+      networkInfo: {
+        userLocationData: {
+          countryCodeAlpha2: 'PH', // PH is restricted for CP-DOTO
+          region: null,
+          ipAddress: null,
+        },
       },
       goldToken: { balance: '2' },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10' } },
       exchange: { exchangeRatePair: { goldMaker: '0.11', dollarMaker: '10' } },
     })
 

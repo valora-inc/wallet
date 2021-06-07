@@ -4,9 +4,9 @@ import { getCurrencies } from 'react-native-localize'
 import { createSelector } from 'reselect'
 import { e164NumberSelector } from 'src/account/selectors'
 import {
-  LOCAL_CURRENCY_CODES,
   LocalCurrencyCode,
   LocalCurrencySymbol,
+  LOCAL_CURRENCY_CODES,
 } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
@@ -51,29 +51,27 @@ export function getLocalCurrencySymbol(state: RootState): LocalCurrencySymbol | 
   return LocalCurrencySymbol[getLocalCurrencyCode(state)]
 }
 
-export function localCurrencyExchangeRateSelector(state: RootState) {
-  const {
-    exchangeRate,
-    eurExchangeRate,
-    celoExchangeRate,
-    fetchedCurrencyCode,
-  } = state.localCurrency
+export const localCurrencyExchangeRatesSelector = createSelector(
+  (state: RootState) => state.localCurrency.exchangeRates,
+  (state: RootState) => state.localCurrency.fetchedCurrencyCode,
+  getLocalCurrencyCode,
+  (exchangeRates, fetchedCurrencyCode, localCurrencyCode) => {
+    if (localCurrencyCode !== fetchedCurrencyCode) {
+      // This makes sure we don't return stale exchange rate when the currency code changed
+      return {
+        [Currency.Dollar]: null,
+        [Currency.Euro]: null,
+        [Currency.Celo]: null,
+      }
+    }
 
-  const localCurrencyCode = getLocalCurrencyCode(state)
-  if (localCurrencyCode !== fetchedCurrencyCode) {
-    // This makes sure we don't return stale exchange rate when the currency code changed
-    return {}
+    return exchangeRates
   }
+)
 
-  return {
-    [Currency.Celo]: celoExchangeRate,
-    [Currency.Dollar]: exchangeRate,
-    [Currency.Euro]: eurExchangeRate,
-  }
-}
-
-export function getLocalCurrencyExchangeRate(state: RootState) {
-  const exchangeRates = localCurrencyExchangeRateSelector(state)
+// deprecated, please use |localCurrencyExchangeRatesSelector| instead.
+export function getLocalCurrencyToDollarsExchangeRate(state: RootState) {
+  const exchangeRates = localCurrencyExchangeRatesSelector(state)
   return exchangeRates?.[Currency.Dollar]
 }
 

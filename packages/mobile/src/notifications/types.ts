@@ -1,3 +1,5 @@
+import { Currency } from 'src/utils/currencies'
+
 export enum NotificationTypes {
   PAYMENT_RECEIVED = 'PAYMENT_RECEIVED',
   PAYMENT_REQUESTED = 'PAYMENT_REQUESTED',
@@ -11,12 +13,12 @@ export interface TransferNotificationData {
   txHash: string
   timestamp: string
   comment: string
-  currency: string
+  currency: Currency
   type?: NotificationTypes.PAYMENT_RECEIVED
 }
 
 export enum NotificationReceiveState {
-  APP_ALREADY_OPEN,
-  APP_FOREGROUNDED,
-  APP_OPENED_FRESH,
+  AppAlreadyOpen = 'AppAlreadyOpen',
+  AppOpenedFromBackground = 'AppOpenedFromBackground',
+  AppColdStart = 'AppColdStart',
 }

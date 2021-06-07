@@ -1,4 +1,3 @@
-// tslint:disable: no-relative-imports
 import accountScreen10 from './accountScreen10.json'
 import backupKeyFlow6 from './backupKeyFlow6.json'
 import consumerIncentives from './consumerIncentives.json'
@@ -15,6 +14,7 @@ import onboarding from './onboarding.json'
 import paymentRequestFlow from './paymentRequestFlow.json'
 import receiveFlow8 from './receiveFlow8.json'
 import sendFlow7 from './sendFlow7.json'
+import walletConnect from './walletConnect.json'
 import walletFlow5 from './walletFlow5.json'
 
 export default {
@@ -35,4 +35,5 @@ export default {
   dappkit,
   onboarding,
   fiatExchangeFlow,
+  walletConnect,
 }

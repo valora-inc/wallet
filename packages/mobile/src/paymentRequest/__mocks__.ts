@@ -1,5 +1,5 @@
 import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
-import { ShortCurrency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 export function createMockPaymentRequest(partial: object): PaymentRequest {
   return {
@@ -7,7 +7,7 @@ export function createMockPaymentRequest(partial: object): PaymentRequest {
     amount: '20',
     comment: 'Just the best',
     requesteeAddress: '0x15280126303735b625',
-    currency: ShortCurrency.Dollar,
+    currency: Currency.Dollar,
     timestamp: new Date(),
     requesterAddress: '101929292929',
     status: PaymentRequestStatus.REQUESTED,

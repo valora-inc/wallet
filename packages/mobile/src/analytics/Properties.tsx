@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
@@ -32,7 +33,11 @@ import {
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { NotificationReceiveState } from 'src/notifications/types'
 import { Currency } from 'src/utils/currencies'
+import { Awaited } from 'src/utils/typescript'
+
+type PermissionStatus = Awaited<ReturnType<typeof check>>
 
 interface AppEventsProperties {
   [AppEvents.app_launched]: {
@@ -70,6 +75,20 @@ interface AppEventsProperties {
   }
   [AppEvents.redux_store_recovery_success]: {
     account: string
+  }
+  [AppEvents.push_notification_opened]: {
+    id?: string
+    state: NotificationReceiveState
+    type?: string
+  }
+  [AppEvents.request_tracking_permission_started]: {
+    currentPermission: PermissionStatus
+  }
+  [AppEvents.request_tracking_permission_declined]: {
+    newPermission: PermissionStatus
+  }
+  [AppEvents.request_tracking_permission_accepted]: {
+    newPermission: 'granted'
   }
 }
 
@@ -113,6 +132,12 @@ interface SettingsEventsProperties {
   [SettingsEvents.tos_view]: undefined
   [SettingsEvents.start_account_removal]: undefined
   [SettingsEvents.completed_account_removal]: undefined
+  [SettingsEvents.change_pin_start]: undefined
+  [SettingsEvents.change_pin_current_pin_entered]: undefined
+  [SettingsEvents.change_pin_current_pin_error]: undefined
+  [SettingsEvents.change_pin_new_pin_entered]: undefined
+  [SettingsEvents.change_pin_new_pin_confirmed]: undefined
+  [SettingsEvents.change_pin_new_pin_error]: undefined
 }
 
 interface OnboardingEventsProperties {

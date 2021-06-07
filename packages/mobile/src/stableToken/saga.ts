@@ -12,7 +12,9 @@ export function* watchFetchStableBalances() {
       call(fetchToken, Currency.Dollar, tag),
       call(fetchToken, Currency.Euro, tag),
     ])
-    yield put(setBalance(cUsdBalance, cEurBalance))
+    yield put(
+      setBalance({ [Currency.Dollar]: cUsdBalance ?? null, [Currency.Euro]: cEurBalance ?? null })
+    )
   }
 }
 

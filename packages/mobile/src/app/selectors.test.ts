@@ -1,5 +1,6 @@
 import { verificationPossibleSelector } from 'src/app/selectors'
-import { KomenciAvailable } from 'src/verify/reducer'
+import { Currency } from 'src/utils/currencies'
+import { KomenciAvailable } from 'src/verify/module'
 import { getMockStoreData } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper } from 'test/values'
 
@@ -10,7 +11,7 @@ describe(verificationPossibleSelector, () => {
       verificationPossibleSelector(
         getMockStoreData({
           account: { e164PhoneNumber: mockE164Number },
-          stableToken: { balance: '0' },
+          stableToken: { balances: { [Currency.Dollar]: '0' } },
           goldToken: { balance: '0' },
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
           verify: { komenci: { errorTimestamps: [] }, status: {} },
@@ -24,7 +25,7 @@ describe(verificationPossibleSelector, () => {
       verificationPossibleSelector(
         getMockStoreData({
           account: { e164PhoneNumber: mockE164Number },
-          stableToken: { balance: '0.01' },
+          stableToken: { balances: { [Currency.Dollar]: '0.01' } },
           goldToken: { balance: '0' },
           identity: {
             e164NumberToSalt: {},
@@ -37,7 +38,7 @@ describe(verificationPossibleSelector, () => {
       verificationPossibleSelector(
         getMockStoreData({
           account: { e164PhoneNumber: mockE164Number },
-          stableToken: { balance: '0' },
+          stableToken: { balances: { [Currency.Dollar]: '0' } },
           goldToken: { balance: '0.005' },
           identity: { e164NumberToSalt: {} },
           verify: { komenci: { errorTimestamps: [] }, status: {} },
@@ -52,7 +53,7 @@ describe(verificationPossibleSelector, () => {
       verificationPossibleSelector(
         getMockStoreData({
           account: { e164PhoneNumber: mockE164Number },
-          stableToken: { balance: '0.009' },
+          stableToken: { balances: { [Currency.Dollar]: '0.009' } },
           goldToken: { balance: '0.004' },
           identity: {
             e164NumberToSalt: {},
@@ -73,7 +74,7 @@ describe(verificationPossibleSelector, () => {
       verificationPossibleSelector(
         getMockStoreData({
           account: { e164PhoneNumber: mockE164Number },
-          stableToken: { balance: '0.009' },
+          stableToken: { balances: { [Currency.Dollar]: '0.009' } },
           goldToken: { balance: '0.004' },
           identity: {
             e164NumberToSalt: {},

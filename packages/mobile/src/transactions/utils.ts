@@ -4,7 +4,7 @@ import i18n from 'src/i18n'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { FeedItem } from 'src/transactions/TransactionFeed'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
 
 // Groupings:
@@ -45,7 +45,7 @@ export const groupFeedItemsInSections = (feedItems: FeedItem[]) => {
 
 export const exchangeReviewHeader = (confirmationProps: ExchangeConfirmationCardProps) => {
   const { makerAmount } = confirmationProps
-  const isSold = makerAmount.currencyCode === CURRENCIES[Currency.Celo].code
+  const isSold = makerAmount.currencyCode === Currency.Celo
   return isSold ? i18n.t('exchangeFlow9:soldGold') : i18n.t('exchangeFlow9:purchasedGold')
 }
 
@@ -55,7 +55,7 @@ export const transferReviewHeader = (
   addressToDisplayName: AddressToDisplayNameType
 ) => {
   let headerText = ''
-  const isCeloTx = confirmationProps.amount.currencyCode === CURRENCIES[Currency.Celo].code
+  const isCeloTx = confirmationProps.amount.currencyCode === Currency.Celo
   switch (type) {
     case TokenTransactionType.Sent:
       headerText = i18n.t(

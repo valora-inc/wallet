@@ -1,8 +1,17 @@
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
 import { migrations } from 'src/redux/migrations'
-import { v0Schema, v1Schema, v2Schema, v7Schema, v8Schema, vNeg1Schema } from 'test/schemas'
+import { Currency } from 'src/utils/currencies'
+import {
+  v0Schema,
+  v13Schema,
+  v14Schema,
+  v1Schema,
+  v2Schema,
+  v7Schema,
+  v8Schema,
+  vNeg1Schema,
+} from 'test/schemas'
 
 describe('Redux persist migrations', () => {
   it('works for v-1 to v0', () => {
@@ -147,7 +156,7 @@ describe('Redux persist migrations', () => {
     expect(Object.keys(migratedSchema.fiatExchanges.txHashToProvider).length).toEqual(1)
     expect(migratedSchema.fiatExchanges.txHashToProvider[txHash].name).toEqual(mockName)
     expect(migratedSchema.fiatExchanges.txHashToProvider[txHash].icon).toEqual(mockIcon)
-    expect(migratedSchema.fiatExchanges.lastUsedProvider).toEqual(CicoProviderNames.Simplex)
+    expect(migratedSchema.fiatExchanges.lastUsedProvider).toEqual('Simplex')
   })
 
   it('works for v8 to v9', () => {
@@ -198,5 +207,61 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema.app).toEqual(appStub)
     expect(migratedSchema.exchange.otherExchangeProps).toEqual(exchangeStub)
     expect(migratedSchema.exchange.history).toEqual(exchangeInitialState.history)
+  })
+  it('works for v12 to v13', () => {
+    const stub = {
+      verify: {
+        existingProperty: 'verify_existingProperty',
+        TEMPORARY_override_withoutVerification: 'oldValue',
+        withoutRevealing: true,
+        retries: 3,
+      },
+      identity: {
+        existingProperty: 'identity_existingProperty',
+        hasSeenVerificationNux: true,
+        attestationCodes: ['code1', 'code2'],
+        acceptedAttestationCodes: ['code1'],
+        attestationInputStatus: ['loading'],
+        numCompleteAttestations: 3,
+        verificationStatus: 'verified',
+        lastRevealAttempt: 'yesterday',
+      },
+    }
+    const migratedSchema = migrations[13](stub)
+    expect(migratedSchema.verify.existingProperty).toEqual('verify_existingProperty')
+    expect(migratedSchema.identity.existingProperty).toEqual('identity_existingProperty')
+    expect(migratedSchema.verify.seenVerificationNux).toEqual(true)
+    const deletedIdentityProperties = [
+      'attestationCodes',
+      'acceptedAttestationCodes',
+      'attestationInputStatus',
+      'numCompleteAttestations',
+      'verificationStatus',
+      'lastRevealAttempt',
+    ]
+    for (const deletedProperty of deletedIdentityProperties) {
+      expect(Object.keys(migratedSchema.identity).includes(deletedProperty)).toEqual(false)
+    }
+    const deletedVerifyProperties = [
+      'TEMPORARY_override_withoutVerification',
+      'withoutRevealing',
+      'retries',
+    ]
+    for (const deletedProperty of deletedVerifyProperties) {
+      expect(Object.keys(migratedSchema.verify).includes(deletedProperty)).toEqual(false)
+    }
+  })
+
+  it('works for v13 to v14', () => {
+    const migratedSchema = migrations[14](v13Schema)
+    expect(migratedSchema.networkInfo.userLocationData).toBeDefined()
+    expect(migratedSchema.networkInfo.userLocationData.countryCodeAlpha2).toEqual(null)
+  })
+  it('works for v14 to v15', () => {
+    const migratedSchema = migrations[15](v14Schema)
+    expect(migratedSchema.localCurrency.exchangeRates).toBeDefined()
+    expect(migratedSchema.localCurrency.exchangeRates[Currency.Dollar]).toEqual(
+      v14Schema.localCurrency.exchangeRate
+    )
   })
 })

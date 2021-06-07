@@ -21,7 +21,7 @@ import { declinePaymentRequest } from 'src/paymentRequest/actions'
 import { Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 interface Props {
@@ -135,7 +135,7 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
           <CurrencyDisplay
             amount={{
               value: amount,
-              currencyCode: CURRENCIES[Currency.Dollar].code,
+              currencyCode: Currency.Dollar,
             }}
           />
         }

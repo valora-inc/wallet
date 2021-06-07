@@ -9,7 +9,7 @@ import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
-import { CURRENCIES, Currency, currencyByCode } from 'src/utils/currencies'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import {
   getCentAwareMoneyDisplay,
   getExchangeRateDisplayValue,
@@ -142,7 +142,11 @@ export default function CurrencyDisplay({
   const displayAmount = shouldShowLocalAmount
     ? getLocalAmount(amount, localCurrencyCode, localCurrencyExchangeRate)
     : amount
-  const displayCurrency = displayAmount ? currencyByCode(displayAmount.currencyCode) : undefined
+  const displayCurrency = displayAmount
+    ? displayAmount.currencyCode === Currency.Celo
+      ? Currency.Celo
+      : Currency.Dollar
+    : null
   const currencySymbol = displayAmount
     ? shouldShowLocalAmount
       ? LocalCurrencySymbol[displayAmount.currencyCode as LocalCurrencyCode]

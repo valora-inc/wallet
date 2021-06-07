@@ -1,19 +1,25 @@
 import { Actions, ActionTypes } from 'src/localCurrency/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
+import { Currency } from 'src/utils/currencies'
 
 export interface State {
   isLoading: boolean
   preferredCurrencyCode?: LocalCurrencyCode
-  exchangeRate?: string | null
-  eurExchangeRate?: string | null
-  celoExchangeRate?: string | null
+  exchangeRates: { [token in Currency]: string | null }
   lastSuccessfulUpdate?: number
   fetchedCurrencyCode?: LocalCurrencyCode
+  fetchRateFailed: boolean
 }
 
 const initialState = {
   isLoading: false,
+  fetchRateFailed: false,
+  exchangeRates: {
+    [Currency.Celo]: null,
+    [Currency.Dollar]: null,
+    [Currency.Euro]: null,
+  },
 }
 
 export const reducer = (
@@ -35,14 +41,17 @@ export const reducer = (
       return {
         ...state,
         isLoading: true,
+        fetchRateFailed: false,
       }
     case Actions.FETCH_CURRENT_RATE_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        exchangeRate: action.exchangeRate ?? state.exchangeRate,
-        eurExchangeRate: action.eurExchangeRate ?? state.eurExchangeRate,
-        celoExchangeRate: action.celoExchangeRate ?? state.celoExchangeRate,
+        fetchRateFailed: false,
+        exchangeRates: {
+          ...state.exchangeRates,
+          ...action.exchangeRates,
+        },
         lastSuccessfulUpdate: action.now,
         fetchedCurrencyCode: action.currencyCode,
       }
@@ -50,6 +59,7 @@ export const reducer = (
       return {
         ...state,
         isLoading: false,
+        fetchRateFailed: true,
       }
     case Actions.SELECT_PREFERRED_CURRENCY:
       return {

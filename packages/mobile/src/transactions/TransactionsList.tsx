@@ -6,7 +6,10 @@ import { connect } from 'react-redux'
 import { MoneyAmount, Token, TokenTransactionType, UserTransactionsQuery } from 'src/apollo/types'
 import { SENTINEL_INVITE_COMMENT } from 'src/invite/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { getLocalCurrencyCode, getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
+import {
+  getLocalCurrencyCode,
+  getLocalCurrencyToDollarsExchangeRate,
+} from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { newTransactionsInFeed } from 'src/transactions/actions'
 import { knownFeedTransactionsSelector, KnownFeedTransactionsType } from 'src/transactions/reducer'
@@ -22,7 +25,7 @@ import {
   TransactionStatus,
   TransferStandby,
 } from 'src/transactions/types'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -66,7 +69,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   address: currentAccountSelector(state),
   standbyTransactions: state.transactions.standbyTransactions,
   localCurrencyCode: getLocalCurrencyCode(state),
-  localCurrencyExchangeRate: getLocalCurrencyExchangeRate(state),
+  localCurrencyExchangeRate: getLocalCurrencyToDollarsExchangeRate(state),
   knownFeedTransactions: knownFeedTransactionsSelector(state),
 })
 
@@ -99,21 +102,21 @@ function mapExchangeStandbyToFeedItem(
 
   const inAmount = {
     value: new BigNumber(inValue),
-    currencyCode: CURRENCIES[inSymbol].code,
+    currencyCode: inSymbol,
   }
   const outAmount = {
     value: new BigNumber(outValue),
-    currencyCode: CURRENCIES[outSymbol].code,
+    currencyCode: outSymbol,
   }
 
   const exchangeRate = new BigNumber(outAmount.value).dividedBy(inAmount.value)
   const localExchangeRate = new BigNumber(localCurrencyExchangeRate ?? 0)
   const makerLocalExchangeRate =
-    inAmount.currencyCode === CURRENCIES[Currency.Dollar].code
+    inAmount.currencyCode === Currency.Dollar
       ? localExchangeRate
       : exchangeRate.multipliedBy(localExchangeRate)
   const takerLocalExchangeRate =
-    outAmount.currencyCode === CURRENCIES[Currency.Dollar].code
+    outAmount.currencyCode === Currency.Dollar
       ? localExchangeRate
       : exchangeRate.pow(-1).multipliedBy(localExchangeRate)
 
@@ -122,7 +125,7 @@ function mapExchangeStandbyToFeedItem(
 
   // Find amount relative to the queried currency
   const accountAmount = [makerAmount, takerAmount].find(
-    (amount) => amount.currencyCode === CURRENCIES[currency].code
+    (amount) => amount.currencyCode === currency
   )
 
   if (!accountAmount) {
@@ -170,7 +173,7 @@ function mapTransferStandbyToFeedItem(
         // Signed amount relative to the queried account currency
         // Standby transfers are always outgoing
         value: new BigNumber(value).multipliedBy(-1),
-        currencyCode: CURRENCIES[symbol].code,
+        currencyCode: symbol,
       },
       localCurrencyCode,
       localCurrencyExchangeRate

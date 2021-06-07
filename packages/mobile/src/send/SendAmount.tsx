@@ -41,8 +41,8 @@ import {
 } from 'src/localCurrency/convert'
 import {
   getLocalCurrencyCode,
-  getLocalCurrencyExchangeRate,
   getLocalCurrencySymbol,
+  localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
 import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -107,7 +107,7 @@ function SendAmount(props: Props) {
   const { isOutgoingPaymentRequest, recipient, origin } = props.route.params
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const localCurrencyExchangeRate = useSelector(getLocalCurrencyExchangeRate)
+  const localCurrencyExchangeRate = useSelector(localCurrencyExchangeRatesSelector)[Currency.Dollar]
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
   const dollarBalance = useSelector(cUsdBalanceSelector)
