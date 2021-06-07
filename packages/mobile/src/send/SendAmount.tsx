@@ -60,6 +60,7 @@ import { getFeeType, useDailyTransferLimitValidator } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchDollarBalance } from 'src/stableToken/actions'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { roundUp } from 'src/utils/formatting'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
 
@@ -181,6 +182,7 @@ function SendAmount(props: Props) {
 
   const isAmountValid = parsedLocalAmount.isGreaterThanOrEqualTo(DOLLAR_TRANSACTION_MIN_AMOUNT)
   const isDollarBalanceSufficient = isAmountValid && newAccountBalance.isGreaterThan(0)
+  const minimumAmount = roundUp(dollarAmount.plus(estimateFeeDollars || 0), 2)
 
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
   const addressValidationType: AddressValidationType = getAddressValidationType(
@@ -247,7 +249,7 @@ function SendAmount(props: Props) {
     if (!isDollarBalanceSufficient) {
       dispatch(
         showError(ErrorMessages.NSF_TO_SEND, null, {
-          amountNeeded: dollarAmount.plus(estimateFeeDollars || 0).toString(),
+          amountNeeded: minimumAmount,
         })
       )
       return
