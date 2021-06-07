@@ -381,6 +381,7 @@ export function* startSaga() {
     const e164Number = yield select(e164NumberSelector)
     const shouldUseKomenci = yield select(shouldUseKomenciSelector)
 
+    ValoraAnalytics.track(VerificationEvents.verification_start, { feeless: shouldUseKomenci })
     if (shouldUseKomenci) {
       try {
         const komenci = yield select(komenciContextSelector)
