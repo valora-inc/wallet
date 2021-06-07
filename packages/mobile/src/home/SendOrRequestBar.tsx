@@ -3,12 +3,11 @@ import Touchable from '@celo/react-components/components/Touchable'
 import QRCodeBorderlessIcon from '@celo/react-components/icons/QRCodeBorderless'
 import colors from '@celo/react-components/styles/colors'
 import variables from '@celo/react-components/styles/variables'
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -32,7 +31,6 @@ export default function SendOrRequestBar() {
 
   const { t } = useTranslation(Namespaces.sendFlow7)
 
-  const [isVisible, siv] = useState(false)
   return (
     <View style={styles.container} testID="SendOrRequestBar">
       <Button
@@ -52,13 +50,6 @@ export default function SendOrRequestBar() {
       <Touchable borderless={true} onPress={onPressQrCode}>
         <QRCodeBorderlessIcon height={32} color={colors.greenUI} />
       </Touchable>
-      <TokenBottomSheet
-        isVisible={isVisible}
-        origin={TokenPickerOrigin.Send}
-        onCurrencySelected={() => {
-          siv(false)
-        }}
-      />
     </View>
   )
 }
