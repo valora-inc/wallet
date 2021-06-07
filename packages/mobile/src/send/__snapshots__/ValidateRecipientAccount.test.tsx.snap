@@ -547,27 +547,19 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 ]
               }
             >
-              <View
+              <Text
                 style={
                   Object {
-                    "width": 215,
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                    "marginVertical": 8,
                   }
                 }
               >
-                <Text
-                  style={
-                    Object {
-                      "color": "#9CA4A9",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 14,
-                      "lineHeight": 18,
-                      "marginVertical": 8,
-                    }
-                  }
-                >
-                  0x f1b1 d5a6 e772 8g30 9c4a 025k 122d 71ad 75a6 1976
-                </Text>
-              </View>
+                0x f1b1 d5a6 e772 8g30 9c4a 025k 122d 71ad 75a6 1976
+              </Text>
             </View>
             <Text
               style={
@@ -1360,27 +1352,19 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 ]
               }
             >
-              <View
+              <Text
                 style={
                   Object {
-                    "width": 215,
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                    "marginVertical": 8,
                   }
                 }
               >
-                <Text
-                  style={
-                    Object {
-                      "color": "#9CA4A9",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 14,
-                      "lineHeight": 18,
-                      "marginVertical": 8,
-                    }
-                  }
-                >
-                  0x f1b1 d5a6 e772 8g30 9c4a 025k 122d 71ad 75a6 1976
-                </Text>
-              </View>
+                0x f1b1 d5a6 e772 8g30 9c4a 025k 122d 71ad 75a6 1976
+              </Text>
             </View>
             <Text
               style={
