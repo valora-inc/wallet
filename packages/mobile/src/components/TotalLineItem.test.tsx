@@ -115,7 +115,7 @@ describe('TotalLineItem', () => {
   })
   describe('when the amount is in cUSD', () => {
     it('displays the total in local currency and sub total in cUSD', () => {
-      const { getByText, toJSON } = renderComponent({
+      const { getByText } = renderComponent({
         amount: {
           value: '10.12345',
           currencyCode: Currency.Dollar,
@@ -135,7 +135,7 @@ describe('TotalLineItem', () => {
   })
   describe('when the amount is in cEUR', () => {
     it('displays the total in local currency and sub total in cEUR', () => {
-      const { getByText, toJSON } = renderComponent({
+      const { getByText } = renderComponent({
         amount: {
           value: '10.12345',
           currencyCode: Currency.Euro,
