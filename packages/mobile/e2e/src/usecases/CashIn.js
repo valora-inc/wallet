@@ -76,7 +76,7 @@ export default CashIn = () => {
 
   // Check Simplex keep test spec last in use case
   // TODO: setup back method in beforeEach if on Simplex view
-  it('Should Navigate to Simplex', async () => {
+  it.skip('Should Navigate to Simplex', async () => {
     await element(by.id('Provider/Simplex')).tap()
     await element(by.text('Continue to Simplex')).tap()
     await sleep(15000)
