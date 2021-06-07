@@ -1,0 +1,17 @@
+# Exclude compiled .js files
+*.js
+!jest.config.js
+*.js.map
+dist/
+
+# Logs
+*.log
+
+# Exclude dependencies
+node_modules/
+
+# Exclude secrets
+serviceAccountKey.json
+.env
+config/config.alfajores.env
+config/config.mainnet.env
