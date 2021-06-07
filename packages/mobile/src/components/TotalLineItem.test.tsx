@@ -126,7 +126,6 @@ describe('TotalLineItem', () => {
           },
         },
       })
-      console.log(JSON.stringify(toJSON()))
       expect(getByText('€15.18').props.testID).toEqual('TotalLineItem/Total')
       expect(getByText('$10.12').props.testID).toEqual('TotalLineItem/Subtotal')
       // TODO: This should use the local currency
@@ -147,7 +146,6 @@ describe('TotalLineItem', () => {
           },
         },
       })
-      console.log(JSON.stringify(toJSON()))
       expect(getByText('$15.18').props.testID).toEqual('TotalLineItem/Total')
       expect(getByText('€10.12').props.testID).toEqual('TotalLineItem/Subtotal')
       expect(getByText('$0.66').props.testID).toEqual('TotalLineItem/ExchangeRate')
