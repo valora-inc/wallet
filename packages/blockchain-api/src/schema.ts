@@ -67,6 +67,7 @@ export type Token = 'cUSD' | 'cGLD' | 'cEUR'
 export interface TokenTransactionArgs {
   address: string
   token: Token | null
+  tokens: Token[] | null
   localCurrencyCode: string
 }
 
@@ -212,6 +213,7 @@ export const typeDefs = gql`
     tokenTransactions(
       address: Address!
       token: Token
+      tokens: [Token]
       localCurrencyCode: String
       # pagination
       before: String

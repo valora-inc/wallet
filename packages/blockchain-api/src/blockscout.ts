@@ -1,5 +1,6 @@
 import { RESTDataSource } from 'apollo-datasource-rest'
 import { performance } from 'perf_hooks'
+import { CUSD } from 'src/currencyConversion/consts'
 import { BLOCKSCOUT_API, FAUCET_ADDRESS } from './config'
 import {
   Any,
@@ -65,7 +66,7 @@ export class BlockscoutAPI extends RESTDataSource {
 
     const response = await this.post('', {
       query: `
-        query Transfers($address: String!) {
+        query Transfers($address: AddressHash!) {
           # TXs related to cUSD or cGLD transfers
           transferTxs(addressHash: $address, first: 100) {
             edges {
@@ -149,12 +150,13 @@ export class BlockscoutAPI extends RESTDataSource {
 
   async getTokenTransactions(args: TokenTransactionArgs) {
     const userAddress = args.address.toLowerCase()
-    const token = args.token
+    const { token, tokens: receivedTokens } = args
     const rawTransactions = await this.getRawTokenTransactions(userAddress)
 
+    const tokens = receivedTokens ?? token ? [token] : [CUSD]
     const context = {
       userAddress,
-      token,
+      tokens,
     }
 
     const transactionClassifier = new TransactionClassifier([
@@ -191,9 +193,10 @@ export class BlockscoutAPI extends RESTDataSource {
     console.info(
       `[Celo] getTokenTransactions address=${args.address} token=${token} localCurrencyCode=${args.localCurrencyCode}} rawTransactionCount=${rawTransactions.length} eventCount=${events.length}`
     )
+
     return events
       .filter((e) => e)
-      .filter((event) => (token ? event.amount.currencyCode === token : true))
+      .filter((event) => tokens.includes(event.amount.currencyCode))
       .sort((a, b) => b.timestamp - a.timestamp)
   }
 }
