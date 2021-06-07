@@ -395,6 +395,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                     },
                   ]
                 }
+                testID="TotalLineItem/Total"
               >
                 
                 $
@@ -453,6 +454,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                       },
                     ]
                   }
+                  testID="TotalLineItem/ExchangeRate"
                 >
                   
                   $
@@ -488,6 +490,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                     },
                   ]
                 }
+                testID="TotalLineItem/Subtotal"
               >
                 
                 $

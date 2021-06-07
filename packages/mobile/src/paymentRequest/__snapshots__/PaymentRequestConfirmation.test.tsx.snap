@@ -269,6 +269,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             
             $
@@ -327,6 +328,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -362,6 +364,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             
             $

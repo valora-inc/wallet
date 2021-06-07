@@ -294,6 +294,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
             },
           ]
         }
+        testID="TotalLineItem/Total"
       >
         
         
@@ -352,6 +353,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
               },
             ]
           }
+          testID="TotalLineItem/ExchangeRate"
         >
           
           $
@@ -387,6 +389,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
             },
           ]
         }
+        testID="TotalLineItem/Subtotal"
       >
         
         $
