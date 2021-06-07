@@ -843,7 +843,7 @@ export function* getPhoneHashDetails() {
   }
 }
 
-function createErrorHandler(saga: any, sagaName: string) {
+function callSagaAndHandleErrors(saga: any, sagaName: string) {
   return function* (...args: any[]) {
     try {
       yield call(saga, ...args)
@@ -889,7 +889,7 @@ const sagas: Array<[string, any]> = [
 
 export function* watchVerificationEvents() {
   for (const [actionType, saga] of sagas) {
-    yield takeEvery(actionType, createErrorHandler(saga, actionType))
+    yield takeEvery(actionType, callSagaAndHandleErrors(saga, actionType))
   }
 }
 
