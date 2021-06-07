@@ -25,7 +25,7 @@ import {
 } from 'src/analytics/Events'
 import { BackQuizProgress, ScrollDirection, SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { CurrencyPickerOrigin } from 'src/components/CurrencyPicker'
+import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import {
   RewardsScreenCta,
   RewardsScreenOrigin,
@@ -568,7 +568,7 @@ interface SendEventsProperties {
     error: string
   }
   [SendEvents.token_selected]: {
-    origin: CurrencyPickerOrigin
+    origin: TokenPickerOrigin
     token: string
   }
 }

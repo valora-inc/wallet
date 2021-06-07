@@ -1,91 +1,80 @@
+import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import { Namespaces } from 'src/i18n'
-import { useCurrencyBalance } from 'src/stableToken/hooks'
-import { CURRENCIES, Currency, CurrencyInfo, STABLE_CURRENCIES } from 'src/utils/currencies'
+import { useBalance } from 'src/stableToken/hooks'
+import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
-export enum CurrencyPickerOrigin {
+export enum TokenPickerOrigin {
   Send = 'Send',
   Exchange = 'Exchange',
 }
 
 interface Props {
   isVisible: boolean
-  origin: CurrencyPickerOrigin
+  origin: TokenPickerOrigin
   onCurrencySelected: (currency: Currency) => void
 }
 
-function CurrencyOption({
-  currency,
-  currencyInfo,
-  onPress,
-}: {
-  currency: Currency
-  currencyInfo: CurrencyInfo
-  onPress: () => void
-}) {
+function CurrencyOption({ currency, onPress }: { currency: Currency; onPress: () => void }) {
   const { t } = useTranslation(Namespaces.sendFlow7)
-  const balance = useCurrencyBalance(currency)
+  const balance = useBalance(currency)
   const amount = {
     value: new BigNumber(balance ?? '0'),
-    currencyCode: currencyInfo.code,
+    currencyCode: currency,
   }
   return (
-    <TouchableOpacity
-      style={styles.currencyOptionContainer}
-      onPress={onPress}
-      testID={`${currencyInfo.code}Touchable`}
-    >
-      <Text style={styles.optionName}>{t('stableBalance', { token: currencyInfo.code })}</Text>
-      <View style={styles.currencyBalanceContainer}>
-        <CurrencyDisplay
-          style={styles.localBalance}
-          amount={amount}
-          showLocalAmount={true}
-          testID={`Local${currencyInfo.code}Balance`}
-        />
-        <CurrencyDisplay
-          style={styles.currencyBalance}
-          amount={amount}
-          showLocalAmount={false}
-          hideCode={false}
-          hideSymbol={true}
-          testID={`${currencyInfo.code}Balance`}
-        />
+    <Touchable onPress={onPress} testID={`${currency}Touchable`}>
+      <View style={styles.currencyOptionContainer}>
+        <Text style={styles.optionName}>{t('stableBalance', { token: currency })}</Text>
+        <View style={styles.currencyBalanceContainer}>
+          <CurrencyDisplay
+            style={styles.localBalance}
+            amount={amount}
+            showLocalAmount={true}
+            testID={`Local${currency}Balance`}
+          />
+          <CurrencyDisplay
+            style={styles.currencyBalance}
+            amount={amount}
+            showLocalAmount={false}
+            hideCode={false}
+            hideSymbol={true}
+            testID={`${currency}Balance`}
+          />
+        </View>
       </View>
-    </TouchableOpacity>
+    </Touchable>
   )
 }
 
-const PICKER_HEIGHT = 250
-
-function CurrencyPicker({ isVisible, origin, onCurrencySelected }: Props) {
+function TokenBottomSheet({ isVisible, origin, onCurrencySelected }: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
+  const [pickerHeight, setPickerHeight] = useState(0)
 
   const { t } = useTranslation(Namespaces.sendFlow7)
 
   const onCurrencyPressed = (currency: Currency) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
-      token: CURRENCIES[currency].code,
+      token: currency,
     })
     onCurrencySelected(currency)
   }
 
   const progress = useSharedValue(0)
   const animatedPickerPosition = useAnimatedStyle(() => ({
-    transform: [{ translateY: (1 - progress.value) * PICKER_HEIGHT }],
+    transform: [{ translateY: (1 - progress.value) * pickerHeight }],
   }))
   const animatedOpacity = useAnimatedStyle(() => ({
     opacity: 0.5 * progress.value,
@@ -102,20 +91,21 @@ function CurrencyPicker({ isVisible, origin, onCurrencySelected }: Props) {
     return null
   }
 
+  const onLayout = (event: LayoutChangeEvent) => {
+    const { height } = event.nativeEvent.layout
+    setPickerHeight(height)
+  }
+
   return (
-    <View style={styles.container} testID="CurrencyPickerContainer">
+    <View style={styles.container} testID="TokenBottomSheetContainer">
       <Animated.View style={[styles.background, animatedOpacity]} />
-      <Animated.View style={[styles.contentContainer, animatedPickerPosition]}>
+      <Animated.View style={[styles.contentContainer, animatedPickerPosition]} onLayout={onLayout}>
         <Text style={styles.title}>{t('selectBalance')}</Text>
         {STABLE_CURRENCIES.map((currency, index) => {
           return (
             <>
               {index > 0 && <View style={styles.separator} />}
-              <CurrencyOption
-                currency={currency}
-                currencyInfo={CURRENCIES[currency]}
-                onPress={onCurrencyPressed(currency)}
-              />
+              <CurrencyOption currency={currency} onPress={onCurrencyPressed(currency)} />
             </>
           )
         })}
@@ -124,7 +114,7 @@ function CurrencyPicker({ isVisible, origin, onCurrencySelected }: Props) {
   )
 }
 
-CurrencyPicker.navigationOptions = {}
+TokenBottomSheet.navigationOptions = {}
 
 const styles = StyleSheet.create({
   container: {
@@ -143,9 +133,11 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   contentContainer: {
-    backgroundColor: colors.light,
+    position: 'absolute',
+    bottom: 0,
     opacity: 1,
     width: '100%',
+    backgroundColor: colors.light,
     padding: Spacing.Thick24,
     borderTopRightRadius: Spacing.Regular16,
     borderTopLeftRadius: Spacing.Regular16,
@@ -156,8 +148,8 @@ const styles = StyleSheet.create({
   },
   currencyOptionContainer: {
     flexDirection: 'row',
-    height: 72,
     alignItems: 'center',
+    paddingVertical: 16,
   },
   optionName: {
     flex: 1,
@@ -180,4 +172,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default CurrencyPicker
+export default TokenBottomSheet

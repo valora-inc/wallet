@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
-import { cEurBalanceSelector, cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { balancesSelector } from 'src/stableToken/reducer'
 import { Currency } from 'src/utils/currencies'
 
-export function useCurrencyBalance(currency: Currency) {
+export function useBalance(currency: Currency) {
+  const stableBalances = useSelector(balancesSelector)
   const balances = {
+    ...stableBalances,
     [Currency.Celo]: useSelector(celoTokenBalanceSelector),
-    [Currency.Dollar]: useSelector(cUsdBalanceSelector),
-    [Currency.Euro]: useSelector(cEurBalanceSelector),
   }
   return balances[currency]
 }

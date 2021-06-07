@@ -42,6 +42,7 @@ export const reducer = (state: State | undefined = initialState, action: ActionT
   }
 }
 
+export const balancesSelector = (state: RootState) => state.stableToken.balances
 export const cUsdBalanceSelector = (state: RootState) =>
   state.stableToken.balances[Currency.Dollar] ?? null
 export const cEurBalanceSelector = (state: RootState) =>

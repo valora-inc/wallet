@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import CurrencyPicker, { CurrencyPickerOrigin } from 'src/components/CurrencyPicker'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 
@@ -9,14 +9,13 @@ jest.mock('src/components/useShowOrHideAnimation')
 
 const mockStore = createMockStore({
   stableToken: {
-    balance: '10',
-    cEurBalance: '20',
+    balances: { [Currency.Dollar]: '10', [Currency.Euro]: '20' },
   },
 })
 
 const onCurrencySelectedMock = jest.fn()
 
-describe('CurrencyPicker', () => {
+describe('TokenBottomSheet', () => {
   beforeAll(() => {
     // @ts-ignore This avoids an error, see: https://github.com/software-mansion/react-native-reanimated/issues/1380
     global.__reanimatedWorkletInit = jest.fn()
@@ -29,9 +28,9 @@ describe('CurrencyPicker', () => {
   function renderPicker(visible: boolean) {
     return render(
       <Provider store={mockStore}>
-        <CurrencyPicker
+        <TokenBottomSheet
           isVisible={visible}
-          origin={CurrencyPickerOrigin.Send}
+          origin={TokenPickerOrigin.Send}
           onCurrencySelected={onCurrencySelectedMock}
         />
       </Provider>
@@ -41,7 +40,7 @@ describe('CurrencyPicker', () => {
   it('renders correctly', () => {
     const tree = renderPicker(true)
 
-    expect(tree.queryByTestId('CurrencyPickerContainer')).toBeTruthy()
+    expect(tree.queryByTestId('TokenBottomSheetContainer')).toBeTruthy()
     expect(tree.queryByTestId('LocalcUSDBalance')).toBeTruthy()
     expect(tree.queryByTestId('cUSDBalance')).toBeTruthy()
     expect(tree.queryByTestId('LocalcEURBalance')).toBeTruthy()
@@ -61,6 +60,6 @@ describe('CurrencyPicker', () => {
 
   it('renders nothing if not visible', () => {
     const { queryByTestId } = renderPicker(false)
-    expect(queryByTestId('CurrencyPickerContainer')).toBeFalsy()
+    expect(queryByTestId('TokenBottomSheetContainer')).toBeFalsy()
   })
 })
