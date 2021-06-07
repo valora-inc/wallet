@@ -136,15 +136,17 @@ export function* acceptRequest({
     let result: any
     let error: ErrorType | undefined
     try {
+      yield call(unlockAccount, account)
       // Set `result` or `error` accordingly
       switch (method) {
         case SupportedActions.eth_signTransaction:
-          yield call(unlockAccount, account)
           result = (yield call(wallet.signTransaction.bind(wallet), params)) as EncodedTransaction
           break
         case SupportedActions.eth_signTypedData:
-          yield call(unlockAccount, account)
           result = yield call(wallet.signTypedData.bind(wallet), account, JSON.parse(params[1]))
+          break
+        case SupportedActions.personal_decrypt:
+          result = yield call(wallet.decrypt.bind(wallet), account, Buffer.from(params[1]))
           break
         default:
           error = WalletConnectErrors.JSONRPC_REQUEST_METHOD_UNSUPPORTED

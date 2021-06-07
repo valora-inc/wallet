@@ -20,7 +20,12 @@ const writeExchangeMock = jest.fn()
 jest.mock('../firebase', () => ({
   database: () => ({
     ref: jest.fn((path: string) => ({
-      push: (rate: BigNumber) => writeExchangeMock(path, rate),
+      push: (rate: BigNumber) => {
+        writeExchangeMock(path, rate)
+        return {
+          catch: jest.fn(),
+        }
+      },
     })),
   }),
 }))

@@ -52,14 +52,13 @@ function SmartTopAlert({ alert }: Props) {
   }, [alert])
 
   useEffect(() => {
-    let rafHandle: number
     let timeoutHandle: number
 
     if (!visibleAlertState) {
       return
     }
 
-    rafHandle = requestAnimationFrame(() => {
+    const rafHandle: number = requestAnimationFrame(() => {
       if (!containerRef.current) {
         return
       }
