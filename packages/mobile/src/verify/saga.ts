@@ -902,6 +902,7 @@ export function* verifySaga() {
     const { cancelled, timedOut }: { cancelled: boolean; timedOut: boolean } = yield race({
       cancelled: take(cancel.type),
       succeeded: take(succeed.type),
+      stopped: take(stop.type),
       failed: take(fail.type),
       timedOut: delay(VERIFICATION_TIMEOUT),
     })
