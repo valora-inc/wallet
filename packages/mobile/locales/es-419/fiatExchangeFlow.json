@@ -51,7 +51,7 @@
   },
   "providerFeesDialog": {
     "title": "Tasas de proveedores",
-    "body1": "Las comisiones de proveedores son fijadas por cada proveedor de forma individual e incluyen una tasa de cambio y una tasa de liquidez, entre otros. Para obtener más información, visita ",
+    "body1": "Las comisiones de proveedores son fijadas por cada proveedor de forma individual e incluyen una tasa de cambio y una tasa de liquidez, entre otras. Para obtener más información, visita ",
     "body2": "Sitio web de {{providerName}}"
   },
   "providerFeeDiscountDialog": {
