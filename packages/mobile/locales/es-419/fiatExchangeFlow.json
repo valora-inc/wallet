@@ -41,7 +41,7 @@
   },
   "invalidAmountDialog": {
     "minAmount": "Nuestros proveedores no soportan cantidades menores a {{limit}}. Por favor, ingresa un monto mayor.",
-    "maxAmount": "Nuestros proveedores no soportan totales superiores a {{limit}}. Por favor, introduce una cantidad más pequeña.",
+    "maxAmount": "Nuestros proveedores no soportan cantidades superiores a {{limit}}. Por favor, ingresa un monto menor.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
