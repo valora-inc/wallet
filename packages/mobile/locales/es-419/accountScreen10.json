@@ -95,7 +95,7 @@
   "raiseLimitResume": "Reanudar la verificación de identidad",
   "raiseLimitEmailSubject": "Solicitud de elevar el límite de envío de la cuenta",
   "raiseLimitEmailBody": "Me gustaría solicitar un aumento al límite diario de {{dailyLimit}} de {{appName}} para la dirección {{address}}",
-  "raiseLimitEmailSuccess": "¡Tu solicitud se envió con éxito! ¡Espera una respuesta de correo electrónico pronto!",
+  "raiseLimitEmailSuccess": "¡Tu solicitud se envió con éxito! ¡Espera una respuesta por correo electrónico pronto!",
   "raiseLimitEmailNotSent": "Tu solicitud no fue enviada. Por favor, inténtalo de nuevo.",
   "storeRecoveryTitle": "Necesitamos que vuelvas a configurar tu cuenta",
   "storeRecoveryBody": "Ha habido un error. Estamos al tanto del problema y estamos trabajamos para solucionarlo. Mientras tanto, tendrás que volver a completar el proceso de configuración.",
