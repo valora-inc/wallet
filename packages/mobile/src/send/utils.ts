@@ -194,8 +194,8 @@ export function showLimitReachedError(
 export function* handleSendPaymentData(
   data: UriData,
   cachedRecipient?: Recipient,
-  isOutgoingPaymentRequest?: true,
-  isFromScan?: true
+  isOutgoingPaymentRequest?: boolean,
+  isFromScan?: boolean
 ) {
   const recipient: AddressRecipient = {
     address: data.address.toLowerCase(),

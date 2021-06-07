@@ -1,14 +1,22 @@
 import * as React from 'react'
 import 'react-native'
+import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import Settings from 'src/account/Settings'
+import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { KomenciAvailable } from 'src/verify/reducer'
+import { KomenciAvailable } from 'src/verify/module'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper } from 'test/values'
 
+const mockedEnsurePincode = ensurePincode as jest.Mock
+
 describe('Account', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   beforeAll(() => {
     jest.useFakeTimers()
   })
@@ -89,5 +97,32 @@ describe('Account', () => {
       </Provider>
     )
     expect(tree).toMatchSnapshot()
+  })
+
+  it('navigates to PincodeSet screen if entered PIN is correct', async () => {
+    const tree = render(
+      <Provider store={createMockStore({})}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
+    fireEvent.press(tree.getByTestId('ChangePIN'))
+    await flushMicrotasksQueue()
+    expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, {
+      isVerifying: false,
+      changePin: true,
+    })
+  })
+
+  it('does not navigate to PincodeSet screen if entered PIN is incorrect', async () => {
+    const tree = render(
+      <Provider store={createMockStore({})}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(false))
+    fireEvent.press(tree.getByTestId('ChangePIN'))
+    await flushMicrotasksQueue()
+    expect(navigate).not.toHaveBeenCalled()
   })
 })

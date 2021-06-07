@@ -15,6 +15,7 @@ import { mockAccount } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
 
 const AMOUNT_TO_CASH_IN = 100
+const MOCK_IP_ADDRESS = '1.1.1.7'
 
 const mockScreenProps = (
   isCashIn: boolean,
@@ -38,14 +39,13 @@ const mockStore = createMockStore({
   localCurrency: {
     preferredCurrencyCode: LocalCurrencyCode.USD,
   },
-})
-
-const MOCK_IP_ADDRESS = '1.1.1.1.1.0'
-
-const MOCK_USER_LOCATION = JSON.stringify({
-  alpha2: 'MX',
-  state: null,
-  ipAddress: MOCK_IP_ADDRESS,
+  networkInfo: {
+    userLocationData: {
+      countryCodeAlpha2: 'MX',
+      region: null,
+      ipAddress: MOCK_IP_ADDRESS,
+    },
+  },
 })
 
 const MOCK_SIMPLEX_QUOTE = {
@@ -71,29 +71,30 @@ export const mockProviders: CicoProvider[] = [
     restricted: false,
     unavailable: false,
     paymentMethods: [PaymentMethod.Card],
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
-    quote: MOCK_SIMPLEX_QUOTE,
+    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     cashIn: true,
     cashOut: false,
+    quote: MOCK_SIMPLEX_QUOTE,
   },
   {
     name: 'Moonpay',
     restricted: false,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     url: 'https://www.moonpay.com/',
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
     cashIn: true,
     cashOut: false,
+    quote: [
+      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 95, fiatFee: 5 },
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 90, fiatFee: 10 },
+    ],
   },
   {
     name: 'Ramp',
     restricted: false,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     url: 'www.fakewebsite.com',
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
     cashIn: true,
     cashOut: false,
   },
@@ -102,10 +103,12 @@ export const mockProviders: CicoProvider[] = [
     restricted: true,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     url: 'www.fakewebsite.com',
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
     cashIn: true,
     cashOut: true,
+    quote: [
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 97, fiatFee: 3 },
+    ],
   },
   {
     name: 'Transak',
@@ -113,10 +116,13 @@ export const mockProviders: CicoProvider[] = [
     unavailable: true,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     url: 'www.fakewebsite.com',
-    logo:
-      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
     cashIn: true,
     cashOut: false,
+    quote: [
+      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 94, fiatFee: 6 },
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 88, fiatFee: 12 },
+    ],
   },
 ]
 
@@ -131,7 +137,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('renders correctly', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -145,7 +151,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('opens Simplex correctly', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -163,7 +169,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('opens a non-integrated provider correctly', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -178,7 +184,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('moves available providers to the top of the list', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -194,7 +200,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('moves unavailable providers to the bottom of the list', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -206,12 +212,12 @@ describe('ProviderOptionsScreen', () => {
 
     const elements = tree.queryAllByType(Text)
     // The last few text elements belong to the modal + subtext for the last provider
-    const lastProviderName = elements[elements.length - 5].props.children
+    const lastProviderName = elements[elements.length - 7].props.children
     expect(lastProviderName).toEqual('Transak')
   })
 
   it('disables a provider if they are unavailable', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -228,7 +234,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('shows a warning if user region is not supported', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>
@@ -244,7 +250,7 @@ describe('ProviderOptionsScreen', () => {
   })
 
   it('shows a warning if the selected payment method is not supported', async () => {
-    mockFetch.mockResponses(MOCK_USER_LOCATION, MOCK_PROVIDER_FETCH)
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
       <Provider store={mockStore}>

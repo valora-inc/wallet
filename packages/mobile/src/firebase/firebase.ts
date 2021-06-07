@@ -3,7 +3,6 @@ import '@react-native-firebase/auth'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
-// tslint:disable-next-line: no-duplicate-imports
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
@@ -68,7 +67,7 @@ export function* checkInitialNotification() {
   > = yield call([firebase.messaging(), 'getInitialNotification'])
   if (initialNotification) {
     Logger.info(TAG, 'App opened fresh via a notification', JSON.stringify(initialNotification))
-    yield call(handleNotification, initialNotification, NotificationReceiveState.APP_OPENED_FRESH)
+    yield call(handleNotification, initialNotification, NotificationReceiveState.AppColdStart)
   }
 }
 
@@ -112,7 +111,7 @@ function createFirebaseNotificationChannel() {
       Logger.info(TAG, 'Notification received while open')
       emitter({
         message,
-        stateType: NotificationReceiveState.APP_ALREADY_OPEN,
+        stateType: NotificationReceiveState.AppAlreadyOpen,
       })
     })
 
@@ -120,7 +119,7 @@ function createFirebaseNotificationChannel() {
       Logger.info(TAG, 'App opened via a notification')
       emitter({
         message,
-        stateType: NotificationReceiveState.APP_FOREGROUNDED,
+        stateType: NotificationReceiveState.AppOpenedFromBackground,
       })
     })
     return unsubscribe
@@ -132,9 +131,8 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
 
   // this call needs to include context: https://github.com/redux-saga/redux-saga/issues/27
   // Manual type checking because yield calls can't infer return type yet :'(
-  const authStatus: Awaited<
-    ReturnType<FirebaseMessagingTypes.Module['hasPermission']>
-  > = yield call([app.messaging(), 'hasPermission'])
+  const authStatus: Awaited<ReturnType<FirebaseMessagingTypes.Module['hasPermission']>> =
+    yield call([app.messaging(), 'hasPermission'])
   Logger.info(TAG, 'Current messaging authorization status', authStatus.toString())
   if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
     try {
@@ -229,13 +227,18 @@ export function appRemoteFeatureFlagChannel() {
       Logger.debug(`Updated feature flags: ${JSON.stringify(flags)}`)
       emit({
         hideVerification: flags?.hideVerification ?? false,
-        showRaiseDailyLimitTarget: flags?.showRaiseDailyLimitTarget ?? undefined,
+        showRaiseDailyLimitTarget: flags?.showRaiseDailyLimitTargetV2 ?? undefined,
         celoEducationUri: flags?.celoEducationUri ?? null,
         shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
         inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,
         inviteRewardCusd: flags?.inviteRewardCusd ?? 1,
-        inviteRewardWeeklyLimit: flags?.inviteRewardCusd ?? 5,
+        inviteRewardWeeklyLimit: flags?.inviteRewardWeeklyLimit ?? 5,
         walletConnectEnabled: flags?.walletConnectEnabled ?? false,
+        rewardsABTestThreshold:
+          flags?.rewardsABTestThreshold ?? '0xffffffffffffffffffffffffffffffffffffffff',
+        rewardsPercent: flags?.rewardsPercent ?? 5,
+        rewardsStartDate: flags?.rewardsStartDate ?? 1622505600000,
+        rewardsMax: flags?.rewardsMax ?? 1000,
       })
     }
 

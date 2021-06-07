@@ -124,28 +124,23 @@ export const migrations = {
     const providerDisplayInfo = {
       Moonpay: {
         name: 'Moonpay',
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+        icon: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
       },
       Ramp: {
         name: 'Ramp',
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+        icon: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
       },
       Simplex: {
         name: 'Simplex',
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+        icon: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
       },
       Transak: {
         name: 'Transak',
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+        icon: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
       },
       Xanpool: {
         name: 'Xanpool',
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
+        icon: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
       },
     }
 
@@ -205,4 +200,41 @@ export const migrations = {
       },
     }
   },
+  13: (state: any) => {
+    return {
+      ...state,
+      identity: {
+        ..._.omit(
+          state.identity,
+          'attestationCodes',
+          'acceptedAttestationCodes',
+          'attestationInputStatus',
+          'numCompleteAttestations',
+          'verificationStatus',
+          'hasSeenVerificationNux',
+          'lastRevealAttempt'
+        ),
+      },
+      verify: {
+        ..._.omit(
+          state.verify,
+          'TEMPORARY_override_withoutVerification',
+          'withoutRevealing',
+          'retries'
+        ),
+        seenVerificationNux: state.identity.hasSeenVerificationNux ?? false,
+      },
+    }
+  },
+  14: (state: any) => ({
+    ...state,
+    networkInfo: {
+      ...state.networkInfo,
+      userLocationData: {
+        countryCodeAlpha2: null,
+        region: null,
+        ipAddress: null,
+      },
+    },
+  }),
 }

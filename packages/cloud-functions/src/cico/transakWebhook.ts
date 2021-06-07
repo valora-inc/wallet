@@ -61,7 +61,7 @@ export const transakWebhook = functions.https.onRequest((request, response) => {
       request.body.data,
       TRANSAK_DATA.private_key
     ) as TransakPayload
-    console.log('Transak webhook', JSON.stringify(decodedData))
+    console.info('Transak webhook', JSON.stringify(decodedData))
     trackTransakEvent(decodedData)
     const {
       eventID,

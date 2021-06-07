@@ -4,7 +4,6 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { delay } from 'redux-saga/effects'
 import { setInitState } from 'src/geth/actions'
 import { InitializationState } from 'src/geth/reducer'
-// tslint:disable-next-line: ordered-imports
 import { GethInitOutcomes, GETH_RETRY_DELAY, initGethSaga, _waitForGethInit } from 'src/geth/saga'
 import { createMockStore } from 'test/utils'
 
@@ -20,7 +19,7 @@ describe(initGethSaga, () => {
     getStaticNodesAsync.mockReturnValue(Promise.resolve('["enode://foo"]'))
     const getGenesisBlockAsync = GenesisBlockUtils.getGenesisBlockAsync as jest.Mock
     getGenesisBlockAsync.mockReturnValue(Promise.resolve({}))
-    const MockGethBridge = (GethBridge as unknown) as Record<string, jest.Mock>
+    const MockGethBridge = GethBridge as unknown as Record<string, jest.Mock>
     MockGethBridge.startNode.mockClear()
   })
 
@@ -54,7 +53,7 @@ describe(initGethSaga, () => {
     getStaticNodeRegion.mockReturnValue('')
     const getGenesisBlockAsync = GenesisBlockUtils.getGenesisBlockAsync as jest.Mock
     getGenesisBlockAsync.mockReturnValue(Promise.resolve({}))
-    const MockGethBridge = (GethBridge as unknown) as Record<string, jest.Mock>
+    const MockGethBridge = GethBridge as unknown as Record<string, jest.Mock>
     MockGethBridge.startNode.mockClear()
     const getStaticNodesAsync = StaticNodeUtils.getStaticNodesAsync as jest.Mock
     getStaticNodesAsync

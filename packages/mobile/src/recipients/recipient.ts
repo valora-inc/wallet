@@ -86,8 +86,8 @@ export function contactsToRecipients(contacts: MinimalContact[], defaultCountryC
   try {
     //  We need a map of e164Number to recipients so we can efficiently
     //    update them later as the latest contact mappings arrive from the contact calls.
-    const e164NumberToRecipients: NumberToRecipient = {}
 
+    const e164NumberToRecipients: NumberToRecipient = {}
     for (const contact of contacts) {
       if (!contact.phoneNumbers || !contact.phoneNumbers.length) {
         // Skip contacts without phone numbers
@@ -104,7 +104,8 @@ export function contactsToRecipients(contacts: MinimalContact[], defaultCountryC
           }
           e164NumberToRecipients[parsedNumber.e164Number] = {
             name: contact.displayName,
-            displayNumber: parsedNumber.displayNumber,
+            // We intentionally use phoneNumber.number rather than parsedNumber.displayNumber.
+            displayNumber: phoneNumber.number,
             e164PhoneNumber: parsedNumber.e164Number,
             // @ts-ignore TODO Minimal contact type is incorrect, on android it returns id
             contactId: contact.recordID || contact.id,

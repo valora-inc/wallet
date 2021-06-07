@@ -8,8 +8,8 @@ import {
   komenciContextSelector,
   shouldUseKomenciSelector,
   verificationStatusSelector,
-} from 'src/verify/reducer'
-import { currentAccountSelector } from 'src/web3/selectors'
+} from 'src/verify/module'
+import { accountAddressSelector, currentAccountSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
@@ -36,6 +36,7 @@ export const verificationPossibleSelector = (state: RootState): boolean => {
   const saltCache = e164NumberToSaltSelector(state)
   const shouldUseKomenci = shouldUseKomenciSelector(state)
   const { komenci } = verificationStatusSelector(state)
+
   const hideVerification = hideVerificationSelector(state)
   if (hideVerification) {
     return false
@@ -75,5 +76,13 @@ export const showRaiseDailyLimitSelector = createSelector(
       return false
     }
     return account < showRaiseDailyLimitTarget
+  }
+)
+
+export const rewardsThresholdSelector = (state: RootState) => state.app.rewardsABTestThreshold
+export const rewardsEnabledSelector = createSelector(
+  [accountAddressSelector, rewardsThresholdSelector],
+  (address, rewardsThreshold) => {
+    return address! < rewardsThreshold
   }
 )

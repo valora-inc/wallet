@@ -11,7 +11,7 @@ import { APP_NAME, TOS_LINK } from 'src/config'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'i18n'
-const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?\:\/\//i, '')
+const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
 export enum Namespaces {
   accountScreen10 = 'accountScreen10',
@@ -99,10 +99,9 @@ i18n
 
 // Create HOC wrapper that hoists statics
 // https://react.i18next.com/latest/withtranslation-hoc#hoist-non-react-statics
-export const withTranslation = <P extends WithTranslation>(namespace: Namespaces) => <
-  C extends React.ComponentType<P>
->(
-  component: C
-) => hoistStatics(withTranslationI18Next(namespace)(component), component)
+export const withTranslation =
+  <P extends WithTranslation>(namespace: Namespaces) =>
+  <C extends React.ComponentType<P>>(component: C) =>
+    hoistStatics(withTranslationI18Next(namespace)(component), component)
 
 export default i18n
