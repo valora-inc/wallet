@@ -1,5 +1,4 @@
 import express from 'express'
-import promBundle from 'express-prom-bundle'
 
 import { ENVIRONMENT, PORT, VERSION, WEB3_PROVIDER_URL } from './config'
 import { initDatabase } from './database/db'
@@ -7,9 +6,6 @@ import { pollers } from './polling'
 
 console.info('Service starting with environment, version:', ENVIRONMENT, VERSION)
 const START_TIME = Date.now()
-
-// Metrics Middleware
-const metricsMiddleware = promBundle({ includeMethod: true })
 
 /**
  * Create and configure Express server
@@ -20,7 +16,6 @@ const app = express()
 app.set('port', PORT)
 app.set('env', ENVIRONMENT)
 app.use(express.json())
-app.use(metricsMiddleware)
 
 // Primary app routes.
 app.get('/', (req: any, res: any) => {
