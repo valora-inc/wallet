@@ -5,6 +5,7 @@ import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { ExchangeRatePair } from 'src/exchange/reducer'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
 
 const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.11', dollarMaker: '10' }
@@ -15,13 +16,15 @@ jest.mock('src/home/WalletHome')
 describe('DrawerNavigator', () => {
   it('renders correctly with both cUSD and CELO balances', () => {
     const store = createMockStore({
-      stableToken: { balance: '10', cEurBalance: '15' },
+      stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '15' } },
       goldToken: { balance: '2' },
       exchange: { exchangeRatePair },
       localCurrency: {
-        exchangeRate: '1.33',
-        eurExchangeRate: '2',
-        celoExchangeRate: '3',
+        exchangeRates: {
+          [Currency.Dollar]: '1.33',
+          [Currency.Euro]: '2',
+          [Currency.Celo]: '3',
+        },
       },
     })
 
@@ -45,7 +48,7 @@ describe('DrawerNavigator', () => {
 
   it('renders only with the cUSD balance when the cEUR and CELO balances are (almost) 0', () => {
     const store = createMockStore({
-      stableToken: { balance: '10', cEurBalance: '0.001' },
+      stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '0.001' } },
       goldToken: { balance: '0.001' },
       exchange: { exchangeRatePair },
     })

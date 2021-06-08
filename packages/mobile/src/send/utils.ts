@@ -22,7 +22,7 @@ import { fetchExchangeRate } from 'src/localCurrency/saga'
 import {
   getLocalCurrencyCode,
   getLocalCurrencySymbol,
-  localCurrencyExchangeRateSelector,
+  localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -116,7 +116,7 @@ export function useDailyTransferLimitValidator(
 ): [boolean, () => void] {
   const dispatch = useDispatch()
 
-  const localExchangeRates = useSelector(localCurrencyExchangeRateSelector)
+  const localExchangeRates = useSelector(localCurrencyExchangeRatesSelector)
 
   const dollarAmount = useMemo(() => {
     if (currency === Currency.Dollar) {
@@ -193,8 +193,8 @@ export function showLimitReachedError(
 export function* handleSendPaymentData(
   data: UriData,
   cachedRecipient?: Recipient,
-  isOutgoingPaymentRequest?: true,
-  isFromScan?: true
+  isOutgoingPaymentRequest?: boolean,
+  isFromScan?: boolean
 ) {
   const recipient: AddressRecipient = {
     address: data.address.toLowerCase(),
@@ -223,7 +223,7 @@ export function* handleSendPaymentData(
       const currency = data.currencyCode
         ? (data.currencyCode as LocalCurrencyCode)
         : yield select(getLocalCurrencyCode)
-      const exchangeRate: string = yield call(fetchExchangeRate, currency, Currency.Dollar)
+      const exchangeRate: string = yield call(fetchExchangeRate, Currency.Dollar, currency)
       const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
       if (!dollarAmount) {
         Logger.warn(TAG, '@handleSendPaymentData null amount')

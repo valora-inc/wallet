@@ -11,10 +11,9 @@ import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import i18n, { Namespaces } from 'src/i18n'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
-import useSelector from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { balancesSelector } from 'src/stableToken/selectors'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { useBalance } from 'src/stableToken/hooks'
+import { Currency } from 'src/utils/currencies'
 
 export const noHeader: StackNavigationOptions = {
   headerShown: false,
@@ -119,8 +118,7 @@ interface Props {
 }
 
 export function HeaderTitleWithBalance({ title, token }: Props) {
-  const balances = useSelector(balancesSelector)
-  const balance = balances[token]
+  const balance = useBalance(token)
 
   const subTitle =
     balance != null ? (
@@ -129,7 +127,7 @@ export function HeaderTitleWithBalance({ title, token }: Props) {
           style={styles.headerSubTitle}
           amount={{
             value: balance,
-            currencyCode: CURRENCIES[token].code,
+            currencyCode: token,
           }}
         />
       </Trans>

@@ -45,7 +45,10 @@ import InviteAndSendModal from 'src/invite/InviteAndSendModal'
 import { getInvitationVerificationFeeInDollars } from 'src/invite/saga'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
-import { getLocalCurrencyCode, getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
+import {
+  getLocalCurrencyCode,
+  getLocalCurrencyToDollarsExchangeRate,
+} from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { modalScreenOptions } from 'src/navigator/Navigator'
@@ -59,7 +62,7 @@ import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchStableBalances } from 'src/stableToken/actions'
 import { cUsdBalanceSelector } from 'src/stableToken/selectors'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector, isDekRegisteredSelector } from 'src/web3/selectors'
 
@@ -128,7 +131,7 @@ function SendConfirmation(props: Props) {
   let newCurrencyInfo: CurrencyInfo = {
     localCurrencyCode: useSelector(getLocalCurrencyCode),
     // tslint:disable-next-line: react-hooks-nesting
-    localExchangeRate: useSelector(getLocalCurrencyExchangeRate) || '',
+    localExchangeRate: useSelector(getLocalCurrencyToDollarsExchangeRate) || '',
   }
   if (currencyInfo) {
     newCurrencyInfo = currencyInfo
@@ -259,7 +262,7 @@ function SendConfirmation(props: Props) {
 
     const subtotalAmount = {
       value: amount.isGreaterThan(0) ? amount : inviteFee,
-      currencyCode: CURRENCIES[Currency.Dollar].code,
+      currencyCode: Currency.Dollar,
     }
 
     let primaryBtnInfo
@@ -301,7 +304,7 @@ function SendConfirmation(props: Props) {
       }
       const totalAmount = {
         value: amountWithFee,
-        currencyCode: CURRENCIES[Currency.Dollar].code,
+        currencyCode: Currency.Dollar,
       }
 
       return (

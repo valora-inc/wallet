@@ -15,6 +15,10 @@ interface OwnProps {
   numberOfDecimals?: number
   placeholder?: string
   decimalSeparator?: string
+  forwardedRef?:
+    | ((instance: React.ComponentType<TextInputProps> | null) => void)
+    | React.MutableRefObject<React.ComponentType<TextInputProps> | null>
+    | null
 }
 
 export interface PhoneValidatorProps {

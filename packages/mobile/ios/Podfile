@@ -20,10 +20,6 @@ platform :ios, '12.4'
 
 target "celo" do
   use_frameworks!
-
-  # Headers only version of OpenSSL-Universal to workaround libcrypto / libssl conflict between Flipper and react-native-fast-crypto
-  # pod 'OpenSSL-Universal', :git => "https://github.com/celo-org/OpenSSL-headers.git"
-  pod 'OpenSSL-Universal', '~>1.1.180'
   
   pod "react-native-geth", :path => "../../../node_modules/react-native-geth"
   pod "CeloBlockchain", :path => "../../../node_modules/@celo/client/CeloBlockchain.podspec", :modular_headers => true
@@ -32,7 +28,8 @@ target "celo" do
 
   # RNPermissions
   permissions_path = '../../../node_modules/react-native-permissions/ios'
-  pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+  pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
 
   pod 'RNSecureRandom', :path => '../../../node_modules/react-native-securerandom'
 

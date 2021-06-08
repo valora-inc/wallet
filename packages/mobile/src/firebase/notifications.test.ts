@@ -23,7 +23,7 @@ describe(handleNotification, () => {
     }
 
     it('shows the in-app message when the app is already in the foreground', async () => {
-      await expectSaga(handleNotification, message, NotificationReceiveState.APP_ALREADY_OPEN)
+      await expectSaga(handleNotification, message, NotificationReceiveState.AppAlreadyOpen)
         .put(showMessage('My Body', undefined, null, null, 'My title'))
         .run()
     })
@@ -32,7 +32,7 @@ describe(handleNotification, () => {
       const result = await expectSaga(
         handleNotification,
         message,
-        NotificationReceiveState.APP_OPENED_FRESH
+        NotificationReceiveState.AppColdStart
       ).run()
 
       expect(result.toJSON()).toEqual({})
@@ -46,7 +46,7 @@ describe(handleNotification, () => {
     }
 
     it('shows the in-app message when the app is already in the foreground', async () => {
-      await expectSaga(handleNotification, message, NotificationReceiveState.APP_ALREADY_OPEN)
+      await expectSaga(handleNotification, message, NotificationReceiveState.AppAlreadyOpen)
         .put(
           showMessage(
             'My Body',
@@ -60,7 +60,7 @@ describe(handleNotification, () => {
     })
 
     it('directly opens the url if the app is not already in the foreground', async () => {
-      await expectSaga(handleNotification, message, NotificationReceiveState.APP_OPENED_FRESH)
+      await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
         .put(openUrl('https://celo.org', false, true))
         .run()
     })
@@ -69,7 +69,7 @@ describe(handleNotification, () => {
       await expectSaga(
         handleNotification,
         { ...message, data: { ou: message.data.ou, openExternal: 'true' } },
-        NotificationReceiveState.APP_OPENED_FRESH
+        NotificationReceiveState.AppColdStart
       )
         .put(openUrl(message.data.ou, true, true))
         .run()
@@ -83,7 +83,7 @@ describe(handleNotification, () => {
     }
 
     it('fires  an event to open the deep link', async () => {
-      await expectSaga(handleNotification, message, NotificationReceiveState.APP_OPENED_FRESH)
+      await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
         .put(openUrl(message.data.ou, false, true))
         .run()
     })
@@ -96,13 +96,13 @@ describe(handleNotification, () => {
         type: NotificationTypes.PAYMENT_RECEIVED,
         sender: '0xTEST',
         value: '10',
-        currency: 'dollar',
+        currency: 'cUSD',
         timestamp: 1,
       },
     }
 
     it('shows the in-app message when the app is already in the foreground', async () => {
-      await expectSaga(handleNotification, message, NotificationReceiveState.APP_ALREADY_OPEN)
+      await expectSaga(handleNotification, message, NotificationReceiveState.AppAlreadyOpen)
         .put(showMessage('My Body', undefined, null, null, 'My title'))
         .run()
 
@@ -110,7 +110,7 @@ describe(handleNotification, () => {
     })
 
     it('navigates to the transaction review screen if the app is not already in the foreground', async () => {
-      await expectSaga(handleNotification, message, NotificationReceiveState.APP_OPENED_FRESH)
+      await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
         .provide([[select(recipientInfoSelector), mockRecipientInfo]])
         .run()
 
@@ -144,7 +144,7 @@ describe(handleNotification, () => {
     }
 
     it('shows the in-app message when the app is already in the foreground', async () => {
-      await expectSaga(handleNotification, message, NotificationReceiveState.APP_ALREADY_OPEN)
+      await expectSaga(handleNotification, message, NotificationReceiveState.AppAlreadyOpen)
         .put(showMessage('My Body', undefined, null, null, 'My title'))
         .run()
 
@@ -152,7 +152,7 @@ describe(handleNotification, () => {
     })
 
     it('navigates to the send confirmation screen if the app is not already in the foreground', async () => {
-      await expectSaga(handleNotification, message, NotificationReceiveState.APP_OPENED_FRESH)
+      await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
         .provide([[select(recipientInfoSelector), mockRecipientInfo]])
         .run()
 

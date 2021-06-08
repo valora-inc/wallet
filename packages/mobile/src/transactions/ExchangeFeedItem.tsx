@@ -9,7 +9,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigateToExchangeReview } from 'src/transactions/actions'
 import TransactionFeedItem from 'src/transactions/TransactionFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { getLocalCurrencyDisplayValue, getMoneyDisplayValue } from 'src/utils/formatting'
 
 type Props = ExchangeItemFragment & {
@@ -27,7 +27,7 @@ export function ExchangeFeedItem(props: Props) {
     })
   }
 
-  const boughtGold = takerAmount.currencyCode === CURRENCIES[Currency.Celo].code
+  const boughtGold = takerAmount.currencyCode === Currency.Celo
   const icon = transactionExchange
   const goldAmount = boughtGold ? takerAmount : makerAmount
 

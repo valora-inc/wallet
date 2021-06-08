@@ -13,7 +13,7 @@ import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { Namespaces } from 'src/i18n'
 import { navigateToExchangeReview } from 'src/transactions/actions'
 import { TransactionStatus } from 'src/transactions/types'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { getDatetimeDisplayString } from 'src/utils/time'
 
 type Props = ExchangeItemFragment & {
@@ -31,7 +31,7 @@ export function ExchangeFeedItem(props: Props) {
     })
   }
 
-  const isSellGoldTx = makerAmount.currencyCode === CURRENCIES[Currency.Celo].code
+  const isSellGoldTx = makerAmount.currencyCode === Currency.Celo
   const dateTimeFormatted = getDatetimeDisplayString(timestamp, i18n)
   const isPending = status === TransactionStatus.Pending
   // We always show Local Currency to cGLD exchage rate
@@ -40,7 +40,7 @@ export function ExchangeFeedItem(props: Props) {
   // TODO: find a way on how to show local exchangeRate without this hack
   const exchangeRateAmount = {
     value: localAmount.exchangeRate,
-    currencyCode: CURRENCIES[Currency.Dollar].code,
+    currencyCode: Currency.Dollar,
     localAmount: {
       value: localAmount.exchangeRate,
       exchangeRate: localAmount.exchangeRate,

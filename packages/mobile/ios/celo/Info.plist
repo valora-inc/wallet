@@ -74,6 +74,8 @@
 	<string>Connecting your photo library allows you to save your code to your photos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This is required for you to choose a profile picture.</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>We use the advertising identifier to accurately attribute app installs from ad campaigns.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Hind-Bold.ttf</string>

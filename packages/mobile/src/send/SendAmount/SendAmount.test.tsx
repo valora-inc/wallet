@@ -31,7 +31,8 @@ const REQUEST_OVER_LIMIT = (DEFAULT_DAILY_PAYMENT_LIMIT_CUSD * 2).toString()
 const LARGE_BALANCE = (DEFAULT_DAILY_PAYMENT_LIMIT_CUSD * 10).toString()
 
 const storeData = {
-  stableToken: { balance: BALANCE_VALID },
+  stableToken: { balances: { [Currency.Dollar]: BALANCE_VALID, [Currency.Euro]: '10' } },
+
   fees: {
     estimates: {
       send: {
@@ -177,7 +178,7 @@ describe('SendAmount', () => {
     it('shows an error when tapping the send button with an amount over the limit', () => {
       const store = createMockStore({
         ...storeData,
-        stableToken: { balance: LARGE_BALANCE },
+        stableToken: { balances: { [Currency.Dollar]: LARGE_BALANCE } },
       })
       const wrapper = render(
         <Provider store={store}>

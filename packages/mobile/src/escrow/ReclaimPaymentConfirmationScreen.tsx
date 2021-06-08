@@ -58,7 +58,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     isReclaiming: state.escrow.isReclaiming,
     e164PhoneNumber: state.account.e164PhoneNumber,
     account: currentAccountSelector(state),
-    dollarBalance: state.stableToken.balance || '0',
+    dollarBalance: state.stableToken.balances[Currency.Dollar] || '0',
     celoBalance: state.goldToken.balance || '0',
     appConnected: isAppConnected(state),
   }

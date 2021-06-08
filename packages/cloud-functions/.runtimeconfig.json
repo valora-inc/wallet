@@ -1,0 +1,47 @@
+{
+  "transak": {
+    "public_key": "d21e2905-4bb5-477a-906f-6262f7aabc32",
+    "private_key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBUElfS0VZIjoiZDIxZTI5MDUtNGJiNS00NzdhLTkwNmYtNjI2MmY3YWFiYzMyIiwiaWF0IjoxNjEzNzc5MTgxfQ.JbgQiH6j-bQrNqV03jxaT0B6AuDYYi-wYj0lJoL0294",
+    "widget_url": "https://staging-global.transak.com",
+    "api_url": "https://staging-api.transak.com/api"
+  },
+  "ramp": {
+    "pem_file": "rampStaging.pem",
+    "public_key": "rrhpo9bsz7jwfkaaxaguks77e2nmmen2urczmdkr",
+    "webhook_url": "https://us-central1-celo-mobile-alfajores.cloudfunctions.net/rampWebhook",
+    "widget_url": "https://ri-widget-staging.firebaseapp.com"
+  },
+  "moonpay": {
+    "api_url": "https://api.moonpay.com",
+    "private_key": "sk_test_f4eX8rbao56sR5gqBe34Nhco1DOmuf2b",
+    "widget_url": "https://buy-staging.moonpay.io",
+    "public_key": "pk_test_EDT0SRJUlsJezJUFGaVZIr8LuaTsF5NO",
+    "webhook_key": "wk_test_pfDIL9gotAeTuv2udcgaljjOWAogHOka"
+  },
+  "xanpool": {
+    "api_url": "https://sandbox.xanpool.com/api",
+    "private_key": "7a7f67ef454726a2a252c16d8fdb4e869350b38d4a9e86260df50dd0b18272c5",
+    "widget_url": "https://checkout.sandbox.xanpool.com",
+    "public_key": "be54026655e41e6dff537f17ed2b8934"
+  },
+  "full_node": {
+    "url": "https://alfajores-forno.celo-testnet.org"
+  },
+  "db": {
+    "host": "localhost",
+    "database": "indexer_mainnet",
+    "user": "postgres",
+    "password": "docker"
+  },
+  "simplex": {
+    "api_key": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXJ0bmVyIjoidmFsb3JhcHAiLCJpcCI6WyIxLjIuMy40Il0sInNhbmRib3giOnRydWV9.7cGx60gkefkR2bxDCtm-WBB7HGgs9R3lyVt34gZ2Sqc",
+    "checkout_url": "https://sandbox.test-simplexcc.com",
+    "api_url": "https://sandbox.test-simplexcc.com"
+  },
+  "ip_api": {
+    "key": "1ebfae7704ab8b53c237aa685cc0c99b"
+  },
+  "blockchain_api": {
+    "url": "https://blockchain-api-dot-celo-mobile-alfajores.appspot.com/"
+  }
+}

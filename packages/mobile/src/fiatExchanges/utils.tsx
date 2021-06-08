@@ -1,30 +1,24 @@
-import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import firebase from '@react-native-firebase/app'
 import { default as DeviceInfo } from 'react-native-device-info'
-import getIpAddress from 'react-native-public-ip'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
-import { CurrencyCode, MOONPAY_API_KEY } from 'src/config'
+import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
-import { CicoProviderNames } from 'src/fiatExchanges/reducer'
-import { providerAvailability } from 'src/flags'
 import networkConfig from 'src/geth/networkConfig'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { Currency } from 'src/utils/currencies'
+import { UserLocationData } from 'src/networkInfo/saga'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'fiatExchanges:utils'
-interface WidgetRequestData {
-  address: string | null
-  digitalAsset: string
-  fiatCurrency: string
-  fiatAmount: number
-}
 
-export interface UserLocationData {
-  country: string | null
-  state: string | null
-  ipAddress: string | null
+interface ProviderRequestData {
+  userLocation: UserLocationData
+  walletAddress: string
+  fiatCurrency: LocalCurrencyCode
+  digitalAsset: CiCoCurrency
+  fiatAmount?: number
+  digitalAssetAmount?: number
+  txType: 'buy' | 'sell'
 }
 
 export interface UserAccountCreationData {
@@ -32,11 +26,12 @@ export interface UserAccountCreationData {
   timestamp: string
   userAgent: string
 }
-interface MoonPayIpAddressData {
-  alpha2: string
-  alpha3: string
-  state: string
-  ipAddress: string
+
+export interface ProviderQuote {
+  paymentMethod: PaymentMethod
+  digitalAsset: string
+  returnedAmount: number
+  fiatFee: number
 }
 
 export interface SimplexQuote {
@@ -86,88 +81,23 @@ const composePostObject = (body: any) => ({
   body: JSON.stringify(body),
 })
 
-export const fetchProviderWidgetUrl = async (
-  provider: CicoProviderNames,
-  requestData: WidgetRequestData
-) => {
+export const fetchProviders = async (
+  requestData: ProviderRequestData
+): Promise<CicoProvider[] | undefined> => {
   try {
-    const response = await fetch(
-      networkConfig.providerComposerUrl,
-      composePostObject({ ...requestData, provider })
-    )
-
-    return response.json()
-  } catch (error) {
-    Logger.error(TAG, error.message)
-    showError(ErrorMessages.PROVIDER_URL_FETCH_FAILED)
-  }
-}
-
-export const fetchUserLocationData = async (countryCallingCode: string | null) => {
-  let userLocationData: UserLocationData
-  try {
-    const ipAddressFetchResponse = await fetch(
-      `https://api.moonpay.com/v4/ip_address?apiKey=${MOONPAY_API_KEY}`
-    )
-    const ipAddressObj: MoonPayIpAddressData = await ipAddressFetchResponse.json()
-    const { alpha2, state, ipAddress } = ipAddressObj
-
-    if (!alpha2) {
-      throw Error('Could not determine country from IP address')
-    }
-
-    userLocationData = { country: alpha2, state, ipAddress }
-  } catch (error) {
-    // If MoonPay endpoint fails then use country code to determine location
-    const country = countryCallingCode ? getRegionCodeFromCountryCode(countryCallingCode) : null
-    let ipAddress
-    try {
-      ipAddress = await getIpAddress()
-    } catch (error) {
-      ipAddress = null
-    }
-
-    userLocationData = { country, state: null, ipAddress }
-  }
-
-  return userLocationData
-}
-
-export const fetchSimplexQuote = async (
-  userAddress: string,
-  currentIpAddress: string,
-  currencyToBuy: CurrencyCode,
-  fiatCurrency: LocalCurrencyCode,
-  amount: number,
-  amountIsFiat: boolean
-) => {
-  try {
-    const response = await fetch(
-      networkConfig.simplexApiUrl,
-      composePostObject({
-        type: 'quote',
-        userAddress,
-        currentIpAddress,
-        currencyToBuy,
-        fiatCurrency,
-        amount,
-        amountIsFiat,
-      })
+    const response = await fetchWithTimeout(
+      networkConfig.providerFetchUrl,
+      composePostObject(requestData)
     )
 
     if (!response.ok) {
-      throw Error(`Simplex quote endpoint responded with status ${response.status}`)
+      throw Error(`Fetch failed with status ${response?.status}`)
     }
 
-    const simplexQuoteResponse = await response.json()
-    if (simplexQuoteResponse?.error) {
-      throw Error(simplexQuoteResponse.error)
-    }
-
-    const simplexQuote: SimplexQuote = simplexQuoteResponse
-    return simplexQuote
+    return response.json()
   } catch (error) {
-    Logger.error(TAG, error.message)
+    Logger.error(`${TAG}:fetchProviders`, error.message)
+    throw error
   }
 }
 
@@ -179,7 +109,7 @@ export const fetchSimplexPaymentData = async (
   currentIpAddress: string
 ) => {
   try {
-    const response = await fetch(
+    const response = await fetchWithTimeout(
       networkConfig.simplexApiUrl,
       composePostObject({
         type: 'payment',
@@ -197,7 +127,7 @@ export const fetchSimplexPaymentData = async (
     )
 
     if (!response.ok) {
-      throw Error(`Simplex payment endpoint responded with status ${response.status}`)
+      throw Error(`Fetch failed with status ${response?.status}`)
     }
 
     const simplexPaymentDataResponse = await response.json()
@@ -208,40 +138,31 @@ export const fetchSimplexPaymentData = async (
     const simplexPaymentData: SimplexPaymentData = simplexPaymentDataResponse
     return simplexPaymentData
   } catch (error) {
-    Logger.error(TAG, error.message)
+    Logger.error(`${TAG}:fetchSimplexPaymentData`, error.message)
+    throw error
   }
 }
 
-export const isExpectedUrl = (fetchedUrl: string, providerUrl: string) =>
-  fetchedUrl.startsWith(providerUrl)
+export const isSimplexQuote = (quote?: SimplexQuote | ProviderQuote): quote is SimplexQuote =>
+  !!quote && 'wallet_id' in quote
 
-type ProviderAvailability = typeof providerAvailability
-type SpecificProviderAvailability = { [K in keyof ProviderAvailability]: boolean }
+export const isProviderQuote = (quote?: SimplexQuote | ProviderQuote): quote is ProviderQuote =>
+  !!quote && 'returnedAmount' in quote
 
-type Entries<T> = Array<{ [K in keyof T]: [K, T[K]] }[keyof T]>
-
-export function getProviderAvailability(
-  userLocation: UserLocationData | undefined
-): SpecificProviderAvailability {
-  const countryCodeAlpha2 = userLocation?.country ?? null
-  const stateCode = userLocation?.state ?? null
-
-  // tslint:disable-next-line: no-object-literal-type-assertion
-  const features = {} as SpecificProviderAvailability
-  for (const [key, value] of Object.entries(
-    providerAvailability
-  ) as Entries<ProviderAvailability>) {
-    if (!countryCodeAlpha2) {
-      features[key] = false
-    } else {
-      if (countryCodeAlpha2 === 'US' && (value as any).US && (value as any).US !== true) {
-        features[key] = stateCode ? (value as any)[countryCodeAlpha2][stateCode] ?? false : false
-      } else {
-        features[key] = (value as any)[countryCodeAlpha2] ?? false
-      }
-    }
+export const getLowestFeeValueFromQuotes = (quote?: SimplexQuote | ProviderQuote[]) => {
+  if (!quote) {
+    return
   }
-  return features
+
+  if (Array.isArray(quote)) {
+    if (quote.length > 1 && isProviderQuote(quote[0]) && isProviderQuote(quote[1])) {
+      return quote[0].fiatFee < quote[1].fiatFee ? quote[0].fiatFee : quote[1].fiatFee
+    } else if (isProviderQuote(quote[0])) {
+      return quote[0].fiatFee
+    }
+  } else if (isSimplexQuote(quote)) {
+    return quote.fiat_money.total_amount - quote.fiat_money.base_amount
+  }
 }
 
 // Leaving unoptimized for now because sorting is most relevant when fees will be visible
@@ -258,7 +179,30 @@ export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) 
     return 1
   }
 
-  return -1
+  if (provider2.restricted) {
+    return -1
+  }
+
+  if (!provider1.quote) {
+    return 1
+  }
+
+  if (!provider2.quote) {
+    return -1
+  }
+
+  const providerFee1 = getLowestFeeValueFromQuotes(provider1.quote)
+  const providerFee2 = getLowestFeeValueFromQuotes(provider2.quote)
+
+  if (providerFee1 === undefined) {
+    return 1
+  }
+
+  if (providerFee2 === undefined) {
+    return -1
+  }
+
+  return providerFee1 > providerFee2 ? 1 : -1
 }
 
 const typeCheckNestedProperties = (obj: any, property: string) =>
@@ -302,10 +246,10 @@ export const fetchLocalCicoProviders = async () => {
 export const getAvailableLocalProviders = (
   localCicoProviders: LocalCicoProvider[] | undefined,
   isCashIn: boolean,
-  countryCode: string | null,
+  userCountry: string | null,
   selectedCurrency: Currency
 ) => {
-  if (!localCicoProviders || !countryCode) {
+  if (!localCicoProviders || !userCountry) {
     return []
   }
 
@@ -315,16 +259,7 @@ export const getAvailableLocalProviders = (
       (!isCashIn && (provider.cusd.cashOut || provider.celo.cashOut))
   )
 
-  let availableLocalProviders: LocalCicoProvider[] = []
-
-  const regionCode = getRegionCodeFromCountryCode(countryCode)
-  if (regionCode) {
-    availableLocalProviders = activeLocalProviders.filter((provider) =>
-      provider[selectedCurrency === Currency.Dollar ? 'cusd' : 'celo'].countries.includes(
-        regionCode
-      )
-    )
-  }
-
-  return availableLocalProviders
+  return activeLocalProviders.filter((provider) =>
+    provider[selectedCurrency === Currency.Dollar ? 'cusd' : 'celo'].countries.includes(userCountry)
+  )
 }

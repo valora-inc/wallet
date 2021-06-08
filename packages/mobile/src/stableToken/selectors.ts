@@ -5,24 +5,31 @@ import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { RootState } from 'src/redux/reducers'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
-export const cUsdBalanceSelector = (state: RootState) => state.stableToken.balance
-export const cEurBalanceSelector = (state: RootState) => state.stableToken.cEurBalance
+export type Balances = {
+  [currency in Currency]: BigNumber | null
+}
+
+export const stableBalancesSelector = (state: RootState) => state.stableToken.balances
+export const cUsdBalanceSelector = (state: RootState) =>
+  state.stableToken.balances[Currency.Dollar] ?? null
+export const cEurBalanceSelector = (state: RootState) =>
+  state.stableToken.balances[Currency.Euro] ?? null
 
 export const balancesSelector = createSelector<
   RootState,
   string | null,
   string | null,
   string | null,
-  { [currency in Currency]: BigNumber }
+  Balances
 >(
   cUsdBalanceSelector,
   cEurBalanceSelector,
   celoTokenBalanceSelector,
   (cUsdBalance, cEurBalance, celoBalance) => {
     return {
-      [Currency.Dollar]: new BigNumber(cUsdBalance ?? ''),
-      [Currency.Euro]: new BigNumber(cEurBalance ?? ''),
-      [Currency.Celo]: new BigNumber(celoBalance ?? ''),
+      [Currency.Dollar]: cUsdBalance ? new BigNumber(cUsdBalance) : null,
+      [Currency.Euro]: cEurBalance ? new BigNumber(cEurBalance) : null,
+      [Currency.Celo]: celoBalance ? new BigNumber(celoBalance) : null,
     }
   }
 )
@@ -31,19 +38,18 @@ export const defaultCurrencySelector = createSelector(
   balancesSelector,
   (state: RootState) => state.send.lastUsedCurrency,
   (balances, lastCurrency) => {
-    if (balances[lastCurrency].lt(DOLLAR_TRANSACTION_MIN_AMOUNT)) {
-      // Return currency with higher balance
-      let maxCurrency = Currency.Dollar
-      let maxBalance = balances[maxCurrency]
-      for (const currency of STABLE_CURRENCIES) {
-        if (balances[currency].gt(maxBalance)) {
-          maxCurrency = currency
-          maxBalance = balances[currency]
-        }
-      }
-      return maxCurrency
-    } else {
+    if (balances[lastCurrency]?.gt(DOLLAR_TRANSACTION_MIN_AMOUNT)) {
       return lastCurrency
     }
+    // Return currency with higher balance
+    let maxCurrency = Currency.Dollar
+    let maxBalance = balances[maxCurrency]
+    for (const currency of STABLE_CURRENCIES) {
+      if (!maxBalance || balances[currency]?.gt(maxBalance)) {
+        maxCurrency = currency
+        maxBalance = balances[currency]
+      }
+    }
+    return maxCurrency
   }
 )

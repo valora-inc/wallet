@@ -5,7 +5,7 @@ const SHOW_DURATION = 300
 const HIDE_DURATION = 150
 /**
  * - This hook will update the |progress| shared value when |showing| changes from true to
- * false (and viceversa).
+ * false (and viceversa) applying an ease in-out function.
  * - |progress| will be set to 1 when |showing| is true and 0 when |showing| is false.
  * - |onShow| will be called immediately when |showing| turns to true and |onHide| will be
  * called after the hiding animation finishes.

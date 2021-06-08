@@ -43,21 +43,21 @@ import Dialog from 'src/components/Dialog'
 import SessionId from 'src/components/SessionId'
 import { TOS_LINK } from 'src/config'
 import { Namespaces, withTranslation } from 'src/i18n'
-import { revokeVerification } from 'src/identity/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { ensurePincode, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import { restartApp } from 'src/utils/AppRestart'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { revoke } from 'src/verify/module'
 import { toggleFornoMode } from 'src/web3/actions'
 
 interface DispatchProps {
-  revokeVerification: typeof revokeVerification
+  revokeVerification: typeof revoke
   setNumberVerified: typeof setNumberVerified
   resetAppOpenedState: typeof resetAppOpenedState
   setAnalyticsEnabled: typeof setAnalyticsEnabled
@@ -112,7 +112,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 }
 
 const mapDispatchToProps = {
-  revokeVerification,
+  revokeVerification: revoke,
   setNumberVerified,
   resetAppOpenedState,
   setAnalyticsEnabled,
@@ -341,6 +341,23 @@ export class Account extends React.Component<Props, State> {
     this.setState({ showRevokeModal: false })
   }
 
+  goToChangePin = async () => {
+    try {
+      ValoraAnalytics.track(SettingsEvents.change_pin_start)
+      const pinIsCorrect = await ensurePincode()
+      if (pinIsCorrect) {
+        ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_entered)
+        navigate(Screens.PincodeSet, {
+          isVerifying: false,
+          changePin: true,
+        })
+      }
+    } catch (error) {
+      ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_error)
+      Logger.error('NavigationService@onPress', 'PIN ensure error', error)
+    }
+  }
+
   render() {
     const { t, i18n, numberVerified, verificationPossible } = this.props
     const promptFornoModal = this.props.route.params?.promptFornoModal ?? false
@@ -371,6 +388,11 @@ export class Account extends React.Component<Props, State> {
               onPress={this.goToLocalCurrencySetting}
             />
             <SectionHead text={t('securityAndData')} style={styles.sectionTitle} />
+            <SettingsItemTextValue
+              title={t('changePin')}
+              onPress={this.goToChangePin}
+              testID="ChangePIN"
+            />
             {this.props.walletConnectEnabled && (
               <SettingsItemTextValue
                 title={t('connectedApplications')}

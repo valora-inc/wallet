@@ -5,7 +5,11 @@ import BigNumber from 'bignumber.js'
 import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'redux-saga/effects'
 import { getProfileInfo } from 'src/account/profileInfo'
 import { showError } from 'src/alert/actions'
-import { TokenTransactionType, TransferItemFragment } from 'src/apollo/types'
+import {
+  TokenTransactionType,
+  TransactionFeedFragment,
+  TransferItemFragment,
+} from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { fetchGoldBalance } from 'src/goldToken/actions'
 import { Actions as IdentityActions } from 'src/identity/actions'
@@ -167,32 +171,35 @@ function* refreshRecentTxRecipients() {
   yield put(updateRecentTxRecipientsCache(recentTxRecipientsCache))
 }
 
-function* addProfile(transaction: TransferItemFragment) {
-  const address = transaction.account
-  const newProfile: AddressToRecipient = {}
-  if (transaction.type === TokenTransactionType.Received) {
-    const info = yield call(getProfileInfo, address)
-    if (info) {
-      newProfile[address] = {
+function* addProfile(address: string) {
+  const info = yield call(getProfileInfo, address)
+  if (info) {
+    const newProfile: AddressToRecipient = {
+      [address]: {
         address,
         name: info?.name,
         thumbnailPath: info?.thumbnailPath,
-      }
-
-      yield put(updateValoraRecipientCache(newProfile))
-      Logger.info(TAG, `added ${JSON.stringify(newProfile)} to valoraRecipientCache`)
+      },
     }
+    yield put(updateValoraRecipientCache(newProfile))
+    Logger.info(TAG, `added ${newProfile} to valoraRecipientCache`)
   }
 }
 
-function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
-  yield all(
-    transactions.map((trans) => {
-      if (isTransferTransaction(trans)) {
-        return call(addProfile, trans)
-      }
-    })
+function getDistinctReceivedAddresses(transactions: TransactionFeedFragment[]) {
+  return Array.from(
+    new Set(
+      transactions
+        .filter(
+          (trans) => isTransferTransaction(trans) && trans.type === TokenTransactionType.Received
+        )
+        .map((trans) => (trans as TransferItemFragment).address)
+    )
   )
+}
+
+function* addRecipientProfiles({ transactions }: NewTransactionsInFeedAction) {
+  yield all(getDistinctReceivedAddresses(transactions).map((address) => call(addProfile, address)))
 }
 
 function* watchNewFeedTransactions() {

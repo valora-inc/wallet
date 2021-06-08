@@ -34,7 +34,6 @@ import { deleteChainDataAndRestartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { getWeb3 } from 'src/web3/contracts'
 import { fornoSelector } from 'src/web3/selectors'
-// tslint:disable-next-line: ordered-imports
 import { blockIsFresh, BLOCK_AGE_LIMIT } from 'src/web3/utils'
 
 const gethEmitter = new NativeEventEmitter(NativeModules.RNGeth)
@@ -137,26 +136,24 @@ export function* waitForGethSync() {
   }
 }
 
-function pollGethSyncStatusAsync() {
-  return new Promise(async (resolve, reject) => {
-    const dateLimit = Date.now() + GETH_SYNC_TIMEOUT
+async function pollGethSyncStatusAsync() {
+  const dateLimit = Date.now() + GETH_SYNC_TIMEOUT
 
-    while (Date.now() <= dateLimit) {
-      const head = chainHeadSelector(store.getState())
-      if (!head) {
-        await sleep(GETH_POLLING_INTERVAL)
-        continue
-      }
-
-      if (blockIsFresh(head)) {
-        resolve()
-      }
-
+  while (Date.now() <= dateLimit) {
+    const head = chainHeadSelector(store.getState())
+    if (!head) {
       await sleep(GETH_POLLING_INTERVAL)
+      continue
     }
 
-    reject()
-  })
+    if (blockIsFresh(head)) {
+      return
+    }
+
+    await sleep(GETH_POLLING_INTERVAL)
+  }
+
+  throw new Error('pollGethSyncStatusAsync timeout')
 }
 
 export async function waitForGethSyncAsync() {

@@ -8,6 +8,7 @@ import { Countries } from '@celo/utils/lib/countries'
 import { useFocusEffect } from '@react-navigation/native'
 import { StackScreenProps, useHeaderHeight } from '@react-navigation/stack'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
@@ -25,12 +26,12 @@ import BackButton from 'src/components/BackButton'
 import { WEB_LINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
 import i18n, { Namespaces } from 'src/i18n'
-import { setHasSeenVerificationNux, startVerification } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { waitUntilSagasFinishLoading } from 'src/redux/sagas'
 import useTypedSelector from 'src/redux/useSelector'
 import { getCountryFeatures } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
@@ -42,12 +43,14 @@ import {
   isBalanceSufficientSelector,
   reset,
   setKomenciContext,
+  setSeenVerificationNux,
   shouldUseKomenciSelector,
+  start as startVerification,
   startKomenciSession,
-  StateType,
   stop,
+  VerificationStateType,
   verificationStatusSelector,
-} from 'src/verify/reducer'
+} from 'src/verify/module'
 import GoogleReCaptcha from 'src/verify/safety/GoogleReCaptcha'
 import { getPhoneNumberState } from 'src/verify/utils'
 import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'
@@ -90,8 +93,8 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     if (!canUsePhoneNumber()) {
       return
     }
-    dispatch(setHasSeenVerificationNux(true))
-    dispatch(startVerification(phoneNumberInfo.e164Number, noActionIsRequired))
+    dispatch(setSeenVerificationNux(true))
+    dispatch(startVerification({ e164Number: phoneNumberInfo.e164Number }))
   }
 
   const onPressSkipCancel = () => {
@@ -99,12 +102,12 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   }
 
   const onPressSkipConfirm = () => {
-    dispatch(setHasSeenVerificationNux(true))
+    dispatch(setSeenVerificationNux(true))
     navigateHome()
   }
 
   const onPressContinue = () => {
-    dispatch(setHasSeenVerificationNux(true))
+    dispatch(setSeenVerificationNux(true))
     if (partOfOnboarding) {
       navigation.navigate(Screens.ImportContacts)
     } else {
@@ -117,7 +120,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       return
     }
 
-    dispatch(setHasSeenVerificationNux(true))
+    dispatch(setSeenVerificationNux(true))
     navigateHome()
   }
 
@@ -148,7 +151,8 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     }
   }, [route.params?.selectedCountryCodeAlpha2])
 
-  useEffect(() => {
+  useAsync(async () => {
+    await waitUntilSagasFinishLoading()
     dispatch(initializeAccount())
     dispatch(checkIfKomenciAvailable())
   }, [])
@@ -222,6 +226,9 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         phoneNumberInfo.countryCodeAlpha2
       )
     )
+    if (noActionIsRequired) {
+      dispatch(reset({ komenci: shouldUseKomenci ?? true }))
+    }
   }
 
   const isBalanceSufficient = useSelector(isBalanceSufficientSelector)
@@ -324,7 +331,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         </TextButton>
       </ScrollView>
       <Modal
-        isVisible={currentState.type === StateType.EnsuringRealHumanUser}
+        isVisible={currentState.type === VerificationStateType.EnsuringRealHumanUser}
         style={styles.recaptchaModal}
       >
         <TopBarTextButton
@@ -376,7 +383,6 @@ VerificationEducationScreen.navigationOptions = ({ navigation, route }: ScreenPr
         <TopBarTextButton
           title={i18n.t('global:skip')}
           testID="VerificationEducationSkipHeader"
-          // tslint:disable-next-line: jsx-no-lambda
           onPress={() => navigation.setParams({ showSkipDialog: true })}
           titleStyle={{ color: colors.goldDark }}
         />

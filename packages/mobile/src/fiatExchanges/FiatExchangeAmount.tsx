@@ -31,7 +31,6 @@ import {
 } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import { ExchangeRatePair, exchangeRatePairSelector } from 'src/exchange/reducer'
-import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import i18n, { Namespaces } from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
@@ -40,14 +39,14 @@ import {
   convertToMaxSupportedPrecision,
 } from 'src/localCurrency/convert'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
-import { getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
+import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selectors'
 import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { cUsdBalanceSelector } from 'src/stableToken/selectors'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
 import Logger from 'src/utils/Logger'
 
@@ -59,12 +58,12 @@ type Props = RouteProps
 
 const oneDollarAmount = {
   value: new BigNumber('1'),
-  currencyCode: CURRENCIES[Currency.Dollar].code,
+  currencyCode: Currency.Dollar,
 }
 
 const oneCeloAmount = {
   value: new BigNumber('1'),
-  currencyCode: CURRENCIES[Currency.Celo].code,
+  currencyCode: Currency.Celo,
 }
 
 const useDollarAmount = (
@@ -100,9 +99,8 @@ function FiatExchangeAmount({ route }: Props) {
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
   const exchangeRatePair = useSelector(exchangeRatePairSelector)
-  const localCurrencyExchangeRate = useSelector(getLocalCurrencyExchangeRate)
+  const localCurrencyExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const cUSDBalance = useSelector(cUsdBalanceSelector)
-  const celoBalance = useSelector(celoTokenBalanceSelector)
   const localCurrencyCode = useLocalCurrencyCode()
   const currencySymbol = LocalCurrencySymbol[localCurrencyCode]
 
@@ -113,14 +111,6 @@ function FiatExchangeAmount({ route }: Props) {
   const dollarAmount = useDollarAmount(
     currency,
     parsedInputAmount,
-    localCurrencyExchangeRate,
-    localCurrencyCode,
-    exchangeRatePair
-  )
-
-  const dollarBalance = useDollarAmount(
-    currency,
-    new BigNumber((currency === Currency.Dollar ? cUSDBalance : celoBalance) || 0),
     localCurrencyExchangeRate,
     localCurrencyCode,
     exchangeRatePair
@@ -152,11 +142,14 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function goToProvidersScreen() {
+    const selectedCrypto = route.params.currency
+    const { isCashIn } = route.params
     navigate(Screens.ProviderOptionsScreen, {
-      isCashIn: route.params.isCashIn,
-      selectedCrypto: route.params.currency,
+      isCashIn,
+      selectedCrypto,
       amount: {
-        crypto: parsedInputAmount.toNumber(),
+        crypto:
+          selectedCrypto === Currency.Celo ? parsedInputAmount.toNumber() : dollarAmount.toNumber(),
         // Rounding up to avoid decimal errors from providers. Won't be
         // necessary once we support inputting an amount in both crypto and fiat
         fiat: Math.round(localCurrencyAmount?.toNumber() || 0),
@@ -166,7 +159,13 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function onPressContinue() {
-    Logger.debug(`Input: ${dollarAmount}`)
+    if (!route.params.isCashIn && currency === Currency.Celo) {
+      Logger.debug(
+        'Error: Got to FiatExchangeAmountScreen with CELO as the cash-out asset - should never happen'
+      )
+      return
+    }
+
     if (route.params.isCashIn) {
       if (
         dollarAmount.isLessThan(DOLLAR_ADD_FUNDS_MIN_AMOUNT) ||
@@ -186,16 +185,18 @@ function FiatExchangeAmount({ route }: Props) {
       ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_continue, {
         dollarAmount,
       })
-    } else {
-      if (dollarAmount.isGreaterThan(dollarBalance)) {
-        dispatch(
-          showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
-            dollarBalance,
-            currency: currency === Currency.Dollar ? 'cUSD' : 'CELO',
-          })
-        )
-        return
-      }
+    } else if (dollarAmount.isGreaterThan(cUSDBalance || 0)) {
+      const localBalance =
+        cUSDBalance && localCurrencyExchangeRate
+          ? new BigNumber(cUSDBalance).times(localCurrencyExchangeRate)
+          : new BigNumber(cUSDBalance || 0)
+      dispatch(
+        showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
+          balance: localBalance.toFixed(2),
+          currency: localCurrencyCode,
+        })
+      )
+      return
     }
 
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_continue, {
@@ -292,7 +293,7 @@ function FiatExchangeAmount({ route }: Props) {
             <CurrencyDisplay
               amount={{
                 value: dollarAmount,
-                currencyCode: CURRENCIES[Currency.Dollar].code,
+                currencyCode: Currency.Dollar,
               }}
               hideSymbol={isCusdCashIn}
               showLocalAmount={!isCusdCashIn}
@@ -385,11 +386,5 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: colors.gray4,
     textAlign: 'center',
-  },
-  dollarsNotYetEnabledNote: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    textAlign: 'center',
-    paddingHorizontal: 10,
   },
 })

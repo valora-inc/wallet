@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
 
@@ -107,7 +108,6 @@ export default class ReactNativeLogger {
     console.debug('React Native logs will be piped to ' + logFilePath)
 
     const oldDebug = console.debug
-    // tslint:disable-next-line
     const oldLog = console.log
     const oldInfo = console.info
 
@@ -120,7 +120,6 @@ export default class ReactNativeLogger {
       )
     }
 
-    // tslint:disable-next-line
     console.log = (message?: any, ...optionalParams: any[]) => {
       optionalParams.length ? oldLog(message, optionalParams) : oldLog(message)
       if (typeof message === 'string') {

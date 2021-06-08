@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { MoneyAmount, TokenTransactionType } from 'src/apollo/types'
+import { rewardsEnabledSelector } from 'src/app/selectors'
+import { CELO_REWARDS_LINK } from 'src/brandingConfig'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import FeeDrawer from 'src/components/FeeDrawer'
@@ -29,7 +31,7 @@ import BottomText from 'src/transactions/BottomText'
 import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import UserSection from 'src/transactions/UserSection'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 export interface TransferConfirmationCardProps {
@@ -147,7 +149,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
   const totalAmount = amount
   const totalFee = securityFee
 
-  const isCeloWithdrawal = amount.currencyCode === CURRENCIES[Currency.Celo].code
+  const isCeloWithdrawal = amount.currencyCode === Currency.Celo
 
   return (
     <>
@@ -176,7 +178,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
 function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, comment }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const totalAmount = amount
-  const isCeloTx = amount.currencyCode === CURRENCIES[Currency.Celo].code
+  const isCeloTx = amount.currencyCode === Currency.Celo
   const celoEducationUri = useTypedSelector((state) => state.app.celoEducationUri)
 
   const openLearnMore = () => {
@@ -204,12 +206,17 @@ function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, c
 
 function CeloRewardContent({ amount, recipient }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
+  const rewardsEnabled = useTypedSelector(rewardsEnabledSelector)
 
   const openLearnMore = () => {
-    navigate(Screens.ConsumerIncentivesHomeScreen)
-    ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
-      origin: RewardsScreenOrigin.PaymentDetail,
-    })
+    if (rewardsEnabled) {
+      navigate(Screens.ConsumerIncentivesHomeScreen)
+      ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+        origin: RewardsScreenOrigin.PaymentDetail,
+      })
+    } else {
+      navigateToURI(CELO_REWARDS_LINK)
+    }
   }
 
   return (

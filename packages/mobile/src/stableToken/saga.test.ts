@@ -61,7 +61,7 @@ describe('stableToken saga', () => {
       .provide([[call(waitWeb3LastBlock), true]])
       .withState(state)
       .dispatch(fetchStableBalances())
-      .put(setBalance(CUSD_BALANCE, CEUR_BALANCE))
+      .put(setBalance({ [Currency.Dollar]: CUSD_BALANCE, [Currency.Euro]: CEUR_BALANCE }))
       .run()
   })
 

@@ -70,7 +70,13 @@ startPackager() {
       if [ "$MACHINE" = "Mac" ]; then
         open -a "$terminal" ./scripts/launch_packager.command || open ./scripts/launch_packager.command || open_failed=1
       elif [ "$MACHINE" = "Linux" ]; then
-        "$terminal" -e "sh ./scripts/launch_packager.command" || open_failed=1
+        run() {
+            exec "$terminal" -e "./scripts/launch_packager.command"
+            # Only returns if $terminal fails to exec.
+            echo "Could not open terminal '${terminal}'. Falling back to running the packager inline."
+            yarn react-native start
+        }
+        run &
       else 
         echo "Unsupported machine for running in new terminal"
         open_failed=1

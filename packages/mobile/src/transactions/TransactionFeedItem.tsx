@@ -10,7 +10,7 @@ import { MoneyAmount, TokenTransactionType } from 'src/apollo/types'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import { Namespaces } from 'src/i18n'
 import { TransactionStatus } from 'src/transactions/types'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   type: TokenTransactionType
@@ -32,7 +32,7 @@ export function TransactionFeedItem(props: Props) {
   const isPending = status === TransactionStatus.Pending
 
   const subtitle = isPending ? t('confirmingTransaction') : info
-  const isCeloTx = amount.currencyCode === CURRENCIES[Currency.Celo].code
+  const isCeloTx = amount.currencyCode === Currency.Celo
 
   return (
     <Touchable onPress={onPress}>

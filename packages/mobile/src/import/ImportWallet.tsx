@@ -33,7 +33,7 @@ import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboardin
 import UseBackToWelcomeScreen from 'src/onboarding/UseBackToWelcomeScreen'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const AVERAGE_WORD_WIDTH = 80
@@ -78,7 +78,6 @@ export class ImportWallet extends React.Component<Props, State> {
       <TopBarTextButtonOnboarding
         title={i18n.t('global:cancel')}
         // Note: redux state reset is handled by UseBackToWelcomeScreen
-        // tslint:disable-next-line: jsx-no-lambda
         onPress={() => navigate(Screens.Welcome)}
       />
     ),
@@ -174,9 +173,9 @@ export class ImportWallet extends React.Component<Props, State> {
     const { backupPhrase, keyboardVisible } = this.state
     const { t, isImportingWallet, connected, route } = this.props
 
-    let codeStatus = CodeInputStatus.INPUTTING
+    let codeStatus = CodeInputStatus.Inputting
     if (isImportingWallet) {
-      codeStatus = CodeInputStatus.PROCESSING
+      codeStatus = CodeInputStatus.Processing
     }
     return (
       <HeaderHeightContext.Consumer>
@@ -228,7 +227,7 @@ export class ImportWallet extends React.Component<Props, State> {
                       <CurrencyDisplay
                         amount={{
                           value: new BigNumber(0),
-                          currencyCode: CURRENCIES[Currency.Dollar].code,
+                          currencyCode: Currency.Dollar,
                         }}
                       />
                     </Trans>
