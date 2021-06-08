@@ -42,13 +42,21 @@ export class EventBuilder {
     }
   }
 
+  static chooseTokenToShowInExchange(possibleTokens: string[]) {
+    if (possibleTokens.length === 1) {
+      return possibleTokens[0]
+    }
+    return possibleTokens.filter((token) => token !== CGLD)[0]
+  }
+
   static exchangeEvent(
     transaction: Transaction,
     inTransfer: BlockscoutCeloTransfer,
     outTransfer: BlockscoutCeloTransfer,
-    token: string,
+    tokens: string[],
     fees?: Fee[]
   ) {
+    const token = this.chooseTokenToShowInExchange(tokens)
     const hash = transaction.transactionHash
     const block = transaction.blockNumber
     const timestamp = transaction.timestamp

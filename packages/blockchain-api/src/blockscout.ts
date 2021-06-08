@@ -1,7 +1,7 @@
 import { RESTDataSource } from 'apollo-datasource-rest'
 import { performance } from 'perf_hooks'
-import { CUSD } from 'src/currencyConversion/consts'
 import { BLOCKSCOUT_API, FAUCET_ADDRESS } from './config'
+import { CGLD, CUSD } from './currencyConversion/consts'
 import {
   Any,
   ContractCall,
@@ -152,8 +152,8 @@ export class BlockscoutAPI extends RESTDataSource {
     const userAddress = args.address.toLowerCase()
     const { token, tokens: receivedTokens } = args
     const rawTransactions = await this.getRawTokenTransactions(userAddress)
-
-    const tokens = receivedTokens ?? token ? [token] : [CUSD]
+    // cUSD/cGLD is the default for legacy reasons. Can be removed once most users updated to Valora >= 1.16
+    const tokens = receivedTokens ?? (token ? [token!] : [CUSD, CGLD])
     const context = {
       userAddress,
       tokens,
