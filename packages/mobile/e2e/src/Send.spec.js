@@ -7,6 +7,6 @@ describe('Send CELO', () => {
     await quickOnboarding()
   })
 
-  describe('Send CELO', Send)
-  describe('SecureSend CELO', SecureSend)
+  describe('Send CELO #BVT', Send)
+  describe('SecureSend CELO #BVT', SecureSend)
 })

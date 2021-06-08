@@ -6,5 +6,5 @@ describe('Exchange', () => {
     await quickOnboarding()
   })
 
-  describe('Exchange CELO', ExchangeCelo)
+  describe('Exchange CELO #BVT', ExchangeCelo)
 })
