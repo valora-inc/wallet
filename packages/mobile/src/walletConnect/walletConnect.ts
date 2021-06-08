@@ -1,9 +1,9 @@
 import { call } from 'redux-saga/effects'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 
-const wcPrefix = 'wc:'
-const deepLinkPrefix = 'celo://wallet/wc?uri='
-const universalLinkPrefix = 'https://valoraapp.com/wc?uri='
+const WC_PREFIX = 'wc:'
+const DEEPLINK_PREFIX = 'celo://wallet/wc?uri='
+const UNIVERSAL_LINK_PREFIX = 'https://valoraapp.com/wc?uri='
 
 /**
  * See https://docs.walletconnect.org/v/2.0/mobile-linking for exactly
@@ -16,12 +16,12 @@ const universalLinkPrefix = 'https://valoraapp.com/wc?uri='
  */
 export function* handleWalletConnectDeepLink(deepLink: string) {
   let link = deepLink
-  if (link.startsWith(deepLinkPrefix)) {
-    link = deepLink.substring(deepLinkPrefix.length)
+  if (link.startsWith(DEEPLINK_PREFIX)) {
+    link = deepLink.substring(DEEPLINK_PREFIX.length)
   }
 
-  if (link.startsWith(universalLinkPrefix)) {
-    link = deepLink.substring(universalLinkPrefix.length)
+  if (link.startsWith(UNIVERSAL_LINK_PREFIX)) {
+    link = deepLink.substring(UNIVERSAL_LINK_PREFIX.length)
   }
 
   // connection request
@@ -33,7 +33,7 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
 }
 
 export function isWalletConnectDeepLink(deepLink: string) {
-  return [wcPrefix, deepLinkPrefix, universalLinkPrefix].some((prefix) =>
+  return [WC_PREFIX, DEEPLINK_PREFIX, UNIVERSAL_LINK_PREFIX].some((prefix) =>
     deepLink.startsWith(prefix)
   )
 }
