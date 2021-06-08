@@ -19,7 +19,7 @@ describe(initGethSaga, () => {
     getStaticNodesAsync.mockReturnValue(Promise.resolve('["enode://foo"]'))
     const getGenesisBlockAsync = GenesisBlockUtils.getGenesisBlockAsync as jest.Mock
     getGenesisBlockAsync.mockReturnValue(Promise.resolve({}))
-    const MockGethBridge = GethBridge as unknown as Record<string, jest.Mock>
+    const MockGethBridge = (GethBridge as unknown) as Record<string, jest.Mock>
     MockGethBridge.startNode.mockClear()
   })
 
@@ -53,7 +53,7 @@ describe(initGethSaga, () => {
     getStaticNodeRegion.mockReturnValue('')
     const getGenesisBlockAsync = GenesisBlockUtils.getGenesisBlockAsync as jest.Mock
     getGenesisBlockAsync.mockReturnValue(Promise.resolve({}))
-    const MockGethBridge = GethBridge as unknown as Record<string, jest.Mock>
+    const MockGethBridge = (GethBridge as unknown) as Record<string, jest.Mock>
     MockGethBridge.startNode.mockClear()
     const getStaticNodesAsync = StaticNodeUtils.getStaticNodesAsync as jest.Mock
     getStaticNodesAsync

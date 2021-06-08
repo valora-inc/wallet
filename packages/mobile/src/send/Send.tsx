@@ -72,10 +72,9 @@ function Send({ route }: Props) {
     dispatch(estimateFee(FeeType.SEND))
   }, [])
 
-  const recentRecipientsFilter = useMemo(
-    () => filterRecipientFactory(recentRecipients, false),
-    [recentRecipients]
-  )
+  const recentRecipientsFilter = useMemo(() => filterRecipientFactory(recentRecipients, false), [
+    recentRecipients,
+  ])
 
   const allRecipientsFilter = useMemo(
     () => filterRecipientFactory(Object.values(allRecipients), true, matchedContacts),

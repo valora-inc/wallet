@@ -99,9 +99,10 @@ i18n
 
 // Create HOC wrapper that hoists statics
 // https://react.i18next.com/latest/withtranslation-hoc#hoist-non-react-statics
-export const withTranslation =
-  <P extends WithTranslation>(namespace: Namespaces) =>
-  <C extends React.ComponentType<P>>(component: C) =>
-    hoistStatics(withTranslationI18Next(namespace)(component), component)
+export const withTranslation = <P extends WithTranslation>(namespace: Namespaces) => <
+  C extends React.ComponentType<P>
+>(
+  component: C
+) => hoistStatics(withTranslationI18Next(namespace)(component), component)
 
 export default i18n

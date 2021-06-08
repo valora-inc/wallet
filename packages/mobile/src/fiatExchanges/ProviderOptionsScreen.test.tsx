@@ -71,7 +71,8 @@ export const mockProviders: CicoProvider[] = [
     restricted: false,
     unavailable: false,
     paymentMethods: [PaymentMethod.Card],
-    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
     cashIn: true,
     cashOut: false,
     quote: MOCK_SIMPLEX_QUOTE,
@@ -81,7 +82,8 @@ export const mockProviders: CicoProvider[] = [
     restricted: false,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     url: 'https://www.moonpay.com/',
-    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
     cashIn: true,
     cashOut: false,
     quote: [
@@ -94,7 +96,8 @@ export const mockProviders: CicoProvider[] = [
     restricted: false,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     url: 'www.fakewebsite.com',
-    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
     cashIn: true,
     cashOut: false,
   },
@@ -103,7 +106,8 @@ export const mockProviders: CicoProvider[] = [
     restricted: true,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     url: 'www.fakewebsite.com',
-    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
     cashIn: true,
     cashOut: true,
     quote: [
@@ -116,7 +120,8 @@ export const mockProviders: CicoProvider[] = [
     unavailable: true,
     paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
     url: 'www.fakewebsite.com',
-    logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
     cashIn: true,
     cashOut: false,
     quote: [

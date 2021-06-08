@@ -64,9 +64,8 @@ export function* requestAttestationsSaga() {
   const status: OnChainVerificationStatus = yield select(verificationStatusSelector)
   const revealStatuses: RevealStatuses = yield select(revealStatusesSelector)
 
-  const alreadyRevealed = Object.values(revealStatuses).filter(
-    (rS) => rS === RevealStatus.Revealed
-  ).length
+  const alreadyRevealed = Object.values(revealStatuses).filter((rS) => rS === RevealStatus.Revealed)
+    .length
   const withUnknownStatus = actionableAttestations.filter((aa) => !revealStatuses[aa.issuer]).length
   const failedStatus = actionableAttestations.filter(
     (aa) => revealStatuses[aa.issuer] === RevealStatus.Failed

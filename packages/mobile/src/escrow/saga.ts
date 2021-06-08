@@ -365,12 +365,14 @@ function* withdrawFromEscrowWithoutCode(komenciActive: boolean = false) {
             token: komenci.sessionToken,
           })
 
-          const withdrawAndTransferTxResult: Result<CeloTxReceipt, FetchError | TxError> =
-            yield call(
-              [komenciKit, komenciKit.submitMetaTransaction],
-              mtwAddress,
-              withdrawAndTransferTx
-            )
+          const withdrawAndTransferTxResult: Result<
+            CeloTxReceipt,
+            FetchError | TxError
+          > = yield call(
+            [komenciKit, komenciKit.submitMetaTransaction],
+            mtwAddress,
+            withdrawAndTransferTx
+          )
 
           if (!withdrawAndTransferTxResult.ok) {
             throw withdrawAndTransferTxResult.error

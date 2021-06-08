@@ -100,8 +100,14 @@ function SendConfirmation(props: Props) {
     e164NumberToAddress,
     secureSendPhoneNumberMapping
   )
-  const { type, amount, recipient, recipientAddress, firebasePendingRequestUid, reason } =
-    confirmationInput
+  const {
+    type,
+    amount,
+    recipient,
+    recipientAddress,
+    firebasePendingRequestUid,
+    reason,
+  } = confirmationInput
   const addressValidationType = getAddressValidationType(
     transactionData.recipient,
     secureSendPhoneNumberMapping

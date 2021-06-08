@@ -131,8 +131,9 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
 
   // this call needs to include context: https://github.com/redux-saga/redux-saga/issues/27
   // Manual type checking because yield calls can't infer return type yet :'(
-  const authStatus: Awaited<ReturnType<FirebaseMessagingTypes.Module['hasPermission']>> =
-    yield call([app.messaging(), 'hasPermission'])
+  const authStatus: Awaited<
+    ReturnType<FirebaseMessagingTypes.Module['hasPermission']>
+  > = yield call([app.messaging(), 'hasPermission'])
   Logger.info(TAG, 'Current messaging authorization status', authStatus.toString())
   if (authStatus === firebase.messaging.AuthorizationStatus.NOT_DETERMINED) {
     try {

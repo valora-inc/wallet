@@ -173,11 +173,13 @@ function FiatExchangeOptions({ route, navigation }: Props) {
 
   const onSelectCurrency = (currency: CURRENCY_ENUM) => () => setSelectedCurrency(currency)
 
-  const onSelectPaymentMethod =
-    (paymentMethod: PaymentMethod, localProvider?: LocalCicoProvider) => () => {
-      setSelectedPaymentMethod(paymentMethod)
-      setSelectedLocalProvider(localProvider)
-    }
+  const onSelectPaymentMethod = (
+    paymentMethod: PaymentMethod,
+    localProvider?: LocalCicoProvider
+  ) => () => {
+    setSelectedPaymentMethod(paymentMethod)
+    setSelectedLocalProvider(localProvider)
+  }
 
   const onPressInfoIcon = () => {
     setEducationDialogVisible(true)

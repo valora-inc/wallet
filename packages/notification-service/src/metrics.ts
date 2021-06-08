@@ -24,13 +24,15 @@ export class ApiMetrics {
 
     this.numberUnsuccessfulNotifications = new Counter({
       name: 'num_unsuccessful_notifications',
-      help: 'Increments the Notifications Service encounters an error while dispatching a notification.',
+      help:
+        'Increments the Notifications Service encounters an error while dispatching a notification.',
       labelNames: ['notification_type'],
     })
 
     this.pendingRequestsSize = new Gauge({
       name: 'pending_requests_count',
-      help: 'The current size of pendingRequestsRef, the reference to the pending requests array in Firebase.',
+      help:
+        'The current size of pendingRequestsRef, the reference to the pending requests array in Firebase.',
     })
 
     this.numberUnnotifiedRequests = new Gauge({
@@ -40,13 +42,15 @@ export class ApiMetrics {
 
     this.blockDelay = new Histogram({
       name: 'block_delay',
-      help: 'The number of blocks that exist to be processed, sampled for each notification as it is sent.',
+      help:
+        'The number of blocks that exist to be processed, sampled for each notification as it is sent.',
       buckets: [0, 1, 5, 10, 20, 50, 100],
     })
 
     this.notificationLatency = new Histogram({
       name: 'notification_latency_secs',
-      help: 'Samples the difference in seconds between when the notification was sent and the timestamp on the event that is being notified for',
+      help:
+        'Samples the difference in seconds between when the notification was sent and the timestamp on the event that is being notified for',
       buckets: [0.1, 1, 5, 10, 25, 75, 200, 500],
       labelNames: ['notification_type'],
     })

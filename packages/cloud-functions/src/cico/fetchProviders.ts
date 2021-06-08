@@ -109,7 +109,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       restricted: SIMPLEX_RESTRICTED,
       unavailable: !simplexQuote,
       paymentMethods: [PaymentMethod.Card],
-      logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+      logo:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
       quote: simplexQuote,
       cashIn: true,
       cashOut: false,
@@ -119,7 +120,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       restricted: MOONPAY_RESTRICTED || !moonpayQuote?.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Moonpay, requestData),
-      logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+      logo:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
       quote: moonpayQuote,
       cashIn: true,
       cashOut: false,
@@ -129,7 +131,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       restricted: RAMP_RESTRICTED,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Ramp, requestData),
-      logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+      logo:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
       cashIn: true,
       cashOut: false,
     },
@@ -138,7 +141,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       restricted: XANPOOL_RESTRICTED || !xanpoolQuote?.length,
       paymentMethods: [PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Xanpool, requestData),
-      logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
+      logo:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
       quote: xanpoolQuote,
       cashIn: true,
       cashOut: true,
@@ -148,7 +152,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       restricted: TRANSAK_RESTRICTED || !transakQuote?.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Transak, requestData),
-      logo: 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+      logo:
+        'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
       quote: transakQuote,
       cashIn: true,
       cashOut: false,
