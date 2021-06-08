@@ -1,10 +1,13 @@
 import * as React from 'react'
 import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import { navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { DEFAULT_CACHE_ACCOUNT, updatePin } from 'src/pincode/authentication'
+import { setCachedPin } from 'src/pincode/PasswordCache'
 import PincodeSet from 'src/pincode/PincodeSet'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockAccount } from 'test/values'
 
 const mockPin = '112233'
 
@@ -133,5 +136,44 @@ describe('Pincode', () => {
     jest.runAllTimers()
     await flushMicrotasksQueue()
     expect(getByText('pincodeSet.pinsDontMatch')).toBeDefined()
+  })
+
+  it('navigates back to the Settings screen after successfully changing PIN', async () => {
+    const mockStore = createMockStore({
+      web3: {
+        account: mockAccount,
+      },
+    })
+
+    const oldPin = '123123'
+    setCachedPin(DEFAULT_CACHE_ACCOUNT, oldPin)
+    const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { changePin: true })
+
+    const { getByTestId, rerender } = render(
+      <Provider store={mockStore}>
+        <PincodeSet {...mockScreenProps} />
+      </Provider>
+    )
+
+    // Change pin
+    mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
+    jest.runAllTimers()
+    await flushMicrotasksQueue()
+
+    rerender(
+      <Provider store={mockStore}>
+        <PincodeSet
+          {...getMockStackScreenProps(Screens.PincodeSet, { isVerifying: true, changePin: true })}
+        />
+      </Provider>
+    )
+
+    // Verify pin
+    mockPin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
+    jest.runAllTimers()
+    await flushMicrotasksQueue()
+
+    expect(updatePin).toHaveBeenCalledWith(mockAccount.toLowerCase(), oldPin, mockPin)
+    expect(navigate).toBeCalledWith(Screens.Settings)
   })
 })
