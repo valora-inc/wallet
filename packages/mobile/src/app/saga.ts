@@ -44,7 +44,11 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
-import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
+import { CodeInputType, receiveAttestationCode } from 'src/verify/module'
+import {
+  handleWalletConnectDeepLink,
+  isWalletConnectDeepLink,
+} from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 
 const TAG = 'app/saga'
@@ -151,8 +155,13 @@ function convertQueryToScreenParams(query: string) {
 
 export function* handleDeepLink(action: OpenDeepLink) {
   const { deepLink, isSecureOrigin } = action
-  const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
   Logger.debug(TAG, 'Handling deep link', deepLink)
+
+  if (isWalletConnectDeepLink(deepLink)) {
+    yield call(handleWalletConnectDeepLink, deepLink)
+    return
+  }
+
   const rawParams = parse(deepLink)
   if (rawParams.path) {
     if (rawParams.path.startsWith('/v/')) {
@@ -161,8 +170,6 @@ export function* handleDeepLink(action: OpenDeepLink) {
       yield call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {
       handleDappkitDeepLink(deepLink)
-    } else if (rawParams.path.startsWith('/wc') && walletConnectEnabled) {
-      yield call(handleWalletConnectDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
       navigate(Screens.FiatExchangeOptions, { isCashIn: true })
     } else if (rawParams.pathname === '/bidali') {
@@ -189,8 +196,9 @@ export function* watchDeepLinks() {
 
 export function* handleOpenUrl(action: OpenUrlAction) {
   const { url, openExternal, isSecureOrigin } = action
+  const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
   Logger.debug(TAG, 'Handling url', url)
-  if (url.startsWith('celo:')) {
+  if (url.startsWith('celo:') || (url.startsWith('wc:') && walletConnectEnabled)) {
     // Handle celo links directly, this avoids showing the "Open with App" sheet on Android
     yield call(handleDeepLink, openDeepLink(url, isSecureOrigin))
   } else if (/^https?:\/\//i.test(url) === true && !openExternal) {

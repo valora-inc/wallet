@@ -13,6 +13,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
+import { CodeInputType, receiveAttestationCode } from 'src/verify/module'
+import { initialiseWalletConnect } from 'src/walletConnect/saga'
+import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 
 jest.mock('src/utils/time', () => ({
   clockInSync: () => true,
@@ -84,6 +87,50 @@ describe('App saga', () => {
     const deepLink = `celo://wallet/openScreen?screen=${Screens.FiatExchangeOptions}&isCashIn=true`
     await expectSaga(handleDeepLink, openDeepLink(deepLink, false)).run()
     expect(navigate).not.toHaveBeenCalled()
+  })
+
+  describe('WalletConnect deeplinks', () => {
+    const connectionString = 'wc:1234@1?bridge=https://example.com&key=0x1234'
+    const connectionLinks = [
+      {
+        name: 'Android',
+        link: connectionString,
+      },
+      {
+        name: 'iOS deeplink',
+        link: `celo://wallet/wc?uri=${connectionString}`,
+      },
+      {
+        name: 'iOS universal link',
+        link: `https://valoraapp.com/wc?uri=${connectionString}`,
+      },
+    ]
+
+    for (const { name, link } of connectionLinks) {
+      it(`handles ${name} connection links correctly`, async () => {
+        await expectSaga(handleDeepLink, openDeepLink(link))
+          .call(handleWalletConnectDeepLink, link)
+          .call(initialiseWalletConnect, connectionString)
+          .run()
+      })
+    }
+
+    // action requests are incomplete URLs, wallets should handle presenting
+    // the user with the request.
+    const actionString = 'wc:1234'
+    const actionLinks = [
+      { name: 'Android', link: actionString },
+      { name: 'iOS deeplink', link: `celo://wallet/wc?uri=${actionString}` },
+      { name: 'iOS universal link', link: `https://valoraapp.com/wc?uri=${actionString}` },
+    ]
+    for (const { name, link } of actionLinks) {
+      it(`handles ${name} action links correctly`, async () => {
+        await expectSaga(handleDeepLink, openDeepLink(link))
+          .call(handleWalletConnectDeepLink, link)
+          .not.call(initialiseWalletConnect, connectionString)
+          .run()
+      })
+    }
   })
 
   describe(handleOpenUrl, () => {
