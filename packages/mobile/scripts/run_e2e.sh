@@ -25,7 +25,7 @@ NET_DELAY="none"
 DEV_MODE=false
 FILE_TO_RUN=""
 TEST_MATCH=""
-WORKERS=2
+WORKERS=1
 RETRIES=0
 while getopts 'p:f:t:v:n:w:j:rd' flag; do
   case "${flag}" in
