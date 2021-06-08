@@ -1,6 +1,6 @@
 {
   "name": "@celo/indexer",
-  "description": "A cloud service that dispatches notifications to mobile clients",
+  "description": "Store events on the Celo blockchain into a relational database",
   "version": "0.0.5",
   "private": true,
   "author": "Celo",
