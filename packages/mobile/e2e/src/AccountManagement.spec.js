@@ -10,5 +10,5 @@ describe('Account', () => {
 
   describe('Support', Support)
   describe('Settings', Settings)
-  describe('Reset Account #BVT', ResetAccount)
+  describe('Reset Account', ResetAccount)
 })

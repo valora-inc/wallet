@@ -1,5 +1,5 @@
 export default HandleNotification = () => {
-  it('Launch app from push notification #BVT', async () => {
+  it('Launch app from push notification', async () => {
     const userNotification = {
       trigger: {
         type: 'push',

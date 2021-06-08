@@ -252,7 +252,7 @@ jobs:
           command: |
             set -euo pipefail
             cd packages/mobile
-            yarn run test:e2e:android -t "#BVT"
+            yarn run test:e2e:android
 
       - store_artifacts:
           path: packages/mobile/e2e/artifacts
@@ -364,7 +364,7 @@ jobs:
           command: |
             set -euo pipefail
             cd packages/mobile
-            yarn run test:e2e:ios -t "#BVT"
+            yarn run test:e2e:ios
       - store_artifacts:
           path: packages/mobile/e2e/artifacts
           destination: mobile/e2e/artifacts

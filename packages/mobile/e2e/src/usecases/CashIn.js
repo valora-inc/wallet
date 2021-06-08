@@ -18,7 +18,7 @@ export default CashIn = () => {
     // TODO: If on Simplex Press Back Button
   })
 
-  it('Should Display All Providers #BVT', async () => {
+  it('Should Display All Providers', async () => {
     // Check All Providers for US
     await expect(element(by.id('Provider/Moonpay'))).toBeVisible()
     await expect(element(by.id('Provider/Simplex'))).toBeVisible()
