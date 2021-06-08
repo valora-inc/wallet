@@ -9,6 +9,7 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DOLLAR_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import i18n from 'src/i18n'
+import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { HeaderTitleWithBalance, styles as headerStyles } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
 import { balancesSelector } from 'src/stableToken/selectors'
@@ -24,6 +25,7 @@ function SendAmountHeader({ currency, isOutgoingPaymentRequest, onChangeCurrency
   const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
 
   const balances = useSelector(balancesSelector)
+  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
 
   const onCurrencySelected = (currency: Currency) => {
     setShowCurrencyPicker(false)
@@ -35,8 +37,9 @@ function SendAmountHeader({ currency, isOutgoingPaymentRequest, onChangeCurrency
     : SendEvents.send_amount_back
 
   const title = useMemo(() => {
-    const currenciesWithBalance = STABLE_CURRENCIES.filter((currency) =>
-      balances[currency]?.gt(DOLLAR_TRANSACTION_MIN_AMOUNT)
+    const currenciesWithBalance = STABLE_CURRENCIES.filter(
+      (currency) =>
+        balances[currency]?.gt(DOLLAR_TRANSACTION_MIN_AMOUNT) && exchangeRates[currency] !== null
     ).length
 
     let titleText
