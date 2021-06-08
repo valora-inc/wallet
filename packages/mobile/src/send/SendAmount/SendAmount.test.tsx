@@ -223,7 +223,7 @@ describe('SendAmount', () => {
     it("doesnt allow choosing the currency when there's only balance for one token", () => {
       const store = createMockStore({
         ...storeData,
-        stableToken: { balance: '0', cEurBalance: '10.12' },
+        stableToken: { balances: { [Currency.Dollar]: '0', [Currency.Euro]: '10.12' } },
       })
       const { queryByTestId } = render(
         <Provider store={store}>
@@ -237,7 +237,7 @@ describe('SendAmount', () => {
     it("allows choosing the currency when there's balance for more than one token", () => {
       const store = createMockStore({
         ...storeData,
-        stableToken: { balance: '10.56', cEurBalance: '10.12' },
+        stableToken: { balances: { [Currency.Dollar]: '10.56', [Currency.Euro]: '10.12' } },
       })
       const { queryByTestId } = render(
         <Provider store={store}>
@@ -334,8 +334,7 @@ describe('SendAmount', () => {
         },
         ...storeData,
         stableToken: {
-          balance: BALANCE_VALID,
-          cEurBalance: BALANCE_VALID,
+          balances: { [Currency.Dollar]: BALANCE_VALID, [Currency.Euro]: BALANCE_VALID },
         },
         send: {
           lastUsedCurrency: Currency.Euro,

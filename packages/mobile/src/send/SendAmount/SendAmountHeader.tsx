@@ -5,14 +5,14 @@ import { StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
-import CurrencyPicker, { CurrencyPickerOrigin } from 'src/components/CurrencyPicker'
 import CustomHeader from 'src/components/header/CustomHeader'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { DOLLAR_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import i18n from 'src/i18n'
 import { HeaderTitleWithBalance, styles as headerStyles } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
 import { balancesSelector } from 'src/stableToken/selectors'
-import { CURRENCIES, Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
+import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
 interface Props {
   currency: Currency
@@ -36,7 +36,7 @@ function SendAmountHeader({ currency, isOutgoingPaymentRequest, onChangeCurrency
 
   const title = useMemo(() => {
     const currenciesWithBalance = STABLE_CURRENCIES.filter((currency) =>
-      balances[currency].gt(DOLLAR_TRANSACTION_MIN_AMOUNT)
+      balances[currency]?.gt(DOLLAR_TRANSACTION_MIN_AMOUNT)
     ).length
 
     let titleText
@@ -48,8 +48,8 @@ function SendAmountHeader({ currency, isOutgoingPaymentRequest, onChangeCurrency
       title = titleText
     } else {
       titleText = isOutgoingPaymentRequest
-        ? i18n.t('paymentRequestFlow:requestToken', { token: CURRENCIES[currency].code })
-        : i18n.t('sendFlow7:sendToken', { token: CURRENCIES[currency].code })
+        ? i18n.t('paymentRequestFlow:requestToken', { token: currency })
+        : i18n.t('sendFlow7:sendToken', { token: currency })
       title = (
         <View style={styles.titleContainer} testID="HeaderCurrencyPicker">
           <Text style={headerStyles.headerTitle}>{titleText}</Text>
@@ -74,9 +74,9 @@ function SendAmountHeader({ currency, isOutgoingPaymentRequest, onChangeCurrency
   return (
     <>
       <CustomHeader left={<BackButton eventName={backButtonEventName} />} title={title} />
-      <CurrencyPicker
+      <TokenBottomSheet
         isVisible={showingCurrencyPicker}
-        origin={CurrencyPickerOrigin.Send}
+        origin={TokenPickerOrigin.Send}
         onCurrencySelected={onCurrencySelected}
       />
     </>

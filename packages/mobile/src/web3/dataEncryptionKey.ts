@@ -34,7 +34,7 @@ import {
   updateWalletToAccountAddress,
 } from 'src/identity/actions'
 import { walletToAccountAddressSelector, WalletToAccountAddressType } from 'src/identity/reducer'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { getCurrencyAddress } from 'src/tokens/saga'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'

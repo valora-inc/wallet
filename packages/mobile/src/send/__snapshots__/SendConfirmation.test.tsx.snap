@@ -889,6 +889,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             
             $
@@ -947,6 +948,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -982,6 +984,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             
             $
@@ -1990,6 +1993,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             
             $
@@ -2048,6 +2052,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -2083,6 +2088,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             
             $
@@ -3080,6 +3086,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             
             $
@@ -3138,6 +3145,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -3173,6 +3181,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             
             $
@@ -4181,6 +4190,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             
             $
@@ -4239,6 +4249,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -4274,6 +4285,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             
             $
@@ -5333,6 +5345,7 @@ exports[`SendConfirmation renders correctly when there are multiple user address
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             
             $
@@ -5391,6 +5404,7 @@ exports[`SendConfirmation renders correctly when there are multiple user address
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -5426,6 +5440,7 @@ exports[`SendConfirmation renders correctly when there are multiple user address
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             
             $
@@ -6407,6 +6422,7 @@ exports[`SendConfirmation with Komenci enabled renders correct modal for invitat
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             
             $
@@ -6465,6 +6481,7 @@ exports[`SendConfirmation with Komenci enabled renders correct modal for invitat
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -6500,6 +6517,7 @@ exports[`SendConfirmation with Komenci enabled renders correct modal for invitat
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             
             $

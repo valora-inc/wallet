@@ -24,7 +24,7 @@ import {
 } from 'src/localCurrency/hooks'
 import {
   getLocalCurrencyCode,
-  localCurrencyExchangeRateSelector,
+  localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -34,7 +34,7 @@ import useSelector from 'src/redux/useSelector'
 import { updateLastUsedCurrency } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { getFeeType, useDailyTransferLimitValidator } from 'src/send/utils'
-import { useCurrencyBalance } from 'src/stableToken/hooks'
+import { useBalance } from 'src/stableToken/hooks'
 import { Currency } from 'src/utils/currencies'
 
 interface Props {
@@ -56,9 +56,11 @@ function useTransactionCallbacks({
     approximateLocalAmount,
   ])
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const localCurrencyExchangeRate = useSelector(localCurrencyExchangeRateSelector)[transferCurrency]
+  const localCurrencyExchangeRate = useSelector(localCurrencyExchangeRatesSelector)[
+    transferCurrency
+  ]
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
-  const stableBalance = useCurrencyBalance(transferCurrency)
+  const stableBalance = useBalance(transferCurrency)
   const amountInStableCurrency =
     useLocalAmountInStableCurrency(localAmount, transferCurrency) ?? new BigNumber(0) // TODO: Handle errors better
 
