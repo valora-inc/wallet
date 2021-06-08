@@ -111,7 +111,7 @@ function dailySpent(now: number, recentPayments: PaymentInfo[]) {
  * Everything in this function is mapped to dollar amounts
  */
 export function useDailyTransferLimitValidator(
-  amount: BigNumber,
+  amount: BigNumber | null,
   currency: Currency
 ): [boolean, () => void] {
   const dispatch = useDispatch()
@@ -132,12 +132,9 @@ export function useDailyTransferLimitValidator(
 
   const now = Date.now()
 
-  const isLimitReached = _isPaymentLimitReached(
-    now,
-    recentPayments,
-    dollarAmount?.toNumber() ?? 0, // TODO: Handle error case better
-    dailyLimitCusd
-  )
+  const isLimitReached =
+    dollarAmount === null ||
+    _isPaymentLimitReached(now, recentPayments, dollarAmount.toNumber(), dailyLimitCusd)
   const showLimitReachedBanner = () => {
     dispatch(
       showLimitReachedError(

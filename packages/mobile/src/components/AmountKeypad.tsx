@@ -7,10 +7,10 @@ const { decimalSeparator } = getNumberFormatSettings()
 
 interface Props {
   amount: string
-  setAmount: (amount: string) => void
+  onAmountChange: (amount: string) => void
 }
 
-function AmountPadInput({ amount, setAmount }: Props) {
+function AmountKeypad({ amount, onAmountChange }: Props) {
   const maxLength = useMemo(() => {
     const decimalPos = amount.indexOf(decimalSeparator ?? '.')
     if (decimalPos === -1) {
@@ -24,14 +24,14 @@ function AmountPadInput({ amount, setAmount }: Props) {
       if ((amount === '' && digit === 0) || (maxLength && amount.length + 1 > maxLength)) {
         return
       }
-      setAmount(amount + digit.toString())
+      onAmountChange(amount + digit.toString())
     },
-    [amount, setAmount]
+    [amount, onAmountChange]
   )
 
   const onBackspacePress = useCallback(() => {
-    setAmount(amount.substr(0, amount.length - 1))
-  }, [amount, setAmount])
+    onAmountChange(amount.substr(0, amount.length - 1))
+  }, [amount, onAmountChange])
 
   const onDecimalPress = useCallback(() => {
     const decimalPos = amount.indexOf(decimalSeparator ?? '.')
@@ -40,11 +40,11 @@ function AmountPadInput({ amount, setAmount }: Props) {
     }
 
     if (!amount) {
-      setAmount('0' + decimalSeparator)
+      onAmountChange('0' + decimalSeparator)
     } else {
-      setAmount(amount + decimalSeparator)
+      onAmountChange(amount + decimalSeparator)
     }
-  }, [amount, setAmount])
+  }, [amount, onAmountChange])
 
   return (
     <NumberKeypad
@@ -56,4 +56,4 @@ function AmountPadInput({ amount, setAmount }: Props) {
   )
 }
 
-export default AmountPadInput
+export default AmountKeypad

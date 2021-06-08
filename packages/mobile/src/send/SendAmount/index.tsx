@@ -12,13 +12,14 @@ import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import AmountPadInput from 'src/components/AmountPadInput'
+import AmountKeypad from 'src/components/AmountKeypad'
 import { ALERT_BANNER_DURATION, DOLLAR_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { Namespaces } from 'src/i18n'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
-import { useStableCurrencyAmountInLocal } from 'src/localCurrency/hooks'
+import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
+import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useRecipientVerificationStatus } from 'src/recipients/hooks'
@@ -87,7 +88,7 @@ function SendAmount(props: Props) {
   })
 
   const maxEscrowInLocalAmount =
-    useStableCurrencyAmountInLocal(MAX_ESCROW_VALUE, Currency.Dollar) ?? new BigNumber(0) // TODO: Improve error handling
+    useCurrencyToLocalAmount(MAX_ESCROW_VALUE, Currency.Dollar) ?? new BigNumber(0) // TODO: Improve error handling
   useEffect(() => {
     if (reviewButtonPressed) {
       if (recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
@@ -124,7 +125,7 @@ function SendAmount(props: Props) {
       <DisconnectBanner />
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <SendAmountValue amount={amount} />
-        <AmountPadInput amount={amount} setAmount={setAmount} />
+        <AmountKeypad amount={amount} onAmountChange={setAmount} />
       </ScrollView>
       <Button
         style={styles.nextBtn}
@@ -141,6 +142,8 @@ function SendAmount(props: Props) {
     </SafeAreaView>
   )
 }
+
+SendAmount.navigationOptions = noHeader
 
 const styles = StyleSheet.create({
   container: {

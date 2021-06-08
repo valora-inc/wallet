@@ -19,8 +19,8 @@ import { RecipientVerificationStatus } from 'src/identity/types'
 import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
 import {
   useConvertBetweenCurrencies,
-  useLocalAmountInStableCurrency,
-  useStableCurrencyAmountInLocal,
+  useCurrencyToLocalAmount,
+  useLocalAmountToCurrency,
 } from 'src/localCurrency/hooks'
 import {
   getLocalCurrencyCode,
@@ -45,6 +45,7 @@ interface Props {
   isFromScan: boolean
 }
 
+// This hook returns two functions, onSend and onRequest that should be called when the user presses the button to continue.
 function useTransactionCallbacks({
   recipient,
   localAmount: approximateLocalAmount,
@@ -61,15 +62,14 @@ function useTransactionCallbacks({
   ]
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
   const stableBalance = useBalance(transferCurrency)
-  const amountInStableCurrency =
-    useLocalAmountInStableCurrency(localAmount, transferCurrency) ?? new BigNumber(0) // TODO: Handle errors better
+  const amountInStableCurrency = useLocalAmountToCurrency(localAmount, transferCurrency)
 
   const dispatch = useDispatch()
 
   const getTransactionData = useCallback(
     (type: TokenTransactionType): TransactionDataInput => ({
       recipient,
-      amount: amountInStableCurrency ?? new BigNumber(0), // TODO: Handle errors better
+      amount: amountInStableCurrency!,
       currency: transferCurrency,
       type,
       reason: '',
@@ -86,7 +86,7 @@ function useTransactionCallbacks({
       localCurrency: localCurrencyCode,
       localCurrencyAmount: localAmount.toString(),
       underlyingCurrency: transferCurrency,
-      underlyingAmount: amountInStableCurrency.toString(),
+      underlyingAmount: amountInStableCurrency?.toString() ?? '',
     }
   }, [
     origin,
@@ -119,6 +119,10 @@ function useTransactionCallbacks({
   )
 
   const onSend = useCallback(() => {
+    if (!stableBalance || !amountInStableCurrency) {
+      dispatch(showError(ErrorMessages.FETCH_FAILED))
+      return null
+    }
     const newAccountBalance = stableBalance
       .minus(amountInStableCurrency)
       .minus(estimateFeeInStableCurrency ?? 0)
@@ -169,12 +173,17 @@ function useTransactionCallbacks({
     origin,
   ])
 
-  const defaultDailyLimitInLocalCurrency =
-    useStableCurrencyAmountInLocal(
-      new BigNumber(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD),
-      Currency.Dollar
-    ) ?? DEFAULT_DAILY_PAYMENT_LIMIT_CUSD // TODO: Improve error handling
+  const defaultDailyLimitInLocalCurrency = useCurrencyToLocalAmount(
+    new BigNumber(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD),
+    Currency.Dollar
+  )
+
   const onRequest = useCallback(() => {
+    if (!stableBalance || !amountInStableCurrency || !defaultDailyLimitInLocalCurrency) {
+      dispatch(showError(ErrorMessages.FETCH_FAILED))
+      return null
+    }
+
     if (localAmount.isGreaterThan(defaultDailyLimitInLocalCurrency)) {
       dispatch(
         showError(ErrorMessages.REQUEST_LIMIT, ALERT_BANNER_DURATION, {

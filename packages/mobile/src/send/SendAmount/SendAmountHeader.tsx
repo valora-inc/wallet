@@ -1,8 +1,8 @@
+import Touchable from '@celo/react-components/components/Touchable'
 import DownArrowIcon from '@celo/react-components/icons/DownArrowIcon'
 import colors from '@celo/react-components/styles/colors'
 import React, { useMemo, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
@@ -61,16 +61,13 @@ function SendAmountHeader({ currency, isOutgoingPaymentRequest, onChangeCurrency
       )
     }
     return (
-      <TouchableOpacity
-        disabled={currenciesWithBalance < 2}
-        onPress={() => setShowCurrencyPicker(true)}
-      >
+      <Touchable disabled={currenciesWithBalance < 2} onPress={() => setShowCurrencyPicker(true)}>
         {isOutgoingPaymentRequest ? (
           <Text>{titleText}</Text>
         ) : (
           <HeaderTitleWithBalance title={title} token={currency} />
         )}
-      </TouchableOpacity>
+      </Touchable>
     )
   }, [isOutgoingPaymentRequest, currency])
 

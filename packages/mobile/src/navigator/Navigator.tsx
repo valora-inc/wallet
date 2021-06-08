@@ -261,7 +261,11 @@ const nuxScreens = (Navigator: typeof Stack) => (
 const sendScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen name={Screens.Send} component={Send} options={Send.navigationOptions} />
-    <Navigator.Screen name={Screens.SendAmount} component={SendAmount} options={noHeader} />
+    <Navigator.Screen
+      name={Screens.SendAmount}
+      component={SendAmount}
+      options={SendAmount.navigationOptions}
+    />
     <Navigator.Screen
       name={Screens.SendConfirmation}
       component={SendConfirmation}
