@@ -210,7 +210,7 @@ export function* denyRequest({
       response: {
         id,
         jsonrpc,
-        error: getError(WalletConnectErrors.NOT_APPROVED),
+        error: getError(WalletConnectErrors.DISAPPROVED_JSONRPC),
       },
     })
   } catch (e) {
