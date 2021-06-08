@@ -1,6 +1,20 @@
 {
   "functions": {
     "source": ".",
-    "predeploy": ["yarn run lint", "yarn run build"]
+    "predeploy": [
+      "yarn run lint",
+      "yarn run build"
+    ]
+  },
+  "emulators": {
+    "functions": {
+      "port": 5001
+    },
+    "database": {
+      "port": 9000
+    },
+    "ui": {
+      "enabled": true
+    }
   }
 }

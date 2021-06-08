@@ -14,6 +14,10 @@ export function database() {
   return admin.database()
 }
 
+export function messaging() {
+  return admin.messaging()
+}
+
 export function saveTxHashProvider(address: string, txHash: string, provider: string) {
   database()
     .ref(`/registrations/${address}/txHashes/${txHash}`)
