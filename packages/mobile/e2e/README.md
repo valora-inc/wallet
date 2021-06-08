@@ -62,7 +62,7 @@ While developing and adding new tests, it's useful to run only the ones we are w
 
 - For the first test run `yarn test:e2e:ios -w 1 -t \<Test Name>.spec.js$` this will install the application on your device and run the targeted test suite.
 
-- For subsequent test runs run `yarn test:e2e:ios -d -w 1 -t \<Test Name>.spec.js$`. The `-d` flag will prevent the app from reinstalling and reuse the previous install and will not restart the packager. The `-w` flag will specify how many emulators to run in parallel. The `-t` flag will run only a specific test spec.
+- For subsequent test runs run `yarn test:e2e:ios -d -w 1 -f \<Test Name>.spec.js$ -t Display Providers`. The `-d` flag will prevent the app from reinstalling and reuse the previous install and will not restart the packager. The `-w` flag will specify how many emulators to run in parallel. The `-f` flag will run matching test files. The `-t` flag will run only tests with matching name patterns; the regex is matched against the full name, which is a combination of the test name and all its surrounding describe blocks.
 
 Use a similar process to run and develop other test files.
 
@@ -100,7 +100,7 @@ export default AddedUsecase = () => {
   })
   
   // Sample test spec / it block
-  it('Display All Providers - US', async () => {
+  it('Display Providers', async () => {
     // Test spec specific steps
     await element(by.id('GoToProviderButton')).tap()
     await element(by.id('FiatExchangeInput')).replaceText('$50')
