@@ -350,9 +350,9 @@ function* createStandbyTx(makerToken: Currency, makerAmount: BigNumber, exchange
       context,
       type: TokenTransactionType.Exchange,
       status: TransactionStatus.Pending,
-      inSymbol: makerToken,
+      inCurrency: makerToken,
       inValue: makerAmount.toString(),
-      outSymbol: makerToken === Currency.Dollar ? Currency.Celo : Currency.Dollar,
+      outCurrency: makerToken === Currency.Dollar ? Currency.Celo : Currency.Dollar,
       outValue: takerAmount.toString(),
       timestamp: Math.floor(Date.now() / 1000),
     })
@@ -382,7 +382,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
         comment: '',
         status: TransactionStatus.Pending,
         value: amount.toString(),
-        symbol: Currency.Celo,
+        currency: Currency.Celo,
         timestamp: Math.floor(Date.now() / 1000),
         address: recipientAddress,
       })

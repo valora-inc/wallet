@@ -28,12 +28,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
 import { updateValoraRecipientCache } from 'src/recipients/actions'
-import {
-  AddressRecipient,
-  Recipient,
-  recipientHasAddress,
-  recipientHasNumber,
-} from 'src/recipients/recipient'
+import { AddressRecipient, Recipient } from 'src/recipients/recipient'
 import { storeLatestInRecents } from 'src/send/actions'
 import { PaymentInfo } from 'src/send/reducers'
 import { getRecentPayments } from 'src/send/selectors'
@@ -47,6 +42,7 @@ const TAG = 'send/utils'
 export interface ConfirmationInput {
   recipient: Recipient
   amount: BigNumber
+  currency: Currency
   reason?: string
   recipientAddress: string | null | undefined
   type: TokenTransactionType
@@ -61,9 +57,9 @@ export const getConfirmationInput = (
   const { recipient } = transactionData
   let recipientAddress: string | null | undefined
 
-  if (recipientHasAddress(recipient)) {
+  if (recipient.address) {
     recipientAddress = recipient.address
-  } else if (recipientHasNumber(recipient)) {
+  } else if (recipient.e164PhoneNumber) {
     recipientAddress = getAddressFromPhoneNumber(
       recipient.e164PhoneNumber,
       e164NumberToAddress,

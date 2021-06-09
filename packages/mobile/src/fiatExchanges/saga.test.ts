@@ -64,10 +64,10 @@ describe(watchBidaliPaymentRequests, () => {
       .dispatch(
         sendPaymentOrInvite(
           amount,
+          Currency.Dollar,
           'Some description (TEST_CHARGE_ID)',
           recipient,
           '0xTEST',
-          undefined,
           undefined,
           undefined,
           true
@@ -110,10 +110,10 @@ describe(watchBidaliPaymentRequests, () => {
       .dispatch(
         sendPaymentOrInvite(
           amount,
+          Currency.Dollar,
           'Some description (TEST_CHARGE_ID)',
           recipient,
           '0xTEST',
-          undefined,
           undefined,
           undefined,
           true

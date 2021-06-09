@@ -9,7 +9,6 @@ import { LayoutAnimation, StyleSheet, Text, View } from 'react-native'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import { EncryptionFeeIcon, ExchangeFeeIcon, SecurityFeeIcon } from 'src/components/FeeIcon'
 import LineItemRow from 'src/components/LineItemRow'
-import { features } from 'src/flags'
 import { Namespaces } from 'src/i18n'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
 import { Currency } from 'src/utils/currencies'
@@ -113,13 +112,6 @@ export default function FeeDrawer({
       </Touchable>
       {expanded && (
         <View>
-          {!features.ESCROW_WITHOUT_CODE && isInvite && inviteFeeAmount && (
-            <LineItemRow
-              title={t('inviteFee')}
-              amount={<CurrencyDisplay amount={inviteFeeAmount} currencyInfo={currencyInfo} />}
-              textStyle={styles.dropDownText}
-            />
-          )}
           {isExchange && (
             <LineItemRow
               title={t('exchangeFlow9:exchangeFee')}

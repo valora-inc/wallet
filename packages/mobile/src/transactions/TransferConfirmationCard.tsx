@@ -22,7 +22,6 @@ import { FAQ_LINK } from 'src/config'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import { Namespaces } from 'src/i18n'
 import { addressToDisplayNameSelector } from 'src/identity/reducer'
-import { getInvitationVerificationFeeInDollars } from 'src/invite/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Recipient } from 'src/recipients/recipient'
@@ -80,10 +79,8 @@ function VerificationContent({ amount }: Props) {
 function InviteSentContent({ addressHasChanged, recipient, amount }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const totalAmount = amount
-  const inviteFee = getInvitationVerificationFeeInDollars()
   // TODO: Use real fee
-  const securityFee = new BigNumber(0)
-  const totalFee = inviteFee.plus(securityFee)
+  const totalFee = new BigNumber(0)
 
   return (
     <>
@@ -96,9 +93,8 @@ function InviteSentContent({ addressHasChanged, recipient, amount }: Props) {
       <HorizontalLine />
       <FeeDrawer
         currency={Currency.Dollar}
-        inviteFee={inviteFee}
         isInvite={true}
-        securityFee={securityFee}
+        securityFee={totalFee}
         totalFee={totalFee}
       />
       <TotalLineItem amount={totalAmount} hideSign={true} />

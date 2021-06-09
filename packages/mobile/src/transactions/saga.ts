@@ -1,4 +1,4 @@
-import { CeloTransactionObject } from '@celo/connect'
+import { CeloTransactionObject, CeloTxReceipt } from '@celo/connect'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
@@ -38,7 +38,7 @@ import {
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
 import { StandbyTransaction, TransactionContext, TransactionStatus } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
+import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'transactions/saga'
@@ -96,11 +96,11 @@ export function* sendAndMonitorTransaction<T>(
         gasPrice,
         nonce
       )
-      const hash = yield transactionHash
+      const hash: string = yield transactionHash
       yield put(addHashToStandbyTransaction(context.id, hash))
-      return yield receipt
+      return (yield receipt) as CeloTxReceipt
     }
-    const txReceipt = yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
+    const txReceipt: CeloTxReceipt = yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
     yield put(transactionConfirmed(context.id, txReceipt))
 
     // Determine which balances may be affected by the transaction and fetch updated balances.
@@ -111,7 +111,7 @@ export function* sendAndMonitorTransaction<T>(
     if (balancesAffected.has(Currency.Celo)) {
       yield put(fetchGoldBalance())
     }
-    if (balancesAffected.has(Currency.Dollar)) {
+    if (STABLE_CURRENCIES.some((stableCurrency) => balancesAffected.has(stableCurrency))) {
       yield put(fetchStableBalances())
     }
     return txReceipt

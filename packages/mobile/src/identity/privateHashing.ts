@@ -19,6 +19,7 @@ import { transferStableToken } from 'src/stableToken/actions'
 import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { waitForTransactionWithId } from 'src/transactions/saga'
 import { newTransactionContext } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { isBalanceSufficientForSigRetrievalSelector } from 'src/verify/module'
 import { getAuthSignerForAccount } from 'src/web3/dataEncryptionKey'
@@ -174,6 +175,7 @@ function* navigateToQuotaPurchaseScreen() {
       transferStableToken({
         recipientAddress: ownAddress, // send payment to yourself
         amount: '0.01', // one penny
+        currency: Currency.Dollar,
         comment: 'Lookup Quota Purchase',
         context,
       })

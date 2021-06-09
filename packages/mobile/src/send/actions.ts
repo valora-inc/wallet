@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import { FeeInfo } from 'src/fees/saga'
-import { InviteBy } from 'src/invite/actions'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { Currency } from 'src/utils/currencies'
@@ -45,11 +44,11 @@ export interface StoreLatestInRecentsAction {
 export interface SendPaymentOrInviteAction {
   type: Actions.SEND_PAYMENT_OR_INVITE
   amount: BigNumber
+  currency: Currency
   comment: string
   recipient: Recipient
   recipientAddress?: string | null
   feeInfo?: FeeInfo
-  inviteMethod?: InviteBy
   firebasePendingRequestUid: string | null | undefined
   fromModal: boolean
 }
@@ -104,21 +103,21 @@ export const shareQRCode = (qrCodeSvg: SVG): ShareQRCodeAction => ({
 
 export const sendPaymentOrInvite = (
   amount: BigNumber,
+  currency: Currency,
   comment: string,
   recipient: Recipient,
   recipientAddress: string | null | undefined,
   feeInfo: FeeInfo | undefined,
-  inviteMethod: InviteBy | undefined,
   firebasePendingRequestUid: string | null | undefined,
   fromModal: boolean
 ): SendPaymentOrInviteAction => ({
   type: Actions.SEND_PAYMENT_OR_INVITE,
   amount,
+  currency,
   comment,
   recipient,
   recipientAddress,
   feeInfo,
-  inviteMethod,
   firebasePendingRequestUid,
   fromModal,
 })

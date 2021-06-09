@@ -4,7 +4,6 @@ import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { features } from 'src/flags'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
@@ -24,16 +23,6 @@ beforeEach(() => {
 })
 
 describe('VerificationEducationScreen', () => {
-  const komenciEnabled = features.KOMENCI
-
-  beforeAll(() => {
-    features.KOMENCI = false
-  })
-
-  afterAll(() => {
-    features.KOMENCI = komenciEnabled
-  })
-
   it('shows the `skip` button when already verified', () => {
     const store = createMockStore({
       app: { numberVerified: true },
@@ -137,16 +126,6 @@ describe('VerificationEducationScreen', () => {
 })
 
 describe('VerificationEducationScreen with KOMENCI enabled', () => {
-  const komenciEnabled = features.KOMENCI
-
-  beforeAll(() => {
-    features.KOMENCI = true
-  })
-
-  afterAll(() => {
-    features.KOMENCI = komenciEnabled
-  })
-
   it('shows the loading state when komenci readiness is being determined', () => {
     // loading state
     mockedUseAsyncKomenciReadiness.mockReturnValue({

@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { features } from 'src/flags'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -52,15 +51,8 @@ const mockInviteScreenProps = getMockStackScreenProps(Screens.SendConfirmation, 
 })
 
 describe('SendConfirmation', () => {
-  const komenciEnabled = features.KOMENCI
-
   beforeAll(() => {
-    features.KOMENCI = false
     jest.useRealTimers()
-  })
-
-  afterAll(() => {
-    features.KOMENCI = komenciEnabled
   })
 
   beforeEach(() => {
@@ -322,23 +314,6 @@ describe('SendConfirmation', () => {
 
     expect(tree.queryByTestId('accountEditButton')).toBeNull()
   })
-})
-
-describe('SendConfirmation with Komenci enabled', () => {
-  const komenciEnabled = features.KOMENCI
-
-  beforeAll(() => {
-    features.KOMENCI = true
-    jest.useRealTimers()
-  })
-
-  afterAll(() => {
-    features.KOMENCI = komenciEnabled
-  })
-
-  beforeEach(() => {
-    mockedGetSendFee.mockClear()
-  })
 
   it('renders correct modal for invitations', async () => {
     mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
@@ -349,15 +324,14 @@ describe('SendConfirmation with Komenci enabled', () => {
       },
     })
 
-    const tree = render(
+    const { queryByTestId, getByTestId } = render(
       <Provider store={store}>
         <SendConfirmation {...mockInviteScreenProps} />
       </Provider>
     )
 
-    expect(tree).toMatchSnapshot()
-    expect(tree.queryByTestId('InviteAndSendModal')?.props.isVisible).toBe(false)
-    fireEvent.press(tree.getByTestId('ConfirmButton'))
-    expect(tree.queryByTestId('InviteAndSendModal')?.props.isVisible).toBe(true)
+    expect(queryByTestId('InviteAndSendModal')?.props.isVisible).toBe(false)
+    fireEvent.press(getByTestId('ConfirmButton'))
+    expect(queryByTestId('InviteAndSendModal')?.props.isVisible).toBe(true)
   })
 })

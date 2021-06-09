@@ -1,45 +1,17 @@
 import { CeloTxReceipt } from '@celo/connect'
-import { StableToken } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
-import { Linking, Platform, Share } from 'react-native'
-import SendIntentAndroid from 'react-native-send-intent'
-import SendSMS from 'react-native-sms'
+import { Share } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
-import * as matchers from 'redux-saga-test-plan/matchers'
-import { throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
 import { PincodeType } from 'src/account/reducer'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { WEB_LINK } from 'src/brandingConfig'
 import { generateShortInviteLink } from 'src/firebase/dynamicLinks'
-import { features } from 'src/flags'
 import i18n from 'src/i18n'
-import { updateE164PhoneNumberAddresses } from 'src/identity/actions'
-import {
-  InviteBy,
-  redeemInvite,
-  redeemInviteFailure,
-  redeemInviteSuccess,
-  sendInvite,
-  SENTINEL_INVITE_COMMENT,
-  storeInviteeData,
-} from 'src/invite/actions'
-import {
-  generateInviteLink,
-  initiateEscrowTransfer,
-  moveAllFundsFromAccount,
-  sendInvite as sendInviteSaga,
-  watchRedeemInvite,
-  watchSendInvite,
-} from 'src/invite/saga'
-import { getSendFee } from 'src/send/saga'
-import { fetchStableBalances, transferStableToken } from 'src/stableToken/actions'
+import { storeInviteeData } from 'src/invite/actions'
+import { generateInviteLink, initiateEscrowTransfer, sendInvite } from 'src/invite/saga'
 import { transactionConfirmed } from 'src/transactions/actions'
-import { waitForTransactionWithId } from 'src/transactions/saga'
 import { Currency } from 'src/utils/currencies'
-import { getContractKitAsync } from 'src/web3/contracts'
-import { getConnectedUnlockedAccount, getOrCreateAccount, waitWeb3LastBlock } from 'src/web3/saga'
+import { getConnectedUnlockedAccount, waitWeb3LastBlock } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockE164Number, mockInviteDetails } from 'test/values'
 
@@ -57,13 +29,6 @@ const mockReceipt: CeloTxReceipt = {
   gasUsed: 31502,
   logs: [],
   logsBloom: '',
-}
-
-const TEST_FEE_INFO_CUSD = {
-  fee: new BigNumber(10).pow(16),
-  gas: new BigNumber(200000),
-  gasPrice: new BigNumber(10).pow(9).times(5),
-  currency: Currency.Dollar,
 }
 
 jest.mock('src/firebase/dynamicLinks', () => ({
@@ -88,8 +53,6 @@ jest.mock('src/config', () => {
   }
 })
 
-SendIntentAndroid.sendSms = jest.fn()
-SendSMS.send = jest.fn()
 Share.share = jest.fn()
 
 const state = createMockStore({
@@ -97,166 +60,27 @@ const state = createMockStore({
   account: { pincodeType: PincodeType.CustomPin },
 }).getState()
 
-describe(watchSendInvite, () => {
-  const komenciEnabled = features.KOMENCI
-
-  beforeAll(() => {
-    jest.useRealTimers()
-    features.KOMENCI = false
-  })
-
-  afterAll(() => {
-    features.KOMENCI = komenciEnabled
-  })
-
-  const dateNowStub = jest.fn(() => 1588200517518)
-  global.Date.now = dateNowStub
-
-  it.skip('sends an SMS invite on Android as expected', async () => {
-    Platform.OS = 'android'
-    await expectSaga(watchSendInvite)
-      .provide([
-        [call(waitWeb3LastBlock), true],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [matchers.call.fn(waitForTransactionWithId), 'a uuid'],
-      ])
-      .withState(state)
-      .dispatch(sendInvite(mockInviteDetails.e164Number, InviteBy.SMS))
-      .dispatch(transactionConfirmed('a uuid', mockReceipt))
-      .put(
-        transferStableToken({
-          recipientAddress: mockAccount,
-          amount: '0.30',
-          comment: SENTINEL_INVITE_COMMENT,
-          context: { id: 'a uuid' },
-        })
-      )
-      .put(storeInviteeData(mockInviteDetails))
-      .put(
-        updateE164PhoneNumberAddresses(
-          {},
-          { [mockAccount.toLowerCase()]: mockInviteDetails.e164Number }
-        )
-      )
-      .run()
-
-    expect(SendIntentAndroid.sendSms).toHaveBeenCalled()
-  })
-
-  it.skip('sends an SMS invite on iOS as expected', async () => {
-    Platform.OS = 'ios'
-    await expectSaga(watchSendInvite)
-      .provide([
-        [call(waitWeb3LastBlock), true],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [matchers.call.fn(waitForTransactionWithId), 'a uuid'],
-      ])
-      .withState(state)
-      .dispatch(sendInvite(mockInviteDetails.e164Number, InviteBy.SMS))
-      .dispatch(transactionConfirmed('a uuid', mockReceipt))
-      .put(
-        transferStableToken({
-          recipientAddress: mockAccount,
-          amount: '0.30',
-          comment: SENTINEL_INVITE_COMMENT,
-          context: { id: 'a uuid' },
-        })
-      )
-      .put(storeInviteeData(mockInviteDetails))
-      .put(
-        updateE164PhoneNumberAddresses(
-          {},
-          { [mockAccount.toLowerCase()]: mockInviteDetails.e164Number }
-        )
-      )
-      .run()
-
-    expect(SendSMS.send).toHaveBeenCalled()
-  })
-
-  it.skip('sends a WhatsApp invite on Android as expected', async () => {
-    Platform.OS = 'android'
-    await expectSaga(watchSendInvite)
-      .provide([
-        [call(waitWeb3LastBlock), true],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [matchers.call.fn(waitForTransactionWithId), 'a uuid'],
-      ])
-      .withState(state)
-      .dispatch(sendInvite(mockInviteDetails.e164Number, InviteBy.WhatsApp))
-      .dispatch(transactionConfirmed('a uuid', mockReceipt))
-      .put(
-        transferStableToken({
-          recipientAddress: mockAccount,
-          amount: '0.30',
-          comment: SENTINEL_INVITE_COMMENT,
-          context: { id: 'a uuid' },
-        })
-      )
-      .put(storeInviteeData(mockInviteDetails))
-      .run()
-
-    expect(Linking.openURL).toHaveBeenCalled()
-  })
-
-  it.skip('sends a WhatsApp invite on iOS as expected', async () => {
-    Platform.OS = 'ios'
-    await expectSaga(watchSendInvite)
-      .provide([
-        [call(waitWeb3LastBlock), true],
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [matchers.call.fn(waitForTransactionWithId), 'a uuid'],
-      ])
-      .withState(state)
-      .dispatch(sendInvite(mockInviteDetails.e164Number, InviteBy.WhatsApp))
-      .dispatch(transactionConfirmed('a uuid', mockReceipt))
-      .put(
-        transferStableToken({
-          recipientAddress: mockAccount,
-          amount: '0.30',
-          comment: SENTINEL_INVITE_COMMENT,
-          context: { id: 'a uuid' },
-        })
-      )
-      .put(storeInviteeData(mockInviteDetails))
-      .run()
-
-    expect(Linking.openURL).toHaveBeenCalled()
-  })
-})
-
-describe('watchSendInvite with Komenci enabled', () => {
-  const komenciEnabled = features.KOMENCI
-  const escrowWithoutCodeEnabled = features.ESCROW_WITHOUT_CODE
+describe(sendInvite, () => {
   const AMOUNT_TO_SEND = new BigNumber(10)
 
   beforeAll(() => {
     jest.useRealTimers()
-    features.KOMENCI = true
-    features.ESCROW_WITHOUT_CODE = true
-  })
-
-  afterAll(() => {
-    features.KOMENCI = komenciEnabled
-    features.ESCROW_WITHOUT_CODE = escrowWithoutCodeEnabled
   })
 
   const dateNowStub = jest.fn(() => 1588200517518)
   global.Date.now = dateNowStub
 
-  it.skip('sends an invite as expected', async () => {
+  it('sends an invite as expected', async () => {
     i18n.t = jest.fn((key) => key)
 
-    await expectSaga(watchSendInvite)
+    await expectSaga(sendInvite)
       .provide([
         [call(waitWeb3LastBlock), true],
         [call(getConnectedUnlockedAccount), mockAccount],
-        [call(initiateEscrowTransfer, mockE164Number, AMOUNT_TO_SEND), undefined],
+        [call(initiateEscrowTransfer, mockE164Number, AMOUNT_TO_SEND, Currency.Dollar), undefined],
       ])
       .withState(state)
-      .dispatch(
-        sendInvite(mockInviteDetails.e164Number, InviteBy.SMS, AMOUNT_TO_SEND, Currency.Dollar)
-      )
+      .dispatch(storeInviteeData(mockInviteDetails))
       .dispatch(transactionConfirmed('a uuid', mockReceipt))
       .run()
 
@@ -265,84 +89,6 @@ describe('watchSendInvite with Komenci enabled', () => {
       link: WEB_LINK,
     })
     expect(Share.share).toHaveBeenCalledWith({ message: 'sendFlow7:inviteWithEscrowedPayment' })
-  })
-
-  it('adds invitee details when sending invite', async () => {
-    await expectSaga(
-      sendInviteSaga,
-      mockInviteDetails.e164Number,
-      InviteBy.SMS,
-      AMOUNT_TO_SEND,
-      Currency.Dollar
-    )
-      .put(storeInviteeData(mockInviteDetails))
-      .run()
-  })
-})
-
-describe(watchRedeemInvite, () => {
-  beforeAll(() => {
-    jest.useRealTimers()
-  })
-
-  it('works with a valid private key and enough money on it', async () => {
-    await expectSaga(watchRedeemInvite)
-      .provide([
-        [call(waitWeb3LastBlock), true],
-        [call(getOrCreateAccount), mockAccount],
-        [matchers.call.fn(getSendFee), TEST_FEE_INFO_CUSD],
-      ])
-      .withState(state)
-      .dispatch(redeemInvite(mockKey))
-      .put(fetchStableBalances())
-      .put(redeemInviteSuccess())
-      .run()
-  })
-
-  it('fails with a valid private key but unsuccessful transfer', async () => {
-    await expectSaga(watchRedeemInvite)
-      .provide([
-        [call(waitWeb3LastBlock), true],
-        [call(getOrCreateAccount), mockAccount],
-        [matchers.call.fn(moveAllFundsFromAccount), throwError(new Error('fake error'))],
-      ])
-      .withState(state)
-      .dispatch(redeemInvite(mockKey))
-      .put(showError(ErrorMessages.REDEEM_INVITE_FAILED))
-      .put(redeemInviteFailure())
-      .run()
-  })
-
-  it('fails with a valid private key but no money on key', async () => {
-    const stableToken = await (await getContractKitAsync()).contracts.getStableToken(
-      StableToken.cUSD
-    )
-    // @ts-ignore Jest Mock
-    stableToken.balanceOf.mockResolvedValueOnce(new BigNumber(0))
-
-    await expectSaga(watchRedeemInvite)
-      .provide([
-        [call(waitWeb3LastBlock), true],
-        [call(getOrCreateAccount), mockAccount],
-      ])
-      .withState(state)
-      .dispatch(redeemInvite(mockKey))
-      .put(showError(ErrorMessages.EMPTY_INVITE_CODE))
-      .put(redeemInviteFailure())
-      .run()
-  })
-
-  it('fails with error creating account', async () => {
-    await expectSaga(watchRedeemInvite)
-      .provide([
-        [call(waitWeb3LastBlock), true],
-        [call(getOrCreateAccount), throwError(new Error('fake error'))],
-      ])
-      .withState(state)
-      .dispatch(redeemInvite(mockKey))
-      .put(showError(ErrorMessages.REDEEM_INVITE_FAILED))
-      .put(redeemInviteFailure())
-      .run()
   })
 })
 

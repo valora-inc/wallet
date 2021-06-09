@@ -5,6 +5,7 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { iconHitslop } from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
+import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -16,10 +17,9 @@ import { TokenTransactionType } from 'src/apollo/types'
 import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
-import CurrencyDisplay, { DisplayType } from 'src/components/CurrencyDisplay'
+import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import FeeDrawer from 'src/components/FeeDrawer'
-import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { FeeType } from 'src/fees/actions'
@@ -29,8 +29,6 @@ import CalculateFee, {
 } from 'src/fees/CalculateFee'
 import { FeeInfo } from 'src/fees/saga'
 import { getFeeInTokens } from 'src/fees/selectors'
-import { features } from 'src/flags'
-import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import i18n, { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { fetchDataEncryptionKey } from 'src/identity/actions'
@@ -40,15 +38,11 @@ import {
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/reducer'
 import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
-import { InviteBy } from 'src/invite/actions'
 import InviteAndSendModal from 'src/invite/InviteAndSendModal'
-import { getInvitationVerificationFeeInDollars } from 'src/invite/saga'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
-import {
-  getLocalCurrencyCode,
-  getLocalCurrencyToDollarsExchangeRate,
-} from 'src/localCurrency/selectors'
+import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
+import { useCurrencyToLocalAmountExchangeRate } from 'src/localCurrency/hooks'
+import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { modalScreenOptions } from 'src/navigator/Navigator'
@@ -61,14 +55,14 @@ import { isSendingSelector } from 'src/send/selectors'
 import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchStableBalances } from 'src/stableToken/actions'
-import { cUsdBalanceSelector } from 'src/stableToken/selectors'
+import { useBalance } from 'src/stableToken/hooks'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector, isDekRegisteredSelector } from 'src/web3/selectors'
 
 export interface CurrencyInfo {
   localCurrencyCode: LocalCurrencyCode
-  localExchangeRate: string
+  localExchangeRate: string | null
 }
 
 type OwnProps = StackScreenProps<
@@ -106,6 +100,7 @@ function SendConfirmation(props: Props) {
   const {
     type,
     amount,
+    currency,
     recipient,
     recipientAddress,
     firebasePendingRequestUid,
@@ -122,16 +117,15 @@ function SendConfirmation(props: Props) {
   )
   const account = useSelector(currentAccountSelector)
   const isSending = useSelector(isSendingSelector)
-  const dollarBalance = useSelector(cUsdBalanceSelector) ?? '0'
-  const celoBalance = useSelector(celoTokenBalanceSelector) ?? '0'
+  const balance = useBalance(currency)
+  const celoBalance = useBalance(Currency.Celo)
   const appConnected = useSelector(isAppConnected)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
 
   let newCurrencyInfo: CurrencyInfo = {
     localCurrencyCode: useSelector(getLocalCurrencyCode),
-    // tslint:disable-next-line: react-hooks-nesting
-    localExchangeRate: useSelector(getLocalCurrencyToDollarsExchangeRate) || '',
+    localExchangeRate: useCurrencyToLocalAmountExchangeRate(currency),
   }
   if (currencyInfo) {
     newCurrencyInfo = currencyInfo
@@ -143,7 +137,7 @@ function SendConfirmation(props: Props) {
       Logger.showMessage(t('sendFlow7:addressConfirmed'))
     }
     triggerFetchDataEncryptionKey()
-  }, []) // only fired once, due to empty dependency array, mimicking componentDidMount
+  }, [])
 
   const triggerFetchDataEncryptionKey = () => {
     const address = confirmationInput.recipientAddress
@@ -160,13 +154,13 @@ function SendConfirmation(props: Props) {
     }
   }
 
-  const sendOrInvite = (inviteMethod?: InviteBy) => {
+  const sendOrInvite = () => {
     const finalComment =
       type === TokenTransactionType.PayRequest || type === TokenTransactionType.PayPrefill
         ? reason || ''
         : comment
 
-    const localCurrencyAmount = convertDollarsToLocalAmount(
+    const localCurrencyAmount = convertCurrencyToLocalAmount(
       amount,
       newCurrencyInfo.localExchangeRate
     )
@@ -179,18 +173,18 @@ function SendConfirmation(props: Props) {
       localCurrencyExchangeRate: newCurrencyInfo.localExchangeRate,
       localCurrency: newCurrencyInfo.localCurrencyCode,
       dollarAmount: amount.toString(),
-      localCurrencyAmount: localCurrencyAmount ? localCurrencyAmount.toString() : null,
+      localCurrencyAmount: localCurrencyAmount?.toString() ?? null,
       commentLength: finalComment.length,
     })
 
     dispatch(
       sendPaymentOrInvite(
         amount,
+        currency,
         finalComment,
         recipient,
         recipientAddress,
         feeInfo,
-        inviteMethod,
         firebasePendingRequestUid,
         fromModal
       )
@@ -215,16 +209,6 @@ function SendConfirmation(props: Props) {
     sendOrInvite()
   }
 
-  const sendWhatsApp = () => {
-    setModalVisible(false)
-    sendOrInvite(InviteBy.WhatsApp)
-  }
-
-  const sendSMS = () => {
-    setModalVisible(false)
-    sendOrInvite(InviteBy.SMS)
-  }
-
   const onBlur = () => {
     const trimmedComment = comment.trim()
     setComment(trimmedComment)
@@ -239,6 +223,9 @@ function SendConfirmation(props: Props) {
   }
 
   const renderWithAsyncFee: CalculateFeeChildren = (asyncFee) => {
+    if (!balance) {
+      return
+    }
     const fee = getFeeInTokens(asyncFee.result?.fee)
 
     // Check if the fee info has been updated and set it in the component state for use in sending.
@@ -250,19 +237,20 @@ function SendConfirmation(props: Props) {
     // TODO(victor): If CELO is used to pay fees, it cannot be added to the cUSD ammount. We should
     // fix this at some point, but because only cUSD is used for fees right now, it is not an issue.
     const amountWithFee =
-      asyncFee.result?.currency === Currency.Dollar ? amount.plus(fee ?? 0) : amount
+      asyncFee.result?.currency !== Currency.Celo ? amount.plus(fee ?? 0) : amount
     const userHasEnough =
       !asyncFee.loading &&
-      amountWithFee.isLessThanOrEqualTo(dollarBalance) &&
-      (asyncFee.result?.currency !== Currency.Celo || !fee || fee?.isLessThanOrEqualTo(celoBalance))
+      amountWithFee.isLessThanOrEqualTo(balance) &&
+      (asyncFee.result?.currency !== Currency.Celo ||
+        !fee ||
+        fee?.isLessThanOrEqualTo(celoBalance ?? new BigNumber(0)))
     const isPrimaryButtonDisabled = isSending || !userHasEnough || !appConnected || !!asyncFee.error
 
     const isInvite = type === TokenTransactionType.InviteSent
-    const inviteFee = getInvitationVerificationFeeInDollars()
 
     const subtotalAmount = {
-      value: amount.isGreaterThan(0) ? amount : inviteFee,
-      currencyCode: Currency.Dollar,
+      value: amount,
+      currencyCode: currency,
     }
 
     let primaryBtnInfo
@@ -285,11 +273,7 @@ function SendConfirmation(props: Props) {
     const FeeContainer = () => {
       let securityFee
       let dekFee
-      if (isInvite && fee && !features.KOMENCI) {
-        // 'fee' already contains the invitation fee for invites
-        // so we adjust it here
-        securityFee = fee.minus(inviteFee)
-      } else if (!isDekRegistered && fee) {
+      if (!isDekRegistered && fee) {
         // 'fee' contains cost for both DEK registration and
         // send payment so we adjust it here
         securityFee = fee.dividedBy(2)
@@ -304,7 +288,7 @@ function SendConfirmation(props: Props) {
       }
       const totalAmount = {
         value: amountWithFee,
-        currencyCode: Currency.Dollar,
+        currencyCode: currency,
       }
 
       return (
@@ -313,8 +297,6 @@ function SendConfirmation(props: Props) {
             testID={'feeDrawer/SendConfirmation'}
             isEstimate={true}
             currency={asyncFee.result?.currency}
-            inviteFee={inviteFee}
-            isInvite={isInvite && !features.KOMENCI}
             securityFee={securityFee}
             showDekfee={!isDekRegistered}
             dekFee={dekFee}
@@ -374,7 +356,6 @@ function SendConfirmation(props: Props) {
               </View>
             </View>
             <CurrencyDisplay
-              type={DisplayType.Default}
               style={styles.amount}
               amount={subtotalAmount}
               currencyInfo={newCurrencyInfo}
@@ -393,21 +374,12 @@ function SendConfirmation(props: Props) {
               />
             )}
           </View>
-          {features.KOMENCI ? (
-            <InviteAndSendModal
-              isVisible={modalVisible}
-              name={getDisplayName(transactionData.recipient, t)}
-              onInvite={sendInvite}
-              onCancel={cancelModal}
-            />
-          ) : (
-            <InviteOptionsModal
-              isVisible={modalVisible}
-              onWhatsApp={sendWhatsApp}
-              onSMS={sendSMS}
-              onCancel={cancelModal}
-            />
-          )}
+          <InviteAndSendModal
+            isVisible={modalVisible}
+            name={getDisplayName(transactionData.recipient, t)}
+            onInvite={sendInvite}
+            onCancel={cancelModal}
+          />
           {/** Encryption warning dialog */}
           <Dialog
             title={t('encryption.warningModalHeader')}
@@ -422,7 +394,7 @@ function SendConfirmation(props: Props) {
     )
   }
 
-  if (!account) {
+  if (!account || !balance) {
     throw Error('Account is required')
   }
   const feeProps: CalculateFeeProps = recipientAddress
@@ -431,10 +403,11 @@ function SendConfirmation(props: Props) {
         account,
         recipientAddress,
         amount: amount.valueOf(),
-        dollarBalance,
+        currency,
+        balance: balance.toString(),
         includeDekFee: !isDekRegistered,
       }
-    : { feeType: FeeType.INVITE, account, amount, dollarBalance }
+    : { feeType: FeeType.INVITE, account, amount, currency, balance: balance.toString() }
 
   return (
     // Note: intentionally passing a new child func here otherwise

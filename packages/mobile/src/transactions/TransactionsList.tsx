@@ -98,15 +98,15 @@ function mapExchangeStandbyToFeedItem(
   localCurrencyCode: LocalCurrencyCode,
   localCurrencyExchangeRate: string | null | undefined
 ): FeedItem {
-  const { type, hash, status, timestamp, inValue, inSymbol, outValue, outSymbol } = standbyTx
+  const { type, hash, status, timestamp, inValue, inCurrency, outValue, outCurrency } = standbyTx
 
   const inAmount = {
     value: new BigNumber(inValue),
-    currencyCode: inSymbol,
+    currencyCode: inCurrency,
   }
   const outAmount = {
     value: new BigNumber(outValue),
-    currencyCode: outSymbol,
+    currencyCode: outCurrency,
   }
 
   const exchangeRate = new BigNumber(outAmount.value).dividedBy(inAmount.value)
@@ -160,7 +160,7 @@ function mapTransferStandbyToFeedItem(
   localCurrencyCode: LocalCurrencyCode,
   localCurrencyExchangeRate: string | null | undefined
 ): FeedItem {
-  const { type, hash, status, timestamp, value, symbol, address, comment } = standbyTx
+  const { type, hash, status, timestamp, value, currency, address, comment } = standbyTx
 
   return {
     __typename: 'TokenTransfer',
@@ -173,7 +173,7 @@ function mapTransferStandbyToFeedItem(
         // Signed amount relative to the queried account currency
         // Standby transfers are always outgoing
         value: new BigNumber(value).multipliedBy(-1),
-        currencyCode: symbol,
+        currencyCode: currency,
       },
       localCurrencyCode,
       localCurrencyExchangeRate
@@ -261,9 +261,9 @@ export class TransactionsList extends React.PureComponent<Props> {
         .filter((tx) => {
           const isForQueriedCurrency =
             feedType === FeedType.HOME ||
-            (tx as TransferStandby).symbol === currency ||
-            (tx as ExchangeStandby).inSymbol === currency ||
-            (tx as ExchangeStandby).outSymbol === currency
+            (tx as TransferStandby).currency === currency ||
+            (tx as ExchangeStandby).inCurrency === currency ||
+            (tx as ExchangeStandby).outCurrency === currency
           const notInQueryTxs =
             (!tx.hash || !queryDataTxHashes.has(tx.hash)) && tx.status !== TransactionStatus.Failed
           return isForQueriedCurrency && notInQueryTxs

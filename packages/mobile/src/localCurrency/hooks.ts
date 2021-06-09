@@ -73,3 +73,7 @@ export function useConvertBetweenCurrencies(amount: BigNumber, from: Currency, t
     return convertLocalAmountToCurrency(localAmount, exchangeRates[to])
   }, [amount, exchangeRates, from, to])
 }
+
+export function useCurrencyToLocalAmountExchangeRate(currency: Currency) {
+  return useSelector(localCurrencyExchangeRatesSelector)[currency]
+}
