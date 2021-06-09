@@ -91,7 +91,7 @@ export async function indexEvents(
           ...payloadMapper(event),
         })
       })
-      setLastBlock(key, toBlock)
+      await setLastBlock(key, toBlock)
     }
   } catch (error) {
     console.error(TAG, `${key} - Error while handling events`, error)
