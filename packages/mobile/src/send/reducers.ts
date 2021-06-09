@@ -21,6 +21,7 @@ export interface State {
   inviteRewardsEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
+  showSendToAddressWarning: boolean
 }
 
 const initialState = {
@@ -30,6 +31,7 @@ const initialState = {
   inviteRewardsEnabled: false,
   inviteRewardCusd: 0,
   inviteRewardWeeklyLimit: 0,
+  showSendToAddressWarning: true,
 }
 
 export const sendReducer = (
@@ -76,6 +78,11 @@ export const sendReducer = (
         inviteRewardsEnabled: action.flags.inviteRewardsEnabled,
         inviteRewardCusd: action.flags.inviteRewardCusd,
         inviteRewardWeeklyLimit: action.flags.inviteRewardWeeklyLimit,
+      }
+    case Actions.SET_SHOW_WARNING:
+      return {
+        ...state,
+        showSendToAddressWarning: action.showWarning,
       }
     default:
       return state

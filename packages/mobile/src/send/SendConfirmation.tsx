@@ -54,7 +54,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName } from 'src/recipients/recipient'
 import { isAppConnected } from 'src/redux/selectors'
-import { sendPaymentOrInvite } from 'src/send/actions'
+import { sendPaymentOrInvite, storeLatestInRecents } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -157,6 +157,8 @@ function SendConfirmation(props: Props) {
   }
 
   const sendOrInvite = (inviteMethod?: InviteBy) => {
+    dispatch(storeLatestInRecents(recipient))
+
     const finalComment =
       type === TokenTransactionType.PayRequest || type === TokenTransactionType.PayPrefill
         ? reason || ''

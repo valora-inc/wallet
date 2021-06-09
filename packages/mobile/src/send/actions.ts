@@ -19,6 +19,7 @@ export enum Actions {
   SEND_PAYMENT_OR_INVITE = 'SEND/SEND_PAYMENT_OR_INVITE',
   SEND_PAYMENT_OR_INVITE_SUCCESS = 'SEND/SEND_PAYMENT_OR_INVITE_SUCCESS',
   SEND_PAYMENT_OR_INVITE_FAILURE = 'SEND/SEND_PAYMENT_OR_INVITE_FAILURE',
+  SET_SHOW_WARNING = 'SEND/SHOW_WARNING',
 }
 
 export interface HandleBarcodeDetectedAction {
@@ -61,6 +62,11 @@ export interface SendPaymentOrInviteFailureAction {
   type: Actions.SEND_PAYMENT_OR_INVITE_FAILURE
 }
 
+export interface SetShowWarningAction {
+  type: Actions.SET_SHOW_WARNING
+  showWarning: boolean
+}
+
 export type ActionTypes =
   | HandleBarcodeDetectedAction
   | ShareQRCodeAction
@@ -68,6 +74,7 @@ export type ActionTypes =
   | SendPaymentOrInviteAction
   | SendPaymentOrInviteSuccessAction
   | SendPaymentOrInviteFailureAction
+  | SetShowWarningAction
 
 export const storeLatestInRecents = (recipient: Recipient): StoreLatestInRecentsAction => ({
   type: Actions.STORE_LATEST_IN_RECENTS,
@@ -124,4 +131,9 @@ export const sendPaymentOrInviteSuccess = (
 
 export const sendPaymentOrInviteFailure = (): SendPaymentOrInviteFailureAction => ({
   type: Actions.SEND_PAYMENT_OR_INVITE_FAILURE,
+})
+
+export const setShowWarning = (showWarning: boolean): SetShowWarningAction => ({
+  type: Actions.SET_SHOW_WARNING,
+  showWarning,
 })
