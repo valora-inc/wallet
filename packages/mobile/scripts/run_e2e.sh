@@ -24,16 +24,18 @@ RELEASE=false
 NET_DELAY="none"
 DEV_MODE=false
 FILE_TO_RUN=""
-WORKERS=2
+TEST_MATCH=""
+WORKERS=1
 RETRIES=0
-while getopts 'p:t:v:n:w:j:rd' flag; do
+while getopts 'p:f:t:v:n:w:j:rd' flag; do
   case "${flag}" in
     p) PLATFORM="$OPTARG" ;;
     v) VD_NAME="$OPTARG" ;;
     r) RELEASE=true ;;
     n) NET_DELAY="$OPTARG" ;;
     d) DEV_MODE=true ;;
-    t) FILE_TO_RUN=$OPTARG ;;
+    f) FILE_TO_RUN=$OPTARG ;;
+    t) TEST_MATCH=$OPTARG ;;
     w) WORKERS="$OPTARG" ;;
     j) RETRIES="$OPTARG" ;;
     *) error "Unexpected option ${flag}" ;;
@@ -101,6 +103,10 @@ runTest() {
   if [[ $DEV_MODE == true ]]; then
     extra_param="--reuse"
   fi
+  test_match=""
+  if [[ $TEST_MATCH ]]; then
+    test_match="-t='$TEST_MATCH'"
+  fi
   yarn detox test \
     --configuration $CONFIG_NAME \
     "${FILE_TO_RUN}" \
@@ -112,6 +118,7 @@ runTest() {
     --workers $WORKERS \
     --retries $RETRIES \
     --headless \
+    "${test_match}" \
     "${extra_param}" 
   TEST_STATUS=$?
 }
