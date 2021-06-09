@@ -248,7 +248,7 @@ jobs:
           command: emulator -accel-check
 
       - run:
-          name: Run e2e tests
+          name: Run build verification e2e tests
           command: |
             set -euo pipefail
             cd packages/mobile
@@ -360,11 +360,11 @@ jobs:
           paths:
             - ~/Library/Detox/ios
       - run:
-          name: Run e2e tests
+          name: Run build verification e2e tests
           command: |
             set -euo pipefail
             cd packages/mobile
-            yarn run test:e2e:ios
+            yarn run test:e2e:ios -w 2
       - store_artifacts:
           path: packages/mobile/e2e/artifacts
           destination: mobile/e2e/artifacts
