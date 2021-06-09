@@ -5,12 +5,11 @@ import {
   getSecurityCodePrefix,
 } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
+import { AttestationRequest } from '@celo/utils/lib/io'
 import { Platform } from 'react-native'
 import { call, delay, put, select } from 'redux-saga/effects'
 import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-
-import { AttestationRequest } from '@celo/utils/lib/io'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
 import { SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
@@ -22,10 +21,10 @@ import {
   OnChainVerificationStatus,
   reportRevealStatus,
   requestAttestations,
-  REVEAL_RETRY_DELAY,
   RevealStatus,
   RevealStatuses,
   revealStatusesSelector,
+  REVEAL_RETRY_DELAY,
   setLastRevealAttempt,
   setRevealStatuses,
   shouldUseKomenciSelector,
@@ -90,9 +89,11 @@ export function* revealAttestationsSaga() {
     }
   }
 
-  yield put(setLastRevealAttempt(Date.now()))
-  revealStatuses = yield select(revealStatusesSelector)
+  if (notRevealedActionableAttestations.length) {
+    yield put(setLastRevealAttempt(Date.now()))
+  }
 
+  revealStatuses = yield select(revealStatusesSelector)
   const revealedActionableAttestations = actionableAttestations.filter(
     (aa) => revealStatuses[aa.issuer] === RevealStatus.Revealed
   )
