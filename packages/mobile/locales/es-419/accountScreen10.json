@@ -99,5 +99,6 @@
   "raiseLimitEmailNotSent": "Tu solicitud no fue enviada. Por favor, inténtalo de nuevo.",
   "storeRecoveryTitle": "Necesitamos que vuelvas a configurar tu cuenta",
   "storeRecoveryBody": "Ha habido un error. Estamos al tanto del problema y estamos trabajamos para solucionarlo. Mientras tanto, tendrás que volver a completar el proceso de configuración.",
-  "storeRecoveryButton": "Restablecer cuenta"
+  "storeRecoveryButton": "Restablecer cuenta",
+  "tapToCopy": "Toca para copiar"
 }
