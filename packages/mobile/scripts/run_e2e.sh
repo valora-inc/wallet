@@ -16,6 +16,7 @@ export ENVFILE="${ENVFILE:-.env.test}"
 # -n (Optional): Network delay (gsm, hscsd, gprs, edge, umts, hsdpa, lte, evdo, none)
 # -d (Optional): Run in dev mode, which doesn't rebuild or reinstall the app and doesn't restart the packager.
 # -t (Optional): Run a specific test file only.
+# -w (Optional): Run specifies the number of emulators to run tests in parallel default is 3
 
 PLATFORM=""
 VD_NAME="Pixel_API_29_AOSP_x86_64"
@@ -23,7 +24,9 @@ RELEASE=false
 NET_DELAY="none"
 DEV_MODE=false
 FILE_TO_RUN=""
-while getopts 'p:t:v:n:rd' flag; do
+WORKERS=2
+RETRIES=0
+while getopts 'p:t:v:n:w:j:rd' flag; do
   case "${flag}" in
     p) PLATFORM="$OPTARG" ;;
     v) VD_NAME="$OPTARG" ;;
@@ -31,6 +34,8 @@ while getopts 'p:t:v:n:rd' flag; do
     n) NET_DELAY="$OPTARG" ;;
     d) DEV_MODE=true ;;
     t) FILE_TO_RUN=$OPTARG ;;
+    w) WORKERS="$OPTARG" ;;
+    j) RETRIES="$OPTARG" ;;
     *) error "Unexpected option ${flag}" ;;
   esac
 done
@@ -40,6 +45,12 @@ export NUM_RETRIES='0'
 
 [ -z "$PLATFORM" ] && echo "Need to set the PLATFORM via the -p flag" && exit 1;
 echo "Network delay: $NET_DELAY"
+
+# Android can't handle multiple instances
+if [ "$PLATFORM" == "android" ]; then
+  WORKERS=1
+fi
+
 
 # Start the packager and wait until ready
 startPackager() {
@@ -94,10 +105,13 @@ runTest() {
     --configuration $CONFIG_NAME \
     "${FILE_TO_RUN}" \
     --artifacts-location e2e/artifacts \
-    --take-screenshots=all \
-    --record-logs=all \
-    --detectOpenHandles \
+    --take-screenshots=failing \
+    --record-logs=failing \
     --loglevel verbose \
+    --debug-synchronization 1000 \
+    --workers $WORKERS \
+    --retries $RETRIES \
+    --headless \
     "${extra_param}" 
   TEST_STATUS=$?
 }
@@ -141,7 +155,7 @@ if [ $PLATFORM = "android" ]; then
     yarn detox build -c $CONFIG_NAME
 
     startPackager
-
+    
     NUM_DEVICES=`adb devices -l | wc -l`
     if [ $NUM_DEVICES -gt 2 ]; then
       echo "Emulator already running or device attached. Please shutdown / remove first"
@@ -165,8 +179,10 @@ if [ $PLATFORM = "android" ]; then
     done
   fi
 
+  # Run Detox Tests
   runTest
 
+  # Close active emulators 
   if [ $DEV_MODE = false ]; then
     echo "Closing emulator (if active)"
     adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done

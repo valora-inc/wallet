@@ -4,8 +4,6 @@ export class ApiMetrics {
   private lastBlockNotified: Gauge<string>
   private numberSuccessfulNotifications: Counter<string>
   private numberUnsuccessfulNotifications: Counter<string>
-  private pendingRequestsSize: Gauge<string>
-  private numberUnnotifiedRequests: Gauge<string>
   private blockDelay: Histogram<string>
   private latestTokenTransfersDuration: Histogram<string>
   private notificationLatency: Histogram<string>
@@ -27,17 +25,6 @@ export class ApiMetrics {
       help:
         'Increments the Notifications Service encounters an error while dispatching a notification.',
       labelNames: ['notification_type'],
-    })
-
-    this.pendingRequestsSize = new Gauge({
-      name: 'pending_requests_count',
-      help:
-        'The current size of pendingRequestsRef, the reference to the pending requests array in Firebase.',
-    })
-
-    this.numberUnnotifiedRequests = new Gauge({
-      name: 'num_unnotified_requests',
-      help: 'The current number of pending requests where request.notified == false.',
     })
 
     this.blockDelay = new Histogram({
@@ -72,14 +59,6 @@ export class ApiMetrics {
 
   failedNotification(notificationType: string) {
     this.numberUnsuccessfulNotifications.inc({ notification_type: notificationType })
-  }
-
-  setPendingRequestsSize(count: number) {
-    this.pendingRequestsSize.set(count)
-  }
-
-  setNumberUnnotifiedRequests(count: number) {
-    this.numberUnnotifiedRequests.set(count)
   }
 
   setBlockDelay(count: number) {
