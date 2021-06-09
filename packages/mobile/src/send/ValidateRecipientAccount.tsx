@@ -203,7 +203,6 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
           <SingleDigitInput
             inputValue={singleDigitInputValueArr[index]}
             inputPlaceholder={placeholderValue}
-            // tslint:disable-next-line:jsx-no-lambda
             onInputChange={(value) => this.onSingleDigitInputChange(value, index)}
             testID={`SingleDigitInput/digit${index}`}
           />

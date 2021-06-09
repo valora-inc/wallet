@@ -1,9 +1,9 @@
-import dismissBanners from './utils/banners'
-import RestoreAccountOnboarding from './usecases/RestoreAccountOnboarding'
+import { quickOnboarding } from './utils/utils'
 import HandleDeepLinkDappkit from './usecases/HandleDeepLinkDappkit'
 
 describe('Deep Link with account dappkit', () => {
-  beforeEach(dismissBanners)
-  describe('Onboarding', RestoreAccountOnboarding)
+  beforeAll(async () => {
+    await quickOnboarding()
+  })
   describe('HandleDeepLinkDappkit', HandleDeepLinkDappkit)
 })

@@ -4,12 +4,9 @@ export class ApiMetrics {
   private lastBlockNotified: Gauge<string>
   private numberSuccessfulNotifications: Counter<string>
   private numberUnsuccessfulNotifications: Counter<string>
-  private pendingRequestsSize: Gauge<string>
-  private numberUnnotifiedRequests: Gauge<string>
   private blockDelay: Histogram<string>
   private latestTokenTransfersDuration: Histogram<string>
   private notificationLatency: Histogram<string>
-  private exchangeQueryDuration: Histogram<string>
 
   constructor() {
     this.lastBlockNotified = new Gauge({
@@ -28,17 +25,6 @@ export class ApiMetrics {
       help:
         'Increments the Notifications Service encounters an error while dispatching a notification.',
       labelNames: ['notification_type'],
-    })
-
-    this.pendingRequestsSize = new Gauge({
-      name: 'pending_requests_count',
-      help:
-        'The current size of pendingRequestsRef, the reference to the pending requests array in Firebase.',
-    })
-
-    this.numberUnnotifiedRequests = new Gauge({
-      name: 'num_unnotified_requests',
-      help: 'The current number of pending requests where request.notified == false.',
     })
 
     this.blockDelay = new Histogram({
@@ -61,13 +47,6 @@ export class ApiMetrics {
       help: 'Samples the execution duration of the getLatestTokenTransfers query to blockscout.',
       buckets: [10, 50, 100, 250, 500, 1000, 5000, 10000],
     })
-
-    this.exchangeQueryDuration = new Histogram({
-      name: 'handle_exchange_query_ms',
-      help:
-        'Samples the execution duration of the query within handleExchangeQuery, a measure of how long it takes to retrieve external exchange rates.',
-      buckets: [10, 50, 100, 250, 500, 1000, 5000, 10000],
-    })
   }
 
   setLastBlockNotified(lastBlockNotified: number) {
@@ -82,14 +61,6 @@ export class ApiMetrics {
     this.numberUnsuccessfulNotifications.inc({ notification_type: notificationType })
   }
 
-  setPendingRequestsSize(count: number) {
-    this.pendingRequestsSize.set(count)
-  }
-
-  setNumberUnnotifiedRequests(count: number) {
-    this.numberUnnotifiedRequests.set(count)
-  }
-
   setBlockDelay(count: number) {
     this.blockDelay.observe(count)
   }
@@ -100,10 +71,6 @@ export class ApiMetrics {
 
   setLatestTokenTransfersDuration(durationSeconds: number) {
     this.latestTokenTransfersDuration.observe(durationSeconds)
-  }
-
-  setExchangeQueryDuration(durationSeconds: number) {
-    this.exchangeQueryDuration.observe(durationSeconds)
   }
 }
 export const metrics = new ApiMetrics()

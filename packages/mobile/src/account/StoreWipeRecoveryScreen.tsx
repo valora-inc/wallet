@@ -53,9 +53,6 @@ function StoreWipeRecoveryScreen({ route }: Props) {
 StoreWipeRecoveryScreen.navOptions = noHeaderGestureDisabled
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   content: {
     flex: 1,
     marginHorizontal: Spacing.Thick24,
