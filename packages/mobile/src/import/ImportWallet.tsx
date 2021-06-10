@@ -71,6 +71,10 @@ const mapStateToProps = (state: RootState): StateProps => {
   }
 }
 
+/**
+ * Component shown to users when they are onboarding to the application through the import / recover
+ * wallet flow. Allows the user to input their mnemonic phrase to instantiate the account.
+ */
 export class ImportWallet extends React.Component<Props, State> {
   static navigationOptions = {
     ...nuxNavigationOptions,
