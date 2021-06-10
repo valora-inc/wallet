@@ -1,5 +1,5 @@
 {
-  "name": "@celo/eslint-config-typescript",
+  "name": "@valora/eslint-config-typescript",
   "version": "0.0.1",
   "main": "index.js",
   "author": "Celo",
