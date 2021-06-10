@@ -251,3 +251,11 @@ export async function scrollIntoView(scrollTo, scrollIn, speed = 350, direction 
       .scroll(speed, direction)
   } catch {}
 }
+
+export async function getDeviceModel() {
+  let modelName
+  device.getPlatform() === 'ios'
+    ? (modelName = await JSON.parse(device.name.split(/\s(.+)/)[1]).type)
+    : (modelName = device.name.split(/\s(.+)/)[1].replace(/[(]|[)]/g, ''))
+  return modelName
+}
