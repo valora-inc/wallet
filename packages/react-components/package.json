@@ -25,13 +25,13 @@
     "svgs": "^4.1.0"
   },
   "devDependencies": {
-    "@celo/eslint-config-typescript": "^0.0.1",
     "@celo/flake-tracker": "0.0.1-dev",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/react": "^16.9.34",
     "@types/react-native": "^0.63.37",
     "@types/react-native-autocomplete-input": "^4.0.1",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
+    "@valora/eslint-config-typescript": "^0.0.1",
     "eslint": "^7.27.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-react": "^7.24.0",
