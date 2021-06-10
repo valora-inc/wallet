@@ -30,7 +30,7 @@
   "pincodeSet": {
     "create": "Criar um PIN",
     "createNew": "Criar um novo PIN",
-    "verify": "Digite seu PIN novamente para confirmar",
+    "verify": "Insira seu PIN novamente para confirmar",
     "changePIN": "Alterar PIN",
     "pinsDontMatch": "Os PINs não coincidem",
     "invalidPin": "Use um PIN mais forte"
