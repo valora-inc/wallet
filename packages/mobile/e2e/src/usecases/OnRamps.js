@@ -1,5 +1,5 @@
 import { dismissBanners } from '../utils/banners'
-import { pixelDiff, sleep } from '../utils/utils'
+import { pixelDiff, getDeviceModel } from '../utils/utils'
 
 export default onRamps = () => {
   beforeEach(async () => {
@@ -30,81 +30,7 @@ export default onRamps = () => {
         await expect(element(by.id('Provider/Ramp'))).toBeVisible()
         await expect(element(by.id('Provider/Transak'))).toBeVisible()
         const imagePath = await device.takeScreenshot('Cash In Providers')
-        await pixelDiff(
-          imagePath,
-          device.getPlatform() === 'ios'
-            ? './e2e/assets/Cash In Providers - ios.png'
-            : './e2e/assets/Cash In Providers - android.png'
-        )
-      })
-
-      it('Then Should Be Able To Go Back', async () => {
-        // Check That We Navigate Away from The Previous Page
-        await expect(element(by.id('Provider/Simplex'))).toBeVisible()
-        device.getPlatform === 'ios'
-          ? await element(by.id('BackChevron')).atIndex(1).tap()
-          : await element(by.id('BackChevron')).atIndex(2).tap()
-        await expect(element(by.id('FiatExchangeNextButton'))).toBeVisible()
-      })
-
-      describe('External Providers', () => {
-        afterEach(async () => {
-          await device.sendToHome()
-          await device.launchApp({ newInstance: false })
-        })
-
-        // TODO: Check providers on Android
-        if (device.getPlatform() === 'ios') {
-          it('Then Should Be Able To Navigate To Moonpay', async () => {
-            await element(by.id('Provider/Moonpay')).tap()
-            await sleep(10000)
-            const imagePath = await device.takeScreenshot('Moonpay - ios')
-            await pixelDiff(
-              imagePath,
-              device.getPlatform() === 'ios'
-                ? './e2e/assets/Moonpay - ios.png'
-                : './e2e/assets/Moonpay - android.png'
-            )
-          })
-
-          it('Then Should Be Able To Navigate To Xanpool', async () => {
-            await element(by.id('Provider/Xanpool')).tap()
-            await sleep(10000)
-            const imagePath = await device.takeScreenshot('Xanpool - ios')
-            await pixelDiff(
-              imagePath,
-              device.getPlatform() === 'ios'
-                ? './e2e/assets/Xanpool - ios.png'
-                : './e2e/assets/Xanpool - android.png'
-            )
-          })
-
-          it('Then Should Be Able To Navigate To Transak', async () => {
-            await element(by.id('Provider/Transak')).tap()
-            await sleep(10000)
-            const imagePath = await device.takeScreenshot('Transak')
-            await pixelDiff(
-              imagePath,
-              device.getPlatform() === 'ios'
-                ? './e2e/assets/Transak - ios.png'
-                : './e2e/assets/Transak - android.png'
-            )
-          })
-        }
-
-        // Skipped Due To Flakey Test Dependent on Wait
-        it.skip('Then Should Be Able To Navigate To Simplex', async () => {
-          await element(by.id('Provider/Simplex')).tap()
-          await element(by.text('Continue to Simplex')).tap()
-          await sleep(15000)
-          const imagePath = await device.takeScreenshot('Simplex')
-          await pixelDiff(
-            imagePath,
-            device.getPlatform() === 'ios'
-              ? './e2e/assets/Simplex - ios.png'
-              : './e2e/assets/Simplex - android.png'
-          )
-        })
+        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Cash In Providers.png`)
       })
     })
 
@@ -123,29 +49,7 @@ export default onRamps = () => {
         await expect(element(by.id('Provider/Ramp'))).toBeVisible()
         await expect(element(by.id('Provider/Transak'))).toBeVisible()
         const imagePath = await device.takeScreenshot('Cash In Providers')
-        await pixelDiff(
-          imagePath,
-          device.getPlatform() === 'ios'
-            ? './e2e/assets/Cash In Providers - ios.png'
-            : './e2e/assets/Cash In Providers - android.png'
-        )
-      })
-
-      it('Then Should Be Able To Go Back And Forth And Retain User Input', async () => {
-        // Check That We Navigate Away from The Previous Page
-        await expect(element(by.id('Provider/Simplex'))).toBeVisible()
-        device.getPlatform === 'ios'
-          ? await element(by.id('BackChevron')).atIndex(1).tap()
-          : await element(by.id('BackChevron')).atIndex(2).tap()
-        await expect(element(by.id('Provider/Simplex'))).not.toBeVisible()
-        await expect(element(by.text('50.00'))).toBeVisible()
-        await element(by.id('FiatExchangeNextButton')).tap()
-        await expect(element(by.id('Provider/Simplex'))).toBeVisible()
-        await expect(
-          element(
-            by.text('Please select a provider below. These links connect to a third party service.')
-          )
-        ).toBeVisible()
+        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Cash In Providers.png`)
       })
     })
 
@@ -161,12 +65,7 @@ export default onRamps = () => {
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('accountNumberContainer'))).toBeVisible()
         const imagePath = await device.takeScreenshot('Cash In Exchanges')
-        await pixelDiff(
-          imagePath,
-          device.getPlatform() === 'ios'
-            ? './e2e/assets/Crypto In Exchanges - ios.png'
-            : './e2e/assets/Crypto In Exchanges - android.png'
-        )
+        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Cash In Exchanges.png`)
       })
     })
   })
@@ -190,22 +89,8 @@ export default onRamps = () => {
         await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
         await expect(element(by.id('Provider/Ramp'))).toBeVisible()
         await expect(element(by.id('Provider/Transak'))).toBeVisible()
-        const imagePath = await device.takeScreenshot('Cash In Exchanges')
-        await pixelDiff(
-          imagePath,
-          device.getPlatform() === 'ios'
-            ? './e2e/assets/Cash In Providers - ios.png'
-            : './e2e/assets/Cash In Providers - android.png'
-        )
-      })
-
-      it('Then Should Be Able To Go Back', async () => {
-        // Check That We Navigate Away from The Previous Page
-        await expect(element(by.id('Provider/Simplex'))).toBeVisible()
-        device.getPlatform === 'ios'
-          ? await element(by.id('BackChevron')).atIndex(1).tap()
-          : await element(by.id('BackChevron')).atIndex(2).tap()
-        await expect(element(by.id('FiatExchangeNextButton'))).toBeVisible()
+        const imagePath = await device.takeScreenshot('Cash In Providers')
+        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Cash In Providers.png`)
       })
     })
 
@@ -223,13 +108,8 @@ export default onRamps = () => {
         await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
         await expect(element(by.id('Provider/Ramp'))).toBeVisible()
         await expect(element(by.id('Provider/Transak'))).toBeVisible()
-        const imagePath = await device.takeScreenshot('Cash In Exchanges')
-        await pixelDiff(
-          imagePath,
-          device.getPlatform() === 'ios'
-            ? './e2e/assets/Cash In Providers - ios.png'
-            : './e2e/assets/Cash In Providers - android.png'
-        )
+        const imagePath = await device.takeScreenshot('Cash In Providers')
+        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Cash In Providers.png`)
       })
     })
 
@@ -251,9 +131,8 @@ export default onRamps = () => {
         const imagePath = await device.takeScreenshot('Crypto In Exchanges')
         await pixelDiff(
           imagePath,
-          device.getPlatform() === 'ios'
-            ? './e2e/assets/Crypto In Exchanges - ios.png'
-            : './e2e/assets/Crypto In Exchanges - android.png'
+          `./e2e/assets/${await getDeviceModel()}/Crypto In Exchanges.png`,
+          1
         )
       })
     })
