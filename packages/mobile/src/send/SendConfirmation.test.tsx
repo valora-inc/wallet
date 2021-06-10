@@ -1,7 +1,8 @@
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { fireEvent, render, waitForElement } from 'react-native-testing-library'
+import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
+import { ReactTestInstance } from 'react-test-renderer'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -11,7 +12,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getSendFee } from 'src/send/saga'
 import SendConfirmation from 'src/send/SendConfirmation'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount2Invite,
   mockAccountInvite,
@@ -51,77 +52,73 @@ const mockInviteScreenProps = getMockStackScreenProps(Screens.SendConfirmation, 
 })
 
 describe('SendConfirmation', () => {
-  beforeAll(() => {
-    jest.useRealTimers()
-  })
-
   beforeEach(() => {
     mockedGetSendFee.mockClear()
+  })
+
+  function renderScreen(storeOverrides: any = {}, screenProps?: any) {
+    const store = createMockStore({
+      stableToken: {
+        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
+      },
+      ...storeOverrides,
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <SendConfirmation {...(screenProps ? screenProps : mockScreenProps)} />
+      </Provider>
+    )
+
+    return {
+      store,
+      ...tree,
+    }
+  }
+
+  function amountFromComponent(component: ReactTestInstance) {
+    return component.props.children.filter((child: any) => typeof child === 'string').join('')
+  }
+
+  it('renders correctly', async () => {
+    const tree = renderScreen()
+    expect(tree).toMatchSnapshot()
   })
 
   it('renders correctly for send payment confirmation with cUSD fees', async () => {
     mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
 
-    const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
-      },
-    })
+    const { getByText, getByTestId } = renderScreen()
 
-    const tree = render(
-      <Provider store={store}>
-        <SendConfirmation {...mockScreenProps} />
-      </Provider>
-    )
+    fireEvent.press(getByText('feeEstimate'))
 
-    // Initial render.
-    expect(tree).toMatchSnapshot()
-    fireEvent.press(tree.getByText('feeEstimate'))
-
-    // Run timers, because Touchable adds some delay.
     jest.runAllTimers()
-    // Prevents an unexplained error: TypeError: require(...) is not a function
-    await sleep(1000)
+    await flushMicrotasksQueue()
 
-    // Wait for fee to be calculated and displayed as "$0.013".
-    // NOTE: Use regex here because the text may be split by a newline.
-    await waitForElement(() => tree.getByText(/\$\s*0\.0133/s))
-    expect(tree).toMatchSnapshot()
-    // Query for the total amount, which should include the fee.
-    expect(tree.queryByText(/\$\s*1\.34/s)).not.toBeNull()
+    const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
+    expect(amountFromComponent(feeComponent)).toEqual('$0.0133')
+
+    const totalComponent = getByTestId('TotalLineItem/Total/value')
+    expect(amountFromComponent(totalComponent)).toEqual('$1.34')
   })
 
-  // TODO: Use the logic above for CELO fees
   it('renders correctly for send payment confirmation with CELO fees', async () => {
     mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CELO)
 
-    const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
-      },
-    })
+    const { getByText, getByTestId } = renderScreen()
 
-    const tree = render(
-      <Provider store={store}>
-        <SendConfirmation {...mockScreenProps} />
-      </Provider>
-    )
+    fireEvent.press(getByText('feeEstimate'))
 
-    // Initial render.
-    expect(tree).toMatchSnapshot()
-    fireEvent.press(tree.getByText('feeEstimate'))
-
-    // Run timers, because Touchable adds some delay.
     jest.runAllTimers()
-    // Prevents an unexplained error: TypeError: require(...) is not a function
-    await sleep(1000)
+    await flushMicrotasksQueue()
 
-    // Wait for fee to be calculated and displayed as "0.01".
-    await waitForElement(() => tree.getByText(/0\.01/s))
-    expect(tree).toMatchSnapshot()
-    // Query for the total amount, which should include the fee.
-    // NOTE: CELO fees are currently no combined into the total.
-    // expect(tree.queryByText(/\$\s*1\.34/s)).not.toBeNull()
+    const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
+    expect(amountFromComponent(feeComponent)).toEqual('0.01')
+
+    // NOTE: CELO fees are currently not combined into the total.
+    // TODO: This should equal more than $1.33, depending on the CELO fee value.
+    const totalComponent = getByTestId('TotalLineItem/Total/value')
+    expect(amountFromComponent(totalComponent)).toEqual('$1.33')
   })
 
   it('shows a generic `calculateFeeFailed` error when fee estimate fails due to an unknown error', async () => {
@@ -129,22 +126,16 @@ describe('SendConfirmation', () => {
       throw new Error('Unknown error message')
     })
 
-    const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
-      },
-    })
-
-    const tree = render(
-      <Provider store={store}>
-        <SendConfirmation {...mockScreenProps} />
-      </Provider>
-    )
+    const { store, getByText, queryByTestId } = renderScreen()
 
     store.clearActions()
 
-    // Wait for fee error
-    await waitForElement(() => tree.getByText('---'))
+    jest.runAllTimers()
+    await flushMicrotasksQueue()
+
+    const feeComponent = queryByTestId('feeDrawer/SendConfirmation/totalFee/value')
+    expect(feeComponent).toBeFalsy()
+    expect(getByText('---')).toBeTruthy()
 
     expect(store.getActions()).toEqual([
       {
@@ -166,22 +157,16 @@ describe('SendConfirmation', () => {
       throw new Error(ErrorMessages.INSUFFICIENT_BALANCE)
     })
 
-    const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '0', [Currency.Euro]: '0' },
-      },
-    })
-
-    const tree = render(
-      <Provider store={store}>
-        <SendConfirmation {...mockScreenProps} />
-      </Provider>
-    )
+    const { store, getByText, queryByTestId } = renderScreen()
 
     store.clearActions()
 
-    // Wait for fee error
-    await waitForElement(() => tree.getByText('---'))
+    jest.runAllTimers()
+    await flushMicrotasksQueue()
+
+    const feeComponent = queryByTestId('feeDrawer/SendConfirmation/totalFee/value')
+    expect(feeComponent).toBeFalsy()
+    expect(getByText('---')).toBeTruthy()
 
     expect(store.getActions()).toEqual([
       {
@@ -203,10 +188,7 @@ describe('SendConfirmation', () => {
       [mockE164NumberInvite]: [mockAccountInvite, mockAccount2Invite],
     }
 
-    const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
-      },
+    const { getByTestId } = renderScreen({
       identity: {
         e164NumberToAddress: mockE164NumberToAddress,
         secureSendPhoneNumberMapping: {
@@ -218,17 +200,11 @@ describe('SendConfirmation', () => {
       },
     })
 
-    const tree = render(
-      <Provider store={store}>
-        <SendConfirmation {...mockScreenProps} />
-      </Provider>
-    )
-
-    expect(tree).toMatchSnapshot()
+    expect(getByTestId('accountEditButton')).toBeTruthy()
   })
 
   it('updates the comment/reason', () => {
-    const store = createMockStore({
+    const { getByTestId, queryAllByDisplayValue } = renderScreen({
       fees: {
         estimates: {
           send: {
@@ -238,29 +214,19 @@ describe('SendConfirmation', () => {
       },
     })
 
-    const tree = render(
-      <Provider store={store}>
-        <SendConfirmation {...mockScreenProps} />
-      </Provider>
-    )
-
-    const input = tree.getByTestId('commentInput/send')
+    const input = getByTestId('commentInput/send')
     const comment = 'A comment!'
     fireEvent.changeText(input, comment)
-    expect(tree.queryAllByDisplayValue(comment)).toHaveLength(1)
+    expect(queryAllByDisplayValue(comment)).toHaveLength(1)
   })
 
   it('navigates to ValidateRecipientIntro when "edit" button is pressed', async () => {
     const mockE164NumberToAddress: E164NumberToAddressType = {
       [mockE164NumberInvite]: [mockAccountInvite, mockAccount2Invite],
     }
-
     const mockAddressValidationType = AddressValidationType.PARTIAL
 
-    const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
-      },
+    const { getByTestId } = renderScreen({
       identity: {
         e164NumberToAddress: mockE164NumberToAddress,
         secureSendPhoneNumberMapping: {
@@ -272,13 +238,7 @@ describe('SendConfirmation', () => {
       },
     })
 
-    const tree = render(
-      <Provider store={store}>
-        <SendConfirmation {...mockScreenProps} />
-      </Provider>
-    )
-
-    fireEvent.press(tree.getByTestId('accountEditButton'))
+    fireEvent.press(getByTestId('accountEditButton'))
     expect(navigate).toHaveBeenCalledWith(Screens.ValidateRecipientIntro, {
       origin: SendOrigin.AppSendFlow,
       transactionData: mockTransactionData,
@@ -291,10 +251,7 @@ describe('SendConfirmation', () => {
       [mockE164NumberInvite]: [mockAccount2Invite],
     }
 
-    const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
-      },
+    const { queryByTestId } = renderScreen({
       identity: {
         e164NumberToAddress: mockE164NumberToAddress,
         secureSendPhoneNumberMapping: {
@@ -306,29 +263,13 @@ describe('SendConfirmation', () => {
       },
     })
 
-    const tree = render(
-      <Provider store={store}>
-        <SendConfirmation {...mockScreenProps} />
-      </Provider>
-    )
-
-    expect(tree.queryByTestId('accountEditButton')).toBeNull()
+    expect(queryByTestId('accountEditButton')).toBeNull()
   })
 
   it('renders correct modal for invitations', async () => {
     mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
 
-    const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
-      },
-    })
-
-    const { queryByTestId, getByTestId } = render(
-      <Provider store={store}>
-        <SendConfirmation {...mockInviteScreenProps} />
-      </Provider>
-    )
+    const { queryByTestId, getByTestId } = renderScreen({}, mockInviteScreenProps)
 
     expect(queryByTestId('InviteAndSendModal')?.props.isVisible).toBe(false)
     fireEvent.press(getByTestId('ConfirmButton'))

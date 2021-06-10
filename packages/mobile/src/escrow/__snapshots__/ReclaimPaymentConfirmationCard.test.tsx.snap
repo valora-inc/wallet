@@ -278,6 +278,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -603,6 +604,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             },
           ]
         }
+        testID="undefined/value"
       >
         -
         $
@@ -692,7 +694,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             },
           ]
         }
-        testID="TotalLineItem/Total"
+        testID="TotalLineItem/Total/value"
       >
         
         $
@@ -751,7 +753,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
               },
             ]
           }
-          testID="TotalLineItem/ExchangeRate"
+          testID="TotalLineItem/ExchangeRate/value"
         >
           
           $
@@ -787,7 +789,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             },
           ]
         }
-        testID="TotalLineItem/Subtotal"
+        testID="TotalLineItem/Subtotal/value"
       >
         
         $

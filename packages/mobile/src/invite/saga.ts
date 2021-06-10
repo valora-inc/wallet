@@ -8,7 +8,7 @@ import { showError } from 'src/alert/actions'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { APP_STORE_ID, DYNAMIC_DOWNLOAD_LINK } from 'src/config'
+import { APP_STORE_ID, DYNAMIC_DOWNLOAD_LINK, WEB_LINK } from 'src/config'
 import { transferEscrowedPayment } from 'src/escrow/actions'
 import { getEscrowTxGas } from 'src/escrow/saga'
 import { calculateFee, FeeInfo } from 'src/fees/saga'
@@ -47,13 +47,12 @@ export async function getInviteFee(
   }
 }
 
-export async function generateInviteLink(inviteCode?: string) {
+export async function generateInviteLink() {
   let bundleId = DeviceInfo.getBundleId()
   bundleId = bundleId.replace(/\.(debug|dev)$/g, '.alfajores')
 
-  // trying to fetch appStoreId needed to build a dynamic link
   const shortUrl = await generateShortInviteLink({
-    link: `https://valoraapp.com/${inviteCode ? `?invite-code=${inviteCode}` : ''}`,
+    link: WEB_LINK,
     appStoreId: APP_STORE_ID,
     bundleId,
   })

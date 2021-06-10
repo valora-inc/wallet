@@ -392,6 +392,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             
@@ -419,6 +420,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
@@ -935,6 +937,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             
@@ -962,6 +965,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $

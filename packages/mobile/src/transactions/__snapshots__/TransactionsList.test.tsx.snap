@@ -254,6 +254,7 @@ exports[`ignores failed standby transactions 1`] = `
                     },
                   ]
                 }
+                testID="undefined/value"
               >
                 -
                 $
@@ -383,6 +384,7 @@ exports[`ignores failed standby transactions 1`] = `
                     },
                   ]
                 }
+                testID="undefined/value"
               >
                 +
                 $
@@ -668,6 +670,7 @@ exports[`ignores pending standby transactions that are completed in the response
                     },
                   ]
                 }
+                testID="undefined/value"
               >
                 -
                 $
@@ -797,6 +800,7 @@ exports[`ignores pending standby transactions that are completed in the response
                     },
                   ]
                 }
+                testID="undefined/value"
               >
                 +
                 $
@@ -1174,6 +1178,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                     },
                   ]
                 }
+                testID="undefined/value"
               >
                 -
                 $
@@ -1303,6 +1308,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                     },
                   ]
                 }
+                testID="undefined/value"
               >
                 +
                 $
@@ -1490,6 +1496,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                     },
                   ]
                 }
+                testID="undefined/value"
               >
                 -
                 $
@@ -1617,6 +1624,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                     },
                   ]
                 }
+                testID="undefined/value"
               >
                 -
                 $
@@ -1746,6 +1754,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                     },
                   ]
                 }
+                testID="undefined/value"
               >
                 +
                 $

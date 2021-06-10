@@ -72,6 +72,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
             },
           ]
         }
+        testID="undefined/value"
       >
         
         
@@ -214,6 +215,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
                   },
                 ]
               }
+              testID="feeDrawer/WithdrawCelo/totalFee/value"
             >
               
               
@@ -294,7 +296,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
             },
           ]
         }
-        testID="TotalLineItem/Total"
+        testID="TotalLineItem/Total/value"
       >
         
         
@@ -353,7 +355,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
               },
             ]
           }
-          testID="TotalLineItem/ExchangeRate"
+          testID="TotalLineItem/ExchangeRate/value"
         >
           
           $
@@ -389,7 +391,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
             },
           ]
         }
-        testID="TotalLineItem/Subtotal"
+        testID="TotalLineItem/Subtotal/value"
       >
         
         $

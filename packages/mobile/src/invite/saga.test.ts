@@ -4,7 +4,7 @@ import { Share } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
 import { PincodeType } from 'src/account/reducer'
-import { WEB_LINK } from 'src/brandingConfig'
+import { WEB_LINK } from 'src/config'
 import { generateShortInviteLink } from 'src/firebase/dynamicLinks'
 import i18n from 'src/i18n'
 import { storeInviteeData } from 'src/invite/actions'
@@ -14,8 +14,6 @@ import { Currency } from 'src/utils/currencies'
 import { getConnectedUnlockedAccount, waitWeb3LastBlock } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockE164Number, mockInviteDetails } from 'test/values'
-
-const mockKey = '0x1129eb2fbccdc663f4923a6495c35b096249812b589f7c4cd1dba01e1edaf724'
 
 const mockReceipt: CeloTxReceipt = {
   status: true,
@@ -33,7 +31,7 @@ const mockReceipt: CeloTxReceipt = {
 
 jest.mock('src/firebase/dynamicLinks', () => ({
   ...(jest.requireActual('src/firebase/dynamicLinks') as any),
-  generateShortInviteLink: jest.fn(async () => 'http://celo.page.link/PARAMS'),
+  generateShortInviteLink: jest.fn(async () => 'http://celo.page.link/'),
 }))
 
 jest.mock('src/account/actions', () => ({
@@ -45,11 +43,13 @@ jest.mock('src/transactions/send', () => ({
   sendTransaction: async () => mockReceipt,
 }))
 
+const DYNAMIC_DOWNLOAD_LINK = 'http://celo.org'
+
 jest.mock('src/config', () => {
   return {
     ...(jest.requireActual('src/config') as any),
     APP_STORE_ID: '1482389446',
-    DYNAMIC_DOWNLOAD_LINK: 'http://celo.page.link/PARAMS',
+    DYNAMIC_DOWNLOAD_LINK,
   }
 })
 
@@ -73,7 +73,7 @@ describe(sendInvite, () => {
   it('sends an invite as expected', async () => {
     i18n.t = jest.fn((key) => key)
 
-    await expectSaga(sendInvite)
+    await expectSaga(sendInvite, mockE164Number, AMOUNT_TO_SEND, Currency.Dollar)
       .provide([
         [call(waitWeb3LastBlock), true],
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -86,7 +86,7 @@ describe(sendInvite, () => {
 
     expect(i18n.t).toHaveBeenCalledWith('sendFlow7:inviteWithEscrowedPayment', {
       amount: AMOUNT_TO_SEND.toString(),
-      link: WEB_LINK,
+      link: DYNAMIC_DOWNLOAD_LINK,
     })
     expect(Share.share).toHaveBeenCalledWith({ message: 'sendFlow7:inviteWithEscrowedPayment' })
   })
@@ -98,11 +98,11 @@ describe(generateInviteLink, () => {
   })
 
   it('Generate invite link correctly', async () => {
-    const result = await generateInviteLink(mockKey)
-    expect(result).toBe('http://celo.page.link/PARAMS')
+    const result = await generateInviteLink()
+    expect(result).toBe('http://celo.page.link/')
     expect(generateShortInviteLink).toBeCalledTimes(1)
     expect(generateShortInviteLink).toHaveBeenCalledWith({
-      link: `https://valoraapp.com/?invite-code=${mockKey}`,
+      link: WEB_LINK,
       appStoreId: '1482389446',
       bundleId: 'org.celo.mobile.alfajores',
     })

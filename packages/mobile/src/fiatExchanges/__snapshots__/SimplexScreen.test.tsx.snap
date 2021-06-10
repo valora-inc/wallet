@@ -530,6 +530,7 @@ exports[`SimplexScreen renders correctly 1`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             25.00
@@ -598,6 +599,7 @@ exports[`SimplexScreen renders correctly 1`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
@@ -669,6 +671,7 @@ exports[`SimplexScreen renders correctly 1`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
@@ -860,6 +863,7 @@ exports[`SimplexScreen renders correctly 1`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
@@ -1465,6 +1469,7 @@ exports[`SimplexScreen renders correctly 2`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             25.00
@@ -1533,6 +1538,7 @@ exports[`SimplexScreen renders correctly 2`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
@@ -1604,6 +1610,7 @@ exports[`SimplexScreen renders correctly 2`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
@@ -1795,6 +1802,7 @@ exports[`SimplexScreen renders correctly 2`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $

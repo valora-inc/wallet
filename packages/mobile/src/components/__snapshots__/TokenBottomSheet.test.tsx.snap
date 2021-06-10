@@ -123,7 +123,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
                 },
               ]
             }
-            testID="LocalcUSDBalance"
+            testID="LocalcUSDBalance/value"
           >
             
             $
@@ -144,7 +144,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
                 },
               ]
             }
-            testID="cUSDBalance"
+            testID="cUSDBalance/value"
           >
             
             10.00
@@ -225,7 +225,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
                 },
               ]
             }
-            testID="LocalcEURBalance"
+            testID="LocalcEURBalance/value"
           >
             
             $
@@ -246,7 +246,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
                 },
               ]
             }
-            testID="cEURBalance"
+            testID="cEURBalance/value"
           >
             
             20.00

@@ -153,6 +153,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                   },
                 ]
               }
+              testID="undefined/value"
             >
               
               $
@@ -269,7 +270,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                 },
               ]
             }
-            testID="TotalLineItem/Total"
+            testID="TotalLineItem/Total/value"
           >
             
             $
@@ -328,7 +329,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                   },
                 ]
               }
-              testID="TotalLineItem/ExchangeRate"
+              testID="TotalLineItem/ExchangeRate/value"
             >
               
               $
@@ -364,7 +365,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                 },
               ]
             }
-            testID="TotalLineItem/Subtotal"
+            testID="TotalLineItem/Subtotal/value"
           >
             
             $

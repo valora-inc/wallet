@@ -72,7 +72,7 @@ Array [
             },
           ]
         }
-        testID="TotalLineItem/Total"
+        testID="TotalLineItem/Total/value"
       >
         
         $
@@ -131,7 +131,7 @@ Array [
               },
             ]
           }
-          testID="TotalLineItem/ExchangeRate"
+          testID="TotalLineItem/ExchangeRate/value"
         >
           
           $
@@ -167,7 +167,7 @@ Array [
             },
           ]
         }
-        testID="TotalLineItem/Subtotal"
+        testID="TotalLineItem/Subtotal/value"
       >
         
         $

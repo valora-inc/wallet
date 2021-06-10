@@ -210,7 +210,7 @@ export default function CurrencyDisplay({
   }
 
   return (
-    <Text numberOfLines={1} style={[style, { color }]} testID={testID}>
+    <Text numberOfLines={1} style={[style, { color }]} testID={`${testID}/value`}>
       {!hideSign && sign}
       {!hideSymbol && currencySymbol}
       {formattedValue}

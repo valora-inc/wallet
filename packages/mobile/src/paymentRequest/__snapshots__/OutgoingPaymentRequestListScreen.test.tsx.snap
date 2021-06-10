@@ -138,6 +138,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       
                       $
@@ -386,6 +387,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       
                       $
@@ -634,6 +636,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       
                       $

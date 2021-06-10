@@ -68,6 +68,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                   },
                 ]
               }
+              testID="undefined/value"
             >
               
               
@@ -131,6 +132,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                       },
                     ]
                   }
+                  testID="undefined/value"
                 >
                   
                   $
@@ -161,6 +163,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                     },
                   ]
                 }
+                testID="undefined/value"
               >
                 
                 $
@@ -303,6 +306,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                           },
                         ]
                       }
+                      testID="feeDrawer/ExchangeReview/totalFee/value"
                     >
                       
                       $
@@ -395,7 +399,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                     },
                   ]
                 }
-                testID="TotalLineItem/Total"
+                testID="TotalLineItem/Total/value"
               >
                 
                 $
@@ -454,7 +458,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                       },
                     ]
                   }
-                  testID="TotalLineItem/ExchangeRate"
+                  testID="TotalLineItem/ExchangeRate/value"
                 >
                   
                   $
@@ -490,7 +494,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                     },
                   ]
                 }
-                testID="TotalLineItem/Subtotal"
+                testID="TotalLineItem/Subtotal/value"
               >
                 
                 $
@@ -578,6 +582,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             

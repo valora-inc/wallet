@@ -92,8 +92,7 @@ function InviteSentContent({ addressHasChanged, recipient, amount }: Props) {
       />
       <HorizontalLine />
       <FeeDrawer
-        currency={Currency.Dollar}
-        isInvite={true}
+        currency={amount.currencyCode as Currency}
         securityFee={totalFee}
         totalFee={totalFee}
       />
@@ -162,7 +161,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
         amount={<CurrencyDisplay amount={sentAmount} hideSign={true} />}
       />
       <FeeDrawer
-        currency={isCeloWithdrawal ? Currency.Celo : Currency.Dollar}
+        currency={amount.currencyCode as Currency}
         securityFee={securityFee}
         totalFee={totalFee}
       />

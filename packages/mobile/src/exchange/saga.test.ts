@@ -80,9 +80,9 @@ describe(exchangeGoldAndStableTokens, () => {
         action: {
           transaction: {
             type: TokenTransactionType.Exchange,
-            inSymbol: Currency.Celo,
+            inCurrency: Currency.Celo,
             inValue: SELL_AMOUNT.toString(),
-            outSymbol: Currency.Dollar,
+            outCurrency: Currency.Dollar,
             outValue: (SELL_AMOUNT / 2).toString(),
           },
         },

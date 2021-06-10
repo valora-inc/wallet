@@ -334,6 +334,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       },
                     ]
                   }
+                  testID="undefined/value"
                 >
                   
                   $
@@ -737,7 +738,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       },
                     ]
                   }
-                  testID="TotalLineItem/Total"
+                  testID="TotalLineItem/Total/value"
                 >
                   
                   $
@@ -796,7 +797,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                         },
                       ]
                     }
-                    testID="TotalLineItem/ExchangeRate"
+                    testID="TotalLineItem/ExchangeRate/value"
                   >
                     
                     $
@@ -832,7 +833,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       },
                     ]
                   }
-                  testID="TotalLineItem/Subtotal"
+                  testID="TotalLineItem/Subtotal/value"
                 >
                   
                   $
@@ -1348,6 +1349,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       },
                     ]
                   }
+                  testID="undefined/value"
                 >
                   
                   $
@@ -1673,6 +1675,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       },
                     ]
                   }
+                  testID="undefined/value"
                 >
                   -
                   
@@ -1762,7 +1765,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       },
                     ]
                   }
-                  testID="TotalLineItem/Total"
+                  testID="TotalLineItem/Total/value"
                 >
                   
                   $
@@ -1821,7 +1824,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                         },
                       ]
                     }
-                    testID="TotalLineItem/ExchangeRate"
+                    testID="TotalLineItem/ExchangeRate/value"
                   >
                     
                     $
@@ -1857,7 +1860,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       },
                     ]
                   }
-                  testID="TotalLineItem/Subtotal"
+                  testID="TotalLineItem/Subtotal/value"
                 >
                   
                   $
@@ -2373,6 +2376,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       },
                     ]
                   }
+                  testID="undefined/value"
                 >
                   
                   $
@@ -2776,7 +2780,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       },
                     ]
                   }
-                  testID="TotalLineItem/Total"
+                  testID="TotalLineItem/Total/value"
                 >
                   
                   $
@@ -2835,7 +2839,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                         },
                       ]
                     }
-                    testID="TotalLineItem/ExchangeRate"
+                    testID="TotalLineItem/ExchangeRate/value"
                   >
                     
                     $
@@ -2871,7 +2875,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       },
                     ]
                   }
-                  testID="TotalLineItem/Subtotal"
+                  testID="TotalLineItem/Subtotal/value"
                 >
                   
                   $
@@ -3387,6 +3391,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       },
                     ]
                   }
+                  testID="undefined/value"
                 >
                   
                   $
@@ -3787,7 +3792,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       },
                     ]
                   }
-                  testID="TotalLineItem/Total"
+                  testID="TotalLineItem/Total/value"
                 >
                   
                   $
@@ -3846,7 +3851,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                         },
                       ]
                     }
-                    testID="TotalLineItem/ExchangeRate"
+                    testID="TotalLineItem/ExchangeRate/value"
                   >
                     
                     $
@@ -3882,7 +3887,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       },
                     ]
                   }
-                  testID="TotalLineItem/Subtotal"
+                  testID="TotalLineItem/Subtotal/value"
                 >
                   
                   $
@@ -4398,6 +4403,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       },
                     ]
                   }
+                  testID="undefined/value"
                 >
                   
                   $
@@ -4801,7 +4807,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       },
                     ]
                   }
-                  testID="TotalLineItem/Total"
+                  testID="TotalLineItem/Total/value"
                 >
                   
                   $
@@ -4860,7 +4866,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                         },
                       ]
                     }
-                    testID="TotalLineItem/ExchangeRate"
+                    testID="TotalLineItem/ExchangeRate/value"
                   >
                     
                     $
@@ -4896,7 +4902,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       },
                     ]
                   }
-                  testID="TotalLineItem/Subtotal"
+                  testID="TotalLineItem/Subtotal/value"
                 >
                   
                   $
@@ -5412,6 +5418,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       },
                     ]
                   }
+                  testID="undefined/value"
                 >
                   
                   $
@@ -5737,6 +5744,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       },
                     ]
                   }
+                  testID="undefined/value"
                 >
                   -
                   $
@@ -5826,7 +5834,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       },
                     ]
                   }
-                  testID="TotalLineItem/Total"
+                  testID="TotalLineItem/Total/value"
                 >
                   
                   $
@@ -5885,7 +5893,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                         },
                       ]
                     }
-                    testID="TotalLineItem/ExchangeRate"
+                    testID="TotalLineItem/ExchangeRate/value"
                   >
                     
                     $
@@ -5921,7 +5929,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       },
                     ]
                   }
-                  testID="TotalLineItem/Subtotal"
+                  testID="TotalLineItem/Subtotal/value"
                 >
                   
                   $

@@ -180,6 +180,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             
@@ -322,6 +323,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                       },
                     ]
                   }
+                  testID="feeDrawer/WithdrawCelo/totalFee/value"
                 >
                   
                   
@@ -402,7 +404,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                 },
               ]
             }
-            testID="TotalLineItem/Total"
+            testID="TotalLineItem/Total/value"
           >
             
             
@@ -461,7 +463,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                   },
                 ]
               }
-              testID="TotalLineItem/ExchangeRate"
+              testID="TotalLineItem/ExchangeRate/value"
             >
               
               $
@@ -497,7 +499,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                 },
               ]
             }
-            testID="TotalLineItem/Subtotal"
+            testID="TotalLineItem/Subtotal/value"
           >
             
             $

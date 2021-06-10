@@ -45,6 +45,7 @@ exports[`renders correctly when not ready 1`] = `
           },
         ]
       }
+      testID="undefined/value"
     >
       
       
@@ -72,6 +73,7 @@ exports[`renders correctly when not ready 1`] = `
           },
         ]
       }
+      testID="undefined/value"
     >
       
       -
@@ -125,6 +127,7 @@ exports[`renders correctly when ready 1`] = `
           },
         ]
       }
+      testID="undefined/value"
     >
       
       
@@ -152,6 +155,7 @@ exports[`renders correctly when ready 1`] = `
           },
         ]
       }
+      testID="undefined/value"
     >
       
       $

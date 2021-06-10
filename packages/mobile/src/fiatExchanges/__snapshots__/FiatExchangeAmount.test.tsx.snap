@@ -546,6 +546,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
                   },
                 ]
               }
+              testID="undefined/value"
             >
               
               $
@@ -581,6 +582,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             0.00

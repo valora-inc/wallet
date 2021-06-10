@@ -16,8 +16,6 @@ import { Currency } from 'src/utils/currencies'
 interface Props {
   isEstimate?: boolean
   currency?: Currency
-  inviteFee?: BigNumber
-  isInvite?: boolean
   isExchange?: boolean
   securityFee?: BigNumber
   exchangeFee?: BigNumber
@@ -33,8 +31,6 @@ interface Props {
 export default function FeeDrawer({
   isEstimate,
   currency,
-  inviteFee,
-  isInvite,
   isExchange,
   securityFee,
   exchangeFee,
@@ -68,12 +64,6 @@ export default function FeeDrawer({
       currencyCode: currency,
     }
 
-  const inviteFeeAmount = inviteFee &&
-    currency && {
-      value: inviteFee,
-      currencyCode: currency,
-    }
-
   const dekFeeAmount = dekFee &&
     currency && {
       value: dekFee,
@@ -102,6 +92,7 @@ export default function FeeDrawer({
                   amount={totalFeeAmount}
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
+                  testID={`${testID}/totalFee`}
                 />
               )
             }
@@ -122,6 +113,7 @@ export default function FeeDrawer({
                     amount={exchangeAmount}
                     formatType={FormatType.Fee}
                     currencyInfo={currencyInfo}
+                    testID={`${testID}/exchangeFee`}
                   />
                 )
               }
@@ -137,6 +129,7 @@ export default function FeeDrawer({
                   amount={dekFeeAmount}
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
+                  testID={`${testID}/dekFee`}
                 />
               }
               textStyle={styles.dropDownText}
@@ -152,6 +145,7 @@ export default function FeeDrawer({
                   amount={securityAmount}
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
+                  testID={`${testID}/securityFee`}
                 />
               )
             }

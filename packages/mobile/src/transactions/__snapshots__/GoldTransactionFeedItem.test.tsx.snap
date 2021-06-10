@@ -84,6 +84,7 @@ exports[`GoldTransactionFeedItem renders correctly 1`] = `
               },
             ]
           }
+          testID="undefined/value"
         >
           
           €
@@ -106,6 +107,7 @@ exports[`GoldTransactionFeedItem renders correctly 1`] = `
               },
             ]
           }
+          testID="undefined/value"
         >
           
           €

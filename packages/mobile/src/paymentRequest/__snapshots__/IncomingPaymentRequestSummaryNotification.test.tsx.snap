@@ -93,6 +93,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
                   },
                 ]
               }
+              testID="undefined/value"
             >
               
               $
@@ -344,6 +345,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
                   },
                 ]
               }
+              testID="undefined/value"
             >
               
               $

@@ -92,6 +92,7 @@ exports[`EscrowedPaymentReminderNotification renders correctly 1`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
