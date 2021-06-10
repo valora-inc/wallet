@@ -63,7 +63,7 @@ export async function indexEvents(
     const kit = await getContractKit()
     let fromBlock = (await getLastBlock(key)) + 1
     const lastBlock = await kit.web3.eth.getBlockNumber()
-    console.debug(TAG, `${key} - Starting to fetch from block ${fromBlock}`)
+    console.info(TAG, `${key} - Starting to fetch from block ${fromBlock}`)
 
     const { contract, batchSize } = contracts[contractKey]
     const contractWrapper = await contract(kit)
@@ -75,7 +75,7 @@ export async function indexEvents(
         toBlock,
       })
       if (events.length > 0) {
-        console.debug(
+        console.info(
           TAG,
           `${key} - Got ${events.length} events between blocks [${fromBlock}, ${toBlock}]`
         )
