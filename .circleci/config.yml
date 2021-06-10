@@ -67,6 +67,9 @@ commands:
       - run:
           name: Install dependencies
           command: |
+            # Needed by ./scripts/sync_branding.sh
+            sudo apt-get update -y && sudo apt-get install rsync -y
+
             if [ ! -e ~/.tmp/yarn_deps_have_changed ]; then
               # Though `yarn install` is instantaneous with up-to-date node_modules which is the case when we've restored cached node_modules,
               # there's currently a bug with the generated node_modules/.yarn-integrity file which is apparently not entirely stable
@@ -84,8 +87,6 @@ commands:
             # Deals with yarn install flakiness which can come due to yarnpkg.com being
             # unreliable. For example, https://circleci.com/gh/celo-org/celo-monorepo/82685
             yarn install || yarn install || yarn install
-            # Needed by ./scripts/sync_branding.sh
-            sudo apt-get update -y && sudo apt-get install rsync -y
       - run:
           name: Fail if someone forgot to commit "yarn.lock"
           command: |
