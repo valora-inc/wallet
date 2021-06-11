@@ -12,7 +12,7 @@ import {
 import TransactionFeed, { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList, { TRANSACTIONS_QUERY } from 'src/transactions/TransactionsList'
 import { StandbyTransaction, TransactionStatus } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 
 jest.unmock('react-apollo')
@@ -114,6 +114,29 @@ const mockQueryData: UserTransactionsQuery = {
       {
         __typename: 'TokenTransactionEdge',
         node: {
+          __typename: 'TokenTransfer',
+          type: TokenTransactionType.Sent,
+          hash: '0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353',
+          amount: {
+            __typename: 'MoneyAmount',
+            value: '-0.2',
+            currencyCode: 'cEUR',
+            localAmount: {
+              __typename: 'LocalMoneyAmount',
+              value: '-0.24',
+              currencyCode: 'USD',
+              exchangeRate: '1.2',
+            },
+          },
+          timestamp: 1578630538,
+          address: '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10',
+          account: '0xsflkj',
+          comment: null,
+        },
+      },
+      {
+        __typename: 'TokenTransactionEdge',
+        node: {
           __typename: 'TokenExchange',
           type: TokenTransactionType.Exchange,
           hash: '0x16fbd53c4871f0657f40e1b4515184be04bed8912c6e2abc2cda549e4ad8f852',
@@ -159,7 +182,7 @@ const mockQueryData: UserTransactionsQuery = {
 
 const variables = {
   address: '0x0000000000000000000000000000000000007e57',
-  token: null,
+  tokens: Object.keys(CURRENCIES),
   localCurrencyCode: 'MXN',
 }
 
@@ -196,7 +219,7 @@ it('renders the received data along with the standby transactions', async () => 
 
   const feed = await waitForElement(() => getByType(TransactionFeed))
   const { data } = feed.props
-  expect(data.length).toEqual(5)
+  expect(data.length).toEqual(6)
 
   // Check standby transfer
   const standbyTransfer = data[0]
@@ -293,7 +316,7 @@ it('ignores pending standby transactions that are completed in the response', as
   )
 
   const feed = await waitForElement(() => getByType(TransactionFeed))
-  expect(feed.props.data.length).toEqual(2)
+  expect(feed.props.data.length).toEqual(3)
   expect(toJSON()).toMatchSnapshot()
 })
 
@@ -311,6 +334,6 @@ it('ignores failed standby transactions', async () => {
   )
 
   const feed = await waitForElement(() => getByType(TransactionFeed))
-  expect(feed.props.data.length).toEqual(2)
+  expect(feed.props.data.length).toEqual(3)
   expect(toJSON()).toMatchSnapshot()
 })
