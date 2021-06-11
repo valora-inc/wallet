@@ -235,11 +235,9 @@ function SendConfirmation(props: Props) {
 
     // Check if the fee info has been updated and set it in the component state for use in sending.
     const feeInfoUpdated = feeInfo?.fee !== asyncFee.result?.fee
-    useEffect(() => {
-      if (asyncFee.result) {
-        setFeeInfo(asyncFee.result)
-      }
-    }, [asyncFee.result])
+    if (asyncFee.result) {
+      setFeeInfo(asyncFee.result)
+    }
 
     // TODO(victor): If CELO is used to pay fees, it cannot be added to the cUSD ammount. We should
     // fix this at some point, but because only cUSD is used for fees right now, it is not an issue.
