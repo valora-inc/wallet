@@ -1,5 +1,5 @@
 import { Contract, Event, indexEvents } from '../src/indexer'
-import { db, database, initDatabase } from '../src/database/db'
+import { database, initDatabase } from '../src/database/db'
 import { partialEventLog } from '../src/util/testing'
 import { getLastBlock } from '../src/indexer/blocks'
 
@@ -39,7 +39,7 @@ describe('Indexer', () => {
   })
 
   afterEach(() => {
-    return db.destroy()
+    return database.destroy()
   })
 
   function prepareMocks() {
