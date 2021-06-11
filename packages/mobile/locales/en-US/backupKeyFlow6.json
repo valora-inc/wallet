@@ -23,6 +23,7 @@
   "importBackupFailed": "Importing Wallet Failed",
   "backupQuizFailed": "The Account Key you entered is incorrect. Please try again.",
   "invalidBackupPhrase": "Invalid Account Key",
+  "invalidWordsInBackupPhrase": "Invalid words: {{ invalidWords }}",
   "backupComplete": {
     "header": "Backup Complete",
     "0": "Success!",

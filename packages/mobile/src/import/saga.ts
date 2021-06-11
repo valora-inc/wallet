@@ -1,12 +1,26 @@
 import {
   generateKeys,
+  invalidMnemonicWords,
   normalizeMnemonic,
   suggestMnemonicCorrections,
   validateMnemonic,
 } from '@celo/utils/lib/account'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import * as bip39 from 'react-native-bip39'
-import { all, call, delay, put, race, select, spawn, takeLeading } from 'redux-saga/effects'
+import {
+  all,
+  call,
+  cancel,
+  delay,
+  fork,
+  join,
+  put,
+  race,
+  select,
+  spawn,
+  takeLeading,
+} from 'redux-saga/effects'
+import { Task } from '@redux-saga/types'
 import { setBackupCompleted } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
@@ -32,6 +46,9 @@ import { assignAccountFromPrivateKey, waitWeb3LastBlock } from 'src/web3/saga'
 
 const TAG = 'import/saga'
 
+const MAX_BALANCE_CHECK_TASKS = 5
+const MNEMONIC_AUTOCORRECT_TIMEOUT = 5000 // ms
+
 export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackupPhraseAction) {
   Logger.debug(TAG + '@importBackupPhraseSaga', 'Importing backup phrase')
   yield call(waitWeb3LastBlock)
@@ -48,7 +65,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     if (!phraseIsValid) {
       const { correctedPhrase, timeout } = yield race({
         correctedPhrase: call(attemptBackupPhraseCorrection, normalizedPhrase),
-        timeout: delay(3000),
+        timeout: delay(MNEMONIC_AUTOCORRECT_TIMEOUT),
       })
       if (timeout) {
         Logger.info(TAG + '@importBackupPhraseSaga', 'Backup phrase autocorrection timed out')
@@ -64,8 +81,16 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     // report an error to the user.
     if (mnemonic === undefined) {
       Logger.error(TAG + '@importBackupPhraseSaga', 'Invalid mnemonic')
-      // DO NOT MERGE: Add a note to the error to identify any invalid words.
-      yield put(showError(ErrorMessages.INVALID_BACKUP_PHRASE))
+      const invalidWords = invalidMnemonicWords(normalizedPhrase)
+      if (invalidWords.length > 0) {
+        yield put(
+          showError(ErrorMessages.INVALID_WORDS_IN_BACKUP_PHRASE, null, {
+            invalidWords: invalidWords.join(', '),
+          })
+        )
+      } else {
+        yield put(showError(ErrorMessages.INVALID_BACKUP_PHRASE))
+      }
       yield put(importBackupPhraseFailure())
       return
     }
@@ -130,6 +155,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
 function* attemptBackupPhraseCorrection(mnemonic: string) {
   // TODO: Attempt multiple suggestions in parrallel.
   let counter = 0
+  let tasks: { index: number; suggestion: string; task: Task }[] = []
   for (const suggestion of suggestMnemonicCorrections(mnemonic)) {
     Logger.info(
       TAG + '@attemptBackupPhraseCorrection',
@@ -145,13 +171,34 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
       bip39
     )
     if (!privateKey) {
-      Logger.info(TAG + '@attemptBackupPhraseCorrection', 'Failed to convert mnemonic to hex')
+      Logger.error(TAG + '@attemptBackupPhraseCorrection', 'Failed to convert mnemonic to hex')
       continue
     }
 
-    if (yield call(walletHasBalance, privateKeyToAddress(privateKey))) {
-      Logger.info(TAG + '@attemptBackupPhraseCorrection', 'Found correction phrase with balance')
-      return suggestion
+    // Push a new check wallet balance task onto the list of running tasks.
+    // If our list of tasks is full, wait for at least one to finish.
+    tasks.push({
+      index: counter,
+      suggestion,
+      task: yield fork(walletHasBalance, privateKeyToAddress(privateKey)),
+    })
+    if (tasks.length >= MAX_BALANCE_CHECK_TASKS) {
+      yield race(tasks.map(({ task }) => join(task)))
+    }
+
+    // Check the results of any balance check tasks that have finished and prune any balance check
+    // tasks from the list that are no longer running.
+    const completed = tasks.filter(({ task }) => task.result() !== undefined)
+    tasks = tasks.filter(({ task }) => task.isRunning())
+    for (const task of completed) {
+      if (task.task.result()) {
+        Logger.info(
+          TAG + '@attemptBackupPhraseCorrection',
+          `Found correction phrase with balance in attempt ${task.index}`
+        )
+        cancel(tasks.map(({ task }) => task))
+        return task.suggestion
+      }
     }
   }
   return undefined
