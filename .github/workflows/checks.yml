@@ -1,0 +1,30 @@
+name: Check
+
+on:
+  # Run on pushes to master..
+  push:
+    branches:
+      - master
+  # ..and any pull request.
+  pull_request:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '10'
+          check-latest: true
+      # https://github.com/actions/cache/blob/main/examples.md#node---lerna
+      - uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn
+      - run: yarn run prettify:diff
+      - run: yarn run lint
