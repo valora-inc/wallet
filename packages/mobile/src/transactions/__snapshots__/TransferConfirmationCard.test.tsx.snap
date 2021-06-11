@@ -629,6 +629,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             
             100.000
@@ -686,6 +687,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -721,6 +723,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             $
             300.00
@@ -819,6 +822,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             
             $
@@ -877,6 +881,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -912,6 +917,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             
             $
@@ -1327,6 +1333,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             
             $
@@ -1385,6 +1392,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -1420,6 +1428,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             
             $
@@ -1810,6 +1819,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             
             $
@@ -1868,6 +1878,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -1903,6 +1914,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             
             $
@@ -2293,6 +2305,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             
             $
@@ -2351,6 +2364,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -2386,6 +2400,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             
             $
@@ -3027,6 +3042,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             $
             133.00
@@ -3084,6 +3100,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -3119,6 +3136,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             $
             100.00
@@ -3759,6 +3777,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             $
             133.00
@@ -3816,6 +3835,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -3851,6 +3871,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             $
             100.00
@@ -3949,6 +3970,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             $
             0.39
@@ -4006,6 +4028,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -4041,6 +4064,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             $
             0.30

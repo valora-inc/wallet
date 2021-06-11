@@ -390,6 +390,7 @@ exports[`renders correctly with giant numbers 1`] = `
                     },
                   ]
                 }
+                testID="TotalLineItem/Total"
               >
                 
                 $
@@ -448,6 +449,7 @@ exports[`renders correctly with giant numbers 1`] = `
                       },
                     ]
                   }
+                  testID="TotalLineItem/ExchangeRate"
                 >
                   
                   $
@@ -483,6 +485,7 @@ exports[`renders correctly with giant numbers 1`] = `
                     },
                   ]
                 }
+                testID="TotalLineItem/Subtotal"
               >
                 
                 $
@@ -887,6 +890,7 @@ exports[`renders correctly with no exchange rate 1`] = `
                     },
                   ]
                 }
+                testID="TotalLineItem/Total"
               >
                 
                 $
@@ -945,6 +949,7 @@ exports[`renders correctly with no exchange rate 1`] = `
                       },
                     ]
                   }
+                  testID="TotalLineItem/ExchangeRate"
                 >
                   
                   $
@@ -980,6 +985,7 @@ exports[`renders correctly with no exchange rate 1`] = `
                     },
                   ]
                 }
+                testID="TotalLineItem/Subtotal"
               >
                 
                 $

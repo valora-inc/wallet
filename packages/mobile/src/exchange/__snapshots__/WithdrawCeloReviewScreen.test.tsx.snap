@@ -402,6 +402,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                 },
               ]
             }
+            testID="TotalLineItem/Total"
           >
             
             
@@ -460,6 +461,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                   },
                 ]
               }
+              testID="TotalLineItem/ExchangeRate"
             >
               
               $
@@ -495,6 +497,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal"
           >
             
             $

@@ -187,8 +187,8 @@ jobs:
           name: install android tools
           command: |
             sh packages/mobile/scripts/install-android-tools.sh
-            echo 'export PATH=$ANDROID_SDK_ROOT/tools/bin:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/tools:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
             source $BASH_ENV
@@ -248,7 +248,7 @@ jobs:
           command: emulator -accel-check
 
       - run:
-          name: Run e2e tests
+          name: Run build verification e2e tests
           command: |
             set -euo pipefail
             cd packages/mobile
@@ -360,11 +360,11 @@ jobs:
           paths:
             - ~/Library/Detox/ios
       - run:
-          name: Run e2e tests
+          name: Run build verification e2e tests
           command: |
             set -euo pipefail
             cd packages/mobile
-            yarn run test:e2e:ios
+            yarn run test:e2e:ios -w 2
       - store_artifacts:
           path: packages/mobile/e2e/artifacts
           destination: mobile/e2e/artifacts
@@ -373,16 +373,6 @@ jobs:
           destination: mobile/e2e/artifacts
       - store_test_results:
           path: packages/mobile/e2e/test-results
-
-  lint-checks:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/app
-      # If this fails, fix it with
-      # `./node_modules/.bin/prettier --config .prettierrc.js --write '**/*.+(ts|tsx|js|jsx)'`
-      - run: yarn run prettify:diff
-      - run: yarn run lint
 
   vulnerability-checks:
     <<: *defaults
@@ -467,18 +457,15 @@ workflows:
   celo-monorepo-build:
     jobs:
       - install_dependencies
-      - lint-checks:
-          requires:
-            - install_dependencies
       - vulnerability-checks:
           requires:
             - install_dependencies
       - general-tests:
           requires:
-            - lint-checks
+            - install_dependencies
       - mobile-test:
           requires:
-            - lint-checks
+            - install_dependencies
       - end-to-end-mobile-test-android
       - end-to-end-mobile-test-ios
       - flakey-test-summary:
