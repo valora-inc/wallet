@@ -162,6 +162,7 @@ exports[`Contact renders correctly 1`] = `
               "lineHeight": 18,
             }
           }
+          testID="Legal"
         >
           supportLegalCheckbox
         </Text>

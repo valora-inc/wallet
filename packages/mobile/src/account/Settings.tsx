@@ -373,7 +373,11 @@ export class Account extends React.Component<Props, State> {
             </Text>
           </TouchableWithoutFeedback>
           <View style={styles.containerList}>
-            <SettingsItemTextValue title={t('editProfile')} onPress={this.goToProfile} />
+            <SettingsItemTextValue
+              testID="EditProfile"
+              title={t('editProfile')}
+              onPress={this.goToProfile}
+            />
             {!numberVerified && verificationPossible && (
               <SettingsItemTextValue title={t('confirmNumber')} onPress={this.goToConfirmNumber} />
             )}
