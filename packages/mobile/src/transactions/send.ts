@@ -226,7 +226,7 @@ export function* sendTransaction(
       gasPrice,
       nonce
     )
-    return receipt
+    return (yield receipt) as CeloTxReceipt
   }
   const receipt: CeloTxReceipt = yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
   return receipt

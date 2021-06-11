@@ -102,7 +102,7 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
 
     // Approve a transfer of funds to the Escrow contract.
     Logger.debug(TAG + '@transferToEscrow', 'Approving escrow transfer')
-    const convertedAmount = contractKit.connection.web3.utils.toWei(amount.toFixed(18))
+    const convertedAmount = contractKit.connection.web3.utils.toWei(amount.toString())
     const approvalTx = stableTokenWrapper.approve(escrowWrapper.address, convertedAmount)
 
     const approvalReceipt: CeloTxReceipt = yield call(

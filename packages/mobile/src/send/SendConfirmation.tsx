@@ -11,9 +11,11 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { showError } from 'src/alert/actions'
 import { FeeEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
@@ -224,15 +226,20 @@ function SendConfirmation(props: Props) {
 
   const renderWithAsyncFee: CalculateFeeChildren = (asyncFee) => {
     if (!balance) {
-      return
+      // Should never happen. This check is made in previous screens.
+      dispatch(showError(ErrorMessages.FETCH_FAILED))
+      navigate(Screens.WalletHome)
+      return null
     }
     const fee = getFeeInTokens(asyncFee.result?.fee)
 
     // Check if the fee info has been updated and set it in the component state for use in sending.
     const feeInfoUpdated = feeInfo?.fee !== asyncFee.result?.fee
-    if (asyncFee.result) {
-      setFeeInfo(asyncFee.result)
-    }
+    useEffect(() => {
+      if (asyncFee.result) {
+        setFeeInfo(asyncFee.result)
+      }
+    }, [asyncFee.result])
 
     // TODO(victor): If CELO is used to pay fees, it cannot be added to the cUSD ammount. We should
     // fix this at some point, but because only cUSD is used for fees right now, it is not an issue.
