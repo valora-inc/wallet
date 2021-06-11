@@ -310,7 +310,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       Logger.error(TAG, 'No transaction ID. Did not exchange.')
       return
     }
-    yield call(
+    const { receipt, error } = yield call(
       sendAndMonitorTransaction,
       tx,
       account,
@@ -318,11 +318,15 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       undefined, // currency, undefined because it's an exchange and we need both.
       makerToken
     )
-    ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_complete, {
-      txId: context.id,
-      currency: makerToken,
-      amount: makerAmount.toString(),
-    })
+    if (receipt) {
+      ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_complete, {
+        txId: context.id,
+        currency: makerToken,
+        amount: makerAmount.toString(),
+      })
+    } else {
+      ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, { error })
+    }
   } catch (error) {
     ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, { error: error.message })
     Logger.error(TAG, 'Error doing exchange', error)

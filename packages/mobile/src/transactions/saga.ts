@@ -114,12 +114,13 @@ export function* sendAndMonitorTransaction<T>(
     if (STABLE_CURRENCIES.some((stableCurrency) => balancesAffected.has(stableCurrency))) {
       yield put(fetchStableBalances())
     }
-    return txReceipt
+    return { receipt: txReceipt }
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
     yield put(removeStandbyTransaction(context.id))
     yield put(transactionFailed(context.id))
     yield put(showError(ErrorMessages.TRANSACTION_FAILED))
+    return { error }
   }
 }
 

@@ -14,7 +14,7 @@ import { EscrowEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { ESCROW_PAYMENT_EXPIRY_SECONDS } from 'src/config'
+import { ESCROW_PAYMENT_EXPIRY_SECONDS, WEI_DECIMALS } from 'src/config'
 import {
   Actions,
   Actions as EscrowActions,
@@ -102,7 +102,7 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
 
     // Approve a transfer of funds to the Escrow contract.
     Logger.debug(TAG + '@transferToEscrow', 'Approving escrow transfer')
-    const convertedAmount = contractKit.connection.web3.utils.toWei(amount.toString())
+    const convertedAmount = contractKit.connection.web3.utils.toWei(amount.toFixed(WEI_DECIMALS))
     const approvalTx = stableTokenWrapper.approve(escrowWrapper.address, convertedAmount)
 
     const approvalReceipt: CeloTxReceipt = yield call(
@@ -118,7 +118,12 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
 
     // Tranfser the funds to the Escrow contract.
     Logger.debug(TAG + '@transferToEscrow', 'Transfering to escrow')
-    yield call(registerStandbyTransaction, context, amount.toString(), escrowWrapper.address)
+    yield call(
+      registerStandbyTransaction,
+      context,
+      amount.toFixed(WEI_DECIMALS),
+      escrowWrapper.address
+    )
     const transferTx = escrowWrapper.transfer(
       phoneHash,
       stableTokenWrapper.address,
@@ -128,7 +133,7 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
       NUM_ATTESTATIONS_REQUIRED
     )
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_transfer_tx_sent)
-    const receipt: CeloTxReceipt | undefined = yield call(
+    const { receipt, error }: { receipt: CeloTxReceipt | undefined; error: any } = yield call(
       sendAndMonitorTransaction,
       transferTx,
       walletAddress,
@@ -140,10 +145,10 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
     )
     if (receipt) {
       yield put(fetchSentEscrowPayments())
+      ValoraAnalytics.track(EscrowEvents.escrow_transfer_complete)
+    } else {
+      ValoraAnalytics.track(EscrowEvents.escrow_transfer_error, { error })
     }
-    ValoraAnalytics.track(
-      receipt ? EscrowEvents.escrow_transfer_complete : EscrowEvents.escrow_transfer_error
-    )
   } catch (e) {
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_error, { error: e.message })
     Logger.error(TAG + '@transferToEscrow', 'Error transfering to escrow', e)
