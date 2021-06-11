@@ -50,7 +50,7 @@ export const sendReducer = (
     }
     case Actions.SEND_PAYMENT_OR_INVITE:
       return {
-        ...state,
+        ...storeLatestRecentReducer(state, action.recipient),
         isSending: true,
       }
     case Actions.SEND_PAYMENT_OR_INVITE_SUCCESS:
@@ -70,8 +70,6 @@ export const sendReducer = (
         ...state,
         isSending: false,
       }
-    case Actions.STORE_LATEST_IN_RECENTS:
-      return storeLatestRecentReducer(state, action.recipient)
     case AppActions.UPDATE_FEATURE_FLAGS:
       return {
         ...state,

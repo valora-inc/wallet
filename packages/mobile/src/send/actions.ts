@@ -13,7 +13,6 @@ export interface QrCode {
 export type SVG = typeof Svg
 
 export enum Actions {
-  STORE_LATEST_IN_RECENTS = 'SEND/STORE_LATEST_IN_RECENTS',
   BARCODE_DETECTED = 'SEND/BARCODE_DETECTED',
   QRCODE_SHARE = 'SEND/QRCODE_SHARE',
   SEND_PAYMENT_OR_INVITE = 'SEND/SEND_PAYMENT_OR_INVITE',
@@ -34,11 +33,6 @@ export interface HandleBarcodeDetectedAction {
 export interface ShareQRCodeAction {
   type: Actions.QRCODE_SHARE
   qrCodeSvg: SVG
-}
-
-export interface StoreLatestInRecentsAction {
-  type: Actions.STORE_LATEST_IN_RECENTS
-  recipient: Recipient
 }
 
 export interface SendPaymentOrInviteAction {
@@ -70,16 +64,10 @@ export interface SetShowWarningAction {
 export type ActionTypes =
   | HandleBarcodeDetectedAction
   | ShareQRCodeAction
-  | StoreLatestInRecentsAction
   | SendPaymentOrInviteAction
   | SendPaymentOrInviteSuccessAction
   | SendPaymentOrInviteFailureAction
   | SetShowWarningAction
-
-export const storeLatestInRecents = (recipient: Recipient): StoreLatestInRecentsAction => ({
-  type: Actions.STORE_LATEST_IN_RECENTS,
-  recipient,
-})
 
 export const handleBarcodeDetected = (
   data: QrCode,
