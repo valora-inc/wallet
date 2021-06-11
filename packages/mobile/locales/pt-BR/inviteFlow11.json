@@ -29,8 +29,8 @@
     "button": "Convidar"
   },
   "inviteRewardsBanner": {
-    "title": "Obtenha ${{amount}} indicando um amigo!",
-    "body": "Ganhe {{amount}} cUSD quando você enviar dinheiro para um amigo e ele entrar. <0>Saiba mais</0>"
+    "title": "Indique um amigo e receba ${{amount}}!",
+    "body": "Ganhe {{amount}} cUSD se você enviar dinheiro para um amigo e ele entrar. <0>Saiba mais</0>"
   },
   "getReward": "Receba ${{reward}}"
 }

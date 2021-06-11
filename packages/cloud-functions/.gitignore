@@ -2,6 +2,9 @@ dist/
 
 # Firebase cache
 .firebase/
+.runtimeconfig.json
+database-debug.log
+ui-debug.log
 
 # Only check in encrypted .env file
 .env
