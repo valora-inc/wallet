@@ -1,12 +1,12 @@
 import {
-  formatNonAccentedCharacters,
   generateKeys,
+  normalizeMnemonic,
+  suggestMnemonicCorrections,
   validateMnemonic,
 } from '@celo/utils/lib/account'
 import { privateKeyToAddress } from '@celo/utils/lib/address'
-import BigNumber from 'bignumber.js'
 import * as bip39 from 'react-native-bip39'
-import { call, put, select, spawn, takeLeading } from 'redux-saga/effects'
+import { all, call, delay, put, race, select, spawn, takeLeading } from 'redux-saga/effects'
 import { setBackupCompleted } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
@@ -36,37 +36,57 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
   Logger.debug(TAG + '@importBackupPhraseSaga', 'Importing backup phrase')
   yield call(waitWeb3LastBlock)
   try {
-    const mnemonic = formatNonAccentedCharacters(phrase)
-    if (!validateMnemonic(mnemonic, bip39)) {
+    const normalizedPhrase = normalizeMnemonic(phrase)
+    Logger.info(TAG + '@importBackupPhraseSaga', `DO NOT MERGE: ${normalizedPhrase}`)
+    const phraseIsValid = validateMnemonic(normalizedPhrase, bip39)
+
+    // If the given mnemonic phrase is invalid, spend up to 1 second trying to correct it.
+    // A balance check happens before the phrase is returned, so if the phrase was autocorrected,
+    // we do not need to check the balance again later in this method.
+    let mnemonic = phraseIsValid ? normalizedPhrase : undefined
+    let checkedBalance = false
+    if (!phraseIsValid) {
+      const { correctedPhrase, timeout } = yield race({
+        correctedPhrase: call(attemptBackupPhraseCorrection, normalizedPhrase),
+        timeout: delay(3000),
+      })
+      if (timeout) {
+        Logger.info(TAG + '@importBackupPhraseSaga', 'Backup phrase autocorrection timed out')
+      }
+      if (correctedPhrase) {
+        Logger.info(TAG + '@importBackupPhraseSaga', 'Using suggested mnemonic autocorrection')
+        mnemonic = correctedPhrase
+        checkedBalance = true
+      }
+    }
+
+    // If the input phrase was invalid, and the correct phrase could not be found automatically,
+    // report an error to the user.
+    if (mnemonic === undefined) {
       Logger.error(TAG + '@importBackupPhraseSaga', 'Invalid mnemonic')
+      // DO NOT MERGE: Add a note to the error to identify any invalid words.
       yield put(showError(ErrorMessages.INVALID_BACKUP_PHRASE))
       yield put(importBackupPhraseFailure())
       return
     }
 
-    const keys = yield call(generateKeys, mnemonic, undefined, undefined, undefined, bip39)
-    const privateKey = keys.privateKey
+    const { privateKey } = yield call(
+      generateKeys,
+      mnemonic,
+      undefined,
+      undefined,
+      undefined,
+      bip39
+    )
     if (!privateKey) {
       throw new Error('Failed to convert mnemonic to hex')
     }
 
-    if (!useEmptyWallet) {
-      Logger.debug(TAG + '@importBackupPhraseSaga', 'Checking account balance')
+    // Check that the provided mnemonic derives an account with at least some balance. If the wallet
+    // is empty, and useEmptyWallet is not true, display a warning to the user before they continue.
+    if (!useEmptyWallet && !checkedBalance) {
       const backupAccount = privateKeyToAddress(privateKey)
-
-      const dollarBalance: BigNumber = yield call(
-        fetchTokenBalanceInWeiWithRetry,
-        CURRENCY_ENUM.DOLLAR,
-        backupAccount
-      )
-
-      const goldBalance: BigNumber = yield call(
-        fetchTokenBalanceInWeiWithRetry,
-        CURRENCY_ENUM.GOLD,
-        backupAccount
-      )
-
-      if (dollarBalance.isLessThanOrEqualTo(0) && goldBalance.isLessThanOrEqualTo(0)) {
+      if (!(yield call(walletHasBalance, backupAccount))) {
         yield put(importBackupPhraseSuccess())
         navigate(Screens.ImportWallet, { clean: false, showZeroBalanceModal: true })
         return
@@ -100,6 +120,51 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     yield put(showError(ErrorMessages.IMPORT_BACKUP_FAILED))
     yield put(importBackupPhraseFailure())
   }
+}
+
+// Uses suggestMnemonicCorrections to generate valid mnemonic phrases that are likely given the
+// invalid phrase that the user entered. Checks the balance of any phrase the generator suggests
+// before returning it. If the wallet has non-zero balance, then we are be very confident that its
+// the account the user was actually trying to restore. Otherwise, this method does not return any
+// suggested correction.
+function* attemptBackupPhraseCorrection(mnemonic: string) {
+  // TODO: Attempt multiple suggestions in parrallel.
+  let counter = 0
+  for (const suggestion of suggestMnemonicCorrections(mnemonic)) {
+    Logger.info(
+      TAG + '@attemptBackupPhraseCorrection',
+      `Checking account balance on suggestion #${++counter}`
+    )
+    Logger.info(TAG + '@attemptBackupPhraseCorrection', `DO NOT MERGE: ${suggestion}`)
+    const { privateKey } = yield call(
+      generateKeys,
+      suggestion,
+      undefined,
+      undefined,
+      undefined,
+      bip39
+    )
+    if (!privateKey) {
+      Logger.info(TAG + '@attemptBackupPhraseCorrection', 'Failed to convert mnemonic to hex')
+      continue
+    }
+
+    if (yield call(walletHasBalance, privateKeyToAddress(privateKey))) {
+      Logger.info(TAG + '@attemptBackupPhraseCorrection', 'Found correction phrase with balance')
+      return suggestion
+    }
+  }
+  return undefined
+}
+
+function* walletHasBalance(address: string) {
+  Logger.debug(TAG + '@walletHasBalance', 'Checking account balance')
+  const { dollarBalance, goldBalance } = yield all({
+    dollarBalance: call(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.DOLLAR, address),
+    goldBalance: call(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.GOLD, address),
+  })
+
+  return dollarBalance.isGreaterThan(0) || goldBalance.isGreaterThan(0)
 }
 
 export function* watchImportBackupPhrase() {

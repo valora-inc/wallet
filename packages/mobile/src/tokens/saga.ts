@@ -25,6 +25,7 @@ const TAG = 'tokens/saga'
 const contractWeiPerUnit: { [key in CURRENCY_ENUM]: BigNumber | null } = {
   [CURRENCY_ENUM.GOLD]: WEI_PER_TOKEN,
   [CURRENCY_ENUM.DOLLAR]: WEI_PER_TOKEN,
+  [CURRENCY_ENUM.EURO]: WEI_PER_TOKEN,
 }
 
 function* getWeiPerUnit(token: CURRENCY_ENUM) {
@@ -233,5 +234,7 @@ export async function getCurrencyAddress(currency: CURRENCY_ENUM) {
       return contractKit.registry.addressFor(CeloContract.GoldToken)
     case CURRENCY_ENUM.DOLLAR:
       return contractKit.registry.addressFor(CeloContract.StableToken)
+    case CURRENCY_ENUM.EURO:
+      return contractKit.registry.addressFor(CeloContract.StableTokenEUR)
   }
 }

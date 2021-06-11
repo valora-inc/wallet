@@ -166,9 +166,9 @@ export class ImportWallet extends React.Component<Props, State> {
 
   onPressTryAnotherKey = () => {
     const { navigation } = this.props
-    this.setState({
-      backupPhrase: '',
-    })
+    // Return the user to the import screen without clearing out their key.
+    // It's much easier for a user to delete a phrase from the screen than reinput it if the phrase
+    // is only partially wrong, or the user accidentally hits the "Go back" button.
     ValoraAnalytics.track(OnboardingEvents.wallet_import_cancel)
     navigation.setParams({ clean: false, showZeroBalanceModal: false })
   }

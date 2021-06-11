@@ -86,6 +86,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const currencyToBuy = {
     [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
     [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
+    [CURRENCY_ENUM.EURO]: CurrencyCode.CEUR,
   }[route.params.selectedCrypto || CURRENCY_ENUM.DOLLAR]
 
   const dispatch = useDispatch()

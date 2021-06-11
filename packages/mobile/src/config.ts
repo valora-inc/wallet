@@ -158,6 +158,7 @@ export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 export enum CurrencyCode {
   CELO = 'CELO',
   CUSD = 'CUSD',
+  CEUR = 'CEUR',
 }
 
 export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
