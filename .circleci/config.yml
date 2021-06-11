@@ -63,9 +63,6 @@ commands:
               # Dependencies have changed, create beacon file used by the install and check licenses steps
               touch ~/.tmp/yarn_deps_have_changed
             fi
-
-      - install_rsync
-
       - run:
           name: Install dependencies
           command: |
@@ -150,6 +147,8 @@ jobs:
 
       - attach_workspace:
           at: ~/app
+
+      - install_rsync
 
       - yarn_install
 
