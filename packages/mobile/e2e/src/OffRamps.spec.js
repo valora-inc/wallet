@@ -1,4 +1,4 @@
-import offRamps from './usecases/OnRamps'
+import offRamps from './usecases/OffRamps'
 import { quickOnboarding } from './utils/utils'
 
 describe('Ramps', () => {
