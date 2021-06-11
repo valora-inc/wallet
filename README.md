@@ -4,7 +4,7 @@
   </a>
 </p>
 
-**Official repository for Valora**
+**Official repository for Valora**m
 
 Valora is a mobile wallet focused on making global peer-to-peer payments simple and accessible to anyone. It supports the Celo Identity Protocol which allows users to verify their phone number and send payments to their contacts.
 
