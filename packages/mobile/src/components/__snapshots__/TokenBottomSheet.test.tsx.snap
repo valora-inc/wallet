@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CurrencyPicker renders correctly 1`] = `
+exports[`TokenBottomSheet renders correctly 1`] = `
 <View
   style={
     Object {
@@ -12,7 +12,7 @@ exports[`CurrencyPicker renders correctly 1`] = `
       "top": 0,
     }
   }
-  testID="CurrencyPickerContainer"
+  testID="TokenBottomSheetContainer"
 >
   <View
     style={
@@ -29,14 +29,17 @@ exports[`CurrencyPicker renders correctly 1`] = `
     }
   />
   <View
+    onLayout={[Function]}
     style={
       Array [
         Object {
           "backgroundColor": "#FFFFFF",
           "borderTopLeftRadius": 16,
           "borderTopRightRadius": 16,
+          "bottom": 0,
           "opacity": 1,
           "padding": 24,
+          "position": "absolute",
           "width": "100%",
         },
         undefined,
@@ -56,28 +59,32 @@ exports[`CurrencyPicker renders correctly 1`] = `
     >
       selectBalance
     </Text>
-    <RNGestureHandlerButton
-      collapsable={false}
-      onGestureEvent={[Function]}
-      onGestureHandlerEvent={[Function]}
-      onGestureHandlerStateChange={[Function]}
-      onHandlerStateChange={[Function]}
-      rippleColor={0}
+    <View
+      accessible={true}
+      focusable={true}
+      nativeBackgroundAndroid={
+        Object {
+          "attribute": "selectableItemBackground",
+          "rippleRadius": undefined,
+          "type": "ThemeAttrAndroid",
+        }
+      }
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       testID="cUSDTouchable"
     >
       <View
-        accessible={true}
         style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "height": 72,
-            },
-            Object {
-              "opacity": 1,
-            },
-          ]
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "paddingVertical": 16,
+          }
         }
       >
         <Text
@@ -144,7 +151,7 @@ exports[`CurrencyPicker renders correctly 1`] = `
           </Text>
         </View>
       </View>
-    </RNGestureHandlerButton>
+    </View>
     <View
       style={
         Object {
@@ -154,28 +161,32 @@ exports[`CurrencyPicker renders correctly 1`] = `
         }
       }
     />
-    <RNGestureHandlerButton
-      collapsable={false}
-      onGestureEvent={[Function]}
-      onGestureHandlerEvent={[Function]}
-      onGestureHandlerStateChange={[Function]}
-      onHandlerStateChange={[Function]}
-      rippleColor={0}
+    <View
+      accessible={true}
+      focusable={true}
+      nativeBackgroundAndroid={
+        Object {
+          "attribute": "selectableItemBackground",
+          "rippleRadius": undefined,
+          "type": "ThemeAttrAndroid",
+        }
+      }
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
       testID="cEURTouchable"
     >
       <View
-        accessible={true}
         style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "height": 72,
-            },
-            Object {
-              "opacity": 1,
-            },
-          ]
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "paddingVertical": 16,
+          }
         }
       >
         <Text
@@ -242,7 +253,7 @@ exports[`CurrencyPicker renders correctly 1`] = `
           </Text>
         </View>
       </View>
-    </RNGestureHandlerButton>
+    </View>
   </View>
 </View>
 `;
