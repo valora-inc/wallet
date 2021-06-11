@@ -144,13 +144,7 @@ export class RecipientPicker extends React.Component<RecipientProps> {
   }
 
   renderSendToAddress = () => {
-    const {
-      searchQuery,
-      recipientInfo,
-      onSelectRecipient,
-      t,
-      showSendToAddressWarning,
-    } = this.props
+    const { searchQuery, recipientInfo, onSelectRecipient, showSendToAddressWarning } = this.props
     const searchedAddress = searchQuery.toLowerCase()
     const recipient = getRecipientFromAddress(searchedAddress, recipientInfo)
 
