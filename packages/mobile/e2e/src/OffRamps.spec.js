@@ -6,5 +6,5 @@ describe('Ramps', () => {
     await quickOnboarding()
   })
 
-  describe('Given Off Ramp', offRamps)
+  describe('Given Cash Out', offRamps)
 })
