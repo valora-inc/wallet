@@ -23,7 +23,7 @@
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="celo" android:host="wallet" />
-        <data android:scheme="wc" android:host="wallet" />
+        <data android:scheme="wc" />
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
