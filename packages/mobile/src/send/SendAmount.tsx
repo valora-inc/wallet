@@ -247,9 +247,14 @@ function SendAmount(props: Props) {
 
   const onSend = React.useCallback(() => {
     if (!isDollarBalanceSufficient) {
+      const localAmountNeeded = convertDollarsToLocalAmount(
+        minimumAmount,
+        localCurrencyExchangeRate
+      )
       dispatch(
         showError(ErrorMessages.NSF_TO_SEND, null, {
-          amountNeeded: minimumAmount,
+          amountNeeded: localAmountNeeded,
+          currencySymbol: localCurrencySymbol,
         })
       )
       return
@@ -281,7 +286,14 @@ function SendAmount(props: Props) {
         origin,
       })
     }
-  }, [recipientVerificationStatus, addressValidationType, dollarAmount, getTransactionData, origin])
+  }, [
+    recipientVerificationStatus,
+    addressValidationType,
+    dollarAmount,
+    getTransactionData,
+    origin,
+    minimumAmount,
+  ])
 
   const onRequest = React.useCallback(() => {
     if (dollarAmount.isGreaterThan(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD)) {
