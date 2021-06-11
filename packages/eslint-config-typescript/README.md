@@ -1,13 +1,13 @@
-# @celo/eslint-config-typescript
+# @valora/eslint-config-typescript
 
-Shareable ESLint config for Celo TypeScript packages.
+Shareable ESLint config for Valora TypeScript packages.
 
 ## Installing
 
 Add the ESLint config in your package:
 
 ```
-yarn add @celo/eslint-config-typescript --dev
+yarn add @valora/eslint-config-typescript --dev
 ```
 
 and add all the [`peerDependencies`](./packages.json).
@@ -28,7 +28,7 @@ and create a `.eslintrc.js` file:
 
 ```js
 module.exports = {
-  extends: ['@celo/eslint-config-typescript'],
+  extends: ['@valora/eslint-config-typescript'],
   // The @typescript-eslint/no-floating-promises and @typescript-eslint/no-misused-promises
   // plugins require a full compilation, so pass the `tsconfig.json` config file.
   parserOptions: {

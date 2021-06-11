@@ -5,3 +5,5 @@ files:
     translation: /packages/mobile/ios/celo/%osx_code%/%original_file_name%
   - source: /packages/notification-service/locales/en.json
     translation: /packages/notification-service/locales/%two_letters_code%.json
+  - source: /packages/cloud-functions/locales/en.json
+    translation: /packages/cloud-functions/locales/%two_letters_code%.json
