@@ -14,6 +14,8 @@ export default Send = () => {
     await element(by.id('SearchInput')).tapReturnKey()
     await element(by.id('RecipientItem')).tap()
 
+    await element(by.id('SendToAddressWarning/Continue')).tap()
+
     // Enter the amount and review
     await inputNumberKeypad(AMOUNT_TO_SEND)
     await element(by.id('Review')).tap()
