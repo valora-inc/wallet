@@ -1,6 +1,6 @@
 import { dismissBanners } from '../utils/banners'
 import { pixelDiff, sleep, enterPinUiIfNecessary, getDeviceModel } from '../utils/utils'
-import { DEFAULT_RECIPIENT_ADDRESS } from '..utils/utils/consts'
+import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 
 export default offRamps = () => {
   beforeEach(async () => {
