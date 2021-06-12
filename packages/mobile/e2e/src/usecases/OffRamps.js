@@ -26,8 +26,9 @@ export default offRamps = () => {
         await element(by.id('FiatExchangeInput')).replaceText('2')
         await element(by.id('FiatExchangeNextButton')).tap()
         await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
-        const imagePath = await device.takeScreenshot('Cash Out Providers')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Cash Out Providers.png`)
+        await expect(element(by.id('Icon/Xanpool'))).toExist()
+        const imagePath = await device.takeScreenshot('cUSD Out Providers')
+        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD Out Providers.png`)
       })
     })
 
@@ -55,8 +56,8 @@ export default offRamps = () => {
         await expect(element(by.id('CoinList Pro'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
         //TODO: Check Address is Displayed
-        const imagePath = await device.takeScreenshot('Exchanges')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Exchanges.png`)
+        const imagePath = await device.takeScreenshot('cUSD Exchanges')
+        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD Exchanges.png`)
       })
     })
   })
@@ -66,13 +67,12 @@ export default offRamps = () => {
       await element(by.id('radio/CELO')).tap()
     })
 
-    describe('When cUSD/CELO Address Selected', () => {
+    describe('When Address Selected', () => {
       const randomAmount = `${Math.random().toFixed(3)}`
 
       beforeEach(async () => {
         await element(by.id('receiveOnAddress')).tap()
         await element(by.text('Next')).tap()
-        // console.log('randomAmount: ', randomAmount)
         await element(by.id('AccountAddress')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
         await element(by.id('CeloAmount')).replaceText(randomAmount)
         //TODO: Investigate why sleep is needed
@@ -101,8 +101,8 @@ export default offRamps = () => {
         await expect(element(by.id('Coinbase Pro (CELO as CGLD)'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('OKEx'))).toBeVisible()
-        const imagePath = await device.takeScreenshot('Crypto Out Providers')
-        await pixelDiff(imagePath, `./e2e/assets/${deviceModel}/Crypto Out Providers.png`, 2.5)
+        const imagePath = await device.takeScreenshot('CELO Exchanges')
+        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO Exchanges.png`)
       })
     })
   })
