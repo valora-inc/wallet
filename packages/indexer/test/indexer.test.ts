@@ -1,21 +1,11 @@
 import { Contract, Event, indexEvents } from '../src/indexer'
-import { getLastBlock, setLastBlock } from '../src/indexer/blocks'
+import { db, database, initDatabase } from '../src/database/db'
 import { partialEventLog } from '../src/util/testing'
+import { getLastBlock } from '../src/indexer/blocks'
 
-// TODO: Write e2e tests running with a real node and a real db.
-
-const saveRowMock = jest.fn()
-const getLastBlockMock = getLastBlock as jest.Mock
-const setLastBlockMock = setLastBlock as jest.Mock
 const getLastBlockNumberMock = jest.fn()
 const getAccountEventsMock = jest.fn()
 
-jest.mock('../src/database/db', () => ({
-  database: (tableName: string) => ({
-    insert: jest.fn((payload: any) => saveRowMock(tableName, payload)),
-  }),
-}))
-jest.mock('../src/indexer/blocks')
 jest.mock('../src/util/utils', () => ({
   getContractKit: jest.fn(() => ({
     web3: {
@@ -34,17 +24,25 @@ jest.mock('../src/util/utils', () => ({
 
 const firstTxHash = '0x0001'
 const secondTxHash = '0x0002'
-const fromBlock = 100
+
+// We want to pick a toBlock that triggers multiple iterations of the indexEvents
+// loop. 15000 ensures that because we start with last block = 0 and 15000 is
+// larger than the batch sizes.
 const toBlock = 15000
-const tableName = 'accounts'
+// Pick a table that exists.
+const tableName = 'account_wallet_mappings'
 
 describe('Indexer', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
+    await initDatabase()
     jest.clearAllMocks()
   })
 
+  afterEach(() => {
+    return db.destroy()
+  })
+
   function prepareMocks() {
-    getLastBlockMock.mockImplementation(() => Promise.resolve(fromBlock))
     getLastBlockNumberMock.mockImplementation(() => Promise.resolve(toBlock))
     getAccountEventsMock
       .mockImplementationOnce(() => [partialEventLog({ transactionHash: firstTxHash })])
@@ -58,19 +56,24 @@ describe('Indexer', () => {
       transactionHash: event.transactionHash,
     }))
 
-    expect(saveRowMock).toHaveBeenCalledTimes(2)
-    expect(saveRowMock).toHaveBeenCalledWith(
-      tableName,
-      expect.objectContaining({ transactionHash: firstTxHash })
-    )
-    expect(saveRowMock).toHaveBeenCalledWith(
-      tableName,
-      expect.objectContaining({ transactionHash: secondTxHash })
-    )
+    expect(await database(tableName)).toHaveLength(2)
+    expect(
+      await database(tableName)
+        .where({
+          transactionHash: firstTxHash,
+        })
+        .first()
+    ).toBeTruthy()
+    expect(
+      await database(tableName)
+        .where({
+          transactionHash: secondTxHash,
+        })
+        .first()
+    ).toBeTruthy()
 
-    expect(setLastBlockMock).toHaveBeenCalledTimes(2)
-    expect(setLastBlockMock).toHaveBeenCalledWith(expect.any(String), fromBlock + 10000 + 1)
-    expect(setLastBlockMock).toHaveBeenCalledWith(expect.any(String), toBlock)
+    const key = `${Contract.Accounts}_${Event.AccountWalletAddressSet}`
+    expect(await getLastBlock(key)).toEqual(toBlock)
   })
 
   it("halts when there's an error storing events", async () => {
@@ -80,7 +83,9 @@ describe('Indexer', () => {
       throw Error('Test error')
     })
 
-    expect(saveRowMock).not.toHaveBeenCalled()
-    expect(setLastBlockMock).not.toHaveBeenCalled()
+    expect(await database(tableName)).toHaveLength(0)
+
+    const key = `${Contract.Accounts}_${Event.AccountWalletAddressSet}`
+    expect(await getLastBlock(key)).toEqual(0)
   })
 })
