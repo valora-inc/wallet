@@ -51,11 +51,11 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      it('Then Exchanges Should Display', async () => {
+      it('Then Should Display Exchanges & Account Key', async () => {
         await expect(element(by.id('Bittrex'))).toBeVisible()
         await expect(element(by.id('CoinList Pro'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
-        //TODO: Check Address is Displayed
+        await expect(element(by.id('accountNumberContainer'))).toBeVisible()
         const imagePath = await device.takeScreenshot('cUSD Exchanges')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD Exchanges.png`)
       })
@@ -94,13 +94,14 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      it('Then Exchanges Should Display', async () => {
+      it('Then Should Display Exchanges & Account Key', async () => {
         await expect(element(by.id('Binance'))).toBeVisible()
         await expect(element(by.id('Bittrex'))).toBeVisible()
         await expect(element(by.id('Coinbase (CELO as CGLD)'))).toBeVisible()
         await expect(element(by.id('Coinbase Pro (CELO as CGLD)'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('OKEx'))).toBeVisible()
+        await expect(element(by.id('accountNumberContainer'))).toBeVisible()
         const imagePath = await device.takeScreenshot('CELO Exchanges')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO Exchanges.png`)
       })
