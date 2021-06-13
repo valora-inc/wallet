@@ -39,7 +39,7 @@ export default offRamps = () => {
       })
 
       it('Then Bidali Should Display', async () => {
-        await sleep(10000)
+        await sleep(15000)
         const imagePath = await device.takeScreenshot('Bidali')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Bidali.png`)
       })
