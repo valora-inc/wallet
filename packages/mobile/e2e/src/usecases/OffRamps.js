@@ -40,9 +40,10 @@ export default offRamps = () => {
 
       it('Then Bidali Should Display', async () => {
         await expect(element(by.text('Bidali'))).toBeVisible()
-        await sleep(15000)
-        const imagePath = await device.takeScreenshot('Bidali')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Bidali.png`)
+        // TODO: Include Check of Screenshot in Nightly Tests
+        // await sleep(15000)
+        // const imagePath = await device.takeScreenshot('Bidali')
+        // await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Bidali.png`)
       })
     })
 
