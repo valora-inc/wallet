@@ -106,7 +106,7 @@ function useTransactionCallbacks({
   )
 
   const [isTransferLimitReached, showLimitReachedBanner] = useDailyTransferLimitValidator(
-    stableBalance,
+    amountInStableCurrency,
     transferCurrency
   )
 
