@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
-    height: fontStyles.h1.lineHeight,
+    minHeight: fontStyles.h1.lineHeight,
     alignItems: 'center',
     justifyContent: 'center',
   },
