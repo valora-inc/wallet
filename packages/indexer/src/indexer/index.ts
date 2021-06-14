@@ -81,17 +81,23 @@ export async function indexEvents(
         )
       }
       fromBlock = toBlock + 1
-      await concurrentMap(CONCURRENT_EVENTS_HANDLED, events, async (event) => {
-        const { transactionHash, logIndex, blockNumber, blockHash } = event
-        await database(tableName).insert({
-          transactionHash,
-          logIndex,
-          blockNumber,
-          blockHash,
-          ...payloadMapper(event),
+      // Wrap write to event table and block index in a transaction so that the
+      // update is atomic.
+      await database.transaction(async (trx) => {
+        await concurrentMap(CONCURRENT_EVENTS_HANDLED, events, async (event) => {
+          const { transactionHash, logIndex, blockNumber, blockHash } = event
+          await database(tableName)
+            .insert({
+              transactionHash,
+              logIndex,
+              blockNumber,
+              blockHash,
+              ...payloadMapper(event),
+            })
+            .transacting(trx)
         })
+        await setLastBlock(key, toBlock).transacting(trx)
       })
-      await setLastBlock(key, toBlock)
     }
   } catch (error) {
     console.error(TAG, `${key} - Error while handling events`, error)

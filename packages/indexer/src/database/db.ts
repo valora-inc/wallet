@@ -1,9 +1,9 @@
 import { Knex, knex } from 'knex'
 
-export let db: Knex
+export let database: Knex
 export async function initDatabase() {
   if (process.env.DB_TYPE === 'sqlite') {
-    db = knex({
+    database = knex({
       client: 'sqlite',
       connection: {
         filename: ':memory:',
@@ -11,7 +11,7 @@ export async function initDatabase() {
       useNullAsDefault: true,
     })
   } else {
-    db = knex({
+    database = knex({
       client: 'pg',
       connection: {
         host: process.env.DB_HOST ?? 'localhost',
@@ -25,19 +25,11 @@ export async function initDatabase() {
 
   console.info('Running Migrations')
 
-  await db.migrate.latest({
+  await database.migrate.latest({
     directory: './dist/migrations',
     loadExtensions: ['.js'],
   })
 
   console.info('Database initialized successfully')
-  return db
-}
-
-export function database(tableName: string) {
-  if (!db) {
-    throw new Error('Database not yet initialized')
-  }
-
-  return db(tableName)
+  return database
 }
