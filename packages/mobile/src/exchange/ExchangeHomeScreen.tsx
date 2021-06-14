@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   goldPriceCurrentValue: {
-    height: 27,
+    minHeight: 27,
     ...fontStyles.mediumNumber,
   },
   goldPriceCurrentValueHeader: {
