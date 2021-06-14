@@ -382,16 +382,6 @@ jobs:
       - store_test_results:
           path: packages/mobile/e2e/test-results
 
-  lint-checks:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/app
-      # If this fails, fix it with
-      # `./node_modules/.bin/prettier --config .prettierrc.js --write '**/*.+(ts|tsx|js|jsx)'`
-      - run: yarn run prettify:diff
-      - run: yarn run lint
-
   vulnerability-checks:
     <<: *defaults
     steps:
@@ -477,18 +467,15 @@ workflows:
   celo-monorepo-build:
     jobs:
       - install_dependencies
-      - lint-checks:
-          requires:
-            - install_dependencies
       - vulnerability-checks:
           requires:
             - install_dependencies
       - general-tests:
           requires:
-            - lint-checks
+            - install_dependencies
       - mobile-test:
           requires:
-            - lint-checks
+            - install_dependencies
       - end-to-end-mobile-test-android
       - end-to-end-mobile-test-ios
       - flakey-test-summary:
