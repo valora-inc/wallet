@@ -1,5 +1,5 @@
 {
-  "name": "@celo/eslint-config-typescript",
+  "name": "@valora/eslint-config-typescript",
   "version": "0.0.1",
   "main": "index.js",
   "author": "Celo",
@@ -14,5 +14,8 @@
     "eslint-plugin-react": ">=7.0.0",
     "eslint-plugin-react-hooks": ">=4.0.0",
     "eslint-plugin-react-native": ">=3.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }

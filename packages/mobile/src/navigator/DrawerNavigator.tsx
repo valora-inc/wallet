@@ -1,6 +1,6 @@
 import PhoneNumberWithFlag from '@celo/react-components/components/PhoneNumberWithFlag'
 import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
+import fontStyles, { fontFamily } from '@celo/react-components/styles/fonts'
 import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib'
 import {
   createDrawerNavigator,
@@ -216,11 +216,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
       <CustomDrawerItemList {...props} protectedRoutes={[Screens.BackupIntroduction]} />
       <View style={styles.drawerBottom}>
         <Text style={fontStyles.label}>{i18n.t('dappkit:address')}</Text>
-        <View style={styles.accountOuterContainer}>
-          <View style={styles.accountInnerContainer}>
-            <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
-          </View>
-        </View>
+        <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
+        <Text style={styles.link}>{i18n.t('accountScreen10:tapToCopy')}</Text>
         <Text style={styles.smallLabel}>{`Version ${appVersion}`}</Text>
       </View>
     </DrawerContentScrollView>
@@ -341,17 +338,15 @@ const styles = StyleSheet.create({
     marginVertical: 32,
     marginHorizontal: 16,
   },
-  accountOuterContainer: {
-    flexDirection: 'row',
-    marginTop: 8,
-    marginBottom: 32,
-  },
-  accountInnerContainer: {
-    marginLeft: 4,
-    flexDirection: 'column',
-  },
   smallLabel: {
     ...fontStyles.small,
     color: colors.gray4,
+  },
+  link: {
+    ...fontStyles.label,
+    textDecorationLine: 'underline',
+    color: colors.gray4,
+    fontFamily,
+    marginBottom: 32,
   },
 })

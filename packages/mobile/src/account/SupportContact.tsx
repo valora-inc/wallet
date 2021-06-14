@@ -124,7 +124,9 @@ function SupportContact({ route }: Props) {
         )}
 
         <View style={styles.disclaimer}>
-          <Text style={styles.disclaimerText}>{t('supportLegalCheckbox')}</Text>
+          <Text testID="Legal" style={styles.disclaimerText}>
+            {t('supportLegalCheckbox')}
+          </Text>
         </View>
         <Button
           disabled={!message || inProgress}

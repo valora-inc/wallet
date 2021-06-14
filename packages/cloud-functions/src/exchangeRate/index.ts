@@ -5,7 +5,6 @@ import * as functions from 'firebase-functions'
 import { performance } from 'perf_hooks'
 import { getContractKit } from '../contractKit'
 import { database } from '../firebase'
-import { metrics } from '../metrics'
 
 interface ExchangeRateObject {
   exchangeRate: string
@@ -73,7 +72,15 @@ async function getExchangeRate(
   )
 
   const t1 = performance.now()
-  metrics.setExchangeQueryDuration(t1 - t0)
+  console.info(
+    JSON.stringify({
+      context: 'Exchange Rate Fetch Duration',
+      duration: t1 - t0,
+      rate: rate.toString(),
+      makerToken,
+      stableToken,
+    })
+  )
 
   return rate
 }
