@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     marginTop: -1,
   },
   title: {
+    flexShrink: 1,
     ...fontStyles.regular500,
   },
   subtitle: {
