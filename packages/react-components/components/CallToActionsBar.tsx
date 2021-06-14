@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     marginRight: 24,
     minWidth: 48,
-    height: 16,
+    minHeight: 16,
+    flex: 1,
   },
   darkModeAction: {
     color: colors.light,
