@@ -9,6 +9,10 @@ export default RestoreAccountOnboarding = () => {
     await device.launchApp({
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
+      launchArgs: {
+        detoxURLBlacklistRegex:
+          '\\("https:\/\/blockchain-api-dot-celo-mobile-alfajores.appspot.com\/","https:\/\/alfajores-forno.celo-testnet.org\/", "https:\/\/alfajores-stokado-data.celo-testnet.org\/*"\\)'
+      }
     })
     await sleep(5000)
     await dismissBanners()
