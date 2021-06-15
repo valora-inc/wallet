@@ -92,6 +92,9 @@ const styles = StyleSheet.create({
     ...fontStyles.regular500,
     marginLeft: 'auto',
     paddingLeft: 10,
+    width: '40%',
+    textAlign: 'right',
+    flexWrap: 'wrap',
   },
   amountReceived: {
     color: colors.greenUI,
