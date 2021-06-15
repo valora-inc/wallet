@@ -81,7 +81,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     if (mnemonic === undefined) {
       Logger.error(TAG + '@importBackupPhraseSaga', 'Invalid mnemonic')
       const invalidWords = invalidMnemonicWords(normalizedPhrase)
-      if (invalidWords.length > 0) {
+      if (invalidWords !== undefined && invalidWords.length > 0) {
         yield put(
           showError(ErrorMessages.INVALID_WORDS_IN_BACKUP_PHRASE, null, {
             invalidWords: invalidWords.join(', '),
