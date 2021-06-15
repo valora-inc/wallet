@@ -235,7 +235,7 @@ export default function CurrencyDisplay({
   }
 
   return (
-    <Text numberOfLines={1} style={[style, { color }]} testID={testID}>
+    <Text style={[style, { color }]} testID={testID}>
       {!hideSign && sign}
       {!hideSymbol && currencySymbol}
       {formattedValue}
