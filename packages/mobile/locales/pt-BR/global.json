@@ -46,7 +46,7 @@
   "missingFullName": "O campo do nome não pode ficar em branco",
   "invalidPhone": "Número de celular inválido",
   "cantSelectInvalidPhone": "Não é possível selecionar o contato: número de celular inválido",
-  "needMoreFundsToSend": "São necessários mais fundos para enviar o pagamento",
+  "needMoreFundsToSend": "Você deve ter {{currencySymbol}}{{amountNeeded}} para fazer esta transação. Por favor, adicione fundos ou tente enviar menos.",
   "maxEscrowTransferExceeded": "A quantia máxima a ser transferida para usuários não confirmados é {{symbol}} {{maxAmount}} ",
   "invalidAmount": "Quantia inválida",
   "invalidCode": "Código de confirmação inválido",
