@@ -1,43 +1,47 @@
 import * as functions from 'firebase-functions'
-import { fetchWithTimeout } from 'src/cico/utils'
 import { trackEvent } from '../bigQuery'
 import { BIGQUERY_PROVIDER_STATUS_TABLE, DigitalAsset, FiatCurrency, SIMPLEX_DATA } from '../config'
 import { CashInStatus, Providers } from './Providers'
+import { fetchWithTimeout, lookupAddressFromTxId } from './utils'
 
-function trackSimplexEvent(body: any) {
-  const {
-    data: { id, walletAddress, status, failureReason },
-    type,
-  } = body
-  if (SimplexTxStatus.Started === type) {
+const trackSimplexEvent = async (
+  txId: string,
+  status: SimplexTxStatus,
+  walletAddress: string,
+  timestamp: string
+) => {
+  if (status === SimplexTxStatus.Started) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      id,
+      id: txId,
       provider: Providers.Simplex,
       status: CashInStatus.Started,
-      timestamp: Date.now() / 1000,
+      timestamp,
       user_address: walletAddress,
     })
   } else if (status === SimplexTxStatus.Failed) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      id,
+      id: txId,
       provider: Providers.Simplex,
       status: CashInStatus.Failure,
-      timestamp: Date.now() / 1000,
+      timestamp,
       user_address: walletAddress,
-      failure_reason: failureReason,
     })
   } else if (status === SimplexTxStatus.Completed) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      id,
+      id: txId,
       provider: Providers.Simplex,
       status: CashInStatus.Success,
-      timestamp: Date.now() / 1000,
+      timestamp,
       user_address: walletAddress,
     })
   }
 }
 
 // https://integrations.simplex.com/wallet-api-integration#events-api_group
+interface SimplexEventResponse {
+  events: SimplexTransactionEvent[]
+}
+
 interface SimplexTransactionEvent {
   event_id: string
   name: SimplexTxStatus
@@ -59,10 +63,6 @@ interface SimplexTransactionEvent {
   timestamp: string
 }
 
-interface SimplexEventResponse {
-  events: SimplexTransactionEvent[]
-}
-
 enum SimplexTxStatus {
   Started = 'payment_simplexcc_submitted',
   Completed = 'payment_simplexcc_approved',
@@ -72,13 +72,39 @@ enum SimplexTxStatus {
 export const simplexEventPolling = functions.https.onRequest(async (req, res) => {
   try {
     const response = await fetchWithTimeout(SIMPLEX_DATA.event_url, {
-      'Content-Type': 'application/json',
-      Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
+      },
     })
+
+    if (!response.ok) {
+      throw new Error(JSON.stringify(response))
+    }
+
+    console.info('Response: ', response)
+
+    const simplexEvents: SimplexEventResponse = await response.json()
+
+    if (!response.ok) {
+      console.error('Simplex error!', JSON.stringify(simplexEvents))
+      throw new Error(JSON.stringify(simplexEvents))
+    }
+
+    await Promise.all(
+      simplexEvents.events.map(async (event) => {
+        const status = event.name
+        const txId = event.payment.id
+        const timestamp = event.payment.created_at
+        const userAddress = await lookupAddressFromTxId(txId)
+        console.info(`Found user address ${userAddress} on txId ${txId}`)
+        await trackSimplexEvent(txId, status, userAddress, timestamp)
+      })
+    )
 
     res.status(204).end()
   } catch (error) {
-    console.error('ERROR: Missing or invalid signature')
-    res.status(401).send()
+    console.error('There was an error!', error)
+    res.status(400).end()
   }
 })

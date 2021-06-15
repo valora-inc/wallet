@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { bigQueryDataset, bigQueryProjectId, getBigQueryInstance } from '../bigQuery'
 import { BLOCKCHAIN_API_URL, FETCH_TIMEOUT_DURATION } from '../config'
 import { countryToCurrency } from './providerAvailability'
+import { Providers } from './Providers'
 
 const fetch = require('node-fetch')
 
@@ -84,6 +85,30 @@ export const getOrCreateUuid = async (userAddress: string) => {
   await admin.database().ref(`registrations/${userAddress}`).update({ simplexId })
 
   return simplexId
+}
+
+export const storeTransactionId = async (
+  userAddress: string,
+  transactionId: string,
+  provider: Providers
+) => {
+  try {
+    await admin.database().ref(`cicoProviderTxs/${transactionId}`).update({ provider, userAddress })
+  } catch (error) {
+    console.error(`Could not store ${provider} transaction id for ${userAddress}`)
+  }
+}
+
+export const lookupAddressFromTxId = async (transactionId: string) => {
+  const transactionData = await admin
+    .database()
+    .ref(`cicoProviderTxs/${transactionId}`)
+    .once('value')
+    .then((snapshot) => snapshot.val())
+
+  if (transactionData?.userAddress) {
+    return transactionData.userAddress
+  }
 }
 
 export function getFirebaseAdminCreds(localAdmin: any) {
