@@ -2135,10 +2135,10 @@
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-1.2.1.tgz#633ee3e8c8bcca954cad36f99718887582136f07"
   integrity sha512-xdbTV9bsmD4qLlmvtCrtcL5V4PoPYWN/VZLkSWtpgPmR7lBmlXrHXHOSALCObWm/1AxNsidOq+DNsZYRlE28SQ==
 
-"@celo/client@0.0.352":
-  version "0.0.352"
-  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.352.tgz#e9860a1b69916263e6bf5911a625d9924bd051f7"
-  integrity sha512-BaruxsUvFv4zm3v5DqmMzbNmcOLCBy3z49CjmYpiouQ9OOc6uNXHoozOq5QkIWK5r4lCodpH+tHHP7R1lskCUg==
+"@celo/client@0.0.355":
+  version "0.0.355"
+  resolved "https://registry.yarnpkg.com/@celo/client/-/client-0.0.355.tgz#a3ef723c94e94cef3a8a4a98cebe7ee5ce123475"
+  integrity sha512-ibdhIHi8t5+mbAUheuBW4GkFXHYxDfsorDe4MyeLa2TADor173jpV23e4Ie9N1lI6/H83azK9EHeTnxDyvItLA==
 
 "@celo/connect@1.2.2-beta":
   version "1.2.2-beta"
