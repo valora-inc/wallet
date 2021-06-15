@@ -3,7 +3,6 @@ import '@react-native-firebase/auth'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
-// tslint:disable-next-line: no-duplicate-imports
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
@@ -234,8 +233,13 @@ export function appRemoteFeatureFlagChannel() {
         shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
         inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,
         inviteRewardCusd: flags?.inviteRewardCusd ?? 1,
-        inviteRewardWeeklyLimit: flags?.inviteRewardCusd ?? 5,
+        inviteRewardWeeklyLimit: flags?.inviteRewardWeeklyLimit ?? 5,
         walletConnectEnabled: flags?.walletConnectEnabled ?? false,
+        rewardsABTestThreshold:
+          flags?.rewardsABTestThreshold ?? '0xffffffffffffffffffffffffffffffffffffffff',
+        rewardsPercent: flags?.rewardsPercent ?? 5,
+        rewardsStartDate: flags?.rewardsStartDate ?? 1622505600000,
+        rewardsMax: flags?.rewardsMax ?? 1000,
       })
     }
 

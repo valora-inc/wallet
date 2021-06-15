@@ -37,7 +37,6 @@ interface SendConfirmationParams {
   currencyInfo?: CurrencyInfo
 }
 
-// tslint:disable-next-line: interface-over-type-literal
 export type StackParamList = {
   [Screens.BackupComplete]:
     | undefined
@@ -177,7 +176,13 @@ export type StackParamList = {
     onCancel: () => void
     account?: string
   }
-  [Screens.PincodeSet]: { isVerifying?: boolean; komenciAvailable?: boolean } | undefined
+  [Screens.PincodeSet]:
+    | {
+        isVerifying?: boolean
+        changePin?: boolean
+        komenciAvailable?: boolean
+      }
+    | undefined
   [Screens.PhoneNumberLookupQuota]: {
     onBuy: () => void
     onSkip: () => void
@@ -284,7 +289,6 @@ export type StackParamList = {
   }
 }
 
-// tslint:disable-next-line: interface-over-type-literal
 export type QRTabParamList = {
   [Screens.QRCode]: undefined
   [Screens.QRScanner]:
