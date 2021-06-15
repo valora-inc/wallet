@@ -35,11 +35,12 @@ export const CURRENCIES: CurrencyObject = {
 }
 
 export function mapOldCurrencyToNew(currencyString: string): Currency {
-  const currency = {
+  const oldMapping: Record<string, any> = {
     dollar: Currency.Dollar,
     euro: Currency.Euro,
     gold: Currency.Celo,
-  }[currencyString]
+  }
+  const currency = oldMapping[currencyString]
   if (currency) {
     return currency
   }
