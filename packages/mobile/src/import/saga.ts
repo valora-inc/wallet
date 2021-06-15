@@ -54,7 +54,6 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
   yield call(waitWeb3LastBlock)
   try {
     const normalizedPhrase = normalizeMnemonic(phrase)
-    Logger.info(TAG + '@importBackupPhraseSaga', `DO NOT MERGE: ${normalizedPhrase}`)
     const phraseIsValid = validateMnemonic(normalizedPhrase, bip39)
 
     // If the given mnemonic phrase is invalid, spend up to 1 second trying to correct it.
@@ -153,7 +152,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
 // the account the user was actually trying to restore. Otherwise, this method does not return any
 // suggested correction.
 function* attemptBackupPhraseCorrection(mnemonic: string) {
-  // TODO: Attempt multiple suggestions in parrallel.
+  // Counter of how many suggestions have been tried and a list of tasks for ongoing balance checks.
   let counter = 0
   let tasks: { index: number; suggestion: string; task: Task }[] = []
   for (const suggestion of suggestMnemonicCorrections(mnemonic)) {
@@ -161,7 +160,6 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
       TAG + '@attemptBackupPhraseCorrection',
       `Checking account balance on suggestion #${++counter}`
     )
-    Logger.info(TAG + '@attemptBackupPhraseCorrection', `DO NOT MERGE: ${suggestion}`)
     const { privateKey } = yield call(
       generateKeys,
       suggestion,
