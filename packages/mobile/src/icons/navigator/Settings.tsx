@@ -3,7 +3,7 @@ import Svg, { Circle, Path } from 'react-native-svg'
 
 export function Settings() {
   return (
-    <Svg width={32} height={32} viewBox="0 0 32 32" fill="none">
+    <Svg testID="Settings" width={32} height={32} viewBox="0 0 32 32" fill="none">
       <Path
         d="M17 8.5H7.5a1.5 1.5 0 100 3H17v-3z"
         fill="#B4B9BD"

@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['@celo/eslint-config-typescript'],
+  extends: ['@valora/eslint-config-typescript'],
   parserOptions: {
     project: './tsconfig.json',
   },
