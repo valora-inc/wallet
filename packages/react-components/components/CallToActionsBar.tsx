@@ -48,14 +48,14 @@ export default function CallToActionsBar({ darkMode = false, callToActions, test
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
   },
   action: {
     fontSize: 14,
     lineHeight: 16,
-    marginRight: 24,
     minWidth: 48,
     minHeight: 16,
-    flex: 1,
   },
   darkModeAction: {
     color: colors.light,
