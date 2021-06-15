@@ -293,6 +293,8 @@ function SendAmount(props: Props) {
     getTransactionData,
     origin,
     minimumAmount,
+    localCurrencyExchangeRate,
+    localCurrencySymbol,
   ])
 
   const onRequest = React.useCallback(() => {
