@@ -21,7 +21,7 @@ interface StateProps {
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  dollarBalance: cUsdBalanceSelector(state) ?? null,
+  dollarBalance: cUsdBalanceSelector(state),
   paymentRequests: getIncomingPaymentRequests(state),
   recipientInfo: recipientInfoSelector(state),
 })

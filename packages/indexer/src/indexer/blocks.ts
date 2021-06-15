@@ -7,6 +7,6 @@ export async function getLastBlock(key: string) {
   return row?.lastBlock ?? 0
 }
 
-export async function setLastBlock(key: string, block: number) {
+export function setLastBlock(key: string, block: number) {
   return database(TABLE_NAME).insert({ key, lastBlock: block }).onConflict('key').merge()
 }
