@@ -28,7 +28,7 @@ export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: Curre
     localCurrencyExchangeRate = amount.localAmount.exchangeRate.toString()
   }
 
-  return { localCurrencyCode, localCurrencyExchangeRate, txCurrency: amountCurrency }
+  return { localCurrencyCode, localCurrencyExchangeRate, amountCurrency }
 }
 
 export function useDollarsToLocalAmount(amount: BigNumber.Value | null) {
