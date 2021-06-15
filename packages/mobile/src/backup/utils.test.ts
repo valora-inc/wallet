@@ -1,19 +1,16 @@
-import { normalizeMnemonic, validateMnemonic } from '@celo/utils/lib/account'
+import { validateMnemonic } from '@celo/utils/lib/account'
 import * as bip39 from 'react-native-bip39'
 import { formatBackupPhraseOnEdit, formatBackupPhraseOnSubmit } from 'src/backup/utils'
 
 describe('Mnemonic validation and formatting', () => {
-  const SPANISH_MNEMONIC = 'avance colmo poema momia cofre pata res verso secta cinco tubería yacer eterno observar ojo tabaco seta ruina bebé oral miembro gato suelo violín'.normalize(
-    'NFD'
-  )
+  const SPANISH_MNEMONIC =
+    'avance colmo poema momia cofre pata res verso secta cinco tubería yacer eterno observar ojo tabaco seta ruina bebé oral miembro gato suelo violín'
 
-  const SPANISH_MNEMONIC_NO_ACCENTS = 'avance colmo poema momia cofre pata res verso secta cinco tuberia yacer eterno observar ojo tabaco seta ruina bebe oral miembro gato suelo violin'.normalize(
-    'NFD'
-  )
+  const SPANISH_MNEMONIC_NO_ACCENTS =
+    'avance colmo poema momia cofre pata res verso secta cinco tuberia yacer eterno observar ojo tabaco seta ruina bebe oral miembro gato suelo violin'
 
-  const BAD_SPANISH_MNEMONIC = 'avance colmo poema momia cofre pata res verso secta cinco tuberia yacer eterno observar ojo tabaco seta ruina bebé oralio miembro gato suelo violín'.normalize(
-    'NFD'
-  )
+  const BAD_SPANISH_MNEMONIC =
+    'avance colmo poema momia cofre pata res verso secta cinco tuberia yacer eterno observar ojo tabaco seta ruina bebé oralio miembro gato suelo violín'
 
   const PORTUGUESE_MNEMONIC =
     'cheiro lealdade duplo oposto vereador acessar lanche regra prefeito apego ratazana piedade alarme marmita subsolo brochura honrado viajar magnata canoa sarjeta terno cimento prezar'
@@ -53,44 +50,43 @@ inner surprise invest`
     )
   })
 
-  // DO NOT MERGE: Should all these tests be using `normalizeMenmonic`?
   it('validates spanish successfully', () => {
-    const mnemonic = normalizeMnemonic(formatBackupPhraseOnSubmit(SPANISH_MNEMONIC))
+    const mnemonic = formatBackupPhraseOnSubmit(SPANISH_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
   })
 
   it('validates spanish successfully without mnemonic accents', () => {
-    const mnemonic = normalizeMnemonic(formatBackupPhraseOnSubmit(SPANISH_MNEMONIC_NO_ACCENTS))
+    const mnemonic = formatBackupPhraseOnSubmit(SPANISH_MNEMONIC_NO_ACCENTS)
     expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
   })
 
   it('validates portuguese successfully', () => {
-    const mnemonic = normalizeMnemonic(formatBackupPhraseOnSubmit(PORTUGUESE_MNEMONIC))
+    const mnemonic = formatBackupPhraseOnSubmit(PORTUGUESE_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
   })
 
   it('validates english successfully', () => {
-    const mnemonic = normalizeMnemonic(formatBackupPhraseOnSubmit(ENGLISH_MNEMONIC))
+    const mnemonic = formatBackupPhraseOnSubmit(ENGLISH_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
   })
 
   it('validates english multiline successfully', () => {
-    const mnemonic = normalizeMnemonic(formatBackupPhraseOnSubmit(MULTILINE_ENGLISH_MNEMONIC))
+    const mnemonic = formatBackupPhraseOnSubmit(MULTILINE_ENGLISH_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeTruthy()
   })
 
   it('does not validate bad english', () => {
-    const mnemonic = normalizeMnemonic(formatBackupPhraseOnSubmit(BAD_ENGLISH_MNEMONIC))
+    const mnemonic = formatBackupPhraseOnSubmit(BAD_ENGLISH_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeFalsy()
   })
 
   it('does not validate bad spanish', () => {
-    const mnemonic = normalizeMnemonic(formatBackupPhraseOnSubmit(BAD_SPANISH_MNEMONIC))
+    const mnemonic = formatBackupPhraseOnSubmit(BAD_SPANISH_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeFalsy()
   })
 
   it('does not validate bad portuguese', () => {
-    const mnemonic = normalizeMnemonic(formatBackupPhraseOnSubmit(BAD_PORTUGUESE_MNEMONIC))
+    const mnemonic = formatBackupPhraseOnSubmit(BAD_PORTUGUESE_MNEMONIC)
     expect(validateMnemonic(mnemonic, bip39)).toBeFalsy()
   })
 })
