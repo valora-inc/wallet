@@ -18,17 +18,13 @@ export enum Testnets {
 }
 
 interface NetworkConfig {
+  networkId: string
   nodeDir: string
   syncMode: GethSyncMode
   initiallyForno: boolean
   blockchainApiUrl: string
   odisUrl: string // Phone Number Privacy service url
   odisPubKey: string
-  xanpoolWidgetUrl: string
-  moonpayWidgetUrl: string
-  signMoonpayUrl: string
-  rampWidgetUrl: string
-  transakWidgetUrl: string
   useDiscovery: boolean
   useStaticNodes: boolean
   komenciUrl: string
@@ -38,27 +34,12 @@ interface NetworkConfig {
   bidaliUrl: string
   CIP8AuthorizerUrl: string
   CIP8MetadataUrl: string
-  providerComposerUrl: string
+  providerFetchUrl: string
   simplexApiUrl: string
+  fetchUserLocationDataUrl: string
   komenciLoadCheckEndpoint: string
+  walletConnectEndpoint: string
 }
-
-const xanpoolWidgetStaging = 'https://checkout.sandbox.xanpool.com'
-const xanpoolWidgetProd = 'https://checkout.sandbox.xanpool.com'
-
-const moonpayWidgetStaging = 'https://buy-staging.moonpay.io/'
-const moonpayWidgetProd = 'https://buy.moonpay.io/'
-
-const signMoonpayUrlStaging =
-  'https://us-central1-celo-testnet-production.cloudfunctions.net/signMoonpayStaging'
-const signMoonpayUrlProd =
-  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/signMoonpayProd'
-
-const rampWidgetStaging = 'https://ri-widget-staging.firebaseapp.com'
-const rampWidgetProd = 'https://buy.ramp.network'
-
-const transakWidgetProd = 'https://global.transak.com'
-const transakWidgetStaging = 'https://staging-global.transak.com'
 
 const KOMENCI_URL_MAINNET = 'https://mainnet-komenci.azurefd.net'
 const KOMENCI_URL_STAGING = 'https://staging-komenci.azurefd.net'
@@ -80,32 +61,34 @@ const CIP8_AUTHORIZER_URL_ALFAJORES = 'https://alfajores-stokado.celo-testnet.or
 const CIP8_METADATA_URL_ALFAJORES = 'https://alfajores-stokado-data.celo-testnet.org'
 const CIP8_AUTHORIZER_URL_MAINNET = 'https://rc1-stokado.celo-testnet.org/api/authorize'
 const CIP8_METADATA_URL_MAINNET = 'https://rc1-stokado-data.celo-testnet.org'
-const PROVIDER_URL_COMPOSER_PROD =
-  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/composeCicoProviderUrl'
 
-const PROVIDER_URL_COMPOSER_STAGING =
-  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/composeCicoProviderUrl'
+const PROVIDER_FETCH_URL_ALFAJORES =
+  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/fetchProviders'
+const PROVIDER_FETCH_URL_MAINNET =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/fetchProviders'
 
 const SIMPLEX_API_URL_STAGING =
   'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/processSimplexRequest'
 const SIMPLEX_API_URL_PROD =
   'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/processSimplexRequest'
+
+const FETCH_USER_LOCATION_DATA_STAGING =
+  'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/fetchUserLocationData'
+const FETCH_USER_LOCATION_DATA_PROD =
+  'https://us-central1-celo-mobile-mainnet.cloudfunctions.net/fetchUserLocationData'
+
 const KOMENCI_LOAD_CHECK_ENDPOINT_STAGING = 'https://staging-komenci.azurefd.net/v1/ready'
 const KOMENCI_LOAD_CHECK_ENDPOINT_PROD = 'https://mainnet-komenci.azurefd.net/v1/ready'
 
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
+    networkId: '44787',
     nodeDir: `.${Testnets.alfajores}`,
     syncMode: DEFAULT_SYNC_MODE,
     initiallyForno: FORNO_ENABLED_INITIALLY,
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-alfajores.appspot.com/',
     odisUrl: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_ALFAJORES_CONTEXT.odisPubKey,
-    xanpoolWidgetUrl: xanpoolWidgetStaging,
-    moonpayWidgetUrl: moonpayWidgetStaging,
-    signMoonpayUrl: signMoonpayUrlStaging,
-    rampWidgetUrl: rampWidgetStaging,
-    transakWidgetUrl: transakWidgetStaging,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_STAGING,
@@ -115,22 +98,20 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     CIP8MetadataUrl: CIP8_METADATA_URL_ALFAJORES,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
-    providerComposerUrl: PROVIDER_URL_COMPOSER_STAGING,
+    providerFetchUrl: PROVIDER_FETCH_URL_ALFAJORES,
     simplexApiUrl: SIMPLEX_API_URL_STAGING,
+    fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_STAGING,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
+    walletConnectEndpoint: 'wss://walletconnect.celo-networks-dev.org',
   },
   [Testnets.mainnet]: {
+    networkId: '42220',
     nodeDir: `.${Testnets.mainnet}`,
     syncMode: DEFAULT_SYNC_MODE,
     initiallyForno: FORNO_ENABLED_INITIALLY,
     blockchainApiUrl: 'https://blockchain-api-dot-celo-mobile-mainnet.appspot.com/',
     odisUrl: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisUrl,
     odisPubKey: OdisUtils.Query.ODIS_MAINNET_CONTEXT.odisPubKey,
-    xanpoolWidgetUrl: xanpoolWidgetProd,
-    moonpayWidgetUrl: moonpayWidgetProd,
-    signMoonpayUrl: signMoonpayUrlProd,
-    rampWidgetUrl: rampWidgetProd,
-    transakWidgetUrl: transakWidgetProd,
     useDiscovery: GETH_USE_FULL_NODE_DISCOVERY,
     useStaticNodes: GETH_USE_STATIC_NODES,
     komenciUrl: KOMENCI_URL_MAINNET,
@@ -140,9 +121,11 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     CIP8MetadataUrl: CIP8_METADATA_URL_MAINNET,
     recaptchaSiteKey: RECAPTCHA_SITE_KEY,
     bidaliUrl: BIDALI_URL,
-    providerComposerUrl: PROVIDER_URL_COMPOSER_PROD,
+    providerFetchUrl: PROVIDER_FETCH_URL_MAINNET,
     simplexApiUrl: SIMPLEX_API_URL_PROD,
+    fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_PROD,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
+    walletConnectEndpoint: 'wss://walletconnect.celo.org',
   },
 }
 

@@ -1,13 +1,199 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Send renders correctly with invite rewards disabled 1`] = `
-<View
+<RNCSafeAreaView
+  edges={
+    Array [
+      "top",
+    ]
+  }
   style={
     Object {
       "flex": 1,
     }
   }
 >
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "height": 56,
+        "justifyContent": "space-between",
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "height": "100%",
+          "justifyContent": "center",
+          "padding": 16,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        hitSlop={
+          Object {
+            "bottom": 10,
+            "left": 10,
+            "right": 10,
+            "top": 10,
+          }
+        }
+        nativeBackgroundAndroid={
+          Object {
+            "attribute": "selectableItemBackgroundBorderless",
+            "rippleRadius": undefined,
+            "type": "ThemeAttrAndroid",
+          }
+        }
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <svg
+          height={16}
+          style={Object {}}
+          viewBox="0 0 16 16"
+          width={16}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M13.9999 2.00146L1.99994 14.0015"
+            stroke="#2E3338"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            style={Object {}}
+          />
+          <path
+            d="M1.99994 2.00146L13.9999 14.0015"
+            stroke="#2E3338"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            style={Object {}}
+          />
+        </svg>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "height": "100%",
+          "justifyContent": "center",
+          "padding": 16,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        hitSlop={
+          Object {
+            "bottom": 10,
+            "left": 10,
+            "right": 10,
+            "top": 10,
+          }
+        }
+        nativeBackgroundAndroid={
+          Object {
+            "attribute": "selectableItemBackgroundBorderless",
+            "rippleRadius": undefined,
+            "type": "ThemeAttrAndroid",
+          }
+        }
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <svg
+          fill="none"
+          height={32}
+          style={Object {}}
+          viewBox="0 0 32 32"
+          width={32}
+        >
+          <rect
+            height={10}
+            rx={3}
+            stroke="#1AB775"
+            strokeWidth={2.75}
+            style={Object {}}
+            width={10}
+            x={4}
+            y={4}
+          />
+          <rect
+            height={10}
+            rx={3}
+            stroke="#1AB775"
+            strokeWidth={2.75}
+            style={Object {}}
+            width={10}
+            x={18}
+            y={4}
+          />
+          <path
+            d="M18 25v1a2 2 0 002 2h1M28 21v-1a2 2 0 00-2-2h-1M21 18h-1a2 2 0 00-2 2v1M25 28h1a2 2 0 002-2v-1"
+            stroke="#1AB775"
+            strokeLinecap="round"
+            strokeWidth={2.75}
+            style={Object {}}
+          />
+          <rect
+            height={10}
+            rx={3}
+            stroke="#1AB775"
+            strokeWidth={2.75}
+            style={Object {}}
+            width={10}
+            x={4}
+            y={18}
+          />
+        </svg>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "left": 60,
+          "position": "absolute",
+          "right": 60,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Jost-Medium",
+            "fontSize": 16,
+            "lineHeight": 20,
+          }
+        }
+      >
+        sendFlow7:send
+      </Text>
+    </View>
+  </View>
   <View
     style={
       Object {
@@ -117,6 +303,284 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
     }
     testID="RecipientPicker"
   >
+    <Modal
+      animationType="none"
+      hardwareAccelerated={false}
+      hideModalContentWhileAnimating={false}
+      onModalHide={[Function]}
+      onModalWillHide={[Function]}
+      onModalWillShow={[Function]}
+      onRequestClose={[Function]}
+      scrollHorizontal={false}
+      scrollOffset={0}
+      scrollOffsetMax={0}
+      scrollTo={null}
+      statusBarTranslucent={true}
+      supportedOrientations={
+        Array [
+          "portrait",
+          "landscape",
+        ]
+      }
+      swipeThreshold={100}
+      transparent={true}
+      visible={false}
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        forwardedRef={[Function]}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "backgroundColor": "black",
+            "bottom": 0,
+            "height": 1334,
+            "left": 0,
+            "opacity": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+            "width": 750,
+          }
+        }
+      />
+      <View
+        forwardedRef={[Function]}
+        hideModalContentWhileAnimating={false}
+        onModalHide={[Function]}
+        onModalWillHide={[Function]}
+        onModalWillShow={[Function]}
+        pointerEvents="box-none"
+        scrollHorizontal={false}
+        scrollOffset={0}
+        scrollOffsetMax={0}
+        scrollTo={null}
+        statusBarTranslucent={true}
+        style={
+          Object {
+            "flex": 1,
+            "justifyContent": "center",
+            "margin": 37.5,
+            "transform": Array [
+              Object {
+                "translateY": 0,
+              },
+            ],
+          }
+        }
+        supportedOrientations={
+          Array [
+            "portrait",
+            "landscape",
+          ]
+        }
+        swipeThreshold={100}
+      >
+        <RNCSafeAreaView>
+          <View
+            style={
+              Array [
+                Object {
+                  "backgroundColor": "#FFFFFF",
+                  "padding": 16,
+                },
+                Object {
+                  "borderRadius": 8,
+                },
+                Object {
+                  "elevation": 12,
+                  "shadowColor": "rgba(156, 164, 169, 0.4)",
+                  "shadowOffset": Object {
+                    "height": 2,
+                    "width": 0,
+                  },
+                  "shadowOpacity": 1,
+                  "shadowRadius": 12,
+                },
+                Array [
+                  Object {
+                    "backgroundColor": "#FFFFFF",
+                    "maxHeight": "100%",
+                    "padding": 24,
+                  },
+                  undefined,
+                ],
+              ]
+            }
+          >
+            <RCTScrollView
+              contentContainerStyle={
+                Object {
+                  "alignItems": "center",
+                }
+              }
+            >
+              <View>
+                <Text
+                  style={
+                    Object {
+                      "color": "#2E3338",
+                      "fontFamily": "Jost-Medium",
+                      "fontSize": 22,
+                      "lineHeight": 28,
+                      "marginBottom": 12,
+                      "textAlign": "center",
+                    }
+                  }
+                >
+                  sendToAddressWarning.title
+                </Text>
+                <Text
+                  style={
+                    Object {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                      "textAlign": "center",
+                    }
+                  }
+                >
+                  sendToAddressWarning.body
+                </Text>
+                <View
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "borderColor": "#EDEEEF",
+                      "borderRadius": 8,
+                      "borderWidth": 2,
+                      "flexDirection": "row",
+                      "marginBottom": 36,
+                      "marginTop": 24,
+                      "padding": 17,
+                    }
+                  }
+                >
+                  <AndroidSwitch
+                    accessibilityRole="switch"
+                    enabled={true}
+                    on={true}
+                    onChange={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "marginRight": 16,
+                      }
+                    }
+                    thumbTintColor="#EDEEEF"
+                    trackColorForFalse="#81868B"
+                    trackColorForTrue="#1AB775"
+                    trackTintColor="#1AB775"
+                  />
+                  <Text
+                    style={
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                        "textAlign": "center",
+                      }
+                    }
+                  >
+                    sendToAddressWarning.toggle
+                  </Text>
+                </View>
+              </View>
+            </RCTScrollView>
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "flexWrap": "wrap",
+                  "justifyContent": "space-around",
+                  "maxWidth": "100%",
+                }
+              }
+            >
+              <View
+                accessible={true}
+                focusable={true}
+                nativeBackgroundAndroid={
+                  Object {
+                    "attribute": "selectableItemBackgroundBorderless",
+                    "rippleRadius": undefined,
+                    "type": "ThemeAttrAndroid",
+                  }
+                }
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                testID="SendToAddressWarning/Back"
+              >
+                <Text
+                  style={
+                    Array [
+                      Object {
+                        "color": "#1AB775",
+                        "fontFamily": "Inter-SemiBold",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      },
+                      Object {
+                        "color": "#9CA4A9",
+                      },
+                    ]
+                  }
+                >
+                  global:goBack
+                </Text>
+              </View>
+              <View
+                accessible={true}
+                focusable={true}
+                nativeBackgroundAndroid={
+                  Object {
+                    "attribute": "selectableItemBackgroundBorderless",
+                    "rippleRadius": undefined,
+                    "type": "ThemeAttrAndroid",
+                  }
+                }
+                onClick={[Function]}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                testID="SendToAddressWarning/Continue"
+              >
+                <Text
+                  style={
+                    Object {
+                      "color": "#1AB775",
+                      "fontFamily": "Inter-SemiBold",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                    }
+                  }
+                >
+                  continue
+                </Text>
+              </View>
+            </View>
+          </View>
+        </RNCSafeAreaView>
+      </View>
+    </Modal>
     <RCTScrollView
       ListEmptyComponent={
         <View
@@ -160,10 +624,99 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             "data": Array [
               Object {
                 "address": "0x0000000000000000000000000000000000007E57",
+                "addressPrepared": Object {
+                  "_nextBeginningIndexes": null,
+                  "_targetLowerCodes": Array [
+                    48,
+                    120,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    48,
+                    55,
+                    101,
+                    53,
+                    55,
+                  ],
+                  "indexes": null,
+                  "obj": null,
+                  "score": null,
+                  "target": "0x0000000000000000000000000000000000007E57",
+                },
                 "contactId": "contactId",
                 "displayNumber": "14155550000",
+                "displayPrepared": Object {
+                  "_nextBeginningIndexes": null,
+                  "_targetLowerCodes": Array [
+                    106,
+                    111,
+                    104,
+                    110,
+                    32,
+                    100,
+                    111,
+                    101,
+                  ],
+                  "indexes": null,
+                  "obj": null,
+                  "score": null,
+                  "target": "John Doe",
+                },
                 "e164PhoneNumber": "+14155550000",
                 "name": "John Doe",
+                "phonePrepared": Object {
+                  "_nextBeginningIndexes": null,
+                  "_targetLowerCodes": Array [
+                    43,
+                    49,
+                    52,
+                    49,
+                    53,
+                    53,
+                    53,
+                    53,
+                    48,
+                    48,
+                    48,
+                    48,
+                  ],
+                  "indexes": null,
+                  "obj": null,
+                  "score": null,
+                  "target": "+14155550000",
+                },
               },
             ],
             "key": "recent",
@@ -172,15 +725,145 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             "data": Array [
               Object {
                 "address": "0x9335BaFcE54cAa0D6690d1D4DA6406568b52488F",
+                "addressPrepared": Object {
+                  "_nextBeginningIndexes": null,
+                  "_targetLowerCodes": Array [
+                    48,
+                    120,
+                    57,
+                    51,
+                    51,
+                    53,
+                    98,
+                    97,
+                    102,
+                    99,
+                    101,
+                    53,
+                    52,
+                    99,
+                    97,
+                    97,
+                    48,
+                    100,
+                    54,
+                    54,
+                    57,
+                    48,
+                    100,
+                    49,
+                    100,
+                    52,
+                    100,
+                    97,
+                    54,
+                    52,
+                    48,
+                    54,
+                    53,
+                    54,
+                    56,
+                    98,
+                    53,
+                    50,
+                    52,
+                    56,
+                    56,
+                    102,
+                  ],
+                  "indexes": null,
+                  "obj": null,
+                  "score": null,
+                  "target": "0x9335BaFcE54cAa0D6690d1D4DA6406568b52488F",
+                },
                 "contactId": "contactId",
                 "displayNumber": "13105550000",
+                "displayPrepared": Object {
+                  "_nextBeginningIndexes": null,
+                  "_targetLowerCodes": Array [
+                    106,
+                    97,
+                    110,
+                    101,
+                    32,
+                    100,
+                    111,
+                    101,
+                  ],
+                  "indexes": null,
+                  "obj": null,
+                  "score": null,
+                  "target": "Jane Doe",
+                },
                 "e164PhoneNumber": "+13105550000",
                 "name": "Jane Doe",
+                "phonePrepared": Object {
+                  "_nextBeginningIndexes": null,
+                  "_targetLowerCodes": Array [
+                    43,
+                    49,
+                    51,
+                    49,
+                    48,
+                    53,
+                    53,
+                    53,
+                    48,
+                    48,
+                    48,
+                    48,
+                  ],
+                  "indexes": null,
+                  "obj": null,
+                  "score": null,
+                  "target": "+13105550000",
+                },
               },
               Object {
+                "addressPrepared": undefined,
                 "contactId": "contactId4",
+                "displayPrepared": Object {
+                  "_nextBeginningIndexes": null,
+                  "_targetLowerCodes": Array [
+                    122,
+                    101,
+                    98,
+                    114,
+                    97,
+                    32,
+                    122,
+                    111,
+                    110,
+                    101,
+                  ],
+                  "indexes": null,
+                  "obj": null,
+                  "score": null,
+                  "target": "Zebra Zone",
+                },
                 "e164PhoneNumber": "+14163957395",
                 "name": "Zebra Zone",
+                "phonePrepared": Object {
+                  "_nextBeginningIndexes": null,
+                  "_targetLowerCodes": Array [
+                    43,
+                    49,
+                    52,
+                    49,
+                    54,
+                    51,
+                    57,
+                    53,
+                    55,
+                    51,
+                    57,
+                    53,
+                  ],
+                  "indexes": null,
+                  "obj": null,
+                  "score": null,
+                  "target": "+14163957395",
+                },
               },
             ],
             "key": "contacts",
@@ -350,6 +1033,18 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 >
                   John Doe
                 </Text>
+                <Text
+                  style={
+                    Object {
+                      "color": "#9CA4A9",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                    }
+                  }
+                >
+                  14155550000
+                </Text>
               </View>
               <View
                 style={
@@ -368,17 +1063,14 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 >
                   <path
                     d="M9.86842 22.3684C13.8653 22.3684 17.1053 19.1284 17.1053 15.1316C17.1053 11.1348 13.8653 7.89476 9.86842 7.89476C5.87158 7.89476 2.63158 11.1348 2.63158 15.1316C2.63158 19.1284 5.87158 22.3684 9.86842 22.3684ZM9.86842 25C4.41842 25 0 20.5816 0 15.1316C0 9.6816 4.41842 5.26318 9.86842 5.26318C15.3184 5.26318 19.7368 9.6816 19.7368 15.1316C19.7368 20.5816 15.3184 25 9.86842 25Z"
-                    fill="#FBCC5C"
                     style={Object {}}
                   />
                   <path
                     d="M15.1316 17.1053C19.1284 17.1053 22.3684 13.8653 22.3684 9.86842C22.3684 5.87158 19.1284 2.63158 15.1316 2.63158C11.1348 2.63158 7.89476 5.87158 7.89476 9.86842C7.89476 13.8653 11.1348 17.1053 15.1316 17.1053ZM15.1316 19.7368C9.6816 19.7368 5.26318 15.3184 5.26318 9.86842C5.26318 4.41842 9.6816 0 15.1316 0C20.5816 0 25 4.41842 25 9.86842C25 15.3184 20.5816 19.7368 15.1316 19.7368Z"
-                    fill="#42D689"
                     style={Object {}}
                   />
                   <path
                     d="M15.4577 19.7369C16.1419 18.9077 16.6324 17.9361 16.8932 16.8932C17.9361 16.6324 18.9077 16.1421 19.7369 15.4579C19.699 16.6658 19.439 17.8563 18.9695 18.9698C17.8561 19.439 16.6656 19.6992 15.4577 19.7369ZM8.10687 8.10687C7.06397 8.36766 6.09239 8.85792 5.26318 9.54213C5.30108 8.33424 5.56108 7.14371 6.03055 6.03029C7.14397 5.56108 8.3345 5.30082 9.54239 5.26318C8.85818 6.09239 8.36766 7.06397 8.10687 8.10687Z"
-                    fill="#5EA33B"
                     style={Object {}}
                   />
                 </svg>
@@ -529,6 +1221,18 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   >
                     Jane Doe
                   </Text>
+                  <Text
+                    style={
+                      Object {
+                        "color": "#9CA4A9",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 14,
+                        "lineHeight": 18,
+                      }
+                    }
+                  >
+                    13105550000
+                  </Text>
                 </View>
                 <View
                   style={
@@ -547,17 +1251,14 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   >
                     <path
                       d="M9.86842 22.3684C13.8653 22.3684 17.1053 19.1284 17.1053 15.1316C17.1053 11.1348 13.8653 7.89476 9.86842 7.89476C5.87158 7.89476 2.63158 11.1348 2.63158 15.1316C2.63158 19.1284 5.87158 22.3684 9.86842 22.3684ZM9.86842 25C4.41842 25 0 20.5816 0 15.1316C0 9.6816 4.41842 5.26318 9.86842 5.26318C15.3184 5.26318 19.7368 9.6816 19.7368 15.1316C19.7368 20.5816 15.3184 25 9.86842 25Z"
-                      fill="#FBCC5C"
                       style={Object {}}
                     />
                     <path
                       d="M15.1316 17.1053C19.1284 17.1053 22.3684 13.8653 22.3684 9.86842C22.3684 5.87158 19.1284 2.63158 15.1316 2.63158C11.1348 2.63158 7.89476 5.87158 7.89476 9.86842C7.89476 13.8653 11.1348 17.1053 15.1316 17.1053ZM15.1316 19.7368C9.6816 19.7368 5.26318 15.3184 5.26318 9.86842C5.26318 4.41842 9.6816 0 15.1316 0C20.5816 0 25 4.41842 25 9.86842C25 15.3184 20.5816 19.7368 15.1316 19.7368Z"
-                      fill="#42D689"
                       style={Object {}}
                     />
                     <path
                       d="M15.4577 19.7369C16.1419 18.9077 16.6324 17.9361 16.8932 16.8932C17.9361 16.6324 18.9077 16.1421 19.7369 15.4579C19.699 16.6658 19.439 17.8563 18.9695 18.9698C17.8561 19.439 16.6656 19.6992 15.4577 19.7369ZM8.10687 8.10687C7.06397 8.36766 6.09239 8.85792 5.26318 9.54213C5.30108 8.33424 5.56108 7.14371 6.03055 6.03029C7.14397 5.56108 8.3345 5.30082 9.54239 5.26318C8.85818 6.09239 8.36766 7.06397 8.10687 8.10687Z"
-                      fill="#5EA33B"
                       style={Object {}}
                     />
                   </svg>
@@ -674,6 +1375,18 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 >
                   Zebra Zone
                 </Text>
+                <Text
+                  style={
+                    Object {
+                      "color": "#9CA4A9",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                    }
+                  }
+                >
+                  +14163957395
+                </Text>
               </View>
               <View
                 style={
@@ -709,5 +1422,5 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
       }
     />
   </View>
-</View>
+</RNCSafeAreaView>
 `;

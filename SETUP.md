@@ -56,9 +56,8 @@ Once `nvm` is successfully installed, restart the terminal and run the following
 
 ```bash
 # restart the terminal after installing nvm
-nvm install 8
-nvm install 10
-nvm alias default 10
+nvm install 12.22.1
+nvm use 12.22.1
 ```
 
 ### MacOS
@@ -102,29 +101,6 @@ sudo apt-get update && sudo apt-get install yarn
 
 ### Optional
 
-#### Install Rust
-
-We use Rust for some [cryptography repositories](https://github.com/celo-org?q=&type=&language=rust) This is not 
-required if you only want use the blockchain, monorepo, and mobile wallet.
-
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
-
-Now lets add Rust to the PATH:
-
-```
-echo "export PATH=$PATH:~/.cargo/bin/" >> ~/.bashrc
-source ~/.bashrc
-```
-
-With Rust binaries in your PATH you should be able to run:
-
-```bash
-rustup install 1.42.0
-rustup default 1.42.0
-```
-
 If you're building Geth for Android, you need a NDK that has a cross-compilation toolchain. We need version 19.
 
 On Mac (darwin):
@@ -142,44 +118,9 @@ export NDK_VERSION=android-ndk-r19c
 
 and run `make ndk_bundle`. This will download the NDK for your platform.
 
-
-## Building celo-monorepo
-
-Clone the [celo-monorepo] repo:
-
-```bash
-mkdir ~/celo
-cd celo
-git clone https://github.com/celo-org/celo-monorepo.git
-```
-
-Then install the packages:
-
-```bash
-cd celo-monorepo
-# install dependencies and run post-install script
-yarn
-# build all packages
-yarn build --ignore docs
-```
-
-> Note that if you do your checkouts with a different method, Yarn will fail if
-> you haven’t used git with ssh at least once previously to confirm the
-> github.com host key. Clone a repo or add the github host key to
-> `~/.ssh/known_hosts` and then try again.
-
-> When removing a dependency via `yarn remove some-package`, be sure to also run `yarn postinstall` so
-> you aren't left with freshly unpackaged modules. This is because we use `patch-package`
-> and the `postinstall` step which uses it is not automatically run after using `yarn remove`.
-
-> The docs package relies on gitbook which has problems off of a fresh install. Running
-> `yarn build --ignore docs` is a known workaround. 
-
-
 ## Running the mobile wallet
 
 To build and run the mobile wallet on your iOS or Android devices see the guide in the [mobile](packages/mobile) directory.
-
 
 [celo-monorepo]: https://github.com/celo-org/celo-monorepo
 [celo-blockchain]: https://github.com/celo-org/celo-blockchain

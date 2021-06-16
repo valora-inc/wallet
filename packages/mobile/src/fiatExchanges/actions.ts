@@ -1,10 +1,11 @@
-import { CicoProviderNames, TxHashToProvider } from 'src/fiatExchanges/reducer'
+import { ProviderLogos, TxHashToProvider } from 'src/fiatExchanges/reducer'
 
 export enum Actions {
   BIDALI_PAYMENT_REQUESTED = 'FIAT_EXCHANGES/BIDALI_PAYMENT_REQUESTED',
   SELECT_PROVIDER = 'FIAT_EXCHANGES/SELECT_PROVIDER',
   ASSIGN_PROVIDER_TO_TX_HASH = 'FIAT_EXCHANGES/ASSIGN_PROVIDER_TO_TX_HASH',
   SET_PROVIDERS_FOR_TX_HASHES = 'SET_PROVIDERS_FOR_TX_HASHES',
+  SET_PROVIDER_LOGOS = 'SET_PROVIDER_LOGOS',
 }
 
 export interface BidaliPaymentRequestedAction {
@@ -39,10 +40,10 @@ export const bidaliPaymentRequested = (
 
 export interface SelectProviderAction {
   type: Actions.SELECT_PROVIDER
-  provider: CicoProviderNames
+  provider: string
 }
 
-export const selectProvider = (provider: CicoProviderNames): SelectProviderAction => ({
+export const selectProvider = (provider: string): SelectProviderAction => ({
   type: Actions.SELECT_PROVIDER,
   provider,
 })
@@ -74,8 +75,19 @@ export const setProvidersForTxHashes = (
   txHashes,
 })
 
+export interface SetProviderLogos {
+  type: Actions.SET_PROVIDER_LOGOS
+  providerLogos: ProviderLogos
+}
+
+export const setProviderLogos = (providerLogos: ProviderLogos): SetProviderLogos => ({
+  type: Actions.SET_PROVIDER_LOGOS,
+  providerLogos,
+})
+
 export type ActionTypes =
   | BidaliPaymentRequestedAction
   | SelectProviderAction
   | AssignProviderToTxHashAction
   | SetProvidersForTxHashesAction
+  | SetProviderLogos

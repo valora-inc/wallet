@@ -1,10 +1,10 @@
 import _ from 'lodash'
 import { PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
-import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
-import { idle, KomenciAvailable } from 'src/verify/reducer'
+import { idle, KomenciAvailable, NUM_ATTESTATIONS_REQUIRED } from 'src/verify/module'
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -559,9 +559,89 @@ export const v9Schema = {
   app: {
     ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     showRaiseDailyLimitTarget: undefined,
+    walletConnectEnabled: false,
+    rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
+    rewardsPercent: 5,
+    rewardsStartDate: 1622505600000,
+    rewardsMax: 1000,
+    ranVerificationMigrationAt: null,
+  },
+  walletConnect: {
+    pairings: [],
+    sessions: [],
+    pendingSessions: [],
+    pendingActions: [],
+  },
+  fiatExchanges: {
+    ...v8Schema.fiatExchanges,
+    providerLogos: {},
+  },
+  identity: {
+    ...v8Schema.identity,
+    attestationInputStatus: [
+      CodeInputStatus.Inputting,
+      CodeInputStatus.Disabled,
+      CodeInputStatus.Disabled,
+    ],
+  },
+}
+
+// Skipping to v13 to keep in sync with migrations.ts
+export const v13Schema = {
+  ...v9Schema,
+  _persist: { version: 13, rehydrated: true },
+  identity: {
+    ..._.omit(
+      v9Schema.identity,
+      'attestationCodes',
+      'acceptedAttestationCodes',
+      'attestationInputStatus',
+      'numCompleteAttestations',
+      'verificationStatus',
+      'hasSeenVerificationNux',
+      'lastRevealAttempt'
+    ),
+  },
+  verify: {
+    ..._.omit(
+      v9Schema.verify,
+      'TEMPORARY_override_withoutVerification',
+      'withoutRevealing',
+      'retries'
+    ),
+    seenVerificationNux: false,
+    revealStatuses: {},
+    attestationCodes: [],
+    acceptedAttestationCodes: [],
+    lastRevealAttempt: null,
+    attestationInputStatus: [
+      CodeInputStatus.Inputting,
+      CodeInputStatus.Disabled,
+      CodeInputStatus.Disabled,
+    ],
+  },
+}
+
+export const v14Schema = {
+  ...v13Schema,
+  _persist: {
+    ...v13Schema._persist,
+    version: 14,
+  },
+  networkInfo: {
+    ...v13Schema.networkInfo,
+    userLocationData: {
+      countryCodeAlpha2: 'US',
+      region: null,
+      ipAddress: null,
+    },
+  },
+  send: {
+    ...v13Schema.send,
+    showSendToAddressWarning: true,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v9Schema as Partial<RootState>
+  return v14Schema as Partial<RootState>
 }

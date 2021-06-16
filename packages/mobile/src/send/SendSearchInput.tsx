@@ -10,20 +10,13 @@ import i18n, { Namespaces } from 'src/i18n'
 const SearchInput = withTextSearchPasteAware(TextInput)
 
 interface SendSearchInputProps {
+  input: string
   onChangeText: (value: string) => void
-  leftIcon?: React.ReactNode
 }
 
 // Input field for Send screen
-export function SendSearchInput(props: SendSearchInputProps) {
-  const handleChangeText = (value: string) => {
-    setInput(value)
-    onChangeText(value)
-  }
-
+export function SendSearchInput({ input, onChangeText }: SendSearchInputProps) {
   const { t } = useTranslation(Namespaces.sendFlow7)
-  const { onChangeText } = props
-  const [input, setInput] = React.useState('')
 
   return (
     <View style={styles.textInputContainer}>
@@ -31,7 +24,7 @@ export function SendSearchInput(props: SendSearchInputProps) {
         shouldShowClipboard={isValidAddress}
         placeholder={t('global:namePhoneAddress')}
         value={input}
-        onChangeText={handleChangeText}
+        onChangeText={onChangeText}
         leftIcon={<Text style={styles.leftIcon}>{i18n.t('global:to')}</Text>}
       />
     </View>

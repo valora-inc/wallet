@@ -22,6 +22,14 @@ export interface State {
   activeScreen: Screens
   hideVerification: boolean
   showRaiseDailyLimitTarget: string | undefined
+  walletConnectEnabled: boolean
+  rewardsPercent: number
+  rewardsStartDate: number
+  rewardsMax: number
+  rewardsABTestThreshold: string
+  // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
+  // for the migration code. We can remove all the code associated with this after some time has passed.
+  ranVerificationMigrationAt: number | null | undefined
 }
 
 const initialState = {
@@ -42,6 +50,12 @@ const initialState = {
   activeScreen: Screens.Main,
   hideVerification: false,
   showRaiseDailyLimitTarget: undefined,
+  walletConnectEnabled: false,
+  rewardsPercent: 5,
+  rewardsStartDate: 1622505600000,
+  rewardsMax: 1000,
+  rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
+  ranVerificationMigrationAt: null,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -143,6 +157,11 @@ export const appReducer = (
         showRaiseDailyLimitTarget: action.flags.showRaiseDailyLimitTarget,
         celoEducationUri: action.flags.celoEducationUri,
         shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
+        walletConnectEnabled: action.flags.walletConnectEnabled,
+        rewardsPercent: action.flags.rewardsPercent,
+        rewardsStartDate: action.flags.rewardsStartDate,
+        rewardsMax: action.flags.rewardsMax,
+        rewardsABTestThreshold: action.flags.rewardsABTestThreshold,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
@@ -153,6 +172,12 @@ export const appReducer = (
       return {
         ...state,
         activeScreen: action.activeScreen,
+      }
+    case Actions.VERIFICATION_MIGRATION_RAN:
+      return {
+        ...state,
+        ranVerificationMigrationAt: action.now,
+        numberVerified: action.isVerified,
       }
     default:
       return state

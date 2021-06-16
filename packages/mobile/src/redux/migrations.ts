@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
-import { providersDisplayInfo } from 'src/fiatExchanges/reducer'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 
 export const migrations = {
@@ -121,7 +120,36 @@ export const migrations = {
     if (!lastUsedProvider || !lastUsedProvider.name) {
       return state
     }
-    const lastProvider = Object.entries(providersDisplayInfo).find(
+
+    const providerDisplayInfo = {
+      Moonpay: {
+        name: 'Moonpay',
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+      },
+      Ramp: {
+        name: 'Ramp',
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+      },
+      Simplex: {
+        name: 'Simplex',
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+      },
+      Transak: {
+        name: 'Transak',
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+      },
+      Xanpool: {
+        name: 'Xanpool',
+        icon:
+          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
+      },
+    }
+
+    const lastProvider = Object.entries(providerDisplayInfo).find(
       ([, providerInfo]) => providerInfo.name.toLowerCase() === lastUsedProvider.name.toLowerCase()
     )
     return {
@@ -177,4 +205,41 @@ export const migrations = {
       },
     }
   },
+  13: (state: any) => {
+    return {
+      ...state,
+      identity: {
+        ..._.omit(
+          state.identity,
+          'attestationCodes',
+          'acceptedAttestationCodes',
+          'attestationInputStatus',
+          'numCompleteAttestations',
+          'verificationStatus',
+          'hasSeenVerificationNux',
+          'lastRevealAttempt'
+        ),
+      },
+      verify: {
+        ..._.omit(
+          state.verify,
+          'TEMPORARY_override_withoutVerification',
+          'withoutRevealing',
+          'retries'
+        ),
+        seenVerificationNux: state.identity.hasSeenVerificationNux ?? false,
+      },
+    }
+  },
+  14: (state: any) => ({
+    ...state,
+    networkInfo: {
+      ...state.networkInfo,
+      userLocationData: {
+        countryCodeAlpha2: null,
+        region: null,
+        ipAddress: null,
+      },
+    },
+  }),
 }

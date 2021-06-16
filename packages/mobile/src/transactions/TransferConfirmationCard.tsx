@@ -12,6 +12,8 @@ import { useSelector } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { MoneyAmount, TokenTransactionType } from 'src/apollo/types'
+import { rewardsEnabledSelector } from 'src/app/selectors'
+import { CELO_REWARDS_LINK } from 'src/brandingConfig'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import FeeDrawer from 'src/components/FeeDrawer'
@@ -205,12 +207,17 @@ function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, c
 
 function CeloRewardContent({ amount, recipient }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
+  const rewardsEnabled = useTypedSelector(rewardsEnabledSelector)
 
   const openLearnMore = () => {
-    navigate(Screens.ConsumerIncentivesHomeScreen)
-    ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
-      origin: RewardsScreenOrigin.PaymentDetail,
-    })
+    if (rewardsEnabled) {
+      navigate(Screens.ConsumerIncentivesHomeScreen)
+      ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+        origin: RewardsScreenOrigin.PaymentDetail,
+      })
+    } else {
+      navigateToURI(CELO_REWARDS_LINK)
+    }
   }
 
   return (

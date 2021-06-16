@@ -1,17 +1,20 @@
+// DEPRECATE CLOUD FUNCTION & DELETE FILE ONCE MAJORITY OF USERS ARE ON VERSION >=1.15.0
+
 import crypto from 'crypto'
 import * as functions from 'firebase-functions'
 import {
   CASH_IN_SUCCESS_DEEPLINK,
   CASH_IN_SUCCESS_URL,
-  CurrencyCode,
-  LocalCurrencyCode,
+  DigitalAsset,
+  FiatCurrency,
   MOONPAY_DATA,
   RAMP_DATA,
   TRANSAK_DATA,
   VALORA_LOGO_URL,
   XANPOOL_DATA,
 } from '../config'
-import Simplex, { SimplexPaymentData, SimplexQuote } from './Simplex'
+import { Simplex, SimplexPaymentData, SimplexQuote } from './Simplex'
+import { findContinguousSpaces } from './utils'
 const URL = require('url').URL
 
 interface UrlRequestData {
@@ -47,7 +50,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &baseCurrencyCode=${fiatCurrency}
         &baseCurrencyAmount=${fiatAmount}
         &redirectURL=${encodeURIComponent(cashInSuccessDeepLink)}
-        `.replace(/\s+/g, '')
+        `.replace(findContinguousSpaces, '')
 
     const signature = crypto
       .createHmac('sha256', MOONPAY_DATA.private_key)
@@ -67,7 +70,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &fiatValue=${fiatAmount}
         &finalUrl=${encodeURIComponent(cashInSuccessDeepLink)}
         &webhookStatusUrl=${RAMP_DATA.webhook_url}
-      `.replace(/\s+/g, '')
+      `.replace(findContinguousSpaces, '')
   } else if (providerName === Providers.Transak.toLowerCase()) {
     finalUrl = `
       ${TRANSAK_DATA.widget_url}
@@ -80,7 +83,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         &defaultFiatAmount=${fiatAmount}
         &redirectURL=${encodeURIComponent(CASH_IN_SUCCESS_URL)}
         &hideMenu=true
-      `.replace(/\s+/g, '')
+      `.replace(findContinguousSpaces, '')
   } else if (providerName === Providers.Xanpool.toLowerCase()) {
     const supportedCurrencies = ['IDR', 'VND', 'SGD', 'HKD', 'TBH', 'INR', 'MYR', 'PHP']
 
@@ -92,7 +95,7 @@ export const composeCicoProviderUrl = functions.https.onRequest((request, respon
         ${supportedCurrencies.includes(fiatCurrency) ? `&currency=${fiatCurrency}` : ''}
         &fiat=${fiatAmount}
         &redirectUrl=${CASH_IN_SUCCESS_DEEPLINK}
-      `.replace(/\s+/g, '')
+      `.replace(findContinguousSpaces, '')
   }
 
   response.send(JSON.stringify(finalUrl))
@@ -107,8 +110,8 @@ interface SimplexQuoteRequest {
   type: 'quote'
   userAddress: string
   currentIpAddress: string
-  currencyToBuy: CurrencyCode
-  fiatCurrency: LocalCurrencyCode
+  currencyToBuy: DigitalAsset
+  fiatCurrency: FiatCurrency
   amount: number
   amountIsFiat: boolean
 }

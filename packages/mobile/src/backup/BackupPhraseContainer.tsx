@@ -122,10 +122,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 2,
   },
-  headerText: {
-    ...fontStyles.regular500,
-    marginBottom: 8,
-  },
   headerButton: {
     ...fontStyles.regular,
   },

@@ -26,31 +26,14 @@ Simply run `yarn test:e2e:android` or `yarn test:e2e:ios`
 
 The run_e2e.sh script will take care of configuring and building the app for you.
 
-## Adding a test
 
-The main test files are the ones on the root of the e2e/src directory. The "main" one is `FundedAccount.spec.js` which calls the specific tests which live in the `usecases` folder.
+## e2e tests in Detox
 
-While developing and adding new tests, it's useful to run only the ones we are working on and not go through the onboading on each run. To do this, the following strategy might be useful:
-- First, go to `FundedAccount.spec.js` and comment out or skip all tests except the `Onboarding` one.
-- Run `yarn test:e2e:ios -t e2e/src/FundedAccount.spec.js`. Wait while the app goes through the onboarding process.
-- If the tests passes you should see the Wallet Home screen.
-- Run `yarn test:e2e:packager` to start the packager.
-- Comment out or skip the `Onboarding` test and uncomment or unskip whatever test you would like to run or develop against.
-- Run `yarn test:e2e:ios -d -t e2e/src/FundedAccount.spec.js`. The `-d` flag will prevent the app from reinstalling and reuse the previous install and will not restart the packager.
+For most e2e tests you need to do three things:
 
-A similar process can be followed to run and develop other test files.
-
-For most e2e tests you will only need to do three things:
-
-- Finding elements using `element(by.id('SomeTestID'))`: You give the element you want to find a testID, then you can reliably find it, if it's on screen.
-- Performing actions on the element like `element.tap()` or `element.typeText('Some Text ')`. Detox will automatically wait for these actions to finish.
-- Testing properties of the element using expectations, like `expect(element).toBeVisible()`. You will mostly need `.toBeVisible()` and `.toHaveText()`.
-
-For more information about Detox, check out the [API reference](https://github.com/wix/Detox/blob/master/docs/README.md#api-reference)
-
-### Example
-
-A simple test might look like this:
+- Find elements using `element(by.id('SomeTestID'))`: Give the element you want to find a testID so they can be reliably found on the screen
+- Perform actions on the element, such as `element.tap()` or `element.typeText('Some Text ')`. Detox will automatically wait for these actions to finish.
+- Test properties of the element using expectations, such as `expect(element).toBeVisible()`. You will mostly need `.toBeVisible()` and `.toHaveText()`.
 
 ```javascript
 it('has a button to select the language', async () => {
@@ -65,6 +48,104 @@ After english was selected, detox will tap the button to submit our language of 
 
 The function needs to be `async`, and you will need to `await` all calls to detox functions.
 
+For more information about Detox, check out the [API reference](https://github.com/wix/Detox/blob/master/docs/README.md#api-reference)
+
+## Adding a test
+
+The main test files are on the root of the e2e/src directory. Test suites call the specific use cases, which live in the [usecases](./src/usecases) directory.
+
+In the [usecases](./src/usecases) directory, create new `<usecase>.js` or add an it-block to an existing appropriate use case.
+
+If creating a suite of tests, add a new `<TestSuiteName>.spec.js` file following the format of [AccountSupport.spec.js](./src/AccountSupport.spec.js).
+
+While developing and adding new tests, it's useful to run only the ones we are working on and not go through the onboarding on each run. To do this, use the following strategy:
+
+- For the first test run `yarn test:e2e:ios -w 1 -t \<Test Name>.spec.js$` this will install the application on your device and run the targeted test suite.
+
+- For subsequent test runs run `yarn test:e2e:ios -d -w 1 -f \<Test Name>.spec.js$ -t Display Providers`. The `-d` flag will prevent the app from reinstalling and reuse the previous install and will not restart the packager. The `-w` flag will specify how many emulators to run in parallel. The `-f` flag will run matching test files. The `-t` flag will run only tests with matching regex patterns; the regex is matched against the full name, which is a combination of the test name and all its surrounding describe blocks.
+
+Use a similar process to run and develop other test files.
+
+### Example
+
+```JavaScript
+// Sample <TestSuiteName>.spec.js setup
+import { quickOnboarding } from './utils/utils'
+import AddedUsecase from './usecases/AddedUsecase'
+
+describe('A New Test Suite', () => {
+  beforeAll(async () => {
+    // Restores the test account if needed
+    await quickOnboarding()
+  })
+
+  describe('A New Usecase', AddedUsecase)
+})
+```
+
+```JavaScript
+// Sample <UseCase>.js
+export default AddedUsecase = () => {
+  beforeEach(async () => {
+    // Reload app on device
+    await device.reloadReactNative()
+
+    // Dismiss banners if interfering with next steps
+    await dismissBanners()
+
+    // Example setup steps for every test spec in this usecase
+    await element(by.id('Hamburger')).tap()
+    await element(by.id('add-and-withdraw')).tap()
+    await element(by.id('addFunds')).tap()
+  })
+  
+  // Sample test spec / it block
+  it('Display Providers', async () => {
+    // Test spec specific steps
+    await element(by.id('GoToProviderButton')).tap()
+    await element(by.id('FiatExchangeInput')).replaceText('$50')
+    await element(by.id('FiatExchangeNextButton')).tap()
+
+    // Assertions - check that all providers are visible
+    await expect(element(by.id('Provider/Moonpay'))).toBeVisible()
+    await expect(element(by.id('Provider/Simplex'))).toBeVisible()
+    await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
+    await expect(element(by.id('Provider/Ramp'))).toBeVisible()
+    await expect(element(by.id('Provider/Transak'))).toBeVisible()
+    await sleep(5000)
+
+    // Compare to screenshot in `e2e/assets`
+    const imagePath = await device.takeScreenshot('All Providers US')
+    await pixelDiff(
+      imagePath,
+      device.getPlatform() === 'ios'
+        ? './e2e/assets/All Providers US - ios.png'
+        : './e2e/assets/All Providers US - android.png'
+    )
+  })
+
+  it('Additional Test Spec...', async () => {
+    // Additional test spec starting after 'addFunds' tap
+  })
+}
+```
+
+### Recording a test
+On macOS it is possible to record a test using [Detox Recorder](https://github.com/wix/DetoxRecorder).
+
+1. Run the app with `yarn dev:ios` from `wallet/packages/mobile`.
+
+2. Navigate to the root directory `wallet`.
+
+3. Run the Detox Recorder.
+
+```sh
+# Running Detox Recorder from the wallet directory
+detox recorder --bundleId "org.celo.mobile.alfajores.dev" --simulatorId booted --outputTestFile "~/Desktop/RecordedTest.js" --testName "My Recorded Test" --record
+```
+
+4. Use the it-block in the recorded test as a starting point for the new e2e test. Add assertions where appropriate and structure it like existing tests in [usecases](./src/usecases) directory.
+
 ## Adding TestIDs
 
 A TestID is a unique string that you should give to the components you want to test. The build-in components from react native support adding testIDs like this:
@@ -73,7 +154,7 @@ A TestID is a unique string that you should give to the components you want to t
 <button testID='SubmitButtonOnPaymentScreen'>
 ```
 
-You should try to make your testIDs unique by describing the purpose of the element with reference to the screen it is on.
+You should make your testIDs unique by describing the purpose of the element with reference to the screen it is on.
 
 ### Adding TestIDs to custom components
 
@@ -96,9 +177,9 @@ It is recommended to follow the scheme parentID/ChildDescription.
 
 ## Mocks for the e2e tests
 
-The e2e tests should use as few mocks as possible, since they are supposed to be as close to the real app as possible. They also don't change in between tests. all e2e test use the same build of the app. But sometimes it is necessary to mock a module.
+The e2e tests should use as few mocks as possible, since they are supposed to be as close to the real app as possible. They don't change in between tests. All e2e test use the same build as the app, but sometimes it is necessary to mock a module.
 
-The mocks are only used, when the environment variable `CELO_TEST_CONFIG` is set too 'e2e'. This variable will be read in `mobile/rn-cli.config.js` and will modify what the metro bundler will include in the bundle. If you're mocking a module from node_nodules, put the mock in `e2e/mocks/`. Use the file extension `.e2e.ts` or `.e2e.js`.
+The mocks are only used when the environment variable `CELO_TEST_CONFIG` is set too 'e2e'. This variable will be read in `mobile/rn-cli.config.js` and will modify what the metro bundler will include in the bundle. If you're mocking a module from node_nodules, put the mock in `e2e/mocks/`. Use the file extension `.e2e.ts` or `.e2e.js`.
 
 ## The e2e banner
 
@@ -129,7 +210,7 @@ These files are uploaded by by the [a script](../scripts/ci-e2e.sh), that is exe
 
 ## Troubleshooting
 
-If tests are failing, and you don't know why:
+If tests are failing for unknown reasons:
 
 - Rebuild, re-yarn and rerun. Sometimes the problem just goes away.
 - Delete snapshots in the emulator

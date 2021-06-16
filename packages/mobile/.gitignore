@@ -76,6 +76,8 @@ e2e/artifacts/
 e2e_run.log
 e2e_pidcat_run.log
 e2e/test-results/*
+!e2e/test-results/teststyle.css
+!e2e/test-results/valora-icon.png
 
 # keys
 secrets.json
@@ -87,7 +89,8 @@ branding/valora
 android/app/src/main/res/drawable*
 android/app/src/main/res/layout*
 android/app/src/main/res/mipmap*
-ios/celo/Base.lproj/
+ios/celo/Base.lproj/*
+!ios/celo/Base.lproj/InfoPlist.strings
 ios/celo/Images.xcassets/
 src/brandingConfig.ts
 src/icons/Logo.tsx

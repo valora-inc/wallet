@@ -4,15 +4,10 @@ import { RehydrateAction } from 'redux-persist'
 import { createSelector } from 'reselect'
 import { Actions as AccountActions, ClearStoredAccountAction } from 'src/account/actions'
 import { Actions, ActionTypes } from 'src/identity/actions'
-import { ContactMatches, ImportContactsStatus, VerificationStatus } from 'src/identity/types'
+import { ContactMatches, ImportContactsStatus } from 'src/identity/types'
 import { removeKeyFromMapping } from 'src/identity/utils'
-import { AttestationCode } from 'src/identity/verification'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
-import { StoreLatestInRecentsAction } from 'src/send/actions'
-
-export const ATTESTATION_CODE_PLACEHOLDER = 'ATTESTATION_CODE_PLACEHOLDER'
-export const ATTESTATION_ISSUER_PLACEHOLDER = 'ATTESTATION_ISSUER_PLACEHOLDER'
 
 export interface AddressToE164NumberType {
   [address: string]: string | null
@@ -76,14 +71,7 @@ export interface SecureSendDetails {
 }
 
 export interface State {
-  attestationCodes: AttestationCode[]
-  // we store acceptedAttestationCodes to tell user if code
-  // was already used even after Actions.RESET_VERIFICATION
-  acceptedAttestationCodes: AttestationCode[]
   // numCompleteAttestations is controlled locally
-  numCompleteAttestations: number
-  verificationStatus: VerificationStatus
-  hasSeenVerificationNux: boolean
   addressToE164Number: AddressToE164NumberType
   // Note: Do not access values in this directly, use the `getAddressFromPhoneNumber` helper in contactMapping
   e164NumberToAddress: E164NumberToAddressType
@@ -101,15 +89,9 @@ export interface State {
   // Contacts found during the matchmaking process
   matchedContacts: ContactMatches
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
-  lastRevealAttempt: number | null
 }
 
 const initialState: State = {
-  attestationCodes: [],
-  acceptedAttestationCodes: [],
-  numCompleteAttestations: 0,
-  verificationStatus: VerificationStatus.Stopped,
-  hasSeenVerificationNux: false,
   addressToE164Number: {},
   e164NumberToAddress: {},
   walletToAccountAddress: {},
@@ -124,21 +106,20 @@ const initialState: State = {
   },
   matchedContacts: {},
   secureSendPhoneNumberMapping: {},
-  lastRevealAttempt: null,
 }
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction | ClearStoredAccountAction | StoreLatestInRecentsAction
+  action: ActionTypes | RehydrateAction | ClearStoredAccountAction
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
       // Ignore some persisted properties
       const rehydratedState = getRehydratePayload(action, 'identity')
+
       return {
         ...state,
         ...rehydratedState,
-        verificationStatus: VerificationStatus.Stopped,
         importContactsProgress: {
           status: ImportContactsStatus.Stopped,
           current: 0,
@@ -146,52 +127,6 @@ export const reducer = (
         },
       }
     }
-    case Actions.RESET_VERIFICATION:
-      return {
-        ...state,
-        attestationCodes: [],
-        numCompleteAttestations: 0,
-        verificationStatus: VerificationStatus.Stopped,
-      }
-    case Actions.REVOKE_VERIFICATION_STATE:
-      return {
-        ...state,
-        attestationCodes: [],
-        acceptedAttestationCodes: [],
-        numCompleteAttestations: 0,
-        verificationStatus: VerificationStatus.Stopped,
-        lastRevealAttempt: null,
-        walletToAccountAddress: removeKeyFromMapping(
-          state.walletToAccountAddress,
-          action.walletAddress
-        ),
-      }
-    case Actions.SET_VERIFICATION_STATUS:
-      return {
-        ...state,
-        verificationStatus: action.status,
-      }
-    case Actions.SET_SEEN_VERIFICATION_NUX:
-      return {
-        ...state,
-        hasSeenVerificationNux: action.status,
-      }
-    case Actions.SET_COMPLETED_CODES:
-      return {
-        ...state,
-        ...completeCodeReducer(state, action.numComplete),
-      }
-    case Actions.INPUT_ATTESTATION_CODE:
-      return {
-        ...state,
-        attestationCodes: [...state.attestationCodes, action.code],
-      }
-    case Actions.COMPLETE_ATTESTATION_CODE:
-      return {
-        ...state,
-        numCompleteAttestations: state.numCompleteAttestations + 1,
-        acceptedAttestationCodes: [...state.acceptedAttestationCodes, action.code],
-      }
     case Actions.UPDATE_E164_PHONE_NUMBER_ADDRESSES:
       return {
         ...state,
@@ -208,6 +143,14 @@ export const reducer = (
           ...state.walletToAccountAddress,
           ...action.walletToAccountAddress,
         },
+      }
+    case Actions.REMOVE_WALLET_TO_ACCOUNT_ADDRESS:
+      return {
+        ...state,
+        walletToAccountAddress: removeKeyFromMapping(
+          state.walletToAccountAddress,
+          action.walletAddress
+        ),
       }
     case Actions.UPDATE_E164_PHONE_NUMBER_SALT:
       return {
@@ -330,35 +273,11 @@ export const reducer = (
         matchedContacts: state.matchedContacts,
         secureSendPhoneNumberMapping: state.secureSendPhoneNumberMapping,
       }
-    case Actions.SET_LAST_REVEAL_ATTEMPT:
-      return {
-        ...state,
-        lastRevealAttempt: action.time,
-      }
     default:
       return state
   }
 }
 
-const completeCodeReducer = (state: State, numCompleteAttestations: number) => {
-  const { acceptedAttestationCodes } = state
-  // Ensure numCompleteAttestations many codes are filled
-  const attestationCodes = [...state.attestationCodes]
-  for (let i = 0; i < numCompleteAttestations; i++) {
-    attestationCodes[i] = acceptedAttestationCodes[i] || {
-      code: ATTESTATION_CODE_PLACEHOLDER,
-      issuer: ATTESTATION_ISSUER_PLACEHOLDER,
-    }
-  }
-  return {
-    numCompleteAttestations,
-    attestationCodes,
-  }
-}
-
-export const attestationCodesSelector = (state: RootState) => state.identity.attestationCodes
-export const acceptedAttestationCodesSelector = (state: RootState) =>
-  state.identity.acceptedAttestationCodes
 export const e164NumberToAddressSelector = (state: RootState) => state.identity.e164NumberToAddress
 export const addressToE164NumberSelector = (state: RootState) => state.identity.addressToE164Number
 export const walletToAccountAddressSelector = (state: RootState) =>

@@ -8,7 +8,11 @@
   "removeAccountDetails": "A redefinição removerá sua conta deste dispositivo. Seus fundos permanecerão na conta, mas só estarão acessíveis com a Chave de Conta",
   "legal": "Jurídico",
   "securityAndData": "Segurança e Dados",
+  "changePin": "Alterar PIN",
+  "pinChanged": "PIN alterado",
+  "pinChangeFailed": "Falha ao alterar o PIN",
   "requirePinOnAppOpen": "Exigir PIN ao abrir o aplicativo",
+  "connectedApplications": "Apps conectados",
   "analytics": "Estatísticas",
   "shareAnalytics": "Compartilhar estatísticas",
   "shareAnalytics_detail": "Coletamos dados anônimos sobre como você usa a {{appName}} para ajudar a melhorar o aplicativo para todos.",
@@ -95,5 +99,6 @@
   "raiseLimitEmailNotSent": "Seu pedido não foi enviado. Tente novamente.",
   "storeRecoveryTitle": "Precisamos que você configure sua conta novamente",
   "storeRecoveryBody": "Houve um erro. Estamos cientes do problema e estamos trabalhando para corrigi-lo. Enquanto isso, você precisará passar pelo processo de configuração novamente.",
-  "storeRecoveryButton": "Restaurar conta"
+  "storeRecoveryButton": "Restaurar conta",
+  "tapToCopy": "Toque para copiar"
 }
