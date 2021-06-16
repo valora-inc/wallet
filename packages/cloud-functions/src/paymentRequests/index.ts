@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions'
-import { NotificationTypes } from 'src/notifications/types'
 import { database } from '../firebase'
 import { getTranslatorForAddress, sendNotification } from '../notifications'
+import { NotificationTypes } from '../notifications/types'
 
 export enum PaymentRequestStatus {
   REQUESTED = 'REQUESTED',

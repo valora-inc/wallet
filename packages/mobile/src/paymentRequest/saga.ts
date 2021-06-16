@@ -32,7 +32,6 @@ import {
 } from 'src/paymentRequest/actions'
 import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
 import { decryptPaymentRequest, encryptPaymentRequest } from 'src/paymentRequest/utils'
-import { mapOldCurrencyToNew } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getAccount } from 'src/web3/saga'
 import { currentAccountSelector, dataEncryptionKeySelector } from 'src/web3/selectors'
@@ -103,7 +102,6 @@ function* subscribeToPaymentRequests(
         .map((key) => ({
           uid: key,
           ...paymentRequestsObject[key],
-          currency: mapOldCurrencyToNew(paymentRequestsObject[key].currency),
         }))
         .sort(compareTimestamps)
         .filter(onlyRequested)

@@ -163,6 +163,7 @@ function SendConfirmation(props: Props) {
     }
   }
 
+  const onCloseTokenPicker = () => showTokenChooser(false)
   const onTokenChosen = (newCurrency: Currency) => {
     showTokenChooser(false)
     const newAmount = convertBetweenCurrencies(amount, currency, newCurrency, exchangeRates)
@@ -437,6 +438,7 @@ function SendConfirmation(props: Props) {
           isVisible={showingTokenChooser}
           origin={TokenPickerOrigin.SendConfirmation}
           onCurrencySelected={onTokenChosen}
+          onClose={onCloseTokenPicker}
         />
       </SafeAreaView>
     )
