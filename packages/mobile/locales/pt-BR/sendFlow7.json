@@ -127,5 +127,10 @@
     "feeLabel": "Taxa única de criptografia",
     "feeModalHeader": "Taxa única de criptografia",
     "feeModalBody": "A criptografia ajuda a manter a privacidade de seus dados confidenciais. Uma pequena taxa única é adicionada à sua primeira transação para configurar a criptografia. Isso garante que seus comentários serão enviados de forma segura e privada."
+  },
+  "sendToAddressWarning": {
+    "title": "Enviando para um endereço",
+    "body": "Certifique-se de que o endereço suporta cUSD. Fundos enviados para endereços inválidos podem não ser recuperáveis.\n\nVocê também pode considerar enviar um pagamento de teste pequeno primeiro.",
+    "toggle": "Perguntar sempre"
   }
 }
