@@ -34,4 +34,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: yarn
+      - run: yarn build --scope @celo/mobile --include-filtered-dependencies
       
