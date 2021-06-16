@@ -127,5 +127,10 @@
     "feeLabel": "Tarifa de Cifrado Unica",
     "feeModalHeader": "Tarifa de Cifrado Unica",
     "feeModalBody": "El cifrado ayuda a mantener la privacidad de tus datos confidenciales. Se agrega una pequeña tarifa única a tu primera transacción para configurar el cifrado. Esto garantiza que tus comentarios se envíen de forma segura y privada."
+  },
+  "sendToAddressWarning": {
+    "title": "Sending to an address",
+    "body": "Please make sure the address supports cUSD. Funds sent to invalid addresses may not be recoverable.\n\nYou might also consider sending a small test payment first.",
+    "toggle": "Ask every time"
   }
 }
