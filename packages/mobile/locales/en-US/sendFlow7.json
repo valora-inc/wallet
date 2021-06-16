@@ -127,5 +127,10 @@
     "feeLabel": "One-Time Encryption Fee",
     "feeModalHeader": "One-Time Encryption Fee",
     "feeModalBody": "Encryption helps keep your sensitive data private. A small one-time fee is added to your first transaction to setup encryption. This ensures your comments will be sent securely and privately."
+  },
+  "sendToAddressWarning": {
+    "title": "Sending to an address",
+    "body": "Please make sure the address supports cUSD. Funds sent to invalid addresses may not be recoverable.\n\nYou might also consider sending a small test payment first.",
+    "toggle": "Ask every time"
   }
 }
