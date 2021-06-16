@@ -38,7 +38,7 @@ export default function TotalLineItem({
   editableCurrency = false,
   onEditCurrency,
 }: Props) {
-  const { localCurrencyExchangeRate: exchangeRate, txCurrency } = useLocalCurrencyToShow(
+  const { localCurrencyExchangeRate: exchangeRate, amountCurrency } = useLocalCurrencyToShow(
     amount,
     currencyInfo
   )
@@ -64,10 +64,12 @@ export default function TotalLineItem({
           title={
             <Touchable disabled={!editableCurrency} onPress={onEditCurrency}>
               <Text style={styles.exchangeRate}>
-                <Trans i18nKey={totalAmountKey[txCurrency]} ns={Namespaces.global}>
+                <Trans i18nKey={totalAmountKey[amountCurrency]} ns={Namespaces.global}>
                   <CurrencyDisplay
                     amount={{
-                      value: new BigNumber(exchangeRate).pow(txCurrency === Currency.Celo ? 1 : -1),
+                      value: new BigNumber(exchangeRate).pow(
+                        amountCurrency === Currency.Celo ? 1 : -1
+                      ),
                       currencyCode: Currency.Dollar, // The currency is actually the local amount
                     }}
                     showLocalAmount={false}
@@ -87,7 +89,7 @@ export default function TotalLineItem({
           amount={
             <CurrencyDisplay
               amount={amount}
-              showLocalAmount={txCurrency === Currency.Celo}
+              showLocalAmount={amountCurrency === Currency.Celo}
               hideSymbol={false}
               hideSign={hideSign}
               currencyInfo={currencyInfo}

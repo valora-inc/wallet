@@ -132,13 +132,13 @@ export default function CurrencyDisplay({
   currencyInfo,
   testID,
 }: Props) {
-  const { localCurrencyCode, localCurrencyExchangeRate, txCurrency } = useLocalCurrencyToShow(
+  const { localCurrencyCode, localCurrencyExchangeRate, amountCurrency } = useLocalCurrencyToShow(
     amount,
     currencyInfo
   )
 
   // Show local amount only if explicitly set to true when currency is CELO
-  const shouldShowLocalAmount = showLocalAmount ?? txCurrency !== Currency.Celo
+  const shouldShowLocalAmount = showLocalAmount ?? amountCurrency !== Currency.Celo
   const displayAmount = shouldShowLocalAmount
     ? getLocalAmount(amount, localCurrencyCode, localCurrencyExchangeRate)
     : amount
@@ -150,7 +150,7 @@ export default function CurrencyDisplay({
   const currencySymbol = displayAmount
     ? shouldShowLocalAmount
       ? LocalCurrencySymbol[displayAmount.currencyCode as LocalCurrencyCode]
-      : CURRENCIES[txCurrency].symbol
+      : CURRENCIES[amountCurrency].symbol
     : null
   const value = displayAmount ? new BigNumber(displayAmount.value) : null
   const sign = value?.isNegative() ? '-' : showExplicitPositiveSign ? '+' : ''
@@ -158,10 +158,10 @@ export default function CurrencyDisplay({
   const formattedValue =
     value && displayCurrency ? formatAmount(value.absoluteValue(), displayCurrency) : '-'
   const code = displayAmount?.currencyCode
-  const fullCurrencyName = getFullCurrencyName(txCurrency)
+  const fullCurrencyName = getFullCurrencyName(amountCurrency)
 
   const color = useColors
-    ? txCurrency === Currency.Celo
+    ? amountCurrency === Currency.Celo
       ? colors.goldBrand
       : colors.greenBrand
     : StyleSheet.flatten(style)?.color

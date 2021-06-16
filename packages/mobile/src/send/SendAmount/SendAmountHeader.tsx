@@ -32,6 +32,8 @@ function SendAmountHeader({ currency, isOutgoingPaymentRequest, onChangeCurrency
     onChangeCurrency(currency)
   }
 
+  const closeCurrencyPicker = () => setShowCurrencyPicker(false)
+
   const backButtonEventName = isOutgoingPaymentRequest
     ? RequestEvents.request_amount_back
     : SendEvents.send_amount_back
@@ -76,6 +78,7 @@ function SendAmountHeader({ currency, isOutgoingPaymentRequest, onChangeCurrency
         isVisible={showingCurrencyPicker}
         origin={TokenPickerOrigin.Send}
         onCurrencySelected={onCurrencySelected}
+        onClose={closeCurrencyPicker}
       />
     </>
   )
