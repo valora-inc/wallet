@@ -28,3 +28,10 @@ jobs:
       - run: yarn
       - run: yarn run prettify:diff
       - run: yarn run lint
+  ios-e2e:
+    name: iOS End-to-end Tests
+    runs-on: ios-e2e-group
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn
+      
