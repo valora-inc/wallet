@@ -33,6 +33,10 @@ jobs:
     runs-on: ios-e2e-group
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          check-latest: true
       - run: yarn
       - run: yarn build --scope @celo/mobile --include-filtered-dependencies
       - run: |
