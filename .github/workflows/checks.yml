@@ -45,5 +45,7 @@ jobs:
       - run: |
           cd packages/mobile/ios
           bundle exec pod install
-      - run: yarn run detox build-framework-cache
-      - run: yarn run test:e2e:ios -w 2
+      - run: |
+          cd packages/mobile
+          yarn run detox build-framework-cache
+          yarn run test:e2e:ios -w 2
