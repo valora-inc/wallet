@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions'
+import { NotificationTypes } from 'src/notifications/types'
 import { database } from '../firebase'
 import { getTranslatorForAddress, sendNotification } from '../notifications'
-import { Currencies, NotificationTypes } from '../notifications/types'
 
 export enum PaymentRequestStatus {
   REQUESTED = 'REQUESTED',
@@ -16,7 +16,6 @@ interface PaymentRequest {
   requesterE164Number?: string
   requesterAddress: string
   requesteeAddress: string
-  currency: Currencies
   comment?: string
   status: PaymentRequestStatus
   notified: boolean
@@ -35,11 +34,10 @@ export async function notifyPaymentRequest(id: string, request: PaymentRequest) 
 function paymentObjectToNotification(po: PaymentRequest): { [key: string]: string } {
   return {
     amount: po.amount,
-    ...(po.timestamp ? { timestamp: po.timestamp } : {}),
+    ...(po.timestamp ? { timestamp: String(po.timestamp) } : {}),
     ...(po.requesterE164Number ? { requesterE164Number: po.requesterE164Number } : {}),
     requesterAddress: po.requesterAddress,
     requesteeAddress: po.requesteeAddress,
-    currency: po.currency,
     ...(po.comment ? { comment: po.comment } : {}),
     status: po.status,
     type: String(po.type),
@@ -47,7 +45,7 @@ function paymentObjectToNotification(po: PaymentRequest): { [key: string]: strin
 }
 
 export async function sendRequestedPaymentNotification(id: string, data: PaymentRequest) {
-  const { requesteeAddress, amount, currency } = data
+  const { requesteeAddress, amount } = data
   const t = await getTranslatorForAddress(requesteeAddress)
   data.type = NotificationTypes.PAYMENT_REQUESTED
   return sendNotification(
@@ -55,7 +53,7 @@ export async function sendRequestedPaymentNotification(id: string, data: Payment
     t('paymentRequestedBody', {
       amount,
       // TODO: Use local currency for this.
-      currency: t(currency, { count: parseInt(amount, 10) }),
+      currency: 'cUSD',
     }),
     requesteeAddress,
     { uid: id, ...paymentObjectToNotification(data) }

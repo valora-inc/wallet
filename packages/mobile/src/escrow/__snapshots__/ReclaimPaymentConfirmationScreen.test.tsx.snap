@@ -212,7 +212,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 34,
                     },
                   ]
@@ -231,7 +231,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 24,
                       "paddingVertical": 4,
                     },
@@ -252,7 +252,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       "paddingHorizontal": 3,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 48,
                       "lineHeight": 64,
                     },
@@ -330,7 +330,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -734,7 +734,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -787,22 +787,52 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     ]
                   }
                 >
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      Array [
-                        undefined,
-                        Object {
-                          "color": "#2E3338",
-                        },
-                      ]
+                  <View
+                    accessible={true}
+                    focusable={false}
+                    nativeBackgroundAndroid={
+                      Object {
+                        "attribute": "selectableItemBackground",
+                        "rippleRadius": undefined,
+                        "type": "ThemeAttrAndroid",
+                      }
                     }
-                    testID="TotalLineItem/ExchangeRate/value"
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
                   >
-                    
-                    $
-                    0.75
-                  </Text>
+                    <Text
+                      style={
+                        Object {
+                          "color": "#9CA4A9",
+                          "fontFamily": "Inter-Regular",
+                          "fontSize": 14,
+                          "lineHeight": 18,
+                        }
+                      }
+                    >
+                      <Text
+                        numberOfLines={1}
+                        style={
+                          Array [
+                            undefined,
+                            Object {
+                              "color": undefined,
+                            },
+                          ]
+                        }
+                        testID="TotalLineItem/ExchangeRate/value"
+                      >
+                        
+                        $
+                        0.75
+                      </Text>
+                    </Text>
+                  </View>
                 </Text>
               </View>
               <Text
@@ -829,7 +859,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -1227,7 +1257,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 34,
                     },
                   ]
@@ -1246,7 +1276,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 24,
                       "paddingVertical": 4,
                     },
@@ -1267,7 +1297,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       "paddingHorizontal": 3,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 48,
                       "lineHeight": 64,
                     },
@@ -1345,7 +1375,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -1671,7 +1701,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -1761,7 +1791,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -1814,22 +1844,52 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     ]
                   }
                 >
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      Array [
-                        undefined,
-                        Object {
-                          "color": "#2E3338",
-                        },
-                      ]
+                  <View
+                    accessible={true}
+                    focusable={false}
+                    nativeBackgroundAndroid={
+                      Object {
+                        "attribute": "selectableItemBackground",
+                        "rippleRadius": undefined,
+                        "type": "ThemeAttrAndroid",
+                      }
                     }
-                    testID="TotalLineItem/ExchangeRate/value"
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
                   >
-                    
-                    $
-                    0.75
-                  </Text>
+                    <Text
+                      style={
+                        Object {
+                          "color": "#9CA4A9",
+                          "fontFamily": "Inter-Regular",
+                          "fontSize": 14,
+                          "lineHeight": 18,
+                        }
+                      }
+                    >
+                      <Text
+                        numberOfLines={1}
+                        style={
+                          Array [
+                            undefined,
+                            Object {
+                              "color": undefined,
+                            },
+                          ]
+                        }
+                        testID="TotalLineItem/ExchangeRate/value"
+                      >
+                        
+                        $
+                        0.75
+                      </Text>
+                    </Text>
+                  </View>
                 </Text>
               </View>
               <Text
@@ -1856,7 +1916,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -2254,7 +2314,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 34,
                     },
                   ]
@@ -2273,7 +2333,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 24,
                       "paddingVertical": 4,
                     },
@@ -2294,7 +2354,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       "paddingHorizontal": 3,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 48,
                       "lineHeight": 64,
                     },
@@ -2372,7 +2432,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -2776,7 +2836,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -2829,22 +2889,52 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     ]
                   }
                 >
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      Array [
-                        undefined,
-                        Object {
-                          "color": "#2E3338",
-                        },
-                      ]
+                  <View
+                    accessible={true}
+                    focusable={false}
+                    nativeBackgroundAndroid={
+                      Object {
+                        "attribute": "selectableItemBackground",
+                        "rippleRadius": undefined,
+                        "type": "ThemeAttrAndroid",
+                      }
                     }
-                    testID="TotalLineItem/ExchangeRate/value"
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
                   >
-                    
-                    $
-                    0.75
-                  </Text>
+                    <Text
+                      style={
+                        Object {
+                          "color": "#9CA4A9",
+                          "fontFamily": "Inter-Regular",
+                          "fontSize": 14,
+                          "lineHeight": 18,
+                        }
+                      }
+                    >
+                      <Text
+                        numberOfLines={1}
+                        style={
+                          Array [
+                            undefined,
+                            Object {
+                              "color": undefined,
+                            },
+                          ]
+                        }
+                        testID="TotalLineItem/ExchangeRate/value"
+                      >
+                        
+                        $
+                        0.75
+                      </Text>
+                    </Text>
+                  </View>
                 </Text>
               </View>
               <Text
@@ -2871,7 +2961,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -3269,7 +3359,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 34,
                     },
                   ]
@@ -3288,7 +3378,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 24,
                       "paddingVertical": 4,
                     },
@@ -3309,7 +3399,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       "paddingHorizontal": 3,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 48,
                       "lineHeight": 64,
                     },
@@ -3387,7 +3477,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -3788,7 +3878,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -3841,22 +3931,52 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     ]
                   }
                 >
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      Array [
-                        undefined,
-                        Object {
-                          "color": "#2E3338",
-                        },
-                      ]
+                  <View
+                    accessible={true}
+                    focusable={false}
+                    nativeBackgroundAndroid={
+                      Object {
+                        "attribute": "selectableItemBackground",
+                        "rippleRadius": undefined,
+                        "type": "ThemeAttrAndroid",
+                      }
                     }
-                    testID="TotalLineItem/ExchangeRate/value"
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
                   >
-                    
-                    $
-                    0.75
-                  </Text>
+                    <Text
+                      style={
+                        Object {
+                          "color": "#9CA4A9",
+                          "fontFamily": "Inter-Regular",
+                          "fontSize": 14,
+                          "lineHeight": 18,
+                        }
+                      }
+                    >
+                      <Text
+                        numberOfLines={1}
+                        style={
+                          Array [
+                            undefined,
+                            Object {
+                              "color": undefined,
+                            },
+                          ]
+                        }
+                        testID="TotalLineItem/ExchangeRate/value"
+                      >
+                        
+                        $
+                        0.75
+                      </Text>
+                    </Text>
+                  </View>
                 </Text>
               </View>
               <Text
@@ -3883,7 +4003,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -4281,7 +4401,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 34,
                     },
                   ]
@@ -4300,7 +4420,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 24,
                       "paddingVertical": 4,
                     },
@@ -4321,7 +4441,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       "paddingHorizontal": 3,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 48,
                       "lineHeight": 64,
                     },
@@ -4399,7 +4519,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -4803,7 +4923,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -4856,22 +4976,52 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     ]
                   }
                 >
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      Array [
-                        undefined,
-                        Object {
-                          "color": "#2E3338",
-                        },
-                      ]
+                  <View
+                    accessible={true}
+                    focusable={false}
+                    nativeBackgroundAndroid={
+                      Object {
+                        "attribute": "selectableItemBackground",
+                        "rippleRadius": undefined,
+                        "type": "ThemeAttrAndroid",
+                      }
                     }
-                    testID="TotalLineItem/ExchangeRate/value"
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
                   >
-                    
-                    $
-                    0.75
-                  </Text>
+                    <Text
+                      style={
+                        Object {
+                          "color": "#9CA4A9",
+                          "fontFamily": "Inter-Regular",
+                          "fontSize": 14,
+                          "lineHeight": 18,
+                        }
+                      }
+                    >
+                      <Text
+                        numberOfLines={1}
+                        style={
+                          Array [
+                            undefined,
+                            Object {
+                              "color": undefined,
+                            },
+                          ]
+                        }
+                        testID="TotalLineItem/ExchangeRate/value"
+                      >
+                        
+                        $
+                        0.75
+                      </Text>
+                    </Text>
+                  </View>
                 </Text>
               </View>
               <Text
@@ -4898,7 +5048,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -5296,7 +5446,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 34,
                     },
                   ]
@@ -5315,7 +5465,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       "lineHeight": 22,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 24,
                       "paddingVertical": 4,
                     },
@@ -5336,7 +5486,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       "paddingHorizontal": 3,
                     },
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                       "fontSize": 48,
                       "lineHeight": 64,
                     },
@@ -5414,7 +5564,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -5740,7 +5890,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -5830,7 +5980,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
@@ -5883,22 +6033,52 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     ]
                   }
                 >
-                  <Text
-                    numberOfLines={1}
-                    style={
-                      Array [
-                        undefined,
-                        Object {
-                          "color": "#2E3338",
-                        },
-                      ]
+                  <View
+                    accessible={true}
+                    focusable={false}
+                    nativeBackgroundAndroid={
+                      Object {
+                        "attribute": "selectableItemBackground",
+                        "rippleRadius": undefined,
+                        "type": "ThemeAttrAndroid",
+                      }
                     }
-                    testID="TotalLineItem/ExchangeRate/value"
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
                   >
-                    
-                    $
-                    0.75
-                  </Text>
+                    <Text
+                      style={
+                        Object {
+                          "color": "#9CA4A9",
+                          "fontFamily": "Inter-Regular",
+                          "fontSize": 14,
+                          "lineHeight": 18,
+                        }
+                      }
+                    >
+                      <Text
+                        numberOfLines={1}
+                        style={
+                          Array [
+                            undefined,
+                            Object {
+                              "color": undefined,
+                            },
+                          ]
+                        }
+                        testID="TotalLineItem/ExchangeRate/value"
+                      >
+                        
+                        $
+                        0.75
+                      </Text>
+                    </Text>
+                  </View>
                 </Text>
               </View>
               <Text
@@ -5925,7 +6105,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }

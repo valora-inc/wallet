@@ -17,6 +17,7 @@ import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
+  SendConfirmation = 'SendConfirmation',
   Exchange = 'Exchange',
 }
 

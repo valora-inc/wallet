@@ -22,7 +22,9 @@ import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import FeeDrawer from 'src/components/FeeDrawer'
+import CustomHeader from 'src/components/header/CustomHeader'
 import ShortenedAddress from 'src/components/ShortenedAddress'
+import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { FeeType } from 'src/fees/actions'
 import CalculateFee, {
@@ -43,9 +45,15 @@ import { getAddressValidationType, getSecureSendAddress } from 'src/identity/sec
 import InviteAndSendModal from 'src/invite/InviteAndSendModal'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
-import { useCurrencyToLocalAmountExchangeRate } from 'src/localCurrency/hooks'
-import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import { emptyHeader } from 'src/navigator/Headers'
+import {
+  convertBetweenCurrencies,
+  useCurrencyToLocalAmountExchangeRate,
+} from 'src/localCurrency/hooks'
+import {
+  getLocalCurrencyCode,
+  localCurrencyExchangeRatesSelector,
+} from 'src/localCurrency/selectors'
+import { emptyHeader, noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
@@ -73,19 +81,21 @@ type OwnProps = StackScreenProps<
 >
 type Props = OwnProps
 
-export const sendConfirmationScreenNavOptions = (navOptions: Props) => ({
-  ...(navOptions.route.name === Screens.SendConfirmationModal
-    ? modalScreenOptions(navOptions)
-    : undefined),
-  ...emptyHeader,
-  headerLeft: () => <BackButton eventName={SendEvents.send_confirm_back} />,
-})
+export const sendConfirmationScreenNavOptions = (navOptions: Props) =>
+  navOptions.route.name === Screens.SendConfirmationModal
+    ? {
+        ...modalScreenOptions(navOptions),
+        emptyHeader,
+        headerLeft: () => <BackButton eventName={SendEvents.send_confirm_back} />,
+      }
+    : noHeader
 
 function SendConfirmation(props: Props) {
   const [modalVisible, setModalVisible] = useState(false)
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState('')
   const [feeInfo, setFeeInfo] = useState(undefined as FeeInfo | undefined)
+  const [showingTokenChooser, showTokenChooser] = useState(false)
 
   const dispatch = useDispatch()
   const { t } = useTranslation(Namespaces.sendFlow7)
@@ -101,13 +111,17 @@ function SendConfirmation(props: Props) {
   )
   const {
     type,
-    amount,
-    currency,
+    amount: originalAmount,
+    currency: originalCurrency,
     recipient,
     recipientAddress,
     firebasePendingRequestUid,
     reason,
   } = confirmationInput
+
+  const [amount, setAmount] = useState(originalAmount)
+  const [currency, setCurrency] = useState(originalCurrency)
+
   const addressValidationType = getAddressValidationType(
     transactionData.recipient,
     secureSendPhoneNumberMapping
@@ -124,6 +138,7 @@ function SendConfirmation(props: Props) {
   const appConnected = useSelector(isAppConnected)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
+  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
 
   let newCurrencyInfo: CurrencyInfo = {
     localCurrencyCode: useSelector(getLocalCurrencyCode),
@@ -145,6 +160,17 @@ function SendConfirmation(props: Props) {
     const address = confirmationInput.recipientAddress
     if (address) {
       dispatch(fetchDataEncryptionKey(address))
+    }
+  }
+
+  const onTokenChosen = (newCurrency: Currency) => {
+    showTokenChooser(false)
+    const newAmount = convertBetweenCurrencies(amount, currency, newCurrency, exchangeRates)
+    if (newAmount) {
+      setAmount(newAmount)
+      setCurrency(newCurrency)
+    } else {
+      dispatch(showError(ErrorMessages.FETCH_FAILED))
     }
   }
 
@@ -296,6 +322,10 @@ function SendConfirmation(props: Props) {
         currencyCode: currency,
       }
 
+      const onEditCurrency = () => {
+        showTokenChooser(true)
+      }
+
       return (
         <View style={styles.feeContainer}>
           <FeeDrawer
@@ -310,7 +340,14 @@ function SendConfirmation(props: Props) {
             totalFee={fee}
             currencyInfo={newCurrencyInfo}
           />
-          <TotalLineItem amount={totalAmount} currencyInfo={newCurrencyInfo} />
+          <TotalLineItem
+            amount={totalAmount}
+            currencyInfo={newCurrencyInfo}
+            editableCurrency={
+              type === TokenTransactionType.PayRequest && !!firebasePendingRequestUid
+            }
+            onEditCurrency={onEditCurrency}
+          />
         </View>
       )
     }
@@ -329,7 +366,8 @@ function SendConfirmation(props: Props) {
     }
 
     return (
-      <SafeAreaView style={styles.container} edges={['bottom']}>
+      <SafeAreaView style={styles.container}>
+        <CustomHeader left={<BackButton eventName={SendEvents.send_confirm_back} />} />
         <DisconnectBanner />
         <ReviewFrame
           FooterComponent={FeeContainer}
@@ -395,6 +433,11 @@ function SendConfirmation(props: Props) {
             {t('encryption.warningModalBody')}
           </Dialog>
         </ReviewFrame>
+        <TokenBottomSheet
+          isVisible={showingTokenChooser}
+          origin={TokenPickerOrigin.SendConfirmation}
+          onCurrencySelected={onTokenChosen}
+        />
       </SafeAreaView>
     )
   }

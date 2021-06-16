@@ -25,7 +25,6 @@ import { getDisplayName } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { ConfirmationInput, getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -113,11 +112,10 @@ class PaymentRequestConfirmation extends React.Component<Props> {
     const paymentInfo = {
       amount: amount.toString(),
       comment: this.state.comment || undefined,
-      timestamp: new Date(),
+      timestamp: Date.now(),
       requesterAddress: address,
       requesterE164Number: this.props.e164PhoneNumber ?? undefined,
       requesteeAddress: requesteeAddress.toLowerCase(),
-      currency: Currency.Dollar,
       status: PaymentRequestStatus.REQUESTED,
       notified: false,
     }
@@ -130,12 +128,12 @@ class PaymentRequestConfirmation extends React.Component<Props> {
   renderFooter = () => {
     const amount = {
       value: this.props.confirmationInput.amount,
-      currencyCode: Currency.Dollar, // Only cUSD for now
+      currencyCode: this.props.confirmationInput.currency,
     }
 
     return (
       <View style={styles.feeContainer}>
-        <TotalLineItem amount={amount} />
+        <TotalLineItem amount={amount} showExchangeRate={false} />
       </View>
     )
   }
@@ -145,7 +143,7 @@ class PaymentRequestConfirmation extends React.Component<Props> {
     const { recipient } = confirmationInput
     const amount = {
       value: this.props.confirmationInput.amount,
-      currencyCode: Currency.Dollar, // Only cUSD for now
+      currencyCode: this.props.confirmationInput.currency,
     }
 
     return (

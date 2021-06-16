@@ -38,9 +38,7 @@
   "workspaces": {
     "packages": [
       "packages/*",
-      "packages/phone-number-privacy/*",
-      "packages/sdk/*",
-      "packages/sdk/wallets/*"
+      "packages/libs/*"
     ],
     "nohoist": [
       "**/openzeppelin-solidity",

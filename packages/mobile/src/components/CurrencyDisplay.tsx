@@ -164,7 +164,7 @@ export default function CurrencyDisplay({
     ? txCurrency === Currency.Celo
       ? colors.goldBrand
       : colors.greenBrand
-    : StyleSheet.flatten(style)?.color ?? colors.dark
+    : StyleSheet.flatten(style)?.color
 
   if (type === DisplayType.Big) {
     // In this type the symbol is displayed as superscript
