@@ -28,6 +28,6 @@
     "@types/targz": "1.0.0"
   },
   "engines": {
-    "node": ">=8.13.0"
+    "node": "12"
   }
 }

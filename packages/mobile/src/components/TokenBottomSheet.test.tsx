@@ -14,6 +14,7 @@ const mockStore = createMockStore({
 })
 
 const onCurrencySelectedMock = jest.fn()
+const onCloseMock = jest.fn()
 
 describe('TokenBottomSheet', () => {
   beforeAll(() => {
@@ -32,6 +33,7 @@ describe('TokenBottomSheet', () => {
           isVisible={visible}
           origin={TokenPickerOrigin.Send}
           onCurrencySelected={onCurrencySelectedMock}
+          onClose={onCloseMock}
         />
       </Provider>
     )
@@ -56,6 +58,13 @@ describe('TokenBottomSheet', () => {
 
     fireEvent.press(getByTestId('cEURTouchable'))
     expect(onCurrencySelectedMock).toHaveBeenLastCalledWith(Currency.Euro)
+  })
+
+  it('handles taps on the background correctly', () => {
+    const { getByTestId } = renderPicker(true)
+
+    fireEvent.press(getByTestId('BackgroundTouchable'))
+    expect(onCloseMock).toHaveBeenCalled()
   })
 
   it('renders nothing if not visible', () => {
