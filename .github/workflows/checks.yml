@@ -42,4 +42,7 @@ jobs:
       - run: |
           cd packages/mobile
           bundle install
+      - run: |
+          cd ios
+          bundle exec pod install
       
