@@ -34,3 +34,22 @@ export const CURRENCIES: CurrencyObject = {
     displayDecimals: 2,
   },
 }
+
+export function mapOldCurrencyToNew(currencyString: string): Currency {
+  const oldMapping: Record<string, any> = {
+    dollar: Currency.Dollar,
+    euro: Currency.Euro,
+    gold: Currency.Celo,
+  }
+  const currency = oldMapping[currencyString]
+  if (currency) {
+    return currency
+  }
+
+  if (currencyString in Currency) {
+    return currencyString as Currency
+  }
+
+  // Default value
+  return Currency.Dollar
+}

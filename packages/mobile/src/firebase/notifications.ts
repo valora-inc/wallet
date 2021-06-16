@@ -22,7 +22,7 @@ import {
   navigateToPaymentTransferReview,
   navigateToRequestedPaymentReview,
 } from 'src/transactions/actions'
-import { Currency } from 'src/utils/currencies'
+import { Currency, mapOldCurrencyToNew } from 'src/utils/currencies'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 
@@ -68,7 +68,7 @@ function* handlePaymentReceived(
       {
         amount: {
           value: divideByWei(transferNotification.value),
-          currencyCode: transferNotification.currency,
+          currencyCode: mapOldCurrencyToNew(transferNotification.currency),
         },
         address: transferNotification.sender.toLowerCase(),
         comment: transferNotification.comment,
