@@ -224,12 +224,12 @@ export const migrations = {
     identity: {
       ...state.identity,
       hasSeenVerificationNux:
-        state.identity.hasSeenVerificationNux || state.verify.seenVerificationNux,
-      attestationCodes: state.identity.attestationCodes || state.verify.attestationCodes,
+        state.identity.hasSeenVerificationNux || state.verify?.seenVerificationNux,
+      attestationCodes: state.identity.attestationCodes || state.verify?.attestationCodes,
       acceptedAttestationCodes:
-        state.identity.acceptedAttestationCodes || state.verify.acceptedAttestationCodes,
+        state.identity.acceptedAttestationCodes || state.verify?.acceptedAttestationCodes,
       attestationInputStatus: state.identity.attestationInputStatus ||
-        state.verify.attestationInputStatus || [
+        state.verify?.attestationInputStatus || [
           CodeInputStatus.Inputting,
           CodeInputStatus.Disabled,
           CodeInputStatus.Disabled,
