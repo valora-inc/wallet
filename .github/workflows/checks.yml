@@ -48,4 +48,4 @@ jobs:
       - run: |
           cd packages/mobile
           yarn run detox build-framework-cache
-          yarn run test:e2e:ios -w 2
+          yarn run test:e2e:ios -w 4
