@@ -1,0 +1,35 @@
+name: End-to-end Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  ios:
+    name: iOS E2E Tests
+    runs-on: ios-e2e-group
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          check-latest: true
+      - name: Install package dependencies
+        run: yarn
+      - name: Build mobile dependencies
+        run: yarn build --scope @celo/mobile --include-filtered-dependencies
+      - name: Install Ruby dependencies
+        run: |
+          cd packages/mobile
+          bundle install
+      - name: Install CocoaPods dependencies
+        run: |
+          cd packages/mobile/ios
+          bundle exec pod install
+      - name: Run E2E tests
+        run: |
+          cd packages/mobile
+          yarn run detox build-framework-cache
+          yarn run test:e2e:ios -w 4
