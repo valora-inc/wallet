@@ -129,8 +129,8 @@
     "feeModalBody": "El cifrado ayuda a mantener la privacidad de tus datos confidenciales. Se agrega una pequeña tarifa única a tu primera transacción para configurar el cifrado. Esto garantiza que tus comentarios se envíen de forma segura y privada."
   },
   "sendToAddressWarning": {
-    "title": "Enviando a una dirección",
-    "body": "Por favor, asegúrese de que la dirección soporta cUSD. Los fondos enviados a direcciones no válidas pueden no ser recuperables.\n\nTambién puede considerar enviar un pequeño pago de prueba primero.",
+    "title": "Enviar a una dirección",
+    "body": "Por favor, asegúrate de que la dirección soporta cUSD. Puede que los fondos enviados a direcciones no válidas no sea recuperables.\n\nTambién puedes considerar hacer un pequeño pago de prueba primero.",
     "toggle": "Preguntar cada vez"
   }
 }
