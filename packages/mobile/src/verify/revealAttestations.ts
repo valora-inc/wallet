@@ -52,6 +52,8 @@ export function* revealAttestationsSaga() {
   ])
   const phoneHashDetails: PhoneNumberHashDetails = yield call(getPhoneHashDetails)
 
+  ValoraAnalytics.track(VerificationEvents.verification_reveal_all_attestations_start)
+
   const notRevealedActionableAttestations = actionableAttestations.filter(
     (aa) => !revealStatuses[aa.issuer] || revealStatuses[aa.issuer] === RevealStatus.NotRevealed
   )
@@ -99,6 +101,7 @@ export function* revealAttestationsSaga() {
   )
   if (revealedActionableAttestations.length >= status.numAttestationsRemaining) {
     yield put(completeAttestations())
+    ValoraAnalytics.track(VerificationEvents.verification_reveal_all_attestations_complete)
   } else {
     yield put(requestAttestations())
   }

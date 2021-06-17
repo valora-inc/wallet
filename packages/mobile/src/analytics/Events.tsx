@@ -131,6 +131,7 @@ export enum VerificationEvents {
   verification_timeout = 'verification_timeout',
 
   verification_hash_retrieved = 'verification_hash_retrieved',
+  verification_hash_cached = 'verification_hash_cached',
 
   verification_request_all_attestations_start = 'verification_request_all_attestations_start',
   verification_request_all_attestations_refresh_progress = 'verification_request_all_attestations_refresh_progress',
@@ -166,6 +167,24 @@ export enum VerificationEvents {
   verification_revoke_error = 'verification_revoke_error',
 
   verification_resend_messages = 'verification_resend_messages',
+
+  verification_recaptcha_started = 'verification_recaptcha_started',
+  verification_recaptcha_skipped = 'verification_recaptcha_skipped',
+  verification_recaptcha_success = 'verification_recaptcha_success',
+  verification_recaptcha_failure = 'verification_recaptcha_failure',
+  verification_recaptcha_canceled = 'verification_recaptcha_canceled',
+
+  verification_session_started = 'verification_session_started',
+
+  verification_already_completed = 'verification_already_completed',
+
+  verification_mtw_fetch_start = 'verification_mtw_fetch_start',
+  verification_mtw_fetch_success = 'verification_mtw_fetch_success',
+
+  verification_fetch_on_chain_data_start = 'verification_fetch_on_chain_data_start',
+  verification_fetch_on_chain_data_success = 'verification_fetch_on_chain_data_success',
+
+  verification_almost_complete = 'verification_almost_complete',
 }
 
 export enum IdentityEvents {

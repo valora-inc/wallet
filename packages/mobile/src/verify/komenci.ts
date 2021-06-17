@@ -24,6 +24,8 @@ import { verifyWallet } from '@celo/komencikit/src/verifyWallet'
 import { sleep } from '@celo/utils/lib/async'
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { all, call, put, select } from 'redux-saga/effects'
+import { VerificationEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import networkConfig from 'src/geth/networkConfig'
 import {
   hasExceededKomenciErrorQuota,
@@ -36,7 +38,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import {
-  e164NumberSelector,
   fail,
   fetchOnChainData,
   fetchPhoneNumberDetails,
@@ -48,7 +49,6 @@ import {
   setKomenciContext,
   setVerificationStatus,
   shouldUseKomenciSelector,
-  start,
   succeed,
 } from 'src/verify/module'
 import { getAttestationsStatus } from 'src/verify/saga'
@@ -125,6 +125,7 @@ export function* startOrResumeKomenciSessionSaga() {
         sessionActive: true,
       })
     )
+    ValoraAnalytics.track(VerificationEvents.verification_session_started)
   }
 
   Logger.debug(TAG, 'Session active. sessionToken: ', sessionToken)
@@ -132,7 +133,6 @@ export function* startOrResumeKomenciSessionSaga() {
 }
 
 export function* fetchOrDeployMtwSaga() {
-  const e164Number = yield select(e164NumberSelector)
   const contractKit = yield call(getContractKit)
   const walletAddress = yield call(getConnectedUnlockedAccount)
   const komenci = yield select(komenciContextSelector)
@@ -144,11 +144,17 @@ export function* fetchOrDeployMtwSaga() {
     const verifiedMtwAddress = yield call(fetchVerifiedMtw, contractKit, walletAddress)
     if (verifiedMtwAddress) {
       yield put(succeed())
+      ValoraAnalytics.track(VerificationEvents.verification_already_completed, {
+        mtwAddress: verifiedMtwAddress,
+      })
       return
     }
 
     Logger.debug(TAG, '@fetchOrDeployMtwSaga', 'Starting fetch')
     const storedUnverifiedMtwAddress = komenci.unverifiedMtwAddress
+    ValoraAnalytics.track(VerificationEvents.verification_mtw_fetch_start, {
+      unverifiedMtwAddress: storedUnverifiedMtwAddress,
+    })
     let deployedUnverifiedMtwAddress: string | null = null
     // If there isn't a MTW stored for this session, ask Komenci to deploy one
     if (!storedUnverifiedMtwAddress) {
@@ -187,8 +193,7 @@ export function* fetchOrDeployMtwSaga() {
 
             case e instanceof InvalidWallet:
             default:
-              put(setKomenciAvailable(KomenciAvailable.No))
-              put(start({ e164Number }))
+              put(fail(`deployMtw - ${e}`))
               return
           }
         }
@@ -223,12 +228,14 @@ export function* fetchOrDeployMtwSaga() {
     }
 
     yield put(setKomenciContext({ unverifiedMtwAddress }))
+    ValoraAnalytics.track(VerificationEvents.verification_mtw_fetch_success, {
+      mtwAddress: unverifiedMtwAddress,
+    })
     yield call(feelessDekAndWalletRegistration, komenciKit, walletAddress, unverifiedMtwAddress)
     yield put(fetchOnChainData())
   } catch (e) {
     storeTimestampIfKomenciError(e)
-    put(setKomenciAvailable(KomenciAvailable.No))
-    put(start(e164Number))
+    put(fail(`fetchOrDeployMtw - ${e}`))
   }
 }
 

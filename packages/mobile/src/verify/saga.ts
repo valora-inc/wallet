@@ -249,6 +249,7 @@ export function* submitCompleteTxAndRetryOnRevert(
       code.issuer,
       code.code
     )
+
     Logger.debug(
       TAG,
       '@submitCompleteTxAndRetryOnRevert',
@@ -297,6 +298,7 @@ export function* completeAttestation(
 
   ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_await_code_complete, {
     issuer,
+    position: codePosition,
     feeless: shouldUseKomenci,
   })
 
@@ -346,6 +348,7 @@ export function* completeAttestation(
 
   ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_complete, {
     issuer,
+    position: codePosition,
     feeless: shouldUseKomenci,
   })
 
@@ -388,8 +391,10 @@ export function* startSaga() {
         const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
         yield call(fetchKomenciSession, komenciKit, e164Number)
         if (!komenci.sessionActive) {
+          ValoraAnalytics.track(VerificationEvents.verification_recaptcha_started)
           yield put(ensureRealHumanUser())
         } else {
+          ValoraAnalytics.track(VerificationEvents.verification_recaptcha_skipped)
           // TODO: Move this out of saga
           yield call(navigate, Screens.VerificationLoadingScreen)
           yield put(fetchPhoneNumberDetails())
@@ -433,7 +438,7 @@ export function* startSaga() {
       navigateBack()
       return
     } else {
-      yield put(fail(ErrorMessages.VERIFICATION_FAILURE))
+      yield put(fail(`startSaga - ${error}`))
     }
   }
 }
@@ -453,6 +458,10 @@ export function* fetchPhoneNumberDetailsSaga() {
   try {
     if (phoneHash && ownPepper) {
       Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Phone Hash and Pepper is cached')
+      ValoraAnalytics.track(VerificationEvents.verification_hash_cached, {
+        phoneHash,
+        address: walletAddress,
+      })
     } else {
       if (!ownPepper) {
         Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Pepper not cached')
@@ -499,7 +508,7 @@ export function* fetchPhoneNumberDetailsSaga() {
       })
     }
   } catch (error) {
-    yield put(fail(error.message))
+    yield put(fail(`fetchPepper - ${error.message}`))
     return
   }
 
@@ -517,6 +526,7 @@ export function* fetchOnChainDataSaga() {
     const shouldUseKomenci = yield select(shouldUseKomenciSelector)
     const phoneHash = yield select(phoneHashSelector)
     let account: Address
+    ValoraAnalytics.track(VerificationEvents.verification_fetch_on_chain_data_start)
     if (shouldUseKomenci) {
       Logger.debug(TAG, '@fetchOnChainDataSaga', 'Using Komenci')
       const komenci = yield select(komenciContextSelector)
@@ -576,10 +586,14 @@ export function* fetchOnChainDataSaga() {
 
     yield put(setCompletedCodes(status.completed))
 
+    ValoraAnalytics.track(VerificationEvents.verification_fetch_on_chain_data_success, {
+      attestationsRemaining: status.numAttestationsRemaining,
+      actionableAttestations: actionableAttestations.length,
+    })
     yield put(requestAttestations())
   } catch (error) {
     Logger.error(TAG, '@fetchOnChainDataSaga', error)
-    yield put(fail(ErrorMessages.VERIFICATION_FAILURE))
+    yield put(fail(`fetchOnChainDataSaga - ${error}`))
   }
 }
 
@@ -619,6 +633,10 @@ export function* completeAttestationsSaga() {
   if (status.numAttestationsRemaining === 0) {
     yield put(setMtwAddress(komenci.unverifiedMtwAddress))
     yield put(succeed())
+  } else {
+    ValoraAnalytics.track(VerificationEvents.verification_almost_complete, {
+      attestationsRemaining: status.numAttestationsRemaining,
+    })
   }
 }
 
@@ -860,7 +878,7 @@ function callSagaAndHandleErrors(saga: any, sagaName: string) {
       if (lastError?.toString() === FetchErrorTypes.QuotaExceededError) {
         yield put(resetKomenciSession())
       } else {
-        yield put(fail(errorString))
+        yield put(fail(`${sagaName} - ${errorString}`))
       }
     }
   }
