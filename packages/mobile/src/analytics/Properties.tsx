@@ -402,6 +402,11 @@ interface VerificationEventsProperties {
     errors: any
     feeless?: boolean
   }
+  [VerificationEvents.verification_reveal_attestation_phonenumber_type]: {
+    issuer: string
+    account: string
+    phoneNumberType: string
+  }
   [VerificationEvents.verification_revoke_start]:
     | {
         feeless?: boolean
