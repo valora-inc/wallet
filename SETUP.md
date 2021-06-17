@@ -56,9 +56,8 @@ Once `nvm` is successfully installed, restart the terminal and run the following
 
 ```bash
 # restart the terminal after installing nvm
-nvm install 8
-nvm install 10
-nvm alias default 10
+nvm install 12.22.1
+nvm use 12.22.1
 ```
 
 ### MacOS
