@@ -1,7 +1,9 @@
 import _ from 'lodash'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
+import { VerificationStatus } from 'src/identity/types'
 
 export const migrations = {
   0: (state: any) => {
@@ -205,32 +207,7 @@ export const migrations = {
       },
     }
   },
-  13: (state: any) => {
-    return {
-      ...state,
-      identity: {
-        ..._.omit(
-          state.identity,
-          'attestationCodes',
-          'acceptedAttestationCodes',
-          'attestationInputStatus',
-          'numCompleteAttestations',
-          'verificationStatus',
-          'hasSeenVerificationNux',
-          'lastRevealAttempt'
-        ),
-      },
-      verify: {
-        ..._.omit(
-          state.verify,
-          'TEMPORARY_override_withoutVerification',
-          'withoutRevealing',
-          'retries'
-        ),
-        seenVerificationNux: state.identity.hasSeenVerificationNux ?? false,
-      },
-    }
-  },
+  13: (state: any) => state,
   14: (state: any) => ({
     ...state,
     networkInfo: {
@@ -240,6 +217,44 @@ export const migrations = {
         region: null,
         ipAddress: null,
       },
+    },
+  }),
+  15: (state: any) => ({
+    ...state,
+    identity: {
+      ...state.identity,
+      hasSeenVerificationNux:
+        state.identity.hasSeenVerificationNux || state.verify.seenVerificationNux,
+      attestationCodes: state.identity.attestationCodes || state.verify.attestationCodes,
+      acceptedAttestationCodes:
+        state.identity.acceptedAttestationCodes || state.verify.acceptedAttestationCodes,
+      attestationInputStatus: state.identity.attestationInputStatus ||
+        state.verify.attestationInputStatus || [
+          CodeInputStatus.Inputting,
+          CodeInputStatus.Disabled,
+          CodeInputStatus.Disabled,
+        ],
+      numCompleteAttestations: (
+        state.identity.acceptedAttestationCodes ||
+        state.verify.acceptedAttestationCodes ||
+        []
+      ).length,
+      verificationStatus: VerificationStatus.Stopped,
+    },
+    verify: {
+      ..._.omit(
+        state.verify,
+        'seenVerificationNux',
+        'status',
+        'revealStatuses',
+        'currentState',
+        'attestationCodes',
+        'lastRevealAttempt',
+        'acceptedAttestationCodes',
+        'attestationInputStatus'
+      ),
+      retries: 0,
+      withoutRevealing: false,
     },
   }),
 }

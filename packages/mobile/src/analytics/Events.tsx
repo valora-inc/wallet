@@ -183,8 +183,6 @@ export enum VerificationEvents {
 
   verification_fetch_on_chain_data_start = 'verification_fetch_on_chain_data_start',
   verification_fetch_on_chain_data_success = 'verification_fetch_on_chain_data_success',
-
-  verification_almost_complete = 'verification_almost_complete',
 }
 
 export enum IdentityEvents {

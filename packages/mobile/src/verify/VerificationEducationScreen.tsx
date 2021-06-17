@@ -26,6 +26,7 @@ import BackButton from 'src/components/BackButton'
 import { WEB_LINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
 import i18n, { Namespaces } from 'src/i18n'
+import { setHasSeenVerificationNux, startVerification } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -43,14 +44,12 @@ import {
   isBalanceSufficientSelector,
   reset,
   setKomenciContext,
-  setSeenVerificationNux,
   shouldUseKomenciSelector,
-  start as startVerification,
   startKomenciSession,
+  StateType,
   stop,
-  VerificationStateType,
   verificationStatusSelector,
-} from 'src/verify/module'
+} from 'src/verify/reducer'
 import GoogleReCaptcha from 'src/verify/safety/GoogleReCaptcha'
 import { getPhoneNumberState } from 'src/verify/utils'
 import VerificationLearnMoreDialog from 'src/verify/VerificationLearnMoreDialog'
@@ -93,8 +92,8 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     if (!canUsePhoneNumber()) {
       return
     }
-    dispatch(setSeenVerificationNux(true))
-    dispatch(startVerification({ e164Number: phoneNumberInfo.e164Number }))
+    dispatch(setHasSeenVerificationNux(true))
+    dispatch(startVerification(phoneNumberInfo.e164Number, noActionIsRequired))
   }
 
   const onPressSkipCancel = () => {
@@ -102,12 +101,12 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   }
 
   const onPressSkipConfirm = () => {
-    dispatch(setSeenVerificationNux(true))
+    dispatch(setHasSeenVerificationNux(true))
     navigateHome()
   }
 
   const onPressContinue = () => {
-    dispatch(setSeenVerificationNux(true))
+    dispatch(setHasSeenVerificationNux(true))
     if (partOfOnboarding) {
       navigation.navigate(Screens.ImportContacts)
     } else {
@@ -120,7 +119,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       return
     }
 
-    dispatch(setSeenVerificationNux(true))
+    dispatch(setHasSeenVerificationNux(true))
     navigateHome()
   }
 
@@ -334,7 +333,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         </TextButton>
       </ScrollView>
       <Modal
-        isVisible={currentState.type === VerificationStateType.EnsuringRealHumanUser}
+        isVisible={currentState.type === StateType.EnsuringRealHumanUser}
         style={styles.recaptchaModal}
       >
         <TopBarTextButton

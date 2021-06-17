@@ -433,7 +433,6 @@ interface VerificationEventsProperties {
     attestationsRemaining: number
     actionableAttestations: number
   }
-  [VerificationEvents.verification_almost_complete]: { attestationsRemaining: number }
 }
 
 interface IdentityEventsProperties {

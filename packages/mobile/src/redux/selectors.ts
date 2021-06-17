@@ -7,8 +7,7 @@ import { timeDeltaInSeconds } from 'src/utils/time'
 export const getNetworkConnected = (state: RootState) => state.networkInfo.connected
 
 export const isAppConnected = createSelector(
-  isGethConnectedSelector,
-  getNetworkConnected,
+  [isGethConnectedSelector, getNetworkConnected],
   (gethConnected, networkConnected) => gethConnected && networkConnected
 )
 
