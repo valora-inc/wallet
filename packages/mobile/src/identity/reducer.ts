@@ -10,7 +10,6 @@ import { removeKeyFromMapping } from 'src/identity/utils'
 import { AttestationCode, NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
-import { StoreLatestInRecentsAction } from 'src/send/actions'
 import Logger from 'src/utils/Logger'
 import { isCodeRepeated } from 'src/verify/utils'
 
@@ -139,7 +138,7 @@ const initialState: State = {
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction | ClearStoredAccountAction | StoreLatestInRecentsAction
+  action: ActionTypes | RehydrateAction | ClearStoredAccountAction
 ): State => {
   switch (action.type) {
     case REHYDRATE: {

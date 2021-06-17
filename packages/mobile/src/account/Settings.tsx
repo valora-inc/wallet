@@ -47,7 +47,7 @@ import { revokeVerification } from 'src/identity/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { ensurePincode, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
@@ -341,6 +341,23 @@ export class Account extends React.Component<Props, State> {
     this.setState({ showRevokeModal: false })
   }
 
+  goToChangePin = async () => {
+    try {
+      ValoraAnalytics.track(SettingsEvents.change_pin_start)
+      const pinIsCorrect = await ensurePincode()
+      if (pinIsCorrect) {
+        ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_entered)
+        navigate(Screens.PincodeSet, {
+          isVerifying: false,
+          changePin: true,
+        })
+      }
+    } catch (error) {
+      ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_error)
+      Logger.error('NavigationService@onPress', 'PIN ensure error', error)
+    }
+  }
+
   render() {
     const { t, i18n, numberVerified, verificationPossible } = this.props
     const promptFornoModal = this.props.route.params?.promptFornoModal ?? false
@@ -356,7 +373,11 @@ export class Account extends React.Component<Props, State> {
             </Text>
           </TouchableWithoutFeedback>
           <View style={styles.containerList}>
-            <SettingsItemTextValue title={t('editProfile')} onPress={this.goToProfile} />
+            <SettingsItemTextValue
+              testID="EditProfile"
+              title={t('editProfile')}
+              onPress={this.goToProfile}
+            />
             {!numberVerified && verificationPossible && (
               <SettingsItemTextValue title={t('confirmNumber')} onPress={this.goToConfirmNumber} />
             )}
@@ -371,6 +392,11 @@ export class Account extends React.Component<Props, State> {
               onPress={this.goToLocalCurrencySetting}
             />
             <SectionHead text={t('securityAndData')} style={styles.sectionTitle} />
+            <SettingsItemTextValue
+              title={t('changePin')}
+              onPress={this.goToChangePin}
+              testID="ChangePIN"
+            />
             {this.props.walletConnectEnabled && (
               <SettingsItemTextValue
                 title={t('connectedApplications')}

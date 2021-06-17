@@ -8,6 +8,9 @@
   "removeAccountDetails": "Resetting will remove your account from this device. Your funds will remain in the account, but will only be accessible with your Account Key",
   "legal": "Legal",
   "securityAndData": "Security and Data",
+  "changePin": "Change PIN",
+  "pinChanged": "PIN changed",
+  "pinChangeFailed": "Changing the PIN failed",
   "requirePinOnAppOpen": "Require PIN on App Open",
   "connectedApplications": "Connected Apps",
   "analytics": "Analytics",
@@ -96,5 +99,6 @@
   "raiseLimitEmailNotSent": "Your request was not sent. Please try again.",
   "storeRecoveryTitle": "We need you to setup your account again",
   "storeRecoveryBody": "There’s been an error. We’re aware of the issue and working to fix it. In the meantime, you will need to go through the setup process again.",
-  "storeRecoveryButton": "Restore Account"
+  "storeRecoveryButton": "Restore Account",
+  "tapToCopy": "Tap to Copy"
 }

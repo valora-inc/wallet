@@ -45,7 +45,7 @@
     "@celo/flake-tracker": "0.0.1-dev"
   },
   "engines": {
-    "node": "10"
+    "node": "12"
   },
   "resolutions": {
     "web3-eth-abi/**/@ethersproject/abi": "5.0.4",

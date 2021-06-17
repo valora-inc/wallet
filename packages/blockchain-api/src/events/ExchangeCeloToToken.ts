@@ -1,4 +1,3 @@
-import { CUSD } from '../currencyConversion/consts'
 import { EventBuilder } from '../helpers/EventBuilder'
 import { Transaction } from '../transaction/Transaction'
 import { TransactionType } from '../transaction/TransactionType'
@@ -29,9 +28,7 @@ export class ExchangeCeloToToken extends TransactionType {
       transaction,
       inTransfer,
       outTransfer,
-      // TODO: this will need to be updated once cEUR is introduced
-      // see https://github.com/celo-org/wallet/pull/90#discussion_r587308620
-      this.context.token || CUSD,
+      this.context.tokens,
       transaction.fees
     )
   }

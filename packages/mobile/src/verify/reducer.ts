@@ -1,12 +1,12 @@
 import { ActionableAttestation } from '@celo/contractkit/lib/wrappers/Attestations'
+import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
-import { RootState } from 'src/redux/reducers'
-
-import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
 import BigNumber from 'bignumber.js'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
+import { acceptedAttestationCodesSelector } from 'src/identity/reducer'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
+import { RootState } from 'src/redux/reducers'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
 
 const ESTIMATED_COST_PER_ATTESTATION = 0.051
@@ -22,6 +22,7 @@ export const setKomenciAvailable = createAction<KomenciAvailable>('VERIFY/SET_KO
 export const start = createAction<{ e164Number: string; withoutRevealing: boolean }>('VERIFY/START')
 export const stop = createAction('VERIFY/STOP')
 export const setUseKomenci = createAction<boolean>('VERIFY/SET_USE_KOMENCI')
+export const resetKomenciSession = createAction('VERIFY/RESET_KOMENCI_SESSION')
 export const ensureRealHumanUser = createAction('VERIFY/ENSURE_REAL_HUMAN_USER')
 export const startKomenciSession = createAction('VERIFY/START_KOMENCI_SESSION')
 export const fetchPhoneNumberDetails = createAction('VERIFY/FETCH_PHONE_NUMBER')
@@ -230,6 +231,12 @@ export const reducer = createReducer(initialState, (builder) => {
         komenci: initialState.komenci,
       }
     })
+    .addCase(resetKomenciSession, (state, action) => {
+      return {
+        ...state,
+        komenci: initialState.komenci,
+      }
+    })
     .addCase(setPhoneHash, (state, action) => {
       return {
         ...state,
@@ -333,6 +340,20 @@ export const actionableAttestationsSelector = (state: RootState): ActionableAtte
   state.verify.actionableAttestations
 export const overrideWithoutVerificationSelector = (state: RootState): boolean | undefined =>
   state.verify.TEMPORARY_override_withoutVerification
+
+export const notCompletedActionableAttestationsSelector = createSelector(
+  [actionableAttestationsSelector, acceptedAttestationCodesSelector],
+  (actionableAttestations, acceptedAttestationCodes) =>
+    actionableAttestations.filter(
+      (attestation) =>
+        !acceptedAttestationCodes.map((code) => code.issuer).includes(attestation.issuer)
+    )
+)
+
+export const nonConfirmedIssuersSelector = createSelector(
+  [notCompletedActionableAttestationsSelector],
+  (attestations) => attestations.map((attestation) => attestation.issuer)
+)
 
 export const isBalanceSufficientForSigRetrievalSelector = createSelector(
   [stableTokenBalanceSelector, celoTokenBalanceSelector],

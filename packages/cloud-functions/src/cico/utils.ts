@@ -1,11 +1,15 @@
+import BigNumber from 'bignumber.js'
 import * as admin from 'firebase-admin'
 import { v4 as uuidv4 } from 'uuid'
 import { bigQueryDataset, bigQueryProjectId, getBigQueryInstance } from '../bigQuery'
+import { BLOCKCHAIN_API_URL, FETCH_TIMEOUT_DURATION } from '../config'
+import { countryToCurrency } from './providerAvailability'
 
 const fetch = require('node-fetch')
 
 const bigQuery = getBigQueryInstance()
 
+export const findContinguousSpaces: RegExp = /\s+/g
 export interface UserDeviceInfo {
   id: string
   appVersion: string
@@ -16,6 +20,14 @@ interface UserInitData {
   ipAddress: string
   timestamp: string
   userAgent: string
+}
+
+interface BlockchainApiExchangeRate {
+  data: {
+    currencyConversion: {
+      rate: number
+    }
+  }
 }
 
 export const getUserInitData = async (
@@ -93,12 +105,11 @@ export function getFirebaseAdminCreds(localAdmin: any) {
     }
   }
 }
-
 export const fetchWithTimeout = async (
   url: string,
-  body: any | null,
-  duration: number
-): Promise<Response | undefined> => {
+  body: any | null = null,
+  duration: number = FETCH_TIMEOUT_DURATION
+): Promise<Response> => {
   try {
     // @ts-ignore
     const timeout = new Promise<undefined>((resolve, reject) => {
@@ -108,8 +119,73 @@ export const fetchWithTimeout = async (
       }, duration)
     })
 
-    return Promise.race([body ? fetch(url, body) : fetch(url), timeout])
+    const response = await Promise.race([body ? fetch(url, body) : fetch(url), timeout])
+    // Response should always be defined because `reject` throws an error
+    // but just satifying the linter with this check
+    if (!response) {
+      throw Error(`Request timed out after ${duration}ms`)
+    }
+    return response
   } catch (error) {
     throw error
   }
+}
+
+const fetchExchangeRate = async (
+  sourceCurrencyCode: string,
+  localCurrencyCode: string
+): Promise<number> => {
+  if (sourceCurrencyCode === localCurrencyCode) {
+    return 1
+  }
+
+  const response: Response = await fetch(BLOCKCHAIN_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      operationName: null,
+      variables: {},
+      query: `{
+        currencyConversion(sourceCurrencyCode: "${sourceCurrencyCode}", currencyCode: "${localCurrencyCode}") {
+          rate
+        }
+      }`,
+    }),
+  })
+
+  const exchangeRate: BlockchainApiExchangeRate = await response.json()
+  const rate = exchangeRate?.data?.currencyConversion?.rate
+  if (typeof rate !== 'number' && typeof rate !== 'string') {
+    throw Error(`Invalid response data ${response}`)
+  }
+
+  return new BigNumber(rate).toNumber()
+}
+
+export const fetchLocalCurrencyAndExchangeRate = async (
+  country: string | null,
+  baseCurrency: string,
+  localCurrency?: string
+) => {
+  const result = { localCurrency: baseCurrency, exchangeRate: 1 }
+
+  if (!country) {
+    return result
+  }
+
+  const localFiatCurrency = localCurrency || countryToCurrency[country]
+  if (localFiatCurrency === baseCurrency) {
+    return result
+  }
+
+  try {
+    result.exchangeRate = await fetchExchangeRate(baseCurrency, localFiatCurrency)
+    result.localCurrency = localFiatCurrency
+  } catch (error) {
+    console.error('Error fetching exchange rate: ', error)
+  }
+
+  return result
 }

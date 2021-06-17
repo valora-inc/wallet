@@ -1,4 +1,5 @@
 import { quote, sleep } from '../utils/utils'
+import { dismissBanners } from '../utils/banners'
 
 export default HandleDeepLinkSend = () => {
   const PAY_URL = quote(
@@ -10,6 +11,7 @@ export default HandleDeepLinkSend = () => {
     await sleep(5000)
     await device.launchApp({ url: PAY_URL, newInstance: true })
     await sleep(5000)
+    await dismissBanners()
     // Arrived at SendAmount screen
     await expect(element(by.id('Review'))).toBeVisible()
   })
@@ -20,6 +22,7 @@ export default HandleDeepLinkSend = () => {
     // 2. back button
     // there is a slight but important difference because with the back button
     // the activity gets destroyed and listeners go away which can cause subtle bugs
+    await device.reloadReactNative()
     if (device.getPlatform() === 'android') {
       await device.pressBack()
     } else {

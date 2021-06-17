@@ -382,7 +382,6 @@ VerificationEducationScreen.navigationOptions = ({ navigation, route }: ScreenPr
         <TopBarTextButton
           title={i18n.t('global:skip')}
           testID="VerificationEducationSkipHeader"
-          // tslint:disable-next-line: jsx-no-lambda
           onPress={() => navigation.setParams({ showSkipDialog: true })}
           titleStyle={{ color: colors.goldDark }}
         />

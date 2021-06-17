@@ -50,6 +50,7 @@ const SeeThroughOverlay = () => {
 export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const inset = useSafeAreaInsets()
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const isEmulator = DeviceInfo.useIsEmulator ? DeviceInfo.useIsEmulator().result : false
 
   /**
