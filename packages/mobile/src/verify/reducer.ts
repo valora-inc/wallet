@@ -4,7 +4,6 @@ import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
-import { acceptedAttestationCodesSelector } from 'src/identity/reducer'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
@@ -340,20 +339,6 @@ export const actionableAttestationsSelector = (state: RootState): ActionableAtte
   state.verify.actionableAttestations
 export const overrideWithoutVerificationSelector = (state: RootState): boolean | undefined =>
   state.verify.TEMPORARY_override_withoutVerification
-
-export const notCompletedActionableAttestationsSelector = createSelector(
-  [actionableAttestationsSelector, acceptedAttestationCodesSelector],
-  (actionableAttestations, acceptedAttestationCodes) =>
-    actionableAttestations.filter(
-      (attestation) =>
-        !acceptedAttestationCodes.map((code) => code.issuer).includes(attestation.issuer)
-    )
-)
-
-export const nonConfirmedIssuersSelector = createSelector(
-  [notCompletedActionableAttestationsSelector],
-  (attestations) => attestations.map((attestation) => attestation.issuer)
-)
 
 export const isBalanceSufficientForSigRetrievalSelector = createSelector(
   [stableTokenBalanceSelector, celoTokenBalanceSelector],

@@ -242,4 +242,7 @@ export const migrations = {
       },
     },
   }),
+  15: (state: any) => ({
+    ...state,
+  }),
 }

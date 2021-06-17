@@ -651,6 +651,19 @@ export const v14Schema = {
   },
 }
 
+export const v15Schema = {
+  ...v14Schema,
+  _persist: {
+    ...v13Schema._persist,
+    version: 15,
+  },
+  identity: {
+    ...v9Schema.identity,
+    attestationInputStatus: v14Schema.identity.attestationInputStatus,
+  },
+  verify: v9Schema.verify,
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v14Schema as Partial<RootState>
+  return v15Schema as Partial<RootState>
 }
