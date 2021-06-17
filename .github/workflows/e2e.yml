@@ -31,5 +31,6 @@ jobs:
       - name: Run E2E tests
         run: |
           cd packages/mobile
+          # Create Detox framework symlink.
           yarn run detox build-framework-cache
           yarn run test:e2e:ios -w 3
