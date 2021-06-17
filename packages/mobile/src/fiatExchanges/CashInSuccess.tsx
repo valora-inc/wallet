@@ -1,11 +1,9 @@
 import Button from '@celo/react-components/components/Button'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { FiatExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Namespaces } from 'src/i18n'
 import { fiatExchange } from 'src/images/Images'
 import { noHeaderGestureDisabled } from 'src/navigator/Headers'
@@ -29,15 +27,15 @@ function CashInSuccessScreen({ route }: Props) {
 
   const provider = capitalizeProvider(route.params.provider)
 
-  useEffect(() => {
-    ValoraAnalytics.track(FiatExchangeEvents.cash_in_success, {
-      provider: lastUsedProvider?.name ?? 'unknown',
-      currency: tx.amount.currencyCode,
-    })
-    return () => {
-      cleanup
-    }
-  }, [])
+  // useEffect(() => {
+  //   ValoraAnalytics.track(FiatExchangeEvents.cash_in_success, {
+  //     provider: lastUsedProvider?.name ?? 'unknown',
+  //     currency: tx.amount.currencyCode,
+  //   })
+  //   return () => {
+  //     cleanup
+  //   }
+  // }, [])
 
   return (
     <View style={styles.container}>
