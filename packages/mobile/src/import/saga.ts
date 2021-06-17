@@ -46,8 +46,8 @@ import { assignAccountFromPrivateKey, waitWeb3LastBlock } from 'src/web3/saga'
 
 const TAG = 'import/saga'
 
-const MAX_BALANCE_CHECK_TASKS = 5
-const MNEMONIC_AUTOCORRECT_TIMEOUT = 5000 // ms
+export const MAX_BALANCE_CHECK_TASKS = 5
+export const MNEMONIC_AUTOCORRECT_TIMEOUT = 5000 // ms
 
 export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackupPhraseAction) {
   Logger.debug(TAG + '@importBackupPhraseSaga', 'Importing backup phrase')
@@ -205,6 +205,7 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
 function* walletHasBalance(address: string) {
   Logger.debug(TAG + '@walletHasBalance', 'Checking account balance')
   const { dollarBalance, goldBalance } = yield all({
+    // TODO(victor): Add cEUR balance check here.
     dollarBalance: call(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.DOLLAR, address),
     goldBalance: call(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.GOLD, address),
   })
