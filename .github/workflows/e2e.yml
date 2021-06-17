@@ -8,7 +8,7 @@ on:
 
 jobs:
   ios:
-    name: iOS E2E Tests
+    name: iOS
     runs-on: ios-e2e-group
     steps:
       - uses: actions/checkout@v2
