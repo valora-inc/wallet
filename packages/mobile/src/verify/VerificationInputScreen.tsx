@@ -285,6 +285,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
                           onInputChange={this.onChangeInputCode(i, shortVerificationCodesEnabled)}
                           style={styles.codeInput}
                           shortVerificationCodesEnabled={shortVerificationCodesEnabled}
+                          testID={`VerificationCode${i}`}
                         />
                       </View>
                     ))}
