@@ -99,7 +99,7 @@ export const storeTransactionId = async (
   }
 }
 
-export const lookupAddressFromTxId = async (transactionId: string) => {
+export const lookupAddressFromTxId = async (transactionId: string): Promise<string | undefined> => {
   const transactionData = await admin
     .database()
     .ref(`cicoProviderTxs/${transactionId}`)
@@ -213,4 +213,18 @@ export const fetchLocalCurrencyAndExchangeRate = async (
   }
 
   return result
+}
+
+export const flattenObject = (obj: any, parent?: any, res: any = {}) => {
+  const keys = Object.keys(obj)
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i]
+    const propName = parent ? parent + '_' + key : key
+    if (typeof obj[key] == 'object') {
+      flattenObject(obj[key], propName, res)
+    } else {
+      res[propName] = obj[key]
+    }
+  }
+  return res
 }

@@ -1,44 +1,12 @@
 import * as functions from 'firebase-functions'
 import { trackEvent } from '../bigQuery'
-import { BIGQUERY_PROVIDER_STATUS_TABLE, DigitalAsset, FiatCurrency, SIMPLEX_DATA } from '../config'
-import { CashInStatus, Providers } from './Providers'
-import { fetchWithTimeout, lookupAddressFromTxId } from './utils'
+import { DigitalAsset, FiatCurrency, SIMPLEX_DATA } from '../config'
+import { fetchWithTimeout, flattenObject, lookupAddressFromTxId } from './utils'
 
-const trackSimplexEvent = async (
-  txId: string,
-  status: SimplexTxStatus,
-  walletAddress: string,
-  timestamp: string
-) => {
-  if (status === SimplexTxStatus.Started) {
-    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      id: txId,
-      provider: Providers.Simplex,
-      status: CashInStatus.Started,
-      timestamp,
-      user_address: walletAddress,
-    })
-  } else if (status === SimplexTxStatus.Failed) {
-    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      id: txId,
-      provider: Providers.Simplex,
-      status: CashInStatus.Failure,
-      timestamp,
-      user_address: walletAddress,
-    })
-  } else if (status === SimplexTxStatus.Completed) {
-    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      id: txId,
-      provider: Providers.Simplex,
-      status: CashInStatus.Success,
-      timestamp,
-      user_address: walletAddress,
-    })
-  }
-}
+const SIMPLEX_BIG_QUERY_EVENT_TABLE = 'cico_simplex_events'
 
 // https://integrations.simplex.com/wallet-api-integration#events-api_group
-interface SimplexEventResponse {
+interface SimplexEventPayload {
   events: SimplexTransactionEvent[]
 }
 
@@ -63,48 +31,77 @@ interface SimplexTransactionEvent {
   timestamp: string
 }
 
+// event_id: "string"
+// name: "SimplexTxStatus"
+// payment_created_at: "string"
+// payment_crypto_total_amount_amount: "number"
+// payment_crypto_total_amount_currency: "DigitalAsset"
+// payment_fiat_total_amount_amount: "number"
+// payment_fiat_total_amount_currency: "FiatCurrency"
+// payment_id: "string"
+// payment_partner_end_user_id: "string"
+// payment_status: "string"
+// payment_updated_at: "string"
+// timestamp: "string"
+
 enum SimplexTxStatus {
-  Started = 'payment_simplexcc_submitted',
+  Started = 'payment_request_submitted',
   Completed = 'payment_simplexcc_approved',
   Failed = 'payment_simplexcc_declined',
 }
 
+const getSimplexEvents = async () => {
+  const response = await fetchWithTimeout(SIMPLEX_DATA.event_url, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
+    },
+  })
+
+  if (!response.ok) {
+    throw new Error(JSON.stringify(response))
+  }
+
+  const simplexEvents: SimplexEventPayload = await response.json()
+  return simplexEvents
+}
+
+const deleteSimplexEvent = async (event: SimplexTransactionEvent) => {
+  await fetchWithTimeout(`${SIMPLEX_DATA.event_url}/${event.event_id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
+    },
+  })
+}
+
 export const simplexEventPolling = functions.https.onRequest(async (req, res) => {
   try {
-    const response = await fetchWithTimeout(SIMPLEX_DATA.event_url, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
-      },
-    })
-
-    if (!response.ok) {
-      throw new Error(JSON.stringify(response))
-    }
-
-    console.info('Response: ', response)
-
-    const simplexEvents: SimplexEventResponse = await response.json()
-
-    if (!response.ok) {
-      console.error('Simplex error!', JSON.stringify(simplexEvents))
-      throw new Error(JSON.stringify(simplexEvents))
-    }
+    const simplexEvents = await getSimplexEvents()
 
     await Promise.all(
       simplexEvents.events.map(async (event) => {
-        const status = event.name
         const txId = event.payment.id
-        const timestamp = event.payment.created_at
         const userAddress = await lookupAddressFromTxId(txId)
-        console.info(`Found user address ${userAddress} on txId ${txId}`)
-        await trackSimplexEvent(txId, status, userAddress, timestamp)
+
+        userAddress
+          ? console.info(`Found user address ${userAddress} on txId ${txId}`)
+          : console.info(`No user address found for txId ${txId}`)
+
+        try {
+          const eventTracked = await trackEvent(SIMPLEX_BIG_QUERY_EVENT_TABLE, flattenObject(event))
+          if (eventTracked) {
+            await deleteSimplexEvent(event)
+          }
+        } catch (error) {
+          console.error("Couldn't track event: ", error)
+        }
       })
     )
 
     res.status(204).end()
   } catch (error) {
-    console.error('There was an error!', error)
+    console.error('Error querying for Simplex events: ', error)
     res.status(400).end()
   }
 })

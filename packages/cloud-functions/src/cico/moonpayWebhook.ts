@@ -26,13 +26,14 @@ function verifyMoonPaySignature(signatureHeader: string | undefined, body: strin
   return Buffer.compare(signatureBuffer, expectedSignature) === 0
 }
 
-function trackMoonpayEvent(body: any) {
+async function trackMoonpayEvent(body: any) {
   const {
     data: { id, walletAddress, status, failureReason },
     type,
   } = body
   if (MoonpayWebhookType.Started === type) {
-    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      type: 'BUY',
       id,
       provider: Providers.Moonpay,
       status: CashInStatus.Started,
@@ -40,7 +41,8 @@ function trackMoonpayEvent(body: any) {
       user_address: walletAddress,
     })
   } else if (status === MoonpayTxStatus.Failed) {
-    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      type: 'BUY',
       id,
       provider: Providers.Moonpay,
       status: CashInStatus.Failure,
@@ -49,7 +51,8 @@ function trackMoonpayEvent(body: any) {
       failure_reason: failureReason,
     })
   } else if (status === MoonpayTxStatus.Completed) {
-    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      type: 'BUY',
       id,
       provider: Providers.Moonpay,
       status: CashInStatus.Success,
@@ -118,11 +121,11 @@ interface MoonpayRequestBody {
   data: MoonpayTransaction
 }
 
-export const moonpayWebhook = functions.https.onRequest((request, response) => {
+export const moonpayWebhook = functions.https.onRequest(async (request, response) => {
   if (
     verifyMoonPaySignature(request.header(MOONPAY_SIGNATURE_HEADER), JSON.stringify(request.body))
   ) {
-    trackMoonpayEvent(request.body)
+    await trackMoonpayEvent(request.body)
     const {
       data: { walletAddress, cryptoTransactionId },
       type,

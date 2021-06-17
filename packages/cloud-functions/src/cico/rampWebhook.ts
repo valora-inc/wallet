@@ -19,13 +19,14 @@ function verifyRampSignature(signature: string | undefined, body: RampRequestBod
   return verifier.verify(rampKey, signature, 'base64')
 }
 
-function trackRampEvent(body: any) {
+async function trackRampEvent(body: any) {
   const {
     type,
     purchase: { id, receiverAddress, status },
   } = body
   if (RampWebhookType.Created === type) {
-    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      type: 'BUY',
       id,
       provider: Providers.Ramp,
       status: CashInStatus.Started,
@@ -33,7 +34,8 @@ function trackRampEvent(body: any) {
       user_address: receiverAddress,
     })
   } else if (status === PurchaseStatus.Expired || status === PurchaseStatus.Cancelled) {
-    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      type: 'BUY',
       id,
       provider: Providers.Ramp,
       status: CashInStatus.Failure,
@@ -42,7 +44,8 @@ function trackRampEvent(body: any) {
       failure_reason: status,
     })
   } else if (PurchaseStatus.Released === status) {
-    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      type: 'BUY',
       id,
       provider: Providers.Ramp,
       status: CashInStatus.Success,
@@ -105,9 +108,9 @@ interface RampRequestBody {
 
 const RAMP_SIGNATURE_HEADER = 'X-Body-Signature'
 
-export const rampWebhook = functions.https.onRequest((request, response) => {
+export const rampWebhook = functions.https.onRequest(async (request, response) => {
   if (verifyRampSignature(request.header(RAMP_SIGNATURE_HEADER), request.body)) {
-    trackRampEvent(request.body)
+    await trackRampEvent(request.body)
     const {
       type,
       purchase: { receiverAddress, finalTxHash, status },

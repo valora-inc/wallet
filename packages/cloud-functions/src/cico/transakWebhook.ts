@@ -5,14 +5,59 @@ import { BIGQUERY_PROVIDER_STATUS_TABLE, TRANSAK_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
 import { CashInStatus, Providers } from './Providers'
 
+interface TransakEventPayload {
+  eventID: TransakEvent
+  createdAt: string
+  webhookData: {
+    id: string
+    walletAddress: string
+    status: TransakStatus
+    statusReason?: string
+    transactionHash?: string
+    createdAt: string
+    fiatCurrency: string
+    userId: string
+    cryptocurrency: string
+    isBuyOrSell: 'BUY' | 'SELL'
+    fiatAmount: number
+    commissionDecimal: number
+    fromWalletAddress: string
+    walletLink: string
+    amountPaid: number
+    partnerOrderId: string
+    partnerCustomerId: string
+    redirectURL: string
+    conversionPrice: number
+    cryptoAmount: number
+    totalFee: number
+    paymentOption: string[]
+    autoExpiresAt: string
+    referenceCode: number
+  }
+}
+
 enum TransakEvent {
   Created = 'ORDER_CREATED',
-  Failed = 'ORDER_FAILED',
+  Processing = 'ORDER_COMPLETED',
+  PaymentVerifying = 'ORDER_PAYMENT_VERIFYING',
   Completed = 'ORDER_COMPLETED',
+  Failed = 'ORDER_FAILED',
+}
+
+enum TransakStatus {
+  PROCESSING = 'PROCESSING',
+  EXPIRED = 'EXPIRED',
+  FAILED = 'FAILED',
+  CANCELLED = 'CANCELLED',
+  COMPLETED = 'COMPLETED',
+  PENDING_DELIVERY_FROM_TRANSAK = 'PENDING_DELIVERY_FROM_TRANSAK',
+  PAYMENT_DONE_MARKED_BY_USER = 'PAYMENT_DONE_MARKED_BY_USER',
+  AWAITING_PAYMENT_FROM_USER = 'AWAITING_PAYMENT_FROM_USER',
 }
 
 function createEventBase(id: string, address: string) {
   return {
+    type: 'BUY',
     id,
     provider: Providers.Transak,
     timestamp: Date.now() / 1000,
@@ -20,49 +65,38 @@ function createEventBase(id: string, address: string) {
   }
 }
 
-function trackTransakEvent(body: any) {
+async function trackTransakEvent(body: any) {
   const {
     eventID,
     webhookData: { id, walletAddress, statusReason },
   } = body
   if (eventID === TransakEvent.Created) {
-    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
       ...createEventBase(id, walletAddress),
       status: CashInStatus.Started,
     })
   } else if (eventID === TransakEvent.Failed) {
-    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
       ...createEventBase(id, walletAddress),
       status: CashInStatus.Failure,
       failure_reason: statusReason,
     })
   } else if (eventID === TransakEvent.Completed) {
-    trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
       ...createEventBase(id, walletAddress),
       status: CashInStatus.Success,
     })
   }
 }
 
-interface TransakPayload {
-  eventID: string
-  webhookData: {
-    id: string
-    walletAddress: string
-    status: string
-    statusReason?: string
-    transactionHash?: string
-  }
-}
-
-export const transakWebhook = functions.https.onRequest((request, response) => {
+export const transakWebhook = functions.https.onRequest(async (request, response) => {
   try {
-    const decodedData: TransakPayload = jwt.verify(
+    const decodedData: TransakEventPayload = jwt.verify(
       request.body.data,
       TRANSAK_DATA.private_key
-    ) as TransakPayload
+    ) as TransakEventPayload
     console.info('Transak webhook', JSON.stringify(decodedData))
-    trackTransakEvent(decodedData)
+    await trackTransakEvent(decodedData)
     const {
       eventID,
       webhookData: { id, walletAddress, status, statusReason, transactionHash },
