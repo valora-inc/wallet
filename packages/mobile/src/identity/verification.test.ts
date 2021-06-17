@@ -66,6 +66,7 @@ jest.mock('src/web3/saga', () => ({
 }))
 
 const mockUnlockAccount = unlockAccount as jest.MockedFunction<typeof unlockAccount>
+// eslint-disable-next-line require-yield
 mockUnlockAccount.mockImplementation(function* () {
   return UnlockResult.SUCCESS
 })

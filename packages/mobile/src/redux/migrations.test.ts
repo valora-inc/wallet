@@ -226,33 +226,52 @@ describe('Redux persist migrations', () => {
       },
     }
     const migratedSchema = migrations[13](stub)
-    expect(migratedSchema.verify.existingProperty).toEqual('verify_existingProperty')
-    expect(migratedSchema.identity.existingProperty).toEqual('identity_existingProperty')
-    expect(migratedSchema.verify.seenVerificationNux).toEqual(true)
-    const deletedIdentityProperties = [
-      'attestationCodes',
-      'acceptedAttestationCodes',
-      'attestationInputStatus',
-      'numCompleteAttestations',
-      'verificationStatus',
-      'lastRevealAttempt',
-    ]
-    for (const deletedProperty of deletedIdentityProperties) {
-      expect(Object.keys(migratedSchema.identity).includes(deletedProperty)).toEqual(false)
-    }
-    const deletedVerifyProperties = [
-      'TEMPORARY_override_withoutVerification',
-      'withoutRevealing',
-      'retries',
-    ]
-    for (const deletedProperty of deletedVerifyProperties) {
-      expect(Object.keys(migratedSchema.verify).includes(deletedProperty)).toEqual(false)
-    }
+    expect(migratedSchema).toEqual(stub)
   })
 
   it('works for v13 to v14', () => {
     const migratedSchema = migrations[14](v13Schema)
     expect(migratedSchema.networkInfo.userLocationData).toBeDefined()
     expect(migratedSchema.networkInfo.userLocationData.countryCodeAlpha2).toEqual(null)
+  })
+
+  it('works for v14 to v15', () => {
+    const stub = {
+      verify: {
+        existingProperty: 'verify_existingProperty',
+        attestationCodes: ['verify_code'],
+        acceptedAttestationCodes: ['verify_accepted_code', 'other_code'],
+        seenVerificationNux: true,
+      },
+      identity: {
+        existingProperty: 'identity_existingProperty',
+        hasSeenVerificationNux: false,
+        attestationCodes: ['code1', 'code2'],
+        acceptedAttestationCodes: ['code1'],
+        attestationInputStatus: ['loading'],
+        numCompleteAttestations: 1,
+        verificationStatus: 'verified',
+        lastRevealAttempt: 'yesterday',
+      },
+    }
+    let migratedSchema = migrations[15](stub)
+    expect(migratedSchema.identity.attestationCodes).toEqual(['code1', 'code2'])
+    expect(migratedSchema.identity.acceptedAttestationCodes).toEqual(['code1'])
+    expect(migratedSchema.identity.hasSeenVerificationNux).toEqual(true)
+    expect(migratedSchema.identity.numCompleteAttestations).toEqual(1)
+
+    migratedSchema = migrations[15]({
+      ...stub,
+      identity: {
+        existingProperty: 'identity_existingProperty',
+      },
+    })
+    expect(migratedSchema.identity.attestationCodes).toEqual(['verify_code'])
+    expect(migratedSchema.identity.acceptedAttestationCodes).toEqual([
+      'verify_accepted_code',
+      'other_code',
+    ])
+    expect(migratedSchema.identity.hasSeenVerificationNux).toEqual(true)
+    expect(migratedSchema.identity.numCompleteAttestations).toEqual(2)
   })
 })
