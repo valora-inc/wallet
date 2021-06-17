@@ -110,6 +110,7 @@ export interface RemoteFeatureFlags {
   rewardsPercent: number
   rewardsStartDate: number
   rewardsMax: number
+  logPhoneTypeEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
