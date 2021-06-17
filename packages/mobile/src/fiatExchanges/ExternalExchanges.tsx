@@ -68,7 +68,7 @@ function ExternalExchanges({ route }: Props) {
             currency: route.params.currency === CURRENCY_ENUM.DOLLAR ? t('celoDollars') : 'CELO',
           })}
         </Text>
-        <View style={styles.accountBox}>
+        <View testID="accountBox" style={styles.accountBox}>
           <Text style={styles.accountLabel}>{t('sendFlow7:accountNumberLabel')}</Text>
           <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
           <Text style={styles.link}>{t('accountScreen10:tapToCopy')}</Text>

@@ -32,7 +32,7 @@ export default offRamps = () => {
       })
     })
 
-    describe('When Gift Cards and Mobile Top Up Selected', () => {
+    describe.skip('When Gift Cards and Mobile Top Up Selected', () => {
       beforeEach(async () => {
         await element(by.id('receiveWithBidali')).tap()
         await element(by.text('Next')).tap()
@@ -57,7 +57,7 @@ export default offRamps = () => {
         await expect(element(by.id('Bittrex'))).toBeVisible()
         await expect(element(by.id('CoinList Pro'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
-        await expect(element(by.id('accountNumberContainer'))).toBeVisible()
+        await expect(element(by.id('accountBox'))).toBeVisible()
         const imagePath = await device.takeScreenshot('cUSD Exchanges')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD Exchanges.png`)
       })
@@ -103,7 +103,7 @@ export default offRamps = () => {
         await expect(element(by.id('Coinbase Pro (CELO as CGLD)'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('OKEx'))).toBeVisible()
-        await expect(element(by.id('accountNumberContainer'))).toBeVisible()
+        await expect(element(by.id('accountBox'))).toBeVisible()
         const imagePath = await device.takeScreenshot('CELO Exchanges')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO Exchanges.png`)
       })
