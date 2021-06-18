@@ -8,7 +8,7 @@ import { SENTINEL_INVITE_COMMENT } from 'src/invite/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   getLocalCurrencyCode,
-  getLocalCurrencyToDollarsExchangeRate,
+  localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { newTransactionsInFeed } from 'src/transactions/actions'
@@ -41,7 +41,7 @@ interface StateProps {
   address?: string | null
   standbyTransactions: StandbyTransaction[]
   localCurrencyCode: LocalCurrencyCode
-  localCurrencyExchangeRate: string | null | undefined
+  localCurrencyExchangeRates: Record<Currency, string | null>
   knownFeedTransactions: KnownFeedTransactionsType
 }
 
@@ -69,7 +69,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   address: currentAccountSelector(state),
   standbyTransactions: state.transactions.standbyTransactions,
   localCurrencyCode: getLocalCurrencyCode(state),
-  localCurrencyExchangeRate: getLocalCurrencyToDollarsExchangeRate(state),
+  localCurrencyExchangeRates: localCurrencyExchangeRatesSelector(state),
   knownFeedTransactions: knownFeedTransactionsSelector(state),
 })
 
@@ -96,7 +96,7 @@ function mapExchangeStandbyToFeedItem(
   standbyTx: ExchangeStandby,
   feedType: FeedType,
   localCurrencyCode: LocalCurrencyCode,
-  localCurrencyExchangeRate: string | null | undefined
+  localCurrencyToStableExchangeRate: string | null | undefined
 ): FeedItem {
   const { type, hash, status, timestamp, inValue, inCurrency, outValue, outCurrency } = standbyTx
 
@@ -110,15 +110,15 @@ function mapExchangeStandbyToFeedItem(
   }
 
   const exchangeRate = new BigNumber(outAmount.value).dividedBy(inAmount.value)
-  const localExchangeRate = new BigNumber(localCurrencyExchangeRate ?? 0)
+  const localExchangeRate = new BigNumber(localCurrencyToStableExchangeRate ?? 0)
   const makerLocalExchangeRate =
-    inAmount.currencyCode === Currency.Dollar
-      ? localExchangeRate
-      : exchangeRate.multipliedBy(localExchangeRate)
+    inAmount.currencyCode === Currency.Celo
+      ? exchangeRate.multipliedBy(localExchangeRate)
+      : localExchangeRate
   const takerLocalExchangeRate =
-    outAmount.currencyCode === Currency.Dollar
-      ? localExchangeRate
-      : exchangeRate.pow(-1).multipliedBy(localExchangeRate)
+    outAmount.currencyCode === Currency.Celo
+      ? exchangeRate.pow(-1).multipliedBy(localExchangeRate)
+      : localExchangeRate
 
   const makerAmount = resolveAmount(inAmount, localCurrencyCode, makerLocalExchangeRate.toString())
   const takerAmount = resolveAmount(outAmount, localCurrencyCode, takerLocalExchangeRate.toString())
@@ -191,7 +191,7 @@ function mapTransferStandbyToFeedItem(
 function mapStandbyTransactionToFeedItem(
   feedType: FeedType,
   localCurrencyCode: LocalCurrencyCode,
-  localCurrencyExchangeRate: string | null | undefined
+  localCurrencyExchangeRates: Record<Currency, string | null>
 ) {
   return (standbyTx: StandbyTransaction): FeedItem => {
     if (standbyTx.type === TokenTransactionType.Exchange) {
@@ -199,12 +199,18 @@ function mapStandbyTransactionToFeedItem(
         standbyTx,
         feedType,
         localCurrencyCode,
-        localCurrencyExchangeRate
+        localCurrencyExchangeRates[
+          standbyTx.inCurrency === Currency.Celo ? standbyTx.outCurrency : standbyTx.inCurrency
+        ]
       )
     }
     // Otherwise it's a transfer
     else {
-      return mapTransferStandbyToFeedItem(standbyTx, localCurrencyCode, localCurrencyExchangeRate)
+      return mapTransferStandbyToFeedItem(
+        standbyTx,
+        localCurrencyCode,
+        localCurrencyExchangeRates[standbyTx.currency]
+      )
     }
   }
 }
@@ -240,7 +246,7 @@ export class TransactionsList extends React.PureComponent<Props> {
       address,
       feedType,
       localCurrencyCode,
-      localCurrencyExchangeRate,
+      localCurrencyExchangeRates,
       standbyTransactions,
     } = this.props
 
@@ -271,7 +277,7 @@ export class TransactionsList extends React.PureComponent<Props> {
           return isForQueriedCurrency && notInQueryTxs
         })
         .map(
-          mapStandbyTransactionToFeedItem(feedType, localCurrencyCode, localCurrencyExchangeRate)
+          mapStandbyTransactionToFeedItem(feedType, localCurrencyCode, localCurrencyExchangeRates)
         )
 
       const feedData = [...standbyTxs, ...transactions].map(mapInvite)
