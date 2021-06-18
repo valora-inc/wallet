@@ -254,5 +254,17 @@ export const migrations = {
         [Currency.Celo]: null,
       },
     },
+    stableToken: {
+      ...state.stableToken,
+      balance: null,
+      balances: {
+        [Currency.Dollar]: state.stableToken.balance,
+        [Currency.Euro]: null,
+      },
+    },
+    escrow: {
+      isReclaiming: false,
+      sentEscrowedPayments: [],
+    },
   }),
 }

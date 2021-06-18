@@ -13,13 +13,13 @@ export interface QrCode {
 export type SVG = typeof Svg
 
 export enum Actions {
-  STORE_LATEST_IN_RECENTS = 'SEND/STORE_LATEST_IN_RECENTS',
   BARCODE_DETECTED = 'SEND/BARCODE_DETECTED',
   QRCODE_SHARE = 'SEND/QRCODE_SHARE',
   SEND_PAYMENT_OR_INVITE = 'SEND/SEND_PAYMENT_OR_INVITE',
   SEND_PAYMENT_OR_INVITE_SUCCESS = 'SEND/SEND_PAYMENT_OR_INVITE_SUCCESS',
   SEND_PAYMENT_OR_INVITE_FAILURE = 'SEND/SEND_PAYMENT_OR_INVITE_FAILURE',
   UPDATE_LAST_USED_CURRENCY = 'SEND/UPDATE_LAST_USED_CURRENCY',
+  SET_SHOW_WARNING = 'SEND/SHOW_WARNING',
 }
 
 export interface HandleBarcodeDetectedAction {
@@ -34,11 +34,6 @@ export interface HandleBarcodeDetectedAction {
 export interface ShareQRCodeAction {
   type: Actions.QRCODE_SHARE
   qrCodeSvg: SVG
-}
-
-export interface StoreLatestInRecentsAction {
-  type: Actions.STORE_LATEST_IN_RECENTS
-  recipient: Recipient
 }
 
 export interface SendPaymentOrInviteAction {
@@ -67,19 +62,19 @@ export interface UpdateLastUsedCurrencyAction {
   currency: Currency
 }
 
+export interface SetShowWarningAction {
+  type: Actions.SET_SHOW_WARNING
+  showWarning: boolean
+}
+
 export type ActionTypes =
   | HandleBarcodeDetectedAction
   | ShareQRCodeAction
-  | StoreLatestInRecentsAction
   | SendPaymentOrInviteAction
   | SendPaymentOrInviteSuccessAction
   | SendPaymentOrInviteFailureAction
   | UpdateLastUsedCurrencyAction
-
-export const storeLatestInRecents = (recipient: Recipient): StoreLatestInRecentsAction => ({
-  type: Actions.STORE_LATEST_IN_RECENTS,
-  recipient,
-})
+  | SetShowWarningAction
 
 export const handleBarcodeDetected = (
   data: QrCode,
@@ -136,4 +131,9 @@ export const sendPaymentOrInviteFailure = (): SendPaymentOrInviteFailureAction =
 export const updateLastUsedCurrency = (currency: Currency): UpdateLastUsedCurrencyAction => ({
   type: Actions.UPDATE_LAST_USED_CURRENCY,
   currency,
+})
+
+export const setShowWarning = (showWarning: boolean): SetShowWarningAction => ({
+  type: Actions.SET_SHOW_WARNING,
+  showWarning,
 })
