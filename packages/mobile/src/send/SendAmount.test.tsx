@@ -127,7 +127,7 @@ describe('SendAmount', () => {
           action: null,
           alertType: 'error',
           buttonMessage: null,
-          dismissAfter: 5000,
+          dismissAfter: null,
           displayMethod: ErrorDisplayType.BANNER,
           message: 'needMoreFundsToSend',
           title: null,
