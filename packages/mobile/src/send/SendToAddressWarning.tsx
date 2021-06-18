@@ -5,6 +5,8 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Switch, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
+import { SendEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Modal from 'src/components/Modal'
 import { Namespaces } from 'src/i18n'
 import { Recipient } from 'src/recipients/recipient'
@@ -29,11 +31,13 @@ export default function SendToAddressWarning({
   const onContinue = () => {
     closeWarning()
     onSelectRecipient(recipient)
+    ValoraAnalytics.track(SendEvents.check_account_alerts_continue)
   }
 
   const turnOffWarning = () => {
     closeWarning()
     dispatch(setShowWarning(false))
+    ValoraAnalytics.track(SendEvents.do_not_ask_selected)
   }
 
   return (
