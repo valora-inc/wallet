@@ -19,6 +19,7 @@ const defaultStore = {
   send: {
     inviteRewardsEnabled: false,
     recentRecipients: [mockRecipient],
+    showSendToAddressWarning: true,
   },
   app: {
     numberVerified: true,

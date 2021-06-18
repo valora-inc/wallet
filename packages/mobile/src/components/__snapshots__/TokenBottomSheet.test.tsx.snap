@@ -28,7 +28,27 @@ exports[`TokenBottomSheet renders correctly 1`] = `
         undefined,
       ]
     }
-  />
+  >
+    <RNGestureHandlerButton
+      collapsable={false}
+      onGestureEvent={[Function]}
+      onGestureHandlerEvent={[Function]}
+      onGestureHandlerStateChange={[Function]}
+      onHandlerStateChange={[Function]}
+      rippleColor={0}
+      testID="BackgroundTouchable"
+    >
+      <View
+        accessible={true}
+        style={
+          Object {
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+      />
+    </RNGestureHandlerButton>
+  </View>
   <View
     onLayout={[Function]}
     style={
@@ -42,6 +62,9 @@ exports[`TokenBottomSheet renders correctly 1`] = `
           "padding": 24,
           "position": "absolute",
           "width": "100%",
+        },
+        Object {
+          "paddingBottom": 24,
         },
         undefined,
       ]
