@@ -194,6 +194,7 @@ function* startOrResumeKomenciSessionSaga() {
   })
 
   Logger.debug(TAG, '@startOrResumeKomenciSession', 'Starting session')
+  ValoraAnalytics.track(VerificationEvents.verification_session_started)
 
   const contractKit = yield call(getContractKit)
   const walletAddress = yield call(getConnectedUnlockedAccount)
@@ -501,12 +502,18 @@ export function* fetchOrDeployMtwSaga() {
     // user already has a verified MTW
     const verifiedMtwAddress = yield call(fetchVerifiedMtw, contractKit, walletAddress)
     if (verifiedMtwAddress) {
+      ValoraAnalytics.track(VerificationEvents.verification_already_completed, {
+        mtwAddress: verifiedMtwAddress,
+      })
       yield put(doVerificationFlow(true))
       return
     }
 
     Logger.debug(TAG, '@fetchOrDeployMtwSaga', 'Starting fetch')
     const storedUnverifiedMtwAddress = komenci.unverifiedMtwAddress
+    ValoraAnalytics.track(VerificationEvents.verification_mtw_fetch_start, {
+      unverifiedMtwAddress: storedUnverifiedMtwAddress,
+    })
     let deployedUnverifiedMtwAddress: string | null = null
     // If there isn't a MTW stored for this session, ask Komenci to deploy one
     if (!storedUnverifiedMtwAddress) {
@@ -580,6 +587,9 @@ export function* fetchOrDeployMtwSaga() {
       throw validityCheckResult.error
     }
 
+    ValoraAnalytics.track(VerificationEvents.verification_mtw_fetch_success, {
+      mtwAddress: unverifiedMtwAddress,
+    })
     yield put(setKomenciContext({ unverifiedMtwAddress }))
     yield call(feelessDekAndWalletRegistration, komenciKit, walletAddress, unverifiedMtwAddress)
     yield put(fetchOnChainData())
