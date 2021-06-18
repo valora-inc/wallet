@@ -32,6 +32,7 @@ import {
   storeTimestampIfKomenciError,
 } from 'src/identity/feelessVerificationErrors'
 import { e164NumberToSaltSelector, E164NumberToSaltType } from 'src/identity/reducer'
+
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
@@ -49,7 +50,6 @@ import {
   setVerificationStatus,
   shouldUseKomenciSelector,
   start,
-  succeed,
 } from 'src/verify/module'
 import { getAttestationsStatus } from 'src/verify/saga'
 import { getContractKit } from 'src/web3/contracts'
@@ -143,7 +143,8 @@ export function* fetchOrDeployMtwSaga() {
     // user already has a verified MTW
     const verifiedMtwAddress = yield call(fetchVerifiedMtw, contractKit, walletAddress)
     if (verifiedMtwAddress) {
-      yield put(succeed())
+      // TODO: Address this
+      // yield put(doVerificationFlow(true))
       return
     }
 

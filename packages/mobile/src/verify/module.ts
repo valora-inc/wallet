@@ -30,7 +30,6 @@ export const setKomenciAvailable = createAction<KomenciAvailable>('VERIFY/SET_KO
 export const start = createAction<{ e164Number: string }>('VERIFY/START')
 export const stop = createAction('VERIFY/STOP')
 export const setUseKomenci = createAction<boolean>('VERIFY/SET_USE_KOMENCI')
-export const resetKomenciSession = createAction('VERIFY/RESET_KOMENCI_SESSION')
 export const ensureRealHumanUser = createAction('VERIFY/ENSURE_REAL_HUMAN_USER')
 export const startKomenciSession = createAction('VERIFY/START_KOMENCI_SESSION')
 export const fetchPhoneNumberDetails = createAction('VERIFY/FETCH_PHONE_NUMBER')
@@ -345,12 +344,6 @@ export const reducer = createReducer(initialState, (builder) => {
         komenci: initialState.komenci,
       }
     })
-    .addCase(resetKomenciSession, (state, action) => {
-      return {
-        ...state,
-        komenci: initialState.komenci,
-      }
-    })
     .addCase(setPhoneHash, (state, action) => {
       return {
         ...state,
@@ -568,20 +561,6 @@ export const actionableAttestationsSelector = (state: RootState): ActionableAtte
 
 export const revealStatusesSelector = (state: RootState): RevealStatuses =>
   state.verify.revealStatuses
-
-export const notCompletedActionableAttestationsSelector = createSelector(
-  [actionableAttestationsSelector, acceptedAttestationCodesSelector],
-  (actionableAttestations, acceptedAttestationCodes) =>
-    actionableAttestations.filter(
-      (attestation) =>
-        !acceptedAttestationCodes.map((code) => code.issuer).includes(attestation.issuer)
-    )
-)
-
-export const nonConfirmedIssuersSelector = createSelector(
-  [notCompletedActionableAttestationsSelector],
-  (attestations) => attestations.map((attestation) => attestation.issuer)
-)
 
 export const isBalanceSufficientForSigRetrievalSelector = createSelector(
   [stableTokenBalanceSelector, celoTokenBalanceSelector],

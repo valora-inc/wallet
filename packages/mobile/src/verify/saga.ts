@@ -6,7 +6,6 @@ import {
   AttestationsWrapper,
 } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { FetchErrorTypes } from '@celo/komencikit/lib/errors'
 import { GetDistributedBlindedPepperResp } from '@celo/komencikit/src/actions'
 import { FetchError, TxError } from '@celo/komencikit/src/errors'
 import { KomenciKit } from '@celo/komencikit/src/kit'
@@ -20,7 +19,6 @@ import {
 import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import AwaitLock from 'await-lock'
 import DeviceInfo from 'react-native-device-info'
-import { Task } from 'redux-saga'
 import {
   all,
   call,
@@ -33,7 +31,7 @@ import {
   take,
   takeEvery,
 } from 'redux-saga/effects'
-import { showError, showMessage } from 'src/alert/actions'
+import { showError } from 'src/alert/actions'
 import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
@@ -42,7 +40,6 @@ import { CodeInputStatus } from 'src/components/CodeInput'
 import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
-import i18n from 'src/i18n'
 import { updateE164PhoneNumberSalts } from 'src/identity/actions'
 import { ReactBlsBlindingClient } from 'src/identity/bls-blinding-client'
 import {
@@ -92,19 +89,16 @@ import {
   isBalanceSufficientForSigRetrievalSelector,
   KomenciAvailable,
   komenciContextSelector,
-  nonConfirmedIssuersSelector,
-  notCompletedActionableAttestationsSelector,
   NUM_ATTESTATIONS_REQUIRED,
-  OnChainVerificationStatus,
   phoneHashSelector,
   receiveAttestationCode,
   reportRevealStatus,
   requestAttestations,
   resendMessages,
   reset,
-  resetKomenciSession,
   revealAttestations,
   RevealStatus,
+  revealStatusesSelector,
   revoke,
   setActionableAttestation,
   setAttestationInputStatus,
@@ -118,9 +112,8 @@ import {
   startKomenciSession,
   stop,
   succeed,
-  verificationStatusSelector,
-  // tslint:disable-next-line: ordered-imports
   VERIFICATION_TIMEOUT,
+  verificationStatusSelector,
 } from 'src/verify/module'
 import { requestAttestationsSaga } from 'src/verify/requestAttestations'
 import {
@@ -128,7 +121,6 @@ import {
   reportRevealStatusSaga,
   revealAttestationsSaga,
 } from 'src/verify/revealAttestations'
-import resetKomenciSessionSaga from 'src/verify/sagas/resetKomenciSessionSaga'
 import { indexReadyForInput } from 'src/verify/utils'
 import { setMtwAddress } from 'src/web3/actions'
 import { getContractKit } from 'src/web3/contracts'
@@ -136,7 +128,6 @@ import { getAccount, getConnectedUnlockedAccount, unlockAccount, UnlockResult } 
 
 const TAG = 'verify/saga'
 const inputAttestationCodeLock = new AwaitLock()
-const receiveAttestationCodeLock = new AwaitLock()
 
 // Using hard-coded gas value to avoid running gas estimation.
 // Note: This is fragile and needs be updated if there are significant
@@ -206,7 +197,7 @@ function* getCodeForIssuer(issuer: string): Generator<any, AttestationCode | und
 }
 
 // Get the code from the store if it's already there, otherwise wait for it
-function* waitForAttestationCode(issuer: string): Generator<any, AttestationCode | null, any> {
+function* waitForAttestationCode(issuer: string): Generator<any, AttestationCode, any> {
   Logger.debug(TAG + '@waitForAttestationCode', `Waiting for code for issuer ${issuer}`)
   const code = yield call(getCodeForIssuer, issuer)
   if (code) {
@@ -214,29 +205,15 @@ function* waitForAttestationCode(issuer: string): Generator<any, AttestationCode
   }
 
   while (true) {
-    const {
-      cancelled,
-      success,
-    }: {
-      cancelled: ReturnType<typeof revealAttestations>
-      success: ReturnType<typeof inputAttestationCode>
-    } = yield race({
-      success: take(inputAttestationCode.type),
-      cancelled: take(revealAttestations.type),
-    })
-    if (success?.payload.issuer === issuer) {
-      return success.payload
-    } else if (cancelled) {
-      return null
+    const action: ReturnType<typeof inputAttestationCode> = yield take(inputAttestationCode.type)
+    if (action.payload.issuer === issuer) {
+      return action.payload
     }
   }
 }
 
-// We used to have this because codes that are auto-imported or pasted in quick sucsession may revert
-// due to being submitted by Komenci with the same nonce as the previous code. However, this code is
-// now being called inside an acquired lock, so that shouldn't be an issue and komencikit already has
-// a retry mechanism baked in, so it feels unnecessary. All this function can probably be replaced by
-// a single call to |komenciKit.completeAttestation|.
+// Codes that are auto-imported or pasted in quick sucsession may revert due to being submitted by Komenci
+// with the same nonce as the previous code. Adding retry logic to attempt the tx again in that case
 // TODO: Batch all available `complete` tranactions once Komenci supports it
 export function* submitCompleteTxAndRetryOnRevert(
   komenciKit: KomenciKit,
@@ -300,10 +277,7 @@ export function* completeAttestation(
     issuer,
     feeless: shouldUseKomenci,
   })
-  const code: AttestationCode | null = yield call(waitForAttestationCode, issuer)
-  if (!code) {
-    return
-  }
+  const code: AttestationCode = yield call(waitForAttestationCode, issuer)
   const existingCodes: AttestationCode[] = yield select(attestationCodesSelector)
   const codePosition = existingCodes.findIndex((existingCode) => existingCode.issuer === issuer)
 
@@ -317,8 +291,12 @@ export function* completeAttestation(
     `Completing code (${code.shortCode} ${codePosition}) for issuer: ${code.issuer}`
   )
 
+  // Make each concurrent completion attempt wait a sec for where they are relative to other codes
+  // to ensure `processingInputCode` has enough time to properly gate the tx. 0-index code
+  // will have 0 delay, 1-index code will have 1 sec delay, etc.
   if (shouldUseKomenci) {
-    yield call([inputAttestationCodeLock, inputAttestationCodeLock.acquireAsync])
+    yield delay(codePosition * 5000)
+    yield inputAttestationCodeLock.acquireAsync()
     try {
       Logger.debug(TAG + '@completeAttestation', `Call complete for ${code.shortCode}`)
       const completeTxResult: Result<CeloTxReceipt, FetchError | TxError> = yield call(
@@ -333,6 +311,7 @@ export function* completeAttestation(
         `Complete result for ${code.shortCode}`,
         JSON.stringify(completeTxResult)
       )
+      yield inputAttestationCodeLock.release()
       if (!completeTxResult.ok) {
         Logger.debug(TAG, '@feelessCompleteAttestation', 'Failed complete tx')
         throw completeTxResult.error
@@ -341,7 +320,9 @@ export function* completeAttestation(
       Logger.error(TAG, '@completeAttestation - Failed to complete tx', error)
       throw error
     } finally {
-      inputAttestationCodeLock.release()
+      if (inputAttestationCodeLock.acquired) {
+        yield inputAttestationCodeLock.release()
+      }
     }
   } else {
     // Generate and send the transaction to complete the attestation from the given issuer.
@@ -597,11 +578,8 @@ export function* fetchOnChainDataSaga() {
 export function* completeAttestationsSaga() {
   const account: string = yield call(getKomenciAwareAccount)
   const contractKit: ContractKit = yield call(getContractKit)
-  // Only try to complete attestations that haven't been completed yet, otherwise we'll try to process
-  // already-completed attestations when resending messages or retrying which will cause the whole thing
-  // to fail
-  const notCompletedActionableAttestations: ActionableAttestation[] = yield select(
-    notCompletedActionableAttestationsSelector
+  const actionableAttestations: ActionableAttestation[] = yield select(
+    actionableAttestationsSelector
   )
   const attestationsWrapper: AttestationsWrapper = yield call([
     contractKit.contracts,
@@ -613,7 +591,7 @@ export function* completeAttestationsSaga() {
   const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
   yield all(
-    notCompletedActionableAttestations.map((attestation) => {
+    actionableAttestations.map((attestation) => {
       return call(
         completeAttestation,
         attestationsWrapper,
@@ -625,17 +603,12 @@ export function* completeAttestationsSaga() {
     })
   )
 
-  // Some code might have been canceled, so make sure user is verified before continuing
-  const status: OnChainVerificationStatus = yield select(verificationStatusSelector)
-  if (status.numAttestationsRemaining === 0) {
-    yield put(setMtwAddress(komenci.unverifiedMtwAddress))
-    yield put(succeed())
-  }
+  yield put(setMtwAddress(komenci.unverifiedMtwAddress))
+  yield put(succeed())
 }
 
 export function* resendMessagesSaga() {
-  Logger.debug(TAG, `@resendMessagesSaga has started`)
-
+  Logger.error(TAG, `@resendMessagesSaga has started`)
   const shouldUseKomenci = yield select(shouldUseKomenciSelector)
   const status = yield select(verificationStatusSelector)
   ValoraAnalytics.track(VerificationEvents.verification_resend_messages, {
@@ -643,18 +616,22 @@ export function* resendMessagesSaga() {
     feeless: shouldUseKomenci,
   })
 
-  const nonConfirmedIssuers: string[] = yield select(nonConfirmedIssuersSelector)
+  const revealStatuses = yield select(revealStatusesSelector)
+  const numberOfAttestationsToRequest =
+    status.numAttestationsRemaining -
+    Object.values(revealStatuses).filter((rS) => rS === RevealStatus.Revealed).length
+  if (numberOfAttestationsToRequest <= 0) {
+    return yield put(revealAttestations())
+  }
+  const actionableAttestations: ActionableAttestation[] = yield select(
+    actionableAttestationsSelector
+  )
   const revealStatusesToUpdate: Record<Address, RevealStatus> = {}
-
-  for (const nonConfirmedIssuer of nonConfirmedIssuers) {
-    revealStatusesToUpdate[nonConfirmedIssuer] = RevealStatus.NotRevealed
+  // Reset reveal statuses for all actionable attestations
+  for (const actionableAttestation of actionableAttestations) {
+    revealStatusesToUpdate[actionableAttestation.issuer] = RevealStatus.NotRevealed
   }
   yield put(setRevealStatuses(revealStatusesToUpdate))
-  yield put(
-    showMessage(
-      i18n.t('onboarding:verificationInput.sendingMessages', { count: nonConfirmedIssuers.length })
-    )
-  )
   yield put(revealAttestations())
 }
 
@@ -690,7 +667,7 @@ export function* successSaga() {
 
 export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAttestationCode>) {
   Logger.error(TAG, `@receiveAttestationCodeSaga called`)
-  const shouldUseKomenci: boolean | undefined = yield select(shouldUseKomenciSelector)
+  const shouldUseKomenci = yield select(shouldUseKomenciSelector)
 
   if (!action.payload.message) {
     Logger.error(TAG + '@receiveAttestationCodeSaga', 'Received empty code. Ignoring.')
@@ -708,38 +685,34 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
     action.payload.index
   )
 
-  // Only one code should be being received at the same time so that it doesn't cause any UI glitches by using
-  // the same index position for more that one. We use the lock for that.
-  yield call([receiveAttestationCodeLock, receiveAttestationCodeLock.acquireAsync])
-  let message: string = action.payload.message
-  let index: number | null = null
-  try {
-    const attestationInputStatus = yield select(attestationInputStatusSelector)
-    index = action.payload.index ?? indexReadyForInput(attestationInputStatus)
-    if (index >= NUM_ATTESTATIONS_REQUIRED) {
-      Logger.error(
-        TAG + '@attestationCodeReceiver',
-        'All attestation code positions are full. Ignoring.'
-      )
-      return
-    }
-    yield put(setAttestationInputStatus({ index, status: CodeInputStatus.Received }))
-
-    const actionableAttestations: ActionableAttestation[] = yield select(
-      actionableAttestationsSelector
+  const attestationInputStatus = yield select(attestationInputStatusSelector)
+  const index = action.payload.index ?? indexReadyForInput(attestationInputStatus)
+  if (index >= NUM_ATTESTATIONS_REQUIRED) {
+    Logger.error(
+      TAG + '@attestationCodeReceiver',
+      'All attestation code positions are full. Ignoring.'
     )
-    const account: string = yield call(getKomenciAwareAccount)
-    const contractKit: ContractKit = yield call(getContractKit)
+    return
+  }
+  yield put(setAttestationInputStatus({ index, status: CodeInputStatus.Received }))
 
-    const attestationsWrapper: AttestationsWrapper = yield call([
-      contractKit.contracts,
-      contractKit.contracts.getAttestations,
-    ])
-    const phoneHashDetails: PhoneNumberHashDetails = yield call(getPhoneHashDetails)
+  const actionableAttestations: ActionableAttestation[] = yield select(
+    actionableAttestationsSelector
+  )
+  const account: string = yield call(getKomenciAwareAccount)
+  const contractKit: ContractKit = yield call(getContractKit)
 
-    const allIssuers = actionableAttestations.map((a) => a.issuer)
-    let securityCodeWithPrefix: string | null = null
+  const attestationsWrapper: AttestationsWrapper = yield call([
+    contractKit.contracts,
+    contractKit.contracts.getAttestations,
+  ])
+  const phoneHashDetails: PhoneNumberHashDetails = yield call(getPhoneHashDetails)
 
+  const allIssuers = actionableAttestations.map((a) => a.issuer)
+  let securityCodeWithPrefix: string | null = null
+  let message: string = action.payload.message
+
+  try {
     securityCodeWithPrefix = extractSecurityCodeWithPrefix(message)
     const signer: Address = yield call(getConnectedUnlockedAccount)
     if (securityCodeWithPrefix) {
@@ -822,7 +795,6 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
       `Attestation code (${message}) is valid, starting processing (issuer: ${issuer})`
     )
 
-    yield put(setAttestationInputStatus({ index, status: CodeInputStatus.Processing }))
     yield put(
       inputAttestationCode({ code: attestationCode, shortCode: securityCodeWithPrefix, issuer })
     )
@@ -833,11 +805,7 @@ export function* receiveAttestationCodeSaga(action: ReturnType<typeof receiveAtt
       error
     )
     yield put(showError(ErrorMessages.INVALID_ATTESTATION_CODE))
-    if (index !== null) {
-      yield put(setAttestationInputStatus({ index, status: CodeInputStatus.Error }))
-    }
-  } finally {
-    receiveAttestationCodeLock.release()
+    yield put(setAttestationInputStatus({ index, status: CodeInputStatus.Error }))
   }
 }
 
@@ -854,64 +822,35 @@ export function* getPhoneHashDetails() {
   }
 }
 
-function createErrorHandler(saga: any, sagaName: string) {
-  return function* (...args: any[]) {
-    try {
-      yield call(saga, ...args)
-    } catch (error) {
-      let errorString = error
-      let lastError = error
-      if (Array.isArray(error)) {
-        errorString = error.join(' - ')
-        lastError = error[-1]
-      }
-      Logger.error(TAG, `Error while running saga ${sagaName}`, error)
-      if (lastError?.toString() === FetchErrorTypes.QuotaExceededError) {
-        yield put(resetKomenciSession())
-      } else {
-        yield put(fail(errorString))
-      }
-    }
-  }
-}
-
-const sagas: Array<[string, any]> = [
-  [checkIfKomenciAvailable.type, checkIfKomenciAvailableSaga],
-  [start.type, startSaga],
-  [startKomenciSession.type, startOrResumeKomenciSessionSaga],
-  [resetKomenciSession.type, resetKomenciSessionSaga],
-  [fetchPhoneNumberDetails.type, fetchPhoneNumberDetailsSaga],
-  [fetchMtw.type, fetchOrDeployMtwSaga],
-  [fetchOnChainData.type, fetchOnChainDataSaga],
-  [fail.type, failSaga],
-  [reset.type, resetSaga],
-  [stop.type, stopSaga],
-  [succeed.type, successSaga],
-  // TODO(erdal): move the smsRetrieval file from src/identity to src/verify
-  [requestAttestations.type, startAutoSmsRetrieval],
-  [requestAttestations.type, requestAttestationsSaga],
-  [revealAttestations.type, revealAttestationsSaga],
-  [completeAttestations.type, completeAttestationsSaga],
-  [resendMessages.type, resendMessagesSaga],
-  [receiveAttestationCode.type, receiveAttestationCodeSaga],
-  [reportRevealStatus.type, reportRevealStatusSaga],
-  [revoke.type, revokeSaga],
-]
-
 export function* verifySaga() {
   while (true) {
-    const task: Task = yield fork(function* () {
+    const task = yield fork(function* () {
       Logger.debug(TAG, 'Verification Saga has started')
-      for (const [actionType, saga] of sagas) {
-        yield takeEvery(actionType, createErrorHandler(saga, actionType))
-      }
+      yield takeEvery(checkIfKomenciAvailable.type, checkIfKomenciAvailableSaga)
+      yield takeEvery(start.type, startSaga)
+      yield takeEvery(startKomenciSession.type, startOrResumeKomenciSessionSaga)
+      yield takeEvery(fetchPhoneNumberDetails.type, fetchPhoneNumberDetailsSaga)
+      yield takeEvery(fetchMtw.type, fetchOrDeployMtwSaga)
+      yield takeEvery(fetchOnChainData.type, fetchOnChainDataSaga)
+      yield takeEvery(fail.type, failSaga)
+      yield takeEvery(reset.type, resetSaga)
+      yield takeEvery(stop.type, stopSaga)
+      yield takeEvery(succeed.type, successSaga)
+      // TODO(erdal): move the smsRetrieval file from src/identity to src/verify
+      yield takeEvery(requestAttestations.type, startAutoSmsRetrieval)
+      yield takeEvery(requestAttestations.type, requestAttestationsSaga)
+      yield takeEvery(revealAttestations.type, revealAttestationsSaga)
+      yield takeEvery(completeAttestations.type, completeAttestationsSaga)
+      yield takeEvery(resendMessages.type, resendMessagesSaga)
+      yield takeEvery(receiveAttestationCode.type, receiveAttestationCodeSaga)
+      yield takeEvery(reportRevealStatus.type, reportRevealStatusSaga)
+      yield takeEvery(revoke.type, revokeSaga)
     })
     const { cancelled, timedOut }: { cancelled: boolean; timedOut: boolean } = yield race({
       cancelled: take(cancel.type),
       timedOut: delay(VERIFICATION_TIMEOUT),
     })
-
-    const shouldUseKomenci: boolean | undefined = yield select(shouldUseKomenciSelector)
+    const shouldUseKomenci = yield select(shouldUseKomenciSelector)
 
     if (cancelled) {
       yield cancelTask(task)
