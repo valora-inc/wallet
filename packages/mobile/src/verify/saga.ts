@@ -20,7 +20,19 @@ import {
 import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import AwaitLock from 'await-lock'
 import DeviceInfo from 'react-native-device-info'
-import { all, call, delay, put, race, select, spawn, take, takeEvery } from 'redux-saga/effects'
+import { Task } from 'redux-saga'
+import {
+  all,
+  call,
+  cancel as cancelTask,
+  delay,
+  fork,
+  put,
+  race,
+  select,
+  take,
+  takeEvery,
+} from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -381,7 +393,6 @@ export function* startSaga() {
     const e164Number = yield select(e164NumberSelector)
     const shouldUseKomenci = yield select(shouldUseKomenciSelector)
 
-    ValoraAnalytics.track(VerificationEvents.verification_start, { feeless: shouldUseKomenci })
     if (shouldUseKomenci) {
       try {
         const komenci = yield select(komenciContextSelector)
@@ -843,7 +854,7 @@ export function* getPhoneHashDetails() {
   }
 }
 
-function callSagaAndHandleErrors(saga: any, sagaName: string) {
+function createErrorHandler(saga: any, sagaName: string) {
   return function* (...args: any[]) {
     try {
       yield call(saga, ...args)
@@ -887,29 +898,23 @@ const sagas: Array<[string, any]> = [
   [revoke.type, revokeSaga],
 ]
 
-export function* watchVerificationEvents() {
-  for (const [actionType, saga] of sagas) {
-    yield takeEvery(actionType, callSagaAndHandleErrors(saga, actionType))
-  }
-}
-
 export function* verifySaga() {
-  yield spawn(watchVerificationEvents)
   while (true) {
-    yield take(start.type)
-    Logger.debug(TAG, 'Verification Saga has started')
-
+    const task: Task = yield fork(function* () {
+      Logger.debug(TAG, 'Verification Saga has started')
+      for (const [actionType, saga] of sagas) {
+        yield takeEvery(actionType, createErrorHandler(saga, actionType))
+      }
+    })
     const { cancelled, timedOut }: { cancelled: boolean; timedOut: boolean } = yield race({
       cancelled: take(cancel.type),
-      succeeded: take(succeed.type),
-      stopped: take(stop.type),
-      failed: take(fail.type),
       timedOut: delay(VERIFICATION_TIMEOUT),
     })
 
     const shouldUseKomenci: boolean | undefined = yield select(shouldUseKomenciSelector)
 
     if (cancelled) {
+      yield cancelTask(task)
       Logger.debug(TAG, 'Verification has been cancelled')
       ValoraAnalytics.track(VerificationEvents.verification_cancel, { feeless: shouldUseKomenci })
     } else if (timedOut) {
