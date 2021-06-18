@@ -2,7 +2,7 @@ import { Fee, Transaction } from './Transaction'
 
 export interface Context {
   userAddress: string
-  token: string | null
+  tokens: string[]
 }
 
 export abstract class TransactionType {

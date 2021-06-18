@@ -1,6 +1,7 @@
 import { gql } from 'apollo-server-express'
 import BigNumber from 'bignumber.js'
 import { DataSources } from './apolloServer'
+import { USD } from './currencyConversion/consts'
 
 export enum EventTypes {
   EXCHANGE = 'EXCHANGE',
@@ -62,11 +63,12 @@ export interface EventArgs {
   offset?: number
 }
 
-export type Token = 'cUSD' | 'cGLD'
+export type Token = 'cUSD' | 'cGLD' | 'cEUR'
 
 export interface TokenTransactionArgs {
   address: string
   token: Token | null
+  tokens?: Token[]
   localCurrencyCode: string
 }
 
@@ -114,6 +116,7 @@ export const typeDefs = gql`
 
   enum Token {
     cUSD
+    cEUR
     cGLD
   }
 
@@ -212,6 +215,7 @@ export const typeDefs = gql`
     tokenTransactions(
       address: Address!
       token: Token
+      tokens: [Token]
       localCurrencyCode: String
       # pagination
       before: String
@@ -258,7 +262,12 @@ export const resolvers = {
       args: CurrencyConversionArgs,
       { dataSources }: Context
     ) => {
-      const rate = await dataSources.currencyConversionAPI.getExchangeRate(args)
+      const rate = await dataSources.currencyConversionAPI.getExchangeRate({
+        ...args,
+        // This field is optional for legacy reasons. Remove default value after Valora 1.16 is
+        // released and most users update.
+        sourceCurrencyCode: args.sourceCurrencyCode ?? USD,
+      })
       return { rate: rate.toNumber() }
     },
   },

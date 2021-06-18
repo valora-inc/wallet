@@ -4,7 +4,6 @@ import FormTextInput from '@celo/react-components/components/FormTextInput'
 import Touchable from '@celo/react-components/components/Touchable'
 import ValidatedTextInput from '@celo/react-components/components/ValidatedTextInput'
 import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import SmsRetriever from '@celo/react-native-sms-retriever'
 import { LocalizedCountry } from '@celo/utils/lib/countries'
 import { ValidatorKind } from '@celo/utils/lib/inputValidation'
@@ -20,10 +19,12 @@ async function requestPhoneNumber() {
     if (Platform.OS === 'android') {
       phoneNumber = await SmsRetriever.requestPhoneNumber()
     } else {
+      // eslint-disable-next-line no-console
       console.info(`${TAG}/requestPhoneNumber`, 'Not implemented in this platform')
     }
     return parsePhoneNumber(phoneNumber, '')
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.info(`${TAG}/requestPhoneNumber`, 'Could not request phone', error)
   }
 }
@@ -153,10 +154,6 @@ const styles = StyleSheet.create({
   flag: {
     fontSize: 20,
     marginRight: 4,
-  },
-  phoneCountryCode: {
-    ...fontStyles.regular,
-    flex: 1,
   },
   phoneNumberInput: {
     flex: 1,
