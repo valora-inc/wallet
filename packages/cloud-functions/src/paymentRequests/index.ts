@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions'
 import { database } from '../firebase'
 import { getTranslatorForAddress, sendNotification } from '../notifications'
-import { NotificationTypes } from '../notifications/types'
+import { Currencies, NotificationTypes } from '../notifications/types'
 
 export enum PaymentRequestStatus {
   REQUESTED = 'REQUESTED',
@@ -51,9 +51,9 @@ export async function sendRequestedPaymentNotification(id: string, data: Payment
   return sendNotification(
     t('paymentRequestedTitle'),
     t('paymentRequestedBody', {
-      amount,
+      amount: Number(amount).toFixed(2),
       // TODO: Use local currency for this.
-      currency: 'cUSD',
+      currency: Currencies.Dollar,
     }),
     requesteeAddress,
     { uid: id, ...paymentObjectToNotification(data) }

@@ -637,6 +637,10 @@ export const v14Schema = {
       ipAddress: null,
     },
   },
+  send: {
+    ...v13Schema.send,
+    showSendToAddressWarning: true,
+  },
 }
 
 export const v15Schema = {
@@ -664,7 +668,7 @@ export const v15Schema = {
     balance: undefined,
   },
   send: {
-    ...v8Schema.send,
+    ...v14Schema.send,
     lastUsedCurrency: Currency.Dollar,
   },
 }

@@ -368,7 +368,9 @@ function SendConfirmation(props: Props) {
 
     return (
       <SafeAreaView style={styles.container}>
-        <CustomHeader left={<BackButton eventName={SendEvents.send_confirm_back} />} />
+        {props.route.name !== Screens.SendConfirmationModal && (
+          <CustomHeader left={<BackButton eventName={SendEvents.send_confirm_back} />} />
+        )}
         <DisconnectBanner />
         <ReviewFrame
           FooterComponent={FeeContainer}

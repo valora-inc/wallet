@@ -16,7 +16,10 @@ import { getFeeEstimateDollars } from 'src/fees/selectors'
 import { AddressValidationType, secureSendPhoneNumberMappingSelector } from 'src/identity/reducer'
 import { getAddressValidationType } from 'src/identity/secureSend'
 import { RecipientVerificationStatus } from 'src/identity/types'
-import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
+import {
+  convertDollarsToLocalAmount,
+  convertToMaxSupportedPrecision,
+} from 'src/localCurrency/convert'
 import {
   useConvertBetweenCurrencies,
   useCurrencyToLocalAmount,
@@ -24,6 +27,7 @@ import {
 } from 'src/localCurrency/hooks'
 import {
   getLocalCurrencyCode,
+  getLocalCurrencySymbol,
   localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -36,6 +40,7 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { getFeeType, useDailyTransferLimitValidator } from 'src/send/utils'
 import { useBalance } from 'src/stableToken/hooks'
 import { Currency } from 'src/utils/currencies'
+import { roundUp } from 'src/utils/formatting'
 
 interface Props {
   recipient: Recipient
@@ -57,6 +62,7 @@ function useTransactionCallbacks({
     approximateLocalAmount,
   ])
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const localCurrencyExchangeRate = useSelector(localCurrencyExchangeRatesSelector)[
     transferCurrency
   ]
@@ -117,6 +123,7 @@ function useTransactionCallbacks({
     Currency.Dollar,
     transferCurrency
   )
+  const minimumAmount = roundUp(amountInStableCurrency?.plus(estimateFeeDollars || 0) ?? 0, 2)
 
   const onSend = useCallback(() => {
     if (!stableBalance || !amountInStableCurrency) {
@@ -131,7 +138,16 @@ function useTransactionCallbacks({
     const isStableTokenBalanceSufficient = isAmountValid && newAccountBalance.isGreaterThan(0)
 
     if (!isStableTokenBalanceSufficient) {
-      dispatch(showError(ErrorMessages.NSF_TO_SEND))
+      const localAmountNeeded = convertDollarsToLocalAmount(
+        minimumAmount,
+        localCurrencyExchangeRate
+      )
+      dispatch(
+        showError(ErrorMessages.NSF_TO_SEND, null, {
+          amountNeeded: localAmountNeeded,
+          currencySymbol: localCurrencySymbol,
+        })
+      )
       return
     }
 
