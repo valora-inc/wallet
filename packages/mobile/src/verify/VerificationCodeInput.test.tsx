@@ -10,7 +10,7 @@ import { mockAttestationMessage } from 'test/values'
 // TODO: Add better tests for this
 describe('VerificationCodeInput', () => {
   const store = createMockStore({
-    verify: {
+    identity: {
       attestationCodes: [
         { code: 'longCode', shortCode: '1', issuer: '10' },
         { code: 'longCode2', shortCode: '2', issuer: '20' },

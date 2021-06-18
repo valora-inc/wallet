@@ -254,7 +254,7 @@ export type StackParamList = {
     | { showSkipDialog?: boolean; hideOnboardingStep?: boolean; selectedCountryCodeAlpha2?: string }
     | undefined
   [Screens.VerificationInputScreen]: { showHelpDialog: boolean } | undefined
-  [Screens.VerificationLoadingScreen]: undefined
+  [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectSessionRequest]: {

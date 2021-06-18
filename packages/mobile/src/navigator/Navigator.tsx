@@ -525,8 +525,7 @@ const mapStateToProps = (state: RootState) => {
     pincodeType: state.account.pincodeType,
     redeemComplete: state.invite.redeemComplete,
     account: state.web3.account,
-    numberIsVerified: state.app.numberVerified,
-    hasSeenVerificationNux: state.verify.seenVerificationNux,
+    hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
     askedContactsPermission: state.identity.askedContactsPermission,
   }
 }
@@ -544,7 +543,6 @@ export function MainStackScreen() {
       acceptedTerms,
       pincodeType,
       redeemComplete,
-      numberIsVerified,
       hasSeenVerificationNux,
     } = mapStateToProps(store.getState())
 
@@ -559,7 +557,7 @@ export function MainStackScreen() {
       initialRoute = choseToRestoreAccount
         ? Screens.ImportWallet
         : Screens.OnboardingEducationScreen
-    } else if (!numberIsVerified && !hasSeenVerificationNux) {
+    } else if (!hasSeenVerificationNux) {
       initialRoute = Screens.VerificationEducationScreen
     } else {
       initialRoute = Screens.DrawerNavigator
