@@ -264,6 +264,10 @@ describe('Redux persist migrations', () => {
         ...v14Schema.stableToken,
         balance: '150',
       },
+      escrow: {
+        isReclaiming: true,
+        sentEscrowedPayments: [{ object: 'with keys' }],
+      },
     })
     expect(migratedSchema.localCurrency.exchangeRates).toBeDefined()
     expect(migratedSchema.localCurrency.exchangeRates[Currency.Dollar]).toEqual(
@@ -271,5 +275,7 @@ describe('Redux persist migrations', () => {
     )
     expect(migratedSchema.stableToken.balance).toBeNull()
     expect(migratedSchema.stableToken.balances[Currency.Dollar]).toEqual('150')
+    expect(migratedSchema.escrow.isReclaiming).toBeFalsy()
+    expect(migratedSchema.escrow.sentEscrowedPayments.length).toEqual(0)
   })
 })

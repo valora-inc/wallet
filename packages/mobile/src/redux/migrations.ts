@@ -262,5 +262,9 @@ export const migrations = {
         [Currency.Euro]: null,
       },
     },
+    escrow: {
+      isReclaiming: false,
+      sentEscrowedPayments: [],
+    },
   }),
 }
