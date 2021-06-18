@@ -6,61 +6,7 @@ import { saveTxHashProvider } from '../firebase'
 import { CashInStatus, Providers } from './Providers'
 
 const MOONPAY_SIGNATURE_HEADER = 'Moonpay-Signature-V2'
-
-function verifyMoonPaySignature(signatureHeader: string | undefined, body: string) {
-  if (!signatureHeader) {
-    return false
-  }
-
-  const [first, second] = signatureHeader.split(',')
-  const timestamp = first.split('=')[1]
-  const signature = second.split('=')[1]
-  const signedPayload = `${timestamp}.${body}`
-
-  const hmac = crypto.createHmac('sha256', MOONPAY_DATA.webhook_key)
-  hmac.write(signedPayload)
-  hmac.end()
-
-  const expectedSignature = Buffer.from(hmac.read().toString('hex'))
-  const signatureBuffer = Buffer.from(signature)
-  return Buffer.compare(signatureBuffer, expectedSignature) === 0
-}
-
-async function trackMoonpayEvent(body: any) {
-  const {
-    data: { id, walletAddress, status, failureReason },
-    type,
-  } = body
-  if (MoonpayWebhookType.Started === type) {
-    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      type: 'BUY',
-      id,
-      provider: Providers.Moonpay,
-      status: CashInStatus.Started,
-      timestamp: Date.now() / 1000,
-      user_address: walletAddress,
-    })
-  } else if (status === MoonpayTxStatus.Failed) {
-    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      type: 'BUY',
-      id,
-      provider: Providers.Moonpay,
-      status: CashInStatus.Failure,
-      timestamp: Date.now() / 1000,
-      user_address: walletAddress,
-      failure_reason: failureReason,
-    })
-  } else if (status === MoonpayTxStatus.Completed) {
-    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      type: 'BUY',
-      id,
-      provider: Providers.Moonpay,
-      status: CashInStatus.Success,
-      timestamp: Date.now() / 1000,
-      user_address: walletAddress,
-    })
-  }
-}
+const MOONPAY_BIG_QUERY_EVENT_TABLE = 'cico_moonpay_events'
 
 // https://www.moonpay.com/dashboard/api_reference/client_side_api/#transactions
 interface MoonpayTransaction {
@@ -121,10 +67,67 @@ interface MoonpayRequestBody {
   data: MoonpayTransaction
 }
 
+function verifyMoonPaySignature(signatureHeader: string | undefined, body: string) {
+  if (!signatureHeader) {
+    return false
+  }
+
+  const [first, second] = signatureHeader.split(',')
+  const timestamp = first.split('=')[1]
+  const signature = second.split('=')[1]
+  const signedPayload = `${timestamp}.${body}`
+
+  const hmac = crypto.createHmac('sha256', MOONPAY_DATA.webhook_key)
+  hmac.write(signedPayload)
+  hmac.end()
+
+  const expectedSignature = Buffer.from(hmac.read().toString('hex'))
+  const signatureBuffer = Buffer.from(signature)
+  return Buffer.compare(signatureBuffer, expectedSignature) === 0
+}
+
+async function trackMoonpayEvent(body: any) {
+  const {
+    data: { id, walletAddress, status, failureReason },
+    type,
+  } = body
+  if (MoonpayWebhookType.Started === type) {
+    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      type: 'BUY',
+      id,
+      provider: Providers.Moonpay,
+      status: CashInStatus.Started,
+      timestamp: Date.now() / 1000,
+      user_address: walletAddress,
+    })
+  } else if (status === MoonpayTxStatus.Failed) {
+    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      type: 'BUY',
+      id,
+      provider: Providers.Moonpay,
+      status: CashInStatus.Failure,
+      timestamp: Date.now() / 1000,
+      user_address: walletAddress,
+      failure_reason: failureReason,
+    })
+  } else if (status === MoonpayTxStatus.Completed) {
+    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
+      type: 'BUY',
+      id,
+      provider: Providers.Moonpay,
+      status: CashInStatus.Success,
+      timestamp: Date.now() / 1000,
+      user_address: walletAddress,
+    })
+  }
+}
+
 export const moonpayWebhook = functions.https.onRequest(async (request, response) => {
-  if (
-    verifyMoonPaySignature(request.header(MOONPAY_SIGNATURE_HEADER), JSON.stringify(request.body))
-  ) {
+  const validSignature = verifyMoonPaySignature(
+    request.header(MOONPAY_SIGNATURE_HEADER),
+    JSON.stringify(request.body)
+  )
+  if (validSignature) {
     await trackMoonpayEvent(request.body)
     const {
       data: { walletAddress, cryptoTransactionId },
