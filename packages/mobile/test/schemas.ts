@@ -639,6 +639,21 @@ export const v14Schema = {
   },
 }
 
+export const v15Schema = {
+  ...v14Schema,
+  _persist: {
+    ...v14Schema._persist,
+    version: 15,
+  },
+  // Here we go back to the v9 test schema (i.e. migration 12, app version 1.14.3), because we reverted the verification PR which broke completion rate
+  identity: {
+    ...v9Schema.identity,
+  },
+  verify: {
+    ...v9Schema.verify,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v14Schema as Partial<RootState>
+  return v15Schema as Partial<RootState>
 }
