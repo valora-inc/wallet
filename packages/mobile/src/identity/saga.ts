@@ -27,7 +27,9 @@ import {
   AddressValidationType,
   e164NumberToAddressSelector,
 } from 'src/identity/reducer'
+import { revokeVerificationSaga } from 'src/identity/revoke'
 import { validateAndReturnMatch } from 'src/identity/secureSend'
+import { reportRevealStatusSaga, startVerificationSaga } from 'src/identity/verification'
 import { recipientHasNumber } from 'src/recipients/recipient'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
@@ -114,6 +116,11 @@ function* fetchKnownAddresses() {
   }
 }
 
+function* watchVerification() {
+  yield takeLatest(Actions.START_VERIFICATION, startVerificationSaga)
+  yield takeLeading(Actions.REVOKE_VERIFICATION, revokeVerificationSaga)
+}
+
 function* watchContactMapping() {
   yield takeLeading(Actions.IMPORT_CONTACTS, doImportContactsWrapper)
   yield takeEvery(Actions.FETCH_ADDRESSES_AND_VALIDATION_STATUS, fetchAddressesAndValidateSaga)
@@ -131,13 +138,19 @@ function* watchFetchDataEncryptionKey() {
   yield takeLeading(Actions.FETCH_DATA_ENCRYPTION_KEY, fetchDataEncryptionKeyWrapper)
 }
 
+function* watchReportRevealStatus() {
+  yield takeEvery(Actions.REPORT_REVEAL_STATUS, reportRevealStatusSaga)
+}
+
 export function* identitySaga() {
   Logger.debug(TAG, 'Initializing identity sagas')
   try {
+    yield spawn(watchVerification)
     yield spawn(watchContactMapping)
     yield spawn(watchValidateRecipientAddress)
     yield spawn(watchNewFeedTransactions)
     yield spawn(watchFetchDataEncryptionKey)
+    yield spawn(watchReportRevealStatus)
     yield spawn(fetchKnownAddresses)
   } catch (error) {
     Logger.error(TAG, 'Error initializing identity sagas', error)

@@ -3,8 +3,9 @@ import { PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
-import { idle, KomenciAvailable, NUM_ATTESTATIONS_REQUIRED } from 'src/verify/module'
+import { idle, KomenciAvailable } from 'src/verify/reducer'
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
