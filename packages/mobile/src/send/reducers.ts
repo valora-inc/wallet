@@ -23,6 +23,7 @@ export interface State {
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   lastUsedCurrency: Currency
+  showSendToAddressWarning: boolean
 }
 
 const initialState = {
@@ -33,6 +34,7 @@ const initialState = {
   inviteRewardCusd: 0,
   inviteRewardWeeklyLimit: 0,
   lastUsedCurrency: Currency.Dollar,
+  showSendToAddressWarning: true,
 }
 
 export const sendReducer = (
@@ -51,7 +53,7 @@ export const sendReducer = (
     }
     case Actions.SEND_PAYMENT_OR_INVITE:
       return {
-        ...state,
+        ...storeLatestRecentReducer(state, action.recipient),
         isSending: true,
       }
     case Actions.SEND_PAYMENT_OR_INVITE_SUCCESS:
@@ -71,8 +73,6 @@ export const sendReducer = (
         ...state,
         isSending: false,
       }
-    case Actions.STORE_LATEST_IN_RECENTS:
-      return storeLatestRecentReducer(state, action.recipient)
     case AppActions.UPDATE_FEATURE_FLAGS:
       return {
         ...state,
@@ -84,6 +84,11 @@ export const sendReducer = (
       return {
         ...state,
         lastUsedCurrency: action.currency,
+      }
+    case Actions.SET_SHOW_WARNING:
+      return {
+        ...state,
+        showSendToAddressWarning: action.showWarning,
       }
     default:
       return state
