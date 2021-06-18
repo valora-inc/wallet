@@ -8,7 +8,6 @@ import {
 import { privateKeyToAddress } from '@celo/utils/lib/address'
 import * as bip39 from 'react-native-bip39'
 import {
-  all,
   call,
   cancel,
   delay,
@@ -154,7 +153,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
 function* attemptBackupPhraseCorrection(mnemonic: string) {
   // Counter of how many suggestions have been tried and a list of tasks for ongoing balance checks.
   let counter = 0
-  let tasks: { index: number; suggestion: string; task: Task }[] = []
+  let tasks: { index: number; suggestion: string; task: Task; done: boolean }[] = []
   for (const suggestion of suggestMnemonicCorrections(mnemonic)) {
     Logger.info(
       TAG + '@attemptBackupPhraseCorrection',
@@ -179,38 +178,61 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
       index: counter,
       suggestion,
       task: yield fork(walletHasBalance, privateKeyToAddress(privateKey)),
+      done: false,
     })
     if (tasks.length >= MAX_BALANCE_CHECK_TASKS) {
       yield race(tasks.map(({ task }) => join(task)))
     }
 
-    // Check the results of any balance check tasks that have finished and prune any balance check
-    // tasks from the list that are no longer running.
-    const completed = tasks.filter(({ task }) => task.result() !== undefined)
-    tasks = tasks.filter(({ task }) => task.isRunning())
-    for (const task of completed) {
-      if (task.task.result()) {
+    // Check the results of any balance check tasks. Prune any that have finished, and leave those
+    // that are still running. If any return a positive result, cancel remaining tasks and return.
+    for (const task of tasks) {
+      const result = task.task.result()
+      if (result === undefined) {
+        continue
+      }
+      // Erase the task to mark that it has been checked.
+      task.done = true
+
+      if (result) {
         Logger.info(
           TAG + '@attemptBackupPhraseCorrection',
           `Found correction phrase with balance in attempt ${task.index}`
         )
+        // Cancel any remaining tasks.
         cancel(tasks.map(({ task }) => task))
         return task.suggestion
       }
     }
+    tasks = tasks.filter((task) => !task.done)
   }
   return undefined
 }
 
+/**
+ * Check the CELO, cUSD, and cEUR balances of the given address, returning true if any are greater
+ * than zero. Returns as soon as a single balance check request comes back positive.
+ */
 function* walletHasBalance(address: string) {
   Logger.debug(TAG + '@walletHasBalance', 'Checking account balance')
-  const { dollarBalance, goldBalance } = yield all({
-    // TODO(victor): Add cEUR balance check here.
-    dollarBalance: call(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.DOLLAR, address),
-    goldBalance: call(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.GOLD, address),
-  })
+  let requests = [
+    yield fork(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.DOLLAR, address),
+    yield fork(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.EURO, address),
+    yield fork(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.GOLD, address),
+  ]
+  while (requests.length > 0) {
+    const balances = yield race(requests.map((req) => join(req)))
+    for (const balance of balances) {
+      if (balance?.isGreaterThan(0)) {
+        // Cancel any remaining requests.
+        cancel(requests)
+        return true
+      }
+    }
+    requests = requests.filter((_, i) => balances[i] === undefined)
+  }
 
-  return dollarBalance.isGreaterThan(0) || goldBalance.isGreaterThan(0)
+  return false
 }
 
 export function* watchImportBackupPhrase() {

@@ -1,7 +1,9 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { call, delay, select } from 'redux-saga/effects'
+import { dynamic } from 'redux-saga-test-plan/providers'
+import { call, fork, delay, select } from 'redux-saga/effects'
+import { createMockTask } from '@redux-saga/testing-utils'
 import { setBackupCompleted } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
@@ -33,13 +35,28 @@ const mockValidSpanishPhrase =
 // Account derived from the English mnemonic above.
 const mockAccount = '0xb43FBBBF76973b64e0980f5f4781d7cE9A7DBDDb'
 
+// Creates a mock task factory to use as a synamic value for redux-saga-test-plan mock.
+// If not value is provided, the task will never complete.
+const mockBalanceTask = (value?: number) => {
+  return () => {
+    const task = createMockTask()
+    if (value !== undefined) {
+      task.setResult(new BigNumber(value))
+      task.setRunning(false)
+      // @ts-ignore Add an undocumented method, called by join, to Task ಠ_ಠ
+      task.isAborted = () => false
+    }
+    return task
+  }
+}
+
 describe('Import wallet saga', () => {
   const expectSuccessfulSagaWithPhrase = async (phrase: string) => {
     // @ts-ignore
     await expectSaga(importBackupPhraseSaga, { phrase, useEmptyWallet: false })
       .provide([
         [call(waitWeb3LastBlock), true],
-        [matchers.call.fn(fetchTokenBalanceInWeiWithRetry), new BigNumber(10)],
+        [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(10))],
         [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
         [call(storeMnemonic, phrase, mockAccount), true],
         [select(recoveringFromStoreWipeSelector), false],
@@ -69,7 +86,7 @@ describe('Import wallet saga', () => {
       .provide([
         [call(waitWeb3LastBlock), true],
         [select(currentLanguageSelector), 'english'],
-        [matchers.call.fn(fetchTokenBalanceInWeiWithRetry), new BigNumber(0)],
+        [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
         [delay(MNEMONIC_AUTOCORRECT_TIMEOUT), true],
       ])
       .put(showError(ErrorMessages.INVALID_BACKUP_PHRASE))
@@ -88,10 +105,10 @@ describe('Import wallet saga', () => {
         [select(currentLanguageSelector), 'english'],
         // Respond only to the true correct address with a positive balance.
         [
-          call(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.DOLLAR, mockAccount),
-          new BigNumber(10),
+          fork(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.DOLLAR, mockAccount),
+          dynamic(mockBalanceTask(10)),
         ],
-        [matchers.call.fn(fetchTokenBalanceInWeiWithRetry), new BigNumber(0)],
+        [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask())],
         [matchers.call.fn(assignAccountFromPrivateKey), mockAccount],
         [call(storeMnemonic, mockPhraseValid, mockAccount), true],
         [select(recoveringFromStoreWipeSelector), false],
@@ -113,7 +130,7 @@ describe('Import wallet saga', () => {
       .provide([
         [call(waitWeb3LastBlock), true],
         [select(currentLanguageSelector), 'english'],
-        [matchers.call.fn(fetchTokenBalanceInWeiWithRetry), new BigNumber(0)],
+        [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
         [delay(MNEMONIC_AUTOCORRECT_TIMEOUT), true],
       ])
       .put(showError(ErrorMessages.INVALID_WORDS_IN_BACKUP_PHRASE, null, { invalidWords: '' }))
@@ -127,7 +144,7 @@ describe('Import wallet saga', () => {
       .provide([
         [call(waitWeb3LastBlock), true],
         [select(currentLanguageSelector), 'english'],
-        [matchers.call.fn(fetchTokenBalanceInWeiWithRetry), new BigNumber(0)],
+        [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
       ])
       .run()
 
