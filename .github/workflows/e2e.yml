@@ -43,3 +43,11 @@ jobs:
           cd packages/mobile
           yarn run detox build-framework-cache
           yarn run test:e2e:ios -w 2
+      - name: 'Upload E2E Artifacts'
+        uses: actions/upload-artifact@v2
+        with:
+          path: packages/mobile/e2e/artifacts
+      - name: 'Upload E2E Test Results'
+        uses: actions/upload-artifact@v2
+        with:
+          path: packages/mobile/e2e/test-results
