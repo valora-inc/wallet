@@ -637,6 +637,10 @@ export const v14Schema = {
       ipAddress: null,
     },
   },
+  send: {
+    ...v13Schema.send,
+    showSendToAddressWarning: true,
+  },
 }
 
 export const v15Schema = {

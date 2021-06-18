@@ -60,6 +60,7 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchStableBalances } from 'src/stableToken/actions'
 import { cUsdBalanceSelector } from 'src/stableToken/reducer'
 import { Currency } from 'src/utils/currencies'
+import { roundUp } from 'src/utils/formatting'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
 
@@ -181,6 +182,7 @@ function SendAmount(props: Props) {
 
   const isAmountValid = parsedLocalAmount.isGreaterThanOrEqualTo(DOLLAR_TRANSACTION_MIN_AMOUNT)
   const isDollarBalanceSufficient = isAmountValid && newAccountBalance.isGreaterThan(0)
+  const minimumAmount = roundUp(dollarAmount.plus(estimateFeeDollars || 0), 2)
 
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
   const addressValidationType: AddressValidationType = getAddressValidationType(
@@ -245,7 +247,16 @@ function SendAmount(props: Props) {
 
   const onSend = React.useCallback(() => {
     if (!isDollarBalanceSufficient) {
-      dispatch(showError(ErrorMessages.NSF_TO_SEND))
+      const localAmountNeeded = convertDollarsToLocalAmount(
+        minimumAmount,
+        localCurrencyExchangeRate
+      )
+      dispatch(
+        showError(ErrorMessages.NSF_TO_SEND, null, {
+          amountNeeded: localAmountNeeded,
+          currencySymbol: localCurrencySymbol,
+        })
+      )
       return
     }
 
@@ -275,7 +286,16 @@ function SendAmount(props: Props) {
         origin,
       })
     }
-  }, [recipientVerificationStatus, addressValidationType, dollarAmount, getTransactionData, origin])
+  }, [
+    recipientVerificationStatus,
+    addressValidationType,
+    dollarAmount,
+    getTransactionData,
+    origin,
+    minimumAmount,
+    localCurrencyExchangeRate,
+    localCurrencySymbol,
+  ])
 
   const onRequest = React.useCallback(() => {
     if (dollarAmount.isGreaterThan(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD)) {

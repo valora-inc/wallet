@@ -31,7 +31,6 @@ import {
   recipientHasAddress,
   recipientHasNumber,
 } from 'src/recipients/recipient'
-import { storeLatestInRecents } from 'src/send/actions'
 import { PaymentInfo } from 'src/send/reducers'
 import { getRecentPayments } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
@@ -201,7 +200,6 @@ export function* handleSendPaymentData(
     thumbnailPath: cachedRecipient?.thumbnailPath,
     contactId: cachedRecipient?.contactId,
   }
-  yield put(storeLatestInRecents(recipient))
   yield put(
     updateValoraRecipientCache({
       [data.address.toLowerCase()]: recipient,
