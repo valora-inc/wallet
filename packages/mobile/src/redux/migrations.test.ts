@@ -258,10 +258,18 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema.networkInfo.userLocationData.countryCodeAlpha2).toEqual(null)
   })
   it('works for v14 to v15', () => {
-    const migratedSchema = migrations[15](v14Schema)
+    const migratedSchema = migrations[15]({
+      ...v14Schema,
+      stableToken: {
+        ...v14Schema.stableToken,
+        balance: '150',
+      },
+    })
     expect(migratedSchema.localCurrency.exchangeRates).toBeDefined()
     expect(migratedSchema.localCurrency.exchangeRates[Currency.Dollar]).toEqual(
       v14Schema.localCurrency.exchangeRate
     )
+    expect(migratedSchema.stableToken.balance).toBeNull()
+    expect(migratedSchema.stableToken.balances[Currency.Dollar]).toEqual('150')
   })
 })
