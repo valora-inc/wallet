@@ -30,14 +30,14 @@ jobs:
       - run: yarn run lint
   mobile-tests:
     name: Mobile Tests
-    runs-on: macos-11
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
           check-latest: true
-      - run: brew install rsync
+      - run: sudo apt-get update -y && sudo apt-get install rsync -y
       - run: yarn
       - run: yarn build --ignore docs
       - run: |
