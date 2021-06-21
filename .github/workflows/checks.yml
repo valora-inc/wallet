@@ -39,6 +39,7 @@ jobs:
           check-latest: true
       - run: brew install rsync
       - run: yarn
+      - run: yarn build --ignore docs
       - run: |
           if [[ "${GITHUB_REF##*/}" != l10n/* ]]; then
             # We want to check translations only when they are complete
