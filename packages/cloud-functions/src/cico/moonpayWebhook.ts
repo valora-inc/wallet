@@ -1,9 +1,9 @@
 import crypto from 'crypto'
 import * as functions from 'firebase-functions'
 import { trackEvent } from '../bigQuery'
-import { BIGQUERY_PROVIDER_STATUS_TABLE, MOONPAY_DATA } from '../config'
+import { MOONPAY_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
-import { CashInStatus, Providers } from './Providers'
+import { Providers } from './Providers'
 
 const MOONPAY_SIGNATURE_HEADER = 'Moonpay-Signature-V2'
 const MOONPAY_BIG_QUERY_EVENT_TABLE = 'cico_moonpay_events'
@@ -20,7 +20,7 @@ interface MoonpayTransaction {
   networkFeeAmount: number
   areFeesIncluded: boolean
   status: MoonpayTxStatus
-  failureReason: string
+  failureReason: MoonpayFailureReason | null
   walletAddress: string
   walletAddressTag: string
   cryptoTransactionId: string
@@ -52,6 +52,23 @@ enum MoonpayTxStatus {
   Completed = 'completed',
 }
 
+enum MoonpayFailureReason {
+  card_not_supported = 'card_not_supported ',
+  daily_purchase_limit_exceeded = 'daily_purchase_limit_exceeded ',
+  payment_authorization_declined = 'payment_authorization_declined ',
+  timeout_3d_secure = 'timeout_3d_secure ',
+  timeout_bank_transfer = 'timeout_bank_transfer ',
+  timeout_kyc_verification = 'timeout_kyc_verification ',
+  timeout_card_verification = 'timeout_card_verification ',
+  rejected_kyc = 'rejected_kyc ',
+  rejected_card = 'rejected_card ',
+  rejected_other = 'rejected_other ',
+  cancelled = 'cancelled ',
+  refund = 'refund ',
+  failed_testnet_withdrawal = 'failed_testnet_withdrawal ',
+  error = 'error ',
+}
+
 enum MoonpayWebhookType {
   Started = 'transaction_started',
   Failed = 'transaction_failed',
@@ -67,7 +84,7 @@ interface MoonpayRequestBody {
   data: MoonpayTransaction
 }
 
-function verifyMoonPaySignature(signatureHeader: string | undefined, body: string) {
+const verifyMoonPaySignature = (signatureHeader: string | undefined, body: string) => {
   if (!signatureHeader) {
     return false
   }
@@ -86,66 +103,31 @@ function verifyMoonPaySignature(signatureHeader: string | undefined, body: strin
   return Buffer.compare(signatureBuffer, expectedSignature) === 0
 }
 
-async function trackMoonpayEvent(body: any) {
-  const {
-    data: { id, walletAddress, status, failureReason },
-    type,
-  } = body
-  if (MoonpayWebhookType.Started === type) {
-    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      type: 'BUY',
-      id,
-      provider: Providers.Moonpay,
-      status: CashInStatus.Started,
-      timestamp: Date.now() / 1000,
-      user_address: walletAddress,
-    })
-  } else if (status === MoonpayTxStatus.Failed) {
-    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      type: 'BUY',
-      id,
-      provider: Providers.Moonpay,
-      status: CashInStatus.Failure,
-      timestamp: Date.now() / 1000,
-      user_address: walletAddress,
-      failure_reason: failureReason,
-    })
-  } else if (status === MoonpayTxStatus.Completed) {
-    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      type: 'BUY',
-      id,
-      provider: Providers.Moonpay,
-      status: CashInStatus.Success,
-      timestamp: Date.now() / 1000,
-      user_address: walletAddress,
-    })
-  }
-}
-
 export const moonpayWebhook = functions.https.onRequest(async (request, response) => {
   const validSignature = verifyMoonPaySignature(
     request.header(MOONPAY_SIGNATURE_HEADER),
     JSON.stringify(request.body)
   )
+
   if (validSignature) {
-    await trackMoonpayEvent(request.body)
-    const {
-      data: { walletAddress, cryptoTransactionId },
+    const { type, data }: MoonpayRequestBody = request.body
+
+    await trackEvent(MOONPAY_BIG_QUERY_EVENT_TABLE, {
       type,
-    }: MoonpayRequestBody = request.body
-    console.info(
-      'Received MoonPay webhook',
-      type,
-      'Address:',
-      walletAddress,
-      'TxHash:',
-      cryptoTransactionId
-    )
+      ...data,
+      bankDepositInformation: JSON.stringify(data.bankDepositInformation),
+      stages: JSON.stringify(data.stages),
+    })
+
+    const { walletAddress, cryptoTransactionId } = data
+
+    console.info(`Received MoonPay webhook of type ${type} for ${walletAddress}`)
 
     if (cryptoTransactionId) {
+      console.info(`Tx hash: ${cryptoTransactionId}`)
       saveTxHashProvider(walletAddress, cryptoTransactionId, Providers.Moonpay)
     } else {
-      console.error('Tx hash not found on MoonPay webhook')
+      console.info('Tx hash not found on MoonPay event')
     }
     response.status(204).send()
   } else {
