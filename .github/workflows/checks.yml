@@ -49,4 +49,4 @@ jobs:
           yarn --cwd packages/mobile test:verify-locales
       - run: |
           mkdir -p test-results/jest
-          NODE_OPTIONS="--max-old-space-size=8192 --optimize-for-size" yarn --cwd packages/mobile test:ci --runInBand
+          yarn --cwd packages/mobile test:ci --runInBand
