@@ -46,3 +46,6 @@ jobs:
           fi
           cd packages/mobile
           yarn --cwd packages/mobile test:verify-locales
+      - run: |
+          mkdir -p test-results/jest
+          NODE_OPTIONS="--max-old-space-size=4096" yarn --cwd packages/mobile test:ci --runInBand
