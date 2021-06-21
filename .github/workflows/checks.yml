@@ -28,3 +28,21 @@ jobs:
       - run: yarn
       - run: yarn run prettify:diff
       - run: yarn run lint
+  mobile-tests:
+    name: Mobile Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          check-latest: true
+      - run: sudo apt-get update -y && sudo apt-get install rsync -y
+      - run: |
+          if [[ "${GITHUB_REF##*/}" != l10n/* ]]; then
+            # We want to check translations only when they are complete
+            echo "Skipping translations check on non l10n branches"
+            exit 0
+          fi
+          cd packages/mobile
+          yarn --cwd packages/mobile test:verify-locales
