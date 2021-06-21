@@ -30,14 +30,14 @@ jobs:
       - run: yarn run lint
   mobile-tests:
     name: Mobile Tests
-    runs-on: ubuntu-latest
+    runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
           check-latest: true
-      - run: sudo apt-get update -y && sudo apt-get install rsync -y
+      - run: brew install rsync
       - run: yarn
       - run: |
           if [[ "${GITHUB_REF##*/}" != l10n/* ]]; then
