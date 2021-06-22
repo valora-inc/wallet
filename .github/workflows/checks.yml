@@ -53,8 +53,4 @@ jobs:
       - name: Run mobile tests
         run: |
           mkdir -p test-results/jest
-          yarn --cwd packages/mobile test:ci --runInBand
-      - name: 'Upload Test Results'
-        uses: actions/upload-artifact@v2
-        with:
-          path: test-results
+          yarn --cwd packages/mobile test:ci
