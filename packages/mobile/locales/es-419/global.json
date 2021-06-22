@@ -46,7 +46,7 @@
   "missingFullName": "El nombre no puede estar vacío",
   "invalidPhone": "Número de teléfono inválido",
   "cantSelectInvalidPhone": "No se puede seleccionar el contacto: número de teléfono no válido",
-  "needMoreFundsToSend": "Deberías tener {{currencySymbol}}{{amountNeeded}} para realizar esta transacción. Por favor, añade fondos o intenta enviar menos.",
+  "needMoreFundsToSend": "Debes tener {{amountNeeded}} {{currencySymbol}} para realizar esta transacción. Por favor, añade fondos o intenta enviar menos.",
   "maxEscrowTransferExceeded": "La cantidad máxima que puedes intercambiar con usuarios no confirmados es de {{symbol}}{{maxAmount}}",
   "invalidAmount": "Monto invalido",
   "invalidCode": "Código de confirmación inválido",
