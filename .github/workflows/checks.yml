@@ -9,6 +9,18 @@ on:
   pull_request:
 
 jobs:
+  vulnerability:
+    name: Vulnerability
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          check-latest: true
+      - run: yarn
+      - run: yarn build --ignore docs
+      - run: ./scripts/ci_check_vulnerabilities.sh
   lint:
     name: Lint
     runs-on: ubuntu-latest
