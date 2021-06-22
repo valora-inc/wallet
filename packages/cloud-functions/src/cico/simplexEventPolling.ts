@@ -3,7 +3,7 @@ import { trackEvent } from '../bigQuery'
 import { DigitalAsset, FiatCurrency, SIMPLEX_DATA } from '../config'
 import { fetchWithTimeout, flattenObject, lookupAddressFromTxId } from './utils'
 
-const SIMPLEX_BIG_QUERY_EVENT_TABLE = 'cico_simplex_events'
+const SIMPLEX_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_simplex'
 
 // https://integrations.simplex.com/wallet-api-integration#events-api_group
 interface SimplexEventPayload {
@@ -89,12 +89,10 @@ export const simplexEventPolling = functions.https.onRequest(async (req, res) =>
           : console.info(`No user address found for txId ${txId}`)
 
         try {
-          const eventTracked = await trackEvent(SIMPLEX_BIG_QUERY_EVENT_TABLE, flattenObject(event))
-          if (eventTracked) {
-            await deleteSimplexEvent(event)
-          }
+          await trackEvent(SIMPLEX_BIG_QUERY_EVENT_TABLE, flattenObject(event))
+          await deleteSimplexEvent(event)
         } catch (error) {
-          console.error("Couldn't track event: ", error)
+          console.error("Couldn't track or delete event: ", JSON.stringify(error))
         }
       })
     )

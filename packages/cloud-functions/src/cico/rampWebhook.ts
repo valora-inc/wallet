@@ -3,75 +3,81 @@ import stableStringify from 'fast-json-stable-stringify'
 import * as functions from 'firebase-functions'
 import { readFileSync } from 'fs'
 import { trackEvent } from '../bigQuery'
-import { BIGQUERY_PROVIDER_STATUS_TABLE, RAMP_DATA } from '../config'
+import { RAMP_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
-import { CashInStatus, Providers } from './Providers'
+import { Providers } from './Providers'
+import { flattenObject } from './utils'
 
-const rampKey = readFileSync(`./config/${RAMP_DATA.pem_file}`).toString()
+const RAMP_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_ramp'
+const RAMP_KEY = readFileSync(`./config/${RAMP_DATA.pem_file}`).toString()
+const RAMP_SIGNATURE_HEADER = 'X-Body-Signature'
 
-function verifyRampSignature(signature: string | undefined, body: RampRequestBody) {
-  if (!signature || !body) {
-    return false
-  }
-
-  const verifier = crypto.createVerify('sha256')
-  verifier.update(Buffer.from(stableStringify(body)))
-  return verifier.verify(rampKey, signature, 'base64')
+interface RampRequestBody {
+  type: RampWebhookType
+  purchase: RampPurchase
 }
 
-async function trackRampEvent(body: any) {
-  const {
-    type,
-    purchase: { id, receiverAddress, status },
-  } = body
-  if (RampWebhookType.Created === type) {
-    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      type: 'BUY',
-      id,
-      provider: Providers.Ramp,
-      status: CashInStatus.Started,
-      timestamp: Date.now() / 1000,
-      user_address: receiverAddress,
-    })
-  } else if (status === PurchaseStatus.Expired || status === PurchaseStatus.Cancelled) {
-    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      type: 'BUY',
-      id,
-      provider: Providers.Ramp,
-      status: CashInStatus.Failure,
-      timestamp: Date.now() / 1000,
-      user_address: receiverAddress,
-      failure_reason: status,
-    })
-  } else if (PurchaseStatus.Released === status) {
-    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      type: 'BUY',
-      id,
-      provider: Providers.Ramp,
-      status: CashInStatus.Success,
-      timestamp: Date.now() / 1000,
-      user_address: receiverAddress,
-    })
-  }
+enum RampWebhookType {
+  Created = 'CREATED',
+  Released = 'RELEASED',
+  Returned = 'RETURNED',
+  Error = 'ERROR',
 }
+
 interface RampPurchase {
-  id: number
-  endTime: string | null // datestring
-  asset: AssetInfo // description of the purchased asset (address, symbol, name, decimals)
-  escrowAddress?: string
-  receiverAddress: string // blockchain address of the buyer
-  cryptoAmount: string // number-string, in wei or token units
-  fiatCurrency: string // three-letter currency code
-  fiatValue: string // number-string
+  status: PurchaseStatus
+  escrowAddress: string | null
+  networkFee: number
+  paymentMethodType: string
+  purchaseViewToken: string
+  assetExchangeRateEur: number
+  createdAt: string
+  receiverAddress: string
+  fiatCurrency: string
+  actions: RampAction[]
+  endTime: string
   assetExchangeRate: number
-  poolFee?: string // number-string, seller fee for escrow-based purchases
-  rampFee: string // number-string, Ramp fee
-  escrowDetailsHash?: string // hash of purchase details used on-chain for escrow-based purchases
-  finalTxHash?: string // hash of the crypto transfer blockchain transaction, filled once available
-  createdAt: string // ISO date-time string
-  updatedAt: string // ISO date-time string
-  status: PurchaseStatus // See available values below
+  fiatExchangeRateEur: number
+  finalTxHash?: string
+  id: string
+  asset: AssetInfo
+  cryptoAmount: string
+  baseRampFee: number
+  fiatValue: number
+  updatedAt: string
+  appliedFee: number
 }
+
+interface RampAction {
+  timestamp: string
+  newStatus: string
+}
+// type: STRING,
+// status: STRING,
+// escrowAddress: STRING,
+// networkFee: FLOAT,
+// paymentMethodType: STRING,
+// purchaseViewToken: STRING,
+// assetExchangeRateEur: FLOAT,
+// createdAt: TIMESTAMP,
+// receiverAddress: STRING,
+// fiatCurrency: STRING,
+// actions: STRING,
+// endTime: TIMESTAMP,
+// assetExchangeRate: FLOAT,
+// fiatExchangeRateEur: FLOAT,
+// finalTxHash: STRING,
+// id: STRING,
+// asset_address: STRING,
+// asset_symbol: STRING ,
+// asset_type: STRING,
+// asset_name: STRING,
+// asset_decimals: FLOAT,
+// cryptoAmount: STRING,
+// baseRampFee: FLOAT,
+// fiatValue: FLOAT,
+// updatedAt: TIMESTAMP,
+// appliedFee: FLOAT
 
 enum PurchaseStatus {
   Initialized = 'INITIALIZED', // The purchase was initialized.
@@ -90,45 +96,55 @@ enum PurchaseStatus {
 interface AssetInfo {
   address: string | null // 0x-prefixed address for ERC-20 tokens, `null` for ETH
   symbol: string // asset symbol, for example `ETH`, `DAI`, `USDC`
+  type: string
   name: string
   decimals: number // token decimals, e.g. 18 for ETH/DAI, 6 for USDC
 }
 
-enum RampWebhookType {
-  Created = 'CREATED',
-  Released = 'RELEASED',
-  Returned = 'RETURNED',
-  Error = 'ERROR',
+const verifyRampSignature = (signature: string | undefined, body: RampRequestBody) => {
+  if (!signature || !body) {
+    return false
+  }
+
+  const verifier = crypto.createVerify('sha256')
+  verifier.update(Buffer.from(stableStringify(body)))
+  return verifier.verify(RAMP_KEY, signature, 'base64')
 }
 
-interface RampRequestBody {
-  type: RampWebhookType
-  purchase: RampPurchase
-}
-
-const RAMP_SIGNATURE_HEADER = 'X-Body-Signature'
-
-export const rampWebhook = functions.https.onRequest(async (request, response) => {
-  if (verifyRampSignature(request.header(RAMP_SIGNATURE_HEADER), request.body)) {
-    await trackRampEvent(request.body)
-    const {
-      type,
-      purchase: { receiverAddress, finalTxHash, status },
-    }: RampRequestBody = request.body
-
-    console.info('Received Ramp webhook', type, receiverAddress, status)
-    if (type === RampWebhookType.Released) {
-      const address = receiverAddress
-
-      if (finalTxHash) {
-        saveTxHashProvider(address, finalTxHash, Providers.Ramp)
-      } else {
-        console.error('Tx hash not found for Ramp release action')
-      }
+export const rampWebhook = functions.https.onRequest(async (req, res) => {
+  try {
+    const validSignature = verifyRampSignature(req.header(RAMP_SIGNATURE_HEADER), req.body)
+    if (!validSignature) {
+      throw new Error('Invalid or missing signature')
     }
-    response.status(204).send()
-  } else {
-    console.error('ERROR: Invalid or missing signature')
-    response.status(401).send()
+
+    const { type, purchase }: RampRequestBody = req.body
+    const { receiverAddress, finalTxHash, status } = purchase
+    console.info(`Received ${type} event with status ${status} for ${receiverAddress}`)
+
+    if (type === RampWebhookType.Released) {
+      if (!finalTxHash) {
+        throw new Error(
+          `Tx hash not found for release event. ID: ${purchase.id} Address: ${receiverAddress}`
+        )
+      }
+
+      console.info(`Tx hash: ${finalTxHash}`)
+      saveTxHashProvider(receiverAddress, finalTxHash, Providers.Ramp)
+    }
+
+    // Converting actions array to string to allow for easy storage
+    const data = flattenObject({ ...purchase, actions: JSON.stringify(purchase.actions) })
+
+    await trackEvent(RAMP_BIG_QUERY_EVENT_TABLE, {
+      type,
+      ...data,
+    })
+
+    res.status(204).send()
+  } catch (error) {
+    console.error('Error parsing webhook event: ', JSON.stringify(error))
+    console.info('Request body: ', JSON.stringify(req.body))
+    res.status(400).end()
   }
 })

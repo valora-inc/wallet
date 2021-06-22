@@ -215,12 +215,12 @@ export const fetchLocalCurrencyAndExchangeRate = async (
   return result
 }
 
-export const flattenObject = (obj: any, parent?: any, res: any = {}) => {
+export const flattenObject = (obj: any, parent?: string, res: any = {}) => {
   const keys = Object.keys(obj)
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i]
     const propName = parent ? parent + '_' + key : key
-    if (typeof obj[key] == 'object') {
+    if (obj[key] && typeof obj[key] == 'object') {
       flattenObject(obj[key], propName, res)
     } else {
       res[propName] = obj[key]

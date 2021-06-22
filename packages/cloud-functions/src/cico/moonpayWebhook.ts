@@ -6,9 +6,25 @@ import { saveTxHashProvider } from '../firebase'
 import { Providers } from './Providers'
 
 const MOONPAY_SIGNATURE_HEADER = 'Moonpay-Signature-V2'
-const MOONPAY_BIG_QUERY_EVENT_TABLE = 'cico_moonpay_events'
+const MOONPAY_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_moonpay'
 
 // https://www.moonpay.com/dashboard/api_reference/client_side_api/#transactions
+interface MoonpayRequestBody {
+  type: MoonpayWebhookType
+  data: MoonpayTransaction
+}
+
+enum MoonpayWebhookType {
+  Started = 'transaction_started',
+  Failed = 'transaction_failed',
+  Updated = 'transaction_updated',
+  IdCheckUpdated = 'identity_check_updated',
+  SellTxCreated = 'sell_transaction_created',
+  SellTxUpdated = 'sell_transaction_updated',
+  SellTxFailed = 'sell_transaction_failed',
+  ExternalToken = 'external_token',
+}
+
 interface MoonpayTransaction {
   id: string
   createdAt: string // ISO date-time string
@@ -69,21 +85,6 @@ enum MoonpayFailureReason {
   error = 'error ',
 }
 
-enum MoonpayWebhookType {
-  Started = 'transaction_started',
-  Failed = 'transaction_failed',
-  Updated = 'transaction_updated',
-  IdCheckUpdated = 'identity_check_updated',
-  SellTxCreated = 'sell_transaction_created',
-  SellTxUpdated = 'sell_transaction_updated',
-  SellTxFailed = 'sell_transaction_failed',
-  ExternalToken = 'external_token',
-}
-interface MoonpayRequestBody {
-  type: MoonpayWebhookType
-  data: MoonpayTransaction
-}
-
 const verifyMoonPaySignature = (signatureHeader: string | undefined, body: string) => {
   if (!signatureHeader) {
     return false
@@ -103,14 +104,27 @@ const verifyMoonPaySignature = (signatureHeader: string | undefined, body: strin
   return Buffer.compare(signatureBuffer, expectedSignature) === 0
 }
 
-export const moonpayWebhook = functions.https.onRequest(async (request, response) => {
-  const validSignature = verifyMoonPaySignature(
-    request.header(MOONPAY_SIGNATURE_HEADER),
-    JSON.stringify(request.body)
-  )
+export const moonpayWebhook = functions.https.onRequest(async (req, res) => {
+  try {
+    const validSignature = verifyMoonPaySignature(
+      req.header(MOONPAY_SIGNATURE_HEADER),
+      JSON.stringify(req.body)
+    )
 
-  if (validSignature) {
-    const { type, data }: MoonpayRequestBody = request.body
+    if (!validSignature) {
+      throw new Error('Invalid or missing signature')
+    }
+
+    const { type, data }: MoonpayRequestBody = req.body
+    const { walletAddress, cryptoTransactionId, status } = data
+    console.info(`Received ${type} event with status ${status} for ${walletAddress}`)
+
+    if (cryptoTransactionId) {
+      console.info(`Tx hash: ${cryptoTransactionId}`)
+      saveTxHashProvider(walletAddress, cryptoTransactionId, Providers.Moonpay)
+    } else {
+      console.info('Tx hash not found on MoonPay event')
+    }
 
     await trackEvent(MOONPAY_BIG_QUERY_EVENT_TABLE, {
       type,
@@ -119,21 +133,9 @@ export const moonpayWebhook = functions.https.onRequest(async (request, response
       stages: JSON.stringify(data.stages),
     })
 
-    const { walletAddress, cryptoTransactionId } = data
-
-    console.info(`Received MoonPay webhook of type ${type} for ${walletAddress}`)
-
-    if (cryptoTransactionId) {
-      console.info(`Tx hash: ${cryptoTransactionId}`)
-      saveTxHashProvider(walletAddress, cryptoTransactionId, Providers.Moonpay)
-    } else {
-      console.info('Tx hash not found on MoonPay event')
-    }
-    response.status(204).send()
-  } else {
-    console.error('ERROR: Missing or invalid signature')
-    response.status(401).send()
+    res.status(204).send()
+  } catch (error) {
+    console.error('Error parsing Moonpay webhook event: ', error)
+    res.status(400).end()
   }
-
-  response.end()
 })

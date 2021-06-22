@@ -12,16 +12,10 @@ export const trackEvent = async (table: string, row: any) => {
       throw new Error('No GCloud Project specified')
     }
 
-    await bigQuery
-      .dataset(bigQueryDataset)
-      .table(table)
-      .insert(row)
-      .catch((err) => console.error('Error firing BigQuery event', JSON.stringify(err)))
-
-    return true
+    await bigQuery.dataset(bigQueryDataset).table(table).insert(row)
   } catch (error) {
-    console.error(`Unable to track event in ${table}`, error)
-    return false
+    console.error(`BigQuery error:`, JSON.stringify(error))
+    throw error
   }
 }
 
