@@ -130,7 +130,7 @@
   },
   "sendToAddressWarning": {
     "title": "Enviar a una dirección",
-    "body": "Por favor, asegúrate de que la dirección soporta cUSD. Puede que los fondos enviados a direcciones no válidas no sea recuperables.\n\nTambién puedes considerar hacer un pequeño pago de prueba primero.",
+    "body": "Asegúrate de que la dirección sea compatible con cUSD. Es posible que no puedas recuperar fondos enviados a direcciones no válidas.\n\nTambién puedes hacer un pequeño pago de prueba primero.",
     "toggle": "Preguntar cada vez"
   }
 }
