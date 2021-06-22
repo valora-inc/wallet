@@ -22,7 +22,7 @@ import {
   navigateToPaymentTransferReview,
   navigateToRequestedPaymentReview,
 } from 'src/transactions/actions'
-import { mapOldCurrencyToNew } from 'src/utils/currencies'
+import { Currency, mapOldCurrencyToNew } from 'src/utils/currencies'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 
@@ -48,6 +48,7 @@ function* handlePaymentRequested(
     firebasePendingRequestUid: paymentRequest.uid,
     recipient: targetRecipient,
     amount: new BigNumber(paymentRequest.amount),
+    currency: Currency.Dollar,
     reason: paymentRequest.comment,
     type: TokenTransactionType.PayRequest,
   })

@@ -8,7 +8,7 @@ import { EURO_TRANSACTION_MIN_AMOUNT, GOLD_TRANSACTION_MIN_AMOUNT } from 'src/co
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { RootState } from 'src/redux/reducers'
 import useSelector from 'src/redux/useSelector'
-import { cEurBalanceSelector, cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cEurBalanceSelector, cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { Currency } from 'src/utils/currencies'
 
 function useAmount(currency: Currency, selector: (state: RootState) => string | null | undefined) {

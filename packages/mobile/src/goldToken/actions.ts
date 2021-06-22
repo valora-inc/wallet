@@ -43,6 +43,7 @@ export const setBalance = (balance: string): SetBalanceAction => ({
 export const transferGoldToken = ({
   recipientAddress,
   amount,
+  currency,
   comment,
   feeInfo,
   context,
@@ -50,6 +51,7 @@ export const transferGoldToken = ({
   type: Actions.TRANSFER,
   recipientAddress,
   amount,
+  currency,
   comment,
   feeInfo,
   context,

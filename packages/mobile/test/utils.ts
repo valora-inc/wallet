@@ -17,6 +17,11 @@ import {
   mockValoraRecipientCache,
 } from 'test/values'
 
+beforeAll(() => {
+  // @ts-ignore This avoids an error, see: https://github.com/software-mansion/react-native-reanimated/issues/1380
+  global.__reanimatedWorkletInit = jest.fn()
+})
+
 // Sleep for a number of ms
 export const sleep = (time: number) =>
   new Promise((resolve) => setTimeout(() => resolve(true), time))

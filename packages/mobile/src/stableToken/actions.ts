@@ -46,6 +46,7 @@ export const setBalance = (
 export const transferStableToken = ({
   recipientAddress,
   amount,
+  currency,
   comment,
   feeInfo,
   context,
@@ -53,6 +54,7 @@ export const transferStableToken = ({
   type: Actions.TRANSFER,
   recipientAddress,
   amount,
+  currency,
   comment,
   feeInfo,
   context,

@@ -21,6 +21,8 @@ import {
   mockTransactionData,
 } from 'test/values'
 
+jest.mock('src/components/useShowOrHideAnimation')
+
 const AMOUNT_ZERO = '0.00'
 const AMOUNT_VALID = '4.93'
 const AMOUNT_TOO_MUCH = '106.98'
@@ -50,7 +52,8 @@ const mockE164NumberToAddress: E164NumberToAddressType = {
 const mockTransactionData2 = {
   type: mockTransactionData.type,
   recipient: mockTransactionData.recipient,
-  amount: new BigNumber('3.706766917293233083'),
+  amount: new BigNumber('3.70676691729323308271'),
+  currency: Currency.Dollar,
   reason: '',
 }
 
@@ -71,6 +74,10 @@ const enterAmount = (wrapper: RenderAPI, text: string) => {
 describe('SendAmount', () => {
   beforeAll(() => {
     jest.useRealTimers()
+  })
+
+  beforeEach(() => {
+    jest.clearAllMocks()
   })
 
   describe('enter amount with balance', () => {
@@ -213,6 +220,34 @@ describe('SendAmount', () => {
       expect(reviewButton.props.disabled).toBe(true)
     })
 
+    it("doesnt allow choosing the currency when there's only balance for one token", () => {
+      const store = createMockStore({
+        ...storeData,
+        stableToken: { balances: { [Currency.Dollar]: '0', [Currency.Euro]: '10.12' } },
+      })
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <SendAmount {...mockScreenProps()} />
+        </Provider>
+      )
+
+      expect(queryByTestId('HeaderCurrencyPicker')).toBeFalsy()
+    })
+
+    it("allows choosing the currency when there's balance for more than one token", () => {
+      const store = createMockStore({
+        ...storeData,
+        stableToken: { balances: { [Currency.Dollar]: '10.56', [Currency.Euro]: '10.12' } },
+      })
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <SendAmount {...mockScreenProps()} />
+        </Provider>
+      )
+
+      expect(queryByTestId('HeaderCurrencyPicker')).toBeTruthy()
+    })
+
     it('displays the loading spinner when review button is pressed and verification status is unknown', () => {
       let store = createMockStore({
         identity: {
@@ -253,6 +288,7 @@ describe('SendAmount', () => {
 
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
         origin: SendOrigin.AppSendFlow,
+        isFromScan: false,
         transactionData: mockTransactionData2,
       })
     })
@@ -297,6 +333,12 @@ describe('SendAmount', () => {
           },
         },
         ...storeData,
+        stableToken: {
+          balances: { [Currency.Dollar]: BALANCE_VALID, [Currency.Euro]: BALANCE_VALID },
+        },
+        send: {
+          lastUsedCurrency: Currency.Euro,
+        },
       })
 
       const tree = render(
@@ -308,7 +350,12 @@ describe('SendAmount', () => {
       fireEvent.press(tree.getByTestId('Review'))
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
         origin: SendOrigin.AppSendFlow,
-        transactionData: mockTransactionData2,
+        isFromScan: false,
+        transactionData: {
+          ...mockTransactionData2,
+          amount: new BigNumber('2.465'),
+          currency: Currency.Euro,
+        },
       })
     })
 

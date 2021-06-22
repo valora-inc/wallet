@@ -17,7 +17,7 @@ import { LOOKUP_GAS_FEE_ESTIMATE } from 'src/identity/privateHashing'
 import { isUserBalanceSufficient } from 'src/identity/utils'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.PhoneNumberLookupQuota>
 

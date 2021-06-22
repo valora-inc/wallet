@@ -25,6 +25,7 @@ import {
 } from 'src/analytics/Events'
 import { BackQuizProgress, ScrollDirection, SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import {
   RewardsScreenCta,
   RewardsScreenOrigin,
@@ -514,8 +515,9 @@ interface SendEventsProperties {
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [SendEvents.send_confirm_back]: undefined
   [SendEvents.send_confirm_send]: {
@@ -566,6 +568,10 @@ interface SendEventsProperties {
   [SendEvents.send_tx_error]: {
     error: string
   }
+  [SendEvents.token_selected]: {
+    origin: TokenPickerOrigin
+    token: string
+  }
 }
 
 interface RequestEventsProperties {
@@ -577,20 +583,24 @@ interface RequestEventsProperties {
     usedSearchBar: boolean
   }
   [RequestEvents.request_amount_continue]: {
+    origin: SendOrigin
     isScan: boolean
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [RequestEvents.request_unavailable]: {
+    origin: SendOrigin
     isScan: boolean
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {

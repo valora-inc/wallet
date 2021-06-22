@@ -10,7 +10,7 @@ export enum CiCoCurrency {
   CEUR = 'CEUR',
 }
 
-interface CurrencyInfo {
+export interface CurrencyInfo {
   symbol: string
   displayDecimals: number
 }
@@ -18,6 +18,7 @@ interface CurrencyInfo {
 type CurrencyObject = { [key in Currency]: CurrencyInfo }
 
 export type StableCurrency = Currency.Dollar | Currency.Euro
+export const STABLE_CURRENCIES = [Currency.Dollar, Currency.Euro]
 
 export const CURRENCIES: CurrencyObject = {
   [Currency.Celo]: {

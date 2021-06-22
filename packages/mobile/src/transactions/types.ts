@@ -7,10 +7,10 @@ export interface ExchangeStandby {
   context: TransactionContext
   type: TokenTransactionType.Exchange
   status: TransactionStatus
-  inSymbol: Currency
   inValue: string
-  outSymbol: Currency
+  inCurrency: Currency
   outValue: string
+  outCurrency: Currency
   timestamp: number
   hash?: string
 }
@@ -20,8 +20,8 @@ export interface TransferStandby {
   type: TransferTransactionType
   status: TransactionStatus
   value: string
+  currency: Currency
   comment: string
-  symbol: Currency
   timestamp: number
   address: Address
   hash?: string

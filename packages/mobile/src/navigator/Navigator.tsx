@@ -88,7 +88,7 @@ import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
-import SendAmount, { sendAmountScreenNavOptions } from 'src/send/SendAmount'
+import SendAmount from 'src/send/SendAmount'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
@@ -264,7 +264,7 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.SendAmount}
       component={SendAmount}
-      options={sendAmountScreenNavOptions}
+      options={SendAmount.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.SendConfirmation}
@@ -527,7 +527,6 @@ const mapStateToProps = (state: RootState) => {
     name: state.account.name,
     acceptedTerms: state.account.acceptedTerms,
     pincodeType: state.account.pincodeType,
-    redeemComplete: state.invite.redeemComplete,
     account: state.web3.account,
     numberIsVerified: state.app.numberVerified,
     hasSeenVerificationNux: state.verify.seenVerificationNux,
@@ -547,7 +546,7 @@ export function MainStackScreen() {
       name,
       acceptedTerms,
       pincodeType,
-      redeemComplete,
+      account,
       numberIsVerified,
       hasSeenVerificationNux,
     } = mapStateToProps(store.getState())
@@ -559,7 +558,7 @@ export function MainStackScreen() {
     } else if (!name || !acceptedTerms || pincodeType === PincodeType.Unset) {
       // User didn't go far enough in onboarding, start again from education
       initialRoute = Screens.OnboardingEducationScreen
-    } else if (!redeemComplete) {
+    } else if (!account) {
       initialRoute = choseToRestoreAccount
         ? Screens.ImportWallet
         : Screens.OnboardingEducationScreen

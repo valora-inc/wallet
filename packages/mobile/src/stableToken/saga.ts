@@ -1,5 +1,5 @@
 import { all, call, put, spawn, take } from 'redux-saga/effects'
-import { Actions, fetchStableBalances, setBalance } from 'src/stableToken/actions'
+import { Actions, setBalance } from 'src/stableToken/actions'
 import { fetchToken, tokenTransferFactory } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
 
@@ -21,8 +21,6 @@ export function* watchFetchStableBalances() {
 export const stableTokenTransfer = tokenTransferFactory({
   actionName: Actions.TRANSFER,
   tag,
-  currency: Currency.Dollar,
-  fetchAction: fetchStableBalances,
 })
 
 export function* stableTokenSaga() {

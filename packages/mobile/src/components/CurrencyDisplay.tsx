@@ -164,7 +164,7 @@ export default function CurrencyDisplay({
     ? amountCurrency === Currency.Celo
       ? colors.goldBrand
       : colors.greenBrand
-    : StyleSheet.flatten(style)?.color ?? colors.dark
+    : StyleSheet.flatten(style)?.color
 
   if (type === DisplayType.Big) {
     // In this type the symbol is displayed as superscript
@@ -210,7 +210,7 @@ export default function CurrencyDisplay({
   }
 
   return (
-    <Text numberOfLines={1} style={[style, { color }]} testID={testID}>
+    <Text numberOfLines={1} style={[style, { color }]} testID={`${testID}/value`}>
       {!hideSign && sign}
       {!hideSymbol && currencySymbol}
       {formattedValue}
