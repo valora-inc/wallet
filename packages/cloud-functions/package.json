@@ -5,7 +5,6 @@
   "author": "Celo",
   "license": "Apache-2.0",
   "main": "dist/index.js",
-  "type": "module",
   "scripts": {
     "serve": "firebase serve --only functions",
     "update-firebase-alfajores-config": "firebase use alfajores && ./firebase-env-config.sh -e alfajores",
