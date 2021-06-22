@@ -229,10 +229,20 @@ function FiatExchangeOptions({ route, navigation }: Props) {
             onSelect={onSelectCurrency(Currency.Celo)}
             containerStyle={{
               borderTopWidth: 0,
+            }}
+            enabled={selectedPaymentMethod !== PaymentMethod.GiftCard}
+          />
+          <CurrencyRadioItem
+            title={t('celoEuro')}
+            body="(cEUR)"
+            selected={selectedCurrency === Currency.Euro}
+            onSelect={onSelectCurrency(Currency.Euro)}
+            containerStyle={{
+              borderTopWidth: 0,
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
             }}
-            enabled={selectedPaymentMethod !== PaymentMethod.GiftCard}
+            enabled={false} // currently no CICO providers for cEUR
           />
         </View>
       </ScrollView>
