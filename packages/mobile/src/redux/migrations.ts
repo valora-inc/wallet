@@ -256,7 +256,7 @@ export const migrations = {
     },
     stableToken: {
       ...state.stableToken,
-      balance: null,
+      balance: undefined,
       balances: {
         [Currency.Dollar]: state.stableToken.balance,
         [Currency.Euro]: null,
