@@ -405,6 +405,7 @@ interface VerificationEventsProperties {
     issuer: string
     account: string
     phoneNumberType: string
+    credentials: string
   }
   [VerificationEvents.verification_revoke_start]:
     | {
