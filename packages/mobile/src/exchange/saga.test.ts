@@ -57,7 +57,7 @@ describe(doFetchTobinTax, () => {
 })
 
 describe(exchangeGoldAndStableTokens, () => {
-  it('makes the exchange', async () => {
+  it.only('makes the exchange', async () => {
     const exchangeGoldAndStableTokensAction: ExchangeTokensAction = {
       type: Actions.EXCHANGE_TOKENS,
       makerToken: Currency.Celo,
@@ -74,7 +74,7 @@ describe(exchangeGoldAndStableTokens, () => {
           },
         ],
         [matchers.call.fn(sendTransaction), true],
-        [matchers.call.fn(sendAndMonitorTransaction), true],
+        [matchers.call.fn(sendAndMonitorTransaction), { receipt: true, error: undefined }],
       ])
       .put.like({
         action: {

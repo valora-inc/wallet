@@ -328,7 +328,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       throw error
     }
   } catch (error) {
-    ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, { error: error.message })
+    ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, { error: error?.message })
     Logger.error(TAG, 'Error doing exchange', error)
     const isDollarToGold = makerToken === Currency.Dollar
 
