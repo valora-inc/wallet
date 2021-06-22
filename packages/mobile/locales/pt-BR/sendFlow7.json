@@ -130,7 +130,7 @@
   },
   "sendToAddressWarning": {
     "title": "Enviando para um endereço",
-    "body": "Certifique-se de que o endereço suporta cUSD. Fundos enviados para endereços inválidos podem não ser recuperáveis.\n\nVocê também pode considerar enviar um pagamento de teste pequeno primeiro.",
+    "body": "Certifique-se de que o endereço suporta cUSD. Os fundos enviados para endereços inválidos podem não ser recuperáveis.\n\nVocê também pode enviar um pagamento de teste pequeno primeiro.",
     "toggle": "Perguntar sempre"
   }
 }
