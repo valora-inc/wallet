@@ -526,7 +526,7 @@ exports[`SimplexScreen renders correctly 1`] = `
               Array [
                 Array [],
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
@@ -667,7 +667,7 @@ exports[`SimplexScreen renders correctly 1`] = `
               Array [
                 Array [],
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
@@ -1465,7 +1465,7 @@ exports[`SimplexScreen renders correctly 2`] = `
               Array [
                 Array [],
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
@@ -1606,7 +1606,7 @@ exports[`SimplexScreen renders correctly 2`] = `
               Array [
                 Array [],
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }

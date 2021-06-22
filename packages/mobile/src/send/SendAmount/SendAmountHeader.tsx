@@ -46,15 +46,13 @@ function SendAmountHeader({ currency, isOutgoingPaymentRequest, onChangeCurrency
 
     let titleText
     let title
-    if (currenciesWithBalance < 2) {
+    if (currenciesWithBalance < 2 || isOutgoingPaymentRequest) {
       titleText = isOutgoingPaymentRequest
         ? i18n.t('paymentRequestFlow:request')
         : i18n.t('sendFlow7:send')
       title = titleText
     } else {
-      titleText = isOutgoingPaymentRequest
-        ? i18n.t('paymentRequestFlow:requestToken', { token: currency })
-        : i18n.t('sendFlow7:sendToken', { token: currency })
+      titleText = i18n.t('sendFlow7:sendToken', { token: currency })
       title = (
         <View style={styles.titleContainer} testID="HeaderCurrencyPicker">
           <Text style={headerStyles.headerTitle}>{titleText}</Text>
@@ -65,7 +63,7 @@ function SendAmountHeader({ currency, isOutgoingPaymentRequest, onChangeCurrency
     return (
       <Touchable disabled={currenciesWithBalance < 2} onPress={() => setShowCurrencyPicker(true)}>
         {isOutgoingPaymentRequest ? (
-          <Text>{titleText}</Text>
+          <Text style={headerStyles.headerTitle}>{titleText}</Text>
         ) : (
           <HeaderTitleWithBalance title={title} token={currency} />
         )}

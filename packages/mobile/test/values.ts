@@ -277,24 +277,22 @@ export const mockEscrowedPayment: EscrowedPayment = {
   expirySeconds: new BigNumber(50000),
 }
 
-const date = new Date('Tue Mar 05 2019 13:44:06 GMT-0800 (Pacific Standard Time)')
-const currency = Currency.Dollar
+const date = new Date('Tue Mar 05 2019 13:44:06 GMT-0800 (Pacific Standard Time)').getTime()
 export const mockPaymentRequests: PaymentRequest[] = [
   {
     amount: '200000.00',
     uid: 'FAKE_ID_1',
-    timestamp: date,
+    createdAt: date,
     comment: 'Dinner for me and the gals, PIZZAA!',
     requesteeAddress: mockAccount,
     requesterAddress: mockAccount2,
     requesterE164Number: mockE164Number,
     status: PaymentRequestStatus.REQUESTED,
-    currency,
     notified: true,
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
   {
-    timestamp: date,
+    createdAt: date,
     amount: '180.89',
     uid: 'FAKE_ID_2',
     comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',
@@ -302,12 +300,11 @@ export const mockPaymentRequests: PaymentRequest[] = [
     requesterAddress: mockAccount2,
     requesterE164Number: mockE164Number,
     status: PaymentRequestStatus.REQUESTED,
-    currency,
     notified: true,
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
   {
-    timestamp: date,
+    createdAt: date,
     amount: '180.89',
     uid: 'FAKE_ID_3',
     comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',
@@ -315,7 +312,6 @@ export const mockPaymentRequests: PaymentRequest[] = [
     requesterAddress: mockAccount2,
     requesterE164Number: mockE164Number,
     status: PaymentRequestStatus.REQUESTED,
-    currency,
     notified: true,
     type: NotificationTypes.PAYMENT_REQUESTED,
   },

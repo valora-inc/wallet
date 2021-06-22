@@ -89,7 +89,7 @@ exports[`OutgoingPaymentRequestSummaryNotification renders a number when the add
                 Array [
                   undefined,
                   Object {
-                    "color": "#2E3338",
+                    "color": undefined,
                   },
                 ]
               }
@@ -351,7 +351,7 @@ exports[`OutgoingPaymentRequestSummaryNotification renders correctly for just on
                 Array [
                   undefined,
                   Object {
-                    "color": "#2E3338",
+                    "color": undefined,
                   },
                 ]
               }
