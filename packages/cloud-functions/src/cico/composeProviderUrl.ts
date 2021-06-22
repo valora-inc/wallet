@@ -83,3 +83,19 @@ export const composeProviderUrl = (provider: Providers, requestData: ProviderReq
       `.replace(findContinguousSpaces, '')
   }
 }
+
+const unsignedUrl = `
+${MOONPAY_DATA.widget_url}
+  ?apiKey=${'pk_test_EDT0SRJUlsJezJUFGaVZIr8LuaTsF5NO'}
+  &currencyCode=${'ETH'}
+  &walletAddress=${'0xf0c84539e80cb10b197e20fbd4f85e0d93e5dc03'}
+  &baseCurrencyCode=${'USD'}
+  &baseCurrencyAmount=${100}
+  `.replace(findContinguousSpaces, '')
+
+const signature = crypto
+  .createHmac('sha256', 'sk_test_f4eX8rbao56sR5gqBe34Nhco1DOmuf2b')
+  .update(new URL(unsignedUrl).search)
+  .digest('base64')
+
+console.log(`${unsignedUrl}&signature=${encodeURIComponent(signature)}`)

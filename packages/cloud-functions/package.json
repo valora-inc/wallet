@@ -5,6 +5,7 @@
   "author": "Celo",
   "license": "Apache-2.0",
   "main": "dist/index.js",
+  "type": "module",
   "scripts": {
     "serve": "firebase serve --only functions",
     "update-firebase-alfajores-config": "firebase use alfajores && ./firebase-env-config.sh -e alfajores",
@@ -42,6 +43,6 @@
     "jest-fetch-mock": "^3.0.3"
   },
   "engines": {
-    "node": "10"
+    "node": "12"
   }
 }
