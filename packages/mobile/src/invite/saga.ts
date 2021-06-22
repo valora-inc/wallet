@@ -105,6 +105,10 @@ export function* sendInvite(
 
     yield call(initiateEscrowTransfer, e164Number, amount, currency, undefined, feeInfo)
     yield call(Share.share, { message })
+    ValoraAnalytics.track(InviteEvents.invite_complete, {
+      escrowIncluded: true,
+      amount: amount?.toString(),
+    })
   } catch (e) {
     ValoraAnalytics.track(InviteEvents.invite_error, {
       escrowIncluded: true,

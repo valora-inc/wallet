@@ -56,7 +56,6 @@ export const SMS_RETRIEVER_APP_SIGNATURE = Config.SMS_RETRIEVER_APP_SIGNATURE
 // TODO change this to new ODIS minimum dollar balance once deployed
 export const ODIS_MINIMUM_DOLLAR_BALANCE = 0.1
 export const ATTESTATION_REVEAL_TIMEOUT_SECONDS = 60 // 1 minute
-export const WEI_DECIMALS = 18
 
 // We can safely assume that any balance query returning a number
 // higher than this is incorrect (currently set to 10M)

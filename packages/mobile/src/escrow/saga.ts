@@ -14,7 +14,7 @@ import { EscrowEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { ESCROW_PAYMENT_EXPIRY_SECONDS, WEI_DECIMALS } from 'src/config'
+import { ESCROW_PAYMENT_EXPIRY_SECONDS } from 'src/config'
 import {
   Actions,
   Actions as EscrowActions,
@@ -28,6 +28,7 @@ import {
 } from 'src/escrow/actions'
 import { generateEscrowPaymentIdAndPk, generateUniquePaymentId } from 'src/escrow/utils'
 import { calculateFee } from 'src/fees/saga'
+import { WEI_DECIMALS } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
 import i18n from 'src/i18n'
@@ -147,7 +148,7 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
       yield put(fetchSentEscrowPayments())
       ValoraAnalytics.track(EscrowEvents.escrow_transfer_complete)
     } else {
-      ValoraAnalytics.track(EscrowEvents.escrow_transfer_error, { error })
+      throw error
     }
   } catch (e) {
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_error, { error: e.message })

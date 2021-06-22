@@ -325,7 +325,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
         amount: makerAmount.toString(),
       })
     } else {
-      ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, { error })
+      throw error
     }
   } catch (error) {
     ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, { error: error.message })

@@ -123,9 +123,7 @@ describe('VerificationEducationScreen', () => {
     expect(toJSON()).toMatchSnapshot()
     expect(getByTestId('VerificationSkipDialog').props.isVisible).toBe(true)
   })
-})
 
-describe('VerificationEducationScreen with KOMENCI enabled', () => {
   it('shows the loading state when komenci readiness is being determined', () => {
     // loading state
     mockedUseAsyncKomenciReadiness.mockReturnValue({

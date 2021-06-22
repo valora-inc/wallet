@@ -17,8 +17,7 @@ export const inviteReducer = (
   switch (action.type) {
     case REHYDRATE: {
       return {
-        ...state,
-        ...getRehydratePayload(action, 'invite'),
+        invitees: getRehydratePayload(action, 'invite').invitees ?? [],
       }
     }
     case Actions.STORE_INVITEE_DATA:

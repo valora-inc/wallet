@@ -1,3 +1,4 @@
+import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
@@ -9,10 +10,12 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
+import { RootState } from 'src/redux/reducers'
 import { getSendFee } from 'src/send/saga'
 import SendConfirmation from 'src/send/SendConfirmation'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getMockStackScreenProps, RecursivePartial } from 'test/utils'
 import {
   mockAccount2Invite,
   mockAccountInvite,
@@ -51,12 +54,20 @@ const mockInviteScreenProps = getMockStackScreenProps(Screens.SendConfirmation, 
   origin: SendOrigin.AppSendFlow,
 })
 
+type ScreenProps = StackScreenProps<
+  StackParamList,
+  Screens.SendConfirmation | Screens.SendConfirmationModal
+>
+
 describe('SendConfirmation', () => {
   beforeEach(() => {
     mockedGetSendFee.mockClear()
   })
 
-  function renderScreen(storeOverrides: any = {}, screenProps?: any) {
+  function renderScreen(
+    storeOverrides: RecursivePartial<RootState> = {},
+    screenProps?: ScreenProps
+  ) {
     const store = createMockStore({
       stableToken: {
         balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
