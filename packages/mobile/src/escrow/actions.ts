@@ -31,6 +31,7 @@ export interface EscrowTransferPaymentAction {
   type: Actions.TRANSFER_PAYMENT
   phoneHashDetails: PhoneNumberHashDetails
   amount: BigNumber
+  currency: Currency
   context: TransactionContext
   tempWalletAddress?: string
   feeInfo?: FeeInfo
@@ -79,6 +80,7 @@ export type ActionTypes =
 export const transferEscrowedPayment = (
   phoneHashDetails: PhoneNumberHashDetails,
   amount: BigNumber,
+  currency: Currency,
   context: TransactionContext,
   tempWalletAddress?: string,
   feeInfo?: FeeInfo
@@ -86,6 +88,7 @@ export const transferEscrowedPayment = (
   type: Actions.TRANSFER_PAYMENT,
   phoneHashDetails,
   amount,
+  currency,
   context,
   tempWalletAddress,
   feeInfo,

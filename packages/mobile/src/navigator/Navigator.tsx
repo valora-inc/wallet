@@ -527,7 +527,6 @@ const mapStateToProps = (state: RootState) => {
     name: state.account.name,
     acceptedTerms: state.account.acceptedTerms,
     pincodeType: state.account.pincodeType,
-    redeemComplete: state.invite.redeemComplete,
     account: state.web3.account,
     numberIsVerified: state.app.numberVerified,
     hasSeenVerificationNux: state.verify.seenVerificationNux,
@@ -547,7 +546,7 @@ export function MainStackScreen() {
       name,
       acceptedTerms,
       pincodeType,
-      redeemComplete,
+      account,
       numberIsVerified,
       hasSeenVerificationNux,
     } = mapStateToProps(store.getState())
@@ -559,7 +558,7 @@ export function MainStackScreen() {
     } else if (!name || !acceptedTerms || pincodeType === PincodeType.Unset) {
       // User didn't go far enough in onboarding, start again from education
       initialRoute = Screens.OnboardingEducationScreen
-    } else if (!redeemComplete) {
+    } else if (!account) {
       initialRoute = choseToRestoreAccount
         ? Screens.ImportWallet
         : Screens.OnboardingEducationScreen

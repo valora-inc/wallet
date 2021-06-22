@@ -1,7 +1,7 @@
 import RequestMessagingCard from '@celo/react-components/components/RequestMessagingCard'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useFocusEffect } from '@react-navigation/native'
 import BigNumber from 'bignumber.js'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -36,7 +36,6 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
   const dispatch = useDispatch()
   const [payButtonPressed, setPayButtonPressed] = useState(false)
   const [addressesFetched, setAddressesFetched] = useState(false)
-  const navigation = useNavigation()
 
   const e164PhoneNumber = requester.e164PhoneNumber
   const requesterAddress = requester.address
@@ -96,17 +95,17 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
   }
 
   useFocusEffect(
-    React.useCallback(() => {
-      const removeButtonFocusListener = navigation.addListener('focus', () => {
+    useCallback(
+      () => () => {
+        // This is run when focus is lost.
         setPayButtonPressed(false)
         setAddressesFetched(false)
-      })
-
-      return removeButtonFocusListener
-    }, [])
+      },
+      []
+    )
   )
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Need this to make sure it's only triggered on click
     if (!payButtonPressed) {
       return

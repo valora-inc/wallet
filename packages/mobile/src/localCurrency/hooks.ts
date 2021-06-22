@@ -63,13 +63,26 @@ export function useCurrencyToLocalAmount(amount: BigNumber, currency: Currency) 
   return useMemo(() => convertCurrencyToLocalAmount(amount, exchangeRate), [amount, exchangeRate])
 }
 
+export function convertBetweenCurrencies(
+  amount: BigNumber,
+  from: Currency,
+  to: Currency,
+  exchangeRates: { [currency in Currency]: string | null }
+) {
+  const localAmount = convertCurrencyToLocalAmount(amount, exchangeRates[from])
+  return convertLocalAmountToCurrency(localAmount, exchangeRates[to])
+}
+
 export function useConvertBetweenCurrencies(amount: BigNumber, from: Currency, to: Currency) {
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
   return useMemo(() => {
     if (from === to) {
       return amount
     }
-    const localAmount = convertCurrencyToLocalAmount(amount, exchangeRates[from])
-    return convertLocalAmountToCurrency(localAmount, exchangeRates[to])
+    return convertBetweenCurrencies(amount, from, to, exchangeRates)
   }, [amount, exchangeRates, from, to])
+}
+
+export function useCurrencyToLocalAmountExchangeRate(currency: Currency) {
+  return useSelector(localCurrencyExchangeRatesSelector)[currency]
 }

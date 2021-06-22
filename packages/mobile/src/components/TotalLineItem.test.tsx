@@ -106,10 +106,10 @@ describe('TotalLineItem', () => {
           },
         },
       })
-      expect(getByText('10.123').props.testID).toEqual('TotalLineItem/Total')
-      expect(getByText('€15.18').props.testID).toEqual('TotalLineItem/Subtotal')
+      expect(getByText('10.123').props.testID).toEqual('TotalLineItem/Total/value')
+      expect(getByText('€15.18').props.testID).toEqual('TotalLineItem/Subtotal/value')
       // TODO: This should use the local currency
-      expect(getByText('$1.50').props.testID).toEqual('TotalLineItem/ExchangeRate')
+      expect(getByText('$1.50').props.testID).toEqual('TotalLineItem/ExchangeRate/value')
       // expect(getByText('€1.50').props.testID).toEqual('TotalLineItem/ExchangeRate')
     })
   })
@@ -126,10 +126,10 @@ describe('TotalLineItem', () => {
           },
         },
       })
-      expect(getByText('€15.18').props.testID).toEqual('TotalLineItem/Total')
-      expect(getByText('$10.12').props.testID).toEqual('TotalLineItem/Subtotal')
+      expect(getByText('€15.18').props.testID).toEqual('TotalLineItem/Total/value')
+      expect(getByText('$10.12').props.testID).toEqual('TotalLineItem/Subtotal/value')
       // TODO: This should use the local currency
-      expect(getByText('$0.66').props.testID).toEqual('TotalLineItem/ExchangeRate')
+      expect(getByText('$0.66').props.testID).toEqual('TotalLineItem/ExchangeRate/value')
       // expect(getByText('€0.66').props.testID).toEqual('TotalLineItem/ExchangeRate')
     })
   })
@@ -146,9 +146,9 @@ describe('TotalLineItem', () => {
           },
         },
       })
-      expect(getByText('$15.18').props.testID).toEqual('TotalLineItem/Total')
-      expect(getByText('€10.12').props.testID).toEqual('TotalLineItem/Subtotal')
-      expect(getByText('$0.66').props.testID).toEqual('TotalLineItem/ExchangeRate')
+      expect(getByText('$15.18').props.testID).toEqual('TotalLineItem/Total/value')
+      expect(getByText('€10.12').props.testID).toEqual('TotalLineItem/Subtotal/value')
+      expect(getByText('$0.66').props.testID).toEqual('TotalLineItem/ExchangeRate/value')
     })
   })
 })

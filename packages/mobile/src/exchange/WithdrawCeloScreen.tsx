@@ -67,6 +67,7 @@ function WithdrawCeloScreen({ route }: Props) {
     currency: Currency.Celo,
     recipientAddress: RANDOM_ADDRESS,
     amount: goldBalance || '0',
+    balance: goldBalance || '0',
     includeDekFee: false,
   })
   const feeEstimate = result && divideByWei(result.fee)
