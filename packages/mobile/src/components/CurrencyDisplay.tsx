@@ -9,7 +9,7 @@ import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
-import { CURRENCIES, Currency, currencyByCode } from 'src/utils/currencies'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import {
   getCentAwareMoneyDisplay,
   getExchangeRateDisplayValue,
@@ -132,21 +132,25 @@ export default function CurrencyDisplay({
   currencyInfo,
   testID,
 }: Props) {
-  const { localCurrencyCode, localCurrencyExchangeRate, txCurrency } = useLocalCurrencyToShow(
+  const { localCurrencyCode, localCurrencyExchangeRate, amountCurrency } = useLocalCurrencyToShow(
     amount,
     currencyInfo
   )
 
   // Show local amount only if explicitly set to true when currency is CELO
-  const shouldShowLocalAmount = showLocalAmount ?? txCurrency !== Currency.Celo
+  const shouldShowLocalAmount = showLocalAmount ?? amountCurrency !== Currency.Celo
   const displayAmount = shouldShowLocalAmount
     ? getLocalAmount(amount, localCurrencyCode, localCurrencyExchangeRate)
     : amount
-  const displayCurrency = displayAmount ? currencyByCode(displayAmount.currencyCode) : undefined
+  const displayCurrency = displayAmount
+    ? displayAmount.currencyCode === Currency.Celo
+      ? Currency.Celo
+      : Currency.Dollar
+    : null
   const currencySymbol = displayAmount
     ? shouldShowLocalAmount
       ? LocalCurrencySymbol[displayAmount.currencyCode as LocalCurrencyCode]
-      : CURRENCIES[txCurrency].symbol
+      : CURRENCIES[amountCurrency].symbol
     : null
   const value = displayAmount ? new BigNumber(displayAmount.value) : null
   const sign = value?.isNegative() ? '-' : showExplicitPositiveSign ? '+' : ''
@@ -154,13 +158,13 @@ export default function CurrencyDisplay({
   const formattedValue =
     value && displayCurrency ? formatAmount(value.absoluteValue(), displayCurrency) : '-'
   const code = displayAmount?.currencyCode
-  const fullCurrencyName = getFullCurrencyName(txCurrency)
+  const fullCurrencyName = getFullCurrencyName(amountCurrency)
 
   const color = useColors
-    ? txCurrency === Currency.Celo
+    ? amountCurrency === Currency.Celo
       ? colors.goldBrand
       : colors.greenBrand
-    : StyleSheet.flatten(style)?.color ?? colors.dark
+    : StyleSheet.flatten(style)?.color
 
   if (type === DisplayType.Big) {
     // In this type the symbol is displayed as superscript
@@ -206,7 +210,7 @@ export default function CurrencyDisplay({
   }
 
   return (
-    <Text numberOfLines={1} style={[style, { color }]} testID={testID}>
+    <Text numberOfLines={1} style={[style, { color }]} testID={`${testID}/value`}>
       {!hideSign && sign}
       {!hideSymbol && currencySymbol}
       {formattedValue}

@@ -9,16 +9,13 @@ import { LayoutAnimation, StyleSheet, Text, View } from 'react-native'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import { EncryptionFeeIcon, ExchangeFeeIcon, SecurityFeeIcon } from 'src/components/FeeIcon'
 import LineItemRow from 'src/components/LineItemRow'
-import { features } from 'src/flags'
 import { Namespaces } from 'src/i18n'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   isEstimate?: boolean
   currency?: Currency
-  inviteFee?: BigNumber
-  isInvite?: boolean
   isExchange?: boolean
   securityFee?: BigNumber
   exchangeFee?: BigNumber
@@ -34,8 +31,6 @@ interface Props {
 export default function FeeDrawer({
   isEstimate,
   currency,
-  inviteFee,
-  isInvite,
   isExchange,
   securityFee,
   exchangeFee,
@@ -60,31 +55,25 @@ export default function FeeDrawer({
   const securityAmount = securityFee &&
     currency && {
       value: securityFee,
-      currencyCode: CURRENCIES[currency].code,
+      currencyCode: currency,
     }
 
   const exchangeAmount = exchangeFee &&
     currency && {
       value: exchangeFee,
-      currencyCode: CURRENCIES[currency].code,
-    }
-
-  const inviteFeeAmount = inviteFee &&
-    currency && {
-      value: inviteFee,
-      currencyCode: CURRENCIES[currency].code,
+      currencyCode: currency,
     }
 
   const dekFeeAmount = dekFee &&
     currency && {
       value: dekFee,
-      currencyCode: CURRENCIES[currency].code,
+      currencyCode: currency,
     }
 
   const totalFeeAmount = totalFee &&
     currency && {
       value: totalFee,
-      currencyCode: CURRENCIES[currency].code,
+      currencyCode: currency,
     }
 
   return (
@@ -103,6 +92,7 @@ export default function FeeDrawer({
                   amount={totalFeeAmount}
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
+                  testID={`${testID}/totalFee`}
                 />
               )
             }
@@ -113,13 +103,6 @@ export default function FeeDrawer({
       </Touchable>
       {expanded && (
         <View>
-          {!features.ESCROW_WITHOUT_CODE && isInvite && inviteFeeAmount && (
-            <LineItemRow
-              title={t('inviteFee')}
-              amount={<CurrencyDisplay amount={inviteFeeAmount} currencyInfo={currencyInfo} />}
-              textStyle={styles.dropDownText}
-            />
-          )}
           {isExchange && (
             <LineItemRow
               title={t('exchangeFlow9:exchangeFee')}
@@ -130,6 +113,7 @@ export default function FeeDrawer({
                     amount={exchangeAmount}
                     formatType={FormatType.Fee}
                     currencyInfo={currencyInfo}
+                    testID={`${testID}/exchangeFee`}
                   />
                 )
               }
@@ -145,6 +129,7 @@ export default function FeeDrawer({
                   amount={dekFeeAmount}
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
+                  testID={`${testID}/dekFee`}
                 />
               }
               textStyle={styles.dropDownText}
@@ -160,6 +145,7 @@ export default function FeeDrawer({
                   amount={securityAmount}
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
+                  testID={`${testID}/securityFee`}
                 />
               )
             }

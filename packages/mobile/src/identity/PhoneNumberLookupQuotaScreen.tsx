@@ -17,13 +17,13 @@ import { LOOKUP_GAS_FEE_ESTIMATE } from 'src/identity/privateHashing'
 import { isUserBalanceSufficient } from 'src/identity/utils'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.PhoneNumberLookupQuota>
 
 function PhoneNumberLookupQuotaScreen(props: Props) {
   const [isSending, setIsSending] = useState(false)
-  const userBalance = useSelector(cUsdBalanceSelector)
+  const userBalance = useSelector(cUsdBalanceSelector) ?? null
   const { t } = useTranslation(Namespaces.nuxVerification2)
 
   const userBalanceIsSufficient = isUserBalanceSufficient(userBalance, LOOKUP_GAS_FEE_ESTIMATE)

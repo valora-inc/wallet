@@ -44,13 +44,9 @@ import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import FiatExchangeOptions, {
   fiatExchangesOptionsScreenOptions,
 } from 'src/fiatExchanges/FiatExchangeOptions'
-import MoonPayScreen from 'src/fiatExchanges/MoonPayScreen'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
-import RampScreen from 'src/fiatExchanges/RampScreen'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
-import TransakScreen from 'src/fiatExchanges/TransakScreen'
-import XanpoolScreen from 'src/fiatExchanges/XanpoolScreen'
 import i18n from 'src/i18n'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
@@ -92,7 +88,7 @@ import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
-import SendAmount, { sendAmountScreenNavOptions } from 'src/send/SendAmount'
+import SendAmount from 'src/send/SendAmount'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
@@ -206,14 +202,18 @@ const pincodeSetScreenOptions = ({
 }: {
   route: RouteProp<StackParamList, Screens.PincodeSet>
 }) => {
-  const isVerifying = route.params?.isVerifying
-  const title = isVerifying
-    ? i18n.t('onboarding:pincodeSet.verify')
+  const changePin = route.params?.changePin
+  const title = changePin
+    ? i18n.t('onboarding:pincodeSet.changePIN')
     : i18n.t('onboarding:pincodeSet.create')
+
   return {
     ...nuxNavigationOptions,
     headerTitle: () => (
-      <HeaderTitleWithSubtitle title={title} subTitle={i18n.t('onboarding:step', { step: '2' })} />
+      <HeaderTitleWithSubtitle
+        title={title}
+        subTitle={changePin ? ' ' : i18n.t('onboarding:step', { step: '2' })}
+      />
     ),
   }
 }
@@ -260,10 +260,11 @@ const nuxScreens = (Navigator: typeof Stack) => (
 
 const sendScreens = (Navigator: typeof Stack) => (
   <>
+    <Navigator.Screen name={Screens.Send} component={Send} options={Send.navigationOptions} />
     <Navigator.Screen
       name={Screens.SendAmount}
       component={SendAmount}
-      options={sendAmountScreenNavOptions}
+      options={SendAmount.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.SendConfirmation}
@@ -487,29 +488,9 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={CashInSuccess}
     />
     <Navigator.Screen
-      options={MoonPayScreen.navigationOptions}
-      name={Screens.MoonPayScreen}
-      component={MoonPayScreen}
-    />
-    <Navigator.Screen
-      options={XanpoolScreen.navigationOptions}
-      name={Screens.XanpoolScreen}
-      component={XanpoolScreen}
-    />
-    <Navigator.Screen
-      options={RampScreen.navigationOptions}
-      name={Screens.RampScreen}
-      component={RampScreen}
-    />
-    <Navigator.Screen
       options={SimplexScreen.navigationOptions}
       name={Screens.Simplex}
       component={SimplexScreen}
-    />
-    <Navigator.Screen
-      options={TransakScreen.navigationOptions}
-      name={Screens.TransakScreen}
-      component={TransakScreen}
     />
     <Navigator.Screen
       options={ProviderOptionsScreen.navigationOptions}
@@ -546,9 +527,9 @@ const mapStateToProps = (state: RootState) => {
     name: state.account.name,
     acceptedTerms: state.account.acceptedTerms,
     pincodeType: state.account.pincodeType,
-    redeemComplete: state.invite.redeemComplete,
     account: state.web3.account,
-    hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
+    numberIsVerified: state.app.numberVerified,
+    hasSeenVerificationNux: state.verify.seenVerificationNux,
     askedContactsPermission: state.identity.askedContactsPermission,
   }
 }
@@ -565,7 +546,8 @@ export function MainStackScreen() {
       name,
       acceptedTerms,
       pincodeType,
-      redeemComplete,
+      account,
+      numberIsVerified,
       hasSeenVerificationNux,
     } = mapStateToProps(store.getState())
 
@@ -576,11 +558,11 @@ export function MainStackScreen() {
     } else if (!name || !acceptedTerms || pincodeType === PincodeType.Unset) {
       // User didn't go far enough in onboarding, start again from education
       initialRoute = Screens.OnboardingEducationScreen
-    } else if (!redeemComplete) {
+    } else if (!account) {
       initialRoute = choseToRestoreAccount
         ? Screens.ImportWallet
         : Screens.OnboardingEducationScreen
-    } else if (!hasSeenVerificationNux) {
+    } else if (!numberIsVerified && !hasSeenVerificationNux) {
       initialRoute = Screens.VerificationEducationScreen
     } else {
       initialRoute = Screens.DrawerNavigator
@@ -615,7 +597,6 @@ export function MainStackScreen() {
 
 const modalAnimatedScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen name={Screens.Send} component={Send} options={Send.navigationOptions} />
     <Navigator.Screen
       name={Screens.PincodeEnter}
       component={PincodeEnter}

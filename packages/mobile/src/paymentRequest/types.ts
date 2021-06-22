@@ -1,5 +1,4 @@
 import { NotificationTypes } from 'src/notifications/types'
-import { ShortCurrency } from 'src/utils/currencies'
 
 export enum PaymentRequestStatus {
   REQUESTED = 'REQUESTED',
@@ -12,12 +11,15 @@ export interface PaymentRequest {
   uid?: string
   amount: string
   comment?: string
-  timestamp: Date
+  createdAt: number
   requesterAddress: string
   requesteeAddress: string
   requesterE164Number?: string
-  currency: ShortCurrency
   status: PaymentRequestStatus
   notified: boolean
   type?: NotificationTypes.PAYMENT_REQUESTED
+}
+
+export interface WriteablePaymentRequest extends Omit<PaymentRequest, 'createdAt'> {
+  createdAt: object
 }

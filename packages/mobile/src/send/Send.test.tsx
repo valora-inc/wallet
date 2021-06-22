@@ -3,6 +3,7 @@ import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
 import Send from 'src/send/Send'
+import { KomenciAvailable } from 'src/verify/module'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockE164Number,
@@ -18,9 +19,22 @@ const defaultStore = {
   send: {
     inviteRewardsEnabled: false,
     recentRecipients: [mockRecipient],
+    showSendToAddressWarning: true,
   },
   app: {
     numberVerified: true,
+  },
+  verify: {
+    komenciAvailable: KomenciAvailable.Yes,
+    status: {
+      isVerified: false,
+      numAttestationsRemaining: 3,
+      total: 3,
+      completed: 0,
+    },
+    komenci: {
+      errorTimestamps: [],
+    },
   },
   recipients: {
     phoneRecipientCache: {
@@ -46,7 +60,6 @@ describe('Send', () => {
 
     expect(tree).toMatchSnapshot()
     expect(tree.queryByTestId('InviteRewardsBanner')).toBeFalsy()
-    expect(tree.queryByTestId('GetRewardPill')).toBeFalsy()
   })
 
   it('renders correctly with invite rewards enabled', async () => {
@@ -66,6 +79,5 @@ describe('Send', () => {
     )
 
     expect(tree.queryByTestId('InviteRewardsBanner')).toBeTruthy()
-    expect(tree.queryAllByTestId('GetRewardPill')?.length).toEqual(1)
   })
 })

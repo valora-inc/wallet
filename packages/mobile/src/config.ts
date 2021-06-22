@@ -5,7 +5,7 @@ import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
 import { GethSyncMode } from 'src/geth/consts'
 import { Currency } from 'src/utils/currencies'
-// tslint:disable-next-line
+// eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
 
 export * from 'src/brandingConfig'
@@ -45,16 +45,16 @@ export const DOLLAR_ADD_FUNDS_MAX_AMOUNT = 5000
 export const DOLLAR_CASH_OUT_MIN_AMOUNT = 0.01
 // The minimum allowed value for a transaction such as a transfer
 export const DOLLAR_TRANSACTION_MIN_AMOUNT = 0.01
+export const EURO_TRANSACTION_MIN_AMOUNT = 0.01
 export const GOLD_TRANSACTION_MIN_AMOUNT = 0.001
 // The number of seconds before the sender can reclaim the payment.
-export const ESCROW_PAYMENT_EXPIRY_SECONDS = 3600 // 1 hour
+export const ESCROW_PAYMENT_EXPIRY_SECONDS = 1 // The contract doesn't allow 0 seconds.
 export const DEFAULT_TESTNET = Config.DEFAULT_TESTNET
 export const DEFAULT_DAILY_PAYMENT_LIMIT_CUSD = 1000
 export const SMS_RETRIEVER_APP_SIGNATURE = Config.SMS_RETRIEVER_APP_SIGNATURE
 // ODIS minimum dollar balance for pepper quota retrieval
 // TODO change this to new ODIS minimum dollar balance once deployed
 export const ODIS_MINIMUM_DOLLAR_BALANCE = 0.1
-
 export const ATTESTATION_REVEAL_TIMEOUT_SECONDS = 60 // 1 minute
 
 // We can safely assume that any balance query returning a number
@@ -90,7 +90,6 @@ export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SEG
 export const SENTRY_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SENTRY_URL')
 export const RECAPTCHA_SITE_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'RECAPTCHA_SITE_KEY')
 export const SAFETYNET_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SAFETYNET_KEY')
-export const MOONPAY_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'MOONPAY_API_KEY')
 export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')
 
 export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [
@@ -157,8 +156,4 @@ export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 
-export enum CurrencyCode {
-  CELO = 'CELO',
-  CUSD = 'CUSD',
-  CEUR = 'CEUR',
-}
+export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds

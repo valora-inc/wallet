@@ -12,14 +12,14 @@ import {
 } from 'src/localCurrency/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'localCurrency/saga'
 
 export async function fetchExchangeRate(
-  localCurrencyCode: string,
-  sourceCurrency: Currency
+  sourceCurrency: Currency,
+  localCurrencyCode: string
 ): Promise<string> {
   const response = await apolloClient.query<ExchangeRateQuery, ExchangeRateQueryVariables>({
     query: gql`
@@ -31,7 +31,7 @@ export async function fetchExchangeRate(
     `,
     variables: {
       currencyCode: localCurrencyCode,
-      sourceCurrencyCode: CURRENCIES[sourceCurrency].code,
+      sourceCurrencyCode: sourceCurrency,
     },
     fetchPolicy: 'network-only',
     errorPolicy: 'all',
@@ -52,12 +52,22 @@ export function* fetchLocalCurrencyRateSaga() {
     if (!localCurrencyCode) {
       throw new Error("Can't fetch local currency rate without a currency code")
     }
-    const [usdRate, euroRate, celoRate] = yield all([
-      call(fetchExchangeRate, localCurrencyCode, Currency.Dollar),
-      call(fetchExchangeRate, localCurrencyCode, Currency.Euro),
-      call(fetchExchangeRate, localCurrencyCode, Currency.Celo),
+    const [usdRate, euroRate, celoRate]: [string, string, string] = yield all([
+      call(fetchExchangeRate, Currency.Dollar, localCurrencyCode),
+      call(fetchExchangeRate, Currency.Euro, localCurrencyCode),
+      call(fetchExchangeRate, Currency.Celo, localCurrencyCode),
     ])
-    yield put(fetchCurrentRateSuccess(localCurrencyCode, usdRate, euroRate, celoRate, Date.now()))
+    yield put(
+      fetchCurrentRateSuccess(
+        localCurrencyCode,
+        {
+          [Currency.Dollar]: usdRate,
+          [Currency.Euro]: euroRate,
+          [Currency.Celo]: celoRate,
+        },
+        Date.now()
+      )
+    )
   } catch (error) {
     Logger.error(`${TAG}@fetchLocalCurrencyRateSaga`, error)
     yield put(fetchCurrentRateFailure())

@@ -7,8 +7,6 @@ import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-// tslint:disable no-eval
-
 const mockScreenProps = getMockStackScreenProps(Screens.BidaliScreen, {
   currency: Currency.Dollar,
 })
@@ -28,7 +26,7 @@ describe(BidaliScreen, () => {
   it('renders correctly when no phone number is provided', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: null },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10' } },
     })
 
     const { getByType } = render(
@@ -39,6 +37,7 @@ describe(BidaliScreen, () => {
 
     const webView = getByType(WebView)
     expect(webView).toBeDefined()
+    // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
     expect(window.valora).toMatchInlineSnapshot(`
       Object {
@@ -56,7 +55,7 @@ describe(BidaliScreen, () => {
   it('renders correctly when a phone number is provided', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: '+14155556666' },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10' } },
     })
 
     const { getByType } = render(
@@ -66,6 +65,7 @@ describe(BidaliScreen, () => {
     )
     const webView = getByType(WebView)
     expect(webView).toBeDefined()
+    // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
     expect(window.valora).toMatchInlineSnapshot(`
       Object {

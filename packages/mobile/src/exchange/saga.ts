@@ -310,7 +310,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       Logger.error(TAG, 'No transaction ID. Did not exchange.')
       return
     }
-    yield call(
+    const { receipt, error } = yield call(
       sendAndMonitorTransaction,
       tx,
       account,
@@ -318,13 +318,17 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       undefined, // currency, undefined because it's an exchange and we need both.
       makerToken
     )
-    ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_complete, {
-      txId: context.id,
-      currency: makerToken,
-      amount: makerAmount.toString(),
-    })
+    if (receipt) {
+      ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_complete, {
+        txId: context.id,
+        currency: makerToken,
+        amount: makerAmount.toString(),
+      })
+    } else {
+      throw error
+    }
   } catch (error) {
-    ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, { error: error.message })
+    ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, { error: error?.message })
     Logger.error(TAG, 'Error doing exchange', error)
     const isDollarToGold = makerToken === Currency.Dollar
 
@@ -350,9 +354,9 @@ function* createStandbyTx(makerToken: Currency, makerAmount: BigNumber, exchange
       context,
       type: TokenTransactionType.Exchange,
       status: TransactionStatus.Pending,
-      inSymbol: makerToken,
+      inCurrency: makerToken,
       inValue: makerAmount.toString(),
-      outSymbol: makerToken === Currency.Dollar ? Currency.Celo : Currency.Dollar,
+      outCurrency: makerToken === Currency.Dollar ? Currency.Celo : Currency.Dollar,
       outValue: takerAmount.toString(),
       timestamp: Math.floor(Date.now() / 1000),
     })
@@ -382,7 +386,7 @@ export function* withdrawCelo(action: WithdrawCeloAction) {
         comment: '',
         status: TransactionStatus.Pending,
         value: amount.toString(),
-        symbol: Currency.Celo,
+        currency: Currency.Celo,
         timestamp: Math.floor(Date.now() / 1000),
         address: recipientAddress,
       })

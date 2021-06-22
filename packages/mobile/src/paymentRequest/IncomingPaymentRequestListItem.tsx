@@ -1,7 +1,7 @@
 import RequestMessagingCard from '@celo/react-components/components/RequestMessagingCard'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useFocusEffect } from '@react-navigation/native'
 import BigNumber from 'bignumber.js'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,7 +21,7 @@ import { declinePaymentRequest } from 'src/paymentRequest/actions'
 import { Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 interface Props {
@@ -36,7 +36,6 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
   const dispatch = useDispatch()
   const [payButtonPressed, setPayButtonPressed] = useState(false)
   const [addressesFetched, setAddressesFetched] = useState(false)
-  const navigation = useNavigation()
 
   const e164PhoneNumber = requester.e164PhoneNumber
   const requesterAddress = requester.address
@@ -74,6 +73,7 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
       reason: comment,
       recipient: requester,
       amount: new BigNumber(amount),
+      currency: Currency.Dollar,
       type: TokenTransactionType.PayRequest,
       firebasePendingRequestUid: id,
     }
@@ -95,17 +95,17 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
   }
 
   useFocusEffect(
-    React.useCallback(() => {
-      const removeButtonFocusListener = navigation.addListener('focus', () => {
+    useCallback(
+      () => () => {
+        // This is run when focus is lost.
         setPayButtonPressed(false)
         setAddressesFetched(false)
-      })
-
-      return removeButtonFocusListener
-    }, [])
+      },
+      []
+    )
   )
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Need this to make sure it's only triggered on click
     if (!payButtonPressed) {
       return
@@ -135,7 +135,7 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
           <CurrencyDisplay
             amount={{
               value: amount,
-              currencyCode: CURRENCIES[Currency.Dollar].code,
+              currencyCode: Currency.Dollar,
             }}
           />
         }

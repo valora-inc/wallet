@@ -14,7 +14,7 @@ import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
-import { Currency, currencyToShortMap } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -72,7 +72,7 @@ export function* fetchToken(token: Currency, tag: string) {
     const tokenContract = yield call(getTokenContract, token)
     const balanceInWei: BigNumber = yield call([tokenContract, tokenContract.balanceOf], account)
     const balance: BigNumber = yield call(convertFromContractDecimals, balanceInWei, token)
-    const balanceLogObject = { [`${currencyToShortMap[token]}Balance`]: balance.toString() }
+    const balanceLogObject = { [`${token}Balance`]: balance.toString() }
 
     // Only update balances when it's less than the upper bound
     if (balance.lt(WALLET_BALANCE_UPPER_BOUND)) {
@@ -95,6 +95,7 @@ export interface BasicTokenTransfer {
 export interface TokenTransfer {
   recipientAddress: string
   amount: string
+  currency: Currency
   comment: string
   feeInfo?: FeeInfo
   context: TransactionContext
@@ -105,9 +106,6 @@ export type TokenTransferAction = { type: string } & TokenTransfer
 interface TokenTransferFactory {
   actionName: string
   tag: string
-  currency: Currency
-  fetchAction: () => any
-  staticGas?: number
 }
 
 // TODO(martinvol) this should go to the SDK
@@ -145,17 +143,11 @@ export async function fetchTokenBalanceInWeiWithRetry(token: Currency, account: 
   return balanceInWei
 }
 
-export function tokenTransferFactory({
-  actionName,
-  tag,
-  currency,
-  fetchAction,
-  staticGas,
-}: TokenTransferFactory) {
+export function tokenTransferFactory({ actionName, tag }: TokenTransferFactory) {
   return function* () {
     while (true) {
       const transferAction: TokenTransferAction = yield take(actionName)
-      const { recipientAddress, amount, comment, feeInfo, context } = transferAction
+      const { recipientAddress, amount, currency, comment, feeInfo, context } = transferAction
 
       Logger.debug(
         tag,
@@ -174,14 +166,14 @@ export function tokenTransferFactory({
           comment,
           status: TransactionStatus.Pending,
           value: amount.toString(),
-          symbol: currency,
+          currency,
           timestamp: Math.floor(Date.now() / 1000),
           address: recipientAddress,
         })
       )
 
       try {
-        const account = yield call(getConnectedUnlockedAccount)
+        const account: string = yield call(getConnectedUnlockedAccount)
 
         const tx: CeloTransactionObject<boolean> = yield call(
           createTokenTransferTransaction,

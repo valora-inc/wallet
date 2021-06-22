@@ -10,7 +10,7 @@ import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/No
 import { Namespaces, withTranslation } from 'src/i18n'
 import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 interface OwnProps {
@@ -61,7 +61,7 @@ export class OutgoingPaymentRequestListItem extends React.Component<Props> {
     const { requestee, id, comment, t } = this.props
     const amount = {
       value: this.props.amount,
-      currencyCode: CURRENCIES[Currency.Dollar].code,
+      currencyCode: Currency.Dollar,
     }
 
     return (

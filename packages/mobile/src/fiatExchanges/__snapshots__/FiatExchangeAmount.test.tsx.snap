@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FiatExchangeAmount renders correctly 1`] = `
+exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
 <RNCSafeAreaView
   edges={
     Array [
@@ -542,14 +542,15 @@ exports[`FiatExchangeAmount renders correctly 1`] = `
                 Array [
                   undefined,
                   Object {
-                    "color": "#2E3338",
+                    "color": undefined,
                   },
                 ]
               }
+              testID="undefined/value"
             >
               
               $
-              1.33
+              1.00
             </Text>
           </Text>
         </View>
@@ -577,10 +578,11 @@ exports[`FiatExchangeAmount renders correctly 1`] = `
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             0.00

@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import CeloExchangeButtons from 'src/exchange/CeloExchangeButtons'
 import { ExchangeRatePair } from 'src/exchange/reducer'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.11', dollarMaker: '10' }
@@ -15,7 +16,7 @@ describe('CeloExchangeButtons', () => {
   it('renders correctly', () => {
     const store = createMockStore({
       goldToken: { balance: '10' },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10' } },
       exchange: { exchangeRatePair },
     })
 
@@ -30,7 +31,7 @@ describe('CeloExchangeButtons', () => {
   it("hides buy button when there's no dollar balance", () => {
     const store = createMockStore({
       goldToken: { balance: '10' },
-      stableToken: { balance: '0' },
+      stableToken: { balances: { [Currency.Dollar]: '0' } },
       exchange: { exchangeRatePair },
     })
 
@@ -45,7 +46,7 @@ describe('CeloExchangeButtons', () => {
   it("hides sell button when there's no CELO balance", () => {
     const store = createMockStore({
       goldToken: { balance: '0' },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10' } },
       exchange: { exchangeRatePair },
     })
 
@@ -60,7 +61,7 @@ describe('CeloExchangeButtons', () => {
   it("returns null when there's no CELO and dollar balance", () => {
     const store = createMockStore({
       goldToken: { balance: '0' },
-      stableToken: { balance: '0' },
+      stableToken: { balances: { [Currency.Dollar]: '0' } },
       exchange: { exchangeRatePair },
     })
 

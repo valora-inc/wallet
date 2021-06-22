@@ -3,7 +3,7 @@ import * as functions from 'firebase-functions'
 import { trackEvent } from '../bigQuery'
 import { BIGQUERY_PROVIDER_STATUS_TABLE, MOONPAY_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
-import { CashInStatus, Provider } from './Provider'
+import { CashInStatus, Providers } from './Providers'
 
 const MOONPAY_SIGNATURE_HEADER = 'Moonpay-Signature-V2'
 
@@ -34,7 +34,7 @@ function trackMoonpayEvent(body: any) {
   if (MoonpayWebhookType.Started === type) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
       id,
-      provider: Provider.Moonpay,
+      provider: Providers.Moonpay,
       status: CashInStatus.Started,
       timestamp: Date.now() / 1000,
       user_address: walletAddress,
@@ -42,7 +42,7 @@ function trackMoonpayEvent(body: any) {
   } else if (status === MoonpayTxStatus.Failed) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
       id,
-      provider: Provider.Moonpay,
+      provider: Providers.Moonpay,
       status: CashInStatus.Failure,
       timestamp: Date.now() / 1000,
       user_address: walletAddress,
@@ -51,7 +51,7 @@ function trackMoonpayEvent(body: any) {
   } else if (status === MoonpayTxStatus.Completed) {
     trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
       id,
-      provider: Provider.Moonpay,
+      provider: Providers.Moonpay,
       status: CashInStatus.Success,
       timestamp: Date.now() / 1000,
       user_address: walletAddress,
@@ -137,7 +137,7 @@ export const moonpayWebhook = functions.https.onRequest((request, response) => {
     )
 
     if (cryptoTransactionId) {
-      saveTxHashProvider(walletAddress, cryptoTransactionId, Provider.Moonpay)
+      saveTxHashProvider(walletAddress, cryptoTransactionId, Providers.Moonpay)
     } else {
       console.error('Tx hash not found on MoonPay webhook')
     }

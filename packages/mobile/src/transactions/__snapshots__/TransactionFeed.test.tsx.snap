@@ -231,6 +231,7 @@ exports[`renders for gold to dollar exchange properly 1`] = `
                     },
                   ]
                 }
+                testID="undefined/value"
               >
                 -
                 $

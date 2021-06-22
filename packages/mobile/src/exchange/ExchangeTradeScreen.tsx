@@ -30,10 +30,13 @@ import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   convertDollarsToLocalAmount,
-  convertDollarsToMaxSupportedPrecision,
   convertLocalAmountToDollars,
+  convertToMaxSupportedPrecision,
 } from 'src/localCurrency/convert'
-import { getLocalCurrencyCode, getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
+import {
+  getLocalCurrencyCode,
+  getLocalCurrencyToDollarsExchangeRate,
+} from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -73,7 +76,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   exchangeRatePair: state.exchange.exchangeRatePair,
   error: errorSelector(state),
   localCurrencyCode: getLocalCurrencyCode(state),
-  localCurrencyExchangeRate: getLocalCurrencyExchangeRate(state),
+  localCurrencyExchangeRate: getLocalCurrencyToDollarsExchangeRate(state),
 })
 
 export class ExchangeTradeScreen extends React.Component<Props, State> {
@@ -230,7 +233,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
     const dollarsAmount =
       convertLocalAmountToDollars(parsedInputAmount, localCurrencyExchangeRate) || new BigNumber('')
 
-    return convertDollarsToMaxSupportedPrecision(dollarsAmount)
+    return convertToMaxSupportedPrecision(dollarsAmount)
   }
 
   getInputTokenDisplayText = () => {
@@ -268,7 +271,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
   getSubtotalAmount = (): MoneyAmount => {
     return {
       value: this.getOppositeInputTokenAmount(this.getInputTokenAmount()),
-      currencyCode: CURRENCIES[this.getOppositeInputToken()].code,
+      currencyCode: this.getOppositeInputToken(),
     }
   }
 
@@ -330,7 +333,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
                 <CurrencyDisplay
                   amount={{
                     value: exchangeRateDisplay,
-                    currencyCode: CURRENCIES[Currency.Dollar].code,
+                    currencyCode: Currency.Dollar,
                   }}
                 />
               </Trans>

@@ -1,16 +1,20 @@
-import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/stableToken/actions'
+import { Currency, StableCurrency } from 'src/utils/currencies'
 
+export type StableBalances = {
+  [currency in StableCurrency]: string | null
+}
 export interface State {
-  balance: string | null // For legacy reasons, balance alone is cUsdBalance
-  cEurBalance: string | null
+  balances: StableBalances
   lastFetch: number | null
   educationCompleted: boolean
 }
 
 export const initialState = {
-  balance: null,
-  cEurBalance: null,
+  balances: {
+    [Currency.Dollar]: null,
+    [Currency.Euro]: null,
+  },
   lastFetch: null,
   educationCompleted: false,
 }
@@ -20,8 +24,10 @@ export const reducer = (state: State | undefined = initialState, action: ActionT
     case Actions.SET_BALANCE:
       return {
         ...state,
-        balance: action.cUsdBalance ?? state.balance,
-        cEurBalance: action.cEurBalance ?? state.cEurBalance,
+        balances: {
+          ...state.balances,
+          ...action.balances,
+        },
         lastFetch: Date.now(),
       }
     case Actions.SET_EDUCATION_COMPLETED:
@@ -33,6 +39,3 @@ export const reducer = (state: State | undefined = initialState, action: ActionT
       return state
   }
 }
-
-export const cUsdBalanceSelector = (state: RootState) => state.stableToken.balance
-export const cEurBalanceSelector = (state: RootState) => state.stableToken.cEurBalance

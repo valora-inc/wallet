@@ -19,13 +19,13 @@ import { exchangeTokens, fetchExchangeRate, fetchTobinTax } from 'src/exchange/a
 import { ExchangeRatePair } from 'src/exchange/reducer'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
-import { getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
+import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selectors'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { getRateForMakerToken, getTakerAmount } from 'src/utils/currencyExchange'
 
 interface StateProps {
@@ -59,7 +59,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   // TODO: use real fee
   fee: new BigNumber(0),
   appConnected: isAppConnected(state),
-  localCurrencyExchangeRate: getLocalCurrencyExchangeRate(state),
+  localCurrencyExchangeRate: getLocalCurrencyToDollarsExchangeRate(state),
 })
 
 export class ExchangeReview extends React.Component<Props, State> {
@@ -172,26 +172,26 @@ export class ExchangeReview extends React.Component<Props, State> {
 
     const exchangeAmount = {
       value: this.state.inputAmount,
-      currencyCode: CURRENCIES[this.state.inputToken].code,
+      currencyCode: this.state.inputToken,
     }
     const exchangeRateAmount = {
       value: exchangeRate,
-      currencyCode: CURRENCIES[Currency.Dollar].code,
+      currencyCode: Currency.Dollar,
     }
     const subtotalAmount = {
       value: dollarAmount,
-      currencyCode: CURRENCIES[Currency.Dollar].code,
+      currencyCode: Currency.Dollar,
     }
     const totalFee = new BigNumber(tobinTax).plus(fee)
 
     const totalAmount = {
       value: dollarAmount.plus(totalFee),
-      currencyCode: CURRENCIES[Currency.Dollar].code,
+      currencyCode: Currency.Dollar,
     }
 
     const goldAmount = {
       value: this.getInputAmountInToken(Currency.Celo),
-      currencyCode: CURRENCIES[Currency.Celo].code,
+      currencyCode: Currency.Celo,
     }
 
     return (

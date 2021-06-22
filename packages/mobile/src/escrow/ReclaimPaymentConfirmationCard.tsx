@@ -12,7 +12,7 @@ import { FeeInfo } from 'src/fees/saga'
 import { getFeeInTokens } from 'src/fees/selectors'
 import { Namespaces } from 'src/i18n'
 import { MobileRecipient } from 'src/recipients/recipient'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   recipientPhone: string
@@ -36,13 +36,13 @@ export default function ReclaimPaymentConfirmationCard({
   const { t } = useTranslation(Namespaces.sendFlow7)
   const amount = {
     value: amountProp,
-    currencyCode: CURRENCIES[currency].code,
+    currencyCode: currency,
   }
   const fee = getFeeInTokens(feeInfo?.fee)
   const securityFeeAmount = fee &&
     feeInfo && {
       value: fee.negated(),
-      currencyCode: CURRENCIES[feeInfo.currency].code,
+      currencyCode: feeInfo.currency,
     }
   const totalAmount = {
     value: amountProp.minus(fee ?? 0),

@@ -11,7 +11,7 @@ import FeeDrawer from 'src/components/FeeDrawer'
 import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { Namespaces } from 'src/i18n'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 export interface ExchangeConfirmationCardProps {
   makerAmount: MoneyAmount
@@ -23,7 +23,7 @@ type Props = ExchangeConfirmationCardProps
 export default function ExchangeConfirmationCard(props: Props) {
   const { t } = useTranslation(Namespaces.exchangeFlow9)
   const { makerAmount, takerAmount } = props
-  const isSellGoldTx = makerAmount.currencyCode === CURRENCIES[Currency.Celo].code
+  const isSellGoldTx = makerAmount.currencyCode === Currency.Celo
   const [gold, dollars] = isSellGoldTx
     ? [makerAmount.value, takerAmount.value]
     : [takerAmount.value, makerAmount.value]
@@ -37,7 +37,7 @@ export default function ExchangeConfirmationCard(props: Props) {
   // TODO: find a way on how to show local exchangeRate without this hack
   const exchangeRateAmount = {
     value: localAmount.exchangeRate,
-    currencyCode: CURRENCIES[Currency.Dollar].code,
+    currencyCode: Currency.Dollar,
     localAmount: {
       value: localAmount.exchangeRate,
       exchangeRate: localAmount.exchangeRate,
@@ -47,17 +47,17 @@ export default function ExchangeConfirmationCard(props: Props) {
 
   const goldAmount = {
     value: gold,
-    currencyCode: CURRENCIES[Currency.Celo].code,
+    currencyCode: Currency.Celo,
   }
 
   const subtotalAmount = {
     value: dollars,
-    currencyCode: CURRENCIES[Currency.Dollar].code,
+    currencyCode: Currency.Dollar,
   }
 
   const totalAmount = {
     value: new BigNumber(dollars).plus(totalFee),
-    currencyCode: CURRENCIES[Currency.Dollar].code,
+    currencyCode: Currency.Dollar,
   }
 
   return (

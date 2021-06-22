@@ -1,6 +1,6 @@
 import PhoneNumberWithFlag from '@celo/react-components/components/PhoneNumberWithFlag'
 import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
+import fontStyles, { fontFamily } from '@celo/react-components/styles/fonts'
 import {
   createDrawerNavigator,
   DrawerContentComponentProps,
@@ -37,7 +37,6 @@ import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
-import { features } from 'src/flags'
 import WalletHome from 'src/home/WalletHome'
 import i18n, { Namespaces } from 'src/i18n'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
@@ -167,11 +166,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
       <CustomDrawerItemList {...props} protectedRoutes={[Screens.BackupIntroduction]} />
       <View style={styles.drawerBottom}>
         <Text style={fontStyles.label}>{i18n.t('dappkit:address')}</Text>
-        <View style={styles.accountOuterContainer}>
-          <View style={styles.accountInnerContainer}>
-            <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
-          </View>
-        </View>
+        <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
+        <Text style={styles.link}>{i18n.t('accountScreen10:tapToCopy')}</Text>
         <Text style={styles.smallLabel}>{`Version ${appVersion}`}</Text>
       </View>
     </DrawerContentScrollView>
@@ -229,16 +225,14 @@ export default function DrawerNavigator() {
         component={FiatExchange}
         options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
       />
-      {features.KOMENCI && (
-        <Drawer.Screen
-          name={'InviteModal'}
-          component={InviteFriendModal}
-          initialParams={{
-            onPress: () => dispatch(toggleInviteModal(true)),
-          }}
-          options={{ title: t('invite'), drawerIcon: Invite }}
-        />
-      )}
+      <Drawer.Screen
+        name={'InviteModal'}
+        component={InviteFriendModal}
+        initialParams={{
+          onPress: () => dispatch(toggleInviteModal(true)),
+        }}
+        options={{ title: t('invite'), drawerIcon: Invite }}
+      />
       <Drawer.Screen
         name={Screens.Settings}
         component={SettingsScreen}
@@ -280,17 +274,15 @@ const styles = StyleSheet.create({
     marginVertical: 32,
     marginHorizontal: 16,
   },
-  accountOuterContainer: {
-    flexDirection: 'row',
-    marginTop: 8,
-    marginBottom: 32,
-  },
-  accountInnerContainer: {
-    marginLeft: 4,
-    flexDirection: 'column',
-  },
   smallLabel: {
     ...fontStyles.small,
     color: colors.gray4,
+  },
+  link: {
+    ...fontStyles.label,
+    textDecorationLine: 'underline',
+    color: colors.gray4,
+    fontFamily,
+    marginBottom: 32,
   },
 })

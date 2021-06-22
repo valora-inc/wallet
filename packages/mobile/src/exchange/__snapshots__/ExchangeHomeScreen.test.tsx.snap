@@ -59,11 +59,11 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
           },
         ]
       }
-      testID="Hamburguer"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -388,10 +388,11 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             
@@ -415,10 +416,11 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
@@ -521,11 +523,11 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
           },
         ]
       }
-      testID="Hamburguer"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -931,10 +933,11 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             
@@ -958,10 +961,11 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $

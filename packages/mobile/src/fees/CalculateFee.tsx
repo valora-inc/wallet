@@ -23,8 +23,9 @@ interface InviteProps extends CommonProps {
   feeType: FeeType.INVITE
   account: string
   amount: BigNumber
+  currency: Currency
   comment?: string
-  dollarBalance: string
+  balance: string
 }
 
 interface SendProps extends CommonProps {
@@ -32,10 +33,10 @@ interface SendProps extends CommonProps {
   account: string
   recipientAddress: string
   amount: string
+  currency: Currency
   comment?: string
   includeDekFee: boolean
-  currency?: Currency
-  dollarBalance?: string
+  balance: string
 }
 
 interface ExchangeProps extends CommonProps {
@@ -79,9 +80,14 @@ function useAsyncShowError<R, Args extends any[]>(
 
 const CalculateInviteFee: FunctionComponent<InviteProps> = (props) => {
   const asyncResult = useAsyncShowError(
-    (account: string, amount: BigNumber, comment: string = MAX_PLACEHOLDER_COMMENT) =>
-      getInviteFee(account, Currency.Dollar, amount.valueOf(), props.dollarBalance, comment),
-    [props.account, props.amount, props.comment]
+    (
+      account: string,
+      amount: BigNumber,
+      currency: Currency,
+      balance: string,
+      comment: string = MAX_PLACEHOLDER_COMMENT
+    ) => getInviteFee(account, currency, amount.valueOf(), balance, comment),
+    [props.account, props.amount, props.currency, props.balance, props.comment]
   )
   return props.children(asyncResult) as React.ReactElement
 }
@@ -92,10 +98,10 @@ export const useSendFee = (props: Omit<SendProps, 'children'>): UseAsyncReturn<F
       account: string,
       recipientAddress: string,
       amount: string,
-      dollarBalance?: string,
+      currency: Currency,
+      balance: string,
       comment: string = MAX_PLACEHOLDER_COMMENT,
-      includeDekFee: boolean = false,
-      currency: Currency = Currency.Dollar
+      includeDekFee: boolean = false
     ) =>
       getSendFee(
         account,
@@ -106,16 +112,16 @@ export const useSendFee = (props: Omit<SendProps, 'children'>): UseAsyncReturn<F
           comment,
         },
         includeDekFee,
-        dollarBalance
+        balance
       ),
     [
       props.account,
       props.recipientAddress,
       props.amount,
-      props.dollarBalance,
+      props.currency,
+      props.balance,
       props.comment,
       props.includeDekFee,
-      props.currency,
     ]
   )
 }

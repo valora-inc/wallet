@@ -1,4 +1,3 @@
-// tslint:disable: no-relative-imports
 import accountScreen10 from './accountScreen10.json'
 import backupKeyFlow6 from './backupKeyFlow6.json'
 import consumerIncentives from './consumerIncentives.json'

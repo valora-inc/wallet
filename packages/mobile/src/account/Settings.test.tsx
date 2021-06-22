@@ -1,14 +1,23 @@
 import * as React from 'react'
 import 'react-native'
+import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import Settings from 'src/account/Settings'
+import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { KomenciAvailable } from 'src/verify/reducer'
+import { Currency } from 'src/utils/currencies'
+import { KomenciAvailable } from 'src/verify/module'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper } from 'test/values'
 
+const mockedEnsurePincode = ensurePincode as jest.Mock
+
 describe('Account', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   beforeAll(() => {
     jest.useFakeTimers()
   })
@@ -25,7 +34,7 @@ describe('Account', () => {
             e164PhoneNumber: mockE164Number,
           },
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-          stableToken: { balance: '0.00' },
+          stableToken: { balances: { [Currency.Dollar]: '0.00' } },
           goldToken: { balance: '0.00' },
           verify: {
             komenciAvailable: KomenciAvailable.Yes,
@@ -45,7 +54,7 @@ describe('Account', () => {
       <Provider
         store={createMockStore({
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-          stableToken: { balance: '0.00' },
+          stableToken: { balances: { [Currency.Dollar]: '0.00' } },
           goldToken: { balance: '0.00' },
           account: {
             devModeActive: true,
@@ -89,5 +98,32 @@ describe('Account', () => {
       </Provider>
     )
     expect(tree).toMatchSnapshot()
+  })
+
+  it('navigates to PincodeSet screen if entered PIN is correct', async () => {
+    const tree = render(
+      <Provider store={createMockStore({})}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
+    fireEvent.press(tree.getByTestId('ChangePIN'))
+    await flushMicrotasksQueue()
+    expect(navigate).toHaveBeenCalledWith(Screens.PincodeSet, {
+      isVerifying: false,
+      changePin: true,
+    })
+  })
+
+  it('does not navigate to PincodeSet screen if entered PIN is incorrect', async () => {
+    const tree = render(
+      <Provider store={createMockStore({})}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(false))
+    fireEvent.press(tree.getByTestId('ChangePIN'))
+    await flushMicrotasksQueue()
+    expect(navigate).not.toHaveBeenCalled()
   })
 })

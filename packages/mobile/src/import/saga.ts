@@ -22,7 +22,6 @@ import {
   importBackupPhraseFailure,
   importBackupPhraseSuccess,
 } from 'src/import/actions'
-import { redeemInviteSuccess } from 'src/invite/actions'
 import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
@@ -82,15 +81,8 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     yield call(storeMnemonic, mnemonic, account)
     // Set backup complete so user isn't prompted to do backup flow
     yield put(setBackupCompleted())
-    // Set redeem invite complete so user isn't brought back into nux flow
-    yield put(redeemInviteSuccess())
     yield put(refreshAllBalances())
-    try {
-      yield call(uploadNameAndPicture)
-    } catch (error) {
-      // The error is logged by uploadNameAndPicture, but we don't want to interrupt the flow if it fails.
-      // TODO: Add some retry mechanism.
-    }
+    yield call(uploadNameAndPicture)
 
     const recoveringFromStoreWipe = yield select(recoveringFromStoreWipeSelector)
     if (recoveringFromStoreWipe) {

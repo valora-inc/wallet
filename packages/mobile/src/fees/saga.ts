@@ -4,11 +4,10 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { FeeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { getReclaimEscrowGas } from 'src/escrow/saga'
+import { getEscrowTxGas, getReclaimEscrowGas } from 'src/escrow/saga'
 import { Actions, EstimateFeeAction, feeEstimated, FeeType } from 'src/fees/actions'
-import { getInvitationVerificationFeeInWei, getInviteTxGas } from 'src/invite/saga'
 import { getSendTxGas } from 'src/send/saga'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { BasicTokenTransfer } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -65,18 +64,7 @@ export function* estimateFeeSaga({ feeType }: EstimateFeeAction) {
 
     switch (feeType) {
       case FeeType.INVITE:
-        feeInWei = yield call(
-          getOrSetFee,
-          FeeType.INVITE,
-          call(
-            getInviteTxGas,
-            account,
-            Currency.Dollar,
-            placeholderSendTx.amount,
-            placeholderSendTx.comment
-          )
-        )
-        feeInWei = feeInWei!.plus(getInvitationVerificationFeeInWei())
+        feeInWei = yield call(getOrSetFee, FeeType.INVITE, call(getEscrowTxGas))
         break
       case FeeType.SEND:
         feeInWei = yield call(

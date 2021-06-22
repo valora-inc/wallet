@@ -19,9 +19,9 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useTypedSelector from 'src/redux/useSelector'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { useCountryFeatures } from 'src/utils/countryFeatures'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 
@@ -61,7 +61,7 @@ function FiatExchange() {
   const dollarBalance = useSelector(cUsdBalanceSelector)
   const dollarAmount = {
     value: dollarBalance ?? '0',
-    currencyCode: CURRENCIES[Currency.Dollar].code,
+    currencyCode: Currency.Dollar,
   }
 
   const { FIAT_SPEND_ENABLED } = useCountryFeatures()
@@ -85,7 +85,9 @@ function FiatExchange() {
 
       <View style={styles.optionsListContainer}>
         <ListItem onPress={goToAddFunds}>
-          <Text style={styles.optionTitle}>{t('fiatExchangeFlow:addFunds')}</Text>
+          <Text testID="addFunds" style={styles.optionTitle}>
+            {t('fiatExchangeFlow:addFunds')}
+          </Text>
           <Text style={styles.optionSubtitle}>{t('fiatExchangeFlow:addFundsSubtitle')}</Text>
         </ListItem>
         {features.SHOW_CASH_OUT ? (

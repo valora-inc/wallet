@@ -11,6 +11,7 @@ import { PaymentRequest } from 'src/paymentRequest/types'
 import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { Currency } from 'src/utils/currencies'
 
 interface StateProps {
@@ -20,7 +21,7 @@ interface StateProps {
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  dollarBalance: state.stableToken.balance,
+  dollarBalance: cUsdBalanceSelector(state),
   paymentRequests: getIncomingPaymentRequests(state),
   recipientInfo: recipientInfoSelector(state),
 })

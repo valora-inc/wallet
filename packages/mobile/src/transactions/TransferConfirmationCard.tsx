@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { MoneyAmount, TokenTransactionType } from 'src/apollo/types'
+import { rewardsEnabledSelector } from 'src/app/selectors'
+import { CELO_REWARDS_LINK } from 'src/brandingConfig'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import FeeDrawer from 'src/components/FeeDrawer'
@@ -20,7 +22,6 @@ import { FAQ_LINK } from 'src/config'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import { Namespaces } from 'src/i18n'
 import { addressToDisplayNameSelector } from 'src/identity/reducer'
-import { getInvitationVerificationFeeInDollars } from 'src/invite/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Recipient } from 'src/recipients/recipient'
@@ -29,7 +30,7 @@ import BottomText from 'src/transactions/BottomText'
 import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import UserSection from 'src/transactions/UserSection'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 export interface TransferConfirmationCardProps {
@@ -78,10 +79,8 @@ function VerificationContent({ amount }: Props) {
 function InviteSentContent({ addressHasChanged, recipient, amount }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const totalAmount = amount
-  const inviteFee = getInvitationVerificationFeeInDollars()
   // TODO: Use real fee
-  const securityFee = new BigNumber(0)
-  const totalFee = inviteFee.plus(securityFee)
+  const totalFee = new BigNumber(0)
 
   return (
     <>
@@ -93,10 +92,8 @@ function InviteSentContent({ addressHasChanged, recipient, amount }: Props) {
       />
       <HorizontalLine />
       <FeeDrawer
-        currency={Currency.Dollar}
-        inviteFee={inviteFee}
-        isInvite={true}
-        securityFee={securityFee}
+        currency={amount.currencyCode as Currency}
+        securityFee={totalFee}
         totalFee={totalFee}
       />
       <TotalLineItem amount={totalAmount} hideSign={true} />
@@ -147,7 +144,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
   const totalAmount = amount
   const totalFee = securityFee
 
-  const isCeloWithdrawal = amount.currencyCode === CURRENCIES[Currency.Celo].code
+  const isCeloWithdrawal = amount.currencyCode === Currency.Celo
 
   return (
     <>
@@ -164,7 +161,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
         amount={<CurrencyDisplay amount={sentAmount} hideSign={true} />}
       />
       <FeeDrawer
-        currency={isCeloWithdrawal ? Currency.Celo : Currency.Dollar}
+        currency={amount.currencyCode as Currency}
         securityFee={securityFee}
         totalFee={totalFee}
       />
@@ -176,7 +173,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
 function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, comment }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const totalAmount = amount
-  const isCeloTx = amount.currencyCode === CURRENCIES[Currency.Celo].code
+  const isCeloTx = amount.currencyCode === Currency.Celo
   const celoEducationUri = useTypedSelector((state) => state.app.celoEducationUri)
 
   const openLearnMore = () => {
@@ -204,12 +201,17 @@ function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, c
 
 function CeloRewardContent({ amount, recipient }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
+  const rewardsEnabled = useTypedSelector(rewardsEnabledSelector)
 
   const openLearnMore = () => {
-    navigate(Screens.ConsumerIncentivesHomeScreen)
-    ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
-      origin: RewardsScreenOrigin.PaymentDetail,
-    })
+    if (rewardsEnabled) {
+      navigate(Screens.ConsumerIncentivesHomeScreen)
+      ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+        origin: RewardsScreenOrigin.PaymentDetail,
+      })
+    } else {
+      navigateToURI(CELO_REWARDS_LINK)
+    }
   }
 
   return (

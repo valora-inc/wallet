@@ -12,7 +12,7 @@ import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/No
 import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 
@@ -66,7 +66,7 @@ function EscrowedPaymentListItem({ payment }: Props) {
   const nameToShow = recipient.name ?? t('global:unknown')
   const amount = {
     value: divideByWei(payment.amount),
-    currencyCode: CURRENCIES[Currency.Dollar].code,
+    currencyCode: Currency.Dollar,
   }
 
   return (

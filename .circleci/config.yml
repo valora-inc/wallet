@@ -21,7 +21,7 @@ reference:
 defaults: &defaults
   working_directory: ~/app
   docker:
-    - image: celohq/node10-gcloud:v3
+    - image: cimg/node:12.22.1
   environment:
     # To avoid ENOMEM problem when running node
     NODE_OPTIONS: '--max-old-space-size=4096'
@@ -63,7 +63,6 @@ commands:
               # Dependencies have changed, create beacon file used by the install and check licenses steps
               touch ~/.tmp/yarn_deps_have_changed
             fi
-
       - run:
           name: Install dependencies
           command: |
@@ -107,6 +106,13 @@ commands:
           paths:
             - ~/.tmp/node_modules.tgz
 
+  install_rsync:
+    steps:
+      - run:
+          name: Install rsync
+          command: |
+            sudo apt-get update -y && sudo apt-get install rsync -y
+
 jobs:
   install_dependencies:
     <<: *defaults
@@ -141,6 +147,8 @@ jobs:
 
       - attach_workspace:
           at: ~/app
+
+      - install_rsync
 
       - yarn_install
 
@@ -187,8 +195,8 @@ jobs:
           name: install android tools
           command: |
             sh packages/mobile/scripts/install-android-tools.sh
-            echo 'export PATH=$ANDROID_SDK_ROOT/tools/bin:$PATH'  >> $BASH_ENV
-            echo 'export PATH=$ANDROID_SDK_ROOT/tools:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH'  >> $BASH_ENV
+            echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH'  >> $BASH_ENV
             echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH'  >> $BASH_ENV
             source $BASH_ENV
@@ -219,7 +227,7 @@ jobs:
             echo -e '\nexport NVM_DIR="$HOME/.nvm"' >> ~/.bash_profile
             echo -e '\n[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bash_profile # add nvm to path
       - run: echo `. ~/.bash_profile`
-      - run: nvm install v10.16.3 && nvm use v10.16.3
+      - run: nvm install v12.22.1 && nvm use v12.22.1
       - run:
           name: install miscellaneous
           command: |
@@ -248,7 +256,7 @@ jobs:
           command: emulator -accel-check
 
       - run:
-          name: Run e2e tests
+          name: Run build verification e2e tests
           command: |
             set -euo pipefail
             cd packages/mobile
@@ -280,7 +288,7 @@ jobs:
       - run:
           name: Configure environment variables
           command: |
-            echo 'export PATH=/usr/local/opt/node@10/bin:$PATH' >> $BASH_ENV
+            echo 'export PATH=/usr/local/opt/node@12/bin:$PATH' >> $BASH_ENV
             source $BASH_ENV
       # brew update added as temporary fix to deal with bintray sunset
       - run:
@@ -288,7 +296,7 @@ jobs:
           command: |
             set -euo pipefail
             brew update
-            brew install node@10
+            brew install node@12
             brew tap wix/brew
             brew install applesimutils
             node -v
@@ -360,11 +368,11 @@ jobs:
           paths:
             - ~/Library/Detox/ios
       - run:
-          name: Run e2e tests
+          name: Run build verification e2e tests
           command: |
             set -euo pipefail
             cd packages/mobile
-            yarn run test:e2e:ios
+            yarn run test:e2e:ios -w 2
       - store_artifacts:
           path: packages/mobile/e2e/artifacts
           destination: mobile/e2e/artifacts
@@ -373,16 +381,6 @@ jobs:
           destination: mobile/e2e/artifacts
       - store_test_results:
           path: packages/mobile/e2e/test-results
-
-  lint-checks:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/app
-      # If this fails, fix it with
-      # `./node_modules/.bin/prettier --config .prettierrc.js --write '**/*.+(ts|tsx|js|jsx)'`
-      - run: yarn run prettify:diff
-      - run: yarn run lint
 
   vulnerability-checks:
     <<: *defaults
@@ -415,6 +413,8 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/app
+
+      - install_rsync
 
       - run:
           name: Ensure translations are not missing
@@ -467,18 +467,15 @@ workflows:
   celo-monorepo-build:
     jobs:
       - install_dependencies
-      - lint-checks:
-          requires:
-            - install_dependencies
       - vulnerability-checks:
           requires:
             - install_dependencies
       - general-tests:
           requires:
-            - lint-checks
+            - install_dependencies
       - mobile-test:
           requires:
-            - lint-checks
+            - install_dependencies
       - end-to-end-mobile-test-android
       - end-to-end-mobile-test-ios
       - flakey-test-summary:

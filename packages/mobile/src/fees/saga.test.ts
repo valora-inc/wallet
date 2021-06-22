@@ -3,12 +3,11 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
 import { GAS_PRICE_INFLATION_FACTOR } from 'src/config'
-import { getReclaimEscrowGas } from 'src/escrow/saga'
+import { getEscrowTxGas, getReclaimEscrowGas } from 'src/escrow/saga'
 import { feeEstimated, FeeType } from 'src/fees/actions'
 import { estimateFeeSaga } from 'src/fees/saga'
-import { getInvitationVerificationFeeInWei, getInviteTxGas } from 'src/invite/saga'
 import { getSendTxGas } from 'src/send/saga'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { getConnectedAccount } from 'src/web3/saga'
 import { mockAccount } from 'test/values'
 
@@ -23,18 +22,14 @@ describe(estimateFeeSaga, () => {
     await expectSaga(estimateFeeSaga, { feeType: FeeType.INVITE })
       .provide([
         [call(getConnectedAccount), mockAccount],
-        [matchers.call.fn(getInviteTxGas), new BigNumber(GAS_AMOUNT)],
-        [matchers.call.fn(getInviteTxGas), new BigNumber(GAS_AMOUNT)],
+        [matchers.call.fn(getEscrowTxGas), new BigNumber(GAS_AMOUNT)],
+        [matchers.call.fn(getEscrowTxGas), new BigNumber(GAS_AMOUNT)],
         [select(cUsdBalanceSelector), '1'],
       ])
       .put(
         feeEstimated(
           FeeType.INVITE,
-          new BigNumber(10000)
-            .times(GAS_AMOUNT)
-            .times(GAS_PRICE_INFLATION_FACTOR)
-            .plus(getInvitationVerificationFeeInWei())
-            .toString()
+          new BigNumber(10000).times(GAS_AMOUNT).times(GAS_PRICE_INFLATION_FACTOR).toString()
         )
       )
       .run()

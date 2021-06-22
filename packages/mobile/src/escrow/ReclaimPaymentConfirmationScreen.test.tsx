@@ -8,7 +8,7 @@ import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmat
 import { getReclaimEscrowFee, reclaimFromEscrow } from 'src/escrow/saga'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { Screens } from 'src/navigator/Screens'
-import { Currency, ShortCurrency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
@@ -46,7 +46,7 @@ const mockScreenProps = getMockStackScreenProps(Screens.ReclaimPaymentConfirmati
     recipientPhone: mockE164Number,
     recipientIdentifier: mockE164NumberHashWithPepper,
     paymentID: mockAccount,
-    currency: ShortCurrency.Dollar,
+    currency: Currency.Dollar,
     amount: new BigNumber(10).times(WEI_PER_TOKEN),
     timestamp: new BigNumber(10000),
     expirySeconds: new BigNumber(50000),

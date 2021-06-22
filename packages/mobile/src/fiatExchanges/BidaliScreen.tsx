@@ -17,8 +17,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
+import { Currency } from 'src/utils/currencies'
 
 function useInitialJavaScript(
   currency: Currency,
@@ -38,7 +38,7 @@ function useInitialJavaScript(
     // See also the comment in the `onMessage` handler
     setInitialJavaScript(`
       window.valora = {
-        paymentCurrency: "${CURRENCIES[currency].code.toUpperCase()}",
+        paymentCurrency: "${currency.toUpperCase()}",
         phoneNumber: ${JSON.stringify(e164PhoneNumber)},
         balances: ${jsonBalances},
         onPaymentRequest: function (paymentRequest) {

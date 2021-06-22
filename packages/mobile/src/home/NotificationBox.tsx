@@ -12,14 +12,14 @@ import { HomeEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl as openUrlAction } from 'src/app/actions'
-import { verificationPossibleSelector } from 'src/app/selectors'
+import { rewardsEnabledSelector, verificationPossibleSelector } from 'src/app/selectors'
 import {
   RewardsScreenOrigin,
   trackRewardsScreenOpenEvent,
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
-import { sentEscrowedPaymentsSelector } from 'src/escrow/reducer'
+import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { pausedFeatures } from 'src/flags'
 import { dismissNotification } from 'src/home/actions'
 import { IdToNotification } from 'src/home/reducers'
@@ -75,6 +75,7 @@ interface StateProps {
   outgoingPaymentRequests: PaymentRequest[]
   extraNotifications: IdToNotification
   reclaimableEscrowPayments: EscrowedPayment[]
+  rewardsEnabled: boolean
 }
 
 interface DispatchProps {
@@ -98,7 +99,8 @@ const mapStateToProps = (state: RootState): StateProps => ({
   dismissedGetVerified: state.account.dismissedGetVerified,
   verificationPossible: verificationPossibleSelector(state),
   dismissedGoldEducation: state.account.dismissedGoldEducation,
-  reclaimableEscrowPayments: sentEscrowedPaymentsSelector(state),
+  reclaimableEscrowPayments: getReclaimableEscrowPayments(state),
+  rewardsEnabled: rewardsEnabledSelector(state),
 })
 
 const mapDispatchToProps = {
@@ -158,6 +160,7 @@ export class NotificationBox extends React.Component<Props, State> {
       dismissedGetVerified,
       verificationPossible,
       dismissedGoldEducation,
+      rewardsEnabled,
       openUrl,
     } = this.props
     const actions: SimpleMessagingCardProps[] = []
@@ -226,6 +229,9 @@ export class NotificationBox extends React.Component<Props, State> {
       }
       const texts = getContentForCurrentLang(notification.content)
       if (!texts) {
+        continue
+      }
+      if (notification.ctaUri.includes(Screens.ConsumerIncentivesHomeScreen) && !rewardsEnabled) {
         continue
       }
 

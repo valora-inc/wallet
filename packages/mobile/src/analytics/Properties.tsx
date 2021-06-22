@@ -25,6 +25,7 @@ import {
 } from 'src/analytics/Events'
 import { BackQuizProgress, ScrollDirection, SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import {
   RewardsScreenCta,
   RewardsScreenOrigin,
@@ -32,6 +33,7 @@ import {
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { NotificationReceiveState } from 'src/notifications/types'
 import { Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
@@ -73,6 +75,11 @@ interface AppEventsProperties {
   }
   [AppEvents.redux_store_recovery_success]: {
     account: string
+  }
+  [AppEvents.push_notification_opened]: {
+    id?: string
+    state: NotificationReceiveState
+    type?: string
   }
   [AppEvents.request_tracking_permission_started]: {
     currentPermission: PermissionStatus
@@ -125,6 +132,12 @@ interface SettingsEventsProperties {
   [SettingsEvents.tos_view]: undefined
   [SettingsEvents.start_account_removal]: undefined
   [SettingsEvents.completed_account_removal]: undefined
+  [SettingsEvents.change_pin_start]: undefined
+  [SettingsEvents.change_pin_current_pin_entered]: undefined
+  [SettingsEvents.change_pin_current_pin_error]: undefined
+  [SettingsEvents.change_pin_new_pin_entered]: undefined
+  [SettingsEvents.change_pin_new_pin_confirmed]: undefined
+  [SettingsEvents.change_pin_new_pin_error]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -502,8 +515,9 @@ interface SendEventsProperties {
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [SendEvents.send_confirm_back]: undefined
   [SendEvents.send_confirm_send]: {
@@ -554,6 +568,10 @@ interface SendEventsProperties {
   [SendEvents.send_tx_error]: {
     error: string
   }
+  [SendEvents.token_selected]: {
+    origin: TokenPickerOrigin
+    token: string
+  }
 }
 
 interface RequestEventsProperties {
@@ -565,20 +583,24 @@ interface RequestEventsProperties {
     usedSearchBar: boolean
   }
   [RequestEvents.request_amount_continue]: {
+    origin: SendOrigin
     isScan: boolean
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [RequestEvents.request_unavailable]: {
+    origin: SendOrigin
     isScan: boolean
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {

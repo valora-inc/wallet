@@ -78,10 +78,10 @@ export enum ErrorMessages {
   GETH_UNEXPECTED_ADDRESS_ON_ADD = 'gethUnexpectedAddressOnAdd',
   COUNTRY_NOT_AVAILABLE = 'countryNotAvailable',
   MAX_ESCROW_TRANSFER_EXCEEDED = 'maxEscrowTransferExceeded',
-  FIREBASE_FETCH_FAILED = 'firebaseFetchFailed',
+  FETCH_FAILED = 'fetchFailed',
   PICTURE_LOAD_FAILED = 'pictureLoadFailed',
   SIMPLEX_PURCHASE_FETCH_FAILED = 'simplexPurchaseFetchFailed',
-  PROVIDER_URL_FETCH_FAILED = 'providerUrlFetchFailed',
+  PROVIDER_FETCH_FAILED = 'providerFetchFailed',
   CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',
   RAISE_LIMIT_EMAIL_NOT_SENT = 'accountScreen10:raiseLimitEmailNotSent',
 }

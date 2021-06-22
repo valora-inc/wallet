@@ -1,4 +1,3 @@
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils'
 import { DataSnapshot } from '@firebase/database-types'
 import * as admin from 'firebase-admin'
 import i18next from 'i18next'
@@ -17,7 +16,6 @@ let database: admin.database.Database
 let registrationsRef: admin.database.Reference
 let lastBlockRef: admin.database.Reference
 let lastInviteBlockRef: admin.database.Reference
-let pendingRequestsRef: admin.database.Reference
 let knownAddressesRef: admin.database.Reference
 
 export interface Registrations {
@@ -29,34 +27,6 @@ export interface Registrations {
       }
     | undefined
     | null
-}
-
-export enum PaymentRequestStatuses {
-  REQUESTED = 'REQUESTED',
-  COMPLETED = 'COMPLETED',
-  DECLINED = 'DECLINED',
-}
-
-interface PaymentRequest {
-  amount: string
-  timestamp: string
-  requesterE164Number: string
-  requesterAddress: string
-  requesteeAddress: string
-  currency: Currencies
-  comment: string
-  status: PaymentRequestStatuses
-  notified: boolean
-  type: NotificationTypes.PAYMENT_REQUESTED
-}
-
-interface PendingRequests {
-  [uid: string]: PaymentRequest
-}
-
-interface ExchangeRateObject {
-  exchangeRate: string
-  timestamp: number // timestamp in milliseconds
 }
 
 export interface KnownAddressInfo {
@@ -73,7 +43,6 @@ let registrations: Registrations = {}
 let lastBlockNotified: number = -1
 let lastInviteBlockNotified: number = -1
 
-const pendingRequests: PendingRequests = {}
 let celoRewardsSenders: string[] = []
 
 export function _setTestRegistrations(testRegistrations: Registrations) {
@@ -84,20 +53,6 @@ export function updateCeloRewardsSenderAddresses(knownAddressesInfo: AddressToDi
   celoRewardsSenders = Object.entries(knownAddressesInfo)
     .filter(([_, value]) => value?.isCeloRewardSender)
     .map(([key, _]) => key)
-}
-
-function paymentObjectToNotification(po: PaymentRequest): { [key: string]: string } {
-  return {
-    amount: po.amount,
-    timestamp: po.timestamp,
-    requesterE164Number: po.requesterE164Number,
-    requesterAddress: po.requesterAddress,
-    requesteeAddress: po.requesteeAddress,
-    currency: po.currency,
-    comment: po.comment,
-    status: po.status,
-    type: po.type,
-  }
 }
 
 function firebaseFetchError(nodeKey: string) {
@@ -111,7 +66,6 @@ export function initializeDb() {
   registrationsRef = database.ref('/registrations')
   lastBlockRef = database.ref('/lastBlockNotified')
   lastInviteBlockRef = database.ref('/lastInviteBlockNotified')
-  pendingRequestsRef = database.ref('/pendingRequests')
   knownAddressesRef = database.ref('/addressesExtraInfo')
 
   function addOrUpdateRegistration(snapshot: DataSnapshot) {
@@ -159,24 +113,6 @@ export function initializeDb() {
     }
   )
 
-  function addOrUpdatePendingRequest(snapshot: DataSnapshot) {
-    const pendingRequest = (snapshot && snapshot.val()) || {}
-    console.debug('New or updated pending request:', snapshot.key, pendingRequest)
-    if (snapshot.key) {
-      pendingRequests[snapshot.key] = pendingRequest
-    }
-  }
-  pendingRequestsRef.on(
-    'child_added',
-    addOrUpdatePendingRequest,
-    firebaseFetchError('pendingRequests')
-  )
-  pendingRequestsRef.on(
-    'child_changed',
-    addOrUpdatePendingRequest,
-    firebaseFetchError('pendingRequests')
-  )
-
   knownAddressesRef.on(
     'value',
     (snapshot) => {
@@ -213,37 +149,6 @@ export function getLastBlockNotified() {
 
 export function getLastInviteBlockNotified() {
   return lastInviteBlockNotified
-}
-
-export function getPendingRequests() {
-  const numPendingRequests = Object.keys(pendingRequests).length
-  metrics.setPendingRequestsSize(numPendingRequests)
-  return pendingRequests
-}
-
-export function setPaymentRequestNotified(uid: string): Promise<void> {
-  if (ENVIRONMENT === 'local') {
-    return Promise.resolve()
-  }
-  return database.ref(`/pendingRequests/${uid}`).update({ notified: true })
-}
-
-export function writeExchangeRatePair(
-  takerToken: CURRENCY_ENUM,
-  makerToken: CURRENCY_ENUM,
-  exchangeRate: string,
-  timestamp: number
-) {
-  if (ENVIRONMENT === 'local') {
-    return
-  }
-  const pair = `${CURRENCIES[takerToken].code}/${CURRENCIES[makerToken].code}`
-  const exchangeRateRecord: ExchangeRateObject = {
-    exchangeRate,
-    timestamp,
-  }
-  database.ref(`/exchangeRates/${pair}`).push(exchangeRateRecord)
-  console.debug(`Recorded exchange rate for ${pair}`, exchangeRateRecord)
 }
 
 export function setLastBlockNotified(newBlock: number): Promise<void> | undefined {
@@ -325,22 +230,6 @@ export async function sendPaymentNotification(
     }),
     recipientAddress,
     data
-  )
-}
-
-export async function requestedPaymentNotification(uid: string, data: PaymentRequest) {
-  const { requesteeAddress, amount, currency } = data
-  const t = getTranslatorForAddress(requesteeAddress)
-
-  data.type = NotificationTypes.PAYMENT_REQUESTED
-  return sendNotification(
-    t('paymentRequestedTitle'),
-    t('paymentRequestedBody', {
-      amount,
-      currency: t(currency, { count: parseInt(amount, 10) }),
-    }),
-    requesteeAddress,
-    { uid, ...paymentObjectToNotification(data) }
   )
 }
 

@@ -9,7 +9,6 @@ import { calculateFee, FeeInfo } from 'src/fees/saga'
 import { transferGoldToken } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/reducer'
-import { InviteBy } from 'src/invite/actions'
 import { sendInvite } from 'src/invite/saga'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { completePaymentRequest } from 'src/paymentRequest/actions'
@@ -75,10 +74,10 @@ export async function getSendFee(
   currency: Currency,
   params: BasicTokenTransfer,
   includeDekFee: boolean = false,
-  dollarBalance?: string
+  balance: string
 ) {
   try {
-    if (dollarBalance && new BigNumber(params.amount).isGreaterThan(new BigNumber(dollarBalance))) {
+    if (new BigNumber(params.amount).isGreaterThan(new BigNumber(balance))) {
       throw new Error(ErrorMessages.INSUFFICIENT_BALANCE)
     }
 
@@ -159,6 +158,7 @@ function* sendPayment(
           transferGoldToken({
             recipientAddress,
             amount: amount.toString(),
+            currency,
             comment: encryptedComment,
             feeInfo,
             context,
@@ -166,11 +166,13 @@ function* sendPayment(
         )
         break
       }
-      case Currency.Dollar: {
+      case Currency.Dollar:
+      case Currency.Euro: {
         yield put(
           transferStableToken({
             recipientAddress,
             amount: amount.toString(),
+            currency,
             comment: encryptedComment,
             feeInfo,
             context,
@@ -188,7 +190,7 @@ function* sendPayment(
       amount: amount.toString(),
       currency,
     })
-    yield call(giveProfileAccess, [recipientAddress])
+    yield call(giveProfileAccess, recipientAddress)
   } catch (error) {
     Logger.error(`${TAG}/sendPayment`, 'Could not send payment', error)
     ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })
@@ -198,11 +200,11 @@ function* sendPayment(
 
 export function* sendPaymentOrInviteSaga({
   amount,
+  currency,
   comment,
   recipient,
   recipientAddress,
   feeInfo,
-  inviteMethod,
   firebasePendingRequestUid,
   fromModal,
 }: SendPaymentOrInviteAction) {
@@ -210,16 +212,9 @@ export function* sendPaymentOrInviteSaga({
     yield call(getConnectedUnlockedAccount)
 
     if (recipientAddress) {
-      yield call(sendPayment, recipientAddress, amount, comment, Currency.Dollar, feeInfo)
+      yield call(sendPayment, recipientAddress, amount, comment, currency, feeInfo)
     } else if (recipientHasNumber(recipient)) {
-      yield call(
-        sendInvite,
-        recipient.e164PhoneNumber,
-        inviteMethod || InviteBy.SMS,
-        amount,
-        Currency.Dollar,
-        feeInfo
-      )
+      yield call(sendInvite, recipient.e164PhoneNumber, amount, currency, feeInfo)
     }
 
     if (firebasePendingRequestUid) {

@@ -3,10 +3,13 @@ import gql from 'graphql-tag'
 import * as React from 'react'
 import { Query, QueryResult } from 'react-apollo'
 import { connect } from 'react-redux'
-import { MoneyAmount, Token, TokenTransactionType, UserTransactionsQuery } from 'src/apollo/types'
+import { MoneyAmount, TokenTransactionType, UserTransactionsQuery } from 'src/apollo/types'
 import { SENTINEL_INVITE_COMMENT } from 'src/invite/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { getLocalCurrencyCode, getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
+import {
+  getLocalCurrencyCode,
+  localCurrencyExchangeRatesSelector,
+} from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { newTransactionsInFeed } from 'src/transactions/actions'
 import { knownFeedTransactionsSelector, KnownFeedTransactionsType } from 'src/transactions/reducer'
@@ -22,7 +25,7 @@ import {
   TransactionStatus,
   TransferStandby,
 } from 'src/transactions/types'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { CURRENCIES, Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -38,7 +41,7 @@ interface StateProps {
   address?: string | null
   standbyTransactions: StandbyTransaction[]
   localCurrencyCode: LocalCurrencyCode
-  localCurrencyExchangeRate: string | null | undefined
+  localCurrencyExchangeRates: Record<Currency, string | null>
   knownFeedTransactions: KnownFeedTransactionsType
 }
 
@@ -49,8 +52,8 @@ interface DispatchProps {
 type Props = OwnProps & StateProps & DispatchProps
 
 export const TRANSACTIONS_QUERY = gql`
-  query UserTransactions($address: Address!, $token: Token, $localCurrencyCode: String) {
-    tokenTransactions(address: $address, token: $token, localCurrencyCode: $localCurrencyCode) {
+  query UserTransactions($address: Address!, $tokens: [Token], $localCurrencyCode: String) {
+    tokenTransactions(address: $address, tokens: $tokens, localCurrencyCode: $localCurrencyCode) {
       edges {
         node {
           ...TransactionFeed
@@ -66,7 +69,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   address: currentAccountSelector(state),
   standbyTransactions: state.transactions.standbyTransactions,
   localCurrencyCode: getLocalCurrencyCode(state),
-  localCurrencyExchangeRate: getLocalCurrencyExchangeRate(state),
+  localCurrencyExchangeRates: localCurrencyExchangeRatesSelector(state),
   knownFeedTransactions: knownFeedTransactionsSelector(state),
 })
 
@@ -91,39 +94,42 @@ function resolveAmount(
 
 function mapExchangeStandbyToFeedItem(
   standbyTx: ExchangeStandby,
-  currency: Currency,
+  feedType: FeedType,
   localCurrencyCode: LocalCurrencyCode,
-  localCurrencyExchangeRate: string | null | undefined
+  localCurrencyToStableExchangeRate: string | null | undefined
 ): FeedItem {
-  const { type, hash, status, timestamp, inValue, inSymbol, outValue, outSymbol } = standbyTx
+  const { type, hash, status, timestamp, inValue, inCurrency, outValue, outCurrency } = standbyTx
 
   const inAmount = {
     value: new BigNumber(inValue),
-    currencyCode: CURRENCIES[inSymbol].code,
+    currencyCode: inCurrency,
   }
   const outAmount = {
     value: new BigNumber(outValue),
-    currencyCode: CURRENCIES[outSymbol].code,
+    currencyCode: outCurrency,
   }
 
   const exchangeRate = new BigNumber(outAmount.value).dividedBy(inAmount.value)
-  const localExchangeRate = new BigNumber(localCurrencyExchangeRate ?? 0)
+  const localExchangeRate = new BigNumber(localCurrencyToStableExchangeRate ?? 0)
   const makerLocalExchangeRate =
-    inAmount.currencyCode === CURRENCIES[Currency.Dollar].code
-      ? localExchangeRate
-      : exchangeRate.multipliedBy(localExchangeRate)
+    inAmount.currencyCode === Currency.Celo
+      ? exchangeRate.multipliedBy(localExchangeRate)
+      : localExchangeRate
   const takerLocalExchangeRate =
-    outAmount.currencyCode === CURRENCIES[Currency.Dollar].code
-      ? localExchangeRate
-      : exchangeRate.pow(-1).multipliedBy(localExchangeRate)
+    outAmount.currencyCode === Currency.Celo
+      ? exchangeRate.pow(-1).multipliedBy(localExchangeRate)
+      : localExchangeRate
 
   const makerAmount = resolveAmount(inAmount, localCurrencyCode, makerLocalExchangeRate.toString())
   const takerAmount = resolveAmount(outAmount, localCurrencyCode, takerLocalExchangeRate.toString())
 
   // Find amount relative to the queried currency
-  const accountAmount = [makerAmount, takerAmount].find(
-    (amount) => amount.currencyCode === CURRENCIES[currency].code
-  )
+  const accountAmount = [makerAmount, takerAmount].find((amount) => {
+    const amountCurrency = amount.currencyCode as Currency
+    return feedType === FeedType.EXCHANGE
+      ? amountCurrency === Currency.Celo
+      : STABLE_CURRENCIES.includes(amountCurrency)
+  })
 
   if (!accountAmount) {
     // This is not supposed to happen
@@ -157,7 +163,7 @@ function mapTransferStandbyToFeedItem(
   localCurrencyCode: LocalCurrencyCode,
   localCurrencyExchangeRate: string | null | undefined
 ): FeedItem {
-  const { type, hash, status, timestamp, value, symbol, address, comment } = standbyTx
+  const { type, hash, status, timestamp, value, currency, address, comment } = standbyTx
 
   return {
     __typename: 'TokenTransfer',
@@ -170,7 +176,7 @@ function mapTransferStandbyToFeedItem(
         // Signed amount relative to the queried account currency
         // Standby transfers are always outgoing
         value: new BigNumber(value).multipliedBy(-1),
-        currencyCode: CURRENCIES[symbol].code,
+        currencyCode: currency,
       },
       localCurrencyCode,
       localCurrencyExchangeRate
@@ -183,22 +189,28 @@ function mapTransferStandbyToFeedItem(
 }
 
 function mapStandbyTransactionToFeedItem(
-  currency: Currency,
+  feedType: FeedType,
   localCurrencyCode: LocalCurrencyCode,
-  localCurrencyExchangeRate: string | null | undefined
+  localCurrencyExchangeRates: Record<Currency, string | null>
 ) {
   return (standbyTx: StandbyTransaction): FeedItem => {
     if (standbyTx.type === TokenTransactionType.Exchange) {
       return mapExchangeStandbyToFeedItem(
         standbyTx,
-        currency,
+        feedType,
         localCurrencyCode,
-        localCurrencyExchangeRate
+        localCurrencyExchangeRates[
+          standbyTx.inCurrency === Currency.Celo ? standbyTx.outCurrency : standbyTx.inCurrency
+        ]
       )
     }
     // Otherwise it's a transfer
     else {
-      return mapTransferStandbyToFeedItem(standbyTx, localCurrencyCode, localCurrencyExchangeRate)
+      return mapTransferStandbyToFeedItem(
+        standbyTx,
+        localCurrencyCode,
+        localCurrencyExchangeRates[standbyTx.currency]
+      )
     }
   }
 }
@@ -234,13 +246,12 @@ export class TransactionsList extends React.PureComponent<Props> {
       address,
       feedType,
       localCurrencyCode,
-      localCurrencyExchangeRate,
+      localCurrencyExchangeRates,
       standbyTransactions,
     } = this.props
 
     const queryAddress = address || ''
-    const token = feedType === FeedType.EXCHANGE ? Token.CGld : null
-    const currency = feedType === FeedType.EXCHANGE ? Currency.Celo : Currency.Dollar
+    const tokens = feedType === FeedType.EXCHANGE ? [Currency.Celo] : Object.keys(CURRENCIES)
 
     const UserTransactions = ({
       loading,
@@ -258,15 +269,15 @@ export class TransactionsList extends React.PureComponent<Props> {
         .filter((tx) => {
           const isForQueriedCurrency =
             feedType === FeedType.HOME ||
-            (tx as TransferStandby).symbol === currency ||
-            (tx as ExchangeStandby).inSymbol === currency ||
-            (tx as ExchangeStandby).outSymbol === currency
+            tokens.includes((tx as TransferStandby).currency) ||
+            tokens.includes((tx as ExchangeStandby).inCurrency) ||
+            tokens.includes((tx as ExchangeStandby).outCurrency)
           const notInQueryTxs =
             (!tx.hash || !queryDataTxHashes.has(tx.hash)) && tx.status !== TransactionStatus.Failed
           return isForQueriedCurrency && notInQueryTxs
         })
         .map(
-          mapStandbyTransactionToFeedItem(currency, localCurrencyCode, localCurrencyExchangeRate)
+          mapStandbyTransactionToFeedItem(feedType, localCurrencyCode, localCurrencyExchangeRates)
         )
 
       const feedData = [...standbyTxs, ...transactions].map(mapInvite)
@@ -278,7 +289,7 @@ export class TransactionsList extends React.PureComponent<Props> {
       <Query
         query={TRANSACTIONS_QUERY}
         pollInterval={POLL_INTERVAL}
-        variables={{ address: queryAddress, token, localCurrencyCode }}
+        variables={{ address: queryAddress, tokens, localCurrencyCode }}
         children={UserTransactions}
         onCompleted={this.onTxsFetched}
         // Adding this option because the onCompleted doesn't work properly without it.

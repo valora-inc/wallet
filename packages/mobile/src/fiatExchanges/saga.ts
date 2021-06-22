@@ -19,10 +19,11 @@ import {
   Actions,
   assignProviderToTxHash,
   BidaliPaymentRequestedAction,
+  setProviderLogos,
   setProvidersForTxHashes,
 } from 'src/fiatExchanges/actions'
-import { lastUsedProviderSelector } from 'src/fiatExchanges/reducer'
-import { providerTxHashesChannel } from 'src/firebase/firebase'
+import { lastUsedProviderSelector, ProviderLogos } from 'src/fiatExchanges/reducer'
+import { providerTxHashesChannel, readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import { updateKnownAddresses } from 'src/identity/actions'
 import { providerAddressesSelector } from 'src/identity/reducer'
@@ -35,6 +36,7 @@ import {
   Actions as TransactionActions,
   NewTransactionsInFeedAction,
 } from 'src/transactions/actions'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getAccount } from 'src/web3/saga'
 
@@ -69,6 +71,7 @@ function* bidaliPaymentRequest({
   const transactionData: TransactionDataInput = {
     recipient,
     amount: new BigNumber(amount),
+    currency: Currency.Dollar,
     reason: `${description} (${chargeId})`,
     type: TokenTransactionType.PayPrefill,
   }
@@ -168,6 +171,11 @@ export function* watchProviderTxHashes() {
   }
 }
 
+export function* importProviderLogos() {
+  const providerLogos: ProviderLogos = yield readOnceFromFirebase('providerLogos')
+  setProviderLogos(providerLogos)
+}
+
 export function* watchBidaliPaymentRequests() {
   yield takeLeading(Actions.BIDALI_PAYMENT_REQUESTED, bidaliPaymentRequest)
 }
@@ -180,4 +188,5 @@ export function* fiatExchangesSaga() {
   yield spawn(watchBidaliPaymentRequests)
   yield spawn(watchNewFeedTransactions)
   yield spawn(watchProviderTxHashes)
+  yield spawn(importProviderLogos)
 }

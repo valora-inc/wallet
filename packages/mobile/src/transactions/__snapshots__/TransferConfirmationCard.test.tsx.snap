@@ -405,10 +405,11 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             100.000
@@ -545,10 +546,11 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
+                  testID="undefined/totalFee/value"
                 >
                   
                   
@@ -625,10 +627,11 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Total/value"
           >
             
             100.000
@@ -676,21 +679,52 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
               ]
             }
           >
-            <Text
-              numberOfLines={1}
-              style={
-                Array [
-                  undefined,
-                  Object {
-                    "color": "#2E3338",
-                  },
-                ]
+            <View
+              accessible={true}
+              focusable={false}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
               }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
             >
-              
-              $
-              3.00
-            </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                <Text
+                  numberOfLines={1}
+                  style={
+                    Array [
+                      undefined,
+                      Object {
+                        "color": undefined,
+                      },
+                    ]
+                  }
+                  testID="TotalLineItem/ExchangeRate/value"
+                >
+                  
+                  $
+                  3.00
+                </Text>
+              </Text>
+            </View>
           </Text>
         </View>
         <Text
@@ -717,10 +751,11 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal/value"
           >
             $
             300.00
@@ -815,10 +850,11 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Total/value"
           >
             
             $
@@ -867,21 +903,52 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
               ]
             }
           >
-            <Text
-              numberOfLines={1}
-              style={
-                Array [
-                  undefined,
-                  Object {
-                    "color": "#2E3338",
-                  },
-                ]
+            <View
+              accessible={true}
+              focusable={false}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
               }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
             >
-              
-              $
-              0.75
-            </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                <Text
+                  numberOfLines={1}
+                  style={
+                    Array [
+                      undefined,
+                      Object {
+                        "color": undefined,
+                      },
+                    ]
+                  }
+                  testID="TotalLineItem/ExchangeRate/value"
+                >
+                  
+                  $
+                  0.75
+                </Text>
+              </Text>
+            </View>
           </Text>
         </View>
         <Text
@@ -908,10 +975,11 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal/value"
           >
             
             $
@@ -1323,10 +1391,11 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Total/value"
           >
             
             $
@@ -1375,21 +1444,52 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
               ]
             }
           >
-            <Text
-              numberOfLines={1}
-              style={
-                Array [
-                  undefined,
-                  Object {
-                    "color": "#2E3338",
-                  },
-                ]
+            <View
+              accessible={true}
+              focusable={false}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
               }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
             >
-              
-              $
-              0.75
-            </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                <Text
+                  numberOfLines={1}
+                  style={
+                    Array [
+                      undefined,
+                      Object {
+                        "color": undefined,
+                      },
+                    ]
+                  }
+                  testID="TotalLineItem/ExchangeRate/value"
+                >
+                  
+                  $
+                  0.75
+                </Text>
+              </Text>
+            </View>
           </Text>
         </View>
         <Text
@@ -1416,10 +1516,11 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal/value"
           >
             
             $
@@ -1806,10 +1907,11 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Total/value"
           >
             
             $
@@ -1858,21 +1960,52 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
               ]
             }
           >
-            <Text
-              numberOfLines={1}
-              style={
-                Array [
-                  undefined,
-                  Object {
-                    "color": "#2E3338",
-                  },
-                ]
+            <View
+              accessible={true}
+              focusable={false}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
               }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
             >
-              
-              $
-              0.75
-            </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                <Text
+                  numberOfLines={1}
+                  style={
+                    Array [
+                      undefined,
+                      Object {
+                        "color": undefined,
+                      },
+                    ]
+                  }
+                  testID="TotalLineItem/ExchangeRate/value"
+                >
+                  
+                  $
+                  0.75
+                </Text>
+              </Text>
+            </View>
           </Text>
         </View>
         <Text
@@ -1899,10 +2032,11 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal/value"
           >
             
             $
@@ -2289,10 +2423,11 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Total/value"
           >
             
             $
@@ -2341,21 +2476,52 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
               ]
             }
           >
-            <Text
-              numberOfLines={1}
-              style={
-                Array [
-                  undefined,
-                  Object {
-                    "color": "#2E3338",
-                  },
-                ]
+            <View
+              accessible={true}
+              focusable={false}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
               }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
             >
-              
-              $
-              0.75
-            </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                <Text
+                  numberOfLines={1}
+                  style={
+                    Array [
+                      undefined,
+                      Object {
+                        "color": undefined,
+                      },
+                    ]
+                  }
+                  testID="TotalLineItem/ExchangeRate/value"
+                >
+                  
+                  $
+                  0.75
+                </Text>
+              </Text>
+            </View>
           </Text>
         </View>
         <Text
@@ -2382,10 +2548,11 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal/value"
           >
             
             $
@@ -2803,10 +2970,11 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             $
             133.00
@@ -2943,10 +3111,11 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
+                  testID="undefined/totalFee/value"
                 >
                   
                   $
@@ -3023,10 +3192,11 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Total/value"
           >
             $
             133.00
@@ -3074,21 +3244,52 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
               ]
             }
           >
-            <Text
-              numberOfLines={1}
-              style={
-                Array [
-                  undefined,
-                  Object {
-                    "color": "#2E3338",
-                  },
-                ]
+            <View
+              accessible={true}
+              focusable={false}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
               }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
             >
-              
-              $
-              0.75
-            </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                <Text
+                  numberOfLines={1}
+                  style={
+                    Array [
+                      undefined,
+                      Object {
+                        "color": undefined,
+                      },
+                    ]
+                  }
+                  testID="TotalLineItem/ExchangeRate/value"
+                >
+                  
+                  $
+                  0.75
+                </Text>
+              </Text>
+            </View>
           </Text>
         </View>
         <Text
@@ -3115,10 +3316,11 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal/value"
           >
             $
             100.00
@@ -3535,10 +3737,11 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             $
             133.00
@@ -3675,10 +3878,11 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
+                  testID="undefined/totalFee/value"
                 >
                   
                   $
@@ -3755,10 +3959,11 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Total/value"
           >
             $
             133.00
@@ -3806,21 +4011,52 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
               ]
             }
           >
-            <Text
-              numberOfLines={1}
-              style={
-                Array [
-                  undefined,
-                  Object {
-                    "color": "#2E3338",
-                  },
-                ]
+            <View
+              accessible={true}
+              focusable={false}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
               }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
             >
-              
-              $
-              0.75
-            </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                <Text
+                  numberOfLines={1}
+                  style={
+                    Array [
+                      undefined,
+                      Object {
+                        "color": undefined,
+                      },
+                    ]
+                  }
+                  testID="TotalLineItem/ExchangeRate/value"
+                >
+                  
+                  $
+                  0.75
+                </Text>
+              </Text>
+            </View>
           </Text>
         </View>
         <Text
@@ -3847,10 +4083,11 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal/value"
           >
             $
             100.00
@@ -3945,10 +4182,11 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Total/value"
           >
             $
             0.39
@@ -3996,21 +4234,52 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
               ]
             }
           >
-            <Text
-              numberOfLines={1}
-              style={
-                Array [
-                  undefined,
-                  Object {
-                    "color": "#2E3338",
-                  },
-                ]
+            <View
+              accessible={true}
+              focusable={false}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
               }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
             >
-              
-              $
-              0.75
-            </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                <Text
+                  numberOfLines={1}
+                  style={
+                    Array [
+                      undefined,
+                      Object {
+                        "color": undefined,
+                      },
+                    ]
+                  }
+                  testID="TotalLineItem/ExchangeRate/value"
+                >
+                  
+                  $
+                  0.75
+                </Text>
+              </Text>
+            </View>
           </Text>
         </View>
         <Text
@@ -4037,10 +4306,11 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal/value"
           >
             $
             0.30

@@ -15,7 +15,7 @@ import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { Namespaces } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { Currency } from 'src/utils/currencies'
 
 interface Props {
