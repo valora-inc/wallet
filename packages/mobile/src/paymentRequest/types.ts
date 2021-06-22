@@ -11,11 +11,15 @@ export interface PaymentRequest {
   uid?: string
   amount: string
   comment?: string
-  timestamp: number
+  createdAt: number
   requesterAddress: string
   requesteeAddress: string
   requesterE164Number?: string
   status: PaymentRequestStatus
   notified: boolean
   type?: NotificationTypes.PAYMENT_REQUESTED
+}
+
+export interface WriteablePaymentRequest extends Omit<PaymentRequest, 'createdAt'> {
+  createdAt: object
 }

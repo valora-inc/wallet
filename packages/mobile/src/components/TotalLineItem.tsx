@@ -19,7 +19,7 @@ interface Props {
   hideSign?: boolean
   currencyInfo?: CurrencyInfo
   showExchangeRate?: boolean
-  editableCurrency?: boolean
+  canEditCurrency?: boolean
   onEditCurrency?: () => void
 }
 
@@ -35,7 +35,7 @@ export default function TotalLineItem({
   hideSign,
   currencyInfo,
   showExchangeRate = true,
-  editableCurrency = false,
+  canEditCurrency = false,
   onEditCurrency,
 }: Props) {
   const { localCurrencyExchangeRate: exchangeRate, amountCurrency } = useLocalCurrencyToShow(
@@ -62,7 +62,7 @@ export default function TotalLineItem({
       {showExchangeRate && exchangeRate && (
         <LineItemRow
           title={
-            <Touchable disabled={!editableCurrency} onPress={onEditCurrency}>
+            <Touchable disabled={!canEditCurrency} onPress={onEditCurrency}>
               <Text style={styles.exchangeRate}>
                 <Trans i18nKey={totalAmountKey[amountCurrency]} ns={Namespaces.global}>
                   <CurrencyDisplay
@@ -77,7 +77,7 @@ export default function TotalLineItem({
                     testID="TotalLineItem/ExchangeRate"
                   />
                 </Trans>
-                {editableCurrency && (
+                {canEditCurrency && (
                   <>
                     {' '}
                     <Text style={styles.edit}>{t('global:edit')}</Text>

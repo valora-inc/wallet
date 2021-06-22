@@ -1,6 +1,7 @@
 import ReviewFrame from '@celo/react-components/components/ReviewFrame'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
+import { firebase } from '@react-native-firebase/database'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
@@ -112,7 +113,7 @@ class PaymentRequestConfirmation extends React.Component<Props> {
     const paymentInfo = {
       amount: amount.toString(),
       comment: this.state.comment || undefined,
-      timestamp: Date.now(),
+      createdAt: firebase.database.ServerValue.TIMESTAMP,
       requesterAddress: address,
       requesterE164Number: this.props.e164PhoneNumber ?? undefined,
       requesteeAddress: requesteeAddress.toLowerCase(),

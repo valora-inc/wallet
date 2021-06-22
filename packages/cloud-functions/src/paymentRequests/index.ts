@@ -12,7 +12,7 @@ export enum PaymentRequestStatus {
 
 interface PaymentRequest {
   amount: string
-  timestamp?: string
+  createdAt?: number
   requesterE164Number?: string
   requesterAddress: string
   requesteeAddress: string
@@ -34,7 +34,7 @@ export async function notifyPaymentRequest(id: string, request: PaymentRequest) 
 function paymentObjectToNotification(po: PaymentRequest): { [key: string]: string } {
   return {
     amount: po.amount,
-    ...(po.timestamp ? { timestamp: String(po.timestamp) } : {}),
+    ...(po.createdAt ? { createdAt: String(po.createdAt) } : {}),
     ...(po.requesterE164Number ? { requesterE164Number: po.requesterE164Number } : {}),
     requesterAddress: po.requesterAddress,
     requesteeAddress: po.requesteeAddress,

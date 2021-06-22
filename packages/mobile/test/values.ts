@@ -282,7 +282,7 @@ export const mockPaymentRequests: PaymentRequest[] = [
   {
     amount: '200000.00',
     uid: 'FAKE_ID_1',
-    timestamp: date,
+    createdAt: date,
     comment: 'Dinner for me and the gals, PIZZAA!',
     requesteeAddress: mockAccount,
     requesterAddress: mockAccount2,
@@ -292,7 +292,7 @@ export const mockPaymentRequests: PaymentRequest[] = [
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
   {
-    timestamp: date,
+    createdAt: date,
     amount: '180.89',
     uid: 'FAKE_ID_2',
     comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',
@@ -304,7 +304,7 @@ export const mockPaymentRequests: PaymentRequest[] = [
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
   {
-    timestamp: date,
+    createdAt: date,
     amount: '180.89',
     uid: 'FAKE_ID_3',
     comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',

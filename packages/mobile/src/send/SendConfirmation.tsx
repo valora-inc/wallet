@@ -344,7 +344,7 @@ function SendConfirmation(props: Props) {
           <TotalLineItem
             amount={totalAmount}
             currencyInfo={newCurrencyInfo}
-            editableCurrency={
+            canEditCurrency={
               type === TokenTransactionType.PayRequest && !!firebasePendingRequestUid
             }
             onEditCurrency={onEditCurrency}
