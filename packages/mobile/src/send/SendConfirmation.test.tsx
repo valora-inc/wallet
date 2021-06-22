@@ -37,6 +37,7 @@ const TEST_FEE_INFO_CELO = {
   currency: Currency.Celo,
 }
 
+jest.mock('src/components/useShowOrHideAnimation')
 jest.mock('src/send/saga')
 
 const mockedGetSendFee = getSendFee as jest.Mock

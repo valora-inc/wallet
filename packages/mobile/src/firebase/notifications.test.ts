@@ -138,7 +138,6 @@ describe(handleNotification, () => {
         uid: 'abc',
         requesterAddress: '0xTEST',
         amount: '10',
-        currency: 'dollar',
         comment: 'Pizza',
       },
     }
