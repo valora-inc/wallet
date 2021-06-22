@@ -6,7 +6,9 @@ import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
@@ -17,6 +19,7 @@ import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
+  SendConfirmation = 'SendConfirmation',
   Exchange = 'Exchange',
 }
 
@@ -24,6 +27,7 @@ interface Props {
   isVisible: boolean
   origin: TokenPickerOrigin
   onCurrencySelected: (currency: Currency) => void
+  onClose: () => void
 }
 
 function CurrencyOption({ currency, onPress }: { currency: Currency; onPress: () => void }) {
@@ -58,7 +62,7 @@ function CurrencyOption({ currency, onPress }: { currency: Currency; onPress: ()
   )
 }
 
-function TokenBottomSheet({ isVisible, origin, onCurrencySelected }: Props) {
+function TokenBottomSheet({ isVisible, origin, onCurrencySelected, onClose }: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
 
@@ -71,6 +75,8 @@ function TokenBottomSheet({ isVisible, origin, onCurrencySelected }: Props) {
     })
     onCurrencySelected(currency)
   }
+
+  const safeAreaInsets = useSafeAreaInsets()
 
   const progress = useSharedValue(0)
   const animatedPickerPosition = useAnimatedStyle(() => ({
@@ -98,8 +104,21 @@ function TokenBottomSheet({ isVisible, origin, onCurrencySelected }: Props) {
 
   return (
     <View style={styles.container} testID="TokenBottomSheetContainer">
-      <Animated.View style={[styles.background, animatedOpacity]} />
-      <Animated.View style={[styles.contentContainer, animatedPickerPosition]} onLayout={onLayout}>
+      <Animated.View style={[styles.background, animatedOpacity]}>
+        <TouchableWithoutFeedback
+          style={styles.backgroundTouchable}
+          onPress={onClose}
+          testID={'BackgroundTouchable'}
+        />
+      </Animated.View>
+      <Animated.View
+        style={[
+          styles.contentContainer,
+          { paddingBottom: Math.max(safeAreaInsets.bottom, Spacing.Thick24) },
+          animatedPickerPosition,
+        ]}
+        onLayout={onLayout}
+      >
         <Text style={styles.title}>{t('selectBalance')}</Text>
         {STABLE_CURRENCIES.map((currency, index) => {
           return (
@@ -124,11 +143,16 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     justifyContent: 'flex-end',
+    zIndex: 1,
   },
   background: {
     position: 'absolute',
     backgroundColor: colors.modalBackdrop,
     opacity: 0.5,
+    width: '100%',
+    height: '100%',
+  },
+  backgroundTouchable: {
     width: '100%',
     height: '100%',
   },

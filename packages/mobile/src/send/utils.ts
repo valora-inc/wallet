@@ -8,34 +8,31 @@ import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { ALERT_BANNER_DURATION } from 'src/config'
-import { exchangeRatePairSelector } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/actions'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
 import { E164NumberToAddressType, SecureSendPhoneNumberMapping } from 'src/identity/reducer'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
-import { convertDollarsToLocalAmount, convertLocalAmountToDollars } from 'src/localCurrency/convert'
+import {
+  convertCurrencyToLocalAmount,
+  convertDollarsToLocalAmount,
+  convertLocalAmountToDollars,
+} from 'src/localCurrency/convert'
 import { fetchExchangeRate } from 'src/localCurrency/saga'
 import {
   getLocalCurrencyCode,
   getLocalCurrencySymbol,
-  getLocalCurrencyToDollarsExchangeRate,
+  localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
 import { updateValoraRecipientCache } from 'src/recipients/actions'
-import {
-  AddressRecipient,
-  Recipient,
-  recipientHasAddress,
-  recipientHasNumber,
-} from 'src/recipients/recipient'
+import { AddressRecipient, Recipient } from 'src/recipients/recipient'
 import { PaymentInfo } from 'src/send/reducers'
 import { getRecentPayments } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { Currency } from 'src/utils/currencies'
-import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInHours } from 'src/utils/time'
 
@@ -44,6 +41,7 @@ const TAG = 'send/utils'
 export interface ConfirmationInput {
   recipient: Recipient
   amount: BigNumber
+  currency: Currency
   reason?: string
   recipientAddress: string | null | undefined
   type: TokenTransactionType
@@ -58,9 +56,9 @@ export const getConfirmationInput = (
   const { recipient } = transactionData
   let recipientAddress: string | null | undefined
 
-  if (recipientHasAddress(recipient)) {
+  if (recipient.address) {
     recipientAddress = recipient.address
-  } else if (recipientHasNumber(recipient)) {
+  } else if (recipient.e164PhoneNumber) {
     recipientAddress = getAddressFromPhoneNumber(
       recipient.e164PhoneNumber,
       e164NumberToAddress,
@@ -104,42 +102,40 @@ function dailySpent(now: number, recentPayments: PaymentInfo[]) {
   return amount
 }
 
+/**
+ * Everything in this function is mapped to dollar amounts
+ */
 export function useDailyTransferLimitValidator(
-  amount: BigNumber,
+  amount: BigNumber | null,
   currency: Currency
 ): [boolean, () => void] {
   const dispatch = useDispatch()
 
-  const exchangeRatePair = useSelector(exchangeRatePairSelector)
+  const localExchangeRates = useSelector(localCurrencyExchangeRatesSelector)
 
   const dollarAmount = useMemo(() => {
     if (currency === Currency.Dollar) {
       return amount
-    } else {
-      const exchangeRate = getRateForMakerToken(exchangeRatePair, Currency.Dollar, Currency.Celo)
-      return goldToDollarAmount(amount, exchangeRate) || new BigNumber(0)
     }
+    const localAmount = convertCurrencyToLocalAmount(amount, localExchangeRates[currency])
+    return convertLocalAmountToDollars(localAmount, localExchangeRates[Currency.Dollar])
   }, [amount, currency])
 
   const recentPayments = useSelector(getRecentPayments)
-  const localCurrencyExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
 
   const now = Date.now()
 
-  const isLimitReached = _isPaymentLimitReached(
-    now,
-    recentPayments,
-    dollarAmount.toNumber(),
-    dailyLimitCusd
-  )
+  const isLimitReached =
+    dollarAmount === null ||
+    _isPaymentLimitReached(now, recentPayments, dollarAmount.toNumber(), dailyLimitCusd)
   const showLimitReachedBanner = () => {
     dispatch(
       showLimitReachedError(
         now,
         recentPayments,
-        localCurrencyExchangeRate,
+        localExchangeRates[Currency.Dollar],
         localCurrencySymbol,
         dailyLimitCusd
       )
@@ -227,6 +223,7 @@ export function* handleSendPaymentData(
       const transactionData: TransactionDataInput = {
         recipient,
         amount: dollarAmount,
+        currency: Currency.Dollar,
         reason: data.comment,
         type: TokenTransactionType.PayPrefill,
       }

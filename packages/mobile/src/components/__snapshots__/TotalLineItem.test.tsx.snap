@@ -68,11 +68,11 @@ Array [
           Array [
             undefined,
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
-        testID="TotalLineItem/Total"
+        testID="TotalLineItem/Total/value"
       >
         
         $
@@ -121,22 +121,52 @@ Array [
           ]
         }
       >
-        <Text
-          numberOfLines={1}
-          style={
-            Array [
-              undefined,
-              Object {
-                "color": "#2E3338",
-              },
-            ]
+        <View
+          accessible={true}
+          focusable={false}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
           }
-          testID="TotalLineItem/ExchangeRate"
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
         >
-          
-          $
-          100.00
-        </Text>
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+          >
+            <Text
+              numberOfLines={1}
+              style={
+                Array [
+                  undefined,
+                  Object {
+                    "color": undefined,
+                  },
+                ]
+              }
+              testID="TotalLineItem/ExchangeRate/value"
+            >
+              
+              $
+              100.00
+            </Text>
+          </Text>
+        </View>
       </Text>
     </View>
     <Text
@@ -163,11 +193,11 @@ Array [
           Array [
             undefined,
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
-        testID="TotalLineItem/Subtotal"
+        testID="TotalLineItem/Subtotal/value"
       >
         
         $

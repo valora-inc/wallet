@@ -10,6 +10,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
       "position": "absolute",
       "right": 0,
       "top": 0,
+      "zIndex": 1,
     }
   }
   testID="TokenBottomSheetContainer"
@@ -27,7 +28,27 @@ exports[`TokenBottomSheet renders correctly 1`] = `
         undefined,
       ]
     }
-  />
+  >
+    <RNGestureHandlerButton
+      collapsable={false}
+      onGestureEvent={[Function]}
+      onGestureHandlerEvent={[Function]}
+      onGestureHandlerStateChange={[Function]}
+      onHandlerStateChange={[Function]}
+      rippleColor={0}
+      testID="BackgroundTouchable"
+    >
+      <View
+        accessible={true}
+        style={
+          Object {
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+      />
+    </RNGestureHandlerButton>
+  </View>
   <View
     onLayout={[Function]}
     style={
@@ -41,6 +62,9 @@ exports[`TokenBottomSheet renders correctly 1`] = `
           "padding": 24,
           "position": "absolute",
           "width": "100%",
+        },
+        Object {
+          "paddingBottom": 24,
         },
         undefined,
       ]
@@ -122,7 +146,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
                 },
               ]
             }
-            testID="LocalcUSDBalance"
+            testID="LocalcUSDBalance/value"
           >
             
             $
@@ -143,7 +167,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
                 },
               ]
             }
-            testID="cUSDBalance"
+            testID="cUSDBalance/value"
           >
             
             10.00
@@ -224,7 +248,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
                 },
               ]
             }
-            testID="LocalcEURBalance"
+            testID="LocalcEURBalance/value"
           >
             
             $
@@ -245,7 +269,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
                 },
               ]
             }
-            testID="cEURBalance"
+            testID="cEURBalance/value"
           >
             
             20.00

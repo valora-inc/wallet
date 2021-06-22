@@ -10,7 +10,7 @@ import { e164NumberToSaltSelector } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { waitFor } from 'src/redux/sagas-helpers'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { fetchKomenciSession, getKomenciKit } from 'src/verify/komenci'
 import {
   BALANCE_CHECK_TIMEOUT,

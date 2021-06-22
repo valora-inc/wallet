@@ -9,6 +9,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NotificationReceiveState, NotificationTypes } from 'src/notifications/types'
 import { recipientInfoSelector } from 'src/recipients/reducer'
+import { Currency } from 'src/utils/currencies'
 import { mockRecipientInfo } from 'test/values'
 
 describe(handleNotification, () => {
@@ -137,7 +138,6 @@ describe(handleNotification, () => {
         uid: 'abc',
         requesterAddress: '0xTEST',
         amount: '10',
-        currency: 'dollar',
         comment: 'Pizza',
       },
     }
@@ -159,6 +159,7 @@ describe(handleNotification, () => {
         origin: SendOrigin.AppRequestFlow,
         transactionData: {
           amount: new BigNumber('10'),
+          currency: Currency.Dollar,
           firebasePendingRequestUid: 'abc',
           reason: 'Pizza',
           recipient: { address: '0xTEST' },

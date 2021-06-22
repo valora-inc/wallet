@@ -1,6 +1,6 @@
 import { put } from 'redux-saga-test-plan/matchers'
 import { call, spawn, takeEvery } from 'redux-saga/effects'
-import { Actions, fetchGoldBalance, setBalance } from 'src/goldToken/actions'
+import { Actions, setBalance } from 'src/goldToken/actions'
 import { fetchToken, tokenTransferFactory } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
 
@@ -20,8 +20,6 @@ function* watchFetchCeloBalance() {
 export const goldTransfer = tokenTransferFactory({
   actionName: Actions.TRANSFER,
   tag,
-  currency: Currency.Celo,
-  fetchAction: fetchGoldBalance,
 })
 
 export function* goldTokenSaga() {

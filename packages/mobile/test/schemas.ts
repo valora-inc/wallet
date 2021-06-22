@@ -667,6 +667,10 @@ export const v15Schema = {
     },
     balance: undefined,
   },
+  send: {
+    ...v14Schema.send,
+    lastUsedCurrency: Currency.Dollar,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

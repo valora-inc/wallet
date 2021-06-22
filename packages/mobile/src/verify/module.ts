@@ -9,7 +9,7 @@ import { CodeInputStatus } from 'src/components/CodeInput'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 
 export const NUM_ATTESTATIONS_REQUIRED = 3
 export const REVEAL_RETRY_DELAY = 10 * 1000 // 10 seconds

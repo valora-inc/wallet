@@ -4,6 +4,7 @@
   "dollarsSent": "Dollars Sent",
   "to": "To",
   "send": "Send",
+  "sendToken": "Send {{token}}",
   "payment": "Payment",
   "sendOrRequest": "Send or Request",
   "recent": "Recent",

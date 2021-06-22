@@ -30,8 +30,8 @@ import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   convertDollarsToLocalAmount,
-  convertDollarsToMaxSupportedPrecision,
   convertLocalAmountToDollars,
+  convertToMaxSupportedPrecision,
 } from 'src/localCurrency/convert'
 import {
   getLocalCurrencyCode,
@@ -233,7 +233,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
     const dollarsAmount =
       convertLocalAmountToDollars(parsedInputAmount, localCurrencyExchangeRate) || new BigNumber('')
 
-    return convertDollarsToMaxSupportedPrecision(dollarsAmount)
+    return convertToMaxSupportedPrecision(dollarsAmount)
   }
 
   getInputTokenDisplayText = () => {

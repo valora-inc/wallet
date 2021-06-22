@@ -11,7 +11,7 @@ import { PaymentRequest } from 'src/paymentRequest/types'
 import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
-import { cUsdBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { Currency } from 'src/utils/currencies'
 
 interface StateProps {

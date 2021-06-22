@@ -156,7 +156,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             "lineHeight": 22,
           },
           Object {
-            "color": "#2E3338",
+            "color": undefined,
             "fontSize": 34,
           },
         ]
@@ -175,7 +175,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             "lineHeight": 22,
           },
           Object {
-            "color": "#2E3338",
+            "color": undefined,
             "fontSize": 24,
             "paddingVertical": 4,
           },
@@ -196,7 +196,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
             "paddingHorizontal": 3,
           },
           Object {
-            "color": "#2E3338",
+            "color": undefined,
             "fontSize": 48,
             "lineHeight": 64,
           },
@@ -274,10 +274,11 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           Array [
             undefined,
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -599,10 +600,11 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           Array [
             undefined,
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
+        testID="undefined/value"
       >
         -
         $
@@ -688,11 +690,11 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           Array [
             undefined,
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
-        testID="TotalLineItem/Total"
+        testID="TotalLineItem/Total/value"
       >
         
         $
@@ -741,22 +743,52 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           ]
         }
       >
-        <Text
-          numberOfLines={1}
-          style={
-            Array [
-              undefined,
-              Object {
-                "color": "#2E3338",
-              },
-            ]
+        <View
+          accessible={true}
+          focusable={false}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
           }
-          testID="TotalLineItem/ExchangeRate"
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
         >
-          
-          $
-          0.75
-        </Text>
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+          >
+            <Text
+              numberOfLines={1}
+              style={
+                Array [
+                  undefined,
+                  Object {
+                    "color": undefined,
+                  },
+                ]
+              }
+              testID="TotalLineItem/ExchangeRate/value"
+            >
+              
+              $
+              0.75
+            </Text>
+          </Text>
+        </View>
       </Text>
     </View>
     <Text
@@ -783,11 +815,11 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
           Array [
             undefined,
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
-        testID="TotalLineItem/Subtotal"
+        testID="TotalLineItem/Subtotal/value"
       >
         
         $

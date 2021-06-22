@@ -35,6 +35,7 @@ const state = createMockStore().getState()
 const TRANSFER_ACTION = transferStableToken({
   recipientAddress: mockAccount,
   amount: CUSD_BALANCE,
+  currency: Currency.Dollar,
   comment: COMMENT,
   context: { id: TX_ID },
 })
@@ -86,7 +87,7 @@ describe('stableToken saga', () => {
           comment: COMMENT,
           status: TransactionStatus.Pending,
           value: CUSD_BALANCE,
-          symbol: Currency.Dollar,
+          currency: Currency.Dollar,
           timestamp: Math.floor(Date.now() / 1000),
           address: mockAccount,
         })
@@ -106,7 +107,7 @@ describe('stableToken saga', () => {
           comment: COMMENT,
           status: TransactionStatus.Pending,
           value: CUSD_BALANCE,
-          symbol: Currency.Dollar,
+          currency: Currency.Dollar,
           timestamp: Math.floor(Date.now() / 1000),
           address: mockAccount,
         })
