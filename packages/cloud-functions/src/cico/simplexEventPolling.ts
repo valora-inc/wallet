@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions'
 import { trackEvent } from '../bigQuery'
-import { DigitalAsset, FiatCurrency, SIMPLEX_DATA } from '../config'
+import { SIMPLEX_DATA } from '../config'
 import { fetchWithTimeout, flattenObject, lookupAddressFromTxId } from './utils'
 
 const SIMPLEX_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_simplex'
@@ -17,32 +17,36 @@ interface SimplexTransactionEvent {
     id: string
     status: string
     created_at: string
+    partner_id: number
     updated_at: string
+    crypto_currency: string
     fiat_total_amount: {
       amount: number
-      currency: FiatCurrency
+      currency: string
     }
     crypto_total_amount: {
       amount: number
-      currency: DigitalAsset
+      currency: string
     }
     partner_end_user_id: string
   }
   timestamp: string
 }
 
-// event_id: "string"
-// name: "SimplexTxStatus"
-// payment_created_at: "string"
-// payment_crypto_total_amount_amount: "number"
-// payment_crypto_total_amount_currency: "DigitalAsset"
-// payment_fiat_total_amount_amount: "number"
-// payment_fiat_total_amount_currency: "FiatCurrency"
-// payment_id: "string"
-// payment_partner_end_user_id: "string"
-// payment_status: "string"
-// payment_updated_at: "string"
-// timestamp: "string"
+// event_id: string,
+// name: string,
+// payment_id: string,
+// payment_status: string,
+// payment_created_at: string,
+// payment_partner_id: float,
+// payment_updated_at: string,
+// payment_crypto_currency: string,
+// payment_fiat_total_amount_amount: float,
+// payment_fiat_total_amount_currency: string,
+// payment_crypto_total_amount_amount: float,
+// payment_crypto_total_amount_currency: string,
+// payment_partner_end_user_id: string,
+// timestamp: string
 
 enum SimplexTxStatus {
   Started = 'payment_request_submitted',
@@ -67,12 +71,17 @@ const getSimplexEvents = async () => {
 }
 
 const deleteSimplexEvent = async (event: SimplexTransactionEvent) => {
-  await fetchWithTimeout(`${SIMPLEX_DATA.event_url}/${event.event_id}`, {
-    method: 'DELETE',
-    headers: {
-      Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
-    },
-  })
+  try {
+    await fetchWithTimeout(`${SIMPLEX_DATA.event_url}/${event.event_id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
+      },
+    })
+  } catch (error) {
+    console.error('Delete error: ', JSON.stringify(error))
+    throw error
+  }
 }
 
 export const simplexEventPolling = functions.https.onRequest(async (req, res) => {
@@ -81,18 +90,18 @@ export const simplexEventPolling = functions.https.onRequest(async (req, res) =>
 
     await Promise.all(
       simplexEvents.events.map(async (event) => {
-        const txId = event.payment.id
-        const userAddress = await lookupAddressFromTxId(txId)
-
-        userAddress
-          ? console.info(`Found user address ${userAddress} on txId ${txId}`)
-          : console.info(`No user address found for txId ${txId}`)
-
         try {
+          const txId = event.payment.id
+          const userAddress = await lookupAddressFromTxId(txId)
+
+          userAddress
+            ? console.info(`Found user address ${userAddress} on txId ${txId}`)
+            : console.info(`No user address found for txId ${txId}`)
+
           await trackEvent(SIMPLEX_BIG_QUERY_EVENT_TABLE, flattenObject(event))
           await deleteSimplexEvent(event)
         } catch (error) {
-          console.error("Couldn't track or delete event: ", JSON.stringify(error))
+          console.info('Event: ', JSON.stringify(event))
         }
       })
     )
