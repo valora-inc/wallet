@@ -23,7 +23,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { hideVerificationSelector, numberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
-import { WEB_LINK } from 'src/config'
+import { isE2EEnv, WEB_LINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
 import i18n, { Namespaces } from 'src/i18n'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
@@ -49,7 +49,7 @@ import {
   startKomenciSession,
   stop,
   VerificationStateType,
-  verificationStatusSelector,
+  verificationStatusSelector
 } from 'src/verify/module'
 import GoogleReCaptcha from 'src/verify/safety/GoogleReCaptcha'
 import { getPhoneNumberState } from 'src/verify/utils'
@@ -207,6 +207,16 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       cancelCaptcha()
     }
   }
+
+  useEffect(() => {
+    if (isE2EEnv && currentState.type === VerificationStateType.EnsuringRealHumanUser) {
+      handleCaptchaResolved({
+        nativeEvent: {
+          data: 'special-captcha-bypass-token'
+        }
+      })
+    }
+  }, [currentState.type])
 
   const onPressCountry = () => {
     navigate(Screens.SelectCountry, {
