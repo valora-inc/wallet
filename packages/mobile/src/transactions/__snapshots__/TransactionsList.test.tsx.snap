@@ -232,7 +232,7 @@ exports[`ignores failed standby transactions 1`] = `
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 numberOfLines={1}
@@ -271,7 +271,7 @@ exports[`ignores failed standby transactions 1`] = `
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":null,"comment":"Hi"}
             </Text>
           </View>
         </View>
@@ -400,7 +400,7 @@ exports[`ignores failed standby transactions 1`] = `
                 }
               }
             >
-              feedItemExchangeCeloInfo
+              feedItemExchangeCeloInfo, {"amount":"0.100","price":"$10.06"}
             </Text>
           </View>
         </View>
@@ -646,7 +646,7 @@ exports[`ignores pending standby transactions that are completed in the response
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 numberOfLines={1}
@@ -685,7 +685,7 @@ exports[`ignores pending standby transactions that are completed in the response
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":null,"comment":"Hi"}
             </Text>
           </View>
         </View>
@@ -814,7 +814,7 @@ exports[`ignores pending standby transactions that are completed in the response
                 }
               }
             >
-              feedItemExchangeCeloInfo
+              feedItemExchangeCeloInfo, {"amount":"0.100","price":"$10.06"}
             </Text>
           </View>
         </View>
@@ -1152,7 +1152,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 numberOfLines={1}
@@ -1191,7 +1191,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":null,"comment":"Hi"}
             </Text>
           </View>
         </View>
@@ -1320,7 +1320,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 }
               }
             >
-              feedItemExchangeCeloInfo
+              feedItemExchangeCeloInfo, {"amount":"0.100","price":"$10.06"}
             </Text>
           </View>
         </View>
@@ -1468,7 +1468,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0072bv...o23u\\"}"}
               </Text>
               <Text
                 numberOfLines={1}

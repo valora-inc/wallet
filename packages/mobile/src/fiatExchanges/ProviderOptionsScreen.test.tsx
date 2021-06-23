@@ -265,7 +265,7 @@ describe('ProviderOptionsScreen', () => {
 
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
 
-    const elements = tree.queryAllByText('unsupportedPaymentMethod')
+    const elements = tree.queryAllByText(/unsupportedPaymentMethod/)
     // Only Simplex doesn't support bank accounts
     expect(elements).toHaveLength(1)
   })

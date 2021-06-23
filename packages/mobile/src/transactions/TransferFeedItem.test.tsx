@@ -476,8 +476,8 @@ describe('transfer feed item renders correctly', () => {
         {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo)}
       </Provider>
     )
-    expect(tree.queryByText(contactName)).toBeTruthy()
-    expect(tree.queryByText(mockE164Number)).toBeFalsy()
+    expect(tree.queryByText(new RegExp(contactName))).toBeTruthy()
+    expect(tree.queryByText(new RegExp(mockE164Number.replace('+', '\\+')))).toBeFalsy()
   })
   it('for unknown address display name show phone number on feed item', () => {
     const contactName = 'Some name'
@@ -497,7 +497,7 @@ describe('transfer feed item renders correctly', () => {
         {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo)}
       </Provider>
     )
-    expect(tree.queryByText(contactName)).toBeFalsy()
-    expect(tree.queryByText(mockE164Number)).toBeTruthy()
+    expect(tree.queryByText(new RegExp(contactName))).toBeFalsy()
+    expect(tree.queryByText(new RegExp(mockE164Number.replace('+', '\\+')))).toBeTruthy()
   })
 })

@@ -136,7 +136,7 @@ describe('NotificationBox', () => {
     )
 
     const titleElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Title')
-    expect(getElementText(titleElement)).toBe('incomingPaymentRequestNotificationTitle')
+    expect(getElementText(titleElement)).toBe('incomingPaymentRequestNotificationTitle, {}')
     const amountElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Amount')
     expect(getElementText(amountElement)).toBe('$266,000.00')
     const detailsElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Details')
@@ -158,7 +158,7 @@ describe('NotificationBox', () => {
         <NotificationBox />
       </Provider>
     )
-    expect(getByText('incomingPaymentRequestsSummaryTitle')).toBeTruthy()
+    expect(getByText(/incomingPaymentRequestsSummaryTitle/)).toBeTruthy()
   })
 
   it('renders outgoing payment requests when they exist', () => {
@@ -176,7 +176,7 @@ describe('NotificationBox', () => {
         <NotificationBox />
       </Provider>
     )
-    expect(getByText('outgoingPaymentRequestsSummaryTitle')).toBeTruthy()
+    expect(getByText(/outgoingPaymentRequestsSummaryTitle/)).toBeTruthy()
   })
 
   it('renders outgoing payment request when they exist', () => {
@@ -196,7 +196,9 @@ describe('NotificationBox', () => {
     )
 
     const titleElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Title')
-    expect(getElementText(titleElement)).toBe('outgoingPaymentRequestNotificationTitle')
+    expect(getElementText(titleElement)).toBe(
+      'outgoingPaymentRequestNotificationTitle, {"name":"John Doe"}'
+    )
     const amountElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Amount')
     expect(getElementText(amountElement)).toBe('$266,000.00')
     const detailsElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Details')

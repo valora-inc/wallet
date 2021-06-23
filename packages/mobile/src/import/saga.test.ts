@@ -133,7 +133,12 @@ describe('Import wallet saga', () => {
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask(0))],
         [delay(MNEMONIC_AUTOCORRECT_TIMEOUT), true],
       ])
-      .put(showError(ErrorMessages.INVALID_WORDS_IN_BACKUP_PHRASE, null, { invalidWords: '' }))
+      .put(
+        showError(ErrorMessages.INVALID_WORDS_IN_BACKUP_PHRASE, null, {
+          ns: 'global',
+          invalidWords: 'surfer, spectical, wade, swig, frosty',
+        })
+      )
       .put(importBackupPhraseFailure())
       .run()
   })
