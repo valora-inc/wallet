@@ -58,7 +58,7 @@ export default NewAccountPhoneVerification = () => {
       .withTimeout(10000)
 
     // Check verify Verify CTA not served
-    await element(by.id("CTA/ScrollContainer")).scroll(500, "right")
+    await element(by.id('CTA/ScrollContainer')).scroll(500, 'right')
     await expect(element(by.text('Confirm Now'))).not.toExist()
 
     // Check Phone Number is Present

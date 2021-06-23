@@ -49,7 +49,7 @@ import {
   startKomenciSession,
   stop,
   VerificationStateType,
-  verificationStatusSelector
+  verificationStatusSelector,
 } from 'src/verify/module'
 import GoogleReCaptcha from 'src/verify/safety/GoogleReCaptcha'
 import { getPhoneNumberState } from 'src/verify/utils'
@@ -212,8 +212,8 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     if (isE2EEnv && currentState.type === VerificationStateType.EnsuringRealHumanUser) {
       handleCaptchaResolved({
         nativeEvent: {
-          data: 'special-captcha-bypass-token'
-        }
+          data: 'special-captcha-bypass-token',
+        },
       })
     }
   }, [currentState.type])

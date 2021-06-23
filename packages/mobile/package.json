@@ -195,7 +195,7 @@
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@valora/eslint-config-typescript": "^0.0.1",
     "babel-core": "7.0.0-bridge.0",
-    "detox": "^18.14.1",
+    "detox": "^18.18.1",
     "detox-recorder": "^1.0.151",
     "escape-string-regexp": "^1.0.5",
     "eslint": "^7.27.0",

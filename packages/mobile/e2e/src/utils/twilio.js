@@ -15,7 +15,7 @@ export const receiveSms = async () => {
       dateSentAfter: new Date(Date.now() - 3 * 60 * 1000),
       limit: 3,
     })
-    const codes = messages.map((message) =>  message.body.split(': ')[1])
+    const codes = messages.map((message) => message.body.split(': ')[1])
     console.log('Codes received:', codes)
     if (codes.length === 3) {
       console.log(codes)
