@@ -9,7 +9,6 @@ export default NewAccountPhoneVerification = () => {
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
-    await sleep(5000)
     await dismissBanners()
   })
 
