@@ -134,12 +134,8 @@ export const rampWebhook = functions.https.onRequest(async (req, res) => {
     }
 
     // Converting actions array to string to allow for easy storage
-    const data = flattenObject({ ...purchase, actions: JSON.stringify(purchase.actions) })
-
-    await trackEvent(RAMP_BIG_QUERY_EVENT_TABLE, {
-      type,
-      ...data,
-    })
+    const data = flattenObject({ type, ...purchase, actions: JSON.stringify(purchase.actions) })
+    await trackEvent(RAMP_BIG_QUERY_EVENT_TABLE, data)
 
     res.status(204).send()
   } catch (error) {

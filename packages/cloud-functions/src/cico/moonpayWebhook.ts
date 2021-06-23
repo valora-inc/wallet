@@ -100,8 +100,8 @@ interface MoonpayTransaction {
 // type: string,
 // isFromQuote: boolean,
 // id: string,
-// createdAt: string,
-// updatedAt: string,
+// createdAt: TIMESTAMP,
+// updatedAt: TIMESTAMP,
 // baseCurrencyAmount: FLOAT,
 // quoteCurrencyAmount: FLOAT,
 // feeAmount: FLOAT,
@@ -130,8 +130,8 @@ interface MoonpayTransaction {
 // externalTransactionId: string,
 // feeAmountDiscount: string,
 // baseCurrency_id: string,
-// baseCurrency_createdAt: string,
-// baseCurrency_updatedAt: string,
+// baseCurrency_createdAt: TIMESTAMP,
+// baseCurrency_updatedAt: TIMESTAMP,
 // baseCurrency_type: string,
 // baseCurrency_name: string,
 // baseCurrency_code: string,
@@ -139,8 +139,8 @@ interface MoonpayTransaction {
 // baseCurrency_maxAmount: FLOAT,
 // baseCurrency_minAmount: FLOAT,
 // currency_id: string,
-// currency_createdAt: string,
-// currency_updatedAt: string,
+// currency_createdAt: TIMESTAMP,
+// currency_updatedAt: TIMESTAMP,
 // currency_type: string,
 // currency_name: string,
 // currency_code: string,
@@ -157,8 +157,7 @@ interface MoonpayTransaction {
 // currency_isSupportedInUS: boolean,
 // currency_notAllowedUSStates: STRING,
 // currency_isSellSupported: boolean,
-// currency_confirmationsRequired: FLOAT,
-// externalCustomerId: string
+// currency_confirmationsRequired: FLOAT
 
 enum MoonpayTxStatus {
   WaitingPayment = 'waitingPayment',
@@ -220,10 +219,7 @@ export const moonpayWebhook = functions.https.onRequest(async (req, res) => {
     console.info(`Received ${type} event with status ${status} for ${walletAddress}`)
 
     if (cryptoTransactionId) {
-      console.info(`Tx hash: ${cryptoTransactionId}`)
       saveTxHashProvider(walletAddress, cryptoTransactionId, Providers.Moonpay)
-    } else {
-      console.info('Tx hash not found on MoonPay event')
     }
 
     const flattenedData = flattenObject({

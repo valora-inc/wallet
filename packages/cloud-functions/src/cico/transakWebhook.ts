@@ -1,9 +1,11 @@
 import * as functions from 'firebase-functions'
 import jwt from 'jsonwebtoken'
 import { trackEvent } from '../bigQuery'
-import { BIGQUERY_PROVIDER_STATUS_TABLE, TRANSAK_DATA } from '../config'
+import { TRANSAK_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
-import { CashInStatus, Providers } from './Providers'
+import { Providers } from './Providers'
+
+const TRANSAK_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_transak'
 
 interface TransakEventPayload {
   eventID: TransakEvent
@@ -11,30 +13,156 @@ interface TransakEventPayload {
   webhookData: {
     id: string
     walletAddress: string
-    status: TransakStatus
-    statusReason?: string
-    transactionHash?: string
     createdAt: string
+    status: TransakStatus
     fiatCurrency: string
-    userId: string
-    cryptocurrency: string
+    cryptoCurrency: string
     isBuyOrSell: 'BUY' | 'SELL'
     fiatAmount: number
-    commissionDecimal: number
-    fromWalletAddress: string
     walletLink: string
+    paymentOptionId: string
+    quoteId: string
+    addressAdditionalData: boolean
+    network: string
+    cryptocurrency: string
     amountPaid: number
-    partnerOrderId: string
-    partnerCustomerId: string
     redirectURL: string
     conversionPrice: number
     cryptoAmount: number
-    totalFee: number
-    paymentOption: string[]
-    autoExpiresAt: string
-    referenceCode: number
+    totalFeeInFiat: number
+    fiatAmountInUsd: number
+    fromWalletAddress: boolean
+    fiatliquidityProviderData: {
+      reservationData: {
+        url: string
+        reservation: string
+      }
+      cardProcessingFormData: {
+        debitCard: string
+        reservationId: string
+        amount: string
+        sourceCurrency: string
+        destCurrency: string
+        dest: string
+        referrerAccountId: string
+        givenName: string
+        familyName: string
+        email: string
+        phone: string
+        address: {
+          street1: string
+          city: string
+          state: string
+          postalCode: string
+          country: string
+        }
+      }
+      isTestEnv: boolean
+      referrerAccountId: string
+      name: string
+      logo: string
+      preAuthData:
+        | {
+            walletOrderId: string
+          }
+        | undefined
+      walletOrderData:
+        | {
+            id: string
+            createdAt: string
+            owner: string
+            status: string
+            orderType: string
+            sourceAmount: string
+            purchaseAmount: string
+            sourceCurrency: string
+            destCurrency: string
+            transferId: string
+            dest: string
+            authCodesRequested: boolean
+            blockchainNetworkTx: string
+            accountId: string
+            paymentMethodName: string
+            updatedAt: string
+          }
+        | undefined
+      authorizationData:
+        | {
+            walletOrderId: string
+            smsNeeded: boolean
+            card2faNeeded: boolean
+            authorization3dsUrl: string
+          }
+        | undefined
+      transferData:
+        | {
+            transferId: string
+            feeCurrency: string
+            fee: string
+            fees: {
+              USD: string
+              ETH: string
+            }
+            sourceCurrency: string
+            destCurrency: string
+            sourceAmount: string
+            destAmount: string
+            destSrn: string
+            pusherChannel: string
+            from: string
+            to: string
+            rate: string
+            customId: string
+            blockchainNetworkTx: string
+            message: string
+            transferHistoryEntryType: string
+            successTimeline: {
+              statusDetails: string
+              state: string
+              createdAt: string
+            }[]
+            failedTimeline: string[]
+            failureReason: string
+            reversalReason: string
+          }
+        | undefined
+    }
+    isNonCustodial: boolean
+    transactionHash: string
+    transactionLink: string
+    completedAt: string
+    partnerFeeInLocalCurrency: number
   }
 }
+
+// eventID: string,
+// id: string,
+// walletAddress: string,
+// createdAt: timestamp,
+// status: string,
+// fiatCurrency: string,
+// cryptoCurrency: string,
+// isBuyOrSell: string,
+// fiatAmount: float,
+// walletLink: string,
+// paymentOptionId: string,
+// quoteId: string,
+// addressAdditionalData: boolean,
+// network: string,
+// amountPaid: float,
+// redirectURL: string,
+// conversionPrice: float,
+// cryptoAmount: float,
+// totalFeeInFiat: float,
+// fiatAmountInUsd: float,
+// fromWalletAddress: boolean,
+// liquidityProvider: string,
+// failureReason: string,
+// isNonCustodial: boolean,
+// transactionHash: string,
+// transactionLink: string,
+// completedAt: timestamp,
+// partnerFeeInLocalCurrency: float
 
 enum TransakEvent {
   Created = 'ORDER_CREATED',
@@ -55,62 +183,48 @@ enum TransakStatus {
   AWAITING_PAYMENT_FROM_USER = 'AWAITING_PAYMENT_FROM_USER',
 }
 
-function createEventBase(id: string, address: string) {
-  return {
-    type: 'BUY',
-    id,
-    provider: Providers.Transak,
-    timestamp: Date.now() / 1000,
-    user_address: address,
-  }
-}
-
-async function trackTransakEvent(body: any) {
-  const {
-    eventID,
-    webhookData: { id, walletAddress, statusReason },
-  } = body
-  if (eventID === TransakEvent.Created) {
-    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      ...createEventBase(id, walletAddress),
-      status: CashInStatus.Started,
-    })
-  } else if (eventID === TransakEvent.Failed) {
-    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      ...createEventBase(id, walletAddress),
-      status: CashInStatus.Failure,
-      failure_reason: statusReason,
-    })
-  } else if (eventID === TransakEvent.Completed) {
-    await trackEvent(BIGQUERY_PROVIDER_STATUS_TABLE, {
-      ...createEventBase(id, walletAddress),
-      status: CashInStatus.Success,
-    })
-  }
-}
-
 export const transakWebhook = functions.https.onRequest(async (request, response) => {
+  let decodedData: TransakEventPayload | null = null
+
   try {
-    const decodedData: TransakEventPayload = jwt.verify(
-      request.body.data,
-      TRANSAK_DATA.private_key
-    ) as TransakEventPayload
-    console.info('Transak webhook', JSON.stringify(decodedData))
-    await trackTransakEvent(decodedData)
+    decodedData = jwt.verify(request.body.data, TRANSAK_DATA.private_key) as TransakEventPayload
+
     const {
       eventID,
-      webhookData: { id, walletAddress, status, statusReason, transactionHash },
+      webhookData: { walletAddress, status, transactionHash },
     } = decodedData
-    console.info(
-      `Received Transak webhook with data: id: ${id} - address: ${walletAddress} \
-      - status: ${status} (${statusReason})- eventID: ${eventID} - txHash: ${transactionHash}`
-    )
+
+    console.info(`Received ${eventID} event with status ${status} for ${walletAddress}`)
+
     if (transactionHash) {
       saveTxHashProvider(walletAddress, transactionHash, Providers.Transak)
     }
+
+    const data = (() => {
+      const dataObj: any = {}
+      if (decodedData) {
+        for (const [key, value] of Object.entries(decodedData.webhookData)) {
+          // Removing sensetive props and avoiding a duplicate cryptocurrency prop
+          if (key !== 'cryptocurrency' && key !== 'fiatliquidityProviderData') {
+            dataObj[key] = value
+          }
+        }
+
+        // Add relevant data from parent object and omit `fiatliquidityProviderData` object
+        dataObj.eventID = eventID
+        dataObj.liquidityProvider = decodedData.webhookData?.fiatliquidityProviderData?.name
+        dataObj.failureReason =
+          decodedData.webhookData?.fiatliquidityProviderData?.transferData?.failureReason
+      }
+      return dataObj
+    })()
+
+    await trackEvent(TRANSAK_BIG_QUERY_EVENT_TABLE, data)
+
     response.status(204).send()
   } catch (error) {
-    console.error('Error parsing transak webhook data', error)
-    response.status(401).send()
+    console.error('Error parsing webhook event', JSON.stringify(error))
+    console.info('Request body: ', JSON.stringify(decodedData))
+    response.status(400).send()
   }
 })
