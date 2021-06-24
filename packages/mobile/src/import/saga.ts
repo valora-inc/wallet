@@ -61,17 +61,25 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     let mnemonic = phraseIsValid ? normalizedPhrase : undefined
     let checkedBalance = false
     if (!phraseIsValid) {
-      const { correctedPhrase, timeout } = yield race({
-        correctedPhrase: call(attemptBackupPhraseCorrection, normalizedPhrase),
-        timeout: delay(MNEMONIC_AUTOCORRECT_TIMEOUT),
-      })
-      if (timeout) {
-        Logger.info(TAG + '@importBackupPhraseSaga', 'Backup phrase autocorrection timed out')
-      }
-      if (correctedPhrase) {
-        Logger.info(TAG + '@importBackupPhraseSaga', 'Using suggested mnemonic autocorrection')
-        mnemonic = correctedPhrase
-        checkedBalance = true
+      try {
+        const { correctedPhrase, timeout } = yield race({
+          correctedPhrase: call(attemptBackupPhraseCorrection, normalizedPhrase),
+          timeout: delay(MNEMONIC_AUTOCORRECT_TIMEOUT),
+        })
+        if (timeout) {
+          Logger.info(TAG + '@importBackupPhraseSaga', 'Backup phrase autocorrection timed out')
+        }
+        if (correctedPhrase) {
+          Logger.info(TAG + '@importBackupPhraseSaga', 'Using suggested mnemonic autocorrection')
+          mnemonic = correctedPhrase
+          checkedBalance = true
+        }
+      } catch (error) {
+        Logger.error(
+          TAG + '@importBackupPhraseSaga',
+          `Encountered an error trying to correct a phrase`,
+          error
+        )
       }
     }
 
@@ -216,8 +224,9 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
 function* walletHasBalance(address: string) {
   Logger.debug(TAG + '@walletHasBalance', 'Checking account balance')
   let requests = [
+    // TODO: Add balance check for EURO when cEUR support is included in Valora.
+    //yield fork(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.EURO, address),
     yield fork(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.DOLLAR, address),
-    yield fork(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.EURO, address),
     yield fork(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.GOLD, address),
   ]
   while (requests.length > 0) {
