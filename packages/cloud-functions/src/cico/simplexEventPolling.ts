@@ -98,10 +98,10 @@ export const simplexEventPolling = functions.https.onRequest(async (req, res) =>
             ? console.info(`Found user address ${userAddress} on txId ${txId}`)
             : console.info(`No user address found for txId ${txId}`)
 
-          await trackEvent(SIMPLEX_BIG_QUERY_EVENT_TABLE, flattenObject(event))
+          await trackEvent(SIMPLEX_BIG_QUERY_EVENT_TABLE, flattenObject({ userAddress, ...event }))
           await deleteSimplexEvent(event)
         } catch (error) {
-          console.info('Event: ', JSON.stringify(event))
+          console.error('Error with event: ', JSON.stringify(event))
         }
       })
     )
