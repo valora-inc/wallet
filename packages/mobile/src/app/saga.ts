@@ -94,6 +94,7 @@ export function* appVersionSaga() {
 
 export interface RemoteFeatureFlags {
   celoEducationUri: string | null
+  celoEuroEnabled: boolean
   shortVerificationCodesEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number

@@ -86,3 +86,5 @@ export const rewardsEnabledSelector = createSelector(
     return address! < rewardsThreshold
   }
 )
+
+export const celoEuroEnabledSelector = (state: RootState) => state.app.celoEuroEnabled

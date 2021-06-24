@@ -17,6 +17,7 @@ export interface State {
   sessionId: string
   minVersion: string | null
   celoEducationUri: string | null
+  celoEuroEnabled: boolean
   shortVerificationCodesEnabled: boolean
   inviteModalVisible: boolean
   activeScreen: Screens
@@ -46,6 +47,7 @@ const initialState = {
   minVersion: null,
   shortVerificationCodesEnabled: false,
   celoEducationUri: null,
+  celoEuroEnabled: false,
   inviteModalVisible: false,
   activeScreen: Screens.Main,
   hideVerification: false,
@@ -156,6 +158,7 @@ export const appReducer = (
         hideVerification: action.flags.hideVerification,
         showRaiseDailyLimitTarget: action.flags.showRaiseDailyLimitTarget,
         celoEducationUri: action.flags.celoEducationUri,
+        celoEuroEnabled: action.flags.celoEuroEnabled,
         shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
         walletConnectEnabled: action.flags.walletConnectEnabled,
         rewardsPercent: action.flags.rewardsPercent,

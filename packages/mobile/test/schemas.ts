@@ -649,6 +649,10 @@ export const v15Schema = {
     ...v14Schema._persist,
     version: 15,
   },
+  app: {
+    ...v14Schema.app,
+    celoEuroEnabled: false,
+  },
   localCurrency: {
     ...v14Schema.localCurrency,
     exchangeRates: {
