@@ -1,4 +1,4 @@
-name: Checks
+name: Check
 
 on:
   # Run on pushes to main..
@@ -11,7 +11,7 @@ on:
 jobs:
   general:
     name: General Tests
-    runs-on: macos-11
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
