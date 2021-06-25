@@ -73,5 +73,4 @@ jobs:
           export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH
           export PATH=$ANDROID_SDK_ROOT/emulator:$PATH
           cd packages/mobile
-          yarn run detox build-framework-cache
-          yarn run test:e2e:android -w 2
+          yarn run test:e2e:android -w 1
