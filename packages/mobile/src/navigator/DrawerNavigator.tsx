@@ -305,6 +305,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     alignItems: 'flex-start',
     marginRight: 16,
+    flexWrap: 'wrap',
   },
   drawerHeader: {
     width: '100%',
