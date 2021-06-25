@@ -56,7 +56,11 @@ export class EventBuilder {
     tokens: string[],
     fees?: Fee[]
   ) {
-    const token = this.chooseTokenToShowInExchange(tokens)
+    const token = this.chooseTokenToShowInExchange(
+      [inTransfer.token, outTransfer.token].filter((transferToken) =>
+        tokens.includes(transferToken)
+      )
+    )
     const hash = transaction.transactionHash
     const block = transaction.blockNumber
     const timestamp = transaction.timestamp
