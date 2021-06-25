@@ -1,4 +1,4 @@
-name: End-to-end Tests
+name: Run E2E
 
 on:
   push:
@@ -18,7 +18,7 @@ on:
 
 jobs:
   ios:
-    name: iOS
+    name: iOS Tests
     runs-on: ios-e2e-group
     steps:
       - uses: actions/checkout@v2
@@ -51,3 +51,26 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: packages/mobile/e2e/test-results
+  android:
+    name: Android Tests
+    runs-on: android-e2e-group
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          check-latest: true
+      - name: Install package dependencies
+        run: yarn
+      - name: Build mobile dependencies
+        run: yarn build --scope @celo/mobile --include-filtered-dependencies
+      - name: Run E2E tests
+        run: |
+          export ANDROID_SDK_ROOT=$HOME/android-tools
+          export ANDROID_NDK=$ANDROID_SDK_ROOT/ndk/21.0.6113669
+          export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
+          export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest:$PATH
+          export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH
+          export PATH=$ANDROID_SDK_ROOT/emulator:$PATH
+          cd packages/mobile
+          yarn run test:e2e:android -w 1
