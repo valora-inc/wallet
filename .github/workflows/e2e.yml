@@ -75,4 +75,3 @@ jobs:
           cd packages/mobile
           yarn run detox build-framework-cache
           yarn run test:e2e:android -w 2
-
