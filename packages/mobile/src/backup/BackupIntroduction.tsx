@@ -110,12 +110,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
   },
   introContainer: {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: Spacing.Thick24,
     justifyContent: 'center',
   },
   postSetupContainer: {
-    flex: 1,
+    flexGrow: 1,
     paddingTop: Spacing.Thick24,
     paddingHorizontal: Spacing.Regular16,
   },
