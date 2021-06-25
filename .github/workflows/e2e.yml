@@ -51,3 +51,33 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: packages/mobile/e2e/test-results
+  android:
+    name: Android
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          check-latest: true
+      - run: |
+          echo 'export ANDROID_SDK_ROOT=$HOME/android-tools' >> $GITHUB_ENV
+          echo 'export ANDROID_NDK=$ANDROID_SDK_ROOT/ndk/21.0.6113669' >> $GITHUB_ENV
+      - run: |
+          sh packages/mobile/scripts/install-android-tools.sh
+          echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH' >> $GITHUB_ENV
+          echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest:$PATH' >> $GITHUB_ENV
+          echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH' >> $GITHUB_ENV
+          echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH' >> $GITHUB_ENV
+          source $GITHUB_ENV
+          sdkmanager --list
+      - run: avdmanager create avd --force --name Pixel_API_29_AOSP_x86_64 --package "system-images;android-29;default;x86_64" --device pixel
+      - run: brew install wget tree coreutils
+      - name: Install package dependencies
+        run: yarn
+      - name: Build mobile dependencies
+        run: yarn build --scope @celo/mobile --include-filtered-dependencies
+      - name: Run E2E tests
+        run: |
+          cd packages/mobile
+          yarn run test:e2e:ios -w 1
