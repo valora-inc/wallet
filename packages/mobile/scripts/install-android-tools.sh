@@ -1,9 +1,9 @@
 # TODO(tom): Make a better conditional - if env variable isn't set this exits
-if [ -d $ANDROID_SDK_ROOT ]
-then
-    echo "Directory $ANDROID_SDK_ROOT already exists so we're skipping the install. If you'd like to install fresh tools, edit this script to invalidate the CI cache."
-    exit 0
-fi
+# if [ -d $ANDROID_SDK_ROOT ]
+# then
+#     echo "Directory $ANDROID_SDK_ROOT already exists so we're skipping the install. If you'd like to install fresh tools, edit this script to invalidate the CI cache."
+#     exit 0
+# fi
 
 mkdir -p $ANDROID_SDK_ROOT
 
