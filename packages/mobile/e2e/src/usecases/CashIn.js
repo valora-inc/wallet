@@ -18,7 +18,9 @@ export default CashIn = () => {
     // TODO: If on Simplex Press Back Button
   })
 
-  it('Should Display All Providers', async () => {
+  // Temporarily skipping test because it was rewritten in
+  // https://github.com/celo-org/wallet/pull/451 to reduce flakiness
+  it.skip('Should Display All Providers', async () => {
     // Check All Providers for US
     await expect(element(by.id('Provider/Moonpay'))).toBeVisible()
     await expect(element(by.id('Provider/Simplex'))).toBeVisible()
