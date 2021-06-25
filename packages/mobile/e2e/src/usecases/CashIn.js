@@ -39,7 +39,7 @@ export default CashIn = () => {
 
   // TODO: Check providers on Android
   if (device.getPlatform() === 'ios') {
-    it('Should Navigate to Moonpay', async () => {
+    it.skip('Should Navigate to Moonpay', async () => {
       await element(by.id('Provider/Moonpay')).tap()
       await sleep(10000)
       const imagePath = await device.takeScreenshot('Moonpay - ios')
@@ -51,7 +51,7 @@ export default CashIn = () => {
       )
     })
 
-    it('Should Navigate to Xanpool', async () => {
+    it.skip('Should Navigate to Xanpool', async () => {
       await element(by.id('Provider/Xanpool')).tap()
       await sleep(10000)
       const imagePath = await device.takeScreenshot('Xanpool - ios')
@@ -63,7 +63,7 @@ export default CashIn = () => {
       )
     })
 
-    it('Should Navigate to Transak', async () => {
+    it.skip('Should Navigate to Transak', async () => {
       await element(by.id('Provider/Transak')).tap()
       await sleep(10000)
       const imagePath = await device.takeScreenshot('Transak')
