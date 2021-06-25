@@ -69,9 +69,9 @@ jobs:
           echo 'export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest:$PATH' >> $GITHUB_ENV
           echo 'export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH' >> $GITHUB_ENV
           echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH' >> $GITHUB_ENV
-          source $GITHUB_ENV
+      - run: |
           sdkmanager --list
-      - run: brew install wget tree coreutils
+          avdmanager create avd --force --name Pixel_API_29_AOSP_x86_64 --package "system-images;android-29;default;x86_64" --device pixel
       - name: Install package dependencies
         run: yarn
       - name: Build mobile dependencies
