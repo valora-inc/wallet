@@ -91,7 +91,7 @@ export default React.memo(function Button(props: ButtonProps) {
 const styles = StyleSheet.create({
   // on android Touchable Provides a ripple effect, by itself it does not respect the border radius on Touchable
   containRipple: {
-    overflow: 'hidden',
+    overflow: 'visible',
   },
   rounded: {
     borderRadius: 100,
@@ -101,17 +101,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 5,
     paddingHorizontal: 24,
+    borderRadius: 100,
   },
   small: {
-    height: 40,
+    minHeight: 40,
     minWidth: 120,
   },
   medium: {
-    height: 48,
+    minHeight: 48,
     minWidth: 120,
   },
   full: {
-    height: 48,
+    minHeight: 48,
     flexGrow: 1,
   },
 })
