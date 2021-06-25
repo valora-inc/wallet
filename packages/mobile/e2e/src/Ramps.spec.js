@@ -6,8 +6,5 @@ describe('Ramps', () => {
     await quickOnboarding()
   })
 
-  // describe('Cash In', CashIn)
-  describe('Cash In Temp, () => {
-    expect(true).toBe(true);
-  })
+  describe('Cash In', CashIn)
 })
