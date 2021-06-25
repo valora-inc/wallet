@@ -71,7 +71,6 @@ jobs:
           echo 'export PATH=$ANDROID_SDK_ROOT/emulator:$PATH' >> $GITHUB_ENV
           source $GITHUB_ENV
           sdkmanager --list
-          avdmanager create avd --force --name Pixel_API_29_AOSP_x86_64 --package "system-images;android-29;default;x86_64" --device pixel
       - run: brew install wget tree coreutils
       - name: Install package dependencies
         run: yarn
