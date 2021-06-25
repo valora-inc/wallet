@@ -243,6 +243,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     textAlign: 'center',
     paddingTop: 16,
+    marginBottom: 24,
   },
   bodyImage: {
     alignSelf: 'center',
