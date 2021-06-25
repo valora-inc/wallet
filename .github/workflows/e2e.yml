@@ -66,6 +66,12 @@ jobs:
         run: yarn build --scope @celo/mobile --include-filtered-dependencies
       - name: Run E2E tests
         run: |
+          export ANDROID_SDK_ROOT=$HOME/android-tools
+          export ANDROID_NDK=$ANDROID_SDK_ROOT/ndk/21.0.6113669
+          export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
+          export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest:$PATH
+          export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH
+          export PATH=$ANDROID_SDK_ROOT/emulator:$PATH
           cd packages/mobile
           yarn run detox build-framework-cache
           yarn run test:e2e:android -w 2
