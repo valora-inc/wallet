@@ -2,21 +2,34 @@ import React from 'react'
 import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
+import { ExchangeRates } from 'src/exchange/reducer'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { emptyExchangeRates } from 'test/values'
 
 // Mock this for now, as we get apollo issues
 jest.mock('src/transactions/TransactionsList')
 
 const mockScreenProps = getMockStackScreenProps(Screens.ExchangeHomeScreen)
+const exchangeRates: ExchangeRates = {
+  ...emptyExchangeRates,
+  [Currency.Celo]: {
+    ...emptyExchangeRates[Currency.Celo],
+    [Currency.Dollar]: '0.11',
+  },
+  [Currency.Dollar]: {
+    ...emptyExchangeRates[Currency.Dollar],
+    [Currency.Celo]: '10',
+  },
+}
 
 describe('ExchangeHomeScreen', () => {
   it('renders and behaves correctly for non CP-DOTO restricted countries', () => {
     const store = createMockStore({
       goldToken: { balance: '2' },
       stableToken: { balances: { [Currency.Dollar]: '10' } },
-      exchange: { exchangeRatePair: { goldMaker: '0.11', dollarMaker: '10' } },
+      exchange: { exchangeRates },
     })
 
     const tree = render(
@@ -30,13 +43,13 @@ describe('ExchangeHomeScreen', () => {
     jest.clearAllMocks()
     fireEvent.press(tree.getByTestId('BuyCelo'))
     expect(mockScreenProps.navigation.navigate).toHaveBeenCalledWith(Screens.ExchangeTradeScreen, {
-      makerTokenDisplay: { makerToken: 'cUSD', makerTokenBalance: '10' },
+      buyCelo: true,
     })
 
     jest.clearAllMocks()
     fireEvent.press(tree.getByTestId('SellCelo'))
     expect(mockScreenProps.navigation.navigate).toHaveBeenCalledWith(Screens.ExchangeTradeScreen, {
-      makerTokenDisplay: { makerToken: 'cGLD', makerTokenBalance: '2' },
+      buyCelo: false,
     })
 
     jest.clearAllMocks()
@@ -57,7 +70,7 @@ describe('ExchangeHomeScreen', () => {
       },
       goldToken: { balance: '2' },
       stableToken: { balances: { [Currency.Dollar]: '10' } },
-      exchange: { exchangeRatePair: { goldMaker: '0.11', dollarMaker: '10' } },
+      exchange: { exchangeRates },
     })
 
     const tree = render(

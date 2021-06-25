@@ -22,7 +22,7 @@ import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import FeeDrawer from 'src/components/FeeDrawer'
-import CustomHeader from 'src/components/header/CustomHeader'
+import HeaderWithBackButton from 'src/components/header/HeaderWithBackButton'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import TotalLineItem from 'src/components/TotalLineItem'
@@ -369,7 +369,7 @@ function SendConfirmation(props: Props) {
     return (
       <SafeAreaView style={styles.container}>
         {props.route.name !== Screens.SendConfirmationModal && (
-          <CustomHeader left={<BackButton eventName={SendEvents.send_confirm_back} />} />
+          <HeaderWithBackButton eventName={SendEvents.send_confirm_back} />
         )}
         <DisconnectBanner />
         <ReviewFrame

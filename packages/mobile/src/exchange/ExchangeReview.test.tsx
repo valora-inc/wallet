@@ -3,12 +3,23 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import ExchangeReview from 'src/exchange/ExchangeReview'
-import { ExchangeRatePair } from 'src/exchange/reducer'
+import { ExchangeRates } from 'src/exchange/reducer'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { emptyExchangeRates } from 'test/values'
 
-const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.11', dollarMaker: '10' }
+const exchangeRates: ExchangeRates = {
+  ...emptyExchangeRates,
+  [Currency.Celo]: {
+    ...emptyExchangeRates[Currency.Celo],
+    [Currency.Dollar]: '0.11',
+  },
+  [Currency.Dollar]: {
+    ...emptyExchangeRates[Currency.Dollar],
+    [Currency.Celo]: '9.09090909',
+  },
+}
 
 // This mocks the default and named exports for DisconnectBanner
 // Which is necessary because one of the tests below doesn't work when
@@ -22,18 +33,18 @@ jest.mock('src/shared/DisconnectBanner', () => ({
 
 const store = createMockStore({
   exchange: {
-    exchangeRatePair,
+    exchangeRates,
   },
 })
 
 const mockScreenProps = getMockStackScreenProps(Screens.ExchangeReview, {
-  exchangeInput: {
-    makerToken: Currency.Celo,
-    makerTokenBalance: '20',
-    inputToken: Currency.Celo,
-    inputTokenDisplayName: 'gold',
-    inputAmount: new BigNumber(10),
-  },
+  makerToken: Currency.Celo,
+  takerToken: Currency.Dollar,
+  inputToken: Currency.Celo,
+  inputTokenDisplayName: 'gold',
+  inputAmount: new BigNumber(10),
+  celoAmount: new BigNumber(10),
+  stableAmount: new BigNumber(10 / 0.11),
 })
 
 describe('ExchangeReview', () => {

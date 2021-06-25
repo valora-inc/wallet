@@ -1,27 +1,50 @@
+import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { ExchangeTradeScreen } from 'src/exchange/ExchangeTradeScreen'
-import { ExchangeRatePair } from 'src/exchange/reducer'
+import { ExchangeRates } from 'src/exchange/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockI18nProps, getMockStackScreenProps } from 'test/utils'
+import { emptyExchangeRates } from 'test/values'
 
-const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.11', dollarMaker: '10' }
+jest.mock('src/components/useShowOrHideAnimation')
+
+const exchangeRates: ExchangeRates = {
+  ...emptyExchangeRates,
+  [Currency.Celo]: {
+    ...emptyExchangeRates[Currency.Celo],
+    [Currency.Dollar]: '0.11',
+  },
+  [Currency.Dollar]: {
+    ...emptyExchangeRates[Currency.Dollar],
+    [Currency.Celo]: '9.09090909',
+  },
+}
 
 const store = createMockStore({
   exchange: {
-    exchangeRatePair,
+    exchangeRates,
   },
 })
 
+const balances = {
+  [Currency.Dollar]: new BigNumber(20.02),
+  [Currency.Celo]: new BigNumber(20),
+  [Currency.Euro]: new BigNumber(10),
+}
+
+const localCurrencyExchangeRates = {
+  [Currency.Dollar]: '20',
+  [Currency.Euro]: null,
+  [Currency.Celo]: null,
+}
+
 const mockScreenProps = getMockStackScreenProps(Screens.ExchangeTradeScreen, {
-  makerTokenDisplay: {
-    makerToken: Currency.Celo,
-    makerTokenBalance: '20',
-  },
+  buyCelo: false,
 })
 
 describe(ExchangeTradeScreen, () => {
@@ -38,9 +61,11 @@ describe(ExchangeTradeScreen, () => {
           fetchExchangeRate={jest.fn()}
           showError={jest.fn()}
           hideAlert={jest.fn()}
-          exchangeRatePair={exchangeRatePair}
+          balances={balances}
+          exchangeRates={exchangeRates}
           localCurrencyCode={LocalCurrencyCode.MXN}
-          localCurrencyExchangeRate="20"
+          localCurrencyExchangeRates={localCurrencyExchangeRates}
+          defaultCurrency={Currency.Dollar}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -60,16 +85,20 @@ describe(ExchangeTradeScreen, () => {
           fetchExchangeRate={jest.fn()}
           showError={mockShowError}
           hideAlert={mockhideAlert}
-          exchangeRatePair={exchangeRatePair}
+          balances={balances}
+          exchangeRates={exchangeRates}
           localCurrencyCode={LocalCurrencyCode.MXN}
-          localCurrencyExchangeRate="20"
+          localCurrencyExchangeRates={localCurrencyExchangeRates}
+          defaultCurrency={Currency.Dollar}
           {...getMockI18nProps()}
         />
       </Provider>
     )
 
     fireEvent.changeText(getByTestId('ExchangeInput'), '50')
-    expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_GOLD) // Can't afford 50 gold
+    expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_GOLD, null, {
+      token: 'global:celoDollars',
+    }) // Can't afford 50 gold
     expect(getByTestId('ExchangeReviewButton').props.disabled).toBe(true)
 
     jest.clearAllMocks()
@@ -79,7 +108,9 @@ describe(ExchangeTradeScreen, () => {
 
     jest.clearAllMocks()
     fireEvent.changeText(getByTestId('ExchangeInput'), '10000')
-    expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_GOLD) // Can't afford 10000 MXN (500 cUSD) worth of gold
+    expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_GOLD, null, {
+      token: 'global:celoDollars',
+    }) // Can't afford 10000 MXN (500 cUSD) worth of gold
     expect(getByTestId('ExchangeReviewButton').props.disabled).toBe(true)
   })
 
@@ -91,25 +122,26 @@ describe(ExchangeTradeScreen, () => {
       <Provider store={store}>
         <ExchangeTradeScreen
           {...getMockStackScreenProps(Screens.ExchangeTradeScreen, {
-            makerTokenDisplay: {
-              makerToken: Currency.Dollar,
-              makerTokenBalance: '20.02', // equals 400.4 MXN
-            },
+            buyCelo: true,
           })}
           error={null}
           fetchExchangeRate={jest.fn()}
           showError={mockShowError}
           hideAlert={mockhideAlert}
-          exchangeRatePair={exchangeRatePair}
+          balances={balances}
+          exchangeRates={exchangeRates}
           localCurrencyCode={LocalCurrencyCode.MXN}
-          localCurrencyExchangeRate="20"
+          localCurrencyExchangeRates={localCurrencyExchangeRates}
+          defaultCurrency={Currency.Dollar}
           {...getMockI18nProps()}
         />
       </Provider>
     )
 
     fireEvent.changeText(getByTestId('ExchangeInput'), '10')
-    expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_DOLLARS) // Can't afford 10 gold
+    expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_STABLE, null, {
+      token: 'global:celoDollars',
+    }) // Can't afford 10 gold
     expect(getByTestId('ExchangeReviewButton').props.disabled).toBe(true)
 
     jest.clearAllMocks()
@@ -119,7 +151,9 @@ describe(ExchangeTradeScreen, () => {
 
     jest.clearAllMocks()
     fireEvent.changeText(getByTestId('ExchangeInput'), '401')
-    expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_DOLLARS) // Can't afford 400 MXN (20.05 cUSD) worth of gold
+    expect(mockShowError).toBeCalledWith(ErrorMessages.NSF_STABLE, null, {
+      token: 'global:celoDollars',
+    }) // Can't afford 400 MXN (20.05 cUSD) worth of gold
     expect(getByTestId('ExchangeReviewButton').props.disabled).toBe(true)
   })
 
@@ -132,9 +166,14 @@ describe(ExchangeTradeScreen, () => {
           fetchExchangeRate={jest.fn()}
           showError={jest.fn()}
           hideAlert={jest.fn()}
-          exchangeRatePair={exchangeRatePair}
+          balances={balances}
+          exchangeRates={exchangeRates}
           localCurrencyCode={LocalCurrencyCode.USD}
-          localCurrencyExchangeRate="1"
+          localCurrencyExchangeRates={{
+            ...localCurrencyExchangeRates,
+            [Currency.Dollar]: '1',
+          }}
+          defaultCurrency={Currency.Dollar}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -158,18 +197,23 @@ describe(ExchangeTradeScreen, () => {
       <Provider store={store}>
         <ExchangeTradeScreen
           {...getMockStackScreenProps(Screens.ExchangeTradeScreen, {
-            makerTokenDisplay: {
-              makerToken: Currency.Dollar,
-              makerTokenBalance: '200',
-            },
+            buyCelo: true,
           })}
           error={null}
           fetchExchangeRate={jest.fn()}
           showError={jest.fn()}
           hideAlert={jest.fn()}
-          exchangeRatePair={exchangeRatePair}
+          balances={{
+            ...balances,
+            [Currency.Dollar]: new BigNumber('200'),
+          }}
+          exchangeRates={exchangeRates}
           localCurrencyCode={LocalCurrencyCode.USD}
-          localCurrencyExchangeRate="1"
+          localCurrencyExchangeRates={{
+            ...localCurrencyExchangeRates,
+            [Currency.Dollar]: '1',
+          }}
+          defaultCurrency={Currency.Dollar}
           {...getMockI18nProps()}
         />
       </Provider>

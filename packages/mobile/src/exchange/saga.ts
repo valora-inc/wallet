@@ -1,4 +1,5 @@
 import { CeloTransactionObject } from '@celo/connect'
+import { StableToken } from '@celo/contractkit'
 import { ExchangeWrapper } from '@celo/contractkit/lib/wrappers/Exchange'
 import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
 import { ReserveWrapper } from '@celo/contractkit/lib/wrappers/Reserve'
@@ -23,11 +24,15 @@ import {
   withdrawCeloFailed,
   withdrawCeloSuccess,
 } from 'src/exchange/actions'
-import { ExchangeRatePair, exchangeRatePairSelector } from 'src/exchange/reducer'
+import { ExchangeRates, exchangeRatesSelector } from 'src/exchange/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { sendPaymentOrInviteSuccess } from 'src/send/actions'
-import { convertToContractDecimals, createTokenTransferTransaction } from 'src/tokens/saga'
+import {
+  convertToContractDecimals,
+  createTokenTransferTransaction,
+  getTokenContract,
+} from 'src/tokens/saga'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
@@ -36,7 +41,7 @@ import {
   TransactionContext,
   TransactionStatus,
 } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
+import { CURRENCIES, Currency, StableCurrency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import {
   getRateForMakerToken,
   getTakerAmount,
@@ -44,7 +49,7 @@ import {
 } from 'src/utils/currencyExchange'
 import { roundDown } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
-import { getContractKit } from 'src/web3/contracts'
+import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import * as util from 'util'
 
@@ -90,6 +95,19 @@ export function* doFetchTobinTax({ makerAmount, makerToken }: FetchTobinTaxActio
   }
 }
 
+export async function getExchangeContract(token: StableCurrency) {
+  Logger.debug(TAG + '@getTokenContract', `Fetching contract for ${token}`)
+  const contractKit = await getContractKitAsync(false)
+  switch (token) {
+    case Currency.Dollar:
+      return contractKit.contracts.getExchange(StableToken.cUSD)
+    case Currency.Euro:
+      return contractKit.contracts.getExchange(StableToken.cEUR)
+    default:
+      throw new Error(`Could not fetch contract for unknown token ${token}`)
+  }
+}
+
 export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
   Logger.debug(TAG, 'Calling @doFetchExchangeRate')
 
@@ -98,61 +116,83 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
     ValoraAnalytics.track(CeloExchangeEvents.celo_fetch_exchange_rate_start)
     yield call(getConnectedAccount)
 
-    let makerAmountInWei
+    let makerAmountInWei: BigNumber | null = null
     if (makerAmount && makerToken) {
-      makerAmountInWei = (yield call(
+      makerAmountInWei = ((yield call(
         convertToContractDecimals,
         makerAmount,
         makerToken
-      )).integerValue()
+      )) as BigNumber).integerValue()
     }
 
     // If makerAmount and makerToken are given, use them to estimate the exchange rate,
     // as exchange rate depends on amount sold. Else default to preset large sell amount.
-    const goldMakerAmount =
-      makerAmountInWei && !makerAmountInWei.isZero() && makerToken === Currency.Celo
-        ? makerAmountInWei
-        : CELO_AMOUNT_FOR_ESTIMATE
-    const dollarMakerAmount =
-      makerAmountInWei && !makerAmountInWei.isZero() && makerToken === Currency.Dollar
-        ? makerAmountInWei
-        : DOLLAR_AMOUNT_FOR_ESTIMATE
+    const sellAmounts: Record<Currency, BigNumber> = Object.keys(CURRENCIES).reduce(
+      (amounts, currency) => {
+        amounts[currency as Currency] =
+          makerAmountInWei && !makerAmountInWei.isZero() && makerToken === currency
+            ? makerAmountInWei
+            : currency === Currency.Celo
+            ? CELO_AMOUNT_FOR_ESTIMATE
+            : DOLLAR_AMOUNT_FOR_ESTIMATE
+        return amounts
+      },
+      {} as Record<Currency, BigNumber>
+    )
 
-    const contractKit = yield call(getContractKit)
+    const exchangeContracts: ExchangeWrapper[] = yield all(
+      STABLE_CURRENCIES.map((currency: StableCurrency) => call(getExchangeContract, currency))
+    )
 
-    const exchange: ExchangeWrapper = yield call([
-      contractKit.contracts,
-      contractKit.contracts.getExchange,
-    ])
+    const exchangeRates: Record<Currency, Record<Currency, string>> = Object.keys(
+      CURRENCIES
+    ).reduce((rates, currency) => {
+      rates[currency as Currency] = {
+        // Empty strings will be replaced by real values before dispatching to the store or an error will be thrown.
+        [Currency.Celo]: '',
+        [Currency.Euro]: '',
+        [Currency.Dollar]: '',
+      }
+      return rates
+    }, {} as Record<Currency, Record<Currency, string>>)
 
-    const [dollarMakerExchangeRate, goldMakerExchangeRate]: [BigNumber, BigNumber] = yield all([
-      call([exchange, exchange.getUsdExchangeRate], dollarMakerAmount),
-      call([exchange, exchange.getGoldExchangeRate], goldMakerAmount),
-    ])
+    for (let i = 0; i < STABLE_CURRENCIES.length; i++) {
+      const stableCurrency = STABLE_CURRENCIES[i]
+      const exchange = exchangeContracts[i]
+      const [stableSellExchangeRate, celoSellExchangeRate]: [BigNumber, BigNumber] = yield all([
+        call([exchange, exchange.getStableExchangeRate], sellAmounts[stableCurrency]),
+        call([exchange, exchange.getGoldExchangeRate], sellAmounts[Currency.Celo]),
+      ])
 
-    if (!dollarMakerExchangeRate || !goldMakerExchangeRate) {
-      Logger.error(TAG, 'Invalid exchange rate')
-      throw new Error('Invalid exchange rate')
+      if (!stableSellExchangeRate || !celoSellExchangeRate) {
+        const errorMessage = `Invalid exchange rates between ${stableCurrency} and CELO`
+        Logger.error(TAG, errorMessage)
+        throw new Error(errorMessage)
+      }
+
+      Logger.debug(
+        TAG,
+        `Retrieved exchange rate:
+        ${stableSellExchangeRate.toString()} CELO per ${stableCurrency}, estimated at ${
+          sellAmounts[stableCurrency]
+        }
+        ${celoSellExchangeRate.toString()} ${stableCurrency} per CELO, estimated at ${
+          sellAmounts[Currency.Celo]
+        }`
+      )
+
+      exchangeRates[stableCurrency][Currency.Celo] = stableSellExchangeRate.toString()
+      exchangeRates[Currency.Celo][stableCurrency] = celoSellExchangeRate.toString()
+
+      // Always tracking in stable currency for consistancy
+      ValoraAnalytics.track(CeloExchangeEvents.celo_fetch_exchange_rate_complete, {
+        currency: stableCurrency,
+        makerAmount: sellAmounts[stableCurrency].toNumber(),
+        exchangeRate: stableSellExchangeRate.toNumber(),
+      })
     }
 
-    Logger.debug(
-      TAG,
-      `Retrieved exchange rate:
-      ${dollarMakerExchangeRate.toString()} gold per dollar, estimated at ${dollarMakerAmount}
-      ${goldMakerExchangeRate.toString()} dollar per gold, estimated at ${goldMakerAmount}`
-    )
-
-    yield put(
-      setExchangeRate({
-        goldMaker: goldMakerExchangeRate.toString(),
-        dollarMaker: dollarMakerExchangeRate.toString(),
-      })
-    )
-    // Always tracking in dollars for consistancy
-    ValoraAnalytics.track(CeloExchangeEvents.celo_fetch_exchange_rate_complete, {
-      makerAmount: dollarMakerAmount,
-      exchangeRate: dollarMakerExchangeRate.toNumber(),
-    })
+    yield put(setExchangeRate(exchangeRates))
   } catch (error) {
     ValoraAnalytics.track(CeloExchangeEvents.celo_fetch_exchange_rate_error, {
       error: error.message,
@@ -164,7 +204,7 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
 
 export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
   Logger.debug(`${TAG}@exchangeGoldAndStableTokens`, 'Exchanging gold and stable token')
-  const { makerToken, makerAmount } = action
+  const { makerToken, makerAmount, takerToken } = action
   Logger.debug(TAG, `Exchanging ${makerAmount.toString()} of token ${makerToken}`)
   let context: TransactionContext | null = null
   try {
@@ -172,8 +212,8 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
     const account: string = yield call(getConnectedUnlockedAccount)
     navigate(Screens.ExchangeHomeScreen)
 
-    const exchangeRatePair: ExchangeRatePair = yield select(exchangeRatePairSelector)
-    const exchangeRate = getRateForMakerToken(exchangeRatePair, makerToken)
+    const exchangeRates: ExchangeRates = yield select(exchangeRatesSelector)
+    const exchangeRate = getRateForMakerToken(exchangeRates, makerToken, takerToken)
     if (!exchangeRate) {
       ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, {
         error: 'Invalid exchange rate from exchange contract',
@@ -189,22 +229,17 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       throw new Error('Invalid exchange rate')
     }
 
-    context = yield call(createStandbyTx, makerToken, makerAmount, exchangeRate)
+    context = yield call(createStandbyTx, makerToken, makerAmount, takerToken, exchangeRate)
 
     const contractKit = yield call(getContractKit)
+    const stableToken = (makerToken === Currency.Celo ? takerToken : makerToken) as StableCurrency
 
     const goldTokenContract: GoldTokenWrapper = yield call([
       contractKit.contracts,
       contractKit.contracts.getGoldToken,
     ])
-    const stableTokenContract: StableTokenWrapper = yield call([
-      contractKit.contracts,
-      contractKit.contracts.getStableToken,
-    ])
-    const exchangeContract: ExchangeWrapper = yield call([
-      contractKit.contracts,
-      contractKit.contracts.getExchange,
-    ])
+    const stableTokenContract: StableTokenWrapper = yield call(getTokenContract, stableToken)
+    const exchangeContract: ExchangeWrapper = yield call(getExchangeContract, stableToken)
 
     const convertedMakerAmount: BigNumber = roundDown(
       yield call(convertToContractDecimals, makerAmount, makerToken),
@@ -252,7 +287,6 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       return
     }
 
-    const takerToken = makerToken === Currency.Dollar ? Currency.Celo : Currency.Dollar
     const convertedTakerAmount: BigNumber = roundDown(
       yield call(convertToContractDecimals, minimumTakerAmount, takerToken),
       0
@@ -270,17 +304,11 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
         exchangeContract.address,
         convertedMakerAmount.toString()
       )
-    } else if (makerToken === Currency.Dollar) {
+    } else {
       approveTx = stableTokenContract.approve(
         exchangeContract.address,
         convertedMakerAmount.toString()
       )
-    } else {
-      ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, {
-        error: `Unexpected maker token: ${makerToken}`,
-      })
-      Logger.error(TAG, `Unexpected maker token ${makerToken}`)
-      return
     }
 
     yield call(
@@ -330,10 +358,10 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
   } catch (error) {
     ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, { error: error?.message })
     Logger.error(TAG, 'Error doing exchange', error)
-    const isDollarToGold = makerToken === Currency.Dollar
+    const isCeloPurchase = takerToken === Currency.Celo
 
     ValoraAnalytics.track(
-      isDollarToGold ? CeloExchangeEvents.celo_buy_error : CeloExchangeEvents.celo_sell_error,
+      isCeloPurchase ? CeloExchangeEvents.celo_buy_error : CeloExchangeEvents.celo_sell_error,
       {
         error,
       }
@@ -346,7 +374,12 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
   }
 }
 
-function* createStandbyTx(makerToken: Currency, makerAmount: BigNumber, exchangeRate: BigNumber) {
+function* createStandbyTx(
+  makerToken: Currency,
+  makerAmount: BigNumber,
+  takerToken: Currency,
+  exchangeRate: BigNumber
+) {
   const takerAmount = getTakerAmount(makerAmount, exchangeRate)
   const context = newTransactionContext(TAG, `Exchange ${makerToken}`)
   yield put(
@@ -356,7 +389,7 @@ function* createStandbyTx(makerToken: Currency, makerAmount: BigNumber, exchange
       status: TransactionStatus.Pending,
       inCurrency: makerToken,
       inValue: makerAmount.toString(),
-      outCurrency: makerToken === Currency.Dollar ? Currency.Celo : Currency.Dollar,
+      outCurrency: takerToken,
       outValue: takerAmount.toString(),
       timestamp: Math.floor(Date.now() / 1000),
     })
@@ -365,8 +398,8 @@ function* createStandbyTx(makerToken: Currency, makerAmount: BigNumber, exchange
 }
 
 function* celoToDollarAmount(amount: BigNumber) {
-  const exchangeRatePair: ExchangeRatePair = yield select(exchangeRatePairSelector)
-  const exchangeRate = getRateForMakerToken(exchangeRatePair, Currency.Dollar, Currency.Celo)
+  const exchangeRates: ExchangeRates = yield select(exchangeRatesSelector)
+  const exchangeRate = getRateForMakerToken(exchangeRates, Currency.Dollar, Currency.Celo)
   return goldToDollarAmount(amount, exchangeRate) || new BigNumber(0)
 }
 

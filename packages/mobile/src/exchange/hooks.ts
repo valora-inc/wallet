@@ -1,14 +1,9 @@
-import BigNumber from 'bignumber.js'
-import { getExchangeRatePair } from 'src/exchange/selectors'
+import { exchangeRatesSelector } from 'src/exchange/reducer'
 import useSelector from 'src/redux/useSelector'
 import { Currency } from 'src/utils/currencies'
-import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
+import { getRateForMakerToken } from 'src/utils/currencyExchange'
 
-export function useExchangeRate() {
-  return getRateForMakerToken(useSelector(getExchangeRatePair), Currency.Dollar, Currency.Celo)
-}
-
-export function useGoldToDollarAmount(amount: BigNumber.Value) {
-  const exchangeRate = useExchangeRate()
-  return goldToDollarAmount(amount, exchangeRate)
+export function useDollarToCeloExchangeRate() {
+  const exchangeRates = useSelector(exchangeRatesSelector)
+  return getRateForMakerToken(exchangeRates, Currency.Celo, Currency.Dollar)
 }

@@ -8,7 +8,7 @@ import {
   DOLLAR_ADD_FUNDS_MAX_AMOUNT,
   DOLLAR_ADD_FUNDS_MIN_AMOUNT,
 } from 'src/config'
-import { ExchangeRatePair } from 'src/exchange/reducer'
+import { ExchangeRates } from 'src/exchange/reducer'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -16,8 +16,19 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { emptyExchangeRates } from 'test/values'
 
-const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.5', dollarMaker: '1' }
+const exchangeRates: ExchangeRates = {
+  ...emptyExchangeRates,
+  [Currency.Celo]: {
+    ...emptyExchangeRates[Currency.Celo],
+    [Currency.Dollar]: '0.5',
+  },
+  [Currency.Dollar]: {
+    ...emptyExchangeRates[Currency.Dollar],
+    [Currency.Celo]: '1',
+  },
+}
 const usdToPHPExchangeRate = 50
 
 const storeWithUSD = createMockStore({
@@ -32,7 +43,7 @@ const storeWithUSD = createMockStore({
     preferredCurrencyCode: LocalCurrencyCode.USD,
     exchangeRates: { [Currency.Dollar]: '1' },
   },
-  exchange: { exchangeRatePair },
+  exchange: { exchangeRates },
 })
 
 const storeWithPHP = createMockStore({
@@ -47,7 +58,7 @@ const storeWithPHP = createMockStore({
     preferredCurrencyCode: LocalCurrencyCode.PHP,
     exchangeRates: { [Currency.Dollar]: usdToPHPExchangeRate.toString() },
   },
-  exchange: { exchangeRatePair },
+  exchange: { exchangeRates },
 })
 
 describe('FiatExchangeAmount cashIn', () => {
@@ -223,7 +234,8 @@ describe('FiatExchangeAmount cashIn', () => {
       </Provider>
     )
 
-    const overLimitAmount = (DOLLAR_ADD_FUNDS_MAX_AMOUNT + 1) / Number(exchangeRatePair.goldMaker)
+    const overLimitAmount =
+      (DOLLAR_ADD_FUNDS_MAX_AMOUNT + 1) / Number(exchangeRates[Currency.Celo][Currency.Dollar])
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), overLimitAmount.toString())
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))

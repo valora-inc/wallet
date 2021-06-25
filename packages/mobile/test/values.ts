@@ -6,6 +6,7 @@ import BigNumber from 'bignumber.js'
 import { MinimalContact } from 'react-native-contacts'
 import { TokenTransactionType } from 'src/apollo/types'
 import { EscrowedPayment } from 'src/escrow/actions'
+import { ExchangeRates } from 'src/exchange/reducer'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
@@ -443,4 +444,22 @@ export const mockWallet: UnlockableWallet = {
   signPersonalMessage: jest.fn(),
   decrypt: jest.fn(),
   computeSharedSecret: jest.fn(),
+}
+
+export const emptyExchangeRates: ExchangeRates = {
+  [Currency.Celo]: {
+    [Currency.Dollar]: '',
+    [Currency.Euro]: '',
+    [Currency.Celo]: '',
+  },
+  [Currency.Dollar]: {
+    [Currency.Celo]: '',
+    [Currency.Euro]: '',
+    [Currency.Dollar]: '',
+  },
+  [Currency.Euro]: {
+    [Currency.Celo]: '',
+    [Currency.Euro]: '',
+    [Currency.Dollar]: '',
+  },
 }

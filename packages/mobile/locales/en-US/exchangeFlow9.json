@@ -18,8 +18,8 @@
   "inputSubtotal": "Subtotal @ <2></2>",
   "inputSubtotal_gold": "$t(global:celoGold) @ <2></2>",
   "cancel": "Cancel",
-  "buyGoldAmount": "Buy <1></1> $t(global:gold)",
-  "sellGoldAmount": "Sell <1></1> $t(global:gold)",
+  "buyGoldAmount": "Buy <0></0> $t(global:gold)",
+  "sellGoldAmount": "Sell <0></0> $t(global:gold)",
   "includeExchangeFee": "*includes exchange fee",
   "available": "Available",
   "newBalance": "New Balance",
@@ -50,5 +50,6 @@
   "withdrawCeloReview": "Review",
   "withdrawCeloTo": "Withdraw to",
   "withdrawCeloAmount": "Amount (CELO)",
-  "withdrawScanQrTitle": "Scan"
+  "withdrawScanQrTitle": "Scan",
+  "tokenBalance": "{{token}} Balance"
 }

@@ -16,24 +16,23 @@ import FeeDrawer from 'src/components/FeeDrawer'
 import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { exchangeTokens, fetchExchangeRate, fetchTobinTax } from 'src/exchange/actions'
-import { ExchangeRatePair } from 'src/exchange/reducer'
 import { Namespaces, withTranslation } from 'src/i18n'
-import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
-import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selectors'
+import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
+import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { Currency } from 'src/utils/currencies'
-import { getRateForMakerToken, getTakerAmount } from 'src/utils/currencyExchange'
+import { getRateForMakerToken } from 'src/utils/currencyExchange'
 
 interface StateProps {
-  exchangeRatePair: ExchangeRatePair | null
+  exchangeRates: Record<Currency, Record<Currency, string>> | null
   tobinTax: BigNumber
   fee: BigNumber
   appConnected: boolean
-  localCurrencyExchangeRate: string | null | undefined
+  localCurrencyExchangeRates: Record<Currency, string | null>
 }
 
 interface DispatchProps {
@@ -43,10 +42,7 @@ interface DispatchProps {
 }
 
 interface State {
-  makerToken: Currency
-  inputToken: Currency
-  inputTokenDisplayName: string
-  inputAmount: BigNumber
+  transferCurrency: Currency
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.ExchangeReview>
@@ -54,144 +50,79 @@ type OwnProps = StackScreenProps<StackParamList, Screens.ExchangeReview>
 type Props = StateProps & WithTranslation & DispatchProps & OwnProps
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  exchangeRatePair: state.exchange.exchangeRatePair,
+  exchangeRates: state.exchange.exchangeRates,
   tobinTax: new BigNumber(state.exchange.tobinTax || 0),
   // TODO: use real fee
   fee: new BigNumber(0),
   appConnected: isAppConnected(state),
-  localCurrencyExchangeRate: getLocalCurrencyToDollarsExchangeRate(state),
+  localCurrencyExchangeRates: localCurrencyExchangeRatesSelector(state),
 })
 
 export class ExchangeReview extends React.Component<Props, State> {
-  state: State = {
-    makerToken: Currency.Celo,
-    inputToken: Currency.Celo,
-    inputTokenDisplayName: this.props.t('global:gold'),
-    inputAmount: new BigNumber(0),
-  }
-
   onPressConfirm = () => {
-    const { makerToken, inputToken, inputAmount } = this.state
-    const makerAmount = this.getMakerAmount()
+    const { makerToken, takerToken, celoAmount, stableAmount, inputToken } = this.props.route.params
+    const stableToken = makerToken === Currency.Celo ? takerToken : makerToken
+
     // BEGIN: Analytics
-    const isDollarToGold = inputToken === Currency.Dollar
-    const goldToDollarExchangeRate = getRateForMakerToken(
-      this.props.exchangeRatePair,
-      this.state.makerToken,
-      Currency.Dollar
-    )
-    const goldAmount = isDollarToGold ? makerAmount : inputAmount
-    const dollarAmount = isDollarToGold ? inputAmount : makerAmount
-    const localCurrencyAmount = convertDollarsToLocalAmount(
-      dollarAmount,
-      this.props.localCurrencyExchangeRate
+    const localCurrencyAmount = convertCurrencyToLocalAmount(
+      stableAmount,
+      this.props.localCurrencyExchangeRates[stableToken]
     )
     ValoraAnalytics.track(
-      isDollarToGold ? CeloExchangeEvents.celo_buy_confirm : CeloExchangeEvents.celo_sell_confirm,
+      makerToken !== Currency.Celo
+        ? CeloExchangeEvents.celo_buy_confirm
+        : CeloExchangeEvents.celo_sell_confirm,
       {
-        localCurrencyAmount: localCurrencyAmount
-          ? localCurrencyAmount.toString()
-          : localCurrencyAmount,
-        goldAmount: goldAmount.toString(),
-        dollarAmount: dollarAmount.toString(),
+        localCurrencyAmount: localCurrencyAmount?.toString() ?? null,
+        goldAmount: celoAmount.toString(),
+        stableAmount: stableAmount.toString(),
         inputToken,
-        goldToDollarExchangeRate: goldToDollarExchangeRate.toString(),
       }
     )
 
-    this.props.exchangeTokens(makerToken, makerAmount)
-  }
-
-  getExchangePropertiesFromNavProps() {
-    const {
-      makerToken,
-      inputAmount,
-      inputToken,
-      inputTokenDisplayName,
-    } = this.props.route.params.exchangeInput
-    if (!makerToken || !inputAmount || !inputToken || !inputTokenDisplayName) {
-      throw new Error('Missing exchange input from nav props')
-    }
-    this.setState({
-      makerToken,
-      inputToken,
-      inputTokenDisplayName,
-      inputAmount,
-    })
-    // Update exchange rate based on makerToken and makerAmount
-    let makerAmount = inputAmount
-    if (inputToken !== makerToken) {
-      // Convert input amount to makerToken if necessary
-      const exchangeRate = getRateForMakerToken(this.props.exchangeRatePair, makerToken, inputToken)
-      makerAmount = getTakerAmount(inputAmount, exchangeRate)
-    }
-    return { makerToken, makerAmount }
-  }
-
-  getMakerAmount() {
-    let input = this.state.inputAmount
-    if (this.state.makerToken !== this.state.inputToken) {
-      const exchangeRate = getRateForMakerToken(
-        this.props.exchangeRatePair,
-        this.state.makerToken,
-        this.state.inputToken
-      )
-      input = getTakerAmount(input, exchangeRate)
-    }
-    return input
+    const makerTokenAmount = makerToken === Currency.Celo ? celoAmount : stableAmount
+    this.props.exchangeTokens(makerToken, makerTokenAmount, takerToken)
   }
 
   componentDidMount() {
-    const { makerToken, makerAmount } = this.getExchangePropertiesFromNavProps()
-    this.props.fetchTobinTax(makerAmount, makerToken)
-    this.props.fetchExchangeRate(makerToken, makerAmount)
-  }
-
-  getInputAmountInToken(token: Currency) {
-    let amount = this.state.inputAmount
-    if (this.state.inputToken !== token) {
-      const conversionRate = getRateForMakerToken(
-        this.props.exchangeRatePair,
-        this.state.makerToken,
-        this.state.inputToken
-      )
-      amount = getTakerAmount(amount, conversionRate)
-    }
-    return amount
+    const { makerToken, celoAmount, stableAmount } = this.props.route.params
+    const makerTokenAmount = makerToken === Currency.Celo ? celoAmount : stableAmount
+    this.props.fetchTobinTax(makerTokenAmount, makerToken)
+    this.props.fetchExchangeRate(makerToken, makerTokenAmount)
   }
 
   render() {
-    const { exchangeRatePair, t, appConnected, tobinTax, fee } = this.props
+    const { exchangeRates, t, appConnected, tobinTax, fee } = this.props
+    const {
+      makerToken,
+      takerToken,
+      celoAmount,
+      stableAmount,
+      inputToken,
+      inputAmount,
+      inputTokenDisplayName,
+    } = this.props.route.params
 
-    const exchangeRate = getRateForMakerToken(
-      exchangeRatePair,
-      this.state.makerToken,
-      Currency.Dollar
-    )
-    const dollarAmount = this.getInputAmountInToken(Currency.Dollar)
+    const stableToken = makerToken === Currency.Celo ? takerToken : makerToken
+    const exchangeRate = getRateForMakerToken(exchangeRates, Currency.Celo, stableToken).pow(-1)
 
     const exchangeAmount = {
-      value: this.state.inputAmount,
-      currencyCode: this.state.inputToken,
+      value: inputAmount,
+      currencyCode: inputToken,
     }
     const exchangeRateAmount = {
       value: exchangeRate,
-      currencyCode: Currency.Dollar,
+      currencyCode: stableToken,
     }
     const subtotalAmount = {
-      value: dollarAmount,
-      currencyCode: Currency.Dollar,
+      value: stableAmount,
+      currencyCode: stableToken,
     }
     const totalFee = new BigNumber(tobinTax).plus(fee)
 
     const totalAmount = {
-      value: dollarAmount.plus(totalFee),
-      currencyCode: Currency.Dollar,
-    }
-
-    const goldAmount = {
-      value: this.getInputAmountInToken(Currency.Celo),
-      currencyCode: Currency.Celo,
+      value: stableAmount.plus(totalFee),
+      currencyCode: stableToken,
     }
 
     return (
@@ -203,7 +134,7 @@ export class ExchangeReview extends React.Component<Props, State> {
               <View style={styles.amountRow}>
                 <Text style={styles.exchangeBodyText}>
                   {t('exchangeAmount', {
-                    tokenName: this.state.inputTokenDisplayName,
+                    tokenName: inputTokenDisplayName,
                   })}
                 </Text>
                 <CurrencyDisplay style={styles.currencyAmountText} amount={exchangeAmount} />
@@ -236,12 +167,15 @@ export class ExchangeReview extends React.Component<Props, State> {
           size={BtnSizes.FULL}
           text={
             <Trans
-              i18nKey={
-                this.state.makerToken === Currency.Dollar ? 'buyGoldAmount' : 'sellGoldAmount'
-              }
+              i18nKey={makerToken === Currency.Celo ? 'sellGoldAmount' : 'buyGoldAmount'}
               ns={Namespaces.exchangeFlow9}
             >
-              Buy or sell <CurrencyDisplay amount={goldAmount} /> Gold
+              <CurrencyDisplay
+                amount={{
+                  value: celoAmount,
+                  currencyCode: Currency.Celo,
+                }}
+              />
             </Trans>
           }
           style={styles.buyBtn}

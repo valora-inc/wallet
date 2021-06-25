@@ -28,7 +28,7 @@
   "activity": "Activity",
   "history": "History",
   "earnRewards": "Earn Rewards",
-  "notEnoughDollarsError": "Not enough Celo Dollars to make exchange",
+  "notEnoughStableError": "Not enough {{token}} to make exchange",
   "notEnoughGoldError": "Not enough CELO to make exchange",
   "exchangeFailed": "Exchange failed, please retry",
   "transactionFailed": "Transaction failed, please retry",

@@ -671,6 +671,10 @@ export const v15Schema = {
     ...v14Schema.send,
     lastUsedCurrency: Currency.Dollar,
   },
+  exchange: {
+    ...v14Schema.exchange,
+    exchangeRates: null,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

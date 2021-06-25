@@ -1,6 +1,5 @@
 /* Helper functions for converting between stable and gold currencies */
 import BigNumber from 'bignumber.js'
-import { ExchangeRatePair } from 'src/exchange/reducer'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 const TAG = 'utils/currencyExchange'
@@ -8,31 +7,19 @@ const TAG = 'utils/currencyExchange'
 type numberT = number | string | BigNumber | null
 
 export function getRateForMakerToken(
-  exchangeRatePair: ExchangeRatePair | null,
+  exchangeRates: Record<Currency, Record<Currency, string>> | null,
   makerToken: Currency,
-  inputToken?: Currency // Token to convert from, defaults to makerToken
+  takerToken: Currency
 ) {
-  if (!exchangeRatePair) {
+  if (!exchangeRates) {
     return new BigNumber(0)
   }
 
-  let rateBN: BigNumber
-  if (makerToken === Currency.Dollar) {
-    rateBN = new BigNumber(exchangeRatePair.dollarMaker)
-  } else if (makerToken === Currency.Celo) {
-    rateBN = new BigNumber(exchangeRatePair.goldMaker)
-  } else {
-    Logger.warn(TAG, `Unexpected token ${makerToken}`)
-    throw new Error(`Unexpected token ${makerToken}`)
-  }
+  const rateBN: BigNumber = new BigNumber(exchangeRates[makerToken][takerToken])
 
   if (rateBN.isZero()) {
     Logger.warn(TAG, `Rate for token ${makerToken} is 0`)
     return new BigNumber(0)
-  }
-
-  if (inputToken && inputToken !== makerToken) {
-    rateBN = rateBN.pow(-1) // Invert for takerToken -> makerToken rate
   }
 
   return rateBN

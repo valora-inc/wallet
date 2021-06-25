@@ -78,19 +78,16 @@ export type StackParamList = {
   [Screens.EscrowedPaymentListScreen]: undefined
   [Screens.ExchangeHomeScreen]: undefined
   [Screens.ExchangeReview]: {
-    exchangeInput: {
-      makerToken: Currency
-      makerTokenBalance: string
-      inputToken: Currency
-      inputTokenDisplayName: string
-      inputAmount: BigNumber
-    }
+    makerToken: Currency
+    takerToken: Currency
+    celoAmount: BigNumber
+    stableAmount: BigNumber
+    inputToken: Currency
+    inputTokenDisplayName: string
+    inputAmount: BigNumber
   }
   [Screens.ExchangeTradeScreen]: {
-    makerTokenDisplay: {
-      makerToken: Currency
-      makerTokenBalance: string
-    }
+    buyCelo: boolean
   }
   [Screens.ExternalExchanges]: {
     currency: Currency
