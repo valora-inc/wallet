@@ -1,3 +1,7 @@
+// Need to do the input check to ensure that it's above the min and below the max cash-in amounts
+// Also need to make sure that the amount.crypto and amount.fiat nav params are correct
+// Then need to make sure the backend can handle a new base currnecy request (i.e., only show Ramp for cEUR)
+
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import KeyboardAwareScrollView from '@celo/react-components/components/KeyboardAwareScrollView'
 import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
@@ -34,18 +38,20 @@ import { ExchangeRatePair, exchangeRatePairSelector } from 'src/exchange/reducer
 import i18n, { Namespaces } from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
-  convertDollarsToLocalAmount,
   convertLocalAmountToDollars,
   convertToMaxSupportedPrecision,
 } from 'src/localCurrency/convert'
-import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
-import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selectors'
-import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
+import { useCurrencyToLocalAmount, useLocalCurrencyCode } from 'src/localCurrency/hooks'
+import {
+  getLocalCurrencyToDollarsExchangeRate,
+  localCurrencyExchangeRatesSelector,
+} from 'src/localCurrency/selectors'
+import { emptyHeader, HeaderTitleWithBalance, HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { cUsdBalanceSelector } from 'src/stableToken/selectors'
+import { Balances, balancesSelector } from 'src/stableToken/selectors'
 import { Currency } from 'src/utils/currencies'
 import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
 import Logger from 'src/utils/Logger'
@@ -56,15 +62,10 @@ type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeAmount>
 
 type Props = RouteProps
 
-const oneDollarAmount = {
+const oneUnitAmount = (currency: Currency) => ({
   value: new BigNumber('1'),
-  currencyCode: Currency.Dollar,
-}
-
-const oneCeloAmount = {
-  value: new BigNumber('1'),
-  currencyCode: Currency.Celo,
-}
+  currencyCode: currency,
+})
 
 const useDollarAmount = (
   currency: Currency,
@@ -86,6 +87,9 @@ const useDollarAmount = (
   }
 }
 
+const balanceIsSufficient = (currency: Currency, inputAmount: BigNumber, balances: Balances) =>
+  inputAmount.isLessThan(balances[currency] || new BigNumber(0))
+
 function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
 
@@ -100,13 +104,24 @@ function FiatExchangeAmount({ route }: Props) {
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
   const exchangeRatePair = useSelector(exchangeRatePairSelector)
   const localCurrencyExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
-  const cUSDBalance = useSelector(cUsdBalanceSelector)
+  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+
+  const balances = useSelector(balancesSelector)
+
   const localCurrencyCode = useLocalCurrencyCode()
   const currencySymbol = LocalCurrencySymbol[localCurrencyCode]
 
   const { currency } = route.params
-  const isCusdCashIn = currency === Currency.Dollar
-  const inputCurrencySymbol = isCusdCashIn ? currencySymbol : ''
+  const isStablecoin = currency !== Currency.Celo
+  const inputCurrencySymbol =
+    currency === Currency.Celo
+      ? ''
+      : currency === Currency.Dollar
+      ? LocalCurrencySymbol.USD
+      : LocalCurrencySymbol.EUR
+
+  const displayCurrencyKey =
+    currency === Currency.Celo ? 'Celo' : currency === Currency.Dollar ? 'celoDollar' : 'celoEuro'
 
   const dollarAmount = useDollarAmount(
     currency,
@@ -116,15 +131,17 @@ function FiatExchangeAmount({ route }: Props) {
     exchangeRatePair
   )
 
-  const localCurrencyAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
+  const dollarAmount = useCurrencyToLocalAmount
+  const localCurrencyAmount = useCurrencyToLocalAmount(parsedInputAmount, currency)
+
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
-  const minAmountInLocalCurrency = convertDollarsToLocalAmount(
-    DOLLAR_ADD_FUNDS_MIN_AMOUNT,
-    localCurrencyExchangeRate
+  const minAmountInLocalCurrency = useCurrencyToLocalAmount(
+    new BigNumber(DOLLAR_ADD_FUNDS_MIN_AMOUNT),
+    currency
   )?.toFixed(0)
-  const maxAmountInLocalCurrency = convertDollarsToLocalAmount(
-    DOLLAR_ADD_FUNDS_MAX_AMOUNT,
-    localCurrencyExchangeRate
+  const maxAmountInLocalCurrency = useCurrencyToLocalAmount(
+    new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT),
+    currency
   )?.toFixed(0)
 
   const dispatch = useDispatch()
@@ -185,11 +202,8 @@ function FiatExchangeAmount({ route }: Props) {
       ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_continue, {
         dollarAmount,
       })
-    } else if (dollarAmount.isGreaterThan(cUSDBalance || 0)) {
-      const localBalance =
-        cUSDBalance && localCurrencyExchangeRate
-          ? new BigNumber(cUSDBalance).times(localCurrencyExchangeRate)
-          : new BigNumber(cUSDBalance || 0)
+    } else if (!balanceIsSufficient(currency, parsedInputAmount, balances)) {
+      const localBalance = balances[currency] || new BigNumber(0)
       dispatch(
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
           balance: localBalance.toFixed(2),
@@ -257,9 +271,9 @@ function FiatExchangeAmount({ route }: Props) {
       >
         <View style={styles.amountInputContainer}>
           <View>
-            <Text style={styles.exchangeBodyText}>
-              {isCusdCashIn ? t('global:amount') : t('amountCelo')}
-            </Text>
+            <Text style={styles.exchangeBodyText}>{`${t('global:amount')} (${
+              currency === Currency.Celo ? 'CELO' : currency
+            })`}</Text>
           </View>
           <TextInput
             autoFocus={true}
@@ -270,7 +284,7 @@ function FiatExchangeAmount({ route }: Props) {
             placeholder={`${inputCurrencySymbol}0`}
             style={[
               styles.currencyInput,
-              isCusdCashIn ? styles.dollarCurrencyColor : styles.celoCurrencyColor,
+              isStablecoin ? styles.fiatCurrencyColor : styles.celoCurrencyColor,
             ]}
             testID="FiatExchangeInput"
           />
@@ -278,31 +292,26 @@ function FiatExchangeAmount({ route }: Props) {
         <LineItemRow
           textStyle={styles.subtotalBodyText}
           title={
-            <Trans
-              i18nKey={isCusdCashIn ? 'celoDollarsAt' : 'inputSubtotal'}
-              ns={Namespaces.fiatExchangeFlow}
-            >
-              {isCusdCashIn ? 'Celo Dollars @ ' : 'Subtotal @ '}
-              <CurrencyDisplay
-                amount={isCusdCashIn ? oneDollarAmount : oneCeloAmount}
-                showLocalAmount={true}
-              />
+            <Trans>
+              {`${t(displayCurrencyKey)} @ `}
+              <CurrencyDisplay amount={oneUnitAmount(currency)} showLocalAmount={true} />
             </Trans>
           }
           amount={
             <CurrencyDisplay
               amount={{
-                value: dollarAmount,
-                currencyCode: Currency.Dollar,
+                value: inputAmount,
+                currencyCode: currency,
               }}
-              hideSymbol={isCusdCashIn}
-              showLocalAmount={!isCusdCashIn}
+              showLocalAmount={true}
             />
           }
         />
       </KeyboardAwareScrollView>
-      {isCusdCashIn && (
-        <Text style={styles.disclaimerCeloDollars}>{t('disclaimerCeloDollars')}</Text>
+      {currency !== Currency.Celo && (
+        <Text style={styles.disclaimerFiat}>
+          {t('disclaimerFiat', { currency: t(displayCurrencyKey) })}
+        </Text>
       )}
       <Button
         onPress={onPressContinue}
@@ -324,20 +333,19 @@ FiatExchangeAmount.navOptions = ({
   route,
 }: {
   route: RouteProp<StackParamList, Screens.FiatExchangeAmount>
-}) => {
-  const eventName = FiatExchangeEvents.cico_add_funds_amount_back
-
-  return {
-    ...emptyHeader,
-    headerLeft: () => <BackButton eventName={eventName} />,
-    headerTitle: () => (
+}) => ({
+  ...emptyHeader,
+  headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_add_funds_amount_back} />,
+  headerTitle: () =>
+    route.params?.isCashIn ? (
+      <HeaderTitleWithSubtitle title={i18n.t('fiatExchangeFlow:addFunds')} />
+    ) : (
       <HeaderTitleWithBalance
-        title={i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`)}
+        title={i18n.t('fiatExchangeFlow:cashOut')}
         token={route.params.currency}
       />
     ),
-  }
-}
+})
 
 export default FiatExchangeAmount
 
@@ -370,7 +378,7 @@ const styles = StyleSheet.create({
     lineHeight: Platform.select({ android: 27, ios: 23 }), // vertical align = center
     height: 48, // setting height manually b.c. of bug causing text to jump on Android
   },
-  dollarCurrencyColor: {
+  fiatCurrencyColor: {
     color: colors.greenUI,
   },
   celoCurrencyColor: {
@@ -382,7 +390,7 @@ const styles = StyleSheet.create({
   reviewBtn: {
     padding: variables.contentPadding,
   },
-  disclaimerCeloDollars: {
+  disclaimerFiat: {
     ...fontStyles.small,
     color: colors.gray4,
     textAlign: 'center',

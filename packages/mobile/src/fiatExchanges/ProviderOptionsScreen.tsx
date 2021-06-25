@@ -86,10 +86,12 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     [Currency.Celo]: CiCoCurrency.CELO,
     [Currency.Dollar]: CiCoCurrency.CUSD,
     [Currency.Euro]: CiCoCurrency.CEUR,
-  }[route.params.selectedCrypto || Currency.Dollar]
+  }[route.params.selectedCrypto]
 
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
+
+  console.log(route.params.amount.fiat)
 
   useLayoutEffect(() => {
     const showExplanation = () => {
@@ -116,11 +118,6 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
     if (!account) {
       console.error(TAG, 'No account set')
-      return
-    }
-
-    if (!route.params.amount.fiat && !route.params.amount.crypto) {
-      console.error(TAG, 'No fiat or crypto purchase amount set')
       return
     }
 
