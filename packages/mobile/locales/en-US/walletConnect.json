@@ -20,6 +20,7 @@
   "description": {
     "sign": "Sign Payloads",
     "signTransaction": "Send funds",
+    "sendTransaction": "Send funds",
     "accounts": "Read Address",
     "decrypt": "Decrypt Data",
     "computeSharedSecret": "Generate a secret"

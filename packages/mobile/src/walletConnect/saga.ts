@@ -155,21 +155,21 @@ export function* acceptRequest({
         case SupportedActions.eth_sendTransaction:
           const kit: ContractKit = yield call(getContractKit)
           const normalizer = new TxParamsNormalizer(kit.connection)
-          const tx: CeloTx = yield call(normalizer.populate, params)
+          const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), params)
 
           const sendTxMethod = function* (nonce?: number) {
             const txResult: TransactionResult = yield call(kit.connection.sendTransaction, {
               ...tx,
               nonce: nonce ?? tx.nonce,
             })
-            return yield call(txResult.getHash)
+            return yield call(txResult.getHash.bind(txResult))
           }
           result = yield call(
             wrapSendTransactionWithRetry,
             sendTxMethod,
             newTransactionContext(TAG, 'WalletConnect/eth_sendTransaction')
           )
-
+          break
         default:
           error = WalletConnectErrors.JSONRPC_REQUEST_METHOD_UNSUPPORTED
       }
