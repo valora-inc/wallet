@@ -22,7 +22,9 @@ function DigitButton({
   const onPress = () => onDigitPress(digit)
   return (
     <Touchable testID={`digit${digit}`} borderless={true} onPress={onPress}>
-      <Text style={styles.digit}>{digit}</Text>
+      <Text maxFontSizeMultiplier={1} style={styles.digit}>
+        {digit}
+      </Text>
     </Touchable>
   )
 }
