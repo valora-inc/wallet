@@ -4,6 +4,7 @@ import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
+import remoteConfig from '@react-native-firebase/remote-config'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
 import { currentLanguageSelector } from 'src/app/reducers'
@@ -214,6 +215,40 @@ export function appVersionDeprecationChannel() {
 }
 
 export function appRemoteFeatureFlagChannel() {
+  if (!FIREBASE_ENABLED) {
+    return null
+  }
+
+  return eventChannel((emit: any) => {
+    const emitter = (fetchedRemotely: boolean) => {
+      if (fetchedRemotely) {
+        console.log('Configs were retrieved from the backend and activated.')
+        emit({
+          test_feature: remoteConfig().getString('test_feature'),
+        })
+      } else {
+        console.log(
+          'No configs were fetched from the backend, and the local configs were already activated'
+        )
+      }
+    }
+
+    remoteConfig()
+      .setDefaults({
+        test_feature: 'disabled',
+      })
+      .then(() => remoteConfig().fetchAndActivate())
+      .then(emitter)
+
+    const cancel = () => {
+      // TODO: anything here?
+    }
+
+    return cancel
+  })
+}
+
+export function appRemoteFeatureFlagChannelDeprecated() {
   if (!FIREBASE_ENABLED) {
     return null
   }
