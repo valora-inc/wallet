@@ -501,7 +501,6 @@ exports[`ReviewFees renders correctly 1`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [],
@@ -565,7 +564,6 @@ exports[`ReviewFees renders correctly 1`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [
@@ -640,7 +638,6 @@ exports[`ReviewFees renders correctly 1`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [],
@@ -760,7 +757,6 @@ exports[`ReviewFees renders correctly 1`] = `
     </View>
     <Text>
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [
@@ -838,7 +834,6 @@ exports[`ReviewFees renders correctly 1`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [
@@ -1365,7 +1360,6 @@ exports[`ReviewFees renders correctly 2`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [],
@@ -1429,7 +1423,6 @@ exports[`ReviewFees renders correctly 2`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [
@@ -1504,7 +1497,6 @@ exports[`ReviewFees renders correctly 2`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [],
@@ -1688,7 +1680,6 @@ exports[`ReviewFees renders correctly 2`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [

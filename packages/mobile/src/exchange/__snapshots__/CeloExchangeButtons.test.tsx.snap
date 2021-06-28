@@ -28,7 +28,7 @@ exports[`CeloExchangeButtons hides buy button when there's no dollar balance 1`]
       style={
         Array [
           Object {
-            "overflow": "hidden",
+            "overflow": "visible",
           },
           Object {
             "borderRadius": 100,
@@ -57,9 +57,10 @@ exports[`CeloExchangeButtons hides buy button when there's no dollar balance 1`]
           Object {
             "alignItems": "center",
             "backgroundColor": "#EEB93C",
+            "borderRadius": 100,
             "flexGrow": 1,
-            "height": 48,
             "justifyContent": "center",
+            "minHeight": 48,
             "opacity": undefined,
             "paddingHorizontal": 24,
             "paddingVertical": 5,
@@ -68,6 +69,7 @@ exports[`CeloExchangeButtons hides buy button when there's no dollar balance 1`]
         testID="SellCelo"
       >
         <Text
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",
@@ -113,7 +115,7 @@ exports[`CeloExchangeButtons hides sell button when there's no CELO balance 1`] 
       style={
         Array [
           Object {
-            "overflow": "hidden",
+            "overflow": "visible",
           },
           Object {
             "borderRadius": 100,
@@ -142,9 +144,10 @@ exports[`CeloExchangeButtons hides sell button when there's no CELO balance 1`] 
           Object {
             "alignItems": "center",
             "backgroundColor": "#EEB93C",
+            "borderRadius": 100,
             "flexGrow": 1,
-            "height": 48,
             "justifyContent": "center",
+            "minHeight": 48,
             "opacity": undefined,
             "paddingHorizontal": 24,
             "paddingVertical": 5,
@@ -153,6 +156,7 @@ exports[`CeloExchangeButtons hides sell button when there's no CELO balance 1`] 
         testID="BuyCelo"
       >
         <Text
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",
@@ -198,7 +202,7 @@ exports[`CeloExchangeButtons renders correctly 1`] = `
       style={
         Array [
           Object {
-            "overflow": "hidden",
+            "overflow": "visible",
           },
           Object {
             "borderRadius": 100,
@@ -227,9 +231,10 @@ exports[`CeloExchangeButtons renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "backgroundColor": "#EEB93C",
+            "borderRadius": 100,
             "flexGrow": 1,
-            "height": 48,
             "justifyContent": "center",
+            "minHeight": 48,
             "opacity": undefined,
             "paddingHorizontal": 24,
             "paddingVertical": 5,
@@ -238,6 +243,7 @@ exports[`CeloExchangeButtons renders correctly 1`] = `
         testID="BuyCelo"
       >
         <Text
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",
@@ -269,7 +275,7 @@ exports[`CeloExchangeButtons renders correctly 1`] = `
       style={
         Array [
           Object {
-            "overflow": "hidden",
+            "overflow": "visible",
           },
           Object {
             "borderRadius": 100,
@@ -298,9 +304,10 @@ exports[`CeloExchangeButtons renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "backgroundColor": "#EEB93C",
+            "borderRadius": 100,
             "flexGrow": 1,
-            "height": 48,
             "justifyContent": "center",
+            "minHeight": 48,
             "opacity": undefined,
             "paddingHorizontal": 24,
             "paddingVertical": 5,
@@ -309,6 +316,7 @@ exports[`CeloExchangeButtons renders correctly 1`] = `
         testID="SellCelo"
       >
         <Text
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",

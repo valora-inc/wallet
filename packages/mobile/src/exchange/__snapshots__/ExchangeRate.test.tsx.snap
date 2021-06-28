@@ -32,7 +32,6 @@ exports[`renders correctly for cGLD->cUSD exchanges with local amounts 1`] = `
     testID="ExchangeRateRatio"
   >
     <Text
-      numberOfLines={1}
       style={
         Array [
           undefined,
@@ -85,7 +84,6 @@ exports[`renders correctly for cGLD->cUSD exchanges without local amounts 1`] = 
     testID="ExchangeRateRatio"
   >
     <Text
-      numberOfLines={1}
       style={
         Array [
           undefined,
@@ -138,7 +136,6 @@ exports[`renders correctly for cUSD->cGLD exchanges with local amounts 1`] = `
     testID="ExchangeRateRatio"
   >
     <Text
-      numberOfLines={1}
       style={
         Array [
           undefined,
@@ -191,7 +188,6 @@ exports[`renders correctly for cUSD->cGLD exchanges without local amounts 1`] = 
     testID="ExchangeRateRatio"
   >
     <Text
-      numberOfLines={1}
       style={
         Array [
           undefined,

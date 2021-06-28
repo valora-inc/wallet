@@ -148,7 +148,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
             style={
               Array [
                 Object {
-                  "overflow": "hidden",
+                  "overflow": "visible",
                 },
                 Object {
                   "borderRadius": 100,
@@ -177,8 +177,9 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 Object {
                   "alignItems": "center",
                   "backgroundColor": "#1AB775",
-                  "height": 48,
+                  "borderRadius": 100,
                   "justifyContent": "center",
+                  "minHeight": 48,
                   "minWidth": 120,
                   "opacity": undefined,
                   "paddingHorizontal": 24,
@@ -188,6 +189,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
               testID="ConfirmAccountButton"
             >
               <Text
+                maxFontSizeMultiplier={1}
                 style={
                   Object {
                     "color": "#FFFFFF",
@@ -954,7 +956,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
             style={
               Array [
                 Object {
-                  "overflow": "hidden",
+                  "overflow": "visible",
                 },
                 Object {
                   "borderRadius": 100,
@@ -983,8 +985,9 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 Object {
                   "alignItems": "center",
                   "backgroundColor": "#1AB775",
-                  "height": 48,
+                  "borderRadius": 100,
                   "justifyContent": "center",
+                  "minHeight": 48,
                   "minWidth": 120,
                   "opacity": undefined,
                   "paddingHorizontal": 24,
@@ -994,6 +997,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
               testID="ConfirmAccountButton"
             >
               <Text
+                maxFontSizeMultiplier={1}
                 style={
                   Object {
                     "color": "#FFFFFF",

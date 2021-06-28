@@ -70,7 +70,7 @@ exports[`RaiseLimitScreen renders correctly 1`] = `
       style={
         Array [
           Object {
-            "overflow": "hidden",
+            "overflow": "visible",
           },
           Object {
             "borderRadius": 100,
@@ -99,9 +99,10 @@ exports[`RaiseLimitScreen renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "backgroundColor": "#1AB775",
+            "borderRadius": 100,
             "flexGrow": 1,
-            "height": 48,
             "justifyContent": "center",
+            "minHeight": 48,
             "opacity": undefined,
             "paddingHorizontal": 24,
             "paddingVertical": 5,
@@ -110,6 +111,7 @@ exports[`RaiseLimitScreen renders correctly 1`] = `
         testID="RaiseLimitButton"
       >
         <Text
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",

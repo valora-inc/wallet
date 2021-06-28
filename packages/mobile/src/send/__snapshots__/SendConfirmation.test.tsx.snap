@@ -139,7 +139,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
               </View>
             </View>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -880,7 +879,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -940,7 +938,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -975,7 +972,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -1015,7 +1011,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -1044,9 +1040,10 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#97DFC1",
+                "borderRadius": 100,
                 "flexGrow": 1,
-                "height": 48,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "opacity": undefined,
                 "paddingHorizontal": 24,
                 "paddingVertical": 5,
@@ -1056,6 +1053,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
           >
             <Text
               accessibilityLabel="global:send"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
@@ -1230,7 +1228,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
               </View>
             </View>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -1902,7 +1899,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -1982,7 +1978,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -2042,7 +2037,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -2077,7 +2071,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -2117,7 +2110,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -2146,9 +2139,10 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#97DFC1",
+                "borderRadius": 100,
                 "flexGrow": 1,
-                "height": 48,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "opacity": undefined,
                 "paddingHorizontal": 24,
                 "paddingVertical": 5,
@@ -2158,6 +2152,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with C
           >
             <Text
               accessibilityLabel="global:send"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
@@ -2332,7 +2327,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
               </View>
             </View>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -3073,7 +3067,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -3133,7 +3126,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -3168,7 +3160,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -3208,7 +3199,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -3237,9 +3228,10 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#97DFC1",
+                "borderRadius": 100,
                 "flexGrow": 1,
-                "height": 48,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "opacity": undefined,
                 "paddingHorizontal": 24,
                 "paddingVertical": 5,
@@ -3249,6 +3241,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
           >
             <Text
               accessibilityLabel="global:send"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
@@ -3423,7 +3416,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
               </View>
             </View>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -4095,7 +4087,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -4175,7 +4166,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -4235,7 +4225,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -4270,7 +4259,6 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -4310,7 +4298,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -4339,9 +4327,10 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#1AB775",
+                "borderRadius": 100,
                 "flexGrow": 1,
-                "height": 48,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "opacity": undefined,
                 "paddingHorizontal": 24,
                 "paddingVertical": 5,
@@ -4351,6 +4340,7 @@ exports[`SendConfirmation renders correctly for send payment confirmation with c
           >
             <Text
               accessibilityLabel="global:send"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
@@ -4587,7 +4577,6 @@ exports[`SendConfirmation renders correctly when there are multiple user address
               </View>
             </View>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -5328,7 +5317,6 @@ exports[`SendConfirmation renders correctly when there are multiple user address
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -5388,7 +5376,6 @@ exports[`SendConfirmation renders correctly when there are multiple user address
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -5423,7 +5410,6 @@ exports[`SendConfirmation renders correctly when there are multiple user address
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -5463,7 +5449,7 @@ exports[`SendConfirmation renders correctly when there are multiple user address
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -5492,9 +5478,10 @@ exports[`SendConfirmation renders correctly when there are multiple user address
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#97DFC1",
+                "borderRadius": 100,
                 "flexGrow": 1,
-                "height": 48,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "opacity": undefined,
                 "paddingHorizontal": 24,
                 "paddingVertical": 5,
@@ -5504,6 +5491,7 @@ exports[`SendConfirmation renders correctly when there are multiple user address
           >
             <Text
               accessibilityLabel="global:send"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
@@ -5691,7 +5679,6 @@ exports[`SendConfirmation with Komenci enabled renders correct modal for invitat
               </View>
             </View>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -6403,7 +6390,6 @@ exports[`SendConfirmation with Komenci enabled renders correct modal for invitat
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -6463,7 +6449,6 @@ exports[`SendConfirmation with Komenci enabled renders correct modal for invitat
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -6498,7 +6483,6 @@ exports[`SendConfirmation with Komenci enabled renders correct modal for invitat
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -6538,7 +6522,7 @@ exports[`SendConfirmation with Komenci enabled renders correct modal for invitat
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -6567,9 +6551,10 @@ exports[`SendConfirmation with Komenci enabled renders correct modal for invitat
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#97DFC1",
+                "borderRadius": 100,
                 "flexGrow": 1,
-                "height": 48,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "opacity": undefined,
                 "paddingHorizontal": 24,
                 "paddingVertical": 5,
@@ -6579,6 +6564,7 @@ exports[`SendConfirmation with Komenci enabled renders correct modal for invitat
           >
             <Text
               accessibilityLabel="inviteFlow11:sendAndInvite"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",

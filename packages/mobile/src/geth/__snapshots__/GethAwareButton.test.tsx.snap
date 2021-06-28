@@ -15,7 +15,7 @@ exports[`renders correctly when connected 1`] = `
     style={
       Array [
         Object {
-          "overflow": "hidden",
+          "overflow": "visible",
         },
         Object {
           "borderRadius": 100,
@@ -44,8 +44,9 @@ exports[`renders correctly when connected 1`] = `
         Object {
           "alignItems": "center",
           "backgroundColor": "#EEB93C",
-          "height": 48,
+          "borderRadius": 100,
           "justifyContent": "center",
+          "minHeight": 48,
           "minWidth": 120,
           "opacity": undefined,
           "paddingHorizontal": 24,
@@ -54,6 +55,7 @@ exports[`renders correctly when connected 1`] = `
       }
     >
       <Text
+        maxFontSizeMultiplier={1}
         style={
           Object {
             "color": "#FFFFFF",
@@ -85,7 +87,7 @@ exports[`renders correctly when disconnected 1`] = `
     style={
       Array [
         Object {
-          "overflow": "hidden",
+          "overflow": "visible",
         },
         Object {
           "borderRadius": 100,
@@ -114,8 +116,9 @@ exports[`renders correctly when disconnected 1`] = `
         Object {
           "alignItems": "center",
           "backgroundColor": "#E3C376",
-          "height": 48,
+          "borderRadius": 100,
           "justifyContent": "center",
+          "minHeight": 48,
           "minWidth": 120,
           "opacity": undefined,
           "paddingHorizontal": 24,
@@ -124,6 +127,7 @@ exports[`renders correctly when disconnected 1`] = `
       }
     >
       <Text
+        maxFontSizeMultiplier={1}
         style={
           Object {
             "color": "#FFFFFF",

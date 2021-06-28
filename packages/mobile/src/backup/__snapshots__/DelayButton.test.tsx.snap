@@ -28,6 +28,7 @@ exports[`DelayButton renders button with text when backup not completed and not 
   onStartShouldSetResponder={[Function]}
 >
   <Text
+    maxFontSizeMultiplier={1.75}
     style={
       Object {
         "color": "#1AB775",

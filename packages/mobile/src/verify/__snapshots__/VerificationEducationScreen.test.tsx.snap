@@ -513,7 +513,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -542,8 +542,9 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#D6EAF3",
-                "height": 48,
+                "borderRadius": 100,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "minWidth": 120,
                 "opacity": 1,
                 "paddingHorizontal": 24,
@@ -553,6 +554,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
             testID="VerificationEducationContinue"
           >
             <Text
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#0768AE",
@@ -720,6 +722,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         onStartShouldSetResponder={[Function]}
       >
         <Text
+          maxFontSizeMultiplier={1.75}
           style={
             Array [
               Object {
@@ -1557,7 +1560,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -1586,8 +1589,9 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#D6EAF3",
-                "height": 48,
+                "borderRadius": 100,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "minWidth": 120,
                 "opacity": 1,
                 "paddingHorizontal": 24,
@@ -1597,6 +1601,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
             testID="VerificationEducationSkip"
           >
             <Text
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#0768AE",
@@ -1764,6 +1769,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
         onStartShouldSetResponder={[Function]}
       >
         <Text
+          maxFontSizeMultiplier={1.75}
           style={
             Array [
               Object {
@@ -2601,7 +2607,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -2630,8 +2636,9 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#D6EAF3",
-                "height": 48,
+                "borderRadius": 100,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "minWidth": 120,
                 "opacity": 1,
                 "paddingHorizontal": 24,
@@ -2641,6 +2648,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
             testID="VerificationEducationSkip"
           >
             <Text
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#0768AE",
@@ -2808,6 +2816,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
         onStartShouldSetResponder={[Function]}
       >
         <Text
+          maxFontSizeMultiplier={1.75}
           style={
             Array [
               Object {
@@ -3645,7 +3654,7 @@ exports[`VerificationEducationScreen with KOMENCI enabled shows the \`continue\`
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -3674,8 +3683,9 @@ exports[`VerificationEducationScreen with KOMENCI enabled shows the \`continue\`
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#D6EAF3",
-                "height": 48,
+                "borderRadius": 100,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "minWidth": 120,
                 "opacity": 1,
                 "paddingHorizontal": 24,
@@ -3685,6 +3695,7 @@ exports[`VerificationEducationScreen with KOMENCI enabled shows the \`continue\`
             testID="VerificationEducationContinue"
           >
             <Text
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#0768AE",
@@ -3852,6 +3863,7 @@ exports[`VerificationEducationScreen with KOMENCI enabled shows the \`continue\`
         onStartShouldSetResponder={[Function]}
       >
         <Text
+          maxFontSizeMultiplier={1.75}
           style={
             Array [
               Object {

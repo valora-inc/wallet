@@ -270,7 +270,7 @@ exports[`WithdrawCeloScreen renders correctly 1`] = `
       style={
         Array [
           Object {
-            "overflow": "hidden",
+            "overflow": "visible",
           },
           Object {
             "borderRadius": 100,
@@ -299,9 +299,10 @@ exports[`WithdrawCeloScreen renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "backgroundColor": "#F1F0EB",
+            "borderRadius": 100,
             "flexGrow": 1,
-            "height": 48,
             "justifyContent": "center",
+            "minHeight": 48,
             "opacity": undefined,
             "paddingHorizontal": 24,
             "paddingVertical": 5,

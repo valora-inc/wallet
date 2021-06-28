@@ -17,8 +17,9 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -211,7 +212,7 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
         style={
           Array [
             Object {
-              "overflow": "hidden",
+              "overflow": "visible",
             },
             Object {
               "borderRadius": 100,
@@ -240,8 +241,9 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#1AB775",
-              "height": 48,
+              "borderRadius": 100,
               "justifyContent": "center",
+              "minHeight": 48,
               "minWidth": 120,
               "opacity": undefined,
               "paddingHorizontal": 24,
@@ -251,6 +253,7 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
           testID="SendOrRequestBar/SendButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -287,7 +290,7 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
         style={
           Array [
             Object {
-              "overflow": "hidden",
+              "overflow": "visible",
             },
             Object {
               "borderRadius": 100,
@@ -316,8 +319,9 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#1AB775",
-              "height": 48,
+              "borderRadius": 100,
               "justifyContent": "center",
+              "minHeight": 48,
               "minWidth": 120,
               "opacity": undefined,
               "paddingHorizontal": 24,
@@ -327,6 +331,7 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
           testID="SendOrRequestBar/RequestButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -426,8 +431,9 @@ exports[`Testnet banner Renders when disconnected 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -620,7 +626,7 @@ exports[`Testnet banner Renders when disconnected 1`] = `
         style={
           Array [
             Object {
-              "overflow": "hidden",
+              "overflow": "visible",
             },
             Object {
               "borderRadius": 100,
@@ -649,8 +655,9 @@ exports[`Testnet banner Renders when disconnected 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#1AB775",
-              "height": 48,
+              "borderRadius": 100,
               "justifyContent": "center",
+              "minHeight": 48,
               "minWidth": 120,
               "opacity": undefined,
               "paddingHorizontal": 24,
@@ -660,6 +667,7 @@ exports[`Testnet banner Renders when disconnected 1`] = `
           testID="SendOrRequestBar/SendButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -696,7 +704,7 @@ exports[`Testnet banner Renders when disconnected 1`] = `
         style={
           Array [
             Object {
-              "overflow": "hidden",
+              "overflow": "visible",
             },
             Object {
               "borderRadius": 100,
@@ -725,8 +733,9 @@ exports[`Testnet banner Renders when disconnected 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#1AB775",
-              "height": 48,
+              "borderRadius": 100,
               "justifyContent": "center",
+              "minHeight": 48,
               "minWidth": 120,
               "opacity": undefined,
               "paddingHorizontal": 24,
@@ -736,6 +745,7 @@ exports[`Testnet banner Renders when disconnected 1`] = `
           testID="SendOrRequestBar/RequestButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -835,8 +845,9 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -1029,7 +1040,7 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
         style={
           Array [
             Object {
-              "overflow": "hidden",
+              "overflow": "visible",
             },
             Object {
               "borderRadius": 100,
@@ -1058,8 +1069,9 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#1AB775",
-              "height": 48,
+              "borderRadius": 100,
               "justifyContent": "center",
+              "minHeight": 48,
               "minWidth": 120,
               "opacity": undefined,
               "paddingHorizontal": 24,
@@ -1069,6 +1081,7 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
           testID="SendOrRequestBar/SendButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -1105,7 +1118,7 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
         style={
           Array [
             Object {
-              "overflow": "hidden",
+              "overflow": "visible",
             },
             Object {
               "borderRadius": 100,
@@ -1134,8 +1147,9 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#1AB775",
-              "height": 48,
+              "borderRadius": 100,
               "justifyContent": "center",
+              "minHeight": 48,
               "minWidth": 120,
               "opacity": undefined,
               "paddingHorizontal": 24,
@@ -1145,6 +1159,7 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
           testID="SendOrRequestBar/RequestButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",

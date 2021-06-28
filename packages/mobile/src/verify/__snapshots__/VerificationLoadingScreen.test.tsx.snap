@@ -98,6 +98,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
       testID="CancelButton"
     >
       <Text
+        maxFontSizeMultiplier={1.75}
         style={
           Array [
             Object {
@@ -284,7 +285,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
             style={
               Array [
                 Object {
-                  "overflow": "hidden",
+                  "overflow": "visible",
                 },
                 Object {
                   "borderRadius": 100,
@@ -313,8 +314,9 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
                 Object {
                   "alignItems": "center",
                   "backgroundColor": "#FFFFFF",
-                  "height": 40,
+                  "borderRadius": 100,
                   "justifyContent": "center",
+                  "minHeight": 40,
                   "minWidth": 120,
                   "opacity": 1,
                   "paddingHorizontal": 24,
@@ -323,6 +325,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
               }
             >
               <Text
+                maxFontSizeMultiplier={1}
                 style={
                   Object {
                     "color": "#0768AE",
@@ -989,6 +992,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
       testID="CancelButton"
     >
       <Text
+        maxFontSizeMultiplier={1.75}
         style={
           Array [
             Object {
@@ -1175,7 +1179,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
             style={
               Array [
                 Object {
-                  "overflow": "hidden",
+                  "overflow": "visible",
                 },
                 Object {
                   "borderRadius": 100,
@@ -1204,8 +1208,9 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
                 Object {
                   "alignItems": "center",
                   "backgroundColor": "#FFFFFF",
-                  "height": 40,
+                  "borderRadius": 100,
                   "justifyContent": "center",
+                  "minHeight": 40,
                   "minWidth": 120,
                   "opacity": 1,
                   "paddingHorizontal": 24,
@@ -1214,6 +1219,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
               }
             >
               <Text
+                maxFontSizeMultiplier={1}
                 style={
                   Object {
                     "color": "#0768AE",

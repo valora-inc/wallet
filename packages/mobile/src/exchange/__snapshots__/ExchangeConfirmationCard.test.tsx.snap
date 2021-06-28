@@ -49,7 +49,6 @@ exports[`renders correctly with giant numbers 1`] = `
               goldAmount
             </Text>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -117,7 +116,6 @@ exports[`renders correctly with giant numbers 1`] = `
               >
                 Subtotal @ 
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -147,7 +145,6 @@ exports[`renders correctly with giant numbers 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
@@ -289,7 +286,6 @@ exports[`renders correctly with giant numbers 1`] = `
                     }
                   >
                     <Text
-                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
@@ -381,7 +377,6 @@ exports[`renders correctly with giant numbers 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
@@ -441,7 +436,6 @@ exports[`renders correctly with giant numbers 1`] = `
                 Celo Dollars @
                  
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -476,7 +470,6 @@ exports[`renders correctly with giant numbers 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
@@ -547,7 +540,6 @@ exports[`renders correctly with no exchange rate 1`] = `
               goldAmount
             </Text>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -615,7 +607,6 @@ exports[`renders correctly with no exchange rate 1`] = `
               >
                 Subtotal @ 
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -645,7 +636,6 @@ exports[`renders correctly with no exchange rate 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
@@ -787,7 +777,6 @@ exports[`renders correctly with no exchange rate 1`] = `
                     }
                   >
                     <Text
-                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
@@ -879,7 +868,6 @@ exports[`renders correctly with no exchange rate 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
@@ -939,7 +927,6 @@ exports[`renders correctly with no exchange rate 1`] = `
                 Celo Dollars @
                  
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -974,7 +961,6 @@ exports[`renders correctly with no exchange rate 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,

@@ -169,7 +169,7 @@ exports[`RegulatoryTermsScreen renders correctly 1`] = `
       style={
         Array [
           Object {
-            "overflow": "hidden",
+            "overflow": "visible",
           },
           Object {
             "borderRadius": 100,
@@ -198,9 +198,10 @@ exports[`RegulatoryTermsScreen renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "backgroundColor": "#D6EAF3",
+            "borderRadius": 100,
             "flexGrow": 1,
-            "height": 48,
             "justifyContent": "center",
+            "minHeight": 48,
             "opacity": 1,
             "paddingHorizontal": 24,
             "paddingVertical": 5,
@@ -209,6 +210,7 @@ exports[`RegulatoryTermsScreen renders correctly 1`] = `
         testID="AcceptTermsButton"
       >
         <Text
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#0768AE",

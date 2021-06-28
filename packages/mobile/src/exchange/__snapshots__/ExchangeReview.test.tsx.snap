@@ -54,7 +54,6 @@ exports[`ExchangeReview renders correctly 1`] = `
               exchangeAmount
             </Text>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -122,7 +121,6 @@ exports[`ExchangeReview renders correctly 1`] = `
               >
                 Subtotal @ 
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -152,7 +150,6 @@ exports[`ExchangeReview renders correctly 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
@@ -294,7 +291,6 @@ exports[`ExchangeReview renders correctly 1`] = `
                     }
                   >
                     <Text
-                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
@@ -386,7 +382,6 @@ exports[`ExchangeReview renders correctly 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
@@ -446,7 +441,6 @@ exports[`ExchangeReview renders correctly 1`] = `
                 Celo Dollars @
                  
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -481,7 +475,6 @@ exports[`ExchangeReview renders correctly 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
@@ -516,7 +509,7 @@ exports[`ExchangeReview renders correctly 1`] = `
       style={
         Array [
           Object {
-            "overflow": "hidden",
+            "overflow": "visible",
           },
           Object {
             "borderRadius": 100,
@@ -545,9 +538,10 @@ exports[`ExchangeReview renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "backgroundColor": "#EEB93C",
+            "borderRadius": 100,
             "flexGrow": 1,
-            "height": 48,
             "justifyContent": "center",
+            "minHeight": 48,
             "opacity": undefined,
             "paddingHorizontal": 24,
             "paddingVertical": 5,
@@ -556,6 +550,7 @@ exports[`ExchangeReview renders correctly 1`] = `
         testID="ConfirmExchange"
       >
         <Text
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",
@@ -567,7 +562,6 @@ exports[`ExchangeReview renders correctly 1`] = `
         >
           Buy or sell 
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,

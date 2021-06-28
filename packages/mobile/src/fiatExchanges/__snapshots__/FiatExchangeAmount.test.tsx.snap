@@ -537,7 +537,6 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
           >
             Celo Dollars @ 
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -572,7 +571,6 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -618,7 +616,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
       style={
         Array [
           Object {
-            "overflow": "hidden",
+            "overflow": "visible",
           },
           Object {
             "borderRadius": 100,
@@ -647,9 +645,10 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "backgroundColor": "#97DFC1",
+            "borderRadius": 100,
             "flexGrow": 1,
-            "height": 48,
             "justifyContent": "center",
+            "minHeight": 48,
             "opacity": undefined,
             "paddingHorizontal": 24,
             "paddingVertical": 5,
@@ -659,6 +658,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
       >
         <Text
           accessibilityLabel="global:next"
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",

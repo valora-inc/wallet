@@ -170,7 +170,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -199,8 +199,9 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#D6EAF3",
-                "height": 48,
+                "borderRadius": 100,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "minWidth": 120,
                 "opacity": 0.5,
                 "paddingHorizontal": 24,
@@ -210,6 +211,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
             testID="ImportWalletButton"
           >
             <Text
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#0768AE",
@@ -391,7 +393,6 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,

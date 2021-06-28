@@ -22,8 +22,9 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -159,6 +160,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
             Object {
               "alignItems": "center",
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "marginBottom": 8,
             }
           }
@@ -232,6 +234,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
             Object {
               "alignItems": "flex-end",
               "flexDirection": "row",
+              "flexWrap": "wrap",
             }
           }
         >
@@ -241,8 +244,8 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 24,
-                "height": 27,
                 "lineHeight": 27,
+                "minHeight": 27,
               }
             }
           >
@@ -285,7 +288,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -314,9 +317,10 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#EEB93C",
+                "borderRadius": 100,
                 "flexGrow": 1,
-                "height": 48,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "opacity": undefined,
                 "paddingHorizontal": 24,
                 "paddingVertical": 5,
@@ -325,6 +329,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
             testID="WithdrawCELO"
           >
             <Text
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
@@ -383,7 +388,6 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
           testID="CeloBalance"
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -410,7 +414,6 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
         >
           Equal to 
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -484,8 +487,9 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -621,6 +625,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
             Object {
               "alignItems": "center",
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "marginBottom": 8,
             }
           }
@@ -694,6 +699,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
             Object {
               "alignItems": "flex-end",
               "flexDirection": "row",
+              "flexWrap": "wrap",
             }
           }
         >
@@ -703,8 +709,8 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 24,
-                "height": 27,
                 "lineHeight": 27,
+                "minHeight": 27,
               }
             }
           >
@@ -756,7 +762,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
             style={
               Array [
                 Object {
-                  "overflow": "hidden",
+                  "overflow": "visible",
                 },
                 Object {
                   "borderRadius": 100,
@@ -785,9 +791,10 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
                 Object {
                   "alignItems": "center",
                   "backgroundColor": "#EEB93C",
+                  "borderRadius": 100,
                   "flexGrow": 1,
-                  "height": 48,
                   "justifyContent": "center",
+                  "minHeight": 48,
                   "opacity": undefined,
                   "paddingHorizontal": 24,
                   "paddingVertical": 5,
@@ -796,6 +803,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
               testID="BuyCelo"
             >
               <Text
+                maxFontSizeMultiplier={1}
                 style={
                   Object {
                     "color": "#FFFFFF",
@@ -827,7 +835,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
             style={
               Array [
                 Object {
-                  "overflow": "hidden",
+                  "overflow": "visible",
                 },
                 Object {
                   "borderRadius": 100,
@@ -856,9 +864,10 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
                 Object {
                   "alignItems": "center",
                   "backgroundColor": "#EEB93C",
+                  "borderRadius": 100,
                   "flexGrow": 1,
-                  "height": 48,
                   "justifyContent": "center",
+                  "minHeight": 48,
                   "opacity": undefined,
                   "paddingHorizontal": 24,
                   "paddingVertical": 5,
@@ -867,6 +876,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
               testID="SellCelo"
             >
               <Text
+                maxFontSizeMultiplier={1}
                 style={
                   Object {
                     "color": "#FFFFFF",
@@ -926,7 +936,6 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
           testID="CeloBalance"
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -953,7 +962,6 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
         >
           Equal to 
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,

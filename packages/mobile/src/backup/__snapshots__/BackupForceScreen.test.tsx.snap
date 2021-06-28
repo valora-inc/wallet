@@ -111,7 +111,7 @@ exports[`BackupForceScreen renders correctly 1`] = `
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -140,8 +140,9 @@ exports[`BackupForceScreen renders correctly 1`] = `
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#1AB775",
-                "height": 48,
+                "borderRadius": 100,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "minWidth": 120,
                 "opacity": undefined,
                 "paddingHorizontal": 24,
@@ -151,6 +152,7 @@ exports[`BackupForceScreen renders correctly 1`] = `
             testID="SetUpAccountKey"
           >
             <Text
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",

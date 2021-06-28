@@ -400,7 +400,6 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -540,7 +539,6 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -620,7 +618,6 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -679,7 +676,6 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -714,7 +710,6 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -811,7 +806,6 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -871,7 +865,6 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -906,7 +899,6 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -1320,7 +1312,6 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -1380,7 +1371,6 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -1415,7 +1405,6 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -1804,7 +1793,6 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -1864,7 +1852,6 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -1899,7 +1886,6 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -2288,7 +2274,6 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -2348,7 +2333,6 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -2383,7 +2367,6 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -2803,7 +2786,6 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -2943,7 +2925,6 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -3023,7 +3004,6 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -3082,7 +3062,6 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -3117,7 +3096,6 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -3536,7 +3514,6 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -3676,7 +3653,6 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -3756,7 +3732,6 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -3815,7 +3790,6 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -3850,7 +3824,6 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -3947,7 +3920,6 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -4006,7 +3978,6 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -4041,7 +4012,6 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,

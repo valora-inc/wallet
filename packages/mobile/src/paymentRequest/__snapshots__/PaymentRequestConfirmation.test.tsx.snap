@@ -138,7 +138,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               </View>
             </View>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -260,7 +259,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -320,7 +318,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
             Celo Dollars @
              
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -355,7 +352,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -395,7 +391,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           style={
             Array [
               Object {
-                "overflow": "hidden",
+                "overflow": "visible",
               },
               Object {
                 "borderRadius": 100,
@@ -424,9 +420,10 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               Object {
                 "alignItems": "center",
                 "backgroundColor": "#1AB775",
+                "borderRadius": 100,
                 "flexGrow": 1,
-                "height": 48,
                 "justifyContent": "center",
+                "minHeight": 48,
                 "opacity": undefined,
                 "paddingHorizontal": 24,
                 "paddingVertical": 5,
@@ -436,6 +433,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           >
             <Text
               accessibilityLabel="request"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",

@@ -521,7 +521,6 @@ exports[`SimplexScreen renders correctly 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 Array [],
@@ -585,7 +584,6 @@ exports[`SimplexScreen renders correctly 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 Array [
@@ -660,7 +658,6 @@ exports[`SimplexScreen renders correctly 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 Array [],
@@ -844,7 +841,6 @@ exports[`SimplexScreen renders correctly 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 Array [
@@ -884,7 +880,7 @@ exports[`SimplexScreen renders correctly 1`] = `
         style={
           Array [
             Object {
-              "overflow": "hidden",
+              "overflow": "visible",
             },
             Object {
               "borderRadius": 100,
@@ -913,9 +909,10 @@ exports[`SimplexScreen renders correctly 1`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#97DFC1",
+              "borderRadius": 100,
               "flexGrow": 1,
-              "height": 48,
               "justifyContent": "center",
+              "minHeight": 48,
               "opacity": undefined,
               "paddingHorizontal": 24,
               "paddingVertical": 5,
@@ -1456,7 +1453,6 @@ exports[`SimplexScreen renders correctly 2`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 Array [],
@@ -1520,7 +1516,6 @@ exports[`SimplexScreen renders correctly 2`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 Array [
@@ -1595,7 +1590,6 @@ exports[`SimplexScreen renders correctly 2`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 Array [],
@@ -1779,7 +1773,6 @@ exports[`SimplexScreen renders correctly 2`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 Array [
@@ -1819,7 +1812,7 @@ exports[`SimplexScreen renders correctly 2`] = `
         style={
           Array [
             Object {
-              "overflow": "hidden",
+              "overflow": "visible",
             },
             Object {
               "borderRadius": 100,
@@ -1848,9 +1841,10 @@ exports[`SimplexScreen renders correctly 2`] = `
             Object {
               "alignItems": "center",
               "backgroundColor": "#97DFC1",
+              "borderRadius": 100,
               "flexGrow": 1,
-              "height": 48,
               "justifyContent": "center",
+              "minHeight": 48,
               "opacity": undefined,
               "paddingHorizontal": 24,
               "paddingVertical": 5,
@@ -1858,6 +1852,7 @@ exports[`SimplexScreen renders correctly 2`] = `
           }
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
