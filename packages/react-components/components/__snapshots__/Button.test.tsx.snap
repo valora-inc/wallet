@@ -15,7 +15,7 @@ exports[`Button when type is SECONDARY renders 1`] = `
     style={
       Array [
         Object {
-          "overflow": "hidden",
+          "overflow": "visible",
         },
         Object {
           "borderRadius": 100,
@@ -44,8 +44,9 @@ exports[`Button when type is SECONDARY renders 1`] = `
         Object {
           "alignItems": "center",
           "backgroundColor": "#F1F0EB",
-          "height": 48,
+          "borderRadius": 100,
           "justifyContent": "center",
+          "minHeight": 48,
           "minWidth": 120,
           "opacity": undefined,
           "paddingHorizontal": 24,
@@ -54,6 +55,7 @@ exports[`Button when type is SECONDARY renders 1`] = `
       }
     >
       <Text
+        maxFontSizeMultiplier={1}
         style={
           Object {
             "color": "#2E3338",
@@ -85,7 +87,7 @@ exports[`Button when type is TERTIARY renders 1`] = `
     style={
       Array [
         Object {
-          "overflow": "hidden",
+          "overflow": "visible",
         },
         Object {
           "borderRadius": 100,
@@ -114,8 +116,9 @@ exports[`Button when type is TERTIARY renders 1`] = `
         Object {
           "alignItems": "center",
           "backgroundColor": "#EEB93C",
-          "height": 48,
+          "borderRadius": 100,
           "justifyContent": "center",
+          "minHeight": 48,
           "minWidth": 120,
           "opacity": undefined,
           "paddingHorizontal": 24,
@@ -124,6 +127,7 @@ exports[`Button when type is TERTIARY renders 1`] = `
       }
     >
       <Text
+        maxFontSizeMultiplier={1}
         style={
           Object {
             "color": "#FFFFFF",
@@ -155,7 +159,7 @@ exports[`Button when type not given defaults to primary 1`] = `
     style={
       Array [
         Object {
-          "overflow": "hidden",
+          "overflow": "visible",
         },
         Object {
           "borderRadius": 100,
@@ -184,8 +188,9 @@ exports[`Button when type not given defaults to primary 1`] = `
         Object {
           "alignItems": "center",
           "backgroundColor": "#1AB775",
-          "height": 48,
+          "borderRadius": 100,
           "justifyContent": "center",
+          "minHeight": 48,
           "minWidth": 120,
           "opacity": undefined,
           "paddingHorizontal": 24,
@@ -194,6 +199,7 @@ exports[`Button when type not given defaults to primary 1`] = `
       }
     >
       <Text
+        maxFontSizeMultiplier={1}
         style={
           Object {
             "color": "#FFFFFF",
