@@ -89,6 +89,7 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
           "bottom": 0,
           "padding": 24,
           "position": "absolute",
+          "width": "100%",
         }
       }
     >
@@ -339,6 +340,7 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
           "bottom": 0,
           "padding": 24,
           "position": "absolute",
+          "width": "100%",
         }
       }
     >

@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   shakeForSupport: {
     position: 'absolute',
     bottom: 0,
+    width: '100%',
     backgroundColor: colors.light,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
