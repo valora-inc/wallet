@@ -57,7 +57,12 @@ export function TopBarTextButton(props: TopBarTextButtonProps) {
   const { titleStyle, title } = props
   return (
     <Wrapper {...props}>
-      <Text style={titleStyle ? [styles.text, titleStyle] : styles.text}>{title}</Text>
+      <Text
+        maxFontSizeMultiplier={1.75}
+        style={titleStyle ? [styles.text, titleStyle] : styles.text}
+      >
+        {title}
+      </Text>
     </Wrapper>
   )
 }
