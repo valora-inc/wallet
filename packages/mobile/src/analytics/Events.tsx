@@ -244,7 +244,7 @@ export enum SendEvents {
 
   // related to the alert that is shown when sending to an unknown address
   check_account_alert_shown = 'check_account_alert_shown',
-  do_not_ask_selected = 'do_not_ask_selected',
+  check_account_do_not_ask_selected = 'check_account_do_not_ask_selected',
   check_account_alert_back = 'check_account_alert_back',
   check_account_alerts_continue = 'check_account_alerts_continue',
 }

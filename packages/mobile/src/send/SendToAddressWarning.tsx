@@ -37,7 +37,7 @@ export default function SendToAddressWarning({
   const turnOffWarning = () => {
     closeWarning()
     dispatch(setShowWarning(false))
-    ValoraAnalytics.track(SendEvents.do_not_ask_selected)
+    ValoraAnalytics.track(SendEvents.check_account_do_not_ask_selected)
   }
 
   return (
