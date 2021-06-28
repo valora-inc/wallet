@@ -89,6 +89,10 @@ export function useAccountKey(): string | null {
   return asyncAccountKey.result || null
 }
 
+export function countMnemonicWords(phrase: string): number {
+  return [...phrase.trim().split(/\s+/)].length
+}
+
 // Because of a RN bug, we can't fully clean the text as the user types
 // https://github.com/facebook/react-native/issues/11068
 export function formatBackupPhraseOnEdit(phrase: string) {
@@ -100,7 +104,7 @@ export function formatBackupPhraseOnSubmit(phrase: string) {
 }
 
 function isValidMnemonic(phrase: string, length: number) {
-  return !!phrase && formatBackupPhraseOnEdit(phrase).trim().split(/\s+/g).length === length
+  return !!phrase && countMnemonicWords(formatBackupPhraseOnEdit(phrase)) === length
 }
 
 export function isValidBackupPhrase(phrase: string) {

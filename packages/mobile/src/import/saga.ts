@@ -24,10 +24,10 @@ import { setBackupCompleted } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
-import { AppEvents } from 'src/analytics/Events'
+import { AppEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { storeMnemonic } from 'src/backup/utils'
+import { countMnemonicWords, storeMnemonic } from 'src/backup/utils'
 import { CURRENCY_ENUM } from 'src/geth/consts'
 import { refreshAllBalances } from 'src/home/actions'
 import {
@@ -54,13 +54,22 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
   try {
     const normalizedPhrase = normalizeMnemonic(phrase)
     const phraseIsValid = validateMnemonic(normalizedPhrase, bip39)
+    const invalidWords = phraseIsValid ? [] : invalidMnemonicWords(normalizedPhrase)
 
-    // If the given mnemonic phrase is invalid, spend up to 1 second trying to correct it.
+    if (!phraseIsValid) {
+      ValoraAnalytics.track(OnboardingEvents.wallet_import_phrase_invalid, {
+        wordCount: countMnemonicWords(normalizedPhrase),
+        invalidWordCount: invalidWords?.length,
+      })
+    }
+
+    // If the given mnemonic phrase is invalid, spend up to 5 seconds trying to correct it.
     // A balance check happens before the phrase is returned, so if the phrase was autocorrected,
     // we do not need to check the balance again later in this method.
+    // If useEmptyWallet is true, skip this step. It only helps find non-empty wallets.
     let mnemonic = phraseIsValid ? normalizedPhrase : undefined
     let checkedBalance = false
-    if (!phraseIsValid) {
+    if (!phraseIsValid && !useEmptyWallet) {
       try {
         const { correctedPhrase, timeout } = yield race({
           correctedPhrase: call(attemptBackupPhraseCorrection, normalizedPhrase),
@@ -73,6 +82,10 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
           Logger.info(TAG + '@importBackupPhraseSaga', 'Using suggested mnemonic autocorrection')
           mnemonic = correctedPhrase
           checkedBalance = true
+        } else {
+          ValoraAnalytics.track(OnboardingEvents.wallet_import_phrase_correction_failed, {
+            timeout: timeout !== undefined,
+          })
         }
       } catch (error) {
         Logger.error(
@@ -80,6 +93,10 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
           `Encountered an error trying to correct a phrase`,
           error
         )
+        ValoraAnalytics.track(OnboardingEvents.wallet_import_phrase_correction_failed, {
+          timeout: false,
+          error: error.message,
+        })
       }
     }
 
@@ -87,7 +104,6 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     // report an error to the user.
     if (mnemonic === undefined) {
       Logger.error(TAG + '@importBackupPhraseSaga', 'Invalid mnemonic')
-      const invalidWords = invalidMnemonicWords(normalizedPhrase)
       if (invalidWords !== undefined && invalidWords.length > 0) {
         yield put(
           showError(ErrorMessages.INVALID_WORDS_IN_BACKUP_PHRASE, null, {
@@ -119,6 +135,9 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
       const backupAccount = privateKeyToAddress(privateKey)
       if (!(yield call(walletHasBalance, backupAccount))) {
         yield put(importBackupPhraseSuccess())
+        ValoraAnalytics.track(OnboardingEvents.wallet_import_zero_balance, {
+          account: backupAccount,
+        })
         navigate(Screens.ImportWallet, { clean: false, showZeroBalanceModal: true })
         return
       }
@@ -142,6 +161,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     if (recoveringFromStoreWipe) {
       ValoraAnalytics.track(AppEvents.redux_store_recovery_success, { account })
     }
+    ValoraAnalytics.track(OnboardingEvents.wallet_import_success)
 
     navigateClearingStack(Screens.VerificationEducationScreen)
 
@@ -150,6 +170,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     Logger.error(TAG + '@importBackupPhraseSaga', 'Error importing backup phrase', error)
     yield put(showError(ErrorMessages.IMPORT_BACKUP_FAILED))
     yield put(importBackupPhraseFailure())
+    ValoraAnalytics.track(OnboardingEvents.wallet_import_error, { error: error.message })
   }
 }
 
@@ -163,6 +184,8 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
   let counter = 0
   let tasks: { index: number; suggestion: string; task: Task; done: boolean }[] = []
   for (const suggestion of suggestMnemonicCorrections(mnemonic)) {
+    ValoraAnalytics.track(OnboardingEvents.wallet_import_phrase_correction_attempt)
+
     Logger.info(
       TAG + '@attemptBackupPhraseCorrection',
       `Checking account balance on suggestion #${++counter}`
@@ -207,6 +230,9 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
           TAG + '@attemptBackupPhraseCorrection',
           `Found correction phrase with balance in attempt ${task.index}`
         )
+        ValoraAnalytics.track(OnboardingEvents.wallet_import_phrase_correction_success, {
+          attemptNumber: task.index,
+        })
         // Cancel any remaining tasks.
         cancel(tasks.map(({ task }) => task))
         return task.suggestion

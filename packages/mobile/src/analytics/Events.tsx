@@ -98,8 +98,16 @@ export enum OnboardingEvents {
   pin_never_set = 'pin_never_set',
 
   wallet_import_start = 'wallet_import_start',
-  wallet_import_complete = 'wallet_import_complete',
-  wallet_import_cancel = 'wallet_import_cancel', // when a user cancels import of 0 balance wallet
+  wallet_import_phrase_updated = 'wallet_import_phrase_updated',
+  wallet_import_submit = 'wallet_import_submit',
+  wallet_import_cancel = 'wallet_import_cancel', // when a user cancels import of empty wallet or naviagtes back
+  wallet_import_zero_balance = 'wallet_import_zero_balance', // when the user is informed a wallet has zero balance
+  wallet_import_phrase_invalid = 'wallet_import_phrase_invalid',
+  wallet_import_phrase_correction_attempt = 'wallet_import_phrase_correction_attempt',
+  wallet_import_phrase_correction_success = 'wallet_import_phrase_correction_success',
+  wallet_import_phrase_correction_failed = 'wallet_import_phrase_correction_failed',
+  wallet_import_error = 'wallet_import_error',
+  wallet_import_success = 'wallet_import_success',
 
   invite_redeem_start = 'invite_redeem_start',
   invite_redeem_complete = 'invite_redeem_complete',
