@@ -152,12 +152,12 @@ export function HeaderTitleWithSubtitle({
   return (
     <View style={styles.header}>
       {title && (
-        <Text maxFontSizeMultiplier={1.75} style={styles.headerTitle}>
+        <Text maxFontSizeMultiplier={1.5} style={styles.headerTitle}>
           {title}
         </Text>
       )}
       {subTitle && (
-        <Text maxFontSizeMultiplier={1.75} style={styles.headerSubTitle}>
+        <Text maxFontSizeMultiplier={1.5} style={styles.headerSubTitle}>
           {subTitle}
         </Text>
       )}
