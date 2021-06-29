@@ -138,6 +138,9 @@ export class BlockscoutAPI extends RESTDataSource {
       if (!contractAddresses.Exchange) {
         throw new Error('Cannot find exchange address')
       }
+      if (!contractAddresses.ExchangeEUR) {
+        throw new Error('Cannot find exchange EUR address')
+      }
       if (!contractAddresses.Reserve) {
         throw new Error('Cannot find reserve address')
       }
