@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
@@ -773,11 +772,14 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_add_funds_info_support]: undefined
   [FiatExchangeEvents.cico_add_funds_info_cancel]: undefined
   [FiatExchangeEvents.cico_add_funds_amount_continue]: {
-    dollarAmount: BigNumber
+    amount: number
+    currency: Currency
+    isCashIn: boolean
   }
   [FiatExchangeEvents.cico_add_funds_amount_back]: undefined
   [FiatExchangeEvents.cico_add_funds_invalid_amount]: {
-    dollarAmount: BigNumber
+    amount: number
+    currency: Currency
   }
   [FiatExchangeEvents.cico_add_funds_amount_dialog_cancel]: undefined
   [FiatExchangeEvents.cico_add_funds_select_provider_back]: undefined

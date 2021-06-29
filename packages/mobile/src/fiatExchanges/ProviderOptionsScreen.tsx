@@ -91,8 +91,6 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
 
-  console.log(route.params.amount.fiat)
-
   useLayoutEffect(() => {
     const showExplanation = () => {
       setShowExplanation(true)
@@ -140,11 +138,18 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const activeProviders = asyncProviders.result
 
   const cicoProviders: {
-    cashOut: CicoProvider[]
     cashIn: CicoProvider[]
+    cashOut: CicoProvider[]
   } = {
+    cashIn:
+      // Hacky way to only show Ramp if the selected cash-in currency is cEUR
+      // When redesigning flow, should accomodate this on backend
+      currencyToBuy === CiCoCurrency.CEUR
+        ? activeProviders
+            ?.filter((provider) => provider.cashIn && provider.name === 'Ramp')
+            .sort(sortProviders) || []
+        : activeProviders?.filter((provider) => provider.cashIn).sort(sortProviders) || [],
     cashOut: activeProviders?.filter((provider) => provider.cashOut).sort(sortProviders) || [],
-    cashIn: activeProviders?.filter((provider) => provider.cashIn).sort(sortProviders) || [],
   }
 
   const providerOnPress = (provider: CicoProvider) => () => {

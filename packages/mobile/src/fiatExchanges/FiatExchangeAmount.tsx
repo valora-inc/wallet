@@ -1,7 +1,3 @@
-// Need to do the input check to ensure that it's above the min and below the max cash-in amounts
-// Also need to make sure that the amount.crypto and amount.fiat nav params are correct
-// Then need to make sure the backend can handle a new base currnecy request (i.e., only show Ramp for cEUR)
-
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import KeyboardAwareScrollView from '@celo/react-components/components/KeyboardAwareScrollView'
 import KeyboardSpacer from '@celo/react-components/components/KeyboardSpacer'
@@ -34,26 +30,21 @@ import {
   DOLLAR_ADD_FUNDS_MIN_AMOUNT,
 } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
-import { ExchangeRatePair, exchangeRatePairSelector } from 'src/exchange/reducer'
 import i18n, { Namespaces } from 'src/i18n'
-import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
+import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
-  convertLocalAmountToDollars,
-  convertToMaxSupportedPrecision,
-} from 'src/localCurrency/convert'
-import { useCurrencyToLocalAmount, useLocalCurrencyCode } from 'src/localCurrency/hooks'
-import {
-  getLocalCurrencyToDollarsExchangeRate,
-  localCurrencyExchangeRatesSelector,
-} from 'src/localCurrency/selectors'
+  convertBetweenCurrencies,
+  useCurrencyToLocalAmount,
+  useLocalCurrencyCode,
+} from 'src/localCurrency/hooks'
+import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { emptyHeader, HeaderTitleWithBalance, HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { Balances, balancesSelector } from 'src/stableToken/selectors'
+import { balancesSelector } from 'src/stableToken/selectors'
 import { Currency } from 'src/utils/currencies'
-import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
 import Logger from 'src/utils/Logger'
 
 const { decimalSeparator } = getNumberFormatSettings()
@@ -67,29 +58,6 @@ const oneUnitAmount = (currency: Currency) => ({
   currencyCode: currency,
 })
 
-const useDollarAmount = (
-  currency: Currency,
-  amount: BigNumber,
-  localExchangeRate: string | null | undefined,
-  localCurrencyCode: LocalCurrencyCode,
-  exchangeRatePair: ExchangeRatePair | null
-) => {
-  if (currency === Currency.Dollar) {
-    const localAmount = amount.isNaN() ? new BigNumber(0) : amount
-    const dollarAmount = convertLocalAmountToDollars(
-      localAmount,
-      localCurrencyCode ? localExchangeRate : 1
-    )
-    return convertToMaxSupportedPrecision(dollarAmount ?? new BigNumber('0'))
-  } else {
-    const exchangeRate = getRateForMakerToken(exchangeRatePair, Currency.Dollar, Currency.Celo)
-    return goldToDollarAmount(amount, exchangeRate) || new BigNumber(0)
-  }
-}
-
-const balanceIsSufficient = (currency: Currency, inputAmount: BigNumber, balances: Balances) =>
-  inputAmount.isLessThan(balances[currency] || new BigNumber(0))
-
 function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
 
@@ -101,48 +69,58 @@ function FiatExchangeAmount({ route }: Props) {
   const [showingDailyLimitDialog, setShowingDailyLimitDialog] = useState(false)
 
   const [inputAmount, setInputAmount] = useState('')
-  const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
-  const exchangeRatePair = useSelector(exchangeRatePairSelector)
-  const localCurrencyExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
-
-  const balances = useSelector(balancesSelector)
+  const currencyAmountRequested = parseInputAmount(inputAmount, decimalSeparator)
 
   const localCurrencyCode = useLocalCurrencyCode()
-  const currencySymbol = LocalCurrencySymbol[localCurrencyCode]
 
   const { currency } = route.params
-  const isStablecoin = currency !== Currency.Celo
-  const inputCurrencySymbol =
+
+  const currencySymbol =
     currency === Currency.Celo
       ? ''
       : currency === Currency.Dollar
       ? LocalCurrencySymbol.USD
       : LocalCurrencySymbol.EUR
 
+  const selectedCurrencyCashTag =
+    currency === Currency.Celo ? 'CELO' : currency === Currency.Dollar ? 'cUSD' : 'cEUR'
+
   const displayCurrencyKey =
     currency === Currency.Celo ? 'Celo' : currency === Currency.Dollar ? 'celoDollar' : 'celoEuro'
 
-  const dollarAmount = useDollarAmount(
-    currency,
-    parsedInputAmount,
-    localCurrencyExchangeRate,
-    localCurrencyCode,
-    exchangeRatePair
-  )
-
-  const dollarAmount = useCurrencyToLocalAmount
-  const localCurrencyAmount = useCurrencyToLocalAmount(parsedInputAmount, currency)
-
+  const balances = useSelector(balancesSelector)
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
-  const minAmountInLocalCurrency = useCurrencyToLocalAmount(
-    new BigNumber(DOLLAR_ADD_FUNDS_MIN_AMOUNT),
-    currency
-  )?.toFixed(0)
-  const maxAmountInLocalCurrency = useCurrencyToLocalAmount(
-    new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT),
-    currency
-  )?.toFixed(0)
+  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const currencyBalance = balances[currency] || new BigNumber(0)
+
+  const localCurrencyAmount =
+    useCurrencyToLocalAmount(currencyAmountRequested, currency) || new BigNumber(0)
+  const localCurrencyBalance =
+    useCurrencyToLocalAmount(currencyBalance, currency) || new BigNumber(0)
+
+  const currencyMaxAmount =
+    convertBetweenCurrencies(
+      new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT),
+      Currency.Dollar,
+      currency,
+      exchangeRates
+    ) || new BigNumber(0)
+
+  const currencyMinAmount =
+    convertBetweenCurrencies(
+      new BigNumber(DOLLAR_ADD_FUNDS_MIN_AMOUNT),
+      Currency.Dollar,
+      currency,
+      exchangeRates
+    ) || new BigNumber(0)
+
+  const currencyDailyLimitAmount =
+    convertBetweenCurrencies(
+      new BigNumber(dailyLimitCusd),
+      Currency.Dollar,
+      currency,
+      exchangeRates
+    ) || new BigNumber(0)
 
   const dispatch = useDispatch()
 
@@ -151,25 +129,30 @@ function FiatExchangeAmount({ route }: Props) {
   }, [])
 
   function isNextButtonValid() {
-    return dollarAmount.isGreaterThan(0)
+    return currencyAmountRequested.isGreaterThan(0)
   }
 
   function onChangeExchangeAmount(amount: string) {
-    setInputAmount(amount.replace(inputCurrencySymbol, ''))
+    setInputAmount(amount.replace(currencySymbol, ''))
   }
 
   function goToProvidersScreen() {
-    const selectedCrypto = route.params.currency
     const { isCashIn } = route.params
+
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_continue, {
+      amount: currencyAmountRequested.toNumber(),
+      currency,
+      isCashIn,
+    })
+
     navigate(Screens.ProviderOptionsScreen, {
       isCashIn,
-      selectedCrypto,
+      selectedCrypto: currency,
       amount: {
-        crypto:
-          selectedCrypto === Currency.Celo ? parsedInputAmount.toNumber() : dollarAmount.toNumber(),
+        crypto: currencyAmountRequested.toNumber(),
         // Rounding up to avoid decimal errors from providers. Won't be
         // necessary once we support inputting an amount in both crypto and fiat
-        fiat: Math.round(localCurrencyAmount?.toNumber() || 0),
+        fiat: Math.round(localCurrencyAmount.toNumber()),
       },
       paymentMethod: route.params.paymentMethod,
     })
@@ -185,37 +168,30 @@ function FiatExchangeAmount({ route }: Props) {
 
     if (route.params.isCashIn) {
       if (
-        dollarAmount.isLessThan(DOLLAR_ADD_FUNDS_MIN_AMOUNT) ||
-        dollarAmount.isGreaterThan(DOLLAR_ADD_FUNDS_MAX_AMOUNT)
+        currencyAmountRequested.isGreaterThan(currencyMaxAmount) ||
+        currencyAmountRequested.isLessThan(currencyMinAmount)
       ) {
         setShowingInvalidAmountDialog(true)
         ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_invalid_amount, {
-          dollarAmount,
+          amount: currencyAmountRequested.toNumber(),
+          currency,
         })
         return
       }
-      if (dollarAmount.isGreaterThan(dailyLimitCusd)) {
+      if (currencyAmountRequested.isGreaterThan(currencyDailyLimitAmount)) {
         setShowingDailyLimitDialog(true)
         return
       }
-
-      ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_continue, {
-        dollarAmount,
-      })
-    } else if (!balanceIsSufficient(currency, parsedInputAmount, balances)) {
-      const localBalance = balances[currency] || new BigNumber(0)
+    } else if (currencyBalance.isLessThan(currencyAmountRequested)) {
       dispatch(
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
-          balance: localBalance.toFixed(2),
+          balance: localCurrencyBalance.toFixed(2),
           currency: localCurrencyCode,
         })
       )
       return
     }
 
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_amount_continue, {
-      dollarAmount,
-    })
     goToProvidersScreen()
   }
 
@@ -237,12 +213,12 @@ function FiatExchangeAmount({ route }: Props) {
         actionPress={closeInvalidAmountDialog}
         testID={'invalidAmountDialog'}
       >
-        {dollarAmount.isLessThan(DOLLAR_ADD_FUNDS_MIN_AMOUNT)
-          ? t('invalidAmountDialog.minAmount', {
-              limit: `${currencySymbol}${minAmountInLocalCurrency}`,
+        {currencyAmountRequested.isGreaterThan(currencyMaxAmount)
+          ? t('invalidAmountDialog.maxAmount', {
+              limit: `${currencyMaxAmount.toFixed(0)} ${selectedCurrencyCashTag}`,
             })
-          : t('invalidAmountDialog.maxAmount', {
-              limit: `${currencySymbol}${maxAmountInLocalCurrency}`,
+          : t('invalidAmountDialog.minAmount', {
+              limit: `${currencyMinAmount.toFixed(0)} ${selectedCurrencyCashTag}`,
             })}
       </Dialog>
       <Dialog
@@ -258,7 +234,10 @@ function FiatExchangeAmount({ route }: Props) {
           <Trans
             i18nKey={'dailyLimitDialog.body'}
             ns={Namespaces.fiatExchangeFlow}
-            tOptions={{ limit: `${dailyLimitCusd} cUSD`, contactEmail: CELO_SUPPORT_EMAIL_ADDRESS }}
+            tOptions={{
+              limit: `${currencyDailyLimitAmount.toFixed(0)} ${selectedCurrencyCashTag}`,
+              contactEmail: CELO_SUPPORT_EMAIL_ADDRESS,
+            }}
           >
             <Text style={styles.emailLink} />
           </Trans>
@@ -279,12 +258,12 @@ function FiatExchangeAmount({ route }: Props) {
             autoFocus={true}
             keyboardType={'decimal-pad'}
             onChangeText={onChangeExchangeAmount}
-            value={inputAmount.length > 0 ? `${inputCurrencySymbol}${inputAmount}` : undefined}
+            value={inputAmount.length > 0 ? `${currencySymbol}${inputAmount}` : undefined}
             placeholderTextColor={colors.gray3}
-            placeholder={`${inputCurrencySymbol}0`}
+            placeholder={`${currencySymbol}0`}
             style={[
               styles.currencyInput,
-              isStablecoin ? styles.fiatCurrencyColor : styles.celoCurrencyColor,
+              currency !== Currency.Celo ? styles.fiatCurrencyColor : styles.celoCurrencyColor,
             ]}
             testID="FiatExchangeInput"
           />
@@ -315,7 +294,7 @@ function FiatExchangeAmount({ route }: Props) {
       )}
       <Button
         onPress={onPressContinue}
-        showLoading={exchangeRatePair === null}
+        showLoading={exchangeRates.cUSD === null}
         text={t('global:next')}
         type={BtnTypes.PRIMARY}
         accessibilityLabel={t('global:next')}
