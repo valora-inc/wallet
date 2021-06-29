@@ -263,7 +263,7 @@ function FiatExchangeAmount({ route }: Props) {
             placeholder={`${currencySymbol}0`}
             style={[
               styles.currencyInput,
-              currency !== Currency.Celo ? styles.fiatCurrencyColor : styles.celoCurrencyColor,
+              currency === Currency.Celo ? styles.celoCurrencyColor : styles.fiatCurrencyColor,
             ]}
             testID="FiatExchangeInput"
           />

@@ -464,7 +464,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
               }
             }
           >
-            global:amount
+            global:amount (cUSD)
           </Text>
         </View>
         <TextInput
@@ -535,7 +535,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
               ]
             }
           >
-            Celo Dollars @ 
+            celoDollar @ 
             <Text
               numberOfLines={1}
               style={
@@ -585,7 +585,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
             testID="undefined/value"
           >
             
-            0.00
+            -
           </Text>
         </Text>
       </View>
@@ -602,7 +602,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
       }
     }
   >
-    disclaimerCeloDollars
+    disclaimerFiat
   </Text>
   <View
     style={
