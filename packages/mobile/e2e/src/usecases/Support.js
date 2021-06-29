@@ -1,5 +1,5 @@
 import { dismissBanners } from '../utils/banners'
-import { pixelDiff, scrollIntoView } from '../utils/utils'
+import { pixelDiff, scrollIntoView, getDeviceModel } from '../utils/utils'
 
 export default Support = () => {
   beforeEach(async () => {
@@ -39,12 +39,7 @@ export default Support = () => {
     await element(by.id('MessageEntry')).typeText('This is a test from cLabs')
     await expect(element(by.id('MessageEntry'))).toHaveText('This is a test from cLabs')
     const imagePath = await device.takeScreenshot('Support')
-    await pixelDiff(
-      imagePath,
-      device.getPlatform() === 'ios'
-        ? './e2e/assets/Support - ios.png'
-        : './e2e/assets/Support - android.png'
-    )
+    await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Support.png`)
     // TODO: Email Client needed for emulators Send Request after briefing support if appropriate
   })
 }
