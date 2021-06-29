@@ -191,7 +191,7 @@ export async function quickOnboarding() {
   } catch {}
 }
 
-export async function pixelDiff(imagePath, expectedImagePath, acceptableDiffPercent = 5) {
+export async function pixelDiff(imagePath, expectedImagePath, acceptableDiffPercent = 2.5) {
   const img1 = PNG.sync.read(fs.readFileSync(imagePath))
   const img2 = PNG.sync.read(fs.readFileSync(expectedImagePath))
   const { width, height } = img1
@@ -250,4 +250,12 @@ export async function scrollIntoView(scrollTo, scrollIn, speed = 350, direction 
       .whileElement(by.id(scrollIn))
       .scroll(speed, direction)
   } catch {}
+}
+
+export async function getDeviceModel() {
+  let modelName
+  device.getPlatform() === 'ios'
+    ? (modelName = await JSON.parse(device.name.split(/\s(.+)/)[1]).type)
+    : (modelName = device.name.split(/\s(.+)/)[1].replace(/[(]|[)]/g, ''))
+  return modelName
 }
