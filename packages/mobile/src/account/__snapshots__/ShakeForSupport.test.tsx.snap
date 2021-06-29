@@ -160,6 +160,7 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
             "marginTop": 16,
           }
         }
+        testID="HavingTrouble"
       >
         accountScreen10:havingTrouble
       </Text>
@@ -175,6 +176,7 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
             "textAlign": "center",
           }
         }
+        testID="ShakeForSupport"
       >
         accountScreen10:shakeForSupport
       </Text>
@@ -411,6 +413,7 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
             "marginTop": 16,
           }
         }
+        testID="HavingTrouble"
       >
         accountScreen10:havingTrouble
       </Text>
@@ -426,6 +429,7 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
             "textAlign": "center",
           }
         }
+        testID="ShakeForSupport"
       >
         accountScreen10:shakeForSupport
       </Text>
