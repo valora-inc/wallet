@@ -100,5 +100,8 @@
   "storeRecoveryTitle": "Necesitamos que vuelvas a configurar tu cuenta",
   "storeRecoveryBody": "Ha habido un error. Estamos al tanto del problema y estamos trabajamos para solucionarlo. Mientras tanto, tendrás que volver a completar el proceso de configuración.",
   "storeRecoveryButton": "Restablecer cuenta",
+  "havingTrouble": "¿Tiene problemas?",
+  "shakeForSupport": "Este menú aparece cuando agita su dispositivo.",
+  "contactSupport": "Contactar Soporte",
   "tapToCopy": "Toca para copiar"
 }
