@@ -297,7 +297,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
       >
         
         
-        5.0010
+        6.0010
       </Text>
     </Text>
   </View>
@@ -391,7 +391,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
         }
       >
         
-        5.0010
+        6.0010
       </Text>
     </Text>
   </View>

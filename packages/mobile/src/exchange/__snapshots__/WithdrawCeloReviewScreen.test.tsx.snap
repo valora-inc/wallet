@@ -405,7 +405,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           >
             
             
-            5.0010
+            6.0010
           </Text>
         </Text>
       </View>
@@ -499,7 +499,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
             }
           >
             
-            5.0010
+            6.0010
           </Text>
         </Text>
       </View>
