@@ -92,7 +92,9 @@ function FiatExchange() {
         </ListItem>
         {features.SHOW_CASH_OUT ? (
           <ListItem onPress={goToCashOut}>
-            <Text style={styles.optionTitle}>{t('fiatExchangeFlow:cashOut')}</Text>
+            <Text testID="cashOut" style={styles.optionTitle}>
+              {t('fiatExchangeFlow:cashOut')}
+            </Text>
             <Text style={styles.optionSubtitle}>{t('fiatExchangeFlow:cashOutSubtitle')}</Text>
           </ListItem>
         ) : (
