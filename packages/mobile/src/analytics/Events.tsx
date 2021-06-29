@@ -241,6 +241,12 @@ export enum SendEvents {
   send_tx_start = 'send_tx_start',
   send_tx_complete = 'send_tx_complete', // when a send or invite transaction has successfully completed
   send_tx_error = 'send_tx_error', // when there is an error sending a transaction
+
+  // related to the alert that is shown when sending to an unknown address
+  check_account_alert_shown = 'check_account_alert_shown',
+  check_account_do_not_ask_selected = 'check_account_do_not_ask_selected',
+  check_account_alert_back = 'check_account_alert_back',
+  check_account_alerts_continue = 'check_account_alerts_continue',
 }
 
 export enum RequestEvents {
