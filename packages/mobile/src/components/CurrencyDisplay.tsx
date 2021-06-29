@@ -116,7 +116,7 @@ function getFormatFunction(formatType: FormatType): FormatFunction {
     case FormatType.NetworkFee:
       return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
         getNetworkFeeDisplayValue(amount)
-    case FormatType.NetworkFeePrecise:
+    case FormatType.NetworkFeePrecise: // this seems to never be used, could consider removing
       return (amount: BigNumber.Value, _currency?: CURRENCY_ENUM) =>
         getNetworkFeeDisplayValue(amount, true)
     case FormatType.ExchangeRate:

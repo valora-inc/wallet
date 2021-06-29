@@ -10,7 +10,7 @@ export const getMoneyDisplayValue = (
   includeSymbol: boolean = false,
   roundingTolerance: number = 1
 ): string => {
-  // TODO: remove the hardcoded ternary operation here when displayDecimals is updated from monorepo
+  // TODO: use new CURRENCIES enum when cEUR work is merged
   const decimals = currency === CURRENCY_ENUM.GOLD ? 4 : CURRENCIES[currency].displayDecimals
   const symbol = CURRENCIES[currency].symbol
   const formattedValue = roundDown(value, decimals, roundingTolerance).toFormat(decimals)
@@ -50,7 +50,7 @@ export const getFeeDisplayValue = (
   isCELO: boolean
 ): string => {
   if (!value || new BigNumber(value).isZero()) {
-    return ''
+    return '-'
   }
   const decimals = isCELO ? 4 : topLine ? 2 : 3
   const minDisplay = Math.pow(10, 0 - decimals)

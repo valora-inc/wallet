@@ -54,6 +54,10 @@ export default function FeeDrawer({
   const toggleExpanded = () => {
     LayoutAnimation.easeInEaseOut()
     setExpanded(!expanded)
+    console.log(expanded)
+    console.log(securityFee)
+    console.log(securityAmount)
+    console.log(currency)
   }
 
   const title = isEstimate ? t('feeEstimate') : t('feeActual')
@@ -93,14 +97,13 @@ export default function FeeDrawer({
     <View>
       <Touchable onPress={toggleExpanded} testID={testID}>
         <View style={styles.totalContainer}>
-          <Expandable isExpandable={hasNonZeroFees} isExpanded={expanded}>
+          <Expandable isExpandable={true} isExpanded={expanded}>
             <Text style={styles.title}>{title}</Text>
           </Expandable>
           <LineItemRow
             title={''}
             amount={
-              totalFeeAmount &&
-              !totalFeeAmount.value.isZero() && (
+              totalFeeAmount && (
                 <CurrencyDisplay
                   amount={totalFeeAmount}
                   formatType={FormatType.FeeTopLine}
@@ -152,25 +155,22 @@ export default function FeeDrawer({
               textStyle={styles.dropDownText}
             />
           )}
-
-          {!!securityAmount && !securityAmount?.value.isZero() && (
-            <LineItemRow
-              title={t('securityFee')}
-              titleIcon={<SecurityFeeIcon />}
-              amount={
-                securityAmount && (
-                  <CurrencyDisplay
-                    amount={securityAmount}
-                    formatType={FormatType.Fee}
-                    currencyInfo={currencyInfo}
-                  />
-                )
-              }
-              isLoading={feeLoading}
-              hasError={feeHasError}
-              textStyle={styles.dropDownText}
-            />
-          )}
+          <LineItemRow
+            title={t('securityFee')}
+            titleIcon={<SecurityFeeIcon />}
+            amount={
+              securityAmount && (
+                <CurrencyDisplay
+                  amount={securityAmount}
+                  formatType={FormatType.Fee}
+                  currencyInfo={currencyInfo}
+                />
+              )
+            }
+            isLoading={feeLoading}
+            hasError={feeHasError}
+            textStyle={styles.dropDownText}
+          />
         </View>
       )}
     </View>

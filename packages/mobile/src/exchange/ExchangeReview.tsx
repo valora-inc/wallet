@@ -184,8 +184,9 @@ export class ExchangeReview extends React.Component<Props, State> {
     }
     const totalFee = new BigNumber(tobinTax).plus(fee)
 
+    const displayTotalFee = getFeeDisplayValue(totalFee, true, false)
     const totalAmount = {
-      value: dollarAmount.plus(totalFee),
+      value: dollarAmount.plus(displayTotalFee),
       currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
     }
 
