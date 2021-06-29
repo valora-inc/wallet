@@ -16,6 +16,8 @@ import {
 } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
+import { SendEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Namespaces, withTranslation } from 'src/i18n'
 import {
   getRecipientFromAddress,
@@ -122,10 +124,12 @@ export class RecipientPicker extends React.Component<RecipientProps> {
 
   sendToUnknownAddress = (recipient: Recipient) => {
     this.setState({ isSendToAddressWarningVisible: true })
+    ValoraAnalytics.track(SendEvents.check_account_alert_shown)
   }
 
   onCancelWarning = () => {
     this.setState({ isSendToAddressWarningVisible: false })
+    ValoraAnalytics.track(SendEvents.check_account_alert_back)
   }
 
   renderSendToPhoneNumber = (displayNumber: string, e164PhoneNumber: string) => {
