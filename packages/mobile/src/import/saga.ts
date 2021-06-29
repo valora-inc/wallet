@@ -75,14 +75,15 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
           correctedPhrase: call(attemptBackupPhraseCorrection, normalizedPhrase),
           timeout: delay(MNEMONIC_AUTOCORRECT_TIMEOUT),
         })
-        if (timeout) {
-          Logger.info(TAG + '@importBackupPhraseSaga', 'Backup phrase autocorrection timed out')
-        }
         if (correctedPhrase) {
           Logger.info(TAG + '@importBackupPhraseSaga', 'Using suggested mnemonic autocorrection')
           mnemonic = correctedPhrase
           checkedBalance = true
         } else {
+          Logger.info(
+            TAG + '@importBackupPhraseSaga',
+            `Backup phrase autocorrection ${timeout ? 'timed out' : 'failed'}`
+          )
           ValoraAnalytics.track(OnboardingEvents.wallet_import_phrase_correction_failed, {
             timeout: timeout !== undefined,
           })

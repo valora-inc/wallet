@@ -150,7 +150,7 @@ export class ImportWallet extends React.Component<Props, State> {
     }
 
     this.setState({
-      backupPhrase: formatBackupPhraseOnEdit(input),
+      backupPhrase: updatedPhrase,
     })
   }
 
