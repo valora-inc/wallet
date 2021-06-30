@@ -626,7 +626,7 @@ export function* resendMessagesSaga() {
   Logger.debug(TAG, `@resendMessagesSaga has started`)
 
   const shouldUseKomenci = yield select(shouldUseKomenciSelector)
-  const status: OnChainVerificationStatus = yield select(verificationStatusSelector)
+  const status = yield select(verificationStatusSelector)
   ValoraAnalytics.track(VerificationEvents.verification_resend_messages, {
     count: status.numAttestationsRemaining,
     feeless: shouldUseKomenci,
@@ -641,9 +641,7 @@ export function* resendMessagesSaga() {
   yield put(setRevealStatuses(revealStatusesToUpdate))
   yield put(
     showMessage(
-      i18n.t('onboarding:verificationInput.sendingMessages', {
-        count: status.numAttestationsRemaining,
-      })
+      i18n.t('onboarding:verificationInput.sendingMessages', { count: nonConfirmedIssuers.length })
     )
   )
   yield put(revealAttestations())
