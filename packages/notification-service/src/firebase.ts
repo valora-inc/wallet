@@ -48,6 +48,10 @@ export function _setTestRegistrations(testRegistrations: Registrations) {
   registrations = testRegistrations
 }
 
+export function _setRewardsSenders(testRewardsSenders: string[]) {
+  rewardsSenders = testRewardsSenders
+}
+
 function firebaseFetchError(nodeKey: string) {
   return (errorObject: any) => {
     console.error(`${nodeKey} data read failed:`, errorObject.code)
