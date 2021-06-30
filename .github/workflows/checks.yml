@@ -78,16 +78,9 @@ jobs:
         run: yarn
       - name: Build Yarn packages
         run: yarn build --ignore docs
-      - name: Verify locales if using l10n/* branch
-        run: |
-          if [[ "${GITHUB_HEAD_REF#refs/heads/}" != l10n/* ]]; then
-            # We want to check translations only when they are complete
-            echo "Skipping translations check on non l10n branches"
-            exit 0
-          fi
-          cd packages/mobile
-          yarn --cwd packages/mobile test:verify-locales
       - name: Run mobile tests
-        run: |
-          mkdir -p test-results/jest
-          yarn --cwd packages/mobile test:ci
+        run: yarn --cwd packages/mobile test:ci
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v2
+        with:
+          path: packages/mobile/coverage/lcov-report
