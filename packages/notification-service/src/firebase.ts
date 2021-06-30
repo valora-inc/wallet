@@ -32,7 +32,6 @@ export interface Registrations {
 export interface KnownAddressInfo {
   name: string
   imageUrl?: string
-  isCeloRewardSender?: boolean
 }
 
 export interface AddressToDisplayNameType {
@@ -43,16 +42,10 @@ let registrations: Registrations = {}
 let lastBlockNotified: number = -1
 let lastInviteBlockNotified: number = -1
 
-let celoRewardsSenders: string[] = []
+let rewardsSenders: string[] = []
 
 export function _setTestRegistrations(testRegistrations: Registrations) {
   registrations = testRegistrations
-}
-
-export function updateCeloRewardsSenderAddresses(knownAddressesInfo: AddressToDisplayNameType) {
-  celoRewardsSenders = Object.entries(knownAddressesInfo)
-    .filter(([_, value]) => value?.isCeloRewardSender)
-    .map(([key, _]) => key)
 }
 
 function firebaseFetchError(nodeKey: string) {
@@ -117,11 +110,21 @@ export function initializeDb() {
     'value',
     (snapshot) => {
       const knownAddressesInfo: AddressToDisplayNameType = (snapshot && snapshot.val()) || {}
-      updateCeloRewardsSenderAddresses(knownAddressesInfo)
-      console.debug('Latest known addresses updated: ', celoRewardsSenders)
+      console.debug('Latest known addresses updated: ', knownAddressesInfo)
     },
     (errorObject: any) => {
       console.error('Known addresses data read failed:', errorObject.code)
+    }
+  )
+
+  database.ref('/rewardsSenders').on(
+    'value',
+    (snapshot) => {
+      rewardsSenders = (snapshot && snapshot.val()) || []
+      console.debug('Rewards senders updated: ', rewardsSenders)
+    },
+    (errorObject: any) => {
+      console.error('Rewards senders data read failed:', errorObject.code)
     }
   )
 }
@@ -187,11 +190,11 @@ export function setLastInviteBlockNotified(newBlock: number): Promise<void> | un
 }
 
 function notificationTitleAndBody(senderAddress: string, currency: Currencies) {
-  const isCeloReward = celoRewardsSenders.indexOf(senderAddress) >= 0
-  if (isCeloReward) {
+  const isRewardSender = rewardsSenders.indexOf(senderAddress) >= 0
+  if (isRewardSender) {
     return {
       title: 'rewardReceivedTitle',
-      body: 'paymentReceivedBody',
+      body: 'rewardReceivedBody',
     }
   }
   return {
@@ -271,7 +274,7 @@ export async function sendNotification(
   }
 
   try {
-    console.info(NOTIFICATIONS_TAG, 'Sending notification to:', address)
+    console.info(NOTIFICATIONS_TAG, 'Sending notification to:', address, title)
     const response = await admin.messaging().send(message, NOTIFICATIONS_DISABLED)
     console.info('Successfully sent notification for :', address, response)
 
