@@ -7,7 +7,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
-import { idle, KomenciAvailable } from 'src/verify/module'
+import { idle, KomenciAvailable } from 'src/verify/reducer'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 

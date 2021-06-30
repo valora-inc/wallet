@@ -573,6 +573,10 @@ interface SendEventsProperties {
     origin: TokenPickerOrigin
     token: string
   }
+  [SendEvents.check_account_alert_shown]: undefined
+  [SendEvents.check_account_do_not_ask_selected]: undefined
+  [SendEvents.check_account_alert_back]: undefined
+  [SendEvents.check_account_alerts_continue]: undefined
 }
 
 interface RequestEventsProperties {
