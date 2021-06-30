@@ -79,7 +79,7 @@ jobs:
       - name: Build Yarn packages
         run: yarn build --ignore docs
       - name: Run mobile tests
-        run: NODE_OPTIONS="--max-old-space-size=2048" yarn --cwd packages/mobile test:ci
+        run: yarn --cwd packages/mobile test:ci --runInBand
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v2
         with:
