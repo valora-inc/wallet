@@ -3,8 +3,9 @@ import { PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
-import { idle, KomenciAvailable, NUM_ATTESTATIONS_REQUIRED } from 'src/verify/module'
+import { idle, KomenciAvailable } from 'src/verify/reducer'
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -642,6 +643,21 @@ export const v14Schema = {
   },
 }
 
+export const v15Schema = {
+  ...v14Schema,
+  _persist: {
+    ...v14Schema._persist,
+    version: 15,
+  },
+  // Here we go back to the v9 test schema (i.e. migration 12, app version 1.14.3), because we reverted the verification PR which broke completion rate
+  identity: {
+    ...v9Schema.identity,
+  },
+  verify: {
+    ...v9Schema.verify,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v14Schema as Partial<RootState>
+  return v15Schema as Partial<RootState>
 }
