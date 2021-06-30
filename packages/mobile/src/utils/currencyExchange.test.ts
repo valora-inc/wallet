@@ -7,19 +7,9 @@ import {
   getRateForMakerToken,
   getTakerAmount,
 } from 'src/utils/currencyExchange'
-import { emptyExchangeRates } from 'test/values'
+import { makeExchangeRates } from 'test/values'
 
-const exchangeRates: ExchangeRates = {
-  ...emptyExchangeRates,
-  [Currency.Celo]: {
-    ...emptyExchangeRates[Currency.Celo],
-    [Currency.Dollar]: '0.11',
-  },
-  [Currency.Dollar]: {
-    ...emptyExchangeRates[Currency.Dollar],
-    [Currency.Celo]: '10',
-  },
-}
+const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
 
 describe('getRateForMakerToken', () => {
   it('when DOLLAR returns exchange rate', () => {

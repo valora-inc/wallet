@@ -43,8 +43,8 @@ function* getWeiPerUnit(token: Currency) {
 }
 
 export function* convertFromContractDecimals(value: BigNumber, token: Currency) {
-  const weiPerUnit: BigNumber | null = yield call(getWeiPerUnit, token)
-  return weiPerUnit ? value.dividedBy(weiPerUnit) : value
+  const weiPerUnit: BigNumber = yield call(getWeiPerUnit, token)
+  return value.dividedBy(weiPerUnit)
 }
 
 export function* convertToContractDecimals(value: BigNumber, token: Currency) {

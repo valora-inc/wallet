@@ -22,7 +22,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import CurrencyDisplay, { getFullCurrencyName } from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
-import { DOLLAR_TRANSACTION_MIN_AMOUNT, GOLD_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { GOLD_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeTradeScreenHeader from 'src/exchange/ExchangeScreenHeader'
 import { ExchangeRates, exchangeRatesSelector } from 'src/exchange/reducer'
@@ -46,6 +46,7 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { balancesSelector, defaultCurrencySelector } from 'src/stableToken/selectors'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { getRateForMakerToken, getTakerAmount } from 'src/utils/currencyExchange'
+import Logger from 'src/utils/Logger'
 
 const { decimalSeparator } = getNumberFormatSettings()
 
@@ -112,15 +113,14 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
       transferCurrency: defaultCurrency,
     })
 
-    const balanceIsMissing = Object.keys(CURRENCIES).some(
-      (currency) => balances[currency as Currency] === null
-    )
-    if (balanceIsMissing) {
+    const sellToken = buyCelo ? defaultCurrency : Currency.Celo
+    if (!balances[sellToken]) {
+      Logger.error('ExchangeTradeScreen', `${sellToken} balance is missing. Should never happen`)
       this.props.showError(ErrorMessages.FETCH_FAILED)
       navigateBack()
       return
     }
-    const sellToken = buyCelo ? defaultCurrency : Currency.Celo
+
     this.props.fetchExchangeRate(sellToken, balances[sellToken]!)
   }
 
@@ -237,7 +237,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
     const amountIsInvalid =
       !this.inputAmountIsValid(tokenAmount) ||
       tokenAmount.isLessThan(
-        this.isLocalCurrencyInput() ? DOLLAR_TRANSACTION_MIN_AMOUNT : GOLD_TRANSACTION_MIN_AMOUNT
+        this.isLocalCurrencyInput() ? STABLE_TRANSACTION_MIN_AMOUNT : GOLD_TRANSACTION_MIN_AMOUNT
       )
 
     const exchangeRate = getRateForMakerToken(

@@ -446,14 +446,17 @@ export const mockWallet: UnlockableWallet = {
   computeSharedSecret: jest.fn(),
 }
 
-export const emptyExchangeRates: ExchangeRates = {
+export const makeExchangeRates = (
+  celoToDollarExchangeRate: string,
+  dollarToCeloExchangeRate: string
+): ExchangeRates => ({
   [Currency.Celo]: {
-    [Currency.Dollar]: '',
+    [Currency.Dollar]: celoToDollarExchangeRate,
     [Currency.Euro]: '',
     [Currency.Celo]: '',
   },
   [Currency.Dollar]: {
-    [Currency.Celo]: '',
+    [Currency.Celo]: dollarToCeloExchangeRate,
     [Currency.Euro]: '',
     [Currency.Dollar]: '',
   },
@@ -462,4 +465,4 @@ export const emptyExchangeRates: ExchangeRates = {
     [Currency.Euro]: '',
     [Currency.Dollar]: '',
   },
-}
+})

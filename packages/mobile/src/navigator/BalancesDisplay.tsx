@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
-import { EURO_TRANSACTION_MIN_AMOUNT, GOLD_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { GOLD_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { RootState } from 'src/redux/reducers'
 import useSelector from 'src/redux/useSelector'
@@ -24,8 +24,8 @@ export function BalancesDisplay() {
   const euroAmount = useAmount(Currency.Euro, cEurBalanceSelector)
   const celoAmount = useAmount(Currency.Celo, celoTokenBalanceSelector)
 
-  const hasEurBalance = euroAmount.value.isGreaterThan(GOLD_TRANSACTION_MIN_AMOUNT)
-  const hasCeloBalance = celoAmount.value.isGreaterThan(EURO_TRANSACTION_MIN_AMOUNT)
+  const hasEurBalance = euroAmount.value.isGreaterThan(STABLE_TRANSACTION_MIN_AMOUNT)
+  const hasCeloBalance = celoAmount.value.isGreaterThan(GOLD_TRANSACTION_MIN_AMOUNT)
 
   return (
     <>

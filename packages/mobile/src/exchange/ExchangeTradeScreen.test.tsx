@@ -9,21 +9,11 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockI18nProps, getMockStackScreenProps } from 'test/utils'
-import { emptyExchangeRates } from 'test/values'
+import { makeExchangeRates } from 'test/values'
 
 jest.mock('src/components/useShowOrHideAnimation')
 
-const exchangeRates: ExchangeRates = {
-  ...emptyExchangeRates,
-  [Currency.Celo]: {
-    ...emptyExchangeRates[Currency.Celo],
-    [Currency.Dollar]: '0.11',
-  },
-  [Currency.Dollar]: {
-    ...emptyExchangeRates[Currency.Dollar],
-    [Currency.Celo]: '9.09090909',
-  },
-}
+const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '9.09090909')
 
 const store = createMockStore({
   exchange: {
@@ -225,7 +215,7 @@ describe(ExchangeTradeScreen, () => {
     fireEvent.changeText(getByTestId('ExchangeInput'), '0.001')
     expect(getByTestId('ExchangeReviewButton').props.disabled).toBe(true)
 
-    // This is the minimum amount when exchanging dollars (see DOLLAR_TRANSACTION_MIN_AMOUNT)
+    // This is the minimum amount when exchanging dollars (see STABLE_TRANSACTION_MIN_AMOUNT)
     fireEvent.changeText(getByTestId('ExchangeInput'), '0.01')
     expect(getByTestId('ExchangeReviewButton').props.disabled).toBe(false)
   })

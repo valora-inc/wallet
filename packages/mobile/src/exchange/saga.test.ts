@@ -23,7 +23,7 @@ import {
   unlockAccount,
   UnlockResult,
 } from 'src/web3/saga'
-import { emptyExchangeRates } from 'test/values'
+import { makeExchangeRates } from 'test/values'
 
 const SELL_AMOUNT = 50 // in dollars/gold (not wei)
 const account = '0x22c8a9178841ba95a944afd1a1faae517d3f5daa'
@@ -58,7 +58,7 @@ describe(doFetchTobinTax, () => {
 })
 
 describe(exchangeGoldAndStableTokens, () => {
-  it.only('makes the exchange', async () => {
+  it('makes the exchange', async () => {
     const exchangeGoldAndStableTokensAction: ExchangeTokensAction = {
       type: Actions.EXCHANGE_TOKENS,
       makerToken: Currency.Celo,
@@ -68,20 +68,7 @@ describe(exchangeGoldAndStableTokens, () => {
     await expectSaga(exchangeGoldAndStableTokens, exchangeGoldAndStableTokensAction)
       .provide([
         [call(getConnectedUnlockedAccount), account],
-        [
-          select(exchangeRatesSelector),
-          {
-            ...emptyExchangeRates,
-            [Currency.Celo]: {
-              ...emptyExchangeRates[Currency.Celo],
-              [Currency.Dollar]: '2',
-            },
-            [Currency.Dollar]: {
-              ...emptyExchangeRates[Currency.Dollar],
-              [Currency.Celo]: '0.5',
-            },
-          },
-        ],
+        [select(exchangeRatesSelector), makeExchangeRates('2', '0.5')],
         [matchers.call.fn(sendTransaction), true],
         [matchers.call.fn(sendAndMonitorTransaction), { receipt: true, error: undefined }],
       ])

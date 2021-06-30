@@ -6,23 +6,13 @@ import { ExchangeRates } from 'src/exchange/reducer'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { emptyExchangeRates } from 'test/values'
+import { makeExchangeRates } from 'test/values'
 
 // Mock this for now, as we get apollo issues
 jest.mock('src/transactions/TransactionsList')
 
 const mockScreenProps = getMockStackScreenProps(Screens.ExchangeHomeScreen)
-const exchangeRates: ExchangeRates = {
-  ...emptyExchangeRates,
-  [Currency.Celo]: {
-    ...emptyExchangeRates[Currency.Celo],
-    [Currency.Dollar]: '0.11',
-  },
-  [Currency.Dollar]: {
-    ...emptyExchangeRates[Currency.Dollar],
-    [Currency.Celo]: '10',
-  },
-}
+const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
 
 describe('ExchangeHomeScreen', () => {
   it('renders and behaves correctly for non CP-DOTO restricted countries', () => {

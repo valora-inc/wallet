@@ -16,19 +16,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { emptyExchangeRates } from 'test/values'
+import { makeExchangeRates } from 'test/values'
 
-const exchangeRates: ExchangeRates = {
-  ...emptyExchangeRates,
-  [Currency.Celo]: {
-    ...emptyExchangeRates[Currency.Celo],
-    [Currency.Dollar]: '0.5',
-  },
-  [Currency.Dollar]: {
-    ...emptyExchangeRates[Currency.Dollar],
-    [Currency.Celo]: '1',
-  },
-}
+const exchangeRates: ExchangeRates = makeExchangeRates('0.5', '1')
 const usdToPHPExchangeRate = 50
 
 const storeWithUSD = createMockStore({

@@ -7,19 +7,9 @@ import { ExchangeRates } from 'src/exchange/reducer'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
-import { emptyExchangeRates } from 'test/values'
+import { makeExchangeRates } from 'test/values'
 
-const exchangeRates: ExchangeRates = {
-  ...emptyExchangeRates,
-  [Currency.Celo]: {
-    ...emptyExchangeRates[Currency.Celo],
-    [Currency.Dollar]: '0.11',
-  },
-  [Currency.Dollar]: {
-    ...emptyExchangeRates[Currency.Dollar],
-    [Currency.Celo]: '10',
-  },
-}
+const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
 
 // This avoids rendering WalletHome as we're mostly interested in testing the menu here
 jest.mock('src/home/WalletHome')

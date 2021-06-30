@@ -674,6 +674,7 @@ export const v15Schema = {
   exchange: {
     ...v14Schema.exchange,
     exchangeRates: null,
+    exchangeRatePair: undefined,
   },
 }
 

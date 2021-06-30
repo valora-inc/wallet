@@ -8,7 +8,7 @@ import { StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { DOLLAR_TRANSACTION_MIN_AMOUNT, GOLD_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { GOLD_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { exchangeRatesSelector } from 'src/exchange/reducer'
 import { Namespaces } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
@@ -27,7 +27,7 @@ export default function CeloExchangeButtons({ navigation }: Props) {
   const exchangeRates = useSelector(exchangeRatesSelector)
 
   const hasStable = STABLE_CURRENCIES.some((currency) =>
-    balances[currency]?.isGreaterThan(DOLLAR_TRANSACTION_MIN_AMOUNT)
+    balances[currency]?.isGreaterThan(STABLE_TRANSACTION_MIN_AMOUNT)
   )
   const hasGold = balances[Currency.Celo]?.isGreaterThan(GOLD_TRANSACTION_MIN_AMOUNT)
 

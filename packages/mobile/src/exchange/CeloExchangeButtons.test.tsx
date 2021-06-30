@@ -7,19 +7,9 @@ import { ExchangeRates } from 'src/exchange/reducer'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { emptyExchangeRates } from 'test/values'
+import { makeExchangeRates } from 'test/values'
 
-const exchangeRates: ExchangeRates = {
-  ...emptyExchangeRates,
-  [Currency.Celo]: {
-    ...emptyExchangeRates[Currency.Celo],
-    [Currency.Dollar]: '0.11',
-  },
-  [Currency.Dollar]: {
-    ...emptyExchangeRates[Currency.Dollar],
-    [Currency.Celo]: '10',
-  },
-}
+const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
 
 const mockScreenProps = getMockStackScreenProps(Screens.ExchangeHomeScreen)
 

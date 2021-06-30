@@ -156,6 +156,7 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
       return rates
     }, {} as Record<Currency, Record<Currency, string>>)
 
+    // TODO: Consider making all the fetches for exchange rates in parallel to reduce the time this loop takes.
     for (let i = 0; i < STABLE_CURRENCIES.length; i++) {
       const stableCurrency = STABLE_CURRENCIES[i]
       const exchange = exchangeContracts[i]

@@ -16,6 +16,7 @@ import FeeDrawer from 'src/components/FeeDrawer'
 import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { exchangeTokens, fetchExchangeRate, fetchTobinTax } from 'src/exchange/actions'
+import { ExchangeRates } from 'src/exchange/reducer'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
@@ -28,7 +29,7 @@ import { Currency } from 'src/utils/currencies'
 import { getRateForMakerToken } from 'src/utils/currencyExchange'
 
 interface StateProps {
-  exchangeRates: Record<Currency, Record<Currency, string>> | null
+  exchangeRates: ExchangeRates | null
   tobinTax: BigNumber
   fee: BigNumber
   appConnected: boolean
