@@ -19,7 +19,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { waitFor } from 'src/redux/sagas-helpers'
 import { cUsdBalanceSelector } from 'src/stableToken/selectors'
-import { fetchKomenciSession, getKomenciKit } from 'src/verify/komenci'
 import {
   doVerificationFlow,
   e164NumberSelector,
@@ -46,9 +45,11 @@ import {
   checkIfKomenciAvailableSaga,
   failSaga,
   fetchKomenciReadiness,
+  fetchKomenciSession,
   fetchOnChainDataSaga,
   fetchOrDeployMtwSaga,
   fetchPhoneNumberDetailsSaga,
+  getKomenciKit,
   resetSaga,
   startSaga,
 } from 'src/verify/saga'
@@ -226,7 +227,12 @@ describe(startSaga, () => {
     await reduxSagaTestPlan
       .expectSaga(startSaga, { payload: withoutRevealing })
       .provide([
-        [call(navigate, Screens.VerificationLoadingScreen), null],
+        [
+          call(navigate, Screens.VerificationLoadingScreen, {
+            withoutRevealing,
+          }),
+          null,
+        ],
         [call(waitFor, cUsdBalanceSelector), 1],
         [call(waitFor, celoTokenBalanceSelector), 1],
         [delay(BALANCE_CHECK_TIMEOUT), true],
@@ -247,7 +253,12 @@ describe(startSaga, () => {
     await reduxSagaTestPlan
       .expectSaga(startSaga, { payload: withoutRevealing })
       .provide([
-        [call(navigate, Screens.VerificationLoadingScreen), null],
+        [
+          call(navigate, Screens.VerificationLoadingScreen, {
+            withoutRevealing,
+          }),
+          null,
+        ],
         [call(waitFor, cUsdBalanceSelector), 1],
         [call(waitFor, celoTokenBalanceSelector), 1],
         [delay(BALANCE_CHECK_TIMEOUT), true],
