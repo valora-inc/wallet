@@ -3,12 +3,13 @@ import 'react-native'
 import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import CeloExchangeButtons from 'src/exchange/CeloExchangeButtons'
-import { ExchangeRatePair } from 'src/exchange/reducer'
+import { ExchangeRates } from 'src/exchange/reducer'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { makeExchangeRates } from 'test/values'
 
-const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.11', dollarMaker: '10' }
+const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
 
 const mockScreenProps = getMockStackScreenProps(Screens.ExchangeHomeScreen)
 
@@ -17,7 +18,7 @@ describe('CeloExchangeButtons', () => {
     const store = createMockStore({
       goldToken: { balance: '10' },
       stableToken: { balances: { [Currency.Dollar]: '10' } },
-      exchange: { exchangeRatePair },
+      exchange: { exchangeRates },
     })
 
     const tree = render(
@@ -32,7 +33,7 @@ describe('CeloExchangeButtons', () => {
     const store = createMockStore({
       goldToken: { balance: '10' },
       stableToken: { balances: { [Currency.Dollar]: '0' } },
-      exchange: { exchangeRatePair },
+      exchange: { exchangeRates },
     })
 
     const tree = render(
@@ -47,7 +48,7 @@ describe('CeloExchangeButtons', () => {
     const store = createMockStore({
       goldToken: { balance: '0' },
       stableToken: { balances: { [Currency.Dollar]: '10' } },
-      exchange: { exchangeRatePair },
+      exchange: { exchangeRates },
     })
 
     const tree = render(
@@ -62,7 +63,7 @@ describe('CeloExchangeButtons', () => {
     const store = createMockStore({
       goldToken: { balance: '0' },
       stableToken: { balances: { [Currency.Dollar]: '0' } },
-      exchange: { exchangeRatePair },
+      exchange: { exchangeRates },
     })
 
     const tree = render(

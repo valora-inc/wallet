@@ -12,7 +12,7 @@ import {
   WithdrawCeloAction,
   withdrawCeloCanceled,
 } from 'src/exchange/actions'
-import { exchangeRatePairSelector } from 'src/exchange/reducer'
+import { exchangeRatesSelector } from 'src/exchange/reducer'
 import { doFetchTobinTax, exchangeGoldAndStableTokens, withdrawCelo } from 'src/exchange/saga'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
@@ -23,6 +23,7 @@ import {
   unlockAccount,
   UnlockResult,
 } from 'src/web3/saga'
+import { makeExchangeRates } from 'test/values'
 
 const SELL_AMOUNT = 50 // in dollars/gold (not wei)
 const account = '0x22c8a9178841ba95a944afd1a1faae517d3f5daa'
@@ -57,22 +58,17 @@ describe(doFetchTobinTax, () => {
 })
 
 describe(exchangeGoldAndStableTokens, () => {
-  it.only('makes the exchange', async () => {
+  it('makes the exchange', async () => {
     const exchangeGoldAndStableTokensAction: ExchangeTokensAction = {
       type: Actions.EXCHANGE_TOKENS,
       makerToken: Currency.Celo,
+      takerToken: Currency.Dollar,
       makerAmount: new BigNumber(SELL_AMOUNT),
     }
     await expectSaga(exchangeGoldAndStableTokens, exchangeGoldAndStableTokensAction)
       .provide([
         [call(getConnectedUnlockedAccount), account],
-        [
-          select(exchangeRatePairSelector),
-          {
-            goldMaker: '2',
-            dollarMaker: '0.5',
-          },
-        ],
+        [select(exchangeRatesSelector), makeExchangeRates('2', '0.5')],
         [matchers.call.fn(sendTransaction), true],
         [matchers.call.fn(sendAndMonitorTransaction), { receipt: true, error: undefined }],
       ])
@@ -103,6 +99,7 @@ describe(exchangeGoldAndStableTokens, () => {
       type: Actions.EXCHANGE_TOKENS,
       makerToken: Currency.Celo,
       makerAmount: new BigNumber(SELL_AMOUNT),
+      takerToken: Currency.Dollar,
     }
     await expectSaga(exchangeGoldAndStableTokens, exchangeGoldAndStableTokensAction)
       .provide([

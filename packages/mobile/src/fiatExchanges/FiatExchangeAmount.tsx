@@ -30,7 +30,7 @@ import {
   DOLLAR_ADD_FUNDS_MIN_AMOUNT,
 } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
-import { ExchangeRatePair, exchangeRatePairSelector } from 'src/exchange/reducer'
+import { ExchangeRates, exchangeRatesSelector } from 'src/exchange/reducer'
 import i18n, { Namespaces } from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
@@ -71,7 +71,7 @@ const useDollarAmount = (
   amount: BigNumber,
   localExchangeRate: string | null | undefined,
   localCurrencyCode: LocalCurrencyCode,
-  exchangeRatePair: ExchangeRatePair | null
+  exchangeRates: ExchangeRates | null
 ) => {
   if (currency === Currency.Dollar) {
     const localAmount = amount.isNaN() ? new BigNumber(0) : amount
@@ -81,7 +81,7 @@ const useDollarAmount = (
     )
     return convertToMaxSupportedPrecision(dollarAmount ?? new BigNumber('0'))
   } else {
-    const exchangeRate = getRateForMakerToken(exchangeRatePair, Currency.Dollar, Currency.Celo)
+    const exchangeRate = getRateForMakerToken(exchangeRates, Currency.Dollar, Currency.Celo)
     return goldToDollarAmount(amount, exchangeRate) || new BigNumber(0)
   }
 }
@@ -98,7 +98,7 @@ function FiatExchangeAmount({ route }: Props) {
 
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
-  const exchangeRatePair = useSelector(exchangeRatePairSelector)
+  const exchangeRates = useSelector(exchangeRatesSelector)
   const localCurrencyExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const cUSDBalance = useSelector(cUsdBalanceSelector)
   const localCurrencyCode = useLocalCurrencyCode()
@@ -113,7 +113,7 @@ function FiatExchangeAmount({ route }: Props) {
     parsedInputAmount,
     localCurrencyExchangeRate,
     localCurrencyCode,
-    exchangeRatePair
+    exchangeRates
   )
 
   const localCurrencyAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
@@ -306,7 +306,7 @@ function FiatExchangeAmount({ route }: Props) {
       )}
       <Button
         onPress={onPressContinue}
-        showLoading={exchangeRatePair === null}
+        showLoading={exchangeRates === null}
         text={t('global:next')}
         type={BtnTypes.PRIMARY}
         accessibilityLabel={t('global:next')}

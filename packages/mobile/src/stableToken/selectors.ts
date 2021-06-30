@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { createSelector } from 'reselect'
-import { DOLLAR_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
@@ -41,7 +41,7 @@ export const defaultCurrencySelector = createSelector(
   (state: RootState) => state.send.lastUsedCurrency,
   (balances, exchangeRates, lastCurrency) => {
     if (
-      balances[lastCurrency]?.gt(DOLLAR_TRANSACTION_MIN_AMOUNT) &&
+      balances[lastCurrency]?.gt(STABLE_TRANSACTION_MIN_AMOUNT) &&
       exchangeRates[lastCurrency] !== null
     ) {
       return lastCurrency

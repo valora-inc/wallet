@@ -26,7 +26,6 @@ exports[`SendConfirmation renders correctly 1`] = `
           "alignItems": "center",
           "height": "100%",
           "justifyContent": "center",
-          "padding": 16,
         }
       }
     >

@@ -7,7 +7,7 @@ export enum ErrorMessages {
   PIN_INPUT_CANCELED = 'pinInputCanceled',
   SET_PIN_FAILED = 'setPinFailed',
   NSF_GOLD = 'notEnoughGoldError',
-  NSF_DOLLARS = 'notEnoughDollarsError',
+  NSF_STABLE = 'notEnoughStableError',
   NSF_TO_SEND = 'needMoreFundsToSend',
   INSUFFICIENT_BALANCE = 'insufficientBalance',
   INVALID_AMOUNT = 'invalidAmount',

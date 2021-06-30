@@ -13,7 +13,7 @@ import { showError } from 'src/alert/actions'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AmountKeypad from 'src/components/AmountKeypad'
-import { ALERT_BANNER_DURATION, DOLLAR_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { ALERT_BANNER_DURATION, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { Namespaces } from 'src/i18n'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
@@ -113,7 +113,7 @@ function SendAmount(props: Props) {
 
   const onReviewButtonPressed = () => setReviewButtonPressed(true)
 
-  const isAmountValid = parsedLocalAmount.isGreaterThanOrEqualTo(DOLLAR_TRANSACTION_MIN_AMOUNT)
+  const isAmountValid = parsedLocalAmount.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT)
 
   return (
     <SafeAreaView style={styles.container}>

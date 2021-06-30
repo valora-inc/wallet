@@ -10,7 +10,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   ALERT_BANNER_DURATION,
   DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
-  DOLLAR_TRANSACTION_MIN_AMOUNT,
+  STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
 import { getFeeEstimateDollars } from 'src/fees/selectors'
 import { AddressValidationType, secureSendPhoneNumberMappingSelector } from 'src/identity/reducer'
@@ -134,7 +134,7 @@ function useTransactionCallbacks({
       .minus(amountInStableCurrency)
       .minus(estimateFeeInStableCurrency ?? 0)
 
-    const isAmountValid = localAmount.isGreaterThanOrEqualTo(DOLLAR_TRANSACTION_MIN_AMOUNT)
+    const isAmountValid = localAmount.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT)
     const isStableTokenBalanceSufficient = isAmountValid && newAccountBalance.isGreaterThan(0)
 
     if (!isStableTokenBalanceSufficient) {
