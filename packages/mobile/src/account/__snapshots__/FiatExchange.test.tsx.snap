@@ -273,6 +273,7 @@ exports[`FiatExchange renders correctly 1`] = `
                 "lineHeight": 22,
               }
             }
+            testID="cashOut"
           >
             fiatExchangeFlow:cashOut
           </Text>
