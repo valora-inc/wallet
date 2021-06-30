@@ -194,7 +194,7 @@ export class BlockscoutAPI extends RESTDataSource {
     })
 
     console.info(
-      `[Celo] getTokenTransactions address=${args.address} token=${token} localCurrencyCode=${args.localCurrencyCode}} rawTransactionCount=${rawTransactions.length} eventCount=${events.length}`
+      `[Celo] getTokenTransactions address=${args.address} tokens=${tokens} localCurrencyCode=${args.localCurrencyCode}} rawTransactionCount=${rawTransactions.length} eventCount=${events.length}`
     )
 
     return events
