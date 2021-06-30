@@ -42,6 +42,7 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
+import { updateLastUsedCurrency } from 'src/send/actions'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { balancesSelector, defaultCurrencySelector } from 'src/stableToken/selectors'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
@@ -76,6 +77,7 @@ interface DispatchProps {
   fetchExchangeRate: typeof fetchExchangeRate
   showError: typeof showError
   hideAlert: typeof hideAlert
+  updateLastUsedCurrency: typeof updateLastUsedCurrency
 }
 
 type OwnProps = StackScreenProps<StackParamList, Screens.ExchangeTradeScreen>
@@ -180,6 +182,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
       inputTokenDisplayName: this.getInputTokenDisplayText(),
       inputAmount,
     })
+    this.props.updateLastUsedCurrency(transferCurrency)
   }
 
   hasError = () => {
@@ -432,6 +435,7 @@ export default connect<StateProps, DispatchProps, OwnProps, RootState>(mapStateT
   fetchExchangeRate,
   showError,
   hideAlert,
+  updateLastUsedCurrency,
 })(withTranslation<Props>(Namespaces.exchangeFlow9)(ExchangeTradeScreen))
 
 const styles = StyleSheet.create({
