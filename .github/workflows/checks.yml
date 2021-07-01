@@ -79,7 +79,9 @@ jobs:
       - name: Build Yarn packages
         run: yarn build --ignore docs
       - name: Run mobile tests
-        run: yarn --cwd packages/mobile test:ci --runInBand
+        run: |
+          mkdir -p test-results/jest
+          yarn --cwd packages/mobile test:ci --runInBand
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v2
         with:
