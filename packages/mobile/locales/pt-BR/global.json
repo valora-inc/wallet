@@ -2,7 +2,7 @@
   "accept": "Aceitar",
   "at": "em",
   "yourClockIsBroke": "A data e a hora do seu celular estão imprecisas",
-  "adjustYourClock": "Defina a hora correta ou configure seu relógio para ajustar a hora automaticamente.",
+  "adjustYourClock": "Set the correct time or adjust your clock to read time automatically.",
   "adjustDate": "Ajustar data",
   "submit": "Enviar",
   "continue": "Continuar",
@@ -192,10 +192,10 @@
   "countryNotAvailable": "A {{appName}} não está disponível em seu país",
   "firebaseFetchFailed": "A conexão com o servidor falhou",
   "pictureLoadFailed": "Ocorreu um erro ao carregar sua imagem",
-  "simplexPurchaseFetchFailed": "Ocorreu um erro ao recuperar a cotação do Simplex. Tente novamente mais tarde",
-  "providerFetchFailed": "Não foi possível conectar ao serviço. Entre em contato o suporte",
+  "simplexPurchaseFetchFailed": "Failed to retreive a quote from Simplex. Please try again later",
+  "providerFetchFailed": "Could not connect to service. Please contact support",
   "ok": "OK",
   "cashOutLimitExceeded": "Você não pode sacar mais do que o seu saldo de {{currency}} {{balance}}",
-  "appDescription": "Uma conta de pagamentos móveis que funciona em todo o mundo",
-  "earn": "Ganhar"
+  "appDescription": "A mobile payments wallet that works worldwide",
+  "earn": "Earn"
 }
