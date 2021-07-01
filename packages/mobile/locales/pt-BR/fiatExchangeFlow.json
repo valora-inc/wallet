@@ -51,25 +51,25 @@
   },
   "providerFeesDialog": {
     "title": "Taxas de provedor",
-    "body1": "As taxas de provedor são definidas individualmente por cada provedor e incluem uma taxa de câmbio e uma de liquidez, entre outras. Para saber mais, visite ",
-    "body2": "Site do provedor {{providerName}}"
+    "body1": "Provider fees are set by each provider individually and include an exchange fee and liquidity fee, among others. To learn more please visit ",
+    "body2": "{{providerName}}'s website"
   },
   "providerFeeDiscountDialog": {
-    "title": "Desconto da taxa",
-    "body": "Como oferta especial de lançamento, as taxas são oferecidas momentaneamente pela Valora!"
+    "title": "Fee Discount",
+    "body": "As a promotion, fees are temporarily subsidized to celebrate the launch of Valora!"
   },
   "dailyLimitRequest": "Olá! Eu gostaria de aumentar meu limite de envio diário, por favor.",
   "pleaseSelectProvider": "Por favor, selecione um provedor. Esses links são conectados a serviços de terceiros.",
   "otherFundingOptions": "Para conhecer mais maneiras de adicionar e sacar fundos, visite <0>Como adicionar fundos à sua conta</0>",
-  "youCanTransfer": "Você pode transferir {{currency}} de ou para as seguintes corretoras. Você precisará do seu Número da Conta (também conhecido como endereço).",
+  "youCanTransfer": "You can transfer {{currency}} to or from the following exchanges. You'll need your Account Number (also known as an address).",
   "useBalanceWithMerchants": "Use seu saldo com comerciantes apoiadores",
   "findMerchants": "Encontre comerciantes locais perto de você",
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
   "providerUnavailable": "Não disponível no momento",
   "pricePer": "Preço por {{coin}}",
-  "feeDiscount": "Desconto da taxa",
-  "free": "GRÁTIS",
+  "feeDiscount": "Fee Discount",
+  "free": "FREE",
   "continueToProvider": "Continuar para {{provider}}",
   "cicoSuccess": {
     "title": "Ordem enviada!",
