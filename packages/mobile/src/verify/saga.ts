@@ -194,6 +194,7 @@ function* startOrResumeKomenciSessionSaga() {
   })
 
   Logger.debug(TAG, '@startOrResumeKomenciSession', 'Starting session')
+  ValoraAnalytics.track(VerificationEvents.verification_session_started)
 
   const contractKit = yield call(getContractKit)
   const walletAddress = yield call(getConnectedUnlockedAccount)
@@ -289,8 +290,10 @@ export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof 
         const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
         yield call(fetchKomenciSession, komenciKit, e164Number)
         if (!komenci.sessionActive) {
+          ValoraAnalytics.track(VerificationEvents.verification_recaptcha_started)
           yield put(ensureRealHumanUser())
         } else {
+          ValoraAnalytics.track(VerificationEvents.verification_recaptcha_skipped)
           // TODO: Move this out of saga
           yield call(navigate, Screens.VerificationLoadingScreen, {
             withoutRevealing,
@@ -336,7 +339,7 @@ export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof 
       navigateBack()
       return
     } else {
-      yield put(fail(ErrorMessages.VERIFICATION_FAILURE))
+      yield put(fail(`startSaga - ${error}`))
     }
   }
 }
@@ -356,6 +359,10 @@ export function* fetchPhoneNumberDetailsSaga() {
   try {
     if (phoneHash && ownPepper) {
       Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Phone Hash and Pepper is cached')
+      ValoraAnalytics.track(VerificationEvents.verification_hash_cached, {
+        phoneHash,
+        address: walletAddress,
+      })
     } else {
       if (!ownPepper) {
         Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Pepper not cached')
@@ -402,7 +409,7 @@ export function* fetchPhoneNumberDetailsSaga() {
       })
     }
   } catch (error) {
-    yield put(fail(error.message))
+    yield put(fail(`fetchPepper - ${error.message}`))
     return
   }
 
@@ -494,12 +501,18 @@ export function* fetchOrDeployMtwSaga() {
     // user already has a verified MTW
     const verifiedMtwAddress = yield call(fetchVerifiedMtw, contractKit, walletAddress)
     if (verifiedMtwAddress) {
+      ValoraAnalytics.track(VerificationEvents.verification_already_completed, {
+        mtwAddress: verifiedMtwAddress,
+      })
       yield put(doVerificationFlow(true))
       return
     }
 
     Logger.debug(TAG, '@fetchOrDeployMtwSaga', 'Starting fetch')
     const storedUnverifiedMtwAddress = komenci.unverifiedMtwAddress
+    ValoraAnalytics.track(VerificationEvents.verification_mtw_fetch_start, {
+      unverifiedMtwAddress: storedUnverifiedMtwAddress,
+    })
     let deployedUnverifiedMtwAddress: string | null = null
     // If there isn't a MTW stored for this session, ask Komenci to deploy one
     if (!storedUnverifiedMtwAddress) {
@@ -573,6 +586,9 @@ export function* fetchOrDeployMtwSaga() {
       throw validityCheckResult.error
     }
 
+    ValoraAnalytics.track(VerificationEvents.verification_mtw_fetch_success, {
+      mtwAddress: unverifiedMtwAddress,
+    })
     yield put(setKomenciContext({ unverifiedMtwAddress }))
     yield call(feelessDekAndWalletRegistration, komenciKit, walletAddress, unverifiedMtwAddress)
     yield put(fetchOnChainData())
@@ -605,6 +621,7 @@ export function* fetchOnChainDataSaga() {
     const shouldUseKomenci = yield select(shouldUseKomenciSelector)
     const phoneHash = yield select(phoneHashSelector)
     let account
+    ValoraAnalytics.track(VerificationEvents.verification_fetch_on_chain_data_start)
     if (shouldUseKomenci) {
       Logger.debug(TAG, '@fetchOnChainDataSaga', 'Using Komenci')
       const komenci = yield select(komenciContextSelector)
@@ -650,11 +667,15 @@ export function* fetchOnChainDataSaga() {
       overrideWithoutVerification ??
       actionableAttestations.length === status.numAttestationsRemaining
 
+    ValoraAnalytics.track(VerificationEvents.verification_fetch_on_chain_data_success, {
+      attestationsRemaining: status.numAttestationsRemaining,
+      actionableAttestations: actionableAttestations.length,
+    })
     yield put(setOverrideWithoutVerification(undefined))
     yield put(doVerificationFlow(withoutRevealing))
   } catch (error) {
     Logger.error(TAG, '@fetchOnChainDataSaga', error)
-    yield put(fail(ErrorMessages.VERIFICATION_FAILURE))
+    yield put(fail(`fetchOnChainDataSaga - ${error}`))
   }
 }
 
