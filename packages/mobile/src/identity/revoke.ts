@@ -8,12 +8,11 @@ import { e164NumberSelector } from 'src/account/selectors'
 import { VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
-import { removeWalletToAccountAddress } from 'src/identity/actions'
+import { revokeVerificationState } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { revoke } from 'src/verify/module'
 import { setMtwAddress } from 'src/web3/actions'
 import { getContractKit } from 'src/web3/contracts'
 import { getAccountAddress, getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -23,7 +22,7 @@ const TAG = 'identity/revoke'
 
 // TODO add support for revoking partially verified accounts
 // i.e. accounts with 1-2 attestations but not 3+
-export function* revokeSaga(action: ReturnType<typeof revoke>) {
+export function* revokeVerificationSaga() {
   Logger.debug(TAG + '@revokeVerification', 'Revoking previous verification')
   let mtwAddress: string | null = null
   try {
@@ -85,7 +84,7 @@ export function* revokeSaga(action: ReturnType<typeof revoke>) {
     }
 
     yield all([
-      put(removeWalletToAccountAddress(walletAddress)),
+      put(revokeVerificationState(walletAddress)),
       put(setNumberVerified(false)),
       put(setMtwAddress(null)),
     ])

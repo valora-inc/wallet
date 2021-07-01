@@ -43,6 +43,7 @@ import Dialog from 'src/components/Dialog'
 import SessionId from 'src/components/SessionId'
 import { TOS_LINK } from 'src/config'
 import { Namespaces, withTranslation } from 'src/i18n'
+import { revokeVerification } from 'src/identity/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -53,11 +54,10 @@ import { RootState } from 'src/redux/reducers'
 import { restartApp } from 'src/utils/AppRestart'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
-import { revoke } from 'src/verify/module'
 import { toggleFornoMode } from 'src/web3/actions'
 
 interface DispatchProps {
-  revokeVerification: typeof revoke
+  revokeVerification: typeof revokeVerification
   setNumberVerified: typeof setNumberVerified
   resetAppOpenedState: typeof resetAppOpenedState
   setAnalyticsEnabled: typeof setAnalyticsEnabled
@@ -112,7 +112,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 }
 
 const mapDispatchToProps = {
-  revokeVerification: revoke,
+  revokeVerification,
   setNumberVerified,
   resetAppOpenedState,
   setAnalyticsEnabled,
@@ -373,7 +373,11 @@ export class Account extends React.Component<Props, State> {
             </Text>
           </TouchableWithoutFeedback>
           <View style={styles.containerList}>
-            <SettingsItemTextValue title={t('editProfile')} onPress={this.goToProfile} />
+            <SettingsItemTextValue
+              testID="EditProfile"
+              title={t('editProfile')}
+              onPress={this.goToProfile}
+            />
             {!numberVerified && verificationPossible && (
               <SettingsItemTextValue title={t('confirmNumber')} onPress={this.goToConfirmNumber} />
             )}

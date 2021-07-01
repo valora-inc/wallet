@@ -7,7 +7,7 @@ describe('AnyType', () => {
   it('Should throw an Error when invalid context is received.', async () => {
     let context = {
       userAddress: 'invalidAddress',
-      token: 'CUSD',
+      tokens: ['CUSD'],
     }
 
     let transaction = new Any(context)
@@ -20,7 +20,7 @@ describe('AnyType', () => {
   it('Should increment get_unknown_transaction_type metric when invalid context is received.', async () => {
     let context = {
       userAddress: 'invalidAddress',
-      token: 'CUSD',
+      tokens: ['CUSD'],
     }
 
     let transaction = new Any(context)

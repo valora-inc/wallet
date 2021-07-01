@@ -1,6 +1,6 @@
 import ListItem from '@celo/react-components/components/ListItem'
 import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
+import fontStyles, { fontFamily } from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import { CURRENCY_ENUM } from '@celo/utils'
 import { StackScreenProps } from '@react-navigation/stack'
@@ -68,18 +68,16 @@ function ExternalExchanges({ route }: Props) {
             currency: route.params.currency === CURRENCY_ENUM.DOLLAR ? t('celoDollars') : 'CELO',
           })}
         </Text>
-        <View style={styles.accountNumberContainer}>
-          <View style={styles.accountNoTextContainer}>
-            <Text style={styles.accountNoText}>Account</Text>
-            <Text style={styles.accountNoText}>No.</Text>
-          </View>
+        <View testID="accountBox" style={styles.accountBox}>
+          <Text style={styles.accountLabel}>{t('sendFlow7:accountNumberLabel')}</Text>
           <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
+          <Text style={styles.link}>{t('accountScreen10:tapToCopy')}</Text>
         </View>
         <View style={styles.providersContainer}>
           {providers.map((provider, idx) => {
             return (
               <ListItem key={provider.name} onPress={goToProvider(provider)}>
-                <View style={styles.providerListItem}>
+                <View testID={provider.name} style={styles.providerListItem}>
                   <Text style={styles.optionTitle}>{provider.name}</Text>
                   <LinkArrow />
                 </View>
@@ -101,23 +99,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: variables.contentPadding,
     paddingBottom: variables.contentPadding,
   },
-  accountNumberContainer: {
-    marginHorizontal: variables.contentPadding,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+  accountBox: {
     borderRadius: 4,
-    flexDirection: 'row',
     backgroundColor: colors.gray2,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  accountNoTextContainer: {
     flexDirection: 'column',
+    padding: variables.contentPadding,
+    marginHorizontal: 16,
+    marginBottom: 8,
   },
-  accountNoText: {
-    marginRight: 25,
-    ...fontStyles.small600,
+  accountLabel: {
+    ...fontStyles.label,
     color: colors.gray5,
+  },
+  link: {
+    ...fontStyles.label,
+    textDecorationLine: 'underline',
+    color: colors.gray4,
+    fontFamily,
   },
   providerListItem: {
     flexDirection: 'row',

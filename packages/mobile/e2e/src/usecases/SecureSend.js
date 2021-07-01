@@ -1,11 +1,19 @@
 import { enterPinUiIfNecessary, inputNumberKeypad, sleep } from '../utils/utils'
+import { dismissBanners } from '../utils/banners'
+const faker = require('faker')
 
 const PHONE_NUMBER = '+12057368924'
 const LAST_ACCEOUNT_CHARACTERS = 'FD08'
 const AMOUNT_TO_SEND = '0.1'
 
 export default SecureSend = () => {
+  beforeEach(async () => {
+    await device.reloadReactNative()
+    await dismissBanners()
+  })
+
   it('Send cUSD to phone number with multiple mappings', async () => {
+    let randomContent = faker.lorem.words()
     await element(by.id('SendOrRequestBar/SendButton')).tap()
 
     // Look for an address and tap on it.
@@ -29,6 +37,10 @@ export default SecureSend = () => {
     }
     await element(by.id('ConfirmAccountButton')).tap()
 
+    // Write a comment.
+    await element(by.id('commentInput/send')).replaceText(`${randomContent}\n`)
+    await element(by.id('commentInput/send')).tapReturnKey()
+
     // Wait for the confirm button to be clickable. If it takes too long this test
     // will be flaky :(
     await sleep(3000)
@@ -39,5 +51,10 @@ export default SecureSend = () => {
 
     // Return to home screen.
     await expect(element(by.id('SendOrRequestBar'))).toBeVisible()
+
+    // Look for the latest transaction and assert
+    await waitFor(element(by.text(`${randomContent}`)))
+      .toBeVisible()
+      .withTimeout(90000)
   })
 }
