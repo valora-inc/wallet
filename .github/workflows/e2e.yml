@@ -74,3 +74,20 @@ jobs:
           export PATH=$ANDROID_SDK_ROOT/emulator:$PATH
           cd packages/mobile
           yarn run test:e2e:android -w 1
+      # Publish Test Results
+      - name: Publish Android JUnit Report
+        if: always()
+        uses: mikepenz/action-junit-report@v2
+        with:
+          report_paths: 'packages/mobile/e2e/test-results/junit.xml'
+      # Upload Artifacts
+      - name: 'Upload E2E Artifacts'
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          path: packages/mobile/e2e/artifacts
+      - name: 'Upload E2E HTML Report'
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          path: packages/mobile/e2e/test-results
