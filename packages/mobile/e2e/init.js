@@ -1,11 +1,11 @@
+const detox = require('detox')
 import { setDemoMode } from './src/utils/utils'
 
 beforeAll(async () => {
   await device.launchApp({
+    newInstance: false,
     permissions: { notifications: 'YES', contacts: 'YES' },
   })
-})
-
-beforeEach(async () => {
+  await device.setURLBlacklist(['.*blockchain-api-dot-celo-mobile-alfajores.appspot.com.*'])
   await setDemoMode()
 })
