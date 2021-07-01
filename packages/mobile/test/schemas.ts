@@ -660,6 +660,11 @@ export const v15Schema = {
 }
 
 export const v16Schema = {
+  ...v15Schema,
+  _persist: {
+    ...v14Schema._persist,
+    version: 16,
+  },
   localCurrency: {
     ...v15Schema.localCurrency,
     exchangeRates: {
