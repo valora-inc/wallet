@@ -13,7 +13,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
-import { CodeInputType, receiveAttestationCode } from 'src/verify/module'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 

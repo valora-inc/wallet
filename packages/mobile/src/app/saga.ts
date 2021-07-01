@@ -44,7 +44,6 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
-import { CodeInputType, receiveAttestationCode } from 'src/verify/module'
 import {
   handleWalletConnectDeepLink,
   isWalletConnectDeepLink,
