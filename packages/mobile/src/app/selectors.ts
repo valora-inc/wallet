@@ -8,7 +8,7 @@ import {
   komenciContextSelector,
   shouldUseKomenciSelector,
   verificationStatusSelector,
-} from 'src/verify/module'
+} from 'src/verify/reducer'
 import { accountAddressSelector, currentAccountSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
@@ -36,7 +36,6 @@ export const verificationPossibleSelector = (state: RootState): boolean => {
   const saltCache = e164NumberToSaltSelector(state)
   const shouldUseKomenci = shouldUseKomenciSelector(state)
   const { komenci } = verificationStatusSelector(state)
-
   const hideVerification = hideVerificationSelector(state)
   if (hideVerification) {
     return false

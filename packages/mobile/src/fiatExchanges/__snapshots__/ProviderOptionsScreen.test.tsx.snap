@@ -133,6 +133,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           "width": 28,
                         }
                       }
+                      testID="Icon/Simplex"
                     />
                   </View>
                   <View
@@ -297,6 +298,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           "width": 28,
                         }
                       }
+                      testID="Icon/Moonpay"
                     />
                   </View>
                   <View
@@ -461,6 +463,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           "width": 28,
                         }
                       }
+                      testID="Icon/Ramp"
                     />
                   </View>
                   <View
@@ -604,6 +607,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           "width": 28,
                         }
                       }
+                      testID="Icon/Xanpool"
                     />
                   </View>
                   <View
@@ -783,6 +787,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           "width": 28,
                         }
                       }
+                      testID="Icon/Transak"
                     />
                   </View>
                   <View

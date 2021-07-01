@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { ExchangeRatePair } from 'src/exchange/reducer'
+import { ExchangeRates } from 'src/exchange/reducer'
 import { Currency } from 'src/utils/currencies'
 import {
   getNewMakerBalance,
@@ -7,27 +7,32 @@ import {
   getRateForMakerToken,
   getTakerAmount,
 } from 'src/utils/currencyExchange'
+import { makeExchangeRates } from 'test/values'
 
-const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.11', dollarMaker: '10' }
+const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
 
 describe('getRateForMakerToken', () => {
   it('when DOLLAR returns exchange rate', () => {
-    expect(getRateForMakerToken(exchangeRatePair, Currency.Dollar)).toEqual(new BigNumber('10'))
+    expect(getRateForMakerToken(exchangeRates, Currency.Dollar, Currency.Celo)).toEqual(
+      new BigNumber('10')
+    )
   })
 
   it('when GOLD returns exchange rate based on direction', () => {
-    expect(getRateForMakerToken(exchangeRatePair, Currency.Celo)).toEqual(new BigNumber('0.11'))
+    expect(getRateForMakerToken(exchangeRates, Currency.Celo, Currency.Dollar)).toEqual(
+      new BigNumber('0.11')
+    )
   })
   it('when empty rate it does not crash', () => {
-    expect(getRateForMakerToken(null, Currency.Celo)).toEqual(new BigNumber('0'))
+    expect(getRateForMakerToken(null, Currency.Celo, Currency.Dollar)).toEqual(new BigNumber('0'))
   })
 })
 
 describe('getTakerAmount', () => {
   it('converts the maker currency into taker currency', () => {
-    expect(getTakerAmount(new BigNumber('33'), exchangeRatePair.dollarMaker)).toEqual(
-      new BigNumber('3.3')
-    )
+    expect(
+      getTakerAmount(new BigNumber('33'), exchangeRates[Currency.Dollar][Currency.Celo])
+    ).toEqual(new BigNumber('3.3'))
   })
   it('returns 0 if receives a null', () => {
     expect(getTakerAmount(null, new BigNumber(0.5))).toEqual(new BigNumber('0'))

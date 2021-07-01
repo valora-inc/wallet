@@ -26,7 +26,6 @@ exports[`SendConfirmation renders correctly 1`] = `
           "alignItems": "center",
           "height": "100%",
           "justifyContent": "center",
-          "padding": 16,
         }
       }
     >
@@ -68,6 +67,7 @@ exports[`SendConfirmation renders correctly 1`] = `
           <svg
             height={16}
             style={Object {}}
+            testID="BackChevron"
             viewBox="0 0 15 15"
             width={16}
             xmlns="http://www.w3.org/2000/svg"

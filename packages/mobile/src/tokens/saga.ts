@@ -1,5 +1,7 @@
 import { CeloTransactionObject } from '@celo/connect'
 import { CeloContract, StableToken } from '@celo/contractkit'
+import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
+import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import { retryAsync } from '@celo/utils/lib/async'
 import BigNumber from 'bignumber.js'
 import { call, put, take } from 'redux-saga/effects'
@@ -23,7 +25,7 @@ import * as utf8 from 'utf8'
 const TAG = 'tokens/saga'
 
 // The number of wei that represent one unit in a contract
-const contractWeiPerUnit: { [key in Currency]: BigNumber | null } = {
+const contractWeiPerUnit: Record<Currency, BigNumber> = {
   [Currency.Celo]: WEI_PER_TOKEN,
   [Currency.Dollar]: WEI_PER_TOKEN,
   [Currency.Euro]: WEI_PER_TOKEN,
@@ -32,8 +34,8 @@ const contractWeiPerUnit: { [key in Currency]: BigNumber | null } = {
 function* getWeiPerUnit(token: Currency) {
   let weiPerUnit = contractWeiPerUnit[token]
   if (!weiPerUnit) {
-    const contract = yield call(getTokenContract, token)
-    const decimals = yield call(contract.decimals)
+    const contract: GoldTokenWrapper | StableTokenWrapper = yield call(getTokenContract, token)
+    const decimals: number = yield call(contract.decimals)
     weiPerUnit = new BigNumber(10).pow(decimals)
     contractWeiPerUnit[token] = weiPerUnit
   }
@@ -41,12 +43,12 @@ function* getWeiPerUnit(token: Currency) {
 }
 
 export function* convertFromContractDecimals(value: BigNumber, token: Currency) {
-  const weiPerUnit = yield call(getWeiPerUnit, token)
+  const weiPerUnit: BigNumber = yield call(getWeiPerUnit, token)
   return value.dividedBy(weiPerUnit)
 }
 
 export function* convertToContractDecimals(value: BigNumber, token: Currency) {
-  const weiPerUnit = yield call(getWeiPerUnit, token)
+  const weiPerUnit: BigNumber = yield call(getWeiPerUnit, token)
   return weiPerUnit.multipliedBy(value)
 }
 

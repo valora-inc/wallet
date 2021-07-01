@@ -2,21 +2,19 @@
 
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import { StackNavigationProp } from '@react-navigation/stack'
-import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { DOLLAR_TRANSACTION_MIN_AMOUNT, GOLD_TRANSACTION_MIN_AMOUNT } from 'src/config'
-import { exchangeRatePairSelector } from 'src/exchange/reducer'
-import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
+import { GOLD_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { exchangeRatesSelector } from 'src/exchange/reducer'
 import { Namespaces } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { cUsdBalanceSelector } from 'src/stableToken/selectors'
-import { Currency } from 'src/utils/currencies'
+import { balancesSelector } from 'src/stableToken/selectors'
+import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
 interface Props {
   navigation: StackNavigationProp<StackParamList, Screens.ExchangeHomeScreen>
@@ -25,40 +23,35 @@ interface Props {
 export default function CeloExchangeButtons({ navigation }: Props) {
   const { t } = useTranslation(Namespaces.exchangeFlow9)
 
-  const dollarBalance = useSelector(cUsdBalanceSelector)
-  const goldBalance = useSelector(celoTokenBalanceSelector)
-  const exchangeRate = useSelector(exchangeRatePairSelector)
+  const balances = useSelector(balancesSelector)
+  const exchangeRates = useSelector(exchangeRatesSelector)
 
-  const hasDollars = new BigNumber(dollarBalance || 0).isGreaterThan(DOLLAR_TRANSACTION_MIN_AMOUNT)
-  const hasGold = new BigNumber(goldBalance || 0).isGreaterThan(GOLD_TRANSACTION_MIN_AMOUNT)
+  const hasStable = STABLE_CURRENCIES.some((currency) =>
+    balances[currency]?.isGreaterThan(STABLE_TRANSACTION_MIN_AMOUNT)
+  )
+  const hasGold = balances[Currency.Celo]?.isGreaterThan(GOLD_TRANSACTION_MIN_AMOUNT)
 
   function goToBuyGold() {
     ValoraAnalytics.track(CeloExchangeEvents.celo_home_buy)
     navigation.navigate(Screens.ExchangeTradeScreen, {
-      makerTokenDisplay: {
-        makerToken: Currency.Dollar,
-        makerTokenBalance: dollarBalance || '0',
-      },
+      buyCelo: true,
     })
   }
 
-  function goToBuyDollars() {
+  function goToBuyStableToken() {
     ValoraAnalytics.track(CeloExchangeEvents.celo_home_sell)
     navigation.navigate(Screens.ExchangeTradeScreen, {
-      makerTokenDisplay: {
-        makerToken: Currency.Celo,
-        makerTokenBalance: goldBalance || '0',
-      },
+      buyCelo: false,
     })
   }
 
-  if (!exchangeRate || (!hasDollars && !hasGold)) {
+  if (!exchangeRates || (!hasStable && !hasGold)) {
     return <View style={styles.emptyContainer} />
   }
 
   return (
     <View style={styles.buttonContainer}>
-      {hasDollars && (
+      {hasStable && (
         <Button
           text={t('buy')}
           size={BtnSizes.FULL}
@@ -72,7 +65,7 @@ export default function CeloExchangeButtons({ navigation }: Props) {
         <Button
           size={BtnSizes.FULL}
           text={t('sell')}
-          onPress={goToBuyDollars}
+          onPress={goToBuyStableToken}
           style={styles.button}
           type={BtnTypes.TERTIARY}
           testID="SellCelo"

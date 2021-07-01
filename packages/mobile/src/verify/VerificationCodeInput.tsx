@@ -7,15 +7,15 @@ import React, { useEffect } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
-import Logger from 'src/utils/Logger'
+import { setAttestationInputStatus } from 'src/identity/actions'
 import {
   acceptedAttestationCodesSelector,
   ATTESTATION_CODE_PLACEHOLDER,
-  AttestationCode,
   attestationCodesSelector,
   attestationInputStatusSelector,
-  setAttestationInputStatus,
-} from 'src/verify/module'
+} from 'src/identity/reducer'
+import { AttestationCode } from 'src/identity/verification'
+import Logger from 'src/utils/Logger'
 import { indexReadyForInput } from 'src/verify/utils'
 
 interface Props {
@@ -79,7 +79,7 @@ function VerificationCodeInput({
         }
       }
     }
-    dispatch(setAttestationInputStatus({ index, status: initialStatus }))
+    dispatch(setAttestationInputStatus(index, initialStatus))
     onInputChange(initialValue, initialStatus === CodeInputStatus.Received)
   }, [])
 
@@ -87,7 +87,7 @@ function VerificationCodeInput({
   useEffect(() => {
     if (attestationCodes[index] && status !== CodeInputStatus.Accepted) {
       if (isAttestationAccepted(acceptedAttestationCodes, attestationCodes[index])) {
-        dispatch(setAttestationInputStatus({ index, status: CodeInputStatus.Accepted }))
+        dispatch(setAttestationInputStatus(index, CodeInputStatus.Accepted))
       }
     }
   }, [status, attestationCodes[index], acceptedAttestationCodes])
@@ -101,7 +101,7 @@ function VerificationCodeInput({
     ) {
       const activeIndex = indexReadyForInput(attestationInputStatus)
       if (activeIndex === index) {
-        dispatch(setAttestationInputStatus({ index, status: CodeInputStatus.Inputting }))
+        dispatch(setAttestationInputStatus(index, CodeInputStatus.Inputting))
       }
     }
   }, [attestationInputStatus])

@@ -24,7 +24,8 @@ export default function ExchangeConfirmationCard(props: Props) {
   const { t } = useTranslation(Namespaces.exchangeFlow9)
   const { makerAmount, takerAmount } = props
   const isSellGoldTx = makerAmount.currencyCode === Currency.Celo
-  const [gold, dollars] = isSellGoldTx
+  const stableToken = isSellGoldTx ? takerAmount.currencyCode : makerAmount.currencyCode
+  const [gold, stable] = isSellGoldTx
     ? [makerAmount.value, takerAmount.value]
     : [takerAmount.value, makerAmount.value]
 
@@ -32,6 +33,7 @@ export default function ExchangeConfirmationCard(props: Props) {
   const tobinTax = new BigNumber('0')
   const fee = new BigNumber('0')
   const totalFee = new BigNumber(tobinTax).plus(fee)
+  const feeCurrency = Currency.Dollar
 
   const localAmount = (isSellGoldTx ? makerAmount : takerAmount).localAmount!
   // TODO: find a way on how to show local exchangeRate without this hack
@@ -51,13 +53,13 @@ export default function ExchangeConfirmationCard(props: Props) {
   }
 
   const subtotalAmount = {
-    value: dollars,
-    currencyCode: Currency.Dollar,
+    value: stable,
+    currencyCode: stableToken,
   }
 
   const totalAmount = {
-    value: new BigNumber(dollars).plus(totalFee),
-    currencyCode: Currency.Dollar,
+    value: new BigNumber(stable).plus(totalFee),
+    currencyCode: stableToken,
   }
 
   return (
@@ -80,7 +82,7 @@ export default function ExchangeConfirmationCard(props: Props) {
             />
             <FeeDrawer
               testID={'feeDrawer/ExchangeConfirmationCard'}
-              currency={Currency.Dollar}
+              currency={feeCurrency}
               securityFee={fee}
               exchangeFee={tobinTax}
               isExchange={true}

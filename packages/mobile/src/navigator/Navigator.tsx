@@ -314,36 +314,18 @@ const sendScreens = (Navigator: typeof Stack) => (
   </>
 )
 
-const exchangeTradeScreenOptions = ({
-  route,
-}: {
-  route: RouteProp<StackParamList, Screens.ExchangeTradeScreen>
-}) => {
-  const { makerToken } = route.params?.makerTokenDisplay
-  const isDollarToGold = makerToken === Currency.Dollar
-  const title = isDollarToGold ? i18n.t('exchangeFlow9:buyGold') : i18n.t('exchangeFlow9:sellGold')
-  const cancelEventName = isDollarToGold
-    ? CeloExchangeEvents.celo_buy_cancel
-    : CeloExchangeEvents.celo_sell_cancel
-  return {
-    ...headerWithCancelButton,
-    headerLeft: () => <CancelButton eventName={cancelEventName} />,
-    headerTitle: () => <HeaderTitleWithBalance title={title} token={makerToken} />,
-  }
-}
-
 const exchangeReviewScreenOptions = ({
   route,
 }: {
   route: RouteProp<StackParamList, Screens.ExchangeReview>
 }) => {
-  const { makerToken } = route.params?.exchangeInput
-  const isDollarToGold = makerToken === Currency.Dollar
-  const title = isDollarToGold ? i18n.t('exchangeFlow9:buyGold') : i18n.t('exchangeFlow9:sellGold')
-  const cancelEventName = isDollarToGold
+  const { makerToken } = route.params
+  const isCeloPurchase = makerToken !== Currency.Celo
+  const title = isCeloPurchase ? i18n.t('exchangeFlow9:buyGold') : i18n.t('exchangeFlow9:sellGold')
+  const cancelEventName = isCeloPurchase
     ? CeloExchangeEvents.celo_buy_cancel
     : CeloExchangeEvents.celo_sell_cancel
-  const editEventName = isDollarToGold
+  const editEventName = isCeloPurchase
     ? CeloExchangeEvents.celo_buy_edit
     : CeloExchangeEvents.celo_sell_edit
   return {
@@ -368,7 +350,7 @@ const exchangeScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.ExchangeTradeScreen}
       component={ExchangeTradeScreen}
-      options={exchangeTradeScreenOptions}
+      options={noHeader}
     />
     <Navigator.Screen
       name={Screens.ExchangeReview}
@@ -528,8 +510,7 @@ const mapStateToProps = (state: RootState) => {
     acceptedTerms: state.account.acceptedTerms,
     pincodeType: state.account.pincodeType,
     account: state.web3.account,
-    numberIsVerified: state.app.numberVerified,
-    hasSeenVerificationNux: state.verify.seenVerificationNux,
+    hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
     askedContactsPermission: state.identity.askedContactsPermission,
   }
 }
@@ -547,7 +528,6 @@ export function MainStackScreen() {
       acceptedTerms,
       pincodeType,
       account,
-      numberIsVerified,
       hasSeenVerificationNux,
     } = mapStateToProps(store.getState())
 
@@ -562,7 +542,7 @@ export function MainStackScreen() {
       initialRoute = choseToRestoreAccount
         ? Screens.ImportWallet
         : Screens.OnboardingEducationScreen
-    } else if (!numberIsVerified && !hasSeenVerificationNux) {
+    } else if (!hasSeenVerificationNux) {
       initialRoute = Screens.VerificationEducationScreen
     } else {
       initialRoute = Screens.DrawerNavigator

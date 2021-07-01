@@ -128,7 +128,7 @@ function mapExchangeStandbyToFeedItem(
     const amountCurrency = amount.currencyCode as Currency
     return feedType === FeedType.EXCHANGE
       ? amountCurrency === Currency.Celo
-      : STABLE_CURRENCIES.includes(amountCurrency)
+      : STABLE_CURRENCIES.some((stableCurrency) => stableCurrency === amountCurrency)
   })
 
   if (!accountAmount) {

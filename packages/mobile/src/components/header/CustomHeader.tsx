@@ -1,4 +1,3 @@
-import variables from '@celo/react-components/styles/variables'
 import React from 'react'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import { styles as headerStyles } from 'src/navigator/Headers'
@@ -31,7 +30,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     height: '100%',
-    padding: variables.contentPadding,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -7,7 +7,7 @@ import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
-import { DOLLAR_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import i18n from 'src/i18n'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { HeaderTitleWithBalance, styles as headerStyles } from 'src/navigator/Headers'
@@ -41,7 +41,7 @@ function SendAmountHeader({ currency, isOutgoingPaymentRequest, onChangeCurrency
   const title = useMemo(() => {
     const currenciesWithBalance = STABLE_CURRENCIES.filter(
       (currency) =>
-        balances[currency]?.gt(DOLLAR_TRANSACTION_MIN_AMOUNT) && exchangeRates[currency] !== null
+        balances[currency]?.gt(STABLE_TRANSACTION_MIN_AMOUNT) && exchangeRates[currency] !== null
     ).length
 
     let titleText

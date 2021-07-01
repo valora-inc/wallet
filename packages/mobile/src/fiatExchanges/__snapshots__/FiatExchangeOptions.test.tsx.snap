@@ -130,6 +130,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   },
                 ]
               }
+              testID="radio/cUSD"
             >
               <svg
                 height={20}
@@ -214,6 +215,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   },
                 ]
               }
+              testID="radio/CELO"
             >
               <svg
                 height={20}
@@ -300,6 +302,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   },
                 ]
               }
+              testID="radio/cEUR"
             >
               <svg
                 height={20}
@@ -433,6 +436,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   Object {},
                 ]
               }
+              testID="payWithCard"
             >
               payWithCard
             </Text>
@@ -493,6 +497,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   Object {},
                 ]
               }
+              testID="payWithBank"
             >
               payWithBank
             </Text>
@@ -553,6 +558,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   Object {},
                 ]
               }
+              testID="withExchange"
             >
               payWithExchange
             </Text>
@@ -1035,6 +1041,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   },
                 ]
               }
+              testID="radio/cUSD"
             >
               <svg
                 height={20}
@@ -1119,6 +1126,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   },
                 ]
               }
+              testID="radio/CELO"
             >
               <svg
                 height={20}
@@ -1205,6 +1213,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   },
                 ]
               }
+              testID="radio/cEUR"
             >
               <svg
                 height={20}
@@ -1338,6 +1347,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   Object {},
                 ]
               }
+              testID="payWithCard"
             >
               payWithCard
             </Text>
@@ -1398,6 +1408,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   Object {},
                 ]
               }
+              testID="payWithBank"
             >
               payWithBank
             </Text>
@@ -1458,6 +1469,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   Object {},
                 ]
               }
+              testID="withExchange"
             >
               payWithExchange
             </Text>

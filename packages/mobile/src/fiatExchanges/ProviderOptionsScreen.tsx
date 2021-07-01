@@ -91,8 +91,6 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
 
-  console.log(route.params.amount)
-
   useLayoutEffect(() => {
     const showExplanation = () => {
       setShowExplanation(true)

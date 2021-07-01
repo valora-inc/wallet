@@ -29,11 +29,12 @@ import {
   RewardsScreenCta,
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
+import { InputToken } from 'src/exchange/ExchangeTradeScreen'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
-import { Currency } from 'src/utils/currencies'
+import { Currency, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
@@ -280,7 +281,10 @@ interface VerificationEventsProperties {
         feeless?: boolean
       }
     | undefined
-
+  [VerificationEvents.verification_hash_cached]: {
+    phoneHash: string
+    address: string
+  }
   [VerificationEvents.verification_hash_retrieved]: {
     phoneHash: string
     address: string
@@ -371,10 +375,12 @@ interface VerificationEventsProperties {
   }
   [VerificationEvents.verification_reveal_attestation_await_code_complete]: {
     issuer: any
+    position: number
     feeless?: boolean
   }
   [VerificationEvents.verification_reveal_attestation_complete]: {
     issuer: any
+    position: number
     feeless?: boolean
   }
   [VerificationEvents.verification_reveal_attestation_error]: {
@@ -412,6 +418,20 @@ interface VerificationEventsProperties {
   [VerificationEvents.verification_resend_messages]: {
     count: number
     feeless?: boolean
+  }
+  [VerificationEvents.verification_recaptcha_started]: undefined
+  [VerificationEvents.verification_recaptcha_skipped]: undefined
+  [VerificationEvents.verification_recaptcha_success]: undefined
+  [VerificationEvents.verification_recaptcha_failure]: undefined
+  [VerificationEvents.verification_recaptcha_canceled]: undefined
+  [VerificationEvents.verification_session_started]: undefined
+  [VerificationEvents.verification_already_completed]: { mtwAddress: string }
+  [VerificationEvents.verification_mtw_fetch_start]: { unverifiedMtwAddress: string }
+  [VerificationEvents.verification_mtw_fetch_success]: { mtwAddress: string }
+  [VerificationEvents.verification_fetch_on_chain_data_start]: undefined
+  [VerificationEvents.verification_fetch_on_chain_data_success]: {
+    attestationsRemaining: number
+    actionableAttestations: number
   }
 }
 
@@ -571,6 +591,10 @@ interface SendEventsProperties {
     origin: TokenPickerOrigin
     token: string
   }
+  [SendEvents.check_account_alert_shown]: undefined
+  [SendEvents.check_account_do_not_ask_selected]: undefined
+  [SendEvents.check_account_alert_back]: undefined
+  [SendEvents.check_account_alerts_continue]: undefined
 }
 
 interface RequestEventsProperties {
@@ -664,20 +688,18 @@ interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_transaction_back]: undefined
 
   [CeloExchangeEvents.celo_toggle_input_currency]: {
-    to: Currency
+    to: InputToken
   }
   [CeloExchangeEvents.celo_buy_continue]: {
     localCurrencyAmount: string | null
     goldAmount: string
     inputToken: Currency
-    goldToDollarExchangeRate: string
   }
   [CeloExchangeEvents.celo_buy_confirm]: {
     localCurrencyAmount: string | null
     goldAmount: string
-    dollarAmount: string
+    stableAmount: string
     inputToken: Currency
-    goldToDollarExchangeRate: string
   }
   [CeloExchangeEvents.celo_buy_cancel]: undefined
   [CeloExchangeEvents.celo_buy_edit]: undefined
@@ -688,14 +710,12 @@ interface CeloExchangeEventsProperties {
     localCurrencyAmount: string | null
     goldAmount: string
     inputToken: Currency
-    goldToDollarExchangeRate: string
   }
   [CeloExchangeEvents.celo_sell_confirm]: {
     localCurrencyAmount: string | null
     goldAmount: string
-    dollarAmount: string
+    stableAmount: string
     inputToken: Currency
-    goldToDollarExchangeRate: string
   }
   [CeloExchangeEvents.celo_sell_cancel]: undefined
   [CeloExchangeEvents.celo_sell_edit]: undefined
@@ -715,6 +735,7 @@ interface CeloExchangeEventsProperties {
 
   [CeloExchangeEvents.celo_fetch_exchange_rate_start]: undefined
   [CeloExchangeEvents.celo_fetch_exchange_rate_complete]: {
+    currency: StableCurrency
     makerAmount: number
     exchangeRate: number
   }

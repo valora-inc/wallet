@@ -7,7 +7,7 @@ import Settings from 'src/account/Settings'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
-import { KomenciAvailable } from 'src/verify/module'
+import { KomenciAvailable } from 'src/verify/reducer'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper } from 'test/values'
 

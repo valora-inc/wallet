@@ -21,7 +21,7 @@ import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import AccountAddressInput from 'src/components/AccountAddressInput'
 import CeloAmountInput from 'src/components/CeloAmountInput'
-import { exchangeRatePairSelector } from 'src/exchange/reducer'
+import { exchangeRatesSelector } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/actions'
 import { useSendFee } from 'src/fees/CalculateFee'
 import i18n, { Namespaces } from 'src/i18n'
@@ -32,6 +32,7 @@ import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { useDailyTransferLimitValidator } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { useBalance } from 'src/stableToken/hooks'
 import { Currency } from 'src/utils/currencies'
 import { divideByWei } from 'src/utils/formatting'
 
@@ -45,16 +46,15 @@ function WithdrawCeloScreen({ route }: Props) {
   const [celoInput, setCeloToTransfer] = useState(route.params?.amount?.toString() ?? '')
   const celoToTransfer = parseInputAmount(celoInput, decimalSeparator)
 
-  const goldBalance = useSelector((state) => state.goldToken.balance)
-  const goldBalanceNumber = new BigNumber(goldBalance || 0)
+  const celoBalance = useBalance(Currency.Celo) ?? new BigNumber(0)
   const { t } = useTranslation(Namespaces.exchangeFlow9)
 
   const readyToReview =
     isAddressFormat(accountAddress) &&
     celoToTransfer.isGreaterThan(0) &&
-    celoToTransfer.isLessThanOrEqualTo(goldBalanceNumber)
+    celoToTransfer.isLessThanOrEqualTo(celoBalance)
 
-  const exchangeRatePair = useSelector(exchangeRatePairSelector)
+  const exchangeRates = useSelector(exchangeRatesSelector)
 
   const [isTransferLimitReached, showLimitReachedBanner] = useDailyTransferLimitValidator(
     celoToTransfer,
@@ -66,8 +66,8 @@ function WithdrawCeloScreen({ route }: Props) {
     account: RANDOM_ADDRESS,
     currency: Currency.Celo,
     recipientAddress: RANDOM_ADDRESS,
-    amount: goldBalance || '0',
-    balance: goldBalance || '0',
+    amount: celoBalance.toString(),
+    balance: celoBalance.toString(),
     includeDekFee: false,
   })
   const feeEstimate = result && divideByWei(result.fee)
@@ -120,7 +120,7 @@ function WithdrawCeloScreen({ route }: Props) {
         type={BtnTypes.SECONDARY}
         size={BtnSizes.FULL}
         style={styles.reviewBtn}
-        showLoading={exchangeRatePair === null}
+        showLoading={exchangeRates === null}
         testID="WithdrawReviewButton"
       />
       <KeyboardSpacer />

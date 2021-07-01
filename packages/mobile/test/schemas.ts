@@ -3,9 +3,10 @@ import { PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
-import { idle, KomenciAvailable, NUM_ATTESTATIONS_REQUIRED } from 'src/verify/module'
+import { idle, KomenciAvailable } from 'src/verify/reducer'
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -649,34 +650,54 @@ export const v15Schema = {
     ...v14Schema._persist,
     version: 15,
   },
+  // Here we go back to the v9 test schema (i.e. migration 12, app version 1.14.3), because we reverted the verification PR which broke completion rate
+  identity: {
+    ...v9Schema.identity,
+  },
+  verify: {
+    ...v9Schema.verify,
+  },
+}
+
+export const v16Schema = {
+  ...v15Schema,
+  _persist: {
+    ...v15Schema._persist,
+    version: 16,
+  },
   app: {
-    ...v14Schema.app,
+    ...v15Schema.app,
     celoEuroEnabled: false,
   },
   localCurrency: {
-    ...v14Schema.localCurrency,
+    ...v15Schema.localCurrency,
     exchangeRates: {
       [Currency.Celo]: '3',
       [Currency.Euro]: '2',
-      [Currency.Dollar]: v14Schema.localCurrency.exchangeRate,
+      [Currency.Dollar]: v15Schema.localCurrency.exchangeRate,
     },
     exchangeRate: undefined,
     fetchRateFailed: false,
   },
   stableToken: {
-    ...v14Schema.stableToken,
+    ...v15Schema.stableToken,
     balances: {
       [Currency.Euro]: null,
-      [Currency.Dollar]: v14Schema.stableToken.balance ?? null,
+      [Currency.Dollar]: v15Schema.stableToken.balance ?? null,
     },
     balance: undefined,
   },
   send: {
-    ...v14Schema.send,
+    ...v15Schema.send,
     lastUsedCurrency: Currency.Dollar,
+  },
+  exchange: {
+    ...v15Schema.exchange,
+    exchangeRates: null,
+    exchangeRatePair: undefined,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v15Schema as Partial<RootState>
+  return v16Schema as Partial<RootState>
 }

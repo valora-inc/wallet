@@ -115,16 +115,17 @@ export const headerWithCloseButton: StackNavigationOptions = {
 interface Props {
   title: string | JSX.Element
   token: Currency
+  switchTitleAndSubtitle?: boolean
 }
 
-export function HeaderTitleWithBalance({ title, token }: Props) {
+export function HeaderTitleWithBalance({ title, token, switchTitleAndSubtitle = false }: Props) {
   const balance = useBalance(token)
 
   const subTitle =
     balance != null ? (
       <Trans i18nKey="balanceAvailable" ns={Namespaces.global}>
         <CurrencyDisplay
-          style={styles.headerSubTitle}
+          style={switchTitleAndSubtitle ? styles.headerTitle : styles.headerSubTitle}
           amount={{
             value: balance,
             currencyCode: token,
@@ -136,7 +137,12 @@ export function HeaderTitleWithBalance({ title, token }: Props) {
       i18n.t('global:loading')
     )
 
-  return <HeaderTitleWithSubtitle title={title} subTitle={subTitle} />
+  return (
+    <HeaderTitleWithSubtitle
+      title={switchTitleAndSubtitle ? subTitle : title}
+      subTitle={switchTitleAndSubtitle ? title : subTitle}
+    />
+  )
 }
 
 export function HeaderTitleWithSubtitle({

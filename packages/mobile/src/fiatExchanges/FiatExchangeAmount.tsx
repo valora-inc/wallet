@@ -71,7 +71,6 @@ function FiatExchangeAmount({ route }: Props) {
 
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
-
   const localCurrencyCode = useLocalCurrencyCode()
 
   const { currency } = route.params

@@ -32,8 +32,11 @@ import { WEI_DECIMALS } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
 import i18n from 'src/i18n'
+import { Actions as IdentityActions, SetVerificationStatusAction } from 'src/identity/actions'
 import { getUserSelfPhoneHashDetails } from 'src/identity/privateHashing'
 import { identifierToE164NumberSelector } from 'src/identity/reducer'
+import { VerificationStatus } from 'src/identity/types'
+import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { fetchStableBalances } from 'src/stableToken/actions'
 import { getCurrencyAddress, getTokenContract } from 'src/tokens/saga'
@@ -47,12 +50,7 @@ import {
 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import {
-  komenciContextSelector,
-  NUM_ATTESTATIONS_REQUIRED,
-  shouldUseKomenciSelector,
-  succeed,
-} from 'src/verify/module'
+import { komenciContextSelector, shouldUseKomenciSelector } from 'src/verify/reducer'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { mtwAddressSelector } from 'src/web3/selectors'
@@ -472,12 +470,14 @@ export function* watchFetchSentPayments() {
 
 export function* watchVerificationEnd() {
   while (true) {
-    yield take(succeed.type)
+    const update: SetVerificationStatusAction = yield take(IdentityActions.SET_VERIFICATION_STATUS)
     const shouldUseKomenci = yield select(shouldUseKomenciSelector)
-    // We wait for the next block because escrow can not
-    // be redeemed without all the attestations completed
-    yield waitForNextBlock()
-    yield call(withdrawFromEscrow, shouldUseKomenci)
+    if (update?.status === VerificationStatus.Done) {
+      // We wait for the next block because escrow can not
+      // be redeemed without all the attestations completed
+      yield waitForNextBlock()
+      yield call(withdrawFromEscrow, shouldUseKomenci)
+    }
   }
 }
 
