@@ -33,8 +33,9 @@ import { fetchExchangeRate } from 'src/exchange/actions'
 import i18n, { Namespaces } from 'src/i18n'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
-  convertBetweenCurrencies,
+  useConvertBetweenCurrencies,
   useCurrencyToLocalAmount,
+  useLocalAmountToCurrency,
   useLocalCurrencyCode,
 } from 'src/localCurrency/hooks'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
@@ -69,57 +70,65 @@ function FiatExchangeAmount({ route }: Props) {
   const [showingDailyLimitDialog, setShowingDailyLimitDialog] = useState(false)
 
   const [inputAmount, setInputAmount] = useState('')
-  const currencyAmountRequested = parseInputAmount(inputAmount, decimalSeparator)
+  const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
 
   const localCurrencyCode = useLocalCurrencyCode()
 
   const { currency } = route.params
 
-  const currencySymbol =
-    currency === Currency.Celo
-      ? ''
-      : currency === Currency.Dollar
-      ? LocalCurrencySymbol.USD
-      : LocalCurrencySymbol.EUR
-
-  const selectedCurrencyCashTag =
-    currency === Currency.Celo ? 'CELO' : currency === Currency.Dollar ? 'cUSD' : 'cEUR'
+  const localCurrencySymbol = LocalCurrencySymbol[localCurrencyCode]
+  const displaySymbol = currency === Currency.Celo ? '' : localCurrencySymbol
 
   const displayCurrencyKey =
-    currency === Currency.Celo ? 'Celo' : currency === Currency.Dollar ? 'celoDollar' : 'celoEuro'
+    currency === Currency.Celo
+      ? 'global:subtotal'
+      : currency === Currency.Dollar
+      ? 'celoDollar'
+      : 'celoEuro'
 
   const balances = useSelector(balancesSelector)
   const dailyLimitCusd = useSelector(cUsdDailyLimitSelector)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
   const currencyBalance = balances[currency] || new BigNumber(0)
 
-  const localCurrencyAmount =
-    useCurrencyToLocalAmount(currencyAmountRequested, currency) || new BigNumber(0)
+  const localAmountToCurrency =
+    useLocalAmountToCurrency(parsedInputAmount, currency) || new BigNumber(0)
+
+  const currencyToLocalAmount =
+    useCurrencyToLocalAmount(parsedInputAmount, currency) || new BigNumber(0)
+
+  const currencyAmountRequested =
+    currency === Currency.Celo ? parsedInputAmount : localAmountToCurrency
+
+  const localCurrencyAmountRequested =
+    currency === Currency.Celo ? currencyToLocalAmount : parsedInputAmount
+
   const localCurrencyBalance =
     useCurrencyToLocalAmount(currencyBalance, currency) || new BigNumber(0)
 
+  const localCurrencyMaxAmount =
+    useCurrencyToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), Currency.Dollar) ||
+    new BigNumber(0)
+
+  const localCurrencyMinAmount =
+    useCurrencyToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MIN_AMOUNT), Currency.Dollar) ||
+    new BigNumber(0)
+
+  const localCurrencyDailyLimitAmount =
+    useCurrencyToLocalAmount(new BigNumber(dailyLimitCusd), Currency.Dollar) || new BigNumber(0)
+
   const currencyMaxAmount =
-    convertBetweenCurrencies(
+    useConvertBetweenCurrencies(
       new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT),
       Currency.Dollar,
-      currency,
-      exchangeRates
+      currency
     ) || new BigNumber(0)
 
   const currencyMinAmount =
-    convertBetweenCurrencies(
+    useConvertBetweenCurrencies(
       new BigNumber(DOLLAR_ADD_FUNDS_MIN_AMOUNT),
       Currency.Dollar,
-      currency,
-      exchangeRates
-    ) || new BigNumber(0)
-
-  const currencyDailyLimitAmount =
-    convertBetweenCurrencies(
-      new BigNumber(dailyLimitCusd),
-      Currency.Dollar,
-      currency,
-      exchangeRates
+      currency
     ) || new BigNumber(0)
 
   const dispatch = useDispatch()
@@ -129,11 +138,11 @@ function FiatExchangeAmount({ route }: Props) {
   }, [])
 
   function isNextButtonValid() {
-    return currencyAmountRequested.isGreaterThan(0)
+    return parsedInputAmount.isGreaterThan(0)
   }
 
   function onChangeExchangeAmount(amount: string) {
-    setInputAmount(amount.replace(currencySymbol, ''))
+    setInputAmount(amount.replace(localCurrencySymbol, ''))
   }
 
   function goToProvidersScreen() {
@@ -152,7 +161,7 @@ function FiatExchangeAmount({ route }: Props) {
         crypto: currencyAmountRequested.toNumber(),
         // Rounding up to avoid decimal errors from providers. Won't be
         // necessary once we support inputting an amount in both crypto and fiat
-        fiat: Math.round(localCurrencyAmount.toNumber()),
+        fiat: Math.round(localCurrencyAmountRequested.toNumber()),
       },
       paymentMethod: route.params.paymentMethod,
     })
@@ -168,8 +177,8 @@ function FiatExchangeAmount({ route }: Props) {
 
     if (route.params.isCashIn) {
       if (
-        currencyAmountRequested.isGreaterThan(currencyMaxAmount) ||
-        currencyAmountRequested.isLessThan(currencyMinAmount)
+        localCurrencyAmountRequested.isGreaterThan(localCurrencyMaxAmount) ||
+        localCurrencyAmountRequested.isLessThan(localCurrencyMinAmount)
       ) {
         setShowingInvalidAmountDialog(true)
         ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_invalid_amount, {
@@ -178,7 +187,10 @@ function FiatExchangeAmount({ route }: Props) {
         })
         return
       }
-      if (currencyAmountRequested.isGreaterThan(currencyDailyLimitAmount)) {
+      if (
+        currency !== Currency.Celo &&
+        localCurrencyAmountRequested.isGreaterThan(localCurrencyDailyLimitAmount)
+      ) {
         setShowingDailyLimitDialog(true)
         return
       }
@@ -213,12 +225,18 @@ function FiatExchangeAmount({ route }: Props) {
         actionPress={closeInvalidAmountDialog}
         testID={'invalidAmountDialog'}
       >
-        {currencyAmountRequested.isGreaterThan(currencyMaxAmount)
+        {localCurrencyAmountRequested.isGreaterThan(localCurrencyMaxAmount)
           ? t('invalidAmountDialog.maxAmount', {
-              limit: `${currencyMaxAmount.toFixed(0)} ${selectedCurrencyCashTag}`,
+              limit:
+                currency === Currency.Celo
+                  ? `${currencyMaxAmount.toFixed(3)} CELO`
+                  : `${localCurrencySymbol}${localCurrencyMaxAmount.toFixed(0)}`,
             })
           : t('invalidAmountDialog.minAmount', {
-              limit: `${currencyMinAmount.toFixed(0)} ${selectedCurrencyCashTag}`,
+              limit:
+                currency === Currency.Celo
+                  ? `${currencyMinAmount.toFixed(3)} CELO`
+                  : `${localCurrencySymbol}${localCurrencyMinAmount.toFixed(0)}`,
             })}
       </Dialog>
       <Dialog
@@ -235,7 +253,7 @@ function FiatExchangeAmount({ route }: Props) {
             i18nKey={'dailyLimitDialog.body'}
             ns={Namespaces.fiatExchangeFlow}
             tOptions={{
-              limit: `${currencyDailyLimitAmount.toFixed(0)} ${selectedCurrencyCashTag}`,
+              limit: `${localCurrencySymbol}${localCurrencyDailyLimitAmount.toFixed(0)}`,
               contactEmail: CELO_SUPPORT_EMAIL_ADDRESS,
             }}
           >
@@ -250,17 +268,17 @@ function FiatExchangeAmount({ route }: Props) {
       >
         <View style={styles.amountInputContainer}>
           <View>
-            <Text style={styles.exchangeBodyText}>{`${t('global:amount')} (${
-              currency === Currency.Celo ? 'CELO' : currency
-            })`}</Text>
+            <Text style={styles.exchangeBodyText}>{`${t('global:amount')} ${
+              currency === Currency.Celo ? '(CELO)' : ''
+            }`}</Text>
           </View>
           <TextInput
             autoFocus={true}
             keyboardType={'decimal-pad'}
             onChangeText={onChangeExchangeAmount}
-            value={inputAmount.length > 0 ? `${currencySymbol}${inputAmount}` : undefined}
+            value={inputAmount.length > 0 ? `${displaySymbol}${inputAmount}` : undefined}
             placeholderTextColor={colors.gray3}
-            placeholder={`${currencySymbol}0`}
+            placeholder={`${displaySymbol}0`}
             style={[
               styles.currencyInput,
               currency === Currency.Celo ? styles.celoCurrencyColor : styles.fiatCurrencyColor,
@@ -279,10 +297,11 @@ function FiatExchangeAmount({ route }: Props) {
           amount={
             <CurrencyDisplay
               amount={{
-                value: inputAmount,
+                value: currencyAmountRequested,
                 currencyCode: currency,
               }}
-              showLocalAmount={true}
+              hideSymbol={currency !== Currency.Celo}
+              showLocalAmount={currency === Currency.Celo}
             />
           }
         />
@@ -294,7 +313,7 @@ function FiatExchangeAmount({ route }: Props) {
       )}
       <Button
         onPress={onPressContinue}
-        showLoading={exchangeRates.cUSD === null}
+        showLoading={exchangeRates[Currency.Dollar] === null}
         text={t('global:next')}
         type={BtnTypes.PRIMARY}
         accessibilityLabel={t('global:next')}

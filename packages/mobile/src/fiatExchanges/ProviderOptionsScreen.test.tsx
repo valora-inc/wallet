@@ -282,8 +282,12 @@ describe('ProviderOptionsScreen', () => {
 
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
 
-    const elements = tree.queryAllByType(Text)
-    // The first text element is the info, the second text element is the first provider
-    expect(elements[1].props.children).toEqual('Ramp')
+    const rampElement = tree.queryByTestId('Provider/Ramp')
+    expect(rampElement).toBeTruthy()
+
+    for (const provider of mockProviders) {
+      const providerElement = tree.queryByTestId(`Provider/${provider.name}`)
+      expect(providerElement).toBeFalsy()
+    }
   })
 })
