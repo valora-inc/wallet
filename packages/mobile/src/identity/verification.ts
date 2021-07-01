@@ -966,6 +966,7 @@ function* completeAttestation(
 
   ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_await_code_complete, {
     issuer,
+    position: codePosition,
     feeless: shouldUseKomenci,
   })
 
@@ -1018,6 +1019,7 @@ function* completeAttestation(
 
   ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_complete, {
     issuer,
+    position: codePosition,
     feeless: shouldUseKomenci,
   })
 

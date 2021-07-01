@@ -239,6 +239,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
             containerStyle={{
               borderTopWidth: 0,
             }}
+            testID="radio/CELO"
             enabled={selectedPaymentMethod !== PaymentMethod.GiftCard}
           />
           <CurrencyRadioItem
@@ -251,6 +252,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
             }}
+            testID="radio/cEUR"
             enabled={false} // currently no CICO providers for cEUR
           />
         </View>

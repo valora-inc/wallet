@@ -217,7 +217,7 @@ describe(startSaga, () => {
         [select(shouldUseKomenciSelector), false],
         [delay(BALANCE_CHECK_TIMEOUT), true],
       ])
-      .put(fail(ErrorMessages.VERIFICATION_FAILURE))
+      .put(fail("startSaga - TypeError: Cannot read property 'stableToken' of undefined"))
       .run()
   })
 
@@ -375,7 +375,7 @@ describe(fetchPhoneNumberDetailsSaga, () => {
         [call(fetchPhoneHashPrivate, mockE164Number), throwError(new Error('Test Error'))],
         [select(komenciContextSelector), mockKomenciContext],
       ])
-      .put(fail('Test Error'))
+      .put(fail('fetchPepper - Test Error'))
       .run()
   })
 })
@@ -660,7 +660,7 @@ describe(fetchOnChainDataSaga, () => {
     await reduxSagaTestPlan
       .expectSaga(fetchOnChainDataSaga)
       .provide([[call(getContractKit), throwError(new Error(ErrorMessages.VERIFICATION_FAILURE))]])
-      .put(fail(ErrorMessages.VERIFICATION_FAILURE))
+      .put(fail(`fetchOnChainDataSaga - Error: ${ErrorMessages.VERIFICATION_FAILURE}`))
       .run()
   })
 })

@@ -282,7 +282,10 @@ interface VerificationEventsProperties {
         feeless?: boolean
       }
     | undefined
-
+  [VerificationEvents.verification_hash_cached]: {
+    phoneHash: string
+    address: string
+  }
   [VerificationEvents.verification_hash_retrieved]: {
     phoneHash: string
     address: string
@@ -373,10 +376,12 @@ interface VerificationEventsProperties {
   }
   [VerificationEvents.verification_reveal_attestation_await_code_complete]: {
     issuer: any
+    position: number
     feeless?: boolean
   }
   [VerificationEvents.verification_reveal_attestation_complete]: {
     issuer: any
+    position: number
     feeless?: boolean
   }
   [VerificationEvents.verification_reveal_attestation_error]: {
@@ -414,6 +419,20 @@ interface VerificationEventsProperties {
   [VerificationEvents.verification_resend_messages]: {
     count: number
     feeless?: boolean
+  }
+  [VerificationEvents.verification_recaptcha_started]: undefined
+  [VerificationEvents.verification_recaptcha_skipped]: undefined
+  [VerificationEvents.verification_recaptcha_success]: undefined
+  [VerificationEvents.verification_recaptcha_failure]: undefined
+  [VerificationEvents.verification_recaptcha_canceled]: undefined
+  [VerificationEvents.verification_session_started]: undefined
+  [VerificationEvents.verification_already_completed]: { mtwAddress: string }
+  [VerificationEvents.verification_mtw_fetch_start]: { unverifiedMtwAddress: string }
+  [VerificationEvents.verification_mtw_fetch_success]: { mtwAddress: string }
+  [VerificationEvents.verification_fetch_on_chain_data_start]: undefined
+  [VerificationEvents.verification_fetch_on_chain_data_success]: {
+    attestationsRemaining: number
+    actionableAttestations: number
   }
 }
 
