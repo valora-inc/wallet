@@ -19,6 +19,7 @@ import { inviteSaga } from 'src/invite/saga'
 import { localCurrencySaga } from 'src/localCurrency/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { paymentRequestSaga } from 'src/paymentRequest/saga'
+import { recipientsSaga } from 'src/recipients/saga'
 import { waitForRehydrate } from 'src/redux/persist-helper'
 import { sendSaga } from 'src/send/saga'
 import { sentrySaga } from 'src/sentry/saga'
@@ -99,6 +100,7 @@ export function* rootSaga() {
     yield spawn(transactionSaga)
     yield spawn(homeSaga)
     yield spawn(identitySaga)
+    yield spawn(recipientsSaga)
     yield spawn(verifySaga)
     yield spawn(localCurrencySaga)
     yield spawn(feesSaga)

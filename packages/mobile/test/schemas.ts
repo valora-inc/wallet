@@ -656,6 +656,10 @@ export const v15Schema = {
   verify: {
     ...v9Schema.verify,
   },
+  recipients: {
+    ...v14Schema.recipients,
+    rewardsSenders: [],
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

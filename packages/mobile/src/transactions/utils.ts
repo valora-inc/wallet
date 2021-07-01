@@ -52,7 +52,8 @@ export const exchangeReviewHeader = (confirmationProps: ExchangeConfirmationCard
 export const transferReviewHeader = (
   type: TokenTransactionType,
   confirmationProps: TransferConfirmationCardProps,
-  addressToDisplayName: AddressToDisplayNameType
+  addressToDisplayName: AddressToDisplayNameType,
+  rewardsSenders: string[]
 ) => {
   let headerText = ''
   const isCeloTx = confirmationProps.amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
@@ -66,12 +67,14 @@ export const transferReviewHeader = (
       headerText = i18n.t('walletFlow5:transactionHeaderEscrowSent')
       break
     case TokenTransactionType.Received:
-      if (addressToDisplayName[confirmationProps.address || '']?.isCeloRewardSender) {
+      const address = confirmationProps.address ?? ''
+      if (rewardsSenders.includes(address) || addressToDisplayName[address]?.isCeloRewardSender) {
         headerText = i18n.t('walletFlow5:transactionHeaderCeloReward')
+      } else {
+        headerText = isCeloTx
+          ? i18n.t('walletFlow5:transactionHeaderCeloDeposit')
+          : i18n.t('walletFlow5:transactionHeaderReceived')
       }
-      headerText = isCeloTx
-        ? i18n.t('walletFlow5:transactionHeaderCeloDeposit')
-        : i18n.t('walletFlow5:transactionHeaderReceived')
       break
     case TokenTransactionType.EscrowReceived:
       headerText = i18n.t('walletFlow5:transactionHeaderEscrowReceived')

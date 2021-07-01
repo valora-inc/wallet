@@ -25,13 +25,13 @@ import {
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
-import { updateValoraRecipientCache } from 'src/recipients/actions'
 import {
   AddressRecipient,
   Recipient,
   recipientHasAddress,
   recipientHasNumber,
 } from 'src/recipients/recipient'
+import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { PaymentInfo } from 'src/send/reducers'
 import { getRecentPayments } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
