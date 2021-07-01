@@ -10,5 +10,5 @@
   "paymentRequestedBody": "Foi solicitado um pagamento de {{amount}} {{currency}}.",
   "rewardReceivedTitle": "Recompensa recebida",
   "inviteTitle": "Seu amigo acabou de receber a transferência!",
-  "inviteBody": "O destinatário dos fundos que você enviou acabou de se inscrever na Valora! Agora vocês podem enviar fundos um para o outro usando seus números de celular por uma tarifa irrisória"
+  "inviteBody": "The recipient of the funds you sent just signed up for Valora! You can now send value to each other using your phone numbers with near-zero fees"
 }
