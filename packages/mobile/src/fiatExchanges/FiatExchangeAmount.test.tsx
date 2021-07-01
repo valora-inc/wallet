@@ -12,6 +12,10 @@ import {
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import {
+  convertCurrencyToLocalAmount,
+  convertLocalAmountToCurrency,
+} from 'src/localCurrency/convert'
 import { convertBetweenCurrencies } from 'src/localCurrency/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -178,15 +182,16 @@ describe('FiatExchangeAmount cashIn', () => {
       </Provider>
     )
 
-    const minAmountInEur =
-      convertBetweenCurrencies(
+    const minAmountInLocalCurrency =
+      convertCurrencyToLocalAmount(
         new BigNumber(DOLLAR_ADD_FUNDS_MIN_AMOUNT),
-        Currency.Dollar,
-        Currency.Euro,
-        usdExchangeRates
+        phpExchangeRates[Currency.Dollar]
       ) || new BigNumber(0)
 
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), minAmountInEur.minus(1).toString())
+    fireEvent.changeText(
+      tree.getByTestId('FiatExchangeInput'),
+      minAmountInLocalCurrency.minus(1).toString()
+    )
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
     expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
     fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
@@ -246,15 +251,16 @@ describe('FiatExchangeAmount cashIn', () => {
       </Provider>
     )
 
-    const maxAmountInEur =
-      convertBetweenCurrencies(
+    const maxAmountInLocalCurrency =
+      convertCurrencyToLocalAmount(
         new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT),
-        Currency.Dollar,
-        Currency.Euro,
-        usdExchangeRates
+        phpExchangeRates[Currency.Dollar]
       ) || new BigNumber(0)
 
-    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), maxAmountInEur.plus(1).toString())
+    fireEvent.changeText(
+      tree.getByTestId('FiatExchangeInput'),
+      maxAmountInLocalCurrency.plus(1).toString()
+    )
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
     expect(tree.getByTestId('invalidAmountDialog/PrimaryAction')).toBeTruthy()
     fireEvent.press(tree.getByTestId('invalidAmountDialog/PrimaryAction'))
@@ -332,16 +338,16 @@ describe('FiatExchangeAmount cashIn', () => {
       </Provider>
     )
 
-    const dailyLimitAmountInEur =
-      convertBetweenCurrencies(
+    const dailyLimitInLocalCurrency =
+      convertCurrencyToLocalAmount(
         new BigNumber(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD),
-        Currency.Dollar,
-        Currency.Euro,
-        usdExchangeRates
+        phpExchangeRates[Currency.Dollar]
       ) || new BigNumber(0)
 
-    const overLimitAmount = dailyLimitAmountInEur.plus(1)
-    const localAmount = overLimitAmount.times(phpExchangeRates[Currency.Euro])
+    const overLimitAmount = dailyLimitInLocalCurrency.plus(1)
+    const overLimitAmountInCurrency =
+      convertLocalAmountToCurrency(overLimitAmount, phpExchangeRates[Currency.Euro]) ||
+      new BigNumber(0)
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), overLimitAmount.toString())
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
@@ -352,8 +358,8 @@ describe('FiatExchangeAmount cashIn', () => {
       isCashIn: true,
       selectedCrypto: Currency.Euro,
       amount: {
-        fiat: localAmount.toNumber(),
-        crypto: overLimitAmount.toNumber(),
+        fiat: overLimitAmount.toNumber(),
+        crypto: overLimitAmountInCurrency.toNumber(),
       },
       paymentMethod: PaymentMethod.Bank,
     })

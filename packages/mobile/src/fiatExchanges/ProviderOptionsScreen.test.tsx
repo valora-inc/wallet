@@ -286,6 +286,9 @@ describe('ProviderOptionsScreen', () => {
     expect(rampElement).toBeTruthy()
 
     for (const provider of mockProviders) {
+      if (provider.name === 'Ramp') {
+        continue
+      }
       const providerElement = tree.queryByTestId(`Provider/${provider.name}`)
       expect(providerElement).toBeFalsy()
     }
