@@ -7,7 +7,7 @@
     "operation": "Operação",
     "data": "Dados",
     "sign": "Assinar um payload de dados",
-    "signTransaction": "Assinar um Elo TX",
+    "signTransaction": "Sign a Celo TX",
     "decrypt": "Descriptografar um payload de dados",
     "accounts": "Leia seu endereço da conta {{appName}}",
     "details": "Mostrar detalhes",
@@ -22,10 +22,10 @@
     "computeSharedSecret": "Gerar um segredo"
   },
   "tapToDisconnect": "Toque para desconectar",
-  "moreInfo": "Tudo claro?",
+  "moreInfo": "Confused by anything here?",
   "sessionsTitle": "Apps conectados",
   "sessionsSubTitle": "Os seguintes aplicativos estão conectados a {{appName}}. Você pode se conectar a mais aplicativos escaneando o código QR.",
   "disconnect": "Desconectar",
   "disconnectTitle": "Desconectar {{dappName}}?",
-  "disconnectBody": "Tem certeza de que deseja desconectar de {{dappName}}?"
+  "disconnectBody": "Are you sure you want to disconnect from {{dappName}}?"
 }
