@@ -14,11 +14,13 @@ export const MAX_BLOCKS_TO_WAIT = 80
 export enum Currencies {
   GOLD = 'gold',
   DOLLAR = 'dollar',
+  EURO = 'euro',
 }
 
 const processedBlocks: { [currency in Currencies]: number[] } = {
   [Currencies.GOLD]: [],
   [Currencies.DOLLAR]: [],
+  [Currencies.EURO]: [],
 }
 
 export async function query(path: string) {
@@ -57,26 +59,31 @@ async function getLatestTokenTransfers(
   }
 
   if (!response.result.length) {
-    console.debug('No new logs found for token:', tokenAddress)
+    console.debug('No new logs found for token:', currency)
     return { transfers: null, latestBlock: lastBlockNotified }
   }
 
-  console.debug('New logs found for token:', tokenAddress, response.result.length)
+  console.debug('New logs found for token:', currency, response.result.length)
   const { transfers, latestBlock } = formatTransfers(response.result as TokenTransfer[], currency)
   return { transfers, latestBlock }
 }
 
 export function filterAndJoinTransfers(
   celoTransfersByTx: Map<string, Transfer[]> | null,
-  stableTransfersByTx: Map<string, Transfer[]> | null
+  cUsdTransfersByTx: Map<string, Transfer[]> | null,
+  cEurTransfersByTx: Map<string, Transfer[]> | null
 ): Transfer[] {
-  const stableTransfers = stableTransfersByTx ? flat([...stableTransfersByTx.values()]) : []
+  const cUsdTransfers = cUsdTransfersByTx ? flat([...cUsdTransfersByTx.values()]) : []
+  const cEurTransfers = cEurTransfersByTx ? flat([...cEurTransfersByTx.values()]) : []
   const celoTransfers = celoTransfersByTx ? flat([...celoTransfersByTx.values()]) : []
 
   // Exclude transaction found in both maps as those are from exchanges
-  const filteredCelo = celoTransfers.filter((t) => !stableTransfersByTx?.has(t.txHash))
-  const filteredStable = stableTransfers.filter((t) => !celoTransfersByTx?.has(t.txHash))
-  return filteredCelo.concat(filteredStable)
+  const filteredCelo = celoTransfers.filter(
+    (t) => !cUsdTransfersByTx?.has(t.txHash) && !cEurTransfersByTx?.has(t.txHash)
+  )
+  const filteredCusd = cUsdTransfers.filter((t) => !celoTransfersByTx?.has(t.txHash))
+  const filteredCEur = cEurTransfers.filter((t) => !celoTransfersByTx?.has(t.txHash))
+  return filteredCelo.concat(filteredCusd).concat(filteredCEur)
 }
 
 export function notifyForNewTransfers(transfers: Transfer[]): Promise<void[]> {
@@ -147,25 +154,26 @@ export async function handleTransferNotifications(): Promise<void> {
   // To account for this, we save a cache of all blocks already handled in the last |MAX_BLOCKS_TO_WAIT| blocks (|processedBlocks|),
   // so a transaction has that number of blocks to show up on Blockscout before we miss sending the notification for it.
   const blockToQuery = lastBlockNotified - MAX_BLOCKS_TO_WAIT
-  const { goldTokenAddress, stableTokenAddress } = await getTokenAddresses()
+  const { goldTokenAddress, cUsdTokenAddress, cEurTokenAddress } = await getTokenAddresses()
 
-  const {
-    transfers: celoTransfers,
-    latestBlock: celoTransfersLatestBlock,
-  } = await getLatestTokenTransfers(goldTokenAddress, blockToQuery, Currencies.GOLD)
+  const [
+    { transfers: celoTransfers, latestBlock: celoTransfersLatestBlock },
+    { transfers: cUsdTransfers, latestBlock: cUsdTransfersLatestBlock },
+    { transfers: cEurTransfers, latestBlock: cEurTransfersLatestBlock },
+  ] = await Promise.all([
+    await getLatestTokenTransfers(goldTokenAddress, blockToQuery, Currencies.GOLD),
+    await getLatestTokenTransfers(cUsdTokenAddress, blockToQuery, Currencies.DOLLAR),
+    await getLatestTokenTransfers(cEurTokenAddress, blockToQuery, Currencies.EURO),
+  ])
 
-  const {
-    transfers: stableTransfers,
-    latestBlock: stableTransfersLatestBlock,
-  } = await getLatestTokenTransfers(stableTokenAddress, blockToQuery, Currencies.DOLLAR)
-
-  const allTransfers = filterAndJoinTransfers(celoTransfers, stableTransfers)
+  const allTransfers = filterAndJoinTransfers(celoTransfers, cUsdTransfers, cEurTransfers)
   const newCheckpointBlock = setLastBlockNotified(
-    Math.max(stableTransfersLatestBlock, celoTransfersLatestBlock)
+    Math.max(Math.max(cUsdTransfersLatestBlock, celoTransfersLatestBlock), cEurTransfersLatestBlock)
   )
   await notifyForNewTransfers(allTransfers)
   updateProcessedBlocks(celoTransfers, Currencies.GOLD, celoTransfersLatestBlock)
-  updateProcessedBlocks(stableTransfers, Currencies.DOLLAR, stableTransfersLatestBlock)
+  updateProcessedBlocks(cUsdTransfers, Currencies.DOLLAR, cUsdTransfersLatestBlock)
+  updateProcessedBlocks(cEurTransfers, Currencies.EURO, cEurTransfersLatestBlock)
 
   return newCheckpointBlock
 }
