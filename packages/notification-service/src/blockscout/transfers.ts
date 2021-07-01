@@ -59,11 +59,11 @@ async function getLatestTokenTransfers(
   }
 
   if (!response.result.length) {
-    console.debug('No new logs found for token:', currency)
+    console.debug('No new logs found for token:', currency, tokenAddress)
     return { transfers: null, latestBlock: lastBlockNotified }
   }
 
-  console.debug('New logs found for token:', currency, response.result.length)
+  console.debug('New logs found for token:', currency, tokenAddress, response.result.length)
   const { transfers, latestBlock } = formatTransfers(response.result as TokenTransfer[], currency)
   return { transfers, latestBlock }
 }
@@ -83,7 +83,7 @@ export function filterAndJoinTransfers(
   )
   const filteredCusd = cUsdTransfers.filter((t) => !celoTransfersByTx?.has(t.txHash))
   const filteredCEur = cEurTransfers.filter((t) => !celoTransfersByTx?.has(t.txHash))
-  return filteredCelo.concat(filteredCusd).concat(filteredCEur)
+  return filteredCelo.concat(filteredCusd, filteredCEur)
 }
 
 export function notifyForNewTransfers(transfers: Transfer[]): Promise<void[]> {
@@ -168,7 +168,7 @@ export async function handleTransferNotifications(): Promise<void> {
 
   const allTransfers = filterAndJoinTransfers(celoTransfers, cUsdTransfers, cEurTransfers)
   const newCheckpointBlock = setLastBlockNotified(
-    Math.max(Math.max(cUsdTransfersLatestBlock, celoTransfersLatestBlock), cEurTransfersLatestBlock)
+    Math.max(cUsdTransfersLatestBlock, celoTransfersLatestBlock, cEurTransfersLatestBlock)
   )
   await notifyForNewTransfers(allTransfers)
   updateProcessedBlocks(celoTransfers, Currencies.GOLD, celoTransfersLatestBlock)

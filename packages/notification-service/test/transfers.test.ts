@@ -190,6 +190,19 @@ describe('Transfers', () => {
         timestamp: String(DOLLAR_TRANSFER.timestamp),
       }
     )
+
+    expect(sendPaymentNotificationMock).toHaveBeenCalledWith(
+      EURO_TRANSFER.sender,
+      EURO_TRANSFER.recipient,
+      convertWeiValue(EURO_TRANSFER.value),
+      EURO_TRANSFER.currency,
+      EURO_TRANSFER.blockNumber,
+      {
+        ...EURO_TRANSFER,
+        blockNumber: String(EURO_TRANSFER.blockNumber),
+        timestamp: String(EURO_TRANSFER.timestamp),
+      }
+    )
     expect(returned.length).toEqual(transfers.length)
   })
 
