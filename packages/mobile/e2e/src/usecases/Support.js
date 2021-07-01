@@ -10,6 +10,13 @@ export default Support = () => {
   if (device.getPlatform() === 'ios') {
     it("Display 'Contact' on Shake", async () => {
       await device.shake()
+      await waitFor(element(by.id('HavingTrouble')))
+        .toBeVisible()
+        .withTimeout(5000)
+      await waitFor(element(by.id('ShakeForSupport')))
+        .toBeVisible()
+        .withTimeout(5000)
+      await element(by.id('ContactSupportFromShake')).tap()
       await waitFor(element(by.id('ContactTitle')))
         .toBeVisible()
         .withTimeout(5000)

@@ -4,6 +4,7 @@ import { migrations } from 'src/redux/migrations'
 import {
   v0Schema,
   v13Schema,
+  v14Schema,
   v1Schema,
   v2Schema,
   v7Schema,
@@ -254,5 +255,80 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[14](v13Schema)
     expect(migratedSchema.networkInfo.userLocationData).toBeDefined()
     expect(migratedSchema.networkInfo.userLocationData.countryCodeAlpha2).toEqual(null)
+  })
+
+  it('works for v14 to v15', () => {
+    const v14Stub = {
+      ...v14Schema,
+      verify: {
+        ...v14Schema.verify,
+        seenVerificationNux: true,
+      },
+    }
+    const migratedSchema = migrations[15](v14Stub)
+    expect(migratedSchema.identity.hasSeenVerificationNux).toEqual(true)
+    expect(migratedSchema.identity).toMatchInlineSnapshot(`
+      Object {
+        "acceptedAttestationCodes": Array [],
+        "addressToDataEncryptionKey": Object {},
+        "addressToDisplayName": Object {},
+        "addressToE164Number": Object {},
+        "askedContactsPermission": false,
+        "attestationInputStatus": Array [
+          "Inputting",
+          "Disabled",
+          "Disabled",
+        ],
+        "attestationsCode": Array [],
+        "contactMappingProgress": Object {
+          "current": 0,
+          "total": 0,
+        },
+        "e164NumberToAddress": Object {},
+        "e164NumberToSalt": Object {},
+        "hasSeenVerificationNux": true,
+        "importContactsProgress": Object {
+          "current": 0,
+          "status": 0,
+          "total": 0,
+        },
+        "isLoadingImportContacts": false,
+        "lastRevealAttempt": null,
+        "matchedContacts": Object {},
+        "numCompleteAttestations": 0,
+        "secureSendPhoneNumberMapping": Object {},
+        "startedVerification": false,
+        "verificationFailed": false,
+        "verificationStatus": 0,
+        "walletToAccountAddress": Object {},
+      }
+    `)
+    expect(migratedSchema.verify).toMatchInlineSnapshot(`
+      Object {
+        "TEMPORARY_override_withoutVerification": undefined,
+        "actionableAttestations": Array [],
+        "currentState": Object {
+          "type": "Idle",
+        },
+        "komenci": Object {
+          "callbackUrl": undefined,
+          "captchaToken": "",
+          "errorTimestamps": Array [],
+          "sessionActive": false,
+          "sessionToken": "",
+          "unverifiedMtwAddress": null,
+        },
+        "komenciAvailable": "UNKNOWN",
+        "retries": 0,
+        "status": Object {
+          "completed": 0,
+          "isVerified": false,
+          "komenci": true,
+          "numAttestationsRemaining": 3,
+          "total": 0,
+        },
+        "withoutRevealing": false,
+      }
+    `)
   })
 })
