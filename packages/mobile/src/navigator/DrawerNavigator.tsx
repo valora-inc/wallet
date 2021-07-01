@@ -338,6 +338,7 @@ const styles = StyleSheet.create({
   drawerBottom: {
     marginVertical: 32,
     marginHorizontal: 16,
+    flexDirection: 'column',
   },
   smallLabel: {
     ...fontStyles.small,

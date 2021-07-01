@@ -5,6 +5,8 @@ exports[`AccountNumber renders correctly when touch disabled 1`] = `
   style={
     Object {
       "color": "#9CA4A9",
+      "flex": 1,
+      "flexWrap": "wrap",
       "fontFamily": "Inter-Regular",
       "fontSize": 14,
       "lineHeight": 18,
@@ -41,6 +43,8 @@ exports[`AccountNumber renders correctly when touch enabled 1`] = `
     style={
       Object {
         "color": "#9CA4A9",
+        "flex": 1,
+        "flexWrap": "wrap",
         "fontFamily": "Inter-Regular",
         "fontSize": 14,
         "lineHeight": 18,

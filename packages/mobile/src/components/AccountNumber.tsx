@@ -65,6 +65,8 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: colors.gray4,
     marginVertical: 8,
+    flexWrap: 'wrap',
+    flex: 1,
   },
   miniChunk: {
     width: 23,

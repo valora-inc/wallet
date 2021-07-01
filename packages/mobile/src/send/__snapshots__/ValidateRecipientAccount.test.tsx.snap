@@ -554,6 +554,8 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 style={
                   Object {
                     "color": "#9CA4A9",
+                    "flex": 1,
+                    "flexWrap": "wrap",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -1362,6 +1364,8 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 style={
                   Object {
                     "color": "#9CA4A9",
+                    "flex": 1,
+                    "flexWrap": "wrap",
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
