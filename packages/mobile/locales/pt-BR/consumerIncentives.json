@@ -1,6 +1,6 @@
 {
   "title": "A new way to earn",
-  "summary": "Starting {{date}}, you’ll earn {{percent}}% annually on your cUSD balance.",
+  "summary": "Starting now, you’ll earn up to {{percent}}% annually on your cUSD balance.",
   "earnWeekly": {
     "header": "Earn Weekly",
     "text": "Send and spend as usual, you’ll earn on the remaining balance."
