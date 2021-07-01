@@ -81,7 +81,7 @@ const useDollarAmount = (
     )
     return convertToMaxSupportedPrecision(dollarAmount ?? new BigNumber('0'))
   } else {
-    const exchangeRate = getRateForMakerToken(exchangeRates, Currency.Dollar, Currency.Celo)
+    const exchangeRate = getRateForMakerToken(exchangeRates, Currency.Celo, Currency.Dollar)
     return goldToDollarAmount(amount, exchangeRate) || new BigNumber(0)
   }
 }
