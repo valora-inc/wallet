@@ -215,7 +215,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   },
                 ]
               }
-              testID="radio/CELO"
+              testID="radio/cEUR"
             >
               <svg
                 height={20}
@@ -302,7 +302,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   },
                 ]
               }
-              testID="radio/cEUR"
+              testID="radio/CELO"
             >
               <svg
                 height={20}
@@ -1126,7 +1126,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   },
                 ]
               }
-              testID="radio/CELO"
+              testID="radio/cEUR"
             >
               <svg
                 height={20}
@@ -1213,7 +1213,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   },
                 ]
               }
-              testID="radio/cEUR"
+              testID="radio/CELO"
             >
               <svg
                 height={20}

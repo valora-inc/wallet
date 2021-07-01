@@ -194,6 +194,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                 <View style={styles.providerTextAndIconContainer}>
                   <View style={[styles.iconContainer]}>
                     <Image
+                      testID={`Icon/${provider.name}`}
                       source={{ uri: provider.logo }}
                       style={styles.iconImage}
                       resizeMode="contain"

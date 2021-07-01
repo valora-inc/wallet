@@ -459,4 +459,24 @@ describe('FiatExchangeAmount cashOut', () => {
       paymentMethod: PaymentMethod.Bank,
     })
   })
+
+  it('navigates to the ProviderOptionsScreen if the user balance (in non- USD currency) is greater than the requested cash-out amount', () => {
+    const tree = render(
+      <Provider store={storeWithPHP}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+
+    fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '25000')
+    fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
+    expect(navigate).toHaveBeenCalledWith(Screens.ProviderOptionsScreen, {
+      isCashIn: false,
+      selectedCrypto: Currency.Dollar,
+      amount: {
+        fiat: 25000,
+        crypto: 500,
+      },
+      paymentMethod: PaymentMethod.Bank,
+    })
+  })
 })
