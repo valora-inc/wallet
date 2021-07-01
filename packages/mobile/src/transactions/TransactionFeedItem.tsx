@@ -50,6 +50,7 @@ export function TransactionFeedItem(props: Props) {
               showExplicitPositiveSign={true}
               hideFullCurrencyName={!isCeloTx}
               style={[styles.amount, isReceived && styles.amountReceived]}
+              testID={'FeedItemAmountDisplay'}
             />
           </View>
           {!!subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}

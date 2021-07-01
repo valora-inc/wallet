@@ -167,3 +167,7 @@ export function getElementText(instance: ReactTestInstance | string): string {
     })
     .join('')
 }
+
+export function amountFromComponent(component: ReactTestInstance) {
+  return component.props.children.filter((child: any) => typeof child === 'string').join('')
+}

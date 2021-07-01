@@ -332,8 +332,9 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             testID="undefined/value"
           >
             
+            &lt;
             $
-            0.00
+            0.001
           </Text>
         </Text>
       </View>
