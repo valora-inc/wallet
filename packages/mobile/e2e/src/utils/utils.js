@@ -213,15 +213,12 @@ export async function pixelDiff(imagePath, expectedImagePath, acceptableDiffPerc
 export async function setDemoMode() {
   if (device.getPlatform() === 'ios') {
     exec(
-      `xcrun simctl status_bar "${device.id}" override --time "12:00" --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularMode active --cellularBars 4`
+      `xcrun simctl status_bar "${device.id}" override --batteryState charged --batteryLevel 100 --wifiBars 3 --cellularMode active --cellularBars 4`
     )
   } else {
     // enter demo mode
     exec(`adb -s ${device.id} shell settings put global sysui_demo_allowed 1`)
-    // display time 12:00
-    exec(
-      `adb -s ${device.id} shell am broadcast -a com.android.systemui.demo -e command clock -e hhmm 1200`
-    )
+
     // Display full mobile data with 4g type and no wifi
     exec(
       `adb -s ${device.id} shell am broadcast -a com.android.systemui.demo -e command network -e mobile show -e level 4 -e datatype 4g -e wifi false`
