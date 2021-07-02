@@ -9,3 +9,7 @@ beforeAll(async () => {
   })
   await setDemoMode()
 })
+
+beforeEach(async () => {
+  await device.setURLBlacklist(['.*blockchain-api-dot-celo-mobile-alfajores.appspot.com.*'])
+})
