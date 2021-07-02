@@ -99,10 +99,6 @@ preloadBundle() {
 }
 
 runTest() {
-  extra_param=""
-  if [[ $DEV_MODE == true ]]; then
-    extra_param="--reuse"
-  fi
   test_match=""
   if [[ $TEST_MATCH ]]; then
     test_match="-t='$TEST_MATCH'"
@@ -119,7 +115,7 @@ runTest() {
     --retries $RETRIES \
     --headless \
     "${test_match}" \
-    "${extra_param}" 
+    --reuse
   TEST_STATUS=$?
 }
 
