@@ -61,7 +61,7 @@ export default Send = () => {
     // Look for the latest transaction and assert
     await waitFor(element(by.text(`${randomContent}`)))
       .toBeVisible()
-      .withTimeout(90000)
+      .withTimeout(1800000)
   })
 
   // TODO(tomm): debug why error is thrown in e2e tests
