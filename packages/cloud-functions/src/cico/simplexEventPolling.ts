@@ -33,21 +33,6 @@ interface SimplexTransactionEvent {
   timestamp: string
 }
 
-// event_id: string,
-// name: string,
-// payment_id: string,
-// payment_status: string,
-// payment_created_at: string,
-// payment_partner_id: float,
-// payment_updated_at: string,
-// payment_crypto_currency: string,
-// payment_fiat_total_amount_amount: float,
-// payment_fiat_total_amount_currency: string,
-// payment_crypto_total_amount_amount: float,
-// payment_crypto_total_amount_currency: string,
-// payment_partner_end_user_id: string,
-// timestamp: string
-
 enum SimplexTxStatus {
   Started = 'payment_request_submitted',
   Completed = 'payment_simplexcc_approved',

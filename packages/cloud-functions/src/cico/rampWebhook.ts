@@ -52,32 +52,6 @@ interface RampAction {
   timestamp: string
   newStatus: string
 }
-// type: STRING,
-// status: STRING,
-// escrowAddress: STRING,
-// networkFee: FLOAT,
-// paymentMethodType: STRING,
-// purchaseViewToken: STRING,
-// assetExchangeRateEur: FLOAT,
-// createdAt: TIMESTAMP,
-// receiverAddress: STRING,
-// fiatCurrency: STRING,
-// actions: STRING,
-// endTime: TIMESTAMP,
-// assetExchangeRate: FLOAT,
-// fiatExchangeRateEur: FLOAT,
-// finalTxHash: STRING,
-// id: STRING,
-// asset_address: STRING,
-// asset_symbol: STRING ,
-// asset_type: STRING,
-// asset_name: STRING,
-// asset_decimals: FLOAT,
-// cryptoAmount: STRING,
-// baseRampFee: FLOAT,
-// fiatValue: FLOAT,
-// updatedAt: TIMESTAMP,
-// appliedFee: FLOAT
 
 enum PurchaseStatus {
   Initialized = 'INITIALIZED', // The purchase was initialized.
@@ -122,13 +96,7 @@ export const rampWebhook = functions.https.onRequest(async (req, res) => {
     const { receiverAddress, finalTxHash, status } = purchase
     console.info(`Received ${type} event with status ${status} for ${receiverAddress}`)
 
-    if (type === RampWebhookType.Released) {
-      if (!finalTxHash) {
-        throw new Error(
-          `Tx hash not found for release event. ID: ${purchase.id} Address: ${receiverAddress}`
-        )
-      }
-
+    if (type === RampWebhookType.Released && finalTxHash) {
       console.info(`Tx hash: ${finalTxHash}`)
       saveTxHashProvider(receiverAddress, finalTxHash, Providers.Ramp)
     }

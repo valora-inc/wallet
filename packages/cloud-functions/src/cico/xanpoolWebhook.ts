@@ -31,27 +31,6 @@ interface XanpoolEventPayload {
   }
 }
 
-// timestamp: integer,
-// message: string,
-// id: string,
-// type: string,
-// status: string,
-// method: string,
-// crypto: float,
-// fiat: float,
-// total: float,
-// currency: string,
-// cryptoCurrency: string,
-// serviceCharge: float,
-// cryptoPrice: float,
-// cryptoPriceUsd: float,
-// nonce: string,
-// qrCode: string,
-// wallet: string,
-// userCountry: string,
-// userId: string,
-// peer_account: string
-
 // This needs to be all lowercase due to a bug in Xanpool's dashboard
 export const xanpoolwebhook = functions.https.onRequest(async (req, res) => {
   try {

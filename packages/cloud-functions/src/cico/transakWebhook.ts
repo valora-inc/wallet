@@ -135,35 +135,6 @@ interface TransakEventPayload {
   }
 }
 
-// eventID: string,
-// id: string,
-// walletAddress: string,
-// createdAt: timestamp,
-// status: string,
-// fiatCurrency: string,
-// cryptoCurrency: string,
-// isBuyOrSell: string,
-// fiatAmount: float,
-// walletLink: string,
-// paymentOptionId: string,
-// quoteId: string,
-// addressAdditionalData: boolean,
-// network: string,
-// amountPaid: float,
-// redirectURL: string,
-// conversionPrice: float,
-// cryptoAmount: float,
-// totalFeeInFiat: float,
-// fiatAmountInUsd: float,
-// fromWalletAddress: boolean,
-// liquidityProvider: string,
-// failureReason: string,
-// isNonCustodial: boolean,
-// transactionHash: string,
-// transactionLink: string,
-// completedAt: timestamp,
-// partnerFeeInLocalCurrency: float
-
 enum TransakEvent {
   Created = 'ORDER_CREATED',
   Processing = 'ORDER_COMPLETED',
