@@ -17,6 +17,8 @@ import { goldToDollarAmount } from 'src/utils/currencyExchange'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
 import { formatFeedDate } from 'src/utils/time'
 import { VictoryGroup, VictoryLine, VictoryScatter } from 'victory-native'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { CeloExchangeEvents } from 'src/analytics/Events'
 
 const CHART_WIDTH = variables.width
 const CHART_HEIGHT = 180
@@ -188,6 +190,10 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
   )
   const exchangeHistory = useSelector(exchangeHistorySelector)
 
+  const onTap = useCallback(() => {
+    ValoraAnalytics.track(CeloExchangeEvents.celo_chart_tapped, {})
+  }, [])
+
   if (!exchangeHistory.aggregatedExchangeRates?.length) {
     return <Loader />
   }
@@ -229,7 +235,7 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
   const latestExchangeRate = _.last(exchangeHistory.aggregatedExchangeRates)!
 
   return (
-    <View style={styles.container} testID={testID}>
+    <View style={styles.container} onTouchStart={onTap} testID={testID}>
       <VictoryGroup
         domainPadding={CHART_DOMAIN_PADDING}
         singleQuadrantDomainPadding={false}

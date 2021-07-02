@@ -329,6 +329,8 @@ export enum CeloExchangeEvents {
   celo_withdraw_confirm = 'celo_withdraw_confirm', // when ‘withdraw’ is clicked on the review screen
   celo_withdraw_completed = 'celo_withdraw_completed', // when the transaction for the withdrawal is completed
   celo_withdraw_error = 'celo_withdraw_error', // when there's an error on the withdrawal transaction
+
+  celo_chart_tapped = 'celo_chart_tapped', // when user clicks the chart on exchange screen
 }
 
 export enum FiatExchangeEvents {
