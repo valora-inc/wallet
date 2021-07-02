@@ -77,6 +77,7 @@ function CurrencyRadioItem({
   title,
   body,
   containerStyle,
+  testID,
 }: {
   selected: boolean
   onSelect: () => void
@@ -84,6 +85,7 @@ function CurrencyRadioItem({
   title: string
   body?: string
   containerStyle: ViewStyle
+  testID?: string
 }) {
   return (
     <TouchableWithoutFeedback onPress={onSelect} disabled={!enabled}>
@@ -93,6 +95,7 @@ function CurrencyRadioItem({
           containerStyle,
           { borderColor: currencyBorderColor(selected) },
         ]}
+        testID={testID}
       >
         <RadioButton selected={selected} disabled={!enabled} />
         <Text style={[styles.currencyItemTitle, enabled ? {} : { color: colors.gray3 }]}>
@@ -109,17 +112,22 @@ function PaymentMethodRadioItem({
   onSelect,
   text,
   enabled = true,
+  testID,
 }: {
   selected: boolean
   onSelect: () => void
   text: string
   enabled?: boolean
+  testID?: string
 }): JSX.Element {
   return (
     <TouchableWithoutFeedback onPress={onSelect} disabled={!enabled}>
       <View style={styles.paymentMethodItemContainer}>
         <RadioButton selected={selected} disabled={!enabled} />
-        <Text style={[styles.paymentMethodItemText, enabled ? {} : { color: colors.gray3 }]}>
+        <Text
+          testID={testID}
+          style={[styles.paymentMethodItemText, enabled ? {} : { color: colors.gray3 }]}
+        >
           {text}
         </Text>
       </View>
@@ -221,6 +229,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               borderTopRightRadius: 8,
             }}
             enabled={selectedPaymentMethod !== PaymentMethod.Address}
+            testID="radio/cUSD"
           />
           <View style={styles.currencySeparator} />
           <CurrencyRadioItem
@@ -233,6 +242,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               borderBottomRightRadius: 8,
             }}
             enabled={selectedPaymentMethod !== PaymentMethod.GiftCard}
+            testID="radio/CELO"
           />
         </View>
       </ScrollView>
@@ -251,11 +261,13 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                     text={t('payWithCard')}
                     selected={selectedPaymentMethod === PaymentMethod.Card}
                     onSelect={onSelectPaymentMethod(PaymentMethod.Card)}
+                    testID="payWithCard"
                   />
                   <PaymentMethodRadioItem
                     text={t('payWithBank')}
                     selected={selectedPaymentMethod === PaymentMethod.Bank}
                     onSelect={onSelectPaymentMethod(PaymentMethod.Bank)}
+                    testID="payWithBank"
                   />
                 </>
               ) : (
@@ -265,18 +277,21 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                     selected={selectedPaymentMethod === PaymentMethod.Bank}
                     onSelect={onSelectPaymentMethod(PaymentMethod.Bank)}
                     enabled={selectedCurrency === CURRENCY_ENUM.DOLLAR}
+                    testID="receiveWithBank"
                   />
                   <PaymentMethodRadioItem
                     text={t('receiveWithBidali')}
                     selected={selectedPaymentMethod === PaymentMethod.GiftCard}
                     onSelect={onSelectPaymentMethod(PaymentMethod.GiftCard)}
                     enabled={selectedCurrency === CURRENCY_ENUM.DOLLAR}
+                    testID="receiveWithBidali"
                   />
                   <PaymentMethodRadioItem
                     text={t('receiveOnAddress')}
                     selected={selectedPaymentMethod === PaymentMethod.Address}
                     onSelect={onSelectPaymentMethod(PaymentMethod.Address)}
                     enabled={selectedCurrency === CURRENCY_ENUM.GOLD}
+                    testID="receiveOnAddress"
                   />
                 </>
               )}
@@ -284,6 +299,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                 text={t('payWithExchange')}
                 selected={selectedPaymentMethod === PaymentMethod.Exchange}
                 onSelect={onSelectPaymentMethod(PaymentMethod.Exchange)}
+                testID="withExchange"
               />
               {getAvailableLocalProviders(
                 localCicoProviders,

@@ -8,17 +8,7 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 // TODO: Add better tests for this
 describe('VerificationInputScreen', () => {
-  const store = createMockStore({
-    verify: {
-      attestationCodes: [],
-      status: {
-        isVerified: false,
-        numAttestationsRemaining: 3,
-        total: 3,
-        completed: 0,
-      },
-    },
-  })
+  const store = createMockStore({})
 
   it('renders correctly', () => {
     const { toJSON } = render(
