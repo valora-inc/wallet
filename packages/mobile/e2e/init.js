@@ -8,6 +8,5 @@ beforeAll(async () => {
     newInstance: false,
     permissions: { notifications: 'YES', contacts: 'YES' },
   })
-  await device.setURLBlacklist(['.*blockchain-api-dot-celo-mobile-alfajores.appspot.com.*'])
   await setDemoMode()
 })
