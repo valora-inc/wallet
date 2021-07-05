@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import { ReactTestInstance } from 'react-test-renderer'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -15,7 +14,12 @@ import { RootState } from 'src/redux/reducers'
 import { getSendFee } from 'src/send/saga'
 import SendConfirmation from 'src/send/SendConfirmation'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore, getMockStackScreenProps, RecursivePartial } from 'test/utils'
+import {
+  amountFromComponent,
+  createMockStore,
+  getMockStackScreenProps,
+  RecursivePartial,
+} from 'test/utils'
 import {
   mockAccount2Invite,
   mockAccountInvite,
@@ -86,10 +90,6 @@ describe('SendConfirmation', () => {
       store,
       ...tree,
     }
-  }
-
-  function amountFromComponent(component: ReactTestInstance) {
-    return component.props.children.filter((child: any) => typeof child === 'string').join('')
   }
 
   it('renders correctly', async () => {

@@ -157,6 +157,7 @@ export default function CurrencyDisplay({
   const formatAmount = getFormatFunction(formatType)
   const formattedValue =
     value && displayCurrency ? formatAmount(value.absoluteValue(), displayCurrency) : '-'
+  const includesLowerThanSymbol = formattedValue.startsWith('<')
   const code = displayAmount?.currencyCode
   const fullCurrencyName = getFullCurrencyName(amountCurrency)
 
@@ -192,13 +193,18 @@ export default function CurrencyDisplay({
             {sign}
           </Text>
         )}
+        {includesLowerThanSymbol && (
+          <Text numberOfLines={1} style={[fontStyles.regular, symbolStyle]}>
+            {'<'}
+          </Text>
+        )}
         {!hideSymbol && (
           <Text numberOfLines={1} style={[fontStyles.regular, symbolStyle]}>
             {currencySymbol}
           </Text>
         )}
         <Text numberOfLines={1} style={[styles.bigCurrency, amountStyle]}>
-          {formattedValue}
+          {formattedValue.substring(includesLowerThanSymbol ? 1 : 0)}
         </Text>
         {!hideCode && !!code && (
           <Text numberOfLines={1} style={[styles.bigCurrencyCode, codeStyle]}>
@@ -212,8 +218,9 @@ export default function CurrencyDisplay({
   return (
     <Text numberOfLines={1} style={[style, { color }]} testID={`${testID}/value`}>
       {!hideSign && sign}
+      {includesLowerThanSymbol && '<'}
       {!hideSymbol && currencySymbol}
-      {formattedValue}
+      {formattedValue.substring(includesLowerThanSymbol ? 1 : 0)}
       {!hideCode && !!code && ` ${code}`}
       {!hideFullCurrencyName && !!fullCurrencyName && ` ${fullCurrencyName}`}
     </Text>

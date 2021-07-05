@@ -105,8 +105,9 @@ exports[`transfer feed item renders correctly for <0.000001 network fee 1`] = `
           testID="undefined/value"
         >
           -
+          &lt;
           $
-          &lt;0.001
+          0.001
         </Text>
       </View>
       <Text
