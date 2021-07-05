@@ -8,21 +8,22 @@ import {
   DOLLAR_ADD_FUNDS_MAX_AMOUNT,
   DOLLAR_ADD_FUNDS_MIN_AMOUNT,
 } from 'src/config'
-import { ExchangeRatePair } from 'src/exchange/reducer'
+import { ExchangeRates } from 'src/exchange/reducer'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { makeExchangeRates } from 'test/values'
 
-const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.5', dollarMaker: '1' }
+const exchangeRates: ExchangeRates = makeExchangeRates('0.5', '1')
 const usdToPHPExchangeRate = 50
 
 const storeWithUSD = createMockStore({
   stableToken: {
-    balance: '1000.00',
+    balances: { [Currency.Dollar]: '1000.00' },
   },
   goldToken: {
     balance: '5.5',
@@ -30,14 +31,14 @@ const storeWithUSD = createMockStore({
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.USD,
     preferredCurrencyCode: LocalCurrencyCode.USD,
-    exchangeRate: '1',
+    exchangeRates: { [Currency.Dollar]: '1' },
   },
-  exchange: { exchangeRatePair },
+  exchange: { exchangeRates },
 })
 
 const storeWithPHP = createMockStore({
   stableToken: {
-    balance: '1000.00',
+    balances: { [Currency.Dollar]: '1000.00' },
   },
   goldToken: {
     balance: '5.5',
@@ -45,9 +46,9 @@ const storeWithPHP = createMockStore({
   localCurrency: {
     fetchedCurrencyCode: LocalCurrencyCode.PHP,
     preferredCurrencyCode: LocalCurrencyCode.PHP,
-    exchangeRate: usdToPHPExchangeRate.toString(),
+    exchangeRates: { [Currency.Dollar]: usdToPHPExchangeRate.toString() },
   },
-  exchange: { exchangeRatePair },
+  exchange: { exchangeRates },
 })
 
 describe('FiatExchangeAmount cashIn', () => {
@@ -60,7 +61,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('renders correctly', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.DOLLAR,
+      currency: Currency.Dollar,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
@@ -74,7 +75,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('disables the next button if the cUSD amount is 0', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.DOLLAR,
+      currency: Currency.Dollar,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
@@ -90,7 +91,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('enables the next button if the cUSD amount is greater than 0', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.DOLLAR,
+      currency: Currency.Dollar,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
@@ -106,7 +107,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('opens a dialog when the cUSD amount is lower than the limit', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.DOLLAR,
+      currency: Currency.Dollar,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
@@ -128,7 +129,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('opens a dialog when the cUSD amount (in non-USD currency) is lower than the limit', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.DOLLAR,
+      currency: Currency.Dollar,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
@@ -150,7 +151,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('opens a dialog when the CELO amount is lower than the limit', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.GOLD,
+      currency: Currency.Celo,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
@@ -169,7 +170,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('opens a dialog when the cUSD amount is higher than the limit', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.DOLLAR,
+      currency: Currency.Dollar,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
@@ -191,7 +192,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('opens a dialog when the cUSD amount (in non-USD currency) is higher than the limit', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.DOLLAR,
+      currency: Currency.Dollar,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
@@ -213,7 +214,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('opens a dialog when the CELO amount is higher than the limit', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.GOLD,
+      currency: Currency.Celo,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
@@ -223,7 +224,8 @@ describe('FiatExchangeAmount cashIn', () => {
       </Provider>
     )
 
-    const overLimitAmount = (DOLLAR_ADD_FUNDS_MAX_AMOUNT + 1) / Number(exchangeRatePair.goldMaker)
+    const overLimitAmount =
+      (DOLLAR_ADD_FUNDS_MAX_AMOUNT + 1) / Number(exchangeRates[Currency.Celo][Currency.Dollar])
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), overLimitAmount.toString())
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
@@ -234,7 +236,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('opens a dialog when the cUSD amount is higher than the daily limit', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.DOLLAR,
+      currency: Currency.Dollar,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
@@ -253,7 +255,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
     expect(navigate).toHaveBeenCalledWith(Screens.ProviderOptionsScreen, {
       isCashIn: true,
-      selectedCrypto: CURRENCY_ENUM.DOLLAR,
+      selectedCrypto: Currency.Dollar,
       amount: {
         fiat: overLimitAmount,
         crypto: overLimitAmount,
@@ -264,7 +266,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('opens a dialog when the cUSD amount (in non-USD currency) is higher than the daily limit', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.DOLLAR,
+      currency: Currency.Dollar,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
@@ -283,7 +285,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
     expect(navigate).toHaveBeenCalledWith(Screens.ProviderOptionsScreen, {
       isCashIn: true,
-      selectedCrypto: CURRENCY_ENUM.DOLLAR,
+      selectedCrypto: Currency.Dollar,
       amount: {
         fiat: overLimitAmount,
         crypto: overLimitAmount / usdToPHPExchangeRate,
@@ -294,7 +296,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it('redirects to contact screen when that option is pressed with a prefilled message', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-      currency: CURRENCY_ENUM.DOLLAR,
+      currency: Currency.Dollar,
       paymentMethod: PaymentMethod.Bank,
       isCashIn: true,
     })
@@ -316,7 +318,7 @@ describe('FiatExchangeAmount cashIn', () => {
 
 describe('FiatExchangeAmount cashOut', () => {
   const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
-    currency: CURRENCY_ENUM.DOLLAR,
+    currency: Currency.Dollar,
     paymentMethod: PaymentMethod.Bank,
     isCashIn: false,
   })
@@ -378,7 +380,7 @@ describe('FiatExchangeAmount cashOut', () => {
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
     expect(navigate).toHaveBeenCalledWith(Screens.ProviderOptionsScreen, {
       isCashIn: false,
-      selectedCrypto: CURRENCY_ENUM.DOLLAR,
+      selectedCrypto: Currency.Dollar,
       amount: {
         fiat: 750,
         crypto: 750,
@@ -398,7 +400,7 @@ describe('FiatExchangeAmount cashOut', () => {
     fireEvent.press(tree.getByTestId('FiatExchangeNextButton'))
     expect(navigate).toHaveBeenCalledWith(Screens.ProviderOptionsScreen, {
       isCashIn: false,
-      selectedCrypto: CURRENCY_ENUM.DOLLAR,
+      selectedCrypto: Currency.Dollar,
       amount: {
         fiat: 25000,
         crypto: 500,

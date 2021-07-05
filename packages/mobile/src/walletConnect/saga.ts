@@ -11,6 +11,7 @@ import { PairingTypes, SessionTypes } from '@walletconnect/types'
 import { ERROR as WalletConnectErrors, ErrorType, getError } from '@walletconnect/utils'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -386,6 +387,11 @@ export function* walletConnectSaga() {
 }
 
 export function* initialiseWalletConnect(uri: string) {
+  const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
+  if (!walletConnectEnabled) {
+    return
+  }
+
   if (!client) {
     yield put(initialiseClient())
     yield take(Actions.CLIENT_INITIALISED)

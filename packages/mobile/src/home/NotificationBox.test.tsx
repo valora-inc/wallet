@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
 import { DAYS_TO_BACKUP } from 'src/backup/utils'
 import NotificationBox from 'src/home/NotificationBox'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper, mockPaymentRequests } from 'test/values'
 
@@ -73,7 +74,7 @@ describe('NotificationBox', () => {
         e164PhoneNumber: mockE164Number,
       },
       identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-      stableToken: { balance: '0.00' },
+      stableToken: { balances: { [Currency.Dollar]: '0.00' } },
       goldToken: { balance: '0.00' },
     })
     const tree = render(
@@ -212,7 +213,7 @@ describe('NotificationBox', () => {
         e164PhoneNumber: mockE164Number,
       },
       identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-      stableToken: { balance: '0.00' },
+      stableToken: { balances: { [Currency.Dollar]: '0.00' } },
     })
     const { getByText } = render(
       <Provider store={store}>

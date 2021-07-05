@@ -5,14 +5,14 @@ import { call } from 'redux-saga/effects'
 import { MAX_COMMENT_LENGTH } from 'src/config'
 import { features } from 'src/flags'
 import i18n from 'src/i18n'
-import { PaymentRequest } from 'src/paymentRequest/types'
+import { PaymentRequest, WriteablePaymentRequest } from 'src/paymentRequest/types'
 import Logger from 'src/utils/Logger'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
 
 const TAG = 'paymentRequest/utils'
 
 // Encrypt sensitive data in the payment request using the recipient and sender DEK
-export function* encryptPaymentRequest(paymentRequest: PaymentRequest) {
+export function* encryptPaymentRequest(paymentRequest: WriteablePaymentRequest) {
   Logger.debug(`${TAG}@encryptPaymentRequest`, 'Encrypting payment request')
 
   const fromKey: Buffer | null = yield call(
@@ -30,7 +30,7 @@ export function* encryptPaymentRequest(paymentRequest: PaymentRequest) {
     return sanitizePaymentRequest(paymentRequest)
   }
 
-  const encryptedPaymentRequest: PaymentRequest = {
+  const encryptedPaymentRequest: WriteablePaymentRequest = {
     ...paymentRequest,
   }
 
@@ -125,7 +125,7 @@ export function decryptPaymentRequest(
 }
 
 // For cases when the request can't be encrypted, remove sensitive PII
-function sanitizePaymentRequest(paymentRequest: PaymentRequest): PaymentRequest {
+function sanitizePaymentRequest(paymentRequest: WriteablePaymentRequest): WriteablePaymentRequest {
   return {
     ...paymentRequest,
     requesterE164Number: undefined,

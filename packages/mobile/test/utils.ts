@@ -17,6 +17,11 @@ import {
   mockValoraRecipientCache,
 } from 'test/values'
 
+beforeAll(() => {
+  // @ts-ignore This avoids an error, see: https://github.com/software-mansion/react-native-reanimated/issues/1380
+  global.__reanimatedWorkletInit = jest.fn()
+})
+
 // Sleep for a number of ms
 export const sleep = (time: number) =>
   new Promise((resolve) => setTimeout(() => resolve(true), time))
@@ -78,7 +83,7 @@ function createSendMethod(): SendMethod {
 const mockStore = configureMockStore<RootState>()
 
 /* Create a mock store with some reasonable default values */
-type RecursivePartial<T> = { [P in keyof T]?: RecursivePartial<T[P]> }
+export type RecursivePartial<T> = { [P in keyof T]?: RecursivePartial<T[P]> }
 export function createMockStore(overrides: RecursivePartial<RootState> = {}) {
   return mockStore(getMockStoreData(overrides))
 }
@@ -161,4 +166,8 @@ export function getElementText(instance: ReactTestInstance | string): string {
       return getElementText(child)
     })
     .join('')
+}
+
+export function amountFromComponent(component: ReactTestInstance) {
+  return component.props.children.filter((child: any) => typeof child === 'string').join('')
 }

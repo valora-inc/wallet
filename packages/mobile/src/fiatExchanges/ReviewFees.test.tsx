@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import { CurrencyCode } from 'src/config'
 import ReviewFees from 'src/fiatExchanges/ReviewFees'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 
 const mockStore = createMockStore()
@@ -14,7 +14,7 @@ const cusdAmount = 25
 
 const mockScreenProps = (feeWaived: boolean) => ({
   provider: 'Simplex',
-  currencyToBuy: CurrencyCode.CELO,
+  currencyToBuy: CiCoCurrency.CELO,
   localCurrency: LocalCurrencyCode.USD,
   crypto: {
     amount: cusdAmount,

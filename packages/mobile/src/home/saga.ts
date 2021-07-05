@@ -19,7 +19,7 @@ import { fetchCurrentRate } from 'src/localCurrency/actions'
 import { shouldFetchCurrentRate } from 'src/localCurrency/selectors'
 import { withTimeout } from 'src/redux/sagas-helpers'
 import { shouldUpdateBalance } from 'src/redux/selectors'
-import { fetchDollarBalance } from 'src/stableToken/actions'
+import { fetchStableBalances } from 'src/stableToken/actions'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import Logger from 'src/utils/Logger'
 import { getConnectedAccount } from 'src/web3/saga'
@@ -42,7 +42,7 @@ export function withLoading<Fn extends (...args: any[]) => any>(fn: Fn, ...args:
 export function* refreshBalances() {
   Logger.debug(TAG, 'Fetching all balances')
   yield call(getConnectedAccount)
-  yield put(fetchDollarBalance())
+  yield put(fetchStableBalances())
   yield put(fetchGoldBalance())
   yield put(fetchSentEscrowPayments())
 }

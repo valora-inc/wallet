@@ -1,4 +1,5 @@
 import { TokenTransfer, TokenTransferAction } from 'src/tokens/saga'
+import { StableCurrency } from 'src/utils/currencies'
 
 export enum Actions {
   SET_BALANCE = 'STABLE_TOKEN/SET_BALANCE',
@@ -9,7 +10,7 @@ export enum Actions {
 
 export interface SetBalanceAction {
   type: Actions.SET_BALANCE
-  balance: string
+  balances: { [currency in StableCurrency]: string | null }
 }
 
 export interface SetEducationCompletedAction {
@@ -31,18 +32,21 @@ export type ActionTypes =
   | FetchBalanceAction
   | TransferAction
 
-export const fetchDollarBalance = (): FetchBalanceAction => ({
+export const fetchStableBalances = (): FetchBalanceAction => ({
   type: Actions.FETCH_BALANCE,
 })
 
-export const setBalance = (balance: string): SetBalanceAction => ({
+export const setBalance = (
+  balances: { [currency in StableCurrency]: string | null }
+): SetBalanceAction => ({
   type: Actions.SET_BALANCE,
-  balance,
+  balances,
 })
 
 export const transferStableToken = ({
   recipientAddress,
   amount,
+  currency,
   comment,
   feeInfo,
   context,
@@ -50,6 +54,7 @@ export const transferStableToken = ({
   type: Actions.TRANSFER,
   recipientAddress,
   amount,
+  currency,
   comment,
   feeInfo,
   context,

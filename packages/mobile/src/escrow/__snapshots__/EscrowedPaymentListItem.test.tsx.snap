@@ -88,14 +88,16 @@ exports[`EscrowedPaymentReminderNotification renders correctly 1`] = `
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
+            &lt;
             $
-            0.00
+            0.001
           </Text>
         </Text>
         <Text
