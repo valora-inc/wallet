@@ -5,6 +5,8 @@
   "celoReceivedBody": "Você acabou de receber {{amount}} CELO! Você pode ganhar, poupar e gastar na Valora. Clique para saber mais.",
   "dollar": "Celo Dólar",
   "dollar_plural": "Celo Dólares",
+  "euro": "Celo Euro",
+  "euro_plural": "Celo Euros",
   "gold": "CELO",
   "paymentRequestedTitle": "Pagamento solicitado",
   "paymentRequestedBody": "Foi solicitado um pagamento de {{amount}} {{currency}}.",
