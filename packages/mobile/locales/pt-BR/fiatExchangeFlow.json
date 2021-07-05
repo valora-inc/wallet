@@ -55,7 +55,7 @@
     "body2": "Site do provedor {{providerName}}"
   },
   "providerFeeDiscountDialog": {
-    "title": "Fee Discount",
+    "title": "Desconto da taxa",
     "body": "Como oferta especial de lançamento, as taxas são oferecidas momentaneamente pela Valora!"
   },
   "dailyLimitRequest": "Olá! Eu gostaria de aumentar meu limite de envio diário, por favor.",
