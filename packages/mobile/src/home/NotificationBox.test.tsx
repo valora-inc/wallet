@@ -285,4 +285,52 @@ describe('NotificationBox', () => {
     fireEvent.press(getByText('Press Remote'))
     expect(store.getActions()).toEqual([openUrl(testNotification.ctaUri, false, true)])
   })
+
+  it('renders notifications that open URL internally or externally', () => {
+    const store = createMockStore({
+      ...storeDataNotificationsDisabled,
+      home: {
+        notifications: {
+          notification1: {
+            ...testNotification,
+            content: {
+              en: {
+                ...testNotification.content.en,
+                body: 'Notification 1',
+                cta: 'Press Internal',
+              },
+            },
+          },
+          notification2: {
+            ...testNotification,
+            openExternal: true,
+            content: {
+              en: {
+                ...testNotification.content.en,
+                body: 'Notification 2',
+                cta: 'Press External',
+              },
+            },
+          },
+        },
+      },
+    })
+    const { queryByText, getByText } = render(
+      <Provider store={store}>
+        <NotificationBox />
+      </Provider>
+    )
+    expect(queryByText('Notification 1')).toBeTruthy()
+    expect(queryByText('Notification 2')).toBeTruthy()
+
+    expect(store.getActions()).toEqual([])
+
+    fireEvent.press(getByText('Press Internal'))
+    expect(store.getActions()).toEqual([openUrl(testNotification.ctaUri, false, true)])
+    fireEvent.press(getByText('Press External'))
+    expect(store.getActions()).toEqual([
+      openUrl(testNotification.ctaUri, false, true),
+      openUrl(testNotification.ctaUri, true, true),
+    ])
+  })
 })
