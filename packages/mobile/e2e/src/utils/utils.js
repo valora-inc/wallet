@@ -163,7 +163,9 @@ export async function quickOnboarding() {
     await waitFor(element(by.id('connectingToCelo')))
       .not.toBeVisible()
       .withTimeout(20000)
+
     // Input Wallet Backup Key
+    await sleep(3000)
     await element(by.id('ImportWalletBackupKeyInputField')).tap()
     await element(by.id('ImportWalletBackupKeyInputField')).replaceText(`${SAMPLE_BACKUP_KEY}`)
     if (device.getPlatform() === 'ios') {
