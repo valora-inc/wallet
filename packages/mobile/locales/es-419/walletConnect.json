@@ -8,6 +8,7 @@
     "data": "Datos",
     "sign": "Firmar un payload de datos",
     "signTransaction": "Firmar un Celo TX",
+    "sendTransaction": "Send a Celo TX",
     "decrypt": "Descifrar un payload de datos",
     "accounts": "Lee tu dirección de cuenta de {{appName}}",
     "details": "Mostrar detalles",
@@ -17,6 +18,7 @@
   "description": {
     "sign": "Firmar Payloads",
     "signTransaction": "Enviar fondos",
+    "sendTransaction": "Enviar fondos",
     "accounts": "Leer dirección",
     "decrypt": "Descifrar datos",
     "computeSharedSecret": "Generar un secreto"
