@@ -1,6 +1,6 @@
 {
   "title": "Una nueva forma de ganar",
-  "summary": "Starting now, you’ll earn up to {{percent}}% annually on your cUSD balance.",
+  "summary": "A partir de ahora, ganarás hasta un {{percent}}% anual sobre tu saldo en cUSD.",
   "earnWeekly": {
     "header": "Gana semanalmente",
     "text": "Envía y gasta como siempre, ganarás en el saldo restante."
