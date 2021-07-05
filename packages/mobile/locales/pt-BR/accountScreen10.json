@@ -94,14 +94,14 @@
   "raiseLimitBegin": "Iniciar verificação de identidade",
   "raiseLimitResume": "Retomar verificação de identidade",
   "raiseLimitEmailSubject": "Solicitar o aumento de limite de envio da conta",
-  "raiseLimitEmailBody": "I would like to request an increase to the {{dailyLimit}} {{appName}} daily limit for address {{address}}",
-  "raiseLimitEmailSuccess": "Your request has been sent successfully! Expect an email response soon!",
-  "raiseLimitEmailNotSent": "Your request was not sent. Please try again.",
+  "raiseLimitEmailBody": "Eu gostaria de solicitar um aumento do limite diário para {{dailyLimit}} do app {{appName}} para o endereço {{address}}",
+  "raiseLimitEmailSuccess": "Seu pedido foi enviado com sucesso! Receberá uma resposta de e-mail em breve!",
+  "raiseLimitEmailNotSent": "Seu pedido não foi enviado. Tente novamente.",
   "storeRecoveryTitle": "Precisamos que você configure sua conta novamente",
   "storeRecoveryBody": "Houve um erro. Estamos cientes do problema e estamos trabalhando para corrigi-lo. Enquanto isso, você precisará passar pelo processo de configuração novamente.",
   "storeRecoveryButton": "Restaurar conta",
-  "havingTrouble": "Having Trouble?",
-  "shakeForSupport": "This menu appears when you shake your device.",
-  "contactSupport": "Contact Support",
-  "tapToCopy": "Tap to Copy"
+  "havingTrouble": "Você tem problemas?",
+  "shakeForSupport": "Este menu aparece quando você agita seu dispositivo.",
+  "contactSupport": "Contate o suporte",
+  "tapToCopy": "Toque para copiar"
 }
