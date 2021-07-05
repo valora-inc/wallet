@@ -14,6 +14,9 @@ export default SecureSend = () => {
 
   it('Send cUSD to phone number with multiple mappings', async () => {
     let randomContent = faker.lorem.words()
+    await waitFor(element(by.id('SendOrRequestBar/SendButton')))
+      .toBeVisible()
+      .withTimeout(30000)
     await element(by.id('SendOrRequestBar/SendButton')).tap()
 
     // Look for an address and tap on it.
@@ -29,7 +32,15 @@ export default SecureSend = () => {
     // hack: we shouldn't need this but the test fails without
     await sleep(3000)
 
+    // Click Edit if confirm account isn't served
+    try {
+      await element(by.id('accountEditButton')).tap()
+    } catch {}
+
     // Use the last digits of the account to confirm the sender.
+    await waitFor(element(by.id('confirmAccountButton')))
+      .toBeVisible()
+      .withTimeout(30000)
     await element(by.id('confirmAccountButton')).tap()
     for (let index = 0; index < 4; index++) {
       const character = LAST_ACCEOUNT_CHARACTERS[index]
@@ -55,6 +66,6 @@ export default SecureSend = () => {
     // Look for the latest transaction and assert
     await waitFor(element(by.text(`${randomContent}`)))
       .toBeVisible()
-      .withTimeout(45000)
+      .withTimeout(90000)
   })
 }
