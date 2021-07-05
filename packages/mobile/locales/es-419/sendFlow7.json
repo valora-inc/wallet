@@ -4,6 +4,7 @@
   "dollarsSent": "Dólares Enviados",
   "to": "Para",
   "send": "Enviar",
+  "sendToken": "Send {{token}}",
   "payment": "Pago",
   "sendOrRequest": "Enviar o solicitar",
   "recent": "Recientes",
@@ -72,6 +73,8 @@
   "newAccountBalance": "Nuevo saldo de cuenta: ",
   "estimatingFee": "Estimando tarifa ",
   "estimatedFee": "Tarifa estimada: ",
+  "selectBalance": "Select Balance",
+  "stableBalance": "{{token}} Balance",
   "verificationCta": {
     "header": "¿Enviar a un amigo?",
     "body": "Confirma tu celular y sincroniza tus contactos para poder enviar dinero rápidamente a tus amigos.",
