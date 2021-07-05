@@ -1,7 +1,6 @@
 import ReviewFrame from '@celo/react-components/components/ReviewFrame'
 import ReviewHeader from '@celo/react-components/components/ReviewHeader'
 import colors from '@celo/react-components/styles/colors'
-import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
@@ -24,6 +23,7 @@ import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { Currency } from 'src/utils/currencies'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -58,7 +58,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     isReclaiming: state.escrow.isReclaiming,
     e164PhoneNumber: state.account.e164PhoneNumber,
     account: currentAccountSelector(state),
-    dollarBalance: state.stableToken.balance || '0',
+    dollarBalance: state.stableToken.balances[Currency.Dollar] || '0',
     celoBalance: state.goldToken.balance || '0',
     appConnected: isAppConnected(state),
   }
@@ -127,7 +127,7 @@ class ReclaimPaymentConfirmationScreen extends React.Component<Props> {
     const feeCurrency = asyncFee.result?.currency
     const convertedAmount = divideByWei(payment.amount.valueOf())
     const userHasEnough = fee?.isLessThanOrEqualTo(
-      feeCurrency === CURRENCY_ENUM.DOLLAR ? dollarBalance : celoBalance
+      feeCurrency === Currency.Dollar ? dollarBalance : celoBalance
     )
 
     return (
@@ -156,7 +156,7 @@ class ReclaimPaymentConfirmationScreen extends React.Component<Props> {
               } /* TODO get recipient contact details from recipient cache*/
             }
             amount={convertedAmount}
-            currency={CURRENCY_ENUM.DOLLAR} // User can only request in Dollars
+            currency={Currency.Dollar} // User can only request in Dollars
             feeInfo={asyncFee.result}
             isLoadingFee={asyncFee.loading}
             feeError={asyncFee.error}

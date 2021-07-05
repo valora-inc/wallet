@@ -1,4 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Text } from 'react-native'
@@ -9,6 +8,7 @@ import ProviderOptionsScreen, { CicoProvider } from 'src/fiatExchanges/ProviderO
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount } from 'test/values'
@@ -23,7 +23,7 @@ const mockScreenProps = (
 ) =>
   getMockStackScreenProps(Screens.ProviderOptionsScreen, {
     isCashIn,
-    selectedCrypto: CURRENCY_ENUM.DOLLAR,
+    selectedCrypto: Currency.Dollar,
     amount: {
       crypto: AMOUNT_TO_CASH_IN,
       fiat: AMOUNT_TO_CASH_IN,
