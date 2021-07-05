@@ -74,7 +74,6 @@ describe(exchangeGoldAndStableTokens, () => {
           },
         ],
         [matchers.call.fn(sendTransaction), true],
-        [matchers.call.fn(sendAndMonitorTransaction), true],
       ])
       .put.like({
         action: {
@@ -90,10 +89,6 @@ describe(exchangeGoldAndStableTokens, () => {
       .call.like({
         fn: sendTransaction,
         args: [{}, account, {}, undefined, undefined, CURRENCY_ENUM.GOLD],
-      })
-      .call.like({
-        fn: sendAndMonitorTransaction,
-        args: [undefined, account, {}, undefined, CURRENCY_ENUM.GOLD],
       })
       .run()
   })

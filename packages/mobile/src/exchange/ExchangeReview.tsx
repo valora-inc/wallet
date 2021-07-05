@@ -99,7 +99,7 @@ export class ExchangeReview extends React.Component<Props, State> {
       }
     )
 
-    this.props.exchangeTokens(makerToken, makerAmount)
+    this.props.exchangeTokens(makerToken, inputAmount)
   }
 
   getExchangePropertiesFromNavProps() {

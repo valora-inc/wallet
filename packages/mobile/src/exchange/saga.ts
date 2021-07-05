@@ -165,6 +165,7 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
 export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
   Logger.debug(`${TAG}@exchangeGoldAndStableTokens`, 'Exchanging gold and stable token')
   const { makerToken, makerAmount } = action
+  const isDollarToGold = makerToken === CURRENCY_ENUM.DOLLAR
   Logger.debug(TAG, `Exchanging ${makerAmount.toString()} of token ${makerToken}`)
   let context: TransactionContext | null = null
   try {
@@ -233,14 +234,20 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
     }
 
     // Ensure the user gets makerAmount at least as good as displayed (rounded to EXCHANGE_DIFFERENCE_TOLERATED)
+    const tokenExchangeRate = isDollarToGold
+      ? new BigNumber(1).dividedBy(exchangeRate)
+      : exchangeRate
     const minimumTakerAmount = BigNumber.maximum(
-      getTakerAmount(makerAmount, exchangeRate).multipliedBy(
-        1 - EXCHANGE_DIFFERENCE_PERCENT_TOLERATED
+      getTakerAmount(makerAmount, tokenExchangeRate).multipliedBy(
+        1 +
+          (isDollarToGold
+            ? EXCHANGE_DIFFERENCE_PERCENT_TOLERATED
+            : -EXCHANGE_DIFFERENCE_PERCENT_TOLERATED)
       ),
       0
     )
     const updatedTakerAmount = getTakerAmount(makerAmount, updatedExchangeRate)
-    if (minimumTakerAmount.isGreaterThan(updatedTakerAmount)) {
+    if (minimumTakerAmount[isDollarToGold ? 'isLessThan' : 'isGreaterThan'](updatedTakerAmount)) {
       ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, {
         error: `Not receiving enough ${makerToken}. Expected ${minimumTakerAmount} but received ${updatedTakerAmount.toString()}`,
       })
@@ -274,7 +281,7 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
     } else if (makerToken === CURRENCY_ENUM.DOLLAR) {
       approveTx = stableTokenContract.approve(
         exchangeContract.address,
-        convertedMakerAmount.toString()
+        convertedTakerAmount.toString()
       )
     } else {
       ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, {
@@ -291,17 +298,18 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       newTransactionContext(TAG, `Approve exchange of ${makerToken}`),
       undefined, // gas
       undefined, // gasPrice
-      makerToken
+      makerToken,
+      1
     )
     Logger.debug(TAG, `Transaction approved: ${util.inspect(approveTx.txo.arguments)}`)
 
     contractKit.defaultAccount = account
 
     const tx: CeloTransactionObject<string> = yield call(
-      exchangeContract.exchange,
+      isDollarToGold ? exchangeContract.buy : exchangeContract.sell,
       convertedMakerAmount.toString(),
       convertedTakerAmount.toString(),
-      sellGold
+      true
     )
 
     if (context === null) {
@@ -327,7 +335,6 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
   } catch (error) {
     ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, { error: error.message })
     Logger.error(TAG, 'Error doing exchange', error)
-    const isDollarToGold = makerToken === CURRENCY_ENUM.DOLLAR
 
     ValoraAnalytics.track(
       isDollarToGold ? CeloExchangeEvents.celo_buy_error : CeloExchangeEvents.celo_sell_error,
