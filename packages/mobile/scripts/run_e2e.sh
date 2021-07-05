@@ -99,10 +99,6 @@ preloadBundle() {
 }
 
 runTest() {
-  extra_param=""
-  if [[ $DEV_MODE == true ]]; then
-    extra_param="--reuse"
-  fi
   test_match=""
   if [[ $TEST_MATCH ]]; then
     test_match="-t='$TEST_MATCH'"
@@ -113,13 +109,13 @@ runTest() {
     --artifacts-location e2e/artifacts \
     --take-screenshots=failing \
     --record-logs=failing \
-    --loglevel verbose \
-    --debug-synchronization 1000 \
+    --loglevel info \
+    --debug-synchronization 5000 \
     --workers $WORKERS \
     --retries $RETRIES \
     --headless \
     "${test_match}" \
-    "${extra_param}" 
+    --reuse
   TEST_STATUS=$?
 }
 
@@ -152,9 +148,9 @@ if [ $PLATFORM = "android" ]; then
   fi
 
   if [ "$RELEASE" = false ]; then
-    CONFIG_NAME="android.emu.debug"
+    CONFIG_NAME="android.debug"
   else
-    CONFIG_NAME="android.emu.release"
+    CONFIG_NAME="android.release"
   fi
 
   if [ $DEV_MODE = false ]; then
@@ -199,9 +195,9 @@ elif [ $PLATFORM = "ios" ]; then
   echo "Using platform ios"
 
   if [ "$RELEASE" = false ]; then
-    CONFIG_NAME="ios.sim.debug"
+    CONFIG_NAME="ios.debug"
   else
-    CONFIG_NAME="ios.sim.release"
+    CONFIG_NAME="ios.release"
   fi
 
   if [ $DEV_MODE = false ]; then
