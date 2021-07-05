@@ -77,5 +77,6 @@
     "bodyWithoutProvider": "O provedor de serviços está processando seu pedido. Você deve receber seus fundos dentro de alguns dias."
   },
   "restrictedRegion": "Suporte limitado na região",
-  "unsupportedPaymentMethod": "Não é possível pagar com {{paymentMethod}} na sua região"
+  "unsupportedPaymentMethod": "Não é possível pagar com {{paymentMethod}} na sua região",
+  "celoEuro": "Celo Euro"
 }
