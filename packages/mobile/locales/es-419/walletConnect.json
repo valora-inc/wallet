@@ -7,7 +7,7 @@
     "operation": "Operación",
     "data": "Datos",
     "sign": "Firmar un payload de datos",
-    "signTransaction": "Firmar un Celo TX",
+    "signTransaction": "Firmar una transacción Celo",
     "sendTransaction": "Enviar una transacción Celo",
     "decrypt": "Descifrar un payload de datos",
     "accounts": "Lee tu dirección de cuenta de {{appName}}",
