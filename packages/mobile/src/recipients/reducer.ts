@@ -28,7 +28,7 @@ export const setPhoneRecipientCache = createAction<NumberToRecipient>(
 export const updateValoraRecipientCache = createAction<AddressToRecipient>(
   'RECIPIENTS/SET_VALORA_RECIPIENT_CACHE'
 )
-export const setRewardsSenders = createAction<string[]>('RECIPIENTS/SET_REWARDS_SENDERS')
+export const rewardsSendersFetched = createAction<string[]>('RECIPIENTS/REWARDS_SENDERS_FETCHED')
 
 export const recipientsReducer = createReducer(initialState, (builder) => {
   builder
@@ -36,6 +36,7 @@ export const recipientsReducer = createReducer(initialState, (builder) => {
       // hack to allow rehydrate actions here
       const hydrated = getRehydratePayload((action as unknown) as RehydrateAction, 'recipients')
       return {
+        ...initialState,
         ...state,
         ...hydrated,
         phoneRecipientCache: initialState.phoneRecipientCache,
@@ -49,7 +50,7 @@ export const recipientsReducer = createReducer(initialState, (builder) => {
       ...state,
       valoraRecipientCache: { ...state.valoraRecipientCache, ...action.payload },
     }))
-    .addCase(setRewardsSenders, (state, action) => ({
+    .addCase(rewardsSendersFetched, (state, action) => ({
       ...state,
       rewardsSenders: action.payload,
     }))
