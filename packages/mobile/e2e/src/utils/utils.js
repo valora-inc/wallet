@@ -164,6 +164,9 @@ export async function quickOnboarding() {
       .not.toBeVisible()
       .withTimeout(20000)
     // Input Wallet Backup Key
+    await waitFor(element(by.id('ImportWalletBackupKeyInputField')))
+      .toBeVisible()
+      .withTimeout(20000)
     await element(by.id('ImportWalletBackupKeyInputField')).tap()
     await element(by.id('ImportWalletBackupKeyInputField')).replaceText(`${SAMPLE_BACKUP_KEY}`)
     if (device.getPlatform() === 'ios') {
