@@ -12,11 +12,10 @@ export enum PaymentRequestStatus {
 
 interface PaymentRequest {
   amount: string
-  timestamp?: string
+  createdAt?: number
   requesterE164Number?: string
   requesterAddress: string
   requesteeAddress: string
-  currency: Currencies
   comment?: string
   status: PaymentRequestStatus
   notified: boolean
@@ -35,11 +34,10 @@ export async function notifyPaymentRequest(id: string, request: PaymentRequest) 
 function paymentObjectToNotification(po: PaymentRequest): { [key: string]: string } {
   return {
     amount: po.amount,
-    ...(po.timestamp ? { timestamp: po.timestamp } : {}),
+    ...(po.createdAt ? { createdAt: String(po.createdAt) } : {}),
     ...(po.requesterE164Number ? { requesterE164Number: po.requesterE164Number } : {}),
     requesterAddress: po.requesterAddress,
     requesteeAddress: po.requesteeAddress,
-    currency: po.currency,
     ...(po.comment ? { comment: po.comment } : {}),
     status: po.status,
     type: String(po.type),
@@ -47,15 +45,15 @@ function paymentObjectToNotification(po: PaymentRequest): { [key: string]: strin
 }
 
 export async function sendRequestedPaymentNotification(id: string, data: PaymentRequest) {
-  const { requesteeAddress, amount, currency } = data
+  const { requesteeAddress, amount } = data
   const t = await getTranslatorForAddress(requesteeAddress)
   data.type = NotificationTypes.PAYMENT_REQUESTED
   return sendNotification(
     t('paymentRequestedTitle'),
     t('paymentRequestedBody', {
-      amount,
+      amount: Number(amount).toFixed(2),
       // TODO: Use local currency for this.
-      currency: t(currency, { count: parseInt(amount, 10) }),
+      currency: Currencies.Dollar,
     }),
     requesteeAddress,
     { uid: id, ...paymentObjectToNotification(data) }

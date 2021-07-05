@@ -1,4 +1,8 @@
-import { PaymentRequest, PaymentRequestStatus } from 'src/paymentRequest/types'
+import {
+  PaymentRequest,
+  PaymentRequestStatus,
+  WriteablePaymentRequest,
+} from 'src/paymentRequest/types'
 
 export enum Actions {
   WRITE_PAYMENT_REQUEST = 'PAYMENT_REQUEST/WRITE_PAYMENT_REQUEST',
@@ -10,10 +14,12 @@ export enum Actions {
 
 export interface WritePaymentRequestAction {
   type: Actions.WRITE_PAYMENT_REQUEST
-  paymentRequest: PaymentRequest
+  paymentRequest: WriteablePaymentRequest
 }
 
-export const writePaymentRequest = (paymentRequest: PaymentRequest): WritePaymentRequestAction => ({
+export const writePaymentRequest = (
+  paymentRequest: WriteablePaymentRequest
+): WritePaymentRequestAction => ({
   type: Actions.WRITE_PAYMENT_REQUEST,
   paymentRequest,
 })

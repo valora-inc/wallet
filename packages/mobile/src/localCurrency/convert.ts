@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 
-export function convertDollarsToLocalAmount(
+export function convertCurrencyToLocalAmount(
   amount: BigNumber.Value | null,
   exchangeRate: BigNumber.Value | null | undefined
 ) {
@@ -11,7 +11,14 @@ export function convertDollarsToLocalAmount(
   return new BigNumber(amount).multipliedBy(exchangeRate)
 }
 
-export function convertLocalAmountToDollars(
+export function convertDollarsToLocalAmount(
+  amount: BigNumber.Value | null,
+  exchangeRate: BigNumber.Value | null | undefined
+) {
+  return convertCurrencyToLocalAmount(amount, exchangeRate)
+}
+
+export function convertLocalAmountToCurrency(
   amount: BigNumber.Value | null,
   exchangeRate: BigNumber.Value | null | undefined
 ) {
@@ -20,6 +27,13 @@ export function convertLocalAmountToDollars(
   }
 
   return new BigNumber(amount).dividedBy(exchangeRate)
+}
+
+export function convertLocalAmountToDollars(
+  amount: BigNumber.Value | null,
+  exchangeRate: BigNumber.Value | null | undefined
+) {
+  return convertLocalAmountToCurrency(amount, exchangeRate)
 }
 
 // This is needed to have the maximum supported precision
@@ -47,6 +61,6 @@ export function convertLocalAmountToDollars(
 // - This really only affects amounts entered in a local currency.
 //   If the user enters `2.99` cUSD, this function has no impact
 //   and `2.99` is still displayed in the confirmation screen.
-export function convertDollarsToMaxSupportedPrecision(amount: BigNumber) {
+export function convertToMaxSupportedPrecision(amount: BigNumber) {
   return new BigNumber(amount.toFixed(18, BigNumber.ROUND_UP))
 }

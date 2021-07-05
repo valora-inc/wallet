@@ -1,4 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { View } from 'react-native'
@@ -12,6 +11,8 @@ import { PaymentRequest } from 'src/paymentRequest/types'
 import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
+import { Currency } from 'src/utils/currencies'
 
 interface StateProps {
   dollarBalance: string | null
@@ -20,7 +21,7 @@ interface StateProps {
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  dollarBalance: state.stableToken.balance,
+  dollarBalance: cUsdBalanceSelector(state),
   paymentRequests: getIncomingPaymentRequests(state),
   recipientInfo: recipientInfoSelector(state),
 })
@@ -46,7 +47,7 @@ class IncomingPaymentRequestListScreen extends React.Component<Props> {
     headerTitle: (
       <HeaderTitleWithBalance
         title={i18n.t('walletFlow5:incomingPaymentRequests')}
-        token={CURRENCY_ENUM.DOLLAR}
+        token={Currency.Dollar}
       />
     ),
   })

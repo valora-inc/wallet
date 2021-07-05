@@ -1,4 +1,4 @@
-import { CeloTransactionObject } from '@celo/connect'
+import { CeloTransactionObject, CeloTxReceipt } from '@celo/connect'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import BigNumber from 'bignumber.js'
@@ -11,13 +11,12 @@ import {
   TransferItemFragment,
 } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { fetchGoldBalance } from 'src/goldToken/actions'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { addressToE164NumberSelector, AddressToE164NumberType } from 'src/identity/reducer'
 import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector, updateValoraRecipientCache } from 'src/recipients/reducer'
-import { fetchDollarBalance } from 'src/stableToken/actions'
+import { fetchStableBalances } from 'src/stableToken/actions'
 import {
   Actions,
   addHashToStandbyTransaction,
@@ -38,6 +37,7 @@ import {
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { isTransferTransaction } from 'src/transactions/transferFeedUtils'
 import { StandbyTransaction, TransactionContext, TransactionStatus } from 'src/transactions/types'
+import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'transactions/saga'
@@ -76,8 +76,8 @@ export function* sendAndMonitorTransaction<T>(
   tx: CeloTransactionObject<T>,
   account: string,
   context: TransactionContext,
-  currency?: CURRENCY_ENUM,
-  feeCurrency?: CURRENCY_ENUM,
+  currency?: Currency,
+  feeCurrency?: Currency,
   gas?: number,
   gasPrice?: BigNumber
 ) {
@@ -95,30 +95,31 @@ export function* sendAndMonitorTransaction<T>(
         gasPrice,
         nonce
       )
-      const hash = yield transactionHash
+      const hash: string = yield transactionHash
       yield put(addHashToStandbyTransaction(context.id, hash))
-      return yield receipt
+      return (yield receipt) as CeloTxReceipt
     }
-    const txReceipt = yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
+    const txReceipt: CeloTxReceipt = yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
     yield put(transactionConfirmed(context.id, txReceipt))
 
     // Determine which balances may be affected by the transaction and fetch updated balances.
     const balancesAffected = new Set([
-      ...(currency ? [currency] : [CURRENCY_ENUM.DOLLAR, CURRENCY_ENUM.GOLD]),
-      feeCurrency ?? CURRENCY_ENUM.DOLLAR,
+      ...(currency ? [currency] : [Currency.Dollar, Currency.Celo]),
+      feeCurrency ?? Currency.Dollar,
     ])
-    if (balancesAffected.has(CURRENCY_ENUM.GOLD)) {
+    if (balancesAffected.has(Currency.Celo)) {
       yield put(fetchGoldBalance())
     }
-    if (balancesAffected.has(CURRENCY_ENUM.DOLLAR)) {
-      yield put(fetchDollarBalance())
+    if (STABLE_CURRENCIES.some((stableCurrency) => balancesAffected.has(stableCurrency))) {
+      yield put(fetchStableBalances())
     }
-    return txReceipt
+    return { receipt: txReceipt }
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
     yield put(removeStandbyTransaction(context.id))
     yield put(transactionFailed(context.id))
     yield put(showError(ErrorMessages.TRANSACTION_FAILED))
+    return { error }
   }
 }
 

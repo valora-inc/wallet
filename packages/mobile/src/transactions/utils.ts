@@ -1,10 +1,10 @@
 import { TokenTransactionType } from 'src/apollo/types'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { FeedItem } from 'src/transactions/TransactionFeed'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
+import { Currency } from 'src/utils/currencies'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
 
 // Groupings:
@@ -45,7 +45,7 @@ export const groupFeedItemsInSections = (feedItems: FeedItem[]) => {
 
 export const exchangeReviewHeader = (confirmationProps: ExchangeConfirmationCardProps) => {
   const { makerAmount } = confirmationProps
-  const isSold = makerAmount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+  const isSold = makerAmount.currencyCode === Currency.Celo
   return isSold ? i18n.t('exchangeFlow9:soldGold') : i18n.t('exchangeFlow9:purchasedGold')
 }
 
@@ -56,7 +56,7 @@ export const transferReviewHeader = (
   rewardsSenders: string[]
 ) => {
   let headerText = ''
-  const isCeloTx = confirmationProps.amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+  const isCeloTx = confirmationProps.amount.currencyCode === Currency.Celo
   switch (type) {
     case TokenTransactionType.Sent:
       headerText = i18n.t(
