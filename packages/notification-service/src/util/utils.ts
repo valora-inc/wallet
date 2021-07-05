@@ -21,15 +21,17 @@ export function removeEmptyValuesFromObject(obj: ObjectWithStringsAndUndefined) 
 }
 
 let goldTokenAddress: string
-let stableTokenAddress: string
+let cUsdTokenAddress: string
+let cEurTokenAddress: string
 export async function getTokenAddresses() {
-  if (goldTokenAddress && stableTokenAddress) {
-    return { goldTokenAddress, stableTokenAddress }
+  if (goldTokenAddress && cUsdTokenAddress && cEurTokenAddress) {
+    return { goldTokenAddress, cUsdTokenAddress, cEurTokenAddress }
   } else {
     const kit = await getContractKit()
     goldTokenAddress = await kit.registry.addressFor(CeloContract.GoldToken)
-    stableTokenAddress = await kit.registry.addressFor(CeloContract.StableToken)
-    return { goldTokenAddress, stableTokenAddress }
+    cUsdTokenAddress = await kit.registry.addressFor(CeloContract.StableToken)
+    cEurTokenAddress = await kit.registry.addressFor(CeloContract.StableTokenEUR)
+    return { goldTokenAddress, cUsdTokenAddress, cEurTokenAddress }
   }
 }
 

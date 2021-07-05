@@ -15,7 +15,6 @@ import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { storeMnemonic } from 'src/backup/utils'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { refreshAllBalances } from 'src/home/actions'
 import {
   Actions,
@@ -23,10 +22,10 @@ import {
   importBackupPhraseFailure,
   importBackupPhraseSuccess,
 } from 'src/import/actions'
-import { redeemInviteSuccess } from 'src/invite/actions'
 import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { assignAccountFromPrivateKey, waitWeb3LastBlock } from 'src/web3/saga'
 
@@ -56,13 +55,13 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
 
       const dollarBalance: BigNumber = yield call(
         fetchTokenBalanceInWeiWithRetry,
-        CURRENCY_ENUM.DOLLAR,
+        Currency.Dollar,
         backupAccount
       )
 
       const goldBalance: BigNumber = yield call(
         fetchTokenBalanceInWeiWithRetry,
-        CURRENCY_ENUM.GOLD,
+        Currency.Celo,
         backupAccount
       )
 
@@ -82,8 +81,6 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     yield call(storeMnemonic, mnemonic, account)
     // Set backup complete so user isn't prompted to do backup flow
     yield put(setBackupCompleted())
-    // Set redeem invite complete so user isn't brought back into nux flow
-    yield put(redeemInviteSuccess())
     yield put(refreshAllBalances())
     yield call(uploadNameAndPicture)
 

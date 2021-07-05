@@ -199,6 +199,10 @@ function notificationTitleAndBody(senderAddress: string, currency: Currencies) {
       title: 'paymentReceivedTitle',
       body: 'paymentReceivedBody',
     },
+    [Currencies.EURO]: {
+      title: 'paymentReceivedTitle',
+      body: 'paymentReceivedBody',
+    },
     [Currencies.GOLD]: {
       title: 'celoReceivedTitle',
       body: 'celoReceivedBody',

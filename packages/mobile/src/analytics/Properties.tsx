@@ -1,4 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils'
 import BigNumber from 'bignumber.js'
 import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
@@ -26,14 +25,17 @@ import {
 } from 'src/analytics/Events'
 import { BackQuizProgress, ScrollDirection, SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import {
   RewardsScreenCta,
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
+import { InputToken } from 'src/exchange/ExchangeTradeScreen'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
+import { Currency, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
@@ -533,8 +535,9 @@ interface SendEventsProperties {
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [SendEvents.send_confirm_back]: undefined
   [SendEvents.send_confirm_send]: {
@@ -585,7 +588,10 @@ interface SendEventsProperties {
   [SendEvents.send_tx_error]: {
     error: string
   }
-
+  [SendEvents.token_selected]: {
+    origin: TokenPickerOrigin
+    token: string
+  }
   [SendEvents.check_account_alert_shown]: undefined
   [SendEvents.check_account_do_not_ask_selected]: undefined
   [SendEvents.check_account_alert_back]: undefined
@@ -601,20 +607,24 @@ interface RequestEventsProperties {
     usedSearchBar: boolean
   }
   [RequestEvents.request_amount_continue]: {
+    origin: SendOrigin
     isScan: boolean
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [RequestEvents.request_unavailable]: {
+    origin: SendOrigin
     isScan: boolean
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {
@@ -679,20 +689,18 @@ interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_transaction_back]: undefined
 
   [CeloExchangeEvents.celo_toggle_input_currency]: {
-    to: CURRENCY_ENUM
+    to: InputToken
   }
   [CeloExchangeEvents.celo_buy_continue]: {
     localCurrencyAmount: string | null
     goldAmount: string
-    inputToken: CURRENCY_ENUM
-    goldToDollarExchangeRate: string
+    inputToken: Currency
   }
   [CeloExchangeEvents.celo_buy_confirm]: {
     localCurrencyAmount: string | null
     goldAmount: string
-    dollarAmount: string
-    inputToken: CURRENCY_ENUM
-    goldToDollarExchangeRate: string
+    stableAmount: string
+    inputToken: Currency
   }
   [CeloExchangeEvents.celo_buy_cancel]: undefined
   [CeloExchangeEvents.celo_buy_edit]: undefined
@@ -702,15 +710,13 @@ interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_sell_continue]: {
     localCurrencyAmount: string | null
     goldAmount: string
-    inputToken: CURRENCY_ENUM
-    goldToDollarExchangeRate: string
+    inputToken: Currency
   }
   [CeloExchangeEvents.celo_sell_confirm]: {
     localCurrencyAmount: string | null
     goldAmount: string
-    dollarAmount: string
-    inputToken: CURRENCY_ENUM
-    goldToDollarExchangeRate: string
+    stableAmount: string
+    inputToken: Currency
   }
   [CeloExchangeEvents.celo_sell_cancel]: undefined
   [CeloExchangeEvents.celo_sell_edit]: undefined
@@ -730,6 +736,7 @@ interface CeloExchangeEventsProperties {
 
   [CeloExchangeEvents.celo_fetch_exchange_rate_start]: undefined
   [CeloExchangeEvents.celo_fetch_exchange_rate_complete]: {
+    currency: StableCurrency
     makerAmount: number
     exchangeRate: number
   }
@@ -765,7 +772,7 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_option_chosen]: {
     isCashIn: boolean
     paymentMethod: PaymentMethod
-    currency: CURRENCY_ENUM
+    currency: Currency
   }
   [FiatExchangeEvents.provider_chosen]: {
     isCashIn: boolean

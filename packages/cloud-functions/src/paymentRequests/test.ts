@@ -1,5 +1,4 @@
 import { notifyPaymentRequest, PaymentRequestStatus } from '.'
-import { Currencies } from '../notifications/types'
 
 const saveRequestMock = jest.fn()
 const sendNotificationMock = jest.fn()
@@ -25,7 +24,6 @@ function createMockPaymentRequest(overrides: any = {}) {
     amount: mockAmount,
     requesterAddress,
     requesteeAddress,
-    currency: Currencies.Dollar,
     status: PaymentRequestStatus.REQUESTED,
     notified: true,
     ...overrides,
@@ -59,7 +57,6 @@ describe('notifyPaymentRequests', () => {
         requesterAddress,
         requesteeAddress,
         amount: mockAmount,
-        currency: Currencies.Dollar,
         status: PaymentRequestStatus.REQUESTED,
       })
     )
