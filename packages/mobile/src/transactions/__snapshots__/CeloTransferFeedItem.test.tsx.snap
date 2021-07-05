@@ -61,6 +61,7 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
       </View>
       <View>
         <Text
+          numberOfLines={1}
           style={
             Array [
               Object {
@@ -74,6 +75,7 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
               },
             ]
           }
+          testID="undefined/value"
         >
           -
           
@@ -162,6 +164,7 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
       </View>
       <View>
         <Text
+          numberOfLines={1}
           style={
             Array [
               Object {
@@ -175,6 +178,7 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
               },
             ]
           }
+          testID="undefined/value"
         >
           +
           

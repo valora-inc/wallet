@@ -213,6 +213,7 @@ exports[`renders for gold to dollar exchange properly 1`] = `
                 feedItemBoughtCeloTitle
               </Text>
               <Text
+                numberOfLines={1}
                 style={
                   Array [
                     Array [
@@ -234,6 +235,7 @@ exports[`renders for gold to dollar exchange properly 1`] = `
                     },
                   ]
                 }
+                testID="FeedItemAmountDisplay/value"
               >
                 -
                 $

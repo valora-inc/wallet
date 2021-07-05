@@ -83,6 +83,7 @@ exports[`ExchangeFeedItem renders correctly 1`] = `
           feedItemBoughtCeloTitle
         </Text>
         <Text
+          numberOfLines={1}
           style={
             Array [
               Array [
@@ -104,6 +105,7 @@ exports[`ExchangeFeedItem renders correctly 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           -
           $

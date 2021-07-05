@@ -1,9 +1,9 @@
-import { createMockPaymentRequest } from 'src/paymentRequest/__mocks__'
 import {
   getIncomingPaymentRequests,
   getOutgoingPaymentRequests,
 } from 'src/paymentRequest/selectors'
 import { PaymentRequestStatus } from 'src/paymentRequest/types'
+import { createMockPaymentRequest } from 'src/paymentRequest/__mocks__'
 
 describe('selectors', () => {
   describe(getIncomingPaymentRequests, () => {

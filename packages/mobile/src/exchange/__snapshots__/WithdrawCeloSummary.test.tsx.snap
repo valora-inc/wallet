@@ -63,14 +63,16 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
       }
     >
       <Text
+        numberOfLines={1}
         style={
           Array [
             undefined,
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
+        testID="undefined/value"
       >
         
         
@@ -204,14 +206,16 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
             }
           >
             <Text
+              numberOfLines={1}
               style={
                 Array [
                   undefined,
                   Object {
-                    "color": "#2E3338",
+                    "color": undefined,
                   },
                 ]
               }
+              testID="feeDrawer/WithdrawCelo/totalFee/value"
             >
               
               
@@ -283,14 +287,16 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
       }
     >
       <Text
+        numberOfLines={1}
         style={
           Array [
             undefined,
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
+        testID="TotalLineItem/Total/value"
       >
         
         
@@ -339,22 +345,52 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
           ]
         }
       >
-        Celo Dollars @
-         
-        <Text
-          style={
-            Array [
-              undefined,
-              Object {
-                "color": "#2E3338",
-              },
-            ]
+        <View
+          accessible={true}
+          focusable={false}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackground",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
           }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
         >
-          
-          $
-          0.75
-        </Text>
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+          >
+            <Text
+              numberOfLines={1}
+              style={
+                Array [
+                  undefined,
+                  Object {
+                    "color": undefined,
+                  },
+                ]
+              }
+              testID="TotalLineItem/ExchangeRate/value"
+            >
+              
+              $
+              3.00
+            </Text>
+          </Text>
+        </View>
       </Text>
     </View>
     <Text
@@ -376,17 +412,20 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
       }
     >
       <Text
+        numberOfLines={1}
         style={
           Array [
             undefined,
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
+        testID="TotalLineItem/Subtotal/value"
       >
         
-        5.001
+        $
+        15.00
       </Text>
     </Text>
   </View>

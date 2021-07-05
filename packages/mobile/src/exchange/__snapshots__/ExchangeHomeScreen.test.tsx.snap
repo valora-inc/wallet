@@ -121,7 +121,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
           }
         }
       >
-        $10.00
+        $9.09
       </Text>
     </View>
   </View>
@@ -249,7 +249,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
               }
             }
           >
-            $10.00
+            $9.09
           </Text>
         </View>
       </View>
@@ -388,14 +388,16 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
           testID="CeloBalance"
         >
           <Text
+            numberOfLines={1}
             style={
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             
@@ -414,18 +416,20 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
         >
           Equal to 
           <Text
+            numberOfLines={1}
             style={
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
-            26.60
+            6.00
           </Text>
         </Text>
       </View>
@@ -586,7 +590,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
           }
         }
       >
-        $10.00
+        $9.09
       </Text>
     </View>
   </View>
@@ -714,7 +718,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
               }
             }
           >
-            $10.00
+            $9.09
           </Text>
         </View>
       </View>
@@ -936,14 +940,16 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
           testID="CeloBalance"
         >
           <Text
+            numberOfLines={1}
             style={
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             
@@ -962,18 +968,20 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
         >
           Equal to 
           <Text
+            numberOfLines={1}
             style={
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
-            26.60
+            6.00
           </Text>
         </Text>
       </View>

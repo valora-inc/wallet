@@ -7,7 +7,6 @@ import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWr
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { KomenciKit } from '@celo/komencikit/lib/kit'
 import { FetchError, TxError } from '@celo/komencikit/src/errors'
-import { privateKeyToAddress } from '@celo/utils/lib/address'
 import BigNumber from 'bignumber.js'
 import { all, call, put, race, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
@@ -29,8 +28,7 @@ import {
 } from 'src/escrow/actions'
 import { generateEscrowPaymentIdAndPk, generateUniquePaymentId } from 'src/escrow/utils'
 import { calculateFee } from 'src/fees/saga'
-import { features } from 'src/flags'
-import { CURRENCY_ENUM, SHORT_CURRENCIES } from 'src/geth/consts'
+import { WEI_DECIMALS } from 'src/geth/consts'
 import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
 import i18n from 'src/i18n'
@@ -39,11 +37,9 @@ import { getUserSelfPhoneHashDetails } from 'src/identity/privateHashing'
 import { identifierToE164NumberSelector } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
-import { isValidPrivateKey } from 'src/invite/utils'
 import { navigateHome } from 'src/navigator/NavigationService'
-import { RootState } from 'src/redux/reducers'
-import { fetchDollarBalance } from 'src/stableToken/actions'
-import { getCurrencyAddress } from 'src/tokens/saga'
+import { fetchStableBalances } from 'src/stableToken/actions'
+import { getCurrencyAddress, getTokenContract } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
@@ -52,6 +48,7 @@ import {
   TransactionContext,
   TransactionStatus,
 } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { komenciContextSelector, shouldUseKomenciSelector } from 'src/verify/reducer'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
@@ -72,89 +69,10 @@ export async function getEscrowTxGas() {
 }
 
 export function* transferToEscrow(action: EscrowTransferPaymentAction) {
-  features.ESCROW_WITHOUT_CODE
-    ? yield call(transferStableTokenToEscrowWithoutCode, action)
-    : yield call(transferStableTokenToEscrow, action)
-}
-
-function* transferStableTokenToEscrow(action: EscrowTransferPaymentAction) {
   Logger.debug(TAG + '@transferToEscrow', 'Begin transfer to escrow')
   try {
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_start)
-    const { phoneHashDetails, amount, tempWalletAddress, feeInfo, context } = action
-
-    if (!tempWalletAddress) {
-      throw Error(
-        'No tempWalletAddress included with escrow tx. Should ESCROW_WITHOUT_CODE be enabled?'
-      )
-    }
-
-    const account: string = yield call(getConnectedUnlockedAccount)
-
-    const contractKit: ContractKit = yield call(getContractKit)
-
-    const stableToken: StableTokenWrapper = yield call([
-      contractKit.contracts,
-      contractKit.contracts.getStableToken,
-    ])
-    const escrow: EscrowWrapper = yield call([
-      contractKit.contracts,
-      contractKit.contracts.getEscrow,
-    ])
-
-    // Approve a transfer of funds to the Escrow contract.
-    Logger.debug(TAG + '@transferToEscrow', 'Approving escrow transfer')
-    const convertedAmount = contractKit.connection.web3.utils.toWei(amount.toString())
-    const approvalTx = stableToken.approve(escrow.address, convertedAmount)
-
-    const approvalReceipt = yield call(
-      sendTransaction,
-      approvalTx.txo,
-      account,
-      newTransactionContext(TAG, 'Approve transfer to Escrow'),
-      feeInfo?.gas.toNumber(),
-      feeInfo?.gasPrice,
-      feeInfo?.currency
-    )
-    ValoraAnalytics.track(EscrowEvents.escrow_transfer_approve_tx_sent)
-
-    // Tranfser the funds to the Escrow contract.
-    Logger.debug(TAG + '@transferToEscrow', 'Transfering to escrow')
-    yield call(registerStandbyTransaction, context, amount.toString(), escrow.address)
-
-    const transferTx = escrow.transfer(
-      phoneHashDetails.phoneHash,
-      stableToken.address,
-      convertedAmount,
-      ESCROW_PAYMENT_EXPIRY_SECONDS,
-      tempWalletAddress,
-      NUM_ATTESTATIONS_REQUIRED
-    )
-    ValoraAnalytics.track(EscrowEvents.escrow_transfer_transfer_tx_sent)
-    yield call(
-      sendAndMonitorTransaction,
-      transferTx,
-      account,
-      context,
-      undefined,
-      feeInfo?.currency,
-      feeInfo?.gas.minus(approvalReceipt.gasUsed).toNumber(),
-      feeInfo?.gasPrice
-    )
-    yield put(fetchSentEscrowPayments())
-    ValoraAnalytics.track(EscrowEvents.escrow_transfer_complete)
-  } catch (e) {
-    ValoraAnalytics.track(EscrowEvents.escrow_transfer_error, { error: e.message })
-    Logger.error(TAG + '@transferToEscrow', 'Error transfering to escrow', e)
-    yield put(showErrorOrFallback(e, ErrorMessages.ESCROW_TRANSFER_FAILED))
-  }
-}
-
-function* transferStableTokenToEscrowWithoutCode(action: EscrowTransferPaymentAction) {
-  Logger.debug(TAG + '@transferToEscrowWithoutCode', 'Begin transfer to escrow')
-  try {
-    ValoraAnalytics.track(EscrowEvents.escrow_transfer_start)
-    const { phoneHashDetails, amount, feeInfo, context } = action
+    const { phoneHashDetails, amount, currency, feeInfo, context } = action
     const { phoneHash, pepper } = phoneHashDetails
     const [contractKit, walletAddress]: [ContractKit, string] = yield all([
       call(getContractKit),
@@ -162,7 +80,7 @@ function* transferStableTokenToEscrowWithoutCode(action: EscrowTransferPaymentAc
     ])
 
     const [stableTokenWrapper, escrowWrapper]: [StableTokenWrapper, EscrowWrapper] = yield all([
-      call([contractKit.contracts, contractKit.contracts.getStableToken]),
+      call(getTokenContract, currency),
       call([contractKit.contracts, contractKit.contracts.getEscrow]),
     ])
 
@@ -182,11 +100,11 @@ function* transferStableTokenToEscrowWithoutCode(action: EscrowTransferPaymentAc
     }
 
     // Approve a transfer of funds to the Escrow contract.
-    Logger.debug(TAG + '@transferToEscrowWithoutCode', 'Approving escrow transfer')
-    const convertedAmount = contractKit.connection.web3.utils.toWei(amount.toString())
+    Logger.debug(TAG + '@transferToEscrow', 'Approving escrow transfer')
+    const convertedAmount = contractKit.connection.web3.utils.toWei(amount.toFixed(WEI_DECIMALS))
     const approvalTx = stableTokenWrapper.approve(escrowWrapper.address, convertedAmount)
 
-    const approvalReceipt = yield call(
+    const approvalReceipt: CeloTxReceipt = yield call(
       sendTransaction,
       approvalTx.txo,
       walletAddress,
@@ -198,9 +116,13 @@ function* transferStableTokenToEscrowWithoutCode(action: EscrowTransferPaymentAc
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_approve_tx_sent)
 
     // Tranfser the funds to the Escrow contract.
-    Logger.debug(TAG + '@transferToEscrowWithoutCode', 'Transfering to escrow')
-    yield call(registerStandbyTransaction, context, amount.toString(), escrowWrapper.address)
-
+    Logger.debug(TAG + '@transferToEscrow', 'Transfering to escrow')
+    yield call(
+      registerStandbyTransaction,
+      context,
+      amount.toFixed(WEI_DECIMALS),
+      escrowWrapper.address
+    )
     const transferTx = escrowWrapper.transfer(
       phoneHash,
       stableTokenWrapper.address,
@@ -210,7 +132,7 @@ function* transferStableTokenToEscrowWithoutCode(action: EscrowTransferPaymentAc
       NUM_ATTESTATIONS_REQUIRED
     )
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_transfer_tx_sent)
-    yield call(
+    const { receipt, error }: { receipt: CeloTxReceipt | undefined; error: any } = yield call(
       sendAndMonitorTransaction,
       transferTx,
       walletAddress,
@@ -220,11 +142,15 @@ function* transferStableTokenToEscrowWithoutCode(action: EscrowTransferPaymentAc
       feeInfo?.gas.minus(approvalReceipt.gasUsed).toNumber(),
       feeInfo?.gasPrice
     )
-    yield put(fetchSentEscrowPayments())
-    ValoraAnalytics.track(EscrowEvents.escrow_transfer_complete)
+    if (receipt) {
+      yield put(fetchSentEscrowPayments())
+      ValoraAnalytics.track(EscrowEvents.escrow_transfer_complete)
+    } else {
+      throw error
+    }
   } catch (e) {
     ValoraAnalytics.track(EscrowEvents.escrow_transfer_error, { error: e.message })
-    Logger.error(TAG + '@transferToEscrowWithoutCode', 'Error transfering to escrow', e)
+    Logger.error(TAG + '@transferToEscrow', 'Error transfering to escrow', e)
     yield put(showErrorOrFallback(e, ErrorMessages.ESCROW_TRANSFER_FAILED))
   }
 }
@@ -236,7 +162,7 @@ function* registerStandbyTransaction(context: TransactionContext, value: string,
       type: TokenTransactionType.EscrowSent,
       status: TransactionStatus.Pending,
       value,
-      symbol: CURRENCY_ENUM.DOLLAR,
+      currency: Currency.Dollar,
       timestamp: Math.floor(Date.now() / 1000),
       address,
       comment: '',
@@ -267,7 +193,7 @@ async function formEscrowWithdrawAndTransferTxWithNoCode(
   return { withdrawTx, transferTx }
 }
 
-function* withdrawFromEscrowWithoutCode(komenciActive: boolean = false) {
+function* withdrawFromEscrow(komenciActive: boolean = false) {
   try {
     const [contractKit, walletAddress, mtwAddress]: [ContractKit, string, string] = yield all([
       call(getContractKit),
@@ -276,12 +202,11 @@ function* withdrawFromEscrowWithoutCode(komenciActive: boolean = false) {
     ])
 
     if (!mtwAddress) {
-      yield call(withdrawFromEscrow)
-      return
+      throw Error('No MTW found')
     }
 
     ValoraAnalytics.track(OnboardingEvents.escrow_redeem_start)
-    Logger.debug(TAG + '@withdrawFromEscrowWithoutCode', 'Withdrawing escrowed payment')
+    Logger.debug(TAG + '@withdrawFromEscrow', 'Withdrawing escrowed payment')
     const phoneHashDetails: PhoneNumberHashDetails | undefined = yield call(
       getUserSelfPhoneHashDetails
     )
@@ -308,7 +233,7 @@ function* withdrawFromEscrowWithoutCode(komenciActive: boolean = false) {
     )
 
     if (escrowPaymentIds.length === 0) {
-      Logger.debug(TAG + '@withdrawFromEscrowWithoutCode', 'No pending payments in escrow')
+      Logger.debug(TAG + '@withdrawFromEscrow', 'No pending payments in escrow')
       ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete)
       return
     }
@@ -330,7 +255,7 @@ function* withdrawFromEscrowWithoutCode(komenciActive: boolean = false) {
       const receivedPayment = yield call(getEscrowedPayment, escrowWrapper, paymentId)
       const value = new BigNumber(receivedPayment[3])
       if (!value.isGreaterThan(0)) {
-        Logger.warn(TAG + '@withdrawFromEscrowWithoutCode', 'Escrow payment is empty, skipping.')
+        Logger.warn(TAG + '@withdrawFromEscrow', 'Escrow payment is empty, skipping.')
         continue
       }
 
@@ -379,11 +304,7 @@ function* withdrawFromEscrowWithoutCode(komenciActive: boolean = false) {
         withdrawTxSuccess.push(true)
       } catch (error) {
         withdrawTxSuccess.push(false)
-        Logger.error(
-          TAG + '@withdrawFromEscrowWithoutCode',
-          'Unable to withdraw from escrow. Error: ',
-          error
-        )
+        Logger.error(TAG + '@withdrawFromEscrow', 'Unable to withdraw from escrow. Error: ', error)
       }
     }
 
@@ -391,66 +312,7 @@ function* withdrawFromEscrowWithoutCode(komenciActive: boolean = false) {
       throw Error('Unable to withdraw any pending escrow transactions')
     }
 
-    yield put(fetchDollarBalance())
-    Logger.showMessage(i18n.t('inviteFlow11:transferDollarsToAccount'))
-    ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete)
-  } catch (e) {
-    Logger.error(TAG + '@withdrawFromEscrowWithoutCode', 'Error withdrawing payment from escrow', e)
-    ValoraAnalytics.track(OnboardingEvents.escrow_redeem_error, { error: e.message })
-    yield put(showErrorOrFallback(e, ErrorMessages.ESCROW_WITHDRAWAL_FAILED))
-  }
-}
-
-export function* withdrawFromEscrow() {
-  try {
-    ValoraAnalytics.track(OnboardingEvents.escrow_redeem_start)
-    Logger.debug(TAG + '@withdrawFromEscrow', 'Withdrawing escrowed payment')
-
-    const contractKit: ContractKit = yield call(getContractKit)
-
-    const escrow: EscrowWrapper = yield call([
-      contractKit.contracts,
-      contractKit.contracts.getEscrow,
-    ])
-    const account: string = yield call(getConnectedUnlockedAccount)
-    const tmpWalletPrivateKey: string | null = yield select(
-      (state: RootState) => state.invite.redeemedTempAccountPrivateKey
-    )
-
-    if (!tmpWalletPrivateKey || !isValidPrivateKey(tmpWalletPrivateKey)) {
-      Logger.warn(TAG + '@withdrawFromEscrow', 'Invalid private key, skipping escrow withdrawal')
-      return
-    }
-
-    const tempWalletAddress = privateKeyToAddress(tmpWalletPrivateKey)
-
-    // Check if there is a payment associated with this invite code
-    const receivedPayment = yield call(getEscrowedPayment, escrow, tempWalletAddress)
-    const value = new BigNumber(receivedPayment[3])
-    if (!value.isGreaterThan(0)) {
-      Logger.warn(TAG + '@withdrawFromEscrow', 'Escrow payment is empty, skipping.')
-      return
-    }
-
-    const msgHash = contractKit.connection.web3.utils.soliditySha3({
-      type: 'address',
-      value: account,
-    })
-
-    Logger.debug(TAG + '@withdrawFromEscrow', `Signing message hash ${msgHash}`)
-    // use the temporary key to sign a message. The message is the current account.
-    const { r, s, v }: Sign = yield contractKit.connection.web3.eth.accounts.sign(
-      msgHash!,
-      tmpWalletPrivateKey
-    )
-    Logger.debug(TAG + '@withdrawFromEscrow', `Signed message hash signature`)
-
-    // Generate and send the withdrawal transaction.
-    const withdrawTx = escrow.withdraw(tempWalletAddress, v, r, s)
-    const context = newTransactionContext(TAG, 'Withdraw from escrow')
-    yield call(sendTransaction, withdrawTx.txo, account, context)
-
-    yield put(fetchDollarBalance())
+    yield put(fetchStableBalances())
     Logger.showMessage(i18n.t('inviteFlow11:transferDollarsToAccount'))
     ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete)
   } catch (e) {
@@ -472,7 +334,7 @@ export async function getReclaimEscrowGas(account: string, paymentID: string) {
   const tx = await createReclaimTransaction(paymentID)
   const txParams = {
     from: account,
-    feeCurrency: await getCurrencyAddress(CURRENCY_ENUM.DOLLAR),
+    feeCurrency: await getCurrencyAddress(Currency.Dollar),
   }
   const gas = await estimateGas(tx, txParams)
   Logger.debug(`${TAG}/getReclaimEscrowGas`, `Estimated gas of ${gas.toString()}}`)
@@ -481,7 +343,7 @@ export async function getReclaimEscrowGas(account: string, paymentID: string) {
 
 export async function getReclaimEscrowFee(account: string, paymentID: string) {
   const gas = await getReclaimEscrowGas(account, paymentID)
-  return calculateFee(gas, CURRENCY_ENUM.DOLLAR)
+  return calculateFee(gas, Currency.Dollar)
 }
 
 export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
@@ -507,7 +369,7 @@ export function* reclaimFromEscrow({ paymentID }: EscrowReclaimPaymentAction) {
     }
     Logger.debug(TAG + '@reclaimFromEscrow', 'Done reclaiming escrow')
 
-    yield put(fetchDollarBalance())
+    yield put(fetchStableBalances())
     yield put(reclaimEscrowPaymentSuccess())
 
     yield call(navigateHome)
@@ -578,7 +440,7 @@ function* doFetchSentPayments() {
         // since identifier mapping could be fetched after this is called.
         recipientPhone: recipientPhoneNumber,
         recipientIdentifier: payment.recipientIdentifier,
-        currency: SHORT_CURRENCIES.DOLLAR, // Only dollars can be escrowed
+        currency: Currency.Dollar, // Only dollars can be escrowed
         amount: payment[3],
         timestamp: payment[6],
         expirySeconds: payment[7],
@@ -614,11 +476,7 @@ export function* watchVerificationEnd() {
       // We wait for the next block because escrow can not
       // be redeemed without all the attestations completed
       yield waitForNextBlock()
-      if (features.ESCROW_WITHOUT_CODE) {
-        yield call(withdrawFromEscrowWithoutCode, shouldUseKomenci)
-      } else {
-        yield call(withdrawFromEscrow)
-      }
+      yield call(withdrawFromEscrow, shouldUseKomenci)
     }
   }
 }

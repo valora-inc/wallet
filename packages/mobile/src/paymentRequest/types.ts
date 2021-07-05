@@ -1,4 +1,3 @@
-import { SHORT_CURRENCIES } from 'src/geth/consts'
 import { NotificationTypes } from 'src/notifications/types'
 
 export enum PaymentRequestStatus {
@@ -12,12 +11,15 @@ export interface PaymentRequest {
   uid?: string
   amount: string
   comment?: string
-  timestamp: Date
+  createdAt: number
   requesterAddress: string
   requesteeAddress: string
   requesterE164Number?: string
-  currency: SHORT_CURRENCIES
   status: PaymentRequestStatus
   notified: boolean
   type?: NotificationTypes.PAYMENT_REQUESTED
+}
+
+export interface WriteablePaymentRequest extends Omit<PaymentRequest, 'createdAt'> {
+  createdAt: object
 }

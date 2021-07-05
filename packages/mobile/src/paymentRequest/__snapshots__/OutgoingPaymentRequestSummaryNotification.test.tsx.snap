@@ -85,14 +85,16 @@ exports[`OutgoingPaymentRequestSummaryNotification renders a number when the add
             testID="OutgoingPaymentRequestNotification/FAKE_ID_1/Amount"
           >
             <Text
+              numberOfLines={1}
               style={
                 Array [
                   undefined,
                   Object {
-                    "color": "#2E3338",
+                    "color": undefined,
                   },
                 ]
               }
+              testID="undefined/value"
             >
               
               $
@@ -346,14 +348,16 @@ exports[`OutgoingPaymentRequestSummaryNotification renders correctly for just on
             testID="OutgoingPaymentRequestNotification/FAKE_ID_1/Amount"
           >
             <Text
+              numberOfLines={1}
               style={
                 Array [
                   undefined,
                   Object {
-                    "color": "#2E3338",
+                    "color": undefined,
                   },
                 ]
               }
+              testID="undefined/value"
             >
               
               $

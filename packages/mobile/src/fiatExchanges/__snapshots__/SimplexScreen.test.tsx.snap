@@ -521,14 +521,16 @@ exports[`SimplexScreen renders correctly 1`] = `
           }
         >
           <Text
+            numberOfLines={1}
             style={
               Array [
                 Array [],
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             25.00
@@ -584,6 +586,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           }
         >
           <Text
+            numberOfLines={1}
             style={
               Array [
                 Array [
@@ -596,6 +599,7 @@ exports[`SimplexScreen renders correctly 1`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
@@ -658,14 +662,16 @@ exports[`SimplexScreen renders correctly 1`] = `
           }
         >
           <Text
+            numberOfLines={1}
             style={
               Array [
                 Array [],
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
@@ -841,6 +847,7 @@ exports[`SimplexScreen renders correctly 1`] = `
           }
         >
           <Text
+            numberOfLines={1}
             style={
               Array [
                 Array [
@@ -856,6 +863,7 @@ exports[`SimplexScreen renders correctly 1`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
@@ -1453,14 +1461,16 @@ exports[`SimplexScreen renders correctly 2`] = `
           }
         >
           <Text
+            numberOfLines={1}
             style={
               Array [
                 Array [],
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             25.00
@@ -1516,6 +1526,7 @@ exports[`SimplexScreen renders correctly 2`] = `
           }
         >
           <Text
+            numberOfLines={1}
             style={
               Array [
                 Array [
@@ -1528,6 +1539,7 @@ exports[`SimplexScreen renders correctly 2`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
@@ -1590,14 +1602,16 @@ exports[`SimplexScreen renders correctly 2`] = `
           }
         >
           <Text
+            numberOfLines={1}
             style={
               Array [
                 Array [],
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
@@ -1773,6 +1787,7 @@ exports[`SimplexScreen renders correctly 2`] = `
           }
         >
           <Text
+            numberOfLines={1}
             style={
               Array [
                 Array [
@@ -1788,6 +1803,7 @@ exports[`SimplexScreen renders correctly 2`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $

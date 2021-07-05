@@ -130,14 +130,16 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                     testID="EscrowedPaymentListItem/Amount"
                   >
                     <Text
+                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
                           Object {
-                            "color": "#2E3338",
+                            "color": undefined,
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       
                       $
@@ -388,14 +390,16 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                     testID="EscrowedPaymentListItem/Amount"
                   >
                     <Text
+                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
                           Object {
-                            "color": "#2E3338",
+                            "color": undefined,
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       
                       $
@@ -646,14 +650,16 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                     testID="EscrowedPaymentListItem/Amount"
                   >
                     <Text
+                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
                           Object {
-                            "color": "#2E3338",
+                            "color": undefined,
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       
                       $

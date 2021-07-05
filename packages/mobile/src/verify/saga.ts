@@ -61,7 +61,7 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { clearPasswordCaches } from 'src/pincode/PasswordCache'
 import { waitFor } from 'src/redux/sagas-helpers'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import Logger from 'src/utils/Logger'
 import {
   checkIfKomenciAvailable,
@@ -311,7 +311,7 @@ export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof 
     } else {
       const { timeout } = yield race({
         balances: all([
-          call(waitFor, stableTokenBalanceSelector),
+          call(waitFor, cUsdBalanceSelector),
           call(waitFor, celoTokenBalanceSelector),
         ]),
         timeout: delay(BALANCE_CHECK_TIMEOUT),

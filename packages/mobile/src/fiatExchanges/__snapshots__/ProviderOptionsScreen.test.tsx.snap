@@ -189,6 +189,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     }
                   >
                     <Text
+                      numberOfLines={1}
                       style={
                         Array [
                           Array [
@@ -204,6 +205,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       $
                       13.00
@@ -352,6 +354,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     }
                   >
                     <Text
+                      numberOfLines={1}
                       style={
                         Array [
                           Array [
@@ -367,6 +370,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       $
                       5.00
@@ -674,6 +678,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     }
                   >
                     <Text
+                      numberOfLines={1}
                       style={
                         Array [
                           Array [
@@ -689,6 +694,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       $
                       3.00
@@ -854,6 +860,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     }
                   >
                     <Text
+                      numberOfLines={1}
                       style={
                         Array [
                           Array [
@@ -869,6 +876,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       $
                       6.00

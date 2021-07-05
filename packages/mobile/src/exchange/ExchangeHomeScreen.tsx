@@ -19,14 +19,14 @@ import { fetchExchangeRate } from 'src/exchange/actions'
 import CeloExchangeButtons from 'src/exchange/CeloExchangeButtons'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
 import CeloGoldOverview from 'src/exchange/CeloGoldOverview'
-import { useExchangeRate } from 'src/exchange/hooks'
+import { useDollarToCeloExchangeRate } from 'src/exchange/hooks'
 import { exchangeHistorySelector } from 'src/exchange/reducer'
 import RestrictedCeloExchange from 'src/exchange/RestrictedCeloExchange'
 import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
-import { getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
+import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -92,8 +92,8 @@ function ExchangeHomeScreen({ navigation }: Props) {
 
   // TODO: revert this back to `useLocalCurrencyCode()` when we have history data for cGDL to Local Currency.
   const localCurrencyCode = null
-  const localExchangeRate = useSelector(getLocalCurrencyExchangeRate)
-  const currentExchangeRate = useExchangeRate()
+  const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
+  const currentExchangeRate = useDollarToCeloExchangeRate()
 
   const perOneGoldInDollars = goldToDollarAmount(1, currentExchangeRate)
   const currentGoldRateInLocalCurrency = perOneGoldInDollars && dollarsToLocal(perOneGoldInDollars)

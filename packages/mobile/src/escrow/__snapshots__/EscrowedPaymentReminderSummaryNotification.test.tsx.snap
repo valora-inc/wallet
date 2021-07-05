@@ -232,14 +232,16 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
             testID="EscrowedPaymentListItem/Amount"
           >
             <Text
+              numberOfLines={1}
               style={
                 Array [
                   undefined,
                   Object {
-                    "color": "#2E3338",
+                    "color": undefined,
                   },
                 ]
               }
+              testID="undefined/value"
             >
               
               $

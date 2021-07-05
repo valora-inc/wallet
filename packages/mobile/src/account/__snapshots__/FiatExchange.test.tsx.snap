@@ -135,6 +135,7 @@ exports[`FiatExchange renders correctly 1`] = `
             global:currentBalance
           </Text>
           <Text
+            numberOfLines={1}
             style={
               Array [
                 Object {
@@ -149,10 +150,12 @@ exports[`FiatExchange renders correctly 1`] = `
                 },
               ]
             }
+            testID="undefined/value"
           >
             
+            &lt;
             $
-            0.00
+            0.001
           </Text>
         </View>
         <Image

@@ -1,14 +1,14 @@
-import { CURRENCY_ENUM } from '@celo/utils'
 import * as React from 'react'
 import { render } from 'react-native-testing-library'
 import { WebView } from 'react-native-webview'
 import { Provider } from 'react-redux'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const mockScreenProps = getMockStackScreenProps(Screens.BidaliScreen, {
-  currency: CURRENCY_ENUM.DOLLAR,
+  currency: Currency.Dollar,
 })
 
 declare global {
@@ -26,7 +26,7 @@ describe(BidaliScreen, () => {
   it('renders correctly when no phone number is provided', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: null },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10' } },
     })
 
     const { getByType } = render(
@@ -55,7 +55,7 @@ describe(BidaliScreen, () => {
   it('renders correctly when a phone number is provided', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: '+14155556666' },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10' } },
     })
 
     const { getByType } = render(

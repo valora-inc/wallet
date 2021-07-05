@@ -4,7 +4,7 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import variables from '@celo/react-components/styles/variables'
 import * as React from 'react'
-import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, TextStyle, ViewStyle } from 'react-native'
 import { AnalyticsEventType } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
@@ -13,13 +13,14 @@ interface CommonProps {
   testID?: string
   onPress: () => void
   eventName?: AnalyticsEventType
+  style?: StyleProp<ViewStyle>
 }
 
 type WrapperProps = CommonProps & {
   children: JSX.Element
 }
 
-function Wrapper({ eventName, onPress, disabled, testID, children }: WrapperProps) {
+function Wrapper({ eventName, onPress, disabled, testID, children, style }: WrapperProps) {
   const onPressLocal = React.useCallback(() => {
     if (eventName) {
       ValoraAnalytics.track(eventName)
@@ -34,6 +35,7 @@ function Wrapper({ eventName, onPress, disabled, testID, children }: WrapperProp
       onPress={onPressLocal}
       borderless={true}
       hitSlop={variables.iconHitslop}
+      style={style}
     >
       {children}
     </Touchable>

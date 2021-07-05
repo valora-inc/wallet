@@ -130,14 +130,16 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     testID="IncomingPaymentRequestNotification/7363bvby2ba8270273/Amount"
                   >
                     <Text
+                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
                           Object {
-                            "color": "#2E3338",
+                            "color": undefined,
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       
                       $
@@ -388,14 +390,16 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     testID="IncomingPaymentRequestNotification/7363bvby2ba8270273/Amount"
                   >
                     <Text
+                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
                           Object {
-                            "color": "#2E3338",
+                            "color": undefined,
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       
                       $
@@ -646,14 +650,16 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     testID="IncomingPaymentRequestNotification/7363bvby2ba8270273/Amount"
                   >
                     <Text
+                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
                           Object {
-                            "color": "#2E3338",
+                            "color": undefined,
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       
                       $
