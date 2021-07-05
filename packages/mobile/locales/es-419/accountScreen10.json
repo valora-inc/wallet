@@ -1,5 +1,5 @@
 {
-  "invite": "Invite",
+  "invite": "Invitar",
   "celoRewards": "Recompensas CELO",
   "languageSettings": "Idioma",
   "localCurrencySetting": "Moneda",
@@ -102,6 +102,6 @@
   "storeRecoveryButton": "Restablecer cuenta",
   "havingTrouble": "¿Tiene problemas?",
   "shakeForSupport": "Este menú aparece cuando agita su dispositivo.",
-  "contactSupport": "Contact Support",
+  "contactSupport": "Contactar a Soporte",
   "tapToCopy": "Toca para copiar"
 }
