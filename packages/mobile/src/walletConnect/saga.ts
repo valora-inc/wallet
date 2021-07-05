@@ -1,5 +1,7 @@
 import { appendPath } from '@celo/base'
-import { EncodedTransaction } from '@celo/connect'
+import { CeloTx, EncodedTransaction, TransactionResult } from '@celo/connect'
+import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
+import { ContractKit } from '@celo/contractkit'
 import { UnlockableWallet } from '@celo/wallet-base'
 import AsyncStorage from '@react-native-community/async-storage'
 import '@react-native-firebase/database'
@@ -15,6 +17,8 @@ import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { wrapSendTransactionWithRetry } from 'src/transactions/send'
+import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import {
   AcceptRequest,
@@ -46,7 +50,7 @@ import {
   selectPendingActions,
   selectSessions,
 } from 'src/walletConnect/selectors'
-import { getWallet } from 'src/web3/contracts'
+import { getContractKit, getWallet } from 'src/web3/contracts'
 import { getAccountAddress, unlockAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -149,6 +153,24 @@ export function* acceptRequest({
         case SupportedActions.personal_decrypt:
           result = yield call(wallet.decrypt.bind(wallet), account, Buffer.from(params[1]))
           break
+        case SupportedActions.eth_sendTransaction:
+          const kit: ContractKit = yield call(getContractKit)
+          const normalizer = new TxParamsNormalizer(kit.connection)
+          const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), params)
+
+          const sendTxMethod = function* (nonce?: number) {
+            const txResult: TransactionResult = yield call(kit.connection.sendTransaction, {
+              ...tx,
+              nonce: nonce ?? tx.nonce,
+            })
+            return yield call(txResult.getHash.bind(txResult))
+          }
+          result = yield call(
+            wrapSendTransactionWithRetry,
+            sendTxMethod,
+            newTransactionContext(TAG, 'WalletConnect/eth_sendTransaction')
+          )
+          break
         default:
           error = WalletConnectErrors.JSONRPC_REQUEST_METHOD_UNSUPPORTED
       }
@@ -189,7 +211,7 @@ export function* denyRequest({
       response: {
         id,
         jsonrpc,
-        error: getError(WalletConnectErrors.NOT_APPROVED),
+        error: getError(WalletConnectErrors.DISAPPROVED_JSONRPC),
       },
     })
   } catch (e) {
