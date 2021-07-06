@@ -28,11 +28,7 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
   const userIsVerified = useSelector((state) => state.app.numberVerified)
   const insets = useSafeAreaInsets()
 
-  const { rewardsPercent, rewardsStartDate, rewardsMax } = useSelector((state) => state.app)
-  const startDate = new Date(rewardsStartDate).toLocaleDateString(undefined, {
-    month: 'long',
-    day: 'numeric',
-  })
+  const { rewardsPercent, rewardsMax } = useSelector((state) => state.app)
   const maxSaving = (rewardsPercent / 100) * rewardsMax
 
   const onPressCTA = () => {
@@ -64,9 +60,7 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
         </Touchable>
         <Image source={earnMain} />
         <Text style={styles.title}>{t('title')}</Text>
-        <Text style={styles.description}>
-          {t('summary', { date: startDate, percent: rewardsPercent })}
-        </Text>
+        <Text style={styles.description}>{t('summary', { percent: rewardsPercent })}</Text>
         <View style={styles.section}>
           <Image source={earn1} style={styles.sectionImage} resizeMode="contain" />
           <View style={styles.sectionText}>

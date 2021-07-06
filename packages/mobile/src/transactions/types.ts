@@ -1,16 +1,16 @@
 import { Address } from '@celo/base'
 import { TokenTransactionType } from 'src/apollo/types'
-import { CURRENCY_ENUM } from 'src/geth/consts'
+import { Currency } from 'src/utils/currencies'
 import { v4 as uuidv4 } from 'uuid'
 
 export interface ExchangeStandby {
   context: TransactionContext
   type: TokenTransactionType.Exchange
   status: TransactionStatus
-  inSymbol: CURRENCY_ENUM
   inValue: string
-  outSymbol: CURRENCY_ENUM
+  inCurrency: Currency
   outValue: string
+  outCurrency: Currency
   timestamp: number
   hash?: string
 }
@@ -20,8 +20,8 @@ export interface TransferStandby {
   type: TransferTransactionType
   status: TransactionStatus
   value: string
+  currency: Currency
   comment: string
-  symbol: CURRENCY_ENUM
   timestamp: number
   address: Address
   hash?: string

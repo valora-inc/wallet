@@ -18,6 +18,15 @@ const DOLLAR_TRANSFER = {
   currency: Currencies.DOLLAR,
   timestamp: 1,
 }
+const EURO_TRANSFER = {
+  recipient: 'euro-recipient',
+  sender: 'euro-sender',
+  value: '2',
+  blockNumber: 155,
+  txHash: 'euro-txhash',
+  currency: Currencies.EURO,
+  timestamp: 1,
+}
 const DOLLAR_EXCHANGE = {
   recipient: 'recipient',
   sender: 'sender',
@@ -25,6 +34,15 @@ const DOLLAR_EXCHANGE = {
   blockNumber: 154,
   txHash: 'exchange-txhash',
   currency: Currencies.DOLLAR,
+  timestamp: 2,
+}
+const EURO_EXCHANGE = {
+  recipient: 'recipient',
+  sender: 'sender',
+  value: '10',
+  blockNumber: 154,
+  txHash: 'exchange-txhash',
+  currency: Currencies.EURO,
   timestamp: 2,
 }
 const CELO_TRANSFER = {
@@ -76,6 +94,7 @@ jest.mock('../src/blockscout/transfersFormatter', () => {
     .fn()
     .mockReturnValueOnce({ transfers: [], latestBlock: 156 })
     .mockReturnValueOnce({ transfers: [], latestBlock: 154 })
+    .mockReturnValueOnce({ transfers: [], latestBlock: 154 })
 
   return {
     formatTransfers: transfersFormatterMock,
@@ -116,30 +135,34 @@ describe('Transfers', () => {
 
   it('should exclude exchanges', () => {
     const celoTransfers = new Map<string, Transfer[]>()
-    const stableTransfers = new Map<string, Transfer[]>()
+    const cUsdTransfers = new Map<string, Transfer[]>()
+    const cEurTransfers = new Map<string, Transfer[]>()
 
     celoTransfers.set(CELO_EXCHANGE.txHash, [CELO_EXCHANGE])
-    stableTransfers.set(DOLLAR_EXCHANGE.txHash, [DOLLAR_EXCHANGE])
+    cUsdTransfers.set(DOLLAR_EXCHANGE.txHash, [DOLLAR_EXCHANGE])
+    cEurTransfers.set(DOLLAR_EXCHANGE.txHash, [EURO_EXCHANGE])
 
-    const concated = filterAndJoinTransfers(celoTransfers, stableTransfers)
+    const concated = filterAndJoinTransfers(celoTransfers, cUsdTransfers, cEurTransfers)
 
     expect(concated).toEqual([])
   })
 
   it('should include unique transactions and update the last block', () => {
     const celoTransfers = new Map<string, Transfer[]>()
-    const stableTransfers = new Map<string, Transfer[]>()
+    const cUsdTransfers = new Map<string, Transfer[]>()
+    const cEurTransfers = new Map<string, Transfer[]>()
 
     celoTransfers.set(CELO_TRANSFER.txHash, [CELO_TRANSFER])
-    stableTransfers.set(DOLLAR_TRANSFER.txHash, [DOLLAR_TRANSFER])
+    cUsdTransfers.set(DOLLAR_TRANSFER.txHash, [DOLLAR_TRANSFER])
+    cEurTransfers.set(EURO_TRANSFER.txHash, [EURO_TRANSFER])
 
-    const concated = filterAndJoinTransfers(celoTransfers, stableTransfers)
+    const concated = filterAndJoinTransfers(celoTransfers, cUsdTransfers, cEurTransfers)
 
-    expect(concated).toEqual([CELO_TRANSFER, DOLLAR_TRANSFER])
+    expect(concated).toEqual([CELO_TRANSFER, DOLLAR_TRANSFER, EURO_TRANSFER])
   })
 
   it('should notify for new transfers since last block notified', async () => {
-    const transfers = [CELO_TRANSFER, DOLLAR_TRANSFER]
+    const transfers = [CELO_TRANSFER, DOLLAR_TRANSFER, EURO_TRANSFER]
     const returned = await notifyForNewTransfers(transfers)
 
     expect(sendPaymentNotificationMock).toHaveBeenCalledWith(
@@ -165,6 +188,19 @@ describe('Transfers', () => {
         ...DOLLAR_TRANSFER,
         blockNumber: String(DOLLAR_TRANSFER.blockNumber),
         timestamp: String(DOLLAR_TRANSFER.timestamp),
+      }
+    )
+
+    expect(sendPaymentNotificationMock).toHaveBeenCalledWith(
+      EURO_TRANSFER.sender,
+      EURO_TRANSFER.recipient,
+      convertWeiValue(EURO_TRANSFER.value),
+      EURO_TRANSFER.currency,
+      EURO_TRANSFER.blockNumber,
+      {
+        ...EURO_TRANSFER,
+        blockNumber: String(EURO_TRANSFER.blockNumber),
+        timestamp: String(EURO_TRANSFER.timestamp),
       }
     )
     expect(returned.length).toEqual(transfers.length)

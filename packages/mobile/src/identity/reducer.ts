@@ -97,7 +97,6 @@ export interface State {
   e164NumberToSalt: E164NumberToSaltType
   addressToDataEncryptionKey: AddressToDataEncryptionKeyType
   // Doesn't contain all known addresses, use only as a fallback.
-  // TODO: Remove if unused after CIP-8 implementation.
   addressToDisplayName: AddressToDisplayNameType
   // Has the user already been asked for contacts permission
   askedContactsPermission: boolean

@@ -25,6 +25,9 @@ export default offRamps = () => {
       it('Then Should Be Able To Navigate To Providers', async () => {
         await element(by.id('FiatExchangeInput')).replaceText('2')
         await element(by.id('FiatExchangeNextButton')).tap()
+        await waitFor(element(by.id('Provider/Xanpool')))
+          .toBeVisible()
+          .withTimeout(20000)
         await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
         await expect(element(by.id('Icon/Xanpool'))).toExist()
         const imagePath = await device.takeScreenshot('cUSD Out Providers')
