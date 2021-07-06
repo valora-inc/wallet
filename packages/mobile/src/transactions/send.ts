@@ -1,18 +1,20 @@
 import { CeloTxObject, CeloTxReceipt } from '@celo/connect'
-import { CURRENCY_ENUM } from '@celo/utils/lib'
 import { BigNumber } from 'bignumber.js'
 import { call, cancel, cancelled, delay, fork, join, race, select } from 'redux-saga/effects'
 import { TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { DEFAULT_FORNO_URL } from 'src/config'
-import { getCurrencyAddress, getTokenContract } from 'src/tokens/saga'
+import { Balances, balancesSelector } from 'src/stableToken/selectors'
+import { getCurrencyAddress } from 'src/tokens/saga'
 import {
   sendTransactionAsync,
   SendTransactionLogEvent,
   SendTransactionLogEventType,
+  TxPromises,
 } from 'src/transactions/contract-utils'
 import { TransactionContext } from 'src/transactions/types'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { assertNever } from 'src/utils/typescript'
 import { getGasPrice } from 'src/web3/gas'
@@ -104,6 +106,27 @@ const getLogger = (context: TransactionContext, fornoMode?: boolean) => {
   }
 }
 
+// If the preferred currency has enough balance, use that.
+// Otherwise use any that has enough balance.
+// TODO: Make fee currency choosing transparent for the user.
+// TODO: Check for balance should be more than fee instead of zero.
+function* chooseFeeCurrency(preferredFeeCurrency: Currency) {
+  const balances: Balances = yield select(balancesSelector)
+  if (balances[preferredFeeCurrency]?.isGreaterThan(0)) {
+    return preferredFeeCurrency
+  }
+  for (const currency of Object.keys(CURRENCIES)) {
+    if (balances[currency as Currency]?.isGreaterThan(0)) {
+      return currency
+    }
+  }
+  Logger.error(
+    TAG,
+    '@chooseFeeCurrency no currency has enough balance to pay for fee, should never happen.'
+  )
+  return Currency.Dollar
+}
+
 // Sends a transaction and async returns promises for the txhash, confirmation, and receipt
 // Only use this method if you need more granular control of the different events
 // WARNING: this method doesn't have retry and timeout logic built in, turns out that's tricky
@@ -112,7 +135,7 @@ export function* sendTransactionPromises(
   tx: CeloTxObject<any>,
   account: string,
   context: TransactionContext,
-  preferredFeeCurrency: CURRENCY_ENUM = CURRENCY_ENUM.DOLLAR,
+  preferredFeeCurrency: Currency = Currency.Dollar,
   gas?: number,
   gasPrice?: BigNumber,
   nonce?: number
@@ -122,9 +145,8 @@ export function* sendTransactionPromises(
     `Going to send a transaction with id ${context.id}`
   )
 
-  const stableToken = yield getTokenContract(CURRENCY_ENUM.DOLLAR)
-  const stableTokenBalance = yield call([stableToken, stableToken.balanceOf], account)
   const fornoMode: boolean = yield select(fornoSelector)
+  const feeCurrency: Currency = yield call(chooseFeeCurrency, preferredFeeCurrency)
 
   if (gas || gasPrice) {
     Logger.debug(
@@ -133,14 +155,6 @@ export function* sendTransactionPromises(
     )
   }
 
-  // If stableToken is prefered to pay fee, use it unless its balance is Zero,
-  // in that case use CELO to pay fee.
-  // TODO: Make it transparent for the user.
-  // TODO: Check for balance should be more than fee instead of zero.
-  const feeCurrency =
-    preferredFeeCurrency === CURRENCY_ENUM.DOLLAR && stableTokenBalance.isGreaterThan(0)
-      ? CURRENCY_ENUM.DOLLAR
-      : CURRENCY_ENUM.GOLD
   if (preferredFeeCurrency && feeCurrency !== preferredFeeCurrency) {
     Logger.warn(
       `${TAG}@sendTransactionPromises`,
@@ -158,10 +172,9 @@ export function* sendTransactionPromises(
     }
   }
 
-  const feeCurrencyAddress =
-    feeCurrency === CURRENCY_ENUM.DOLLAR
-      ? yield call(getCurrencyAddress, CURRENCY_ENUM.DOLLAR)
-      : undefined // Pass undefined to use CELO to pay for gas.
+  // Pass undefined to use CELO to pay for gas.
+  const feeCurrencyAddress: string | undefined =
+    feeCurrency === Currency.Celo ? undefined : yield call(getCurrencyAddress, feeCurrency)
 
   Logger.debug(
     `${TAG}@sendTransactionPromises`,
@@ -180,7 +193,7 @@ export function* sendTransactionPromises(
     }
   }
 
-  const transactionPromises = yield call(
+  const transactionPromises: TxPromises = yield call(
     sendTransactionAsync,
     tx,
     account,
@@ -201,7 +214,7 @@ export function* sendTransaction(
   context: TransactionContext,
   gas?: number,
   gasPrice?: BigNumber,
-  feeCurrency?: CURRENCY_ENUM,
+  feeCurrency?: Currency,
   waitForBlocks?: number
 ) {
   const sendTxMethod = function* (nonce?: number) {
@@ -225,9 +238,10 @@ export function* sendTransaction(
         }
       }
     }
-    return yield receipt
+    return (yield receipt) as CeloTxReceipt
   }
-  return yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
+  const receipt: CeloTxReceipt = yield call(wrapSendTransactionWithRetry, sendTxMethod, context)
+  return receipt
 }
 
 // SendTransactionMethod is a redux saga generator that takes a nonce and returns a receipt.

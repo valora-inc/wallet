@@ -16,9 +16,10 @@ import { isUserBalanceSufficient } from 'src/identity/utils'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { transferStableToken } from 'src/stableToken/actions'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { waitForTransactionWithId } from 'src/transactions/saga'
 import { newTransactionContext } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { isBalanceSufficientForSigRetrievalSelector } from 'src/verify/reducer'
 import { getAuthSignerForAccount } from 'src/web3/dataEncryptionKey'
@@ -163,7 +164,7 @@ function* navigateToQuotaPurchaseScreen() {
     })
 
     const ownAddress: string = yield select(currentAccountSelector)
-    const userBalance = yield select(stableTokenBalanceSelector)
+    const userBalance = yield select(cUsdBalanceSelector)
     const userBalanceSufficient = isUserBalanceSufficient(userBalance, LOOKUP_GAS_FEE_ESTIMATE)
     if (!userBalanceSufficient) {
       throw Error(ErrorMessages.INSUFFICIENT_BALANCE)
@@ -174,6 +175,7 @@ function* navigateToQuotaPurchaseScreen() {
       transferStableToken({
         recipientAddress: ownAddress, // send payment to yourself
         amount: '0.01', // one penny
+        currency: Currency.Dollar,
         comment: 'Lookup Quota Purchase',
         context,
       })

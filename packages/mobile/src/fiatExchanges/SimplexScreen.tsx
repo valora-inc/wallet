@@ -12,15 +12,15 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { numberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
 import WebView from 'src/components/WebView'
-import { CurrencyCode, SIMPLEX_FEES_URL } from 'src/config'
+import { SIMPLEX_FEES_URL } from 'src/config'
 import ReviewFees from 'src/fiatExchanges/ReviewFees'
 import { fetchSimplexPaymentData } from 'src/fiatExchanges/utils'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -43,8 +43,8 @@ function SimplexScreen({ route, navigation }: Props) {
 
   const currencyToBuy =
     simplexQuote.digital_money.currency.toUpperCase() === 'CUSD'
-      ? CurrencyCode.CUSD
-      : CurrencyCode.CELO
+      ? CiCoCurrency.CUSD
+      : CiCoCurrency.CELO
 
   const feeIsWaived =
     simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount <= 0
@@ -68,9 +68,7 @@ function SimplexScreen({ route, navigation }: Props) {
 
   useLayoutEffect(() => {
     const token =
-      simplexQuote.digital_money.currency.toLowerCase() === 'cusd'
-        ? CURRENCY_ENUM.DOLLAR
-        : CURRENCY_ENUM.GOLD
+      simplexQuote.digital_money.currency.toLowerCase() === 'cusd' ? Currency.Dollar : Currency.Celo
     navigation.setOptions({
       ...emptyHeader,
       headerLeft: () => <BackButton />,

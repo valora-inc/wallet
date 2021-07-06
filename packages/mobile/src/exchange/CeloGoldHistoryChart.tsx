@@ -6,12 +6,12 @@ import React, { useCallback, useState } from 'react'
 import { WithTranslation } from 'react-i18next'
 import { ActivityIndicator, LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
 import { Circle, G, Line, Text as SvgText } from 'react-native-svg'
-import { useExchangeRate } from 'src/exchange/hooks'
+import { useDollarToCeloExchangeRate } from 'src/exchange/hooks'
 import { exchangeHistorySelector } from 'src/exchange/reducer'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
-import { getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
+import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { goldToDollarAmount } from 'src/utils/currencyExchange'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
@@ -179,9 +179,9 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
       getLocalCurrencyDisplayValue(amount, localCurrencyCode || LocalCurrencyCode.USD, true),
     [localCurrencyCode]
   )
-  const currentExchangeRate = useExchangeRate()
+  const currentExchangeRate = useDollarToCeloExchangeRate()
   const goldToDollars = (amount: BigNumber.Value) => goldToDollarAmount(amount, currentExchangeRate)
-  const localExchangeRate = useSelector(getLocalCurrencyExchangeRate)
+  const localExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
   const dollarsToLocal = useCallback(
     (amount) => convertDollarsToLocalAmount(amount, localCurrencyCode ? localExchangeRate : 1),
     [localExchangeRate]

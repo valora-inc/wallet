@@ -1,7 +1,6 @@
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib'
 import * as React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
@@ -11,17 +10,18 @@ import { Namespaces, withTranslation } from 'src/i18n'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import useSelector from 'src/redux/useSelector'
+import { Currency } from 'src/utils/currencies'
 
 type Props = WithTranslation
 
 function CeloDollarsOverview({ t }: Props) {
   useBalanceAutoRefresh()
   const localCurrencyCode = useLocalCurrencyCode()
-  const dollarBalance = useSelector((state) => state.stableToken.balance)
+  const dollarBalance = useSelector((state) => state.stableToken.balances[Currency.Dollar])
 
   const isUsdLocalCurrency = localCurrencyCode === LocalCurrencyCode.USD
   const dollarBalanceAmount = dollarBalance
-    ? { value: dollarBalance, currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code }
+    ? { value: dollarBalance, currencyCode: Currency.Dollar }
     : null
 
   return (

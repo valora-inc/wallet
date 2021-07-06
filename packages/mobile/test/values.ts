@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 import { MinimalContact } from 'react-native-contacts'
 import { TokenTransactionType } from 'src/apollo/types'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { SHORT_CURRENCIES } from 'src/geth/consts'
+import { ExchangeRates } from 'src/exchange/reducer'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { AttestationCode } from 'src/identity/verification'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -21,6 +21,7 @@ import {
   NumberToRecipient,
   RecipientInfo,
 } from 'src/recipients/recipient'
+import { Currency } from 'src/utils/currencies'
 
 export const nullAddress = '0x0'
 
@@ -131,12 +132,14 @@ export const mockInvitableRecipient2: ContactRecipient = {
 export const mockTransactionData = {
   recipient: mockInvitableRecipient2,
   amount: new BigNumber(1),
+  currency: Currency.Dollar,
   type: TokenTransactionType.Sent,
 }
 
 export const mockInviteTransactionData = {
   recipient: mockInvitableRecipient2,
   amount: new BigNumber(1),
+  currency: Currency.Dollar,
   type: TokenTransactionType.InviteSent,
 }
 
@@ -252,30 +255,28 @@ export const mockEscrowedPayment: EscrowedPayment = {
   recipientPhone: mockE164Number,
   recipientIdentifier: mockE164NumberHashWithPepper,
   paymentID: mockAccount,
-  currency: SHORT_CURRENCIES.DOLLAR,
+  currency: Currency.Dollar,
   amount: new BigNumber(10),
   timestamp: new BigNumber(10000),
   expirySeconds: new BigNumber(50000),
 }
 
-const date = new Date('Tue Mar 05 2019 13:44:06 GMT-0800 (Pacific Standard Time)')
-const currency = SHORT_CURRENCIES.DOLLAR
+const date = new Date('Tue Mar 05 2019 13:44:06 GMT-0800 (Pacific Standard Time)').getTime()
 export const mockPaymentRequests: PaymentRequest[] = [
   {
     amount: '200000.00',
     uid: 'FAKE_ID_1',
-    timestamp: date,
+    createdAt: date,
     comment: 'Dinner for me and the gals, PIZZAA!',
     requesteeAddress: mockAccount,
     requesterAddress: mockAccount2,
     requesterE164Number: mockE164Number,
     status: PaymentRequestStatus.REQUESTED,
-    currency,
     notified: true,
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
   {
-    timestamp: date,
+    createdAt: date,
     amount: '180.89',
     uid: 'FAKE_ID_2',
     comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',
@@ -283,12 +284,11 @@ export const mockPaymentRequests: PaymentRequest[] = [
     requesterAddress: mockAccount2,
     requesterE164Number: mockE164Number,
     status: PaymentRequestStatus.REQUESTED,
-    currency,
     notified: true,
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
   {
-    timestamp: date,
+    createdAt: date,
     amount: '180.89',
     uid: 'FAKE_ID_3',
     comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',
@@ -296,7 +296,6 @@ export const mockPaymentRequests: PaymentRequest[] = [
     requesterAddress: mockAccount2,
     requesterE164Number: mockE164Number,
     status: PaymentRequestStatus.REQUESTED,
-    currency,
     notified: true,
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
@@ -388,3 +387,24 @@ export const mockWallet: UnlockableWallet = {
   decrypt: jest.fn(),
   computeSharedSecret: jest.fn(),
 }
+
+export const makeExchangeRates = (
+  celoToDollarExchangeRate: string,
+  dollarToCeloExchangeRate: string
+): ExchangeRates => ({
+  [Currency.Celo]: {
+    [Currency.Dollar]: celoToDollarExchangeRate,
+    [Currency.Euro]: '',
+    [Currency.Celo]: '',
+  },
+  [Currency.Dollar]: {
+    [Currency.Celo]: dollarToCeloExchangeRate,
+    [Currency.Euro]: '',
+    [Currency.Dollar]: '',
+  },
+  [Currency.Euro]: {
+    [Currency.Celo]: '',
+    [Currency.Euro]: '',
+    [Currency.Dollar]: '',
+  },
+})
