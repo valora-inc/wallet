@@ -1,9 +1,9 @@
 import { RehydrateAction } from 'redux-persist'
 import { Actions, ActionTypes } from 'src/fiatExchanges/actions'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
+import { Currency } from 'src/utils/currencies'
 
 export interface ProviderLogos {
   [providerName: string]: string
@@ -63,7 +63,7 @@ export const reducer = (state: State = initialState, action: ActionTypes | Rehyd
         displayInfo = state.providerLogos[state.lastUsedProvider]
       } else {
         const nameKey =
-          action.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+          action.currencyCode === Currency.Celo
             ? 'fiatExchangeFlow:celoDeposit'
             : 'fiatExchangeFlow:cUsdDeposit'
         displayInfo = {

@@ -5,6 +5,7 @@ import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
+import { Currency } from 'src/utils/currencies'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
 
 // Default (version -1 schema)
@@ -656,8 +657,47 @@ export const v15Schema = {
   verify: {
     ...v9Schema.verify,
   },
+  recipients: {
+    ...v14Schema.recipients,
+    rewardsSenders: [],
+  },
+}
+
+export const v16Schema = {
+  ...v15Schema,
+  _persist: {
+    ...v14Schema._persist,
+    version: 16,
+  },
+  localCurrency: {
+    ...v15Schema.localCurrency,
+    exchangeRates: {
+      [Currency.Celo]: '3',
+      [Currency.Euro]: '2',
+      [Currency.Dollar]: v15Schema.localCurrency.exchangeRate,
+    },
+    exchangeRate: undefined,
+    fetchRateFailed: false,
+  },
+  stableToken: {
+    ...v15Schema.stableToken,
+    balances: {
+      [Currency.Euro]: null,
+      [Currency.Dollar]: v15Schema.stableToken.balance ?? null,
+    },
+    balance: undefined,
+  },
+  send: {
+    ...v15Schema.send,
+    lastUsedCurrency: Currency.Dollar,
+  },
+  exchange: {
+    ...v15Schema.exchange,
+    exchangeRates: null,
+    exchangeRatePair: undefined,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v15Schema as Partial<RootState>
+  return v16Schema as Partial<RootState>
 }

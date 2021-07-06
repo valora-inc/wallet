@@ -4,4 +4,9 @@ const Reanimated = require('react-native-reanimated/mock')
 // So we override it with a no-op
 Reanimated.default.call = () => {}
 
-module.exports = Reanimated
+module.exports = {
+  ...Reanimated,
+  useSharedValue: jest.fn(),
+  useAnimatedStyle: jest.fn(),
+  withTiming: jest.fn(),
+}

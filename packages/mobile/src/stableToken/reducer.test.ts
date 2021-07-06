@@ -1,5 +1,6 @@
 import { Actions } from 'src/stableToken/actions'
 import { initialState, reducer } from 'src/stableToken/reducer'
+import { Currency } from 'src/utils/currencies'
 
 describe('stableToken reducer', () => {
   it('should return the initial state', () => {
@@ -11,11 +12,11 @@ describe('stableToken reducer', () => {
     expect(
       reducer(undefined, {
         type: Actions.SET_BALANCE,
-        balance: '10',
+        balances: { [Currency.Dollar]: '10', [Currency.Euro]: null },
       })
     ).toEqual({
       ...initialState,
-      balance: '10',
+      balances: { [Currency.Dollar]: '10', [Currency.Euro]: null },
       lastFetch: expect.any(Number),
     })
   })
