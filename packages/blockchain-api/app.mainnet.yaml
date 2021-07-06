@@ -1,4 +1,4 @@
-runtime: nodejs10
+runtime: nodejs12
 service: blockchain-api
 env_variables:
   NODE_ENV: 'production'

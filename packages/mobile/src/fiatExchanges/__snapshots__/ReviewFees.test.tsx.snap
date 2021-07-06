@@ -506,10 +506,11 @@ exports[`ReviewFees renders correctly 1`] = `
           Array [
             Array [],
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
+        testID="undefined/value"
       >
         
         25.00
@@ -578,6 +579,7 @@ exports[`ReviewFees renders correctly 1`] = `
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -645,10 +647,11 @@ exports[`ReviewFees renders correctly 1`] = `
           Array [
             Array [],
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -776,6 +779,7 @@ exports[`ReviewFees renders correctly 1`] = `
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -854,6 +858,7 @@ exports[`ReviewFees renders correctly 1`] = `
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -1370,10 +1375,11 @@ exports[`ReviewFees renders correctly 2`] = `
           Array [
             Array [],
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
+        testID="undefined/value"
       >
         
         25.00
@@ -1442,6 +1448,7 @@ exports[`ReviewFees renders correctly 2`] = `
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -1509,10 +1516,11 @@ exports[`ReviewFees renders correctly 2`] = `
           Array [
             Array [],
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -1704,6 +1712,7 @@ exports[`ReviewFees renders correctly 2`] = `
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $

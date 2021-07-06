@@ -138,6 +138,9 @@ export class BlockscoutAPI extends RESTDataSource {
       if (!contractAddresses.Exchange) {
         throw new Error('Cannot find exchange address')
       }
+      if (!contractAddresses.ExchangeEUR) {
+        throw new Error('Cannot find exchange EUR address')
+      }
       if (!contractAddresses.Reserve) {
         throw new Error('Cannot find reserve address')
       }
@@ -191,7 +194,7 @@ export class BlockscoutAPI extends RESTDataSource {
     })
 
     console.info(
-      `[Celo] getTokenTransactions address=${args.address} token=${token} localCurrencyCode=${args.localCurrencyCode}} rawTransactionCount=${rawTransactions.length} eventCount=${events.length}`
+      `[Celo] getTokenTransactions address=${args.address} tokens=${tokens} localCurrencyCode=${args.localCurrencyCode}} rawTransactionCount=${rawTransactions.length} eventCount=${events.length}`
     )
 
     return events

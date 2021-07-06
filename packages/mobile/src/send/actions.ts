@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 import { FeeInfo } from 'src/fees/saga'
-import { InviteBy } from 'src/invite/actions'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { Currency } from 'src/utils/currencies'
 import { Svg } from 'svgs'
 
 export interface QrCode {
@@ -18,6 +18,7 @@ export enum Actions {
   SEND_PAYMENT_OR_INVITE = 'SEND/SEND_PAYMENT_OR_INVITE',
   SEND_PAYMENT_OR_INVITE_SUCCESS = 'SEND/SEND_PAYMENT_OR_INVITE_SUCCESS',
   SEND_PAYMENT_OR_INVITE_FAILURE = 'SEND/SEND_PAYMENT_OR_INVITE_FAILURE',
+  UPDATE_LAST_USED_CURRENCY = 'SEND/UPDATE_LAST_USED_CURRENCY',
   SET_SHOW_WARNING = 'SEND/SHOW_WARNING',
 }
 
@@ -38,11 +39,11 @@ export interface ShareQRCodeAction {
 export interface SendPaymentOrInviteAction {
   type: Actions.SEND_PAYMENT_OR_INVITE
   amount: BigNumber
+  currency: Currency
   comment: string
   recipient: Recipient
   recipientAddress?: string | null
   feeInfo?: FeeInfo
-  inviteMethod?: InviteBy
   firebasePendingRequestUid: string | null | undefined
   fromModal: boolean
 }
@@ -56,6 +57,11 @@ export interface SendPaymentOrInviteFailureAction {
   type: Actions.SEND_PAYMENT_OR_INVITE_FAILURE
 }
 
+export interface UpdateLastUsedCurrencyAction {
+  type: Actions.UPDATE_LAST_USED_CURRENCY
+  currency: Currency
+}
+
 export interface SetShowWarningAction {
   type: Actions.SET_SHOW_WARNING
   showWarning: boolean
@@ -67,6 +73,7 @@ export type ActionTypes =
   | SendPaymentOrInviteAction
   | SendPaymentOrInviteSuccessAction
   | SendPaymentOrInviteFailureAction
+  | UpdateLastUsedCurrencyAction
   | SetShowWarningAction
 
 export const handleBarcodeDetected = (
@@ -91,21 +98,21 @@ export const shareQRCode = (qrCodeSvg: SVG): ShareQRCodeAction => ({
 
 export const sendPaymentOrInvite = (
   amount: BigNumber,
+  currency: Currency,
   comment: string,
   recipient: Recipient,
   recipientAddress: string | null | undefined,
   feeInfo: FeeInfo | undefined,
-  inviteMethod: InviteBy | undefined,
   firebasePendingRequestUid: string | null | undefined,
   fromModal: boolean
 ): SendPaymentOrInviteAction => ({
   type: Actions.SEND_PAYMENT_OR_INVITE,
   amount,
+  currency,
   comment,
   recipient,
   recipientAddress,
   feeInfo,
-  inviteMethod,
   firebasePendingRequestUid,
   fromModal,
 })
@@ -119,6 +126,11 @@ export const sendPaymentOrInviteSuccess = (
 
 export const sendPaymentOrInviteFailure = (): SendPaymentOrInviteFailureAction => ({
   type: Actions.SEND_PAYMENT_OR_INVITE_FAILURE,
+})
+
+export const updateLastUsedCurrency = (currency: Currency): UpdateLastUsedCurrencyAction => ({
+  type: Actions.UPDATE_LAST_USED_CURRENCY,
+  currency,
 })
 
 export const setShowWarning = (showWarning: boolean): SetShowWarningAction => ({

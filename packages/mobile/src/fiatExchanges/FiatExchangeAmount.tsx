@@ -30,23 +30,23 @@ import {
   DOLLAR_ADD_FUNDS_MIN_AMOUNT,
 } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
-import { ExchangeRatePair, exchangeRatePairSelector } from 'src/exchange/reducer'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
+import { ExchangeRates, exchangeRatesSelector } from 'src/exchange/reducer'
 import i18n, { Namespaces } from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
   convertDollarsToLocalAmount,
-  convertDollarsToMaxSupportedPrecision,
   convertLocalAmountToDollars,
+  convertToMaxSupportedPrecision,
 } from 'src/localCurrency/convert'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
-import { getLocalCurrencyExchangeRate } from 'src/localCurrency/selectors'
+import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selectors'
 import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
+import { Currency } from 'src/utils/currencies'
 import { getRateForMakerToken, goldToDollarAmount } from 'src/utils/currencyExchange'
 import Logger from 'src/utils/Logger'
 
@@ -58,34 +58,30 @@ type Props = RouteProps
 
 const oneDollarAmount = {
   value: new BigNumber('1'),
-  currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+  currencyCode: Currency.Dollar,
 }
 
 const oneCeloAmount = {
   value: new BigNumber('1'),
-  currencyCode: CURRENCIES[CURRENCY_ENUM.GOLD].code,
+  currencyCode: Currency.Celo,
 }
 
 const useDollarAmount = (
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   amount: BigNumber,
   localExchangeRate: string | null | undefined,
   localCurrencyCode: LocalCurrencyCode,
-  exchangeRatePair: ExchangeRatePair | null
+  exchangeRates: ExchangeRates | null
 ) => {
-  if (currency === CURRENCY_ENUM.DOLLAR) {
+  if (currency === Currency.Dollar) {
     const localAmount = amount.isNaN() ? new BigNumber(0) : amount
     const dollarAmount = convertLocalAmountToDollars(
       localAmount,
       localCurrencyCode ? localExchangeRate : 1
     )
-    return convertDollarsToMaxSupportedPrecision(dollarAmount ?? new BigNumber('0'))
+    return convertToMaxSupportedPrecision(dollarAmount ?? new BigNumber('0'))
   } else {
-    const exchangeRate = getRateForMakerToken(
-      exchangeRatePair,
-      CURRENCY_ENUM.DOLLAR,
-      CURRENCY_ENUM.GOLD
-    )
+    const exchangeRate = getRateForMakerToken(exchangeRates, Currency.Celo, Currency.Dollar)
     return goldToDollarAmount(amount, exchangeRate) || new BigNumber(0)
   }
 }
@@ -102,14 +98,14 @@ function FiatExchangeAmount({ route }: Props) {
 
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
-  const exchangeRatePair = useSelector(exchangeRatePairSelector)
-  const localCurrencyExchangeRate = useSelector(getLocalCurrencyExchangeRate)
-  const cUSDBalance = useSelector(stableTokenBalanceSelector)
+  const exchangeRates = useSelector(exchangeRatesSelector)
+  const localCurrencyExchangeRate = useSelector(getLocalCurrencyToDollarsExchangeRate)
+  const cUSDBalance = useSelector(cUsdBalanceSelector)
   const localCurrencyCode = useLocalCurrencyCode()
   const currencySymbol = LocalCurrencySymbol[localCurrencyCode]
 
   const { currency } = route.params
-  const isCusdCashIn = currency === CURRENCY_ENUM.DOLLAR
+  const isCusdCashIn = currency === Currency.Dollar
   const inputCurrencySymbol = isCusdCashIn ? currencySymbol : ''
 
   const dollarAmount = useDollarAmount(
@@ -117,7 +113,7 @@ function FiatExchangeAmount({ route }: Props) {
     parsedInputAmount,
     localCurrencyExchangeRate,
     localCurrencyCode,
-    exchangeRatePair
+    exchangeRates
   )
 
   const localCurrencyAmount = convertDollarsToLocalAmount(dollarAmount, localCurrencyExchangeRate)
@@ -153,9 +149,7 @@ function FiatExchangeAmount({ route }: Props) {
       selectedCrypto,
       amount: {
         crypto:
-          selectedCrypto === CURRENCY_ENUM.GOLD
-            ? parsedInputAmount.toNumber()
-            : dollarAmount.toNumber(),
+          selectedCrypto === Currency.Celo ? parsedInputAmount.toNumber() : dollarAmount.toNumber(),
         // Rounding up to avoid decimal errors from providers. Won't be
         // necessary once we support inputting an amount in both crypto and fiat
         fiat: Math.round(localCurrencyAmount?.toNumber() || 0),
@@ -165,7 +159,7 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function onPressContinue() {
-    if (!route.params.isCashIn && currency === CURRENCY_ENUM.GOLD) {
+    if (!route.params.isCashIn && currency === Currency.Celo) {
       Logger.debug(
         'Error: Got to FiatExchangeAmountScreen with CELO as the cash-out asset - should never happen'
       )
@@ -299,7 +293,7 @@ function FiatExchangeAmount({ route }: Props) {
             <CurrencyDisplay
               amount={{
                 value: dollarAmount,
-                currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+                currencyCode: Currency.Dollar,
               }}
               hideSymbol={isCusdCashIn}
               showLocalAmount={!isCusdCashIn}
@@ -312,7 +306,7 @@ function FiatExchangeAmount({ route }: Props) {
       )}
       <Button
         onPress={onPressContinue}
-        showLoading={exchangeRatePair === null}
+        showLoading={exchangeRates === null}
         text={t('global:next')}
         type={BtnTypes.PRIMARY}
         accessibilityLabel={t('global:next')}

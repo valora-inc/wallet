@@ -12,17 +12,18 @@ import {
   WithdrawCeloAction,
   withdrawCeloCanceled,
 } from 'src/exchange/actions'
-import { exchangeRatePairSelector } from 'src/exchange/reducer'
+import { exchangeRatesSelector } from 'src/exchange/reducer'
 import { doFetchTobinTax, exchangeGoldAndStableTokens, withdrawCelo } from 'src/exchange/saga'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
+import { Currency } from 'src/utils/currencies'
 import {
   getConnectedAccount,
   getConnectedUnlockedAccount,
   unlockAccount,
   UnlockResult,
 } from 'src/web3/saga'
+import { makeExchangeRates } from 'test/values'
 
 const SELL_AMOUNT = 50 // in dollars/gold (not wei)
 const account = '0x22c8a9178841ba95a944afd1a1faae517d3f5daa'
@@ -38,7 +39,7 @@ describe(doFetchTobinTax, () => {
 
   it('if necessary, charges tobin tax when selling gold', async () => {
     const tobinTaxAction = {
-      makerToken: CURRENCY_ENUM.GOLD,
+      makerToken: Currency.Celo,
       makerAmount: new BigNumber(SELL_AMOUNT),
     }
     await expectSaga(doFetchTobinTax, tobinTaxAction)
@@ -49,7 +50,7 @@ describe(doFetchTobinTax, () => {
 
   it('never charges tobin tax when buying gold', async () => {
     const tobinTaxAction = {
-      makerToken: CURRENCY_ENUM.DOLLAR,
+      makerToken: Currency.Dollar,
       makerAmount: new BigNumber(SELL_AMOUNT),
     }
     await expectSaga(doFetchTobinTax, tobinTaxAction).put(setTobinTax('0')).run()
@@ -60,40 +61,35 @@ describe(exchangeGoldAndStableTokens, () => {
   it('makes the exchange', async () => {
     const exchangeGoldAndStableTokensAction: ExchangeTokensAction = {
       type: Actions.EXCHANGE_TOKENS,
-      makerToken: CURRENCY_ENUM.GOLD,
+      makerToken: Currency.Celo,
+      takerToken: Currency.Dollar,
       makerAmount: new BigNumber(SELL_AMOUNT),
     }
     await expectSaga(exchangeGoldAndStableTokens, exchangeGoldAndStableTokensAction)
       .provide([
         [call(getConnectedUnlockedAccount), account],
-        [
-          select(exchangeRatePairSelector),
-          {
-            goldMaker: '2',
-            dollarMaker: '0.5',
-          },
-        ],
+        [select(exchangeRatesSelector), makeExchangeRates('2', '0.5')],
         [matchers.call.fn(sendTransaction), true],
-        [matchers.call.fn(sendAndMonitorTransaction), true],
+        [matchers.call.fn(sendAndMonitorTransaction), { receipt: true, error: undefined }],
       ])
       .put.like({
         action: {
           transaction: {
             type: TokenTransactionType.Exchange,
-            inSymbol: CURRENCY_ENUM.GOLD,
+            inCurrency: Currency.Celo,
             inValue: SELL_AMOUNT.toString(),
-            outSymbol: CURRENCY_ENUM.DOLLAR,
+            outCurrency: Currency.Dollar,
             outValue: (SELL_AMOUNT / 2).toString(),
           },
         },
       })
       .call.like({
         fn: sendTransaction,
-        args: [{}, account, {}, undefined, undefined, CURRENCY_ENUM.GOLD],
+        args: [{}, account, {}, undefined, undefined, Currency.Celo],
       })
       .call.like({
         fn: sendAndMonitorTransaction,
-        args: [undefined, account, {}, undefined, CURRENCY_ENUM.GOLD],
+        args: [undefined, account, {}, undefined, Currency.Celo],
       })
       .run()
   })
@@ -101,8 +97,9 @@ describe(exchangeGoldAndStableTokens, () => {
   it('fails if user cancels PIN input', async () => {
     const exchangeGoldAndStableTokensAction: ExchangeTokensAction = {
       type: Actions.EXCHANGE_TOKENS,
-      makerToken: CURRENCY_ENUM.GOLD,
+      makerToken: Currency.Celo,
       makerAmount: new BigNumber(SELL_AMOUNT),
+      takerToken: Currency.Dollar,
     }
     await expectSaga(exchangeGoldAndStableTokens, exchangeGoldAndStableTokensAction)
       .provide([

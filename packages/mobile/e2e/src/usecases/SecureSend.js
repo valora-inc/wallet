@@ -66,6 +66,6 @@ export default SecureSend = () => {
     // Look for the latest transaction and assert
     await waitFor(element(by.text(`${randomContent}`)))
       .toBeVisible()
-      .withTimeout(90000)
+      .withTimeout(180000)
   })
 }
