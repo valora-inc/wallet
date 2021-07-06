@@ -46,8 +46,8 @@ interface RampPurchase {
   fiatValue: number
   updatedAt: string
   appliedFee: number
+  hostFeeCut: number
 }
-
 interface RampAction {
   timestamp: string
   newStatus: string

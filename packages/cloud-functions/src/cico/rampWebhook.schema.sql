@@ -23,4 +23,5 @@ cryptoAmount: STRING,
 baseRampFee: FLOAT,
 fiatValue: FLOAT,
 updatedAt: TIMESTAMP,
-appliedFee: FLOAT
+appliedFee: FLOAT,
+hostFeeCut: FLOAT

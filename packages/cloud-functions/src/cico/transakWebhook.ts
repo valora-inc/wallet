@@ -132,6 +132,14 @@ interface TransakEventPayload {
     transactionLink: string
     completedAt: string
     partnerFeeInLocalCurrency: number
+    statusReason: string
+    statusHistories: {
+      status: string
+      createdAt: string
+      message: string
+      isEmailSentToUser: boolean
+      partnerEventId: string
+    }[]
   }
 }
 
@@ -176,7 +184,11 @@ export const transakWebhook = functions.https.onRequest(async (request, response
       if (decodedData) {
         for (const [key, value] of Object.entries(decodedData.webhookData)) {
           // Removing sensetive props and avoiding a duplicate cryptocurrency prop
-          if (key !== 'cryptocurrency' && key !== 'fiatliquidityProviderData') {
+          if (
+            key !== 'cryptocurrency' &&
+            key !== 'fiatliquidityProviderData' &&
+            key !== 'statusHistories'
+          ) {
             dataObj[key] = value
           }
         }

@@ -28,6 +28,10 @@ interface XanpoolEventPayload {
     peer: {
       account: string
     }
+    blockchainTxId: string
+    depositWallets: {
+      celo: string
+    }
   }
 }
 

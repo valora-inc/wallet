@@ -25,4 +25,5 @@ isNonCustodial: BOOLEAN,
 transactionHash: STRING,
 transactionLink: STRING,
 completedAt: timestamp,
-partnerFeeInLocalCurrency: FLOAT
+partnerFeeInLocalCurrency: FLOAT,
+statusReason: STRING

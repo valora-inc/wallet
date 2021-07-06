@@ -17,4 +17,6 @@ qrCode: STRING,
 wallet: STRING,
 userCountry: STRING,
 userId: STRING,
-peer_account: STRING
+peer_account: STRING,
+blockchainTxId: STRING,
+depositWallets_celo: STRING
