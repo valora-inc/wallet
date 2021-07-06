@@ -15,7 +15,7 @@ import { fetchGoldBalance } from 'src/goldToken/actions'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { addressToE164NumberSelector, AddressToE164NumberType } from 'src/identity/reducer'
 import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
-import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
+import { phoneRecipientCacheSelector, updateValoraRecipientCache } from 'src/recipients/reducer'
 import { fetchStableBalances } from 'src/stableToken/actions'
 import {
   Actions,
