@@ -16,7 +16,6 @@ let database: admin.database.Database
 let registrationsRef: admin.database.Reference
 let lastBlockRef: admin.database.Reference
 let lastInviteBlockRef: admin.database.Reference
-let knownAddressesRef: admin.database.Reference
 
 export interface Registrations {
   [address: string]:
@@ -27,15 +26,6 @@ export interface Registrations {
       }
     | undefined
     | null
-}
-
-export interface KnownAddressInfo {
-  name: string
-  imageUrl?: string
-}
-
-export interface AddressToDisplayNameType {
-  [address: string]: KnownAddressInfo | undefined
 }
 
 let registrations: Registrations = {}
@@ -63,7 +53,6 @@ export function initializeDb() {
   registrationsRef = database.ref('/registrations')
   lastBlockRef = database.ref('/lastBlockNotified')
   lastInviteBlockRef = database.ref('/lastInviteBlockNotified')
-  knownAddressesRef = database.ref('/addressesExtraInfo')
 
   function addOrUpdateRegistration(snapshot: DataSnapshot) {
     const registration = (snapshot && snapshot.val()) || {}
@@ -107,17 +96,6 @@ export function initializeDb() {
     },
     (errorObject: any) => {
       console.error('Latest invite block read failed:', errorObject.code)
-    }
-  )
-
-  knownAddressesRef.on(
-    'value',
-    (snapshot) => {
-      const knownAddressesInfo: AddressToDisplayNameType = (snapshot && snapshot.val()) || {}
-      console.debug('Latest known addresses updated: ', knownAddressesInfo)
-    },
-    (errorObject: any) => {
-      console.error('Known addresses data read failed:', errorObject.code)
     }
   )
 
