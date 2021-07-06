@@ -25,6 +25,7 @@ import { addressToDisplayNameSelector } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Recipient } from 'src/recipients/recipient'
+import { rewardsSendersSelector } from 'src/recipients/reducer'
 import useTypedSelector from 'src/redux/useSelector'
 import BottomText from 'src/transactions/BottomText'
 import CommentSection from 'src/transactions/CommentSection'
@@ -199,7 +200,7 @@ function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, c
   )
 }
 
-function CeloRewardContent({ amount, recipient }: Props) {
+function RewardContent({ amount, recipient }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const rewardsEnabled = useTypedSelector(rewardsEnabledSelector)
 
@@ -234,6 +235,7 @@ function CeloRewardContent({ amount, recipient }: Props) {
 // Differs from TransferReviewCard which is used during Send flow, this is for completed txs
 export default function TransferConfirmationCard(props: Props) {
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
+  const rewardsSenders = useSelector(rewardsSendersSelector)
   let content
 
   switch (props.type) {
@@ -258,8 +260,11 @@ export default function TransferConfirmationCard(props: Props) {
       break
     case TokenTransactionType.EscrowReceived:
     case TokenTransactionType.Received:
-      content = addressToDisplayName[props.address || '']?.isCeloRewardSender ? (
-        <CeloRewardContent {...props} />
+      const address = props.address ?? ''
+      const isRewardSender =
+        rewardsSenders.includes(address) || addressToDisplayName[address]?.isCeloRewardSender
+      content = isRewardSender ? (
+        <RewardContent {...props} />
       ) : (
         <PaymentReceivedContent {...props} />
       )

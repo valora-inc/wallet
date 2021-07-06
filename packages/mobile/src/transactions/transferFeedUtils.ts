@@ -6,7 +6,7 @@ import {
   TransferItemFragment,
   UserTransactionsQuery,
 } from 'src/apollo/types'
-import { DEFAULT_TESTNET } from 'src/config'
+import { CELO_LOGO_URL, DEFAULT_TESTNET } from 'src/config'
 import { ProviderFeedInfo } from 'src/fiatExchanges/reducer'
 import { decryptComment } from 'src/identity/commentEncryption'
 import { AddressToE164NumberType } from 'src/identity/reducer'
@@ -104,6 +104,7 @@ export function getTransferFeedParams(
   invitees: InviteDetails[],
   recipientInfo: RecipientInfo,
   isCeloRewardSender: boolean,
+  isRewardSender: boolean,
   providerInfo: ProviderFeedInfo | undefined
 ) {
   const e164PhoneNumber = addressToE164Number[address]
@@ -170,8 +171,12 @@ export function getTransferFeedParams(
     }
     case TokenTransactionType.Received: {
       if (isCeloRewardSender) {
+        title = t('feedItemCeloRewardReceivedTitle')
+        info = t('feedItemRewardReceivedInfo')
+      } else if (isRewardSender) {
         title = t('feedItemRewardReceivedTitle')
         info = t('feedItemRewardReceivedInfo')
+        Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
       } else {
         title = t('feedItemReceivedTitle', { displayName })
         info = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
