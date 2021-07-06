@@ -657,6 +657,10 @@ export const v15Schema = {
   verify: {
     ...v9Schema.verify,
   },
+  recipients: {
+    ...v14Schema.recipients,
+    rewardsSenders: [],
+  },
 }
 
 export const v16Schema = {
