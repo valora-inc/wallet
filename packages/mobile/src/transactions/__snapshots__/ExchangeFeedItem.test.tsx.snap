@@ -101,7 +101,7 @@ exports[`ExchangeFeedItem renders correctly 1`] = `
               },
             ]
           }
-          testID="undefined/value"
+          testID="FeedItemAmountDisplay/value"
         >
           -
           $
