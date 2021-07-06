@@ -585,7 +585,8 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
             testID="undefined/value"
           >
             
-            0.00
+            &lt;
+            0.001
           </Text>
         </Text>
       </View>

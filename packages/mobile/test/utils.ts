@@ -102,6 +102,7 @@ export function getMockStoreData(overrides: RecursivePartial<RootState> = {}): R
   }
   const recipientData = {
     recipients: {
+      ...defaultSchema.recipients,
       phoneRecipientCache: mockPhoneRecipientCache,
       valoraRecipientCache: mockValoraRecipientCache,
     },
@@ -166,4 +167,8 @@ export function getElementText(instance: ReactTestInstance | string): string {
       return getElementText(child)
     })
     .join('')
+}
+
+export function amountFromComponent(component: ReactTestInstance) {
+  return component.props.children.filter((child: any) => typeof child === 'string').join('')
 }

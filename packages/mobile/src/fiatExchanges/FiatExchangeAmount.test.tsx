@@ -21,6 +21,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { makeExchangeRates } from 'test/values'
 
 const usdExchangeRates = {
   [Currency.Dollar]: '1',

@@ -757,6 +757,7 @@ interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_withdraw_error]: {
     error: string
   }
+  [CeloExchangeEvents.celo_chart_tapped]: undefined
 }
 
 interface FiatExchangeEventsProperties {

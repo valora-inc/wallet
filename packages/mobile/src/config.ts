@@ -143,6 +143,8 @@ export const SPEND_MERCHANT_LINKS: SpendMerchant[] = [
 
 export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
+export const CELO_LOGO_URL =
+  'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fcelo.png?alt=media'
 
 export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
 export const SIMPLEX_FEES_URL =

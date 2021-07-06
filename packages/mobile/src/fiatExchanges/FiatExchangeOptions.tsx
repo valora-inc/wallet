@@ -258,8 +258,8 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
             }}
-            enabled={selectedPaymentMethod !== PaymentMethod.GiftCard}
-            testID="radio/CELO"
+            testID="radio/cEUR"
+            enabled={false} // currently no CICO providers for cEUR
           />
         </View>
       </ScrollView>
