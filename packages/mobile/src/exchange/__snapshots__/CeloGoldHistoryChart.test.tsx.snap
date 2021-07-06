@@ -2,6 +2,7 @@
 
 exports[`renders properly 1`] = `
 <View
+  onTouchStart={[Function]}
   style={
     Object {
       "marginBottom": 0,
@@ -186,6 +187,7 @@ exports[`renders properly 1`] = `
 
 exports[`renders while update is in progress 1`] = `
 <View
+  onTouchStart={[Function]}
   style={
     Object {
       "marginBottom": 0,

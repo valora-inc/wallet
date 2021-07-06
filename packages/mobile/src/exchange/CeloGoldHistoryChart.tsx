@@ -191,7 +191,7 @@ function CeloGoldHistoryChart({ testID, i18n }: Props) {
   const exchangeHistory = useSelector(exchangeHistorySelector)
 
   const onTap = useCallback(() => {
-    ValoraAnalytics.track(CeloExchangeEvents.celo_chart_tapped, {})
+    ValoraAnalytics.track(CeloExchangeEvents.celo_chart_tapped)
   }, [])
 
   if (!exchangeHistory.aggregatedExchangeRates?.length) {
