@@ -8,14 +8,14 @@
   "cashOutComingSoon": "Retirar (Muy Pronto)",
   "spend": "Usar",
   "spendSubtitle": "Usa tu balance con comercios asociados",
-  "celoDollarsAt": "Celo Dollars @ <1></1>",
   "amountCelo": "Monto (CELO)",
   "onlyCeloDollars": "Solo cUSD",
   "onlyCelo": "Solo CELO",
   "celoDollar": "Celo Dólar",
+  "celoEuro": "Celo Euro",
   "celoDollars": "Celo Dólares",
   "tapToCopyCeloDollarsAddress": "`Toca para copiar tu dirección de {{appName}} cUSD",
-  "disclaimerCeloDollars": "Los valores del Celo Dólar son estimados.",
+  "disclaimerFiat": "{{currency}} values are estimates.",
   "dollarsNotYetEnabledNote": "Los Celo Dólares aún no están disponibles en ningún proveedor. Para obtener Celo Dólares, compra CELO y cámbialos por Celo Dólares dentro de Valora, bajo la pestaña CELO.",
   "selectDigitalCurrency": "Selecciona una moneda digital",
   "selectPaymentMethod": "Pague con:",
@@ -77,6 +77,5 @@
     "bodyWithoutProvider": "El proveedor de servicios está procesando tu orden. Recibirás tus fondos dentro de un par de días."
   },
   "restrictedRegion": "Soporte limitado en la región",
-  "unsupportedPaymentMethod": "Pagar con {{paymentMethod}} no es compatible en tu región",
-  "celoEuro": "Celo Euro"
+  "unsupportedPaymentMethod": "Pagar con {{paymentMethod}} no es compatible en tu región"
 }
