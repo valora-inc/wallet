@@ -10,8 +10,8 @@
   "gold": "CELO",
   "paymentRequestedTitle": "Pago solicitado",
   "paymentRequestedBody": "Se ha solicitado pago de {{amount}} {{currency}}.",
-  "rewardReceivedTitle": "You just earned more cUSD 📈",
-  "rewardReceivedBody": "Your weekly earnings have arrived! Add cUSD to earn even more next week.",
+  "rewardReceivedTitle": "Acabas de ganar más cUSD 📈",
+  "rewardReceivedBody": "¡Tus ganancias semanales han llegado! Agrega cUSD para ganar aún más la próxima semana.",
   "inviteTitle": "¡Tu amig@ acaba de recibir tu transferencia!",
   "inviteBody": "¡El destinatario de los fondos que enviaste acaba de suscribirse a Valora! Ahora pueden enviarse valores entre ustedes usando sus números de teléfono con tarifas cercanas a cero"
 }
