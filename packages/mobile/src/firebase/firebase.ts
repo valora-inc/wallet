@@ -230,6 +230,7 @@ export function appRemoteFeatureFlagChannel() {
         hideVerification: flags?.hideVerification ?? false,
         showRaiseDailyLimitTarget: flags?.showRaiseDailyLimitTargetV2 ?? undefined,
         celoEducationUri: flags?.celoEducationUri ?? null,
+        celoEuroEnabled: flags?.celoEuroEnabled ?? false,
         shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
         inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,
         inviteRewardCusd: flags?.inviteRewardCusd ?? 1,
@@ -280,6 +281,28 @@ export async function fetchLostAccounts() {
     })
 }
 
+export async function fetchRewardsSenders() {
+  if (!FIREBASE_ENABLED) {
+    return []
+  }
+  return eventChannel((emit: any) => {
+    const onValueChange = firebase
+      .database()
+      .ref('rewardsSenders')
+      .on(
+        VALUE_CHANGE_HOOK,
+        (snapshot) => {
+          emit(snapshot.val() ?? [])
+        },
+        (error: Error) => {
+          Logger.warn(TAG, error.toString())
+        }
+      )
+
+    return () => firebase.database().ref('rewardsSenders').off(VALUE_CHANGE_HOOK, onValueChange)
+  })
+}
+
 export async function cUsdDailyLimitChannel(address: string) {
   return simpleReadChannel(`registrations/${address}/dailyLimitCusd`)
 }
@@ -288,7 +311,7 @@ export async function providerTxHashesChannel(address: string) {
   return simpleReadChannel(`registrations/${address}/txHashes`)
 }
 
-function simpleReadChannel(key: string) {
+export function simpleReadChannel(key: string) {
   if (!FIREBASE_ENABLED) {
     return null
   }

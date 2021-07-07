@@ -62,7 +62,7 @@ While developing and adding new tests, it's useful to run only the ones we are w
 
 - For the first test run `yarn test:e2e:ios -w 1 -t \<Test Name>.spec.js$` this will install the application on your device and run the targeted test suite.
 
-- For subsequent test runs run `yarn test:e2e:ios -d -w 1 -t \<Test Name>.spec.js$`. The `-d` flag will prevent the app from reinstalling and reuse the previous install and will not restart the packager. The `-w` flag will specify how many emulators to run in parallel. The `-t` flag will run only a specific test spec.
+- For subsequent test runs run `yarn test:e2e:ios -d -w 1 -f \<Test Name>.spec.js$ -t Display Providers`. The `-d` flag will prevent the app from reinstalling and reuse the previous install and will not restart the packager. The `-w` flag will specify how many emulators to run in parallel. The `-f` flag will run matching test files. The `-t` flag will run only tests with matching regex patterns; the regex is matched against the full name, which is a combination of the test name and all its surrounding describe blocks.
 
 Use a similar process to run and develop other test files.
 
@@ -70,7 +70,7 @@ Use a similar process to run and develop other test files.
 
 ```JavaScript
 // Sample <TestSuiteName>.spec.js setup
-import { quickOnboarding } from './utils/utils'
+import { quickOnboarding, getDeviceModel } from './utils/utils'
 import AddedUsecase from './usecases/AddedUsecase'
 
 describe('A New Test Suite', () => {
@@ -100,7 +100,7 @@ export default AddedUsecase = () => {
   })
   
   // Sample test spec / it block
-  it('Display All Providers - US', async () => {
+  it('Display Providers', async () => {
     // Test spec specific steps
     await element(by.id('GoToProviderButton')).tap()
     await element(by.id('FiatExchangeInput')).replaceText('$50')
@@ -115,13 +115,8 @@ export default AddedUsecase = () => {
     await sleep(5000)
 
     // Compare to screenshot in `e2e/assets`
-    const imagePath = await device.takeScreenshot('All Providers US')
-    await pixelDiff(
-      imagePath,
-      device.getPlatform() === 'ios'
-        ? './e2e/assets/All Providers US - ios.png'
-        : './e2e/assets/All Providers US - android.png'
-    )
+    const imagePath = await device.takeScreenshot('All Providers')
+    await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/All Providers.png`)
   })
 
   it('Additional Test Spec...', async () => {

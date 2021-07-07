@@ -24,16 +24,18 @@ RELEASE=false
 NET_DELAY="none"
 DEV_MODE=false
 FILE_TO_RUN=""
-WORKERS=2
+TEST_MATCH=""
+WORKERS=1
 RETRIES=0
-while getopts 'p:t:v:n:w:j:rd' flag; do
+while getopts 'p:f:t:v:n:w:j:rd' flag; do
   case "${flag}" in
     p) PLATFORM="$OPTARG" ;;
     v) VD_NAME="$OPTARG" ;;
     r) RELEASE=true ;;
     n) NET_DELAY="$OPTARG" ;;
     d) DEV_MODE=true ;;
-    t) FILE_TO_RUN=$OPTARG ;;
+    f) FILE_TO_RUN=$OPTARG ;;
+    t) TEST_MATCH=$OPTARG ;;
     w) WORKERS="$OPTARG" ;;
     j) RETRIES="$OPTARG" ;;
     *) error "Unexpected option ${flag}" ;;
@@ -97,9 +99,9 @@ preloadBundle() {
 }
 
 runTest() {
-  extra_param=""
-  if [[ $DEV_MODE == true ]]; then
-    extra_param="--reuse"
+  test_match=""
+  if [[ $TEST_MATCH ]]; then
+    test_match="-t='$TEST_MATCH'"
   fi
   yarn detox test \
     --configuration $CONFIG_NAME \
@@ -107,12 +109,13 @@ runTest() {
     --artifacts-location e2e/artifacts \
     --take-screenshots=failing \
     --record-logs=failing \
-    --loglevel verbose \
-    --debug-synchronization 1000 \
+    --loglevel info \
+    --debug-synchronization 5000 \
     --workers $WORKERS \
     --retries $RETRIES \
     --headless \
-    "${extra_param}" 
+    "${test_match}" \
+    --reuse
   TEST_STATUS=$?
 }
 
@@ -145,9 +148,9 @@ if [ $PLATFORM = "android" ]; then
   fi
 
   if [ "$RELEASE" = false ]; then
-    CONFIG_NAME="android.emu.debug"
+    CONFIG_NAME="android.debug"
   else
-    CONFIG_NAME="android.emu.release"
+    CONFIG_NAME="android.release"
   fi
 
   if [ $DEV_MODE = false ]; then
@@ -192,9 +195,9 @@ elif [ $PLATFORM = "ios" ]; then
   echo "Using platform ios"
 
   if [ "$RELEASE" = false ]; then
-    CONFIG_NAME="ios.sim.debug"
+    CONFIG_NAME="ios.debug"
   else
-    CONFIG_NAME="ios.sim.release"
+    CONFIG_NAME="ios.release"
   fi
 
   if [ $DEV_MODE = false ]; then

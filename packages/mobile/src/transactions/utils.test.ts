@@ -1,8 +1,8 @@
-import { CURRENCY_ENUM } from '@celo/utils'
 import { TokenTransactionType } from 'src/apollo/types'
 import { FeedItem } from 'src/transactions/TransactionFeed'
 import { TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
+import { Currency } from 'src/utils/currencies'
 
 const mockFeedItem = (timestamp: number, comment: string): FeedItem => {
   return {
@@ -11,7 +11,7 @@ const mockFeedItem = (timestamp: number, comment: string): FeedItem => {
     hash: 'any_value',
     amount: {
       value: '5.05',
-      currencyCode: CURRENCY_ENUM.DOLLAR,
+      currencyCode: Currency.Dollar,
       localAmount: null,
     },
     timestamp,

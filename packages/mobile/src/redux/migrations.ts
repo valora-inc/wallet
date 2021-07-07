@@ -1,7 +1,10 @@
 import _ from 'lodash'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
+import { VerificationStatus } from 'src/identity/types'
+import { Currency } from 'src/utils/currencies'
 
 export const migrations = {
   0: (state: any) => {
@@ -240,6 +243,63 @@ export const migrations = {
         region: null,
         ipAddress: null,
       },
+    },
+  }),
+  15: (state: any) => {
+    return {
+      ...state,
+      identity: {
+        ...state.identity,
+        attestationsCode: [],
+        acceptedAttestationCodes: [],
+        attestationInputStatus: [
+          CodeInputStatus.Inputting,
+          CodeInputStatus.Disabled,
+          CodeInputStatus.Disabled,
+        ],
+        numCompleteAttestations: 0,
+        verificationStatus: VerificationStatus.Stopped,
+        hasSeenVerificationNux: state.verify.seenVerificationNux,
+        lastRevealAttempt: null,
+      },
+      verify: {
+        ..._.omit(
+          state.verify,
+          'seenVerificationNux',
+          'revealStatuses',
+          'attestationCodes',
+          'lastRevealAttempt',
+          'acceptedAttestationCodes',
+          'attestationInputStatus'
+        ),
+        TEMPORARY_override_withoutVerification: undefined,
+        withoutRevealing: false,
+        retries: 0,
+      },
+    }
+  },
+  16: (state: any) => ({
+    ...state,
+    localCurrency: {
+      ...state.localCurrency,
+      exchangeRate: undefined,
+      exchangeRates: {
+        [Currency.Dollar]: state.localCurrency.exchangeRate,
+        [Currency.Euro]: null,
+        [Currency.Celo]: null,
+      },
+    },
+    stableToken: {
+      ...state.stableToken,
+      balance: undefined,
+      balances: {
+        [Currency.Dollar]: state.stableToken.balance,
+        [Currency.Euro]: null,
+      },
+    },
+    escrow: {
+      isReclaiming: false,
+      sentEscrowedPayments: [],
     },
   }),
 }

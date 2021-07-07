@@ -1,4 +1,3 @@
-import { CUSD } from '../currencyConversion/consts'
 import { EventBuilder } from '../helpers/EventBuilder'
 import { Transaction } from '../transaction/Transaction'
 import { TransactionType } from '../transaction/TransactionType'
@@ -9,13 +8,16 @@ export class ExchangeTokenToCelo extends TransactionType {
     return (
       transaction.transfers.length === 3 &&
       transaction.transfers.containsTransferFrom(Contracts.Reserve) &&
-      transaction.transfers.containsTransferTo(Contracts.Exchange) &&
+      (transaction.transfers.containsTransferTo(Contracts.Exchange) ||
+        transaction.transfers.containsTransferTo(Contracts.ExchangeEUR)) &&
       transaction.transfers.containsBurnedTokenTransfer()
     )
   }
 
   getEvent(transaction: Transaction) {
-    const inTransfer = transaction.transfers.getTransferTo(Contracts.Exchange)
+    const inTransfer =
+      transaction.transfers.getTransferTo(Contracts.Exchange) ??
+      transaction.transfers.getTransferTo(Contracts.ExchangeEUR)
     const outTransfer = transaction.transfers.getTransferFrom(Contracts.Reserve)
 
     if (!inTransfer) {
@@ -30,7 +32,7 @@ export class ExchangeTokenToCelo extends TransactionType {
       transaction,
       inTransfer,
       outTransfer,
-      this.context.token || CUSD,
+      this.context.tokens,
       transaction.fees
     )
   }

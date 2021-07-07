@@ -193,7 +193,7 @@
   "accountClearFailed": "Hubo un error al borrar tu Clave de Cuenta. Podría tener que reinstalar la app para poder usar todas las funcionalidades.",
   "withdraw": "Retirar",
   "countryNotAvailable": "{{appName}} no está disponible en tu país",
-  "fetchFailed": "Server connection failed",
+  "fetchFailed": "La conexión con el servidor falló",
   "pictureLoadFailed": "Hubo un error al cargar la imagen",
   "simplexPurchaseFetchFailed": "Error al recuperar una cita de Simplex. Inténtalo de nuevo más tarde",
   "providerFetchFailed": "No se pudo conectar al servicio. Ponte en contacto con el soporte técnico",

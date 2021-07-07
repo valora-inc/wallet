@@ -25,7 +25,6 @@ import { filterRecipientFactory, Recipient, sortRecipients } from 'src/recipient
 import RecipientPicker from 'src/recipients/RecipientPicker'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
-import { storeLatestInRecents } from 'src/send/actions'
 import { InviteRewardsBanner } from 'src/send/InviteRewardsBanner'
 import { SendCallToAction } from 'src/send/SendCallToAction'
 import SendHeader from 'src/send/SendHeader'
@@ -111,8 +110,6 @@ function Send({ route }: Props) {
   const onSelectRecipient = useCallback(
     (recipient: Recipient) => {
       dispatch(hideAlert())
-
-      dispatch(storeLatestInRecents(recipient))
 
       ValoraAnalytics.track(
         isOutgoingPaymentRequest

@@ -29,10 +29,10 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@celo/eslint-config-typescript": "0.0.1",
     "@types/jsonwebtoken": "~8.5.0",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@valora/eslint-config-typescript": "^0.0.1",
     "eslint": "^7.27.0",
     "eslint-plugin-import": "^2.23.3",
     "eslint-plugin-react": "^7.23.2",
@@ -42,6 +42,6 @@
     "jest-fetch-mock": "^3.0.3"
   },
   "engines": {
-    "node": "10"
+    "node": "12"
   }
 }
