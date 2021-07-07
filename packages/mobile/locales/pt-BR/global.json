@@ -193,7 +193,7 @@
   "accountClearFailed": "Ocorreu um erro ao remover sua Chave de Conta. Pode ser necessário reinstalar o aplicativo para restaurar todas as funcionalidades.",
   "withdraw": "Sacar",
   "countryNotAvailable": "A {{appName}} não está disponível em seu país",
-  "fetchFailed": "A conexão com o servidor falhou",
+  "fetchFailed": "Server connection failed",
   "pictureLoadFailed": "Ocorreu um erro ao carregar sua imagem",
   "simplexPurchaseFetchFailed": "Ocorreu um erro ao recuperar a cotação do Simplex. Tente novamente mais tarde",
   "providerFetchFailed": "Não foi possível conectar ao serviço. Entre em contato o suporte",
