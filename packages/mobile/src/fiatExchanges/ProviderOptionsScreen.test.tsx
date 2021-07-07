@@ -19,11 +19,12 @@ const MOCK_IP_ADDRESS = '1.1.1.7'
 
 const mockScreenProps = (
   isCashIn: boolean,
-  paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
+  paymentMethod: PaymentMethod.Card | PaymentMethod.Bank,
+  selectedCrypto: Currency = Currency.Dollar
 ) =>
   getMockStackScreenProps(Screens.ProviderOptionsScreen, {
     isCashIn,
-    selectedCrypto: Currency.Dollar,
+    selectedCrypto,
     amount: {
       crypto: AMOUNT_TO_CASH_IN,
       fiat: AMOUNT_TO_CASH_IN,
@@ -268,5 +269,28 @@ describe('ProviderOptionsScreen', () => {
     const elements = tree.queryAllByText('unsupportedPaymentMethod')
     // Only Simplex doesn't support bank accounts
     expect(elements).toHaveLength(1)
+  })
+
+  it('only shows Ramp if cEUR is the currency', async () => {
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card, Currency.Euro)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+
+    const rampElement = tree.queryByTestId('Provider/Ramp')
+    expect(rampElement).toBeTruthy()
+
+    for (const provider of mockProviders) {
+      if (provider.name === 'Ramp') {
+        continue
+      }
+      const providerElement = tree.queryByTestId(`Provider/${provider.name}`)
+      expect(providerElement).toBeFalsy()
+    }
   })
 })
