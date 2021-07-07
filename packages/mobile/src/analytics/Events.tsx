@@ -259,6 +259,8 @@ export enum SendEvents {
   send_tx_complete = 'send_tx_complete', // when a send or invite transaction has successfully completed
   send_tx_error = 'send_tx_error', // when there is an error sending a transaction
 
+  token_selected = 'token_selected', // A token was selected in TokenBottomSheet.
+
   // related to the alert that is shown when sending to an unknown address
   check_account_alert_shown = 'check_account_alert_shown',
   check_account_do_not_ask_selected = 'check_account_do_not_ask_selected',
@@ -329,6 +331,8 @@ export enum CeloExchangeEvents {
   celo_withdraw_confirm = 'celo_withdraw_confirm', // when ‘withdraw’ is clicked on the review screen
   celo_withdraw_completed = 'celo_withdraw_completed', // when the transaction for the withdrawal is completed
   celo_withdraw_error = 'celo_withdraw_error', // when there's an error on the withdrawal transaction
+
+  celo_chart_tapped = 'celo_chart_tapped', // when user clicks the chart on exchange screen
 }
 
 export enum FiatExchangeEvents {

@@ -1,10 +1,12 @@
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
+import { Currency } from 'src/utils/currencies'
 import {
   v0Schema,
   v13Schema,
   v14Schema,
+  v15Schema,
   v1Schema,
   v2Schema,
   v7Schema,
@@ -330,5 +332,26 @@ describe('Redux persist migrations', () => {
         "withoutRevealing": false,
       }
     `)
+  })
+  it('works for v15 to v16', () => {
+    const migratedSchema = migrations[16]({
+      ...v15Schema,
+      stableToken: {
+        ...v15Schema.stableToken,
+        balance: '150',
+      },
+      escrow: {
+        isReclaiming: true,
+        sentEscrowedPayments: [{ object: 'with keys' }],
+      },
+    })
+    expect(migratedSchema.localCurrency.exchangeRates).toBeDefined()
+    expect(migratedSchema.localCurrency.exchangeRates[Currency.Dollar]).toEqual(
+      v15Schema.localCurrency.exchangeRate
+    )
+    expect(migratedSchema.stableToken.balance).toBeUndefined()
+    expect(migratedSchema.stableToken.balances[Currency.Dollar]).toEqual('150')
+    expect(migratedSchema.escrow.isReclaiming).toBeFalsy()
+    expect(migratedSchema.escrow.sentEscrowedPayments.length).toEqual(0)
   })
 })

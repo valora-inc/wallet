@@ -120,7 +120,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
           }
         }
       >
-        $10.00
+        $9.09
       </Text>
     </View>
   </View>
@@ -246,7 +246,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
               }
             }
           >
-            $10.00
+            $9.09
           </Text>
         </View>
       </View>
@@ -388,10 +388,11 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             
@@ -415,14 +416,15 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
-            26.60
+            6.00
           </Text>
         </Text>
       </View>
@@ -582,7 +584,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
           }
         }
       >
-        $10.00
+        $9.09
       </Text>
     </View>
   </View>
@@ -708,7 +710,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
               }
             }
           >
-            $10.00
+            $9.09
           </Text>
         </View>
       </View>
@@ -931,10 +933,11 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             
@@ -958,14 +961,15 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $
-            26.60
+            6.00
           </Text>
         </Text>
       </View>

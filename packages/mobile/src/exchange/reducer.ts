@@ -2,22 +2,20 @@ import _ from 'lodash'
 import { Actions, ActionTypes } from 'src/exchange/actions'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
+import { Currency } from 'src/utils/currencies'
 
 export const MAX_HISTORY_RETENTION = 30 * 24 * 3600 * 1000 // (ms) ~ 30 days
 export const ADDRESS_LENGTH = 42
-
-export interface ExchangeRatePair {
-  goldMaker: string // number of dollarTokens received for one goldToken
-  dollarMaker: string // number of goldTokens received for one dollarToken
-}
 
 export interface ExchangeRate {
   exchangeRate: string
   timestamp: number
 }
 
+export type ExchangeRates = Record<Currency, Record<Currency, string>>
+
 export interface State {
-  exchangeRatePair: ExchangeRatePair | null
+  exchangeRates: ExchangeRates | null
   tobinTax: string | null
   history: {
     // TODO this should be remove once we have aggregation on
@@ -32,7 +30,7 @@ export interface State {
 }
 
 export const initialState = {
-  exchangeRatePair: null,
+  exchangeRates: null,
   tobinTax: null,
   history: {
     celoGoldExchangeRates: [],
@@ -44,7 +42,7 @@ export const initialState = {
   isLoading: false,
 }
 
-export const exchangeRatePairSelector = (state: RootState) => state.exchange.exchangeRatePair
+export const exchangeRatesSelector = (state: RootState) => state.exchange.exchangeRates
 export const exchangeHistorySelector = (state: RootState) => state.exchange.history
 
 function aggregateExchangeRates(
@@ -113,15 +111,16 @@ export const reducer = (
           ...initialState.history,
           ...persisted.history,
         },
-        exchangeRatePair: initialState.exchangeRatePair,
+        exchangeRates: initialState.exchangeRates,
         isLoading: false,
+        exchangeRatePair: undefined,
       }
     }
 
     case Actions.SET_EXCHANGE_RATE:
       return {
         ...state,
-        exchangeRatePair: action.exchangeRatePair,
+        exchangeRates: action.exchangeRates,
       }
     case Actions.SET_TOBIN_TAX:
       return {

@@ -2,9 +2,10 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
-import { createMockPaymentRequest } from 'src/paymentRequest/__mocks__'
 import OutgoingPaymentRequestListScreen from 'src/paymentRequest/OutgoingPaymentRequestListScreen'
 import { PaymentRequest } from 'src/paymentRequest/types'
+import { createMockPaymentRequest } from 'src/paymentRequest/__mocks__'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockE164Number } from 'test/values'
 
@@ -31,7 +32,7 @@ const requests = [
 
 function testStore(outgoingPaymentRequests: PaymentRequest[]) {
   return createMockStore({
-    stableToken: { balance: '120' },
+    stableToken: { balances: { [Currency.Dollar]: '120' } },
     paymentRequest: { outgoingPaymentRequests },
   })
 }

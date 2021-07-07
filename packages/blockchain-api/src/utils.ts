@@ -32,6 +32,7 @@ export enum Contracts {
   Attestations = 'Attestations',
   Escrow = 'Escrow',
   Exchange = 'Exchange',
+  ExchangeEUR = 'ExchangeEUR',
   Governance = 'Governance',
   Reserve = 'Reserve',
 }
@@ -40,6 +41,7 @@ export interface ContractAddresses {
   [Contracts.Attestations]: string
   [Contracts.Escrow]: string
   [Contracts.Exchange]: string
+  [Contracts.ExchangeEUR]: string
   [Contracts.Governance]: string
   [Contracts.Reserve]: string
 }
@@ -58,6 +60,7 @@ export async function getContractAddresses(): Promise<ContractAddresses> {
       Attestations: (await kit.registry.addressFor(CeloContract.Attestations)).toLowerCase(),
       Escrow: (await kit.registry.addressFor(CeloContract.Escrow)).toLowerCase(),
       Exchange: (await kit.registry.addressFor(CeloContract.Exchange)).toLowerCase(),
+      ExchangeEUR: (await kit.registry.addressFor(CeloContract.ExchangeEUR)).toLowerCase(),
       Governance: (await kit.registry.addressFor(CeloContract.Governance)).toLowerCase(),
       Reserve: (await kit.registry.addressFor(CeloContract.Reserve)).toLowerCase(),
     }
