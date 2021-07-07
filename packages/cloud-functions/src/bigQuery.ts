@@ -14,6 +14,7 @@ export const trackEvent = async (table: string, row: any) => {
 
     await bigQuery.dataset(bigQueryDataset).table(table).insert(row)
   } catch (error) {
+    console.error(error)
     console.error(`BigQuery error:`, JSON.stringify(error))
     throw error
   }
