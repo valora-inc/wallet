@@ -121,7 +121,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                     "padding": 16,
                   },
                   Object {
-                    "borderBottomWidth": 0,
+                    "borderBottomWidth": 0.5,
                     "borderTopLeftRadius": 8,
                     "borderTopRightRadius": 8,
                   },
@@ -130,6 +130,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   },
                 ]
               }
+              testID="radio/cUSD"
             >
               <svg
                 height={20}
@@ -186,14 +187,92 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
             </View>
           </View>
         </RNGestureHandlerButton>
-        <View
-          style={
-            Object {
-              "backgroundColor": "#1AB775",
-              "height": 1,
-            }
-          }
-        />
+        <RNGestureHandlerButton
+          collapsable={false}
+          onGestureEvent={[Function]}
+          onGestureHandlerEvent={[Function]}
+          onGestureHandlerStateChange={[Function]}
+          onHandlerStateChange={[Function]}
+          rippleColor={0}
+        >
+          <View
+            accessible={true}
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "borderWidth": 1,
+                    "flexDirection": "row",
+                    "padding": 16,
+                  },
+                  Object {
+                    "borderBottomWidth": 0.5,
+                    "borderTopWidth": 0.5,
+                  },
+                  Object {
+                    "borderColor": "#B4B9BD",
+                  },
+                ]
+              }
+              testID="radio/cEUR"
+            >
+              <svg
+                height={20}
+                style={Object {}}
+                viewBox="0 0 20 20"
+                width={20}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="10"
+                  cy="10"
+                  r="9"
+                  stroke="#EDEEEF"
+                  strokeWidth={2}
+                  style={Object {}}
+                />
+                <circle
+                  cx="10"
+                  cy="10"
+                  r="6"
+                  style={Object {}}
+                />
+              </svg>
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Medium",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                      "marginLeft": 16,
+                    },
+                    Object {
+                      "color": "#B4B9BD",
+                    },
+                  ]
+                }
+              >
+                celoEuro
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Medium",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                    "marginLeft": 4,
+                  }
+                }
+              >
+                (cEUR)
+              </Text>
+            </View>
+          </View>
+        </RNGestureHandlerButton>
         <RNGestureHandlerButton
           collapsable={false}
           onGestureEvent={[Function]}
@@ -216,13 +295,14 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   Object {
                     "borderBottomLeftRadius": 8,
                     "borderBottomRightRadius": 8,
-                    "borderTopWidth": 0,
+                    "borderTopWidth": 0.5,
                   },
                   Object {
                     "borderColor": "#B4B9BD",
                   },
                 ]
               }
+              testID="radio/CELO"
             >
               <svg
                 height={20}
@@ -356,6 +436,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   Object {},
                 ]
               }
+              testID="payWithCard"
             >
               payWithCard
             </Text>
@@ -416,6 +497,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   Object {},
                 ]
               }
+              testID="payWithBank"
             >
               payWithBank
             </Text>
@@ -476,6 +558,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   Object {},
                 ]
               }
+              testID="withExchange"
             >
               payWithExchange
             </Text>
@@ -949,7 +1032,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                     "padding": 16,
                   },
                   Object {
-                    "borderBottomWidth": 0,
+                    "borderBottomWidth": 0.5,
                     "borderTopLeftRadius": 8,
                     "borderTopRightRadius": 8,
                   },
@@ -958,6 +1041,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   },
                 ]
               }
+              testID="radio/cUSD"
             >
               <svg
                 height={20}
@@ -1014,14 +1098,92 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
             </View>
           </View>
         </RNGestureHandlerButton>
-        <View
-          style={
-            Object {
-              "backgroundColor": "#1AB775",
-              "height": 1,
-            }
-          }
-        />
+        <RNGestureHandlerButton
+          collapsable={false}
+          onGestureEvent={[Function]}
+          onGestureHandlerEvent={[Function]}
+          onGestureHandlerStateChange={[Function]}
+          onHandlerStateChange={[Function]}
+          rippleColor={0}
+        >
+          <View
+            accessible={true}
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "borderWidth": 1,
+                    "flexDirection": "row",
+                    "padding": 16,
+                  },
+                  Object {
+                    "borderBottomWidth": 0.5,
+                    "borderTopWidth": 0.5,
+                  },
+                  Object {
+                    "borderColor": "#B4B9BD",
+                  },
+                ]
+              }
+              testID="radio/cEUR"
+            >
+              <svg
+                height={20}
+                style={Object {}}
+                viewBox="0 0 20 20"
+                width={20}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="10"
+                  cy="10"
+                  r="9"
+                  stroke="#EDEEEF"
+                  strokeWidth={2}
+                  style={Object {}}
+                />
+                <circle
+                  cx="10"
+                  cy="10"
+                  r="6"
+                  style={Object {}}
+                />
+              </svg>
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Medium",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                      "marginLeft": 16,
+                    },
+                    Object {
+                      "color": "#B4B9BD",
+                    },
+                  ]
+                }
+              >
+                celoEuro
+              </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Medium",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                    "marginLeft": 4,
+                  }
+                }
+              >
+                (cEUR)
+              </Text>
+            </View>
+          </View>
+        </RNGestureHandlerButton>
         <RNGestureHandlerButton
           collapsable={false}
           onGestureEvent={[Function]}
@@ -1044,13 +1206,14 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   Object {
                     "borderBottomLeftRadius": 8,
                     "borderBottomRightRadius": 8,
-                    "borderTopWidth": 0,
+                    "borderTopWidth": 0.5,
                   },
                   Object {
                     "borderColor": "#B4B9BD",
                   },
                 ]
               }
+              testID="radio/CELO"
             >
               <svg
                 height={20}
@@ -1184,6 +1347,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   Object {},
                 ]
               }
+              testID="payWithCard"
             >
               payWithCard
             </Text>
@@ -1244,6 +1408,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   Object {},
                 ]
               }
+              testID="payWithBank"
             >
               payWithBank
             </Text>
@@ -1304,6 +1469,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   Object {},
                 ]
               }
+              testID="withExchange"
             >
               payWithExchange
             </Text>

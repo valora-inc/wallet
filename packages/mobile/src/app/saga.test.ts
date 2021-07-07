@@ -1,4 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils/lib'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
@@ -7,11 +6,15 @@ import { appLock, openDeepLink, openUrl, setAppState } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl, handleSetAppState } from 'src/app/saga'
 import { getAppLocked, getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
+import { receiveAttestationMessage } from 'src/identity/actions'
+import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
-import { CodeInputType, receiveAttestationCode } from 'src/verify/module'
+import { initialiseWalletConnect } from 'src/walletConnect/saga'
+import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 
 jest.mock('src/utils/time', () => ({
   clockInSync: () => true,
@@ -37,7 +40,7 @@ describe('App saga', () => {
 
   it('Handles verification deep link', async () => {
     await expectSaga(handleDeepLink, openDeepLink('celo://wallet/v/12345'))
-      .put(receiveAttestationCode({ message: '12345', inputType: CodeInputType.DEEP_LINK }))
+      .put(receiveAttestationMessage('12345', CodeInputType.DEEP_LINK))
       .run()
   })
 
@@ -67,7 +70,7 @@ describe('App saga', () => {
   it('Handles Bidali deep link', async () => {
     const deepLink = 'celo://wallet/bidali'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
-    expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: CURRENCY_ENUM.DOLLAR })
+    expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: Currency.Dollar })
   })
 
   it('Handles openScreen deep link with safe origin', async () => {
@@ -83,6 +86,50 @@ describe('App saga', () => {
     const deepLink = `celo://wallet/openScreen?screen=${Screens.FiatExchangeOptions}&isCashIn=true`
     await expectSaga(handleDeepLink, openDeepLink(deepLink, false)).run()
     expect(navigate).not.toHaveBeenCalled()
+  })
+
+  describe('WalletConnect deeplinks', () => {
+    const connectionString = 'wc:1234@1?bridge=https://example.com&key=0x1234'
+    const connectionLinks = [
+      {
+        name: 'Android',
+        link: connectionString,
+      },
+      {
+        name: 'iOS deeplink',
+        link: `celo://wallet/wc?uri=${connectionString}`,
+      },
+      {
+        name: 'iOS universal link',
+        link: `https://valoraapp.com/wc?uri=${connectionString}`,
+      },
+    ]
+
+    for (const { name, link } of connectionLinks) {
+      it(`handles ${name} connection links correctly`, async () => {
+        await expectSaga(handleDeepLink, openDeepLink(link))
+          .call(handleWalletConnectDeepLink, link)
+          .call(initialiseWalletConnect, connectionString)
+          .run()
+      })
+    }
+
+    // action requests are incomplete URLs, wallets should handle presenting
+    // the user with the request.
+    const actionString = 'wc:1234'
+    const actionLinks = [
+      { name: 'Android', link: actionString },
+      { name: 'iOS deeplink', link: `celo://wallet/wc?uri=${actionString}` },
+      { name: 'iOS universal link', link: `https://valoraapp.com/wc?uri=${actionString}` },
+    ]
+    for (const { name, link } of actionLinks) {
+      it(`handles ${name} action links correctly`, async () => {
+        await expectSaga(handleDeepLink, openDeepLink(link))
+          .call(handleWalletConnectDeepLink, link)
+          .not.call(initialiseWalletConnect, connectionString)
+          .run()
+      })
+    }
   })
 
   describe(handleOpenUrl, () => {

@@ -10,7 +10,6 @@ import {
   RewardsScreenOrigin,
   trackRewardsScreenOpenEvent,
 } from 'src/consumerIncentives/analyticsEventsTracker'
-import { CURRENCIES, resolveCurrency } from 'src/geth/consts'
 import {
   NotificationReceiveState,
   NotificationTypes,
@@ -23,6 +22,7 @@ import {
   navigateToPaymentTransferReview,
   navigateToRequestedPaymentReview,
 } from 'src/transactions/actions'
+import { Currency, mapOldCurrencyToNew } from 'src/utils/currencies'
 import { divideByWei } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 
@@ -48,6 +48,7 @@ function* handlePaymentRequested(
     firebasePendingRequestUid: paymentRequest.uid,
     recipient: targetRecipient,
     amount: new BigNumber(paymentRequest.amount),
+    currency: Currency.Dollar,
     reason: paymentRequest.comment,
     type: TokenTransactionType.PayRequest,
   })
@@ -60,7 +61,6 @@ function* handlePaymentReceived(
   if (notificationState !== NotificationReceiveState.AppAlreadyOpen) {
     const info: RecipientInfo = yield select(recipientInfoSelector)
     const address = transferNotification.sender.toLowerCase()
-    const currency = resolveCurrency(transferNotification.currency)
 
     navigateToPaymentTransferReview(
       TokenTransactionType.Received,
@@ -68,7 +68,7 @@ function* handlePaymentReceived(
       {
         amount: {
           value: divideByWei(transferNotification.value),
-          currencyCode: CURRENCIES[currency].code,
+          currencyCode: mapOldCurrencyToNew(transferNotification.currency),
         },
         address: transferNotification.sender.toLowerCase(),
         comment: transferNotification.comment,

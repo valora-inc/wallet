@@ -30,7 +30,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
           "alignItems": "center",
           "height": "100%",
           "justifyContent": "center",
-          "padding": 16,
         }
       }
     >
@@ -59,6 +58,11 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "padding": 16,
+          }
+        }
       >
         <svg
           height={16}
@@ -92,7 +96,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
           "alignItems": "center",
           "height": "100%",
           "justifyContent": "center",
-          "padding": 16,
         }
       }
     >
@@ -121,6 +124,11 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "padding": 16,
+          }
+        }
       >
         <svg
           fill="none"

@@ -11304,10 +11304,10 @@ detox@^17.13.2:
     yargs "^16.0.3"
     yargs-unparser "^2.0.0"
 
-detox@^18.14.1:
-  version "18.14.1"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-18.14.1.tgz#dd36fbe51a1c626c104f4c9787f9b22a934d95ad"
-  integrity sha512-BOrf7rKgee7zZYmUIHQeomQ8SoQWEOJ9aNAM8lFQoON/RJrBi/NRUlO/jh4XFFepOkeJ5gr85Kz7g3pQxIPXow==
+detox@^18.18.1:
+  version "18.18.1"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-18.18.1.tgz#11fdfbcf698ee79f6baaecc7f09bacc37134841b"
+  integrity sha512-H3KouvWnuPjeqV6R+f/SN5ZGSXIQMwMG/24lcynRmaq2ASSjSaJqKWRCimreIr3WKkhkaEmY9cPKtj0nAJHOmw==
   dependencies:
     bunyan "^1.8.12"
     bunyan-debug-stream "^1.1.0"
@@ -24209,9 +24209,9 @@ serialize-error@^2.1.0:
   integrity sha1-ULZ51WNc34Rme9yOWa9OW4HV9go=
 
 serialize-error@^8.0.1:
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/serialize-error/-/serialize-error-8.0.1.tgz#7a67f8ecbbf28973b5a954a2852ff9f4eef52d99"
-  integrity sha512-r5o60rWFS+8/b49DNAbB+GXZA0SpDpuWE758JxDKgRTga05r3U5lwyksE91dYKDhXSmnu36RALj615E6Aj5pSg==
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/serialize-error/-/serialize-error-8.1.0.tgz#3a069970c712f78634942ddd50fbbc0eaebe2f67"
+  integrity sha512-3NnuWfM6vBYoy5gZFvHiYsVbafvI9vZv/+jlIigFn4oP4zjNPK3LhcY0xSCgeb1a5L8jO71Mit9LlNoi2UfDDQ==
   dependencies:
     type-fest "^0.20.2"
 
@@ -28338,7 +28338,12 @@ ws@^7, ws@^7.2.3:
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.3.1.tgz#d0547bf67f7ce4f12a72dfe31262c68d7dc551c8"
   integrity sha512-D3RuNkynyHmEJIpD2qrgVkc9DQ23OrN/moAwZX4L8DfvszsJxpjQuUq3LMx6HoYji9fbIOBY18XWBsAux1ZZUA==
 
-ws@^7.0.0, ws@^7.4.0:
+ws@^7.0.0:
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.1.tgz#44fc000d87edb1d9c53e51fbc69a0ac1f6871d66"
+  integrity sha512-2c6faOUH/nhoQN6abwMloF7Iyl0ZS2E9HGtsiLrWn0zOOMWlhtDmdf/uihDt6jnuCxgtwGBNy6Onsoy2s2O2Ow==
+
+ws@^7.4.0:
   version "7.4.4"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.4.tgz#383bc9742cb202292c9077ceab6f6047b17f2d59"
   integrity sha512-Qm8k8ojNQIMx7S+Zp8u/uHOx7Qazv3Yv4q68MiWWWOJhiwG5W3x7iqmRtJo8xxrciZUY4vRxUTJCKuRnF28ZZw==

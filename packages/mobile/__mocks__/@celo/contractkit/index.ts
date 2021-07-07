@@ -11,12 +11,30 @@ const GasPriceMinimum = {
   getGasPriceMinimum: jest.fn(async (address: string) => new BigNumber(10000)),
 }
 
-const StableToken = {
+const DollarStableToken = {
   balanceOf: jest.fn(async () => {
     return new BigNumber(1e18)
   }),
   decimals: jest.fn(async () => '18'),
   transferWithComment: jest.fn(async () => ({ txo: txo() })),
+}
+
+const EuroStableToken = {
+  balanceOf: jest.fn(async () => {
+    return new BigNumber(5e18)
+  }),
+  decimals: jest.fn(async () => '18'),
+  transferWithComment: jest.fn(async () => ({ txo: txo() })),
+}
+
+export enum StableToken {
+  cUSD = 'cUSD',
+  cEUR = 'cEUR',
+}
+
+const stableTokens = {
+  [StableToken.cUSD]: DollarStableToken,
+  [StableToken.cEUR]: EuroStableToken,
 }
 
 const GoldToken = {
@@ -50,7 +68,7 @@ const connection = { web3: web3 }
 const kit = {
   contracts: {
     getGasPriceMinimum: jest.fn(async () => GasPriceMinimum),
-    getStableToken: jest.fn(async () => StableToken),
+    getStableToken: jest.fn(async (token: StableToken) => stableTokens[token]),
     getGoldToken: jest.fn(async () => GoldToken),
     getAttestations: jest.fn(async () => Attestations),
     getAccounts: jest.fn(async () => Accounts),

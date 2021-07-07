@@ -1,5 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils'
-import BigNumber from 'bignumber.js'
 import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
@@ -26,14 +24,17 @@ import {
 } from 'src/analytics/Events'
 import { BackQuizProgress, ScrollDirection, SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import {
   RewardsScreenCta,
   RewardsScreenOrigin,
 } from 'src/consumerIncentives/analyticsEventsTracker'
+import { InputToken } from 'src/exchange/ExchangeTradeScreen'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NotificationReceiveState } from 'src/notifications/types'
+import { Currency, StableCurrency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
@@ -280,7 +281,10 @@ interface VerificationEventsProperties {
         feeless?: boolean
       }
     | undefined
-
+  [VerificationEvents.verification_hash_cached]: {
+    phoneHash: string
+    address: string
+  }
   [VerificationEvents.verification_hash_retrieved]: {
     phoneHash: string
     address: string
@@ -371,10 +375,12 @@ interface VerificationEventsProperties {
   }
   [VerificationEvents.verification_reveal_attestation_await_code_complete]: {
     issuer: any
+    position: number
     feeless?: boolean
   }
   [VerificationEvents.verification_reveal_attestation_complete]: {
     issuer: any
+    position: number
     feeless?: boolean
   }
   [VerificationEvents.verification_reveal_attestation_error]: {
@@ -412,6 +418,20 @@ interface VerificationEventsProperties {
   [VerificationEvents.verification_resend_messages]: {
     count: number
     feeless?: boolean
+  }
+  [VerificationEvents.verification_recaptcha_started]: undefined
+  [VerificationEvents.verification_recaptcha_skipped]: undefined
+  [VerificationEvents.verification_recaptcha_success]: undefined
+  [VerificationEvents.verification_recaptcha_failure]: undefined
+  [VerificationEvents.verification_recaptcha_canceled]: undefined
+  [VerificationEvents.verification_session_started]: undefined
+  [VerificationEvents.verification_already_completed]: { mtwAddress: string }
+  [VerificationEvents.verification_mtw_fetch_start]: { unverifiedMtwAddress: string }
+  [VerificationEvents.verification_mtw_fetch_success]: { mtwAddress: string }
+  [VerificationEvents.verification_fetch_on_chain_data_start]: undefined
+  [VerificationEvents.verification_fetch_on_chain_data_success]: {
+    attestationsRemaining: number
+    actionableAttestations: number
   }
 }
 
@@ -514,8 +534,9 @@ interface SendEventsProperties {
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [SendEvents.send_confirm_back]: undefined
   [SendEvents.send_confirm_send]: {
@@ -566,6 +587,14 @@ interface SendEventsProperties {
   [SendEvents.send_tx_error]: {
     error: string
   }
+  [SendEvents.token_selected]: {
+    origin: TokenPickerOrigin
+    token: string
+  }
+  [SendEvents.check_account_alert_shown]: undefined
+  [SendEvents.check_account_do_not_ask_selected]: undefined
+  [SendEvents.check_account_alert_back]: undefined
+  [SendEvents.check_account_alerts_continue]: undefined
 }
 
 interface RequestEventsProperties {
@@ -577,20 +606,24 @@ interface RequestEventsProperties {
     usedSearchBar: boolean
   }
   [RequestEvents.request_amount_continue]: {
+    origin: SendOrigin
     isScan: boolean
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [RequestEvents.request_unavailable]: {
+    origin: SendOrigin
     isScan: boolean
     isInvite: boolean
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
     localCurrencyAmount: string | null
+    underlyingCurrency: Currency
+    underlyingAmount: string | null
   }
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {
@@ -655,20 +688,18 @@ interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_transaction_back]: undefined
 
   [CeloExchangeEvents.celo_toggle_input_currency]: {
-    to: CURRENCY_ENUM
+    to: InputToken
   }
   [CeloExchangeEvents.celo_buy_continue]: {
     localCurrencyAmount: string | null
     goldAmount: string
-    inputToken: CURRENCY_ENUM
-    goldToDollarExchangeRate: string
+    inputToken: Currency
   }
   [CeloExchangeEvents.celo_buy_confirm]: {
     localCurrencyAmount: string | null
     goldAmount: string
-    dollarAmount: string
-    inputToken: CURRENCY_ENUM
-    goldToDollarExchangeRate: string
+    stableAmount: string
+    inputToken: Currency
   }
   [CeloExchangeEvents.celo_buy_cancel]: undefined
   [CeloExchangeEvents.celo_buy_edit]: undefined
@@ -678,15 +709,13 @@ interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_sell_continue]: {
     localCurrencyAmount: string | null
     goldAmount: string
-    inputToken: CURRENCY_ENUM
-    goldToDollarExchangeRate: string
+    inputToken: Currency
   }
   [CeloExchangeEvents.celo_sell_confirm]: {
     localCurrencyAmount: string | null
     goldAmount: string
-    dollarAmount: string
-    inputToken: CURRENCY_ENUM
-    goldToDollarExchangeRate: string
+    stableAmount: string
+    inputToken: Currency
   }
   [CeloExchangeEvents.celo_sell_cancel]: undefined
   [CeloExchangeEvents.celo_sell_edit]: undefined
@@ -706,6 +735,7 @@ interface CeloExchangeEventsProperties {
 
   [CeloExchangeEvents.celo_fetch_exchange_rate_start]: undefined
   [CeloExchangeEvents.celo_fetch_exchange_rate_complete]: {
+    currency: StableCurrency
     makerAmount: number
     exchangeRate: number
   }
@@ -727,6 +757,7 @@ interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_withdraw_error]: {
     error: string
   }
+  [CeloExchangeEvents.celo_chart_tapped]: undefined
 }
 
 interface FiatExchangeEventsProperties {
@@ -741,7 +772,7 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_option_chosen]: {
     isCashIn: boolean
     paymentMethod: PaymentMethod
-    currency: CURRENCY_ENUM
+    currency: Currency
   }
   [FiatExchangeEvents.provider_chosen]: {
     isCashIn: boolean
@@ -762,11 +793,14 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_add_funds_info_support]: undefined
   [FiatExchangeEvents.cico_add_funds_info_cancel]: undefined
   [FiatExchangeEvents.cico_add_funds_amount_continue]: {
-    dollarAmount: BigNumber
+    amount: number
+    currency: Currency
+    isCashIn: boolean
   }
   [FiatExchangeEvents.cico_add_funds_amount_back]: undefined
   [FiatExchangeEvents.cico_add_funds_invalid_amount]: {
-    dollarAmount: BigNumber
+    amount: number
+    currency: Currency
   }
   [FiatExchangeEvents.cico_add_funds_amount_dialog_cancel]: undefined
   [FiatExchangeEvents.cico_add_funds_select_provider_back]: undefined
