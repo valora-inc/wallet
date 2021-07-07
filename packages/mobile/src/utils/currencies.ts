@@ -13,6 +13,7 @@ export enum CiCoCurrency {
 export interface CurrencyInfo {
   symbol: string
   displayDecimals: number
+  cashTag: string
 }
 
 type CurrencyObject = { [key in Currency]: CurrencyInfo }
@@ -24,14 +25,17 @@ export const CURRENCIES: CurrencyObject = {
   [Currency.Celo]: {
     symbol: '',
     displayDecimals: 3,
+    cashTag: 'CELO',
   },
   [Currency.Dollar]: {
     symbol: '$',
     displayDecimals: 2,
+    cashTag: 'cUSD',
   },
   [Currency.Euro]: {
     symbol: '€',
     displayDecimals: 2,
+    cashTag: 'cEUR',
   },
 }
 

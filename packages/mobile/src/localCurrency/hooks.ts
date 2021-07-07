@@ -53,12 +53,12 @@ export function useLocalCurrencySymbol() {
   return useSelector(getLocalCurrencySymbol)
 }
 
-export function useLocalAmountToCurrency(amount: BigNumber, currency: Currency) {
+export function useLocalAmountToCurrency(amount: BigNumber, currency: Currency): BigNumber | null {
   const exchangeRate = useSelector(localCurrencyExchangeRatesSelector)[currency]
   return useMemo(() => convertLocalAmountToCurrency(amount, exchangeRate), [amount, exchangeRate])
 }
 
-export function useCurrencyToLocalAmount(amount: BigNumber, currency: Currency) {
+export function useCurrencyToLocalAmount(amount: BigNumber, currency: Currency): BigNumber | null {
   const exchangeRate = useSelector(localCurrencyExchangeRatesSelector)[currency]
   return useMemo(() => convertCurrencyToLocalAmount(amount, exchangeRate), [amount, exchangeRate])
 }
