@@ -150,7 +150,7 @@ export function HeaderTitleWithSubtitle({
   subTitle,
 }: {
   title: string | JSX.Element
-  subTitle: string | JSX.Element
+  subTitle?: string | JSX.Element
 }) {
   return (
     <View style={styles.header}>

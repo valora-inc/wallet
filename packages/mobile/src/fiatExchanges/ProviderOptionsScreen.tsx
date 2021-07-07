@@ -86,7 +86,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     [Currency.Celo]: CiCoCurrency.CELO,
     [Currency.Dollar]: CiCoCurrency.CUSD,
     [Currency.Euro]: CiCoCurrency.CEUR,
-  }[route.params.selectedCrypto || Currency.Dollar]
+  }[route.params.selectedCrypto]
 
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
@@ -119,11 +119,6 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       return
     }
 
-    if (!route.params.amount.fiat && !route.params.amount.crypto) {
-      console.error(TAG, 'No fiat or crypto purchase amount set')
-      return
-    }
-
     try {
       const providers = await fetchProviders({
         userLocation,
@@ -143,11 +138,16 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const activeProviders = asyncProviders.result
 
   const cicoProviders: {
-    cashOut: CicoProvider[]
     cashIn: CicoProvider[]
+    cashOut: CicoProvider[]
   } = {
+    cashIn:
+      // Hacky way to only show Ramp if the selected cash-in currency is cEUR
+      // When redesigning flow, should accomodate this on backend
+      currencyToBuy === CiCoCurrency.CEUR
+        ? activeProviders?.filter((provider) => provider.cashIn && provider.name === 'Ramp') || []
+        : activeProviders?.filter((provider) => provider.cashIn).sort(sortProviders) || [],
     cashOut: activeProviders?.filter((provider) => provider.cashOut).sort(sortProviders) || [],
-    cashIn: activeProviders?.filter((provider) => provider.cashIn).sort(sortProviders) || [],
   }
 
   const providerOnPress = (provider: CicoProvider) => () => {
