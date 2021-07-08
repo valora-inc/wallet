@@ -52,6 +52,8 @@ export default class CurrencyConversionAPI<TContext = any> extends DataSource {
     } else if (fromCode === CGLD || toCode === CGLD) {
       // cGLD -> X (where X !== celoStableToken)
       if (fromCode === CGLD && !this.enumContains(supportedStableTokens, toCode.toUpperCase())) {
+        // TODO, we could optimize this and use the cGLD/cEUR rate for instance
+        // but it would only be supported from the date when we started storing it
         return [CGLD, CUSD, ...insertIf(toCode !== USD, USD), toCode]
       }
       // Currency -> cGLD (where X !== celoStableToken)
@@ -59,6 +61,8 @@ export default class CurrencyConversionAPI<TContext = any> extends DataSource {
         !this.enumContains(supportedStableTokens, fromCode.toUpperCase()) &&
         toCode === CGLD
       ) {
+        // TODO, we could optimize this and use the cEUR/cGLD rate for instance
+        // but it would only be supported from the date when we started storing it
         return [fromCode, ...insertIf(fromCode !== USD, USD), CUSD, CGLD]
       }
     } else {
