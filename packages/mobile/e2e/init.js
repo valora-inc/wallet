@@ -8,6 +8,7 @@ beforeAll(async () => {
     newInstance: false,
     permissions: { notifications: 'YES', contacts: 'YES' },
   })
-  await device.setURLBlacklist(['.*blockchain-api-dot-celo-mobile-alfajores.appspot.com.*'])
+  // Disabled url blacklist while test take longer this results in less flakey tests in CI
+  // await device.setURLBlacklist(['.*blockchain-api-dot-celo-mobile-alfajores.appspot.com.*'])
   await setDemoMode()
 })
