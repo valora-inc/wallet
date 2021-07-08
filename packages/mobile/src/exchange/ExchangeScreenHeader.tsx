@@ -2,7 +2,7 @@ import Touchable from '@celo/react-components/components/Touchable'
 import DownArrowIcon from '@celo/react-components/icons/DownArrowIcon'
 import colors from '@celo/react-components/styles/colors'
 import React, { useMemo, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import CancelButton from 'src/components/CancelButton'
 import CustomHeader from 'src/components/header/CustomHeader'
@@ -56,8 +56,13 @@ function ExchangeTradeScreenHeader({ currency, makerToken, onChangeCurrency }: P
       )
     }
 
+    const showTokenPicker = () => {
+      setShowTokenPicker(true)
+      Keyboard.dismiss()
+    }
+
     return (
-      <Touchable disabled={singleTokenAvailable} onPress={() => setShowTokenPicker(true)}>
+      <Touchable disabled={singleTokenAvailable} onPress={showTokenPicker}>
         <HeaderTitleWithBalance title={title} token={currency} switchTitleAndSubtitle={true} />
       </Touchable>
     )
