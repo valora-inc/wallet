@@ -44,18 +44,18 @@ jobs:
           yarn run detox build-framework-cache
           yarn run test:e2e:ios -w 2
       # Publish Test Results
-      - name: Publish JUnit Report
+      - name: Publish iOS JUnit Report
         if: always()
         uses: mikepenz/action-junit-report@v2
         with:
           report_paths: 'packages/mobile/e2e/test-results/junit.xml'
       # Upload Artifacts
-      - name: 'Upload E2E Artifacts'
+      - name: 'Upload iOS E2E Artifacts'
         if: failure()
         uses: actions/upload-artifact@v2
         with:
           path: packages/mobile/e2e/artifacts
-      - name: 'Upload E2E HTML Report'
+      - name: 'Upload iOS E2E HTML Report'
         if: always()
         uses: actions/upload-artifact@v2
         with:
@@ -92,12 +92,12 @@ jobs:
         with:
           report_paths: 'packages/mobile/e2e/test-results/junit.xml'
       # Upload Artifacts
-      - name: 'Upload E2E Artifacts'
+      - name: 'Upload Android E2E Artifacts'
         if: failure()
         uses: actions/upload-artifact@v2
         with:
           path: packages/mobile/e2e/artifacts
-      - name: 'Upload E2E HTML Report'
+      - name: 'Upload Android E2E HTML Report'
         if: always()
         uses: actions/upload-artifact@v2
         with:
