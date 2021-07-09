@@ -230,6 +230,7 @@ export function appRemoteFeatureFlagChannel() {
         hideVerification: flags?.hideVerification ?? false,
         showRaiseDailyLimitTarget: flags?.showRaiseDailyLimitTargetV2 ?? undefined,
         celoEducationUri: flags?.celoEducationUri ?? null,
+        celoEuroEnabled: flags?.celoEuroEnabled ?? false,
         shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
         inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,
         inviteRewardCusd: flags?.inviteRewardCusd ?? 1,
