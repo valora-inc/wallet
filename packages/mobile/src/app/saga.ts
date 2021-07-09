@@ -41,6 +41,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { Currency } from 'src/utils/currencies'
+import { isGooglePlayServicesAvailable } from 'src/utils/googleServices'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
@@ -261,4 +262,7 @@ export function* appSaga() {
   yield spawn(watchAppState)
   yield spawn(runVerificationMigration)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
+  // DO NOT MERGE
+  const result = yield call(isGooglePlayServicesAvailable)
+  Logger.info(TAG, `Result of check to isGooglePlayServicesAvailable`, result)
 }
