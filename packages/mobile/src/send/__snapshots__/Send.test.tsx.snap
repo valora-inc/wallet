@@ -220,7 +220,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             "borderRadius": 18,
             "borderWidth": 1.5,
             "flexDirection": "row",
-            "height": 36,
+            "minHeight": 36,
             "paddingRight": 8,
           },
           undefined,
