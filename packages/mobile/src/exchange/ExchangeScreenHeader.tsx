@@ -17,11 +17,11 @@ import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
 interface Props {
   currency: Currency
-  makerToken: Currency | null
+  isCeloPurchase: boolean
   onChangeCurrency: (currency: Currency) => void
 }
 
-function ExchangeTradeScreenHeader({ currency, makerToken, onChangeCurrency }: Props) {
+function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency }: Props) {
   const [showingTokenPicker, setShowTokenPicker] = useState(false)
 
   const onCurrencySelected = (currency: Currency) => {
@@ -31,7 +31,6 @@ function ExchangeTradeScreenHeader({ currency, makerToken, onChangeCurrency }: P
 
   const closeCurrencyPicker = () => setShowTokenPicker(false)
 
-  const isCeloPurchase = makerToken !== Currency.Celo
   const balances = useSelector(balancesSelector)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
 
@@ -43,9 +42,9 @@ function ExchangeTradeScreenHeader({ currency, makerToken, onChangeCurrency }: P
 
     let titleText
     let title
-    const singleTokenAvailable = currenciesWithBalance < 2
-    if (singleTokenAvailable) {
-      title = isCeloPurchase ? i18n.t('exchangeFlow9:buyGold') : i18n.t('exchangeFlow9:sellGold')
+    const tokenPickerEnabled = currenciesWithBalance >= 2 || !isCeloPurchase
+    if (!tokenPickerEnabled) {
+      title = i18n.t('exchangeFlow9:buyGold')
     } else {
       titleText = i18n.t('exchangeFlow9:tokenBalance', { token: currency })
       title = (
@@ -62,7 +61,7 @@ function ExchangeTradeScreenHeader({ currency, makerToken, onChangeCurrency }: P
     }
 
     return (
-      <Touchable disabled={singleTokenAvailable} onPress={showTokenPicker}>
+      <Touchable disabled={!tokenPickerEnabled} onPress={showTokenPicker}>
         <HeaderTitleWithBalance title={title} token={currency} switchTitleAndSubtitle={true} />
       </Touchable>
     )
