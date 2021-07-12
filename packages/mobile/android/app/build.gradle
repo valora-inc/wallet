@@ -257,6 +257,7 @@ android {
 
 dependencies {
     androidTestImplementation('com.wix:detox:+')
+    implementation 'com.google.android.material:material:1.2.0-rc01'
 
     def multidex_version = "2.0.1"
     implementation 'androidx.multidex:multidex:$multidex_version'
