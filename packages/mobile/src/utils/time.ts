@@ -293,10 +293,11 @@ export const getRemoteTime = async () => {
   }
 }
 
-// Old value was 4 seconds - Clique future block allowed time is 5 seconds
-// Switching to 21 seconds for now until we learn more about what specific services require
-// because each request can take up to 10 seconds to time out
-export const DRIFT_THRESHOLD_IN_MS = 1000 * 21
+// stokado requires accuracy within 5 mins
+// odis is getting rid of the timestamp but until then 60 seconds should work well
+// not sure if any other services need more accurate timing
+// but if not we can maybe remove this check altogether
+export const DRIFT_THRESHOLD_IN_MS = 1000 * 60
 
 export const clockInSync = async () => {
   const localTime = Date.now()
