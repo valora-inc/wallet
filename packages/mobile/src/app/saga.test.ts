@@ -111,7 +111,7 @@ describe('App saga', () => {
       it(`handles ${name} connection links correctly`, async () => {
         await expectSaga(handleDeepLink, openDeepLink(link))
           .call(handleWalletConnectDeepLink, link)
-          .call(initialiseWalletConnect, connectionString)
+          .call(initialiseWalletConnect, decodeURIComponent(connectionString))
           .run()
       })
     }
@@ -128,7 +128,7 @@ describe('App saga', () => {
       it(`handles ${name} action links correctly`, async () => {
         await expectSaga(handleDeepLink, openDeepLink(link))
           .call(handleWalletConnectDeepLink, link)
-          .not.call(initialiseWalletConnect, connectionString)
+          .not.call(initialiseWalletConnect)
           .run()
       })
     }
