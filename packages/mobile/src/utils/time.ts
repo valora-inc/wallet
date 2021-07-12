@@ -277,7 +277,6 @@ export const getDatetimeDisplayString = (timestamp: number, i18next: i18nType) =
 
 export const getRemoteTime = async () => {
   const getNetworkTime = promisify(ntpClient.getNetworkTime)
-  ntpClient.ntpReplyTimeout = 2000
   const localTime = Date.now()
   try {
     const networkTime = await getNetworkTime('time.google.com', 123)
@@ -294,7 +293,10 @@ export const getRemoteTime = async () => {
   }
 }
 
-export const DRIFT_THRESHOLD_IN_MS = 1000 * 4 // 4 seconds - Clique future block allowed time is 5 seconds
+// Old value was 4 seconds - Clique future block allowed time is 5 seconds
+// Switching to 21 seconds for now until we learn more about what specific services require
+// because each request can take up to 10 seconds to time out
+export const DRIFT_THRESHOLD_IN_MS = 1000 * 21
 
 export const clockInSync = async () => {
   const localTime = Date.now()
