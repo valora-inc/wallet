@@ -1,5 +1,4 @@
 name: Run E2E
-
 on:
   push:
     branches:
