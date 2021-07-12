@@ -248,10 +248,14 @@ export function appRemoteFeatureFlagChannel() {
       }
     }
 
+    const errorCallback = (error: Error) => {
+      Logger.warn(TAG, error.toString())
+    }
+
     // Note: values are cached by default for 12 hours
     // this can be changed if needed:
     // https://rnfirebase.io/remote-config/usage
-    remoteConfig().fetchAndActivate().then(emitter)
+    remoteConfig().fetchAndActivate().then(emitter).catch(errorCallback)
 
     // TODO: is there an api for receiving updates without restart?
 
