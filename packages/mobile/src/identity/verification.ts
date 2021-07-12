@@ -5,7 +5,7 @@ import {
   ActionableAttestation,
   AttestationsWrapper,
   getSecurityCodePrefix,
-  UnselectedRequest,
+  UnselectedRequest
 } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import { FetchError, TxError } from '@celo/komencikit/src/errors'
@@ -14,7 +14,7 @@ import { retryAsync } from '@celo/utils/lib/async'
 import {
   AttestationsStatus,
   extractAttestationCodeFromMessage,
-  extractSecurityCodeWithPrefix,
+  extractSecurityCodeWithPrefix
 } from '@celo/utils/lib/attestations'
 import { AttestationRequest } from '@celo/utils/lib/io'
 import AwaitLock from 'await-lock'
@@ -30,7 +30,7 @@ import {
   select,
   spawn,
   take,
-  takeEvery,
+  takeEvery
 } from 'redux-saga/effects'
 import { setRetryVerificationWithForno } from 'src/account/actions'
 import { e164NumberSelector } from 'src/account/selectors'
@@ -40,7 +40,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { currentLanguageSelector } from 'src/app/reducers'
-import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
+import { logPhoneNumberTypeEnabledSelector, shortVerificationCodesEnabledSelector } from 'src/app/selectors'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
@@ -60,14 +60,14 @@ import {
   setLastRevealAttempt,
   setVerificationStatus,
   startVerification,
-  StartVerificationAction,
+  StartVerificationAction
 } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import {
   acceptedAttestationCodesSelector,
   attestationCodesSelector,
   attestationInputStatusSelector,
-  e164NumberToSaltSelector,
+  e164NumberToSaltSelector
 } from 'src/identity/reducer'
 import { getAttestationCodeForSecurityCode } from 'src/identity/securityCode'
 import { startAutoSmsRetrieval } from 'src/identity/smsRetrieval'
@@ -88,7 +88,7 @@ import {
   shouldUseKomenciSelector,
   start,
   succeed,
-  verificationStatusSelector,
+  verificationStatusSelector
 } from 'src/verify/reducer'
 import { indexReadyForInput } from 'src/verify/utils'
 import { setMtwAddress } from 'src/web3/actions'
@@ -1044,6 +1044,7 @@ export function* tryRevealPhoneNumber(
   attestation: ActionableAttestation,
   isFeelessVerification: boolean
 ) {
+  const logPhoneNumberTypeEnabled: boolean = yield select(logPhoneNumberTypeEnabledSelector)
   const issuer = attestation.issuer
   Logger.debug(TAG + '@tryRevealPhoneNumber', `Revealing an attestation for issuer: ${issuer}`)
 
@@ -1085,6 +1086,17 @@ export function* tryRevealPhoneNumber(
         issuer,
         feeless: isFeelessVerification,
       })
+
+      if (logPhoneNumberTypeEnabled && body.phoneNumberType && body.credentials) {
+        Logger.debug(TAG + '@tryRevealPhoneNumber', 'Sending phoneNumberType and credentials to analytics')
+        ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_phonenumber_type, {
+          issuer,
+          account,
+          phoneNumberType: body.phoneNumberType,
+          credentials: body.credentials,
+        })
+      }
+
       return true
     }
 
@@ -1094,7 +1106,7 @@ export function* tryRevealPhoneNumber(
 
       yield delay(REVEAL_RETRY_DELAY)
 
-      const { ok: retryOk, status: retryStatus } = yield call(
+      const { ok: retryOk, status: retryStatus, body: retryBody } = yield call(
         postToAttestationService,
         attestationsWrapper,
         attestation.attestationServiceURL,
@@ -1108,6 +1120,20 @@ export function* tryRevealPhoneNumber(
           issuer,
           feeless: isFeelessVerification,
         })
+
+        if (logPhoneNumberTypeEnabled && retryBody.phoneNumberType && retryBody.credentials) {
+          Logger.debug(TAG + '@tryRevealPhoneNumber', 'Sending phoneNumberType and credentials to analytics on retry')
+          ValoraAnalytics.track(
+            VerificationEvents.verification_reveal_attestation_phonenumber_type,
+            {
+              issuer,
+              account,
+              phoneNumberType: retryBody.phoneNumberType,
+              credentials: retryBody.credentials,
+            }
+          )
+        }
+
         return true
       }
 
