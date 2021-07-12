@@ -47,17 +47,20 @@ jobs:
         if: always()
         uses: mikepenz/action-junit-report@v2
         with:
+          check_name: iOS e2e Test Report 
           report_paths: 'packages/mobile/e2e/test-results/junit.xml'
       # Upload Artifacts
       - name: 'Upload iOS E2E Artifacts'
         if: failure()
         uses: actions/upload-artifact@v2
         with:
+          name: ios-e2e-artifact
           path: packages/mobile/e2e/artifacts
       - name: 'Upload iOS E2E HTML Report'
         if: always()
         uses: actions/upload-artifact@v2
         with:
+          name: ios-e2e-test-report
           path: packages/mobile/e2e/test-results
   android:
     name: Android Tests
@@ -89,15 +92,18 @@ jobs:
         if: always()
         uses: mikepenz/action-junit-report@v2
         with:
+          check_name: Android e2e Test Report 
           report_paths: 'packages/mobile/e2e/test-results/junit.xml'
       # Upload Artifacts
       - name: 'Upload Android E2E Artifacts'
         if: failure()
         uses: actions/upload-artifact@v2
         with:
+          name: android-e2e-artifact
           path: packages/mobile/e2e/artifacts
       - name: 'Upload Android E2E HTML Report'
         if: always()
         uses: actions/upload-artifact@v2
         with:
+          name: android-e2e-test-report
           path: packages/mobile/e2e/test-results
