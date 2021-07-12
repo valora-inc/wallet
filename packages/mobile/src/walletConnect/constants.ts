@@ -3,6 +3,7 @@ import i18n from 'src/i18n'
 export enum SupportedActions {
   eth_accounts = 'eth_accounts',
   eth_signTransaction = 'eth_signTransaction',
+  eth_sendTransaction = 'eth_sendTransaction',
   eth_signTypedData = 'eth_signTypedData',
   personal_sign = 'personal_sign',
   personal_decrypt = 'personal_decrypt',
@@ -12,6 +13,7 @@ export enum SupportedActions {
 const actionDescriptionTranslations: { [action in SupportedActions]: string } = {
   [SupportedActions.eth_accounts]: i18n.t('walletConnect:description.accounts'),
   [SupportedActions.eth_signTransaction]: i18n.t('walletConnect:description.signTransaction'),
+  [SupportedActions.eth_sendTransaction]: i18n.t('walletConnect:description.sendTransaction'),
   [SupportedActions.eth_signTypedData]: i18n.t('walletConnect:description.sign'),
   [SupportedActions.personal_sign]: i18n.t('walletConnect:description.sign'),
   [SupportedActions.personal_decrypt]: i18n.t('walletConnect:description.decrypt'),
@@ -21,6 +23,7 @@ const actionDescriptionTranslations: { [action in SupportedActions]: string } = 
 const actionTranslations: { [x in SupportedActions]: string } = {
   [SupportedActions.eth_accounts]: i18n.t('walletConnect:action.accounts'),
   [SupportedActions.eth_signTransaction]: i18n.t('walletConnect:action.signTransaction'),
+  [SupportedActions.eth_sendTransaction]: i18n.t('walletConnect:action.sendTransaction'),
   [SupportedActions.eth_signTypedData]: i18n.t('walletConnect:action.sign'),
   [SupportedActions.personal_sign]: i18n.t('walletConnect:action.sign'),
   [SupportedActions.personal_decrypt]: i18n.t('walletConnect:action.decrypt'),

@@ -4,13 +4,13 @@ import { DefaultTheme, NavigationContainer, NavigationState } from '@react-navig
 import * as React from 'react'
 import { Share, StyleSheet, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import RNShake from 'react-native-shake'
 import { useDispatch, useSelector } from 'react-redux'
+import ShakeForSupport from 'src/account/ShakeForSupport'
 import AlertBanner from 'src/alert/AlertBanner'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { activeScreenChanged, AppState } from 'src/app/actions'
-import { getAppLocked, getAppState } from 'src/app/selectors'
+import { activeScreenChanged } from 'src/app/actions'
+import { getAppLocked } from 'src/app/selectors'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import { doingBackupFlowSelector, shouldForceBackupSelector } from 'src/backup/selectors'
 import { DEV_RESTORE_NAV_STATE_ON_RELOAD } from 'src/config'
@@ -59,7 +59,6 @@ export const NavigatorWrapper = () => {
   const appLocked = useTypedSelector(getAppLocked)
   const minRequiredVersion = useTypedSelector((state) => state.app.minVersion)
   const isInviteModalVisible = useTypedSelector((state) => state.app.inviteModalVisible)
-  const appState = useTypedSelector(getAppState)
   const routeNameRef = React.useRef()
 
   const dispatch = useDispatch()
@@ -117,21 +116,6 @@ export const NavigatorWrapper = () => {
       )
     }
   }, [isReady])
-
-  React.useEffect(() => {
-    if (appState !== AppState.Active) {
-      // Don't listen to the shake event if the app is not in the foreground
-      return
-    }
-    RNShake.addEventListener('ShakeEvent', () => {
-      Logger.info('NavigatorWrapper', 'Shake Event')
-      // TODO: Cancel all modals before this
-      navigate(Screens.SupportContact)
-    })
-    return () => {
-      RNShake.removeEventListener('ShakeEvent')
-    }
-  }, [appState])
 
   React.useEffect(() => {
     return () => {
@@ -200,6 +184,7 @@ export const NavigatorWrapper = () => {
           <AlertBanner />
           <InviteFriendModal isVisible={isInviteModalVisible} onInvite={onInvite} />
         </View>
+        <ShakeForSupport />
       </View>
     </NavigationContainer>
   )

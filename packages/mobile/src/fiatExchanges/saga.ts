@@ -36,6 +36,7 @@ import {
   Actions as TransactionActions,
   NewTransactionsInFeedAction,
 } from 'src/transactions/actions'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getAccount } from 'src/web3/saga'
 
@@ -70,6 +71,7 @@ function* bidaliPaymentRequest({
   const transactionData: TransactionDataInput = {
     recipient,
     amount: new BigNumber(amount),
+    currency: Currency.Dollar,
     reason: `${description} (${chargeId})`,
     type: TokenTransactionType.PayPrefill,
   }

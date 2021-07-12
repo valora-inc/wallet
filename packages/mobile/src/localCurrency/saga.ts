@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import gql from 'graphql-tag'
-import { call, put, select, spawn, take, takeLatest } from 'redux-saga/effects'
+import { all, call, put, select, spawn, take, takeLatest } from 'redux-saga/effects'
 import { Actions as AccountActions } from 'src/account/actions'
 import { apolloClient } from 'src/apollo'
 import { ExchangeRateQuery, ExchangeRateQueryVariables } from 'src/apollo/types'
@@ -12,20 +12,27 @@ import {
 } from 'src/localCurrency/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'localCurrency/saga'
 
-export async function fetchExchangeRate(currencyCode: string): Promise<string> {
+export async function fetchExchangeRate(
+  sourceCurrency: Currency,
+  localCurrencyCode: string
+): Promise<string> {
   const response = await apolloClient.query<ExchangeRateQuery, ExchangeRateQueryVariables>({
     query: gql`
-      query ExchangeRate($currencyCode: String!) {
-        currencyConversion(currencyCode: $currencyCode) {
+      query ExchangeRate($currencyCode: String!, $sourceCurrencyCode: String) {
+        currencyConversion(currencyCode: $currencyCode, sourceCurrencyCode: $sourceCurrencyCode) {
           rate
         }
       }
     `,
-    variables: { currencyCode },
+    variables: {
+      currencyCode: localCurrencyCode,
+      sourceCurrencyCode: sourceCurrency,
+    },
     fetchPolicy: 'network-only',
     errorPolicy: 'all',
   })
@@ -38,14 +45,29 @@ export async function fetchExchangeRate(currencyCode: string): Promise<string> {
   return new BigNumber(rate).toString()
 }
 
+// @ts-ignore return type issue, couldn't figure it out
 export function* fetchLocalCurrencyRateSaga() {
   try {
     const localCurrencyCode: LocalCurrencyCode | null = yield select(getLocalCurrencyCode)
     if (!localCurrencyCode) {
       throw new Error("Can't fetch local currency rate without a currency code")
     }
-    const rate = yield call(fetchExchangeRate, localCurrencyCode)
-    yield put(fetchCurrentRateSuccess(localCurrencyCode, rate, Date.now()))
+    const [usdRate, euroRate, celoRate]: [string, string, string] = yield all([
+      call(fetchExchangeRate, Currency.Dollar, localCurrencyCode),
+      call(fetchExchangeRate, Currency.Euro, localCurrencyCode),
+      call(fetchExchangeRate, Currency.Celo, localCurrencyCode),
+    ])
+    yield put(
+      fetchCurrentRateSuccess(
+        localCurrencyCode,
+        {
+          [Currency.Dollar]: usdRate,
+          [Currency.Euro]: euroRate,
+          [Currency.Celo]: celoRate,
+        },
+        Date.now()
+      )
+    )
   } catch (error) {
     Logger.error(`${TAG}@fetchLocalCurrencyRateSaga`, error)
     yield put(fetchCurrentRateFailure())

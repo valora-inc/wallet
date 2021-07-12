@@ -18,6 +18,7 @@ export interface Notification {
   maxVersion?: string
   countries?: string[]
   blockedCountries?: string[]
+  openExternal?: boolean
 }
 
 export interface IdToNotification {
