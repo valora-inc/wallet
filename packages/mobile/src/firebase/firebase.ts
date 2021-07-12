@@ -222,12 +222,12 @@ export function appRemoteFeatureFlagChannel() {
   return eventChannel((emit: any) => {
     const emitter = (fetchedRemotely: boolean) => {
       if (fetchedRemotely) {
-        console.log('Configs were retrieved from the backend and activated.')
+        Logger.debug('Configs were retrieved from the backend and activated.')
         emit({
           test_feature: remoteConfig().getString('test_feature'),
         })
       } else {
-        console.log(
+        Logger.debug(
           'No configs were fetched from the backend, and the local configs were already activated'
         )
       }
