@@ -26,7 +26,7 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
 
   // connection request
   if (link.includes('?')) {
-    yield call(initialiseWalletConnect, link)
+    yield call(initialiseWalletConnect, decodeURIComponent(link))
   }
 
   // action request, we can do nothing
