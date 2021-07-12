@@ -1,4 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { giveProfileAccess } from 'src/account/profileInfo'
@@ -10,7 +9,6 @@ import { calculateFee, FeeInfo } from 'src/fees/saga'
 import { transferGoldToken } from 'src/goldToken/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { e164NumberToAddressSelector } from 'src/identity/reducer'
-import { InviteBy } from 'src/invite/actions'
 import { sendInvite } from 'src/invite/saga'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { completePaymentRequest } from 'src/paymentRequest/actions'
@@ -32,6 +30,7 @@ import {
   getCurrencyAddress,
 } from 'src/tokens/saga'
 import { newTransactionContext } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -45,7 +44,7 @@ const STATIC_SEND_TOKEN_GAS_ESTIMATE = 200000
 
 export async function getSendTxGas(
   account: string,
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   params: BasicTokenTransfer,
   useStatic: boolean = true
 ): Promise<BigNumber> {
@@ -59,7 +58,7 @@ export async function getSendTxGas(
     const tx = await createTokenTransferTransaction(currency, params)
     const txParams = {
       from: account,
-      feeCurrency: currency === CURRENCY_ENUM.GOLD ? undefined : await getCurrencyAddress(currency),
+      feeCurrency: currency === Currency.Celo ? undefined : await getCurrencyAddress(currency),
     }
     const gas = await estimateGas(tx.txo, txParams)
     Logger.debug(`${TAG}/getSendTxGas`, `Estimated gas of ${gas.toString()}`)
@@ -72,13 +71,13 @@ export async function getSendTxGas(
 
 export async function getSendFee(
   account: string,
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   params: BasicTokenTransfer,
   includeDekFee: boolean = false,
-  dollarBalance?: string
+  balance: string
 ) {
   try {
-    if (dollarBalance && new BigNumber(params.amount).isGreaterThan(new BigNumber(dollarBalance))) {
+    if (new BigNumber(params.amount).isGreaterThan(new BigNumber(balance))) {
       throw new Error(ErrorMessages.INSUFFICIENT_BALANCE)
     }
 
@@ -143,7 +142,7 @@ function* sendPayment(
   recipientAddress: string,
   amount: BigNumber,
   comment: string,
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   feeInfo?: FeeInfo
 ) {
   try {
@@ -154,11 +153,12 @@ function* sendPayment(
 
     const context = newTransactionContext(TAG, 'Send payment')
     switch (currency) {
-      case CURRENCY_ENUM.GOLD: {
+      case Currency.Celo: {
         yield put(
           transferGoldToken({
             recipientAddress,
             amount: amount.toString(),
+            currency,
             comment: encryptedComment,
             feeInfo,
             context,
@@ -166,11 +166,13 @@ function* sendPayment(
         )
         break
       }
-      case CURRENCY_ENUM.DOLLAR: {
+      case Currency.Dollar:
+      case Currency.Euro: {
         yield put(
           transferStableToken({
             recipientAddress,
             amount: amount.toString(),
+            currency,
             comment: encryptedComment,
             feeInfo,
             context,
@@ -198,11 +200,11 @@ function* sendPayment(
 
 export function* sendPaymentOrInviteSaga({
   amount,
+  currency,
   comment,
   recipient,
   recipientAddress,
   feeInfo,
-  inviteMethod,
   firebasePendingRequestUid,
   fromModal,
 }: SendPaymentOrInviteAction) {
@@ -210,16 +212,9 @@ export function* sendPaymentOrInviteSaga({
     yield call(getConnectedUnlockedAccount)
 
     if (recipientAddress) {
-      yield call(sendPayment, recipientAddress, amount, comment, CURRENCY_ENUM.DOLLAR, feeInfo)
+      yield call(sendPayment, recipientAddress, amount, comment, currency, feeInfo)
     } else if (recipientHasNumber(recipient)) {
-      yield call(
-        sendInvite,
-        recipient.e164PhoneNumber,
-        inviteMethod || InviteBy.SMS,
-        amount,
-        CURRENCY_ENUM.DOLLAR,
-        feeInfo
-      )
+      yield call(sendInvite, recipient.e164PhoneNumber, amount, currency, feeInfo)
     }
 
     if (firebasePendingRequestUid) {

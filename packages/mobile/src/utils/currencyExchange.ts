@@ -1,38 +1,25 @@
 /* Helper functions for converting between stable and gold currencies */
 import BigNumber from 'bignumber.js'
-import { ExchangeRatePair } from 'src/exchange/reducer'
-import { CURRENCY_ENUM } from 'src/geth/consts'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 const TAG = 'utils/currencyExchange'
 
 type numberT = number | string | BigNumber | null
 
 export function getRateForMakerToken(
-  exchangeRatePair: ExchangeRatePair | null,
-  makerToken: CURRENCY_ENUM,
-  inputToken?: CURRENCY_ENUM // Token to convert from, defaults to makerToken
+  exchangeRates: Record<Currency, Record<Currency, string>> | null,
+  makerToken: Currency,
+  takerToken: Currency
 ) {
-  if (!exchangeRatePair) {
+  if (!exchangeRates) {
     return new BigNumber(0)
   }
 
-  let rateBN: BigNumber
-  if (makerToken === CURRENCY_ENUM.DOLLAR) {
-    rateBN = new BigNumber(exchangeRatePair.dollarMaker)
-  } else if (makerToken === CURRENCY_ENUM.GOLD) {
-    rateBN = new BigNumber(exchangeRatePair.goldMaker)
-  } else {
-    Logger.warn(TAG, `Unexpected token ${makerToken}`)
-    throw new Error(`Unexpected token ${makerToken}`)
-  }
+  const rateBN: BigNumber = new BigNumber(exchangeRates[makerToken][takerToken])
 
   if (rateBN.isZero()) {
     Logger.warn(TAG, `Rate for token ${makerToken} is 0`)
     return new BigNumber(0)
-  }
-
-  if (inputToken && inputToken !== makerToken) {
-    rateBN = rateBN.pow(-1) // Invert for takerToken -> makerToken rate
   }
 
   return rateBN
@@ -69,22 +56,22 @@ export function getNewTakerBalance(previousBalance: string | null, delta: BigNum
 
 export function getNewDollarBalance(
   dollarBalance: string | null,
-  makerToken: CURRENCY_ENUM,
+  makerToken: Currency,
   makerAmount: BigNumber,
   takerAmount: BigNumber
 ) {
-  return makerToken === CURRENCY_ENUM.DOLLAR
+  return makerToken === Currency.Dollar
     ? getNewMakerBalance(dollarBalance, makerAmount)
     : getNewTakerBalance(dollarBalance, takerAmount)
 }
 
 export function getNewGoldBalance(
   goldBalance: string | null,
-  makerToken: CURRENCY_ENUM,
+  makerToken: Currency,
   makerAmount: BigNumber,
   takerAmount: BigNumber
 ) {
-  return makerToken === CURRENCY_ENUM.GOLD
+  return makerToken === Currency.Celo
     ? getNewMakerBalance(goldBalance, makerAmount)
     : getNewTakerBalance(goldBalance, takerAmount)
 }

@@ -24,7 +24,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
-import { CurrencyCode } from 'src/config'
 import { selectProvider } from 'src/fiatExchanges/actions'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import {
@@ -35,7 +34,6 @@ import {
   SimplexQuote,
   sortProviders,
 } from 'src/fiatExchanges/utils'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import QuestionIcon from 'src/icons/QuestionIcon'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -46,6 +44,7 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -84,9 +83,10 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
   const { paymentMethod } = route.params
   const currencyToBuy = {
-    [CURRENCY_ENUM.GOLD]: CurrencyCode.CELO,
-    [CURRENCY_ENUM.DOLLAR]: CurrencyCode.CUSD,
-  }[route.params.selectedCrypto || CURRENCY_ENUM.DOLLAR]
+    [Currency.Celo]: CiCoCurrency.CELO,
+    [Currency.Dollar]: CiCoCurrency.CUSD,
+    [Currency.Euro]: CiCoCurrency.CEUR,
+  }[route.params.selectedCrypto]
 
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
@@ -119,11 +119,6 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       return
     }
 
-    if (!route.params.amount.fiat && !route.params.amount.crypto) {
-      console.error(TAG, 'No fiat or crypto purchase amount set')
-      return
-    }
-
     try {
       const providers = await fetchProviders({
         userLocation,
@@ -143,11 +138,16 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   const activeProviders = asyncProviders.result
 
   const cicoProviders: {
-    cashOut: CicoProvider[]
     cashIn: CicoProvider[]
+    cashOut: CicoProvider[]
   } = {
+    cashIn:
+      // Hacky way to only show Ramp if the selected cash-in currency is cEUR
+      // When redesigning flow, should accomodate this on backend
+      currencyToBuy === CiCoCurrency.CEUR
+        ? activeProviders?.filter((provider) => provider.cashIn && provider.name === 'Ramp') || []
+        : activeProviders?.filter((provider) => provider.cashIn).sort(sortProviders) || [],
     cashOut: activeProviders?.filter((provider) => provider.cashOut).sort(sortProviders) || [],
-    cashIn: activeProviders?.filter((provider) => provider.cashIn).sort(sortProviders) || [],
   }
 
   const providerOnPress = (provider: CicoProvider) => () => {

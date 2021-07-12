@@ -20,8 +20,8 @@ import {
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/reducer'
-import { setPhoneRecipientCache } from 'src/recipients/actions'
 import { contactsToRecipients } from 'src/recipients/recipient'
+import { setPhoneRecipientCache } from 'src/recipients/reducer'
 import { getAllContacts } from 'src/utils/contacts'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount } from 'src/web3/saga'
