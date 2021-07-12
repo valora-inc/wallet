@@ -5,7 +5,7 @@
   "requestDeclined": "Request Declined",
   "requestPaid": "Request Paid",
   "paymentRequestUpdateFailed": "Cannot update payment request",
-  "incomingPaymentRequestNotificationTitle": "{{name}} requested",
+  "incomingPaymentRequestNotificationTitle": "Request from {{name}}",
   "outgoingPaymentRequestNotificationTitle": "Waiting for {{name}}",
   "requestUnavailableHeader": "{{displayName}}'s account is unconfirmed",
   "requestUnavailableNoDisplayNameHeader": "Your contact's account is unconfirmed",
