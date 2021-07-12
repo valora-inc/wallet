@@ -12,6 +12,8 @@ import ntpClient from 'react-native-ntp-client'
 import i18n from 'src/i18n'
 import Logger from 'src/utils/Logger'
 
+const TAG = 'utils/time'
+
 // Source: https://github.com/webmania2014/angular-source1/blob/master/front/app/filters/tznames.js
 // Offsets reversed from original because moment returns with flipped sign
 const TIMEZONE_MAPPING: { [key: string]: string | any } = {
@@ -275,16 +277,19 @@ export const getDatetimeDisplayString = (timestamp: number, i18next: i18nType) =
 
 export const getRemoteTime = async () => {
   const getNetworkTime = promisify(ntpClient.getNetworkTime)
+  ntpClient.ntpReplyTimeout = 2000
+  const localTime = Date.now()
   try {
     const networkTime = await getNetworkTime('time.google.com', 123)
     return new Date(networkTime).getTime()
   } catch (error) {
+    Logger.error(TAG, 'failed first try', error)
     try {
       const networkTime = await getNetworkTime('time.cloudflare.com', 123)
       return new Date(networkTime).getTime()
     } catch (error) {
-      console.error('Error getting remote date: ', error)
-      return Date.now()
+      Logger.error(TAG, 'Error getting remote date', error)
+      return localTime
     }
   }
 }
@@ -296,7 +301,7 @@ export const clockInSync = async () => {
   const syncTime = await getRemoteTime()
   const drift = localTime - syncTime // in milliseconds
   Logger.info(
-    `clockInSync`,
+    `${TAG}/clockInSync`,
     `Local time: ${new Date(localTime).toLocaleString()} ` +
       `Remote time: ${new Date(syncTime).toLocaleString()} ` +
       `drift: ${drift} milliseconds`
