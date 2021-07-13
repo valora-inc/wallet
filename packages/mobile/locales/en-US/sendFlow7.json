@@ -96,7 +96,7 @@
     "button": "Confirm Account Number"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} has multiple accounts associated with it. {{displayName}} could have created a new {{appName}} account, or may have lost their phone or had their account compromised.",
+    "body1": "There are multiple accounts associated with {{e164PhoneNumber}}. In order to confirm that you have the right account, please scan their QR code or enter their account address. ",
     "body1NoDisplayName": "Your contact has multiple accounts associated with it. Your contact could have created a new {{appName}} account, or may have lost their phone or had their account compromised.",
     "body2": "You must scan their QR code or confirm their account number before transacting."
   },
