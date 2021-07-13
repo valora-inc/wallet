@@ -11,7 +11,7 @@
   },
   "contacts": {
     "header": "Conectar contatos",
-    "body": "Adicionar seus contatos facilita o envio e solicitação de pagamentos dos seus amigos. Conectar-se não envia convites para seus contatos.",
+    "body": "Adicionar seus contatos facilita o envio e solicitação de pagamentos dos seus amigos. Conectar-se não envia convites para seus contatos.\n\nSe você optar por sincronizar seus contatos, a versão criptografada dos números de telefone de seus contatos será usada por nosso serviço para descobrir quem de seus amigos usa a Valora, sem compartilhar informação pessoal diretamente.",
     "findSwitch": "Permita que seus contatos encontrem você",
     "syncing": {
       "loadingHeader": "Sincronizando...",
