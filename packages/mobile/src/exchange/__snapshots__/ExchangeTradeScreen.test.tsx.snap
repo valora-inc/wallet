@@ -5,6 +5,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
   edges={
     Array [
       "bottom",
+      "top",
     ]
   }
   style={
@@ -14,6 +15,169 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
     }
   }
 >
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "height": 56,
+        "justifyContent": "space-between",
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "height": "100%",
+          "justifyContent": "center",
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        hitSlop={
+          Object {
+            "bottom": 10,
+            "left": 10,
+            "right": 10,
+            "top": 10,
+          }
+        }
+        nativeBackgroundAndroid={
+          Object {
+            "attribute": "selectableItemBackgroundBorderless",
+            "rippleRadius": undefined,
+            "type": "ThemeAttrAndroid",
+          }
+        }
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        testID="CancelButton"
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#1AB775",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+                "paddingHorizontal": 24,
+              },
+              Object {
+                "color": "#2E3338",
+              },
+            ]
+          }
+        >
+          cancel
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "left": 60,
+          "position": "absolute",
+          "right": 60,
+        }
+      }
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        nativeBackgroundAndroid={
+          Object {
+            "attribute": "selectableItemBackground",
+            "rippleRadius": undefined,
+            "type": "ThemeAttrAndroid",
+          }
+        }
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "justifyContent": "center",
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Jost-Medium",
+                "fontSize": 16,
+                "lineHeight": 20,
+              }
+            }
+          >
+            global:loading
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                }
+              }
+              testID="HeaderCurrencyPicker"
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                exchangeFlow9:tokenBalance
+              </Text>
+              <svg
+                fill="none"
+                height={16}
+                viewBox="0 0 16 16"
+                width={16}
+              >
+                <path
+                  d="M3 6l5 5 5-5"
+                  stroke="#B4B9BD"
+                />
+              </svg>
+            </View>
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
   <RCTScrollView
     contentContainerStyle={
       Object {
@@ -156,10 +320,11 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
                 Array [
                   undefined,
                   Object {
-                    "color": "#2E3338",
+                    "color": undefined,
                   },
                 ]
               }
+              testID="undefined/value"
             >
               
               $
@@ -191,10 +356,11 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             $

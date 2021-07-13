@@ -74,6 +74,10 @@
       ".read": true,
       ".write": false
     },
+    "rewardsSenders": {
+      ".read": true,
+      ".write": false
+    },
     "dailyLimitRequest": {
       "$address": {
         ".write": false,

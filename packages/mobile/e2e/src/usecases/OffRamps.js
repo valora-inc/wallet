@@ -25,6 +25,9 @@ export default offRamps = () => {
       it('Then Should Be Able To Navigate To Providers', async () => {
         await element(by.id('FiatExchangeInput')).replaceText('2')
         await element(by.id('FiatExchangeNextButton')).tap()
+        await waitFor(element(by.id('Provider/Xanpool')))
+          .toBeVisible()
+          .withTimeout(20000)
         await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
         await expect(element(by.id('Icon/Xanpool'))).toExist()
         const imagePath = await device.takeScreenshot('cUSD Out Providers')
@@ -54,6 +57,9 @@ export default offRamps = () => {
       })
 
       it('Then Should Display Exchanges & Account Key', async () => {
+        await waitFor(element(by.id('Bittrex')))
+          .toBeVisible()
+          .withTimeout(20000)
         await expect(element(by.id('Bittrex'))).toBeVisible()
         await expect(element(by.id('CoinList Pro'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
@@ -97,6 +103,9 @@ export default offRamps = () => {
       })
 
       it('Then Should Display Exchanges & Account Key', async () => {
+        await waitFor(element(by.id('Binance')))
+          .toBeVisible()
+          .withTimeout(20000)
         await expect(element(by.id('Binance'))).toBeVisible()
         await expect(element(by.id('Bittrex'))).toBeVisible()
         await expect(element(by.id('Coinbase (CELO as CGLD)'))).toBeVisible()

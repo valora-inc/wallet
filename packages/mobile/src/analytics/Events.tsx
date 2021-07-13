@@ -138,6 +138,7 @@ export enum VerificationEvents {
   verification_cancel = 'verification_cancel',
   verification_timeout = 'verification_timeout',
 
+  verification_hash_cached = 'verification_hash_cached',
   verification_hash_retrieved = 'verification_hash_retrieved',
 
   verification_request_all_attestations_start = 'verification_request_all_attestations_start',
@@ -174,6 +175,22 @@ export enum VerificationEvents {
   verification_revoke_error = 'verification_revoke_error',
 
   verification_resend_messages = 'verification_resend_messages',
+
+  verification_recaptcha_started = 'verification_recaptcha_started',
+  verification_recaptcha_skipped = 'verification_recaptcha_skipped',
+  verification_recaptcha_success = 'verification_recaptcha_success',
+  verification_recaptcha_failure = 'verification_recaptcha_failure',
+  verification_recaptcha_canceled = 'verification_recaptcha_canceled',
+
+  verification_session_started = 'verification_session_started',
+
+  verification_already_completed = 'verification_already_completed',
+
+  verification_mtw_fetch_start = 'verification_mtw_fetch_start',
+  verification_mtw_fetch_success = 'verification_mtw_fetch_success',
+
+  verification_fetch_on_chain_data_start = 'verification_fetch_on_chain_data_start',
+  verification_fetch_on_chain_data_success = 'verification_fetch_on_chain_data_success',
 }
 
 export enum IdentityEvents {
@@ -250,6 +267,8 @@ export enum SendEvents {
   send_tx_complete = 'send_tx_complete', // when a send or invite transaction has successfully completed
   send_tx_error = 'send_tx_error', // when there is an error sending a transaction
 
+  token_selected = 'token_selected', // A token was selected in TokenBottomSheet.
+
   // related to the alert that is shown when sending to an unknown address
   check_account_alert_shown = 'check_account_alert_shown',
   check_account_do_not_ask_selected = 'check_account_do_not_ask_selected',
@@ -320,6 +339,8 @@ export enum CeloExchangeEvents {
   celo_withdraw_confirm = 'celo_withdraw_confirm', // when ‘withdraw’ is clicked on the review screen
   celo_withdraw_completed = 'celo_withdraw_completed', // when the transaction for the withdrawal is completed
   celo_withdraw_error = 'celo_withdraw_error', // when there's an error on the withdrawal transaction
+
+  celo_chart_tapped = 'celo_chart_tapped', // when user clicks the chart on exchange screen
 }
 
 export enum FiatExchangeEvents {

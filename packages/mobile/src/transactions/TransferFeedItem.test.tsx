@@ -7,7 +7,7 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { RecipientInfo } from 'src/recipients/recipient'
 import { TransferFeedItem } from 'src/transactions/TransferFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
-import { createMockStore, getMockI18nProps } from 'test/utils'
+import { amountFromComponent, createMockStore, getMockI18nProps } from 'test/utils'
 import {
   mockAccount,
   mockAccount2,
@@ -499,5 +499,57 @@ describe('transfer feed item renders correctly', () => {
     )
     expect(tree.queryByText(new RegExp(contactName))).toBeFalsy()
     expect(tree.queryByText(new RegExp(mockE164Number.replace('+', '\\+')))).toBeTruthy()
+  })
+  it('for received with a value between 0.01 and 0.001', () => {
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <TransferFeedItem
+          __typename="TokenTransfer"
+          status={TransactionStatus.Complete}
+          comment={''}
+          type={TokenTransactionType.Received}
+          hash={'0x'}
+          amount={{ value: '0.006', currencyCode: 'cUSD', localAmount: null }}
+          address={mockAccount}
+          timestamp={1}
+          commentKey={null}
+          addressToE164Number={{}}
+          phoneRecipientCache={mockPhoneRecipientCache}
+          recipientInfo={mockRecipientInfo}
+          recentTxRecipientsCache={{}}
+          invitees={[]}
+          account={''}
+          {...getMockI18nProps()}
+        />
+      </Provider>
+    )
+    const amountComponent = getByTestId('FeedItemAmountDisplay/value')
+    expect(amountFromComponent(amountComponent)).toEqual('+$0.008')
+  })
+  it('for received with a value lower than 0.001', () => {
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <TransferFeedItem
+          __typename="TokenTransfer"
+          status={TransactionStatus.Complete}
+          comment={''}
+          type={TokenTransactionType.Received}
+          hash={'0x'}
+          amount={{ value: '0.0006', currencyCode: 'cUSD', localAmount: null }}
+          address={mockAccount}
+          timestamp={1}
+          commentKey={null}
+          addressToE164Number={{}}
+          phoneRecipientCache={mockPhoneRecipientCache}
+          recipientInfo={mockRecipientInfo}
+          recentTxRecipientsCache={{}}
+          invitees={[]}
+          account={''}
+          {...getMockI18nProps()}
+        />
+      </Provider>
+    )
+    const amountComponent = getByTestId('FeedItemAmountDisplay/value')
+    expect(amountFromComponent(amountComponent)).toEqual('+<$0.001')
   })
 })

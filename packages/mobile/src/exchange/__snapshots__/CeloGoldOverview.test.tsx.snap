@@ -41,10 +41,11 @@ exports[`renders correctly when not ready 1`] = `
         Array [
           undefined,
           Object {
-            "color": "#2E3338",
+            "color": undefined,
           },
         ]
       }
+      testID="undefined/value"
     >
       
       
@@ -68,10 +69,11 @@ exports[`renders correctly when not ready 1`] = `
         Array [
           undefined,
           Object {
-            "color": "#2E3338",
+            "color": undefined,
           },
         ]
       }
+      testID="undefined/value"
     >
       
       -
@@ -121,10 +123,11 @@ exports[`renders correctly when ready 1`] = `
         Array [
           undefined,
           Object {
-            "color": "#2E3338",
+            "color": undefined,
           },
         ]
       }
+      testID="undefined/value"
     >
       
       
@@ -148,14 +151,15 @@ exports[`renders correctly when ready 1`] = `
         Array [
           undefined,
           Object {
-            "color": "#2E3338",
+            "color": undefined,
           },
         ]
       }
+      testID="undefined/value"
     >
       
       $
-      731.50
+      550.00
     </Text>
   </Text>
 </View>

@@ -15,7 +15,6 @@ import { CURRENCY_ENUM } from 'src/geth/consts'
 import { refreshAllBalances } from 'src/home/actions'
 import { importBackupPhraseFailure, importBackupPhraseSuccess } from 'src/import/actions'
 import { importBackupPhraseSaga, MNEMONIC_AUTOCORRECT_TIMEOUT } from 'src/import/saga'
-import { redeemInviteSuccess } from 'src/invite/actions'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
@@ -63,7 +62,6 @@ describe('Import wallet saga', () => {
         [call(uploadNameAndPicture)],
       ])
       .put(setBackupCompleted())
-      .put(redeemInviteSuccess())
       .put(refreshAllBalances())
       .put(importBackupPhraseSuccess())
       .run()
@@ -115,7 +113,6 @@ describe('Import wallet saga', () => {
         [call(uploadNameAndPicture)],
       ])
       .put(setBackupCompleted())
-      .put(redeemInviteSuccess())
       .put(refreshAllBalances())
       .put(importBackupPhraseSuccess())
       .run()

@@ -1,14 +1,7 @@
-import {
-  AccountAuthRequest,
-  Countries,
-  CURRENCY_ENUM,
-  SignTxRequest,
-  TxToSignParam,
-} from '@celo/utils'
+import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
 import { SessionTypes } from '@walletconnect/types'
 import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
-import { CurrencyCode } from 'src/config'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
@@ -21,6 +14,7 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
+import { CiCoCurrency, Currency } from 'src/utils/currencies'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -64,7 +58,7 @@ export type StackParamList = {
     | {
         navigatedFromSettings: boolean
       }
-  [Screens.BidaliScreen]: { currency: CURRENCY_ENUM }
+  [Screens.BidaliScreen]: { currency: Currency }
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountAuth]: {
@@ -84,26 +78,23 @@ export type StackParamList = {
   [Screens.EscrowedPaymentListScreen]: undefined
   [Screens.ExchangeHomeScreen]: undefined
   [Screens.ExchangeReview]: {
-    exchangeInput: {
-      makerToken: CURRENCY_ENUM
-      makerTokenBalance: string
-      inputToken: CURRENCY_ENUM
-      inputTokenDisplayName: string
-      inputAmount: BigNumber
-    }
+    makerToken: Currency
+    takerToken: Currency
+    celoAmount: BigNumber
+    stableAmount: BigNumber
+    inputToken: Currency
+    inputTokenDisplayName: string
+    inputAmount: BigNumber
   }
   [Screens.ExchangeTradeScreen]: {
-    makerTokenDisplay: {
-      makerToken: CURRENCY_ENUM
-      makerTokenBalance: string
-    }
+    buyCelo: boolean
   }
   [Screens.ExternalExchanges]: {
-    currency: CURRENCY_ENUM
+    currency: Currency
   }
   [Screens.FiatExchange]: undefined
   [Screens.FiatExchangeAmount]: {
-    currency: CURRENCY_ENUM
+    currency: Currency
     paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
     isCashIn: boolean
   }
@@ -114,22 +105,22 @@ export type StackParamList = {
   [Screens.MoonPayScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CurrencyCode
+    currencyToBuy: CiCoCurrency
   }
   [Screens.XanpoolScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CurrencyCode
+    currencyToBuy: CiCoCurrency
   }
   [Screens.RampScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CurrencyCode
+    currencyToBuy: CiCoCurrency
   }
   [Screens.TransakScreen]: {
     localAmount: number
     currencyCode: LocalCurrencyCode
-    currencyToBuy: CurrencyCode
+    currencyToBuy: CiCoCurrency
   }
   [Screens.Simplex]: {
     simplexQuote: SimplexQuote
@@ -192,7 +183,7 @@ export type StackParamList = {
   [Screens.Profile]: undefined
   [Screens.ProviderOptionsScreen]: {
     isCashIn?: boolean
-    selectedCrypto: CURRENCY_ENUM
+    selectedCrypto: Currency
     amount: {
       crypto: number
       fiat: number
@@ -260,7 +251,7 @@ export type StackParamList = {
     | { showSkipDialog?: boolean; hideOnboardingStep?: boolean; selectedCountryCodeAlpha2?: string }
     | undefined
   [Screens.VerificationInputScreen]: { showHelpDialog: boolean } | undefined
-  [Screens.VerificationLoadingScreen]: undefined
+  [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectSessionRequest]: {
