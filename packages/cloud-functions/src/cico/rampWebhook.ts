@@ -9,7 +9,9 @@ import { Providers } from './Providers'
 import { flattenObject } from './utils'
 
 const RAMP_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_ramp'
-const RAMP_KEY = readFileSync(`./config/${RAMP_DATA.pem_file}`).toString()
+const RAMP_KEY = RAMP_DATA.pem_file
+  ? readFileSync(`./config/${RAMP_DATA.pem_file}`).toString()
+  : null
 const RAMP_SIGNATURE_HEADER = 'X-Body-Signature'
 
 interface RampRequestBody {
@@ -76,13 +78,28 @@ interface AssetInfo {
 }
 
 const verifyRampSignature = (signature: string | undefined, body: RampRequestBody) => {
-  if (!signature || !body) {
+  if (!signature || !body || !RAMP_KEY) {
     return false
   }
 
   const verifier = crypto.createVerify('sha256')
   verifier.update(Buffer.from(stableStringify(body)))
   return verifier.verify(RAMP_KEY, signature, 'base64')
+}
+
+export const parseRampEvent = async (reqBody: any) => {
+  const { type, purchase }: RampRequestBody = reqBody
+  const { receiverAddress, finalTxHash, status } = purchase
+  console.info(`Received ${type} event with status ${status} for ${receiverAddress}`)
+
+  if (type === RampWebhookType.Released && finalTxHash) {
+    console.info(`Tx hash: ${finalTxHash}`)
+    saveTxHashProvider(receiverAddress, finalTxHash, Providers.Ramp)
+  }
+
+  // Converting actions array to string to allow for easy storage
+  const data = flattenObject({ type, ...purchase, actions: JSON.stringify(purchase.actions) })
+  await trackEvent(RAMP_BIG_QUERY_EVENT_TABLE, data)
 }
 
 export const rampWebhook = functions.https.onRequest(async (req, res) => {
@@ -92,18 +109,7 @@ export const rampWebhook = functions.https.onRequest(async (req, res) => {
       throw new Error('Invalid or missing signature')
     }
 
-    const { type, purchase }: RampRequestBody = req.body
-    const { receiverAddress, finalTxHash, status } = purchase
-    console.info(`Received ${type} event with status ${status} for ${receiverAddress}`)
-
-    if (type === RampWebhookType.Released && finalTxHash) {
-      console.info(`Tx hash: ${finalTxHash}`)
-      saveTxHashProvider(receiverAddress, finalTxHash, Providers.Ramp)
-    }
-
-    // Converting actions array to string to allow for easy storage
-    const data = flattenObject({ type, ...purchase, actions: JSON.stringify(purchase.actions) })
-    await trackEvent(RAMP_BIG_QUERY_EVENT_TABLE, data)
+    await parseRampEvent(req.body)
 
     res.status(204).send()
   } catch (error) {

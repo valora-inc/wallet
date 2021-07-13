@@ -59,4 +59,10 @@ currency_isSuspended: BOOLEAN,
 currency_isSupportedInUS: BOOLEAN,
 currency_notAllowedUSStates: STRING,
 currency_isSellSupported: BOOLEAN,
-currency_confirmationsRequired: FLOAT
+currency_confirmationsRequired: FLOAT,
+escalationReasons: STRING,
+result: STRING,
+rejectType: STRING,
+resultDescription: STRING,
+level: INTEGER,
+rejections: INTEGER

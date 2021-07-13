@@ -25,13 +25,6 @@ describe('Moonpay cash in', () => {
     jest.clearAllMocks()
   })
 
-  // TODO: Create mocks for the new Moonpay body
-  // Add tests for the other webhooks
-  // Scrape data from the logs of failed events
-  // See what data can be ported over from existing table
-  // Explore using non-relational database the processing data into bigquery
-  // Explore text base log alerating (see notes)
-
   it('POST /moonpay - success', async () => {
     global.Buffer.compare = () => 0
     const mockMoonpaySignature =

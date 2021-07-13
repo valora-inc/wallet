@@ -35,12 +35,16 @@ interface XanpoolEventPayload {
   }
 }
 
+export const parseXanpoolEvent = async (reqBody: any) => {
+  const { timestamp, message, payload }: XanpoolEventPayload = reqBody
+  const data = flattenObject({ timestamp, message, ...payload })
+  await trackEvent(XANPOOL_BIG_QUERY_EVENT_TABLE, data)
+}
+
 // This needs to be all lowercase due to a bug in Xanpool's dashboard
 export const xanpoolwebhook = functions.https.onRequest(async (req, res) => {
   try {
-    const { timestamp, message, payload }: XanpoolEventPayload = req.body
-    const data = flattenObject({ timestamp, message, ...payload })
-    await trackEvent(XANPOOL_BIG_QUERY_EVENT_TABLE, data)
+    await parseXanpoolEvent(req.body)
 
     res.status(204).send()
   } catch (error) {

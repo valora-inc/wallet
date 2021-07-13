@@ -7,7 +7,7 @@ import { Providers } from './Providers'
 import { flattenObject } from './utils'
 
 const MOONPAY_SIGNATURE_HEADER = 'Moonpay-Signature-V2'
-const MOONPAY_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_moonpay'
+export const MOONPAY_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_moonpay'
 
 // https://www.moonpay.com/dashboard/api_reference/client_side_api/#transactions
 interface MoonpayRequestBody {
@@ -94,6 +94,12 @@ interface MoonpayTransaction {
     confirmationsRequired: number
   }
   externalCustomerId: string
+  escalationReasons?: string[]
+  result: string
+  rejectType: string
+  resultDescription: string
+  level: number
+  rejections: number
 }
 
 enum MoonpayTxStatus {
@@ -140,6 +146,32 @@ const verifyMoonPaySignature = (signatureHeader: string | undefined, body: strin
   return Buffer.compare(signatureBuffer, expectedSignature) === 0
 }
 
+export const parseMoonpayEvent = async (reqBody: any) => {
+  const { type, data, externalCustomerId }: MoonpayRequestBody = reqBody
+  const { walletAddress, cryptoTransactionId, status } = data
+  console.info(`Received ${type} event with status ${status} for ${walletAddress}`)
+
+  if (cryptoTransactionId) {
+    saveTxHashProvider(walletAddress, cryptoTransactionId, Providers.Moonpay)
+  }
+
+  const flattenedData = flattenObject({
+    ...data,
+    bankDepositInformation: JSON.stringify(data?.bankDepositInformation),
+    currency: {
+      ...data.currency,
+      notAllowedUSStates: JSON.stringify(data?.currency?.notAllowedUSStates),
+    },
+    escalationReasons: JSON.stringify(data?.escalationReasons),
+  })
+
+  await trackEvent(MOONPAY_BIG_QUERY_EVENT_TABLE, {
+    type,
+    externalCustomerId,
+    ...flattenedData,
+  })
+}
+
 export const moonpayWebhook = functions.https.onRequest(async (req, res) => {
   try {
     const validSignature = verifyMoonPaySignature(
@@ -151,28 +183,7 @@ export const moonpayWebhook = functions.https.onRequest(async (req, res) => {
       throw new Error('Invalid or missing signature')
     }
 
-    const { type, data, externalCustomerId }: MoonpayRequestBody = req.body
-    const { walletAddress, cryptoTransactionId, status } = data
-    console.info(`Received ${type} event with status ${status} for ${walletAddress}`)
-
-    if (cryptoTransactionId) {
-      saveTxHashProvider(walletAddress, cryptoTransactionId, Providers.Moonpay)
-    }
-
-    const flattenedData = flattenObject({
-      ...data,
-      bankDepositInformation: JSON.stringify(data.bankDepositInformation),
-      currency: {
-        ...data.currency,
-        notAllowedUSStates: JSON.stringify(data.currency.notAllowedUSStates),
-      },
-    })
-
-    await trackEvent(MOONPAY_BIG_QUERY_EVENT_TABLE, {
-      type,
-      externalCustomerId,
-      ...flattenedData,
-    })
+    await parseMoonpayEvent(req.body)
 
     res.status(204).send()
   } catch (error) {

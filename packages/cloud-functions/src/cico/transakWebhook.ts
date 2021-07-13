@@ -162,47 +162,51 @@ enum TransakStatus {
   AWAITING_PAYMENT_FROM_USER = 'AWAITING_PAYMENT_FROM_USER',
 }
 
+export const parseTransakEvent = async (reqBody: TransakEventPayload) => {
+  const {
+    eventID,
+    webhookData: { walletAddress, status, transactionHash },
+  } = reqBody
+
+  console.info(`Received ${eventID} event with status ${status} for ${walletAddress}`)
+
+  if (transactionHash) {
+    saveTxHashProvider(walletAddress, transactionHash, Providers.Transak)
+  }
+
+  const data = (() => {
+    const dataObj: any = {}
+    if (reqBody) {
+      for (const [key, value] of Object.entries(reqBody.webhookData)) {
+        // Removing sensetive props and avoiding a duplicate cryptocurrency prop
+        if (
+          key !== 'cryptocurrency' &&
+          key !== 'fiatliquidityProviderData' &&
+          key !== 'statusHistories'
+        ) {
+          dataObj[key] = value
+        }
+      }
+
+      // Add relevant data from parent object and omit `fiatliquidityProviderData` object
+      dataObj.eventID = eventID
+      dataObj.liquidityProvider = reqBody.webhookData?.fiatliquidityProviderData?.name
+      dataObj.failureReason =
+        reqBody.webhookData?.fiatliquidityProviderData?.transferData?.failureReason
+    }
+    return dataObj
+  })()
+
+  await trackEvent(TRANSAK_BIG_QUERY_EVENT_TABLE, data)
+}
+
 export const transakWebhook = functions.https.onRequest(async (request, response) => {
   let decodedData: TransakEventPayload | null = null
 
   try {
     decodedData = jwt.verify(request.body.data, TRANSAK_DATA.private_key) as TransakEventPayload
 
-    const {
-      eventID,
-      webhookData: { walletAddress, status, transactionHash },
-    } = decodedData
-
-    console.info(`Received ${eventID} event with status ${status} for ${walletAddress}`)
-
-    if (transactionHash) {
-      saveTxHashProvider(walletAddress, transactionHash, Providers.Transak)
-    }
-
-    const data = (() => {
-      const dataObj: any = {}
-      if (decodedData) {
-        for (const [key, value] of Object.entries(decodedData.webhookData)) {
-          // Removing sensetive props and avoiding a duplicate cryptocurrency prop
-          if (
-            key !== 'cryptocurrency' &&
-            key !== 'fiatliquidityProviderData' &&
-            key !== 'statusHistories'
-          ) {
-            dataObj[key] = value
-          }
-        }
-
-        // Add relevant data from parent object and omit `fiatliquidityProviderData` object
-        dataObj.eventID = eventID
-        dataObj.liquidityProvider = decodedData.webhookData?.fiatliquidityProviderData?.name
-        dataObj.failureReason =
-          decodedData.webhookData?.fiatliquidityProviderData?.transferData?.failureReason
-      }
-      return dataObj
-    })()
-
-    await trackEvent(TRANSAK_BIG_QUERY_EVENT_TABLE, data)
+    await parseTransakEvent(decodedData)
 
     response.status(204).send()
   } catch (error) {
