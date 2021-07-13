@@ -116,7 +116,7 @@
     "header": "Locating an Account Address",
     "body1": "Your Account Address is located in the menu. Open the menu by tapping the menu icon in the top left corner.",
     "body2": "Your Account Address is near the bottom of the menu.",
-    "body3": "Account numbers begin with \"0x\" and are 42 characters long"
+    "body3": "Account Addresses begin with \"0x\" and are 42 characters long"
   },
   "transferAddressChanged": "This contact has changed their Account Address. This payment was sent to:",
   "addressConfirmed": "Account number confirmed",
