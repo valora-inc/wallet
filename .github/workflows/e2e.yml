@@ -85,7 +85,6 @@ jobs:
           export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest:$PATH
           export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH
           export PATH=$ANDROID_SDK_ROOT/emulator:$PATH
-          adb emu kill
           cd packages/mobile
           yarn run test:e2e:android -w 1
       # Publish Test Results
