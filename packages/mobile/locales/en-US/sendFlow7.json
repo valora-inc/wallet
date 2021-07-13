@@ -107,13 +107,13 @@
     "body1Full": "Please ask {{displayName}} for their account number.",
     "body1FullNoDisplayName": "Please ask your contact for their account number.",
     "body2Full": "We strongly recommend asking in person or over the phone, through WhatsApp or Messenger, or by email. For security, please do not use text messaging (SMS).",
-    "help": "Help locating an account number",
+    "help": "Where can I find an Account Address?",
     "submit": "Submit"
   },
   "accountInputHeaderPartial": "Last 4 Digits",
   "accountInputHeaderFull": "Account Number",
   "helpModal": {
-    "header": "Locating an Account Number",
+    "header": "Locating an Account Address",
     "body1": "Account numbers (also known as addresses) are located in the menu. From the Home screen, open the menu by tapping the icon in the top left corner.",
     "body2": "The account number is near the bottom of the menu.",
     "body3": "Account numbers begin with \"0x\" and are 42 characters long"
