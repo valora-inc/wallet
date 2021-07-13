@@ -11,13 +11,13 @@ import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { storeMnemonic } from 'src/backup/utils'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import { refreshAllBalances } from 'src/home/actions'
 import { importBackupPhraseFailure, importBackupPhraseSuccess } from 'src/import/actions'
 import { importBackupPhraseSaga, MNEMONIC_AUTOCORRECT_TIMEOUT } from 'src/import/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { fetchTokenBalanceInWeiWithRetry } from 'src/tokens/saga'
+import { Currency } from 'src/utils/currencies'
 import { assignAccountFromPrivateKey, waitWeb3LastBlock } from 'src/web3/saga'
 
 const mockPhraseValid =
@@ -103,7 +103,7 @@ describe('Import wallet saga', () => {
         [select(currentLanguageSelector), 'english'],
         // Respond only to the true correct address with a positive balance.
         [
-          fork(fetchTokenBalanceInWeiWithRetry, CURRENCY_ENUM.DOLLAR, mockAccount),
+          fork(fetchTokenBalanceInWeiWithRetry, Currency.Dollar, mockAccount),
           dynamic(mockBalanceTask(10)),
         ],
         [matchers.fork.fn(fetchTokenBalanceInWeiWithRetry), dynamic(mockBalanceTask())],
