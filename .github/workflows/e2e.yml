@@ -77,6 +77,8 @@ jobs:
         run: yarn
       - name: Build mobile dependencies
         run: yarn build --scope @celo/mobile --include-filtered-dependencies
+      - name: Kill existing emulator
+        run: adb emu kill
       - name: Run E2E tests
         run: |
           export ANDROID_SDK_ROOT=$HOME/android-tools
