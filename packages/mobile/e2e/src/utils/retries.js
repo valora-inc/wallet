@@ -18,7 +18,7 @@ export const launchApp = async (
         throw error
       }
     },
-    { retries: 5, delay: 10000, timeout: 120000 }
+    { retries: 5, delay: 10000, timeout: 300000 }
   )
 }
 
@@ -33,6 +33,6 @@ export const reloadReactNative = async () => {
         await launchApp()
       }
     },
-    { retries: 5, delay: 10000, timeout: 120000 }
+    { retries: 5, delay: 10000, timeout: 300000 }
   )
 }
