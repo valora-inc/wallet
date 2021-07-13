@@ -93,7 +93,7 @@
   "confirmAccount": {
     "header": "Please confirm {{displayName}}'s account",
     "headerNoDisplayName": "Please confirm your contact's account",
-    "button": "Confirm Account Number"
+    "button": "Confirm Account Address"
   },
   "secureSendExplanation": {
     "body1": "There are multiple accounts associated with {{e164PhoneNumber}}. In order to confirm that you have the right account, please scan their QR code or enter their account address. ",
@@ -101,8 +101,8 @@
     "body2": "You must scan their QR code or confirm their account number before transacting."
   },
   "confirmAccountNumber": {
-    "title": "Confirm Account Number",
-    "bodyPartial": "Please ask {{displayName}} for the last four digits of their account number. It's safest to do this in person or by phone.",
+    "title": "Confirm Account Address",
+    "bodyPartial": "Please ask {{displayName}} for the last four digits of their Account Address. It's safest to do this in person or by phone call.",
     "bodyPartialNoDisplayName": "Please ask your contact for the last four digits of their account number. It's safest to do this in person or by phone.",
     "body1Full": "Please ask {{displayName}} for their account number.",
     "body1FullNoDisplayName": "Please ask your contact for their account number.",
