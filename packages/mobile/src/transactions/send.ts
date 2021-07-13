@@ -218,7 +218,7 @@ export function* sendTransaction(
   waitForBlocks?: number
 ) {
   const sendTxMethod = function* (nonce?: number) {
-    const { receipt } = yield call(
+    const { receipt, confirmation } = yield call(
       sendTransactionPromises,
       tx,
       account,
@@ -228,12 +228,14 @@ export function* sendTransaction(
       gasPrice,
       nonce
     )
+    yield confirmation
+
     if (waitForBlocks) {
       const { number: initialBlockNumber } = yield call(getLatestBlock)
       while (true) {
         yield delay(500)
         const { number: blockNumber } = yield call(getLatestBlock)
-        if (initialBlockNumber + waitForBlocks < blockNumber) {
+        if (initialBlockNumber + waitForBlocks <= blockNumber) {
           break
         }
       }
