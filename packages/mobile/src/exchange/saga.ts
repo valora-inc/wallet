@@ -203,33 +203,12 @@ export function* doFetchExchangeRate(action: FetchExchangeRateAction) {
   }
 }
 
-let qlogBuffer: any = []
-function qlog(n: any, ...content: any) {
-  console.log(
-    '\n' + '-'.repeat(80) + '\n' + '-'.repeat(70) + '    ' + n + '\n' + '-'.repeat(80) + '\n'
-  )
-  console.log(...content)
-  console.log('\n' + '-'.repeat(80) + '\n')
-  qlogBuffer.push([n, content])
-}
-function fullqlog() {
-  let log = 'Full log \n'
-  qlogBuffer.forEach(([n, content]: any) => {
-    log += `  ${n} >  \n`
-    log += JSON.stringify(content, null, 2)
-    log += `\n---------\n`
-  })
-  console.log(log)
-  qlogBuffer = []
-}
-
 export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
   Logger.debug(`${TAG}@exchangeGoldAndStableTokens`, 'Exchanging gold and stable token')
   const { makerToken, makerAmount, takerToken, inputAmount } = action
   const isStableToGold = makerToken === Currency.Dollar
   const isInputStable = makerAmount.isEqualTo(inputAmount) === isStableToGold
-  const isContractBuy = isStableToGold !== isInputStable
-  qlog(1, { makerToken, makerAmount, takerToken, inputAmount }, { isStableToGold, isInputStable })
+
   Logger.debug(TAG, `Exchanging ${makerAmount.toString()} of token ${makerToken}`)
   let context: TransactionContext | null = null
   try {
@@ -254,7 +233,19 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       throw new Error('Invalid exchange rate')
     }
 
-    context = yield call(createStandbyTx, makerToken, inputAmount, takerToken, exchangeRate)
+    const standbyTxInValue = inputAmount.multipliedBy(
+      isInputStable === !isStableToGold ? exchangeRate : 1
+    )
+    const standbyTxOutValue = inputAmount.multipliedBy(
+      isInputStable !== !isStableToGold ? exchangeRate.pow(-1) : 1
+    )
+    context = yield call(
+      createStandbyTx,
+      makerToken,
+      standbyTxInValue,
+      takerToken,
+      standbyTxOutValue
+    )
 
     const contractKit = yield call(getContractKit)
     const stableToken = (makerToken === Currency.Celo ? takerToken : makerToken) as StableCurrency
@@ -305,14 +296,6 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
     )
     const updatedTakerAmount = getTakerAmount(makerAmount, updatedExchangeRate)
 
-    qlog(
-      2,
-      { tokenExchangeRate },
-      inputAmount.multipliedBy(isInputStable ? 1 : tokenExchangeRate).toString(),
-      minimumTakerAmount.toString(),
-      updatedTakerAmount.toString()
-    )
-
     if (minimumTakerAmount[isStableToGold ? 'isLessThan' : 'isGreaterThan'](updatedTakerAmount)) {
       ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_error, {
         error: `Not receiving enough ${makerToken}. Expected ${minimumTakerAmount} but received ${updatedTakerAmount.toString()}`,
@@ -333,13 +316,6 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       TAG,
       `Will receive at least ${convertedTakerAmount}
       wei for ${convertedMakerAmount} wei of ${makerToken}`
-    )
-
-    qlog(
-      3,
-      !isStableToGold,
-      convertedMakerAmount.dividedBy(10 ** 18).toString(),
-      convertedTakerAmount.dividedBy(10 ** 18).toString()
     )
 
     // Generate and send a transaction to approve payment to the exchange.
@@ -369,19 +345,6 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
     Logger.debug(TAG, `Transaction approved: ${util.inspect(approveTx.txo.arguments)}`)
 
     contractKit.defaultAccount = account
-
-    qlog(
-      6,
-      {
-        isStableToGold,
-        isInputStable,
-        p1: isStableToGold !== isInputStable,
-        p4: !isInputStable,
-        er: tokenExchangeRate,
-      },
-      convertedMakerAmount.dividedBy(10 ** 18).toString(),
-      convertedTakerAmount.dividedBy(10 ** 18).toString()
-    )
 
     const tx: CeloTransactionObject<string> = yield call(
       isStableToGold !== isInputStable ? exchangeContract.buy : exchangeContract.sell,
@@ -434,16 +397,14 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
 
     yield put(showErrorOrFallback(error, ErrorMessages.EXCHANGE_FAILED))
   }
-  fullqlog()
 }
 
 function* createStandbyTx(
   inToken: Currency,
-  receiveAmount: BigNumber,
+  inValue: BigNumber,
   outToken: Currency,
-  exchangeRate: BigNumber
+  outValue: BigNumber
 ) {
-  const inValue = receiveAmount.multipliedBy(exchangeRate)
   const context = newTransactionContext(TAG, `Exchange ${inToken}`)
   yield put(
     addStandbyTransaction({
@@ -453,7 +414,7 @@ function* createStandbyTx(
       inCurrency: inToken,
       inValue: inValue.toString(),
       outCurrency: outToken,
-      outValue: receiveAmount.toString(),
+      outValue: outValue.toString(),
       timestamp: Math.floor(Date.now() / 1000),
     })
   )
