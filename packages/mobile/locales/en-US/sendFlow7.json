@@ -62,7 +62,7 @@
   "writeStorageNeededForQrDownload": "Storage write permission is needed for downloading the QR code",
   "cameraScanInfo": "Center code in the box above",
   "cameraNotAuthorizedTitle": "Enable Camera",
-  "cameraNotAuthorizedDescription": "Please enable the Camera in your phone’s Settings. You’ll need it to scan QR codes.",
+  "cameraNotAuthorizedDescription": "Please enable Camera access in your phone’s Settings. You’ll need it to scan QR codes.",
   "cameraSettings": "Settings",
   "toSentOrRequestPayment": "to send or request payment",
   "reminderSent": "Reminder Sent",
@@ -118,7 +118,7 @@
     "body2": "Your Account Address is near the bottom of the menu.",
     "body3": "Account numbers begin with \"0x\" and are 42 characters long"
   },
-  "transferAddressChanged": "This contact changed their Account Address since the transaction. This payment was sent to:",
+  "transferAddressChanged": "This contact has changed their Account Address. This payment was sent to:",
   "addressConfirmed": "Account number confirmed",
   "sending": "Sending",
   "feeActual": "Fees",
