@@ -96,7 +96,7 @@
     "button": "Confirmar o número da conta"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} tem várias contas associadas a ele. {{displayName}} pode ter criado uma nova conta na {{appName}}, pode ter perdido seu celular ou teve a conta comprometida.",
+    "body1": "{{e164PhoneNumber}} tem várias contas associadas a ele. {{displayName}} pode ter criado uma nova conta no {{appName}}, pode ter perdido seu celular ou teve a conta comprometida.",
     "body1NoDisplayName": "Seu contato possui várias contas associadas a ele. Seu contato pode ter criado uma nova conta na {{appName}}, pode ter perdido o celular ou teve a conta comprometida.",
     "body2": "Você deve escanear o QR code ou confirmar o número da conta antes de realizar a transação."
   },
