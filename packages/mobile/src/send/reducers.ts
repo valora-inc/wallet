@@ -31,8 +31,8 @@ const initialState = {
   recentRecipients: [],
   recentPayments: [],
   inviteRewardsEnabled: false,
-  inviteRewardCusd: 0,
-  inviteRewardWeeklyLimit: 0,
+  inviteRewardCusd: 1,
+  inviteRewardWeeklyLimit: 20,
   lastUsedCurrency: Currency.Dollar,
   showSendToAddressWarning: true,
 }
