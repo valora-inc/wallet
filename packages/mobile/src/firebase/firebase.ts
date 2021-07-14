@@ -214,6 +214,13 @@ export function appVersionDeprecationChannel() {
   })
 }
 
+/*
+We use firebase remote config to manage feature flags.
+https://firebase.google.com/docs/remote-config
+
+This also allows us to run AB tests.
+https://firebase.google.com/docs/ab-testing/abtest-config
+*/
 export function appRemoteFeatureFlagChannel() {
   if (!FIREBASE_ENABLED) {
     return null
