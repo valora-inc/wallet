@@ -85,7 +85,6 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
             testID="IncomingPaymentRequestNotification/FAKE_ID_1/Amount"
           >
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -340,7 +339,6 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
             testID="IncomingPaymentRequestNotification/FAKE_ID_1/Amount"
           >
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
