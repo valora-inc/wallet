@@ -431,6 +431,10 @@ export enum RewardsEvents {
   rewards_screen_cta_pressed = 'rewards_screen_cta_pressed',
 }
 
+export enum FeatureFlagsEvents {
+  feature_flags_loaded = 'feature_flags_loaded',
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -451,3 +455,4 @@ export type AnalyticsEventType =
   | PerformanceEvents
   | NavigationEvents
   | RewardsEvents
+  | FeatureFlagsEvents

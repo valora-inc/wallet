@@ -5,6 +5,7 @@ import {
   CeloExchangeEvents,
   ContractKitEvents,
   EscrowEvents,
+  FeatureFlagsEvents,
   FeeEvents,
   FiatExchangeEvents,
   GethEvents,
@@ -905,6 +906,12 @@ interface RewardsProperties {
   }
 }
 
+interface FeatureFlagsProperties {
+  [FeatureFlagsEvents.feature_flags_loaded]: {
+    flags: string
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -925,4 +932,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   ContractKitEventsProperties &
   PerformanceProperties &
   NavigationProperties &
-  RewardsProperties
+  RewardsProperties &
+  FeatureFlagsProperties

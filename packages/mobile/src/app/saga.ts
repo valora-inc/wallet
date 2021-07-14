@@ -11,7 +11,7 @@ import {
   takeEvery,
   takeLatest,
 } from 'redux-saga/effects'
-import { AppEvents } from 'src/analytics/Events'
+import { AppEvents, FeatureFlagsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   Actions,
@@ -120,7 +120,9 @@ export function* appRemoteFeatureFlagSaga() {
   try {
     while (true) {
       const flags: RemoteFeatureFlags = yield take(remoteFeatureFlagChannel)
-      Logger.info(TAG, 'Updated feature flags', JSON.stringify(flags))
+      const flagsStr = JSON.stringify(flags)
+      Logger.info(TAG, 'Updated feature flags', flagsStr)
+      ValoraAnalytics.track(FeatureFlagsEvents.feature_flags_loaded, { flags: flagsStr })
       yield put(updateFeatureFlags(flags))
     }
   } catch (error) {
