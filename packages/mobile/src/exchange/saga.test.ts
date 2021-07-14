@@ -64,6 +64,7 @@ describe(exchangeGoldAndStableTokens, () => {
       makerToken: Currency.Celo,
       takerToken: Currency.Dollar,
       makerAmount: new BigNumber(SELL_AMOUNT),
+      inputAmount: new BigNumber(SELL_AMOUNT),
     }
     await expectSaga(exchangeGoldAndStableTokens, exchangeGoldAndStableTokensAction)
       .provide([
@@ -95,6 +96,7 @@ describe(exchangeGoldAndStableTokens, () => {
       makerToken: Currency.Celo,
       makerAmount: new BigNumber(SELL_AMOUNT),
       takerToken: Currency.Dollar,
+      inputAmount: new BigNumber(SELL_AMOUNT),
     }
     await expectSaga(exchangeGoldAndStableTokens, exchangeGoldAndStableTokensAction)
       .provide([
