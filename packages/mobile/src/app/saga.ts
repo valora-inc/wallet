@@ -263,6 +263,10 @@ export function* appSaga() {
   yield spawn(runVerificationMigration)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
   // DO NOT MERGE
-  const result = yield call(isGooglePlayServicesAvailable)
-  Logger.info(TAG, `Result of check to isGooglePlayServicesAvailable`, result)
+  try {
+    const result = yield call(isGooglePlayServicesAvailable)
+    Logger.info(TAG, `Result of check to isGooglePlayServicesAvailable`, result)
+  } catch (e) {
+    Logger.error(TAG, `Error in check to isGooglePlayServicesAvailable`, e)
+  }
 }

@@ -29,7 +29,7 @@ public class GooglePlayServicesAvailability extends ReactContextBaseJavaModule {
         .getInstance()
         .isGooglePlayServicesAvailable(this.getCurrentActivity());
       final ConnectionResult result = new ConnectionResult(code);
-      promise.resolve(result.toString());
+      promise.resolve(result.getErrorCode());
     } catch (Exception e) {
       promise.reject(
         "GooglePlayServicesAvailability Error",
