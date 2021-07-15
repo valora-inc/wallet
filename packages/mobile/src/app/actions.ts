@@ -33,6 +33,7 @@ export enum Actions {
   APP_MOUNTED = 'APP/APP_MOUNTED',
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
   VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
+  SET_GOOGLE_PLAY_SERVICES_AVAILABILITY = 'APP/SET_GOOGLE_PLAY_SERVICES_AVAILABILITY',
 }
 
 export interface SetAppState {
@@ -130,6 +131,11 @@ export interface VerificationMigrationRanAction {
   now: number
 }
 
+export interface SetGooglePlayServicesAvailability {
+  type: Actions.SET_GOOGLE_PLAY_SERVICES_AVAILABILITY
+  available: boolean
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -150,6 +156,7 @@ export type ActionTypes =
   | AppMounted
   | AppUnmounted
   | VerificationMigrationRanAction
+  | SetGooglePlayServicesAvailability
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -261,4 +268,11 @@ export const verificationMigrationRan = (
   mtwAddress,
   isVerified,
   now: Date.now(),
+})
+
+export const setGooglePlayServicesAvailability = (
+  available: boolean
+): SetGooglePlayServicesAvailability => ({
+  type: Actions.SET_GOOGLE_PLAY_SERVICES_AVAILABILITY,
+  available,
 })

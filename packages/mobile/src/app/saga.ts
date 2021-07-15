@@ -22,6 +22,7 @@ import {
   OpenUrlAction,
   SetAppState,
   setAppState,
+  setGooglePlayServicesAvailability,
   setLanguage,
   updateFeatureFlags,
 } from 'src/app/actions'
@@ -41,7 +42,10 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { Currency } from 'src/utils/currencies'
-import { isGooglePlayServicesAvailable } from 'src/utils/googleServices'
+import {
+  GooglePlayServicesAvailability,
+  isGooglePlayServicesAvailable,
+} from 'src/utils/googleServices'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
@@ -95,6 +99,20 @@ export function* appVersionSaga() {
       appVersionChannel.close()
     }
   }
+}
+
+// Check the availability of Google Play Services. Log and report the result to
+export function* checkGooglePlayServicesSaga() {
+  let result: GooglePlayServicesAvailability
+  try {
+    result = yield call(isGooglePlayServicesAvailable)
+    Logger.info(TAG, `Result of check to isGooglePlayServicesAvailable`, result)
+  } catch (e) {
+    Logger.error(TAG, `Error in check to isGooglePlayServicesAvailable`, e)
+    return
+  }
+
+  yield put(setGooglePlayServicesAvailability(result === GooglePlayServicesAvailability.SUCCESS))
 }
 
 export interface RemoteFeatureFlags {
@@ -262,11 +280,4 @@ export function* appSaga() {
   yield spawn(watchAppState)
   yield spawn(runVerificationMigration)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
-  // DO NOT MERGE
-  try {
-    const result = yield call(isGooglePlayServicesAvailable)
-    Logger.info(TAG, `Result of check to isGooglePlayServicesAvailable`, result)
-  } catch (e) {
-    Logger.error(TAG, `Error in check to isGooglePlayServicesAvailable`, e)
-  }
 }

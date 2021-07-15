@@ -3,7 +3,13 @@ import { AnyAction } from 'redux'
 import { call, select, spawn, takeEvery } from 'redux-saga/effects'
 import { accountSaga } from 'src/account/saga'
 import { devModeSelector } from 'src/account/selectors'
-import { appInit, appRemoteFeatureFlagSaga, appSaga, appVersionSaga } from 'src/app/saga'
+import {
+  appInit,
+  appRemoteFeatureFlagSaga,
+  appSaga,
+  appVersionSaga,
+  checkGooglePlayServicesSaga,
+} from 'src/app/saga'
 import { dappKitSaga } from 'src/dappkit/dappkit'
 import { escrowSaga } from 'src/escrow/saga'
 import { exchangeSaga } from 'src/exchange/saga'
@@ -114,6 +120,7 @@ export function* rootSaga() {
     yield spawn(checkAccountExistenceSaga)
     yield spawn(fiatExchangesSaga)
     yield spawn(walletConnectSaga)
+    yield spawn(checkGooglePlayServicesSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

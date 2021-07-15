@@ -672,6 +672,7 @@ export const v16Schema = {
   app: {
     ...v15Schema.app,
     celoEuroEnabled: false,
+    googlePlayServicesAvailable: undefined,
   },
   localCurrency: {
     ...v15Schema.localCurrency,
