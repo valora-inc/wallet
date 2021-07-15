@@ -11,4 +11,4 @@ payment_fiat_total_amount_currency: STRING,
 payment_crypto_total_amount_amount: FLOAT,
 payment_crypto_total_amount_currency: STRING,
 payment_partner_end_user_id: STRING,
-timestamp: STRING
+timestamp: TIMESTAMP
