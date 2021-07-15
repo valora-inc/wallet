@@ -81,6 +81,10 @@ interface AppEventsProperties {
     state: NotificationReceiveState
     type?: string
   }
+  [AppEvents.google_play_services_availability_checked]: {
+    available: boolean
+    code: string
+  }
   [AppEvents.request_tracking_permission_started]: {
     currentPermission: PermissionStatus
   }

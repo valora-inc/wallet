@@ -30,6 +30,7 @@ import { currentLanguageSelector } from 'src/app/reducers'
 import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
+  googlePlayServicesAvailableSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
@@ -106,13 +107,29 @@ export function* checkGooglePlayServicesSaga() {
   let result: GooglePlayServicesAvailability
   try {
     result = yield call(isGooglePlayServicesAvailable)
-    Logger.info(TAG, `Result of check to isGooglePlayServicesAvailable`, result)
+    Logger.info(
+      TAG,
+      `Result of check to isGooglePlayServicesAvailable`,
+      result,
+      GooglePlayServicesAvailability[result]
+    )
   } catch (e) {
     Logger.error(TAG, `Error in check to isGooglePlayServicesAvailable`, e)
     return
   }
+  const available = result === GooglePlayServicesAvailability.SUCCESS
 
-  yield put(setGooglePlayServicesAvailability(result === GooglePlayServicesAvailability.SUCCESS))
+  // Check if the availability status has changed. If so, log an analytics events.
+  // When this is first run, the status in the state tree will be undefined, ensuring this event is
+  // fired at least once for each client.
+  if (available !== (yield select(googlePlayServicesAvailableSelector))) {
+    ValoraAnalytics.track(AppEvents.google_play_services_availability_checked, {
+      available,
+      code: GooglePlayServicesAvailability[result],
+    })
+  }
+
+  yield put(setGooglePlayServicesAvailability(available))
 }
 
 export interface RemoteFeatureFlags {
