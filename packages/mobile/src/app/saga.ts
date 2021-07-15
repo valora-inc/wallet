@@ -102,7 +102,8 @@ export function* appVersionSaga() {
   }
 }
 
-// Check the availability of Google Play Services. Log and report the result to
+// Check the availability of Google Play Services. Log and report the result to.
+// Note: On iOS, this will always report a status of "IOS" and available = false.
 export function* checkGooglePlayServicesSaga() {
   let result: GooglePlayServicesAvailability
   try {

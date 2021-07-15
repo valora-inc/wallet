@@ -289,7 +289,6 @@ dependencies {
         implementation jscFlavor
     }
 
-    // DO NOT MERGE: Do we need a way to build without this?
     implementation 'com.google.android.gms:play-services-base:17.6.0'
 }
 
