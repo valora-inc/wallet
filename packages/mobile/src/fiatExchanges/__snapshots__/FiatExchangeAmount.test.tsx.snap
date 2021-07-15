@@ -600,7 +600,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
       }
     }
   >
-    disclaimerFiat
+    disclaimerFiat, {"currency":"celoDollar"}
   </Text>
   <View
     style={

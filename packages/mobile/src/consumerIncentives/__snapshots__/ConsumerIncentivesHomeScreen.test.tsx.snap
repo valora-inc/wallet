@@ -113,7 +113,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
           }
         }
       >
-        summary, {"date":"June 1","percent":5}
+        summary, {"percent":5}
       </Text>
       <View
         style={

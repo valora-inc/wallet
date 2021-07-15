@@ -408,7 +408,7 @@ exports[`ignores failed standby transactions 1`] = `
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -450,7 +450,7 @@ exports[`ignores failed standby transactions 1`] = `
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":"noComment","comment":null}
             </Text>
           </View>
         </View>
@@ -1005,7 +1005,7 @@ exports[`ignores pending standby transactions that are completed in the response
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -1047,7 +1047,7 @@ exports[`ignores pending standby transactions that are completed in the response
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":"noComment","comment":null}
             </Text>
           </View>
         </View>
@@ -1694,7 +1694,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -1736,7 +1736,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":"noComment","comment":null}
             </Text>
           </View>
         </View>
