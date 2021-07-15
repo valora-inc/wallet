@@ -4,8 +4,8 @@ import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { features } from 'src/flags'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
@@ -23,16 +23,6 @@ beforeEach(() => {
 })
 
 describe('VerificationEducationScreen', () => {
-  const komenciEnabled = features.KOMENCI
-
-  beforeAll(() => {
-    features.KOMENCI = false
-  })
-
-  afterAll(() => {
-    features.KOMENCI = komenciEnabled
-  })
-
   it('shows the `skip` button when already verified', () => {
     const store = createMockStore({
       app: { numberVerified: true },
@@ -60,7 +50,7 @@ describe('VerificationEducationScreen', () => {
   it('shows the `continue` button when the user is not already verified and has enough balance', () => {
     const store = createMockStore({
       stableToken: {
-        balance: '50',
+        balances: { [Currency.Dollar]: '50' },
       },
       verify: {
         currentState: idle(),
@@ -86,7 +76,7 @@ describe('VerificationEducationScreen', () => {
   it('shows the `skip` button when user is not already verified and has NOT enough balance', () => {
     const store = createMockStore({
       stableToken: {
-        balance: '0',
+        balances: { [Currency.Dollar]: '0' },
       },
       verify: {
         currentState: idle(),
@@ -112,7 +102,7 @@ describe('VerificationEducationScreen', () => {
   it('allows to skip if verification is loading', () => {
     const store = createMockStore({
       stableToken: {
-        balance: '0',
+        balances: { [Currency.Dollar]: '0' },
       },
       verify: {
         currentState: idle(),
@@ -133,18 +123,6 @@ describe('VerificationEducationScreen', () => {
     expect(toJSON()).toMatchSnapshot()
     expect(getByTestId('VerificationSkipDialog').props.isVisible).toBe(true)
   })
-})
-
-describe('VerificationEducationScreen with KOMENCI enabled', () => {
-  const komenciEnabled = features.KOMENCI
-
-  beforeAll(() => {
-    features.KOMENCI = true
-  })
-
-  afterAll(() => {
-    features.KOMENCI = komenciEnabled
-  })
 
   it('shows the loading state when komenci readiness is being determined', () => {
     // loading state
@@ -156,7 +134,7 @@ describe('VerificationEducationScreen with KOMENCI enabled', () => {
 
     const store = createMockStore({
       stableToken: {
-        balance: '0',
+        balances: { [Currency.Dollar]: '0' },
       },
       verify: {
         currentState: idle(),
@@ -192,7 +170,7 @@ describe('VerificationEducationScreen with KOMENCI enabled', () => {
 
     const store = createMockStore({
       stableToken: {
-        balance: '0',
+        balances: { [Currency.Dollar]: '0' },
       },
       verify: {
         currentState: idle(),
@@ -221,7 +199,7 @@ describe('VerificationEducationScreen with KOMENCI enabled', () => {
   it("shows the `continue` button when the user is not yet verified and doesn't have enough balance", () => {
     const store = createMockStore({
       stableToken: {
-        balance: '0',
+        balances: { [Currency.Dollar]: '0' },
       },
       verify: {
         currentState: idle(),
@@ -251,7 +229,7 @@ describe('VerificationEducationScreen with KOMENCI enabled', () => {
         defaultCountryCode: '+53',
       },
       stableToken: {
-        balance: '0',
+        balances: { [Currency.Dollar]: '0' },
       },
       verify: {
         currentState: idle(),
@@ -280,7 +258,7 @@ describe('VerificationEducationScreen with KOMENCI enabled', () => {
         defaultCountryCode: '+53',
       },
       stableToken: {
-        balance: '0',
+        balances: { [Currency.Dollar]: '0' },
       },
       verify: {
         currentState: idle(),

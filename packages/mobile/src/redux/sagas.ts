@@ -15,10 +15,10 @@ import { goldTokenSaga } from 'src/goldToken/saga'
 import { homeSaga } from 'src/home/saga'
 import { identitySaga } from 'src/identity/saga'
 import { importSaga } from 'src/import/saga'
-import { inviteSaga } from 'src/invite/saga'
 import { localCurrencySaga } from 'src/localCurrency/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { paymentRequestSaga } from 'src/paymentRequest/saga'
+import { recipientsSaga } from 'src/recipients/saga'
 import { waitForRehydrate } from 'src/redux/persist-helper'
 import { sendSaga } from 'src/send/saga'
 import { sentrySaga } from 'src/sentry/saga'
@@ -99,6 +99,7 @@ export function* rootSaga() {
     yield spawn(transactionSaga)
     yield spawn(homeSaga)
     yield spawn(identitySaga)
+    yield spawn(recipientsSaga)
     yield spawn(verifySaga)
     yield spawn(localCurrencySaga)
     yield spawn(feesSaga)
@@ -108,7 +109,6 @@ export function* rootSaga() {
     yield spawn(exchangeSaga)
     yield spawn(paymentRequestSaga)
     yield spawn(escrowSaga)
-    yield spawn(inviteSaga)
     yield spawn(importSaga)
     yield spawn(dappKitSaga)
     yield spawn(checkAccountExistenceSaga)

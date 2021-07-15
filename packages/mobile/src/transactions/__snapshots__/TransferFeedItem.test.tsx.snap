@@ -74,6 +74,7 @@ exports[`transfer feed item renders correctly for <0.000001 network fee 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -83,17 +84,19 @@ exports[`transfer feed item renders correctly for <0.000001 network fee 1`] = `
           feedItemNetworkFeeTitle
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 false,
               ],
@@ -102,10 +105,12 @@ exports[`transfer feed item renders correctly for <0.000001 network fee 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           -
+          &lt;
           $
-          &lt;0.001
+          0.001
         </Text>
       </View>
       <Text
@@ -200,6 +205,7 @@ exports[`transfer feed item renders correctly for faucet 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -209,17 +215,19 @@ exports[`transfer feed item renders correctly for faucet 1`] = `
           feedItemFaucetTitle
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 Object {
                   "color": "#1AB775",
@@ -230,6 +238,7 @@ exports[`transfer feed item renders correctly for faucet 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           +
           $
@@ -360,6 +369,7 @@ exports[`transfer feed item renders correctly for known received 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -369,17 +379,19 @@ exports[`transfer feed item renders correctly for known received 1`] = `
           feedItemReceivedTitle
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 Object {
                   "color": "#1AB775",
@@ -390,6 +402,7 @@ exports[`transfer feed item renders correctly for known received 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           +
           $
@@ -520,6 +533,7 @@ exports[`transfer feed item renders correctly for known sent 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -529,17 +543,19 @@ exports[`transfer feed item renders correctly for known sent 1`] = `
           John Doe
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 false,
               ],
@@ -548,6 +564,7 @@ exports[`transfer feed item renders correctly for known sent 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           -
           $
@@ -646,6 +663,7 @@ exports[`transfer feed item renders correctly for known sent invite 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -655,17 +673,19 @@ exports[`transfer feed item renders correctly for known sent invite 1`] = `
           feedItemInviteSentTitle
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 false,
               ],
@@ -674,6 +694,7 @@ exports[`transfer feed item renders correctly for known sent invite 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           -
           $
@@ -804,6 +825,7 @@ exports[`transfer feed item renders correctly for known sent without recipient c
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -813,17 +835,19 @@ exports[`transfer feed item renders correctly for known sent without recipient c
           John Doe
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 false,
               ],
@@ -832,6 +856,7 @@ exports[`transfer feed item renders correctly for known sent without recipient c
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           -
           $
@@ -930,6 +955,7 @@ exports[`transfer feed item renders correctly for network fee 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -939,17 +965,19 @@ exports[`transfer feed item renders correctly for network fee 1`] = `
           feedItemNetworkFeeTitle
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 false,
               ],
@@ -958,6 +986,7 @@ exports[`transfer feed item renders correctly for network fee 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           -
           $
@@ -1088,6 +1117,7 @@ exports[`transfer feed item renders correctly for received 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -1097,17 +1127,19 @@ exports[`transfer feed item renders correctly for received 1`] = `
           feedItemReceivedTitle
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 Object {
                   "color": "#1AB775",
@@ -1118,6 +1150,7 @@ exports[`transfer feed item renders correctly for received 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           +
           $
@@ -1216,6 +1249,7 @@ exports[`transfer feed item renders correctly for received invite 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -1225,17 +1259,19 @@ exports[`transfer feed item renders correctly for received invite 1`] = `
           feedItemInviteReceivedTitle
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 Object {
                   "color": "#1AB775",
@@ -1246,6 +1282,7 @@ exports[`transfer feed item renders correctly for received invite 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           +
           $
@@ -1376,6 +1413,7 @@ exports[`transfer feed item renders correctly for received with encrypted commen
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -1385,17 +1423,19 @@ exports[`transfer feed item renders correctly for received with encrypted commen
           feedItemReceivedTitle
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 Object {
                   "color": "#1AB775",
@@ -1406,6 +1446,7 @@ exports[`transfer feed item renders correctly for received with encrypted commen
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           +
           $
@@ -1536,6 +1577,7 @@ exports[`transfer feed item renders correctly for sent 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -1545,17 +1587,19 @@ exports[`transfer feed item renders correctly for sent 1`] = `
           John Doe
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 false,
               ],
@@ -1564,6 +1608,7 @@ exports[`transfer feed item renders correctly for sent 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           -
           $
@@ -1662,6 +1707,7 @@ exports[`transfer feed item renders correctly for sent invite 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -1671,17 +1717,19 @@ exports[`transfer feed item renders correctly for sent invite 1`] = `
           feedItemInviteSentTitle
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 false,
               ],
@@ -1690,6 +1738,7 @@ exports[`transfer feed item renders correctly for sent invite 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           -
           $
@@ -1820,6 +1869,7 @@ exports[`transfer feed item renders correctly for sent transaction 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -1829,17 +1879,19 @@ exports[`transfer feed item renders correctly for sent transaction 1`] = `
           John Doe
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 false,
               ],
@@ -1848,6 +1900,7 @@ exports[`transfer feed item renders correctly for sent transaction 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           -
           $
@@ -1968,6 +2021,7 @@ exports[`transfer feed item renders correctly for sent with encrypted comment 1`
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -1977,17 +2031,19 @@ exports[`transfer feed item renders correctly for sent with encrypted comment 1`
           walletFlow5:feedItemAddress
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 false,
               ],
@@ -1996,6 +2052,7 @@ exports[`transfer feed item renders correctly for sent with encrypted comment 1`
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           -
           $
@@ -2094,6 +2151,7 @@ exports[`transfer feed item renders correctly for verification fee 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -2103,17 +2161,19 @@ exports[`transfer feed item renders correctly for verification fee 1`] = `
           feedItemVerificationFeeTitle
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 false,
               ],
@@ -2122,6 +2182,7 @@ exports[`transfer feed item renders correctly for verification fee 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           -
           $
@@ -2239,6 +2300,7 @@ exports[`transfer feed item renders correctly for verification reward 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexShrink": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -2248,17 +2310,19 @@ exports[`transfer feed item renders correctly for verification reward 1`] = `
           feedItemVerificationRewardTitle
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Array [
                 Object {
                   "color": "#2E3338",
+                  "flexWrap": "wrap",
                   "fontFamily": "Inter-Medium",
                   "fontSize": 16,
                   "lineHeight": 22,
                   "marginLeft": "auto",
                   "paddingLeft": 10,
+                  "textAlign": "right",
+                  "width": "40%",
                 },
                 Object {
                   "color": "#1AB775",
@@ -2269,6 +2333,7 @@ exports[`transfer feed item renders correctly for verification reward 1`] = `
               },
             ]
           }
+          testID="FeedItemAmountDisplay/value"
         >
           +
           $

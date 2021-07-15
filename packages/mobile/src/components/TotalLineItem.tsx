@@ -1,65 +1,99 @@
+import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import { MoneyAmount } from 'src/apollo/types'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import LineItemRow from 'src/components/LineItemRow'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { Namespaces } from 'src/i18n'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { useExchangeRate, useLocalCurrencyCode } from 'src/localCurrency/hooks'
+import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   title?: string
   amount: MoneyAmount
   hideSign?: boolean
   currencyInfo?: CurrencyInfo
+  showExchangeRate?: boolean
+  canEditCurrency?: boolean
+  onEditCurrency?: () => void
 }
 
-export default function TotalLineItem({ title, amount, hideSign, currencyInfo }: Props) {
-  let localCurrencyCode = useLocalCurrencyCode()
-  let localCurrencyExchangeRate = useExchangeRate()
-  if (currencyInfo) {
-    localCurrencyCode = currencyInfo.localCurrencyCode
-    localCurrencyExchangeRate = currencyInfo.localExchangeRate
-  }
-  const { t } = useTranslation(Namespaces.global)
+const totalAmountKey = {
+  [Currency.Dollar]: 'totalInDollars',
+  [Currency.Euro]: 'totalInEuros',
+  [Currency.Celo]: 'totalInCelo',
+}
 
-  const exchangeRate = amount.localAmount?.exchangeRate || localCurrencyExchangeRate
+export default function TotalLineItem({
+  title,
+  amount,
+  hideSign,
+  currencyInfo,
+  showExchangeRate = true,
+  canEditCurrency = false,
+  onEditCurrency,
+}: Props) {
+  const { localCurrencyExchangeRate: exchangeRate, amountCurrency } = useLocalCurrencyToShow(
+    amount,
+    currencyInfo
+  )
+
+  const { t } = useTranslation(Namespaces.global)
 
   return (
     <>
       <LineItemRow
         title={title || t('total')}
         textStyle={fontStyles.regular600}
-        amount={<CurrencyDisplay amount={amount} hideSign={hideSign} currencyInfo={currencyInfo} />}
+        amount={
+          <CurrencyDisplay
+            amount={amount}
+            hideSign={hideSign}
+            currencyInfo={currencyInfo}
+            testID="TotalLineItem/Total"
+          />
+        }
       />
-      {localCurrencyCode !== LocalCurrencyCode.USD && exchangeRate && (
+      {showExchangeRate && exchangeRate && (
         <LineItemRow
           title={
-            <Trans i18nKey="totalInDollars" ns={Namespaces.global}>
-              Celo Dollars @{' '}
-              <CurrencyDisplay
-                amount={{
-                  value: new BigNumber(exchangeRate).pow(-1),
-                  currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
-                }}
-                showLocalAmount={false}
-                currencyInfo={currencyInfo}
-              />
-            </Trans>
+            <Touchable disabled={!canEditCurrency} onPress={onEditCurrency}>
+              <Text style={styles.exchangeRate}>
+                <Trans i18nKey={totalAmountKey[amountCurrency]} ns={Namespaces.global}>
+                  <CurrencyDisplay
+                    amount={{
+                      value: new BigNumber(exchangeRate).pow(
+                        amountCurrency === Currency.Celo ? 1 : -1
+                      ),
+                      currencyCode: Currency.Dollar, // The currency is actually the local amount
+                    }}
+                    showLocalAmount={false}
+                    currencyInfo={currencyInfo}
+                    testID="TotalLineItem/ExchangeRate"
+                  />
+                </Trans>
+                {canEditCurrency && (
+                  <>
+                    {' '}
+                    <Text style={styles.edit}>{t('global:edit')}</Text>
+                  </>
+                )}
+              </Text>
+            </Touchable>
           }
           amount={
             <CurrencyDisplay
               amount={amount}
-              showLocalAmount={false}
-              hideSymbol={true}
+              showLocalAmount={amountCurrency === Currency.Celo}
+              hideSymbol={false}
               hideSign={hideSign}
               currencyInfo={currencyInfo}
+              testID="TotalLineItem/Subtotal"
             />
           }
           style={styles.dollars}
@@ -77,5 +111,12 @@ const styles = StyleSheet.create({
   dollarsText: {
     ...fontStyles.small,
     color: colors.gray4,
+  },
+  exchangeRate: {
+    ...fontStyles.small,
+    color: colors.gray4,
+  },
+  edit: {
+    textDecorationLine: 'underline',
   },
 })

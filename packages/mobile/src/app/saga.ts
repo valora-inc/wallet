@@ -1,4 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils/lib'
 import URLSearchParamsReal from '@ungap/url-search-params'
 import { AppState } from 'react-native'
 import { eventChannel } from 'redux-saga'
@@ -41,10 +40,14 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
-import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
+import {
+  handleWalletConnectDeepLink,
+  isWalletConnectDeepLink,
+} from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 
 const TAG = 'app/saga'
@@ -95,6 +98,7 @@ export function* appVersionSaga() {
 
 export interface RemoteFeatureFlags {
   celoEducationUri: string | null
+  celoEuroEnabled: boolean
   shortVerificationCodesEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
@@ -151,8 +155,13 @@ function convertQueryToScreenParams(query: string) {
 
 export function* handleDeepLink(action: OpenDeepLink) {
   const { deepLink, isSecureOrigin } = action
-  const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
   Logger.debug(TAG, 'Handling deep link', deepLink)
+
+  if (isWalletConnectDeepLink(deepLink)) {
+    yield call(handleWalletConnectDeepLink, deepLink)
+    return
+  }
+
   const rawParams = parse(deepLink)
   if (rawParams.path) {
     if (rawParams.path.startsWith('/v/')) {
@@ -161,12 +170,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
       yield call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {
       handleDappkitDeepLink(deepLink)
-    } else if (rawParams.path.startsWith('/wc') && walletConnectEnabled) {
-      yield call(handleWalletConnectDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
       navigate(Screens.FiatExchangeOptions, { isCashIn: true })
     } else if (rawParams.pathname === '/bidali') {
-      navigate(Screens.BidaliScreen, { currency: CURRENCY_ENUM.DOLLAR })
+      navigate(Screens.BidaliScreen, { currency: Currency.Dollar })
     } else if (rawParams.path.startsWith('/cash-in-success')) {
       // Some providers append transaction information to the redirect links so can't check for strict equality
       const cicoSuccessParam = (rawParams.path.match(/cash-in-success\/(.+)/) || [])[1]
@@ -189,8 +196,9 @@ export function* watchDeepLinks() {
 
 export function* handleOpenUrl(action: OpenUrlAction) {
   const { url, openExternal, isSecureOrigin } = action
+  const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
   Logger.debug(TAG, 'Handling url', url)
-  if (url.startsWith('celo:')) {
+  if (url.startsWith('celo:') || (walletConnectEnabled && isWalletConnectDeepLink(url))) {
     // Handle celo links directly, this avoids showing the "Open with App" sheet on Android
     yield call(handleDeepLink, openDeepLink(url, isSecureOrigin))
   } else if (/^https?:\/\//i.test(url) === true && !openExternal) {
