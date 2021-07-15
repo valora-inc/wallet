@@ -384,7 +384,6 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
           testID="CeloBalance"
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -412,7 +411,6 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
         >
           Equal to 
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -931,7 +929,6 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
           testID="CeloBalance"
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -959,7 +956,6 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
         >
           Equal to 
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,

@@ -325,7 +325,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -729,7 +728,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -816,7 +814,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       }
                     >
                       <Text
-                        numberOfLines={1}
                         style={
                           Array [
                             undefined,
@@ -854,7 +851,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -1372,7 +1368,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -1698,7 +1693,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -1788,7 +1782,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -1875,7 +1868,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                       }
                     >
                       <Text
-                        numberOfLines={1}
                         style={
                           Array [
                             undefined,
@@ -1913,7 +1905,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -2431,7 +2422,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -2835,7 +2825,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -2922,7 +2911,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       }
                     >
                       <Text
-                        numberOfLines={1}
                         style={
                           Array [
                             undefined,
@@ -2960,7 +2948,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -3478,7 +3465,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -3879,7 +3865,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -3966,7 +3951,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                       }
                     >
                       <Text
-                        numberOfLines={1}
                         style={
                           Array [
                             undefined,
@@ -4004,7 +3988,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -4522,7 +4505,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -4926,7 +4908,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -5013,7 +4994,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       }
                     >
                       <Text
-                        numberOfLines={1}
                         style={
                           Array [
                             undefined,
@@ -5051,7 +5031,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -5569,7 +5548,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -5895,7 +5873,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -5985,7 +5962,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -6072,7 +6048,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                       }
                     >
                       <Text
-                        numberOfLines={1}
                         style={
                           Array [
                             undefined,
@@ -6110,7 +6085,6 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
