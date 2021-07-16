@@ -35,7 +35,7 @@
     "title": "Import Contacts",
     "0": "Connecting your address book makes it easy to send and request payments with your friends. Otherwise, you’ll have to enter their info individually.",
     "1": "Don’t worry—connecting does not send invites to your contacts.",
-    "enable": "Enable Contact Access",
+    "enable": "Enable Contacts",
     "loading": "Finding friends on {{appName}}..."
   }
 }
