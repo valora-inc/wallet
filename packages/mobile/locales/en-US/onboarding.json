@@ -59,7 +59,7 @@
   },
   "verificationSkipDialog": {
     "title": "Are you sure?",
-    "body": "Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.",
+    "body": "Connecting allows you to send and receive funds from your phone number. ",
     "cancel": "Go Back",
     "confirm": "Skip for now"
   },
