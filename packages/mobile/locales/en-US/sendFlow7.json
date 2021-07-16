@@ -82,7 +82,7 @@
   },
   "importContactsCta": {
     "header": "Import Contacts",
-    "body": "Please enable Contacts in your phone’s Settings to find your friends by name.",
+    "body": "Enable contacts in your phone's settings to easily send and request payments.",
     "cta": "Settings"
   },
   "contactSyncProgress": {
