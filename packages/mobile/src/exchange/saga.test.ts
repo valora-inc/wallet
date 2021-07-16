@@ -14,7 +14,6 @@ import {
 } from 'src/exchange/actions'
 import { exchangeRatesSelector } from 'src/exchange/reducer'
 import { doFetchTobinTax, exchangeGoldAndStableTokens, withdrawCelo } from 'src/exchange/saga'
-import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
 import { Currency } from 'src/utils/currencies'
 import {
