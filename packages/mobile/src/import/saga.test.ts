@@ -39,12 +39,14 @@ const mockAccount = '0xb43FBBBF76973b64e0980f5f4781d7cE9A7DBDDb'
 const mockBalanceTask = (value?: number) => {
   return () => {
     const task = createMockTask()
+    // @ts-ignore Add an undocumented method, called by join, to Task ಠ_ಠ
+    task.isAborted = () => false
+
     if (value !== undefined) {
       task.setResult(new BigNumber(value))
       task.setRunning(false)
-      // @ts-ignore Add an undocumented method, called by join, to Task ಠ_ಠ
-      task.isAborted = () => false
     }
+
     return task
   }
 }
