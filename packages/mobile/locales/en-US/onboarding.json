@@ -1,6 +1,6 @@
 {
   "education": {
-    "step1": "{{appName}} is a new way to send and receive value worldwide",
+    "step1": "{{appName}} is a new way to save and send money around the world",
     "step2": "Send funds across borders for near zero fees",
     "step3": "Convenient, reliable, and secure. Your phone is your wallet"
   },
@@ -49,10 +49,10 @@
     "title": "Phone Number",
     "header": "Connect your phone number",
     "body": "To make sure your number is really yours, we’re going to send you three messages that will cost about 0.05 cUSD each.\n\nConfirming your number takes about three minutes.",
-    "feelessBody": "Connecting takes about three minutes. To confirm your number, you’ll receive three messages.",
+    "feelessBody": "To connect your number, you’ll receive three messages. Connecting takes about three minutes.",
     "start": "Start",
     "resume": "Resume",
-    "doINeedToConfirm": "Do I need to confirm?",
+    "doINeedToConfirm": "Do I need to connect?",
     "skipForNow": "Skip for now",
     "bodyInsufficientBalance": "Your current balance is not high enough to complete the confirmation process.\n\nPlease try again when you have added funds to your wallet.",
     "bodyAlreadyVerified": "Your number is already confirmed!"
@@ -65,8 +65,8 @@
   },
   "verificationPrematureRevealMessage": "Please wait one minute before resending",
   "verificationLearnMoreDialog": {
-    "title": "Phone Numbers and {{appName}}",
-    "body": "Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but unconfirmed accounts can only send payments with QR codes or account numbers (addresses).\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
+    "title": "Do I need to connect my phone?",
+    "body": "Connecting your phone number will allow you to send money to friends in your address book and other phone numbers. \n\nIf you choose to skip this step you won't be able to access your contacts and you will only be able to send money via QR code or account number.",
     "dismiss": "Dismiss"
   },
   "importExistingKey": {
