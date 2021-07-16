@@ -29,7 +29,7 @@
     "section2Body": "To protect your privacy, only an obfuscated version of your phone number is stored on the Celo blockchain."
   },
   "loading": {
-    "confirming": "Confirming…",
+    "confirming": "Connecting…",
     "pleaseKeepAppOpen": "Please keep the app open",
     "learnMore": "Learn more",
     "card1": "To make sure your phone number is really yours, we're sending you three messages.",
