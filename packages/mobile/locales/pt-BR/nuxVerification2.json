@@ -1,5 +1,5 @@
 {
-  "getVerified": "Confirme o número de celular",
+  "getVerified": "Confirme o número de telefone",
   "notReadyForCode": "Ainda não está pronto para inserir o código",
   "emptyVerificationCode": "Nenhum código de confirmação na área de transferência",
   "invalidVerificationCode": "Código de confirmação inválido",
