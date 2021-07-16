@@ -1,5 +1,5 @@
 {
-  "getVerified": "Confirm Phone Number",
+  "getVerified": "Connect phone number",
   "notReadyForCode": "Not yet ready for code entry",
   "emptyVerificationCode": "No Confirmation Code in Clipboard",
   "invalidVerificationCode": "Invalid Confirmation Code",
