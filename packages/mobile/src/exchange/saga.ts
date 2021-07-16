@@ -328,7 +328,11 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
     } else {
       approveTx = stableTokenContract.approve(
         exchangeContract.address,
-        convertedTakerAmount.multipliedBy(10 ** 20).toString()
+        convertedTakerAmount
+          .multipliedBy(isInputStable ? tokenExchangeRate.pow(-1) : 1)
+          .multipliedBy(1 + EXCHANGE_DIFFERENCE_PERCENT_TOLERATED)
+          .decimalPlaces(0)
+          .toString()
       )
     }
 
@@ -339,7 +343,8 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       newTransactionContext(TAG, `Approve exchange of ${makerToken}`),
       undefined, // gas
       undefined, // gasPrice
-      makerToken
+      makerToken,
+      1
     )
     Logger.debug(TAG, `Transaction approved: ${util.inspect(approveTx.txo.arguments)}`)
 
