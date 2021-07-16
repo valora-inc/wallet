@@ -1,6 +1,6 @@
 {
   "education": {
-    "step1": "A {{appName}} é uma nova forma de enviar e receber valores em todo o mundo",
+    "step1": "{{appName}} é uma nova forma de enviar e receber valores em todo o mundo",
     "step2": "Envie fundos internacionalmente",
     "step3": "Conveniente, confiável e seguro. Seu celular é a sua conta"
   },
@@ -65,8 +65,8 @@
   },
   "verificationPrematureRevealMessage": "Espere um minuto antes de reenviar",
   "verificationLearnMoreDialog": {
-    "title": "Números de celular e a {{appName}}",
-    "body": "A confirmação torna mais fácil se conectar com seus amigos, permitindo que você envie e receba fundos em seu número de celular.\n\n<0>Posso fazer isso mais tarde?</0>\n\n Sim, mas contas não confirmadas só podem enviar pagamentos com QR codes ou números de conta (endereços).\n\n<1>Seguro e Privado</1>\n\nO Valora usa criptografia de última geração para manter o seu número de celular privado.",
+    "title": "Números de telefone e {{appName}} ",
+    "body": "A confirmação torna mais fácil se conectar com seus amigos, permitindo que você envie e receba fundos em seu número de telefone.\n\n<0>Posso fazer isso mais tarde?</0>\n\n Sim, mas contas não confirmadas só podem enviar pagamentos com códigos QR ou números de conta (endereços).\n\n<1>Seguro e Privado</1>\n\nO Valora usa criptografia de última geração para manter o seu número de telefone privado.",
     "dismiss": "Ignorar"
   },
   "importExistingKey": {
