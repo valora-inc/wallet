@@ -59,7 +59,7 @@
   },
   "verificationSkipDialog": {
     "title": "Tem certeza?",
-    "body": "A confirmação permite enviar e receber fundos facilmente para seu número de celular.\n\nContas não confirmadas só podem enviar pagamentos usando endereços Celo ou QR codes.",
+    "body": "A confirmação permite enviar e receber fundos facilmente para o seu número de telefone.\n\nContas não confirmadas só podem enviar pagamentos usando endereços Celo ou códigos QR.",
     "cancel": "Voltar",
     "confirm": "Pular por enquanto"
   },
