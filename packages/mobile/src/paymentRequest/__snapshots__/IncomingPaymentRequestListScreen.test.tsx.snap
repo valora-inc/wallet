@@ -191,6 +191,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                       }
                     >
                       <Text
+                        allowFontScaling={false}
                         style={
                           Array [
                             Object {
@@ -452,6 +453,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                       }
                     >
                       <Text
+                        allowFontScaling={false}
                         style={
                           Array [
                             Object {
@@ -713,6 +715,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                       }
                     >
                       <Text
+                        allowFontScaling={false}
                         style={
                           Array [
                             Object {

@@ -1002,6 +1002,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -1190,6 +1191,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                     }
                   >
                     <Text
+                      allowFontScaling={false}
                       style={
                         Array [
                           Object {
@@ -1344,6 +1346,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {

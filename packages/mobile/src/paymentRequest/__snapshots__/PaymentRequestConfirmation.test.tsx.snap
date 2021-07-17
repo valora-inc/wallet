@@ -86,6 +86,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {

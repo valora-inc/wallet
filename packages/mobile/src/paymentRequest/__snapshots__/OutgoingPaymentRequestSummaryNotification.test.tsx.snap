@@ -146,6 +146,7 @@ exports[`OutgoingPaymentRequestSummaryNotification renders a number when the add
               }
             >
               <Text
+                allowFontScaling={false}
                 style={
                   Array [
                     Object {
@@ -410,6 +411,7 @@ exports[`OutgoingPaymentRequestSummaryNotification renders correctly for just on
               }
             >
               <Text
+                allowFontScaling={false}
                 style={
                   Array [
                     Object {

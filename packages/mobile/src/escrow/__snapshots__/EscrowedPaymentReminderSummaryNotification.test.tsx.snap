@@ -294,6 +294,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
               }
             >
               <Text
+                allowFontScaling={false}
                 style={
                   Array [
                     Object {
