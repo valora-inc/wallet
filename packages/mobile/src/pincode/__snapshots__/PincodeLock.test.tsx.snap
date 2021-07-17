@@ -16,11 +16,6 @@ exports[`PincodeLock renders correctly 1`] = `
         "flexGrow": 1,
       }
     }
-    style={
-      Object {
-        "marginTop": 40,
-      }
-    }
   >
     <View>
       <View
@@ -259,6 +254,7 @@ exports[`PincodeLock renders correctly 1`] = `
             testID="digit1"
           >
             <Text
+              allowFontScaling={false}
               style={
                 Object {
                   "alignItems": "center",
@@ -296,6 +292,7 @@ exports[`PincodeLock renders correctly 1`] = `
             testID="digit2"
           >
             <Text
+              allowFontScaling={false}
               style={
                 Object {
                   "alignItems": "center",
@@ -333,6 +330,7 @@ exports[`PincodeLock renders correctly 1`] = `
             testID="digit3"
           >
             <Text
+              allowFontScaling={false}
               style={
                 Object {
                   "alignItems": "center",
@@ -381,6 +379,7 @@ exports[`PincodeLock renders correctly 1`] = `
             testID="digit4"
           >
             <Text
+              allowFontScaling={false}
               style={
                 Object {
                   "alignItems": "center",
@@ -418,6 +417,7 @@ exports[`PincodeLock renders correctly 1`] = `
             testID="digit5"
           >
             <Text
+              allowFontScaling={false}
               style={
                 Object {
                   "alignItems": "center",
@@ -455,6 +455,7 @@ exports[`PincodeLock renders correctly 1`] = `
             testID="digit6"
           >
             <Text
+              allowFontScaling={false}
               style={
                 Object {
                   "alignItems": "center",
@@ -503,6 +504,7 @@ exports[`PincodeLock renders correctly 1`] = `
             testID="digit7"
           >
             <Text
+              allowFontScaling={false}
               style={
                 Object {
                   "alignItems": "center",
@@ -540,6 +542,7 @@ exports[`PincodeLock renders correctly 1`] = `
             testID="digit8"
           >
             <Text
+              allowFontScaling={false}
               style={
                 Object {
                   "alignItems": "center",
@@ -577,6 +580,7 @@ exports[`PincodeLock renders correctly 1`] = `
             testID="digit9"
           >
             <Text
+              allowFontScaling={false}
               style={
                 Object {
                   "alignItems": "center",
@@ -640,6 +644,7 @@ exports[`PincodeLock renders correctly 1`] = `
             testID="digit0"
           >
             <Text
+              allowFontScaling={false}
               style={
                 Object {
                   "alignItems": "center",
