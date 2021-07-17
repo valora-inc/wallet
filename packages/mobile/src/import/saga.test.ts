@@ -39,8 +39,9 @@ const mockAccount = '0xb43FBBBF76973b64e0980f5f4781d7cE9A7DBDDb'
 const mockBalanceTask = (value?: number) => {
   return () => {
     const task = createMockTask()
-    // @ts-ignore Add an undocumented method, called by join, to Task ಠ_ಠ
+    // @ts-ignore Add an undocumented method and field, called by join, to Task ಠ_ಠ
     task.isAborted = () => false
+    task.joiners = []
 
     if (value !== undefined) {
       task.setResult(new BigNumber(value))
@@ -94,7 +95,7 @@ describe('Import wallet saga', () => {
       .run()
   })
 
-  it('imports a phrase with invalid words after autocorrection', async () => {
+  it.only('imports a phrase with invalid words after autocorrection', async () => {
     // @ts-ignore
     await expectSaga(importBackupPhraseSaga, {
       phrase: mockPhraseInvalidWords,

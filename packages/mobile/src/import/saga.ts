@@ -87,7 +87,8 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
             timeout: timeout !== undefined,
           })
         }
-      } catch (error) {
+      } finally {
+      } /*catch (error) {
         Logger.error(
           TAG + '@importBackupPhraseSaga',
           `Encountered an error trying to correct a phrase`,
@@ -97,7 +98,7 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
           timeout: false,
           error: error.message,
         })
-      }
+      }*/
     }
 
     // If the input phrase was invalid, and the correct phrase could not be found automatically,
@@ -164,12 +165,13 @@ export function* importBackupPhraseSaga({ phrase, useEmptyWallet }: ImportBackup
     navigateClearingStack(Screens.VerificationEducationScreen)
 
     yield put(importBackupPhraseSuccess())
-  } catch (error) {
+  } finally {
+  } /* catch (error) {
     Logger.error(TAG + '@importBackupPhraseSaga', 'Error importing backup phrase', error)
     yield put(showError(ErrorMessages.IMPORT_BACKUP_FAILED))
     yield put(importBackupPhraseFailure())
     ValoraAnalytics.track(OnboardingEvents.wallet_import_error, { error: error.message })
-  }
+  }*/
 }
 
 // Uses suggestMnemonicCorrections to generate valid mnemonic phrases that are likely given the
