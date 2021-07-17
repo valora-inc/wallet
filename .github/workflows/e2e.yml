@@ -1,4 +1,4 @@
-name: Run E2E
+name: E2E
 on:
   push:
     branches:
@@ -17,7 +17,7 @@ on:
 
 jobs:
   ios:
-    name: iOS Tests
+    name: iOS
     runs-on: ios-e2e-group
     steps:
       - uses: actions/checkout@v2
@@ -63,7 +63,7 @@ jobs:
           name: ios-e2e-test-report
           path: packages/mobile/e2e/test-results
   android:
-    name: Android Tests
+    name: Android
     runs-on: android-e2e-group
     steps:
       - uses: actions/checkout@v2
