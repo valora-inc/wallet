@@ -51,7 +51,7 @@ function Pincode({
   }, [])
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.spacer} />
       {!errorText && <Text style={styles.title}>{title || ' '}</Text>}
       {!!errorText && <Text style={styles.error}>{errorText}</Text>}
@@ -66,9 +66,6 @@ function Pincode({
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
-  },
-  scrollContainer: {
     flexGrow: 1,
   },
   spacer: {
