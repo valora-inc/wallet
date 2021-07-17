@@ -39,8 +39,9 @@ const mockAccount = '0xb43FBBBF76973b64e0980f5f4781d7cE9A7DBDDb'
 const mockBalanceTask = (value?: number) => {
   return () => {
     const task = createMockTask()
-    // @ts-ignore Add an undocumented method and field, called by join, to Task ಠ_ಠ
+    // @ts-ignore Add an undocumented method, called by join, to Task ಠ_ಠ
     task.isAborted = () => false
+    // @ts-ignore Add an undocumented field, called by join, to Task ಠ_ಠ ಠ_ಠ
     task.joiners = []
 
     if (value !== undefined) {
