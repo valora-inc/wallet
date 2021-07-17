@@ -96,7 +96,7 @@ describe('Import wallet saga', () => {
       .run()
   })
 
-  it.only('imports a phrase with invalid words after autocorrection', async () => {
+  it('imports a phrase with invalid words after autocorrection', async () => {
     // @ts-ignore
     await expectSaga(importBackupPhraseSaga, {
       phrase: mockPhraseInvalidWords,
