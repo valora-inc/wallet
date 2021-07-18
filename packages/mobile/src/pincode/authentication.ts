@@ -50,7 +50,7 @@ export const DEFAULT_CACHE_ACCOUNT = 'default'
 export const DEK = 'DEK'
 export const CANCELLED_PIN_INPUT = 'CANCELLED_PIN_INPUT'
 
-const PIN_BLACKLIST = [
+const PIN_BLOCKLIST = [
   '000000',
   '111111',
   '222222',
@@ -66,7 +66,7 @@ const PIN_BLACKLIST = [
 ]
 
 export function isPinValid(pin: string) {
-  return pin.length === PIN_LENGTH && !PIN_BLACKLIST.includes(pin)
+  return pin.length === PIN_LENGTH && !PIN_BLOCKLIST.includes(pin)
 }
 
 export async function retrieveOrGeneratePepper(account = DEFAULT_CACHE_ACCOUNT) {

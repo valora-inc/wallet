@@ -151,7 +151,7 @@
     "react-native-tcp": "https://github.com/celo-org/react-native-tcp#0b5948e",
     "react-native-udp": "git+https://github.com/celo-org/react-native-udp#730f295",
     "react-native-url-polyfill": "^1.2.0",
-    "react-native-webview": "^11.0.2",
+    "react-native-webview": "^11.6.4",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
@@ -222,7 +222,8 @@
     "redux-flipper": "^1.4.2",
     "redux-mock-store": "^1.5.3",
     "redux-saga-test-plan": "^4.0.0-beta.2",
-    "remote-redux-devtools": "^0.5.12"
+    "remote-redux-devtools": "^0.5.12",
+    "ts-retry-promise": "^0.6.0"
   },
   "resolutions": {
     "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f"
