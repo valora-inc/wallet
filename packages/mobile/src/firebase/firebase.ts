@@ -238,9 +238,7 @@ export function appRemoteFeatureFlagChannel() {
           celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
           shortVerificationCodesEnabled: flags.shortVerificationCodesEnabled.asBoolean(),
           inviteRewardsEnabled: flags.inviteRewardsEnabled.asBoolean(),
-          // TODO: why was this defaulting to 1 when the initial state is 0?
           inviteRewardCusd: flags.inviteRewardCusd.asNumber(),
-          // TODO: same here default 5 but initial state 0
           inviteRewardWeeklyLimit: flags.inviteRewardWeeklyLimit.asNumber(),
           walletConnectEnabled: flags.walletConnectEnabled.asBoolean(),
           rewardsABTestThreshold: flags.rewardsABTestThreshold.asString(),
@@ -249,9 +247,7 @@ export function appRemoteFeatureFlagChannel() {
           rewardsMax: flags.rewardsMax.asNumber(),
         })
       } else {
-        Logger.debug(
-          'No configs were fetched from the backend, and the local configs were already activated'
-        )
+        Logger.debug('No configs were fetched from the backend.')
       }
     }
 
@@ -259,18 +255,12 @@ export function appRemoteFeatureFlagChannel() {
       Logger.warn(TAG, error.toString())
     }
 
-    // Note: values are cached by default for 12 hours
-    // this can be changed if needed:
+    // Cache values for 1 hour. The default is 12 hours.
     // https://rnfirebase.io/remote-config/usage
+    remoteConfig().setConfigSettings({ minimumFetchIntervalMillis: 1000 * 60 * 60 })
     remoteConfig().fetchAndActivate().then(emitter).catch(errorCallback)
 
-    // TODO: is there an api for receiving updates without restart?
-
-    const cancel = () => {
-      // TODO: anything here?
-    }
-
-    return cancel
+    return () => {}
   })
 }
 
