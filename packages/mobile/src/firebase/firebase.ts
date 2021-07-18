@@ -8,6 +8,7 @@ import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
 import { currentLanguageSelector } from 'src/app/reducers'
+import { RemoteFeatureFlags } from 'src/app/saga'
 import { FIREBASE_ENABLED } from 'src/config'
 import { handleNotification } from 'src/firebase/notifications'
 import { NotificationReceiveState } from 'src/notifications/types'
@@ -214,6 +215,25 @@ export function appVersionDeprecationChannel() {
   })
 }
 
+export const FEATURE_FLAG_DEFAULTS = {
+  hideVerification: false,
+  // cannot set defaults to undefined or null
+  // TODO: maybe a better default is '0xf' ?
+  // showRaiseDailyLimitTarget: undefined,
+  // same here
+  // celoEducationUri: null,
+  celoEuroEnabled: false,
+  shortVerificationCodesEnabled: false,
+  inviteRewardsEnabled: false,
+  inviteRewardCusd: 1,
+  inviteRewardWeeklyLimit: 20,
+  walletConnectEnabled: false,
+  rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
+  rewardsPercent: 5,
+  rewardsStartDate: 1622505600000,
+  rewardsMax: 1000,
+}
+
 /*
 We use firebase remote config to manage feature flags.
 https://firebase.google.com/docs/remote-config
@@ -221,47 +241,39 @@ https://firebase.google.com/docs/remote-config
 This also allows us to run AB tests.
 https://firebase.google.com/docs/ab-testing/abtest-config
 */
-export function appRemoteFeatureFlagChannel() {
+export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | null> {
   if (!FIREBASE_ENABLED) {
     return null
   }
 
-  return eventChannel((emit: any) => {
-    const emitter = (fetchedRemotely: boolean) => {
-      if (fetchedRemotely) {
-        Logger.debug('Configs were retrieved from the backend and activated.')
-        const flags: FirebaseRemoteConfigTypes.ConfigValues = remoteConfig().getAll()
-        emit({
-          hideVerification: flags.hideVerification.asBoolean(),
-          showRaiseDailyLimitTarget: flags.showRaiseDailyLimitTargetV2.asString(),
-          celoEducationUri: flags.celoEducationUri.asString(),
-          celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
-          shortVerificationCodesEnabled: flags.shortVerificationCodesEnabled.asBoolean(),
-          inviteRewardsEnabled: flags.inviteRewardsEnabled.asBoolean(),
-          inviteRewardCusd: flags.inviteRewardCusd.asNumber(),
-          inviteRewardWeeklyLimit: flags.inviteRewardWeeklyLimit.asNumber(),
-          walletConnectEnabled: flags.walletConnectEnabled.asBoolean(),
-          rewardsABTestThreshold: flags.rewardsABTestThreshold.asString(),
-          rewardsPercent: flags.rewardsPercent.asNumber(),
-          rewardsStartDate: flags.rewardsStartDate.asNumber(),
-          rewardsMax: flags.rewardsMax.asNumber(),
-        })
-      } else {
-        Logger.debug('No configs were fetched from the backend.')
-      }
+  await remoteConfig().setDefaults(FEATURE_FLAG_DEFAULTS)
+  // Cache values for 1 hour. The default is 12 hours.
+  // https://rnfirebase.io/remote-config/usage
+  await remoteConfig().setConfigSettings({ minimumFetchIntervalMillis: 60 * 60 * 1000 })
+  const fetchedRemotely = await remoteConfig().fetchAndActivate()
+
+  if (fetchedRemotely) {
+    const flags: FirebaseRemoteConfigTypes.ConfigValues = remoteConfig().getAll()
+    Logger.debug(TAG, `Updated feature flags: ${JSON.stringify(flags)}`)
+    return {
+      hideVerification: flags.hideVerification.asBoolean(),
+      showRaiseDailyLimitTarget: flags.showRaiseDailyLimitTargetV2?.asString(),
+      celoEducationUri: flags.celoEducationUri?.asString() ?? null,
+      celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
+      shortVerificationCodesEnabled: flags.shortVerificationCodesEnabled.asBoolean(),
+      inviteRewardsEnabled: flags.inviteRewardsEnabled.asBoolean(),
+      inviteRewardCusd: flags.inviteRewardCusd.asNumber(),
+      inviteRewardWeeklyLimit: flags.inviteRewardWeeklyLimit.asNumber(),
+      walletConnectEnabled: flags.walletConnectEnabled.asBoolean(),
+      rewardsABTestThreshold: flags.rewardsABTestThreshold.asString(),
+      rewardsPercent: flags.rewardsPercent.asNumber(),
+      rewardsStartDate: flags.rewardsStartDate.asNumber(),
+      rewardsMax: flags.rewardsMax.asNumber(),
     }
-
-    const errorCallback = (error: Error) => {
-      Logger.warn(TAG, error.toString())
-    }
-
-    // Cache values for 1 hour. The default is 12 hours.
-    // https://rnfirebase.io/remote-config/usage
-    remoteConfig().setConfigSettings({ minimumFetchIntervalMillis: 1000 * 60 * 60 })
-    remoteConfig().fetchAndActivate().then(emitter).catch(errorCallback)
-
-    return () => {}
-  })
+  } else {
+    Logger.debug('No new configs were fetched from the backend.')
+    return null
+  }
 }
 
 export async function knownAddressesChannel() {

@@ -33,7 +33,7 @@ import {
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { appRemoteFeatureFlagChannel, appVersionDeprecationChannel } from 'src/firebase/firebase'
+import { appVersionDeprecationChannel, fetchRemoteFeatureFlags } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
@@ -113,21 +113,25 @@ export interface RemoteFeatureFlags {
 }
 
 export function* appRemoteFeatureFlagSaga() {
-  const remoteFeatureFlagChannel = yield call(appRemoteFeatureFlagChannel)
-  if (!remoteFeatureFlagChannel) {
-    return
-  }
-  try {
-    while (true) {
-      const flags: RemoteFeatureFlags = yield take(remoteFeatureFlagChannel)
-      Logger.info(TAG, 'Updated feature flags', JSON.stringify(flags))
-      yield put(updateFeatureFlags(flags))
-    }
-  } catch (error) {
-    Logger.error(`${TAG}@appRemoteFeatureFlagSaga`, error)
-  } finally {
-    if (yield cancelled()) {
-      remoteFeatureFlagChannel.close()
+  // Refresh feature flags on process start
+  // and every hour afterwards when the app becomes active.
+  // If the app keep getting killed and restarted we
+  // will load the flags more often, but that should be pretty rare.
+  // if that ever becomes a problem we can save it somewhere persistent.
+  let startTime = 0
+
+  while (true) {
+    Logger.debug(TAG, 'appRemoteFeatureFlagSaga in while loop')
+    const action: SetAppState = yield take(Actions.SET_APP_STATE)
+    const isAppActive = action.state === 'active'
+    const isRefreshTime = Date.now() - startTime > 1 * 1000
+
+    if (isRefreshTime && isAppActive) {
+      const flags: RemoteFeatureFlags = yield call(fetchRemoteFeatureFlags)
+      if (flags) {
+        yield put(updateFeatureFlags(flags))
+      }
+      startTime = Date.now()
     }
   }
 }
