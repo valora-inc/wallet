@@ -14,7 +14,7 @@
   "writeDownKey": "Escreva sua chave",
   "completeEducation": "Eu compreendo",
   "yourAccountKey": "Sua Chave de Conta",
-  "backupKeyNotification": "A sua Chave de Conta é a parte mais importante da sua conta",
+  "backupKeyNotification": "Sua Chave de Conta é a parte mais importante da sua conta",
   "backupKeySummary": "Encontre um local privado e anote sua Chave de Conta. Guarde-a em um lugar seguro. Não salve em seu celular.",
   "copied": "Chave copiada para a área de transferência",
   "moreInfo": "Mais informações",
@@ -22,7 +22,8 @@
   "backupQuizWordCount": "Qual é a <0>{{ordinal}}</0> palavra da sua Chave de Conta?",
   "importBackupFailed": "A importação da conta falhou",
   "backupQuizFailed": "A Chave de Conta que você inseriu está incorreta. Por favor, tente novamente.",
-  "invalidBackupPhrase": "Chave de Conta inválida",
+  "invalidBackupPhrase": "A chave da conta não é válida",
+  "invalidWordsInBackupPhrase": "Algumas palavras na Chave da Conta não são válidas: {{ invalidWords }}",
   "backupComplete": {
     "header": "Backup concluído",
     "0": "Sucesso!",
