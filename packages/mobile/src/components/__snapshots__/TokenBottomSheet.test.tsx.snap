@@ -122,7 +122,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
             }
           }
         >
-          stableBalance
+          stableBalance, {"token":"cUSD"}
         </Text>
         <View
           style={
@@ -222,7 +222,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
             }
           }
         >
-          stableBalance
+          stableBalance, {"token":"cEUR"}
         </Text>
         <View
           style={
