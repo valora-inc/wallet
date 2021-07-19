@@ -90,7 +90,7 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
           }
         }
       >
-        confirmAccount.header
+        confirmAccount.header, {"displayName":"Jane Doe"}
       </Text>
       <Text
         style={
@@ -104,7 +104,7 @@ exports[`ValidateRecipientIntro renders correctly 1`] = `
           }
         }
       >
-        secureSendExplanation.body1
+        secureSendExplanation.body1, {"e164PhoneNumber":"+13105550000","displayName":"Jane Doe"}
       </Text>
       <Text
         style={
