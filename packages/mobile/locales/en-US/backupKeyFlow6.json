@@ -14,7 +14,7 @@
   "writeDownKey": "Please write down your key",
   "completeEducation": "I Understand",
   "yourAccountKey": "Your Account Key",
-  "backupKeyNotification": "You could lose access to your funds without your Account Key",
+  "backupKeyNotification": "Your Account Key is the most important part of your account",
   "backupKeySummary": "Find a private place and write down your Account Key. Please store it somewhere safe. Do not save it in your phone.",
   "copied": "Key copied to clipboard",
   "moreInfo": "More Info",
@@ -22,7 +22,8 @@
   "backupQuizWordCount": "What's the <0>{{ordinal}}</0> word of your Account Key?",
   "importBackupFailed": "Importing Wallet Failed",
   "backupQuizFailed": "The Account Key you entered is incorrect. Please try again.",
-  "invalidBackupPhrase": "Invalid Account Key",
+  "invalidBackupPhrase": "Account Key is not valid",
+  "invalidWordsInBackupPhrase": "Some words in the Account Key are not valid: {{ invalidWords }}",
   "backupComplete": {
     "header": "Backup Complete",
     "0": "Success!",
