@@ -179,6 +179,37 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     }
   }
 
+  const renderFeeAmount = (quote?: SimplexQuote | ProviderQuote[]) => {
+    const feeAmount = getLowestFeeValueFromQuotes(quote)
+
+    if (feeAmount === undefined) {
+      return '-'
+    }
+
+    if (feeAmount === 0) {
+      return t('global:free')
+    }
+
+    return (
+      <CurrencyDisplay
+        amount={{
+          value: 0,
+          localAmount: {
+            value: feeAmount,
+            currencyCode: localCurrency,
+            exchangeRate: 1,
+          },
+          currencyCode: localCurrency,
+        }}
+        hideSymbol={false}
+        showLocalAmount={true}
+        hideSign={true}
+        showExplicitPositiveSign={false}
+        style={[styles.text]}
+      />
+    )
+  }
+
   return !userLocation || asyncProviders.status === 'loading' ? (
     <View style={styles.activityIndicatorContainer}>
       <ActivityIndicator size="large" color={colors.greenBrand} />
@@ -229,28 +260,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                   </View>
                 </View>
                 <View style={styles.feeContainer}>
-                  <Text style={styles.text}>
-                    {getLowestFeeValueFromQuotes(provider.quote) ? (
-                      <CurrencyDisplay
-                        amount={{
-                          value: 0,
-                          localAmount: {
-                            value: getLowestFeeValueFromQuotes(provider.quote) || 0,
-                            currencyCode: localCurrency,
-                            exchangeRate: 1,
-                          },
-                          currencyCode: localCurrency,
-                        }}
-                        hideSymbol={false}
-                        showLocalAmount={true}
-                        hideSign={true}
-                        showExplicitPositiveSign={false}
-                        style={[styles.text]}
-                      />
-                    ) : (
-                      '-'
-                    )}
-                  </Text>
+                  <Text style={styles.text}>{renderFeeAmount(provider.quote)}</Text>
                 </View>
               </View>
             </ListItem>
