@@ -182,7 +182,7 @@ exports[`ReviewFees renders correctly 1`] = `
                     }
                   }
                 >
-                  providerFeesDialog.body2
+                  providerFeesDialog.body2, {"providerName":"Simplex"}
                 </Text>
               </Text>
             </View>
@@ -547,7 +547,7 @@ exports[`ReviewFees renders correctly 1`] = `
         ]
       }
     >
-      pricePer
+      pricePer, {"coin":"CELO"}
     </Text>
     <Text
       style={
@@ -1046,7 +1046,7 @@ exports[`ReviewFees renders correctly 2`] = `
                     }
                   }
                 >
-                  providerFeesDialog.body2
+                  providerFeesDialog.body2, {"providerName":"Simplex"}
                 </Text>
               </Text>
             </View>
@@ -1411,7 +1411,7 @@ exports[`ReviewFees renders correctly 2`] = `
         ]
       }
     >
-      pricePer
+      pricePer, {"coin":"CELO"}
     </Text>
     <Text
       style={

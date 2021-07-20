@@ -140,7 +140,7 @@ export async function fetchTokenBalanceInWeiWithRetry(token: Currency, account: 
   const balanceInWei = await retryAsync(tokenContract.balanceOf, 3, [account])
   Logger.debug(
     TAG + '@fetchTokenBalanceInWeiWithRetry',
-    'Account balance ' + balanceInWei.toString()
+    `Account ${account} ${token} balance: ${balanceInWei.toString()}`
   )
   return balanceInWei
 }
