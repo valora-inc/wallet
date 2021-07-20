@@ -236,7 +236,7 @@ exports[`SendConfirmation renders correctly 1`] = `
               numberOfLines={5}
               onBlur={[Function]}
               onChangeText={[Function]}
-              placeholder="addDescription"
+              placeholder="addDescription, {}"
               placeholderTextColor="#1AB775"
               rejectResponderTermination={true}
               returnKeyType="done"
@@ -418,7 +418,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                           }
                         }
                       >
-                        inviteAndSendDialog.body
+                        inviteAndSendDialog.body, {"name":"Jane Doe"}
                       </Text>
                     </View>
                   </RCTScrollView>
