@@ -17,8 +17,9 @@ exports[`BackupIntroduction renders correctly when backup completed 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -219,8 +220,9 @@ exports[`BackupIntroduction renders correctly when backup not complete 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >

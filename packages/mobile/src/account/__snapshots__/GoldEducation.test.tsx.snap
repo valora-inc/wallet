@@ -20,8 +20,9 @@ exports[`renders correctly 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
     testID="DrawerTopBar"

@@ -22,8 +22,9 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -159,6 +160,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
             Object {
               "alignItems": "center",
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "marginBottom": 8,
             }
           }
@@ -232,6 +234,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
             Object {
               "alignItems": "flex-end",
               "flexDirection": "row",
+              "flexWrap": "wrap",
             }
           }
         >
@@ -241,8 +244,8 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 24,
-                "height": 27,
                 "lineHeight": 27,
+                "minHeight": 27,
               }
             }
           >
@@ -484,8 +487,9 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -621,6 +625,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
             Object {
               "alignItems": "center",
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "marginBottom": 8,
             }
           }
@@ -694,6 +699,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
             Object {
               "alignItems": "flex-end",
               "flexDirection": "row",
+              "flexWrap": "wrap",
             }
           }
         >
@@ -703,8 +709,8 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
                 "color": "#2E3338",
                 "fontFamily": "Inter-Regular",
                 "fontSize": 24,
-                "height": 27,
                 "lineHeight": 27,
+                "minHeight": 27,
               }
             }
           >
