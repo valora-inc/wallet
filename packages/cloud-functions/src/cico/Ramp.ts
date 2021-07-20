@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { DigitalAsset, RAMP_DATA } from '../config'
 import { PaymentMethod, ProviderQuote } from './fetchProviders'
+import { bankingSystemToCountry } from './providerAvailability'
 import {
   fetchLocalCurrencyAndExchangeRate,
   fetchWithTimeout,
@@ -54,7 +55,7 @@ export const Ramp = {
         /?hostApiKey=${RAMP_DATA.public_key}
       `.replace(findContinguousSpaces, '')
 
-      const validPaymentMethods = ['MANUAL_BANK_TRANSFER', 'CARD_PAYMENT']
+      const validPaymentMethods = Ramp.determineValidPaymentMethods(userCountry)
 
       const rawQuotes: Array<RampQuote | null> = await Promise.all(
         validPaymentMethods.map((method) =>
@@ -99,6 +100,14 @@ export const Ramp = {
       localAmount: roundDecimals(baseCurrencyAmount * exchangeRate, 2),
     }
   },
+  determineValidPaymentMethods: (country: string | null) => {
+    const validPaymentMethods = ['CARD_PAYMENT']
+    if (country && (bankingSystemToCountry.gbp[country] || bankingSystemToCountry.sepa[country])) {
+      validPaymentMethods.push('MANUAL_BANK_TRANSFER')
+    }
+
+    return validPaymentMethods
+  },
   processRawQuotes: (rawQuotes: Array<RampQuote | null>, exchangeRate: number) => {
     const quotes: ProviderQuote[] = []
     for (const quote of rawQuotes) {
@@ -109,9 +118,7 @@ export const Ramp = {
       const { appliedFee, cryptoAmount, cryptoAssetSymbol, paymentMethodType } = quote
       quotes.push({
         paymentMethod:
-          paymentMethodType === RampPaymentMethod.CARD_PAYMENT
-            ? PaymentMethod.Card
-            : PaymentMethod.Bank,
+          paymentMethodType === 'CARD_PAYMENT' ? PaymentMethod.Card : PaymentMethod.Bank,
         fiatFee: roundDecimals(appliedFee / exchangeRate, 2),
         returnedAmount: new BigNumber(cryptoAmount).toNumber(),
         digitalAsset: cryptoAssetSymbol,
