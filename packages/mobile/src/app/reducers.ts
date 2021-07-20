@@ -1,6 +1,6 @@
 import { Platform } from 'react-native'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
-import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/firebase'
+import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
 import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'

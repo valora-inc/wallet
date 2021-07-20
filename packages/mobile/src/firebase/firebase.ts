@@ -10,6 +10,7 @@ import { call, select, take } from 'redux-saga/effects'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { RemoteFeatureFlags } from 'src/app/saga'
 import { FIREBASE_ENABLED } from 'src/config'
+import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
 import { handleNotification } from 'src/firebase/notifications'
 import { NotificationReceiveState } from 'src/notifications/types'
 import Logger from 'src/utils/Logger'
@@ -213,25 +214,6 @@ export function appVersionDeprecationChannel() {
 
     return cancel
   })
-}
-
-export const FEATURE_FLAG_DEFAULTS = {
-  hideVerification: false,
-  // cannot set defaults to undefined or null
-  // TODO: maybe a better default is '0xf' ?
-  // showRaiseDailyLimitTarget: undefined,
-  // same here
-  // celoEducationUri: null,
-  celoEuroEnabled: false,
-  shortVerificationCodesEnabled: false,
-  inviteRewardsEnabled: false,
-  inviteRewardCusd: 1,
-  inviteRewardWeeklyLimit: 20,
-  walletConnectEnabled: false,
-  rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
-  rewardsPercent: 5,
-  rewardsStartDate: 1622505600000,
-  rewardsMax: 1000,
 }
 
 /*

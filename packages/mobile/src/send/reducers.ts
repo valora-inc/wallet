@@ -1,5 +1,5 @@
 import { Actions as AppActions, UpdateFeatureFlagsAction } from 'src/app/actions'
-import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/firebase'
+import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
 import { areRecipientsEquivalent, Recipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { Actions, ActionTypes } from 'src/send/actions'
