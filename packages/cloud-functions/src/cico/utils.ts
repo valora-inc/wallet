@@ -189,3 +189,6 @@ export const fetchLocalCurrencyAndExchangeRate = async (
 
   return result
 }
+
+export const roundDecimals = (input: number, decimals: number) =>
+  Math.round(input * 10 ** decimals) / 10 ** decimals
