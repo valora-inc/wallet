@@ -19,7 +19,7 @@
   "sentTo": "Sent To",
   "withdrawnTo": "Withdrawn to",
   "receivedFrom": "Received From",
-  "accountNumberLabel": "Account Address",
+  "accountNumberLabel": "Account No.",
   "commentLabel": "Message",
   "amountSent": "Amount Sent",
   "amountCeloWithdrawn": "Amount (CELO)",
@@ -62,7 +62,7 @@
   "writeStorageNeededForQrDownload": "Storage write permission is needed for downloading the QR code",
   "cameraScanInfo": "Center code in the box above",
   "cameraNotAuthorizedTitle": "Enable Camera",
-  "cameraNotAuthorizedDescription": "Please enable Camera access in your phone’s Settings. You’ll need it to scan QR codes.",
+  "cameraNotAuthorizedDescription": "Please enable the Camera in your phone’s Settings. You’ll need it to scan QR codes.",
   "cameraSettings": "Settings",
   "toSentOrRequestPayment": "to send or request payment",
   "reminderSent": "Reminder Sent",
@@ -82,7 +82,7 @@
   },
   "importContactsCta": {
     "header": "Import Contacts",
-    "body": "Enable contacts in your phone's settings to easily send and request payments.",
+    "body": "Please enable Contacts in your phone’s Settings to find your friends by name.",
     "cta": "Settings"
   },
   "contactSyncProgress": {
@@ -96,30 +96,30 @@
     "button": "Confirm Account Address"
   },
   "secureSendExplanation": {
-    "body1": "There are multiple accounts associated with {{e164PhoneNumber}}. In order to confirm that you have the right account, please scan their QR code or enter their account address. ",
+    "body1": "{{e164PhoneNumber}} has multiple accounts associated with it. {{displayName}} could have created a new {{appName}} account, or may have lost their phone or had their account compromised.",
     "body1NoDisplayName": "Your contact has multiple accounts associated with it. Your contact could have created a new {{appName}} account, or may have lost their phone or had their account compromised.",
-    "body2": "You must scan their QR code or confirm their account number before transacting."
+    "body2": "You must scan their QR code or confirm their Account Address before transacting."
   },
   "confirmAccountNumber": {
     "title": "Confirm Account Address",
-    "bodyPartial": "Please ask {{displayName}} for the last four digits of their Account Address. It's safest to do this in person or by phone call.",
-    "bodyPartialNoDisplayName": "Please ask your contact for the last four digits of their Account Address. It's safest to do this in person or by phone call.",
+    "bodyPartial": "Please ask {{displayName}} for the last four digits of their Account Address. It's safest to do this in person or by phone.",
+    "bodyPartialNoDisplayName": "Please ask your contact for the last four digits of their Account Address. It's safest to do this in person or by phone.",
     "body1Full": "Please ask {{displayName}} for their Account Address.",
     "body1FullNoDisplayName": "Please ask your contact for their Account Address.",
     "body2Full": "We strongly recommend asking in person or over the phone, through WhatsApp or Messenger, or by email. For security, please do not use text messaging (SMS).",
-    "help": "Where can I find an Account Address?",
+    "help": "Help locating an Account Address",
     "submit": "Submit"
   },
   "accountInputHeaderPartial": "Last 4 Digits",
-  "accountInputHeaderFull": "Account Number",
+  "accountInputHeaderFull": "Account Address",
   "helpModal": {
     "header": "Locating an Account Address",
-    "body1": "Your Account Address is located in the menu. Open the menu by tapping the menu icon in the top left corner.",
-    "body2": "Your Account Address is near the bottom of the menu.",
+    "body1": "Account Addresses (also known as addresses) are located in the menu. From the Home screen, open the menu by tapping the icon in the top left corner.",
+    "body2": "The Account Address is near the bottom of the menu.",
     "body3": "Account Addresses begin with \"0x\" and are 42 characters long"
   },
-  "transferAddressChanged": "This contact has changed their Account Address. This payment was sent to:",
-  "addressConfirmed": "Account number confirmed",
+  "transferAddressChanged": "This contact changed their Account Address since the transaction. This payment was sent to:",
+  "addressConfirmed": "Account Address confirmed",
   "sending": "Sending",
   "feeActual": "Fees",
   "feeEstimate": "Estimated Fees",
