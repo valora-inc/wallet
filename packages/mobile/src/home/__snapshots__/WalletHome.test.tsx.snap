@@ -252,6 +252,7 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
           testID="SendOrRequestBar/SendButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -328,6 +329,7 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
           testID="SendOrRequestBar/RequestButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -662,6 +664,7 @@ exports[`Testnet banner Renders when disconnected 1`] = `
           testID="SendOrRequestBar/SendButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -738,6 +741,7 @@ exports[`Testnet banner Renders when disconnected 1`] = `
           testID="SendOrRequestBar/RequestButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -1072,6 +1076,7 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
           testID="SendOrRequestBar/SendButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -1148,6 +1153,7 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
           testID="SendOrRequestBar/RequestButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",

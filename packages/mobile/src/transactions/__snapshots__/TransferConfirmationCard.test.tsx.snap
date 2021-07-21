@@ -188,6 +188,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -276,6 +277,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -1161,6 +1163,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -1249,6 +1252,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -1708,6 +1712,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -1796,6 +1801,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -2221,6 +2227,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -2309,6 +2316,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -2736,6 +2744,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -2824,6 +2833,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -3498,6 +3508,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -3586,6 +3597,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
