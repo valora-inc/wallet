@@ -32,7 +32,8 @@ Array [
           },
           Array [
             Object {
-              "height": 144,
+              "flex": 1,
+              "minHeight": 144,
             },
             Object {},
           ],
@@ -69,7 +70,7 @@ Array [
             }
             testID="OutgoingPaymentRequestNotification/1/Title"
           >
-            outgoingPaymentRequestNotificationTitle
+            outgoingPaymentRequestNotificationTitle, {"name":"5126608970"}
           </Text>
           <Text
             numberOfLines={1}
@@ -85,7 +86,6 @@ Array [
             testID="OutgoingPaymentRequestNotification/1/Amount"
           >
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
@@ -171,6 +171,8 @@ Array [
         style={
           Object {
             "flexDirection": "row",
+            "flexWrap": "wrap",
+            "justifyContent": "flex-start",
           }
         }
         testID="OutgoingPaymentRequestNotification/1/CallToActions"
@@ -205,9 +207,9 @@ Array [
                 },
                 Object {
                   "fontSize": 14,
-                  "height": 16,
                   "lineHeight": 16,
                   "marginRight": 24,
+                  "minHeight": 16,
                   "minWidth": 48,
                 },
               ]
@@ -246,9 +248,9 @@ Array [
                 },
                 Object {
                   "fontSize": 14,
-                  "height": 16,
                   "lineHeight": 16,
                   "marginRight": 24,
+                  "minHeight": 16,
                   "minWidth": 48,
                 },
               ]
