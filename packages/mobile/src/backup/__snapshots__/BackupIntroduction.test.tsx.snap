@@ -408,6 +408,7 @@ exports[`BackupIntroduction renders correctly when backup not complete 1`] = `
             testID="SetUpAccountKey"
           >
             <Text
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",

@@ -60,7 +60,13 @@ exports[`Profile renders correctly 1`] = `
             }
           >
             <Text
-              style={Object {}}
+              maxFontSizeMultiplier={2}
+              style={
+                Object {
+                  "textAlign": "center",
+                  "textAlignVertical": "center",
+                }
+              }
             >
               addPhoto
             </Text>
