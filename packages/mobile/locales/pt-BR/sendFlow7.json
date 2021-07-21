@@ -62,7 +62,7 @@
   "writeStorageNeededForQrDownload": "É necessário a permissão de gravação no armazenamento para baixar o QR code",
   "cameraScanInfo": "Centralize o código na caixa acima",
   "cameraNotAuthorizedTitle": "Habilitar câmera",
-  "cameraNotAuthorizedDescription": "Ative a câmera nas configurações do seu celular. Você precisará dele para ler os códigos QR.",
+  "cameraNotAuthorizedDescription": "Ative a câmera nas configurações do seu celular. Você precisará dele para ler os QR codes.",
   "cameraSettings": "Configurações",
   "toSentOrRequestPayment": "para enviar ou solicitar pagamento",
   "reminderSent": "Lembrete enviado",
@@ -96,30 +96,30 @@
     "button": "Confirmar o número da conta"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} tem várias contas associadas a ele. {{displayName}} pode ter criado uma nova conta no {{appName}}, pode ter perdido seu celular ou teve a conta comprometida.",
+    "body1": "{{e164PhoneNumber}} tem várias contas associadas a ele. {{displayName}} pode ter criado uma nova conta na {{appName}}, pode ter perdido seu celular ou teve a conta comprometida.",
     "body1NoDisplayName": "Seu contato possui várias contas associadas a ele. Seu contato pode ter criado uma nova conta na {{appName}}, pode ter perdido o celular ou teve a conta comprometida.",
-    "body2": "Você deve escanear o QR code ou confirmar o número da conta antes de realizar a transação."
+    "body2": "Você deve digitalizar o código QR deles ou confirmar seu endereço de conta antes de transar."
   },
   "confirmAccountNumber": {
     "title": "Confirmar o número da conta",
-    "bodyPartial": "Peça a {{displayName}} os quatro últimos dígitos do número da conta. É mais seguro fazer isso pessoalmente ou por telefone.",
-    "bodyPartialNoDisplayName": "Peça ao seu contato os últimos quatro dígitos do número da conta. É mais seguro fazer isso pessoalmente ou por telefone.",
+    "bodyPartial": "Por favor, peça para {{displayName}} os quatro últimos dígitos do endereço da conta. É mais seguro fazer isso em pessoa ou no telefone.",
+    "bodyPartialNoDisplayName": "Por favor, pergunte ao seu contato para os quatro últimos dígitos do endereço da conta deles. É mais seguro fazer isso em pessoa ou por telefone.",
     "body1Full": "Peça o número da conta de {{displayName}}.",
     "body1FullNoDisplayName": "Peça ao seu contato o número da conta.",
     "body2Full": "Recomendamos que você pergunte pessoalmente, por telefone, WhatsApp, Messenger ou e-mail. Por segurança, não use mensagens de texto (SMS).",
-    "help": "Ajuda para localizar o número da conta",
+    "help": "Ajuda a localizar um endereço de conta",
     "submit": "Enviar"
   },
   "accountInputHeaderPartial": "Últimos 4 dígitos",
   "accountInputHeaderFull": "Número da conta",
   "helpModal": {
     "header": "Ajuda para localizar o número da conta",
-    "body1": "O número da conta (também conhecido como endereço) está localizado no menu. Na tela inicial, abra o menu tocando no ícone no canto superior esquerdo.",
-    "body2": "O número da conta está próximo à parte inferior do menu.",
+    "body1": "Os endereços dos clientes (também conhecidos como endereços) estão localizados no menu. Na Tela inicial, abra o menu ao tocar no ícone no canto superior esquerdo.",
+    "body2": "O endereço da Conta está perto do final do menu.",
     "body3": "O número da conta começa com \"0x\" e tem 42 caracteres"
   },
-  "transferAddressChanged": "Este contato mudou seu número de conta desde a transação. Este pagamento foi enviado para:",
-  "addressConfirmed": "Número da conta confirmado",
+  "transferAddressChanged": "Este contato mudou o endereço de sua conta desde a transação. Este pagamento foi enviado para:",
+  "addressConfirmed": "Endereço da conta confirmado",
   "sending": "Enviando",
   "feeActual": "Taxas",
   "feeEstimate": "Taxas estimadas",
