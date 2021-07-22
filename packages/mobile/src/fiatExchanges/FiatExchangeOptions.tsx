@@ -384,6 +384,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: variables.contentPadding,
     borderWidth: 1,
+    flexWrap: 'wrap',
+    alignItems: 'center',
   },
   currencyItemTitle: {
     ...fontStyles.regular500,
@@ -411,6 +413,7 @@ const styles = StyleSheet.create({
     minHeight: 100,
   },
   paymentMethodItemContainer: {
+    alignItems: 'center',
     flexDirection: 'row',
     padding: 8,
   },

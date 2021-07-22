@@ -266,12 +266,13 @@ function FiatExchangeAmount({ route }: Props) {
         contentContainerStyle={styles.contentContainer}
       >
         <View style={styles.amountInputContainer}>
-          <View>
+          <View style={{ maxWidth: '60%' }}>
             <Text style={styles.exchangeBodyText}>{`${t('global:amount')} ${
               currency === Currency.Celo ? '(CELO)' : ''
             }`}</Text>
           </View>
           <TextInput
+            multiline={true}
             autoFocus={true}
             keyboardType={'decimal-pad'}
             onChangeText={onChangeExchangeAmount}
@@ -359,6 +360,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
     alignItems: 'center',
     marginBottom: 8,
+    flexWrap: 'wrap',
   },
   exchangeBodyText: {
     ...fontStyles.regular500,
@@ -373,7 +375,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontSize: 19,
     lineHeight: Platform.select({ android: 27, ios: 23 }), // vertical align = center
-    height: 48, // setting height manually b.c. of bug causing text to jump on Android
+    minHeight: 48, // setting height manually b.c. of bug causing text to jump on Android
   },
   fiatCurrencyColor: {
     color: colors.greenUI,
