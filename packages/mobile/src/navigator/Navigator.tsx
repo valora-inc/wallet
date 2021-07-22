@@ -58,7 +58,6 @@ import {
   HeaderTitleWithBalance,
   HeaderTitleWithSubtitle,
   headerWithBackButton,
-  headerWithCancelButton,
   headerWithBackEditButtons,
   noHeader,
   noHeaderGestureDisabled,
