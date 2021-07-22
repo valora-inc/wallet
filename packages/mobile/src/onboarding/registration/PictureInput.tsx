@@ -68,7 +68,9 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
         {picture ? (
           <Image style={styles.picture} source={{ uri: picture }} />
         ) : (
-          <Text style={styles.addPhoto}>{t('addPhoto')}</Text>
+          <Text maxFontSizeMultiplier={2} style={styles.addPhoto}>
+            {t('addPhoto')}
+          </Text>
         )}
         <View style={styles.photoIconContainer}>
           <Photo />
@@ -116,7 +118,10 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     resizeMode: 'cover',
   },
-  addPhoto: {},
+  addPhoto: {
+    textAlignVertical: 'center',
+    textAlign: 'center',
+  },
 })
 
 export default PictureInput
