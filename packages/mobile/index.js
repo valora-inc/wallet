@@ -13,6 +13,7 @@ import { SENTRY_ENABLED } from 'src/sentry/Sentry'
 import App from 'src/app/App'
 import * as Sentry from '@sentry/react-native'
 import 'react-native-gesture-handler'
+import { Text, TextInput } from 'react-native'
 
 Logger.overrideConsoleLogs()
 
@@ -25,5 +26,16 @@ const customErrorHandler = (e, isFatal) => {
   defaultErrorHandler(e, isFatal)
 }
 ErrorUtils.setGlobalHandler(customErrorHandler)
+
+// Prevent Text & TextInput Elements from scaling over 2
+Text.defaultProps = {
+  ...Text.defaultProps,
+  maxFontSizeMultiplier: 2,
+}
+
+TextInput.defaultProps = {
+  ...TextInput.defaultProps,
+  maxFontSizeMultiplier: 2,
+}
 
 AppRegistry.registerComponent('celo', () => App)
