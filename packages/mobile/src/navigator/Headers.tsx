@@ -1,6 +1,7 @@
 import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
+import variables from '@celo/react-components/styles/variables'
 import { StackNavigationOptions } from '@react-navigation/stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
@@ -104,6 +105,20 @@ export const headerWithBackButton: StackNavigationOptions = {
 export const headerWithCancelButton: StackNavigationOptions = {
   ...emptyHeader,
   headerLeft: () => <CancelButton />,
+}
+
+export const headerWithBackEditButtons: StackNavigationOptions = {
+  ...emptyHeader,
+  cardStyle: {
+    minHeight: Platform.OS === 'ios' ? 44 : 56,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerLeft: () => <CancelButton buttonType="icon" />,
+  headerRight: () => <BackButton />,
+  headerRightContainerStyle: { paddingRight: variables.contentPadding + 6 },
 }
 
 export const headerWithCloseButton: StackNavigationOptions = {
