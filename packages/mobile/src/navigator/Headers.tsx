@@ -108,13 +108,6 @@ export const headerWithCancelButton: StackNavigationOptions = {
 
 export const headerWithBackEditButtons: StackNavigationOptions = {
   ...emptyHeader,
-  cardStyle: {
-    minHeight: Platform.OS === 'ios' ? 44 : 56,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   headerLeft: () => <CancelButton buttonType="icon" />,
   headerRight: () => <BackButton />,
   headerRightContainerStyle: { paddingRight: variables.contentPadding + 6 },
