@@ -30,7 +30,6 @@ export const styles = StyleSheet.create({
     ...fontStyles.navigationHeader,
   },
   headerSubTitle: {
-    ...fontStyles.small,
     color: colors.gray4,
   },
   header: {
@@ -169,8 +168,16 @@ export function HeaderTitleWithSubtitle({
 }) {
   return (
     <View style={styles.header}>
-      {title && <Text style={styles.headerTitle}>{title}</Text>}
-      {subTitle && <Text style={styles.headerSubTitle}>{subTitle}</Text>}
+      {title && (
+        <Text adjustsFontSizeToFit={true} style={styles.headerTitle}>
+          {title}
+        </Text>
+      )}
+      {subTitle && (
+        <Text adjustsFontSizeToFit={true} style={styles.headerSubTitle}>
+          {subTitle}
+        </Text>
+      )}
     </View>
   )
 }
