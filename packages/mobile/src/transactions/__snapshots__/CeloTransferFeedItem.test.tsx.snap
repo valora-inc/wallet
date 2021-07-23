@@ -31,8 +31,9 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
     <View
       style={
         Object {
-          "flex": 4,
+          "flex": 1,
           "flexDirection": "row",
+          "flexWrap": "wrap",
           "justifyContent": "space-between",
           "paddingBottom": 2,
         }
@@ -41,13 +42,11 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
       <View
         style={
           Object {
-            "flex": 3,
             "flexDirection": "row",
           }
         }
       >
         <Text
-          adjustsFontSizeToFit={true}
           style={
             Object {
               "color": "#2E3338",
@@ -60,19 +59,15 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
           feedItemGoldWithdrawal, {"displayName":"0xcc64...d23c"}
         </Text>
       </View>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-end",
-            "flex": 1,
-          }
-        }
-      >
+      <View>
         <Text
           style={
             Array [
               Object {
                 "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 16,
+                "lineHeight": 22,
               },
               Object {
                 "color": "#2E3338",
@@ -138,8 +133,9 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
     <View
       style={
         Object {
-          "flex": 4,
+          "flex": 1,
           "flexDirection": "row",
+          "flexWrap": "wrap",
           "justifyContent": "space-between",
           "paddingBottom": 2,
         }
@@ -148,13 +144,11 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
       <View
         style={
           Object {
-            "flex": 3,
             "flexDirection": "row",
           }
         }
       >
         <Text
-          adjustsFontSizeToFit={true}
           style={
             Object {
               "color": "#2E3338",
@@ -167,19 +161,15 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
           feedItemGoldReceived, {"displayName":"This is a Test"}
         </Text>
       </View>
-      <View
-        style={
-          Object {
-            "alignItems": "flex-end",
-            "flex": 1,
-          }
-        }
-      >
+      <View>
         <Text
           style={
             Array [
               Object {
                 "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 16,
+                "lineHeight": 22,
               },
               Object {
                 "color": "#2E3338",
