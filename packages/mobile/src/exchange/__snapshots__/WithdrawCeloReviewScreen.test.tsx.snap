@@ -28,6 +28,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
         Array [
           Object {
             "flexDirection": "row",
+            "flexWrap": "wrap",
             "justifyContent": "space-between",
             "marginVertical": 5,
           },
@@ -115,6 +116,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -267,6 +269,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -337,6 +340,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -414,6 +418,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },

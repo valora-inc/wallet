@@ -448,6 +448,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "flexDirection": "row",
+            "flexWrap": "wrap",
             "marginBottom": 8,
             "marginTop": 24,
           }
@@ -501,6 +502,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },

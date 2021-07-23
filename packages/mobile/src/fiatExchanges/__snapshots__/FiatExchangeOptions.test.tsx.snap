@@ -118,6 +118,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   Object {
                     "borderWidth": 1,
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "padding": 16,
                   },
                   Object {
@@ -204,6 +205,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   Object {
                     "borderWidth": 1,
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "padding": 16,
                   },
                   Object {
@@ -290,6 +292,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                   Object {
                     "borderWidth": 1,
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "padding": 16,
                   },
                   Object {
@@ -1030,6 +1033,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   Object {
                     "borderWidth": 1,
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "padding": 16,
                   },
                   Object {
@@ -1116,6 +1120,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                   Object {
                     "borderWidth": 1,
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "padding": 16,
                   },
                   Object {
