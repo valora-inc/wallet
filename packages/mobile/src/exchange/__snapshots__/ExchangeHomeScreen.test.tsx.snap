@@ -325,6 +325,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
             testID="WithdrawCELO"
           >
             <Text
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
@@ -796,6 +797,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
               testID="BuyCelo"
             >
               <Text
+                maxFontSizeMultiplier={1}
                 style={
                   Object {
                     "color": "#FFFFFF",
@@ -867,6 +869,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
               testID="SellCelo"
             >
               <Text
+                maxFontSizeMultiplier={1}
                 style={
                   Object {
                     "color": "#FFFFFF",

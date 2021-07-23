@@ -41,7 +41,10 @@ function ContactCircle({ size, recipient, style }: Props) {
     if (recipient.name) {
       const initials = getNameInitial(recipient.name)
       return (
-        <Text style={[fontStyles.iconText, { fontSize: iconSize / 2.0, color: fontColor }]}>
+        <Text
+          allowFontScaling={false}
+          style={[fontStyles.iconText, { fontSize: iconSize / 2.0, color: fontColor }]}
+        >
           {initials.toLocaleUpperCase()}
         </Text>
       )
