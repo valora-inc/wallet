@@ -1,4 +1,3 @@
-import colors from '@celo/react-components/styles/colors'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useState } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
@@ -68,9 +67,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     top: 0,
-  },
-  close: {
-    color: colors.dark,
   },
 })
 
