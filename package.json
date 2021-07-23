@@ -25,9 +25,7 @@
     "postinstall": "yarn run lerna run postinstall && patch-package && yarn keys:decrypt",
     "keys:decrypt": "bash scripts/key_placer.sh decrypt",
     "keys:encrypt": "bash scripts/key_placer.sh encrypt",
-    "check:packages": "node ./scripts/check-packages.js",
-    "celotool": "yarn --cwd packages/celotool run --silent cli",
-    "celocli": "yarn --cwd packages/cli run --silent celocli"
+    "check:packages": "node ./scripts/check-packages.js"
   },
   "husky": {
     "hooks": {
@@ -54,7 +52,7 @@
     "@types/jest": "^26.0.20",
     "babel-jest": "^26.6.3",
     "codecov": "^3.6.5",
-    "detox": "^18.18.1",
+    "detox": "^18.19.0",
     "husky": "^3.0.0",
     "jest": "^26.6.3",
     "jest-circus": "^26.6.3",

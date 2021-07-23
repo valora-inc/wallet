@@ -86,6 +86,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -138,7 +139,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               </View>
             </View>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -168,7 +168,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               numberOfLines={5}
               onBlur={[Function]}
               onChangeText={[Function]}
-              placeholder="addDescription"
+              placeholder="addDescription, {}"
               placeholderTextColor="#1AB775"
               rejectResponderTermination={true}
               returnKeyType="done"
@@ -261,7 +261,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -344,6 +343,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           >
             <Text
               accessibilityLabel="request"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
