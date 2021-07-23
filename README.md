@@ -14,7 +14,9 @@ Valora is a mobile wallet focused on making global peer-to-peer payments simple 
 
 <!-- row 1 - status -->
 
-[![CircleCI](https://img.shields.io/circleci/build/github/celo-org/celo-monorepo/master)](https://circleci.com/gh/celo-org/celo-monorepo/tree/master)
+![example workflow](https://github.com/celo-org/wallet/actions/workflows/check.yml/badge.svg)
+![example workflow](https://github.com/celo-org/wallet/actions/workflows/e2e.yml/badge.svg)
+![example workflow](https://github.com/celo-org/wallet/actions/workflows/test.yml/badge.svg)
 [![Codecov](https://img.shields.io/codecov/c/github/celo-org/celo-monorepo)](https://codecov.io/gh/celo-org/celo-monorepo)
 [![GitHub contributors](https://img.shields.io/github/contributors/celo-org/celo-monorepo)](https://github.com/celo-org/celo-monorepo/graphs/contributors)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/celo-org/celo-monorepo)](https://github.com/celo-org/celo-monorepo/graphs/contributors)
