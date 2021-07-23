@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
   },
   left: {
     justifyContent: 'center',
+    flex: 1,
   },
   title: {
     ...fontStyles.regular,

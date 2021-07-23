@@ -398,6 +398,7 @@ exports[`Profile renders correctly 1`] = `
               style={
                 Array [
                   Object {
+                    "flex": 1,
                     "justifyContent": "center",
                   },
                 ]
