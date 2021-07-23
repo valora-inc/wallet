@@ -266,7 +266,7 @@ function FiatExchangeAmount({ route }: Props) {
         contentContainerStyle={styles.contentContainer}
       >
         <View style={styles.amountInputContainer}>
-          <View style={{ maxWidth: '60%' }}>
+          <View>
             <Text style={styles.exchangeBodyText}>{`${t('global:amount')} ${
               currency === Currency.Celo ? '(CELO)' : ''
             }`}</Text>
