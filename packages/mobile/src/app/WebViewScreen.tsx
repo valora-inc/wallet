@@ -6,11 +6,10 @@ import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { useDispatch } from 'react-redux'
 import { openDeepLink } from 'src/app/actions'
 import WebView from 'src/components/WebView'
-import i18n from 'src/i18n'
+import BackButton from 'src/navigator/BackButton'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { parse } from 'url'
 
@@ -22,13 +21,7 @@ export const webViewScreenNavOptions = ({ route }: RouteProps) => {
   return {
     ...emptyHeader,
     headerTitle: hostname || ' ',
-    headerLeft: () => (
-      <TopBarTextButton
-        title={i18n.t('global:close')}
-        onPress={navigateBack}
-        titleStyle={styles.close}
-      />
-    ),
+    headerLeft: () => <BackButton onPress={navigateBack} />,
   }
 }
 
