@@ -237,8 +237,18 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
   if (fetchedRemotely) {
     const flags: FirebaseRemoteConfigTypes.ConfigValues = remoteConfig().getAll()
     Logger.debug(TAG, `Updated feature flags: ${JSON.stringify(flags)}`)
+
+    // When adding a new feature flag there are 2 places that need updating:
+    // the RemoteFeatureFlags interface as well as the FEATURE_FLAG_DEFAULTS map
+    // FEATURE_FLAG_DEFAULTS is in featureFlagDefaults.ts
+    // RemoteFeatureFlags is in app/saga.ts
+
     return {
       hideVerification: flags.hideVerification.asBoolean(),
+      // these next 2 flags are a bit weird because their default is undefined or null
+      // and the default map cannot have a value of undefined or null
+      // that is why we still need to check for it before calling a method
+      // in the future it would be great to avoid using these as default values
       showRaiseDailyLimitTarget: flags.showRaiseDailyLimitTargetV2?.asString(),
       celoEducationUri: flags.celoEducationUri?.asString() ?? null,
       celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),

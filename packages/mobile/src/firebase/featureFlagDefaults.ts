@@ -1,4 +1,9 @@
-export const FEATURE_FLAG_DEFAULTS = {
+import { RemoteFeatureFlags } from 'src/app/saga'
+
+export const FEATURE_FLAG_DEFAULTS: Omit<
+  RemoteFeatureFlags,
+  'showRaiseDailyLimitTarget' | 'celoEducationUri'
+> = {
   hideVerification: false,
   // cannot set defaults to undefined or null
   // TODO: maybe a better default is '0xf' ?
