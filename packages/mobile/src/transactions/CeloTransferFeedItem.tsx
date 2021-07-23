@@ -55,13 +55,13 @@ export function CeloTransferFeedItem(props: Props) {
       <View style={styles.container}>
         <View style={styles.firstRow}>
           <View style={styles.desc}>
-            <Text style={styles.txMode}>
+            <Text adjustsFontSizeToFit={true} style={styles.txMode}>
               {t(isWithdrawal ? 'feedItemGoldWithdrawal' : 'feedItemGoldReceived', {
                 displayName,
               })}
             </Text>
           </View>
-          <View>
+          <View style={styles.amt}>
             <CurrencyDisplay
               amount={amount}
               style={styles.amount}
@@ -86,19 +86,23 @@ const styles = StyleSheet.create({
   firstRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flex: 1,
     paddingBottom: 2,
-    flexWrap: 'wrap',
+    flex: 4,
   },
   desc: {
     flexDirection: 'row',
+    flex: 3,
+  },
+  amt: {
+    flex: 1,
+    alignItems: 'flex-end',
   },
   txMode: {
     ...fontStyles.regular500,
     color: colors.dark,
   },
   amount: {
-    ...fontStyles.regular500,
+    // ...fontStyles.regular500,
     color: colors.dark,
   },
   time: {
