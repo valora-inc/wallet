@@ -48,6 +48,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
         }
       >
         <Text
+          allowFontScaling={false}
           style={
             Array [
               Object {
