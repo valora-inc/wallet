@@ -22,7 +22,7 @@ const standards = {
     color: colors.dark,
   },
   regular: {
-    fontSize: 16,
+    // fontSize: 16,
     lineHeight: 22,
     fontFamily: Inter.Regular,
     color: colors.dark,
@@ -55,7 +55,7 @@ const fontStyles = StyleSheet.create({
     color: colors.dark,
   },
   navigationHeader: {
-    fontSize: 16,
+    // fontSize: 16
     lineHeight: 20,
     fontFamily: Jost.Medium,
     color: colors.dark,
