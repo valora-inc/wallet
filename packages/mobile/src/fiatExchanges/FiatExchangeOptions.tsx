@@ -420,6 +420,7 @@ const styles = StyleSheet.create({
   paymentMethodItemText: {
     ...fontStyles.small,
     marginLeft: 8,
+    flex: 1,
   },
   goToProvider: {
     width: '50%',
