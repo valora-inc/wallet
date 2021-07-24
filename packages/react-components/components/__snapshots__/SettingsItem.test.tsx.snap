@@ -32,6 +32,7 @@ exports[`SettingsItemInput renders correctly 1`] = `
         style={
           Array [
             Object {
+              "flex": 1,
               "justifyContent": "center",
             },
           ]
@@ -138,6 +139,7 @@ exports[`SettingsItemSwitch renders correctly 1`] = `
         style={
           Array [
             Object {
+              "flex": 1,
               "justifyContent": "center",
             },
           ]
@@ -201,6 +203,7 @@ exports[`SettingsItemTextValue renders correctly 1`] = `
         style={
           Array [
             Object {
+              "flex": 1,
               "justifyContent": "center",
             },
           ]
@@ -291,6 +294,7 @@ exports[`SettingsItemTextValue renders correctly without value 1`] = `
         style={
           Array [
             Object {
+              "flex": 1,
               "justifyContent": "center",
             },
           ]
