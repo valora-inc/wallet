@@ -116,12 +116,13 @@ brew tap homebrew/cask-versions
 brew install --cask homebrew/cask-versions/adoptopenjdk8
 ```
 
-Alternatively, install Jenv to manage multiple Java versions:
+Optionally, install Jenv to manage multiple Java versions:
 
 ```bash
 brew install jenv
 eval "$(jenv init -)"
-jenv add /Library/Java/JavaVirtualMachines/<java8 version here>/Contents/Home
+# next step assumes openjdk8 already installed
+jenv add jenv add /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/
 ```
 
 ##### Linux
