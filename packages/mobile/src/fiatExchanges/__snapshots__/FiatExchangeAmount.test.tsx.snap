@@ -146,7 +146,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
                   }
                 }
               >
-                invalidAmountDialog.minAmount
+                invalidAmountDialog.minAmount, {"limit":"$20"}
               </Text>
             </View>
           </RCTScrollView>
@@ -600,7 +600,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
       }
     }
   >
-    disclaimerFiat
+    disclaimerFiat, {"currency":"celoDollar"}
   </Text>
   <View
     style={
@@ -659,6 +659,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
       >
         <Text
           accessibilityLabel="global:next"
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",

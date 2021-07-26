@@ -40,7 +40,7 @@
   "skipModal": {
     "header": "¿Omitir la confirmación?",
     "body1": "La confirmación permite que otras personas te envíen valor a tu número telefónico.",
-    "body2": "Sin la confirmación, igual podrá recibir pagos, pero solo mediante las direcciones de cuenta o códigos QR."
+    "body2": "Sin confirmación, todavía puede enviar pagos, pero sólo utilizando direcciones de cuenta o códigos QR."
   },
   "failModal": {
     "header": "Error de confirmación",

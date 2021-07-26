@@ -40,7 +40,7 @@
   "skipModal": {
     "header": "Skip Confirmation?",
     "body1": "Confirming allows others to send value to your phone number.",
-    "body2": "Without confirmation, you can still send payments, but only using account numbers or QR codes."
+    "body2": "Without confirmation, you can still send payments, but only using Account Addresses or QR codes."
   },
   "failModal": {
     "header": "Confirmation Error",
