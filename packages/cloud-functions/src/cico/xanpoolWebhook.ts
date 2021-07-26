@@ -47,7 +47,7 @@ export const parseXanpoolEvent = async (reqBody: any) => {
   await trackEvent(XANPOOL_BIG_QUERY_EVENT_TABLE, data)
 }
 
-// This needs to be all lowercase due to a bug in Xanpool's dashboard
+// Function needs to be all lowercase due to a bug in Xanpool's dashboard
 export const xanpoolwebhook = functions.https.onRequest(async (req, res) => {
   try {
     await parseXanpoolEvent(req.body)
