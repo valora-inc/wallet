@@ -113,7 +113,7 @@ Install by running the following:
 ```bash
 brew install cask
 brew tap homebrew/cask-versions
-brew cask install homebrew/cask-versions/adoptopenjdk8
+brew install --cask homebrew/cask-versions/adoptopenjdk8
 ```
 
 Alternatively, install Jenv to manage multiple Java versions:
@@ -139,8 +139,8 @@ sudo apt install openjdk-8-jdk
 Install the Android SDK and platform tools:
 
 ```bash
-brew cask install android-sdk
-brew cask install android-platform-tools
+brew install --cask android-sdk
+brew install --cask android-platform-tools
 ```
 
 Next install [Android Studio][android studio] and add the [Android NDK][android ndk].
@@ -210,7 +210,7 @@ Another Android emulator option is Genymotion.
 ###### MacOS
 
 ```bash
-brew cask install genymotion
+brew install --cask genymotion
 ```
 
 Under OSX High Sierra and later, you'll get a message that you need to
