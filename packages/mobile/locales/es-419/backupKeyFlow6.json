@@ -22,7 +22,8 @@
   "backupQuizWordCount": "¿Cuál es la palabra <0>{{ordinal}}</0> de tu Clave de Cuenta?",
   "importBackupFailed": "No se pudo importar la billetera",
   "backupQuizFailed": "La clave de la cuenta que ha introducido es incorrecta. Por favor, inténtelo de nuevo.",
-  "invalidBackupPhrase": "Clave de cuenta inválida",
+  "invalidBackupPhrase": "La clave de cuenta no es válida",
+  "invalidWordsInBackupPhrase": "Algunas palabras en la clave de cuenta no son válidas: {{ invalidWords }}",
   "backupComplete": {
     "header": "Copia de Seguridad Completa",
     "0": "¡Correcto!",

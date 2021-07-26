@@ -11,7 +11,7 @@
   },
   "contacts": {
     "header": "Conectar Contactos",
-    "body": "Añadir tus contactos facilita el envío y la solicitud de pagos con tus amigos. Esta conexión no envía invitaciones a tus contactos.",
+    "body": "Añadir tus contactos hace que sea fácil enviar y solicitar pagos con tus amigos. Conectar no envía invitaciones a tus contactos.\n\nSi eliges conectar tus contactos, la versión cifrada de sus números de teléfono de contacto será utilizada por nuestro servicio para encontrar quién de sus amigos ya está en Valora sin compartir ninguna información personal a nadie directamente.",
     "findSwitch": "Permite que los contactos te encuentren",
     "syncing": {
       "loadingHeader": "Sincronizando...",
@@ -66,7 +66,7 @@
   "verificationPrematureRevealMessage": "Por favor espera 1 minuto antes de volver a enviar",
   "verificationLearnMoreDialog": {
     "title": "Números de teléfono y {{appName}}",
-    "body": "Confirmar facilita conectar con tus amigos al permitir enviar y recibir dinero usando tu número de teléfono.\n\n<0>¿Puedo hacerlo más tarde?</0>\n\nSi, pero cuentas sin confirmar solo pueden enviar dinero usando códigos QR o números de cuenta (direcciones).\n\n<1>Seguro y Privado</1>\n\nValora usa criptografía de vanguardia para mantener tu número de teléfono privado.",
+    "body": "Confirmar hace que sea fácil conectarse con tus amigos permitiéndote enviar y recibir fondos a tu número de teléfono.\n\n<0>¿Puedo hacer esto más tarde?</0>\n\nSí, pero las cuentas no confirmadas solo pueden enviar pagos con códigos QR o direcciones de cliente.\n\n<1>Seguro y Privado</1>\n\nValora utiliza la criptografía más moderna para mantener su número de teléfono privado.",
     "dismiss": "Descartar"
   },
   "importExistingKey": {
