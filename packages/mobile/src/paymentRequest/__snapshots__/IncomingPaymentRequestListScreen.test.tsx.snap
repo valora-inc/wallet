@@ -76,7 +76,8 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                   },
                   Array [
                     Object {
-                      "height": 144,
+                      "flex": 1,
+                      "minHeight": 144,
                     },
                     Object {},
                   ],
@@ -113,7 +114,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     }
                     testID="IncomingPaymentRequestNotification/7363bvby2ba8270273/Title"
                   >
-                    incomingPaymentRequestNotificationTitle
+                    incomingPaymentRequestNotificationTitle, {"name":"John Doe"}
                   </Text>
                   <Text
                     numberOfLines={1}
@@ -129,7 +130,6 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     testID="IncomingPaymentRequestNotification/7363bvby2ba8270273/Amount"
                   >
                     <Text
-                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
@@ -191,6 +191,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                       }
                     >
                       <Text
+                        allowFontScaling={false}
                         style={
                           Array [
                             Object {
@@ -215,6 +216,8 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                 style={
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
+                    "justifyContent": "flex-start",
                   }
                 }
                 testID="IncomingPaymentRequestNotification/7363bvby2ba8270273/CallToActions"
@@ -249,9 +252,9 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                         },
                         Object {
                           "fontSize": 14,
-                          "height": 16,
                           "lineHeight": 16,
                           "marginRight": 24,
+                          "minHeight": 16,
                           "minWidth": 48,
                         },
                       ]
@@ -290,9 +293,9 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                         },
                         Object {
                           "fontSize": 14,
-                          "height": 16,
                           "lineHeight": 16,
                           "marginRight": 24,
+                          "minHeight": 16,
                           "minWidth": 48,
                         },
                       ]
@@ -335,7 +338,8 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                   },
                   Array [
                     Object {
-                      "height": 144,
+                      "flex": 1,
+                      "minHeight": 144,
                     },
                     Object {},
                   ],
@@ -372,7 +376,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     }
                     testID="IncomingPaymentRequestNotification/7363bvby2ba8270273/Title"
                   >
-                    incomingPaymentRequestNotificationTitle
+                    incomingPaymentRequestNotificationTitle, {"name":"John Doe"}
                   </Text>
                   <Text
                     numberOfLines={1}
@@ -388,7 +392,6 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     testID="IncomingPaymentRequestNotification/7363bvby2ba8270273/Amount"
                   >
                     <Text
-                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
@@ -450,6 +453,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                       }
                     >
                       <Text
+                        allowFontScaling={false}
                         style={
                           Array [
                             Object {
@@ -474,6 +478,8 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                 style={
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
+                    "justifyContent": "flex-start",
                   }
                 }
                 testID="IncomingPaymentRequestNotification/7363bvby2ba8270273/CallToActions"
@@ -508,9 +514,9 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                         },
                         Object {
                           "fontSize": 14,
-                          "height": 16,
                           "lineHeight": 16,
                           "marginRight": 24,
+                          "minHeight": 16,
                           "minWidth": 48,
                         },
                       ]
@@ -549,9 +555,9 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                         },
                         Object {
                           "fontSize": 14,
-                          "height": 16,
                           "lineHeight": 16,
                           "marginRight": 24,
+                          "minHeight": 16,
                           "minWidth": 48,
                         },
                       ]
@@ -594,7 +600,8 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                   },
                   Array [
                     Object {
-                      "height": 144,
+                      "flex": 1,
+                      "minHeight": 144,
                     },
                     Object {},
                   ],
@@ -631,7 +638,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     }
                     testID="IncomingPaymentRequestNotification/7363bvby2ba8270273/Title"
                   >
-                    incomingPaymentRequestNotificationTitle
+                    incomingPaymentRequestNotificationTitle, {"name":"John Doe"}
                   </Text>
                   <Text
                     numberOfLines={1}
@@ -647,7 +654,6 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                     testID="IncomingPaymentRequestNotification/7363bvby2ba8270273/Amount"
                   >
                     <Text
-                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
@@ -709,6 +715,7 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                       }
                     >
                       <Text
+                        allowFontScaling={false}
                         style={
                           Array [
                             Object {
@@ -733,6 +740,8 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                 style={
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
+                    "justifyContent": "flex-start",
                   }
                 }
                 testID="IncomingPaymentRequestNotification/7363bvby2ba8270273/CallToActions"
@@ -767,9 +776,9 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                         },
                         Object {
                           "fontSize": 14,
-                          "height": 16,
                           "lineHeight": 16,
                           "marginRight": 24,
+                          "minHeight": 16,
                           "minWidth": 48,
                         },
                       ]
@@ -808,9 +817,9 @@ exports[`IncomingPaymentRequestListScreen renders correctly with requests 1`] = 
                         },
                         Object {
                           "fontSize": 14,
-                          "height": 16,
                           "lineHeight": 16,
                           "marginRight": 24,
+                          "minHeight": 16,
                           "minWidth": 48,
                         },
                       ]

@@ -78,7 +78,13 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
           }
         >
           <Text
-            style={Object {}}
+            maxFontSizeMultiplier={2}
+            style={
+              Object {
+                "textAlign": "center",
+                "textAlignVertical": "center",
+              }
+            }
           >
             addPhoto
           </Text>
@@ -511,6 +517,7 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
             testID="NameAndPictureContinueButton"
           >
             <Text
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#0768AE",
@@ -624,7 +631,13 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
           }
         >
           <Text
-            style={Object {}}
+            maxFontSizeMultiplier={2}
+            style={
+              Object {
+                "textAlign": "center",
+                "textAlignVertical": "center",
+              }
+            }
           >
             addPhoto
           </Text>
@@ -1057,6 +1070,7 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
             testID="NameAndPictureContinueButton"
           >
             <Text
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#0768AE",
