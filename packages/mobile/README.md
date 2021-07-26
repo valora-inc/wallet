@@ -122,7 +122,7 @@ Optionally, install Jenv to manage multiple Java versions:
 brew install jenv
 eval "$(jenv init -)"
 # next step assumes openjdk8 already installed
-jenv add jenv add /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/
+jenv add /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/
 ```
 
 ##### Linux
