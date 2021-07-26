@@ -114,7 +114,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                     }
                     testID="EscrowedPaymentListItem/Title"
                   >
-                    escrowPaymentNotificationTitle
+                    escrowPaymentNotificationTitle, {"mobile":"+491522345678"}
                   </Text>
                   <Text
                     numberOfLines={1}
@@ -191,6 +191,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                       }
                     >
                       <Text
+                        allowFontScaling={false}
                         style={
                           Array [
                             Object {
@@ -375,7 +376,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                     }
                     testID="EscrowedPaymentListItem/Title"
                   >
-                    escrowPaymentNotificationTitle
+                    escrowPaymentNotificationTitle, {"mobile":"+491522345678"}
                   </Text>
                   <Text
                     numberOfLines={1}
@@ -452,6 +453,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                       }
                     >
                       <Text
+                        allowFontScaling={false}
                         style={
                           Array [
                             Object {
@@ -636,7 +638,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                     }
                     testID="EscrowedPaymentListItem/Title"
                   >
-                    escrowPaymentNotificationTitle
+                    escrowPaymentNotificationTitle, {"mobile":"+491522345678"}
                   </Text>
                   <Text
                     numberOfLines={1}
@@ -713,6 +715,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                       }
                     >
                       <Text
+                        allowFontScaling={false}
                         style={
                           Array [
                             Object {

@@ -54,6 +54,7 @@ exports[`Button when type is SECONDARY renders 1`] = `
       }
     >
       <Text
+        maxFontSizeMultiplier={1}
         style={
           Object {
             "color": "#2E3338",
@@ -124,6 +125,7 @@ exports[`Button when type is TERTIARY renders 1`] = `
       }
     >
       <Text
+        maxFontSizeMultiplier={1}
         style={
           Object {
             "color": "#FFFFFF",
@@ -194,6 +196,7 @@ exports[`Button when type not given defaults to primary 1`] = `
       }
     >
       <Text
+        maxFontSizeMultiplier={1}
         style={
           Object {
             "color": "#FFFFFF",
