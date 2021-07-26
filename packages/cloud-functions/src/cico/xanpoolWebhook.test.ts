@@ -1,5 +1,4 @@
 import { saveTxHashProvider } from '../firebase'
-import { moonpayWebhook } from './moonpayWebhook'
 import { Providers } from './Providers'
 import { xanpoolwebhook } from './xanpoolWebhook'
 
@@ -32,6 +31,10 @@ describe('Xanpool cash in', () => {
         timestamp: '2021-07-01',
         message: 'mock',
         payload: {
+          cryptoCurrency: 'cusd',
+          currency: 'usd',
+          fiat: 100,
+          crypto: 99,
           wallet: '0x123',
           blockchainTxId: '0x456',
         },
@@ -44,43 +47,20 @@ describe('Xanpool cash in', () => {
     expect(saveTxHashProvider).toHaveBeenCalledWith('0x123', '0x456', Providers.Xanpool)
   })
 
-  it('POST /moonpay - wrong signature', async () => {
-    global.Buffer.compare = () => 1
-    const mockMoonpaySignature =
-      't=1492774577,s=5257a869e7ecebeda32affa62cdca3fa51cad7e77a0e56ff536d0ce8e108d8bd'
+  it('POST /xanpool - no tx id', async () => {
     const request: any = {
       body: {
-        type: 'mock',
-        data: {
-          walletAddress: '0x123',
-          cryptoTransactionId: '0x456',
+        timestamp: '2021-07-01',
+        message: 'mock',
+        payload: {
+          cryptoCurrency: 'cusd',
+          currency: 'usd',
+          fiat: 100,
+          crypto: 99,
         },
       },
-      header: (head: string) =>
-        head === 'Moonpay-Signature-V2' ? mockMoonpaySignature : undefined,
     }
-    await moonpayWebhook(request, response)
-
-    expect(response.status).toHaveBeenCalledWith(401)
-    expect(saveTxHashProvider).not.toHaveBeenCalled()
-  })
-
-  it('POST /moonpay - no tx id', async () => {
-    global.Buffer.compare = () => 0
-    const mockMoonpaySignature =
-      't=1492774577,s=5257a869e7ecebeda32affa62cdca3fa51cad7e77a0e56ff536d0ce8e108d8bd'
-    const request: any = {
-      body: {
-        type: 'mock',
-        data: {
-          walletAddress: '0x123',
-          cryptoTransactionId: '',
-        },
-      },
-      header: (head: string) =>
-        head === 'Moonpay-Signature-V2' ? mockMoonpaySignature : undefined,
-    }
-    await moonpayWebhook(request, response)
+    await xanpoolwebhook(request, response)
 
     expect(response.status).toHaveBeenCalledWith(204)
     expect(saveTxHashProvider).not.toHaveBeenCalled()
