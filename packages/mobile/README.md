@@ -49,14 +49,21 @@ The app uses [React Native][react native] and a geth [light node][light node].
 
 **You must have the [wallet] monorepo successfully set up and built before setting up and running the mobile wallet.** To do this, follow the [setup instructions][setup].
 
-To do this, follow the [setup instructions][setup].
-
 Next, install [watchman][watchman].
 
 ```bash
 # On a mac
 brew install watchman
 ```
+
+#### Google Cloud
+You will need to be added the team keyring on GCP so you can decrypt secrets in the repo. (Ask for an invite to `celo-testnet`.) 
+
+Once you have access, install Google Cloud by running `brew install google-cloud-sdk`.
+Follow instructions [here](https://github.com/celo-org/bootnode/blob/4bdd7e7ecb91db54dc2a307ec45887d73aa75394/engsetup/README.md)
+for logging in with Google credentials.
+
+Then run `yarn keys:decrypt` from the wallet repo root. You should see something like this: `Encrypted files decrypted`
 
 ### iOS
 
@@ -93,10 +100,8 @@ bundle exec pod install
 If your machine does not recognize the `gem` command, you may need to [download Ruby](https://rubyinstaller.org/) first.
 
 1. Run `yarn install` in the monorepo root `/wallet`.
-2. Install Google Cloud by running `brew install google-cloud-sdk`.
-   2a. Follow instructions here for logging in with Google credentials. https://github.com/celo-org/bootnode/blob/4bdd7e7ecb91db54dc2a307ec45887d73aa75394/engsetup/README.md
-3. Run `yarn build:wallet` from the monorepo root `/wallet`.
-4. Run `yarn dev:ios` in the `/wallet/packages/mobile/ios` folder.
+2. Run `yarn build:wallet` from the monorepo root `/wallet`.
+3. Run `yarn dev:ios` in the `/wallet/packages/mobile/ios` folder.
 
 And the app should be running in the simulator! If you run into any issues, see below for troubleshooting.
 
@@ -151,10 +156,11 @@ _Note that these paths may differ on your machine. You can find the path to the 
 
 ```bash
 export ANDROID_HOME=/usr/local/share/android-sdk
-export ANDROID_NDK=/usr/local/share/android-ndk
+export ANDROID_NDK=/usr/local/share/android-sdk/ndk
 export ANDROID_SDK_ROOT=/usr/local/share/android-sdk
 # this is an optional gradle configuration that should make builds faster
 export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gradle.jvmargs="-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError"'
+export TERM_PROGRAM=iterm  # or whatever your favorite terminal program is
 ```
 
 Then install the Android 29 platform:
@@ -238,7 +244,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 **Note:** We've seen some issues running the metro bundler from iTerm
 
-1. If you haven't already, run `yarn` from the monorepo root to install dependencies.
+1. If you haven't already, run `yarn` and then `yarn build` from the monorepo root to install and build dependencies.
 
 2. Attach your device or start an emulated one.
 
