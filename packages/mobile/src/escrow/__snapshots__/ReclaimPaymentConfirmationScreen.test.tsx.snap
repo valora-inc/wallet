@@ -936,6 +936,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
           >
             <Text
               accessibilityLabel="global:confirm"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
@@ -1006,6 +1007,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
           >
             <Text
               accessibilityLabel="cancel"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#2E3338",
@@ -1988,6 +1990,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
           >
             <Text
               accessibilityLabel="global:confirm"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
@@ -2058,6 +2061,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
           >
             <Text
               accessibilityLabel="cancel"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#2E3338",
@@ -3029,6 +3033,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
           >
             <Text
               accessibilityLabel="global:confirm"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
@@ -3099,6 +3104,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
           >
             <Text
               accessibilityLabel="cancel"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#2E3338",
@@ -4067,6 +4073,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
           >
             <Text
               accessibilityLabel="global:confirm"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
@@ -4137,6 +4144,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
           >
             <Text
               accessibilityLabel="cancel"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#2E3338",
@@ -5108,6 +5116,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
           >
             <Text
               accessibilityLabel="global:confirm"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
@@ -5178,6 +5187,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
           >
             <Text
               accessibilityLabel="cancel"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#2E3338",
@@ -6160,6 +6170,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
           >
             <Text
               accessibilityLabel="global:confirm"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",
@@ -6230,6 +6241,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
           >
             <Text
               accessibilityLabel="cancel"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#2E3338",
