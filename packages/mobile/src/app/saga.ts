@@ -1,5 +1,6 @@
 import URLSearchParamsReal from '@ungap/url-search-params'
-import { AppState } from 'react-native'
+import { AppState, Platform } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import {
   call,
@@ -22,7 +23,7 @@ import {
   OpenUrlAction,
   SetAppState,
   setAppState,
-  googlePlayServicesAvailabilityChecked,
+  androidMobileServicesAvailabilityChecked,
   setLanguage,
   updateFeatureFlags,
 } from 'src/app/actions'
@@ -30,7 +31,8 @@ import { currentLanguageSelector } from 'src/app/reducers'
 import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
-  googlePlayServicesAvailableSelector,
+  googleMobileServicesAvailableSelector,
+  huaweiMobileServicesAvailableSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
@@ -43,10 +45,6 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { Currency } from 'src/utils/currencies'
-import {
-  GooglePlayServicesAvailability,
-  isGooglePlayServicesAvailable,
-} from 'src/utils/googleServices'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
@@ -102,35 +100,47 @@ export function* appVersionSaga() {
   }
 }
 
-// Check the availability of Google Play Services. Log and report the result to.
-// Note: On iOS, this will always report a status of "IOS" and available = false.
-export function* checkGooglePlayServicesSaga() {
-  let result: GooglePlayServicesAvailability
-  try {
-    result = yield call(isGooglePlayServicesAvailable)
-    Logger.info(
-      TAG,
-      `Result of check to isGooglePlayServicesAvailable`,
-      result,
-      GooglePlayServicesAvailability[result]
-    )
-  } catch (e) {
-    Logger.error(TAG, `Error in check to isGooglePlayServicesAvailable`, e)
+// Check the availability of Google Mobile Services and Huawei Mobile Services, an alternative to
+// that ships with Huawei phones which do not have GMS. Log and report the result to analytics.
+// Note: On iOS, this will be a no-op.
+export function* checkAndroidMobileServicesSaga() {
+  if (Platform.OS !== 'android') {
     return
   }
-  const available = result === GooglePlayServicesAvailability.SUCCESS
+
+  // Check to see if Google Mobile Services (i.e. Google Play Services) are available on this device.
+  let googleIsAvailable: boolean | undefined
+  try {
+    googleIsAvailable = yield call([DeviceInfo, DeviceInfo.hasGms])
+    Logger.info(TAG, 'Result of check for Google Mobile Services', googleIsAvailable)
+  } catch (e) {
+    Logger.error(TAG, 'Error in check for Google Mobile Services', e)
+  }
+
+  // Check to see if Huawei Mobile Services are available on this device.
+  let huaweiIsAvailable: boolean | undefined
+  try {
+    huaweiIsAvailable = yield call([DeviceInfo, DeviceInfo.hasHms])
+    Logger.info(TAG, `Result of check for Huawei Mobile Services`, huaweiIsAvailable)
+  } catch (e) {
+    Logger.error(TAG, `Error in check for Huawei Mobile Services`, e)
+  }
 
   // Check if the availability status has changed. If so, log an analytics events.
   // When this is first run, the status in the state tree will be undefined, ensuring this event is
   // fired at least once for each client.
-  if (available !== (yield select(googlePlayServicesAvailableSelector))) {
-    ValoraAnalytics.track(AppEvents.google_play_services_availability_checked, {
-      available,
-      code: GooglePlayServicesAvailability[result],
+  const updated =
+    googleIsAvailable !== (yield select(googleMobileServicesAvailableSelector)) ||
+    huaweiIsAvailable !== (yield select(huaweiMobileServicesAvailableSelector))
+
+  if (updated) {
+    ValoraAnalytics.track(AppEvents.android_mobile_services_availability_checked, {
+      googleIsAvailable,
+      huaweiIsAvailable,
     })
   }
 
-  yield put(googlePlayServicesAvailabilityChecked(available))
+  yield put(androidMobileServicesAvailabilityChecked(googleIsAvailable, huaweiIsAvailable))
 }
 
 export interface RemoteFeatureFlags {

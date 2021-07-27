@@ -8,7 +8,7 @@ import {
   appRemoteFeatureFlagSaga,
   appSaga,
   appVersionSaga,
-  checkGooglePlayServicesSaga,
+  checkAndroidMobileServicesSaga,
 } from 'src/app/saga'
 import { dappKitSaga } from 'src/dappkit/dappkit'
 import { escrowSaga } from 'src/escrow/saga'
@@ -131,7 +131,7 @@ export function* rootSaga() {
     yield spawn(checkAccountExistenceSaga)
     yield spawn(fiatExchangesSaga)
     yield spawn(walletConnectSaga)
-    yield spawn(checkGooglePlayServicesSaga)
+    yield spawn(checkAndroidMobileServicesSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

@@ -31,7 +31,8 @@ export interface State {
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
   ranVerificationMigrationAt: number | null | undefined
-  googlePlayServicesAvailable: boolean | undefined
+  googleMobileServicesAvailable: boolean | undefined
+  huaweiMobileServicesAvailable: boolean | undefined
 }
 
 const initialState = {
@@ -59,7 +60,8 @@ const initialState = {
   rewardsMax: 1000,
   rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
   ranVerificationMigrationAt: null,
-  googlePlayServicesAvailable: false,
+  googleMobileServicesAvailable: undefined,
+  huaweiMobileServicesAvailable: undefined,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -184,10 +186,11 @@ export const appReducer = (
         ranVerificationMigrationAt: action.now,
         numberVerified: action.isVerified,
       }
-    case Actions.GOOGLE_PLAY_SERVICES_AVAILABILITY_CHECKED:
+    case Actions.ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED:
       return {
         ...state,
-        googlePlayServicesAvailable: action.available,
+        googleMobileServicesAvailable: action.googleIsAvailable,
+        huaweiMobileServicesAvailable: action.huaweiIsAvailable,
       }
     default:
       return state
