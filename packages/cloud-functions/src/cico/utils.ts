@@ -111,7 +111,6 @@ export const fetchWithTimeout = async (
   duration: number = FETCH_TIMEOUT_DURATION
 ): Promise<Response> => {
   try {
-    // @ts-ignore
     const timeout = new Promise<undefined>((resolve, reject) => {
       const id = setTimeout(() => {
         clearTimeout(id)
@@ -120,11 +119,6 @@ export const fetchWithTimeout = async (
     })
 
     const response = await Promise.race([body ? fetch(url, body) : fetch(url), timeout])
-    // Response should always be defined because `reject` throws an error
-    // but just satifying the linter with this check
-    if (!response) {
-      throw Error(`Request timed out after ${duration}ms`)
-    }
     return response
   } catch (error) {
     throw error
@@ -192,3 +186,17 @@ export const fetchLocalCurrencyAndExchangeRate = async (
 
 export const roundDecimals = (input: number, decimals: number) =>
   Math.round(input * 10 ** decimals) / 10 ** decimals
+
+export const flattenObject = (obj: any, parent?: string, res: any = {}) => {
+  const keys = Object.keys(obj)
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i]
+    const propName = parent ? parent + '_' + key : key
+    if (obj[key] && typeof obj[key] == 'object') {
+      flattenObject(obj[key], propName, res)
+    } else {
+      res[propName] = obj[key]
+    }
+  }
+  return res
+}
