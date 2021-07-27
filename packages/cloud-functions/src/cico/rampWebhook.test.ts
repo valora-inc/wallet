@@ -15,7 +15,7 @@ jest.mock('crypto', () => ({
 jest.mock('../config', () => ({ RAMP_DATA: { pem_file: 'rampStaging.pem' } }))
 jest.mock('fs', () => ({ readFileSync: jest.fn(() => 'rampKey') }))
 
-describe('Ramp cash in', () => {
+describe('Ramp event webhook', () => {
   const response: any = {
     status: jest.fn(() => response),
     send: jest.fn(),
