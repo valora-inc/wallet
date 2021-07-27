@@ -16,6 +16,7 @@ import {
   handleSendPaymentData,
   _isPaymentLimitReached,
 } from 'src/send/utils'
+import { Currency } from 'src/utils/currencies'
 import { mockQRCodeRecipient, mockUriData } from 'test/values'
 
 const dailyLimit = 500
@@ -163,6 +164,7 @@ describe('send/utils', () => {
         const mockTransactionData: TransactionDataInput = {
           recipient: mockQRCodeRecipient,
           amount: new BigNumber('.5'),
+          currency: Currency.Dollar,
           reason: mockUriData[4].comment,
           type: TokenTransactionType.PayPrefill,
         }
@@ -181,6 +183,7 @@ describe('send/utils', () => {
         const mockTransactionData: TransactionDataInput = {
           recipient: mockQRCodeRecipient,
           amount: new BigNumber('.5'),
+          currency: Currency.Dollar,
           reason: mockUriData[5].comment,
           type: TokenTransactionType.PayPrefill,
         }

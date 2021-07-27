@@ -231,7 +231,7 @@ export class NotificationBox extends React.Component<Props, State> {
       if (!texts) {
         continue
       }
-      if (notification.ctaUri.includes(Screens.ConsumerIncentivesHomeScreen) && !rewardsEnabled) {
+      if (notification.ctaUri?.includes(Screens.ConsumerIncentivesHomeScreen) && !rewardsEnabled) {
         continue
       }
 
@@ -248,7 +248,7 @@ export class NotificationBox extends React.Component<Props, State> {
                 selectedAction: NotificationBannerCTATypes.remote_notification_cta,
                 notificationId: id,
               })
-              openUrl(notification.ctaUri, false, true)
+              openUrl(notification.ctaUri, notification.openExternal, true)
               trackRewardsScreenOpenEvent(notification.ctaUri, RewardsScreenOrigin.NotificationBox)
             },
           },

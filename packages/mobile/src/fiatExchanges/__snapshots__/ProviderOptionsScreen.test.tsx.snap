@@ -133,6 +133,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           "width": 28,
                         }
                       }
+                      testID="Icon/Simplex"
                     />
                   </View>
                   <View
@@ -188,7 +189,6 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     }
                   >
                     <Text
-                      numberOfLines={1}
                       style={
                         Array [
                           Array [
@@ -204,6 +204,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       $
                       13.00
@@ -296,6 +297,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           "width": 28,
                         }
                       }
+                      testID="Icon/Moonpay"
                     />
                   </View>
                   <View
@@ -351,7 +353,6 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     }
                   >
                     <Text
-                      numberOfLines={1}
                       style={
                         Array [
                           Array [
@@ -367,6 +368,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       $
                       5.00
@@ -459,6 +461,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           "width": 28,
                         }
                       }
+                      testID="Icon/Ramp"
                     />
                   </View>
                   <View
@@ -602,6 +605,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           "width": 28,
                         }
                       }
+                      testID="Icon/Xanpool"
                     />
                   </View>
                   <View
@@ -672,7 +676,6 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     }
                   >
                     <Text
-                      numberOfLines={1}
                       style={
                         Array [
                           Array [
@@ -688,6 +691,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       $
                       3.00
@@ -780,6 +784,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           "width": 28,
                         }
                       }
+                      testID="Icon/Transak"
                     />
                   </View>
                   <View
@@ -852,7 +857,6 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     }
                   >
                     <Text
-                      numberOfLines={1}
                       style={
                         Array [
                           Array [
@@ -868,6 +872,7 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                           },
                         ]
                       }
+                      testID="undefined/value"
                     >
                       $
                       6.00

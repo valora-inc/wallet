@@ -3,7 +3,8 @@ import BigNumber from 'bignumber.js'
 import Config from 'react-native-config'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
-import { CURRENCY_ENUM, GethSyncMode } from 'src/geth/consts'
+import { GethSyncMode } from 'src/geth/consts'
+import { Currency } from 'src/utils/currencies'
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
 
@@ -43,7 +44,7 @@ export const DOLLAR_ADD_FUNDS_MAX_AMOUNT = 5000
 // The minimum allowed value to cash out
 export const DOLLAR_CASH_OUT_MIN_AMOUNT = 0.01
 // The minimum allowed value for a transaction such as a transfer
-export const DOLLAR_TRANSACTION_MIN_AMOUNT = 0.01
+export const STABLE_TRANSACTION_MIN_AMOUNT = 0.01
 export const GOLD_TRANSACTION_MIN_AMOUNT = 0.001
 // The number of seconds before the sender can reclaim the payment.
 export const ESCROW_PAYMENT_EXPIRY_SECONDS = 1 // The contract doesn't allow 0 seconds.
@@ -53,7 +54,6 @@ export const SMS_RETRIEVER_APP_SIGNATURE = Config.SMS_RETRIEVER_APP_SIGNATURE
 // ODIS minimum dollar balance for pepper quota retrieval
 // TODO change this to new ODIS minimum dollar balance once deployed
 export const ODIS_MINIMUM_DOLLAR_BALANCE = 0.1
-
 export const ATTESTATION_REVEAL_TIMEOUT_SECONDS = 60 // 1 minute
 
 // We can safely assume that any balance query returning a number
@@ -95,37 +95,37 @@ export const EXCHANGE_PROVIDER_LINKS: ExternalExchangeProvider[] = [
   {
     name: 'Binance',
     link: 'https://www.binance.com/en/trade/CELO_USDT',
-    currencies: [CURRENCY_ENUM.GOLD],
+    currencies: [Currency.Celo],
   },
   {
     name: 'Bittrex',
     link: 'https://bittrex.com/Market/Index?MarketName=USD-CELO',
-    currencies: [CURRENCY_ENUM.GOLD, CURRENCY_ENUM.DOLLAR],
+    currencies: [Currency.Celo, Currency.Dollar],
   },
   {
     name: 'Coinbase (CELO as CGLD)',
     link: 'https://www.coinbase.com',
-    currencies: [CURRENCY_ENUM.GOLD],
+    currencies: [Currency.Celo],
   },
   {
     name: 'Coinbase Pro (CELO as CGLD)',
     link: 'https://pro.coinbase.com/trade/CGLD-USD',
-    currencies: [CURRENCY_ENUM.GOLD],
+    currencies: [Currency.Celo],
   },
   {
     name: 'CoinList Pro',
     link: 'https://coinlist.co/asset/celo',
-    currencies: [CURRENCY_ENUM.GOLD, CURRENCY_ENUM.DOLLAR],
+    currencies: [Currency.Celo, Currency.Dollar],
   },
   {
     name: 'OKCoin',
     link: 'https://www.okcoin.com/en/spot/trade/cusd-usd/',
-    currencies: [CURRENCY_ENUM.GOLD, CURRENCY_ENUM.DOLLAR],
+    currencies: [Currency.Celo, Currency.Dollar],
   },
   {
     name: 'OKEx',
     link: 'https://www.okex.com/spot/trade/CELO-USDT',
-    currencies: [CURRENCY_ENUM.GOLD],
+    currencies: [Currency.Celo],
   },
 ]
 
@@ -143,6 +143,8 @@ export const SPEND_MERCHANT_LINKS: SpendMerchant[] = [
 
 export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
+export const CELO_LOGO_URL =
+  'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fcelo.png?alt=media'
 
 export const SIMPLEX_URI = 'https://valoraapp.com/simplex'
 export const SIMPLEX_FEES_URL =
@@ -154,10 +156,5 @@ export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_LINK_DOMAIN = Config.DYNAMIC_LINK_DOMAIN
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
-
-export enum CurrencyCode {
-  CELO = 'CELO',
-  CUSD = 'CUSD',
-}
 
 export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds

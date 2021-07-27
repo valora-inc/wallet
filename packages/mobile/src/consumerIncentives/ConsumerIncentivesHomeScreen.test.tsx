@@ -6,6 +6,7 @@ import { CELO_REWARDS_T_AND_C } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 const mockScreenProps = getMockStackScreenProps(Screens.ConsumerIncentivesHomeScreen)
@@ -13,7 +14,7 @@ const mockScreenProps = getMockStackScreenProps(Screens.ConsumerIncentivesHomeSc
 const createStore = (numberVerified: boolean) =>
   createMockStore({
     app: { numberVerified },
-    stableToken: { balance: '1000' },
+    stableToken: { balances: { [Currency.Dollar]: '1000' } },
   })
 
 describe('ConsumerIncentivesHomeScreen', () => {

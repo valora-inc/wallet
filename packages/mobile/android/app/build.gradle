@@ -162,7 +162,7 @@ android {
         minSdkVersion isDetoxTestBuild ? 18 : rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
-        versionName "1.14.3"
+        versionName "1.16.2"
         multiDexEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -258,6 +258,7 @@ android {
 dependencies {
     androidTestImplementation('com.wix:detox:+')
 
+    implementation 'com.google.android.material:material:1.2.0'
     def multidex_version = "2.0.1"
     implementation 'androidx.multidex:multidex:$multidex_version'
     implementation 'androidx.appcompat:appcompat:1.1.0'

@@ -11,7 +11,7 @@
   },
   "contacts": {
     "header": "Connect Contacts",
-    "body": "Adding your contacts makes it easy to send and request payments with your friends. Connecting does not send invites to your contacts.",
+    "body": "Adding your contacts makes it easy to send and request payments with your friends. Connecting does not send invites to your contacts.\n\nIf you choose to connect your contacts, the encrypted version of your contacts phone numbers will be used by our service to find who from your friends is already on Valora without sharing any personal information to anyone directly.",
     "findSwitch": "Allow contacts to find you",
     "syncing": {
       "loadingHeader": "Syncing...",
@@ -66,7 +66,7 @@
   "verificationPrematureRevealMessage": "Please wait one minute before resending",
   "verificationLearnMoreDialog": {
     "title": "Phone Numbers and {{appName}}",
-    "body": "Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but unconfirmed accounts can only send payments with QR codes or account numbers (addresses).\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
+    "body": "Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
     "dismiss": "Dismiss"
   },
   "importExistingKey": {
@@ -90,9 +90,7 @@
     "codePlaceholderWithCodeInClipboard": "Great! Paste it here",
     "resendMessages": "Resend last message",
     "resendMessages_plural": "Resend {{count}} messages",
-    "resendMessages_all": "Resend all messages",
-    "sendingMessages": "Sending {{count}} message",
-    "sendingMessages_plural": "Sending {{count}} messages"
+    "resendMessages_all": "Resend all messages"
   },
   "verificationInputHelpDialog": {
     "title": "Help",

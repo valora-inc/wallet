@@ -10,8 +10,8 @@ import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import FeeDrawer from 'src/components/FeeDrawer'
 import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { Namespaces } from 'src/i18n'
+import { Currency } from 'src/utils/currencies'
 
 export interface ExchangeConfirmationCardProps {
   makerAmount: MoneyAmount
@@ -23,8 +23,9 @@ type Props = ExchangeConfirmationCardProps
 export default function ExchangeConfirmationCard(props: Props) {
   const { t } = useTranslation(Namespaces.exchangeFlow9)
   const { makerAmount, takerAmount } = props
-  const isSellGoldTx = makerAmount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
-  const [gold, dollars] = isSellGoldTx
+  const isSellGoldTx = makerAmount.currencyCode === Currency.Celo
+  const stableToken = isSellGoldTx ? takerAmount.currencyCode : makerAmount.currencyCode
+  const [gold, stable] = isSellGoldTx
     ? [makerAmount.value, takerAmount.value]
     : [takerAmount.value, makerAmount.value]
 
@@ -32,12 +33,13 @@ export default function ExchangeConfirmationCard(props: Props) {
   const tobinTax = new BigNumber('0')
   const fee = new BigNumber('0')
   const totalFee = new BigNumber(tobinTax).plus(fee)
+  const feeCurrency = Currency.Dollar
 
   const localAmount = (isSellGoldTx ? makerAmount : takerAmount).localAmount!
   // TODO: find a way on how to show local exchangeRate without this hack
   const exchangeRateAmount = {
     value: localAmount.exchangeRate,
-    currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+    currencyCode: Currency.Dollar,
     localAmount: {
       value: localAmount.exchangeRate,
       exchangeRate: localAmount.exchangeRate,
@@ -47,17 +49,17 @@ export default function ExchangeConfirmationCard(props: Props) {
 
   const goldAmount = {
     value: gold,
-    currencyCode: CURRENCIES[CURRENCY_ENUM.GOLD].code,
+    currencyCode: Currency.Celo,
   }
 
   const subtotalAmount = {
-    value: dollars,
-    currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+    value: stable,
+    currencyCode: stableToken,
   }
 
   const totalAmount = {
-    value: new BigNumber(dollars).plus(totalFee),
-    currencyCode: CURRENCIES[CURRENCY_ENUM.DOLLAR].code,
+    value: new BigNumber(stable).plus(totalFee),
+    currencyCode: stableToken,
   }
 
   return (
@@ -80,7 +82,7 @@ export default function ExchangeConfirmationCard(props: Props) {
             />
             <FeeDrawer
               testID={'feeDrawer/ExchangeConfirmationCard'}
-              currency={CURRENCY_ENUM.DOLLAR}
+              currency={feeCurrency}
               securityFee={fee}
               exchangeFee={tobinTax}
               isExchange={true}

@@ -86,6 +86,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -138,7 +139,6 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               </View>
             </View>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -153,6 +153,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
                   },
                 ]
               }
+              testID="undefined/value"
             >
               
               $
@@ -167,7 +168,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
               numberOfLines={5}
               onBlur={[Function]}
               onChangeText={[Function]}
-              placeholder="addDescription"
+              placeholder="addDescription, {}"
               placeholderTextColor="#1AB775"
               rejectResponderTermination={true}
               returnKeyType="done"
@@ -260,113 +261,19 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Total/value"
           >
             
             $
             1.33
-          </Text>
-        </Text>
-      </View>
-      <View
-        style={
-          Array [
-            Object {
-              "flexDirection": "row",
-              "justifyContent": "space-between",
-              "marginVertical": 5,
-            },
-            Object {
-              "marginVertical": 0,
-            },
-          ]
-        }
-      >
-        <View
-          style={
-            Object {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "marginRight": 5,
-            }
-          }
-        >
-          <Text
-            style={
-              Array [
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
-                  "lineHeight": 22,
-                },
-                Object {
-                  "color": "#9CA4A9",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 14,
-                  "lineHeight": 18,
-                },
-              ]
-            }
-          >
-            Celo Dollars @
-             
-            <Text
-              numberOfLines={1}
-              style={
-                Array [
-                  undefined,
-                  Object {
-                    "color": "#2E3338",
-                  },
-                ]
-              }
-            >
-              
-              $
-              0.75
-            </Text>
-          </Text>
-        </View>
-        <Text
-          style={
-            Array [
-              Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 22,
-              },
-              Object {
-                "color": "#9CA4A9",
-                "fontFamily": "Inter-Regular",
-                "fontSize": 14,
-                "lineHeight": 18,
-              },
-            ]
-          }
-        >
-          <Text
-            numberOfLines={1}
-            style={
-              Array [
-                undefined,
-                Object {
-                  "color": "#2E3338",
-                },
-              ]
-            }
-          >
-            
-            1.00
           </Text>
         </Text>
       </View>
@@ -436,6 +343,7 @@ exports[`PaymentRequestConfirmation renders correctly for request payment confir
           >
             <Text
               accessibilityLabel="request"
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#FFFFFF",

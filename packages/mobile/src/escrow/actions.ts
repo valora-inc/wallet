@@ -1,15 +1,15 @@
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import BigNumber from 'bignumber.js'
 import { FeeInfo } from 'src/fees/saga'
-import { SHORT_CURRENCIES } from 'src/geth/consts'
 import { TransactionContext } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 
 export interface EscrowedPayment {
   senderAddress: string
   recipientPhone: string
   recipientIdentifier: string
   paymentID: string
-  currency: SHORT_CURRENCIES
+  currency: Currency
   amount: BigNumber
   message?: string
   timestamp: BigNumber
@@ -31,6 +31,7 @@ export interface EscrowTransferPaymentAction {
   type: Actions.TRANSFER_PAYMENT
   phoneHashDetails: PhoneNumberHashDetails
   amount: BigNumber
+  currency: Currency
   context: TransactionContext
   tempWalletAddress?: string
   feeInfo?: FeeInfo
@@ -79,6 +80,7 @@ export type ActionTypes =
 export const transferEscrowedPayment = (
   phoneHashDetails: PhoneNumberHashDetails,
   amount: BigNumber,
+  currency: Currency,
   context: TransactionContext,
   tempWalletAddress?: string,
   feeInfo?: FeeInfo
@@ -86,6 +88,7 @@ export const transferEscrowedPayment = (
   type: Actions.TRANSFER_PAYMENT,
   phoneHashDetails,
   amount,
+  currency,
   context,
   tempWalletAddress,
   feeInfo,

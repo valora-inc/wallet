@@ -1,13 +1,13 @@
 /* Shared mock values to facilitate testing */
-import { ActionableAttestation } from '@celo/contractkit/lib/wrappers/Attestations'
 import { UnlockableWallet } from '@celo/wallet-base'
 import { StackNavigationProp } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import { MinimalContact } from 'react-native-contacts'
 import { TokenTransactionType } from 'src/apollo/types'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { SHORT_CURRENCIES } from 'src/geth/consts'
+import { ExchangeRates } from 'src/exchange/reducer'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
+import { AttestationCode } from 'src/identity/verification'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
 import { NotificationTypes } from 'src/notifications/types'
@@ -21,24 +21,14 @@ import {
   NumberToRecipient,
   RecipientInfo,
 } from 'src/recipients/recipient'
-import { AttestationCode } from 'src/verify/module'
+import { Currency } from 'src/utils/currencies'
 
 export const nullAddress = '0x0'
 
 export const mockName = 'John Doe'
 export const mockAccount = '0x0000000000000000000000000000000000007E57'
-export const mockAccount1 = '0x0000000000000000000000000000000000007E58'
 export const mockAccount2 = '0x1Ff482D42D8727258A1686102Fa4ba925C46Bc42'
 export const mockAccount3 = '0x1230000000000000000000000000000000007E57'
-
-export const mockKomenciContext = {
-  errorTimestamps: [],
-  unverifiedMtwAddress: null,
-  sessionActive: false,
-  sessionToken: '',
-  callbackUrl: undefined,
-  captchaToken: '',
-}
 
 export const mockMnemonic =
   'prosper winner find donate tape history measure umbrella agent patrol want rhythm old unable wash wrong need fluid hammer coach reveal plastic trust lake'
@@ -63,12 +53,6 @@ export const mockE164NumberHash =
 export const mockE164NumberPepper = 'piWqRHHYWtfg9'
 export const mockE164NumberHashWithPepper =
   '0xf6429456331dedf8bd32b5e3a578e5bc589a28d012724dcd3e0a4b1be67bb454'
-
-export const mockPhoneHashDetails = {
-  e164Number: mockE164Number,
-  phoneHash: mockE164NumberHash,
-  pepper: mockE164NumberPepper,
-}
 
 export const mockE164Number2 = '+12095559790'
 export const mockDisplayNumber2 = '(209) 555-9790'
@@ -148,12 +132,14 @@ export const mockInvitableRecipient2: ContactRecipient = {
 export const mockTransactionData = {
   recipient: mockInvitableRecipient2,
   amount: new BigNumber(1),
+  currency: Currency.Dollar,
   type: TokenTransactionType.Sent,
 }
 
 export const mockInviteTransactionData = {
   recipient: mockInvitableRecipient2,
   amount: new BigNumber(1),
+  currency: Currency.Dollar,
   type: TokenTransactionType.InviteSent,
 }
 
@@ -269,30 +255,28 @@ export const mockEscrowedPayment: EscrowedPayment = {
   recipientPhone: mockE164Number,
   recipientIdentifier: mockE164NumberHashWithPepper,
   paymentID: mockAccount,
-  currency: SHORT_CURRENCIES.DOLLAR,
+  currency: Currency.Dollar,
   amount: new BigNumber(10),
   timestamp: new BigNumber(10000),
   expirySeconds: new BigNumber(50000),
 }
 
-const date = new Date('Tue Mar 05 2019 13:44:06 GMT-0800 (Pacific Standard Time)')
-const currency = SHORT_CURRENCIES.DOLLAR
+const date = new Date('Tue Mar 05 2019 13:44:06 GMT-0800 (Pacific Standard Time)').getTime()
 export const mockPaymentRequests: PaymentRequest[] = [
   {
     amount: '200000.00',
     uid: 'FAKE_ID_1',
-    timestamp: date,
+    createdAt: date,
     comment: 'Dinner for me and the gals, PIZZAA!',
     requesteeAddress: mockAccount,
     requesterAddress: mockAccount2,
     requesterE164Number: mockE164Number,
     status: PaymentRequestStatus.REQUESTED,
-    currency,
     notified: true,
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
   {
-    timestamp: date,
+    createdAt: date,
     amount: '180.89',
     uid: 'FAKE_ID_2',
     comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',
@@ -300,12 +284,11 @@ export const mockPaymentRequests: PaymentRequest[] = [
     requesterAddress: mockAccount2,
     requesterE164Number: mockE164Number,
     status: PaymentRequestStatus.REQUESTED,
-    currency,
     notified: true,
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
   {
-    timestamp: date,
+    createdAt: date,
     amount: '180.89',
     uid: 'FAKE_ID_3',
     comment: 'My Birthday Present. :) Am I not the best? Celebration. Bam!',
@@ -313,7 +296,6 @@ export const mockPaymentRequests: PaymentRequest[] = [
     requesterAddress: mockAccount2,
     requesterE164Number: mockE164Number,
     status: PaymentRequestStatus.REQUESTED,
-    currency,
     notified: true,
     type: NotificationTypes.PAYMENT_REQUESTED,
   },
@@ -385,47 +367,6 @@ export const mockQRCodeRecipient: AddressRecipient = {
   contactId: undefined,
 }
 
-export const attestationCode0: AttestationCode = {
-  code:
-    'ab8049b95ac02e989aae8b61fddc10fe9b3ac3c6aebcd3e68be495570b2d3da15aabc691ab88de69648f988fab653ac943f67404e532cfd1013627f56365f36501',
-  issuer: '848920b14154b6508b8d98e7ee8159aa84b579a4',
-}
-
-export const attestationCode1: AttestationCode = {
-  code:
-    '2033a9e1268576bf5dfee354a37480529d71f99be82c05005ffb71c7d742d10e7a9aa01f8acc4d7998e1e8b183cf6b8cb4d4a8d923fecfddd191e61e074adc5e00',
-  issuer: 'fdb8da92c3597e81c2737e8be793bee9f1172045',
-}
-
-export const attestationCode2: AttestationCode = {
-  code:
-    '1930a9e1268576bf5dfee354a37480529d71f99be82c05005ffb71c7d742d10e7a9aa01f8acc4d7993f75ab183cf6b8cb4d4a8d923fecfddd191e61e074adc5a10',
-  issuer: 'ecb8da92c3597e81c2737e8be793bee9f1173156',
-}
-
-export const mockActionableAttestations: ActionableAttestation[] = [
-  {
-    issuer: attestationCode0.issuer,
-    blockNumber: 100,
-    attestationServiceURL: 'https://fake.celo.org/0',
-    name: '',
-    version: '1.1.0',
-  },
-  {
-    issuer: attestationCode1.issuer,
-    blockNumber: 110,
-    attestationServiceURL: 'https://fake.celo.org/1',
-    name: '',
-    version: '1.1.0',
-  },
-  {
-    issuer: attestationCode2.issuer,
-    blockNumber: 120,
-    attestationServiceURL: 'https://fake.celo.org/2',
-    name: '',
-    version: '1.1.0',
-  },
-]
 export const mockRecipientInfo: RecipientInfo = {
   phoneRecipientCache: mockPhoneRecipientCache,
   valoraRecipientCache: mockValoraRecipientCache,
@@ -446,3 +387,24 @@ export const mockWallet: UnlockableWallet = {
   decrypt: jest.fn(),
   computeSharedSecret: jest.fn(),
 }
+
+export const makeExchangeRates = (
+  celoToDollarExchangeRate: string,
+  dollarToCeloExchangeRate: string
+): ExchangeRates => ({
+  [Currency.Celo]: {
+    [Currency.Dollar]: celoToDollarExchangeRate,
+    [Currency.Euro]: '',
+    [Currency.Celo]: '',
+  },
+  [Currency.Dollar]: {
+    [Currency.Celo]: dollarToCeloExchangeRate,
+    [Currency.Euro]: '',
+    [Currency.Dollar]: '',
+  },
+  [Currency.Euro]: {
+    [Currency.Celo]: '',
+    [Currency.Euro]: '',
+    [Currency.Dollar]: '',
+  },
+})

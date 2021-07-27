@@ -70,7 +70,9 @@ Use a similar process to run and develop other test files.
 
 ```JavaScript
 // Sample <TestSuiteName>.spec.js setup
-import { quickOnboarding } from './utils/utils'
+import { quickOnboarding, getDeviceModel } from './utils/utils'
+import { reloadReactNative } from '../utils/retries'
+
 import AddedUsecase from './usecases/AddedUsecase'
 
 describe('A New Test Suite', () => {
@@ -88,7 +90,7 @@ describe('A New Test Suite', () => {
 export default AddedUsecase = () => {
   beforeEach(async () => {
     // Reload app on device
-    await device.reloadReactNative()
+    await reloadReactNative()
 
     // Dismiss banners if interfering with next steps
     await dismissBanners()
@@ -115,13 +117,8 @@ export default AddedUsecase = () => {
     await sleep(5000)
 
     // Compare to screenshot in `e2e/assets`
-    const imagePath = await device.takeScreenshot('All Providers US')
-    await pixelDiff(
-      imagePath,
-      device.getPlatform() === 'ios'
-        ? './e2e/assets/All Providers US - ios.png'
-        : './e2e/assets/All Providers US - android.png'
-    )
+    const imagePath = await device.takeScreenshot('All Providers')
+    await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/All Providers.png`)
   })
 
   it('Additional Test Spec...', async () => {

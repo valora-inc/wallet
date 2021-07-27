@@ -36,6 +36,7 @@ import {
   Actions as TransactionActions,
   NewTransactionsInFeedAction,
 } from 'src/transactions/actions'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getAccount } from 'src/web3/saga'
 
@@ -70,6 +71,7 @@ function* bidaliPaymentRequest({
   const transactionData: TransactionDataInput = {
     recipient,
     amount: new BigNumber(amount),
+    currency: Currency.Dollar,
     reason: `${description} (${chargeId})`,
     type: TokenTransactionType.PayPrefill,
   }
@@ -137,7 +139,6 @@ export function* searchNewItemsForProviderTxs({ transactions }: NewTransactionsI
       if (providerAddresses.includes(tx.address)) {
         ValoraAnalytics.track(FiatExchangeEvents.cash_in_success, {
           provider: lastUsedProvider?.name ?? 'unknown',
-          currency: tx.amount.currencyCode,
         })
         yield put(assignProviderToTxHash(tx.hash, tx.amount.currencyCode))
       }

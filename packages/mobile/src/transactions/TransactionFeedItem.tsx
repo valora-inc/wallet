@@ -8,9 +8,9 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { MoneyAmount, TokenTransactionType } from 'src/apollo/types'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { Namespaces } from 'src/i18n'
 import { TransactionStatus } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   type: TokenTransactionType
@@ -32,7 +32,7 @@ export function TransactionFeedItem(props: Props) {
   const isPending = status === TransactionStatus.Pending
 
   const subtitle = isPending ? t('confirmingTransaction') : info
-  const isCeloTx = amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+  const isCeloTx = amount.currencyCode === Currency.Celo
 
   return (
     <Touchable onPress={onPress}>
@@ -50,6 +50,7 @@ export function TransactionFeedItem(props: Props) {
               showExplicitPositiveSign={true}
               hideFullCurrencyName={!isCeloTx}
               style={[styles.amount, isReceived && styles.amountReceived]}
+              testID={'FeedItemAmountDisplay'}
             />
           </View>
           {!!subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...fontStyles.regular500,
+    flexShrink: 1,
   },
   subtitle: {
     ...fontStyles.small,
@@ -91,6 +93,9 @@ const styles = StyleSheet.create({
     ...fontStyles.regular500,
     marginLeft: 'auto',
     paddingLeft: 10,
+    width: '40%',
+    textAlign: 'right',
+    flexWrap: 'wrap',
   },
   amountReceived: {
     color: colors.greenUI,
