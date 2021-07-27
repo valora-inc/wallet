@@ -18,6 +18,7 @@ transak.api_url=$(grep TRANSAK_API_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
 transak.public_key=$(grep TRANSAK_PUBLIC_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
 transak.private_key=$(grep TRANSAK_PRIVATE_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
 ramp.widget_url=$(grep RAMP_WIDGET_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
+ramp.api_url=$(grep RAMP_API_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
 ramp.public_key=$(grep RAMP_PUBLIC_KEY "$ENV_FILENAME" | cut -d '=' -f 2-) \
 ramp.pem_file=$(grep RAMP_PEM_FILE "$ENV_FILENAME" | cut -d '=' -f 2-) \
 ramp.webhook_url=$(grep RAMP_WEBHOOK_URL "$ENV_FILENAME" | cut -d '=' -f 2-) \
