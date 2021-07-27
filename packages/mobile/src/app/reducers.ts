@@ -184,7 +184,7 @@ export const appReducer = (
         ranVerificationMigrationAt: action.now,
         numberVerified: action.isVerified,
       }
-    case Actions.SET_GOOGLE_PLAY_SERVICES_AVAILABILITY:
+    case Actions.GOOGLE_PLAY_SERVICES_AVAILABILITY_CHECKED:
       return {
         ...state,
         googlePlayServicesAvailable: action.available,

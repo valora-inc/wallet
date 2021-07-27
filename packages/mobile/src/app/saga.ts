@@ -22,7 +22,7 @@ import {
   OpenUrlAction,
   SetAppState,
   setAppState,
-  setGooglePlayServicesAvailability,
+  googlePlayServicesAvailabilityChecked,
   setLanguage,
   updateFeatureFlags,
 } from 'src/app/actions'
@@ -130,7 +130,7 @@ export function* checkGooglePlayServicesSaga() {
     })
   }
 
-  yield put(setGooglePlayServicesAvailability(available))
+  yield put(googlePlayServicesAvailabilityChecked(available))
 }
 
 export interface RemoteFeatureFlags {

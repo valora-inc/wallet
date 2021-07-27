@@ -33,7 +33,7 @@ export enum Actions {
   APP_MOUNTED = 'APP/APP_MOUNTED',
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
   VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
-  SET_GOOGLE_PLAY_SERVICES_AVAILABILITY = 'APP/SET_GOOGLE_PLAY_SERVICES_AVAILABILITY',
+  GOOGLE_PLAY_SERVICES_AVAILABILITY_CHECKED = 'APP/GOOGLE_PLAY_SERVICES_AVAILABILITY_CHECKED',
 }
 
 export interface SetAppState {
@@ -131,8 +131,8 @@ export interface VerificationMigrationRanAction {
   now: number
 }
 
-export interface SetGooglePlayServicesAvailability {
-  type: Actions.SET_GOOGLE_PLAY_SERVICES_AVAILABILITY
+export interface GooglePlayServicesAvailabilityChecked {
+  type: Actions.GOOGLE_PLAY_SERVICES_AVAILABILITY_CHECKED
   available: boolean
 }
 
@@ -156,7 +156,7 @@ export type ActionTypes =
   | AppMounted
   | AppUnmounted
   | VerificationMigrationRanAction
-  | SetGooglePlayServicesAvailability
+  | GooglePlayServicesAvailabilityChecked
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -270,9 +270,9 @@ export const verificationMigrationRan = (
   now: Date.now(),
 })
 
-export const setGooglePlayServicesAvailability = (
+export const googlePlayServicesAvailabilityChecked = (
   available: boolean
-): SetGooglePlayServicesAvailability => ({
-  type: Actions.SET_GOOGLE_PLAY_SERVICES_AVAILABILITY,
+): GooglePlayServicesAvailabilityChecked => ({
+  type: Actions.GOOGLE_PLAY_SERVICES_AVAILABILITY_CHECKED,
   available,
 })
