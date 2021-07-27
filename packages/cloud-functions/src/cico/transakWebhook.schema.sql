@@ -24,6 +24,6 @@ failureReason: STRING,
 isNonCustodial: BOOLEAN,
 transactionHash: STRING,
 transactionLink: STRING,
-completedAt: timestamp,
+completedAt: TIMESTAMP,
 partnerFeeInLocalCurrency: FLOAT,
 statusReason: STRING
