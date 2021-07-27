@@ -184,6 +184,9 @@ export const fetchLocalCurrencyAndExchangeRate = async (
   return result
 }
 
+export const roundDecimals = (input: number, decimals: number) =>
+  Math.round(input * 10 ** decimals) / 10 ** decimals
+
 export const flattenObject = (obj: any, parent?: string, res: any = {}) => {
   const keys = Object.keys(obj)
   for (let i = 0; i < keys.length; i += 1) {
