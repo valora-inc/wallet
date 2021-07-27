@@ -69,6 +69,8 @@ const deleteSimplexEvent = async (event: SimplexTransactionEvent) => {
   }
 }
 
+// Add tests
+
 export const simplexEventPolling = functions.https.onRequest(async (req, res) => {
   try {
     const simplexEvents = await getSimplexEvents()
