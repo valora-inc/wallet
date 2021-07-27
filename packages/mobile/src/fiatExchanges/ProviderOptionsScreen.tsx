@@ -201,11 +201,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
           },
           currencyCode: localCurrency,
         }}
-        hideSymbol={false}
         showLocalAmount={true}
         hideSign={true}
-        showExplicitPositiveSign={false}
-        style={[styles.text]}
+        style={styles.text}
       />
     )
   }
