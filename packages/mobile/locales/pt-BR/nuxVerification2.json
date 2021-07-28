@@ -40,7 +40,7 @@
   "skipModal": {
     "header": "Pular confirmação?",
     "body1": "A confirmação permite que outras pessoas enviem valores para o seu número de celular.",
-    "body2": "Sem a confirmação, você ainda pode enviar pagamentos, mas apenas usando números de conta ou QR codes."
+    "body2": "Sem confirmação, você ainda pode enviar pagamentos, mas apenas usando endereços de conta ou códigos QR."
   },
   "failModal": {
     "header": "Erro de confirmação",

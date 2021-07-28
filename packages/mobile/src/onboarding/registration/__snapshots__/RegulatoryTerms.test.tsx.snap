@@ -90,6 +90,26 @@ exports[`RegulatoryTermsScreen renders correctly 1`] = `
         style={
           Object {
             "color": "#2E3338",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 14,
+            "lineHeight": 18,
+            "marginBottom": 15,
+          }
+        }
+      >
+        <Text
+          onPress={[Function]}
+          style={
+            Object {
+              "textDecorationLine": "underline",
+            }
+          }
+        />
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
             "fontFamily": "Jost-Medium",
             "fontSize": 22,
             "lineHeight": 28,
@@ -110,16 +130,7 @@ exports[`RegulatoryTermsScreen renders correctly 1`] = `
           }
         }
       >
-        <Text
-          onPress={[Function]}
-          style={
-            Object {
-              "textDecorationLine": "underline",
-            }
-          }
-        >
-          celo.org/terms
-        </Text>
+        terms.privacy
       </Text>
       <Text
         style={

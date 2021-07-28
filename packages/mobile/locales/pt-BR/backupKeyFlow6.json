@@ -22,7 +22,8 @@
   "backupQuizWordCount": "Qual é a <0>{{ordinal}}</0> palavra da sua Chave de Conta?",
   "importBackupFailed": "A importação da conta falhou",
   "backupQuizFailed": "A Chave de Conta que você inseriu está incorreta. Por favor, tente novamente.",
-  "invalidBackupPhrase": "Chave de Conta inválida",
+  "invalidBackupPhrase": "A chave da conta não é válida",
+  "invalidWordsInBackupPhrase": "Algumas palavras na Chave da Conta não são válidas: {{ invalidWords }}",
   "backupComplete": {
     "header": "Backup concluído",
     "0": "Sucesso!",

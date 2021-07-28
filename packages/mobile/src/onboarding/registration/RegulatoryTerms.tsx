@@ -61,14 +61,13 @@ export class RegulatoryTerms extends React.Component<Props> {
         >
           <Logo type={LogoTypes.DARK} height={32} />
           <Text style={styles.title}>{t('terms.title')}</Text>
-          <Text style={styles.header}>{t('terms.heading1')}</Text>
           <Text style={styles.disclaimer}>
-            <Trans ns={Namespaces.nuxNamePin1} i18nKey={'terms.privacy'}>
-              <Text onPress={this.onPressGoToTerms} style={styles.disclaimerLink}>
-                celo.org/terms
-              </Text>
+            <Trans ns={Namespaces.nuxNamePin1} i18nKey={'terms.info'}>
+              <Text onPress={this.onPressGoToTerms} style={styles.disclaimerLink} />
             </Trans>
           </Text>
+          <Text style={styles.header}>{t('terms.heading1')}</Text>
+          <Text style={styles.disclaimer}>{t('terms.privacy')}</Text>
           <Text style={styles.header}>{t('terms.heading2')}</Text>
           <Text style={styles.disclaimer}>
             {t('terms.goldDisclaimer', { dailyLimitCUSD: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD })}

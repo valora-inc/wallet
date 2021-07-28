@@ -1,11 +1,11 @@
 import 'jest-fetch-mock'
 import { DigitalAsset } from '../config'
 import { PaymentMethod } from './fetchProviders'
-import { Moonpay } from './Moonpay'
+import { Ramp } from './Ramp'
 
 const FIAT_CASH_IN_AMOUNT = 100
-const FIAT_FEE_AMOUNT = 1
-const CRYPTO_AMOUNT_ACQUIRED = 99
+const FIAT_FEE_AMOUNT = 0
+const CRYPTO_AMOUNT_ACQUIRED = 100
 const EXCHANGE_RATE = 20
 
 export const MOCK_BLOCKCHAIN_API_EXCHANGE_RATE = JSON.stringify({
@@ -16,51 +16,26 @@ export const MOCK_BLOCKCHAIN_API_EXCHANGE_RATE = JSON.stringify({
   },
 })
 
-const createMoonpayQuoteResponse = (
+const createRampQuoteResponse = (
   fiatCurrency: string,
   digitalCurrency: string,
   paymentMethod: string
 ) =>
   JSON.stringify({
-    baseCurrency: {
-      id: 'baseCurrency_id',
-      createdAt: 'baseCurrency_createdAt',
-      updatedAt: 'baseCurrency_updatedAt',
-      type: 'baseCurrency_type',
-      name: 'baseCurrency_type',
-      code: fiatCurrency,
-      precision: 1,
-    },
-    baseCurrencyAmount: FIAT_CASH_IN_AMOUNT,
-    currency: {
-      id: 'currency_id',
-      createdAt: 'currency_createdAt',
-      updatedAt: 'currency_updatedAt',
-      type: 'currency_type',
-      name: 'currency_type',
-      code: digitalCurrency,
-      precision: 1,
-      addressRegex: 'addressRegex',
-      testnetAddressRegex: 'testnetAddressRegex',
-      minAmount: 0,
-      maxAmount: 10000,
-      supportsAddressTag: false,
-      addressTagRegex: null,
-      supportsTestMode: true,
-      isSuspended: false,
-      isSupportedInUS: false,
-      isSellSupported: false,
-      notAllowedUSStates: [],
-    },
-    extraFeeAmount: 0,
-    feeAmount: FIAT_FEE_AMOUNT / 2,
-    networkFeeAmount: FIAT_FEE_AMOUNT / 2,
-    paymentMethod,
-    quoteCurrencyAmount: CRYPTO_AMOUNT_ACQUIRED,
-    totalAmount: 101,
+    cryptoAssetSymbol: digitalCurrency,
+    fiatCurrency,
+    cryptoAmount: CRYPTO_AMOUNT_ACQUIRED,
+    fiatValue: FIAT_CASH_IN_AMOUNT,
+    paymentMethodType: paymentMethod,
+    assetExchangeRate: 1,
+    assetExchangeRateEur: 0.83,
+    fiatExchangeRateEur: 0.83,
+    baseRampFee: 1.2,
+    networkFee: 0.01,
+    appliedFee: FIAT_FEE_AMOUNT,
   })
 
-describe('Moonpay', () => {
+describe('Ramp', () => {
   beforeEach(() => {
     jest.useRealTimers()
     jest.clearAllMocks()
@@ -72,11 +47,9 @@ describe('Moonpay', () => {
     const digitalAsset = DigitalAsset.CUSD
     const userCountry = 'US'
 
-    fetchMock.mockResponse(
-      createMoonpayQuoteResponse(fiatCurrency, digitalAsset, 'credit_debit_card')
-    )
+    fetchMock.mockResponse(createRampQuoteResponse(fiatCurrency, digitalAsset, 'CARD_PAYMENT'))
 
-    const quotes = await Moonpay.fetchQuote(
+    const quotes = await Ramp.fetchQuote(
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
@@ -98,11 +71,9 @@ describe('Moonpay', () => {
     const digitalAsset = DigitalAsset.CELO
     const userCountry = 'US'
 
-    fetchMock.mockResponse(
-      createMoonpayQuoteResponse(fiatCurrency, digitalAsset, 'credit_debit_card')
-    )
+    fetchMock.mockResponse(createRampQuoteResponse(fiatCurrency, digitalAsset, 'CARD_PAYMENT'))
 
-    const quotes = await Moonpay.fetchQuote(
+    const quotes = await Ramp.fetchQuote(
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
@@ -126,10 +97,10 @@ describe('Moonpay', () => {
 
     fetchMock.mockResponses(
       MOCK_BLOCKCHAIN_API_EXCHANGE_RATE,
-      createMoonpayQuoteResponse(fiatCurrency, digitalAsset, 'credit_debit_card')
+      createRampQuoteResponse(fiatCurrency, digitalAsset, 'CARD_PAYMENT')
     )
 
-    const quotes = await Moonpay.fetchQuote(
+    const quotes = await Ramp.fetchQuote(
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
@@ -152,11 +123,11 @@ describe('Moonpay', () => {
     const userCountry = 'FR'
 
     fetchMock.mockResponses(
-      createMoonpayQuoteResponse(fiatCurrency, digitalAsset, 'credit_debit_card'),
-      createMoonpayQuoteResponse(fiatCurrency, digitalAsset, 'sepa_bank_transfer')
+      createRampQuoteResponse(fiatCurrency, digitalAsset, 'CARD_PAYMENT'),
+      createRampQuoteResponse(fiatCurrency, digitalAsset, 'MANUAL_BANK_TRANSFER')
     )
 
-    const quotes = await Moonpay.fetchQuote(
+    const quotes = await Ramp.fetchQuote(
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
@@ -186,7 +157,7 @@ describe('Moonpay', () => {
 
     fetchMock.mockReject()
 
-    const quotes = await Moonpay.fetchQuote(
+    const quotes = await Ramp.fetchQuote(
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
@@ -204,10 +175,10 @@ describe('Moonpay', () => {
     fetchMock.mockRejectOnce()
 
     fetchMock.mockResponse(
-      createMoonpayQuoteResponse(fiatCurrency, digitalAsset, 'sepa_bank_transfer')
+      createRampQuoteResponse(fiatCurrency, digitalAsset, 'MANUAL_BANK_TRANSFER')
     )
 
-    const quotes = await Moonpay.fetchQuote(
+    const quotes = await Ramp.fetchQuote(
       digitalAsset,
       fiatCurrency,
       FIAT_CASH_IN_AMOUNT,
