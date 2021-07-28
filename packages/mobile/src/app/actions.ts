@@ -33,6 +33,7 @@ export enum Actions {
   APP_MOUNTED = 'APP/APP_MOUNTED',
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
   VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
+  ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
 }
 
 export interface SetAppState {
@@ -130,6 +131,12 @@ export interface VerificationMigrationRanAction {
   now: number
 }
 
+export interface AndroidMobileServicesAvailabilityChecked {
+  type: Actions.ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED
+  googleIsAvailable: boolean | undefined
+  huaweiIsAvailable: boolean | undefined
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -150,6 +157,7 @@ export type ActionTypes =
   | AppMounted
   | AppUnmounted
   | VerificationMigrationRanAction
+  | AndroidMobileServicesAvailabilityChecked
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -261,4 +269,13 @@ export const verificationMigrationRan = (
   mtwAddress,
   isVerified,
   now: Date.now(),
+})
+
+export const androidMobileServicesAvailabilityChecked = (
+  googleIsAvailable: boolean | undefined,
+  huaweiIsAvailable: boolean | undefined
+): AndroidMobileServicesAvailabilityChecked => ({
+  type: Actions.ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED,
+  googleIsAvailable,
+  huaweiIsAvailable,
 })
