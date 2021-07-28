@@ -672,6 +672,8 @@ export const v16Schema = {
   app: {
     ...v15Schema.app,
     celoEuroEnabled: false,
+    googleMobileServicesAvailable: undefined,
+    huaweiMobileServicesAvailable: undefined,
   },
   localCurrency: {
     ...v15Schema.localCurrency,
