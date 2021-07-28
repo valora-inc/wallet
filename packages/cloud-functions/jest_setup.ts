@@ -6,6 +6,11 @@ jest.mock('firebase-functions', () => ({
   https: {
     onRequest: jest.fn,
   },
+  runWith: jest.fn(() => ({
+    https: {
+      onRequest: jest.fn,
+    },
+  })),
   database: {
     ref: () => ({
       onWrite: jest.fn,
