@@ -5,6 +5,7 @@ import { UserLocationData } from './fetchUserLocationData'
 import { Moonpay } from './Moonpay'
 import { getProviderAvailability } from './providerAvailability'
 import { Providers } from './Providers'
+import { Ramp } from './Ramp'
 import { Simplex, SimplexQuote } from './Simplex'
 import { Transak } from './Transak'
 import { Xanpool } from './Xanpool'
@@ -73,7 +74,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     XANPOOL_RESTRICTED,
   } = getProviderAvailability(userLocationData)
 
-  const [simplexQuote, moonpayQuote, xanpoolQuote, transakQuote] = await Promise.all([
+  const [simplexQuote, moonpayQuote, rampQuote, xanpoolQuote, transakQuote] = await Promise.all([
     Simplex.fetchQuote(
       requestData.walletAddress,
       userLocationData.ipAddress,
@@ -83,6 +84,12 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       !!requestData.fiatAmount
     ),
     Moonpay.fetchQuote(
+      requestData.digitalAsset,
+      requestData.fiatCurrency,
+      requestData.fiatAmount,
+      userLocationData.countryCodeAlpha2
+    ),
+    Ramp.fetchQuote(
       requestData.digitalAsset,
       requestData.fiatCurrency,
       requestData.fiatAmount,
@@ -131,6 +138,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       restricted: RAMP_RESTRICTED,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Ramp, requestData),
+      quote: rampQuote,
       logo:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
       cashIn: true,

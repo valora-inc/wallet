@@ -6,6 +6,11 @@ jest.mock('firebase-functions', () => ({
   https: {
     onRequest: jest.fn,
   },
+  runWith: jest.fn(() => ({
+    https: {
+      onRequest: jest.fn,
+    },
+  })),
   database: {
     ref: () => ({
       onWrite: jest.fn,
@@ -39,6 +44,7 @@ jest.mock('firebase-functions', () => ({
     simplex: {
       widget_url: 'simplex.com',
       checkout_url: 'checkout.simplex.com',
+      event_url: 'events.simplex.com',
       api_key: 'simplex api key',
     },
     xanpool: {

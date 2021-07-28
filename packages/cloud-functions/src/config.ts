@@ -20,6 +20,7 @@ export const RAMP_DATA = {
   public_key: config.ramp?.public_key,
   pem_file: config.ramp?.pem_file,
   webhook_url: config.ramp?.webhook_url,
+  supported_currencies: ['USD', 'EUR', 'GBP'],
 }
 
 export const TRANSAK_DATA = {

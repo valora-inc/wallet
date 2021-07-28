@@ -1,5 +1,7 @@
 import * as functions from 'firebase-functions'
 import { trackEvent } from '../bigQuery'
+import { saveTxHashProvider } from '../firebase'
+import { Providers } from './Providers'
 import { flattenObject } from './utils'
 
 const XANPOOL_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_xanpool'
@@ -22,13 +24,13 @@ interface XanpoolEventPayload {
     cryptoPriceUsd: number
     nonce: string
     qrCode: string
-    wallet: string
+    wallet?: string
     userCountry: string
     userId: string
     peer: {
       account: string
     }
-    blockchainTxId: string
+    blockchainTxId?: string
     depositWallets: {
       celo: string
     }
@@ -37,11 +39,15 @@ interface XanpoolEventPayload {
 
 export const parseXanpoolEvent = async (reqBody: any) => {
   const { timestamp, message, payload }: XanpoolEventPayload = reqBody
+  if (payload.blockchainTxId && payload.wallet) {
+    saveTxHashProvider(payload.wallet, payload.blockchainTxId, Providers.Xanpool)
+  }
+
   const data = flattenObject({ timestamp, message, ...payload })
   await trackEvent(XANPOOL_BIG_QUERY_EVENT_TABLE, data)
 }
 
-// This needs to be all lowercase due to a bug in Xanpool's dashboard
+// Function needs to be all lowercase due to a bug in Xanpool's dashboard
 export const xanpoolwebhook = functions.https.onRequest(async (req, res) => {
   try {
     await parseXanpoolEvent(req.body)
