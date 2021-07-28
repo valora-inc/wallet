@@ -63,16 +63,18 @@ export enum NotificationBannerCTATypes {
 
 function NotificationBox() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const backupCompleted = useSelector((state) => state.account.backupCompleted)
+  const {
+    backupCompleted,
+    dismissedInviteFriends,
+    dismissedGetVerified,
+    dismissedGoldEducation,
+  } = useSelector((state) => state.account)
   const numberVerified = useSelector((state) => state.app.numberVerified)
   const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
   const incomingPaymentRequests = useSelector(getIncomingPaymentRequests)
   const outgoingPaymentRequests = useSelector(getOutgoingPaymentRequests)
   const extraNotifications = useSelector(getExtraNotifications)
-  const dismissedInviteFriends = useSelector((state) => state.account.dismissedInviteFriends)
-  const dismissedGetVerified = useSelector((state) => state.account.dismissedGetVerified)
   const verificationPossible = useSelector(verificationPossibleSelector)
-  const dismissedGoldEducation = useSelector((state) => state.account.dismissedGoldEducation)
   const reclaimableEscrowPayments = useSelector(getReclaimableEscrowPayments)
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
