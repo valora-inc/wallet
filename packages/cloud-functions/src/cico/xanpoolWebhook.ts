@@ -4,7 +4,7 @@ import { saveTxHashProvider } from '../firebase'
 import { Providers } from './Providers'
 import { flattenObject } from './utils'
 
-const XANPOOL_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_xanpool'
+export const XANPOOL_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_xanpool'
 
 interface XanpoolEventPayload {
   timestamp: number

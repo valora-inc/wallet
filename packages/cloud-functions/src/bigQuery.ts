@@ -15,6 +15,27 @@ export const trackEvent = async (table: string, row: any) => {
 
     await bigQuery.dataset(bigQueryDataset).table(table).insert(row)
   } catch (error) {
+    console.error(error)
+    console.error(`BigQuery error:`, JSON.stringify(error))
+    throw error
+  }
+}
+
+export const deleteDuplicates = async (table: string) => {
+  try {
+    if (!gcloudProject) {
+      throw new Error('No GCloud Project specified')
+    }
+
+    const sqlQuery = `
+      CREATE OR REPLACE TABLE ${bigQueryProjectId}.${bigQueryDataset}.${table}
+      AS
+      SELECT DISTINCT * FROM ${bigQueryProjectId}.${bigQueryDataset}.${table}
+    `
+
+    await bigQuery.query(sqlQuery)
+  } catch (error) {
+    console.error(error)
     console.error(`BigQuery error:`, JSON.stringify(error))
     throw error
   }
