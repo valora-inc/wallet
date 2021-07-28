@@ -56,27 +56,23 @@ const selectEventTable = (provider: Providers): string => {
 }
 
 const processLogs = async (provider: Providers) => {
-  console.info(`Logs contain ${logs.length} events`)
-  const eventTable = selectEventTable(provider)
+  console.info(`Parsing through ${logs.length} logs`)
   const parser = selectEventParser(provider)
+  const eventTable = selectEventTable(provider)
 
-  const eventBodies = []
-  console.info('Parsing logs...')
   for (let i = 0; i < logs.length; i += 1) {
     const payload: string = logs[i].textPayload
     if (payload.startsWith('Request body:')) {
       const startIndex = payload.indexOf('{')
-      eventBodies.push(JSON.parse(payload.slice(startIndex)))
+      const body = JSON.parse(payload.slice(startIndex))
+      await parser(body)
+      console.info(`Stored event #${i + 1}`)
     }
   }
 
-  console.info('Storing events...')
-  await Promise.all(eventBodies.map((body) => parser(body)))
-
   const { deleteDuplicates } = require('../../bigQuery')
-  console.info('Deleting duplicate events...')
   await deleteDuplicates(eventTable)
-  console.info('Finished!')
+  console.info('Done parsing and storing event logs!')
 }
 
 processLogs(provider).catch((error) => console.error(error))
