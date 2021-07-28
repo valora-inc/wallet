@@ -140,6 +140,7 @@ interface TransakEventPayload {
       isEmailSentToUser: boolean
       partnerEventId: string
     }[]
+    appVersionName: string
   }
 }
 

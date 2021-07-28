@@ -2,8 +2,8 @@ import { readFileSync } from 'fs'
 import { Providers } from '../Providers'
 
 // Inputs:
-const logFilePath = '/Users/tarik/Downloads/transak_logs.json' // Your local log file here
-const provider = Providers.Transak // The provider which is getting logs parsed
+const logFilePath = '/Users/tarik/Downloads/moonpay_logs.json' // Your local log file here
+const provider = Providers.Moonpay // The provider which is getting logs parsed
 
 const logs = JSON.parse(readFileSync(logFilePath, 'utf8'))
 
@@ -56,22 +56,27 @@ const selectEventTable = (provider: Providers): string => {
 }
 
 const processLogs = async (provider: Providers) => {
-  console.info(`Parsing through ${logs.length} logs`)
+  console.info(`Logs contain ${logs.length} events`)
+  const eventTable = selectEventTable(provider)
   const parser = selectEventParser(provider)
+
+  const eventBodies = []
+  console.info('Parsing logs...')
   for (let i = 0; i < logs.length; i += 1) {
     const payload: string = logs[i].textPayload
     if (payload.startsWith('Request body:')) {
       const startIndex = payload.indexOf('{')
-      const body = JSON.parse(payload.slice(startIndex))
-      await parser(body)
-      console.info(`Stored event #${i + 1}`)
+      eventBodies.push(JSON.parse(payload.slice(startIndex)))
     }
   }
 
+  console.info('Storing events...')
+  await Promise.all(eventBodies.map((body) => parser(body)))
+
   const { deleteDuplicates } = require('../../bigQuery')
-  const eventTable = selectEventTable(provider)
+  console.info('Deleting duplicate events...')
   await deleteDuplicates(eventTable)
-  console.info('Done parsing and storing event logs!')
+  console.info('Finished!')
 }
 
 processLogs(provider).catch((error) => console.error(error))
