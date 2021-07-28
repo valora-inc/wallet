@@ -63,7 +63,8 @@ Once you have access, install Google Cloud by running `brew install google-cloud
 Follow instructions [here](https://github.com/celo-org/bootnode/blob/4bdd7e7ecb91db54dc2a307ec45887d73aa75394/engsetup/README.md)
 for logging in with Google credentials.
 
-Then run `yarn keys:decrypt` from the wallet repo root. You should see something like this: `Encrypted files decrypted`
+To test your GCP access, try running `yarn keys:decrypt` from the wallet repo root. You should see something like this: `Encrypted files decrypted`.
+(You will not need to run this command on an ongoing basis, since it is done automatically as part of the `postinstall` script.)
 
 ### iOS
 
@@ -101,7 +102,7 @@ If your machine does not recognize the `gem` command, you may need to [download 
 
 1. Run `yarn install` in the monorepo root `/wallet`.
 2. Run `yarn build:wallet` from the monorepo root `/wallet`.
-3. Run `yarn dev:ios` in the `/wallet/packages/mobile/ios` folder.
+3. Run `yarn dev:ios` in the `/wallet/packages/mobile` folder.
 
 And the app should be running in the simulator! If you run into any issues, see below for troubleshooting.
 
