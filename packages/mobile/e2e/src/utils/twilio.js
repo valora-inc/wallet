@@ -7,7 +7,7 @@ const client = twilio(accountSid, authToken)
 
 const MAX_TRIES = 120
 
-export const receiveSms = async () => {
+export const receiveSms = async (numCodes = 3) => {
   let tryNumber = 0
 
   while (tryNumber < MAX_TRIES) {
@@ -17,7 +17,7 @@ export const receiveSms = async () => {
     })
     const codes = messages.map((message) => message.body.split(': ')[1])
     console.log('Codes received:', codes)
-    if (codes.length === 3) {
+    if (codes.length === numCodes) {
       console.log(codes)
       return codes
     }
