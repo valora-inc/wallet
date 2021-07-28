@@ -59,6 +59,5 @@ describe('Simplex event polling', () => {
     expect(lookupAddressFromTxId).toHaveBeenCalledTimes(1)
     expect(trackEvent).toHaveBeenCalledTimes(1)
     expect(response.status).toHaveBeenCalledWith(204)
-    mockFetch.mockClear()
   })
 })
