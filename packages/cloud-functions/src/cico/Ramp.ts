@@ -119,7 +119,7 @@ export const Ramp = {
       quotes.push({
         paymentMethod:
           paymentMethodType === 'CARD_PAYMENT' ? PaymentMethod.Card : PaymentMethod.Bank,
-        fiatFee: roundDecimals(appliedFee / exchangeRate, 2),
+        fiatFee: appliedFee / exchangeRate,
         returnedAmount: new BigNumber(cryptoAmount).toNumber(),
         digitalAsset: cryptoAssetSymbol,
       })
