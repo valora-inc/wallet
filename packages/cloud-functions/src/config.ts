@@ -17,6 +17,7 @@ export const MOONPAY_DATA = {
 
 export const RAMP_DATA = {
   widget_url: config.ramp?.widget_url,
+  api_url: config.ramp?.api_url,
   public_key: config.ramp?.public_key,
   pem_file: config.ramp?.pem_file,
   webhook_url: config.ramp?.webhook_url,
