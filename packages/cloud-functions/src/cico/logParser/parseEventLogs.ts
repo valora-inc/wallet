@@ -16,50 +16,33 @@ const { parseRampEvent, RAMP_BIG_QUERY_EVENT_TABLE } = require('../rampWebhook')
 const { parseXanpoolEvent, XANPOOL_BIG_QUERY_EVENT_TABLE } = require('../xanpoolwebhook')
 const { parseTransakEvent, TRANSAK_BIG_QUERY_EVENT_TABLE } = require('../transakWebhook')
 
-const selectEventParser = (provider: Providers): Function => {
-  if (provider === Providers.Moonpay) {
-    return parseMoonpayEvent
+const selectEventParserAndTable = (
+  provider: Providers
+): undefined | { parser: Function; table: string } => {
+  switch (provider) {
+    case Providers.Moonpay: {
+      return { parser: parseMoonpayEvent, table: MOONPAY_BIG_QUERY_EVENT_TABLE }
+    }
+    case Providers.Ramp: {
+      return { parser: parseRampEvent, table: RAMP_BIG_QUERY_EVENT_TABLE }
+    }
+    case Providers.Xanpool: {
+      return { parser: parseXanpoolEvent, table: XANPOOL_BIG_QUERY_EVENT_TABLE }
+    }
+    case Providers.Transak: {
+      return { parser: parseTransakEvent, table: TRANSAK_BIG_QUERY_EVENT_TABLE }
+    }
   }
-
-  if (provider === Providers.Ramp) {
-    return parseRampEvent
-  }
-
-  if (provider === Providers.Xanpool) {
-    return parseXanpoolEvent
-  }
-  if (provider === Providers.Transak) {
-    return parseTransakEvent
-  }
-
-  return () => ({})
-}
-
-const selectEventTable = (provider: Providers): string => {
-  if (provider === Providers.Moonpay) {
-    return MOONPAY_BIG_QUERY_EVENT_TABLE
-  }
-
-  if (provider === Providers.Ramp) {
-    return RAMP_BIG_QUERY_EVENT_TABLE
-  }
-
-  if (provider === Providers.Xanpool) {
-    return XANPOOL_BIG_QUERY_EVENT_TABLE
-  }
-
-  if (provider === Providers.Transak) {
-    return TRANSAK_BIG_QUERY_EVENT_TABLE
-  }
-
-  return ''
 }
 
 const processLogs = async (provider: Providers) => {
   console.info(`Parsing through ${logs.length} logs`)
-  const parser = selectEventParser(provider)
-  const eventTable = selectEventTable(provider)
+  const parserAndTable = selectEventParserAndTable(provider)
+  if (!parserAndTable) {
+    throw new Error(`No parser and/or table found for provider ${provider}`)
+  }
 
+  const { parser, table } = parserAndTable
   for (let i = 0; i < logs.length; i += 1) {
     const payload: string = logs[i].textPayload
     if (payload.startsWith('Request body:')) {
@@ -71,7 +54,7 @@ const processLogs = async (provider: Providers) => {
   }
 
   const { deleteDuplicates } = require('../../bigQuery')
-  await deleteDuplicates(eventTable)
+  await deleteDuplicates(table)
   console.info('Done parsing and storing event logs!')
 }
 
