@@ -69,31 +69,36 @@ const deleteSimplexEvent = async (event: SimplexTransactionEvent) => {
   }
 }
 
-export const simplexEventPolling = functions.https.onRequest(async (_, res) => {
-  try {
-    const simplexEvents = await getSimplexEvents()
+export const simplexEventPolling = functions
+  .runWith({ maxInstances: 1 })
+  .https.onRequest(async (_, res) => {
+    try {
+      const simplexEvents = await getSimplexEvents()
 
-    await Promise.all(
-      simplexEvents.events.map(async (event) => {
-        try {
-          const txId = event.payment.id
-          const userAddress = await lookupAddressFromTxId(txId)
+      await Promise.all(
+        simplexEvents.events.map(async (event) => {
+          try {
+            const txId = event.payment.id
+            const userAddress = await lookupAddressFromTxId(txId)
 
-          userAddress
-            ? console.info(`Found user address ${userAddress} on txId ${txId}`)
-            : console.info(`No user address found for txId ${txId}`)
+            userAddress
+              ? console.info(`Found user address ${userAddress} on txId ${txId}`)
+              : console.info(`No user address found for txId ${txId}`)
 
-          await trackEvent(SIMPLEX_BIG_QUERY_EVENT_TABLE, flattenObject({ userAddress, ...event }))
-          await deleteSimplexEvent(event)
-        } catch (error) {
-          console.error('Error with event: ', JSON.stringify(event))
-        }
-      })
-    )
+            await trackEvent(
+              SIMPLEX_BIG_QUERY_EVENT_TABLE,
+              flattenObject({ userAddress, ...event })
+            )
+            await deleteSimplexEvent(event)
+          } catch (error) {
+            console.error('Error with event: ', JSON.stringify(event))
+          }
+        })
+      )
 
-    res.status(204).end()
-  } catch (error) {
-    console.error('Error querying for Simplex events: ', error)
-    res.status(400).end()
-  }
-})
+      res.status(204).end()
+    } catch (error) {
+      console.error('Error querying for Simplex events: ', error)
+      res.status(400).end()
+    }
+  })
