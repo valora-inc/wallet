@@ -1,4 +1,4 @@
-FROM circleci/node:10
+FROM circleci/node:14.17.1
 MAINTAINER Gaston Ponti <ponti@c-labs.co>
 
 RUN sudo apt-get update -y
