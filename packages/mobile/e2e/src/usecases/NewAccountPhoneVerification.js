@@ -3,6 +3,7 @@ import { EXAMPLE_NAME, VERIFICATION_PHONE_NUMBER } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
 import { receiveSms } from '../utils/twilio'
 import { checkKomenci } from '../utils/komenci'
+const jestExpect = require('expect')
 
 export default NewAccountPhoneVerification = () => {
   beforeEach(async () => {
@@ -55,6 +56,11 @@ export default NewAccountPhoneVerification = () => {
       await waitFor(element(by.id('VerificationCode0')))
         .toExist()
         .withTimeout(45000)
+
+      // Check that we've received 3 codes
+      jestExpect(codes).toHaveLength(3)
+
+      // Enter 3 codes
       for (let i = 0; i < 3; i++) {
         await element(by.id(`VerificationCode${i}`)).replaceText(codes[i])
       }
@@ -98,7 +104,6 @@ export default NewAccountPhoneVerification = () => {
       // Enter Pin to start resend
       await enterPinUi()
       let secondCodeSet = await receiveSms(2, 2 * 60 * 1000, codes)
-      console.log(secondCodeSet)
       for (let i = 0; i < 2; i++) {
         await element(by.id(`VerificationCode${i + 1}`)).replaceText(secondCodeSet[i])
       }
@@ -123,32 +128,28 @@ export default NewAccountPhoneVerification = () => {
       await expect(element(by.text(VERIFICATION_PHONE_NUMBER))).toBeVisible()
     })
   } else {
-    // it('Then should handle when Komenci is down', async () => {
-    // })
+    it('Then should handle when Komenci is down', async () => {
+      // Continue To Komenci down view
+      await element(by.text('Continue')).tap()
+
+      // TODO: Verify Komenci Down Screen Served
+      // Continue to Home Screen
+      await element(by.text('Continue')).tap()
+
+      // Arrived to the Home screen
+      await waitFor(element(by.id('SendOrRequestBar')))
+        .toBeVisible()
+        .withTimeout(10000)
+
+      // Verify that phone verification CTA is served
+      try {
+        await element(by.id('CTA/ScrollContainer')).scroll(500, 'right')
+      } catch {}
+      await expect(element(by.text('Confirm Now'))).toExist()
+
+      // Check Phone Number is Present
+      await element(by.id('Hamburger')).tap()
+      await expect(element(by.text(VERIFICATION_PHONE_NUMBER))).toBeVisible()
+    })
   }
-
-  it('Then should handle when Komenci is down', async () => {
-    // Continue To Komenci down view
-    await element(by.text('Continue')).tap()
-    await element(by.text('Continue')).tap()
-
-    // TODO: Verify Komenci Down Screen Served
-    // Continue to Home Screen
-    await element(by.text('Continue')).tap()
-
-    // Arrived to the Home screen
-    await waitFor(element(by.id('SendOrRequestBar')))
-      .toBeVisible()
-      .withTimeout(10000)
-
-    // Verify that phone verification CTA is served
-    try {
-      await element(by.id('CTA/ScrollContainer')).scroll(500, 'right')
-    } catch {}
-    await expect(element(by.text('Confirm Now'))).toExist()
-
-    // Check Phone Number is Present
-    await element(by.id('Hamburger')).tap()
-    await expect(element(by.text(VERIFICATION_PHONE_NUMBER))).toBeVisible()
-  })
 }
