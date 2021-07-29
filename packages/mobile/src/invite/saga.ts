@@ -86,7 +86,9 @@ export function* sendInvite(
       ? 'sendFlow7:inviteWithEscrowedPayment'
       : 'sendFlow7:inviteWithoutPayment'
     const message = i18n.t(messageProp, {
-      amount: amount?.toString(),
+      amount: amount?.toFixed(2),
+      currency:
+        currency === Currency.Dollar ? i18n.t('global:celoDollars') : i18n.t('global:celoEuros'),
       link,
     })
 
