@@ -8,7 +8,7 @@ import { saveTxHashProvider } from '../firebase'
 import { Providers } from './Providers'
 import { flattenObject } from './utils'
 
-const RAMP_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_ramp'
+export const RAMP_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_ramp'
 const RAMP_KEY = RAMP_DATA.pem_file
   ? readFileSync(`./config/${RAMP_DATA.pem_file}`).toString()
   : null
