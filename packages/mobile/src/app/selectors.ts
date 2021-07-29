@@ -87,3 +87,9 @@ export const rewardsEnabledSelector = createSelector(
 )
 
 export const celoEuroEnabledSelector = (state: RootState) => state.app.celoEuroEnabled
+
+export const googleMobileServicesAvailableSelector = (state: RootState) =>
+  state.app.googleMobileServicesAvailable
+
+export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
+  state.app.huaweiMobileServicesAvailable

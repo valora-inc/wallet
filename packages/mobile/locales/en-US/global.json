@@ -200,5 +200,6 @@
   "ok": "OK",
   "cashOutLimitExceeded": "You cannot cash out more than your balance of {{balance}} {{currency}}",
   "appDescription": "A mobile payments wallet that works worldwide",
-  "earn": "Earn"
+  "earn": "Earn",
+  "free": "Free"
 }

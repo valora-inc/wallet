@@ -17,9 +17,11 @@ export const MOONPAY_DATA = {
 
 export const RAMP_DATA = {
   widget_url: config.ramp.widget_url,
+  api_url: config.ramp.api_url,
   public_key: config.ramp.public_key,
   pem_file: config.ramp.pem_file,
   webhook_url: config.ramp.webhook_url,
+  supported_currencies: ['USD', 'EUR', 'GBP'],
 }
 
 export const TRANSAK_DATA = {
@@ -32,6 +34,7 @@ export const TRANSAK_DATA = {
 export const SIMPLEX_DATA = {
   api_url: config.simplex.api_url,
   checkout_url: config.simplex.checkout_url,
+  event_url: config.simplex.event_url,
   api_key: config.simplex.api_key,
 }
 
