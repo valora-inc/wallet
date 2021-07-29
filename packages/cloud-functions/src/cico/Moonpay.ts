@@ -137,7 +137,7 @@ export const Moonpay = {
       quotes.push({
         paymentMethod:
           quote.paymentMethod === 'credit_debit_card' ? PaymentMethod.Card : PaymentMethod.Bank,
-        fiatFee: roundDecimals((feeAmount + extraFeeAmount + networkFeeAmount) / exchangeRate, 2),
+        fiatFee: (feeAmount + extraFeeAmount + networkFeeAmount) / exchangeRate,
         returnedAmount: quote.quoteCurrencyAmount,
         digitalAsset: quote.currency.code,
       })
