@@ -27,6 +27,7 @@ files=(
   ".env.mnemonic.alfajores"
   ".env.mnemonic.baklava"
   ".env.mnemonic.rc1"
+  "packages/mobile/e2e/secrets.json"
 )
 
 if [[ -z "$1" ]]; then

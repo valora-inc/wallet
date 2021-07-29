@@ -1,23 +1,29 @@
 import twilio from 'twilio'
 import { sleep } from './utils'
+import * as secretsFile from '../../secrets.json'
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID || '<Insert Account SID>'
-const authToken = process.env.TWILIO_AUTH_TOKEN || '<Insert Auth Token>'
+// If attempting to test phone verification without decrypt access insert your SID and Auth Token for Twilio Below
+const accountSid = secretsFile['TWILIO_ACCOUNT_SID'] || '<Insert Account SID>'
+const authToken = secretsFile['TWILIO_AUTH_TOKEN'] || '<Insert Auth Token>'
 const client = twilio(accountSid, authToken)
 
 const MAX_TRIES = 120
 
-export const receiveSms = async (numCodes = 3) => {
+export const receiveSms = async (
+  numCodes = 3,
+  secondsAfter = 3 * 60 * 1000,
+  existingCodes = []
+) => {
   let tryNumber = 0
 
   while (tryNumber < MAX_TRIES) {
     const messages = await client.messages.list({
-      dateSentAfter: new Date(Date.now() - 3 * 60 * 1000),
+      dateSentAfter: new Date(Date.now() - secondsAfter),
       limit: 3,
     })
     const codes = messages.map((message) => message.body.split(': ')[1])
     console.log('Codes received:', codes)
-    if (codes.length === numCodes) {
+    if (codes.filter((code) => !existingCodes.includes(code)).length >= numCodes) {
       console.log(codes)
       return codes
     }
