@@ -67,6 +67,17 @@ export async function getTokenContract(token: Currency) {
   }
 }
 
+export async function getTokenContractFromAddress(tokenAddress: string) {
+  Logger.debug(TAG + '@getTokenContract', `Fetching contract for address ${tokenAddress}`)
+  const contractKit = await getContractKitAsync(false)
+  const contracts = await Promise.all([
+    contractKit.contracts.getGoldToken(),
+    contractKit.contracts.getStableToken(StableToken.cUSD),
+    contractKit.contracts.getStableToken(StableToken.cEUR),
+  ])
+  return contracts.find((contract) => contract.address === tokenAddress)
+}
+
 export function* fetchToken(token: Currency, tag: string) {
   try {
     Logger.debug(tag, `Fetching ${token} balance`)
