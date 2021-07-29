@@ -99,6 +99,9 @@ export const mockProviders: CicoProvider[] = [
     url: 'www.fakewebsite.com',
     logo:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+    quote: [
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 100, fiatFee: 0 },
+    ],
     cashIn: true,
     cashOut: false,
   },
@@ -271,7 +274,22 @@ describe('ProviderOptionsScreen', () => {
     expect(elements).toHaveLength(1)
   })
 
-  it('only shows Ramp if cEUR is the currency', async () => {
+  it(`shows "Free" if there is no fee associated with CICO `, async () => {
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card, Currency.Dollar)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+
+    const freeElement = tree.queryByText('global:free')
+    expect(freeElement).toBeTruthy()
+  })
+
+  it('if cEUR is selected, it shows Ramp as the only provider', async () => {
     mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(

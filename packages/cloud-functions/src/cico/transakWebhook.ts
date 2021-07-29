@@ -5,7 +5,7 @@ import { TRANSAK_DATA } from '../config'
 import { saveTxHashProvider } from '../firebase'
 import { Providers } from './Providers'
 
-const TRANSAK_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_transak'
+export const TRANSAK_BIG_QUERY_EVENT_TABLE = 'cico_provider_events_transak'
 
 interface TransakEventPayload {
   eventID: TransakEvent
@@ -140,6 +140,7 @@ interface TransakEventPayload {
       isEmailSentToUser: boolean
       partnerEventId: string
     }[]
+    appVersionName: string
   }
 }
 
