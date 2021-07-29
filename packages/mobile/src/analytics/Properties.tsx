@@ -81,6 +81,10 @@ interface AppEventsProperties {
     state: NotificationReceiveState
     type?: string
   }
+  [AppEvents.android_mobile_services_availability_checked]: {
+    googleIsAvailable: boolean | undefined
+    huaweiIsAvailable: boolean | undefined
+  }
   [AppEvents.request_tracking_permission_started]: {
     currentPermission: PermissionStatus
   }

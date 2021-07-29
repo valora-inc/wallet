@@ -4,27 +4,26 @@ import SimpleMessagingCard, {
 } from '@celo/react-components/components/SimpleMessagingCard'
 import variables from '@celo/react-components/styles/variables'
 import * as React from 'react'
-import { WithTranslation } from 'react-i18next'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { NativeScrollEvent, ScrollView, StyleSheet, View } from 'react-native'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { dismissGetVerified, dismissGoldEducation, dismissInviteFriends } from 'src/account/actions'
 import { HomeEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { openUrl as openUrlAction } from 'src/app/actions'
+import { openUrl } from 'src/app/actions'
 import { rewardsEnabledSelector, verificationPossibleSelector } from 'src/app/selectors'
 import {
   RewardsScreenOrigin,
   trackRewardsScreenOpenEvent,
 } from 'src/consumerIncentives/analyticsEventsTracker'
-import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { pausedFeatures } from 'src/flags'
 import { dismissNotification } from 'src/home/actions'
-import { IdToNotification } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { Namespaces } from 'src/i18n'
 import { backupKey, getVerified, inviteFriends, learnCelo } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -34,8 +33,7 @@ import {
   getIncomingPaymentRequests,
   getOutgoingPaymentRequests,
 } from 'src/paymentRequest/selectors'
-import { PaymentRequest } from 'src/paymentRequest/types'
-import { RootState } from 'src/redux/reducers'
+import useSelector from 'src/redux/useSelector'
 import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 import Logger from 'src/utils/Logger'
 
@@ -63,65 +61,28 @@ export enum NotificationBannerCTATypes {
   remote_notification_cta = 'remote_notification_cta',
 }
 
-interface StateProps {
-  backupCompleted: boolean
-  numberVerified: boolean
-  goldEducationCompleted: boolean
-  dismissedInviteFriends: boolean
-  dismissedGetVerified: boolean
-  verificationPossible: boolean
-  dismissedGoldEducation: boolean
-  incomingPaymentRequests: PaymentRequest[]
-  outgoingPaymentRequests: PaymentRequest[]
-  extraNotifications: IdToNotification
-  reclaimableEscrowPayments: EscrowedPayment[]
-  rewardsEnabled: boolean
-}
+function NotificationBox() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const {
+    backupCompleted,
+    dismissedInviteFriends,
+    dismissedGetVerified,
+    dismissedGoldEducation,
+  } = useSelector((state) => state.account)
+  const numberVerified = useSelector((state) => state.app.numberVerified)
+  const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
+  const incomingPaymentRequests = useSelector(getIncomingPaymentRequests)
+  const outgoingPaymentRequests = useSelector(getOutgoingPaymentRequests)
+  const extraNotifications = useSelector(getExtraNotifications)
+  const verificationPossible = useSelector(verificationPossibleSelector)
+  const reclaimableEscrowPayments = useSelector(getReclaimableEscrowPayments)
+  const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
-interface DispatchProps {
-  dismissNotification: typeof dismissNotification
-  dismissInviteFriends: typeof dismissInviteFriends
-  dismissGetVerified: typeof dismissGetVerified
-  dismissGoldEducation: typeof dismissGoldEducation
-  openUrl: typeof openUrlAction
-}
+  const { t } = useTranslation(Namespaces.walletFlow5)
 
-type Props = DispatchProps & StateProps & WithTranslation
+  const dispatch = useDispatch()
 
-const mapStateToProps = (state: RootState): StateProps => ({
-  backupCompleted: state.account.backupCompleted,
-  numberVerified: state.app.numberVerified,
-  goldEducationCompleted: state.goldToken.educationCompleted,
-  incomingPaymentRequests: getIncomingPaymentRequests(state),
-  outgoingPaymentRequests: getOutgoingPaymentRequests(state),
-  extraNotifications: getExtraNotifications(state),
-  dismissedInviteFriends: state.account.dismissedInviteFriends,
-  dismissedGetVerified: state.account.dismissedGetVerified,
-  verificationPossible: verificationPossibleSelector(state),
-  dismissedGoldEducation: state.account.dismissedGoldEducation,
-  reclaimableEscrowPayments: getReclaimableEscrowPayments(state),
-  rewardsEnabled: rewardsEnabledSelector(state),
-})
-
-const mapDispatchToProps = {
-  dismissNotification,
-  dismissInviteFriends,
-  dismissGetVerified,
-  dismissGoldEducation,
-  openUrl: openUrlAction,
-}
-
-interface State {
-  currentIndex: number
-}
-
-export class NotificationBox extends React.Component<Props, State> {
-  state = {
-    currentIndex: 0,
-  }
-
-  escrowedPaymentReminderNotification = () => {
-    const { reclaimableEscrowPayments } = this.props
+  const escrowedPaymentReminderNotification = () => {
     if (reclaimableEscrowPayments && reclaimableEscrowPayments.length) {
       return [
         <EscrowedPaymentReminderSummaryNotification key={1} payments={reclaimableEscrowPayments} />,
@@ -130,8 +91,7 @@ export class NotificationBox extends React.Component<Props, State> {
     return []
   }
 
-  incomingPaymentRequestsNotification = (): Array<React.ReactElement<any>> => {
-    const { incomingPaymentRequests } = this.props
+  const incomingPaymentRequestsNotification = (): Array<React.ReactElement<any>> => {
     if (incomingPaymentRequests && incomingPaymentRequests.length) {
       return [
         <IncomingPaymentRequestSummaryNotification key={1} requests={incomingPaymentRequests} />,
@@ -140,8 +100,7 @@ export class NotificationBox extends React.Component<Props, State> {
     return []
   }
 
-  outgoingPaymentRequestsNotification = (): Array<React.ReactElement<any>> => {
-    const { outgoingPaymentRequests } = this.props
+  const outgoingPaymentRequestsNotification = (): Array<React.ReactElement<any>> => {
     if (outgoingPaymentRequests && outgoingPaymentRequests.length) {
       return [
         <OutgoingPaymentRequestSummaryNotification key={1} requests={outgoingPaymentRequests} />,
@@ -150,19 +109,7 @@ export class NotificationBox extends React.Component<Props, State> {
     return []
   }
 
-  generalNotifications = (): Array<React.ReactElement<any>> => {
-    const {
-      t,
-      backupCompleted,
-      numberVerified,
-      goldEducationCompleted,
-      dismissedInviteFriends,
-      dismissedGetVerified,
-      verificationPossible,
-      dismissedGoldEducation,
-      rewardsEnabled,
-      openUrl,
-    } = this.props
+  const generalNotifications = (): Array<React.ReactElement<any>> => {
     const actions: SimpleMessagingCardProps[] = []
 
     if (!backupCompleted) {
@@ -216,14 +163,14 @@ export class NotificationBox extends React.Component<Props, State> {
                 notificationType: NotificationBannerTypes.verification_prompt,
                 selectedAction: NotificationBannerCTATypes.decline,
               })
-              this.props.dismissGetVerified()
+              dispatch(dismissGetVerified())
             },
           },
         ],
       })
     }
 
-    for (const [id, notification] of Object.entries(this.props.extraNotifications)) {
+    for (const [id, notification] of Object.entries(extraNotifications)) {
       if (!notification) {
         continue
       }
@@ -248,7 +195,7 @@ export class NotificationBox extends React.Component<Props, State> {
                 selectedAction: NotificationBannerCTATypes.remote_notification_cta,
                 notificationId: id,
               })
-              openUrl(notification.ctaUri, notification.openExternal, true)
+              dispatch(openUrl(notification.ctaUri, notification.openExternal, true))
               trackRewardsScreenOpenEvent(notification.ctaUri, RewardsScreenOrigin.NotificationBox)
             },
           },
@@ -261,7 +208,7 @@ export class NotificationBox extends React.Component<Props, State> {
                 selectedAction: NotificationBannerCTATypes.decline,
                 notificationId: id,
               })
-              this.props.dismissNotification(id)
+              dispatch(dismissNotification(id))
             },
           },
         ],
@@ -290,7 +237,7 @@ export class NotificationBox extends React.Component<Props, State> {
                 notificationType: NotificationBannerTypes.celo_asset_education,
                 selectedAction: NotificationBannerCTATypes.decline,
               })
-              this.props.dismissGoldEducation()
+              dispatch(dismissGoldEducation())
             },
           },
         ],
@@ -305,7 +252,7 @@ export class NotificationBox extends React.Component<Props, State> {
           {
             text: t('global:connect'),
             onPress: () => {
-              this.props.dismissInviteFriends()
+              dispatch(dismissInviteFriends())
               ValoraAnalytics.track(HomeEvents.notification_select, {
                 notificationType: NotificationBannerTypes.invite_prompt,
                 selectedAction: NotificationBannerCTATypes.accept,
@@ -316,7 +263,7 @@ export class NotificationBox extends React.Component<Props, State> {
           {
             text: t('global:remind'),
             onPress: () => {
-              this.props.dismissInviteFriends()
+              dispatch(dismissInviteFriends())
               ValoraAnalytics.track(HomeEvents.notification_select, {
                 notificationType: NotificationBannerTypes.invite_prompt,
                 selectedAction: NotificationBannerCTATypes.decline,
@@ -330,8 +277,7 @@ export class NotificationBox extends React.Component<Props, State> {
     return actions.map((notification, i) => <SimpleMessagingCard key={i} {...notification} />)
   }
 
-  handleScroll = (event: { nativeEvent: NativeScrollEvent }) => {
-    const { currentIndex } = this.state
+  const handleScroll = (event: { nativeEvent: NativeScrollEvent }) => {
     const nextIndex = Math.round(event.nativeEvent.contentOffset.x / variables.width)
 
     if (nextIndex === currentIndex) {
@@ -341,46 +287,41 @@ export class NotificationBox extends React.Component<Props, State> {
     const direction = nextIndex > currentIndex ? ScrollDirection.next : ScrollDirection.previous
     ValoraAnalytics.track(HomeEvents.notification_scroll, { direction })
 
-    this.setState({
-      currentIndex: Math.round(event.nativeEvent.contentOffset.x / variables.width),
-    })
+    setCurrentIndex(Math.round(event.nativeEvent.contentOffset.x / variables.width))
   }
 
-  render() {
-    const notifications = [
-      ...this.incomingPaymentRequestsNotification(),
-      ...this.outgoingPaymentRequestsNotification(),
-      ...this.escrowedPaymentReminderNotification(),
-      ...this.generalNotifications(),
-    ]
+  const notifications = [
+    ...incomingPaymentRequestsNotification(),
+    ...outgoingPaymentRequestsNotification(),
+    ...escrowedPaymentReminderNotification(),
+    ...generalNotifications(),
+  ]
 
-    if (!notifications.length) {
-      // No notifications, no slider
-      return null
-    }
-    return (
-      <View style={styles.body}>
-        <ScrollView
-          testID="CTA/ScrollContainer"
-          horizontal={true}
-          pagingEnabled={true}
-          showsHorizontalScrollIndicator={false}
-          onScroll={this.handleScroll}
-        >
-          {notifications.map((notification, i) => (
-            <View key={i} style={styles.notificationContainer}>
-              {notification}
-            </View>
-          ))}
-        </ScrollView>
-        <Pagination
-          style={styles.pagination}
-          count={notifications.length}
-          activeIndex={this.state.currentIndex}
-        />
-      </View>
-    )
+  if (!notifications.length) {
+    // No notifications, no slider
+    return null
   }
+  return (
+    <View style={styles.body}>
+      <ScrollView
+        horizontal={true}
+        pagingEnabled={true}
+        showsHorizontalScrollIndicator={false}
+        onScroll={handleScroll}
+      >
+        {notifications.map((notification, i) => (
+          <View key={i} style={styles.notificationContainer}>
+            {notification}
+          </View>
+        ))}
+      </ScrollView>
+      <Pagination
+        style={styles.pagination}
+        count={notifications.length}
+        activeIndex={currentIndex}
+      />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -398,7 +339,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect<StateProps, DispatchProps, {}, RootState>(
-  mapStateToProps,
-  mapDispatchToProps
-)(withTranslation<Props>(Namespaces.walletFlow5)(NotificationBox))
+export default NotificationBox
