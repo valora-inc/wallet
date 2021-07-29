@@ -21,13 +21,6 @@ jobs:
       - run: yarn
       - run: yarn build --ignore docs
       - run: ./scripts/ci_check_vulnerabilities.sh
-      - run: |
-          mkdir -p test-results/jest
-          yarn run lerna --ignore @celo/mobile run test
-      - name: 'Upload Test Results'
-        uses: actions/upload-artifact@v2
-        with:
-          path: test-results
   lint:
     name: Lint
     runs-on: ubuntu-latest
