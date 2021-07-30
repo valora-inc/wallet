@@ -1,5 +1,6 @@
 import URLSearchParamsReal from '@ungap/url-search-params'
-import { AppState } from 'react-native'
+import { AppState, Platform } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import {
   call,
@@ -22,6 +23,7 @@ import {
   OpenUrlAction,
   SetAppState,
   setAppState,
+  androidMobileServicesAvailabilityChecked,
   setLanguage,
   updateFeatureFlags,
 } from 'src/app/actions'
@@ -29,6 +31,8 @@ import { currentLanguageSelector } from 'src/app/reducers'
 import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
+  googleMobileServicesAvailableSelector,
+  huaweiMobileServicesAvailableSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
@@ -94,6 +98,49 @@ export function* appVersionSaga() {
       appVersionChannel.close()
     }
   }
+}
+
+// Check the availability of Google Mobile Services and Huawei Mobile Services, an alternative to
+// that ships with Huawei phones which do not have GMS. Log and report the result to analytics.
+// Note: On iOS, this will be a no-op.
+export function* checkAndroidMobileServicesSaga() {
+  if (Platform.OS !== 'android') {
+    return
+  }
+
+  // Check to see if Google Mobile Services (i.e. Google Play Services) are available on this device.
+  let googleIsAvailable: boolean | undefined
+  try {
+    googleIsAvailable = yield call([DeviceInfo, DeviceInfo.hasGms])
+    Logger.info(TAG, 'Result of check for Google Mobile Services', googleIsAvailable)
+  } catch (e) {
+    Logger.error(TAG, 'Error in check for Google Mobile Services', e)
+  }
+
+  // Check to see if Huawei Mobile Services are available on this device.
+  let huaweiIsAvailable: boolean | undefined
+  try {
+    huaweiIsAvailable = yield call([DeviceInfo, DeviceInfo.hasHms])
+    Logger.info(TAG, `Result of check for Huawei Mobile Services`, huaweiIsAvailable)
+  } catch (e) {
+    Logger.error(TAG, `Error in check for Huawei Mobile Services`, e)
+  }
+
+  // Check if the availability status has changed. If so, log an analytics events.
+  // When this is first run, the status in the state tree will be undefined, ensuring this event is
+  // fired at least once for each client.
+  const updated =
+    googleIsAvailable !== (yield select(googleMobileServicesAvailableSelector)) ||
+    huaweiIsAvailable !== (yield select(huaweiMobileServicesAvailableSelector))
+
+  if (updated) {
+    ValoraAnalytics.track(AppEvents.android_mobile_services_availability_checked, {
+      googleIsAvailable,
+      huaweiIsAvailable,
+    })
+  }
+
+  yield put(androidMobileServicesAvailabilityChecked(googleIsAvailable, huaweiIsAvailable))
 }
 
 export interface RemoteFeatureFlags {
