@@ -26,4 +26,5 @@ transactionHash: STRING,
 transactionLink: STRING,
 completedAt: TIMESTAMP,
 partnerFeeInLocalCurrency: FLOAT,
-statusReason: STRING
+statusReason: STRING,
+appVersionName: STRING
