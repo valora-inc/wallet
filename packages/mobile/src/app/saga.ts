@@ -118,21 +118,22 @@ export function* appRemoteFeatureFlagSaga() {
   // If the app keep getting killed and restarted we
   // will load the flags more often, but that should be pretty rare.
   // if that ever becomes a problem we can save it somewhere persistent.
-  let startTime = 0
+  let lastLoadTime = 0
+  let isAppActive = true
 
   while (true) {
-    Logger.debug(TAG, 'appRemoteFeatureFlagSaga in while loop')
-    const action: SetAppState = yield take(Actions.SET_APP_STATE)
-    const isAppActive = action.state === 'active'
-    const isRefreshTime = Date.now() - startTime > 1 * 1000
+    const isRefreshTime = Date.now() - lastLoadTime > 60 * 60 * 1000
 
-    if (isRefreshTime && isAppActive) {
+    if (isAppActive && isRefreshTime) {
       const flags: RemoteFeatureFlags = yield call(fetchRemoteFeatureFlags)
       if (flags) {
         yield put(updateFeatureFlags(flags))
       }
-      startTime = Date.now()
+      lastLoadTime = Date.now()
     }
+
+    const action: SetAppState = yield take(Actions.SET_APP_STATE)
+    isAppActive = action.state === 'active'
   }
 }
 
