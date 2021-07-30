@@ -1,10 +1,10 @@
 import twilio from 'twilio'
 import { sleep } from './utils'
-import * as secretsFile from '../../secrets.json'
+import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } from './consts'
 
 // If attempting to test phone verification without decrypt access insert your SID and Auth Token for Twilio Below
-const accountSid = secretsFile['TWILIO_ACCOUNT_SID'] || '<Insert Account SID>'
-const authToken = secretsFile['TWILIO_AUTH_TOKEN'] || '<Insert Auth Token>'
+const accountSid = TWILIO_ACCOUNT_SID || '<Insert Account SID>'
+const authToken = TWILIO_AUTH_TOKEN || '<Insert Auth Token>'
 const client = twilio(accountSid, authToken)
 
 const MAX_TRIES = 120
