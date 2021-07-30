@@ -16,13 +16,16 @@ try {
 let phoneNumber = '+1 306-555-5555'
 let twilioAccountSID
 let twilioAuthToken
+let secretsPresent = false
 
 if (usingSecrets) {
   phoneNumber = secretsFile['VERIFICATION_PHONE_NUMBER']
   twilioAccountSID = secretsFile['TWILIO_ACCOUNT_SID']
   twilioAuthToken = secretsFile['TWILIO_AUTH_TOKEN']
+  secretsPresent = true
 }
 
 export const VERIFICATION_PHONE_NUMBER = phoneNumber
 export const TWILIO_ACCOUNT_SID = twilioAccountSID
 export const TWILIO_AUTH_TOKEN = twilioAuthToken
+export const SECRETS_PRESENT = secretsPresent
