@@ -308,6 +308,7 @@ function NotificationBox() {
         pagingEnabled={true}
         showsHorizontalScrollIndicator={false}
         onScroll={handleScroll}
+        testID="CTA/ScrollContainer"
       >
         {notifications.map((notification, i) => (
           <View key={i} style={styles.notificationContainer}>
