@@ -15,6 +15,7 @@ const EXPIRED_BACKUP_TIME = RECENT_BACKUP_TIME - DAYS_TO_BACKUP
 const testNotification = {
   ctaUri: 'https://celo.org',
   darkMode: true,
+  priority: 20,
   content: {
     en: {
       body: 'Body Text',
@@ -28,7 +29,6 @@ const storeDataNotificationsEnabled = {
   goldToken: { educationCompleted: false },
   account: {
     backupCompleted: false,
-    dismissedInviteFriends: false,
     dismissedGetVerified: false,
     accountCreationTime: EXPIRED_BACKUP_TIME,
   },
@@ -105,10 +105,6 @@ describe('NotificationBox', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       goldToken: { educationCompleted: false },
-      account: {
-        ...storeDataNotificationsDisabled.account,
-        dismissedInviteFriends: false,
-      },
     })
     const { getByText } = render(
       <Provider store={store}>
