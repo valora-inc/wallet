@@ -34,3 +34,18 @@ export const receiveSms = async (
   }
   return []
 }
+
+export const checkBalance = async () => {
+  try {
+    const twilioBalance = await client.balance.fetch()
+    console.log(`Twilio Balance is ${twilioBalance.balance} ${twilioBalance.currency}`)
+    // Convert balance to number and check
+    if (+twilioBalance.balance > 0.0675) {
+      return true
+    } else {
+      return false
+    }
+  } catch (error) {
+    console.log('Error fetching Twilio Credit Balance', error)
+  }
+}

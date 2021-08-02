@@ -8,7 +8,7 @@ import {
 } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
 import { checkKomenci } from '../utils/komenci'
-import { receiveSms } from '../utils/twilio'
+import { receiveSms, checkBalance } from '../utils/twilio'
 const jestExpect = require('expect')
 
 export default NewAccountPhoneVerification = () => {
@@ -49,6 +49,12 @@ export default NewAccountPhoneVerification = () => {
 
   afterAll(async () => {
     device.uninstallApp()
+  })
+
+  beforeAll(async () => {
+    try {
+      await checkBalance()
+    } catch {}
   })
 
   // Checking that Twilio SID & Auth are present
@@ -179,114 +185,58 @@ export default NewAccountPhoneVerification = () => {
     }
   }
 
-  // Verify content on the phone verification screen & skip use branding if present
-  if (SECRETS_PRESENT) {
-    it('Then should have correct phone verification screen', async () => {
-      await dismissBanners()
-      await expect(element(by.text('Connect your phone number'))).toBeVisible()
-      let skipAttributes = await element(by.text('Skip')).getAttributes()
-      jestExpect(skipAttributes.enabled).toBe(true)
-      await waitFor(element(by.text('Do I need to confirm?')))
-        .toBeVisible()
-        .withTimeout(10000)
+  // Verify content on the phone verification screen
+  it('Then should have correct phone verification screen', async () => {
+    await dismissBanners()
+    await expect(element(by.text('Connect your phone number'))).toBeVisible()
+    let skipAttributes = await element(by.text('Skip')).getAttributes()
+    jestExpect(skipAttributes.enabled).toBe(true)
+    await waitFor(element(by.text('Do I need to confirm?')))
+      .toBeVisible()
+      .withTimeout(10000)
 
-      // One Tap to get out of focus One to tap the button
-      await element(by.text('Do I need to confirm?')).tap()
-      await element(by.text('Do I need to confirm?')).tap()
+    // One Tap to get out of focus One to tap the button
+    await element(by.text('Do I need to confirm?')).tap()
+    await element(by.text('Do I need to confirm?')).tap()
 
-      // Verify Modal Content
-      // await expect(element(by.text('Phone Numbers and Valora'))).toBeVisible()
-      await expect(
-        element(
-          by.text(
-            'Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\nCan I do this later?\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\nSecure and Private\n\nValora uses state of the art cryptography to keep your phone number private.'
-          )
+    // Verify Modal Content
+    await expect(element(by.text('Phone Numbers and Valora'))).toBeVisible()
+    await expect(
+      element(
+        by.text(
+          'Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\nCan I do this later?\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\nSecure and Private\n\nValora uses state of the art cryptography to keep your phone number private.'
         )
-      ).toBeVisible()
+      )
+    ).toBeVisible()
 
-      // Should be able to dismiss modal and skip
-      let modalDismissAttributes = await element(by.text('Dismiss')).getAttributes()
-      jestExpect(modalDismissAttributes.enabled).toBe(true)
-      await element(by.text('Dismiss')).tap()
-      await element(by.text('Skip')).tap()
+    // Should be able to dismiss modal and skip
+    let modalDismissAttributes = await element(by.text('Dismiss')).getAttributes()
+    jestExpect(modalDismissAttributes.enabled).toBe(true)
+    await element(by.text('Dismiss')).tap()
+    await element(by.text('Skip')).tap()
 
-      // Verify Contents of Are you Sure? Modal
-      await expect(element(by.text('Are you sure?'))).toBeVisible()
-      await expect(
-        element(
-          by.label(
-            'Are you sure? Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.'
-          )
+    // Verify Contents of Are you Sure? Modal
+    await expect(element(by.text('Are you sure?'))).toBeVisible()
+    await expect(
+      element(
+        by.label(
+          'Are you sure? Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.'
         )
-      ).toBeVisible()
+      )
+    ).toBeVisible()
 
-      // Verify both options are enabled
-      let goBackButtonAttributes = await element(by.text('Go Back')).getAttributes()
-      let skipForNowButtonAttributes = await element(by.text('Skip for now')).getAttributes()
-      jestExpect(goBackButtonAttributes.enabled).toBe(true)
-      jestExpect(skipForNowButtonAttributes.enabled).toBe(true)
+    // Verify both options are enabled
+    let goBackButtonAttributes = await element(by.text('Go Back')).getAttributes()
+    let skipForNowButtonAttributes = await element(by.text('Skip for now')).getAttributes()
+    jestExpect(goBackButtonAttributes.enabled).toBe(true)
+    jestExpect(skipForNowButtonAttributes.enabled).toBe(true)
 
-      // Skip for now
-      await element(by.text('Skip for now')).tap()
+    // Skip for now
+    await element(by.text('Skip for now')).tap()
 
-      // Arrived to the Home screen
-      await waitFor(element(by.id('SendOrRequestBar')))
-        .toBeVisible()
-        .withTimeout(10000)
-    })
-  } else {
-    it('Then should have correct phone verification screen', async () => {
-      await dismissBanners()
-      await expect(element(by.text('Connect your phone number'))).toBeVisible()
-      let skipAttributes = await element(by.text('Skip')).getAttributes()
-      jestExpect(skipAttributes.enabled).toBe(true)
-      await waitFor(element(by.text('Do I need to confirm?')))
-        .toBeVisible()
-        .withTimeout(10000)
-
-      // One Tap to get out of focus One to tap the button
-      await element(by.text('Do I need to confirm?')).tap()
-      await element(by.text('Do I need to confirm?')).tap()
-
-      // Verify Modal Content
-      await expect(element(by.text('Phone Numbers and Celo Wallet'))).toBeVisible()
-      await expect(
-        element(
-          by.text(
-            'Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\nCan I do this later?\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\nSecure and Private\n\nValora uses state of the art cryptography to keep your phone number private.'
-          )
-        )
-      ).toBeVisible()
-
-      // Should be able to dismiss modal and skip
-      let modalDismissAttributes = await element(by.text('Dismiss')).getAttributes()
-      jestExpect(modalDismissAttributes.enabled).toBe(true)
-      await element(by.text('Dismiss')).tap()
-      await element(by.text('Skip')).tap()
-
-      // Verify Contents of Are you Sure? Modal
-      await expect(element(by.text('Are you sure?'))).toBeVisible()
-      await expect(
-        element(
-          by.label(
-            'Are you sure? Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.'
-          )
-        )
-      ).toBeVisible()
-
-      // Verify both options are enabled
-      let goBackButtonAttributes = await element(by.text('Go Back')).getAttributes()
-      let skipForNowButtonAttributes = await element(by.text('Skip for now')).getAttributes()
-      jestExpect(goBackButtonAttributes.enabled).toBe(true)
-      jestExpect(skipForNowButtonAttributes.enabled).toBe(true)
-
-      // Skip for now
-      await element(by.text('Skip for now')).tap()
-
-      // Arrived to the Home screen
-      await waitFor(element(by.id('SendOrRequestBar')))
-        .toBeVisible()
-        .withTimeout(10000)
-    })
-  }
+    // Arrived to the Home screen
+    await waitFor(element(by.id('SendOrRequestBar')))
+      .toBeVisible()
+      .withTimeout(10000)
+  })
 }
