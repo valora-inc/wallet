@@ -39,7 +39,7 @@ import { VerificationStatus } from 'src/identity/types'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { fetchStableBalances } from 'src/stableToken/actions'
-import { getCurrencyAddress, getTokenContract } from 'src/tokens/saga'
+import { getCurrencyAddress, getTokenContract, getTokenContractFromAddress } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
@@ -170,11 +170,11 @@ function* registerStandbyTransaction(context: TransactionContext, value: string,
   )
 }
 
-async function formEscrowWithdrawAndTransferTxWithNoCode(
+async function formEscrowWithdrawAndTransferTx(
   contractKit: ContractKit,
   escrowWrapper: EscrowWrapper,
-  stableTokenWrapper: StableTokenWrapper,
   paymentId: string,
+  tokenAddress: string,
   privateKey: string,
   walletAddress: string,
   metaTxWalletAddress: string,
@@ -187,9 +187,14 @@ async function formEscrowWithdrawAndTransferTxWithNoCode(
 
   const { r, s, v }: Sign = contractKit.connection.web3.eth.accounts.sign(msgHash!, privateKey)
 
+  const tokenContract = await getTokenContractFromAddress(tokenAddress)
+  if (!tokenContract) {
+    throw Error(`${TAG} Escrow invite used unknown token address ${tokenAddress}`)
+  }
+
   Logger.debug(TAG + '@withdrawFromEscrowViaKomenci', `Signed message hash signature`)
   const withdrawTx = escrowWrapper.withdraw(paymentId, v, r, s)
-  const transferTx = stableTokenWrapper.transfer(walletAddress, value.toString())
+  const transferTx = tokenContract.transfer(walletAddress, value.toString())
   return { withdrawTx, transferTx }
 }
 
@@ -217,12 +222,7 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
 
     const { phoneHash, pepper } = phoneHashDetails
 
-    const [stableTokenWrapper, escrowWrapper, mtwWrapper]: [
-      StableTokenWrapper,
-      EscrowWrapper,
-      MetaTransactionWalletWrapper
-    ] = yield all([
-      call([contractKit.contracts, contractKit.contracts.getStableToken]),
+    const [escrowWrapper, mtwWrapper]: [EscrowWrapper, MetaTransactionWalletWrapper] = yield all([
       call([contractKit.contracts, contractKit.contracts.getEscrow]),
       call([contractKit.contracts, contractKit.contracts.getMetaTransactionWallet], mtwAddress),
     ])
@@ -241,8 +241,6 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
     const paymentIdSet: Set<string> = new Set(escrowPaymentIds)
 
     const context = newTransactionContext(TAG, 'Withdraw from escrow')
-    // TODO: Batch the tranasctions and submit them together via `executeTransactions`
-    // method on an instance of the MTW then submitting like usual
     const withdrawTxSuccess: boolean[] = []
     // Using an upper bound of 100 to be sure this doesn't run forever
     for (let i = 0; i < 100 && paymentIdSet.size > 0; i += 1) {
@@ -265,11 +263,11 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
       }: {
         withdrawTx: CeloTransactionObject<boolean>
         transferTx: CeloTransactionObject<boolean>
-      } = yield formEscrowWithdrawAndTransferTxWithNoCode(
+      } = yield formEscrowWithdrawAndTransferTx(
         contractKit,
         escrowWrapper,
-        stableTokenWrapper,
         paymentId,
+        receivedPayment.token,
         privateKey,
         walletAddress,
         mtwAddress,
