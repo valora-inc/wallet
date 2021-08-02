@@ -8,9 +8,7 @@ import {
 } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
 import { checkKomenci } from '../utils/komenci'
-try {
-  const receiveSms = require('../utils/twilio')
-} catch {}
+import { receiveSms } from '../utils/twilio'
 const jestExpect = require('expect')
 
 export default NewAccountPhoneVerification = () => {
@@ -49,6 +47,10 @@ export default NewAccountPhoneVerification = () => {
     await element(by.id('PhoneNumberField')).tapReturnKey()
   })
 
+  afterAll(async () => {
+    device.uninstallApp()
+  })
+
   // Checking that Twilio SID & Auth are present
   if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN) {
     // Check status of 'https://staging-komenci.azurefd.net/v1/ready' prior to tests
@@ -57,7 +59,6 @@ export default NewAccountPhoneVerification = () => {
     if (async () => await checkKomenci()) {
       it('Then should be able to verify phone number', async () => {
         // TODO why do we need two taps here?
-        await element(by.text('Start')).tap()
         await element(by.text('Start')).tap()
 
         // Write the verification codes.
@@ -73,6 +74,9 @@ export default NewAccountPhoneVerification = () => {
 
         // Enter 3 codes
         for (let i = 0; i < 3; i++) {
+          await waitFor(element(by.id(`VerificationCode${i}`)))
+            .toBeVisible()
+            .withTimeout(10000)
           await element(by.id(`VerificationCode${i}`)).replaceText(codes[i])
         }
 
@@ -99,13 +103,16 @@ export default NewAccountPhoneVerification = () => {
       it('Then should be able to resend last 2 messages', async () => {
         // TODO why do we need two taps here?
         await element(by.text('Start')).tap()
-        await element(by.text('Start')).tap()
 
         // Request codes, but wait for all 3 to verify resend codes work
         const codes = await receiveSms()
         await waitFor(element(by.id('VerificationCode0')))
           .toExist()
           .withTimeout(45000)
+
+        // Check that we've received 3 codes
+        jestExpect(codes).toHaveLength(3)
+
         await element(by.id(`VerificationCode0`)).replaceText(codes[0])
 
         // Wait One minute before resending
@@ -114,8 +121,15 @@ export default NewAccountPhoneVerification = () => {
 
         // Enter Pin to start resend
         await enterPinUi()
-        let secondCodeSet = await receiveSms(2, 2 * 60 * 1000, codes)
+        let secondCodeSet = await receiveSms(2, 3 * 60 * 1000, codes)
+
+        // Check that we've received at least 2 codes
+        jestExpect(secondCodeSet.length).toBeGreaterThanOrEqual(2)
+
         for (let i = 0; i < 2; i++) {
+          await waitFor(element(by.id(`VerificationCode${i + 1}`)))
+            .toBeVisible()
+            .withTimeout(10000)
           await element(by.id(`VerificationCode${i + 1}`)).replaceText(secondCodeSet[i])
         }
 

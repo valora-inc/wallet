@@ -5,7 +5,10 @@ import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } from './consts'
 // If attempting to test phone verification without decrypt access insert your SID and Auth Token for Twilio Below
 const accountSid = TWILIO_ACCOUNT_SID || '<Insert Account SID>'
 const authToken = TWILIO_AUTH_TOKEN || '<Insert Auth Token>'
-const client = twilio(accountSid, authToken)
+let client
+try {
+  client = twilio(accountSid, authToken)
+} catch {}
 
 const MAX_TRIES = 120
 
@@ -24,7 +27,6 @@ export const receiveSms = async (
     const codes = messages.map((message) => message.body.split(': ')[1])
     console.log('Codes received:', codes)
     if (codes.filter((code) => !existingCodes.includes(code)).length >= numCodes) {
-      console.log(codes)
       return codes
     }
     tryNumber += 1
