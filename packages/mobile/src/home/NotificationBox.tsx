@@ -73,7 +73,7 @@ interface Notification {
   priority: number
 }
 
-function useNotificationsConfig() {
+function useSimpleActions() {
   const { backupCompleted, dismissedGetVerified, dismissedGoldEducation } = useSelector(
     (state) => state.account
   )
@@ -265,9 +265,9 @@ function useNotifications() {
     })
   }
 
-  const notificationsConfig = useNotificationsConfig()
+  const simpleActions = useSimpleActions()
   notifications.push(
-    ...notificationsConfig.map((notification, i) => ({
+    ...simpleActions.map((notification, i) => ({
       element: <SimpleMessagingCard key={i} {...notification} />,
       priority: notification.priority,
     }))
