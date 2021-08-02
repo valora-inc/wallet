@@ -191,14 +191,12 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     <Text
                       style={
                         Array [
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Medium",
-                              "fontSize": 16,
-                              "lineHeight": 22,
-                            },
-                          ],
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
                           Object {
                             "color": "#2E3338",
                           },
@@ -499,14 +497,12 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     <Text
                       style={
                         Array [
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Medium",
-                              "fontSize": 16,
-                              "lineHeight": 22,
-                            },
-                          ],
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
                           Object {
                             "color": "#2E3338",
                           },
@@ -678,14 +674,12 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     <Text
                       style={
                         Array [
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Medium",
-                              "fontSize": 16,
-                              "lineHeight": 22,
-                            },
-                          ],
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
                           Object {
                             "color": "#2E3338",
                           },
@@ -859,14 +853,12 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     <Text
                       style={
                         Array [
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Medium",
-                              "fontSize": 16,
-                              "lineHeight": 22,
-                            },
-                          ],
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
                           Object {
                             "color": "#2E3338",
                           },

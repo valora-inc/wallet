@@ -5,14 +5,6 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'utils/permissions.android'
 
-export async function requestPhoneStatePermission() {
-  return requestPermission(
-    PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
-    'Phone State',
-    'Celo would like to read your phone state to retrieve your phone number.'
-  )
-}
-
 export async function requestContactsPermission() {
   return requestPermission(
     PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
