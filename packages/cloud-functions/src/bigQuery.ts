@@ -20,6 +20,25 @@ export const trackEvent = async (table: string, row: any) => {
   }
 }
 
+export const deleteDuplicates = async (table: string) => {
+  try {
+    if (!gcloudProject) {
+      throw new Error('No GCloud Project specified')
+    }
+
+    const sqlQuery = `
+      CREATE OR REPLACE TABLE ${bigQueryProjectId}.${bigQueryDataset}.${table}
+      AS
+      SELECT DISTINCT * FROM ${bigQueryProjectId}.${bigQueryDataset}.${table}
+    `
+
+    await bigQuery.query(sqlQuery)
+  } catch (error) {
+    console.error(`BigQuery error:`, JSON.stringify(error))
+    throw error
+  }
+}
+
 export function getBigQueryInstance() {
   return bigQuery
 }
