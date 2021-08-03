@@ -197,7 +197,6 @@ export default NewAccountPhoneVerification = () => {
 
     // One Tap to get out of focus One to tap the button
     await element(by.text('Do I need to confirm?')).tap()
-    await element(by.text('Do I need to confirm?')).tap()
 
     // Verify Modal Content
     await expect(element(by.text('Phone Numbers and Valora'))).toBeVisible()
