@@ -704,6 +704,15 @@ export const v16Schema = {
   },
 }
 
+export const v17Schema = {
+  ...v16Schema,
+  _persist: {
+    ...v14Schema._persist,
+    version: 17,
+  },
+  fiatExchanges: _.omit(v16Schema.fiatExchanges, 'lastUsedProvider'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v16Schema as Partial<RootState>
+  return v17Schema as Partial<RootState>
 }

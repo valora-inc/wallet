@@ -22,7 +22,7 @@ import {
   setProviderLogos,
   setProvidersForTxHashes,
 } from 'src/fiatExchanges/actions'
-import { lastUsedProviderSelector, ProviderLogos } from 'src/fiatExchanges/reducer'
+import { ProviderLogos } from 'src/fiatExchanges/reducer'
 import { providerTxHashesChannel, readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import { updateKnownAddresses } from 'src/identity/actions'
@@ -129,7 +129,6 @@ export function* searchNewItemsForProviderTxs({ transactions }: NewTransactionsI
     Logger.debug(TAG + 'searchNewItemsForProviderTxs', `Checking ${transactions.length} txs`)
 
     const providerAddresses = yield select(providerAddressesSelector)
-    const lastUsedProvider = yield select(lastUsedProviderSelector)
 
     for (const tx of transactions) {
       if (tx.__typename !== 'TokenTransfer' || tx.type !== TokenTransactionType.Received) {
@@ -138,7 +137,7 @@ export function* searchNewItemsForProviderTxs({ transactions }: NewTransactionsI
 
       if (providerAddresses.includes(tx.address)) {
         ValoraAnalytics.track(FiatExchangeEvents.cash_in_success, {
-          provider: lastUsedProvider?.name ?? 'unknown',
+          provider: 'unknown',
         })
         yield put(assignProviderToTxHash(tx.hash, tx.amount.currencyCode))
       }
