@@ -10,6 +10,7 @@ export interface Props {
   icon?: ImageSourcePropType | React.ReactNode
   darkMode?: boolean
   callToActions: CallToAction[]
+  priority: number
   testID?: string
 }
 
