@@ -218,8 +218,8 @@ export default NewAccountPhoneVerification = () => {
     await expect(element(by.text('Are you sure?'))).toBeVisible()
     await expect(
       element(
-        by.label(
-          'Are you sure? Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.'
+        by.text(
+          'Confirming allows you to send and receive funds easily to your phone number.\n\nUnconfirmed accounts can only send payments using Celo addresses or QR codes.'
         )
       )
     ).toBeVisible()
