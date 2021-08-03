@@ -707,7 +707,7 @@ export const v16Schema = {
 export const v17Schema = {
   ...v16Schema,
   _persist: {
-    ...v14Schema._persist,
+    ...v16Schema._persist,
     version: 17,
   },
   fiatExchanges: _.omit(v16Schema.fiatExchanges, 'lastUsedProvider'),

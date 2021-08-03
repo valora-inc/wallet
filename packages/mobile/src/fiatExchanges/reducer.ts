@@ -56,9 +56,10 @@ export const reducer = (state: State = initialState, action: ActionTypes | Rehyd
             : 'fiatExchangeFlow:cUsdDeposit'
         )
 
-      const icon = provider
-        ? state.providerLogos[provider]
-        : 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Fcelo.jpg?alt=media'
+      const icon =
+        provider && state.providerLogos[provider]
+          ? state.providerLogos[provider]
+          : 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Fcelo.jpg?alt=media'
 
       return {
         ...state,

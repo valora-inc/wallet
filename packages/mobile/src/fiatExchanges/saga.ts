@@ -122,11 +122,11 @@ export function* fetchTxHashesToProviderMapping() {
   const account = yield call(getAccount)
   const channel = yield call(providerTxHashesChannel, account)
 
-  if (!channel) {
-    return
-  }
-
   try {
+    if (!channel) {
+      throw new Error('Unable to read from providerTxHashesChannel')
+    }
+
     const txHashesToProvider: TxHashToProvider = yield take(channel)
     return txHashesToProvider
   } catch (error) {
@@ -147,14 +147,16 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
     Logger.debug(TAG + 'tagTxsWithProviderInfo', `Checking ${transactions.length} txs`)
 
     const providerAddresses = yield select(providerAddressesSelector)
-    const txHashesToProvider: TxHashToProvider = yield call(fetchTxHashesToProviderMapping)
+    const txHashesToProvider: TxHashToProvider | undefined = yield call(
+      fetchTxHashesToProviderMapping
+    )
 
     for (const tx of transactions) {
       if (tx.__typename !== 'TokenTransfer' || tx.type !== TokenTransactionType.Received) {
         continue
       }
 
-      const provider = txHashesToProvider[tx.hash]
+      const provider = txHashesToProvider ? txHashesToProvider[tx.hash] : txHashesToProvider
       if (providerAddresses.includes(tx.address) || provider) {
         yield put(assignProviderToTxHash(tx.hash, tx.amount.currencyCode, provider))
       }
