@@ -16,7 +16,6 @@ files=(
   "packages/mobile/ios/GoogleService-Info.mainnetdev.plist"
   "packages/mobile/ios/sentry.properties"
   "packages/mobile/secrets.json"
-  "packages/moonpay-auth/.env"
   "packages/cloud-functions/config/rampProduction.pem"
   "packages/cloud-functions/config/rampStaging.pem"
   "packages/cloud-functions/.env.mainnet"
