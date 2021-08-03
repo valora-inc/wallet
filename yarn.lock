@@ -5566,7 +5566,7 @@
     "@types/node" "*"
     "@types/range-parser" "*"
 
-"@types/express@*", "@types/express@^4.17.3", "@types/express@^4.17.6":
+"@types/express@*", "@types/express@^4.17.6":
   version "4.17.8"
   resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.8.tgz#3df4293293317e61c60137d273a2e96cd8d5f27a"
   integrity sha512-wLhcKh3PMlyA2cNAB9sjM1BntnhPMiM0JOBwPBqttjHev2428MLEB4AYVN+d8s2iyCVZac+o41Pflm/ZH5vLXQ==
@@ -13589,17 +13589,6 @@ firebase-functions@^3.14.1:
     "@types/express" "4.17.3"
     cors "^2.8.5"
     express "^4.17.1"
-    lodash "^4.17.14"
-
-firebase-functions@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.6.0.tgz#10fb2a46d13625a88299bbf9176750315f9da628"
-  integrity sha512-8S70Pq5nOblDKmBExq2CAgBMq+L8IDOcv10HfpDWGtgK5IpYlP0BKcchXYXcyjHtIG7xWHtR9oBLVtXFUiTp3A==
-  dependencies:
-    "@types/express" "^4.17.3"
-    cors "^2.8.5"
-    express "^4.17.1"
-    jsonwebtoken "^8.5.1"
     lodash "^4.17.14"
 
 flagged-respawn@^1.0.0:
