@@ -118,21 +118,36 @@ function* bidaliPaymentRequest({
   }
 }
 
-export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedAction) {
-  const providerAddresses = yield select(providerAddressesSelector)
+export function* fetchTxHashesToProviderMapping() {
   const account = yield call(getAccount)
   const channel = yield call(providerTxHashesChannel, account)
 
-  let txHashesToProvider: TxHashToProvider = {}
-  if (channel) {
-    txHashesToProvider = yield take(channel)
+  if (!channel) {
+    return
   }
 
+  try {
+    const txHashesToProvider: TxHashToProvider = yield take(channel)
+    return txHashesToProvider
+  } catch (error) {
+    Logger.error(TAG + 'fetchTxHashesToProviderMapping', error)
+  } finally {
+    if (yield cancelled()) {
+      channel.close()
+    }
+  }
+}
+
+export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedAction) {
   try {
     if (!transactions || !transactions.length) {
       return
     }
+
     Logger.debug(TAG + 'tagTxsWithProviderInfo', `Checking ${transactions.length} txs`)
+
+    const providerAddresses = yield select(providerAddressesSelector)
+    const txHashesToProvider: TxHashToProvider = yield call(fetchTxHashesToProviderMapping)
 
     for (const tx of transactions) {
       if (tx.__typename !== 'TokenTransfer' || tx.type !== TokenTransactionType.Received) {
@@ -148,10 +163,6 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
     Logger.debug(TAG + 'tagTxsWithProviderInfo', 'Done checking txs')
   } catch (error) {
     Logger.error(TAG + 'tagTxsWithProviderInfo', error)
-  } finally {
-    if (yield cancelled()) {
-      channel.close()
-    }
   }
 }
 
