@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
   },
   image: {
     marginRight: variables.contentPadding,
+    marginLeft: variables.contentPadding,
   },
   balanceSheet: {
     paddingVertical: variables.contentPadding,
