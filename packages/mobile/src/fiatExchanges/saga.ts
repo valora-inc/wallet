@@ -10,9 +10,7 @@ import {
   takeEvery,
   takeLeading,
 } from 'redux-saga/effects'
-import { FiatExchangeEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
 import {
@@ -20,9 +18,8 @@ import {
   assignProviderToTxHash,
   BidaliPaymentRequestedAction,
   setProviderLogos,
-  setProvidersForTxHashes,
 } from 'src/fiatExchanges/actions'
-import { ProviderLogos } from 'src/fiatExchanges/reducer'
+import { ProviderLogos, TxHashToProvider } from 'src/fiatExchanges/reducer'
 import { providerTxHashesChannel, readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import { updateKnownAddresses } from 'src/identity/actions'
@@ -121,47 +118,36 @@ function* bidaliPaymentRequest({
   }
 }
 
-export function* searchNewItemsForProviderTxs({ transactions }: NewTransactionsInFeedAction) {
+export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedAction) {
+  const providerAddresses = yield select(providerAddressesSelector)
+  const account = yield call(getAccount)
+  const channel = yield call(providerTxHashesChannel, account)
+
+  let txHashesToProvider: TxHashToProvider = {}
+  if (channel) {
+    txHashesToProvider = yield take(channel)
+  }
+
   try {
     if (!transactions || !transactions.length) {
       return
     }
-    Logger.debug(TAG + 'searchNewItemsForProviderTxs', `Checking ${transactions.length} txs`)
-
-    const providerAddresses = yield select(providerAddressesSelector)
+    Logger.debug(TAG + 'tagTxsWithProviderInfo', `Checking ${transactions.length} txs`)
 
     for (const tx of transactions) {
       if (tx.__typename !== 'TokenTransfer' || tx.type !== TokenTransactionType.Received) {
         continue
       }
 
-      if (providerAddresses.includes(tx.address)) {
-        ValoraAnalytics.track(FiatExchangeEvents.cash_in_success, {
-          provider: 'unknown',
-        })
-        yield put(assignProviderToTxHash(tx.hash, tx.amount.currencyCode))
+      const provider = txHashesToProvider[tx.hash]
+      if (providerAddresses.includes(tx.address) || provider) {
+        yield put(assignProviderToTxHash(tx.hash, tx.amount.currencyCode, provider))
       }
     }
 
-    Logger.debug(TAG + 'searchNewItemsForProviderTxs', 'Done checking txs')
+    Logger.debug(TAG + 'tagTxsWithProviderInfo', 'Done checking txs')
   } catch (error) {
-    Logger.error(TAG + 'searchNewItemsForProviderTxs', error)
-  }
-}
-
-export function* watchProviderTxHashes() {
-  const account = yield call(getAccount)
-  const channel = yield call(providerTxHashesChannel, account)
-  if (!channel) {
-    return
-  }
-  try {
-    while (true) {
-      const txHashesToProvider = yield take(channel)
-      yield put(setProvidersForTxHashes(txHashesToProvider))
-    }
-  } catch (error) {
-    Logger.error(`${TAG}@watchProviderTxHashes`, error)
+    Logger.error(TAG + 'tagTxsWithProviderInfo', error)
   } finally {
     if (yield cancelled()) {
       channel.close()
@@ -179,12 +165,11 @@ export function* watchBidaliPaymentRequests() {
 }
 
 function* watchNewFeedTransactions() {
-  yield takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, searchNewItemsForProviderTxs)
+  yield takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, tagTxsWithProviderInfo)
 }
 
 export function* fiatExchangesSaga() {
   yield spawn(watchBidaliPaymentRequests)
   yield spawn(watchNewFeedTransactions)
-  yield spawn(watchProviderTxHashes)
   yield spawn(importProviderLogos)
 }

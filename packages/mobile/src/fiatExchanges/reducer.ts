@@ -46,44 +46,25 @@ export const reducer = (state: State = initialState, action: ActionTypes | Rehyd
         providerLogos: action.providerLogos,
       }
     case Actions.ASSIGN_PROVIDER_TO_TX_HASH:
-      // Don't override if the tx already has a provider assigned.
-      if (state.txHashToProvider[action.txHash]) {
-        return state
-      }
+      const { provider, currencyCode, txHash } = action
 
-      const nameKey =
-        action.currencyCode === Currency.Celo
-          ? 'fiatExchangeFlow:celoDeposit'
-          : 'fiatExchangeFlow:cUsdDeposit'
-      const displayInfo = {
-        name: i18n.t(nameKey),
-        icon:
-          'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Fcelo.jpg?alt=media',
-      }
+      const name =
+        provider ??
+        i18n.t(
+          currencyCode === Currency.Celo
+            ? 'fiatExchangeFlow:celoDeposit'
+            : 'fiatExchangeFlow:cUsdDeposit'
+        )
 
-      return {
-        ...state,
-        txHashToProvider: {
-          ...state.txHashToProvider,
-          [action.txHash]: displayInfo,
-        },
-      }
-    case Actions.SET_PROVIDERS_FOR_TX_HASHES:
-      const txHashToDisplayInfo: TxHashToDisplayInfo = {}
-      for (const [txHash, provider] of Object.entries(action.txHashes)) {
-        if (provider && state.providerLogos[provider]) {
-          txHashToDisplayInfo[txHash] = {
-            name: provider,
-            icon: state.providerLogos[provider],
-          }
-        }
-      }
+      const icon = provider
+        ? state.providerLogos[provider]
+        : 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Fcelo.jpg?alt=media'
 
       return {
         ...state,
         txHashToProvider: {
           ...state.txHashToProvider,
-          ...txHashToDisplayInfo,
+          [txHash]: { name, icon },
         },
       }
     default:

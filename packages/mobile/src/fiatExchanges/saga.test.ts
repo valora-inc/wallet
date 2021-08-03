@@ -5,8 +5,7 @@ import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { activeScreenChanged } from 'src/app/actions'
 import { assignProviderToTxHash, bidaliPaymentRequested } from 'src/fiatExchanges/actions'
-import { lastUsedProviderSelector } from 'src/fiatExchanges/reducer'
-import { searchNewItemsForProviderTxs, watchBidaliPaymentRequests } from 'src/fiatExchanges/saga'
+import { tagTxsWithProviderInfo, watchBidaliPaymentRequests } from 'src/fiatExchanges/saga'
 import { Actions as IdentityActions, updateKnownAddresses } from 'src/identity/actions'
 import { providerAddressesSelector } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
@@ -163,7 +162,7 @@ describe(watchBidaliPaymentRequests, () => {
   })
 })
 
-describe(searchNewItemsForProviderTxs, () => {
+describe(tagTxsWithProviderInfo, () => {
   const mockAmount = {
     __typename: 'MoneyAmount',
     value: '-0.2',
@@ -207,11 +206,8 @@ describe(searchNewItemsForProviderTxs, () => {
       },
     ]
 
-    await expectSaga(searchNewItemsForProviderTxs, { transactions })
-      .provide([
-        [select(providerAddressesSelector), [mockProviderAccount]],
-        [select(lastUsedProviderSelector), [null]],
-      ])
+    await expectSaga(tagTxsWithProviderInfo, { transactions })
+      .provide([[select(providerAddressesSelector), [mockProviderAccount]]])
       .put(assignProviderToTxHash(providerTransferHash, 'cUSD'))
       .run()
   })
