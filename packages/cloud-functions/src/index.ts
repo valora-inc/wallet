@@ -1,7 +1,7 @@
-export { composeCicoProviderUrl, processSimplexRequest } from './cico/composeCicoProviderUrl'
 export { fetchProviders } from './cico/fetchProviders'
 export { fetchUserLocationData } from './cico/fetchUserLocationData'
 export { moonpayWebhook } from './cico/moonpayWebhook'
+export { processSimplexRequest } from './cico/processSimplexRequest'
 export { rampWebhook } from './cico/rampWebhook'
 export { simplexEventPolling } from './cico/simplexEventPolling'
 export { transakWebhook } from './cico/transakWebhook'

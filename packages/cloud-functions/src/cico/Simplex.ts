@@ -6,9 +6,14 @@ import {
   FiatCurrency,
   SIMPLEX_DATA,
 } from '../config'
-import { UserDeviceInfo } from './composeCicoProviderUrl'
 import { Providers } from './Providers'
-import { fetchWithTimeout, getOrCreateUuid, getUserInitData, storeTransactionId } from './utils'
+import {
+  fetchWithTimeout,
+  getOrCreateUuid,
+  getUserInitData,
+  storeTransactionId,
+  UserDeviceInfo,
+} from './utils'
 
 export interface SimplexQuote {
   user_id: string
