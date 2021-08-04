@@ -20,6 +20,7 @@ import {
   sendPaymentOrInviteFailure,
   sendPaymentOrInviteSuccess,
 } from 'src/send/actions'
+import { NewTransactionsInFeedAction } from 'src/transactions/actions'
 import { Currency } from 'src/utils/currencies'
 import { mockAccount } from 'test/values'
 
@@ -220,7 +221,7 @@ describe(tagTxsWithProviderInfo, () => {
     const mockTxHashesToProvider = { [providerTransferHash]: providerName }
     const mockProviderLogos = { [providerName]: mockProviderLogo }
 
-    await expectSaga(tagTxsWithProviderInfo, { transactions })
+    await expectSaga(tagTxsWithProviderInfo, { transactions } as NewTransactionsInFeedAction)
       .provide([
         [select(providerLogosSelector), mockProviderLogos],
         [call(fetchTxHashesToProviderMapping), mockTxHashesToProvider],

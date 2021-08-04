@@ -1,15 +1,5 @@
 import BigNumber from 'bignumber.js'
-import {
-  call,
-  cancelled,
-  put,
-  race,
-  select,
-  spawn,
-  take,
-  takeEvery,
-  takeLeading,
-} from 'redux-saga/effects'
+import { call, put, race, select, spawn, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
 import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
@@ -20,7 +10,7 @@ import {
   setProviderLogos,
 } from 'src/fiatExchanges/actions'
 import { ProviderLogos, providerLogosSelector, TxHashToProvider } from 'src/fiatExchanges/reducer'
-import { providerTxHashesChannel, readOnceFromFirebase } from 'src/firebase/firebase'
+import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import { updateKnownAddresses } from 'src/identity/actions'
 import { navigate } from 'src/navigator/NavigationService'
@@ -119,22 +109,10 @@ function* bidaliPaymentRequest({
 
 export function* fetchTxHashesToProviderMapping() {
   const account = yield call(getAccount)
-  const channel = yield call(providerTxHashesChannel, account)
-
-  try {
-    if (!channel) {
-      throw new Error('Unable to read from providerTxHashesChannel')
-    }
-
-    const txHashesToProvider: TxHashToProvider = yield take(channel)
-    return txHashesToProvider
-  } catch (error) {
-    Logger.error(TAG + 'fetchTxHashesToProviderMapping', error)
-  } finally {
-    if (yield cancelled()) {
-      channel.close()
-    }
-  }
+  const txHashesToProvider: TxHashToProvider = yield readOnceFromFirebase(
+    `registrations/${account}/txHashes`
+  )
+  return txHashesToProvider
 }
 
 export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedAction) {
@@ -146,24 +124,18 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
     Logger.debug(TAG + 'tagTxsWithProviderInfo', `Checking ${transactions.length} txs`)
 
     const providerLogos: ProviderLogos = yield select(providerLogosSelector)
-    const txHashesToProvider: TxHashToProvider | undefined = yield call(
-      fetchTxHashesToProviderMapping
-    )
+    const txHashesToProvider: TxHashToProvider = yield call(fetchTxHashesToProviderMapping)
 
     for (const tx of transactions) {
       if (tx.__typename !== 'TokenTransfer' || tx.type !== TokenTransactionType.Received) {
         continue
       }
 
-      const provider = txHashesToProvider ? txHashesToProvider[tx.hash] : undefined
-      const providerLogo = provider ? providerLogos[provider] : undefined
+      const provider = txHashesToProvider[tx.hash]
+      const providerLogo = providerLogos[provider || '']
 
       if (provider && providerLogo) {
-        const displayInfo = {
-          name: provider,
-          icon: providerLogo,
-        }
-        yield put(assignProviderToTxHash(tx.hash, displayInfo))
+        yield put(assignProviderToTxHash(tx.hash, { name: provider, icon: providerLogo }))
       }
     }
 
