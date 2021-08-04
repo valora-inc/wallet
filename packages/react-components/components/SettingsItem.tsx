@@ -140,6 +140,7 @@ export function SettingsItemInput({
           placeholder={placeholder}
           onChangeText={onValueChange}
           showClearButton={false}
+          multiline={true}
         />
       </View>
     </Wrapper>

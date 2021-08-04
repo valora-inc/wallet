@@ -50,7 +50,7 @@ exports[`Profile renders correctly 1`] = `
                     "width": 120,
                   },
                   Object {
-                    "backgroundColor": "#B4B9BD",
+                    "backgroundColor": "#DFDBCE",
                   },
                 ],
                 Object {
@@ -435,6 +435,7 @@ exports[`Profile renders correctly 1`] = `
             >
               <TextInput
                 allowFontScaling={true}
+                multiline={true}
                 onBlur={[Function]}
                 onChangeText={[Function]}
                 onFocus={[Function]}
@@ -451,7 +452,9 @@ exports[`Profile renders correctly 1`] = `
                       "paddingHorizontal": 0,
                       "paddingVertical": 12,
                     },
-                    undefined,
+                    Object {
+                      "textAlignVertical": "top",
+                    },
                     Array [
                       Object {
                         "color": "#9CA4A9",
