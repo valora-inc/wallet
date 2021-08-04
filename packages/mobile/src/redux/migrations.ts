@@ -302,4 +302,8 @@ export const migrations = {
       sentEscrowedPayments: [],
     },
   }),
+  17: (state: any) => ({
+    ...state,
+    fiatExchanges: _.omit(state.fiatExchanges, 'lastUsedProvider'),
+  }),
 }
