@@ -5,13 +5,13 @@ import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { activeScreenChanged } from 'src/app/actions'
 import { assignProviderToTxHash, bidaliPaymentRequested } from 'src/fiatExchanges/actions'
+import { providerLogosSelector } from 'src/fiatExchanges/reducer'
 import {
   fetchTxHashesToProviderMapping,
   tagTxsWithProviderInfo,
   watchBidaliPaymentRequests,
 } from 'src/fiatExchanges/saga'
 import { Actions as IdentityActions, updateKnownAddresses } from 'src/identity/actions'
-import { providerAddressesSelector } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient } from 'src/recipients/recipient'
@@ -209,27 +209,23 @@ describe(tagTxsWithProviderInfo, () => {
     },
   ]
 
-  it('assigns generic deposit info to txs from known provider addresses', async () => {
-    await expectSaga(tagTxsWithProviderInfo, { transactions })
-      .provide([
-        [select(providerAddressesSelector), [mockProviderAccount]],
-        [call(fetchTxHashesToProviderMapping), {}],
-      ])
-      .put(assignProviderToTxHash(providerTransferHash, 'cUSD'))
-      .run()
-  })
-
   it('assigns specific display info for providers with tx hashes associated with the user', async () => {
     const providerName = 'Provider'
+    const mockProviderLogo = 'www.provider.com/logo'
+    const mockDisplayInfo = {
+      name: providerName,
+      icon: mockProviderLogo,
+    }
 
     const mockTxHashesToProvider = { [providerTransferHash]: providerName }
+    const mockProviderLogos = { [providerName]: mockProviderLogo }
 
     await expectSaga(tagTxsWithProviderInfo, { transactions })
       .provide([
-        [select(providerAddressesSelector), []],
+        [select(providerLogosSelector), mockProviderLogos],
         [call(fetchTxHashesToProviderMapping), mockTxHashesToProvider],
       ])
-      .put(assignProviderToTxHash(providerTransferHash, 'cUSD', providerName))
+      .put(assignProviderToTxHash(providerTransferHash, mockDisplayInfo))
       .run()
   })
 })
