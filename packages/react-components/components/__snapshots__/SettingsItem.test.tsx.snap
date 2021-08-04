@@ -69,6 +69,7 @@ exports[`SettingsItemInput renders correctly 1`] = `
       >
         <TextInput
           allowFontScaling={true}
+          multiline={true}
           onBlur={[Function]}
           onChangeText={[MockFunction]}
           onFocus={[Function]}
@@ -84,7 +85,9 @@ exports[`SettingsItemInput renders correctly 1`] = `
                 "paddingHorizontal": 0,
                 "paddingVertical": 12,
               },
-              undefined,
+              Object {
+                "textAlignVertical": "top",
+              },
               Array [
                 Object {
                   "color": "#9CA4A9",
