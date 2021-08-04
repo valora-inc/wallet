@@ -5,7 +5,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -123,10 +123,10 @@ function SendAmount(props: Props) {
         onChangeCurrency={setTransferCurrency}
       />
       <DisconnectBanner />
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+      <View style={styles.contentContainer}>
         <SendAmountValue amount={amount} />
         <AmountKeypad amount={amount} onAmountChange={setAmount} />
-      </ScrollView>
+      </View>
       <Button
         style={styles.nextBtn}
         size={BtnSizes.FULL}
