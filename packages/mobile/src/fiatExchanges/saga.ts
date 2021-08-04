@@ -19,11 +19,10 @@ import {
   BidaliPaymentRequestedAction,
   setProviderLogos,
 } from 'src/fiatExchanges/actions'
-import { ProviderLogos, TxHashToProvider } from 'src/fiatExchanges/reducer'
+import { ProviderLogos, providerLogosSelector, TxHashToProvider } from 'src/fiatExchanges/reducer'
 import { providerTxHashesChannel, readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import { updateKnownAddresses } from 'src/identity/actions'
-import { providerAddressesSelector } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, getDisplayName } from 'src/recipients/recipient'
@@ -146,7 +145,7 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
 
     Logger.debug(TAG + 'tagTxsWithProviderInfo', `Checking ${transactions.length} txs`)
 
-    const providerAddresses = yield select(providerAddressesSelector)
+    const providerLogos: ProviderLogos = yield select(providerLogosSelector)
     const txHashesToProvider: TxHashToProvider | undefined = yield call(
       fetchTxHashesToProviderMapping
     )
@@ -156,9 +155,15 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
         continue
       }
 
-      const provider = txHashesToProvider ? txHashesToProvider[tx.hash] : txHashesToProvider
-      if (providerAddresses.includes(tx.address) || provider) {
-        yield put(assignProviderToTxHash(tx.hash, tx.amount.currencyCode, provider))
+      const provider = txHashesToProvider ? txHashesToProvider[tx.hash] : undefined
+      const providerLogo = provider ? providerLogos[provider] : undefined
+
+      if (provider && providerLogo) {
+        const displayInfo = {
+          name: provider,
+          icon: providerLogo,
+        }
+        yield put(assignProviderToTxHash(tx.hash, displayInfo))
       }
     }
 

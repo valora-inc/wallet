@@ -1,9 +1,7 @@
 import { RehydrateAction } from 'redux-persist'
 import { Actions, ActionTypes } from 'src/fiatExchanges/actions'
-import i18n from 'src/i18n'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
-import { Currency } from 'src/utils/currencies'
 
 export interface ProviderLogos {
   [providerName: string]: string
@@ -46,26 +44,13 @@ export const reducer = (state: State = initialState, action: ActionTypes | Rehyd
         providerLogos: action.providerLogos,
       }
     case Actions.ASSIGN_PROVIDER_TO_TX_HASH:
-      const { provider, currencyCode, txHash } = action
-
-      const name =
-        provider ??
-        i18n.t(
-          currencyCode === Currency.Celo
-            ? 'fiatExchangeFlow:celoDeposit'
-            : 'fiatExchangeFlow:cUsdDeposit'
-        )
-
-      const icon =
-        provider && state.providerLogos[provider]
-          ? state.providerLogos[provider]
-          : 'https://firebasestorage.googleapis.com/v0/b/celo-mobile-alfajores.appspot.com/o/images%2Fcelo.jpg?alt=media'
+      const { txHash, displayInfo } = action
 
       return {
         ...state,
         txHashToProvider: {
           ...state.txHashToProvider,
-          [txHash]: { name, icon },
+          [txHash]: displayInfo,
         },
       }
     default:
@@ -74,3 +59,4 @@ export const reducer = (state: State = initialState, action: ActionTypes | Rehyd
 }
 
 export const txHashToFeedInfoSelector = (state: RootState) => state.fiatExchanges.txHashToProvider
+export const providerLogosSelector = (state: RootState) => state.fiatExchanges.providerLogos
