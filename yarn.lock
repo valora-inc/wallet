@@ -5566,7 +5566,7 @@
     "@types/node" "*"
     "@types/range-parser" "*"
 
-"@types/express@*", "@types/express@^4.17.3", "@types/express@^4.17.6":
+"@types/express@*", "@types/express@^4.17.6":
   version "4.17.8"
   resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.8.tgz#3df4293293317e61c60137d273a2e96cd8d5f27a"
   integrity sha512-wLhcKh3PMlyA2cNAB9sjM1BntnhPMiM0JOBwPBqttjHev2428MLEB4AYVN+d8s2iyCVZac+o41Pflm/ZH5vLXQ==
@@ -13591,17 +13591,6 @@ firebase-functions@^3.14.1:
     express "^4.17.1"
     lodash "^4.17.14"
 
-firebase-functions@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/firebase-functions/-/firebase-functions-3.6.0.tgz#10fb2a46d13625a88299bbf9176750315f9da628"
-  integrity sha512-8S70Pq5nOblDKmBExq2CAgBMq+L8IDOcv10HfpDWGtgK5IpYlP0BKcchXYXcyjHtIG7xWHtR9oBLVtXFUiTp3A==
-  dependencies:
-    "@types/express" "^4.17.3"
-    cors "^2.8.5"
-    express "^4.17.1"
-    jsonwebtoken "^8.5.1"
-    lodash "^4.17.14"
-
 flagged-respawn@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/flagged-respawn/-/flagged-respawn-1.0.1.tgz#e7de6f1279ddd9ca9aac8a5971d618606b3aab41"
@@ -19306,7 +19295,7 @@ minimist@0.0.8, minimist@^1.1.1, minimist@^1.1.3, minimist@^1.2.0, minimist@^1.2
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
-minipass@^2.3.3, minipass@^2.3.5, minipass@^2.6.0, minipass@^2.9.0:
+minipass@^2.3.3, minipass@^2.3.5, minipass@^2.6.0, minipass@^2.8.6, minipass@^2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/minipass/-/minipass-2.9.0.tgz#e713762e7d3e32fed803115cf93e04bca9fcc9a6"
   integrity sha512-wxfUjg9WebH+CUDX/CdbRlh5SmfZiy/hpkxaRI16Y9W56Pa75sWgd/rvFilSgrauD9NyFymP/+JFV3KwzIsJeg==
@@ -25594,14 +25583,14 @@ tar-stream@^2.1.4:
     inherits "^2.0.3"
     readable-stream "^3.1.1"
 
-tar@4.4.10, tar@^4, tar@^4.0.2, tar@^4.4.0, tar@^4.4.10, tar@^4.4.2, tar@^4.4.3, tar@^4.4.8, tar@^6.0.5:
-  version "4.4.10"
-  resolved "https://registry.yarnpkg.com/tar/-/tar-4.4.10.tgz#946b2810b9a5e0b26140cf78bea6b0b0d689eba1"
-  integrity sha512-g2SVs5QIxvo6OLp0GudTqEf05maawKUxXru104iaayWA09551tFCTI8f1Asb4lPfkBr91k07iL4c11XO3/b0tA==
+tar@4.4.15, tar@^4, tar@^4.0.2, tar@^4.4.0, tar@^4.4.10, tar@^4.4.2, tar@^4.4.3, tar@^4.4.8, tar@^6.0.5:
+  version "4.4.15"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-4.4.15.tgz#3caced4f39ebd46ddda4d6203d48493a919697f8"
+  integrity sha512-ItbufpujXkry7bHH9NpQyTXPbJ72iTlXgkBAYsAjDXk3Ds8t/3NfO5P4xZGy7u+sYuQUbimgzswX4uQIEeNVOA==
   dependencies:
     chownr "^1.1.1"
     fs-minipass "^1.2.5"
-    minipass "^2.3.5"
+    minipass "^2.8.6"
     minizlib "^1.2.1"
     mkdirp "^0.5.0"
     safe-buffer "^5.1.2"

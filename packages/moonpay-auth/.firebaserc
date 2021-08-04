@@ -1,7 +1,0 @@
-{
-  "projects": {
-    "default": "celo-org-mobile",
-    "testnet": "celo-testnet-production",
-    "prod": "celo-mobile-mainnet"
-  }
-}
