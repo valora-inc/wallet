@@ -1,40 +1,40 @@
 # Mobile (Valora)
 
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Setup](#setup)
-  - [iOS](#ios)
-    - [Enroll in the Apple Developer Program](#enroll-in-the-apple-developer-program)
-    - [Install Xcode](#install-xcode)
-    - [Install Cocopods, Bundler, and download project dependencies](#install-cocopods-bundler-and-download-project-dependencies)
-  - [Android](#android)
-    - [Install Java](#install-java)
-    - [Install Android Dev Tools](#install-android-dev-tools)
-    - [Optional: Install an Android emulator](#optional-install-an-android-emulator)
-- [Running the mobile wallet](#running-the-mobile-wallet)
-  - [iOS](#ios-1)
-  - [Android](#android-1)
-  - [Running in forno (data saver) mode](<#running-in-forno-(data-saver)-mode>)
-- [Debugging & App Profiling](#debugging--app-profiling)
-  - [Debugging](#debugging)
-    - [Optional: Install React Native Debugger](#optional-install-react-native-debugger)
-  - [App Profiling](#app-profiling)
-- [Testing](#testing)
-  - [Snapshot testing](#snapshot-testing)
-  - [React component unit testing](#react-component-unit-testing)
-  - [Saga testing](#saga-testing)
-  - [End-to-End testing](#end-to-end-testing)
-- [Building APKs / Bundles](#building-apks--bundles)
-  - [Creating a fake keystore](#creating-a-fake-keystore)
-  - [Building an APK or Bundle](#building-an-apk-or-bundle)
-- [Other](#other)
-  - [Localization (l10n) / translation process](#localization-l10n--translation-process)
-  - [Configuring the SMS Retriever](#configuring-the-sms-retriever)
-  - [Generating GraphQL Types](#generating-graphql-types)
-  - [How we handle Geth crashes in wallet app on Android](#how-we-handle-geth-crashes-in-wallet-app-on-android)
-  - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
-  - [Troubleshooting](#troubleshooting)
-    - [`Activity class {org.celo.mobile.staging/org.celo.mobile.MainActivity} does not exist.`](#activity-class-orgcelomobilestagingorgcelomobilemainactivity-does-not-exist)
+  - [Overview](#overview)
+  - [Architecture](#architecture)
+  - [Setup](#setup)
+    - [iOS](#ios)
+      - [Enroll in the Apple Developer Program](#enroll-in-the-apple-developer-program)
+      - [Install Xcode](#install-xcode)
+      - [Install Cocopods, Bundler, and download project dependencies](#install-cocopods-bundler-and-download-project-dependencies)
+    - [Android](#android)
+      - [Install Java](#install-java)
+      - [Install Android Dev Tools](#install-android-dev-tools)
+      - [Optional: Install an Android emulator](#optional-install-an-android-emulator)
+  - [Running the mobile wallet](#running-the-mobile-wallet)
+    - [iOS](#ios-1)
+    - [Android](#android-1)
+    - [Running in forno (data saver) mode](<#running-in-forno-(data-saver)-mode>)
+  - [Debugging & App Profiling](#debugging--app-profiling)
+    - [Debugging](#debugging)
+      - [Optional: Install React Native Debugger](#optional-install-react-native-debugger)
+    - [App Profiling](#app-profiling)
+  - [Testing](#testing)
+    - [Snapshot testing](#snapshot-testing)
+    - [React component unit testing](#react-component-unit-testing)
+    - [Saga testing](#saga-testing)
+    - [End-to-End testing](#end-to-end-testing)
+  - [Building APKs / Bundles](#building-apks--bundles)
+    - [Creating a fake keystore](#creating-a-fake-keystore)
+    - [Building an APK or Bundle](#building-an-apk-or-bundle)
+  - [Other](#other)
+    - [Localization (l10n) / translation process](#localization-l10n--translation-process)
+    - [Configuring the SMS Retriever](#configuring-the-sms-retriever)
+    - [Generating GraphQL Types](#generating-graphql-types)
+    - [How we handle Geth crashes in wallet app on Android](#how-we-handle-geth-crashes-in-wallet-app-on-android)
+    - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
+    - [Troubleshooting](#troubleshooting)
+      - [`Activity class {org.celo.mobile.staging/org.celo.mobile.MainActivity} does not exist.`](#activity-class-orgcelomobilestagingorgcelomobilemainactivity-does-not-exist)
 
 ## Overview
 
@@ -57,8 +57,7 @@ brew install watchman
 ```
 
 #### Google Cloud
-
-You will need to be added the team keyring on GCP so you can decrypt secrets in the repo. (Ask for an invite to `celo-testnet`.)
+You will need to be added the team keyring on GCP so you can decrypt secrets in the repo. (Ask for an invite to `celo-testnet`.) 
 
 Once you have access, install Google Cloud by running `brew install google-cloud-sdk`.
 Follow instructions [here](https://github.com/celo-org/bootnode/blob/4bdd7e7ecb91db54dc2a307ec45887d73aa75394/engsetup/README.md)
@@ -102,7 +101,7 @@ bundle exec pod install
 If your machine does not recognize the `gem` command, you may need to [download Ruby](https://rubyinstaller.org/) first.
 
 1. Run `yarn install` in the monorepo root `/wallet`.
-2. Run `yarn build` from the monorepo root `/wallet`.
+2. Run `yarn build:wallet` from the monorepo root `/wallet`.
 3. Run `yarn dev:ios` in the `/wallet/packages/mobile` folder.
 
 And the app should be running in the simulator! If you run into any issues, see below for troubleshooting.
