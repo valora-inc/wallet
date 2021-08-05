@@ -37,7 +37,11 @@ import {
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { appVersionDeprecationChannel, fetchRemoteFeatureFlags } from 'src/firebase/firebase'
+import {
+  appVersionDeprecationChannel,
+  fetchRemoteFeatureFlags,
+  simpleReadChannel,
+} from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
@@ -48,6 +52,7 @@ import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
+import { updateKomenciConfig } from 'src/verify/reducer'
 import {
   handleWalletConnectDeepLink,
   isWalletConnectDeepLink,
@@ -157,10 +162,6 @@ export interface RemoteFeatureFlags {
   rewardsPercent: number
   rewardsStartDate: number
   rewardsMax: number
-  komenci: {
-    useLightProxy: boolean
-    allowedDeployers: string[]
-  }
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -185,6 +186,30 @@ export function* appRemoteFeatureFlagSaga() {
 
     const action: SetAppState = yield take(Actions.SET_APP_STATE)
     isAppActive = action.state === 'active'
+  }
+}
+
+export interface KomenciConfig {
+  useLightProxy: boolean
+  allowedDeployers: string[]
+}
+
+export function* komenciConfigSaga() {
+  const komenciConfigChannel = simpleReadChannel('versions/komenciConfig')
+  if (!komenciConfigChannel) {
+    return
+  }
+  try {
+    while (true) {
+      const komenciConfig: KomenciConfig = yield take(komenciConfigChannel)
+      yield put(updateKomenciConfig(komenciConfig))
+    }
+  } catch (error) {
+    Logger.error(`${TAG}@komenciConfigSaga`, error)
+  } finally {
+    if (yield cancelled()) {
+      komenciConfigChannel.close()
+    }
   }
 }
 
@@ -315,6 +340,7 @@ export function* appSaga() {
   yield spawn(watchDeepLinks)
   yield spawn(watchOpenUrl)
   yield spawn(watchAppState)
+  yield spawn(komenciConfigSaga)
   yield spawn(runVerificationMigration)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
 }
