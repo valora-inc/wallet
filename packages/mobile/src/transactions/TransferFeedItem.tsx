@@ -83,7 +83,6 @@ export function TransferFeedItem(props: Props) {
     invitees,
     recipientInfo,
   } = props
-  const txInfo = txHashToFeedInfo[hash]
 
   const { title, info, recipient } = getTransferFeedParams(
     type,
@@ -99,7 +98,7 @@ export function TransferFeedItem(props: Props) {
     recipientInfo,
     addressToDisplayName[address]?.isCeloRewardSender ?? false,
     rewardsSenders.includes(address),
-    txInfo
+    txHashToFeedInfo[hash]
   )
 
   return (
