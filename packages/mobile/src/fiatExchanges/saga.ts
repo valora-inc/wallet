@@ -1,18 +1,6 @@
 import BigNumber from 'bignumber.js'
-import {
-  call,
-  cancelled,
-  put,
-  race,
-  select,
-  spawn,
-  take,
-  takeEvery,
-  takeLeading,
-} from 'redux-saga/effects'
-import { FiatExchangeEvents } from 'src/analytics/Events'
+import { call, put, race, select, spawn, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { SendOrigin } from 'src/analytics/types'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { Actions as AppActions, ActionTypes as AppActionTypes } from 'src/app/actions'
 import {
@@ -20,13 +8,11 @@ import {
   assignProviderToTxHash,
   BidaliPaymentRequestedAction,
   setProviderLogos,
-  setProvidersForTxHashes,
 } from 'src/fiatExchanges/actions'
-import { lastUsedProviderSelector, ProviderLogos } from 'src/fiatExchanges/reducer'
-import { providerTxHashesChannel, readOnceFromFirebase } from 'src/firebase/firebase'
+import { ProviderLogos, providerLogosSelector, TxHashToProvider } from 'src/fiatExchanges/reducer'
+import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n from 'src/i18n'
 import { updateKnownAddresses } from 'src/identity/actions'
-import { providerAddressesSelector } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, getDisplayName } from 'src/recipients/recipient'
@@ -121,58 +107,47 @@ function* bidaliPaymentRequest({
   }
 }
 
-export function* searchNewItemsForProviderTxs({ transactions }: NewTransactionsInFeedAction) {
+export function* fetchTxHashesToProviderMapping() {
+  const account = yield call(getAccount)
+  const txHashesToProvider: TxHashToProvider = yield readOnceFromFirebase(
+    `registrations/${account}/txHashes`
+  )
+  return txHashesToProvider
+}
+
+export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedAction) {
   try {
     if (!transactions || !transactions.length) {
       return
     }
-    Logger.debug(TAG + 'searchNewItemsForProviderTxs', `Checking ${transactions.length} txs`)
 
-    const providerAddresses = yield select(providerAddressesSelector)
-    const lastUsedProvider = yield select(lastUsedProviderSelector)
+    Logger.debug(TAG + 'tagTxsWithProviderInfo', `Checking ${transactions.length} txs`)
+
+    const providerLogos: ProviderLogos = yield select(providerLogosSelector)
+    const txHashesToProvider: TxHashToProvider = yield call(fetchTxHashesToProviderMapping)
 
     for (const tx of transactions) {
       if (tx.__typename !== 'TokenTransfer' || tx.type !== TokenTransactionType.Received) {
         continue
       }
 
-      if (providerAddresses.includes(tx.address)) {
-        ValoraAnalytics.track(FiatExchangeEvents.cash_in_success, {
-          provider: lastUsedProvider?.name ?? 'unknown',
-        })
-        yield put(assignProviderToTxHash(tx.hash, tx.amount.currencyCode))
+      const provider = txHashesToProvider[tx.hash]
+      const providerLogo = providerLogos[provider || '']
+
+      if (provider && providerLogo) {
+        yield put(assignProviderToTxHash(tx.hash, { name: provider, icon: providerLogo }))
       }
     }
 
-    Logger.debug(TAG + 'searchNewItemsForProviderTxs', 'Done checking txs')
+    Logger.debug(TAG + 'tagTxsWithProviderInfo', 'Done checking txs')
   } catch (error) {
-    Logger.error(TAG + 'searchNewItemsForProviderTxs', error)
-  }
-}
-
-export function* watchProviderTxHashes() {
-  const account = yield call(getAccount)
-  const channel = yield call(providerTxHashesChannel, account)
-  if (!channel) {
-    return
-  }
-  try {
-    while (true) {
-      const txHashesToProvider = yield take(channel)
-      yield put(setProvidersForTxHashes(txHashesToProvider))
-    }
-  } catch (error) {
-    Logger.error(`${TAG}@watchProviderTxHashes`, error)
-  } finally {
-    if (yield cancelled()) {
-      channel.close()
-    }
+    Logger.error(TAG + 'tagTxsWithProviderInfo', error)
   }
 }
 
 export function* importProviderLogos() {
   const providerLogos: ProviderLogos = yield readOnceFromFirebase('providerLogos')
-  setProviderLogos(providerLogos)
+  yield put(setProviderLogos(providerLogos))
 }
 
 export function* watchBidaliPaymentRequests() {
@@ -180,12 +155,11 @@ export function* watchBidaliPaymentRequests() {
 }
 
 function* watchNewFeedTransactions() {
-  yield takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, searchNewItemsForProviderTxs)
+  yield takeEvery(TransactionActions.NEW_TRANSACTIONS_IN_FEED, tagTxsWithProviderInfo)
 }
 
 export function* fiatExchangesSaga() {
   yield spawn(watchBidaliPaymentRequests)
   yield spawn(watchNewFeedTransactions)
-  yield spawn(watchProviderTxHashes)
   yield spawn(importProviderLogos)
 }

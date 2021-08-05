@@ -4,10 +4,13 @@ import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
+import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
 import { currentLanguageSelector } from 'src/app/reducers'
+import { RemoteFeatureFlags } from 'src/app/saga'
 import { FIREBASE_ENABLED } from 'src/config'
+import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
 import { handleNotification } from 'src/firebase/notifications'
 import { NotificationReceiveState } from 'src/notifications/types'
 import Logger from 'src/utils/Logger'
@@ -213,52 +216,56 @@ export function appVersionDeprecationChannel() {
   })
 }
 
-export function appRemoteFeatureFlagChannel() {
+/*
+We use firebase remote config to manage feature flags.
+https://firebase.google.com/docs/remote-config
+
+This also allows us to run AB tests.
+https://firebase.google.com/docs/ab-testing/abtest-config
+*/
+export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | null> {
   if (!FIREBASE_ENABLED) {
     return null
   }
 
-  const errorCallback = (error: Error) => {
-    Logger.warn(TAG, error.toString())
+  await remoteConfig().setDefaults(FEATURE_FLAG_DEFAULTS)
+  // Cache values for 1 hour. The default is 12 hours.
+  // https://rnfirebase.io/remote-config/usage
+  await remoteConfig().setConfigSettings({ minimumFetchIntervalMillis: 60 * 60 * 1000 })
+  const fetchedRemotely = await remoteConfig().fetchAndActivate()
+
+  if (fetchedRemotely) {
+    const flags: FirebaseRemoteConfigTypes.ConfigValues = remoteConfig().getAll()
+    Logger.debug(TAG, `Updated feature flags: ${JSON.stringify(flags)}`)
+
+    // When adding a new feature flag there are 2 places that need updating:
+    // the RemoteFeatureFlags interface as well as the FEATURE_FLAG_DEFAULTS map
+    // FEATURE_FLAG_DEFAULTS is in featureFlagDefaults.ts
+    // RemoteFeatureFlags is in app/saga.ts
+
+    return {
+      hideVerification: flags.hideVerification.asBoolean(),
+      // these next 2 flags are a bit weird because their default is undefined or null
+      // and the default map cannot have a value of undefined or null
+      // that is why we still need to check for it before calling a method
+      // in the future it would be great to avoid using these as default values
+      showRaiseDailyLimitTarget: flags.showRaiseDailyLimitTargetV2?.asString(),
+      celoEducationUri: flags.celoEducationUri?.asString() ?? null,
+      celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
+      shortVerificationCodesEnabled: flags.shortVerificationCodesEnabled.asBoolean(),
+      inviteRewardsEnabled: flags.inviteRewardsEnabled.asBoolean(),
+      inviteRewardCusd: flags.inviteRewardCusd.asNumber(),
+      inviteRewardWeeklyLimit: flags.inviteRewardWeeklyLimit.asNumber(),
+      walletConnectEnabled: flags.walletConnectEnabled.asBoolean(),
+      rewardsABTestThreshold: flags.rewardsABTestThreshold.asString(),
+      rewardsPercent: flags.rewardsPercent.asNumber(),
+      rewardsStartDate: flags.rewardsStartDate.asNumber(),
+      rewardsMax: flags.rewardsMax.asNumber(),
+    }
+  } else {
+    Logger.debug('No new configs were fetched from the backend.')
+    return null
   }
-
-  return eventChannel((emit: any) => {
-    const emitter = (snapshot: FirebaseDatabaseTypes.DataSnapshot) => {
-      const flags = snapshot.val()
-      Logger.debug(`Updated feature flags: ${JSON.stringify(flags)}`)
-      emit({
-        hideVerification: flags?.hideVerification ?? false,
-        showRaiseDailyLimitTarget: flags?.showRaiseDailyLimitTargetV2 ?? undefined,
-        celoEducationUri: flags?.celoEducationUri ?? null,
-        celoEuroEnabled: flags?.celoEuroEnabled ?? false,
-        shortVerificationCodesEnabled: flags?.shortVerificationCodesEnabled ?? false,
-        inviteRewardsEnabled: flags?.inviteRewardsEnabled ?? false,
-        inviteRewardCusd: flags?.inviteRewardCusd ?? 1,
-        inviteRewardWeeklyLimit: flags?.inviteRewardWeeklyLimit ?? 5,
-        walletConnectEnabled: flags?.walletConnectEnabled ?? false,
-        rewardsABTestThreshold:
-          flags?.rewardsABTestThreshold ?? '0xffffffffffffffffffffffffffffffffffffffff',
-        rewardsPercent: flags?.rewardsPercent ?? 5,
-        rewardsStartDate: flags?.rewardsStartDate ?? 1622505600000,
-        rewardsMax: flags?.rewardsMax ?? 1000,
-        komenci: {
-          useLightProxy: flags?.komenci?.useLightProxy ?? false,
-          allowedDeployers: flags?.komenci?.allowedDeployers ?? [],
-        },
-      })
-    }
-
-    const onValueChange = firebase
-      .database()
-      .ref('versions/flags')
-      .on(VALUE_CHANGE_HOOK, emitter, errorCallback)
-
-    const cancel = () => {
-      firebase.database().ref('versions/flags').off(VALUE_CHANGE_HOOK, onValueChange)
-    }
-
-    return cancel
-  })
 }
 
 export async function knownAddressesChannel() {
@@ -309,10 +316,6 @@ export async function fetchRewardsSenders() {
 
 export async function cUsdDailyLimitChannel(address: string) {
   return simpleReadChannel(`registrations/${address}/dailyLimitCusd`)
-}
-
-export async function providerTxHashesChannel(address: string) {
-  return simpleReadChannel(`registrations/${address}/txHashes`)
 }
 
 export function simpleReadChannel(key: string) {
