@@ -147,7 +147,7 @@ export function* tagTxsWithProviderInfo({ transactions }: NewTransactionsInFeedA
 
 export function* importProviderLogos() {
   const providerLogos: ProviderLogos = yield readOnceFromFirebase('providerLogos')
-  setProviderLogos(providerLogos)
+  yield put(setProviderLogos(providerLogos))
 }
 
 export function* watchBidaliPaymentRequests() {
