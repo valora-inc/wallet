@@ -179,7 +179,6 @@ export function getTransferFeedParams(
         info = t('feedItemRewardReceivedInfo')
         Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
       } else if (providerInfo) {
-        console.log('AMOUNT CURRENCY: ', currency)
         title = t('feedItemReceivedTitle', { displayName })
         info =
           currency.toLowerCase() === 'celo'
