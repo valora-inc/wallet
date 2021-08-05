@@ -702,13 +702,6 @@ export const v16Schema = {
     exchangeRates: null,
     exchangeRatePair: undefined,
   },
-  verify: {
-    ...v15Schema.verify,
-    komenciConfig: {
-      useLightProxy: false,
-      allowedDeployers: [],
-    },
-  },
 }
 
 export const v17Schema = {
@@ -718,6 +711,13 @@ export const v17Schema = {
     version: 17,
   },
   fiatExchanges: _.omit(v16Schema.fiatExchanges, 'lastUsedProvider'),
+  verify: {
+    ...v16Schema.verify,
+    komenciConfig: {
+      useLightProxy: false,
+      allowedDeployers: [],
+    },
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
