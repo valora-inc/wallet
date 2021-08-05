@@ -98,7 +98,8 @@ export function TransferFeedItem(props: Props) {
     recipientInfo,
     addressToDisplayName[address]?.isCeloRewardSender ?? false,
     rewardsSenders.includes(address),
-    txHashToFeedInfo[hash]
+    txHashToFeedInfo[hash],
+    amount.currencyCode
   )
 
   return (
