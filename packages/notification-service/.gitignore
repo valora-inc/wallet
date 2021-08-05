@@ -13,3 +13,5 @@ node_modules/
 # Exclude secrets
 serviceAccountKey.json
 .env
+config/config.alfajores.env
+config/config.mainnet.env
