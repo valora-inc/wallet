@@ -218,6 +218,7 @@ exports[`renders correctly with giant numbers 1`] = `
                   <View
                     style={
                       Object {
+                        "marginLeft": 7,
                         "transform": Array [
                           Object {
                             "rotate": "0deg",
@@ -749,6 +750,7 @@ exports[`renders correctly with no exchange rate 1`] = `
                   <View
                     style={
                       Object {
+                        "marginLeft": 7,
                         "transform": Array [
                           Object {
                             "rotate": "0deg",

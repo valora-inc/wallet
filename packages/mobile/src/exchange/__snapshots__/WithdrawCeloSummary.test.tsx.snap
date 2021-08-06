@@ -134,6 +134,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
           <View
             style={
               Object {
+                "marginLeft": 7,
                 "transform": Array [
                   Object {
                     "rotate": "0deg",
