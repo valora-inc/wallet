@@ -200,5 +200,6 @@
   "ok": "OK",
   "cashOutLimitExceeded": "No puedes retirar más de tu saldo de {{currency}}{{balance}}",
   "appDescription": "Una cartera de pagos móviles que funciona en todo el mundo",
-  "earn": "Gana"
+  "earn": "Gana",
+  "free": "Gratis"
 }
