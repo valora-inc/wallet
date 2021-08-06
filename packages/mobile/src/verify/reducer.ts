@@ -3,7 +3,7 @@ import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phon
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import { KomenciConfig } from 'src/app/saga'
+import { Actions as AppActions, UpdateFeatureFlagsAction } from 'src/app/actions'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
@@ -38,7 +38,6 @@ export const setVerificationStatus = createAction<Partial<AttestationsStatus>>(
 export const setActionableAttestation = createAction<ActionableAttestation[]>(
   'VERIFY/SET_ACTIONABLE_ATTESTATIONS'
 )
-export const updateKomenciConfig = createAction<KomenciConfig>('VERIFY/UPDATE_KOMENCI_CONFIG')
 
 export enum StateType {
   Idle = 'Idle',
@@ -311,12 +310,12 @@ export const reducer = createReducer(initialState, (builder) => {
         komenciAvailable: action.payload.komenci ? KomenciAvailable.Yes : KomenciAvailable.No,
       }
     })
-    .addCase(updateKomenciConfig, (state, action) => {
+    .addCase(AppActions.UPDATE_FEATURE_FLAGS, (state, action: UpdateFeatureFlagsAction) => {
       return {
         ...state,
         komenciConfig: {
-          useLightProxy: action.payload.useLightProxy,
-          allowedDeployers: action.payload.allowedDeployers,
+          useLightProxy: action.flags.komenciUseLightProxy,
+          allowedDeployers: action.flags.komenciAllowedDeployers,
         },
       }
     })
