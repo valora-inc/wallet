@@ -280,7 +280,6 @@ export async function sendNotification(
       anonymousId: 'notification-service',
       event: 'push_notification_sent',
       properties: {
-        timestamp: Date.now() / 1000,
         type: data.type,
         title,
         address,
