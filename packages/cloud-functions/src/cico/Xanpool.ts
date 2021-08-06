@@ -62,9 +62,13 @@ export const Xanpool = {
               crypto: amount,
             }
 
-      const quote = await Xanpool.post(baseUrl, requestBody)
+      const rawQuote = await Xanpool.post(baseUrl, requestBody)
+      const quotes = Xanpool.processRawQuotes(rawQuote, exchangeRate, digitalAsset)
+      if (!quotes.length) {
+        throw new Error('No quotes succeeded')
+      }
 
-      return Xanpool.processRawQuotes(quote, exchangeRate, digitalAsset)
+      return quotes
     } catch (error) {
       console.error('Error fetching Xanpool quote: ', error)
       return []
@@ -115,13 +119,13 @@ export const Xanpool = {
 
       const data = await response.json()
       if (!response.ok) {
-        throw Error(`Response body: ${JSON.stringify(data)}`)
+        throw new Error(`Response body: ${JSON.stringify(data)}`)
       }
 
       const quote: XanpoolQuote = data
       return quote
     } catch (error) {
-      console.error(`Xanpool post request failed.\nURL: ${path}\n`, error)
+      console.info(`Xanpool post request failed.\nURL: ${path}\n`, error)
       return null
     }
   },
