@@ -98,12 +98,10 @@ const styles = StyleSheet.create({
   },
   username: {
     ...fontStyles.regular,
-    marginRight: 7,
   },
   phoneNumber: {
     ...fontStyles.small,
     color: colors.gray4,
-    marginRight: 7,
   },
   avatarContainer: {
     justifyContent: 'center',
