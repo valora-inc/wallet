@@ -68,7 +68,12 @@ export const Ramp = {
         )
       )
 
-      return Ramp.processRawQuotes(rawQuotes, exchangeRate)
+      const quotes = Ramp.processRawQuotes(rawQuotes, exchangeRate)
+      if (!quotes.length) {
+        throw new Error('No quotes succeeded')
+      }
+
+      return quotes
     } catch (error) {
       console.error('Error fetching Ramp quote: ', error)
       return []
@@ -137,12 +142,12 @@ export const Ramp = {
       const data = await response.json()
 
       if (!response.ok) {
-        throw Error(`Response body: ${JSON.stringify(data)}`)
+        throw new Error(`Response body: ${JSON.stringify(data)}`)
       }
 
       return data
     } catch (error) {
-      console.error(`Ramp post request failed.\nURL: ${path}\n`, error)
+      console.info(`Ramp post request failed.\nURL: ${path}\n`, error)
       return null
     }
   },
