@@ -174,12 +174,12 @@ export const Simplex = {
 
       const data = await response.json()
       if (!response.ok) {
-        throw Error(`Response body ${JSON.stringify(data)}`)
+        throw new Error(`Response body ${JSON.stringify(data)}`)
       }
 
       return data
     } catch (error) {
-      console.error(`Simplex post request failed.\nURL: ${path}\n`, error)
+      console.info(`Simplex post request failed.\nURL: ${path}\n`, error)
       throw error
     }
   },
