@@ -11,8 +11,6 @@ import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import { MetaTransactionWalletWrapper } from '@celo/contractkit/lib/wrappers/MetaTransactionWallet'
 import { OdisUtils } from '@celo/identity'
 import { AuthSigner } from '@celo/identity/lib/odis/query'
-import { FetchError, TxError } from '@celo/komencikit/src/errors'
-import { KomenciKit } from '@celo/komencikit/src/kit'
 import {
   ensureLeading0x,
   eqAddress,
@@ -20,6 +18,8 @@ import {
   normalizeAddressWith0x,
 } from '@celo/utils/lib/address'
 import { compressedPubKey, deriveDek } from '@celo/utils/lib/dataEncryptionKey'
+import { FetchError, TxError } from '@komenci/kit/lib/errors'
+import { KomenciKit } from '@komenci/kit/lib/kit'
 import * as bip39 from 'react-native-bip39'
 import { call, put, select } from 'redux-saga/effects'
 import { checkIfProfileUploaded } from 'src/account/profileInfo'

@@ -261,6 +261,8 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       rewardsPercent: flags.rewardsPercent.asNumber(),
       rewardsStartDate: flags.rewardsStartDate.asNumber(),
       rewardsMax: flags.rewardsMax.asNumber(),
+      komenciUseLightProxy: flags.komenciUseLightProxy.asBoolean(),
+      komenciAllowedDeployers: flags.komenciAllowedDeployers.asString().split(','),
     }
   } else {
     Logger.debug('No new configs were fetched from the backend.')
