@@ -3,6 +3,7 @@ import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phon
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
+import { Actions as AppActions, UpdateFeatureFlagsAction } from 'src/app/actions'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
@@ -150,6 +151,11 @@ export interface State {
   retries: number
   withoutRevealing: boolean
   TEMPORARY_override_withoutVerification?: boolean
+  // KomenciKit configuration
+  komenciConfig: {
+    useLightProxy: boolean
+    allowedDeployers: string[]
+  }
 }
 
 const initialState: State = {
@@ -174,6 +180,10 @@ const initialState: State = {
   komenciAvailable: KomenciAvailable.Unknown,
   withoutRevealing: false,
   TEMPORARY_override_withoutVerification: undefined,
+  komenciConfig: {
+    useLightProxy: false,
+    allowedDeployers: [],
+  },
 }
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -300,6 +310,15 @@ export const reducer = createReducer(initialState, (builder) => {
         komenciAvailable: action.payload.komenci ? KomenciAvailable.Yes : KomenciAvailable.No,
       }
     })
+    .addCase(AppActions.UPDATE_FEATURE_FLAGS, (state, action: UpdateFeatureFlagsAction) => {
+      return {
+        ...state,
+        komenciConfig: {
+          useLightProxy: action.flags.komenciUseLightProxy,
+          allowedDeployers: action.flags.komenciAllowedDeployers,
+        },
+      }
+    })
 })
 
 const isBalanceSufficientForAttestations = (
@@ -363,3 +382,4 @@ export const isBalanceSufficientSelector = createSelector(
   }
 )
 export const withoutRevealingSelector = (state: RootState) => state.verify.withoutRevealing
+export const komenciConfigSelector = (state: RootState) => state.verify.komenciConfig
