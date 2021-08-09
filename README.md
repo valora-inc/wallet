@@ -1,4 +1,4 @@
-# Valora Mobile App
+# Valora Mobile App (test)
 
 ![example workflow](https://github.com/valora-inc/wallet/actions/workflows/check.yml/badge.svg)
 ![example workflow](https://github.com/valora-inc/wallet/actions/workflows/e2e.yml/badge.svg)
