@@ -11,6 +11,7 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
+  PixelRatio,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -214,7 +215,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
         <View style={styles.titleContainer}>
           <Text style={styles.selectDigitalCurrency}>{t('selectDigitalCurrency')}</Text>
           <Touchable onPress={onPressInfoIcon} hitSlop={variables.iconHitslop}>
-            <InfoIcon size={14} color={colors.gray3} />
+            <InfoIcon size={14 * PixelRatio.getFontScale()} color={colors.gray3} />
           </Touchable>
         </View>
         <View style={styles.currenciesContainer}>
@@ -368,6 +369,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
   },
   titleContainer: {
+    flexWrap: 'wrap',
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: variables.contentPadding,

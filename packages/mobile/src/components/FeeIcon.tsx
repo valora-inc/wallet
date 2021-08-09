@@ -2,7 +2,7 @@ import Touchable from '@celo/react-components/components/Touchable'
 import { iconHitslop } from '@celo/react-components/styles/variables'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { PixelRatio, StyleSheet } from 'react-native'
 import Dialog from 'src/components/Dialog'
 import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
@@ -41,7 +41,7 @@ class FeeIcon extends React.Component<Props, State> {
           borderless={true}
           hitSlop={iconHitslop}
         >
-          <InfoIcon size={12} />
+          <InfoIcon size={12 * PixelRatio.getFontScale()} />
         </Touchable>
         <Dialog
           title={title}

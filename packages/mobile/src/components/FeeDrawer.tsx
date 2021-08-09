@@ -102,7 +102,7 @@ export default function FeeDrawer({
         </View>
       </Touchable>
       {expanded && (
-        <View>
+        <View style={{ flex: 1 }}>
           {isExchange && (
             <LineItemRow
               title={t('exchangeFlow9:exchangeFee')}

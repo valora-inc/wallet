@@ -9,7 +9,15 @@ import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Trans, WithTranslation } from 'react-i18next'
-import { Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import {
+  PixelRatio,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
@@ -403,7 +411,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
         <TouchableOpacity onPress={this.toggleExchangeRateInfoDialog}>
           <LineItemRow
             title={t('exchangeRateInfo')}
-            titleIcon={<InfoIcon size={14} />}
+            titleIcon={<InfoIcon size={14 * PixelRatio.getFontScale()} />}
             style={styles.exchangeRateInfo}
             textStyle={styles.exchangeRateInfoText}
           />

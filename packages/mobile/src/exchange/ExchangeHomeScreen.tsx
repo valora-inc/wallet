@@ -9,7 +9,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
+import { PixelRatio, StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -152,7 +152,7 @@ function ExchangeHomeScreen({ navigation }: Props) {
             <View style={styles.goldPriceTitleArea}>
               <Text style={styles.goldPriceTitle}>{t('goldPrice')}</Text>
               <Touchable onPress={navigateToGuide} hitSlop={variables.iconHitslop}>
-                <InfoIcon size={14} />
+                <InfoIcon size={14 * PixelRatio.getFontScale()} />
               </Touchable>
             </View>
             <View style={styles.goldPriceValues}>

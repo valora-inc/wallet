@@ -1,5 +1,6 @@
 import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
+import { PixelRatio } from 'react-native'
 import Svg, { Circle, Path } from 'svgs'
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
   color?: colors
 }
 
-function InfoIcon({ size = 16, color = colors.dark }: Props) {
+function InfoIcon({ size = 16 * PixelRatio.getFontScale(), color = colors.dark }: Props) {
   return (
     <Svg
       width={size}
