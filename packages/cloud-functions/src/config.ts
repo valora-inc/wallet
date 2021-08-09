@@ -78,6 +78,7 @@ export enum FiatCurrency {
 export enum DigitalAsset {
   CELO = 'CELO',
   CUSD = 'CUSD',
+  CEUR = 'CEUR',
 }
 
 export const FETCH_TIMEOUT_DURATION = 10000 // 10 seconds
