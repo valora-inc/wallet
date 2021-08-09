@@ -60,6 +60,11 @@ export const Simplex = {
         throw Error('No purchase amount provided')
       }
 
+      if (currencyToBuy === DigitalAsset.CEUR) {
+        console.info('Simplex does not yet support cEUR')
+        return
+      }
+
       const userUuid = await getOrCreateUuid(userAddress)
       const simplexQuote: SimplexQuote = await Simplex.post(
         `${SIMPLEX_DATA.api_url}/wallet/merchant/v2/quote`,
@@ -77,7 +82,7 @@ export const Simplex = {
 
       return simplexQuote
     } catch (error) {
-      console.error('Error fetching Simplex quote: ', error)
+      console.error(`Error fetching Simplex quote for address ${userAddress}: `, error)
     }
   },
   fetchPaymentRequest: async (
@@ -141,7 +146,7 @@ export const Simplex = {
       const simplexPaymentData: SimplexPaymentData = { paymentId, orderId, checkoutHtml }
       return simplexPaymentData
     } catch (error) {
-      console.error('Error fetching Simplex payment request: ', error)
+      console.error(`Error fetching Simplex payment request for address ${userAddress}: `, error)
     }
   },
   generateCheckoutForm: (paymentId: string) => `
@@ -177,9 +182,17 @@ export const Simplex = {
         throw new Error(`Response body ${JSON.stringify(data)}`)
       }
 
+      // Need to manually check for an error field because Simplex doesn't change the status code
+      if (data?.error) {
+        throw new Error(data.error)
+      }
+
       return data
     } catch (error) {
-      console.info(`Simplex post request failed.\nURL: ${path}\n`, error)
+      console.info(
+        `Simplex post request failed.\nURL: ${path} Body: ${JSON.stringify(body)}\n`,
+        error
+      )
       throw error
     }
   },

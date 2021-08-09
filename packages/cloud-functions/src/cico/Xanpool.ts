@@ -37,6 +37,11 @@ export const Xanpool = {
         amount
       )
 
+      if (digitalAsset === DigitalAsset.CEUR) {
+        console.info('Xanpool does not yet support cEUR')
+        return []
+      }
+
       if (!XANPOOL_DATA.supported_currencies.includes(localCurrency)) {
         throw Error('Currency not supported')
       }
