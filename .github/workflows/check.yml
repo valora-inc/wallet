@@ -40,3 +40,9 @@ jobs:
       - run: yarn
       - run: yarn run prettify:diff
       - run: yarn run lint
+  codecov:
+    name: Codecov
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: codecov/codecov-action@v2
