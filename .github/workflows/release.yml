@@ -1,0 +1,23 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Release'
+
+jobs:
+  testflight:
+    name: TestFlight
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v2
