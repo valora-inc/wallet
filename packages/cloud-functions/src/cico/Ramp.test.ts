@@ -90,6 +90,30 @@ describe('Ramp', () => {
     ])
   })
 
+  it('fetches quotes correctly when digital asset is cEUR', async () => {
+    const fiatCurrency = 'USD'
+    const digitalAsset = DigitalAsset.CEUR
+    const userCountry = 'US'
+
+    fetchMock.mockResponse(createRampQuoteResponse(fiatCurrency, digitalAsset, 'CARD_PAYMENT'))
+
+    const quotes = await Ramp.fetchQuote(
+      digitalAsset,
+      fiatCurrency,
+      FIAT_CASH_IN_AMOUNT,
+      userCountry
+    )
+
+    expect(quotes).toEqual([
+      {
+        paymentMethod: PaymentMethod.Card,
+        fiatFee: FIAT_FEE_AMOUNT,
+        returnedAmount: CRYPTO_AMOUNT_ACQUIRED,
+        digitalAsset,
+      },
+    ])
+  })
+
   it("fetches quotes correctly when fiatCurrency is not native to the user's location", async () => {
     const fiatCurrency = 'PHP'
     const digitalAsset = DigitalAsset.CUSD
