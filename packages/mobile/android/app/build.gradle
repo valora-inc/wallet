@@ -249,7 +249,7 @@ android {
         exclude 'META-INF/androidx.exifinterface_exifinterface.version'
         pickFirst '**/libc++_shared.so'
     }
-    
+
     dexOptions {
        javaMaxHeapSize "3g"
     }
@@ -259,11 +259,12 @@ dependencies {
     androidTestImplementation('com.wix:detox:+')
 
     implementation 'com.google.android.material:material:1.2.0'
-    def multidex_version = "2.0.1"
-    implementation 'androidx.multidex:multidex:$multidex_version'
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation project(':react-native-geth')
+    implementation project(':react-native-plaid-link-sdk')
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules
