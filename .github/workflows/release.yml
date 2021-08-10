@@ -27,4 +27,7 @@ jobs:
         with:
           node-version: '12'
           check-latest: true
+      - run: |
+          brew tap wix/brew
+          brew install applesimutils
       - uses: actions/checkout@v2
