@@ -33,7 +33,7 @@ target "celo" do
 
   pod 'RNSecureRandom', :path => '../../../node_modules/react-native-securerandom'
 
-  pod 'react-native-plaid-link-sdk', :path => '../../../node_modules/react-native-plaid-link-sdk'
+  pod 'Plaid', '~> 2.1.3'
 
   target "celoTests" do
     inherit! :search_paths
