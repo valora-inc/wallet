@@ -20,7 +20,7 @@ platform :ios, '12.4'
 
 target "celo" do
   use_frameworks!
-  
+
   pod "react-native-geth", :path => "../../../node_modules/react-native-geth"
   pod "CeloBlockchain", :path => "../../../node_modules/@celo/client/CeloBlockchain.podspec", :modular_headers => true
 
@@ -33,7 +33,7 @@ target "celo" do
 
   pod 'RNSecureRandom', :path => '../../../node_modules/react-native-securerandom'
 
-  pod 'react-native-plaid-link-sdk', :path => '../node_modules/react-native-plaid-link-sdk'
+  pod 'react-native-plaid-link-sdk', :path => '../../../node_modules/react-native-plaid-link-sdk'
 
   target "celoTests" do
     inherit! :search_paths
