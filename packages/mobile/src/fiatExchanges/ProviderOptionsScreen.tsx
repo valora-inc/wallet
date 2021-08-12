@@ -24,7 +24,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
-import { selectProvider } from 'src/fiatExchanges/actions'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import {
   fetchProviders,
@@ -160,8 +159,6 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       provider: provider.name,
     })
 
-    dispatch(selectProvider(provider.name))
-
     if (provider.name === IntegratedCicoProviders.Simplex) {
       const providerQuote = Array.isArray(provider.quote) ? provider.quote[0] : provider.quote
       if (provider.quote && userLocation?.ipAddress && isSimplexQuote(providerQuote)) {
@@ -177,6 +174,35 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       navigateToURI(provider.url)
       return
     }
+  }
+
+  const renderFeeAmount = (quote?: SimplexQuote | ProviderQuote[]) => {
+    const feeAmount = getLowestFeeValueFromQuotes(quote)
+
+    if (feeAmount === undefined) {
+      return '-'
+    }
+
+    if (feeAmount === 0) {
+      return t('global:free')
+    }
+
+    return (
+      <CurrencyDisplay
+        amount={{
+          value: 0,
+          localAmount: {
+            value: feeAmount,
+            currencyCode: localCurrency,
+            exchangeRate: 1,
+          },
+          currencyCode: localCurrency,
+        }}
+        showLocalAmount={true}
+        hideSign={true}
+        style={styles.text}
+      />
+    )
   }
 
   return !userLocation || asyncProviders.status === 'loading' ? (
@@ -229,28 +255,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                   </View>
                 </View>
                 <View style={styles.feeContainer}>
-                  <Text style={styles.text}>
-                    {getLowestFeeValueFromQuotes(provider.quote) ? (
-                      <CurrencyDisplay
-                        amount={{
-                          value: 0,
-                          localAmount: {
-                            value: getLowestFeeValueFromQuotes(provider.quote) || 0,
-                            currencyCode: localCurrency,
-                            exchangeRate: 1,
-                          },
-                          currencyCode: localCurrency,
-                        }}
-                        hideSymbol={false}
-                        showLocalAmount={true}
-                        hideSign={true}
-                        showExplicitPositiveSign={false}
-                        style={[styles.text]}
-                      />
-                    ) : (
-                      '-'
-                    )}
-                  </Text>
+                  <Text style={styles.text}>{renderFeeAmount(provider.quote)}</Text>
                 </View>
               </View>
             </ListItem>

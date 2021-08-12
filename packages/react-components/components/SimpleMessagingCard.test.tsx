@@ -10,6 +10,7 @@ describe(SimpleMessagingCard, () => {
       <SimpleMessagingCard
         text="Test"
         icon={<View testID="TestIcon" />}
+        priority={10}
         callToActions={[{ text: 'it goes boom', onPress }]}
       />
     )
@@ -28,6 +29,7 @@ describe(SimpleMessagingCard, () => {
       <SimpleMessagingCard
         text="Test"
         icon={{ uri: 'https://example.com/icon.png' }}
+        priority={10}
         callToActions={[{ text: 'it goes boom', onPress }]}
         testID="Card"
       />
@@ -42,6 +44,7 @@ describe(SimpleMessagingCard, () => {
     const { queryByTestId } = render(
       <SimpleMessagingCard
         text="Test"
+        priority={10}
         callToActions={[{ text: 'it goes boom', onPress }]}
         testID="Card"
       />

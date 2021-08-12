@@ -672,6 +672,8 @@ export const v16Schema = {
   app: {
     ...v15Schema.app,
     celoEuroEnabled: false,
+    googleMobileServicesAvailable: undefined,
+    huaweiMobileServicesAvailable: undefined,
   },
   localCurrency: {
     ...v15Schema.localCurrency,
@@ -702,6 +704,22 @@ export const v16Schema = {
   },
 }
 
+export const v17Schema = {
+  ...v16Schema,
+  _persist: {
+    ...v16Schema._persist,
+    version: 17,
+  },
+  fiatExchanges: _.omit(v16Schema.fiatExchanges, 'lastUsedProvider'),
+  verify: {
+    ...v16Schema.verify,
+    komenciConfig: {
+      useLightProxy: false,
+      allowedDeployers: [],
+    },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v16Schema as Partial<RootState>
+  return v17Schema as Partial<RootState>
 }

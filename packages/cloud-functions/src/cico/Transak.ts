@@ -48,6 +48,11 @@ export const Transak = {
         throw Error('Purchase amount not provided')
       }
 
+      if (digitalAsset === DigitalAsset.CEUR) {
+        console.info('Transak does not yet support cEUR')
+        return []
+      }
+
       const { localCurrency, localAmount, exchangeRate } = await Transak.convertToLocalCurrency(
         userCountry,
         fiatCurrency,
@@ -72,7 +77,12 @@ export const Transak = {
         validPaymentMethods.map((method) => Transak.get(`${baseUrl}&paymentMethodId=${method}`))
       )
 
-      return Transak.processRawQuotes(rawQuotes, exchangeRate)
+      const quotes = Transak.processRawQuotes(rawQuotes, exchangeRate)
+      if (!quotes.length) {
+        throw new Error('No quotes succeeded')
+      }
+
+      return quotes
     } catch (error) {
       console.error('Error fetching Transak quote: ', error)
       return []
@@ -130,12 +140,12 @@ export const Transak = {
       const response = await fetchWithTimeout(path)
       const data = await response.json()
       if (!response.ok) {
-        throw Error(`Response body: ${JSON.stringify(data)}`)
+        throw new Error(`Response body: ${JSON.stringify(data)}`)
       }
 
       return data.response
     } catch (error) {
-      console.error(`Transak get request failed.\nURL: ${path}\n`, error)
+      console.info(`Transak get request failed.\nURL: ${path}\n`, error)
       return null
     }
   },

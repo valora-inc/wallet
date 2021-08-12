@@ -191,14 +191,12 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     <Text
                       style={
                         Array [
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Medium",
-                              "fontSize": 16,
-                              "lineHeight": 22,
-                            },
-                          ],
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
                           Object {
                             "color": "#2E3338",
                           },
@@ -209,6 +207,150 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                       $
                       13.00
                     </Text>
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
+              Object {
+                "attribute": "selectableItemBackgroundBorderless",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomWidth": 1,
+                  "marginLeft": 16,
+                  "paddingVertical": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                  }
+                }
+                testID="Provider/Ramp"
+              >
+                <View
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "flex": 1,
+                      "flexDirection": "row",
+                    }
+                  }
+                >
+                  <View
+                    style={
+                      Array [
+                        Object {
+                          "alignItems": "center",
+                          "backgroundColor": "#F8F9F9",
+                          "borderRadius": 24,
+                          "display": "flex",
+                          "height": 48,
+                          "justifyContent": "center",
+                          "width": 48,
+                        },
+                      ]
+                    }
+                  >
+                    <Image
+                      resizeMode="contain"
+                      source={
+                        Object {
+                          "uri": "https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media",
+                        }
+                      }
+                      style={
+                        Object {
+                          "height": 28,
+                          "width": 28,
+                        }
+                      }
+                      testID="Icon/Ramp"
+                    />
+                  </View>
+                  <View
+                    style={
+                      Object {
+                        "flex": 1,
+                        "flexDirection": "column",
+                        "paddingLeft": 8,
+                      }
+                    }
+                  >
+                    <Text
+                      style={
+                        Array [
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
+                          null,
+                        ]
+                      }
+                    >
+                      Ramp
+                    </Text>
+                    <View
+                      style={
+                        Object {
+                          "flexDirection": "row",
+                        }
+                      }
+                    />
+                  </View>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "minWidth": 32,
+                      "paddingRight": 8,
+                      "textAlign": "center",
+                    }
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Medium",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
+                    }
+                  >
+                    global:free
                   </Text>
                 </View>
               </View>
@@ -355,14 +497,12 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     <Text
                       style={
                         Array [
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Medium",
-                              "fontSize": 16,
-                              "lineHeight": 22,
-                            },
-                          ],
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
                           Object {
                             "color": "#2E3338",
                           },
@@ -373,150 +513,6 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                       $
                       5.00
                     </Text>
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View
-          style={
-            Object {
-              "backgroundColor": "#FFFFFF",
-            }
-          }
-        >
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-          >
-            <View
-              style={
-                Object {
-                  "borderBottomColor": "#EDEEEF",
-                  "borderBottomWidth": 1,
-                  "marginLeft": 16,
-                  "paddingVertical": 16,
-                }
-              }
-            >
-              <View
-                style={
-                  Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                    "justifyContent": "space-between",
-                  }
-                }
-                testID="Provider/Ramp"
-              >
-                <View
-                  style={
-                    Object {
-                      "alignItems": "center",
-                      "flex": 1,
-                      "flexDirection": "row",
-                    }
-                  }
-                >
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "alignItems": "center",
-                          "backgroundColor": "#F8F9F9",
-                          "borderRadius": 24,
-                          "display": "flex",
-                          "height": 48,
-                          "justifyContent": "center",
-                          "width": 48,
-                        },
-                      ]
-                    }
-                  >
-                    <Image
-                      resizeMode="contain"
-                      source={
-                        Object {
-                          "uri": "https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media",
-                        }
-                      }
-                      style={
-                        Object {
-                          "height": 28,
-                          "width": 28,
-                        }
-                      }
-                      testID="Icon/Ramp"
-                    />
-                  </View>
-                  <View
-                    style={
-                      Object {
-                        "flex": 1,
-                        "flexDirection": "column",
-                        "paddingLeft": 8,
-                      }
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#2E3338",
-                            "fontFamily": "Inter-Medium",
-                            "fontSize": 16,
-                            "lineHeight": 22,
-                          },
-                          null,
-                        ]
-                      }
-                    >
-                      Ramp
-                    </Text>
-                    <View
-                      style={
-                        Object {
-                          "flexDirection": "row",
-                        }
-                      }
-                    />
-                  </View>
-                </View>
-                <View
-                  style={
-                    Object {
-                      "minWidth": 32,
-                      "paddingRight": 8,
-                      "textAlign": "center",
-                    }
-                  }
-                >
-                  <Text
-                    style={
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Medium",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                      }
-                    }
-                  >
-                    -
                   </Text>
                 </View>
               </View>
@@ -678,14 +674,12 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     <Text
                       style={
                         Array [
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Medium",
-                              "fontSize": 16,
-                              "lineHeight": 22,
-                            },
-                          ],
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
                           Object {
                             "color": "#2E3338",
                           },
@@ -859,14 +853,12 @@ exports[`ProviderOptionsScreen renders correctly 2`] = `
                     <Text
                       style={
                         Array [
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Medium",
-                              "fontSize": 16,
-                              "lineHeight": 22,
-                            },
-                          ],
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Medium",
+                            "fontSize": 16,
+                            "lineHeight": 22,
+                          },
                           Object {
                             "color": "#2E3338",
                           },
