@@ -32,5 +32,7 @@ jobs:
           brew install applesimutils
       - uses: actions/checkout@v2
       - run: yarn
-      - run: bundle install
+      - run: |
+          cd packages/mobile
+          bundle install
       - run: yarn build:wallet
