@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   userContainer: {
-    flex: 1,
+    flex: 3,
     marginRight: 8,
   },
   username: {
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     color: colors.gray4,
   },
   avatarContainer: {
+    flex: 1,
     justifyContent: 'center',
   },
   expandedContainer: {
