@@ -22933,6 +22933,13 @@ react-native-permissions@^3.0.3:
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.0.3.tgz#aa90649728a9720b0de9cfcfdb447b35a6630de0"
   integrity sha512-8xiEnU29qHZcT05XXwhPHiLChTt82Pn5Z/nFdDOYGNFZ+IYSbYeGmIxFpratCRO6dgLptNaDFDPiyw2X7UZTeg==
 
+react-native-plaid-link-sdk@^7.0.7:
+  version "7.0.7"
+  resolved "https://registry.yarnpkg.com/react-native-plaid-link-sdk/-/react-native-plaid-link-sdk-7.0.7.tgz#3304a20e7e5b7b440caf9dcf1e3246aee35aa3dd"
+  integrity sha512-jXmifw8sw3ngsqndl5dUG3pRgcNF7o+rWvSuWd0EX6vWhzfhSGhPtMIVhnCA0k1wUSEpFcrIsJweaCmRg3DPHg==
+  dependencies:
+    tsc "^1.20150623.0"
+
 react-native-platform-touchable@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-native-platform-touchable/-/react-native-platform-touchable-1.1.1.tgz#fde4acc65eea585d28b164d0c3716a42129a68e4"
@@ -26327,6 +26334,11 @@ tsc-watch@^4.2.3:
     ps-tree "^1.2.0"
     string-argv "^0.1.1"
     strip-ansi "^4.0.0"
+
+tsc@^1.20150623.0:
+  version "1.20150623.0"
+  resolved "https://registry.yarnpkg.com/tsc/-/tsc-1.20150623.0.tgz#4ebc3c774e169148cbc768a7342533f082c7a6e5"
+  integrity sha1-Trw8d04WkUjLx2inNCUz8ILHpuU=
 
 tsconfig-paths@^3.8.0:
   version "3.8.0"
