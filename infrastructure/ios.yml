@@ -1,1 +1,10 @@
-# iOS config
+---
+- name: Install xcversion and Xcode 12.5.1
+  tasks:
+  - gem:
+    name: xcode-install
+    state: latest
+  - name: Install Xcode 12.5.1
+    ansible.builtin.shell: xcversion install 12.5.1
+    args:
+      executable: /bin/bash
