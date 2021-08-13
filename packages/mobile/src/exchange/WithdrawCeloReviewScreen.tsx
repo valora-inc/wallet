@@ -3,6 +3,7 @@
 
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
 import HorizontalLine from '@celo/react-components/components/HorizontalLine'
+import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
@@ -15,13 +16,13 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import CancelButton from 'src/components/CancelButton'
 import LineItemRow from 'src/components/LineItemRow'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import { withdrawCelo } from 'src/exchange/actions'
 import WithdrawCeloSummary from 'src/exchange/WithdrawCeloSummary'
 import i18n, { Namespaces } from 'src/i18n'
-import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
+import BackButton from 'src/navigator/BackButton'
+import { HeaderTitleWithBalance, headerWithBackEditButtons } from 'src/navigator/Headers'
 import {
   navigate,
   navigateBack,
@@ -29,7 +30,7 @@ import {
   replace,
 } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarTextButton } from 'src/navigator/TopBarButton'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useTypedSelector from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -112,22 +113,23 @@ WithdrawCeloReviewScreen.navigationOptions = ({
     }
   }
   return {
-    ...emptyHeader,
+    ...headerWithBackEditButtons,
     headerTitle: () => (
       <HeaderTitleWithBalance
         title={i18n.t('exchangeFlow9:withdrawCeloReview')}
         token={Currency.Celo}
       />
     ),
-    headerLeft: () => <CancelButton onCancel={onCancel} />,
-    headerRight: () => (
-      <TopBarTextButton
-        title={i18n.t('global:edit')}
+    headerLeft: () => (
+      <TopBarIconButton
+        icon={<BackButton />}
         testID="EditButton"
         onPress={onEdit}
-        titleStyle={{ color: colors.goldDark }}
         eventName={CeloExchangeEvents.celo_sell_edit}
       />
+    ),
+    headerRight: () => (
+      <TopBarIconButton icon={<Times />} testID="CancelButton" onPress={onCancel} />
     ),
   }
 }
