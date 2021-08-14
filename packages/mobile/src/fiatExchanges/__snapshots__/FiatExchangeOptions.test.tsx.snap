@@ -25,6 +25,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "flexDirection": "row",
+            "flexWrap": "wrap",
             "marginTop": 16,
           }
         }
@@ -951,6 +952,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
           Object {
             "alignItems": "center",
             "flexDirection": "row",
+            "flexWrap": "wrap",
             "marginTop": 16,
           }
         }

@@ -388,6 +388,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     Object {
                       "justifyContent": "center",
@@ -1433,6 +1434,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     Object {
                       "justifyContent": "center",
@@ -2478,6 +2480,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     Object {
                       "justifyContent": "center",
@@ -3523,6 +3526,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     Object {
                       "justifyContent": "center",

@@ -114,6 +114,7 @@ exports[`WithdrawCeloSummary renders correctly 1`] = `
               Object {
                 "alignItems": "center",
                 "flexDirection": "row",
+                "flexWrap": "wrap",
               },
               undefined,
             ]

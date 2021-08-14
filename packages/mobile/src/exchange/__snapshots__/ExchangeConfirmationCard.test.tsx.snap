@@ -198,6 +198,7 @@ exports[`renders correctly with giant numbers 1`] = `
                       Object {
                         "alignItems": "center",
                         "flexDirection": "row",
+                        "flexWrap": "wrap",
                       },
                       undefined,
                     ]
@@ -730,6 +731,7 @@ exports[`renders correctly with no exchange rate 1`] = `
                       Object {
                         "alignItems": "center",
                         "flexDirection": "row",
+                        "flexWrap": "wrap",
                       },
                       undefined,
                     ]
