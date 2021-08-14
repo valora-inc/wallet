@@ -82,9 +82,6 @@ const styles = StyleSheet.create({
     paddingBottom: 2,
     flexWrap: 'wrap',
   },
-  desc: {
-    flexDirection: 'row',
-  },
   txMode: {
     flex: 3,
     ...fontStyles.regular500,
