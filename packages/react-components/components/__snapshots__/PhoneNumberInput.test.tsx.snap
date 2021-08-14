@@ -76,6 +76,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
               Object {
                 "alignItems": "center",
                 "flexDirection": "row",
+                "flexWrap": "wrap",
               },
               Object {
                 "justifyContent": "center",
