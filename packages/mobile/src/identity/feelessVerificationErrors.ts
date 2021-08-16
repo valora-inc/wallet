@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import { RootError } from '@celo/base'
-import { FetchErrorTypes, KomenciKitErrorTypes, TxErrorTypes } from '@celo/komencikit/src/errors'
+import { FetchErrorTypes, KomenciKitErrorTypes, TxErrorTypes } from '@komenci/kit/lib/errors'
 import { put, select } from 'redux-saga/effects'
 import { komenciContextSelector, setKomenciContext } from 'src/verify/reducer'
 

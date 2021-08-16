@@ -168,5 +168,5 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
   ]
 
-  response.send(JSON.stringify(providers))
+  response.status(200).send(JSON.stringify(providers))
 })
