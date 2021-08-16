@@ -3,23 +3,23 @@
   "addFundsSubtitle": "Agrega fondos a tu cuenta de Valora",
   "exchanges": "Exchanges cripto",
   "buySellOnExchanges": "Comprar o vender en exchanges cripto",
-  "cashOut": "Retirar",
+  "cashOut": "Retirar fondos",
   "cashOutSubtitle": "Adquiere tarjetas de regalo, haz compras o envía fondos a un exchange de criptomonedas",
-  "cashOutComingSoon": "Retirar (Muy Pronto)",
+  "cashOutComingSoon": "Retirar fondos (próximamente)",
   "spend": "Usar",
-  "spendSubtitle": "Usa tu balance con comercios asociados",
+  "spendSubtitle": "Usa tu saldo para pagar en comercios asociados",
   "amountCelo": "Monto (CELO)",
   "onlyCeloDollars": "Solo cUSD",
   "onlyCelo": "Solo CELO",
   "celoDollar": "Celo Dólar",
   "celoEuro": "Celo Euro",
   "celoDollars": "Celo Dólares",
-  "tapToCopyCeloDollarsAddress": "`Toca para copiar tu dirección de {{appName}} cUSD",
-  "disclaimerFiat": "{{currency}} valores son estimados.",
-  "dollarsNotYetEnabledNote": "Los Celo Dólares aún no están disponibles en ningún proveedor. Para obtener Celo Dólares, compra CELO y cámbialos por Celo Dólares dentro de Valora, bajo la pestaña CELO.",
+  "tapToCopyCeloDollarsAddress": "`Toca para copiar tu dirección de cUSD de {{appName}}",
+  "disclaimerFiat": "Los valores en {{currency}} son estimativos.",
+  "dollarsNotYetEnabledNote": "Los Celo Dólares aún no están disponibles en ningún proveedor. Para obtener Celo Dólares, compra CELO y cámbialos por Celo Dólares directamente en Valora, desde la pestaña CELO.",
   "selectDigitalCurrency": "Selecciona una moneda digital",
-  "selectPaymentMethod": "Pague con:",
-  "payWithBank": "Cuenta de banco",
+  "selectPaymentMethod": "Paga con:",
+  "payWithBank": "Cuenta bancaria",
   "payWithCard": "Tarjeta de débito",
   "payWithExchange": "Exchange de criptomonedas",
   "selectCashOutMethod": "Recibe los fondos en:",
@@ -27,21 +27,21 @@
   "receiveWithBidali": "Tarjetas de regalo y recargas móviles",
   "fundingEducationDialog": {
     "title": "Agregar fondos a {{appName}}",
-    "body": "{{appName}} corre sobre la Red Celo. {{appName}} funciona con Celo Dólares (cUSD), una moneda digital estable vinculada al dólar estadounidense.\n\nPara agregar fondos a {{appName}}, compra cUSD de uno de los proveedores disponibles en tu ubicación. Para más información por favor visita <0>{{link}}</0>",
+    "body": "{{appName}} corre sobre la Red Celo. {{appName}} funciona con Celo Dólares (cUSD), una moneda digital estable sujeta al dólar estadounidense.\n\nPara agregar fondos a tu cuenta de {{appName}}, compra cUSD de uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Retira de {{appName}}",
-    "body": "{{appName}} corre sobre la Red Celo. {{appName}} funciona con Celo Dólares (cUSD), una moneda digital estable vinculada al dólar estadounidense.\n\nPara retirar tu balance de {{appName}}, vende cUSD en uno de los proveedores disponibles en tu ubicación. Para más información por favor visita <0>{{link}}</0>",
+    "body": "{{appName}} corre sobre la Red Celo. {{appName}} funciona con Celo Dólares (cUSD), una moneda digital estable sujeta al dólar estadounidense.\n\nPara retirar el saldo de tu cuenta de {{appName}}, vende cUSD a uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "explanationModal": {
-    "title": "Sobre proveedores",
-    "body": "Estos proveedores te permiten agregar o retirar fondos de tu cuenta. Los proveedores determinan sus propias tarifas y restricciones, dependiendo de varios factores. Visita la web del proveedor para obtener ayuda."
+    "title": "Proveedores",
+    "body": "Los proveedores integrados te permiten agregar o retirar fondos de tu cuenta. Los proveedores determinan sus propias tarifas y restricciones, en función de diversos factores. Visita la web del proveedor para obtener ayuda específica."
   },
   "invalidAmountDialog": {
-    "minAmount": "Nuestros proveedores no soportan cantidades menores a {{limit}}. Por favor, ingresa un monto mayor.",
-    "maxAmount": "Nuestros proveedores no soportan cantidades superiores a {{limit}}. Por favor, ingresa un monto menor.",
+    "minAmount": "Nuestros proveedores no permiten transacciones por montos menores a {{limit}}. Por favor, ingresa un monto mayor.",
+    "maxAmount": "Nuestros proveedores no permiten transacciones por montos superiores a {{limit}}. Por favor, ingresa un monto menor.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
