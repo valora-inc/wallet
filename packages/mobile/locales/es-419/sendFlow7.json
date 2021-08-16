@@ -96,38 +96,38 @@
     "button": "Confirma la Dirección de cuenta"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} tiene multipes cuentas asociadas. {{displayName}} puede haber creado una nueva cuenta de {{appName}}, perdido tuteléfono o tu cuenta puede haber sido interceptada o comprometida.",
-    "body1NoDisplayName": "Tu contacto tiene varias cuentas asociadas. Tu contacto podría haber creado una nueva cuenta de {{appName}}, o podría haber perdido tu teléfono o haber comprometido tu cuenta.",
-    "body2": "Debe escanear su código QR o confirmar su dirección de cuenta antes de transactuar."
+    "body1": "{{e164PhoneNumber}} tiene multipes cuentas asociadas. Es posible que {{displayName}} haya creado una cuenta nueva de {{appName}}, que haya perdido su teléfono o su cuenta puede haber sido interceptada o comprometida.",
+    "body1NoDisplayName": "Tu contacto tiene varias cuentas asociadas. Es posible que tu contacto haya creado una cuenta nueva de {{appName}}, que haya perdido su teléfono o su cuenta puede haber sido interceptada o comprometida.",
+    "body2": "Debes escanear un código QR o confirmar la Dirección de cuenta antes de realizar una transacción."
   },
   "confirmAccountNumber": {
-    "title": "Confirma el número de cuenta",
-    "bodyPartial": "Pídele a {{displayName}} los últimos cuatro dígitos de su dirección de cuenta. Es más seguro hacerlo en persona o por teléfono.",
-    "bodyPartialNoDisplayName": "Solicite a su contacto los últimos cuatro dígitos de su dirección de cuenta. Es más seguro hacerlo en persona o por teléfono.",
-    "body1Full": "Por favor solicita a {{displayName}} tu número de cuenta",
-    "body1FullNoDisplayName": "Solicita a tu contacto tu número de cuenta.",
-    "body2Full": "Por razones de seguridad, por favor no utilices mensajes de texto (SMS). Se recomienda altamente preguntar en persona o por teléfono a través de WhastApp, Messenger o por correo electrónico",
-    "help": "Ayuda para localizar una dirección de cuenta",
+    "title": "Confirma la Dirección de cuenta",
+    "bodyPartial": "Pídele a {{displayName}} los últimos cuatro dígitos de su Dirección de cuenta. Lo más seguro es hacerlo en persona o por teléfono.",
+    "bodyPartialNoDisplayName": "Solicita a tu contacto los últimos cuatro dígitos de su Dirección de cuenta. Lo más seguro es hacerlo en persona o por teléfono.",
+    "body1Full": "Solicita a {{displayName}} su número de cuenta",
+    "body1FullNoDisplayName": "Solicita a tu contacto su número de cuenta.",
+    "body2Full": "Te recomendamos pedir esta información en persona o por teléfono, o bien a través de WhastApp, Messenger o por correo electrónico. Por seguridad, recomendamos no usar mensajes de texto (SMS).",
+    "help": "Ayuda a localizar una Dirección de cuenta",
     "submit": "Enviar"
   },
   "accountInputHeaderPartial": "Los últimos 4 dígitos",
-  "accountInputHeaderFull": "Número de Cuenta",
+  "accountInputHeaderFull": "Dirección de cuenta",
   "helpModal": {
-    "header": "Encuentra el número de cuenta de tu contacto",
-    "body1": "Direcciones de la cuenta (también conocidas como direcciones) se encuentran en el menú. Desde la pantalla de inicio, abre el menú tocando el icono en la esquina superior izquierda.",
-    "body2": "La dirección de la cuenta está cerca de la parte inferior del menú.",
-    "body3": "Los números de cuenta comienzan con 0x, contienen solo números y letras y tienen 42 caracteres. Haz click en el siguiente enlace para obtener ayuda"
+    "header": "Localizando la Dirección de cuenta",
+    "body1": "Las direcciones de la cuenta se encuentran en el menú. Desde la pantalla de inicio, abre el menú tocando el icono en la esquina superior izquierda.",
+    "body2": "La Dirección de cuenta está cerca de la parte inferior del menú.",
+    "body3": "Las direcciones de cuenta comienzan con 0x y tienen 42 caracteres."
   },
-  "transferAddressChanged": "Este contacto cambió su dirección de cuenta desde la transacción. Este pago fue enviado a:",
+  "transferAddressChanged": "Este contacto cambió su Dirección de cuenta desde la última transacción. Este pago fue enviado a:",
   "addressConfirmed": "Dirección de cuenta confirmada",
   "sending": "Enviando",
-  "feeActual": "Tarifas",
-  "feeEstimate": "Tarifas estimadas",
+  "feeActual": "Tasas",
+  "feeEstimate": "Tasas estimadas",
   "encryption": {
-    "warningLabel": "Este comentario no será encriptado",
-    "warningModalHeader": "Sobre Cifrado",
-    "warningModalBody": "El cifrado garantiza que tus comentarios se mantengan privados. {{appName}} utiliza el cifrado en los comentarios de transacciones cuando el remitente y el receptor tienen esta función configurada. La configuración normalmente se realizará automáticamente una vez que un usuario envíe tuprimera transacción.",
-    "feeLabel": "Tarifa de Cifrado Unica",
+    "warningLabel": "Este comentario no tendrá cifrado",
+    "warningModalHeader": "Sobre el cifrado",
+    "warningModalBody": "El cifrado garantiza que tus comentarios se mantengan privados. {{appName}} utiliza el cifrado en los comentarios de transacciones cuando el remitente y el receptor tienen esta función configurada. Normalmente, esta configuración se activa de forma automática cuando el usuario envía su primera transacción.",
+    "feeLabel": "Tasa de cifrado única",
     "feeModalHeader": "Tarifa de Cifrado Unica",
     "feeModalBody": "El cifrado ayuda a mantener la privacidad de tus datos confidenciales. Se agrega una pequeña tarifa única a tu primera transacción para configurar el cifrado. Esto garantiza que tus comentarios se envíen de forma segura y privada."
   },
