@@ -31,7 +31,7 @@
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
-    "title": "Sacar da {{appName}}",
+    "title": "Sacar fundos da {{appName}}",
     "body": "A {{appName}} é alimentada pela Rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano.\n\nPara sacar seu saldo da {{appName}}, venda cUSD com um dos fornecedores disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
     "dismiss": "OK"
   },
