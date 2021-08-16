@@ -5,6 +5,6 @@
   "celoWallet": "{{appName}}",
   "at": "a las",
   "receivedDollars": "Celo Dólares recibidos",
-  "verificationMessage": "Pagaste la tasa de confirmación. ¡Te damos la bienvenida a {{appName}}!",
+  "verificationMessage": "Pagaste la tarifa de confirmación. ¡Te damos la bienvenida a {{appName}}!",
   "receivedAmountFromCelo": "¡Recibiste esta cantidad!"
 }
