@@ -115,10 +115,10 @@
   "transactionHeaderInviteReceived": "$t(inviteFlow11:inviteReceived)",
   "transactionHeaderSent": "Pago enviado",
   "transactionHeaderWithdrewCelo": "Transferencia de CELO",
-  "transactionHeaderEscrowSent": "Pago de garantía enviado",
+  "transactionHeaderEscrowSent": "Pago de depósito enviado",
   "transactionHeaderReceived": "Pago recibido",
   "transactionHeaderCeloDeposit": "Depósito recibido",
   "transactionHeaderCeloReward": "Recompensa recibida",
-  "transactionHeaderEscrowReceived": "Pago de garantía recibido",
+  "transactionHeaderEscrowReceived": "Pago de depósito recibido",
   "feedSectionHeaderRecent": "Recientes"
 }
