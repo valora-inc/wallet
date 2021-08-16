@@ -11,32 +11,32 @@
     "heading2": "Activos Celo y cuenta de {{appName}}",
     "info": "Para poder usar nuestros servicios, lee nuestro <0>Acuerdo de condiciones de uso</0> y toca el botón Aceptar para indicar que estás de acuerdo.",
     "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se almacenará una copia del resultado de una función hash en la Red Celo.",
-    "goldDisclaimer": "Cuando creas una 'cuenta' con {{appName}}, estás creando una billetera digital para la que solo tu tienes las claves. Ninguna otra persona o entidad, ni cLabs, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO y cUSD son parte de una nueva clase de activos y presentan un riesgo de pérdidas financieras. Considera cuidadosamente tus circunstancias financieras y tu tolerancia al riesgo financiero antes de comprar. Sólo puedes enviar hasta {{dailyLimitCUSD}} cUSD por día a través de {{appName}} (el “Límite Diario”). Debes ponerte en contacto con support@cLabs.co y proporcionar información personal adicional para solicitar un aumento a este límite diario. Puede llegar a haber un retraso en llevar a cabo la conformidad requerida."
+    "goldDisclaimer": "Cuando creas una 'cuenta' de {{appName}}, estás creando una billetera digital para la que solo tu tienes las claves. Ninguna otra persona o entidad, ni Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO y cUSD son parte de una nueva clase de activos y suponen un riesgo de pérdida financiera. Considera cuidadosamente tus circunstancias financieras y tu tolerancia al riesgo financiero antes de comprar. Solo puedes enviar hasta {{dailyLimitCUSD}} cUSD por día a través de {{appName}} (“Límite diario”). Si deseas solicitar un aumento a este límite diario, deberás ponerte en contacto con support@valoraapp.com y proporcionar información personal adicional. Puede llegar a haber un retraso en llevar a cabo la conformidad requerida."
   },
   "fullName": "Nombre completo",
-  "fullNamePlaceholder": "Nombre Apellido",
-  "importIt": "Restaurar tu monedero existente",
+  "fullNamePlaceholder": "Nombre y apellido",
+  "importIt": "Restaurar cuenta existente",
   "cancel": "Cancelar",
   "important": "Importante",
   "createPin": {
-    "title": "Crear un PIN de 6 dígitos",
+    "title": "Crea un PIN de 6 dígitos",
     "yourPin": "Tu PIN"
   },
   "verifyPin": {
-    "title": "Repetir el PIN"
+    "title": "Repite el PIN"
   },
   "confirmPin": {
     "title": "Ingresa tu PIN"
   },
-  "goToSystemSecuritySettingsActionLabel": "Vaya a seguridad",
+  "goToSystemSecuritySettingsActionLabel": "Dirígete a Seguridad",
   "enableSystemScreenLockFailedMessage": "Error al intentar habilitar el bloqueo de pantalla",
   "initKeystoreFailureMessage": "Error al recuperar la clave",
   "pinLostForeverMessage": "Eliminaste el bloqueo de pantalla, el PIN se perdió",
   "importContactsPermission": {
     "title": "Importar contactos",
-    "0": "Conectar tu lista de contactos facilita el envío y la solicitud de pagos con tus amigos. De lo contrario, deberás ingresar tu información individualmente.",
-    "1": "No te preocupes: la conexión no envía invitaciones a tus contactos.",
+    "0": "Conectar tu lista de contactos facilita el envío y la solicitud de pagos a tus amigos. Si no deseas conectar tus contactos, deberás ingresar su información manualmente.",
+    "1": "No te preocupes: no enviaremos invitaciones a tus contactos sin que nos lo pidas.",
     "enable": "Habilitar acceso a contactos",
-    "loading": "Encontrar amigos usando {{appName}}..."
+    "loading": "Encontrar amigos en {{appName}}..."
   }
 }
