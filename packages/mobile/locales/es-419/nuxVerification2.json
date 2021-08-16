@@ -3,28 +3,28 @@
   "notReadyForCode": "Aún no estoy listo para ingresar el código",
   "emptyVerificationCode": "No encontramos el código en el portapapeles",
   "invalidVerificationCode": "Código de confirmación inválido",
-  "repeatVerificationCode": "Código de confirmación repetido",
+  "repeatVerificationCode": "Código de conexión repetido",
   "revealAttestationFailure": "Error al solicitar mensaje SMS",
-  "verificationFailure": "Error de confirmación",
+  "verificationFailure": "Error de conexión",
   "cantVerifyRevokedAccount": "Esta cuenta ha sido revocada anteriormente. Crea una nueva cuenta nueva y vuelve a intentarlo.",
-  "verificationTimeout": "El tiempo de confirmación ha expirado",
+  "verificationTimeout": "El tiempo de conexión ha expirado",
   "errorRequestCode": "Error al solicitar los códigos",
   "errorRedeemingCode": "Error al canjear el código",
-  "pleaseRetry": "Por favor, reinicia la confirmación",
+  "pleaseRetry": "Por favor, reinicia la conexión.",
   "retryVerification": "Reintentar",
   "education": {
-    "header": "Confirmar teléfono",
+    "header": "Conecta tu teléfono",
     "body1": "Ahora, conecta tu número de teléfono.",
     "body2": "Esto facilita el envío y la recepción de fondos entre amigos. Puedes omitir este paso ahora y hacerlo después.",
-    "learnMore": "Más información sobre la conección del número telefónico",
+    "learnMore": "Más información sobre la conexión del número de teléfono",
     "start": "Comenzar la conexión",
     "skip": "Omitir por ahora"
   },
   "learnMore": {
     "header": "Conexión de número de teléfono",
-    "intro": "La conexión del número de teléfono consiste en asociar tu cuenta de {{appName}} con tu celular.",
+    "intro": "La conexión del número de teléfono consiste en asociar tu cuenta de {{appName}} a tu número de teléfono.",
     "section1Header": "¿Tengo que completar este paso?",
-    "section1Body": "La conexión no es obligatoria.  Sin embargo, solo podrás enviar y recibir fondos con códigos QR o direcciones, en vez de con números de teléfono.",
+    "section1Body": "La conexión no es obligatoria. Sin embargo, solo podrás enviar y recibir fondos con códigos QR o direcciones, en vez de con números de teléfono, si no la haces.",
     "section2Header": "Seguridad y privacidad",
     "section2Body": "Para proteger tu privacidad, solo se guarda una versión oculta de tu número de teléfono en la cadena de bloques de Celo."
   },
@@ -33,7 +33,7 @@
     "pleaseKeepAppOpen": "No cierres la app",
     "learnMore": "Más información",
     "card1": "Para asegurarnos de que tu número sea realmente tuyo, te enviaremos tres mensajes de texto.",
-    "card2": "Una vez que se confirme tu número, podrás enviar y recibir fondos fácilmente a tu número de teléfono.",
+    "card2": "Una vez que se conecte tu número, podrás enviar y recibir fondos fácilmente a tu número de teléfono.",
     "card3": "Conectar tu número de teléfono también te permite ver quiénes de tus amigos están en {{appName}}.",
     "card4": "Requerimos tres mensajes de confirmación para mantener tu cuenta más segura."
   },
@@ -44,9 +44,9 @@
   },
   "failModal": {
     "header": "Error de conexión",
-    "body1": "Se produjo un problema al confirmar tu número de teléfono.",
+    "body1": "Se produjo un problema al conectar tu número de teléfono.",
     "body2": "Puedes saltar la conexión y volver a intentarlo más tarde.",
-    "body1InsufficientBalance": "Tu saldo actual no es lo suficientemente alto para completar el proceso de confirmación.",
+    "body1InsufficientBalance": "Tu saldo actual no es lo suficientemente alto para completar el proceso de conexión.",
     "body2InsufficientBalance": "Agrega fondos a tu cuenta e inténtalo nuevamente.",
     "body1SaltQuotaExceeded": "Llegaste al límite de búsqueda de números de teléfono.",
     "body2SaltQuotaExceeded": "Compra más búsquedas e inténtalo nuevamente.",
@@ -54,7 +54,7 @@
     "enterCodesButton": "Ingresar códigos"
   },
   "retryWithFornoModal": {
-    "header": "¿Volver a intentar la confirmación con Ahorro de datos?",
+    "header": "¿Volver a intentar la conexión con Ahorro de datos?",
     "body1": "Se ha producido un problema al intentar conectar tu número de teléfono. Te recomendamos volver a intentarlo con el modo Ahorro de datos habilitado.",
     "body2": "El modo de Ahorro de datos te permite comunicarte con la Red Celo de manera más consistente a través de una conexión confiable.",
     "retryButton": "Reintentar con Ahorro de datos"
@@ -62,7 +62,7 @@
   "congratsVerified": "¡Felicitaciones! Ya eres un usuario confirmado.",
   "notification": {
     "body": "Recibe pagos directamente a tu número de teléfono",
-    "cta": "Confirmar ahora"
+    "cta": "Conectar"
   },
   "quotaLookup": {
     "title": "Límite de búsqueda excedido",
