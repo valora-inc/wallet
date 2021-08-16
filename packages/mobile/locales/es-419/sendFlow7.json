@@ -23,10 +23,10 @@
   "commentLabel": "Mensaje",
   "amountSent": "Monto enviado",
   "amountCeloWithdrawn": "Monto (CELO)",
-  "fee": "Tasa",
-  "securityFee": "Tasa de seguridad",
-  "inviteFee": "Tasa de invitación",
-  "feeEducation": "Se te cobrará una pequeña tasa de seguridad y mantenimiento para enviar pagos y hacer cambios.",
+  "fee": "Tarifa",
+  "securityFee": "Tarifa de seguridad",
+  "inviteFee": "Tarifa de invitación",
+  "feeEducation": "Se te cobrará una pequeña tarifa de seguridad y mantenimiento para enviar pagos y hacer cambios.",
   "learnMore": "Más información",
   "inviteMoneyEscrow": "Invitaremos a este contacto y mantendremos seguros tus fondos hasta que confirme su cuenta.",
   "reviewPayment": "Revisar pago",
@@ -71,7 +71,7 @@
   "loadingVerificationStatus": "Comprobando la confirmación del destinatario",
   "askForContactsPermissionAction": "Acceder a mis contactos",
   "newAccountBalance": "Nuevo saldo de cuenta: ",
-  "estimatingFee": "Estimando tasa ",
+  "estimatingFee": "Estimando tarifa ",
   "estimatedFee": "Tasa estimada: ",
   "selectBalance": "Seleccionar saldo",
   "stableBalance": "Saldo en {{token}}",
@@ -121,19 +121,19 @@
   "transferAddressChanged": "Este contacto cambió su Dirección de cuenta desde la última transacción. Este pago fue enviado a:",
   "addressConfirmed": "Dirección de cuenta confirmada",
   "sending": "Enviando",
-  "feeActual": "Tasas",
-  "feeEstimate": "Tasas estimadas",
+  "feeActual": "Tarifas",
+  "feeEstimate": "Tarifas estimadas",
   "encryption": {
     "warningLabel": "Este comentario no tendrá cifrado",
     "warningModalHeader": "Sobre el cifrado",
     "warningModalBody": "El cifrado garantiza que tus comentarios se mantengan privados. {{appName}} utiliza el cifrado en los comentarios de transacciones cuando el remitente y el receptor tienen esta función configurada. Normalmente, esta configuración se activa de forma automática cuando el usuario envía su primera transacción.",
-    "feeLabel": "Tasa de cifrado única",
-    "feeModalHeader": "Tarifa de Cifrado Unica",
-    "feeModalBody": "El cifrado ayuda a mantener la privacidad de tus datos confidenciales. Se agrega una pequeña tarifa única a tu primera transacción para configurar el cifrado. Esto garantiza que tus comentarios se envíen de forma segura y privada."
+    "feeLabel": "Tarifa de cifrado única",
+    "feeModalHeader": "Tarifa de cifrado única",
+    "feeModalBody": "El cifrado ayuda a mantener la privacidad de tus datos confidenciales. Se agregará una pequeña tasa a tu primera transacción únicamente para configurar el cifrado. Esto garantiza que tus comentarios se envíen de forma segura y privada."
   },
   "sendToAddressWarning": {
     "title": "Enviar a una dirección",
-    "body": "Asegúrate de que la dirección sea compatible con cUSD. Es posible que no puedas recuperar fondos enviados a direcciones no válidas.\n\nTambién puedes hacer un pequeño pago de prueba primero.",
+    "body": "Asegúrate de que la dirección sea compatible con cUSD. Es posible que no puedas recuperar los fondos enviados a direcciones no válidas.\n\nTambién puedes hacer un pequeño pago de prueba primero.",
     "toggle": "Preguntar cada vez"
   }
 }
