@@ -21,53 +21,53 @@
     "skip": "Omitir por ahora"
   },
   "learnMore": {
-    "header": "Confirmación del celular",
-    "intro": "La confirmación del número telefónico consiste en asociar tu billetera de Celo con tu celular.",
+    "header": "Conexión de número de teléfono",
+    "intro": "La conexión del número de teléfono consiste en asociar tu cuenta de {{appName}} con tu celular.",
     "section1Header": "¿Tengo que completar este paso?",
-    "section1Body": "La confirmación no es obligatoria.  Sin confirmar, solo es posible enviar y recibir valor utilizando códigos QR o direcciones.",
+    "section1Body": "La conexión no es obligatoria.  Sin embargo, solo podrás enviar y recibir fondos con códigos QR o direcciones, en vez de con números de teléfono.",
     "section2Header": "Seguridad y privacidad",
-    "section2Body": "Para proteger tu privacidad, solo se guarda una versión oculta de tu celular en la cadena de bloques de Celo."
+    "section2Body": "Para proteger tu privacidad, solo se guarda una versión oculta de tu número de teléfono en la cadena de bloques de Celo."
   },
   "loading": {
     "confirming": "Confirmando…",
-    "pleaseKeepAppOpen": "Mantén la aplicación abierta",
-    "learnMore": "Conoce más",
+    "pleaseKeepAppOpen": "No cierres la app",
+    "learnMore": "Más información",
     "card1": "Para asegurarnos de que tu número sea realmente tuyo, te enviaremos tres mensajes de texto.",
     "card2": "Una vez que se confirme tu número, podrás enviar y recibir fondos fácilmente a tu número de teléfono.",
-    "card3": "Confirmar también te permite ver cuáles de tus amigos están en {{appName}}.",
+    "card3": "Conectar tu número de teléfono también te permite ver quiénes de tus amigos están en {{appName}}.",
     "card4": "Requerimos tres mensajes de confirmación para mantener tu cuenta más segura."
   },
   "skipModal": {
-    "header": "¿Omitir la confirmación?",
-    "body1": "La confirmación permite que otras personas te envíen valor a tu número telefónico.",
-    "body2": "Sin confirmación, todavía puede enviar pagos, pero sólo utilizando direcciones de cuenta o códigos QR."
+    "header": "¿Omitir la conexión?",
+    "body1": "La conexión permite que otras personas envíen fondos a tu número de teléfono.",
+    "body2": "Sin esta conexión, podrás enviar pagos, pero solo utilizando direcciones de cuenta o códigos QR."
   },
   "failModal": {
-    "header": "Error de confirmación",
+    "header": "Error de conexión",
     "body1": "Se produjo un problema al confirmar tu número de teléfono.",
-    "body2": "Puede saltar la confirmación y volver a intentarlo más tarde.",
+    "body2": "Puedes saltar la conexión y volver a intentarlo más tarde.",
     "body1InsufficientBalance": "Tu saldo actual no es lo suficientemente alto para completar el proceso de confirmación.",
-    "body2InsufficientBalance": "Intenta nuevamente cuando hayas agregado fondos a tu app.",
-    "body1SaltQuotaExceeded": "Tu cuota de búsqueda de número de teléfono está agotada",
-    "body2SaltQuotaExceeded": "Intente nuevamente cuando haya comprado más búsquedas",
-    "enterCodesBody": "Si ya recibió tres códigos por SMS, aún puede ingresarlos.",
+    "body2InsufficientBalance": "Agrega fondos a tu cuenta e inténtalo nuevamente.",
+    "body1SaltQuotaExceeded": "Llegaste al límite de búsqueda de números de teléfono.",
+    "body2SaltQuotaExceeded": "Compra más búsquedas e inténtalo nuevamente.",
+    "enterCodesBody": "Si ya recibiste tres códigos por SMS, aún puedes ingresarlos.",
     "enterCodesButton": "Ingresar códigos"
   },
   "retryWithFornoModal": {
-    "header": "¿Volver a intentar la confirmación con Ahorro de Datos?",
-    "body1": "Se ha producido un problema al confirmar tu número de teléfono. Recomendamos volver a intentarlo con el modo Ahorro de Datos habilitado",
-    "body2": "Ahorro de Datos le permite comunicarse en la red de Celo de manera más consistente utilizando una conexión confiable",
-    "retryButton": "Reintentar con Ahorro de Datos"
+    "header": "¿Volver a intentar la confirmación con Ahorro de datos?",
+    "body1": "Se ha producido un problema al intentar conectar tu número de teléfono. Te recomendamos volver a intentarlo con el modo Ahorro de datos habilitado.",
+    "body2": "El modo de Ahorro de datos te permite comunicarte con la Red Celo de manera más consistente a través de una conexión confiable.",
+    "retryButton": "Reintentar con Ahorro de datos"
   },
-  "congratsVerified": "¡Felicitaciones se ha confirmado tu usuario!",
+  "congratsVerified": "¡Felicitaciones! Ya eres un usuario confirmado.",
   "notification": {
     "body": "Recibe pagos directamente a tu número de teléfono",
-    "cta": "Confirma Ahora"
+    "cta": "Confirmar ahora"
   },
   "quotaLookup": {
-    "title": "Cuota de búsqueda excedida",
+    "title": "Límite de búsqueda excedido",
     "body1": "Para mantener tu número de teléfono seguro y privado, {{appName}} limita cuántos números de teléfono pueden buscar los usuarios.",
-    "body2": "Puede comprar más búsquedas por una pequeña tarifa.",
+    "body2": "Puedes comprar más búsquedas por una pequeña tarifa.",
     "cta": "Comprar búsquedas (2)"
   }
 }
