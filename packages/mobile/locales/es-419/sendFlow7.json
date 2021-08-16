@@ -72,7 +72,7 @@
   "askForContactsPermissionAction": "Acceder a mis contactos",
   "newAccountBalance": "Nuevo saldo de cuenta: ",
   "estimatingFee": "Estimando tarifa ",
-  "estimatedFee": "Tasa estimada: ",
+  "estimatedFee": "Tarifa estimada: ",
   "selectBalance": "Seleccionar saldo",
   "stableBalance": "Saldo en {{token}}",
   "verificationCta": {
@@ -129,7 +129,7 @@
     "warningModalBody": "El cifrado garantiza que tus comentarios se mantengan privados. {{appName}} utiliza el cifrado en los comentarios de transacciones cuando el remitente y el receptor tienen esta función configurada. Normalmente, esta configuración se activa de forma automática cuando el usuario envía su primera transacción.",
     "feeLabel": "Tarifa de cifrado única",
     "feeModalHeader": "Tarifa de cifrado única",
-    "feeModalBody": "El cifrado ayuda a mantener la privacidad de tus datos confidenciales. Se agregará una pequeña tasa a tu primera transacción únicamente para configurar el cifrado. Esto garantiza que tus comentarios se envíen de forma segura y privada."
+    "feeModalBody": "El cifrado ayuda a mantener la privacidad de tus datos confidenciales. Se agregará una pequeña tarifa a tu primera transacción únicamente para configurar el cifrado. Esto garantiza que tus comentarios se envíen de forma segura y privada. "
   },
   "sendToAddressWarning": {
     "title": "Enviar a una dirección",
