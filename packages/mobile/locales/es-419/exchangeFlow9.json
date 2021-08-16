@@ -49,7 +49,7 @@
   "maxSymbol": "Max",
   "withdrawCeloReview": "Revisar",
   "withdrawCeloTo": "Transferir a",
-  "withdrawCeloAmount": "Cantidad (CELO)",
+  "withdrawCeloAmount": "Monto (CELO)",
   "withdrawScanQrTitle": "Escanear",
-  "tokenBalance": "Saldo {{token}}"
+  "tokenBalance": "Saldo en {{token}}"
 }
