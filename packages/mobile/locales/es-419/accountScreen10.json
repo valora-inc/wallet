@@ -16,7 +16,7 @@
   "analytics": "Estadísticas de uso",
   "shareAnalytics": "Compartir estadísticas de uso",
   "shareAnalytics_detail": "Recopilamos datos anónimos sobre cómo utilizas {{appName}} para mejorar la aplicación para todos.",
-  "dataSaver": "Ahorro de datos",
+  "dataSaver": "Ahorrar datos",
   "enableDataSaver": "Ahorrar datos",
   "dataSaverDetail": "El modo de Ahorro de datos te permite comunicarte con la Red Celo a través de un nodo confiable. Puedes cambiar este modo cuantas veces quieras desde Configuración.",
   "restartModalSwitchOff": {
@@ -31,28 +31,28 @@
     "switchToDataSaver": "Habilitar la opción Ahorrar datos"
   },
   "accountKeyModal": {
-    "header": "Sin tu Clave de Cuenta perderás acceso a tu dinero para siempre",
-    "body1": "Para reinicializar Valora, deberás confirmar que has anotado tu Clave de Cuenta.",
+    "header": "Sin tu Clave de cuenta, no podrás acceder a tus fondos.",
+    "body1": "Para restablecer Valora, deberás confirmar que has anotado tu Clave de cuenta.",
     "body2": "Nadie, ni siquiera Valora, podrá recuperar tu cuenta sin tu clave."
   },
   "promptConfirmRemovalModal": {
-    "header": "¿Estás seguro que quieres reinicializar Valora?",
-    "body": "Ya no podrás acceder a tu dinero ni a tu Clave de Cuenta desde este dispositivo. No hay forma de recuperar tu Clave de Cuenta si no la has guardado.",
-    "resetNow": "Reinicializar Ahora"
+    "header": "¿Estás seguro que quieres restablecer Valora?",
+    "body": "No podrás acceder a tus fondos o Clave de cuenta desde este dispositivo, y solo podrás recuperar tu Clave de cuenta si la tienes guardada o anotada en un lugar seguro.",
+    "resetNow": "Restablecer"
   },
   "promptConfirmRevokeModal": {
     "header": "¿Estás seguro de que quieres revocar tu cuenta de Valora?",
-    "body": "Una vez revocada, esta cuenta no podrá volver a confirmar. Revoque solo si está seguro de que nunca volverá a necesitar esta cuenta.",
+    "body": "Una vez revocada, no será posible volver a confirmar esta cuenta. Revócala solo si tienes la seguridad de que nunca volverás a necesitar esta cuenta.",
     "revoke": "Revocar"
   },
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
-  "termsOfServiceLink": "Condiciones de Servicio",
+  "termsOfServiceLink": "Condiciones de uso",
   "editProfile": "Editar perfil",
-  "confirmNumber": "Confirmar número telefónico",
+  "confirmNumber": "Conectar número de teléfono",
   "cancel": "Cancelar",
-  "changeProfilePhoto": "Cambiar la foto de perfil",
-  "name": "Nombre y apellido",
-  "editName": "Editar el nombre",
+  "changeProfilePhoto": "Cambia tu foto de perfil",
+  "name": "Nombre",
+  "editName": "Edita tu nombre",
   "submit": "Enviar",
   "selectLanguage": "Selecciona el idioma",
   "selectCurrency": "Selecciona una moneda",
