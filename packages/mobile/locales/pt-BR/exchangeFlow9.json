@@ -9,7 +9,7 @@
   "exchange": "Câmbio",
   "buy": "Comprar",
   "sell": "Vender",
-  "withdrawCelo": "Sacar CELO",
+  "withdrawCelo": "Transferir CELO",
   "buyGold": "Comprar CELO",
   "sellGold": "Vender CELO",
   "exchangeAmount": "Quantia ({{tokenName}})",
@@ -48,7 +48,7 @@
   "celoAmountLabel": "Quantia (CELO)",
   "maxSymbol": "Máx.",
   "withdrawCeloReview": "Revisar",
-  "withdrawCeloTo": "Sacar para",
+  "withdrawCeloTo": "Transferir para",
   "withdrawCeloAmount": "Quantia (CELO)",
   "withdrawScanQrTitle": "Escanear",
   "tokenBalance": "Saldo de {{token}}"
