@@ -63,19 +63,19 @@
   "otherFundingOptions": "Para conocer más formas de agregar y retirar fondos, consulta <0>¿Cómo puedo agregar fondos a mi cuenta de Valora?</0>",
   "youCanTransfer": "Puedes transferir {{currency}} con los siguientes exchanges de criptomonedas. Necesitarás tu Dirección de cuenta.",
   "useBalanceWithMerchants": "Usa tu saldo para pagar en comercios asociados",
-  "findMerchants": "Encuentra comercios asociados cerca de ti",
+  "findMerchants": "Encuentra comercios asociados cerca tuyo",
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
   "providerUnavailable": "No disponible actualmente",
   "pricePer": "Precio por {{coin}}",
-  "feeDiscount": "Descuento de comisión",
+  "feeDiscount": "Descuento de tasa",
   "free": "GRATIS",
   "continueToProvider": "Continuar a {{provider}}",
   "cicoSuccess": {
-    "title": "¡Orden enviada!",
+    "title": "Orden enviada",
     "bodyWithProvider": "{{provider}} está procesando tu orden. Recibirás tus fondos en un par de días.",
     "bodyWithoutProvider": "El proveedor de servicios está procesando tu orden. Recibirás tus fondos dentro de un par de días."
   },
   "restrictedRegion": "Soporte limitado en la región",
-  "unsupportedPaymentMethod": "Pagar con {{paymentMethod}} no es compatible en tu región"
+  "unsupportedPaymentMethod": "No es posible pagar con {{paymentMethod}} en tu región."
 }
