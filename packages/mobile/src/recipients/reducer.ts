@@ -13,12 +13,14 @@ export interface State {
   // and includes CIP8 profile data if available
   valoraRecipientCache: AddressToRecipient
   rewardsSenders: string[]
+  inviteRewardsSenders: string[]
 }
 
 const initialState: State = {
   phoneRecipientCache: {},
   valoraRecipientCache: {},
   rewardsSenders: [],
+  inviteRewardsSenders: [],
 }
 
 const rehydrate = createAction<any>(REHYDRATE)
@@ -29,6 +31,9 @@ export const updateValoraRecipientCache = createAction<AddressToRecipient>(
   'RECIPIENTS/SET_VALORA_RECIPIENT_CACHE'
 )
 export const rewardsSendersFetched = createAction<string[]>('RECIPIENTS/REWARDS_SENDERS_FETCHED')
+export const inviteRewardsSendersFetched = createAction<string[]>(
+  'RECIPIENTS/INVITE_REWARDS_SENDERS_FETCHED'
+)
 
 export const recipientsReducer = createReducer(initialState, (builder) => {
   builder
@@ -54,6 +59,10 @@ export const recipientsReducer = createReducer(initialState, (builder) => {
       ...state,
       rewardsSenders: action.payload,
     }))
+    .addCase(inviteRewardsSendersFetched, (state, action) => ({
+      ...state,
+      inviteRewardsSenders: action.payload,
+    }))
 })
 
 export const phoneRecipientCacheSelector = (state: RootState) =>
@@ -61,6 +70,8 @@ export const phoneRecipientCacheSelector = (state: RootState) =>
 export const valoraRecipientCacheSelector = (state: RootState) =>
   state.recipients.valoraRecipientCache
 export const rewardsSendersSelector = (state: RootState) => state.recipients.rewardsSenders
+export const inviteRewardsSendersSelector = (state: RootState) =>
+  state.recipients.inviteRewardsSenders
 
 export const recipientInfoSelector = (state: RootState) => {
   return {
