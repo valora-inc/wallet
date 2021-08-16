@@ -21,14 +21,14 @@
   "wallet": "Conta",
   "send": "Enviar",
   "search": "Pesquisar",
-  "namePhoneAddress": "Nome, telefone ou endereço",
+  "namePhoneAddress": "Nome, celular ou endereço",
   "payments": "Pagamentos",
   "exchange": "Exchange",
   "learnMore": "Saiba mais",
   "activity": "Atividades",
   "history": "Histórico",
   "earnRewards": "Ganhe recompensas",
-  "notEnoughStableError": "{{token}} insuficiente para fazer a troca",
+  "notEnoughStableError": "{{token}} insuficientes para fazer a troca",
   "notEnoughGoldError": "CELO insuficiente para fazer o câmbio",
   "exchangeFailed": "O câmbio falhou, tente novamente",
   "transactionFailed": "A transação falhou, tente novamente",
@@ -201,5 +201,5 @@
   "cashOutLimitExceeded": "Você não pode sacar mais do que o seu saldo de {{currency}} {{balance}}",
   "appDescription": "Uma conta de pagamentos móveis que funciona em todo o mundo",
   "earn": "Ganhar",
-  "free": "Gratuito"
+  "free": "Grátis"
 }
