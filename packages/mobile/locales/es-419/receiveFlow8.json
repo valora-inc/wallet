@@ -1,10 +1,10 @@
 {
   "receivedPayment": "Pago recibido",
-  "receivedEscrowPayment": "Pago de fideicomiso recibido",
+  "receivedEscrowPayment": "Pago de garantía recibido",
   "from": "de",
   "celoWallet": "{{appName}}",
   "at": "a las",
-  "receivedDollars": "Celo Dólares Recibidos",
-  "verificationMessage": "La tasa de confirmación fue pagada. ¡Bienvenido a {{appName}}!",
-  "receivedAmountFromCelo": "¡Recibiste esta cantidad de Faucet!"
+  "receivedDollars": "Celo Dólares recibidos",
+  "verificationMessage": "Pagaste la tasa de confirmación. ¡Te damos la bienvenida a {{appName}}!",
+  "receivedAmountFromCelo": "¡Recibiste esta cantidad!"
 }
