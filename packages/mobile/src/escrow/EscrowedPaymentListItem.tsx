@@ -78,7 +78,7 @@ function EscrowedPaymentListItem({ payment }: Props) {
     <View style={styles.container}>
       <RequestMessagingCard
         title={t('escrowPaymentNotificationTitle', { mobile: nameToShow })}
-        amount={<CurrencyDisplay amount={amount} />}
+        amount={<CurrencyDisplay amount={amount} testID="EscrowedPaymentListItem/amount" />}
         details={payment.message}
         icon={<ContactCircle recipient={recipient} />}
         callToActions={getCTA()}
