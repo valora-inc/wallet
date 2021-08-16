@@ -72,6 +72,10 @@ export const valoraRecipientCacheSelector = (state: RootState) =>
 export const rewardsSendersSelector = (state: RootState) => state.recipients.rewardsSenders
 export const inviteRewardsSendersSelector = (state: RootState) =>
   state.recipients.inviteRewardsSenders
+export const allRewardsSendersSelector = (state: RootState) => [
+  ...state.recipients.rewardsSenders,
+  ...state.recipients.inviteRewardsSenders,
+]
 
 export const recipientInfoSelector = (state: RootState) => {
   return {
