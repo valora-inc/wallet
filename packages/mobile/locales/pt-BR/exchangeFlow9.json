@@ -44,7 +44,7 @@
   "exchangeRateInfo": "As negociações são estimativas flutuantes",
   "rateInfoTitle": "Taxa de câmbio flutuante",
   "rateInfoBody": "Sua quantia pode mudar dependendo das condições de mercado. Sua quantia final não será desviada mais do que 1% além da estimativa.",
-  "accountAddressLabel": "Número da conta ou endereço",
+  "accountAddressLabel": "Endereço de Conta",
   "celoAmountLabel": "Quantia (CELO)",
   "maxSymbol": "Máx.",
   "withdrawCeloReview": "Revisar",
