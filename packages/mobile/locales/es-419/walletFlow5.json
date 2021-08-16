@@ -32,8 +32,8 @@
   "welcomeToCeloPayments": "Te damos la bienvenida a {{appName}}",
   "letsGetStartedByFirstTransaction": "Empezemos enviando tu primera transacción",
   "sendMoney": "Enviar dinero",
-  "verificationFee": "Tasa de confirmación",
-  "networkFee": "Tasa de red",
+  "verificationFee": "Tarifa de confirmación",
+  "networkFee": "Tarifa de red",
   "networkFeeExplanation": {
     "0": "Cada semana, se utiliza una tarifa muy pequeña (menos del 0,01%) del saldo en Celo Dólares de cada usuario para mantener el valor del Celo Dólar estable. Para obtener más información sobre las tarifas de Celo, consulta ",
     "1": "nuestras preguntas frecuentes."
@@ -74,7 +74,7 @@
   "feedItemVerificationFeeTitle": "Celo",
   "feedItemVerificationFeeInfo": "$t(verificationFee)",
   "feedItemNetworkFeeTitle": "Celo",
-  "feedItemNetworkFeeInfo": "Tasa de red",
+  "feedItemNetworkFeeInfo": "Tarifa de red",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Recompensa de confirmador",
   "feedItemFaucetTitle": "Celo",
