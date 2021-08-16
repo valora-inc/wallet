@@ -50,12 +50,12 @@
     "continue": "Entiendo"
   },
   "providerFeesDialog": {
-    "title": "Tasas de proveedores",
-    "body1": "Las tasas de proveedores son fijadas por cada proveedor de forma individual e incluyen una tasa de cambio y una tasa de liquidez, entre otras. Para obtener más información, visita ",
+    "title": "Tarifas de proveedores",
+    "body1": "Cada proveedor fija sus tarifas de forma individual, y estas incluyen una tasa de cambio y una tasa de liquidez, entre otras. Para obtener más información, visita ",
     "body2": "la web de {{providerName}}."
   },
   "providerFeeDiscountDialog": {
-    "title": "Descuento de tasa",
+    "title": "Descuento de tarifa",
     "body": "Como promoción, las tarifas están temporalmente subvencionadas para celebrar el lanzamiento de Valora."
   },
   "dailyLimitRequest": "¡Hola! Me gustaría aumentar mi límite de envío diario.",
@@ -68,7 +68,7 @@
   "cUsdDeposit": "Compra de cUSD",
   "providerUnavailable": "No disponible actualmente",
   "pricePer": "Precio por {{coin}}",
-  "feeDiscount": "Descuento de tasa",
+  "feeDiscount": "Descuento de tarifa",
   "free": "GRATIS",
   "continueToProvider": "Continuar a {{provider}}",
   "cicoSuccess": {
