@@ -48,25 +48,25 @@
   "verificationEducation": {
     "title": "Número de Teléfono",
     "header": "Conecta tu número de teléfono",
-    "body": "Para asegurarnos de que tu número sea realmente tuyo, te enviaremos tres mensajes de texto que costarán alrededor de 0.05 cUSD cada uno.\n\nConfirmar tu número tomará unos tres minutos.",
-    "feelessBody": "Confirmar tu número tomará unos tres minutos. Para confirmar tu número, recibirás tres mensajes.",
+    "body": "Para asegurarnos de que tu número sea realmente tuyo, te enviaremos tres mensajes de texto que costarán alrededor de 0,05 cUSD cada uno.\n\nConectar tu número tomará unos tres minutos.",
+    "feelessBody": "Conectar tu número tomará unos tres minutos. Para confirmar que el número ingresado es tu número, recibirás tres mensajes.",
     "start": "Comenzar",
     "resume": "Reanudar",
-    "doINeedToConfirm": "¿Necesito confirmar?",
+    "doINeedToConfirm": "¿Necesito confirmar mi cuenta?",
     "skipForNow": "Saltar por ahora",
     "bodyInsufficientBalance": "Tu saldo actual no es lo suficientemente alto para completar el proceso de confirmación.\n\nIntenta nuevamente cuando hayas agregado fondos a tu app.",
     "bodyAlreadyVerified": "¡Tu número ya está confirmado!"
   },
   "verificationSkipDialog": {
     "title": "Estas seguro",
-    "body": "Confirmar te permite enviar y recibir fondos fácilmente a tu número de teléfono.\n\nLas cuentas no confirmadas solo pueden enviar pagos utilizando direcciones de Celo o códigos QR.",
+    "body": "Confirmar tu cuenta te permite enviar y recibir fondos fácilmente a tu número de teléfono.\n\nLas cuentas no confirmadas solo pueden enviar pagos con direcciones de cuenta Celo o códigos QR.",
     "cancel": "Regresa",
     "confirm": "Saltar por ahora"
   },
   "verificationPrematureRevealMessage": "Por favor espera 1 minuto antes de volver a enviar",
   "verificationLearnMoreDialog": {
     "title": "Números de teléfono y {{appName}}",
-    "body": "Confirmar hace que sea fácil conectarte con tus amigos y te permite enviar y recibir fondos a tu número de teléfono.\n\n<0>¿Puedo hacer esto más tarde?</0>\n\nSí, pero las cuentas no confirmadas solo pueden enviar pagos con códigos QR o direcciones de cuenta.\n\n<1>Seguro y privado</1>\n\nValora utiliza la criptografía más moderna para mantener tu número de teléfono privado.",
+    "body": "Confirmar tu cuenta hace que conectarte con tus amigos sea aún más fácil, y te permite enviar y recibir fondos a tu número de teléfono.\n\n<0>¿Puedo hacerlo más tarde?</0>\n\nSí, pero las cuentas no confirmadas solo pueden enviar pagos con códigos QR o direcciones de cuenta.\n\n<1>Seguro y privado</1>\n\nValora utiliza la criptografía más moderna para mantener tu número de teléfono privado.",
     "dismiss": "Omitir"
   },
   "importExistingKey": {
@@ -117,5 +117,5 @@
   "success": {
     "message": "¡Todo listo!"
   },
-  "verificationUnavailable": "La confirmación del número de teléfono no está disponible actualmente. Por favor, introduce tu número de teléfono y te notificaremos cuando sea posible confirmar de nuevo.\n\nMientras tanto, ¡puedes seguir usando Valora! Los pagos enviados a tu número de teléfono serán retenidos de forma segura hasta que confirmes tu número de teléfono."
+  "verificationUnavailable": "La conexión del número de teléfono no está disponible actualmente. Por favor, introduce tu número de teléfono y te notificaremos cuando sea posible conectarlo.\n\nMientras tanto, ¡puedes seguir usando Valora! Los pagos enviados a tu número de teléfono serán retenidos de forma segura hasta que realices la conexión."
 }
