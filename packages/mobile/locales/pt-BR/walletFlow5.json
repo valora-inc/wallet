@@ -91,6 +91,8 @@
   "feedItemCeloRewardReceivedTitle": "Recompensa de CELO",
   "feedItemRewardReceivedTitle": "Rede CELO",
   "feedItemRewardReceivedInfo": "Ganhos Semanais",
+  "feedItemInviteRewardReceivedTitle": "Rede CELO",
+  "feedItemInviteRewardReceivedInfo": "Recompensa recebida",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
   "feedItemReceivedInfo_noComment": "Pagamento recebido",
