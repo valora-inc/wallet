@@ -90,7 +90,7 @@
   "applicationDeniedDescription": "Tu solicitud fue denegada. Si crees que esto fue un error, reinicia el proceso a continuación.",
   "applicationCompleted": "Finalizada",
   "applicationCompletedDescription": "Tu solicitud fue aceptada. Ya puedes enviar una cantidad ilimitada diariamente.",
-  "raiseLimitConfirmNumber": "Conecta tu número de teléfono",
+  "raiseLimitConfirmNumber": "Conectar número de teléfono",
   "raiseLimitBegin": "Comenzar verificación de identidad",
   "raiseLimitResume": "Reanudar la verificación de identidad",
   "raiseLimitEmailSubject": "Solicitar aumento del límite de envío de la cuenta",
