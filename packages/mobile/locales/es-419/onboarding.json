@@ -66,12 +66,12 @@
   "verificationPrematureRevealMessage": "Por favor espera 1 minuto antes de volver a enviar",
   "verificationLearnMoreDialog": {
     "title": "Números de teléfono y {{appName}}",
-    "body": "Confirmar hace que sea fácil conectarse con tus amigos permitiéndote enviar y recibir fondos a tu número de teléfono.\n\n<0>¿Puedo hacer esto más tarde?</0>\n\nSí, pero las cuentas no confirmadas solo pueden enviar pagos con códigos QR o direcciones de cliente.\n\n<1>Seguro y Privado</1>\n\nValora utiliza la criptografía más moderna para mantener su número de teléfono privado.",
-    "dismiss": "Descartar"
+    "body": "Confirmar hace que sea fácil conectarte con tus amigos y te permite enviar y recibir fondos a tu número de teléfono.\n\n<0>¿Puedo hacer esto más tarde?</0>\n\nSí, pero las cuentas no confirmadas solo pueden enviar pagos con códigos QR o direcciones de cuenta.\n\n<1>Seguro y privado</1>\n\nValora utiliza la criptografía más moderna para mantener tu número de teléfono privado.",
+    "dismiss": "Omitir"
   },
   "importExistingKey": {
-    "explanation": "La clave de tu cuenta es una frase de 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Por favor ingrésala aquí para restaurar tu cuenta.",
-    "keyPlaceholder": "horse leopard dog monkey ..."
+    "explanation": "Tu Clave de cuenta es la frase de 24 palabras que escribiste y guardaste cuando configuraste tu cuenta. Por favor, ingrésala para restaurar tu cuenta.",
+    "keyPlaceholder": "caballo leopardo perro mono..."
   },
   "verificationInput": {
     "title": "Confirmar",
