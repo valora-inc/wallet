@@ -35,7 +35,7 @@ import { removeStoredItem, retrieveStoredItem, storeItem } from 'src/storage/key
 import Logger from 'src/utils/Logger'
 import { getWalletAsync } from 'src/web3/contracts'
 
-const PIN_BLOCKLIST_PATH = 'src/pincode/pin_blocklist_hibpv7_top_10k.json'
+const PIN_BLOCKLIST_PATH = 'src/pincode/pin-blocklist-hibpv7-top-10k.json'
 
 const TAG = 'pincode/authentication'
 
@@ -65,7 +65,7 @@ class PinBlocklist {
       throw new Error('failed to parse integer from blocklist search PIN')
     }
 
-    // Recursively defined binary search in the sorted binary blocklist.
+    // Recursively defined binary search in the sorted blocklist.
     const search = (blocklist: Buffer, target: number): boolean => {
       if (blocklist.length === 0) {
         return false
