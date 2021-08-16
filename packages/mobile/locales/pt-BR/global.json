@@ -92,7 +92,7 @@
   "sendPaymentFailed": "Falha no envio do pagamento",
   "paymentRequestFailed": "Solicitação de pagamento não enviada",
   "escrowTransferFailed": "A transferência para custódia falhou",
-  "escrowWithdrawalFailed": "A retirada da custódia falhou",
+  "escrowWithdrawalFailed": "O saque da custódia falhou",
   "reclaimingEscrowedPaymentFailed": "O pagamento não pôde ser reivindicado",
   "connectingToCelo": "Conectando...",
   "poorConnection": {
@@ -179,7 +179,7 @@
   "close": "Fechar",
   "home": "Página inicial",
   "accountKey": "Chave de Conta",
-  "addAndWithdraw": "Depositar e sacar",
+  "addAndWithdraw": "Adicionar e Sacar",
   "invite": "Convidar",
   "settings": "Configurações",
   "help": "Ajuda",
