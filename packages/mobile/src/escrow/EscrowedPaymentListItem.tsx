@@ -33,7 +33,12 @@ function EscrowedPaymentListItem({ payment }: Props) {
     })
 
     try {
-      await Share.share({ message: t('walletFlow5:escrowedPaymentReminderSmsNoData') })
+      await Share.share({
+        message: t('walletFlow5:escrowedPaymentReminderSmsNoData', {
+          currency:
+            payment.currency === Currency.Dollar ? t('global:celoDollars') : t('global:celoEuros'),
+        }),
+      })
     } catch (error) {
       Logger.error(TAG, `Error sending reminder to ${recipient.e164PhoneNumber}`, error)
     }
@@ -66,7 +71,7 @@ function EscrowedPaymentListItem({ payment }: Props) {
   const nameToShow = recipient.name ?? t('global:unknown')
   const amount = {
     value: divideByWei(payment.amount),
-    currencyCode: Currency.Dollar,
+    currencyCode: payment.currency,
   }
 
   return (
