@@ -718,6 +718,10 @@ export const v17Schema = {
       allowedDeployers: [],
     },
   },
+  recipients: {
+    ...v16Schema.recipients,
+    inviteRewardsSenders: [],
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

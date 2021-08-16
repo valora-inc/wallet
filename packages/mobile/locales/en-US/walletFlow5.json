@@ -90,6 +90,8 @@
   "feedItemCeloRewardReceivedTitle": "Earned CELO",
   "feedItemRewardReceivedTitle": "CELO Network",
   "feedItemRewardReceivedInfo": "Weekly Earnings",
+  "feedItemInviteRewardReceivedTitle": "CELO Network",
+  "feedItemInviteRewardReceivedInfo": "Reward Received",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
   "feedItemReceivedInfo_noComment": "Payment Received",
