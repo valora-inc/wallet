@@ -295,13 +295,21 @@ export async function fetchLostAccounts() {
 }
 
 export async function fetchRewardsSenders() {
+  return fetchListFromFirebase('rewardsSenders')
+}
+
+export async function fetchInviteRewardsSenders() {
+  return fetchListFromFirebase('inviteRewardAddresses')
+}
+
+async function fetchListFromFirebase(path: string) {
   if (!FIREBASE_ENABLED) {
     return []
   }
   return eventChannel((emit: any) => {
     const onValueChange = firebase
       .database()
-      .ref('rewardsSenders')
+      .ref(path)
       .on(
         VALUE_CHANGE_HOOK,
         (snapshot) => {
@@ -312,7 +320,7 @@ export async function fetchRewardsSenders() {
         }
       )
 
-    return () => firebase.database().ref('rewardsSenders').off(VALUE_CHANGE_HOOK, onValueChange)
+    return () => firebase.database().ref(path).off(VALUE_CHANGE_HOOK, onValueChange)
   })
 }
 
