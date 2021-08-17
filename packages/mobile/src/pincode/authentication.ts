@@ -35,7 +35,8 @@ import { removeStoredItem, retrieveStoredItem, storeItem } from 'src/storage/key
 import Logger from 'src/utils/Logger'
 import { getWalletAsync } from 'src/web3/contracts'
 
-const PIN_BLOCKLIST_PATH = 'src/pincode/pin-blocklist-hibpv7-top-10k.json'
+const PIN_BLOCKLIST_PATH =
+  'src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json'
 
 const TAG = 'pincode/authentication'
 
@@ -86,7 +87,6 @@ export class PinBlocklist {
         Buffer.from([0]),
         blocklist.slice(middle * 3, (middle + 1) * 3),
       ]).readUInt32BE(0)
-      console.log(pivot)
 
       if (target === pivot) {
         return true
