@@ -92,12 +92,11 @@ exports[`EscrowedPaymentReminderNotification renders correctly 1`] = `
                 },
               ]
             }
-            testID="undefined/value"
+            testID="EscrowedPaymentListItem/amount/value"
           >
             
-            &lt;
             $
-            0.001
+            13.30
           </Text>
         </Text>
         <Text
