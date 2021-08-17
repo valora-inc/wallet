@@ -7,10 +7,10 @@
     "operation": "Operación",
     "data": "Datos",
     "sign": "Firmar un payload de datos",
-    "signTransaction": "Firmar una transacción Celo",
-    "sendTransaction": "Enviar una transacción Celo",
+    "signTransaction": "Firmar una transacción en Celo",
+    "sendTransaction": "Enviar una transacción en Celo",
     "decrypt": "Descifrar un payload de datos",
-    "accounts": "Leer su dirección de cuenta de {{appName}}",
+    "accounts": "Tu Dirección de cuenta de {{appName}}",
     "details": "Mostrar detalles",
     "computeSharedSecret": "Generar secretos"
   },
