@@ -52,13 +52,22 @@ export const DEFAULT_CACHE_ACCOUNT = 'default'
 export const DEK = 'DEK'
 export const CANCELLED_PIN_INPUT = 'CANCELLED_PIN_INPUT'
 
-class PinBlocklist {
-  // Encoded blocklist buffer. Loaded lazily.
-  private buffer: Buffer | null = null
+/**
+ * Pin blocklist that loads from the bundle resources a pre-configured list and allows it to be
+ * searched to determine if a given PIN should be allowed.
+ *
+ * @remarks Blocklist format is a sorted list of blocked 6-digit PINs, each encoded as their
+ * big-endian numeric representation, truncated to 3-bytes. When bundled as a resource, this binary
+ * structure is base64 encoded and formatted as JSON string literal.
+ */
+export class PinBlocklist {
+  private readonly buffer: Buffer
 
-  constructor() {}
+  constructor() {
+    this.buffer = new Buffer(require(PIN_BLOCKLIST_PATH) as string, 'base64')
+  }
 
-  contains(pin: string) {
+  public contains(pin: string): boolean {
     // Parse the provided 6-digit PIN into an integer in the range [1000000, 0].
     const target = parseInt(pin)
     if (isNaN(target) || target > 1e6 || target < 0 || target % 1 !== 0) {
@@ -90,19 +99,12 @@ class PinBlocklist {
       }
     }
 
-    // If the blocklist is not yet loaded, do so now.
-    if (this.buffer === null) {
-      this.buffer = new Buffer(require(PIN_BLOCKLIST_PATH) as string, 'base64')
-    }
-
     return search(this.buffer, target)
   }
 }
 
-const pinBlocklist = new PinBlocklist()
-
 export function isPinValid(pin: string) {
-  return /^\d{6}$/.test(pin) && !pinBlocklist.contains(pin)
+  return /^\d{6}$/.test(pin)
 }
 
 export async function retrieveOrGeneratePepper(account = DEFAULT_CACHE_ACCOUNT) {

@@ -18,7 +18,12 @@ import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { DEFAULT_CACHE_ACCOUNT, isPinValid, updatePin } from 'src/pincode/authentication'
+import {
+  DEFAULT_CACHE_ACCOUNT,
+  PinBlocklist,
+  isPinValid,
+  updatePin,
+} from 'src/pincode/authentication'
 import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
@@ -41,6 +46,7 @@ interface State {
   pin1: string
   pin2: string
   errorText: string | undefined
+  blocklist: PinBlocklist | undefined
 }
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.PincodeSet>
@@ -63,11 +69,12 @@ const mapDispatchToProps = {
 export class PincodeSet extends React.Component<Props, State> {
   static navigationOptions = nuxNavigationOptions
 
-  state = {
+  state: State = {
     oldPin: '',
     pin1: '',
     pin2: '',
     errorText: undefined,
+    blocklist: undefined,
   }
 
   componentDidMount = () => {
@@ -77,6 +84,8 @@ export class PincodeSet extends React.Component<Props, State> {
       // than 5 minutes to do so.
       this.setState({ oldPin: getCachedPin(DEFAULT_CACHE_ACCOUNT) ?? '' })
     }
+    // Load the PIN blocklist from the bundle into the component state.
+    this.setState({ blocklist: new PinBlocklist() })
   }
 
   isChangingPin() {
@@ -105,7 +114,7 @@ export class PincodeSet extends React.Component<Props, State> {
   }
 
   isPin1Valid = (pin: string) => {
-    return isPinValid(pin)
+    return isPinValid(pin) && this.state.blocklist?.contains(pin) === false
   }
 
   isPin2Valid = (pin: string) => {
