@@ -1,4 +1,5 @@
 import { DataSnapshot } from '@firebase/database-types'
+import Analytics from 'analytics-node'
 import * as admin from 'firebase-admin'
 import i18next from 'i18next'
 import { Currencies, MAX_BLOCKS_TO_WAIT } from './blockscout/transfers'
@@ -7,10 +8,15 @@ import {
   NOTIFICATIONS_DISABLED,
   NOTIFICATIONS_TTL_MS,
   NotificationTypes,
+  SEGMENT_API_KEY,
 } from './config'
 import { metrics } from './metrics'
 
 const NOTIFICATIONS_TAG = 'NOTIFICATIONS/'
+
+const analytics: Analytics | undefined = SEGMENT_API_KEY
+  ? new Analytics(SEGMENT_API_KEY)
+  : undefined
 
 let database: admin.database.Database
 let registrationsRef: admin.database.Reference
@@ -260,9 +266,25 @@ export async function sendNotification(
   }
 
   try {
-    console.info(NOTIFICATIONS_TAG, 'Sending notification to:', address, title)
     const response = await admin.messaging().send(message, NOTIFICATIONS_DISABLED)
-    console.info('Successfully sent notification for :', address, response)
+    console.info(
+      JSON.stringify({
+        action: 'NOTIFICATION_SEND_SUCCESS',
+        type: data.type,
+        title,
+        address,
+        response,
+      })
+    )
+    analytics?.track({
+      anonymousId: 'notification-service',
+      event: 'push_notification_sent',
+      properties: {
+        type: data.type,
+        title,
+        address,
+      },
+    })
 
     // Notification metrics
     metrics.sentNotification(data.type)
@@ -270,7 +292,15 @@ export async function sendNotification(
       metrics.setNotificationLatency(Date.now() - Number(data.timestamp), data.type)
     }
   } catch (error) {
-    console.error('Error sending notification:', address, error)
+    console.error(
+      JSON.stringify({
+        action: 'NOTIFICATION_SEND_FAILURE',
+        type: data.type,
+        title,
+        error,
+        address,
+      })
+    )
     metrics.failedNotification(data.type)
   }
 }

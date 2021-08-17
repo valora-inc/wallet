@@ -59,6 +59,11 @@ export const Moonpay = {
         throw Error('Purchase amount not provided')
       }
 
+      if (digitalAsset === DigitalAsset.CEUR) {
+        console.info('Moonpay does not yet support cEUR')
+        return []
+      }
+
       const { localCurrency, localAmount, exchangeRate } = await Moonpay.convertToLocalCurrency(
         userCountry,
         fiatCurrency,

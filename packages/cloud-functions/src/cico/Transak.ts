@@ -48,6 +48,11 @@ export const Transak = {
         throw Error('Purchase amount not provided')
       }
 
+      if (digitalAsset === DigitalAsset.CEUR) {
+        console.info('Transak does not yet support cEUR')
+        return []
+      }
+
       const { localCurrency, localAmount, exchangeRate } = await Transak.convertToLocalCurrency(
         userCountry,
         fiatCurrency,

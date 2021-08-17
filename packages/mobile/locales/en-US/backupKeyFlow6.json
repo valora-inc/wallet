@@ -31,7 +31,7 @@
     "2": "You’re all set!"
   },
   "cancelDialog": {
-    "title": "Finish setting up your Account Account Key",
+    "title": "Finish setting up your Account Key",
     "body": "Account Keys are extremely important. Without a key, you can lose access to your wallet forever.\nYou will be blocked from sending any transactions until you finish setting up your Account Key.",
     "action": "Complete Now",
     "secondary": "Set Up Later"

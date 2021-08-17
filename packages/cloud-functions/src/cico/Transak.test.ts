@@ -115,6 +115,25 @@ describe('Transak', () => {
     ])
   })
 
+  it('does not fetch quotes when digital asset is cEUR', async () => {
+    const fiatCurrency = 'USD'
+    const digitalAsset = DigitalAsset.CEUR
+    const userCountry = 'US'
+
+    fetchMock.mockResponse(
+      createTransakQuoteResponse(fiatCurrency, digitalAsset, 'credit_debit_card')
+    )
+
+    const quotes = await Transak.fetchQuote(
+      digitalAsset,
+      fiatCurrency,
+      FIAT_CASH_IN_AMOUNT,
+      userCountry
+    )
+
+    expect(quotes).toEqual([])
+  })
+
   it("fetches quotes correctly when fiatCurrency is not native to the user's location", async () => {
     const fiatCurrency = 'PHP'
     const digitalAsset = DigitalAsset.CUSD

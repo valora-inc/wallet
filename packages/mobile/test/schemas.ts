@@ -711,6 +711,17 @@ export const v17Schema = {
     version: 17,
   },
   fiatExchanges: _.omit(v16Schema.fiatExchanges, 'lastUsedProvider'),
+  verify: {
+    ...v16Schema.verify,
+    komenciConfig: {
+      useLightProxy: false,
+      allowedDeployers: [],
+    },
+  },
+  recipients: {
+    ...v16Schema.recipients,
+    inviteRewardsSenders: [],
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

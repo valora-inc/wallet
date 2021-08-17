@@ -11,7 +11,7 @@ import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Hea
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
-import { recipientInfoSelector, rewardsSendersSelector } from 'src/recipients/reducer'
+import { allRewardsSendersSelector, recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import useSelector from 'src/redux/useSelector'
 import TransferConfirmationCard, {
@@ -79,7 +79,7 @@ function TransactionReview({ navigation, route, addressHasChanged, recipientInfo
     confirmationProps,
   } = route.params
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
-  const rewardsSenders = useSelector(rewardsSendersSelector)
+  const rewardsSenders = useSelector(allRewardsSendersSelector)
 
   useLayoutEffect(() => {
     const dateTimeStatus = getDatetimeDisplayString(timestamp, i18n)
