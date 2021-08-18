@@ -14,6 +14,7 @@ interface Props {
   title?: string
   changePin?: boolean
   errorText?: string
+  nudge?: string
   maxLength?: number
   pin: string
   onChangePin: (pin: string) => void
@@ -23,6 +24,7 @@ interface Props {
 function Pincode({
   title,
   errorText,
+  nudge,
   maxLength = PIN_LENGTH,
   pin,
   onChangePin,
@@ -55,6 +57,7 @@ function Pincode({
       <View style={styles.spacer} />
       {!errorText && <Text style={styles.title}>{title || ' '}</Text>}
       {!!errorText && <Text style={styles.error}>{errorText}</Text>}
+      {!!nudge && <Text style={styles.nudge}>{nudge}</Text>}
       <View style={styles.pincodeContainer}>
         <PincodeDisplay pin={pin} maxLength={maxLength} />
       </View>
@@ -82,6 +85,12 @@ const styles = StyleSheet.create({
   error: {
     ...fontStyles.regular500,
     color: colors.warning,
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+  nudge: {
+    ...fontStyles.small,
+    color: colors.gray4,
     textAlign: 'center',
     marginBottom: 24,
   },

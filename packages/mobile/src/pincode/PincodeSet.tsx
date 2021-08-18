@@ -22,6 +22,7 @@ import {
   DEFAULT_CACHE_ACCOUNT,
   PinBlocklist,
   isPinValid,
+  secureRandomPin,
   updatePin,
 } from 'src/pincode/authentication'
 import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
@@ -46,6 +47,7 @@ interface State {
   pin1: string
   pin2: string
   errorText: string | undefined
+  nudge: string | undefined
   blocklist: PinBlocklist | undefined
 }
 
@@ -74,6 +76,7 @@ export class PincodeSet extends React.Component<Props, State> {
     pin1: '',
     pin2: '',
     errorText: undefined,
+    nudge: undefined,
     blocklist: undefined,
   }
 
@@ -106,7 +109,7 @@ export class PincodeSet extends React.Component<Props, State> {
   }
 
   onChangePin1 = (pin1: string) => {
-    this.setState({ pin1, errorText: undefined })
+    this.setState({ pin1, errorText: undefined, nudge: undefined })
   }
 
   onChangePin2 = (pin2: string) => {
@@ -121,7 +124,7 @@ export class PincodeSet extends React.Component<Props, State> {
     return this.state.pin1 === pin
   }
 
-  onCompletePin1 = () => {
+  onCompletePin1 = async () => {
     if (this.isPin1Valid(this.state.pin1)) {
       this.props.navigation.setParams({ isVerifying: true })
       if (this.isChangingPin()) {
@@ -132,10 +135,20 @@ export class PincodeSet extends React.Component<Props, State> {
       if (this.isChangingPin()) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
       }
+
+      // In order to help the user select a more random PIN, generate one fully at random, ensuring
+      // that it is not in the blocklist. The user may or may not use this PIN, but it is a nudge to
+      // help them get past the blocklist and generate a secure PIN.
+      let nudgePin = '000000'
+      do {
+        nudgePin = await secureRandomPin()
+      } while (this.state.blocklist?.contains(nudgePin))
+
       this.setState({
         pin1: '',
         pin2: '',
         errorText: this.props.t('pincodeSet.invalidPin'),
+        nudge: this.props.t('pincodeSet.example', { nudgePin }),
       })
     }
   }
@@ -168,6 +181,7 @@ export class PincodeSet extends React.Component<Props, State> {
         pin1: '',
         pin2: '',
         errorText: this.props.t('pincodeSet.pinsDontMatch'),
+        nudge: undefined,
       })
     }
   }
@@ -177,7 +191,7 @@ export class PincodeSet extends React.Component<Props, State> {
     const isVerifying = route.params?.isVerifying
     const changingPin = this.isChangingPin()
 
-    const { pin1, pin2, errorText } = this.state
+    const { pin1, pin2, errorText, nudge } = this.state
 
     return (
       <SafeAreaView style={changingPin ? styles.changePinContainer : styles.container}>
@@ -186,6 +200,7 @@ export class PincodeSet extends React.Component<Props, State> {
           <Pincode
             title={i18n.t('onboarding:pincodeSet.verify')}
             errorText={errorText}
+            nudge={nudge}
             pin={pin2}
             onChangePin={this.onChangePin2}
             onCompletePin={this.onCompletePin2}
@@ -194,6 +209,7 @@ export class PincodeSet extends React.Component<Props, State> {
           <Pincode
             title={changingPin ? i18n.t('onboarding:pincodeSet.createNew') : ' '}
             errorText={errorText}
+            nudge={nudge}
             pin={pin1}
             onChangePin={this.onChangePin1}
             onCompletePin={this.onCompletePin1}

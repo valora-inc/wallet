@@ -33,7 +33,8 @@
     "verify": "Enter your PIN again to confirm",
     "changePIN": "Change PIN",
     "pinsDontMatch": "The PINs didn't match",
-    "invalidPin": "Please use a stronger PIN"
+    "invalidPin": "Please use a stronger PIN",
+    "example": "Example: {{nudgePin}}"
   },
   "inviteCode": {
     "title": "Invite Code",
