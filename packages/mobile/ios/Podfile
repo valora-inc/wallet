@@ -11,7 +11,7 @@ $static_framework = ['react-native-flipper', 'react-native-fast-crypto', 'Flippe
   'CocoaAsyncSocket', 'ComponentKit', 'Flipper-DoubleConversion',
   'Flipper-Glog', 'Flipper-PeerTalk', 'Flipper-RSocket',
   'CocoaLibEvent', 'OpenSSL-Universal',
-  'Segment-Adjust']
+  'Segment-Adjust', 'Segment-CleverTap']
 
 require_relative "../../../node_modules/react-native/scripts/react_native_pods"
 require_relative "../../../node_modules/@react-native-community/cli-platform-ios/native_modules"

@@ -12,9 +12,6 @@ const inferCountryCode = () => {
   return localizedCountry?.countryCallingCode ?? null
 }
 
-export const getE164PhoneNumber = (state: RootState) => {
-  return state.account.e164PhoneNumber
-}
 export const devModeSelector = (state: RootState) => state.account.devModeActive
 export const nameSelector = (state: RootState) => state.account.name
 export const e164NumberSelector = (state: RootState) => state.account.e164PhoneNumber

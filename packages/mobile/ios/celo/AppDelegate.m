@@ -27,6 +27,8 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 
+#import <UserNotifications/UserNotifications.h>
+
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
@@ -83,6 +85,20 @@ static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+
+  // register for push notifications
+  UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+  center.delegate = self;
+  [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge)
+  completionHandler:^(BOOL granted, NSError * _Nullable error) {
+    if (granted) {
+      dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+      });
+    }
+  }];
+
+  [CleverTap autoIntegrate];
 
   return YES;
 }
@@ -150,6 +166,11 @@ static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
   // Remove our blur
   [self.blurView removeFromSuperview];
   self.blurView = nil;
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter* )center willPresentNotification:(UNNotification* )notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler 
+{
+  completionHandler(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound);
 }
 
 @end
