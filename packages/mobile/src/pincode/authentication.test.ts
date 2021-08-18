@@ -17,20 +17,6 @@ import { mockAccount } from 'test/values'
 const mockPepper = { password: '0000000000000000000000000000000000000000000000000000000000000001' }
 const mockPin = '111555'
 
-// Extension to expect to allow for tolerance checks. Used below in the blocklist test.
-expect.extend({
-  toBeWithinTolerance(observed: number, expected: number, tolerance: number) {
-    const pass = Math.abs(observed - expected) <= tolerance
-    return {
-      message: () =>
-        `expected ${observed} to be ${
-          pass ? 'outside' : 'inside'
-        } range ${expected} +- ${tolerance}`,
-      pass,
-    }
-  },
-})
-
 describe(getPasswordSaga, () => {
   const mockedNavigate = navigate as jest.Mock
 
@@ -101,6 +87,7 @@ describe(PinBlocklist, () => {
 
   describe('#contains', () => {
     const commonPins = [
+      '000000',
       '123456',
       '111111',
       '123123',
@@ -110,11 +97,12 @@ describe(PinBlocklist, () => {
       '789789',
       '456456',
       '852456',
+      '999999',
     ]
 
-    for (commonPin of commonPins) {
+    for (const commonPin of commonPins) {
       it(`indicates the list contains common PIN ${commonPin}`, () => {
-        expect(blocklist.contains(commonPins)).toBe(true)
+        expect(blocklist.contains(commonPin)).toBe(true)
       })
     }
 
@@ -137,7 +125,8 @@ describe(PinBlocklist, () => {
       }
 
       const estimate = positives / trials
-      expect(estimate).toBeWithinTolerance(blockProbability, tolerance)
+      const withinTolerance = Math.abs(blockProbability - estimate) <= tolerance
+      expect(withinTolerance).toBe(true)
     })
   })
 })
