@@ -20,7 +20,6 @@ import LineItemRow from 'src/components/LineItemRow'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import { withdrawCelo } from 'src/exchange/actions'
 import WithdrawCeloSummary from 'src/exchange/WithdrawCeloSummary'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n, { Namespaces } from 'src/i18n'
 import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
 import {
@@ -34,6 +33,7 @@ import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useTypedSelector from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { Currency } from 'src/utils/currencies'
 
 type Props = StackScreenProps<StackParamList, Screens.WithdrawCeloReviewScreen>
 
@@ -67,6 +67,7 @@ function WithdrawCeloReviewScreen({ route }: Props) {
         />
       </View>
       <Button
+        disabled={isLoading}
         onPress={onConfirmWithdraw}
         text={t(`global:withdraw`)}
         type={BtnTypes.TERTIARY}
@@ -116,7 +117,7 @@ WithdrawCeloReviewScreen.navigationOptions = ({
     headerTitle: () => (
       <HeaderTitleWithBalance
         title={i18n.t('exchangeFlow9:withdrawCeloReview')}
-        token={CURRENCY_ENUM.GOLD}
+        token={Currency.Celo}
       />
     ),
     headerLeft: () => <CancelButton onCancel={onCancel} />,

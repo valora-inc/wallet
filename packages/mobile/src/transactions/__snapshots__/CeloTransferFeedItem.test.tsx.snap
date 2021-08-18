@@ -33,6 +33,7 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
         Object {
           "flex": 1,
           "flexDirection": "row",
+          "flexWrap": "wrap",
           "justifyContent": "space-between",
           "paddingBottom": 2,
         }
@@ -55,12 +56,11 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
             }
           }
         >
-          feedItemGoldWithdrawal
+          feedItemGoldWithdrawal, {"displayName":"0xcc64...d23c"}
         </Text>
       </View>
       <View>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Object {
@@ -74,6 +74,7 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
               },
             ]
           }
+          testID="undefined/value"
         >
           -
           
@@ -134,6 +135,7 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
         Object {
           "flex": 1,
           "flexDirection": "row",
+          "flexWrap": "wrap",
           "justifyContent": "space-between",
           "paddingBottom": 2,
         }
@@ -156,12 +158,11 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
             }
           }
         >
-          This is a Test
+          feedItemGoldReceived, {"displayName":"This is a Test"}
         </Text>
       </View>
       <View>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Object {
@@ -175,6 +176,7 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
               },
             ]
           }
+          testID="undefined/value"
         >
           +
           

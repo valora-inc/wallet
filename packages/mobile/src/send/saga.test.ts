@@ -21,6 +21,7 @@ import {
   SendPaymentOrInviteAction,
 } from 'src/send/actions'
 import { sendPaymentOrInviteSaga, watchQrCodeDetections } from 'src/send/saga'
+import { Currency } from 'src/utils/currencies'
 import { getConnectedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
@@ -241,6 +242,7 @@ describe(sendPaymentOrInviteSaga, () => {
     const sendPaymentOrInviteAction: SendPaymentOrInviteAction = {
       type: Actions.SEND_PAYMENT_OR_INVITE,
       amount: new BigNumber(10),
+      currency: Currency.Dollar,
       comment: '',
       recipient: mockQRCodeRecipient,
       firebasePendingRequestUid: null,
@@ -260,6 +262,7 @@ describe(sendPaymentOrInviteSaga, () => {
     const sendPaymentOrInviteAction: SendPaymentOrInviteAction = {
       type: Actions.SEND_PAYMENT_OR_INVITE,
       amount: new BigNumber(10),
+      currency: Currency.Dollar,
       comment: '',
       recipient: mockQRCodeRecipient,
       recipientAddress: mockQRCodeRecipient.address,

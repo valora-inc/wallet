@@ -159,10 +159,10 @@ android {
 
     defaultConfig {
         applicationId project.env.get("APP_BUNDLE_ID")
-        minSdkVersion isDetoxTestBuild ? 18 : rootProject.ext.minSdkVersion
+        minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
-        versionName "1.14.3"
+        versionName "1.17.0"
         multiDexEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -249,20 +249,24 @@ android {
         exclude 'META-INF/androidx.exifinterface_exifinterface.version'
         pickFirst '**/libc++_shared.so'
     }
-    
+
     dexOptions {
        javaMaxHeapSize "3g"
     }
 }
 
+
 dependencies {
     androidTestImplementation('com.wix:detox:+')
 
-    def multidex_version = "2.0.1"
-    implementation 'androidx.multidex:multidex:$multidex_version'
+    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation project(':react-native-geth')
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.9.0'
+    implementation project(':react-native-plaid-link-sdk')
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation 'com.facebook.react:react-native:+'  // From node_modules

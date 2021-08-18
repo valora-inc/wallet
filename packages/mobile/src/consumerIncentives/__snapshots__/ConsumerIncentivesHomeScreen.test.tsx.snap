@@ -113,7 +113,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
           }
         }
       >
-        summary
+        summary, {"percent":5}
       </Text>
       <View
         style={
@@ -285,7 +285,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
               }
             }
           >
-            saveMoreEarnMore.text
+            saveMoreEarnMore.text, {"maxSaving":50,"rewardsMax":1000}
           </Text>
         </View>
       </View>
@@ -409,6 +409,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
           testID="ConsumerIncentives/CTA"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",

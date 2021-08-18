@@ -1,9 +1,10 @@
 import { Actions } from 'src/home/actions'
-import { homeReducer as reducer, initialState } from 'src/home/reducers'
+import { DEFAULT_PRIORITY, homeReducer as reducer, initialState } from 'src/home/reducers'
 
 const createTestNotification = (body: string) => ({
   ctaUri: 'https://celo.org',
   darkMode: true,
+  priority: DEFAULT_PRIORITY,
   content: {
     en: {
       body,
@@ -44,6 +45,7 @@ describe('home reducer', () => {
           ...notification1,
           ctaUri: 'https://valoraapp.com',
           minVersion: '1.8.0',
+          priority: 50,
         },
       },
     })
@@ -55,6 +57,7 @@ describe('home reducer', () => {
           ...notification1,
           ctaUri: 'https://valoraapp.com',
           minVersion: '1.8.0',
+          priority: 50,
         },
       },
     })

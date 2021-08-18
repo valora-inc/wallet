@@ -11,16 +11,15 @@ import { AccountsWrapper } from '@celo/contractkit/lib/wrappers/Accounts'
 import { MetaTransactionWalletWrapper } from '@celo/contractkit/lib/wrappers/MetaTransactionWallet'
 import { OdisUtils } from '@celo/identity'
 import { AuthSigner } from '@celo/identity/lib/odis/query'
-import { FetchError, TxError } from '@celo/komencikit/src/errors'
-import { KomenciKit } from '@celo/komencikit/src/kit'
 import {
   ensureLeading0x,
   eqAddress,
   hexToBuffer,
   normalizeAddressWith0x,
 } from '@celo/utils/lib/address'
-import { CURRENCY_ENUM } from '@celo/utils/lib/currencies'
 import { compressedPubKey, deriveDek } from '@celo/utils/lib/dataEncryptionKey'
+import { FetchError, TxError } from '@komenci/kit/lib/errors'
+import { KomenciKit } from '@komenci/kit/lib/kit'
 import * as bip39 from 'react-native-bip39'
 import { call, put, select } from 'redux-saga/effects'
 import { checkIfProfileUploaded } from 'src/account/profileInfo'
@@ -35,10 +34,11 @@ import {
   updateWalletToAccountAddress,
 } from 'src/identity/actions'
 import { walletToAccountAddressSelector, WalletToAccountAddressType } from 'src/identity/reducer'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { getCurrencyAddress } from 'src/tokens/saga'
 import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { registerDataEncryptionKey, setDataEncryptionKey } from 'src/web3/actions'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
@@ -144,7 +144,7 @@ export function* registerAccountDek() {
       return
     }
 
-    const stableBalance = yield select(stableTokenBalanceSelector)
+    const stableBalance = yield select(cUsdBalanceSelector)
     const celoBalance = yield select(celoTokenBalanceSelector)
     if (
       (stableBalance === null || stableBalance === '0') &&
@@ -331,7 +331,7 @@ export async function isAccountUpToDate(
   )
 }
 
-export async function getRegisterDekTxGas(account: string, currency: CURRENCY_ENUM) {
+export async function getRegisterDekTxGas(account: string, currency: Currency) {
   try {
     Logger.debug(`${TAG}/getRegisterDekTxGas`, 'Getting gas estimate for tx')
     const contractKit = await getContractKitAsync()

@@ -33,7 +33,6 @@ export const callToActNotificationSelector = (state: RootState) => {
   return (
     !state.account.backupCompleted ||
     !state.goldToken.educationCompleted ||
-    !state.account.dismissedInviteFriends ||
     (!state.app.numberVerified && !state.account.dismissedGetVerified)
   )
 }

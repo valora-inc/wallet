@@ -20,7 +20,7 @@ platform :ios, '12.4'
 
 target "celo" do
   use_frameworks!
-  
+
   pod "react-native-geth", :path => "../../../node_modules/react-native-geth"
   pod "CeloBlockchain", :path => "../../../node_modules/@celo/client/CeloBlockchain.podspec", :modular_headers => true
 
@@ -32,6 +32,8 @@ target "celo" do
   pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
 
   pod 'RNSecureRandom', :path => '../../../node_modules/react-native-securerandom'
+
+  pod 'Plaid', '~> 2.1.3'
 
   target "celoTests" do
     inherit! :search_paths

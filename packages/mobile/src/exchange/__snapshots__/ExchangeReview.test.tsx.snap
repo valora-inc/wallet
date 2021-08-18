@@ -51,10 +51,9 @@ exports[`ExchangeReview renders correctly 1`] = `
                 }
               }
             >
-              exchangeAmount
+              exchangeAmount, {"tokenName":"gold"}
             </Text>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -68,6 +67,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                   },
                 ]
               }
+              testID="undefined/value"
             >
               
               
@@ -122,15 +122,15 @@ exports[`ExchangeReview renders correctly 1`] = `
               >
                 Subtotal @ 
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
+                  testID="undefined/value"
                 >
                   
                   $
@@ -152,15 +152,15 @@ exports[`ExchangeReview renders correctly 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                     },
                   ]
                 }
+                testID="undefined/value"
               >
                 
                 $
@@ -300,15 +300,15 @@ exports[`ExchangeReview renders correctly 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                     },
                   ]
                 }
+                testID="TotalLineItem/Total/value"
               >
                 
                 $
@@ -357,23 +357,51 @@ exports[`ExchangeReview renders correctly 1`] = `
                   ]
                 }
               >
-                Celo Dollars @
-                 
-                <Text
-                  numberOfLines={1}
-                  style={
-                    Array [
-                      undefined,
-                      Object {
-                        "color": "#2E3338",
-                      },
-                    ]
+                <View
+                  accessible={true}
+                  focusable={false}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackground",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
                   }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
                 >
-                  
-                  $
-                  0.75
-                </Text>
+                  <Text
+                    style={
+                      Object {
+                        "color": "#9CA4A9",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 14,
+                        "lineHeight": 18,
+                      }
+                    }
+                  >
+                    <Text
+                      style={
+                        Array [
+                          undefined,
+                          Object {
+                            "color": undefined,
+                          },
+                        ]
+                      }
+                      testID="TotalLineItem/ExchangeRate/value"
+                    >
+                      
+                      $
+                      0.75
+                    </Text>
+                  </Text>
+                </View>
               </Text>
             </View>
             <Text
@@ -395,17 +423,18 @@ exports[`ExchangeReview renders correctly 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
                     Object {
-                      "color": "#2E3338",
+                      "color": undefined,
                     },
                   ]
                 }
+                testID="TotalLineItem/Subtotal/value"
               >
                 
+                $
                 NaN
               </Text>
             </Text>
@@ -470,6 +499,7 @@ exports[`ExchangeReview renders correctly 1`] = `
         testID="ConfirmExchange"
       >
         <Text
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",
@@ -479,23 +509,21 @@ exports[`ExchangeReview renders correctly 1`] = `
             }
           }
         >
-          Buy or sell 
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             
             10.0000
           </Text>
-           Gold
         </Text>
       </View>
     </View>

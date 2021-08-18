@@ -13,3 +13,4 @@ node_modules/
 # Exclude secrets
 serviceAccountKey.json
 .env
+config/config.*.env

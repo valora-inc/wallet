@@ -9,8 +9,8 @@ import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import FeeDrawer from 'src/components/FeeDrawer'
 import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
-import { CURRENCIES, CURRENCY_ENUM } from 'src/geth/consts'
 import { Namespaces } from 'src/i18n'
+import { Currency } from 'src/utils/currencies'
 import { getFeeDisplayValue } from 'src/utils/formatting'
 
 interface WithdrawCeloProps {
@@ -39,14 +39,14 @@ export default function WithdrawCeloSummary({
           <CurrencyDisplay
             amount={{
               value: amount,
-              currencyCode: CURRENCIES[CURRENCY_ENUM.GOLD].code,
+              currencyCode: Currency.Celo,
             }}
           />
         }
       />
       <FeeDrawer
         testID={'feeDrawer/WithdrawCelo'}
-        currency={CURRENCY_ENUM.GOLD}
+        currency={Currency.Celo}
         isExchange={false}
         isEstimate={true}
         securityFee={feeEstimate}
@@ -55,7 +55,7 @@ export default function WithdrawCeloSummary({
       <TotalLineItem
         amount={{
           value: totalAmount,
-          currencyCode: CURRENCIES[CURRENCY_ENUM.GOLD].code,
+          currencyCode: Currency.Celo,
         }}
       />
     </View>

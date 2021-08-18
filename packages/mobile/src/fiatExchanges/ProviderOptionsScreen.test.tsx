@@ -1,4 +1,3 @@
-import { CURRENCY_ENUM } from '@celo/utils'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Text } from 'react-native'
@@ -9,6 +8,7 @@ import ProviderOptionsScreen, { CicoProvider } from 'src/fiatExchanges/ProviderO
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount } from 'test/values'
@@ -19,11 +19,12 @@ const MOCK_IP_ADDRESS = '1.1.1.7'
 
 const mockScreenProps = (
   isCashIn: boolean,
-  paymentMethod: PaymentMethod.Card | PaymentMethod.Bank
+  paymentMethod: PaymentMethod.Card | PaymentMethod.Bank,
+  selectedCrypto: Currency = Currency.Dollar
 ) =>
   getMockStackScreenProps(Screens.ProviderOptionsScreen, {
     isCashIn,
-    selectedCrypto: CURRENCY_ENUM.DOLLAR,
+    selectedCrypto,
     amount: {
       crypto: AMOUNT_TO_CASH_IN,
       fiat: AMOUNT_TO_CASH_IN,
@@ -98,6 +99,9 @@ export const mockProviders: CicoProvider[] = [
     url: 'www.fakewebsite.com',
     logo:
       'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+    quote: [
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 100, fiatFee: 0 },
+    ],
     cashIn: true,
     cashOut: false,
   },
@@ -265,8 +269,46 @@ describe('ProviderOptionsScreen', () => {
 
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
 
-    const elements = tree.queryAllByText('unsupportedPaymentMethod')
+    const elements = tree.queryAllByText(/unsupportedPaymentMethod/)
     // Only Simplex doesn't support bank accounts
     expect(elements).toHaveLength(1)
+  })
+
+  it(`shows "Free" if there is no fee associated with CICO `, async () => {
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card, Currency.Dollar)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+
+    const freeElement = tree.queryByText('global:free')
+    expect(freeElement).toBeTruthy()
+  })
+
+  it('if cEUR is selected, it shows Ramp as the only provider', async () => {
+    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card, Currency.Euro)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+
+    const rampElement = tree.queryByTestId('Provider/Ramp')
+    expect(rampElement).toBeTruthy()
+
+    for (const provider of mockProviders) {
+      if (provider.name === 'Ramp') {
+        continue
+      }
+      const providerElement = tree.queryByTestId(`Provider/${provider.name}`)
+      expect(providerElement).toBeFalsy()
+    }
   })
 })

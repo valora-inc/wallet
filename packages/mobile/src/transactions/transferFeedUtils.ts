@@ -6,7 +6,7 @@ import {
   TransferItemFragment,
   UserTransactionsQuery,
 } from 'src/apollo/types'
-import { DEFAULT_TESTNET } from 'src/config'
+import { CELO_LOGO_URL, DEFAULT_TESTNET } from 'src/config'
 import { ProviderFeedInfo } from 'src/fiatExchanges/reducer'
 import { decryptComment } from 'src/identity/commentEncryption'
 import { AddressToE164NumberType } from 'src/identity/reducer'
@@ -77,7 +77,7 @@ function getRecipient(
       : recentTxRecipientsCache[phoneNumber]
 
     if (recipient) {
-      return recipient
+      return { ...recipient }
     } else {
       recipient = { e164PhoneNumber: phoneNumber }
       return recipient
@@ -104,7 +104,10 @@ export function getTransferFeedParams(
   invitees: InviteDetails[],
   recipientInfo: RecipientInfo,
   isCeloRewardSender: boolean,
-  providerInfo: ProviderFeedInfo | undefined
+  isRewardSender: boolean,
+  isInviteRewardSender: boolean,
+  providerInfo: ProviderFeedInfo | undefined,
+  currency: string
 ) {
   const e164PhoneNumber = addressToE164Number[address]
   const recipient = getRecipient(
@@ -170,8 +173,22 @@ export function getTransferFeedParams(
     }
     case TokenTransactionType.Received: {
       if (isCeloRewardSender) {
+        title = t('feedItemCeloRewardReceivedTitle')
+        info = t('feedItemRewardReceivedInfo')
+      } else if (isRewardSender) {
         title = t('feedItemRewardReceivedTitle')
         info = t('feedItemRewardReceivedInfo')
+        Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
+      } else if (isInviteRewardSender) {
+        title = t('feedItemInviteRewardReceivedTitle')
+        info = t('feedItemInviteRewardReceivedInfo')
+        Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
+      } else if (providerInfo) {
+        title = t('feedItemReceivedTitle', { displayName })
+        info =
+          currency.toLowerCase() === 'celo'
+            ? t('fiatExchangeFlow:celoDeposit')
+            : t('fiatExchangeFlow:cUsdDeposit')
       } else {
         title = t('feedItemReceivedTitle', { displayName })
         info = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })

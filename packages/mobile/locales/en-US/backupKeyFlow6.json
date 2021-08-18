@@ -22,7 +22,8 @@
   "backupQuizWordCount": "What's the <0>{{ordinal}}</0> word of your Account Key?",
   "importBackupFailed": "Importing Wallet Failed",
   "backupQuizFailed": "The Account Key you entered is incorrect. Please try again.",
-  "invalidBackupPhrase": "Invalid Account Key",
+  "invalidBackupPhrase": "Account Key is not valid",
+  "invalidWordsInBackupPhrase": "Some words in the Account Key are not valid: {{ invalidWords }}",
   "backupComplete": {
     "header": "Backup Complete",
     "0": "Success!",
@@ -30,7 +31,7 @@
     "2": "You’re all set!"
   },
   "cancelDialog": {
-    "title": "Finish setting up your Account Account Key",
+    "title": "Finish setting up your Account Key",
     "body": "Account Keys are extremely important. Without a key, you can lose access to your wallet forever.\nYou will be blocked from sending any transactions until you finish setting up your Account Key.",
     "action": "Complete Now",
     "secondary": "Set Up Later"

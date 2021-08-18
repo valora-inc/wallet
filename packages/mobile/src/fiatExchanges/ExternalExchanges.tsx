@@ -1,8 +1,7 @@
 import ListItem from '@celo/react-components/components/ListItem'
 import colors from '@celo/react-components/styles/colors'
-import fontStyles, { fontFamily } from '@celo/react-components/styles/fonts'
+import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { CURRENCY_ENUM } from '@celo/utils'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -18,6 +17,7 @@ import LinkArrow from 'src/icons/LinkArrow'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -34,7 +34,7 @@ export const externalExchangesScreenOptions = () => {
 export interface ExternalExchangeProvider {
   name: string
   link: string
-  currencies: CURRENCY_ENUM[]
+  currencies: Currency[]
 }
 
 type Props = StackScreenProps<StackParamList, Screens.ExternalExchanges>
@@ -65,13 +65,12 @@ function ExternalExchanges({ route }: Props) {
       <SafeAreaView>
         <Text style={styles.pleaseSelectProvider}>
           {t('youCanTransfer', {
-            currency: route.params.currency === CURRENCY_ENUM.DOLLAR ? t('celoDollars') : 'CELO',
+            currency: route.params.currency === Currency.Dollar ? t('celoDollars') : 'CELO',
           })}
         </Text>
         <View testID="accountBox" style={styles.accountBox}>
           <Text style={styles.accountLabel}>{t('sendFlow7:accountNumberLabel')}</Text>
           <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
-          <Text style={styles.link}>{t('accountScreen10:tapToCopy')}</Text>
         </View>
         <View style={styles.providersContainer}>
           {providers.map((provider, idx) => {
@@ -110,12 +109,6 @@ const styles = StyleSheet.create({
   accountLabel: {
     ...fontStyles.label,
     color: colors.gray5,
-  },
-  link: {
-    ...fontStyles.label,
-    textDecorationLine: 'underline',
-    color: colors.gray4,
-    fontFamily,
   },
   providerListItem: {
     flexDirection: 'row',

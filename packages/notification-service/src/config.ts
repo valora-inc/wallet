@@ -36,6 +36,7 @@ export const DEFAULT_LOCALE = process.env.DEFAULT_LOCALE
 export const POLLING_INTERVAL = Number(process.env.POLLING_INTERVAL) || 1000
 export const INVITES_POLLING_INTERVAL = Number(process.env.INVITES_POLLING_INTERVAL) || 10000
 export const NOTIFICATIONS_TTL_MS = Number(process.env.NOTIFICATION_TTL_MS) || 3600 * 1000 * 24 * 7 // 1 week in milliseconds
+export const SEGMENT_API_KEY = process.env.SEGMENT_API_KEY
 
 export const WEB3_PROVIDER_URL = process.env.WEB3_PROVIDER_URL || 'UNDEFINED'
 
