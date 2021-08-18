@@ -92,9 +92,10 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: colors.gray4,
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: 12,
   },
   pincodeContainer: {
+    marginTop: 12,
     marginBottom: 24,
     paddingHorizontal: '15%',
     alignItems: 'center',
