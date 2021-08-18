@@ -68,6 +68,10 @@ export class PinBlocklist {
     this.buffer = new Buffer(require(PIN_BLOCKLIST_PATH) as string, 'base64')
   }
 
+  public size(): number {
+    return Math.floor(this.buffer.length / 3)
+  }
+
   public contains(pin: string): boolean {
     // Parse the provided 6-digit PIN into an integer in the range [1000000, 0].
     const target = parseInt(pin)
