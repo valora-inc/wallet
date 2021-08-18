@@ -34,6 +34,7 @@ import { currentAccountSelector } from 'src/web3/selectors'
 interface StateProps {
   choseToRestoreAccount: boolean | undefined
   hideVerification: boolean
+  useExpandedBlocklist: boolean
   account: string
 }
 
@@ -59,6 +60,7 @@ function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     hideVerification: state.app.hideVerification,
+    useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
   }
 }
@@ -88,7 +90,9 @@ export class PincodeSet extends React.Component<Props, State> {
       this.setState({ oldPin: getCachedPin(DEFAULT_CACHE_ACCOUNT) ?? '' })
     }
     // Load the PIN blocklist from the bundle into the component state.
-    this.setState({ blocklist: new PinBlocklist() })
+    if (this.props.useExpandedBlocklist) {
+      this.setState({ blocklist: new PinBlocklist() })
+    }
   }
 
   isChangingPin() {
@@ -117,7 +121,10 @@ export class PincodeSet extends React.Component<Props, State> {
   }
 
   isPin1Valid = (pin: string) => {
-    return isPinValid(pin) && this.state.blocklist?.contains(pin) === false
+    return (
+      isPinValid(pin) &&
+      (!this.props.useExpandedBlocklist || this.state.blocklist?.contains(pin) === false)
+    )
   }
 
   isPin2Valid = (pin: string) => {
@@ -139,16 +146,23 @@ export class PincodeSet extends React.Component<Props, State> {
       // In order to help the user select a more random PIN, generate one fully at random, ensuring
       // that it is not in the blocklist. The user may or may not use this PIN, but it is a nudge to
       // help them get past the blocklist and generate a secure PIN.
+      // Only show if expanded blocklist is in use.
       let nudgePin = '000000'
-      do {
+      while (this.props.useExpandedBlocklist) {
         nudgePin = await secureRandomPin()
-      } while (this.state.blocklist?.contains(nudgePin))
+        if (this.state.blocklist?.contains(nudgePin) === false) {
+          break
+        }
+      }
+      const nudge = this.props.useExpandedBlocklist
+        ? this.props.t('pincodeSet.example', { nudgePin })
+        : undefined
 
       this.setState({
         pin1: '',
         pin2: '',
         errorText: this.props.t('pincodeSet.invalidPin'),
-        nudge: this.props.t('pincodeSet.example', { nudgePin }),
+        nudge,
       })
     }
   }

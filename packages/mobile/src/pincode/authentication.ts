@@ -119,8 +119,23 @@ export async function secureRandomPin(): Promise<string> {
   return String(randomPin).padStart(6, '0')
 }
 
+const DEPRECATED_PIN_BLOCKLIST = [
+  '000000',
+  '111111',
+  '222222',
+  '333333',
+  '444444',
+  '555555',
+  '666666',
+  '777777',
+  '888888',
+  '999999',
+  '123456',
+  '654321',
+]
+
 export function isPinValid(pin: string) {
-  return /^\d{6}$/.test(pin)
+  return /^\d{6}$/.test(pin) && !DEPRECATED_PIN_BLOCKLIST.includes(pin)
 }
 
 export async function retrieveOrGeneratePepper(account = DEFAULT_CACHE_ACCOUNT) {
