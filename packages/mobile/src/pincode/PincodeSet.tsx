@@ -13,6 +13,7 @@ import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DevSkipButton from 'src/components/DevSkipButton'
+import { isE2EEnv } from 'src/config'
 import i18n, { Namespaces, withTranslation } from 'src/i18n'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
@@ -60,7 +61,7 @@ function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     hideVerification: state.app.hideVerification,
-    useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
+    useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist || isE2EEnv,
     account: currentAccountSelector(state) ?? '',
   }
 }
