@@ -18,12 +18,11 @@ jobs:
       - run: brew install gnu-sed
       - run: |
           git log -1 --pretty=%B | pbcopy
+          pbpaste
           rm -rf .git/
           rm -rf .github/
           cd ..
           git clone git@github.com:valora-inc/wallet-release.git
-          pwd 
-          ls
           cp -a wallet/. wallet-release/
           cd wallet-release
           git add -A
