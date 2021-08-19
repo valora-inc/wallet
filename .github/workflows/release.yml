@@ -21,7 +21,7 @@ jobs:
           rm -rf .git/
           cd ..
           git clone git@github.com:valora-inc/wallet-release.git
-          rsync --recursive wallet wallet-release
+          rsync -a wallet wallet-release
           cd ..
           cd wallet-release
           git add -A
