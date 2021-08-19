@@ -62,7 +62,7 @@ export function initializeDb() {
   lastInviteBlockRef = database.ref('/lastInviteBlockNotified')
 
   function addOrUpdateRegistration(snapshot: DataSnapshot) {
-    const registration = (snapshot && snapshot.val()) || {}
+    const registration = snapshot?.val() ?? {}
     console.debug('New or updated registration:', snapshot.key, registration)
     if (snapshot.key) {
       registrations[snapshot.key] = registration
@@ -74,7 +74,7 @@ export function initializeDb() {
   lastBlockRef.on(
     'value',
     (snapshot) => {
-      const lastBlock = (snapshot && snapshot.val()) || 0
+      const lastBlock = snapshot?.val() ?? 0
       console.debug('Latest block data updated: ', lastBlock)
       if (lastBlockNotified < 0) {
         // On the transfers file, we query using |lastBlockNotified - MAX_BLOCKS_TO_WAIT|, which would resolve to the current time.
@@ -97,7 +97,7 @@ export function initializeDb() {
   lastInviteBlockRef.on(
     'value',
     (snapshot) => {
-      const lastBlock = (snapshot && snapshot.val()) || 0
+      const lastBlock = snapshot?.val() ?? 0
       console.debug('Latest invite block updated: ', lastBlock)
       lastInviteBlockNotified = lastBlock
     },
@@ -109,7 +109,7 @@ export function initializeDb() {
   database.ref('/rewardsSenders').on(
     'value',
     (snapshot) => {
-      rewardsSenders = (snapshot && snapshot.val()) || []
+      rewardsSenders = snapshot?.val() ?? []
       console.debug('Rewards senders updated: ', rewardsSenders)
     },
     (errorObject: any) => {
@@ -118,9 +118,9 @@ export function initializeDb() {
   )
 
   database.ref('/inviteRewardAddresses').on('value', (snapshot) => {
-    const addresses = (snapshot && snapshot.val()) ?? []
+    const addresses = snapshot?.val() ?? []
     console.debug(`inviteRewardAddresses fetched: ${addresses}`)
-    if (addresses.length > 0) {
+    if (addresses.length) {
       inviteRewardsSenders = addresses
     }
   })
