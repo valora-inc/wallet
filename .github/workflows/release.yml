@@ -24,7 +24,6 @@ jobs:
           pwd 
           ls
           cp -a wallet/. wallet-release/
-          cd ..
           cd wallet-release
           git add -A
           git commit -m "temporary"
