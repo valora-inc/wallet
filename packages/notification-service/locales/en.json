@@ -15,5 +15,5 @@
   "inviteTitle": "Your friend just received your transfer!",
   "inviteBody": "The recipient of the funds you sent just signed up for Valora! You can now send value to each other using your phone numbers with near-zero fees",
   "inviteRewardTitle": "Invite Accepted",
-  "inviteRewardBody": "Your friend accepted your Valora invite, and you earned 1 cUSD!"
+  "inviteRewardBody": "Your friend accepted your Valora invite, and you earned {{amount}} {{currency}}!"
 }
