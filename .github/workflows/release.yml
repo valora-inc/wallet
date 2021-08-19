@@ -20,8 +20,8 @@ jobs:
           cd ..
           git clone git@github.com:valora-inc/wallet-release.git
           cd wallet/
-          cp * ../wallet-release
-          cp .* ../wallet-release
+          cp -R * ../wallet-release
+          cp -R .* ../wallet-release
           git log -1 --pretty=%B | pbcopy
           cd ..
           cd wallet-release
