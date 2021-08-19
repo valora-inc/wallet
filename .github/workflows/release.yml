@@ -26,7 +26,5 @@ jobs:
           cp -a wallet/. wallet-release/
           cd wallet-release
           git add -A
-          git commit -m "temporary"
-          gsed -i '1d' .git/COMMIT_EDITMSG
-          pbpaste | gsed '1s/^/1i /' | gsed -i -f- .git/COMMIT_EDITMSG
+          pbpaste | git commit -F -
           git push
