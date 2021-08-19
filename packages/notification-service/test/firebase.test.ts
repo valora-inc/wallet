@@ -1,6 +1,11 @@
 import * as admin from 'firebase-admin'
 import { Currencies } from '../src/blockscout/transfers'
-import { sendPaymentNotification, _setRewardsSenders, _setTestRegistrations } from '../src/firebase'
+import {
+  sendPaymentNotification,
+  _setInviteRewardsSenders,
+  _setRewardsSenders,
+  _setTestRegistrations,
+} from '../src/firebase'
 
 const SENDER_ADDRESS = '0x123456'
 
@@ -45,7 +50,7 @@ describe('sendPaymentNotification', () => {
             "type": "PAYMENT_RECEIVED",
           },
           "notification": Object {
-            "body": "You've received 10 Celo Dollars",
+            "body": "You've received 10 cUSD",
             "title": "Payment Received",
           },
           "token": "TEST_FCM_TOKEN",
@@ -80,6 +85,20 @@ describe('sendPaymentNotification', () => {
     )
     expect(mockedMessagingSend.mock.calls[0][0].notification.body).toEqual(
       'Your weekly earnings have arrived! Add cUSD to earn even more next week.'
+    )
+  })
+
+  it('should send an invite reward received notification', async () => {
+    _setTestRegistrations({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } })
+    _setRewardsSenders([])
+    _setInviteRewardsSenders([SENDER_ADDRESS])
+
+    await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '5', Currencies.EURO, 150, {})
+
+    expect(mockedMessagingSend).toHaveBeenCalledTimes(1)
+    expect(mockedMessagingSend.mock.calls[0][0].notification.title).toEqual('Invite Accepted')
+    expect(mockedMessagingSend.mock.calls[0][0].notification.body).toEqual(
+      'Your friend accepted your Valora invite, and you earned 5 cEUR!'
     )
   })
 })

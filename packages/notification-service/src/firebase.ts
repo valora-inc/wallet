@@ -49,6 +49,10 @@ export function _setRewardsSenders(testRewardsSenders: string[]) {
   rewardsSenders = testRewardsSenders
 }
 
+export function _setInviteRewardsSenders(testRewardsSenders: string[]) {
+  inviteRewardsSenders = testRewardsSenders
+}
+
 function firebaseFetchError(nodeKey: string) {
   return (errorObject: any) => {
     console.error(`${nodeKey} data read failed:`, errorObject.code)
@@ -238,7 +242,7 @@ export async function sendPaymentNotification(
     t(title),
     t(body, {
       amount,
-      currency: t(currency, { count: parseInt(amount, 10) }),
+      currency: t(currency),
     }),
     recipientAddress,
     data
