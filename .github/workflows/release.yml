@@ -8,11 +8,25 @@ on:
 jobs:
   trigger:
     name: Trigger
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.TRIGGER_SSH_PRIVATE_KEY }}
-      - run: pwd && ls
+      - run: brew install gnu-sed
+      - run: |
+          cd ..
+          git clone git@github.com:valora-inc/wallet-release.git
+          cd wallet/
+          cp * ../wallet-release
+          cp .* ../wallet-release
+          git log -1 --pretty=%B | pbcopy
+          cd ..
+          cd wallet-release
+          git add -A
+          git commit -m "temporary"
+          gsed -i '1d' .git/COMMIT_EDITMSG
+          pbpaste | gsed '1s/^/1i /' | gsed -i -f- .git/COMMIT_EDITMSG
+          git push
