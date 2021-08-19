@@ -21,6 +21,8 @@ jobs:
           rm -rf .git/
           cd ..
           git clone git@github.com:valora-inc/wallet-release.git
+          pwd 
+          ls
           rsync -a wallet wallet-release
           cd ..
           cd wallet-release
