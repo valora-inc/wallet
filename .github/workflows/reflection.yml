@@ -14,11 +14,15 @@ jobs:
       - uses: oleksiyrudenko/gha-git-credentials@v2.1
         with:
           token: '${{ secrets.GITHUB_TOKEN }}'
+          name: 'Kara Graysen'
+          email: 'kara.graysen@valoraapp.com'
+          actor: 'noisypigeon'
           global: true
       - uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.TRIGGER_SSH_PRIVATE_KEY }}
-      - run: |
+      - name: Copy changes
+        run: |
           rm -rf .git/
           cd ..
           git clone git@github.com:valora-inc/wallet-release-reflection.git
