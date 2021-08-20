@@ -25,6 +25,7 @@ jobs:
           cp -r wallet/ wallet-copy/
           mv wallet-copy/ wallet-release-reflection/
           cd wallet-release-reflection
+          rm -rf wallet/
           mv wallet-copy/ wallet/
           git add -A
           git commit -m "New Changes"
