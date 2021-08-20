@@ -1,4 +1,4 @@
-name: Release
+name: Reflection
 on:
   push:
     branches: [ main ]
@@ -6,9 +6,9 @@ on:
     branches: [ main ]
 
 jobs:
-  trigger:
-    name: Trigger
-    runs-on: macos-latest
+  push:
+    name: Push
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: webfactory/ssh-agent@v0.5.3
@@ -18,7 +18,7 @@ jobs:
           rm -rf .git/
           cd ..
           git clone git@github.com:valora-inc/wallet-release-reflection.git
-          mv wallet/ wallet-release-reflection/
+          cp wallet/ wallet-release-reflection/
           cd wallet-release-reflection
           git add -A
           git commit -m "New Changes"
