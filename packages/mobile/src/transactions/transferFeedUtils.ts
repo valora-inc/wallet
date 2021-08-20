@@ -105,6 +105,7 @@ export function getTransferFeedParams(
   recipientInfo: RecipientInfo,
   isCeloRewardSender: boolean,
   isRewardSender: boolean,
+  isInviteRewardSender: boolean,
   providerInfo: ProviderFeedInfo | undefined,
   currency: string
 ) {
@@ -177,6 +178,10 @@ export function getTransferFeedParams(
       } else if (isRewardSender) {
         title = t('feedItemRewardReceivedTitle')
         info = t('feedItemRewardReceivedInfo')
+        Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
+      } else if (isInviteRewardSender) {
+        title = t('feedItemInviteRewardReceivedTitle')
+        info = t('feedItemInviteRewardReceivedInfo')
         Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
       } else if (providerInfo) {
         title = t('feedItemReceivedTitle', { displayName })

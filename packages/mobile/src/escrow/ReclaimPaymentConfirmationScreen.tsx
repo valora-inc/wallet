@@ -156,7 +156,7 @@ class ReclaimPaymentConfirmationScreen extends React.Component<Props> {
               } /* TODO get recipient contact details from recipient cache*/
             }
             amount={convertedAmount}
-            currency={Currency.Dollar} // User can only request in Dollars
+            currency={payment.currency}
             feeInfo={asyncFee.result}
             isLoadingFee={asyncFee.loading}
             feeError={asyncFee.error}

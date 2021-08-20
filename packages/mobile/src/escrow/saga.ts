@@ -37,7 +37,12 @@ import { VerificationStatus } from 'src/identity/types'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { fetchStableBalances } from 'src/stableToken/actions'
-import { getCurrencyAddress, getTokenContract, getTokenContractFromAddress } from 'src/tokens/saga'
+import {
+  getCurrencyAddress,
+  getStableCurrencyFromAddress,
+  getTokenContract,
+  getTokenContractFromAddress,
+} from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
@@ -427,6 +432,11 @@ function* doFetchSentPayments() {
         continue
       }
 
+      const currency: Currency | null = yield call(getStableCurrencyFromAddress, payment.token)
+      if (!currency) {
+        continue
+      }
+
       const escrowPaymentWithRecipient: EscrowedPayment = {
         paymentID: address,
         senderAddress: payment[1],
@@ -434,7 +444,7 @@ function* doFetchSentPayments() {
         // since identifier mapping could be fetched after this is called.
         recipientPhone: recipientPhoneNumber,
         recipientIdentifier: payment.recipientIdentifier,
-        currency: Currency.Dollar, // Only dollars can be escrowed
+        currency,
         amount: payment[3],
         timestamp: payment[6],
         expirySeconds: payment[7],
