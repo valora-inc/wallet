@@ -1,0 +1,34 @@
+name: Reflection
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  push:
+    name: Push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: oleksiyrudenko/gha-git-credentials@v2.1
+        with:
+          token: '${{ secrets.GITHUB_TOKEN }}'
+          name: 'Kara Graysen'
+          email: 'kara.graysen@valoraapp.com'
+          actor: 'noisypigeon'
+          global: true
+      - uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.TRIGGER_SSH_PRIVATE_KEY }}
+      - name: Push changes
+        run: |
+          rm -rf .git/
+          cd ..
+          git clone git@github.com:valora-inc/wallet-release-reflection.git
+          cp -r wallet/ wallet-copy/
+          mv wallet-copy/ wallet-release-reflection/
+          cd wallet-release-reflection
+          rm -rf wallet/
+          mv wallet-copy/ wallet/
+          git add -A
+          git commit -m "New Changes"
+          git push
