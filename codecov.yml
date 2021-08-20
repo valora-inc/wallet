@@ -1,58 +1,35 @@
-codecov:
-  branch: main
-
 coverage:
-  precision: 2
-  round: down
-  range: "70...100"
+  status:
+    project:
+      mobile:
+        paths:
+          - packages/mobile/
+        flags:
+          - mobile
+        threshold: 5%
+        target: 70%
+      # web:
+      #   paths:
+      #     - packages/web/
+      #   flags:
+      #     - web
+      #   threshold: 1%
+      #   target: 80%
+      # Protocol codecov disabled until coverage tests are fixed.
+      #protocol:
+        #paths: 'packages/protocol/'
+        #flags: protocol
+        #threshold: 5%
+        #target: 90%
+        #if_no_uploads: error
+        #if_not_found: success
+        #if_ci_failed: error
+    patch: off
 
-parsers:
-  gcov:
-    branch_detection:
-      conditional: yes
-      loop: yes
-      method: no
-      macro: no
-
-comment:
-  layout: "reach,diff,flags,files,footer"
-  behavior: default
-  require_changes: no
-
-# Attempt to use defaults
-# coverage:
-#   status:
-#     project:
-#       default: off
-#       mobile:
-#         paths:
-#           - packages/mobile/
-#         flags:
-#           - mobile
-#         threshold: 5%
-#         target: 70%
-#       web:
-#         paths:
-#           - packages/web/
-#         flags:
-#           - web
-#         threshold: 1%
-#         target: 80%
-#       # Protocol codecov disabled until coverage tests are fixed.
-#       #protocol:
-#         #paths: 'packages/protocol/'
-#         #flags: protocol
-#         #threshold: 5%
-#         #target: 90%
-#         #if_no_uploads: error
-#         #if_not_found: success
-#         #if_ci_failed: error
-#     patch: off
-
-# flags:
-#   mobile:
-#     paths:
-#       - packages/mobile/
-#   #protocol:
-#     #paths:
-#       #- packages/protocol/
+flags:
+  mobile:
+    paths:
+      - packages/mobile/
+  #protocol:
+    #paths:
+      #- packages/protocol/
