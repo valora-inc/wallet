@@ -19,8 +19,10 @@ jobs:
           rm -rf .git/
           cd ..
           git clone git@github.com:valora-inc/wallet-release-reflection.git
-          cp -r wallet/ wallet-release-reflection/
+          cp -r wallet/ wallet-copy/
+          mv wallet-copy/ wallet-release-reflection/
           cd wallet-release-reflection
+          mv wallet-copy/ wallet/
           git add -A
           git commit -m "New Changes"
           git push
