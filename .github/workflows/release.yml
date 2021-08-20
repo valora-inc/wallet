@@ -10,21 +10,16 @@ jobs:
     name: Trigger
     runs-on: macos-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.TRIGGER_SSH_PRIVATE_KEY }}
-      - run: brew install gnu-sed
       - run: |
-          git log -1 --pretty=%B | pbcopy
-          pbpaste
           rm -rf .git/
-          rm -rf .github/
           cd ..
-          git clone git@github.com:valora-inc/wallet-release.git
-          cp -a wallet/. wallet-release/
-          cd wallet-release
+          git clone git@github.com:valora-inc/wallet-release-reflection.git
+          mv wallet/ wallet-release-reflection/
+          cd wallet-release-reflection
           git add -A
-          pbpaste | git commit -F -
+          git commit -m "New Changes"
           git push
