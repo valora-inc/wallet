@@ -241,7 +241,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
                   },
                 ]
               }
-              testID="undefined/value"
+              testID="EscrowedPaymentListItem/amount/value"
             >
               
               $
