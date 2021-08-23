@@ -42,8 +42,8 @@ describe(BidaliScreen, () => {
     expect(window.valora).toMatchInlineSnapshot(`
       Object {
         "balances": Object {
+          "CEUR": "5",
           "CUSD": "10",
-          "CEUR": "5"
         },
         "onPaymentRequest": [Function],
         "openUrl": [Function],
@@ -71,8 +71,8 @@ describe(BidaliScreen, () => {
     expect(window.valora).toMatchInlineSnapshot(`
       Object {
         "balances": Object {
+          "CEUR": "5",
           "CUSD": "10",
-          "CEUR": "5"
         },
         "onPaymentRequest": [Function],
         "openUrl": [Function],
