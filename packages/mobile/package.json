@@ -173,7 +173,6 @@
   "devDependencies": {
     "@apollo/react-testing": "^3.1.3",
     "@babel/plugin-proposal-decorators": "^7.12.1",
-    "@celo/flake-tracker": "0.0.1-dev",
     "@graphql-codegen/add": "^1.10.0",
     "@graphql-codegen/cli": "^1.10.0",
     "@graphql-codegen/fragment-matcher": "1.10.0",

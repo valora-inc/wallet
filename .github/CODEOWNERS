@@ -7,5 +7,4 @@
 
 # directory and file-level owners. Feel free to add to this!
 /packages/moonpay-auth/ @tarikbellamine
-/packages/flake-tracker @alecps
 /packages/komencikit/ @celo-org/cap

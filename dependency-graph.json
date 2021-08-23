@@ -18,7 +18,6 @@
     "location": "packages/blockchain-api",
     "dependencies": [
       "@celo/contractkit",
-      "@celo/flake-tracker",
       "@celo/utils"
     ]
   },
@@ -31,7 +30,6 @@
       "@celo/dev-utils",
       "@celo/env-tests",
       "@celo/explorer",
-      "@celo/flake-tracker",
       "@celo/governance",
       "@celo/identity",
       "@celo/network-utils",
@@ -45,7 +43,6 @@
       "@celo/contractkit",
       "@celo/dev-utils",
       "@celo/explorer",
-      "@celo/flake-tracker",
       "@celo/governance",
       "@celo/identity",
       "@celo/utils",
@@ -79,10 +76,6 @@
       "@celo/utils"
     ]
   },
-  "@celo/flake-tracker": {
-    "location": "packages/flake-tracker",
-    "dependencies": []
-  },
   "@celo/komencikit": {
     "location": "packages/komencikit",
     "dependencies": [
@@ -106,7 +99,6 @@
     "dependencies": [
       "@celo/connect",
       "@celo/contractkit",
-      "@celo/flake-tracker",
       "@celo/identity",
       "@celo/komencikit",
       "@celo/network-utils",
@@ -124,7 +116,6 @@
     "location": "packages/notification-service",
     "dependencies": [
       "@celo/contractkit",
-      "@celo/flake-tracker",
       "@celo/utils"
     ]
   },
@@ -133,7 +124,6 @@
     "dependencies": [
       "@celo/base",
       "@celo/connect",
-      "@celo/flake-tracker",
       "@celo/typescript",
       "@celo/utils"
     ]
@@ -141,7 +131,6 @@
   "@celo/react-components": {
     "location": "packages/react-components",
     "dependencies": [
-      "@celo/flake-tracker",
       "@celo/typescript",
       "@celo/utils"
     ]
@@ -158,7 +147,6 @@
     "location": "packages/phone-number-privacy/combiner",
     "dependencies": [
       "@celo/contractkit",
-      "@celo/flake-tracker",
       "@celo/identity",
       "@celo/phone-number-privacy-common",
       "@celo/utils"
@@ -186,7 +174,6 @@
     "location": "packages/phone-number-privacy/signer",
     "dependencies": [
       "@celo/contractkit",
-      "@celo/flake-tracker",
       "@celo/identity",
       "@celo/phone-number-privacy-common",
       "@celo/utils",
@@ -196,14 +183,12 @@
   "@celo/base": {
     "location": "packages/sdk/base",
     "dependencies": [
-      "@celo/flake-tracker",
       "@celo/typescript"
     ]
   },
   "@celo/connect": {
     "location": "packages/sdk/connect",
     "dependencies": [
-      "@celo/flake-tracker",
       "@celo/utils"
     ]
   },
@@ -213,7 +198,6 @@
       "@celo/base",
       "@celo/connect",
       "@celo/dev-utils",
-      "@celo/flake-tracker",
       "@celo/protocol",
       "@celo/utils",
       "@celo/wallet-local"
@@ -251,7 +235,6 @@
       "@celo/base",
       "@celo/contractkit",
       "@celo/dev-utils",
-      "@celo/flake-tracker",
       "@celo/utils",
       "@celo/wallet-local"
     ]
@@ -260,7 +243,6 @@
     "location": "packages/sdk/network-utils",
     "dependencies": [
       "@celo/dev-utils",
-      "@celo/flake-tracker"
     ]
   },
   "@celo/transactions-uri": {
@@ -270,14 +252,12 @@
       "@celo/connect",
       "@celo/contractkit",
       "@celo/dev-utils",
-      "@celo/flake-tracker"
     ]
   },
   "@celo/utils": {
     "location": "packages/sdk/utils",
     "dependencies": [
       "@celo/base",
-      "@celo/flake-tracker",
       "@celo/typescript"
     ]
   },
