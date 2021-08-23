@@ -17,7 +17,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { cUsdBalanceSelector } from 'src/stableToken/selectors'
+import { cEurBalanceSelector, cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { Currency } from 'src/utils/currencies'
 
 function useInitialJavaScript(
@@ -101,15 +101,17 @@ function BidaliScreen({ route, navigation }: Props) {
 
   const webViewRef = useRef<WebViewRef>(null)
   const cusdBalance = useSelector(cUsdBalanceSelector)
+  const ceurBalance = useSelector(cEurBalanceSelector)
   const celoBalance = useSelector(celoTokenBalanceSelector)
   const jsonBalances = useMemo(
     () =>
       JSON.stringify({
         CUSD: cusdBalance,
+        CEUR: ceurBalance,
         // We'll add CELO support later on
         // CELO: celoBalance,
       }),
-    [cusdBalance, celoBalance]
+    [cusdBalance, celoBalance, ceurBalance]
   )
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const initialJavaScript = useInitialJavaScript(
