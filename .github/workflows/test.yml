@@ -27,6 +27,11 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: test-results
+      - name: 'Upload to Codecov'
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+    
   mobile:
     name: Mobile
     runs-on: ubuntu-latest
@@ -48,3 +53,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: packages/mobile/coverage/lcov-report
+      - name: 'Upload to Codecov'
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
