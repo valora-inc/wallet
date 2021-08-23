@@ -16,9 +16,7 @@ const run = async () => {
   const runBatch = () => {
     if (batch.length) {
       shell(
-        `jest ${batch.join(
-          ' '
-        )} --silent --coverageDirectory=./coverage/${uniqueId()} --silent --coverage`
+        `jest ${batch.join(' ')} --silent --coverageDirectory=./coverage/${uniqueId()} --coverage`
       )
       batch = []
     }
