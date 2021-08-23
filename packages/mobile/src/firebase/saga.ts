@@ -80,6 +80,7 @@ function* initializeFirebase() {
     yield put(showError(ErrorMessages.FIREBASE_FAILED))
   }
 }
+
 export function* syncLanguageSelection({ language }: SetLanguage) {
   yield call(waitForFirebaseAuth)
   const address = yield select(currentAccountSelector)

@@ -90,6 +90,24 @@ describe('Xanpool', () => {
     ])
   })
 
+  it('does not fetch quotes when digital asset is cEUR', async () => {
+    const fiatCurrency = 'PHP'
+    const digitalAsset = DigitalAsset.CEUR
+    const userCountry = 'PH'
+
+    fetchMock.mockResponse(createXanpoolQuoteResponse(fiatCurrency))
+
+    const quotes = await Xanpool.fetchQuote(
+      'buy',
+      digitalAsset,
+      fiatCurrency,
+      FIAT_CASH_IN_AMOUNT,
+      userCountry
+    )
+
+    expect(quotes).toEqual([])
+  })
+
   it("fetches quotes correctly when fiatCurrency is not native to the user's location", async () => {
     const fiatCurrency = 'USD'
     const digitalAsset = DigitalAsset.CUSD

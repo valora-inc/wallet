@@ -57,8 +57,7 @@
   "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> and <1></1> haven't accepted their invitations yet",
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> and one other haven't accepted their invitations yet",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> and others haven't accepted their invitations yet",
-  "escrowedPaymentReminderSms": "A friendly reminder that you haven't yet redeemed your Celo Dollars with {{appName}}! Go to {{link}} and enter your code to get started: {{code}}",
-  "escrowedPaymentReminderSmsNoData": "A friendly reminder that you haven't yet redeemed your Celo Dollars with {{appName}}! Download the mobile app to get started!",
+  "escrowedPaymentReminderSmsNoData": "A friendly reminder that you haven't yet redeemed your {{currency}} with {{appName}}! Download the mobile app to get started!",
   "testnetAlert": {
     "0": "{{testnet}}",
     "1": "A friendly reminder you're using the {{testnet}} network build - the balances are not real"
@@ -91,6 +90,8 @@
   "feedItemCeloRewardReceivedTitle": "Earned CELO",
   "feedItemRewardReceivedTitle": "CELO Network",
   "feedItemRewardReceivedInfo": "Weekly Earnings",
+  "feedItemInviteRewardReceivedTitle": "CELO Network",
+  "feedItemInviteRewardReceivedInfo": "Reward Received",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
   "feedItemReceivedInfo_noComment": "Payment Received",
