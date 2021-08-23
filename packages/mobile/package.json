@@ -22,7 +22,7 @@
     "dev:emulator:run": "$ANDROID_HOME/emulator/emulator -avd",
     "test": "export TZ=UTC && ./scripts/sync_branding.sh -b celo && jest --silent",
     "test:all": "yarn lint && yarn build:ts && yarn test",
-    "test:ci": "yarn test --coverage --clearCache",
+    "test:ci": "ts-node test/run-tests-ci.ts && yarn ts-script ./test/merge-coverage.ts --report ./coverage/*/coverage-final.json",
     "test:watch": "yarn test --watch --maxWorkers=4",
     "test:verbose": "export TZ=UTC && jest --verbose",
     "test:e2e:android": "./scripts/run_e2e.sh -p android -r",
@@ -206,6 +206,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-react-native": "^3.11.0",
     "faker": "^5.5.3",
+    "istanbul-api": "^3.0.0",
     "jest-fetch-mock": "^3.0.3",
     "metro-react-native-babel-preset": "^0.59.0",
     "mocha": "^7.1.1",
@@ -225,6 +226,7 @@
     "redux-mock-store": "^1.5.3",
     "redux-saga-test-plan": "^4.0.0-beta.2",
     "remote-redux-devtools": "^0.5.12",
+    "rimraf": "^3.0.2",
     "ts-retry-promise": "^0.6.0"
   },
   "resolutions": {
