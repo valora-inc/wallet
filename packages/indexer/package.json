@@ -47,9 +47,6 @@
     "sqlite3": "^5.0.2",
     "typescript": "~4.3.2"
   },
-  "peerDependencies": {
-    "@celo/flake-tracker": "0.0.1-dev"
-  },
   "engines": {
     "node": "12"
   },

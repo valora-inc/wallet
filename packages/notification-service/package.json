@@ -41,9 +41,6 @@
     "@types/utf8": "^2.1.6",
     "typescript": "^3.8.3"
   },
-  "peerDependencies": {
-    "@celo/flake-tracker": "0.0.1-dev"
-  },
   "engines": {
     "node": "12"
   },
