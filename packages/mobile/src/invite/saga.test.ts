@@ -85,7 +85,8 @@ describe(sendInvite, () => {
       .run()
 
     expect(i18n.t).toHaveBeenCalledWith('sendFlow7:inviteWithEscrowedPayment', {
-      amount: AMOUNT_TO_SEND.toString(),
+      amount: AMOUNT_TO_SEND.toFixed(2).toString(),
+      currency: 'global:celoDollars',
       link: DYNAMIC_DOWNLOAD_LINK,
     })
     expect(Share.share).toHaveBeenCalledWith({ message: 'sendFlow7:inviteWithEscrowedPayment' })
