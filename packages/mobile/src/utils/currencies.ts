@@ -57,3 +57,14 @@ export function mapOldCurrencyToNew(currencyString: string): Currency {
   // Default value
   return Currency.Dollar
 }
+
+export function resolveCurrency(currencyCode: string): Currency | undefined {
+  const currency = {
+    CELO: Currency.Celo,
+    CGLD: Currency.Celo,
+    CUSD: Currency.Dollar,
+    CEUR: Currency.Euro,
+  }[currencyCode.toUpperCase()]
+
+  return currency
+}
