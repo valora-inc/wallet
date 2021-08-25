@@ -22,8 +22,6 @@ files=(
   "packages/cloud-functions/config/rampStaging.pem"
   "packages/cloud-functions/.env.mainnet"
   "packages/cloud-functions/.env.alfajores"
-  "packages/indexer/config/config.mainnet.env"
-  "packages/indexer/config/config.alfajores.env"
   ".env.mnemonic"
   ".env.mnemonic.alfajores"
   ".env.mnemonic.baklava"

@@ -138,7 +138,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                           },
                         ]
                       }
-                      testID="undefined/value"
+                      testID="EscrowedPaymentListItem/amount/value"
                     >
                       
                       $
@@ -400,7 +400,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                           },
                         ]
                       }
-                      testID="undefined/value"
+                      testID="EscrowedPaymentListItem/amount/value"
                     >
                       
                       $
@@ -662,7 +662,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                           },
                         ]
                       }
-                      testID="undefined/value"
+                      testID="EscrowedPaymentListItem/amount/value"
                     >
                       
                       $
