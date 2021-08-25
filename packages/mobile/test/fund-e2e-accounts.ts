@@ -34,5 +34,5 @@ const getBalance = async (address = '0x6131a6d616a4be3737b38988847270a64bc10caa'
     }
   }
   // Log Balances
-  console.log('Test Account Funds: ', await getBalance())
+  console.log('0x6131a6d616a4be3737b38988847270a64bc10caa: ', await getBalance())
 })()
