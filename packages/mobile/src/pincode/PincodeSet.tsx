@@ -129,7 +129,7 @@ export class PincodeSet extends React.Component<Props, State> {
     return this.state.pin1 === pin
   }
 
-  onCompletePin1 = async () => {
+  onCompletePin1 = () => {
     if (this.isPin1Valid(this.state.pin1)) {
       this.props.navigation.setParams({ isVerifying: true })
       if (this.isChangingPin()) {
