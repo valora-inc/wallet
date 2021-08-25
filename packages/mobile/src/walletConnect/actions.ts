@@ -1,4 +1,4 @@
-import { PairingTypes, SessionTypes } from '@walletconnect/types'
+import { SessionTypes } from '@walletconnect/types'
 
 export enum Actions {
   /**
@@ -27,11 +27,6 @@ export enum Actions {
   SESSION_UPDATED = 'WALLETCONNECT/SESSION_UPDATED',
   SESSION_DELETED = 'WALLETCONNECT/SESSION_DELETED',
   SESSION_PAYLOAD = 'WALLETCONNECT/SESSION_PAYLOAD',
-
-  PAIRING_PROPOSAL = 'WALLETCONNECT/PAIRING_PROPOSAL',
-  PAIRING_CREATED = 'WALLETCONNECT/PAIRING_CREATED',
-  PAIRING_UPDATED = 'WALLETCONNECT/PAIRING_UPDATED',
-  PAIRING_DELETED = 'WALLETCONNECT/PAIRING_DELETED',
 }
 
 export interface InitialiseClient {
@@ -94,22 +89,6 @@ export interface SessionPayload {
   type: Actions.SESSION_PAYLOAD
   request: SessionTypes.RequestEvent
 }
-export interface PairingProposal {
-  type: Actions.PAIRING_PROPOSAL
-  pairing: PairingTypes.ProposeParams
-}
-export interface PairingCreated {
-  type: Actions.PAIRING_CREATED
-  pairing: PairingTypes.Created
-}
-export interface PairingUpdated {
-  type: Actions.PAIRING_UPDATED
-  pairing: PairingTypes.UpdateParams
-}
-export interface PairingDeleted {
-  type: Actions.PAIRING_DELETED
-  pairing: PairingTypes.DeleteParams
-}
 
 export type WalletConnectActions =
   | SessionProposal
@@ -117,10 +96,6 @@ export type WalletConnectActions =
   | SessionUpdated
   | SessionDeleted
   | SessionPayload
-  | PairingProposal
-  | PairingCreated
-  | PairingUpdated
-  | PairingDeleted
 
 export type UserActions =
   | InitialiseClient
@@ -189,21 +164,4 @@ export const sessionDeleted = (session: SessionTypes.DeleteParams) => ({
 export const sessionPayload = (request: SessionTypes.RequestEvent): SessionPayload => ({
   type: Actions.SESSION_PAYLOAD,
   request,
-})
-
-export const pairingProposal = (pairing: PairingTypes.ProposeParams) => ({
-  type: Actions.PAIRING_PROPOSAL,
-  pairing,
-})
-export const pairingCreated = (pairing: PairingTypes.CreateParams) => ({
-  type: Actions.PAIRING_CREATED,
-  pairing,
-})
-export const pairingUpdated = (pairing: PairingTypes.UpdateParams) => ({
-  type: Actions.PAIRING_UPDATED,
-  pairing,
-})
-export const pairingDeleted = (pairing: PairingTypes.DeleteParams) => ({
-  type: Actions.PAIRING_DELETED,
-  pairing,
 })

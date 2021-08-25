@@ -7,8 +7,8 @@ import AsyncStorage from '@react-native-community/async-storage'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client'
-import { PairingTypes, SessionTypes } from '@walletconnect/types'
-import { ERROR as WalletConnectErrors, ErrorType, getError } from '@walletconnect/utils'
+import { SessionTypes } from '@walletconnect/types'
+import { Error as WalletConnectError, ERROR as WalletConnectErrors } from '@walletconnect/utils'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
@@ -31,10 +31,6 @@ import {
   initialiseClient,
   InitialisePairing,
   initialisePairing,
-  pairingCreated,
-  pairingDeleted,
-  pairingProposal,
-  pairingUpdated,
   sessionCreated,
   sessionDeleted,
   SessionPayload,
@@ -73,7 +69,14 @@ export function* acceptSession({ session }: AcceptSession) {
         icons: [appendPath(WEB_LINK, '/favicon.ico')],
       },
       state: {
-        accounts: [`${account}@celo:${networkConfig.networkId}`],
+        accounts: [
+          // just covering the range of possibly accepted
+          // addresses in CAIP formats
+          `${account}@celo:${networkConfig.networkId}`,
+          `${account}@eip155:${networkConfig.networkId}`,
+          `celo:${networkConfig.networkId}:${account}`,
+          `eip155:${networkConfig.networkId}:${account}`,
+        ],
       },
     }
 
@@ -91,7 +94,7 @@ export function* denySession({ session }: DenySession) {
       throw new Error('missing client')
     }
     yield call(client.reject.bind(client), {
-      reason: getError(WalletConnectErrors.NOT_APPROVED),
+      reason: WalletConnectErrors.NOT_APPROVED.format(),
       proposal: session,
     })
   } catch (e) {
@@ -108,7 +111,7 @@ export function* closeSession({ session }: CloseSession) {
     }
     yield call(client.disconnect.bind(client), {
       topic: session.topic,
-      reason: getError(WalletConnectErrors.USER_DISCONNECTED),
+      reason: WalletConnectErrors.USER_DISCONNECTED.format(),
     })
   } catch (e) {
     Logger.debug(TAG + '@closeSession', e.message)
@@ -139,7 +142,7 @@ export function* acceptRequest({
     const wallet: UnlockableWallet = yield call(getWallet)
 
     let result: any
-    let error: ErrorType | undefined
+    let error: WalletConnectError | undefined
     try {
       yield call(unlockAccount, account)
       // Set `result` or `error` accordingly
@@ -171,6 +174,9 @@ export function* acceptRequest({
             newTransactionContext(TAG, 'WalletConnect/eth_sendTransaction')
           )
           break
+        case SupportedActions.personal_sign:
+          result = yield call(wallet.signPersonalMessage.bind(wallet), account, params[1])
+          break
         default:
           error = WalletConnectErrors.JSONRPC_REQUEST_METHOD_UNSUPPORTED
       }
@@ -182,7 +188,7 @@ export function* acceptRequest({
     const response =
       result !== undefined
         ? { ...partialResponse, result }
-        : { ...partialResponse, error: getError(error!) }
+        : { ...partialResponse, error: error!.format() }
 
     yield call(client.respond.bind(client), {
       topic,
@@ -211,7 +217,7 @@ export function* denyRequest({
       response: {
         id,
         jsonrpc,
-        error: getError(WalletConnectErrors.DISAPPROVED_JSONRPC),
+        error: WalletConnectErrors.DISAPPROVED_JSONRPC.format(),
       },
     })
   } catch (e) {
@@ -253,12 +259,6 @@ export function* createWalletConnectChannel() {
     const onSessionDeleted = (session: SessionTypes.DeleteParams) => emit(sessionDeleted(session))
     const onSessionRequest = (request: SessionTypes.RequestEvent) => emit(sessionPayload(request))
 
-    const onPairingProposal = (pairing: PairingTypes.ProposeParams) =>
-      emit(pairingProposal(pairing))
-    const onPairingCreated = (pairing: PairingTypes.CreateParams) => emit(pairingCreated(pairing))
-    const onPairingUpdated = (pairing: PairingTypes.UpdateParams) => emit(pairingUpdated(pairing))
-    const onPairingDeleted = (pairing: PairingTypes.DeleteParams) => emit(pairingDeleted(pairing))
-
     if (!client) {
       return () => {
         Logger.debug(TAG + '@createWalletConnectChannel', 'missing client clean up')
@@ -270,11 +270,6 @@ export function* createWalletConnectChannel() {
     client.on(CLIENT_EVENTS.session.updated, onSessionUpdated)
     client.on(CLIENT_EVENTS.session.deleted, onSessionDeleted)
     client.on(CLIENT_EVENTS.session.request, onSessionRequest)
-
-    client.on(CLIENT_EVENTS.pairing.proposal, onPairingProposal)
-    client.on(CLIENT_EVENTS.pairing.created, onPairingCreated)
-    client.on(CLIENT_EVENTS.pairing.updated, onPairingUpdated)
-    client.on(CLIENT_EVENTS.pairing.deleted, onPairingDeleted)
 
     return () => {
       if (!client) {
@@ -290,14 +285,8 @@ export function* createWalletConnectChannel() {
       client.off(CLIENT_EVENTS.session.deleted, onSessionDeleted)
       client.off(CLIENT_EVENTS.session.request, onSessionRequest)
 
-      client.off(CLIENT_EVENTS.pairing.proposal, onPairingProposal)
-      client.off(CLIENT_EVENTS.pairing.created, onPairingCreated)
-      client.off(CLIENT_EVENTS.pairing.updated, onPairingUpdated)
-      client.off(CLIENT_EVENTS.pairing.deleted, onPairingDeleted)
-
-      const reason = getError(WalletConnectErrors.EXPIRED)
+      const reason = WalletConnectErrors.EXPIRED.format()
       client.session.topics.map((topic) => client!.disconnect({ reason, topic }))
-      client.pairing.topics.map((topic) => client!.pairing.delete({ topic, reason }))
       client = null
     }
   })
