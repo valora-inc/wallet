@@ -59,12 +59,11 @@ export function mapOldCurrencyToNew(currencyString: string): Currency {
 }
 
 export function resolveCurrency(currencyCode: string): Currency | undefined {
-  const currency = {
+  const mapping: Record<string, Currency | undefined> = {
     CELO: Currency.Celo,
     CGLD: Currency.Celo,
     CUSD: Currency.Dollar,
     CEUR: Currency.Euro,
-  }[currencyCode.toUpperCase()]
-
-  return currency
+  }
+  return mapping[currencyCode.toUpperCase()]
 }
