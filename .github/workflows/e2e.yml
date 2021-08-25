@@ -40,6 +40,9 @@ jobs:
         run: |
           cd packages/mobile/ios
           bundle exec pod install
+      - name: Fund E2E accounts
+        run : |
+          node ./test/fund-e2e-accounts.ts
       - name: Run E2E tests
         run: |
           cd packages/mobile
