@@ -107,18 +107,6 @@ export class PinBlocklist {
   }
 }
 
-export async function secureRandomPin(): Promise<string> {
-  // Based on Algorithm 4 of https://arxiv.org/pdf/1805.10941.pdf
-  // Sample a 32-bit random value, then cast it into the the range [0, 1e6].
-  const randomUint32 = Buffer.from(await generateSecureRandom(4)).readUInt32BE(0)
-  const randomPin = randomUint32 % 10 ** 6
-  if (randomUint32 - randomPin > 2 ** 32 - 10 ** 6) {
-    // Random 32-bit value is outside the acceptable range, try again.
-    return secureRandomPin()
-  }
-  return String(randomPin).padStart(6, '0')
-}
-
 const DEPRECATED_PIN_BLOCKLIST = [
   '000000',
   '111111',
