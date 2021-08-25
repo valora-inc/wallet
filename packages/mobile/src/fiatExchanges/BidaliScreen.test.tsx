@@ -26,7 +26,7 @@ describe(BidaliScreen, () => {
   it('renders correctly when no phone number is provided', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: null },
-      stableToken: { balances: { [Currency.Dollar]: '10' } },
+      stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '5' } },
     })
 
     const { getByType } = render(
@@ -42,6 +42,7 @@ describe(BidaliScreen, () => {
     expect(window.valora).toMatchInlineSnapshot(`
       Object {
         "balances": Object {
+          "CEUR": "5",
           "CUSD": "10",
         },
         "onPaymentRequest": [Function],
@@ -55,7 +56,7 @@ describe(BidaliScreen, () => {
   it('renders correctly when a phone number is provided', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: '+14155556666' },
-      stableToken: { balances: { [Currency.Dollar]: '10' } },
+      stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '5' } },
     })
 
     const { getByType } = render(
@@ -70,6 +71,7 @@ describe(BidaliScreen, () => {
     expect(window.valora).toMatchInlineSnapshot(`
       Object {
         "balances": Object {
+          "CEUR": "5",
           "CUSD": "10",
         },
         "onPaymentRequest": [Function],
