@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { createSelector } from 'reselect'
 import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
+import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
@@ -53,6 +54,24 @@ export const defaultCurrencySelector = createSelector(
       if (!maxBalance || balances[currency]?.gt(maxBalance)) {
         maxCurrency = currency
         maxBalance = balances[currency]
+      }
+    }
+    return maxCurrency
+  }
+)
+
+// Returns the stable currency with the higher balance
+export const higherBalanceStableCurrencySelector = createSelector(
+  balancesSelector,
+  localCurrencyExchangeRatesSelector,
+  (balances, exchangeRates) => {
+    let maxCurrency = Currency.Dollar
+    let maxBalance: BigNumber | null = null
+    for (const currency of STABLE_CURRENCIES) {
+      const balance = convertCurrencyToLocalAmount(balances[currency], exchangeRates[currency])
+      if (balance?.gt(maxBalance || 0)) {
+        maxCurrency = currency
+        maxBalance = balance
       }
     }
     return maxCurrency

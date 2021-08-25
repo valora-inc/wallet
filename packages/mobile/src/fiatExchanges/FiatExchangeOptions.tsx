@@ -245,7 +245,8 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               ((isCashIn &&
                 (selectedPaymentMethod === PaymentMethod.Bank ||
                   selectedPaymentMethod === PaymentMethod.Card)) ||
-                selectedPaymentMethod === PaymentMethod.Exchange)
+                selectedPaymentMethod === PaymentMethod.Exchange ||
+                selectedPaymentMethod === PaymentMethod.GiftCard)
             }
             testID="radio/cEUR"
           />
@@ -303,7 +304,9 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                     text={t('receiveWithBidali')}
                     selected={selectedPaymentMethod === PaymentMethod.GiftCard}
                     onSelect={onSelectPaymentMethod(PaymentMethod.GiftCard)}
-                    enabled={selectedCurrency === Currency.Dollar}
+                    enabled={
+                      selectedCurrency === Currency.Dollar || selectedCurrency === Currency.Euro
+                    }
                     testID="receiveWithBidali"
                   />
                   <PaymentMethodRadioItem

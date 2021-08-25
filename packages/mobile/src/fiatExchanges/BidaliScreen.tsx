@@ -17,7 +17,11 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { cEurBalanceSelector, cUsdBalanceSelector } from 'src/stableToken/selectors'
+import {
+  cEurBalanceSelector,
+  cUsdBalanceSelector,
+  higherBalanceStableCurrencySelector,
+} from 'src/stableToken/selectors'
 import { Currency } from 'src/utils/currencies'
 
 function useInitialJavaScript(
@@ -114,8 +118,11 @@ function BidaliScreen({ route, navigation }: Props) {
     [cusdBalance, celoBalance, ceurBalance]
   )
   const e164PhoneNumber = useSelector(e164NumberSelector)
+  const higherBalanceStableCurrency = useSelector(higherBalanceStableCurrencySelector)
+
   const initialJavaScript = useInitialJavaScript(
-    route.params.currency,
+    // Use provided currency if available, otherwise use the higher balance stable currency
+    route.params.currency ?? higherBalanceStableCurrency,
     jsonBalances,
     e164PhoneNumber
   )

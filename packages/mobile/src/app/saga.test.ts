@@ -11,7 +11,6 @@ import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
-import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
@@ -70,7 +69,7 @@ describe('App saga', () => {
   it('Handles Bidali deep link', async () => {
     const deepLink = 'celo://wallet/bidali'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
-    expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: Currency.Dollar })
+    expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: undefined })
   })
 
   it('Handles openScreen deep link with safe origin', async () => {
