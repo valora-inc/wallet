@@ -113,7 +113,7 @@ describe('Pincode', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet)
     const mockStore = createMockStore()
 
-    const { getByTestId, getByText, rerender } = render(
+    const { getByTestId, getByText } = render(
       <Provider store={mockStore}>
         <PincodeSet {...mockScreenProps} />
       </Provider>
