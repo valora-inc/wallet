@@ -70,7 +70,7 @@ function ExternalExchanges({ route }: Props) {
   )
 
   return (
-    <SafeAreaView style={styles.contentContainer}>
+    <SafeAreaView style={styles.container}>
       {isCashIn ? (
         <Text style={styles.pleaseSelectProvider}>
           {t('youCanTransferIn', {
@@ -105,11 +105,9 @@ function ExternalExchanges({ route }: Props) {
 }
 
 const styles = StyleSheet.create({
-  contentContainer: {
+  container: {
     flex: 1,
     justifyContent: 'space-between',
-  },
-  container: {
     paddingVertical: variables.contentPadding,
   },
   pleaseSelectProvider: {
