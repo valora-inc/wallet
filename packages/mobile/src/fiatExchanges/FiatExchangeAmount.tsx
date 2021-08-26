@@ -46,6 +46,7 @@ import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { balancesSelector } from 'src/stableToken/selectors'
 import { Currency } from 'src/utils/currencies'
+import { roundDown, roundUp } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 
 const { decimalSeparator } = getNumberFormatSettings()
@@ -226,16 +227,18 @@ function FiatExchangeAmount({ route }: Props) {
       >
         {localCurrencyAmountRequested.isGreaterThan(localCurrencyMaxAmount)
           ? t('invalidAmountDialog.maxAmount', {
-              limit:
+              usdLimit: `$${DOLLAR_ADD_FUNDS_MAX_AMOUNT}`,
+              localLimit:
                 currency === Currency.Celo
-                  ? `${currencyMaxAmount.toFixed(3)} CELO`
-                  : `${localCurrencySymbol}${localCurrencyMaxAmount.toFixed(0)}`,
+                  ? `${roundUp(currencyMaxAmount, 3)} CELO`
+                  : `${localCurrencySymbol}${roundUp(localCurrencyMaxAmount)}`,
             })
           : t('invalidAmountDialog.minAmount', {
-              limit:
+              usdLimit: `$${DOLLAR_ADD_FUNDS_MIN_AMOUNT}`,
+              localLimit:
                 currency === Currency.Celo
-                  ? `${currencyMinAmount.toFixed(3)} CELO`
-                  : `${localCurrencySymbol}${localCurrencyMinAmount.toFixed(0)}`,
+                  ? `${roundUp(currencyMinAmount, 3)} CELO`
+                  : `${localCurrencySymbol}${roundUp(localCurrencyMinAmount)}`,
             })}
       </Dialog>
       <Dialog
@@ -252,7 +255,7 @@ function FiatExchangeAmount({ route }: Props) {
             i18nKey={'dailyLimitDialog.body'}
             ns={Namespaces.fiatExchangeFlow}
             tOptions={{
-              limit: `${localCurrencySymbol}${localCurrencyDailyLimitAmount.toFixed(0)}`,
+              limit: `${localCurrencySymbol}${roundDown(localCurrencyDailyLimitAmount)}`,
               contactEmail: CELO_SUPPORT_EMAIL_ADDRESS,
             }}
           >
