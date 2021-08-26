@@ -41,6 +41,7 @@ type Props = StackScreenProps<StackParamList, Screens.ExternalExchanges>
 
 function ExternalExchanges({ route }: Props) {
   const account = useSelector(currentAccountSelector)
+  const isCashIn = route.params?.isCashIn ?? true
 
   const goToProvider = (provider: ExternalExchangeProvider) => {
     const { name, link } = provider
@@ -53,6 +54,14 @@ function ExternalExchanges({ route }: Props) {
     }
   }
 
+  const getCoinText = (currency = route.params.currency) => {
+    return currency === Currency.Dollar
+      ? t('celoDollars')
+      : route.params.currency === Currency.Euro
+      ? t('celoEuro')
+      : 'CELO'
+  }
+
   const { t } = useTranslation('fiatExchangeFlow')
 
   // TODO Dynamically fetch exchange provider links so they can be updated between releases
@@ -61,35 +70,45 @@ function ExternalExchanges({ route }: Props) {
   )
 
   return (
-    <ScrollView style={styles.container}>
-      <SafeAreaView>
+    <SafeAreaView style={styles.contentContainer}>
+      {isCashIn ? (
         <Text style={styles.pleaseSelectProvider}>
-          {t('youCanTransfer', {
-            currency: route.params.currency === Currency.Dollar ? t('celoDollars') : 'CELO',
+          {t('youCanTransferIn', {
+            currency: getCoinText(),
           })}
         </Text>
-        <View testID="accountBox" style={styles.accountBox}>
-          <Text style={styles.accountLabel}>{t('sendFlow7:accountNumberLabel')}</Text>
-          <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
-        </View>
-        <View style={styles.providersContainer}>
-          {providers.map((provider, idx) => {
-            return (
-              <ListItem key={provider.name} onPress={goToProvider(provider)}>
-                <View testID={provider.name} style={styles.providerListItem}>
-                  <Text style={styles.optionTitle}>{provider.name}</Text>
-                  <LinkArrow />
-                </View>
-              </ListItem>
-            )
+      ) : (
+        <Text style={styles.pleaseSelectProvider}>
+          {t('youCanTransferOut', {
+            currency: getCoinText(),
           })}
-        </View>
-      </SafeAreaView>
-    </ScrollView>
+        </Text>
+      )}
+      <View testID="accountBox" style={styles.accountBox}>
+        <Text style={styles.accountLabel}>{t('sendFlow7:accountNumberLabel')}</Text>
+        <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
+      </View>
+      <ScrollView style={styles.providersContainer}>
+        {providers.map((provider, idx) => {
+          return (
+            <ListItem key={provider.name} onPress={goToProvider(provider)}>
+              <View testID={provider.name} style={styles.providerListItem}>
+                <Text style={styles.optionTitle}>{provider.name}</Text>
+                <LinkArrow />
+              </View>
+            </ListItem>
+          )
+        })}
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
+  contentContainer: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
   container: {
     paddingVertical: variables.contentPadding,
   },

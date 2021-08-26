@@ -90,6 +90,7 @@ export type StackParamList = {
     buyCelo: boolean
   }
   [Screens.ExternalExchanges]: {
+    isCashIn?: boolean
     currency: Currency
   }
   [Screens.FiatExchange]: undefined

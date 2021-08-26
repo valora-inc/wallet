@@ -159,6 +159,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
     if (selectedPaymentMethod === PaymentMethod.Exchange) {
       navigate(Screens.ExternalExchanges, {
         currency: selectedCurrency,
+        isCashIn: isCashIn,
       })
     } else if (selectedPaymentMethod === PaymentMethod.LocalProvider && selectedLocalProvider) {
       navigateToURI(selectedLocalProvider[asset].url)
