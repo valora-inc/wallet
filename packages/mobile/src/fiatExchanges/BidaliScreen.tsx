@@ -117,7 +117,7 @@ function BidaliScreen({ route, navigation }: Props) {
     () =>
       JSON.stringify(
         // Maps supported currencies to an object with their balance
-        // Example: [cUSD, cEUR] to { cUSD: X, cEUR: Y }
+        // Example: [cUSD, cEUR] to { CUSD: X, CEUR: Y }
         Object.fromEntries(
           SUPPORTED_CURRENCIES.map((currency) => [currency.toUpperCase(), balances[currency]])
         )
