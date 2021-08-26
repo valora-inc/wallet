@@ -94,7 +94,7 @@ describe(watchBidaliPaymentRequests, () => {
     expect(onCancelled).not.toHaveBeenCalled()
   })
 
-  it('triggers the payment flow with cEUR and calls `onPaymentSent` when successful', async () => {
+  it.skip('triggers the payment flow with cEUR and calls `onPaymentSent` when successful', async () => {
     const onPaymentSent = jest.fn()
     const onCancelled = jest.fn()
 
