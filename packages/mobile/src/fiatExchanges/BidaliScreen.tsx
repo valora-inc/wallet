@@ -23,7 +23,7 @@ import { getHigherBalanceCurrency } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 
 // Note for later when adding CELO: make sure that Currency.Celo maps to CELO and not cGLD
-const SUPPORTED_CURRENCIES = [Currency.Dollar, Currency.Euro]
+export const BIDALI_CURRENCIES = [Currency.Dollar, Currency.Euro]
 
 function useInitialJavaScript(
   currency: Currency,
@@ -66,7 +66,7 @@ const higherBalanceCurrencySelector = createSelector(
   balancesSelector,
   localCurrencyExchangeRatesSelector,
   (balances, exchangeRates) =>
-    getHigherBalanceCurrency(SUPPORTED_CURRENCIES, balances, exchangeRates) ?? Currency.Dollar
+    getHigherBalanceCurrency(BIDALI_CURRENCIES, balances, exchangeRates) ?? Currency.Dollar
 )
 
 type RouteProps = StackScreenProps<StackParamList, Screens.BidaliScreen>
@@ -119,7 +119,7 @@ function BidaliScreen({ route, navigation }: Props) {
         // Maps supported currencies to an object with their balance
         // Example: [cUSD, cEUR] to { CUSD: X, CEUR: Y }
         Object.fromEntries(
-          SUPPORTED_CURRENCIES.map((currency) => [currency.toUpperCase(), balances[currency]])
+          BIDALI_CURRENCIES.map((currency) => [currency.toUpperCase(), balances[currency]])
         )
       ),
     [balances]
