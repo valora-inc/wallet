@@ -31,7 +31,7 @@ import {
 } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import i18n, { Namespaces } from 'src/i18n'
-import { LocalCurrencySymbol } from 'src/localCurrency/consts'
+import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
   useConvertBetweenCurrencies,
   useCurrencyToLocalAmount,
@@ -229,16 +229,20 @@ function FiatExchangeAmount({ route }: Props) {
           ? t('invalidAmountDialog.maxAmount', {
               usdLimit: `$${DOLLAR_ADD_FUNDS_MAX_AMOUNT}`,
               localLimit:
-                currency === Currency.Celo
-                  ? `${roundUp(currencyMaxAmount, 3)} CELO`
-                  : `${localCurrencySymbol}${roundUp(localCurrencyMaxAmount)}`,
+                localCurrencyCode === LocalCurrencyCode.USD
+                  ? ''
+                  : currency === Currency.Celo
+                  ? ` (${roundUp(currencyMaxAmount, 3)} CELO)`
+                  : ` (${localCurrencySymbol}${roundUp(localCurrencyMaxAmount)})`,
             })
           : t('invalidAmountDialog.minAmount', {
               usdLimit: `$${DOLLAR_ADD_FUNDS_MIN_AMOUNT}`,
               localLimit:
-                currency === Currency.Celo
-                  ? `${roundUp(currencyMinAmount, 3)} CELO`
-                  : `${localCurrencySymbol}${roundUp(localCurrencyMinAmount)}`,
+                localCurrencyCode === LocalCurrencyCode.USD
+                  ? ''
+                  : currency === Currency.Celo
+                  ? ` (${roundUp(currencyMinAmount, 3)} CELO)`
+                  : ` (${localCurrencySymbol}${roundUp(localCurrencyMinAmount)})`,
             })}
       </Dialog>
       <Dialog
