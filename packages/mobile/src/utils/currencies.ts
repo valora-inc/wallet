@@ -39,6 +39,7 @@ export const CURRENCIES: CurrencyObject = {
   },
 }
 
+// TODO: maybe combine this with resolveCurrency
 export function mapOldCurrencyToNew(currencyString: string): Currency {
   const oldMapping: Record<string, any> = {
     dollar: Currency.Dollar,
