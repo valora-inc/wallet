@@ -35,7 +35,7 @@ jobs:
       - name: Install Ruby dependencies
         run: |
           cd packages/mobile
-          bundle install
+          sudo bundle install
       - name: Install CocoaPods dependencies
         run: |
           cd packages/mobile/ios
