@@ -32,7 +32,7 @@ jobs:
       - name: Install Ruby dependencies
         run: |
           cd packages/mobile
-          bundle install
+          bundle install --path vendor/bundle
       - name: Install CocoaPods dependencies
         run: |
           cd packages/mobile/ios
