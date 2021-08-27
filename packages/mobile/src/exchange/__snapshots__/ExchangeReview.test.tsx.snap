@@ -601,21 +601,7 @@ exports[`ExchangeReview renders correctly 1`] = `
             }
           }
         >
-          <Text
-            style={
-              Array [
-                undefined,
-                Object {
-                  "color": undefined,
-                },
-              ]
-            }
-            testID="undefined/value"
-          >
-            
-            
-            10.000
-          </Text>
+          10.00
         </Text>
       </View>
     </View>
