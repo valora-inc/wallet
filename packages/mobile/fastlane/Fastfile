@@ -78,7 +78,7 @@ platform :ios do
       workspace: 'ios/celo.xcworkspace',
       scheme: "celo-#{options[:environment]}",
       configuration: "Release",
-      xcargs: "-allowProvisioningUpdates",
+      # xcargs: "-allowProvisioningUpdates",
       output_directory: "build",
       # verbose: true
      ) 
