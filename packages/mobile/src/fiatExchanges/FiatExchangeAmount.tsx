@@ -31,7 +31,7 @@ import {
 } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import i18n, { Namespaces } from 'src/i18n'
-import { LocalCurrencySymbol } from 'src/localCurrency/consts'
+import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
   useConvertBetweenCurrencies,
   useCurrencyToLocalAmount,
@@ -46,6 +46,7 @@ import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { balancesSelector } from 'src/stableToken/selectors'
 import { Currency } from 'src/utils/currencies'
+import { roundDown, roundUp } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 
 const { decimalSeparator } = getNumberFormatSettings()
@@ -129,6 +130,20 @@ function FiatExchangeAmount({ route }: Props) {
       Currency.Dollar,
       currency
     ) || new BigNumber(0)
+
+  let overLocalLimitDisplayString = ''
+  let underLocalLimitDisplayString = ''
+  if (localCurrencyCode !== LocalCurrencyCode.USD) {
+    overLocalLimitDisplayString =
+      currency === Currency.Celo
+        ? ` (${roundUp(currencyMaxAmount, 3)} CELO)`
+        : ` (${localCurrencySymbol}${roundUp(localCurrencyMaxAmount)})`
+
+    underLocalLimitDisplayString =
+      currency === Currency.Celo
+        ? ` (${roundUp(currencyMinAmount, 3)} CELO)`
+        : ` (${localCurrencySymbol}${roundUp(localCurrencyMinAmount)})`
+  }
 
   const dispatch = useDispatch()
 
@@ -226,16 +241,12 @@ function FiatExchangeAmount({ route }: Props) {
       >
         {localCurrencyAmountRequested.isGreaterThan(localCurrencyMaxAmount)
           ? t('invalidAmountDialog.maxAmount', {
-              limit:
-                currency === Currency.Celo
-                  ? `${currencyMaxAmount.toFixed(3)} CELO`
-                  : `${localCurrencySymbol}${localCurrencyMaxAmount.toFixed(0)}`,
+              usdLimit: `$${DOLLAR_ADD_FUNDS_MAX_AMOUNT}`,
+              localLimit: overLocalLimitDisplayString,
             })
           : t('invalidAmountDialog.minAmount', {
-              limit:
-                currency === Currency.Celo
-                  ? `${currencyMinAmount.toFixed(3)} CELO`
-                  : `${localCurrencySymbol}${localCurrencyMinAmount.toFixed(0)}`,
+              usdLimit: `$${DOLLAR_ADD_FUNDS_MIN_AMOUNT}`,
+              localLimit: underLocalLimitDisplayString,
             })}
       </Dialog>
       <Dialog
@@ -252,7 +263,7 @@ function FiatExchangeAmount({ route }: Props) {
             i18nKey={'dailyLimitDialog.body'}
             ns={Namespaces.fiatExchangeFlow}
             tOptions={{
-              limit: `${localCurrencySymbol}${localCurrencyDailyLimitAmount.toFixed(0)}`,
+              limit: `${localCurrencySymbol}${roundDown(localCurrencyDailyLimitAmount)}`,
               contactEmail: CELO_SUPPORT_EMAIL_ADDRESS,
             }}
           >
