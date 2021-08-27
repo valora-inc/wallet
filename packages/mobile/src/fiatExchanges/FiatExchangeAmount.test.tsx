@@ -29,7 +29,7 @@ const usdExchangeRates = {
 }
 
 const eurExchangeRates = {
-  [Currency.Dollar]: '0.85',
+  [Currency.Dollar]: '0.862',
   [Currency.Euro]: '1',
   [Currency.Celo]: '2.5',
 }
