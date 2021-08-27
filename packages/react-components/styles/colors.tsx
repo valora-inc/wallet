@@ -10,6 +10,7 @@ export enum Colors {
   beige = '#F1F0EB',
   brownFaint = '#FFF9EE',
   warning = '#EA6042',
+  informational = '#0768AE',
   dark = '#2E3338',
   gray5 = '#81868B',
   gray4 = '#9CA4A9',
@@ -24,6 +25,7 @@ export enum Colors {
   onboardingBlue = '#0768AE',
   onboardingLightBlue = '#D6EAF3',
   onboardingBackground = '#F9F6F0',
+  modalBackdrop = '#1B392F',
 
   greenBackground = '#DEF8EA',
   greenStrong = '#08CB7A',

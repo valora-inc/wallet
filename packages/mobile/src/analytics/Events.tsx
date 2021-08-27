@@ -12,6 +12,7 @@ export enum AppEvents {
   redux_keychain_mismatch = 'redux_keychain_mismatch',
   redux_store_recovery_success = 'redux_store_recovery_success',
   push_notification_opened = 'push_notification_opened',
+  android_mobile_services_availability_checked = 'android_mobile_services_availability_checked',
 
   request_tracking_permission_started = 'request_tracking_permission_started',
   request_tracking_permission_declined = 'request_tracking_permission_declined',
@@ -98,8 +99,16 @@ export enum OnboardingEvents {
   pin_never_set = 'pin_never_set',
 
   wallet_import_start = 'wallet_import_start',
-  wallet_import_complete = 'wallet_import_complete',
-  wallet_import_cancel = 'wallet_import_cancel', // when a user cancels import of 0 balance wallet
+  wallet_import_phrase_updated = 'wallet_import_phrase_updated',
+  wallet_import_submit = 'wallet_import_submit',
+  wallet_import_cancel = 'wallet_import_cancel', // when a user cancels import of empty wallet or navigates back
+  wallet_import_zero_balance = 'wallet_import_zero_balance', // when the user is informed a wallet has zero balance
+  wallet_import_phrase_invalid = 'wallet_import_phrase_invalid',
+  wallet_import_phrase_correction_attempt = 'wallet_import_phrase_correction_attempt',
+  wallet_import_phrase_correction_success = 'wallet_import_phrase_correction_success',
+  wallet_import_phrase_correction_failed = 'wallet_import_phrase_correction_failed',
+  wallet_import_error = 'wallet_import_error',
+  wallet_import_success = 'wallet_import_success',
 
   invite_redeem_start = 'invite_redeem_start',
   invite_redeem_complete = 'invite_redeem_complete',
@@ -113,7 +122,7 @@ export enum OnboardingEvents {
   initialize_account_complete = 'initialize_account_complete',
   initialize_account_error = 'initialize_account_error',
 
-  escrow_redeem_start = 'escrow_redeem_start', // when escrow redemption starts (only happens on user invite redeemption)
+  escrow_redeem_start = 'escrow_redeem_start', // when escrow redemption starts (only happens on user invite redemption)
   escrow_redeem_complete = 'escrow_redeem_complete',
   escrow_redeem_error = 'escrow_redeem_error',
 
@@ -130,6 +139,7 @@ export enum VerificationEvents {
   verification_cancel = 'verification_cancel',
   verification_timeout = 'verification_timeout',
 
+  verification_hash_cached = 'verification_hash_cached',
   verification_hash_retrieved = 'verification_hash_retrieved',
 
   verification_request_all_attestations_start = 'verification_request_all_attestations_start',
@@ -166,6 +176,22 @@ export enum VerificationEvents {
   verification_revoke_error = 'verification_revoke_error',
 
   verification_resend_messages = 'verification_resend_messages',
+
+  verification_recaptcha_started = 'verification_recaptcha_started',
+  verification_recaptcha_skipped = 'verification_recaptcha_skipped',
+  verification_recaptcha_success = 'verification_recaptcha_success',
+  verification_recaptcha_failure = 'verification_recaptcha_failure',
+  verification_recaptcha_canceled = 'verification_recaptcha_canceled',
+
+  verification_session_started = 'verification_session_started',
+
+  verification_already_completed = 'verification_already_completed',
+
+  verification_mtw_fetch_start = 'verification_mtw_fetch_start',
+  verification_mtw_fetch_success = 'verification_mtw_fetch_success',
+
+  verification_fetch_on_chain_data_start = 'verification_fetch_on_chain_data_start',
+  verification_fetch_on_chain_data_success = 'verification_fetch_on_chain_data_success',
 }
 
 export enum IdentityEvents {
@@ -236,11 +262,19 @@ export enum SendEvents {
   send_secure_incorrect = 'send_secure_incorrect', // when there's been an error validating the account
   send_secure_complete = 'send_secure_complete', // when an account has been validated
 
-  send_secure_edit = 'send_secure_edit', // when "edit" address button is pressed to manually initate secure send flow
+  send_secure_edit = 'send_secure_edit', // when "edit" address button is pressed to manually initiate secure send flow
 
   send_tx_start = 'send_tx_start',
   send_tx_complete = 'send_tx_complete', // when a send or invite transaction has successfully completed
   send_tx_error = 'send_tx_error', // when there is an error sending a transaction
+
+  token_selected = 'token_selected', // A token was selected in TokenBottomSheet.
+
+  // related to the alert that is shown when sending to an unknown address
+  check_account_alert_shown = 'check_account_alert_shown',
+  check_account_do_not_ask_selected = 'check_account_do_not_ask_selected',
+  check_account_alert_back = 'check_account_alert_back',
+  check_account_alerts_continue = 'check_account_alerts_continue',
 }
 
 export enum RequestEvents {
@@ -261,7 +295,7 @@ export enum FeeEvents {
   fetch_tobin_tax_failed = 'fetch_tobin_tax_failed',
 }
 
-// Generic transaction logging to grab tx hashs
+// Generic transaction logging to grab tx hashes
 export enum TransactionEvents {
   transaction_start = 'transaction_start',
   transaction_gas_estimated = 'transaction_gas_estimated',
@@ -306,6 +340,8 @@ export enum CeloExchangeEvents {
   celo_withdraw_confirm = 'celo_withdraw_confirm', // when ‘withdraw’ is clicked on the review screen
   celo_withdraw_completed = 'celo_withdraw_completed', // when the transaction for the withdrawal is completed
   celo_withdraw_error = 'celo_withdraw_error', // when there's an error on the withdrawal transaction
+
+  celo_chart_tapped = 'celo_chart_tapped', // when user clicks the chart on exchange screen
 }
 
 export enum FiatExchangeEvents {

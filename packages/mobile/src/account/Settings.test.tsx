@@ -6,7 +6,8 @@ import * as renderer from 'react-test-renderer'
 import Settings from 'src/account/Settings'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { KomenciAvailable } from 'src/verify/module'
+import { Currency } from 'src/utils/currencies'
+import { KomenciAvailable } from 'src/verify/reducer'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper } from 'test/values'
 
@@ -33,7 +34,7 @@ describe('Account', () => {
             e164PhoneNumber: mockE164Number,
           },
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-          stableToken: { balance: '0.00' },
+          stableToken: { balances: { [Currency.Dollar]: '0.00' } },
           goldToken: { balance: '0.00' },
           verify: {
             komenciAvailable: KomenciAvailable.Yes,
@@ -53,7 +54,7 @@ describe('Account', () => {
       <Provider
         store={createMockStore({
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-          stableToken: { balance: '0.00' },
+          stableToken: { balances: { [Currency.Dollar]: '0.00' } },
           goldToken: { balance: '0.00' },
           account: {
             devModeActive: true,

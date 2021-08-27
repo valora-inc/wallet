@@ -1,4 +1,4 @@
-import { Actions, ActionTypes } from 'src/recipients/actions'
+import { createAction, createReducer } from '@reduxjs/toolkit'
 import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
@@ -12,44 +12,70 @@ export interface State {
   // valoraRecipientCache contains accounts that the user has sent/recieved transactions from,
   // and includes CIP8 profile data if available
   valoraRecipientCache: AddressToRecipient
+  rewardsSenders: string[]
+  inviteRewardsSenders: string[]
 }
 
-const initialState = {
+const initialState: State = {
   phoneRecipientCache: {},
   valoraRecipientCache: {},
+  rewardsSenders: [],
+  inviteRewardsSenders: [],
 }
 
-export const recipientsReducer = (
-  state: State | undefined = initialState,
-  action: ActionTypes | RehydrateAction
-) => {
-  switch (action.type) {
-    case REHYDRATE: {
+const rehydrate = createAction<any>(REHYDRATE)
+export const setPhoneRecipientCache = createAction<NumberToRecipient>(
+  'RECIPIENTS/SET_PHONE_RECIPIENT_CACHE'
+)
+export const updateValoraRecipientCache = createAction<AddressToRecipient>(
+  'RECIPIENTS/SET_VALORA_RECIPIENT_CACHE'
+)
+export const rewardsSendersFetched = createAction<string[]>('RECIPIENTS/REWARDS_SENDERS_FETCHED')
+export const inviteRewardsSendersFetched = createAction<string[]>(
+  'RECIPIENTS/INVITE_REWARDS_SENDERS_FETCHED'
+)
+
+export const recipientsReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(rehydrate, (state, action) => {
+      // hack to allow rehydrate actions here
+      const hydrated = getRehydratePayload((action as unknown) as RehydrateAction, 'recipients')
       return {
+        ...initialState,
         ...state,
-        ...getRehydratePayload(action, 'recipients'),
+        ...hydrated,
         phoneRecipientCache: initialState.phoneRecipientCache,
       }
-    }
-    case Actions.SET_PHONE_RECIPIENT_CACHE:
-      return {
-        ...state,
-        phoneRecipientCache: action.recipients,
-      }
-    case Actions.UPDATE_VALORA_RECIPIENT_CACHE:
-      return {
-        ...state,
-        valoraRecipientCache: { ...state.valoraRecipientCache, ...action.recipients },
-      }
-    default:
-      return state
-  }
-}
+    })
+    .addCase(setPhoneRecipientCache, (state, action) => ({
+      ...state,
+      phoneRecipientCache: action.payload,
+    }))
+    .addCase(updateValoraRecipientCache, (state, action) => ({
+      ...state,
+      valoraRecipientCache: { ...state.valoraRecipientCache, ...action.payload },
+    }))
+    .addCase(rewardsSendersFetched, (state, action) => ({
+      ...state,
+      rewardsSenders: action.payload,
+    }))
+    .addCase(inviteRewardsSendersFetched, (state, action) => ({
+      ...state,
+      inviteRewardsSenders: action.payload,
+    }))
+})
 
 export const phoneRecipientCacheSelector = (state: RootState) =>
   state.recipients.phoneRecipientCache
 export const valoraRecipientCacheSelector = (state: RootState) =>
   state.recipients.valoraRecipientCache
+export const rewardsSendersSelector = (state: RootState) => state.recipients.rewardsSenders
+export const inviteRewardsSendersSelector = (state: RootState) =>
+  state.recipients.inviteRewardsSenders
+export const allRewardsSendersSelector = (state: RootState) => [
+  ...state.recipients.rewardsSenders,
+  ...state.recipients.inviteRewardsSenders,
+]
 
 export const recipientInfoSelector = (state: RootState) => {
   return {

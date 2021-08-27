@@ -2,7 +2,8 @@ import * as admin from 'firebase-admin'
 import { Currencies } from '../src/blockscout/transfers'
 import {
   sendPaymentNotification,
-  updateCeloRewardsSenderAddresses,
+  _setInviteRewardsSenders,
+  _setRewardsSenders,
   _setTestRegistrations,
 } from '../src/firebase'
 
@@ -29,12 +30,7 @@ describe('sendPaymentNotification', () => {
     expect.hasAssertions()
 
     _setTestRegistrations({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } })
-    updateCeloRewardsSenderAddresses({
-      [SENDER_ADDRESS]: {
-        name: 'CELO Rewards',
-        isCeloRewardSender: false,
-      },
-    })
+    _setRewardsSenders([])
 
     await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.DOLLAR, 150, {})
 
@@ -54,7 +50,7 @@ describe('sendPaymentNotification', () => {
             "type": "PAYMENT_RECEIVED",
           },
           "notification": Object {
-            "body": "You've received 10 Celo Dollars",
+            "body": "You've received 10 cUSD",
             "title": "Payment Received",
           },
           "token": "TEST_FCM_TOKEN",
@@ -66,12 +62,7 @@ describe('sendPaymentNotification', () => {
 
   it('should send a deposit received notification for CELO', async () => {
     _setTestRegistrations({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } })
-    updateCeloRewardsSenderAddresses({
-      [SENDER_ADDRESS]: {
-        name: '(not) CELO Rewards',
-        isCeloRewardSender: false,
-      },
-    })
+    _setRewardsSenders([])
 
     await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.GOLD, 150, {})
 
@@ -84,19 +75,30 @@ describe('sendPaymentNotification', () => {
 
   it('should send a reward received notification', async () => {
     _setTestRegistrations({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } })
-    updateCeloRewardsSenderAddresses({
-      [SENDER_ADDRESS]: {
-        name: 'CELO Rewards',
-        isCeloRewardSender: true,
-      },
-    })
+    _setRewardsSenders([SENDER_ADDRESS])
 
     await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.GOLD, 150, {})
 
     expect(mockedMessagingSend).toHaveBeenCalledTimes(1)
-    expect(mockedMessagingSend.mock.calls[0][0].notification.title).toEqual('Reward Received')
+    expect(mockedMessagingSend.mock.calls[0][0].notification.title).toEqual(
+      'You just earned more cUSD 📈'
+    )
     expect(mockedMessagingSend.mock.calls[0][0].notification.body).toEqual(
-      "You've received 10 CELO"
+      'Your weekly earnings have arrived! Add cUSD to earn even more next week.'
+    )
+  })
+
+  it('should send an invite reward received notification', async () => {
+    _setTestRegistrations({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } })
+    _setRewardsSenders([])
+    _setInviteRewardsSenders([SENDER_ADDRESS])
+
+    await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '5', Currencies.EURO, 150, {})
+
+    expect(mockedMessagingSend).toHaveBeenCalledTimes(1)
+    expect(mockedMessagingSend.mock.calls[0][0].notification.title).toEqual('Invite Accepted')
+    expect(mockedMessagingSend.mock.calls[0][0].notification.body).toEqual(
+      'Your friend accepted your Valora invite, and you earned 5 cEUR!'
     )
   })
 })

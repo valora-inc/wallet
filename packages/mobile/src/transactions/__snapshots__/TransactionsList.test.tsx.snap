@@ -28,417 +28,24 @@ exports[`ignores failed standby transactions 1`] = `
             "type": "SENT",
           },
           Object {
-            "__typename": "TokenExchange",
-            "amount": Object {
-              "__typename": "MoneyAmount",
-              "currencyCode": "cUSD",
-              "localAmount": Object {
-                "__typename": "LocalMoneyAmount",
-                "currencyCode": "USD",
-                "exchangeRate": "1",
-                "value": "0.994982275992944156",
-              },
-              "value": "0.994982275992944156",
-            },
-            "hash": "0x16fbd53c4871f0657f40e1b4515184be04bed8912c6e2abc2cda549e4ad8f852",
-            "makerAmount": Object {
-              "__typename": "MoneyAmount",
-              "currencyCode": "cGLD",
-              "localAmount": Object {
-                "__typename": "LocalMoneyAmount",
-                "currencyCode": "USD",
-                "exchangeRate": "10.06007113270411465777",
-                "value": "1.006007113270411465777",
-              },
-              "value": "0.1",
-            },
-            "status": "Complete",
-            "takerAmount": Object {
-              "__typename": "MoneyAmount",
-              "currencyCode": "cUSD",
-              "localAmount": Object {
-                "__typename": "LocalMoneyAmount",
-                "currencyCode": "USD",
-                "exchangeRate": "1",
-                "value": "0.994982275992944156",
-              },
-              "value": "0.994982275992944156",
-            },
-            "timestamp": 1578530498,
-            "type": "EXCHANGE",
-          },
-        ],
-        "title": "January 2020",
-      },
-    ]
-  }
-  disableVirtualization={false}
-  getItem={[Function]}
-  getItemCount={[Function]}
-  horizontal={false}
-  initialNumToRender={10}
-  keyExtractor={[Function]}
-  keyboardShouldPersistTaps="always"
-  maxToRenderPerBatch={10}
-  onContentSizeChange={[Function]}
-  onEndReachedThreshold={2}
-  onLayout={[Function]}
-  onMomentumScrollEnd={[Function]}
-  onScroll={[Function]}
-  onScrollBeginDrag={[Function]}
-  onScrollEndDrag={[Function]}
-  renderItem={[Function]}
-  scrollEventThrottle={50}
-  stickyHeaderIndices={Array []}
-  updateCellsBatchingPeriod={50}
-  windowSize={21}
->
-  <View>
-    <View
-      onLayout={[Function]}
-      style={null}
-    >
-      <View
-        style={
-          Array [
-            Object {
-              "alignItems": "center",
-              "backgroundColor": "#FFFFFF",
-              "flexDirection": "row",
-              "justifyContent": "space-between",
-              "paddingHorizontal": 16,
-              "paddingVertical": 8,
-            },
-            undefined,
-          ]
-        }
-      >
-        <Text
-          style={
-            Object {
-              "color": "#9CA4A9",
-              "fontFamily": "Inter-Medium",
-              "fontSize": 13,
-              "lineHeight": 16,
-            }
-          }
-        >
-          January 2020
-        </Text>
-      </View>
-    </View>
-    <View
-      onLayout={[Function]}
-      style={null}
-    >
-      <View
-        accessible={true}
-        focusable={true}
-        nativeBackgroundAndroid={
-          Object {
-            "attribute": "selectableItemBackground",
-            "rippleRadius": undefined,
-            "type": "ThemeAttrAndroid",
-          }
-        }
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-      >
-        <View
-          style={
-            Object {
-              "flex": 1,
-              "flexDirection": "row",
-              "justifyContent": "space-between",
-              "paddingHorizontal": 16,
-              "paddingVertical": 12,
-            }
-          }
-        >
-          <View
-            style={
-              Object {
-                "alignItems": "center",
-                "flexDirection": "column",
-              }
-            }
-          >
-            <View
-              style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                    "justifyContent": "center",
-                  },
-                  undefined,
-                ]
-              }
-            >
-              <View
-                style={
-                  Array [
-                    Object {
-                      "alignItems": "center",
-                      "justifyContent": "center",
-                    },
-                    Object {
-                      "backgroundColor": "hsl(57, 53%, 93%)",
-                      "borderRadius": 20,
-                      "height": 40,
-                      "width": 40,
-                    },
-                  ]
-                }
-              >
-                <svg
-                  fill="hsl(57, 53%, 93%)"
-                  height="40"
-                  style={Object {}}
-                  viewBox="0 0 40 40"
-                  width="40"
-                />
-              </View>
-            </View>
-          </View>
-          <View
-            style={
-              Object {
-                "flex": 1,
-                "marginLeft": 16,
-              }
-            }
-          >
-            <View
-              style={
-                Object {
-                  "flexDirection": "row",
-                  "marginTop": -1,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Medium",
-                    "fontSize": 16,
-                    "lineHeight": 22,
-                  }
-                }
-              >
-                walletFlow5:feedItemAddress
-              </Text>
-              <Text
-                numberOfLines={1}
-                style={
-                  Array [
-                    Array [
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Medium",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                        "marginLeft": "auto",
-                        "paddingLeft": 10,
-                      },
-                      false,
-                    ],
-                    Object {
-                      "color": "#2E3338",
-                    },
-                  ]
-                }
-              >
-                -
-                $
-                0.20
-              </Text>
-            </View>
-            <Text
-              style={
-                Object {
-                  "color": "#9CA4A9",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 14,
-                  "lineHeight": 18,
-                  "paddingTop": 2,
-                }
-              }
-            >
-              feedItemSentInfo
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
-    <View
-      onLayout={[Function]}
-      style={null}
-    >
-      <View
-        accessible={true}
-        focusable={true}
-        nativeBackgroundAndroid={
-          Object {
-            "attribute": "selectableItemBackground",
-            "rippleRadius": undefined,
-            "type": "ThemeAttrAndroid",
-          }
-        }
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-      >
-        <View
-          style={
-            Object {
-              "flex": 1,
-              "flexDirection": "row",
-              "justifyContent": "space-between",
-              "paddingHorizontal": 16,
-              "paddingVertical": 12,
-            }
-          }
-        >
-          <View
-            style={
-              Object {
-                "alignItems": "center",
-                "flexDirection": "column",
-              }
-            }
-          >
-            <Image
-              resizeMode="contain"
-              source={
-                Object {
-                  "testUri": "../../../packages/mobile/src/images/transaction-exchange.png",
-                }
-              }
-              style={
-                Object {
-                  "height": 40,
-                  "width": 40,
-                }
-              }
-            />
-          </View>
-          <View
-            style={
-              Object {
-                "flex": 1,
-                "marginLeft": 16,
-              }
-            }
-          >
-            <View
-              style={
-                Object {
-                  "flexDirection": "row",
-                  "marginTop": -1,
-                }
-              }
-            >
-              <Text
-                style={
-                  Object {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Medium",
-                    "fontSize": 16,
-                    "lineHeight": 22,
-                  }
-                }
-              >
-                feedItemSoldCeloTitle
-              </Text>
-              <Text
-                numberOfLines={1}
-                style={
-                  Array [
-                    Array [
-                      Object {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Medium",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                        "marginLeft": "auto",
-                        "paddingLeft": 10,
-                      },
-                      Object {
-                        "color": "#1AB775",
-                      },
-                    ],
-                    Object {
-                      "color": "#1AB775",
-                    },
-                  ]
-                }
-              >
-                +
-                $
-                0.99
-              </Text>
-            </View>
-            <Text
-              style={
-                Object {
-                  "color": "#9CA4A9",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 14,
-                  "lineHeight": 18,
-                  "paddingTop": 2,
-                }
-              }
-            >
-              feedItemExchangeCeloInfo
-            </Text>
-          </View>
-        </View>
-      </View>
-    </View>
-    <View
-      onLayout={[Function]}
-      style={null}
-    />
-  </View>
-</RCTScrollView>
-`;
-
-exports[`ignores pending standby transactions that are completed in the response 1`] = `
-<RCTScrollView
-  data={
-    Array [
-      Object {
-        "data": Array [
-          Object {
             "__typename": "TokenTransfer",
             "account": "0xsflkj",
             "address": "0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10",
             "amount": Object {
               "__typename": "MoneyAmount",
-              "currencyCode": "cUSD",
+              "currencyCode": "cEUR",
               "localAmount": Object {
                 "__typename": "LocalMoneyAmount",
                 "currencyCode": "USD",
-                "exchangeRate": "1",
-                "value": "-0.2",
+                "exchangeRate": "1.2",
+                "value": "-0.24",
               },
               "value": "-0.2",
             },
-            "comment": "Hi",
+            "comment": null,
             "hash": "0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353",
             "status": "Complete",
-            "timestamp": 1578530538,
+            "timestamp": 1578630538,
             "type": "SENT",
           },
           Object {
@@ -640,26 +247,29 @@ exports[`ignores pending standby transactions that are completed in the response
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       false,
                     ],
@@ -668,6 +278,7 @@ exports[`ignores pending standby transactions that are completed in the response
                     },
                   ]
                 }
+                testID="FeedItemAmountDisplay/value"
               >
                 -
                 $
@@ -685,7 +296,161 @@ exports[`ignores pending standby transactions that are completed in the response
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":null,"comment":"Hi"}
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        nativeBackgroundAndroid={
+          Object {
+            "attribute": "selectableItemBackground",
+            "rippleRadius": undefined,
+            "type": "ThemeAttrAndroid",
+          }
+        }
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            Object {
+              "flex": 1,
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "paddingHorizontal": 16,
+              "paddingVertical": 12,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                    },
+                    Object {
+                      "backgroundColor": "hsl(57, 53%, 93%)",
+                      "borderRadius": 20,
+                      "height": 40,
+                      "width": 40,
+                    },
+                  ]
+                }
+              >
+                <svg
+                  fill="hsl(57, 53%, 93%)"
+                  height="40"
+                  style={Object {}}
+                  viewBox="0 0 40 40"
+                  width="40"
+                />
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "marginLeft": 16,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "marginTop": -1,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "flexShrink": 1,
+                    "fontFamily": "Inter-Medium",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  }
+                }
+              >
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+              </Text>
+              <Text
+                style={
+                  Array [
+                    Array [
+                      Object {
+                        "color": "#2E3338",
+                        "flexWrap": "wrap",
+                        "fontFamily": "Inter-Medium",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                        "marginLeft": "auto",
+                        "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
+                      },
+                      false,
+                    ],
+                    Object {
+                      "color": "#2E3338",
+                    },
+                  ]
+                }
+                testID="FeedItemAmountDisplay/value"
+              >
+                -
+                $
+                0.24
+              </Text>
+            </View>
+            <Text
+              style={
+                Object {
+                  "color": "#9CA4A9",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                  "paddingTop": 2,
+                }
+              }
+            >
+              feedItemSentInfo, {"context":"noComment","comment":null}
             </Text>
           </View>
         </View>
@@ -767,6 +532,7 @@ exports[`ignores pending standby transactions that are completed in the response
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
@@ -776,17 +542,19 @@ exports[`ignores pending standby transactions that are completed in the response
                 feedItemSoldCeloTitle
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       Object {
                         "color": "#1AB775",
@@ -797,6 +565,7 @@ exports[`ignores pending standby transactions that are completed in the response
                     },
                   ]
                 }
+                testID="FeedItemAmountDisplay/value"
               >
                 +
                 $
@@ -814,7 +583,604 @@ exports[`ignores pending standby transactions that are completed in the response
                 }
               }
             >
-              feedItemExchangeCeloInfo
+              feedItemExchangeCeloInfo, {"amount":"0.100","price":"$10.06"}
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    />
+  </View>
+</RCTScrollView>
+`;
+
+exports[`ignores pending standby transactions that are completed in the response 1`] = `
+<RCTScrollView
+  data={
+    Array [
+      Object {
+        "data": Array [
+          Object {
+            "__typename": "TokenTransfer",
+            "account": "0xsflkj",
+            "address": "0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10",
+            "amount": Object {
+              "__typename": "MoneyAmount",
+              "currencyCode": "cUSD",
+              "localAmount": Object {
+                "__typename": "LocalMoneyAmount",
+                "currencyCode": "USD",
+                "exchangeRate": "1",
+                "value": "-0.2",
+              },
+              "value": "-0.2",
+            },
+            "comment": "Hi",
+            "hash": "0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353",
+            "status": "Complete",
+            "timestamp": 1578530538,
+            "type": "SENT",
+          },
+          Object {
+            "__typename": "TokenTransfer",
+            "account": "0xsflkj",
+            "address": "0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10",
+            "amount": Object {
+              "__typename": "MoneyAmount",
+              "currencyCode": "cEUR",
+              "localAmount": Object {
+                "__typename": "LocalMoneyAmount",
+                "currencyCode": "USD",
+                "exchangeRate": "1.2",
+                "value": "-0.24",
+              },
+              "value": "-0.2",
+            },
+            "comment": null,
+            "hash": "0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353",
+            "status": "Complete",
+            "timestamp": 1578630538,
+            "type": "SENT",
+          },
+          Object {
+            "__typename": "TokenExchange",
+            "amount": Object {
+              "__typename": "MoneyAmount",
+              "currencyCode": "cUSD",
+              "localAmount": Object {
+                "__typename": "LocalMoneyAmount",
+                "currencyCode": "USD",
+                "exchangeRate": "1",
+                "value": "0.994982275992944156",
+              },
+              "value": "0.994982275992944156",
+            },
+            "hash": "0x16fbd53c4871f0657f40e1b4515184be04bed8912c6e2abc2cda549e4ad8f852",
+            "makerAmount": Object {
+              "__typename": "MoneyAmount",
+              "currencyCode": "cGLD",
+              "localAmount": Object {
+                "__typename": "LocalMoneyAmount",
+                "currencyCode": "USD",
+                "exchangeRate": "10.06007113270411465777",
+                "value": "1.006007113270411465777",
+              },
+              "value": "0.1",
+            },
+            "status": "Complete",
+            "takerAmount": Object {
+              "__typename": "MoneyAmount",
+              "currencyCode": "cUSD",
+              "localAmount": Object {
+                "__typename": "LocalMoneyAmount",
+                "currencyCode": "USD",
+                "exchangeRate": "1",
+                "value": "0.994982275992944156",
+              },
+              "value": "0.994982275992944156",
+            },
+            "timestamp": 1578530498,
+            "type": "EXCHANGE",
+          },
+        ],
+        "title": "January 2020",
+      },
+    ]
+  }
+  disableVirtualization={false}
+  getItem={[Function]}
+  getItemCount={[Function]}
+  horizontal={false}
+  initialNumToRender={10}
+  keyExtractor={[Function]}
+  keyboardShouldPersistTaps="always"
+  maxToRenderPerBatch={10}
+  onContentSizeChange={[Function]}
+  onEndReachedThreshold={2}
+  onLayout={[Function]}
+  onMomentumScrollEnd={[Function]}
+  onScroll={[Function]}
+  onScrollBeginDrag={[Function]}
+  onScrollEndDrag={[Function]}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  stickyHeaderIndices={Array []}
+  updateCellsBatchingPeriod={50}
+  windowSize={21}
+>
+  <View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#FFFFFF",
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "paddingHorizontal": 16,
+              "paddingVertical": 8,
+            },
+            undefined,
+          ]
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#9CA4A9",
+              "fontFamily": "Inter-Medium",
+              "fontSize": 13,
+              "lineHeight": 16,
+            }
+          }
+        >
+          January 2020
+        </Text>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        nativeBackgroundAndroid={
+          Object {
+            "attribute": "selectableItemBackground",
+            "rippleRadius": undefined,
+            "type": "ThemeAttrAndroid",
+          }
+        }
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            Object {
+              "flex": 1,
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "paddingHorizontal": 16,
+              "paddingVertical": 12,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                    },
+                    Object {
+                      "backgroundColor": "hsl(57, 53%, 93%)",
+                      "borderRadius": 20,
+                      "height": 40,
+                      "width": 40,
+                    },
+                  ]
+                }
+              >
+                <svg
+                  fill="hsl(57, 53%, 93%)"
+                  height="40"
+                  style={Object {}}
+                  viewBox="0 0 40 40"
+                  width="40"
+                />
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "marginLeft": 16,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "marginTop": -1,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "flexShrink": 1,
+                    "fontFamily": "Inter-Medium",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  }
+                }
+              >
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+              </Text>
+              <Text
+                style={
+                  Array [
+                    Array [
+                      Object {
+                        "color": "#2E3338",
+                        "flexWrap": "wrap",
+                        "fontFamily": "Inter-Medium",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                        "marginLeft": "auto",
+                        "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
+                      },
+                      false,
+                    ],
+                    Object {
+                      "color": "#2E3338",
+                    },
+                  ]
+                }
+                testID="FeedItemAmountDisplay/value"
+              >
+                -
+                $
+                0.20
+              </Text>
+            </View>
+            <Text
+              style={
+                Object {
+                  "color": "#9CA4A9",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                  "paddingTop": 2,
+                }
+              }
+            >
+              feedItemSentInfo, {"context":null,"comment":"Hi"}
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        nativeBackgroundAndroid={
+          Object {
+            "attribute": "selectableItemBackground",
+            "rippleRadius": undefined,
+            "type": "ThemeAttrAndroid",
+          }
+        }
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            Object {
+              "flex": 1,
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "paddingHorizontal": 16,
+              "paddingVertical": 12,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                    },
+                    Object {
+                      "backgroundColor": "hsl(57, 53%, 93%)",
+                      "borderRadius": 20,
+                      "height": 40,
+                      "width": 40,
+                    },
+                  ]
+                }
+              >
+                <svg
+                  fill="hsl(57, 53%, 93%)"
+                  height="40"
+                  style={Object {}}
+                  viewBox="0 0 40 40"
+                  width="40"
+                />
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "marginLeft": 16,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "marginTop": -1,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "flexShrink": 1,
+                    "fontFamily": "Inter-Medium",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  }
+                }
+              >
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+              </Text>
+              <Text
+                style={
+                  Array [
+                    Array [
+                      Object {
+                        "color": "#2E3338",
+                        "flexWrap": "wrap",
+                        "fontFamily": "Inter-Medium",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                        "marginLeft": "auto",
+                        "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
+                      },
+                      false,
+                    ],
+                    Object {
+                      "color": "#2E3338",
+                    },
+                  ]
+                }
+                testID="FeedItemAmountDisplay/value"
+              >
+                -
+                $
+                0.24
+              </Text>
+            </View>
+            <Text
+              style={
+                Object {
+                  "color": "#9CA4A9",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                  "paddingTop": 2,
+                }
+              }
+            >
+              feedItemSentInfo, {"context":"noComment","comment":null}
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        nativeBackgroundAndroid={
+          Object {
+            "attribute": "selectableItemBackground",
+            "rippleRadius": undefined,
+            "type": "ThemeAttrAndroid",
+          }
+        }
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            Object {
+              "flex": 1,
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "paddingHorizontal": 16,
+              "paddingVertical": 12,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+              }
+            }
+          >
+            <Image
+              resizeMode="contain"
+              source={
+                Object {
+                  "testUri": "../../../packages/mobile/src/images/transaction-exchange.png",
+                }
+              }
+              style={
+                Object {
+                  "height": 40,
+                  "width": 40,
+                }
+              }
+            />
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "marginLeft": 16,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "marginTop": -1,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "flexShrink": 1,
+                    "fontFamily": "Inter-Medium",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  }
+                }
+              >
+                feedItemSoldCeloTitle
+              </Text>
+              <Text
+                style={
+                  Array [
+                    Array [
+                      Object {
+                        "color": "#2E3338",
+                        "flexWrap": "wrap",
+                        "fontFamily": "Inter-Medium",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                        "marginLeft": "auto",
+                        "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
+                      },
+                      Object {
+                        "color": "#1AB775",
+                      },
+                    ],
+                    Object {
+                      "color": "#1AB775",
+                    },
+                  ]
+                }
+                testID="FeedItemAmountDisplay/value"
+              >
+                +
+                $
+                0.99
+              </Text>
+            </View>
+            <Text
+              style={
+                Object {
+                  "color": "#9CA4A9",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                  "paddingTop": 2,
+                }
+              }
+            >
+              feedItemExchangeCeloInfo, {"amount":"0.100","price":"$10.06"}
             </Text>
           </View>
         </View>
@@ -853,6 +1219,27 @@ exports[`renders the received data along with the standby transactions 1`] = `
             "hash": "0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353",
             "status": "Complete",
             "timestamp": 1578530538,
+            "type": "SENT",
+          },
+          Object {
+            "__typename": "TokenTransfer",
+            "account": "0xsflkj",
+            "address": "0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10",
+            "amount": Object {
+              "__typename": "MoneyAmount",
+              "currencyCode": "cEUR",
+              "localAmount": Object {
+                "__typename": "LocalMoneyAmount",
+                "currencyCode": "USD",
+                "exchangeRate": "1.2",
+                "value": "-0.24",
+              },
+              "value": "-0.2",
+            },
+            "comment": null,
+            "hash": "0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353",
+            "status": "Complete",
+            "timestamp": 1578630538,
             "type": "SENT",
           },
           Object {
@@ -1146,26 +1533,29 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       false,
                     ],
@@ -1174,6 +1564,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                     },
                   ]
                 }
+                testID="FeedItemAmountDisplay/value"
               >
                 -
                 $
@@ -1191,7 +1582,161 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":null,"comment":"Hi"}
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        accessible={true}
+        focusable={true}
+        nativeBackgroundAndroid={
+          Object {
+            "attribute": "selectableItemBackground",
+            "rippleRadius": undefined,
+            "type": "ThemeAttrAndroid",
+          }
+        }
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+      >
+        <View
+          style={
+            Object {
+              "flex": 1,
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "paddingHorizontal": 16,
+              "paddingVertical": 12,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "center",
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <View
+                style={
+                  Array [
+                    Object {
+                      "alignItems": "center",
+                      "justifyContent": "center",
+                    },
+                    Object {
+                      "backgroundColor": "hsl(57, 53%, 93%)",
+                      "borderRadius": 20,
+                      "height": 40,
+                      "width": 40,
+                    },
+                  ]
+                }
+              >
+                <svg
+                  fill="hsl(57, 53%, 93%)"
+                  height="40"
+                  style={Object {}}
+                  viewBox="0 0 40 40"
+                  width="40"
+                />
+              </View>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "marginLeft": 16,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flexDirection": "row",
+                  "marginTop": -1,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "#2E3338",
+                    "flexShrink": 1,
+                    "fontFamily": "Inter-Medium",
+                    "fontSize": 16,
+                    "lineHeight": 22,
+                  }
+                }
+              >
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+              </Text>
+              <Text
+                style={
+                  Array [
+                    Array [
+                      Object {
+                        "color": "#2E3338",
+                        "flexWrap": "wrap",
+                        "fontFamily": "Inter-Medium",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                        "marginLeft": "auto",
+                        "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
+                      },
+                      false,
+                    ],
+                    Object {
+                      "color": "#2E3338",
+                    },
+                  ]
+                }
+                testID="FeedItemAmountDisplay/value"
+              >
+                -
+                $
+                0.24
+              </Text>
+            </View>
+            <Text
+              style={
+                Object {
+                  "color": "#9CA4A9",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 14,
+                  "lineHeight": 18,
+                  "paddingTop": 2,
+                }
+              }
+            >
+              feedItemSentInfo, {"context":"noComment","comment":null}
             </Text>
           </View>
         </View>
@@ -1273,6 +1818,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
@@ -1282,17 +1828,19 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 feedItemSoldCeloTitle
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       Object {
                         "color": "#1AB775",
@@ -1303,6 +1851,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                     },
                   ]
                 }
+                testID="FeedItemAmountDisplay/value"
               >
                 +
                 $
@@ -1320,7 +1869,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 }
               }
             >
-              feedItemExchangeCeloInfo
+              feedItemExchangeCeloInfo, {"amount":"0.100","price":"$10.06"}
             </Text>
           </View>
         </View>
@@ -1462,26 +2011,29 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0072bv...o23u\\"}"}
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       false,
                     ],
@@ -1490,6 +2042,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                     },
                   ]
                 }
+                testID="FeedItemAmountDisplay/value"
               >
                 -
                 $
@@ -1589,6 +2142,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
@@ -1598,17 +2152,19 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 feedItemBoughtCeloTitle
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       false,
                     ],
@@ -1617,6 +2173,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                     },
                   ]
                 }
+                testID="FeedItemAmountDisplay/value"
               >
                 -
                 $
@@ -1716,6 +2273,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
@@ -1725,17 +2283,19 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 feedItemSoldCeloTitle
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       Object {
                         "color": "#1AB775",
@@ -1746,6 +2306,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                     },
                   ]
                 }
+                testID="FeedItemAmountDisplay/value"
               >
                 +
                 $

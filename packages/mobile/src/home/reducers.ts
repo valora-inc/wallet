@@ -2,6 +2,8 @@ import { RehydrateAction } from 'redux-persist'
 import { Actions, ActionTypes } from 'src/home/actions'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 
+export const DEFAULT_PRIORITY = 20
+
 export interface NotificationTexts {
   body: string
   cta: string
@@ -18,6 +20,8 @@ export interface Notification {
   maxVersion?: string
   countries?: string[]
   blockedCountries?: string[]
+  openExternal?: boolean
+  priority?: number
 }
 
 export interface IdToNotification {
@@ -61,6 +65,7 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
         updatedNotifications = {
           ...updatedNotifications,
           [id]: {
+            priority: DEFAULT_PRIORITY,
             ...updatedNotification,
             // Keep locally modified fields
             ...(existingNotification

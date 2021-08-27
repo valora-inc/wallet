@@ -1,5 +1,4 @@
 import colors from '@celo/react-components/styles/colors'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { ActivityIndicator, StyleSheet } from 'react-native'
@@ -18,10 +17,11 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cEurBalanceSelector, cUsdBalanceSelector } from 'src/stableToken/selectors'
+import { Currency } from 'src/utils/currencies'
 
 function useInitialJavaScript(
-  currency: CURRENCY_ENUM,
+  currency: Currency,
   jsonBalances: string,
   e164PhoneNumber: string | null
 ) {
@@ -38,7 +38,7 @@ function useInitialJavaScript(
     // See also the comment in the `onMessage` handler
     setInitialJavaScript(`
       window.valora = {
-        paymentCurrency: "${CURRENCIES[currency].code.toUpperCase()}",
+        paymentCurrency: "${currency.toUpperCase()}",
         phoneNumber: ${JSON.stringify(e164PhoneNumber)},
         balances: ${jsonBalances},
         onPaymentRequest: function (paymentRequest) {
@@ -100,16 +100,18 @@ function BidaliScreen({ route, navigation }: Props) {
   }
 
   const webViewRef = useRef<WebViewRef>(null)
-  const cusdBalance = useSelector(stableTokenBalanceSelector)
+  const cusdBalance = useSelector(cUsdBalanceSelector)
+  const ceurBalance = useSelector(cEurBalanceSelector)
   const celoBalance = useSelector(celoTokenBalanceSelector)
   const jsonBalances = useMemo(
     () =>
       JSON.stringify({
         CUSD: cusdBalance,
+        CEUR: ceurBalance,
         // We'll add CELO support later on
         // CELO: celoBalance,
       }),
-    [cusdBalance, celoBalance]
+    [cusdBalance, celoBalance, ceurBalance]
   )
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const initialJavaScript = useInitialJavaScript(

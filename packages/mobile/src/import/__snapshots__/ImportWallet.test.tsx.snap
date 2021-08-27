@@ -210,6 +210,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
             testID="ImportWalletButton"
           >
             <Text
+              maxFontSizeMultiplier={1}
               style={
                 Object {
                   "color": "#0768AE",
@@ -391,15 +392,15 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
+                  testID="undefined/value"
                 >
                   
                   $

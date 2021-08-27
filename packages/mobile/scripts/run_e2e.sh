@@ -42,9 +42,6 @@ while getopts 'p:f:t:v:n:w:j:rd' flag; do
   esac
 done
 
-# Flakey tracker retries don't work well with these e2e tests, so we disable them.
-export NUM_RETRIES='0'
-
 [ -z "$PLATFORM" ] && echo "Need to set the PLATFORM via the -p flag" && exit 1;
 echo "Network delay: $NET_DELAY"
 
@@ -99,10 +96,6 @@ preloadBundle() {
 }
 
 runTest() {
-  extra_param=""
-  if [[ $DEV_MODE == true ]]; then
-    extra_param="--reuse"
-  fi
   test_match=""
   if [[ $TEST_MATCH ]]; then
     test_match="-t='$TEST_MATCH'"
@@ -113,13 +106,13 @@ runTest() {
     --artifacts-location e2e/artifacts \
     --take-screenshots=failing \
     --record-logs=failing \
-    --loglevel verbose \
-    --debug-synchronization 1000 \
+    --loglevel info \
+    --debug-synchronization 10000 \
     --workers $WORKERS \
     --retries $RETRIES \
     --headless \
     "${test_match}" \
-    "${extra_param}" 
+    --reuse
   TEST_STATUS=$?
 }
 
@@ -152,9 +145,9 @@ if [ $PLATFORM = "android" ]; then
   fi
 
   if [ "$RELEASE" = false ]; then
-    CONFIG_NAME="android.emu.debug"
+    CONFIG_NAME="android.debug"
   else
-    CONFIG_NAME="android.emu.release"
+    CONFIG_NAME="android.release"
   fi
 
   if [ $DEV_MODE = false ]; then
@@ -199,9 +192,9 @@ elif [ $PLATFORM = "ios" ]; then
   echo "Using platform ios"
 
   if [ "$RELEASE" = false ]; then
-    CONFIG_NAME="ios.sim.debug"
+    CONFIG_NAME="ios.debug"
   else
-    CONFIG_NAME="ios.sim.release"
+    CONFIG_NAME="ios.release"
   fi
 
   if [ $DEV_MODE = false ]; then

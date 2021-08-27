@@ -18,8 +18,8 @@
     "deploy": "./deploy.sh"
   },
   "dependencies": {
-    "@celo/contractkit": "1.1.0-beta.1",
-    "@celo/utils": "1.1.0-beta.1",
+    "@celo/contractkit": "1.2.2-beta",
+    "@celo/utils": "1.2.2-beta",
     "apollo-datasource-rest": "^0.8.1",
     "apollo-server-express": "^2.14.2",
     "bignumber.js": "^9.0.0",
@@ -41,9 +41,6 @@
     "jest-fetch-mock": "^3.0.3",
     "tsc-watch": "^4.2.3",
     "typescript": "^3.8.3"
-  },
-  "peerDependencies": {
-    "@celo/flake-tracker": "0.0.1-dev"
   },
   "resolutions": {
     "**/cross-fetch": "3.0.4"

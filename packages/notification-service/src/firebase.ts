@@ -1,4 +1,5 @@
 import { DataSnapshot } from '@firebase/database-types'
+import Analytics from 'analytics-node'
 import * as admin from 'firebase-admin'
 import i18next from 'i18next'
 import { Currencies, MAX_BLOCKS_TO_WAIT } from './blockscout/transfers'
@@ -7,16 +8,20 @@ import {
   NOTIFICATIONS_DISABLED,
   NOTIFICATIONS_TTL_MS,
   NotificationTypes,
+  SEGMENT_API_KEY,
 } from './config'
 import { metrics } from './metrics'
 
 const NOTIFICATIONS_TAG = 'NOTIFICATIONS/'
 
+const analytics: Analytics | undefined = SEGMENT_API_KEY
+  ? new Analytics(SEGMENT_API_KEY)
+  : undefined
+
 let database: admin.database.Database
 let registrationsRef: admin.database.Reference
 let lastBlockRef: admin.database.Reference
 let lastInviteBlockRef: admin.database.Reference
-let knownAddressesRef: admin.database.Reference
 
 export interface Registrations {
   [address: string]:
@@ -29,30 +34,23 @@ export interface Registrations {
     | null
 }
 
-export interface KnownAddressInfo {
-  name: string
-  imageUrl?: string
-  isCeloRewardSender?: boolean
-}
-
-export interface AddressToDisplayNameType {
-  [address: string]: KnownAddressInfo | undefined
-}
-
 let registrations: Registrations = {}
 let lastBlockNotified: number = -1
 let lastInviteBlockNotified: number = -1
 
-let celoRewardsSenders: string[] = []
+let rewardsSenders: string[] = []
+let inviteRewardsSenders: string[] = []
 
 export function _setTestRegistrations(testRegistrations: Registrations) {
   registrations = testRegistrations
 }
 
-export function updateCeloRewardsSenderAddresses(knownAddressesInfo: AddressToDisplayNameType) {
-  celoRewardsSenders = Object.entries(knownAddressesInfo)
-    .filter(([_, value]) => value?.isCeloRewardSender)
-    .map(([key, _]) => key)
+export function _setRewardsSenders(testRewardsSenders: string[]) {
+  rewardsSenders = testRewardsSenders
+}
+
+export function _setInviteRewardsSenders(testRewardsSenders: string[]) {
+  inviteRewardsSenders = testRewardsSenders
 }
 
 function firebaseFetchError(nodeKey: string) {
@@ -66,10 +64,9 @@ export function initializeDb() {
   registrationsRef = database.ref('/registrations')
   lastBlockRef = database.ref('/lastBlockNotified')
   lastInviteBlockRef = database.ref('/lastInviteBlockNotified')
-  knownAddressesRef = database.ref('/addressesExtraInfo')
 
   function addOrUpdateRegistration(snapshot: DataSnapshot) {
-    const registration = (snapshot && snapshot.val()) || {}
+    const registration = snapshot?.val() ?? {}
     console.debug('New or updated registration:', snapshot.key, registration)
     if (snapshot.key) {
       registrations[snapshot.key] = registration
@@ -81,7 +78,7 @@ export function initializeDb() {
   lastBlockRef.on(
     'value',
     (snapshot) => {
-      const lastBlock = (snapshot && snapshot.val()) || 0
+      const lastBlock = snapshot?.val() ?? 0
       console.debug('Latest block data updated: ', lastBlock)
       if (lastBlockNotified < 0) {
         // On the transfers file, we query using |lastBlockNotified - MAX_BLOCKS_TO_WAIT|, which would resolve to the current time.
@@ -104,7 +101,7 @@ export function initializeDb() {
   lastInviteBlockRef.on(
     'value',
     (snapshot) => {
-      const lastBlock = (snapshot && snapshot.val()) || 0
+      const lastBlock = snapshot?.val() ?? 0
       console.debug('Latest invite block updated: ', lastBlock)
       lastInviteBlockNotified = lastBlock
     },
@@ -113,17 +110,24 @@ export function initializeDb() {
     }
   )
 
-  knownAddressesRef.on(
+  database.ref('/rewardsSenders').on(
     'value',
     (snapshot) => {
-      const knownAddressesInfo: AddressToDisplayNameType = (snapshot && snapshot.val()) || {}
-      updateCeloRewardsSenderAddresses(knownAddressesInfo)
-      console.debug('Latest known addresses updated: ', celoRewardsSenders)
+      rewardsSenders = snapshot?.val() ?? []
+      console.debug('Rewards senders updated: ', rewardsSenders)
     },
     (errorObject: any) => {
-      console.error('Known addresses data read failed:', errorObject.code)
+      console.error('Rewards senders data read failed:', errorObject.code)
     }
   )
+
+  database.ref('/inviteRewardAddresses').on('value', (snapshot) => {
+    const addresses = snapshot?.val() ?? []
+    console.debug(`inviteRewardAddresses fetched: ${addresses}`)
+    if (addresses.length) {
+      inviteRewardsSenders = addresses
+    }
+  })
 }
 
 export function getTokenFromAddress(address: string) {
@@ -187,15 +191,26 @@ export function setLastInviteBlockNotified(newBlock: number): Promise<void> | un
 }
 
 function notificationTitleAndBody(senderAddress: string, currency: Currencies) {
-  const isCeloReward = celoRewardsSenders.indexOf(senderAddress) >= 0
-  if (isCeloReward) {
+  const isRewardSender = rewardsSenders.includes(senderAddress)
+  if (isRewardSender) {
     return {
       title: 'rewardReceivedTitle',
-      body: 'paymentReceivedBody',
+      body: 'rewardReceivedBody',
+    }
+  }
+  const isInvite = inviteRewardsSenders.includes(senderAddress)
+  if (isInvite) {
+    return {
+      title: 'inviteRewardTitle',
+      body: 'inviteRewardBody',
     }
   }
   return {
     [Currencies.DOLLAR]: {
+      title: 'paymentReceivedTitle',
+      body: 'paymentReceivedBody',
+    },
+    [Currencies.EURO]: {
       title: 'paymentReceivedTitle',
       body: 'paymentReceivedBody',
     },
@@ -221,12 +236,13 @@ export async function sendPaymentNotification(
 
   const t = getTranslatorForAddress(recipientAddress)
   data.type = NotificationTypes.PAYMENT_RECEIVED
+
   const { title, body } = notificationTitleAndBody(senderAddress, currency)
   return sendNotification(
     t(title),
     t(body, {
       amount,
-      currency: t(currency, { count: parseInt(amount, 10) }),
+      currency: t(currency),
     }),
     recipientAddress,
     data
@@ -271,9 +287,25 @@ export async function sendNotification(
   }
 
   try {
-    console.info(NOTIFICATIONS_TAG, 'Sending notification to:', address)
     const response = await admin.messaging().send(message, NOTIFICATIONS_DISABLED)
-    console.info('Successfully sent notification for :', address, response)
+    console.info(
+      JSON.stringify({
+        action: 'NOTIFICATION_SEND_SUCCESS',
+        type: data.type,
+        title,
+        address,
+        response,
+      })
+    )
+    analytics?.track({
+      anonymousId: 'notification-service',
+      event: 'push_notification_sent',
+      properties: {
+        type: data.type,
+        title,
+        address,
+      },
+    })
 
     // Notification metrics
     metrics.sentNotification(data.type)
@@ -281,7 +313,15 @@ export async function sendNotification(
       metrics.setNotificationLatency(Date.now() - Number(data.timestamp), data.type)
     }
   } catch (error) {
-    console.error('Error sending notification:', address, error)
+    console.error(
+      JSON.stringify({
+        action: 'NOTIFICATION_SEND_FAILURE',
+        type: data.type,
+        title,
+        error,
+        address,
+      })
+    )
     metrics.failedNotification(data.type)
   }
 }

@@ -1,9 +1,9 @@
 import SmsRetriever from '@celo/react-native-sms-retriever'
-import { Platform } from 'react-native'
 import { eventChannel } from 'redux-saga'
 import { call, put, take } from 'redux-saga/effects'
+import { receiveAttestationMessage } from 'src/identity/actions'
+import { CodeInputType, NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import Logger from 'src/utils/Logger'
-import { CodeInputType, NUM_ATTESTATIONS_REQUIRED, receiveAttestationCode } from 'src/verify/module'
 
 const TAG = 'identity/smsRetrieval'
 
@@ -14,9 +14,6 @@ interface SmsEvent {
 }
 
 export function* startAutoSmsRetrieval() {
-  if (Platform.OS !== 'android') {
-    return
-  }
   const autoSmsChannel = eventChannel((emitter) => {
     addSmsListener(emitter)
     return removeSmsListener
@@ -28,7 +25,7 @@ export function* startAutoSmsRetrieval() {
       const { message } = yield take(autoSmsChannel)
       if (!messages.includes(message)) {
         messages.push(message)
-        yield put(receiveAttestationCode({ message, inputType: CodeInputType.AUTOMATIC }))
+        yield put(receiveAttestationMessage(message, CodeInputType.AUTOMATIC))
       }
     }
   } catch (error) {
@@ -39,9 +36,6 @@ export function* startAutoSmsRetrieval() {
 }
 
 async function startSmsRetriever() {
-  if (Platform.OS !== 'android') {
-    return
-  }
   Logger.debug(TAG + '@SmsRetriever', 'Starting sms retriever')
   try {
     // TODO(Rossy) Remove the *2 here once the SmsRetriever can filter dupes on its own
@@ -57,9 +51,6 @@ async function startSmsRetriever() {
 }
 
 function addSmsListener(onSmsRetrieved: (message: SmsEvent) => void) {
-  if (Platform.OS !== 'android') {
-    return
-  }
   Logger.debug(TAG + '@SmsRetriever', 'Adding sms listener')
   try {
     SmsRetriever.addSmsListener((event: SmsEvent) => {
@@ -89,9 +80,6 @@ function addSmsListener(onSmsRetrieved: (message: SmsEvent) => void) {
 }
 
 function removeSmsListener() {
-  if (Platform.OS !== 'android') {
-    return
-  }
   try {
     Logger.debug(TAG + '@SmsRetriever', 'Removing sms listener')
     SmsRetriever.removeSmsListener()

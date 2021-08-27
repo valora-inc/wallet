@@ -146,7 +146,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
                   }
                 }
               >
-                invalidAmountDialog.minAmount
+                invalidAmountDialog.minAmount, {"limit":"$20"}
               </Text>
             </View>
           </RCTScrollView>
@@ -464,7 +464,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
               }
             }
           >
-            global:amount
+            global:amount 
           </Text>
         </View>
         <TextInput
@@ -535,17 +535,17 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
               ]
             }
           >
-            Celo Dollars @ 
+            celoDollar @ 
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   undefined,
                   Object {
-                    "color": "#2E3338",
+                    "color": undefined,
                   },
                 ]
               }
+              testID="undefined/value"
             >
               
               $
@@ -572,15 +572,15 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             0.00
@@ -600,7 +600,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
       }
     }
   >
-    disclaimerCeloDollars
+    disclaimerFiat, {"currency":"celoDollar"}
   </Text>
   <View
     style={
@@ -659,6 +659,7 @@ exports[`FiatExchangeAmount cashIn renders correctly 1`] = `
       >
         <Text
           accessibilityLabel="global:next"
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",

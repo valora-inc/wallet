@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
 import { DAYS_TO_BACKUP } from 'src/backup/utils'
 import NotificationBox from 'src/home/NotificationBox'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getElementText } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper, mockPaymentRequests } from 'test/values'
 
@@ -14,6 +15,7 @@ const EXPIRED_BACKUP_TIME = RECENT_BACKUP_TIME - DAYS_TO_BACKUP
 const testNotification = {
   ctaUri: 'https://celo.org',
   darkMode: true,
+  priority: 20,
   content: {
     en: {
       body: 'Body Text',
@@ -27,7 +29,6 @@ const storeDataNotificationsEnabled = {
   goldToken: { educationCompleted: false },
   account: {
     backupCompleted: false,
-    dismissedInviteFriends: false,
     dismissedGetVerified: false,
     accountCreationTime: EXPIRED_BACKUP_TIME,
   },
@@ -73,7 +74,7 @@ describe('NotificationBox', () => {
         e164PhoneNumber: mockE164Number,
       },
       identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-      stableToken: { balance: '0.00' },
+      stableToken: { balances: { [Currency.Dollar]: '0.00' } },
       goldToken: { balance: '0.00' },
     })
     const tree = render(
@@ -104,10 +105,6 @@ describe('NotificationBox', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       goldToken: { educationCompleted: false },
-      account: {
-        ...storeDataNotificationsDisabled.account,
-        dismissedInviteFriends: false,
-      },
     })
     const { getByText } = render(
       <Provider store={store}>
@@ -136,7 +133,7 @@ describe('NotificationBox', () => {
     )
 
     const titleElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Title')
-    expect(getElementText(titleElement)).toBe('incomingPaymentRequestNotificationTitle')
+    expect(getElementText(titleElement)).toBe('incomingPaymentRequestNotificationTitle, {}')
     const amountElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Amount')
     expect(getElementText(amountElement)).toBe('$266,000.00')
     const detailsElement = getByTestId('IncomingPaymentRequestNotification/FAKE_ID_1/Details')
@@ -158,7 +155,7 @@ describe('NotificationBox', () => {
         <NotificationBox />
       </Provider>
     )
-    expect(getByText('incomingPaymentRequestsSummaryTitle')).toBeTruthy()
+    expect(getByText(/incomingPaymentRequestsSummaryTitle/)).toBeTruthy()
   })
 
   it('renders outgoing payment requests when they exist', () => {
@@ -176,7 +173,7 @@ describe('NotificationBox', () => {
         <NotificationBox />
       </Provider>
     )
-    expect(getByText('outgoingPaymentRequestsSummaryTitle')).toBeTruthy()
+    expect(getByText(/outgoingPaymentRequestsSummaryTitle/)).toBeTruthy()
   })
 
   it('renders outgoing payment request when they exist', () => {
@@ -196,7 +193,9 @@ describe('NotificationBox', () => {
     )
 
     const titleElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Title')
-    expect(getElementText(titleElement)).toBe('outgoingPaymentRequestNotificationTitle')
+    expect(getElementText(titleElement)).toBe(
+      'outgoingPaymentRequestNotificationTitle, {"name":"John Doe"}'
+    )
     const amountElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Amount')
     expect(getElementText(amountElement)).toBe('$266,000.00')
     const detailsElement = getByTestId('OutgoingPaymentRequestNotification/FAKE_ID_1/Details')
@@ -212,7 +211,7 @@ describe('NotificationBox', () => {
         e164PhoneNumber: mockE164Number,
       },
       identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
-      stableToken: { balance: '0.00' },
+      stableToken: { balances: { [Currency.Dollar]: '0.00' } },
     })
     const { getByText } = render(
       <Provider store={store}>
@@ -284,5 +283,53 @@ describe('NotificationBox', () => {
 
     fireEvent.press(getByText('Press Remote'))
     expect(store.getActions()).toEqual([openUrl(testNotification.ctaUri, false, true)])
+  })
+
+  it('renders notifications that open URL internally or externally', () => {
+    const store = createMockStore({
+      ...storeDataNotificationsDisabled,
+      home: {
+        notifications: {
+          notification1: {
+            ...testNotification,
+            content: {
+              en: {
+                ...testNotification.content.en,
+                body: 'Notification 1',
+                cta: 'Press Internal',
+              },
+            },
+          },
+          notification2: {
+            ...testNotification,
+            openExternal: true,
+            content: {
+              en: {
+                ...testNotification.content.en,
+                body: 'Notification 2',
+                cta: 'Press External',
+              },
+            },
+          },
+        },
+      },
+    })
+    const { queryByText, getByText } = render(
+      <Provider store={store}>
+        <NotificationBox />
+      </Provider>
+    )
+    expect(queryByText('Notification 1')).toBeTruthy()
+    expect(queryByText('Notification 2')).toBeTruthy()
+
+    expect(store.getActions()).toEqual([])
+
+    fireEvent.press(getByText('Press Internal'))
+    expect(store.getActions()).toEqual([openUrl(testNotification.ctaUri, false, true)])
+    fireEvent.press(getByText('Press External'))
+    expect(store.getActions()).toEqual([
+      openUrl(testNotification.ctaUri, false, true),
+      openUrl(testNotification.ctaUri, true, true),
+    ])
   })
 })

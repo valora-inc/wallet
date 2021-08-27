@@ -12,9 +12,8 @@ jest.mock('crypto', () => ({
     verify: mockVerify,
   })),
 }))
-jest.mock('../config', () => ({ MOONPAY_DATA: { webhook_key: 'some_key' } }))
 
-describe('Moonpay cash in', () => {
+describe('Moonpay event webhook', () => {
   const response: any = {
     status: jest.fn(() => response),
     send: jest.fn(),
@@ -64,7 +63,7 @@ describe('Moonpay cash in', () => {
     }
     await moonpayWebhook(request, response)
 
-    expect(response.status).toHaveBeenCalledWith(401)
+    expect(response.status).toHaveBeenCalledWith(400)
     expect(saveTxHashProvider).not.toHaveBeenCalled()
   })
 
