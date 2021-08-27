@@ -5,7 +5,7 @@ import variables from '@celo/react-components/styles/variables'
 import { StackNavigationOptions } from '@react-navigation/stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { PixelRatio, Platform, StyleSheet, Text, View } from 'react-native'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
@@ -108,7 +108,12 @@ export const headerWithCancelButton: StackNavigationOptions = {
 
 export const headerWithBackEditButtons: StackNavigationOptions = {
   ...emptyHeader,
-  headerLeft: () => <CancelButton buttonType="icon" />,
+  headerLeft: () =>
+    PixelRatio.getFontScale() > 1 ? (
+      <CancelButton buttonType="icon" />
+    ) : (
+      <CancelButton buttonType="text" />
+    ),
   headerRight: () => <BackButton />,
   headerRightContainerStyle: { paddingRight: variables.contentPadding + 6 },
 }

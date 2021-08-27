@@ -11,11 +11,12 @@ import { NavigationProp, RouteProp } from '@react-navigation/native'
 import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { PixelRatio, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import CancelButton from 'src/components/CancelButton'
 import LineItemRow from 'src/components/LineItemRow'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import { withdrawCelo } from 'src/exchange/actions'
@@ -129,9 +130,12 @@ WithdrawCeloReviewScreen.navigationOptions = ({
         eventName={CeloExchangeEvents.celo_sell_edit}
       />
     ),
-    headerRight: () => (
-      <TopBarIconButton icon={<Times />} testID="CancelButton" onPress={onCancel} />
-    ),
+    headerRight: () =>
+      PixelRatio.getFontScale() > 1 ? (
+        <TopBarIconButton icon={<Times />} testID="CancelButton" onPress={onCancel} />
+      ) : (
+        <CancelButton buttonType={'text'} onCancel={onCancel} />
+      ),
   }
 }
 

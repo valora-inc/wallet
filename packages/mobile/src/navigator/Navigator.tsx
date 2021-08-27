@@ -1,7 +1,7 @@
 import { RouteProp } from '@react-navigation/core'
 import { createStackNavigator, StackScreenProps, TransitionPresets } from '@react-navigation/stack'
 import * as React from 'react'
-import { Platform } from 'react-native'
+import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import GoldEducation from 'src/account/GoldEducation'
@@ -332,13 +332,20 @@ const exchangeReviewScreenOptions = ({
     headerLeft: () => (
       <BackButton testID="EditButton" onPress={navigateBack} eventName={editEventName} />
     ),
-    headerRight: () => (
-      <CancelButton
-        buttonType={'icon'}
-        onCancel={navigateToExchangeHome}
-        eventName={cancelEventName}
-      />
-    ),
+    headerRight: () =>
+      PixelRatio.getFontScale() > 1 ? (
+        <CancelButton
+          buttonType={'icon'}
+          onCancel={navigateToExchangeHome}
+          eventName={cancelEventName}
+        />
+      ) : (
+        <CancelButton
+          buttonType={'text'}
+          onCancel={navigateToExchangeHome}
+          eventName={cancelEventName}
+        />
+      ),
     headerTitle: () => <HeaderTitleWithBalance title={title} token={makerToken} />,
   }
 }
