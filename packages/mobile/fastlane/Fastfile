@@ -76,10 +76,10 @@ platform :ios do
   lane :build do |options|
     gym(
       workspace: 'ios/celo.xcworkspace',
-      scheme: "celo-#{options[:environment]}",
-      configuration: "Release",
-      # xcargs: "-allowProvisioningUpdates",
-      output_directory: "build",
+      scheme: 'celo-#{options[:environment]}',
+      configuration: 'Release',
+      # xcargs: '-allowProvisioningUpdates',
+      output_directory: 'build',
       # verbose: true
      ) 
   end
@@ -87,9 +87,9 @@ platform :ios do
   desc 'Prepare TestFlight'
   lane :prepare_testflight_and_upload do |options|
     api_key = app_store_connect_api_key(
-      key_id: "3NK3HR2Q69",
-      issuer_id: "dcfc5c64-36b5-46a2-af36-84acc93d2b62",
-      key_filepath: "/Users/runner/work/release-bundler/release-bundler/AuthKey_3NK3HR2Q69.p8",
+      key_id: '3NK3HR2Q69',
+      issuer_id: 'dcfc5c64-36b5-46a2-af36-84acc93d2b62',
+      key_filepath: '/Users/runner/work/release-bundler/release-bundler/AuthKey_3NK3HR2Q69.p8',
       duration: 1200,
     )
     
