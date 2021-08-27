@@ -131,6 +131,20 @@ function FiatExchangeAmount({ route }: Props) {
       currency
     ) || new BigNumber(0)
 
+  let overLocalLimitDisplayString = ''
+  let underLocalLimitDisplayString = ''
+  if (localCurrencyCode !== LocalCurrencyCode.USD) {
+    overLocalLimitDisplayString =
+      currency === Currency.Celo
+        ? ` (${roundUp(currencyMaxAmount, 3)} CELO)`
+        : ` (${localCurrencySymbol}${roundUp(localCurrencyMaxAmount)})`
+
+    underLocalLimitDisplayString =
+      currency === Currency.Celo
+        ? ` (${roundUp(currencyMinAmount, 3)} CELO)`
+        : ` (${localCurrencySymbol}${roundUp(localCurrencyMinAmount)})`
+  }
+
   const dispatch = useDispatch()
 
   React.useEffect(() => {
@@ -228,21 +242,11 @@ function FiatExchangeAmount({ route }: Props) {
         {localCurrencyAmountRequested.isGreaterThan(localCurrencyMaxAmount)
           ? t('invalidAmountDialog.maxAmount', {
               usdLimit: `$${DOLLAR_ADD_FUNDS_MAX_AMOUNT}`,
-              localLimit:
-                localCurrencyCode === LocalCurrencyCode.USD
-                  ? ''
-                  : currency === Currency.Celo
-                  ? ` (${roundUp(currencyMaxAmount, 3)} CELO)`
-                  : ` (${localCurrencySymbol}${roundUp(localCurrencyMaxAmount)})`,
+              localLimit: overLocalLimitDisplayString,
             })
           : t('invalidAmountDialog.minAmount', {
               usdLimit: `$${DOLLAR_ADD_FUNDS_MIN_AMOUNT}`,
-              localLimit:
-                localCurrencyCode === LocalCurrencyCode.USD
-                  ? ''
-                  : currency === Currency.Celo
-                  ? ` (${roundUp(currencyMinAmount, 3)} CELO)`
-                  : ` (${localCurrencySymbol}${roundUp(localCurrencyMinAmount)})`,
+              localLimit: underLocalLimitDisplayString,
             })}
       </Dialog>
       <Dialog
