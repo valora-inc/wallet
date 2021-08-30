@@ -1,12 +1,19 @@
 const Web3 = require('web3')
 const ContractKit = require('@celo/contractkit')
+const dotenv = require('dotenv')
+dotenv.config()
+
+// Constants
+const valoraE2ETestWallet = '0x6131a6d616a4be3737b38988847270a64bc10caa'
+const valoraTestFaucet = '0xe5F5363e31351C38ac82DBAdeaD91Fd5a7B08846'
+const valoraTestFaucetSecret = process.env.TEST_FAUCET_SECRET
 
 // Init a new kit, connected to the alfajores testnet
 const web3 = new Web3('https://alfajores-forno.celo-testnet.org')
 const kit = ContractKit.newKitFromWeb3(web3)
 
 // Default e2e address to lookup
-const getBalance = async (address = '0x6131a6d616a4be3737b38988847270a64bc10caa') => {
+const getBalance = async (address = valoraE2ETestWallet) => {
   try {
     let balanceObj = {}
 
@@ -21,18 +28,57 @@ const getBalance = async (address = '0x6131a6d616a4be3737b38988847270a64bc10caa'
     // Return balance object
     return balanceObj
   } catch (err) {
-    console.warn(err)
+    console.log(err)
   }
 }
 
 ;(async () => {
+  // Get E2E Test Wallet
   const balance = await getBalance()
-  for (const value in balance) {
-    // Add funds if balance is less than 200
-    if (balance[value] < 200) {
-      // TODO use web3 to send funds from alfajores faucet
+
+  // Connect Valora E2E Test Faucet - Private Key Stored in GitHub Secrets
+  kit.connection.addAccount(
+    web3.eth.accounts.privateKeyToAccount(valoraTestFaucetSecret).privateKey
+  )
+
+  // Get Token Contract Wrappers
+  let goldtoken = await kit.contracts.getGoldToken()
+  let cUSDtoken = await kit.contracts.getStableToken()
+  let cEURtoken = await kit.contracts.getStableToken('cEUR')
+
+  // Set Amount To Send
+  let amount = web3.utils.toWei('25', 'ether')
+
+  // Loop through E2E Test Wallet Balance Object
+  for (const coin in balance) {
+    let tx
+    // Add funds if balance is less than 100 add 25
+    if (balance[coin] < 100) {
+      switch (coin) {
+        case 'CELO':
+          tx = await goldtoken
+            .transfer(valoraE2ETestWallet, amount)
+            .send({ from: valoraTestFaucet })
+          break
+        case 'cUSD':
+          tx = await cUSDtoken
+            .transfer(valoraE2ETestWallet, amount)
+            .send({ from: valoraTestFaucet })
+          break
+        case 'cEUR':
+          tx = await cEURtoken
+            .transfer(valoraE2ETestWallet, amount)
+            .send({ from: valoraTestFaucet })
+          break
+      }
+      // Wait for the transactions to be processed
+      let receipt = await tx.waitReceipt()
+
+      // Print Receipt
+      console.log(' Transaction receipt: %o', receipt)
     }
   }
+
   // Log Balances
   console.log('0x6131a6d616a4be3737b38988847270a64bc10caa: ', await getBalance())
 })()

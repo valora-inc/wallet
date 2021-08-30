@@ -40,6 +40,12 @@ jobs:
         run: |
           cd packages/mobile/ios
           bundle exec pod install
+      - name: Make Test envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
+          directory: packages/mobile/test
+          file_name: .env
       - name: Fund E2E accounts
         run : |
           cd packages/mobile/test
@@ -84,6 +90,16 @@ jobs:
         run: yarn
       - name: Build mobile dependencies
         run: yarn build --scope @celo/mobile --include-filtered-dependencies
+      - name: Make Test Envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
+          directory: packages/mobile/test
+          file_name: .env
+      - name: Fund E2E accounts
+        run : |
+          cd packages/mobile/test
+          node ./fund-e2e-accounts.ts
       - name: Run E2E tests
         run: |
           export ANDROID_SDK_ROOT=$HOME/android-tools
