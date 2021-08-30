@@ -40,15 +40,14 @@ jobs:
         run: |
           cd packages/mobile/ios
           bundle exec pod install
-      - name: Make Test envfile
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
-          directory: packages/mobile/test
-          github_workspace: ${{ github.workspace }}
-      - name: Fund E2E accounts
+      - name: Create Env File
+        env:
+          TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
         run : |
           cd packages/mobile/test
+          echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
+      - name: Fund E2E accounts
+        run : |
           node ./fund-e2e-accounts.ts
       - name: Run E2E tests
         run: |
@@ -90,15 +89,14 @@ jobs:
         run: yarn
       - name: Build mobile dependencies
         run: yarn build --scope @celo/mobile --include-filtered-dependencies
-      - name: Make Test Envfile
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
-          directory: packages/mobile/test
-          github_workspace: ${{ github.workspace }}
-      - name: Fund E2E accounts
+      - name: Create Env File
+        env:
+          TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
         run : |
           cd packages/mobile/test
+          echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
+      - name: Fund E2E accounts
+        run : |
           node ./fund-e2e-accounts.ts
       - name: Run E2E tests
         run: |
