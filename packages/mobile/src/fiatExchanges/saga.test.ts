@@ -44,105 +44,62 @@ describe(watchBidaliPaymentRequests, () => {
     jest.clearAllMocks()
   })
 
-  it('triggers the payment flow with cUSD and calls `onPaymentSent` when successful', async () => {
-    const onPaymentSent = jest.fn()
-    const onCancelled = jest.fn()
+  it.each`
+    currencyCode | expectedCurrency
+    ${'cUSD'}    | ${Currency.Dollar}
+    ${'cEUR'}    | ${Currency.Euro}
+  `(
+    'triggers the payment flow with $currencyCode and calls `onPaymentSent` when successful',
+    async ({ currencyCode, expectedCurrency }) => {
+      const onPaymentSent = jest.fn()
+      const onCancelled = jest.fn()
 
-    await expectSaga(watchBidaliPaymentRequests)
-      .put(
-        updateKnownAddresses({
-          '0xTEST': { name: recipient.name!, imageUrl: recipient.thumbnailPath || null },
-        })
-      )
-      .dispatch(
-        bidaliPaymentRequested(
-          '0xTEST',
-          '20',
-          'cUSD',
-          'Some description',
-          'TEST_CHARGE_ID',
-          onPaymentSent,
-          onCancelled
+      await expectSaga(watchBidaliPaymentRequests)
+        .put(
+          updateKnownAddresses({
+            '0xTEST': { name: recipient.name!, imageUrl: recipient.thumbnailPath || null },
+          })
         )
-      )
-      .dispatch(
-        sendPaymentOrInvite(
+        .dispatch(
+          bidaliPaymentRequested(
+            '0xTEST',
+            '20',
+            currencyCode,
+            'Some description',
+            'TEST_CHARGE_ID',
+            onPaymentSent,
+            onCancelled
+          )
+        )
+        .dispatch(
+          sendPaymentOrInvite(
+            amount,
+            expectedCurrency,
+            'Some description (TEST_CHARGE_ID)',
+            recipient,
+            '0xTEST',
+            undefined,
+            undefined,
+            true
+          )
+        )
+        .dispatch(sendPaymentOrInviteSuccess(amount))
+        .run()
+
+      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationModal, {
+        origin: SendOrigin.Bidali,
+        transactionData: {
           amount,
-          Currency.Dollar,
-          'Some description (TEST_CHARGE_ID)',
+          currency: expectedCurrency,
+          reason: 'Some description (TEST_CHARGE_ID)',
           recipient,
-          '0xTEST',
-          undefined,
-          undefined,
-          true
-        )
-      )
-      .dispatch(sendPaymentOrInviteSuccess(amount))
-      .run()
-
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationModal, {
-      origin: SendOrigin.Bidali,
-      transactionData: {
-        amount,
-        currency: Currency.Dollar,
-        reason: 'Some description (TEST_CHARGE_ID)',
-        recipient,
-        type: TokenTransactionType.PayPrefill,
-      },
-    })
-    expect(onPaymentSent).toHaveBeenCalledTimes(1)
-    expect(onCancelled).not.toHaveBeenCalled()
-  })
-
-  it.skip('triggers the payment flow with cEUR and calls `onPaymentSent` when successful', async () => {
-    const onPaymentSent = jest.fn()
-    const onCancelled = jest.fn()
-
-    await expectSaga(watchBidaliPaymentRequests)
-      .put(
-        updateKnownAddresses({
-          '0xTEST': { name: recipient.name!, imageUrl: recipient.thumbnailPath || null },
-        })
-      )
-      .dispatch(
-        bidaliPaymentRequested(
-          '0xTEST',
-          '20',
-          'cEUR',
-          'Some description',
-          'TEST_CHARGE_ID',
-          onPaymentSent,
-          onCancelled
-        )
-      )
-      .dispatch(
-        sendPaymentOrInvite(
-          amount,
-          Currency.Euro,
-          'Some description (TEST_CHARGE_ID)',
-          recipient,
-          '0xTEST',
-          undefined,
-          undefined,
-          true
-        )
-      )
-      .dispatch(sendPaymentOrInviteSuccess(amount))
-      .run()
-
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationModal, {
-      origin: SendOrigin.Bidali,
-      transactionData: {
-        amount,
-        currency: Currency.Euro,
-        reason: 'Some description (TEST_CHARGE_ID)',
-        recipient,
-        type: TokenTransactionType.PayPrefill,
-      },
-    })
-    expect(onPaymentSent).toHaveBeenCalledTimes(1)
-    expect(onCancelled).not.toHaveBeenCalled()
-  })
+          type: TokenTransactionType.PayPrefill,
+        },
+      })
+      expect(onPaymentSent).toHaveBeenCalledTimes(1)
+      expect(onCancelled).not.toHaveBeenCalled()
+    }
+  )
 
   it('triggers the payment flow and calls `onCancelled` when navigating back to the Bidali screen after a failure', async () => {
     const onPaymentSent = jest.fn()
@@ -201,7 +158,7 @@ describe(watchBidaliPaymentRequests, () => {
           bidaliPaymentRequested(
             '0xTEST',
             '20',
-            'CELO',
+            'ETH',
             'Some description',
             'TEST_CHARGE_ID',
             onPaymentSent,
@@ -209,7 +166,7 @@ describe(watchBidaliPaymentRequests, () => {
           )
         )
         .run()
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`"Unsupported payment currency from Bidali: CELO"`)
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`"Unsupported payment currency from Bidali: ETH"`)
 
     expect(navigate).not.toHaveBeenCalled()
     expect(onPaymentSent).not.toHaveBeenCalled()
