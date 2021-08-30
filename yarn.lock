@@ -14170,18 +14170,6 @@ get-stream@^6.0.0:
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-6.0.0.tgz#3e0012cb6827319da2706e601a1583e8629a6718"
   integrity sha512-A1B3Bh1UmL0bidM/YX2NsCOTnGJePL9rO/M+Mw3m9f2gUpfokS0hi5Eah0WSUEWZdZhIZtMjkIYS7mDfOqNHbg==
 
-get-symbol-from-current-process-h@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/get-symbol-from-current-process-h/-/get-symbol-from-current-process-h-1.0.2.tgz#510af52eaef873f7028854c3377f47f7bb200265"
-  integrity sha512-syloC6fsCt62ELLrr1VKBM1ggOpMdetX9hTrdW77UQdcApPHLmf7CI7OKcN1c9kYuNxKcDe4iJ4FY9sX3aw2xw==
-
-get-uv-event-loop-napi-h@^1.0.5:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/get-uv-event-loop-napi-h/-/get-uv-event-loop-napi-h-1.0.6.tgz#42b0b06b74c3ed21fbac8e7c72845fdb7a200208"
-  integrity sha512-t5c9VNR84nRoF+eLiz6wFrEp1SE2Acg0wS+Ysa2zF0eROes+LzOfuTaVHxGy8AbS8rq7FHEJzjnCZo1BupwdJg==
-  dependencies:
-    get-symbol-from-current-process-h "^1.0.1"
-
 get-value@^2.0.2, get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/get-value/-/get-value-2.0.6.tgz#dc15ca1c672387ca76bd37ac0a395ba2042a2c28"
@@ -19889,11 +19877,6 @@ node-addon-api@^2.0.0:
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-2.0.2.tgz#432cfa82962ce494b132e9d72a15b29f71ff5d32"
   integrity sha512-Ntyt4AIXyaLIuMHF6IOoTakB3K+RWxwtsHNRxllEoA6vPwP9o4866g6YWDLUdnucilZhmkxiHwHr11gAENw+QA==
 
-node-addon-api@^3.0.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-3.2.1.tgz#81325e0a2117789c0128dab65e7e38f07ceba161"
-  integrity sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==
-
 node-cleanup@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/node-cleanup/-/node-cleanup-2.1.2.tgz#7ac19abd297e09a7f72a71545d951b517e4dde2c"
@@ -19942,7 +19925,7 @@ node-forge@^0.10.0:
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.10.0.tgz#32dea2afb3e9926f02ee5ce8794902691a676bf3"
   integrity sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==
 
-node-gyp-build@^4.2.0, node-gyp-build@^4.2.1:
+node-gyp-build@^4.2.0:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.2.3.tgz#ce6277f853835f718829efb47db20f3e4d9c4739"
   integrity sha512-MN6ZpzmfNCRM+3t57PTJHgHyw/h4OWnZ6mR8P5j/uZtqQr46RRuDE/P+g3n0YR/AiYXeWixZZzaip77gdICfRg==
@@ -22679,7 +22662,6 @@ react-native-permissions@^3.0.3:
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-3.0.3.tgz#aa90649728a9720b0de9cfcfdb447b35a6630de0"
   integrity sha512-8xiEnU29qHZcT05XXwhPHiLChTt82Pn5Z/nFdDOYGNFZ+IYSbYeGmIxFpratCRO6dgLptNaDFDPiyw2X7UZTeg==
 
-<<<<<<< HEAD
 react-native-persona@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-persona/-/react-native-persona-1.2.0.tgz#dfac527f345e879a3920b23b0896696acca6cdf7"
@@ -22693,14 +22675,13 @@ react-native-persona@^1.2.0:
     object-path "^0.11.4"
     pkg-up "^3.1.0"
     xmlbuilder2 "^2.1.2"
-=======
+
 react-native-plaid-link-sdk@^7.0.7:
   version "7.0.7"
   resolved "https://registry.yarnpkg.com/react-native-plaid-link-sdk/-/react-native-plaid-link-sdk-7.0.7.tgz#3304a20e7e5b7b440caf9dcf1e3246aee35aa3dd"
   integrity sha512-jXmifw8sw3ngsqndl5dUG3pRgcNF7o+rWvSuWd0EX6vWhzfhSGhPtMIVhnCA0k1wUSEpFcrIsJweaCmRg3DPHg==
   dependencies:
     tsc "^1.20150623.0"
->>>>>>> main
 
 react-native-platform-touchable@^1.1.1:
   version "1.1.1"
@@ -24343,14 +24324,6 @@ set-value@^0.4.3, set-value@^2.0.0, set-value@^3.0.2:
   integrity sha512-npjkVoz+ank0zjlV9F47Fdbjfj/PfXyVhZvGALWsyIYU/qrMzpi6avjKW3/7KeSU2Df3I46BrN1xOI1+6vW0hA==
   dependencies:
     is-plain-object "^2.0.4"
-
-setimmediate-napi@^1.0.3:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/setimmediate-napi/-/setimmediate-napi-1.0.6.tgz#43cd797ef25d66eb69c782170ea01898787b8720"
-  integrity sha512-sdNXN15Av1jPXuSal4Mk4tEAKn0+8lfF9Z50/negaQMrAIO9c1qM0eiCh8fT6gctp0RiCObk+6/Xfn5RMGdZoA==
-  dependencies:
-    get-symbol-from-current-process-h "^1.0.1"
-    get-uv-event-loop-napi-h "^1.0.5"
 
 setimmediate@1.0.4:
   version "1.0.4"
@@ -27318,15 +27291,6 @@ wcwidth@^1.0.0, wcwidth@^1.0.1:
   integrity sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=
   dependencies:
     defaults "^1.0.3"
-
-weak-napi@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/weak-napi/-/weak-napi-2.0.2.tgz#40662d0931498397979edb38a571409f5afce6d3"
-  integrity sha512-LcOSVFrghtVXf4QH+DLIy8iPiCktV7lVbqRDYP+bDPpLzC41RCHQPMyQOnPpWO41Ie4CmnDxS+mbL72r5xFMMQ==
-  dependencies:
-    node-addon-api "^3.0.0"
-    node-gyp-build "^4.2.1"
-    setimmediate-napi "^1.0.3"
 
 web3-bzz@1.2.4:
   version "1.2.4"
