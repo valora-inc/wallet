@@ -80,5 +80,5 @@ const getBalance = async (address = valoraE2ETestWallet) => {
   }
 
   // Log Balances
-  console.log('0x6131a6d616a4be3737b38988847270a64bc10caa: ', await getBalance())
+  console.log(`${valoraE2ETestWallet}: %o`, await getBalance())
 })()
