@@ -22,7 +22,7 @@ import {
   Actions as TransactionActions,
   NewTransactionsInFeedAction,
 } from 'src/transactions/actions'
-import { Currency } from 'src/utils/currencies'
+import { resolveCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getAccount } from 'src/web3/saga'
 
@@ -31,7 +31,7 @@ const TAG = 'fiatExchanges/saga'
 function* bidaliPaymentRequest({
   amount,
   address,
-  currency,
+  currency: currencyString,
   description,
   chargeId,
   onPaymentSent,
@@ -39,13 +39,13 @@ function* bidaliPaymentRequest({
 }: BidaliPaymentRequestedAction) {
   Logger.debug(
     `${TAG}@bidaliPaymentRequest`,
-    `Send ${amount} ${currency} to ${address} for ${description} (${chargeId})`
+    `Send ${amount} ${currencyString} to ${address} for ${description} (${chargeId})`
   )
 
-  if (currency.toUpperCase() !== 'CUSD') {
-    // This is not supposed to happen in production, the current flow limits
-    // to cUSD only
-    throw new Error(`Unsupported payment currency from Bidali: ${currency}`)
+  const currency = resolveCurrency(currencyString)
+  if (!currency) {
+    // This is not supposed to happen in production
+    throw new Error(`Unsupported payment currency from Bidali: ${currencyString}`)
   }
 
   const recipient: AddressRecipient = {
@@ -57,7 +57,7 @@ function* bidaliPaymentRequest({
   const transactionData: TransactionDataInput = {
     recipient,
     amount: new BigNumber(amount),
-    currency: Currency.Dollar,
+    currency,
     reason: `${description} (${chargeId})`,
     type: TokenTransactionType.PayPrefill,
   }
