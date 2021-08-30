@@ -45,7 +45,7 @@ jobs:
         with:
           envkey_TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
           directory: packages/mobile/test
-          file_name: .env
+          github_workspace: ${{ github.workspace }}
       - name: Fund E2E accounts
         run : |
           cd packages/mobile/test
@@ -95,7 +95,7 @@ jobs:
         with:
           envkey_TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
           directory: packages/mobile/test
-          file_name: .env
+          github_workspace: ${{ github.workspace }}
       - name: Fund E2E accounts
         run : |
           cd packages/mobile/test
