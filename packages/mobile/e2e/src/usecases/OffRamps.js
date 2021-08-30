@@ -1,7 +1,7 @@
 import { dismissBanners } from '../utils/banners'
-import { pixelDiff, sleep, enterPinUiIfNecessary, getDeviceModel } from '../utils/utils'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
+import { enterPinUiIfNecessary, getDeviceModel, pixelDiff, sleep } from '../utils/utils'
 
 export default offRamps = () => {
   beforeEach(async () => {
@@ -67,6 +67,47 @@ export default offRamps = () => {
         await expect(element(by.id('accountBox'))).toBeVisible()
         const imagePath = await device.takeScreenshot('cUSD Exchanges')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD Exchanges.png`)
+      })
+    })
+  })
+
+  describe('cEUR', () => {
+    beforeEach(async () => {
+      await element(by.id('radio/cEUR')).tap()
+    })
+
+    describe('When Gift Cards and Mobile Top Up Selected', () => {
+      beforeEach(async () => {
+        await element(by.id('receiveWithBidali')).tap()
+        await element(by.text('Next')).tap()
+      })
+
+      it('Then Bidali Should Display', async () => {
+        await expect(element(by.text('Bidali'))).toBeVisible()
+        // TODO: Include Check of Screenshot in Nightly Tests
+        // await sleep(15000)
+        // const imagePath = await device.takeScreenshot('Bidali')
+        // await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Bidali.png`)
+      })
+    })
+
+    // TODO
+    describe.skip('When Cryptocurrency Exchanges Selected', () => {
+      beforeEach(async () => {
+        await element(by.id('withExchange')).tap()
+        await element(by.id('GoToProviderButton')).tap()
+      })
+
+      it('Then Should Display Exchanges & Account Key', async () => {
+        await waitFor(element(by.id('Bittrex')))
+          .toBeVisible()
+          .withTimeout(20000)
+        await expect(element(by.id('Bittrex'))).toBeVisible()
+        await expect(element(by.id('CoinList Pro'))).toBeVisible()
+        await expect(element(by.id('OKCoin'))).toBeVisible()
+        await expect(element(by.id('accountBox'))).toBeVisible()
+        const imagePath = await device.takeScreenshot('cEUR Exchanges')
+        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cEUR Exchanges.png`)
       })
     })
   })
