@@ -21,6 +21,10 @@
       "successHeader": "Concluído",
       "successWithMatches": "{{matches}} amigos na {{appName}}",
       "successWithoutMatches": "Sincronização completa"
+    },
+    "disclosure": {
+      "title": "Importar contatos",
+      "body": "Valora gostaria de importar seus contatos. Por favor, encontre mais informações sobre nossas práticas de privacidade, clicando em \"Política de Privacidade\" nas Configurações"
     }
   },
   "createAccount": "Criar conta",
