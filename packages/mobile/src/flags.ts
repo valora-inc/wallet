@@ -6,6 +6,7 @@ export const features = {
   VERIFICATION_FORNO_RETRY: true,
   SHOW_CASH_OUT: true,
   PNP_USE_DEK_FOR_AUTH: true,
+  SHOW_INVITE_MENU_ITEM: false,
 }
 
 // Country specific features, unlisted countries are set to `false` by default
