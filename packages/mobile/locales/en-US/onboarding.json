@@ -24,7 +24,7 @@
     },
     "disclosure": {
       "title": "Import Contacts",
-      "body": "Valora would like to import your contacts. Please find more information about our privacy practices by pressing \"Privacy Policy\" within Settings or at {{privacyLink}}"
+      "body": "Valora would like to import your contacts. Please find more information about our privacy practices by clicking \"Privacy Policy\" in Settings"
     }
   },
   "createAccount": "Create Account",
