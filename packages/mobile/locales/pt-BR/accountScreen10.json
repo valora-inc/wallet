@@ -47,6 +47,7 @@
   },
   "testFaqLink": " Perguntas frequentes da {{appName}} ",
   "termsOfServiceLink": "Termos de Serviço",
+  "privacyPolicy": "Política de Privacidade",
   "editProfile": "Editar perfil",
   "confirmNumber": "Conectar o número de celular",
   "cancel": "Cancelar",
