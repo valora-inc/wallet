@@ -40,8 +40,8 @@
     "body": "Os fornecedores permitem que você adicione ou saque fundos da sua conta. Os provedores determinam suas próprias tarifas e restrições, dependendo de diversos fatores. Visite o site do provedor para obter ajuda."
   },
   "invalidAmountDialog": {
-    "minAmount": "Nossos provedores não suportam totais menores que {{usdLimit}}{{localLimit}}. Por favor, insira um valor maior.",
-    "maxAmount": "Nossos provedores não suportam totais maiores que {{usdLimit}}{{localLimit}}. Por favor, insira um valor menor.",
+    "minAmount": "Nossos fornecedores não aceitam valores inferiores a {{usdLimit}}{{localLimit}}. Insira um valor maior.",
+    "maxAmount": "Nossos fornecedores não aceitam valores maiores de {{usdLimit}}{{localLimit}}. Insira um valor menor.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
