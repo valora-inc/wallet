@@ -21,6 +21,10 @@
       "successHeader": "Completed",
       "successWithMatches": "{{matches}} friends on {{appName}}",
       "successWithoutMatches": "Syncing complete"
+    },
+    "disclosure": {
+      "title": "Import Contacts",
+      "body": "Valora would like to import your contacts. Please find more information about our privacy practices by pressing \"Privacy Policy\" within Settings or at {{privacyLink}}"
     }
   },
   "createAccount": "Create Account",

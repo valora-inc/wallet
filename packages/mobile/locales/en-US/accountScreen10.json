@@ -47,6 +47,7 @@
   },
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Terms of Service",
+  "privacyPolicy": "Data & Privacy Policy",
   "editProfile": "Edit Profile",
   "confirmNumber": "Connect phone number",
   "cancel": "Cancel",
