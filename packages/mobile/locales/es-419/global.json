@@ -201,5 +201,6 @@
   "cashOutLimitExceeded": "No puedes retirar más de tu saldo de {{balance}} {{currency}}.",
   "appDescription": "Una billetera de pagos móvil que funciona en todo el mundo",
   "earn": "Gana",
-  "free": "Gratis"
+  "free": "Gratis",
+  "nowNow": "Omitir"
 }

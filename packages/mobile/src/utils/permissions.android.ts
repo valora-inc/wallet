@@ -25,7 +25,7 @@ async function requestPermission(permission: Permission, title?: string, message
         ? {
             title,
             message,
-            buttonPositive: i18n.t('global:ok'),
+            buttonPositive: i18n.t('global:continue'),
             buttonNegative: i18n.t('global:notNow'),
           }
         : undefined
