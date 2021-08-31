@@ -40,8 +40,8 @@
     "body": "Los proveedores integrados te permiten agregar o retirar fondos de tu cuenta. Los proveedores determinan sus propias tarifas y restricciones, en función de diversos factores. Visita la web del proveedor para obtener ayuda específica."
   },
   "invalidAmountDialog": {
-    "minAmount": "Nuestros proveedores no soportan totales inferiores a {{usdLimit}}{{localLimit}}. Por favor, introduzca una cantidad mayor.",
-    "maxAmount": "Nuestros proveedores no soportan totales superiores a {{usdLimit}}{{localLimit}}. Por favor, introduzca una cantidad más pequeña.",
+    "minAmount": "Nuestros proveedores no permiten montos totales inferiores a {{usdLimit}}{{localLimit}}. Por favor, ingresa un monto mayor.",
+    "maxAmount": "Nuestros proveedores no permiten montos totales superiores a {{usdLimit}}{{localLimit}}. Por favor, ingresa un monto más pequeño.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
