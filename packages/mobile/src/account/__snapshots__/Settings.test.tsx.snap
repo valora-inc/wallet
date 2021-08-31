@@ -1078,7 +1078,7 @@ exports[`Account renders correctly 1`] = `
                       }
                     }
                   >
-                    nuxNamePin1:terms.heading1
+                    privacyPolicy
                   </Text>
                 </View>
                 <View
@@ -3499,7 +3499,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                       }
                     }
                   >
-                    nuxNamePin1:terms.heading1
+                    privacyPolicy
                   </Text>
                 </View>
                 <View
@@ -6162,7 +6162,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                       }
                     }
                   >
-                    nuxNamePin1:terms.heading1
+                    privacyPolicy
                   </Text>
                 </View>
                 <View
@@ -8504,7 +8504,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                       }
                     }
                   >
-                    nuxNamePin1:terms.heading1
+                    privacyPolicy
                   </Text>
                 </View>
                 <View
