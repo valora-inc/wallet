@@ -33,8 +33,9 @@ const getBalance = async (address = valoraE2ETestWallet) => {
 }
 
 ;(async () => {
-  // Get E2E Test Wallet
-  const balance = await getBalance()
+  // Get E2E Test Wallet Balance & Valora Faucet Balance
+  const receivingBalance = await getBalance()
+  const sendingBalance = await getBalance(valoraTestFaucet)
 
   // Connect Valora E2E Test Faucet - Private Key Stored in GitHub Secrets
   kit.connection.addAccount(
@@ -50,10 +51,10 @@ const getBalance = async (address = valoraE2ETestWallet) => {
   let amount = web3.utils.toWei('25', 'ether')
 
   // Loop through E2E Test Wallet Balance Object
-  for (const coin in balance) {
+  for (const coin in receivingBalance) {
     let tx
     // Add funds if balance is less than 100 add 25
-    if (balance[coin] < 100) {
+    if (receivingBalance[coin] < 100 && sendingBalance[coin] > 25) {
       switch (coin) {
         case 'CELO':
           tx = await goldtoken
@@ -80,5 +81,8 @@ const getBalance = async (address = valoraE2ETestWallet) => {
   }
 
   // Log Balances
-  console.log(`${valoraE2ETestWallet}: %o`, await getBalance())
+  console.log('E2E Test Account')
+  console.table(await getBalance())
+  console.log('Valora Test Facuet')
+  console.table(await getBalance(valoraTestFaucet))
 })()
