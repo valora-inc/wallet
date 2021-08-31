@@ -429,10 +429,7 @@ export class Account extends React.Component<Props, State> {
             <SectionHead text={t('legal')} style={styles.sectionTitle} />
             <SettingsItemTextValue title={t('licenses')} onPress={this.goToLicenses} />
             <SettingsItemTextValue title={t('termsOfServiceLink')} onPress={this.onTermsPress} />
-            <SettingsItemTextValue
-              title={t('nuxNamePin1:terms.heading1')}
-              onPress={this.onPrivacyPolicyPress}
-            />
+            <SettingsItemTextValue title={t('privacyPolicy')} onPress={this.onPrivacyPolicyPress} />
             <SectionHead text={''} style={styles.sectionTitle} />
             <SettingsExpandedItem
               title={t('removeAccountTitle')}
