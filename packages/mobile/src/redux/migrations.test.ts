@@ -7,6 +7,7 @@ import {
   v13Schema,
   v14Schema,
   v15Schema,
+  v16Schema,
   v1Schema,
   v2Schema,
   v7Schema,
@@ -353,5 +354,9 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema.stableToken.balances[Currency.Dollar]).toEqual('150')
     expect(migratedSchema.escrow.isReclaiming).toBeFalsy()
     expect(migratedSchema.escrow.sentEscrowedPayments.length).toEqual(0)
+  })
+  it('works for v16 to v17', () => {
+    const migratedSchema = migrations[17](v16Schema)
+    expect(migratedSchema.fiatExchanges.lastUsedProvider).not.toBeDefined()
   })
 })

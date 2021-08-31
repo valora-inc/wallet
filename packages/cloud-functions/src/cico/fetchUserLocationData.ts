@@ -54,5 +54,5 @@ export const fetchUserLocationData = functions.https.onRequest(async (req, res) 
     region: region_code,
     ipAddress: ip,
   }
-  res.send(JSON.stringify(userLocationData))
+  res.status(200).send(JSON.stringify(userLocationData))
 })

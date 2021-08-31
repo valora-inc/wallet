@@ -10,7 +10,7 @@
     "signTransaction": "Assinar uma transação Celo",
     "sendTransaction": "Enviar uma transação Celo",
     "decrypt": "Descriptografar um payload de dados",
-    "accounts": "Ler o seu endereço de conta {{appName}}",
+    "accounts": "Ler o seu Endereço de Conta da {{appName}}",
     "details": "Mostrar detalhes",
     "computeSharedSecret": "Gerar segredos"
   },

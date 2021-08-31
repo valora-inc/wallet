@@ -4,11 +4,14 @@ import {
   ActionableAttestation,
   AttestationsWrapper,
 } from '@celo/contractkit/lib/wrappers/Attestations'
+import { sleep } from '@celo/utils/lib/async'
+import { AttestationsStatus } from '@celo/utils/lib/attestations'
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import {
   CheckSessionResp,
   GetDistributedBlindedPepperResp,
   StartSessionResp,
-} from '@celo/komencikit/src/actions'
+} from '@komenci/kit/lib/actions'
 import {
   AuthenticationFailed,
   FetchError,
@@ -25,12 +28,9 @@ import {
   TxRevertError,
   TxTimeoutError,
   WalletValidationError,
-} from '@celo/komencikit/src/errors'
-import { KomenciKit } from '@celo/komencikit/src/kit'
-import { verifyWallet } from '@celo/komencikit/src/verifyWallet'
-import { sleep } from '@celo/utils/lib/async'
-import { AttestationsStatus } from '@celo/utils/lib/attestations'
-import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
+} from '@komenci/kit/lib/errors'
+import { KomenciKit, ProxyType } from '@komenci/kit/lib/kit'
+import { verifyWallet } from '@komenci/kit/lib/verifyWallet'
 import DeviceInfo from 'react-native-device-info'
 import { all, call, delay, put, race, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { VerificationEvents } from 'src/analytics/Events'
@@ -74,6 +74,7 @@ import {
   fetchPhoneNumberDetails,
   isBalanceSufficientForSigRetrievalSelector,
   KomenciAvailable,
+  komenciConfigSelector,
   KomenciContext,
   komenciContextSelector,
   overrideWithoutVerificationSelector,
@@ -240,14 +241,17 @@ function* startOrResumeKomenciSessionSaga() {
   yield put(fetchPhoneNumberDetails())
 }
 
-export function getKomenciKit(
+export function* getKomenciKit(
   contractKit: ContractKit,
   walletAddress: Address,
   komenci: KomenciContext
 ) {
+  const komenciConfig = yield select(komenciConfigSelector)
   return new KomenciKit(contractKit, walletAddress, {
     url: komenci.callbackUrl || networkConfig.komenciUrl,
     token: komenci.sessionToken,
+    proxyType: komenciConfig.useLightProxy ? ProxyType.LightProxy : ProxyType.LegacyProxy,
+    allowedDeployers: komenciConfig.allowedDeployers,
   })
 }
 

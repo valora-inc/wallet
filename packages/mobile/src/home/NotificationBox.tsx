@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NativeScrollEvent, ScrollView, StyleSheet, View } from 'react-native'
 import { useDispatch } from 'react-redux'
-import { dismissGetVerified, dismissGoldEducation, dismissInviteFriends } from 'src/account/actions'
+import { dismissGetVerified, dismissGoldEducation } from 'src/account/actions'
 import { HomeEvents } from 'src/analytics/Events'
 import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -20,11 +20,11 @@ import {
 } from 'src/consumerIncentives/analyticsEventsTracker'
 import EscrowedPaymentReminderSummaryNotification from 'src/escrow/EscrowedPaymentReminderSummaryNotification'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
-import { pausedFeatures } from 'src/flags'
 import { dismissNotification } from 'src/home/actions'
+import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
 import { Namespaces } from 'src/i18n'
-import { backupKey, getVerified, inviteFriends, learnCelo } from 'src/images/Images'
+import { backupKey, getVerified, learnCelo } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import IncomingPaymentRequestSummaryNotification from 'src/paymentRequest/IncomingPaymentRequestSummaryNotification'
@@ -38,6 +38,13 @@ import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NotificationBox'
+// Priority of static notifications
+const BACKUP_PRIORITY = 1000
+const VERIFICATION_PRIORITY = 100
+const INVITES_PRIORITY = 400
+const INCOMING_PAYMENT_REQUESTS_PRIORITY = 300
+const OUTGOING_PAYMENT_REQUESTS_PRIORITY = 200
+const CELO_EDUCATION_PRIORITY = 10
 
 export enum NotificationBannerTypes {
   incoming_tx_request = 'incoming_tx_request',
@@ -61,221 +68,216 @@ export enum NotificationBannerCTATypes {
   remote_notification_cta = 'remote_notification_cta',
 }
 
-function NotificationBox() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const {
-    backupCompleted,
-    dismissedInviteFriends,
-    dismissedGetVerified,
-    dismissedGoldEducation,
-  } = useSelector((state) => state.account)
+interface Notification {
+  element: React.ReactElement
+  priority: number
+}
+
+function useSimpleActions() {
+  const { backupCompleted, dismissedGetVerified, dismissedGoldEducation } = useSelector(
+    (state) => state.account
+  )
   const numberVerified = useSelector((state) => state.app.numberVerified)
   const goldEducationCompleted = useSelector((state) => state.goldToken.educationCompleted)
-  const incomingPaymentRequests = useSelector(getIncomingPaymentRequests)
-  const outgoingPaymentRequests = useSelector(getOutgoingPaymentRequests)
+
   const extraNotifications = useSelector(getExtraNotifications)
   const verificationPossible = useSelector(verificationPossibleSelector)
-  const reclaimableEscrowPayments = useSelector(getReclaimableEscrowPayments)
+
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
   const { t } = useTranslation(Namespaces.walletFlow5)
 
   const dispatch = useDispatch()
 
-  const escrowedPaymentReminderNotification = () => {
-    if (reclaimableEscrowPayments && reclaimableEscrowPayments.length) {
-      return [
-        <EscrowedPaymentReminderSummaryNotification key={1} payments={reclaimableEscrowPayments} />,
-      ]
-    }
-    return []
+  const actions: SimpleMessagingCardProps[] = []
+  if (!backupCompleted) {
+    actions.push({
+      text: t('backupKeyFlow6:backupKeyNotification'),
+      icon: backupKey,
+      priority: BACKUP_PRIORITY,
+      callToActions: [
+        {
+          text: t('backupKeyFlow6:introPrimaryAction'),
+          onPress: () => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationBannerTypes.backup_prompt,
+              selectedAction: NotificationBannerCTATypes.accept,
+            })
+            ensurePincode()
+              .then((pinIsCorrect) => {
+                if (pinIsCorrect) {
+                  navigate(Screens.BackupIntroduction)
+                }
+              })
+              .catch((error) => {
+                Logger.error(`${TAG}@backupNotification`, 'PIN ensure error', error)
+              })
+          },
+        },
+      ],
+    })
   }
 
-  const incomingPaymentRequestsNotification = (): Array<React.ReactElement<any>> => {
-    if (incomingPaymentRequests && incomingPaymentRequests.length) {
-      return [
-        <IncomingPaymentRequestSummaryNotification key={1} requests={incomingPaymentRequests} />,
-      ]
-    }
-    return []
+  if (!dismissedGetVerified && !numberVerified && verificationPossible) {
+    actions.push({
+      text: t('nuxVerification2:notification.body'),
+      icon: getVerified,
+      priority: VERIFICATION_PRIORITY,
+      callToActions: [
+        {
+          text: t('nuxVerification2:notification.cta'),
+          onPress: () => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationBannerTypes.verification_prompt,
+              selectedAction: NotificationBannerCTATypes.accept,
+            })
+            navigate(Screens.VerificationEducationScreen, {
+              hideOnboardingStep: true,
+            })
+          },
+        },
+        {
+          text: t('global:dismiss'),
+          onPress: () => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationBannerTypes.verification_prompt,
+              selectedAction: NotificationBannerCTATypes.decline,
+            })
+            dispatch(dismissGetVerified())
+          },
+        },
+      ],
+    })
   }
 
-  const outgoingPaymentRequestsNotification = (): Array<React.ReactElement<any>> => {
-    if (outgoingPaymentRequests && outgoingPaymentRequests.length) {
-      return [
-        <OutgoingPaymentRequestSummaryNotification key={1} requests={outgoingPaymentRequests} />,
-      ]
+  for (const [id, notification] of Object.entries(extraNotifications)) {
+    if (!notification) {
+      continue
     }
-    return []
+    const texts = getContentForCurrentLang(notification.content)
+    if (!texts) {
+      continue
+    }
+    if (notification.ctaUri?.includes(Screens.ConsumerIncentivesHomeScreen) && !rewardsEnabled) {
+      continue
+    }
+
+    actions.push({
+      text: texts.body,
+      icon: notification.iconUrl ? { uri: notification.iconUrl } : undefined,
+      darkMode: notification.darkMode,
+      priority: notification.priority ?? DEFAULT_PRIORITY,
+      callToActions: [
+        {
+          text: texts.cta,
+          onPress: () => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationBannerTypes.remote_notification,
+              selectedAction: NotificationBannerCTATypes.remote_notification_cta,
+              notificationId: id,
+            })
+            dispatch(openUrl(notification.ctaUri, notification.openExternal, true))
+            trackRewardsScreenOpenEvent(notification.ctaUri, RewardsScreenOrigin.NotificationBox)
+          },
+        },
+        {
+          text: texts.dismiss,
+          dim: notification.darkMode,
+          onPress: () => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationBannerTypes.remote_notification,
+              selectedAction: NotificationBannerCTATypes.decline,
+              notificationId: id,
+            })
+            dispatch(dismissNotification(id))
+          },
+        },
+      ],
+    })
   }
 
-  const generalNotifications = (): Array<React.ReactElement<any>> => {
-    const actions: SimpleMessagingCardProps[] = []
-
-    if (!backupCompleted) {
-      actions.push({
-        text: t('backupKeyFlow6:backupKeyNotification'),
-        icon: backupKey,
-        callToActions: [
-          {
-            text: t('backupKeyFlow6:introPrimaryAction'),
-            onPress: () => {
-              ValoraAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationBannerTypes.backup_prompt,
-                selectedAction: NotificationBannerCTATypes.accept,
-              })
-              ensurePincode()
-                .then((pinIsCorrect) => {
-                  if (pinIsCorrect) {
-                    navigate(Screens.BackupIntroduction)
-                  }
-                })
-                .catch((error) => {
-                  Logger.error(`${TAG}@backupNotification`, 'PIN ensure error', error)
-                })
-            },
+  if (!dismissedGoldEducation && !goldEducationCompleted) {
+    actions.push({
+      text: t('exchangeFlow9:whatIsGold'),
+      icon: learnCelo,
+      priority: CELO_EDUCATION_PRIORITY,
+      callToActions: [
+        {
+          text: t('learnMore'),
+          onPress: () => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationBannerTypes.celo_asset_education,
+              selectedAction: NotificationBannerCTATypes.accept,
+            })
+            navigate(Screens.GoldEducation)
           },
-        ],
-      })
-    }
-
-    if (!dismissedGetVerified && !numberVerified && verificationPossible) {
-      actions.push({
-        text: t('nuxVerification2:notification.body'),
-        icon: getVerified,
-        callToActions: [
-          {
-            text: t('nuxVerification2:notification.cta'),
-            onPress: () => {
-              ValoraAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationBannerTypes.verification_prompt,
-                selectedAction: NotificationBannerCTATypes.accept,
-              })
-              navigate(Screens.VerificationEducationScreen, {
-                hideOnboardingStep: true,
-              })
-            },
+        },
+        {
+          text: t('global:dismiss'),
+          onPress: () => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationBannerTypes.celo_asset_education,
+              selectedAction: NotificationBannerCTATypes.decline,
+            })
+            dispatch(dismissGoldEducation())
           },
-          {
-            text: t('global:dismiss'),
-            onPress: () => {
-              ValoraAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationBannerTypes.verification_prompt,
-                selectedAction: NotificationBannerCTATypes.decline,
-              })
-              dispatch(dismissGetVerified())
-            },
-          },
-        ],
-      })
-    }
-
-    for (const [id, notification] of Object.entries(extraNotifications)) {
-      if (!notification) {
-        continue
-      }
-      const texts = getContentForCurrentLang(notification.content)
-      if (!texts) {
-        continue
-      }
-      if (notification.ctaUri?.includes(Screens.ConsumerIncentivesHomeScreen) && !rewardsEnabled) {
-        continue
-      }
-
-      actions.push({
-        text: texts.body,
-        icon: notification.iconUrl ? { uri: notification.iconUrl } : undefined,
-        darkMode: notification.darkMode,
-        callToActions: [
-          {
-            text: texts.cta,
-            onPress: () => {
-              ValoraAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationBannerTypes.remote_notification,
-                selectedAction: NotificationBannerCTATypes.remote_notification_cta,
-                notificationId: id,
-              })
-              dispatch(openUrl(notification.ctaUri, notification.openExternal, true))
-              trackRewardsScreenOpenEvent(notification.ctaUri, RewardsScreenOrigin.NotificationBox)
-            },
-          },
-          {
-            text: texts.dismiss,
-            dim: notification.darkMode,
-            onPress: () => {
-              ValoraAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationBannerTypes.remote_notification,
-                selectedAction: NotificationBannerCTATypes.decline,
-                notificationId: id,
-              })
-              dispatch(dismissNotification(id))
-            },
-          },
-        ],
-      })
-    }
-
-    if (!dismissedGoldEducation && !goldEducationCompleted) {
-      actions.push({
-        text: t('exchangeFlow9:whatIsGold'),
-        icon: learnCelo,
-        callToActions: [
-          {
-            text: t('learnMore'),
-            onPress: () => {
-              ValoraAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationBannerTypes.celo_asset_education,
-                selectedAction: NotificationBannerCTATypes.accept,
-              })
-              navigate(Screens.GoldEducation)
-            },
-          },
-          {
-            text: t('global:dismiss'),
-            onPress: () => {
-              ValoraAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationBannerTypes.celo_asset_education,
-                selectedAction: NotificationBannerCTATypes.decline,
-              })
-              dispatch(dismissGoldEducation())
-            },
-          },
-        ],
-      })
-    }
-
-    if (!dismissedInviteFriends && !pausedFeatures.INVITE) {
-      actions.push({
-        text: t('inviteFlow11:inviteAnyone'),
-        icon: inviteFriends,
-        callToActions: [
-          {
-            text: t('global:connect'),
-            onPress: () => {
-              dispatch(dismissInviteFriends())
-              ValoraAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationBannerTypes.invite_prompt,
-                selectedAction: NotificationBannerCTATypes.accept,
-              })
-              // TODO: navigate to relevant invite flow
-            },
-          },
-          {
-            text: t('global:remind'),
-            onPress: () => {
-              dispatch(dismissInviteFriends())
-              ValoraAnalytics.track(HomeEvents.notification_select, {
-                notificationType: NotificationBannerTypes.invite_prompt,
-                selectedAction: NotificationBannerCTATypes.decline,
-              })
-            },
-          },
-        ],
-      })
-    }
-
-    return actions.map((notification, i) => <SimpleMessagingCard key={i} {...notification} />)
+        },
+      ],
+    })
   }
+
+  return actions
+}
+
+function useNotifications() {
+  const notifications: Notification[] = []
+
+  // Pending outgoing invites in escrow
+  const reclaimableEscrowPayments = useSelector(getReclaimableEscrowPayments)
+  if (reclaimableEscrowPayments && reclaimableEscrowPayments.length) {
+    notifications.push({
+      element: (
+        <EscrowedPaymentReminderSummaryNotification key={1} payments={reclaimableEscrowPayments} />
+      ),
+      priority: INVITES_PRIORITY,
+    })
+  }
+
+  // Incoming payment requests
+  const incomingPaymentRequests = useSelector(getIncomingPaymentRequests)
+  if (incomingPaymentRequests && incomingPaymentRequests.length) {
+    notifications.push({
+      element: (
+        <IncomingPaymentRequestSummaryNotification key={1} requests={incomingPaymentRequests} />
+      ),
+      priority: INCOMING_PAYMENT_REQUESTS_PRIORITY,
+    })
+  }
+
+  // Outgoing payment requests
+  const outgoingPaymentRequests = useSelector(getOutgoingPaymentRequests)
+  if (outgoingPaymentRequests && outgoingPaymentRequests.length) {
+    notifications.push({
+      element: (
+        <OutgoingPaymentRequestSummaryNotification key={1} requests={outgoingPaymentRequests} />
+      ),
+      priority: OUTGOING_PAYMENT_REQUESTS_PRIORITY,
+    })
+  }
+
+  const simpleActions = useSimpleActions()
+  notifications.push(
+    ...simpleActions.map((notification, i) => ({
+      element: <SimpleMessagingCard key={i} {...notification} />,
+      priority: notification.priority,
+    }))
+  )
+
+  return notifications.sort((n1, n2) => n2.priority - n1.priority).map((n) => n.element)
+}
+
+function NotificationBox() {
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   const handleScroll = (event: { nativeEvent: NativeScrollEvent }) => {
     const nextIndex = Math.round(event.nativeEvent.contentOffset.x / variables.width)
@@ -290,12 +292,7 @@ function NotificationBox() {
     setCurrentIndex(Math.round(event.nativeEvent.contentOffset.x / variables.width))
   }
 
-  const notifications = [
-    ...incomingPaymentRequestsNotification(),
-    ...outgoingPaymentRequestsNotification(),
-    ...escrowedPaymentReminderNotification(),
-    ...generalNotifications(),
-  ]
+  const notifications = useNotifications()
 
   if (!notifications.length) {
     // No notifications, no slider

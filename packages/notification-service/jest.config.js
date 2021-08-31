@@ -1,9 +1,6 @@
-const { nodeFlakeTracking } = require('@celo/flake-tracker/src/jest/config.js')
-
 module.exports = {
-  ...nodeFlakeTracking,
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts', ...nodeFlakeTracking.setupFilesAfterEnv],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testMatch: ['**/?(*.)(spec|test).ts?(x)'],
   testResultsProcessor: 'jest-junit',
   transform: {

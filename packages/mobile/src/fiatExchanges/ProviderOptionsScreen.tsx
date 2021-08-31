@@ -24,7 +24,6 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
-import { selectProvider } from 'src/fiatExchanges/actions'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import {
   fetchProviders,
@@ -159,8 +158,6 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       isCashIn,
       provider: provider.name,
     })
-
-    dispatch(selectProvider(provider.name))
 
     if (provider.name === IntegratedCicoProviders.Simplex) {
       const providerQuote = Array.isArray(provider.quote) ? provider.quote[0] : provider.quote

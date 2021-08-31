@@ -59,6 +59,11 @@ export const Moonpay = {
         throw Error('Purchase amount not provided')
       }
 
+      if (digitalAsset === DigitalAsset.CEUR) {
+        console.info('Moonpay does not yet support cEUR')
+        return []
+      }
+
       const { localCurrency, localAmount, exchangeRate } = await Moonpay.convertToLocalCurrency(
         userCountry,
         fiatCurrency,
@@ -82,7 +87,12 @@ export const Moonpay = {
         validPaymentMethods.map((method) => Moonpay.get(`${baseUrl}&paymentMethod=${method}`))
       )
 
-      return Moonpay.processRawQuotes(rawQuotes, exchangeRate)
+      const quotes = Moonpay.processRawQuotes(rawQuotes, exchangeRate)
+      if (!quotes.length) {
+        throw new Error('No quotes succeeded')
+      }
+
+      return quotes
     } catch (error) {
       console.error('Error fetching Moonpay quote: ', error)
       return []
@@ -151,12 +161,12 @@ export const Moonpay = {
       const data = await response.json()
 
       if (!response.ok) {
-        throw Error(`Response body: ${JSON.stringify(data)}`)
+        throw new Error(`Response body: ${JSON.stringify(data)}`)
       }
 
       return data
     } catch (error) {
-      console.error(`Moonpay get request failed.\nURL: ${path}\n`, error)
+      console.info(`Moonpay get request failed.\nURL: ${path}\n`, error)
       return null
     }
   },

@@ -10,7 +10,7 @@ import { Namespaces } from 'src/i18n'
 import { addressToDisplayNameSelector, AddressToE164NumberType } from 'src/identity/reducer'
 import { InviteDetails } from 'src/invite/actions'
 import { getRecipientFromAddress, NumberToRecipient, RecipientInfo } from 'src/recipients/recipient'
-import { rewardsSendersSelector } from 'src/recipients/reducer'
+import { inviteRewardsSendersSelector, rewardsSendersSelector } from 'src/recipients/reducer'
 import { navigateToPaymentTransferReview } from 'src/transactions/actions'
 import TransactionFeedItem from 'src/transactions/TransactionFeedItem'
 import TransferFeedIcon from 'src/transactions/TransferFeedIcon'
@@ -61,6 +61,7 @@ export function TransferFeedItem(props: Props) {
   const { t } = useTranslation(Namespaces.walletFlow5)
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const rewardsSenders = useSelector(rewardsSendersSelector)
+  const inviteRewardSenders = useSelector(inviteRewardsSendersSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
 
   const onPress = () => {
@@ -83,7 +84,6 @@ export function TransferFeedItem(props: Props) {
     invitees,
     recipientInfo,
   } = props
-  const txInfo = txHashToFeedInfo[hash]
 
   const { title, info, recipient } = getTransferFeedParams(
     type,
@@ -99,7 +99,9 @@ export function TransferFeedItem(props: Props) {
     recipientInfo,
     addressToDisplayName[address]?.isCeloRewardSender ?? false,
     rewardsSenders.includes(address),
-    txInfo
+    inviteRewardSenders.includes(address),
+    txHashToFeedInfo[hash],
+    amount.currencyCode
   )
 
   return (

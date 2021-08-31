@@ -1,0 +1,32 @@
+name: Release
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  push:
+    name: Push
+    runs-on: ubuntu-latest
+    env:
+      COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: oleksiyrudenko/gha-git-credentials@v2.1
+        with:
+          token: '${{ secrets.GITHUB_TOKEN }}'
+          name: 'Valora Bot'
+          email: '89419329+valora-bot@users.noreply.github.com'
+          actor: 'valora-bot'
+          global: true
+      - uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.BOT_SSH_PRIVATE_KEY }}
+      - name: Push SHA
+        run: |
+          git clone git@github.com:valora-inc/release-bundler.git
+          cd release-bundler
+          rm current_hash.txt
+          echo $GITHUB_SHA >> current_hash.txt
+          git add -A
+          git commit -m "$COMMIT_MESSAGE"
+          git push

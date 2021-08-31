@@ -26,7 +26,7 @@ valora_branding_sha=e8de54e89f77
 if [[ "$branding" == "valora" ]]; then
   # prevents git from asking credentials
   export GIT_TERMINAL_PROMPT=0
-  if [[ ! -e branding/valora ]] && ! git clone git@github.com:clabs-co/valora-app-branding.git branding/valora ; then
+  if [[ ! -e branding/valora ]] && ! git clone git@github.com:valora-inc/valora-app-branding.git branding/valora ; then
     echo "Couldn't clone private branding. Will use default branding."
     branding=celo
   else

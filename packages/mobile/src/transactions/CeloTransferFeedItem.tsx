@@ -30,7 +30,6 @@ export function CeloTransferFeedItem(props: Props) {
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
   const { address, amount, hash, comment, status, timestamp, type } = props
-  const txInfo = txHashToFeedInfo[hash]
 
   const onPress = () => {
     ValoraAnalytics.track(CeloExchangeEvents.celo_transaction_select)
@@ -48,7 +47,9 @@ export function CeloTransferFeedItem(props: Props) {
   const isPending = status === TransactionStatus.Pending
   const isWithdrawal = new BigNumber(amount.value).isNegative()
   const displayName =
-    txInfo?.name || addressToDisplayName[address]?.name || formatShortenedAddress(address)
+    txHashToFeedInfo[hash]?.name ||
+    addressToDisplayName[address]?.name ||
+    formatShortenedAddress(address)
 
   return (
     <Touchable onPress={onPress}>
