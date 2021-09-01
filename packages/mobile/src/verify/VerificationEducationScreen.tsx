@@ -108,7 +108,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const onPressContinue = () => {
     dispatch(setHasSeenVerificationNux(true))
     if (partOfOnboarding) {
-      navigation.navigate(Screens.ImportContacts)
+      navigate(Screens.OnboardingSuccessScreen)
     } else {
       navigateHome()
     }

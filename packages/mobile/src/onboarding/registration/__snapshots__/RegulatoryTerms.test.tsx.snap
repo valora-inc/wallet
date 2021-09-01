@@ -130,7 +130,14 @@ exports[`RegulatoryTermsScreen renders correctly 1`] = `
           }
         }
       >
-        terms.privacy
+        <Text
+          onPress={[Function]}
+          style={
+            Object {
+              "textDecorationLine": "underline",
+            }
+          }
+        />
       </Text>
       <Text
         style={

@@ -78,7 +78,7 @@ export default function VerificationLoadingScreen({ route }: Props) {
     if (verificationStatus === VerificationStatus.CompletingAttestations) {
       navigate(Screens.VerificationInputScreen)
     } else if (verificationStatus === VerificationStatus.Done) {
-      navigate(Screens.ImportContacts)
+      navigate(Screens.OnboardingSuccessScreen)
     }
   }, [verificationStatus, isFocused])
 
