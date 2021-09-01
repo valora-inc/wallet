@@ -12,7 +12,7 @@
   "contacts": {
     "disclosure": {
       "title": "Importar contactos",
-      "body": "Valora quiere importar tus contactos. Pulsando abajo, permito el acceso a los números de teléfono, nombres y fotos de mis contactos para conectarse con ellos a través de Valora"
+      "body": "Valora quiere importar tus contactos. Al continuar con este proceso, doy acceso a los números de teléfono, nombres y fotos de perfil de mis contactos con fines de conectarme con ellos a través de Valora."
     }
   },
   "createAccount": "Crear Cuenta",
@@ -45,15 +45,15 @@
     "start": "Comenzar",
     "resume": "Reanudar",
     "doINeedToConfirm": "¿Necesito confirmar mi cuenta?",
-    "skipForNow": "Saltar por ahora",
+    "skipForNow": "Omitir por ahora",
     "bodyInsufficientBalance": "Tu saldo actual no es lo suficientemente alto para completar el proceso de confirmación.\n\nIntenta nuevamente cuando hayas agregado fondos a tu app.",
     "bodyAlreadyVerified": "¡Tu número ya está confirmado!"
   },
   "verificationSkipDialog": {
-    "title": "Estas seguro",
+    "title": "¿Estas seguro?",
     "body": "Confirmar tu cuenta te permite enviar y recibir fondos fácilmente a tu número de teléfono.\n\nLas cuentas no confirmadas solo pueden enviar pagos con direcciones de cuenta Celo o códigos QR.",
-    "cancel": "Regresa",
-    "confirm": "Saltar por ahora"
+    "cancel": "Regresar",
+    "confirm": "Omitir por ahora"
   },
   "verificationPrematureRevealMessage": "Por favor espera 1 minuto antes de volver a enviar",
   "verificationLearnMoreDialog": {
@@ -94,11 +94,11 @@
       "title": "¿No te llegó alguno de los mensajes?",
       "defaultContent": "Si tienes problemas para recibir mensajes, puedes omitir este paso por ahora e intentarlo más tarde. A veces los mensajes pueden tardar unos minutos en llegar.",
       "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
-      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) La siguiente opción de omisión estará disponible en {{count}} segundo.",
-      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) La siguiente opción de omisión estará disponible en {{count}} segundos."
+      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) La opción de omisión estará disponible en {{count}} segundo.",
+      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) La opción de omisión estará disponible en {{count}} segundos."
     },
     "body": "<0>$t(verificationInputHelpDialog.bodySection1.title)</0>\n\n$t(verificationInputHelpDialog.bodySection1.content)\n\n<1>$t(verificationInputHelpDialog.bodySection2.title)</1>\n\n$t(verificationInputHelpDialog.bodySection2.content)",
-    "skip": "Saltar por ahora",
+    "skip": "Omitir por ahora",
     "back": "Regresar"
   },
   "emptyAccount": {
