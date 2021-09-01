@@ -41,7 +41,7 @@ jobs:
       - run: yarn run prettify:diff
       - run: yarn run lint
   yarn-lock:
-    name: 'yarn.lock up-to-date'
+    name: 'yarn.lock Up-to-date'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
