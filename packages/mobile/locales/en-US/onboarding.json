@@ -10,21 +10,9 @@
     "restoreAccount": "Restore my account"
   },
   "contacts": {
-    "header": "Connect Contacts",
-    "body": "Adding your contacts makes it easy to send and request payments with your friends. Connecting does not send invites to your contacts.\n\nIf you choose to connect your contacts, the encrypted version of your contacts phone numbers will be used by our service to find who from your friends is already on Valora without sharing any personal information to anyone directly.",
-    "findSwitch": "Allow contacts to find you",
-    "syncing": {
-      "loadingHeader": "Syncing...",
-      "loadingStatus0": "Importing contacts",
-      "loadingStatus1": "Processing {{total}} contacts",
-      "loadingStatus2": "Finding friends",
-      "successHeader": "Completed",
-      "successWithMatches": "{{matches}} friends on {{appName}}",
-      "successWithoutMatches": "Syncing complete"
-    },
     "disclosure": {
       "title": "Import Contacts",
-      "body": "Valora would like to import your contacts. Please find more information about our privacy practices by clicking \"Privacy Policy\" in Settings"
+      "body": "Valora would like to import your contacts. By tapping below, I allow access to my contacts' phone numbers, names and photos for purposes of connecting with them through Valora"
     }
   },
   "createAccount": "Create Account",
