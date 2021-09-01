@@ -67,7 +67,6 @@ import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationSe
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import ImportContactsScreen from 'src/onboarding/contacts/ImportContactsScreen'
 import OnboardingEducationScreen from 'src/onboarding/education/OnboardingEducationScreen'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import RegulatoryTerms from 'src/onboarding/registration/RegulatoryTerms'
@@ -243,11 +242,6 @@ const nuxScreens = (Navigator: typeof Stack) => (
       name={Screens.ImportWallet}
       component={ImportWallet}
       options={ImportWallet.navigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.ImportContacts}
-      component={ImportContactsScreen}
-      options={ImportContactsScreen.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.OnboardingSuccessScreen}

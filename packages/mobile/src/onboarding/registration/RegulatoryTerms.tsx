@@ -8,7 +8,7 @@ import { SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-cont
 import { connect } from 'react-redux'
 import { acceptTerms } from 'src/account/actions'
 import DevSkipButton from 'src/components/DevSkipButton'
-import { CELO_TERMS_LINK, DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { Namespaces, withTranslation } from 'src/i18n'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
@@ -45,7 +45,11 @@ export class RegulatoryTerms extends React.Component<Props> {
   }
 
   onPressGoToTerms = () => {
-    navigateToURI(CELO_TERMS_LINK)
+    navigateToURI(TOS_LINK)
+  }
+
+  onPressGoToPrivacyPolicy = () => {
+    navigateToURI(PRIVACY_LINK)
   }
 
   render() {
@@ -67,7 +71,11 @@ export class RegulatoryTerms extends React.Component<Props> {
             </Trans>
           </Text>
           <Text style={styles.header}>{t('terms.heading1')}</Text>
-          <Text style={styles.disclaimer}>{t('terms.privacy')}</Text>
+          <Text style={styles.disclaimer}>
+            <Trans ns={Namespaces.nuxNamePin1} i18nKey={'terms.privacy'}>
+              <Text onPress={this.onPressGoToPrivacyPolicy} style={styles.disclaimerLink} />
+            </Trans>
+          </Text>
           <Text style={styles.header}>{t('terms.heading2')}</Text>
           <Text style={styles.disclaimer}>
             {t('terms.goldDisclaimer', { dailyLimitCUSD: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD })}
