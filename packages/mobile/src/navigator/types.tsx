@@ -133,12 +133,6 @@ export type StackParamList = {
         showZeroBalanceModal?: boolean
       }
     | undefined
-
-  [Screens.ImportContacts]:
-    | undefined
-    | {
-        onPressSkip?: () => void
-      }
   [Screens.IncomingPaymentRequestListScreen]: undefined
   [Screens.NameAndPicture]: undefined
   [Screens.Language]:
