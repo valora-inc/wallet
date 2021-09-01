@@ -10,21 +10,9 @@
     "restoreAccount": "Restaurar conta existente"
   },
   "contacts": {
-    "header": "Conectar contatos",
-    "body": "Adicionar seus contatos facilita enviar e solicitar pagamentos com seus amigos. Conectar não envia convites para seus contatos.\n\nSe optar por conectar seus contatos, a versão criptografada dos seus números de celular será usada pelo nosso serviço para descobrir quem de seus amigos já está na Valora sem compartilhar informações pessoais com ninguém diretamente.",
-    "findSwitch": "Permita que seus contatos encontrem você",
-    "syncing": {
-      "loadingHeader": "Sincronizando...",
-      "loadingStatus0": "Importando contatos",
-      "loadingStatus1": "Processando {{total}} contatos",
-      "loadingStatus2": "Encontrar amigos",
-      "successHeader": "Concluído",
-      "successWithMatches": "{{matches}} amigos na {{appName}}",
-      "successWithoutMatches": "Sincronização completa"
-    },
     "disclosure": {
       "title": "Importar contatos",
-      "body": "Valora deseja importar seus contatos. Saiba mais sobre nossas práticas de privacidade em Configurações, Política de Privacidade."
+      "body": "Valora gostaria de importar seus contatos. Ao tocar abaixo, eu permito o acesso aos números de telefone, nomes e fotos de meus contatos para fins de conexão com eles através da Valora"
     }
   },
   "createAccount": "Criar conta",
