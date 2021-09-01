@@ -4,28 +4,24 @@ echo "Processing encrypted files"
 
 # Set list of secret files to encrypt and decrypt.
 files=(
-  "packages/blockchain-api/src/secrets.json"
-  "packages/mobile/android/app/src/alfajores/google-services.json"
-  "packages/mobile/android/app/src/alfajoresdev/google-services.json"
-  "packages/mobile/android/app/src/mainnet/google-services.json"
-  "packages/mobile/android/app/src/mainnetdev/google-services.json"
-  "packages/mobile/android/sentry.properties"
-  "packages/mobile/ios/GoogleService-Info.alfajores.plist"
-  "packages/mobile/ios/GoogleService-Info.alfajoresdev.plist"
-  "packages/mobile/ios/GoogleService-Info.mainnet.plist"
-  "packages/mobile/ios/GoogleService-Info.mainnetdev.plist"
-  "packages/mobile/ios/sentry.properties"
-  "packages/mobile/secrets.json"
-  "packages/notification-service/config/config.mainnet.env"
-  "packages/notification-service/config/config.alfajores.env"
-  "packages/cloud-functions/config/rampProduction.pem"
-  "packages/cloud-functions/config/rampStaging.pem"
-  "packages/cloud-functions/.env.mainnet"
-  "packages/cloud-functions/.env.alfajores"
-  ".env.mnemonic"
-  ".env.mnemonic.alfajores"
-  ".env.mnemonic.baklava"
-  ".env.mnemonic.rc1"
+  "packages/blockchain-api/src/secrets.json:celo-testnet-production"
+  "packages/mobile/android/app/src/alfajores/google-services.json:celo-testnet"
+  "packages/mobile/android/app/src/alfajoresdev/google-services.json:celo-testnet"
+  "packages/mobile/android/app/src/mainnet/google-services.json:celo-testnet-production"
+  "packages/mobile/android/app/src/mainnetdev/google-services.json:celo-testnet-production"
+  "packages/mobile/android/sentry.properties:celo-testnet-production"
+  "packages/mobile/ios/GoogleService-Info.alfajores.plist:celo-testnet"
+  "packages/mobile/ios/GoogleService-Info.alfajoresdev.plist:celo-testnet"
+  "packages/mobile/ios/GoogleService-Info.mainnet.plist:celo-testnet-production"
+  "packages/mobile/ios/GoogleService-Info.mainnetdev.plist:celo-testnet-production"
+  "packages/mobile/ios/sentry.properties:celo-testnet-production"
+  "packages/mobile/secrets.json:celo-testnet-production"
+  "packages/notification-service/config/config.mainnet.env:celo-testnet-production"
+  "packages/notification-service/config/config.alfajores.env:celo-testnet"
+  "packages/cloud-functions/config/rampProduction.pem:celo-testnet-production"
+  "packages/cloud-functions/config/rampStaging.pem:celo-testnet"
+  "packages/cloud-functions/.env.mainnet:celo-testnet-production"
+  "packages/cloud-functions/.env.alfajores:celo-testnet"
 )
 
 if [[ -z "$1" ]]; then
@@ -46,7 +42,8 @@ cd ..
 # place templates to be used (if they exist) in case the environment
 # doesn't have access to decryption keys
 if [[ $1 == "decrypt" ]]; then
-  for file_path in "${files[@]}"; do
+  for file_path_map in "${files[@]}"; do
+    file_path=${file_path_map%%:*}
     template_file_path="$file_path.template"
 
     if test -f "$template_file_path" && ! test -f "$file_path"; then
@@ -61,7 +58,9 @@ if [[ $? -eq 1 ]]; then
   exit 0
 fi
 
-for file_path in "${files[@]}"; do
+for file_path_map in "${files[@]}"; do
+  file_path=${file_path_map%%:*}
+  environment=${file_path_map#*:}
   encrypted_file_path="$file_path.enc"
 
   # When decrypting ensure the encrypted file exists or skip.
@@ -79,9 +78,9 @@ for file_path in "${files[@]}"; do
   fi
 
   # Encrypt or decrypt this file.
-  gcloud kms $1 --ciphertext-file=$encrypted_file_path --plaintext-file=$file_path --key=github-key --keyring=celo-keyring --location=global --project celo-testnet
+  gcloud kms $1 --ciphertext-file=$encrypted_file_path --plaintext-file=$file_path --key=github-mnemonic-key --keyring=celo-keyring --location=global --project $environment
   if [[ $? -eq 1 ]]; then
-    echo "Only cLabs employees can $1 keys - skipping ${1}ion"
+    echo "Only cLabs employees with $environment access can $1 keys - skipping ${1}ion"
     exit 0
   fi
 done
