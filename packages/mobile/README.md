@@ -256,7 +256,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 4. Build the project by pressing the play button in the top left corner or selecting `Product > Build` from the Xcode menu bar.
 
-5. From the `mobile` directory run `yarn run dev:ios`.
+5. From the `packages/mobile` directory run `yarn run dev:ios`.
 
 ### Android
 
@@ -266,7 +266,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 5. To confirm your device is properly connected, running `adb devices` from the terminal should reflect your connected device. If it lists a device as "unauthorized", make sure you've accepted the prompt or [troubleshoot here][device unauthorized].
 
-6. From the `mobile` directory run `yarn run dev:android`.
+6. From the `packages/mobile` directory run `yarn run dev:android`.
 
 ### Running in forno (data saver) mode
 
