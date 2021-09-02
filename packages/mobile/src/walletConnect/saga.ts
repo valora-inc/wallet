@@ -51,7 +51,7 @@ import {
   selectSessions,
 } from 'src/walletConnect/selectors'
 import { getContractKit, getWallet } from 'src/web3/contracts'
-import { getAccountAddress, unlockAccount } from 'src/web3/saga'
+import { getAccount, unlockAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'WalletConnect/saga'
@@ -64,7 +64,7 @@ export function* acceptSession({ session }: AcceptSession) {
       throw new Error('missing client')
     }
 
-    const account: string = yield call(getAccountAddress)
+    const account: string = yield call(getAccount)
     const response: SessionTypes.Response = {
       metadata: {
         name: APP_NAME,
