@@ -40,6 +40,16 @@ jobs:
         run: |
           cd packages/mobile/ios
           bundle exec pod install
+      - name: Create e2e test .env File
+        env:
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          VERIFICATION_PHONE_NUMBER: ${{ secrets.VERIFICATION_PHONE_NUMBER }}
+        run : |
+          cd packages/mobile/e2e
+          echo TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN >> .env
+          echo TWILIO_ACCOUNT_SID=$TWILIO_ACCOUNT_SID >> .env
+          echo VERIFICATION_PHONE_NUMBER=$VERIFICATION_PHONE_NUMBER >> .env
       - name: Run E2E tests
         run: |
           cd packages/mobile
@@ -80,6 +90,16 @@ jobs:
         run: yarn
       - name: Build mobile dependencies
         run: yarn build --scope @celo/mobile --include-filtered-dependencies
+      - name: Create e2e test .env File
+        env:
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          VERIFICATION_PHONE_NUMBER: ${{ secrets.VERIFICATION_PHONE_NUMBER }}
+        run : |
+          cd packages/mobile/e2e
+          echo TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN >> .env
+          echo TWILIO_ACCOUNT_SID=$TWILIO_ACCOUNT_SID >> .env
+          echo VERIFICATION_PHONE_NUMBER=$VERIFICATION_PHONE_NUMBER >> .env
       - name: Run E2E tests
         run: |
           export ANDROID_SDK_ROOT=$HOME/android-tools

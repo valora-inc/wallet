@@ -1,14 +1,6 @@
 import twilio from 'twilio'
 import { sleep } from './utils'
-import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } from './consts'
-
-// If attempting to test phone verification without decrypt access insert your SID and Auth Token for Twilio Below
-const accountSid = TWILIO_ACCOUNT_SID || '<Insert Account SID>'
-const authToken = TWILIO_AUTH_TOKEN || '<Insert Auth Token>'
-let client
-try {
-  client = twilio(accountSid, authToken)
-} catch {}
+import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } from '@env'
 
 const MAX_TRIES = 120
 
@@ -17,6 +9,7 @@ export const receiveSms = async (
   secondsAfter = 3 * 60 * 1000,
   existingCodes = []
 ) => {
+  let client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
   let tryNumber = 0
 
   while (tryNumber < MAX_TRIES) {
@@ -37,6 +30,7 @@ export const receiveSms = async (
 
 export const checkBalance = async () => {
   try {
+    let client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
     const twilioBalance = await client.balance.fetch()
     console.log(`Twilio Balance is ${twilioBalance.balance} ${twilioBalance.currency}`)
     // Convert balance to number and check

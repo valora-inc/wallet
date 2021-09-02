@@ -1,14 +1,10 @@
 import { sleep, enterPinUi, waitForElementId } from '../utils/utils'
-import {
-  EXAMPLE_NAME,
-  VERIFICATION_PHONE_NUMBER,
-  TWILIO_ACCOUNT_SID,
-  TWILIO_AUTH_TOKEN,
-  SECRETS_PRESENT,
-} from '../utils/consts'
+import { EXAMPLE_NAME, EXAMPLE_PHONE_NUMBER } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
 import { checkKomenci } from '../utils/komenci'
 import { receiveSms, checkBalance } from '../utils/twilio'
+import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } from '@env'
+
 const jestExpect = require('expect')
 
 export default NewAccountPhoneVerification = () => {
@@ -43,7 +39,7 @@ export default NewAccountPhoneVerification = () => {
 
     // Set phone number
     await expect(element(by.id('PhoneNumberField'))).toBeVisible()
-    await element(by.id('PhoneNumberField')).replaceText(VERIFICATION_PHONE_NUMBER)
+    await element(by.id('PhoneNumberField')).replaceText(EXAMPLE_PHONE_NUMBER)
     await element(by.id('PhoneNumberField')).tapReturnKey()
   })
 
@@ -57,7 +53,7 @@ export default NewAccountPhoneVerification = () => {
     } catch {}
   })
 
-  // Checking that Twilio SID & Auth are present
+  // Checking that Twilio SID & Auth are defined
   if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN) {
     // Check status of 'https://staging-komenci.azurefd.net/v1/ready' prior to tests
     // If Komenci is up run phone verification
@@ -103,7 +99,7 @@ export default NewAccountPhoneVerification = () => {
 
         // Check Phone Number is Present
         await element(by.id('Hamburger')).tap()
-        await expect(element(by.text(VERIFICATION_PHONE_NUMBER))).toBeVisible()
+        await expect(element(by.text(EXAMPLE_PHONE_NUMBER))).toBeVisible()
       })
 
       it('Then should be able to resend last 2 messages', async () => {
@@ -156,7 +152,7 @@ export default NewAccountPhoneVerification = () => {
 
         // Check Phone Number is Present
         await element(by.id('Hamburger')).tap()
-        await expect(element(by.text(VERIFICATION_PHONE_NUMBER))).toBeVisible()
+        await expect(element(by.text(EXAMPLE_PHONE_NUMBER))).toBeVisible()
       })
     } else {
       it('Then should handle when Komenci is down', async () => {
@@ -180,7 +176,7 @@ export default NewAccountPhoneVerification = () => {
 
         // Check Phone Number is Present
         await element(by.id('Hamburger')).tap()
-        await expect(element(by.text(VERIFICATION_PHONE_NUMBER))).toBeVisible()
+        await expect(element(by.text(EXAMPLE_PHONE_NUMBER))).toBeVisible()
       })
     }
   }
