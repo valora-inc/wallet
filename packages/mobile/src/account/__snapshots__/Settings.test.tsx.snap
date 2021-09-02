@@ -1074,6 +1074,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -3507,6 +3508,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -6181,6 +6183,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -8534,6 +8537,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
