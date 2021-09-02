@@ -263,6 +263,8 @@ export function* getWalletAddress() {
   }
 }
 
+// deprecated, please use |getWalletAddress| instead.
+// This needs to be refactored and removed since the name is misleading.
 export const getAccount = getWalletAddress
 
 export enum UnlockResult {
