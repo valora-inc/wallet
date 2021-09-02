@@ -44,7 +44,7 @@ jobs:
         env:
           TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
         run : |
-          cd packages/mobile/test
+          cd packages/mobile/e2e
           echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
       - name: Fund E2E accounts
         run : |
@@ -94,7 +94,7 @@ jobs:
         env:
           TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
         run : |
-          cd packages/mobile/test
+          cd packages/mobile/e2e
           echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
       - name: Fund E2E accounts
         run : |

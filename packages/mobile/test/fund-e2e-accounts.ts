@@ -1,7 +1,7 @@
 const Web3 = require('web3')
 const ContractKit = require('@celo/contractkit')
 const dotenv = require('dotenv')
-dotenv.config()
+dotenv.config({ path: '../e2e/.env' })
 
 // Constants
 const valoraE2ETestWallet = '0x6131a6d616a4be3737b38988847270a64bc10caa'
