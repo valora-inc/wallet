@@ -1,20 +1,20 @@
 {
   "title": "Una nueva forma de ganar",
-  "summary": "Empieza a ganar hasta un {{percent}}% anualmente en tu saldo cUSD y cEUR. ¡Las tarifas pueden cambiar tanto en efectivo en esta dulce promoción!",
+  "summary": "Empieza a ganar hasta un {{percent}}% anual sobre tu saldo en cUSD y cEUR. Las tarifas pueden variar, ¡no te pierdas esta oportunidad increíble!",
   "earnWeekly": {
     "header": "Gana semanalmente",
     "text": "Envía y gasta como siempre, ganarás sobre el saldo restante."
   },
   "noMinCommitment": {
-    "header": "Ganar sin compromisos",
-    "earningText": "Ganar es gratis por estreso: agregue cUSD o cEUR a su cuenta y comience a ganar en sus saldos.",
+    "header": "Gana sin compromisos",
+    "earningText": "Gana sin estrés: agrega cUSD o cEUR a tu cuenta y mira como tu saldo se multiplica.",
     "connectText": "Ganar sin estrés: conecta tu número de teléfono para empezar a ganar."
   },
   "saveMoreEarnMore": {
-    "header": "Dinero para ganar más",
-    "text": "Deposite hasta {{rewardsMax}} cUSD o {{rewardsMax}} cEUR y gane {{percent}}% anualmente."
+    "header": "Agrega fondos para ganar más",
+    "text": "Deposita hasta {{rewardsMax}} cUSD o {{rewardsMax}} cEUR y gana un {{percent}}% anual."
   },
-  "conclusion": "Es así de simple. Comience a ganar hoy.",
+  "conclusion": "Es así de simple. ¡Empieza a ganar hoy!",
   "addCusd": "Agregar cUSD",
   "connectNumber": "Conecta tu número"
 }
