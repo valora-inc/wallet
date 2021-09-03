@@ -158,7 +158,7 @@ _Note that these paths may differ on your machine. You can find the path to the 
 
 ```bash
 export ANDROID_HOME=${YOUR_ANDROID_SDK_PATH}
-export ANDROID_NDK=$ANDROID_HOME/ndk
+export ANDROID_NDK=$ANDROID_HOME/ndk-bundle
 export ANDROID_SDK_ROOT=$ANDROID_HOME
 # this is an optional gradle configuration that should make builds faster
 export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gradle.jvmargs="-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError"'
