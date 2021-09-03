@@ -157,9 +157,9 @@ Execute the following (and make sure the lines are in your `~/.bash_profile`).
 _Note that these paths may differ on your machine. You can find the path to the SDK and NDK via the [Android Studio menu](https://stackoverflow.com/questions/40520324/how-to-find-the-path-to-ndk)._
 
 ```bash
-export ANDROID_HOME=/usr/local/share/android-sdk
-export ANDROID_NDK=/usr/local/share/android-sdk/ndk
-export ANDROID_SDK_ROOT=/usr/local/share/android-sdk
+export ANDROID_HOME=${YOUR_ANDROID_SDK_PATH}
+export ANDROID_NDK=$ANDROID_HOME/ndk
+export ANDROID_SDK_ROOT=$ANDROID_HOME
 # this is an optional gradle configuration that should make builds faster
 export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gradle.jvmargs="-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError"'
 export TERM_PROGRAM=iterm  # or whatever your favorite terminal program is
