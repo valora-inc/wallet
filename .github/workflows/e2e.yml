@@ -48,7 +48,7 @@ jobs:
           echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
       - name: Fund E2E accounts
         run : |
-          cd packages/mobile/test
+          cd packages/mobile/e2e/scripts
           node ./fund-e2e-accounts.ts
       - name: Run E2E tests
         run: |
@@ -98,7 +98,7 @@ jobs:
           echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
       - name: Fund E2E accounts
         run : |
-          cd packages/mobile/test
+          cd packages/mobile/e2e/scripts
           node ./fund-e2e-accounts.ts
       - name: Run E2E tests
         run: |
