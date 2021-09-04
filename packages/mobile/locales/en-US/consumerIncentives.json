@@ -1,20 +1,20 @@
 {
   "title": "A new way to earn",
-  "summary": "Starting now, you’ll earn up to {{percent}}% annually on your cUSD balance.",
+  "summary": "Start earning up to {{percent}}% annually on your cUSD and cEUR balances. Rates may change so cash in on this sweet promotion!",
   "earnWeekly": {
     "header": "Earn Weekly",
     "text": "Send and spend as usual, you’ll earn on the remaining balance."
   },
   "noMinCommitment": {
-    "header": "No minimums, no commitments",
-    "earningText": "Earning is stress free: You’re earning already.",
+    "header": "Earn without commitments",
+    "earningText": "Earning is stress free: Add cUSD or cEUR to your account and start earning on your balances.",
     "connectText": "Earning is stress free: Connect your phone number to start earning."
   },
   "saveMoreEarnMore": {
-    "header": "Save more to earn more",
-    "text": "Earn up to {{maxSaving}} cUSD per year by saving {{rewardsMax}} cUSD."
+    "header": "Cash in to earn more",
+    "text": "Deposit up to {{rewardsMax}} cUSD or {{rewardsMax}} cEUR and earn {{percent}}% anually."
   },
-  "conclusion": "It’s that simple. Start saving for your future today.",
+  "conclusion": "It’s that simple. Start earning today.",
   "addCusd": "Add cUSD",
   "connectNumber": "Connect Number"
 }

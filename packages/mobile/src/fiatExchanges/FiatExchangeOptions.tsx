@@ -24,6 +24,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { celoEuroEnabledSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
+import { BIDALI_CURRENCIES } from 'src/fiatExchanges/BidaliScreen'
 import FundingEducationDialog from 'src/fiatExchanges/FundingEducationDialog'
 import {
   fetchLocalCicoProviders,
@@ -246,7 +247,8 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               ((isCashIn &&
                 (selectedPaymentMethod === PaymentMethod.Bank ||
                   selectedPaymentMethod === PaymentMethod.Card)) ||
-                selectedPaymentMethod === PaymentMethod.Exchange)
+                selectedPaymentMethod === PaymentMethod.Exchange ||
+                selectedPaymentMethod === PaymentMethod.GiftCard)
             }
             testID="radio/cEUR"
           />
@@ -304,7 +306,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                     text={t('receiveWithBidali')}
                     selected={selectedPaymentMethod === PaymentMethod.GiftCard}
                     onSelect={onSelectPaymentMethod(PaymentMethod.GiftCard)}
-                    enabled={selectedCurrency === Currency.Dollar}
+                    enabled={BIDALI_CURRENCIES.includes(selectedCurrency)}
                     testID="receiveWithBidali"
                   />
                   <PaymentMethodRadioItem

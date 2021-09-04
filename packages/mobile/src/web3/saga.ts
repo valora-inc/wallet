@@ -248,7 +248,7 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
 }
 
 // Wait for account to exist and then return it
-export function* getAccount() {
+export function* getWalletAddress() {
   while (true) {
     const account = yield select(currentAccountSelector)
     if (account) {
@@ -262,6 +262,10 @@ export function* getAccount() {
     }
   }
 }
+
+// deprecated, please use |getWalletAddress| instead.
+// This needs to be refactored and removed since the name is misleading.
+export const getAccount = getWalletAddress
 
 export enum UnlockResult {
   SUCCESS,

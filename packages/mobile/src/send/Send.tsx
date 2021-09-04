@@ -97,7 +97,10 @@ function Send({ route }: Props) {
     }
 
     const permissionGranted = await requestContactsPermission()
-    dispatch(importContacts())
+    if (permissionGranted) {
+      dispatch(importContacts())
+    }
+
     return permissionGranted
   }, [])
 
