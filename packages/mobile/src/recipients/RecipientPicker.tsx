@@ -44,6 +44,7 @@ interface Props {
   defaultCountryCode: string | null
   listHeaderComponent?: React.ComponentType<any>
   onSelectRecipient(recipient: Recipient): void
+  isOutgoingPaymentRequest: boolean
 }
 
 interface StateProps {
@@ -94,7 +95,9 @@ export class RecipientPicker extends React.Component<RecipientProps> {
       this.props.defaultCountryCode ? this.props.defaultCountryCode : undefined
     )
     if (parsedNumber) {
-      return this.renderSendToPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
+      return this.props.isOutgoingPaymentRequest
+        ? this.renderRequestFromPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
+        : this.renderSendToPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
     }
     if (isValidAddress(this.props.searchQuery)) {
       return this.renderSendToAddress()
@@ -130,6 +133,21 @@ export class RecipientPicker extends React.Component<RecipientProps> {
   onCancelWarning = () => {
     this.setState({ isSendToAddressWarningVisible: false })
     ValoraAnalytics.track(SendEvents.check_account_alert_back)
+  }
+
+  renderRequestFromPhoneNumber = (displayNumber: string, e164PhoneNumber: string) => {
+    const { onSelectRecipient, t } = this.props
+    const recipient: MobileRecipient = {
+      displayNumber,
+      name: t('requestFromMobileNumber'),
+      e164PhoneNumber,
+    }
+    return (
+      <>
+        <RecipientItem recipient={recipient} onSelectRecipient={onSelectRecipient} />
+        {this.renderItemSeparator()}
+      </>
+    )
   }
 
   renderSendToPhoneNumber = (displayNumber: string, e164PhoneNumber: string) => {
