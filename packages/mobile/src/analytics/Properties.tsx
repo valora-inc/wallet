@@ -951,7 +951,7 @@ interface WalletConnectDefaultProperties {
 }
 
 interface WalletConnectRequestDefaultProperties extends WalletConnectDefaultProperties {
-  chainId?: string
+  requestChainId: string | undefined
   requestId: number
   requestJsonrpc: string
   requestMethod: string
