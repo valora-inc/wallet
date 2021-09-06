@@ -12,7 +12,7 @@
   },
   "saveMoreEarnMore": {
     "header": "Agrega fondos para ganar más",
-    "text": "Deposita hasta {{rewardsMax}} cUSD o {{rewardsMax}} cEUR y gana un {{percent}}% anual."
+    "text": "Deposit up to {{rewardsMax}} cUSD or {{rewardsMax}} cEUR and earn {{percent}}% anually."
   },
   "conclusion": "Es así de simple. ¡Empieza a ganar hoy!",
   "addCusd": "Agregar cUSD",
