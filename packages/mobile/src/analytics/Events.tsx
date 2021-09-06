@@ -442,30 +442,30 @@ export enum RewardsEvents {
 
 export enum WalletConnectEvents {
   // Events related to WalletConnect pairing (technical: opening up the communication channel via QR code or deeplink)
-  wc_pairing_start = 'wc_pairing_start',
-  wc_pairing_success = 'wc_pairing_success',
-  wc_pairing_error = 'wc_pairing_error',
+  wc_pairing_start = 'wc_pairing_start', // when WC pairing is started (no UI at this point)
+  wc_pairing_success = 'wc_pairing_success', // when WC pairing succeeds
+  wc_pairing_error = 'wc_pairing_error', // when WC pairing fails
 
   // Events related to WalletConnect sessions (approving/rejecting/removing dapps)
   wc_session_propose = 'wc_session_propose', // when the WC session screen is displayed to approve/reject a new dapp
-  wc_session_approve_start = 'wc_session_approve_start',
-  wc_session_approve_success = 'wc_session_approve_success',
-  wc_session_approve_error = 'wc_session_approve_error',
-  wc_session_reject_start = 'wc_session_reject_start',
-  wc_session_reject_success = 'wc_session_reject_success',
-  wc_session_reject_error = 'wc_session_reject_error',
-  wc_session_remove_start = 'wc_session_remove_start',
-  wc_session_remove_success = 'wc_session_remove_success',
-  wc_session_remove_error = 'wc_session_remove_error',
+  wc_session_approve_start = 'wc_session_approve_start', // when user presses the button to approve the dapp connection
+  wc_session_approve_success = 'wc_session_approve_success', // when the dapp approval succeeds
+  wc_session_approve_error = 'wc_session_approve_error', // when the dapp approval fails
+  wc_session_reject_start = 'wc_session_reject_start', // when user presses the button to reject the dapp connection
+  wc_session_reject_success = 'wc_session_reject_success', // when the dapp rejection succeeds
+  wc_session_reject_error = 'wc_session_reject_error', // when the dapp rejection fails
+  wc_session_remove_start = 'wc_session_remove_start', // when user presses the button to disconnect the dapp
+  wc_session_remove_success = 'wc_session_remove_success', // when the dapp disconnection succeeds
+  wc_session_remove_error = 'wc_session_remove_error', // when the dapp disconnection fails
 
   // Events related to WalletConnect requests from approved dapps (signing)
   wc_request_propose = 'wc_request_propose', // when the WC request screen is displayed to accept/deny a dapp request
-  wc_request_accept_start = 'wc_request_accept_start',
-  wc_request_accept_success = 'wc_request_accept_success',
-  wc_request_accept_error = 'wc_request_accept_error',
-  wc_request_deny_start = 'wc_request_deny_start',
-  wc_request_deny_success = 'wc_request_deny_success',
-  wc_request_deny_error = 'wc_request_deny_error',
+  wc_request_accept_start = 'wc_request_accept_start', // when user presses the button to accept a dapp request
+  wc_request_accept_success = 'wc_request_accept_success', // when the dapp request succeeds
+  wc_request_accept_error = 'wc_request_accept_error', // when the dapp request fails
+  wc_request_deny_start = 'wc_request_deny_start', // when user presses the button to accept a dapp request
+  wc_request_deny_success = 'wc_request_deny_success', // when the dapp request denial succeeds
+  wc_request_deny_error = 'wc_request_deny_error', // when the dapp request denial fails
 }
 
 export type AnalyticsEventType =
