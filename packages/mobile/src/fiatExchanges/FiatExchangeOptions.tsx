@@ -370,6 +370,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
   },
   titleContainer: {
+    flexWrap: 'wrap',
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: variables.contentPadding,
@@ -386,6 +387,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: variables.contentPadding,
     borderWidth: 1,
+    flexWrap: 'wrap',
+    alignItems: 'center',
   },
   currencyItemTitle: {
     ...fontStyles.regular500,
@@ -413,12 +416,14 @@ const styles = StyleSheet.create({
     minHeight: 100,
   },
   paymentMethodItemContainer: {
+    alignItems: 'center',
     flexDirection: 'row',
     padding: 8,
   },
   paymentMethodItemText: {
     ...fontStyles.small,
     marginLeft: 8,
+    flex: 1,
   },
   goToProvider: {
     width: '50%',

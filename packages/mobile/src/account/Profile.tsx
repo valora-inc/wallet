@@ -76,7 +76,7 @@ function Profile({ navigation, route }: Props) {
           <PictureInput
             picture={newPictureUri}
             onPhotoChosen={onPictureChosen}
-            backgroundColor={colors.gray3}
+            backgroundColor={colors.gray6}
           />
         </View>
         <SettingsItemInput
