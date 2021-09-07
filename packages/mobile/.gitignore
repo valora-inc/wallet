@@ -98,6 +98,3 @@ src/icons/DefaultAvatar.tsx
 src/images/*
 !src/images/Images.ts
 !src/images/link-arrow.png
-
-# E2E Test Secrets
-test/.env
