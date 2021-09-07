@@ -39,16 +39,16 @@
   "backupPhrasePlaceholder": "cavalo leopardo cachorro macaco tubarão tigre lêmure baleia lula lobo esquilo rato leão elefante gato camarão urso pinguim cervo tartaruga raposa zebra cabra girafa",
   "guide": [
     {
-      "title": "Sua Chave de Conta é um tipo especial de senha",
-      "text": "Sua Chave de Conta é a única maneira de acessar sua conta."
+      "title": "A sua Chave de Conta é um tipo especial de senha",
+      "text": "A sua Chave de Conta é a única maneira de acessar sua conta."
     },
     {
       "title": "Sem sua chave, você pode perder o acesso para sempre",
-      "text": "Se você perder seu celular, deverá ter sua chave para recuperar sua conta. Ninguém, nem mesmo a {{appName}}, poderá recuperar seus fundos sem ela."
+      "text": "Se você perder seu telefone, deverá ter sua chave para recuperar sua conta. Ninguém, nem mesmo {{appName}}, poderá recuperar seus fundos sem ela."
     },
     {
       "title": "Anote em segurança",
-      "text": "Anote sua Chave de Conta e guarde-a em um local seguro. Não salve em seu celular."
+      "text": "Anote sua Chave de Conta e guarde-a em um local seguro. Não salve em seu telefone."
     },
     {
       "title": "Mantenha sua chave privada",
