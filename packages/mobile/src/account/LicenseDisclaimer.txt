@@ -341,7 +341,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @google-cloud/bigquery, @google-cloud/common, @google-cloud/firestore, @google-cloud/paginator, @google-cloud/projectify, @google-cloud/promisify, @google-cloud/storage, gaxios, gcp-metadata, google-auth-library, google-gax, long, spdx-correct, teeny-request, validate-npm-package-license, xcode. A copy of the source code may be downloaded from https://github.com/googleapis/nodejs-bigquery.git (@google-cloud/bigquery), https://github.com/googleapis/nodejs-common.git (@google-cloud/common), https://github.com/googleapis/nodejs-firestore.git (@google-cloud/firestore), https://github.com/googleapis/nodejs-paginator.git (@google-cloud/paginator), https://github.com/googleapis/nodejs-projectify.git (@google-cloud/projectify), https://github.com/googleapis/nodejs-promisify.git (@google-cloud/promisify), https://github.com/googleapis/nodejs-storage.git (@google-cloud/storage), https://github.com/googleapis/gaxios.git (gaxios), https://github.com/googleapis/gcp-metadata.git (gcp-metadata), https://github.com/googleapis/google-auth-library-nodejs.git (google-auth-library), https://github.com/googleapis/gax-nodejs.git (google-gax), https://github.com/dcodeIO/long.js.git (long), https://github.com/jslicense/spdx-correct.js.git (spdx-correct), https://github.com/googleapis/teeny-request.git (teeny-request), https://github.com/kemitchell/validate-npm-package-license.js.git (validate-npm-package-license), https://github.com/apache/cordova-node-xcode.git (xcode). This software contains the following license and notice below:
+The following software may be included in this product: @google-cloud/bigquery, @google-cloud/common, @google-cloud/firestore, @google-cloud/paginator, @google-cloud/projectify, @google-cloud/promisify, @google-cloud/storage, gaxios, gcp-metadata, google-auth-library, google-gax, long, proto3-json-serializer, spdx-correct, teeny-request, validate-npm-package-license, xcode. A copy of the source code may be downloaded from https://github.com/googleapis/nodejs-bigquery.git (@google-cloud/bigquery), https://github.com/googleapis/nodejs-common.git (@google-cloud/common), https://github.com/googleapis/nodejs-firestore.git (@google-cloud/firestore), https://github.com/googleapis/nodejs-paginator.git (@google-cloud/paginator), https://github.com/googleapis/nodejs-projectify.git (@google-cloud/projectify), https://github.com/googleapis/nodejs-promisify.git (@google-cloud/promisify), https://github.com/googleapis/nodejs-storage.git (@google-cloud/storage), https://github.com/googleapis/gaxios.git (gaxios), https://github.com/googleapis/gcp-metadata.git (gcp-metadata), https://github.com/googleapis/google-auth-library-nodejs.git (google-auth-library), https://github.com/googleapis/gax-nodejs.git (google-gax), https://github.com/dcodeIO/long.js.git (long), https://github.com/googleapis/proto3-json-serializer-nodejs.git (proto3-json-serializer), https://github.com/jslicense/spdx-correct.js.git (spdx-correct), https://github.com/googleapis/teeny-request.git (teeny-request), https://github.com/kemitchell/validate-npm-package-license.js.git (validate-npm-package-license), https://github.com/apache/cordova-node-xcode.git (xcode). This software contains the following license and notice below:
 
 Apache License
                            Version 2.0, January 2004
@@ -889,7 +889,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 -----
 
-The following software may be included in this product: @json-rpc-tools/provider, @json-rpc-tools/types, @json-rpc-tools/utils, @json-rpc-tools/ws-connection, @pedrouid/environment, @pedrouid/iso-crypto, @pedrouid/iso-random, @pedrouid/pino-utils, ecies-25519, enc-utils, keyvaluestorage, keyvaluestorage-interface, relay-provider, safe-json-utils, window-getters, window-metadata. A copy of the source code may be downloaded from git+https://github.com/pedrouid/environment.git (@pedrouid/environment), git+https://github.com/pedrouid/iso-crypto.git (@pedrouid/iso-crypto), git+https://github.com/pedrouid/iso-random.git (@pedrouid/iso-random), git+https://github.com/pedrouid/pino-utils.git (@pedrouid/pino-utils), git+https://github.com/pedrouid/ecies-25519.git (ecies-25519), git+https://github.com/pedrouid/enc-utils.git (enc-utils), git+https://github.com/pedrouid/keyvaluestorage.git (keyvaluestorage), git+https://github.com/pedrouid/keyvaluestorage-interface.git (keyvaluestorage-interface), git+https://github.com/pedrouid/relay-provider.git (relay-provider), git+https://github.com/pedrouid/safe-json-utils.git (safe-json-utils), git+https://github.com/pedrouid/window-getters.git (window-getters), git+https://github.com/pedrouid/window-metadata.git (window-metadata). This software contains the following license and notice below:
+The following software may be included in this product: @json-rpc-tools/provider, @json-rpc-tools/types, @json-rpc-tools/utils, @json-rpc-tools/ws-connection, @pedrouid/environment, @pedrouid/pino-utils, @walletconnect/crypto, @walletconnect/ecies-25519, @walletconnect/encoding, @walletconnect/environment, @walletconnect/randombytes, @walletconnect/safe-json, @walletconnect/window-getters, @walletconnect/window-metadata, enc-utils, keyvaluestorage, keyvaluestorage-interface, relay-provider, safe-json-utils. A copy of the source code may be downloaded from git+https://github.com/pedrouid/environment.git (@pedrouid/environment), git+https://github.com/pedrouid/pino-utils.git (@pedrouid/pino-utils), git+https://github.com/walletconnect/walletconnect-utils.git (@walletconnect/crypto), git+https://github.com/walletconnect/walletconnect-utils.git (@walletconnect/ecies-25519), git+https://github.com/walletconnect/walletconnect-utils.git (@walletconnect/encoding), git+https://github.com/walletconnect/walletconnect-utils.git (@walletconnect/environment), git+https://github.com/walletconnect/walletconnect-utils.git (@walletconnect/randombytes), git+https://github.com/walletconnect/walletconnect-utils.git (@walletconnect/safe-json), git+https://github.com/walletconnect/walletconnect-utils.git (@walletconnect/window-getters), git+https://github.com/walletconnect/walletconnect-utils.git (@walletconnect/window-metadata), git+https://github.com/pedrouid/enc-utils.git (enc-utils), git+https://github.com/pedrouid/keyvaluestorage.git (keyvaluestorage), git+https://github.com/pedrouid/keyvaluestorage-interface.git (keyvaluestorage-interface), git+https://github.com/pedrouid/relay-provider.git (relay-provider), git+https://github.com/pedrouid/safe-json-utils.git (safe-json-utils). This software contains the following license and notice below:
 
 MIT License
 
@@ -1139,7 +1139,7 @@ You may obtain a copy of the Creative Commons Attribution 3.0 License at
 
 -----
 
-The following software may be included in this product: @react-native-firebase/auth, @react-native-firebase/database, @react-native-firebase/dynamic-links, @react-native-firebase/messaging, @react-native-firebase/storage. A copy of the source code may be downloaded from https://github.com/invertase/react-native-firebase/tree/master/packages/auth (@react-native-firebase/auth), https://github.com/invertase/react-native-firebase/tree/master/packages/database (@react-native-firebase/database), https://github.com/invertase/react-native-firebase/tree/master/packages/dynamic-links (@react-native-firebase/dynamic-links), https://github.com/invertase/react-native-firebase/tree/master/packages/messaging (@react-native-firebase/messaging), https://github.com/invertase/react-native-firebase/tree/master/packages/storage (@react-native-firebase/storage). This software contains the following license and notice below:
+The following software may be included in this product: @react-native-firebase/auth, @react-native-firebase/database, @react-native-firebase/dynamic-links, @react-native-firebase/messaging, @react-native-firebase/remote-config, @react-native-firebase/storage. A copy of the source code may be downloaded from https://github.com/invertase/react-native-firebase/tree/master/packages/auth (@react-native-firebase/auth), https://github.com/invertase/react-native-firebase/tree/master/packages/database (@react-native-firebase/database), https://github.com/invertase/react-native-firebase/tree/master/packages/dynamic-links (@react-native-firebase/dynamic-links), https://github.com/invertase/react-native-firebase/tree/master/packages/messaging (@react-native-firebase/messaging), https://github.com/invertase/react-native-firebase/tree/master/packages/remote-config (@react-native-firebase/remote-config), https://github.com/invertase/react-native-firebase/tree/master/packages/storage (@react-native-firebase/storage). This software contains the following license and notice below:
 
 Apache-2.0 License
 ------------------
@@ -1251,6 +1251,32 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+-----
+
+The following software may be included in this product: @segment/loosely-validate-event. This software contains the following license and notice below:
+
+The MIT License
+
+Copyright (c) 2017 Segment.io friends@segment.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
 -----
 
@@ -1386,7 +1412,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 -----
 
-The following software may be included in this product: @stablelib/binary, @stablelib/blake2s, @stablelib/blake2xs, @stablelib/bytes, @stablelib/hash, @stablelib/int, @stablelib/keyagreement, @stablelib/random, @stablelib/wipe. A copy of the source code may be downloaded from https://github.com/StableLib/stablelib (@stablelib/binary), https://github.com/StableLib/stablelib (@stablelib/bytes), https://github.com/StableLib/stablelib (@stablelib/int), https://github.com/StableLib/stablelib (@stablelib/keyagreement), https://github.com/StableLib/stablelib (@stablelib/random), https://github.com/StableLib/stablelib (@stablelib/wipe). This software contains the following license and notice below:
+The following software may be included in this product: @stablelib/binary, @stablelib/blake2s, @stablelib/blake2xs, @stablelib/bytes, @stablelib/hash, @stablelib/int, @stablelib/keyagreement, @stablelib/random, @stablelib/wipe. A copy of the source code may be downloaded from https://github.com/StableLib/stablelib (@stablelib/bytes), https://github.com/StableLib/stablelib (@stablelib/keyagreement), https://github.com/StableLib/stablelib (@stablelib/random). This software contains the following license and notice below:
 
 This software is licensed under the MIT license:
 
@@ -1500,11 +1526,11 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: @types/accepts, @types/bignumber.js, @types/bn.js, @types/body-parser, @types/country-data, @types/ethereumjs-util, @types/express, @types/express-jwt, @types/fs-capacitor, @types/hoist-non-react-statics, @types/http-assert, @types/istanbul-lib-report, @types/keygrip, @types/koa-compose, @types/long, @types/ms, @types/node, @types/randombytes, @types/stack-utils, @types/utf8. A copy of the source code may be downloaded from https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/accepts), https://github.com/MikeMcl/bignumber.js/ (@types/bignumber.js), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/bn.js), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/body-parser), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/country-data), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/ethereumjs-util), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/express), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/express-jwt), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/fs-capacitor), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/hoist-non-react-statics), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/http-assert), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/istanbul-lib-report), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/keygrip), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/koa-compose), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/long), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/ms), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/node), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/randombytes), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/stack-utils), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/utf8). This software contains the following license and notice below:
+The following software may be included in this product: @types/abstract-leveldown, @types/bn.js, @types/body-parser, @types/connect, @types/content-disposition, @types/cookies, @types/cors, @types/debug, @types/elliptic, @types/express, @types/express-serve-static-core, @types/express-unless, @types/google-libphonenumber, @types/hammerjs, @types/http-assert, @types/http-errors, @types/istanbul-lib-coverage, @types/istanbul-reports, @types/koa, @types/level-errors, @types/levelup, @types/lodash, @types/mime, @types/node, @types/pbkdf2, @types/prettier, @types/prop-types, @types/qs, @types/range-parser, @types/react, @types/react-redux, @types/scheduler, @types/secp256k1, @types/serve-static, @types/ws, @types/yargs, @types/yargs-parser, @types/zen-observable. A copy of the source code may be downloaded from https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/abstract-leveldown), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/bn.js), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/body-parser), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/connect), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/content-disposition), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/cookies), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/cors), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/debug), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/elliptic), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/express), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/express-serve-static-core), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/express-unless), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/google-libphonenumber), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/hammerjs), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/http-assert), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/http-errors), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/istanbul-lib-coverage), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/istanbul-reports), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/koa), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/level-errors), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/levelup), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/lodash), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/mime), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/node), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/pbkdf2), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/prettier), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/prop-types), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/qs), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/range-parser), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-redux), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/scheduler), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/secp256k1), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/serve-static), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/ws), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/yargs), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/yargs-parser), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/zen-observable). This software contains the following license and notice below:
 
 MIT License
 
-    Copyright (c) Microsoft Corporation. All rights reserved.
+    Copyright (c) Microsoft Corporation.
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -1526,11 +1552,11 @@ MIT License
 
 -----
 
-The following software may be included in this product: @types/bn.js, @types/body-parser, @types/connect, @types/content-disposition, @types/cookies, @types/cors, @types/debug, @types/elliptic, @types/express, @types/express-serve-static-core, @types/express-unless, @types/google-libphonenumber, @types/hammerjs, @types/http-errors, @types/istanbul-lib-coverage, @types/istanbul-reports, @types/koa, @types/lodash, @types/mime, @types/node, @types/pbkdf2, @types/prettier, @types/prop-types, @types/qs, @types/range-parser, @types/react, @types/react-redux, @types/scheduler, @types/secp256k1, @types/serve-static, @types/ws, @types/yargs, @types/yargs-parser, @types/zen-observable. A copy of the source code may be downloaded from https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/bn.js), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/body-parser), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/connect), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/content-disposition), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/cookies), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/cors), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/debug), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/elliptic), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/express), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/express-serve-static-core), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/express-unless), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/google-libphonenumber), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/hammerjs), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/http-errors), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/istanbul-lib-coverage), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/istanbul-reports), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/koa), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/lodash), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/mime), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/node), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/pbkdf2), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/prettier), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/prop-types), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/qs), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/range-parser), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/react-redux), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/scheduler), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/secp256k1), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/serve-static), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/ws), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/yargs), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/yargs-parser), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/zen-observable). This software contains the following license and notice below:
+The following software may be included in this product: @types/accepts, @types/bignumber.js, @types/bn.js, @types/body-parser, @types/country-data, @types/ethereumjs-util, @types/express, @types/express-jwt, @types/fs-capacitor, @types/hoist-non-react-statics, @types/istanbul-lib-report, @types/keygrip, @types/koa-compose, @types/long, @types/ms, @types/node, @types/randombytes, @types/stack-utils, @types/utf8. A copy of the source code may be downloaded from https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/accepts), https://github.com/MikeMcl/bignumber.js/ (@types/bignumber.js), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/bn.js), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/body-parser), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/country-data), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/ethereumjs-util), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/express), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/express-jwt), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/fs-capacitor), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/hoist-non-react-statics), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/istanbul-lib-report), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/keygrip), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/koa-compose), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/long), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/ms), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/node), https://github.com/DefinitelyTyped/DefinitelyTyped.git (@types/randombytes), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/stack-utils), https://www.github.com/DefinitelyTyped/DefinitelyTyped.git (@types/utf8). This software contains the following license and notice below:
 
 MIT License
 
-    Copyright (c) Microsoft Corporation.
+    Copyright (c) Microsoft Corporation. All rights reserved.
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -1847,6 +1873,32 @@ whether future versions of the GNU Lesser General Public License shall
 apply, that proxy's public statement of acceptance of any version is
 permanent authorization for you to choose that version for the
 Library.
+
+-----
+
+The following software may be included in this product: @walletconnect/jsonrpc-types, @walletconnect/jsonrpc-utils. A copy of the source code may be downloaded from git+https://github.com/WalletConnect/walletconnect-utils.git (@walletconnect/jsonrpc-types), git+https://github.com/WalletConnect/walletconnect-utils.git (@walletconnect/jsonrpc-utils). This software contains the following license and notice below:
+
+MIT License
+
+Copyright (c) 2021 WalletConnect Labs OÜ
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 -----
 
@@ -2202,6 +2254,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 -----
 
+The following software may be included in this product: abstract-leveldown, deferred-leveldown, memdown. A copy of the source code may be downloaded from https://github.com/Level/abstract-leveldown.git (abstract-leveldown), https://github.com/Level/deferred-leveldown.git (deferred-leveldown), https://github.com/Level/memdown.git (memdown). This software contains the following license and notice below:
+
+# The MIT License (MIT)
+
+**Copyright © 2013-present Rod Vagg and [Contributors](CONTRIBUTORS.md).**
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----
+
 The following software may be included in this product: accepts, mime-types. A copy of the source code may be downloaded from https://github.com/jshttp/accepts.git (accepts), https://github.com/jshttp/mime-types.git (mime-types). This software contains the following license and notice below:
 
 (The MIT License)
@@ -2279,6 +2357,20 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+-----
+
+The following software may be included in this product: analytics-node. A copy of the source code may be downloaded from https://github.com/segmentio/analytics-node.git. This software contains the following license and notice below:
+
+MIT License
+
+Copyright © 2017 Segment Inc. <friends@segment.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -----
 
@@ -3310,11 +3402,11 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: async-retry. A copy of the source code may be downloaded from https://github.com/zeit/async-retry.git. This software contains the following license and notice below:
+The following software may be included in this product: async-retry. A copy of the source code may be downloaded from https://github.com/vercel/async-retry.git. This software contains the following license and notice below:
 
-MIT License
+The MIT License (MIT)
 
-Copyright (c) 2017 ZEIT, Inc.
+Copyright (c) 2021 Vercel, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -3746,6 +3838,24 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+-----
+
+The following software may be included in this product: axios-retry. A copy of the source code may be downloaded from git+https://github.com/softonic/axios-retry.git. This software contains the following license and notice below:
+
+Copyright 2019 Softonic International S.A.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 -----
 
@@ -6592,6 +6702,38 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+-----
+
+The following software may be included in this product: charenc, crypt. A copy of the source code may be downloaded from git://github.com/pvorb/node-charenc.git (charenc), git://github.com/pvorb/node-crypt.git (crypt). This software contains the following license and notice below:
+
+Copyright © 2011, Paul Vorbach. All rights reserved.
+Copyright © 2009, Jeff Mott. All rights reserved.
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this
+  list of conditions and the following disclaimer in the documentation and/or
+  other materials provided with the distribution.
+* Neither the name Crypto-JS nor the names of its contributors may be used to
+  endorse or promote products derived from this software without specific prior
+  written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 -----
 
@@ -9589,6 +9731,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 -----
 
+The following software may be included in this product: encoding-down, level-codec, level-errors, level-iterator-stream, level-mem, level-ws, levelup. A copy of the source code may be downloaded from https://github.com/Level/encoding-down.git (encoding-down), https://github.com/Level/codec.git (level-codec), https://github.com/Level/errors.git (level-errors), https://github.com/Level/iterator-stream.git (level-iterator-stream), https://github.com/Level/mem.git (level-mem), https://github.com/Level/level-ws.git (level-ws), https://github.com/Level/levelup.git (levelup). This software contains the following license and notice below:
+
+# The MIT License (MIT)
+
+**Copyright © 2012-present [Contributors](CONTRIBUTORS.md).**
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----
+
 The following software may be included in this product: envinfo. A copy of the source code may be downloaded from https://github.com/tabrindle/envinfo. This software contains the following license and notice below:
 
 MIT License
@@ -9665,7 +9833,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: es-to-primitive, is-boolean-object, is-callable, is-date-object, is-number-object, is-string, is-symbol, is-typed-array, object.getownpropertydescriptors, which-typed-array. A copy of the source code may be downloaded from git://github.com/ljharb/es-to-primitive.git (es-to-primitive), git://github.com/inspect-js/is-boolean-object.git (is-boolean-object), git://github.com/ljharb/is-callable.git (is-callable), git://github.com/inspect-js/is-date-object.git (is-date-object), git://github.com/inspect-js/is-number-object.git (is-number-object), git://github.com/ljharb/is-string.git (is-string), git://github.com/inspect-js/is-symbol.git (is-symbol), git://github.com/inspect-js/is-typed-array.git (is-typed-array), git://github.com/es-shims/object.getownpropertydescriptors.git (object.getownpropertydescriptors), git://github.com/inspect-js/which-typed-array.git (which-typed-array). This software contains the following license and notice below:
+The following software may be included in this product: es-to-primitive, is-boolean-object, is-callable, is-date-object, is-number-object, is-string, is-symbol, is-typed-array, object.getownpropertydescriptors, which-typed-array. A copy of the source code may be downloaded from git://github.com/ljharb/es-to-primitive.git (es-to-primitive), git://github.com/inspect-js/is-boolean-object.git (is-boolean-object), git://github.com/inspect-js/is-callable.git (is-callable), git://github.com/inspect-js/is-date-object.git (is-date-object), git://github.com/inspect-js/is-number-object.git (is-number-object), git://github.com/ljharb/is-string.git (is-string), git://github.com/inspect-js/is-symbol.git (is-symbol), git://github.com/inspect-js/is-typed-array.git (is-typed-array), git://github.com/es-shims/object.getownpropertydescriptors.git (object.getownpropertydescriptors), git://github.com/inspect-js/which-typed-array.git (which-typed-array). This software contains the following license and notice below:
 
 The MIT License (MIT)
 
@@ -13205,7 +13373,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 -----
 
-The following software may be included in this product: has-bigints, unbox-primitive, which-boxed-primitive. A copy of the source code may be downloaded from git+https://github.com/ljharb/has-bigints.git (has-bigints), git+https://github.com/ljharb/unbox-primitive.git (unbox-primitive), git+https://github.com/inspect-js/which-boxed-primitive.git (which-boxed-primitive). This software contains the following license and notice below:
+The following software may be included in this product: has-bigints, internal-slot, side-channel, unbox-primitive, which-boxed-primitive. A copy of the source code may be downloaded from git+https://github.com/ljharb/has-bigints.git (has-bigints), git+https://github.com/ljharb/internal-slot.git (internal-slot), git+https://github.com/ljharb/side-channel.git (side-channel), git+https://github.com/ljharb/unbox-primitive.git (unbox-primitive), git+https://github.com/inspect-js/which-boxed-primitive.git (which-boxed-primitive). This software contains the following license and notice below:
 
 MIT License
 
@@ -13306,6 +13474,32 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+-----
+
+The following software may be included in this product: has-tostringtag. A copy of the source code may be downloaded from git+https://github.com/inspect-js/has-tostringtag.git. This software contains the following license and notice below:
+
+MIT License
+
+Copyright (c) 2021 Inspect JS
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 -----
 
@@ -14163,7 +14357,7 @@ THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: is-arguments, is-generator-function, is-negative-zero, is-regex, object-is. A copy of the source code may be downloaded from git://github.com/inspect-js/is-arguments.git (is-arguments), git://github.com/inspect-js/is-generator-function.git (is-generator-function), git://github.com/inspect-js/is-negative-zero.git (is-negative-zero), git://github.com/ljharb/is-regex.git (is-regex), git://github.com/es-shims/object-is.git (object-is). This software contains the following license and notice below:
+The following software may be included in this product: is-arguments, is-generator-function, is-negative-zero, is-regex, object-is. A copy of the source code may be downloaded from git://github.com/inspect-js/is-arguments.git (is-arguments), git://github.com/inspect-js/is-generator-function.git (is-generator-function), git://github.com/inspect-js/is-negative-zero.git (is-negative-zero), git://github.com/inspect-js/is-regex.git (is-regex), git://github.com/es-shims/object-is.git (object-is). This software contains the following license and notice below:
 
 The MIT License (MIT)
 
@@ -14670,7 +14864,7 @@ The following software may be included in this product: js-tokens. A copy of the
 
 The MIT License (MIT)
 
-Copyright (c) 2014, 2015, 2016, 2017 Simon Lydell
+Copyright (c) 2014, 2015, 2016, 2017, 2018 Simon Lydell
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -14696,7 +14890,7 @@ The following software may be included in this product: js-tokens. A copy of the
 
 The MIT License (MIT)
 
-Copyright (c) 2014, 2015, 2016, 2017, 2018 Simon Lydell
+Copyright (c) 2014, 2015, 2016, 2017 Simon Lydell
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -15284,11 +15478,29 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: level-codec, level-errors. A copy of the source code may be downloaded from https://github.com/Level/codec.git (level-codec), https://github.com/Level/errors.git (level-errors). This software contains the following license and notice below:
+The following software may be included in this product: level-codec, level-iterator-stream. A copy of the source code may be downloaded from https://github.com/Level/codec.git (level-codec), https://github.com/Level/iterator-stream.git (level-iterator-stream). This software contains the following license and notice below:
+
+The MIT License (MIT)
+=====================
+
+Copyright (c) 2012-2015 LevelUP contributors
+---------------------------------------
+
+*LevelUP contributors listed at <https://github.com/rvagg/node-levelup#contributors>*
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----
+
+The following software may be included in this product: level-concat-iterator. A copy of the source code may be downloaded from https://github.com/Level/concat-iterator.git. This software contains the following license and notice below:
 
 # The MIT License (MIT)
 
-**Copyright © 2012-present [Contributors](CONTRIBUTORS.md).**
+**Copyright © 2018-present [Contributors](CONTRIBUTORS.md).**
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -15307,24 +15519,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
------
-
-The following software may be included in this product: level-codec, level-iterator-stream. A copy of the source code may be downloaded from https://github.com/Level/codec.git (level-codec), https://github.com/Level/iterator-stream.git (level-iterator-stream). This software contains the following license and notice below:
-
-The MIT License (MIT)
-=====================
-
-Copyright (c) 2012-2015 LevelUP contributors
----------------------------------------
-
-*LevelUP contributors listed at <https://github.com/rvagg/node-levelup#contributors>*
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -----
 
@@ -15392,6 +15586,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 -----
 
+The following software may be included in this product: level-packager. A copy of the source code may be downloaded from https://github.com/Level/packager.git. This software contains the following license and notice below:
+
+# The MIT License (MIT)
+
+**Copyright © 2013-present [Contributors](CONTRIBUTORS.md).**
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----
+
 The following software may be included in this product: level-sublevel. A copy of the source code may be downloaded from git://github.com/dominictarr/level-sublevel.git. This software contains the following license and notice below:
 
 Copyright (c) 2013 Dominic Tarr
@@ -15413,6 +15633,32 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+-----
+
+The following software may be included in this product: level-supports. A copy of the source code may be downloaded from https://github.com/Level/supports.git. This software contains the following license and notice below:
+
+# The MIT License (MIT)
+
+**Copyright © 2019-present [Contributors](CONTRIBUTORS.md).**
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 -----
 
@@ -16380,6 +16626,38 @@ are permitted provided that the following conditions are met:
  * Neither the name Naitik Shah nor the names of its contributors may be used to
    endorse or promote products derived from this software without specific
    prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+-----
+
+The following software may be included in this product: md5. A copy of the source code may be downloaded from git://github.com/pvorb/node-md5.git. This software contains the following license and notice below:
+
+Copyright © 2011-2012, Paul Vorbach.
+Copyright © 2009, Jeff Mott.
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice, this
+  list of conditions and the following disclaimer in the documentation and/or
+  other materials provided with the distribution.
+* Neither the name Crypto-JS nor the names of its contributors may be used to
+  endorse or promote products derived from this software without specific prior
+  written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -18301,7 +18579,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: object-inspect. A copy of the source code may be downloaded from git://github.com/substack/object-inspect.git. This software contains the following license and notice below:
+The following software may be included in this product: object-inspect. A copy of the source code may be downloaded from git://github.com/inspect-js/object-inspect.git. This software contains the following license and notice below:
 
 MIT License
 
@@ -20282,7 +20560,7 @@ SOFTWARE.
 
 -----
 
-The following software may be included in this product: react-native-blind-threshold-bls, workspace-aggregator-062db3c6-fa9c-4b02-9f4d-ff837faf7752. A copy of the source code may be downloaded from git+https://github.com/celo-org/react-native-blind-threshold-bls.git (react-native-blind-threshold-bls). This software contains the following license and notice below:
+The following software may be included in this product: react-native-blind-threshold-bls, workspace-aggregator-e00843d7-4994-4a5a-83f1-9b8184a7bcf8. A copy of the source code may be downloaded from git+https://github.com/celo-org/react-native-blind-threshold-bls.git (react-native-blind-threshold-bls). This software contains the following license and notice below:
 
 Apache License
                            Version 2.0, January 2004
@@ -20909,6 +21187,32 @@ The following software may be included in this product: react-native-permissions
 MIT License
 
 Copyright (c) 2019 Mathieu Acthernoene
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+-----
+
+The following software may be included in this product: react-native-plaid-link-sdk. This software contains the following license and notice below:
+
+MIT License
+
+Copyright (c) 2019 Plaid
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22536,6 +22840,30 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -----
 
+The following software may be included in this product: semaphore-async-await. A copy of the source code may be downloaded from git@github.com:jsoendermann/semaphore-async-await.git. This software contains the following license and notice below:
+
+Copyright (c) 2016 Jan Soendermann
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+-----
+
 The following software may be included in this product: semver-greatest-satisfied-range, undertaker-registry. A copy of the source code may be downloaded from https://github.com/gulpjs/semver-greatest-satisfied-range.git (semver-greatest-satisfied-range), https://github.com/gulpjs/undertaker-registry.git (undertaker-registry). This software contains the following license and notice below:
 
 The MIT License (MIT)
@@ -22622,7 +22950,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 The following software may be included in this product: servify. A copy of the source code may be downloaded from https://github.com/maiavictor/servify. This software contains the following license and notice below:
 
-Copyright 2017 VICTOR HERNANDES SILVA MAIA
+Copyright 2017 VICTOR HERNANDES SILVA MAIA
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -26431,6 +26759,31 @@ along with web3.js.  If not, see <http://www.gnu.org/licenses/>.
 
 -----
 
+The following software may be included in this product: web3-parse-receipt-events. A copy of the source code may be downloaded from https://github.com/bloq/web3-parse-receipt-events.git. This software contains the following license and notice below:
+
+The MIT License (MIT)
+
+Copyright (c) Bloq, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-----
+
 The following software may be included in this product: webidl-conversions. A copy of the source code may be downloaded from https://github.com/jsdom/webidl-conversions.git. This software contains the following license and notice below:
 
 # The BSD 2-Clause License
@@ -27195,4 +27548,3 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-

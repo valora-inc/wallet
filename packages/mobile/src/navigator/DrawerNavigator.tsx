@@ -37,6 +37,7 @@ import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
+import { features } from 'src/flags'
 import WalletHome from 'src/home/WalletHome'
 import i18n, { Namespaces } from 'src/i18n'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
@@ -224,14 +225,16 @@ export default function DrawerNavigator() {
         component={FiatExchange}
         options={{ title: t('addAndWithdraw'), drawerIcon: AddWithdraw }}
       />
-      <Drawer.Screen
-        name={'InviteModal'}
-        component={InviteFriendModal}
-        initialParams={{
-          onPress: () => dispatch(toggleInviteModal(true)),
-        }}
-        options={{ title: t('invite'), drawerIcon: Invite }}
-      />
+      {features.SHOW_INVITE_MENU_ITEM && (
+        <Drawer.Screen
+          name={'InviteModal'}
+          component={InviteFriendModal}
+          initialParams={{
+            onPress: () => dispatch(toggleInviteModal(true)),
+          }}
+          options={{ title: t('invite'), drawerIcon: Invite }}
+        />
+      )}
       <Drawer.Screen
         name={Screens.Settings}
         component={SettingsScreen}

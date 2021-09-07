@@ -43,16 +43,13 @@
     "@types/utf8": "^2.1.6",
     "typescript": "^3.8.3"
   },
-  "peerDependencies": {
-    "@celo/flake-tracker": "0.0.1-dev"
-  },
   "engines": {
     "node": "12"
   },
   "resolutions": {
     "web3-eth-abi/**/@ethersproject/abi": "5.0.4",
     "node-gyp": "5.0.1",
-    "tar": "4.4.10",
+    "tar": "4.4.18",
     "lodash": "4.17.15",
     "react-native-ntp-client": "^1.0.0",
     "**/codecov/**/js-yaml": "^3.13.1",

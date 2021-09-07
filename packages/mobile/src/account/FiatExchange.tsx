@@ -4,7 +4,7 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
@@ -75,62 +75,72 @@ function FiatExchange() {
   return (
     <SafeAreaView style={styles.container}>
       <DrawerTopBar />
-      <View style={styles.headerContainer}>
-        <View style={styles.balanceSheet}>
-          <Text style={styles.currentBalance}>{t('global:currentBalance')}</Text>
-          <CurrencyDisplay style={styles.localBalance} amount={dollarAmount} />
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <View style={styles.headerContainer}>
+          <View style={styles.balanceSheet}>
+            <Text style={styles.currentBalance}>{t('global:currentBalance')}</Text>
+            <CurrencyDisplay style={styles.localBalance} amount={dollarAmount} />
+          </View>
+          <Image source={fiatExchange} style={styles.image} resizeMode={'contain'} />
         </View>
-        <Image source={fiatExchange} style={styles.image} resizeMode={'contain'} />
-      </View>
-
-      <View style={styles.optionsListContainer}>
-        <ListItem onPress={goToAddFunds}>
-          <Text testID="addFunds" style={styles.optionTitle}>
-            {t('fiatExchangeFlow:addFunds')}
+        <View style={styles.optionsListContainer}>
+          <ListItem onPress={goToAddFunds}>
+            <Text testID="addFunds" style={styles.optionTitle}>
+              {t('fiatExchangeFlow:addFunds')}
+            </Text>
+            <Text style={styles.optionSubtitle}>{t('fiatExchangeFlow:addFundsSubtitle')}</Text>
+          </ListItem>
+          {features.SHOW_CASH_OUT ? (
+            <ListItem onPress={goToCashOut}>
+              <Text testID="cashOut" style={styles.optionTitle}>
+                {t('fiatExchangeFlow:cashOut')}
+              </Text>
+              <Text style={styles.optionSubtitle}>{t('fiatExchangeFlow:cashOutSubtitle')}</Text>
+            </ListItem>
+          ) : (
+            <ListItem>
+              <Text style={styles.optionTitleComingSoon}>
+                {t('fiatExchangeFlow:cashOutComingSoon')}
+              </Text>
+            </ListItem>
+          )}
+          {FIAT_SPEND_ENABLED && (
+            <ListItem onPress={goToSpend}>
+              <Text style={styles.optionTitle}>{t('fiatExchangeFlow:spend')}</Text>
+              <Text style={styles.optionSubtitle}>{t('fiatExchangeFlow:spendSubtitle')}</Text>
+            </ListItem>
+          )}
+        </View>
+        <View style={styles.moreWaysContainer}>
+          <Text style={styles.moreWays}>
+            <Trans i18nKey="otherFundingOptions" ns={Namespaces.fiatExchangeFlow}>
+              <Text onPress={onOpenOtherFundingOptions} style={styles.fundingOptionsLink} />
+            </Trans>
           </Text>
-          <Text style={styles.optionSubtitle}>{t('fiatExchangeFlow:addFundsSubtitle')}</Text>
-        </ListItem>
-        {features.SHOW_CASH_OUT ? (
-          <ListItem onPress={goToCashOut}>
-            <Text testID="cashOut" style={styles.optionTitle}>
-              {t('fiatExchangeFlow:cashOut')}
-            </Text>
-            <Text style={styles.optionSubtitle}>{t('fiatExchangeFlow:cashOutSubtitle')}</Text>
-          </ListItem>
-        ) : (
-          <ListItem>
-            <Text style={styles.optionTitleComingSoon}>
-              {t('fiatExchangeFlow:cashOutComingSoon')}
-            </Text>
-          </ListItem>
-        )}
-        {FIAT_SPEND_ENABLED && (
-          <ListItem onPress={goToSpend}>
-            <Text style={styles.optionTitle}>{t('fiatExchangeFlow:spend')}</Text>
-            <Text style={styles.optionSubtitle}>{t('fiatExchangeFlow:spendSubtitle')}</Text>
-          </ListItem>
-        )}
-      </View>
-      <Text style={styles.moreWays}>
-        <Trans i18nKey="otherFundingOptions" ns={Namespaces.fiatExchangeFlow}>
-          <Text onPress={onOpenOtherFundingOptions} style={styles.fundingOptionsLink} />
-        </Trans>
-      </Text>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
   },
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    flexWrap: 'wrap-reverse',
+  },
+  contentContainer: {
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    flexGrow: 1,
   },
   image: {
     marginRight: variables.contentPadding,
+    marginLeft: variables.contentPadding,
   },
   balanceSheet: {
     paddingVertical: variables.contentPadding,
@@ -148,6 +158,7 @@ const styles = StyleSheet.create({
   },
   optionsListContainer: {
     flex: 1,
+    justifyContent: 'flex-start',
   },
   optionTitle: {
     ...fontStyles.regular500,
@@ -160,6 +171,10 @@ const styles = StyleSheet.create({
   optionTitleComingSoon: {
     ...fontStyles.regular,
     color: colors.gray3,
+  },
+  moreWaysContainer: {
+    flexGrow: 1,
+    justifyContent: 'flex-end',
   },
   moreWays: {
     ...fontStyles.regular,
