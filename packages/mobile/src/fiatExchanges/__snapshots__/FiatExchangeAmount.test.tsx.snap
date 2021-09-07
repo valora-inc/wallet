@@ -448,6 +448,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
           Object {
             "alignItems": "center",
             "flexDirection": "row",
+            "flexWrap": "wrap",
             "marginBottom": 8,
             "marginTop": 24,
           }
@@ -471,6 +472,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
           allowFontScaling={true}
           autoFocus={true}
           keyboardType="decimal-pad"
+          multiline={true}
           onChangeText={[Function]}
           placeholder="€0"
           placeholderTextColor="#B4B9BD"
@@ -482,9 +484,9 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
                 "flex": 1,
                 "fontFamily": "Inter-Regular",
                 "fontSize": 19,
-                "height": 48,
                 "lineHeight": 27,
                 "marginLeft": 10,
+                "minHeight": 48,
                 "textAlign": "right",
               },
               Object {
@@ -501,6 +503,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -1141,6 +1144,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
           Object {
             "alignItems": "center",
             "flexDirection": "row",
+            "flexWrap": "wrap",
             "marginBottom": 8,
             "marginTop": 24,
           }
@@ -1164,6 +1168,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
           allowFontScaling={true}
           autoFocus={true}
           keyboardType="decimal-pad"
+          multiline={true}
           onChangeText={[Function]}
           placeholder="$0"
           placeholderTextColor="#B4B9BD"
@@ -1175,9 +1180,9 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
                 "flex": 1,
                 "fontFamily": "Inter-Regular",
                 "fontSize": 19,
-                "height": 48,
                 "lineHeight": 27,
                 "marginLeft": 10,
+                "minHeight": 48,
                 "textAlign": "right",
               },
               Object {
@@ -1194,6 +1199,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },

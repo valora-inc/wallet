@@ -7,6 +7,7 @@ interface Props {
   eventName?: AnalyticsEventType
 }
 
+// TODO: Replace request header also & add translations for both
 function HeaderWithBackButton({ eventName }: Props) {
   return <CustomHeader left={<BackButton eventName={eventName} />} />
 }
