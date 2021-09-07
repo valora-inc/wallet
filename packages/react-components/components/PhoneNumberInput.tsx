@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
   },
   flag: {
     fontSize: 20,
-    marginRight: 4,
   },
   phoneNumberInput: {
     flex: 1,

@@ -19,7 +19,7 @@ const locales: Locales = {
     },
   },
   'es-419': {
-    name: 'Español (América Latina)',
+    name: 'Español',
     get strings() {
       return require('./es-419').default
     },
@@ -28,7 +28,7 @@ const locales: Locales = {
     },
   },
   'pt-BR': {
-    name: 'Português (Brasil)',
+    name: 'Português',
     get strings() {
       return require('./pt-BR').default
     },

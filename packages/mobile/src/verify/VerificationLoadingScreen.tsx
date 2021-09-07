@@ -265,6 +265,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.onboardingBackground,
   },
   buttonCancelContainer: {
+    paddingLeft: 16,
     position: 'absolute',
     top: 10,
     left: 5,
