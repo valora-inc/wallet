@@ -16,6 +16,7 @@ files=(
   "packages/mobile/ios/GoogleService-Info.mainnetdev.plist"
   "packages/mobile/ios/sentry.properties"
   "packages/mobile/secrets.json"
+  "packages/mobile/e2e/.env"
   "packages/notification-service/config/config.mainnet.env"
   "packages/notification-service/config/config.alfajores.env"
   "packages/cloud-functions/config/rampProduction.pem"
