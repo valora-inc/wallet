@@ -171,12 +171,8 @@ export class ExchangeReview extends React.Component<Props, State> {
               i18nKey={makerToken === Currency.Celo ? 'sellGoldAmount' : 'buyGoldAmount'}
               ns={Namespaces.exchangeFlow9}
             >
-              <CurrencyDisplay
-                amount={{
-                  value: celoAmount,
-                  currencyCode: Currency.Celo,
-                }}
-              />
+              {/* Used instead of Currency Display to deal with large text - CELO only exchanged here */}
+              {celoAmount.toFixed(2).toString()}
             </Trans>
           }
           style={styles.buyBtn}

@@ -118,7 +118,7 @@ export default offRamps = () => {
     })
 
     describe('When Address Selected', () => {
-      const randomAmount = `${Math.random().toFixed(3)}`
+      const randomAmount = `${(Math.random() * 10 ** -1).toFixed(3)}`
 
       beforeEach(async () => {
         await element(by.id('receiveOnAddress')).tap()
