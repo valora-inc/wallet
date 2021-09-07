@@ -86,18 +86,12 @@ function getDefaultSessionTrackedProperties(
 }
 
 function getDefaultRequestTrackedProperties(request: SessionTypes.RequestEvent) {
-  const {
-    id: requestId,
-    jsonrpc: requestJsonrpc,
-    method: requestMethod,
-    params: requestParams,
-  } = request.request
+  const { id: requestId, jsonrpc: requestJsonrpc, method: requestMethod } = request.request
   return {
     requestChainId: request.chainId,
     requestId,
     requestJsonrpc,
     requestMethod,
-    requestParams,
   }
 }
 

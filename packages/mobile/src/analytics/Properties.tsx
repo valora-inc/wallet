@@ -955,7 +955,8 @@ interface WalletConnectRequestDefaultProperties extends WalletConnectDefaultProp
   requestId: number
   requestJsonrpc: string
   requestMethod: string
-  requestParams: any
+  // TODO: add back when we confirm there's no privacy issue with tracking this
+  // requestParams: any
 }
 
 interface WalletConnectProperties {
