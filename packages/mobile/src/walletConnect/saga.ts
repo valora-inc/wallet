@@ -469,7 +469,7 @@ export function* handleIncomingActionRequest({ request }: SessionPayload) {
     return
   }
 
-  navigate(Screens.WalletConnectActionRequest, { request })
+  yield call(showActionRequest, request)
 }
 
 export function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
