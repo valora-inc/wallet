@@ -21,5 +21,6 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   rewardsStartDate: 1622505600000,
   rewardsMax: 1000,
   komenciUseLightProxy: false,
-  komenciAllowedDeployers: '',
+  komenciAllowedDeployers:
+    '0xbDb92Ca42559adc5adC20a1E4985dC7c476483be,0x4cda887Bce324109535814D49b74c6a560fAe1D9',
 }
