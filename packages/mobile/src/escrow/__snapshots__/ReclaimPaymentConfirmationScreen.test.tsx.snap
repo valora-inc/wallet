@@ -279,6 +279,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -346,6 +347,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -672,6 +674,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -749,6 +752,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -1322,6 +1326,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -1389,6 +1394,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -1726,6 +1732,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -1803,6 +1810,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -2376,6 +2384,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -2443,6 +2452,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -2769,6 +2779,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -2846,6 +2857,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -3419,6 +3431,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -3486,6 +3499,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -3809,6 +3823,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -3886,6 +3901,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -4459,6 +4475,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -4526,6 +4543,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -4852,6 +4870,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -4929,6 +4948,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -5502,6 +5522,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -5569,6 +5590,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -5906,6 +5928,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -5983,6 +6006,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },

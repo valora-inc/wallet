@@ -76,6 +76,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
               Object {
                 "alignItems": "center",
                 "flexDirection": "row",
+                "flexWrap": "wrap",
               },
               Object {
                 "justifyContent": "center",
@@ -87,7 +88,6 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
             style={
               Object {
                 "fontSize": 20,
-                "marginRight": 4,
               }
             }
             testID="countryCodeFlag"
@@ -97,6 +97,7 @@ exports[`PhoneNumberInput renders and behaves correctly 1`] = `
           <View
             style={
               Object {
+                "marginLeft": 7,
                 "transform": Array [
                   Object {
                     "rotate": "0deg",

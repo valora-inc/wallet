@@ -31,7 +31,6 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
     <View
       style={
         Object {
-          "flex": 1,
           "flexDirection": "row",
           "flexWrap": "wrap",
           "justifyContent": "space-between",
@@ -39,48 +38,41 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
         }
       }
     >
-      <View
+      <Text
         style={
           Object {
-            "flexDirection": "row",
+            "color": "#2E3338",
+            "flex": 3,
+            "fontFamily": "Inter-Medium",
+            "fontSize": 16,
+            "lineHeight": 22,
           }
         }
       >
-        <Text
-          style={
+        feedItemGoldWithdrawal, {"displayName":"0xcc64...d23c"}
+      </Text>
+      <Text
+        style={
+          Array [
             Object {
               "color": "#2E3338",
+              "flex": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
-            }
-          }
-        >
-          feedItemGoldWithdrawal, {"displayName":"0xcc64...d23c"}
-        </Text>
-      </View>
-      <View>
-        <Text
-          style={
-            Array [
-              Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Medium",
-                "fontSize": 16,
-                "lineHeight": 22,
-              },
-              Object {
-                "color": "#2E3338",
-              },
-            ]
-          }
-          testID="undefined/value"
-        >
-          -
-          
-          1.005
-        </Text>
-      </View>
+              "textAlign": "right",
+            },
+            Object {
+              "color": "#2E3338",
+            },
+          ]
+        }
+        testID="undefined/value"
+      >
+        -
+        
+        1.005
+      </Text>
     </View>
     <View
       style={Object {}}
@@ -133,7 +125,6 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
     <View
       style={
         Object {
-          "flex": 1,
           "flexDirection": "row",
           "flexWrap": "wrap",
           "justifyContent": "space-between",
@@ -141,48 +132,41 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
         }
       }
     >
-      <View
+      <Text
         style={
           Object {
-            "flexDirection": "row",
+            "color": "#2E3338",
+            "flex": 3,
+            "fontFamily": "Inter-Medium",
+            "fontSize": 16,
+            "lineHeight": 22,
           }
         }
       >
-        <Text
-          style={
+        feedItemGoldReceived, {"displayName":"This is a Test"}
+      </Text>
+      <Text
+        style={
+          Array [
             Object {
               "color": "#2E3338",
+              "flex": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
-            }
-          }
-        >
-          feedItemGoldReceived, {"displayName":"This is a Test"}
-        </Text>
-      </View>
-      <View>
-        <Text
-          style={
-            Array [
-              Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Medium",
-                "fontSize": 16,
-                "lineHeight": 22,
-              },
-              Object {
-                "color": "#2E3338",
-              },
-            ]
-          }
-          testID="undefined/value"
-        >
-          +
-          
-          1.005
-        </Text>
-      </View>
+              "textAlign": "right",
+            },
+            Object {
+              "color": "#2E3338",
+            },
+          ]
+        }
+        testID="undefined/value"
+      >
+        +
+        
+        1.005
+      </Text>
     </View>
     <View
       style={Object {}}

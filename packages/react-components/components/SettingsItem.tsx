@@ -140,6 +140,7 @@ export function SettingsItemInput({
           placeholder={placeholder}
           onChangeText={onValueChange}
           showClearButton={false}
+          multiline={true}
         />
       </View>
     </Wrapper>
@@ -155,6 +156,7 @@ const styles = StyleSheet.create({
   },
   left: {
     justifyContent: 'center',
+    flex: 1,
   },
   title: {
     ...fontStyles.regular,
