@@ -460,6 +460,7 @@ export enum WalletConnectEvents {
 
   // Events related to WalletConnect requests from approved dapps (signing)
   wc_request_propose = 'wc_request_propose', // when the WC request screen is displayed to accept/deny a dapp request
+  wc_request_details = 'wc_request_details', // when user presses the button to show details of a dapp request
   wc_request_accept_start = 'wc_request_accept_start', // when user presses the button to accept a dapp request
   wc_request_accept_success = 'wc_request_accept_success', // when the dapp request succeeds
   wc_request_accept_error = 'wc_request_accept_error', // when the dapp request fails

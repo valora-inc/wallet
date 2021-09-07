@@ -985,6 +985,7 @@ interface WalletConnectProperties {
   }
 
   [WalletConnectEvents.wc_request_propose]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_details]: WalletConnectRequestDefaultProperties
   [WalletConnectEvents.wc_request_accept_start]: WalletConnectRequestDefaultProperties
   [WalletConnectEvents.wc_request_accept_success]: WalletConnectRequestDefaultProperties
   [WalletConnectEvents.wc_request_accept_error]: WalletConnectRequestDefaultProperties & {

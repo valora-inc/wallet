@@ -45,6 +45,7 @@ import {
   SessionProposal,
   sessionProposal,
   sessionUpdated,
+  ShowRequestDetails,
   WalletConnectActions,
 } from 'src/walletConnect/actions'
 import { SupportedActions } from 'src/walletConnect/constants'
@@ -208,6 +209,18 @@ function* handlePendingStateOrNavigateBack() {
   } else {
     navigateBack()
   }
+}
+
+export function* showRequestDetails({ request, infoString }: ShowRequestDetails): any {
+  const session: SessionTypes.Created = yield call(getSessionFromRequest, request)
+  ValoraAnalytics.track(WalletConnectEvents.wc_request_details, {
+    ...getDefaultSessionTrackedProperties(session),
+    ...getDefaultRequestTrackedProperties(request),
+  })
+
+  // TODO: this is a short lived alternative to proper
+  // transaction decoding.
+  yield call(navigate, Screens.DappKitTxDataScreen, { dappKitData: infoString })
 }
 
 export function* acceptRequest({ request }: AcceptRequest): any {
@@ -527,6 +540,7 @@ export function* walletConnectSaga() {
   yield takeEvery(Actions.ACCEPT_SESSION, acceptSession)
   yield takeEvery(Actions.DENY_SESSION, denySession)
   yield takeEvery(Actions.CLOSE_SESSION, closeSession)
+  yield takeEvery(Actions.SHOW_REQUEST_DETAILS, showRequestDetails)
   yield takeEvery(Actions.ACCEPT_REQUEST, acceptRequest)
   yield takeEvery(Actions.DENY_REQUEST, denyRequest)
 
