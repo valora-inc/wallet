@@ -1,6 +1,6 @@
+import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } from '@env'
 import twilio from 'twilio'
 import { sleep } from './utils'
-import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } from '@env'
 
 const MAX_TRIES = 120
 

@@ -1,11 +1,12 @@
-import { sleep, enterPinUi, waitForElementId } from '../utils/utils'
-import { EXAMPLE_NAME, EXAMPLE_PHONE_NUMBER } from '../utils/consts'
+import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, VERIFICATION_PHONE_NUMBER } from '@env'
 import { dismissBanners } from '../utils/banners'
+import { EXAMPLE_NAME, EXAMPLE_PHONE_NUMBER } from '../utils/consts'
 import { checkKomenci } from '../utils/komenci'
-import { receiveSms, checkBalance } from '../utils/twilio'
-import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN } from '@env'
+import { checkBalance, receiveSms } from '../utils/twilio'
+import { enterPinUi, sleep, waitForElementId } from '../utils/utils'
 
 const jestExpect = require('expect')
+const examplePhoneNumber = VERIFICATION_PHONE_NUMBER || EXAMPLE_PHONE_NUMBER
 
 export default NewAccountPhoneVerification = () => {
   beforeEach(async () => {
@@ -39,7 +40,7 @@ export default NewAccountPhoneVerification = () => {
 
     // Set phone number
     await expect(element(by.id('PhoneNumberField'))).toBeVisible()
-    await element(by.id('PhoneNumberField')).replaceText(EXAMPLE_PHONE_NUMBER)
+    await element(by.id('PhoneNumberField')).replaceText(examplePhoneNumber)
     await element(by.id('PhoneNumberField')).tapReturnKey()
   })
 
@@ -152,7 +153,7 @@ export default NewAccountPhoneVerification = () => {
 
         // Check Phone Number is Present
         await element(by.id('Hamburger')).tap()
-        await expect(element(by.text(EXAMPLE_PHONE_NUMBER))).toBeVisible()
+        await expect(element(by.text(examplePhoneNumber))).toBeVisible()
       })
     } else {
       it('Then should handle when Komenci is down', async () => {
@@ -176,7 +177,7 @@ export default NewAccountPhoneVerification = () => {
 
         // Check Phone Number is Present
         await element(by.id('Hamburger')).tap()
-        await expect(element(by.text(EXAMPLE_PHONE_NUMBER))).toBeVisible()
+        await expect(element(by.text(examplePhoneNumber))).toBeVisible()
       })
     }
   }
