@@ -77,7 +77,9 @@ export default function SegmentedControl({ position, values, selectedIndex = 0, 
             {values.map((value, index) => {
               return (
                 <View key={value} style={styles.value}>
-                  <Text style={styles.text}>{value}</Text>
+                  <Text maxFontSizeMultiplier={1.5} style={styles.text}>
+                    {value}
+                  </Text>
                 </View>
               )
             })}

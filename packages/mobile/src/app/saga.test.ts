@@ -1,6 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
+import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { appLock, openDeepLink, openUrl, setAppState } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl, handleSetAppState } from 'src/app/saga'
@@ -110,7 +111,11 @@ describe('App saga', () => {
       it(`handles ${name} connection links correctly`, async () => {
         await expectSaga(handleDeepLink, openDeepLink(link))
           .call(handleWalletConnectDeepLink, link)
-          .call(initialiseWalletConnect, decodeURIComponent(connectionString))
+          .call(
+            initialiseWalletConnect,
+            decodeURIComponent(connectionString),
+            WalletConnectPairingOrigin.Deeplink
+          )
           .run()
       })
     }

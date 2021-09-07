@@ -34,7 +34,7 @@ export default function Expandable({ isExpandable, isExpanded, containerStyle, c
     <View style={[styles.container, containerStyle]}>
       {children}
       {isExpandable && (
-        <Animated.View style={{ transform: [{ rotate: arrowRotation }] }}>
+        <Animated.View style={{ marginLeft: 7, transform: [{ rotate: arrowRotation }] }}>
           <DownArrowIcon />
         </Animated.View>
       )}
@@ -46,5 +46,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    flexWrap: 'wrap',
   },
 })
