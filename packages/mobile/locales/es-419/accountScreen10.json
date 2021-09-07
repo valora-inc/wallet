@@ -32,12 +32,12 @@
   },
   "accountKeyModal": {
     "header": "Sin tu Clave de Cuenta perderás acceso a tu dinero para siempre",
-    "body1": "Para restablecer Valora, deberás confirmar que has anotado tu Clave de cuenta.",
+    "body1": "Para reinicializar Valora, deberás confirmar que has anotado tu Clave de Cuenta.",
     "body2": "Nadie, ni siquiera Valora, podrá recuperar tu cuenta sin tu clave."
   },
   "promptConfirmRemovalModal": {
     "header": "¿Estás seguro que quieres restablecer Valora?",
-    "body": "No podrás acceder a tus fondos o Clave de cuenta desde este dispositivo, y solo podrás recuperar tu Clave de cuenta si la tienes guardada o anotada en un lugar seguro.",
+    "body": "Ya no podrás acceder a tu dinero ni a tu Clave de Cuenta desde este dispositivo. No hay forma de recuperar tu Clave de Cuenta si no la has guardado.",
     "resetNow": "Restablecer"
   },
   "promptConfirmRevokeModal": {
