@@ -91,6 +91,7 @@ exports[`ExchangeReview renders correctly 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -202,6 +203,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                       Object {
                         "alignItems": "center",
                         "flexDirection": "row",
+                        "flexWrap": "wrap",
                       },
                       undefined,
                     ]
@@ -222,6 +224,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                   <View
                     style={
                       Object {
+                        "marginLeft": 7,
                         "transform": Array [
                           Object {
                             "rotate": "0deg",
@@ -248,6 +251,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                     Array [
                       Object {
                         "flexDirection": "row",
+                        "flexWrap": "wrap",
                         "justifyContent": "space-between",
                         "marginVertical": 5,
                       },
@@ -330,6 +334,7 @@ exports[`ExchangeReview renders correctly 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -407,6 +412,7 @@ exports[`ExchangeReview renders correctly 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -595,21 +601,7 @@ exports[`ExchangeReview renders correctly 1`] = `
             }
           }
         >
-          <Text
-            style={
-              Array [
-                undefined,
-                Object {
-                  "color": undefined,
-                },
-              ]
-            }
-            testID="undefined/value"
-          >
-            
-            
-            10.000
-          </Text>
+          10.00
         </Text>
       </View>
     </View>

@@ -55,20 +55,12 @@ export function CeloTransferFeedItem(props: Props) {
     <Touchable onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.firstRow}>
-          <View style={styles.desc}>
-            <Text style={styles.txMode}>
-              {t(isWithdrawal ? 'feedItemGoldWithdrawal' : 'feedItemGoldReceived', {
-                displayName,
-              })}
-            </Text>
-          </View>
-          <View>
-            <CurrencyDisplay
-              amount={amount}
-              style={styles.amount}
-              showExplicitPositiveSign={true}
-            />
-          </View>
+          <Text style={styles.txMode}>
+            {t(isWithdrawal ? 'feedItemGoldWithdrawal' : 'feedItemGoldReceived', {
+              displayName,
+            })}
+          </Text>
+          <CurrencyDisplay amount={amount} style={styles.amount} showExplicitPositiveSign={true} />
         </View>
         <View style={styles.secondRow}>
           <Text style={styles.time}>{isPending ? t('confirmingExchange') : dateTimeFormatted}</Text>
@@ -87,18 +79,17 @@ const styles = StyleSheet.create({
   firstRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flex: 1,
     paddingBottom: 2,
     flexWrap: 'wrap',
   },
-  desc: {
-    flexDirection: 'row',
-  },
   txMode: {
+    flex: 3,
     ...fontStyles.regular500,
     color: colors.dark,
   },
   amount: {
+    flex: 1,
+    textAlign: 'right',
     ...fontStyles.regular500,
     color: colors.dark,
   },
