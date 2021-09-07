@@ -190,7 +190,7 @@
   "currentBalance": "Current Balance (cUSD)",
   "restore": "Restore",
   "commentUnavailable": "Comment Unavailable",
-  "accountClearFailed": "There was an error while removing your Account Key. You might have to reinstall the app to restore all functionality.",
+  "accountClearFailed": "There was an error while removing your Recovery Phrase. You might have to reinstall the app to restore all functionality.",
   "withdraw": "Withdraw",
   "countryNotAvailable": "{{appName}} is not available in your country",
   "fetchFailed": "Server connection failed",
