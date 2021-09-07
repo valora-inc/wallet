@@ -5,7 +5,7 @@
   "localCurrencySetting": "Currency",
   "licenses": "Licenses",
   "removeAccountTitle": "Reset Valora",
-  "removeAccountDetails": "Resetting will remove your account from this device. Your funds will remain in the account, but will only be accessible with your Account Key",
+  "removeAccountDetails": "Resetting will remove your account from this device. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
   "legal": "Legal",
   "securityAndData": "Security and Data",
   "changePin": "Change PIN",
@@ -31,7 +31,7 @@
     "switchToDataSaver": "Switch To Data Saver"
   },
   "accountKeyModal": {
-    "header": "Without your Account Key you will lose access to your funds forever",
+    "header": "Without your Recovery Phrase you will lose access to your funds forever",
     "body1": "In order to reset Valora, you will need to confirm you've written your Account Key.",
     "body2": "Nobody, not even Valora, can recover your account without your key."
   },
