@@ -21,8 +21,14 @@ import {
   SettingsEvents,
   TransactionEvents,
   VerificationEvents,
+  WalletConnectEvents,
 } from 'src/analytics/Events'
-import { BackQuizProgress, ScrollDirection, SendOrigin } from 'src/analytics/types'
+import {
+  BackQuizProgress,
+  ScrollDirection,
+  SendOrigin,
+  WalletConnectPairingOrigin,
+} from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import {
@@ -933,6 +939,66 @@ interface RewardsProperties {
   }
 }
 
+interface WalletConnectDefaultProperties {
+  dappName: string
+  dappUrl: string
+  dappDescription: string
+  dappIcon: string
+  permissionsBlockchains: string[]
+  permissionsJsonrpcMethods: string[]
+  permissionsNotificationsTypes: string[]
+  relayProtocol: string
+}
+
+interface WalletConnectRequestDefaultProperties extends WalletConnectDefaultProperties {
+  requestChainId: string | undefined
+  requestId: number
+  requestJsonrpc: string
+  requestMethod: string
+  // TODO: add back when we confirm there's no privacy issue with tracking this
+  // requestParams: any
+}
+
+interface WalletConnectProperties {
+  [WalletConnectEvents.wc_pairing_start]: {
+    origin: WalletConnectPairingOrigin
+  }
+  [WalletConnectEvents.wc_pairing_success]: undefined
+  [WalletConnectEvents.wc_pairing_error]: {
+    error: string
+  }
+
+  [WalletConnectEvents.wc_session_propose]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_approve_start]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_approve_success]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_approve_error]: WalletConnectDefaultProperties & {
+    error: string
+  }
+  [WalletConnectEvents.wc_session_reject_start]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_reject_success]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_reject_error]: WalletConnectDefaultProperties & {
+    error: string
+  }
+  [WalletConnectEvents.wc_session_remove_start]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_remove_success]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_remove_error]: WalletConnectDefaultProperties & {
+    error: string
+  }
+
+  [WalletConnectEvents.wc_request_propose]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_details]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_accept_start]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_accept_success]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_accept_error]: WalletConnectRequestDefaultProperties & {
+    error: string
+  }
+  [WalletConnectEvents.wc_request_deny_start]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_deny_success]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_deny_error]: WalletConnectRequestDefaultProperties & {
+    error: string
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -953,4 +1019,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   ContractKitEventsProperties &
   PerformanceProperties &
   NavigationProperties &
-  RewardsProperties
+  RewardsProperties &
+  WalletConnectProperties
