@@ -32,8 +32,8 @@
   },
   "accountKeyModal": {
     "header": "Sem a sua Chave de Conta, você perderá o acesso aos seus fundos para sempre",
-    "body1": "Para redefinir a Valora, você precisará confirmar que anotou sua Chave de Conta.",
-    "body2": "Ninguém, nem mesmo a Valora, pode recuperar sua conta sem sua chave."
+    "body1": "Para redefinir o Valora, você precisará confirmar o que escreveu na sua Chave de Conta.",
+    "body2": "Ninguém, nem mesmo o Valora, pode recuperar sua conta sem sua chave."
   },
   "promptConfirmRemovalModal": {
     "header": "Tem certeza de que deseja redefinir a Valora?",
