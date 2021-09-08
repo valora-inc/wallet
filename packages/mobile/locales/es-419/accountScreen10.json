@@ -37,7 +37,7 @@
   },
   "promptConfirmRemovalModal": {
     "header": "¿Estás seguro que quieres restablecer Valora?",
-    "body": "Ya no podrás acceder a tu dinero ni a tu Clave de Cuenta desde este dispositivo. No hay forma de recuperar tu Clave de Cuenta si no la has guardado.",
+    "body": "Ya no podrás acceder a tu dinero ni a tu Frase de recuperación desde este dispositivo. No hay forma de recuperar tu Frase de recuperación si no la has guardado.",
     "resetNow": "Restablecer"
   },
   "promptConfirmRevokeModal": {
