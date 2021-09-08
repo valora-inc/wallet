@@ -97,7 +97,10 @@ function Send({ route }: Props) {
     }
 
     const permissionGranted = await requestContactsPermission()
-    dispatch(importContacts())
+    if (permissionGranted) {
+      dispatch(importContacts())
+    }
+
     return permissionGranted
   }, [])
 
@@ -189,6 +192,7 @@ function Send({ route }: Props) {
         defaultCountryCode={defaultCountryCode}
         listHeaderComponent={renderListHeader}
         onSelectRecipient={onSelectRecipient}
+        isOutgoingPaymentRequest={isOutgoingPaymentRequest}
       />
     </SafeAreaView>
   )

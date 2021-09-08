@@ -78,7 +78,7 @@ export default function VerificationLoadingScreen({ route }: Props) {
     if (verificationStatus === VerificationStatus.CompletingAttestations) {
       navigate(Screens.VerificationInputScreen)
     } else if (verificationStatus === VerificationStatus.Done) {
-      navigate(Screens.ImportContacts)
+      navigate(Screens.OnboardingSuccessScreen)
     }
   }, [verificationStatus, isFocused])
 
@@ -265,6 +265,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.onboardingBackground,
   },
   buttonCancelContainer: {
+    paddingLeft: 16,
     position: 'absolute',
     top: 10,
     left: 5,
