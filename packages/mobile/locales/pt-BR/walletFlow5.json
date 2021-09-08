@@ -38,8 +38,8 @@
     "0": "A cada semana, uma taxa muito pequena (menos de 0,01%) do saldo em Celo Dólares de cada usuário é usada para manter o valor do Celo Dólar estável. Para saber mais sobre as taxas do Celo, acesse ",
     "1": "Perguntas frequentes"
   },
-  "confirmingTransaction": "Confirmando...",
-  "confirmingExchange": "Confirmando...",
+  "confirmingTransaction": "Confirmando…",
+  "confirmingExchange": "Confirmando…",
   "paymentFailed": "Falha no pagamento",
   "exchangeFailed": "Falha no câmbio",
   "loadingActivity": "Carregando seu feed de atividades",
