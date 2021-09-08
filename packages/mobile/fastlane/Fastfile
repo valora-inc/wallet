@@ -76,7 +76,9 @@ platform :ios do
   lane :build do |options|
     gym(
       workspace: 'ios/celo.xcworkspace',
-      scheme: 'celo-#{options[:environment]}',
+      # Needs double quotes because Ruby differentiates
+      # https://stackoverflow.com/questions/6395288/double-vs-single-quotes
+      scheme: "celo-#{options[:environment]}",
       configuration: 'Release',
       # xcargs: '-allowProvisioningUpdates',
       output_directory: 'build',
