@@ -15,14 +15,22 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { acceptRequest, denyRequest, showRequestDetails } from 'src/walletConnect/actions'
+import { showRequestDetails } from 'src/walletConnect/actions'
+import {
+  acceptRequest as acceptRequestV1,
+  denyRequest as denyRequestV1,
+} from 'src/walletConnect/actions-v1'
+import {
+  acceptRequest as acceptRequestV2,
+  denyRequest as denyRequestV2,
+} from 'src/walletConnect/actions-v2'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
 import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
 function ActionRequest({
   route: {
-    params: { request },
+    params: { isV1, action },
   },
 }: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
@@ -30,16 +38,16 @@ function ActionRequest({
   const { sessions } = useSelector(selectSessions)
 
   const onAccept = () => {
-    dispatch(acceptRequest(request))
+    dispatch(isV1 ? acceptRequestV1(action) : acceptRequestV2(action))
   }
 
   const onDeny = () => {
-    dispatch(denyRequest(request))
+    dispatch(isV1 ? denyRequestV1(action) : denyRequestV2(action))
   }
 
   const {
     request: { method, params },
-  } = request
+  } = action
   const moreInfoString =
     method === SupportedActions.eth_signTransaction
       ? JSON.stringify(params)
@@ -56,20 +64,33 @@ function ActionRequest({
       return
     }
 
-    dispatch(showRequestDetails(request, moreInfoString))
+    dispatch(showRequestDetails(action.request, moreInfoString))
   }
 
-  const session = sessions.find((s) => s.topic === request.topic)
-  const icon = session?.peer.metadata.icons[0] ?? `${session?.peer.metadata.url}/favicon.ico`
+  let metadata
+  if (isV1) {
+    const session = sessions.find((s) => s.isV1)
+    metadata = {
+      name: session!.session.name,
+      icon: '',
+    }
+  } else {
+    const session = sessions.find((s) => s.session.topic === action.topic)
+    metadata = {
+      name: session?.session.peer.metadata.name,
+      icon:
+        session?.session.peer.metadata.icons[0] ??
+        `${session?.session.peer.metadata.url}/favicon.ico`,
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.center}>
-          <Image style={styles.logo} source={{ uri: icon }} />
+          <Image style={styles.logo} source={{ uri: metadata.icon }} />
         </View>
-        <Text style={styles.header}>
-          {t('connectToWallet', { dappName: session?.peer.metadata.name })}
-        </Text>
+        <Text style={styles.header}>{t('connectToWallet', { dappName: metadata.name })}</Text>
         <Text style={styles.share}>{t('action.asking')}:</Text>
 
         <View style={styles.sectionDivider}>
@@ -113,10 +134,15 @@ function ActionRequest({
 
 function LeftHeader() {
   const dispatch = useDispatch()
-  const [action] = useSelector(selectPendingActions)
+  const [pendingAction] = useSelector(selectPendingActions)
 
   const deny = () => {
-    dispatch(denyRequest(action))
+    if (!pendingAction) {
+      return
+    }
+
+    const { isV1, action } = pendingAction
+    dispatch(isV1 ? denyRequestV1(action) : denyRequestV2(action))
     navigateBack()
   }
 

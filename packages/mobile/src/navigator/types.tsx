@@ -1,5 +1,4 @@
 import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
-import { SessionTypes } from '@walletconnect/types'
 import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
@@ -15,6 +14,7 @@ import { CurrencyInfo } from 'src/send/SendConfirmation'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { PendingAction, PendingSession } from 'src/walletConnect/reducer'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -248,13 +248,9 @@ export type StackParamList = {
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
-  [Screens.WalletConnectSessionRequest]: {
-    session: SessionTypes.Proposal
-  }
+  [Screens.WalletConnectSessionRequest]: PendingSession
   [Screens.WalletConnectSessions]: undefined
-  [Screens.WalletConnectActionRequest]: {
-    request: SessionTypes.RequestEvent
-  }
+  [Screens.WalletConnectActionRequest]: PendingAction
   [Screens.WalletHome]: undefined
   [Screens.WebViewScreen]: { uri: string }
   [Screens.Welcome]: undefined

@@ -14,7 +14,14 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { acceptSession, denySession } from 'src/walletConnect/actions'
+import {
+  acceptSession as acceptSessionV1,
+  denySession as denySessionV1,
+} from 'src/walletConnect/actions-v1'
+import {
+  acceptSession as acceptSessionV2,
+  denySession as denySessionV2,
+} from 'src/walletConnect/actions-v2'
 import { getTranslationDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
 import { selectSessions } from 'src/walletConnect/selectors'
 
@@ -41,19 +48,19 @@ function ActionList({ actions }: { actions: string[] }) {
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectSessionRequest>
 function SessionRequest({
   route: {
-    params: { session },
+    params: { isV1, session },
   },
 }: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
   const dispatch = useDispatch()
 
   const confirm = () => {
-    dispatch(acceptSession(session))
+    dispatch(isV1 ? acceptSessionV1(session) : acceptSessionV2(session))
     navigateBack()
   }
 
   const deny = () => {
-    dispatch(denySession(session))
+    dispatch(isV1 ? denySessionV1(session) : denySessionV2(session))
     navigateBack()
   }
 
@@ -100,7 +107,8 @@ function LeftHeader() {
   const { pending } = useSelector(selectSessions)
 
   const deny = () => {
-    dispatch(denySession(pending[0]))
+    const [{ isV1, session }] = pending
+    dispatch(isV1 ? denySessionV1(session) : denySessionV2(session))
     navigateBack()
   }
 

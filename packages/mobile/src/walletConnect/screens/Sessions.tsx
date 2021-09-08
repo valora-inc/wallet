@@ -1,7 +1,7 @@
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { AppMetadata, SessionTypes } from '@walletconnect/types'
+import { AppMetadata, SessionTypes } from '@walletconnect/types-v2'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
@@ -13,7 +13,7 @@ import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
-import { closeSession as closeSessionAction } from 'src/walletConnect/actions'
+import { closeSession as closeSessionAction } from 'src/walletConnect/actions-v2'
 import { selectSessions } from 'src/walletConnect/selectors'
 
 const App = ({ metadata, onPress }: { metadata: AppMetadata; onPress: () => void }) => {
@@ -76,7 +76,13 @@ function Sessions() {
 
       <View style={[styles.container, styles.appsContainer]}>
         {sessions.map((s) => {
-          return <App key={s.topic} metadata={s.peer.metadata} onPress={openModal(s)} />
+          return s.isV1 ? (
+            // @ts-ignore
+            <App key={s.session} metadata={s.peer.metadata} onPress={openModal(s)} />
+          ) : (
+            // @ts-ignore
+            <App key={s.session.topic} metadata={s.session.peer.metadata} onPress={openModal(s)} />
+          )
         })}
       </View>
     </ScrollView>

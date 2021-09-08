@@ -1,6 +1,9 @@
 import { sleep } from '@celo/utils/lib/async'
 import { AnyAction } from 'redux'
+// Import the actions included in the logger blocklist below.
+import { REHYDRATE } from 'redux-persist'
 import { call, select, spawn, takeEvery } from 'redux-saga/effects'
+import { Actions as AccountActions } from 'src/account/actions'
 import { accountSaga } from 'src/account/saga'
 import { devModeSelector } from 'src/account/selectors'
 import {
@@ -12,40 +15,37 @@ import {
 } from 'src/app/saga'
 import { dappKitSaga } from 'src/dappkit/dappkit'
 import { escrowSaga } from 'src/escrow/saga'
+import { Actions as ExchangeActions } from 'src/exchange/actions'
 import { exchangeSaga } from 'src/exchange/saga'
 import { feesSaga } from 'src/fees/saga'
 import { fiatExchangesSaga } from 'src/fiatExchanges/saga'
 import { firebaseSaga } from 'src/firebase/saga'
+import { Actions as GethActions } from 'src/geth/actions'
 import { gethSaga } from 'src/geth/saga'
 import { goldTokenSaga } from 'src/goldToken/saga'
 import { homeSaga } from 'src/home/saga'
 import { identitySaga } from 'src/identity/saga'
+import { Actions as ImportActions } from 'src/import/actions'
 import { importSaga } from 'src/import/saga'
+import { Actions as InviteActions } from 'src/invite/actions'
 import { localCurrencySaga } from 'src/localCurrency/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { paymentRequestSaga } from 'src/paymentRequest/saga'
+import { setPhoneRecipientCache, updateValoraRecipientCache } from 'src/recipients/reducer'
 import { recipientsSaga } from 'src/recipients/saga'
 import { waitForRehydrate } from 'src/redux/persist-helper'
 import { sendSaga } from 'src/send/saga'
 import { sentrySaga } from 'src/sentry/saga'
 import { stableTokenSaga } from 'src/stableToken/saga'
+import { Actions as TransactionActions } from 'src/transactions/actions'
 import { transactionSaga } from 'src/transactions/saga'
 import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
 import { verifySaga } from 'src/verify/saga'
-import { walletConnectSaga } from 'src/walletConnect/saga'
-import { web3Saga } from 'src/web3/saga'
-
-// Import the actions included in the logger blocklist below.
-import { REHYDRATE } from 'redux-persist'
-import { Actions as AccountActions } from 'src/account/actions'
-import { Actions as ExchangeActions } from 'src/exchange/actions'
-import { Actions as GethActions } from 'src/geth/actions'
-import { Actions as ImportActions } from 'src/import/actions'
-import { Actions as InviteActions } from 'src/invite/actions'
-import { setPhoneRecipientCache, updateValoraRecipientCache } from 'src/recipients/reducer'
-import { Actions as TransactionActions } from 'src/transactions/actions'
+import { walletConnectV1Saga } from 'src/walletConnect/saga-v1'
+import { walletConnectV2Saga } from 'src/walletConnect/saga-v2'
 import { Actions as Web3Actions } from 'src/web3/actions'
+import { web3Saga } from 'src/web3/saga'
 
 const loggerBlocklist = [
   REHYDRATE,
@@ -64,7 +64,7 @@ const loggerBlocklist = [
 ]
 
 function* loggerSaga() {
-  const devModeActive = yield select(devModeSelector)
+  const devModeActive: boolean = yield select(devModeSelector)
   if (!devModeActive) {
     return
   }
@@ -130,7 +130,8 @@ export function* rootSaga() {
     yield spawn(dappKitSaga)
     yield spawn(checkAccountExistenceSaga)
     yield spawn(fiatExchangesSaga)
-    yield spawn(walletConnectSaga)
+    yield spawn(walletConnectV1Saga)
+    yield spawn(walletConnectV2Saga)
     yield spawn(checkAndroidMobileServicesSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
