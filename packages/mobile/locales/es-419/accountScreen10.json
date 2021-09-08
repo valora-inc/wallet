@@ -5,7 +5,7 @@
   "localCurrencySetting": "Moneda",
   "licenses": "Licencias",
   "removeAccountTitle": "Restablecer Valora",
-  "removeAccountDetails": "Al reinicializar se borrará tu cuenta de este dispositivo. Tu cuenta mantendrá los fondos que tenga, pero solo la podrás recuperar con tu Clave de Cuenta.",
+  "removeAccountDetails": "Al restablecer se borrará tu cuenta de este dispositivo. Tu cuenta mantendrá los fondos que tenga, pero solo la podrás recuperar con tu Frase de recuperación.",
   "legal": "Legal",
   "securityAndData": "Seguridad y Datos",
   "changePin": "Cambiar PIN",
@@ -31,9 +31,9 @@
     "switchToDataSaver": "Habilitar la opción Ahorrar datos"
   },
   "accountKeyModal": {
-    "header": "Sin tu Clave de Cuenta perderás acceso a tu dinero para siempre",
-    "body1": "Para reinicializar Valora, deberás confirmar que has anotado tu Clave de Cuenta.",
-    "body2": "Nadie, ni siquiera Valora, podrá recuperar tu cuenta sin tu clave."
+    "header": "Sin tu Frase de recuperación perderás acceso a tu dinero para siempre",
+    "body1": "Para restablecer Valora, deberás confirmar que has anotado tu Frase de recuperación.",
+    "body2": "Nadie, ni siquiera Valora, podrá recuperar tu cuenta sin tu frase."
   },
   "promptConfirmRemovalModal": {
     "header": "¿Estás seguro que quieres restablecer Valora?",
