@@ -48,7 +48,7 @@
   "sentEscrowPayment": "Pagamento da caução enviado",
   "mobileNumber": "Número do celular",
   "sendToMobileNumber": "Enviar para o número de celular",
-  "requestFromMobileNumber": "Pedido do número de celular",
+  "requestFromMobileNumber": "Solicitar a número de celular",
   "sendToAddress": "Enviar para o endereço",
   "walletAddress": "Endereço da conta",
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar dinheiro para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
