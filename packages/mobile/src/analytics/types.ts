@@ -14,3 +14,9 @@ export enum SendOrigin {
   AppRequestFlow = 'app_request_flow', // Sending because of a received payment request
   Bidali = 'bidali', // Sending from Bidali
 }
+
+// Origin of WalletConnect pairing
+export enum WalletConnectPairingOrigin {
+  Scan = 'scan',
+  Deeplink = 'deeplink',
+}

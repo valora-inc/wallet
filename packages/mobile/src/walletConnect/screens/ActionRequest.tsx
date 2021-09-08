@@ -11,11 +11,11 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { Namespaces } from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
+import { acceptRequest, denyRequest, showRequestDetails } from 'src/walletConnect/actions'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
 import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
 
@@ -56,11 +56,7 @@ function ActionRequest({
       return
     }
 
-    // TODO: this is a short lived alternative to proper
-    // transaction decoding.
-    navigate(Screens.DappKitTxDataScreen, {
-      dappKitData: moreInfoString,
-    })
+    dispatch(showRequestDetails(request, moreInfoString))
   }
 
   const session = sessions.find((s) => s.topic === request.topic)
