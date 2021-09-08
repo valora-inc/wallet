@@ -52,6 +52,7 @@
     "@celo/wallet-walletconnect": "~1.2.0",
     "@komenci/contracts": "1.1.0",
     "@komenci/kit": "1.0.0-beta1",
+    "@pedrouid/environment": "^1.0.1",
     "@react-native-community/async-storage": "^1.9.0",
     "@react-native-community/clipboard": "git+https://github.com/celo-org/clipboard#5afb848",
     "@react-native-community/masked-view": "^0.1.10",
@@ -76,10 +77,10 @@
     "@ungap/url-search-params": "^0.1.2",
     "@walletconnect/client-v1": "npm:@walletconnect/client@1.6.5",
     "@walletconnect/client-v2": "npm:@walletconnect/client@2.0.0-beta.17",
-    "@walletconnect/utils-v1": "npm:@walletconnect/utils@1.6.5",
-    "@walletconnect/utils-v2": "npm:@walletconnect/utils@2.0.0-beta.17",
     "@walletconnect/types-v1": "npm:@walletconnect/types@1.6.5",
     "@walletconnect/types-v2": "npm:@walletconnect/types@2.0.0-beta.17",
+    "@walletconnect/utils-v1": "npm:@walletconnect/utils@1.6.5",
+    "@walletconnect/utils-v2": "npm:@walletconnect/utils@2.0.0-beta.17",
     "Base64": "^1.0.1",
     "apollo-boost": "^0.4.9",
     "apollo-cache-persist": "^0.1.1",
@@ -234,7 +235,7 @@
     "ts-retry-promise": "^0.6.0"
   },
   "resolutions": {
-    "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f", 
+    "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f",
     "@walletconnect/client-v1/@walletconnect-utils": "1.6.5",
     "@walletconnect/client-v1/@walletconnect-types": "1.6.5",
     "@walletconnect/utils-v1/@walletconnect-types": "1.6.5"
