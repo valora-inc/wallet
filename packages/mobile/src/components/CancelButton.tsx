@@ -12,7 +12,7 @@ interface Props {
   onCancel?: () => void
   style?: StyleProp<TextStyle>
   eventName?: AnalyticsEventType
-  buttonType?: String
+  buttonType?: 'text' | 'icon'
 }
 
 export default function CancelButton({ eventName, onCancel, style, buttonType = 'text' }: Props) {
