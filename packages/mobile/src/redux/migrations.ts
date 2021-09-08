@@ -306,4 +306,8 @@ export const migrations = {
     ...state,
     fiatExchanges: _.omit(state.fiatExchanges, 'lastUsedProvider'),
   }),
+  18: (state: any) => ({
+    ...state,
+    walletConnect: _.omit(state.walletConnect, 'pairings'),
+  }),
 }

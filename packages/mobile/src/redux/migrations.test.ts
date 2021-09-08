@@ -8,6 +8,7 @@ import {
   v14Schema,
   v15Schema,
   v16Schema,
+  v17Schema,
   v1Schema,
   v2Schema,
   v7Schema,
@@ -358,5 +359,10 @@ describe('Redux persist migrations', () => {
   it('works for v16 to v17', () => {
     const migratedSchema = migrations[17](v16Schema)
     expect(migratedSchema.fiatExchanges.lastUsedProvider).not.toBeDefined()
+  })
+  it('works for v17 to v18', () => {
+    expect(v17Schema.walletConnect.pairings).toBeDefined()
+    const migratedSchema = migrations[18](v17Schema)
+    expect(migratedSchema.walletConnect.pairings).not.toBeDefined()
   })
 })
