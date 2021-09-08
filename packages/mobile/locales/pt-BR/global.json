@@ -190,7 +190,7 @@
   "currentBalance": "Saldo atual (cUSD)",
   "restore": "Restaurar",
   "commentUnavailable": "Comentário indisponível",
-  "accountClearFailed": "Ocorreu um erro ao remover sua Chave de Conta. Pode ser necessário reinstalar o aplicativo para restaurar todas as funcionalidades.",
+  "accountClearFailed": "Ocorreu um erro ao remover a chave da sua conta. Pode ser necessário reinstalar o aplicativo para restaurar todas as funcionalidades.",
   "withdraw": "Sacar",
   "countryNotAvailable": "A {{appName}} não está disponível em seu país",
   "fetchFailed": "A conexão com o servidor falhou",
