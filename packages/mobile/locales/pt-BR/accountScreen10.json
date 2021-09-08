@@ -37,7 +37,7 @@
   },
   "promptConfirmRemovalModal": {
     "header": "Tem certeza de que deseja redefinir a Valora?",
-    "body": "Você não poderá mais acessar seus fundos ou sua Chave de Conta a partir deste dispositivo. Não há como recuperar sua Chave de Conta se você não a anotou.",
+    "body": "Você não poderá mais acessar seus fundos ou sua Frase de Recuperação a partir deste dispositivo. Não há como recuperar sua Frase de Recuperação se você não a anotou.",
     "resetNow": "Redefinir agora"
   },
   "promptConfirmRevokeModal": {
