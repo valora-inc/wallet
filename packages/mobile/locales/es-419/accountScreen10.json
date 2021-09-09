@@ -5,7 +5,7 @@
   "localCurrencySetting": "Moneda",
   "licenses": "Licencias",
   "removeAccountTitle": "Restablecer Valora",
-  "removeAccountDetails": "Si seleccionas esta opción, se borrará tu cuenta de este dispositivo. No se perderán los fondos, pero solo podrás acceder a ellos con tu Clave de cuenta.",
+  "removeAccountDetails": "Al reinicializar se borrará tu cuenta de este dispositivo. Tu cuenta mantendrá los fondos que tenga, pero solo la podrás recuperar con tu Clave de Cuenta.",
   "legal": "Legal",
   "securityAndData": "Seguridad y Datos",
   "changePin": "Cambiar PIN",
@@ -31,13 +31,13 @@
     "switchToDataSaver": "Habilitar la opción Ahorrar datos"
   },
   "accountKeyModal": {
-    "header": "Sin tu Clave de cuenta, no podrás acceder a tus fondos.",
-    "body1": "Para restablecer Valora, deberás confirmar que has anotado tu Clave de cuenta.",
+    "header": "Sin tu Clave de Cuenta perderás acceso a tu dinero para siempre",
+    "body1": "Para reinicializar Valora, deberás confirmar que has anotado tu Clave de Cuenta.",
     "body2": "Nadie, ni siquiera Valora, podrá recuperar tu cuenta sin tu clave."
   },
   "promptConfirmRemovalModal": {
     "header": "¿Estás seguro que quieres restablecer Valora?",
-    "body": "No podrás acceder a tus fondos o Clave de cuenta desde este dispositivo, y solo podrás recuperar tu Clave de cuenta si la tienes guardada o anotada en un lugar seguro.",
+    "body": "Ya no podrás acceder a tu dinero ni a tu Clave de Cuenta desde este dispositivo. No hay forma de recuperar tu Clave de Cuenta si no la has guardado.",
     "resetNow": "Restablecer"
   },
   "promptConfirmRevokeModal": {
@@ -47,6 +47,7 @@
   },
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
+  "privacyPolicy": "Política de privacidad",
   "editProfile": "Editar perfil",
   "confirmNumber": "Conectar número de teléfono",
   "cancel": "Cancelar",

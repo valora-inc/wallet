@@ -53,7 +53,9 @@ export default function PincodeDisplay({ pin, maxLength }: Props) {
         return (
           <View key={key} style={styles.inputContainer}>
             {char ? (
-              <Text style={styles.char}>{char}</Text>
+              <Text allowFontScaling={false} style={styles.char}>
+                {char}
+              </Text>
             ) : (
               <View style={[styles.dot, isEntered && styles.dotFilled]} />
             )}

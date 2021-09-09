@@ -24,6 +24,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { celoEuroEnabledSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
+import { BIDALI_CURRENCIES } from 'src/fiatExchanges/BidaliScreen'
 import FundingEducationDialog from 'src/fiatExchanges/FundingEducationDialog'
 import {
   fetchLocalCicoProviders,
@@ -245,7 +246,8 @@ function FiatExchangeOptions({ route, navigation }: Props) {
               ((isCashIn &&
                 (selectedPaymentMethod === PaymentMethod.Bank ||
                   selectedPaymentMethod === PaymentMethod.Card)) ||
-                selectedPaymentMethod === PaymentMethod.Exchange)
+                selectedPaymentMethod === PaymentMethod.Exchange ||
+                selectedPaymentMethod === PaymentMethod.GiftCard)
             }
             testID="radio/cEUR"
           />
@@ -303,7 +305,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                     text={t('receiveWithBidali')}
                     selected={selectedPaymentMethod === PaymentMethod.GiftCard}
                     onSelect={onSelectPaymentMethod(PaymentMethod.GiftCard)}
-                    enabled={selectedCurrency === Currency.Dollar}
+                    enabled={BIDALI_CURRENCIES.includes(selectedCurrency)}
                     testID="receiveWithBidali"
                   />
                   <PaymentMethodRadioItem
@@ -368,6 +370,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
   },
   titleContainer: {
+    flexWrap: 'wrap',
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: variables.contentPadding,
@@ -384,6 +387,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: variables.contentPadding,
     borderWidth: 1,
+    flexWrap: 'wrap',
+    alignItems: 'center',
   },
   currencyItemTitle: {
     ...fontStyles.regular500,
@@ -411,12 +416,14 @@ const styles = StyleSheet.create({
     minHeight: 100,
   },
   paymentMethodItemContainer: {
+    alignItems: 'center',
     flexDirection: 'row',
     padding: 8,
   },
   paymentMethodItemText: {
     ...fontStyles.small,
     marginLeft: 8,
+    flex: 1,
   },
   goToProvider: {
     width: '50%',

@@ -174,7 +174,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
   finishVerification = () => {
     Logger.debug(TAG + '@finishVerification', 'Verification finished, navigating to next screen.')
     this.props.hideAlert()
-    navigate(Screens.ImportContacts)
+    navigate(Screens.OnboardingSuccessScreen)
   }
 
   onChangeInputCode = (index: number, shortVerificationCodesEnabled: boolean) => {

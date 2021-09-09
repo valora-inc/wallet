@@ -24,16 +24,16 @@
     "body": "Para alternar entre ativar e desativar o modo de Economia de Dados repetidamente, você precisará reiniciar o aplicativo e retornar a esta tela.",
     "restart": "Reiniciar para alternar"
   },
-  "addFunds": "Adicionar fundos",
+  "addFunds": "Adicionar Fundos",
   "promptFornoModal": {
     "header": "Alternar modo de conexão?",
     "body": "Notamos que você está tendo problemas para se conectar. Recomendamos ativar o modo de Economia de Dados para permitir que você continue usando a {{appName}} com conexão intermitente.",
     "switchToDataSaver": "Alterar para o modo de Economia de Dados"
   },
   "accountKeyModal": {
-    "header": "Sem sua Chave de Conta, você perderá o acesso aos seus fundos para sempre",
-    "body1": "Para redefinir a Valora, você precisará confirmar que anotou sua Chave de Conta.",
-    "body2": "Ninguém, nem mesmo a Valora, pode recuperar sua conta sem sua chave."
+    "header": "Sem a sua Chave de Conta, você perderá o acesso aos seus fundos para sempre",
+    "body1": "Para redefinir o Valora, você precisará confirmar o que escreveu na sua Chave de Conta.",
+    "body2": "Ninguém, nem mesmo o Valora, pode recuperar sua conta sem sua chave."
   },
   "promptConfirmRemovalModal": {
     "header": "Tem certeza de que deseja redefinir a Valora?",
@@ -47,6 +47,7 @@
   },
   "testFaqLink": " Perguntas frequentes da {{appName}} ",
   "termsOfServiceLink": "Termos de Serviço",
+  "privacyPolicy": "Política de Privacidade",
   "editProfile": "Editar perfil",
   "confirmNumber": "Conectar o número de celular",
   "cancel": "Cancelar",

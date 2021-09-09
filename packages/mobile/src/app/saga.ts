@@ -44,7 +44,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
-import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
@@ -228,7 +227,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path === '/cashIn') {
       navigate(Screens.FiatExchangeOptions, { isCashIn: true })
     } else if (rawParams.pathname === '/bidali') {
-      navigate(Screens.BidaliScreen, { currency: Currency.Dollar })
+      navigate(Screens.BidaliScreen, { currency: undefined })
     } else if (rawParams.path.startsWith('/cash-in-success')) {
       // Some providers append transaction information to the redirect links so can't check for strict equality
       const cicoSuccessParam = (rawParams.path.match(/cash-in-success\/(.+)/) || [])[1]

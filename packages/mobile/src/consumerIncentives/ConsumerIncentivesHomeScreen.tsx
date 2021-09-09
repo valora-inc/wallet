@@ -29,7 +29,6 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
   const insets = useSafeAreaInsets()
 
   const { rewardsPercent, rewardsMax } = useSelector((state) => state.app)
-  const maxSaving = (rewardsPercent / 100) * rewardsMax
 
   const onPressCTA = () => {
     if (userIsVerified) {
@@ -84,7 +83,7 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
           <View style={styles.sectionText}>
             <Text style={fontStyles.regular600}>{t('saveMoreEarnMore.header')}</Text>
             <Text style={fontStyles.small}>
-              {t('saveMoreEarnMore.text', { maxSaving, rewardsMax })}
+              {t('saveMoreEarnMore.text', { rewardsMax, percent: rewardsPercent })}
             </Text>
           </View>
         </View>

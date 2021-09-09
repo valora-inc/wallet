@@ -114,11 +114,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flex: 4,
   },
   providersContainer: {
     paddingRight: variables.contentPadding,
   },
   optionTitle: {
+    flex: 3,
     ...fontStyles.regular,
   },
 })

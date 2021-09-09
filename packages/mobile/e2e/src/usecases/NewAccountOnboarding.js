@@ -52,7 +52,7 @@ export default NewAccountOnboarding = () => {
   // Skip setup on android for now
   it('Setup Account Key', async () => {
     await element(by.id('Hamburger')).tap()
-    await element(by.id('DrawerItem/Account Key')).tap()
+    await element(by.id('DrawerItem/Recovery Phrase')).tap()
 
     await enterPinUi()
 

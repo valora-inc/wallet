@@ -48,6 +48,7 @@
   "sentEscrowPayment": "Pago de depósito enviado",
   "mobileNumber": "Número de teléfono",
   "sendToMobileNumber": "Enviar a número de teléfono",
+  "requestFromMobileNumber": "Solicitud desde el número de teléfono",
   "sendToAddress": "Enviar a dirección",
   "walletAddress": "Dirección de billetera",
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",

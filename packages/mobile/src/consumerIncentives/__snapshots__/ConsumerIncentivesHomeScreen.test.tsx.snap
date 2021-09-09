@@ -285,7 +285,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
               }
             }
           >
-            saveMoreEarnMore.text, {"maxSaving":50,"rewardsMax":1000}
+            saveMoreEarnMore.text, {"rewardsMax":1000,"percent":5}
           </Text>
         </View>
       </View>
