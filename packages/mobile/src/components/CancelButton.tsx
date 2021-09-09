@@ -12,7 +12,7 @@ interface Props {
   onCancel?: () => void
   style?: StyleProp<TextStyle>
   eventName?: AnalyticsEventType
-  buttonType?: String
+  buttonType?: 'text' | 'icon'
 }
 
 export default function CancelButton({ eventName, onCancel, style, buttonType = 'text' }: Props) {
@@ -46,6 +46,5 @@ export default function CancelButton({ eventName, onCancel, style, buttonType = 
 const styles = StyleSheet.create({
   title: {
     color: colors.dark,
-    paddingHorizontal: 0,
   },
 })

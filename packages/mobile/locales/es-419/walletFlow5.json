@@ -57,7 +57,7 @@
   "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> y <1></1> no han aceptado tus invitaciones aún",
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> y alguien más no han aceptado tus invitaciones aún",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> y otros no han aceptado tus invitaciones aún",
-  "escrowedPaymentReminderSmsNoData": "¡Un recordatorio amigable de que aún no has canjeado tu {{currency}} con {{appName}}! ¡Descarga la aplicación móvil para empezar!",
+  "escrowedPaymentReminderSmsNoData": "Un recordatorio amigable de que aún no has canjeado tu {{currency}} con {{appName}}. ¡Descarga la aplicación móvil para empezar!",
   "testnetAlert": {
     "0": "{{testnet}}",
     "1": "Te recordamos que estás utilizando la compilación de red {{testnet}} - los saldos que se muestran no son reales."
