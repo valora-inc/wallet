@@ -81,7 +81,8 @@ function SessionRequest({ route: { params } }: Props) {
           <Text style={styles.header} testID="SessionRequestHeader">
             {t('connectToWallet', { dappName: name })}
           </Text>
-          <Text style={styles.subHeader}>{t('sessionInfo')}</Text>
+
+          {!params.isV1 && <Text style={styles.subHeader}>{t('sessionInfo')}</Text>}
         </View>
 
         {!params.isV1 && (
