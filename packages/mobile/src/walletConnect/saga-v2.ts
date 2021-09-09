@@ -23,6 +23,7 @@ import {
   CloseSession,
   DenyRequest,
   DenySession,
+  initialiseClient,
   InitialisePairing,
   sessionCreated,
   sessionDeleted,
@@ -33,9 +34,9 @@ import {
   sessionUpdated,
   WalletConnectActions,
 } from 'src/walletConnect/actions-v2'
+import { PendingAction, PendingSession, Session } from 'src/walletConnect/reducer'
 import { handleRequest } from 'src/walletConnect/request'
 import {
-  checkPersistedState,
   getDefaultRequestTrackedProperties,
   getDefaultSessionTrackedProperties,
   getSessionFromRequest,
@@ -44,8 +45,6 @@ import {
 } from 'src/walletConnect/saga'
 import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
 import { getAccountAddress } from 'src/web3/saga'
-
-// console.log('>>> EC', require('@walletconnect/client-v2'), WCV2)
 
 const TAG = 'WalletConnect/saga'
 
@@ -322,7 +321,7 @@ export function* createWalletConnectChannel() {
  */
 
 export function* handleIncomingSessionRequest({ session }: SessionProposal) {
-  const { pending }: { pending: SessionTypes.Proposal[] } = yield select(selectSessions)
+  const { pending }: { pending: PendingSession[] } = yield select(selectSessions)
   if (pending.length > 1) {
     return
   }
@@ -330,7 +329,7 @@ export function* handleIncomingSessionRequest({ session }: SessionProposal) {
   navigate(Screens.WalletConnectSessionRequest, { isV1: false, session })
 }
 export function* handleIncomingActionRequest({ request }: SessionPayload) {
-  const pendingActions: SessionTypes.RequestEvent[] = yield select(selectPendingActions)
+  const pendingActions: PendingAction[] = yield select(selectPendingActions)
   if (pendingActions.length > 1) {
     return
   }
@@ -355,6 +354,21 @@ export function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
     Logger.debug(TAG + '@handleInitialisePairing', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, { error: e.message })
   }
+}
+
+export function* checkPersistedState(): any {
+  const {
+    sessions,
+  }: {
+    pending: PendingSession[]
+    sessions: Session[]
+  } = yield select(selectSessions)
+
+  if (sessions.find((s) => !s.isV1)) {
+    yield put(initialiseClient())
+  }
+
+  yield call(handlePendingState)
 }
 
 export function* walletConnectV2Saga() {

@@ -60,7 +60,6 @@ function SessionRequest({ route: { params } }: Props) {
     navigateBack()
   }
 
-  console.log(JSON.stringify(params))
   const url = params.isV1
     ? params.session.params[0].peerMeta.url
     : params.session.proposer.metadata.url

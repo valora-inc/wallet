@@ -25,13 +25,15 @@ import {
   denyRequest as denyRequestV2,
 } from 'src/walletConnect/actions-v2'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
+import { Session } from 'src/walletConnect/reducer'
+import { getConnectorMetadata } from 'src/walletConnect/saga-v1'
 import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
 function ActionRequest({ route: { params: routeParams } }: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
   const dispatch = useDispatch()
-  const { sessions } = useSelector(selectSessions)
+  const { sessions }: { sessions: Session[] } = useSelector(selectSessions)
 
   const onAccept = () => {
     dispatch(
@@ -70,24 +72,28 @@ function ActionRequest({ route: { params: routeParams } }: Props) {
     dispatch(showRequestDetails(routeParams, moreInfoString))
   }
 
-  const uri = params.isV1
-    ? params.session.params[0].peerMeta.url
-    : params.session.proposer.metadata.url
-  const dappName = params.isV1
-    ? params.session.params[0].peerMeta.name
-    : params.session.proposer.metadata.name
-  const icon = params.isV1
-    ? params.session.params[0].peerMeta.icons[0]
-    : params.session.proposer.metadata.icons[0]
-  const fallbackIcon = icon ?? `${uri}/favicon.ico`
+  let metadata
+  if (routeParams.isV1) {
+    metadata = getConnectorMetadata(routeParams.peerId)
+  } else {
+    const session = sessions.find((s) => {
+      return !s.isV1 && s.session.topic === routeParams.action.topic
+    })
+    if (!session || session.isV1) {
+      return null
+    }
+    metadata = session.session.peer.metadata
+  }
+
+  const uri = metadata?.icons[0] ?? `${metadata?.url}/favicon.ico`
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.center}>
-          <Image style={styles.logo} source={{ uri: fallbackIcon }} />
+          <Image style={styles.logo} source={{ uri }} />
         </View>
-        <Text style={styles.header}>{t('connectToWallet', { dappName })}</Text>
+        <Text style={styles.header}>{t('connectToWallet', { dappName: metadata?.name })}</Text>
         <Text style={styles.share}>{t('action.asking')}:</Text>
 
         <View style={styles.sectionDivider}>

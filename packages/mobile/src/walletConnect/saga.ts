@@ -10,7 +10,7 @@ import { Screens } from 'src/navigator/Screens'
 import { ShowRequestDetails } from 'src/walletConnect/actions'
 import { initialiseConnection } from 'src/walletConnect/actions-v1'
 import { Actions, initialiseClient, initialisePairing } from 'src/walletConnect/actions-v2'
-import { PendingAction, PendingSession, Session } from 'src/walletConnect/reducer'
+import { PendingAction, PendingSession } from 'src/walletConnect/reducer'
 import {
   selectHasPendingState,
   selectPendingActions,
@@ -57,16 +57,17 @@ export function* getSessionFromRequest(request: SessionTypes.RequestEvent) {
     // This should never happen
     throw new Error(`Unable to find WalletConnect session matching topic ${request.topic}`)
   }
-
   return session
 }
 
 export function* showRequestDetails({ request, infoString }: ShowRequestDetails): any {
-  const session: SessionTypes.Created = yield call(getSessionFromRequest, request.action)
-  ValoraAnalytics.track(WalletConnectEvents.wc_request_details, {
-    ...getDefaultSessionTrackedProperties(session),
-    ...getDefaultRequestTrackedProperties(request.action),
-  })
+  if (request && !request.isV1) {
+    const session: SessionTypes.Created = yield call(getSessionFromRequest, request.action)
+    ValoraAnalytics.track(WalletConnectEvents.wc_request_details, {
+      ...getDefaultSessionTrackedProperties(session),
+      ...getDefaultRequestTrackedProperties(request.action),
+    })
+  }
 
   // TODO: this is a short lived alternative to proper
   // transaction decoding.
@@ -74,19 +75,23 @@ export function* showRequestDetails({ request, infoString }: ShowRequestDetails)
 }
 
 export function* showSessionRequest(pendingSession: PendingSession) {
-  ValoraAnalytics.track(WalletConnectEvents.wc_session_propose, {
-    ...getDefaultSessionTrackedProperties(pendingSession.session),
-  })
+  if (!pendingSession.isV1) {
+    ValoraAnalytics.track(WalletConnectEvents.wc_session_propose, {
+      ...getDefaultSessionTrackedProperties(pendingSession.session),
+    })
+  }
 
   yield call(navigate, Screens.WalletConnectSessionRequest, pendingSession)
 }
 
 export function* showActionRequest(request: PendingAction) {
-  const session: SessionTypes.Created = yield call(getSessionFromRequest, request.action)
-  ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
-    ...getDefaultSessionTrackedProperties(session),
-    ...getDefaultRequestTrackedProperties(request.action),
-  })
+  if (!request.isV1) {
+    const session: SessionTypes.Created = yield call(getSessionFromRequest, request.action)
+    ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
+      ...getDefaultSessionTrackedProperties(session),
+      ...getDefaultRequestTrackedProperties(request.action),
+    })
+  }
 
   yield call(navigate, Screens.WalletConnectActionRequest, request)
 }
@@ -105,7 +110,6 @@ export function* handlePendingState(): any {
     pending: [session],
   }: {
     pending: PendingSession[]
-    sessions: Session[]
   } = yield select(selectSessions)
 
   if (session) {
@@ -115,24 +119,7 @@ export function* handlePendingState(): any {
 
   const [request]: PendingAction[] = yield select(selectPendingActions)
   if (request) {
-    yield call(showActionRequest, request.action)
-  }
-}
-
-export function* checkPersistedState(): any {
-  const {
-    sessions,
-  }: {
-    pending: PendingSession[]
-    sessions: Session[]
-  } = yield select(selectSessions)
-  if (sessions.find((s) => s.isV1)) {
-    // todo: handle v1 sessions
-  }
-
-  if (sessions.find((s) => !s.isV1)) {
-    yield put(initialiseClient())
-    yield call(handlePendingState)
+    yield call(showActionRequest, request)
   }
 }
 

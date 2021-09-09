@@ -1,4 +1,5 @@
 import { appendPath } from '@celo/base'
+import { ContractKit } from '@celo/contractkit'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import WalletConnectClient from '@walletconnect/client-v1'
@@ -23,7 +24,7 @@ import {
   sessionRequest,
   WalletConnectActions,
 } from 'src/walletConnect/actions-v1'
-import { PendingSession, Session } from 'src/walletConnect/reducer'
+import { PendingAction, PendingSession, Session } from 'src/walletConnect/reducer'
 import { handleRequest } from 'src/walletConnect/request'
 import { handlePendingState, handlePendingStateOrNavigateBack } from 'src/walletConnect/saga'
 import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
@@ -38,7 +39,7 @@ export function getConnectorMetadata(peerId: string) {
   if (!connectors[peerId]) {
     return null
   }
-  return connectors[peerId]!.clientMeta
+  return connectors[peerId]!.peerMeta
 }
 
 export function* acceptSession(session: AcceptSession) {
@@ -75,7 +76,7 @@ export function* denySession({ session }: AcceptSession) {
 
 export function* closeSession({ session }: CloseSession) {
   try {
-    const { peerId } = session.payload.params[0]
+    const { peerId } = session.params[0]
     const connector = connectors[peerId]
     if (!connector) {
       throw new Error('missing connector')
@@ -100,7 +101,7 @@ export function* acceptRequest(r: AcceptRequest) {
     const result: string = yield call(handleRequest, { method, params })
     connector.approveRequest({ id, result })
   } catch (e) {
-    Logger.debug(TAG + '@closeSession', e.message)
+    Logger.debug(TAG + '@acceptRequest', e.message)
     connectors[peerId]?.rejectRequest({ id, error: e.message })
   }
 
@@ -148,12 +149,10 @@ export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
       },
     })
     connector!.on('session_request', (error: any, payload: WalletConnectSessionRequest) => {
-      console.log('session_request', error, payload.params)
       connectors[payload.params[0].peerId] = connector
       emit(sessionRequest(payload))
     })
     connector!.on('call_request', (error: any, payload: WalletConnectPayloadRequest) => {
-      console.log('call_request', error, payload)
       emit(payloadRequest(connector.peerId, payload))
     })
     return () => {
@@ -176,13 +175,16 @@ export function createWalletConnectChannel(uri: string) {
  */
 
 export function* handleSessionRequest({ session }: SessionRequest) {
-  console.log('handleSessionRequest', session)
+  const { pending }: { pending: PendingSession[] } = yield select(selectSessions)
+  if (pending.length > 1) {
+    return
+  }
+
   navigate(Screens.WalletConnectSessionRequest, { isV1: true, session })
 }
 export function* handlePayloadRequest(action: PayloadRequest) {
-  console.log('handlePayloadRequest', action)
-  const { v1, v2 } = yield select(selectPendingActions)
-  if (v1.length > 1 || v2.length > 1) {
+  const pendingActions: PendingAction[] = yield select(selectPendingActions)
+  if (pendingActions.length > 1) {
     return
   }
 
@@ -193,7 +195,7 @@ export function* handlePayloadRequest(action: PayloadRequest) {
   })
 }
 
-function* loadWalletConnectState() {
+export function* checkPersistedState(): any {
   const {
     sessions,
   }: {
@@ -201,21 +203,25 @@ function* loadWalletConnectState() {
     sessions: Session[]
   } = yield select(selectSessions)
 
-  sessions
-    .filter((s) => s.isV1)
-    .map((s) => {
-      const connector = connectors[(s.session as WalletConnectSessionRequest).params[0].peerId]
+  sessions.map((s) => {
+    if (!s.isV1) {
+      return
+    }
+    const connector = connectors[s.session.params[0].peerId]
+    // @ts-ignore
+    const connectorConnected = connector?._transport.connected
+    if (!connectorConnected) {
       // @ts-ignore
-      const connectorConnected = connector?._transport.connected
-      if (!connectorConnected) {
+      if (connector?._eventManager) {
         // @ts-ignore
-        if (connector?._eventManager) {
-          // @ts-ignore
-          connector._eventManager = null
-        }
-        createWalletConnectChannelWithArgs({ session: s.session })
+        connector._eventManager = null
       }
-    })
+      console.log('Creating channel')
+      createWalletConnectChannelWithArgs({ session: s.session })
+    }
+  })
+
+  yield call(handlePendingState)
 }
 
 export function* walletConnectV1Saga() {
@@ -230,5 +236,5 @@ export function* walletConnectV1Saga() {
   yield takeEvery(Actions.SESSION_V1, handleSessionRequest)
   yield takeEvery(Actions.PAYLOAD_V1, handlePayloadRequest)
 
-  yield call(loadWalletConnectState)
+  yield call(checkPersistedState)
 }
