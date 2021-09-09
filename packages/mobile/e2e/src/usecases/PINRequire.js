@@ -15,13 +15,10 @@ export default RequirePIN = () => {
 
   it('Then should be require PIN on app open', async () => {
     // Request Pin on App Open disabled by default
-    let pinToggleBefore = await element(by.id('requirePinOnAppOpenToggle')).getAttributes()
-    jestExpect(pinToggleBefore.value).toEqual('0')
-
     await element(by.id('requirePinOnAppOpenToggle')).tap()
-    let pinToggleAfter = await element(by.id('requirePinOnAppOpenToggle')).getAttributes()
-    jestExpect(pinToggleAfter.value).toEqual('1')
+    // Reload to simulate new app load from background
     await device.reloadReactNative()
+    // Check that PIN is required
     await expect(element(by.text('Enter PIN'))).toBeVisible()
   })
 }
