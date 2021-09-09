@@ -137,7 +137,7 @@ export function* checkPersistedState(): any {
 }
 
 export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {
-  const [, , version] = uri.split(/:@?/)
+  const [, , version] = uri.split(/[:@?]/)
   if (version === '1') {
     yield put(initialiseConnection(uri))
   } else {

@@ -1,4 +1,5 @@
 import {} from '@walletconnect/client-v1'
+import { WalletConnectSessionRequest } from 'src/walletConnect/types'
 
 export enum Actions {
   /**
@@ -31,32 +32,35 @@ export interface InitialiseConnection {
  */
 export interface AcceptSession {
   type: Actions.ACCEPT_SESSION_V1
-  session: any
+  session: WalletConnectSessionRequest
 }
 export interface DenySession {
   type: Actions.DENY_SESSION_V1
-  session: any
+  session: WalletConnectSessionRequest
 }
 export interface CloseSession {
   type: Actions.CLOSE_SESSION_V1
-  session: any
+  session: WalletConnectSessionRequest
 }
 
 export interface AcceptRequest {
   type: Actions.ACCEPT_REQUEST_V1
   request: any
+  peerId: string
 }
 export interface DenyRequest {
   type: Actions.DENY_REQUEST_V1
   request: any
+  peerId: string
 }
 
 export interface SessionRequest {
   type: Actions.SESSION_V1
-  session: any
+  session: WalletConnectSessionRequest
 }
 export interface PayloadRequest {
   type: Actions.PAYLOAD_V1
+  peerId: string
   request: any
 }
 
@@ -69,11 +73,11 @@ export const initialiseConnection = (uri: string): InitialiseConnection => ({
   uri,
 })
 
-export const acceptSession = (session: any): AcceptSession => ({
+export const acceptSession = (session: WalletConnectSessionRequest): AcceptSession => ({
   type: Actions.ACCEPT_SESSION_V1,
   session,
 })
-export const denySession = (session: any): DenySession => ({
+export const denySession = (session: WalletConnectSessionRequest): DenySession => ({
   type: Actions.DENY_SESSION_V1,
   session,
 })
@@ -82,20 +86,23 @@ export const closeSession = (session: any) => ({
   session,
 })
 
-export const acceptRequest = (request: any): AcceptRequest => ({
+export const acceptRequest = (peerId: string, request: any): AcceptRequest => ({
   type: Actions.ACCEPT_REQUEST_V1,
   request,
+  peerId,
 })
-export const denyRequest = (request: any): DenyRequest => ({
+export const denyRequest = (peerId: string, request: any): DenyRequest => ({
   type: Actions.DENY_REQUEST_V1,
   request,
+  peerId,
 })
 
-export const sessionRequest = (session: any): SessionRequest => ({
+export const sessionRequest = (session: WalletConnectSessionRequest): SessionRequest => ({
   type: Actions.SESSION_V1,
   session,
 })
-export const payloadRequest = (request: any): PayloadRequest => ({
+export const payloadRequest = (peerId: string, request: any): PayloadRequest => ({
   type: Actions.PAYLOAD_V1,
+  peerId,
   request,
 })

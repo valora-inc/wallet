@@ -14,6 +14,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { closeSession as closeSessionAction } from 'src/walletConnect/actions-v2'
+import { getConnectorMetadata } from 'src/walletConnect/saga-v1'
 import { selectSessions } from 'src/walletConnect/selectors'
 
 const App = ({ metadata, onPress }: { metadata: AppMetadata; onPress: () => void }) => {
@@ -76,6 +77,8 @@ function Sessions() {
 
       <View style={[styles.container, styles.appsContainer]}>
         {sessions.map((s) => {
+          console.log(s)
+          // const metadata = getConnectorMetadata(s.session.)
           return s.isV1 ? (
             // @ts-ignore
             <App key={s.session} metadata={s.peer.metadata} onPress={openModal(s)} />

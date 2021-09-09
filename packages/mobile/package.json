@@ -235,10 +235,7 @@
     "ts-retry-promise": "^0.6.0"
   },
   "resolutions": {
-    "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f",
-    "@walletconnect/client-v1/@walletconnect-utils": "1.6.5",
-    "@walletconnect/client-v1/@walletconnect-types": "1.6.5",
-    "@walletconnect/utils-v1/@walletconnect-types": "1.6.5"
+    "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f"
   },
   "detox": {
     "test-runner": "jest",

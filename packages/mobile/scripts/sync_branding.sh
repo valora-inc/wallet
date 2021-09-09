@@ -8,7 +8,7 @@ set -euo pipefail
 # Flags:
 # -b (Optional): Name of the branding to use: celo or valora (default)
 
-branding=valora
+branding=celo
 while getopts 'b:' flag; do
   case "${flag}" in
     b) branding="$OPTARG" ;;
