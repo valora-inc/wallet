@@ -1,7 +1,7 @@
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { AppMetadata, SessionTypes } from '@walletconnect/types-v2'
+import { AppMetadata } from '@walletconnect/types-v2'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
@@ -13,8 +13,9 @@ import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
-import { closeSession as closeSessionAction } from 'src/walletConnect/actions-v2'
-import { getConnectorMetadata } from 'src/walletConnect/saga-v1'
+import { closeSession as closeSessionActionV1 } from 'src/walletConnect/actions-v1'
+import { closeSession as closeSessionActionV2 } from 'src/walletConnect/actions-v2'
+import { Session } from 'src/walletConnect/reducer'
 import { selectSessions } from 'src/walletConnect/selectors'
 
 const App = ({ metadata, onPress }: { metadata: AppMetadata; onPress: () => void }) => {
@@ -37,14 +38,14 @@ const App = ({ metadata, onPress }: { metadata: AppMetadata; onPress: () => void
 function Sessions() {
   const { t } = useTranslation(Namespaces.walletConnect)
   const { sessions } = useSelector(selectSessions)
-  const [highlighted, setHighlighted] = useState<SessionTypes.Settled | null>(null)
+  const [highlighted, setHighlighted] = useState<Session | null>(null)
   const dispatch = useDispatch()
 
   const closeModal = () => {
     setHighlighted(null)
   }
 
-  const openModal = (session: SessionTypes.Settled) => () => {
+  const openModal = (session: Session) => () => {
     setHighlighted(session)
   }
 
@@ -53,21 +54,30 @@ function Sessions() {
       return
     }
 
-    dispatch(closeSessionAction(highlighted))
+    dispatch(
+      highlighted.isV1
+        ? closeSessionActionV1(highlighted.session)
+        : closeSessionActionV2(highlighted.session)
+    )
     closeModal()
   }
 
+  const appName = highlighted?.isV1
+    ? highlighted.session.params[0].peerMeta.name
+    : highlighted?.session.peer.metadata.name
   return (
     <ScrollView testID="WalletConnectSessionsView">
       <Dialog
-        title={t('disconnectTitle', { appName: highlighted?.peer.metadata.name })}
+        title={t('disconnectTitle', {
+          appName,
+        })}
         actionPress={closeSession}
         actionText={t('disconnect')}
         secondaryActionText={t('cancel')}
         secondaryActionPress={closeModal}
         isVisible={!!highlighted}
       >
-        {t('disconnectBody', { appName: highlighted?.peer.metadata.name })}
+        {t('disconnectBody', { appName })}
       </Dialog>
 
       <View style={styles.container}>
@@ -77,13 +87,16 @@ function Sessions() {
 
       <View style={[styles.container, styles.appsContainer]}>
         {sessions.map((s) => {
-          console.log(s)
-          // const metadata = getConnectorMetadata(s.session.)
-          return s.isV1 ? (
-            // @ts-ignore
-            <App key={s.session} metadata={s.peer.metadata} onPress={openModal(s)} />
-          ) : (
-            // @ts-ignore
+          if (s.isV1) {
+            return (
+              <App
+                key={s.session.params[0].peerId}
+                metadata={s.session.params[0].peerMeta}
+                onPress={openModal(s)}
+              />
+            )
+          }
+          return (
             <App key={s.session.topic} metadata={s.session.peer.metadata} onPress={openModal(s)} />
           )
         })}

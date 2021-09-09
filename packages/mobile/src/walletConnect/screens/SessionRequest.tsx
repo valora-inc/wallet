@@ -46,41 +46,50 @@ function ActionList({ actions }: { actions: string[] }) {
 }
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectSessionRequest>
-function SessionRequest({
-  route: {
-    params: { isV1, session },
-  },
-}: Props) {
+function SessionRequest({ route: { params } }: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
   const dispatch = useDispatch()
 
   const confirm = () => {
-    dispatch(isV1 ? acceptSessionV1(session) : acceptSessionV2(session))
+    dispatch(params.isV1 ? acceptSessionV1(params.session) : acceptSessionV2(params.session))
     navigateBack()
   }
 
   const deny = () => {
-    dispatch(isV1 ? denySessionV1(session) : denySessionV2(session))
+    dispatch(params.isV1 ? denySessionV1(params.session) : denySessionV2(params.session))
     navigateBack()
   }
 
-  const icon = session.proposer.metadata.icons[0] || `${session.proposer.metadata.url}/favicon.ico`
+  console.log(JSON.stringify(params))
+  const url = params.isV1
+    ? params.session.params[0].peerMeta.url
+    : params.session.proposer.metadata.url
+  const name = params.isV1
+    ? params.session.params[0].peerMeta.name
+    : params.session.proposer.metadata.name
+  const icon = params.isV1
+    ? params.session.params[0].peerMeta.icons[0]
+    : params.session.proposer.metadata.icons[0]
+  const fallbackIcon = icon ?? `${url}/favicon.ico`
+
   return (
     <SafeAreaView style={styles.screen}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View>
           <View style={styles.center}>
-            <Image style={styles.logo} source={{ uri: icon }} />
+            <Image style={styles.logo} source={{ uri: fallbackIcon }} />
           </View>
           <Text style={styles.header} testID="SessionRequestHeader">
-            {t('connectToWallet', { dappName: session.proposer.metadata.name })}
+            {t('connectToWallet', { dappName: name })}
           </Text>
           <Text style={styles.subHeader}>{t('sessionInfo')}</Text>
         </View>
 
-        <View style={styles.content}>
-          <ActionList actions={session.permissions.jsonrpc.methods} />
-        </View>
+        {!params.isV1 && (
+          <View style={styles.content}>
+            <ActionList actions={params.session.permissions.jsonrpc.methods} />
+          </View>
+        )}
 
         <View style={styles.actionContainer}>
           <Button
@@ -107,8 +116,8 @@ function LeftHeader() {
   const { pending } = useSelector(selectSessions)
 
   const deny = () => {
-    const [{ isV1, session }] = pending
-    dispatch(isV1 ? denySessionV1(session) : denySessionV2(session))
+    const [session] = pending
+    dispatch(session.isV1 ? denySessionV1(session.session) : denySessionV2(session.session))
     navigateBack()
   }
 

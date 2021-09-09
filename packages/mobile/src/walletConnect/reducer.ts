@@ -5,9 +5,10 @@ import {
   WalletConnectActions as WalletConnectActionsV2,
 } from 'src/walletConnect/actions-v1'
 import { Actions, UserActions, WalletConnectActions } from 'src/walletConnect/actions-v2'
+import { WalletConnectPayloadRequest, WalletConnectSessionRequest } from 'src/walletConnect/types'
 
 export type PendingAction =
-  | { isV1: true; action: any }
+  | { isV1: true; action: WalletConnectPayloadRequest; peerId: string }
   | {
       isV1: false
       action: SessionTypes.RequestEvent
@@ -16,7 +17,7 @@ export type PendingAction =
 export type Session =
   | {
       isV1: true
-      session: any
+      session: WalletConnectSessionRequest
     }
   | {
       isV1: false
@@ -26,7 +27,7 @@ export type Session =
 export type PendingSession =
   | {
       isV1: true
-      session: any
+      session: WalletConnectSessionRequest
     }
   | {
       isV1: false
@@ -74,7 +75,10 @@ export const reducer = (
     case ActionsV1.PAYLOAD_V1:
       return {
         ...state,
-        pendingActions: [...state.pendingActions, { isV1: true, action: action.request }],
+        pendingActions: [
+          ...state.pendingActions,
+          { isV1: true, action: action.request, peerId: action.peerId },
+        ],
       }
     case ActionsV1.ACCEPT_REQUEST_V1:
     case ActionsV1.DENY_REQUEST_V1:
@@ -119,7 +123,7 @@ export const reducer = (
     case Actions.SESSION_DELETED:
       return {
         ...state,
-        sessions: state.sessions.filter((s) => s.isV1 && s.session.topic !== action.session.topic),
+        sessions: state.sessions.filter((s) => !s.isV1 && s.session.topic !== action.session.topic),
         pendingSessions: state.pendingSessions.filter(
           (s) => !s.isV1 && s.session.topic !== action.session.topic
         ),

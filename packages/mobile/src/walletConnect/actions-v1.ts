@@ -1,5 +1,4 @@
-import {} from '@walletconnect/client-v1'
-import { WalletConnectSessionRequest } from 'src/walletConnect/types'
+import { WalletConnectPayloadRequest, WalletConnectSessionRequest } from 'src/walletConnect/types'
 
 export enum Actions {
   /**
@@ -45,12 +44,12 @@ export interface CloseSession {
 
 export interface AcceptRequest {
   type: Actions.ACCEPT_REQUEST_V1
-  request: any
+  request: WalletConnectPayloadRequest
   peerId: string
 }
 export interface DenyRequest {
   type: Actions.DENY_REQUEST_V1
-  request: any
+  request: WalletConnectPayloadRequest
   peerId: string
 }
 
@@ -61,7 +60,7 @@ export interface SessionRequest {
 export interface PayloadRequest {
   type: Actions.PAYLOAD_V1
   peerId: string
-  request: any
+  request: WalletConnectPayloadRequest
 }
 
 export type WalletConnectActions = SessionRequest | PayloadRequest
@@ -101,7 +100,10 @@ export const sessionRequest = (session: WalletConnectSessionRequest): SessionReq
   type: Actions.SESSION_V1,
   session,
 })
-export const payloadRequest = (peerId: string, request: any): PayloadRequest => ({
+export const payloadRequest = (
+  peerId: string,
+  request: WalletConnectPayloadRequest
+): PayloadRequest => ({
   type: Actions.PAYLOAD_V1,
   peerId,
   request,

@@ -17,7 +17,9 @@ import {
   CloseSession,
   DenyRequest,
   InitialiseConnection,
+  PayloadRequest,
   payloadRequest,
+  SessionRequest,
   sessionRequest,
   WalletConnectActions,
 } from 'src/walletConnect/actions-v1'
@@ -25,10 +27,8 @@ import { PendingSession, Session } from 'src/walletConnect/reducer'
 import { handleRequest } from 'src/walletConnect/request'
 import { handlePendingState, handlePendingStateOrNavigateBack } from 'src/walletConnect/saga'
 import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
-import { WalletConnectSessionRequest } from 'src/walletConnect/types'
+import { WalletConnectPayloadRequest, WalletConnectSessionRequest } from 'src/walletConnect/types'
 import { getAccountAddress } from 'src/web3/saga'
-
-console.log('>>>', require('@walletconnect/browser-utils').getClientMeta)
 
 const connectors: { [x: string]: WalletConnectClient | undefined } = {}
 
@@ -87,7 +87,7 @@ export function* closeSession({ session }: CloseSession) {
   }
 }
 
-export function* acceptRequest(r: AcceptRequest): any {
+export function* acceptRequest(r: AcceptRequest) {
   const {
     peerId,
     request: { id, method, params },
@@ -97,8 +97,8 @@ export function* acceptRequest(r: AcceptRequest): any {
     if (!connector) {
       throw new Error('missing connector')
     }
-    const result = yield call(handleRequest, { method, params })
-    connector.approveRequest({ id: result })
+    const result: string = yield call(handleRequest, { method, params })
+    connector.approveRequest({ id, result })
   } catch (e) {
     Logger.debug(TAG + '@closeSession', e.message)
     connectors[peerId]?.rejectRequest({ id, error: e.message })
@@ -138,15 +138,6 @@ export function* handleInitialiseWalletConnect({ uri }: InitialiseConnection) {
 
 export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
   return eventChannel((emit: any) => {
-    console.log('>>> 1', {
-      ...connectorOpts,
-      clientMeta: {
-        name: APP_NAME,
-        description: i18n.t('global:appDescription'),
-        url: WEB_LINK,
-        icons: [appendPath(WEB_LINK, '/favicon.ico')],
-      },
-    })
     const connector = new WalletConnectClient({
       ...connectorOpts,
       clientMeta: {
@@ -156,13 +147,12 @@ export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
         icons: [appendPath(WEB_LINK, '/favicon.ico')],
       },
     })
-    console.log('>>> 2', connector)
     connector!.on('session_request', (error: any, payload: WalletConnectSessionRequest) => {
-      console.log('session_request', error, payload)
+      console.log('session_request', error, payload.params)
       connectors[payload.params[0].peerId] = connector
       emit(sessionRequest(payload))
     })
-    connector!.on('call_request', (error: any, payload: any) => {
+    connector!.on('call_request', (error: any, payload: WalletConnectPayloadRequest) => {
       console.log('call_request', error, payload)
       emit(payloadRequest(connector.peerId, payload))
     })
@@ -185,18 +175,22 @@ export function createWalletConnectChannel(uri: string) {
  * requests accordingly.
  */
 
-export function* handleSessionRequest(session: any) {
+export function* handleSessionRequest({ session }: SessionRequest) {
   console.log('handleSessionRequest', session)
   navigate(Screens.WalletConnectSessionRequest, { isV1: true, session })
 }
-export function* handlePayloadRequest(payload: any) {
-  console.log('handlePayloadRequest', payload)
+export function* handlePayloadRequest(action: PayloadRequest) {
+  console.log('handlePayloadRequest', action)
   const { v1, v2 } = yield select(selectPendingActions)
   if (v1.length > 1 || v2.length > 1) {
     return
   }
 
-  navigate(Screens.WalletConnectActionRequest, { isV1: true, action: payload })
+  navigate(Screens.WalletConnectActionRequest, {
+    isV1: true,
+    peerId: action.peerId,
+    action: action.request,
+  })
 }
 
 function* loadWalletConnectState() {
@@ -210,7 +204,7 @@ function* loadWalletConnectState() {
   sessions
     .filter((s) => s.isV1)
     .map((s) => {
-      const connector = connectors[s.session.peerId]
+      const connector = connectors[(s.session as WalletConnectSessionRequest).params[0].peerId]
       // @ts-ignore
       const connectorConnected = connector?._transport.connected
       if (!connectorConnected) {

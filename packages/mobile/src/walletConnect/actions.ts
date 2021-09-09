@@ -9,7 +9,10 @@ export interface ShowRequestDetails {
   request: PendingAction
   infoString: string
 }
-export const showRequestDetails = (request: any, infoString: string): ShowRequestDetails => ({
+export const showRequestDetails = (
+  request: PendingAction,
+  infoString: string
+): ShowRequestDetails => ({
   type: Actions.SHOW_REQUEST_DETAILS,
   request,
   infoString,

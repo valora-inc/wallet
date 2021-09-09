@@ -2,7 +2,7 @@ import { appendPath } from '@celo/base'
 import AsyncStorage from '@react-native-community/async-storage'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
-import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client'
+import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client-v2'
 import { SessionTypes } from '@walletconnect/types-v2'
 import { ERROR as WalletConnectErrors } from '@walletconnect/utils-v2'
 import { EventChannel, eventChannel } from 'redux-saga'
@@ -44,6 +44,8 @@ import {
 } from 'src/walletConnect/saga'
 import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
 import { getAccountAddress } from 'src/web3/saga'
+
+// console.log('>>> EC', require('@walletconnect/client-v2'), WCV2)
 
 const TAG = 'WalletConnect/saga'
 

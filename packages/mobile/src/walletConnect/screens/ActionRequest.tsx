@@ -28,26 +28,29 @@ import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/co
 import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
-function ActionRequest({
-  route: {
-    params: { isV1, action },
-  },
-}: Props) {
+function ActionRequest({ route: { params: routeParams } }: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
   const dispatch = useDispatch()
   const { sessions } = useSelector(selectSessions)
 
   const onAccept = () => {
-    dispatch(isV1 ? acceptRequestV1(action) : acceptRequestV2(action))
+    dispatch(
+      routeParams.isV1
+        ? acceptRequestV1(routeParams.peerId, routeParams.action)
+        : acceptRequestV2(routeParams.action)
+    )
   }
 
   const onDeny = () => {
-    dispatch(isV1 ? denyRequestV1(action) : denyRequestV2(action))
+    dispatch(
+      routeParams.isV1
+        ? denyRequestV1(routeParams.peerId, routeParams.action)
+        : denyRequestV2(routeParams.action)
+    )
   }
 
-  const {
-    request: { method, params },
-  } = action
+  const method = routeParams.isV1 ? routeParams.action.method : routeParams.action.request.method
+  const params = routeParams.isV1 ? routeParams.action.params : routeParams.action.request.params
   const moreInfoString =
     method === SupportedActions.eth_signTransaction
       ? JSON.stringify(params)
@@ -64,33 +67,27 @@ function ActionRequest({
       return
     }
 
-    dispatch(showRequestDetails(action.request, moreInfoString))
+    dispatch(showRequestDetails(routeParams, moreInfoString))
   }
 
-  let metadata
-  if (isV1) {
-    const session = sessions.find((s) => s.isV1)
-    metadata = {
-      name: session!.session.name,
-      icon: '',
-    }
-  } else {
-    const session = sessions.find((s) => s.session.topic === action.topic)
-    metadata = {
-      name: session?.session.peer.metadata.name,
-      icon:
-        session?.session.peer.metadata.icons[0] ??
-        `${session?.session.peer.metadata.url}/favicon.ico`,
-    }
-  }
+  const uri = params.isV1
+    ? params.session.params[0].peerMeta.url
+    : params.session.proposer.metadata.url
+  const dappName = params.isV1
+    ? params.session.params[0].peerMeta.name
+    : params.session.proposer.metadata.name
+  const icon = params.isV1
+    ? params.session.params[0].peerMeta.icons[0]
+    : params.session.proposer.metadata.icons[0]
+  const fallbackIcon = icon ?? `${uri}/favicon.ico`
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.center}>
-          <Image style={styles.logo} source={{ uri: metadata.icon }} />
+          <Image style={styles.logo} source={{ uri: fallbackIcon }} />
         </View>
-        <Text style={styles.header}>{t('connectToWallet', { dappName: metadata.name })}</Text>
+        <Text style={styles.header}>{t('connectToWallet', { dappName })}</Text>
         <Text style={styles.share}>{t('action.asking')}:</Text>
 
         <View style={styles.sectionDivider}>
@@ -134,15 +131,16 @@ function ActionRequest({
 
 function LeftHeader() {
   const dispatch = useDispatch()
-  const [pendingAction] = useSelector(selectPendingActions)
+  const [action] = useSelector(selectPendingActions)
 
   const deny = () => {
-    if (!pendingAction) {
+    if (!action) {
       return
     }
 
-    const { isV1, action } = pendingAction
-    dispatch(isV1 ? denyRequestV1(action) : denyRequestV2(action))
+    dispatch(
+      action.isV1 ? denyRequestV1(action.peerId, action.action) : denyRequestV2(action.action)
+    )
     navigateBack()
   }
 
