@@ -1,12 +1,16 @@
 import { SessionTypes } from '@walletconnect/types-v2'
 import {
   Actions as ActionsV1,
+  UserActions as UserActionsV1,
+  WalletConnectActions as WalletConnectActionsV1,
+} from 'src/walletConnect/actions-v1'
+import {
+  Actions as ActionsV2,
   UserActions as UserActionsV2,
   WalletConnectActions as WalletConnectActionsV2,
-} from 'src/walletConnect/actions-v1'
-import { Actions, UserActions, WalletConnectActions } from 'src/walletConnect/actions-v2'
-import { WalletConnectPayloadRequest, WalletConnectSessionRequest } from 'src/walletConnect/types'
+} from 'src/walletConnect/actions-v2'
 
+import { WalletConnectPayloadRequest, WalletConnectSessionRequest } from 'src/walletConnect/types'
 export type PendingAction =
   | { isV1: true; action: WalletConnectPayloadRequest; peerId: string }
   | {
@@ -47,7 +51,7 @@ const initialState: State = {
 
 export const reducer = (
   state: State | undefined = initialState,
-  action: WalletConnectActions | WalletConnectActionsV2 | UserActions | UserActionsV2
+  action: WalletConnectActionsV1 | WalletConnectActionsV2 | UserActionsV1 | UserActionsV2
 ): State => {
   switch (action.type) {
     // V1
@@ -55,6 +59,13 @@ export const reducer = (
       return {
         ...state,
         pendingSessions: [...state.pendingSessions, { isV1: true, session: action.session }],
+      }
+    case ActionsV1.SESSION_DELETED_V1:
+      return {
+        ...state,
+        sessions: state.sessions.filter((s) =>
+          s.isV1 ? s.session.params[0].peerId === action.peerId : true
+        ),
       }
     case ActionsV1.ACCEPT_SESSION_V1:
       return {
@@ -88,19 +99,19 @@ export const reducer = (
       }
 
     // V2
-    case Actions.SESSION_PROPOSAL:
+    case ActionsV2.SESSION_PROPOSAL:
       return {
         ...state,
         pendingSessions: [...state.pendingSessions, { isV1: false, session: action.session }],
       }
 
-    case Actions.SESSION_CREATED:
+    case ActionsV2.SESSION_CREATED:
       return {
         ...state,
         sessions: [...state.sessions, { isV1: false, session: action.session }],
       }
 
-    case Actions.SESSION_UPDATED:
+    case ActionsV2.SESSION_UPDATED:
       return {
         ...state,
         sessions: state.sessions.map((s) => {
@@ -117,10 +128,10 @@ export const reducer = (
           return s
         }),
       }
-    case Actions.ACCEPT_SESSION:
-    case Actions.DENY_SESSION:
-    case Actions.CLOSE_SESSION:
-    case Actions.SESSION_DELETED:
+    case ActionsV2.ACCEPT_SESSION:
+    case ActionsV2.DENY_SESSION:
+    case ActionsV2.CLOSE_SESSION:
+    case ActionsV2.SESSION_DELETED:
       return {
         ...state,
         sessions: state.sessions.filter((s) => !s.isV1 && s.session.topic !== action.session.topic),
@@ -132,13 +143,13 @@ export const reducer = (
         ),
       }
 
-    case Actions.SESSION_PAYLOAD:
+    case ActionsV2.SESSION_PAYLOAD:
       return {
         ...state,
         pendingActions: [...state.pendingActions, { isV1: false, action: action.request }],
       }
-    case Actions.ACCEPT_REQUEST:
-    case Actions.DENY_REQUEST:
+    case ActionsV2.ACCEPT_REQUEST:
+    case ActionsV2.DENY_REQUEST:
       return {
         ...state,
         pendingActions: state.pendingActions.filter(

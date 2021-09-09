@@ -20,6 +20,7 @@ import {
   InitialiseConnection,
   PayloadRequest,
   payloadRequest,
+  sessionDeleted,
   SessionRequest,
   sessionRequest,
   WalletConnectActions,
@@ -154,6 +155,9 @@ export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
     })
     connector!.on('call_request', (error: any, payload: WalletConnectPayloadRequest) => {
       emit(payloadRequest(connector.peerId, payload))
+    })
+    connector.on('disconnect', () => {
+      emit(sessionDeleted(connector.peerId))
     })
     return () => {
       connector!.off('session_request')

@@ -18,6 +18,7 @@ export enum Actions {
    * Actions coming from the WalletConnect client
    */
   SESSION_V1 = 'WALLETCONNECT/SESSION_V1',
+  SESSION_DELETED_V1 = 'WALLETCONNECT/SESSION_DELETED_V1',
   PAYLOAD_V1 = 'WALLETCONNECT/REQUEST_V1',
 }
 
@@ -57,6 +58,10 @@ export interface SessionRequest {
   type: Actions.SESSION_V1
   session: WalletConnectSessionRequest
 }
+export interface SessionDeleted {
+  type: Actions.SESSION_DELETED_V1
+  peerId: string
+}
 export interface PayloadRequest {
   type: Actions.PAYLOAD_V1
   peerId: string
@@ -65,7 +70,13 @@ export interface PayloadRequest {
 
 export type WalletConnectActions = SessionRequest | PayloadRequest
 
-export type UserActions = AcceptSession | DenySession | CloseSession | AcceptRequest | DenyRequest
+export type UserActions =
+  | AcceptSession
+  | DenySession
+  | SessionDeleted
+  | CloseSession
+  | AcceptRequest
+  | DenyRequest
 
 export const initialiseConnection = (uri: string): InitialiseConnection => ({
   type: Actions.INITIALISE_CONNECTION_V1,
@@ -99,6 +110,10 @@ export const denyRequest = (peerId: string, request: any): DenyRequest => ({
 export const sessionRequest = (session: WalletConnectSessionRequest): SessionRequest => ({
   type: Actions.SESSION_V1,
   session,
+})
+export const sessionDeleted = (peerId: string): SessionDeleted => ({
+  type: Actions.SESSION_DELETED_V1,
+  peerId,
 })
 export const payloadRequest = (
   peerId: string,
