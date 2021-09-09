@@ -57,8 +57,8 @@ export async function skipTo(nextScreen) {
   }
 }
 
-export async function enterPinUi() {
-  for (const digit of DEFAULT_PIN) {
+export async function enterPinUi(pin = DEFAULT_PIN) {
+  for (const digit of pin) {
     try {
       if (device.getPlatform() === 'ios') {
         await element(by.id(`digit${digit}`))
