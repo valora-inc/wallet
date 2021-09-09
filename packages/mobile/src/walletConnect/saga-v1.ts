@@ -91,7 +91,7 @@ export function* closeSession({ session }: CloseSession) {
 export function* acceptRequest(r: AcceptRequest) {
   const {
     peerId,
-    request: { id, method, params },
+    request: { id, jsonrpc, method, params },
   } = r
   try {
     const connector = connectors[peerId]
@@ -99,10 +99,10 @@ export function* acceptRequest(r: AcceptRequest) {
       throw new Error('missing connector')
     }
     const result: string = yield call(handleRequest, { method, params })
-    connector.approveRequest({ id, result })
+    connector.approveRequest({ id, jsonrpc, result })
   } catch (e) {
     Logger.debug(TAG + '@acceptRequest', e.message)
-    connectors[peerId]?.rejectRequest({ id, error: e.message })
+    connectors[peerId]?.rejectRequest({ id, jsonrpc, error: e.message })
   }
 
   yield call(handlePendingStateOrNavigateBack)

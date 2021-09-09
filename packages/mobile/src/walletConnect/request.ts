@@ -44,7 +44,14 @@ export function* handleRequest({ method, params }: { method: string; params: any
       const normalizer = new TxParamsNormalizer(kit.connection)
       const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), params[0])
       const sendTxMethod: SendTransactionMethod = function* () {
-        const txResult: TransactionResult = yield call(kit.connection.sendTransaction, tx)
+        const gasEstimate: number = yield call(kit.connection.estimateGas, {
+          ...tx,
+          gas: undefined,
+        })
+        const txResult: TransactionResult = yield call(kit.connection.sendTransaction, {
+          ...tx,
+          gas: kit.web3.utils.numberToHex(gasEstimate),
+        })
         return yield call(txResult.waitReceipt.bind(txResult))
       }
       const receipt: CeloTxReceipt = yield call(
