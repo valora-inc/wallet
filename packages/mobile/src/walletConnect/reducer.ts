@@ -64,7 +64,7 @@ export const reducer = (
       return {
         ...state,
         sessions: state.sessions.filter((s) =>
-          s.isV1 ? s.session.params[0].peerId === action.peerId : true
+          s.isV1 ? s.session.params[0].peerId !== action.peerId : true
         ),
       }
     case ActionsV1.ACCEPT_SESSION_V1:
