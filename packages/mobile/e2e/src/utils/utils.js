@@ -258,3 +258,13 @@ export async function getDeviceModel() {
     : (modelName = device.name.split(/\s(.+)/)[1].replace(/[(]|[)]/g, ''))
   return modelName
 }
+
+export async function setUrlDenyList(
+  urlList = ['.*blockchain-api-dot-celo-mobile-alfajores.appspot.com.*']
+) {
+  try {
+    await device.setURLBlacklist(urlList)
+  } catch (error) {
+    console.warn('Error in setUrlDenyList: ', error)
+  }
+}
