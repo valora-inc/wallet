@@ -10,6 +10,11 @@ export default offRamps = () => {
     await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
+    // Waiting for element to be present before tap
+    // TODO (TOM): Increase default timeout on taps from 1.5 seconds to 5
+    await waitFor(element(by.text('cashOut')))
+      .toBeVisible()
+      .withTimeout(5000)
     await element(by.id('cashOut')).tap()
   })
 
