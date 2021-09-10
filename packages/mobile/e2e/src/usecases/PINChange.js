@@ -17,11 +17,16 @@ export default ChangePIN = () => {
       .toBeVisible()
       .withTimeout(5000)
     await element(by.id('ChangePIN')).tap()
+    // Existing PIN is needed first
     await enterPinUi()
+    // Then we enter the new PIN
     await enterPinUi('223344')
+    // Then confirm the new PIN
     await enterPinUi('223344')
     await element(by.id('ChangePIN')).tap()
+    // Now try to change it again and enter the old PIN
     await enterPinUi()
+    // Check old PIN doesn't work anymore
     await expect(element(by.text('Incorrect PIN'))).toBeVisible()
     await enterPinUi('223344')
     await expect(element(by.text('Create a new PIN'))).toBeVisible()
