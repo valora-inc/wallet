@@ -141,10 +141,18 @@ export default offRamps = () => {
         await element(by.id('ConfirmWithdrawButton')).tap()
         // Enter PIN if necessary
         await enterPinUiIfNecessary()
-        // Get values of all feed values
-        let valuesSent = await element(by.id('FeedItemAmountDisplay/value')).getAttributes()
-        // Check the text of the amount in the most recent transaction
-        jestExpect(valuesSent.elements[0].text).toEqual(`-${randomAmount} CELO`)
+        // Use Different Assertions for iOS and Android
+        if (device.getPlatform() === 'ios') {
+          // Get values of all feed values - iOS
+          let valuesSent = await element(by.id('FeedItemAmountDisplay/value')).getAttributes()
+          // Check text amount in the most recent transaction
+          jestExpect(valuesSent.elements[0].text).toEqual(`-${randomAmount} CELO`)
+        } else {
+          // Check that the text of amount at index 0 is visible - Android
+          await waitFor(element(by.text(`-${randomAmount} CELO`)).atIndex(0))
+            .toBeVisible()
+            .withTimeout(5000)
+        }
       })
     })
 
