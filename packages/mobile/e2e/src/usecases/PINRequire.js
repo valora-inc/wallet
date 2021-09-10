@@ -1,6 +1,5 @@
 import { dismissBanners } from '../utils/banners'
 import { scrollIntoView } from '../utils/utils'
-const jestExpect = require('expect')
 
 export default RequirePIN = () => {
   beforeEach(async () => {

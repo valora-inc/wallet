@@ -2,6 +2,7 @@ import { dismissBanners } from '../utils/banners'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, getDeviceModel, pixelDiff, sleep } from '../utils/utils'
+const jestExpect = require('expect')
 
 export default offRamps = () => {
   beforeEach(async () => {
@@ -131,10 +132,14 @@ export default offRamps = () => {
       })
 
       it('Then Should Be Able To Send To Address', async () => {
-        // console.log('randomAmount: ', `-${randomAmount} CELO`)
+        // Confirm withdrawal for randomAmount
         await element(by.id('ConfirmWithdrawButton')).tap()
+        // Enter PIN if necessary
         await enterPinUiIfNecessary()
-        await expect(element(by.text(`-${randomAmount} CELO`))).toBeVisible()
+        // Get values of all feed values
+        let valuesSent = await element(by.id('FeedItemAmountDisplay/value')).getAttributes()
+        // Check the text of the amount in the most recent transaction
+        jestExpect(valuesSent.elements[0].text).toEqual(`-${randomAmount} CELO`)
       })
     })
 
