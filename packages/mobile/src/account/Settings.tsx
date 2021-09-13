@@ -414,6 +414,7 @@ export class Account extends React.Component<Props, State> {
               title={t('requirePinOnAppOpen')}
               value={this.props.requirePinOnAppOpen}
               onValueChange={this.handleRequirePinToggle}
+              testID="requirePinOnAppOpenToggle"
             />
             <SettingsItemSwitch
               title={t('enableDataSaver')}
