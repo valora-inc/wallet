@@ -52,10 +52,12 @@ export function* acceptSession(session: AcceptSession) {
   }
 
   const account: string = yield call(getAccountAddress)
-  connector.approveSession({
+  const sessionData = {
     accounts: [account],
     chainId: parseInt(networkConfig.networkId),
-  })
+  }
+  connector.approveSession(sessionData)
+  connector.updateSession(sessionData)
   yield call(handlePendingState)
 }
 
@@ -149,16 +151,17 @@ export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
         icons: [appendPath(WEB_LINK, '/favicon.ico')],
       },
     })
-    connector!.on('session_request', (error: any, payload: WalletConnectSessionRequest) => {
+    connector.on('session_request', (error: any, payload: WalletConnectSessionRequest) => {
       connectors[payload.params[0].peerId] = connector
       emit(sessionRequest(payload))
     })
-    connector!.on('call_request', (error: any, payload: WalletConnectPayloadRequest) => {
+    connector.on('call_request', (error: any, payload: WalletConnectPayloadRequest) => {
       emit(payloadRequest(connector.peerId, payload))
     })
     connector.on('disconnect', () => {
       emit(sessionDeleted(connector.peerId))
     })
+
     return () => {
       connector!.off('session_request')
       connector!.off('call_request')
