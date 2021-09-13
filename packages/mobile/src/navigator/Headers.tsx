@@ -1,10 +1,11 @@
 import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
+import variables from '@celo/react-components/styles/variables'
 import { StackNavigationOptions } from '@react-navigation/stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { PixelRatio, Platform, StyleSheet, Text, View } from 'react-native'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
@@ -29,7 +30,6 @@ export const styles = StyleSheet.create({
     ...fontStyles.navigationHeader,
   },
   headerSubTitle: {
-    ...fontStyles.small,
     color: colors.gray4,
   },
   header: {
@@ -104,6 +104,18 @@ export const headerWithBackButton: StackNavigationOptions = {
 export const headerWithCancelButton: StackNavigationOptions = {
   ...emptyHeader,
   headerLeft: () => <CancelButton />,
+}
+
+export const headerWithBackEditButtons: StackNavigationOptions = {
+  ...emptyHeader,
+  headerLeft: () =>
+    PixelRatio.getFontScale() > 1 ? (
+      <CancelButton buttonType="icon" />
+    ) : (
+      <CancelButton buttonType="text" />
+    ),
+  headerRight: () => <BackButton />,
+  headerRightContainerStyle: { paddingRight: variables.contentPadding + 6 },
 }
 
 export const headerWithCloseButton: StackNavigationOptions = {

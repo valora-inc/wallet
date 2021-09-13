@@ -16,8 +16,9 @@ exports[`Account renders correctly 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -175,6 +176,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -254,6 +256,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -333,6 +336,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -439,6 +443,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -580,6 +585,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -641,6 +647,7 @@ exports[`Account renders correctly 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -666,6 +673,7 @@ exports[`Account renders correctly 1`] = `
                 onChange={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                testID="requirePinOnAppOpenToggle"
               />
             </View>
           </View>
@@ -701,6 +709,7 @@ exports[`Account renders correctly 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -777,6 +786,7 @@ exports[`Account renders correctly 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -905,6 +915,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -984,6 +995,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -1063,6 +1075,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -1177,6 +1190,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -2437,8 +2451,9 @@ exports[`Account renders correctly when dev mode active 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -2596,6 +2611,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -2675,6 +2691,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -2754,6 +2771,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -2860,6 +2878,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -3001,6 +3020,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -3062,6 +3082,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -3087,6 +3108,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 onChange={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                testID="requirePinOnAppOpenToggle"
               />
             </View>
           </View>
@@ -3122,6 +3144,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -3198,6 +3221,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -3326,6 +3350,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -3405,6 +3430,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -3484,6 +3510,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -3598,6 +3625,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -5179,8 +5207,9 @@ exports[`Account renders correctly when verification is not possible 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -5338,6 +5367,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -5417,6 +5447,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -5523,6 +5554,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -5664,6 +5696,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -5725,6 +5758,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -5750,6 +5784,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                 onChange={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                testID="requirePinOnAppOpenToggle"
               />
             </View>
           </View>
@@ -5785,6 +5820,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -5861,6 +5897,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -5989,6 +6026,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -6068,6 +6106,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -6147,6 +6186,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -6261,6 +6301,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -7521,8 +7562,9 @@ exports[`Account renders correctly when verification is not possible 2`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -7680,6 +7722,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -7759,6 +7802,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -7865,6 +7909,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -8006,6 +8051,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -8067,6 +8113,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -8092,6 +8139,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                 onChange={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                testID="requirePinOnAppOpenToggle"
               />
             </View>
           </View>
@@ -8127,6 +8175,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -8203,6 +8252,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -8331,6 +8381,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -8410,6 +8461,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -8489,6 +8541,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -8603,6 +8656,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]

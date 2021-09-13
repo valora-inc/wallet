@@ -6,7 +6,7 @@ import NumberKeypad from '@celo/react-components/components/NumberKeypad'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import React, { useEffect } from 'react'
-import { Keyboard, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { PIN_LENGTH } from 'src/pincode/authentication'
 import PincodeDisplay from 'src/pincode/PincodeDisplay'
 
@@ -51,7 +51,7 @@ function Pincode({
   }, [])
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.scrollContainer}>
+    <View style={styles.container}>
       <View style={styles.spacer} />
       {!errorText && <Text style={styles.title}>{title || ' '}</Text>}
       {!!errorText && <Text style={styles.error}>{errorText}</Text>}
@@ -60,16 +60,13 @@ function Pincode({
       </View>
       <View style={styles.spacer} />
       <NumberKeypad onDigitPress={onDigitPress} onBackspacePress={onBackspacePress} />
-    </ScrollView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
-  },
-  scrollContainer: {
-    flexGrow: 1,
+    flex: 1,
   },
   spacer: {
     flex: 1,

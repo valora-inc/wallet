@@ -21,7 +21,7 @@ describe('Language', () => {
       expect(getByText(name)).toBeDefined()
     })
 
-    fireEvent.press(getByText('Español (América Latina)'))
+    fireEvent.press(getByText('Español'))
     jest.runAllTimers()
     expect(navigate).toHaveBeenCalledWith(Screens.OnboardingEducationScreen)
     expect(store.getActions()).toMatchInlineSnapshot(`

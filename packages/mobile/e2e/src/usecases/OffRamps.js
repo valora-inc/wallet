@@ -2,6 +2,7 @@ import { dismissBanners } from '../utils/banners'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, getDeviceModel, pixelDiff, sleep } from '../utils/utils'
+const jestExpect = require('expect')
 
 export default offRamps = () => {
   beforeEach(async () => {
@@ -9,6 +10,11 @@ export default offRamps = () => {
     await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
+    // Waiting for element to be present before tap
+    // TODO (TOM): Increase default timeout on taps from 1.5 seconds to 5
+    await waitFor(element(by.id('cashOut')))
+      .toBeVisible()
+      .withTimeout(5000)
     await element(by.id('cashOut')).tap()
   })
 
@@ -118,7 +124,7 @@ export default offRamps = () => {
     })
 
     describe('When Address Selected', () => {
-      const randomAmount = `${Math.random().toFixed(3)}`
+      const randomAmount = `${(Math.random() * 10 ** -1).toFixed(3)}`
 
       beforeEach(async () => {
         await element(by.id('receiveOnAddress')).tap()
@@ -131,10 +137,22 @@ export default offRamps = () => {
       })
 
       it('Then Should Be Able To Send To Address', async () => {
-        // console.log('randomAmount: ', `-${randomAmount} CELO`)
+        // Confirm withdrawal for randomAmount
         await element(by.id('ConfirmWithdrawButton')).tap()
+        // Enter PIN if necessary
         await enterPinUiIfNecessary()
-        await expect(element(by.text(`-${randomAmount} CELO`))).toBeVisible()
+        // Use Different Assertions for iOS and Android
+        if (device.getPlatform() === 'ios') {
+          // Get values of all feed values - iOS
+          let valuesSent = await element(by.id('FeedItemAmountDisplay/value')).getAttributes()
+          // Check text amount in the most recent transaction
+          jestExpect(valuesSent.elements[0].text).toEqual(`-${randomAmount} CELO`)
+        } else {
+          // Check that the text of amount at index 0 is visible - Android
+          await waitFor(element(by.text(`-${randomAmount} CELO`)).atIndex(0))
+            .toBeVisible()
+            .withTimeout(5000)
+        }
       })
     })
 

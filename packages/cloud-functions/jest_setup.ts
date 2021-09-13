@@ -62,6 +62,12 @@ jest.mock('firebase-functions', () => ({
     ip_api: {
       key: 'IP API KEY',
     },
+    db: {
+      host: 'localhost',
+      database: 'indexer_mainnet',
+      user: 'postgres',
+      password: 'docker',
+    },
   })),
 }))
 
