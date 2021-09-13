@@ -371,7 +371,6 @@ export const mockRecipientInfo: RecipientInfo = {
   phoneRecipientCache: mockPhoneRecipientCache,
   valoraRecipientCache: mockValoraRecipientCache,
   addressToE164Number: mockAddressToE164Number,
-  addressToDisplayName: {},
 }
 
 export const mockWallet: UnlockableWallet = {

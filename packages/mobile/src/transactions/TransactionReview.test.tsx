@@ -30,7 +30,9 @@ describe('TransactionReview', () => {
           currencyCode: 'cUSD',
         },
         type: TokenTransactionType.Sent,
-        e164PhoneNumber: mockE164NumberInvite,
+        recipient: {
+          e164PhoneNumber: mockE164NumberInvite,
+        },
       },
       reviewProps: {
         timestamp: Date.now(),

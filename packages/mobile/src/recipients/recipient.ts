@@ -3,11 +3,7 @@ import * as fuzzysort from 'fuzzysort'
 import { TFunction } from 'i18next'
 import { MinimalContact } from 'react-native-contacts'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
-import {
-  AddressToDisplayNameType,
-  AddressToE164NumberType,
-  E164NumberToAddressType,
-} from 'src/identity/reducer'
+import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { ContactMatches, RecipientVerificationStatus } from 'src/identity/types'
 import Logger from 'src/utils/Logger'
 
@@ -127,21 +123,22 @@ export interface RecipientInfo {
   addressToE164Number: AddressToE164NumberType
   phoneRecipientCache: NumberToRecipient
   valoraRecipientCache: AddressToRecipient
-  // this info comes from Firebase for known addresses (ex. Simplex, cUSD incentive programs)
-  // differentiated from valoraRecipients because they are not displayed in the RecipientPicker
-  addressToDisplayName: AddressToDisplayNameType
 }
 
-export function getRecipientFromAddress(address: string, info: RecipientInfo) {
+export function getRecipientFromAddress(
+  address: string,
+  info: RecipientInfo,
+  defaultName?: string,
+  defaultImage?: string
+) {
   const e164PhoneNumber = info.addressToE164Number[address]
   const numberRecipient = e164PhoneNumber ? info.phoneRecipientCache[e164PhoneNumber] : undefined
   const valoraRecipient = info.valoraRecipientCache[address]
-  const displayInfo = info.addressToDisplayName[address]
 
   const recipient: Recipient = {
     address,
-    name: valoraRecipient?.name || numberRecipient?.name || displayInfo?.name,
-    thumbnailPath: valoraRecipient?.thumbnailPath || displayInfo?.imageUrl || undefined,
+    name: valoraRecipient?.name || numberRecipient?.name || defaultName,
+    thumbnailPath: valoraRecipient?.thumbnailPath || defaultImage,
     contactId: valoraRecipient?.contactId || numberRecipient?.contactId,
     e164PhoneNumber: e164PhoneNumber || undefined,
     displayNumber: numberRecipient?.displayNumber,

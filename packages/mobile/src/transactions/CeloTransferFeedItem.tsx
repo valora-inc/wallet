@@ -17,6 +17,8 @@ import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { Namespaces } from 'src/i18n'
 import { addressToDisplayNameSelector } from 'src/identity/reducer'
+import { getRecipientFromAddress } from 'src/recipients/recipient'
+import { recipientInfoSelector } from 'src/recipients/reducer'
 import { navigateToPaymentTransferReview } from 'src/transactions/actions'
 import { TransactionStatus } from 'src/transactions/types'
 import { getDatetimeDisplayString } from 'src/utils/time'
@@ -29,7 +31,20 @@ export function CeloTransferFeedItem(props: Props) {
   const { t, i18n } = useTranslation(Namespaces.walletFlow5)
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
-  const { address, amount, hash, comment, status, timestamp, type } = props
+  const recipientInfo = useSelector(recipientInfoSelector)
+  const {
+    address,
+    amount,
+    hash,
+    comment,
+    status,
+    timestamp,
+    type,
+    defaultName,
+    defaultImage,
+  } = props
+
+  const recipient = getRecipientFromAddress(address, recipientInfo, defaultName, defaultImage)
 
   const onPress = () => {
     ValoraAnalytics.track(CeloExchangeEvents.celo_transaction_select)
@@ -39,6 +54,7 @@ export function CeloTransferFeedItem(props: Props) {
       comment,
       amount,
       type,
+      recipient,
       // fee TODO: add fee here.
     })
   }

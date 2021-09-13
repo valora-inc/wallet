@@ -41,12 +41,11 @@ export interface TransferConfirmationCardProps {
   type: TokenTransactionType
   e164PhoneNumber?: string
   dollarBalance?: BigNumber
-  recipient?: Recipient
+  recipient: Recipient
 }
 
 type Props = TransferConfirmationCardProps & {
   addressHasChanged: boolean
-  recipient: Recipient
 }
 
 const onPressGoToFaq = () => {
@@ -88,8 +87,8 @@ function InviteSentContent({ addressHasChanged, recipient, amount }: Props) {
       <UserSection
         type="sent"
         addressHasChanged={addressHasChanged}
-        recipient={recipient}
-        avatar={<ContactCircle recipient={recipient} />}
+        recipient={recipient!}
+        avatar={<ContactCircle recipient={recipient!} />}
       />
       <HorizontalLine />
       <FeeDrawer
@@ -220,8 +219,8 @@ function RewardContent({ amount, recipient }: Props) {
       <UserSection
         type="received"
         expandable={false}
-        recipient={recipient}
-        avatar={<TransferAvatars type="received" recipient={recipient} />}
+        recipient={recipient!}
+        avatar={<TransferAvatars type="received" recipient={recipient!} />}
       />
       <TouchableOpacity onPress={openLearnMore} testID={'celoRewards/learnMore'}>
         <Text style={styles.learnMore}>{t('learnMore')}</Text>

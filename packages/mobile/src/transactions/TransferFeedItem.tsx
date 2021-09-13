@@ -39,13 +39,15 @@ function navigateToTransactionReview({
   timestamp,
   amount,
   recipientInfo,
+  defaultName,
+  defaultImage,
 }: Props) {
   // TODO: remove this when verification reward drilldown is supported
   if (type === TokenTransactionType.VerificationReward) {
     return
   }
 
-  const recipient = getRecipientFromAddress(address, recipientInfo)
+  const recipient = getRecipientFromAddress(address, recipientInfo, defaultName, defaultImage)
 
   navigateToPaymentTransferReview(type, timestamp, {
     address,
@@ -83,6 +85,8 @@ export function TransferFeedItem(props: Props) {
     recentTxRecipientsCache,
     invitees,
     recipientInfo,
+    defaultName,
+    defaultImage,
   } = props
 
   const { title, info, recipient } = getTransferFeedParams(
@@ -101,7 +105,9 @@ export function TransferFeedItem(props: Props) {
     rewardsSenders.includes(address),
     inviteRewardSenders.includes(address),
     txHashToFeedInfo[hash],
-    amount.currencyCode
+    amount.currencyCode,
+    defaultName,
+    defaultImage
   )
 
   return (

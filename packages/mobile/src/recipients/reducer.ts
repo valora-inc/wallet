@@ -82,6 +82,5 @@ export const recipientInfoSelector = (state: RootState) => {
     addressToE164Number: state.identity.addressToE164Number,
     phoneRecipientCache: state.recipients.phoneRecipientCache,
     valoraRecipientCache: state.recipients.valoraRecipientCache,
-    addressToDisplayName: state.identity.addressToDisplayName,
   }
 }
