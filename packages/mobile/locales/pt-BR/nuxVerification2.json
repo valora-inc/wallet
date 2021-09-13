@@ -29,8 +29,8 @@
     "section2Body": "Para proteger sua privacidade, apenas uma versão ofuscada do seu número de celular é armazenada no blockchain da Celo."
   },
   "loading": {
-    "confirming": "Confirmando...",
-    "pleaseKeepAppOpen": "Mantenha o aplicativo aberto",
+    "confirming": "Confirmando número de telefone…",
+    "pleaseKeepAppOpen": "Por favor não saia desta tela ou você terá que reiniciar",
     "learnMore": "Saiba mais",
     "card1": "Para garantirmos que o número de celular informado seja realmente seu, estamos enviando três mensagens para você.",
     "card2": "Assim que o seu número for confirmado, você pode enviar e receber fundos facilmente em seu número de celular.",
