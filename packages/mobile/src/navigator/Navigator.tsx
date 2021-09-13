@@ -335,6 +335,7 @@ const exchangeReviewScreenOptions = ({
         />
       ) : (
         <CancelButton
+          style={{ paddingHorizontal: 0 }}
           buttonType={'text'}
           onCancel={navigateToExchangeHome}
           eventName={cancelEventName}
