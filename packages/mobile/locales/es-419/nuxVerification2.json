@@ -29,8 +29,8 @@
     "section2Body": "Para proteger tu privacidad, solo se guarda una versión oculta de tu número de teléfono en la cadena de bloques de Celo."
   },
   "loading": {
-    "confirming": "Confirmando…",
-    "pleaseKeepAppOpen": "No cierres la app",
+    "confirming": "Confirmando número de teléfono…",
+    "pleaseKeepAppOpen": "Por favor, no salgas de esta pantalla o tendrás que reiniciar",
     "learnMore": "Más información",
     "card1": "Para asegurarnos de que tu número sea realmente tuyo, te enviaremos tres mensajes de texto.",
     "card2": "Una vez que se conecte tu número, podrás enviar y recibir fondos fácilmente a tu número de teléfono.",
