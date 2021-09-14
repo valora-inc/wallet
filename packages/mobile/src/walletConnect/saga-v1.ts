@@ -22,6 +22,7 @@ import {
   sessionDeleted,
   SessionRequest,
   sessionRequest,
+  storeSession,
   WalletConnectActions,
 } from 'src/walletConnect/actions-v1'
 import { PendingAction, PendingSession, Session } from 'src/walletConnect/reducer'
@@ -58,6 +59,7 @@ export function* acceptSession(session: AcceptSession) {
   }
   connector.approveSession(sessionData)
   connector.updateSession(sessionData)
+  yield put(storeSession(connector.session))
   yield call(handlePendingState)
 }
 
@@ -237,19 +239,16 @@ export function* handlePayloadRequest(action: PayloadRequest) {
 }
 
 export function* checkPersistedState(): any {
-  const {
-    sessions,
-  }: {
-    pending: PendingSession[]
-    sessions: Session[]
-  } = yield select(selectSessions)
+  const { sessions }: { sessions: Session[] } = yield select(selectSessions)
+
+  console.log('SESSIONS', sessions)
 
   for (const s of sessions) {
     if (!s.isV1) {
       return
     }
     try {
-      const connector = connectors[s.session.params[0].peerId]
+      const connector = connectors[s.session.peerId]
       // @ts-ignore
       const connectorConnected = connector?._transport.connected
       if (!connectorConnected) {
@@ -258,21 +257,10 @@ export function* checkPersistedState(): any {
           // @ts-ignore
           connector._eventManager = null
         }
-        const account: string = yield call(getAccountAddress)
 
         const walletConnectChannel: EventChannel<WalletConnectActions> = yield call(
           createWalletConnectChannelWithArgs,
-          {
-            // Without adding the uri here we get a `Missing or invalid WebSocket url` error,
-            // but this isn't receiving any new messages either.
-            uri: s.session.uri,
-            session: {
-              ...s.session.params[0],
-              // Not sure if we really need to pass accounts and chainId here.
-              accounts: [account],
-              chainId: parseInt(networkConfig.networkId),
-            },
-          }
+          { session: s.session }
         )
         yield fork(listenForWalletConnectMessages, walletConnectChannel)
       }

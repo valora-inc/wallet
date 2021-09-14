@@ -18,8 +18,8 @@ import { closeSession as closeSessionActionV2 } from 'src/walletConnect/actions-
 import { Session } from 'src/walletConnect/reducer'
 import { selectSessions } from 'src/walletConnect/selectors'
 
-const App = ({ metadata, onPress }: { metadata: AppMetadata; onPress: () => void }) => {
-  const icon = metadata.icons[0] || `${metadata.url}/favicon.ico`
+const App = ({ metadata, onPress }: { metadata: AppMetadata | null; onPress: () => void }) => {
+  const icon = metadata?.icons[0] || `${metadata?.url}/favicon.ico`
   const { t } = useTranslation(Namespaces.walletConnect)
 
   return (
@@ -27,7 +27,7 @@ const App = ({ metadata, onPress }: { metadata: AppMetadata; onPress: () => void
       <View style={styles.row}>
         <Image source={{ uri: icon }} style={styles.icon} />
         <View style={styles.rowContent}>
-          <Text style={styles.appName}>{metadata.name}</Text>
+          <Text style={styles.appName}>{metadata?.name}</Text>
           <Text style={styles.disconnectButton}>{t('tapToDisconnect')}</Text>
         </View>
       </View>
@@ -63,7 +63,7 @@ function Sessions() {
   }
 
   const appName = highlighted?.isV1
-    ? highlighted.session.params[0].peerMeta.name
+    ? highlighted?.session.peerMeta?.name
     : highlighted?.session.peer.metadata.name
   return (
     <ScrollView testID="WalletConnectSessionsView">
@@ -89,11 +89,7 @@ function Sessions() {
         {sessions.map((s) => {
           if (s.isV1) {
             return (
-              <App
-                key={s.session.params[0].peerId}
-                metadata={s.session.params[0].peerMeta}
-                onPress={openModal(s)}
-              />
+              <App key={s.session.peerId} metadata={s.session.peerMeta} onPress={openModal(s)} />
             )
           }
           return (

@@ -1,4 +1,8 @@
-import { WalletConnectPayloadRequest, WalletConnectSessionRequest } from 'src/walletConnect/types'
+import {
+  WalletConnectPayloadRequest,
+  WalletConnectSession,
+  WalletConnectSessionRequest,
+} from 'src/walletConnect/types'
 
 export enum Actions {
   /**
@@ -13,6 +17,8 @@ export enum Actions {
   ACCEPT_REQUEST_V1 = 'WALLETCONNECT/ACCEPT_REQUEST_V1',
   DENY_REQUEST_V1 = 'WALLETCONNECT/DENY_REQUEST_V1',
   REQUEST_HANDLED_V1 = 'WALLETCONNECT/REQUEST_HANDLED_V1',
+
+  STORE_SESSION_V1 = 'WALLETCONNECT/STORE_SESSION_V1',
 
   /**
    * Actions coming from the WalletConnect client
@@ -41,6 +47,10 @@ export interface DenySession {
 export interface CloseSession {
   type: Actions.CLOSE_SESSION_V1
   session: WalletConnectSessionRequest
+}
+export interface StoreSession {
+  type: Actions.STORE_SESSION_V1
+  session: WalletConnectSession
 }
 
 export interface AcceptRequest {
@@ -74,6 +84,7 @@ export type UserActions =
   | AcceptSession
   | DenySession
   | SessionDeleted
+  | StoreSession
   | CloseSession
   | AcceptRequest
   | DenyRequest
@@ -93,6 +104,10 @@ export const denySession = (session: WalletConnectSessionRequest): DenySession =
 })
 export const closeSession = (session: any) => ({
   type: Actions.CLOSE_SESSION_V1,
+  session,
+})
+export const storeSession = (session: WalletConnectSession) => ({
+  type: Actions.STORE_SESSION_V1,
   session,
 })
 
