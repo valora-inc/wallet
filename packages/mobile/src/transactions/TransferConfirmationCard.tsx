@@ -35,7 +35,6 @@ import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 export interface TransferConfirmationCardProps {
-  address?: string
   comment?: string | null
   amount: MoneyAmount
   type: TokenTransactionType
@@ -233,6 +232,7 @@ function RewardContent({ amount, recipient }: Props) {
 
 // Differs from TransferReviewCard which is used during Send flow, this is for completed txs
 export default function TransferConfirmationCard(props: Props) {
+  console.log(`TransferConfirmationCard ${JSON.stringify(props)}`)
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const rewardsSenders = useSelector(rewardsSendersSelector)
   let content

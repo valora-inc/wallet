@@ -50,7 +50,6 @@ function navigateToTransactionReview({
   const recipient = getRecipientFromAddress(address, recipientInfo, defaultName, defaultImage)
 
   navigateToPaymentTransferReview(type, timestamp, {
-    address,
     comment: getDecryptedTransferFeedComment(comment, commentKey, type),
     amount,
     recipient,

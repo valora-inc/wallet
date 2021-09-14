@@ -10,8 +10,7 @@ import { addressToDisplayNameSelector, SecureSendPhoneNumberMapping } from 'src/
 import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { RecipientInfo } from 'src/recipients/recipient'
-import { allRewardsSendersSelector, recipientInfoSelector } from 'src/recipients/reducer'
+import { allRewardsSendersSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import useSelector from 'src/redux/useSelector'
 import TransferConfirmationCard, {
@@ -22,7 +21,6 @@ import { getDatetimeDisplayString } from 'src/utils/time'
 
 interface StateProps {
   addressHasChanged: boolean
-  recipientInfo: RecipientInfo
 }
 export interface ReviewProps {
   type: TokenTransactionType
@@ -45,7 +43,7 @@ const hasAddressChanged = (
     return false
   }
 
-  const { address, e164PhoneNumber } = confirmationProps
+  const { address, e164PhoneNumber } = confirmationProps.recipient
   if (!address || !e164PhoneNumber || !secureSendPhoneNumberMapping[e164PhoneNumber]) {
     return false
   }
@@ -62,9 +60,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): StateProps => {
   const { confirmationProps } = ownProps.route.params
   const { secureSendPhoneNumberMapping } = state.identity
   const addressHasChanged = hasAddressChanged(confirmationProps, secureSendPhoneNumberMapping)
-  const recipientInfo = recipientInfoSelector(state)
-
-  return { addressHasChanged, recipientInfo }
+  return { addressHasChanged }
 }
 
 function isExchange(
@@ -74,10 +70,12 @@ function isExchange(
 }
 
 function TransactionReview({ navigation, route, addressHasChanged }: Props) {
+  console.log(`TransactionReview ${JSON.stringify({ navigation, route, addressHasChanged })}`)
   const {
     reviewProps: { type, timestamp },
     confirmationProps,
   } = route.params
+  console.log(`DIEGO 2 ${JSON.stringify(route.params)}`)
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const rewardsSenders = useSelector(allRewardsSendersSelector)
 

@@ -23,7 +23,6 @@ describe('TransactionReview', () => {
 
     const mockScreenProps = getMockStackScreenProps(Screens.TransactionReview, {
       confirmationProps: {
-        address: mockAccount,
         comment: 'Pay up!',
         amount: {
           value: '1.0',
@@ -31,6 +30,7 @@ describe('TransactionReview', () => {
         },
         type: TokenTransactionType.Sent,
         recipient: {
+          address: mockAccount,
           e164PhoneNumber: mockE164NumberInvite,
         },
       },

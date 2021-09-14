@@ -439,7 +439,11 @@ describe('transfer feed item renders correctly', () => {
     )
     expect(tree).toMatchSnapshot()
   })
-  const renderFeedItemForSendWithoutCaches = (address: string, recipientInfo: RecipientInfo) => (
+  const renderFeedItemForSendWithoutCaches = (
+    address: string,
+    recipientInfo: RecipientInfo,
+    defaultName?: string
+  ) => (
     <TransferFeedItem
       __typename="TokenTransfer"
       status={TransactionStatus.Complete}
@@ -456,24 +460,19 @@ describe('transfer feed item renders correctly', () => {
       recentTxRecipientsCache={{}}
       account={''}
       invitees={[]}
+      defaultName={defaultName}
     />
   )
-  it('for known address display name show stored name on feed item', () => {
+  it('shows default name when transaction contains name and the address is unknown', () => {
     const contactName = 'Some name'
     const recipientInfo = {
       phoneRecipientCache: {},
       valoraRecipientCache: {},
       addressToE164Number: {},
-      addressToDisplayName: {
-        [mockAccount]: {
-          name: contactName,
-          imageUrl: '',
-        },
-      },
     }
     const tree = render(
       <Provider store={createMockStore({})}>
-        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo)}
+        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo, contactName)}
       </Provider>
     )
     expect(tree.queryByText(new RegExp(contactName))).toBeTruthy()
@@ -485,16 +484,10 @@ describe('transfer feed item renders correctly', () => {
       phoneRecipientCache: {},
       valoraRecipientCache: {},
       addressToE164Number: mockAddressToE164Number,
-      addressToDisplayName: {
-        [mockAccount2]: {
-          name: contactName,
-          imageUrl: '',
-        },
-      },
     }
     const tree = render(
       <Provider store={createMockStore({})}>
-        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo)}
+        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo, contactName)}
       </Provider>
     )
     expect(tree.queryByText(new RegExp(contactName))).toBeFalsy()
