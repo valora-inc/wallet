@@ -242,7 +242,7 @@ describe('ProviderOptionsScreen', () => {
     expect(navigateToURI).not.toHaveBeenCalled()
   })
 
-  it('hides a provider is a user region is restricted', async () => {
+  it('hides a provider if a user region is restricted', async () => {
     mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(

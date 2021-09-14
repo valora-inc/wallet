@@ -41,8 +41,8 @@ export interface ProviderQuote {
 
 export interface Provider {
   name: Providers
-  restricted: boolean
-  unavailable?: boolean
+  restricted: boolean // not available in a given region
+  unavailable: boolean // not currently available to process transactions
   paymentMethods: PaymentMethod[]
   url?: string
   logo: string
