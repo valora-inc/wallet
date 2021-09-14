@@ -9,8 +9,8 @@ import {
   UserActions as UserActionsV2,
   WalletConnectActions as WalletConnectActionsV2,
 } from 'src/walletConnect/actions-v2'
-
 import { WalletConnectPayloadRequest, WalletConnectSessionRequest } from 'src/walletConnect/types'
+
 export type PendingAction =
   | { isV1: true; action: WalletConnectPayloadRequest; peerId: string }
   | {

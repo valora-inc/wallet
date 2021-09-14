@@ -39,10 +39,9 @@ import {
   verificationPossibleSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
-import { PRIVACY_LINK } from 'src/brandingConfig'
 import Dialog from 'src/components/Dialog'
 import SessionId from 'src/components/SessionId'
-import { TOS_LINK } from 'src/config'
+import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { revokeVerification } from 'src/identity/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'

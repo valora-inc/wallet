@@ -1,5 +1,4 @@
 import { appendPath } from '@celo/base'
-import { ContractKit } from '@celo/contractkit'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import WalletConnectClient from '@walletconnect/client-v1'
@@ -121,9 +120,9 @@ export function* denyRequest(r: DenyRequest) {
     if (!connector) {
       throw new Error('missing connector')
     }
-    connector.rejectRequest({ id, error: '' })
+    connector.rejectRequest({ id, error: { message: '' } })
   } catch (e) {
-    Logger.debug(TAG + '@denyRequest', e.message)
+    Logger.debug(TAG + '@denyRequest', e?.message)
   }
 
   yield call(handlePendingStateOrNavigateBack)
