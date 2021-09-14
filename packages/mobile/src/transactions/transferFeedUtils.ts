@@ -20,7 +20,10 @@ import {
   RecipientInfo,
 } from 'src/recipients/recipient'
 import { KnownFeedTransactionsType } from 'src/transactions/reducer'
+import Logger from 'src/utils/Logger'
 import { isPresent } from 'src/utils/typescript'
+
+const TAG = 'transactions/TransferFeedUtils'
 
 export function getDecryptedTransferFeedComment(
   comment: string | null,
@@ -239,7 +242,7 @@ export function getTxsFromUserTxQuery(data: UserTransactionsQuery | undefined) {
   //   ;(frag as TransferItemFragment).defaultName = 'DIEGO TEST'
   //   ;(frag as TransferItemFragment).defaultImage = 'https://source.unsplash.com/user/c_v_r/150x150'
   // })
-  //Logger.debug("Diego", fragments.map((f) => JSON.stringify(f)))
+  Logger.debug(TAG, `Retrieved transactions from server ${fragments.map((f) => JSON.stringify(f))}`)
 
   return fragments
 }

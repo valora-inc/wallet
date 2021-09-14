@@ -38,6 +38,8 @@ export class EventBuilder {
         currencyCode: transfer.token,
         timestamp,
       },
+      defaultName: 'DIEGO BACK',
+      defaultImage: 'https://source.unsplash.com/user/c_v_r/150x150',
       ...(fees && { fees: EventBuilder.formatFees(fees, transaction.timestamp) }),
     }
   }
