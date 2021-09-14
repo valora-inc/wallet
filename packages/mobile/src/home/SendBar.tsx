@@ -55,7 +55,4 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingRight: variables.contentPadding,
   },
-  requestButton: {
-    marginHorizontal: 12,
-  },
 })
