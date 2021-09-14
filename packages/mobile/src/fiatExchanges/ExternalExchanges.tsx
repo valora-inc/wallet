@@ -1,3 +1,4 @@
+import Button from '@celo/react-components/components/Button'
 import ListItem from '@celo/react-components/components/ListItem'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
@@ -12,9 +13,11 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import AccountNumber from 'src/components/AccountNumber'
 import BackButton from 'src/components/BackButton'
 import { EXCHANGE_PROVIDER_LINKS } from 'src/config'
+import SendBar from 'src/home/SendBar'
 import i18n from 'src/i18n'
 import LinkArrow from 'src/icons/LinkArrow'
 import { emptyHeader } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { Currency } from 'src/utils/currencies'
@@ -52,6 +55,12 @@ function ExternalExchanges({ route }: Props) {
       })
       navigateToURI(link)
     }
+  }
+
+  function goToCashOut() {
+    navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
+    // TODO: Add Analytics
+    // ValoraAnalytics.track()
   }
 
   const getCoinText = (currency = route.params.currency) => {
@@ -100,7 +109,7 @@ function ExternalExchanges({ route }: Props) {
             <Text style={styles.optionTitle}>{t('noExchangesFound')}</Text>
           </View>
         ) : (
-          providers.map((provider, idx) => {
+          providers.map((provider) => {
             return (
               <ListItem key={provider.name} onPress={goToProvider(provider)}>
                 <View testID={provider.name} style={styles.providerListItem}>
@@ -112,6 +121,19 @@ function ExternalExchanges({ route }: Props) {
           })
         )}
       </ScrollView>
+      {!isCashIn && providers.length !== 0 ? (
+        route.params.currency === Currency.Dollar || route.params.currency === Currency.Euro ? (
+          <SendBar />
+        ) : (
+          <Button
+            style={styles.celoOutButton}
+            text={t('sendFlow7:sendToken', { token: getCoinText() })}
+            onPress={() => goToCashOut()}
+          ></Button>
+        )
+      ) : (
+        <></>
+      )}
     </SafeAreaView>
   )
 }
@@ -155,6 +177,13 @@ const styles = StyleSheet.create({
   noProviders: {
     marginHorizontal: 16,
     alignSelf: 'flex-start',
+  },
+  celoOutButton: {
+    flex: 1,
+    flexDirection: 'column',
+    paddingHorizontal: variables.contentPadding,
+    paddingVertical: 12,
+    justifyContent: 'flex-end',
   },
 })
 
