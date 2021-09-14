@@ -7,6 +7,7 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import {
   CANCELLED_PIN_INPUT,
   DEFAULT_CACHE_ACCOUNT,
+  PinBlocklist,
   getPasswordSaga,
   getPincode,
 } from 'src/pincode/authentication'
@@ -78,5 +79,54 @@ describe(getPincode, () => {
     expect(navigate).toHaveBeenCalled()
     expect(navigateBack).not.toHaveBeenCalled()
     expect(getCachedPin(DEFAULT_CACHE_ACCOUNT)).toBeNull()
+  })
+})
+
+describe(PinBlocklist, () => {
+  const blocklist = new PinBlocklist()
+
+  describe('#contains', () => {
+    const commonPins = [
+      '000000',
+      '123456',
+      '111111',
+      '123123',
+      '159951',
+      '007007',
+      '110989',
+      '789789',
+      '456456',
+      '852456',
+      '999999',
+    ]
+
+    for (const commonPin of commonPins) {
+      it(`indicates the list contains common PIN ${commonPin}`, () => {
+        expect(blocklist.contains(commonPin)).toBe(true)
+      })
+    }
+
+    it('indicates inclusion of a small portion of random PINs', () => {
+      // Using the frequentist estimator of true probability for a Bernoulli process.
+      // https://en.wikipedia.org/wiki/Checking_whether_a_coin_is_fair#Estimator_of_true_probability
+      // Using 2000 trials, and a confidence interval Z value of 3.89 gives the test a 1 in 10,000
+      // chance of randomly failing. Tolerance is calulated to match these choices using the
+      // formulas in the article above.
+      const blockProbability = blocklist.size() / 1000000
+      const trials = 2000
+      const tolerance = 3.89 * Math.sqrt((blockProbability * (1 - blockProbability)) / trials)
+
+      let positives = 0
+      for (let i = 0; i < trials; i++) {
+        const randomPin = String(Math.floor(Math.random() * 1000000)).padStart(6, '0')
+        if (blocklist.contains(randomPin)) {
+          positives++
+        }
+      }
+
+      const estimate = positives / trials
+      const withinTolerance = Math.abs(blockProbability - estimate) <= tolerance
+      expect(withinTolerance).toBe(true)
+    })
   })
 })
