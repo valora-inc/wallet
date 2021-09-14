@@ -242,7 +242,7 @@ describe('ProviderOptionsScreen', () => {
     expect(navigateToURI).not.toHaveBeenCalled()
   })
 
-  it('shows a warning if user region is not supported', async () => {
+  it('hides a provider is a user region is restricted', async () => {
     mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
@@ -253,9 +253,11 @@ describe('ProviderOptionsScreen', () => {
 
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
 
-    const elements = tree.queryAllByText('restrictedRegion')
+    const xanpoolElement = tree.queryByText('Xanpool')
+    const simplexElement = tree.queryByText('Simplex')
     // Only Xanpool is restricted in mock
-    expect(elements).toHaveLength(1)
+    expect(xanpoolElement).toBeFalsy()
+    expect(simplexElement).toBeTruthy()
   })
 
   it('shows a warning if the selected payment method is not supported', async () => {

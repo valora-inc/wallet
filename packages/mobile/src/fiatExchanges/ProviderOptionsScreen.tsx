@@ -144,9 +144,16 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       // Hacky way to only show Ramp if the selected cash-in currency is cEUR
       // When redesigning flow, should accomodate this on backend
       currencyToBuy === CiCoCurrency.CEUR
-        ? activeProviders?.filter((provider) => provider.cashIn && provider.name === 'Ramp') || []
-        : activeProviders?.filter((provider) => provider.cashIn).sort(sortProviders) || [],
-    cashOut: activeProviders?.filter((provider) => provider.cashOut).sort(sortProviders) || [],
+        ? activeProviders?.filter(
+            (provider) => provider.cashIn && !provider.restricted && provider.name === 'Ramp'
+          ) || []
+        : activeProviders
+            ?.filter((provider) => provider.cashIn && !provider.restricted)
+            .sort(sortProviders) || [],
+    cashOut:
+      activeProviders
+        ?.filter((provider) => provider.cashOut && !provider.restricted)
+        .sort(sortProviders) || [],
   }
 
   const providerOnPress = (provider: CicoProvider) => () => {
@@ -235,9 +242,6 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
                     <View style={styles.providerSubtextContainer}>
                       {provider.unavailable && (
                         <Text style={styles.restrictedText}>{t('providerUnavailable')}</Text>
-                      )}
-                      {provider.restricted && !provider.unavailable && (
-                        <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
                       )}
                       {!provider.unavailable &&
                         !provider.restricted &&
