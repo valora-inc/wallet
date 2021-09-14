@@ -55,11 +55,14 @@ function ExternalExchanges({ route }: Props) {
   }
 
   const getCoinText = (currency = route.params.currency) => {
-    return currency === Currency.Dollar
-      ? t('celoDollars')
-      : route.params.currency === Currency.Euro
-      ? t('celoEuro')
-      : 'CELO'
+    switch (currency) {
+      case Currency.Dollar:
+        return t('celoDollars')
+      case Currency.Euro:
+        return t('celoEuro')
+      default:
+        return 'CELO'
+    }
   }
 
   const { t } = useTranslation('fiatExchangeFlow')
@@ -72,11 +75,17 @@ function ExternalExchanges({ route }: Props) {
   return (
     <SafeAreaView style={styles.container}>
       {isCashIn ? (
-        <Text style={styles.pleaseSelectProvider}>
-          {t('youCanTransferIn', {
-            currency: getCoinText(),
-          })}
-        </Text>
+        <>
+          <View testID="accountBox" style={styles.accountBox}>
+            <Text style={styles.accountLabel}>{t('sendFlow7:accountNumberLabel')}</Text>
+            <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
+          </View>
+          <Text style={styles.pleaseSelectProvider}>
+            {t('youCanTransferIn', {
+              currency: getCoinText(),
+            })}
+          </Text>
+        </>
       ) : (
         <Text style={styles.pleaseSelectProvider}>
           {t('youCanTransferOut', {
@@ -84,21 +93,24 @@ function ExternalExchanges({ route }: Props) {
           })}
         </Text>
       )}
-      <View testID="accountBox" style={styles.accountBox}>
-        <Text style={styles.accountLabel}>{t('sendFlow7:accountNumberLabel')}</Text>
-        <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
-      </View>
+
       <ScrollView style={styles.providersContainer}>
-        {providers.map((provider, idx) => {
-          return (
-            <ListItem key={provider.name} onPress={goToProvider(provider)}>
-              <View testID={provider.name} style={styles.providerListItem}>
-                <Text style={styles.optionTitle}>{provider.name}</Text>
-                <LinkArrow />
-              </View>
-            </ListItem>
-          )
-        })}
+        {providers.length === 0 ? (
+          <View testID="NoProvidersFound" style={styles.noProviders}>
+            <Text style={styles.optionTitle}>{t('noExchangesFound')}</Text>
+          </View>
+        ) : (
+          providers.map((provider, idx) => {
+            return (
+              <ListItem key={provider.name} onPress={goToProvider(provider)}>
+                <View testID={provider.name} style={styles.providerListItem}>
+                  <Text style={styles.optionTitle}>{provider.name}</Text>
+                  <LinkArrow />
+                </View>
+              </ListItem>
+            )
+          })
+        )}
       </ScrollView>
     </SafeAreaView>
   )
@@ -139,6 +151,10 @@ const styles = StyleSheet.create({
   optionTitle: {
     flex: 3,
     ...fontStyles.regular,
+  },
+  noProviders: {
+    marginHorizontal: 16,
+    alignSelf: 'flex-start',
   },
 })
 
