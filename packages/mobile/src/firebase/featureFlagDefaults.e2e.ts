@@ -22,4 +22,5 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   rewardsMax: 1000,
   komenciUseLightProxy: false,
   komenciAllowedDeployers: '',
+  pincodeUseExpandedBlocklist: true,
 }
