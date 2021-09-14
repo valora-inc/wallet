@@ -20,7 +20,9 @@ export default function SendBar() {
   const onPressQrCode = () => {
     // TODO: Add Analytics
     // ValoraAnalytics.track()
-    navigate(Screens.QRNavigator)
+    navigate(Screens.QRNavigator, {
+      screen: Screens.QRScanner,
+    })
   }
 
   const { t } = useTranslation(Namespaces.sendFlow7)
