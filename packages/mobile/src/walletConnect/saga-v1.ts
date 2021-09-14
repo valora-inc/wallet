@@ -3,7 +3,7 @@ import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import WalletConnectClient from '@walletconnect/client-v1'
 import { EventChannel, eventChannel } from 'redux-saga'
-import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import { call, fork, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -43,10 +43,11 @@ export function getConnectorMetadata(peerId: string) {
 }
 
 export function* acceptSession(session: AcceptSession) {
+  Logger.debug(TAG + '@acceptSession', 'Starting to accept session request', session)
   const { peerId } = session.session.params[0]
   const connector = connectors[peerId]
   if (!connector) {
-    Logger.debug(TAG + '@acceptRequest', 'missing connector')
+    Logger.debug(TAG + '@acceptSession', 'missing connector')
     return
   }
 
@@ -133,6 +134,12 @@ export function* handleInitialiseWalletConnect({ uri }: InitialiseConnection) {
     createWalletConnectChannel,
     uri
   )
+  yield call(listenForWalletConnectMessages, walletConnectChannel)
+}
+
+export function* listenForWalletConnectMessages(
+  walletConnectChannel: EventChannel<WalletConnectActions>
+) {
   while (true) {
     const message: WalletConnectActions = yield take(walletConnectChannel)
     yield put(message)
@@ -140,6 +147,11 @@ export function* handleInitialiseWalletConnect({ uri }: InitialiseConnection) {
 }
 
 export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
+  Logger.info(
+    TAG + '@createWalletConnectChannelWithArgs',
+    'Creating Wallet',
+    JSON.stringify(connectorOpts)
+  )
   return eventChannel((emit: any) => {
     const connector = new WalletConnectClient({
       ...connectorOpts,
@@ -150,8 +162,13 @@ export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
         icons: [appendPath(WEB_LINK, '/favicon.ico')],
       },
     })
+    // This if might not be needed/desired.
+    if (connectorOpts?.session?.peerId) {
+      connectors[connectorOpts.session.peerId] = connector
+    }
     connector.on('session_request', (error: any, payload: WalletConnectSessionRequest) => {
       connectors[payload.params[0].peerId] = connector
+      payload.uri = connectorOpts.uri
       emit(sessionRequest(payload))
     })
     connector.on('call_request', (error: any, payload: WalletConnectPayloadRequest) => {
@@ -209,23 +226,42 @@ export function* checkPersistedState(): any {
     sessions: Session[]
   } = yield select(selectSessions)
 
-  sessions.map((s) => {
+  for (const s of sessions) {
     if (!s.isV1) {
       return
     }
-    const connector = connectors[s.session.params[0].peerId]
-    // @ts-ignore
-    const connectorConnected = connector?._transport.connected
-    if (!connectorConnected) {
+    try {
+      const connector = connectors[s.session.params[0].peerId]
       // @ts-ignore
-      if (connector?._eventManager) {
+      const connectorConnected = connector?._transport.connected
+      if (!connectorConnected) {
         // @ts-ignore
-        connector._eventManager = null
+        if (connector?._eventManager) {
+          // @ts-ignore
+          connector._eventManager = null
+        }
+        const account: string = yield call(getAccountAddress)
+
+        const walletConnectChannel: EventChannel<WalletConnectActions> = yield call(
+          createWalletConnectChannelWithArgs,
+          {
+            // Without adding the uri here we get a `Missing or invalid WebSocket url` error,
+            // but this isn't receiving any new messages either.
+            uri: s.session.uri,
+            session: {
+              ...s.session.params[0],
+              // Not sure if we really need to pass accounts and chainId here.
+              accounts: [account],
+              chainId: parseInt(networkConfig.networkId),
+            },
+          }
+        )
+        yield fork(listenForWalletConnectMessages, walletConnectChannel)
       }
-      console.log('Creating channel')
-      createWalletConnectChannelWithArgs({ session: s.session })
+    } catch (error: any) {
+      Logger.debug(TAG + '@checkPersistedState', error)
     }
-  })
+  }
 
   yield call(handlePendingState)
 }
