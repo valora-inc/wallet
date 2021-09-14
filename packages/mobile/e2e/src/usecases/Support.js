@@ -47,8 +47,8 @@ export default Support = () => {
       .toBeVisible()
       .withTimeout(10000)
     await element(by.id('MessageEntry')).tap()
-    await element(by.id('MessageEntry')).typeText('This is a test from cLabs')
-    await expect(element(by.id('MessageEntry'))).toHaveText('This is a test from cLabs')
+    await element(by.id('MessageEntry')).typeText('This is a test from Valora')
+    await expect(element(by.id('MessageEntry'))).toHaveText('This is a test from Valora')
     const imagePath = await device.takeScreenshot('Support')
     await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Support.png`)
     // TODO: Email Client needed for emulators Send Request after briefing support if appropriate

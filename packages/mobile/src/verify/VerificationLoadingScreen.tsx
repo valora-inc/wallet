@@ -265,7 +265,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.onboardingBackground,
   },
   buttonCancelContainer: {
-    paddingLeft: 16,
     position: 'absolute',
     top: 10,
     left: 5,
@@ -284,6 +283,8 @@ const styles = StyleSheet.create({
     ...fontStyles.h2,
     color: colors.onboardingBrownLight,
     marginBottom: 40,
+    textAlign: 'center',
+    paddingHorizontal: 24,
   },
   upHandleContainer: {
     alignItems: 'center',

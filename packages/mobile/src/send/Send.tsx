@@ -192,6 +192,7 @@ function Send({ route }: Props) {
         defaultCountryCode={defaultCountryCode}
         listHeaderComponent={renderListHeader}
         onSelectRecipient={onSelectRecipient}
+        isOutgoingPaymentRequest={isOutgoingPaymentRequest}
       />
     </SafeAreaView>
   )
