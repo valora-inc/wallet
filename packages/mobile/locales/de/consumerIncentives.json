@@ -1,0 +1,20 @@
+{
+  "title": "Eine neue Art zu verdienen",
+  "summary": "Verdienen Sie jährlich bis zu {{percent}}% auf Ihrem cUSD und cEUR Guthaben. Die Tarife können sich ändern, sodass sich das Bargeld auf diese süße Aktion ändert!",
+  "earnWeekly": {
+    "header": "Wöchentlich verdienen",
+    "text": "Senden Sie und geben Sie wie gewohnt aus, Sie verdienen auf dem verbleibenden Guthaben."
+  },
+  "noMinCommitment": {
+    "header": "Verdienen ohne Verpflichtungen",
+    "earningText": "Das Verdienen ist stressfrei: Fügen Sie cUSD oder cEUR Ihrem Konto hinzu und beginnen Sie mit dem Verdienst auf Ihrem Guthaben.",
+    "connectText": "Das Verdienen ist stressfrei: Verbinden Sie Ihre Telefonnummer um mit dem Verdienst zu beginnen."
+  },
+  "saveMoreEarnMore": {
+    "header": "Einzahlen um mehr zu verdienen",
+    "text": "Bis zu {{rewardsMax}} cUSD oder {{rewardsMax}} cEUR einzahlen und {{percent}}% pro Jahr verdienen."
+  },
+  "conclusion": "Es ist so einfach. Verdienen Sie sich heute.",
+  "addCusd": "cUSD hinzufügen",
+  "connectNumber": "Verbindungsnummer"
+}
