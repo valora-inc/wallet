@@ -1,0 +1,4 @@
+{
+  "paymentRequestedTitle": "Zahlung angefordert",
+  "paymentRequestedBody": "Zahlung von {{amount}} {{currency}} wurde beantragt"
+}
