@@ -77,6 +77,7 @@ export function* denySession({ session }: AcceptSession) {
   yield call(handlePendingState)
 }
 
+// eslint-disable-next-line require-yield
 export function* closeSession({ session }: CloseSession) {
   try {
     const { peerId } = session.params[0]
@@ -85,9 +86,17 @@ export function* closeSession({ session }: CloseSession) {
       throw new Error('missing connector')
     }
 
-    connector.killSession()
+    connector
+      .killSession()
+      .catch((error) =>
+        Logger.error(
+          TAG + '@createWalletConnectChannelWithArgs',
+          'Error trying to kill the session',
+          error
+        )
+      )
   } catch (e) {
-    Logger.debug(TAG + '@closeSession', e.message)
+    Logger.debug(TAG + '@closeSession', e)
   }
 }
 
@@ -146,6 +155,7 @@ export function* listenForWalletConnectMessages(
   }
 }
 
+// eslint-disable-next-line require-yield
 export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
   Logger.info(
     TAG + '@createWalletConnectChannelWithArgs',
@@ -181,7 +191,15 @@ export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
     return () => {
       connector!.off('session_request')
       connector!.off('call_request')
-      connector!.killSession()
+      connector!
+        .killSession()
+        .catch((error) =>
+          Logger.error(
+            TAG + '@createWalletConnectChannelWithArgs',
+            'Error trying to kill the session',
+            error
+          )
+        )
     }
   })
 }
@@ -258,7 +276,7 @@ export function* checkPersistedState(): any {
         )
         yield fork(listenForWalletConnectMessages, walletConnectChannel)
       }
-    } catch (error: any) {
+    } catch (error) {
       Logger.debug(TAG + '@checkPersistedState', error)
     }
   }
