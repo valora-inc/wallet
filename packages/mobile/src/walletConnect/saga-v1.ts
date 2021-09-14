@@ -241,14 +241,12 @@ export function* handlePayloadRequest(action: PayloadRequest) {
 export function* checkPersistedState(): any {
   const { sessions }: { sessions: Session[] } = yield select(selectSessions)
 
-  console.log('SESSIONS', sessions)
-
-  for (const s of sessions) {
-    if (!s.isV1) {
+  for (const session of sessions) {
+    if (!session.isV1) {
       return
     }
     try {
-      const connector = connectors[s.session.peerId]
+      const connector = connectors[session.session.peerId]
       // @ts-ignore
       const connectorConnected = connector?._transport.connected
       if (!connectorConnected) {
@@ -260,7 +258,7 @@ export function* checkPersistedState(): any {
 
         const walletConnectChannel: EventChannel<WalletConnectActions> = yield call(
           createWalletConnectChannelWithArgs,
-          { session: s.session }
+          { session: session.session }
         )
         yield fork(listenForWalletConnectMessages, walletConnectChannel)
       }
