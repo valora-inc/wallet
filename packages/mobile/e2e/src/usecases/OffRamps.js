@@ -160,7 +160,7 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Should Display Exchanges & Send CELO Button', async () => {
         await waitFor(element(by.id('Binance')))
           .toBeVisible()
           .withTimeout(20000)
@@ -170,7 +170,7 @@ export default offRamps = () => {
         await expect(element(by.id('Coinbase Pro (CELO as CGLD)'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('OKEx'))).toBeVisible()
-        const imagePath = await device.takeScreenshot('CELO Exchanges')
+        const imagePath = await device.takeScreenshot('CELO Out Exchanges')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO Out Exchanges.png`)
       })
     })
