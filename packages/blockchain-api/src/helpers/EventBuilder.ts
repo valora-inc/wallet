@@ -14,6 +14,8 @@ export class EventBuilder {
     account?: string,
     fees?: Fee[]
   ) {
+    console.log(`Building event for address ${address}`)
+
     const hash = transaction.transactionHash
     const block = transaction.blockNumber
     const timestamp = transaction.timestamp

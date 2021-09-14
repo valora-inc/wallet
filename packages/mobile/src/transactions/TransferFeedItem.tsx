@@ -19,6 +19,9 @@ import {
   getTransferFeedParams,
 } from 'src/transactions/transferFeedUtils'
 import { TransactionStatus } from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'transactions/TransferFeedItem'
 
 type Props = TransferItemFragment & {
   type: TokenTransactionType
@@ -59,6 +62,7 @@ function navigateToTransactionReview({
 }
 
 export function TransferFeedItem(props: Props) {
+  Logger.debug(TAG, `TransferFeedItem constructor ${JSON.stringify(props)}`)
   const { t } = useTranslation(Namespaces.walletFlow5)
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const rewardsSenders = useSelector(rewardsSendersSelector)
@@ -142,6 +146,8 @@ TransferFeedItem.fragments = {
       address
       account
       comment
+      defaultName
+      defaultImage
     }
   `,
 }
