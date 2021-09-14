@@ -70,12 +70,10 @@ function isExchange(
 }
 
 function TransactionReview({ navigation, route, addressHasChanged }: Props) {
-  console.log(`TransactionReview ${JSON.stringify({ navigation, route, addressHasChanged })}`)
   const {
     reviewProps: { type, timestamp },
     confirmationProps,
   } = route.params
-  console.log(`DIEGO 2 ${JSON.stringify(route.params)}`)
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const rewardsSenders = useSelector(allRewardsSendersSelector)
 

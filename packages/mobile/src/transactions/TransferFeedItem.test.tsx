@@ -487,7 +487,7 @@ describe('transfer feed item renders correctly', () => {
     }
     const tree = render(
       <Provider store={createMockStore({})}>
-        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo, contactName)}
+        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo)}
       </Provider>
     )
     expect(tree.queryByText(new RegExp(contactName))).toBeFalsy()
