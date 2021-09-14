@@ -168,6 +168,7 @@ export default offRamps = () => {
         await expect(element(by.id('Bittrex'))).toBeVisible()
         await expect(element(by.id('Coinbase (CELO as CGLD)'))).toBeVisible()
         await expect(element(by.id('Coinbase Pro (CELO as CGLD)'))).toBeVisible()
+        await expect(element(by.id('CoinList Pro'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('OKEx'))).toBeVisible()
         const imagePath = await device.takeScreenshot('CELO Out Exchanges')
