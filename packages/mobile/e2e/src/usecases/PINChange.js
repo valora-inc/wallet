@@ -1,4 +1,5 @@
 import { dismissBanners } from '../utils/banners'
+import { ALTERNATIVE_PIN, DEFAULT_PIN } from '../utils/consts'
 import { enterPinUi, scrollIntoView } from '../utils/utils'
 
 export default ChangePIN = () => {
@@ -18,17 +19,17 @@ export default ChangePIN = () => {
       .withTimeout(5000)
     await element(by.id('ChangePIN')).tap()
     // Existing PIN is needed first
-    await enterPinUi()
+    await enterPinUi(DEFAULT_PIN)
     // Then we enter the new PIN
-    await enterPinUi('223344')
+    await enterPinUi(ALTERNATIVE_PIN)
     // Then confirm the new PIN
-    await enterPinUi('223344')
+    await enterPinUi(ALTERNATIVE_PIN)
     await element(by.id('ChangePIN')).tap()
     // Now try to change it again and enter the old PIN
-    await enterPinUi()
+    await enterPinUi(DEFAULT_PIN)
     // Check old PIN doesn't work anymore
     await expect(element(by.text('Incorrect PIN'))).toBeVisible()
-    await enterPinUi('223344')
+    await enterPinUi(ALTERNATIVE_PIN)
     await expect(element(by.text('Create a new PIN'))).toBeVisible()
   })
 }
