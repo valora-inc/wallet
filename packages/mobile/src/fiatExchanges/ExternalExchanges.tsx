@@ -1,5 +1,6 @@
 import Button from '@celo/react-components/components/Button'
 import ListItem from '@celo/react-components/components/ListItem'
+import TextButton from '@celo/react-components/components/TextButton'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
@@ -46,7 +47,7 @@ function ExternalExchanges({ route }: Props) {
   const account = useSelector(currentAccountSelector)
   const isCashIn = route.params?.isCashIn ?? true
 
-  const goToProvider = (provider: ExternalExchangeProvider) => {
+  const goToExchange = (provider: ExternalExchangeProvider) => {
     const { name, link } = provider
     return () => {
       ValoraAnalytics.track(FiatExchangeEvents.external_exchange_link, {
@@ -57,11 +58,11 @@ function ExternalExchanges({ route }: Props) {
     }
   }
 
-  function goToCashOut() {
-    navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
-    // TODO: Add Analytics
-    // ValoraAnalytics.track()
-  }
+  const supportOnPress = () => navigate(Screens.SupportContact)
+
+  const switchCurrencyOnPress = () => navigate(Screens.FiatExchangeOptions, { isCashIn: false })
+
+  const goToCashOut = () => navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
 
   const getCoinText = (currency = route.params.currency) => {
     switch (currency) {
@@ -83,53 +84,69 @@ function ExternalExchanges({ route }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {isCashIn ? (
+      {providers.length === 0 ? (
+        <View style={styles.noExchangesContainer}>
+          <Text testID="NoExchangesFound" style={styles.noExchanges}>
+            {t('noExchangesFound', { digitalAsset: getCoinText() })}
+          </Text>
+          <TextButton
+            testID={'SwitchCurrency'}
+            style={styles.switchCurrency}
+            onPress={switchCurrencyOnPress}
+          >
+            {t('switchCurrency')}
+          </TextButton>
+          <TextButton
+            testID={'ContactSupport'}
+            style={styles.contactSupport}
+            onPress={supportOnPress}
+          >
+            {t('global:contactSupport')}
+          </TextButton>
+        </View>
+      ) : isCashIn ? (
         <>
           <View testID="accountBox" style={styles.accountBox}>
             <Text style={styles.accountLabel}>{t('sendFlow7:accountNumberLabel')}</Text>
             <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
           </View>
-          <Text style={styles.pleaseSelectProvider}>
+          <Text style={styles.pleaseSelectExchange}>
             {t('youCanTransferIn', {
               currency: getCoinText(),
             })}
           </Text>
         </>
       ) : (
-        <Text style={styles.pleaseSelectProvider}>
+        <Text style={styles.pleaseSelectExchange}>
           {t('youCanTransferOut', {
             currency: getCoinText(),
           })}
         </Text>
       )}
 
-      <ScrollView style={styles.providersContainer}>
-        {providers.length === 0 ? (
-          <View testID="NoProvidersFound" style={styles.noProviders}>
-            <Text style={styles.optionTitle}>{t('noExchangesFound')}</Text>
-          </View>
-        ) : (
-          providers.map((provider) => {
-            return (
-              <ListItem key={provider.name} onPress={goToProvider(provider)}>
-                <View testID={provider.name} style={styles.providerListItem}>
-                  <Text style={styles.optionTitle}>{provider.name}</Text>
-                  <LinkArrow />
-                </View>
-              </ListItem>
-            )
-          })
-        )}
+      <ScrollView style={styles.exchangesContainer}>
+        {providers.map((provider) => {
+          return (
+            <ListItem key={provider.name} onPress={goToExchange(provider)}>
+              <View testID={provider.name} style={styles.providerListItem}>
+                <Text style={styles.optionTitle}>{provider.name}</Text>
+                <LinkArrow />
+              </View>
+            </ListItem>
+          )
+        })}
       </ScrollView>
       {!isCashIn && providers.length !== 0 ? (
         route.params.currency === Currency.Dollar || route.params.currency === Currency.Euro ? (
           <SendBar />
         ) : (
-          <Button
-            style={styles.celoOutButton}
-            text={t('sendFlow7:sendToken', { token: getCoinText() })}
-            onPress={() => goToCashOut()}
-          ></Button>
+          <View style={styles.buttonContainer}>
+            <Button
+              style={styles.celoOutButton}
+              text={t('sendFlow7:sendToken', { token: getCoinText() })}
+              onPress={() => goToCashOut()}
+            />
+          </View>
         )
       ) : (
         <></>
@@ -141,10 +158,10 @@ function ExternalExchanges({ route }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
-    paddingVertical: variables.contentPadding,
+    paddingBottom: variables.contentPadding,
+    paddingRight: 8,
   },
-  pleaseSelectProvider: {
+  pleaseSelectExchange: {
     ...fontStyles.regular,
     paddingHorizontal: variables.contentPadding,
     paddingBottom: variables.contentPadding,
@@ -167,22 +184,43 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 4,
   },
-  providersContainer: {
+  exchangesContainer: {
     paddingRight: variables.contentPadding,
   },
   optionTitle: {
     flex: 3,
     ...fontStyles.regular,
   },
-  noProviders: {
-    marginHorizontal: 16,
-    alignSelf: 'flex-start',
+  noExchangesContainer: {
+    alignItems: 'center',
+    padding: 24,
+  },
+  noExchanges: {
+    ...fontStyles.regular,
+    padding: variables.contentPadding,
+    textAlign: 'center',
+  },
+  switchCurrency: {
+    ...fontStyles.large500,
+    color: colors.greenUI,
+    padding: 8,
+  },
+  contactSupport: {
+    ...fontStyles.large500,
+    color: colors.gray4,
+    padding: 8,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: variables.contentPadding,
+    paddingVertical: 12,
+    borderTopColor: colors.gray2,
+    borderTopWidth: 1,
   },
   celoOutButton: {
     flex: 1,
     flexDirection: 'column',
-    paddingHorizontal: variables.contentPadding,
-    paddingVertical: 12,
     justifyContent: 'flex-end',
   },
 })

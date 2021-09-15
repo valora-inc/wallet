@@ -200,6 +200,8 @@ export default ExchangeHomeScreen
 const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
+    paddingBottom: variables.contentPadding,
+    paddingRight: 8,
   },
   header: {
     alignItems: 'center',

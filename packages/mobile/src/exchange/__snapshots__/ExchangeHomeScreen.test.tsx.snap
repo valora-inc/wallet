@@ -129,6 +129,8 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
     contentContainerStyle={
       Object {
         "flexGrow": 1,
+        "paddingBottom": 16,
+        "paddingRight": 8,
       }
     }
     scrollEventThrottle={16}
@@ -595,6 +597,8 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
     contentContainerStyle={
       Object {
         "flexGrow": 1,
+        "paddingBottom": 16,
+        "paddingRight": 8,
       }
     }
     scrollEventThrottle={16}
