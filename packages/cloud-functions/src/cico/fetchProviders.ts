@@ -165,7 +165,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     {
       name: Providers.Transak,
       restricted:
-        TRANSAK_RESTRICTED || !providerSupportsAsset(Providers.Xanpool, requestData.digitalAsset),
+        TRANSAK_RESTRICTED || !providerSupportsAsset(Providers.Transak, requestData.digitalAsset),
       unavailable: !transakQuote?.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Transak, requestData),
