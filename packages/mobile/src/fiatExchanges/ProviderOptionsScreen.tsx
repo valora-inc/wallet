@@ -1,4 +1,5 @@
 import ListItem from '@celo/react-components/components/ListItem'
+import TextButton from '@celo/react-components/components/TextButton'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
@@ -43,7 +44,7 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { CiCoCurrency, CURRENCIES, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -141,13 +142,21 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashOut: CicoProvider[]
   } = {
     cashIn:
-      // Hacky way to only show Ramp if the selected cash-in currency is cEUR
-      // When redesigning flow, should accomodate this on backend
-      currencyToBuy === CiCoCurrency.CEUR
-        ? activeProviders?.filter((provider) => provider.cashIn && provider.name === 'Ramp') || []
-        : activeProviders?.filter((provider) => provider.cashIn).sort(sortProviders) || [],
-    cashOut: activeProviders?.filter((provider) => provider.cashOut).sort(sortProviders) || [],
+      activeProviders
+        ?.filter((provider) => provider.cashIn && !provider.restricted)
+        .sort(sortProviders) || [],
+    cashOut:
+      activeProviders
+        ?.filter((provider) => provider.cashOut && !provider.restricted)
+        .sort(sortProviders) || [],
   }
+
+  const availableProviders = (cashIn: boolean) =>
+    cashIn ? !!cicoProviders.cashIn.length : !!cicoProviders.cashOut.length
+
+  const supportOnPress = () => navigate(Screens.SupportContact)
+
+  const switchCurrencyOnPress = () => navigate(Screens.FiatExchangeOptions, { isCashIn })
 
   const providerOnPress = (provider: CicoProvider) => () => {
     if (provider.unavailable) {
@@ -212,63 +221,89 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
   ) : (
     <ScrollView style={styles.container}>
       <SafeAreaView>
-        <Text style={styles.pleaseSelectProvider}>{t('pleaseSelectProvider')}</Text>
-        <View style={styles.providersContainer}>
-          {cicoProviders[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
-            <ListItem key={provider.name} onPress={providerOnPress(provider)}>
-              <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
-                <View style={styles.providerTextAndIconContainer}>
-                  <View style={[styles.iconContainer]}>
-                    <Image
-                      testID={`Icon/${provider.name}`}
-                      source={{ uri: provider.logo }}
-                      style={styles.iconImage}
-                      resizeMode="contain"
-                    />
-                  </View>
-                  <View style={styles.providerTextContainer}>
-                    <Text
-                      style={[styles.text, provider.unavailable ? { color: colors.gray4 } : null]}
-                    >
-                      {provider.name}
-                    </Text>
-                    <View style={styles.providerSubtextContainer}>
-                      {provider.unavailable && (
-                        <Text style={styles.restrictedText}>{t('providerUnavailable')}</Text>
-                      )}
-                      {provider.restricted && !provider.unavailable && (
-                        <Text style={styles.restrictedText}>{t('restrictedRegion')}</Text>
-                      )}
-                      {!provider.unavailable &&
-                        !provider.restricted &&
-                        !provider.paymentMethods.includes(paymentMethod) && (
-                          <Text style={styles.restrictedText}>
-                            {t('unsupportedPaymentMethod', {
-                              paymentMethod:
-                                paymentMethod === PaymentMethod.Bank
-                                  ? 'bank account'
-                                  : 'debit or credit card',
-                            })}
-                          </Text>
-                        )}
+        {!availableProviders(isCashIn) ? (
+          <View style={styles.noProvidersContainer}>
+            <Text testID={'noProviders'} style={styles.noProviders}>
+              {t('noProviders', { digitalAsset: CURRENCIES[route.params.selectedCrypto].cashTag })}
+            </Text>
+            {currencyToBuy === CiCoCurrency.CEUR && (
+              <TextButton
+                testID={'SwitchCurrency'}
+                style={styles.switchCurrency}
+                onPress={switchCurrencyOnPress}
+              >
+                {t('switchCurrency')}
+              </TextButton>
+            )}
+            <TextButton
+              testID={'ContactSupport'}
+              style={styles.contactSupport}
+              onPress={supportOnPress}
+            >
+              {t('global:contactSupport')}
+            </TextButton>
+          </View>
+        ) : (
+          <>
+            <Text style={styles.pleaseSelectProvider}>{t('pleaseSelectProvider')}</Text>
+            <View style={styles.providersContainer}>
+              {cicoProviders[isCashIn ? 'cashIn' : 'cashOut'].map((provider) => (
+                <ListItem key={provider.name} onPress={providerOnPress(provider)}>
+                  <View style={styles.providerListItem} testID={`Provider/${provider.name}`}>
+                    <View style={styles.providerTextAndIconContainer}>
+                      <View style={[styles.iconContainer]}>
+                        <Image
+                          testID={`Icon/${provider.name}`}
+                          source={{ uri: provider.logo }}
+                          style={styles.iconImage}
+                          resizeMode="contain"
+                        />
+                      </View>
+                      <View style={styles.providerTextContainer}>
+                        <Text
+                          style={[
+                            styles.text,
+                            provider.unavailable ? { color: colors.gray4 } : null,
+                          ]}
+                        >
+                          {provider.name}
+                        </Text>
+                        <View style={styles.providerSubtextContainer}>
+                          {provider.unavailable && (
+                            <Text style={styles.restrictedText}>{t('providerUnavailable')}</Text>
+                          )}
+                          {!provider.unavailable &&
+                            !provider.restricted &&
+                            !provider.paymentMethods.includes(paymentMethod) && (
+                              <Text style={styles.restrictedText}>
+                                {t('unsupportedPaymentMethod', {
+                                  paymentMethod:
+                                    paymentMethod === PaymentMethod.Bank
+                                      ? 'bank account'
+                                      : 'debit or credit card',
+                                })}
+                              </Text>
+                            )}
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.feeContainer}>
+                      <Text style={styles.text}>{renderFeeAmount(provider.quote)}</Text>
                     </View>
                   </View>
-                </View>
-                <View style={styles.feeContainer}>
-                  <Text style={styles.text}>{renderFeeAmount(provider.quote)}</Text>
-                </View>
-              </View>
-            </ListItem>
-          ))}
-        </View>
-        <Dialog
-          title={t('explanationModal.title')}
-          isVisible={showingExplanation}
-          actionText={t('global:dismiss')}
-          actionPress={onDismissExplanation}
-        >
-          {t('explanationModal.body')}
-        </Dialog>
+                </ListItem>
+              ))}
+            </View>
+            <Dialog
+              title={t('explanationModal.title')}
+              isVisible={showingExplanation}
+              actionText={t('global:dismiss')}
+              actionPress={onDismissExplanation}
+            >
+              {t('explanationModal.body')}
+            </Dialog>
+          </>
+        )}
       </SafeAreaView>
     </ScrollView>
   )
@@ -306,6 +341,25 @@ const styles = StyleSheet.create({
   pleaseSelectProvider: {
     ...fontStyles.regular,
     padding: variables.contentPadding,
+  },
+  noProvidersContainer: {
+    alignItems: 'center',
+    padding: 24,
+  },
+  noProviders: {
+    ...fontStyles.regular,
+    padding: variables.contentPadding,
+    textAlign: 'center',
+  },
+  switchCurrency: {
+    ...fontStyles.large500,
+    color: colors.greenUI,
+    padding: 8,
+  },
+  contactSupport: {
+    ...fontStyles.large500,
+    color: colors.gray4,
+    padding: 8,
   },
   providersContainer: {
     flex: 1,
