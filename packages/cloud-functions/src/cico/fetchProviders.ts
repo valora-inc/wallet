@@ -3,7 +3,7 @@ import { DigitalAsset, FiatCurrency } from '../config'
 import { composeProviderUrl } from './composeProviderUrl'
 import { UserLocationData } from './fetchUserLocationData'
 import { Moonpay } from './Moonpay'
-import { getProviderAvailability } from './providerAvailability'
+import { getProviderAvailability, providerSupportsAsset } from './providerAvailability'
 import { Providers } from './Providers'
 import { Ramp } from './Ramp'
 import { Simplex, SimplexQuote } from './Simplex'
@@ -41,7 +41,7 @@ export interface ProviderQuote {
 
 export interface Provider {
   name: Providers
-  restricted: boolean // not available in a given region
+  restricted: boolean // not available in a given region or for a given currency
   unavailable: boolean // not currently available to process transactions
   paymentMethods: PaymentMethod[]
   url?: string
@@ -51,7 +51,7 @@ export interface Provider {
   cashOut: boolean
 }
 
-export const isUserLocationDataDeprecated = (
+const isUserLocationDataDeprecated = (
   locationData: UserLocationData | UserLocationDataDeprecated
 ): locationData is UserLocationDataDeprecated => 'country' in locationData
 
@@ -113,7 +113,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
   const providers: Provider[] = [
     {
       name: Providers.Simplex,
-      restricted: SIMPLEX_RESTRICTED,
+      restricted:
+        SIMPLEX_RESTRICTED || !providerSupportsAsset(Providers.Simplex, requestData.digitalAsset),
       unavailable: !simplexQuote,
       paymentMethods: [PaymentMethod.Card],
       logo:
@@ -124,7 +125,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Moonpay,
-      restricted: MOONPAY_RESTRICTED,
+      restricted:
+        MOONPAY_RESTRICTED || !providerSupportsAsset(Providers.Moonpay, requestData.digitalAsset),
       unavailable: !moonpayQuote?.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Moonpay, requestData),
@@ -136,7 +138,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Ramp,
-      restricted: RAMP_RESTRICTED,
+      restricted:
+        RAMP_RESTRICTED || !providerSupportsAsset(Providers.Ramp, requestData.digitalAsset),
       unavailable: !rampQuote?.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Ramp, requestData),
@@ -148,7 +151,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Xanpool,
-      restricted: XANPOOL_RESTRICTED,
+      restricted:
+        XANPOOL_RESTRICTED || !providerSupportsAsset(Providers.Xanpool, requestData.digitalAsset),
       unavailable: !xanpoolQuote?.length,
       paymentMethods: [PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Xanpool, requestData),
@@ -160,7 +164,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Transak,
-      restricted: TRANSAK_RESTRICTED,
+      restricted:
+        TRANSAK_RESTRICTED || !providerSupportsAsset(Providers.Transak, requestData.digitalAsset),
       unavailable: !transakQuote?.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Transak, requestData),
