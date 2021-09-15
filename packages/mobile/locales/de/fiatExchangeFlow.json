@@ -77,5 +77,7 @@
     "bodyWithoutProvider": "Der Dienstleister bearbeitet Ihre Bestellung. Sie sollten Ihr Guthaben innerhalb weniger Tage erhalten."
   },
   "restrictedRegion": "Begrenzte Unterstützung in der Region",
-  "unsupportedPaymentMethod": "Die Bezahlung mit einem {{paymentMethod}} wird in deiner Region nicht unterstützt"
+  "unsupportedPaymentMethod": "Die Bezahlung mit einem {{paymentMethod}} wird in deiner Region nicht unterstützt",
+  "noProviders": "Es gibt keine Anbieter für {{digitalAsset}} in Ihrem Land.",
+  "switchCurrency": "Währung wechseln"
 }
