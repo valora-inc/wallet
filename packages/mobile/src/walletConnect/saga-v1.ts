@@ -3,7 +3,7 @@ import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import WalletConnectClient from '@walletconnect/client-v1'
 import { EventChannel, eventChannel } from 'redux-saga'
-import { call, fork, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
@@ -142,10 +142,10 @@ export function* denyRequest(r: DenyRequest) {
 
 export function* handleInitialiseWalletConnect({ uri }: InitialiseConnection) {
   const walletConnectChannel: EventChannel<WalletConnectActions> = yield call(
-    createWalletConnectChannel,
-    uri
+    createWalletConnectChannelWithArgs,
+    { uri }
   )
-  yield call(listenForWalletConnectMessages, walletConnectChannel)
+  yield fork(listenForWalletConnectMessages, walletConnectChannel)
 }
 
 export function* listenForWalletConnectMessages(
@@ -204,10 +204,6 @@ export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
         )
     }
   })
-}
-
-export function createWalletConnectChannel(uri: string) {
-  return createWalletConnectChannelWithArgs({ uri })
 }
 
 /**
@@ -271,7 +267,7 @@ export function* checkPersistedState(): any {
 }
 
 export function* walletConnectV1Saga() {
-  yield takeLeading(Actions.INITIALISE_CONNECTION_V1, handleInitialiseWalletConnect)
+  yield takeEvery(Actions.INITIALISE_CONNECTION_V1, handleInitialiseWalletConnect)
 
   yield takeEvery(Actions.ACCEPT_SESSION_V1, acceptSession)
   yield takeEvery(Actions.DENY_SESSION_V1, denySession)
