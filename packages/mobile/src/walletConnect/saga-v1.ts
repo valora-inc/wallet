@@ -82,7 +82,7 @@ export function* denySession({ session }: AcceptSession) {
 // eslint-disable-next-line require-yield
 export function* closeSession({ session }: CloseSession) {
   try {
-    const { peerId } = session.params[0]
+    const { peerId } = session
     const connector = connectors[peerId]
     if (!connector) {
       throw new Error('missing connector')

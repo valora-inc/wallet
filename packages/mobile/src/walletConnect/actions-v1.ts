@@ -46,7 +46,7 @@ export interface DenySession {
 }
 export interface CloseSession {
   type: Actions.CLOSE_SESSION_V1
-  session: WalletConnectSessionRequest
+  session: WalletConnectSession
 }
 export interface StoreSession {
   type: Actions.STORE_SESSION_V1
@@ -102,7 +102,7 @@ export const denySession = (session: WalletConnectSessionRequest): DenySession =
   type: Actions.DENY_SESSION_V1,
   session,
 })
-export const closeSession = (session: any) => ({
+export const closeSession = (session: WalletConnectSession) => ({
   type: Actions.CLOSE_SESSION_V1,
   session,
 })
