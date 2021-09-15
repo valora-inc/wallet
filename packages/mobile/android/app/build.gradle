@@ -205,7 +205,7 @@ android {
         debug {
             // uncomment this to test proguard in debug builds
             // minifyEnabled true
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro", "devsupport.pro"
+            // proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro", "devsupport.pro"
             signingConfig signingConfigs.debug
         }
 
