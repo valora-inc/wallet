@@ -150,7 +150,7 @@ brew install --cask android-sdk
 brew install --cask android-platform-tools
 ```
 
-Next install [Android Studio][android studio] and add the [Android NDK][android ndk].
+Next install [Android Studio][android studio] and add the [Android NDK][android ndk] (if you run into issues with the toolchain, try using version: 22.x).
 
 Execute the following (and make sure the lines are in your `~/.bash_profile`).
 

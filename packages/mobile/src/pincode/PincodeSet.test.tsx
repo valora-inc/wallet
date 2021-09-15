@@ -9,7 +9,7 @@ import PincodeSet from 'src/pincode/PincodeSet'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount } from 'test/values'
 
-const mockPin = '112233'
+const mockPin = '364141' // Last 6 hexidecimal values of the secp256k1 group order.
 
 describe('Pincode', () => {
   const mockDispatch = jest.fn()
@@ -109,6 +109,23 @@ describe('Pincode', () => {
     expect(navigateHome).toBeCalled()
   })
 
+  it('displays an error text when setting a blocked PIN', async () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet)
+    const mockStore = createMockStore()
+
+    const { getByTestId, getByText } = render(
+      <Provider store={mockStore}>
+        <PincodeSet {...mockScreenProps} />
+      </Provider>
+    )
+
+    // Create pin
+    '123456'.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
+    jest.runAllTimers()
+    await flushMicrotasksQueue()
+    expect(getByText('pincodeSet.invalidPin')).toBeDefined()
+  })
+
   it("displays an error text when the pins don't match", async () => {
     const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet)
     const mockStore = createMockStore()
@@ -145,7 +162,7 @@ describe('Pincode', () => {
       },
     })
 
-    const oldPin = '123123'
+    const oldPin = '856201'
     setCachedPin(DEFAULT_CACHE_ACCOUNT, oldPin)
     const mockScreenProps = getMockStackScreenProps(Screens.PincodeSet, { changePin: true })
 
