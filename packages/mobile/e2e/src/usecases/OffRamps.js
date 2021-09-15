@@ -22,8 +22,8 @@ export default offRamps = () => {
         await element(by.id('receiveWithBank')).tap()
         await element(by.text('Next')).tap()
       })
-
-      it('Then Should Be Able To Navigate To Providers', async () => {
+      // Skipping this test for now because no providers support cash-out in the US
+      xit('Then Should Be Able To Navigate To Providers', async () => {
         await element(by.id('FiatExchangeInput')).replaceText('2')
         await element(by.id('FiatExchangeNextButton')).tap()
         await waitFor(element(by.id('Provider/Xanpool')))
