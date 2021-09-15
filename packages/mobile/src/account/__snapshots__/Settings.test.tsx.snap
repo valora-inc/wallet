@@ -673,6 +673,7 @@ exports[`Account renders correctly 1`] = `
                 onChange={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                testID="requirePinOnAppOpenToggle"
               />
             </View>
           </View>
@@ -3107,6 +3108,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 onChange={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                testID="requirePinOnAppOpenToggle"
               />
             </View>
           </View>
@@ -5782,6 +5784,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                 onChange={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                testID="requirePinOnAppOpenToggle"
               />
             </View>
           </View>
@@ -8136,6 +8139,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                 onChange={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                testID="requirePinOnAppOpenToggle"
               />
             </View>
           </View>

@@ -263,6 +263,7 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       rewardsMax: flags.rewardsMax.asNumber(),
       komenciUseLightProxy: flags.komenciUseLightProxy.asBoolean(),
       komenciAllowedDeployers: flags.komenciAllowedDeployers.asString().split(','),
+      pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
     }
   } else {
     Logger.debug('No new configs were fetched from the backend.')

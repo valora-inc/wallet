@@ -710,6 +710,10 @@ export const v17Schema = {
     ...v16Schema._persist,
     version: 17,
   },
+  app: {
+    ...v16Schema.app,
+    pincodeUseExpandedBlocklist: true,
+  },
   fiatExchanges: _.omit(v16Schema.fiatExchanges, 'lastUsedProvider'),
   verify: {
     ...v16Schema.verify,
