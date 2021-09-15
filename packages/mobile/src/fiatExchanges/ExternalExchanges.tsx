@@ -87,7 +87,7 @@ function ExternalExchanges({ route }: Props) {
       {providers.length === 0 ? (
         <View style={styles.noExchangesContainer}>
           <Text testID="NoExchangesFound" style={styles.noExchanges}>
-            {t('noExchangesFound', { digitalAsset: getCoinText() })}
+            {t('noExchanges', { digitalAsset: getCoinText() })}
           </Text>
           <TextButton
             testID={'SwitchCurrency'}
