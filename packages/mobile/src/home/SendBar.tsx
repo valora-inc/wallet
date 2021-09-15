@@ -34,7 +34,7 @@ export default function SendBar() {
         size={BtnSizes.MEDIUM}
         text={t('send')}
         onPress={onPressSend}
-        testID="SendOrRequestBar/SendButton"
+        testID="SendBar/SendButton"
       />
       <Touchable borderless={true} onPress={onPressQrCode}>
         <QRCodeBorderlessIcon height={32} color={colors.greenUI} />

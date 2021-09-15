@@ -10,8 +10,7 @@ export default offRamps = () => {
     await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
-    // Waiting for element to be present before tap
-    // TODO (TOM): Increase default timeout on taps from 1.5 seconds to 5
+    // Waiting for element to be visible for up to 5 seconds before tap
     await waitFor(element(by.id('cashOut')))
       .toBeVisible()
       .withTimeout(5000)
@@ -28,17 +27,24 @@ export default offRamps = () => {
         await element(by.id('receiveWithBank')).tap()
         await element(by.text('Next')).tap()
       })
-      // Skipping this test for now because no providers support cash-out in the US
-      xit('Then Should Be Able To Navigate To Providers', async () => {
+
+      it('Then Should Be Display No Providers Message', async () => {
+        // Enter Amount to Exchange
         await element(by.id('FiatExchangeInput')).replaceText('2')
+        // Got To Exchanges
         await element(by.id('FiatExchangeNextButton')).tap()
-        await waitFor(element(by.id('Provider/Xanpool')))
-          .toBeVisible()
-          .withTimeout(20000)
-        await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
-        await expect(element(by.id('Icon/Xanpool'))).toExist()
-        const imagePath = await device.takeScreenshot('cUSD Out Providers')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD Out Providers.png`)
+        // Check Page Elements
+        await expect(element(by.id('noProviders'))).toHaveText(
+          'There are no providers available for cUSD in your country.'
+        )
+        await expect(element(by.id('ContactSupport'))).toBeVisible()
+
+        // Check Screenshot
+        const imagePath = await device.takeScreenshot('No cUSD Out Providers')
+        await pixelDiff(
+          imagePath,
+          `./e2e/assets/${await getDeviceModel()}/No cUSD Out Providers.png`
+        )
       })
     })
 
@@ -63,7 +69,7 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Should Display Exchanges', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
           .withTimeout(20000)
@@ -96,22 +102,21 @@ export default offRamps = () => {
       })
     })
 
-    // TODO
-    describe.skip('When Cryptocurrency Exchanges Selected', () => {
+    describe('When Cryptocurrency Exchanges Selected', () => {
       beforeEach(async () => {
         await element(by.id('withExchange')).tap()
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
-        await waitFor(element(by.id('Bittrex')))
-          .toBeVisible()
-          .withTimeout(20000)
-        await expect(element(by.id('Bittrex'))).toBeVisible()
-        await expect(element(by.id('CoinList Pro'))).toBeVisible()
-        await expect(element(by.id('OKCoin'))).toBeVisible()
-        const imagePath = await device.takeScreenshot('cEUR Exchanges')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cEUR Exchanges.png`)
+      it('Then Should Display No Exchanges Available Text', async () => {
+        // Check page elements
+        await expect(element(by.id('NoExchanges'))).toHaveText(
+          'There are no exchanges available for cEUR in your country.'
+        )
+
+        // Check presence of buttons
+        await expect(element(by.id('SwitchCurrency'))).toBeVisible()
+        await expect(element(by.id('ContactSupport'))).toBeVisible()
       })
     })
   })
@@ -171,8 +176,13 @@ export default offRamps = () => {
         await expect(element(by.id('CoinList Pro'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('OKEx'))).toBeVisible()
+        await expect(element(by.id('SendCeloButton'))).toBeVisible()
         const imagePath = await device.takeScreenshot('CELO Out Exchanges')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO Out Exchanges.png`)
+        await pixelDiff(
+          imagePath,
+          `./e2e/assets/${await getDeviceModel()}/CELO Out Exchanges.png`,
+          4
+        )
       })
     })
   })
