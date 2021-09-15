@@ -142,15 +142,9 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     cashOut: CicoProvider[]
   } = {
     cashIn:
-      // Hacky way to only show Ramp if the selected cash-in currency is cEUR
-      // When redesigning flow, should accomodate this on backend
-      currencyToBuy === CiCoCurrency.CEUR
-        ? activeProviders?.filter(
-            (provider) => provider.cashIn && !provider.restricted && provider.name === 'Ramp'
-          ) || []
-        : activeProviders
-            ?.filter((provider) => provider.cashIn && !provider.restricted)
-            .sort(sortProviders) || [],
+      activeProviders
+        ?.filter((provider) => provider.cashIn && !provider.restricted)
+        .sort(sortProviders) || [],
     cashOut:
       activeProviders
         ?.filter((provider) => provider.cashOut && !provider.restricted)
