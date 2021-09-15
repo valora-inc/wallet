@@ -21,7 +21,7 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { Currency } from 'src/utils/currencies'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -64,17 +64,6 @@ function ExternalExchanges({ route }: Props) {
 
   const goToCashOut = () => navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
 
-  const getCoinText = (currency = route.params.currency) => {
-    switch (currency) {
-      case Currency.Dollar:
-        return t('celoDollars')
-      case Currency.Euro:
-        return t('celoEuro')
-      default:
-        return 'CELO'
-    }
-  }
-
   const { t } = useTranslation('fiatExchangeFlow')
 
   // TODO Dynamically fetch exchange provider links so they can be updated between releases
@@ -86,8 +75,8 @@ function ExternalExchanges({ route }: Props) {
     <SafeAreaView style={styles.container}>
       {providers.length === 0 ? (
         <View style={styles.noExchangesContainer}>
-          <Text testID="NoExchangesFound" style={styles.noExchanges}>
-            {t('noExchanges', { digitalAsset: getCoinText() })}
+          <Text testID="NoExchanges" style={styles.noExchanges}>
+            {t('noExchanges', { digitalAsset: CURRENCIES[route.params.currency].cashTag })}
           </Text>
           <TextButton
             testID={'SwitchCurrency'}
@@ -112,14 +101,14 @@ function ExternalExchanges({ route }: Props) {
           </View>
           <Text style={styles.pleaseSelectExchange}>
             {t('youCanTransferIn', {
-              currency: getCoinText(),
+              digitalAsset: CURRENCIES[route.params.currency].cashTag,
             })}
           </Text>
         </>
       ) : (
         <Text style={styles.pleaseSelectExchange}>
           {t('youCanTransferOut', {
-            currency: getCoinText(),
+            digitalAsset: CURRENCIES[route.params.currency].cashTag,
           })}
         </Text>
       )}
@@ -142,8 +131,9 @@ function ExternalExchanges({ route }: Props) {
         ) : (
           <View style={styles.buttonContainer}>
             <Button
+              testID="SendCeloButton"
               style={styles.celoOutButton}
-              text={t('sendFlow7:sendToken', { token: getCoinText() })}
+              text={t('sendFlow7:sendToken', { token: CURRENCIES[route.params.currency].cashTag })}
               onPress={() => goToCashOut()}
             />
           </View>
