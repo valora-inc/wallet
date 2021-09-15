@@ -414,27 +414,4 @@ describe('ProviderOptionsScreen', () => {
     const freeElement = tree.queryByText('global:free')
     expect(freeElement).toBeTruthy()
   })
-
-  it('if cEUR is selected, it shows Ramp as the only provider', async () => {
-    mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
-
-    const tree = render(
-      <Provider store={mockStore}>
-        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card, Currency.Euro)} />
-      </Provider>
-    )
-
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
-
-    const rampElement = tree.queryByTestId('Provider/Ramp')
-    expect(rampElement).toBeTruthy()
-
-    for (const provider of mockProviders) {
-      if (provider.name === 'Ramp') {
-        continue
-      }
-      const providerElement = tree.queryByTestId(`Provider/${provider.name}`)
-      expect(providerElement).toBeFalsy()
-    }
-  })
 })

@@ -1,4 +1,6 @@
+import { DigitalAsset } from '../config'
 import { UserLocationData } from './fetchUserLocationData'
+import { Providers } from './Providers'
 
 type Entries<T> = Array<{ [K in keyof T]: [K, T[K]] }[keyof T]>
 type ProviderAvailability = typeof providerAvailability
@@ -952,4 +954,22 @@ export const bankingSystemToCountry: BankingSystemToCountry = {
   neft: {
     IN: true,
   },
+}
+
+const providerAssetsSupported: Map<Providers, DigitalAsset[]> = new Map([
+  [Providers.Simplex, [DigitalAsset.CUSD, DigitalAsset.CELO]],
+  [Providers.Ramp, [DigitalAsset.CUSD, DigitalAsset.CELO, DigitalAsset.CEUR]],
+  [Providers.Moonpay, [DigitalAsset.CUSD, DigitalAsset.CELO]],
+  [Providers.Xanpool, [DigitalAsset.CUSD, DigitalAsset.CELO]],
+  [Providers.Transak, [DigitalAsset.CUSD, DigitalAsset.CELO]],
+])
+
+export const providerSupportsAsset = (provider: Providers, asset: DigitalAsset) => {
+  const supportedAssets = providerAssetsSupported.get(provider)
+
+  if (!supportedAssets) {
+    throw new Error('Provider not included in the providerAssetsSupported Map')
+  }
+
+  return supportedAssets.includes(asset)
 }
