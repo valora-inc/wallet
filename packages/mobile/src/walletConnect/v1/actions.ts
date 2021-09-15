@@ -38,10 +38,12 @@ export interface InitialiseConnection {
  */
 export interface AcceptSession {
   type: Actions.ACCEPT_SESSION_V1
+  peerId: string
   session: WalletConnectSessionRequest
 }
 export interface DenySession {
   type: Actions.DENY_SESSION_V1
+  peerId: string
   session: WalletConnectSessionRequest
 }
 export interface CloseSession {
@@ -66,6 +68,7 @@ export interface DenyRequest {
 
 export interface SessionRequest {
   type: Actions.SESSION_V1
+  peerId: string
   session: WalletConnectSessionRequest
 }
 export interface SessionDeleted {
@@ -96,10 +99,12 @@ export const initialiseConnection = (uri: string): InitialiseConnection => ({
 
 export const acceptSession = (session: WalletConnectSessionRequest): AcceptSession => ({
   type: Actions.ACCEPT_SESSION_V1,
+  peerId: session.params[0].peerId,
   session,
 })
 export const denySession = (session: WalletConnectSessionRequest): DenySession => ({
   type: Actions.DENY_SESSION_V1,
+  peerId: session.params[0].peerId,
   session,
 })
 export const closeSession = (session: WalletConnectSession) => ({
@@ -122,9 +127,13 @@ export const denyRequest = (peerId: string, request: any): DenyRequest => ({
   peerId,
 })
 
-export const sessionRequest = (session: WalletConnectSessionRequest): SessionRequest => ({
+export const sessionRequest = (
+  peerId: string,
+  session: WalletConnectSessionRequest
+): SessionRequest => ({
   type: Actions.SESSION_V1,
   session,
+  peerId,
 })
 export const sessionDeleted = (peerId: string): SessionDeleted => ({
   type: Actions.SESSION_DELETED_V1,

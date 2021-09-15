@@ -14,7 +14,7 @@ import { CurrencyInfo } from 'src/send/SendConfirmation'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { PendingAction, PendingSession } from 'src/walletConnect/reducer'
+import { PendingAction, PendingSession } from 'src/walletConnect/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -250,7 +250,11 @@ export type StackParamList = {
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectSessionRequest]: PendingSession
   [Screens.WalletConnectSessions]: undefined
-  [Screens.WalletConnectActionRequest]: PendingAction
+  [Screens.WalletConnectActionRequest]: PendingAction & {
+    dappName: string
+    dappUrl: string
+    dappIcon: string
+  }
   [Screens.WalletHome]: undefined
   [Screens.WebViewScreen]: { uri: string }
   [Screens.Welcome]: undefined

@@ -1,4 +1,5 @@
 import { IClientMeta } from '@walletconnect/types'
+import { SessionTypes } from '@walletconnect/types-v2'
 
 export interface WalletConnectSessionRequest {
   id: number
@@ -32,3 +33,30 @@ export interface WalletConnectPayloadRequest {
   method: string
   params: any
 }
+
+export type PendingAction =
+  | { version: 1; action: WalletConnectPayloadRequest; peerId: string }
+  | {
+      version: 2
+      action: SessionTypes.RequestEvent
+    }
+
+export type Session =
+  | {
+      version: 1
+      session: WalletConnectSession
+    }
+  | {
+      version: 2
+      session: SessionTypes.Created
+    }
+
+export type PendingSession =
+  | {
+      version: 1
+      session: WalletConnectSessionRequest
+    }
+  | {
+      version: 2
+      session: SessionTypes.Proposal
+    }

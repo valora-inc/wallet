@@ -42,8 +42,7 @@ import { transactionSaga } from 'src/transactions/saga'
 import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
 import { verifySaga } from 'src/verify/saga'
-import { walletConnectV1Saga } from 'src/walletConnect/saga-v1'
-import { walletConnectV2Saga } from 'src/walletConnect/saga-v2'
+import { walletConnectSaga } from 'src/walletConnect/saga'
 import { Actions as Web3Actions } from 'src/web3/actions'
 import { web3Saga } from 'src/web3/saga'
 
@@ -130,8 +129,7 @@ export function* rootSaga() {
     yield spawn(dappKitSaga)
     yield spawn(checkAccountExistenceSaga)
     yield spawn(fiatExchangesSaga)
-    yield spawn(walletConnectV1Saga)
-    yield spawn(walletConnectV2Saga)
+    yield spawn(walletConnectSaga)
     yield spawn(checkAndroidMobileServicesSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)

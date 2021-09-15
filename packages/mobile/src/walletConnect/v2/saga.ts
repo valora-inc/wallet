@@ -4,17 +4,19 @@ import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import WalletConnectClient, { CLIENT_EVENTS } from '@walletconnect/client-v2'
 import { SessionTypes } from '@walletconnect/types-v2'
-import { ERROR as WalletConnectErrors } from '@walletconnect/utils-v2'
+import { Error as WalletConnectError, ERROR as WalletConnectErrors } from '@walletconnect/utils-v2'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import { WalletConnectEvents } from 'src/analytics/Events'
+import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { handleRequest } from 'src/walletConnect/request'
 import {
   AcceptRequest,
   AcceptSession,
@@ -25,6 +27,7 @@ import {
   DenySession,
   initialiseClient,
   InitialisePairing,
+  initialisePairing,
   sessionCreated,
   sessionDeleted,
   SessionPayload,
@@ -32,34 +35,75 @@ import {
   SessionProposal,
   sessionProposal,
   sessionUpdated,
+  ShowRequestDetails,
   WalletConnectActions,
-} from 'src/walletConnect/actions-v2'
-import { PendingAction, PendingSession, Session } from 'src/walletConnect/reducer'
-import { handleRequest } from 'src/walletConnect/request'
+} from 'src/walletConnect/v2/actions'
 import {
-  getDefaultRequestTrackedProperties,
-  getDefaultSessionTrackedProperties,
-  getSessionFromRequest,
-  handlePendingState,
-  handlePendingStateOrNavigateBack,
-} from 'src/walletConnect/saga'
-import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
-import { getAccountAddress } from 'src/web3/saga'
+  selectHasPendingState,
+  selectPendingActions,
+  selectSessions,
+} from 'src/walletConnect/v2/selectors'
+import { getWalletAddress } from 'src/web3/saga'
 
 const TAG = 'WalletConnect/saga'
 
 let client: WalletConnectClient | null = null
 
-export function* acceptSession({ session }: AcceptSession) {
-  const defaultTrackedProperties = getDefaultSessionTrackedProperties(session)
+function getDefaultSessionTrackedProperties(
+  session: SessionTypes.Proposal | SessionTypes.Created | SessionTypes.Settled
+) {
+  const peer = 'proposer' in session ? session.proposer : session.peer
+  const { name: dappName, url: dappUrl, description: dappDescription, icons } = peer.metadata
+  const {
+    blockchain: { chains: permissionsBlockchains },
+    jsonrpc: { methods: permissionsJsonrpcMethods },
+    notifications: { types: permissionsNotificationsTypes },
+  } = session.permissions
+  const { protocol: relayProtocol } = session.relay
+  return {
+    dappName,
+    dappUrl,
+    dappDescription,
+    dappIcon: icons[0],
+    permissionsBlockchains,
+    permissionsJsonrpcMethods,
+    permissionsNotificationsTypes,
+    relayProtocol,
+  }
+}
 
+function getDefaultRequestTrackedProperties(request: SessionTypes.RequestEvent) {
+  const { id: requestId, jsonrpc: requestJsonrpc, method: requestMethod } = request.request
+  return {
+    requestChainId: request.chainId,
+    requestId,
+    requestJsonrpc,
+    requestMethod,
+  }
+}
+
+function* getSessionFromRequest(request: SessionTypes.RequestEvent) {
+  const { sessions }: { sessions: SessionTypes.Created[] } = yield select(selectSessions)
+  const session = sessions.find((s) => s.topic === request.topic)
+  if (!session) {
+    // This should never happen
+    throw new Error(`Unable to find WalletConnect session matching topic ${request.topic}`)
+  }
+
+  return session
+}
+
+export function* acceptSession({ session }: AcceptSession) {
+  const defautTrackedProperties = getDefaultSessionTrackedProperties(session)
   try {
+    ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_start, {
+      ...defautTrackedProperties,
+    })
     if (!client) {
       throw new Error('missing client')
     }
-    ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_start, defaultTrackedProperties)
 
-    const account: string = yield call(getAccountAddress)
+    const address: string = yield call(getWalletAddress)
     const response: SessionTypes.Response = {
       metadata: {
         name: APP_NAME,
@@ -72,25 +116,25 @@ export function* acceptSession({ session }: AcceptSession) {
         // addresses in CAIP formats
         accounts: [
           // short name mapping https://github.com/ethereum-lists/chains/issues/359
-          `celo:${account}`,
+          `celo:${address}`,
           // CAIP 50 https://github.com/ChainAgnostic/CAIPs/pull/50
-          `${account}@celo:${networkConfig.networkId}`,
-          `${account}@eip155:${networkConfig.networkId}`,
+          `${address}@celo:${networkConfig.networkId}`,
+          `${address}@eip155:${networkConfig.networkId}`,
           // CAIP 10 https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-10.md
-          `celo:${networkConfig.networkId}:${account}`,
-          `eip155:${networkConfig.networkId}:${account}`,
+          `celo:${networkConfig.networkId}:${address}`,
+          `eip155:${networkConfig.networkId}:${address}`,
         ],
       },
     }
 
     yield call(client.approve.bind(client), { proposal: session, response })
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, {
-      ...defaultTrackedProperties,
+      ...defautTrackedProperties,
     })
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_error, {
-      ...defaultTrackedProperties,
+      ...defautTrackedProperties,
       error: e.message,
     })
   }
@@ -104,11 +148,9 @@ export function* denySession({ session }: DenySession) {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_start, {
       ...defautTrackedProperties,
     })
-
     if (!client) {
       throw new Error('missing client')
     }
-
     yield call(client.reject.bind(client), {
       reason: WalletConnectErrors.NOT_APPROVED.format(),
       proposal: session,
@@ -136,7 +178,6 @@ export function* closeSession({ session }: CloseSession) {
     if (!client) {
       throw new Error('missing client')
     }
-
     yield call(client.disconnect.bind(client), {
       topic: session.topic,
       reason: WalletConnectErrors.USER_DISCONNECTED.format(),
@@ -151,6 +192,27 @@ export function* closeSession({ session }: CloseSession) {
       error: e.message,
     })
   }
+}
+
+function* handlePendingStateOrNavigateBack() {
+  const hasPendingState: boolean = yield select(selectHasPendingState)
+  if (hasPendingState) {
+    yield call(handlePendingState)
+  } else {
+    navigateBack()
+  }
+}
+
+export function* showRequestDetails({ request, infoString }: ShowRequestDetails): any {
+  const session: SessionTypes.Created = yield call(getSessionFromRequest, request)
+  ValoraAnalytics.track(WalletConnectEvents.wc_request_details, {
+    ...getDefaultSessionTrackedProperties(session),
+    ...getDefaultRequestTrackedProperties(request),
+  })
+
+  // TODO: this is a short lived alternative to proper
+  // transaction decoding.
+  yield call(navigate, Screens.DappKitTxDataScreen, { dappKitData: infoString })
 }
 
 export function* acceptRequest({ request }: AcceptRequest): any {
@@ -173,29 +235,40 @@ export function* acceptRequest({ request }: AcceptRequest): any {
     if (!client) {
       throw new Error('Missing client')
     }
-    const result = yield call(handleRequest, { method, params })
+
+    let result: any
+    let error: WalletConnectError | undefined
+
+    try {
+      result = yield call(handleRequest, { method, params })
+    } catch (e) {
+      Logger.debug(TAG + '@acceptRequest error obtaining result: ', e.message)
+      // TODO: WalletConnectErrors.JSONRPC_REQUEST_METHOD_UNSUPPORTED
+      error = WalletConnectErrors.GENERIC
+    }
+
+    const partialResponse = { id, jsonrpc }
+    const response =
+      result !== undefined
+        ? { ...partialResponse, result }
+        : { ...partialResponse, error: error!.format() }
+
     yield call(client.respond.bind(client), {
       topic,
-      response: {
-        id,
-        jsonrpc,
-        result,
-      },
+      response,
     })
-    ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, {
-      ...defautTrackedProperties,
-    })
-  } catch (e) {
-    if (client) {
-      yield call(client.respond.bind(client), {
-        topic,
-        response: {
-          id,
-          jsonrpc,
-          error: e.message,
-        },
+    if (error) {
+      ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_error, {
+        ...defautTrackedProperties,
+        error: error.type,
+      })
+    } else {
+      ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, {
+        ...defautTrackedProperties,
       })
     }
+  } catch (e) {
+    Logger.debug(TAG + '@acceptRequest', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_error, {
       ...defautTrackedProperties,
       error: e.message,
@@ -270,8 +343,8 @@ export function* createWalletConnectChannel() {
       controller: true,
     })
     Logger.debug(TAG + '@createWalletConnectChannel', `init end`)
+    yield put(clientInitialised())
   }
-  yield put(clientInitialised())
 
   return eventChannel((emit: any) => {
     const onSessionProposal = (session: SessionTypes.Proposal) => emit(sessionProposal(session))
@@ -313,6 +386,31 @@ export function* createWalletConnectChannel() {
   })
 }
 
+export function* showSessionRequest(session: SessionTypes.Proposal) {
+  ValoraAnalytics.track(WalletConnectEvents.wc_session_propose, {
+    ...getDefaultSessionTrackedProperties(session),
+  })
+
+  yield call(navigate, Screens.WalletConnectSessionRequest, { version: 2, session })
+}
+
+export function* showActionRequest(request: SessionTypes.RequestEvent) {
+  const session: SessionTypes.Created = yield call(getSessionFromRequest, request)
+  ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
+    ...getDefaultSessionTrackedProperties(session),
+    ...getDefaultRequestTrackedProperties(request),
+  })
+
+  const { name: dappName, url: dappUrl, icons } = session.peer.metadata
+  yield call(navigate, Screens.WalletConnectActionRequest, {
+    version: 2,
+    action: request,
+    dappName,
+    dappUrl,
+    dappIcon: icons[0],
+  })
+}
+
 /**
  * When handling incoming requests (actions or sessions) we need to handle
  * them in order. That means if a request comes in, and we already have a
@@ -321,20 +419,20 @@ export function* createWalletConnectChannel() {
  */
 
 export function* handleIncomingSessionRequest({ session }: SessionProposal) {
-  const { pending }: { pending: PendingSession[] } = yield select(selectSessions)
+  const { pending }: { pending: SessionTypes.Proposal[] } = yield select(selectSessions)
   if (pending.length > 1) {
     return
   }
 
-  navigate(Screens.WalletConnectSessionRequest, { isV1: false, session })
+  yield call(showSessionRequest, session)
 }
 export function* handleIncomingActionRequest({ request }: SessionPayload) {
-  const pendingActions: PendingAction[] = yield select(selectPendingActions)
+  const pendingActions: SessionTypes.RequestEvent[] = yield select(selectPendingActions)
   if (pendingActions.length > 1) {
     return
   }
 
-  navigate(Screens.WalletConnectActionRequest, { isV1: false, action: request })
+  yield call(showActionRequest, request)
 }
 
 export function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
@@ -343,7 +441,7 @@ export function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
       origin,
     })
     if (!client) {
-      throw new Error('missing client')
+      throw new Error(`missing client`)
     }
 
     Logger.debug(TAG + '@handleInitialisePairing', 'pair start')
@@ -356,19 +454,33 @@ export function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
   }
 }
 
-export function* checkPersistedState(): any {
+function* handlePendingState(): any {
   const {
-    sessions,
-  }: {
-    pending: PendingSession[]
-    sessions: Session[]
-  } = yield select(selectSessions)
-
-  if (sessions.find((s) => !s.isV1)) {
-    yield put(initialiseClient())
+    pending: [session],
+  }: { pending: SessionTypes.Proposal[] } = yield select(selectSessions)
+  if (session) {
+    yield call(showSessionRequest, session)
+    return
   }
 
-  yield call(handlePendingState)
+  const [request] = yield select(selectPendingActions)
+  if (request) {
+    yield call(showActionRequest, request)
+  }
+}
+
+function* checkPersistedState(): any {
+  const hasPendingState = yield select(selectHasPendingState)
+  if (hasPendingState) {
+    yield put(initialiseClient())
+    yield call(handlePendingState)
+    return
+  }
+
+  const { sessions }: { sessions: SessionTypes.Created[] } = yield select(selectSessions)
+  if (sessions.length) {
+    yield put(initialiseClient())
+  }
 }
 
 export function* walletConnectV2Saga() {
@@ -378,6 +490,7 @@ export function* walletConnectV2Saga() {
   yield takeEvery(Actions.ACCEPT_SESSION, acceptSession)
   yield takeEvery(Actions.DENY_SESSION, denySession)
   yield takeEvery(Actions.CLOSE_SESSION, closeSession)
+  yield takeEvery(Actions.SHOW_REQUEST_DETAILS, showRequestDetails)
   yield takeEvery(Actions.ACCEPT_REQUEST, acceptRequest)
   yield takeEvery(Actions.DENY_REQUEST, denyRequest)
 
@@ -385,4 +498,12 @@ export function* walletConnectV2Saga() {
   yield takeEvery(Actions.SESSION_PAYLOAD, handleIncomingActionRequest)
 
   yield call(checkPersistedState)
+}
+
+export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPairingOrigin) {
+  if (!client) {
+    yield put(initialiseClient())
+    yield take(Actions.CLIENT_INITIALISED)
+  }
+  yield put(initialisePairing(uri, origin))
 }

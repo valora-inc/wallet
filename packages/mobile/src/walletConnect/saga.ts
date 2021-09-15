@@ -1,135 +1,31 @@
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
-import { SessionTypes } from '@walletconnect/types-v2'
-import { call, put, select, take } from 'redux-saga/effects'
-import { WalletConnectEvents } from 'src/analytics/Events'
+import { call, select, spawn } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { ShowRequestDetails } from 'src/walletConnect/actions'
-import { initialiseConnection } from 'src/walletConnect/actions-v1'
-import { Actions, initialiseClient, initialisePairing } from 'src/walletConnect/actions-v2'
-import { PendingAction, PendingSession } from 'src/walletConnect/reducer'
-import {
-  selectHasPendingState,
-  selectPendingActions,
-  selectSessions,
-} from 'src/walletConnect/selectors'
+import { walletConnectEnabledSelector } from 'src/app/selectors'
+import { initialiseWalletConnectV1, walletConnectV1Saga } from 'src/walletConnect/v1/saga'
+import { initialiseWalletConnectV2, walletConnectV2Saga } from 'src/walletConnect/v2/saga'
 
-export function getDefaultSessionTrackedProperties(
-  session: SessionTypes.Proposal | SessionTypes.Created | SessionTypes.Settled
-) {
-  const peer = 'proposer' in session ? session.proposer : session.peer
-  const { name: dappName, url: dappUrl, description: dappDescription, icons } = peer.metadata
-  const {
-    blockchain: { chains: permissionsBlockchains },
-    jsonrpc: { methods: permissionsJsonrpcMethods },
-    notifications: { types: permissionsNotificationsTypes },
-  } = session.permissions
-  const { protocol: relayProtocol } = session.relay
-  return {
-    dappName,
-    dappUrl,
-    dappDescription,
-    dappIcon: icons[0],
-    permissionsBlockchains,
-    permissionsJsonrpcMethods,
-    permissionsNotificationsTypes,
-    relayProtocol,
-  }
-}
-
-export function getDefaultRequestTrackedProperties(request: SessionTypes.RequestEvent) {
-  const { id: requestId, jsonrpc: requestJsonrpc, method: requestMethod } = request.request
-  return {
-    requestChainId: request.chainId,
-    requestId,
-    requestJsonrpc,
-    requestMethod,
-  }
-}
-
-export function* getSessionFromRequest(request: SessionTypes.RequestEvent) {
-  const { sessions }: { sessions: SessionTypes.Created[] } = yield select(selectSessions)
-  const session = sessions.find((s) => s.topic === request.topic)
-  if (!session) {
-    // This should never happen
-    throw new Error(`Unable to find WalletConnect session matching topic ${request.topic}`)
-  }
-  return session
-}
-
-export function* showRequestDetails({ request, infoString }: ShowRequestDetails): any {
-  if (request && !request.isV1) {
-    const session: SessionTypes.Created = yield call(getSessionFromRequest, request.action)
-    ValoraAnalytics.track(WalletConnectEvents.wc_request_details, {
-      ...getDefaultSessionTrackedProperties(session),
-      ...getDefaultRequestTrackedProperties(request.action),
-    })
-  }
-
-  // TODO: this is a short lived alternative to proper
-  // transaction decoding.
-  yield call(navigate, Screens.DappKitTxDataScreen, { dappKitData: infoString })
-}
-
-export function* showSessionRequest(pendingSession: PendingSession) {
-  if (!pendingSession.isV1) {
-    ValoraAnalytics.track(WalletConnectEvents.wc_session_propose, {
-      ...getDefaultSessionTrackedProperties(pendingSession.session),
-    })
-  }
-
-  yield call(navigate, Screens.WalletConnectSessionRequest, pendingSession)
-}
-
-export function* showActionRequest(request: PendingAction) {
-  if (!request.isV1) {
-    const session: SessionTypes.Created = yield call(getSessionFromRequest, request.action)
-    ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
-      ...getDefaultSessionTrackedProperties(session),
-      ...getDefaultRequestTrackedProperties(request.action),
-    })
-  }
-
-  yield call(navigate, Screens.WalletConnectActionRequest, request)
-}
-
-export function* handlePendingStateOrNavigateBack() {
-  const hasPendingState: boolean = yield select(selectHasPendingState)
-  if (hasPendingState) {
-    yield call(handlePendingState)
-  } else {
-    navigateBack()
-  }
-}
-
-export function* handlePendingState(): any {
-  const {
-    pending: [session],
-  }: {
-    pending: PendingSession[]
-  } = yield select(selectSessions)
-
-  if (session) {
-    navigate(Screens.WalletConnectSessionRequest, session)
-    return
-  }
-
-  const [request]: PendingAction[] = yield select(selectPendingActions)
-  if (request) {
-    yield call(showActionRequest, request)
-  }
+export function* walletConnectSaga() {
+  yield spawn(walletConnectV1Saga)
+  yield spawn(walletConnectV2Saga)
 }
 
 export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {
+  const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
+  if (!walletConnectEnabled) {
+    return
+  }
+
   const [, , version] = uri.split(/[:@?]/)
-  if (version === '1') {
-    yield put(initialiseConnection(uri))
-  } else {
-    yield put(initialiseClient())
-    yield take(Actions.CLIENT_INITIALISED)
-    yield put(initialisePairing(uri, origin))
+  switch (version) {
+    case '1':
+      yield call(initialiseWalletConnectV1, uri, origin)
+      break
+    case '2':
+      yield call(initialiseWalletConnectV2, uri, origin)
+      break
+    default:
+      throw new Error(`Unsupported WalletConnect version '${version}''`)
   }
 }

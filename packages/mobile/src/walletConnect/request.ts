@@ -44,6 +44,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
       const normalizer = new TxParamsNormalizer(kit.connection)
       const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), params[0])
       const sendTxMethod: SendTransactionMethod = function* () {
+        // TODO: this was needed to fix PoolTogether, we shouldn't use it for all requests
         const gasEstimate: number = yield call(kit.connection.estimateGas, {
           ...tx,
           gas: undefined,

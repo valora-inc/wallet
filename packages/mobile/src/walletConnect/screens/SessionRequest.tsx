@@ -7,23 +7,63 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Namespaces } from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { getTranslationDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
 import {
   acceptSession as acceptSessionV1,
   denySession as denySessionV1,
-} from 'src/walletConnect/actions-v1'
+} from 'src/walletConnect/v1/actions'
 import {
   acceptSession as acceptSessionV2,
   denySession as denySessionV2,
-} from 'src/walletConnect/actions-v2'
-import { getTranslationDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
-import { selectSessions } from 'src/walletConnect/selectors'
+} from 'src/walletConnect/v2/actions'
+
+type Props = StackScreenProps<StackParamList, Screens.WalletConnectSessionRequest>
+
+function acceptSession(params: Props['route']['params']) {
+  switch (params.version) {
+    case 1:
+      return acceptSessionV1(params.session)
+    case 2:
+      return acceptSessionV2(params.session)
+  }
+}
+
+function denySession(params: Props['route']['params']) {
+  switch (params.version) {
+    case 1:
+      return denySessionV1(params.session)
+    case 2:
+      return denySessionV2(params.session)
+  }
+}
+
+function getRequestInfo(params: Props['route']['params']) {
+  switch (params.version) {
+    case 1:
+      const { peerMeta } = params.session.params[0]
+      return {
+        url: peerMeta.url,
+        name: peerMeta.name,
+        icon: peerMeta.icons[0],
+        methods: [],
+      }
+    case 2:
+      const { metadata } = params.session.proposer
+      return {
+        url: metadata.url,
+        name: metadata.name,
+        icon: metadata.icons[0],
+        methods: params.session.permissions.jsonrpc.methods,
+      }
+  }
+}
 
 function deduplicateArray<T>(array: T[]) {
   return [...new Set(array)]
@@ -45,30 +85,21 @@ function ActionList({ actions }: { actions: string[] }) {
   )
 }
 
-type Props = StackScreenProps<StackParamList, Screens.WalletConnectSessionRequest>
 function SessionRequest({ route: { params } }: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
   const dispatch = useDispatch()
 
   const confirm = () => {
-    dispatch(params.isV1 ? acceptSessionV1(params.session) : acceptSessionV2(params.session))
+    dispatch(acceptSession(params))
     navigateBack()
   }
 
   const deny = () => {
-    dispatch(params.isV1 ? denySessionV1(params.session) : denySessionV2(params.session))
+    dispatch(denySession(params))
     navigateBack()
   }
 
-  const url = params.isV1
-    ? params.session.params[0].peerMeta.url
-    : params.session.proposer.metadata.url
-  const name = params.isV1
-    ? params.session.params[0].peerMeta.name
-    : params.session.proposer.metadata.name
-  const icon = params.isV1
-    ? params.session.params[0].peerMeta.icons[0]
-    : params.session.proposer.metadata.icons[0]
+  const { url, name, icon, methods } = getRequestInfo(params)
   const fallbackIcon = icon ?? `${url}/favicon.ico`
 
   return (
@@ -82,12 +113,12 @@ function SessionRequest({ route: { params } }: Props) {
             {t('connectToWallet', { dappName: name })}
           </Text>
 
-          {!params.isV1 && <Text style={styles.subHeader}>{t('sessionInfo')}</Text>}
+          {methods.length > 0 && <Text style={styles.subHeader}>{t('sessionInfo')}</Text>}
         </View>
 
-        {!params.isV1 && (
+        {methods.length > 0 && (
           <View style={styles.content}>
-            <ActionList actions={params.session.permissions.jsonrpc.methods} />
+            <ActionList actions={methods} />
           </View>
         )}
 
@@ -111,23 +142,21 @@ function SessionRequest({ route: { params } }: Props) {
   )
 }
 
-function LeftHeader() {
+function LeftHeader({ route: { params } }: Props) {
   const dispatch = useDispatch()
-  const { pending } = useSelector(selectSessions)
 
   const deny = () => {
-    const [session] = pending
-    dispatch(session.isV1 ? denySessionV1(session.session) : denySessionV2(session.session))
+    dispatch(denySession(params))
     navigateBack()
   }
 
   return <TopBarIconButton icon={<Times />} onPress={deny} />
 }
 
-SessionRequest.navigationOptions = () => {
+SessionRequest.navigationOptions = (props: Props) => {
   return {
     ...emptyHeader,
-    headerLeft: LeftHeader,
+    headerLeft: () => <LeftHeader {...props} />,
     headerLeftContainerStyle: { paddingLeft: 20 },
   }
 }

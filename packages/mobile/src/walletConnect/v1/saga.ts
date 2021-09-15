@@ -4,12 +4,19 @@ import '@react-native-firebase/messaging'
 import WalletConnectClient from '@walletconnect/client-v1'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects'
+import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { handleRequest } from 'src/walletConnect/request'
+import {
+  WalletConnectPayloadRequest,
+  WalletConnectSession,
+  WalletConnectSessionRequest,
+} from 'src/walletConnect/types'
 import {
   AcceptRequest,
   AcceptSession,
@@ -17,6 +24,7 @@ import {
   CloseSession,
   DenyRequest,
   InitialiseConnection,
+  initialiseConnection,
   PayloadRequest,
   payloadRequest,
   sessionDeleted,
@@ -24,12 +32,13 @@ import {
   sessionRequest,
   storeSession,
   WalletConnectActions,
-} from 'src/walletConnect/actions-v1'
-import { PendingAction, PendingSession, Session } from 'src/walletConnect/reducer'
-import { handleRequest } from 'src/walletConnect/request'
-import { handlePendingState, handlePendingStateOrNavigateBack } from 'src/walletConnect/saga'
-import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
-import { WalletConnectPayloadRequest, WalletConnectSessionRequest } from 'src/walletConnect/types'
+} from 'src/walletConnect/v1/actions'
+import { PendingAction } from 'src/walletConnect/v1/reducer'
+import {
+  selectHasPendingState,
+  selectPendingActions,
+  selectSessions,
+} from 'src/walletConnect/v1/selectors'
 import { getAccountAddress } from 'src/web3/saga'
 
 const connectors: { [x: string]: WalletConnectClient | undefined } = {}
@@ -179,9 +188,10 @@ export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
       connectors[connectorOpts.session.peerId] = connector
     }
     connector.on('session_request', (error: any, payload: WalletConnectSessionRequest) => {
-      connectors[payload.params[0].peerId] = connector
+      const peerId = payload.params[0].peerId
+      connectors[peerId] = connector
       payload.uri = connectorOpts.uri
-      emit(sessionRequest(payload))
+      emit(sessionRequest(peerId, payload))
     })
     connector.on('call_request', (error: any, payload: WalletConnectPayloadRequest) => {
       emit(payloadRequest(connector.peerId, payload))
@@ -214,12 +224,12 @@ export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
  */
 
 export function* handleSessionRequest({ session }: SessionRequest) {
-  const { pending }: { pending: PendingSession[] } = yield select(selectSessions)
+  const { pending }: { pending: WalletConnectSessionRequest[] } = yield select(selectSessions)
   if (pending.length > 1) {
     return
   }
 
-  navigate(Screens.WalletConnectSessionRequest, { isV1: true, session })
+  navigate(Screens.WalletConnectSessionRequest, { version: 1, session })
 }
 export function* handlePayloadRequest(action: PayloadRequest) {
   const pendingActions: PendingAction[] = yield select(selectPendingActions)
@@ -227,22 +237,67 @@ export function* handlePayloadRequest(action: PayloadRequest) {
     return
   }
 
+  const metadata = getConnectorMetadata(action.peerId)
+  if (!metadata) {
+    throw new Error(`Unable to find metadata for peer ${action.peerId}`)
+  }
+  const { name: dappName, url: dappUrl, icons } = metadata
+
   navigate(Screens.WalletConnectActionRequest, {
-    isV1: true,
+    version: 1,
     peerId: action.peerId,
     action: action.request,
+    dappName,
+    dappUrl,
+    dappIcon: icons[0],
   })
 }
 
+export function* handlePendingStateOrNavigateBack() {
+  const hasPendingState: boolean = yield select(selectHasPendingState)
+  if (hasPendingState) {
+    yield call(handlePendingState)
+  } else {
+    navigateBack()
+  }
+}
+
+export function* handlePendingState(): any {
+  const {
+    pending: [session],
+  }: {
+    pending: WalletConnectSessionRequest[]
+  } = yield select(selectSessions)
+
+  if (session) {
+    navigate(Screens.WalletConnectSessionRequest, { version: 1, session })
+    return
+  }
+
+  const [action]: PendingAction[] = yield select(selectPendingActions)
+  if (action) {
+    const metadata = getConnectorMetadata(action.peerId)
+    if (!metadata) {
+      throw new Error(`Unable to find metadata for peer ${action.peerId}`)
+    }
+    const { name: dappName, url: dappUrl, icons } = metadata
+    navigate(Screens.WalletConnectActionRequest, {
+      version: 1,
+      peerId: action.peerId,
+      action: action.action,
+      dappName,
+      dappUrl,
+      dappIcon: icons[0],
+    })
+  }
+}
+
 export function* checkPersistedState(): any {
-  const { sessions }: { sessions: Session[] } = yield select(selectSessions)
+  const { sessions }: { sessions: WalletConnectSession[] } = yield select(selectSessions)
 
   for (const session of sessions) {
-    if (!session.isV1) {
-      return
-    }
     try {
-      const connector = connectors[session.session.peerId]
+      const connector = connectors[session.peerId]
       // @ts-ignore
       const connectorConnected = connector?._transport.connected
       if (!connectorConnected) {
@@ -254,7 +309,7 @@ export function* checkPersistedState(): any {
 
         const walletConnectChannel: EventChannel<WalletConnectActions> = yield call(
           createWalletConnectChannelWithArgs,
-          { session: session.session }
+          { session }
         )
         yield fork(listenForWalletConnectMessages, walletConnectChannel)
       }
@@ -279,4 +334,12 @@ export function* walletConnectV1Saga() {
   yield takeEvery(Actions.PAYLOAD_V1, handlePayloadRequest)
 
   yield call(checkPersistedState)
+}
+
+export function* initialiseWalletConnectV1(uri: string, origin: WalletConnectPairingOrigin) {
+  // if (!client) {
+  //   yield put(initialiseClient())
+  //   yield take(Actions.CLIENT_INITIALISED)
+  // }
+  yield put(initialiseConnection(uri))
 }
