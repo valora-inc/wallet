@@ -1,6 +1,209 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ProviderOptionsScreen renders correctly 1`] = `
+exports[`ProviderOptionsScreen renders correctly when there are not providers 1`] = `
+<RCTScrollView
+  style={
+    Object {
+      "paddingBottom": 16,
+      "paddingRight": 8,
+    }
+  }
+>
+  <View>
+    <View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "padding": 24,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+              "padding": 16,
+              "textAlign": "center",
+            }
+          }
+          testID="noProviders"
+        >
+          noProviders, {"digitalAsset":"cUSD"}
+        </Text>
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="ContactSupport"
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#1AB775",
+                  "fontFamily": "Inter-SemiBold",
+                  "fontSize": 16,
+                  "lineHeight": 22,
+                },
+                Object {
+                  "color": "#9CA4A9",
+                  "fontFamily": "Inter-Medium",
+                  "fontSize": 18,
+                  "lineHeight": 24,
+                  "padding": 8,
+                },
+              ]
+            }
+          >
+            global:contactSupport
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`ProviderOptionsScreen renders correctly when there are not providers 2`] = `
+<RCTScrollView
+  style={
+    Object {
+      "paddingBottom": 16,
+      "paddingRight": 8,
+    }
+  }
+>
+  <View>
+    <View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "padding": 24,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "#2E3338",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 16,
+              "lineHeight": 22,
+              "padding": 16,
+              "textAlign": "center",
+            }
+          }
+          testID="noProviders"
+        >
+          noProviders, {"digitalAsset":"cEUR"}
+        </Text>
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="SwitchCurrency"
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#1AB775",
+                  "fontFamily": "Inter-SemiBold",
+                  "fontSize": 16,
+                  "lineHeight": 22,
+                },
+                Object {
+                  "color": "#1AB775",
+                  "fontFamily": "Inter-Medium",
+                  "fontSize": 18,
+                  "lineHeight": 24,
+                  "padding": 8,
+                },
+              ]
+            }
+          >
+            switchCurrency
+          </Text>
+        </View>
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="ContactSupport"
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#1AB775",
+                  "fontFamily": "Inter-SemiBold",
+                  "fontSize": 16,
+                  "lineHeight": 22,
+                },
+                Object {
+                  "color": "#9CA4A9",
+                  "fontFamily": "Inter-Medium",
+                  "fontSize": 18,
+                  "lineHeight": 24,
+                  "padding": 8,
+                },
+              ]
+            }
+          >
+            global:contactSupport
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`ProviderOptionsScreen renders correctly when there are providers 1`] = `
 <View
   style={
     Object {
@@ -20,7 +223,7 @@ exports[`ProviderOptionsScreen renders correctly 1`] = `
 </View>
 `;
 
-exports[`ProviderOptionsScreen renders correctly 2`] = `
+exports[`ProviderOptionsScreen renders correctly when there are providers 2`] = `
 <RCTScrollView
   style={
     Object {

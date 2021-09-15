@@ -229,15 +229,23 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
       <SafeAreaView>
         {!availableProviders(isCashIn) ? (
           <View style={styles.noProvidersContainer}>
-            <Text style={styles.noProviders}>
+            <Text testID={'noProviders'} style={styles.noProviders}>
               {t('noProviders', { digitalAsset: CURRENCIES[route.params.selectedCrypto].cashTag })}
             </Text>
             {currencyToBuy === CiCoCurrency.CEUR && (
-              <TextButton style={styles.switchCurrency} onPress={switchCurrencyOnPress}>
+              <TextButton
+                testID={'SwitchCurrency'}
+                style={styles.switchCurrency}
+                onPress={switchCurrencyOnPress}
+              >
                 {t('switchCurrency')}
               </TextButton>
             )}
-            <TextButton style={styles.contactSupport} onPress={supportOnPress}>
+            <TextButton
+              testID={'ContactSupport'}
+              style={styles.contactSupport}
+              onPress={supportOnPress}
+            >
               {t('global:contactSupport')}
             </TextButton>
           </View>
