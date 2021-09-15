@@ -135,7 +135,77 @@ export const mockProviders: CicoProvider[] = [
   },
 ]
 
+export const mockNoUnrestrictedProviders: CicoProvider[] = [
+  {
+    name: 'Simplex',
+    restricted: true,
+    unavailable: false,
+    paymentMethods: [PaymentMethod.Card],
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media',
+    cashIn: true,
+    cashOut: false,
+    quote: MOCK_SIMPLEX_QUOTE,
+  },
+  {
+    name: 'Moonpay',
+    restricted: true,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    url: 'https://www.moonpay.com/',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fmoonpay.png?alt=media',
+    cashIn: true,
+    cashOut: false,
+    quote: [
+      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 95, fiatFee: 5 },
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 90, fiatFee: 10 },
+    ],
+  },
+  {
+    name: 'Ramp',
+    restricted: true,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    url: 'www.fakewebsite.com',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
+    quote: [
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 100, fiatFee: 0 },
+    ],
+    cashIn: true,
+    cashOut: false,
+  },
+  {
+    name: 'Xanpool',
+    restricted: true,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    url: 'www.fakewebsite.com',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fxanpool.png?alt=media',
+    cashIn: true,
+    cashOut: true,
+    quote: [
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 97, fiatFee: 3 },
+    ],
+  },
+  {
+    name: 'Transak',
+    restricted: true,
+    unavailable: true,
+    paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
+    url: 'www.fakewebsite.com',
+    logo:
+      'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Ftransak.png?alt=media',
+    cashIn: true,
+    cashOut: false,
+    quote: [
+      { paymentMethod: PaymentMethod.Bank, digitalAsset: 'cusd', returnedAmount: 94, fiatFee: 6 },
+      { paymentMethod: PaymentMethod.Card, digitalAsset: 'cusd', returnedAmount: 88, fiatFee: 12 },
+    ],
+  },
+]
+
 const MOCK_PROVIDER_FETCH = JSON.stringify(mockProviders)
+const MOCK_NO_RESTRICTED_PROVIDER_FETCH = JSON.stringify(mockNoUnrestrictedProviders)
 
 describe('ProviderOptionsScreen', () => {
   const mockFetch = fetch as FetchMock
@@ -145,7 +215,7 @@ describe('ProviderOptionsScreen', () => {
     mockFetch.resetMocks()
   })
 
-  it('renders correctly', async () => {
+  it('renders correctly when there are providers', async () => {
     mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
@@ -157,6 +227,60 @@ describe('ProviderOptionsScreen', () => {
     expect(tree).toMatchSnapshot()
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
     expect(tree).toMatchSnapshot()
+  })
+
+  it('renders correctly when there are not providers', async () => {
+    mockFetch.mockResponse(MOCK_NO_RESTRICTED_PROVIDER_FETCH)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByTestId('noProviders'))
+    expect(tree).toMatchSnapshot()
+
+    tree.rerender(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card, Currency.Euro)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByTestId('noProviders'))
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('navigates to the Support screen if button is pressed when there are no providers', async () => {
+    mockFetch.mockResponse(MOCK_NO_RESTRICTED_PROVIDER_FETCH)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(true, PaymentMethod.Card)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByTestId('noProviders'))
+    const switchCurrencyElement = tree.queryByTestId('SwitchCurrency')
+    expect(switchCurrencyElement).toBeFalsy()
+
+    fireEvent.press(tree.getByTestId('ContactSupport'))
+    expect(navigate).toHaveBeenCalledWith(Screens.SupportContact)
+  })
+
+  it('navigates to the FiatOptions screen if button is pressed when there are no providers', async () => {
+    const isCashIn = true
+    mockFetch.mockResponse(MOCK_NO_RESTRICTED_PROVIDER_FETCH)
+
+    const tree = render(
+      <Provider store={mockStore}>
+        <ProviderOptionsScreen {...mockScreenProps(isCashIn, PaymentMethod.Card, Currency.Euro)} />
+      </Provider>
+    )
+
+    await waitForElement(() => tree.getByTestId('noProviders'))
+    fireEvent.press(tree.getByTestId('SwitchCurrency'))
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeOptions, { isCashIn })
   })
 
   it('opens Simplex correctly', async () => {
@@ -242,7 +366,7 @@ describe('ProviderOptionsScreen', () => {
     expect(navigateToURI).not.toHaveBeenCalled()
   })
 
-  it('shows a warning if user region is not supported', async () => {
+  it('hides a provider if a user region is restricted', async () => {
     mockFetch.mockResponse(MOCK_PROVIDER_FETCH)
 
     const tree = render(
@@ -253,9 +377,11 @@ describe('ProviderOptionsScreen', () => {
 
     await waitForElement(() => tree.getByText('pleaseSelectProvider'))
 
-    const elements = tree.queryAllByText('restrictedRegion')
+    const xanpoolElement = tree.queryByText('Xanpool')
+    const simplexElement = tree.queryByText('Simplex')
     // Only Xanpool is restricted in mock
-    expect(elements).toHaveLength(1)
+    expect(xanpoolElement).toBeFalsy()
+    expect(simplexElement).toBeTruthy()
   })
 
   it('shows a warning if the selected payment method is not supported', async () => {

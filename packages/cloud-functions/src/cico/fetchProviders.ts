@@ -41,8 +41,8 @@ export interface ProviderQuote {
 
 export interface Provider {
   name: Providers
-  restricted: boolean
-  unavailable?: boolean
+  restricted: boolean // not available in a given region
+  unavailable: boolean // not currently available to process transactions
   paymentMethods: PaymentMethod[]
   url?: string
   logo: string
@@ -124,7 +124,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Moonpay,
-      restricted: MOONPAY_RESTRICTED || !moonpayQuote?.length,
+      restricted: MOONPAY_RESTRICTED,
+      unavailable: !moonpayQuote?.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Moonpay, requestData),
       logo:
@@ -136,6 +137,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     {
       name: Providers.Ramp,
       restricted: RAMP_RESTRICTED,
+      unavailable: !rampQuote?.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Ramp, requestData),
       quote: rampQuote,
@@ -146,7 +148,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Xanpool,
-      restricted: XANPOOL_RESTRICTED || !xanpoolQuote?.length,
+      restricted: XANPOOL_RESTRICTED,
+      unavailable: !xanpoolQuote?.length,
       paymentMethods: [PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Xanpool, requestData),
       logo:
@@ -157,7 +160,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Transak,
-      restricted: TRANSAK_RESTRICTED || !transakQuote?.length,
+      restricted: TRANSAK_RESTRICTED,
+      unavailable: !transakQuote?.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Transak, requestData),
       logo:
