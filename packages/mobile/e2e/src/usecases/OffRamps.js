@@ -76,7 +76,7 @@ export default offRamps = () => {
         await expect(element(by.id('Bittrex'))).toBeVisible()
         await expect(element(by.id('CoinList Pro'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
-        const imagePath = await device.takeScreenshot('cUSD Exchanges')
+        const imagePath = await device.takeScreenshot('cUSD Out Exchanges')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD Out Exchanges.png`)
       })
     })
