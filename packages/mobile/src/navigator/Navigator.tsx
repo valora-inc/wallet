@@ -103,6 +103,8 @@ import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
 import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import WalletConnectActionRequestScreen from 'src/walletConnect/screens/ActionRequest'
+import WalletConnectLoading from 'src/walletConnect/screens/Loading'
+import WalletConnectResult from 'src/walletConnect/screens/Result'
 import WalletConnectSessionRequestScreen from 'src/walletConnect/screens/SessionRequest'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 
@@ -147,6 +149,16 @@ const commonScreens = (Navigator: typeof Stack) => {
         name={Screens.DappKitTxDataScreen}
         component={DappKitTxDataScreen}
         options={DappKitTxDataScreen.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.WalletConnectLoading}
+        component={WalletConnectLoading}
+        options={WalletConnectLoading.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.WalletConnectResult}
+        component={WalletConnectResult}
+        options={WalletConnectResult.navigationOptions}
       />
       <Navigator.Screen
         name={Screens.WalletConnectSessionRequest}

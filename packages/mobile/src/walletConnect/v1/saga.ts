@@ -4,11 +4,12 @@ import '@react-native-firebase/messaging'
 import WalletConnectClient from '@walletconnect/client-v1'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects'
+import { showMessage } from 'src/alert/actions'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { handleRequest } from 'src/walletConnect/request'
@@ -54,7 +55,7 @@ export function getConnectorMetadata(peerId: string) {
 
 export function* acceptSession(session: AcceptSession) {
   Logger.debug(TAG + '@acceptSession', 'Starting to accept session request', session)
-  const { peerId } = session.session.params[0]
+  const { peerId, peerMeta } = session.session.params[0]
   const connector = connectors[peerId]
   if (!connector) {
     Logger.debug(TAG + '@acceptSession', 'missing connector')
@@ -69,7 +70,8 @@ export function* acceptSession(session: AcceptSession) {
   connector.approveSession(sessionData)
   connector.updateSession(sessionData)
   yield put(storeSession(connector.session))
-  yield call(handlePendingState)
+  yield put(showMessage(i18n.t('walletConnect:connectionSuccess', { dappName: peerMeta.name })))
+  yield call(handlePendingStateOrNavigateBack)
 }
 
 export function* denySession({ session }: AcceptSession) {
@@ -85,7 +87,7 @@ export function* denySession({ session }: AcceptSession) {
     Logger.debug(TAG + '@denySession', e.message)
   }
 
-  yield call(handlePendingState)
+  yield call(handlePendingStateOrNavigateBack)
 }
 
 // eslint-disable-next-line require-yield
@@ -116,16 +118,21 @@ export function* acceptRequest(r: AcceptRequest) {
     peerId,
     request: { id, jsonrpc, method, params },
   } = r
+  const connector = connectors[peerId]
   try {
-    const connector = connectors[peerId]
     if (!connector) {
       throw new Error('missing connector')
     }
     const result: string = yield call(handleRequest, { method, params })
     connector.approveRequest({ id, jsonrpc, result })
+    yield put(
+      showMessage(
+        i18n.t('walletConnect:connectionSuccess', { dappName: connector?.session?.peerMeta?.name })
+      )
+    )
   } catch (e) {
     Logger.debug(TAG + '@acceptRequest', e.message)
-    connectors[peerId]?.rejectRequest({ id, jsonrpc, error: e.message })
+    connector?.rejectRequest({ id, jsonrpc, error: e.message })
   }
 
   yield call(handlePendingStateOrNavigateBack)
@@ -258,7 +265,7 @@ export function* handlePendingStateOrNavigateBack() {
   if (hasPendingState) {
     yield call(handlePendingState)
   } else {
-    navigateBack()
+    navigateHome()
   }
 }
 

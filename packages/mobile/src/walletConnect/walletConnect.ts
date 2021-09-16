@@ -1,5 +1,7 @@
 import { call } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 
 const WC_PREFIX = 'wc:'
@@ -31,6 +33,7 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
     yield call(initialiseWalletConnect, link, WalletConnectPairingOrigin.Deeplink)
   }
 
+  navigate(Screens.WalletConnectLoading, { origin: WalletConnectPairingOrigin.Deeplink })
   // action request, we can do nothing
 }
 

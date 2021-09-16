@@ -7,13 +7,14 @@ import { SessionTypes } from '@walletconnect/types-v2'
 import { Error as WalletConnectError, ERROR as WalletConnectErrors } from '@walletconnect/utils-v2'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, put, select, take, takeEvery, takeLeading } from 'redux-saga/effects'
+import { showMessage } from 'src/alert/actions'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { APP_NAME, WEB_LINK } from 'src/brandingConfig'
 import networkConfig from 'src/geth/networkConfig'
 import i18n from 'src/i18n'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { handleRequest } from 'src/walletConnect/request'
@@ -131,6 +132,11 @@ export function* acceptSession({ session }: AcceptSession) {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, {
       ...defautTrackedProperties,
     })
+    yield put(
+      showMessage(
+        i18n.t('walletConnect:connectionSuccess', { dappName: session.proposer.metadata.name })
+      )
+    )
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_error, {
@@ -139,7 +145,7 @@ export function* acceptSession({ session }: AcceptSession) {
     })
   }
 
-  yield call(handlePendingState)
+  yield call(handlePendingStateOrNavigateBack)
 }
 
 export function* denySession({ session }: DenySession) {
@@ -199,7 +205,7 @@ function* handlePendingStateOrNavigateBack() {
   if (hasPendingState) {
     yield call(handlePendingState)
   } else {
-    navigateBack()
+    navigateHome()
   }
 }
 
@@ -263,6 +269,11 @@ export function* acceptRequest({ request }: AcceptRequest): any {
         error: error.type,
       })
     } else {
+      yield put(
+        showMessage(
+          i18n.t('walletConnect:connectionSuccess', { dappName: session.peer.metadata.name })
+        )
+      )
       ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, {
         ...defautTrackedProperties,
       })
