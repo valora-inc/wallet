@@ -46,6 +46,13 @@ export const XANPOOL_DATA = {
   supported_currencies: ['IDR', 'VND', 'SGD', 'HKD', 'TBH', 'INR', 'MYR', 'PHP'],
 }
 
+export const DB_DATA = {
+  host: config.db.host,
+  database: config.db.database,
+  user: config.db.user,
+  password: config.db.password,
+}
+
 export const BLOCKCHAIN_API_URL = config.blockchain_api?.url
 export const FULL_NODE_URL = config.full_node?.url
 
@@ -78,6 +85,7 @@ export enum FiatCurrency {
 export enum DigitalAsset {
   CELO = 'CELO',
   CUSD = 'CUSD',
+  CEUR = 'CEUR',
 }
 
 export const FETCH_TIMEOUT_DURATION = 10000 // 10 seconds

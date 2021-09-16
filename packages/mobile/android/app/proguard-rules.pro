@@ -50,3 +50,6 @@
   @org.greenrobot.eventbus.Subscribe <methods>;
 }
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# react-native-device-info needs this or else hasGms breaks
+-keep class com.google.android.gms.common.** { *; }

@@ -1,5 +1,6 @@
 import { Platform } from 'react-native'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
+import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
 import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -33,6 +34,7 @@ export interface State {
   ranVerificationMigrationAt: number | null | undefined
   googleMobileServicesAvailable: boolean | undefined
   huaweiMobileServicesAvailable: boolean | undefined
+  pincodeUseExpandedBlocklist: boolean
 }
 
 const initialState = {
@@ -47,21 +49,22 @@ const initialState = {
   lastTimeBackgrounded: 0,
   sessionId: '',
   minVersion: null,
-  shortVerificationCodesEnabled: false,
+  shortVerificationCodesEnabled: FEATURE_FLAG_DEFAULTS.shortVerificationCodesEnabled,
   celoEducationUri: null,
-  celoEuroEnabled: false,
+  celoEuroEnabled: FEATURE_FLAG_DEFAULTS.celoEuroEnabled,
   inviteModalVisible: false,
   activeScreen: Screens.Main,
-  hideVerification: false,
+  hideVerification: FEATURE_FLAG_DEFAULTS.hideVerification,
   showRaiseDailyLimitTarget: undefined,
-  walletConnectEnabled: false,
-  rewardsPercent: 5,
-  rewardsStartDate: 1622505600000,
-  rewardsMax: 1000,
-  rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
+  walletConnectEnabled: FEATURE_FLAG_DEFAULTS.walletConnectEnabled,
+  rewardsPercent: FEATURE_FLAG_DEFAULTS.rewardsPercent,
+  rewardsStartDate: FEATURE_FLAG_DEFAULTS.rewardsStartDate,
+  rewardsMax: FEATURE_FLAG_DEFAULTS.rewardsMax,
+  rewardsABTestThreshold: FEATURE_FLAG_DEFAULTS.rewardsABTestThreshold,
   ranVerificationMigrationAt: null,
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
+  pincodeUseExpandedBlocklist: FEATURE_FLAG_DEFAULTS.pincodeUseExpandedBlocklist,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -169,6 +172,7 @@ export const appReducer = (
         rewardsStartDate: action.flags.rewardsStartDate,
         rewardsMax: action.flags.rewardsMax,
         rewardsABTestThreshold: action.flags.rewardsABTestThreshold,
+        pincodeUseExpandedBlocklist: action.flags.pincodeUseExpandedBlocklist,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

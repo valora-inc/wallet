@@ -5,20 +5,25 @@ import { ActivityIndicator, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { WebViewMessageEvent } from 'react-native-webview'
 import { useDispatch, useSelector } from 'react-redux'
+import { createSelector } from 'reselect'
 import { e164NumberSelector } from 'src/account/selectors'
 import { openUrl } from 'src/app/actions'
 import WebView, { WebViewRef } from 'src/components/WebView'
 import { bidaliPaymentRequested } from 'src/fiatExchanges/actions'
 import networkConfig from 'src/geth/networkConfig'
-import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import i18n from 'src/i18n'
+import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { cUsdBalanceSelector } from 'src/stableToken/selectors'
+import { balancesSelector } from 'src/stableToken/selectors'
+import { getHigherBalanceCurrency } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
+
+// Note for later when adding CELO: make sure that Currency.Celo maps to CELO and not cGLD
+export const BIDALI_CURRENCIES = [Currency.Dollar, Currency.Euro]
 
 function useInitialJavaScript(
   currency: Currency,
@@ -56,6 +61,13 @@ function useInitialJavaScript(
 
   return initialJavaScript
 }
+
+const higherBalanceCurrencySelector = createSelector(
+  balancesSelector,
+  localCurrencyExchangeRatesSelector,
+  (balances, exchangeRates) =>
+    getHigherBalanceCurrency(BIDALI_CURRENCIES, balances, exchangeRates) ?? Currency.Dollar
+)
 
 type RouteProps = StackScreenProps<StackParamList, Screens.BidaliScreen>
 type Props = RouteProps
@@ -100,20 +112,24 @@ function BidaliScreen({ route, navigation }: Props) {
   }
 
   const webViewRef = useRef<WebViewRef>(null)
-  const cusdBalance = useSelector(cUsdBalanceSelector)
-  const celoBalance = useSelector(celoTokenBalanceSelector)
+  const balances = useSelector(balancesSelector)
   const jsonBalances = useMemo(
     () =>
-      JSON.stringify({
-        CUSD: cusdBalance,
-        // We'll add CELO support later on
-        // CELO: celoBalance,
-      }),
-    [cusdBalance, celoBalance]
+      JSON.stringify(
+        // Maps supported currencies to an object with their balance
+        // Example: [cUSD, cEUR] to { CUSD: X, CEUR: Y }
+        Object.fromEntries(
+          BIDALI_CURRENCIES.map((currency) => [currency.toUpperCase(), balances[currency]])
+        )
+      ),
+    [balances]
   )
   const e164PhoneNumber = useSelector(e164NumberSelector)
+  const higherBalanceCurrency = useSelector(higherBalanceCurrencySelector)
+
   const initialJavaScript = useInitialJavaScript(
-    route.params.currency,
+    // Use provided currency if available, otherwise use the higher balance currency
+    route.params.currency ?? higherBalanceCurrency,
     jsonBalances,
     e164PhoneNumber
   )

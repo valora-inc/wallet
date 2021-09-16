@@ -21,12 +21,12 @@ echo $mobile_root
 cd "$mobile_root"
 
 # Please update the sha when valora branding updates are needed
-valora_branding_sha=e8de54e89f77
+valora_branding_sha=c4b005d73d96ad5d66d66e33b407798df4625cb1
 
 if [[ "$branding" == "valora" ]]; then
   # prevents git from asking credentials
   export GIT_TERMINAL_PROMPT=0
-  if [[ ! -e branding/valora ]] && ! git clone git@github.com:clabs-co/valora-app-branding.git branding/valora ; then
+  if [[ ! -e branding/valora ]] && ! git clone git@github.com:valora-inc/valora-app-branding.git branding/valora ; then
     echo "Couldn't clone private branding. Will use default branding."
     branding=celo
   else

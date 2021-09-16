@@ -40,7 +40,7 @@
   "skipModal": {
     "header": "Pular confirmação?",
     "body1": "A confirmação permite que outras pessoas enviem valores para o seu número de celular.",
-    "body2": "Sem confirmação, você ainda pode enviar pagamentos, mas apenas usando endereços de conta ou códigos QR."
+    "body2": "Sem confirmação, você ainda pode enviar pagamentos, mas apenas usando Endereços de Conta ou códigos QR."
   },
   "failModal": {
     "header": "Erro de confirmação",
@@ -62,7 +62,7 @@
   "congratsVerified": "Parabéns, você já foi confirmado!",
   "notification": {
     "body": "Receba pagamentos diretamente no seu celular",
-    "cta": "Confirmar agora"
+    "cta": "Confirmar"
   },
   "quotaLookup": {
     "title": "Limite de busca excedido",

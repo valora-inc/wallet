@@ -1,6 +1,6 @@
 import { call, cancelled, put, spawn, take } from 'redux-saga/effects'
-import { fetchRewardsSenders } from 'src/firebase/firebase'
-import { rewardsSendersFetched } from 'src/recipients/reducer'
+import { fetchInviteRewardsSenders, fetchRewardsSenders } from 'src/firebase/firebase'
+import { inviteRewardsSendersFetched, rewardsSendersFetched } from 'src/recipients/reducer'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'recipientsSaga'
@@ -25,6 +25,27 @@ function* fetchRewardsSendersSaga() {
   }
 }
 
+function* fetchInviteRewardsSendersSaga() {
+  const rewardsSendersChannel = yield call(fetchInviteRewardsSenders)
+  if (!rewardsSendersChannel) {
+    return
+  }
+  try {
+    while (true) {
+      const rewardsSenders: string[] = yield take(rewardsSendersChannel)
+      yield put(inviteRewardsSendersFetched(rewardsSenders))
+      Logger.info(`${TAG}@fetchInviteRewardsSendersSaga`, rewardsSenders)
+    }
+  } catch (error) {
+    Logger.error(`${TAG}@fetchInviteRewardsSendersSaga`, error)
+  } finally {
+    if (yield cancelled()) {
+      rewardsSendersChannel.close()
+    }
+  }
+}
+
 export function* recipientsSaga() {
   yield spawn(fetchRewardsSendersSaga)
+  yield spawn(fetchInviteRewardsSendersSaga)
 }

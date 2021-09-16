@@ -5,8 +5,7 @@ import { EscrowWrapper } from '@celo/contractkit/lib/wrappers/Escrow'
 import { MetaTransactionWalletWrapper } from '@celo/contractkit/lib/wrappers/MetaTransactionWallet'
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { KomenciKit } from '@celo/komencikit/lib/kit'
-import { FetchError, TxError } from '@celo/komencikit/src/errors'
+import { FetchError, TxError } from '@komenci/kit/lib/errors'
 import BigNumber from 'bignumber.js'
 import { all, call, put, race, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
@@ -29,7 +28,6 @@ import {
 import { generateEscrowPaymentIdAndPk, generateUniquePaymentId } from 'src/escrow/utils'
 import { calculateFee } from 'src/fees/saga'
 import { WEI_DECIMALS } from 'src/geth/consts'
-import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
 import i18n from 'src/i18n'
 import { Actions as IdentityActions, SetVerificationStatusAction } from 'src/identity/actions'
@@ -39,7 +37,12 @@ import { VerificationStatus } from 'src/identity/types'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { fetchStableBalances } from 'src/stableToken/actions'
-import { getCurrencyAddress, getTokenContract, getTokenContractFromAddress } from 'src/tokens/saga'
+import {
+  getCurrencyAddress,
+  getStableCurrencyFromAddress,
+  getTokenContract,
+  getTokenContractFromAddress,
+} from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
@@ -51,6 +54,7 @@ import {
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { komenciContextSelector, shouldUseKomenciSelector } from 'src/verify/reducer'
+import { getKomenciKit } from 'src/verify/saga'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { mtwAddressSelector } from 'src/web3/selectors'
@@ -281,10 +285,7 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
           yield call(sendTransaction, withdrawAndTransferTx.txo, walletAddress, context)
         } else {
           const komenci = yield select(komenciContextSelector)
-          const komenciKit = new KomenciKit(contractKit, walletAddress, {
-            url: komenci.callbackUrl || networkConfig.komenciUrl,
-            token: komenci.sessionToken,
-          })
+          const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
           const withdrawAndTransferTxResult: Result<
             CeloTxReceipt,
@@ -431,6 +432,11 @@ function* doFetchSentPayments() {
         continue
       }
 
+      const currency: Currency | null = yield call(getStableCurrencyFromAddress, payment.token)
+      if (!currency) {
+        continue
+      }
+
       const escrowPaymentWithRecipient: EscrowedPayment = {
         paymentID: address,
         senderAddress: payment[1],
@@ -438,7 +444,7 @@ function* doFetchSentPayments() {
         // since identifier mapping could be fetched after this is called.
         recipientPhone: recipientPhoneNumber,
         recipientIdentifier: payment.recipientIdentifier,
-        currency: Currency.Dollar, // Only dollars can be escrowed
+        currency,
         amount: payment[3],
         timestamp: payment[6],
         expirySeconds: payment[7],

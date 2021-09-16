@@ -704,6 +704,30 @@ export const v16Schema = {
   },
 }
 
+export const v17Schema = {
+  ...v16Schema,
+  _persist: {
+    ...v16Schema._persist,
+    version: 17,
+  },
+  app: {
+    ...v16Schema.app,
+    pincodeUseExpandedBlocklist: true,
+  },
+  fiatExchanges: _.omit(v16Schema.fiatExchanges, 'lastUsedProvider'),
+  verify: {
+    ...v16Schema.verify,
+    komenciConfig: {
+      useLightProxy: false,
+      allowedDeployers: [],
+    },
+  },
+  recipients: {
+    ...v16Schema.recipients,
+    inviteRewardsSenders: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v16Schema as Partial<RootState>
+  return v17Schema as Partial<RootState>
 }

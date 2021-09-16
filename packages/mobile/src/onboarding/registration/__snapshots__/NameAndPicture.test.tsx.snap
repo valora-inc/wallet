@@ -426,6 +426,7 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
             <TextInput
               allowFontScaling={true}
               enablesReturnKeyAutomatically={true}
+              multiline={true}
               onBlur={[Function]}
               onChangeText={[Function]}
               onFocus={[Function]}
@@ -443,7 +444,9 @@ exports[`NameAndPictureScreen renders correctly 1`] = `
                     "paddingHorizontal": 0,
                     "paddingVertical": 12,
                   },
-                  undefined,
+                  Object {
+                    "textAlignVertical": "top",
+                  },
                   undefined,
                 ]
               }
@@ -979,6 +982,7 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
             <TextInput
               allowFontScaling={true}
               enablesReturnKeyAutomatically={true}
+              multiline={true}
               onBlur={[Function]}
               onChangeText={[Function]}
               onFocus={[Function]}
@@ -996,7 +1000,9 @@ exports[`NameAndPictureScreen renders with an error 1`] = `
                     "paddingHorizontal": 0,
                     "paddingVertical": 12,
                   },
-                  undefined,
+                  Object {
+                    "textAlignVertical": "top",
+                  },
                   undefined,
                 ]
               }

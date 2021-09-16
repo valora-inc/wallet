@@ -105,7 +105,9 @@ export function getTransferFeedParams(
   recipientInfo: RecipientInfo,
   isCeloRewardSender: boolean,
   isRewardSender: boolean,
-  providerInfo: ProviderFeedInfo | undefined
+  isInviteRewardSender: boolean,
+  providerInfo: ProviderFeedInfo | undefined,
+  currency: string
 ) {
   const e164PhoneNumber = addressToE164Number[address]
   const recipient = getRecipient(
@@ -177,6 +179,16 @@ export function getTransferFeedParams(
         title = t('feedItemRewardReceivedTitle')
         info = t('feedItemRewardReceivedInfo')
         Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
+      } else if (isInviteRewardSender) {
+        title = t('feedItemInviteRewardReceivedTitle')
+        info = t('feedItemInviteRewardReceivedInfo')
+        Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
+      } else if (providerInfo) {
+        title = t('feedItemReceivedTitle', { displayName })
+        info =
+          currency.toLowerCase() === 'celo'
+            ? t('fiatExchangeFlow:celoDeposit')
+            : t('fiatExchangeFlow:cUsdDeposit')
       } else {
         title = t('feedItemReceivedTitle', { displayName })
         info = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
