@@ -10,7 +10,7 @@
   "save": "Guardar",
   "scan": "Escanear",
   "next": "Siguiente",
-  "skip": "Saltar",
+  "skip": "Omitir",
   "copy": "Copiar",
   "goBack": "Regresar",
   "reset": "Restablecer",
@@ -183,7 +183,7 @@
   "invite": "Invitar",
   "settings": "Configuración",
   "help": "Ayuda",
-  "dismiss": "Descartar",
+  "dismiss": "Omitir",
   "review": "Revisar",
   "insufficientBalance": "Tu saldo es demasiado bajo para realizar esta transacción.",
   "amount": "Monto",
@@ -201,5 +201,6 @@
   "cashOutLimitExceeded": "No puedes retirar más de tu saldo de {{balance}} {{currency}}.",
   "appDescription": "Una billetera de pagos móvil que funciona en todo el mundo",
   "earn": "Gana",
-  "free": "Gratis"
+  "free": "Gratis",
+  "notNow": "Omitir"
 }

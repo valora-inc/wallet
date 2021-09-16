@@ -150,16 +150,16 @@ brew install --cask android-sdk
 brew install --cask android-platform-tools
 ```
 
-Next install [Android Studio][android studio] and add the [Android NDK][android ndk].
+Next install [Android Studio][android studio] and add the [Android NDK][android ndk] (if you run into issues with the toolchain, try using version: 22.x).
 
 Execute the following (and make sure the lines are in your `~/.bash_profile`).
 
 _Note that these paths may differ on your machine. You can find the path to the SDK and NDK via the [Android Studio menu](https://stackoverflow.com/questions/40520324/how-to-find-the-path-to-ndk)._
 
 ```bash
-export ANDROID_HOME=/usr/local/share/android-sdk
-export ANDROID_NDK=/usr/local/share/android-sdk/ndk
-export ANDROID_SDK_ROOT=/usr/local/share/android-sdk
+export ANDROID_HOME=${YOUR_ANDROID_SDK_PATH}
+export ANDROID_NDK=$ANDROID_HOME/ndk-bundle
+export ANDROID_SDK_ROOT=$ANDROID_HOME
 # this is an optional gradle configuration that should make builds faster
 export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gradle.jvmargs="-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError"'
 export TERM_PROGRAM=iterm  # or whatever your favorite terminal program is
@@ -256,7 +256,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 4. Build the project by pressing the play button in the top left corner or selecting `Product > Build` from the Xcode menu bar.
 
-5. From the `mobile` directory run `yarn run dev:ios`.
+5. From the `packages/mobile` directory run `yarn run dev:ios`.
 
 ### Android
 
@@ -266,7 +266,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 5. To confirm your device is properly connected, running `adb devices` from the terminal should reflect your connected device. If it lists a device as "unauthorized", make sure you've accepted the prompt or [troubleshoot here][device unauthorized].
 
-6. From the `mobile` directory run `yarn run dev:android`.
+6. From the `packages/mobile` directory run `yarn run dev:android`.
 
 ### Running in forno (data saver) mode
 

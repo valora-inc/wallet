@@ -81,4 +81,38 @@ describe(BidaliScreen, () => {
       }
     `)
   })
+
+  it('renders correctly when no currency is passed', () => {
+    const mockStore = createMockStore({
+      account: { e164PhoneNumber: '+14155556666' },
+      stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '9' } },
+    })
+
+    const { getByType } = render(
+      <Provider store={mockStore}>
+        <BidaliScreen
+          {...getMockStackScreenProps(Screens.BidaliScreen, {
+            currency: undefined,
+          })}
+        />
+      </Provider>
+    )
+    const webView = getByType(WebView)
+    expect(webView).toBeDefined()
+    // eslint-disable-next-line no-eval
+    expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
+    // `paymentCurrency` is CEUR here because it has the highest balance in the local currency
+    expect(window.valora).toMatchInlineSnapshot(`
+      Object {
+        "balances": Object {
+          "CEUR": "9",
+          "CUSD": "10",
+        },
+        "onPaymentRequest": [Function],
+        "openUrl": [Function],
+        "paymentCurrency": "CEUR",
+        "phoneNumber": "+14155556666",
+      }
+    `)
+  })
 })
