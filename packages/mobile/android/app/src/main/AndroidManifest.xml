@@ -46,8 +46,6 @@
     <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_notification_small" />
     <meta-data tools:replace="android:resource" android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/celo_notification" />
 
-    <!-- <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="TEST-9R7-547-RR6Z"/> -->
-    <!-- <meta-data android:name="CLEVERTAP_TOKEN" android:value="TEST-a45-a2c"/> -->
     <meta-data android:name="CLEVERTAP_BACKGROUND_SYNC" android:value="1"/>
 
     <service android:name=".FirebaseMessagingService">
