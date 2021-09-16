@@ -308,6 +308,8 @@ export const migrations = {
   }),
   18: (state: any) => ({
     ...state,
-    walletConnect: {},
+    walletConnect: {
+      v2: _.omit(state.walletConnect, 'pairings'),
+    },
   }),
 }

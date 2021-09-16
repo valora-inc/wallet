@@ -13,6 +13,7 @@ export enum Actions {
   CLOSE_SESSION = 'WALLETCONNECT/CLOSE_SESSION',
   CLOSE_PENDING_SESSION = 'WALLETCONNECT/CLOSE_PENDING_SESSION',
 
+  SHOW_REQUEST_DETAILS = 'WALLETCONNECT/SHOW_REQUEST_DETAILS',
   ACCEPT_REQUEST = 'WALLETCONNECT/ACCEPT_REQUEST',
   DENY_REQUEST = 'WALLETCONNECT/DENY_REQUEST',
   REQUEST_FULFILLED = 'WALLETCONNECT/REQUEST_FULFILLED',
@@ -55,7 +56,11 @@ export interface CloseSession {
   type: Actions.CLOSE_SESSION
   session: SessionTypes.Settled
 }
-
+export interface ShowRequestDetails {
+  type: Actions.SHOW_REQUEST_DETAILS
+  request: SessionTypes.RequestEvent
+  infoString: string
+}
 export interface AcceptRequest {
   type: Actions.ACCEPT_REQUEST
   request: SessionTypes.RequestEvent
@@ -107,6 +112,7 @@ export type UserActions =
   | AcceptSession
   | DenySession
   | CloseSession
+  | ShowRequestDetails
   | AcceptRequest
   | DenyRequest
 
@@ -121,6 +127,7 @@ export const initialisePairing = (
   uri,
   origin,
 })
+
 export const acceptSession = (session: SessionTypes.Proposal): AcceptSession => ({
   type: Actions.ACCEPT_SESSION,
   session,
@@ -134,6 +141,14 @@ export const closeSession = (session: { topic: string }) => ({
   session,
 })
 
+export const showRequestDetails = (
+  request: SessionTypes.RequestEvent,
+  infoString: string
+): ShowRequestDetails => ({
+  type: Actions.SHOW_REQUEST_DETAILS,
+  request,
+  infoString,
+})
 export const acceptRequest = (request: SessionTypes.RequestEvent): AcceptRequest => ({
   type: Actions.ACCEPT_REQUEST,
   request,

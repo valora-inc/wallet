@@ -1,4 +1,4 @@
-import { PendingAction } from './reducer'
+import { PendingAction } from './types'
 
 export enum Actions {
   SHOW_REQUEST_DETAILS = 'WALLETCONNECT/SHOW_REQUEST_DETAILS',

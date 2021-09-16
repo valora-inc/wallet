@@ -734,7 +734,14 @@ export const v18Schema = {
     ...v17Schema._persist,
     version: 18,
   },
-  walletConnect: _.omit(v17Schema.walletConnect, 'pairings'),
+  walletConnect: {
+    v1: {
+      pendingActions: [],
+      sessions: [],
+      pendingSessions: [],
+    },
+    v2: _.omit(v17Schema.walletConnect, 'pairings'),
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

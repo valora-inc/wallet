@@ -363,6 +363,6 @@ describe('Redux persist migrations', () => {
   it('works for v17 to v18', () => {
     expect(v17Schema.walletConnect.pairings).toBeDefined()
     const migratedSchema = migrations[18](v17Schema)
-    expect(migratedSchema.walletConnect.pairings).not.toBeDefined()
+    expect(migratedSchema.walletConnect.v2.pairings).not.toBeDefined()
   })
 })

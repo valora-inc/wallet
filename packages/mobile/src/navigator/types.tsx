@@ -1,6 +1,6 @@
 import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
 import BigNumber from 'bignumber.js'
-import { SendOrigin } from 'src/analytics/types'
+import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
@@ -14,7 +14,7 @@ import { CurrencyInfo } from 'src/send/SendConfirmation'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
-import { PendingAction, PendingSession } from 'src/walletConnect/reducer'
+import { PendingAction, PendingSession } from 'src/walletConnect/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -248,9 +248,18 @@ export type StackParamList = {
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
+  [Screens.WalletConnectLoading]: { origin: WalletConnectPairingOrigin }
+  [Screens.WalletConnectResult]: {
+    title: string
+    subtitle: string
+  }
   [Screens.WalletConnectSessionRequest]: PendingSession
   [Screens.WalletConnectSessions]: undefined
-  [Screens.WalletConnectActionRequest]: PendingAction
+  [Screens.WalletConnectActionRequest]: PendingAction & {
+    dappName: string
+    dappUrl: string
+    dappIcon: string
+  }
   [Screens.WalletHome]: undefined
   [Screens.WebViewScreen]: { uri: string }
   [Screens.Welcome]: undefined
