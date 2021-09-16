@@ -133,6 +133,12 @@ export type StackParamList = {
         showZeroBalanceModal?: boolean
       }
     | undefined
+
+  [Screens.ImportContacts]:
+    | undefined
+    | {
+        onPressSkip?: () => void
+      }
   [Screens.IncomingPaymentRequestListScreen]: undefined
   [Screens.NameAndPicture]: undefined
   [Screens.Language]:
@@ -168,6 +174,7 @@ export type StackParamList = {
         komenciAvailable?: boolean
       }
     | undefined
+  [Screens.PersonaScreen]: undefined
   [Screens.PhoneNumberLookupQuota]: {
     onBuy: () => void
     onSkip: () => void
