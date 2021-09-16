@@ -15,7 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 export default function SendOrRequestBar() {
   const onPressSend = () => {
     ValoraAnalytics.track(HomeEvents.home_send)
-    navigate(Screens.Send)
+    navigate(Screens.PersonaScreen)
   }
 
   const onPressRequest = () => {
