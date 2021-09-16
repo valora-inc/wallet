@@ -153,6 +153,7 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   yield call([app.messaging(), 'registerDeviceForRemoteMessages'])
   const fcmToken = yield call([app.messaging(), 'getToken'])
   if (fcmToken) {
+    yield call(registerTokenToDb, app, address, fcmToken)
     yield call([CleverTap, 'setPushToken'], fcmToken, CleverTap.FCM)
     // First time setting the fcmToken also set the language selection
     const language = yield select(currentLanguageSelector)
@@ -163,6 +164,7 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
 
   app.messaging().onTokenRefresh(async (token) => {
     Logger.info(TAG, 'Cloud Messaging token refreshed')
+    await registerTokenToDb(app, address, token)
     await CleverTap.setPushToken(token, CleverTap.FCM)
   })
 }
