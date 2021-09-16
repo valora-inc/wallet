@@ -20,8 +20,6 @@ import {
 } from 'src/transactions/transferFeedUtils'
 import { TransactionStatus } from 'src/transactions/types'
 
-const TAG = 'transactions/TransferFeedItem'
-
 type Props = TransferItemFragment & {
   type: TokenTransactionType
   status: TransactionStatus
