@@ -452,7 +452,7 @@ export function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
       origin,
     })
     if (!client) {
-      throw new Error(`missing client`)
+      throw new Error('missing client')
     }
 
     Logger.debug(TAG + '@handleInitialisePairing', 'pair start')
