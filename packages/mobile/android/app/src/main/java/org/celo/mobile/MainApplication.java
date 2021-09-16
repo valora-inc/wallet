@@ -4,8 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import androidx.multidex.MultiDexApplication;
 import cl.json.ShareApplication;
-// CleverTap imports
-import com.clevertap.android.sdk.ActivityLifecycleCallback;
 import com.clevertap.android.sdk.ActivityLifecycleCallback;
 import com.clevertap.android.sdk.CleverTapAPI;
 import com.facebook.react.PackageList;
@@ -27,6 +25,8 @@ import java.util.List;
 public class MainApplication
   extends MultiDexApplication
   implements ShareApplication, ReactApplication {
+  static final String TAG = "MainApplication";
+
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
     @Override
@@ -60,9 +60,9 @@ public class MainApplication
 
   @Override
   public void onCreate() {
+    // CleverTap setup
     ActivityLifecycleCallback.register(this);
-    CleverTapAPI.setDebugLevel(3);
-    CleverTapAPI.getDefaultInstance(getApplicationContext()).enableDeviceNetworkInfoReporting(true);
+
     super.onCreate();
     SoLoader.init(this, /* native exopackage */false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
