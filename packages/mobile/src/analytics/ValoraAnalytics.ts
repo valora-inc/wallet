@@ -1,14 +1,17 @@
 import Analytics, { Analytics as analytics } from '@segment/analytics-react-native'
+import Adjust from '@segment/analytics-react-native-adjust'
 import CleverTap from '@segment/analytics-react-native-clevertap'
+import Firebase from '@segment/analytics-react-native-firebase'
 import { sha256 } from 'ethereumjs-util'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 import { AppEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
-import { DEFAULT_TESTNET, isE2EEnv, SEGMENT_API_KEY } from 'src/config'
+import { DEFAULT_TESTNET, FIREBASE_ENABLED, isE2EEnv, SEGMENT_API_KEY } from 'src/config'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
+import { isPresent } from 'src/utils/typescript'
 
 const TAG = 'ValoraAnalytics'
 
@@ -44,7 +47,7 @@ async function getDeviceInfo() {
 }
 
 const SEGMENT_OPTIONS: analytics.Configuration = {
-  using: [CleverTap],
+  using: [FIREBASE_ENABLED ? Firebase : undefined, Adjust, CleverTap].filter(isPresent),
   flushAt: 20,
   debug: __DEV__,
   trackAppLifecycleEvents: true,
@@ -87,7 +90,7 @@ class ValoraAnalytics {
 
   isEnabled() {
     // Remove __DEV__ here to test analytics in dev builds
-    return store.getState().app.analyticsEnabled
+    return !__DEV__ && store.getState().app.analyticsEnabled
   }
 
   startSession(
@@ -151,7 +154,19 @@ class ValoraAnalytics {
   }
 
   addUserProfile(userID: string, userInfo = {}) {
-    Analytics.identify(userID, userInfo)
+    if (!this.isEnabled()) {
+      Logger.debug(TAG, `Analytics is disabled, not tracking user ${userID}`)
+      return
+    }
+
+    if (!SEGMENT_API_KEY) {
+      Logger.debug(TAG, `No API key, not tracking user ${userID}`)
+      return
+    }
+
+    Analytics.identify(userID, userInfo).catch((err) => {
+      Logger.error(TAG, `Failed to identify user ${userID}`, err)
+    })
   }
 
   page(page: string, eventProperties = {}) {
