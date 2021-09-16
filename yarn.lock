@@ -9736,10 +9736,10 @@ clean-yaml-object@^0.1.0:
   resolved "https://registry.yarnpkg.com/clean-yaml-object/-/clean-yaml-object-0.1.0.tgz#63fb110dc2ce1a84dc21f6d9334876d010ae8b68"
   integrity sha1-Y/sRDcLOGoTcIfbZM0h20BCui2g=
 
-clevertap-react-native@^0.5.2:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-0.5.2.tgz#075a5d5001e845ce2064a9d106fb5383b5851e8f"
-  integrity sha512-1EV7AXp4Fqfz/VRsL1GgqnNEnsjtmCzaQZCuYUSq4YTzxI9IsHs16NUxB2VJVOC2oqbi8w5gsj1kwKMISC5WCw==
+clevertap-react-native@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/clevertap-react-native/-/clevertap-react-native-0.6.0.tgz#813436661581d62f91087cbe56045f488b919002"
+  integrity sha512-0s8CrR29hLZtoZXazAIYGoNSEtwkkuZJDoFFnnHcMbz46nUyoJirWUOPI/DE0qdi092BCGvrkwqLS0nsigC+GQ==
   dependencies:
     extract-zip "^1.6.6"
 
