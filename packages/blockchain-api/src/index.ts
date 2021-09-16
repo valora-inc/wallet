@@ -1,7 +1,6 @@
 import express from 'express'
 import promBundle from 'express-prom-bundle'
 import { server as apolloServer } from './apolloServer'
-import { KnownAddressesCache } from './helpers/KnownAddressesCache'
 
 const metricsMiddleware = promBundle({ includeMethod: true, includePath: true })
 
@@ -33,8 +32,6 @@ app.head('/', (_req, res) => {
 })
 
 apolloServer.applyMiddleware({ app, path: GRAPHQL_PATH })
-
-KnownAddressesCache.startListening()
 
 app.listen(PORT, INTERFACE, () => {
   console.info(`🚀 GraphQL accessible @ http://${INTERFACE}:${PORT}${apolloServer.graphqlPath}`)

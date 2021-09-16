@@ -7,10 +7,10 @@ const ROOT_KEY = 'addressesExtraInfo'
 
 const ON_VALUE_CHANGED = 'value'
 
-export class KnownAddressesCache {
-  static knownAddresses: { [address: string]: { name?: string; imageUrl?: string } } = {}
+class KnownAddressesCache {
+  private knownAddresses: { [address: string]: { name?: string; imageUrl?: string } } = {}
 
-  static startListening() {
+  startListening(): void {
     console.info(TAG, 'Starting listening to Firebase for new events')
     const onError = (error: Error) => {
       console.warn(TAG, error.toString())
@@ -25,7 +25,16 @@ export class KnownAddressesCache {
     database.ref(ROOT_KEY).on(ON_VALUE_CHANGED, onValue, onError)
   }
 
-  static getValueFor(address: string) {
-    return this.knownAddresses[address]
+  getValueFor(address: string): { name?: string; imageUrl?: string } {
+    const value = this.knownAddresses[address]
+    if (value == null) {
+      return {}
+    }
+    return value
   }
 }
+
+export const knownAddressesCache = new KnownAddressesCache()
+knownAddressesCache.startListening()
+
+export default knownAddressesCache
