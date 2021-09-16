@@ -1,6 +1,6 @@
 import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
 import BigNumber from 'bignumber.js'
-import { SendOrigin } from 'src/analytics/types'
+import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
@@ -248,6 +248,11 @@ export type StackParamList = {
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
+  [Screens.WalletConnectLoading]: { origin: WalletConnectPairingOrigin }
+  [Screens.WalletConnectResult]: {
+    title: string
+    subtitle: string
+  }
   [Screens.WalletConnectSessionRequest]: PendingSession
   [Screens.WalletConnectSessions]: undefined
   [Screens.WalletConnectActionRequest]: PendingAction & {
