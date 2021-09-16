@@ -9,6 +9,7 @@ import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingService;
 import java.util.Map;
 
 public class FirebaseMessagingService extends ReactNativeFirebaseMessagingService {
+  static final String TAG = "FirebaseMessagingService";
 
   @Override
   public void onMessageReceived(RemoteMessage message) {
@@ -29,7 +30,7 @@ public class FirebaseMessagingService extends ReactNativeFirebaseMessagingServic
         }
       }
     } catch (Throwable t) {
-      Log.d("MYFCMLIST", "Error parsing FCM message", t);
+      Log.e(TAG, "Error parsing FCM message", t);
     }
   }
 }
