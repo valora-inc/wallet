@@ -89,8 +89,8 @@ platform :ios do
   desc 'Prepare TestFlight'
   lane :prepare_testflight_and_upload do |options|
     api_key = app_store_connect_api_key(
-      key_id: '3B5PGG27Q4',
-      issuer_id: 'dcfc5c64-36b5-46a2-af36-84acc93d2b62',
+      key_id: "#{ENV['APPLE_CONNECT_KEY_ID']}",
+      issuer_id: "#{ENV['APPLE_CONNECT_ISSUER_ID']}",
       key_filepath: '/Users/runner/work/release-automation/release-automation/temp/AuthKey.p8',
       duration: 1200,
     )
