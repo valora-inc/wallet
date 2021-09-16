@@ -95,15 +95,15 @@ function ExternalExchanges({ route }: Props) {
         </View>
       ) : isCashIn ? (
         <>
-          <View testID="accountBox" style={styles.accountBox}>
-            <Text style={styles.accountLabel}>{t('sendFlow7:accountNumberLabel')}</Text>
-            <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
-          </View>
           <Text style={styles.pleaseSelectExchange}>
             {t('youCanTransferIn', {
               digitalAsset: CURRENCIES[route.params.currency].cashTag,
             })}
           </Text>
+          <View testID="accountBox" style={styles.accountBox}>
+            <Text style={styles.accountLabel}>{t('sendFlow7:accountNumberLabel')}</Text>
+            <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
+          </View>
         </>
       ) : (
         <Text style={styles.pleaseSelectExchange}>
