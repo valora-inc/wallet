@@ -42,7 +42,7 @@ public class MainActivity extends ReactActivity {
 
     appStartedMillis = System.currentTimeMillis();
     SplashScreen.show(this, R.style.SplashTheme);
-    super.onCreate(savedInstanceState);
+    super.onCreate(null);
     CleverTapModule.setInitialUri(getIntent().getData());
   }
 
