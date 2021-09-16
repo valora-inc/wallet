@@ -237,11 +237,6 @@ export function getTransferFeedParams(
 export function getTxsFromUserTxQuery(data: UserTransactionsQuery | undefined) {
   const fragments = data?.tokenTransactions?.edges.map((edge) => edge.node).filter(isPresent) ?? []
 
-  // Backend service mock: DELETE BEFORE MERGE
-  // fragments.map((frag) => {
-  //   ;(frag as TransferItemFragment).defaultName = 'DIEGO TEST'
-  //   ;(frag as TransferItemFragment).defaultImage = 'https://source.unsplash.com/user/c_v_r/150x150'
-  // })
   Logger.debug(TAG, `Retrieved transactions from server ${fragments.map((f) => JSON.stringify(f))}`)
 
   return fragments

@@ -180,8 +180,8 @@ export const typeDefs = gql`
     token: Token!
     hash: String!
     fees: [Fee]
-    defaultName: String!
-    defaultImage: String!
+    defaultName: String
+    defaultImage: String
   }
 
   type TokenExchange implements TokenTransaction {
