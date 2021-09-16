@@ -1,5 +1,5 @@
-import { SessionTypes } from '@walletconnect/types-v2'
 import { Actions, UserActions, WalletConnectActions } from 'src/walletConnect/v2/actions'
+import { SessionTypes } from 'walletconnect-v2/types'
 
 export interface State {
   pendingActions: SessionTypes.RequestEvent[]

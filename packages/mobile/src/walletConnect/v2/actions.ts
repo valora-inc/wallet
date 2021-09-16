@@ -1,5 +1,5 @@
-import { SessionTypes } from '@walletconnect/types-v2'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import { SessionTypes } from 'walletconnect-v2/types'
 
 export enum Actions {
   /**

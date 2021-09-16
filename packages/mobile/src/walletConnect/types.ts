@@ -1,5 +1,5 @@
-import { IClientMeta } from '@walletconnect/types'
-import { SessionTypes } from '@walletconnect/types-v2'
+import { IClientMeta } from 'walletconnect-v1/types'
+import { SessionTypes } from 'walletconnect-v2/types'
 
 export interface WalletConnectSessionRequest {
   id: number

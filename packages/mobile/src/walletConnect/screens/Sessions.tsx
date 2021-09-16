@@ -1,7 +1,6 @@
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { AppMetadata, SessionTypes } from '@walletconnect/types-v2'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
@@ -18,6 +17,7 @@ import { closeSession as closeSessionActionV1 } from 'src/walletConnect/v1/actio
 import { selectSessions as selectSessionsV1 } from 'src/walletConnect/v1/selectors'
 import { closeSession as closeSessionActionV2 } from 'src/walletConnect/v2/actions'
 import { selectSessions as selectSessionsV2 } from 'src/walletConnect/v2/selectors'
+import { AppMetadata, SessionTypes } from 'walletconnect-v2/types'
 
 type Session = WalletConnectSession | SessionTypes.Created
 

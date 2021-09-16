@@ -1,7 +1,6 @@
 import { appendPath } from '@celo/base'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
-import WalletConnectClient from '@walletconnect/client-v1'
 import { EventChannel, eventChannel } from 'redux-saga'
 import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects'
 import { showMessage } from 'src/alert/actions'
@@ -41,6 +40,7 @@ import {
   selectSessions,
 } from 'src/walletConnect/v1/selectors'
 import { getAccountAddress } from 'src/web3/saga'
+import { default as WalletConnectClient } from 'walletconnect-v1/client'
 
 const connectors: { [x: string]: WalletConnectClient | undefined } = {}
 
