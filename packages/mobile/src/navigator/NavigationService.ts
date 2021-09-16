@@ -170,7 +170,7 @@ const getActiveRouteState = function (route: NavigationState): NavigationState {
 
 export async function isScreenOnForeground(screen: Screens) {
   await ensureNavigator()
-  let state = navigationRef.current?.getRootState()
+  const state = navigationRef.current?.getRootState()
   if (!state) {
     return false
   }
