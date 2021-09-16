@@ -26,6 +26,7 @@ import {
   TransferStandby,
 } from 'src/transactions/types'
 import { CURRENCIES, Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
+import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'transactions/TransactionsList'
@@ -231,6 +232,7 @@ function mapInvite(tx: FeedItem): FeedItem {
 
 export class TransactionsList extends React.PureComponent<Props> {
   onTxsFetched = (data: UserTransactionsQuery | undefined) => {
+    Logger.debug(TAG, 'onTxsFetched handler triggered')
     const newTxs = getNewTxsFromUserTxQuery(data, this.props.knownFeedTransactions)
     if (!newTxs || !newTxs.length) {
       return
