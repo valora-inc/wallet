@@ -107,9 +107,5 @@
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-  <key>CleverTapAccountID</key>
-  <string>TEST-9R7-547-RR6Z</string>
-  <key>CleverTapToken</key>
-  <string>TEST-a45-a2c</string>
 </dict>
 </plist>
