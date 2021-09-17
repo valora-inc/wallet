@@ -1,58 +1,58 @@
 {
-  "headerTitle": "Recovery Phrase",
-  "introTitle": "Your Recovery Phrase",
-  "introBody": "Your Recovery Phrase is the most important part of your account.\n\nPlease find a private place to set up your Phrase. It takes about five minutes.",
-  "introPrimaryAction": "Set Up Now",
-  "backupSetupTitle": "Set Up Your Recovery Phrase",
-  "backupSetupBody": "To protect your funds, you're required to set up your Recovery Phrase before you can continue using {{appName}}.",
-  "delayBackup": "Wait One Hour",
-  "postSetupTitle": "Your Recovery Phrase",
-  "postSetupBody": "If you lose your Recovery Phrase, you will lose access to all of your Celo Dollars and CELO. Nobody, not even {{appName}}, will be able to help you recover your account without your Recovery Phrase. Store it in a safe place and do not share it.",
-  "postSetupCTA": "Learn about your Recovery Phrase",
-  "failedFetchMnemonic": "Failed to fetch your Recovery Phrase",
-  "backupAndRecovery": "Backup and Recovery",
-  "writeDownKey": "Please write down your Phrase",
-  "completeEducation": "I Understand",
-  "yourAccountKey": "Your Recovery Phrase",
-  "backupKeyNotification": "Your Recovery Phrase is the most important part of your account",
-  "backupKeySummary": "Find a private place and write down your Recovery Phrase. Please store it somewhere safe. Do not save it in your phone.",
-  "copied": "Phrase copied to clipboard",
-  "moreInfo": "More Info",
-  "savedConfirmation": "Yes, I have written down my Phrase.",
-  "backupQuizWordCount": "What's the <0>{{ordinal}}</0> word of your Recovery Phrase?",
-  "importBackupFailed": "Importing Wallet Failed",
-  "backupQuizFailed": "The Recovery Phrase you entered is incorrect. Please try again.",
-  "invalidBackupPhrase": "Recovery Phrase is not valid",
-  "invalidWordsInBackupPhrase": "Some words in the Recovery Phrase are not valid: {{ invalidWords }}",
+  "headerTitle": "Wiederherstellungssatz",
+  "introTitle": "Ihre Wiederherstellungsphrase",
+  "introBody": "Ihre Wiederherstellungsphrase ist der wichtigste Teil Ihres Kontos.\n\nBitte finde einen privaten Ort, um deine Phrase einzurichten. Es dauert etwa fünf Minuten.",
+  "introPrimaryAction": "Jetzt einrichten",
+  "backupSetupTitle": "Wiederherstellungsphrase festlegen",
+  "backupSetupBody": "Um Ihr Geld zu schützen, müssen Sie Ihre Wiederherstellungsphrase einrichten, bevor Sie mit {{appName}} fortfahren können.",
+  "delayBackup": "Warte eine Stunde",
+  "postSetupTitle": "Ihre Wiederherstellungsphrase",
+  "postSetupBody": "Wenn Sie Ihre Wiederherstellungsphase verlieren, verlieren Sie den Zugriff auf alle Ihre Celo Dollars und CELO. Niemand, nicht einmal {{appName}}, wird Ihnen helfen können, Ihr Konto ohne Ihre Wiederherstellungsphrase wiederherzustellen. Lagern Sie es an einem sicheren Ort und teilen Sie es nicht.",
+  "postSetupCTA": "Erfahren Sie mehr über Ihre Wiederherstellungsphrase",
+  "failedFetchMnemonic": "Fehler beim Abrufen der Wiederherstellungsphrase",
+  "backupAndRecovery": "Backup und Wiederherstellung",
+  "writeDownKey": "Bitte schreiben Sie Ihre Phrase auf",
+  "completeEducation": "Ich verstehe",
+  "yourAccountKey": "Ihre Wiederherstellungsphrase",
+  "backupKeyNotification": "Ihre Wiederherstellungsphrase ist der wichtigste Teil Ihres Kontos",
+  "backupKeySummary": "Finden Sie einen privaten Ort und schreiben Sie Ihre Wiederherstellungsphrase auf. Bitte speichern Sie ihn an einem sicheren Ort. Speichern Sie ihn nicht in Ihrem Telefon.",
+  "copied": "Ausdruck in Zwischenablage kopiert",
+  "moreInfo": "Mehr Info",
+  "savedConfirmation": "Ja, ich habe meine Phrase geschrieben.",
+  "backupQuizWordCount": "Was ist das <0>{{ordinal}}</0> Wort deiner Wiederherstellungsprase?",
+  "importBackupFailed": "Import der Brieftasche fehlgeschlagen",
+  "backupQuizFailed": "Die Wiederherstellungsphrase ist falsch. Bitte versuchen Sie es erneut.",
+  "invalidBackupPhrase": "Wiederherstellungssatz ist nicht gültig",
+  "invalidWordsInBackupPhrase": "Einige Wörter in der Wiederherstellungsphrase sind ungültig: {{ invalidWords }}",
   "backupComplete": {
-    "header": "Backup Complete",
-    "0": "Success!",
-    "1": "Next, you can set up Safeguards.",
-    "2": "You’re all set!"
+    "header": "Sicherung abgeschlossen",
+    "0": "Erfolgreich!",
+    "1": "Als nächstes kannst du Safeguard einrichten.",
+    "2": "Du bist fertig!"
   },
   "cancelDialog": {
-    "title": "Finish setting up your Recovery Phrase",
-    "body": "Your Recovery Phrase is extremely important. Without a Phrase, you can lose access to your wallet forever.\nYou will be blocked from sending any transactions until you finish setting up your Recovery Phrase.",
-    "action": "Complete Now",
-    "secondary": "Set Up Later"
+    "title": "Einrichten Ihrer Wiederherstellungsphrase abgeschlossen",
+    "body": "Ihre Wiederherstellungsphrase ist extrem wichtig. Ohne eine Phrase können Sie den Zugriff auf Ihre Brieftasche für immer verlieren.\nSie werden vom Senden von Transaktionen blockiert, bis Sie die Einrichtung Ihrer Wiederherstellungsphrase abgeschlossen haben.",
+    "action": "Jetzt abschließen",
+    "secondary": "Später einrichten"
   },
-  "backupPhrasePlaceholder": "horse leopard dog monkey shark tiger lemur whale squid wolf squirrel mouse lion elephant cat shrimp bear penguin deer turtle fox zebra goat giraffe",
+  "backupPhrasePlaceholder": "Pferd Leopardenhund Affenhai Tiger lemur Wale Tintenfisch Eichhörnchen Maus Elefanten Elefanten Katze Garnelen Bären Pinguin Schildkröten Fuchs Zebra Ziegengiraffe",
   "guide": [
     {
-      "title": "Your Recovery Phrase is a special kind of password",
-      "text": "Your Recovery Phrase is the one and only way to access your account."
+      "title": "Ihre Wiederherstellungsphrase ist eine spezielle Art von Passwort",
+      "text": "Ihre Wiederherstellungsphrase ist die einzige Möglichkeit, auf Ihr Konto zuzugreifen."
     },
     {
-      "title": "Without your Recovery Phrase, you can lose access forever",
-      "text": "If you lose your phone, you must have your Recovery Phrase to get your account back. Nobody, not even {{appName}}, will be able to recover your funds without it."
+      "title": "Ohne Ihre Wiederherstellungsphrase können Sie den Zugriff für immer verlieren",
+      "text": "Wenn Sie Ihr Telefon verlieren, müssen Sie Ihre Wiederherstellungsphrase haben, um Ihr Konto zurück zu bekommen. Niemand, nicht einmal {{appName}}, wird in der Lage sein, Ihr Geld ohne es wiederherzustellen."
     },
     {
-      "title": "Write it down",
-      "text": "Write down your Recovery Phrase and store it in a safe place. Do not save it in your phone."
+      "title": "Notieren Sie es",
+      "text": "Schreiben Sie Ihre Wiederherstellungsphrase auf und speichern Sie sie an einem sicheren Ort. Speichern Sie sie nicht auf Ihrem Telefon."
     },
     {
-      "title": "Keep your Recovery Phrase private",
-      "text": "Anyone with your Phrase will have access to your account and all of its funds. Don’t share it with others."
+      "title": "Halten Sie Ihre Wiederherstellungsphrase privat",
+      "text": "Jeder mit deinem Phrase hat Zugriff auf dein Konto und alle Guthaben. Teilen Sie es nicht mit anderen."
     }
   ]
 }
