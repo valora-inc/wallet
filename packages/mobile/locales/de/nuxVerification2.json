@@ -1,73 +1,73 @@
 {
-  "getVerified": "Confirm Phone Number",
-  "notReadyForCode": "Not yet ready for code entry",
-  "emptyVerificationCode": "No Confirmation Code in Clipboard",
-  "invalidVerificationCode": "Invalid Confirmation Code",
-  "repeatVerificationCode": "Repeated Confirmation Code",
-  "revealAttestationFailure": "Error requesting SMS message",
-  "verificationFailure": "Confirmation Failed",
-  "cantVerifyRevokedAccount": "This account has been previously revoked. Please create a new account and try again.",
-  "verificationTimeout": "Confirmation Timed Out",
-  "errorRequestCode": "Failed to request codes.",
-  "errorRedeemingCode": "Failed to redeem code.",
-  "pleaseRetry": "Please retry confirmation.",
-  "retryVerification": "Retry Confirmation",
+  "getVerified": "Telefonnummer bestätigen",
+  "notReadyForCode": "Noch nicht bereit für Codeeintrag",
+  "emptyVerificationCode": "Kein Bestätigungscode in der Zwischenablage",
+  "invalidVerificationCode": "Ungültiger Bestätigungscode",
+  "repeatVerificationCode": "Wiederholter Bestätigungscode",
+  "revealAttestationFailure": "Fehler beim Anfordern der SMS",
+  "verificationFailure": "Bestätigung fehlgeschlagen",
+  "cantVerifyRevokedAccount": "Dieses Konto wurde zuvor widerrufen. Bitte erstellen Sie ein neues Konto und versuchen Sie es erneut.",
+  "verificationTimeout": "Zeitüberschreitung der Bestätigung",
+  "errorRequestCode": "Fehler beim Abfragen der Codes.",
+  "errorRedeemingCode": "Fehler beim Einlösen des Codes.",
+  "pleaseRetry": "Bitte bestätigen Sie erneut.",
+  "retryVerification": "Bestätigung wiederholen",
   "education": {
-    "header": "Confirm Your Phone",
-    "body1": "Next, please confirm your phone number.",
-    "body2": "Confirming makes it easier to send and receive with friends. You can also skip this step and return to it later.",
-    "learnMore": "Learn more about phone confirmation",
-    "start": "Start Confirmation",
-    "skip": "Skip For Now"
+    "header": "Bestätigen Sie Ihr Telefon",
+    "body1": "Als nächstes bestätigen Sie bitte Ihre Telefonnummer.",
+    "body2": "Bestätigen macht es einfacher, mit Freunden zu senden und zu empfangen. Du kannst diesen Schritt auch überspringen und später wieder darauf zurückkommen.",
+    "learnMore": "Erfahren Sie mehr über die Telefonbestätigung",
+    "start": "Start-Bestätigung",
+    "skip": "Jetzt überspringen"
   },
   "learnMore": {
-    "header": "Phone Number Confirmation",
-    "intro": "Phone number confirmation works by associating your {{appName}} account with your phone number.",
-    "section1Header": "Do I need to complete this?",
-    "section1Body": "Confirmation is not required. However, without confirming, it is only possible to send and receive value using QR codes or addresses.",
-    "section2Header": "Security and Privacy",
-    "section2Body": "To protect your privacy, only an obfuscated version of your phone number is stored on the Celo blockchain."
+    "header": "Bestätigung der Telefonnummer",
+    "intro": "Die Bestätigung der Telefonnummer funktioniert dadurch, dass Sie Ihr {{appName}} -Konto mit Ihrer Telefonnummer verknüpfen.",
+    "section1Header": "Muss ich das vervollständigen?",
+    "section1Body": "Eine Bestätigung ist nicht erforderlich. Ohne Bestätigung ist es jedoch nur möglich, den Wert mittels QR-Codes oder Adressen zu senden und zu empfangen.",
+    "section2Header": "Sicherheit und Privatsphäre",
+    "section2Body": "Um Ihre Privatsphäre zu schützen, wird nur eine verschleierte Version Ihrer Telefonnummer auf der Celo-Blockchain gespeichert."
   },
   "loading": {
-    "confirming": "Confirming phone number…",
-    "pleaseKeepAppOpen": "Please don't leave this screen or you'll have to restart",
-    "learnMore": "Learn more",
-    "card1": "To make sure your phone number is really yours, we're sending you three messages.",
-    "card2": "Once your number is confirmed, you can send and receive funds easily to your phone number.",
-    "card3": "Confirming also allows you to see which of your friends are on {{appName}}.",
-    "card4": "We require three confirmation messages to keep your account more secure."
+    "confirming": "Telefonnummer… bestätigen",
+    "pleaseKeepAppOpen": "Bitte verlassen Sie diesen Bildschirm nicht oder Sie müssen neu starten",
+    "learnMore": "Mehr erfahren",
+    "card1": "Um sicherzustellen, dass Ihre Telefonnummer wirklich Ihre ist, senden wir Ihnen drei Nachrichten.",
+    "card2": "Sobald Ihre Nummer bestätigt ist, können Sie Geld einfach an Ihre Telefonnummer senden und empfangen.",
+    "card3": "Bestätigen erlaubt Ihnen auch, zu sehen, welche Ihrer Freunde auf {{appName}} sind.",
+    "card4": "Wir benötigen drei Bestätigungsnachrichten, um Ihr Konto sicherer zu halten."
   },
   "skipModal": {
-    "header": "Skip Confirmation?",
-    "body1": "Confirming allows others to send value to your phone number.",
-    "body2": "Without confirmation, you can still send payments, but only using Account Addresses or QR codes."
+    "header": "Bestätigung überspringen?",
+    "body1": "Bestätigen erlaubt es anderen, Wert an Ihre Telefonnummer zu senden.",
+    "body2": "Ohne Bestätigung können Sie immer noch Zahlungen versenden, aber nur mit Kontoadressen oder QR-Codes."
   },
   "failModal": {
-    "header": "Confirmation Error",
-    "body1": "An issue has occurred while confirming your phone number.",
-    "body2": "You can skip confirmation for now and try again later.",
-    "body1InsufficientBalance": "Your current balance is not high enough to complete the confirmation process.",
-    "body2InsufficientBalance": "Please try again when you have added funds to your wallet.",
-    "body1SaltQuotaExceeded": "Your phone number lookup quota is used up",
-    "body2SaltQuotaExceeded": "Please try again when you have purchased more lookups",
-    "enterCodesBody": "If you already received three codes via SMS, you can still enter them.",
-    "enterCodesButton": "Enter Codes"
+    "header": "Bestätigungsfehler",
+    "body1": "Beim Bestätigen Ihrer Telefonnummer ist ein Problem aufgetreten.",
+    "body2": "Du kannst jetzt die Bestätigung überspringen und später erneut versuchen.",
+    "body1InsufficientBalance": "Ihr aktueller Kontostand ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.",
+    "body2InsufficientBalance": "Bitte versuchen Sie es erneut, wenn Sie Ihr Guthaben auf Ihre Brieftasche hinzugefügt haben.",
+    "body1SaltQuotaExceeded": "Ihr Telefonnummer-Suchkontingent ist aufgebraucht",
+    "body2SaltQuotaExceeded": "Bitte versuche es erneut, wenn du mehr Lookups gekauft hast",
+    "enterCodesBody": "Wenn Sie bereits drei Codes per SMS erhalten haben, können Sie diese trotzdem eingeben.",
+    "enterCodesButton": "Codes eingeben"
   },
   "retryWithFornoModal": {
-    "header": "Retry Confirmation with Data Saver?",
-    "body1": "An issue has occurred while confirming your phone number. We recommend trying again with Data Saver mode enabled.",
-    "body2": "Data Saver mode allows you to communicate with the Celo Network more consistently using a trusted connection.",
-    "retryButton": "Retry with Data Saver"
+    "header": "Bestätigung mit Datensparer wiederholen?",
+    "body1": "Beim Bestätigen Ihrer Telefonnummer ist ein Fehler aufgetreten. Wir empfehlen, es erneut zu versuchen, wenn der Datensparmodus aktiviert ist.",
+    "body2": "Der Data Saver Modus ermöglicht Ihnen die konsistentere Kommunikation mit dem Celo Netzwerk mittels einer vertrauenswürdigen Verbindung.",
+    "retryButton": "Mit Datensparmodus wiederholen"
   },
-  "congratsVerified": "Congratulations you are now confirmed!",
+  "congratsVerified": "Herzlichen Glückwunsch, Sie sind jetzt bestätigt!",
   "notification": {
-    "body": "Receive payments directly to your phone number",
-    "cta": "Confirm Now"
+    "body": "Zahlungen direkt an Ihre Telefonnummer erhalten",
+    "cta": "Jetzt bestätigen"
   },
   "quotaLookup": {
-    "title": "Lookup quota exceeded",
-    "body1": "To keep your phone number safe and private, {{appName}} limits how many phone numbers users can lookup.",
-    "body2": "You can purchase more lookups for a small fee.",
-    "cta": "Purchase lookups (2)"
+    "title": "Suchquote überschritten",
+    "body1": "Um Ihre Telefonnummer sicher und privat zu halten, begrenzt {{appName}} die Anzahl der Telefonnummern, die Nutzer nachschlagen können.",
+    "body2": "Sie können mehr Lookups gegen eine geringe Gebühr kaufen.",
+    "cta": "Kaufsuche (2)"
   }
 }
