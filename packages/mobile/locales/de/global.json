@@ -178,7 +178,7 @@
   "helpFindAccount": "Hilf deinem Kontakt, seine Account-Adresse zu finden",
   "close": "Schließen",
   "home": "Zuhause",
-  "accountKey": "Wiederherstellungssatz",
+  "accountKey": "Recovery Phrase",
   "addAndWithdraw": "Hinzufügen & Abheben",
   "invite": "Invite",
   "settings": "Einstellungen",
@@ -203,5 +203,5 @@
   "earn": "Verdienen",
   "free": "Kostenlos",
   "notNow": "Nicht jetzt",
-  "contactSupport": "Support kontaktieren"
+  "contactSupport": "Contact Support"
 }
