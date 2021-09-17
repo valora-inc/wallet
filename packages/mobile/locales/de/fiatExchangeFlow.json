@@ -1,5 +1,5 @@
 {
-  "addFunds": "Guthaben hinzufügen",
+  "addFunds": "Add Funds",
   "addFundsSubtitle": "Ihr Valora-Konto aufladen",
   "exchanges": "Austausche",
   "buySellOnExchanges": "Kaufen/Verkaufen bei Wechseln",
@@ -28,7 +28,7 @@
   "fundingEducationDialog": {
     "title": "Deine {{appName}} finanzieren",
     "body": "{{appName}} wird durch das Celo Netzwerk betrieben. {{appName}} läuft auf Celo Dollars (cUSD), einer stabilen digitalen Währung, die den US-Dollar verfolgt.\n\nUm Ihre {{appName}} Brieftasche zu finanzieren, kaufen Sie cUSD von einem der Drittanbieter in Ihrem Standort. Für weitere Informationen besuche bitte <0>{{link}}</0>",
-    "dismiss": "Ok"
+    "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Abheben von {{appName}}",
@@ -42,11 +42,11 @@
   "invalidAmountDialog": {
     "minAmount": "Unsere Anbieter unterstützen keine Gesamtsummen kleiner als {{usdLimit}}{{localLimit}}. Bitte geben Sie einen größeren Betrag ein.",
     "maxAmount": "Unsere Anbieter unterstützen keine Gesamtsummen größer als {{usdLimit}}{{localLimit}}. Bitte geben Sie einen kleineren Betrag ein.",
-    "dismiss": "Ok"
+    "dismiss": "OK"
   },
   "dailyLimitDialog": {
     "body": "Sie sind dabei, mehr als Ihr tägliches Versandlimit von {{limit}}zu erwerben. Bitte kontaktieren Sie <0>{{contactEmail}}</0> wenn Sie Ihr tägliches Sendelimit erhöhen möchten.",
-    "contact": "Kontakt",
+    "contact": "Contact",
     "continue": "Ich verstehe"
   },
   "providerFeesDialog": {
