@@ -1,15 +1,15 @@
 {
-  "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
-  "cancel": "Abbrechen",
-  "allow": "Erlauben",
-  "address": "Konto-Adresse",
-  "phoneNumber": "Telefonnummer",
+  "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
+  "cancel": "Cancel",
+  "allow": "Allow",
+  "address": "Account Address",
+  "phoneNumber": "Phone Number",
   "transaction": {
     "operation": "Operation",
-    "data": "Daten",
-    "signTX": "TX signieren",
-    "details": "Details anzeigen"
+    "data": "Data",
+    "signTX": "Sign TX",
+    "details": "Show details"
   },
-  "shareInfo": "Diese Anwendung wird auf folgende Informationen zugreifen können:",
-  "data": "Daten"
+  "shareInfo": "This application will be able to access the following information:",
+  "data": "Data"
 }
