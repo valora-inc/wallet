@@ -20,13 +20,13 @@
   "inviteDialog": {
     "title": "Lade einen Freund ein",
     "body": "Verbinde und teile Wert mit deinen Freunden und Verwandten auf Valora.",
-    "button": "Einladen"
+    "button": "Invite"
   },
   "sendAndInvite": "Senden & einladen",
   "inviteAndSendDialog": {
     "title": "Laden und senden",
     "body": "Ihre Zahlung an {{name}} wird auf sie warten, sobald sie ihre Telefonnummer bestätigen. Teilen Sie ihnen eine Einladungsnachricht, um {{appName}} beizutreten und Ihre Zahlung einlösen!",
-    "button": "Einladen"
+    "button": "Invite"
   },
   "inviteRewardsBanner": {
     "title": "Erhalten Sie ${{amount}} , indem Sie einen Freund empfehlen!",
