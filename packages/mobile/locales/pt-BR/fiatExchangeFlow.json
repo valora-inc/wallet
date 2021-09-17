@@ -78,6 +78,6 @@
   },
   "restrictedRegion": "Suporte limitado na região",
   "unsupportedPaymentMethod": "Não é possível pagar com {{paymentMethod}} na sua região",
-  "noProviders": "Não há provedores disponíveis para {{digitalAsset}} em seu país.",
-  "switchCurrency": "Trocar Moeda"
+  "noProviders": "There are no providers available for {{digitalAsset}} in your country.",
+  "switchCurrency": "Switch Currency"
 }
