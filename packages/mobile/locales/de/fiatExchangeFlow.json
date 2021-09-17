@@ -47,7 +47,7 @@
   "dailyLimitDialog": {
     "body": "Sie sind dabei, mehr als Ihr tägliches Versandlimit von {{limit}}zu erwerben. Bitte kontaktieren Sie <0>{{contactEmail}}</0> wenn Sie Ihr tägliches Sendelimit erhöhen möchten.",
     "contact": "Contact",
-    "continue": "Ich verstehe"
+    "continue": "I Understand"
   },
   "providerFeesDialog": {
     "title": "Anbietergebühren",
