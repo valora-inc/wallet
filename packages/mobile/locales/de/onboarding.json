@@ -38,7 +38,7 @@
     "loadingBody": "Dies kann bis zu 90 Sekunden dauern"
   },
   "verificationEducation": {
-    "title": "Telefonnummer",
+    "title": "Phone Number",
     "header": "Verbinden Sie Ihre Telefonnummer",
     "body": "Um sicherzustellen, dass Ihre Nummer wirklich Ihre ist, senden wir Ihnen drei Nachrichten, die ungefähr 0 kosten werden. 5 cUSD pro Person.\n\nDie Bestätigung deiner Nummer dauert etwa drei Minuten.",
     "feelessBody": "Die Verbindung dauert etwa drei Minuten. Um deine Nummer zu bestätigen, erhältst du drei Nachrichten.",
