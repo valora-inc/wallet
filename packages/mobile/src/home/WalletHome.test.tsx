@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import { WalletHome } from 'src/home/WalletHome'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, createMockStoreAppDisconnected, getMockI18nProps } from 'test/utils'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
@@ -38,6 +39,9 @@ describe('Testnet banner', () => {
           loading={false}
           appConnected={true}
           address={null}
+          accountAddress={''}
+          name={null}
+          currency={Currency.Celo}
           recipientCache={{}}
           activeNotificationCount={0}
           callToActNotification={false}
@@ -69,6 +73,9 @@ describe('Testnet banner', () => {
           loading={false}
           appConnected={false}
           address={null}
+          accountAddress={''}
+          name={null}
+          currency={Currency.Celo}
           recipientCache={{}}
           activeNotificationCount={0}
           callToActNotification={false}
@@ -92,6 +99,9 @@ describe('Testnet banner', () => {
           loading={false}
           appConnected={true}
           address={null}
+          accountAddress={''}
+          name={null}
+          currency={Currency.Celo}
           recipientCache={{}}
           activeNotificationCount={0}
           callToActNotification={false}
