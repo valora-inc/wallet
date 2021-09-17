@@ -1,5 +1,5 @@
 {
-  "continue": "Weiter",
+  "continue": "Continue",
   "welcomeCelo": "Willkommen bei {{appName}}",
   "chooseCountryCode": "Landesvorwahl",
   "chooseCountry": "Land",
@@ -16,7 +16,7 @@
   "fullName": "Voller Name",
   "fullNamePlaceholder": "Erster",
   "importIt": "Wallet wiederherstellen",
-  "cancel": "Abbrechen",
+  "cancel": "Cancel",
   "important": "Wichtig",
   "createPin": {
     "title": "Eine 6-stellige PIN festlegen",
