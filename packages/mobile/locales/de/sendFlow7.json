@@ -22,7 +22,7 @@
   "accountNumberLabel": "Konto-Nr.",
   "commentLabel": "Nachricht",
   "amountSent": "Gesendete Menge",
-  "amountCeloWithdrawn": "Betrag (CELO)",
+  "amountCeloWithdrawn": "Amount (CELO)",
   "fee": "Fee",
   "securityFee": "Security Fee",
   "inviteFee": "Einladungsgebühr",
