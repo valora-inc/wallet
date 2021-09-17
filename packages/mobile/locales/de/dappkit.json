@@ -3,13 +3,13 @@
   "cancel": "Cancel",
   "allow": "Allow",
   "address": "Account Address",
-  "phoneNumber": "Telefonnummer",
+  "phoneNumber": "Phone Number",
   "transaction": {
     "operation": "Operation",
     "data": "Data",
-    "signTX": "TX signieren",
+    "signTX": "Sign TX",
     "details": "Show details"
   },
-  "shareInfo": "Diese Anwendung wird auf folgende Informationen zugreifen können:",
-  "data": "Daten"
+  "shareInfo": "This application will be able to access the following information:",
+  "data": "Data"
 }
