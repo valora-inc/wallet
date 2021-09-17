@@ -42,14 +42,14 @@
   "purchasedGold": "Purchased CELO",
   "soldGold": "Sold CELO",
   "exchangeRateInfo": "CELO rates are approximate",
-  "rateInfoTitle": "CELO-Tarife sind ungefähre",
+  "rateInfoTitle": "CELO rates are approximate",
   "rateInfoBody": "Your amount could change depending on market conditions. Your final amount will be no more than 1% different than the estimate shown.",
   "accountAddressLabel": "Account Address",
   "celoAmountLabel": "Amount (CELO)",
   "maxSymbol": "Max",
   "withdrawCeloReview": "Review",
-  "withdrawCeloTo": "Abheben zu",
-  "withdrawCeloAmount": "Betrag (CELO)",
+  "withdrawCeloTo": "Withdraw to",
+  "withdrawCeloAmount": "Amount (CELO)",
   "withdrawScanQrTitle": "Scan",
-  "tokenBalance": "{{token}} Guthaben"
+  "tokenBalance": "{{token}} Balance"
 }
