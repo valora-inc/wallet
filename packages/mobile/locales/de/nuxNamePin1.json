@@ -1,42 +1,42 @@
 {
   "continue": "Continue",
-  "welcomeCelo": "Willkommen bei {{appName}}",
-  "chooseCountryCode": "Landesvorwahl",
-  "chooseCountry": "Land",
-  "joinText": "{{appName}} hilft Ihnen, Wert im Celo Netzwerk zu senden, zu empfangen und zu sparen.",
+  "welcomeCelo": "Welcome to {{appName}}",
+  "chooseCountryCode": "Country Code",
+  "chooseCountry": "Country",
+  "joinText": "{{appName}} helps you to send, receive, and save value on the Celo Network.",
   "phoneNumber": "Phone Number",
   "terms": {
-    "title": "Allgemeine Geschäftsbedingungen",
-    "heading1": "Daten und Privatsphäre",
-    "heading2": "Celo Assets und {{appName}} Konto",
-    "info": "Um unsere Dienste zu nutzen, lesen Sie bitte unsere <0>Benutzervereinbarung und -bedingungen</0> durch Klicken auf den Akzeptieren-Button unten.",
-    "privacy": "Indem Sie diesem Netzwerk beitreten, geben Sie uns die Erlaubnis, anonyme Informationen über Ihre Nutzung der App zu sammeln. Wenn Sie Ihre Telefonnummer bestätigen, wird eine gehashte Kopie davon im Celo Netzwerk gespeichert. Wenn Sie Valora Zugriff auf Ihre Kontaktliste gewähren, wird Valora den Namen jedes Kontaktes importieren Telefonnummer und Profilbild, um Benutzern die Verbindung über die Valora-App zu ermöglichen. Um zu erfahren, wie wir diese Informationen sammeln und verwenden, lesen Sie bitte unsere <0>Datenschutzrichtlinie</0>.",
-    "goldDisclaimer": "Wenn Sie ein \"Konto\" mit Valora erstellen, erstellen Sie eine digitale Brieftasche auf der nur Sie die Schlüssel halten. Keine andere Person oder Entität, einschließlich cLabs oder Valora, kann Ihren Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verloren gegangene Gelder wiederherstellen. Bitte beachten Sie, dass CELO, CUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko für einen finanziellen Verlust darstellen. Berücksichtigen Sie Ihre finanziellen Umstände und Toleranz gegenüber finanziellen Risiken, bevor Sie Vermögenswerte kaufen. Sie können nur bis zu {{dailyLimitCUSD}} cUSD pro Tag über Valora versenden (das \"Tageslimit\"). Sie müssen sich mit support@valoraapp.com in Verbindung setzen und zusätzliche persönliche Informationen angeben, um eine Erhöhung dieses Tageslimites zu beantragen. Es kann zu Verzögerungen bei der Erfüllung der erforderlichen Einhaltung kommen."
+    "title": "Terms and Conditions",
+    "heading1": "Data and Privacy",
+    "heading2": "Celo Assets and {{appName}} Account",
+    "info": "In order to use our services, please read and accept our <0>User Agreement and Terms</0> by clicking the accept button below.",
+    "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you confirm your phone number, a hashed copy of it will be stored on the Celo Network. If you grant Valora access to your contact list, Valora will import each contact's name, phone number and profile picture to allow users to connect through the Valora app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
+    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset. You can only send up to {{dailyLimitCUSD}} cUSD per day through Valora (the \"Daily Limit\"). You must contact support@valoraapp.com and provide additional, personal information to request increasing this Daily Limit. There could be a delay to conduct required compliance."
   },
-  "fullName": "Voller Name",
-  "fullNamePlaceholder": "Erster",
-  "importIt": "Wallet wiederherstellen",
+  "fullName": "Full Name",
+  "fullNamePlaceholder": "First Last",
+  "importIt": "Restore Wallet",
   "cancel": "Cancel",
-  "important": "Wichtig",
+  "important": "Important",
   "createPin": {
-    "title": "Eine 6-stellige PIN festlegen",
-    "yourPin": "Ihre PIN"
+    "title": "Set a 6 digit PIN",
+    "yourPin": "Your PIN"
   },
   "verifyPin": {
-    "title": "PIN erneut eingeben"
+    "title": "Re-Enter PIN"
   },
   "confirmPin": {
-    "title": "PIN eingeben"
+    "title": "Enter PIN"
   },
-  "goToSystemSecuritySettingsActionLabel": "Zur Sicherheit",
-  "enableSystemScreenLockFailedMessage": "Fehler beim Aktivieren der Bildschirmsperre",
-  "initKeystoreFailureMessage": "Fehler beim init des Schlüsselspeichers",
-  "pinLostForeverMessage": "Sie haben die Bildschirmsperre entfernt, die PIN ist verloren",
+  "goToSystemSecuritySettingsActionLabel": "Go to security",
+  "enableSystemScreenLockFailedMessage": "Failed to enable screen lock",
+  "initKeystoreFailureMessage": "Failed to init keystore",
+  "pinLostForeverMessage": "You removed the screen lock, the PIN is lost",
   "importContactsPermission": {
-    "title": "Kontakte importieren",
-    "0": "Das Verbinden Ihres Adressbuchs macht es einfach, Zahlungen an Ihre Freunde zu senden und anzufordern. Andernfalls müssen Sie ihre Daten einzeln eingeben.",
-    "1": "Keine Sorge: die Verbindung sendet keine Einladungen an Ihre Kontakte.",
-    "enable": "Kontaktzugriff aktivieren",
-    "loading": "Freunde auf {{appName}} werden gefunden..."
+    "title": "Import Contacts",
+    "0": "Connecting your address book makes it easy to send and request payments with your friends. Otherwise, you’ll have to enter their info individually.",
+    "1": "Don’t worry—connecting does not send invites to your contacts.",
+    "enable": "Enable Contact Access",
+    "loading": "Finding friends on {{appName}}..."
   }
 }
