@@ -1,6 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
+import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { appLock, openDeepLink, openUrl, setAppState } from 'src/app/actions'
 import { handleDeepLink, handleOpenUrl, handleSetAppState } from 'src/app/saga'
@@ -11,7 +12,6 @@ import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
-import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
@@ -70,7 +70,7 @@ describe('App saga', () => {
   it('Handles Bidali deep link', async () => {
     const deepLink = 'celo://wallet/bidali'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
-    expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: Currency.Dollar })
+    expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: undefined })
   })
 
   it('Handles openScreen deep link with safe origin', async () => {
@@ -111,7 +111,11 @@ describe('App saga', () => {
       it(`handles ${name} connection links correctly`, async () => {
         await expectSaga(handleDeepLink, openDeepLink(link))
           .call(handleWalletConnectDeepLink, link)
-          .call(initialiseWalletConnect, decodeURIComponent(connectionString))
+          .call(
+            initialiseWalletConnect,
+            decodeURIComponent(connectionString),
+            WalletConnectPairingOrigin.Deeplink
+          )
           .run()
       })
     }

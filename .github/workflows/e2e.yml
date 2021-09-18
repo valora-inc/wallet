@@ -14,6 +14,9 @@ on:
         default: 'warning'
       tags:
         description: 'End-to-end Tests'
+  # Cron job to run e2e tests @ 8:30 pm daily on the latest commit on the default branch - main
+  schedule:
+    - cron: "30 20 * * *"
 
 jobs:
   ios:
@@ -32,11 +35,21 @@ jobs:
       - name: Install Ruby dependencies
         run: |
           cd packages/mobile
-          bundle install
+          bundle install --path vendor/bundle
       - name: Install CocoaPods dependencies
         run: |
           cd packages/mobile/ios
           bundle exec pod install
+      - name: Create E2E Test .env File
+        env:
+          TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
+        run : |
+          cd packages/mobile/e2e
+          echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
+      - name: Fund E2E accounts
+        run : |
+          cd packages/mobile/e2e/scripts
+          node ./fund-e2e-accounts.ts
       - name: Run E2E tests
         run: |
           cd packages/mobile
@@ -77,6 +90,16 @@ jobs:
         run: yarn
       - name: Build mobile dependencies
         run: yarn build --scope @celo/mobile --include-filtered-dependencies
+      - name: Create E2E Test .env File
+        env:
+          TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
+        run : |
+          cd packages/mobile/e2e
+          echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
+      - name: Fund E2E accounts
+        run : |
+          cd packages/mobile/e2e/scripts
+          node ./fund-e2e-accounts.ts
       - name: Run E2E tests
         run: |
           export ANDROID_SDK_ROOT=$HOME/android-tools

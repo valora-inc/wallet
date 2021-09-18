@@ -49,10 +49,6 @@ export default function FeeDrawer({
   const toggleExpanded = () => {
     LayoutAnimation.easeInEaseOut()
     setExpanded(!expanded)
-    console.log(expanded)
-    console.log(securityFee)
-    console.log(securityAmount)
-    console.log(currency)
   }
 
   const title = isEstimate ? t('feeEstimate') : t('feeActual')

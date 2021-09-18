@@ -1,4 +1,5 @@
 import { call } from 'redux-saga/effects'
+import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 
 const WC_PREFIX = 'wc:'
@@ -27,7 +28,7 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
   link = decodeURIComponent(link)
   // connection request
   if (link.includes('?')) {
-    yield call(initialiseWalletConnect, link)
+    yield call(initialiseWalletConnect, link, WalletConnectPairingOrigin.Deeplink)
   }
 
   // action request, we can do nothing

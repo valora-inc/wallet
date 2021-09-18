@@ -25,3 +25,10 @@ jest.mock(
   'react-native/Libraries/Animated/src/components/AnimatedScrollView.js',
   () => 'RCTScrollView'
 )
+
+// Mock Pixel Ratio to always return 1
+jest.mock('react-native/Libraries/Utilities/PixelRatio.js', () => ({
+  roundToNearestPixel: jest.fn(() => 1),
+  getPixelSizeForLayoutSize: jest.fn(() => 1),
+  getFontScale: jest.fn(() => 1),
+}))

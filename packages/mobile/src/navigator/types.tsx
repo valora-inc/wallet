@@ -58,7 +58,7 @@ export type StackParamList = {
     | {
         navigatedFromSettings: boolean
       }
-  [Screens.BidaliScreen]: { currency: Currency }
+  [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountAuth]: {
@@ -133,12 +133,6 @@ export type StackParamList = {
         showZeroBalanceModal?: boolean
       }
     | undefined
-
-  [Screens.ImportContacts]:
-    | undefined
-    | {
-        onPressSkip?: () => void
-      }
   [Screens.IncomingPaymentRequestListScreen]: undefined
   [Screens.NameAndPicture]: undefined
   [Screens.Language]:

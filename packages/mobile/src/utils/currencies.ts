@@ -39,6 +39,7 @@ export const CURRENCIES: CurrencyObject = {
   },
 }
 
+// TODO: maybe combine this with resolveCurrency
 export function mapOldCurrencyToNew(currencyString: string): Currency {
   const oldMapping: Record<string, any> = {
     dollar: Currency.Dollar,
@@ -56,4 +57,14 @@ export function mapOldCurrencyToNew(currencyString: string): Currency {
 
   // Default value
   return Currency.Dollar
+}
+
+export function resolveCurrency(currencyCode: string): Currency | undefined {
+  const mapping: Record<string, Currency | undefined> = {
+    CELO: Currency.Celo,
+    CGLD: Currency.Celo,
+    CUSD: Currency.Dollar,
+    CEUR: Currency.Euro,
+  }
+  return mapping[currencyCode.toUpperCase()]
 }

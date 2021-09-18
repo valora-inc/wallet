@@ -40,8 +40,8 @@
     "body": "Providers allow you to add or withdraw funds from your account. They determine their own rates and restrictions depending on various factors. Please visit the provider’s website for specific help."
   },
   "invalidAmountDialog": {
-    "minAmount": "Our providers do not support totals smaller than {{limit}}. Please enter a larger amount.",
-    "maxAmount": "Our providers do not support totals larger than {{limit}}. Please enter a smaller amount.",
+    "minAmount": "Our providers do not support totals smaller than {{usdLimit}}{{localLimit}}. Please enter a larger amount.",
+    "maxAmount": "Our providers do not support totals larger than {{usdLimit}}{{localLimit}}. Please enter a smaller amount.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
@@ -77,5 +77,7 @@
     "bodyWithoutProvider": "The service provider is processing your order. You should receive your funds within a couple of days."
   },
   "restrictedRegion": "Limited support in region",
-  "unsupportedPaymentMethod": "Paying with a {{paymentMethod}} is not supported in your region"
+  "unsupportedPaymentMethod": "Paying with a {{paymentMethod}} is not supported in your region",
+  "noProviders": "There are no providers available for {{digitalAsset}} in your country.",
+  "switchCurrency": "Switch Currency"
 }

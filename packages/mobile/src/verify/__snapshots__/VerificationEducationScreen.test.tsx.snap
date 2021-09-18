@@ -388,6 +388,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     Object {
                       "justifyContent": "center",
@@ -399,7 +400,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                   style={
                     Object {
                       "fontSize": 20,
-                      "marginRight": 4,
                     }
                   }
                   testID="countryCodeFlag"
@@ -409,6 +409,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 <View
                   style={
                     Object {
+                      "marginLeft": 7,
                       "transform": Array [
                         Object {
                           "rotate": "0deg",
@@ -1433,6 +1434,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     Object {
                       "justifyContent": "center",
@@ -1444,7 +1446,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                   style={
                     Object {
                       "fontSize": 20,
-                      "marginRight": 4,
                     }
                   }
                   testID="countryCodeFlag"
@@ -1454,6 +1455,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 <View
                   style={
                     Object {
+                      "marginLeft": 7,
                       "transform": Array [
                         Object {
                           "rotate": "0deg",
@@ -2478,6 +2480,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     Object {
                       "justifyContent": "center",
@@ -2489,7 +2492,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                   style={
                     Object {
                       "fontSize": 20,
-                      "marginRight": 4,
                     }
                   }
                   testID="countryCodeFlag"
@@ -2499,6 +2501,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                 <View
                   style={
                     Object {
+                      "marginLeft": 7,
                       "transform": Array [
                         Object {
                           "rotate": "0deg",
@@ -3523,6 +3526,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     Object {
                       "justifyContent": "center",
@@ -3534,7 +3538,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                   style={
                     Object {
                       "fontSize": 20,
-                      "marginRight": 4,
                     }
                   }
                   testID="countryCodeFlag"
@@ -3544,6 +3547,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                 <View
                   style={
                     Object {
+                      "marginLeft": 7,
                       "transform": Array [
                         Object {
                           "rotate": "0deg",

@@ -91,6 +91,7 @@ exports[`ExchangeReview renders correctly 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -193,6 +194,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -244,6 +246,7 @@ exports[`ExchangeReview renders correctly 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -321,6 +324,7 @@ exports[`ExchangeReview renders correctly 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -509,21 +513,7 @@ exports[`ExchangeReview renders correctly 1`] = `
             }
           }
         >
-          <Text
-            style={
-              Array [
-                undefined,
-                Object {
-                  "color": undefined,
-                },
-              ]
-            }
-            testID="undefined/value"
-          >
-            
-            
-            10.0000
-          </Text>
+          10.00
         </Text>
       </View>
     </View>

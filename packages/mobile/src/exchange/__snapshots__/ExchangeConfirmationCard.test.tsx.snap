@@ -86,6 +86,7 @@ exports[`renders correctly with giant numbers 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -188,6 +189,7 @@ exports[`renders correctly with giant numbers 1`] = `
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -239,6 +241,7 @@ exports[`renders correctly with giant numbers 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -316,6 +319,7 @@ exports[`renders correctly with giant numbers 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -527,6 +531,7 @@ exports[`renders correctly with no exchange rate 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -629,6 +634,7 @@ exports[`renders correctly with no exchange rate 1`] = `
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -680,6 +686,7 @@ exports[`renders correctly with no exchange rate 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -757,6 +764,7 @@ exports[`renders correctly with no exchange rate 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
