@@ -5,6 +5,7 @@ import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
+import CleverTap from 'clevertap-react-native'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
 import { currentLanguageSelector } from 'src/app/reducers'
@@ -15,8 +16,6 @@ import { handleNotification } from 'src/firebase/notifications'
 import { NotificationReceiveState } from 'src/notifications/types'
 import Logger from 'src/utils/Logger'
 import { Awaited } from 'src/utils/typescript'
-
-const CleverTap = require('clevertap-react-native')
 
 const TAG = 'firebase/firebase'
 
@@ -155,6 +154,7 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   const fcmToken = yield call([app.messaging(), 'getToken'])
   if (fcmToken) {
     yield call(registerTokenToDb, app, address, fcmToken)
+    // @ts-ignore FCM constant missing from types
     yield call([CleverTap, 'setPushToken'], fcmToken, CleverTap.FCM)
     // First time setting the fcmToken also set the language selection
     const language = yield select(currentLanguageSelector)
@@ -166,7 +166,8 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   app.messaging().onTokenRefresh(async (token) => {
     Logger.info(TAG, 'Cloud Messaging token refreshed')
     await registerTokenToDb(app, address, token)
-    await CleverTap.setPushToken(token, CleverTap.FCM)
+    // @ts-ignore FCM constant missing from types
+    CleverTap.setPushToken(token, CleverTap.FCM)
   })
 }
 
