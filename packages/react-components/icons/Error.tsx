@@ -2,6 +2,7 @@ import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
 import { View, ViewStyle } from 'react-native'
 import Svg, { Circle, Path } from 'svgs'
+import { getSizing } from '../styles/accessibility'
 
 interface Props {
   color?: string
@@ -12,14 +13,15 @@ interface Props {
 export default class Error extends React.PureComponent<Props> {
   static defaultProps = {
     color: colors.light,
-    width: 16,
+    width: getSizing(),
     style: {},
   }
 
   render() {
     return (
-      <View style={this.props.style} testID={'ErrorIcon'}>
+      <View style={this.props.style}>
         <Svg
+          testID="ErrorIcon"
           width={this.props.width}
           height={this.props.width}
           viewBox="0 0 16 16"

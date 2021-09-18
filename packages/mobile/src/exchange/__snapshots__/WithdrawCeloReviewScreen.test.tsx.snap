@@ -28,6 +28,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
         Array [
           Object {
             "flexDirection": "row",
+            "flexWrap": "wrap",
             "justifyContent": "space-between",
             "marginVertical": 5,
           },
@@ -115,6 +116,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -171,15 +173,15 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="undefined/value"
           >
             
             
@@ -221,6 +223,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                   Object {
                     "alignItems": "center",
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                   },
                   undefined,
                 ]
@@ -241,6 +244,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
               <View
                 style={
                   Object {
+                    "marginLeft": 7,
                     "transform": Array [
                       Object {
                         "rotate": "0deg",
@@ -267,6 +271,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -313,15 +318,15 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
                       Object {
-                        "color": "#2E3338",
+                        "color": undefined,
                       },
                     ]
                   }
+                  testID="feeDrawer/WithdrawCelo/totalFee/value"
                 >
                   
                   
@@ -337,6 +342,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -393,15 +399,15 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Total/value"
           >
             
             
@@ -414,6 +420,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -450,23 +457,51 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
               ]
             }
           >
-            Celo Dollars @
-             
-            <Text
-              numberOfLines={1}
-              style={
-                Array [
-                  undefined,
-                  Object {
-                    "color": "#2E3338",
-                  },
-                ]
+            <View
+              accessible={true}
+              focusable={false}
+              nativeBackgroundAndroid={
+                Object {
+                  "attribute": "selectableItemBackground",
+                  "rippleRadius": undefined,
+                  "type": "ThemeAttrAndroid",
+                }
               }
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
             >
-              
-              $
-              0.75
-            </Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                  }
+                }
+              >
+                <Text
+                  style={
+                    Array [
+                      undefined,
+                      Object {
+                        "color": undefined,
+                      },
+                    ]
+                  }
+                  testID="TotalLineItem/ExchangeRate/value"
+                >
+                  
+                  $
+                  3.00
+                </Text>
+              </Text>
+            </View>
           </Text>
         </View>
         <Text
@@ -488,18 +523,19 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
                 Object {
-                  "color": "#2E3338",
+                  "color": undefined,
                 },
               ]
             }
+            testID="TotalLineItem/Subtotal/value"
           >
             
-            5.001
+            $
+            15.00
           </Text>
         </Text>
       </View>
@@ -561,6 +597,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
         testID="ConfirmWithdrawButton"
       >
         <Text
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",

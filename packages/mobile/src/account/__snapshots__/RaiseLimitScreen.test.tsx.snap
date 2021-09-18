@@ -33,7 +33,7 @@ exports[`RaiseLimitScreen renders correctly 1`] = `
       }
     }
   >
-    dailyLimitValue
+    dailyLimitValue, {"dailyLimit":1000}
   </Text>
   <Text
     style={
@@ -45,7 +45,7 @@ exports[`RaiseLimitScreen renders correctly 1`] = `
       }
     }
   >
-    verifyNumberToRaiseLimit
+    verifyIdentityToRaiseLimit
   </Text>
   <View
     style={
@@ -110,6 +110,7 @@ exports[`RaiseLimitScreen renders correctly 1`] = `
         testID="RaiseLimitButton"
       >
         <Text
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",

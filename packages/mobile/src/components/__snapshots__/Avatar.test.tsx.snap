@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[` renders correctly with address and name but no number 1`] = `
+exports[`renders correctly with address and name but no number 1`] = `
 <View
   style={
     Object {
@@ -40,6 +40,7 @@ exports[` renders correctly with address and name but no number 1`] = `
       }
     >
       <Text
+        allowFontScaling={false}
         style={
           Array [
             Object {
@@ -103,7 +104,7 @@ exports[` renders correctly with address and name but no number 1`] = `
 </View>
 `;
 
-exports[` renders correctly with address but no name nor number 1`] = `
+exports[`renders correctly with address but no name nor number 1`] = `
 <View
   style={
     Object {
@@ -170,7 +171,7 @@ exports[` renders correctly with address but no name nor number 1`] = `
       ]
     }
   >
-    walletFlow5:feedItemAddress
+    walletFlow5:feedItemAddress, {"address":"0x0000...7E57"}
   </Text>
   <Text
     ellipsizeMode="tail"
@@ -196,7 +197,7 @@ exports[` renders correctly with address but no name nor number 1`] = `
 </View>
 `;
 
-exports[` renders correctly with just number 1`] = `
+exports[`renders correctly with just number 1`] = `
 <View
   style={
     Object {
@@ -312,7 +313,7 @@ exports[` renders correctly with just number 1`] = `
 </View>
 `;
 
-exports[` renders correctly with number and name 1`] = `
+exports[`renders correctly with number and name 1`] = `
 <View
   style={
     Object {
@@ -352,6 +353,7 @@ exports[` renders correctly with number and name 1`] = `
       }
     >
       <Text
+        allowFontScaling={false}
         style={
           Array [
             Object {

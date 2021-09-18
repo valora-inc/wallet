@@ -16,8 +16,9 @@ exports[`Support renders correctly 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -53,11 +54,11 @@ exports[`Support renders correctly 1`] = `
           },
         ]
       }
-      testID="Hamburguer"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -164,6 +165,7 @@ exports[`Support renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -244,6 +246,7 @@ exports[`Support renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -324,6 +327,7 @@ exports[`Support renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -404,6 +408,7 @@ exports[`Support renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]

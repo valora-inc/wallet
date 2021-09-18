@@ -3,12 +3,13 @@
   "paymentReceivedBody": "You've received {{amount}} {{currency}}",
   "celoReceivedTitle": "CELO deposit received",
   "celoReceivedBody": "You just received {{amount}} CELO! You can earn, save and spend in Valora. Tap to learn more.",
-  "dollar": "Celo Dollar",
-  "dollar_plural": "Celo Dollars",
+  "dollar": "cUSD",
+  "euro": "cEUR",
   "gold": "CELO",
   "paymentRequestedTitle": "Payment Requested",
   "paymentRequestedBody": "Payment of {{amount}} {{currency}} has been requested",
-  "rewardReceivedTitle": "Reward Received",
-  "inviteTitle": "Your friend just received your transfer!",
-  "inviteBody": "The recipient of the funds you sent just signed up for Valora! You can now send value to each other using your phone numbers with near-zero fees"
+  "rewardReceivedTitle": "You just earned more cUSD 📈",
+  "rewardReceivedBody": "Your weekly earnings have arrived! Add cUSD to earn even more next week.",
+  "inviteRewardTitle": "Invite Accepted",
+  "inviteRewardBody": "Your friend accepted your Valora invite, and you earned {{amount}} {{currency}}!"
 }

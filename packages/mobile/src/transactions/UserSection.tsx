@@ -75,7 +75,7 @@ export default function UserSection({
           )}
           <View style={styles.accountBox}>
             <Text style={styles.accountLabel}>{t('accountNumberLabel')}</Text>
-            <AccountNumber address={address || ''} location={Screens.TransactionReview} />
+            <AccountNumber address={address} location={Screens.TransactionReview} />
           </View>
         </View>
       )}
@@ -93,19 +93,18 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   userContainer: {
-    flex: 1,
+    flex: 3,
     marginRight: 8,
   },
   username: {
     ...fontStyles.regular,
-    marginRight: 7,
   },
   phoneNumber: {
     ...fontStyles.small,
     color: colors.gray4,
-    marginRight: 7,
   },
   avatarContainer: {
+    flex: 1,
     justifyContent: 'center',
   },
   expandedContainer: {
@@ -119,14 +118,11 @@ const styles = StyleSheet.create({
   accountBox: {
     borderRadius: 4,
     backgroundColor: colors.gray2,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 12,
-    paddingVertical: 16,
+    flexDirection: 'column',
+    padding: 16,
   },
   accountLabel: {
     ...fontStyles.label,
-    color: colors.gray4,
-    marginRight: 30,
+    color: colors.gray5,
   },
 })

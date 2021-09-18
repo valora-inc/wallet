@@ -2,7 +2,7 @@
   "connectToWallet": "{{dappName}} desea conectarse a {{appName}}",
   "cancel": "Cancelar",
   "allow": "Permitir",
-  "address": "Número de Cuenta",
+  "address": "Dirección de cuenta",
   "phoneNumber": "Número de teléfono",
   "transaction": {
     "operation": "Operación",

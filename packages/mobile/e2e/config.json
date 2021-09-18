@@ -1,16 +1,16 @@
 {
   "bail": 3,
-  "setupFilesAfterEnv": ["@celo/flake-tracker/src/jest/setup.js"],
-  "globalSetup": "@celo/flake-tracker/src/jest/setup.global.js",
-  "globalTeardown": "@celo/flake-tracker/src/jest/teardown.global.js",
-  "testEnvironment": "@celo/flake-tracker/src/jest/environments/detox.js",
+  "setupFilesAfterEnv": ["./init.js"],
+  "testEnvironment": "./environment.js",
   "reporters": [
     "detox/runners/jest/streamlineReporter",
     ["jest-html-reporter", {
       "pageTitle": "E2E Test Report",
       "outputPath": "e2e/test-results/index.html",
       "executionTimeWarningThreshold": 90,
-      "includeFailureMsg": true
+      "includeFailureMsg": true,
+      "styleOverridePath": "teststyle.css",
+      "logo": "valora-icon.png"
     }],
     ["jest-junit", {
       "suiteName": "E2E Test Report",

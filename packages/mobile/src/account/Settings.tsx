@@ -41,13 +41,13 @@ import {
 } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import SessionId from 'src/components/SessionId'
-import { TOS_LINK } from 'src/config'
+import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { revokeVerification } from 'src/identity/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { ensurePincode, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
@@ -306,6 +306,10 @@ export class Account extends React.Component<Props, State> {
     ValoraAnalytics.track(SettingsEvents.tos_view)
   }
 
+  onPrivacyPolicyPress() {
+    navigateToURI(PRIVACY_LINK)
+  }
+
   onRemoveAccountPress = () => {
     this.setState({ showAccountKeyModal: true })
   }
@@ -341,6 +345,23 @@ export class Account extends React.Component<Props, State> {
     this.setState({ showRevokeModal: false })
   }
 
+  goToChangePin = async () => {
+    try {
+      ValoraAnalytics.track(SettingsEvents.change_pin_start)
+      const pinIsCorrect = await ensurePincode()
+      if (pinIsCorrect) {
+        ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_entered)
+        navigate(Screens.PincodeSet, {
+          isVerifying: false,
+          changePin: true,
+        })
+      }
+    } catch (error) {
+      ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_error)
+      Logger.error('NavigationService@onPress', 'PIN ensure error', error)
+    }
+  }
+
   render() {
     const { t, i18n, numberVerified, verificationPossible } = this.props
     const promptFornoModal = this.props.route.params?.promptFornoModal ?? false
@@ -356,7 +377,11 @@ export class Account extends React.Component<Props, State> {
             </Text>
           </TouchableWithoutFeedback>
           <View style={styles.containerList}>
-            <SettingsItemTextValue title={t('editProfile')} onPress={this.goToProfile} />
+            <SettingsItemTextValue
+              testID="EditProfile"
+              title={t('editProfile')}
+              onPress={this.goToProfile}
+            />
             {!numberVerified && verificationPossible && (
               <SettingsItemTextValue title={t('confirmNumber')} onPress={this.goToConfirmNumber} />
             )}
@@ -371,6 +396,11 @@ export class Account extends React.Component<Props, State> {
               onPress={this.goToLocalCurrencySetting}
             />
             <SectionHead text={t('securityAndData')} style={styles.sectionTitle} />
+            <SettingsItemTextValue
+              title={t('changePin')}
+              onPress={this.goToChangePin}
+              testID="ChangePIN"
+            />
             {this.props.walletConnectEnabled && (
               <SettingsItemTextValue
                 title={t('connectedApplications')}
@@ -383,6 +413,7 @@ export class Account extends React.Component<Props, State> {
               title={t('requirePinOnAppOpen')}
               value={this.props.requirePinOnAppOpen}
               onValueChange={this.handleRequirePinToggle}
+              testID="requirePinOnAppOpenToggle"
             />
             <SettingsItemSwitch
               title={t('enableDataSaver')}
@@ -399,6 +430,7 @@ export class Account extends React.Component<Props, State> {
             <SectionHead text={t('legal')} style={styles.sectionTitle} />
             <SettingsItemTextValue title={t('licenses')} onPress={this.goToLicenses} />
             <SettingsItemTextValue title={t('termsOfServiceLink')} onPress={this.onTermsPress} />
+            <SettingsItemTextValue title={t('privacyPolicy')} onPress={this.onPrivacyPolicyPress} />
             <SectionHead text={''} style={styles.sectionTitle} />
             <SettingsExpandedItem
               title={t('removeAccountTitle')}

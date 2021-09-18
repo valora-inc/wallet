@@ -1,4 +1,5 @@
 import crypto from 'crypto'
+import { v4 as uuidv4 } from 'uuid'
 import {
   CASH_IN_SUCCESS_DEEPLINK,
   CASH_IN_SUCCESS_URL,
@@ -10,6 +11,7 @@ import {
 } from '../config'
 import { ProviderRequestData } from './fetchProviders'
 import { Providers } from './Providers'
+import { findContinguousSpaces } from './utils'
 const URL = require('url').URL
 
 export const composeProviderUrl = (provider: Providers, requestData: ProviderRequestData) => {
@@ -17,6 +19,7 @@ export const composeProviderUrl = (provider: Providers, requestData: ProviderReq
   const cashInSuccessDeepLink = `${CASH_IN_SUCCESS_DEEPLINK}/${provider}`
 
   if (provider === Providers.Moonpay) {
+    const txId = uuidv4()
     const unsignedUrl = `
       ${MOONPAY_DATA.widget_url}
         ?apiKey=${MOONPAY_DATA.public_key}
@@ -25,7 +28,8 @@ export const composeProviderUrl = (provider: Providers, requestData: ProviderReq
         &baseCurrencyCode=${fiatCurrency}
         &baseCurrencyAmount=${fiatAmount}
         &redirectURL=${encodeURIComponent(cashInSuccessDeepLink)}
-        `.replace(/\s+/g, '')
+        &externalTransactionId=${txId}
+        `.replace(findContinguousSpaces, '')
 
     const signature = crypto
       .createHmac('sha256', MOONPAY_DATA.private_key)
@@ -47,7 +51,7 @@ export const composeProviderUrl = (provider: Providers, requestData: ProviderReq
         &fiatValue=${fiatAmount}
         &finalUrl=${encodeURIComponent(cashInSuccessDeepLink)}
         &webhookStatusUrl=${RAMP_DATA.webhook_url}
-      `.replace(/\s+/g, '')
+      `.replace(findContinguousSpaces, '')
   }
 
   if (provider === Providers.Transak) {
@@ -63,7 +67,7 @@ export const composeProviderUrl = (provider: Providers, requestData: ProviderReq
         &defaultFiatAmount=${fiatAmount}
         &redirectURL=${encodeURIComponent(CASH_IN_SUCCESS_URL)}
         &hideMenu=true
-      `.replace(/\s+/g, '')
+      `.replace(findContinguousSpaces, '')
   }
 
   if (provider === Providers.Xanpool) {
@@ -79,6 +83,7 @@ export const composeProviderUrl = (provider: Providers, requestData: ProviderReq
         }
         &fiat=${fiatAmount}
         &redirectUrl=${cashInSuccessDeepLink}
-      `.replace(/\s+/g, '')
+        &isWebView=true
+      `.replace(findContinguousSpaces, '')
   }
 }

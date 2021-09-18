@@ -50,7 +50,7 @@ exports[`Profile renders correctly 1`] = `
                     "width": 120,
                   },
                   Object {
-                    "backgroundColor": "#B4B9BD",
+                    "backgroundColor": "#DFDBCE",
                   },
                 ],
                 Object {
@@ -60,7 +60,13 @@ exports[`Profile renders correctly 1`] = `
             }
           >
             <Text
-              style={Object {}}
+              maxFontSizeMultiplier={2}
+              style={
+                Object {
+                  "textAlign": "center",
+                  "textAlignVertical": "center",
+                }
+              }
             >
               addPhoto
             </Text>
@@ -392,6 +398,7 @@ exports[`Profile renders correctly 1`] = `
               style={
                 Array [
                   Object {
+                    "flex": 1,
                     "justifyContent": "center",
                   },
                 ]
@@ -428,6 +435,7 @@ exports[`Profile renders correctly 1`] = `
             >
               <TextInput
                 allowFontScaling={true}
+                multiline={true}
                 onBlur={[Function]}
                 onChangeText={[Function]}
                 onFocus={[Function]}
@@ -444,7 +452,9 @@ exports[`Profile renders correctly 1`] = `
                       "paddingHorizontal": 0,
                       "paddingVertical": 12,
                     },
-                    undefined,
+                    Object {
+                      "textAlignVertical": "top",
+                    },
                     Array [
                       Object {
                         "color": "#9CA4A9",

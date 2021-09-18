@@ -138,4 +138,38 @@ describe('CurrencyConversionAPI', () => {
     expect(mockDefaultGetExchangeRate).toHaveBeenCalledTimes(0)
     expect(mockGoldGetExchangeRate).toHaveBeenCalledTimes(0)
   })
+
+  it('should retrieve rate for cGLD/EUR', async () => {
+    const result = await currencyConversionAPI.getExchangeRate({
+      sourceCurrencyCode: 'cGLD',
+      currencyCode: 'EUR',
+    })
+    expect(result).toEqual(new BigNumber(200))
+
+    expect(mockGoldGetExchangeRate).toHaveBeenCalledWith({
+      sourceCurrencyCode: 'cGLD',
+      currencyCode: 'cUSD',
+    })
+    expect(mockDefaultGetExchangeRate).toHaveBeenCalledWith({
+      sourceCurrencyCode: 'USD',
+      currencyCode: 'EUR',
+    })
+  })
+
+  it('should retrieve rate for EUR/cGLD', async () => {
+    const result = await currencyConversionAPI.getExchangeRate({
+      sourceCurrencyCode: 'EUR',
+      currencyCode: 'cGLD',
+    })
+    expect(result).toEqual(new BigNumber(200))
+
+    expect(mockDefaultGetExchangeRate).toHaveBeenCalledWith({
+      sourceCurrencyCode: 'EUR',
+      currencyCode: 'USD',
+    })
+    expect(mockGoldGetExchangeRate).toHaveBeenCalledWith({
+      sourceCurrencyCode: 'cUSD',
+      currencyCode: 'cGLD',
+    })
+  })
 })

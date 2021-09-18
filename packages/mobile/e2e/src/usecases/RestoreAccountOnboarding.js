@@ -1,16 +1,25 @@
-import { enterPinUi, sleep, waitForElementId } from '../utils/utils'
-import { SAMPLE_BACKUP_KEY } from '../utils/consts'
-
-const EXAMPLE_NAME = 'Test Name'
+import { enterPinUi, waitForElementId, sleep } from '../utils/utils'
+import { SAMPLE_BACKUP_KEY, EXAMPLE_NAME } from '../utils/consts'
+import { dismissBanners } from '../utils/banners'
+import { launchApp } from '../utils/retries'
 
 export default RestoreAccountOnboarding = () => {
+  beforeAll(async () => {
+    await device.terminateApp()
+    await sleep(5000)
+    await launchApp({
+      delete: true,
+      permissions: { notifications: 'YES', contacts: 'YES' },
+    })
+    await sleep(5000)
+    await dismissBanners()
+  })
   // Language is auto selected if it matches one of the available locale
   // it('Language', async () => {
   //   await element(by.id('ChooseLanguage/en-US')).tap()
   // })
-
   it('Onboarding Education', async () => {
-    // Onboading education has 3 steps
+    // Onboarding education has 3 steps
     for (let i = 0; i < 3; i++) {
       await element(by.id('Education/progressButton')).tap()
     }
@@ -46,15 +55,15 @@ export default RestoreAccountOnboarding = () => {
     // wait for connecting banner to go away
     // TODO measure how long this take
     await waitFor(element(by.id('connectingToCelo')))
-      .toBeNotVisible()
+      .not.toBeVisible()
       .withTimeout(20000)
 
     await element(by.id('ImportWalletBackupKeyInputField')).tap()
-    await element(by.id('ImportWalletBackupKeyInputField')).replaceText(SAMPLE_BACKUP_KEY)
+    await element(by.id('ImportWalletBackupKeyInputField')).replaceText(`${SAMPLE_BACKUP_KEY}`)
     if (device.getPlatform() === 'ios') {
       // On iOS, type one more space to workaround onChangeText not being triggered with replaceText above
       // and leaving the restore button disabled
-      await element(by.id('ImportWalletBackupKeyInputField')).typeText(' ')
+      await element(by.id('ImportWalletBackupKeyInputField')).typeText('\n')
     } else if (device.getPlatform() === 'android') {
       // Press back button to close the keyboard
       await device.pressBack()
@@ -65,10 +74,10 @@ export default RestoreAccountOnboarding = () => {
     // Wait a little more as import can take some time
     // and triggers the firebase error banner
     // otherwise next step will tap the banner instead of the button
-    await sleep(5000)
+    await dismissBanners()
   })
 
-  it('VerifyEducation', async () => {
+  it('Verify Education', async () => {
     await waitForElementId('VerificationEducationSkipHeader')
 
     // skip

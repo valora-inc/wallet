@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount, setPhoneNumber } from 'src/account/actions'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
-import { OnboardingEvents } from 'src/analytics/Events'
+import { OnboardingEvents, VerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { hideVerificationSelector, numberVerifiedSelector } from 'src/app/selectors'
@@ -108,7 +108,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const onPressContinue = () => {
     dispatch(setHasSeenVerificationNux(true))
     if (partOfOnboarding) {
-      navigation.navigate(Screens.ImportContacts)
+      navigate(Screens.OnboardingSuccessScreen)
     } else {
       navigateHome()
     }
@@ -133,6 +133,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
 
   const cancelCaptcha = () => {
     dispatch(stop())
+    ValoraAnalytics.track(VerificationEvents.verification_recaptcha_canceled)
   }
 
   useEffect(() => {
@@ -202,8 +203,10 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       Logger.info('Captcha token received: ', captchaToken)
       dispatch(setKomenciContext({ captchaToken }))
       dispatch(startKomenciSession())
+      ValoraAnalytics.track(VerificationEvents.verification_recaptcha_success)
     } else {
-      cancelCaptcha()
+      dispatch(stop())
+      ValoraAnalytics.track(VerificationEvents.verification_recaptcha_failure)
     }
   }
 
@@ -225,6 +228,9 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         phoneNumberInfo.countryCodeAlpha2
       )
     )
+    if (noActionIsRequired) {
+      dispatch(reset({ komenci: shouldUseKomenci ?? true }))
+    }
   }
 
   const isBalanceSufficient = useSelector(isBalanceSufficientSelector)
@@ -379,7 +385,6 @@ VerificationEducationScreen.navigationOptions = ({ navigation, route }: ScreenPr
         <TopBarTextButton
           title={i18n.t('global:skip')}
           testID="VerificationEducationSkipHeader"
-          // tslint:disable-next-line: jsx-no-lambda
           onPress={() => navigation.setParams({ showSkipDialog: true })}
           titleStyle={{ color: colors.goldDark }}
         />

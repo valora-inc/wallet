@@ -4,18 +4,20 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
-import { ExchangeRatePair } from 'src/exchange/reducer'
+import { ExchangeRates } from 'src/exchange/reducer'
 import { createMockStore, getMockI18nProps } from 'test/utils'
+import { makeExchangeRates } from 'test/values'
 
 const SAMPLE_BALANCE = '55.00001'
-const exchangeRatePair: ExchangeRatePair = { goldMaker: '0.11', dollarMaker: '10' }
+const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
+
 const endDate = new Date('01/01/2020').getTime()
 
 it('renders without history', () => {
   const tree = renderer.create(
     <Provider
       store={createMockStore({
-        exchange: { exchangeRatePair },
+        exchange: { exchangeRates },
         goldToken: { balance: SAMPLE_BALANCE },
       })}
     >
@@ -30,7 +32,7 @@ it('renders while update is in progress', () => {
     <Provider
       store={createMockStore({
         exchange: {
-          exchangeRatePair,
+          exchangeRates,
           history: {
             celoGoldExchangeRates: [
               {
@@ -67,7 +69,7 @@ it('renders properly', () => {
     <Provider
       store={createMockStore({
         exchange: {
-          exchangeRatePair,
+          exchangeRates,
           history: {
             celoGoldExchangeRates,
             aggregatedExchangeRates: celoGoldExchangeRates,

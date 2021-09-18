@@ -1,13 +1,13 @@
 import { ActionableAttestation } from '@celo/contractkit/lib/wrappers/Attestations'
+import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
 import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
-import { RootState } from 'src/redux/reducers'
-
-import { isBalanceSufficientForSigRetrieval } from '@celo/identity/lib/odis/phone-number-identifier'
 import BigNumber from 'bignumber.js'
+import { Actions as AppActions, UpdateFeatureFlagsAction } from 'src/app/actions'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { RootState } from 'src/redux/reducers'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 
 const ESTIMATED_COST_PER_ATTESTATION = 0.051
 
@@ -151,6 +151,11 @@ export interface State {
   retries: number
   withoutRevealing: boolean
   TEMPORARY_override_withoutVerification?: boolean
+  // KomenciKit configuration
+  komenciConfig: {
+    useLightProxy: boolean
+    allowedDeployers: string[]
+  }
 }
 
 const initialState: State = {
@@ -175,6 +180,10 @@ const initialState: State = {
   komenciAvailable: KomenciAvailable.Unknown,
   withoutRevealing: false,
   TEMPORARY_override_withoutVerification: undefined,
+  komenciConfig: {
+    useLightProxy: false,
+    allowedDeployers: [],
+  },
 }
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -301,6 +310,15 @@ export const reducer = createReducer(initialState, (builder) => {
         komenciAvailable: action.payload.komenci ? KomenciAvailable.Yes : KomenciAvailable.No,
       }
     })
+    .addCase(AppActions.UPDATE_FEATURE_FLAGS, (state, action: UpdateFeatureFlagsAction) => {
+      return {
+        ...state,
+        komenciConfig: {
+          useLightProxy: action.flags.komenciUseLightProxy,
+          allowedDeployers: action.flags.komenciAllowedDeployers,
+        },
+      }
+    })
 })
 
 const isBalanceSufficientForAttestations = (
@@ -335,21 +353,21 @@ export const overrideWithoutVerificationSelector = (state: RootState): boolean |
   state.verify.TEMPORARY_override_withoutVerification
 
 export const isBalanceSufficientForSigRetrievalSelector = createSelector(
-  [stableTokenBalanceSelector, celoTokenBalanceSelector],
-  (stableTokenBalance, celoTokenBalance) =>
-    isBalanceSufficientForSigRetrieval(stableTokenBalance || 0, celoTokenBalance || 0)
+  [cUsdBalanceSelector, celoTokenBalanceSelector],
+  (cUsdBalance, celoTokenBalance) =>
+    isBalanceSufficientForSigRetrieval(cUsdBalance || 0, celoTokenBalance || 0)
 )
 
 export const isBalanceSufficientSelector = createSelector(
   [
-    stableTokenBalanceSelector,
+    cUsdBalanceSelector,
     actionableAttestationsSelector,
     verificationStatusSelector,
     phoneHashSelector,
     isBalanceSufficientForSigRetrievalSelector,
   ],
   (
-    stableTokenBalance,
+    cUsdBalance,
     actionableAttestations,
     { numAttestationsRemaining },
     phoneHash,
@@ -358,9 +376,10 @@ export const isBalanceSufficientSelector = createSelector(
     const attestationsRemaining = numAttestationsRemaining - actionableAttestations.length
     const isBalanceSufficient = !phoneHash
       ? balanceSufficientForSigRetrieval
-      : isBalanceSufficientForAttestations(stableTokenBalance || 0, attestationsRemaining)
+      : isBalanceSufficientForAttestations(cUsdBalance || 0, attestationsRemaining)
 
     return isBalanceSufficient
   }
 )
 export const withoutRevealingSelector = (state: RootState) => state.verify.withoutRevealing
+export const komenciConfigSelector = (state: RootState) => state.verify.komenciConfig

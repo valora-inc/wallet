@@ -1,11 +1,11 @@
 {
   "name": "@celo/mobile",
-  "version": "1.13.1",
+  "version": "1.18.3",
   "author": "Celo",
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "lint": "tslint -c tslint.json --project tsconfig.json",
+    "lint": "eslint --ext=.tsx,.ts src/",
     "build": "yarn run build:ts && yarn run build:metro",
     "build:ts": "tsc --noEmit",
     "build:metro": "yarn run react-native bundle --entry-file index.js --bundle-output bundle.js; rm bundle.js",
@@ -22,7 +22,7 @@
     "dev:emulator:run": "$ANDROID_HOME/emulator/emulator -avd",
     "test": "export TZ=UTC && ./scripts/sync_branding.sh -b celo && jest --silent",
     "test:all": "yarn lint && yarn build:ts && yarn test",
-    "test:ci": "yarn test --coverage",
+    "test:ci": "ts-node test/run-tests-ci.ts && yarn ts-script ./test/merge-coverage.ts --report ./coverage/*/coverage-final.json",
     "test:watch": "yarn test --watch --maxWorkers=4",
     "test:verbose": "export TZ=UTC && jest --verbose",
     "test:e2e:android": "./scripts/run_e2e.sh -p android -r",
@@ -30,7 +30,7 @@
     "test:e2e:packager": "export CELO_TEST_CONFIG=e2e && yarn react-native start",
     "test:verify-locales": "./scripts/verify_locales.sh",
     "pre-deploy": "./scripts/pre-deploy.sh",
-    "deploy:update-disclaimer": "cd ../.. && yarn reset && git fetch -t -f && yarn && cd packages/mobile && yarn licenses generate-disclaimer > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
+    "deploy:update-disclaimer": "cd ../.. && yarn reset && git fetch -t -f && yarn && cd packages/mobile && yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
     "postinstall": "./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh"
   },
   "rnpm": {
@@ -39,18 +39,19 @@
     ]
   },
   "dependencies": {
-    "@celo/client": "0.0.352",
+    "@celo/client": "0.0.355",
     "@celo/connect": "~1.2.0",
     "@celo/contractkit": "~1.2.0",
     "@celo/identity": "~1.2.0",
-    "@celo/komencikit": "0.0.2-dev",
     "@celo/network-utils": "~1.2.0",
     "@celo/react-components": "1.0.0",
     "@celo/react-native-fast-crypto": "^1.8.4",
     "@celo/react-native-sms-retriever": "git+https://github.com/celo-org/react-native-sms-retriever#11e078e",
-    "@celo/utils": "~1.2.0",
+    "@celo/utils": "~1.2.4",
     "@celo/wallet-rpc": "~1.2.0",
     "@celo/wallet-walletconnect": "~1.2.0",
+    "@komenci/contracts": "1.1.0",
+    "@komenci/kit": "1.0.0-beta1",
     "@react-native-community/async-storage": "^1.9.0",
     "@react-native-community/clipboard": "git+https://github.com/celo-org/clipboard#5afb848",
     "@react-native-community/masked-view": "^0.1.10",
@@ -60,6 +61,7 @@
     "@react-native-firebase/database": "^11.0.0",
     "@react-native-firebase/dynamic-links": "^11.0.0",
     "@react-native-firebase/messaging": "^11.0.0",
+    "@react-native-firebase/remote-config": "^11.0.0",
     "@react-native-firebase/storage": "^11.0.0",
     "@react-navigation/compat": "^5.3.10",
     "@react-navigation/drawer": "^5.11.4",
@@ -112,13 +114,13 @@
     "react-native-camera": "^3.23.1",
     "react-native-config": "https://github.com/luggit/react-native-config#2f68b94",
     "react-native-contacts": "https://github.com/celo-org/react-native-contacts#e473717",
-    "react-native-device-info": "^8.0.5",
+    "react-native-device-info": "^8.3.1",
     "react-native-email-link": "^1.9.1",
     "react-native-exit-app": "^1.1.0",
     "react-native-flag-secure-android": "git://github.com/kristiansorens/react-native-flag-secure-android#e234251",
     "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f",
     "react-native-gesture-handler": "^1.9.0",
-    "react-native-geth": "https://github.com/celo-org/react-native-geth#a25c945d898",
+    "react-native-geth": "https://github.com/celo-org/react-native-geth#a5ef0a1",
     "react-native-google-safetynet": "https://github.com/celo-org/react-native-google-safetynet#8a0355f",
     "react-native-image-crop-picker": "^0.35.1",
     "react-native-inappbrowser-reborn": "^3.5.1",
@@ -129,11 +131,13 @@
     "react-native-modal": "^11.5.6",
     "react-native-ntp-client": "^1.0.3",
     "react-native-permissions": "^3.0.3",
+    "react-native-persona": "1.2.0",
+    "react-native-plaid-link-sdk": "^7.0.7",
     "react-native-progress": "^4.1.2",
     "react-native-public-ip": "^1.0.2",
     "react-native-qrcode-svg": "^6.0.6",
     "react-native-randombytes": "^3.6.0",
-    "react-native-reanimated": "^2.0.0-rc.1",
+    "react-native-reanimated": "2.0.0-rc.1",
     "react-native-restart-android": "^0.0.7",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^2.7.0",
@@ -150,7 +154,7 @@
     "react-native-tcp": "https://github.com/celo-org/react-native-tcp#0b5948e",
     "react-native-udp": "git+https://github.com/celo-org/react-native-udp#730f295",
     "react-native-url-polyfill": "^1.2.0",
-    "react-native-webview": "^11.0.2",
+    "react-native-webview": "^11.6.4",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
@@ -170,14 +174,13 @@
   "devDependencies": {
     "@apollo/react-testing": "^3.1.3",
     "@babel/plugin-proposal-decorators": "^7.12.1",
-    "@celo/flake-tracker": "0.0.1-dev",
-    "@celo/typescript": "0.0.1",
     "@graphql-codegen/add": "^1.10.0",
     "@graphql-codegen/cli": "^1.10.0",
     "@graphql-codegen/fragment-matcher": "1.10.0",
     "@graphql-codegen/typescript": "1.10.0",
     "@graphql-codegen/typescript-operations": "1.10.0",
     "@react-native-community/eslint-config": "^1.1.0",
+    "@redux-saga/testing-utils": "^1.1.3",
     "@types/crypto-js": "^3.1.47",
     "@types/ethereumjs-util": "^5.2.0",
     "@types/graphql": "^14.0.7",
@@ -193,14 +196,23 @@
     "@types/redux-mock-store": "^1.0.0",
     "@types/utf8": "^2.1.6",
     "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@valora/eslint-config-typescript": "^0.0.1",
     "babel-core": "7.0.0-bridge.0",
-    "detox": "^17.13.2",
+    "detox-recorder": "^1.0.151",
     "escape-string-regexp": "^1.0.5",
-    "eslint": "^6.8.0",
+    "eslint": "^7.27.0",
+    "eslint-plugin-import": "^2.23.3",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-react-native": "^3.11.0",
+    "faker": "^5.5.3",
+    "istanbul-api": "^3.0.0",
     "jest-fetch-mock": "^3.0.3",
     "metro-react-native-babel-preset": "^0.59.0",
     "mocha": "^7.1.1",
     "patch-package": "^5.1.1",
+    "pixelmatch": "^5.2.1",
     "postinstall-prepare": "^1.0.1",
     "react-native-debugger-open": "^0.3.17",
     "react-native-flipper": "^0.70.0",
@@ -215,59 +227,73 @@
     "redux-mock-store": "^1.5.3",
     "redux-saga-test-plan": "^4.0.0-beta.2",
     "remote-redux-devtools": "^0.5.12",
-    "tslint-react-native": "^0.0.7"
+    "rimraf": "^3.0.2",
+    "ts-retry-promise": "^0.6.0"
   },
   "resolutions": {
     "react-native-fs": "git+https://github.com/celo-org/react-native-fs#aa6db0f"
   },
   "detox": {
     "test-runner": "jest",
-    "configurations": {
-      "android.emu.debug": {
+    "runnerConfig": "e2e/config.json",
+    "apps": {
+      "android.debug": {
         "binaryPath": "android/app/build/outputs/apk/apptest/debug/app-apptest-x86_64-debug.apk",
         "testBinaryPath": "android/app/build/outputs/apk/androidTest/apptest/debug/app-apptest-debug-androidTest.apk",
         "build": "cd android && ./gradlew assembleApptestDebug assembleApptestDebugAndroidTest -DtestBuildType=debug -PisDetoxBuild=true && cd ..",
-        "type": "android.emulator",
-        "device": {
-          "avdName": "Pixel_API_29_AOSP_x86_64"
-        },
-        "behavior": {
-          "init": {
-            "reinstallApp": true,
-            "launchApp": true,
-            "exposeGlobals": true
-          },
-          "cleanup": {
-            "shutdownDevice": false
-          }
-        },
+        "type": "android.apk",
         "__comment": "Pixel_API_29_AOSP_x86_64 is currently hardcoded but it should be the result from $ANDROID_SDK_ROOT/emulator/emulator -list-avds | grep 'x86' | head -n 1`",
         "__comment2": "Specifying 'testBinaryPath' otherwise detox infers the wrong APK name because we're using split APKs"
       },
-      "android.emu.release": {
+      "android.release": {
         "binaryPath": "android/app/build/outputs/apk/apptest/release/app-apptest-x86_64-release.apk",
         "testBinaryPath": "android/app/build/outputs/apk/androidTest/apptest/release/app-apptest-release-androidTest.apk",
         "build": "cd android && ./gradlew assembleApptestRelease assembleApptestReleaseAndroidTest -DtestBuildType=release -PisDetoxBuild=true && cd ..",
-        "type": "android.emulator",
-        "name": "Pixel_API_29_AOSP_x86_64",
+        "type": "android.apk",
         "__comment": "Pixel_API_29_AOSP_x86_64 is currently hardcoded but it should be the result from $ANDROID_SDK_ROOT/emulator/emulator -list-avds | grep 'x86' | head -n 1`",
         "__comment2": "Specifying 'testBinaryPath' otherwise detox infers the wrong APK name because we're using split APKs"
       },
-      "ios.sim.debug": {
+      "ios.debug": {
         "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/celo.app",
         "build": "set -o pipefail && xcodebuild -workspace ios/celo.xcworkspace -scheme celo-test -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build | bundle exec xcpretty",
+        "type": "ios.app"
+      },
+      "ios.release": {
+        "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/celo.app",
+        "build": "set -o pipefail && xcodebuild -workspace ios/celo.xcworkspace -scheme celo-test -configuration Release -sdk iphonesimulator -derivedDataPath ios/build | bundle exec xcpretty",
+        "type": "ios.app"
+      }
+    },
+    "devices": {
+      "simulator": {
         "type": "ios.simulator",
         "device": {
           "type": "iPhone 11"
         }
       },
-      "ios.sim.release": {
-        "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/celo.app",
-        "build": "set -o pipefail && xcodebuild -workspace ios/celo.xcworkspace -scheme celo-test -configuration Release -sdk iphonesimulator -derivedDataPath ios/build | bundle exec xcpretty",
-        "type": "ios.simulator",
+      "emulator": {
+        "type": "android.emulator",
         "device": {
-          "type": "iPhone 11"
+          "avdName": "Pixel_API_29_AOSP_x86_64"
         }
+      }
+    },
+    "configurations": {
+      "ios.debug": {
+        "device": "simulator",
+        "app": "ios.debug"
+      },
+      "ios.release": {
+        "device": "simulator",
+        "app": "ios.release"
+      },
+      "android.debug": {
+        "device": "emulator",
+        "app": "android.debug"
+      },
+      "android.release": {
+        "device": "emulator",
+        "app": "android.release"
       }
     }
   }

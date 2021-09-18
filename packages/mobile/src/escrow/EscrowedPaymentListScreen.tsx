@@ -11,6 +11,7 @@ import {
   titleWithBalanceNavigationOptions,
 } from 'src/notifications/NotificationList'
 import { RootState } from 'src/redux/reducers'
+import { Currency } from 'src/utils/currencies'
 
 interface StateProps {
   dollarBalance: string | null
@@ -18,7 +19,7 @@ interface StateProps {
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  dollarBalance: state.stableToken.balance,
+  dollarBalance: state.stableToken.balances[Currency.Dollar],
   sentEscrowedPayments: getReclaimableEscrowPayments(state),
 })
 

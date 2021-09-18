@@ -3,7 +3,13 @@ import { AnyAction } from 'redux'
 import { call, select, spawn, takeEvery } from 'redux-saga/effects'
 import { accountSaga } from 'src/account/saga'
 import { devModeSelector } from 'src/account/selectors'
-import { appInit, appRemoteFeatureFlagSaga, appSaga, appVersionSaga } from 'src/app/saga'
+import {
+  appInit,
+  appRemoteFeatureFlagSaga,
+  appSaga,
+  appVersionSaga,
+  checkAndroidMobileServicesSaga,
+} from 'src/app/saga'
 import { dappKitSaga } from 'src/dappkit/dappkit'
 import { escrowSaga } from 'src/escrow/saga'
 import { exchangeSaga } from 'src/exchange/saga'
@@ -15,10 +21,10 @@ import { goldTokenSaga } from 'src/goldToken/saga'
 import { homeSaga } from 'src/home/saga'
 import { identitySaga } from 'src/identity/saga'
 import { importSaga } from 'src/import/saga'
-import { inviteSaga } from 'src/invite/saga'
 import { localCurrencySaga } from 'src/localCurrency/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { paymentRequestSaga } from 'src/paymentRequest/saga'
+import { recipientsSaga } from 'src/recipients/saga'
 import { waitForRehydrate } from 'src/redux/persist-helper'
 import { sendSaga } from 'src/send/saga'
 import { sentrySaga } from 'src/sentry/saga'
@@ -30,20 +36,31 @@ import { verifySaga } from 'src/verify/saga'
 import { walletConnectSaga } from 'src/walletConnect/saga'
 import { web3Saga } from 'src/web3/saga'
 
-const loggerBlacklist = [
-  'persist/REHYDRATE',
-  'GETH_NEW_BLOCK',
-  'APP/SET_GETH_CONNECTED',
-  'ACCOUNT/SET_PHONE_NUMBER',
-  'ACCOUNT/SET_PINCODE',
-  'SEND/SET_RECIPIENT_CACHE',
-  'SEND/STORE_LATEST_IN_RECENTS',
-  'IMPORT/IMPORT_BACKUP_PHRASE',
-  'WEB3/SET_DATA_ENCRYPTION_KEY',
-  'INVITE/REDEEM_INVITE',
-  'INVITE/STORE_INVITEE_DATA',
-  'EXCHANGE/UPDATE_CELO_GOLD_EXCHANGE_RATE_HISTORY', // Not private, just noisy
-  'TRANSACTIONS/NEW_TRANSACTIONS_IN_FEED',
+// Import the actions included in the logger blocklist below.
+import { REHYDRATE } from 'redux-persist'
+import { Actions as AccountActions } from 'src/account/actions'
+import { Actions as ExchangeActions } from 'src/exchange/actions'
+import { Actions as GethActions } from 'src/geth/actions'
+import { Actions as ImportActions } from 'src/import/actions'
+import { Actions as InviteActions } from 'src/invite/actions'
+import { setPhoneRecipientCache, updateValoraRecipientCache } from 'src/recipients/reducer'
+import { Actions as TransactionActions } from 'src/transactions/actions'
+import { Actions as Web3Actions } from 'src/web3/actions'
+
+const loggerBlocklist = [
+  REHYDRATE,
+  AccountActions.SET_PHONE_NUMBER,
+  AccountActions.SET_PINCODE,
+  ExchangeActions.UPDATE_CELO_GOLD_EXCHANGE_RATE_HISTORY, // Not private, just noisy
+  GethActions.SET_CHAIN_HEAD,
+  GethActions.SET_GETH_CONNECTED,
+  ImportActions.IMPORT_BACKUP_PHRASE,
+  InviteActions.STORE_INVITEE_DATA,
+  setPhoneRecipientCache.toString(),
+  updateValoraRecipientCache.toString(),
+  TransactionActions.NEW_TRANSACTIONS_IN_FEED,
+  TransactionActions.UPDATE_RECENT_TX_RECIPIENT_CACHE,
+  Web3Actions.SET_DATA_ENCRYPTION_KEY,
 ]
 
 function* loggerSaga() {
@@ -55,11 +72,11 @@ function* loggerSaga() {
   yield takeEvery('*', (action: AnyAction) => {
     if (
       action?.type &&
-      (action.type.includes('IDENTITY/') || loggerBlacklist.includes(action.type))
+      (action.type.includes('IDENTITY/') || loggerBlocklist.includes(action.type))
     ) {
       // Log only action type, but not the payload as it can have
       // sensitive information. Excluding all IDENTITY/ actions because high likelyhood
-      // they contain PII and the blacklist may get out of date.
+      // they contain PII and the blocklist may get out of date.
       Logger.debug('redux/saga@logger', `${action.type} (payload not logged)`)
       return
     }
@@ -99,6 +116,7 @@ export function* rootSaga() {
     yield spawn(transactionSaga)
     yield spawn(homeSaga)
     yield spawn(identitySaga)
+    yield spawn(recipientsSaga)
     yield spawn(verifySaga)
     yield spawn(localCurrencySaga)
     yield spawn(feesSaga)
@@ -108,12 +126,12 @@ export function* rootSaga() {
     yield spawn(exchangeSaga)
     yield spawn(paymentRequestSaga)
     yield spawn(escrowSaga)
-    yield spawn(inviteSaga)
     yield spawn(importSaga)
     yield spawn(dappKitSaga)
     yield spawn(checkAccountExistenceSaga)
     yield spawn(fiatExchangesSaga)
     yield spawn(walletConnectSaga)
+    yield spawn(checkAndroidMobileServicesSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

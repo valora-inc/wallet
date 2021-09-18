@@ -1,1 +1,4 @@
-test-results/
+test-results/*
+!test-results/teststyle.css
+!test-results/valora-icon.png
+.env

@@ -36,7 +36,6 @@ function DrawerTopBar({ middleElement, rightElement, scrollPosition, testID }: P
         // @ts-ignore Only used in a drawer
         onPress={navigation.toggleDrawer}
         hitSlop={iconHitslop}
-        testID={'Hamburguer'}
       >
         <Hamburger />
       </TouchableOpacity>
@@ -54,9 +53,10 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     backgroundColor: 'transparent',
-    height: 56,
+    minHeight: 56,
     alignItems: 'center',
     justifyContent: 'center',
+    flexShrink: 1,
   },
   hamburger: {
     position: 'absolute',

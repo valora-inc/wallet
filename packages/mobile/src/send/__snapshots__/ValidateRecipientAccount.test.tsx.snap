@@ -47,7 +47,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 }
               }
             >
-              confirmAccountNumber.body1Full
+              confirmAccountNumber.body1Full, {"displayName":"Jane Doe"}
             </Text>
             <Text
               style={
@@ -188,6 +188,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
               testID="ConfirmAccountButton"
             >
               <Text
+                maxFontSizeMultiplier={1}
                 style={
                   Object {
                     "color": "#FFFFFF",
@@ -247,7 +248,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
             }
           }
         >
-          confirmAccountNumber.help
+          confirmAccountNumber.help, {"displayName":"Jane Doe"}
         </Text>
       </View>
     </View>
@@ -448,6 +449,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 <svg
                   fill="none"
                   height="32"
+                  testID="Hamburger"
                   viewBox="0 0 32 32"
                   width="32"
                 >
@@ -547,309 +549,19 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 ]
               }
             >
-              <View
+              <Text
                 style={
                   Object {
-                    "width": 215,
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                    "marginVertical": 8,
                   }
                 }
               >
-                <View
-                  style={
-                    Array [
-                      Object {
-                        "flexDirection": "row",
-                        "justifyContent": "flex-start",
-                      },
-                    ]
-                  }
-                >
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 23,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      0x
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      f1b1
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      d5a6
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      e772
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      8g30
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      9c4a
-                    </Text>
-                  </View>
-                </View>
-                <View
-                  style={
-                    Array [
-                      Object {
-                        "flexDirection": "row",
-                        "justifyContent": "flex-start",
-                      },
-                    ]
-                  }
-                >
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 23,
-                        },
-                      ]
-                    }
-                  />
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      025k
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      122d
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      71ad
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      75a6
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      1976
-                    </Text>
-                  </View>
-                </View>
-              </View>
+                0x f1b1 d5a6 e772 8g30 9c4a 025k 122d 71ad 75a6 1976
+              </Text>
             </View>
             <Text
               style={
@@ -963,7 +675,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 }
               }
             >
-              confirmAccountNumber.bodyPartial
+              confirmAccountNumber.bodyPartial, {"displayName":"Jane Doe"}
             </Text>
             <Text
               style={
@@ -1283,6 +995,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
               testID="ConfirmAccountButton"
             >
               <Text
+                maxFontSizeMultiplier={1}
                 style={
                   Object {
                     "color": "#FFFFFF",
@@ -1342,7 +1055,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
             }
           }
         >
-          confirmAccountNumber.help
+          confirmAccountNumber.help, {"displayName":"Jane Doe"}
         </Text>
       </View>
     </View>
@@ -1543,6 +1256,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 <svg
                   fill="none"
                   height="32"
+                  testID="Hamburger"
                   viewBox="0 0 32 32"
                   width="32"
                 >
@@ -1642,309 +1356,19 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 ]
               }
             >
-              <View
+              <Text
                 style={
                   Object {
-                    "width": 215,
+                    "color": "#9CA4A9",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                    "lineHeight": 18,
+                    "marginVertical": 8,
                   }
                 }
               >
-                <View
-                  style={
-                    Array [
-                      Object {
-                        "flexDirection": "row",
-                        "justifyContent": "flex-start",
-                      },
-                    ]
-                  }
-                >
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 23,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      0x
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      f1b1
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      d5a6
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      e772
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      8g30
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      9c4a
-                    </Text>
-                  </View>
-                </View>
-                <View
-                  style={
-                    Array [
-                      Object {
-                        "flexDirection": "row",
-                        "justifyContent": "flex-start",
-                      },
-                    ]
-                  }
-                >
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 23,
-                        },
-                      ]
-                    }
-                  />
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      025k
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      122d
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      71ad
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      75a6
-                    </Text>
-                  </View>
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "width": 40,
-                        },
-                      ]
-                    }
-                  >
-                    <Text
-                      style={
-                        Array [
-                          Object {
-                            "color": "#9CA4A9",
-                            "fontFamily": "Inter-Regular",
-                            "fontSize": 14,
-                            "lineHeight": 18,
-                          },
-                        ]
-                      }
-                    >
-                      1976
-                    </Text>
-                  </View>
-                </View>
-              </View>
+                0x f1b1 d5a6 e772 8g30 9c4a 025k 122d 71ad 75a6 1976
+              </Text>
             </View>
             <Text
               style={

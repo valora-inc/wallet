@@ -1,4 +1,5 @@
 import TextButton from '@celo/react-components/components/TextButton'
+import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 15,
     paddingHorizontal: 20,
+    backgroundColor: colors.gray1,
   },
   textContainer: {
     flex: 1,

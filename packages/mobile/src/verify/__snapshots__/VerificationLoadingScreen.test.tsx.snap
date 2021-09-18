@@ -168,6 +168,8 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
               "fontSize": 22,
               "lineHeight": 28,
               "marginBottom": 40,
+              "paddingHorizontal": 24,
+              "textAlign": "center",
             }
           }
         >
@@ -323,6 +325,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
               }
             >
               <Text
+                maxFontSizeMultiplier={1}
                 style={
                   Object {
                     "color": "#0768AE",
@@ -1059,6 +1062,8 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
               "fontSize": 22,
               "lineHeight": 28,
               "marginBottom": 40,
+              "paddingHorizontal": 24,
+              "textAlign": "center",
             }
           }
         >
@@ -1214,6 +1219,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
               }
             >
               <Text
+                maxFontSizeMultiplier={1}
                 style={
                   Object {
                     "color": "#0768AE",

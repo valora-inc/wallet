@@ -4,7 +4,6 @@ import RadioButton from '@celo/react-components/icons/RadioButton'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { CURRENCY_ENUM } from '@celo/utils'
 import { RouteProp } from '@react-navigation/core'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useState } from 'react'
@@ -21,10 +20,11 @@ import {
 } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { useSelector } from 'react-redux'
-import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { celoEuroEnabledSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
+import { BIDALI_CURRENCIES } from 'src/fiatExchanges/BidaliScreen'
 import FundingEducationDialog from 'src/fiatExchanges/FundingEducationDialog'
 import {
   fetchLocalCicoProviders,
@@ -37,6 +37,8 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { userLocationDataSelector } from 'src/networkInfo/selectors'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 type RouteProps = StackScreenProps<StackParamList, Screens.FiatExchangeOptions>
@@ -68,8 +70,6 @@ export const fiatExchangesOptionsScreenOptions = ({
   }
 }
 
-const currencyBorderColor = (selected: boolean) => (selected ? colors.greenUI : colors.gray3)
-
 function CurrencyRadioItem({
   selected,
   onSelect,
@@ -77,6 +77,7 @@ function CurrencyRadioItem({
   title,
   body,
   containerStyle,
+  testID,
 }: {
   selected: boolean
   onSelect: () => void
@@ -84,6 +85,7 @@ function CurrencyRadioItem({
   title: string
   body?: string
   containerStyle: ViewStyle
+  testID?: string
 }) {
   return (
     <TouchableWithoutFeedback onPress={onSelect} disabled={!enabled}>
@@ -91,8 +93,9 @@ function CurrencyRadioItem({
         style={[
           styles.currencyItemContainer,
           containerStyle,
-          { borderColor: currencyBorderColor(selected) },
+          { borderColor: selected ? colors.greenUI : colors.gray3 },
         ]}
+        testID={testID}
       >
         <RadioButton selected={selected} disabled={!enabled} />
         <Text style={[styles.currencyItemTitle, enabled ? {} : { color: colors.gray3 }]}>
@@ -109,17 +112,22 @@ function PaymentMethodRadioItem({
   onSelect,
   text,
   enabled = true,
+  testID,
 }: {
   selected: boolean
   onSelect: () => void
   text: string
   enabled?: boolean
+  testID?: string
 }): JSX.Element {
   return (
     <TouchableWithoutFeedback onPress={onSelect} disabled={!enabled}>
       <View style={styles.paymentMethodItemContainer}>
         <RadioButton selected={selected} disabled={!enabled} />
-        <Text style={[styles.paymentMethodItemText, enabled ? {} : { color: colors.gray3 }]}>
+        <Text
+          testID={testID}
+          style={[styles.paymentMethodItemText, enabled ? {} : { color: colors.gray3 }]}
+        >
           {text}
         </Text>
       </View>
@@ -130,16 +138,17 @@ function PaymentMethodRadioItem({
 function FiatExchangeOptions({ route, navigation }: Props) {
   const { t } = useTranslation(Namespaces.fiatExchangeFlow)
   const isCashIn = route.params?.isCashIn ?? true
-  const countryCode = useSelector(defaultCountryCodeSelector)
+  const userLocationData = useSelector(userLocationDataSelector)
+  const celoEuroEnabled = useSelector(celoEuroEnabledSelector)
 
-  const [selectedCurrency, setSelectedCurrency] = useState<CURRENCY_ENUM>(CURRENCY_ENUM.DOLLAR)
+  const [selectedCurrency, setSelectedCurrency] = useState<Currency>(Currency.Dollar)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<PaymentMethod>(
     isCashIn ? PaymentMethod.Card : PaymentMethod.Exchange
   )
   const [selectedLocalProvider, setSelectedLocalProvider] = useState<LocalCicoProvider>()
   const [isEducationDialogVisible, setEducationDialogVisible] = useState(false)
 
-  const asset = selectedCurrency === CURRENCY_ENUM.DOLLAR ? 'cusd' : 'celo'
+  const asset = selectedCurrency === Currency.Dollar ? 'cusd' : 'celo'
   const flow = isCashIn ? 'cashIn' : 'cashOut'
 
   const goToProvider = () => {
@@ -171,7 +180,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
     }
   }
 
-  const onSelectCurrency = (currency: CURRENCY_ENUM) => () => setSelectedCurrency(currency)
+  const onSelectCurrency = (currency: Currency) => () => setSelectedCurrency(currency)
 
   const onSelectPaymentMethod = (
     paymentMethod: PaymentMethod,
@@ -213,25 +222,45 @@ function FiatExchangeOptions({ route, navigation }: Props) {
           <CurrencyRadioItem
             title={t('celoDollar')}
             body="(cUSD)"
-            selected={selectedCurrency === CURRENCY_ENUM.DOLLAR}
-            onSelect={onSelectCurrency(CURRENCY_ENUM.DOLLAR)}
+            selected={selectedCurrency === Currency.Dollar}
+            onSelect={onSelectCurrency(Currency.Dollar)}
             containerStyle={{
-              borderBottomWidth: 0,
               borderTopLeftRadius: 8,
               borderTopRightRadius: 8,
+              borderBottomWidth: 0.5,
             }}
             enabled={selectedPaymentMethod !== PaymentMethod.Address}
+            testID="radio/cUSD"
           />
-          <View style={styles.currencySeparator} />
+          <CurrencyRadioItem
+            title={t('celoEuro')}
+            body="(cEUR)"
+            selected={selectedCurrency === Currency.Euro}
+            onSelect={onSelectCurrency(Currency.Euro)}
+            containerStyle={{
+              borderTopWidth: 0.5,
+              borderBottomWidth: 0.5,
+            }}
+            enabled={
+              celoEuroEnabled &&
+              ((isCashIn &&
+                (selectedPaymentMethod === PaymentMethod.Bank ||
+                  selectedPaymentMethod === PaymentMethod.Card)) ||
+                selectedPaymentMethod === PaymentMethod.Exchange ||
+                selectedPaymentMethod === PaymentMethod.GiftCard)
+            }
+            testID="radio/cEUR"
+          />
           <CurrencyRadioItem
             title="CELO"
-            selected={selectedCurrency === CURRENCY_ENUM.GOLD}
-            onSelect={onSelectCurrency(CURRENCY_ENUM.GOLD)}
+            selected={selectedCurrency === Currency.Celo}
+            onSelect={onSelectCurrency(Currency.Celo)}
             containerStyle={{
-              borderTopWidth: 0,
+              borderTopWidth: 0.5,
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
             }}
+            testID="radio/CELO"
             enabled={selectedPaymentMethod !== PaymentMethod.GiftCard}
           />
         </View>
@@ -251,11 +280,13 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                     text={t('payWithCard')}
                     selected={selectedPaymentMethod === PaymentMethod.Card}
                     onSelect={onSelectPaymentMethod(PaymentMethod.Card)}
+                    testID="payWithCard"
                   />
                   <PaymentMethodRadioItem
                     text={t('payWithBank')}
                     selected={selectedPaymentMethod === PaymentMethod.Bank}
                     onSelect={onSelectPaymentMethod(PaymentMethod.Bank)}
+                    testID="payWithBank"
                   />
                 </>
               ) : (
@@ -264,18 +295,25 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                     text={t('payWithBank')}
                     selected={selectedPaymentMethod === PaymentMethod.Bank}
                     onSelect={onSelectPaymentMethod(PaymentMethod.Bank)}
-                  />
-                  <PaymentMethodRadioItem
-                    text={t('receiveOnAddress')}
-                    selected={selectedPaymentMethod === PaymentMethod.Address}
-                    onSelect={onSelectPaymentMethod(PaymentMethod.Address)}
-                    enabled={selectedCurrency === CURRENCY_ENUM.GOLD}
+                    enabled={
+                      selectedCurrency === Currency.Dollar
+                      // || (selectedCurrency === Currency.Euro && celoEuroEnabled) - Currently no cEUR fiat cash-out providers
+                    }
+                    testID="receiveWithBank"
                   />
                   <PaymentMethodRadioItem
                     text={t('receiveWithBidali')}
                     selected={selectedPaymentMethod === PaymentMethod.GiftCard}
                     onSelect={onSelectPaymentMethod(PaymentMethod.GiftCard)}
-                    enabled={selectedCurrency === CURRENCY_ENUM.DOLLAR}
+                    enabled={BIDALI_CURRENCIES.includes(selectedCurrency)}
+                    testID="receiveWithBidali"
+                  />
+                  <PaymentMethodRadioItem
+                    text={t('receiveOnAddress')}
+                    selected={selectedPaymentMethod === PaymentMethod.Address}
+                    onSelect={onSelectPaymentMethod(PaymentMethod.Address)}
+                    enabled={selectedCurrency === Currency.Celo}
+                    testID="receiveOnAddress"
                   />
                 </>
               )}
@@ -283,11 +321,12 @@ function FiatExchangeOptions({ route, navigation }: Props) {
                 text={t('payWithExchange')}
                 selected={selectedPaymentMethod === PaymentMethod.Exchange}
                 onSelect={onSelectPaymentMethod(PaymentMethod.Exchange)}
+                testID="withExchange"
               />
               {getAvailableLocalProviders(
                 localCicoProviders,
                 isCashIn,
-                countryCode,
+                userLocationData.countryCodeAlpha2,
                 selectedCurrency
               ).map((provider) => (
                 <PaymentMethodRadioItem
@@ -331,6 +370,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
   },
   titleContainer: {
+    flexWrap: 'wrap',
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: variables.contentPadding,
@@ -347,6 +387,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: variables.contentPadding,
     borderWidth: 1,
+    flexWrap: 'wrap',
+    alignItems: 'center',
   },
   currencyItemTitle: {
     ...fontStyles.regular500,
@@ -356,10 +398,6 @@ const styles = StyleSheet.create({
     ...fontStyles.regular500,
     color: colors.gray4,
     marginLeft: 4,
-  },
-  currencySeparator: {
-    height: 1,
-    backgroundColor: colors.greenUI,
   },
   bottomContainer: {
     flexDirection: 'column',
@@ -378,12 +416,14 @@ const styles = StyleSheet.create({
     minHeight: 100,
   },
   paymentMethodItemContainer: {
+    alignItems: 'center',
     flexDirection: 'row',
     padding: 8,
   },
   paymentMethodItemText: {
     ...fontStyles.small,
     marginLeft: 8,
+    flex: 1,
   },
   goToProvider: {
     width: '50%',

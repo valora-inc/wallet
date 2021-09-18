@@ -50,6 +50,7 @@ exports[`QRCode renders correctly 1`] = `
         }
       >
         <Text
+          allowFontScaling={false}
           style={
             Array [
               Object {

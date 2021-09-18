@@ -10,17 +10,9 @@
     "restoreAccount": "Restaurar conta existente"
   },
   "contacts": {
-    "header": "Conectar contatos",
-    "body": "Adicionar seus contatos facilita o envio e solicitação de pagamentos dos seus amigos. Conectar-se não envia convites para seus contatos.",
-    "findSwitch": "Permita que seus contatos encontrem você",
-    "syncing": {
-      "loadingHeader": "Sincronizando...",
-      "loadingStatus0": "Importando contatos",
-      "loadingStatus1": "Processando {{total}} contatos",
-      "loadingStatus2": "Encontrar amigos",
-      "successHeader": "Concluído",
-      "successWithMatches": "{{matches}} amigos na {{appName}}",
-      "successWithoutMatches": "Sincronização completa"
+    "disclosure": {
+      "title": "Importar contatos",
+      "body": "Valora deseja importar seus contatos. Ao tocar abaixo, dou acesso aos números de celular, nomes e fotos dos meus contatos para me conectar com eles através do Valora."
     }
   },
   "createAccount": "Criar conta",
@@ -29,7 +21,9 @@
   "selectCountryCode": "Selecione o código do país",
   "pincodeSet": {
     "create": "Criar um PIN",
-    "verify": "Insira o PIN novamente",
+    "createNew": "Criar um novo PIN",
+    "verify": "Insira seu PIN novamente para confirmar",
+    "changePIN": "Alterar PIN",
     "pinsDontMatch": "Os PINs não coincidem",
     "invalidPin": "Use um PIN mais forte"
   },
@@ -64,7 +58,7 @@
   "verificationPrematureRevealMessage": "Espere um minuto antes de reenviar",
   "verificationLearnMoreDialog": {
     "title": "Números de celular e a {{appName}}",
-    "body": "A confirmação torna mais fácil se conectar com seus amigos, permitindo que você envie e receba fundos em seu número de celular.\n\n<0>Posso fazer isso mais tarde?</0>\n\n Sim, mas contas não confirmadas só podem enviar pagamentos com QR codes ou números de conta (endereços).\n\n<1>Seguro e Privado</1>\n\nO Valora usa criptografia de última geração para manter o seu número de celular privado.",
+    "body": "Confirmando facilita a conexão com seus amigos, permitindo que você envie e receba fundos para o seu número de celular.\n\n<0>Posso fazer isso mais tarde?</0>\n\nSim, mas contas não confirmadas só podem enviar pagamentos com códigos QR ou Endereços de Conta.\n\n<1>Segura e Privada</1>\n\nValora usa o estado da criptografia de arte para manter seu número de celular privado.",
     "dismiss": "Ignorar"
   },
   "importExistingKey": {

@@ -1,4 +1,4 @@
-import { MnemonicLanguages } from '@celo/utils/lib/account'
+import { MnemonicLanguages, normalizeMnemonic } from '@celo/utils/lib/account'
 import CryptoJS from 'crypto-js'
 import { useAsync } from 'react-async-hook'
 import { useDispatch, useSelector } from 'react-redux'
@@ -33,11 +33,12 @@ export function getMnemonicLanguage(language: string | null) {
   }
 }
 
-export async function storeMnemonic(mnemonic: string, account: string | null) {
+export async function storeMnemonic(mnemonic: string, account: string | null, password?: string) {
   if (!account) {
     throw new Error('Account not yet initialized')
   }
-  const encryptedMnemonic = await encryptMnemonic(mnemonic, account)
+  const passwordToUse = password ?? (await getPassword(account))
+  const encryptedMnemonic = await encryptMnemonic(mnemonic, passwordToUse)
   return storeItem({ key: MNEMONIC_STORAGE_KEY, value: encryptedMnemonic })
 }
 
@@ -45,7 +46,10 @@ export async function clearStoredMnemonic() {
   await removeStoredItem(MNEMONIC_STORAGE_KEY)
 }
 
-export async function getStoredMnemonic(account: string | null): Promise<string | null> {
+export async function getStoredMnemonic(
+  account: string | null,
+  password?: string
+): Promise<string | null> {
   try {
     if (!account) {
       throw new Error('Account not yet initialized')
@@ -57,7 +61,8 @@ export async function getStoredMnemonic(account: string | null): Promise<string 
       throw new Error('No mnemonic found in storage')
     }
 
-    return decryptMnemonic(encryptedMnemonic, account)
+    const passwordToUse = password ?? (await getPassword(account))
+    return decryptMnemonic(encryptedMnemonic, passwordToUse)
   } catch (error) {
     Logger.error(TAG, 'Failed to retrieve mnemonic', error)
     return null
@@ -84,33 +89,33 @@ export function useAccountKey(): string | null {
   return asyncAccountKey.result || null
 }
 
+export function countMnemonicWords(phrase: string): number {
+  return [...phrase.trim().split(/\s+/)].length
+}
+
 // Because of a RN bug, we can't fully clean the text as the user types
 // https://github.com/facebook/react-native/issues/11068
 export function formatBackupPhraseOnEdit(phrase: string) {
   return phrase.replace(/\s+/gm, ' ')
 }
 
-// Note(Ashish) The wordlists seem to use NFD and contains lower-case words for English and Spanish.
-// I am not sure if the words are lower-case for Japanese as well but I am assuming that for now.
 export function formatBackupPhraseOnSubmit(phrase: string) {
-  return formatBackupPhraseOnEdit(phrase).trim().normalize('NFD').toLocaleLowerCase()
+  return normalizeMnemonic(phrase)
 }
 
 function isValidMnemonic(phrase: string, length: number) {
-  return !!phrase && formatBackupPhraseOnEdit(phrase).trim().split(/\s+/g).length === length
+  return !!phrase && countMnemonicWords(formatBackupPhraseOnEdit(phrase)) === length
 }
 
 export function isValidBackupPhrase(phrase: string) {
   return isValidMnemonic(phrase, 24)
 }
 
-export async function encryptMnemonic(phrase: string, account: string) {
-  const password = await getPassword(account)
+export async function encryptMnemonic(phrase: string, password: string) {
   return CryptoJS.AES.encrypt(phrase, password).toString()
 }
 
-export async function decryptMnemonic(encryptedMnemonic: string, account: string) {
-  const password = await getPassword(account)
+export async function decryptMnemonic(encryptedMnemonic: string, password: string) {
   const bytes = CryptoJS.AES.decrypt(encryptedMnemonic, password)
   return bytes.toString(CryptoJS.enc.Utf8)
 }

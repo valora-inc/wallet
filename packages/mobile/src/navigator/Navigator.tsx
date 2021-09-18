@@ -1,8 +1,7 @@
-import colors from '@celo/react-components/styles/colors'
 import { RouteProp } from '@react-navigation/core'
 import { createStackNavigator, StackScreenProps, TransitionPresets } from '@react-navigation/stack'
 import * as React from 'react'
-import { Platform } from 'react-native'
+import { PixelRatio, Platform } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
 import AccountKeyEducation from 'src/account/AccountKeyEducation'
 import GoldEducation from 'src/account/GoldEducation'
@@ -23,6 +22,7 @@ import BackupComplete from 'src/backup/BackupComplete'
 import BackupForceScreen from 'src/backup/BackupForceScreen'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
+import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
@@ -47,7 +47,6 @@ import FiatExchangeOptions, {
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
-import { CURRENCY_ENUM } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import PhoneNumberLookupQuotaScreen from 'src/identity/PhoneNumberLookupQuotaScreen'
 import ImportWallet from 'src/import/ImportWallet'
@@ -59,7 +58,7 @@ import {
   HeaderTitleWithBalance,
   HeaderTitleWithSubtitle,
   headerWithBackButton,
-  headerWithCancelButton,
+  headerWithBackEditButtons,
   noHeader,
   noHeaderGestureDisabled,
   nuxNavigationOptions,
@@ -67,9 +66,7 @@ import {
 import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationService'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import ImportContactsScreen from 'src/onboarding/contacts/ImportContactsScreen'
 import OnboardingEducationScreen from 'src/onboarding/education/OnboardingEducationScreen'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import RegulatoryTerms from 'src/onboarding/registration/RegulatoryTerms'
@@ -89,7 +86,7 @@ import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
-import SendAmount, { sendAmountScreenNavOptions } from 'src/send/SendAmount'
+import SendAmount from 'src/send/SendAmount'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
@@ -99,6 +96,7 @@ import ValidateRecipientIntro, {
 } from 'src/send/ValidateRecipientIntro'
 import SetClock from 'src/set-clock/SetClock'
 import TransactionReview from 'src/transactions/TransactionReview'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
@@ -202,14 +200,18 @@ const pincodeSetScreenOptions = ({
 }: {
   route: RouteProp<StackParamList, Screens.PincodeSet>
 }) => {
-  const isVerifying = route.params?.isVerifying
-  const title = isVerifying
-    ? i18n.t('onboarding:pincodeSet.verify')
+  const changePin = route.params?.changePin
+  const title = changePin
+    ? i18n.t('onboarding:pincodeSet.changePIN')
     : i18n.t('onboarding:pincodeSet.create')
+
   return {
     ...nuxNavigationOptions,
     headerTitle: () => (
-      <HeaderTitleWithSubtitle title={title} subTitle={i18n.t('onboarding:step', { step: '2' })} />
+      <HeaderTitleWithSubtitle
+        title={title}
+        subTitle={changePin ? ' ' : i18n.t('onboarding:step', { step: '2' })}
+      />
     ),
   }
 }
@@ -242,11 +244,6 @@ const nuxScreens = (Navigator: typeof Stack) => (
       options={ImportWallet.navigationOptions}
     />
     <Navigator.Screen
-      name={Screens.ImportContacts}
-      component={ImportContactsScreen}
-      options={ImportContactsScreen.navigationOptions}
-    />
-    <Navigator.Screen
       name={Screens.OnboardingSuccessScreen}
       component={OnboardingSuccessScreen}
       options={OnboardingSuccessScreen.navigationOptions}
@@ -256,10 +253,11 @@ const nuxScreens = (Navigator: typeof Stack) => (
 
 const sendScreens = (Navigator: typeof Stack) => (
   <>
+    <Navigator.Screen name={Screens.Send} component={Send} options={Send.navigationOptions} />
     <Navigator.Screen
       name={Screens.SendAmount}
       component={SendAmount}
-      options={sendAmountScreenNavOptions}
+      options={SendAmount.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.SendConfirmation}
@@ -309,52 +307,40 @@ const sendScreens = (Navigator: typeof Stack) => (
   </>
 )
 
-const exchangeTradeScreenOptions = ({
-  route,
-}: {
-  route: RouteProp<StackParamList, Screens.ExchangeTradeScreen>
-}) => {
-  const { makerToken } = route.params?.makerTokenDisplay
-  const isDollarToGold = makerToken === CURRENCY_ENUM.DOLLAR
-  const title = isDollarToGold ? i18n.t('exchangeFlow9:buyGold') : i18n.t('exchangeFlow9:sellGold')
-  const cancelEventName = isDollarToGold
-    ? CeloExchangeEvents.celo_buy_cancel
-    : CeloExchangeEvents.celo_sell_cancel
-  return {
-    ...headerWithCancelButton,
-    headerLeft: () => <CancelButton eventName={cancelEventName} />,
-    headerTitle: () => <HeaderTitleWithBalance title={title} token={makerToken} />,
-  }
-}
-
 const exchangeReviewScreenOptions = ({
   route,
 }: {
   route: RouteProp<StackParamList, Screens.ExchangeReview>
 }) => {
-  const { makerToken } = route.params?.exchangeInput
-  const isDollarToGold = makerToken === CURRENCY_ENUM.DOLLAR
-  const title = isDollarToGold ? i18n.t('exchangeFlow9:buyGold') : i18n.t('exchangeFlow9:sellGold')
-  const cancelEventName = isDollarToGold
+  const { makerToken } = route.params
+  const isCeloPurchase = makerToken !== Currency.Celo
+  const title = isCeloPurchase ? i18n.t('exchangeFlow9:buyGold') : i18n.t('exchangeFlow9:sellGold')
+  const cancelEventName = isCeloPurchase
     ? CeloExchangeEvents.celo_buy_cancel
     : CeloExchangeEvents.celo_sell_cancel
-  const editEventName = isDollarToGold
+  const editEventName = isCeloPurchase
     ? CeloExchangeEvents.celo_buy_edit
     : CeloExchangeEvents.celo_sell_edit
   return {
-    ...headerWithCancelButton,
+    ...headerWithBackEditButtons,
     headerLeft: () => (
-      <CancelButton onCancel={navigateToExchangeHome} eventName={cancelEventName} />
+      <BackButton testID="EditButton" onPress={navigateBack} eventName={editEventName} />
     ),
-    headerRight: () => (
-      <TopBarTextButton
-        title={i18n.t('global:edit')}
-        testID="EditButton"
-        onPress={navigateBack}
-        titleStyle={{ color: colors.goldDark }}
-        eventName={editEventName}
-      />
-    ),
+    headerRight: () =>
+      PixelRatio.getFontScale() > 1 ? (
+        <CancelButton
+          buttonType={'icon'}
+          onCancel={navigateToExchangeHome}
+          eventName={cancelEventName}
+        />
+      ) : (
+        <CancelButton
+          style={{ paddingHorizontal: 0 }}
+          buttonType={'text'}
+          onCancel={navigateToExchangeHome}
+          eventName={cancelEventName}
+        />
+      ),
     headerTitle: () => <HeaderTitleWithBalance title={title} token={makerToken} />,
   }
 }
@@ -363,7 +349,7 @@ const exchangeScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.ExchangeTradeScreen}
       component={ExchangeTradeScreen}
-      options={exchangeTradeScreenOptions}
+      options={noHeader}
     />
     <Navigator.Screen
       name={Screens.ExchangeReview}
@@ -522,7 +508,6 @@ const mapStateToProps = (state: RootState) => {
     name: state.account.name,
     acceptedTerms: state.account.acceptedTerms,
     pincodeType: state.account.pincodeType,
-    redeemComplete: state.invite.redeemComplete,
     account: state.web3.account,
     hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
     askedContactsPermission: state.identity.askedContactsPermission,
@@ -541,7 +526,7 @@ export function MainStackScreen() {
       name,
       acceptedTerms,
       pincodeType,
-      redeemComplete,
+      account,
       hasSeenVerificationNux,
     } = mapStateToProps(store.getState())
 
@@ -552,7 +537,7 @@ export function MainStackScreen() {
     } else if (!name || !acceptedTerms || pincodeType === PincodeType.Unset) {
       // User didn't go far enough in onboarding, start again from education
       initialRoute = Screens.OnboardingEducationScreen
-    } else if (!redeemComplete) {
+    } else if (!account) {
       initialRoute = choseToRestoreAccount
         ? Screens.ImportWallet
         : Screens.OnboardingEducationScreen
@@ -591,7 +576,6 @@ export function MainStackScreen() {
 
 const modalAnimatedScreens = (Navigator: typeof Stack) => (
   <>
-    <Navigator.Screen name={Screens.Send} component={Send} options={Send.navigationOptions} />
     <Navigator.Screen
       name={Screens.PincodeEnter}
       component={PincodeEnter}

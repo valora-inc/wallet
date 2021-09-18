@@ -21,7 +21,6 @@ export enum Actions {
   SET_BACKUP_COMPLETED = 'ACCOUNT/SET_BACKUP_COMPLETED',
   SET_BACKUP_DELAYED = 'ACCOUNT/SET_BACKUP_DELAYED',
   TOGGLE_BACKUP_STATE = 'ACCOUNT/TOGGLE_BACKUP_STATE',
-  DISMISS_INVITE_FRIENDS = 'ACCOUNT/DISMISS_INVITE_FRIENDS',
   DISMISS_GET_VERIFIED = 'ACCOUNT/DISMISS_GET_VERIFIED',
   DISMISS_GOLD_EDUCATION = 'ACCOUNT/DISMISS_GOLD_EDUCATION',
   SET_USER_CONTACT_DETAILS = 'ACCOUNT/SET_USER_CONTACT_DETAILS',
@@ -32,6 +31,7 @@ export enum Actions {
   PROFILE_UPLOADED = 'ACCOUNT/PROFILE_UPLOADED',
   UPDATE_DAILY_LIMIT = 'ACCOUNT/UPDATE_DAILY_LIMIT',
   UPDATE_DAILY_LIMIT_REQUEST_STATUS = 'ACCOUNT/UPDATE_DAILY_LIMIT_REQUEST_STATUS',
+  SET_REWARDS_ENABLED = 'ACCOUNT/SET_REWARDS_ENABLED',
 }
 
 export interface ChooseCreateAccountAction {
@@ -128,10 +128,6 @@ export interface ToggleBackupState {
   type: Actions.TOGGLE_BACKUP_STATE
 }
 
-export interface DismissInviteFriendsAction {
-  type: Actions.DISMISS_INVITE_FRIENDS
-}
-
 export interface DismissGetVerifiedAction {
   type: Actions.DISMISS_GET_VERIFIED
 }
@@ -197,7 +193,6 @@ export type ActionTypes =
   | SetBackupCompletedAction
   | SetBackupDelayedAction
   | ToggleBackupState
-  | DismissInviteFriendsAction
   | DismissGetVerifiedAction
   | DismissGoldEducationAction
   | SetContactDetailsAction
@@ -323,10 +318,6 @@ export const setBackupDelayed = (now: number): SetBackupDelayedAction => ({
 
 export const toggleBackupState = (): ToggleBackupState => ({
   type: Actions.TOGGLE_BACKUP_STATE,
-})
-
-export const dismissInviteFriends = (): DismissInviteFriendsAction => ({
-  type: Actions.DISMISS_INVITE_FRIENDS,
 })
 
 export const dismissGetVerified = (): DismissGetVerifiedAction => ({

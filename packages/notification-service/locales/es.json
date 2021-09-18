@@ -1,14 +1,15 @@
 {
-  "paymentReceivedTitle": "Pago Recibido",
-  "paymentReceivedBody": "Has recibido {{amount}} {{currency}}",
+  "paymentReceivedTitle": "Pago recibido",
+  "paymentReceivedBody": "Has recibido {{amount}} {{currency}}.",
   "celoReceivedTitle": "Depósito de CELO recibido",
-  "celoReceivedBody": "Acabas de recibir {{amount}} CELO! Puedes ganar recompensas, ahorrar y comprar con Valora. Haz clic para saber más.",
-  "dollar": "Celo Dólar",
-  "dollar_plural": "Celo Dólares",
+  "celoReceivedBody": "¡Acabas de recibir {{amount}} CELO! Ya puedes ganar, ahorrar y usar tus fondos con Valora. Toca aquí para más información.",
+  "dollar": "cUSD",
+  "euro": "cEUR",
   "gold": "CELO",
   "paymentRequestedTitle": "Pago solicitado",
-  "paymentRequestedBody": "Se ha solicitado pago de {{amount}} {{currency}}.",
-  "rewardReceivedTitle": "Recompensa recibida",
-  "inviteTitle": "¡Tu amig@ acaba de recibir tu transferencia!",
-  "inviteBody": "¡El destinatario de los fondos que enviaste acaba de suscribirse a Valora! Ahora pueden enviarse valores entre ustedes usando sus números de teléfono con tarifas cercanas a cero"
+  "paymentRequestedBody": "Se ha solicitado un pago de {{amount}} {{currency}}.",
+  "rewardReceivedTitle": "Acabas de ganar más cUSD 📈",
+  "rewardReceivedBody": "¡Tus ganancias semanales han llegado! Agrega cUSD para ganar aún más la próxima semana.",
+  "inviteRewardTitle": "Invitación aceptada",
+  "inviteRewardBody": "¡Tu amigo ha aceptado tu invitación a Valora y has ganado {{amount}} {{currency}}!"
 }

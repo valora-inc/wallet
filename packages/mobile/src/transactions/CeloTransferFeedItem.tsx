@@ -30,7 +30,6 @@ export function CeloTransferFeedItem(props: Props) {
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
   const { address, amount, hash, comment, status, timestamp, type } = props
-  const txInfo = txHashToFeedInfo[hash]
 
   const onPress = () => {
     ValoraAnalytics.track(CeloExchangeEvents.celo_transaction_select)
@@ -48,26 +47,20 @@ export function CeloTransferFeedItem(props: Props) {
   const isPending = status === TransactionStatus.Pending
   const isWithdrawal = new BigNumber(amount.value).isNegative()
   const displayName =
-    txInfo?.name || addressToDisplayName[address]?.name || formatShortenedAddress(address)
+    txHashToFeedInfo[hash]?.name ||
+    addressToDisplayName[address]?.name ||
+    formatShortenedAddress(address)
 
   return (
     <Touchable onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.firstRow}>
-          <View style={styles.desc}>
-            <Text style={styles.txMode}>
-              {t(isWithdrawal ? 'feedItemGoldWithdrawal' : 'feedItemGoldReceived', {
-                displayName,
-              })}
-            </Text>
-          </View>
-          <View>
-            <CurrencyDisplay
-              amount={amount}
-              style={styles.amount}
-              showExplicitPositiveSign={true}
-            />
-          </View>
+          <Text style={styles.txMode}>
+            {t(isWithdrawal ? 'feedItemGoldWithdrawal' : 'feedItemGoldReceived', {
+              displayName,
+            })}
+          </Text>
+          <CurrencyDisplay amount={amount} style={styles.amount} showExplicitPositiveSign={true} />
         </View>
         <View style={styles.secondRow}>
           <Text style={styles.time}>{isPending ? t('confirmingExchange') : dateTimeFormatted}</Text>
@@ -86,17 +79,17 @@ const styles = StyleSheet.create({
   firstRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flex: 1,
     paddingBottom: 2,
-  },
-  desc: {
-    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   txMode: {
+    flex: 3,
     ...fontStyles.regular500,
     color: colors.dark,
   },
   amount: {
+    flex: 1,
+    textAlign: 'right',
     ...fontStyles.regular500,
     color: colors.dark,
   },

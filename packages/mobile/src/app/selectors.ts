@@ -9,7 +9,7 @@ import {
   shouldUseKomenciSelector,
   verificationStatusSelector,
 } from 'src/verify/reducer'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { accountAddressSelector, currentAccountSelector } from 'src/web3/selectors'
 
 export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
@@ -62,6 +62,9 @@ export const shortVerificationCodesEnabledSelector = (state: RootState) =>
 
 export const hideVerificationSelector = (state: RootState) => state.app.hideVerification
 
+export const ranVerificationMigrationSelector = (state: RootState) =>
+  state.app.ranVerificationMigrationAt
+
 // showRaiseDailyLimitTarget is an account string that represents the cutoff of which accounts
 // should return true. By doing a string comparison, if the user's account is lower than the
 // target we'll return true and false otherwise.
@@ -74,3 +77,19 @@ export const showRaiseDailyLimitSelector = createSelector(
     return account < showRaiseDailyLimitTarget
   }
 )
+
+export const rewardsThresholdSelector = (state: RootState) => state.app.rewardsABTestThreshold
+export const rewardsEnabledSelector = createSelector(
+  [accountAddressSelector, rewardsThresholdSelector],
+  (address, rewardsThreshold) => {
+    return address! < rewardsThreshold
+  }
+)
+
+export const celoEuroEnabledSelector = (state: RootState) => state.app.celoEuroEnabled
+
+export const googleMobileServicesAvailableSelector = (state: RootState) =>
+  state.app.googleMobileServicesAvailable
+
+export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
+  state.app.huaweiMobileServicesAvailable

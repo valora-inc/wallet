@@ -1,36 +1,36 @@
 {
   "cancel": "Cancelar",
-  "inviteWithWhatsapp": "Invitar con WhatsApp",
-  "inviteWithSMS": "Invitar con SMS",
-  "inviteFee": "Comisión de invitación",
-  "whySendFees": "Esta comisión cubre los costos de confirmar el n.º de teléfono del usuario nuevo",
-  "whyReceiveFees": "Te enviaron dinero para confirmar tu cuenta",
+  "inviteWithWhatsapp": "Invitar por WhatsApp",
+  "inviteWithSMS": "Invitar por SMS",
+  "inviteFee": "Tarifa de invitación",
+  "whySendFees": "Esta tarifa cubre los costos de conexión del número de teléfono del usuario nuevo.",
+  "whyReceiveFees": "Te enviaron dinero para confirmar tu cuenta.",
   "edit": "Editar",
   "to": "Para",
   "inviteSent": "Invitación enviada",
-  "searchForSomeone": "Busque a alguien según el nombre o el número de teléfono",
+  "searchForSomeone": "Busca a alguien por el nombre o número de teléfono",
   "redeemFailed": "No pudimos validar el código de invitación",
-  "redeemInviteTimeout": "Canjear invitación agotada",
-  "accountSetupFailed": "No se pudo crear tu monedero",
+  "redeemInviteTimeout": "La invitación ha expirado",
+  "accountSetupFailed": "No se pudo crear tu billetera",
   "emptyInviteCode": "El código de invitación no tiene fondos",
-  "transferDollarsToAccount": "Dólares transferidos a tu cuenta!",
-  "inviteAnyone": "Envía fácilmente a tus amigos agregando tus contactos",
+  "transferDollarsToAccount": "¡Hemos transferidos los fondos a tu cuenta!",
+  "inviteAnyone": "Haz que enviar fondos a tus amigos sea aún más fácil con solo conectar tu lista de contactos",
   "inviteReceived": "Invitación recibida",
-  "escrowPaymentNotificationTitle": "Invitado y pagado {{mobile}} (<3></3>)",
+  "escrowPaymentNotificationTitle": "Has invitado a {{mobile}}",
   "inviteDialog": {
     "title": "Invita a un amigo",
-    "body": "Conecta y comparte valor con tus amigos y familia en {{appName}}.",
+    "body": "Conéctate y comparte valor con tus amigos y familia en Valora.",
     "button": "Invitar"
   },
   "sendAndInvite": "Envía e invita",
   "inviteAndSendDialog": {
     "title": "Invita y envía",
-    "body": "Tu pago estará esperando hasta que {{name}} confirme su número de teléfono. ¡Envíale una invitación para que se registre en {{appName}} y reciba tu pago!",
+    "body": "Tu pago estará pendiente hasta que {{name}} conecte su número de teléfono. Envíale un mensaje de invitación para que se registre en {{appName}} y reciba tu pago.",
     "button": "Invitar"
   },
   "inviteRewardsBanner": {
-    "title": "Obtén hasta US$5 al referir amigos!",
-    "body": "Envía valor a un amigo para ganar US$1 en CELO cuando se une. Hasta 5 amigos por semana."
+    "title": "¡Obtén ${{amount}} por referir a un amigo!",
+    "body": "Gana {{amount}} cUSD cuando envíes dinero a un amigo y se una. <0>Más información</0>"
   },
   "getReward": "Obtén ${{reward}}"
 }

@@ -12,10 +12,13 @@ jest.mock('crypto', () => ({
     verify: mockVerify,
   })),
 }))
-jest.mock('../config', () => ({ RAMP_DATA: { pem_file: 'rampStaging.pem' } }))
+jest.mock('../config', () => ({
+  ...(jest.requireActual('../config') as any),
+  RAMP_DATA: { pem_file: 'rampStaging.pem' },
+}))
 jest.mock('fs', () => ({ readFileSync: jest.fn(() => 'rampKey') }))
 
-describe('Ramp cash in', () => {
+describe('Ramp event webhook', () => {
   const response: any = {
     status: jest.fn(() => response),
     send: jest.fn(),
@@ -32,8 +35,39 @@ describe('Ramp cash in', () => {
       body: {
         type: 'RELEASED',
         purchase: {
-          receiverAddress: '0x123',
-          finalTxHash: '0x456',
+          status: 'RELEASING',
+          escrowAddress: '0x123',
+          networkFee: 0,
+          paymentMethodType: 'card',
+          purchaseViewToken: 'cusd',
+          assetExchangeRateEur: 0.15,
+          createdAt: '2021-07-01 12:32',
+          receiverAddress: '0x456',
+          fiatCurrency: 'EUR',
+          actions: [
+            {
+              timestamp: '2021-07-01 12:32',
+              newStatus: 'RELEASING',
+            },
+          ],
+          endTime: '2021-07-01 12:32',
+          assetExchangeRate: 1.1,
+          fiatExchangeRateEur: 1.14,
+          finalTxHash: '0x45463456',
+          id: '1',
+          asset: {
+            address: '0x666',
+            symbol: 'cUSD',
+            type: 'stablecoin',
+            name: 'Celo Dollar',
+            decimals: 8,
+          },
+          cryptoAmount: '10',
+          baseRampFee: 0.1,
+          fiatValue: 100,
+          updatedAt: '2021-07-01 12:32',
+          appliedFee: 0,
+          hostFeeCut: 0,
         },
       },
       header: (head: string) => (head === 'X-Body-Signature' ? 'test signature' : undefined),
@@ -42,7 +76,7 @@ describe('Ramp cash in', () => {
 
     expect(response.status).toHaveBeenCalledWith(204)
     expect(saveTxHashProvider).toHaveBeenCalledTimes(1)
-    expect(saveTxHashProvider).toHaveBeenCalledWith('0x123', '0x456', Providers.Ramp)
+    expect(saveTxHashProvider).toHaveBeenCalledWith('0x456', '0x45463456', Providers.Ramp)
   })
 
   it('POST /ramp - wrong signature', async () => {
@@ -51,15 +85,46 @@ describe('Ramp cash in', () => {
       body: {
         type: 'RELEASED',
         purchase: {
-          receiverAddress: '0x123',
-          finalTxHash: '0x456',
+          status: 'RELEASING',
+          escrowAddress: '0x123',
+          networkFee: 0,
+          paymentMethodType: 'card',
+          purchaseViewToken: 'cusd',
+          assetExchangeRateEur: 0.15,
+          createdAt: '2021-07-01 12:32',
+          receiverAddress: '0x456',
+          fiatCurrency: 'EUR',
+          actions: [
+            {
+              timestamp: '2021-07-01 12:32',
+              newStatus: 'RELEASING',
+            },
+          ],
+          endTime: '2021-07-01 12:32',
+          assetExchangeRate: 1.1,
+          fiatExchangeRateEur: 1.14,
+          finalTxHash: '0x45463456',
+          id: '1',
+          asset: {
+            address: '0x666',
+            symbol: 'cUSD',
+            type: 'stablecoin',
+            name: 'Celo Dollar',
+            decimals: 8,
+          },
+          cryptoAmount: '10',
+          baseRampFee: 0.1,
+          fiatValue: 100,
+          updatedAt: '2021-07-01 12:32',
+          appliedFee: 0,
+          hostFeeCut: 0,
         },
       },
       header: (head: string) => (head === 'X-Body-Signature' ? 'test signature' : undefined),
     }
     await rampWebhook(request, response)
 
-    expect(response.status).toHaveBeenCalledWith(401)
+    expect(response.status).toHaveBeenCalledWith(400)
     expect(saveTxHashProvider).not.toHaveBeenCalled()
   })
 
@@ -67,10 +132,41 @@ describe('Ramp cash in', () => {
     mockVerify.mockReturnValue(true)
     const request: any = {
       body: {
-        type: 'RELEASED',
+        type: 'INITIALIZED',
         purchase: {
-          receiverAddress: '0x123',
+          status: 'INITIALIZED',
+          escrowAddress: '0x123',
+          networkFee: 0,
+          paymentMethodType: 'card',
+          purchaseViewToken: 'cusd',
+          assetExchangeRateEur: 0.15,
+          createdAt: '2021-07-01 12:32',
+          receiverAddress: '0x456',
+          fiatCurrency: 'EUR',
+          actions: [
+            {
+              timestamp: '2021-07-01 12:32',
+              newStatus: 'RELEASING',
+            },
+          ],
+          endTime: '2021-07-01 12:32',
+          assetExchangeRate: 1.1,
+          fiatExchangeRateEur: 1.14,
           finalTxHash: undefined,
+          id: '1',
+          asset: {
+            address: '0x666',
+            symbol: 'cUSD',
+            type: 'stablecoin',
+            name: 'Celo Dollar',
+            decimals: 8,
+          },
+          cryptoAmount: '10',
+          baseRampFee: 0.1,
+          fiatValue: 100,
+          updatedAt: '2021-07-01 12:32',
+          appliedFee: 0,
+          hostFeeCut: 0,
         },
       },
       header: (head: string) => (head === 'X-Body-Signature' ? 'test signature' : undefined),

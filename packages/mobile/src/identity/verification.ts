@@ -8,8 +8,6 @@ import {
   UnselectedRequest,
 } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { FetchError, TxError } from '@celo/komencikit/src/errors'
-import { KomenciKit } from '@celo/komencikit/src/kit'
 import { retryAsync } from '@celo/utils/lib/async'
 import {
   AttestationsStatus,
@@ -17,6 +15,8 @@ import {
   extractSecurityCodeWithPrefix,
 } from '@celo/utils/lib/attestations'
 import { AttestationRequest } from '@celo/utils/lib/io'
+import { FetchError, TxError } from '@komenci/kit/lib/errors'
+import { KomenciKit } from '@komenci/kit/lib/kit'
 import AwaitLock from 'await-lock'
 import { Platform } from 'react-native'
 import { Task } from 'redux-saga'
@@ -41,8 +41,8 @@ import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import { SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
-import networkConfig from 'src/geth/networkConfig'
 import { waitForNextBlock } from 'src/geth/saga'
 import {
   Actions,
@@ -54,6 +54,7 @@ import {
   reportRevealStatus,
   ReportRevealStatusAction,
   ResendAttestations,
+  setAttestationInputStatus,
   setCompletedCodes,
   setLastRevealAttempt,
   setVerificationStatus,
@@ -64,6 +65,7 @@ import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import {
   acceptedAttestationCodesSelector,
   attestationCodesSelector,
+  attestationInputStatusSelector,
   e164NumberToSaltSelector,
 } from 'src/identity/reducer'
 import { getAttestationCodeForSecurityCode } from 'src/identity/securityCode'
@@ -87,6 +89,8 @@ import {
   succeed,
   verificationStatusSelector,
 } from 'src/verify/reducer'
+import { getKomenciKit } from 'src/verify/saga'
+import { indexReadyForInput } from 'src/verify/utils'
 import { setMtwAddress } from 'src/web3/actions'
 import { getContractKit } from 'src/web3/contracts'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
@@ -507,10 +511,7 @@ function* requestAttestations(
   const contractKit = yield call(getContractKit)
   const walletAddress = yield call(getConnectedUnlockedAccount)
   const komenci = yield select(komenciContextSelector)
-  const komenciKit = new KomenciKit(contractKit, walletAddress, {
-    url: komenci.callbackUrl || networkConfig.komenciUrl,
-    token: komenci.sessionToken,
-  })
+  const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
   if (numAttestationsRequestsNeeded <= 0) {
     Logger.debug(`${TAG}@requestAttestations`, 'No additional attestations requests needed')
@@ -672,8 +673,20 @@ export function attestationCodeReceiver(
       TAG + '@attestationCodeReceiver',
       'Received attestation:',
       action.message,
-      action.inputType
+      action.inputType,
+      action.index
     )
+
+    const attestationInputStatus = yield select(attestationInputStatusSelector)
+    const index = action.index ?? indexReadyForInput(attestationInputStatus)
+    if (index >= NUM_ATTESTATIONS_REQUIRED) {
+      Logger.error(
+        TAG + '@attestationCodeReceiver',
+        'All attestation code positions are full. Ignoring.'
+      )
+      return
+    }
+    yield put(setAttestationInputStatus(index, CodeInputStatus.Received))
 
     const allIssuers = attestations.map((a) => a.issuer)
     let securityCodeWithPrefix: string | null = null
@@ -694,7 +707,7 @@ export function attestationCodeReceiver(
             signer
           )
         } else {
-          Logger.error(TAG + '@attestationCodeReceiver', 'No security code in received message')
+          throw new Error(`No security code in received message: ${message}`)
         }
       }
 
@@ -718,6 +731,7 @@ export function attestationCodeReceiver(
           CodeInputType.DEEP_LINK === action.inputType
         ) {
           yield put(showError(ErrorMessages.REPEAT_ATTESTATION_CODE))
+          yield put(setAttestationInputStatus(index, CodeInputStatus.Error))
         }
         return
       }
@@ -732,7 +746,7 @@ export function attestationCodeReceiver(
         allIssuers
       )
       if (!issuer) {
-        throw new Error('No issuer found for attestion code')
+        throw new Error(`No issuer found for attestion code ${message}`)
       }
 
       Logger.debug(TAG + '@attestationCodeReceiver', `Received code for issuer ${issuer}`)
@@ -754,19 +768,28 @@ export function attestationCodeReceiver(
       })
 
       if (!isValidRequest) {
-        throw new Error('Code is not valid')
+        throw new Error(`Attestation code (${message}) is not valid (issuer: ${issuer})`)
       }
 
       Logger.debug(
         TAG + '@attestationCodeReceiver',
-        `Validated attestation code (${message}) successfully for issuer ${issuer}`
+        `Attestation code (${message}) is valid, starting processing (issuer: ${issuer})`
       )
+
       yield put(
-        inputAttestationCode({ code: attestationCode, shortCode: securityCodeWithPrefix, issuer })
+        inputAttestationCode(
+          { code: attestationCode, shortCode: securityCodeWithPrefix, issuer },
+          index
+        )
       )
     } catch (error) {
-      Logger.error(TAG + '@attestationCodeReceiver', 'Error processing attestation code', error)
+      Logger.error(
+        TAG + '@attestationCodeReceiver',
+        `Error processing attestation code ${message} in index ${index}`,
+        error
+      )
       yield put(showError(ErrorMessages.INVALID_ATTESTATION_CODE))
+      yield put(setAttestationInputStatus(index, CodeInputStatus.Error))
     }
   }
 }
@@ -828,10 +851,7 @@ export function* completeAttestations(
   const contractKit = yield call(getContractKit)
   const komenci = yield select(komenciContextSelector)
   const walletAddress = yield call(getConnectedUnlockedAccount)
-  const komenciKit = new KomenciKit(contractKit, walletAddress, {
-    url: komenci.callbackUrl || networkConfig.komenciUrl,
-    token: komenci.sessionToken,
-  })
+  const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
   yield all(
     attestations.map((attestation) => {
@@ -940,6 +960,7 @@ function* completeAttestation(
 
   ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_await_code_complete, {
     issuer,
+    position: codePosition,
     feeless: shouldUseKomenci,
   })
 
@@ -992,6 +1013,7 @@ function* completeAttestation(
 
   ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_complete, {
     issuer,
+    position: codePosition,
     feeless: shouldUseKomenci,
   })
 

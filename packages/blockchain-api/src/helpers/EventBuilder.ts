@@ -42,13 +42,25 @@ export class EventBuilder {
     }
   }
 
+  static chooseTokenToShowInExchange(possibleTokens: string[]) {
+    if (possibleTokens.length === 1) {
+      return possibleTokens[0]
+    }
+    return possibleTokens.filter((token) => token !== CGLD)[0]
+  }
+
   static exchangeEvent(
     transaction: Transaction,
     inTransfer: BlockscoutCeloTransfer,
     outTransfer: BlockscoutCeloTransfer,
-    token: string,
+    tokens: string[],
     fees?: Fee[]
   ) {
+    const token = this.chooseTokenToShowInExchange(
+      [inTransfer.token, outTransfer.token].filter((transferToken) =>
+        tokens.includes(transferToken)
+      )
+    )
     const hash = transaction.transactionHash
     const block = transaction.blockNumber
     const timestamp = transaction.timestamp
@@ -58,7 +70,6 @@ export class EventBuilder {
     if (!tokenTransfer) {
       return undefined
     }
-
     const impliedExchangeRates: MoneyAmount['impliedExchangeRates'] = {}
     if (inTransfer!.token === CGLD && outTransfer!.token === CUSD) {
       impliedExchangeRates['cGLD/cUSD'] = new BigNumber(outTransfer!.value).dividedBy(

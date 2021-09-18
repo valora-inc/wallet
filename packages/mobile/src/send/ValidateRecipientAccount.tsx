@@ -174,15 +174,14 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
   renderInstructionsAndInputField = () => {
     const { t, recipient, addressValidationType } = this.props
     const { inputValue, singleDigitInputValueArr } = this.state
-    const displayName = getDisplayName(recipient, t)
 
     if (addressValidationType === AddressValidationType.FULL) {
       return (
         <View>
           <Text style={styles.body}>
-            {displayName === 'Mobile #'
-              ? t('confirmAccountNumber.body1FullNoDisplayName')
-              : t('confirmAccountNumber.body1Full', { displayName })}
+            {recipient.name
+              ? t('confirmAccountNumber.body1Full', { displayName: recipient.name })
+              : t('confirmAccountNumber.body1FullNoDisplayName')}
           </Text>
           <Text style={styles.body}>{t('confirmAccountNumber.body2Full')}</Text>
           <Text style={styles.codeHeader}>{t('accountInputHeaderFull')}</Text>
@@ -203,7 +202,6 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
           <SingleDigitInput
             inputValue={singleDigitInputValueArr[index]}
             inputPlaceholder={placeholderValue}
-            // tslint:disable-next-line:jsx-no-lambda
             onInputChange={(value) => this.onSingleDigitInputChange(value, index)}
             testID={`SingleDigitInput/digit${index}`}
           />
@@ -214,9 +212,9 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
     return (
       <View>
         <Text style={styles.body}>
-          {displayName === 'Mobile #'
-            ? t('confirmAccountNumber.bodyPartialNoDisplayName')
-            : t('confirmAccountNumber.bodyPartial', { displayName })}
+          {recipient.name
+            ? t('confirmAccountNumber.bodyPartial', { displayName: recipient.name })
+            : t('confirmAccountNumber.bodyPartialNoDisplayName')}
         </Text>
         <Text style={styles.codeHeader}>{t('accountInputHeaderPartial')}</Text>
         <View style={styles.singleDigitInputContainer}>{singleDigitInputComponentArr}</View>

@@ -4,11 +4,14 @@ import {
   ActionableAttestation,
   AttestationsWrapper,
 } from '@celo/contractkit/lib/wrappers/Attestations'
+import { sleep } from '@celo/utils/lib/async'
+import { AttestationsStatus } from '@celo/utils/lib/attestations'
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import {
   CheckSessionResp,
   GetDistributedBlindedPepperResp,
   StartSessionResp,
-} from '@celo/komencikit/src/actions'
+} from '@komenci/kit/lib/actions'
 import {
   AuthenticationFailed,
   FetchError,
@@ -25,12 +28,9 @@ import {
   TxRevertError,
   TxTimeoutError,
   WalletValidationError,
-} from '@celo/komencikit/src/errors'
-import { KomenciKit } from '@celo/komencikit/src/kit'
-import { verifyWallet } from '@celo/komencikit/src/verifyWallet'
-import { sleep } from '@celo/utils/lib/async'
-import { AttestationsStatus } from '@celo/utils/lib/attestations'
-import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
+} from '@komenci/kit/lib/errors'
+import { KomenciKit, ProxyType } from '@komenci/kit/lib/kit'
+import { verifyWallet } from '@komenci/kit/lib/verifyWallet'
 import DeviceInfo from 'react-native-device-info'
 import { all, call, delay, put, race, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { VerificationEvents } from 'src/analytics/Events'
@@ -61,7 +61,7 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { clearPasswordCaches } from 'src/pincode/PasswordCache'
 import { waitFor } from 'src/redux/sagas-helpers'
-import { stableTokenBalanceSelector } from 'src/stableToken/reducer'
+import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import Logger from 'src/utils/Logger'
 import {
   checkIfKomenciAvailable,
@@ -74,6 +74,7 @@ import {
   fetchPhoneNumberDetails,
   isBalanceSufficientForSigRetrievalSelector,
   KomenciAvailable,
+  komenciConfigSelector,
   KomenciContext,
   komenciContextSelector,
   overrideWithoutVerificationSelector,
@@ -194,6 +195,7 @@ function* startOrResumeKomenciSessionSaga() {
   })
 
   Logger.debug(TAG, '@startOrResumeKomenciSession', 'Starting session')
+  ValoraAnalytics.track(VerificationEvents.verification_session_started)
 
   const contractKit = yield call(getContractKit)
   const walletAddress = yield call(getConnectedUnlockedAccount)
@@ -239,14 +241,17 @@ function* startOrResumeKomenciSessionSaga() {
   yield put(fetchPhoneNumberDetails())
 }
 
-export function getKomenciKit(
+export function* getKomenciKit(
   contractKit: ContractKit,
   walletAddress: Address,
   komenci: KomenciContext
 ) {
+  const komenciConfig = yield select(komenciConfigSelector)
   return new KomenciKit(contractKit, walletAddress, {
     url: komenci.callbackUrl || networkConfig.komenciUrl,
     token: komenci.sessionToken,
+    proxyType: komenciConfig.useLightProxy ? ProxyType.LightProxy : ProxyType.LegacyProxy,
+    allowedDeployers: komenciConfig.allowedDeployers,
   })
 }
 
@@ -289,8 +294,10 @@ export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof 
         const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
         yield call(fetchKomenciSession, komenciKit, e164Number)
         if (!komenci.sessionActive) {
+          ValoraAnalytics.track(VerificationEvents.verification_recaptcha_started)
           yield put(ensureRealHumanUser())
         } else {
+          ValoraAnalytics.track(VerificationEvents.verification_recaptcha_skipped)
           // TODO: Move this out of saga
           yield call(navigate, Screens.VerificationLoadingScreen, {
             withoutRevealing,
@@ -308,7 +315,7 @@ export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof 
     } else {
       const { timeout } = yield race({
         balances: all([
-          call(waitFor, stableTokenBalanceSelector),
+          call(waitFor, cUsdBalanceSelector),
           call(waitFor, celoTokenBalanceSelector),
         ]),
         timeout: delay(BALANCE_CHECK_TIMEOUT),
@@ -336,7 +343,7 @@ export function* startSaga({ payload: { withoutRevealing } }: ReturnType<typeof 
       navigateBack()
       return
     } else {
-      yield put(fail(ErrorMessages.VERIFICATION_FAILURE))
+      yield put(fail(`startSaga - ${error}`))
     }
   }
 }
@@ -356,6 +363,10 @@ export function* fetchPhoneNumberDetailsSaga() {
   try {
     if (phoneHash && ownPepper) {
       Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Phone Hash and Pepper is cached')
+      ValoraAnalytics.track(VerificationEvents.verification_hash_cached, {
+        phoneHash,
+        address: walletAddress,
+      })
     } else {
       if (!ownPepper) {
         Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Pepper not cached')
@@ -402,7 +413,7 @@ export function* fetchPhoneNumberDetailsSaga() {
       })
     }
   } catch (error) {
-    yield put(fail(error.message))
+    yield put(fail(`fetchPepper - ${error.message}`))
     return
   }
 
@@ -494,12 +505,18 @@ export function* fetchOrDeployMtwSaga() {
     // user already has a verified MTW
     const verifiedMtwAddress = yield call(fetchVerifiedMtw, contractKit, walletAddress)
     if (verifiedMtwAddress) {
+      ValoraAnalytics.track(VerificationEvents.verification_already_completed, {
+        mtwAddress: verifiedMtwAddress,
+      })
       yield put(doVerificationFlow(true))
       return
     }
 
     Logger.debug(TAG, '@fetchOrDeployMtwSaga', 'Starting fetch')
     const storedUnverifiedMtwAddress = komenci.unverifiedMtwAddress
+    ValoraAnalytics.track(VerificationEvents.verification_mtw_fetch_start, {
+      unverifiedMtwAddress: storedUnverifiedMtwAddress,
+    })
     let deployedUnverifiedMtwAddress: string | null = null
     // If there isn't a MTW stored for this session, ask Komenci to deploy one
     if (!storedUnverifiedMtwAddress) {
@@ -573,6 +590,9 @@ export function* fetchOrDeployMtwSaga() {
       throw validityCheckResult.error
     }
 
+    ValoraAnalytics.track(VerificationEvents.verification_mtw_fetch_success, {
+      mtwAddress: unverifiedMtwAddress,
+    })
     yield put(setKomenciContext({ unverifiedMtwAddress }))
     yield call(feelessDekAndWalletRegistration, komenciKit, walletAddress, unverifiedMtwAddress)
     yield put(fetchOnChainData())
@@ -605,6 +625,7 @@ export function* fetchOnChainDataSaga() {
     const shouldUseKomenci = yield select(shouldUseKomenciSelector)
     const phoneHash = yield select(phoneHashSelector)
     let account
+    ValoraAnalytics.track(VerificationEvents.verification_fetch_on_chain_data_start)
     if (shouldUseKomenci) {
       Logger.debug(TAG, '@fetchOnChainDataSaga', 'Using Komenci')
       const komenci = yield select(komenciContextSelector)
@@ -650,11 +671,15 @@ export function* fetchOnChainDataSaga() {
       overrideWithoutVerification ??
       actionableAttestations.length === status.numAttestationsRemaining
 
+    ValoraAnalytics.track(VerificationEvents.verification_fetch_on_chain_data_success, {
+      attestationsRemaining: status.numAttestationsRemaining,
+      actionableAttestations: actionableAttestations.length,
+    })
     yield put(setOverrideWithoutVerification(undefined))
     yield put(doVerificationFlow(withoutRevealing))
   } catch (error) {
     Logger.error(TAG, '@fetchOnChainDataSaga', error)
-    yield put(fail(ErrorMessages.VERIFICATION_FAILURE))
+    yield put(fail(`fetchOnChainDataSaga - ${error}`))
   }
 }
 

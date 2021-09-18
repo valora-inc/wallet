@@ -1,9 +1,11 @@
 import _ from 'lodash'
 import { PincodeType } from 'src/account/reducer'
 import { AppState } from 'src/app/actions'
+import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
+import { Currency } from 'src/utils/currencies'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
 
 // Default (version -1 schema)
@@ -560,6 +562,11 @@ export const v9Schema = {
     ..._.omit(v8Schema.app, 'pontoEnabled', 'kotaniEnabled', 'bitfyUrl', 'flowBtcUrl'),
     showRaiseDailyLimitTarget: undefined,
     walletConnectEnabled: false,
+    rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
+    rewardsPercent: 5,
+    rewardsStartDate: 1622505600000,
+    rewardsMax: 1000,
+    ranVerificationMigrationAt: null,
   },
   walletConnect: {
     pairings: [],
@@ -571,8 +578,156 @@ export const v9Schema = {
     ...v8Schema.fiatExchanges,
     providerLogos: {},
   },
+  identity: {
+    ...v8Schema.identity,
+    attestationInputStatus: [
+      CodeInputStatus.Inputting,
+      CodeInputStatus.Disabled,
+      CodeInputStatus.Disabled,
+    ],
+  },
+}
+
+// Skipping to v13 to keep in sync with migrations.ts
+export const v13Schema = {
+  ...v9Schema,
+  _persist: { version: 13, rehydrated: true },
+  identity: {
+    ..._.omit(
+      v9Schema.identity,
+      'attestationCodes',
+      'acceptedAttestationCodes',
+      'attestationInputStatus',
+      'numCompleteAttestations',
+      'verificationStatus',
+      'hasSeenVerificationNux',
+      'lastRevealAttempt'
+    ),
+  },
+  verify: {
+    ..._.omit(
+      v9Schema.verify,
+      'TEMPORARY_override_withoutVerification',
+      'withoutRevealing',
+      'retries'
+    ),
+    seenVerificationNux: false,
+    revealStatuses: {},
+    attestationCodes: [],
+    acceptedAttestationCodes: [],
+    lastRevealAttempt: null,
+    attestationInputStatus: [
+      CodeInputStatus.Inputting,
+      CodeInputStatus.Disabled,
+      CodeInputStatus.Disabled,
+    ],
+  },
+}
+
+export const v14Schema = {
+  ...v13Schema,
+  _persist: {
+    ...v13Schema._persist,
+    version: 14,
+  },
+  networkInfo: {
+    ...v13Schema.networkInfo,
+    userLocationData: {
+      countryCodeAlpha2: 'US',
+      region: null,
+      ipAddress: null,
+    },
+  },
+  send: {
+    ...v13Schema.send,
+    showSendToAddressWarning: true,
+  },
+}
+
+export const v15Schema = {
+  ...v14Schema,
+  _persist: {
+    ...v14Schema._persist,
+    version: 15,
+  },
+  // Here we go back to the v9 test schema (i.e. migration 12, app version 1.14.3), because we reverted the verification PR which broke completion rate
+  identity: {
+    ...v9Schema.identity,
+  },
+  verify: {
+    ...v9Schema.verify,
+  },
+  recipients: {
+    ...v14Schema.recipients,
+    rewardsSenders: [],
+  },
+}
+
+export const v16Schema = {
+  ...v15Schema,
+  _persist: {
+    ...v14Schema._persist,
+    version: 16,
+  },
+  app: {
+    ...v15Schema.app,
+    celoEuroEnabled: false,
+    googleMobileServicesAvailable: undefined,
+    huaweiMobileServicesAvailable: undefined,
+  },
+  localCurrency: {
+    ...v15Schema.localCurrency,
+    exchangeRates: {
+      [Currency.Celo]: '3',
+      [Currency.Euro]: '2',
+      [Currency.Dollar]: v15Schema.localCurrency.exchangeRate,
+    },
+    exchangeRate: undefined,
+    fetchRateFailed: false,
+  },
+  stableToken: {
+    ...v15Schema.stableToken,
+    balances: {
+      [Currency.Euro]: null,
+      [Currency.Dollar]: v15Schema.stableToken.balance ?? null,
+    },
+    balance: undefined,
+  },
+  send: {
+    ...v15Schema.send,
+    lastUsedCurrency: Currency.Dollar,
+  },
+  exchange: {
+    ...v15Schema.exchange,
+    exchangeRates: null,
+    exchangeRatePair: undefined,
+  },
+}
+
+export const v17Schema = {
+  ...v16Schema,
+  _persist: {
+    ...v16Schema._persist,
+    version: 17,
+  },
+  app: {
+    ...v16Schema.app,
+    pincodeUseExpandedBlocklist: true,
+  },
+  fiatExchanges: _.omit(v16Schema.fiatExchanges, 'lastUsedProvider'),
+  verify: {
+    ...v16Schema.verify,
+    komenciConfig: {
+      useLightProxy: false,
+      allowedDeployers: [],
+    },
+  },
+  recipients: {
+    ...v16Schema.recipients,
+    inviteRewardsSenders: [],
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v9Schema as Partial<RootState>
+  return v17Schema as Partial<RootState>
 }

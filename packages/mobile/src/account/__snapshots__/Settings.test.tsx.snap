@@ -16,8 +16,9 @@ exports[`Account renders correctly 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -53,11 +54,11 @@ exports[`Account renders correctly 1`] = `
           },
         ]
       }
-      testID="Hamburguer"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -149,6 +150,7 @@ exports[`Account renders correctly 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="EditProfile"
           >
             <View
               style={
@@ -174,6 +176,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -253,6 +256,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -332,6 +336,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -438,6 +443,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -537,6 +543,87 @@ exports[`Account renders correctly 1`] = `
           }
         >
           <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
+              Object {
+                "attribute": "selectableItemBackgroundBorderless",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            testID="ChangePIN"
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomWidth": 1,
+                  "marginLeft": 16,
+                  "paddingVertical": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                    "paddingRight": 16,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "flex": 1,
+                        "justifyContent": "center",
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
+                    }
+                  >
+                    changePin
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <View
             style={
               Object {
                 "borderBottomColor": "#EDEEEF",
@@ -560,6 +647,7 @@ exports[`Account renders correctly 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -585,6 +673,7 @@ exports[`Account renders correctly 1`] = `
                 onChange={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                testID="requirePinOnAppOpenToggle"
               />
             </View>
           </View>
@@ -620,6 +709,7 @@ exports[`Account renders correctly 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -696,6 +786,7 @@ exports[`Account renders correctly 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -824,6 +915,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -903,6 +995,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -919,6 +1012,86 @@ exports[`Account renders correctly 1`] = `
                     }
                   >
                     termsOfServiceLink
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
+              Object {
+                "attribute": "selectableItemBackgroundBorderless",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomWidth": 1,
+                  "marginLeft": 16,
+                  "paddingVertical": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                    "paddingRight": 16,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "flex": 1,
+                        "justifyContent": "center",
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
+                    }
+                  >
+                    privacyPolicy
                   </Text>
                 </View>
                 <View
@@ -1017,6 +1190,7 @@ exports[`Account renders correctly 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -2277,8 +2451,9 @@ exports[`Account renders correctly when dev mode active 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -2314,11 +2489,11 @@ exports[`Account renders correctly when dev mode active 1`] = `
           },
         ]
       }
-      testID="Hamburguer"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -2410,6 +2585,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="EditProfile"
           >
             <View
               style={
@@ -2435,6 +2611,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -2514,6 +2691,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -2593,6 +2771,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -2699,6 +2878,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -2798,6 +2978,87 @@ exports[`Account renders correctly when dev mode active 1`] = `
           }
         >
           <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
+              Object {
+                "attribute": "selectableItemBackgroundBorderless",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            testID="ChangePIN"
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomWidth": 1,
+                  "marginLeft": 16,
+                  "paddingVertical": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                    "paddingRight": 16,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "flex": 1,
+                        "justifyContent": "center",
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
+                    }
+                  >
+                    changePin
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <View
             style={
               Object {
                 "borderBottomColor": "#EDEEEF",
@@ -2821,6 +3082,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -2846,6 +3108,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 onChange={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                testID="requirePinOnAppOpenToggle"
               />
             </View>
           </View>
@@ -2881,6 +3144,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -2957,6 +3221,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -3085,6 +3350,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -3164,6 +3430,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -3180,6 +3447,86 @@ exports[`Account renders correctly when dev mode active 1`] = `
                     }
                   >
                     termsOfServiceLink
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
+              Object {
+                "attribute": "selectableItemBackgroundBorderless",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomWidth": 1,
+                  "marginLeft": 16,
+                  "paddingVertical": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                    "paddingRight": 16,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "flex": 1,
+                        "justifyContent": "center",
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
+                    }
+                  >
+                    privacyPolicy
                   </Text>
                 </View>
                 <View
@@ -3278,6 +3625,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -4859,8 +5207,9 @@ exports[`Account renders correctly when verification is not possible 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -4896,11 +5245,11 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           },
         ]
       }
-      testID="Hamburguer"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -4992,6 +5341,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="EditProfile"
           >
             <View
               style={
@@ -5017,6 +5367,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -5096,6 +5447,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -5202,6 +5554,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -5301,6 +5654,87 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           }
         >
           <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
+              Object {
+                "attribute": "selectableItemBackgroundBorderless",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            testID="ChangePIN"
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomWidth": 1,
+                  "marginLeft": 16,
+                  "paddingVertical": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                    "paddingRight": 16,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "flex": 1,
+                        "justifyContent": "center",
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
+                    }
+                  >
+                    changePin
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <View
             style={
               Object {
                 "borderBottomColor": "#EDEEEF",
@@ -5324,6 +5758,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -5349,6 +5784,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                 onChange={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                testID="requirePinOnAppOpenToggle"
               />
             </View>
           </View>
@@ -5384,6 +5820,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -5460,6 +5897,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -5588,6 +6026,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -5667,6 +6106,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -5683,6 +6123,86 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                     }
                   >
                     termsOfServiceLink
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
+              Object {
+                "attribute": "selectableItemBackgroundBorderless",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomWidth": 1,
+                  "marginLeft": 16,
+                  "paddingVertical": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                    "paddingRight": 16,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "flex": 1,
+                        "justifyContent": "center",
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
+                    }
+                  >
+                    privacyPolicy
                   </Text>
                 </View>
                 <View
@@ -5781,6 +6301,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -7041,8 +7562,9 @@ exports[`Account renders correctly when verification is not possible 2`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -7078,11 +7600,11 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           },
         ]
       }
-      testID="Hamburguer"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -7174,6 +7696,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="EditProfile"
           >
             <View
               style={
@@ -7199,6 +7722,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -7278,6 +7802,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -7384,6 +7909,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -7483,6 +8009,87 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           }
         >
           <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
+              Object {
+                "attribute": "selectableItemBackgroundBorderless",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            testID="ChangePIN"
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomWidth": 1,
+                  "marginLeft": 16,
+                  "paddingVertical": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                    "paddingRight": 16,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "flex": 1,
+                        "justifyContent": "center",
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
+                    }
+                  >
+                    changePin
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <View
             style={
               Object {
                 "borderBottomColor": "#EDEEEF",
@@ -7506,6 +8113,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -7531,6 +8139,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                 onChange={[Function]}
                 onResponderTerminationRequest={[Function]}
                 onStartShouldSetResponder={[Function]}
+                testID="requirePinOnAppOpenToggle"
               />
             </View>
           </View>
@@ -7566,6 +8175,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -7642,6 +8252,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                 style={
                   Array [
                     Object {
+                      "flex": 1,
                       "justifyContent": "center",
                     },
                   ]
@@ -7770,6 +8381,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -7849,6 +8461,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]
@@ -7865,6 +8478,86 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                     }
                   >
                     termsOfServiceLink
+                  </Text>
+                </View>
+                <View
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "flexDirection": "row",
+                    }
+                  }
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+            }
+          }
+        >
+          <View
+            accessible={true}
+            focusable={true}
+            nativeBackgroundAndroid={
+              Object {
+                "attribute": "selectableItemBackgroundBorderless",
+                "rippleRadius": undefined,
+                "type": "ThemeAttrAndroid",
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+          >
+            <View
+              style={
+                Object {
+                  "borderBottomColor": "#EDEEEF",
+                  "borderBottomWidth": 1,
+                  "marginLeft": 16,
+                  "paddingVertical": 16,
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between",
+                    "paddingRight": 16,
+                  }
+                }
+              >
+                <View
+                  style={
+                    Array [
+                      Object {
+                        "flex": 1,
+                        "justifyContent": "center",
+                      },
+                    ]
+                  }
+                >
+                  <Text
+                    style={
+                      Object {
+                        "color": "#2E3338",
+                        "fontFamily": "Inter-Regular",
+                        "fontSize": 16,
+                        "lineHeight": 22,
+                      }
+                    }
+                  >
+                    privacyPolicy
                   </Text>
                 </View>
                 <View
@@ -7963,6 +8656,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
                   style={
                     Array [
                       Object {
+                        "flex": 1,
                         "justifyContent": "center",
                       },
                     ]

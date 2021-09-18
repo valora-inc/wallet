@@ -1,16 +1,14 @@
-import { CURRENCY_ENUM } from '@celo/utils'
 import * as React from 'react'
 import { render } from 'react-native-testing-library'
 import { WebView } from 'react-native-webview'
 import { Provider } from 'react-redux'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-// tslint:disable no-eval
-
 const mockScreenProps = getMockStackScreenProps(Screens.BidaliScreen, {
-  currency: CURRENCY_ENUM.DOLLAR,
+  currency: Currency.Dollar,
 })
 
 declare global {
@@ -28,7 +26,7 @@ describe(BidaliScreen, () => {
   it('renders correctly when no phone number is provided', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: null },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '5' } },
     })
 
     const { getByType } = render(
@@ -39,10 +37,12 @@ describe(BidaliScreen, () => {
 
     const webView = getByType(WebView)
     expect(webView).toBeDefined()
+    // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
     expect(window.valora).toMatchInlineSnapshot(`
       Object {
         "balances": Object {
+          "CEUR": "5",
           "CUSD": "10",
         },
         "onPaymentRequest": [Function],
@@ -56,7 +56,7 @@ describe(BidaliScreen, () => {
   it('renders correctly when a phone number is provided', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: '+14155556666' },
-      stableToken: { balance: '10' },
+      stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '5' } },
     })
 
     const { getByType } = render(
@@ -66,15 +66,51 @@ describe(BidaliScreen, () => {
     )
     const webView = getByType(WebView)
     expect(webView).toBeDefined()
+    // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
     expect(window.valora).toMatchInlineSnapshot(`
       Object {
         "balances": Object {
+          "CEUR": "5",
           "CUSD": "10",
         },
         "onPaymentRequest": [Function],
         "openUrl": [Function],
         "paymentCurrency": "CUSD",
+        "phoneNumber": "+14155556666",
+      }
+    `)
+  })
+
+  it('renders correctly when no currency is passed', () => {
+    const mockStore = createMockStore({
+      account: { e164PhoneNumber: '+14155556666' },
+      stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '9' } },
+    })
+
+    const { getByType } = render(
+      <Provider store={mockStore}>
+        <BidaliScreen
+          {...getMockStackScreenProps(Screens.BidaliScreen, {
+            currency: undefined,
+          })}
+        />
+      </Provider>
+    )
+    const webView = getByType(WebView)
+    expect(webView).toBeDefined()
+    // eslint-disable-next-line no-eval
+    expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
+    // `paymentCurrency` is CEUR here because it has the highest balance in the local currency
+    expect(window.valora).toMatchInlineSnapshot(`
+      Object {
+        "balances": Object {
+          "CEUR": "9",
+          "CUSD": "10",
+        },
+        "onPaymentRequest": [Function],
+        "openUrl": [Function],
+        "paymentCurrency": "CEUR",
         "phoneNumber": "+14155556666",
       }
     `)

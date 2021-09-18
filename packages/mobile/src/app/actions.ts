@@ -32,6 +32,8 @@ export enum Actions {
   ACTIVE_SCREEN_CHANGED = 'APP/ACTIVE_SCREEN_CHANGED',
   APP_MOUNTED = 'APP/APP_MOUNTED',
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
+  VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
+  ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
 }
 
 export interface SetAppState {
@@ -122,6 +124,19 @@ export interface UpdateFeatureFlagsAction {
   flags: RemoteFeatureFlags
 }
 
+export interface VerificationMigrationRanAction {
+  type: Actions.VERIFICATION_MIGRATION_RAN
+  mtwAddress: string | null
+  isVerified: boolean
+  now: number
+}
+
+export interface AndroidMobileServicesAvailabilityChecked {
+  type: Actions.ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED
+  googleIsAvailable: boolean | undefined
+  huaweiIsAvailable: boolean | undefined
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -141,6 +156,8 @@ export type ActionTypes =
   | ActiveScreenChangedAction
   | AppMounted
   | AppUnmounted
+  | VerificationMigrationRanAction
+  | AndroidMobileServicesAvailabilityChecked
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -242,4 +259,23 @@ export const toggleInviteModal = (inviteModalVisible: boolean): InviteModalActio
 export const activeScreenChanged = (activeScreen: Screens): ActiveScreenChangedAction => ({
   type: Actions.ACTIVE_SCREEN_CHANGED,
   activeScreen,
+})
+
+export const verificationMigrationRan = (
+  mtwAddress: string | null,
+  isVerified: boolean
+): VerificationMigrationRanAction => ({
+  type: Actions.VERIFICATION_MIGRATION_RAN,
+  mtwAddress,
+  isVerified,
+  now: Date.now(),
+})
+
+export const androidMobileServicesAvailabilityChecked = (
+  googleIsAvailable: boolean | undefined,
+  huaweiIsAvailable: boolean | undefined
+): AndroidMobileServicesAvailabilityChecked => ({
+  type: Actions.ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED,
+  googleIsAvailable,
+  huaweiIsAvailable,
 })

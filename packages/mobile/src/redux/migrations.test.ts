@@ -1,7 +1,19 @@
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { migrations } from 'src/redux/migrations'
-import { v0Schema, v1Schema, v2Schema, v7Schema, v8Schema, vNeg1Schema } from 'test/schemas'
+import { Currency } from 'src/utils/currencies'
+import {
+  v0Schema,
+  v13Schema,
+  v14Schema,
+  v15Schema,
+  v16Schema,
+  v1Schema,
+  v2Schema,
+  v7Schema,
+  v8Schema,
+  vNeg1Schema,
+} from 'test/schemas'
 
 describe('Redux persist migrations', () => {
   it('works for v-1 to v0', () => {
@@ -197,5 +209,154 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema.app).toEqual(appStub)
     expect(migratedSchema.exchange.otherExchangeProps).toEqual(exchangeStub)
     expect(migratedSchema.exchange.history).toEqual(exchangeInitialState.history)
+  })
+  it('works for v12 to v13', () => {
+    const stub = {
+      verify: {
+        existingProperty: 'verify_existingProperty',
+        TEMPORARY_override_withoutVerification: 'oldValue',
+        withoutRevealing: true,
+        retries: 3,
+      },
+      identity: {
+        existingProperty: 'identity_existingProperty',
+        hasSeenVerificationNux: true,
+        attestationCodes: ['code1', 'code2'],
+        acceptedAttestationCodes: ['code1'],
+        attestationInputStatus: ['loading'],
+        numCompleteAttestations: 3,
+        verificationStatus: 'verified',
+        lastRevealAttempt: 'yesterday',
+      },
+    }
+    const migratedSchema = migrations[13](stub)
+    expect(migratedSchema.verify.existingProperty).toEqual('verify_existingProperty')
+    expect(migratedSchema.identity.existingProperty).toEqual('identity_existingProperty')
+    expect(migratedSchema.verify.seenVerificationNux).toEqual(true)
+    const deletedIdentityProperties = [
+      'attestationCodes',
+      'acceptedAttestationCodes',
+      'attestationInputStatus',
+      'numCompleteAttestations',
+      'verificationStatus',
+      'lastRevealAttempt',
+    ]
+    for (const deletedProperty of deletedIdentityProperties) {
+      expect(Object.keys(migratedSchema.identity).includes(deletedProperty)).toEqual(false)
+    }
+    const deletedVerifyProperties = [
+      'TEMPORARY_override_withoutVerification',
+      'withoutRevealing',
+      'retries',
+    ]
+    for (const deletedProperty of deletedVerifyProperties) {
+      expect(Object.keys(migratedSchema.verify).includes(deletedProperty)).toEqual(false)
+    }
+  })
+
+  it('works for v13 to v14', () => {
+    const migratedSchema = migrations[14](v13Schema)
+    expect(migratedSchema.networkInfo.userLocationData).toBeDefined()
+    expect(migratedSchema.networkInfo.userLocationData.countryCodeAlpha2).toEqual(null)
+  })
+
+  it('works for v14 to v15', () => {
+    const v14Stub = {
+      ...v14Schema,
+      verify: {
+        ...v14Schema.verify,
+        seenVerificationNux: true,
+      },
+    }
+    const migratedSchema = migrations[15](v14Stub)
+    expect(migratedSchema.identity.hasSeenVerificationNux).toEqual(true)
+    expect(migratedSchema.identity).toMatchInlineSnapshot(`
+      Object {
+        "acceptedAttestationCodes": Array [],
+        "addressToDataEncryptionKey": Object {},
+        "addressToDisplayName": Object {},
+        "addressToE164Number": Object {},
+        "askedContactsPermission": false,
+        "attestationInputStatus": Array [
+          "Inputting",
+          "Disabled",
+          "Disabled",
+        ],
+        "attestationsCode": Array [],
+        "contactMappingProgress": Object {
+          "current": 0,
+          "total": 0,
+        },
+        "e164NumberToAddress": Object {},
+        "e164NumberToSalt": Object {},
+        "hasSeenVerificationNux": true,
+        "importContactsProgress": Object {
+          "current": 0,
+          "status": 0,
+          "total": 0,
+        },
+        "isLoadingImportContacts": false,
+        "lastRevealAttempt": null,
+        "matchedContacts": Object {},
+        "numCompleteAttestations": 0,
+        "secureSendPhoneNumberMapping": Object {},
+        "startedVerification": false,
+        "verificationFailed": false,
+        "verificationStatus": 0,
+        "walletToAccountAddress": Object {},
+      }
+    `)
+    expect(migratedSchema.verify).toMatchInlineSnapshot(`
+      Object {
+        "TEMPORARY_override_withoutVerification": undefined,
+        "actionableAttestations": Array [],
+        "currentState": Object {
+          "type": "Idle",
+        },
+        "komenci": Object {
+          "callbackUrl": undefined,
+          "captchaToken": "",
+          "errorTimestamps": Array [],
+          "sessionActive": false,
+          "sessionToken": "",
+          "unverifiedMtwAddress": null,
+        },
+        "komenciAvailable": "UNKNOWN",
+        "retries": 0,
+        "status": Object {
+          "completed": 0,
+          "isVerified": false,
+          "komenci": true,
+          "numAttestationsRemaining": 3,
+          "total": 0,
+        },
+        "withoutRevealing": false,
+      }
+    `)
+  })
+  it('works for v15 to v16', () => {
+    const migratedSchema = migrations[16]({
+      ...v15Schema,
+      stableToken: {
+        ...v15Schema.stableToken,
+        balance: '150',
+      },
+      escrow: {
+        isReclaiming: true,
+        sentEscrowedPayments: [{ object: 'with keys' }],
+      },
+    })
+    expect(migratedSchema.localCurrency.exchangeRates).toBeDefined()
+    expect(migratedSchema.localCurrency.exchangeRates[Currency.Dollar]).toEqual(
+      v15Schema.localCurrency.exchangeRate
+    )
+    expect(migratedSchema.stableToken.balance).toBeUndefined()
+    expect(migratedSchema.stableToken.balances[Currency.Dollar]).toEqual('150')
+    expect(migratedSchema.escrow.isReclaiming).toBeFalsy()
+    expect(migratedSchema.escrow.sentEscrowedPayments.length).toEqual(0)
+  })
+  it('works for v16 to v17', () => {
+    const migratedSchema = migrations[17](v16Schema)
+    expect(migratedSchema.fiatExchanges.lastUsedProvider).not.toBeDefined()
   })
 })

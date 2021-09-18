@@ -3,7 +3,7 @@ import Share from 'react-native-share'
 import { call, put, select } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
-import { SendOrigin } from 'src/analytics/types'
+import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
@@ -102,12 +102,12 @@ export function* handleBarcode(
   e164NumberToAddress: E164NumberToAddressType,
   recipientInfo: RecipientInfo,
   secureSendTxData?: TransactionDataInput,
-  isOutgoingPaymentRequest?: true,
+  isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ) {
   const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
-    yield call(initialiseWalletConnect, barcode.data)
+    yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
     return
   }
 

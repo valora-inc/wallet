@@ -4,12 +4,11 @@ import FormTextInput from '@celo/react-components/components/FormTextInput'
 import Touchable from '@celo/react-components/components/Touchable'
 import ValidatedTextInput from '@celo/react-components/components/ValidatedTextInput'
 import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
 import SmsRetriever from '@celo/react-native-sms-retriever'
 import { LocalizedCountry } from '@celo/utils/lib/countries'
 import { ValidatorKind } from '@celo/utils/lib/inputValidation'
 import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Platform, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 
 const TAG = 'PhoneNumberInput'
@@ -20,10 +19,12 @@ async function requestPhoneNumber() {
     if (Platform.OS === 'android') {
       phoneNumber = await SmsRetriever.requestPhoneNumber()
     } else {
+      // eslint-disable-next-line no-console
       console.info(`${TAG}/requestPhoneNumber`, 'Not implemented in this platform')
     }
     return parsePhoneNumber(phoneNumber, '')
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.info(`${TAG}/requestPhoneNumber`, 'Could not request phone', error)
   }
 }
@@ -48,6 +49,7 @@ export default function PhoneNumberInput({
   editable = true,
 }: Props) {
   const shouldRequestPhoneNumberRef = useRef(internationalPhoneNumber.length === 0)
+  const phoneInputRef = useRef<any>()
   const flagEmoji = country?.emoji
   const countryCallingCode = country?.countryCallingCode ?? ''
   const numberPlaceholder = country?.countryPhonePlaceholder.national ?? ''
@@ -83,6 +85,12 @@ export default function PhoneNumberInput({
     }
   }
 
+  useEffect(() => {
+    if (country && phoneInputRef.current) {
+      phoneInputRef.current.focus()
+    }
+  }, [country, phoneInputRef])
+
   return (
     <FormField style={[styles.container, style]} label={label}>
       <View style={styles.phoneNumberContainer}>
@@ -105,6 +113,7 @@ export default function PhoneNumberInput({
           </View>
         </Touchable>
         <ValidatedTextInput
+          forwardedRef={phoneInputRef}
           InputComponent={FormTextInput}
           style={styles.phoneNumberInput}
           value={internationalPhoneNumber}
@@ -144,11 +153,6 @@ const styles = StyleSheet.create({
   },
   flag: {
     fontSize: 20,
-    marginRight: 4,
-  },
-  phoneCountryCode: {
-    ...fontStyles.regular,
-    flex: 1,
   },
   phoneNumberInput: {
     flex: 1,

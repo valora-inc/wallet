@@ -38,6 +38,7 @@ import {
   fail,
   idle,
   KomenciAvailable,
+  komenciConfigSelector,
   komenciContextSelector,
   phoneHashSelector,
   setOverrideWithoutVerification,
@@ -66,6 +67,7 @@ jest.mock('src/web3/saga', () => ({
 }))
 
 const mockUnlockAccount = unlockAccount as jest.MockedFunction<typeof unlockAccount>
+// eslint-disable-next-line require-yield
 mockUnlockAccount.mockImplementation(function* () {
   return UnlockResult.SUCCESS
 })
@@ -222,6 +224,10 @@ const mockVerificationState: VerificationState = {
   phoneHash: mockE164NumberHash,
   withoutRevealing: false,
   e164Number: mockE164Number,
+  komenciConfig: {
+    useLightProxy: false,
+    allowedDeployers: [],
+  },
 }
 
 beforeEach(() => {
@@ -337,6 +343,7 @@ describe(doVerificationFlowSaga, () => {
     await expectSaga(doVerificationFlowSaga, doVerificationFlow(false))
       .provide([
         [select(shouldUseKomenciSelector), false],
+        [select(komenciConfigSelector), { useLightProxy: false, allowedDeployers: [] }],
         [select(e164NumberToSaltSelector), mockE164NumberToSalt],
         [select(e164NumberSelector), mockE164Number],
         [select(phoneHashSelector), mockE164NumberHash],
@@ -407,6 +414,7 @@ describe(doVerificationFlowSaga, () => {
     await expectSaga(doVerificationFlowSaga, doVerificationFlow(false))
       .provide([
         [select(shouldUseKomenciSelector), false],
+        [select(komenciConfigSelector), { useLightProxy: false, allowedDeployers: [] }],
         [select(e164NumberToSaltSelector), mockE164NumberToSalt],
         [select(e164NumberSelector), mockE164Number],
         [select(phoneHashSelector), mockE164NumberHash],

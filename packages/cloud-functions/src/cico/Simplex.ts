@@ -3,12 +3,17 @@ import {
   CASH_IN_FAILURE_DEEPLINK,
   CASH_IN_SUCCESS_DEEPLINK,
   DigitalAsset,
-  FETCH_TIMEOUT_DURATION,
   FiatCurrency,
   SIMPLEX_DATA,
 } from '../config'
-import { UserDeviceInfo } from './composeCicoProviderUrl'
-import { fetchWithTimeout, getOrCreateUuid, getUserInitData } from './utils'
+import { Providers } from './Providers'
+import {
+  fetchWithTimeout,
+  getOrCreateUuid,
+  getUserInitData,
+  storeTransactionId,
+  UserDeviceInfo,
+} from './utils'
 
 export interface SimplexQuote {
   user_id: string
@@ -37,7 +42,7 @@ export interface SimplexPaymentData {
   checkoutHtml: string
 }
 
-const Simplex = {
+export const Simplex = {
   fetchQuote: async (
     userAddress: string,
     ipAddress: string | null,
@@ -55,22 +60,29 @@ const Simplex = {
         throw Error('No purchase amount provided')
       }
 
-      const userUuid = await getOrCreateUuid(userAddress)
-      const response = await Simplex.post('/wallet/merchant/v2/quote', {
-        end_user_id: userUuid,
-        digital_currency: currencyToBuy,
-        fiat_currency: fiatCurrency,
-        requested_currency: amountIsFiat ? fiatCurrency : currencyToBuy,
-        requested_amount: amount,
-        wallet_id: 'valorapp',
-        client_ip: ipAddress,
-        payment_methods: ['credit_card'],
-      })
+      if (currencyToBuy === DigitalAsset.CEUR) {
+        console.info('Simplex does not yet support cEUR')
+        return
+      }
 
-      const simplexQuote: SimplexQuote = await response.json()
+      const userUuid = await getOrCreateUuid(userAddress)
+      const simplexQuote: SimplexQuote = await Simplex.post(
+        `${SIMPLEX_DATA.api_url}/wallet/merchant/v2/quote`,
+        {
+          end_user_id: userUuid,
+          digital_currency: currencyToBuy,
+          fiat_currency: fiatCurrency,
+          requested_currency: amountIsFiat ? fiatCurrency : currencyToBuy,
+          requested_amount: amount,
+          wallet_id: 'valorapp',
+          client_ip: ipAddress,
+          payment_methods: ['credit_card'],
+        }
+      )
+
       return simplexQuote
     } catch (error) {
-      console.error('Error fetching Simplex quote: ', error)
+      console.error(`Error fetching Simplex quote for address ${userAddress}: `, error)
     }
   },
   fetchPaymentRequest: async (
@@ -88,41 +100,44 @@ const Simplex = {
       const { id, appVersion, userAgent } = deviceInfo
       const accountCreationData = await getUserInitData(currentIpAddress, id, userAgent)
       const userUuid = await getOrCreateUuid(userAddress)
+      await storeTransactionId(userAddress, paymentId, Providers.Simplex)
 
-      const response = await Simplex.post('/wallet/merchant/v2/payments/partner/data', {
-        account_details: {
-          app_provider_id: 'valorapp',
-          app_end_user_id: userUuid,
-          app_version_id: appVersion,
-          app_install_date: accountCreationData.timestamp,
-          email: '',
-          phone: phoneNumber || '',
-          verified_details: [
-            // 'email', Currently no way to verify email in Valora
-            phoneNumberVerified && 'phone',
-          ].filter((_) => !!_),
-          signup_login: {
-            ip: accountCreationData.ipAddress,
-            user_agent: accountCreationData.userAgent,
-            timestamp: accountCreationData.timestamp,
-          },
-        },
-        transaction_details: {
-          payment_details: {
-            quote_id: simplexQuote.quote_id,
-            payment_id: paymentId,
-            order_id: orderId,
-            destination_wallet: {
-              currency: simplexQuote.digital_money.currency,
-              address: userAddress,
-              tag: '',
+      const simplexPaymentRequestResponse: SimplexPaymentRequestResponse = await Simplex.post(
+        `${SIMPLEX_DATA.api_url}/wallet/merchant/v2/payments/partner/data`,
+        {
+          account_details: {
+            app_provider_id: 'valorapp',
+            app_end_user_id: userUuid,
+            app_version_id: appVersion,
+            app_install_date: accountCreationData.timestamp,
+            email: '',
+            phone: phoneNumber || '',
+            verified_details: [
+              // 'email', Currently no way to verify email in Valora
+              phoneNumberVerified && 'phone',
+            ].filter((_) => !!_),
+            signup_login: {
+              ip: accountCreationData.ipAddress,
+              user_agent: accountCreationData.userAgent,
+              timestamp: accountCreationData.timestamp,
             },
-            original_http_ref_url: 'https://valoraapp.com',
           },
-        },
-      })
+          transaction_details: {
+            payment_details: {
+              quote_id: simplexQuote.quote_id,
+              payment_id: paymentId,
+              order_id: orderId,
+              destination_wallet: {
+                currency: simplexQuote.digital_money.currency,
+                address: userAddress,
+                tag: '',
+              },
+              original_http_ref_url: 'https://valoraapp.com',
+            },
+          },
+        }
+      )
 
-      const simplexPaymentRequestResponse: SimplexPaymentRequestResponse = await response.json()
       if (simplexPaymentRequestResponse.is_kyc_update_required === undefined) {
         throw Error('Simplex payment request failed')
       }
@@ -131,7 +146,7 @@ const Simplex = {
       const simplexPaymentData: SimplexPaymentData = { paymentId, orderId, checkoutHtml }
       return simplexPaymentData
     } catch (error) {
-      console.error('Error fetching Simplex payment request: ', error)
+      console.error(`Error fetching Simplex payment request for address ${userAddress}: `, error)
     }
   },
   generateCheckoutForm: (paymentId: string) => `
@@ -153,28 +168,32 @@ const Simplex = {
   `,
   post: async (path: string, body: any) => {
     try {
-      const response = await fetchWithTimeout(
-        `${SIMPLEX_DATA.api_url}${path}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
-          },
-          body: JSON.stringify(body),
+      const response = await fetchWithTimeout(path, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `ApiKey ${SIMPLEX_DATA.api_key}`,
         },
-        FETCH_TIMEOUT_DURATION
-      )
+        body: JSON.stringify(body),
+      })
 
-      if (!response || !response.ok) {
-        throw Error(`Simplex post request failed with status ${response?.status}`)
+      const data = await response.json()
+      if (!response.ok) {
+        throw new Error(`Response body ${JSON.stringify(data)}`)
       }
 
-      return response
+      // Need to manually check for an error field because Simplex doesn't change the status code
+      if (data?.error) {
+        throw new Error(data.error)
+      }
+
+      return data
     } catch (error) {
+      console.info(
+        `Simplex post request failed.\nURL: ${path} Body: ${JSON.stringify(body)}\n`,
+        error
+      )
       throw error
     }
   },
 }
-
-export default Simplex

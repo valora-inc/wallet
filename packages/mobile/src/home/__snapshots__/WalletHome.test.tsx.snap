@@ -17,8 +17,9 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -54,11 +55,11 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
           },
         ]
       }
-      testID="Hamburguer"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -251,6 +252,7 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
           testID="SendOrRequestBar/SendButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -327,6 +329,7 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
           testID="SendOrRequestBar/RequestButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -426,8 +429,9 @@ exports[`Testnet banner Renders when disconnected 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -463,11 +467,11 @@ exports[`Testnet banner Renders when disconnected 1`] = `
           },
         ]
       }
-      testID="Hamburguer"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -660,6 +664,7 @@ exports[`Testnet banner Renders when disconnected 1`] = `
           testID="SendOrRequestBar/SendButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -736,6 +741,7 @@ exports[`Testnet banner Renders when disconnected 1`] = `
           testID="SendOrRequestBar/RequestButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -835,8 +841,9 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
         "borderBottomColor": 0,
         "borderBottomWidth": 1,
         "flexDirection": "row",
-        "height": 56,
+        "flexShrink": 1,
         "justifyContent": "center",
+        "minHeight": 56,
       }
     }
   >
@@ -872,11 +879,11 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
           },
         ]
       }
-      testID="Hamburguer"
     >
       <svg
         fill="none"
         height="32"
+        testID="Hamburger"
         viewBox="0 0 32 32"
         width="32"
       >
@@ -1069,6 +1076,7 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
           testID="SendOrRequestBar/SendButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -1145,6 +1153,7 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
           testID="SendOrRequestBar/RequestButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",

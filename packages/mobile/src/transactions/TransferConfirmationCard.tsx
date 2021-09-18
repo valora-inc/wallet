@@ -2,7 +2,6 @@ import HorizontalLine from '@celo/react-components/components/HorizontalLine'
 import Link from '@celo/react-components/components/Link'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
-import { CURRENCIES, CURRENCY_ENUM } from '@celo/utils/lib'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +11,8 @@ import { useSelector } from 'react-redux'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { MoneyAmount, TokenTransactionType } from 'src/apollo/types'
+import { rewardsEnabledSelector } from 'src/app/selectors'
+import { CELO_REWARDS_LINK } from 'src/brandingConfig'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import FeeDrawer from 'src/components/FeeDrawer'
@@ -21,15 +22,16 @@ import { FAQ_LINK } from 'src/config'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import { Namespaces } from 'src/i18n'
 import { addressToDisplayNameSelector } from 'src/identity/reducer'
-import { getInvitationVerificationFeeInDollars } from 'src/invite/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Recipient } from 'src/recipients/recipient'
+import { rewardsSendersSelector } from 'src/recipients/reducer'
 import useTypedSelector from 'src/redux/useSelector'
 import BottomText from 'src/transactions/BottomText'
 import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
 import UserSection from 'src/transactions/UserSection'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 export interface TransferConfirmationCardProps {
@@ -78,10 +80,8 @@ function VerificationContent({ amount }: Props) {
 function InviteSentContent({ addressHasChanged, recipient, amount }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const totalAmount = amount
-  const inviteFee = getInvitationVerificationFeeInDollars()
   // TODO: Use real fee
-  const securityFee = new BigNumber(0)
-  const totalFee = inviteFee.plus(securityFee)
+  const totalFee = new BigNumber(0)
 
   return (
     <>
@@ -93,10 +93,8 @@ function InviteSentContent({ addressHasChanged, recipient, amount }: Props) {
       />
       <HorizontalLine />
       <FeeDrawer
-        currency={CURRENCY_ENUM.DOLLAR}
-        inviteFee={inviteFee}
-        isInvite={true}
-        securityFee={securityFee}
+        currency={amount.currencyCode as Currency}
+        securityFee={totalFee}
         totalFee={totalFee}
       />
       <TotalLineItem amount={totalAmount} hideSign={true} />
@@ -147,7 +145,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
   const totalAmount = amount
   const totalFee = securityFee
 
-  const isCeloWithdrawal = amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+  const isCeloWithdrawal = amount.currencyCode === Currency.Celo
 
   return (
     <>
@@ -164,7 +162,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
         amount={<CurrencyDisplay amount={sentAmount} hideSign={true} />}
       />
       <FeeDrawer
-        currency={isCeloWithdrawal ? CURRENCY_ENUM.GOLD : CURRENCY_ENUM.DOLLAR}
+        currency={amount.currencyCode as Currency}
         securityFee={securityFee}
         totalFee={totalFee}
       />
@@ -176,7 +174,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
 function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, comment }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const totalAmount = amount
-  const isCeloTx = amount.currencyCode === CURRENCIES[CURRENCY_ENUM.GOLD].code
+  const isCeloTx = amount.currencyCode === Currency.Celo
   const celoEducationUri = useTypedSelector((state) => state.app.celoEducationUri)
 
   const openLearnMore = () => {
@@ -202,14 +200,19 @@ function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, c
   )
 }
 
-function CeloRewardContent({ amount, recipient }: Props) {
+function RewardContent({ amount, recipient }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
+  const rewardsEnabled = useTypedSelector(rewardsEnabledSelector)
 
   const openLearnMore = () => {
-    navigate(Screens.ConsumerIncentivesHomeScreen)
-    ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
-      origin: RewardsScreenOrigin.PaymentDetail,
-    })
+    if (rewardsEnabled) {
+      navigate(Screens.ConsumerIncentivesHomeScreen)
+      ValoraAnalytics.track(RewardsEvents.rewards_screen_opened, {
+        origin: RewardsScreenOrigin.PaymentDetail,
+      })
+    } else {
+      navigateToURI(CELO_REWARDS_LINK)
+    }
   }
 
   return (
@@ -232,6 +235,7 @@ function CeloRewardContent({ amount, recipient }: Props) {
 // Differs from TransferReviewCard which is used during Send flow, this is for completed txs
 export default function TransferConfirmationCard(props: Props) {
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
+  const rewardsSenders = useSelector(rewardsSendersSelector)
   let content
 
   switch (props.type) {
@@ -256,8 +260,11 @@ export default function TransferConfirmationCard(props: Props) {
       break
     case TokenTransactionType.EscrowReceived:
     case TokenTransactionType.Received:
-      content = addressToDisplayName[props.address || '']?.isCeloRewardSender ? (
-        <CeloRewardContent {...props} />
+      const address = props.address ?? ''
+      const isRewardSender =
+        rewardsSenders.includes(address) || addressToDisplayName[address]?.isCeloRewardSender
+      content = isRewardSender ? (
+        <RewardContent {...props} />
       ) : (
         <PaymentReceivedContent {...props} />
       )

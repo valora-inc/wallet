@@ -1,7 +1,9 @@
 import { Actions as AppActions, UpdateFeatureFlagsAction } from 'src/app/actions'
+import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
 import { areRecipientsEquivalent, Recipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { Actions, ActionTypes } from 'src/send/actions'
+import { Currency } from 'src/utils/currencies'
 import { timeDeltaInHours } from 'src/utils/time'
 
 // Sets the limit of recent recipients we want to store
@@ -21,19 +23,23 @@ export interface State {
   inviteRewardsEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
+  lastUsedCurrency: Currency
+  showSendToAddressWarning: boolean
 }
 
 const initialState = {
   isSending: false,
   recentRecipients: [],
   recentPayments: [],
-  inviteRewardsEnabled: false,
-  inviteRewardCusd: 0,
-  inviteRewardWeeklyLimit: 0,
+  inviteRewardsEnabled: FEATURE_FLAG_DEFAULTS.inviteRewardsEnabled,
+  inviteRewardCusd: FEATURE_FLAG_DEFAULTS.inviteRewardCusd,
+  inviteRewardWeeklyLimit: FEATURE_FLAG_DEFAULTS.inviteRewardWeeklyLimit,
+  lastUsedCurrency: Currency.Dollar,
+  showSendToAddressWarning: true,
 }
 
 export const sendReducer = (
-  state: State | undefined = initialState,
+  state: State = initialState,
   action: ActionTypes | RehydrateAction | UpdateFeatureFlagsAction
 ) => {
   switch (action.type) {
@@ -48,7 +54,7 @@ export const sendReducer = (
     }
     case Actions.SEND_PAYMENT_OR_INVITE:
       return {
-        ...state,
+        ...storeLatestRecentReducer(state, action.recipient),
         isSending: true,
       }
     case Actions.SEND_PAYMENT_OR_INVITE_SUCCESS:
@@ -68,14 +74,22 @@ export const sendReducer = (
         ...state,
         isSending: false,
       }
-    case Actions.STORE_LATEST_IN_RECENTS:
-      return storeLatestRecentReducer(state, action.recipient)
     case AppActions.UPDATE_FEATURE_FLAGS:
       return {
         ...state,
         inviteRewardsEnabled: action.flags.inviteRewardsEnabled,
         inviteRewardCusd: action.flags.inviteRewardCusd,
         inviteRewardWeeklyLimit: action.flags.inviteRewardWeeklyLimit,
+      }
+    case Actions.UPDATE_LAST_USED_CURRENCY:
+      return {
+        ...state,
+        lastUsedCurrency: action.currency,
+      }
+    case Actions.SET_SHOW_WARNING:
+      return {
+        ...state,
+        showSendToAddressWarning: action.showWarning,
       }
     default:
       return state

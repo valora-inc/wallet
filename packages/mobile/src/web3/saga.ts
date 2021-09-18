@@ -60,11 +60,9 @@ export function* checkWeb3SyncProgress() {
   let status = SyncStatus.UNKNOWN
   while (true) {
     try {
-      let syncProgress: boolean | Web3SyncProgress
-
       // isSyncing returns a syncProgress object when it's still syncing, false otherwise
       const web3 = yield call(getWeb3, false)
-      syncProgress = yield call(web3.eth.isSyncing)
+      const syncProgress: boolean | Web3SyncProgress = yield call(web3.eth.isSyncing)
 
       if (typeof syncProgress === 'boolean' && !syncProgress) {
         Logger.debug(TAG, 'checkWeb3SyncProgress', 'Sync maybe complete, checking')
@@ -250,7 +248,7 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
 }
 
 // Wait for account to exist and then return it
-export function* getAccount() {
+export function* getWalletAddress() {
   while (true) {
     const account = yield select(currentAccountSelector)
     if (account) {
@@ -264,6 +262,10 @@ export function* getAccount() {
     }
   }
 }
+
+// deprecated, please use |getWalletAddress| instead.
+// This needs to be refactored and removed since the name is misleading.
+export const getAccount = getWalletAddress
 
 export enum UnlockResult {
   SUCCESS,

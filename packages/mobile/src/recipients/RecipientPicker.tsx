@@ -16,9 +16,10 @@ import {
 } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
+import { SendEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Namespaces, withTranslation } from 'src/i18n'
 import {
-  AddressRecipient,
   getRecipientFromAddress,
   MobileRecipient,
   Recipient,
@@ -29,6 +30,7 @@ import {
 import RecipientItem from 'src/recipients/RecipientItem'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
+import SendToAddressWarning from 'src/send/SendToAddressWarning'
 
 interface Section {
   key: string
@@ -42,21 +44,25 @@ interface Props {
   defaultCountryCode: string | null
   listHeaderComponent?: React.ComponentType<any>
   onSelectRecipient(recipient: Recipient): void
+  isOutgoingPaymentRequest: boolean
 }
 
 interface StateProps {
   recipientInfo: RecipientInfo
+  showSendToAddressWarning: boolean
 }
 
 type RecipientProps = Props & WithTranslation & StateProps
 
 const mapStateToProps = (state: RootState): StateProps => ({
   recipientInfo: recipientInfoSelector(state),
+  showSendToAddressWarning: state.send.showSendToAddressWarning,
 })
 
 export class RecipientPicker extends React.Component<RecipientProps> {
   state = {
     keyboardVisible: false,
+    isSendToAddressWarningVisible: false,
   }
 
   onToggleKeyboard = (visible: boolean) => {
@@ -89,7 +95,9 @@ export class RecipientPicker extends React.Component<RecipientProps> {
       this.props.defaultCountryCode ? this.props.defaultCountryCode : undefined
     )
     if (parsedNumber) {
-      return this.renderSendToPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
+      return this.props.isOutgoingPaymentRequest
+        ? this.renderRequestFromPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
+        : this.renderSendToPhoneNumber(parsedNumber.displayNumber, parsedNumber.e164Number)
     }
     if (isValidAddress(this.props.searchQuery)) {
       return this.renderSendToAddress()
@@ -117,6 +125,31 @@ export class RecipientPicker extends React.Component<RecipientProps> {
     </View>
   )
 
+  sendToUnknownAddress = (recipient: Recipient) => {
+    this.setState({ isSendToAddressWarningVisible: true })
+    ValoraAnalytics.track(SendEvents.check_account_alert_shown)
+  }
+
+  onCancelWarning = () => {
+    this.setState({ isSendToAddressWarningVisible: false })
+    ValoraAnalytics.track(SendEvents.check_account_alert_back)
+  }
+
+  renderRequestFromPhoneNumber = (displayNumber: string, e164PhoneNumber: string) => {
+    const { onSelectRecipient, t } = this.props
+    const recipient: MobileRecipient = {
+      displayNumber,
+      name: t('requestFromMobileNumber'),
+      e164PhoneNumber,
+    }
+    return (
+      <>
+        <RecipientItem recipient={recipient} onSelectRecipient={onSelectRecipient} />
+        {this.renderItemSeparator()}
+      </>
+    )
+  }
+
   renderSendToPhoneNumber = (displayNumber: string, e164PhoneNumber: string) => {
     const { onSelectRecipient, t } = this.props
     const recipient: MobileRecipient = {
@@ -133,25 +166,26 @@ export class RecipientPicker extends React.Component<RecipientProps> {
   }
 
   renderSendToAddress = () => {
-    const { searchQuery, recipientInfo, onSelectRecipient, t } = this.props
+    const { searchQuery, recipientInfo, onSelectRecipient, showSendToAddressWarning } = this.props
     const searchedAddress = searchQuery.toLowerCase()
-    const existingContact = getRecipientFromAddress(searchedAddress, recipientInfo)
-    if (existingContact) {
+    const recipient = getRecipientFromAddress(searchedAddress, recipientInfo)
+
+    if (recipientHasNumber(recipient)) {
       return (
         <>
-          <RecipientItem recipient={existingContact} onSelectRecipient={onSelectRecipient} />
+          <RecipientItem recipient={recipient} onSelectRecipient={onSelectRecipient} />
           {this.renderItemSeparator()}
         </>
       )
     } else {
-      const recipient: AddressRecipient = {
-        name: t('sendToAddress'),
-        address: searchedAddress,
-      }
-
       return (
         <>
-          <RecipientItem recipient={recipient} onSelectRecipient={onSelectRecipient} />
+          <RecipientItem
+            recipient={recipient}
+            onSelectRecipient={
+              showSendToAddressWarning ? this.sendToUnknownAddress : onSelectRecipient
+            }
+          />
           {this.renderItemSeparator()}
         </>
       )
@@ -159,10 +193,24 @@ export class RecipientPicker extends React.Component<RecipientProps> {
   }
 
   render() {
-    const { sections, listHeaderComponent } = this.props
+    const {
+      sections,
+      listHeaderComponent,
+      showSendToAddressWarning,
+      onSelectRecipient,
+      searchQuery,
+    } = this.props
 
     return (
       <View style={styles.body} testID={this.props.testID}>
+        {showSendToAddressWarning && (
+          <SendToAddressWarning
+            closeWarning={this.onCancelWarning}
+            onSelectRecipient={onSelectRecipient}
+            isVisible={this.state.isSendToAddressWarningVisible}
+            recipient={{ address: searchQuery.toLowerCase() }}
+          />
+        )}
         <SafeAreaInsetsContext.Consumer>
           {(insets) => (
             <SectionList

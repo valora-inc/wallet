@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountNumber renders correctly when touch disabled 1`] = `
+<Text
+  style={
+    Object {
+      "color": "#9CA4A9",
+      "fontFamily": "Inter-Regular",
+      "fontSize": 14,
+      "lineHeight": 18,
+      "marginVertical": 8,
+    }
+  }
+>
+  0x 0000 0000 0000 0000 0000 0000 0000 0000 0000 7E57
+</Text>
+`;
+
+exports[`AccountNumber renders correctly when touch enabled 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Array [
+      undefined,
+      Object {
+        "opacity": 1,
+      },
+    ]
+  }
+  testID="CopyAddressToClipboard"
+>
+  <Text
+    style={
+      Object {
+        "color": "#9CA4A9",
+        "fontFamily": "Inter-Regular",
+        "fontSize": 14,
+        "lineHeight": 18,
+        "marginVertical": 8,
+      }
+    }
+  >
+    0x 0000 0000 0000 0000 0000 0000 0000 0000 0000 7E57
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#9CA4A9",
+        "fontFamily": "Inter-Regular",
+        "fontSize": 13,
+        "lineHeight": 16,
+        "textDecorationLine": "underline",
+      }
+    }
+  >
+    tapToCopy
+  </Text>
+</View>
+`;

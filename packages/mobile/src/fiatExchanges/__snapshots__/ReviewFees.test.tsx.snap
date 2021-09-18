@@ -182,7 +182,7 @@ exports[`ReviewFees renders correctly 1`] = `
                     }
                   }
                 >
-                  providerFeesDialog.body2
+                  providerFeesDialog.body2, {"providerName":"Simplex"}
                 </Text>
               </Text>
             </View>
@@ -501,15 +501,15 @@ exports[`ReviewFees renders correctly 1`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [],
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
+        testID="undefined/value"
       >
         
         25.00
@@ -547,7 +547,7 @@ exports[`ReviewFees renders correctly 1`] = `
         ]
       }
     >
-      pricePer
+      pricePer, {"coin":"CELO"}
     </Text>
     <Text
       style={
@@ -565,7 +565,6 @@ exports[`ReviewFees renders correctly 1`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [
@@ -578,6 +577,7 @@ exports[`ReviewFees renders correctly 1`] = `
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -640,15 +640,15 @@ exports[`ReviewFees renders correctly 1`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [],
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -760,7 +760,6 @@ exports[`ReviewFees renders correctly 1`] = `
     </View>
     <Text>
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [
@@ -776,6 +775,7 @@ exports[`ReviewFees renders correctly 1`] = `
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -838,7 +838,6 @@ exports[`ReviewFees renders correctly 1`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [
@@ -854,6 +853,7 @@ exports[`ReviewFees renders correctly 1`] = `
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -1046,7 +1046,7 @@ exports[`ReviewFees renders correctly 2`] = `
                     }
                   }
                 >
-                  providerFeesDialog.body2
+                  providerFeesDialog.body2, {"providerName":"Simplex"}
                 </Text>
               </Text>
             </View>
@@ -1365,15 +1365,15 @@ exports[`ReviewFees renders correctly 2`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [],
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
+        testID="undefined/value"
       >
         
         25.00
@@ -1411,7 +1411,7 @@ exports[`ReviewFees renders correctly 2`] = `
         ]
       }
     >
-      pricePer
+      pricePer, {"coin":"CELO"}
     </Text>
     <Text
       style={
@@ -1429,7 +1429,6 @@ exports[`ReviewFees renders correctly 2`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [
@@ -1442,6 +1441,7 @@ exports[`ReviewFees renders correctly 2`] = `
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -1504,15 +1504,15 @@ exports[`ReviewFees renders correctly 2`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [],
             Object {
-              "color": "#2E3338",
+              "color": undefined,
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $
@@ -1688,7 +1688,6 @@ exports[`ReviewFees renders correctly 2`] = `
       }
     >
       <Text
-        numberOfLines={1}
         style={
           Array [
             Array [
@@ -1704,6 +1703,7 @@ exports[`ReviewFees renders correctly 2`] = `
             },
           ]
         }
+        testID="undefined/value"
       >
         
         $

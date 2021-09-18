@@ -33,6 +33,7 @@ exports[`GoldTransactionFeedItem renders correctly 1`] = `
         Object {
           "flex": 1,
           "flexDirection": "row",
+          "flexWrap": "wrap",
           "justifyContent": "space-between",
           "paddingBottom": 2,
         }
@@ -61,6 +62,7 @@ exports[`GoldTransactionFeedItem renders correctly 1`] = `
           style={
             Object {
               "color": "#2E3338",
+              "flexWrap": "wrap",
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
@@ -70,11 +72,11 @@ exports[`GoldTransactionFeedItem renders correctly 1`] = `
            @ 
         </Text>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Object {
                 "color": "#2E3338",
+                "flexWrap": "wrap",
                 "fontFamily": "Inter-Medium",
                 "fontSize": 16,
                 "lineHeight": 22,
@@ -84,6 +86,7 @@ exports[`GoldTransactionFeedItem renders correctly 1`] = `
               },
             ]
           }
+          testID="undefined/value"
         >
           
           €
@@ -92,7 +95,6 @@ exports[`GoldTransactionFeedItem renders correctly 1`] = `
       </View>
       <View>
         <Text
-          numberOfLines={1}
           style={
             Array [
               Object {
@@ -106,6 +108,7 @@ exports[`GoldTransactionFeedItem renders correctly 1`] = `
               },
             ]
           }
+          testID="undefined/value"
         >
           
           €

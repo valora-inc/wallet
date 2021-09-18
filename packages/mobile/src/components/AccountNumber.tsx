@@ -1,10 +1,10 @@
 import colors from '@celo/react-components/styles/colors'
-import fontStyles from '@celo/react-components/styles/fonts'
+import fontStyles, { fontFamily } from '@celo/react-components/styles/fonts'
 import { getAddressChunks } from '@celo/utils/lib/address'
 import Clipboard from '@react-native-community/clipboard'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Namespaces } from 'src/i18n'
@@ -41,47 +41,23 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
   // Turns '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'
   // into 'ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10'
   const addressChunks = getAddressChunks(address)
-
-  const formattedAddress = (
-    <>
-      <View style={[styles.line]}>
-        <View style={[styles.miniChunk]}>
-          <Text style={[styles.text]}>0x</Text>
-        </View>
-        {addressChunks.slice(0, 5).map((chunk, i) => (
-          <View key={i} style={[styles.chunk]}>
-            <Text style={[styles.text]}>{chunk}</Text>
-          </View>
-        ))}
-      </View>
-      <View style={[styles.line]}>
-        <View style={[styles.miniChunk]} />
-        {addressChunks.slice(5).map((chunk, i) => (
-          <View key={i} style={[styles.chunk]}>
-            <Text style={[styles.text]}>{chunk}</Text>
-          </View>
-        ))}
-      </View>
-    </>
-  )
+  const addressString = '0x ' + addressChunks.join(' ')
 
   return touchDisabled ? (
-    <View style={styles.container}>{formattedAddress}</View>
+    <Text style={styles.text}>{addressString}</Text>
   ) : (
     <TouchableOpacity
-      style={styles.container}
       onLongPress={onPressAddress}
       onPress={onPressAddress}
+      testID="CopyAddressToClipboard"
     >
-      {formattedAddress}
+      <Text style={styles.text}>{addressString}</Text>
+      <Text style={styles.link}>{t('tapToCopy')}</Text>
     </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: 215,
-  },
   line: {
     justifyContent: 'flex-start',
     flexDirection: 'row',
@@ -89,11 +65,12 @@ const styles = StyleSheet.create({
   text: {
     ...fontStyles.small,
     color: colors.gray4,
+    marginVertical: 8,
   },
-  miniChunk: {
-    width: 23,
-  },
-  chunk: {
-    width: 40,
+  link: {
+    ...fontStyles.label,
+    textDecorationLine: 'underline',
+    color: colors.gray4,
+    fontFamily,
   },
 })

@@ -6,8 +6,8 @@ export default SetAccountKey = () => {
     if (device.getPlatform() === 'android') {
       return
     }
-    await element(by.id('Hamburguer')).tap()
-    await element(by.id('DrawerItem/Account Key')).tap()
+    await element(by.id('Hamburger')).tap()
+    await element(by.id('DrawerItem/Recovery Phrase')).tap()
 
     await enterPinUi()
 

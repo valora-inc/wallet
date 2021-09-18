@@ -22,7 +22,6 @@ export interface State {
   backupCompleted: boolean
   accountCreationTime: number
   backupRequiredTime: number | null
-  dismissedInviteFriends: boolean
   dismissedGetVerified: boolean
   dismissedGoldEducation: boolean
   promptFornoIfNeeded: boolean
@@ -54,7 +53,7 @@ export enum DailyLimitRequestStatus {
   Denied = 'Denied',
 }
 
-export const initialState = {
+export const initialState: State = {
   name: null,
   e164PhoneNumber: null,
   pictureUri: null,
@@ -71,7 +70,6 @@ export const initialState = {
   accountCreationTime: 99999999999999,
   backupRequiredTime: null,
   backupCompleted: false,
-  dismissedInviteFriends: false,
   dismissedGetVerified: false,
   dismissedGoldEducation: false,
   promptFornoIfNeeded: false,
@@ -207,11 +205,6 @@ export const reducer = (
         ...state,
         backupCompleted: !state.backupCompleted,
         backupRequiredTime: null,
-      }
-    case Actions.DISMISS_INVITE_FRIENDS:
-      return {
-        ...state,
-        dismissedInviteFriends: true,
       }
     case Actions.DISMISS_GET_VERIFIED:
       return {
