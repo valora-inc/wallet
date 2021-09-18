@@ -10,8 +10,7 @@ $RNFirebaseAsStaticFramework = true
 $static_framework = ['react-native-flipper', 'react-native-fast-crypto', 'FlipperKit', 'Flipper', 'Flipper-Folly',
   'CocoaAsyncSocket', 'ComponentKit', 'Flipper-DoubleConversion',
   'Flipper-Glog', 'Flipper-PeerTalk', 'Flipper-RSocket',
-  'CocoaLibEvent', 'OpenSSL-Universal',
-  'Segment-Adjust', 'Segment-CleverTap']
+  'CocoaLibEvent', 'OpenSSL-Universal']
 
 require_relative "../../../node_modules/react-native/scripts/react_native_pods"
 require_relative "../../../node_modules/@react-native-community/cli-platform-ios/native_modules"
@@ -25,6 +24,8 @@ target "celo" do
   pod "CeloBlockchain", :path => "../../../node_modules/@celo/client/CeloBlockchain.podspec", :modular_headers => true
 
   pod 'Segment-Firebase', '~> 2.7.0'
+  pod 'Segment-Adjust', '~> 3.1.1'
+  pod 'Segment-CleverTap'
 
   # RNPermissions
   permissions_path = '../../../node_modules/react-native-permissions/ios'
