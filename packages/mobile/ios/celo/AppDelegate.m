@@ -19,6 +19,8 @@
 #import "RNSplashScreen.h"
 #import "ReactNativeConfig.h"
 
+#import <CleverTapSDK/CleverTap.h>
+
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
