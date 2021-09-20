@@ -41,7 +41,7 @@
   "goldAmount": "Quantia de CELO",
   "purchasedGold": "CELO comprado",
   "soldGold": "CELO vendido",
-  "exchangeRateInfo": "As negociações são estimativas flutuantes",
+  "exchangeRateInfo": "As taxas de CELO são aproximadas",
   "rateInfoTitle": "As taxas de CELO são aproximadas",
   "rateInfoBody": "Sua quantia pode mudar dependendo das condições de mercado. Sua quantia final não será desviada mais do que 1% além da estimativa.",
   "accountAddressLabel": "Endereço de Conta",
