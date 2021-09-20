@@ -50,8 +50,8 @@
     "continue": "Eu compreendo"
   },
   "providerFeesDialog": {
-    "title": "Provider Fees",
-    "body1": "As taxas de provedor são definidas individualmente por cada provedor e incluem uma taxa de câmbio e uma de liquidez, entre outras. Para saber mais, visite ",
+    "title": "Taxas de Fornecedor",
+    "body1": "As taxas de fornecedor são definidas individualmente por cada fornecedor e incluem uma taxa de câmbio e uma de liquidez, entre outras. Para saber mais, visite ",
     "body2": "Site do provedor {{providerName}}"
   },
   "providerFeeDiscountDialog": {
