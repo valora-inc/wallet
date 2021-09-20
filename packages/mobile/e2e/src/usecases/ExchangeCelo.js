@@ -27,7 +27,7 @@ export default ExchangeCelo = () => {
     await celoEducation()
   })
 
-  jest.retryTimes(3)
+  jest.retryTimes(4)
   it('Buy CELO', async () => {
     // Wait for buy button
     await waitFor(element(by.text('Buy')))
@@ -69,7 +69,7 @@ export default ExchangeCelo = () => {
     ).toBeVisible()
   })
 
-  jest.retryTimes(3)
+  jest.retryTimes(4)
   it('Sell CELO', async () => {
     // Wait for buy button
     await waitFor(element(by.text('Sell')))
@@ -111,7 +111,7 @@ export default ExchangeCelo = () => {
     ).toBeVisible()
   })
 
-  jest.retryTimes(3)
+  jest.retryTimes(4)
   it('Withdraw CELO', async () => {
     let celoBalanceBefore = await element(by.id('CeloBalance')).getAttributes()
     // Scroll to the withdraw button
