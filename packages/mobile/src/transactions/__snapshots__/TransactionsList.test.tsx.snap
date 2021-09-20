@@ -1313,6 +1313,8 @@ exports[`renders the received data along with the standby transactions 1`] = `
               "value": "-100",
             },
             "comment": "Eye for an Eye",
+            "defaultImage": null,
+            "defaultName": null,
             "hash": "",
             "status": "Pending",
             "timestamp": 1542406110,

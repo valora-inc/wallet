@@ -105,8 +105,8 @@ export function TransferFeedItem(props: Props) {
     inviteRewardSenders.includes(address),
     txHashToFeedInfo[hash],
     amount.currencyCode,
-    defaultName,
-    defaultImage
+    defaultName || undefined,
+    defaultImage || undefined
   )
 
   return (

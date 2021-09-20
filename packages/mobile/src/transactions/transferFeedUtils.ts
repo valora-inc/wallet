@@ -20,7 +20,6 @@ import {
   RecipientInfo,
 } from 'src/recipients/recipient'
 import { KnownFeedTransactionsType } from 'src/transactions/reducer'
-import Logger from 'src/utils/Logger'
 import { isPresent } from 'src/utils/typescript'
 
 const TAG = 'transactions/TransferFeedUtils'
@@ -234,12 +233,8 @@ export function getTransferFeedParams(
   return { title, info, recipient }
 }
 
-export function getTxsFromUserTxQuery(data: UserTransactionsQuery | undefined) {
-  const fragments = data?.tokenTransactions?.edges.map((edge) => edge.node).filter(isPresent) ?? []
-
-  Logger.debug(TAG, `Retrieved transactions from server ${fragments.map((f) => JSON.stringify(f))}`)
-
-  return fragments
+export function getTxsFromUserTxQuery(data?: UserTransactionsQuery) {
+  return data?.tokenTransactions?.edges.map((edge) => edge.node).filter(isPresent) ?? []
 }
 
 export function getNewTxsFromUserTxQuery(

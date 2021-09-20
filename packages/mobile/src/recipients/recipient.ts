@@ -2,6 +2,7 @@ import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import * as fuzzysort from 'fuzzysort'
 import { TFunction } from 'i18next'
 import { MinimalContact } from 'react-native-contacts'
+import { Maybe } from 'src/apollo/types'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { ContactMatches, RecipientVerificationStatus } from 'src/identity/types'
@@ -128,8 +129,8 @@ export interface RecipientInfo {
 export function getRecipientFromAddress(
   address: string,
   info: RecipientInfo,
-  defaultName?: string,
-  defaultImage?: string
+  defaultName?: Maybe<string>,
+  defaultImage?: Maybe<string>
 ) {
   const e164PhoneNumber = info.addressToE164Number[address]
   const numberRecipient = e164PhoneNumber ? info.phoneRecipientCache[e164PhoneNumber] : undefined
@@ -137,8 +138,8 @@ export function getRecipientFromAddress(
 
   const recipient: Recipient = {
     address,
-    name: valoraRecipient?.name || numberRecipient?.name || defaultName,
-    thumbnailPath: valoraRecipient?.thumbnailPath || defaultImage,
+    name: valoraRecipient?.name || numberRecipient?.name || defaultName || undefined,
+    thumbnailPath: valoraRecipient?.thumbnailPath || defaultImage || undefined,
     contactId: valoraRecipient?.contactId || numberRecipient?.contactId,
     e164PhoneNumber: e164PhoneNumber || undefined,
     displayNumber: numberRecipient?.displayNumber,

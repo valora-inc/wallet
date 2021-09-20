@@ -44,6 +44,8 @@ describe('CeloTransferFeedItem', () => {
           account={''}
           comment={''}
           timestamp={1}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -75,6 +77,8 @@ describe('CeloTransferFeedItem', () => {
           account={''}
           comment={''}
           timestamp={1}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
