@@ -11,7 +11,7 @@ jest.mock('firebase-admin', () => ({
           [mockAddress]: { name: 'Test Name', imageUrl: 'Test Image' },
         }
 
-        // @ts-ignore
+        // @ts-ignore: We only need to mock "val" method, not the whole interface
         onValue({ val: () => mockData })
         return {}
       },
@@ -32,7 +32,7 @@ describe('KnownAddressCache', () => {
 
   it('Should return undefined values when there is no info for given address', () => {
     const { name, imageUrl } = knownAddressesCache.getValueFor('Unknown')
-    expect(name).toBeUndefined
-    expect(imageUrl).toBeUndefined
+    expect(name).toBeUndefined()
+    expect(imageUrl).toBeUndefined()
   })
 })
