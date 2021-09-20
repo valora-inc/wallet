@@ -1,3 +1,4 @@
+import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import {
   WalletConnectPayloadRequest,
   WalletConnectSession,
@@ -31,6 +32,7 @@ export enum Actions {
 export interface InitialiseConnection {
   type: Actions.INITIALISE_CONNECTION_V1
   uri: string
+  origin: WalletConnectPairingOrigin
 }
 
 /**
@@ -92,9 +94,13 @@ export type UserActions =
   | AcceptRequest
   | DenyRequest
 
-export const initialiseConnection = (uri: string): InitialiseConnection => ({
+export const initialiseConnection = (
+  uri: string,
+  origin: WalletConnectPairingOrigin
+): InitialiseConnection => ({
   type: Actions.INITIALISE_CONNECTION_V1,
   uri,
+  origin,
 })
 
 export const acceptSession = (session: WalletConnectSessionRequest): AcceptSession => ({

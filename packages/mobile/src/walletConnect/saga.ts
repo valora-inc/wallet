@@ -26,6 +26,6 @@ export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairi
       yield call(initialiseWalletConnectV2, uri, origin)
       break
     default:
-      throw new Error(`Unsupported WalletConnect version '${version}''`)
+      throw new Error(`Unsupported WalletConnect version '${version}'`)
   }
 }

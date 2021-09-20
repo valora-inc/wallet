@@ -62,6 +62,7 @@ function getDefaultSessionTrackedProperties(
   } = session.permissions
   const { protocol: relayProtocol } = session.relay
   return {
+    version: 2 as const,
     dappName,
     dappUrl,
     dappDescription,
@@ -97,9 +98,7 @@ function* getSessionFromRequest(request: SessionTypes.RequestEvent) {
 export function* acceptSession({ session }: AcceptSession) {
   const defautTrackedProperties = getDefaultSessionTrackedProperties(session)
   try {
-    ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_start, {
-      ...defautTrackedProperties,
-    })
+    ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_start, defautTrackedProperties)
     if (!client) {
       throw new Error('missing client')
     }
@@ -129,9 +128,7 @@ export function* acceptSession({ session }: AcceptSession) {
     }
 
     yield call(client.approve.bind(client), { proposal: session, response })
-    ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, {
-      ...defautTrackedProperties,
-    })
+    ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defautTrackedProperties)
     yield put(
       showMessage(
         i18n.t('walletConnect:connectionSuccess', { dappName: session.proposer.metadata.name })
@@ -151,9 +148,7 @@ export function* acceptSession({ session }: AcceptSession) {
 export function* denySession({ session }: DenySession) {
   const defautTrackedProperties = getDefaultSessionTrackedProperties(session)
   try {
-    ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_start, {
-      ...defautTrackedProperties,
-    })
+    ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_start, defautTrackedProperties)
     if (!client) {
       throw new Error('missing client')
     }
@@ -161,9 +156,7 @@ export function* denySession({ session }: DenySession) {
       reason: WalletConnectErrors.NOT_APPROVED.format(),
       proposal: session,
     })
-    ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_success, {
-      ...defautTrackedProperties,
-    })
+    ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_success, defautTrackedProperties)
   } catch (e) {
     Logger.debug(TAG + '@denySession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_error, {
@@ -178,9 +171,7 @@ export function* denySession({ session }: DenySession) {
 export function* closeSession({ session }: CloseSession) {
   const defautTrackedProperties = getDefaultSessionTrackedProperties(session)
   try {
-    ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_start, {
-      ...defautTrackedProperties,
-    })
+    ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_start, defautTrackedProperties)
     if (!client) {
       throw new Error('missing client')
     }
@@ -188,9 +179,7 @@ export function* closeSession({ session }: CloseSession) {
       topic: session.topic,
       reason: WalletConnectErrors.USER_DISCONNECTED.format(),
     })
-    ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_success, {
-      ...defautTrackedProperties,
-    })
+    ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_success, defautTrackedProperties)
   } catch (e) {
     Logger.debug(TAG + '@closeSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_error, {
@@ -234,9 +223,7 @@ export function* acceptRequest({ request }: AcceptRequest): any {
   }
 
   try {
-    ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_start, {
-      ...defautTrackedProperties,
-    })
+    ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_start, defautTrackedProperties)
 
     if (!client) {
       throw new Error('Missing client')
@@ -274,9 +261,7 @@ export function* acceptRequest({ request }: AcceptRequest): any {
           i18n.t('walletConnect:connectionSuccess', { dappName: session.peer.metadata.name })
         )
       )
-      ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, {
-        ...defautTrackedProperties,
-      })
+      ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defautTrackedProperties)
     }
   } catch (e) {
     Logger.debug(TAG + '@acceptRequest', e.message)
@@ -302,9 +287,7 @@ export function* denyRequest({ request }: DenyRequest) {
   }
 
   try {
-    ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_start, {
-      ...defautTrackedProperties,
-    })
+    ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_start, defautTrackedProperties)
 
     if (!client) {
       throw new Error('Missing client')
@@ -318,9 +301,7 @@ export function* denyRequest({ request }: DenyRequest) {
         error: WalletConnectErrors.DISAPPROVED_JSONRPC.format(),
       },
     })
-    ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_success, {
-      ...defautTrackedProperties,
-    })
+    ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_success, defautTrackedProperties)
   } catch (e) {
     Logger.debug(TAG + '@denyRequest', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_error, {
