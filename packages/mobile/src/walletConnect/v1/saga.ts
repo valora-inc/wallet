@@ -85,14 +85,7 @@ function* getSessionFromPeerId(peerId: string) {
   return session
 }
 
-export function getConnectorMetadata(peerId: string) {
-  if (!connectors[peerId]) {
-    return null
-  }
-  return connectors[peerId]!.peerMeta
-}
-
-export function* acceptSession(session: AcceptSession) {
+function* acceptSession(session: AcceptSession) {
   Logger.debug(TAG + '@acceptSession', 'Starting to accept session request', session)
   const defautTrackedProperties = getDefaultSessionTrackedProperties(session.session)
   try {
@@ -124,7 +117,7 @@ export function* acceptSession(session: AcceptSession) {
   yield call(handlePendingStateOrNavigateBack)
 }
 
-export function* denySession({ session }: AcceptSession) {
+function* denySession({ session }: AcceptSession) {
   const defautTrackedProperties = getDefaultSessionTrackedProperties(session)
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_start, defautTrackedProperties)
@@ -147,8 +140,7 @@ export function* denySession({ session }: AcceptSession) {
   yield call(handlePendingStateOrNavigateBack)
 }
 
-// eslint-disable-next-line require-yield
-export function* closeSession({ session }: CloseSession) {
+function* closeSession({ session }: CloseSession) {
   const defautTrackedProperties = getDefaultSessionTrackedProperties(session)
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_start, defautTrackedProperties)
@@ -169,7 +161,7 @@ export function* closeSession({ session }: CloseSession) {
   }
 }
 
-export function* acceptRequest(r: AcceptRequest) {
+function* acceptRequest(r: AcceptRequest) {
   const { peerId, request } = r
   const { id, jsonrpc, method, params } = request
   const connector = connectors[peerId]
@@ -205,7 +197,7 @@ export function* acceptRequest(r: AcceptRequest) {
   yield call(handlePendingStateOrNavigateBack)
 }
 
-export function* denyRequest(r: DenyRequest) {
+function* denyRequest(r: DenyRequest) {
   const { peerId, request } = r
 
   const { id } = request
@@ -236,7 +228,7 @@ export function* denyRequest(r: DenyRequest) {
   yield call(handlePendingStateOrNavigateBack)
 }
 
-export function* handleInitialiseWalletConnect({ uri, origin }: InitialiseConnection) {
+function* handleInitialiseWalletConnect({ uri, origin }: InitialiseConnection) {
   ValoraAnalytics.track(WalletConnectEvents.wc_pairing_start, {
     origin,
   })
@@ -248,9 +240,7 @@ export function* handleInitialiseWalletConnect({ uri, origin }: InitialiseConnec
   ValoraAnalytics.track(WalletConnectEvents.wc_pairing_success)
 }
 
-export function* listenForWalletConnectMessages(
-  walletConnectChannel: EventChannel<WalletConnectActions>
-) {
+function* listenForWalletConnectMessages(walletConnectChannel: EventChannel<WalletConnectActions>) {
   while (true) {
     const message: WalletConnectActions = yield take(walletConnectChannel)
     yield put(message)
@@ -258,7 +248,7 @@ export function* listenForWalletConnectMessages(
 }
 
 // eslint-disable-next-line require-yield
-export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
+function* createWalletConnectChannelWithArgs(connectorOpts: any) {
   Logger.info(
     TAG + '@createWalletConnectChannelWithArgs',
     'Creating Wallet',
@@ -307,7 +297,7 @@ export function* createWalletConnectChannelWithArgs(connectorOpts: any) {
   })
 }
 
-export function* showSessionRequest(session: WalletConnectSessionRequest) {
+function* showSessionRequest(session: WalletConnectSessionRequest) {
   ValoraAnalytics.track(WalletConnectEvents.wc_session_propose, {
     ...getDefaultSessionTrackedProperties(session),
   })
@@ -315,7 +305,7 @@ export function* showSessionRequest(session: WalletConnectSessionRequest) {
   yield call(navigate, Screens.WalletConnectSessionRequest, { version: 1, session })
 }
 
-export function* showActionRequest({ action: request, peerId }: PendingAction) {
+function* showActionRequest({ action: request, peerId }: PendingAction) {
   const session: WalletConnectSession = yield call(getSessionFromPeerId, peerId)
   ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
     ...getDefaultSessionTrackedProperties(session),
@@ -340,7 +330,7 @@ export function* showActionRequest({ action: request, peerId }: PendingAction) {
  * requests accordingly.
  */
 
-export function* handleSessionRequest({ session }: SessionRequest) {
+function* handleSessionRequest({ session }: SessionRequest) {
   const { pending }: { pending: WalletConnectSessionRequest[] } = yield select(selectSessions)
   if (pending.length > 1) {
     return
@@ -348,7 +338,7 @@ export function* handleSessionRequest({ session }: SessionRequest) {
 
   yield call(showSessionRequest, session)
 }
-export function* handlePayloadRequest(action: PayloadRequest) {
+function* handlePayloadRequest(action: PayloadRequest) {
   const pendingActions: PendingAction[] = yield select(selectPendingActions)
   if (pendingActions.length > 1) {
     return
@@ -357,7 +347,7 @@ export function* handlePayloadRequest(action: PayloadRequest) {
   yield call(showActionRequest, { action: action.request, peerId: action.peerId })
 }
 
-export function* handlePendingStateOrNavigateBack() {
+function* handlePendingStateOrNavigateBack() {
   const hasPendingState: boolean = yield select(selectHasPendingState)
   if (hasPendingState) {
     yield call(handlePendingState)
@@ -366,7 +356,7 @@ export function* handlePendingStateOrNavigateBack() {
   }
 }
 
-export function* handlePendingState(): any {
+function* handlePendingState(): any {
   const {
     pending: [session],
   }: {
@@ -384,7 +374,7 @@ export function* handlePendingState(): any {
   }
 }
 
-export function* checkPersistedState(): any {
+function* checkPersistedState(): any {
   const { sessions }: { sessions: WalletConnectSession[] } = yield select(selectSessions)
 
   for (const session of sessions) {

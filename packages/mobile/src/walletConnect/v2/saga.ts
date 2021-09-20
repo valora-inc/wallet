@@ -95,7 +95,7 @@ function* getSessionFromRequest(request: SessionTypes.RequestEvent) {
   return session
 }
 
-export function* acceptSession({ session }: AcceptSession) {
+function* acceptSession({ session }: AcceptSession) {
   const defautTrackedProperties = getDefaultSessionTrackedProperties(session)
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_start, defautTrackedProperties)
@@ -145,7 +145,7 @@ export function* acceptSession({ session }: AcceptSession) {
   yield call(handlePendingStateOrNavigateBack)
 }
 
-export function* denySession({ session }: DenySession) {
+function* denySession({ session }: DenySession) {
   const defautTrackedProperties = getDefaultSessionTrackedProperties(session)
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_start, defautTrackedProperties)
@@ -168,7 +168,7 @@ export function* denySession({ session }: DenySession) {
   yield call(handlePendingState)
 }
 
-export function* closeSession({ session }: CloseSession) {
+function* closeSession({ session }: CloseSession) {
   const defautTrackedProperties = getDefaultSessionTrackedProperties(session)
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_start, defautTrackedProperties)
@@ -198,7 +198,7 @@ function* handlePendingStateOrNavigateBack() {
   }
 }
 
-export function* showRequestDetails({ request, infoString }: ShowRequestDetails): any {
+function* showRequestDetails({ request, infoString }: ShowRequestDetails): any {
   const session: SessionTypes.Created = yield call(getSessionFromRequest, request)
   ValoraAnalytics.track(WalletConnectEvents.wc_request_details, {
     ...getDefaultSessionTrackedProperties(session),
@@ -210,7 +210,7 @@ export function* showRequestDetails({ request, infoString }: ShowRequestDetails)
   yield call(navigate, Screens.DappKitTxDataScreen, { dappKitData: infoString })
 }
 
-export function* acceptRequest({ request }: AcceptRequest): any {
+function* acceptRequest({ request }: AcceptRequest): any {
   const {
     request: { id, jsonrpc, method, params },
     topic,
@@ -274,7 +274,7 @@ export function* acceptRequest({ request }: AcceptRequest): any {
   yield call(handlePendingStateOrNavigateBack)
 }
 
-export function* denyRequest({ request }: DenyRequest) {
+function* denyRequest({ request }: DenyRequest) {
   const {
     request: { id, jsonrpc },
     topic,
@@ -313,7 +313,7 @@ export function* denyRequest({ request }: DenyRequest) {
   yield call(handlePendingStateOrNavigateBack)
 }
 
-export function* handleInitialiseWalletConnect() {
+function* handleInitialiseWalletConnect() {
   const walletConnectChannel: EventChannel<WalletConnectActions> = yield call(
     createWalletConnectChannel
   )
@@ -323,7 +323,7 @@ export function* handleInitialiseWalletConnect() {
   }
 }
 
-export function* createWalletConnectChannel() {
+function* createWalletConnectChannel() {
   if (!client) {
     Logger.debug(TAG + '@createWalletConnectChannel', `init start`)
     client = yield call(WalletConnectClient.init as any, {
@@ -378,7 +378,7 @@ export function* createWalletConnectChannel() {
   })
 }
 
-export function* showSessionRequest(session: SessionTypes.Proposal) {
+function* showSessionRequest(session: SessionTypes.Proposal) {
   ValoraAnalytics.track(WalletConnectEvents.wc_session_propose, {
     ...getDefaultSessionTrackedProperties(session),
   })
@@ -386,7 +386,7 @@ export function* showSessionRequest(session: SessionTypes.Proposal) {
   yield call(navigate, Screens.WalletConnectSessionRequest, { version: 2, session })
 }
 
-export function* showActionRequest(request: SessionTypes.RequestEvent) {
+function* showActionRequest(request: SessionTypes.RequestEvent) {
   const session: SessionTypes.Created = yield call(getSessionFromRequest, request)
   ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
     ...getDefaultSessionTrackedProperties(session),
@@ -410,7 +410,7 @@ export function* showActionRequest(request: SessionTypes.RequestEvent) {
  * requests accordingly.
  */
 
-export function* handleIncomingSessionRequest({ session }: SessionProposal) {
+function* handleIncomingSessionRequest({ session }: SessionProposal) {
   const { pending }: { pending: SessionTypes.Proposal[] } = yield select(selectSessions)
   if (pending.length > 1) {
     return
@@ -418,7 +418,7 @@ export function* handleIncomingSessionRequest({ session }: SessionProposal) {
 
   yield call(showSessionRequest, session)
 }
-export function* handleIncomingActionRequest({ request }: SessionPayload) {
+function* handleIncomingActionRequest({ request }: SessionPayload) {
   const pendingActions: SessionTypes.RequestEvent[] = yield select(selectPendingActions)
   if (pendingActions.length > 1) {
     return
@@ -427,7 +427,7 @@ export function* handleIncomingActionRequest({ request }: SessionPayload) {
   yield call(showActionRequest, request)
 }
 
-export function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
+function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
   try {
     ValoraAnalytics.track(WalletConnectEvents.wc_pairing_start, {
       origin,
