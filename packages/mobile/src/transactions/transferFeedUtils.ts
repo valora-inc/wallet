@@ -22,8 +22,6 @@ import {
 import { KnownFeedTransactionsType } from 'src/transactions/reducer'
 import { isPresent } from 'src/utils/typescript'
 
-const TAG = 'transactions/TransferFeedUtils'
-
 export function getDecryptedTransferFeedComment(
   comment: string | null,
   commentKey: string | null,
