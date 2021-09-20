@@ -101,6 +101,10 @@ function* acceptSession(session: AcceptSession) {
     const sessionData = {
       accounts: [account],
       chainId: parseInt(networkConfig.networkId),
+      // TODO: passing `rpcUrl` doesn't work yet and we had to patch PoolTogether
+      // providing the celo rpc urls to make it work (see https://github.com/pooltogether/pooltogether-hooks/pull/9)
+      // but this should be the long term solution
+      // rpcUrl: DEFAULT_FORNO_URL,
     }
     connector.approveSession(sessionData)
     connector.updateSession(sessionData)
