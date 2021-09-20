@@ -35,6 +35,9 @@ import { removeStoredItem, retrieveStoredItem, storeItem } from 'src/storage/key
 import Logger from 'src/utils/Logger'
 import { getWalletAsync } from 'src/web3/contracts'
 
+const PIN_BLOCKLIST_PATH =
+  'src/pincode/pin-blocklist-hibpv7-top-25k-with-keyboard-translations.json'
+
 const TAG = 'pincode/authentication'
 
 enum STORAGE_KEYS {
@@ -50,7 +53,61 @@ export const DEFAULT_CACHE_ACCOUNT = 'default'
 export const DEK = 'DEK'
 export const CANCELLED_PIN_INPUT = 'CANCELLED_PIN_INPUT'
 
-const PIN_BLOCKLIST = [
+/**
+ * Pin blocklist that loads from the bundle resources a pre-configured list and allows it to be
+ * searched to determine if a given PIN should be allowed.
+ *
+ * @remarks Blocklist format is a sorted list of blocked 6-digit PINs, each encoded as their
+ * big-endian numeric representation, truncated to 3-bytes. When bundled as a resource, this binary
+ * structure is base64 encoded and formatted as JSON string literal.
+ */
+export class PinBlocklist {
+  private readonly buffer: Buffer
+
+  constructor() {
+    this.buffer = new Buffer(require(PIN_BLOCKLIST_PATH) as string, 'base64')
+  }
+
+  public size(): number {
+    return Math.floor(this.buffer.length / 3)
+  }
+
+  public contains(pin: string): boolean {
+    // Parse the provided 6-digit PIN into an integer in the range [1000000, 0].
+    const target = parseInt(pin)
+    if (isNaN(target) || target > 1e6 || target < 0 || target % 1 !== 0) {
+      throw new Error('failed to parse integer from blocklist search PIN')
+    }
+
+    // Recursively defined binary search in the sorted blocklist.
+    const search = (blocklist: Buffer, target: number): boolean => {
+      if (blocklist.length === 0) {
+        return false
+      }
+
+      const blocklistSize = Math.floor(blocklist.length / 3)
+      const middle = Math.floor(blocklistSize / 2)
+      const pivot = Buffer.concat([
+        Buffer.from([0]),
+        blocklist.slice(middle * 3, (middle + 1) * 3),
+      ]).readUInt32BE(0)
+
+      if (target === pivot) {
+        return true
+      }
+
+      if (target < pivot) {
+        return search(blocklist.slice(0, middle * 3), target)
+      } else {
+        return search(blocklist.slice((middle + 1) * 3), target)
+      }
+    }
+
+    return search(this.buffer, target)
+  }
+}
+
+const DEPRECATED_PIN_BLOCKLIST = [
   '000000',
   '111111',
   '222222',
@@ -66,7 +123,7 @@ const PIN_BLOCKLIST = [
 ]
 
 export function isPinValid(pin: string) {
-  return pin.length === PIN_LENGTH && !PIN_BLOCKLIST.includes(pin)
+  return /^\d{6}$/.test(pin) && !DEPRECATED_PIN_BLOCKLIST.includes(pin)
 }
 
 export async function retrieveOrGeneratePepper(account = DEFAULT_CACHE_ACCOUNT) {
