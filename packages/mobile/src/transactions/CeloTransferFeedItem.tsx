@@ -65,6 +65,7 @@ export function CeloTransferFeedItem(props: Props) {
   const displayName =
     txHashToFeedInfo[hash]?.name ||
     addressToDisplayName[address]?.name ||
+    recipient.name ||
     formatShortenedAddress(address)
 
   return (

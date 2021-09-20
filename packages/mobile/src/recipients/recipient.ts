@@ -131,7 +131,7 @@ export function getRecipientFromAddress(
   info: RecipientInfo,
   defaultName?: Maybe<string>,
   defaultImage?: Maybe<string>
-) {
+): Recipient {
   const e164PhoneNumber = info.addressToE164Number[address]
   const numberRecipient = e164PhoneNumber ? info.phoneRecipientCache[e164PhoneNumber] : undefined
   const valoraRecipient = info.valoraRecipientCache[address]

@@ -85,4 +85,27 @@ describe('CeloTransferFeedItem', () => {
     )
     expect(tree).toMatchSnapshot()
   })
+
+  it("renders correctly when there's a default name", () => {
+    const mockName = 'This is a Test'
+    const tree = renderer.create(
+      <Provider store={createMockStore({})}>
+        <CeloTransferFeedItem
+          status={TransactionStatus.Complete}
+          __typename="TokenTransfer"
+          type={TokenTransactionType.Received}
+          hash={'0x'}
+          amount={{ value: '1.005', currencyCode: 'cGLD', localAmount }}
+          address={mockAccount}
+          account={''}
+          comment={''}
+          timestamp={1}
+          defaultImage={null}
+          defaultName={mockName}
+          {...getMockI18nProps()}
+        />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
+  })
 })
