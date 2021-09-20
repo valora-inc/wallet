@@ -36,7 +36,7 @@
     "dismiss": "OK"
   },
   "explanationModal": {
-    "title": "Sobre os provedores",
+    "title": "Sobre os fornecedores",
     "body": "Os fornecedores permitem que você adicione ou saque fundos da sua conta. Os provedores determinam suas próprias tarifas e restrições, dependendo de diversos fatores. Visite o site do provedor para obter ajuda."
   },
   "invalidAmountDialog": {
@@ -47,10 +47,10 @@
   "dailyLimitDialog": {
     "body": "Você está prestes a comprar mais do que seu limite de envio diário de {{limit}}. Entre em contato com <0>{{contactEmail}}</0> se quiser aumentar seu limite.",
     "contact": "Contato",
-    "continue": "Compreendo"
+    "continue": "Eu compreendo"
   },
   "providerFeesDialog": {
-    "title": "Taxas de provedor",
+    "title": "Provider Fees",
     "body1": "As taxas de provedor são definidas individualmente por cada provedor e incluem uma taxa de câmbio e uma de liquidez, entre outras. Para saber mais, visite ",
     "body2": "Site do provedor {{providerName}}"
   },
