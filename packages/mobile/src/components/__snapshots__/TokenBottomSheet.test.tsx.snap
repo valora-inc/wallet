@@ -110,6 +110,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
             "paddingVertical": 16,
           }
         }
+        testID="Option/cUSD"
       >
         <Text
           style={
@@ -210,6 +211,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
             "paddingVertical": 16,
           }
         }
+        testID="Option/cEUR"
       >
         <Text
           style={

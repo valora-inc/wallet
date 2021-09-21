@@ -43,9 +43,11 @@ jobs:
       - name: Create E2E Test .env File
         env:
           TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
+          VALORA_E2E_TEST_WALLET: ${{ secrets.VALORA_E2E_TEST_WALLET}}
         run : |
           cd packages/mobile/e2e
           echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
+          echo VALORA_E2E_TEST_WALLET=$VALORA_E2E_TEST_WALLET >> .env
       - name: Fund E2E accounts
         run : |
           cd packages/mobile/e2e/scripts
@@ -93,9 +95,11 @@ jobs:
       - name: Create E2E Test .env File
         env:
           TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
+          VALORA_E2E_TEST_WALLET: ${{ secrets.VALORA_E2E_TEST_WALLET}}
         run : |
           cd packages/mobile/e2e
           echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
+          echo VALORA_E2E_TEST_WALLET=$VALORA_E2E_TEST_WALLET >> .env
       - name: Fund E2E accounts
         run : |
           cd packages/mobile/e2e/scripts

@@ -1,5 +1,9 @@
 import { SAMPLE_BACKUP_KEY, EXAMPLE_NAME, DEFAULT_PIN } from '../utils/consts'
+import { VALORA_E2E_TEST_WALLET } from '@env'
 import { dismissBanners } from '../utils/banners'
+const Web3 = require('web3')
+const ContractKit = require('@celo/contractkit')
+
 const childProcess = require('child_process')
 const fs = require('fs')
 const PNG = require('pngjs').PNG
@@ -275,5 +279,27 @@ export async function waitForExpectNotVisible(elementId, secondsToWait = 10) {
       .not.toBeVisible()
       .withTimeout(1000)
     await expect(element(by.id(elementId))).not.toBeVisible()
+  }
+}
+
+export const getBalance = async (address = VALORA_E2E_TEST_WALLET) => {
+  try {
+    // Init a new kit, connected to the alfajores testnet
+    const web3 = new Web3('https://alfajores-forno.celo-testnet.org')
+    const kit = ContractKit.newKitFromWeb3(web3)
+    let balanceObj = {}
+
+    // Get Balances
+    let balances = await kit.celoTokens.balancesOf(address)
+
+    // Convert and add to balance object
+    for (const value in balances) {
+      balanceObj[`${value}`] = balances[`${value}`] / 10 ** 18
+    }
+
+    // Return balance object
+    return balanceObj
+  } catch (err) {
+    console.log(err)
   }
 }

@@ -1,12 +1,12 @@
 import { quickOnboarding } from './utils/utils'
-import Send from './usecases/Send'
+import SendToAddress from './usecases/SendToAddress'
 import SecureSend from './usecases/SecureSend'
 
-describe('Send cUSD', () => {
+describe('Given Send', () => {
   beforeAll(async () => {
     await quickOnboarding()
   })
 
-  describe('Send cUSD', Send)
-  describe('SecureSend cUSD', SecureSend)
+  describe('When sending to address', SendToAddress)
+  describe('When sending to phone number with multiple mappings', SecureSend)
 })

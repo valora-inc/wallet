@@ -39,7 +39,7 @@ function CurrencyOption({ currency, onPress }: { currency: Currency; onPress: ()
   }
   return (
     <Touchable onPress={onPress} testID={`${currency}Touchable`}>
-      <View style={styles.currencyOptionContainer}>
+      <View testID={`Option/${currency}`} style={styles.currencyOptionContainer}>
         <Text style={styles.optionName}>{t('stableBalance', { token: currency })}</Text>
         <View style={styles.currencyBalanceContainer}>
           <CurrencyDisplay
