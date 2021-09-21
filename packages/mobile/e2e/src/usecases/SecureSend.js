@@ -6,7 +6,7 @@ const jestExpect = require('expect')
 
 const PHONE_NUMBER = '+12057368924'
 const LAST_ACCOUNT_CHARACTERS = 'FD08'
-const AMOUNT_TO_SEND = '0.5'
+const AMOUNT_TO_SEND = 0.5
 
 export default SecureSend = () => {
   beforeEach(async () => {
@@ -24,6 +24,7 @@ export default SecureSend = () => {
     await element(by.id('RecipientItem')).tap()
   })
 
+  jest.retryTimes(2)
   it('Then should be able to send cUSD to phone number', async () => {
     // Get starting balance
     let startBalance = await getBalance()
@@ -33,7 +34,7 @@ export default SecureSend = () => {
     await element(by.id('Option/cUSD')).tap()
 
     // Enter the amount and review
-    await inputNumberKeypad(AMOUNT_TO_SEND)
+    await inputNumberKeypad(`${AMOUNT_TO_SEND}`)
     await element(by.id('Review')).tap()
 
     // hack: we shouldn't need this but the test fails without
@@ -81,13 +82,14 @@ export default SecureSend = () => {
     jestExpect(endBalance['cUSD']).toBeCloseTo(startBalance['cUSD'] - AMOUNT_TO_SEND, 3)
   })
 
+  jest.retryTimes(2)
   it('Then should be able to send cEUR to phone number', async () => {
     // Select cEUR
     await element(by.id('HeaderCurrencyPicker')).tap()
     await element(by.id('Option/cEUR')).tap()
 
     // Enter the amount and review
-    await inputNumberKeypad(AMOUNT_TO_SEND)
+    await inputNumberKeypad(`${AMOUNT_TO_SEND}`)
     await element(by.id('Review')).tap()
 
     // hack: we shouldn't need this but the test fails without
