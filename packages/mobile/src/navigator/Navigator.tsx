@@ -38,11 +38,11 @@ import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import ExternalExchanges, {
-  externalExchangesScreenOptions,
+  externalExchangesScreenOptions
 } from 'src/fiatExchanges/ExternalExchanges'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import FiatExchangeOptions, {
-  fiatExchangesOptionsScreenOptions,
+  fiatExchangesOptionsScreenOptions
 } from 'src/fiatExchanges/FiatExchangeOptions'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
@@ -59,7 +59,7 @@ import {
   headerWithBackButton,
   headerWithBackEditButtons,
   noHeader,
-  noHeaderGestureDisabled,
+  noHeaderGestureDisabled
 } from 'src/navigator/Headers'
 import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationService'
 import QRNavigator from 'src/navigator/QRNavigator'
@@ -74,10 +74,10 @@ import Welcome from 'src/onboarding/welcome/Welcome'
 import IncomingPaymentRequestListScreen from 'src/paymentRequest/IncomingPaymentRequestListScreen'
 import OutgoingPaymentRequestListScreen from 'src/paymentRequest/OutgoingPaymentRequestListScreen'
 import PaymentRequestConfirmation, {
-  paymentConfirmationScreenNavOptions,
+  paymentConfirmationScreenNavOptions
 } from 'src/paymentRequest/PaymentRequestConfirmation'
 import PaymentRequestUnavailable, {
-  paymentRequestUnavailableScreenNavOptions,
+  paymentRequestUnavailableScreenNavOptions
 } from 'src/paymentRequest/PaymentRequestUnavailable'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
@@ -87,10 +87,10 @@ import Send from 'src/send/Send'
 import SendAmount from 'src/send/SendAmount'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
 import ValidateRecipientAccount, {
-  validateRecipientAccountScreenNavOptions,
+  validateRecipientAccountScreenNavOptions
 } from 'src/send/ValidateRecipientAccount'
 import ValidateRecipientIntro, {
-  validateRecipientIntroScreenNavOptions,
+  validateRecipientIntroScreenNavOptions
 } from 'src/send/ValidateRecipientIntro'
 import SetClock from 'src/set-clock/SetClock'
 import TransactionReview from 'src/transactions/TransactionReview'

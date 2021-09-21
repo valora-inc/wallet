@@ -6,7 +6,7 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import {
   extractAttestationCodeFromMessage,
-  extractSecurityCodeWithPrefix,
+  extractSecurityCodeWithPrefix
 } from '@celo/utils/lib/attestations'
 import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import { HeaderHeightContext, StackScreenProps } from '@react-navigation/stack'
@@ -29,7 +29,7 @@ import {
   cancelVerification,
   receiveAttestationMessage,
   resendAttestations,
-  setAttestationInputStatus,
+  setAttestationInputStatus
 } from 'src/identity/actions'
 import { attestationInputStatusSelector } from 'src/identity/reducer'
 import { VerificationStatus } from 'src/identity/types'
