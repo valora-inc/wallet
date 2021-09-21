@@ -62,7 +62,10 @@ function NameAndPicture({ navigation }: Props) {
     if (recoveringFromStoreWipe) {
       navigate(Screens.ImportWallet)
     } else {
-      navigate(Screens.PincodeSet, { komenciAvailable: !!asyncKomenciReadiness.result })
+      navigate(Screens.PincodeSet, {
+        komenciAvailable: !!asyncKomenciReadiness.result,
+        choseToRestoreAccount: !!choseToRestoreAccount,
+      })
     }
   }
 

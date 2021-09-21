@@ -166,6 +166,7 @@ export type StackParamList = {
         isVerifying?: boolean
         changePin?: boolean
         komenciAvailable?: boolean
+        choseToRestoreAccount?: boolean
       }
     | undefined
   [Screens.PhoneNumberLookupQuota]: {

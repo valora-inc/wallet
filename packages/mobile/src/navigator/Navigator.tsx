@@ -197,16 +197,13 @@ const verificationScreens = (Navigator: typeof Stack) => {
 
 const pincodeSetScreenOptions = ({
   route,
-}: // does route has choseToRestoreAccount? prob not
-// I dont think i understand route., where did it come from?
-{
+}: {
   route: RouteProp<StackParamList, Screens.PincodeSet>
 }) => {
   const changePin = route.params?.changePin
   const title = changePin
     ? i18n.t('onboarding:pincodeSet.changePIN')
     : i18n.t('onboarding:pincodeSet.create')
-  debugger
 
   return {
     ...nuxNavigationOptions,
@@ -217,7 +214,7 @@ const pincodeSetScreenOptions = ({
           changePin
             ? ' '
             : i18n.t(
-                choseToRestoreAccount
+                route.params?.choseToRestoreAccount
                   ? 'onboarding:restoreAccountSteps'
                   : 'onboarding:createAccountSteps',
                 { step: '2' }
