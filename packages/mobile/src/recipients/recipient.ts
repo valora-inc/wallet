@@ -4,7 +4,11 @@ import { TFunction } from 'i18next'
 import { MinimalContact } from 'react-native-contacts'
 import { Maybe } from 'src/apollo/types'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
-import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
+import {
+  AddressToDisplayNameType,
+  AddressToE164NumberType,
+  E164NumberToAddressType,
+} from 'src/identity/reducer'
 import { ContactMatches, RecipientVerificationStatus } from 'src/identity/types'
 import Logger from 'src/utils/Logger'
 
