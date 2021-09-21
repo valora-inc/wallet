@@ -47,7 +47,12 @@ function NameAndPicture({ navigation }: Props) {
           title={i18n.t(
             choseToRestoreAccount ? 'onboarding:restoreAccount' : 'onboarding:createAccount'
           )}
-          subTitle={i18n.t('onboarding:step', { step: '1' })}
+          subTitle={i18n.t(
+            choseToRestoreAccount
+              ? 'onboarding:restoreAccountSteps'
+              : 'onboarding:createAccountSteps',
+            { step: '1' }
+          )}
         />
       ),
     })

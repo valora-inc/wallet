@@ -58,6 +58,7 @@ interface StateProps {
   underlyingError: ErrorMessages | null | undefined
   lastRevealAttempt: number | null
   shortVerificationCodesEnabled: boolean
+  choseToRestoreAccount: boolean | undefined
 }
 
 interface DispatchProps {
@@ -100,6 +101,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     underlyingError: errorSelector(state),
     shortVerificationCodesEnabled: shortVerificationCodesEnabledSelector(state),
     lastRevealAttempt,
+    choseToRestoreAccount: state.account.choseToRestoreAccount,
   }
 }
 
@@ -124,7 +126,12 @@ class VerificationInputScreen extends React.Component<Props, State> {
     headerTitle: () => (
       <HeaderTitleWithSubtitle
         title={i18n.t('onboarding:verificationInput.title')}
-        subTitle={i18n.t('onboarding:step', { step: '4' })}
+        subTitle={i18n.t(
+          this.props.choseToRestoreAccount
+            ? 'onboarding:restoreAccountSteps'
+            : 'onboarding:createAccountSteps',
+          { step: this.props.choseToRestoreAccount ? '4' : '3' }
+        )}
       />
     ),
     headerRight: () => (
