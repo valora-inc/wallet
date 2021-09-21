@@ -117,7 +117,7 @@ function HeaderLeftButton() {
 }
 
 class VerificationInputScreen extends React.Component<Props, State> {
-  static navigationOptions = ({ navigation }: ScreenProps) => ({
+  static navigationOptions = ({ navigation, route }: ScreenProps) => ({
     ...nuxNavigationOptions,
     gestureEnabled: false,
     headerLeft: () => {
@@ -127,10 +127,10 @@ class VerificationInputScreen extends React.Component<Props, State> {
       <HeaderTitleWithSubtitle
         title={i18n.t('onboarding:verificationInput.title')}
         subTitle={i18n.t(
-          this.props.choseToRestoreAccount
+          route.params?.choseToRestoreAccount
             ? 'onboarding:restoreAccountSteps'
             : 'onboarding:createAccountSteps',
-          { step: this.props.choseToRestoreAccount ? '4' : '3' }
+          { step: route.params?.choseToRestoreAccount ? '4' : '3' }
         )}
       />
     ),

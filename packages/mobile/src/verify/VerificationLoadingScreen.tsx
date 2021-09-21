@@ -46,6 +46,7 @@ const mapStateToProps = (state: RootState) => {
     verificationStatus: state.identity.verificationStatus,
     retryWithForno: state.account.retryVerificationWithForno,
     fornoMode: state.web3.fornoMode,
+    choseToRestoreAccount: state.account.choseToRestoreAccount,
   }
 }
 
@@ -53,7 +54,7 @@ type Props = StackScreenProps<StackParamList, Screens.VerificationLoadingScreen>
 
 export default function VerificationLoadingScreen({ route }: Props) {
   const verificationStatusRef = useRef<VerificationStatus | undefined>()
-  const { fornoMode, retryWithForno, verificationStatus } = useSelector(
+  const { fornoMode, retryWithForno, verificationStatus, choseToRestoreAccount } = useSelector(
     mapStateToProps,
     shallowEqual
   )
@@ -76,7 +77,7 @@ export default function VerificationLoadingScreen({ route }: Props) {
     verificationStatusRef.current = verificationStatus
 
     if (verificationStatus === VerificationStatus.CompletingAttestations) {
-      navigate(Screens.VerificationInputScreen)
+      navigate(Screens.VerificationInputScreen, { choseToRestoreAccount: !!choseToRestoreAccount })
     } else if (verificationStatus === VerificationStatus.Done) {
       navigate(Screens.OnboardingSuccessScreen)
     }
@@ -100,7 +101,7 @@ export default function VerificationLoadingScreen({ route }: Props) {
     if (!isFocused || verificationStatus === VerificationStatus.CompletingAttestations) {
       return
     }
-    navigate(Screens.VerificationInputScreen)
+    navigate(Screens.VerificationInputScreen, { choseToRestoreAccount: !!choseToRestoreAccount })
   }
 
   const onPressLearnMore = () => {

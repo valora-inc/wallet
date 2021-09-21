@@ -245,7 +245,9 @@ export type StackParamList = {
   [Screens.VerificationEducationScreen]:
     | { showSkipDialog?: boolean; hideOnboardingStep?: boolean; selectedCountryCodeAlpha2?: string }
     | undefined
-  [Screens.VerificationInputScreen]: { showHelpDialog: boolean } | undefined
+  [Screens.VerificationInputScreen]:
+    | { showHelpDialog?: boolean; choseToRestoreAccount?: boolean }
+    | undefined
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
