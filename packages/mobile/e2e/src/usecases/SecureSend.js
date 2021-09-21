@@ -2,6 +2,7 @@ import { enterPinUiIfNecessary, inputNumberKeypad, sleep, getBalance } from '../
 import { dismissBanners } from '../utils/banners'
 import { reloadReactNative } from '../utils/retries'
 const faker = require('faker')
+const jestExpect = require('expect')
 
 const PHONE_NUMBER = '+12057368924'
 const LAST_ACCOUNT_CHARACTERS = 'FD08'
