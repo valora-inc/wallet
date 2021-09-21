@@ -34,6 +34,7 @@ describe('getRequesterFromPaymentRequest', () => {
       phoneRecipientCache: {},
       valoraRecipientCache: {},
       addressToE164Number: {},
+      addressToDisplayName: {},
     })
     expect(recipient).toMatchObject({
       address,
@@ -45,6 +46,7 @@ describe('getRequesterFromPaymentRequest', () => {
       phoneRecipientCache: {},
       valoraRecipientCache: {},
       addressToE164Number,
+      addressToDisplayName: {},
     })
     expect(recipient).toMatchObject({
       address,
@@ -57,6 +59,7 @@ describe('getRequesterFromPaymentRequest', () => {
       phoneRecipientCache,
       valoraRecipientCache: {},
       addressToE164Number,
+      addressToDisplayName: {},
     })
     expect(recipient).toMatchObject({
       address,
@@ -76,6 +79,7 @@ describe('getRequesteeFromPaymentRequest', () => {
       phoneRecipientCache: {},
       valoraRecipientCache: {},
       addressToE164Number: {},
+      addressToDisplayName: {},
     })
     expect(recipient).toMatchObject({
       address,
@@ -87,6 +91,7 @@ describe('getRequesteeFromPaymentRequest', () => {
       phoneRecipientCache: {},
       valoraRecipientCache: {},
       addressToE164Number,
+      addressToDisplayName: {},
     })
     expect(recipient).toMatchObject({
       address,
@@ -99,6 +104,7 @@ describe('getRequesteeFromPaymentRequest', () => {
       phoneRecipientCache,
       valoraRecipientCache: {},
       addressToE164Number,
+      addressToDisplayName: {},
     })
     expect(recipient).toMatchObject({
       address,

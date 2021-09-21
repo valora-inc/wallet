@@ -124,6 +124,9 @@ export interface RecipientInfo {
   addressToE164Number: AddressToE164NumberType
   phoneRecipientCache: NumberToRecipient
   valoraRecipientCache: AddressToRecipient
+  // this info comes from Firebase for known addresses (ex. Simplex, cUSD incentive programs)
+  // differentiated from valoraRecipients because they are not displayed in the RecipientPicker
+  addressToDisplayName: AddressToDisplayNameType
 }
 
 export function getRecipientFromAddress(
@@ -135,11 +138,18 @@ export function getRecipientFromAddress(
   const e164PhoneNumber = info.addressToE164Number[address]
   const numberRecipient = e164PhoneNumber ? info.phoneRecipientCache[e164PhoneNumber] : undefined
   const valoraRecipient = info.valoraRecipientCache[address]
+  const displayInfo = info.addressToDisplayName[address]
 
   const recipient: Recipient = {
     address,
-    name: valoraRecipient?.name || numberRecipient?.name || defaultName || undefined,
-    thumbnailPath: valoraRecipient?.thumbnailPath || defaultImage || undefined,
+    name:
+      valoraRecipient?.name ||
+      numberRecipient?.name ||
+      displayInfo?.name ||
+      defaultName ||
+      undefined,
+    thumbnailPath:
+      valoraRecipient?.thumbnailPath || displayInfo?.imageUrl || defaultImage || undefined,
     contactId: valoraRecipient?.contactId || numberRecipient?.contactId,
     e164PhoneNumber: e164PhoneNumber || undefined,
     displayNumber: numberRecipient?.displayNumber,

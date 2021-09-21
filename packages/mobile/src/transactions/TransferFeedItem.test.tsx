@@ -3,7 +3,7 @@ import 'react-native'
 import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
-import { Maybe, TokenTransactionType } from 'src/apollo/types'
+import { TokenTransactionType } from 'src/apollo/types'
 import { RecipientInfo } from 'src/recipients/recipient'
 import { TransferFeedItem } from 'src/transactions/TransferFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
@@ -474,7 +474,8 @@ describe('transfer feed item renders correctly', () => {
   const renderFeedItemForSendWithoutCaches = (
     address: string,
     recipientInfo: RecipientInfo,
-    defaultName: Maybe<string>
+    defaultName?: string,
+    defaultImage?: string
   ) => (
     <TransferFeedItem
       __typename="TokenTransfer"
@@ -492,20 +493,26 @@ describe('transfer feed item renders correctly', () => {
       recentTxRecipientsCache={{}}
       account={''}
       invitees={[]}
-      defaultName={defaultName}
-      defaultImage={null}
+      defaultName={defaultName || null}
+      defaultImage={defaultImage || null}
     />
   )
-  it('shows default name when transaction contains name and the address is unknown', () => {
+  it('for known address display name show stored name on feed item', () => {
     const contactName = 'Some name'
     const recipientInfo = {
       phoneRecipientCache: {},
       valoraRecipientCache: {},
       addressToE164Number: {},
+      addressToDisplayName: {
+        [mockAccount]: {
+          name: contactName,
+          imageUrl: '',
+        },
+      },
     }
     const tree = render(
       <Provider store={createMockStore({})}>
-        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo, contactName)}
+        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo)}
       </Provider>
     )
     expect(tree.queryByText(new RegExp(contactName))).toBeTruthy()
@@ -517,14 +524,36 @@ describe('transfer feed item renders correctly', () => {
       phoneRecipientCache: {},
       valoraRecipientCache: {},
       addressToE164Number: mockAddressToE164Number,
+      addressToDisplayName: {
+        [mockAccount2]: {
+          name: contactName,
+          imageUrl: '',
+        },
+      },
     }
     const tree = render(
       <Provider store={createMockStore({})}>
-        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo, null)}
+        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo)}
       </Provider>
     )
     expect(tree.queryByText(new RegExp(contactName))).toBeFalsy()
     expect(tree.queryByText(new RegExp(mockE164Number.replace('+', '\\+')))).toBeTruthy()
+  })
+  it('should show default name when transaction contains one', () => {
+    const contactName = 'Some name'
+    const recipientInfo = {
+      phoneRecipientCache: {},
+      valoraRecipientCache: {},
+      addressToE164Number: {},
+      addressToDisplayName: {},
+    }
+    const tree = render(
+      <Provider store={createMockStore({})}>
+        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo, contactName)}
+      </Provider>
+    )
+    expect(tree.queryByText(new RegExp(contactName))).toBeTruthy()
+    expect(tree.queryByText(new RegExp(mockE164Number.replace('+', '\\+')))).toBeFalsy()
   })
   it('for received with a value between 0.01 and 0.001', () => {
     const { getByTestId } = render(
