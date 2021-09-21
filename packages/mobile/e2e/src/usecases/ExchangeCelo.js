@@ -9,7 +9,7 @@ import { celoEducation } from '../utils/celoEducation'
 import { dismissBanners } from '../utils/banners'
 import { reloadReactNative } from '../utils/retries'
 
-const CELO_TO_SELL = 0.025
+const CELO_TO_SELL = 0.002
 const CELO_TO_BUY = 0.045
 const CELO_TO_WITHDRAW = 0.02
 const FEES = 0.001
@@ -28,7 +28,7 @@ export default ExchangeCelo = () => {
   })
 
   jest.retryTimes(4)
-  it('Buy CELO', async () => {
+  it('Then Buy CELO', async () => {
     // Wait for buy button
     await waitFor(element(by.text('Buy')))
       .toBeVisible()
@@ -70,7 +70,7 @@ export default ExchangeCelo = () => {
   })
 
   jest.retryTimes(4)
-  it('Sell CELO', async () => {
+  it('Then Sell CELO', async () => {
     // Wait for buy button
     await waitFor(element(by.text('Sell')))
       .toBeVisible()
@@ -112,7 +112,7 @@ export default ExchangeCelo = () => {
   })
 
   jest.retryTimes(4)
-  it('Withdraw CELO', async () => {
+  it('Then Withdraw CELO', async () => {
     let celoBalanceBefore = await element(by.id('CeloBalance')).getAttributes()
     // Scroll to the withdraw button
     await waitFor(element(by.id('WithdrawCELO')))
