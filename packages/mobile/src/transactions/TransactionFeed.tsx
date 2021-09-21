@@ -106,10 +106,18 @@ function TransactionFeed({ kind, loading, error, data }: Props) {
         sections={sections}
         keyExtractor={keyExtractor}
         keyboardShouldPersistTaps="always"
+        testID="TransactionList"
       />
     )
   } else {
-    return <FlatList data={data} keyExtractor={keyExtractor} renderItem={renderItem} />
+    return (
+      <FlatList
+        testID="TransactionList"
+        data={data}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
+      />
+    )
   }
 }
 
