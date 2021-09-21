@@ -44,6 +44,7 @@ import {
 } from 'src/walletConnect/v1/selectors'
 import { getAccountAddress } from 'src/web3/saga'
 import { default as WalletConnectClient } from 'walletconnect-v1/client'
+import { IWalletConnectOptions } from 'walletconnect-v1/types'
 
 const connectors: { [x: string]: WalletConnectClient | undefined } = {}
 
@@ -265,7 +266,7 @@ function* listenForWalletConnectMessages(walletConnectChannel: EventChannel<Wall
 }
 
 // eslint-disable-next-line require-yield
-function* createWalletConnectChannelWithArgs(connectorOpts: any) {
+function* createWalletConnectChannelWithArgs(connectorOpts: IWalletConnectOptions) {
   Logger.info(
     TAG + '@createWalletConnectChannelWithArgs',
     'Creating Wallet',

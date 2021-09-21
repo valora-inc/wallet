@@ -139,12 +139,15 @@ export const showRequestDetails = (
   peerId,
   infoString,
 })
-export const acceptRequest = (peerId: string, request: any): AcceptRequest => ({
+export const acceptRequest = (
+  peerId: string,
+  request: WalletConnectPayloadRequest
+): AcceptRequest => ({
   type: Actions.ACCEPT_REQUEST_V1,
   request,
   peerId,
 })
-export const denyRequest = (peerId: string, request: any): DenyRequest => ({
+export const denyRequest = (peerId: string, request: WalletConnectPayloadRequest): DenyRequest => ({
   type: Actions.DENY_REQUEST_V1,
   request,
   peerId,

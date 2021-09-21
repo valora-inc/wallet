@@ -1,4 +1,4 @@
-import { IClientMeta } from 'walletconnect-v1/types'
+import { IClientMeta, IJsonRpcSubscription, IWalletConnectSession } from 'walletconnect-v1/types'
 import { SessionTypes } from 'walletconnect-v2/types'
 
 export interface WalletConnectSessionRequest {
@@ -8,31 +8,14 @@ export interface WalletConnectSessionRequest {
   uri?: string
   params: {
     peerId: string
-    peerMeta: { name: string; description: string; url: string; icons: string[] }
+    peerMeta: IClientMeta
     chainId: number
   }[]
 }
 
-export interface WalletConnectSession {
-  connected: boolean
-  accounts: string[]
-  chainId: number
-  bridge: string
-  key: string
-  clientId: string
-  clientMeta: IClientMeta | null
-  peerId: string
-  peerMeta: IClientMeta | null
-  handshakeId: number
-  handshakeTopic: string
-}
+export type WalletConnectSession = IWalletConnectSession
 
-export interface WalletConnectPayloadRequest {
-  id: number
-  jsonrpc: string
-  method: string
-  params: any
-}
+export type WalletConnectPayloadRequest = IJsonRpcSubscription
 
 export type PendingAction =
   | { version: 1; action: WalletConnectPayloadRequest; peerId: string }
