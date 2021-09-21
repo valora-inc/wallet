@@ -15,18 +15,28 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { showRequestDetails } from 'src/walletConnect/actions'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
 import {
   acceptRequest as acceptRequestV1,
   denyRequest as denyRequestV1,
+  showRequestDetails as showRequestDetailsV1,
 } from 'src/walletConnect/v1/actions'
 import {
   acceptRequest as acceptRequestV2,
   denyRequest as denyRequestV2,
+  showRequestDetails as showRequestDetailsV2,
 } from 'src/walletConnect/v2/actions'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
+
+function showRequestDetails(params: Props['route']['params'], infoString: string) {
+  switch (params.version) {
+    case 1:
+      return showRequestDetailsV1(params.peerId, params.action, infoString)
+    case 2:
+      return showRequestDetailsV2(params.action, infoString)
+  }
+}
 
 function acceptRequest(params: Props['route']['params']) {
   switch (params.version) {
@@ -80,7 +90,8 @@ function ActionRequest({ route: { params: routeParams } }: Props) {
 
   const { url, name, icon, method, params } = getRequestInfo(routeParams)
   const moreInfoString =
-    method === SupportedActions.eth_signTransaction
+    method === SupportedActions.eth_signTransaction ||
+    method === SupportedActions.eth_sendTransaction
       ? JSON.stringify(params)
       : method === SupportedActions.eth_signTypedData
       ? JSON.stringify(params[1])
