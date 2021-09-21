@@ -36,6 +36,15 @@ const locales: Locales = {
       return require('date-fns/locale/pt-BR')
     },
   },
+  de_DE: {
+    name: 'Deutsch',
+    get strings() {
+      return require('./de-DE').default
+    },
+    get dateFns() {
+      return require('date-fns/locale/de')
+    },
+  },
 }
 
 export default locales
