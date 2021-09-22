@@ -40,7 +40,7 @@
   "skipModal": {
     "header": "Skip Confirmation?",
     "body1": "Confirming allows others to send value to your phone number.",
-    "body2": "Without confirmation, you can still send payments, but only using Account Addresses or QR codes."
+    "body2": "Ohne Bestätigung können Sie immer noch Zahlungen versenden, aber nur mit Konto-Adressen oder QR-Codes."
   },
   "failModal": {
     "header": "Confirmation Error",
@@ -56,7 +56,7 @@
   "retryWithFornoModal": {
     "header": "Retry Confirmation with Data Saver?",
     "body1": "An issue has occurred while confirming your phone number. We recommend trying again with Data Saver mode enabled.",
-    "body2": "Data Saver mode allows you to communicate with the Celo Network more consistently using a trusted connection.",
+    "body2": "Der Data Saver-Modus ermöglicht es Ihnen, über eine vertrauenswürdige Verbindung mit dem Celo Netzwerk zu kommunizieren.",
     "retryButton": "Retry with Data Saver"
   },
   "congratsVerified": "Congratulations you are now confirmed!",
