@@ -165,7 +165,7 @@ function* denySession({ session }: DenySession) {
     })
   }
 
-  yield call(handlePendingState)
+  yield call(handlePendingStateOrNavigateBack)
 }
 
 function* closeSession({ session }: CloseSession) {
