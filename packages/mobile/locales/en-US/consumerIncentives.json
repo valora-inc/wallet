@@ -15,6 +15,6 @@
     "text": "Deposit {{maxBalance}} {{currency}} to max-out your {{percent}}% annual rewards."
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
-  "addCusd": "Add {{currency}}",
+  "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number"
 }
