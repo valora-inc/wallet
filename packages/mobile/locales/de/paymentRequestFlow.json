@@ -11,7 +11,7 @@
   "requestUnavailableNoDisplayNameHeader": "Your contact's account is unconfirmed",
   "requestUnavailableBody": "The number {{e164PhoneNumber}} doesn't have an account or hasn't confirmed it yet. Requests can only be sent to confirmed numbers.",
   "requestUnavailableNoNumberBody": "Your contact doesn't have an account or hasn't confirmed it yet. Requests can only be sent to confirmed numbers.",
-  "requesting": "Requesting",
+  "requesting": "Wird angefordert",
   "request": "Request",
   "requestToken": "Request {{token}}",
   "requestSent": "Request Sent"
