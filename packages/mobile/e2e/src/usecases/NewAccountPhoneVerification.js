@@ -92,7 +92,7 @@ export default NewAccountPhoneVerification = () => {
         for (let i = 0; i < 3; i++) {
           await waitFor(element(by.id(`VerificationCode${i}`)))
             .toBeVisible()
-            .withTimeout(1 * 1000)
+            .withTimeout(10 * 1000)
           await element(by.id(`VerificationCode${i}`)).replaceText(codes[i])
         }
 
