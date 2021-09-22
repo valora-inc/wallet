@@ -1,20 +1,20 @@
 {
   "steps": [
     {
-      "title": "What is CELO?",
-      "text": "CELO is a digital currency that keeps the Celo Dollar (cUSD) stable."
+      "title": "Was ist CELO?",
+      "text": "CELO ist eine digitale Währung, die den Celo Dollar (cUSD) stabil hält."
     },
     {
-      "title": "CELO’s price changes",
-      "text": "If more people use the Celo Dollar, the value of Celo increases. Unlike Celo, the Celo Dollar doesn't change in value. "
+      "title": "Preisänderungen bei CELO",
+      "text": "Wenn mehr Menschen den Celo Dollar verwenden, steigt der Wert von Celo. Im Gegensatz zu Celo ändert sich der Celo Dollar nicht. "
     },
     {
-      "title": "Shape the Celo Network",
-      "text": "By holding CELO, you have the ability to vote for changes and features you’d like to see on the Celo Network."
+      "title": "Formen Sie das Celo-Netzwerk",
+      "text": "Wenn Sie CELO gedrückt halten, können Sie für Änderungen und Funktionen stimmen, die Sie im Celo Netzwerk sehen möchten."
     },
     {
-      "title": "Please buy and sell responsibly",
-      "text": "{{appName}} allows you to buy and sell CELO. CELO presents a risk of financial loss, please exercise caution."
+      "title": "Bitte kaufen und verkaufen Sie verantwortungsbewusst",
+      "text": "{{appName}} erlaubt es Ihnen, CELO zu kaufen und zu verkaufen. CELO birgt ein Risiko von finanziellen Verlusten, bitte achten Sie darauf, dass Sie vorsichtig sind."
     }
   ]
 }
