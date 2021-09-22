@@ -91,7 +91,7 @@ function Profile({ navigation, route }: Props) {
   )
 }
 
-Profile.navigationOptions = ({ navigation, route }: Props) => {
+Profile.navigationOptions = ({ navigation }: Props) => {
   const onCancel = () => {
     navigation.goBack()
   }
