@@ -14,14 +14,14 @@ import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { Namespaces, withTranslation } from 'src/i18n'
-import { nuxNavigationOptions } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import {
   DEFAULT_CACHE_ACCOUNT,
-  PinBlocklist,
   isPinValid,
+  PinBlocklist,
   updatePin,
 } from 'src/pincode/authentication'
 import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
@@ -69,7 +69,31 @@ const mapDispatchToProps = {
 }
 
 export class PincodeSet extends React.Component<Props, State> {
-  static navigationOptions = nuxNavigationOptions
+  static navigationOptions = ({ route }: ScreenProps) => {
+    const changePin = route.params?.changePin
+    const title = changePin
+      ? i18n.t('onboarding:pincodeSet.changePIN')
+      : i18n.t('onboarding:pincodeSet.create')
+
+    return {
+      ...nuxNavigationOptions,
+      headerTitle: () => (
+        <HeaderTitleWithSubtitle
+          title={title}
+          subTitle={
+            changePin
+              ? ' '
+              : i18n.t(
+                  route.params?.choseToRestoreAccount
+                    ? 'onboarding:restoreAccountSteps'
+                    : 'onboarding:createAccountSteps',
+                  { step: '2' }
+                )
+          }
+        />
+      ),
+    }
+  }
 
   state: State = {
     oldPin: '',
@@ -90,6 +114,9 @@ export class PincodeSet extends React.Component<Props, State> {
     if (this.props.useExpandedBlocklist) {
       this.setState({ blocklist: new PinBlocklist() })
     }
+
+    // Setting choseToRestoreAccount on route param for navigationOptions
+    this.props.navigation.setParams({ choseToRestoreAccount: this.props.choseToRestoreAccount })
   }
 
   isChangingPin() {
