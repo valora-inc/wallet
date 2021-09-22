@@ -1,10 +1,10 @@
 {
-  "receivedPayment": "Received Payment",
-  "receivedEscrowPayment": "Received Escrow Payment",
-  "from": "from",
+  "receivedPayment": "Erhaltene Zahlung",
+  "receivedEscrowPayment": "Empfangene Escrow-Zahlung",
+  "from": "von",
   "celoWallet": "{{appName}}",
-  "at": "at",
+  "at": "bei",
   "receivedDollars": "Erhaltene Celo Dollars",
-  "verificationMessage": "You paid a fee to confirm your account. Welcome to {{appName}}!",
-  "receivedAmountFromCelo": "You received this amount from the Faucet!"
+  "verificationMessage": "Sie haben eine Gebühr zur Bestätigung Ihres Kontos bezahlt. Willkommen auf {{appName}}!",
+  "receivedAmountFromCelo": "Sie können diesen Betrag vom Faucet erhalten!"
 }
