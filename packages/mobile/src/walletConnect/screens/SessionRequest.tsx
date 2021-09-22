@@ -1,18 +1,15 @@
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { Namespaces } from 'src/i18n'
-import { emptyHeader } from 'src/navigator/Headers'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { headerWithCloseButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import { getTranslationDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
 import {
@@ -85,7 +82,7 @@ function ActionList({ actions }: { actions: string[] }) {
   )
 }
 
-function SessionRequest({ route: { params } }: Props) {
+function SessionRequest({ navigation, route: { params } }: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
   const [isAccepting, setIsAccepting] = useState(false)
   const [isDenying, setIsDenying] = useState(false)
@@ -102,6 +99,18 @@ function SessionRequest({ route: { params } }: Props) {
   }
 
   const isLoading = isAccepting || isDenying
+
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        if (isLoading) {
+          return
+        }
+
+        dispatch(denySession(params))
+      }),
+    [navigation, params, isLoading]
+  )
 
   const { url, name, icon, methods } = getRequestInfo(params)
   const fallbackIcon = icon ?? `${url}/favicon.ico`
@@ -148,24 +157,7 @@ function SessionRequest({ route: { params } }: Props) {
   )
 }
 
-function LeftHeader({ route: { params } }: Props) {
-  const dispatch = useDispatch()
-
-  const deny = () => {
-    dispatch(denySession(params))
-    navigateBack()
-  }
-
-  return <TopBarIconButton icon={<Times />} onPress={deny} />
-}
-
-SessionRequest.navigationOptions = (props: Props) => {
-  return {
-    ...emptyHeader,
-    headerLeft: () => <LeftHeader {...props} />,
-    headerLeftContainerStyle: { paddingLeft: 20 },
-  }
-}
+SessionRequest.navigationOptions = headerWithCloseButton
 
 const styles = StyleSheet.create({
   screen: {
