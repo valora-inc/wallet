@@ -174,7 +174,7 @@
   "addressValidationPartialPoorlyFormatted": "Os Endereços de Conta contém apenas números e letras, por favor forneça os últimos 4 dígitos. Pressione o link abaixo para obter ajuda.",
   "addressValidationFullOwnAddress": "Digite o Endereço de Conta de contato, não o seu. Pressione o link abaixo para obter ajuda.",
   "addressValidationPartialOwnAddress": "Digite os 4 últimos dígitos do Endereço de Conta do contato, não o seu. Pressione o link abaixo para obter ajuda.",
-  "providerRateFetchFailed": "Não foi possível buscar a taxa do provedor. Você pode continuar sem uma taxa pré-preenchida.",
+  "providerRateFetchFailed": "Não foi possível buscar a taxa do fornecedor. Você pode continuar sem uma taxa pré-preenchida.",
   "helpFindAccount": "Ajude o seu contato a encontrar o Endereço de Conta",
   "close": "Fechar",
   "home": "Página inicial",
