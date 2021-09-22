@@ -1,36 +1,36 @@
 {
-  "cancel": "Cancel",
-  "inviteWithWhatsapp": "Invite with WhatsApp",
-  "inviteWithSMS": "Invite with SMS",
-  "inviteFee": "Invite Fee",
-  "whySendFees": "This fee covers costs for the new user to connect their phone number",
-  "whyReceiveFees": "You were sent some money to confirm your account",
-  "edit": "Edit",
-  "to": "To",
-  "inviteSent": "Invite Sent",
-  "searchForSomeone": "Search for someone using their name or phone number",
-  "redeemFailed": "Failure redeeming code ",
-  "redeemInviteTimeout": "Redeem Invite Timed out",
-  "accountSetupFailed": "Failed to create your wallet",
-  "emptyInviteCode": "Invite code has no funds",
-  "transferDollarsToAccount": "Funds transferred to your account!",
-  "inviteAnyone": "Send easily to your friends by adding your contacts",
-  "inviteReceived": "Invite Received",
+  "cancel": "Abbrechen",
+  "inviteWithWhatsapp": "Mit WhatsApp einladen",
+  "inviteWithSMS": "Per SMS einladen",
+  "inviteFee": "Einladungsgebühr",
+  "whySendFees": "Diese Gebühr deckt die Kosten für den neuen Benutzer, um seine Telefonnummer zu verbinden",
+  "whyReceiveFees": "Ihnen wurde etwas Geld zur Bestätigung Ihres Kontos geschickt",
+  "edit": "Bearbeiten",
+  "to": "Zu",
+  "inviteSent": "Einladung gesendet",
+  "searchForSomeone": "Suche nach jemandem mit seinem Namen oder seiner Telefonnummer",
+  "redeemFailed": "Fehler beim Einlösen des Codes ",
+  "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
+  "accountSetupFailed": "Fehler beim Erstellen Ihrer Geldbörse",
+  "emptyInviteCode": "Einladungscode hat kein Guthaben",
+  "transferDollarsToAccount": "Guthaben auf Ihr Konto überwiesen!",
+  "inviteAnyone": "Senden Sie einfach an Ihre Freunde, indem Sie Ihre Kontakte hinzufügen",
+  "inviteReceived": "Einladung erhalten",
   "escrowPaymentNotificationTitle": "Invited {{mobile}}",
   "inviteDialog": {
-    "title": "Invite a Friend",
-    "body": "Connect and share value with your friends and family on Valora.",
-    "button": "Invite"
+    "title": "Einen Freund einladen",
+    "body": "Verbinden und teilen Sie Wert mit Ihren Freunden und Familie auf Valora.",
+    "button": "Einladen"
   },
-  "sendAndInvite": "Send & Invite",
+  "sendAndInvite": "Senden & Einladen",
   "inviteAndSendDialog": {
-    "title": "Invite and Send",
-    "body": "Your payment to {{name}} will be waiting for them once they confirm their phone number. Share an invitation message with them to join {{appName}} and redeem your payment!",
-    "button": "Invite"
+    "title": "Einladen und Senden",
+    "body": "Ihre Zahlung an {{name}} wird auf sie warten, sobald sie ihre Telefonnummer bestätigen. Teilen Sie ihnen eine Einladungsnachricht, um {{appName}} beizutreten und Ihre Zahlung einlösen!",
+    "button": "Einladen"
   },
   "inviteRewardsBanner": {
-    "title": "Get ${{amount}} by referring a friend!",
-    "body": "Earn {{amount}} cUSD when you send money to a friend and they join. <0>Learn more</0>"
+    "title": "Erhalten Sie ${{amount}}, indem Sie einen Freund empfehlen!",
+    "body": "Verdienen Sie {{amount}} cUSD wenn Sie Geld an einen Freund überweisen und diese beitreten. <0>Mehr erfahren</0>"
   },
-  "getReward": "Get ${{reward}}"
+  "getReward": "Erhalten Sie ${{reward}}"
 }
