@@ -1,6 +1,6 @@
 {
   "cancel": "Cancel",
-  "submit": "Submit",
+  "submit": "Versenden",
   "dollarsSent": "Dollars Sent",
   "to": "To",
   "send": "Send",
@@ -82,7 +82,7 @@
     "cta": "Start Confirmation"
   },
   "importContactsCta": {
-    "header": "Import Contacts",
+    "header": "Kontakte importieren",
     "body": "Please enable Contacts in your phone’s Settings to find your friends by name.",
     "cta": "Settings"
   },
@@ -99,27 +99,27 @@
   "secureSendExplanation": {
     "body1": "{{e164PhoneNumber}} has multiple accounts associated with it. {{displayName}} could have created a new {{appName}} account, or may have lost their phone or had their account compromised.",
     "body1NoDisplayName": "Your contact has multiple accounts associated with it. Your contact could have created a new {{appName}} account, or may have lost their phone or had their account compromised.",
-    "body2": "You must scan their QR code or confirm their Account Address before transacting."
+    "body2": "Sie müssen ihren QR-Code scannen oder ihre Konto-Adresse vor der Transaktion bestätigen."
   },
   "confirmAccountNumber": {
     "title": "Confirm Account Address",
     "bodyPartial": "Please ask {{displayName}} for the last four digits of their Account Address. It's safest to do this in person or by phone.",
-    "bodyPartialNoDisplayName": "Please ask your contact for the last four digits of their Account Address. It's safest to do this in person or by phone.",
-    "body1Full": "Please ask {{displayName}} for their Account Address.",
-    "body1FullNoDisplayName": "Please ask your contact for their Account Address.",
+    "bodyPartialNoDisplayName": "Bitte fragen Sie Ihren Kontakt nach den letzten vier Ziffern Ihrer Konto-Adresse. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
+    "body1Full": "Bitte fragen Sie {{displayName}} nach der Konto-Adresse.",
+    "body1FullNoDisplayName": "Bitte fragen Sie Ihren Kontakt nach der Konto-Adresse.",
     "body2Full": "We strongly recommend asking in person or over the phone, through WhatsApp or Messenger, or by email. For security, please do not use text messaging (SMS).",
-    "help": "Help locating an Account Address",
-    "submit": "Submit"
+    "help": "Hilfe beim Auffinden einer Konto-Adresse",
+    "submit": "Versenden"
   },
   "accountInputHeaderPartial": "Last 4 Digits",
-  "accountInputHeaderFull": "Account Address",
+  "accountInputHeaderFull": "Konto-Adresse",
   "helpModal": {
-    "header": "Locating an Account Address",
+    "header": "Lokalisierung einer Konto-Adresse",
     "body1": "Account Addresses (also known as addresses) are located in the menu. From the Home screen, open the menu by tapping the icon in the top left corner.",
-    "body2": "The Account Address is near the bottom of the menu.",
-    "body3": "Account Addresses begin with \"0x\" and are 42 characters long"
+    "body2": "Die Konto-Adresse befindet sich am unteren Ende des Menüs.",
+    "body3": "Konto-Adressen beginnen mit \"0x\" und sind 42 Zeichen lang"
   },
-  "transferAddressChanged": "This contact changed their Account Address since the transaction. This payment was sent to:",
+  "transferAddressChanged": "Dieser Kontakt hat seine Konto-Adresse seit der Transaktion geändert. Diese Zahlung wurde gesendet an:",
   "addressConfirmed": "Account Address confirmed",
   "sending": "Sending",
   "feeActual": "Fees",
