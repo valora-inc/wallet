@@ -19,7 +19,7 @@ export const receiveSms = async (
         limit: 3,
       })
       const codes = messages.map((message) => message.body.split(': ')[1])
-      console.log('Codes received:', codes)
+      // console.log('Codes received:', codes)
       if (codes.filter((code) => !existingCodes.includes(code)).length >= numCodes) {
         return codes
       }
