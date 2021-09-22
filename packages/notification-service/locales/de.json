@@ -10,6 +10,6 @@
   "paymentRequestedBody": "Payment of {{amount}} {{currency}} has been requested",
   "rewardReceivedTitle": "You just earned more cUSD 📈",
   "rewardReceivedBody": "Your weekly earnings have arrived! Add cUSD to earn even more next week.",
-  "inviteRewardTitle": "Invite Accepted",
+  "inviteRewardTitle": "Einladung akzeptiert",
   "inviteRewardBody": "Your friend accepted your Valora invite, and you earned {{amount}} {{currency}}!"
 }
