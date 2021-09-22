@@ -14,7 +14,7 @@
   "celoDollar": "Celo Dollar",
   "celoEuro": "Celo Euro",
   "celoDollars": "Celo Dollars",
-  "tapToCopyCeloDollarsAddress": "Tap to copy your {{appName}} CUSD address",
+  "tapToCopyCeloDollarsAddress": "Tippen, um Ihre {{appName}} CUSD-Adresse zu kopieren",
   "disclaimerFiat": "{{currency}}-Werte sind Schätzungen.",
   "dollarsNotYetEnabledNote": "Celo Dollars sind noch nicht bei anderen Anbietern verfügbar. Um Celo Dollars zu erhalten, erwerben Sie CELO und tauschen Sie diese gegen Celo Dollars im CELO Tab.",
   "selectDigitalCurrency": "Eine digitale Währung auswählen",
@@ -27,12 +27,12 @@
   "receiveWithBidali": "Geschenkkarten und Mobile Top Up",
   "fundingEducationDialog": {
     "title": "Ihre {{appName}} finanzieren",
-    "body": "{{appName}} is powered by the Celo Network. {{appName}} runs on Celo Dollars (cUSD), a stable digital currency tracking the US Dollar.\n\nTo fund your {{appName}} wallet, purchase cUSD from one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
+    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben. {{appName}} läuft auf Celo Dollars (cUSD), einer stabilen digitalen Währung, die den US-Dollar verfolgt.\n\nUm Ihr {{appName}} Wallet zu finanzieren, kaufen Sie cUSD von einem der Drittanbieter in Ihrem Standort. Für weitere Informationen besuche bitte <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Abheben von {{appName}}",
-    "body": "{{appName}} is powered by the Celo Network. {{appName}} runs on Celo Dollars (cUSD), a stable digital currency tracking the US Dollar.\n\nTo withdraw your {{appName}} balance, sell cUSD with one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
+    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben. {{appName}} läuft auf Celo Dollars (cUSD), einer stabilen digitalen Währung, die den US-Dollar verfolgt.\n\nUm Ihr {{appName}} Guthaben abzuheben, verkaufen Sie cUSD mit einem der Drittanbieter in Ihrem Standort. Für weitere Informationen besuche bitte <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
