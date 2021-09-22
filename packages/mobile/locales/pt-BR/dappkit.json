@@ -1,5 +1,5 @@
 {
-  "connectToWallet": "{{dappName}} gostaria de se conectar a {{appName}} ",
+  "connectToWallet": "A {{dappName}} gostaria de se conectar a {{appName}}",
   "cancel": "Cancelar",
   "allow": "Permitir",
   "address": "Endereço de Conta",
