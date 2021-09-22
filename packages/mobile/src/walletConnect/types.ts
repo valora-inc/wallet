@@ -9,7 +9,7 @@ export interface WalletConnectSessionRequest {
   params: {
     peerId: string
     peerMeta: IClientMeta
-    chainId: number
+    chainId: number | null
   }[]
 }
 

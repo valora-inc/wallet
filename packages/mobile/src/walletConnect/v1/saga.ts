@@ -62,7 +62,7 @@ function getDefaultSessionTrackedProperties(
     dappDescription,
     dappIcon: icons[0],
     peerId,
-    chainId: chainId.toString(),
+    chainId: chainId?.toString() ?? '',
   }
 }
 
