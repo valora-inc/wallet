@@ -21,6 +21,8 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
+import { useCountryFeatures } from 'src/utils/countryFeatures'
+import { Currency } from 'src/utils/currencies'
 
 type Props = StackScreenProps<StackParamList, Screens.ConsumerIncentivesHomeScreen>
 export default function ConsumerIncentivesHomeScreen(props: Props) {
@@ -28,7 +30,12 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
   const userIsVerified = useSelector((state) => state.app.numberVerified)
   const insets = useSafeAreaInsets()
 
-  const { rewardsPercent, rewardsMax } = useSelector((state) => state.app)
+  const { rewardsPercent, rewardsMax: maxBalance, rewardsMin: minBalance } = useSelector(
+    (state) => state.app
+  )
+
+  const { USE_CEUR } = useCountryFeatures()
+  const currency = USE_CEUR ? Currency.Euro : Currency.Dollar
 
   const onPressCTA = () => {
     if (userIsVerified) {
@@ -59,7 +66,9 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
         </Touchable>
         <Image source={boostRewards} />
         <Text style={styles.title}>{t('title')}</Text>
-        <Text style={styles.description}>{t('summary', { percent: rewardsPercent })}</Text>
+        <Text style={styles.description}>
+          {t('summary', { currency, percent: rewardsPercent })}
+        </Text>
         <View style={styles.section}>
           <Image source={earn1} style={styles.sectionImage} resizeMode="contain" />
           <View style={styles.sectionText}>
@@ -72,9 +81,13 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
           <View style={styles.sectionText}>
             <Text style={fontStyles.regular600}>{t('noMinCommitment.header')}</Text>
             {userIsVerified ? (
-              <Text style={fontStyles.small}>{t('noMinCommitment.earningText')}</Text>
+              <Text style={fontStyles.small}>
+                {t('noMinCommitment.earningText', { minBalance, currency })}
+              </Text>
             ) : (
-              <Text style={fontStyles.small}>{t('noMinCommitment.connectText')}</Text>
+              <Text style={fontStyles.small}>
+                {t('noMinCommitment.connectText', { minBalance, currency })}
+              </Text>
             )}
           </View>
         </View>
@@ -83,7 +96,7 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
           <View style={styles.sectionText}>
             <Text style={fontStyles.regular600}>{t('saveMoreEarnMore.header')}</Text>
             <Text style={fontStyles.small}>
-              {t('saveMoreEarnMore.text', { rewardsMax, percent: rewardsPercent })}
+              {t('saveMoreEarnMore.text', { maxBalance, currency, percent: rewardsPercent })}
             </Text>
           </View>
         </View>
