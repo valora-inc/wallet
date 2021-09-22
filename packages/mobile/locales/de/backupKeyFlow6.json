@@ -3,7 +3,7 @@
   "introTitle": "Your Recovery Phrase",
   "introBody": "Your Recovery Phrase is the most important part of your account.\n\nPlease find a private place to set up your Phrase. It takes about five minutes.",
   "introPrimaryAction": "Set Up Now",
-  "backupSetupTitle": "Set Up Your Recovery Phrase",
+  "backupSetupTitle": "Wiederherstellungsphrase einrichten",
   "backupSetupBody": "To protect your funds, you're required to set up your Recovery Phrase before you can continue using {{appName}}.",
   "delayBackup": "Wait One Hour",
   "postSetupTitle": "Your Recovery Phrase",
@@ -31,12 +31,12 @@
     "2": "You’re all set!"
   },
   "cancelDialog": {
-    "title": "Finish setting up your Recovery Phrase",
+    "title": "Einrichten Ihrer Wiederherstellungsphrase abschließen",
     "body": "Your Recovery Phrase is extremely important. Without a Phrase, you can lose access to your wallet forever.\nYou will be blocked from sending any transactions until you finish setting up your Recovery Phrase.",
     "action": "Complete Now",
     "secondary": "Set Up Later"
   },
-  "backupPhrasePlaceholder": "horse leopard dog monkey shark tiger lemur whale squid wolf squirrel mouse lion elephant cat shrimp bear penguin deer turtle fox zebra goat giraffe",
+  "backupPhrasePlaceholder": "Pferd Leopard Hund Affen Hai Tiger Lemur Wal Tintenfisch Eichhörnchen Maus Elefant Katze Garnele Bär Pinguin Schildkröte Fuchs Zebra Ziege Giraffe",
   "guide": [
     {
       "title": "Your Recovery Phrase is a special kind of password",
