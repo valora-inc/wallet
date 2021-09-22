@@ -5,7 +5,9 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { WalletConnectEvents } from 'src/analytics/Events'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Namespaces } from 'src/i18n'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { isScreenOnForeground, navigate } from 'src/navigator/NavigationService'
@@ -22,6 +24,9 @@ function Loading({ route }: Props) {
   useEffect(() => {
     const timer = setTimeout(async () => {
       if (await isScreenOnForeground(Screens.WalletConnectLoading)) {
+        ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, {
+          error: 'timed out while waiting for a session',
+        })
         navigate(Screens.WalletConnectResult, {
           title: t('timeoutTitle'),
           subtitle: t('timeoutSubtitle'),
