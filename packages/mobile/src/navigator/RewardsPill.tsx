@@ -23,9 +23,9 @@ function RewardsPill() {
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
   const rewardPillText = useSelector(rewardPillTextSelector)
 
-  if (!rewardsEnabled) {
-    return null
-  }
+  // if (!rewardsEnabled) {
+  //   return null
+  // }
   return (
     <TouchableOpacity style={styles.rewardsContainer} onPress={onOpenRewards} testID="EarnRewards">
       <Rings />

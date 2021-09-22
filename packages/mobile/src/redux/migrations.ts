@@ -306,4 +306,11 @@ export const migrations = {
     ...state,
     fiatExchanges: _.omit(state.fiatExchanges, 'lastUsedProvider'),
   }),
+  18: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      rewardPillText: { en: 'Earn', pt: 'Ganhar', es: 'Gana' },
+    },
+  }),
 }
