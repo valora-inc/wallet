@@ -4,7 +4,7 @@
   "from": "from",
   "celoWallet": "{{appName}}",
   "at": "at",
-  "receivedDollars": "Received Celo Dollars",
+  "receivedDollars": "Erhaltene Celo Dollars",
   "verificationMessage": "You paid a fee to confirm your account. Welcome to {{appName}}!",
   "receivedAmountFromCelo": "You received this amount from the Faucet!"
 }
