@@ -227,7 +227,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
               }
             }
           >
-            noMinCommitment.earningText, {"currency":"cUSD"}
+            noMinCommitment.earningText, {"minBalance":10,"currency":"cUSD"}
           </Text>
         </View>
       </View>
@@ -419,7 +419,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
               }
             }
           >
-            addCusd
+            cashIn
           </Text>
         </View>
       </View>
