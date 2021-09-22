@@ -89,7 +89,7 @@ export class ImportWallet extends React.Component<Props, State> {
     headerTitle: () => (
       <HeaderTitleWithSubtitle
         title={i18n.t('nuxNamePin1:importIt')}
-        subTitle={i18n.t('onboarding:step', { step: '3' })}
+        subTitle={i18n.t('onboarding:restoreAccountSteps', { step: '3' })}
       />
     ),
   }
