@@ -19,7 +19,7 @@
   "sentTo": "Enviado a",
   "withdrawnTo": "Transferido a",
   "receivedFrom": "Recibido de",
-  "accountNumberLabel": "Dirección de cuenta",
+  "accountAddressLabel": "Dirección de cuenta",
   "commentLabel": "Mensaje",
   "amountSent": "Monto enviado",
   "amountCeloWithdrawn": "Monto (CELO)",
