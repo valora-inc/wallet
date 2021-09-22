@@ -8,7 +8,9 @@ const ROOT_KEY = 'addressesExtraInfo'
 const ON_VALUE_CHANGED = 'value'
 
 class KnownAddressesCache {
-  private knownAddresses: { [address: string]: { name?: string; imageUrl?: string } } = {}
+  private knownAddresses: {
+    [address: string]: { name?: string; imageUrl?: string } | undefined
+  } = {}
 
   startListening(): void {
     console.info(TAG, 'Start listening to Firebase for new events')
