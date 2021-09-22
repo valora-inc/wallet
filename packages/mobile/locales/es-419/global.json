@@ -55,7 +55,7 @@
   "enterManually": "Ingresar manualmente",
   "incorrectPin": "PIN incorrecto",
   "pinInputCanceled": "Debes ingresar un PIN. Inténtalo nuevamente.",
-  "setPinFailed": "No se puso configurar el PIN",
+  "setPinFailed": "Error de configuración del PIN",
   "createPin": "Crear PIN",
   "optIn": "Suscribirse",
   "invalidInvite": "Código de invitación inválido",
