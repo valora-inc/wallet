@@ -3,9 +3,11 @@ import { Currencies } from '../src/blockscout/transfers'
 import {
   sendPaymentNotification,
   _setInviteRewardsSenders,
+  _setKnownAddressesCache,
   _setRewardsSenders,
   _setTestRegistrations,
 } from '../src/firebase'
+import KnownAddressesCache from '../src/helpers/KnownAddressesCache'
 
 const SENDER_ADDRESS = '0x123456'
 
@@ -23,6 +25,7 @@ const mockedMessagingSend = admin.messaging().send as jest.Mock
 
 describe('sendPaymentNotification', () => {
   beforeEach(() => {
+    _setKnownAddressesCache(new KnownAddressesCache())
     mockedMessagingSend.mockClear()
   })
 

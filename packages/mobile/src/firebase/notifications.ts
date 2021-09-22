@@ -70,10 +70,14 @@ function* handlePaymentReceived(
           value: divideByWei(transferNotification.value),
           currencyCode: mapOldCurrencyToNew(transferNotification.currency),
         },
-        address: transferNotification.sender.toLowerCase(),
+        address: address,
         comment: transferNotification.comment,
-        // TODO: Add server default value from backend notification service
-        recipient: getRecipientFromAddress(address, info),
+        recipient: getRecipientFromAddress(
+          address,
+          info,
+          transferNotification.name,
+          transferNotification.imageUrl
+        ),
         type: TokenTransactionType.Received,
       }
     )

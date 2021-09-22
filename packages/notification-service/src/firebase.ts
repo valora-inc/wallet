@@ -10,6 +10,7 @@ import {
   NotificationTypes,
   SEGMENT_API_KEY,
 } from './config'
+import KnownAddressesCache from './helpers/KnownAddressesCache'
 import { metrics } from './metrics'
 
 const NOTIFICATIONS_TAG = 'NOTIFICATIONS/'
@@ -22,6 +23,7 @@ let database: admin.database.Database
 let registrationsRef: admin.database.Reference
 let lastBlockRef: admin.database.Reference
 let lastInviteBlockRef: admin.database.Reference
+let knownAddressesCache: KnownAddressesCache
 
 export interface Registrations {
   [address: string]:
@@ -51,6 +53,10 @@ export function _setRewardsSenders(testRewardsSenders: string[]) {
 
 export function _setInviteRewardsSenders(testRewardsSenders: string[]) {
   inviteRewardsSenders = testRewardsSenders
+}
+
+export function _setKnownAddressesCache(testKnownAddressesCache: KnownAddressesCache) {
+  knownAddressesCache = testKnownAddressesCache
 }
 
 function firebaseFetchError(nodeKey: string) {
@@ -128,6 +134,9 @@ export function initializeDb() {
       inviteRewardsSenders = addresses
     }
   })
+
+  knownAddressesCache = new KnownAddressesCache()
+  knownAddressesCache.startListening(database)
 }
 
 export function getTokenFromAddress(address: string) {
@@ -221,6 +230,16 @@ function notificationTitleAndBody(senderAddress: string, currency: Currencies) {
   }[currency]
 }
 
+function setDefaultNameAndImageIfAvailable(data: { [key: string]: string }, senderAddress: string) {
+  const { name, imageUrl } = knownAddressesCache.getValueFor(senderAddress)
+  if (name) {
+    Object.assign(data, { name })
+  }
+  if (imageUrl) {
+    Object.assign(data, { imageUrl })
+  }
+}
+
 export async function sendPaymentNotification(
   senderAddress: string,
   recipientAddress: string,
@@ -236,6 +255,8 @@ export async function sendPaymentNotification(
 
   const t = getTranslatorForAddress(recipientAddress)
   data.type = NotificationTypes.PAYMENT_RECEIVED
+
+  setDefaultNameAndImageIfAvailable(data, senderAddress)
 
   const { title, body } = notificationTitleAndBody(senderAddress, currency)
   return sendNotification(
