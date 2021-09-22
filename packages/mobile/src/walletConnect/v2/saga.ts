@@ -379,6 +379,7 @@ function* createWalletConnectChannel() {
 }
 
 function* showSessionRequest(session: SessionTypes.Proposal) {
+  ValoraAnalytics.track(WalletConnectEvents.wc_pairing_success)
   ValoraAnalytics.track(WalletConnectEvents.wc_session_propose, {
     ...getDefaultSessionTrackedProperties(session),
   })
@@ -439,7 +440,6 @@ function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
     Logger.debug(TAG + '@handleInitialisePairing', 'pair start')
     yield call(client.pair.bind(client), { uri })
     Logger.debug(TAG + '@handleInitialisePairing', 'pair end')
-    ValoraAnalytics.track(WalletConnectEvents.wc_pairing_success)
   } catch (e) {
     Logger.debug(TAG + '@handleInitialisePairing', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, { error: e.message })

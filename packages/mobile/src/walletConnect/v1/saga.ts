@@ -255,7 +255,6 @@ function* handleInitialiseWalletConnect({ uri, origin }: InitialiseConnection) {
     { uri }
   )
   yield fork(listenForWalletConnectMessages, walletConnectChannel)
-  ValoraAnalytics.track(WalletConnectEvents.wc_pairing_success)
 }
 
 function* listenForWalletConnectMessages(walletConnectChannel: EventChannel<WalletConnectActions>) {
@@ -316,6 +315,7 @@ function* createWalletConnectChannelWithArgs(connectorOpts: IWalletConnectOption
 }
 
 function* showSessionRequest(session: WalletConnectSessionRequest) {
+  ValoraAnalytics.track(WalletConnectEvents.wc_pairing_success)
   ValoraAnalytics.track(WalletConnectEvents.wc_session_propose, {
     ...getDefaultSessionTrackedProperties(session),
   })
