@@ -712,6 +712,7 @@ export const v17Schema = {
   },
   app: {
     ...v16Schema.app,
+    rewardsMin: 10,
     pincodeUseExpandedBlocklist: true,
   },
   fiatExchanges: _.omit(v16Schema.fiatExchanges, 'lastUsedProvider'),
