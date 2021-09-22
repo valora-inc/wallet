@@ -3,7 +3,7 @@ import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
-import * as React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -78,13 +78,17 @@ function getRequestInfo(params: Props['route']['params']) {
 }
 function ActionRequest({ route: { params: routeParams } }: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
+  const [isAccepting, setIsAccepting] = useState(false)
+  const [isDenying, setIsDenying] = useState(false)
   const dispatch = useDispatch()
 
   const onAccept = () => {
+    setIsAccepting(true)
     dispatch(acceptRequest(routeParams))
   }
 
   const onDeny = () => {
+    setIsDenying(true)
     dispatch(denyRequest(routeParams))
   }
 
@@ -111,6 +115,8 @@ function ActionRequest({ route: { params: routeParams } }: Props) {
 
   const uri = icon ?? `${url}/favicon.ico`
 
+  const isLoading = isAccepting || isDenying
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -136,12 +142,13 @@ function ActionRequest({ route: { params: routeParams } }: Props) {
           )}
         </View>
 
-        <View style={styles.buttonContainer}>
+        <View style={styles.buttonContainer} pointerEvents={isLoading ? 'none' : undefined}>
           <Button
             style={styles.button}
             type={BtnTypes.SECONDARY}
             size={BtnSizes.MEDIUM}
             text={t('cancel')}
+            showLoading={isDenying}
             onPress={onDeny}
             testID="WalletConnectActionCancel"
           />
@@ -150,6 +157,7 @@ function ActionRequest({ route: { params: routeParams } }: Props) {
             type={BtnTypes.PRIMARY}
             size={BtnSizes.MEDIUM}
             text={t('allow')}
+            showLoading={isAccepting}
             onPress={onAccept}
             testID="WalletConnectActionAllow"
           />

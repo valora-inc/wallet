@@ -3,7 +3,7 @@ import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
-import * as React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -87,17 +87,21 @@ function ActionList({ actions }: { actions: string[] }) {
 
 function SessionRequest({ route: { params } }: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
+  const [isAccepting, setIsAccepting] = useState(false)
+  const [isDenying, setIsDenying] = useState(false)
   const dispatch = useDispatch()
 
   const confirm = () => {
+    setIsAccepting(true)
     dispatch(acceptSession(params))
-    navigateBack()
   }
 
   const deny = () => {
+    setIsDenying(true)
     dispatch(denySession(params))
-    navigateBack()
   }
+
+  const isLoading = isAccepting || isDenying
 
   const { url, name, icon, methods } = getRequestInfo(params)
   const fallbackIcon = icon ?? `${url}/favicon.ico`
@@ -122,18 +126,20 @@ function SessionRequest({ route: { params } }: Props) {
           </View>
         )}
 
-        <View style={styles.actionContainer}>
+        <View style={styles.actionContainer} pointerEvents={isLoading ? 'none' : undefined}>
           <Button
             style={styles.cancelButton}
             type={BtnTypes.SECONDARY}
             size={BtnSizes.MEDIUM}
             text={t('cancel')}
+            showLoading={isDenying}
             onPress={deny}
           />
           <Button
             type={BtnTypes.PRIMARY}
             size={BtnSizes.MEDIUM}
             text={t('allow')}
+            showLoading={isAccepting}
             onPress={confirm}
           />
         </View>
