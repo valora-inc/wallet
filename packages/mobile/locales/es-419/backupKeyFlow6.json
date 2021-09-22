@@ -9,7 +9,7 @@
   "postSetupTitle": "Esta es tu Frase de recuperación",
   "postSetupBody": "Si pierdes tu Frase de recuperación, perderás el acceso a tus Celo Dólares, Celo Euros y CELO. Nadie, ni siquiera {{appName}}, podrá ayudarte a recuperar tu cuenta sin esa frase. Guárdala en un lugar seguro y no la compartas con nadie.",
   "postSetupCTA": "Conoce más sobre la Frase de recuperación",
-  "failedFetchMnemonic": "No se pudo obtener tu Clave de cuenta",
+  "failedFetchMnemonic": "Error al intentar obtener la Frase de recuperación",
   "backupAndRecovery": "Respaldo y recuperación",
   "writeDownKey": "Por favor, anota tu frase.",
   "completeEducation": "Entiendo",
