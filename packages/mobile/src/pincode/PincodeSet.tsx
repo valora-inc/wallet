@@ -20,8 +20,8 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import {
   DEFAULT_CACHE_ACCOUNT,
-  PinBlocklist,
   isPinValid,
+  PinBlocklist,
   updatePin,
 } from 'src/pincode/authentication'
 import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
