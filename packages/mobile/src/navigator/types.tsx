@@ -243,7 +243,12 @@ export type StackParamList = {
     origin: SendOrigin
   }
   [Screens.VerificationEducationScreen]:
-    | { showSkipDialog?: boolean; hideOnboardingStep?: boolean; selectedCountryCodeAlpha2?: string }
+    | {
+        showSkipDialog?: boolean
+        hideOnboardingStep?: boolean
+        selectedCountryCodeAlpha2?: string
+        choseToRestoreAccount?: boolean
+      }
     | undefined
   [Screens.VerificationInputScreen]:
     | { showHelpDialog?: boolean; choseToRestoreAccount?: boolean }

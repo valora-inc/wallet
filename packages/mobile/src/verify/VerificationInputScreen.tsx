@@ -159,6 +159,9 @@ class VerificationInputScreen extends React.Component<Props, State> {
       }
       this.setState({ timer: timer - 1 })
     }, 1000)
+
+    // Setting choseToRestoreAccount on route param for navigationOptions
+    this.props.navigation.setParams({ choseToRestoreAccount: this.props.choseToRestoreAccount })
   }
 
   componentDidUpdate(prevProps: Props) {
