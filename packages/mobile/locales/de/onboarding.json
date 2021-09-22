@@ -7,11 +7,11 @@
   "welcome": {
     "title": "Share money with those you value",
     "createAccount": "Create new account",
-    "restoreAccount": "Restore my account"
+    "restoreAccount": "Mein Konto wiederherstellen"
   },
   "contacts": {
     "disclosure": {
-      "title": "Import Contacts",
+      "title": "Kontakte importieren",
       "body": "Valora would like to import your contacts. By tapping below, I allow access to my contacts' phone numbers, names and photos for purposes of connecting with them through Valora"
     }
   },
@@ -28,9 +28,9 @@
     "invalidPin": "Please use a stronger PIN"
   },
   "inviteCode": {
-    "title": "Invite Code",
-    "body": "Did you receive a payment or invite? If so, please copy and paste the Invite Code below.",
-    "label": "Invite Code",
+    "title": "Einladungscode",
+    "body": "Haben Sie eine Zahlung oder Einladung erhalten? Wenn ja, kopieren und fügen Sie den Einladungscode unten ein.",
+    "label": "Einladungscode",
     "codePlaceholder": "Enter invite code",
     "noCode": "Don’t have an Invite Code",
     "nodeCodeInviteLink": "Don’t have an invite code? Request one at <0>celo.org/developers/wallet</0> or <1>continue without</1>",
@@ -46,7 +46,7 @@
     "resume": "Resume",
     "doINeedToConfirm": "Do I need to confirm?",
     "skipForNow": "Skip for now",
-    "bodyInsufficientBalance": "Your current balance is not high enough to complete the confirmation process.\n\nPlease try again when you have added funds to your wallet.",
+    "bodyInsufficientBalance": "Ihr aktueller Kontostand ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.\n\nBitte versuchen Sie es erneut, wenn Sie Ihrer Geldbörse Guthaben hinzugefügt haben.",
     "bodyAlreadyVerified": "Your number is already confirmed!"
   },
   "verificationSkipDialog": {
@@ -58,7 +58,7 @@
   "verificationPrematureRevealMessage": "Please wait one minute before resending",
   "verificationLearnMoreDialog": {
     "title": "Phone Numbers and {{appName}}",
-    "body": "Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
+    "body": "Bestätigen macht es einfach, sich mit Ihren Freunden zu verbinden, indem Sie Ihnen das Senden und Empfangen von Guthaben an Ihre Telefonnummer ermöglichen.\n\n<0>Kann ich dies später tun? </0>\n\nJa, aber unbestätigte Konten können nur Zahlungen mit QR-Codes oder Konto-Adressen senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um Ihre Telefonnummer privat zu halten.",
     "dismiss": "Dismiss"
   },
   "importExistingKey": {
