@@ -52,6 +52,10 @@ jobs:
           echo TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN >> .env
           echo TWILIO_ACCOUNT_SID=$TWILIO_ACCOUNT_SID >> .env
           echo VERIFICATION_PHONE_NUMBER=$VERIFICATION_PHONE_NUMBER >> .env
+      - name: Fund E2E accounts
+        run : |
+          cd packages/mobile/e2e/scripts
+          node ./fund-e2e-accounts.ts
       - name: Run E2E tests
         run: |
           cd packages/mobile
@@ -104,6 +108,10 @@ jobs:
           echo TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN >> .env
           echo TWILIO_ACCOUNT_SID=$TWILIO_ACCOUNT_SID >> .env
           echo VERIFICATION_PHONE_NUMBER=$VERIFICATION_PHONE_NUMBER >> .env
+      - name: Fund E2E accounts
+        run : |
+          cd packages/mobile/e2e/scripts
+          node ./fund-e2e-accounts.ts
       - name: Run E2E tests
         run: |
           export ANDROID_SDK_ROOT=$HOME/android-tools
