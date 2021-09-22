@@ -27,7 +27,7 @@
   "receiveWithBidali": "Vales-Presente e Recargas de Celular",
   "fundingEducationDialog": {
     "title": "Adicionar fundos com a {{appName}}",
-    "body": "A {{appName}} é alimentada pela Rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano. Para adicionar fundos à sua conta da {{appName}}, compre cUSD com um dos provedores terceirizados disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
+    "body": "A {{appName}} é alimentada pela Rede Celo. A {{appName}} gerencia Celo Dólares (cUSD), uma moeda digital estável que acompanha o dólar americano. Para adicionar fundos à sua conta da {{appName}}, compre cUSD com um dos fornecedores terceirizados disponíveis em sua região. Para mais informações visite <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
@@ -37,7 +37,7 @@
   },
   "explanationModal": {
     "title": "Sobre os fornecedores",
-    "body": "Os fornecedores permitem que você adicione ou saque fundos da sua conta. Os provedores determinam suas próprias tarifas e restrições, dependendo de diversos fatores. Visite o site do provedor para obter ajuda."
+    "body": "Os fornecedores permitem que você adicione ou saque fundos da sua conta. Os fornecedores determinam suas próprias tarifas e restrições, dependendo de diversos fatores. Visite o site do fornecedor para obter ajuda."
   },
   "invalidAmountDialog": {
     "minAmount": "Nossos fornecedores não aceitam valores inferiores a {{usdLimit}}{{localLimit}}. Insira um valor maior.",
@@ -52,14 +52,14 @@
   "providerFeesDialog": {
     "title": "Taxas de Fornecedor",
     "body1": "As taxas de fornecedor são definidas individualmente por cada fornecedor e incluem uma taxa de câmbio e uma de liquidez, entre outras. Para saber mais, visite ",
-    "body2": "Site do provedor {{providerName}}"
+    "body2": "Site do {{providerName}}"
   },
   "providerFeeDiscountDialog": {
     "title": "Desconto da taxa",
     "body": "Como oferta especial de lançamento, as taxas são oferecidas momentaneamente pela Valora!"
   },
   "dailyLimitRequest": "Olá! Eu gostaria de aumentar meu limite de envio diário, por favor.",
-  "pleaseSelectProvider": "Por favor, selecione um provedor. Esses links são conectados a serviços de terceiros.",
+  "pleaseSelectProvider": "Por favor, selecione um fornecedor. Esses links são conectados a serviços de terceiros.",
   "otherFundingOptions": "Para conhecer mais maneiras de adicionar e sacar fundos, visite <0>Como faço para adicionar fundos à minha conta da Valora?</0>",
   "youCanTransfer": "Você pode transferir {{currency}} para ou dos seguintes exchanges de criptomoedas. Você precisará do seu Endereço de Conta.",
   "useBalanceWithMerchants": "Use seu saldo com comerciantes apoiadores",
@@ -74,7 +74,7 @@
   "cicoSuccess": {
     "title": "Ordem enviada!",
     "bodyWithProvider": "{{provider}} está processando seu pedido. Você deve receber seus fundos dentro de alguns dias.",
-    "bodyWithoutProvider": "O provedor de serviços está processando seu pedido. Você deve receber seus fundos dentro de alguns dias."
+    "bodyWithoutProvider": "O fornecedor de serviços está processando seu pedido. Você deve receber seus fundos dentro de alguns dias."
   },
   "restrictedRegion": "Suporte limitado na região",
   "unsupportedPaymentMethod": "Não é possível pagar com {{paymentMethod}} na sua região",
