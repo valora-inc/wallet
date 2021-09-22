@@ -6,6 +6,7 @@ import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { rewardPillTextSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
+import i18n from 'src/i18n'
 import Rings from 'src/icons/Rings'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -23,13 +24,15 @@ function RewardsPill() {
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
   const rewardPillText = useSelector(rewardPillTextSelector)
 
-  // if (!rewardsEnabled) {
-  //   return null
-  // }
+  if (!rewardsEnabled) {
+    return null
+  }
   return (
     <TouchableOpacity style={styles.rewardsContainer} onPress={onOpenRewards} testID="EarnRewards">
       <Rings />
-      <Text style={styles.earnRewardsText}>{getContentForCurrentLang(rewardPillText)}</Text>
+      <Text style={styles.earnRewardsText}>
+        {rewardPillText ? getContentForCurrentLang(rewardPillText) : i18n.t('global:earn')}
+      </Text>
     </TouchableOpacity>
   )
 }

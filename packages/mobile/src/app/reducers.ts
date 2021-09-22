@@ -35,10 +35,8 @@ export interface State {
   googleMobileServicesAvailable: boolean | undefined
   huaweiMobileServicesAvailable: boolean | undefined
   pincodeUseExpandedBlocklist: boolean
-  rewardPillText: {
-    en: string
-    es: string
-    pt: string
+  rewardPillText?: {
+    [lang: string]: string
   }
 }
 
