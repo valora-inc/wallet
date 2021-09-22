@@ -29,7 +29,7 @@
   "history": "Histórico",
   "earnRewards": "Ganhe recompensas",
   "notEnoughStableError": "{{token}} insuficientes para fazer o câmbio",
-  "notEnoughGoldError": "CELO insuficiente para fazer o câmbio",
+  "notEnoughGoldError": "CELO insuficientes para fazer o câmbio",
   "exchangeFailed": "O câmbio falhou, tente novamente",
   "transactionFailed": "A transação falhou, tente novamente",
   "refreshFailedUnexpectedly": "Falha ao atualizar, verifique sua conexão",
