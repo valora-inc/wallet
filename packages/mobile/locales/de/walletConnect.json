@@ -1,33 +1,33 @@
 {
-  "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
-  "cancel": "Cancel",
-  "allow": "Allow",
+  "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
+  "cancel": "Abbrechen",
+  "allow": "Erlauben",
   "action": {
-    "asking": "This application is asking to perform the following action",
+    "asking": "Diese Anwendung verlangt folgende Aktion",
     "operation": "Operation",
-    "data": "Data",
-    "sign": "Sign a data payload",
-    "signTransaction": "Sign a Celo TX",
-    "sendTransaction": "Send a Celo TX",
-    "decrypt": "Decrypt a data payload",
+    "data": "Daten",
+    "sign": "Signiere eine Daten-Nutzlast",
+    "signTransaction": "Unterzeichne ein Celo TX",
+    "sendTransaction": "Ein Celo TX senden",
+    "decrypt": "Daten-Payload entschlüsseln",
     "accounts": "Lesen Sie Ihre {{appName}} Konto-Adresse",
-    "details": "Show details",
-    "computeSharedSecret": "Generate Secrets"
+    "details": "Details anzeigen",
+    "computeSharedSecret": "Geheimnisse generieren"
   },
-  "sessionInfo": "This application may ask to perform the following actions:",
+  "sessionInfo": "Diese Anwendung kann folgende Aktionen fordern:",
   "description": {
-    "sign": "Sign Payloads",
-    "signTransaction": "Send funds",
-    "sendTransaction": "Send funds",
-    "accounts": "Read Address",
-    "decrypt": "Decrypt Data",
-    "computeSharedSecret": "Generate a secret"
+    "sign": "Payloads unterschreiben",
+    "signTransaction": "Guthaben senden",
+    "sendTransaction": "Guthaben senden",
+    "accounts": "Adresse lesen",
+    "decrypt": "Daten entschlüsseln",
+    "computeSharedSecret": "Geheimnis generieren"
   },
-  "tapToDisconnect": "Tap to Disconnect",
-  "moreInfo": "Confused by anything here?",
-  "sessionsTitle": "Connected Apps",
-  "sessionsSubTitle": "The following apps are connected to {{appName}}. You can connect to more apps by scanning their QR code.",
-  "disconnect": "Disconnect",
-  "disconnectTitle": "Disconnect {{dappName}}?",
-  "disconnectBody": "Are you sure you want to disconnect from {{dappName}}?"
+  "tapToDisconnect": "Tippen, um die Verbindung zu trennen",
+  "moreInfo": "Irgendwas hier verwirrt Sie hier?",
+  "sessionsTitle": "Verknüpfte Apps",
+  "sessionsSubTitle": "Die folgenden Apps sind mit {{appName}} verbunden. Sie können sich mit weiteren Apps verbinden, indem Sie ihren QR-Code scannen.",
+  "disconnect": "Verbindung trennen",
+  "disconnectTitle": "Soll {{dappName}} getrennt werden?",
+  "disconnectBody": "Sind Sie sicher, dass Sie die Verbindung zu {{dappName}} trennen möchten?"
 }
