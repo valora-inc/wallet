@@ -16,7 +16,7 @@
   "transferDollarsToAccount": "Guthaben auf Ihr Konto überwiesen!",
   "inviteAnyone": "Senden Sie einfach an Ihre Freunde, indem Sie Ihre Kontakte hinzufügen",
   "inviteReceived": "Einladung erhalten",
-  "escrowPaymentNotificationTitle": "Invited {{mobile}}",
+  "escrowPaymentNotificationTitle": "{{mobile}} eingeladen",
   "inviteDialog": {
     "title": "Einen Freund einladen",
     "body": "Verbinden und teilen Sie Wert mit Ihren Freunden und Familie auf Valora.",
