@@ -32,8 +32,8 @@
   },
   "accountKeyModal": {
     "header": "Sem a sua Frase de Recuperação, você perderá o acesso aos seus fundos para sempre",
-    "body1": "Para redefinir o Valora, você precisará confirmar o que escreveu na sua Frase de Recuperação.",
-    "body2": "Ninguém, nem mesmo a Valora, pode recuperar sua conta sem sua chave."
+    "body1": "Para redefinir a Valora, você precisará confirmar o que escreveu na sua Frase de Recuperação.",
+    "body2": "Ninguém, nem mesmo a Valora, pode recuperar sua conta sem sua frase."
   },
   "promptConfirmRemovalModal": {
     "header": "Tem certeza de que deseja redefinir a Valora?",
