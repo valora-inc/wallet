@@ -30,7 +30,7 @@
   "exchangeFee": "Taxa de Câmbio",
   "edit": "Editar",
   "notEnoughDollars": "Celo Dólares insuficientes para fazer o câmbio",
-  "notEnoughGold": "CELO insuficiente para fazer o câmbio",
+  "notEnoughGold": "CELO insuficientes para fazer o câmbio",
   "pending": "Pendente",
   "loadingExchangeRate": "Carregando taxa de câmbio...",
   "errorRefreshingRate": "Não foi possível atualizar a taxa de câmbio",
