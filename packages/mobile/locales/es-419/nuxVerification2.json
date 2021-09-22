@@ -45,7 +45,7 @@
   "failModal": {
     "header": "Error de conexión",
     "body1": "Se produjo un problema al conectar tu número de teléfono.",
-    "body2": "Puedes omitir la conexión y volver a intentarlo más tarde.",
+    "body2": "Puedes saltar la conexión y volver a intentarlo más tarde.",
     "body1InsufficientBalance": "Tu saldo actual no es lo suficientemente alto para completar el proceso de conexión.",
     "body2InsufficientBalance": "Agrega fondos a tu cuenta e inténtalo nuevamente.",
     "body1SaltQuotaExceeded": "Llegaste al límite de búsqueda de números de teléfono.",
