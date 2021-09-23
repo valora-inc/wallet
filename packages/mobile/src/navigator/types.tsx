@@ -172,6 +172,7 @@ export type StackParamList = {
         isVerifying?: boolean
         changePin?: boolean
         komenciAvailable?: boolean
+        choseToRestoreAccount?: boolean
       }
     | undefined
   [Screens.PersonaScreen]: undefined
@@ -249,9 +250,16 @@ export type StackParamList = {
     origin: SendOrigin
   }
   [Screens.VerificationEducationScreen]:
-    | { showSkipDialog?: boolean; hideOnboardingStep?: boolean; selectedCountryCodeAlpha2?: string }
+    | {
+        showSkipDialog?: boolean
+        hideOnboardingStep?: boolean
+        selectedCountryCodeAlpha2?: string
+        choseToRestoreAccount?: boolean
+      }
     | undefined
-  [Screens.VerificationInputScreen]: { showHelpDialog: boolean } | undefined
+  [Screens.VerificationInputScreen]:
+    | { showHelpDialog?: boolean; choseToRestoreAccount?: boolean }
+    | undefined
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
