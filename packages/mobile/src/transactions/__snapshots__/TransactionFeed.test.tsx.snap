@@ -90,6 +90,7 @@ exports[`renders for gold to dollar exchange properly 1`] = `
   renderItem={[Function]}
   scrollEventThrottle={50}
   stickyHeaderIndices={Array []}
+  testID="TransactionList"
   updateCellsBatchingPeriod={50}
   windowSize={21}
 >

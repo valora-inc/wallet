@@ -2,7 +2,6 @@ import { dismissBanners } from '../utils/banners'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { reloadReactNative } from '../utils/retries'
 import { enterPinUiIfNecessary, getDeviceModel, pixelDiff, sleep } from '../utils/utils'
-const jestExpect = require('expect')
 
 export default offRamps = () => {
   beforeEach(async () => {
@@ -63,7 +62,7 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Display Exchanges & Account Address', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
           .withTimeout(20000)
@@ -88,7 +87,7 @@ export default offRamps = () => {
         await element(by.text('Next')).tap()
       })
 
-      it('Then Bidali Should Display', async () => {
+      it('Then Display Bidali', async () => {
         await expect(element(by.text('Bidali'))).toBeVisible()
         // TODO: Include Check of Screenshot in Nightly Tests
         // await sleep(15000)
@@ -104,7 +103,7 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Display Exchanges & Account Address', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
           .withTimeout(20000)
@@ -136,23 +135,17 @@ export default offRamps = () => {
         await element(by.id('WithdrawReviewButton')).tap()
       })
 
-      it('Then Should Be Able To Send To Address', async () => {
+      it('Then Send To Address', async () => {
         // Confirm withdrawal for randomAmount
         await element(by.id('ConfirmWithdrawButton')).tap()
         // Enter PIN if necessary
         await enterPinUiIfNecessary()
-        // Use Different Assertions for iOS and Android
-        if (device.getPlatform() === 'ios') {
-          // Get values of all feed values - iOS
-          let valuesSent = await element(by.id('FeedItemAmountDisplay/value')).getAttributes()
-          // Check text amount in the most recent transaction
-          jestExpect(valuesSent.elements[0].text).toEqual(`-${randomAmount} CELO`)
-        } else {
-          // Check that the text of amount at index 0 is visible - Android
-          await waitFor(element(by.text(`-${randomAmount} CELO`)).atIndex(0))
-            .toBeVisible()
-            .withTimeout(5000)
-        }
+        // Assert send transaction is present in feed
+        await expect(
+          element(by.text(`-${randomAmount} CELO`).withAncestor(by.id('TransactionList'))).atIndex(
+            0
+          )
+        ).toBeVisible()
       })
     })
 
@@ -162,7 +155,7 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Display Exchanges & Account Address', async () => {
         await waitFor(element(by.id('Binance')))
           .toBeVisible()
           .withTimeout(20000)
