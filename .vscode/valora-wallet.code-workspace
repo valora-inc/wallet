@@ -1,0 +1,31 @@
+{
+  "folders": [
+    // Expose the entire repo in the file tree
+    {
+      "path": "../."
+    }
+  ],
+  // Workspace-level settings can still be overridden at folder or user level
+  "settings": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.detectIndentation": true,
+    "editor.formatOnSave": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "files.trimTrailingWhitespace": true,
+    "eslint.runtime": "node",
+    "js/ts.implicitProjectConfig.experimentalDecorators": true,
+    "prettier.configPath": "../.prettierrc",
+    "prettier.requireConfig": true
+  },
+  "extensions": {
+    // Nicely suggest installation of these extensions, if they're not already installed
+    "recommendations": [
+      "mgmcdermott.vscode-language-babel",
+      "dbaeumer.vscode-eslint",
+      "eamodio.gitlens",
+      "editorconfig.editorconfig",
+      "esbenp.prettier-vscode",
+    ]
+  }
+}
