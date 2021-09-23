@@ -24,4 +24,5 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   komenciAllowedDeployers:
     '0xbDb92Ca42559adc5adC20a1E4985dC7c476483be,0x4cda887Bce324109535814D49b74c6a560fAe1D9',
   pincodeUseExpandedBlocklist: true,
+  rewardPillText: JSON.stringify({ en: 'Earn', pt: 'Ganhar', es: 'Gana' }),
 }
