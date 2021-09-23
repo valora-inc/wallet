@@ -2,7 +2,7 @@ import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Bu
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -12,6 +12,7 @@ import { Namespaces } from 'src/i18n'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import useStateWithCallback from 'src/utils/useStateWithCallback'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
 import {
   acceptRequest as acceptRequestV1,
@@ -75,18 +76,18 @@ function getRequestInfo(params: Props['route']['params']) {
 }
 function ActionRequest({ navigation, route: { params: routeParams } }: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
-  const [isAccepting, setIsAccepting] = useState(false)
-  const [isDenying, setIsDenying] = useState(false)
+  const [isAccepting, setIsAccepting] = useStateWithCallback(false)
+  const [isDenying, setIsDenying] = useStateWithCallback(false)
   const dispatch = useDispatch()
 
   const onAccept = () => {
-    setIsAccepting(true)
-    dispatch(acceptRequest(routeParams))
+    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
+    setIsAccepting(true, () => dispatch(acceptRequest(routeParams)))
   }
 
   const onDeny = () => {
-    setIsDenying(true)
-    dispatch(denyRequest(routeParams))
+    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
+    setIsDenying(true, () => dispatch(denyRequest(routeParams)))
   }
 
   const isLoading = isAccepting || isDenying

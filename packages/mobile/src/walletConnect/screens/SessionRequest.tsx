@@ -2,7 +2,7 @@ import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Bu
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -11,6 +11,7 @@ import { Namespaces } from 'src/i18n'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import useStateWithCallback from 'src/utils/useStateWithCallback'
 import { getTranslationDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
 import {
   acceptSession as acceptSessionV1,
@@ -84,18 +85,18 @@ function ActionList({ actions }: { actions: string[] }) {
 
 function SessionRequest({ navigation, route: { params } }: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
-  const [isAccepting, setIsAccepting] = useState(false)
-  const [isDenying, setIsDenying] = useState(false)
+  const [isAccepting, setIsAccepting] = useStateWithCallback(false)
+  const [isDenying, setIsDenying] = useStateWithCallback(false)
   const dispatch = useDispatch()
 
   const confirm = () => {
-    setIsAccepting(true)
-    dispatch(acceptSession(params))
+    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
+    setIsAccepting(true, () => dispatch(acceptSession(params)))
   }
 
   const deny = () => {
-    setIsDenying(true)
-    dispatch(denySession(params))
+    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
+    setIsDenying(true, () => dispatch(denySession(params)))
   }
 
   const isLoading = isAccepting || isDenying
