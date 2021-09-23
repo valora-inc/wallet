@@ -15,6 +15,6 @@
     "text": "Deposita hasta {{rewardsMax}} cUSD o {{rewardsMax}} cEUR y gana un {{percent}}% anual."
   },
   "conclusion": "Es así de simple. ¡Empieza a ganar hoy!",
-  "addCusd": "Agregar cUSD",
+  "cashIn": "Agregar cUSD",
   "connectNumber": "Conecta tu número"
 }
