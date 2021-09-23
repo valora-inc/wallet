@@ -1,20 +1,20 @@
 {
-  "title": "Eine neue Möglichkeit, zu verdienen",
-  "summary": "Verdienen Sie jährlich bis zu {{percent}}% auf Ihrem cUSD und cEUR Guthaben. Die Tarife können sich ändern, profitieren Sie von dieser tollen Aktion!",
+  "title": "Erhöhe deine Belohnungen",
+  "summary": "Die Aufladung ist hier! Erhalte {{percent}}% jährliche Belohnungen auf deinem {{currency}} -Guthaben. Verfügbar für eine begrenzte Zeit, also starte deine Einzahlung!",
   "earnWeekly": {
-    "header": "Wöchentlich verdienen",
-    "text": "Senden Sie und geben Sie wie gewohnt aus, Sie verdienen auf dem verbleibenden Guthaben."
+    "header": "Wöchentliche Auszahlung",
+    "text": "Senden Sie und geben Sie wie gewohnt aus, werden Sie auf dem verbleibenden Guthaben belohnt."
   },
   "noMinCommitment": {
-    "header": "Ohne Verpflichtungen verdienen",
-    "earningText": "Das Verdienen ist stressfrei: Fügen Sie cUSD oder cEUR Ihrem Konto hinzu und beginnen Sie mit dem Verdienst auf Ihrem Guthaben.",
-    "connectText": "Das Verdienen ist stressfrei: Verbinden Sie Ihre Telefonnummer um mit dem Verdienen zu beginnen."
+    "header": "Automatische Belohnungen",
+    "earningText": "Du hast nur einen Saldo von mindestens {{minBalance}} {{currency}} , um Belohnungen zu erhalten.",
+    "connectText": "Du hast nur einen Saldo von mindestens {{minBalance}} {{currency}} und verbinde deine Telefonnummer, um Belohnungen zu erhalten."
   },
   "saveMoreEarnMore": {
-    "header": "Einzahlen um mehr zu verdienen",
-    "text": "Bis zu {{rewardsMax}} cUSD oder {{rewardsMax}} cEUR einzahlen und {{percent}}% pro Jahr verdienen."
+    "header": "Guthaben erhöhen",
+    "text": "Lege {{maxBalance}} {{currency}} ein, um deine {{percent}}% jährlichen Belohnungen zu verteilen."
   },
-  "conclusion": "Es ist so einfach. Fangen Sie heute an zu verdienen.",
-  "addCusd": "Füge cUSD hinzu",
+  "conclusion": "So einfach ist das! Laden Sie noch heute Ihre Kryptographie auf!",
+  "cashIn": "{{currency}} hinzufügen",
   "connectNumber": "Nummer verbinden"
 }
