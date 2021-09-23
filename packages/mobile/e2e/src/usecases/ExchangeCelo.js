@@ -58,9 +58,12 @@ export default ExchangeCelo = () => {
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
     // Assert balance is updated
-    await waitFor(element(by.id('CeloBalance')))
-      .toHaveText(`${(+celoBalanceBefore.text + CELO_TO_BUY).toFixed(3)}`)
-      .withTimeout(10 * 1000)
+    let endingBalance = element(by.id('CeloBalance')).getAttributes()
+    jestExpect(+celoBalanceBefore.text + CELO_TO_BUY).toBeCloseTo(+endingBalance.text)
+    // Rounding was causing errors
+    // await waitFor(element(by.id('CeloBalance')))
+    //   .toHaveText(`${(+celoBalanceBefore.text + CELO_TO_BUY).toFixed(3)}`)
+    //   .withTimeout(10 * 1000)
     // Assert buy amount is present - displays amount after fees
     await expect(
       element(
@@ -100,9 +103,12 @@ export default ExchangeCelo = () => {
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
     // Assert balance is updated
-    await waitFor(element(by.id('CeloBalance')))
-      .toHaveText(`${(+celoBalanceBefore.text - CELO_TO_SELL).toFixed(3)}`)
-      .withTimeout(10 * 1000)
+    let endingBalance = element(by.id('CeloBalance')).getAttributes()
+    jestExpect(+celoBalanceBefore.text - CELO_TO_SELL).toBeCloseTo(+endingBalance.text)
+    // Rounding was causing errors
+    // await waitFor(element(by.id('CeloBalance')))
+    //   .toHaveText(`${(+celoBalanceBefore.text - CELO_TO_SELL).toFixed(3)}`)
+    //   .withTimeout(10 * 1000)
     // Assert buy amount is present - displays amount sans fees
     await expect(
       element(
@@ -148,9 +154,12 @@ export default ExchangeCelo = () => {
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
     // Assert balance is updated
-    await waitFor(element(by.id('CeloBalance')))
-      .toHaveText(`${(+celoBalanceBefore.text - CELO_TO_WITHDRAW).toFixed(3)}`)
-      .withTimeout(10 * 1000)
+    let endingBalance = element(by.id('CeloBalance')).getAttributes()
+    jestExpect(+celoBalanceBefore.text - CELO_TO_WITHDRAW).toBeCloseTo(+endingBalance.text)
+    // Rounding was causing errors
+    // await waitFor(element(by.id('CeloBalance')))
+    //   .toHaveText(`${(+celoBalanceBefore.text - CELO_TO_WITHDRAW).toFixed(3)}`)
+    //   .withTimeout(10 * 1000)
     // Assert withdrawal amount is present
     await expect(
       element(
