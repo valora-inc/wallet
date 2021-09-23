@@ -154,7 +154,7 @@ export default ExchangeCelo = () => {
       element(by.text(`-${CELO_TO_SELL_MIN}`).withAncestor(by.id('TransactionList'))).atIndex(0)
     )
       .toBeVisible()
-      .withTimeout(15 * 10000)
+      .withTimeout(15 * 1000)
     await waitFor(
       element(
         by
