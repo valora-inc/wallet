@@ -1,5 +1,5 @@
 import { DataSnapshot } from '@firebase/database-types'
-import KnownAddressesCache from './KnownAddressesCache'
+import KnownAddressesCache from '../src/helpers/KnownAddressesCache'
 
 const database = {
   ref: jest.fn((path) => ({
