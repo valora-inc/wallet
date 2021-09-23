@@ -24,4 +24,5 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   komenciUseLightProxy: false,
   komenciAllowedDeployers: '',
   pincodeUseExpandedBlocklist: true,
+  rewardPillText: JSON.stringify({ en: 'Earn', pt: 'Ganhar', es: 'Gana' }),
 }

@@ -36,6 +36,9 @@ export interface State {
   googleMobileServicesAvailable: boolean | undefined
   huaweiMobileServicesAvailable: boolean | undefined
   pincodeUseExpandedBlocklist: boolean
+  rewardPillText?: {
+    [lang: string]: string
+  }
 }
 
 const initialState = {
@@ -67,6 +70,7 @@ const initialState = {
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
   pincodeUseExpandedBlocklist: FEATURE_FLAG_DEFAULTS.pincodeUseExpandedBlocklist,
+  rewardPillText: JSON.parse(FEATURE_FLAG_DEFAULTS.rewardPillText),
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -176,6 +180,7 @@ export const appReducer = (
         rewardsMin: action.flags.rewardsMin,
         rewardsABTestThreshold: action.flags.rewardsABTestThreshold,
         pincodeUseExpandedBlocklist: action.flags.pincodeUseExpandedBlocklist,
+        rewardPillText: JSON.parse(action.flags.rewardPillText),
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
