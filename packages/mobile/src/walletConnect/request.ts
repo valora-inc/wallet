@@ -1,11 +1,11 @@
-import { CeloTx, CeloTxReceipt, EncodedTransaction, TransactionResult } from '@celo/connect'
+import { CeloTx, CeloTxObject, CeloTxReceipt, EncodedTransaction, PromiEvent } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
 import { UnlockableWallet } from '@celo/wallet-base'
 import '@react-native-firebase/database'
 import '@react-native-firebase/messaging'
 import { call } from 'redux-saga/effects'
-import { SendTransactionMethod, wrapSendTransactionWithRetry } from 'src/transactions/send'
+import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { getContractKit, getWallet, getWeb3 } from 'src/web3/contracts'
@@ -43,21 +43,47 @@ export function* handleRequest({ method, params }: { method: string; params: any
       const kit: ContractKit = yield call(getContractKit)
       const normalizer = new TxParamsNormalizer(kit.connection)
       const tx: CeloTx = yield call(normalizer.populate.bind(normalizer), params[0])
-      const sendTxMethod: SendTransactionMethod = function* () {
-        // TODO: gas estimation was needed to fix PoolTogether, but we shouldn't use it for all requests
-        const gasEstimate: number = yield call(kit.connection.estimateGas, {
-          ...tx,
-          gas: undefined,
-        })
-        const txResult: TransactionResult = yield call(kit.connection.sendTransaction, {
-          ...tx,
-          gas: kit.web3.utils.numberToHex(gasEstimate),
-        })
-        return yield call(txResult.waitReceipt.bind(txResult))
+
+      // This is a hack to turn the CeloTx into a CeloTxObject
+      // so we can use our standard `sendTransaction` helper which takes care of setting the right `feeCurrency`, `gas` and `gasPrice`.
+      // Dapps using this method usually leave `feeCurrency` undefined which then requires users to have a CELO balance which is not always the case
+      // handling this ourselves, solves this issue.
+      // TODO: bypass this if `feeCurrency` is set
+      const txo: CeloTxObject<never> = {
+        get arguments(): any[] {
+          throw new Error('Fake TXO not implemented')
+        },
+        call(unusedTx?: CeloTx) {
+          throw new Error('Fake TXO not implemented')
+        },
+        // updatedTx contains the `feeCurrency`, `gas`, and `gasPrice` set by our `sendTransaction` helper
+        send(updatedTx?: CeloTx): PromiEvent<CeloTxReceipt> {
+          return kit.web3.eth.sendTransaction({
+            ...tx,
+            ...updatedTx,
+          })
+        },
+        // updatedTx contains the `feeCurrency`, and `gasPrice` set by our `sendTransaction` helper
+        estimateGas(updatedTx?: CeloTx): Promise<number> {
+          return kit.connection.estimateGas({
+            ...tx,
+            ...updatedTx,
+            gas: undefined,
+          })
+        },
+        encodeABI(): string {
+          return tx.data ?? ''
+        },
+        _parent: {
+          // @ts-ignore
+          _address: tx.to,
+        },
       }
+
       const receipt: CeloTxReceipt = yield call(
-        wrapSendTransactionWithRetry,
-        sendTxMethod,
+        sendTransaction,
+        txo,
+        tx.from as string,
         newTransactionContext(TAG, 'WalletConnect/eth_sendTransaction')
       )
       return receipt.transactionHash
