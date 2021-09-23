@@ -939,7 +939,18 @@ interface RewardsProperties {
   }
 }
 
-interface WalletConnectDefaultProperties {
+interface WalletConnect1Properties {
+  version: 1
+  dappName: string
+  dappUrl: string
+  dappDescription: string
+  dappIcon: string
+  peerId: string
+  chainId: string
+}
+
+interface WalletConnect2Properties {
+  version: 2
   dappName: string
   dappUrl: string
   dappDescription: string
@@ -950,7 +961,9 @@ interface WalletConnectDefaultProperties {
   relayProtocol: string
 }
 
-interface WalletConnectRequestDefaultProperties extends WalletConnectDefaultProperties {
+type WalletConnectDefaultProperties = WalletConnect1Properties | WalletConnect2Properties
+
+type WalletConnectRequestDefaultProperties = WalletConnectDefaultProperties & {
   requestChainId: string | undefined
   requestId: number
   requestJsonrpc: string

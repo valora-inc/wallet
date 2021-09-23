@@ -1,0 +1,9 @@
+{
+  "name": "walletconnect-v1",
+  "version": "1.6.5-dev",
+  "private": "true",
+  "dependencies": {
+    "@walletconnect/client": "^1.6.5",
+    "@walletconnect/types": "^1.6.5"
+  }
+}
