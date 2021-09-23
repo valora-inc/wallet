@@ -93,3 +93,5 @@ export const googleMobileServicesAvailableSelector = (state: RootState) =>
 
 export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
   state.app.huaweiMobileServicesAvailable
+
+export const rewardPillTextSelector = (state: RootState) => state.app.rewardPillText

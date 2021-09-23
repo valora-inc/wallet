@@ -4,13 +4,14 @@ import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { rewardsEnabledSelector } from 'src/app/selectors'
+import { rewardPillTextSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import i18n from 'src/i18n'
 import Rings from 'src/icons/Rings'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
+import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 
 function RewardsPill() {
   const onOpenRewards = () => {
@@ -21,6 +22,7 @@ function RewardsPill() {
   }
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
+  const rewardPillText = useSelector(rewardPillTextSelector)
 
   if (!rewardsEnabled) {
     return null
@@ -28,7 +30,9 @@ function RewardsPill() {
   return (
     <TouchableOpacity style={styles.rewardsContainer} onPress={onOpenRewards} testID="EarnRewards">
       <Rings />
-      <Text style={styles.earnRewardsText}>{i18n.t('global:earn')}</Text>
+      <Text style={styles.earnRewardsText}>
+        {rewardPillText ? getContentForCurrentLang(rewardPillText) : i18n.t('global:earn')}
+      </Text>
     </TouchableOpacity>
   )
 }
