@@ -95,8 +95,7 @@ function* acceptSession(session: AcceptSession) {
     const { peerId, peerMeta } = session.session.params[0]
     const connector = connectors[peerId]
     if (!connector) {
-      Logger.debug(TAG + '@acceptSession', 'missing connector')
-      return
+      throw new Error('missing connector')
     }
 
     const account: string = yield call(getAccountAddress)
