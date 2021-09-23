@@ -9,6 +9,7 @@ import { celoEducation } from '../utils/celoEducation'
 import { dismissBanners } from '../utils/banners'
 import { reloadReactNative } from '../utils/retries'
 
+const jestExpect = require('expect')
 const CELO_TO_SELL = 0.002
 const CELO_TO_BUY = 0.045
 const CELO_TO_WITHDRAW = 0.02
