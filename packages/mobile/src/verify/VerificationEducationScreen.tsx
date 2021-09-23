@@ -87,6 +87,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const currentState = useSelector(currentStateSelector)
   const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
   const verificationStatus = useSelector(verificationStatusSelector)
+  const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
 
   const onPressStart = async () => {
     if (!canUsePhoneNumber()) {
@@ -150,6 +151,10 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       )
     }
   }, [route.params?.selectedCountryCodeAlpha2])
+
+  useEffect(() => {
+    navigation.setParams({ choseToRestoreAccount })
+  }, [choseToRestoreAccount])
 
   useAsync(async () => {
     await waitUntilSagasFinishLoading()
@@ -374,7 +379,12 @@ VerificationEducationScreen.navigationOptions = ({ navigation, route }: ScreenPr
     : () => (
         <HeaderTitleWithSubtitle
           title={i18n.t('onboarding:verificationEducation.title')}
-          subTitle={i18n.t('onboarding:step', { step: '4' })}
+          subTitle={i18n.t(
+            route.params?.choseToRestoreAccount
+              ? 'onboarding:restoreAccountSteps'
+              : 'onboarding:createAccountSteps',
+            { step: route.params?.choseToRestoreAccount ? '4' : '3' }
+          )}
         />
       )
   return {
