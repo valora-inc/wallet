@@ -20,6 +20,7 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   rewardsPercent: 5,
   rewardsStartDate: 1622505600000,
   rewardsMax: 1000,
+  rewardsMin: 10,
   komenciUseLightProxy: false,
   komenciAllowedDeployers: '',
   pincodeUseExpandedBlocklist: true,
