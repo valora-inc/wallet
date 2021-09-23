@@ -713,6 +713,7 @@ export const v17Schema = {
   app: {
     ...v16Schema.app,
     pincodeUseExpandedBlocklist: true,
+    rewardPillText: { en: 'Earn', pt: 'Ganhar', es: 'Gana' },
   },
   fiatExchanges: _.omit(v16Schema.fiatExchanges, 'lastUsedProvider'),
   verify: {

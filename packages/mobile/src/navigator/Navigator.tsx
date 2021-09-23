@@ -56,12 +56,10 @@ import DrawerNavigator from 'src/navigator/DrawerNavigator'
 import {
   emptyHeader,
   HeaderTitleWithBalance,
-  HeaderTitleWithSubtitle,
   headerWithBackButton,
   headerWithBackEditButtons,
   noHeader,
   noHeaderGestureDisabled,
-  nuxNavigationOptions,
 } from 'src/navigator/Headers'
 import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationService'
 import QRNavigator from 'src/navigator/QRNavigator'
@@ -207,27 +205,6 @@ const verificationScreens = (Navigator: typeof Stack) => {
   )
 }
 
-const pincodeSetScreenOptions = ({
-  route,
-}: {
-  route: RouteProp<StackParamList, Screens.PincodeSet>
-}) => {
-  const changePin = route.params?.changePin
-  const title = changePin
-    ? i18n.t('onboarding:pincodeSet.changePIN')
-    : i18n.t('onboarding:pincodeSet.create')
-
-  return {
-    ...nuxNavigationOptions,
-    headerTitle: () => (
-      <HeaderTitleWithSubtitle
-        title={title}
-        subTitle={changePin ? ' ' : i18n.t('onboarding:step', { step: '2' })}
-      />
-    ),
-  }
-}
-
 const nuxScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen
@@ -248,7 +225,7 @@ const nuxScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.PincodeSet}
       component={PincodeSet}
-      options={pincodeSetScreenOptions}
+      options={PincodeSet.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.ImportWallet}
