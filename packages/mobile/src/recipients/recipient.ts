@@ -2,7 +2,6 @@ import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import * as fuzzysort from 'fuzzysort'
 import { TFunction } from 'i18next'
 import { MinimalContact } from 'react-native-contacts'
-import { Maybe } from 'src/apollo/types'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import {
   AddressToDisplayNameType,
@@ -136,8 +135,8 @@ export interface RecipientInfo {
 export function getRecipientFromAddress(
   address: string,
   info: RecipientInfo,
-  defaultName?: Maybe<string>,
-  defaultImage?: Maybe<string>
+  defaultName?: string | null,
+  defaultImage?: string | null
 ): Recipient {
   const e164PhoneNumber = info.addressToE164Number[address]
   const numberRecipient = e164PhoneNumber ? info.phoneRecipientCache[e164PhoneNumber] : undefined

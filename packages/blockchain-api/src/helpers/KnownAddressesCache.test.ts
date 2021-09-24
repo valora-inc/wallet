@@ -21,7 +21,8 @@ jest.mock('firebase-admin', () => ({
 
 describe('KnownAddressCache', () => {
   beforeEach(() => {
-    jest.resetAllMocks()
+    jest.clearAllMocks()
+    knownAddressesCache.startListening()
   })
 
   it('Should return address info when received it from firebase', () => {
