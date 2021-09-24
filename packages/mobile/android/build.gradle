@@ -46,6 +46,9 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://www.jitpack.io' }
+        maven {
+            url 'https://sdk.withpersona.com/android/releases'
+        }
       }
 }
 

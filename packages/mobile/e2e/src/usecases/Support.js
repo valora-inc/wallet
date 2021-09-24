@@ -33,6 +33,9 @@ export default Support = () => {
   }
 
   it('Send Message to Support', async () => {
+    await waitFor(element(by.id('Hamburger')))
+      .toBeVisible()
+      .withTimeout(5000)
     await element(by.id('Hamburger')).tap()
     await scrollIntoView('Help', 'SettingsScrollView')
     await waitFor(element(by.id('Help')))
@@ -51,6 +54,5 @@ export default Support = () => {
     await expect(element(by.id('MessageEntry'))).toHaveText('This is a test from Valora')
     const imagePath = await device.takeScreenshot('Support')
     await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Support.png`)
-    // TODO: Email Client needed for emulators Send Request after briefing support if appropriate
   })
 }

@@ -12,7 +12,10 @@ jest.mock('crypto', () => ({
     verify: mockVerify,
   })),
 }))
-jest.mock('../config', () => ({ RAMP_DATA: { pem_file: 'rampStaging.pem' } }))
+jest.mock('../config', () => ({
+  ...(jest.requireActual('../config') as any),
+  RAMP_DATA: { pem_file: 'rampStaging.pem' },
+}))
 jest.mock('fs', () => ({ readFileSync: jest.fn(() => 'rampKey') }))
 
 describe('Ramp event webhook', () => {

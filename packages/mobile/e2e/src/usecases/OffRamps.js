@@ -9,6 +9,11 @@ export default offRamps = () => {
     await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
+    // Waiting for element to be present before tap
+    // TODO (TOM): Increase default timeout on taps from 1.5 seconds to 5
+    await waitFor(element(by.id('cashOut')))
+      .toBeVisible()
+      .withTimeout(5000)
     await element(by.id('cashOut')).tap()
   })
 
@@ -22,8 +27,8 @@ export default offRamps = () => {
         await element(by.id('receiveWithBank')).tap()
         await element(by.text('Next')).tap()
       })
-
-      it('Then Should Be Able To Navigate To Providers', async () => {
+      // Skipping this test for now because no providers support cash-out in the US
+      xit('Then Should Be Able To Navigate To Providers', async () => {
         await element(by.id('FiatExchangeInput')).replaceText('2')
         await element(by.id('FiatExchangeNextButton')).tap()
         await waitFor(element(by.id('Provider/Xanpool')))
@@ -57,7 +62,7 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Display Exchanges & Account Address', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
           .withTimeout(20000)
@@ -82,7 +87,7 @@ export default offRamps = () => {
         await element(by.text('Next')).tap()
       })
 
-      it('Then Bidali Should Display', async () => {
+      it('Then Display Bidali', async () => {
         await expect(element(by.text('Bidali'))).toBeVisible()
         // TODO: Include Check of Screenshot in Nightly Tests
         // await sleep(15000)
@@ -98,7 +103,7 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Display Exchanges & Account Address', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
           .withTimeout(20000)
@@ -130,11 +135,17 @@ export default offRamps = () => {
         await element(by.id('WithdrawReviewButton')).tap()
       })
 
-      it('Then Should Be Able To Send To Address', async () => {
-        // console.log('randomAmount: ', `-${randomAmount} CELO`)
+      it('Then Send To Address', async () => {
+        // Confirm withdrawal for randomAmount
         await element(by.id('ConfirmWithdrawButton')).tap()
+        // Enter PIN if necessary
         await enterPinUiIfNecessary()
-        await expect(element(by.text(`-${randomAmount} CELO`))).toBeVisible()
+        // Assert send transaction is present in feed
+        await expect(
+          element(by.text(`-${randomAmount} CELO`).withAncestor(by.id('TransactionList'))).atIndex(
+            0
+          )
+        ).toBeVisible()
       })
     })
 
@@ -144,7 +155,7 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Display Exchanges & Account Address', async () => {
         await waitFor(element(by.id('Binance')))
           .toBeVisible()
           .withTimeout(20000)

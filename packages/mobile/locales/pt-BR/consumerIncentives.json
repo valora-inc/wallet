@@ -14,7 +14,7 @@
     "header": "Aumente seu saldo",
     "text": "Deposite {{maxBalance}} {{currency}} para max-out suas {{percent}}% recompensas anuais."
   },
-  "conclusion": "É muito simples. Aumente o seu cripto hoje!",
+"conclusion": "É simples assim. Comece a ganhar hoje!",
   "cashIn": "Adicionar {{currency}}",
   "connectNumber": "Conectar o número"
 }

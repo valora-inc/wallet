@@ -156,8 +156,11 @@ export interface RemoteFeatureFlags {
   rewardsPercent: number
   rewardsStartDate: number
   rewardsMax: number
+  rewardsMin: number
   komenciUseLightProxy: boolean
   komenciAllowedDeployers: string[]
+  pincodeUseExpandedBlocklist: boolean
+  rewardPillText: string
 }
 
 export function* appRemoteFeatureFlagSaga() {

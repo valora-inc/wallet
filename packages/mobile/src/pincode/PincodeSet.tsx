@@ -14,11 +14,16 @@ import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DevSkipButton from 'src/components/DevSkipButton'
 import i18n, { Namespaces, withTranslation } from 'src/i18n'
-import { nuxNavigationOptions } from 'src/navigator/Headers'
+import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { DEFAULT_CACHE_ACCOUNT, isPinValid, updatePin } from 'src/pincode/authentication'
+import {
+  DEFAULT_CACHE_ACCOUNT,
+  isPinValid,
+  PinBlocklist,
+  updatePin,
+} from 'src/pincode/authentication'
 import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
@@ -28,6 +33,7 @@ import { currentAccountSelector } from 'src/web3/selectors'
 interface StateProps {
   choseToRestoreAccount: boolean | undefined
   hideVerification: boolean
+  useExpandedBlocklist: boolean
   account: string
 }
 
@@ -41,6 +47,7 @@ interface State {
   pin1: string
   pin2: string
   errorText: string | undefined
+  blocklist: PinBlocklist | undefined
 }
 
 type ScreenProps = StackScreenProps<StackParamList, Screens.PincodeSet>
@@ -51,6 +58,7 @@ function mapStateToProps(state: RootState): StateProps {
   return {
     choseToRestoreAccount: state.account.choseToRestoreAccount,
     hideVerification: state.app.hideVerification,
+    useExpandedBlocklist: state.app.pincodeUseExpandedBlocklist,
     account: currentAccountSelector(state) ?? '',
   }
 }
@@ -61,13 +69,38 @@ const mapDispatchToProps = {
 }
 
 export class PincodeSet extends React.Component<Props, State> {
-  static navigationOptions = nuxNavigationOptions
+  static navigationOptions = ({ route }: ScreenProps) => {
+    const changePin = route.params?.changePin
+    const title = changePin
+      ? i18n.t('onboarding:pincodeSet.changePIN')
+      : i18n.t('onboarding:pincodeSet.create')
 
-  state = {
+    return {
+      ...nuxNavigationOptions,
+      headerTitle: () => (
+        <HeaderTitleWithSubtitle
+          title={title}
+          subTitle={
+            changePin
+              ? ' '
+              : i18n.t(
+                  route.params?.choseToRestoreAccount
+                    ? 'onboarding:restoreAccountSteps'
+                    : 'onboarding:createAccountSteps',
+                  { step: '2' }
+                )
+          }
+        />
+      ),
+    }
+  }
+
+  state: State = {
     oldPin: '',
     pin1: '',
     pin2: '',
     errorText: undefined,
+    blocklist: undefined,
   }
 
   componentDidMount = () => {
@@ -77,6 +110,13 @@ export class PincodeSet extends React.Component<Props, State> {
       // than 5 minutes to do so.
       this.setState({ oldPin: getCachedPin(DEFAULT_CACHE_ACCOUNT) ?? '' })
     }
+    // Load the PIN blocklist from the bundle into the component state.
+    if (this.props.useExpandedBlocklist) {
+      this.setState({ blocklist: new PinBlocklist() })
+    }
+
+    // Setting choseToRestoreAccount on route param for navigationOptions
+    this.props.navigation.setParams({ choseToRestoreAccount: this.props.choseToRestoreAccount })
   }
 
   isChangingPin() {
@@ -105,7 +145,10 @@ export class PincodeSet extends React.Component<Props, State> {
   }
 
   isPin1Valid = (pin: string) => {
-    return isPinValid(pin)
+    return (
+      isPinValid(pin) &&
+      (!this.props.useExpandedBlocklist || this.state.blocklist?.contains(pin) === false)
+    )
   }
 
   isPin2Valid = (pin: string) => {
@@ -123,6 +166,7 @@ export class PincodeSet extends React.Component<Props, State> {
       if (this.isChangingPin()) {
         ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
       }
+
       this.setState({
         pin1: '',
         pin2: '',

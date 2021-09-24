@@ -710,6 +710,12 @@ export const v17Schema = {
     ...v16Schema._persist,
     version: 17,
   },
+  app: {
+    ...v16Schema.app,
+    rewardsMin: 10,
+    pincodeUseExpandedBlocklist: true,
+    rewardPillText: { en: 'Earn', pt: 'Ganhar', es: 'Gana' },
+  },
   fiatExchanges: _.omit(v16Schema.fiatExchanges, 'lastUsedProvider'),
   verify: {
     ...v16Schema.verify,
@@ -724,6 +730,22 @@ export const v17Schema = {
   },
 }
 
+export const v18Schema = {
+  ...v17Schema,
+  _persist: {
+    ...v17Schema._persist,
+    version: 18,
+  },
+  walletConnect: {
+    v1: {
+      pendingActions: [],
+      sessions: [],
+      pendingSessions: [],
+    },
+    v2: _.omit(v17Schema.walletConnect, 'pairings'),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v17Schema as Partial<RootState>
+  return v18Schema as Partial<RootState>
 }

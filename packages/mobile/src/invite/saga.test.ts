@@ -4,11 +4,9 @@ import { Share } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
 import { PincodeType } from 'src/account/reducer'
-import { WEB_LINK } from 'src/config'
-import { generateShortInviteLink } from 'src/firebase/dynamicLinks'
 import i18n from 'src/i18n'
 import { storeInviteeData } from 'src/invite/actions'
-import { generateInviteLink, initiateEscrowTransfer, sendInvite } from 'src/invite/saga'
+import { initiateEscrowTransfer, sendInvite } from 'src/invite/saga'
 import { transactionConfirmed } from 'src/transactions/actions'
 import { Currency } from 'src/utils/currencies'
 import { getConnectedUnlockedAccount, waitWeb3LastBlock } from 'src/web3/saga'
@@ -28,11 +26,6 @@ const mockReceipt: CeloTxReceipt = {
   logs: [],
   logsBloom: '',
 }
-
-jest.mock('src/firebase/dynamicLinks', () => ({
-  ...(jest.requireActual('src/firebase/dynamicLinks') as any),
-  generateShortInviteLink: jest.fn(async () => 'http://celo.page.link/'),
-}))
 
 jest.mock('src/account/actions', () => ({
   ...(jest.requireActual('src/account/actions') as any),
@@ -90,22 +83,5 @@ describe(sendInvite, () => {
       link: DYNAMIC_DOWNLOAD_LINK,
     })
     expect(Share.share).toHaveBeenCalledWith({ message: 'sendFlow7:inviteWithEscrowedPayment' })
-  })
-})
-
-describe(generateInviteLink, () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
-  })
-
-  it('Generate invite link correctly', async () => {
-    const result = await generateInviteLink()
-    expect(result).toBe('http://celo.page.link/')
-    expect(generateShortInviteLink).toBeCalledTimes(1)
-    expect(generateShortInviteLink).toHaveBeenCalledWith({
-      link: WEB_LINK,
-      appStoreId: '1482389446',
-      bundleId: 'org.celo.mobile.alfajores',
-    })
   })
 })
