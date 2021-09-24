@@ -3,7 +3,7 @@
   "cancel": "Abbrechen",
   "allow": "Erlauben",
   "loadingFromScan": "Scannen",
-  "loadingFromDeeplink": "Verbindung wird aufgebaut",
+  "loadingFromDeeplink": "Verbindungsaufbau",
   "action": {
     "asking": "Diese Anwendung verlangt folgende Aktion",
     "operation": "Operation",
