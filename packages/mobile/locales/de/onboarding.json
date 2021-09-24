@@ -1,1 +1,114 @@
-{}
+{
+  "education": {
+    "step1": "{{appName}} ist eine neue Möglichkeit, Wert weltweit zu senden und zu empfangen",
+    "step2": "Guthaben über Grenzen hinweg senden",
+    "step3": "Bequem, zuverlässig und sicher. Ihr Telefon ist Ihre Geldbörse"
+  },
+  "welcome": {
+    "title": "Teilen Sie Geld mit denen, die es wert sind",
+    "createAccount": "Neues Konto erstellen",
+    "restoreAccount": "Mein Konto wiederherstellen"
+  },
+  "contacts": {
+    "disclosure": {
+      "title": "Kontakte importieren",
+      "body": "Valora würde gerne Ihre Kontakte importieren. Durch Tippen unten erlaube ich den Zugriff auf Telefonnummern, Namen und Fotos meiner Kontakte zum Zweck der Verbindung mit ihnen über Valora"
+    }
+  },
+  "createAccount": "Konto erstellen",
+  "restoreAccount": "Mein Konto wiederherstellen",
+  "createAccountSteps": "Schritt {{step}} von 3",
+  "restoreAccountSteps": "Schritt {{step}} von 4",
+  "selectCountryCode": "Ländercode auswählen",
+  "pincodeSet": {
+    "create": "PIN erstellen",
+    "createNew": "Neue PIN erstellen",
+    "verify": "Zur Bestätigung erneut PIN eingeben",
+    "changePIN": "PIN ändern",
+    "pinsDontMatch": "Die PINs stimmen nicht überein",
+    "invalidPin": "Bitte eine stärkere PIN verwenden"
+  },
+  "inviteCode": {
+    "title": "Einladungscode",
+    "body": "Haben Sie eine Zahlung oder Einladung erhalten? Wenn ja, kopieren und fügen Sie den Einladungscode unten ein.",
+    "label": "Einladungscode",
+    "codePlaceholder": "Einladungscode eingeben",
+    "noCode": "Kein Einladungscode vorhanden",
+    "nodeCodeInviteLink": "Sie haben noch keinen Einladungscode? Fordern Sie einen auf <0>celo.org/developers/wallet </0> an oder <1>ohne </1> fortfahren",
+    "loadingHeader": "Account wird erstellt...",
+    "loadingBody": "Dies kann bis zu 90 Sekunden dauern"
+  },
+  "verificationEducation": {
+    "title": "Telefonnummer",
+    "header": "Verbinden Sie Ihre Telefonnummer",
+    "body": "Um sicherzustellen, dass Ihre Nummer wirklich Ihre ist, senden wir Ihnen drei Nachrichten, von denen jede ungefähr 0,05 cUSD kosten wird.\n\nDie Bestätigung Ihrer Nummer dauert etwa drei Minuten.",
+    "feelessBody": "Die Verbindung dauert etwa drei Minuten. Um Ihre Nummer zu bestätigen, erhalten Sie drei Nachrichten.",
+    "start": "Start",
+    "resume": "Fortfahren",
+    "doINeedToConfirm": "Muss ich bestätigen?",
+    "skipForNow": "Vorerst überspringen",
+    "bodyInsufficientBalance": "Ihr aktueller Kontostand ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.\n\nBitte versuchen Sie es erneut, wenn Sie Ihrer Geldbörse Guthaben hinzugefügt haben.",
+    "bodyAlreadyVerified": "Ihre Nummer ist bereits bestätigt!"
+  },
+  "verificationSkipDialog": {
+    "title": "Sind Sie sicher?",
+    "body": "Bestätigen ermöglicht Ihnen das Senden und Empfangen von Guthaben ganz einfach an Ihre Telefonnummer.\n\nUnbestätigte Konten können nur Zahlungen mit Celo-Adressen oder QR-Codes senden.",
+    "cancel": "Zurück",
+    "confirm": "Vorerst überspringen"
+  },
+  "verificationPrematureRevealMessage": "Bitte warten Sie eine Minute, bevor Sie erneut senden",
+  "verificationLearnMoreDialog": {
+    "title": "Telefonnummern und {{appName}}",
+    "body": "Bestätigen macht es einfach, sich mit Ihren Freunden zu verbinden, indem Sie Ihnen das Senden und Empfangen von Guthaben an Ihre Telefonnummer ermöglichen.\n\n<0>Kann ich dies später tun? </0>\n\nJa, aber unbestätigte Konten können nur Zahlungen mit QR-Codes oder Konto-Adressen senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um Ihre Telefonnummer privat zu halten.",
+    "dismiss": "Verwerfen"
+  },
+  "importExistingKey": {
+    "explanation": "Ihre Wiederherstellungsphrase ist eine 24-Wort-Phrase, die Sie bei der Einrichtung Ihres Kontos aufgeschrieben und gespeichert haben. Bitte geben Sie es hier ein, um Ihr Konto wiederherzustellen.",
+    "keyPlaceholder": "Pferd Leopard Hund Affe ..."
+  },
+  "verificationInput": {
+    "title": "Bestätigen",
+    "body": "Wir haben Ihnen drei Nachrichten (SMS) gesendet. Bitte kopieren Sie diese und fügen Sie sie unten ein.",
+    "body_ios": "Wir haben Ihnen drei Nachrichten (SMS) gesendet. Bitte tippen Sie auf den Link in jeder Nachricht, um die folgenden Codes auszufüllen oder kopieren Sie sie und füge sie manuell ein.",
+    "body_short": "Wir haben drei Codes an {{phoneNumber}} gesendet, bitte geben Sie sie unten ein.",
+    "codeLabel1": "Erster Code",
+    "codeLabel2": "Zweiter Code",
+    "codeLabel3": "Dritter Code",
+    "codePlaceholder1": "Die erste Nachricht kopieren",
+    "codePlaceholder1_ios": "Tippen oder kopieren Sie die erste Nachricht",
+    "codePlaceholder2": "Die zweite Nachricht kopieren",
+    "codePlaceholder2_ios": "Tippen oder kopieren Sie die zweite Nachricht",
+    "codePlaceholder3": "Die dritte Nachricht kopieren",
+    "codePlaceholder3_ios": "Tippen oder kopieren Sie die dritte Nachricht",
+    "codePlaceholderWithCodeInClipboard": "Großartig! Fügen Sie es hier ein",
+    "resendMessages": "Letzte Nachricht erneut senden",
+    "resendMessages_plural": "Sende {{count}} Nachrichten erneut",
+    "resendMessages_all": "Alle Nachrichten erneut senden"
+  },
+  "verificationInputHelpDialog": {
+    "title": "Hilfe",
+    "bodySection1": {
+      "title": "Alle drei Nachrichten erhalten?",
+      "content": "Wenn Ihre Nachrichten einen Link enthalten, klicken Sie einfach auf die Links zur Bestätigung.\n\nWenn es keine Links gibt, kopieren Sie bitte die Nachrichten und fügen Sie sie in die Felder ein. Sie können die ganze Nachricht einfügen."
+    },
+    "bodySection2": {
+      "title": "Einige oder alle Nachrichten fehlen?",
+      "defaultContent": "Wenn Sie Probleme mit dem Empfang von Nachrichten haben, können Sie diesen Schritt vorerst überspringen und später erneut versuchen. Manchmal kann es einige Minuten dauern, bis Nachrichten eintreffen.",
+      "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
+      "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) Die überspringende Option wird in {{count}} Sekunde verfügbar sein.",
+      "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) Die überspringende Option wird in {{count}} Sekunden verfügbar sein."
+    },
+    "body": "<0> $t(verificationInputHelpDialog.bodySection1.title) </0>\n\n $t(verificationInputHelpDialog.bodySection1.content)\n \n<1> $t(verificationInputHelpDialog.bodySection2.title) </1>\n \n $t(verificationInputHelpDialog.bodySection2.content)",
+    "skip": "Vorerst überspringen",
+    "back": "Zurück"
+  },
+  "emptyAccount": {
+    "description": "Dieses Konto hat kein Guthaben. Möchten Sie es trotzdem verwenden?",
+    "useAccount": "Konto benutzen",
+    "title": "Kontostand <0></0>"
+  },
+  "success": {
+    "message": "Sie sind fertig!"
+  },
+  "verificationUnavailable": "Die Bestätigung der Telefonnummer ist derzeit nicht verfügbar. Bitte geben Sie Ihre Telefonnummer ein und wir werden Sie benachrichtigen, wenn es möglich ist erneut zu bestätigen.\n\nIn der Zwischenzeit können Sie Valora weiter verwenden! Zahlungen, die an Ihre Telefonnummer gesendet werden, werden sicher getätigt, bis Sie diese durch Bestätigung Ihrer Telefonnummer einlösen."
+}

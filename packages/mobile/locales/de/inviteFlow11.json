@@ -1,1 +1,36 @@
-{}
+{
+  "cancel": "Abbrechen",
+  "inviteWithWhatsapp": "Mit WhatsApp einladen",
+  "inviteWithSMS": "Per SMS einladen",
+  "inviteFee": "Einladungsgebühr",
+  "whySendFees": "Diese Gebühr deckt die Kosten für den neuen Benutzer, um seine Telefonnummer zu verbinden",
+  "whyReceiveFees": "Ihnen wurde etwas Geld zur Bestätigung Ihres Kontos geschickt",
+  "edit": "Bearbeiten",
+  "to": "Zu",
+  "inviteSent": "Einladung gesendet",
+  "searchForSomeone": "Suche nach jemandem mit seinem Namen oder seiner Telefonnummer",
+  "redeemFailed": "Fehler beim Einlösen des Codes ",
+  "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
+  "accountSetupFailed": "Fehler beim Erstellen Ihrer Geldbörse",
+  "emptyInviteCode": "Einladungscode hat kein Guthaben",
+  "transferDollarsToAccount": "Guthaben auf Ihr Konto überwiesen!",
+  "inviteAnyone": "Senden Sie einfach an Ihre Freunde, indem Sie Ihre Kontakte hinzufügen",
+  "inviteReceived": "Einladung erhalten",
+  "escrowPaymentNotificationTitle": "{{mobile}} eingeladen",
+  "inviteDialog": {
+    "title": "Einen Freund einladen",
+    "body": "Verbinden und teilen Sie Wert mit Ihren Freunden und Familie auf Valora.",
+    "button": "Einladen"
+  },
+  "sendAndInvite": "Senden & Einladen",
+  "inviteAndSendDialog": {
+    "title": "Einladen und Senden",
+    "body": "Ihre Zahlung an {{name}} wird auf sie warten, sobald sie ihre Telefonnummer bestätigen. Teilen Sie ihnen eine Einladungsnachricht, um {{appName}} beizutreten und Ihre Zahlung einlösen!",
+    "button": "Einladen"
+  },
+  "inviteRewardsBanner": {
+    "title": "Erhalten Sie ${{amount}}, indem Sie einen Freund empfehlen!",
+    "body": "Verdienen Sie {{amount}} cUSD wenn Sie Geld an einen Freund überweisen und diese beitreten. <0>Mehr erfahren</0>"
+  },
+  "getReward": "Erhalten Sie ${{reward}}"
+}

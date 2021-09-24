@@ -1,29 +1,29 @@
 {
-  "headerTitle": "Clave de cuenta",
-  "introTitle": "Tu Clave de cuenta",
-  "introBody": "Tu Clave de cuenta es la parte más importante de tu cuenta. \n\nBusca un lugar privado donde puedas configurarla. Solo te tomará cinco minutos.",
+  "headerTitle": "Frase de recuperación",
+  "introTitle": "Tu Frase de recuperación",
+  "introBody": "Tu Frase de recuperación es la parte más importante de tu cuenta. \n\nBusca un lugar privado donde puedas configurarla. Solo te tomará cinco minutos.",
   "introPrimaryAction": "Configurar",
-  "backupSetupTitle": "Configura tu Clave de cuenta",
-  "backupSetupBody": "Para proteger tus fondos, debes configurar tu Clave de cuenta antes de seguir usando {{appName}}.",
+  "backupSetupTitle": "Configura tu Frase de recuperación",
+  "backupSetupBody": "Para proteger tus fondos, debes configurar tu Frase de recuperación antes de seguir usando {{appName}}.",
   "delayBackup": "Espera una hora por favor",
-  "postSetupTitle": "Esta es tu Clave de cuenta",
-  "postSetupBody": "Si pierdes tu Clave de cuenta, perderás el acceso a tus Celo Dólares, Celo Euros y CELO. Nadie, ni siquiera {{appName}}, podrá ayudarte a recuperar tu cuenta sin esa clave. Guárdala en un lugar seguro y no la compartas con nadie.",
-  "postSetupCTA": "Conoce más sobre la Clave de cuenta",
-  "failedFetchMnemonic": "No se pudo obtener tu Clave de cuenta",
+  "postSetupTitle": "Esta es tu Frase de recuperación",
+  "postSetupBody": "Si pierdes tu Frase de recuperación, perderás el acceso a tus Celo Dólares, Celo Euros y CELO. Nadie, ni siquiera {{appName}}, podrá ayudarte a recuperar tu cuenta sin esa frase. Guárdala en un lugar seguro y no la compartas con nadie.",
+  "postSetupCTA": "Conoce más sobre la Frase de recuperación",
+  "failedFetchMnemonic": "Error al intentar obtener la Frase de recuperación",
   "backupAndRecovery": "Respaldo y recuperación",
-  "writeDownKey": "Por favor, anota tu clave.",
+  "writeDownKey": "Por favor, anota tu frase.",
   "completeEducation": "Entiendo",
-  "yourAccountKey": "Esta es tu Clave de cuenta",
-  "backupKeyNotification": "Tu Clave de cuenta es la parte más importante de tu cuenta.",
-  "backupKeySummary": "Encuentra un lugar privado y anota tu Clave de cuenta. Por favor, guárdala en un lugar seguro. No la guardes en tu celular.",
-  "copied": "Clave copiada al portapapeles",
+  "yourAccountKey": "Esta es tu Frase de recuperación",
+  "backupKeyNotification": "Tu Frase de recuperación es la parte más importante de tu cuenta.",
+  "backupKeySummary": "Encuentra un lugar privado y anota tu Frase de recuperación. Por favor, guárdala en un lugar seguro. No la guardes en tu celular.",
+  "copied": "Frase copiada al portapapeles",
   "moreInfo": "Más Información",
-  "savedConfirmation": "Sí, ya anoté mi clave.",
-  "backupQuizWordCount": "¿Cuál es la <0>{{ordinal}}</0> palabra de tu Clave de cuenta?",
+  "savedConfirmation": "Sí, ya anoté mi frase.",
+  "backupQuizWordCount": "¿Cuál es la <0>{{ordinal}}</0> palabra de tu Frase de recuperación?",
   "importBackupFailed": "No se pudo importar la cuenta",
-  "backupQuizFailed": "La Clave de cuenta introducida es incorrecta. Inténtalo de nuevo.",
-  "invalidBackupPhrase": "La Clave de cuenta no es válida",
-  "invalidWordsInBackupPhrase": "Algunas palabras en la Clave de cuenta no son válidas: {{ invalidWords }}",
+  "backupQuizFailed": "La Frase de recuperación introducida es incorrecta. Inténtalo de nuevo.",
+  "invalidBackupPhrase": "La Frase de recuperación no es válida.",
+  "invalidWordsInBackupPhrase": "Algunas palabras en la Frase de recuperación no son válidas: {{ invalidWords }}",
   "backupComplete": {
     "header": "Copia de seguridad completa",
     "0": "¡Excelente!",
@@ -31,28 +31,28 @@
     "2": "¡Todo listo!"
   },
   "cancelDialog": {
-    "title": "Termina de configurar tu Clave de cuenta",
-    "body": "Las Claves de cuenta son extremadamente importantes. Sin tu clave, puedes perder el acceso a tu cuenta para siempre. No podrás realizar transacciones hasta que termines de configurar tu Clave de cuenta.",
+    "title": "Termina de configurar tu Frase de recuperación",
+    "body": "Las Frases de recuperación son extremadamente importantes. Sin tu frase, puedes perder el acceso a tu cuenta para siempre. No podrás realizar transacciones hasta que termines de configurar tu Frase de recuperación.",
     "action": "Completar configuración",
     "secondary": "Configurar más tarde"
   },
   "backupPhrasePlaceholder": "caballo leopardo perro mono tiburón tigre lémur ballena calamar lobo ardilla ratón león elefante gato langostino oso pingüino ciervo tortuga zorro cebra cabra jirafa",
   "guide": [
     {
-      "title": "Tu Clave de cuenta es un tipo de contraseña especial",
-      "text": "Es la única manera de acceder a tu cuenta."
+      "title": "Tu Frase de recuperación es un tipo de contraseña especial",
+      "text": "La Frase de recuperación es la única manera de acceder a tu cuenta."
     },
     {
-      "title": "Sin tu clave, puedes perder el acceso a tu cuenta",
-      "text": "Si pierdes tu celular, debes tener tu clave para recuperar tu cuenta. Nadie, ni siquiera {{appName}}, podrá recuperar tus fondos sin ella."
+      "title": "Sin tu frase, puedes perder el acceso a tu cuenta",
+      "text": "Si pierdes tu celular, debes tener tu frase para recuperar tu cuenta. Nadie, ni siquiera {{appName}}, podrá recuperar tus fondos sin ella."
     },
     {
       "title": "Anótala",
-      "text": "Anota tu Clave de cuenta y guárdala en un lugar seguro. No la guardes en tu celular."
+      "text": "Anota tu Frase de recuperación y guárdala en un lugar seguro. No la guardes en tu celular."
     },
     {
-      "title": "Mantén tu clave privada",
-      "text": "Cualquier persona que acceda a tu clave tendrá acceso a tu cuenta y a todos tus fondos. No la compartas con nadie."
+      "title": "Mantén tu frase privada",
+      "text": "Cualquier persona que acceda a tu frase tendrá acceso a tu cuenta y a todos tus fondos. No la compartas con nadie."
     }
   ]
 }
