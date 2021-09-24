@@ -337,6 +337,8 @@ react components. It allows for deep rendering and interaction with the rendered
 tree to assert proper reactions to user interaction and input. See an example at
 [`src/send/SendAmount.test.tsx`] or read more about the [docs][rntl-docs]
 
+To run a single component test file: `yarn test Send.test.tsx` 
+
 ### Saga testing
 
 We use [redux-saga-test-plan][redux-saga-test-plan] to test complex sagas.
@@ -348,6 +350,7 @@ We use [Detox][detox] for E2E testing. In order to run the tests locally, you
 must have the proper emulator set up. Follow the instructions in [e2e/README.md][e2e readme].
 
 Once setup is done, you can run the tests with `yarn test:e2e:android` or `yarn test:e2e:ios`.
+If you want to run a single e2e test: `yarn test:e2e:ios -f Exchange.spec.js -t "Then Buy CELO"`
 
 ## Building APKs / Bundles
 
