@@ -4,6 +4,7 @@ import {
   isElementVisible,
   sleep,
   waitForExpectNotVisible,
+  padTrailingZeros,
 } from '../utils/utils'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { celoEducation } from '../utils/celoEducation'
@@ -11,10 +12,10 @@ import { dismissBanners } from '../utils/banners'
 import { reloadReactNative } from '../utils/retries'
 
 const CELO_TO_SELL = 0.045
-const CELO_TO_BUY = 0.025
-const CELO_TO_WITHDRAW = 0.015
+const CELO_TO_BUY = +Math.random().toFixed(3)
+const CELO_TO_WITHDRAW = +Math.random().toFixed(3)
 const CELO_TO_SELL_MIN = 0.002
-const FEES = 0.001
+// TODO Fetch Fees
 
 export default ExchangeCelo = () => {
   beforeEach(async () => {
@@ -60,9 +61,7 @@ export default ExchangeCelo = () => {
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
     // Wait up to 1 minute and assert the transaction correctly appears
-    await waitFor(element(by.text(`${(CELO_TO_BUY - FEES).toFixed(3)}`)).atIndex(0))
-      .toBeVisible()
-      .withTimeout(30 * 1000)
+    // TODO: assert on amount minus fees
     await waitFor(element(by.text(`${format(transactionTime, "MMM d 'at' h':'mm a")}`)).atIndex(0))
       .toBeVisible()
       .withTimeout(30 * 1000)
@@ -102,7 +101,9 @@ export default ExchangeCelo = () => {
     // Wait up to 1 minute and assert the transaction correctly appears
     await waitFor(
       element(
-        by.text(`-${CELO_TO_SELL.toFixed(3)}`).withAncestor(by.id('TransactionList'))
+        by
+          .text(`-${padTrailingZeros(CELO_TO_SELL.toFixed(3))}`)
+          .withAncestor(by.id('TransactionList'))
       ).atIndex(0)
     )
       .toBeVisible()
@@ -151,7 +152,9 @@ export default ExchangeCelo = () => {
     await waitForExpectNotVisible('errorBanner')
     // Wait up to 1 minute and assert the transaction correctly appears
     await waitFor(
-      element(by.text(`-${CELO_TO_SELL_MIN}`).withAncestor(by.id('TransactionList'))).atIndex(0)
+      element(
+        by.text(`-${padTrailingZeros(CELO_TO_SELL_MIN)}`).withAncestor(by.id('TransactionList'))
+      ).atIndex(0)
     )
       .toBeVisible()
       .withTimeout(30 * 1000)
@@ -207,7 +210,9 @@ export default ExchangeCelo = () => {
     // Wait up to 1 minute and assert the transaction correctly appears
     await waitFor(
       element(
-        by.text(`-${CELO_TO_WITHDRAW.toFixed(3)}`).withAncestor(by.id('TransactionList'))
+        by
+          .text(`-${padTrailingZeros(CELO_TO_WITHDRAW.toFixed(3))}`)
+          .withAncestor(by.id('TransactionList'))
       ).atIndex(0)
     )
       .toBeVisible()
