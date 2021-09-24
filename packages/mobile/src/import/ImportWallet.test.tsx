@@ -3,6 +3,7 @@ import * as React from 'react'
 import 'react-native'
 import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
+import { Actions } from 'src/import/actions'
 import ImportWallet from 'src/import/ImportWallet'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
@@ -27,16 +28,20 @@ describe('ImportWallet', () => {
   })
 
   it('calls import with the mnemonic', () => {
-    const importFn = jest.fn()
+    const store = createMockStore()
 
     const wrapper = render(
-      <Provider store={createMockStore()}>
+      <Provider store={store}>
         <ImportWallet {...mockScreenProps} />
       </Provider>
     )
 
     fireEvent(wrapper.getByTestId('ImportWalletBackupKeyInputField'), 'inputChange', mockMnemonic)
     fireEvent.press(wrapper.getByTestId('ImportWalletButton'))
-    expect(importFn).toHaveBeenCalledWith(mockMnemonic, false)
+
+    const allActions = store.getActions()
+    const importAction = allActions.filter((action) => action.type === Actions.IMPORT_BACKUP_PHRASE)
+    // expecting importBackupPhrases function to be called once
+    expect(importAction.length).toBe(1)
   })
 })

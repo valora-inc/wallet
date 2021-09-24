@@ -5,7 +5,7 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { HeaderHeightContext, StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Dimensions, Keyboard, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
@@ -71,7 +71,7 @@ function ImportWallet({ navigation, route }: Props) {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.wallet_import_start)
     navigation.addListener('focus', checkCleanBackupPhrase)
 
