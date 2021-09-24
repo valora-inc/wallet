@@ -1,18 +1,21 @@
+import { format } from 'date-fns'
 import {
   enterPinUiIfNecessary,
   isElementVisible,
   sleep,
   waitForExpectNotVisible,
+  padTrailingZeros,
 } from '../utils/utils'
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { celoEducation } from '../utils/celoEducation'
 import { dismissBanners } from '../utils/banners'
 import { reloadReactNative } from '../utils/retries'
 
-const CELO_TO_SELL = 0.002
-const CELO_TO_BUY = 0.045
-const CELO_TO_WITHDRAW = 0.02
-const FEES = 0.001
+const CELO_TO_SELL = 0.045
+const CELO_TO_BUY = +Math.random().toFixed(3)
+const CELO_TO_WITHDRAW = +Math.random().toFixed(3)
+const CELO_TO_SELL_MIN = 0.002
+// TODO Fetch Fees
 
 export default ExchangeCelo = () => {
   beforeEach(async () => {
@@ -27,14 +30,12 @@ export default ExchangeCelo = () => {
     await celoEducation()
   })
 
-  jest.retryTimes(4)
+  jest.retryTimes(2)
   it('Then Buy CELO', async () => {
     // Wait for buy button
     await waitFor(element(by.text('Buy')))
       .toBeVisible()
       .withTimeout(5000)
-    // Get starting balance
-    let celoBalanceBefore = await element(by.id('CeloBalance')).getAttributes()
     // Tap Buy
     await element(by.text('Buy')).tap()
     // Fill in the amount
@@ -53,30 +54,26 @@ export default ExchangeCelo = () => {
     await element(by.id('ConfirmExchange')).tap()
     // Enter PIN
     await enterPinUiIfNecessary()
+    // Get transaction time
+    let transactionTime = new Date()
     // Scroll to top of feed
     await element(by.id('ExchangeScrollView')).scroll(200, 'down')
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
-    // Assert balance is updated
-    await waitFor(element(by.id('CeloBalance')))
-      .toHaveText(`${(+celoBalanceBefore.text + CELO_TO_BUY).toFixed(3)}`)
-      .withTimeout(10 * 1000)
-    // Assert buy amount is present - displays amount after fees
-    await expect(
-      element(
-        by.text(`${(CELO_TO_BUY - FEES).toFixed(3)}`).withAncestor(by.id('TransactionList'))
-      ).atIndex(0)
-    ).toBeVisible()
+    // Wait up to 1 minute and assert the transaction correctly appears
+    // TODO: assert on amount minus fees
+    await waitFor(element(by.text(`${format(transactionTime, "MMM d 'at' h':'mm a")}`)).atIndex(0))
+      .toBeVisible()
+      .withTimeout(30 * 1000)
+    // TODO Check that transaction appears in home feed
   })
 
-  jest.retryTimes(4)
+  jest.retryTimes(2)
   it('Then Sell CELO', async () => {
     // Wait for buy button
     await waitFor(element(by.text('Sell')))
       .toBeVisible()
       .withTimeout(5000)
-    // Get starting balance
-    let celoBalanceBefore = await element(by.id('CeloBalance')).getAttributes()
     // Tap Sell
     await element(by.text('Sell')).tap()
     // Fill in the amount
@@ -95,25 +92,86 @@ export default ExchangeCelo = () => {
     await element(by.id('ConfirmExchange')).tap()
     // Enter PIN
     await enterPinUiIfNecessary()
+    // Get transaction time
+    let transactionTime = new Date()
     // Scroll to top of feed
     await element(by.id('ExchangeScrollView')).scroll(200, 'down')
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
-    // Assert balance is updated
-    await waitFor(element(by.id('CeloBalance')))
-      .toHaveText(`${(+celoBalanceBefore.text - CELO_TO_SELL).toFixed(3)}`)
-      .withTimeout(10 * 1000)
-    // Assert buy amount is present - displays amount sans fees
-    await expect(
+    // Wait up to 1 minute and assert the transaction correctly appears
+    await waitFor(
       element(
-        by.text(`-${CELO_TO_SELL.toFixed(3)}`).withAncestor(by.id('TransactionList'))
+        by
+          .text(`-${padTrailingZeros(CELO_TO_SELL.toFixed(3))}`)
+          .withAncestor(by.id('TransactionList'))
       ).atIndex(0)
-    ).toBeVisible()
+    )
+      .toBeVisible()
+      .withTimeout(30 * 1000)
+    await waitFor(
+      element(
+        by
+          .text(`${format(transactionTime, "MMM d 'at' h':'mm a")}`)
+          .withAncestor(by.id('TransactionList'))
+      ).atIndex(0)
+    )
+      .toBeVisible()
+      .withTimeout(30 * 1000)
+    // TODO Check that transaction appears in home feed
   })
 
-  jest.retryTimes(4)
+  jest.retryTimes(2)
+  it('Then Sell Minimum CELO', async () => {
+    // Wait for buy button
+    await waitFor(element(by.text('Sell')))
+      .toBeVisible()
+      .withTimeout(5 * 1000)
+    // Tap Sell
+    await element(by.text('Sell')).tap()
+    // Fill in the amount
+    await element(by.id('ExchangeInput')).replaceText(`${CELO_TO_SELL_MIN}`)
+    // TODO - Get first exchange rate
+    // Send return key to close keyboard if review button is obscured by keyboard
+    if (!(await isElementVisible('ExchangeReviewButton'))) {
+      await element(by.id('ExchangeInput')).typeText('\n')
+    }
+    // TODO - Get second exchange rate
+    // Sleep for 3 seconds on review
+    await sleep(3 * 1000)
+    // Tap Review
+    await element(by.id('ExchangeReviewButton')).tap()
+    // Tap Confirm
+    await element(by.id('ConfirmExchange')).tap()
+    // Enter PIN
+    await enterPinUiIfNecessary()
+    // Get transaction time
+    let transactionTime = new Date()
+    // Scroll to top of feed
+    await element(by.id('ExchangeScrollView')).scroll(200, 'down')
+    // Wait 10 seconds checking that error banner is not visible each second
+    await waitForExpectNotVisible('errorBanner')
+    // Wait up to 1 minute and assert the transaction correctly appears
+    await waitFor(
+      element(
+        by.text(`-${padTrailingZeros(CELO_TO_SELL_MIN)}`).withAncestor(by.id('TransactionList'))
+      ).atIndex(0)
+    )
+      .toBeVisible()
+      .withTimeout(30 * 1000)
+    await waitFor(
+      element(
+        by
+          .text(`${format(transactionTime, "MMM d 'at' h':'mm a")}`)
+          .withAncestor(by.id('TransactionList'))
+      ).atIndex(0)
+    )
+      .toBeVisible()
+      .withTimeout(30 * 1000)
+    // TODO Check that transaction appears in home feed
+  })
+
+  jest.retryTimes(2)
   it('Then Withdraw CELO', async () => {
-    let celoBalanceBefore = await element(by.id('CeloBalance')).getAttributes()
     // Scroll to the withdraw button
     await waitFor(element(by.id('WithdrawCELO')))
       .toBeVisible()
@@ -143,19 +201,31 @@ export default ExchangeCelo = () => {
     await element(by.id('ConfirmWithdrawButton')).tap()
     // Enter PIN
     await enterPinUiIfNecessary()
+    // Get transaction time
+    let transactionTime = new Date()
     // Scroll to top of feed
     await element(by.id('ExchangeScrollView')).scroll(200, 'down')
     // Wait 10 seconds checking that error banner is not visible each second
     await waitForExpectNotVisible('errorBanner')
-    // Assert balance is updated
-    await waitFor(element(by.id('CeloBalance')))
-      .toHaveText(`${(+celoBalanceBefore.text - CELO_TO_WITHDRAW).toFixed(3)}`)
-      .withTimeout(10 * 1000)
-    // Assert withdrawal amount is present
-    await expect(
+    // Wait up to 1 minute and assert the transaction correctly appears
+    await waitFor(
       element(
-        by.text(`-${CELO_TO_WITHDRAW.toFixed(3)}`).withAncestor(by.id('TransactionList'))
+        by
+          .text(`-${padTrailingZeros(CELO_TO_WITHDRAW.toFixed(3))}`)
+          .withAncestor(by.id('TransactionList'))
       ).atIndex(0)
-    ).toBeVisible()
+    )
+      .toBeVisible()
+      .withTimeout(30 * 1000)
+    await waitFor(
+      element(
+        by
+          .text(`${format(transactionTime, "MMM d 'at' h':'mm a")}`)
+          .withAncestor(by.id('TransactionList'))
+      ).atIndex(0)
+    )
+      .toBeVisible()
+      .withTimeout(30 * 1000)
+    // TODO Check that transaction appears in home feed
   })
 }

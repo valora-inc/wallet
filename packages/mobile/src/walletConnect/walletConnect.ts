@@ -1,10 +1,13 @@
 import { call } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 
 const WC_PREFIX = 'wc:'
 const DEEPLINK_PREFIX = 'celo://wallet/wc?uri='
 const UNIVERSAL_LINK_PREFIX = 'https://valoraapp.com/wc?uri='
+const UNIVERSAL_LINK_PREFIX_WITHOUT_URI = 'https://valoraapp.com/wc'
 
 /**
  * See https://docs.walletconnect.org/v/2.0/mobile-linking for exactly
@@ -31,11 +34,12 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
     yield call(initialiseWalletConnect, link, WalletConnectPairingOrigin.Deeplink)
   }
 
+  navigate(Screens.WalletConnectLoading, { origin: WalletConnectPairingOrigin.Deeplink })
   // action request, we can do nothing
 }
 
 export function isWalletConnectDeepLink(deepLink: string) {
-  return [WC_PREFIX, DEEPLINK_PREFIX, UNIVERSAL_LINK_PREFIX].some((prefix) =>
+  return [WC_PREFIX, DEEPLINK_PREFIX, UNIVERSAL_LINK_PREFIX_WITHOUT_URI].some((prefix) =>
     decodeURIComponent(deepLink).startsWith(prefix)
   )
 }
