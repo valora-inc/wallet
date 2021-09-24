@@ -1,1 +1,20 @@
-{}
+{
+  "title": "Erhöhe deine Belohnungen",
+  "summary": "Die Aufladung ist hier! Erhalte {{percent}}% jährliche Belohnungen auf deinem {{currency}} -Guthaben. Verfügbar für eine begrenzte Zeit, also starte deine Einzahlung!",
+  "earnWeekly": {
+    "header": "Wöchentliche Auszahlung",
+    "text": "Senden Sie und geben Sie wie gewohnt aus, werden Sie auf dem verbleibenden Guthaben belohnt."
+  },
+  "noMinCommitment": {
+    "header": "Automatische Belohnungen",
+    "earningText": "Du hast nur einen Saldo von mindestens {{minBalance}} {{currency}} , um Belohnungen zu erhalten.",
+    "connectText": "Du hast nur einen Saldo von mindestens {{minBalance}} {{currency}} und verbinde deine Telefonnummer, um Belohnungen zu erhalten."
+  },
+  "saveMoreEarnMore": {
+    "header": "Guthaben erhöhen",
+    "text": "Lege {{maxBalance}} {{currency}} ein, um deine {{percent}}% jährlichen Belohnungen zu verteilen."
+  },
+  "conclusion": "So einfach ist das! Laden Sie noch heute Ihre Kryptographie auf!",
+  "cashIn": "{{currency}} hinzufügen",
+  "connectNumber": "Nummer verbinden"
+}

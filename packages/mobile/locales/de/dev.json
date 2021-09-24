@@ -1,1 +1,3 @@
-{}
+{
+  "firebaseDisabled": "Firebase ist deaktiviert, Benachrichtigung und Log-Upload funktionieren nicht"
+}

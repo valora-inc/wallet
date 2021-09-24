@@ -1,20 +1,20 @@
 {
-  "title": "Uma nova forma para ganhar",
-  "summary": "Ganhe até {{percent}}% anualmente nos seus saldos em cUSD e cEUR. As tarifas podem mudar, não perca essa oportunidade!",
+  "title": "Aumente seus prêmios",
+  "summary": "A Supercobrança está aqui! Ganhe {{percent}}% de recompensas anuais no seu saldo de {{currency}} . Disponível por um tempo limitado, então comece a sacar!",
   "earnWeekly": {
-    "header": "Ganhe semanalmente",
-    "text": "Envie ou gaste como de costume, você ganhará com o saldo restante."
+    "header": "Pagamento semanal",
+    "text": "Envie e gaste como de costume, você receberá recompensas com o saldo restante."
   },
   "noMinCommitment": {
-    "header": "Ganhe sem compromissos",
-    "earningText": "Não se estresse: adicione cUSD ou cEUR à sua conta e comece a ganhar nos seus saldos.",
-    "connectText": "Ganhar sem estresse: conecte seu número de celular para começar a ganhar."
+    "header": "Recompensas automáticas",
+    "earningText": "Apenas tenha um saldo de pelo menos {{minBalance}} {{currency}} para começar a receber recompensas.",
+    "connectText": "Apenas tenha um saldo de pelo menos {{minBalance}} {{currency}} e conecte seu número de telefone para começar a receber recompensas."
   },
   "saveMoreEarnMore": {
-    "header": "Adicione fundos para ganhar mais",
-    "text": "Adicione até {{rewardsMax}} cUSD ou {{rewardsMax}} cEUR e ganhe {{percent}}% anualmente."
+    "header": "Aumente seu saldo",
+    "text": "Deposite {{maxBalance}} {{currency}} para max-out suas {{percent}}% recompensas anuais."
   },
-  "conclusion": "É simples assim. Comece a ganhar hoje!",
-  "cashIn": "Adicionar cUSD",
-  "connectNumber": "Número da conexão"
+"conclusion": "É simples assim. Comece a ganhar hoje!",
+  "cashIn": "Adicionar {{currency}}",
+  "connectNumber": "Conectar o número"
 }
