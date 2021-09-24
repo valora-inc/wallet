@@ -107,6 +107,7 @@ export function* handleBarcode(
 ) {
   const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
+    navigate(Screens.WalletConnectLoading, { origin: WalletConnectPairingOrigin.Scan })
     yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
     return
   }
