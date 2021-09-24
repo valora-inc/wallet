@@ -268,3 +268,18 @@ export async function setUrlDenyList(
     console.warn('Error in setUrlDenyList: ', error)
   }
 }
+
+export async function waitForExpectNotVisible(elementId, secondsToWait = 10) {
+  for (let i in [...Array(secondsToWait).keys()]) {
+    await waitFor(element(by.id(elementId)))
+      .not.toBeVisible()
+      .withTimeout(1000)
+    await expect(element(by.id(elementId))).not.toBeVisible()
+  }
+}
+
+export function padTrailingZeros(num, size = 5) {
+  var s = `${num}`
+  while (s.length < size) s = s + '0'
+  return s
+}

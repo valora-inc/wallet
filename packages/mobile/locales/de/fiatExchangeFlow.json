@@ -1,0 +1,83 @@
+{
+  "addFunds": "Guthaben hinzufügen",
+  "addFundsSubtitle": "Ihr Valora-Konto aufladen",
+  "exchanges": "Umtausche",
+  "buySellOnExchanges": "Kaufen/Verkaufen bei Umtauschen",
+  "cashOut": "Guthaben abheben",
+  "cashOutSubtitle": "Geben Sie für Geschenkgutscheine und andere Käufe aus oder senden Sie Geld an einen Krypto-Umtausch",
+  "cashOutComingSoon": "Auszahlung (demnächst verfügbar)",
+  "spend": "Ausgeben",
+  "spendSubtitle": "Verwenden Sie Ihr Guthaben bei unterstützenden Händlern",
+  "amountCelo": "Betrag (CELO)",
+  "onlyCeloDollars": "nur cUSD",
+  "onlyCelo": "Nur CELO",
+  "celoDollar": "Celo Dollar",
+  "celoEuro": "Celo Euro",
+  "celoDollars": "Celo Dollars",
+  "tapToCopyCeloDollarsAddress": "Tippen, um Ihre {{appName}} CUSD-Adresse zu kopieren",
+  "disclaimerFiat": "{{currency}}-Werte sind Schätzungen.",
+  "dollarsNotYetEnabledNote": "Celo Dollars sind noch nicht bei anderen Anbietern verfügbar. Um Celo Dollars zu erhalten, erwerben Sie CELO und tauschen Sie diese gegen Celo Dollars im CELO Tab.",
+  "selectDigitalCurrency": "Eine digitale Währung auswählen",
+  "selectPaymentMethod": "Zahlen mit:",
+  "payWithBank": "Bankkonto",
+  "payWithCard": "Bankkarte",
+  "payWithExchange": "Krypto-Währung umtauschen",
+  "selectCashOutMethod": "Guthaben erhalten in:",
+  "receiveOnAddress": "cUSD/CELO Adresse",
+  "receiveWithBidali": "Geschenkkarten und Mobile Top Up",
+  "fundingEducationDialog": {
+    "title": "Ihre {{appName}} finanzieren",
+    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben. {{appName}} läuft auf Celo Dollars (cUSD), einer stabilen digitalen Währung, die den US-Dollar verfolgt.\n\nUm Ihr {{appName}} Wallet zu finanzieren, kaufen Sie cUSD von einem der Drittanbieter in Ihrem Standort. Für weitere Informationen besuche bitte <0>{{link}}</0>",
+    "dismiss": "OK"
+  },
+  "cashOutEducationDialog": {
+    "title": "Abheben von {{appName}}",
+    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben. {{appName}} läuft auf Celo Dollars (cUSD), einer stabilen digitalen Währung, die den US-Dollar verfolgt.\n\nUm Ihr {{appName}} Guthaben abzuheben, verkaufen Sie cUSD mit einem der Drittanbieter in Ihrem Standort. Für weitere Informationen besuche bitte <0>{{link}}</0>",
+    "dismiss": "OK"
+  },
+  "explanationModal": {
+    "title": "Über Anbieter",
+    "body": "Anbieter erlauben es Ihnen, Guthaben von Ihrem Konto hinzuzufügen oder abzuheben. Sie bestimmen ihre eigenen Tarife und Einschränkungen je nach verschiedenen Faktoren. Bitte besuchen Sie die Website Ihres Anbieters für gezielte Hilfe."
+  },
+  "invalidAmountDialog": {
+    "minAmount": "Unsere Anbieter unterstützen keine Gesamtsummen kleiner als {{usdLimit}}{{localLimit}}. Bitte geben Sie einen größeren Betrag ein.",
+    "maxAmount": "Unsere Anbieter unterstützen keine Gesamtsummen größer als {{usdLimit}}{{localLimit}}. Bitte geben Sie einen kleineren Betrag ein.",
+    "dismiss": "OK"
+  },
+  "dailyLimitDialog": {
+    "body": "Sie sind dabei, mehr als Ihr tägliches Versandlimit von {{limit}} zu erwerben. Bitte kontaktieren Sie <0>{{contactEmail}}</0>, wenn Sie Ihr tägliches Sendelimit erhöhen möchten.",
+    "contact": "Kontakt",
+    "continue": "Ich verstehe"
+  },
+  "providerFeesDialog": {
+    "title": "Provider-Gebühren",
+    "body1": "Die Anbietergebühren werden von jedem Anbieter individuell festgelegt und beinhalten unter anderem eine Umtauschgebühr und Liquiditätsgebühren. Um mehr zu erfahren, besuchen Sie bitte",
+    "body2": "Webseite von {{providerName}}"
+  },
+  "providerFeeDiscountDialog": {
+    "title": "Gebührenrabatt",
+    "body": "Als Promotion werden Gebühren vorübergehend subventioniert, um den Start von Valora zu feiern!"
+  },
+  "dailyLimitRequest": "Hallo! Ich möchte mein tägliches Sendelimit erhöhen.",
+  "pleaseSelectProvider": "Bitte wählen Sie unten einen Anbieter aus. Diese Links verbinden sich mit einem Drittanbieter.",
+  "otherFundingOptions": "Weitere Möglichkeiten zum Hinzufügen und Auszahlen von Guthaben finden Sie auf <0>Wie Sie Ihr Konto aufladen</0>",
+  "youCanTransfer": "Sie können {{currency}} an oder von den folgenden Umtauschen überweisen. Sie benötigen Ihre Konto-Adresse.",
+  "useBalanceWithMerchants": "Verwenden Sie Ihr Guthaben bei unterstützenden Händlern",
+  "findMerchants": "Lokale Händler in Ihrer Nähe finden",
+  "celoDeposit": "CELO-Kauf",
+  "cUsdDeposit": "cUSD-Kauf",
+  "providerUnavailable": "Derzeit nicht verfügbar",
+  "pricePer": "Preis pro {{coin}}",
+  "feeDiscount": "Gebührenrabatt",
+  "free": "GRATIS",
+  "continueToProvider": "Weiter zu {{provider}}",
+  "cicoSuccess": {
+    "title": "Bestellung versendet!",
+    "bodyWithProvider": "{{provider}} bearbeitet Ihre Bestellung. Sie sollten Ihr Guthaben innerhalb weniger Tage erhalten.",
+    "bodyWithoutProvider": "Der Dienstleister bearbeitet Ihre Bestellung. Sie sollten Ihr Guthaben innerhalb weniger Tage erhalten."
+  },
+  "restrictedRegion": "Begrenzte Unterstützung in der Region",
+  "unsupportedPaymentMethod": "Die Bezahlung mit einem {{paymentMethod}} wird in Ihrer Region nicht unterstützt",
+  "noProviders": "Es gibt keine Anbieter für {{digitalAsset}} in Ihrem Land.",
+  "switchCurrency": "Währung wechseln"
+}

@@ -13,10 +13,9 @@ import { activeScreenChanged } from 'src/app/actions'
 import { getAppLocked } from 'src/app/selectors'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import { doingBackupFlowSelector, shouldForceBackupSelector } from 'src/backup/selectors'
-import { DEV_RESTORE_NAV_STATE_ON_RELOAD } from 'src/config'
+import { DEV_RESTORE_NAV_STATE_ON_RELOAD, DYNAMIC_DOWNLOAD_LINK } from 'src/config'
 import i18n from 'src/i18n'
 import InviteFriendModal from 'src/invite/InviteFriendModal'
-import { generateInviteLink } from 'src/invite/saga'
 import { navigate, navigationRef, navigatorIsReadyRef } from 'src/navigator/NavigationService'
 import Navigator from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
@@ -157,7 +156,7 @@ export const NavigatorWrapper = () => {
 
   const onInvite = async () => {
     const message = i18n.t('sendFlow7:inviteWithoutPayment', {
-      link: await generateInviteLink(),
+      link: DYNAMIC_DOWNLOAD_LINK,
     })
     ValoraAnalytics.track(InviteEvents.invite_from_menu)
     await Share.share({ message })

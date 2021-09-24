@@ -162,7 +162,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
-        versionName "1.18.3"
+        versionName "1.19.0"
         multiDexEnabled true
         testBuildType System.getProperty('testBuildType', 'debug')
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -203,6 +203,9 @@ android {
     }
     buildTypes {
         debug {
+            // uncomment this to test proguard in debug builds
+            // minifyEnabled true
+            // proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro", "devsupport.pro"
             signingConfig signingConfigs.debug
         }
 
