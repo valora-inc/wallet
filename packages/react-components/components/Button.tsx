@@ -50,7 +50,7 @@ export default React.memo(function Button(props: ButtonProps) {
     rounded = true,
     style,
     showLoading,
-    loadingColor = colors.greenBrand,
+    loadingColor,
   } = props
 
   // Debounce onPress event so that it is called once on trigger and
@@ -73,7 +73,7 @@ export default React.memo(function Button(props: ButtonProps) {
           testID={testID}
         >
           {showLoading ? (
-            <ActivityIndicator size="small" color={loadingColor} />
+            <ActivityIndicator size="small" color={loadingColor ?? textColor} />
           ) : (
             <Text
               maxFontSizeMultiplier={1}

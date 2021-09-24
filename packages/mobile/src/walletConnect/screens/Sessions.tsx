@@ -1,7 +1,6 @@
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import { AppMetadata, SessionTypes } from '@walletconnect/types'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
@@ -13,11 +12,17 @@ import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
-import { closeSession as closeSessionAction } from 'src/walletConnect/actions'
-import { selectSessions } from 'src/walletConnect/selectors'
+import { WalletConnectSession } from 'src/walletConnect/types'
+import { closeSession as closeSessionActionV1 } from 'src/walletConnect/v1/actions'
+import { selectSessions as selectSessionsV1 } from 'src/walletConnect/v1/selectors'
+import { closeSession as closeSessionActionV2 } from 'src/walletConnect/v2/actions'
+import { selectSessions as selectSessionsV2 } from 'src/walletConnect/v2/selectors'
+import { AppMetadata, SessionTypes } from 'walletconnect-v2/types'
 
-const App = ({ metadata, onPress }: { metadata: AppMetadata; onPress: () => void }) => {
-  const icon = metadata.icons[0] || `${metadata.url}/favicon.ico`
+type Session = WalletConnectSession | SessionTypes.Created
+
+const App = ({ metadata, onPress }: { metadata: AppMetadata | null; onPress: () => void }) => {
+  const icon = metadata?.icons[0] || `${metadata?.url}/favicon.ico`
   const { t } = useTranslation(Namespaces.walletConnect)
 
   return (
@@ -25,7 +30,7 @@ const App = ({ metadata, onPress }: { metadata: AppMetadata; onPress: () => void
       <View style={styles.row}>
         <Image source={{ uri: icon }} style={styles.icon} />
         <View style={styles.rowContent}>
-          <Text style={styles.appName}>{metadata.name}</Text>
+          <Text style={styles.appName}>{metadata?.name}</Text>
           <Text style={styles.disconnectButton}>{t('tapToDisconnect')}</Text>
         </View>
       </View>
@@ -35,15 +40,16 @@ const App = ({ metadata, onPress }: { metadata: AppMetadata; onPress: () => void
 
 function Sessions() {
   const { t } = useTranslation(Namespaces.walletConnect)
-  const { sessions } = useSelector(selectSessions)
-  const [highlighted, setHighlighted] = useState<SessionTypes.Settled | null>(null)
+  const { sessions: sessionsV1 } = useSelector(selectSessionsV1)
+  const { sessions: sessionsV2 } = useSelector(selectSessionsV2)
+  const [highlighted, setHighlighted] = useState<Session | null>(null)
   const dispatch = useDispatch()
 
   const closeModal = () => {
     setHighlighted(null)
   }
 
-  const openModal = (session: SessionTypes.Settled) => () => {
+  const openModal = (session: Session) => () => {
     setHighlighted(session)
   }
 
@@ -52,21 +58,29 @@ function Sessions() {
       return
     }
 
-    dispatch(closeSessionAction(highlighted))
+    dispatch(
+      'topic' in highlighted ? closeSessionActionV2(highlighted) : closeSessionActionV1(highlighted)
+    )
     closeModal()
   }
 
+  const appName =
+    highlighted && 'topic' in highlighted
+      ? highlighted?.peer.metadata.name
+      : highlighted?.peerMeta?.name
   return (
     <ScrollView testID="WalletConnectSessionsView">
       <Dialog
-        title={t('disconnectTitle', { appName: highlighted?.peer.metadata.name })}
+        title={t('disconnectTitle', {
+          appName,
+        })}
         actionPress={closeSession}
         actionText={t('disconnect')}
         secondaryActionText={t('cancel')}
         secondaryActionPress={closeModal}
         isVisible={!!highlighted}
       >
-        {t('disconnectBody', { appName: highlighted?.peer.metadata.name })}
+        {t('disconnectBody', { appName })}
       </Dialog>
 
       <View style={styles.container}>
@@ -75,9 +89,12 @@ function Sessions() {
       </View>
 
       <View style={[styles.container, styles.appsContainer]}>
-        {sessions.map((s) => {
-          return <App key={s.topic} metadata={s.peer.metadata} onPress={openModal(s)} />
-        })}
+        {sessionsV1.map((s) => (
+          <App key={s.peerId} metadata={s.peerMeta} onPress={openModal(s)} />
+        ))}
+        {sessionsV2.map((s) => (
+          <App key={s.topic} metadata={s.peer.metadata} onPress={openModal(s)} />
+        ))}
       </View>
     </ScrollView>
   )
