@@ -2,6 +2,8 @@
   "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
   "cancel": "Abbrechen",
   "allow": "Erlauben",
+  "loadingFromScan": "Scannen",
+  "loadingFromDeeplink": "Verbindung wird aufgebaut",
   "action": {
     "asking": "Diese Anwendung verlangt folgende Aktion",
     "operation": "Operation",
@@ -29,5 +31,9 @@
   "sessionsSubTitle": "Die folgenden Apps sind mit {{appName}} verbunden. Sie können sich mit weiteren Apps verbinden, indem Sie ihren QR-Code scannen.",
   "disconnect": "Verbindung trennen",
   "disconnectTitle": "Soll {{dappName}} getrennt werden?",
-  "disconnectBody": "Sind Sie sicher, dass Sie die Verbindung zu {{dappName}} trennen möchten?"
+  "disconnectBody": "Sind Sie sicher, dass Sie die Verbindung zu {{dappName}} trennen möchten?",
+  "connectionSuccess": "Erfolgreich! Bitte gehen Sie zurück zu {{dappName}} , um fortzufahren",
+  "timeoutTitle": "Timeout!",
+  "timeoutSubtitle": "Zeitüberschreitung der Verbindung. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut",
+  "goBackButton": "Zurück"
 }
