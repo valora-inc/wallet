@@ -2,6 +2,8 @@
   "connectToWallet": "{{dappName}} desea conectarse a {{appName}}",
   "cancel": "Cancelar",
   "allow": "Permitir",
+  "loadingFromScan": "Escaneando",
+  "loadingFromDeeplink": "Conectando",
   "action": {
     "asking": "Esta aplicación está pidiendo realizar la siguiente acción",
     "operation": "Operación",
@@ -29,5 +31,9 @@
   "sessionsSubTitle": "Las siguientes aplicaciones están conectadas a {{appName}}. Puedes conectarte a más aplicaciones escaneando su código QR.",
   "disconnect": "Desconectar",
   "disconnectTitle": "¿Desconectar {{dappName}}?",
-  "disconnectBody": "¿Confirmas que quieres desconectarte de {{dappName}}?"
+  "disconnectBody": "¿Confirmas que quieres desconectarte de {{dappName}}?",
+  "connectionSuccess": "¡Éxito! Por favor vuelve a {{dappName}} para continuar",
+  "timeoutTitle": "¡Tiempo agotado!",
+  "timeoutSubtitle": "Se ha agotado el tiempo de conexión. Por favor, comprueba tu conexión a internet e inténtalo de nuevo",
+  "goBackButton": "Regresar"
 }
