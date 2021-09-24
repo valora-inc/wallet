@@ -35,11 +35,6 @@ export default class KnownAddressesCache {
   }
 
   getDisplayInfoFor(address: string): DisplayInfo {
-    const value = this.knownAddresses[address]
-    if (!value) {
-      return {}
-    }
-
-    return value
+    return this.knownAddresses[address] ?? {}
   }
 }
