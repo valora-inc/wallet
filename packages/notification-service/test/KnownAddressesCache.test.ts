@@ -25,13 +25,13 @@ describe('KnownAddressCache', () => {
   })
 
   it('Should return address info when received it from firebase', () => {
-    const { name, imageUrl } = knownAddressesCache.getValueFor('Test')
+    const { name, imageUrl } = knownAddressesCache.getDisplayInfoFor('Test')
     expect(name).toEqual('Test Name')
     expect(imageUrl).toEqual('Test Image')
   })
 
   it('Should return undefined values when there is no info for given address', () => {
-    const { name, imageUrl } = knownAddressesCache.getValueFor('Unknown')
+    const { name, imageUrl } = knownAddressesCache.getDisplayInfoFor('Unknown')
     expect(name).toBeUndefined()
     expect(imageUrl).toBeUndefined()
   })

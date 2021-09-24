@@ -6,9 +6,14 @@ const ROOT_KEY = 'addressesExtraInfo'
 
 const ON_VALUE_CHANGED = 'value'
 
+export interface DisplayInfo {
+  name?: string
+  imageUrl?: string
+}
+
 export default class KnownAddressesCache {
   private knownAddresses: {
-    [address: string]: { name?: string; imageUrl?: string } | undefined
+    [address: string]: DisplayInfo | undefined
   } = {}
 
   startListening(database: Database): void {
@@ -29,7 +34,7 @@ export default class KnownAddressesCache {
     database.ref(ROOT_KEY).on(ON_VALUE_CHANGED, onValue, onError)
   }
 
-  getValueFor(address: string): { name?: string; imageUrl?: string } {
+  getDisplayInfoFor(address: string): DisplayInfo {
     const value = this.knownAddresses[address]
     if (!value) {
       return {}

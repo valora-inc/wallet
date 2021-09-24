@@ -70,7 +70,7 @@ function* handlePaymentReceived(
           value: divideByWei(transferNotification.value),
           currencyCode: mapOldCurrencyToNew(transferNotification.currency),
         },
-        address: address,
+        address,
         comment: transferNotification.comment,
         recipient: getRecipientFromAddress(
           address,

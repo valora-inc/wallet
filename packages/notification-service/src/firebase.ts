@@ -231,7 +231,7 @@ function notificationTitleAndBody(senderAddress: string, currency: Currencies) {
 }
 
 function setDefaultNameAndImageIfAvailable(data: { [key: string]: string }, senderAddress: string) {
-  const { name, imageUrl } = knownAddressesCache.getValueFor(senderAddress)
+  const { name, imageUrl } = knownAddressesCache.getDisplayInfoFor(senderAddress)
   if (name) {
     Object.assign(data, { name })
   }
