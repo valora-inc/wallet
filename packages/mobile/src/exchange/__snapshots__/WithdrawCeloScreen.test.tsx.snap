@@ -311,7 +311,7 @@ exports[`WithdrawCeloScreen renders correctly 1`] = `
       >
         <ActivityIndicator
           animating={true}
-          color="#42D689"
+          color="#9CA4A9"
           hidesWhenStopped={true}
           size="small"
         />
