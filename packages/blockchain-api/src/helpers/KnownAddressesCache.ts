@@ -33,7 +33,7 @@ class KnownAddressesCache {
     database.ref(ROOT_KEY).on(ON_VALUE_CHANGED, onValue, onError)
   }
 
-  getValueFor(address: string): DisplayInfo {
+  getDisplayInfoFor(address: string): DisplayInfo {
     return this.knownAddresses[address] ?? {}
   }
 }

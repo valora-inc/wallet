@@ -47,7 +47,7 @@ jest.mock('../src/utils.ts', () => {
 jest.mock('../src/helpers/KnownAddressesCache.ts', () => {
   return {
     startListening: {},
-    getValueFor: jest.fn().mockImplementation((address: string) => {
+    getDisplayInfoFor: jest.fn().mockImplementation((address: string) => {
       switch (address) {
         case '0xf4314cb9046bece6aa54bb9533155434d0c76909':
           return { name: 'Test Name', imageUrl: 'Test Image' }
