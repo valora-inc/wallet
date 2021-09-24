@@ -272,6 +272,7 @@ PLATFORMS
   ruby
   universal-darwin-19
   universal-darwin-20
+  x86_64-darwin-19
 
 DEPENDENCIES
   cocoapods
