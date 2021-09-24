@@ -1,5 +1,5 @@
 import { DataSnapshot } from '@firebase/database-types'
-import knownAddressesCache from './KnownAddressesCache'
+import knownAddressesCache from '../../src/helpers/KnownAddressesCache'
 
 jest.mock('firebase-admin', () => ({
   initializeApp: jest.fn(),
