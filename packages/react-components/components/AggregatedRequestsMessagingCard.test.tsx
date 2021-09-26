@@ -6,12 +6,13 @@ import { View } from 'react-native'
 describe(AggregatedRequestsMessagingCard, () => {
   it('renders correctly', () => {
     const onPress = jest.fn()
-    const { getByText, getByTestId, getByName } = render(
+    const { getByText, getByTestId } = render(
       <AggregatedRequestsMessagingCard
         title="Test"
         details="Gold is where you can choose to store Celo dollars you have"
         icon={<View testID="TestIcon" />}
         callToActions={[{ text: 'it goes boom', onPress }]}
+        testID="TextButton"
       />
     )
 
@@ -20,7 +21,7 @@ describe(AggregatedRequestsMessagingCard, () => {
     expect(getByTestId('TestIcon')).toBeDefined()
 
     expect(getByText('it goes boom')).toBeDefined()
-    fireEvent.press(getByName('TextButton'))
+    fireEvent.press(getByText('it goes boom'))
     expect(onPress).toHaveBeenCalled()
   })
 })

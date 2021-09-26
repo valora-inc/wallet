@@ -42,7 +42,7 @@ describe('FullscreenCTA', () => {
   describe('when press the button', () => {
     it('calls the restart prop', () => {
       const restartApp = jest.fn()
-      const { getByName } = render(
+      const { getByText } = render(
         <FullscreenCTA
           title={'Opps'}
           subtitle={'Something went wrong'}
@@ -52,7 +52,7 @@ describe('FullscreenCTA', () => {
           {FullscreenCTAContentMaker('There was an unexpected error')}
         </FullscreenCTA>
       )
-      fireEvent.press(getByName('Button'))
+      fireEvent.press(getByText('Restart'))
       expect(restartApp).toHaveBeenCalled()
     })
   })

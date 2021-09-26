@@ -28,8 +28,8 @@ describe('CircleButton', () => {
   describe('when pressed', () => {
     it('calls the onPress prop', () => {
       const onPress = jest.fn()
-      const { getByName } = render(<CircleButton onPress={onPress} solid={true} />)
-      fireEvent.press(getByName('CircleButton'))
+      const { UNSAFE_getByType } = render(<CircleButton onPress={onPress} solid={true} />)
+      fireEvent.press(UNSAFE_getByType(CircleButton))
       expect(onPress).toHaveBeenCalled()
     })
   })

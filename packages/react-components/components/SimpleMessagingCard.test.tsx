@@ -6,7 +6,7 @@ import { View } from 'react-native'
 describe(SimpleMessagingCard, () => {
   it('renders correctly', () => {
     const onPress = jest.fn()
-    const { getByText, getByTestId, getByName } = render(
+    const { getByText, getByTestId } = render(
       <SimpleMessagingCard
         text="Test"
         icon={<View testID="TestIcon" />}
@@ -19,7 +19,7 @@ describe(SimpleMessagingCard, () => {
     expect(getByTestId('TestIcon')).toBeDefined()
 
     expect(getByText('it goes boom')).toBeDefined()
-    fireEvent.press(getByName('TextButton'))
+    fireEvent.press(getByText('it goes boom'))
     expect(onPress).toHaveBeenCalled()
   })
 
