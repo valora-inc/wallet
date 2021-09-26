@@ -23042,13 +23042,6 @@ react-native-tab-view@^2.15.2:
     process "^0.11.9"
     util "^0.10.3"
 
-react-native-testing-library@^1.12.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/react-native-testing-library/-/react-native-testing-library-1.12.0.tgz#aa16a2f3033ec742c7e49a5f7bdd46ccd9c83bba"
-  integrity sha512-DbWmlbXQabTsL9QGpdXJduPQdQk+91tmcpAant2lMu3mehkf2DxnfF0q20wogQnLrW+XHy8fCPznrAgQAnH04Q==
-  dependencies:
-    pretty-format "^24.0.0"
-
 "react-native-udp@git+https://github.com/celo-org/react-native-udp#730f295":
   version "2.6.1"
   resolved "git+https://github.com/celo-org/react-native-udp#730f295cf5bf79c19632f6ffc703fda785ada236"
