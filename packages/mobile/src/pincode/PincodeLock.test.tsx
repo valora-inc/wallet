@@ -32,7 +32,7 @@ describe('PincodeLock', () => {
       </Provider>
     )
     pin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runAllTimers()
+    jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
     expect(store.getActions()).toEqual([appUnlock()])
   })
@@ -47,7 +47,7 @@ describe('PincodeLock', () => {
       </Provider>
     )
     pin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runAllTimers()
+    jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
     expect(getByText(`${Namespaces.global}:${ErrorMessages.INCORRECT_PIN}`)).toBeDefined()
     expect(store.getActions()).toEqual([])

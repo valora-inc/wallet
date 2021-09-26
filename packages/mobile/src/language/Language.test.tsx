@@ -22,7 +22,7 @@ describe('Language', () => {
     })
 
     fireEvent.press(getByText('Español'))
-    jest.runAllTimers()
+    jest.runOnlyPendingTimers()
     expect(navigate).toHaveBeenCalledWith(Screens.OnboardingEducationScreen)
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [

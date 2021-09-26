@@ -37,7 +37,7 @@ describe('PincodeEnter', () => {
     )
 
     pin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runAllTimers()
+    jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
     expect(mockScreenProps.route.params.onSuccess).toBeCalledWith(pin)
   })
@@ -51,7 +51,7 @@ describe('PincodeEnter', () => {
       </Provider>
     )
     pin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runAllTimers()
+    jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
     expect(getByText(`${Namespaces.global}:${ErrorMessages.INCORRECT_PIN}`)).toBeDefined()
     expect(store.getActions()).toEqual([])
