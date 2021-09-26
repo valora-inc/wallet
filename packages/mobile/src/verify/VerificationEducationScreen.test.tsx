@@ -148,7 +148,7 @@ describe('VerificationEducationScreen', () => {
         komenciAvailable: KomenciAvailable.Yes,
       },
     })
-    const { getByTestId, queryByText, queryByTestId, UNSAFE_queryByType } = render(
+    const { queryByText, queryByTestId, UNSAFE_queryByType } = render(
       <Provider store={store}>
         <VerificationEducationScreen
           {...getMockStackScreenProps(Screens.VerificationEducationScreen, {
