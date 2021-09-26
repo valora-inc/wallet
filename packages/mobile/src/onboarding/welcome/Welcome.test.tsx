@@ -16,7 +16,7 @@ describe('Welcome', () => {
     )
 
     fireEvent.press(getByTestId('CreateAccountButton'))
-    jest.runAllTimers()
+    jest.runOnlyPendingTimers()
     expect(navigate).toHaveBeenCalledWith(Screens.RegulatoryTerms)
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
@@ -29,7 +29,7 @@ describe('Welcome', () => {
     store.clearActions()
 
     fireEvent.press(getByTestId('RestoreAccountButton'))
-    jest.runAllTimers()
+    jest.runOnlyPendingTimers()
     expect(navigate).toHaveBeenCalledWith(Screens.RegulatoryTerms)
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
