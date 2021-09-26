@@ -1,6 +1,6 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import Settings from 'src/account/Settings'
@@ -8,7 +8,7 @@ import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { KomenciAvailable } from 'src/verify/reducer'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper } from 'test/values'
 
 const mockedEnsurePincode = ensurePincode as jest.Mock

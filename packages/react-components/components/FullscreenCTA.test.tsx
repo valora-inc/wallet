@@ -1,8 +1,8 @@
 import FullscreenCTA from '@celo/react-components/components/FullscreenCTA'
 import fontStyles from '@celo/react-components/styles/fonts'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import * as renderer from 'react-test-renderer'
 
 const styles = StyleSheet.create({

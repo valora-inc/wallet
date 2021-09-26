@@ -1,6 +1,6 @@
 import CircleButton from '@celo/react-components/components/CircleButton'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
 import * as renderer from 'react-test-renderer'
 
 describe('CircleButton', () => {

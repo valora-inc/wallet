@@ -1,12 +1,16 @@
+// @ts-ignore
+import { toBeDisabled } from '@testing-library/jest-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Screens } from 'src/navigator/Screens'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+
+expect.extend({ toBeDisabled })
 
 const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 
@@ -39,12 +43,12 @@ describe('NameAndPictureScreen', () => {
       </Provider>
     )
 
-    expect(getByTestId('NameAndPictureContinueButton').props.disabled).toBe(true)
+    expect(getByTestId('NameAndPictureContinueButton')).toBeDisabled()
     // Just spaces counts as empty
     fireEvent.changeText(getByTestId('NameEntry'), '    ')
-    expect(getByTestId('NameAndPictureContinueButton').props.disabled).toBe(true)
+    expect(getByTestId('NameAndPictureContinueButton')).toBeDisabled()
     fireEvent.changeText(getByTestId('NameEntry'), 'Some Name')
-    expect(getByTestId('NameAndPictureContinueButton').props.disabled).toBe(false)
+    expect(getByTestId('NameAndPictureContinueButton')).not.toBeDisabled()
   })
 
   it('is disabled with no text', () => {
@@ -53,6 +57,6 @@ describe('NameAndPictureScreen', () => {
         <NameAndPicture {...mockScreenProps} />
       </Provider>
     )
-    expect(wrapper.queryAllByProps({ disabled: true }).length).toBeGreaterThan(0)
+    expect(wrapper.UNSAFE_queryAllByProps({ disabled: true }).length).toBeGreaterThan(0)
   })
 })

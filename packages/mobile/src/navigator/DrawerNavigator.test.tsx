@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { ExchangeRates } from 'src/exchange/reducer'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'

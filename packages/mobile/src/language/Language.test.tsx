@@ -1,7 +1,7 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import { localesList } from 'locales'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import Language from 'src/language/Language'
 import { navigate } from 'src/navigator/NavigationService'

@@ -1,12 +1,12 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Namespaces } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { checkPin } from 'src/pincode/authentication'
 import PincodeEnter from 'src/pincode/PincodeEnter'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
 
 const mockScreenProps = getMockStackScreenProps(Screens.PincodeEnter, {
   withVerification: true,

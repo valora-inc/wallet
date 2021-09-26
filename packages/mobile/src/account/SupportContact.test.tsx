@@ -1,7 +1,7 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import Mailer from 'react-native-mail'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import SupportContact from 'src/account/SupportContact'

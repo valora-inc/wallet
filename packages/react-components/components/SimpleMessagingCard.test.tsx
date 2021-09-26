@@ -1,7 +1,7 @@
 import SimpleMessagingCard from '@celo/react-components/components/SimpleMessagingCard'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { View } from 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 
 describe(SimpleMessagingCard, () => {
   it('renders correctly', () => {

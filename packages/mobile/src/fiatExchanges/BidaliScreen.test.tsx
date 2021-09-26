@@ -1,5 +1,5 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
-import { render } from 'react-native-testing-library'
 import { WebView } from 'react-native-webview'
 import { Provider } from 'react-redux'
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
@@ -29,13 +29,13 @@ describe(BidaliScreen, () => {
       stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '5' } },
     })
 
-    const { getByType } = render(
+    const { UNSAFE_getByType } = render(
       <Provider store={mockStore}>
         <BidaliScreen {...mockScreenProps} />
       </Provider>
     )
 
-    const webView = getByType(WebView)
+    const webView = UNSAFE_getByType(WebView)
     expect(webView).toBeDefined()
     // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
@@ -59,12 +59,12 @@ describe(BidaliScreen, () => {
       stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '5' } },
     })
 
-    const { getByType } = render(
+    const { UNSAFE_getByType } = render(
       <Provider store={mockStore}>
         <BidaliScreen {...mockScreenProps} />
       </Provider>
     )
-    const webView = getByType(WebView)
+    const webView = UNSAFE_getByType(WebView)
     expect(webView).toBeDefined()
     // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)
@@ -88,7 +88,7 @@ describe(BidaliScreen, () => {
       stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '9' } },
     })
 
-    const { getByType } = render(
+    const { UNSAFE_getByType } = render(
       <Provider store={mockStore}>
         <BidaliScreen
           {...getMockStackScreenProps(Screens.BidaliScreen, {
@@ -97,7 +97,7 @@ describe(BidaliScreen, () => {
         />
       </Provider>
     )
-    const webView = getByType(WebView)
+    const webView = UNSAFE_getByType(WebView)
     expect(webView).toBeDefined()
     // eslint-disable-next-line no-eval
     expect(eval(webView.props.injectedJavaScriptBeforeContentLoaded)).toBe(true)

@@ -332,10 +332,10 @@ flag when running the test.
 
 ### React component unit testing
 
-We use [react-native-testing-library][react-native-testing-library] to unit test
+We use [@testing-library/react-native][@testing-library/react-native] to unit test
 react components. It allows for deep rendering and interaction with the rendered
 tree to assert proper reactions to user interaction and input. See an example at
-[`src/send/SendAmount.test.tsx`] or read more about the [docs][rntl-docs]
+[`src/send/SendAmount.test.tsx`] or read more about the [docs][@tlrn-docs]
 
 To run a single component test file: `yarn test Send.test.tsx` 
 
@@ -560,8 +560,8 @@ $ adb kill-server && adb start-server
 [rn profiler]: https://reactjs.org/blog/2018/09/10/introducing-the-react-profiler.html
 [rn running on device]: https://facebook.github.io/react-native/docs/running-on-device
 [setup]: ../../SETUP.md
-[react-native-testing-library]: https://github.com/callstack/react-native-testing-library
-[rntl-docs]: https://callstack.github.io/react-native-testing-library/
+[@testing-library/react-native]: https://github.com/callstack/react-native-testing-library
+[@tlrn-docs]: https://callstack.github.io/react-native-testing-library/
 [jest]: https://jestjs.io/docs/en/snapshot-testing
 [redux-saga-test-plan]: https://github.com/jfairbank/redux-saga-test-plan
 [sms retriever]: https://developers.google.com/identity/sms-retriever/verify#1_construct_a_verification_message

@@ -1,6 +1,8 @@
+// @ts-ignore
+import { toBeDisabled } from '@testing-library/jest-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { ActivityIndicator } from 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -10,6 +12,8 @@ import { useAsyncKomenciReadiness } from 'src/verify/hooks'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
 import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+
+expect.extend({ toBeDisabled })
 
 const mockedUseAsyncKomenciReadiness = useAsyncKomenciReadiness as jest.Mock
 
@@ -143,7 +147,7 @@ describe('VerificationEducationScreen', () => {
         komenciAvailable: KomenciAvailable.Yes,
       },
     })
-    const { getByTestId, queryByText, queryByTestId, queryByType } = render(
+    const { getByTestId, queryByText, queryByTestId, UNSAFE_queryByType } = render(
       <Provider store={store}>
         <VerificationEducationScreen
           {...getMockStackScreenProps(Screens.VerificationEducationScreen, {
@@ -152,7 +156,7 @@ describe('VerificationEducationScreen', () => {
         />
       </Provider>
     )
-    expect(queryByType(ActivityIndicator)).toBeTruthy()
+    expect(UNSAFE_queryByType(ActivityIndicator)).toBeTruthy()
     expect(getByTestId('VerificationSkipDialog').props.isVisible).toBe(true)
     expect(queryByText('verificationEducation.bodyInsufficientBalance')).toBeFalsy()
     expect(queryByTestId('VerificationEducationSkip')).toBeFalsy()
@@ -179,7 +183,7 @@ describe('VerificationEducationScreen', () => {
         komenciAvailable: KomenciAvailable.Yes,
       },
     })
-    const { getByTestId, queryByText, queryByTestId, queryByType } = render(
+    const { getByTestId, queryByText, queryByTestId, UNSAFE_queryByType } = render(
       <Provider store={store}>
         <VerificationEducationScreen
           {...getMockStackScreenProps(Screens.VerificationEducationScreen, {
@@ -188,7 +192,7 @@ describe('VerificationEducationScreen', () => {
         />
       </Provider>
     )
-    expect(queryByType(ActivityIndicator)).toBeFalsy()
+    expect(UNSAFE_queryByType(ActivityIndicator)).toBeFalsy()
     expect(getByTestId('VerificationSkipDialog').props.isVisible).toBe(true)
     expect(queryByText('verificationUnavailable')).toBeTruthy()
     expect(queryByTestId('VerificationEducationSkip')).toBeTruthy()
@@ -275,8 +279,8 @@ describe('VerificationEducationScreen', () => {
       </Provider>
     )
     fireEvent.changeText(getByTestId('PhoneNumberField'), '12345')
-    expect(getByTestId('VerificationEducationContinue').props.disabled).toBe(true)
+    expect(getByTestId('VerificationEducationContinue')).toBeDisabled()
     fireEvent.changeText(getByTestId('PhoneNumberField'), '51231234')
-    expect(getByTestId('VerificationEducationContinue').props.disabled).toBe(false)
+    expect(getByTestId('VerificationEducationContinue')).not.toBeDisabled()
   })
 })

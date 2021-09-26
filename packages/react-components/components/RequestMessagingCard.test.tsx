@@ -1,7 +1,7 @@
 import RequestMessagingCard from '@celo/react-components/components/RequestMessagingCard'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { View } from 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 
 describe(RequestMessagingCard, () => {
   it('renders correctly', () => {

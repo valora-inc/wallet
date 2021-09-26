@@ -1,5 +1,5 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import { appUnlock } from 'src/app/actions'
@@ -7,7 +7,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Namespaces } from 'src/i18n'
 import { checkPin } from 'src/pincode/authentication'
 import PincodeLock from 'src/pincode/PincodeLock'
-import { createMockStore } from 'test/utils'
+import { createMockStore, flushMicrotasksQueue } from 'test/utils'
 
 const pin = '123456'
 

@@ -1,6 +1,6 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { MoneyAmount } from 'src/apollo/types'
 import TotalLineItem from 'src/components/TotalLineItem'

@@ -1,12 +1,12 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { DEFAULT_CACHE_ACCOUNT, updatePin } from 'src/pincode/authentication'
 import { setCachedPin } from 'src/pincode/PasswordCache'
 import PincodeSet from 'src/pincode/PincodeSet'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
 import { mockAccount } from 'test/values'
 
 const mockPin = '364141' // Last 6 hexidecimal values of the secp256k1 group order.
