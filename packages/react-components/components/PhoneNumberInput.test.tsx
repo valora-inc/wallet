@@ -4,7 +4,7 @@ import { Countries } from '@celo/utils/lib/countries'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Platform } from 'react-native'
-import { flushMicrotasksQueue } from 'test/utils'
+import { flushMicrotasksQueue } from '../test/utils'
 
 jest.mock('@celo/react-native-sms-retriever', () => {
   return {
