@@ -35,5 +35,6 @@
   "connectionSuccess": "Deu certo! Volte para {{dappName}} para prosseguir",
   "timeoutTitle": "Tempo esgotado!",
   "timeoutSubtitle": "Sua conexão expirou. Verifique sua conexão com a internet e tente novamente",
-  "goBackButton": "Voltar"
+  "goBackButton": "Voltar",
+  "v2Unsupported": "This QR code is not supported"
 }
