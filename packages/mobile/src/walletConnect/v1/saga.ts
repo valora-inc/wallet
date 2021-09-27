@@ -112,7 +112,7 @@ function* acceptSession(session: AcceptSession) {
     yield put(storeSession(connector.session))
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defautTrackedProperties)
     yield put(showMessage(i18n.t('walletConnect:connectionSuccess', { dappName: peerMeta.name })))
-  } catch (e) {
+  } catch (e: any) {
     Logger.debug(TAG + '@acceptSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_error, {
       ...defautTrackedProperties,
@@ -134,7 +134,7 @@ function* denySession({ session }: AcceptSession) {
 
     connector.rejectSession()
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_success, defautTrackedProperties)
-  } catch (e) {
+  } catch (e: any) {
     Logger.debug(TAG + '@denySession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_error, {
       ...defautTrackedProperties,
@@ -157,7 +157,7 @@ function* closeSession({ session }: CloseSession) {
 
     yield call([connector, connector.killSession])
     ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_success, defautTrackedProperties)
-  } catch (e) {
+  } catch (e: any) {
     Logger.debug(TAG + '@closeSession', e)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_error, {
       ...defautTrackedProperties,
@@ -202,7 +202,7 @@ function* acceptRequest(r: AcceptRequest) {
       )
     )
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defautTrackedProperties)
-  } catch (e) {
+  } catch (e: any) {
     Logger.debug(TAG + '@acceptRequest', e.message)
     connector?.rejectRequest({ id, jsonrpc, error: e.message })
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_error, {
@@ -234,7 +234,7 @@ function* denyRequest(r: DenyRequest) {
     }
     connector.rejectRequest({ id, error: { message: '' } })
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_success, defautTrackedProperties)
-  } catch (e) {
+  } catch (e: any) {
     Logger.debug(TAG + '@denyRequest', e?.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_error, {
       ...defautTrackedProperties,
