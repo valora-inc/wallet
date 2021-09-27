@@ -117,13 +117,7 @@ function* acceptSession({ session }: AcceptSession) {
           // just covering the range of possibly accepted
           // addresses in CAIP formats
           accounts: [
-            // short name mapping https://github.com/ethereum-lists/chains/issues/359
-            // `celo:${address}`,
-            // // CAIP 50 https://github.com/ChainAgnostic/CAIPs/pull/50
-            // `${address}@celo:${networkConfig.networkId}`,
-            // `${address}@eip155:${networkConfig.networkId}`,
             // CAIP 10 https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-10.md
-            `celo:${networkConfig.networkId}:${address}`,
             `eip155:${networkConfig.networkId}:${address}`,
           ],
         },
