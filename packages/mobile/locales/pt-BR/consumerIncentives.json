@@ -1,20 +1,20 @@
 {
-  "title": "Aumente seus prêmios",
-  "summary": "A Supercobrança está aqui! Ganhe {{percent}}% de recompensas anuais no seu saldo de {{currency}} . Disponível por um tempo limitado, então comece a sacar!",
+  "title": "Aumente suas recompensas",
+  "summary": "O Supercharge chegou! Ganhe {{percent}}% em recompensas anuais no seu saldo de {{currency}}. Quer começar a adicionar fundos? Então corra, porque é por tempo limitado!",
   "earnWeekly": {
     "header": "Pagamento semanal",
-    "text": "Envie e gaste como de costume, você receberá recompensas com o saldo restante."
+    "text": "Envie e gaste como de costume. Você receberá recompensas sobre o saldo restante."
   },
   "noMinCommitment": {
     "header": "Recompensas automáticas",
-    "earningText": "Apenas tenha um saldo de pelo menos {{minBalance}} {{currency}} para começar a receber recompensas.",
-    "connectText": "Apenas tenha um saldo de pelo menos {{minBalance}} {{currency}} e conecte seu número de telefone para começar a receber recompensas."
+    "earningText": "Você só precisa de um saldo mínimo de {{minBalance}} {{currency}} para começar a ganhar recompensas.",
+    "connectText": "Você só precisa de um saldo mínimo de {{minBalance}} {{currency}} e estar conectado ao seu número de celular para começar a ganhar recompensas."
   },
   "saveMoreEarnMore": {
     "header": "Aumente seu saldo",
-    "text": "Deposite {{maxBalance}} {{currency}} para max-out suas {{percent}}% recompensas anuais."
+    "text": "Deposite {{maxBalance}} {{currency}} para ampliar {{percent}}% das suas recompensas anuais."
   },
-"conclusion": "É simples assim. Comece a ganhar hoje!",
-  "cashIn": "Adicionar {{currency}}",
+  "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
+  "cashIn": "Adicione {{currency}}",
   "connectNumber": "Conectar o número"
 }
