@@ -1,6 +1,6 @@
 {
   "title": "Aumenta tus recompensas",
-  "summary": "¡La carga adicional está aquí! Obtén un {{percent}}% de recompensas anuales en tu balance de {{currency}} . Disponible por un tiempo limitado, ¡así que empieza a cobrar!",
+  "summary": "¡La supercharge está aquí! Obtén un {{percent}}% de recompensas anuales en tu saldo de {{currency}}. Disponible por tiempo limitado, ¡así que empieza a agregar fondos!",
   "earnWeekly": {
     "header": "Pago semanal",
     "text": "Envíe y gaste como siempre, obtendrá recompensas en el saldo restante."
@@ -14,7 +14,7 @@
     "header": "Aumenta tu saldo",
     "text": "Deposita {{maxBalance}} {{currency}} para sacar tu {{percent}}% de recompensas anuales."
   },
-  "conclusion": "Es así de simple. ¡Empieza a ganar hoy!",
+  "conclusion": "Es así de simple. ¡Supercharge su criptomonedas hoy!",
   "cashIn": "Añadir {{currency}}",
   "connectNumber": "Conecta tu número"
 }
