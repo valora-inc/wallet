@@ -562,7 +562,7 @@ $ adb kill-server && adb start-server
 [setup]: ../../SETUP.md
 [react-native-testing-library]: https://github.com/callstack/react-native-testing-library
 [@testing-library/jest-native]: https://github.com/testing-library/jest-native#readme
-[rntl-docs]: https://callstack.github.io/react-native-testing-library/
+[rntl-docs]: https://callstack.github.io/react-native-testing-library/docs/getting-started
 [jest]: https://jestjs.io/docs/en/snapshot-testing
 [redux-saga-test-plan]: https://github.com/jfairbank/redux-saga-test-plan
 [sms retriever]: https://developers.google.com/identity/sms-retriever/verify#1_construct_a_verification_message
