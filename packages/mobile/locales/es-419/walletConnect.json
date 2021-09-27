@@ -32,8 +32,8 @@
   "disconnect": "Desconectar",
   "disconnectTitle": "¿Desconectar {{dappName}}?",
   "disconnectBody": "¿Confirmas que quieres desconectarte de {{dappName}}?",
-  "connectionSuccess": "¡Éxito! Por favor vuelve a {{dappName}} para continuar",
+  "connectionSuccess": "¡Éxito! Vuelve a {{dappName}} para continuar",
   "timeoutTitle": "¡Tiempo agotado!",
-  "timeoutSubtitle": "Se ha agotado el tiempo de conexión. Por favor, comprueba tu conexión a internet e inténtalo de nuevo",
+  "timeoutSubtitle": "Se ha agotado el tiempo de conexión. Comprueba tu conexión a internet e inténtalo de nuevo",
   "goBackButton": "Regresar"
 }
