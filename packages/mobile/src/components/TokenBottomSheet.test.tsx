@@ -39,15 +39,14 @@ describe('TokenBottomSheet', () => {
     )
   }
 
-  // Note (Tom): Failing with update to @testing-library/react-native
-  it.skip('renders correctly', () => {
+  it('renders correctly', () => {
     const tree = renderPicker(true)
 
-    expect(tree.queryByTestId('TokenBottomSheetContainer')).toBeTruthy()
-    expect(tree.queryByTestId('LocalcUSDBalance')).toBeTruthy()
-    expect(tree.queryByTestId('cUSDBalance')).toBeTruthy()
-    expect(tree.queryByTestId('LocalcEURBalance')).toBeTruthy()
-    expect(tree.queryByTestId('cEURBalance')).toBeTruthy()
+    expect(tree.getByTestId('TokenBottomSheetContainer')).toBeTruthy()
+    expect(tree.getByTestId('LocalcUSDBalance/value')).toBeTruthy()
+    expect(tree.getByTestId('cUSDBalance/value')).toBeTruthy()
+    expect(tree.getByTestId('LocalcEURBalance/value')).toBeTruthy()
+    expect(tree.getByTestId('cEURBalance/value')).toBeTruthy()
     expect(tree).toMatchSnapshot()
   })
 
