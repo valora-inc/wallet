@@ -98,8 +98,8 @@ function ActionRequest({ navigation, route: { params: routeParams } }: Props) {
         if (isLoading) {
           return
         }
-
-        dispatch(denyRequest(routeParams))
+        e.preventDefault()
+        onDeny()
       }),
     [navigation, routeParams, isLoading]
   )
