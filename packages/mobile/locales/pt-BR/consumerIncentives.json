@@ -12,7 +12,7 @@
   },
   "saveMoreEarnMore": {
     "header": "Aumente seu saldo",
-    "text": "Deposite {{maxBalance}} {{currency}} para ampliar {{percent}}% das suas recompensas anuais."
+    "text": "Deposite {{maxBalance}} {{currency}} para receber recompensas anuais de {{percent}}%."
   },
   "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
   "cashIn": "Adicione {{currency}}",
