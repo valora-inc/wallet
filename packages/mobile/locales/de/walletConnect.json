@@ -32,8 +32,8 @@
   "disconnect": "Verbindung trennen",
   "disconnectTitle": "Soll {{dappName}} getrennt werden?",
   "disconnectBody": "Sind Sie sicher, dass Sie die Verbindung zu {{dappName}} trennen möchten?",
-  "connectionSuccess": "Erfolgreich! Bitte gehen Sie zurück zu {{dappName}} , um fortzufahren",
-  "timeoutTitle": "Timeout!",
-  "timeoutSubtitle": "Zeitüberschreitung der Verbindung. Bitte überprüfen Sie Ihre Internetverbindung und versuchen Sie es erneut",
+  "connectionSuccess": "Erfolgreich! Bitte gehe zurück zu {{dappName}}, um fortzufahren",
+  "timeoutTitle": "Zeitüberschreitung!",
+  "timeoutSubtitle": "Zeitüberschreitung bei der Verbindung. Bitte prüfe deine Internetverbindung und versuche es erneut",
   "goBackButton": "Zurück"
 }
