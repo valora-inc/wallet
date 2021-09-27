@@ -1,8 +1,9 @@
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
+import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -10,6 +11,7 @@ import { useDispatch } from 'react-redux'
 import { Namespaces } from 'src/i18n'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useStateWithCallback from 'src/utils/useStateWithCallback'
 import { getTranslationDescriptionFromAction, SupportedActions } from 'src/walletConnect/constants'
@@ -107,11 +109,17 @@ function SessionRequest({ navigation, route: { params } }: Props) {
         if (isLoading) {
           return
         }
-
+        console.log('DENYING!!', e.data.action)
         dispatch(denySession(params))
       }),
     [navigation, params, isLoading]
   )
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => <TopBarIconButton icon={<Times />} onPress={deny} />,
+    })
+  }, [])
 
   const { url, name, icon, methods } = getRequestInfo(params)
   const fallbackIcon = icon ?? `${url}/favicon.ico`

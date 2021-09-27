@@ -1,8 +1,9 @@
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
+import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -11,6 +12,7 @@ import { useDispatch } from 'react-redux'
 import { Namespaces } from 'src/i18n'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import useStateWithCallback from 'src/utils/useStateWithCallback'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
@@ -103,6 +105,12 @@ function ActionRequest({ navigation, route: { params: routeParams } }: Props) {
       }),
     [navigation, routeParams, isLoading]
   )
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => <TopBarIconButton icon={<Times />} onPress={onDeny} />,
+    })
+  }, [])
 
   const { url, name, icon, method, params } = getRequestInfo(routeParams)
   const moreInfoString =
