@@ -35,5 +35,6 @@
   "connectionSuccess": "Erfolgreich! Bitte gehe zurück zu {{dappName}}, um fortzufahren",
   "timeoutTitle": "Zeitüberschreitung!",
   "timeoutSubtitle": "Zeitüberschreitung bei der Verbindung. Bitte prüfe deine Internetverbindung und versuche es erneut",
-  "goBackButton": "Zurück"
+  "goBackButton": "Zurück",
+  "v2Unsupported": "This QR code is not supported"
 }
