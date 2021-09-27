@@ -1,6 +1,6 @@
 {
   "title": "Aumenta tus recompensas",
-  "summary": "¡La supercharge está aquí! Obtén un {{percent}}% de recompensas anuales en tu saldo de {{currency}}. Disponible por tiempo limitado, ¡así que empieza a agregar fondos!",
+  "summary": "¡Supercharge está aquí! Obtén un {{percent}}% de recompensas anuales en tu saldo de {{currency}}. Disponible por tiempo limitado, ¡así que empieza a agregar fondos!",
   "earnWeekly": {
     "header": "Pago semanal",
     "text": "Envía y gasta como siempre, obtendrás recompensas en el saldo."
