@@ -109,7 +109,6 @@ function SessionRequest({ navigation, route: { params } }: Props) {
         if (isLoading) {
           return
         }
-        console.log('DENYING!!', e.data.action)
         dispatch(denySession(params))
       }),
     [navigation, params, isLoading]
