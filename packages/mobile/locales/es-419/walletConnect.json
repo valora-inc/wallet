@@ -36,5 +36,5 @@
   "timeoutTitle": "¡Se agotó el tiempo!",
   "timeoutSubtitle": "Se ha agotado el tiempo de conexión. Comprueba tu conexión a internet e inténtalo de nuevo.",
   "goBackButton": "Regresar",
-  "v2Unsupported": "This QR code is not supported"
+  "v2Unsupported": "Este código QR no es compatible"
 }
