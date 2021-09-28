@@ -39,7 +39,6 @@ export enum Screens {
   OutgoingPaymentRequestListScreen = 'OutgoingPaymentRequestListScreen',
   PaymentRequestConfirmation = 'PaymentRequestConfirmation',
   PaymentRequestUnavailable = 'PaymentRequestUnavailable',
-  PersonaScreen = 'PersonaScreen',
   PhoneNumberLookupQuota = 'PhoneNumberLookupQuota',
   PhotosEducation = 'PhotosEducation',
   PhotosNUX = 'PhotosNUX',

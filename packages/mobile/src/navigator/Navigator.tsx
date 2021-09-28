@@ -44,7 +44,6 @@ import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import FiatExchangeOptions, {
   fiatExchangesOptionsScreenOptions,
 } from 'src/fiatExchanges/FiatExchangeOptions'
-import PersonaScreen from 'src/fiatExchanges/PersonaScreen'
 import ProviderOptionsScreen from 'src/fiatExchanges/ProviderOptionsScreen'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
@@ -455,11 +454,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={BidaliScreen.navigationOptions}
       name={Screens.BidaliScreen}
       component={BidaliScreen}
-    />
-    <Navigator.Screen
-      options={PersonaScreen.navigationOptions}
-      name={Screens.PersonaScreen}
-      component={PersonaScreen}
     />
   </>
 )

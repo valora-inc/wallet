@@ -9,26 +9,22 @@ import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { updateDailyLimitRequestStatus } from 'src/account/actions'
-import { sendEmail } from 'src/account/emailSender'
+import { useLaunchPersonaInquiry } from 'src/account/hooks'
 import { DailyLimitRequestStatus } from 'src/account/reducer'
 import { cUsdDailyLimitSelector, dailyLimitRequestStatusSelector } from 'src/account/selectors'
-import { showError, showMessage } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
-import { CELO_SUPPORT_EMAIL_ADDRESS } from 'src/config'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n, { Namespaces } from 'src/i18n'
 import ApprovedIcon from 'src/icons/ApprovedIcon'
 import DeniedIcon from 'src/icons/DeniedIcon'
 import InProgressIcon from 'src/icons/InProgressIcon'
 import { headerWithBackButton } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
 import { getRecentPayments } from 'src/send/selectors'
 import { dailyAmountRemaining } from 'src/send/utils'
 import { Currency } from 'src/utils/currencies'
-import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const UNLIMITED_THRESHOLD = 99999999
@@ -41,6 +37,8 @@ const RaiseLimitScreen = () => {
   const address = useSelector(currentAccountSelector)
   const recentPayments = useSelector(getRecentPayments)
   const dispatch = useDispatch()
+
+  const launchPersonaInquiry = useLaunchPersonaInquiry()
 
   const applicationStatusResult = useAsync(async () => {
     if (!address) {
@@ -108,24 +106,11 @@ const RaiseLimitScreen = () => {
   })()
 
   const onPressButton = async () => {
-    try {
-      if (!numberIsVerified) {
-        navigate(Screens.VerificationEducationScreen)
-        return
-      }
-      navigate(Screens.PersonaScreen)
-      await sendEmail({
-        subject: t('raiseLimitEmailSubject'),
-        recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
-        body: t('raiseLimitEmailBody', { dailyLimit, address }),
-        isHTML: true,
-      })
-      navigateBack()
-      dispatch(showMessage(t('raiseLimitEmailSuccess')))
-    } catch (error) {
-      dispatch(showError(ErrorMessages.RAISE_LIMIT_EMAIL_NOT_SENT))
-      Logger.error('Error sending daily limit raise request', error)
+    if (!numberIsVerified) {
+      navigate(Screens.VerificationEducationScreen)
+      return
     }
+    launchPersonaInquiry()
   }
 
   return (

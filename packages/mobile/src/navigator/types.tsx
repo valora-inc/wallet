@@ -175,7 +175,6 @@ export type StackParamList = {
         choseToRestoreAccount?: boolean
       }
     | undefined
-  [Screens.PersonaScreen]: undefined
   [Screens.PhoneNumberLookupQuota]: {
     onBuy: () => void
     onSkip: () => void
