@@ -131,7 +131,7 @@ function* acceptSession({ session }: AcceptSession) {
         i18n.t('walletConnect:connectionSuccess', { dappName: session.proposer.metadata.name })
       )
     )
-  } catch (e: any) {
+  } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_error, {
       ...defaultTrackedProperties,
@@ -154,7 +154,7 @@ function* denySession({ session }: DenySession) {
       proposal: session,
     })
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_success, defaultTrackedProperties)
-  } catch (e: any) {
+  } catch (e) {
     Logger.debug(TAG + '@denySession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_reject_error, {
       ...defaultTrackedProperties,
@@ -177,7 +177,7 @@ function* closeSession({ session }: CloseSession) {
       reason: WalletConnectErrors.USER_DISCONNECTED.format(),
     })
     ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_success, defaultTrackedProperties)
-  } catch (e: any) {
+  } catch (e) {
     Logger.debug(TAG + '@closeSession', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_remove_error, {
       ...defaultTrackedProperties,
@@ -231,7 +231,7 @@ function* acceptRequest({ request }: AcceptRequest): any {
 
     try {
       result = yield call(handleRequest, { method, params })
-    } catch (e: any) {
+    } catch (e) {
       Logger.debug(TAG + '@acceptRequest error obtaining result: ', e.message)
       // TODO: WalletConnectErrors.JSONRPC_REQUEST_METHOD_UNSUPPORTED
       error = WalletConnectErrors.GENERIC
@@ -260,7 +260,7 @@ function* acceptRequest({ request }: AcceptRequest): any {
       )
       ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defaultTrackedProperties)
     }
-  } catch (e: any) {
+  } catch (e) {
     Logger.debug(TAG + '@acceptRequest', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_error, {
       ...defaultTrackedProperties,
@@ -299,7 +299,7 @@ function* denyRequest({ request }: DenyRequest) {
       },
     })
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_success, defaultTrackedProperties)
-  } catch (e: any) {
+  } catch (e) {
     Logger.debug(TAG + '@denyRequest', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_error, {
       ...defaultTrackedProperties,
@@ -437,7 +437,7 @@ function* handleInitialisePairing({ uri, origin }: InitialisePairing) {
     Logger.debug(TAG + '@handleInitialisePairing', 'pair start')
     yield call(client.pair.bind(client), { uri })
     Logger.debug(TAG + '@handleInitialisePairing', 'pair end')
-  } catch (e: any) {
+  } catch (e) {
     Logger.debug(TAG + '@handleInitialisePairing', e.message)
     ValoraAnalytics.track(WalletConnectEvents.wc_pairing_error, { error: e.message })
   }

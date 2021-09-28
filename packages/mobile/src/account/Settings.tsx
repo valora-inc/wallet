@@ -357,7 +357,7 @@ export class Account extends React.Component<Props, State> {
           changePin: true,
         })
       }
-    } catch (error: any) {
+    } catch (error) {
       ValoraAnalytics.track(SettingsEvents.change_pin_current_pin_error)
       Logger.error('NavigationService@onPress', 'PIN ensure error', error)
     }
