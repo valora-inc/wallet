@@ -359,4 +359,8 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[17](v16Schema)
     expect(migratedSchema.fiatExchanges.lastUsedProvider).not.toBeDefined()
   })
+  it('works for v17 to v18', () => {
+    const migratedSchema = migrations[17](v16Schema)
+    expect(migratedSchema.app.showRaiseDailyLimitTarget).not.toBeDefined()
+  })
 })

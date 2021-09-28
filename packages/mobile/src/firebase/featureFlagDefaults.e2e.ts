@@ -2,13 +2,11 @@ import { RemoteFeatureFlags } from 'src/app/saga'
 
 export const FEATURE_FLAG_DEFAULTS: Omit<
   RemoteFeatureFlags,
-  'showRaiseDailyLimitTarget' | 'celoEducationUri' | 'komenciAllowedDeployers'
+  'celoEducationUri' | 'komenciAllowedDeployers'
 > & { komenciAllowedDeployers: string } = {
   hideVerification: false,
   // cannot set defaults to undefined or null
   // TODO: maybe a better default is '0xf' ?
-  // showRaiseDailyLimitTarget: undefined,
-  // same here
   // celoEducationUri: null,
   celoEuroEnabled: true,
   shortVerificationCodesEnabled: false,

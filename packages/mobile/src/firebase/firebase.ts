@@ -245,11 +245,10 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
 
     return {
       hideVerification: flags.hideVerification.asBoolean(),
-      // these next 2 flags are a bit weird because their default is undefined or null
+      // the celoEducationUri flag is a bit weird because it's default is undefined or null
       // and the default map cannot have a value of undefined or null
       // that is why we still need to check for it before calling a method
       // in the future it would be great to avoid using these as default values
-      showRaiseDailyLimitTarget: flags.showRaiseDailyLimitTargetV2?.asString(),
       celoEducationUri: flags.celoEducationUri?.asString() ?? null,
       celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
       shortVerificationCodesEnabled: flags.shortVerificationCodesEnabled.asBoolean(),

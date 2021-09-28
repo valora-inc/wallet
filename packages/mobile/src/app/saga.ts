@@ -150,7 +150,6 @@ export interface RemoteFeatureFlags {
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
   hideVerification: boolean
-  showRaiseDailyLimitTarget: string | undefined
   walletConnectEnabled: boolean
   rewardsABTestThreshold: string
   rewardsPercent: number

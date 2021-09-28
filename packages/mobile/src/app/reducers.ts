@@ -23,7 +23,6 @@ export interface State {
   inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
-  showRaiseDailyLimitTarget: string | undefined
   walletConnectEnabled: boolean
   rewardsPercent: number
   rewardsStartDate: number
@@ -59,7 +58,6 @@ const initialState = {
   inviteModalVisible: false,
   activeScreen: Screens.Main,
   hideVerification: FEATURE_FLAG_DEFAULTS.hideVerification,
-  showRaiseDailyLimitTarget: undefined,
   walletConnectEnabled: FEATURE_FLAG_DEFAULTS.walletConnectEnabled,
   rewardsPercent: FEATURE_FLAG_DEFAULTS.rewardsPercent,
   rewardsStartDate: FEATURE_FLAG_DEFAULTS.rewardsStartDate,
@@ -169,7 +167,6 @@ export const appReducer = (
       return {
         ...state,
         hideVerification: action.flags.hideVerification,
-        showRaiseDailyLimitTarget: action.flags.showRaiseDailyLimitTarget,
         celoEducationUri: action.flags.celoEducationUri,
         celoEuroEnabled: action.flags.celoEuroEnabled,
         shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,

@@ -11,11 +11,7 @@ import { createMockStore } from 'test/utils'
 
 const renderSupport = () =>
   render(
-    <Provider
-      store={createMockStore({
-        app: { showRaiseDailyLimitTarget: '0xf' },
-      })}
-    >
+    <Provider store={createMockStore({})}>
       <Support />
     </Provider>
   )

@@ -730,6 +730,15 @@ export const v17Schema = {
   },
 }
 
+export const v18Schema = {
+  ...v17Schema,
+  _persist: {
+    ...v17Schema._persist,
+    version: 18,
+  },
+  app: _.omit(v17Schema.app, 'showRaiseDailyLimitTarget'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v17Schema as Partial<RootState>
+  return v18Schema as Partial<RootState>
 }

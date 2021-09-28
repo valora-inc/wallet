@@ -10,20 +10,6 @@ import { StackParamList } from 'src/navigator/types'
 
 type Props = StackScreenProps<StackParamList, Screens.PersonaScreen>
 
-// const supportedLanguages = ['en', 'fr', 'es', 'nl']
-
-// const getPlaidLanguage = (appLanguage: string) => {
-//   let plaidLanguage: string | undefined
-//   const lowercaseAppLang = appLanguage.toLowerCase()
-//   for (const lang of supportedLanguages) {
-//     if (lowercaseAppLang.startsWith(lang)) {
-//       plaidLanguage = lang
-//     }
-//   }
-
-//   return plaidLanguage || 'en'
-// }
-
 const InquiryLauncher = ({ templateId }: { [templateId: string]: string }) => {
   const handleBeginInquiry = useCallback(() => {
     Inquiry.fromTemplate(templateId)
