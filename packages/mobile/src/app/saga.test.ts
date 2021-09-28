@@ -119,6 +119,22 @@ describe('App saga', () => {
             WalletConnectPairingOrigin.Deeplink
           )
           .run()
+        expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectLoading, {
+          origin: WalletConnectPairingOrigin.Deeplink,
+        })
+      })
+
+      it(`handles ${name} connection links correctly when there's a pending request`, async () => {
+        await expectSaga(handleDeepLink, openDeepLink(link))
+          .provide([[select(selectHasPendingState), true]])
+          .call(handleWalletConnectDeepLink, link)
+          .call(
+            initialiseWalletConnect,
+            decodeURIComponent(connectionString),
+            WalletConnectPairingOrigin.Deeplink
+          )
+          .run()
+        expect(navigate).not.toHaveBeenCalled()
       })
     }
 
@@ -137,6 +153,18 @@ describe('App saga', () => {
           .call(handleWalletConnectDeepLink, link)
           .not.call(initialiseWalletConnect)
           .run()
+        expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectLoading, {
+          origin: WalletConnectPairingOrigin.Deeplink,
+        })
+      })
+
+      it(`handles ${name} action links correctly when there's a pending request`, async () => {
+        await expectSaga(handleDeepLink, openDeepLink(link))
+          .provide([[select(selectHasPendingState), true]])
+          .call(handleWalletConnectDeepLink, link)
+          .not.call(initialiseWalletConnect)
+          .run()
+        expect(navigate).not.toHaveBeenCalled()
       })
     }
   })
