@@ -108,7 +108,7 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
       <View style={styles.buttonContainer}>
         <Button
           size={BtnSizes.FULL}
-          text={userIsVerified ? t('cashIn') : t('connectNumber')}
+          text={userIsVerified ? t('cashIn', { currency }) : t('connectNumber')}
           onPress={onPressCTA}
           testID="ConsumerIncentives/CTA"
         />
