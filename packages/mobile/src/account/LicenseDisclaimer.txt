@@ -23486,11 +23486,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 -----
 
-The following software may be included in this product: smart-buffer, socks. A copy of the source code may be downloaded from https://github.com/JoshGlazebrook/smart-buffer.git (smart-buffer), https://github.com/JoshGlazebrook/socks.git (socks). This software contains the following license and notice below:
+The following software may be included in this product: smart-buffer. A copy of the source code may be downloaded from https://github.com/JoshGlazebrook/smart-buffer.git. This software contains the following license and notice below:
 
 The MIT License (MIT)
 
-Copyright (c) 2013 Josh Glazebrook
+Copyright (c) 2013-2017 Josh Glazebrook
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -23511,11 +23511,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: smart-buffer. A copy of the source code may be downloaded from https://github.com/JoshGlazebrook/smart-buffer.git. This software contains the following license and notice below:
+The following software may be included in this product: smart-buffer, socks. A copy of the source code may be downloaded from https://github.com/JoshGlazebrook/smart-buffer.git (smart-buffer), https://github.com/JoshGlazebrook/socks.git (socks). This software contains the following license and notice below:
 
 The MIT License (MIT)
 
-Copyright (c) 2013-2017 Josh Glazebrook
+Copyright (c) 2013 Josh Glazebrook
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -27072,7 +27072,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 -----
 
-The following software may be included in this product: workspace-aggregator-9e611a08-782a-47f0-828b-4f8671b5437f. This software contains the following license and notice below:
+The following software may be included in this product: workspace-aggregator-5be1549f-c14b-4022-918c-57918d26163a. This software contains the following license and notice below:
 
 Apache License
                            Version 2.0, January 2004
