@@ -32,6 +32,8 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
   link = decodeURIComponent(link)
 
   // Show loading screen if there is no pending state
+  // Sometimes the WC request is received from the WebSocket before this deeplink
+  // handler is called, so it's important we don't display the loading screen on top
   const hasPendingState: boolean = yield select(selectHasPendingState)
   if (!hasPendingState) {
     navigate(Screens.WalletConnectLoading, { origin: WalletConnectPairingOrigin.Deeplink })
