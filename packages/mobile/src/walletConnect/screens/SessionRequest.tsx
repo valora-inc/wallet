@@ -107,8 +107,8 @@ function SessionRequest({ navigation, route: { params } }: Props) {
         if (isLoading) {
           return
         }
-
-        dispatch(denySession(params))
+        e.preventDefault()
+        deny()
       }),
     [navigation, params, isLoading]
   )
