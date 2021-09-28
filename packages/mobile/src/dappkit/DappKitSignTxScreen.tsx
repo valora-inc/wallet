@@ -7,7 +7,9 @@ import { WithTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
-import { requestTxSignature } from 'src/dappkit/dappkit'
+import { DappKitEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { getDefaultRequestTrackedProperties, requestTxSignature } from 'src/dappkit/dappkit'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationService'
@@ -57,6 +59,11 @@ class DappKitSignTxScreen extends React.Component<Props> {
   showDetails = () => {
     const request = this.getRequest()
 
+    ValoraAnalytics.track(
+      DappKitEvents.dappkit_request_details,
+      getDefaultRequestTrackedProperties(request)
+    )
+
     // TODO(sallyjyl): figure out which data to pass in for multitx
     navigate(Screens.DappKitTxDataScreen, {
       dappKitData: request.txs[0].txData,
@@ -64,6 +71,10 @@ class DappKitSignTxScreen extends React.Component<Props> {
   }
 
   cancel = () => {
+    ValoraAnalytics.track(
+      DappKitEvents.dappkit_request_cancel,
+      getDefaultRequestTrackedProperties(this.getRequest())
+    )
     navigateBack()
   }
 
