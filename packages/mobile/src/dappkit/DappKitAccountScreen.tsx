@@ -9,8 +9,10 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
+import { DappKitEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import AccountNumber from 'src/components/AccountNumber'
-import { approveAccountAuth } from 'src/dappkit/dappkit'
+import { approveAccountAuth, getDefaultRequestTrackedProperties } from 'src/dappkit/dappkit'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { noHeader } from 'src/navigator/Headers'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
@@ -70,6 +72,10 @@ class DappKitAccountAuthScreen extends React.Component<Props> {
   }
 
   cancel = () => {
+    ValoraAnalytics.track(
+      DappKitEvents.dappkit_request_cancel,
+      getDefaultRequestTrackedProperties(this.props.route.params.dappKitRequest)
+    )
     navigateBack()
   }
 
