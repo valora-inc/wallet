@@ -4,7 +4,7 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import React, { useEffect, useMemo } from 'react'
 import { useAsync } from 'react-async-hook'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -14,6 +14,7 @@ import { DailyLimitRequestStatus } from 'src/account/reducer'
 import { cUsdDailyLimitSelector, dailyLimitRequestStatusSelector } from 'src/account/selectors'
 import { showError, showMessage } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { CELO_SUPPORT_EMAIL_ADDRESS } from 'src/config'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n, { Namespaces } from 'src/i18n'
@@ -24,6 +25,9 @@ import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
+import { getRecentPayments } from 'src/send/selectors'
+import { dailyAmountRemaining } from 'src/send/utils'
+import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -35,6 +39,7 @@ const RaiseLimitScreen = () => {
   const dailyLimitRequestStatus = useSelector(dailyLimitRequestStatusSelector)
   const numberIsVerified = useSelector((state) => state.app.numberVerified)
   const address = useSelector(currentAccountSelector)
+  const recentPayments = useSelector(getRecentPayments)
   const dispatch = useDispatch()
 
   const applicationStatusResult = useAsync(async () => {
@@ -108,6 +113,7 @@ const RaiseLimitScreen = () => {
         navigate(Screens.VerificationEducationScreen)
         return
       }
+      navigate(Screens.PersonaScreen)
       await sendEmail({
         subject: t('raiseLimitEmailSubject'),
         recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
@@ -124,11 +130,29 @@ const RaiseLimitScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.labelText}>{t('dailyLimitLabel')}</Text>
-      <Text style={styles.dailyLimitValue}>
-        {dailyLimit > UNLIMITED_THRESHOLD
-          ? t('noDailyLimit')
-          : t('dailyLimitValue', { dailyLimit })}
+      <View style={styles.dailyLimitContainer}>
+        <Text style={styles.labelText}>{t('dailyLimitLabel')}</Text>
+        {dailyLimit > UNLIMITED_THRESHOLD ? (
+          <Text style={styles.dailyLimit}>{t('noDailyLimit')} </Text>
+        ) : (
+          <>
+            <CurrencyDisplay
+              amount={{ value: dailyLimit, currencyCode: Currency.Dollar }}
+              style={styles.dailyLimit}
+            />
+            <Text style={styles.dailyLimitSubtext}>{t('dailyLimitValue', { dailyLimit })}</Text>
+          </>
+        )}
+      </View>
+      <Text style={styles.bodyText}>
+        <Trans i18nKey={'dailyLimitExplainer'} ns={Namespaces.accountScreen10}>
+          <CurrencyDisplay
+            amount={{
+              value: dailyAmountRemaining(Date.now(), recentPayments, dailyLimit),
+              currencyCode: Currency.Dollar,
+            }}
+          />
+        </Trans>
       </Text>
       {!dailyLimitRequestStatus && (
         <Text style={styles.bodyText}>
@@ -148,7 +172,6 @@ const RaiseLimitScreen = () => {
           <Text style={styles.bodyText}>{applicationStatusTexts.description}</Text>
         </>
       )}
-      <View style={styles.fillEmptySpace} />
       {buttonText && (
         <Button
           onPress={onPressButton}
@@ -175,17 +198,24 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: variables.contentPadding,
   },
+  dailyLimitContainer: {
+    marginBottom: 24,
+  },
   labelText: {
     ...fontStyles.label,
     color: colors.gray4,
     marginBottom: 8,
   },
-  dailyLimitValue: {
-    ...fontStyles.regular500,
-    marginBottom: 16,
+  dailyLimit: {
+    ...fontStyles.mediumNumberBold,
+  },
+  dailyLimitSubtext: {
+    ...fontStyles.small500,
+    marginTop: 4,
   },
   bodyText: {
     ...fontStyles.small,
+    marginBottom: 8,
   },
   separator: {
     width: '100%',
@@ -202,11 +232,8 @@ const styles = StyleSheet.create({
     ...fontStyles.regular500,
     marginLeft: 6,
   },
-  fillEmptySpace: {
-    flex: 1,
-  },
   button: {
-    marginBottom: 24,
+    marginVertical: 24,
   },
 })
 

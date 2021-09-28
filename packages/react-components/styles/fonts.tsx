@@ -96,6 +96,12 @@ const fontStyles = StyleSheet.create({
     fontFamily: Inter.Regular,
     color: colors.dark,
   },
+  mediumNumberBold: {
+    lineHeight: 27,
+    fontSize: 24,
+    fontFamily: Inter.SemiBold,
+    color: colors.dark,
+  },
   largeNumber: {
     lineHeight: 40,
     fontSize: 32,

@@ -83,7 +83,6 @@ export const getFeeType = (
   }
 }
 
-// exported for tests
 export function dailyAmountRemaining(
   now: number,
   recentPayments: PaymentInfo[],
