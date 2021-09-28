@@ -63,6 +63,7 @@ export function getDefaultRequestTrackedProperties(request: DappKitRequest) {
 function* respondToAccountAuth(action: ApproveAccountAuthAction) {
   const defaultTrackedProperties = getDefaultRequestTrackedProperties(action.request)
   try {
+    ValoraAnalytics.track(DappKitEvents.dappkit_request_accept_start, defaultTrackedProperties)
     Logger.debug(TAG, 'Approving auth account')
     const account = yield select(currentAccountSelector)
     const phoneNumber = yield select(e164NumberSelector)
