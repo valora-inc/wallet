@@ -14,6 +14,7 @@ import { Screens } from 'src/navigator/Screens'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
+import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
 
 jest.mock('src/utils/time', () => ({
@@ -110,6 +111,7 @@ describe('App saga', () => {
     for (const { name, link } of connectionLinks) {
       it(`handles ${name} connection links correctly`, async () => {
         await expectSaga(handleDeepLink, openDeepLink(link))
+          .provide([[select(selectHasPendingState), false]])
           .call(handleWalletConnectDeepLink, link)
           .call(
             initialiseWalletConnect,
@@ -117,6 +119,22 @@ describe('App saga', () => {
             WalletConnectPairingOrigin.Deeplink
           )
           .run()
+        expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectLoading, {
+          origin: WalletConnectPairingOrigin.Deeplink,
+        })
+      })
+
+      it(`handles ${name} connection links correctly when there's a pending request`, async () => {
+        await expectSaga(handleDeepLink, openDeepLink(link))
+          .provide([[select(selectHasPendingState), true]])
+          .call(handleWalletConnectDeepLink, link)
+          .call(
+            initialiseWalletConnect,
+            decodeURIComponent(connectionString),
+            WalletConnectPairingOrigin.Deeplink
+          )
+          .run()
+        expect(navigate).not.toHaveBeenCalled()
       })
     }
 
@@ -131,9 +149,22 @@ describe('App saga', () => {
     for (const { name, link } of actionLinks) {
       it(`handles ${name} action links correctly`, async () => {
         await expectSaga(handleDeepLink, openDeepLink(link))
+          .provide([[select(selectHasPendingState), false]])
           .call(handleWalletConnectDeepLink, link)
           .not.call(initialiseWalletConnect)
           .run()
+        expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectLoading, {
+          origin: WalletConnectPairingOrigin.Deeplink,
+        })
+      })
+
+      it(`handles ${name} action links correctly when there's a pending request`, async () => {
+        await expectSaga(handleDeepLink, openDeepLink(link))
+          .provide([[select(selectHasPendingState), true]])
+          .call(handleWalletConnectDeepLink, link)
+          .not.call(initialiseWalletConnect)
+          .run()
+        expect(navigate).not.toHaveBeenCalled()
       })
     }
   })
