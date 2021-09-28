@@ -1,9 +1,11 @@
+import { DappKitRequestTypes } from '@celo/utils'
 import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   CeloExchangeEvents,
   ContractKitEvents,
+  DappKitEvents,
   EscrowEvents,
   FeeEvents,
   FiatExchangeEvents,
@@ -1012,6 +1014,26 @@ interface WalletConnectProperties {
   }
 }
 
+interface DappKitRequestDefaultProperties {
+  dappName: string
+  dappUrl: string
+  requestType: DappKitRequestTypes
+  requestCallback: string
+  requestId: string
+}
+
+interface DappKitProperties {
+  [DappKitEvents.dappkit_parse_deeplink_error]: { deeplink: string; error: string }
+  [DappKitEvents.dappkit_request_propose]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_cancel]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_details]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_accept_start]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_accept_success]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_accept_error]: DappKitRequestDefaultProperties & {
+    error: string
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1033,4 +1055,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   PerformanceProperties &
   NavigationProperties &
   RewardsProperties &
-  WalletConnectProperties
+  WalletConnectProperties &
+  DappKitProperties
