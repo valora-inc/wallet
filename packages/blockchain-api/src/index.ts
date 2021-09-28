@@ -4,7 +4,7 @@ import { server as apolloServer } from './apolloServer'
 
 const metricsMiddleware = promBundle({ includeMethod: true, includePath: true })
 
-declare var process: {
+declare const process: {
   env: {
     PORT: string
     INTERFACE: string

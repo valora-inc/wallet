@@ -28,6 +28,7 @@ export class Input {
     try {
       return coder.decodeParameters(abi, this.data)
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.debug(`Error decoding input: ${e.message}`)
       return
     }
