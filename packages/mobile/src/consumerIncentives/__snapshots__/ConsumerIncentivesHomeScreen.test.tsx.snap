@@ -419,7 +419,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
               }
             }
           >
-            cashIn
+            cashIn, {"currency":"cUSD"}
           </Text>
         </View>
       </View>
