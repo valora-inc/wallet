@@ -5,7 +5,7 @@ import knownAddressesCache from './helpers/KnownAddressesCache'
 
 const metricsMiddleware = promBundle({ includeMethod: true, includePath: true })
 
-declare var process: {
+declare const process: {
   env: {
     PORT: string
     INTERFACE: string
