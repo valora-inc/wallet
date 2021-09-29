@@ -2,7 +2,6 @@ import { parsePhoneNumber } from '@celo/utils/lib/phoneNumbers'
 import * as fuzzysort from 'fuzzysort'
 import { TFunction } from 'i18next'
 import { MinimalContact } from 'react-native-contacts'
-import { Maybe } from 'src/apollo/types'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import {
   AddressToDisplayNameType,
