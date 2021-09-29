@@ -3,6 +3,9 @@
   "cancel": "Cancel",
   "allow": "Allow",
 
+  "loadingFromScan": "Scanning",
+  "loadingFromDeeplink": "Connecting",
+
   "action": {
     "asking": "This application is asking to perform the following action",
     "operation": "Operation",
@@ -33,5 +36,12 @@
 
   "disconnect": "Disconnect",
   "disconnectTitle": "Disconnect {{dappName}}?",
-  "disconnectBody": "Are you sure you want to disconnect from {{dappName}}?"
+  "disconnectBody": "Are you sure you want to disconnect from {{dappName}}?",
+
+  "connectionSuccess": "Success! Please go back to {{dappName}} to continue",
+  "timeoutTitle": "Time out!",
+  "timeoutSubtitle": "Your connection timed out. Please check your internet connection & try again",
+
+  "goBackButton": "Go Back",
+  "v2Unsupported": "This QR code is not supported"
 }

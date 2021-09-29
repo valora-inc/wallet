@@ -7,9 +7,14 @@ const ROOT_KEY = 'addressesExtraInfo'
 
 const ON_VALUE_CHANGED = 'value'
 
+export interface DisplayInfo {
+  name?: string
+  imageUrl?: string
+}
+
 class KnownAddressesCache {
   private knownAddresses: {
-    [address: string]: { name?: string; imageUrl?: string } | undefined
+    [address: string]: DisplayInfo | undefined
   } = {}
 
   startListening(): void {
@@ -21,26 +26,18 @@ class KnownAddressesCache {
 
     const onValue = (snapshot: DataSnapshot) => {
       const value = snapshot.val()
-      console.debug(TAG, `Got value from Firebase: ${JSON.stringify(value)}`)
-      if (value) {
-        this.knownAddresses = value
-      }
+
+      console.info(TAG, `Got value from Firebase: ${JSON.stringify(value)}`)
+      this.knownAddresses = value ?? this.knownAddresses
     }
 
     database.ref(ROOT_KEY).on(ON_VALUE_CHANGED, onValue, onError)
   }
 
-  getValueFor(address: string): { name?: string; imageUrl?: string } {
-    const value = this.knownAddresses[address]
-    if (!value) {
-      return {}
-    }
-
-    return value
+  getDisplayInfoFor(address: string): DisplayInfo {
+    return this.knownAddresses[address] ?? {}
   }
 }
 
 export const knownAddressesCache = new KnownAddressesCache()
-knownAddressesCache.startListening()
-
 export default knownAddressesCache

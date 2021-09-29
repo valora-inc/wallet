@@ -56,12 +56,10 @@ import DrawerNavigator from 'src/navigator/DrawerNavigator'
 import {
   emptyHeader,
   HeaderTitleWithBalance,
-  HeaderTitleWithSubtitle,
   headerWithBackButton,
   headerWithBackEditButtons,
   noHeader,
   noHeaderGestureDisabled,
-  nuxNavigationOptions,
 } from 'src/navigator/Headers'
 import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationService'
 import QRNavigator from 'src/navigator/QRNavigator'
@@ -103,6 +101,8 @@ import VerificationEducationScreen from 'src/verify/VerificationEducationScreen'
 import VerificationInputScreen from 'src/verify/VerificationInputScreen'
 import VerificationLoadingScreen from 'src/verify/VerificationLoadingScreen'
 import WalletConnectActionRequestScreen from 'src/walletConnect/screens/ActionRequest'
+import WalletConnectLoading from 'src/walletConnect/screens/Loading'
+import WalletConnectResult from 'src/walletConnect/screens/Result'
 import WalletConnectSessionRequestScreen from 'src/walletConnect/screens/SessionRequest'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
 
@@ -147,6 +147,16 @@ const commonScreens = (Navigator: typeof Stack) => {
         name={Screens.DappKitTxDataScreen}
         component={DappKitTxDataScreen}
         options={DappKitTxDataScreen.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.WalletConnectLoading}
+        component={WalletConnectLoading}
+        options={WalletConnectLoading.navigationOptions}
+      />
+      <Navigator.Screen
+        name={Screens.WalletConnectResult}
+        component={WalletConnectResult}
+        options={WalletConnectResult.navigationOptions}
       />
       <Navigator.Screen
         name={Screens.WalletConnectSessionRequest}
@@ -195,27 +205,6 @@ const verificationScreens = (Navigator: typeof Stack) => {
   )
 }
 
-const pincodeSetScreenOptions = ({
-  route,
-}: {
-  route: RouteProp<StackParamList, Screens.PincodeSet>
-}) => {
-  const changePin = route.params?.changePin
-  const title = changePin
-    ? i18n.t('onboarding:pincodeSet.changePIN')
-    : i18n.t('onboarding:pincodeSet.create')
-
-  return {
-    ...nuxNavigationOptions,
-    headerTitle: () => (
-      <HeaderTitleWithSubtitle
-        title={title}
-        subTitle={changePin ? ' ' : i18n.t('onboarding:step', { step: '2' })}
-      />
-    ),
-  }
-}
-
 const nuxScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen
@@ -236,7 +225,7 @@ const nuxScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.PincodeSet}
       component={PincodeSet}
-      options={pincodeSetScreenOptions}
+      options={PincodeSet.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.ImportWallet}

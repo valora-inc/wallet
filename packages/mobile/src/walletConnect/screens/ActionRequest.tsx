@@ -1,47 +1,113 @@
 import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Button'
-import Times from '@celo/react-components/icons/Times'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { StackScreenProps } from '@react-navigation/stack'
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Namespaces } from 'src/i18n'
-import { emptyHeader } from 'src/navigator/Headers'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { headerWithCloseButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { acceptRequest, denyRequest, showRequestDetails } from 'src/walletConnect/actions'
+import useStateWithCallback from 'src/utils/useStateWithCallback'
 import { getTranslationFromAction, SupportedActions } from 'src/walletConnect/constants'
-import { selectPendingActions, selectSessions } from 'src/walletConnect/selectors'
+import {
+  acceptRequest as acceptRequestV1,
+  denyRequest as denyRequestV1,
+  showRequestDetails as showRequestDetailsV1,
+} from 'src/walletConnect/v1/actions'
+import {
+  acceptRequest as acceptRequestV2,
+  denyRequest as denyRequestV2,
+  showRequestDetails as showRequestDetailsV2,
+} from 'src/walletConnect/v2/actions'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
-function ActionRequest({
-  route: {
-    params: { request },
-  },
-}: Props) {
+
+function showRequestDetails(params: Props['route']['params'], infoString: string) {
+  switch (params.version) {
+    case 1:
+      return showRequestDetailsV1(params.peerId, params.action, infoString)
+    case 2:
+      return showRequestDetailsV2(params.action, infoString)
+  }
+}
+
+function acceptRequest(params: Props['route']['params']) {
+  switch (params.version) {
+    case 1:
+      return acceptRequestV1(params.peerId, params.action)
+    case 2:
+      return acceptRequestV2(params.action)
+  }
+}
+
+function denyRequest(params: Props['route']['params']) {
+  switch (params.version) {
+    case 1:
+      return denyRequestV1(params.peerId, params.action)
+    case 2:
+      return denyRequestV2(params.action)
+  }
+}
+
+function getRequestInfo(params: Props['route']['params']) {
+  switch (params.version) {
+    case 1:
+      return {
+        url: params.dappUrl,
+        name: params.dappName,
+        icon: params.dappIcon,
+        method: params.action.method,
+        params: params.action.params,
+      }
+    case 2:
+      return {
+        url: params.dappUrl,
+        name: params.dappName,
+        icon: params.dappIcon,
+        method: params.action.request.method,
+        params: params.action.request.params,
+      }
+  }
+}
+function ActionRequest({ navigation, route: { params: routeParams } }: Props) {
   const { t } = useTranslation(Namespaces.walletConnect)
+  const [isAccepting, setIsAccepting] = useStateWithCallback(false)
+  const [isDenying, setIsDenying] = useStateWithCallback(false)
   const dispatch = useDispatch()
-  const { sessions } = useSelector(selectSessions)
 
   const onAccept = () => {
-    dispatch(acceptRequest(request))
+    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
+    setIsAccepting(true, () => dispatch(acceptRequest(routeParams)))
   }
 
   const onDeny = () => {
-    dispatch(denyRequest(request))
+    // Dispatch after state has been changed to avoid triggering the 'beforeRemove' action while processing
+    setIsDenying(true, () => dispatch(denyRequest(routeParams)))
   }
 
-  const {
-    request: { method, params },
-  } = request
+  const isLoading = isAccepting || isDenying
+
+  useEffect(
+    () =>
+      navigation.addListener('beforeRemove', (e) => {
+        if (isLoading) {
+          return
+        }
+        e.preventDefault()
+        onDeny()
+      }),
+    [navigation, routeParams, isLoading]
+  )
+
+  const { url, name, icon, method, params } = getRequestInfo(routeParams)
   const moreInfoString =
-    method === SupportedActions.eth_signTransaction
+    method === SupportedActions.eth_signTransaction ||
+    method === SupportedActions.eth_sendTransaction
       ? JSON.stringify(params)
       : method === SupportedActions.eth_signTypedData
       ? JSON.stringify(params[1])
@@ -56,20 +122,18 @@ function ActionRequest({
       return
     }
 
-    dispatch(showRequestDetails(request, moreInfoString))
+    dispatch(showRequestDetails(routeParams, moreInfoString))
   }
 
-  const session = sessions.find((s) => s.topic === request.topic)
-  const icon = session?.peer.metadata.icons[0] ?? `${session?.peer.metadata.url}/favicon.ico`
+  const uri = icon ?? `${url}/favicon.ico`
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.center}>
-          <Image style={styles.logo} source={{ uri: icon }} />
+          <Image style={styles.logo} source={{ uri }} />
         </View>
-        <Text style={styles.header}>
-          {t('connectToWallet', { dappName: session?.peer.metadata.name })}
-        </Text>
+        <Text style={styles.header}>{t('connectToWallet', { dappName: name })}</Text>
         <Text style={styles.share}>{t('action.asking')}:</Text>
 
         <View style={styles.sectionDivider}>
@@ -88,12 +152,13 @@ function ActionRequest({
           )}
         </View>
 
-        <View style={styles.buttonContainer}>
+        <View style={styles.buttonContainer} pointerEvents={isLoading ? 'none' : undefined}>
           <Button
             style={styles.button}
             type={BtnTypes.SECONDARY}
             size={BtnSizes.MEDIUM}
             text={t('cancel')}
+            showLoading={isDenying}
             onPress={onDeny}
             testID="WalletConnectActionCancel"
           />
@@ -102,6 +167,7 @@ function ActionRequest({
             type={BtnTypes.PRIMARY}
             size={BtnSizes.MEDIUM}
             text={t('allow')}
+            showLoading={isAccepting}
             onPress={onAccept}
             testID="WalletConnectActionAllow"
           />
@@ -111,25 +177,7 @@ function ActionRequest({
   )
 }
 
-function LeftHeader() {
-  const dispatch = useDispatch()
-  const [action] = useSelector(selectPendingActions)
-
-  const deny = () => {
-    dispatch(denyRequest(action))
-    navigateBack()
-  }
-
-  return <TopBarIconButton icon={<Times />} onPress={deny} />
-}
-
-ActionRequest.navigationOptions = () => {
-  return {
-    ...emptyHeader,
-    headerLeft: LeftHeader,
-    headerLeftContainerStyle: { paddingLeft: 20 },
-  }
-}
+ActionRequest.navigationOptions = headerWithCloseButton
 
 const styles = StyleSheet.create({
   container: {

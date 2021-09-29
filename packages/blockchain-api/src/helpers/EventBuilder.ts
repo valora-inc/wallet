@@ -22,7 +22,7 @@ export class EventBuilder {
 
     const isOutgoingTransaction = fees !== undefined && fees.length > 0
 
-    const { name, imageUrl } = knownAddressesCache.getValueFor(address)
+    const { name, imageUrl } = knownAddressesCache.getDisplayInfoFor(address)
 
     return {
       type: eventType,

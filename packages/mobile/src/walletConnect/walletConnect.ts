@@ -1,10 +1,14 @@
-import { call } from 'redux-saga/effects'
+import { call, select } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
+import { selectHasPendingState } from 'src/walletConnect/selectors'
 
 const WC_PREFIX = 'wc:'
 const DEEPLINK_PREFIX = 'celo://wallet/wc?uri='
 const UNIVERSAL_LINK_PREFIX = 'https://valoraapp.com/wc?uri='
+const UNIVERSAL_LINK_PREFIX_WITHOUT_URI = 'https://valoraapp.com/wc'
 
 /**
  * See https://docs.walletconnect.org/v/2.0/mobile-linking for exactly
@@ -26,6 +30,15 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
   }
 
   link = decodeURIComponent(link)
+
+  // Show loading screen if there is no pending state
+  // Sometimes the WC request is received from the WebSocket before this deeplink
+  // handler is called, so it's important we don't display the loading screen on top
+  const hasPendingState: boolean = yield select(selectHasPendingState)
+  if (!hasPendingState) {
+    navigate(Screens.WalletConnectLoading, { origin: WalletConnectPairingOrigin.Deeplink })
+  }
+
   // connection request
   if (link.includes('?')) {
     yield call(initialiseWalletConnect, link, WalletConnectPairingOrigin.Deeplink)
@@ -35,7 +48,7 @@ export function* handleWalletConnectDeepLink(deepLink: string) {
 }
 
 export function isWalletConnectDeepLink(deepLink: string) {
-  return [WC_PREFIX, DEEPLINK_PREFIX, UNIVERSAL_LINK_PREFIX].some((prefix) =>
+  return [WC_PREFIX, DEEPLINK_PREFIX, UNIVERSAL_LINK_PREFIX_WITHOUT_URI].some((prefix) =>
     decodeURIComponent(deepLink).startsWith(prefix)
   )
 }

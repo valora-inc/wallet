@@ -5,12 +5,12 @@ jest.mock('../src/metrics')
 
 describe('AnyType', () => {
   it('Should throw an Error when invalid context is received.', async () => {
-    let context = {
+    const context = {
       userAddress: 'invalidAddress',
       tokens: ['CUSD'],
     }
 
-    let transaction = new Any(context)
+    const transaction = new Any(context)
 
     expect(() => {
       transaction.getEvent(null as any)
@@ -18,15 +18,17 @@ describe('AnyType', () => {
   })
 
   it('Should increment get_unknown_transaction_type metric when invalid context is received.', async () => {
-    let context = {
+    const context = {
       userAddress: 'invalidAddress',
       tokens: ['CUSD'],
     }
 
-    let transaction = new Any(context)
+    const transaction = new Any(context)
     try {
       transaction.getEvent(null as any)
-    } catch (Error) {}
+    } catch (error) {
+      // eslint-disable-next-line no-empty
+    }
 
     expect(metrics.unknownTransaction).toBeCalled()
   })

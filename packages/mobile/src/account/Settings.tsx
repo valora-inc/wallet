@@ -106,7 +106,8 @@ const mapStateToProps = (state: RootState): StateProps => {
     gethStartedThisSession: state.geth.gethStartedThisSession,
     preferredCurrencyCode: getLocalCurrencyCode(state),
     sessionId: sessionIdSelector(state),
-    connectedApplications: state.walletConnect.sessions.length,
+    connectedApplications:
+      state.walletConnect.v1.sessions.length + state.walletConnect.v2.sessions.length,
     walletConnectEnabled: walletConnectEnabledSelector(state),
   }
 }

@@ -260,7 +260,9 @@ export async function sendPaymentNotification(
 
   const { title, body } = notificationTitleAndBody(senderAddress, currency)
   return sendNotification(
-    t(title),
+    t(title, {
+      currency: t(currency),
+    }),
     t(body, {
       amount,
       currency: t(currency),

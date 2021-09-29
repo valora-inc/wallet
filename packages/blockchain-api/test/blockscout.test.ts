@@ -47,8 +47,15 @@ jest.mock('../src/utils.ts', () => {
 jest.mock('../src/helpers/KnownAddressesCache.ts', () => {
   return {
     startListening: {},
-    getValueFor: jest.fn().mockImplementation((address: string) => {
-      return {}
+    getDisplayInfoFor: jest.fn().mockImplementation((address: string) => {
+      switch (address) {
+        case '0xf4314cb9046bece6aa54bb9533155434d0c76909':
+          return { name: 'Test Name', imageUrl: 'Test Image' }
+        case '0xa12a699c641cc875a7ca57495861c79c33d293b4':
+          return { name: 'Test Only Name' }
+        default:
+          return {}
+      }
     }),
   }
 })
@@ -214,7 +221,7 @@ describe('Blockscout', () => {
           "block": "90791",
           "comment": "",
           "defaultImage": undefined,
-          "defaultName": undefined,
+          "defaultName": "Test Only Name",
           "fees": Array [
             Object {
               "amount": Object {
@@ -281,8 +288,8 @@ describe('Blockscout', () => {
           },
           "block": "117453",
           "comment": "",
-          "defaultImage": undefined,
-          "defaultName": undefined,
+          "defaultImage": "Test Image",
+          "defaultName": "Test Name",
           "hash": "0xe70bf600802bae7a0d42d89d54b8cdb977a8c5a34a239ec73597c7abcab74536",
           "timestamp": 1566479946000,
           "type": "RECEIVED",
@@ -511,8 +518,8 @@ describe('Blockscout', () => {
           },
           "block": "117451",
           "comment": "",
-          "defaultImage": undefined,
-          "defaultName": undefined,
+          "defaultImage": "Test Image",
+          "defaultName": "Test Name",
           "fees": Array [
             Object {
               "amount": Object {
@@ -537,8 +544,8 @@ describe('Blockscout', () => {
           },
           "block": "117451",
           "comment": "",
-          "defaultImage": undefined,
-          "defaultName": undefined,
+          "defaultImage": "Test Image",
+          "defaultName": "Test Name",
           "fees": Array [
             Object {
               "amount": Object {
@@ -571,8 +578,8 @@ describe('Blockscout', () => {
           },
           "block": "117451",
           "comment": "",
-          "defaultImage": undefined,
-          "defaultName": undefined,
+          "defaultImage": "Test Image",
+          "defaultName": "Test Name",
           "hash": "0xe8fe81f455eb34b672a8d8dd091472f1ae8d4d204817f0bcbb7a13486b9b5605",
           "timestamp": 1566482000000,
           "type": "RECEIVED",
@@ -750,7 +757,7 @@ describe('Blockscout', () => {
           "block": "90791",
           "comment": "",
           "defaultImage": undefined,
-          "defaultName": undefined,
+          "defaultName": "Test Only Name",
           "fees": Array [
             Object {
               "amount": Object {
@@ -817,8 +824,8 @@ describe('Blockscout', () => {
           },
           "block": "117453",
           "comment": "",
-          "defaultImage": undefined,
-          "defaultName": undefined,
+          "defaultImage": "Test Image",
+          "defaultName": "Test Name",
           "hash": "0xe70bf600802bae7a0d42d89d54b8cdb977a8c5a34a239ec73597c7abcab74536",
           "timestamp": 1566479946000,
           "type": "RECEIVED",
@@ -833,8 +840,8 @@ describe('Blockscout', () => {
           },
           "block": "117451",
           "comment": "",
-          "defaultImage": undefined,
-          "defaultName": undefined,
+          "defaultImage": "Test Image",
+          "defaultName": "Test Name",
           "fees": Array [
             Object {
               "amount": Object {
@@ -859,8 +866,8 @@ describe('Blockscout', () => {
           },
           "block": "117451",
           "comment": "",
-          "defaultImage": undefined,
-          "defaultName": undefined,
+          "defaultImage": "Test Image",
+          "defaultName": "Test Name",
           "fees": Array [
             Object {
               "amount": Object {
@@ -893,8 +900,8 @@ describe('Blockscout', () => {
           },
           "block": "117451",
           "comment": "",
-          "defaultImage": undefined,
-          "defaultName": undefined,
+          "defaultImage": "Test Image",
+          "defaultName": "Test Name",
           "hash": "0xe8fe81f455eb34b672a8d8dd091472f1ae8d4d204817f0bcbb7a13486b9b5605",
           "timestamp": 1566482000000,
           "type": "RECEIVED",

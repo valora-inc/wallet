@@ -115,6 +115,7 @@ exports[`ignores failed standby transactions 1`] = `
   renderItem={[Function]}
   scrollEventThrottle={50}
   stickyHeaderIndices={Array []}
+  testID="TransactionList"
   updateCellsBatchingPeriod={50}
   windowSize={21}
 >
@@ -716,6 +717,7 @@ exports[`ignores pending standby transactions that are completed in the response
   renderItem={[Function]}
   scrollEventThrottle={50}
   stickyHeaderIndices={Array []}
+  testID="TransactionList"
   updateCellsBatchingPeriod={50}
   windowSize={21}
 >
@@ -1411,6 +1413,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
   renderItem={[Function]}
   scrollEventThrottle={50}
   stickyHeaderIndices={Array []}
+  testID="TransactionList"
   updateCellsBatchingPeriod={50}
   windowSize={21}
 >
