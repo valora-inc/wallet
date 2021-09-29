@@ -1,8 +1,10 @@
+import { KOMENCI_CHECK_URI } from './consts'
+
 const axios = require('axios').default
 
 export async function checkKomenci() {
   try {
-    const response = await axios.get('https://staging-komenci.azurefd.net/v1/ready')
+    const response = await axios.get(KOMENCI_CHECK_URI)
     if (response && response.data.status === 'Ready') {
       return true
     } else {
