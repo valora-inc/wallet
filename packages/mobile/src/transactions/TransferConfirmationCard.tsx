@@ -34,6 +34,7 @@ import UserSection from 'src/transactions/UserSection'
 import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
+// DIEGO: I think we can remove address and phone number from here, since we have that info in recipient.
 export interface TransferConfirmationCardProps {
   address?: string
   comment?: string | null
@@ -41,12 +42,11 @@ export interface TransferConfirmationCardProps {
   type: TokenTransactionType
   e164PhoneNumber?: string
   dollarBalance?: BigNumber
-  recipient?: Recipient
+  recipient: Recipient
 }
 
 type Props = TransferConfirmationCardProps & {
   addressHasChanged: boolean
-  recipient: Recipient
 }
 
 const onPressGoToFaq = () => {

@@ -42,5 +42,6 @@
   "timeoutTitle": "Time out!",
   "timeoutSubtitle": "Your connection timed out. Please check your internet connection & try again",
 
-  "goBackButton": "Go Back"
+  "goBackButton": "Go Back",
+  "v2Unsupported": "This QR code is not supported"
 }

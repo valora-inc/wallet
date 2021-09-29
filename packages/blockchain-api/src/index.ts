@@ -1,10 +1,11 @@
 import express from 'express'
 import promBundle from 'express-prom-bundle'
 import { server as apolloServer } from './apolloServer'
+import knownAddressesCache from './helpers/KnownAddressesCache'
 
 const metricsMiddleware = promBundle({ includeMethod: true, includePath: true })
 
-declare var process: {
+declare const process: {
   env: {
     PORT: string
     INTERFACE: string
@@ -31,6 +32,7 @@ app.head('/', (_req, res) => {
   res.end()
 })
 
+knownAddressesCache.startListening()
 apolloServer.applyMiddleware({ app, path: GRAPHQL_PATH })
 
 app.listen(PORT, INTERFACE, () => {
