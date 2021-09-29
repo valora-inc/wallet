@@ -62,7 +62,7 @@
   "congratsVerified": "Congratulations you are now confirmed!",
   "notification": {
     "body": "Receive payments directly to your phone number",
-    "cta": "Confirm Now"
+    "cta": "Connect Now"
   },
   "quotaLookup": {
     "title": "Lookup quota exceeded",
