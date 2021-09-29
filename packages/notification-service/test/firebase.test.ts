@@ -3,6 +3,7 @@ import { Currencies } from '../src/blockscout/transfers'
 import {
   sendPaymentNotification,
   _setInviteRewardsSenders,
+  _setKnownAddressesCache,
   _setRewardsSenders,
   _setTestRegistrations,
 } from '../src/firebase'
@@ -21,8 +22,21 @@ jest.mock('firebase-admin', () => ({
 
 const mockedMessagingSend = admin.messaging().send as jest.Mock
 
+const mockedKnownAddressesCache = {
+  getDisplayInfoFor: (address: string) => {
+    switch (address) {
+      case SENDER_ADDRESS:
+        return { name: 'Test Name', imageUrl: 'Test Image' }
+      default:
+        return {}
+    }
+  },
+}
+
 describe('sendPaymentNotification', () => {
   beforeEach(() => {
+    //@ts-ignore: Only mocking getDisplayInfo
+    _setKnownAddressesCache(mockedKnownAddressesCache)
     mockedMessagingSend.mockClear()
   })
 
@@ -47,6 +61,8 @@ describe('sendPaymentNotification', () => {
             "ttl": 604800000,
           },
           "data": Object {
+            "imageUrl": "Test Image",
+            "name": "Test Name",
             "type": "PAYMENT_RECEIVED",
           },
           "notification": Object {

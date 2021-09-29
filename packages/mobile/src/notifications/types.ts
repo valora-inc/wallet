@@ -15,6 +15,8 @@ export interface TransferNotificationData {
   comment: string
   currency: Currency
   type?: NotificationTypes.PAYMENT_RECEIVED
+  name?: string
+  imageUrl?: string
 }
 
 export enum NotificationReceiveState {

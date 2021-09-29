@@ -1,5 +1,4 @@
-import { DataSnapshot } from '@firebase/database-types'
-import { database } from '../firebase'
+import { Database, DataSnapshot } from '@firebase/database-types'
 
 const TAG = 'helpers/KnownAddressesCache'
 
@@ -12,12 +11,12 @@ export interface DisplayInfo {
   imageUrl?: string
 }
 
-class KnownAddressesCache {
+export default class KnownAddressesCache {
   private knownAddresses: {
     [address: string]: DisplayInfo | undefined
   } = {}
 
-  startListening(): void {
+  startListening(database: Database): void {
     console.info(TAG, 'Start listening to Firebase for new events')
 
     const onError = (error: Error) => {
@@ -26,8 +25,10 @@ class KnownAddressesCache {
 
     const onValue = (snapshot: DataSnapshot) => {
       const value = snapshot.val()
-      console.info(TAG, `Got value from Firebase: ${JSON.stringify(value)}`)
-      this.knownAddresses = value ?? this.knownAddresses
+      console.debug(TAG, `Got value from Firebase: ${JSON.stringify(value)}`)
+      if (value) {
+        this.knownAddresses = value
+      }
     }
 
     database.ref(ROOT_KEY).on(ON_VALUE_CHANGED, onValue, onError)
@@ -37,6 +38,3 @@ class KnownAddressesCache {
     return this.knownAddresses[address] ?? {}
   }
 }
-
-export const knownAddressesCache = new KnownAddressesCache()
-export default knownAddressesCache
