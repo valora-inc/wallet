@@ -26,7 +26,7 @@ class KnownAddressesCache {
 
     const onValue = (snapshot: DataSnapshot) => {
       const value = snapshot.val()
-      console.debug(TAG, `Got value from Firebase: ${JSON.stringify(value)}`)
+      console.info(TAG, `Got value from Firebase: ${JSON.stringify(value)}`)
       this.knownAddresses = value ?? this.knownAddresses
     }
 
