@@ -68,7 +68,7 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
-      it('Then Should Display Exchanges', async () => 
+      it('Then Should Display Exchanges', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
           .withTimeout(20000)
