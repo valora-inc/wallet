@@ -111,8 +111,9 @@ export default NewAccountPhoneVerification = () => {
         await element(by.id('Hamburger')).tap()
         await expect(element(by.text(`${examplePhoneNumber}`))).toBeVisible()
       })
-      jest.retryTimes(2)
-      it('Then should be able to resend last 2 messages', async () => {
+      // Note: (Tom) Skip this test until we have a nightly suite vs pull request suite as it takes a long time
+      // jest.retryTimes(2)
+      it.skip('Then should be able to resend last 2 messages', async () => {
         // Start verification
         await element(by.text('Start')).tap()
 
