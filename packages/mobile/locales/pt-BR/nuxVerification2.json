@@ -24,13 +24,13 @@
     "header": "Confirmação do número de celular",
     "intro": "A confirmação do número de celular funciona associando sua conta da {{appName}} ao seu número de celular.",
     "section1Header": "Eu preciso completar essa etapa?",
-    "section1Body": "A confirmação não é necessária. No entanto, sem confirmar, só é possível enviar e receber valores usando QR codes ou endereços.",
+    "section1Body": "A confirmação não é necessária. No entanto, sem confirmar, só é possível enviar e receber valores usando códigos QR ou endereços.",
     "section2Header": "Segurança e Privacidade",
     "section2Body": "Para proteger sua privacidade, apenas uma versão ofuscada do seu número de celular é armazenada no blockchain da Celo."
   },
   "loading": {
-    "confirming": "Confirmando...",
-    "pleaseKeepAppOpen": "Mantenha o aplicativo aberto",
+    "confirming": "Confirmando número de telefone…",
+    "pleaseKeepAppOpen": "Por favor não saia desta tela ou você terá que reiniciar",
     "learnMore": "Saiba mais",
     "card1": "Para garantirmos que o número de celular informado seja realmente seu, estamos enviando três mensagens para você.",
     "card2": "Assim que o seu número for confirmado, você pode enviar e receber fundos facilmente em seu número de celular.",

@@ -27,8 +27,8 @@ export default onRamps = () => {
       it('Then Should Display Providers', async () => {
         await waitFor(element(by.id('Provider/Simplex')))
           .toBeVisible()
-          .withTimeout(20000)
-        await expect(element(by.id('Provider/Simplex'))).toBeVisible()
+          .withTimeout(30 * 1000)
+        await expect(element(by.id('Icon/Simplex'))).toExist()
         const imagePath = await device.takeScreenshot('cUSD In Providers')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD In Providers.png`)
       })
@@ -45,8 +45,7 @@ export default onRamps = () => {
       it('Then Should Display Providers', async () => {
         await waitFor(element(by.id('Provider/Simplex')))
           .toBeVisible()
-          .withTimeout(20000)
-        await expect(element(by.id('Provider/Simplex'))).toBeVisible()
+          .withTimeout(30 * 1000)
         await expect(element(by.id('Icon/Simplex'))).toExist()
         const imagePath = await device.takeScreenshot('cUSD In Providers')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD In Providers.png`)
@@ -89,8 +88,7 @@ export default onRamps = () => {
       it('Then Should Display Providers', async () => {
         await waitFor(element(by.id('Provider/Simplex')))
           .toBeVisible()
-          .withTimeout(20000)
-        await expect(element(by.id('Provider/Simplex'))).toBeVisible()
+          .withTimeout(30 * 1000)
         await expect(element(by.id('Icon/Simplex'))).toExist()
         const imagePath = await device.takeScreenshot('CELO In Providers')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO In Providers.png`)
@@ -108,8 +106,7 @@ export default onRamps = () => {
       it('Then Should Display Providers', async () => {
         await waitFor(element(by.id('Provider/Simplex')))
           .toBeVisible()
-          .withTimeout(20000)
-        await expect(element(by.id('Provider/Simplex'))).toBeVisible()
+          .withTimeout(30 * 1000)
         await expect(element(by.id('Icon/Simplex'))).toExist()
         const imagePath = await device.takeScreenshot('CELO In Providers')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO In Providers.png`)
