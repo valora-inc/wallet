@@ -72,6 +72,7 @@ function* handlePaymentReceived(
         },
         address: transferNotification.sender.toLowerCase(),
         comment: transferNotification.comment,
+        // TODO: Add server default value from backend notification service
         recipient: getRecipientFromAddress(address, info),
         type: TokenTransactionType.Received,
       }

@@ -132,7 +132,12 @@ export interface RecipientInfo {
   addressToDisplayName: AddressToDisplayNameType
 }
 
-export function getRecipientFromAddress(address: string, info: RecipientInfo) {
+export function getRecipientFromAddress(
+  address: string,
+  info: RecipientInfo,
+  defaultName?: string | null,
+  defaultImage?: string | null
+): Recipient {
   const e164PhoneNumber = info.addressToE164Number[address]
   const numberRecipient = e164PhoneNumber ? info.phoneRecipientCache[e164PhoneNumber] : undefined
   const valoraRecipient = info.valoraRecipientCache[address]
@@ -140,8 +145,14 @@ export function getRecipientFromAddress(address: string, info: RecipientInfo) {
 
   const recipient: Recipient = {
     address,
-    name: valoraRecipient?.name || numberRecipient?.name || displayInfo?.name,
-    thumbnailPath: valoraRecipient?.thumbnailPath || displayInfo?.imageUrl || undefined,
+    name:
+      valoraRecipient?.name ||
+      numberRecipient?.name ||
+      displayInfo?.name ||
+      defaultName ||
+      undefined,
+    thumbnailPath:
+      valoraRecipient?.thumbnailPath || displayInfo?.imageUrl || defaultImage || undefined,
     contactId: valoraRecipient?.contactId || numberRecipient?.contactId,
     e164PhoneNumber: e164PhoneNumber || undefined,
     displayNumber: numberRecipient?.displayNumber,
