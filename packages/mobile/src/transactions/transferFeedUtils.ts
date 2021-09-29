@@ -61,7 +61,9 @@ function getRecipient(
   invitees: InviteDetails[],
   address: string,
   recipientInfo: RecipientInfo,
-  providerInfo: ProviderFeedInfo | undefined
+  providerInfo: ProviderFeedInfo | undefined,
+  defaultName?: string,
+  defaultImage?: string
 ): Recipient {
   let phoneNumber = e164PhoneNumber
   let recipient: Recipient
@@ -84,7 +86,8 @@ function getRecipient(
     }
   }
 
-  recipient = getRecipientFromAddress(address, recipientInfo)
+  recipient = getRecipientFromAddress(address, recipientInfo, defaultName, defaultImage)
+
   if (providerInfo) {
     Object.assign(recipient, { name: providerInfo.name, thumbnailPath: providerInfo.icon })
   }
@@ -107,7 +110,9 @@ export function getTransferFeedParams(
   isRewardSender: boolean,
   isInviteRewardSender: boolean,
   providerInfo: ProviderFeedInfo | undefined,
-  currency: string
+  currency: string,
+  defaultName?: string,
+  defaultImage?: string
 ) {
   const e164PhoneNumber = addressToE164Number[address]
   const recipient = getRecipient(
@@ -119,7 +124,9 @@ export function getTransferFeedParams(
     invitees,
     address,
     recipientInfo,
-    providerInfo
+    providerInfo,
+    defaultName,
+    defaultImage
   )
   Object.assign(recipient, { address })
   const nameOrNumber =
@@ -224,7 +231,7 @@ export function getTransferFeedParams(
   return { title, info, recipient }
 }
 
-export function getTxsFromUserTxQuery(data: UserTransactionsQuery | undefined) {
+export function getTxsFromUserTxQuery(data?: UserTransactionsQuery) {
   return data?.tokenTransactions?.edges.map((edge) => edge.node).filter(isPresent) ?? []
 }
 
