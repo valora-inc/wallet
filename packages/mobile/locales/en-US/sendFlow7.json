@@ -78,7 +78,7 @@
   "stableBalance": "{{token}} Balance",
   "verificationCta": {
     "header": "Sending to a friend?",
-    "body": "Confirm your phone and sync your contacts to quickly send to your friends.",
+    "body": "Connect your phone number and sync your contacts to send to friends and family.",
     "cta": "Start Confirmation"
   },
   "importContactsCta": {
