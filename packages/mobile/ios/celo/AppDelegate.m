@@ -88,18 +88,6 @@ static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
 
-  // register for push notifications
-  UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
-  center.delegate = self;
-  [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge)
-  completionHandler:^(BOOL granted, NSError * _Nullable error) {
-    if (granted) {
-      dispatch_async(dispatch_get_main_queue(), ^(void) {
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-      });
-    }
-  }];
-
   [CleverTap autoIntegrate];
 
   return YES;

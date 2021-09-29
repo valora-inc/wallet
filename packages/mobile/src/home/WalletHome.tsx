@@ -17,9 +17,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { nameSelector } from 'src/account/selectors'
 import { showMessage } from 'src/alert/actions'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ALERT_BANNER_DURATION, DEFAULT_TESTNET, SHOW_TESTNET_BANNER } from 'src/config'
-import { refreshAllBalances, setLoading } from 'src/home/actions'
+import { addAnalyticsUserProfile, refreshAllBalances, setLoading } from 'src/home/actions'
 import NotificationBox from 'src/home/NotificationBox'
 import { callToActNotificationSelector, getActiveNotificationCount } from 'src/home/selectors'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
@@ -58,6 +57,7 @@ interface DispatchProps {
   setLoading: typeof setLoading
   showMessage: typeof showMessage
   importContacts: typeof importContacts
+  addAnalyticsUserProfile: typeof addAnalyticsUserProfile
 }
 
 type Props = StateProps & DispatchProps & WithTranslation
@@ -68,6 +68,7 @@ const mapDispatchToProps = {
   setLoading,
   showMessage,
   importContacts,
+  addAnalyticsUserProfile,
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
@@ -112,14 +113,7 @@ export class WalletHome extends React.Component<Props, State> {
       this.showTestnetBanner()
     }
 
-    ValoraAnalytics.setUserAddress(this.props.address)
-    const userInfo = {
-      accountAddress: this.props.accountAddress,
-      walletAddress: this.props.address,
-      cur: this.props.currency,
-      name: this.props.name,
-    }
-    ValoraAnalytics.addUserProfile(this.props.accountAddress, userInfo)
+    this.props.addAnalyticsUserProfile()
 
     // TODO: Fire refreshAllBalances when the app state changes to active. It's easier to do that when we
     // transform this into a function component.
