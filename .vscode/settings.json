@@ -42,6 +42,5 @@
   },
   "javascript.format.enable": false,
   "editor.tabSize": 2,
-  "editor.detectIndentation": false,
-  "tslint.jsEnable": true
+  "editor.detectIndentation": false
 }

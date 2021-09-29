@@ -1,4 +1,3 @@
-/* tslint:disable:no-console */
 import { CeloContract, ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import Web3 from 'web3'
 import { WEB3_PROVIDER_URL } from './config'
