@@ -127,7 +127,7 @@
   "encryption": {
     "warningLabel": "Este comentário não será criptografado",
     "warningModalHeader": "Sobre criptografia",
-    "warningModalBody": "A criptografia garante que seus comentários sejam mantidos em sigilo. A {{appName}} usa criptografia nos comentários da transação quando o remetente e o destinatário têm esse recurso configurado. A configuração normalmente ocorrerá automaticamente assim que um usuário enviar sua primeira transação.",
+    "warningModalBody": "A criptografia garante que seus comentários sejam mantidos em sigilo. O {{appName}} usa criptografia nos comentários da transação quando o remetente e o destinatário têm esse recurso configurado. A configuração normalmente ocorrerá automaticamente assim que um usuário enviar sua primeira transação.",
     "feeLabel": "Taxa única de criptografia",
     "feeModalHeader": "Taxa única de criptografia",
     "feeModalBody": "A criptografia ajuda a manter a privacidade de seus dados confidenciais. Uma pequena taxa única é adicionada à sua primeira transação para configurar a criptografia. Isso garante que seus comentários serão enviados de forma segura e privada."
