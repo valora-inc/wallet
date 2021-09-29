@@ -10,8 +10,7 @@ import { addressToDisplayNameSelector, SecureSendPhoneNumberMapping } from 'src/
 import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
-import { allRewardsSendersSelector, recipientInfoSelector } from 'src/recipients/reducer'
+import { allRewardsSendersSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import useSelector from 'src/redux/useSelector'
 import TransferConfirmationCard, {
@@ -22,7 +21,6 @@ import { getDatetimeDisplayString } from 'src/utils/time'
 
 interface StateProps {
   addressHasChanged: boolean
-  recipientInfo: RecipientInfo
 }
 export interface ReviewProps {
   type: TokenTransactionType
@@ -45,7 +43,7 @@ const hasAddressChanged = (
     return false
   }
 
-  const { address, e164PhoneNumber } = confirmationProps
+  const { address, e164PhoneNumber } = confirmationProps.recipient
   if (!address || !e164PhoneNumber || !secureSendPhoneNumberMapping[e164PhoneNumber]) {
     return false
   }
@@ -62,9 +60,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): StateProps => {
   const { confirmationProps } = ownProps.route.params
   const { secureSendPhoneNumberMapping } = state.identity
   const addressHasChanged = hasAddressChanged(confirmationProps, secureSendPhoneNumberMapping)
-  const recipientInfo = recipientInfoSelector(state)
-
-  return { addressHasChanged, recipientInfo }
+  return { addressHasChanged }
 }
 
 function isExchange(
@@ -73,7 +69,7 @@ function isExchange(
   return (confirmationProps as ExchangeConfirmationCardProps).makerAmount !== undefined
 }
 
-function TransactionReview({ navigation, route, addressHasChanged, recipientInfo }: Props) {
+function TransactionReview({ navigation, route, addressHasChanged }: Props) {
   const {
     reviewProps: { type, timestamp },
     confirmationProps,
@@ -93,11 +89,7 @@ function TransactionReview({ navigation, route, addressHasChanged, recipientInfo
   }, [type, confirmationProps, addressToDisplayName])
 
   if (isTransferConfirmationCardProps(confirmationProps)) {
-    // @ts-ignore, address should never be undefined
-    const recipient = getRecipientFromAddress(confirmationProps.address, recipientInfo)
-    Object.assign(recipient, { e164PhoneNumber: confirmationProps.e164PhoneNumber })
-
-    const props = { ...confirmationProps, addressHasChanged, recipient }
+    const props = { ...confirmationProps, addressHasChanged }
     return <TransferConfirmationCard {...props} />
   }
 

@@ -19,6 +19,8 @@ const mockFeedItem = (timestamp: number, comment: string): FeedItem => {
     account: '',
     comment,
     status: TransactionStatus.Complete,
+    defaultImage: null,
+    defaultName: null,
   }
 }
 

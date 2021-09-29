@@ -8,8 +8,8 @@
   "gold": "CELO",
   "paymentRequestedTitle": "Pago solicitado",
   "paymentRequestedBody": "Se ha solicitado un pago de {{amount}} {{currency}}.",
-  "rewardReceivedTitle": "Acabas de ganar más cUSD 📈",
-  "rewardReceivedBody": "¡Tus ganancias semanales han llegado! Agrega cUSD para ganar aún más la próxima semana.",
+  "rewardReceivedTitle": "Estás obteniendo aún más {{currency}} 📈",
+  "rewardReceivedBody": "¡Han llegado tus recompensas semanales! Agrega más {{currency}} para aumentar tu saldo.",
   "inviteRewardTitle": "Invitación aceptada",
   "inviteRewardBody": "¡Tu amigo ha aceptado tu invitación a Valora y has ganado {{amount}} {{currency}}!"
 }

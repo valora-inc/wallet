@@ -49,6 +49,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -74,6 +76,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -99,6 +103,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -124,6 +130,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -149,6 +157,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -174,6 +184,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -199,6 +211,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -224,6 +238,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -249,6 +265,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -283,6 +301,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[mockStoredInviteDetails]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -308,6 +328,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -333,6 +355,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -358,6 +382,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -383,6 +409,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -408,6 +436,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -433,13 +463,20 @@ describe('transfer feed item renders correctly', () => {
           invitees={[]}
           recipientInfo={mockRecipientInfo}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
   })
-  const renderFeedItemForSendWithoutCaches = (address: string, recipientInfo: RecipientInfo) => (
+  const renderFeedItemForSendWithoutCaches = (
+    address: string,
+    recipientInfo: RecipientInfo,
+    defaultName?: string,
+    defaultImage?: string
+  ) => (
     <TransferFeedItem
       __typename="TokenTransfer"
       status={TransactionStatus.Complete}
@@ -456,6 +493,8 @@ describe('transfer feed item renders correctly', () => {
       recentTxRecipientsCache={{}}
       account={''}
       invitees={[]}
+      defaultName={defaultName || null}
+      defaultImage={defaultImage || null}
     />
   )
   it('for known address display name show stored name on feed item', () => {
@@ -500,6 +539,22 @@ describe('transfer feed item renders correctly', () => {
     expect(tree.queryByText(new RegExp(contactName))).toBeFalsy()
     expect(tree.queryByText(new RegExp(mockE164Number.replace('+', '\\+')))).toBeTruthy()
   })
+  it('should show default name when transaction contains one', () => {
+    const contactName = 'Some name'
+    const recipientInfo = {
+      phoneRecipientCache: {},
+      valoraRecipientCache: {},
+      addressToE164Number: {},
+      addressToDisplayName: {},
+    }
+    const tree = render(
+      <Provider store={createMockStore({})}>
+        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo, contactName)}
+      </Provider>
+    )
+    expect(tree.queryByText(new RegExp(contactName))).toBeTruthy()
+    expect(tree.queryByText(new RegExp(mockE164Number.replace('+', '\\+')))).toBeFalsy()
+  })
   it('for received with a value between 0.01 and 0.001', () => {
     const { getByTestId } = render(
       <Provider store={mockStore}>
@@ -519,6 +574,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -545,6 +602,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>

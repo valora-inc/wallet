@@ -109,6 +109,8 @@ const mockQueryData: UserTransactionsQuery = {
           address: '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10',
           account: '0xsflkj',
           comment: 'Hi',
+          defaultImage: null,
+          defaultName: null,
         },
       },
       {
@@ -132,6 +134,8 @@ const mockQueryData: UserTransactionsQuery = {
           address: '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10',
           account: '0xsflkj',
           comment: null,
+          defaultImage: null,
+          defaultName: null,
         },
       },
       {
