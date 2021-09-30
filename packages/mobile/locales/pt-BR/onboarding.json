@@ -59,7 +59,7 @@
   "verificationPrematureRevealMessage": "Espere um minuto antes de reenviar",
   "verificationLearnMoreDialog": {
     "title": "Números de celular e a {{appName}}",
-    "body": "Confirmando facilita a conexão com seus amigos, permitindo que você envie e receba fundos para o seu número de celular.\n\n<0>Posso fazer isso mais tarde?</0>\n\nSim, mas contas não confirmadas só podem enviar pagamentos com códigos QR ou Endereços de Conta.\n\n<1>Segura e Privada</1>\n\nA Valora usa o estado da criptografia de arte para manter seu número de celular privado.",
+    "body": "Conectando facilita a conexão com seus amigos, permitindo que você envie e receba fundos para o seu número de celular.\n\n<0>Posso fazer isso mais tarde?</0>\n\nSim, mas contas não conectadas só podem enviar pagamentos com códigos QR ou Endereços de Conta.\n\n<1>Segura e Privada</1>\n\nA Valora usa o estado da criptografia de arte para manter seu número de celular privado.",
     "dismiss": "Ignorar"
   },
   "importExistingKey": {
