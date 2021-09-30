@@ -1,4 +1,5 @@
 import coder from 'web3-eth-abi'
+import { logger } from '../logger'
 
 const TRANSFER_WITH_COMMENT = '0xe1d6aceb'
 const REGISTER_ACCOUNT_DEK = '0x90b12b47'
@@ -28,7 +29,7 @@ export class Input {
     try {
       return coder.decodeParameters(abi, this.data)
     } catch (e) {
-      console.debug(`Error decoding input: ${e.message}`)
+      logger.debug(`Error decoding input: ${e.message}`)
       return
     }
   }

@@ -19,6 +19,7 @@ persistCache({
 }).catch((reason: string) => Logger.error('Apollo/index', `Failure to persist cache: ${reason}`))
 
 export const apolloClient = new ApolloClient<InMemoryCache>({
+  // uri: 'http://127.0.0.1:8080',
   uri: config.blockchainApiUrl,
   cache,
 })

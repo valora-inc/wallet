@@ -11,7 +11,7 @@
   "searchForSomeone": "Busca a alguien por el nombre o número de teléfono",
   "redeemFailed": "No pudimos validar el código de invitación",
   "redeemInviteTimeout": "La invitación ha expirado",
-  "accountSetupFailed": "No se pudo crear tu billetera",
+  "accountSetupFailed": "Error al crear la cuenta",
   "emptyInviteCode": "El código de invitación no tiene fondos",
   "transferDollarsToAccount": "¡Hemos transferidos los fondos a tu cuenta!",
   "inviteAnyone": "Haz que enviar fondos a tus amigos sea aún más fácil con solo conectar tu lista de contactos",

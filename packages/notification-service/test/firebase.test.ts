@@ -3,6 +3,7 @@ import { Currencies } from '../src/blockscout/transfers'
 import {
   sendPaymentNotification,
   _setInviteRewardsSenders,
+  _setKnownAddressesCache,
   _setRewardsSenders,
   _setTestRegistrations,
 } from '../src/firebase'
@@ -21,8 +22,21 @@ jest.mock('firebase-admin', () => ({
 
 const mockedMessagingSend = admin.messaging().send as jest.Mock
 
+const mockedKnownAddressesCache = {
+  getDisplayInfoFor: (address: string) => {
+    switch (address) {
+      case SENDER_ADDRESS:
+        return { name: 'Test Name', imageUrl: 'Test Image' }
+      default:
+        return {}
+    }
+  },
+}
+
 describe('sendPaymentNotification', () => {
   beforeEach(() => {
+    //@ts-ignore: Only mocking getDisplayInfo
+    _setKnownAddressesCache(mockedKnownAddressesCache)
     mockedMessagingSend.mockClear()
   })
 
@@ -47,6 +61,8 @@ describe('sendPaymentNotification', () => {
             "ttl": 604800000,
           },
           "data": Object {
+            "imageUrl": "Test Image",
+            "name": "Test Name",
             "type": "PAYMENT_RECEIVED",
           },
           "notification": Object {
@@ -77,14 +93,14 @@ describe('sendPaymentNotification', () => {
     _setTestRegistrations({ '0xabc': { fcmToken: 'TEST_FCM_TOKEN' } })
     _setRewardsSenders([SENDER_ADDRESS])
 
-    await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.GOLD, 150, {})
+    await sendPaymentNotification(SENDER_ADDRESS, '0xabc', '10', Currencies.EURO, 150, {})
 
     expect(mockedMessagingSend).toHaveBeenCalledTimes(1)
     expect(mockedMessagingSend.mock.calls[0][0].notification.title).toEqual(
-      'You just earned more cUSD 📈'
+      "You're getting even more cEUR 📈"
     )
     expect(mockedMessagingSend.mock.calls[0][0].notification.body).toEqual(
-      'Your weekly earnings have arrived! Add cUSD to earn even more next week.'
+      'Your weekly rewards have arrived! Add more cEUR to boost your balance.'
     )
   })
 

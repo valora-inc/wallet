@@ -1,0 +1,20 @@
+{
+  "title": "Erhöhe deine Belohnungen",
+  "summary": "Supercharge ist da! Erhalte {{percent}}% jährliche Belohnungen auf dein {{currency}} Saldo. Nur für kurze Zeit, also starte deine Einzahlung!",
+  "earnWeekly": {
+    "header": "Wöchentliche Auszahlung",
+    "text": "Sende und gib aus wie gewohnt und erhalte Belohnungen auf den verbleibenden Saldo."
+  },
+  "noMinCommitment": {
+    "header": "Automatische Belohnungen",
+    "earningText": "Du brauchst nur einen Saldo von mindestens {{minBalance}} {{currency}} mit Belohnungen zu starten.",
+    "connectText": "Du brauchst nur einen Saldo von mindestens {{minBalance}} {{currency}} und verbinde deine Telefonnummer um mit Belohnungen zu starten."
+  },
+  "saveMoreEarnMore": {
+    "header": "Erhöhe dein Saldo",
+    "text": "Mache eine Anzahlung von {{maxBalance}} {{currency}} um deine {{percent}}% jährliche Belohnungen auszuschöpfen."
+  },
+  "conclusion": "Das ist so einfach. Lade deine Krypto noch heute auf!",
+  "cashIn": "Füge {{currency}} hinzu",
+  "connectNumber": "Nummer verbinden"
+}

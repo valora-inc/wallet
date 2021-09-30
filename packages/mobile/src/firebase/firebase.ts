@@ -278,6 +278,7 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       rewardsPercent: flags.rewardsPercent.asNumber(),
       rewardsStartDate: flags.rewardsStartDate.asNumber(),
       rewardsMax: flags.rewardsMax.asNumber(),
+      rewardsMin: flags.rewardsMin.asNumber(),
       komenciUseLightProxy: flags.komenciUseLightProxy.asBoolean(),
       komenciAllowedDeployers: flags.komenciAllowedDeployers.asString().split(','),
       pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
