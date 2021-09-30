@@ -3,7 +3,7 @@
   "inviteWithWhatsapp": "Convidar com o WhatsApp",
   "inviteWithSMS": "Convidar com SMS",
   "inviteFee": "Taxa de Convite",
-  "whySendFees": "Esta taxa cobre os custos para o novo usuário confirmar seu número de telefone",
+  "whySendFees": "Esta taxa cobre os custos para o novo usuário confirmar seu número de celular",
   "whyReceiveFees": "Você recebeu dinheiro para confirmar sua conta",
   "edit": "Editar",
   "to": "Para",
@@ -25,7 +25,7 @@
   "sendAndInvite": "Enviar e convidar",
   "inviteAndSendDialog": {
     "title": "Convidar e enviar",
-    "body": "Seu pagamento para {{name}} estará esperando por ele(a) assim que o número de celular for confirmado. Compartilhe uma mensagem de convite para ele(a) se inscrever na {{appName}} e resgatar seu pagamento!",
+    "body": "Seu pagamento para {{name}} estará esperando por ele(a) assim que o número de celular for confirmado. ",
     "button": "Convidar"
   },
   "inviteRewardsBanner": {
