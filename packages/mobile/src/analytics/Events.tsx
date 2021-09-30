@@ -353,6 +353,7 @@ export enum FiatExchangeEvents {
   cash_in_success = 'cash_in_success',
 
   cico_add_funds_selected = 'cico_add_funds_selected',
+  cico_add_funds_selected_home = 'cico_add_funds_selected_home',
   cico_cash_out_selected = 'cico_cash_out_selected',
   cico_spend_selected = 'cico_spend_selected',
   cico_fund_info = 'cico_fund_info',

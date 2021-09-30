@@ -1,5 +1,6 @@
 import SectionHead from '@celo/react-components/components/SectionHead'
 import colors from '@celo/react-components/styles/colors'
+import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
@@ -14,7 +15,7 @@ import {
 } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ALERT_BANNER_DURATION, DEFAULT_TESTNET, SHOW_TESTNET_BANNER } from 'src/config'
@@ -35,6 +36,7 @@ import { initializeSentryUserContext } from 'src/sentry/actions'
 import { balancesSelector } from 'src/stableToken/selectors'
 import { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList from 'src/transactions/TransactionsList'
+import { ALL_CURRENCIES, Currency } from 'src/utils/currencies'
 import { checkContactsPermission } from 'src/utils/permissions'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -47,6 +49,7 @@ interface StateProps {
   appConnected: boolean
   numberVerified: boolean
   cashInButtonExpEnabled: boolean
+  balances: Record<Currency, BigNumber | null>
 }
 
 interface DispatchProps {
@@ -76,12 +79,14 @@ const mapStateToProps = (state: RootState): StateProps => ({
   appConnected: isAppConnected(state),
   numberVerified: state.app.numberVerified,
   cashInButtonExpEnabled: state.app.cashInButtonExpEnabled,
+  balances: balancesSelector(state),
 })
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
 interface State {
   isMigrating: boolean
+  isAccountBalanceZero: boolean
 }
 
 export class WalletHome extends React.Component<Props, State> {
@@ -93,7 +98,10 @@ export class WalletHome extends React.Component<Props, State> {
 
     this.scrollPosition = new Animated.Value(0)
     this.onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: this.scrollPosition } } }])
-    this.state = { isMigrating: false }
+    this.state = {
+      isMigrating: false,
+      isAccountBalanceZero: false,
+    }
   }
 
   onRefresh = async () => {
@@ -120,12 +128,16 @@ export class WalletHome extends React.Component<Props, State> {
     // Waiting 1/2 sec before triggering to allow
     // rest of feed to load unencumbered
     setTimeout(this.tryImportContacts, 500)
+
+    this.setState({
+      isAccountBalanceZero: !Boolean(
+        ALL_CURRENCIES.some((currency) => this.props.balances[currency]?.isGreaterThan(0))
+      ),
+    })
   }
 
   shouldShowCashInBottomSheet = () => {
-    const balances = useSelector(balancesSelector)
-    const isAccountBalanceZero = false
-    return this.props.cashInButtonExpEnabled && isAccountBalanceZero
+    return this.props.cashInButtonExpEnabled && this.state.isAccountBalanceZero
   }
 
   tryImportContacts = async () => {
@@ -206,7 +218,7 @@ export class WalletHome extends React.Component<Props, State> {
           keyExtractor={this.keyExtractor}
         />
         <SendOrRequestBar />
-        <CashInBottomSheet shouldShowCashInBottomSheet={this.shouldShowCashInBottomSheet()} />
+        {this.shouldShowCashInBottomSheet() && <CashInBottomSheet />}
       </SafeAreaView>
     )
   }

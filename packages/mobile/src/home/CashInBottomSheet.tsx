@@ -15,23 +15,21 @@ import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 
-interface Props {
-  shouldShowCashInBottomSheet: boolean
-}
-
-function CashInBottomSheet({ shouldShowCashInBottomSheet }: Props) {
+function CashInBottomSheet() {
   const { t } = useTranslation(Namespaces.walletFlow5)
-  const [isModalVisible, setModalVisible] = useState(shouldShowCashInBottomSheet)
+  const [isModalVisible, setModalVisible] = useState(true)
 
   const onDismissBottomSheet = () => {
     setModalVisible(false)
   }
 
   const goToAddFunds = () => {
+    onDismissBottomSheet()
+
     navigate(Screens.FiatExchangeOptions, {
       isCashIn: true,
     })
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_selected) // Todo lisa: figure out which tracking event this is.
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_selected_home)
   }
 
   return (
