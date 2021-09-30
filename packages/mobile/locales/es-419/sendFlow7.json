@@ -127,10 +127,10 @@
   "encryption": {
     "warningLabel": "Este comentario no tendrá cifrado",
     "warningModalHeader": "Sobre el cifrado",
-    "warningModalBody": "El cifrado garantiza que tus comentarios se mantengan privados. {{appName}} utiliza el cifrado en los comentarios de transacciones cuando el remitente y el receptor tienen esta función configurada. Normalmente, esta configuración se activa de forma automática cuando el usuario envía su primera transacción.",
+    "warningModalBody": "El cifrado garantiza que tus descripciones de pago se mantengan privadas. \n{{appName}} utiliza el cifrado en las descripciones de pago cuando el remitente y el receptor tienen esta función configurada. ",
     "feeLabel": "Tarifa de cifrado única",
     "feeModalHeader": "Tarifa de cifrado única",
-    "feeModalBody": "El cifrado ayuda a mantener la privacidad de tus datos confidenciales. Se agregará una pequeña tarifa a tu primera transacción únicamente para configurar el cifrado. Esto garantiza que tus comentarios se envíen de forma segura y privada. "
+    "feeModalBody": "El cifrado ayuda a mantener la privacidad de tus datos confidenciales. Se agregará una pequeña tarifa a tu primera transacción únicamente para configurar el cifrado. "
   },
   "sendToAddressWarning": {
     "title": "Enviar a una dirección",
