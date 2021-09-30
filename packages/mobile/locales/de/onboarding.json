@@ -42,7 +42,7 @@
     "title": "Telefonnummer",
     "header": "Verbinden Sie Ihre Telefonnummer",
     "body": "Um sicherzustellen, dass Ihre Nummer wirklich Ihre ist, senden wir Ihnen drei Nachrichten, von denen jede ungefähr 0,05 cUSD kosten wird.\n\nDie Bestätigung Ihrer Nummer dauert etwa drei Minuten.",
-    "feelessBody": "Die Verbindung dauert etwa drei Minuten. Um Ihre Nummer zu bestätigen, erhalten Sie drei Nachrichten.",
+    "feelessBody": "Die Verbindung dauert etwa drei Minuten. Um Ihre Nummer zu verbinden, erhalten Sie drei Nachrichten.",
     "start": "Start",
     "resume": "Fortfahren",
     "doINeedToConfirm": "Muss ich bestätigen?",
@@ -59,7 +59,7 @@
   "verificationPrematureRevealMessage": "Bitte warten Sie eine Minute, bevor Sie erneut senden",
   "verificationLearnMoreDialog": {
     "title": "Telefonnummern und {{appName}}",
-    "body": "Bestätigen macht es einfach, sich mit Ihren Freunden zu verbinden, indem Sie Ihnen das Senden und Empfangen von Guthaben an Ihre Telefonnummer ermöglichen.\n\n<0>Kann ich dies später tun? </0>\n\nJa, aber unbestätigte Konten können nur Zahlungen mit QR-Codes oder Konto-Adressen senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um Ihre Telefonnummer privat zu halten.",
+    "body": "Verbinden macht es einfach, sich mit Ihren Freunden zu verbinden, indem Sie Ihnen das Senden und Empfangen von Guthaben an Ihre Telefonnummer ermöglichen.\n\n<0>Kann ich dies später tun? </0>\n\nJa, aber unbestätigte Konten können nur Zahlungen mit QR-Codes oder Konto-Adressen senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um Ihre Telefonnummer privat zu halten.",
     "dismiss": "Verwerfen"
   },
   "importExistingKey": {
