@@ -1,7 +1,7 @@
 // (https://github.com/react-navigation/react-navigation/issues/1439)
 
 import { NavigationActions, StackActions } from '@react-navigation/compat'
-import { CommonActions, NavigationContainerRef } from '@react-navigation/native'
+import { CommonActions, NavigationContainerRef, NavigationState } from '@react-navigation/native'
 import { createRef, MutableRefObject } from 'react'
 import sleep from 'sleep-promise'
 import { PincodeType } from 'src/account/reducer'
@@ -155,6 +155,29 @@ export function navigateBack(params?: object) {
     .catch((reason) => {
       Logger.error(`${TAG}@navigateBack`, `Navigation failure: ${reason}`)
     })
+}
+
+const getActiveRouteState = function (route: NavigationState): NavigationState {
+  if (!route.routes || route.routes.length === 0 || route.index >= route.routes.length) {
+    // TODO: React Navigation types are hard :(
+    // @ts-ignore
+    return route.state
+  }
+
+  const childActiveRoute = (route.routes[route.index] as unknown) as NavigationState
+  return getActiveRouteState(childActiveRoute)
+}
+
+export async function isScreenOnForeground(screen: Screens) {
+  await ensureNavigator()
+  const state = navigationRef.current?.getRootState()
+  if (!state) {
+    return false
+  }
+  const activeRouteState = getActiveRouteState(state)
+  // Note: The '?' in the following line shouldn't be necessary, but are there anyways to be defensive
+  // because of the ts-ignore on getActiveRouteState.
+  return activeRouteState?.routes[activeRouteState?.routes.length - 1]?.name === screen
 }
 
 interface NavigateHomeOptions {

@@ -18,6 +18,12 @@ jobs:
         with:
           node-version: '12'
           check-latest: true
+      - uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       - run: yarn
       - run: yarn build --ignore docs
       - run: ./scripts/ci_check_vulnerabilities.sh

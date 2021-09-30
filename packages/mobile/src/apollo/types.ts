@@ -287,6 +287,8 @@ export interface TransferItemFragment {
       exchangeRate: BigNumber.Value
     }>
   }
+  defaultName: Maybe<string>
+  defaultImage: Maybe<string>
 }
 
 export interface IntrospectionResultData {

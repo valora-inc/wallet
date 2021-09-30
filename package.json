@@ -22,7 +22,8 @@
     "check-licenses": "yarn licenses list --prod | grep '\\(─ GPL\\|─ (GPL-[1-9]\\.[0-9]\\+ OR GPL-[1-9]\\.[0-9]\\+)\\)' && echo 'Found GPL license(s). Use 'yarn licenses list --prod' to look up the offending package' || echo 'No GPL licenses found'",
     "report-coverage": "yarn run lerna run test-coverage",
     "test:watch": "node node_modules/jest/bin/jest.js --watch",
-    "postinstall": "yarn run lerna run postinstall && patch-package && yarn keys:decrypt",
+    "postinstall": "yarn run lerna run postinstall && patch-package && yarn keys:decrypt && yarn run unzipCeloClient",
+    "unzipCeloClient": "cd node_modules/@celo/client/build/bin && yarn run postinstall && cd ../../../../..",
     "keys:decrypt": "bash scripts/key_placer.sh decrypt",
     "keys:encrypt": "bash scripts/key_placer.sh encrypt",
     "check:packages": "node ./scripts/check-packages.js"
@@ -68,7 +69,6 @@
     "solc": "0.5.8",
     "ts-jest": "^26.5.1",
     "ts-node": "^8.3.0",
-    "tsconfig-paths": "^3.8.0",
     "tslint": "^5.20.0",
     "typescript": "^3.8.3",
     "typescript-tslint-plugin": "^0.5.4"

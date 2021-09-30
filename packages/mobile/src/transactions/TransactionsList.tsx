@@ -185,6 +185,8 @@ function mapTransferStandbyToFeedItem(
     address,
     // the account address is NOT the same as "address", but the correct info isn't needed for the standby transactions
     account: address,
+    defaultImage: null,
+    defaultName: null,
   }
 }
 

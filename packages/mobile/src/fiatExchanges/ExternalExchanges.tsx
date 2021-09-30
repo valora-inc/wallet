@@ -69,7 +69,7 @@ function ExternalExchanges({ route }: Props) {
           })}
         </Text>
         <View testID="accountBox" style={styles.accountBox}>
-          <Text style={styles.accountLabel}>{t('sendFlow7:accountNumberLabel')}</Text>
+          <Text style={styles.accountLabel}>{t('sendFlow7:accountAddressLabel')}</Text>
           <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
         </View>
         <View style={styles.providersContainer}>

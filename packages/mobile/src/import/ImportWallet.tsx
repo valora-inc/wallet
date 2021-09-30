@@ -5,11 +5,11 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { HeaderHeightContext, StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
-import * as React from 'react'
-import { Trans, WithTranslation } from 'react-i18next'
+import React, { useEffect, useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { Dimensions, Keyboard, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { accountToRecoverSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -24,7 +24,7 @@ import {
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
-import i18n, { Namespaces, withTranslation } from 'src/i18n'
+import i18n, { Namespaces } from 'src/i18n'
 import { importBackupPhrase } from 'src/import/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -32,8 +32,8 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
 import UseBackToWelcomeScreen from 'src/onboarding/UseBackToWelcomeScreen'
-import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
+import useTypedSelector from 'src/redux/useSelector'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
@@ -42,105 +42,64 @@ const AVERAGE_SEED_WIDTH = AVERAGE_WORD_WIDTH * 24
 // Estimated number of lines needed to enter the account key
 const NUMBER_OF_LINES = Math.ceil(AVERAGE_SEED_WIDTH / Dimensions.get('window').width)
 
-interface State {
-  keyboardVisible: boolean
-  backupPhrase: string
-}
-
-interface DispatchProps {
-  importBackupPhrase: typeof importBackupPhrase
-  hideAlert: typeof hideAlert
-}
-
-interface StateProps {
-  isImportingWallet: boolean
-  connected: boolean
-  isRecoveringFromStoreWipe: boolean
-  accountToRecoverFromStoreWipe: string | undefined
-}
-
-type OwnProps = StackScreenProps<StackParamList, Screens.ImportWallet>
-
-type Props = StateProps & DispatchProps & WithTranslation & OwnProps
-
-const mapStateToProps = (state: RootState): StateProps => {
-  return {
-    isImportingWallet: state.imports.isImportingWallet,
-    connected: isAppConnected(state),
-    isRecoveringFromStoreWipe: recoveringFromStoreWipeSelector(state),
-    accountToRecoverFromStoreWipe: accountToRecoverSelector(state),
-  }
-}
+type Props = StackScreenProps<StackParamList, Screens.ImportWallet>
 
 /**
  * Component shown to users when they are onboarding to the application through the import / recover
  * wallet flow. Allows the user to input their mnemonic phrase to instantiate the account.
  */
-export class ImportWallet extends React.Component<Props, State> {
-  static navigationOptions = {
-    ...nuxNavigationOptions,
-    headerLeft: () => (
-      <TopBarTextButtonOnboarding
-        title={i18n.t('global:cancel')}
-        // Note: redux state reset is handled by UseBackToWelcomeScreen
-        onPress={() => navigate(Screens.Welcome)}
-      />
-    ),
-    headerTitle: () => (
-      <HeaderTitleWithSubtitle
-        title={i18n.t('nuxNamePin1:importIt')}
-        subTitle={i18n.t('onboarding:step', { step: '3' })}
-      />
-    ),
+function ImportWallet({ navigation, route }: Props) {
+  const [backupPhrase, setBackupPhrase] = useState('')
+  const [keyboardVisible, setKeyboardVisible] = useState(false)
+
+  const isImportingWallet = useTypedSelector((state) => state.imports.isImportingWallet)
+  const appConnected = useSelector(isAppConnected)
+  const isRecoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
+  const accountToRecoverFromStoreWipe = useTypedSelector(accountToRecoverSelector)
+
+  const dispatch = useDispatch()
+  const { t } = useTranslation(Namespaces.onboarding)
+
+  async function autocompleteSavedMnemonic() {
+    if (!accountToRecoverFromStoreWipe) {
+      return
+    }
+    const mnemonic = await getStoredMnemonic(accountToRecoverFromStoreWipe)
+    if (mnemonic) {
+      setBackupPhrase(mnemonic)
+      onPressRestore()
+    }
   }
 
-  state = {
-    backupPhrase: '',
-    keyboardVisible: false,
-  }
-  componentDidMount() {
+  useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.wallet_import_start)
-    this.props.navigation.addListener('focus', this.checkCleanBackupPhrase)
+    navigation.addListener('focus', checkCleanBackupPhrase)
 
-    if (this.props.isRecoveringFromStoreWipe) {
-      this.autocompleteSavedMnemonic().catch((error) =>
+    if (isRecoveringFromStoreWipe) {
+      autocompleteSavedMnemonic().catch((error) =>
         Logger.error('Error while trying to recover account from store wipe:', error)
       )
     }
-  }
 
-  componentWillUnmount() {
-    this.props.navigation.removeListener('focus', this.checkCleanBackupPhrase)
-  }
-
-  async autocompleteSavedMnemonic() {
-    if (!this.props.accountToRecoverFromStoreWipe) {
-      return
+    return () => {
+      navigation.removeListener('focus', checkCleanBackupPhrase)
     }
-    const mnemonic = await getStoredMnemonic(this.props.accountToRecoverFromStoreWipe)
-    if (mnemonic) {
-      this.setState({ backupPhrase: mnemonic })
-      this.onPressRestore()
-    }
-  }
+  }, [])
 
-  checkCleanBackupPhrase = () => {
-    const { route, navigation } = this.props
+  const checkCleanBackupPhrase = () => {
     if (route.params?.clean) {
-      this.setState({
-        backupPhrase: '',
-      })
+      setBackupPhrase('')
       navigation.setParams({ clean: false })
     }
   }
 
-  setBackupPhrase = (input: string) => {
+  const formatAndSetBackupPhrase = (input: string) => {
     // Hide the alert banner if one is displayed.
-    this.props.hideAlert()
+    dispatch(hideAlert())
 
     const updatedPhrase = formatBackupPhraseOnEdit(input)
 
-    const currentWordCount = countMnemonicWords(this.state.backupPhrase)
+    const currentWordCount = countMnemonicWords(backupPhrase)
     const updatedWordCount = countMnemonicWords(updatedPhrase)
     if (updatedWordCount !== currentWordCount) {
       ValoraAnalytics.track(OnboardingEvents.wallet_import_phrase_updated, {
@@ -149,37 +108,32 @@ export class ImportWallet extends React.Component<Props, State> {
       })
     }
 
-    this.setState({
-      backupPhrase: updatedPhrase,
-    })
+    setBackupPhrase(updatedPhrase)
   }
 
-  onToggleKeyboard = (visible: boolean) => {
-    this.setState({ keyboardVisible: visible })
+  const onToggleKeyboard = (visible: boolean) => {
+    setKeyboardVisible(visible)
   }
 
-  onPressRestore = () => {
-    const { route, navigation } = this.props
+  const onPressRestore = () => {
     const useEmptyWallet = !!route.params?.showZeroBalanceModal
     Keyboard.dismiss()
-    this.props.hideAlert()
+    dispatch(hideAlert())
 
-    const formattedPhrase = formatBackupPhraseOnSubmit(this.state.backupPhrase)
-    this.setState({
-      backupPhrase: formattedPhrase,
-    })
+    const formattedPhrase = formatBackupPhraseOnSubmit(backupPhrase)
+    setBackupPhrase(formattedPhrase)
+
     navigation.setParams({ showZeroBalanceModal: false })
 
     ValoraAnalytics.track(OnboardingEvents.wallet_import_submit, { useEmptyWallet })
-    this.props.importBackupPhrase(formattedPhrase, useEmptyWallet)
+    dispatch(importBackupPhrase(formattedPhrase, useEmptyWallet))
   }
 
-  shouldShowClipboard = (clipboardContent: string): boolean => {
+  const shouldShowClipboard = (clipboardContent: string): boolean => {
     return isValidBackupPhrase(clipboardContent)
   }
 
-  onPressTryAnotherKey = () => {
-    const { navigation } = this.props
+  const onPressTryAnotherKey = () => {
     // Return the user to the import screen without clearing out their key.
     // It's much easier for a user to delete a phrase from the screen than reinput it if the phrase
     // is only partially wrong, or the user accidentally hits the "Go back" button.
@@ -187,84 +141,99 @@ export class ImportWallet extends React.Component<Props, State> {
     navigation.setParams({ clean: false, showZeroBalanceModal: false })
   }
 
-  render() {
-    const { backupPhrase, keyboardVisible } = this.state
-    const { t, isImportingWallet, connected, route } = this.props
-
-    let codeStatus = CodeInputStatus.Inputting
-    if (isImportingWallet) {
-      codeStatus = CodeInputStatus.Processing
-    }
-    return (
-      <HeaderHeightContext.Consumer>
-        {(headerHeight) => (
-          <SafeAreaInsetsContext.Consumer>
-            {(insets) => (
-              <View style={styles.container}>
-                <UseBackToWelcomeScreen
-                  backAnalyticsEvents={[OnboardingEvents.restore_account_cancel]}
-                />
-                <KeyboardAwareScrollView
-                  style={headerHeight ? { marginTop: headerHeight } : undefined}
-                  contentContainerStyle={[
-                    styles.scrollContainer,
-                    !keyboardVisible && insets && { marginBottom: insets.bottom },
-                  ]}
-                  keyboardShouldPersistTaps={'always'}
-                >
-                  <CodeInput
-                    // TODO: Use a special component instead of CodeInput here,
-                    // cause it should be used for entering verification codes only
-                    label={t('global:accountKey')}
-                    status={codeStatus}
-                    inputValue={backupPhrase}
-                    inputPlaceholder={t('importExistingKey.keyPlaceholder')}
-                    multiline={true}
-                    numberOfLines={NUMBER_OF_LINES}
-                    shortVerificationCodesEnabled={false}
-                    onInputChange={this.setBackupPhrase}
-                    shouldShowClipboard={this.shouldShowClipboard}
-                    testID="ImportWalletBackupKeyInputField"
-                  />
-                  <Text style={styles.explanation}>{t('importExistingKey.explanation')}</Text>
-                  <Button
-                    style={styles.button}
-                    testID="ImportWalletButton"
-                    onPress={this.onPressRestore}
-                    text={t('global:restore')}
-                    type={BtnTypes.ONBOARDING}
-                    disabled={isImportingWallet || !isValidBackupPhrase(backupPhrase) || !connected}
-                  />
-
-                  <KeyboardSpacer />
-                </KeyboardAwareScrollView>
-                <KeyboardSpacer onToggle={this.onToggleKeyboard} />
-                <Dialog
-                  title={
-                    <Trans i18nKey="emptyAccount.title" ns={Namespaces.onboarding}>
-                      <CurrencyDisplay
-                        amount={{
-                          value: new BigNumber(0),
-                          currencyCode: Currency.Dollar,
-                        }}
-                      />
-                    </Trans>
-                  }
-                  isVisible={!!route.params?.showZeroBalanceModal}
-                  actionText={t('emptyAccount.useAccount')}
-                  actionPress={this.onPressRestore}
-                  secondaryActionPress={this.onPressTryAnotherKey}
-                  secondaryActionText={t('global:goBack')}
-                >
-                  {t('emptyAccount.description')}
-                </Dialog>
-              </View>
-            )}
-          </SafeAreaInsetsContext.Consumer>
-        )}
-      </HeaderHeightContext.Consumer>
-    )
+  let codeStatus = CodeInputStatus.Inputting
+  if (isImportingWallet) {
+    codeStatus = CodeInputStatus.Processing
   }
+
+  return (
+    <HeaderHeightContext.Consumer>
+      {(headerHeight) => (
+        <SafeAreaInsetsContext.Consumer>
+          {(insets) => (
+            <View style={styles.container}>
+              <UseBackToWelcomeScreen
+                backAnalyticsEvents={[OnboardingEvents.restore_account_cancel]}
+              />
+              <KeyboardAwareScrollView
+                style={headerHeight ? { marginTop: headerHeight } : undefined}
+                contentContainerStyle={[
+                  styles.scrollContainer,
+                  !keyboardVisible && insets && { marginBottom: insets.bottom },
+                ]}
+                keyboardShouldPersistTaps={'always'}
+              >
+                <CodeInput
+                  // TODO: Use a special component instead of CodeInput here,
+                  // cause it should be used for entering verification codes only
+                  label={t('global:accountKey')}
+                  status={codeStatus}
+                  inputValue={backupPhrase}
+                  inputPlaceholder={t('importExistingKey.keyPlaceholder')}
+                  multiline={true}
+                  numberOfLines={NUMBER_OF_LINES}
+                  shortVerificationCodesEnabled={false}
+                  onInputChange={formatAndSetBackupPhrase}
+                  shouldShowClipboard={shouldShowClipboard}
+                  testID="ImportWalletBackupKeyInputField"
+                />
+                <Text style={styles.explanation}>{t('importExistingKey.explanation')}</Text>
+                <Button
+                  style={styles.button}
+                  testID="ImportWalletButton"
+                  onPress={onPressRestore}
+                  text={t('global:restore')}
+                  type={BtnTypes.ONBOARDING}
+                  disabled={
+                    isImportingWallet || !isValidBackupPhrase(backupPhrase) || !appConnected
+                  }
+                />
+
+                <KeyboardSpacer />
+              </KeyboardAwareScrollView>
+              <KeyboardSpacer onToggle={onToggleKeyboard} />
+              <Dialog
+                title={
+                  <Trans i18nKey="emptyAccount.title" ns={Namespaces.onboarding}>
+                    <CurrencyDisplay
+                      amount={{
+                        value: new BigNumber(0),
+                        currencyCode: Currency.Dollar,
+                      }}
+                    />
+                  </Trans>
+                }
+                isVisible={!!route.params?.showZeroBalanceModal}
+                actionText={t('emptyAccount.useAccount')}
+                actionPress={onPressRestore}
+                secondaryActionPress={onPressTryAnotherKey}
+                secondaryActionText={t('global:goBack')}
+              >
+                {t('emptyAccount.description')}
+              </Dialog>
+            </View>
+          )}
+        </SafeAreaInsetsContext.Consumer>
+      )}
+    </HeaderHeightContext.Consumer>
+  )
+}
+
+ImportWallet.navigationOptions = {
+  ...nuxNavigationOptions,
+  headerLeft: () => (
+    <TopBarTextButtonOnboarding
+      title={i18n.t('global:cancel')}
+      // Note: redux state reset is handled by UseBackToWelcomeScreen
+      onPress={() => navigate(Screens.Welcome)}
+    />
+  ),
+  headerTitle: () => (
+    <HeaderTitleWithSubtitle
+      title={i18n.t('nuxNamePin1:importIt')}
+      subTitle={i18n.t('onboarding:step', { step: '3' })}
+    />
+  ),
 }
 
 const styles = StyleSheet.create({
@@ -285,7 +254,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect<StateProps, DispatchProps, OwnProps, RootState>(mapStateToProps, {
-  importBackupPhrase,
-  hideAlert,
-})(withTranslation<Props>(Namespaces.onboarding)(ImportWallet))
+export default ImportWallet
