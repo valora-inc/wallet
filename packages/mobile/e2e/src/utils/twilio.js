@@ -4,11 +4,7 @@ import { sleep } from './utils'
 
 const MAX_TRIES = 120
 
-export const receiveSms = async (
-  numCodes = 3,
-  secondsAfter = 3 * 60 * 1000,
-  existingCodes = []
-) => {
+export const receiveSms = async (after = new Date(), numCodes = 3, existingCodes = []) => {
   try {
     let client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
     let tryNumber = 0
@@ -17,6 +13,7 @@ export const receiveSms = async (
       const messages = await client.messages.list({
         to: `${VERIFICATION_PHONE_NUMBER}`,
         limit: 3,
+        dateSentAfter: after,
       })
       const codes = messages.map((message) => message.body.split(': ')[1])
       // console.log('Codes received:', codes)

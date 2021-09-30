@@ -73,11 +73,13 @@ export default NewAccountPhoneVerification = () => {
     if (async () => await checkKomenci()) {
       jest.retryTimes(2)
       it('Then should be able to verify phone number', async () => {
+        // Get Date at start
+        let date = new Date()
         // Start verification
         await element(by.text('Start')).tap()
 
         // Retrieve the verification codes from Twilio
-        const codes = await receiveSms()
+        const codes = await receiveSms(date)
 
         // Wait for code input - 45 seconds max after we've received the last code
         await waitFor(element(by.id('VerificationCode0')))
@@ -90,16 +92,17 @@ export default NewAccountPhoneVerification = () => {
 
         // Enter 3 codes
         for (let i = 0; i < 3; i++) {
+          await sleep(1000)
           await waitFor(element(by.id(`VerificationCode${i}`)))
             .toBeVisible()
-            .withTimeout(10 * 1000)
-          await element(by.id(`VerificationCode${i}`)).replaceText(codes[i])
+            .withTimeout(15 * 1000)
+          await element(by.id(`VerificationCode${i}`)).typeText(codes[i])
         }
 
         // Assert we've arrived at the home screen
         await waitFor(element(by.id('SendOrRequestBar')))
           .toBeVisible()
-          .withTimeout(30 * 1000)
+          .withTimeout(45 * 1000)
 
         // Assert that phone verification CTA is NOT served
         try {
@@ -114,11 +117,13 @@ export default NewAccountPhoneVerification = () => {
       // Note: (Tom) Skip this test until we have a nightly suite vs pull request suite as it takes a long time
       // jest.retryTimes(2)
       it.skip('Then should be able to resend last 2 messages', async () => {
+        // Get Date at start
+        let date = new Date()
         // Start verification
         await element(by.text('Start')).tap()
 
         // Request codes, but wait for all 3 to verify resend codes work
-        const codes = await receiveSms()
+        const codes = await receiveSms(date)
         await waitFor(element(by.id('VerificationCode0')))
           .toExist()
           .withTimeout(45 * 1000)
@@ -134,8 +139,9 @@ export default NewAccountPhoneVerification = () => {
         await element(by.text('Resend 2 messages')).tap()
 
         // Enter pin to start resend
+        date = new Date()
         await enterPinUi()
-        let secondCodeSet = await receiveSms(2, 3 * 60 * 1000, codes)
+        let secondCodeSet = await receiveSms(date, 2, codes)
 
         // Assert that we've received at least 2 codes
         jestExpect(secondCodeSet.length).toBeGreaterThanOrEqual(2)
