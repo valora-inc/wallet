@@ -24,6 +24,12 @@ const balances = {
   [Currency.Euro]: new BigNumber(10),
 }
 
+const zeroBalances = {
+  [Currency.Dollar]: new BigNumber(0),
+  [Currency.Celo]: new BigNumber(0),
+  [Currency.Euro]: new BigNumber(0),
+}
+
 jest.mock('src/exchange/CeloGoldOverview')
 jest.mock('src/transactions/TransactionsList')
 
@@ -111,6 +117,31 @@ describe('Testnet banner', () => {
           importContacts={jest.fn()}
           balances={balances}
           cashInButtonExpEnabled={false}
+          {...getMockI18nProps()}
+        />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
+  })
+  it('Renders cash in bottom sheet when experiment flag is turned on and balances are zero', async () => {
+    const store = createMockStore()
+    const tree = renderer.create(
+      <Provider store={store}>
+        <WalletHome
+          refreshAllBalances={jest.fn()}
+          initializeSentryUserContext={jest.fn()}
+          setLoading={jest.fn()}
+          showMessage={jest.fn()}
+          loading={false}
+          appConnected={true}
+          address={null}
+          recipientCache={{}}
+          activeNotificationCount={0}
+          callToActNotification={false}
+          numberVerified={true}
+          importContacts={jest.fn()}
+          balances={zeroBalances}
+          cashInButtonExpEnabled={true}
           {...getMockI18nProps()}
         />
       </Provider>
