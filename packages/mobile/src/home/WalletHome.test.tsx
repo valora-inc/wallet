@@ -1,7 +1,9 @@
+import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import { WalletHome } from 'src/home/WalletHome'
+import { Currency } from 'src/utils/currencies'
 import { createMockStore, createMockStoreAppDisconnected, getMockI18nProps } from 'test/utils'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
@@ -14,6 +16,12 @@ const storeData = {
     accountCreationTime: new Date().getTime() - TWO_DAYS_MS,
     paymentRequests: [],
   },
+}
+
+const balances = {
+  [Currency.Dollar]: new BigNumber(20.02),
+  [Currency.Celo]: new BigNumber(20),
+  [Currency.Euro]: new BigNumber(10),
 }
 
 jest.mock('src/exchange/CeloGoldOverview')
@@ -43,6 +51,7 @@ describe('Testnet banner', () => {
           callToActNotification={false}
           numberVerified={true}
           importContacts={jest.fn()}
+          balances={balances}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -74,6 +83,7 @@ describe('Testnet banner', () => {
           callToActNotification={false}
           numberVerified={true}
           importContacts={jest.fn()}
+          balances={balances}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -97,6 +107,7 @@ describe('Testnet banner', () => {
           callToActNotification={false}
           numberVerified={true}
           importContacts={jest.fn()}
+          balances={balances}
           {...getMockI18nProps()}
         />
       </Provider>
