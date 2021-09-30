@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import { logger } from './logger'
 import secrets from './secrets.json'
 
 // Load environment variables from .env file
@@ -7,7 +8,7 @@ dotenv.config()
 function getSecrets(deployEnv: string) {
   const envSecrets = (secrets as any)[deployEnv]
   if (!envSecrets) {
-    console.warn(`No secrets found for deploy env ${deployEnv}`)
+    logger.warn(`No secrets found for deploy env ${deployEnv}`)
     return {}
   }
 
@@ -20,7 +21,7 @@ export function getFirebaseAdminCreds(admin: any) {
       const serviceAccount = require('../serviceAccountKey.json')
       return admin.credential.cert(serviceAccount)
     } catch (error) {
-      console.error(
+      logger.error(
         'Error: Could not initialize admin credentials. Is serviceAccountKey.json missing?',
         error
       )
@@ -29,7 +30,7 @@ export function getFirebaseAdminCreds(admin: any) {
     try {
       return admin.credential.applicationDefault()
     } catch (error) {
-      console.error('Error: Could not retrieve default app creds', error)
+      logger.error('Error: Could not retrieve default app creds', error)
     }
   }
 }
