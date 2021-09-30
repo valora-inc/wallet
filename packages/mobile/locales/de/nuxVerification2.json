@@ -1,9 +1,9 @@
 {
   "getVerified": "Bestätige Telefonnummer",
   "notReadyForCode": "Noch nicht bereit für Codeeintrag",
-  "emptyVerificationCode": "Kein Bestätigungscode in der Zwischenablage",
-  "invalidVerificationCode": "Ungültiger Bestätigungscode",
-  "repeatVerificationCode": "Wiederholter Bestätigungscode",
+  "emptyVerificationCode": "Kein Verbindungscode in der Zwischenablage",
+  "invalidVerificationCode": "Ungültiger Verbindungscode",
+  "repeatVerificationCode": "Wiederholter Verbindungscode",
   "revealAttestationFailure": "Fehler beim Anfordern der SMS Nachricht",
   "verificationFailure": "Bestätigung fehlgeschlagen",
   "cantVerifyRevokedAccount": "Dieses Konto wurde zuvor widerrufen. Bitte erstellen Sie ein neues Konto und versuchen Sie es erneut.",
@@ -24,7 +24,7 @@
     "header": "Bestätigung der Telefonnummer",
     "intro": "Die Bestätigung der Telefonnummer funktioniert dadurch, dass Sie Ihr {{appName}}-Konto mit Ihrer Telefonnummer verknüpfen.",
     "section1Header": "Muss ich das vervollständigen?",
-    "section1Body": "Eine Bestätigung ist nicht erforderlich. Ohne Bestätigung ist es jedoch nur möglich, den Wert mittels QR-Codes oder Adressen zu senden und zu empfangen.",
+    "section1Body": "Eine Verbindung ist nicht erforderlich. Ohne Verbindung ist es jedoch nur möglich, den Wert mittels QR-Codes oder Adressen zu senden und zu empfangen.",
     "section2Header": "Sicherheit und Datenschutz",
     "section2Body": "Um Ihre Privatsphäre zu schützen, wird nur eine verschleierte Version Ihrer Telefonnummer auf der Celo-Blockchain gespeichert."
   },
@@ -40,7 +40,7 @@
   "skipModal": {
     "header": "Bestätigung überspringen?",
     "body1": "Bestätigen erlaubt es anderen, Wert an Ihre Telefonnummer zu senden.",
-    "body2": "Ohne Bestätigung können Sie immer noch Zahlungen versenden, aber nur mit Konto-Adressen oder QR-Codes."
+    "body2": "Ohne Verbindung können Sie immer noch Zahlungen versenden, aber nur mit Konto-Adressen oder QR-Codes."
   },
   "failModal": {
     "header": "Bestätigungsfehler",
@@ -62,7 +62,7 @@
   "congratsVerified": "Herzlichen Glückwunsch, Sie sind jetzt bestätigt!",
   "notification": {
     "body": "Zahlungen direkt an Ihre Telefonnummer erhalten",
-    "cta": "Jetzt bestätigen"
+    "cta": "Jetzt verbinden"
   },
   "quotaLookup": {
     "title": "Suchquote überschritten",
