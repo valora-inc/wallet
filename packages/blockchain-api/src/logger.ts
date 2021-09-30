@@ -1,13 +1,17 @@
+import * as Logger from 'bunyan'
+import PrettyStream from 'bunyan-prettystream'
 import { LoggingBunyan } from '@google-cloud/logging-bunyan'
-import bunyan from 'bunyan'
 
-const loggingBunyan = new LoggingBunyan()
-export const logger = bunyan.createLogger({
+const consoleStream = new PrettyStream()
+consoleStream.pipe(process.stdout)
+
+const streams: Logger.Stream[] = [{ stream: consoleStream, level: 'info' }]
+if (process.env['GAE_APPLICATION']) {
+  const loggingBunyan = new LoggingBunyan()
+  streams.push(loggingBunyan.stream('info'))
+}
+
+export const logger = Logger.createLogger({
   name: 'blockchain-api',
-  streams: [
-    // Log to the console at 'info' and above
-    { stream: process.stdout, level: 'info' },
-    // And log to Cloud Logging, logging at 'info' and above
-    loggingBunyan.stream('info'),
-  ],
+  streams,
 })
