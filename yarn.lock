@@ -6362,6 +6362,13 @@
   resolved "https://registry.yarnpkg.com/@ungap/url-search-params/-/url-search-params-0.1.2.tgz#8ba8c0527543fe675d1c29ae0a2daca842e8ee4f"
   integrity sha512-WVk5+lJ+AoNLh2sIDMhnEAgLsVQuI067hWLJCzirErH1GYiy1gs09q4+XZxYWSvdAsslKsaO4q1iXXMx2c72dA==
 
+"@valora/eslint-config-typescript@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@valora/eslint-config-typescript/-/eslint-config-typescript-0.0.1.tgz#467458e748185f665267da09e627fd50627be760"
+  integrity sha512-htzTwQNlgcyeat8t/Mq4F9DFBSeCKPzwRJ6NrDhKxDmd8dV7rggJXjBlCBqhovoVtxtKUn/zX1KKP1Fkh6vhwg==
+  dependencies:
+    "@typescript-eslint/parser" "^4.25.0"
+
 "@walletconnect/browser-utils@^1.6.5":
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/@walletconnect/browser-utils/-/browser-utils-1.6.5.tgz#01180682e90b95384e820191a1c6ad4a78729439"
