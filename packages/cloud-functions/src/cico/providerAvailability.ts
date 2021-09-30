@@ -12,7 +12,6 @@ export function getProviderAvailability(
   const countryCodeAlpha2 = userLocation?.countryCodeAlpha2 ?? null
   const stateCode = userLocation?.region ?? null
 
-  // tslint:disable-next-line: no-object-literal-type-assertion
   const features = {} as SpecificProviderAvailability
   for (const [key, value] of Object.entries(
     providerAvailability
