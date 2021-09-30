@@ -5,6 +5,6 @@
   "celoWallet": "{{appName}}",
   "at": "bei",
   "receivedDollars": "Erhaltene Celo Dollars",
-  "verificationMessage": "Du hast eine Gebühr zur Bestätigung deines Kontos bezahlt. Willkommen auf {{appName}}!",
+  "verificationMessage": "Du hast eine Gebühr zur Verbindung deines Kontos bezahlt. Willkommen auf {{appName}}!",
   "receivedAmountFromCelo": "Sie können diesen Betrag vom Faucet erhalten!"
 }
