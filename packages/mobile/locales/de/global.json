@@ -49,7 +49,7 @@
   "needMoreFundsToSend": "Sie sollten {{currencySymbol}}{{amountNeeded}} haben, um diese Transaktion durchzuführen. Bitte fügen Sie Geld hinzu oder versuchen Sie, weniger zu senden.",
   "maxEscrowTransferExceeded": "Der maximale Betrag für die Überweisung an unbestätigte Benutzer beträgt {{symbol}}{{maxAmount}}",
   "invalidAmount": "Ungültiger Betrag",
-  "invalidCode": "Ungültiger Bestätigungscode",
+  "invalidCode": "Ungültiger Verbindungscode",
   "confirm": "Bestätigen",
   "readCodesAuto": "Codes automatisch lesen",
   "enterManually": "Manuell eingeben",
