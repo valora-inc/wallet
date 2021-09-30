@@ -49,7 +49,7 @@
   "needMoreFundsToSend": "Você deve ter pelo menos {{currencySymbol}}{{amountNeeded}} para fazer esta transação. Adicione fundos ou tente enviar menos.",
   "maxEscrowTransferExceeded": "A quantia máxima a ser transferida para usuários não confirmados é {{symbol}} {{maxAmount}} ",
   "invalidAmount": "Quantia inválida",
-  "invalidCode": "Código de confirmação inválido",
+  "invalidCode": "Código de conexão inválido",
   "confirm": "Confirmar",
   "readCodesAuto": "Ler códigos automaticamente",
   "enterManually": "Inserir manualmente",
