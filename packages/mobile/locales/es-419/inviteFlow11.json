@@ -25,7 +25,7 @@
   "sendAndInvite": "Envía e invita",
   "inviteAndSendDialog": {
     "title": "Invita y envía",
-    "body": "Tu pago estará pendiente hasta que {{name}} conecte su número de teléfono. Envíale un mensaje de invitación para que se registre en {{appName}} y reciba tu pago.",
+    "body": "Tu pago estará pendiente hasta que {{name}} conecte su número de teléfono. ",
     "button": "Invitar"
   },
   "inviteRewardsBanner": {
