@@ -217,7 +217,6 @@
     "pixelmatch": "^5.2.1",
     "postinstall-prepare": "^1.0.1",
     "react-native-debugger-open": "^0.3.17",
-    "react-native-flipper": "^0.70.0",
     "react-native-kill-packager": "^1.0.0",
     "react-native-svg-mock": "^2.0.0",
     "react-native-testing-library": "^1.12.0",

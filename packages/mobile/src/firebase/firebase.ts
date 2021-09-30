@@ -6,6 +6,7 @@ import '@react-native-firebase/messaging'
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
 import CleverTap from 'clevertap-react-native'
+import { Platform } from 'react-native'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
 import { currentLanguageSelector } from 'src/app/reducers'
@@ -151,14 +152,21 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   // `registerDeviceForRemoteMessages` must be called before calling `getToken`
   // Note: `registerDeviceForRemoteMessages` is really only required for iOS and is a no-op on Android
   yield call([app.messaging(), 'registerDeviceForRemoteMessages'])
-  const fcmToken = yield call([app.messaging(), 'getToken'])
-  if (fcmToken) {
-    yield call(registerTokenToDb, app, address, fcmToken)
-    // @ts-ignore FCM constant missing from types
-    yield call([CleverTap, 'setPushToken'], fcmToken, CleverTap.FCM)
+  if (Platform.OS === 'android') {
+    const fcmToken = yield call([app.messaging(), 'getToken'])
+    if (fcmToken) {
+      yield call(registerTokenToDb, app, address, fcmToken)
+      // @ts-ignore FCM constant missing from types
+      yield call([CleverTap, 'setPushToken'], fcmToken, CleverTap.FCM)
+    }
     // First time setting the fcmToken also set the language selection
     const language = yield select(currentLanguageSelector)
     yield call(setUserLanguage, address, language)
+  } else {
+    const apnsToken = yield call([firebase.messaging(), getAPNSToken()])
+    if (apnsToken) {
+      CleverTap.setPushToken(apnsToken, 'APNS')
+    }
   }
 
   CleverTap.createNotificationChannel('CleverTapChannelId', 'CleverTap', 'default channel', 5, true)
@@ -166,8 +174,10 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   app.messaging().onTokenRefresh(async (token) => {
     Logger.info(TAG, 'Cloud Messaging token refreshed')
     await registerTokenToDb(app, address, token)
-    // @ts-ignore FCM constant missing from types
-    CleverTap.setPushToken(token, CleverTap.FCM)
+    if (Platform.OS === 'android') {
+      // @ts-ignore FCM constant missing from types
+      CleverTap.setPushToken(token, CleverTap.FCM)
+    }
   })
 }
 
