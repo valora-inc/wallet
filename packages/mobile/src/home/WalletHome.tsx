@@ -130,8 +130,8 @@ export class WalletHome extends React.Component<Props, State> {
     setTimeout(this.tryImportContacts, 500)
 
     this.setState({
-      isAccountBalanceZero: !Boolean(
-        ALL_CURRENCIES.some((currency) => this.props.balances[currency]?.isGreaterThan(0))
+      isAccountBalanceZero: !ALL_CURRENCIES.some((currency) =>
+        this.props.balances[currency]?.isGreaterThan(0)
       ),
     })
   }
