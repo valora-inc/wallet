@@ -163,7 +163,7 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     const language = yield select(currentLanguageSelector)
     yield call(setUserLanguage, address, language)
   } else {
-    const apnsToken = yield call([firebase.messaging(), getAPNSToken()])
+    const apnsToken = yield call([firebase.messaging(), 'getAPNSToken'])
     if (apnsToken) {
       CleverTap.setPushToken(apnsToken, 'APNS')
     }
