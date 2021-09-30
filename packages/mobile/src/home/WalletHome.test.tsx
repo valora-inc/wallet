@@ -52,6 +52,7 @@ describe('Testnet banner', () => {
           numberVerified={true}
           importContacts={jest.fn()}
           balances={balances}
+          cashInButtonExpEnabled={false}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -84,6 +85,7 @@ describe('Testnet banner', () => {
           numberVerified={true}
           importContacts={jest.fn()}
           balances={balances}
+          cashInButtonExpEnabled={false}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -108,6 +110,7 @@ describe('Testnet banner', () => {
           numberVerified={true}
           importContacts={jest.fn()}
           balances={balances}
+          cashInButtonExpEnabled={false}
           {...getMockI18nProps()}
         />
       </Provider>
