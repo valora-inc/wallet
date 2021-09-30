@@ -8,8 +8,8 @@
   "gold": "CELO",
   "paymentRequestedTitle": "Zahlung angefordert",
   "paymentRequestedBody": "Zahlung von {{amount}} {{currency}} wurde angefordert",
-  "rewardReceivedTitle": "Du erhältst noch mehr {{currency}}📈",
-  "rewardReceivedBody": "Deine wöchentlichen Belohnungen sind angekommen! Füge mehr {{currency}} hinzu, um dein Guthaben zu erhöhen.",
+  "rewardReceivedTitle": "Du erhältst noch mehr {{currency}} 📈",
+  "rewardReceivedBody": "Deine wöchentlichen Belohnungen sind angekommen! Füge noch mehr {{currency}} hinzu, um deinen Kontostand zu erhöhen.",
   "inviteRewardTitle": "Einladung akzeptiert",
   "inviteRewardBody": "Ihr Freund hat Ihre Valora-Einladung angenommen und Sie haben {{amount}} {{currency}} verdient!"
 }
