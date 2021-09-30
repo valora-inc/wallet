@@ -125,15 +125,17 @@ function ExternalExchanges({ route }: Props) {
           )
         })}
       </ScrollView>
-      {!isCashIn && providers.length !== 0 ? (
+      {!isCashIn && providers.length ? (
         route.params.currency === Currency.Dollar || route.params.currency === Currency.Euro ? (
           <SendBar />
         ) : (
           <View style={styles.buttonContainer}>
             <Button
-              testID="SendCeloButton"
+              testID="WithdrawCeloButton"
               style={styles.celoOutButton}
-              text={t('sendFlow7:sendToken', { token: CURRENCIES[route.params.currency].cashTag })}
+              text={t('sendFlow7:withdrawToken', {
+                token: CURRENCIES[route.params.currency].cashTag,
+              })}
               onPress={() => goToCashOut()}
             />
           </View>

@@ -1,6 +1,4 @@
 import Button, { BtnSizes } from '@celo/react-components/components/Button'
-import Touchable from '@celo/react-components/components/Touchable'
-import QRCodeBorderlessIcon from '@celo/react-components/icons/QRCodeBorderless'
 import colors from '@celo/react-components/styles/colors'
 import variables from '@celo/react-components/styles/variables'
 import React from 'react'
@@ -17,14 +15,6 @@ export default function SendBar() {
     navigate(Screens.Send)
   }
 
-  const onPressQrCode = () => {
-    // TODO: Add Analytics
-    // ValoraAnalytics.track()
-    navigate(Screens.QRNavigator, {
-      screen: Screens.QRScanner,
-    })
-  }
-
   const { t } = useTranslation(Namespaces.sendFlow7)
 
   return (
@@ -36,9 +26,6 @@ export default function SendBar() {
         onPress={onPressSend}
         testID="SendBar/SendButton"
       />
-      <Touchable borderless={true} onPress={onPressQrCode}>
-        <QRCodeBorderlessIcon height={32} color={colors.greenUI} />
-      </Touchable>
     </View>
   )
 }
@@ -55,6 +42,5 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     flexDirection: 'column',
-    paddingRight: variables.contentPadding,
   },
 })
