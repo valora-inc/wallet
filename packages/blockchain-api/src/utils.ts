@@ -1,6 +1,7 @@
 import { CeloContract, ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import Web3 from 'web3'
 import { WEB3_PROVIDER_URL } from './config'
+import { logger } from './logger'
 
 // to get rid of 18 extra 0s in the values
 export const WEI_PER_GOLD = Math.pow(10, 18)
@@ -49,7 +50,6 @@ let contractAddresses: ContractAddresses
 
 export async function getContractAddresses(): Promise<ContractAddresses> {
   if (contractAddresses) {
-    console.info('Already got token addresses')
     return contractAddresses
   }
 
@@ -63,10 +63,16 @@ export async function getContractAddresses(): Promise<ContractAddresses> {
       Governance: (await kit.registry.addressFor(CeloContract.Governance)).toLowerCase(),
       Reserve: (await kit.registry.addressFor(CeloContract.Reserve)).toLowerCase(),
     }
-    console.info('Got token addresses. Attestations: ', contractAddresses)
+    logger.info({
+      type: 'FETCHED_CONTRACT_ADDRESSES',
+      ...contractAddresses,
+    })
     return contractAddresses
   } catch (e) {
-    console.error('@getContractAddresses() error', e)
+    logger.error({
+      type: 'ERROR_FETCHING_CONTRACT_ADDRESSES',
+      error: e?.message,
+    })
     throw new Error('Unable to fetch contract addresses')
   }
 }
@@ -87,7 +93,10 @@ export async function getContractKit(): Promise<ContractKit> {
       throw new Error('Missing web3 provider URL, will not be able to fetch contract addresses.')
     }
   } catch (e) {
-    console.error('@getContractKit() error', e)
+    logger.error({
+      type: 'GET_CONTRACTKIT_ERROR',
+      error: e?.message,
+    })
     throw new Error('Failed to create contractKit instance')
   }
 }
