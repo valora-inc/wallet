@@ -1,7 +1,6 @@
 import { DataSnapshot } from '@firebase/database-types'
 import { database } from '../firebase'
-
-const TAG = 'helpers/KnownAddressesCache'
+import { logger } from '../logger'
 
 const ROOT_KEY = 'addressesExtraInfo'
 
@@ -18,15 +17,16 @@ class KnownAddressesCache {
   } = {}
 
   startListening(): void {
-    console.info(TAG, 'Start listening to Firebase for new events')
-
     const onError = (error: Error) => {
-      console.warn(TAG, error.toString())
+      logger.error({
+        type: 'ERROR_FETCHING_KNOWN_ADDRESSES',
+        error: error.message,
+      })
     }
 
     const onValue = (snapshot: DataSnapshot) => {
       const value = snapshot.val()
-      console.info(TAG, `Got value from Firebase: ${JSON.stringify(value)}`)
+      logger.info({ type: 'FETCHED_KNOWN_ADDRESSES' })
       this.knownAddresses = value ?? this.knownAddresses
     }
 
