@@ -1,10 +1,10 @@
 import { CeloTransactionObject } from '@celo/connect'
-import { CeloContract, StableToken } from '@celo/contractkit'
+import { CeloContract, ContractKit, StableToken } from '@celo/contractkit'
 import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import { retryAsync } from '@celo/utils/lib/async'
 import BigNumber from 'bignumber.js'
-import { call, put, take } from 'redux-saga/effects'
+import { call, put, select, spawn, take } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -12,15 +12,20 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
+import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
+import { setTokenBalances } from 'src/tokens/actions'
+import { Token, TokenBalances } from 'src/tokens/reducer'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import { getContractKitAsync } from 'src/web3/contracts'
+import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
+import { currentAccountSelector } from 'src/web3/selectors'
 import * as utf8 from 'utf8'
+import * as erc20 from './IERC20.json'
 
 const TAG = 'tokens/saga'
 
@@ -247,4 +252,24 @@ export async function getCurrencyAddress(currency: Currency) {
     case Currency.Euro:
       return contractKit.registry.addressFor(CeloContract.StableTokenEUR)
   }
+}
+
+export function* importTokenInfo() {
+  const tokens: Token[] = yield readOnceFromFirebase('tokensInfo')
+  let token: Token
+  const kit: ContractKit = yield call(getContractKit)
+  const address: string = yield select(currentAccountSelector)
+  const balances: TokenBalances = {}
+  for (token of tokens) {
+    const contract = new kit.web3.eth.Contract(erc20.abi, token.address)
+    const balance: number = yield call(contract.methods.balanceOf(address).call)
+    if (balance > 0) {
+      balances[token.address] = { ...token, balance }
+    }
+  }
+  yield put(setTokenBalances(balances))
+}
+
+export function* tokensSaga() {
+  yield spawn(importTokenInfo)
 }
