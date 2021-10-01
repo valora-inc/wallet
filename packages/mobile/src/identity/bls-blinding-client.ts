@@ -33,9 +33,9 @@ export class ReactBlsBlindingClient implements BlsBlindingClient {
     const key = ec.keyFromPrivate(hexToBuffer(privateKeyHex))
     const sig = JSON.stringify(key.sign(e164Number).toDER())
     const sigHash = crypto.createHash('sha256').update(sig).digest('base64')
-    var byteBuffer = []
-    var buffer = Buffer.from(sigHash, 'utf16le')
-    for (var i = 0; i < 32; i++) {
+    const byteBuffer = []
+    const buffer = Buffer.from(sigHash, 'utf16le')
+    for (let i = 0; i < 32; i++) {
       byteBuffer.push(buffer[i])
     }
     return Buffer.from(byteBuffer).toString('base64')
