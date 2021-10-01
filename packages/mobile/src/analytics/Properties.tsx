@@ -125,6 +125,7 @@ interface HomeEventsProperties {
   }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
+  [HomeEvents.impression_cash_in_bottom_sheet]: undefined
 }
 
 interface SettingsEventsProperties {

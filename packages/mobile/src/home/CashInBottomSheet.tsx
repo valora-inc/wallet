@@ -5,11 +5,11 @@ import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 // import styles from '@celo/react-components/styles/styles'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import Modal from 'react-native-modal'
-import { FiatExchangeEvents } from 'src/analytics/Events'
+import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
@@ -18,6 +18,10 @@ import { Screens } from 'src/navigator/Screens'
 function CashInBottomSheet() {
   const { t } = useTranslation(Namespaces.walletFlow5)
   const [isModalVisible, setModalVisible] = useState(true)
+
+  useEffect(() => {
+    ValoraAnalytics.track(HomeEvents.impression_cash_in_bottom_sheet)
+  })
 
   const onDismissBottomSheet = () => {
     setModalVisible(false)
