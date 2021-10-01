@@ -184,6 +184,7 @@
     "@testing-library/react-native": "^7.2.0",
     "@types/crypto-js": "^3.1.47",
     "@types/ethereumjs-util": "^5.2.0",
+    "@types/fs-extra": "^9.0.13",
     "@types/graphql": "^14.0.7",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/lodash": "^4.14.136",
