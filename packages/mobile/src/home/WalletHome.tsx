@@ -1,4 +1,3 @@
-import SectionHead from '@celo/react-components/components/SectionHead'
 import colors from '@celo/react-components/styles/colors'
 import _ from 'lodash'
 import * as React from 'react'
@@ -9,7 +8,6 @@ import {
   RefreshControl,
   RefreshControlProps,
   SectionList,
-  SectionListData,
   StyleSheet,
 } from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -20,7 +18,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ALERT_BANNER_DURATION, DEFAULT_TESTNET, SHOW_TESTNET_BANNER } from 'src/config'
 import { refreshAllBalances, setLoading } from 'src/home/actions'
 import NotificationBox from 'src/home/NotificationBox'
-import { callToActNotificationSelector, getActiveNotificationCount } from 'src/home/selectors'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import { Namespaces, withTranslation } from 'src/i18n'
 import Logo from 'src/icons/Logo'
@@ -39,8 +36,6 @@ import { currentAccountSelector } from 'src/web3/selectors'
 interface StateProps {
   loading: boolean
   address?: string | null
-  activeNotificationCount: number
-  callToActNotification: boolean
   recipientCache: NumberToRecipient
   appConnected: boolean
   numberVerified: boolean
@@ -67,8 +62,6 @@ const mapDispatchToProps = {
 const mapStateToProps = (state: RootState): StateProps => ({
   loading: state.home.loading,
   address: currentAccountSelector(state),
-  activeNotificationCount: getActiveNotificationCount(state),
-  callToActNotification: callToActNotificationSelector(state),
   recipientCache: phoneRecipientCacheSelector(state),
   appConnected: isAppConnected(state),
   numberVerified: state.app.numberVerified,
@@ -133,13 +126,6 @@ export class WalletHome extends React.Component<Props, State> {
     }
   }
 
-  renderSection = ({ section: { title } }: { section: SectionListData<any> }) => {
-    if (!title) {
-      return null
-    }
-    return <SectionHead text={title} />
-  }
-
   keyExtractor = (_item: any, index: number) => {
     return index.toString()
   }
@@ -156,8 +142,6 @@ export class WalletHome extends React.Component<Props, State> {
   }
 
   render() {
-    const { activeNotificationCount, callToActNotification } = this.props
-
     const refresh: React.ReactElement<RefreshControlProps> = (
       <RefreshControl
         refreshing={this.props.loading}
@@ -168,12 +152,10 @@ export class WalletHome extends React.Component<Props, State> {
 
     const sections = []
 
-    if (activeNotificationCount > 0 || callToActNotification) {
-      sections.push({
-        data: [{}],
-        renderItem: () => <NotificationBox key={'NotificationBox'} />,
-      })
-    }
+    sections.push({
+      data: [{}],
+      renderItem: () => <NotificationBox key={'NotificationBox'} />,
+    })
 
     sections.push({
       data: [{}],
@@ -191,8 +173,6 @@ export class WalletHome extends React.Component<Props, State> {
           refreshing={this.props.loading}
           style={styles.container}
           sections={sections}
-          stickySectionHeadersEnabled={false}
-          renderSectionHeader={this.renderSection}
           keyExtractor={this.keyExtractor}
         />
         <SendOrRequestBar />
