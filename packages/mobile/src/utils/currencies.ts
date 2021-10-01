@@ -20,7 +20,6 @@ type CurrencyObject = { [key in Currency]: CurrencyInfo }
 
 export type StableCurrency = Currency.Dollar | Currency.Euro
 export const STABLE_CURRENCIES: StableCurrency[] = [Currency.Dollar, Currency.Euro]
-export const ALL_CURRENCIES: Currency[] = [Currency.Dollar, Currency.Euro, Currency.Celo]
 
 export const CURRENCIES: CurrencyObject = {
   [Currency.Celo]: {
