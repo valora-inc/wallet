@@ -55,8 +55,7 @@ describe('TotalLineItem', () => {
       expect(queryByTestId('TotalLineItem/ExchangeRate')).toBeFalsy()
     })
   })
-  // Note (Tom): Failing with update to @testing-library/react-native
-  describe.skip("when there's an exchange rate to show in the currencyInfo", () => {
+  describe("when there's an exchange rate to show in the currencyInfo", () => {
     it('renders the exchange rate', () => {
       const { queryByTestId } = renderComponent({
         currencyInfo: {
@@ -64,11 +63,10 @@ describe('TotalLineItem', () => {
           localExchangeRate: '0.01',
         },
       })
-      expect(queryByTestId('TotalLineItem/ExchangeRate')).toBeTruthy()
+      expect(queryByTestId('TotalLineItem/ExchangeRate/value')).toBeTruthy()
     })
   })
-  // Note (Tom): Failing with update to @testing-library/react-native
-  describe.skip("when there's an exchange rate to show in the amount", () => {
+  describe("when there's an exchange rate to show in the amount", () => {
     it('renders the exchange rate', () => {
       const { queryByTestId } = renderComponent({
         amount: {
@@ -80,11 +78,11 @@ describe('TotalLineItem', () => {
           },
         },
       })
-      expect(queryByTestId('TotalLineItem/ExchangeRate')).toBeTruthy()
+      expect(queryByTestId('TotalLineItem/ExchangeRate/value')).toBeTruthy()
     })
   })
-  // Note (Tom): Failing with update to @testing-library/react-native
-  describe.skip("when there's an exchange rate to show in the redux store", () => {
+
+  describe("when there's an exchange rate to show in the redux store", () => {
     it('renders the exchange rate', () => {
       const { queryByTestId } = renderComponent({
         storeOverrides: {
@@ -93,7 +91,7 @@ describe('TotalLineItem', () => {
           },
         },
       })
-      expect(queryByTestId('TotalLineItem/ExchangeRate')).toBeTruthy()
+      expect(queryByTestId('TotalLineItem/ExchangeRate/value')).toBeTruthy()
     })
   })
   describe('when the amount is in CELO', () => {
