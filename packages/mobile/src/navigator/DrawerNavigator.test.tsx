@@ -13,8 +13,7 @@ const exchangeRates: ExchangeRates = makeExchangeRates('0.11', '10')
 
 // This avoids rendering WalletHome as we're mostly interested in testing the menu here
 jest.mock('src/home/WalletHome')
-// Note (Tom): Failing with update to @testing-library/react-native
-describe.skip('DrawerNavigator', () => {
+describe('DrawerNavigator', () => {
   it('renders correctly with both cUSD and CELO balances', () => {
     const store = createMockStore({
       stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '15' } },
@@ -37,14 +36,16 @@ describe.skip('DrawerNavigator', () => {
       </Provider>
     )
 
-    expect(getElementText(tree.getByTestId('LocalDollarBalance'))).toEqual('$13.30')
-    expect(getElementText(tree.getByTestId('DollarBalance'))).toEqual('10.00 global:celoDollars')
+    expect(getElementText(tree.getByTestId('LocalDollarBalance/value'))).toEqual('$13.30')
+    expect(getElementText(tree.getByTestId('DollarBalance/value'))).toEqual(
+      '10.00 global:celoDollars'
+    )
 
-    expect(getElementText(tree.getByTestId('LocalEuroBalance'))).toEqual('$30.00')
-    expect(getElementText(tree.getByTestId('EuroBalance'))).toEqual('15.00 global:celoEuros')
+    expect(getElementText(tree.getByTestId('LocalEuroBalance/value'))).toEqual('$30.00')
+    expect(getElementText(tree.getByTestId('EuroBalance/value'))).toEqual('15.00 global:celoEuros')
 
-    expect(getElementText(tree.getByTestId('LocalCeloBalance'))).toEqual('$6.00')
-    expect(getElementText(tree.getByTestId('CeloBalance'))).toEqual('2.000 global:celoGold')
+    expect(getElementText(tree.getByTestId('LocalCeloBalance/value'))).toEqual('$6.00')
+    expect(getElementText(tree.getByTestId('CeloBalance/value'))).toEqual('2.000 global:celoGold')
   })
 
   it('renders only with the cUSD balance when the cEUR and CELO balances are (almost) 0', () => {
@@ -62,13 +63,15 @@ describe.skip('DrawerNavigator', () => {
       </Provider>
     )
 
-    expect(getElementText(tree.getByTestId('LocalDollarBalance'))).toEqual('$13.30')
-    expect(getElementText(tree.getByTestId('DollarBalance'))).toEqual('10.00 global:celoDollars')
+    expect(getElementText(tree.getByTestId('LocalDollarBalance/value'))).toEqual('$13.30')
+    expect(getElementText(tree.getByTestId('DollarBalance/value'))).toEqual(
+      '10.00 global:celoDollars'
+    )
 
-    expect(tree.queryByTestId('LocalEuroBalance')).toBeFalsy()
-    expect(tree.queryByTestId('EuroBalance')).toBeFalsy()
+    expect(tree.queryByTestId('LocalEuroBalance/value')).toBeFalsy()
+    expect(tree.queryByTestId('EuroBalance/value')).toBeFalsy()
 
-    expect(tree.queryByTestId('LocalCeloBalance')).toBeFalsy()
-    expect(tree.queryByTestId('CeloBalance')).toBeFalsy()
+    expect(tree.queryByTestId('LocalCeloBalance/value')).toBeFalsy()
+    expect(tree.queryByTestId('CeloBalance/value')).toBeFalsy()
   })
 })
