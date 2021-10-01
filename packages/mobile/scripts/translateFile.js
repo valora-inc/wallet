@@ -1,5 +1,4 @@
 // Translate a file using google translate
-// tslint:disable: no-console
 
 const fs = require('fs')
 const request = require('request')

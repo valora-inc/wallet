@@ -19,6 +19,7 @@ import { ExchangeContractCall } from './events/ExchangeContractCall'
 import { RegisterAccountDekContractCall } from './events/RegisterAccountDekContractCall'
 import { Input } from './helpers/Input'
 import { InputDecoder } from './helpers/InputDecoder'
+import { logger } from './logger'
 import { metrics } from './metrics'
 import { TokenTransactionArgs } from './schema'
 import { Transaction } from './transaction/Transaction'
@@ -58,8 +59,6 @@ export class BlockscoutAPI extends RESTDataSource {
   }
 
   async getRawTokenTransactions(address: string): Promise<Transaction[]> {
-    console.info(`Getting token transactions for address: ${address}`)
-
     // Measure time at beginning of execution
     const t0 = performance.now()
     const contractAddresses = await this.ensureContractAddresses()
@@ -184,22 +183,31 @@ export class BlockscoutAPI extends RESTDataSource {
 
     const aggregatedTransactions = TransactionAggregator.aggregate(classifiedTransactions)
 
-    const events: any[] = aggregatedTransactions.map(({ transaction, type }) => {
-      try {
-        return type.getEvent(transaction)
-      } catch (e) {
-        console.error('Could not map to an event', JSON.stringify(transaction))
-        console.error(e)
-      }
-    })
-
-    console.info(
-      `[Celo] getTokenTransactions address=${args.address} tokens=${tokens} localCurrencyCode=${args.localCurrencyCode}} rawTransactionCount=${rawTransactions.length} eventCount=${events.length}`
-    )
-
-    return events
+    const events: any[] = aggregatedTransactions
+      .map(({ transaction, type }) => {
+        try {
+          return type.getEvent(transaction)
+        } catch (e) {
+          logger.error({
+            type: 'ERROR_MAPPING_TO_EVENT',
+            transaction: JSON.stringify(transaction),
+            error: e?.message,
+          })
+        }
+      })
       .filter((e) => e)
       .filter((event) => tokens.includes(event.amount.currencyCode))
       .sort((a, b) => b.timestamp - a.timestamp)
+
+    logger.info({
+      type: 'GET_TOKEN_TRANSACTIONS',
+      address: args.address,
+      tokens,
+      localCurrencyCode: args.localCurrencyCode,
+      rawTransactionCount: rawTransactions.length,
+      eventCount: events.length,
+    })
+
+    return events
   }
 }
