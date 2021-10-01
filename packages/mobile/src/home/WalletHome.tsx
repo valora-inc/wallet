@@ -1,6 +1,5 @@
 import SectionHead from '@celo/react-components/components/SectionHead'
 import colors from '@celo/react-components/styles/colors'
-import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
@@ -33,10 +32,9 @@ import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
 import { initializeSentryUserContext } from 'src/sentry/actions'
-import { balancesSelector } from 'src/stableToken/selectors'
+import { Balances, balancesSelector } from 'src/stableToken/selectors'
 import { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList from 'src/transactions/TransactionsList'
-import { ALL_CURRENCIES, Currency } from 'src/utils/currencies'
 import { checkContactsPermission } from 'src/utils/permissions'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -49,7 +47,7 @@ interface StateProps {
   appConnected: boolean
   numberVerified: boolean
   cashInButtonExpEnabled: boolean
-  balances: Record<Currency, BigNumber | null>
+  balances: Balances
 }
 
 interface DispatchProps {
@@ -86,12 +84,12 @@ const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
 interface State {
   isMigrating: boolean
-  isAccountBalanceZero: boolean
 }
 
 export class WalletHome extends React.Component<Props, State> {
   scrollPosition: Animated.Value<number>
   onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
+  isAccountBalanceZero: boolean
 
   constructor(props: Props) {
     super(props)
@@ -100,8 +98,11 @@ export class WalletHome extends React.Component<Props, State> {
     this.onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: this.scrollPosition } } }])
     this.state = {
       isMigrating: false,
-      isAccountBalanceZero: false,
     }
+
+    this.isAccountBalanceZero = Object.values(this.props.balances).some((balance) =>
+      balance?.isGreaterThan(0)
+    )
   }
 
   onRefresh = async () => {
@@ -128,16 +129,10 @@ export class WalletHome extends React.Component<Props, State> {
     // Waiting 1/2 sec before triggering to allow
     // rest of feed to load unencumbered
     setTimeout(this.tryImportContacts, 500)
-
-    this.setState({
-      isAccountBalanceZero: !ALL_CURRENCIES.some((currency) =>
-        this.props.balances[currency]?.isGreaterThan(0)
-      ),
-    })
   }
 
   shouldShowCashInBottomSheet = () => {
-    return this.props.cashInButtonExpEnabled && this.state.isAccountBalanceZero
+    return this.props.cashInButtonExpEnabled && this.isAccountBalanceZero
   }
 
   tryImportContacts = async () => {

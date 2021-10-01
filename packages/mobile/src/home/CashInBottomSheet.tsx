@@ -56,6 +56,7 @@ function CashInBottomSheet() {
           size={BtnSizes.FULL}
           onPress={goToAddFunds}
           style={styles.addFundBtn}
+          testID={'cashInBtn'}
         />
       </View>
     </Modal>
