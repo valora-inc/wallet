@@ -5,7 +5,7 @@
     "step3": "Bequem, zuverlässig und sicher. Dein Telefon ist dein Wallet"
   },
   "welcome": {
-    "title": "Teile Geld mit denen, die es wert sind",
+    "title": "Teile Krypto mit denen, die es wert sind",
     "createAccount": "Neues Konto erstellen",
     "restoreAccount": "Mein Konto wiederherstellen"
   },
@@ -47,7 +47,7 @@
     "resume": "Fortfahren",
     "doINeedToConfirm": "Muss ich bestätigen?",
     "skipForNow": "Vorerst überspringen",
-    "bodyInsufficientBalance": "Dein aktueller Kontostand ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.\n\nBitte versuchen es erneut, wenn du deinem Wallet Finanzmittel hinzugefügt hast.",
+    "bodyInsufficientBalance": "Dein aktueller Saldo ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.\n\nBitte versuchen es erneut, wenn du deinem Wallet Finanzmittel hinzugefügt hast.",
     "bodyAlreadyVerified": "Deine Nummer ist bereits bestätigt!"
   },
   "verificationSkipDialog": {
@@ -59,7 +59,7 @@
   "verificationPrematureRevealMessage": "Bitte warte eine Minute, bevor Du erneut sendest",
   "verificationLearnMoreDialog": {
     "title": "Telefonnummern und {{appName}}",
-    "body": "Bestätigen macht es einfach, sich mit deinen Freunden zu verbinden, indem dir das Senden und Empfangen von Saldo an deine Telefonnummer ermöglicht wird.\n\n<0>Kann ich dies später tun? </0>\n\nJa, aber unbestätigte Konten können nur Zahlungen mit QR-Codes oder Kontonummern senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um deine Telefonnummer privat zu halten.",
+    "body": "Bestätigen macht es einfach, sich mit deinen Freunden zu verbinden, indem dir das Senden und Empfangen von Saldo an deine Telefonnummer ermöglicht wird.\n\n<0>Kann ich dies später tun? </0>\n\nJa, aber unbestätigte Konten können nur Zahlungen mit QR-Codes oder Konto-Adressen senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um deine Telefonnummer privat zu halten.",
     "dismiss": "Verwerfen"
   },
   "importExistingKey": {
