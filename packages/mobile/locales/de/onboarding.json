@@ -69,7 +69,7 @@
   "verificationInput": {
     "title": "Bestätigen",
     "body": "Wir haben Ihnen drei Nachrichten (SMS) gesendet. Bitte kopieren Sie diese und fügen Sie sie unten ein.",
-    "body_ios": "Wir haben Ihnen drei Nachrichten (SMS) gesendet. Bitte tippen Sie auf den Link in jeder Nachricht, um die folgenden Codes auszufüllen oder kopieren Sie sie und füge sie manuell ein.",
+    "body_ios": "Wir haben dir drei Nachrichten (SMS) gesendet. Bitte tippe auf den Link in jeder Nachricht, um die folgenden Codes auszufüllen oder kopiere sie und füge sie manuell ein.",
     "body_short": "Wir haben drei Codes an {{phoneNumber}} gesendet, bitte geben Sie sie unten ein.",
     "codeLabel1": "Erster Code",
     "codeLabel2": "Zweiter Code",
@@ -89,7 +89,7 @@
     "title": "Hilfe",
     "bodySection1": {
       "title": "Alle drei Nachrichten erhalten?",
-      "content": "Wenn Ihre Nachrichten einen Link enthalten, klicken Sie einfach auf die Links zur Bestätigung.\n\nWenn es keine Links gibt, kopieren Sie bitte die Nachrichten und fügen Sie sie in die Felder ein. Sie können die ganze Nachricht einfügen."
+      "content": "Wenn deine Nachrichten einen Link enthalten, tippe einfach auf die Links zur Bestätigung.\n\nWenn es keine Links gibt, kopiere bitte die Nachrichten und füge sie in die Felder ein. Du kannst die ganze Nachricht einfügen."
     },
     "bodySection2": {
       "title": "Einige oder alle Nachrichten fehlen?",
