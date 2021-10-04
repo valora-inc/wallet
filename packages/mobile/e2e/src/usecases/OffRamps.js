@@ -169,7 +169,7 @@ export default offRamps = () => {
         await expect(element(by.id('CoinList Pro'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('OKEx'))).toBeVisible()
-        await expect(element(by.id('SendCeloButton'))).toBeVisible()
+        await expect(element(by.id('WithdrawCeloButton'))).toBeVisible()
         const imagePath = await device.takeScreenshot('CELO Out Exchanges')
         await pixelDiff(
           imagePath,
