@@ -24,7 +24,7 @@
   "payWithCard": "Debit card",
   "payWithExchange": "Cryptocurrency exchange",
   "selectCashOutMethod": "Receive funds in:",
-  "receiveOnAddress": "CELO address",
+  "receiveOnAddress": "Celo address",
   "receiveWithBidali": "Gift Cards and Mobile Top Up",
   "fundingEducationDialog": {
     "title": "Funding your {{appName}}",
