@@ -51,8 +51,8 @@
   "requestFromMobileNumber": "Anfrage von Telefonnummer",
   "sendToAddress": "An Adresse senden",
   "walletAddress": "Wallet-Adresse",
-  "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Geld weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
-  "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Geld weltweit zu überweisen. Ich habe dir gerade {{amount}} {{currency}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{currency}} mit diesem Link ein: {{link}}",
+  "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
+  "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{currency}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{currency}} mit diesem Link ein: {{link}}",
   "inviteSent": "Einladungscode gesendet!",
   "inviteFailed": "Senden der Einladung fehlgeschlagen",
   "loadingContacts": "Deine Kontakte finden",
@@ -134,7 +134,7 @@
   },
   "sendToAddressWarning": {
     "title": "An eine Adresse senden",
-    "body": "Bitte stelle sicher, dass die Adresse cUSD unterstützt. An ungültige Adressen gesendete Gelder sind möglicherweise nicht wiederherstellbar.\n\nDu kannst auch erwägen, zuerst eine kleine Testzahlung zu senden.",
+    "body": "Bitte stelle sicher, dass die Adresse cUSD unterstützt. An ungültige Adressen gesendete Guthaben sind möglicherweise nicht wiederherstellbar.\n\nDu kannst auch erwägen, zuerst eine kleine Testzahlung zu senden.",
     "toggle": "Immer fragen"
   }
 }
