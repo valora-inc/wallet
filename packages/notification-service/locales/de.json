@@ -1,8 +1,8 @@
 {
   "paymentReceivedTitle": "Zahlung erhalten",
-  "paymentReceivedBody": "Sie haben {{amount}} {{currency}} erhalten",
+  "paymentReceivedBody": "Du hast {{amount}} {{currency}} erhalten",
   "celoReceivedTitle": "CELO Einzahlung erhalten",
-  "celoReceivedBody": "Sie haben gerade {{amount}} CELO erhalten! Sie können in Valora verdienen, sparen und ausgeben. Tippen Sie hier, um mehr zu erfahren.",
+  "celoReceivedBody": "Du hast gerade {{amount}} CELO erhalten! Du hast in Valora verdienen, sparen und ausgeben. Tippe hier, um mehr zu erfahren.",
   "dollar": "cUSD",
   "euro": "cEUR",
   "gold": "CELO",
@@ -11,5 +11,5 @@
   "rewardReceivedTitle": "Du erhältst noch mehr {{currency}} 📈",
   "rewardReceivedBody": "Deine wöchentlichen Belohnungen sind angekommen! Füge noch mehr {{currency}} hinzu, um deinen Kontostand zu erhöhen.",
   "inviteRewardTitle": "Einladung akzeptiert",
-  "inviteRewardBody": "Ihr Freund hat Ihre Valora-Einladung angenommen und Sie haben {{amount}} {{currency}} verdient!"
+  "inviteRewardBody": "Dein Freund hat deine Valora-Einladung angenommen und du hast {{amount}} {{currency}} verdient!"
 }
