@@ -36,7 +36,7 @@
   "activity": "Aktivität",
   "exchange": "Umtausch",
   "inviteSendTo": "Laden & senden an",
-  "keepMoneySafe": "Wir werden dieses Geld sicher halten, bis dein Freund ein {{appName}}-Konto erstellt",
+  "keepMoneySafe": "Wir werden dieses Krypto sicher halten, bis dein Freund ein {{appName}}-Konto erstellt",
   "searchFriends": "Versuche eine Telefonnummer einzugeben, wenn du nicht finden kannst, nach wem du suchst",
   "inviteVerifyPayment": "Einladen & Zahlung bestätigen",
   "inviteFriends": "Freunde einladen",
@@ -71,7 +71,7 @@
   "totalRefunded": "Insgesamt erstattet",
   "loadingVerificationStatus": "Überprüfe Empfängerbestätigung",
   "askForContactsPermissionAction": "Meine Kontakte erhalten",
-  "newAccountBalance": "Neuer Kontostand: ",
+  "newAccountBalance": "Neuer Saldo: ",
   "estimatingFee": "Kostenvoranschlag ",
   "estimatedFee": "Geschätzte Gebühr: ",
   "selectBalance": "Saldo auswählen",
@@ -99,14 +99,14 @@
   "secureSendExplanation": {
     "body1": "{{e164PhoneNumber}} hat mehrere Accounts damit verknüpft. {{displayName}} könnte ein neues {{appName}} Konto erstellt haben, oder sein Telefon verloren haben oder sein Konto kompromittiert haben.",
     "body1NoDisplayName": "Dein Kontakt hat mehrere Accounts zugeordnet. Dein Kontakt könnte ein neues {{appName}}-Konto erstellt haben, oder sein Telefon verloren haben oder sein Konto kompromittiert haben.",
-    "body2": "Du musst ihren QR-Code scannen oder ihre Kontonummer vor der Transaktion bestätigen."
+    "body2": "Du musst ihren QR-Code scannen oder ihre Konto-Adresse vor der Transaktion bestätigen."
   },
   "confirmAccountNumber": {
     "title": "Konto-Adresse bestätigen",
-    "bodyPartial": "Bitte frag {{displayName}} nach den letzten vier Ziffern ihrer Kontonummer. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
-    "bodyPartialNoDisplayName": "Bitte frage deinen Kontakt nach den letzten vier Ziffern ihrer Kontonummer. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
-    "body1Full": "Bitte frage {{displayName}} nach der Kontonummer.",
-    "body1FullNoDisplayName": "Bitte frage deinen Kontakt nach der Kontonummer.",
+    "bodyPartial": "Bitte frag {{displayName}} nach den letzten vier Ziffern ihrer Konto-Adresse. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
+    "bodyPartialNoDisplayName": "Bitte frage deinen Kontakt nach den letzten vier Ziffern ihrer Konto-Adresse. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
+    "body1Full": "Bitte frage {{displayName}} nach der Konto-Adresse.",
+    "body1FullNoDisplayName": "Bitte frage deinen Kontakt nach der Konto-Adresse.",
     "body2Full": "Wir empfehlen dringend, persönlich oder telefonisch über WhatsApp oder Messenger oder per E-Mail zu fragen. Zur Sicherheit verwende bitte keine Textnachrichten (SMS).",
     "help": "Hilfe beim Auffinden einer Konto-Adresse",
     "submit": "Versenden"
@@ -119,7 +119,7 @@
     "body2": "Die Konto-Adresse befindet sich am unteren Ende des Menüs.",
     "body3": "Konto-Adressen beginnen mit \"0x\" und sind 42 Zeichen lang"
   },
-  "transferAddressChanged": "Dieser Kontakt hat seine Kontonummer seit der Transaktion geändert. Diese Zahlung wurde gesendet an:",
+  "transferAddressChanged": "Dieser Kontakt hat seine Konto-Adresse seit der Transaktion geändert. Diese Zahlung wurde gesendet an:",
   "addressConfirmed": "Konto-Adresse bestätigt",
   "sending": "Senden",
   "feeActual": "Gebühren",
