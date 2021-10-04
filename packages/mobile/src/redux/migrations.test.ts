@@ -8,6 +8,8 @@ import {
   v14Schema,
   v15Schema,
   v16Schema,
+  v17Schema,
+  v18Schema,
   v1Schema,
   v2Schema,
   v7Schema,
@@ -360,7 +362,11 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema.fiatExchanges.lastUsedProvider).not.toBeDefined()
   })
   it('works for v17 to v18', () => {
-    const migratedSchema = migrations[17](v16Schema)
+    const migratedSchema = migrations[18](v17Schema)
+    expect(migratedSchema.walletConnect.v2.pairings).not.toBeDefined()
+  })
+  it('works for v18 to v19', () => {
+    const migratedSchema = migrations[19](v18Schema)
     expect(migratedSchema.app.showRaiseDailyLimitTarget).not.toBeDefined()
   })
 })

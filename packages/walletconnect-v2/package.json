@@ -1,0 +1,10 @@
+{
+  "name": "walletconnect-v2",
+  "version": "2.0.0-dev",
+  "private": "true",
+  "dependencies": {
+    "@walletconnect/client": "^2.0.0-beta.18",
+    "@walletconnect/types": "^2.0.0-beta.18",
+    "@walletconnect/utils": "^2.0.0-beta.18"
+  }
+}

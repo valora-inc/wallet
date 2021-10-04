@@ -84,4 +84,5 @@ export enum ErrorMessages {
   SIMPLEX_PURCHASE_FETCH_FAILED = 'simplexPurchaseFetchFailed',
   PROVIDER_FETCH_FAILED = 'providerFetchFailed',
   CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',
+  WC2_UNSUPPORTED = 'walletConnect:v2Unsupported',
 }

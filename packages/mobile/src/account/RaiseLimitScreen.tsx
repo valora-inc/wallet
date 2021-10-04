@@ -173,10 +173,10 @@ const RaiseLimitScreen = () => {
   )
 }
 
-RaiseLimitScreen.navOptions = {
+RaiseLimitScreen.navOptions = () => ({
   ...headerWithBackButton,
   headerTitle: i18n.t('accountScreen10:accountSendLimit'),
-}
+})
 
 const styles = StyleSheet.create({
   container: {
