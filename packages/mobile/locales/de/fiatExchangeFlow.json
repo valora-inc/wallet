@@ -60,7 +60,7 @@
   },
   "dailyLimitRequest": "Hallo! Ich möchte mein tägliches Sendelimit erhöhen.",
   "pleaseSelectProvider": "Bitte wähle unten einen Anbieter aus. Diese Links verbinden sich mit einem Drittanbieter.",
-  "otherFundingOptions": "Weitere Möglichkeiten zum Hinzufügen und Auszahlen von Guthaben findest du auf <0>Wie du dein Konto aufladest</0>",
+  "otherFundingOptions": "Weitere Möglichkeiten zum Hinzufügen und Abheben von Guthaben findest du auf <0>Wie du dein Konto aufladest</0>",
   "youCanTransfer": "Du kannst {{currency}} an oder von den folgenden Umtauschen Kryptobörsen. Du benötigst deine Konto-Adresse.",
   "useBalanceWithMerchants": "Verwende Dein Saldo bei unterstützenden Händlern",
   "findMerchants": "Lokale Händler in deiner Nähe finden",
