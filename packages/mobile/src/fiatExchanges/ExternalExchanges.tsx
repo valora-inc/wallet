@@ -127,7 +127,7 @@ function ExternalExchanges({ route }: Props) {
       </ScrollView>
       {!isCashIn && providers.length ? (
         route.params.currency === Currency.Dollar || route.params.currency === Currency.Euro ? (
-          <SendBar />
+          <SendBar skipImport={true} selectedCurrency={route.params.currency} />
         ) : (
           <View style={styles.buttonContainer}>
             <Button

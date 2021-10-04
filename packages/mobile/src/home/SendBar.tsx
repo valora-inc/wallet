@@ -7,12 +7,18 @@ import { StyleSheet, View } from 'react-native'
 import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Currency } from 'src/utils/currencies'
 
-export default function SendBar() {
+interface Props {
+  selectedCurrency?: Currency
+  skipImport?: boolean
+}
+
+export default function SendBar({ selectedCurrency, skipImport }: Props) {
   const onPressSend = () => {
     // TODO: Add Analytics
     // ValoraAnalytics.track()
-    navigate(Screens.Send)
+    navigate(Screens.Send, { skipContactsImport: skipImport, forceCurrency: selectedCurrency })
   }
 
   const { t } = useTranslation(Namespaces.sendFlow7)

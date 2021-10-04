@@ -43,7 +43,10 @@ interface Section {
 type Props = StackScreenProps<StackParamList, Screens.Send>
 
 function Send({ route }: Props) {
+  console.log('From Send Component:', route)
+  const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
+  const forceCurrency = route.params?.forceCurrency
   const { t } = useTranslation(Namespaces.sendFlow7)
 
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
@@ -127,6 +130,7 @@ function Send({ route }: Props) {
         recipient,
         isOutgoingPaymentRequest,
         origin: SendOrigin.AppSendFlow,
+        forceCurrency,
       })
     },
     [isOutgoingPaymentRequest, searchQuery]
@@ -152,7 +156,7 @@ function Send({ route }: Props) {
   }
 
   const renderListHeader = () => {
-    if (!numberVerified && verificationPossible) {
+    if (!numberVerified && verificationPossible && !skipContactsImport) {
       return (
         <SendCallToAction
           icon={<VerifyPhone height={49} />}

@@ -201,6 +201,9 @@ export type StackParamList = {
   [Screens.Send]:
     | {
         isOutgoingPaymentRequest?: boolean
+        skipContactsImport?: boolean
+        defaultCurrency?: Currency
+        forceCurrency?: Currency
       }
     | undefined
   [Screens.SendAmount]: {
@@ -208,6 +211,7 @@ export type StackParamList = {
     isOutgoingPaymentRequest?: boolean
     isFromScan?: boolean
     origin: SendOrigin
+    forceCurrency?: Currency
   }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
