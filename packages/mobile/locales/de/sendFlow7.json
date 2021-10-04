@@ -75,15 +75,15 @@
   "estimatingFee": "Kostenvoranschlag ",
   "estimatedFee": "Geschätzte Gebühr: ",
   "selectBalance": "Saldo auswählen",
-  "stableBalance": "{{token}} Guthaben",
+  "stableBalance": "{{token}} Saldo",
   "verificationCta": {
     "header": "An einen Freund senden?",
-    "body": "Verbinden Sie Ihr Telefon und synchronisieren Sie Ihre Kontakte, um schnell an Ihre Freunde zu senden.",
+    "body": "Bestätige deine Telefonnummer und synchronisiere deine Kontakte, um schnell an deine Freunde zu senden.",
     "cta": "Startbestätigung"
   },
   "importContactsCta": {
     "header": "Kontakte importieren",
-    "body": "Bitte aktivieren Sie die Kontakte in den Einstellungen Ihres Telefons, um Ihre Freunde mit Namen zu finden.",
+    "body": "Bitte aktiviere die Kontakte in den Einstellungen deines Telefons, um deine Freunde mit Namen zu finden.",
     "cta": "Einstellungen"
   },
   "contactSyncProgress": {
@@ -92,22 +92,22 @@
     "importing": "Importieren..."
   },
   "confirmAccount": {
-    "header": "Bitte bestätigen Sie das Konto von {{displayName}}",
-    "headerNoDisplayName": "Bitte bestätigen Sie das Konto Ihres Kontakts",
+    "header": "Bitte bestätige das Konto von {{displayName}}",
+    "headerNoDisplayName": "Bitte bestätige das Konto deines Kontakts",
     "button": "Konto-Adresse bestätigen"
   },
   "secureSendExplanation": {
     "body1": "{{e164PhoneNumber}} hat mehrere Accounts damit verknüpft. {{displayName}} könnte ein neues {{appName}} Konto erstellt haben, oder sein Telefon verloren haben oder sein Konto kompromittiert haben.",
-    "body1NoDisplayName": "Ihr Kontakt hat mehrere Accounts zugeordnet. Ihr Kontakt könnte ein neues {{appName}}-Konto erstellt haben, oder sein Telefon verloren haben oder sein Konto kompromittiert haben.",
-    "body2": "Sie müssen ihren QR-Code scannen oder ihre Konto-Adresse vor der Transaktion bestätigen."
+    "body1NoDisplayName": "Dein Kontakt hat mehrere Accounts zugeordnet. Dein Kontakt könnte ein neues {{appName}}-Konto erstellt haben, oder sein Telefon verloren haben oder sein Konto kompromittiert haben.",
+    "body2": "Du musst ihren QR-Code scannen oder ihre Kontonummer vor der Transaktion bestätigen."
   },
   "confirmAccountNumber": {
     "title": "Konto-Adresse bestätigen",
-    "bodyPartial": "Bitte fragen Sie {{displayName}} nach den letzten vier Ziffern Ihrer Konto-Adresse. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
-    "bodyPartialNoDisplayName": "Bitte fragen Sie Ihren Kontakt nach den letzten vier Ziffern Ihrer Konto-Adresse. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
-    "body1Full": "Bitte fragen Sie {{displayName}} nach der Konto-Adresse.",
-    "body1FullNoDisplayName": "Bitte fragen Sie Ihren Kontakt nach der Konto-Adresse.",
-    "body2Full": "Wir empfehlen dringend, persönlich oder telefonisch über WhatsApp oder Messenger oder per E-Mail zu fragen. Zur Sicherheit verwenden Sie bitte keine Textnachrichten (SMS).",
+    "bodyPartial": "Bitte frag {{displayName}} nach den letzten vier Ziffern ihrer Kontonummer. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
+    "bodyPartialNoDisplayName": "Bitte frage deinen Kontakt nach den letzten vier Ziffern ihrer Kontonummer. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
+    "body1Full": "Bitte frage {{displayName}} nach der Kontonummer.",
+    "body1FullNoDisplayName": "Bitte frage deinen Kontakt nach der Kontonummer.",
+    "body2Full": "Wir empfehlen dringend, persönlich oder telefonisch über WhatsApp oder Messenger oder per E-Mail zu fragen. Zur Sicherheit verwende bitte keine Textnachrichten (SMS).",
     "help": "Hilfe beim Auffinden einer Konto-Adresse",
     "submit": "Versenden"
   },
@@ -115,11 +115,11 @@
   "accountInputHeaderFull": "Konto-Adresse",
   "helpModal": {
     "header": "Lokalisierung einer Konto-Adresse",
-    "body1": "Konto-Adressen (auch als Adressen bekannt) befinden sich im Menü. Öffnen Sie das Menü vom Startbildschirm, indem Sie auf das Symbol in der oberen linken Ecke tippen.",
+    "body1": "Konto-Adressen (auch als Adressen bekannt) befinden sich im Menü. Öffne das Menü vom Startbildschirm, indem du auf das Symbol in der oberen linken Ecke tippst.",
     "body2": "Die Konto-Adresse befindet sich am unteren Ende des Menüs.",
     "body3": "Konto-Adressen beginnen mit \"0x\" und sind 42 Zeichen lang"
   },
-  "transferAddressChanged": "Dieser Kontakt hat seine Konto-Adresse seit der Transaktion geändert. Diese Zahlung wurde gesendet an:",
+  "transferAddressChanged": "Dieser Kontakt hat seine Kontonummer seit der Transaktion geändert. Diese Zahlung wurde gesendet an:",
   "addressConfirmed": "Konto-Adresse bestätigt",
   "sending": "Senden",
   "feeActual": "Gebühren",
@@ -127,14 +127,14 @@
   "encryption": {
     "warningLabel": "Dieser Kommentar wird nicht verschlüsselt",
     "warningModalHeader": "Über Verschlüsselung",
-    "warningModalBody": "Verschlüsselung stellt sicher, dass Ihre Kommentare privat bleiben. \n{{appName}} verwendet Verschlüsselung bei Kommentaren von Transaktionen, wenn sowohl Absender als auch Empfänger diese Funktion eingerichtet haben. ",
+    "warningModalBody": "Verschlüsselung stellt sicher, dass deine Kommentare privat bleiben. Valora verwendet \nVerschlüsselung bei Kommentaren von Transaktionen, wenn sowohl Absender als auch Empfänger diese Funktion eingerichtet haben. ",
     "feeLabel": "Einmalige Verschlüsselungsgebühr",
     "feeModalHeader": "Einmalige Verschlüsselungsgebühr",
-    "feeModalBody": "Verschlüsselung hilft, Ihre sensiblen Daten vertraulich zu halten. Eine kleine einmalige Gebühr wird Ihrer ersten Transaktion hinzugefügt, um Verschlüsselung einzurichten. "
+    "feeModalBody": "Verschlüsselung hilft, deine sensiblen Daten vertraulich zu halten. Eine kleine einmalige Gebühr wird deiner ersten Transaktion hinzugefügt, um Verschlüsselung einzurichten."
   },
   "sendToAddressWarning": {
     "title": "An eine Adresse senden",
-    "body": "Bitte stellen Sie sicher, dass die Adresse cUSD unterstützt. An ungültige Adressen gesendete Gelder sind möglicherweise nicht wiederherstellbar.\n\nSie können auch erwägen, zuerst eine kleine Testzahlung zu senden.",
+    "body": "Bitte stelle sicher, dass die Adresse cUSD unterstützt. An ungültige Adressen gesendete Gelder sind möglicherweise nicht wiederherstellbar.\n\nDu kannst auch erwägen, zuerst eine kleine Testzahlung zu senden.",
     "toggle": "Immer fragen"
   }
 }
