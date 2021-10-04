@@ -47,7 +47,7 @@
     "body1": "Beim Bestätigen Ihrer Telefonnummer ist ein Problem aufgetreten.",
     "body2": "Sie können jetzt die Bestätigung überspringen und später erneut versuchen.",
     "body1InsufficientBalance": "Ihr aktueller Kontostand ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.",
-    "body2InsufficientBalance": "Bitte versuchen Sie es erneut, wenn Sie Ihr Guthaben zur Geldbörse hinzugefügt haben.",
+    "body2InsufficientBalance": "Bitte versuche es erneut, wenn du deinem Wallet Finanzmittel hinzugefügt hast.",
     "body1SaltQuotaExceeded": "Ihr Telefonnummer-Suchkontingent ist aufgebraucht",
     "body2SaltQuotaExceeded": "Bitte versuchen Sie es erneut, wenn Sie mehr Lookups gekauft haben",
     "enterCodesBody": "Wenn Sie bereits drei Codes per SMS erhalten haben, können Sie diese trotzdem eingeben.",
