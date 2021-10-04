@@ -22,7 +22,7 @@
   "sellGoldAmount": "Verkaufen <0></0> $t(global:gold)",
   "includeExchangeFee": "* beinhaltet Umtauschgebühr",
   "available": "Verfügbar",
-  "newBalance": "Neuer Kontostand",
+  "newBalance": "Neuer Saldo",
   "continue": "Weiter",
   "reviewExchange": "Umtausch überprüfen",
   "fee": "Gebühr",
