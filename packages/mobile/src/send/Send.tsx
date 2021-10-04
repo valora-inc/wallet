@@ -43,7 +43,6 @@ interface Section {
 type Props = StackScreenProps<StackParamList, Screens.Send>
 
 function Send({ route }: Props) {
-  console.log('From Send Component:', route)
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
   const forceCurrency = route.params?.forceCurrency
