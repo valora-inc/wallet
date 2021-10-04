@@ -27,7 +27,7 @@
   "receiveWithBidali": "Geschenkkarten und Mobile Top Up",
   "fundingEducationDialog": {
     "title": "Ihre {{appName}} finanzieren",
-    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben. {{appName}} läuft auf Celo Dollars (cUSD), einer stabilen digitalen Währung, die den US-Dollar verfolgt.\n\nUm Ihr {{appName}} Wallet zu finanzieren, kaufen Sie cUSD von einem der Drittanbieter in Ihrem Standort. Für weitere Informationen besuche bitte <0>{{link}}</0>",
+    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben. {{appName}} läuft auf Celo Dollar (cUSD), einer stabilen digitalen Währung, die den US-Dollar verfolgt.\n\nUm dein {{appName}} Wallet zu finanzieren, kaufe cUSD von einem der Drittanbieter in deinem Standort. Für weitere Informationen besuche <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
