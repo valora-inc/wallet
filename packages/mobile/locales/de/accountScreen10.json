@@ -37,7 +37,7 @@
   },
   "promptConfirmRemovalModal": {
     "header": "Bist du dir sicher, dass du Valora zurücksetzen möchtest?",
-    "body": "Du wirst nicht mehr auf deine Finanzmittel oder deine Wiederherstellungsphrase von diesem Gerät aus zugreifen können. Es gibt keine Möglichkeit, deine Wiederherstellungsphrase wiederherzustellen, wenn du sie nicht aufgeschrieben hast.",
+    "body": "Du wirst nicht mehr auf deine Guthaben oder deine Wiederherstellungsphrase von diesem Gerät aus zugreifen können. Es gibt keine Möglichkeit, deine Wiederherstellungsphrase wiederherzustellen, wenn du sie nicht aufgeschrieben hast.",
     "resetNow": "Jetzt zurücksetzen"
   },
   "promptConfirmRevokeModal": {
