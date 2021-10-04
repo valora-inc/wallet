@@ -30,7 +30,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Erhalte ${{amount}}, indem Du einen Freund empfiehlst!",
-    "body": "Verdiene {{amount}} cUSD, wenn Du Krypto an einen Freund überweist und diese beitreten. <0>Mehr Infos</0>"
+    "body": "Verdiene {{amount}} cUSD, wenn Du Krypto an einen Freund überweist und diese beitreten. <0>Weitere Info</0>"
   },
   "getReward": "Erhalte ${{reward}}"
 }
