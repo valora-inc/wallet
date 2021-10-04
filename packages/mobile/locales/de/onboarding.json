@@ -5,14 +5,14 @@
     "step3": "Bequem, zuverlässig und sicher. Dein Telefon ist dein Wallet"
   },
   "welcome": {
-    "title": "Teilen Sie Geld mit denen, die es wert sind",
+    "title": "Teile Geld mit denen, die es wert sind",
     "createAccount": "Neues Konto erstellen",
     "restoreAccount": "Mein Konto wiederherstellen"
   },
   "contacts": {
     "disclosure": {
       "title": "Kontakte importieren",
-      "body": "Valora würde gerne Ihre Kontakte importieren. Durch Tippen unten erlaube ich den Zugriff auf Telefonnummern, Namen und Fotos meiner Kontakte zum Zweck der Verbindung mit ihnen über Valora"
+      "body": "Valora würde gerne deine Kontakte importieren. Durch Tippen auf dem unteren Button erlaube ich den Zugriff auf Telefonnummern, Namen und Fotos meiner Kontakte zum Zweck der Verbindung mit ihnen über Valora"
     }
   },
   "createAccount": "Konto erstellen",
@@ -30,7 +30,7 @@
   },
   "inviteCode": {
     "title": "Einladungscode",
-    "body": "Haben Sie eine Zahlung oder Einladung erhalten? Wenn ja, kopieren und fügen Sie den Einladungscode unten ein.",
+    "body": "Hast Du eine Zahlung oder Einladung erhalten? Wenn ja, kopiere und füge den Einladungscode unten ein.",
     "label": "Einladungscode",
     "codePlaceholder": "Einladungscode eingeben",
     "noCode": "Kein Einladungscode vorhanden",
@@ -40,8 +40,8 @@
   },
   "verificationEducation": {
     "title": "Telefonnummer",
-    "header": "Verbinden Sie Ihre Telefonnummer",
-    "body": "Um sicherzustellen, dass Ihre Nummer wirklich Ihre ist, senden wir Ihnen drei Nachrichten, von denen jede ungefähr 0,05 cUSD kosten wird.\n\nDie Bestätigung Ihrer Nummer dauert etwa drei Minuten.",
+    "header": "Verbinde deine Telefonnummer",
+    "body": "Um sicherzustellen, dass deine Nummer wirklich deine ist, senden wir dir drei Nachrichten, von denen jede ungefähr 0,05 cUSD kosten wird.\n\nDie Bestätigung deiner Nummer dauert etwa drei Minuten.",
     "feelessBody": "Die Verbindung dauert etwa drei Minuten. Um Ihre Nummer zu verbinden, erhalten Sie drei Nachrichten.",
     "start": "Start",
     "resume": "Fortfahren",
