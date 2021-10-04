@@ -1,6 +1,6 @@
 {
   "education": {
-    "step1": "{{appName}} ist eine neue Möglichkeit, Wert weltweit zu senden und zu empfangen",
+    "step1": "{{appName}} ist eine neue Möglichkeit, weltweit zu senden und zu empfangen.",
     "step2": "Sende Krypto in der ganzen Welt",
     "step3": "Bequem, zuverlässig und sicher. Dein Telefon ist dein Wallet"
   },
@@ -75,11 +75,11 @@
     "codeLabel2": "Zweiter Code",
     "codeLabel3": "Dritter Code",
     "codePlaceholder1": "Die erste Nachricht kopieren",
-    "codePlaceholder1_ios": "Tippe oder kopiere die erste Nachricht",
+    "codePlaceholder1_ios": "Code eingeben/einfügen",
     "codePlaceholder2": "Kopiere die zweite Nachricht",
-    "codePlaceholder2_ios": "Tippe oder kopiere die zweite Nachricht",
+    "codePlaceholder2_ios": "Code eingeben/einfügen",
     "codePlaceholder3": "Kopiere die dritte Nachricht",
-    "codePlaceholder3_ios": "Tippe oder kopiere die dritte Nachricht",
+    "codePlaceholder3_ios": "Code eingeben/einfügen",
     "codePlaceholderWithCodeInClipboard": "Großartig! Füge es hier ein",
     "resendMessages": "Letzte Nachricht erneut senden",
     "resendMessages_plural": "Sende {{count}} Nachrichten erneut",
