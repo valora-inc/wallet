@@ -20,7 +20,7 @@
   "important": "Wichtig",
   "createPin": {
     "title": "6-stellige PIN festlegen",
-    "yourPin": "Ihre PIN"
+    "yourPin": "Deine PIN"
   },
   "verifyPin": {
     "title": "PIN erneut eingeben"
@@ -31,11 +31,11 @@
   "goToSystemSecuritySettingsActionLabel": "Zur Sicherheit gehen",
   "enableSystemScreenLockFailedMessage": "Fehler beim Aktivieren der Bildschirmsperre",
   "initKeystoreFailureMessage": "Fehler beim Schlüsselspeicher",
-  "pinLostForeverMessage": "Sie haben die Bildschirmsperre entfernt, die PIN ist verloren",
+  "pinLostForeverMessage": "Du hast die Bildschirmsperre entfernt, die PIN ist verloren",
   "importContactsPermission": {
     "title": "Kontakte importieren",
-    "0": "Das Verbinden Ihres Adressbuchs macht es einfach, Zahlungen an Ihre Freunde zu senden und anzufordern. Andernfalls müssen Sie ihre Daten einzeln eingeben.",
-    "1": "Keine Sorge: Die Verbindung sendet keine Einladungen an Ihre Kontakte.",
+    "0": "Das Verbinden deines Adressbuchs macht es einfach, Zahlungen an deine Freunde zu senden und anzufordern. Andernfalls musst du ihre Daten einzeln eingeben.",
+    "1": "Keine Sorge: Die Verbindung sendet keine Einladungen an deine Kontakte.",
     "enable": "Kontaktzugriff aktivieren",
     "loading": "Freunde auf {{appName}} werden gefunden..."
   }
