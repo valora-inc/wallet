@@ -14,7 +14,7 @@
     "goldDisclaimer": "Wenn du ein „Konto“ mit Valora erstellst, erstellst du eine digitale Wallet zu der nur du die Schlüssel besitzt. Keine andere Person oder Entität, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verloren gegangene Gelder wiederherstellen. Bitte beachte, dass CELO, cUSD und cEUR Teil einer neuen Anlageklasse sind und ein Risiko für einen finanziellen Verlust darstellen. Berücksichtige deine finanziellen Umstände und Toleranz gegenüber finanziellen Risiken, bevor Du Vermögenswerte kaufst. du kannst nur bis zu {{dailyLimitCUSD}} cUSD pro Tag über Valora versenden (das „Tageslimit“). Du musst dich mit support@valoraapp.com in Verbindung setzen und zusätzliche persönliche Informationen angeben, um eine Erhöhung dieses Tageslimits zu beantragen. Es kann zu Verzögerungen bei der Erfüllung der erforderlichen Einhaltung kommen."
   },
   "fullName": "Vollständiger Name",
-  "fullNamePlaceholder": "Erste Letzte",
+  "fullNamePlaceholder": "Vollständiger Name",
   "importIt": "Wallet wiederherstellen",
   "cancel": "Abbrechen",
   "important": "Wichtig",
