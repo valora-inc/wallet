@@ -15,7 +15,13 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ALERT_BANNER_DURATION, DEFAULT_TESTNET, SHOW_TESTNET_BANNER } from 'src/config'
+import {
+  ALERT_BANNER_DURATION,
+  DEFAULT_TESTNET,
+  GOLD_TRANSACTION_MIN_AMOUNT,
+  SHOW_TESTNET_BANNER,
+  STABLE_TRANSACTION_MIN_AMOUNT,
+} from 'src/config'
 import { refreshAllBalances, setLoading } from 'src/home/actions'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import NotificationBox from 'src/home/NotificationBox'
@@ -32,6 +38,7 @@ import { initializeSentryUserContext } from 'src/sentry/actions'
 import { Balances, balancesSelector } from 'src/stableToken/selectors'
 import { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList from 'src/transactions/TransactionsList'
+import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import { checkContactsPermission } from 'src/utils/permissions'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -93,9 +100,11 @@ export class WalletHome extends React.Component<Props, State> {
       isMigrating: false,
     }
 
-    this.isAccountBalanceZero = Object.values(this.props.balances).some((balance) =>
-      balance?.isGreaterThan(0)
+    const hasStable = STABLE_CURRENCIES.some((currency) =>
+      props.balances[currency]?.isGreaterThan(STABLE_TRANSACTION_MIN_AMOUNT)
     )
+    const hasGold = props.balances[Currency.Celo]?.isGreaterThan(GOLD_TRANSACTION_MIN_AMOUNT)
+    this.isAccountBalanceZero = !hasStable && !hasGold
   }
 
   onRefresh = async () => {
