@@ -1,6 +1,6 @@
 {
   "receivedPayment": "Erhaltene Zahlung",
-  "receivedEscrowPayment": "Empfangene Escrow-Zahlung",
+  "receivedEscrowPayment": "Escrow-Zahlung erhalten",
   "from": "von",
   "celoWallet": "{{appName}}",
   "at": "bei",
