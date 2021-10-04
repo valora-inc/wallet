@@ -151,7 +151,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingBottom: variables.contentPadding,
-    paddingRight: 8,
   },
   pleaseSelectExchange: {
     ...fontStyles.regular,
