@@ -47,12 +47,12 @@
     "resume": "Fortfahren",
     "doINeedToConfirm": "Muss ich bestätigen?",
     "skipForNow": "Vorerst überspringen",
-    "bodyInsufficientBalance": "Dein aktueller Saldo ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.\n\nBitte versuchen es erneut, wenn du deinem Wallet Finanzmittel hinzugefügt hast.",
+    "bodyInsufficientBalance": "Dein aktueller Saldo ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.\n\nBitte versuchen es erneut, wenn du deinem Wallet Guthaben hinzugefügt hast.",
     "bodyAlreadyVerified": "Deine Nummer ist bereits bestätigt!"
   },
   "verificationSkipDialog": {
     "title": "Bist Du sicher?",
-    "body": "Bestätigen ermöglicht dir das Senden und Empfangen von Finanzmittel ganz einfach an deine Telefonnummer.\n\nUnbestätigte Konten können nur Zahlungen mit Celo-Adressen oder QR-Codes senden.",
+    "body": "Bestätigen ermöglicht dir das Senden und Empfangen von Guthaben ganz einfach an deine Telefonnummer.\n\nUnbestätigte Konten können nur Zahlungen mit Celo-Adressen oder QR-Codes senden.",
     "cancel": "Zurück",
     "confirm": "Vorerst überspringen"
   },
