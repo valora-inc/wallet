@@ -7,7 +7,7 @@
   "welcome": {
     "title": "Comparte dinero con quienes valoras",
     "createAccount": "Crear una cuenta",
-    "restoreAccount": "Tengo una cuenta"
+    "restoreAccount": "Restaurar cuenta existente"
   },
   "contacts": {
     "disclosure": {
@@ -16,7 +16,7 @@
     }
   },
   "createAccount": "Crear Cuenta",
-  "restoreAccount": "Restaurar conta existente",
+  "restoreAccount": "Restaurar cuenta existente",
   "createAccountSteps": "Paso {{step}} de 3",
   "restoreAccountSteps": "Paso {{step}} de 4",
   "selectCountryCode": "Seleccionar código de país",
