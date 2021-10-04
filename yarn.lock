@@ -2249,14 +2249,6 @@
     cross-fetch "3.0.4"
     debug "^4.1.1"
 
-"@celo/react-native-fast-crypto@^1.8.4":
-  version "1.8.4"
-  resolved "https://registry.yarnpkg.com/@celo/react-native-fast-crypto/-/react-native-fast-crypto-1.8.4.tgz#1aa5d435a2770289eaeada0ae814bc936d980c76"
-  integrity sha512-uyDRP07ayl8ODYm57URgMIE8GFBIm3/6BgdOOjfyuPu/E51Cdc1gnR//J0GkI/Re2CdWAu+2TE6YoBjHeirnjA==
-  dependencies:
-    buffer "^5.0.8"
-    rfc4648 "^1.0.0"
-
 "@celo/react-native-sms-retriever@git+https://github.com/celo-org/react-native-sms-retriever#11e078e":
   version "1.0.3"
   resolved "git+https://github.com/celo-org/react-native-sms-retriever#11e078e7631348d27bf7a0e8d0e172701ae30ea8"
@@ -23095,12 +23087,12 @@ react-native-autocomplete-input@^4.1.0:
   resolved "https://registry.yarnpkg.com/react-native-autocomplete-input/-/react-native-autocomplete-input-4.1.0.tgz#979ece28d891b245ecb967b6d31f1f924445b8ab"
   integrity sha512-Yn4GulZ9F6tde74UUGZHdVFeYWVuL7+EbUZy6kt+QHrzMc5B4OuRop1FT4RyWLpvbySW/vvqYgj9LAmlzkuEqA==
 
-"react-native-bip39@https://github.com/celo-org/react-native-bip39#6f41623":
+"react-native-bip39@https://github.com/celo-org/react-native-bip39#65facae":
   version "2.2.0"
-  resolved "https://github.com/celo-org/react-native-bip39#6f416235866f883d0e37e95f1b344070e9e1acda"
+  resolved "https://github.com/celo-org/react-native-bip39#65facae0b0d30484ca314a18a0eff77742e97df6"
   dependencies:
-    "@celo/react-native-fast-crypto" "^1.8.4"
     create-hash "^1.1.0"
+    react-native-fast-crypto "^2.0.0"
     react-native-securerandom "1.0.0"
     unorm "^1.3.3"
 
@@ -23162,6 +23154,14 @@ react-native-exit-app@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-exit-app/-/react-native-exit-app-1.1.0.tgz#5ec082152974240e2d6a93f1608efb49a4385f21"
   integrity sha512-Spne19zfMfJvnUTX909EHUqWMk69rATtLJq9XMBGpNSHhx0M7v5yetx2Z87egBhLOqQm+CWfD/oxWzDG8rbIQA==
+
+react-native-fast-crypto@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-fast-crypto/-/react-native-fast-crypto-2.0.0.tgz#d15958e089f3862ed6bd88ea6ef9ce241571e7a1"
+  integrity sha512-EcQL6XNK7l6hDcvrUwhvbKzV3Sm+iCoebrFBxhX94A+Gm+5Bihg3D9bHL/48M8wpxriuxpQksmk3qDqabnefCg==
+  dependencies:
+    buffer "^5.0.8"
+    rfc4648 "^1.0.0"
 
 "react-native-flag-secure-android@git://github.com/kristiansorens/react-native-flag-secure-android#e234251":
   version "1.0.0"
