@@ -4,7 +4,7 @@
   "inviteWithSMS": "Per SMS einladen",
   "inviteFee": "Einladungsgebühr",
   "whySendFees": "Diese Gebühr deckt die Kosten für den neuen Benutzer, um seine Telefonnummer zu verbinden",
-  "whyReceiveFees": "Dir wurde etwas Geld zur Bestätigung deines Kontos geschickt",
+  "whyReceiveFees": "Dir wurde etwas Krypto zur Bestätigung deines Kontos geschickt",
   "edit": "Bearbeiten",
   "to": "Zu",
   "inviteSent": "Einladung gesendet",
@@ -30,7 +30,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Erhalte ${{amount}}, indem Du einen Freund empfiehlst!",
-    "body": "Verdiene {{amount}} cUSD, wenn Du Geld an einen Freund überweist und diese beitreten. <0>Mehr erfahren</0>"
+    "body": "Verdiene {{amount}} cUSD, wenn Du Krypto an einen Freund überweist und diese beitreten. <0>Mehr erfahren</0>"
   },
   "getReward": "Erhalte ${{reward}}"
 }
