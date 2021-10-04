@@ -2,7 +2,7 @@
   "education": {
     "step1": "{{appName}} ist eine neue Möglichkeit, Wert weltweit zu senden und zu empfangen",
     "step2": "Guthaben über Grenzen hinweg senden",
-    "step3": "Bequem, zuverlässig und sicher. Ihr Telefon ist Ihre Geldbörse"
+    "step3": "Bequem, zuverlässig und sicher. Dein Telefon ist dein Wallet"
   },
   "welcome": {
     "title": "Teilen Sie Geld mit denen, die es wert sind",
@@ -34,7 +34,7 @@
     "label": "Einladungscode",
     "codePlaceholder": "Einladungscode eingeben",
     "noCode": "Kein Einladungscode vorhanden",
-    "nodeCodeInviteLink": "Sie haben noch keinen Einladungscode? Fordern Sie einen auf <0>celo.org/developers/wallet </0> an oder <1>ohne </1> fortfahren",
+    "nodeCodeInviteLink": "Du hast noch keinen Einladungscode? Fordere einen auf <0>celo.org/developers/wallet </0> an oder <1>ohne </1> fortfahren",
     "loadingHeader": "Account wird erstellt...",
     "loadingBody": "Dies kann bis zu 90 Sekunden dauern"
   },
@@ -47,7 +47,7 @@
     "resume": "Fortfahren",
     "doINeedToConfirm": "Muss ich bestätigen?",
     "skipForNow": "Vorerst überspringen",
-    "bodyInsufficientBalance": "Ihr aktueller Kontostand ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.\n\nBitte versuchen Sie es erneut, wenn Sie Ihrer Geldbörse Guthaben hinzugefügt haben.",
+    "bodyInsufficientBalance": "Dein aktueller Kontostand ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.\n\nBitte versuchen es erneut, wenn du deinem Wallet Finanzmittel hinzugefügt hast.",
     "bodyAlreadyVerified": "Ihre Nummer ist bereits bestätigt!"
   },
   "verificationSkipDialog": {
