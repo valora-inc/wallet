@@ -20,7 +20,7 @@
   "moreInfo": "Weitere Infos",
   "savedConfirmation": "Ja, ich habe meine Phrase aufgeschrieben.",
   "backupQuizWordCount": "Was ist das <0>{{ordinal}}</0> Wort Ihrer Wiederherstellungsphrase?",
-  "importBackupFailed": "Import der Geldbörse fehlgeschlagen",
+  "importBackupFailed": "Import des Wallets fehlgeschlagen",
   "backupQuizFailed": "Die Wiederherstellungsphrase ist falsch. Bitte versuchen Sie es erneut.",
   "invalidBackupPhrase": "Wiederherstellungsphrase ungültig",
   "invalidWordsInBackupPhrase": "Einige Wörter in der Wiederherstellungsphrase sind ungültig: {{ invalidWords }}",
@@ -32,7 +32,7 @@
   },
   "cancelDialog": {
     "title": "Einrichten Ihrer Wiederherstellungsphrase abschließen",
-    "body": "Ihre Wiederherstellungsphrase ist extrem wichtig. Ohne eine Phrase können Sie den Zugriff auf Ihr Wallet für immer verlieren.\nSie werden vom Senden von Transaktionen blockiert, bis Sie die Einrichtung Ihrer Wiederherstellungsphrase abgeschlossen haben.",
+    "body": "Deine Wiederherstellungsphrase ist extrem wichtig. Ohne eine Phrase kannst du den Zugriff auf dein Wallet für immer verlieren.\nDu wirst vom Senden von Transaktionen blockiert, bis du die Einrichtung deiner Wiederherstellungsphrase abgeschlossen hast.",
     "action": "Jetzt abschließen",
     "secondary": "Später einrichten"
   },
