@@ -50,8 +50,8 @@
     "continue": "Ich verstehe"
   },
   "providerFeesDialog": {
-    "title": "Provider-Gebühren",
-    "body1": "Die Anbietergebühren werden von jedem Anbieter individuell festgelegt und beinhalten unter anderem eine Umtauschgebühr und Liquiditätsgebühren. Um mehr zu erfahren, besuchen Sie bitte",
+    "title": "Anbieter-Gebühren",
+    "body1": "Die Anbietergebühren werden von jedem Anbieter individuell festgelegt und beinhalten unter anderem eine Umtauschgebühr und Liquiditätsgebühren. Um mehr zu erfahren, besuche bitte ",
     "body2": "Webseite von {{providerName}}"
   },
   "providerFeeDiscountDialog": {
@@ -59,11 +59,11 @@
     "body": "Als Promotion werden Gebühren vorübergehend subventioniert, um den Start von Valora zu feiern!"
   },
   "dailyLimitRequest": "Hallo! Ich möchte mein tägliches Sendelimit erhöhen.",
-  "pleaseSelectProvider": "Bitte wählen Sie unten einen Anbieter aus. Diese Links verbinden sich mit einem Drittanbieter.",
-  "otherFundingOptions": "Weitere Möglichkeiten zum Hinzufügen und Auszahlen von Guthaben finden Sie auf <0>Wie Sie Ihr Konto aufladen</0>",
-  "youCanTransfer": "Sie können {{currency}} an oder von den folgenden Kryptobörsen überweisen. Sie benötigen Ihre Konto-Adresse.",
-  "useBalanceWithMerchants": "Verwenden Sie Ihr Guthaben bei unterstützenden Händlern",
-  "findMerchants": "Lokale Händler in Ihrer Nähe finden",
+  "pleaseSelectProvider": "Bitte wähle unten einen Anbieter aus. Diese Links verbinden sich mit einem Drittanbieter.",
+  "otherFundingOptions": "Weitere Möglichkeiten zum Hinzufügen und Auszahlen von Guthaben findest du auf <0>Wie du dein Konto aufladest</0>",
+  "youCanTransfer": "Du kannst {{currency}} an oder von den folgenden Umtauschen Kryptobörsen. Du benötigst deine Konto-Adresse.",
+  "useBalanceWithMerchants": "Verwende Dein Saldo bei unterstützenden Händlern",
+  "findMerchants": "Lokale Händler in deiner Nähe finden",
   "celoDeposit": "CELO-Kauf",
   "cUsdDeposit": "cUSD-Kauf",
   "providerUnavailable": "Derzeit nicht verfügbar",
@@ -73,11 +73,11 @@
   "continueToProvider": "Weiter zu {{provider}}",
   "cicoSuccess": {
     "title": "Bestellung versendet!",
-    "bodyWithProvider": "{{provider}} bearbeitet Ihre Bestellung. Sie sollten Ihr Guthaben innerhalb weniger Tage erhalten.",
-    "bodyWithoutProvider": "Der Dienstleister bearbeitet Ihre Bestellung. Sie sollten Ihr Guthaben innerhalb weniger Tage erhalten."
+    "bodyWithProvider": "{{provider}} bearbeitet deine Bestellung. Du solltest dein Guthaben innerhalb weniger Tage erhalten.",
+    "bodyWithoutProvider": "Der Dienstleister bearbeitet deine Bestellung. Du solltest dein Guthaben innerhalb weniger Tage erhalten."
   },
   "restrictedRegion": "Begrenzte Unterstützung in der Region",
-  "unsupportedPaymentMethod": "Die Bezahlung mit einem {{paymentMethod}} wird in Ihrer Region nicht unterstützt",
+  "unsupportedPaymentMethod": "Die Bezahlung mit {{paymentMethod}} wird in deinem Land nicht unterstützt",
   "noProviders": "Es gibt keine Anbieter für {{digitalAsset}} in deinem Land.",
   "switchCurrency": "Währung wechseln"
 }
