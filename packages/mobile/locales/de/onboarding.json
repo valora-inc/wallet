@@ -42,45 +42,45 @@
     "title": "Telefonnummer",
     "header": "Verbinde deine Telefonnummer",
     "body": "Um sicherzustellen, dass deine Nummer wirklich deine ist, senden wir dir drei Nachrichten, von denen jede ungefähr 0,05 cUSD kosten wird.\n\nDie Bestätigung deiner Nummer dauert etwa drei Minuten.",
-    "feelessBody": "Die Verbindung dauert etwa drei Minuten. Um Ihre Nummer zu verbinden, erhalten Sie drei Nachrichten.",
+    "feelessBody": "Die Verbindung dauert etwa drei Minuten. Um deine Nummer zu bestätigen, erhältst Du drei Nachrichten.",
     "start": "Start",
     "resume": "Fortfahren",
     "doINeedToConfirm": "Muss ich bestätigen?",
     "skipForNow": "Vorerst überspringen",
     "bodyInsufficientBalance": "Dein aktueller Kontostand ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.\n\nBitte versuchen es erneut, wenn du deinem Wallet Finanzmittel hinzugefügt hast.",
-    "bodyAlreadyVerified": "Ihre Nummer ist bereits bestätigt!"
+    "bodyAlreadyVerified": "Deine Nummer ist bereits bestätigt!"
   },
   "verificationSkipDialog": {
-    "title": "Sind Sie sicher?",
-    "body": "Bestätigen ermöglicht Ihnen das Senden und Empfangen von Guthaben ganz einfach an Ihre Telefonnummer.\n\nUnbestätigte Konten können nur Zahlungen mit Celo-Adressen oder QR-Codes senden.",
+    "title": "Bist Du sicher?",
+    "body": "Bestätigen ermöglicht dir das Senden und Empfangen von Finanzmittel ganz einfach an deine Telefonnummer.\n\nUnbestätigte Konten können nur Zahlungen mit Celo-Adressen oder QR-Codes senden.",
     "cancel": "Zurück",
     "confirm": "Vorerst überspringen"
   },
-  "verificationPrematureRevealMessage": "Bitte warten Sie eine Minute, bevor Sie erneut senden",
+  "verificationPrematureRevealMessage": "Bitte warte eine Minute, bevor Du erneut sendest",
   "verificationLearnMoreDialog": {
     "title": "Telefonnummern und {{appName}}",
-    "body": "Verbinden macht es einfach, sich mit Ihren Freunden zu verbinden, indem Sie Ihnen das Senden und Empfangen von Guthaben an Ihre Telefonnummer ermöglichen.\n\n<0>Kann ich dies später tun? </0>\n\nJa, aber unbestätigte Konten können nur Zahlungen mit QR-Codes oder Konto-Adressen senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um Ihre Telefonnummer privat zu halten.",
+    "body": "Bestätigen macht es einfach, sich mit deinen Freunden zu verbinden, indem dir das Senden und Empfangen von Saldo an deine Telefonnummer ermöglicht wird.\n\n<0>Kann ich dies später tun? </0>\n\nJa, aber unbestätigte Konten können nur Zahlungen mit QR-Codes oder Kontonummern senden.\n\n<1>Sicher und privat</1>\n\nValora verwendet modernste Kryptographie, um deine Telefonnummer privat zu halten.",
     "dismiss": "Verwerfen"
   },
   "importExistingKey": {
-    "explanation": "Ihre Wiederherstellungsphrase ist eine 24-Wort-Phrase, die Sie bei der Einrichtung Ihres Kontos aufgeschrieben und gespeichert haben. Bitte geben Sie es hier ein, um Ihr Konto wiederherzustellen.",
-    "keyPlaceholder": "Pferd Leopard Hund Affe ..."
+    "explanation": "Deine Wiederherstellungsphrase ist eine 24-Wort-Phrase, die Du bei der Einrichtung deines Kontos aufgeschrieben und gespeichert hast. Bitte gib es hier ein, um dein Konto wiederherzustellen.",
+    "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {
     "title": "Bestätigen",
-    "body": "Wir haben Ihnen drei Nachrichten (SMS) gesendet. Bitte kopieren Sie diese und fügen Sie sie unten ein.",
+    "body": "Wir haben dir drei Nachrichten (SMS) gesendet. Bitte kopiere diese und füge sie unten ein.",
     "body_ios": "Wir haben dir drei Nachrichten (SMS) gesendet. Bitte tippe auf den Link in jeder Nachricht, um die folgenden Codes auszufüllen oder kopiere sie und füge sie manuell ein.",
-    "body_short": "Wir haben drei Codes an {{phoneNumber}} gesendet, bitte geben Sie sie unten ein.",
+    "body_short": "Wir haben drei Codes an {{phoneNumber}} gesendet, bitte gib sie unten ein.",
     "codeLabel1": "Erster Code",
     "codeLabel2": "Zweiter Code",
     "codeLabel3": "Dritter Code",
     "codePlaceholder1": "Die erste Nachricht kopieren",
-    "codePlaceholder1_ios": "Tippen oder kopieren Sie die erste Nachricht",
-    "codePlaceholder2": "Die zweite Nachricht kopieren",
-    "codePlaceholder2_ios": "Tippen oder kopieren Sie die zweite Nachricht",
-    "codePlaceholder3": "Die dritte Nachricht kopieren",
-    "codePlaceholder3_ios": "Tippen oder kopieren Sie die dritte Nachricht",
-    "codePlaceholderWithCodeInClipboard": "Großartig! Fügen Sie es hier ein",
+    "codePlaceholder1_ios": "Tippe oder kopiere die erste Nachricht",
+    "codePlaceholder2": "Kopiere die zweite Nachricht",
+    "codePlaceholder2_ios": "Tippe oder kopiere die zweite Nachricht",
+    "codePlaceholder3": "Kopiere die dritte Nachricht",
+    "codePlaceholder3_ios": "Tippe oder kopiere die dritte Nachricht",
+    "codePlaceholderWithCodeInClipboard": "Großartig! Füge es hier ein",
     "resendMessages": "Letzte Nachricht erneut senden",
     "resendMessages_plural": "Sende {{count}} Nachrichten erneut",
     "resendMessages_all": "Alle Nachrichten erneut senden"
@@ -93,7 +93,7 @@
     },
     "bodySection2": {
       "title": "Einige oder alle Nachrichten fehlen?",
-      "defaultContent": "Wenn Sie Probleme mit dem Empfang von Nachrichten haben, können Sie diesen Schritt vorerst überspringen und später erneut versuchen. Manchmal kann es einige Minuten dauern, bis Nachrichten eintreffen.",
+      "defaultContent": "Wenn Du Probleme mit dem Empfang von Nachrichten hast, kannst Du diesen Schritt vorerst überspringen und später erneut versuchen. Manchmal kann es einige Minuten dauern, bis Nachrichten eintreffen.",
       "content": "$t(verificationInputHelpDialog.bodySection2.defaultContent)",
       "content_countdown": "$t(verificationInputHelpDialog.bodySection2.defaultContent) Die überspringende Option wird in {{count}} Sekunde verfügbar sein.",
       "content_countdown_plural": "$t(verificationInputHelpDialog.bodySection2.defaultContent) Die überspringende Option wird in {{count}} Sekunden verfügbar sein."
@@ -103,12 +103,12 @@
     "back": "Zurück"
   },
   "emptyAccount": {
-    "description": "Dieses Konto hat kein Guthaben. Möchten Sie es trotzdem verwenden?",
+    "description": "Dieses Konto hat kein Guthaben. Möchtest Du es trotzdem verwenden?",
     "useAccount": "Konto benutzen",
-    "title": "Kontostand <0></0>"
+    "title": "Saldo <0></0>"
   },
   "success": {
-    "message": "Sie sind fertig!"
+    "message": "Du bist fertig!"
   },
-  "verificationUnavailable": "Die Bestätigung der Telefonnummer ist derzeit nicht verfügbar. Bitte geben Sie Ihre Telefonnummer ein und wir werden Sie benachrichtigen, wenn es möglich ist erneut zu bestätigen.\n\nIn der Zwischenzeit können Sie Valora weiter verwenden! Zahlungen, die an Ihre Telefonnummer gesendet werden, werden sicher getätigt, bis Sie diese durch Bestätigung Ihrer Telefonnummer einlösen."
+  "verificationUnavailable": "Die Bestätigung der Telefonnummer ist derzeit nicht verfügbar. Bitte gib deine Telefonnummer ein und wir werden dich benachrichtigen, wenn es möglich ist erneut zu bestätigen.\n\nIn der Zwischenzeit kannst du Valora weiter verwenden! Zahlungen, die an deine Telefonnummer gesendet werden, werden sicher getätigt, bis du diese durch Bestätigung deiner Telefonnummer einlöst."
 }
