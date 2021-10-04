@@ -50,7 +50,7 @@
   "sendToMobileNumber": "An Telefonnummer senden",
   "requestFromMobileNumber": "Anfrage von Telefonnummer",
   "sendToAddress": "An Adresse senden",
-  "walletAddress": "Geldbörse-Adresse",
+  "walletAddress": "Wallet-Adresse",
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Geld weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte Sie einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Geld weltweit zu überweisen. Ich habe Ihnen gerade {{amount}} {{currency}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{currency}} mit diesem Link ein: {{link}}",
   "inviteSent": "Einladungscode gesendet!",
