@@ -12,7 +12,7 @@
     "signTransaction": "Unterzeichne ein Celo TX",
     "sendTransaction": "Ein Celo TX senden",
     "decrypt": "Daten-Payload entschlüsseln",
-    "accounts": "Lese deine {{appName}} Kontonummer",
+    "accounts": "Lese deine {{appName}} Konto-Adresse",
     "details": "Details anzeigen",
     "computeSharedSecret": "Geheimnisse generieren"
   },
