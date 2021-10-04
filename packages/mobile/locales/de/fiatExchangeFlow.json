@@ -14,7 +14,7 @@
   "celoDollar": "Celo Dollar",
   "celoEuro": "Celo Euro",
   "celoDollars": "Celo Dollars",
-  "tapToCopyCeloDollarsAddress": "Tippen, um Ihre {{appName}} CUSD-Adresse zu kopieren",
+  "tapToCopyCeloDollarsAddress": "Tippe, um deine {{appName}} cUSD-Adresse zu kopieren",
   "disclaimerFiat": "{{currency}}-Werte sind Schätzungen.",
   "dollarsNotYetEnabledNote": "Celo Dollars sind noch nicht bei anderen Anbietern verfügbar. Um Celo Dollars zu erhalten, erwerben Sie CELO und tauschen Sie diese gegen Celo Dollars im CELO Tab.",
   "selectDigitalCurrency": "Eine digitale Währung auswählen",
