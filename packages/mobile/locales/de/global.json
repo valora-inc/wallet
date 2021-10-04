@@ -170,7 +170,7 @@
   ],
   "addressValidationError": "Die eingegebenen Kontoinformationen waren ungültig",
   "addressValidationNoMatch": "Die eingegebenen Kontoinformationen stimmen mit keinem Kontakt überein",
-  "addressValidationFullPoorlyFormatted": "Kontonummern beginnen mit „0x“, enthalten nur Zahlen und Buchstaben und sind 42 Zeichen lang. Drücke auf den Link unten, um Hilfe zu erhalten",
+  "addressValidationFullPoorlyFormatted": "Konto-Adressen beginnen mit „0x“, enthalten nur Zahlen und Buchstaben und sind 42 Zeichen lang. Drücke auf den Link unten, um Hilfe zu erhalten",
   "addressValidationPartialPoorlyFormatted": "Konto-Adressen enthalten nur Zahlen und Buchstaben, bitte gib die letzten 4 Ziffern an. Klicke auf den Link unten, um Hilfe zu erhalten",
   "addressValidationFullOwnAddress": "Bitte gib die Kontonummer deines Kontakts ein, nicht deine eigene. Klicke auf den Link unten, um Hilfe zu erhalten",
   "addressValidationPartialOwnAddress": "Bitte gib die letzten 4 Ziffern der Kontonummer deines Kontakts ein, nicht deine eigene. Klicke unten auf den Link, um Hilfe zu erhalten",
