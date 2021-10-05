@@ -202,7 +202,6 @@ export type StackParamList = {
     | {
         isOutgoingPaymentRequest?: boolean
         skipContactsImport?: boolean
-        defaultCurrency?: Currency
         forceCurrency?: Currency
       }
     | undefined
