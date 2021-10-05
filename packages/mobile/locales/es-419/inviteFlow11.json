@@ -25,12 +25,12 @@
   "sendAndInvite": "Envía e invita",
   "inviteAndSendDialog": {
     "title": "Invita y envía",
-    "body": "Tu pago estará pendiente hasta que {{name}} conecte su número de teléfono. ",
+    "body": "Tu pago estará pendiente hasta que {{name}} conecte su número de teléfono. Envíale un mensaje de invitación para que se registre en {{appName}} y reciba tu pago.",
     "button": "Invitar"
   },
   "inviteRewardsBanner": {
-    "title": "¡Obtén ${{amount}} por referir a un amigo!",
-    "body": "Gana {{amount}} cUSD cuando envíes dinero a un amigo y se una. <0>Más información</0>"
+    "title": "Consigue {{amount}} {{currency}} refiriendo a un amigo!",
+    "body": "Gana {{amount}} {{currency}} cuando envíes dinero a un amigo y éste se una. <0>Más información</0>"
   },
   "getReward": "Obtén ${{reward}}"
 }
