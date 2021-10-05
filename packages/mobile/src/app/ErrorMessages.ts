@@ -84,7 +84,7 @@ export enum ErrorMessages {
   SIMPLEX_PURCHASE_FETCH_FAILED = 'simplexPurchaseFetchFailed',
   PROVIDER_FETCH_FAILED = 'providerFetchFailed',
   CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',
-  WC2_UNSUPPORTED = 'walletConnect:v2Unsupported',
   KYC_EMAIL_NOT_SENT = 'accountScreen10:kycEmailNotSent',
+  WC2_UNSUPPORTED = 'walletConnect:v2Unsupported',
   PERSONA_ACCOUNT_ENDPOINT_FAIL = 'personaAccountEndpointFail',
 }
