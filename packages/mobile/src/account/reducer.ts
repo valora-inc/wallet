@@ -49,7 +49,7 @@ export enum KycStatus {
   AccountCreated = 'AccountCreated',
   Verified = 'Verified',
   Denied = 'Denied',
-  Pending = 'Pending',
+  PendingReview = 'PendingReview',
 }
 
 export const initialState: State = {

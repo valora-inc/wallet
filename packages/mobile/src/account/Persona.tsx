@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import Inquiry, { InquiryAttributes } from 'react-native-persona'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { KycStatus } from 'src/account/reducer'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -12,6 +12,7 @@ import { readOnceFromFirebase } from 'src/firebase/firebase'
 import networkConfig from 'src/geth/networkConfig'
 import { Namespaces } from 'src/i18n'
 import Logger from 'src/utils/Logger'
+import { accountAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'PERSONA'
 
@@ -22,6 +23,12 @@ interface Props {
 const Persona = ({ kycStatus }: Props) => {
   const { t } = useTranslation(Namespaces.accountScreen10)
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
+
+  const accountAddress = useSelector(accountAddressSelector)
+  if (!accountAddress) {
+    Logger.error(TAG, "Can't render Persona because accountAddres is null")
+    return null
+  }
 
   const dispatch = useDispatch()
 
@@ -35,6 +42,7 @@ const Persona = ({ kycStatus }: Props) => {
     }
 
     Inquiry.fromTemplate(templateId)
+      .referenceId(accountAddress)
       .environment(networkConfig.personaEnvironment)
       .onSuccess((inquiryId: string, attributes: InquiryAttributes) => {
         console.log(`Inquiry completed for ${inquiryId} with attributes: ${attributes}`)
@@ -51,7 +59,12 @@ const Persona = ({ kycStatus }: Props) => {
 
   useAsync(async () => {
     if (!personaAccountCreated) {
-      const response = await fetch(`${networkConfig.inhouseLiquditiyUrl}/persona/account/create`)
+      const response = await fetch(`${networkConfig.inhouseLiquditiyUrl}/persona/account/create`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accountAddress }),
+      })
+
       if (response.status === 201 || response.status === 409) {
         setPersonaAccountCreated(true)
       } else {

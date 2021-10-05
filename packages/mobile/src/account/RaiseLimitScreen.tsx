@@ -6,10 +6,15 @@ import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
+import { sendEmail } from 'src/account/emailSender'
 import Persona from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import { cUsdDailyLimitSelector, kycStatusSelector } from 'src/account/selectors'
+import { showError, showMessage } from 'src/alert/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
+import { CELO_SUPPORT_EMAIL_ADDRESS } from 'src/config'
 import i18n, { Namespaces } from 'src/i18n'
 import ApprovedIcon from 'src/icons/ApprovedIcon'
 import DeniedIcon from 'src/icons/DeniedIcon'
@@ -21,6 +26,7 @@ import useSelector from 'src/redux/useSelector'
 import { getRecentPayments } from 'src/send/selectors'
 import { dailyAmountRemaining } from 'src/send/utils'
 import { Currency } from 'src/utils/currencies'
+import { Logger } from 'walletconnect-v2/types'
 
 const RaiseLimitScreen = () => {
   const { t } = useTranslation(Namespaces.accountScreen10)
@@ -28,8 +34,27 @@ const RaiseLimitScreen = () => {
   const kycStatus = useSelector(kycStatusSelector)
   const numberIsVerified = useSelector((state) => state.app.numberVerified)
   const recentPayments = useSelector(getRecentPayments)
+  const accountAddress = useSelector(accountAddressSelector)
+
+  const dispatch = useDispatch()
 
   const kycAttemptAllowed = !kycStatus || kycStatus === KycStatus.AccountCreated
+
+  const sendSupportEmail = async () => {
+    try {
+      await sendEmail({
+        subject: t('kycEmailSubject'),
+        recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
+        body: t('kycEmailBody', { address: accountAddress }),
+        isHTML: true,
+      })
+
+      dispatch(showMessage(t('kycEmailSuccess')))
+    } catch (error) {
+      dispatch(showError(ErrorMessages.KYC_EMAIL_NOT_SENT))
+      Logger.error('Error sending indentity verification email', error)
+    }
+  }
 
   const applicationStatusTexts = useMemo(() => {
     if (kycAttemptAllowed) {
@@ -37,7 +62,7 @@ const RaiseLimitScreen = () => {
     }
 
     return {
-      [KycStatus.Pending]: {
+      [KycStatus.PendingReview]: {
         title: t('applicationInReview'),
         description: t('applicationInReviewDescription'),
         icon: <InProgressIcon />,
@@ -57,8 +82,16 @@ const RaiseLimitScreen = () => {
 
   const renderButton = () => {
     if (kycStatus === KycStatus.Denied) {
-      // TODO: return a button that triggers an email to support
-      return null
+      return (
+        <Button
+          onPress={sendSupportEmail}
+          text={t('contactSupport')}
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.FULL}
+          style={styles.button}
+          testID="ContactSupportButton"
+        />
+      )
     }
 
     if (!kycStatus || kycStatus === KycStatus.AccountCreated) {

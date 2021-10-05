@@ -85,5 +85,6 @@ export enum ErrorMessages {
   PROVIDER_FETCH_FAILED = 'providerFetchFailed',
   CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',
   WC2_UNSUPPORTED = 'walletConnect:v2Unsupported',
+  KYC_EMAIL_NOT_SENT = 'accountScreen10:kycEmailNotSent',
   PERSONA_ACCOUNT_ENDPOINT_FAIL = 'personaAccountEndpointFail',
 }
