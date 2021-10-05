@@ -97,7 +97,7 @@ export function* watchKycStatus() {
   try {
     while (true) {
       const kycStatus = yield take(channel)
-      if (Object.values(KycStatus).includes(kycStatus)) {
+      if (kycStatus === undefined || Object.values(KycStatus).includes(kycStatus)) {
         yield put(updateKycStatus(kycStatus))
       } else {
         Logger.error(`${TAG}@watchKycStatus`, 'KYC status is invalid or non-existant', kycStatus)

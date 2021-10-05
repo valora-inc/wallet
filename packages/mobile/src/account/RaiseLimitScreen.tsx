@@ -106,7 +106,7 @@ const RaiseLimitScreen = () => {
           type={BtnTypes.SECONDARY}
           size={BtnSizes.FULL}
           style={styles.button}
-          testID="RaiseLimitButton"
+          testID="ConfirmNumberButton"
         />
       )
     }

@@ -164,7 +164,7 @@ export interface ProfileUploadedAction {
 
 export interface UpdateKycStatusAction {
   type: Actions.UPDATE_KYC_STATUS
-  kycStatus: KycStatus
+  kycStatus?: KycStatus
 }
 
 export type ActionTypes =
@@ -356,7 +356,7 @@ export const profileUploaded = (): ProfileUploadedAction => ({
   type: Actions.PROFILE_UPLOADED,
 })
 
-export const updateKycStatus = (kycStatus: KycStatus): UpdateKycStatusAction => ({
+export const updateKycStatus = (kycStatus?: KycStatus): UpdateKycStatusAction => ({
   type: Actions.UPDATE_KYC_STATUS,
   kycStatus,
 })

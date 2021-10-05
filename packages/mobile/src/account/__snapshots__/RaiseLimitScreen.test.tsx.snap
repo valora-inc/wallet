@@ -9,60 +9,108 @@ exports[`RaiseLimitScreen renders correctly 1`] = `
     }
   }
 >
-  <Text
-    style={
-      Object {
-        "color": "#9CA4A9",
-        "fontFamily": "Inter-SemiBold",
-        "fontSize": 13,
-        "lineHeight": 16,
-        "marginBottom": 8,
-      }
-    }
-  >
-    dailyLimitLabel
-  </Text>
-  <Text
-    style={
-      Object {
-        "color": "#2E3338",
-        "fontFamily": "Inter-Medium",
-        "fontSize": 16,
-        "lineHeight": 22,
-        "marginBottom": 16,
-      }
-    }
-  >
-    dailyLimitValue, {"dailyLimit":1000}
-  </Text>
-  <Text
-    style={
-      Object {
-        "color": "#2E3338",
-        "fontFamily": "Inter-Regular",
-        "fontSize": 14,
-        "lineHeight": 18,
-      }
-    }
-  >
-    verifyIdentityToRaiseLimit
-  </Text>
   <View
     style={
       Object {
-        "flex": 1,
+        "marginBottom": 24,
       }
     }
-  />
+  >
+    <Text
+      style={
+        Object {
+          "color": "#9CA4A9",
+          "fontFamily": "Inter-SemiBold",
+          "fontSize": 13,
+          "lineHeight": 16,
+          "marginBottom": 8,
+        }
+      }
+    >
+      dailyLimitLabel
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Inter-SemiBold",
+            "fontSize": 24,
+            "lineHeight": 27,
+          },
+          Object {
+            "color": "#2E3338",
+          },
+        ]
+      }
+      testID="undefined/value"
+    >
+      
+      $
+      1,330.00
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#2E3338",
+          "fontFamily": "Inter-Medium",
+          "fontSize": 14,
+          "lineHeight": 18,
+          "marginBottom": 24,
+          "marginTop": 4,
+        }
+      }
+    >
+      dailyLimitValue, {"dailyLimit":1000}
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#2E3338",
+          "fontFamily": "Inter-Regular",
+          "fontSize": 14,
+          "lineHeight": 18,
+          "marginTop": 8,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            undefined,
+            Object {
+              "color": undefined,
+            },
+          ]
+        }
+        testID="undefined/value"
+      >
+        
+        $
+        1,330.00
+      </Text>
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#2E3338",
+          "fontFamily": "Inter-Regular",
+          "fontSize": 14,
+          "lineHeight": 18,
+          "marginTop": 8,
+        }
+      }
+    >
+      verifyIdentityToRaiseLimit
+    </Text>
+  </View>
   <View
     style={
       Array [
         Object {
           "flexDirection": "column",
         },
-        Object {
-          "marginBottom": 24,
-        },
+        undefined,
       ]
     }
   >
@@ -80,7 +128,7 @@ exports[`RaiseLimitScreen renders correctly 1`] = `
     >
       <View
         accessible={true}
-        focusable={true}
+        focusable={false}
         nativeBackgroundAndroid={
           Object {
             "attribute": "selectableItemBackground",
@@ -98,7 +146,7 @@ exports[`RaiseLimitScreen renders correctly 1`] = `
         style={
           Object {
             "alignItems": "center",
-            "backgroundColor": "#1AB775",
+            "backgroundColor": "#97DFC1",
             "flexGrow": 1,
             "height": 48,
             "justifyContent": "center",
@@ -107,7 +155,7 @@ exports[`RaiseLimitScreen renders correctly 1`] = `
             "paddingVertical": 5,
           }
         }
-        testID="RaiseLimitButton"
+        testID="PersonaButton"
       >
         <Text
           maxFontSizeMultiplier={1}

@@ -11,7 +11,7 @@ import { createMockStore } from 'test/utils'
 
 const renderSupport = () =>
   render(
-    <Provider store={createMockStore({})}>
+    <Provider store={createMockStore()}>
       <Support />
     </Provider>
   )

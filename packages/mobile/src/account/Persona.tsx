@@ -26,7 +26,7 @@ const Persona = ({ kycStatus }: Props) => {
 
   const accountAddress = useSelector(accountAddressSelector)
   if (!accountAddress) {
-    Logger.error(TAG, "Can't render Persona because accountAddres is null")
+    Logger.error(TAG, "Can't render Persona because accountAddress is null")
     return null
   }
 

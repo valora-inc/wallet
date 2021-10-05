@@ -1,3 +1,4 @@
+import Button from '@celo/react-components/components/Button'
 import * as React from 'react'
 import 'react-native'
 import { fireEvent, render } from 'react-native-testing-library'
@@ -6,14 +7,21 @@ import * as renderer from 'react-test-renderer'
 import { sendEmail } from 'src/account/emailSender'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { KycStatus } from 'src/account/reducer'
+import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { PaymentInfo } from 'src/send/reducers'
 import { createMockStore } from 'test/utils'
 
-const createStore = (numberVerified: boolean, dailyLimitRequestStatus?: KycStatus) =>
+const createStore = (
+  numberVerified: boolean,
+  kycStatus?: KycStatus,
+  recentPayments: PaymentInfo[] = []
+) =>
   createMockStore({
     app: { numberVerified },
-    account: { dailyLimitRequestStatus },
+    account: { kycStatus },
+    send: { recentPayments },
   })
 
 jest.mock('src/firebase/firebase')
@@ -33,87 +41,105 @@ describe('RaiseLimitScreen', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it("when application wasn't started there's no status and button is enabled", async () => {
-    const { queryByTestId, getByTestId } = render(
-      <Provider store={createStore(true)}>
-        <RaiseLimitScreen />
-      </Provider>
-    )
-
-    expect(queryByTestId('ApplicationStatus')).toBeFalsy()
-    fireEvent.press(getByTestId('RaiseLimitButton'))
-    expect(sendEmail).toHaveBeenCalled()
-  })
-
-  it("when application wasn't started and number isn't verified there's no status and button takes you to verification", async () => {
+  it("shows the 'Confirm Number' button and navigate to the Phone Confirmation flow when the user hasn't completed KYC and doesn't have a confirmed phonen number", async () => {
     const { queryByTestId, getByTestId } = render(
       <Provider store={createStore(false)}>
         <RaiseLimitScreen />
       </Provider>
     )
 
-    expect(queryByTestId('ApplicationStatus')).toBeFalsy()
-    fireEvent.press(getByTestId('RaiseLimitButton'))
-    expect(sendEmail).not.toHaveBeenCalled()
+    expect(queryByTestId('ConfirmNumberButton')).toBeDefined()
+    fireEvent.press(getByTestId('ConfirmNumberButton'))
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
   })
 
-  it("when application is in review there's no button", async () => {
+  it("shows the Persona 'Verify Identity' button when the user hasn't completed KYC and has a confirmed phonen number", async () => {
     const { queryByTestId } = render(
-      <Provider store={createStore(true, KycStatus.InReview)}>
+      <Provider store={createStore(true, KycStatus.AccountCreated)}>
         <RaiseLimitScreen />
       </Provider>
     )
 
-    expect(queryByTestId('ApplicationStatus')).toBeTruthy()
-    expect(queryByTestId('RaiseLimitButton')).toBeFalsy()
+    expect(queryByTestId('PersonaButton')).toBeDefined()
   })
 
-  it("when application is in review there's no button", async () => {
-    const { queryByTestId } = render(
-      <Provider store={createStore(true, KycStatus.InReview)}>
-        <RaiseLimitScreen />
-      </Provider>
-    )
-
-    expect(queryByTestId('ApplicationStatus')).toBeTruthy()
-    expect(queryByTestId('RaiseLimitButton')).toBeFalsy()
-  })
-
-  it("when application is approved there's no button", async () => {
-    const { queryByTestId } = render(
-      <Provider store={createStore(true, KycStatus.Approved)}>
-        <RaiseLimitScreen />
-      </Provider>
-    )
-
-    expect(queryByTestId('ApplicationStatus')).toBeTruthy()
-    expect(queryByTestId('RaiseLimitButton')).toBeFalsy()
-  })
-
-  it("when application is incomplete there's a button that sends an email", async () => {
-    const { queryByTestId, getByTestId } = render(
-      <Provider store={createStore(true, KycStatus.Incomplete)}>
-        <RaiseLimitScreen />
-      </Provider>
-    )
-
-    expect(queryByTestId('ApplicationStatus')).toBeTruthy()
-    expect(queryByTestId('RaiseLimitButton')).toBeTruthy()
-    fireEvent.press(getByTestId('RaiseLimitButton'))
-    expect(sendEmail).toHaveBeenCalled()
-  })
-
-  it("when application is denied there's a button that sends an email", async () => {
+  it("shows the 'Contact Support' button and perpares an email to be sent when the user's KYC submission has been denied", async () => {
     const { queryByTestId, getByTestId } = render(
       <Provider store={createStore(true, KycStatus.Denied)}>
         <RaiseLimitScreen />
       </Provider>
     )
 
-    expect(queryByTestId('ApplicationStatus')).toBeTruthy()
-    expect(queryByTestId('RaiseLimitButton')).toBeTruthy()
-    fireEvent.press(getByTestId('RaiseLimitButton'))
+    expect(queryByTestId('ContactSupportButton')).toBeDefined()
+    fireEvent.press(getByTestId('ContactSupportButton'))
     expect(sendEmail).toHaveBeenCalled()
+  })
+
+  it('shows no buttons when the user has completed KYC or has a pending status', async () => {
+    const tree = render(
+      <Provider store={createStore(true, KycStatus.Verified)}>
+        <RaiseLimitScreen />
+      </Provider>
+    )
+
+    expect(tree.queryByType(Button)).toBeFalsy()
+
+    tree.rerender(
+      <Provider store={createStore(true, KycStatus.PendingReview)}>
+        <RaiseLimitScreen />
+      </Provider>
+    )
+
+    expect(tree.queryByType(Button)).toBeFalsy()
+  })
+
+  it('shows the correct remaining transfer limit when a user has made no recent payments', async () => {
+    const tree = render(
+      <Provider store={createStore(true)}>
+        <RaiseLimitScreen />
+      </Provider>
+    )
+
+    expect(tree.queryByText(DEFAULT_DAILY_PAYMENT_LIMIT_CUSD.toFixed(2))).toBeDefined()
+  })
+
+  it('shows the correct remaining transfer limit when a user has made recent payments', async () => {
+    const recentPaymentAmount = 100
+
+    const tree = render(
+      <Provider
+        store={createStore(true, undefined, [
+          {
+            timestamp: Date.now(),
+            amount: recentPaymentAmount,
+          },
+        ])}
+      >
+        <RaiseLimitScreen />
+      </Provider>
+    )
+
+    expect(
+      tree.queryByText((DEFAULT_DAILY_PAYMENT_LIMIT_CUSD - recentPaymentAmount).toFixed(2))
+    ).toBeDefined()
+  })
+
+  it("shows 'Unlimited' when a user has completed KYC ", async () => {
+    const recentPaymentAmount = 100
+
+    const tree = render(
+      <Provider
+        store={createStore(true, KycStatus.Verified, [
+          {
+            timestamp: Date.now(),
+            amount: recentPaymentAmount,
+          },
+        ])}
+      >
+        <RaiseLimitScreen />
+      </Provider>
+    )
+
+    expect(tree.queryByText('noDailyLimit')).toBeDefined()
   })
 })
