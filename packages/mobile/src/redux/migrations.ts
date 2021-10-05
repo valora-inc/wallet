@@ -315,5 +315,6 @@ export const migrations = {
   19: (state: any) => ({
     ...state,
     app: _.omit(state.fiatExchanges, 'showRaiseDailyLimitTarget'),
+    account: _.omit(state.account, 'dailyLimitCusd', 'dailyLimitRequestStatus'),
   }),
 }

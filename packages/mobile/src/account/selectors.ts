@@ -1,6 +1,8 @@
 import { Countries } from '@celo/utils/lib/countries'
 import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
+import { KycStatus } from 'src/account/reducer'
+import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, UNLIMITED_TRANSFER_THRESHOLD } from 'src/config'
 import i18n from 'src/i18n'
 import { RootState } from 'src/redux/reducers'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -27,7 +29,10 @@ export const userContactDetailsSelector = (state: RootState) => state.account.co
 export const pincodeTypeSelector = (state: RootState) => state.account.pincodeType
 export const promptFornoIfNeededSelector = (state: RootState) => state.account.promptFornoIfNeeded
 export const isProfileUploadedSelector = (state: RootState) => state.account.profileUploaded
-export const cUsdDailyLimitSelector = (state: RootState) => state.account.dailyLimitCusd
+export const cUsdDailyLimitSelector = (state: RootState) =>
+  state.account.kycStatus === KycStatus.Verified
+    ? UNLIMITED_TRANSFER_THRESHOLD
+    : DEFAULT_DAILY_PAYMENT_LIMIT_CUSD
 
 export const currentUserRecipientSelector = createSelector(
   [currentAccountSelector, nameSelector, pictureSelector, userContactDetailsSelector],
@@ -39,8 +44,7 @@ export const currentUserRecipientSelector = createSelector(
     }
   }
 )
-export const dailyLimitRequestStatusSelector = (state: RootState) =>
-  state.account.dailyLimitRequestStatus
+export const kycStatusSelector = (state: RootState) => state.account.kycStatus
 export const recoveringFromStoreWipeSelector = (state: RootState) =>
   state.account.recoveringFromStoreWipe ?? false
 export const accountToRecoverSelector = (state: RootState) =>

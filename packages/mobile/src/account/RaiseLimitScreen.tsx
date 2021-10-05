@@ -2,18 +2,14 @@ import Button, { BtnSizes, BtnTypes } from '@celo/react-components/components/Bu
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
-import React, { useEffect, useMemo } from 'react'
-import { useAsync } from 'react-async-hook'
+import React, { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
-import { updateDailyLimitRequestStatus } from 'src/account/actions'
-import { useLaunchPersonaInquiry } from 'src/account/hooks'
-import { DailyLimitRequestStatus } from 'src/account/reducer'
-import { cUsdDailyLimitSelector, dailyLimitRequestStatusSelector } from 'src/account/selectors'
+import Persona from 'src/account/Persona'
+import { KycStatus } from 'src/account/reducer'
+import { cUsdDailyLimitSelector, kycStatusSelector } from 'src/account/selectors'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
-import { readOnceFromFirebase } from 'src/firebase/firebase'
 import i18n, { Namespaces } from 'src/i18n'
 import ApprovedIcon from 'src/icons/ApprovedIcon'
 import DeniedIcon from 'src/icons/DeniedIcon'
@@ -25,99 +21,69 @@ import useSelector from 'src/redux/useSelector'
 import { getRecentPayments } from 'src/send/selectors'
 import { dailyAmountRemaining } from 'src/send/utils'
 import { Currency } from 'src/utils/currencies'
-import { currentAccountSelector } from 'src/web3/selectors'
-
-const UNLIMITED_THRESHOLD = 99999999
 
 const RaiseLimitScreen = () => {
   const { t } = useTranslation(Namespaces.accountScreen10)
   const dailyLimit = useSelector(cUsdDailyLimitSelector)
-  const dailyLimitRequestStatus = useSelector(dailyLimitRequestStatusSelector)
+  const kycStatus = useSelector(kycStatusSelector)
   const numberIsVerified = useSelector((state) => state.app.numberVerified)
-  const address = useSelector(currentAccountSelector)
   const recentPayments = useSelector(getRecentPayments)
-  const dispatch = useDispatch()
 
-  const launchPersonaInquiry = useLaunchPersonaInquiry()
-
-  const applicationStatusResult = useAsync(async () => {
-    if (!address) {
-      return null
-    }
-    return readOnceFromFirebase(`dailyLimitRequest/${address}`)
-  }, [address])
-
-  useEffect(() => {
-    if (applicationStatusResult.result in DailyLimitRequestStatus) {
-      dispatch(updateDailyLimitRequestStatus(applicationStatusResult.result))
-    }
-  }, [applicationStatusResult.result])
-
-  useEffect(() => {
-    if (
-      dailyLimitRequestStatus !== DailyLimitRequestStatus.Approved &&
-      dailyLimit > UNLIMITED_THRESHOLD
-    ) {
-      dispatch(updateDailyLimitRequestStatus(DailyLimitRequestStatus.Approved))
-    }
-  }, [dailyLimitRequestStatus])
+  const kycAttemptAllowed = !kycStatus || kycStatus === KycStatus.AccountCreated
 
   const applicationStatusTexts = useMemo(() => {
-    if (!dailyLimitRequestStatus) {
+    if (kycAttemptAllowed) {
       return null
     }
+
     return {
-      [DailyLimitRequestStatus.InReview]: {
+      [KycStatus.Pending]: {
         title: t('applicationInReview'),
         description: t('applicationInReviewDescription'),
         icon: <InProgressIcon />,
       },
-      [DailyLimitRequestStatus.Incomplete]: {
-        title: t('applicationIncomplete'),
-        description: t('applicationIncompleteDescription'),
-        icon: <DeniedIcon />,
-      },
-      [DailyLimitRequestStatus.Denied]: {
+      [KycStatus.Denied]: {
         title: t('applicationDenied'),
         description: t('applicationDeniedDescription'),
         icon: <DeniedIcon />,
       },
-      [DailyLimitRequestStatus.Approved]: {
+      [KycStatus.Verified]: {
         title: t('applicationCompleted'),
         description: t('applicationCompletedDescription'),
         icon: <ApprovedIcon />,
       },
-    }[dailyLimitRequestStatus]
-  }, [dailyLimitRequestStatus])
+    }[kycStatus]
+  }, [kycStatus])
 
-  const buttonText = (() => {
-    if (!dailyLimitRequestStatus) {
-      return numberIsVerified ? t('raiseLimitBegin') : t('raiseLimitConfirmNumber')
-    }
-    if (
-      dailyLimitRequestStatus === DailyLimitRequestStatus.InReview ||
-      dailyLimitRequestStatus === DailyLimitRequestStatus.Approved
-    ) {
+  const renderButton = () => {
+    if (kycStatus === KycStatus.Denied) {
+      // TODO: return a button that triggers an email to support
       return null
     }
-    return dailyLimitRequestStatus === DailyLimitRequestStatus.Incomplete
-      ? t('raiseLimitResume')
-      : t('raiseLimitBegin')
-  })()
 
-  const onPressButton = async () => {
-    if (!numberIsVerified) {
-      navigate(Screens.VerificationEducationScreen)
-      return
+    if (!kycStatus || kycStatus === KycStatus.AccountCreated) {
+      return numberIsVerified ? (
+        <Persona kycStatus={kycStatus} />
+      ) : (
+        <Button
+          onPress={() => navigate(Screens.VerificationEducationScreen)}
+          text={t('raiseLimitConfirmNumber')}
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.FULL}
+          style={styles.button}
+          testID="RaiseLimitButton"
+        />
+      )
     }
-    launchPersonaInquiry()
+
+    return null
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.dailyLimitContainer}>
         <Text style={styles.labelText}>{t('dailyLimitLabel')}</Text>
-        {dailyLimit > UNLIMITED_THRESHOLD ? (
+        {kycStatus === KycStatus.Verified ? (
           <Text style={styles.dailyLimit}>{t('noDailyLimit')} </Text>
         ) : (
           <>
@@ -139,7 +105,7 @@ const RaiseLimitScreen = () => {
           />
         </Trans>
       </Text>
-      {!dailyLimitRequestStatus && (
+      {kycAttemptAllowed && (
         <Text style={styles.bodyText}>
           {numberIsVerified ? t('verifyIdentityToRaiseLimit') : t('verifyNumberToRaiseLimit')}
         </Text>
@@ -157,18 +123,7 @@ const RaiseLimitScreen = () => {
           <Text style={styles.bodyText}>{applicationStatusTexts.description}</Text>
         </>
       )}
-      {buttonText && (
-        <Button
-          onPress={onPressButton}
-          text={buttonText}
-          type={
-            !numberIsVerified && !dailyLimitRequestStatus ? BtnTypes.SECONDARY : BtnTypes.PRIMARY
-          }
-          size={BtnSizes.FULL}
-          style={styles.button}
-          testID="RaiseLimitButton"
-        />
-      )}
+      {renderButton()}
     </SafeAreaView>
   )
 }

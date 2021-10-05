@@ -5,12 +5,12 @@ import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import { sendEmail } from 'src/account/emailSender'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
-import { DailyLimitRequestStatus } from 'src/account/reducer'
+import { KycStatus } from 'src/account/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
 
-const createStore = (numberVerified: boolean, dailyLimitRequestStatus?: DailyLimitRequestStatus) =>
+const createStore = (numberVerified: boolean, dailyLimitRequestStatus?: KycStatus) =>
   createMockStore({
     app: { numberVerified },
     account: { dailyLimitRequestStatus },
@@ -60,7 +60,7 @@ describe('RaiseLimitScreen', () => {
 
   it("when application is in review there's no button", async () => {
     const { queryByTestId } = render(
-      <Provider store={createStore(true, DailyLimitRequestStatus.InReview)}>
+      <Provider store={createStore(true, KycStatus.InReview)}>
         <RaiseLimitScreen />
       </Provider>
     )
@@ -71,7 +71,7 @@ describe('RaiseLimitScreen', () => {
 
   it("when application is in review there's no button", async () => {
     const { queryByTestId } = render(
-      <Provider store={createStore(true, DailyLimitRequestStatus.InReview)}>
+      <Provider store={createStore(true, KycStatus.InReview)}>
         <RaiseLimitScreen />
       </Provider>
     )
@@ -82,7 +82,7 @@ describe('RaiseLimitScreen', () => {
 
   it("when application is approved there's no button", async () => {
     const { queryByTestId } = render(
-      <Provider store={createStore(true, DailyLimitRequestStatus.Approved)}>
+      <Provider store={createStore(true, KycStatus.Approved)}>
         <RaiseLimitScreen />
       </Provider>
     )
@@ -93,7 +93,7 @@ describe('RaiseLimitScreen', () => {
 
   it("when application is incomplete there's a button that sends an email", async () => {
     const { queryByTestId, getByTestId } = render(
-      <Provider store={createStore(true, DailyLimitRequestStatus.Incomplete)}>
+      <Provider store={createStore(true, KycStatus.Incomplete)}>
         <RaiseLimitScreen />
       </Provider>
     )
@@ -106,7 +106,7 @@ describe('RaiseLimitScreen', () => {
 
   it("when application is denied there's a button that sends an email", async () => {
     const { queryByTestId, getByTestId } = render(
-      <Provider store={createStore(true, DailyLimitRequestStatus.Denied)}>
+      <Provider store={createStore(true, KycStatus.Denied)}>
         <RaiseLimitScreen />
       </Provider>
     )

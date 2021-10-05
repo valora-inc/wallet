@@ -86,8 +86,6 @@
   "dailyLimitApplicationStatus": "Application Status",
   "applicationInReview": "In Review",
   "applicationInReviewDescription": "Your application is being reviewed. You will be notified when this process is completed.",
-  "applicationIncomplete": "Incomplete",
-  "applicationIncompleteDescription": "The information you provided was insufficient. Please be ready to provide additional details in the following process. ",
   "applicationDenied": "Denied",
   "applicationDeniedDescription": "Your application was denied. If you feel this was a mistake, please restart the process below.",
   "applicationCompleted": "Completed",

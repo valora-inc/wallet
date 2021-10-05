@@ -368,5 +368,7 @@ describe('Redux persist migrations', () => {
   it('works for v18 to v19', () => {
     const migratedSchema = migrations[19](v18Schema)
     expect(migratedSchema.app.showRaiseDailyLimitTarget).not.toBeDefined()
+    expect(migratedSchema.account.dailyLimitCusd).not.toBeDefined()
+    expect(migratedSchema.account.dailyLimitRequestStatus).not.toBeDefined()
   })
 })

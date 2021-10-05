@@ -1,5 +1,4 @@
 import firebase from '@react-native-firebase/app'
-import _ from 'lodash'
 import { call, cancelled, put, spawn, take, takeEvery, takeLeading } from 'redux-saga/effects'
 import {
   Actions,
@@ -9,16 +8,17 @@ import {
   SetPincodeAction,
   setPincodeFailure,
   setPincodeSuccess,
-  updateCusdDailyLimit,
+  updateKycStatus,
 } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
+import { KycStatus } from 'src/account/reducer'
 import { showError } from 'src/alert/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { clearStoredMnemonic } from 'src/backup/utils'
 import { FIREBASE_ENABLED } from 'src/config'
-import { cUsdDailyLimitChannel, firebaseSignOut } from 'src/firebase/firebase'
+import { firebaseSignOut, kycStatusChannel } from 'src/firebase/firebase'
 import { deleteNodeData } from 'src/geth/geth'
 import { refreshAllBalances } from 'src/home/actions'
 import { removeAccountLocally } from 'src/pincode/authentication'
@@ -88,23 +88,23 @@ function* initializeAccount() {
   }
 }
 
-export function* watchDailyLimit() {
+export function* watchKycStatus() {
   const account = yield call(getAccount)
-  const channel = yield call(cUsdDailyLimitChannel, account)
+  const channel = yield call(kycStatusChannel, account)
   if (!channel) {
     return
   }
   try {
     while (true) {
-      const dailyLimit = yield take(channel)
-      if (_.isNumber(dailyLimit)) {
-        yield put(updateCusdDailyLimit(dailyLimit))
+      const kycStatus = yield take(channel)
+      if (Object.values(KycStatus).includes(kycStatus)) {
+        yield put(updateKycStatus(kycStatus))
       } else {
-        Logger.error(`${TAG}@watchDailyLimit`, 'Daily limit must be a number', dailyLimit)
+        Logger.error(`${TAG}@watchKycStatus`, 'KYC status is invalid or non-existant', kycStatus)
       }
     }
-  } catch (error) {
-    Logger.error(`${TAG}@watchDailyLimit`, error)
+  } catch (error: any) {
+    Logger.error(`${TAG}@watchKycStatus`, error)
   } finally {
     if (yield cancelled()) {
       channel.close()
@@ -134,6 +134,6 @@ export function* accountSaga() {
   yield spawn(watchClearStoredAccount)
   yield spawn(watchInitializeAccount)
   yield spawn(watchSaveNameAndPicture)
-  yield spawn(watchDailyLimit)
+  yield spawn(watchKycStatus)
   yield spawn(registerAccountDek)
 }

@@ -749,10 +749,14 @@ export const v18Schema = {
 export const v19Schema = {
   ...v18Schema,
   _persist: {
-    ...v17Schema._persist,
+    ...v18Schema._persist,
     version: 19,
   },
-  app: _.omit(v17Schema.app, 'showRaiseDailyLimitTarget'),
+  app: _.omit(v18Schema.app, 'showRaiseDailyLimitTarget'),
+  account: {
+    ..._.omit(v18Schema.account, 'dailyLimitCusd', 'dailyLimitRequestStatus'),
+    kycStatus: undefined,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

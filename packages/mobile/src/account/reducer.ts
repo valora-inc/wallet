@@ -1,7 +1,7 @@
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { Actions, ActionTypes } from 'src/account/actions'
 import { DAYS_TO_DELAY } from 'src/backup/utils'
-import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
+import { DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
 import { features } from 'src/flags'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import Logger from 'src/utils/Logger'
@@ -32,8 +32,7 @@ export interface State {
   profileUploaded: boolean | undefined
   recoveringFromStoreWipe: boolean | undefined
   accountToRecoverFromStoreWipe: string | undefined
-  dailyLimitCusd: number
-  dailyLimitRequestStatus: DailyLimitRequestStatus | undefined
+  kycStatus: KycStatus | undefined
 }
 
 export enum PincodeType {
@@ -46,11 +45,11 @@ export interface UserContactDetails {
   thumbnailPath: string | null
 }
 
-export enum DailyLimitRequestStatus {
-  InReview = 'InReview',
-  Approved = 'Approved',
-  Incomplete = 'Incomplete',
+export enum KycStatus {
+  AccountCreated = 'AccountCreated',
+  Verified = 'Verified',
   Denied = 'Denied',
+  Pending = 'Pending',
 }
 
 export const initialState: State = {
@@ -80,8 +79,7 @@ export const initialState: State = {
   profileUploaded: false,
   recoveringFromStoreWipe: false,
   accountToRecoverFromStoreWipe: undefined,
-  dailyLimitCusd: DEFAULT_DAILY_PAYMENT_LIMIT_CUSD,
-  dailyLimitRequestStatus: undefined,
+  kycStatus: undefined,
 }
 
 export const reducer = (
@@ -96,7 +94,6 @@ export const reducer = (
         ...state,
         ...rehydratedPayload,
         dismissedGetVerified: false,
-        dailyLimitCusd: rehydratedPayload.dailyLimitCusd || state.dailyLimitCusd,
       }
     }
     case Actions.CHOOSE_CREATE_ACCOUNT:
@@ -237,16 +234,10 @@ export const reducer = (
     case Actions.ACCEPT_TERMS: {
       return { ...state, acceptedTerms: true }
     }
-    case Actions.UPDATE_DAILY_LIMIT:
+    case Actions.UPDATE_KYC_STATUS:
       return {
         ...state,
-        // We don't allow minimum daily limits lower than the default to avoid human error when setting them.
-        dailyLimitCusd: Math.max(action.newLimit, DEFAULT_DAILY_PAYMENT_LIMIT_CUSD),
-      }
-    case Actions.UPDATE_DAILY_LIMIT_REQUEST_STATUS:
-      return {
-        ...state,
-        dailyLimitRequestStatus: action.dailyLimitRequestStatus,
+        kycStatus: action.kycStatus,
       }
     case Web3Actions.SET_ACCOUNT: {
       return {
