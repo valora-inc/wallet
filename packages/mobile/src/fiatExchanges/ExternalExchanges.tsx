@@ -62,8 +62,10 @@ function ExternalExchanges({ route }: Props) {
 
   const switchCurrencyOnPress = () => navigate(Screens.FiatExchangeOptions, { isCashIn: false })
 
-  const goToCashOut = () => navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
-
+  const goToCashOut = () => {
+    navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
+    ValoraAnalytics.track(FiatExchangeEvents.cico_celo_exchange_send_bar_continue)
+  }
   const { t } = useTranslation('fiatExchangeFlow')
 
   // TODO Dynamically fetch exchange provider links so they can be updated between releases
