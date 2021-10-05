@@ -13,6 +13,7 @@ import { KycStatus } from 'src/account/reducer'
 import { cUsdDailyLimitSelector, kycStatusSelector } from 'src/account/selectors'
 import { showError, showMessage } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { numberVerifiedSelector } from 'src/app/selectors'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { CELO_SUPPORT_EMAIL_ADDRESS } from 'src/config'
 import i18n, { Namespaces } from 'src/i18n'
@@ -26,13 +27,14 @@ import useSelector from 'src/redux/useSelector'
 import { getRecentPayments } from 'src/send/selectors'
 import { dailyAmountRemaining } from 'src/send/utils'
 import { Currency } from 'src/utils/currencies'
+import { accountAddressSelector } from 'src/web3/selectors'
 import { Logger } from 'walletconnect-v2/types'
 
 const RaiseLimitScreen = () => {
   const { t } = useTranslation(Namespaces.accountScreen10)
   const dailyLimit = useSelector(cUsdDailyLimitSelector)
   const kycStatus = useSelector(kycStatusSelector)
-  const numberIsVerified = useSelector((state) => state.app.numberVerified)
+  const numberIsVerified = useSelector(numberVerifiedSelector)
   const recentPayments = useSelector(getRecentPayments)
   const accountAddress = useSelector(accountAddressSelector)
 
@@ -125,28 +127,27 @@ const RaiseLimitScreen = () => {
               style={styles.dailyLimit}
             />
             <Text style={styles.dailyLimitSubtext}>{t('dailyLimitValue', { dailyLimit })}</Text>
+            <Text style={styles.bodyText}>
+              <Trans i18nKey={'dailyLimitExplainer'} ns={Namespaces.accountScreen10}>
+                <CurrencyDisplay
+                  amount={{
+                    value: dailyAmountRemaining(Date.now(), recentPayments, dailyLimit),
+                    currencyCode: Currency.Dollar,
+                  }}
+                />
+              </Trans>
+            </Text>
+            {kycAttemptAllowed && (
+              <Text style={styles.bodyText}>
+                {numberIsVerified ? t('verifyIdentityToRaiseLimit') : t('verifyNumberToRaiseLimit')}
+              </Text>
+            )}
           </>
         )}
       </View>
-      <Text style={styles.bodyText}>
-        <Trans i18nKey={'dailyLimitExplainer'} ns={Namespaces.accountScreen10}>
-          <CurrencyDisplay
-            amount={{
-              value: dailyAmountRemaining(Date.now(), recentPayments, dailyLimit),
-              currencyCode: Currency.Dollar,
-            }}
-          />
-        </Trans>
-      </Text>
-      {kycAttemptAllowed && (
-        <Text style={styles.bodyText}>
-          {numberIsVerified ? t('verifyIdentityToRaiseLimit') : t('verifyNumberToRaiseLimit')}
-        </Text>
-      )}
       {applicationStatusTexts && (
         <>
           <View style={styles.separator} />
-          <Text style={styles.labelText}>{t('dailyLimitApplicationStatus')}</Text>
           <View style={styles.applicationStatusContainer}>
             {applicationStatusTexts.icon}
             <Text style={styles.applicationStatusTitle} testID="ApplicationStatus">
@@ -185,10 +186,11 @@ const styles = StyleSheet.create({
   dailyLimitSubtext: {
     ...fontStyles.small500,
     marginTop: 4,
+    marginBottom: 24,
   },
   bodyText: {
     ...fontStyles.small,
-    marginBottom: 8,
+    marginTop: 8,
   },
   separator: {
     width: '100%',
