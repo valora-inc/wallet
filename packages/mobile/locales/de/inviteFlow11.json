@@ -25,12 +25,12 @@
   "sendAndInvite": "Senden & Einladen",
   "inviteAndSendDialog": {
     "title": "Einladen und Senden",
-    "body": "Deine Zahlung an {{name}} wird auf sie warten, sobald sie ihre Telefonnummer verbinden. ",
+    "body": "Ihre Zahlung an {{name}} wird auf sie warten, sobald sie ihre Telefonnummer bestätigen. Teilen Sie ihnen eine Einladungsnachricht, um {{appName}} beizutreten und Ihre Zahlung einlösen!",
     "button": "Einladen"
   },
   "inviteRewardsBanner": {
-    "title": "Erhalte ${{amount}}, indem Du einen Freund empfiehlst!",
-    "body": "Verdiene {{amount}} cUSD, wenn Du Krypto an einen Freund überweist und diese beitreten. <0>Weitere Info</0>"
+    "title": "Erhalte {{amount}} {{currency}} indem du einen Freund wirbst!",
+    "body": "Verdiene {{amount}} {{currency}} wenn du Geld an einen Freund schickst und dieser beitritt. <0>Mehr erfahren</0>"
   },
   "getReward": "Erhalte ${{reward}}"
 }
