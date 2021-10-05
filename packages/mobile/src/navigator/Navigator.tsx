@@ -1,4 +1,3 @@
-import colors from '@celo/react-components/styles/colors'
 import { RouteProp } from '@react-navigation/core'
 import { createStackNavigator, StackScreenProps, TransitionPresets } from '@react-navigation/stack'
 import * as React from 'react'
@@ -57,14 +56,12 @@ import {
   emptyHeader,
   HeaderTitleWithBalance,
   headerWithBackButton,
-  headerWithCancelButton,
   noHeader,
   noHeaderGestureDisabled,
 } from 'src/navigator/Headers'
 import { navigateBack, navigateToExchangeHome } from 'src/navigator/NavigationService'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import OnboardingEducationScreen from 'src/onboarding/education/OnboardingEducationScreen'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
@@ -312,19 +309,25 @@ const exchangeReviewScreenOptions = ({
     ? CeloExchangeEvents.celo_buy_edit
     : CeloExchangeEvents.celo_sell_edit
   return {
-    ...headerWithCancelButton,
+    ...headerWithBackEditButtons,
     headerLeft: () => (
-      <CancelButton onCancel={navigateToExchangeHome} eventName={cancelEventName} />
+      <BackButton testID="EditButton" onPress={navigateBack} eventName={editEventName} />
     ),
-    headerRight: () => (
-      <TopBarTextButton
-        title={i18n.t('global:edit')}
-        testID="EditButton"
-        onPress={navigateBack}
-        titleStyle={{ color: colors.goldDark }}
-        eventName={editEventName}
-      />
-    ),
+    headerRight: () =>
+      PixelRatio.getFontScale() > 1 ? (
+        <CancelButton
+          buttonType={'icon'}
+          onCancel={navigateToExchangeHome}
+          eventName={cancelEventName}
+        />
+      ) : (
+        <CancelButton
+          style={{ paddingHorizontal: 0 }}
+          buttonType={'text'}
+          onCancel={navigateToExchangeHome}
+          eventName={cancelEventName}
+        />
+      ),
     headerTitle: () => <HeaderTitleWithBalance title={title} token={makerToken} />,
   }
 }
