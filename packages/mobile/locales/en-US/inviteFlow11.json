@@ -3,7 +3,7 @@
   "inviteWithWhatsapp": "Invite with WhatsApp",
   "inviteWithSMS": "Invite with SMS",
   "inviteFee": "Invite Fee",
-  "whySendFees": "This fee covers costs for a new user to connect their phone number",
+  "whySendFees": "This fee covers costs for the new user to connect their phone number",
   "whyReceiveFees": "You were sent some money to confirm your account",
   "edit": "Edit",
   "to": "To",
@@ -25,12 +25,12 @@
   "sendAndInvite": "Send & Invite",
   "inviteAndSendDialog": {
     "title": "Invite and Send",
-    "body": "Your payment to {{name}} will be waiting for them once they connect their phone number. ",
+    "body": "Your payment to {{name}} will be waiting for them once they confirm their phone number. Share an invitation message with them to join {{appName}} and redeem your payment!",
     "button": "Invite"
   },
   "inviteRewardsBanner": {
-    "title": "Get ${{amount}} by referring a friend!",
-    "body": "Earn {{amount}} cUSD when you send money to a friend and they join. <0>Learn more</0>"
+    "title": "Get {{amount}} {{currency}} by referring a friend!",
+    "body": "Earn {{amount}} {{currency}} when you send money to a friend and they join. <0>Learn more</0>"
   },
   "getReward": "Get ${{reward}}"
 }
