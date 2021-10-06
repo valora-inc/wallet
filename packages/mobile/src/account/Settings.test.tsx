@@ -2,7 +2,6 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import Settings from 'src/account/Settings'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -27,7 +26,7 @@ describe('Account', () => {
   })
 
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider
         store={createMockStore({
           account: {
@@ -50,7 +49,7 @@ describe('Account', () => {
   })
 
   it('renders correctly when dev mode active', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider
         store={createMockStore({
           identity: { e164NumberToSalt: { [mockE164Number]: mockE164NumberPepper } },
@@ -74,7 +73,7 @@ describe('Account', () => {
   })
   it('renders correctly when verification is not possible', () => {
     const now = Date.now()
-    let tree = renderer.create(
+    let tree = render(
       <Provider
         store={createMockStore({
           verify: { komenci: { errorTimestamps: [] }, status: {} },
@@ -84,7 +83,7 @@ describe('Account', () => {
       </Provider>
     )
     expect(tree).toMatchSnapshot()
-    tree = renderer.create(
+    tree = render(
       <Provider
         store={createMockStore({
           verify: {

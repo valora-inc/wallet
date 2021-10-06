@@ -2,7 +2,6 @@ import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { TokenTransactionType } from 'src/apollo/types'
 import { RecipientInfo } from 'src/recipients/recipient'
 import { TransferFeedItem } from 'src/transactions/TransferFeedItem'
@@ -31,7 +30,7 @@ const mockStore = createMockStore()
 
 describe('transfer feed item renders correctly', () => {
   it('for sent transaction', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -58,7 +57,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for sent with encrypted comment', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -85,7 +84,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for received with encrypted comment', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -112,7 +111,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for verification fee', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -139,7 +138,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for network fee', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -166,7 +165,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for <0.000001 network fee', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -193,7 +192,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for verification reward', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -220,7 +219,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for faucet', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -247,7 +246,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for sent invite', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -283,7 +282,7 @@ describe('transfer feed item renders correctly', () => {
       inviteCode: 'join me!',
       inviteLink: 'joinme.com',
     }
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -310,7 +309,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for received invite', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -337,7 +336,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for received', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -364,7 +363,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for known received', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -391,7 +390,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for sent', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -418,7 +417,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for known sent', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -445,7 +444,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for known sent without recipient cache populated', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"

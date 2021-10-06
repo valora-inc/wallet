@@ -1,7 +1,6 @@
 import Button, { BtnTypes } from '@celo/react-components/components/Button'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import * as renderer from 'react-test-renderer'
 
 describe('Button', () => {
   describe('when pressed', () => {
@@ -68,23 +67,19 @@ describe('Button', () => {
   })
   describe('when type is SECONDARY', () => {
     it('renders', () => {
-      const tree = renderer.create(
-        <Button onPress={jest.fn()} text="Button" type={BtnTypes.SECONDARY} />
-      )
+      const tree = render(<Button onPress={jest.fn()} text="Button" type={BtnTypes.SECONDARY} />)
       expect(tree).toMatchSnapshot()
     })
   })
   describe('when type is TERTIARY', () => {
     it('renders', () => {
-      const tree = renderer.create(
-        <Button onPress={jest.fn()} text="Button" type={BtnTypes.TERTIARY} />
-      )
+      const tree = render(<Button onPress={jest.fn()} text="Button" type={BtnTypes.TERTIARY} />)
       expect(tree).toMatchSnapshot()
     })
   })
   describe('when type not given', () => {
     it('defaults to primary', () => {
-      const tree = renderer.create(<Button onPress={jest.fn()} text={'Button'} />)
+      const tree = render(<Button onPress={jest.fn()} text={'Button'} />)
       expect(tree).toMatchSnapshot()
     })
   })

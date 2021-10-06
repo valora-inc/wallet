@@ -1,7 +1,6 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -9,7 +8,7 @@ import { createMockStore } from 'test/utils'
 
 describe('CashInBottomSheet', () => {
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={createMockStore({})}>
         <CashInBottomSheet />
       </Provider>

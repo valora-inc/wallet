@@ -3,7 +3,6 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import * as renderer from 'react-test-renderer'
 
 const styles = StyleSheet.create({
   errorMessage: {
@@ -27,7 +26,7 @@ function FullscreenCTAContentMaker(errorMessage: string) {
 
 describe('FullscreenCTA', () => {
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <FullscreenCTA
         title={'App Update'}
         subtitle={'Please upgrade your app'}

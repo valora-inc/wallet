@@ -4,7 +4,6 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Screens } from 'src/navigator/Screens'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
@@ -17,7 +16,7 @@ const mockScreenProps = getMockStackScreenProps(Screens.NameAndPicture)
 describe('NameAndPictureScreen', () => {
   it('renders correctly', () => {
     const store = createMockStore()
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <NameAndPicture {...mockScreenProps} />
       </Provider>
@@ -27,7 +26,7 @@ describe('NameAndPictureScreen', () => {
 
   it('renders with an error', () => {
     const store = createMockStore({ alert: { underlyingError: ErrorMessages.INVALID_INVITATION } })
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <NameAndPicture {...mockScreenProps} />
       </Provider>
