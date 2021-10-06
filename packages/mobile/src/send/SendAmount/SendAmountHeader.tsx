@@ -19,11 +19,16 @@ interface Props {
   currency: Currency
   isOutgoingPaymentRequest: boolean
   onChangeCurrency: (currency: Currency) => void
+  disallowCurrencyChange: boolean
 }
 
-function SendAmountHeader({ currency, isOutgoingPaymentRequest, onChangeCurrency }: Props) {
+function SendAmountHeader({
+  currency,
+  isOutgoingPaymentRequest,
+  onChangeCurrency,
+  disallowCurrencyChange,
+}: Props) {
   const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
-
   const balances = useSelector(balancesSelector)
   const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
 
@@ -56,12 +61,15 @@ function SendAmountHeader({ currency, isOutgoingPaymentRequest, onChangeCurrency
       title = (
         <View style={styles.titleContainer} testID="HeaderCurrencyPicker">
           <Text style={headerStyles.headerTitle}>{titleText}</Text>
-          <DownArrowIcon color={colors.dark} />
+          {!disallowCurrencyChange ? <DownArrowIcon color={colors.dark} /> : null}
         </View>
       )
     }
     return (
-      <Touchable disabled={currenciesWithBalance < 2} onPress={() => setShowCurrencyPicker(true)}>
+      <Touchable
+        disabled={currenciesWithBalance < 2 || disallowCurrencyChange}
+        onPress={() => setShowCurrencyPicker(true)}
+      >
         {isOutgoingPaymentRequest ? (
           <Text style={headerStyles.headerTitle}>{titleText}</Text>
         ) : (

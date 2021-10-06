@@ -27,7 +27,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 }
 
 /**
- * Component shown to the user upon completion of the Account Key setup flow. Informs the user that
+ * Component shown to the user upon completion of the Recovery Phrase setup flow. Informs the user that
  * they've successfully completed the backup process and automatically returns them to where they
  * came from.
  */
