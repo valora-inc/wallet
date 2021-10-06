@@ -124,7 +124,7 @@ describe('RaiseLimitScreen', () => {
     ).toBeDefined()
   })
 
-  it("shows 'Unlimited' when a user has completed KYC ", async () => {
+  it("shows 'no limit' when a user has completed KYC ", async () => {
     const recentPaymentAmount = 100
 
     const tree = render(

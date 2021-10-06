@@ -59,7 +59,7 @@ const RaiseLimitScreen = () => {
   }
 
   const applicationStatusTexts = useMemo(() => {
-    if (kycAttemptAllowed) {
+    if (!kycStatus || kycStatus === KycStatus.AccountCreated) {
       return null
     }
 

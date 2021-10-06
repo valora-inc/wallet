@@ -103,7 +103,7 @@ export function* watchKycStatus() {
         Logger.error(`${TAG}@watchKycStatus`, 'KYC status is invalid or non-existant', kycStatus)
       }
     }
-  } catch (error: any) {
+  } catch (error) {
     Logger.error(`${TAG}@watchKycStatus`, error)
   } finally {
     if (yield cancelled()) {
