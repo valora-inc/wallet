@@ -2,7 +2,7 @@ import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, VERIFICATION_PHONE_NUMBER } from
 import twilio from 'twilio'
 import { sleep } from './utils'
 
-const MAX_TRIES = 120
+const MAX_TRIES = 180
 
 export const receiveSms = async (after = new Date(), numCodes = 3, existingCodes = []) => {
   try {
@@ -16,7 +16,6 @@ export const receiveSms = async (after = new Date(), numCodes = 3, existingCodes
         dateSentAfter: after,
       })
       const codes = messages.map((message) => message.body.split(': ')[1])
-      // console.log('Codes received:', codes)
       if (codes.filter((code) => !existingCodes.includes(code)).length >= numCodes) {
         return codes
       }

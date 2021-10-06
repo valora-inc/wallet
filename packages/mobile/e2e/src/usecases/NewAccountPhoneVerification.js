@@ -1,14 +1,20 @@
 import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, VERIFICATION_PHONE_NUMBER } from '@env'
 import { dismissBanners } from '../utils/banners'
 import { EXAMPLE_NAME, EXAMPLE_PHONE_NUMBER } from '../utils/consts'
-import { checkKomenci } from '../utils/komenci'
 import { checkBalance, receiveSms } from '../utils/twilio'
-import { enterPinUi, setUrlDenyList, sleep, waitForElementId } from '../utils/utils'
+import { enterPinUi, setUrlDenyList, sleep, scrollIntoView } from '../utils/utils'
 
 const jestExpect = require('expect')
 const examplePhoneNumber = VERIFICATION_PHONE_NUMBER || EXAMPLE_PHONE_NUMBER
 
 export default NewAccountPhoneVerification = () => {
+  // Log Twilio balance at start
+  beforeAll(async () => {
+    try {
+      await checkBalance()
+    } catch {}
+  })
+
   beforeEach(async () => {
     await device.launchApp({
       delete: true,
@@ -52,150 +58,110 @@ export default NewAccountPhoneVerification = () => {
     device.uninstallApp()
   })
 
-  // Check Twilio balance at start
-  beforeAll(async () => {
-    try {
-      await checkBalance()
-    } catch {}
-  })
-
   // Check that Twilio SID, Auth Token and Verification Phone Number are defined
-  // Check that Twilio balance is enought to complete tests
-  if (
-    TWILIO_ACCOUNT_SID &&
-    TWILIO_AUTH_TOKEN &&
-    VERIFICATION_PHONE_NUMBER &&
-    (async () => await checkBalance())
-  ) {
-    // Check status of 'https://staging-komenci.azurefd.net/v1/ready' prior to tests
-    // If Komenci is up run phone verification
-    // Else Verify that app handles Komenci being down appropriately
-    if (async () => await checkKomenci()) {
-      jest.retryTimes(2)
-      it('Then should be able to verify phone number', async () => {
-        // Get Date at start
-        let date = new Date()
-        // Start verification
-        await element(by.text('Start')).tap()
+  if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && VERIFICATION_PHONE_NUMBER) {
+    // Conditionally skipping jest tests with an async request is currently possible
+    // https://github.com/facebook/jest/issues/7245
+    // https://github.com/facebook/jest/issues/11489
+    jest.retryTimes(1)
+    it('Then should be able to verify phone number', async () => {
+      // Get Date at start
+      let date = new Date()
+      // Start verification
+      await element(by.text('Start')).tap()
 
-        // Retrieve the verification codes from Twilio
-        const codes = await receiveSms(date)
+      // Retrieve the verification codes from Twilio
+      const codes = await receiveSms(date)
 
-        // Wait for code input - 45 seconds max after we've received the last code
-        await waitFor(element(by.id('VerificationCode0')))
-          .toExist()
-          .withTimeout(45 * 1000)
+      // Check that we've received 3 codes
+      jestExpect(codes).toHaveLength(3)
 
-        // Check that we've received 3 codes
-        console.log(codes)
-        jestExpect(codes).toHaveLength(3)
-
-        // Enter 3 codes
-        for (let i = 0; i < 3; i++) {
-          await sleep(1000)
-          await waitFor(element(by.id(`VerificationCode${i}`)))
-            .toBeVisible()
-            .withTimeout(15 * 1000)
-          await element(by.id(`VerificationCode${i}`)).typeText(codes[i])
-        }
-
-        // Assert we've arrived at the home screen
-        await waitFor(element(by.id('SendOrRequestBar')))
-          .toBeVisible()
-          .withTimeout(45 * 1000)
-
-        // Assert that phone verification CTA is NOT served
-        try {
-          await element(by.id('CTA/ScrollContainer')).scroll(500, 'right')
-        } catch {}
-        await expect(element(by.text('Confirm Now'))).not.toExist()
-
-        // Assert that correct phone number is present in sidebar
-        await element(by.id('Hamburger')).tap()
-        await expect(element(by.text(`${examplePhoneNumber}`))).toBeVisible()
-      })
-      // Note: (Tom) Skip this test until we have a nightly suite vs pull request suite as it takes a long time
-      // jest.retryTimes(2)
-      it.skip('Then should be able to resend last 2 messages', async () => {
-        // Get Date at start
-        let date = new Date()
-        // Start verification
-        await element(by.text('Start')).tap()
-
-        // Request codes, but wait for all 3 to verify resend codes work
-        const codes = await receiveSms(date)
-        await waitFor(element(by.id('VerificationCode0')))
-          .toExist()
-          .withTimeout(45 * 1000)
-
-        // Assert that we've received 3 codes
-        jestExpect(codes).toHaveLength(3)
-
-        // Input first code
-        await element(by.id(`VerificationCode0`)).replaceText(codes[0])
-
-        // Wait one minute before resending
-        await sleep(60 * 1000)
-        await element(by.text('Resend 2 messages')).tap()
-
-        // Enter pin to start resend
-        date = new Date()
-        await enterPinUi()
-        let secondCodeSet = await receiveSms(date, 2, codes)
-
-        // Assert that we've received at least 2 codes
-        jestExpect(secondCodeSet.length).toBeGreaterThanOrEqual(2)
-
-        // Input codes two codes
-        for (let i = 0; i < 2; i++) {
-          await waitFor(element(by.id(`VerificationCode${i + 1}`)))
-            .toBeVisible()
-            .withTimeout(10 * 1000)
-          await element(by.id(`VerificationCode${i + 1}`)).replaceText(secondCodeSet[i])
-        }
-
-        // Assert we've arrived at the home screen
-        await waitFor(element(by.id('SendOrRequestBar')))
+      // Enter 3 codes
+      for (let i = 0; i < 3; i++) {
+        await sleep(1000)
+        await waitFor(element(by.id(`VerificationCode${i}`)))
           .toBeVisible()
           .withTimeout(30 * 1000)
+        await element(by.id(`VerificationCode${i}`)).typeText(codes[i])
+      }
 
-        // Assert that phone verification CTA is NOT served
-        try {
-          await element(by.id('CTA/ScrollContainer')).scroll(500, 'right')
-        } catch {}
-        await expect(element(by.text('Confirm Now'))).not.toExist()
+      // Assert we've arrived at the home screen
+      await waitFor(element(by.id('SendOrRequestBar')))
+        .toBeVisible()
+        .withTimeout(45 * 1000)
 
-        // Assert that correct phone number is present in sidebar
-        await element(by.id('Hamburger')).tap()
-        await expect(element(by.text(`${examplePhoneNumber}`))).toBeVisible()
-      })
-    } else {
-      it('Then should handle when Komenci is down', async () => {
-        // Continue To Komenci down view
-        await element(by.text('Continue')).tap()
+      // Assert that correct phone number is present in sidebar
+      await element(by.id('Hamburger')).tap()
+      await expect(element(by.text(`${examplePhoneNumber}`))).toBeVisible()
 
-        // Continue to Home Screen
-        await element(by.text('Continue')).tap()
+      // Assert that 'Connect phone number' is not present in settings
+      await scrollIntoView('Settings', 'SettingsScrollView')
+      await waitFor(element(by.id('Settings')))
+        .toBeVisible()
+        .withTimeout(30000)
+      await element(by.id('Settings')).tap()
+      await expect(element(by.text('Connect phone number'))).not.toBeVisible()
+    })
 
-        // Assert we've arrived at the home screen
-        await waitFor(element(by.id('SendOrRequestBar')))
+    // Note: (Tom) Skip this test until we have a nightly suite vs pull request suite as it takes a long time
+    // jest.retryTimes(1)
+    it.skip('Then should be able to resend last 2 messages', async () => {
+      // Get Date at start
+      let date = new Date()
+      // Start verification
+      await element(by.text('Start')).tap()
+
+      // Request codes, but wait for all 3 to verify resend codes work
+      const codes = await receiveSms(date)
+      await waitFor(element(by.id('VerificationCode0')))
+        .toExist()
+        .withTimeout(45 * 1000)
+
+      // Assert that we've received 3 codes
+      jestExpect(codes).toHaveLength(3)
+
+      // Input first code
+      await element(by.id(`VerificationCode0`)).replaceText(codes[0])
+
+      // Wait one minute before resending
+      await sleep(60 * 1000)
+      await element(by.text('Resend 2 messages')).tap()
+
+      // Enter pin to start resend
+      date = new Date()
+      await enterPinUi()
+      let secondCodeSet = await receiveSms(date, 2, codes)
+
+      // Assert that we've received at least 2 codes
+      jestExpect(secondCodeSet.length).toBeGreaterThanOrEqual(2)
+
+      // Input codes two codes
+      for (let i = 0; i < 2; i++) {
+        await waitFor(element(by.id(`VerificationCode${i + 1}`)))
           .toBeVisible()
           .withTimeout(10 * 1000)
+        await element(by.id(`VerificationCode${i + 1}`)).replaceText(secondCodeSet[i])
+      }
 
-        // Assert that phone verification CTA is served
-        try {
-          await element(by.id('CTA/ScrollContainer')).scroll(500, 'right')
-        } catch {}
-        await expect(element(by.text('Confirm Now'))).toExist()
+      // Assert we've arrived at the home screen
+      await waitFor(element(by.id('SendOrRequestBar')))
+        .toBeVisible()
+        .withTimeout(30 * 1000)
 
-        // Assert that correct phone number is present in sidebar
-        await element(by.id('Hamburger')).tap()
-        await expect(element(by.text(`${examplePhoneNumber}`))).toBeVisible()
-      })
-    }
+      // Assert that correct phone number is present in sidebar
+      await element(by.id('Hamburger')).tap()
+      await expect(element(by.text(`${examplePhoneNumber}`))).toBeVisible()
+
+      // Assert that 'Connect phone number' is not present in settings
+      await scrollIntoView('Settings', 'SettingsScrollView')
+      await waitFor(element(by.id('Settings')))
+        .toBeVisible()
+        .withTimeout(30000)
+      await element(by.id('Settings')).tap()
+      await expect(element(by.text('Connect phone number'))).not.toBeVisible()
+    })
   }
 
-  // This test is needed as a fall back if no previous tests run - empty specs are not allowed
   // Assert correct content is visible on the phone verification screen
   it('Then should have correct phone verification screen', async () => {
     await dismissBanners()
@@ -220,8 +186,6 @@ export default NewAccountPhoneVerification = () => {
     ).toBeVisible()
 
     // Assert able to dismiss modal and skip
-    let modalDismissAttributes = await element(by.text('Dismiss')).getAttributes()
-    jestExpect(modalDismissAttributes.enabled).toBe(true)
     await element(by.text('Dismiss')).tap()
     await element(by.text('Skip')).tap()
 
@@ -235,17 +199,26 @@ export default NewAccountPhoneVerification = () => {
       )
     ).toBeVisible()
 
-    // Assert both options are enabled
+    // Assert Back button is enabled
     let goBackButtonAttributes = await element(by.text('Go Back')).getAttributes()
-    let skipForNowButtonAttributes = await element(by.text('Skip for now')).getAttributes()
     jestExpect(goBackButtonAttributes.enabled).toBe(true)
-    jestExpect(skipForNowButtonAttributes.enabled).toBe(true)
 
     // Tap 'Skip for now'
     await element(by.text('Skip for now')).tap()
 
     // Assert we've arrived at the home screen
     await waitFor(element(by.id('SendOrRequestBar')))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
+
+    // Assert that 'Connect phone number' is present in settings
+    await element(by.id('Hamburger')).tap()
+    await scrollIntoView('Settings', 'SettingsScrollView')
+    await waitFor(element(by.id('Settings')))
+      .toBeVisible()
+      .withTimeout(30000)
+    await element(by.id('Settings')).tap()
+    await waitFor(element(by.text('Connect phone number')))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })
