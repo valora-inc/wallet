@@ -131,8 +131,9 @@ export default onRamps = () => {
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('OKEx'))).toBeVisible()
         await expect(element(by.id('accountBox'))).toBeVisible()
+        // Note(Tom): Set allowed match diff higher to deal with https://github.com/valora-inc/wallet/issues/1136
         const imagePath = await device.takeScreenshot('CELO Exchanges')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO Exchanges.png`)
+        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO Exchanges.png`, 4.5)
       })
     })
   })
