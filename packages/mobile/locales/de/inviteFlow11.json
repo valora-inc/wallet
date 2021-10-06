@@ -30,7 +30,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Erhalte {{amount}} {{currency}}, indem du einen Freund wirbst!",
-    "body": "Verdiene {{amount}} {{currency}}, wenn du Geld an einen Freund sendest und dieser beitritt. <0>Mehr Infos</0>"
+    "body": "Erhalte {{amount}} {{currency}}, wenn du Krypto an einen Freund sendest und dieser beitritt. <0>Mehr Infos</0>"
   },
   "getReward": "Erhalte ${{reward}}"
 }
