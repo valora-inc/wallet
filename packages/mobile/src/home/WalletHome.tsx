@@ -16,7 +16,7 @@ import { connect } from 'react-redux'
 import { nameSelector } from 'src/account/selectors'
 import { showMessage } from 'src/alert/actions'
 import { ALERT_BANNER_DURATION, DEFAULT_TESTNET, SHOW_TESTNET_BANNER } from 'src/config'
-import { addAnalyticsUserProfile, refreshAllBalances, setLoading } from 'src/home/actions'
+import { refreshAllBalances, setLoading } from 'src/home/actions'
 import NotificationBox from 'src/home/NotificationBox'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import { Namespaces, withTranslation } from 'src/i18n'
@@ -52,7 +52,6 @@ interface DispatchProps {
   setLoading: typeof setLoading
   showMessage: typeof showMessage
   importContacts: typeof importContacts
-  addAnalyticsUserProfile: typeof addAnalyticsUserProfile
 }
 
 type Props = StateProps & DispatchProps & WithTranslation
@@ -63,7 +62,6 @@ const mapDispatchToProps = {
   setLoading,
   showMessage,
   importContacts,
-  addAnalyticsUserProfile,
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
@@ -105,8 +103,6 @@ export class WalletHome extends React.Component<Props, State> {
     if (SHOW_TESTNET_BANNER) {
       this.showTestnetBanner()
     }
-
-    this.props.addAnalyticsUserProfile()
 
     // TODO: Fire refreshAllBalances when the app state changes to active. It's easier to do that when we
     // transform this into a function component.

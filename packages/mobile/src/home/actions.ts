@@ -7,7 +7,6 @@ export enum Actions {
   REFRESH_BALANCES = 'HOME/REFRESH_BALANCES',
   START_BALANCE_AUTOREFRESH = 'HOME/START_BALANCE_AUTOREFRESH',
   STOP_BALANCE_AUTOREFRESH = 'HOME/STOP_BALANCE_AUTOREFRESH',
-  ADD_ANALYTICS_PROFILE = 'HOME/ADD_ANALYTICS_PROFILE',
 }
 
 export interface SetLoadingAction {
@@ -54,8 +53,4 @@ export const startBalanceAutorefresh = () => ({
 
 export const stopBalanceAutorefresh = () => ({
   type: Actions.STOP_BALANCE_AUTOREFRESH,
-})
-
-export const addAnalyticsUserProfile = () => ({
-  type: Actions.ADD_ANALYTICS_PROFILE,
 })

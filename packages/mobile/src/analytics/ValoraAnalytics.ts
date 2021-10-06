@@ -156,7 +156,7 @@ class ValoraAnalytics {
     })
   }
 
-  addUserProfile(userID: string, userInfo = {}) {
+  identify(userID: string, traits: {}) {
     if (!this.isEnabled()) {
       Logger.debug(TAG, `Analytics is disabled, not tracking user ${userID}`)
       return
@@ -167,7 +167,7 @@ class ValoraAnalytics {
       return
     }
 
-    Analytics.identify(userID, userInfo).catch((err) => {
+    Analytics.identify(userID, traits).catch((err) => {
       Logger.error(TAG, `Failed to identify user ${userID}`, err)
     })
   }
