@@ -39,7 +39,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 }
 
 /**
- * Component displayed to the user when entering account key flow from the settings menu or a
+ * Component displayed to the user when entering Recovery Phrase flow from the settings menu or a
  * notification. Displays content to the user depending on whether they have set up their account
  * key backup already.
  */
@@ -70,8 +70,8 @@ interface AccountKeyStartProps {
 }
 
 /**
- * Component displayed to the user when entering account key flow prior to a successful completion.
- * Introduces the user to the account key and invites them to set it up
+ * Component displayed to the user when entering Recovery Phrase flow prior to a successful completion.
+ * Introduces the user to the Recovery Phrase and invites them to set it up
  */
 function AccountKeyIntro({ onPrimaryPress }: AccountKeyStartProps) {
   const { t } = useTranslation(Namespaces.backupKeyFlow6)
@@ -86,9 +86,9 @@ function AccountKeyIntro({ onPrimaryPress }: AccountKeyStartProps) {
 }
 
 /**
- * Component displayed to the user when entering the account key flow after having successfully set
- * up their backup. Displays their account key and provides an option to learn more about the
- * account key, which brings them to the account key education flow.
+ * Component displayed to the user when entering the Recovery Phrase flow after having successfully set
+ * up their backup. Displays their Recovery Phrase and provides an option to learn more about the
+ * Recovery Phrase, which brings them to the Recovery Phrase education flow.
  */
 function AccountKeyPostSetup() {
   const accountKey = useAccountKey()

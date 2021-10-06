@@ -139,8 +139,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   image: {
-    marginRight: variables.contentPadding,
-    marginLeft: variables.contentPadding,
+    marginHorizontal: variables.contentPadding,
   },
   balanceSheet: {
     paddingVertical: variables.contentPadding,
@@ -159,6 +158,7 @@ const styles = StyleSheet.create({
   optionsListContainer: {
     flex: 1,
     justifyContent: 'flex-start',
+    paddingRight: variables.contentPadding,
   },
   optionTitle: {
     ...fontStyles.regular500,

@@ -819,6 +819,8 @@ interface FiatExchangeEventsProperties {
     provider: string | undefined
   }
   [FiatExchangeEvents.cico_add_funds_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_impression]: undefined
   [FiatExchangeEvents.cico_cash_out_selected]: undefined
   [FiatExchangeEvents.cico_spend_selected]: undefined
   [FiatExchangeEvents.cico_fund_info]: undefined
@@ -851,6 +853,8 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
   [FiatExchangeEvents.cico_spend_select_provider_back]: undefined
+  [FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue]: undefined
+  [FiatExchangeEvents.cico_celo_exchange_send_bar_continue]: undefined
 }
 
 interface GethEventsProperties {
