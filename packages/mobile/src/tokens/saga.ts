@@ -22,7 +22,7 @@ import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import * as utf8 from 'utf8'
 import * as erc20 from './IERC20.json'
 
@@ -271,7 +271,7 @@ export function* fetchTokenBalance(kit: ContractKit, address: string, token: Tok
 export function* importTokenInfo() {
   const tokens: Token[] = yield call(readOnceFromFirebase, 'tokensInfo')
   const kit: ContractKit = yield call(getContractKit)
-  const address: string = yield select(currentAccountSelector)
+  const address: string = yield select(walletAddressSelector)
   const balances = yield all(
     tokens.map((token: Token) => call(fetchTokenBalance, kit, address, token))
   )

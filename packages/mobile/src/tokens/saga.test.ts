@@ -4,7 +4,7 @@ import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { setTokenBalances } from 'src/tokens/reducer'
 import { importTokenInfo } from 'src/tokens/saga'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount } from 'test/values'
 import * as erc20 from './IERC20.json'
 
@@ -66,7 +66,7 @@ describe(importTokenInfo, () => {
       .provide([
         [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
         [call(getContractKit), contractKit],
-        [select(currentAccountSelector), mockAccount],
+        [select(walletAddressSelector), mockAccount],
         // [call(fetchTokenBalance, contractKit, mockAccount, firebaseTokenInfo[0]), 0],
         // [call(fetchTokenBalance, contractKit, mockAccount, firebaseTokenInfo[1]), 0]
         [call(contractPOOF.methods.balanceOf(mockAccount).call), 0],
