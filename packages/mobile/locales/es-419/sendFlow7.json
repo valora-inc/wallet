@@ -46,7 +46,7 @@
   "searchForSomeone": "Busca a alguien por su nombre, número de teléfono o dirección",
   "pending": "Pendiente",
   "sentPayment": "Pago enviado",
-  "sentEscrowPayment": "Pago de depósito enviado",
+  "sentEscrowPayment": "Pago de garantía enviado",
   "mobileNumber": "Número de teléfono",
   "sendToMobileNumber": "Enviar a número de teléfono",
   "requestFromMobileNumber": "Solicitar a número de teléfono",
