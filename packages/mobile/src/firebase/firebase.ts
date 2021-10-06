@@ -166,8 +166,8 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   if (Platform.OS === 'ios') {
     const apnsToken = yield call([firebase.messaging(), 'getAPNSToken'])
     if (apnsToken) {
-      // @ts-ignore APNS constant missing from types
-      CleverTap.setPushToken(apnsToken, CleverTap.APNS)
+      // Note: 2nd argument (type) is ignored on iOS, so we just pass an empty string
+      CleverTap.setPushToken(apnsToken, '')
     }
   }
 
