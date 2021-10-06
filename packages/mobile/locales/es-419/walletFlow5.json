@@ -121,5 +121,10 @@
   "transactionHeaderCeloDeposit": "Depósito recibido",
   "transactionHeaderCeloReward": "Recompensa recibida",
   "transactionHeaderEscrowReceived": "Pago de depósito recibido",
-  "feedSectionHeaderRecent": "Recientes"
+  "feedSectionHeaderRecent": "Recientes",
+  "cashInBottomSheet": {
+    "title": "Añade fondos para empezar a usar Valora!",
+    "subtitle": "Tu cuenta está actualmente vacía",
+    "addFunds": "Agregar fondos"
+  }
 }
