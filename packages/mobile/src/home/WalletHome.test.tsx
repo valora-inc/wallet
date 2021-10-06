@@ -44,8 +44,6 @@ describe('Testnet banner', () => {
           name={null}
           currency={Currency.Celo}
           recipientCache={{}}
-          activeNotificationCount={0}
-          callToActNotification={false}
           numberVerified={true}
           importContacts={jest.fn()}
           {...getMockI18nProps()}
@@ -79,8 +77,6 @@ describe('Testnet banner', () => {
           name={null}
           currency={Currency.Celo}
           recipientCache={{}}
-          activeNotificationCount={0}
-          callToActNotification={false}
           numberVerified={true}
           importContacts={jest.fn()}
           {...getMockI18nProps()}
@@ -106,8 +102,6 @@ describe('Testnet banner', () => {
           name={null}
           currency={Currency.Celo}
           recipientCache={{}}
-          activeNotificationCount={0}
-          callToActNotification={false}
           numberVerified={true}
           importContacts={jest.fn()}
           {...getMockI18nProps()}

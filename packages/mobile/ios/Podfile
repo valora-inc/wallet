@@ -6,11 +6,18 @@ source 'https://cdn.cocoapods.org/'
 # `The 'Pods-celo' target has transitive dependencies that include statically linked binaries [...]`
 $RNFirebaseAsStaticFramework = true
 
-# Workaround OpenSSL-Universal react-native-fast-crypto conflict
-$static_framework = ['react-native-flipper', 'react-native-fast-crypto', 'FlipperKit', 'Flipper', 'Flipper-Folly',
-  'CocoaAsyncSocket', 'ComponentKit', 'Flipper-DoubleConversion',
-  'Flipper-Glog', 'Flipper-PeerTalk', 'Flipper-RSocket',
-  'CocoaLibEvent', 'OpenSSL-Universal']
+# Workaround for the following error:
+# `The 'Pods-celo' target has transitive dependencies that include statically linked binaries [...]`
+$static_framework = [
+  'react-native-flipper', 
+  'FlipperKit', 
+  'Flipper', 
+  'Flipper-Folly',
+  'Flipper-DoubleConversion',
+  'Flipper-Glog', 
+  'Flipper-PeerTalk', 
+  'Flipper-RSocket',
+]
 
 require_relative "../../../node_modules/react-native/scripts/react_native_pods"
 require_relative "../../../node_modules/@react-native-community/cli-platform-ios/native_modules"
