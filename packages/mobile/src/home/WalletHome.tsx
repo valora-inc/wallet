@@ -89,7 +89,6 @@ interface State {
 export class WalletHome extends React.Component<Props, State> {
   scrollPosition: Animated.Value<number>
   onScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
-  isAccountBalanceZero: boolean
 
   constructor(props: Props) {
     super(props)
@@ -99,12 +98,6 @@ export class WalletHome extends React.Component<Props, State> {
     this.state = {
       isMigrating: false,
     }
-
-    const hasStable = STABLE_CURRENCIES.some((currency) =>
-      props.balances[currency]?.isGreaterThan(STABLE_TRANSACTION_MIN_AMOUNT)
-    )
-    const hasGold = props.balances[Currency.Celo]?.isGreaterThan(GOLD_TRANSACTION_MIN_AMOUNT)
-    this.isAccountBalanceZero = !hasStable && !hasGold
   }
 
   onRefresh = async () => {
@@ -134,7 +127,13 @@ export class WalletHome extends React.Component<Props, State> {
   }
 
   shouldShowCashInBottomSheet = () => {
-    return this.props.cashInButtonExpEnabled && this.isAccountBalanceZero
+    const hasStable = STABLE_CURRENCIES.some((currency) =>
+      this.props.balances[currency]?.isGreaterThan(STABLE_TRANSACTION_MIN_AMOUNT)
+    )
+    const hasGold = this.props.balances[Currency.Celo]?.isGreaterThan(GOLD_TRANSACTION_MIN_AMOUNT)
+    const isAccountBalanceZero = !hasStable && !hasGold
+
+    return this.props.cashInButtonExpEnabled && isAccountBalanceZero
   }
 
   tryImportContacts = async () => {
