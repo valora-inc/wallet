@@ -123,8 +123,8 @@
   "transactionHeaderEscrowReceived": "Pago de depósito recibido",
   "feedSectionHeaderRecent": "Recientes",
   "cashInBottomSheet": {
-    "title": "Añade fondos para empezar a usar Valora!",
-    "subtitle": "Tu cuenta está actualmente vacía",
+    "title": "¡Agrega fondos para empezar a usar Valora!",
+    "subtitle": "Actualmente tu cuenta está vacía",
     "addFunds": "Agregar fondos"
   }
 }
