@@ -58,7 +58,7 @@ export default onRamps = () => {
         await element(by.text('Next')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Should Display Exchanges & Recovery Phrase', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
           .withTimeout(20000)
@@ -119,7 +119,7 @@ export default onRamps = () => {
         await element(by.text('Next')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Should Display Exchanges & Recovery Phrase', async () => {
         await waitFor(element(by.id('Binance')))
           .toBeVisible()
           .withTimeout(20000)
