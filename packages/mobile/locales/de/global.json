@@ -91,7 +91,7 @@
   "importContactsFailed": "Import der Kontakte fehlgeschlagen",
   "sendPaymentFailed": "Zahlungsversand fehlgeschlagen",
   "paymentRequestFailed": "Zahlungsaufforderung nicht gesendet",
-  "escrowTransferFailed": "Transfer zum Treffer fehlgeschlagen",
+  "escrowTransferFailed": "Transfer zum Escrow fehlgeschlagen",
   "escrowWithdrawalFailed": "Abhebung aus dem escrow fehlgeschlagen",
   "reclaimingEscrowedPaymentFailed": "Zahlung konnte nicht zurückgefordert werden",
   "connectingToCelo": "Verbindung wird aufgebaut…",
