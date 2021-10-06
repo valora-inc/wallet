@@ -195,6 +195,7 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
             onScroll={[Function]}
             pagingEnabled={true}
             showsHorizontalScrollIndicator={false}
+            testID="CTA/ScrollContainer"
           >
             <View>
               <View
@@ -1018,6 +1019,7 @@ exports[`Testnet banner Renders when disconnected 1`] = `
             onScroll={[Function]}
             pagingEnabled={true}
             showsHorizontalScrollIndicator={false}
+            testID="CTA/ScrollContainer"
           >
             <View>
               <View
@@ -1841,6 +1843,7 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
             onScroll={[Function]}
             pagingEnabled={true}
             showsHorizontalScrollIndicator={false}
+            testID="CTA/ScrollContainer"
           >
             <View>
               <View
