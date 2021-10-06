@@ -123,7 +123,7 @@
   "transactionHeaderEscrowReceived": "Escrow-Zahlung erhalten",
   "feedSectionHeaderRecent": "Zuletzt",
   "cashInBottomSheet": {
-    "title": "Füge Geld hinzu, um Valora zu nutzen!",
+    "title": "Füge Guthaben hinzu, um loszulegen!",
     "subtitle": "Dein Konto ist derzeit leer",
     "addFunds": "Guthaben hinzufügen"
   }
