@@ -18,7 +18,7 @@ const run = async () => {
       shell(
         `jest ${batch.join(
           ' '
-        )} --silent --coverageDirectory=./coverage/${uniqueId()} --coverage --maxWorkers=3`
+        )} --silent --coverageDirectory=./coverage/${uniqueId()} --coverage --maxWorkers=6`
       )
       batch = []
     }
