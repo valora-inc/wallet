@@ -27,7 +27,7 @@
   "learnMore": "Weitere Info",
   "activity": "Aktivität",
   "history": "Verlauf",
-  "earnRewards": "Belohnungen erhalten",
+  "earnRewards": "Erhalte Belohnungen",
   "notEnoughStableError": "Nicht genug {{token}} zum Umtausch",
   "notEnoughGoldError": "Nicht genug CELO zum Umtausch",
   "exchangeFailed": "Umtausch fehlgeschlagen, bitte erneut versuchen",
@@ -200,7 +200,7 @@
   "ok": "OK",
   "cashOutLimitExceeded": "Du kannst nicht mehr auszahlen als dein Saldo von {{balance}} {{currency}}",
   "appDescription": "Ein mobiles Wallet, das weltweit funktioniert",
-  "earn": "Verdienen",
+  "earn": "Verdiene",
   "free": "Gratis",
   "notNow": "Nicht jetzt",
   "contactSupport": "Support kontaktieren"
