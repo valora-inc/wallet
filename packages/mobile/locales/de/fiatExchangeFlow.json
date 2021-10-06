@@ -38,7 +38,7 @@
   },
   "explanationModal": {
     "title": "Über Anbieter",
-    "body": "Provider erlauben es dir, Guthaben deinem Konto hinzuzufügen oder abzuheben. Sie bestimmen ihre eigenen Tarife und Einschränkungen je nach verschiedenen Faktoren. Bitte besuche die Website deines Anbieters für gezielte Hilfe."
+    "body": "Provider erlauben es dir, Guthaben deinem Konto hinzuzufügen oder abzuheben. Sie bestimmen ihre eigenen Gebühren und Einschränkungen je nach verschiedenen Faktoren. Bitte besuche die Website deines Anbieters für gezielte Hilfe."
   },
   "invalidAmountDialog": {
     "minAmount": "Unsere Anbieter unterstützen keine Gesamtsummen kleiner als {{usdLimit}}{{localLimit}}. Bitte gib einen größeren Betrag ein.",
