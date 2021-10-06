@@ -1,5 +1,5 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
@@ -18,13 +18,13 @@ describe('CashInBottomSheet', () => {
   })
 
   it('navigates to the add funds page when the add funds button is clicked', () => {
-    const tree = render(
+    const { getByTestId } = render(
       <Provider store={createMockStore({})}>
         <CashInBottomSheet />
       </Provider>
     )
 
-    fireEvent.press(tree.getByTestId('cashInBtn'))
+    fireEvent.press(getByTestId('cashInBtn'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeOptions, {
       isCashIn: true,
     })
