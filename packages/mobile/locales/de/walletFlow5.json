@@ -121,5 +121,10 @@
   "transactionHeaderCeloDeposit": "Anzahlung erhalten",
   "transactionHeaderCeloReward": "Belohnung erhalten",
   "transactionHeaderEscrowReceived": "Escrow-Zahlung erhalten",
-  "feedSectionHeaderRecent": "Zuletzt"
+  "feedSectionHeaderRecent": "Zuletzt",
+  "cashInBottomSheet": {
+    "title": "Füge Geld hinzu, um Valora zu nutzen!",
+    "subtitle": "Dein Konto ist derzeit leer",
+    "addFunds": "Guthaben hinzufügen"
+  }
 }
