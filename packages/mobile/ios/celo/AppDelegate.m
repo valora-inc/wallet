@@ -92,7 +92,9 @@ static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
   
   [CleverTap autoIntegrate];
   [[CleverTapReactManager sharedInstance] applicationDidLaunchWithOptions:launchOptions];
-  [CleverTap setDebugLevel:CleverTapLogDebug];
+  #if DEBUG
+    [CleverTap setDebugLevel:CleverTapLogDebug];
+  #endif
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];    
   center.delegate = self;
 

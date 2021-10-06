@@ -93,7 +93,7 @@ function* addAnalyticsUserProfile() {
     currency: yield select(defaultCurrencySelector),
     name: yield select(nameSelector),
   }
-  ValoraAnalytics.addUserProfile(accountAddress, userInfo)
+  ValoraAnalytics.addUserProfile(walletAddress, userInfo)
 }
 
 export function* watchAddProfile() {

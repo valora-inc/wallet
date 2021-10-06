@@ -152,20 +152,22 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   // `registerDeviceForRemoteMessages` must be called before calling `getToken`
   // Note: `registerDeviceForRemoteMessages` is really only required for iOS and is a no-op on Android
   yield call([app.messaging(), 'registerDeviceForRemoteMessages'])
-  if (Platform.OS === 'android') {
-    const fcmToken = yield call([app.messaging(), 'getToken'])
-    if (fcmToken) {
-      yield call(registerTokenToDb, app, address, fcmToken)
+  const fcmToken = yield call([app.messaging(), 'getToken'])
+  if (fcmToken) {
+    yield call(registerTokenToDb, app, address, fcmToken)
+    if (Platform.OS === 'android') {
       // @ts-ignore FCM constant missing from types
       yield call([CleverTap, 'setPushToken'], fcmToken, CleverTap.FCM)
     }
     // First time setting the fcmToken also set the language selection
     const language = yield select(currentLanguageSelector)
     yield call(setUserLanguage, address, language)
-  } else {
+  }
+  if (Platform.OS === 'ios') {
     const apnsToken = yield call([firebase.messaging(), 'getAPNSToken'])
     if (apnsToken) {
-      CleverTap.setPushToken(apnsToken, 'APNS')
+      // @ts-ignore APNS constant missing from types
+      CleverTap.setPushToken(apnsToken, CleverTap.APNS)
     }
   }
 
