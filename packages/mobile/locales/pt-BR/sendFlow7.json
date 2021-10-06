@@ -4,6 +4,7 @@
   "dollarsSent": "Dólares Enviados",
   "to": "Para",
   "send": "Enviar",
+  "withdrawToken": "Retirada {{token}}",
   "sendToken": "Enviar {{token}}",
   "payment": "Pagamento",
   "sendOrRequest": "Enviar ou solicitar",
@@ -19,7 +20,7 @@
   "sentTo": "Enviar para",
   "withdrawnTo": "Transferido para",
   "receivedFrom": "Recebido de",
-  "accountAddressLabel": "Endereço de Conta",
+  "accountNumberLabel": "Endereço de Conta",
   "commentLabel": "Mensagem",
   "amountSent": "Quantia enviada",
   "amountCeloWithdrawn": "Quantia (CELO)",
@@ -78,7 +79,7 @@
   "stableBalance": "Saldo de {{token}}",
   "verificationCta": {
     "header": "Enviando para um amigo?",
-    "body": "Conecte seu número de celular e sincronize seus contatos para enviar fundos para seus amigos e familiares.",
+    "body": "Confirme seu celular e sincronize seus contatos para enviar rapidamente para seus amigos.",
     "cta": "Iniciar confirmação"
   },
   "importContactsCta": {
@@ -127,10 +128,10 @@
   "encryption": {
     "warningLabel": "Este comentário não será criptografado",
     "warningModalHeader": "Sobre criptografia",
-    "warningModalBody": "A criptografia garante que sua descrição de pagamento seja privada. \nA {{appName}} usa criptografia nos pagamentos quando o remetente e o destinatário têm esse recurso configurado. ",
+    "warningModalBody": "A criptografia garante que seus comentários sejam mantidos em sigilo. A {{appName}} usa criptografia nos comentários da transação quando o remetente e o destinatário têm esse recurso configurado. A configuração normalmente ocorrerá automaticamente assim que um usuário enviar sua primeira transação.",
     "feeLabel": "Taxa única de criptografia",
     "feeModalHeader": "Taxa única de criptografia",
-    "feeModalBody": "A criptografia ajuda a manter a privacidade de seus dados confidenciais. Uma pequena taxa única é adicionada à sua primeira transação para configurar a criptografia. "
+    "feeModalBody": "A criptografia ajuda a manter a privacidade de seus dados confidenciais. Uma pequena taxa única é adicionada à sua primeira transação para configurar a criptografia. Isso garante que seus comentários serão enviados de forma segura e privada."
   },
   "sendToAddressWarning": {
     "title": "Enviando para um endereço",
