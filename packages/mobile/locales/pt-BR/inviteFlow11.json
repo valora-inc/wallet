@@ -3,7 +3,7 @@
   "inviteWithWhatsapp": "Convidar com o WhatsApp",
   "inviteWithSMS": "Convidar com SMS",
   "inviteFee": "Taxa de Convite",
-  "whySendFees": "Esta taxa cobre os custos para o novo usuário confirmar seu número de celular",
+  "whySendFees": "Essa taxa cobre os custos de confirmação do número de celular do usuário",
   "whyReceiveFees": "Você recebeu dinheiro para confirmar sua conta",
   "edit": "Editar",
   "to": "Para",
@@ -29,8 +29,8 @@
     "button": "Convidar"
   },
   "inviteRewardsBanner": {
-    "title": "Obtenha {{amount}} {{currency}} indicando um amigo!",
-    "body": "Ganhe {{amount}} {{currency}} quando você enviar dinheiro para um amigo e ele se juntar. <0>Saiba mais</0>"
+    "title": "Indique um amigo e ganhe {{amount}} {{currency}}!",
+    "body": "Envie dinheiro a um amigo e, se ele se inscrever, você ganha {{amount}} {{currency}}. <0>Saiba mais</0>"
   },
   "getReward": "Receba ${{reward}}"
 }
