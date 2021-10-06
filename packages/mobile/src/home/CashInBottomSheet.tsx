@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import Modal from 'react-native-modal'
-import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
+import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
@@ -20,8 +20,8 @@ function CashInBottomSheet() {
   const [isModalVisible, setModalVisible] = useState(true)
 
   useEffect(() => {
-    ValoraAnalytics.track(HomeEvents.impression_cash_in_bottom_sheet)
-  })
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_impression)
+  }, [])
 
   const onDismissBottomSheet = () => {
     setModalVisible(false)
@@ -33,7 +33,7 @@ function CashInBottomSheet() {
     navigate(Screens.FiatExchangeOptions, {
       isCashIn: true,
     })
-    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_selected_home)
+    ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_bottom_sheet_selected)
   }
 
   return (

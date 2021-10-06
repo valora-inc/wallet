@@ -29,7 +29,6 @@ export enum HomeEvents {
   notification_select = 'notification_select',
   transaction_feed_item_select = 'transaction_feed_item_select',
   transaction_feed_address_copy = 'transaction_feed_address_copy',
-  impression_cash_in_bottom_sheet = 'impression_cash_in_bottom_sheet',
 }
 
 export enum SettingsEvents {
@@ -355,7 +354,8 @@ export enum FiatExchangeEvents {
 
   cico_add_funds_selected = 'cico_add_funds_selected',
   // Add fund flow entered through home screen cash in bottom sheet
-  cico_add_funds_selected_home = 'cico_add_funds_selected_home',
+  cico_add_funds_bottom_sheet_selected = 'cico_add_funds_bottom_sheet_selected',
+  cico_add_funds_bottom_sheet_impression = 'cico_add_funds_bottom_sheet_impression',
   cico_cash_out_selected = 'cico_cash_out_selected',
   cico_spend_selected = 'cico_spend_selected',
   cico_fund_info = 'cico_fund_info',

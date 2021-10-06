@@ -17,7 +17,7 @@ describe('CashInBottomSheet', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('it navigates to the add funds page when the add funds button is clicked', () => {
+  it('navigates to the add funds page when the add funds button is clicked', () => {
     const tree = render(
       <Provider store={createMockStore({})}>
         <CashInBottomSheet />
