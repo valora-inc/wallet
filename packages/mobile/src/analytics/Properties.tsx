@@ -819,6 +819,8 @@ interface FiatExchangeEventsProperties {
     provider: string | undefined
   }
   [FiatExchangeEvents.cico_add_funds_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_impression]: undefined
   [FiatExchangeEvents.cico_cash_out_selected]: undefined
   [FiatExchangeEvents.cico_spend_selected]: undefined
   [FiatExchangeEvents.cico_fund_info]: undefined
