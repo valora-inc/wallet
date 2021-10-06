@@ -5,8 +5,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { defaultCurrencySelector } from 'src/stableToken/selectors'
 import { accountAddressSelector, currentAccountSelector } from 'src/web3/selectors'
 
-const TAG = 'analytics/saga'
-
 export const getCurrentUserTraits = createSelector(
   [currentAccountSelector, accountAddressSelector, defaultCurrencySelector, nameSelector],
   (walletAddress, accountAddress, currency, name) => {
