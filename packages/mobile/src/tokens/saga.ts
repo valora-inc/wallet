@@ -4,7 +4,7 @@ import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrappe
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import { retryAsync } from '@celo/utils/lib/async'
 import BigNumber from 'bignumber.js'
-import { call, put, select, spawn, take } from 'redux-saga/effects'
+import { all, call, put, select, spawn, take } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -14,8 +14,7 @@ import { WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
-import { setTokenBalances } from 'src/tokens/actions'
-import { Token, TokenBalances } from 'src/tokens/reducer'
+import { setTokenBalances, Token } from 'src/tokens/reducer'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
@@ -254,20 +253,29 @@ export async function getCurrencyAddress(currency: Currency) {
   }
 }
 
+export function* fetchTokenBalance(kit: ContractKit, address: string, token: Token) {
+  let balance = null
+  const tokenAddress = token.address
+  try {
+    const contract = new kit.web3.eth.Contract(erc20.abi, tokenAddress)
+    balance = yield call(contract.methods.balanceOf(address).call)
+    if (balance) {
+      balance = new BigNumber(balance).dividedBy(new BigNumber(10).exponentiatedBy(token.decimals))
+    }
+  } catch (error) {
+    Logger.error(TAG, `error fetching balance for ${token.name}`, error)
+  }
+  return { [tokenAddress]: { ...token, balance } }
+}
+
 export function* importTokenInfo() {
-  const tokens: Token[] = yield readOnceFromFirebase('tokensInfo')
-  let token: Token
+  const tokens: Token[] = yield call(readOnceFromFirebase, 'tokensInfo')
   const kit: ContractKit = yield call(getContractKit)
   const address: string = yield select(currentAccountSelector)
-  const balances: TokenBalances = {}
-  for (token of tokens) {
-    const contract = new kit.web3.eth.Contract(erc20.abi, token.address)
-    const balance: number = yield call(contract.methods.balanceOf(address).call)
-    if (balance > 0) {
-      balances[token.address] = { ...token, balance }
-    }
-  }
-  yield put(setTokenBalances(balances))
+  const balances = yield all(
+    tokens.map((token: Token) => call(fetchTokenBalance, kit, address, token))
+  )
+  yield put(setTokenBalances(Object.assign({}, ...balances)))
 }
 
 export function* tokensSaga() {

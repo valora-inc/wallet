@@ -1,6 +1,6 @@
+import { createAction, createReducer } from '@reduxjs/toolkit'
 import { RehydrateAction } from 'redux-persist'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
-import { Actions, ActionTypes } from 'src/tokens/actions'
 
 export interface Token {
   address: string
@@ -8,6 +8,7 @@ export interface Token {
   imageUrl: string
   name: string
   symbol: string
+  usdPrice?: number
 }
 
 export interface TokenBalance extends Token {
@@ -26,20 +27,21 @@ export const initialState = {
   tokenBalances: {},
 }
 
-export const reducer = (state: State = initialState, action: ActionTypes | RehydrateAction) => {
-  switch (action.type) {
-    case REHYDRATE: {
+const rehydrate = createAction<any>(REHYDRATE)
+export const setTokenBalances = createAction<TokenBalances>('TOKENS/SET_TOKEN_BALANCES')
+
+export const reducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(rehydrate, (state, action) => {
+      // hack to allow rehydrate actions here
+      const hydrated = getRehydratePayload((action as unknown) as RehydrateAction, 'tokens')
       return {
         ...state,
-        ...getRehydratePayload(action, 'tokens'),
+        ...hydrated,
       }
-    }
-    case Actions.SET_TOKEN_BALANCES:
-      return {
-        ...state,
-        tokenBalances: action.balances,
-      }
-    default:
-      return state
-  }
-}
+    })
+    .addCase(setTokenBalances, (state, action) => ({
+      ...state,
+      tokenBalances: action.payload,
+    }))
+})
