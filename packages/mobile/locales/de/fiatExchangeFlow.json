@@ -2,7 +2,7 @@
   "addFunds": "Guthaben hinzufügen",
   "addFundsSubtitle": "Dein Valora-Konto finanzieren",
   "exchanges": "Kryptobörsen",
-  "noExchanges": "In deinem Land gibt es keine Umtauschmöglichkeiten für {{digitalAsset}} .",
+  "noExchanges": "Es gibt keine Börsen für {{digitalAsset}} in deinem Land.",
   "buySellOnExchanges": "Kaufen/Verkaufen bei Kryptobörsen",
   "cashOut": "Guthaben abheben",
   "cashOutSubtitle": "Gib für Geschenkgutscheine und andere Käufe aus oder sende Krypto an einen Kryptobörse",
@@ -24,7 +24,7 @@
   "payWithCard": "Bankkarte",
   "payWithExchange": "Kryptobörse",
   "selectCashOutMethod": "Guthaben erhalten in:",
-  "receiveOnAddress": "Celo Adresse",
+  "receiveOnAddress": "Celo-Adresse",
   "receiveWithBidali": "Geschenkkarten und Handy-Aufladen",
   "fundingEducationDialog": {
     "title": "Deine {{appName}} finanzieren",
