@@ -4,6 +4,7 @@
   "dollarsSent": "Dollars Sent",
   "to": "To",
   "send": "Send",
+  "withdrawToken": "Withdraw {{token}}",
   "sendToken": "Send {{token}}",
   "payment": "Payment",
   "sendOrRequest": "Send or Request",
@@ -19,7 +20,7 @@
   "sentTo": "Sent To",
   "withdrawnTo": "Withdrawn to",
   "receivedFrom": "Received From",
-  "accountAddressLabel": "Account Address",
+  "accountNumberLabel": "Account Address",
   "commentLabel": "Message",
   "amountSent": "Amount Sent",
   "amountCeloWithdrawn": "Amount (CELO)",
@@ -78,7 +79,7 @@
   "stableBalance": "{{token}} Balance",
   "verificationCta": {
     "header": "Sending to a friend?",
-    "body": "Connect your phone number and sync your contacts to send to friends and family.",
+    "body": "Confirm your phone and sync your contacts to quickly send to your friends.",
     "cta": "Start Confirmation"
   },
   "importContactsCta": {
@@ -127,10 +128,10 @@
   "encryption": {
     "warningLabel": "This comment will not be encrypted",
     "warningModalHeader": "About Encryption",
-    "warningModalBody": "Encryption ensures your payment description is kept private. \nValora uses encryption on your payments when both the sender and receiver have this feature set up. ",
+    "warningModalBody": "Encryption ensures your comments are kept private. {{appName}} uses encryption on transaction comments when both the sender and receiver have this feature set up. Set up will normally occur automatically once a user sends their first transaction.",
     "feeLabel": "One-Time Encryption Fee",
     "feeModalHeader": "One-Time Encryption Fee",
-    "feeModalBody": "Encryption helps keep your sensitive data private. A small one-time fee is added to your first transaction to setup encryption. "
+    "feeModalBody": "Encryption helps keep your sensitive data private. A small one-time fee is added to your first transaction to setup encryption. This ensures your comments will be sent securely and privately."
   },
   "sendToAddressWarning": {
     "title": "Sending to an address",
