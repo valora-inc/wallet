@@ -25,12 +25,12 @@
   "sendAndInvite": "Senden & Einladen",
   "inviteAndSendDialog": {
     "title": "Einladen und Senden",
-    "body": "Ihre Zahlung an {{name}} wird auf sie warten, sobald sie ihre Telefonnummer bestätigen. Teilen Sie ihnen eine Einladungsnachricht, um {{appName}} beizutreten und Ihre Zahlung einlösen!",
+    "body": "Deine Zahlung an {{name}} wird auf sie warten, bis sie ihre Telefonnummer bestätigen. Teile eine Einladungsnachricht mit ihnen, damit sie {{appName}} beitreten und deine Zahlung einlösen können!",
     "button": "Einladen"
   },
   "inviteRewardsBanner": {
-    "title": "Erhalte {{amount}} {{currency}} indem du einen Freund wirbst!",
-    "body": "Verdiene {{amount}} {{currency}} wenn du Geld an einen Freund schickst und dieser beitritt. <0>Mehr erfahren</0>"
+    "title": "Erhalte {{amount}} {{currency}}, indem du einen Freund wirbst!",
+    "body": "Verdiene {{amount}} {{currency}}, wenn du Geld an einen Freund sendest und dieser beitritt. <0>Mehr Infos</0>"
   },
   "getReward": "Erhalte ${{reward}}"
 }
