@@ -15,8 +15,15 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ALERT_BANNER_DURATION, DEFAULT_TESTNET, SHOW_TESTNET_BANNER } from 'src/config'
+import {
+  ALERT_BANNER_DURATION,
+  DEFAULT_TESTNET,
+  GOLD_TRANSACTION_MIN_AMOUNT,
+  SHOW_TESTNET_BANNER,
+  STABLE_TRANSACTION_MIN_AMOUNT,
+} from 'src/config'
 import { refreshAllBalances, setLoading } from 'src/home/actions'
+import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import NotificationBox from 'src/home/NotificationBox'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import { Namespaces, withTranslation } from 'src/i18n'
@@ -28,8 +35,10 @@ import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected } from 'src/redux/selectors'
 import { initializeSentryUserContext } from 'src/sentry/actions'
+import { Balances, balancesSelector } from 'src/stableToken/selectors'
 import { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList from 'src/transactions/TransactionsList'
+import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import { checkContactsPermission } from 'src/utils/permissions'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -39,6 +48,8 @@ interface StateProps {
   recipientCache: NumberToRecipient
   appConnected: boolean
   numberVerified: boolean
+  cashInButtonExpEnabled: boolean
+  balances: Balances
 }
 
 interface DispatchProps {
@@ -65,6 +76,8 @@ const mapStateToProps = (state: RootState): StateProps => ({
   recipientCache: phoneRecipientCacheSelector(state),
   appConnected: isAppConnected(state),
   numberVerified: state.app.numberVerified,
+  cashInButtonExpEnabled: state.app.cashInButtonExpEnabled,
+  balances: balancesSelector(state),
 })
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
@@ -82,7 +95,9 @@ export class WalletHome extends React.Component<Props, State> {
 
     this.scrollPosition = new Animated.Value(0)
     this.onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: this.scrollPosition } } }])
-    this.state = { isMigrating: false }
+    this.state = {
+      isMigrating: false,
+    }
   }
 
   onRefresh = async () => {
@@ -109,6 +124,16 @@ export class WalletHome extends React.Component<Props, State> {
     // Waiting 1/2 sec before triggering to allow
     // rest of feed to load unencumbered
     setTimeout(this.tryImportContacts, 500)
+  }
+
+  shouldShowCashInBottomSheet = () => {
+    const hasStable = STABLE_CURRENCIES.some((currency) =>
+      this.props.balances[currency]?.isGreaterThan(STABLE_TRANSACTION_MIN_AMOUNT)
+    )
+    const hasGold = this.props.balances[Currency.Celo]?.isGreaterThan(GOLD_TRANSACTION_MIN_AMOUNT)
+    const isAccountBalanceZero = !hasStable && !hasGold
+
+    return this.props.cashInButtonExpEnabled && isAccountBalanceZero
   }
 
   tryImportContacts = async () => {
@@ -176,6 +201,7 @@ export class WalletHome extends React.Component<Props, State> {
           keyExtractor={this.keyExtractor}
         />
         <SendOrRequestBar />
+        {this.shouldShowCashInBottomSheet() && <CashInBottomSheet />}
       </SafeAreaView>
     )
   }

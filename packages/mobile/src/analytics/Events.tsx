@@ -353,6 +353,9 @@ export enum FiatExchangeEvents {
   cash_in_success = 'cash_in_success',
 
   cico_add_funds_selected = 'cico_add_funds_selected',
+  // Add fund flow entered through home screen cash in bottom sheet
+  cico_add_funds_bottom_sheet_selected = 'cico_add_funds_bottom_sheet_selected',
+  cico_add_funds_bottom_sheet_impression = 'cico_add_funds_bottom_sheet_impression',
   cico_cash_out_selected = 'cico_cash_out_selected',
   cico_spend_selected = 'cico_spend_selected',
   cico_fund_info = 'cico_fund_info',
