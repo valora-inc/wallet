@@ -3,7 +3,7 @@
   "inviteWithWhatsapp": "Invitar por WhatsApp",
   "inviteWithSMS": "Invitar por SMS",
   "inviteFee": "Tarifa de invitación",
-  "whySendFees": "Esta tarifa cubre los costos de conexión del número de teléfono del usuario nuevo.",
+  "whySendFees": "Esta tarifa cubre los costos de conexión del número de teléfono del nuevo usuario",
   "whyReceiveFees": "Te enviaron dinero para confirmar tu cuenta.",
   "edit": "Editar",
   "to": "Para",
@@ -25,12 +25,12 @@
   "sendAndInvite": "Envía e invita",
   "inviteAndSendDialog": {
     "title": "Invita y envía",
-    "body": "Tu pago estará pendiente hasta que {{name}} conecte su número de teléfono. Envíale un mensaje de invitación para que se registre en {{appName}} y reciba tu pago.",
+    "body": "Una vez que {{name}} confirme su número de teléfono, le llegará tu pago. ¡Comparte un mensaje de invitación con esa persona para que se una a {{appName}} y canjee su pago!",
     "button": "Invitar"
   },
   "inviteRewardsBanner": {
-    "title": "Consigue {{amount}} {{currency}} refiriendo a un amigo!",
-    "body": "Gana {{amount}} {{currency}} cuando envíes dinero a un amigo y éste se una. <0>Más información</0>"
+    "title": "Puedes obtener {{amount}} {{currency}} al recomendarnos a un amigo.",
+    "body": "Gana {{amount}} {{currency}} cuando envíes fondos a un amigo y este se una. <0>Más información</0>"
   },
   "getReward": "Obtén ${{reward}}"
 }
