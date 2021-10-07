@@ -34,6 +34,6 @@ echo "yarn audit --json --groups dependencies --level high | grep auditAdvisory 
 echo
 echo and commit the yarn-audit-known-issues file
 echo
-echo "$output" | grep auditAdvisory | python -mjson.tool
+echo "$output" | grep auditAdvisory | jq
 
 exit "$result"
