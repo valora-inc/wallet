@@ -4,7 +4,7 @@ import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrappe
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import { retryAsync } from '@celo/utils/lib/async'
 import BigNumber from 'bignumber.js'
-import { call, put, take } from 'redux-saga/effects'
+import { all, call, put, select, spawn, take } from 'redux-saga/effects'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -12,7 +12,9 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
+import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
+import { setTokenBalances, Token } from 'src/tokens/reducer'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
@@ -20,7 +22,9 @@ import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
+import { walletAddressSelector } from 'src/web3/selectors'
 import * as utf8 from 'utf8'
+import * as erc20 from './IERC20.json'
 
 const TAG = 'tokens/saga'
 
@@ -247,4 +251,42 @@ export async function getCurrencyAddress(currency: Currency) {
     case Currency.Euro:
       return contractKit.registry.addressFor(CeloContract.StableTokenEUR)
   }
+}
+
+export async function getERC20TokenContract(tokenAddress: string) {
+  const kit = await getContractKitAsync(false)
+  //@ts-ignore
+  return new kit.web3.eth.Contract(erc20.abi, tokenAddress)
+}
+
+export async function getERC20TokenBalance(token: Token, address: string) {
+  let balance = null
+  try {
+    const contract = await getERC20TokenContract(token.address)
+    balance = await contract.methods.balanceOf(address).call()
+  } catch (error) {
+    Logger.error(TAG, `error fetching balance for ${token.name}`, error)
+  }
+  return balance
+}
+
+export function* fetchReadableTokenBalance(address: string, token: Token) {
+  let balance = yield call(getERC20TokenBalance, token, address)
+  if (balance) {
+    balance = balance / Math.pow(10, token.decimals)
+  }
+  return { [token.address]: { ...token, balance } }
+}
+
+export function* importTokenInfo() {
+  const tokens: Token[] = yield call(readOnceFromFirebase, 'tokensInfo')
+  const address: string = yield select(walletAddressSelector)
+  const balances = yield all(
+    tokens.map((token: Token) => call(fetchReadableTokenBalance, address, token))
+  )
+  yield put(setTokenBalances(Object.assign({}, ...balances)))
+}
+
+export function* tokensSaga() {
+  yield spawn(importTokenInfo)
 }
