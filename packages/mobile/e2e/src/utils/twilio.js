@@ -26,7 +26,6 @@ export const receiveSms = async (after = new Date(), numCodes = 3, existingCodes
       tryNumber += 1
       await sleep(1000)
     }
-    return []
   } catch (error) {
     console.log('Error with Twilio SMS', error)
   }
