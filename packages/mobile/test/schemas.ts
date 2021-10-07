@@ -736,6 +736,10 @@ export const v18Schema = {
     ...v17Schema._persist,
     version: 18,
   },
+  app: {
+    ...v17Schema.app,
+    cashInButtonExpEnabled: false,
+  },
   walletConnect: {
     v1: {
       pendingActions: [],

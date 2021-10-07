@@ -54,10 +54,9 @@ function SendAmount(props: Props) {
 
   const [amount, setAmount] = useState('')
   const defaultCurrency = useSelector(defaultCurrencySelector)
-  const [transferCurrency, setTransferCurrency] = useState(defaultCurrency)
+  const { isOutgoingPaymentRequest, recipient, origin, forceCurrency } = props.route.params
+  const [transferCurrency, setTransferCurrency] = useState(forceCurrency ?? defaultCurrency)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
-
-  const { isOutgoingPaymentRequest, recipient, origin } = props.route.params
 
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
@@ -121,6 +120,7 @@ function SendAmount(props: Props) {
         currency={transferCurrency}
         isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
         onChangeCurrency={setTransferCurrency}
+        disallowCurrencyChange={Boolean(forceCurrency)}
       />
       <DisconnectBanner />
       <View style={styles.contentContainer}>
