@@ -9,14 +9,18 @@ export const receiveSms = async (after = new Date(), numCodes = 3, existingCodes
     let client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
     let tryNumber = 0
 
+    let request = {
+      to: `${VERIFICATION_PHONE_NUMBER.replace(/-/g, ' ')}`,
+      limit: 3,
+      dateSentAfter: after,
+    }
+    if (MAX_TRIES < tryNumber) {
+      throw new Error(`Exhausted ${MAX_TRIES} of tries with ${tryNumber} tries`)
+    }
     while (tryNumber < MAX_TRIES) {
-      const messages = await client.messages.list({
-        to: `${VERIFICATION_PHONE_NUMBER}`,
-        limit: 3,
-        dateSentAfter: after,
-      })
+      const messages = await client.messages.list(request)
       const codes = messages.map((message) => message.body.split(': ')[1])
-      if (codes.filter((code) => !existingCodes.includes(code)).length >= numCodes) {
+      if (codes.length >= numCodes) {
         return codes
       }
       tryNumber += 1

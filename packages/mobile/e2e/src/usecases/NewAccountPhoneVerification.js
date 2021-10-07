@@ -127,7 +127,7 @@ export default NewAccountPhoneVerification = () => {
       await sleep(60 * 1000)
       await element(by.text('Resend 2 messages')).tap()
 
-      // Enter pin to start resend
+      // Set date and enter pin to start resend
       date = new Date()
       await enterPinUi()
       let secondCodeSet = await receiveSms(date, 2, codes)
@@ -156,7 +156,7 @@ export default NewAccountPhoneVerification = () => {
       await scrollIntoView('Settings', 'SettingsScrollView')
       await waitFor(element(by.id('Settings')))
         .toBeVisible()
-        .withTimeout(30000)
+        .withTimeout(30 * 1000)
       await element(by.id('Settings')).tap()
       await expect(element(by.text('Connect phone number'))).not.toBeVisible()
     })
