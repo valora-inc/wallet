@@ -1,5 +1,5 @@
 import { CeloTransactionObject } from '@celo/connect'
-import { CeloContract, ContractKit, StableToken } from '@celo/contractkit'
+import { CeloContract, StableToken } from '@celo/contractkit'
 import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import { retryAsync } from '@celo/utils/lib/async'
@@ -20,7 +20,7 @@ import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
+import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import * as utf8 from 'utf8'
@@ -253,27 +253,36 @@ export async function getCurrencyAddress(currency: Currency) {
   }
 }
 
-export function* fetchTokenBalance(kit: ContractKit, address: string, token: Token) {
+export async function getERC20TokenContract(tokenAddress: string) {
+  const kit = await getContractKitAsync(false)
+  //@ts-ignore
+  return new kit.web3.eth.Contract(erc20.abi, tokenAddress)
+}
+
+export async function getERC20TokenBalance(token: Token, address: string) {
   let balance = null
-  const tokenAddress = token.address
   try {
-    const contract = new kit.web3.eth.Contract(erc20.abi, tokenAddress)
-    balance = yield call(contract.methods.balanceOf(address).call)
-    if (balance) {
-      balance = new BigNumber(balance).dividedBy(new BigNumber(10).exponentiatedBy(token.decimals))
-    }
+    const contract = await getERC20TokenContract(token.address)
+    balance = await contract.methods.balanceOf(address).call()
   } catch (error) {
     Logger.error(TAG, `error fetching balance for ${token.name}`, error)
   }
-  return { [tokenAddress]: { ...token, balance } }
+  return balance
+}
+
+export function* fetchReadableTokenBalance(address: string, token: Token) {
+  let balance = yield call(getERC20TokenBalance, token, address)
+  if (balance) {
+    balance = balance / Math.pow(10, token.decimals)
+  }
+  return { [token.address]: { ...token, balance } }
 }
 
 export function* importTokenInfo() {
   const tokens: Token[] = yield call(readOnceFromFirebase, 'tokensInfo')
-  const kit: ContractKit = yield call(getContractKit)
   const address: string = yield select(walletAddressSelector)
   const balances = yield all(
-    tokens.map((token: Token) => call(fetchTokenBalance, kit, address, token))
+    tokens.map((token: Token) => call(fetchReadableTokenBalance, address, token))
   )
   yield put(setTokenBalances(Object.assign({}, ...balances)))
 }
