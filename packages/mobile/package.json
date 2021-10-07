@@ -67,7 +67,7 @@
     "@react-navigation/material-top-tabs": "^5.3.10",
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
-    "@reduxjs/toolkit": "^1.5.0",
+    "@reduxjs/toolkit": "^1.6.2",
     "@segment/analytics-react-native": "^1.4.4",
     "@segment/analytics-react-native-adjust": "^1.4.4",
     "@segment/analytics-react-native-firebase": "^1.4.4",
@@ -227,7 +227,6 @@
     "redux-flipper": "^1.4.2",
     "redux-mock-store": "^1.5.3",
     "redux-saga-test-plan": "^4.0.0-beta.2",
-    "remote-redux-devtools": "^0.5.12",
     "rimraf": "^3.0.2",
     "ts-retry-promise": "^0.6.0",
     "twilio": "^3.64.00"
