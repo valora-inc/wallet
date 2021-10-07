@@ -767,9 +767,6 @@ DEPENDENCIES:
   - "RNSentry (from `../../../node_modules/@sentry/react-native`)"
   - RNShare (from `../../../node_modules/react-native-share`)
   - RNSVG (from `../../../node_modules/react-native-svg`)
-  - Segment-Adjust (~> 3.1.1)
-  - Segment-CleverTap
-  - Segment-Firebase (~> 2.7.0)
   - Yoga (from `../../../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -1113,6 +1110,6 @@ SPEC CHECKSUMS:
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 4679cb8cb04c84153c3a12cce739168de53f4190
+PODFILE CHECKSUM: 12ea8227651d47073379a99f1a8dea12b600e662
 
 COCOAPODS: 1.10.1
