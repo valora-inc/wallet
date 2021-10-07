@@ -5,7 +5,6 @@
   // List of extensions which should be recommended for users of this workspace.
   "recommendations": [
     "eamodio.gitlens",
-    "ms-vscode.vscode-typescript-tslint-plugin",
     "esbenp.prettier-vscode",
     "juanblanco.solidity",
     "redhat.vscode-yaml",
