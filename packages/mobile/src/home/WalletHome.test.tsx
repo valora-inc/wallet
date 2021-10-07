@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import * as renderer from 'react-test-renderer'
@@ -15,6 +16,18 @@ const storeData = {
     accountCreationTime: new Date().getTime() - TWO_DAYS_MS,
     paymentRequests: [],
   },
+}
+
+const balances = {
+  [Currency.Dollar]: new BigNumber(20.02),
+  [Currency.Celo]: new BigNumber(20),
+  [Currency.Euro]: new BigNumber(10),
+}
+
+const zeroBalances = {
+  [Currency.Dollar]: new BigNumber(0),
+  [Currency.Celo]: new BigNumber(0),
+  [Currency.Euro]: new BigNumber(0),
 }
 
 jest.mock('src/exchange/CeloGoldOverview')
@@ -37,14 +50,11 @@ describe('Testnet banner', () => {
           setLoading={jest.fn()}
           showMessage={showMessageMock}
           loading={false}
-          appConnected={true}
-          address={null}
-          accountAddress={''}
-          name={null}
-          currency={Currency.Celo}
           recipientCache={{}}
           numberVerified={true}
           importContacts={jest.fn()}
+          balances={balances}
+          cashInButtonExpEnabled={false}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -69,14 +79,11 @@ describe('Testnet banner', () => {
           setLoading={jest.fn()}
           showMessage={jest.fn()}
           loading={false}
-          appConnected={false}
-          address={null}
-          accountAddress={''}
-          name={null}
-          currency={Currency.Celo}
           recipientCache={{}}
           numberVerified={true}
           importContacts={jest.fn()}
+          balances={balances}
+          cashInButtonExpEnabled={false}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -93,14 +100,32 @@ describe('Testnet banner', () => {
           setLoading={jest.fn()}
           showMessage={jest.fn()}
           loading={false}
-          appConnected={true}
-          address={null}
-          accountAddress={''}
-          name={null}
-          currency={Currency.Celo}
           recipientCache={{}}
           numberVerified={true}
           importContacts={jest.fn()}
+          balances={balances}
+          cashInButtonExpEnabled={false}
+          {...getMockI18nProps()}
+        />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
+  })
+  it('Renders cash in bottom sheet when experiment flag is turned on and balances are zero', async () => {
+    const store = createMockStore()
+    const tree = renderer.create(
+      <Provider store={store}>
+        <WalletHome
+          refreshAllBalances={jest.fn()}
+          initializeSentryUserContext={jest.fn()}
+          setLoading={jest.fn()}
+          showMessage={jest.fn()}
+          loading={false}
+          recipientCache={{}}
+          numberVerified={true}
+          importContacts={jest.fn()}
+          balances={zeroBalances}
+          cashInButtonExpEnabled={true}
           {...getMockI18nProps()}
         />
       </Provider>

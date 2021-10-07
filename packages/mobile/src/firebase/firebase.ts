@@ -285,6 +285,7 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       komenciAllowedDeployers: flags.komenciAllowedDeployers.asString().split(','),
       pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
       rewardPillText: flags.rewardPillText.asString(),
+      cashInButtonExpEnabled: flags.cashInButtonExpEnabled.asBoolean(),
     }
   } else {
     Logger.debug('No new configs were fetched from the backend.')

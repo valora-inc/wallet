@@ -1,8 +1,8 @@
 import { enterPinUi } from '../utils/utils'
 
 export default SetAccountKey = () => {
-  it('Go to the Account Key tab and set it up', async () => {
-    // Android doesn't support the getAttributes method, so we can't get the account key.
+  it('Go to the Recovery Phrase tab and set it up', async () => {
+    // Android doesn't support the getAttributes method, so we can't get the Recovery Phrase.
     if (device.getPlatform() === 'android') {
       return
     }

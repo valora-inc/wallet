@@ -30,21 +30,21 @@ describe('backup/selectors', () => {
   })
 
   describe('shouldForceBackupSelector', () => {
-    it("should not force account key prompt if enough time hasn't passed since creation", () => {
+    it("should not force Recovery Phrase prompt if enough time hasn't passed since creation", () => {
       // Account created 12 hours ago, no delay and no backup.
       expect(
         shouldForceBackupSelector(mockState(mockCurrentTime - ONE_DAY_IN_MILLIS * 0.5, null, false))
       ).toBe(false)
     })
 
-    it('should force account key prompt if enough time passed since account creation', () => {
+    it('should force Recovery Phrase prompt if enough time passed since account creation', () => {
       // Account created 36 hours ago, no delay and no backup.
       expect(
         shouldForceBackupSelector(mockState(mockCurrentTime - ONE_DAY_IN_MILLIS * 1.5, null, false))
       ).toBe(true)
     })
 
-    it('should not force account key prompt if delay button was just pressed', () => {
+    it('should not force Recovery Phrase prompt if delay button was just pressed', () => {
       // Account created 36 hours ago, delay pressed less than an hour ago and no backup.
       expect(
         shouldForceBackupSelector(
@@ -53,7 +53,7 @@ describe('backup/selectors', () => {
       ).toBe(false)
     })
 
-    it('should force account key prompt if delay button was pressed a while ago', () => {
+    it('should force Recovery Phrase prompt if delay button was pressed a while ago', () => {
       // Account created 36 hours ago, delay pressed over an hour ago and no backup.
       expect(
         shouldForceBackupSelector(
@@ -62,7 +62,7 @@ describe('backup/selectors', () => {
       ).toBe(true)
     })
 
-    it('should not force account key prompt if backup was already completed', () => {
+    it('should not force Recovery Phrase prompt if backup was already completed', () => {
       // Account already backed up.
       expect(
         shouldForceBackupSelector(mockState(mockCurrentTime - ONE_DAY_IN_MILLIS * 1.5, null, true))

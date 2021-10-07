@@ -161,6 +161,7 @@ export interface RemoteFeatureFlags {
   komenciAllowedDeployers: string[]
   pincodeUseExpandedBlocklist: boolean
   rewardPillText: string
+  cashInButtonExpEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

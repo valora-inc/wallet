@@ -90,6 +90,7 @@ export type StackParamList = {
     buyCelo: boolean
   }
   [Screens.ExternalExchanges]: {
+    isCashIn?: boolean
     currency: Currency
   }
   [Screens.FiatExchange]: undefined
@@ -200,6 +201,8 @@ export type StackParamList = {
   [Screens.Send]:
     | {
         isOutgoingPaymentRequest?: boolean
+        skipContactsImport?: boolean
+        forceCurrency?: Currency
       }
     | undefined
   [Screens.SendAmount]: {
@@ -207,6 +210,7 @@ export type StackParamList = {
     isOutgoingPaymentRequest?: boolean
     isFromScan?: boolean
     origin: SendOrigin
+    forceCurrency?: Currency
   }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
