@@ -37,6 +37,7 @@ import { waitForRehydrate } from 'src/redux/persist-helper'
 import { sendSaga } from 'src/send/saga'
 import { sentrySaga } from 'src/sentry/saga'
 import { stableTokenSaga } from 'src/stableToken/saga'
+import { tokensSaga } from 'src/tokens/saga'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { transactionSaga } from 'src/transactions/saga'
 import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
@@ -131,6 +132,7 @@ export function* rootSaga() {
     yield spawn(fiatExchangesSaga)
     yield spawn(walletConnectSaga)
     yield spawn(checkAndroidMobileServicesSaga)
+    yield spawn(tokensSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry
