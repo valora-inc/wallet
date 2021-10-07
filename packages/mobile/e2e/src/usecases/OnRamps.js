@@ -58,7 +58,7 @@ export default onRamps = () => {
         await element(by.text('Next')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Should Display Exchanges & Recovery Phrase', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
           .withTimeout(20000)
@@ -119,7 +119,7 @@ export default onRamps = () => {
         await element(by.text('Next')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Should Display Exchanges & Recovery Phrase', async () => {
         await waitFor(element(by.id('Binance')))
           .toBeVisible()
           .withTimeout(20000)
@@ -131,8 +131,9 @@ export default onRamps = () => {
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('OKEx'))).toBeVisible()
         await expect(element(by.id('accountBox'))).toBeVisible()
+        // Note(Tom): Set allowed match diff higher to deal with https://github.com/valora-inc/wallet/issues/1136
         const imagePath = await device.takeScreenshot('CELO Exchanges')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO Exchanges.png`)
+        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO Exchanges.png`, 4.5)
       })
     })
   })
