@@ -6,7 +6,7 @@
   "exchangeRate": "Umtauschkurs",
   "exchangeRateValue": "<0></0> : 1 {{takerTokenCode}}",
   "history": "Verlauf",
-  "exchange": "Umtausch",
+  "exchange": "Umtauschen",
   "buy": "Kaufen",
   "sell": "Verkaufen",
   "withdrawCelo": "CELO abheben",
