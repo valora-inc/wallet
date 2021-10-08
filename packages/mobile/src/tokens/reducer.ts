@@ -8,11 +8,11 @@ export interface Token {
   imageUrl: string
   name: string
   symbol: string
-  usdPrice?: number
+  usdPrice?: string
 }
 
 export interface TokenBalance extends Token {
-  balance: number | null
+  balance: string | null
 }
 
 export interface TokenBalances {

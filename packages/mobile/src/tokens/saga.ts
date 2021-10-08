@@ -272,8 +272,10 @@ export async function getERC20TokenBalance(token: Token, address: string) {
 
 export function* fetchReadableTokenBalance(address: string, token: Token) {
   let balance = yield call(getERC20TokenBalance, token, address)
-  if (balance) {
-    balance = balance / Math.pow(10, token.decimals)
+  if (balance || balance === 0) {
+    balance = new BigNumber(balance)
+      .dividedBy(new BigNumber(10).exponentiatedBy(token.decimals))
+      .toString()
   }
   return { [token.address]: { ...token, balance } }
 }
