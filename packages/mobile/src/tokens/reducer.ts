@@ -12,11 +12,11 @@ export interface Token {
 }
 
 export interface TokenBalance extends Token {
-  balance: number
+  balance: number | null
 }
 
 export interface TokenBalances {
-  [address: string]: TokenBalance | undefined
+  [address: string]: TokenBalance
 }
 
 export interface State {

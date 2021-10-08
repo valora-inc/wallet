@@ -39,6 +39,7 @@ export interface State {
   rewardPillText?: {
     [lang: string]: string
   }
+  cashInButtonExpEnabled: boolean
 }
 
 const initialState = {
@@ -71,6 +72,7 @@ const initialState = {
   huaweiMobileServicesAvailable: undefined,
   pincodeUseExpandedBlocklist: FEATURE_FLAG_DEFAULTS.pincodeUseExpandedBlocklist,
   rewardPillText: JSON.parse(FEATURE_FLAG_DEFAULTS.rewardPillText),
+  cashInButtonExpEnabled: false,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -181,6 +183,7 @@ export const appReducer = (
         rewardsABTestThreshold: action.flags.rewardsABTestThreshold,
         pincodeUseExpandedBlocklist: action.flags.pincodeUseExpandedBlocklist,
         rewardPillText: JSON.parse(action.flags.rewardPillText),
+        cashInButtonExpEnabled: action.flags.cashInButtonExpEnabled,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
