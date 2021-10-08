@@ -16,7 +16,7 @@ export interface TokenBalance extends Token {
 }
 
 export interface TokenBalances {
-  [address: string]: TokenBalance
+  [address: string]: TokenBalance | undefined
 }
 
 export interface State {

@@ -1,12 +1,12 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
+import * as erc20 from 'src/abis/IERC20.json'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { setTokenBalances } from 'src/tokens/reducer'
 import { importTokenInfo } from 'src/tokens/saga'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount } from 'test/values'
-import * as erc20 from './IERC20.json'
 
 const firebaseTokenInfo = [
   {
@@ -55,10 +55,12 @@ describe(importTokenInfo, () => {
   it('get token info successfully', async () => {
     const contractKit = await getContractKitAsync()
     const contractPOOF = new contractKit.web3.eth.Contract(
+      // @ts-ignore
       erc20.abi,
       '0x00400FcbF0816bebB94654259de7273f4A05c762'
     )
     const contractcEUR = new contractKit.web3.eth.Contract(
+      // @ts-ignore
       erc20.abi,
       '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'
     )

@@ -5,6 +5,7 @@ import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWr
 import { retryAsync } from '@celo/utils/lib/async'
 import BigNumber from 'bignumber.js'
 import { all, call, put, select, spawn, take } from 'redux-saga/effects'
+import * as erc20 from 'src/abis/IERC20.json'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -24,7 +25,6 @@ import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import * as utf8 from 'utf8'
-import * as erc20 from './IERC20.json'
 
 const TAG = 'tokens/saga'
 
@@ -257,6 +257,7 @@ export function* fetchTokenBalance(kit: ContractKit, address: string, token: Tok
   let balance = null
   const tokenAddress = token.address
   try {
+    // @ts-ignore
     const contract = new kit.web3.eth.Contract(erc20.abi, tokenAddress)
     balance = yield call(contract.methods.balanceOf(address).call)
     if (balance) {
