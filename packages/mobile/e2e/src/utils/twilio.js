@@ -14,9 +14,6 @@ export const receiveSms = async (after = new Date(), numCodes = 3, existingCodes
       limit: 3,
       dateSentAfter: after,
     }
-    if (MAX_TRIES < tryNumber) {
-      throw new Error(`Exhausted ${MAX_TRIES} of tries with ${tryNumber} tries`)
-    }
     while (tryNumber < MAX_TRIES) {
       const messages = await client.messages.list(request)
       const codes = messages.map((message) => message.body.split(': ')[1])
@@ -26,6 +23,7 @@ export const receiveSms = async (after = new Date(), numCodes = 3, existingCodes
       tryNumber += 1
       await sleep(1000)
     }
+    return []
   } catch (error) {
     console.log('Error with Twilio SMS', error)
   }
