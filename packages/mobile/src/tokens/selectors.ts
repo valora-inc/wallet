@@ -9,7 +9,7 @@ export const defaultTokenSelector = createSelector(tokenBalancesSelector, (balan
     throw new Error("cUSD token info not found. Shouldn't happen")
   }
   let maxTokenAddress: string = usdTokenInfo.address
-  let maxBalance: number = usdTokenInfo.balance
+  let maxBalance: number = usdTokenInfo.balance ?? 0
   for (const tokenAddress of Object.keys(balances)) {
     const tokenUsdPrice = balances[tokenAddress]?.usdPrice
     const tokenBalance = balances[tokenAddress]?.balance
