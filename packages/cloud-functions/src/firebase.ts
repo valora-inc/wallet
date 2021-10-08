@@ -2,7 +2,7 @@ import * as admin from 'firebase-admin'
 import { getFirebaseAdminCreds } from './cico/utils'
 
 if (process.env.NODE_ENV !== 'test') {
-  const gcloudProject = process.env.GCLOUD_PROJECT
+  const gcloudProject = 'celo-mobile-alfajores'
   admin.initializeApp({
     credential: getFirebaseAdminCreds(admin),
     databaseURL: `https://${gcloudProject}.firebaseio.com`,
@@ -30,4 +30,13 @@ export function saveTxHashProvider(address: string, txHash: string, provider: st
         `ERROR while linking provider ${provider} to tx hash ${txHash} for address ${address}`
       )
     )
+}
+
+export async function fetchFromFirebase(path: string) {
+  const snapshot = await database().ref(path).once('value')
+  return snapshot.val()
+}
+
+export async function updateFirebase(path: string, value: any) {
+  database().ref(path).set(value)
 }

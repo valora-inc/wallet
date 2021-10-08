@@ -1,4 +1,5 @@
 import { getContractKit } from '../../contractKit'
+import { LiquidityPoolInfo, LiquidityPoolProvider } from '../ExchangeRateManager'
 import { factoryAbi, pairAbi } from './UbeswapABI'
 
 const FACTORY_ADDRESS = '0x62d5b84bE28a183aBB507E125B384122D2C25fAE'
@@ -48,8 +49,8 @@ async function getSupportedPairs(kit: any, tokens: string[]): Promise<ExchangePa
 }
 
 function getExchangeRateFromReserves(reserve0: number, reserve1: number) {
-  const numerator = 997 * reserve0
-  const denominator = reserve1 * 1000 + 997
+  const numerator = 997 * reserve1
+  const denominator = reserve0 * 1000 + 997
   return numerator / denominator
 }
 

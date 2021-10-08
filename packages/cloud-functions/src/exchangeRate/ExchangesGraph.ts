@@ -13,10 +13,12 @@ interface Exchange {
   rate: number
 }
 
-export class ExchangesGraph {
+export default class ExchangesGraph {
   private graph: Graph = {}
 
   addExchange({ from, to, rate }: Exchange): void {
+    console.log({ from, to, rate })
+
     if (rate <= 0) {
       console.warn("Exchange rates can't be negative or zero")
       return
@@ -65,14 +67,22 @@ export class ExchangesGraph {
               rate: result[i][k].rate * result[k][j].rate,
               lastExchangeFrom: result[k][j].lastExchangeFrom,
             }
+
+            if (i == j) {
+              console.warn('There is a possible Arbitrage')
+              let current = i
+              let prev = result[i][current].lastExchangeFrom
+              let first = true
+
+              while (first || current !== i) {
+                first = false
+                console.log(`From ${prev} - ${current} at ${result[prev][current].rate}`)
+                current = prev
+                prev = result[i][current].lastExchangeFrom
+              }
+            }
           }
         }
-      }
-    }
-
-    for (const i of tokens) {
-      if (result[i][i].rate > 1) {
-        console.warn('There is a possible Arbitrage')
       }
     }
 
