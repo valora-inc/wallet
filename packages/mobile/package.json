@@ -52,7 +52,7 @@
     "@komenci/kit": "1.0.0-beta1",
     "@pedrouid/environment": "^1.0.1",
     "@react-native-community/async-storage": "^1.9.0",
-    "@react-native-community/clipboard": "git+https://github.com/celo-org/clipboard#5afb848",
+    "@react-native-community/clipboard": "git+https://github.com/celo-org/clipboard#3b3e664",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^5.8.0",
     "@react-native-firebase/app": "^11.0.0",
