@@ -67,8 +67,7 @@ describe('SettingsItemInput', () => {
     expect(wrapper.toJSON()).toMatchSnapshot()
   })
 
-  // Note (Tom): Failing with update to @testing-library/react-native
-  it.skip('reacts on press', () => {
+  it('reacts on press', () => {
     const { getByTestId } = render(
       <SettingsItemInput
         testID={testID}
@@ -77,7 +76,7 @@ describe('SettingsItemInput', () => {
         onValueChange={onValueChange}
       />
     )
-    fireEvent(getByTestId(testID), 'valueChange', newValue)
+    fireEvent(getByTestId(testID), 'changeText', newValue)
     expect(onValueChange).toHaveBeenCalledWith(newValue)
   })
 })
