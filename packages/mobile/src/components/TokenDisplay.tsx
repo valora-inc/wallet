@@ -51,12 +51,12 @@ function TokenDisplay({
 }: Props) {
   const tokenInfo = useTokenInfo(tokenAddress)
 
+  const { fiatExchangeRate, fiatSymbol } = useFiatExchangeRates(currencyInfo)
+
   if (!tokenInfo) {
     console.error(`No token info found for token address ${tokenAddress}`)
     return null
   }
-
-  const { fiatExchangeRate, fiatSymbol } = useFiatExchangeRates(currencyInfo)
 
   if (showLocalAmount && (!tokenInfo.usdPrice || !fiatExchangeRate)) {
     console.error(`No token usd price or exchange rate found to display for ${tokenInfo.symbol}`)

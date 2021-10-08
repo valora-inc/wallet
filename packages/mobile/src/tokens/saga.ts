@@ -271,7 +271,7 @@ export async function getERC20TokenBalance(token: Token, address: string) {
 }
 
 export function* fetchReadableTokenBalance(address: string, token: Token) {
-  let balanceNumber: number | null = yield call(getERC20TokenBalance, token, address)
+  const balanceNumber: number | null = yield call(getERC20TokenBalance, token, address)
   const balance = balanceNumber
     ? new BigNumber(balanceNumber).multipliedBy(new BigNumber(10).exponentiatedBy(token.decimals))
     : null
