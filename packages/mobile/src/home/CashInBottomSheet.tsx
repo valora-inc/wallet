@@ -38,6 +38,8 @@ function CashInBottomSheet() {
 
   return (
     <Modal
+      animationIn="slideInUp"
+      animationInTiming={500}
       isVisible={isModalVisible}
       swipeDirection="down"
       style={styles.overlay}
