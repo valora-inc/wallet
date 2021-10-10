@@ -1,10 +1,11 @@
 import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
-import { Exchange } from 'src/exchangeRate/ExchangesGraph'
 import { getContractKit } from '../../contractKit'
-import { ExchangeProvider, Token } from '../ExchangeRateManager'
-import { factoryAbi, pairAbi } from './UbeswapABI'
+import { ExchangeProvider } from '../ExchangeRateManager'
+import { Exchange } from '../ExchangesGraph'
+import { factoryAbi, pairAbi, standardAbi } from './UbeswapABI'
 
+// Mainnet address (TODO: make this configurable)
 const FACTORY_ADDRESS = '0x62d5b84bE28a183aBB507E125B384122D2C25fAE'
 
 interface ExchangePair {
@@ -13,31 +14,29 @@ interface ExchangePair {
   pairAddress: string
 }
 
+interface DecimalsByToken {
+  [token: string]: number
+}
+
 const MIN_LIQUIDITY = 100000
 
-/*
- * Only works in mainnet
- */
 class UbeswapLiquidityPool implements ExchangeProvider {
-  async getExchangesFromTokens(tokens: Token[]): Promise<Exchange[]> {
+  async getExchanges(): Promise<Exchange[]> {
     const results: Exchange[] = []
     const kit = await getContractKit()
 
-    const tokensInfoByAddress = tokens.reduce((acc, token) => {
-      // @ts-ignore
-      return { ...acc, [token.address.toLowerCase()]: token }
-    }, {})
+    const pairs = await this.getAllPairs(kit)
 
-    const pairs = await this.getAllPairs(kit, Object.keys(tokensInfoByAddress))
+    const decimals = await this.getDecimalsInfoFromPairs(kit, pairs)
 
     for (const pair of pairs) {
-      results.push(...(await this.getExchangesFromPair(kit, pair, tokensInfoByAddress)))
+      results.push(...(await this.getExchangesFromPair(kit, pair, decimals)))
     }
 
-    return results
+    return results.filter((exchange) => exchange.rate.isGreaterThan(0))
   }
 
-  private async getAllPairs(kit: ContractKit, addresses: string[]): Promise<ExchangePair[]> {
+  private async getAllPairs(kit: ContractKit): Promise<ExchangePair[]> {
     // @ts-ignore
     const factory = new kit.web3.eth.Contract(factoryAbi, FACTORY_ADDRESS)
 
@@ -53,59 +52,90 @@ class UbeswapLiquidityPool implements ExchangeProvider {
       pairAddress: pairEvent.returnValues.pair.toLowerCase(),
     }))
 
-    return pairs.filter(
-      (pair: ExchangePair) => addresses.includes(pair.token0) || addresses.includes(pair.token1)
-    )
+    return pairs
   }
 
-  private getExchangeRateFromReserves(reserve0: string, reserve1: string) {
-    const numerator = new BigNumber(reserve1).times(997)
-    const denominator = new BigNumber(reserve0).times(1000).plus(997)
+  private async getDecimalsInfoFromPairs(
+    kit: ContractKit,
+    pairs: ExchangePair[]
+  ): Promise<DecimalsByToken> {
+    const decimals: DecimalsByToken = {}
+    for (const pair of pairs) {
+      if (!decimals[pair.token0]) {
+        decimals[pair.token0] = await this.getDecimalsInfo(kit, pair.token0)
+      }
+      if (!decimals[pair.token1]) {
+        decimals[pair.token1] = await this.getDecimalsInfo(kit, pair.token1)
+      }
+    }
+    return decimals
+  }
+
+  private async getDecimalsInfo(kit: ContractKit, address: string): Promise<number> {
+    // @ts-ignore
+    const tokenContract = new kit.web3.eth.Contract(standardAbi, address)
+    return tokenContract.methods.decimals().call()
+  }
+
+  private getExchangeRateFromReserves(reserve0: BigNumber, reserve1: BigNumber) {
+    const numerator = reserve1.times(997)
+    const denominator = reserve0.times(1000).plus(997)
     return numerator.dividedBy(denominator)
   }
 
   private async getExchangesFromPair(
     kit: ContractKit,
     pair: ExchangePair,
-    tokensInfoByAddress: { [address: string]: Token }
+    decimalsByToken: DecimalsByToken
   ): Promise<Exchange[]> {
     // @ts-ignore
     const pairContract = new kit.web3.eth.Contract(pairAbi, pair.pairAddress)
-    const ans = await pairContract.methods.getReserves().call()
-    const { reserve0, reserve1 } = ans
+    const { reserve0, reserve1 } = await pairContract.methods.getReserves().call()
+    const reserve0BigNumber = new BigNumber(reserve0).dividedBy(
+      Math.pow(10, decimalsByToken[pair.token0])
+    )
+    const reserve1BigNumber = new BigNumber(reserve1).dividedBy(
+      Math.pow(10, decimalsByToken[pair.token1])
+    )
 
-    if (
-      this.hasEnoughLiquidity(reserve0, tokensInfoByAddress[pair.token0]) ||
-      this.hasEnoughLiquidity(reserve1, tokensInfoByAddress[pair.token1])
-    ) {
-      return [
-        {
-          from: pair.token0,
-          to: pair.token1,
-          rate: this.getExchangeRateFromReserves(reserve0, reserve1),
+    return [
+      {
+        from: pair.token0,
+        to: pair.token1,
+        rate: this.getExchangeRateFromReserves(reserve0BigNumber, reserve1BigNumber),
+        hasEnoughLiquidity: this.hasEnoughLiquidityGenerator(reserve0BigNumber),
+        metadata: {
+          source: 'Ubeswap',
+          fromReserve: reserve0BigNumber.toNumber(),
+          toReserve: reserve1BigNumber.toNumber(),
+          pairAddress: pair.pairAddress,
         },
-        {
-          from: pair.token1,
-          to: pair.token0,
-          rate: this.getExchangeRateFromReserves(reserve1, reserve0),
+      },
+      {
+        from: pair.token1,
+        to: pair.token0,
+        rate: this.getExchangeRateFromReserves(reserve1BigNumber, reserve0BigNumber),
+        hasEnoughLiquidity: this.hasEnoughLiquidityGenerator(reserve1BigNumber),
+        metadata: {
+          source: 'Ubeswap',
+          fromReserve: reserve1BigNumber.toNumber(),
+          toReserve: reserve0BigNumber.toNumber(),
+          pairAddress: pair.pairAddress,
         },
-      ]
-    }
-
-    return []
+      },
+    ]
   }
 
-  private hasEnoughLiquidity(reserve: string, token: Token): boolean {
-    if (token?.usdPrice) {
-      const decimals = token.decimals ?? 18
-      const liquidity = new BigNumber(reserve)
-        .dividedBy(Math.pow(10, decimals))
-        .times(new BigNumber(token.usdPrice))
+  private hasEnoughLiquidityGenerator(reserve: BigNumber) {
+    return (usdPrice?: BigNumber) => {
+      if (!usdPrice) {
+        return false
+      }
+
+      const liquidity = reserve.times(usdPrice)
 
       return liquidity.times(2).isGreaterThan(MIN_LIQUIDITY)
     }
-
-    return false
   }
 }
 

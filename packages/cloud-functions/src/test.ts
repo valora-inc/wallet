@@ -1,4 +1,5 @@
 import ExchangeRateManager from './exchangeRate/ExchangeRateManager'
+import FirebasePriceUpdater from './exchangeRate/FirebasePriceUpdater'
 import { moolaExchanges } from './exchangeRate/sources/MoolaExchanges'
 import { ubeswapLiquidityPool } from './exchangeRate/sources/UbeswapLiquidityPool'
 
@@ -25,5 +26,7 @@ import { ubeswapLiquidityPool } from './exchangeRate/sources/UbeswapLiquidityPoo
 // ubeswapLiquidityPool.getInfoFromToken([cEUR, cUSD, CELO, mcUSD])
 //   .then(res => console.log(res))
 
-const manager = new ExchangeRateManager([ubeswapLiquidityPool, moolaExchanges])
-manager.refreshTokenPrices().then((res) => console.log('Refreshed tokens'))
+const updater = new FirebasePriceUpdater(
+  new ExchangeRateManager([ubeswapLiquidityPool, moolaExchanges])
+)
+updater.refreshAllPrices().then((res) => console.log('Refreshed tokens'))
