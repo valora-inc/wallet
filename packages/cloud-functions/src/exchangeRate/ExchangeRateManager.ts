@@ -1,77 +1,42 @@
 import { fetchFromFirebase, updateFirebase } from '../firebase'
-import ExchangesGraph from './ExchangesGraph'
+import ExchangesGraph, { Exchange } from './ExchangesGraph'
 
-export interface LiquidityPoolInfo {
-  token0: string
-  token1: string
-  liquidityToken0: number
-  liquidityToken1: number
-  rateFrom0To1: number
-  rateFrom1To0: number
+export interface Token {
+  address: string
+  name: string
+  symbol: string
+  usdPrice?: string
+  decimals?: number
 }
 
-export interface LiquidityPoolProvider {
-  getInfoFromToken(tokens: string[]): Promise<LiquidityPoolInfo[]>
+export interface ExchangeProvider {
+  getExchangesFromTokens(tokens: Token[]): Promise<Exchange[]>
 }
 
 const firebaseNodeKey = '/tokensInfo'
-const MIN_LIQUIDITY = 100000
 
 export default class ExchangeRateManager {
-  private sources: LiquidityPoolProvider[] = []
+  private sources: ExchangeProvider[] = []
 
-  constructor(sources: LiquidityPoolProvider[]) {
+  constructor(sources: ExchangeProvider[]) {
     this.sources = sources
     console.log(this.sources)
   }
 
-  private async getLiquidityPoolsFromSources(tokensAddress: string[]) {
-    const exchanges: LiquidityPoolInfo[] = []
+  private async getExchangesFromSources(tokensInfo: Token[]) {
+    const exchanges: Exchange[] = []
     for (const source of this.sources) {
-      const liquidityPoolInfo = await source.getInfoFromToken(tokensAddress)
-      exchanges.push(...liquidityPoolInfo)
+      const sourceExchanges = await source.getExchangesFromTokens(tokensInfo)
+      exchanges.push(...sourceExchanges)
     }
+    console.log(`Exchanges: ${JSON.stringify(exchanges)}`)
     return exchanges
   }
 
-  private buildGraph(liquidityPools: LiquidityPoolInfo[]): ExchangesGraph {
+  private buildGraph(exchanges: Exchange[]): ExchangesGraph {
     const graph = new ExchangesGraph()
-    liquidityPools.forEach((lp) => {
-      graph.addExchange({ from: lp.token0, to: lp.token1, rate: lp.rateFrom0To1 })
-      graph.addExchange({ from: lp.token1, to: lp.token0, rate: lp.rateFrom1To0 })
-    })
-
-    this.addHardcodedExchanges(graph)
+    exchanges.forEach((exchange) => graph.addExchange(exchange))
     return graph
-  }
-
-  private addHardcodedExchanges(graph: ExchangesGraph) {
-    const cUSD = '0x765DE816845861e75A25fCA122bb6898B8B1282a'.toLocaleLowerCase()
-    const cEUR = '0xD8763CBa276a3738E6DE85b4b3bF5FDed6D6cA73'.toLocaleLowerCase()
-    const mcUSD = '0x64dEFa3544c695db8c535D289d843a189aa26b98'.toLocaleLowerCase()
-    const mcEUR = '0xa8d0E6799FF3Fd19c6459bf02689aE09c4d78Ba7'.toLocaleLowerCase()
-    graph.addExchange({ from: cUSD, to: mcUSD, rate: 1 })
-    graph.addExchange({ from: mcUSD, to: cUSD, rate: 1 })
-    graph.addExchange({ from: cEUR, to: mcEUR, rate: 1 })
-    graph.addExchange({ from: mcEUR, to: cEUR, rate: 1 })
-  }
-
-  private hasEnoughtLiquidity(lp: LiquidityPoolInfo, tokens: any): boolean {
-    console.log(`LP: ${JSON.stringify(lp)}`)
-
-    if (tokens[lp.token1] && tokens[lp.token1].usdPrice) {
-      const decimal = tokens[lp.token1].decimals ?? 18
-      const liq = (lp.liquidityToken1 / Math.pow(10, decimal)) * tokens[lp.token1].usdPrice
-      return liq * 2 > MIN_LIQUIDITY
-    }
-
-    if (tokens[lp.token0] && tokens[lp.token0].usdPrice) {
-      const decimal = tokens[lp.token0].decimals ?? 18
-      const liq = (lp.liquidityToken0 / Math.pow(10, decimal)) * tokens[lp.token0].usdPrice
-      return liq * 2 > MIN_LIQUIDITY
-    }
-
-    return false
   }
 
   async refreshTokenPrices() {
@@ -86,16 +51,20 @@ export default class ExchangeRateManager {
     // @ts-ignore
     const tokensAddresses = Object.values(tokensInfo).map((value) => value.address)
 
-    const liquidityPools = (await this.getLiquidityPoolsFromSources(tokensAddresses)).filter((lp) =>
-      this.hasEnoughtLiquidity(lp, tokensInfo)
-    )
+    const exchanges = await this.getExchangesFromSources(Object.values(tokensInfoRaw))
 
-    const graph = this.buildGraph(liquidityPools)
-    const exchangePrices = graph.getAllExchanges()
-
-    console.log(exchangePrices)
+    const graph = this.buildGraph(exchanges)
 
     const cUSD = '0x765DE816845861e75A25fCA122bb6898B8B1282a'.toLocaleLowerCase()
+
+    const exchangePrices = graph.getAllExchanges()
+
+    if (!exchangePrices) {
+      console.log("Couldn't obtain accurate prices")
+      return
+    }
+
+    console.log(exchangePrices)
 
     // @ts-ignore
     for (const [key, token] of Object.entries(tokensInfoRaw)) {
@@ -103,16 +72,22 @@ export default class ExchangeRateManager {
       // @ts-ignore
       const address = token.address.toLowerCase()
 
-      if (exchangePrices[address]) {
-        const price =
-          (exchangePrices[address][cUSD].rate + 1 / exchangePrices[cUSD][address].rate) / 2
-        // @ts-ignore
+      if (
+        exchangePrices[address] &&
+        exchangePrices[address][cUSD] &&
+        exchangePrices[cUSD][address]
+      ) {
+        const price = exchangePrices[address][cUSD].rate
+          .plus(exchangePrices[cUSD][address].rate.pow(-1))
+          .dividedBy(2)
+
         console.log(
-          `USD Price for ${token.name}: ${price} fromUSD: ${
-            1 / exchangePrices[cUSD][address].rate
-          } toUSD: ${exchangePrices[address][cUSD].rate}`
+          // @ts-ignore
+          `USD Price for ${token.name}: ${price} fromUSD: ${exchangePrices[cUSD][address].rate.pow(
+            -1
+          )} toUSD: ${exchangePrices[address][cUSD].rate}`
         )
-        updateFirebase(`${firebaseNodeKey}/${key}/usdPrice`, price)
+        updateFirebase(`${firebaseNodeKey}/${key}/usdPrice`, price.toString())
       }
     }
   }

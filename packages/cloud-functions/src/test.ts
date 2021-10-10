@@ -1,4 +1,5 @@
 import ExchangeRateManager from './exchangeRate/ExchangeRateManager'
+import { moolaExchanges } from './exchangeRate/sources/MoolaExchanges'
 import { ubeswapLiquidityPool } from './exchangeRate/sources/UbeswapLiquidityPool'
 
 // const graph = new ExchangesGraph()
@@ -24,5 +25,5 @@ import { ubeswapLiquidityPool } from './exchangeRate/sources/UbeswapLiquidityPoo
 // ubeswapLiquidityPool.getInfoFromToken([cEUR, cUSD, CELO, mcUSD])
 //   .then(res => console.log(res))
 
-const manager = new ExchangeRateManager([ubeswapLiquidityPool])
-manager.refreshTokenPrices().then((res) => console.log(res))
+const manager = new ExchangeRateManager([ubeswapLiquidityPool, moolaExchanges])
+manager.refreshTokenPrices().then((res) => console.log('Refreshed tokens'))
