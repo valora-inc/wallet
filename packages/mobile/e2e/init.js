@@ -1,5 +1,5 @@
 const detox = require('detox')
-import { setDemoMode, setUrlDenyList } from './src/utils/utils'
+import { setDemoMode } from './src/utils/utils'
 import { launchApp } from './src/utils/retries'
 
 beforeAll(async () => {
@@ -14,6 +14,6 @@ beforeAll(async () => {
     permissions: { notifications: 'YES', contacts: 'YES' },
   })
   // Url blacklist disables detox waiting for this request to complete before considering the app in an idle state
-  await setUrlDenyList()
+  // await setUrlDenyList()
   await setDemoMode()
 })
