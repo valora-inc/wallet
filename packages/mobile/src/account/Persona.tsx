@@ -25,10 +25,6 @@ const Persona = ({ kycStatus }: Props) => {
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
   const accountAddress = useSelector(accountAddressSelector)
-  if (!accountAddress) {
-    Logger.error(TAG, "Can't render Persona because accountAddress is null")
-    return null
-  }
 
   const dispatch = useDispatch()
 
@@ -38,6 +34,11 @@ const Persona = ({ kycStatus }: Props) => {
   const launchPersonaInquiry = useCallback(() => {
     if (typeof templateId !== 'string') {
       Logger.error(TAG, `Attempted to initiate Persona with invalid templateId: ${templateId}`)
+      return
+    }
+
+    if (!accountAddress) {
+      Logger.error(TAG, "Can't render Persona because accountAddress is null")
       return
     }
 
