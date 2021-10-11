@@ -95,6 +95,7 @@ import {
 import { getContractKit } from 'src/web3/contracts'
 import { registerWalletAndDekViaKomenci } from 'src/web3/dataEncryptionKey'
 import { getAccount, getConnectedUnlockedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
+import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
 const TAG = 'verify/saga'
 const BALANCE_CHECK_TIMEOUT = 5 * 1000 // 5 seconds
@@ -376,7 +377,24 @@ export function* fetchPhoneNumberDetailsSaga() {
           const komenci = yield select(komenciContextSelector)
           const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
-          const blsBlindingClient = new ReactBlsBlindingClient(networkConfig.odisPubKey)
+          // Use DEK for deterministic randomness
+          // This allows user to use the same blinded message for the same phone number
+          // which prevents consumption of quota for future duplicate requests
+          const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
+          if (!privateDataKey) {
+            throw new Error('No data key in store. Should never happen.')
+          }
+
+          const blindingFactor = ReactBlsBlindingClient.generateDeterministicBlindingFactor(
+            privateDataKey,
+            e164Number
+          )
+
+          Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Blinding factor', blindingFactor)
+          const blsBlindingClient = new ReactBlsBlindingClient(
+            networkConfig.odisPubKey,
+            blindingFactor
+          )
           const pepperQueryResult: Result<GetDistributedBlindedPepperResp, FetchError> = yield call(
             [komenciKit, komenciKit.getDistributedBlindedPepper],
             e164Number,
