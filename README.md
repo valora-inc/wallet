@@ -15,6 +15,10 @@ payments simple and accessible to anyone. It supports the Celo
 Identity Protocol which allows users to verify their phone number and
 send payments to their contacts.
 
+## Integrate with Valora
+
+See [deeplinks.md](./packages/mobile/docs/deeplinks.md) for integrating with Valora using deep links.
+
 ## Build Valora Locally
 
 To setup Valora locally, follow [setup instructions](https://github.com/valora-inc/wallet/tree/main/packages/mobile).
