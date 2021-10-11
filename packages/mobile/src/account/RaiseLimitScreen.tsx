@@ -13,7 +13,6 @@ import { KycStatus } from 'src/account/reducer'
 import { cUsdDailyLimitSelector, kycStatusSelector } from 'src/account/selectors'
 import { showError, showMessage } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { numberVerifiedSelector } from 'src/app/selectors'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { CELO_SUPPORT_EMAIL_ADDRESS } from 'src/config'
 import i18n, { Namespaces } from 'src/i18n'
@@ -34,7 +33,7 @@ const RaiseLimitScreen = () => {
   const { t } = useTranslation(Namespaces.accountScreen10)
   const dailyLimit = useSelector(cUsdDailyLimitSelector)
   const kycStatus = useSelector(kycStatusSelector)
-  const numberIsVerified = useSelector(numberVerifiedSelector)
+  const numberIsVerified = true
   const recentPayments = useSelector(getRecentPayments)
   const accountAddress = useSelector(accountAddressSelector)
 
