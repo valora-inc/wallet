@@ -6,7 +6,7 @@ import Dialog from 'src/components/Dialog'
 it('renders correctly', () => {
   const onPress = jest.fn()
   const tree = render(
-    <Dialog isVisible={true} title="Dialog" actionPress={onPress} actionText="Ppess Me">
+    <Dialog isVisible={true} title="Dialog" actionPress={onPress} actionText="Press Me">
       "HELLO"
     </Dialog>
   )
