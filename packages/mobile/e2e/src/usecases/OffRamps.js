@@ -12,12 +12,15 @@ export default offRamps = () => {
     // Waiting for element to be visible for up to 5 seconds before tap
     await waitFor(element(by.id('cashOut')))
       .toBeVisible()
-      .withTimeout(5000)
+      .withTimeout(10 * 5000)
     await element(by.id('cashOut')).tap()
   })
 
   describe('cUSD', () => {
     beforeEach(async () => {
+      await waitFor(element(by.id('radio/cUSD')))
+        .toBeVisible()
+        .withTimeout(10 * 5000)
       await element(by.id('radio/cUSD')).tap()
     })
 
@@ -83,6 +86,9 @@ export default offRamps = () => {
 
   describe('cEUR', () => {
     beforeEach(async () => {
+      await waitFor(element(by.id('radio/cEUR')))
+        .toBeVisible()
+        .withTimeout(10 * 5000)
       await element(by.id('radio/cEUR')).tap()
     })
 
@@ -124,6 +130,9 @@ export default offRamps = () => {
 
   describe('CELO', () => {
     beforeEach(async () => {
+      await waitFor(element(by.id('radio/CELO')))
+        .toBeVisible()
+        .withTimeout(10 * 5000)
       await element(by.id('radio/CELO')).tap()
     })
 

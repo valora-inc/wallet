@@ -13,6 +13,9 @@ export default onRamps = () => {
 
   describe('cUSD', () => {
     beforeEach(async () => {
+      await waitFor(element(by.id('radio/cUSD')))
+        .toBeVisible()
+        .withTimeout(10 * 5000)
       await element(by.id('radio/cUSD')).tap()
     })
 
@@ -74,6 +77,9 @@ export default onRamps = () => {
 
   describe('CELO', () => {
     beforeEach(async () => {
+      await waitFor(element(by.id('radio/CELO')))
+        .toBeVisible()
+        .withTimeout(10 * 5000)
       await element(by.id('radio/CELO')).tap()
     })
 
