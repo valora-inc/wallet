@@ -1,6 +1,7 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
 import { RehydrateAction } from 'redux-persist'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
+import { RootState } from 'src/redux/reducers'
 
 export interface Token {
   address: string
@@ -45,3 +46,5 @@ export const reducer = createReducer(initialState, (builder) => {
       tokenBalances: action.payload,
     }))
 })
+
+export const tokenBalancesSelector = (state: RootState) => state.tokens.tokenBalances
