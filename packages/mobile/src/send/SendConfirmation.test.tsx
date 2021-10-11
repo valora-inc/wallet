@@ -280,14 +280,13 @@ describe('SendConfirmation', () => {
     expect(queryByTestId('accountEditButton')).toBeNull()
   })
 
-  // Note (Tom): this test fails with update to '@testing-library/react-native'
-  it.skip('renders correct modal for invitations', async () => {
+  it('renders correct modal for invitations', async () => {
     mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
 
-    const { queryByTestId, getByTestId } = renderScreen({}, mockInviteScreenProps)
+    const { getByTestId, queryAllByTestId } = renderScreen({}, mockInviteScreenProps)
 
-    expect(queryByTestId('InviteAndSendModal')?.props.isVisible).toBe(false)
-    fireEvent.press(getByTestId('ConfirmButton'))
-    expect(queryByTestId('InviteAndSendModal')?.props.isVisible).toBe(true)
+    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(false)
+    getByTestId('ConfirmButton').props.onClick()
+    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(true)
   })
 })

@@ -9,12 +9,18 @@ interface Props {
   children: React.ReactNode
   isVisible: boolean
   style?: StyleProp<ViewStyle>
+  testID?: string
 }
 
-export default function Modal({ children, isVisible, style }: Props) {
+export default function Modal({ children, isVisible, style, testID }: Props) {
   return (
     // @ts-ignore statusBarTranslucent is supported since RN 0.62, but updated lib with the added prop hasn't been published yet
-    <ReactNativeModal isVisible={isVisible} backdropOpacity={0.1} statusBarTranslucent={true}>
+    <ReactNativeModal
+      testID={testID}
+      isVisible={isVisible}
+      backdropOpacity={0.1}
+      statusBarTranslucent={true}
+    >
       <SafeAreaView>
         <Card style={[styles.root, style]} rounded={true}>
           {children}
