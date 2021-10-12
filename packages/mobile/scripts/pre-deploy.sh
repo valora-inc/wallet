@@ -17,15 +17,10 @@ current_version_code="$(grep "VERSION_CODE" $gradle_properties | cut -d '=' -f 2
 new_version_code=$((current_version_code + 1))
 sed -i "" "s/^VERSION_CODE=.*/VERSION_CODE=$new_version_code/" $gradle_properties
 
-# iOS uses fastlane-plugin-versioning which correctly updates MARKETING_VERSION and CURRENT_PROJECT_VERSION in the project 
-export FASTLANE_SKIP_UPDATE_CHECK=1
-export FASTLANE_HIDE_TIMESTAMP=1
-ios_options=(
-  xcodeproj:ios/celo.xcodeproj 
-  target:celo
-)
-bundle exec fastlane run increment_version_number_in_xcodeproj "${ios_options[@]}" "version_number:$new_version"
-bundle exec fastlane run increment_build_number_in_xcodeproj "${ios_options[@]}"
+# iOS: use sed to change MARKETING_VERSION in the project (agvtool unfortunately changes the plist files which we don't want)
+sed -i '' -e "s/MARKETING_VERSION \= [^\;]*\;/MARKETING_VERSION = $new_version;/" ios/celo.xcodeproj/project.pbxproj
+# agvtool works correctly for CURRENT_PROJECT_VERSION though and only touches the project and not the plist files
+pushd ios; agvtool next-version; popd
 echo "===Done updating versions==="
 
 echo "===Update license list and disclaimer==="
