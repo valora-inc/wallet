@@ -14,6 +14,25 @@ const mockScreenProps = getMockStackScreenProps(Screens.WithdrawCeloQrScannerScr
   onAddressScanned,
 })
 
+jest.mock('react-native-camera', () => {
+  const React = require('react')
+  const { View } = require('react-native')
+  class RNCamera extends React.Component {
+    render() {
+      const { children, ...otherProps } = this.props
+      return <View {...otherProps} />
+    }
+    static Constants = {
+      Type: {},
+      BarCodeType: {},
+      FlashMode: {},
+      AutoFocus: {},
+    }
+  }
+
+  return { RNCamera }
+})
+
 const store = createMockStore()
 
 describe('WithdrawCeloQrScannerScreen', () => {
@@ -26,8 +45,7 @@ describe('WithdrawCeloQrScannerScreen', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  // Note (Tom): Failing with update to @testing-library/react-native
-  it.skip('calls onAddressScanned when a QR is scanned', async () => {
+  it('calls onAddressScanned when a QR is scanned', async () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <WithdrawCeloQrScannerScreen {...mockScreenProps} />
@@ -42,8 +60,7 @@ describe('WithdrawCeloQrScannerScreen', () => {
     expect(onAddressScanned).toHaveBeenCalledWith(SAMPLE_ADDRESS)
   })
 
-  // Note (Tom): Failing with update to @testing-library/react-native
-  it.skip('calls onAddressScanned when a Valora QR is scanned', async () => {
+  it('calls onAddressScanned when a Valora QR is scanned with stringified JSON data', async () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <WithdrawCeloQrScannerScreen {...mockScreenProps} />
