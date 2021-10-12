@@ -8,7 +8,7 @@ import { mockAccount } from 'test/values'
 
 const firebaseTokenInfo = [
   {
-    usdPrice: 0.1,
+    usdPrice: '0.1',
     address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
     symbol: 'POOF',
     imageUrl:
@@ -17,7 +17,7 @@ const firebaseTokenInfo = [
     decimals: 18,
   },
   {
-    usdPrice: 1.16,
+    usdPrice: '1.16',
     address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
     symbol: 'cEUR',
     imageUrl:
@@ -28,40 +28,40 @@ const firebaseTokenInfo = [
 ]
 const tokenBalances = {
   '0x00400FcbF0816bebB94654259de7273f4A05c762': {
-    usdPrice: 0.1,
+    usdPrice: '0.1',
     address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
     symbol: 'POOF',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_POOF.png',
     name: 'Poof Governance Token',
     decimals: 18,
-    balance: 5,
+    balance: '5',
   },
   '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
-    usdPrice: 1.16,
+    usdPrice: '1.16',
     address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
     symbol: 'cEUR',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cEUR.png',
     name: 'Celo Euro',
     decimals: 18,
-    balance: 0,
+    balance: '0',
   },
 }
 
 const tokenBalances2 = {
   '0x00400FcbF0816bebB94654259de7273f4A05c762': {
-    usdPrice: 0.1,
+    usdPrice: '0.1',
     address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
     symbol: 'POOF',
     imageUrl:
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_POOF.png',
     name: 'Poof Governance Token',
     decimals: 18,
-    balance: 5,
+    balance: '5',
   },
   '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
-    usdPrice: 1.16,
+    usdPrice: '1.16',
     address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
     symbol: 'cEUR',
     imageUrl:

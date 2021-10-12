@@ -15,7 +15,12 @@ import { WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
-import { setTokenBalances, Token, TokenBalances } from 'src/tokens/reducer'
+import {
+  setTokenBalances,
+  StoredTokenBalance,
+  StoredTokenBalances,
+  Token,
+} from 'src/tokens/reducer'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
@@ -271,19 +276,28 @@ export async function getERC20TokenBalance(token: Token, address: string) {
 }
 
 export function* fetchReadableTokenBalance(address: string, token: Token) {
-  const balanceNumber: number | null = yield call(getERC20TokenBalance, token, address)
-  const balance = balanceNumber
-    ? new BigNumber(balanceNumber).multipliedBy(new BigNumber(10).exponentiatedBy(token.decimals))
-    : null
-  return { [token.address]: { ...token, balance } }
+  const balance: number | null = yield call(getERC20TokenBalance, token, address)
+  return {
+    ...token,
+    balance:
+      balance || balance === 0
+        ? new BigNumber(balance)
+            .dividedBy(new BigNumber(10).exponentiatedBy(token.decimals))
+            .toString()
+        : null,
+  }
 }
 
 export function* importTokenInfo() {
   const tokens: Token[] = yield call(readOnceFromFirebase, 'tokensInfo')
   const address: string = yield select(walletAddressSelector)
-  const balances: TokenBalances = yield all(
+  const fetchedTokenBalances: StoredTokenBalance[] = yield all(
     tokens.map((token: Token) => call(fetchReadableTokenBalance, address, token))
   )
+  const balances: StoredTokenBalances = {}
+  for (const tokenBalance of fetchedTokenBalances) {
+    balances[tokenBalance.address] = tokenBalance
+  }
   yield put(setTokenBalances(balances))
 }
 

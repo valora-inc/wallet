@@ -1,7 +1,7 @@
 import { defaultTokenSelector } from 'src/tokens/selectors'
 
 describe(defaultTokenSelector, () => {
-  describe('when fetching hte token with the highest balance', () => {
+  describe('when fetching the token with the highest balance', () => {
     it('returns the right token', () => {
       const state: any = {
         tokens: {

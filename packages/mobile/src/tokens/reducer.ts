@@ -1,26 +1,36 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
+import BigNumber from 'bignumber.js'
 import { RehydrateAction } from 'redux-persist'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 
-export interface Token {
+interface BaseToken {
   address: string
   decimals: number
   imageUrl: string
   name: string
   symbol: string
-  usdPrice?: number
 }
 
-export interface TokenBalance extends Token {
-  balance: number | null
+export interface StoredTokenBalance extends BaseToken {
+  balance: string | null
+  usdPrice?: string
+}
+
+export interface TokenBalance extends BaseToken {
+  balance: BigNumber | null
+  usdPrice?: BigNumber
+}
+
+export interface StoredTokenBalances {
+  [address: string]: StoredTokenBalance | undefined
 }
 
 export interface TokenBalances {
-  [address: string]: TokenBalance
+  [address: string]: TokenBalance | undefined
 }
 
 export interface State {
-  tokenBalances: TokenBalances
+  tokenBalances: StoredTokenBalances
 }
 
 export const initialState = {
@@ -28,7 +38,7 @@ export const initialState = {
 }
 
 const rehydrate = createAction<any>(REHYDRATE)
-export const setTokenBalances = createAction<TokenBalances>('TOKENS/SET_TOKEN_BALANCES')
+export const setTokenBalances = createAction<StoredTokenBalances>('TOKENS/SET_TOKEN_BALANCES')
 
 export const reducer = createReducer(initialState, (builder) => {
   builder

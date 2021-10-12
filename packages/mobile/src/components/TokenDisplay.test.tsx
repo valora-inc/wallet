@@ -21,20 +21,25 @@ describe('TokenDisplay', () => {
           ['0xusd']: {
             address: '0xusd',
             symbol: 'cUSD',
-            balance: 50,
-            usdPrice: 1,
+            balance: '50',
+            usdPrice: '1',
           },
           ['0xeur']: {
             address: '0xeur',
             symbol: 'cEUR',
-            balance: 50,
-            usdPrice: 1.2,
+            balance: '50',
+            usdPrice: '1.2',
           },
           ['0xcelo']: {
             address: '0xcelo',
             symbol: 'CELO',
-            balance: 10,
-            usdPrice: 5,
+            balance: '10',
+            usdPrice: '5',
+          },
+          ['0xnoUsdPrice']: {
+            address: '0xnoUsdPrice',
+            symbol: 'NoUsd',
+            balance: '10',
           },
         },
       },
@@ -139,6 +144,24 @@ describe('TokenDisplay', () => {
         </Provider>
       )
       expect(amountFromComponent(getByTestId('test/value'))).toEqual('-R$1.00')
+    })
+
+    it('shows a dash when the token doesnt exist', () => {
+      const { getByTestId } = render(
+        <Provider store={store()}>
+          <TokenDisplay amount={10} tokenAddress={'0xdoesntexist'} testID="test" />
+        </Provider>
+      )
+      expect(amountFromComponent(getByTestId('test/value'))).toEqual('R$-')
+    })
+
+    it('shows a dash when the token doesnt have a usd price', () => {
+      const { getByTestId } = render(
+        <Provider store={store()}>
+          <TokenDisplay amount={10} tokenAddress={'0xnoUsdPrice'} testID="test" />
+        </Provider>
+      )
+      expect(amountFromComponent(getByTestId('test/value'))).toEqual('R$-')
     })
   })
 })

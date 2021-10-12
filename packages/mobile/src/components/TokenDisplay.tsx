@@ -6,13 +6,16 @@ import { getLocalCurrencySymbol, localCurrencyToUsdSelector } from 'src/localCur
 import useSelector from 'src/redux/useSelector'
 import { CurrencyInfo } from 'src/send/SendConfirmation'
 import { useTokenInfo } from 'src/tokens/hooks'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'TokenDisplay'
 
 // TODO: This should depend on the token. For example, wBTC should show more decimals,
 // since 2 is still too big a value so the UI might show 0 for non-zero balances.
 const DISPLAY_DECIMALS = 2
 
 interface Props {
-  amount: number
+  amount: BigNumber.Value
   tokenAddress: string
   showSymbol?: boolean
   showLocalAmount?: boolean
@@ -53,18 +56,21 @@ function TokenDisplay({
 
   const { fiatExchangeRate, fiatSymbol } = useFiatExchangeRates(currencyInfo)
 
+  let error = false
+
   if (!tokenInfo) {
-    console.error(`No token info found for token address ${tokenAddress}`)
-    return null
+    Logger.error(TAG, `No token info found for token address ${tokenAddress}`)
+    error = true
+  } else if (showLocalAmount && (!tokenInfo.usdPrice || !fiatExchangeRate)) {
+    Logger.error(
+      TAG,
+      `No token usd price or exchange rate found to display for ${tokenInfo.symbol}`
+    )
+    error = true
   }
 
-  if (showLocalAmount && (!tokenInfo.usdPrice || !fiatExchangeRate)) {
-    console.error(`No token usd price or exchange rate found to display for ${tokenInfo.symbol}`)
-    return null
-  }
-
-  const amountInUsd = amount * (tokenInfo.usdPrice ?? 0)
-  const amountInLocalCurrency = new BigNumber(fiatExchangeRate ?? 0).multipliedBy(amountInUsd)
+  const amountInUsd = tokenInfo?.usdPrice?.multipliedBy(amount)
+  const amountInLocalCurrency = new BigNumber(fiatExchangeRate ?? 0).multipliedBy(amountInUsd ?? 0)
 
   const amountToShow = showLocalAmount ? amountInLocalCurrency : new BigNumber(amount)
 
@@ -74,8 +80,8 @@ function TokenDisplay({
     <Text style={style} testID={`${testID}/value`}>
       {sign}
       {showLocalAmount && fiatSymbol}
-      {amountToShow.absoluteValue().toFixed(DISPLAY_DECIMALS)}
-      {!showLocalAmount && showSymbol && ` ${tokenInfo.symbol}`}
+      {error ? '-' : amountToShow.absoluteValue().toFixed(DISPLAY_DECIMALS)}
+      {!showLocalAmount && showSymbol && ` ${tokenInfo?.symbol}`}
     </Text>
   )
 }
