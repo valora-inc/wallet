@@ -6,6 +6,7 @@ import { call, select, spawn, takeEvery } from 'redux-saga/effects'
 import { Actions as AccountActions } from 'src/account/actions'
 import { accountSaga } from 'src/account/saga'
 import { devModeSelector } from 'src/account/selectors'
+import { analyticsSaga } from 'src/analytics/saga'
 import {
   appInit,
   appRemoteFeatureFlagSaga,
@@ -103,6 +104,7 @@ export function* rootSaga() {
     yield call(appInit)
 
     // Note, the order of these does matter in certain cases
+    yield spawn(analyticsSaga)
     yield spawn(appVersionSaga)
     yield spawn(appRemoteFeatureFlagSaga)
     yield spawn(loggerSaga)
