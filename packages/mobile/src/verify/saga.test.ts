@@ -60,7 +60,9 @@ import {
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { registerWalletAndDekViaKomenci } from 'src/web3/dataEncryptionKey'
 import { getAccount, getConnectedUnlockedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
+import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
+export const mockPrivateDEK = '41e8e8593108eeedcbded883b8af34d2f028710355c57f4c10a056b72486aa04'
 export const mockAccount = '0x0000000000000000000000000000000000007E57'
 export const mockAccount1 = '0x0000000000000000000000000000000000007E58'
 export const mockAccount2 = '0x0000000000000000000000000000000000007E59'
@@ -337,6 +339,7 @@ describe(fetchPhoneNumberDetailsSaga, () => {
     await reduxSagaTestPlan
       .expectSaga(fetchPhoneNumberDetailsSaga)
       .provide([
+        [select(dataEncryptionKeySelector), mockPrivateDEK],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
         [call(unlockAccount, mockAccount, true), UnlockResult.SUCCESS],

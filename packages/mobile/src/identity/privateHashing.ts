@@ -24,7 +24,7 @@ import Logger from 'src/utils/Logger'
 import { isBalanceSufficientForSigRetrievalSelector } from 'src/verify/reducer'
 import { getAuthSignerForAccount } from 'src/web3/dataEncryptionKey'
 import { getAccount, getAccountAddress, unlockAccount, UnlockResult } from 'src/web3/saga'
-import { currentAccountSelector } from 'src/web3/selectors'
+import { currentAccountSelector, dataEncryptionKeySelector } from 'src/web3/selectors'
 
 const TAG = 'identity/privateHashing'
 export const LOOKUP_GAS_FEE_ESTIMATE = 0.03
@@ -110,7 +110,21 @@ function* getPhoneHashPrivate(e164Number: string, selfPhoneHash?: string) {
     odisUrl,
     odisPubKey,
   }
-  const blsBlindingClient = new ReactBlsBlindingClient(odisPubKey)
+  // Use DEK for deterministic randomness
+  // This allows user to use the same blinded message for the same phone number
+  // which prevents consumption of quota for future duplicate requests
+  const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
+  if (!privateDataKey) {
+    throw new Error('No data key in store. Should never happen.')
+  }
+
+  const blindingFactor = ReactBlsBlindingClient.generateDeterministicBlindingFactor(
+    privateDataKey,
+    e164Number
+  )
+
+  Logger.debug(TAG, '@fetchPrivatePhoneHash', 'Blinding factor', blindingFactor)
+  const blsBlindingClient = new ReactBlsBlindingClient(networkConfig.odisPubKey, blindingFactor)
   try {
     return yield call(
       OdisUtils.PhoneNumberIdentifier.getPhoneNumberIdentifier,
