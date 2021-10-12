@@ -49,13 +49,13 @@ export default class ExchangesGraph {
     const queue = [tokenPattern]
 
     while (queue.length > 0) {
-      const from = queue.pop()!
+      const from = queue.shift()!
       if (this.graph[from]) {
         for (const [to, exchangesTo] of Object.entries(this.graph[from])) {
           if (!prices[to]) {
             for (const exchange of exchangesTo) {
               if (exchange.hasEnoughLiquidity(prices[from])) {
-                prices[to] = prices[from].times(exchange.rate.pow(-1))
+                prices[to] = prices[from].dividedBy(exchange.rate)
                 queue.push(to)
                 break
               }
@@ -137,7 +137,7 @@ export default class ExchangesGraph {
     return result
   }
 
-  logArbitrage(result: ExchangesResult, start: string, prices: PriceByAddress) {
+  private logArbitrage(result: ExchangesResult, start: string, prices: PriceByAddress) {
     console.log('There is a possible Arbitrage')
 
     let current = start

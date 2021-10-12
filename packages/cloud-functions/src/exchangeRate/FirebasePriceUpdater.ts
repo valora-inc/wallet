@@ -27,12 +27,14 @@ export default class FirebasePriceUpdater {
   private async updatePrices(prices: PriceByAddress) {
     const tokensInfoRaw = await fetchFromFirebase(FIREBASE_NODE_KEY)
 
+    const fetchTime = Date.now()
     // @ts-ignore
     for (const [key, token] of Object.entries(tokensInfoRaw)) {
       // @ts-ignore
       const address = token.address.toLowerCase()
       if (prices[address]) {
         await updateFirebase(`${FIREBASE_NODE_KEY}/${key}/usdPrice`, prices[address].toString())
+        await updateFirebase(`${FIREBASE_NODE_KEY}/${key}/priceFetchedAt`, fetchTime)
       }
     }
   }
