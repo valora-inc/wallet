@@ -259,7 +259,7 @@ export async function getERC20TokenContract(tokenAddress: string) {
   return new kit.web3.eth.Contract(erc20.abi, tokenAddress)
 }
 
-export async function getERC20TokenBalance(token: Token, address: string) {
+export async function getERC20TokenBalance(token: StoredTokenBalance, address: string) {
   let balance = null
   try {
     const contract = await getERC20TokenContract(token.address)
@@ -270,7 +270,7 @@ export async function getERC20TokenBalance(token: Token, address: string) {
   return balance
 }
 
-export function* fetchReadableTokenBalance(address: string, token: Token) {
+export function* fetchReadableTokenBalance(address: string, token: StoredTokenBalance) {
   const balance: number | null = yield call(getERC20TokenBalance, token, address)
   return {
     ...token,
@@ -284,10 +284,10 @@ export function* fetchReadableTokenBalance(address: string, token: Token) {
 }
 
 export function* importTokenInfo() {
-  const tokens: Token[] = yield call(readOnceFromFirebase, 'tokensInfo')
+  const tokens: StoredTokenBalance[] = yield call(readOnceFromFirebase, 'tokensInfo')
   const address: string = yield select(walletAddressSelector)
   const fetchedTokenBalances: StoredTokenBalance[] = yield all(
-    tokens.map((token: Token) => call(fetchReadableTokenBalance, address, token))
+    tokens.map((token) => call(fetchReadableTokenBalance, address, token))
   )
   const balances: StoredTokenBalances = {}
   for (const tokenBalance of fetchedTokenBalances) {
