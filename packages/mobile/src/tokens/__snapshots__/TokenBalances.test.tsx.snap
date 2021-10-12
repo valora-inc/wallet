@@ -43,23 +43,17 @@ exports[`TokenBalancesScreen renders correctly with invite rewards disabled 1`] 
       >
         <Text
           style={
-            Array [
-              Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Medium",
-                "fontSize": 14,
-                "lineHeight": 18,
-              },
-              Object {
-                "color": "#2E3338",
-              },
-            ]
+            Object {
+              "color": "#9CA4A9",
+              "fontFamily": "Inter-Medium",
+              "fontSize": 14,
+              "lineHeight": 18,
+            }
           }
-          testID="undefined/value"
         >
           
           $
-          0.66
+          0.67
         </Text>
         <Text
           style={
@@ -71,7 +65,9 @@ exports[`TokenBalancesScreen renders correctly with invite rewards disabled 1`] 
             }
           }
         >
-          5.00 POOF
+          
+          5.00
+           POOF
         </Text>
       </View>
     </View>

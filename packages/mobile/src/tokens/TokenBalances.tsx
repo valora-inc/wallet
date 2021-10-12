@@ -1,36 +1,35 @@
+import Colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
 import BigNumber from 'bignumber.js'
 import React from 'react'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
 import i18n from 'src/i18n'
 import { headerWithBackButton } from 'src/navigator/Headers'
-import { TokenBalance, tokenBalancesSelector } from 'src/tokens/reducer'
-import { Currency } from 'src/utils/currencies'
+import { StoredTokenBalance, tokenBalancesSelector } from 'src/tokens/reducer'
 
 function TokenBalancesScreen() {
   const tokenBalances = useSelector(tokenBalancesSelector)
 
-  function getTokenDisplay(token: TokenBalance) {
-    const usdAmt = {
-      value: new BigNumber(token.balance!).multipliedBy(new BigNumber(token.usdPrice ?? 0)),
-      currencyCode: Currency.Dollar,
-    }
-
+  function getTokenDisplay(token: StoredTokenBalance) {
     return (
       <View style={styles.tokenContainer}>
         <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
         <View style={styles.balances}>
-          {token.usdPrice ? (
-            <CurrencyDisplay style={styles.localAmt} amount={usdAmt} showLocalAmount={true} />
-          ) : (
-            <Text style={styles.localAmt}>-</Text>
-          )}
-          <Text style={styles.tokenAmt}>{`${new BigNumber(token.balance!).toFormat(2)} ${
-            token.symbol
-          }`}</Text>
+          <TokenDisplay
+            amount={new BigNumber(token.balance!)}
+            tokenAddress={token.address}
+            style={styles.localAmt}
+          />
+          <TokenDisplay
+            amount={new BigNumber(token.balance!)}
+            tokenAddress={token.address}
+            style={styles.tokenAmt}
+            showLocalAmount={false}
+            showSymbol={true}
+          />
         </View>
       </View>
     )
@@ -40,9 +39,9 @@ function TokenBalancesScreen() {
     <ScrollView style={styles.scrollContainer}>
       {Object.values(tokenBalances)
         .filter(
-          (token: TokenBalance) => token.balance && new BigNumber(token.balance).comparedTo(0)
+          (token: StoredTokenBalance) => token.balance && new BigNumber(token.balance).comparedTo(0)
         )
-        .map((token: TokenBalance) => getTokenDisplay(token))}
+        .map((token: StoredTokenBalance) => getTokenDisplay(token!))}
     </ScrollView>
   )
 }
@@ -73,6 +72,7 @@ const styles = StyleSheet.create({
   },
   localAmt: {
     ...fontStyles.small500,
+    color: Colors.gray4,
   },
   tokenAmt: {
     ...fontStyles.large600,
