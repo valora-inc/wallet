@@ -41,7 +41,7 @@ function updatePrices() {
   )
   updater
     .refreshAllPrices()
-    .then((res) => {
+    .then(() => {
       console.info('Refreshed token prices')
     })
     .catch((err) => {
