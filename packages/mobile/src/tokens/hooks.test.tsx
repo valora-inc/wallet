@@ -28,7 +28,7 @@ const store = (dollarExchange: string | null = '2') =>
       tokenBalances: {
         [tokenAddressWithPrice]: {
           symbol: 'T1',
-          usdPrice: 5,
+          usdPrice: '5',
         },
         [tokenAddressWithoutPrice]: {
           symbol: 'T2',

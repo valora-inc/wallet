@@ -15,12 +15,7 @@ import { WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
-import {
-  setTokenBalances,
-  StoredTokenBalance,
-  StoredTokenBalances,
-  Token,
-} from 'src/tokens/reducer'
+import { setTokenBalances, StoredTokenBalance, StoredTokenBalances } from 'src/tokens/reducer'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
