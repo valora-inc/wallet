@@ -15,7 +15,7 @@ export default onRamps = () => {
     beforeEach(async () => {
       await waitFor(element(by.id('radio/cUSD')))
         .toBeVisible()
-        .withTimeout(10 * 5000)
+        .withTimeout(10 * 1000)
       await element(by.id('radio/cUSD')).tap()
     })
 
@@ -27,6 +27,7 @@ export default onRamps = () => {
         await element(by.id('FiatExchangeNextButton')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Should Display Providers', async () => {
         await waitFor(element(by.id('Provider/Simplex')))
           .toBeVisible()
@@ -64,7 +65,7 @@ export default onRamps = () => {
       it('Then Should Display Exchanges & Recovery Phrase', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
-          .withTimeout(20000)
+          .withTimeout(20 * 1000)
         await expect(element(by.id('Bittrex'))).toBeVisible()
         await expect(element(by.id('CoinList Pro'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
@@ -79,7 +80,7 @@ export default onRamps = () => {
     beforeEach(async () => {
       await waitFor(element(by.id('radio/CELO')))
         .toBeVisible()
-        .withTimeout(10 * 5000)
+        .withTimeout(10 * 1000)
       await element(by.id('radio/CELO')).tap()
     })
 
@@ -128,7 +129,7 @@ export default onRamps = () => {
       it('Then Should Display Exchanges & Recovery Phrase', async () => {
         await waitFor(element(by.id('Binance')))
           .toBeVisible()
-          .withTimeout(20000)
+          .withTimeout(20 * 1000)
         await expect(element(by.id('Binance'))).toBeVisible()
         await expect(element(by.id('Bittrex'))).toBeVisible()
         await expect(element(by.id('Coinbase (CELO as CGLD)'))).toBeVisible()
