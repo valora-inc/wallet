@@ -138,7 +138,7 @@ export default class ExchangesGraph {
   }
 
   private logArbitrage(result: ExchangesResult, start: string, prices: PriceByAddress) {
-    console.log('There is a possible Arbitrage')
+    console.warn('There is a possible Arbitrage')
 
     let current = start
     let prev = result[start][current].lastExchange?.from
@@ -150,7 +150,7 @@ export default class ExchangesGraph {
       if (!lastExchange) {
         return
       }
-      console.log(`
+      console.warn(`
       FROM: ${lastExchange.from} (estimated price: ${prices[lastExchange.from]})
       TO: ${lastExchange.to} (estimated price: ${prices[lastExchange.to]})
       AT: ${lastExchange.rate.toNumber()} (metadata: ${JSON.stringify(lastExchange.metadata)})`)

@@ -15,13 +15,8 @@ export default class FirebasePriceUpdater {
   }
 
   async refreshAllPrices() {
-    try {
-      const prices = await this.manager.calculateUSDPrices()
-      await this.updatePrices(prices)
-    } catch (e) {
-      console.log('There was an error calculating prices', e)
-      return
-    }
+    const prices = await this.manager.calculateUSDPrices()
+    await this.updatePrices(prices)
   }
 
   private async updatePrices(prices: PriceByAddress) {
@@ -44,7 +39,14 @@ function updatePrices() {
   const updater = new FirebasePriceUpdater(
     new ExchangeRateManager([ubeswapLiquidityPool, moolaExchanges])
   )
-  updater.refreshAllPrices().then((res) => console.log('Refreshed tokens'))
+  updater
+    .refreshAllPrices()
+    .then((res) => {
+      console.info('Refreshed token prices')
+    })
+    .catch((err) => {
+      console.error('There was an error while refreshing token prices:', err)
+    })
 }
 
 export const updateFirebasePrices = functions.pubsub
