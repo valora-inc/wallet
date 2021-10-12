@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions'
 import { fetchFromFirebase, updateFirebase } from '../firebase'
 import ExchangeRateManager from './ExchangeRateManager'
-import { EstimatedPrices } from './ExchangesGraph'
+import { PriceByAddress } from './ExchangesGraph'
 import { moolaExchanges } from './sources/MoolaExchanges'
 import { ubeswapLiquidityPool } from './sources/UbeswapLiquidityPool'
 
@@ -24,7 +24,7 @@ export default class FirebasePriceUpdater {
     }
   }
 
-  private async updatePrices(prices: EstimatedPrices) {
+  private async updatePrices(prices: PriceByAddress) {
     const tokensInfoRaw = await fetchFromFirebase(FIREBASE_NODE_KEY)
 
     // @ts-ignore

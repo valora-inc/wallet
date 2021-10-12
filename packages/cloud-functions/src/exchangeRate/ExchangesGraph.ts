@@ -16,7 +16,7 @@ export interface Exchange {
   metadata?: any
 }
 
-export interface EstimatedPrices {
+export interface PriceByAddress {
   [address: string]: BigNumber
 }
 
@@ -43,8 +43,8 @@ export default class ExchangesGraph {
   }
 
   // High level price estimation
-  estimatePrices(tokenPattern: string): EstimatedPrices {
-    const prices: EstimatedPrices = {}
+  estimatePrices(tokenPattern: string): PriceByAddress {
+    const prices: PriceByAddress = {}
     prices[tokenPattern] = new BigNumber(1)
     const queue = [tokenPattern]
 
@@ -73,7 +73,7 @@ export default class ExchangesGraph {
   // If we expect to have thoudsans of tokens we should try with a different approach.
   // Throws an error if there was an arbitrage
   // Given estimated prices are used to filter out exchanges with low liquidity
-  getAllExchanges(estimatedPrices: EstimatedPrices): ExchangesResult {
+  getAllExchanges(estimatedPrices: PriceByAddress): ExchangesResult {
     const result: ExchangesResult = {}
     const tokens = Object.keys(this.graph)
 
@@ -137,7 +137,7 @@ export default class ExchangesGraph {
     return result
   }
 
-  logArbitrage(result: ExchangesResult, start: string, prices: EstimatedPrices) {
+  logArbitrage(result: ExchangesResult, start: string, prices: PriceByAddress) {
     console.log('There is a possible Arbitrage')
 
     let current = start

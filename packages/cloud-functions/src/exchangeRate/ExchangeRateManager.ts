@@ -1,12 +1,4 @@
-import ExchangesGraph, { EstimatedPrices, Exchange } from './ExchangesGraph'
-
-export interface Token {
-  address: string
-  name: string
-  symbol: string
-  usdPrice?: string
-  decimals?: number
-}
+import ExchangesGraph, { Exchange, PriceByAddress } from './ExchangesGraph'
 
 export interface ExchangeProvider {
   getExchanges(): Promise<Exchange[]>
@@ -37,7 +29,7 @@ export default class ExchangeRateManager {
     return graph
   }
 
-  async calculateUSDPrices(): Promise<EstimatedPrices> {
+  async calculateUSDPrices(): Promise<PriceByAddress> {
     const exchanges = await this.getExchangesFromSources()
 
     const graph = this.buildGraph(exchanges)
@@ -46,7 +38,7 @@ export default class ExchangeRateManager {
 
     const exchangePrices = graph.getAllExchanges(estimatedPrices)
 
-    const result: EstimatedPrices = {}
+    const result: PriceByAddress = {}
     for (const address of Object.keys(exchangePrices)) {
       if (exchangePrices[address][cUSD] && exchangePrices[cUSD][address]) {
         const price = exchangePrices[address][cUSD].rate
