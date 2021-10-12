@@ -70,6 +70,10 @@ interface MoonpayTransaction {
     precision: number
     maxAmount: number
     minAmount: number
+    minBuyAmount: number
+    maxBuyAmount: number
+    minSellAmount: number
+    maxSellAmount: number
   }
   currency: {
     id: string
@@ -81,6 +85,10 @@ interface MoonpayTransaction {
     precision: number
     maxAmount: number
     minAmount: number
+    minBuyAmount: number
+    maxBuyAmount: number
+    minSellAmount: number
+    maxSellAmount: number
     addressRegex: string
     testnetAddressRegex: string
     supportsAddressTag: boolean
