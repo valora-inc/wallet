@@ -39,7 +39,7 @@ jobs:
       - name: Install CocoaPods dependencies
         run: |
           cd packages/mobile/ios
-          bundle exec pod install
+          bundle exec pod install || bundle exec pod install --repo-update
       - name: Create E2E Test .env File
         env:
           TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}

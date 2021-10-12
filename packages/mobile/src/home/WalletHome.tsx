@@ -14,7 +14,6 @@ import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   ALERT_BANNER_DURATION,
   DEFAULT_TESTNET,
@@ -33,20 +32,16 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
-import { isAppConnected } from 'src/redux/selectors'
 import { initializeSentryUserContext } from 'src/sentry/actions'
 import { Balances, balancesSelector } from 'src/stableToken/selectors'
 import { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList from 'src/transactions/TransactionsList'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import { checkContactsPermission } from 'src/utils/permissions'
-import { currentAccountSelector } from 'src/web3/selectors'
 
 interface StateProps {
   loading: boolean
-  address?: string | null
   recipientCache: NumberToRecipient
-  appConnected: boolean
   numberVerified: boolean
   cashInButtonExpEnabled: boolean
   balances: Balances
@@ -72,9 +67,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: RootState): StateProps => ({
   loading: state.home.loading,
-  address: currentAccountSelector(state),
   recipientCache: phoneRecipientCacheSelector(state),
-  appConnected: isAppConnected(state),
   numberVerified: state.app.numberVerified,
   cashInButtonExpEnabled: state.app.cashInButtonExpEnabled,
   balances: balancesSelector(state),
@@ -110,8 +103,6 @@ export class WalletHome extends React.Component<Props, State> {
     if (SHOW_TESTNET_BANNER) {
       this.showTestnetBanner()
     }
-
-    ValoraAnalytics.setUserAddress(this.props.address)
 
     // TODO: Fire refreshAllBalances when the app state changes to active. It's easier to do that when we
     // transform this into a function component.
