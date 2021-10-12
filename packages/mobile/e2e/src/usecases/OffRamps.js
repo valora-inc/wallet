@@ -30,6 +30,7 @@ export default offRamps = () => {
         await element(by.text('Next')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Should Be Display No Providers Message', async () => {
         // Enter Amount to Exchange
         await element(by.id('FiatExchangeInput')).replaceText('2')
@@ -56,6 +57,7 @@ export default offRamps = () => {
         await element(by.text('Next')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Bidali Should Display', async () => {
         await expect(element(by.text('Bidali'))).toBeVisible()
         // TODO: Include Check of Screenshot in Nightly Tests
@@ -71,6 +73,7 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Should Display Exchanges', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
@@ -92,6 +95,7 @@ export default offRamps = () => {
       await element(by.id('radio/cEUR')).tap()
     })
 
+    jest.retryTimes(2)
     describe('When Gift Cards and Mobile Top Up Selected', () => {
       beforeEach(async () => {
         await element(by.id('receiveWithBidali')).tap()
@@ -115,6 +119,7 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Should Display No Exchanges Available Text', async () => {
         // Check page elements
         await expect(element(by.id('NoExchanges'))).toHaveText(
@@ -149,6 +154,7 @@ export default offRamps = () => {
         await element(by.id('WithdrawReviewButton')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Send To Address', async () => {
         // Confirm withdrawal for randomAmount
         await element(by.id('ConfirmWithdrawButton')).tap()
@@ -169,6 +175,7 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Should Display Exchanges & Withdraw CELO Button', async () => {
         await waitFor(element(by.id('Binance')))
           .toBeVisible()

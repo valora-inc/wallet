@@ -46,6 +46,7 @@ export default onRamps = () => {
         await element(by.id('FiatExchangeNextButton')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Should Display Providers', async () => {
         await waitFor(element(by.id('Provider/Simplex')))
           .toBeVisible()
@@ -62,6 +63,7 @@ export default onRamps = () => {
         await element(by.text('Next')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Should Display Exchanges & Recovery Phrase', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
@@ -92,6 +94,7 @@ export default onRamps = () => {
         await element(by.id('FiatExchangeNextButton')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Should Display Providers', async () => {
         await waitFor(element(by.id('Provider/Simplex')))
           .toBeVisible()
@@ -110,6 +113,7 @@ export default onRamps = () => {
         await element(by.id('FiatExchangeNextButton')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Should Display Providers', async () => {
         await waitFor(element(by.id('Provider/Simplex')))
           .toBeVisible()
@@ -126,7 +130,8 @@ export default onRamps = () => {
         await element(by.text('Next')).tap()
       })
 
-      it('Then Should Display Exchanges & Recovery Phrase', async () => {
+      jest.retryTimes(2)
+      it('Then Should Display Exchanges & Account Address', async () => {
         await waitFor(element(by.id('Binance')))
           .toBeVisible()
           .withTimeout(20 * 1000)
