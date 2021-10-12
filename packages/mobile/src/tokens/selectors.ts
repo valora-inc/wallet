@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 import { RootState } from 'src/redux/reducers'
 import { TokenBalances } from 'src/tokens/reducer'
 
+// This selector maps usdPrice and balance fields from string to BigNumber
 export const tokenBalancesSelector = createSelector(
   (state: RootState) => state.tokens.tokenBalances,
   (storedBalances) => {
