@@ -1,6 +1,6 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { TextInput } from 'react-native'
-import { render } from 'react-native-testing-library'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 
 describe('CodeInput', () => {
@@ -53,7 +53,7 @@ describe('CodeInput', () => {
   })
 
   it('disables auto correct / suggestion when in input mode', () => {
-    const { getByType } = render(
+    const { UNSAFE_getByType } = render(
       <CodeInput
         label="label"
         status={CodeInputStatus.Inputting}
@@ -65,8 +65,8 @@ describe('CodeInput', () => {
       />
     )
 
-    expect(getByType(TextInput).props.autoCorrect).toBe(false)
-    expect(getByType(TextInput).props.autoCapitalize).toBe('none')
-    expect(getByType(TextInput).props.keyboardType).toBe('visible-password')
+    expect(UNSAFE_getByType(TextInput).props.autoCorrect).toBe(false)
+    expect(UNSAFE_getByType(TextInput).props.autoCapitalize).toBe('none')
+    expect(UNSAFE_getByType(TextInput).props.keyboardType).toBe('visible-password')
   })
 })

@@ -1,8 +1,7 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { TokenTransactionType } from 'src/apollo/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -44,7 +43,7 @@ describe('TransferConfirmationCard', () => {
       recipient: mockRecipient,
     }
 
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <TransferConfirmationCard {...props} />
       </Provider>
@@ -62,7 +61,7 @@ describe('TransferConfirmationCard', () => {
       recipient: mockRecipient,
     }
 
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <TransferConfirmationCard {...props} />
       </Provider>
@@ -82,7 +81,7 @@ describe('TransferConfirmationCard', () => {
       recipient: mockRecipient,
     }
 
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <TransferConfirmationCard {...props} />
       </Provider>
@@ -122,7 +121,7 @@ describe('TransferConfirmationCard', () => {
       recipient: mockRecipient,
     }
 
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <TransferConfirmationCard {...props} />
       </Provider>
@@ -143,7 +142,7 @@ describe('TransferConfirmationCard', () => {
       fee: new BigNumber(0.01),
     }
 
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <TransferConfirmationCard {...props} />
       </Provider>
@@ -162,7 +161,7 @@ describe('TransferConfirmationCard', () => {
       recipient: mockRecipient,
     }
 
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <TransferConfirmationCard {...props} />
       </Provider>
@@ -183,7 +182,7 @@ describe('TransferConfirmationCard', () => {
       recipient: mockRecipient,
     }
 
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <TransferConfirmationCard {...props} />
       </Provider>

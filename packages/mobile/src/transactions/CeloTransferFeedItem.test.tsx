@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { TokenTransactionType } from 'src/apollo/types'
 import CeloTransferFeedItem from 'src/transactions/CeloTransferFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
@@ -32,7 +32,7 @@ describe('CeloTransferFeedItem', () => {
   })
 
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={createMockStore({})}>
         <CeloTransferFeedItem
           status={TransactionStatus.Complete}
@@ -55,7 +55,7 @@ describe('CeloTransferFeedItem', () => {
 
   it("renders correctly when there's a known address", () => {
     const mockName = 'This is a Test'
-    const tree = renderer.create(
+    const tree = render(
       <Provider
         store={createMockStore({
           identity: {
@@ -88,7 +88,7 @@ describe('CeloTransferFeedItem', () => {
 
   it("renders correctly when there's a default name", () => {
     const mockName = 'This is a Test'
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={createMockStore({})}>
         <CeloTransferFeedItem
           status={TransactionStatus.Complete}

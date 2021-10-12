@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import ExchangeConfirmationCard from 'src/exchange/ExchangeConfirmationCard'
 import { createMockStore } from 'test/utils'
 
@@ -16,7 +16,7 @@ const takerAmount = { value: '1.99', currencyCode: 'cUSD', localAmount }
 const store = createMockStore({})
 
 it('renders correctly with no exchange rate', () => {
-  const tree = renderer.create(
+  const tree = render(
     <Provider store={store}>
       <ExchangeConfirmationCard makerAmount={makerAmount} takerAmount={takerAmount} />
     </Provider>
@@ -25,7 +25,7 @@ it('renders correctly with no exchange rate', () => {
 })
 
 it('renders correctly with giant numbers', () => {
-  const tree = renderer.create(
+  const tree = render(
     <Provider store={store}>
       <ExchangeConfirmationCard
         makerAmount={{ value: '24000000.00', currencyCode: 'cUSD', localAmount }}

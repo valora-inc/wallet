@@ -1,5 +1,5 @@
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, render, waitForElement } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import BackupQuiz, { BackupQuiz as BackupQuizRaw } from 'src/backup/BackupQuiz'
 import { Screens } from 'src/navigator/Screens'
@@ -32,7 +32,7 @@ describe('BackupQuiz', () => {
         <BackupQuiz {...mockScreenProps} />
       </Provider>
     )
-    await waitForElement(() => getByTestId('selected-word-0'))
+    await waitFor(() => getByTestId('selected-word-0'))
     expect(toJSON()).toMatchSnapshot()
   })
 
@@ -51,7 +51,7 @@ describe('BackupQuiz', () => {
         </Provider>
       )
 
-      await waitForElement(() => getByTestId('selected-word-0'))
+      await waitFor(() => getByTestId('selected-word-0'))
 
       expect(getByTestId('selected-word-0').props.children).toEqual(1)
 
@@ -61,7 +61,7 @@ describe('BackupQuiz', () => {
 
       fireEvent.press(getByText(firstWord))
 
-      await waitForElement(() =>
+      await waitFor(() =>
         getByTestId('selected-word-0').find((node) => node.props.children === firstWord)
       )
 
@@ -91,7 +91,7 @@ describe('BackupQuiz', () => {
       </Provider>
     )
     for (const word of mockMnemonic.split(' ')) {
-      await waitForElement(() => getByText(word))
+      await waitFor(() => getByText(word))
       fireEvent.press(getByText(word))
     }
     fireEvent.press(getByTestId('QuizSubmit'))

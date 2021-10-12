@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Text } from 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { NotificationList } from 'src/notifications/NotificationList'
 import { createMockStore } from 'test/utils'
 
@@ -15,7 +15,7 @@ const props = () => ({
 
 describe(NotificationList, () => {
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={createMockStore({})}>
         <NotificationList<string> {...props()} />
       </Provider>

@@ -1,9 +1,8 @@
 import FullscreenCTA from '@celo/react-components/components/FullscreenCTA'
 import fontStyles from '@celo/react-components/styles/fonts'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
-import * as renderer from 'react-test-renderer'
 
 const styles = StyleSheet.create({
   errorMessage: {
@@ -27,7 +26,7 @@ function FullscreenCTAContentMaker(errorMessage: string) {
 
 describe('FullscreenCTA', () => {
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <FullscreenCTA
         title={'App Update'}
         subtitle={'Please upgrade your app'}
@@ -42,7 +41,7 @@ describe('FullscreenCTA', () => {
   describe('when press the button', () => {
     it('calls the restart prop', () => {
       const restartApp = jest.fn()
-      const { getByName } = render(
+      const { getByText } = render(
         <FullscreenCTA
           title={'Opps'}
           subtitle={'Something went wrong'}
@@ -52,7 +51,7 @@ describe('FullscreenCTA', () => {
           {FullscreenCTAContentMaker('There was an unexpected error')}
         </FullscreenCTA>
       )
-      fireEvent.press(getByName('Button'))
+      fireEvent.press(getByText('Restart'))
       expect(restartApp).toHaveBeenCalled()
     })
   })

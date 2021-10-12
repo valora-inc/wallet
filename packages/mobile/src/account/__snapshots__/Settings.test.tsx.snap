@@ -1726,6 +1726,7 @@ exports[`Account renders correctly 1`] = `
           ]
         }
         swipeThreshold={100}
+        testID="RemoveAccountModal"
         transparent={true}
         visible={false}
       >
@@ -1785,6 +1786,7 @@ exports[`Account renders correctly 1`] = `
             ]
           }
           swipeThreshold={100}
+          testID="RemoveAccountModal"
         >
           <RNCSafeAreaView>
             <View
@@ -1970,6 +1972,7 @@ exports[`Account renders correctly 1`] = `
           ]
         }
         swipeThreshold={100}
+        testID="ConfirmAccountRemovalModal"
         transparent={true}
         visible={false}
       >
@@ -2029,6 +2032,7 @@ exports[`Account renders correctly 1`] = `
             ]
           }
           swipeThreshold={100}
+          testID="ConfirmAccountRemovalModal"
         >
           <RNCSafeAreaView>
             <View
@@ -2210,6 +2214,7 @@ exports[`Account renders correctly 1`] = `
           ]
         }
         swipeThreshold={100}
+        testID="ConfirmAccountRevokeModal"
         transparent={true}
         visible={false}
       >
@@ -2269,6 +2274,7 @@ exports[`Account renders correctly 1`] = `
             ]
           }
           swipeThreshold={100}
+          testID="ConfirmAccountRevokeModal"
         >
           <RNCSafeAreaView>
             <View
@@ -4482,6 +4488,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
           ]
         }
         swipeThreshold={100}
+        testID="RemoveAccountModal"
         transparent={true}
         visible={false}
       >
@@ -4541,6 +4548,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             ]
           }
           swipeThreshold={100}
+          testID="RemoveAccountModal"
         >
           <RNCSafeAreaView>
             <View
@@ -4726,6 +4734,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
           ]
         }
         swipeThreshold={100}
+        testID="ConfirmAccountRemovalModal"
         transparent={true}
         visible={false}
       >
@@ -4785,6 +4794,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             ]
           }
           swipeThreshold={100}
+          testID="ConfirmAccountRemovalModal"
         >
           <RNCSafeAreaView>
             <View
@@ -4966,6 +4976,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
           ]
         }
         swipeThreshold={100}
+        testID="ConfirmAccountRevokeModal"
         transparent={true}
         visible={false}
       >
@@ -5025,6 +5036,7 @@ exports[`Account renders correctly when dev mode active 1`] = `
             ]
           }
           swipeThreshold={100}
+          testID="ConfirmAccountRevokeModal"
         >
           <RNCSafeAreaView>
             <View
@@ -6837,6 +6849,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           ]
         }
         swipeThreshold={100}
+        testID="RemoveAccountModal"
         transparent={true}
         visible={false}
       >
@@ -6896,6 +6909,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             ]
           }
           swipeThreshold={100}
+          testID="RemoveAccountModal"
         >
           <RNCSafeAreaView>
             <View
@@ -7081,6 +7095,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           ]
         }
         swipeThreshold={100}
+        testID="ConfirmAccountRemovalModal"
         transparent={true}
         visible={false}
       >
@@ -7140,6 +7155,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             ]
           }
           swipeThreshold={100}
+          testID="ConfirmAccountRemovalModal"
         >
           <RNCSafeAreaView>
             <View
@@ -7321,6 +7337,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
           ]
         }
         swipeThreshold={100}
+        testID="ConfirmAccountRevokeModal"
         transparent={true}
         visible={false}
       >
@@ -7380,6 +7397,7 @@ exports[`Account renders correctly when verification is not possible 1`] = `
             ]
           }
           swipeThreshold={100}
+          testID="ConfirmAccountRevokeModal"
         >
           <RNCSafeAreaView>
             <View
@@ -9192,6 +9210,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           ]
         }
         swipeThreshold={100}
+        testID="RemoveAccountModal"
         transparent={true}
         visible={false}
       >
@@ -9251,6 +9270,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             ]
           }
           swipeThreshold={100}
+          testID="RemoveAccountModal"
         >
           <RNCSafeAreaView>
             <View
@@ -9436,6 +9456,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           ]
         }
         swipeThreshold={100}
+        testID="ConfirmAccountRemovalModal"
         transparent={true}
         visible={false}
       >
@@ -9495,6 +9516,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             ]
           }
           swipeThreshold={100}
+          testID="ConfirmAccountRemovalModal"
         >
           <RNCSafeAreaView>
             <View
@@ -9676,6 +9698,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
           ]
         }
         swipeThreshold={100}
+        testID="ConfirmAccountRevokeModal"
         transparent={true}
         visible={false}
       >
@@ -9735,6 +9758,7 @@ exports[`Account renders correctly when verification is not possible 2`] = `
             ]
           }
           swipeThreshold={100}
+          testID="ConfirmAccountRevokeModal"
         >
           <RNCSafeAreaView>
             <View

@@ -1,6 +1,8 @@
+// @ts-ignore
+import { toBeDisabled } from '@testing-library/jest-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -21,6 +23,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+
+expect.extend({ toBeDisabled })
 
 const usdExchangeRates = {
   [Currency.Dollar]: '1',
@@ -131,7 +135,7 @@ describe('FiatExchangeAmount cashIn', () => {
     )
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '0')
-    expect(tree.getByTestId('FiatExchangeNextButton').props.disabled).toBe(true)
+    expect(tree.getByTestId('FiatExchangeNextButton')).toBeDisabled()
   })
 
   it('disables the next button if the cEUR amount is 0', () => {
@@ -147,7 +151,7 @@ describe('FiatExchangeAmount cashIn', () => {
     )
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '0')
-    expect(tree.getByTestId('FiatExchangeNextButton').props.disabled).toBe(true)
+    expect(tree.getByTestId('FiatExchangeNextButton')).toBeDisabled()
   })
 
   it('enables the next button if the cUSD amount is greater than 0', () => {
@@ -163,7 +167,7 @@ describe('FiatExchangeAmount cashIn', () => {
     )
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '5')
-    expect(tree.getByTestId('FiatExchangeNextButton').props.disabled).toBe(false)
+    expect(tree.getByTestId('FiatExchangeNextButton')).not.toBeDisabled()
   })
 
   it('enables the next button if the cEUR amount is greater than 0', () => {
@@ -179,7 +183,7 @@ describe('FiatExchangeAmount cashIn', () => {
     )
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '5')
-    expect(tree.getByTestId('FiatExchangeNextButton').props.disabled).toBe(false)
+    expect(tree.getByTestId('FiatExchangeNextButton')).not.toBeDisabled()
   })
 
   it('opens a dialog when the cUSD amount is lower than the limit', () => {
@@ -444,7 +448,7 @@ describe('FiatExchangeAmount cashOut', () => {
     )
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '0')
-    expect(tree.getByTestId('FiatExchangeNextButton').props.disabled).toBe(true)
+    expect(tree.getByTestId('FiatExchangeNextButton')).toBeDisabled()
   })
 
   it('shows an error banner if the user balance is less than the requested cash-out amount', () => {

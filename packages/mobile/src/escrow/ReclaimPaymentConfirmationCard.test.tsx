@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import ReclaimPaymentConfirmationCard from 'src/escrow/ReclaimPaymentConfirmationCard'
 import {} from 'src/home/NotificationBox'
 import { Currency } from 'src/utils/currencies'
@@ -19,7 +19,7 @@ const TEST_FEE_INFO = {
 
 describe('ReclaimPaymentConfirmationCard', () => {
   it('renders correctly for send payment confirmation', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <ReclaimPaymentConfirmationCard
           recipientPhone={mockE164Number}
