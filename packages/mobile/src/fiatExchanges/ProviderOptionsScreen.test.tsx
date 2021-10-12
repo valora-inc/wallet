@@ -1,7 +1,7 @@
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Text } from 'react-native'
-import { fireEvent, render, waitForElement } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
 import ProviderOptionsScreen, { CicoProvider } from 'src/fiatExchanges/ProviderOptionsScreen'
@@ -225,7 +225,7 @@ describe('ProviderOptionsScreen', () => {
     )
 
     expect(tree).toMatchSnapshot()
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+    await waitFor(() => tree.getByText('pleaseSelectProvider'))
     expect(tree).toMatchSnapshot()
   })
 
@@ -238,7 +238,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    await waitForElement(() => tree.getByTestId('noProviders'))
+    await waitFor(() => tree.getByTestId('noProviders'))
     expect(tree).toMatchSnapshot()
 
     tree.rerender(
@@ -247,7 +247,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    await waitForElement(() => tree.getByTestId('noProviders'))
+    await waitFor(() => tree.getByTestId('noProviders'))
     expect(tree).toMatchSnapshot()
   })
 
@@ -260,7 +260,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    await waitForElement(() => tree.getByTestId('noProviders'))
+    await waitFor(() => tree.getByTestId('noProviders'))
     const switchCurrencyElement = tree.queryByTestId('SwitchCurrency')
     expect(switchCurrencyElement).toBeFalsy()
 
@@ -278,7 +278,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    await waitForElement(() => tree.getByTestId('noProviders'))
+    await waitFor(() => tree.getByTestId('noProviders'))
     fireEvent.press(tree.getByTestId('SwitchCurrency'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeOptions, { isCashIn })
   })
@@ -292,7 +292,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+    await waitFor(() => tree.getByText('pleaseSelectProvider'))
 
     fireEvent.press(tree.getByTestId('Provider/Simplex'))
     expect(navigate).toHaveBeenCalledWith(Screens.Simplex, {
@@ -310,7 +310,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+    await waitFor(() => tree.getByText('pleaseSelectProvider'))
 
     fireEvent.press(tree.getByTestId('Provider/Moonpay'))
     expect(navigateToURI).toHaveBeenCalledWith(mockProviders[1].url)
@@ -325,9 +325,9 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+    await waitFor(() => tree.getByText('pleaseSelectProvider'))
 
-    const elements = tree.queryAllByType(Text)
+    const elements = tree.UNSAFE_queryAllByType(Text)
     // The first text element is the info, the second text element is the first provider
     expect(elements[1].props.children).toEqual('Simplex')
   })
@@ -341,9 +341,9 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+    await waitFor(() => tree.getByText('pleaseSelectProvider'))
 
-    const elements = tree.queryAllByType(Text)
+    const elements = tree.UNSAFE_queryAllByType(Text)
     // The last few text elements belong to the modal + subtext for the last provider
     const lastProviderName = elements[elements.length - 7].props.children
     expect(lastProviderName).toEqual('Transak')
@@ -358,7 +358,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+    await waitFor(() => tree.getByText('pleaseSelectProvider'))
 
     const elements = tree.queryAllByText('providerUnavailable')
     expect(elements).toHaveLength(1)
@@ -375,7 +375,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+    await waitFor(() => tree.getByText('pleaseSelectProvider'))
 
     const xanpoolElement = tree.queryByText('Xanpool')
     const simplexElement = tree.queryByText('Simplex')
@@ -393,7 +393,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+    await waitFor(() => tree.getByText('pleaseSelectProvider'))
 
     const elements = tree.queryAllByText(/unsupportedPaymentMethod/)
     // Only Simplex doesn't support bank accounts
@@ -409,7 +409,7 @@ describe('ProviderOptionsScreen', () => {
       </Provider>
     )
 
-    await waitForElement(() => tree.getByText('pleaseSelectProvider'))
+    await waitFor(() => tree.getByText('pleaseSelectProvider'))
 
     const freeElement = tree.queryByText('global:free')
     expect(freeElement).toBeTruthy()

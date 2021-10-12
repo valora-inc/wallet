@@ -1,6 +1,6 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import CeloExchangeButtons from 'src/exchange/CeloExchangeButtons'
 import { ExchangeRates } from 'src/exchange/reducer'

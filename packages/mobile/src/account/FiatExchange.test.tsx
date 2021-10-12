@@ -1,13 +1,13 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import FiatExchange from 'src/account/FiatExchange'
 import { createMockStore } from 'test/utils'
 
 describe('FiatExchange', () => {
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={createMockStore({})}>
         <FiatExchange />
       </Provider>

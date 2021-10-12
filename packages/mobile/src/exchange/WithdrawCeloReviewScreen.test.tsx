@@ -1,7 +1,7 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { Actions } from 'src/exchange/actions'
 import WithdrawCeloReviewScreen from 'src/exchange/WithdrawCeloReviewScreen'

@@ -1,7 +1,7 @@
 import Clipboard from '@react-native-community/clipboard'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import AccountNumber from 'src/components/AccountNumber'
 import { mockAccount } from 'test/values'
 

@@ -1,5 +1,5 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
-import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import DelayButton from 'src/backup/DelayButton'
 import { createMockStore } from 'test/utils'

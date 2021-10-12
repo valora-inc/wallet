@@ -1,6 +1,6 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import WithdrawCeloQrScannerScreen from 'src/exchange/WithdrawCeloQrScannerScreen'
 import { Screens } from 'src/navigator/Screens'
@@ -12,6 +12,25 @@ const onAddressScanned = jest.fn()
 
 const mockScreenProps = getMockStackScreenProps(Screens.WithdrawCeloQrScannerScreen, {
   onAddressScanned,
+})
+
+jest.mock('react-native-camera', () => {
+  const React = require('react')
+  const { View } = require('react-native')
+  class RNCamera extends React.Component {
+    render() {
+      const { children, ...otherProps } = this.props
+      return <View {...otherProps} />
+    }
+    static Constants = {
+      Type: {},
+      BarCodeType: {},
+      FlashMode: {},
+      AutoFocus: {},
+    }
+  }
+
+  return { RNCamera }
 })
 
 const store = createMockStore()
@@ -41,7 +60,7 @@ describe('WithdrawCeloQrScannerScreen', () => {
     expect(onAddressScanned).toHaveBeenCalledWith(SAMPLE_ADDRESS)
   })
 
-  it('calls onAddressScanned when a Valora QR is scanned', async () => {
+  it('calls onAddressScanned when a Valora QR is scanned with stringified JSON data', async () => {
     const { getByTestId } = render(
       <Provider store={store}>
         <WithdrawCeloQrScannerScreen {...mockScreenProps} />

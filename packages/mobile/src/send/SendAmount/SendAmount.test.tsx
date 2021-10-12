@@ -1,8 +1,10 @@
+// @ts-ignore
+import { toBeDisabled } from '@testing-library/jest-native'
+import { fireEvent, render, RenderAPI } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ActivityIndicator } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
-import { fireEvent, render, RenderAPI } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
@@ -21,6 +23,8 @@ import {
   mockE164NumberInvite,
   mockTransactionData,
 } from 'test/values'
+
+expect.extend({ toBeDisabled })
 
 jest.mock('src/components/useShowOrHideAnimation')
 
@@ -128,7 +132,7 @@ describe('SendAmount', () => {
       enterAmount(wrapper, AMOUNT_TOO_MUCH)
 
       const reviewButton = wrapper.getByTestId('Review')
-      expect(reviewButton.props.disabled).toBe(false)
+      expect(reviewButton).not.toBeDisabled()
 
       store.clearActions()
       fireEvent.press(reviewButton)
@@ -161,7 +165,7 @@ describe('SendAmount', () => {
       enterAmount(wrapper, REQUEST_OVER_LIMIT)
 
       const sendButton = wrapper.getByTestId('Review')
-      expect(sendButton.props.disabled).toBe(false)
+      expect(sendButton).not.toBeDisabled()
 
       store.clearActions()
       fireEvent.press(sendButton)
@@ -193,7 +197,7 @@ describe('SendAmount', () => {
       enterAmount(wrapper, REQUEST_OVER_LIMIT)
 
       const sendButton = wrapper.getByTestId('Review')
-      expect(sendButton.props.disabled).toBe(false)
+      expect(sendButton).not.toBeDisabled()
 
       store.clearActions()
       fireEvent.press(sendButton)
@@ -229,7 +233,7 @@ describe('SendAmount', () => {
       enterAmount(wrapper, AMOUNT_ZERO)
 
       const reviewButton = wrapper.getByTestId('Review')
-      expect(reviewButton.props.disabled).toBe(true)
+      expect(reviewButton).toBeDisabled()
     })
 
     it("doesnt allow choosing the currency when there's only balance for one token", () => {
@@ -278,7 +282,7 @@ describe('SendAmount', () => {
       enterAmount(tree, AMOUNT_VALID)
       fireEvent.press(tree.getByTestId('Review'))
 
-      expect(tree.getByType(ActivityIndicator)).toBeTruthy()
+      expect(tree.UNSAFE_getByType(ActivityIndicator)).toBeTruthy()
 
       store = createMockStore({
         identity: {

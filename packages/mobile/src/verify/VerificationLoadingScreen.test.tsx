@@ -1,5 +1,5 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
-import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { VerificationStatus } from 'src/identity/types'
 import { Screens } from 'src/navigator/Screens'
