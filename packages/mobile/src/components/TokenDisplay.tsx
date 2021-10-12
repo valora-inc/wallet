@@ -77,7 +77,7 @@ function TokenDisplay({
   const sign = amountToShow.isNegative() ? '-' : showExplicitPositiveSign ? '+' : ''
 
   return (
-    <Text style={style} testID={`${testID}/value`}>
+    <Text style={style} testID={testID}>
       {sign}
       {showLocalAmount && fiatSymbol}
       {error ? '-' : amountToShow.absoluteValue().toFixed(DISPLAY_DECIMALS)}

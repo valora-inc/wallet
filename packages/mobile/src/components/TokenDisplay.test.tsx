@@ -6,7 +6,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
-import { amountFromComponent, createMockStore, RecursivePartial } from 'test/utils'
+import { createMockStore, RecursivePartial } from 'test/utils'
 
 describe('TokenDisplay', () => {
   function store(storeOverrides?: RecursivePartial<RootState>) {
@@ -49,34 +49,34 @@ describe('TokenDisplay', () => {
 
   describe('when displaying tokens', () => {
     it('shows token amount when showLocalAmount is false', () => {
-      const { getByTestId } = render(
+      const { getByText } = render(
         <Provider store={store()}>
           <TokenDisplay showLocalAmount={false} amount={10} tokenAddress={'0xusd'} testID="test" />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test/value'))).toEqual('10.00 cUSD')
+      expect(getByText('10.00 cUSD').props.testID).toBe('test')
     })
 
     it('shows local amount when showLocalAmount is true', () => {
-      const { getByTestId } = render(
+      const { getByText } = render(
         <Provider store={store()}>
           <TokenDisplay showLocalAmount={true} amount={10} tokenAddress={'0xusd'} testID="test" />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test/value'))).toEqual('R$1.00')
+      expect(getByText('R$1.00').props.testID).toEqual('test')
     })
 
     it('shows local amount when showLocalAmount is true and token is not cUSD', () => {
-      const { getByTestId } = render(
+      const { getByText } = render(
         <Provider store={store()}>
           <TokenDisplay showLocalAmount={true} amount={10} tokenAddress={'0xcelo'} testID="test" />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test/value'))).toEqual('R$5.00')
+      expect(getByText('R$5.00').props.testID).toEqual('test')
     })
 
     it('hides the symbol when showSymbol is false', () => {
-      const { getByTestId } = render(
+      const { getByText } = render(
         <Provider store={store()}>
           <TokenDisplay
             showLocalAmount={false}
@@ -87,11 +87,11 @@ describe('TokenDisplay', () => {
           />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test/value'))).toEqual('10.00')
+      expect(getByText('10.00').props.testID).toBe('test')
     })
 
     it('hides the fiat symbol when showSymbol is false', () => {
-      const { getByTestId } = render(
+      const { getByText } = render(
         <Provider store={store()}>
           <TokenDisplay
             showLocalAmount={false}
@@ -102,11 +102,11 @@ describe('TokenDisplay', () => {
           />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test/value'))).toEqual('10.00')
+      expect(getByText('10.00').props.testID).toEqual('test')
     })
 
     it('overrides local exchange rate with currency info', () => {
-      const { getByTestId } = render(
+      const { getByText } = render(
         <Provider store={store()}>
           <TokenDisplay
             amount={10}
@@ -119,11 +119,11 @@ describe('TokenDisplay', () => {
           />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test/value'))).toEqual('₱25.00')
+      expect(getByText('₱25.00').props.testID).toEqual('test')
     })
 
     it('shows explicit plus sign', () => {
-      const { getByTestId } = render(
+      const { getByText } = render(
         <Provider store={store()}>
           <TokenDisplay
             showLocalAmount={true}
@@ -134,34 +134,34 @@ describe('TokenDisplay', () => {
           />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test/value'))).toEqual('+R$1.00')
+      expect(getByText('+R$1.00').props.testID).toEqual('test')
     })
 
     it('shows negative values', () => {
-      const { getByTestId } = render(
+      const { getByText } = render(
         <Provider store={store()}>
           <TokenDisplay showLocalAmount={true} amount={-10} tokenAddress={'0xusd'} testID="test" />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test/value'))).toEqual('-R$1.00')
+      expect(getByText('-R$1.00').props.testID).toEqual('test')
     })
 
     it('shows a dash when the token doesnt exist', () => {
-      const { getByTestId } = render(
+      const { getByText } = render(
         <Provider store={store()}>
           <TokenDisplay amount={10} tokenAddress={'0xdoesntexist'} testID="test" />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test/value'))).toEqual('R$-')
+      expect(getByText('R$-').props.testID).toEqual('test')
     })
 
     it('shows a dash when the token doesnt have a usd price', () => {
-      const { getByTestId } = render(
+      const { getByText } = render(
         <Provider store={store()}>
           <TokenDisplay amount={10} tokenAddress={'0xnoUsdPrice'} testID="test" />
         </Provider>
       )
-      expect(amountFromComponent(getByTestId('test/value'))).toEqual('R$-')
+      expect(getByText('R$-').props.testID).toEqual('test')
     })
   })
 })
