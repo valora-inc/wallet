@@ -28,7 +28,6 @@ export default class ExchangeRateManager {
       const sourceExchanges = await source.getExchanges()
       exchanges.push(...sourceExchanges)
     }
-    console.debug(`Exchanges: ${JSON.stringify(exchanges)}`)
     return exchanges
   }
 

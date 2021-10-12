@@ -17,7 +17,6 @@ export default class FirebasePriceUpdater {
   async refreshAllPrices() {
     try {
       const prices = await this.manager.calculateUSDPrices()
-      console.debug(`PRICES: ${JSON.stringify(prices)}`)
       await this.updatePrices(prices)
     } catch (e) {
       console.log('There was an error calculating prices', e)
