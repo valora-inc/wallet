@@ -2,7 +2,7 @@ import * as admin from 'firebase-admin'
 import { getFirebaseAdminCreds } from './cico/utils'
 
 if (process.env.NODE_ENV !== 'test') {
-  const gcloudProject = 'celo-mobile-alfajores'
+  const gcloudProject = process.env.GCLOUD_PROJECT
   admin.initializeApp({
     credential: getFirebaseAdminCreds(admin),
     databaseURL: `https://${gcloudProject}.firebaseio.com`,
