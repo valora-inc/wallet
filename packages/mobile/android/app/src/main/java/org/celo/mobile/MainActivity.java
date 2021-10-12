@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import com.clevertap.react.CleverTapModule;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactInstanceManager;
@@ -42,6 +43,7 @@ public class MainActivity extends ReactActivity {
     appStartedMillis = System.currentTimeMillis();
     SplashScreen.show(this, R.style.SplashTheme);
     super.onCreate(null);
+    CleverTapModule.setInitialUri(getIntent().getData());
   }
 
   @Override
