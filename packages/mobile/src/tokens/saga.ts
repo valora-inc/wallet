@@ -5,6 +5,7 @@ import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWr
 import { retryAsync } from '@celo/utils/lib/async'
 import BigNumber from 'bignumber.js'
 import { all, call, put, select, spawn, take } from 'redux-saga/effects'
+import * as erc20 from 'src/abis/IERC20.json'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -14,7 +15,7 @@ import { WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
-import { setTokenBalances, Token } from 'src/tokens/reducer'
+import { setTokenBalances, StoredTokenBalance, StoredTokenBalances } from 'src/tokens/reducer'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
@@ -24,7 +25,6 @@ import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import * as utf8 from 'utf8'
-import * as erc20 from './IERC20.json'
 
 const TAG = 'tokens/saga'
 
@@ -259,7 +259,7 @@ export async function getERC20TokenContract(tokenAddress: string) {
   return new kit.web3.eth.Contract(erc20.abi, tokenAddress)
 }
 
-export async function getERC20TokenBalance(token: Token, address: string) {
+export async function getERC20TokenBalance(token: StoredTokenBalance, address: string) {
   let balance = null
   try {
     const contract = await getERC20TokenContract(token.address)
@@ -270,21 +270,30 @@ export async function getERC20TokenBalance(token: Token, address: string) {
   return balance
 }
 
-export function* fetchReadableTokenBalance(address: string, token: Token) {
-  let balance = yield call(getERC20TokenBalance, token, address)
-  if (balance) {
-    balance = balance / Math.pow(10, token.decimals)
+export function* fetchReadableTokenBalance(address: string, token: StoredTokenBalance) {
+  const balance: number | null = yield call(getERC20TokenBalance, token, address)
+  return {
+    ...token,
+    balance:
+      balance || balance === 0
+        ? new BigNumber(balance)
+            .dividedBy(new BigNumber(10).exponentiatedBy(token.decimals))
+            .toString()
+        : null,
   }
-  return { [token.address]: { ...token, balance } }
 }
 
 export function* importTokenInfo() {
-  const tokens: Token[] = yield call(readOnceFromFirebase, 'tokensInfo')
+  const tokens: StoredTokenBalance[] = yield call(readOnceFromFirebase, 'tokensInfo')
   const address: string = yield select(walletAddressSelector)
-  const balances = yield all(
-    tokens.map((token: Token) => call(fetchReadableTokenBalance, address, token))
+  const fetchedTokenBalances: StoredTokenBalance[] = yield all(
+    tokens.map((token) => call(fetchReadableTokenBalance, address, token))
   )
-  yield put(setTokenBalances(Object.assign({}, ...balances)))
+  const balances: StoredTokenBalances = {}
+  for (const tokenBalance of fetchedTokenBalances) {
+    balances[tokenBalance.address] = tokenBalance
+  }
+  yield put(setTokenBalances(balances))
 }
 
 export function* tokensSaga() {
