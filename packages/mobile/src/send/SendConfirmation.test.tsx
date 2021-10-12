@@ -286,6 +286,7 @@ describe('SendConfirmation', () => {
     const { getByTestId, queryAllByTestId } = renderScreen({}, mockInviteScreenProps)
 
     expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(false)
+    // Fire event press not working here so instead we call the onClick directly
     getByTestId('ConfirmButton').props.onClick()
     expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(true)
   })
