@@ -1,6 +1,6 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Text, View } from 'react-native'
-import * as renderer from 'react-test-renderer'
 import SummaryNotification from 'src/notifications/SummaryNotification'
 
 const props = () => ({
@@ -16,7 +16,7 @@ const props = () => ({
 
 describe(SummaryNotification, () => {
   it('renders correctly', () => {
-    const tree = renderer.create(<SummaryNotification<string> {...props()} />)
+    const tree = render(<SummaryNotification<string> {...props()} />)
     expect(tree).toMatchSnapshot()
   })
 })

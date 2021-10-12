@@ -1,6 +1,6 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { MoneyAmount } from 'src/apollo/types'
 import TotalLineItem from 'src/components/TotalLineItem'
@@ -63,7 +63,7 @@ describe('TotalLineItem', () => {
           localExchangeRate: '0.01',
         },
       })
-      expect(queryByTestId('TotalLineItem/ExchangeRate')).toBeTruthy()
+      expect(queryByTestId('TotalLineItem/ExchangeRate/value')).toBeTruthy()
     })
   })
   describe("when there's an exchange rate to show in the amount", () => {
@@ -78,9 +78,10 @@ describe('TotalLineItem', () => {
           },
         },
       })
-      expect(queryByTestId('TotalLineItem/ExchangeRate')).toBeTruthy()
+      expect(queryByTestId('TotalLineItem/ExchangeRate/value')).toBeTruthy()
     })
   })
+
   describe("when there's an exchange rate to show in the redux store", () => {
     it('renders the exchange rate', () => {
       const { queryByTestId } = renderComponent({
@@ -90,7 +91,7 @@ describe('TotalLineItem', () => {
           },
         },
       })
-      expect(queryByTestId('TotalLineItem/ExchangeRate')).toBeTruthy()
+      expect(queryByTestId('TotalLineItem/ExchangeRate/value')).toBeTruthy()
     })
   })
   describe('when the amount is in CELO', () => {

@@ -421,6 +421,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
       ]
     }
     swipeThreshold={100}
+    testID="VerificationInputHelpDialog"
     transparent={true}
     visible={false}
   >
@@ -480,6 +481,7 @@ exports[`VerificationInputScreen renders correctly 1`] = `
         ]
       }
       swipeThreshold={100}
+      testID="VerificationInputHelpDialog"
     >
       <RNCSafeAreaView>
         <View

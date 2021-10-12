@@ -33,6 +33,7 @@ module.exports = {
   setupFilesAfterEnv: [
     '<rootDir>/jest_setup.ts',
     '<rootDir>/../../node_modules/react-native-gesture-handler/jestSetup.js',
+    '@testing-library/jest-native/extend-expect',
   ],
   testPathIgnorePatterns: ['/node_modules/', '<rootDir>/e2e'],
   transform: {

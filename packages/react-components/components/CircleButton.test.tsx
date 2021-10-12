@@ -1,16 +1,15 @@
 import CircleButton from '@celo/react-components/components/CircleButton'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
-import * as renderer from 'react-test-renderer'
 
 describe('CircleButton', () => {
   it('renders correctly with minimum props', () => {
-    const tree = renderer.create(<CircleButton onPress={jest.fn()} solid={true} />)
+    const tree = render(<CircleButton onPress={jest.fn()} solid={true} />)
     expect(tree).toMatchSnapshot()
   })
   describe('when given optional props', () => {
     it('renders correctly', () => {
-      const tree = renderer.create(
+      const tree = render(
         <CircleButton
           onPress={jest.fn()}
           solid={false}
@@ -28,8 +27,8 @@ describe('CircleButton', () => {
   describe('when pressed', () => {
     it('calls the onPress prop', () => {
       const onPress = jest.fn()
-      const { getByName } = render(<CircleButton onPress={onPress} solid={true} />)
-      fireEvent.press(getByName('CircleButton'))
+      const { UNSAFE_getByType } = render(<CircleButton onPress={onPress} solid={true} />)
+      fireEvent.press(UNSAFE_getByType(CircleButton))
       expect(onPress).toHaveBeenCalled()
     })
   })

@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import PaymentRequestNotificationInner from 'src/paymentRequest/PaymentRequestNotificationInner'
 import { AddressRecipient } from 'src/recipients/recipient'
 import { createMockStore, getMockI18nProps } from 'test/utils'
@@ -14,7 +14,7 @@ it('renders correctly', () => {
     address: mockAccount,
     e164PhoneNumber: mockE164Number,
   }
-  const tree = renderer.create(
+  const tree = render(
     <Provider store={store}>
       <PaymentRequestNotificationInner
         amount="24"

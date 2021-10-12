@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import QRCode from 'src/qrcode/QRCode'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockName } from 'test/values'
@@ -14,7 +14,7 @@ describe('QRCode', () => {
     },
   })
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <QRCode qrSvgRef={{ current: null }} />
       </Provider>

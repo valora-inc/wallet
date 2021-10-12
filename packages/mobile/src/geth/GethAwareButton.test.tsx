@@ -1,11 +1,11 @@
 import { BtnTypes } from '@celo/react-components/components/Button'
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import * as renderer from 'react-test-renderer'
 import { GethAwareButton } from 'src/geth/GethAwareButton'
 
 it('renders correctly when disconnected', () => {
-  const tree = renderer.create(
+  const tree = render(
     <GethAwareButton
       onPress={jest.fn()}
       connected={false}
@@ -17,7 +17,7 @@ it('renders correctly when disconnected', () => {
 })
 
 it('renders correctly when connected', () => {
-  const tree = renderer.create(
+  const tree = render(
     <GethAwareButton
       onPress={jest.fn()}
       connected={true}

@@ -1,5 +1,5 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { Currency } from 'src/utils/currencies'
@@ -42,11 +42,11 @@ describe('TokenBottomSheet', () => {
   it('renders correctly', () => {
     const tree = renderPicker(true)
 
-    expect(tree.queryByTestId('TokenBottomSheetContainer')).toBeTruthy()
-    expect(tree.queryByTestId('LocalcUSDBalance')).toBeTruthy()
-    expect(tree.queryByTestId('cUSDBalance')).toBeTruthy()
-    expect(tree.queryByTestId('LocalcEURBalance')).toBeTruthy()
-    expect(tree.queryByTestId('cEURBalance')).toBeTruthy()
+    expect(tree.getByTestId('TokenBottomSheetContainer')).toBeTruthy()
+    expect(tree.getByTestId('LocalcUSDBalance/value')).toBeTruthy()
+    expect(tree.getByTestId('cUSDBalance/value')).toBeTruthy()
+    expect(tree.getByTestId('LocalcEURBalance/value')).toBeTruthy()
+    expect(tree.getByTestId('cEURBalance/value')).toBeTruthy()
     expect(tree).toMatchSnapshot()
   })
 

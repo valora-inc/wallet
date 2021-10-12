@@ -1,5 +1,5 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { ExchangeRates } from 'src/exchange/reducer'
