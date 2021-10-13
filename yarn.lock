@@ -10120,10 +10120,10 @@ detox-recorder@^1.0.151:
   resolved "https://registry.yarnpkg.com/detox-recorder/-/detox-recorder-1.0.151.tgz#5d59775dc01ea58595c749aade0420c5ba73dd43"
   integrity sha512-a4ZPo7AR5XJJiLy8Xqml8YXxrIz6R7RKfiGmG9u5MBxG2I+w+yGJTj7ZhYDfoi5StpUD+dKHTCdvycZTOQ84Cw==
 
-detox@^18.20.3:
-  version "18.20.3"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-18.20.3.tgz#414245fb5e8c20ab60d1f9cfc117e32aceb6bdbf"
-  integrity sha512-7SPL+PghEjWImmmXpjJKSgYuyesYCNokjtjPdiR8NLQbkHJ0V3fWXlgcgAdi7IoxKNhY7jHdSEW6XFz74kwgFQ==
+detox@^18.22.2:
+  version "18.22.2"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-18.22.2.tgz#41e62414c613046123326b55bbbe2891c301ada8"
+  integrity sha512-1E8tP80O96a2jUxUSvPzjGprKkdv7IHKx++YiSf+yqMcqSQzeDEkFSQV3Idp9iPRYe/A3TnZhT1fXTQKfdNwPA==
   dependencies:
     bunyan "^1.8.12"
     bunyan-debug-stream "^1.1.0"
