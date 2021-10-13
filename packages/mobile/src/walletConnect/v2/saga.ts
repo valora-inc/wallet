@@ -349,6 +349,9 @@ function* createWalletConnectChannel() {
         // This isn't expected to happen so it's fine for now, but we could
         // redirect user to another screen if they're in the loading screen
         // at this point.
+        ValoraAnalytics.track(WalletConnectEvents.wc_unknown_action, {
+          method: request.request.method,
+        })
       }
     }
 

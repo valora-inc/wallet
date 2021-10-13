@@ -34,7 +34,7 @@ const actionTranslations: { [x in SupportedActions]: string } = {
 }
 
 export function isSupportedAction(action: string) {
-  return Object.keys(actionTranslations).includes(action)
+  return action in actionTranslations
 }
 
 export function getTranslationDescriptionFromAction(action: SupportedActions) {

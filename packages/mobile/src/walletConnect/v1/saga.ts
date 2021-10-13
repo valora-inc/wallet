@@ -289,7 +289,6 @@ function* createWalletConnectChannelWithArgs(connectorOpts: IWalletConnectOption
       const peerId = payload.params[0].peerId
       connectors[peerId] = connector
       payload.uri = connectorOpts.uri
-      console.log('SESSION REQUEST', payload.method)
       emit(sessionRequest(peerId, payload))
     })
     connector.on('call_request', (error: any, payload: WalletConnectPayloadRequest) => {
@@ -300,6 +299,7 @@ function* createWalletConnectChannelWithArgs(connectorOpts: IWalletConnectOption
         // This isn't expected to happen so it's fine for now, but we could
         // redirect user to another screen if they're in the loading screen
         // at this point.
+        ValoraAnalytics.track(WalletConnectEvents.wc_unknown_action, { method: payload.method })
       }
     })
     connector.on('disconnect', () => {
