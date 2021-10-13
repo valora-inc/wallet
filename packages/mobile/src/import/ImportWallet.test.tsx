@@ -1,7 +1,7 @@
 import mockButton from '@celo/react-components/components/Button'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { Actions } from 'src/import/actions'
 import ImportWallet from 'src/import/ImportWallet'
@@ -24,7 +24,7 @@ describe('ImportWallet', () => {
     )
 
     expect(wrapper.toJSON()).toMatchSnapshot()
-    expect(wrapper.queryAllByProps({ disabled: true }).length).toBeGreaterThan(0)
+    expect(wrapper.UNSAFE_getAllByProps({ disabled: true }).length).toBeGreaterThan(0)
   })
 
   it('calls import with the mnemonic', () => {

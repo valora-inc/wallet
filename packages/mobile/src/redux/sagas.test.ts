@@ -12,7 +12,7 @@ describe('withTimeout Saga', () => {
     const pro = expectSaga(withTimeout(10, () => sleep(100)))
       .returns(undefined)
       .run()
-    jest.runAllTimers()
+    jest.runOnlyPendingTimers()
     await pro
   })
 })

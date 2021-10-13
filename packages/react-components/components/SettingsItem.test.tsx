@@ -3,9 +3,9 @@ import {
   SettingsItemSwitch,
   SettingsItemTextValue,
 } from '@celo/react-components/components/SettingsItem'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 
 const title = 'title'
 const testID = 'testID'
@@ -76,7 +76,7 @@ describe('SettingsItemInput', () => {
         onValueChange={onValueChange}
       />
     )
-    fireEvent(getByTestId(testID), 'valueChange', newValue)
+    fireEvent(getByTestId(testID), 'changeText', newValue)
     expect(onValueChange).toHaveBeenCalledWith(newValue)
   })
 })

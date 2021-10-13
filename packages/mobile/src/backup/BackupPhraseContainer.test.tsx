@@ -1,6 +1,6 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import * as renderer from 'react-test-renderer'
 import BackupPhraseContainer, {
   BackupPhraseContainerMode,
   BackupPhraseType,
@@ -9,7 +9,7 @@ import { mockMnemonic } from 'test/values'
 
 describe(BackupPhraseContainer, () => {
   it('renders correctly for readonly backup phrase', () => {
-    const tree = renderer.create(
+    const tree = render(
       <BackupPhraseContainer
         value={mockMnemonic}
         mode={BackupPhraseContainerMode.READONLY}
@@ -20,7 +20,7 @@ describe(BackupPhraseContainer, () => {
   })
 
   it('renders correctly for input backup phrase', () => {
-    const tree = renderer.create(
+    const tree = render(
       <BackupPhraseContainer
         value={mockMnemonic}
         mode={BackupPhraseContainerMode.INPUT}
