@@ -33,10 +33,14 @@ const actionTranslations: { [x in SupportedActions]: string } = {
   [SupportedActions.computeSharedSecret]: i18n.t('walletConnect:action.computeSharedSecret'),
 }
 
+export function isSupportedAction(action: string) {
+  return Object.keys(actionTranslations).includes(action)
+}
+
 export function getTranslationDescriptionFromAction(action: SupportedActions) {
   const translationId = actionDescriptionTranslations[action]
   if (!translationId) {
-    throw new Error(`Unsupported action ${action}`)
+    return ''
   }
 
   return translationId
@@ -45,7 +49,7 @@ export function getTranslationDescriptionFromAction(action: SupportedActions) {
 export function getTranslationFromAction(action: SupportedActions) {
   const translationId = actionTranslations[action]
   if (!translationId) {
-    throw new Error(`Unsupported action ${action}`)
+    return ''
   }
 
   return translationId
