@@ -1020,6 +1020,9 @@ interface WalletConnectProperties {
   [WalletConnectEvents.wc_request_deny_error]: WalletConnectRequestDenyProperties & {
     error: string
   }
+  [WalletConnectEvents.wc_unknown_action]: {
+    method: string
+  }
 }
 
 interface DappKitRequestDefaultProperties {
