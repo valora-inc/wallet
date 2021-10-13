@@ -38,10 +38,8 @@ function TokenBalancesScreen() {
   return (
     <ScrollView style={styles.scrollContainer}>
       {Object.values(tokenBalances)
-        .filter(
-          (token: StoredTokenBalance) => token.balance && new BigNumber(token.balance).comparedTo(0)
-        )
-        .map((token: StoredTokenBalance) => getTokenDisplay(token!))}
+        .filter((token) => token && token.balance && new BigNumber(token.balance).comparedTo(0))
+        .map((token) => getTokenDisplay(token!))}
     </ScrollView>
   )
 }
