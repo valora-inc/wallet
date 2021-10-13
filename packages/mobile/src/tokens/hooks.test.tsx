@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Text, View } from 'react-native'
-import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { useLocalToTokenAmount, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
