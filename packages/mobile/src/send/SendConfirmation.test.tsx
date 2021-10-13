@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack'
+import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
@@ -18,6 +18,7 @@ import { Currency } from 'src/utils/currencies'
 import {
   amountFromComponent,
   createMockStore,
+  flushMicrotasksQueue,
   getMockStackScreenProps,
   RecursivePartial,
 } from 'test/utils'
@@ -282,10 +283,11 @@ describe('SendConfirmation', () => {
   it('renders correct modal for invitations', async () => {
     mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
 
-    const { queryByTestId, getByTestId } = renderScreen({}, mockInviteScreenProps)
+    const { getByTestId, queryAllByTestId } = renderScreen({}, mockInviteScreenProps)
 
-    expect(queryByTestId('InviteAndSendModal')?.props.isVisible).toBe(false)
-    fireEvent.press(getByTestId('ConfirmButton'))
-    expect(queryByTestId('InviteAndSendModal')?.props.isVisible).toBe(true)
+    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(false)
+    // Fire event press not working here so instead we call the onClick directly
+    getByTestId('ConfirmButton').props.onClick()
+    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(true)
   })
 })

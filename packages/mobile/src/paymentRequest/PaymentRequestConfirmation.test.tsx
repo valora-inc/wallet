@@ -1,5 +1,5 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
 import PaymentRequestConfirmation from 'src/paymentRequest/PaymentRequestConfirmation'

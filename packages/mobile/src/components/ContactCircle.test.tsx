@@ -1,6 +1,6 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Image } from 'react-native'
-import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import ContactCircle from 'src/components/ContactCircle'
 import { createMockStore } from 'test/utils'
@@ -29,7 +29,7 @@ describe('ContactCircle', () => {
   describe('when has a thumbnail and name', () => {
     it('renders image', () => {
       const mockThumbnnailPath = './test.jpg'
-      const { getByType } = render(
+      const { UNSAFE_getByType } = render(
         <Provider store={mockStore}>
           <ContactCircle
             size={30}
@@ -41,7 +41,7 @@ describe('ContactCircle', () => {
           />
         </Provider>
       )
-      expect(getByType(Image).props.source).toEqual({ uri: './test.jpg' })
+      expect(UNSAFE_getByType(Image).props.source).toEqual({ uri: './test.jpg' })
     })
   })
   describe('when has a name but no picture', () => {

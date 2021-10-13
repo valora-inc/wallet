@@ -41,7 +41,7 @@ export default function Dialog({
   testID,
 }: Props) {
   return (
-    <Modal isVisible={isVisible}>
+    <Modal isVisible={isVisible} testID={testID}>
       <ScrollView contentContainerStyle={styles.root}>
         {image && <Image style={styles.imageContainer} source={image} resizeMode="contain" />}
         {title && <Text style={styles.title}>{title}</Text>}

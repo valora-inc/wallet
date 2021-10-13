@@ -239,7 +239,6 @@ export function* assignAccountFromPrivateKey(privateKey: string, mnemonic: strin
     yield put(setAccount(account))
     yield put(setAccountCreationTime(Date.now()))
     yield call(createAccountDek, mnemonic)
-    ValoraAnalytics.setUserAddress(account)
     return account
   } catch (e) {
     Logger.error(TAG + '@assignAccountFromPrivateKey', 'Error assigning account', e)

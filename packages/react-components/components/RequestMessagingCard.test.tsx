@@ -1,12 +1,12 @@
 import RequestMessagingCard from '@celo/react-components/components/RequestMessagingCard'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { View } from 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 
 describe(RequestMessagingCard, () => {
   it('renders correctly', () => {
     const onPress = jest.fn()
-    const { getByText, getByTestId, getByName } = render(
+    const { getByText, getByTestId } = render(
       <RequestMessagingCard
         title="Test"
         amount="$15"
@@ -22,7 +22,7 @@ describe(RequestMessagingCard, () => {
     expect(getByTestId('TestIcon')).toBeDefined()
 
     expect(getByText('it goes boom')).toBeDefined()
-    fireEvent.press(getByName('TextButton'))
+    fireEvent.press(getByText('it goes boom'))
     expect(onPress).toHaveBeenCalled()
   })
 })

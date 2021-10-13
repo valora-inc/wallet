@@ -1,12 +1,12 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Share } from 'react-native'
-import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { Currency } from 'src/utils/currencies'
-import { amountFromComponent, createMockStore } from 'test/utils'
+import { amountFromComponent, createMockStore, flushMicrotasksQueue } from 'test/utils'
 import { mockEscrowedPayment } from 'test/values'
 
 const store = createMockStore()

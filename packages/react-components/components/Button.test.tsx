@@ -1,11 +1,10 @@
 import Button, { BtnTypes } from '@celo/react-components/components/Button'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
-import * as renderer from 'react-test-renderer'
 
 describe('Button', () => {
   describe('when pressed', () => {
-    it.skip('fires the onPress prop', () => {
+    it('fires the onPress prop', () => {
       const handler = jest.fn()
       const { getByTestId } = render(
         <Button onPress={handler} text="Button" type={BtnTypes.PRIMARY} testID={'TEST'} />
@@ -17,7 +16,7 @@ describe('Button', () => {
     })
     // react-native-testing-library fireEvent.press simply calls the handler passed into onPress
     // therefore testing press events is not reliable.
-    it.skip('multiple times fires once', () => {
+    it('multiple times fires once', () => {
       const handler = jest.fn()
       const { getByTestId } = render(
         <Button onPress={handler} text="Button" type={BtnTypes.PRIMARY} testID={'TEST'} />
@@ -30,7 +29,7 @@ describe('Button', () => {
     })
 
     describe('when disabled', () => {
-      it.skip('does not fire onPress', () => {
+      it('does not fire onPress', () => {
         const handler = jest.fn()
         const { getByTestId } = render(
           <Button
@@ -68,23 +67,19 @@ describe('Button', () => {
   })
   describe('when type is SECONDARY', () => {
     it('renders', () => {
-      const tree = renderer.create(
-        <Button onPress={jest.fn()} text="Button" type={BtnTypes.SECONDARY} />
-      )
+      const tree = render(<Button onPress={jest.fn()} text="Button" type={BtnTypes.SECONDARY} />)
       expect(tree).toMatchSnapshot()
     })
   })
   describe('when type is TERTIARY', () => {
     it('renders', () => {
-      const tree = renderer.create(
-        <Button onPress={jest.fn()} text="Button" type={BtnTypes.TERTIARY} />
-      )
+      const tree = render(<Button onPress={jest.fn()} text="Button" type={BtnTypes.TERTIARY} />)
       expect(tree).toMatchSnapshot()
     })
   })
   describe('when type not given', () => {
     it('defaults to primary', () => {
-      const tree = renderer.create(<Button onPress={jest.fn()} text={'Button'} />)
+      const tree = render(<Button onPress={jest.fn()} text={'Button'} />)
       expect(tree).toMatchSnapshot()
     })
   })
