@@ -74,7 +74,7 @@ describe('ExchangeGraph', () => {
     const expectedExchanges = {
       a: {
         a: { rate: '1' },
-        b: { rate: '1.274', lastExchange: { from: 'd', to: 'b', rate: '0.7' } }, // a -> d -> b
+        b: { rate: '1.274', lastExchange: { from: 'd', to: 'b', rate: '0.7' } }, // a -> c -> d -> b
         c: { rate: '1.4', lastExchange: { from: 'a', to: 'c', rate: '1.4' } }, // a -> c
         d: { rate: '1.82', lastExchange: { from: 'c', to: 'd', rate: '1.3' } }, // a -> c -> d
       },
