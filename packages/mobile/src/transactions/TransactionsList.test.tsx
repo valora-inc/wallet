@@ -1,8 +1,8 @@
 import { MockedProvider } from '@apollo/react-testing'
+import { render, waitFor } from '@testing-library/react-native'
 import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-boost'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { render, waitForElement } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import {
   introspectionQueryResultData,
@@ -213,7 +213,7 @@ it('renders the received data along with the standby transactions', async () => 
     transactions: { standbyTransactions },
   })
 
-  const { getByType, toJSON } = render(
+  const { UNSAFE_getByType, toJSON } = render(
     <Provider store={store}>
       <MockedProvider mocks={mocks} addTypename={true} cache={mockCache}>
         <TransactionsList feedType={FeedType.HOME} />
@@ -221,7 +221,7 @@ it('renders the received data along with the standby transactions', async () => 
     </Provider>
   )
 
-  const feed = await waitForElement(() => getByType(TransactionFeed))
+  const feed = await waitFor(() => UNSAFE_getByType(TransactionFeed))
   const { data } = feed.props
   expect(data.length).toEqual(6)
 
@@ -311,7 +311,7 @@ it('ignores pending standby transactions that are completed in the response', as
 
   expect(store.getActions()).toEqual([])
 
-  const { getByType, toJSON } = render(
+  const { UNSAFE_getByType, toJSON } = render(
     <Provider store={store}>
       <MockedProvider mocks={mocks} addTypename={true} cache={mockCache}>
         <TransactionsList feedType={FeedType.HOME} />
@@ -319,7 +319,7 @@ it('ignores pending standby transactions that are completed in the response', as
     </Provider>
   )
 
-  const feed = await waitForElement(() => getByType(TransactionFeed))
+  const feed = await waitFor(() => UNSAFE_getByType(TransactionFeed))
   expect(feed.props.data.length).toEqual(3)
   expect(toJSON()).toMatchSnapshot()
 })
@@ -329,7 +329,7 @@ it('ignores failed standby transactions', async () => {
     transactions: { standbyTransactions: failedStandbyTransactions },
   })
 
-  const { getByType, toJSON } = render(
+  const { UNSAFE_getByType, toJSON } = render(
     <Provider store={store}>
       <MockedProvider mocks={mocks} addTypename={true} cache={mockCache}>
         <TransactionsList feedType={FeedType.HOME} />
@@ -337,7 +337,7 @@ it('ignores failed standby transactions', async () => {
     </Provider>
   )
 
-  const feed = await waitForElement(() => getByType(TransactionFeed))
+  const feed = await waitFor(() => UNSAFE_getByType(TransactionFeed))
   expect(feed.props.data.length).toEqual(3)
   expect(toJSON()).toMatchSnapshot()
 })

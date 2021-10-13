@@ -1,8 +1,8 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
-import { escrowPaymentDouble } from 'src/escrow/__mocks__'
 import EscrowedPaymentLineItem from 'src/escrow/EscrowedPaymentLineItem'
+import { escrowPaymentDouble } from 'src/escrow/__mocks__'
 import { createMockStore } from 'test/utils'
 import { mockE164Number, mockE164NumberHashWithPepper, mockE164NumberPepper } from 'test/values'
 
@@ -11,7 +11,7 @@ const mockName = 'Hello World'
 describe(EscrowedPaymentLineItem, () => {
   it('renders correctly', () => {
     const store = createMockStore({})
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <EscrowedPaymentLineItem payment={escrowPaymentDouble({})} />
       </Provider>
@@ -31,7 +31,7 @@ describe(EscrowedPaymentLineItem, () => {
         phoneRecipientCache: {},
       },
     })
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <EscrowedPaymentLineItem
           payment={escrowPaymentDouble({
@@ -60,7 +60,7 @@ describe(EscrowedPaymentLineItem, () => {
         },
       },
     })
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <EscrowedPaymentLineItem
           payment={escrowPaymentDouble({

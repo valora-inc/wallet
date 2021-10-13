@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import OutgoingPaymentRequestListItem from 'src/paymentRequest/OutgoingPaymentRequestListItem'
 import { createMockStore } from 'test/utils'
 const store = createMockStore()
@@ -21,7 +21,7 @@ const commonProps = {
 
 describe('OutgoingPaymentRequestListItem', () => {
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         // @ts-ignore -- kind is not assignable?
         <OutgoingPaymentRequestListItem {...commonProps} />

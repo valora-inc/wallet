@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import IncomingPaymentRequestListScreen from 'src/paymentRequest/IncomingPaymentRequestListScreen'
 import { PaymentRequest } from 'src/paymentRequest/types'
 import { createMockPaymentRequest } from 'src/paymentRequest/__mocks__'
@@ -41,7 +41,7 @@ describe('IncomingPaymentRequestListScreen', () => {
   it('renders correctly with requests', () => {
     const store = testStore(requests)
 
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <IncomingPaymentRequestListScreen />
       </Provider>
@@ -52,7 +52,7 @@ describe('IncomingPaymentRequestListScreen', () => {
   it('renders correctly with no requests', () => {
     const store = testStore([])
 
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <IncomingPaymentRequestListScreen />
       </Provider>

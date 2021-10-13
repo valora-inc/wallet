@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { WalletHome } from 'src/home/WalletHome'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, createMockStoreAppDisconnected, getMockI18nProps } from 'test/utils'
@@ -42,7 +42,7 @@ describe('Testnet banner', () => {
       },
     })
     const showMessageMock = jest.fn()
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <WalletHome
           refreshAllBalances={jest.fn()}
@@ -50,8 +50,6 @@ describe('Testnet banner', () => {
           setLoading={jest.fn()}
           showMessage={showMessageMock}
           loading={false}
-          appConnected={true}
-          address={null}
           recipientCache={{}}
           numberVerified={true}
           importContacts={jest.fn()}
@@ -73,7 +71,7 @@ describe('Testnet banner', () => {
   })
   it('Renders when disconnected', async () => {
     const store = createMockStoreAppDisconnected()
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <WalletHome
           refreshAllBalances={jest.fn()}
@@ -81,8 +79,6 @@ describe('Testnet banner', () => {
           setLoading={jest.fn()}
           showMessage={jest.fn()}
           loading={false}
-          appConnected={false}
-          address={null}
           recipientCache={{}}
           numberVerified={true}
           importContacts={jest.fn()}
@@ -96,7 +92,7 @@ describe('Testnet banner', () => {
   })
   it('Renders when connected with backup complete', async () => {
     const store = createMockStore()
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <WalletHome
           refreshAllBalances={jest.fn()}
@@ -104,8 +100,6 @@ describe('Testnet banner', () => {
           setLoading={jest.fn()}
           showMessage={jest.fn()}
           loading={false}
-          appConnected={true}
-          address={null}
           recipientCache={{}}
           numberVerified={true}
           importContacts={jest.fn()}
@@ -119,7 +113,7 @@ describe('Testnet banner', () => {
   })
   it('Renders cash in bottom sheet when experiment flag is turned on and balances are zero', async () => {
     const store = createMockStore()
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <WalletHome
           refreshAllBalances={jest.fn()}
@@ -127,8 +121,6 @@ describe('Testnet banner', () => {
           setLoading={jest.fn()}
           showMessage={jest.fn()}
           loading={false}
-          appConnected={true}
-          address={null}
           recipientCache={{}}
           numberVerified={true}
           importContacts={jest.fn()}

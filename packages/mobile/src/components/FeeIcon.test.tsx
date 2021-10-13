@@ -1,14 +1,14 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import * as renderer from 'react-test-renderer'
 import { ExchangeFeeIcon, SecurityFeeIcon } from 'src/components/FeeIcon'
 
 it('SecurityFeeIcon renders correctly', () => {
-  const tree = renderer.create(<SecurityFeeIcon />)
+  const tree = render(<SecurityFeeIcon />)
   expect(tree).toMatchSnapshot()
 })
 
 it('ExchangeFeeIcon renders correctly', () => {
-  const tree = renderer.create(<ExchangeFeeIcon />)
+  const tree = render(<ExchangeFeeIcon />)
   expect(tree).toMatchSnapshot()
 })

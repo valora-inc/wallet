@@ -34,6 +34,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
       ]
     }
     swipeThreshold={100}
+    testID="invalidAmountDialog"
     transparent={true}
     visible={false}
   >
@@ -93,6 +94,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
         ]
       }
       swipeThreshold={100}
+      testID="invalidAmountDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -222,6 +224,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
       ]
     }
     swipeThreshold={100}
+    testID="DailyLimitDialog"
     transparent={true}
     visible={false}
   >
@@ -281,6 +284,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
         ]
       }
       swipeThreshold={100}
+      testID="DailyLimitDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -730,6 +734,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
       ]
     }
     swipeThreshold={100}
+    testID="invalidAmountDialog"
     transparent={true}
     visible={false}
   >
@@ -789,6 +794,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
         ]
       }
       swipeThreshold={100}
+      testID="invalidAmountDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -918,6 +924,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
       ]
     }
     swipeThreshold={100}
+    testID="DailyLimitDialog"
     transparent={true}
     visible={false}
   >
@@ -977,6 +984,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
         ]
       }
       swipeThreshold={100}
+      testID="DailyLimitDialog"
     >
       <RNCSafeAreaView>
         <View

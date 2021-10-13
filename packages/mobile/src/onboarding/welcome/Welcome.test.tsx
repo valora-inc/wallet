@@ -1,5 +1,5 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -16,7 +16,7 @@ describe('Welcome', () => {
     )
 
     fireEvent.press(getByTestId('CreateAccountButton'))
-    jest.runAllTimers()
+    jest.runOnlyPendingTimers()
     expect(navigate).toHaveBeenCalledWith(Screens.RegulatoryTerms)
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
@@ -29,7 +29,7 @@ describe('Welcome', () => {
     store.clearActions()
 
     fireEvent.press(getByTestId('RestoreAccountButton'))
-    jest.runAllTimers()
+    jest.runOnlyPendingTimers()
     expect(navigate).toHaveBeenCalledWith(Screens.RegulatoryTerms)
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [
