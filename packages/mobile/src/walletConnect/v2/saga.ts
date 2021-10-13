@@ -14,6 +14,7 @@ import i18n from 'src/i18n'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { isSupportedAction } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import {
   AcceptRequest,
@@ -340,7 +341,19 @@ function* createWalletConnectChannel() {
     const onSessionCreated = (session: SessionTypes.Created) => emit(sessionCreated(session))
     const onSessionUpdated = (session: SessionTypes.UpdateParams) => emit(sessionUpdated(session))
     const onSessionDeleted = (session: SessionTypes.DeleteParams) => emit(sessionDeleted(session))
-    const onSessionRequest = (request: SessionTypes.RequestEvent) => emit(sessionPayload(request))
+    const onSessionRequest = (request: SessionTypes.RequestEvent) => {
+      if (isSupportedAction(request.request.method)) {
+        emit(sessionPayload(request))
+      } else {
+        // TODO: Doing nothing will cause the user to see the timeout screen.
+        // This isn't expected to happen so it's fine for now, but we could
+        // redirect user to another screen if they're in the loading screen
+        // at this point.
+        ValoraAnalytics.track(WalletConnectEvents.wc_unknown_action, {
+          method: request.request.method,
+        })
+      }
+    }
 
     if (!client) {
       return () => {

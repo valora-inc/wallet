@@ -13,6 +13,7 @@ import i18n from 'src/i18n'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { isSupportedAction } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import {
   WalletConnectPayloadRequest,
@@ -42,7 +43,7 @@ import {
   selectPendingActions,
   selectSessions,
 } from 'src/walletConnect/v1/selectors'
-import { getAccountAddress } from 'src/web3/saga'
+import { getWalletAddress } from 'src/web3/saga'
 import { default as WalletConnectClient } from 'walletconnect-v1/client'
 import { IWalletConnectOptions } from 'walletconnect-v1/types'
 
@@ -98,7 +99,7 @@ function* acceptSession(session: AcceptSession) {
       throw new Error('missing connector')
     }
 
-    const account: string = yield call(getAccountAddress)
+    const account: string = yield call(getWalletAddress)
     const sessionData = {
       accounts: [account],
       chainId: parseInt(networkConfig.networkId),
@@ -291,7 +292,15 @@ function* createWalletConnectChannelWithArgs(connectorOpts: IWalletConnectOption
       emit(sessionRequest(peerId, payload))
     })
     connector.on('call_request', (error: any, payload: WalletConnectPayloadRequest) => {
-      emit(payloadRequest(connector.peerId, payload))
+      if (isSupportedAction(payload.method)) {
+        emit(payloadRequest(connector.peerId, payload))
+      } else {
+        // TODO: Doing nothing will cause the user to see the timeout screen.
+        // This isn't expected to happen so it's fine for now, but we could
+        // redirect user to another screen if they're in the loading screen
+        // at this point.
+        ValoraAnalytics.track(WalletConnectEvents.wc_unknown_action, { method: payload.method })
+      }
     })
     connector.on('disconnect', () => {
       emit(sessionDeleted(connector.peerId))
