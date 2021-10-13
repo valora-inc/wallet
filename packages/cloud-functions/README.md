@@ -13,7 +13,7 @@ You might need to download `.runtimeconfig.json`. To do so, you have to:
 ```bash
 #!/bin/bash
 firebase login
-firebase use alfajores
+firebase use alfajores (or firebase use mainnet)
 firebase functions:config:get > .runtimeconfig.json
 ```
 

@@ -17,8 +17,11 @@ export default class ExchangeRateManager {
   private async getExchangesFromSources() {
     const exchanges: Exchange[] = []
     for (const source of this.sources) {
-      const sourceExchanges = await source.getExchanges()
-      exchanges.push(...sourceExchanges)
+      try {
+        exchanges.push(...(await source.getExchanges()))
+      } catch (e) {
+        console.warn(`Couldn't obtain exchanges from source: ${JSON.stringify(source)}`, e)
+      }
     }
     return exchanges
   }

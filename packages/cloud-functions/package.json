@@ -28,10 +28,12 @@
     "jsonwebtoken": "~8.5.1",
     "knex": "~0.95.5",
     "pg": "~8.6.0",
+    "tiny-async-pool": "^1.2.0",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "~8.5.0",
+    "@types/tiny-async-pool": "^1.0.0",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@valora/eslint-config-typescript": "^0.0.1",

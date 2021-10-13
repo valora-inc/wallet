@@ -7,6 +7,8 @@ const mockedFactoryContract = jest.fn((address) => ({
   getPastEvents: (event: string, config: any) => [
     createPairEvent('a', 'b', 'pairAB'),
     createPairEvent('b', 'c', 'pairBC'),
+    createPairEvent('b', 'd', 'pairBD'), // 'd' token doesn't exist
+    createPairEvent('a', 'c', 'pairAC'), // This pair doesn't exist
   ],
 }))
 const mockedPairContract = jest.fn((address) => ({
@@ -18,8 +20,10 @@ const mockedPairContract = jest.fn((address) => ({
             return { reserve0: '10000000000000000000', reserve1: '20000000000000000000' }
           case 'pairbc':
             return { reserve0: '20000000000000000000', reserve1: '30000000' }
+          case 'pairbd':
+            return { reserve0: '20000000000000000000', reserve1: '30000000' }
           default:
-            return {}
+            throw new Error()
         }
       },
     }),
@@ -36,7 +40,7 @@ const mockedTokenContract = jest.fn((address) => ({
           case 'c':
             return 6
           default:
-            return 0
+            throw new Error()
         }
       },
     }),

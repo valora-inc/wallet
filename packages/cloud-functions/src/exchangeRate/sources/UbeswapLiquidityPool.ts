@@ -1,9 +1,12 @@
 import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
+import asyncPool from 'tiny-async-pool'
 import { getContractKit } from '../../contractKit'
 import { ExchangeProvider } from '../ExchangeRateManager'
 import { Exchange } from '../ExchangesGraph'
 import { factoryAbi, pairAbi, standardAbi } from './UbeswapABI'
+
+const MAX_CONCURRENCY = 30
 
 // Mainnet address (TODO: make this configurable)
 const FACTORY_ADDRESS = '0x62d5b84bE28a183aBB507E125B384122D2C25fAE'
@@ -30,7 +33,11 @@ class UbeswapLiquidityPool implements ExchangeProvider {
     const decimals = await this.getDecimalsInfoFromPairs(kit, pairs)
 
     for (const pair of pairs) {
-      results.push(...(await this.getExchangesFromPair(kit, pair, decimals)))
+      try {
+        results.push(...(await this.getExchangesFromPair(kit, pair, decimals)))
+      } catch (e) {
+        console.warn(`Couldn't obtain exchanges from pair: ${JSON.stringify(pair)}`, e)
+      }
     }
 
     return results.filter((exchange) => exchange.rate.isGreaterThan(0))
@@ -59,15 +66,18 @@ class UbeswapLiquidityPool implements ExchangeProvider {
     kit: ContractKit,
     pairs: ExchangePair[]
   ): Promise<DecimalsByToken> {
-    const decimals: DecimalsByToken = {}
-    for (const pair of pairs) {
-      if (!decimals[pair.token0]) {
-        decimals[pair.token0] = await this.getDecimalsInfo(kit, pair.token0)
+    const decimals: DecimalsByToken = pairs
+      .flatMap((pair) => [pair.token0, pair.token1])
+      .reduce((ans, token) => ({ ...ans, [token]: false }), {})
+
+    await asyncPool(MAX_CONCURRENCY, Object.keys(decimals), async (token: string) => {
+      try {
+        decimals[token] = await this.getDecimalsInfo(kit, token)
+      } catch (e) {
+        console.warn(`Couldn't obtain decimals info for: ${token}`, e)
       }
-      if (!decimals[pair.token1]) {
-        decimals[pair.token1] = await this.getDecimalsInfo(kit, pair.token1)
-      }
-    }
+    })
+
     return decimals
   }
 
@@ -88,6 +98,10 @@ class UbeswapLiquidityPool implements ExchangeProvider {
     pair: ExchangePair,
     decimalsByToken: DecimalsByToken
   ): Promise<Exchange[]> {
+    if (!decimalsByToken[pair.token0] || !decimalsByToken[pair.token1]) {
+      return []
+    }
+
     // @ts-ignore
     const pairContract = new kit.web3.eth.Contract(pairAbi, pair.pairAddress)
     const { reserve0, reserve1 } = await pairContract.methods.getReserves().call()
