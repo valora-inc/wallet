@@ -25,8 +25,8 @@
   "sendAndInvite": "Send & Invite",
   "inviteAndSendDialog": {
     "title": "We'll hold on to your payment to {{name}}",
-    "body": "Your payment to {{name}} will be waiting for them once they confirm their phone number. Share an invitation message with them to join {{appName}} and redeem your payment!",
-    "button": "Invite"
+    "body": "Share an invitation message with {{name}} to join Valora. Once they join & connect a phone number, they'll receive payment and you will receive your rewards!",
+    "button": "Finish sending"
   },
   "inviteRewardsBanner": {
     "title": "Get {{amount}} {{currency}} by sharing Valora with a friend!",
