@@ -29,7 +29,7 @@
     "button": "Invite"
   },
   "inviteRewardsBanner": {
-    "title": "Get {{amount}} {{currency}} by referring a friend!",
+    "title": "Get {{amount}} {{currency}} by sharing Valora with a friend!",
     "body": "Earn {{amount}} {{currency}} when you send money to a friend and they join. <0>Learn more</0>"
   },
   "getReward": "Get ${{reward}}"
