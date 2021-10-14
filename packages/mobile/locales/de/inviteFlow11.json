@@ -25,8 +25,8 @@
   "sendAndInvite": "Senden & Einladen",
   "inviteAndSendDialog": {
     "title": "Wir bewahren deine Zahlung an {{name}}",
-    "body": "Teile eine Einladungsnachricht an {{name}}. Sobald dein Freund beitritt und seine Telefonnummer angibt, erhält er die Zahlung und du bekommst deine Belohnungen!",
-    "button": "Einladen"
+    "body": "Teile eine Einladungsnachricht an {{name}}. Sobald dein Freund beitritt und seine Telefonnummer verbindet, erhält er die Zahlung und du bekommst deine Belohnungen!",
+    "button": "Senden"
   },
   "inviteRewardsBanner": {
     "title": "Erhalte {{amount}} {{currency}}, indem du einen Freund wirbst!",
