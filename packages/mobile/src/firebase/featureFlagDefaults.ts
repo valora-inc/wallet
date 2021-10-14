@@ -26,4 +26,5 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   pincodeUseExpandedBlocklist: false,
   rewardPillText: JSON.stringify({ en: 'Earn', pt: 'Ganhar', es: 'Gana' }),
   cashInButtonExpEnabled: false,
+  logPhoneNumberTypeEnabled: false,
 }
