@@ -397,7 +397,6 @@ function* showSessionRequest(session: SessionTypes.Proposal) {
 
 function* showActionRequest(request: SessionTypes.RequestEvent) {
   if (!isSupportedAction(request.request.method)) {
-  } else {
     // Directly deny unsupported requests
     yield put(denyRequestAction(request, WalletConnectErrorType.UNKNOWN_JSONRPC_METHOD))
     return

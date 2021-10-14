@@ -327,7 +327,6 @@ function* showSessionRequest(session: WalletConnectSessionRequest) {
 
 function* showActionRequest({ action: request, peerId }: PendingAction) {
   if (!isSupportedAction(request.method)) {
-  } else {
     // Directly deny unsupported requests
     yield put(denyRequestAction(peerId, request, 'JSON RPC method not supported'))
     return
