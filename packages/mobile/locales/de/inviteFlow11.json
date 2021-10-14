@@ -24,7 +24,7 @@
   },
   "sendAndInvite": "Senden & Einladen",
   "inviteAndSendDialog": {
-    "title": "Einladen und Senden",
+    "title": "Wir bewahren deine Zahlung an {{name}}",
     "body": "Deine Zahlung an {{name}} wird auf sie warten, bis sie ihre Telefonnummer bestätigen. Teile eine Einladungsnachricht mit ihnen, damit sie {{appName}} beitreten und deine Zahlung einlösen können!",
     "button": "Einladen"
   },
