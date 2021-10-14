@@ -18,7 +18,7 @@ export const MOCK_BLOCKCHAIN_API_EXCHANGE_RATE = JSON.stringify({
 
 const createMoonpayQuoteResponse = (
   fiatCurrency: string,
-  digitalCurreny: string,
+  digitalCurrency: string,
   paymentMethod: string
 ) =>
   JSON.stringify({
@@ -38,7 +38,7 @@ const createMoonpayQuoteResponse = (
       updatedAt: 'currency_updatedAt',
       type: 'currency_type',
       name: 'currency_type',
-      code: digitalCurreny,
+      code: digitalCurrency,
       precision: 1,
       addressRegex: 'addressRegex',
       testnetAddressRegex: 'testnetAddressRegex',
@@ -117,6 +117,25 @@ describe('Moonpay', () => {
         digitalAsset,
       },
     ])
+  })
+
+  it('does not fetch quotes when digital asset is cEUR', async () => {
+    const fiatCurrency = 'USD'
+    const digitalAsset = DigitalAsset.CEUR
+    const userCountry = 'US'
+
+    fetchMock.mockResponse(
+      createMoonpayQuoteResponse(fiatCurrency, digitalAsset, 'credit_debit_card')
+    )
+
+    const quotes = await Moonpay.fetchQuote(
+      digitalAsset,
+      fiatCurrency,
+      FIAT_CASH_IN_AMOUNT,
+      userCountry
+    )
+
+    expect(quotes).toEqual([])
   })
 
   it("fetches quotes correctly when fiatCurrency is not native to the user's location", async () => {

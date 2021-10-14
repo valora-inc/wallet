@@ -25,6 +25,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
           Object {
             "alignItems": "center",
             "flexDirection": "row",
+            "flexWrap": "wrap",
             "marginTop": 16,
           }
         }
@@ -116,8 +117,10 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
               style={
                 Array [
                   Object {
+                    "alignItems": "center",
                     "borderWidth": 1,
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "padding": 16,
                   },
                   Object {
@@ -202,8 +205,10 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
               style={
                 Array [
                   Object {
+                    "alignItems": "center",
                     "borderWidth": 1,
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "padding": 16,
                   },
                   Object {
@@ -288,8 +293,10 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
               style={
                 Array [
                   Object {
+                    "alignItems": "center",
                     "borderWidth": 1,
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "padding": 16,
                   },
                   Object {
@@ -395,6 +402,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
           <View
             style={
               Object {
+                "alignItems": "center",
                 "flexDirection": "row",
                 "padding": 8,
               }
@@ -428,6 +436,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                 Array [
                   Object {
                     "color": "#2E3338",
+                    "flex": 1,
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -457,6 +466,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
           <View
             style={
               Object {
+                "alignItems": "center",
                 "flexDirection": "row",
                 "padding": 8,
               }
@@ -489,6 +499,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                 Array [
                   Object {
                     "color": "#2E3338",
+                    "flex": 1,
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -518,6 +529,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
           <View
             style={
               Object {
+                "alignItems": "center",
                 "flexDirection": "row",
                 "padding": 8,
               }
@@ -550,6 +562,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                 Array [
                   Object {
                     "color": "#2E3338",
+                    "flex": 1,
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -579,6 +592,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
           <View
             style={
               Object {
+                "alignItems": "center",
                 "flexDirection": "row",
                 "padding": 8,
               }
@@ -611,6 +625,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
                 Array [
                   Object {
                     "color": "#2E3338",
+                    "flex": 1,
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -685,6 +700,7 @@ exports[`FiatExchangeOptions renders correctly 1`] = `
           testID="GoToProviderButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -936,6 +952,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
           Object {
             "alignItems": "center",
             "flexDirection": "row",
+            "flexWrap": "wrap",
             "marginTop": 16,
           }
         }
@@ -1027,8 +1044,10 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
               style={
                 Array [
                   Object {
+                    "alignItems": "center",
                     "borderWidth": 1,
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "padding": 16,
                   },
                   Object {
@@ -1113,8 +1132,10 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
               style={
                 Array [
                   Object {
+                    "alignItems": "center",
                     "borderWidth": 1,
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "padding": 16,
                   },
                   Object {
@@ -1199,8 +1220,10 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
               style={
                 Array [
                   Object {
+                    "alignItems": "center",
                     "borderWidth": 1,
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "padding": 16,
                   },
                   Object {
@@ -1306,6 +1329,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
           <View
             style={
               Object {
+                "alignItems": "center",
                 "flexDirection": "row",
                 "padding": 8,
               }
@@ -1339,6 +1363,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                 Array [
                   Object {
                     "color": "#2E3338",
+                    "flex": 1,
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -1368,6 +1393,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
           <View
             style={
               Object {
+                "alignItems": "center",
                 "flexDirection": "row",
                 "padding": 8,
               }
@@ -1400,6 +1426,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                 Array [
                   Object {
                     "color": "#2E3338",
+                    "flex": 1,
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -1429,6 +1456,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
           <View
             style={
               Object {
+                "alignItems": "center",
                 "flexDirection": "row",
                 "padding": 8,
               }
@@ -1461,6 +1489,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                 Array [
                   Object {
                     "color": "#2E3338",
+                    "flex": 1,
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -1490,6 +1519,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
           <View
             style={
               Object {
+                "alignItems": "center",
                 "flexDirection": "row",
                 "padding": 8,
               }
@@ -1522,6 +1552,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
                 Array [
                   Object {
                     "color": "#2E3338",
+                    "flex": 1,
                     "fontFamily": "Inter-Regular",
                     "fontSize": 14,
                     "lineHeight": 18,
@@ -1596,6 +1627,7 @@ exports[`FiatExchangeOptions renders correctly 2`] = `
           testID="GoToProviderButton"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",

@@ -38,6 +38,7 @@ import {
   fail,
   idle,
   KomenciAvailable,
+  komenciConfigSelector,
   komenciContextSelector,
   phoneHashSelector,
   setOverrideWithoutVerification,
@@ -223,6 +224,10 @@ const mockVerificationState: VerificationState = {
   phoneHash: mockE164NumberHash,
   withoutRevealing: false,
   e164Number: mockE164Number,
+  komenciConfig: {
+    useLightProxy: false,
+    allowedDeployers: [],
+  },
 }
 
 beforeEach(() => {
@@ -338,6 +343,7 @@ describe(doVerificationFlowSaga, () => {
     await expectSaga(doVerificationFlowSaga, doVerificationFlow(false))
       .provide([
         [select(shouldUseKomenciSelector), false],
+        [select(komenciConfigSelector), { useLightProxy: false, allowedDeployers: [] }],
         [select(e164NumberToSaltSelector), mockE164NumberToSalt],
         [select(e164NumberSelector), mockE164Number],
         [select(phoneHashSelector), mockE164NumberHash],
@@ -408,6 +414,7 @@ describe(doVerificationFlowSaga, () => {
     await expectSaga(doVerificationFlowSaga, doVerificationFlow(false))
       .provide([
         [select(shouldUseKomenciSelector), false],
+        [select(komenciConfigSelector), { useLightProxy: false, allowedDeployers: [] }],
         [select(e164NumberToSaltSelector), mockE164NumberToSalt],
         [select(e164NumberSelector), mockE164Number],
         [select(phoneHashSelector), mockE164NumberHash],

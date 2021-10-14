@@ -3,8 +3,9 @@ import { DigitalAsset, FiatCurrency } from '../config'
 import { composeProviderUrl } from './composeProviderUrl'
 import { UserLocationData } from './fetchUserLocationData'
 import { Moonpay } from './Moonpay'
-import { getProviderAvailability } from './providerAvailability'
+import { getProviderAvailability, providerSupportsAsset } from './providerAvailability'
 import { Providers } from './Providers'
+import { Ramp } from './Ramp'
 import { Simplex, SimplexQuote } from './Simplex'
 import { Transak } from './Transak'
 import { Xanpool } from './Xanpool'
@@ -40,8 +41,8 @@ export interface ProviderQuote {
 
 export interface Provider {
   name: Providers
-  restricted: boolean
-  unavailable?: boolean
+  restricted: boolean // not available in a given region or for a given currency
+  unavailable: boolean // not currently available to process transactions
   paymentMethods: PaymentMethod[]
   url?: string
   logo: string
@@ -50,7 +51,7 @@ export interface Provider {
   cashOut: boolean
 }
 
-export const isUserLocationDataDeprecated = (
+const isUserLocationDataDeprecated = (
   locationData: UserLocationData | UserLocationDataDeprecated
 ): locationData is UserLocationDataDeprecated => 'country' in locationData
 
@@ -73,7 +74,7 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     XANPOOL_RESTRICTED,
   } = getProviderAvailability(userLocationData)
 
-  const [simplexQuote, moonpayQuote, xanpoolQuote, transakQuote] = await Promise.all([
+  const [simplexQuote, moonpayQuote, rampQuote, xanpoolQuote, transakQuote] = await Promise.all([
     Simplex.fetchQuote(
       requestData.walletAddress,
       userLocationData.ipAddress,
@@ -83,6 +84,12 @@ export const fetchProviders = functions.https.onRequest(async (request, response
       !!requestData.fiatAmount
     ),
     Moonpay.fetchQuote(
+      requestData.digitalAsset,
+      requestData.fiatCurrency,
+      requestData.fiatAmount,
+      userLocationData.countryCodeAlpha2
+    ),
+    Ramp.fetchQuote(
       requestData.digitalAsset,
       requestData.fiatCurrency,
       requestData.fiatAmount,
@@ -106,7 +113,8 @@ export const fetchProviders = functions.https.onRequest(async (request, response
   const providers: Provider[] = [
     {
       name: Providers.Simplex,
-      restricted: SIMPLEX_RESTRICTED,
+      restricted:
+        SIMPLEX_RESTRICTED || !providerSupportsAsset(Providers.Simplex, requestData.digitalAsset),
       unavailable: !simplexQuote,
       paymentMethods: [PaymentMethod.Card],
       logo:
@@ -117,7 +125,9 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Moonpay,
-      restricted: MOONPAY_RESTRICTED || !moonpayQuote?.length,
+      restricted:
+        MOONPAY_RESTRICTED || !providerSupportsAsset(Providers.Moonpay, requestData.digitalAsset),
+      unavailable: !moonpayQuote?.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Moonpay, requestData),
       logo:
@@ -128,9 +138,12 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Ramp,
-      restricted: RAMP_RESTRICTED,
+      restricted:
+        RAMP_RESTRICTED || !providerSupportsAsset(Providers.Ramp, requestData.digitalAsset),
+      unavailable: !rampQuote?.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Ramp, requestData),
+      quote: rampQuote,
       logo:
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Framp.png?alt=media',
       cashIn: true,
@@ -138,7 +151,9 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Xanpool,
-      restricted: XANPOOL_RESTRICTED || !xanpoolQuote?.length,
+      restricted:
+        XANPOOL_RESTRICTED || !providerSupportsAsset(Providers.Xanpool, requestData.digitalAsset),
+      unavailable: !xanpoolQuote?.length,
       paymentMethods: [PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Xanpool, requestData),
       logo:
@@ -149,7 +164,9 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
     {
       name: Providers.Transak,
-      restricted: TRANSAK_RESTRICTED || !transakQuote?.length,
+      restricted:
+        TRANSAK_RESTRICTED || !providerSupportsAsset(Providers.Transak, requestData.digitalAsset),
+      unavailable: !transakQuote?.length,
       paymentMethods: [PaymentMethod.Card, PaymentMethod.Bank],
       url: composeProviderUrl(Providers.Transak, requestData),
       logo:
@@ -160,5 +177,5 @@ export const fetchProviders = functions.https.onRequest(async (request, response
     },
   ]
 
-  response.send(JSON.stringify(providers))
+  response.status(200).send(JSON.stringify(providers))
 })

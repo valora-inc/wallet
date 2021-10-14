@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { TokenTransactionType } from 'src/apollo/types'
 import CeloTransferFeedItem from 'src/transactions/CeloTransferFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
@@ -32,7 +32,7 @@ describe('CeloTransferFeedItem', () => {
   })
 
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={createMockStore({})}>
         <CeloTransferFeedItem
           status={TransactionStatus.Complete}
@@ -44,6 +44,8 @@ describe('CeloTransferFeedItem', () => {
           account={''}
           comment={''}
           timestamp={1}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -53,7 +55,7 @@ describe('CeloTransferFeedItem', () => {
 
   it("renders correctly when there's a known address", () => {
     const mockName = 'This is a Test'
-    const tree = renderer.create(
+    const tree = render(
       <Provider
         store={createMockStore({
           identity: {
@@ -75,6 +77,31 @@ describe('CeloTransferFeedItem', () => {
           account={''}
           comment={''}
           timestamp={1}
+          defaultImage={null}
+          defaultName={null}
+          {...getMockI18nProps()}
+        />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
+  })
+
+  it("renders correctly when there's a default name", () => {
+    const mockName = 'This is a Test'
+    const tree = render(
+      <Provider store={createMockStore({})}>
+        <CeloTransferFeedItem
+          status={TransactionStatus.Complete}
+          __typename="TokenTransfer"
+          type={TokenTransactionType.Received}
+          hash={'0x'}
+          amount={{ value: '1.005', currencyCode: 'cGLD', localAmount }}
+          address={mockAccount}
+          account={''}
+          comment={''}
+          timestamp={1}
+          defaultImage={null}
+          defaultName={mockName}
           {...getMockI18nProps()}
         />
       </Provider>

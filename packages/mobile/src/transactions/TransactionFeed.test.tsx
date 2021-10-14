@@ -1,8 +1,8 @@
+import { render } from '@testing-library/react-native'
 import { ApolloError } from 'apollo-boost'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { TokenTransactionType } from 'src/apollo/types'
 import TransactionFeed, { FeedItem, FeedType } from 'src/transactions/TransactionFeed'
 import { TransactionStatus } from 'src/transactions/types'
@@ -38,7 +38,7 @@ const exchangeTransactions: FeedItem[] = [
 const store = createMockStore({})
 
 it('renders for no transactions', () => {
-  const tree = renderer.create(
+  const tree = render(
     <Provider store={store}>
       <TransactionFeed loading={false} error={undefined} data={[]} kind={FeedType.HOME} />
     </Provider>
@@ -47,7 +47,7 @@ it('renders for no transactions', () => {
 })
 
 it('renders for error', () => {
-  const tree = renderer.create(
+  const tree = render(
     <Provider store={store}>
       <TransactionFeed
         loading={false}
@@ -61,7 +61,7 @@ it('renders for error', () => {
 })
 
 it('renders for loading', () => {
-  const tree = renderer.create(
+  const tree = render(
     <Provider store={store}>
       <TransactionFeed loading={true} error={undefined} data={undefined} kind={FeedType.HOME} />
     </Provider>
@@ -70,7 +70,7 @@ it('renders for loading', () => {
 })
 
 it('renders for gold to dollar exchange properly', () => {
-  const tree = renderer.create(
+  const tree = render(
     <Provider store={store}>
       <TransactionFeed
         loading={false}

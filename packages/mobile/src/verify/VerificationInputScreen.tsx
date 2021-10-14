@@ -58,6 +58,7 @@ interface StateProps {
   underlyingError: ErrorMessages | null | undefined
   lastRevealAttempt: number | null
   shortVerificationCodesEnabled: boolean
+  choseToRestoreAccount: boolean | undefined
 }
 
 interface DispatchProps {
@@ -100,6 +101,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     underlyingError: errorSelector(state),
     shortVerificationCodesEnabled: shortVerificationCodesEnabledSelector(state),
     lastRevealAttempt,
+    choseToRestoreAccount: state.account.choseToRestoreAccount,
   }
 }
 
@@ -115,7 +117,7 @@ function HeaderLeftButton() {
 }
 
 class VerificationInputScreen extends React.Component<Props, State> {
-  static navigationOptions = ({ navigation }: ScreenProps) => ({
+  static navigationOptions = ({ navigation, route }: ScreenProps) => ({
     ...nuxNavigationOptions,
     gestureEnabled: false,
     headerLeft: () => {
@@ -124,7 +126,12 @@ class VerificationInputScreen extends React.Component<Props, State> {
     headerTitle: () => (
       <HeaderTitleWithSubtitle
         title={i18n.t('onboarding:verificationInput.title')}
-        subTitle={i18n.t('onboarding:step', { step: '4' })}
+        subTitle={i18n.t(
+          route.params?.choseToRestoreAccount
+            ? 'onboarding:restoreAccountSteps'
+            : 'onboarding:createAccountSteps',
+          { step: route.params?.choseToRestoreAccount ? '4' : '3' }
+        )}
       />
     ),
     headerRight: () => (
@@ -152,6 +159,9 @@ class VerificationInputScreen extends React.Component<Props, State> {
       }
       this.setState({ timer: timer - 1 })
     }, 1000)
+
+    // Setting choseToRestoreAccount on route param for navigationOptions
+    this.props.navigation.setParams({ choseToRestoreAccount: this.props.choseToRestoreAccount })
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -174,7 +184,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
   finishVerification = () => {
     Logger.debug(TAG + '@finishVerification', 'Verification finished, navigating to next screen.')
     this.props.hideAlert()
-    navigate(Screens.ImportContacts)
+    navigate(Screens.OnboardingSuccessScreen)
   }
 
   onChangeInputCode = (index: number, shortVerificationCodesEnabled: boolean) => {

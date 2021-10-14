@@ -1,20 +1,20 @@
 {
-  "title": "A new way to earn",
-  "summary": "Starting now, you’ll earn up to {{percent}}% annually on your cUSD balance.",
+  "title": "Boost your Rewards",
+  "summary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
   "earnWeekly": {
-    "header": "Earn Weekly",
-    "text": "Send and spend as usual, you’ll earn on the remaining balance."
+    "header": "Weekly payout",
+    "text": "Send and spend as usual, you’ll get rewarded on the remaining balance."
   },
   "noMinCommitment": {
-    "header": "No minimums, no commitments",
-    "earningText": "Earning is stress free: You’re earning already.",
-    "connectText": "Earning is stress free: Connect your phone number to start earning."
+    "header": "Automatic rewards",
+    "earningText": "Just have a balance of at least {{minBalance}} {{currency}} to start getting rewarded.",
+    "connectText": "Just have a balance of at least {{minBalance}} {{currency}} and connect your phone number to start getting rewarded."
   },
   "saveMoreEarnMore": {
-    "header": "Save more to earn more",
-    "text": "Earn up to {{maxSaving}} cUSD per year by saving {{rewardsMax}} cUSD."
+    "header": "Boost your balance",
+    "text": "Deposit {{maxBalance}} {{currency}} to max-out your {{percent}}% annual rewards."
   },
-  "conclusion": "It’s that simple. Start saving for your future today.",
-  "addCusd": "Add cUSD",
+  "conclusion": "It’s that simple. Supercharge your crypto today!",
+  "cashIn": "Add {{currency}}",
   "connectNumber": "Connect Number"
 }

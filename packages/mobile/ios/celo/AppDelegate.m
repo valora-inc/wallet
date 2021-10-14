@@ -27,6 +27,11 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 
+#import <UserNotifications/UserNotifications.h>
+
+#import <CleverTapSDK/CleverTap.h>
+#import <CleverTapReact/CleverTapReactManager.h>
+
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
@@ -52,6 +57,7 @@ static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
 #ifdef FB_SONARKIT_ENABLED
     InitializeFlipper(application);
 #endif
@@ -83,6 +89,14 @@ static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  [CleverTap autoIntegrate];
+  [[CleverTapReactManager sharedInstance] applicationDidLaunchWithOptions:launchOptions];
+  #if DEBUG
+    [CleverTap setDebugLevel:CleverTapLogDebug];
+  #endif
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];    
+  center.delegate = self;
 
   return YES;
 }
@@ -150,6 +164,22 @@ static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
   // Remove our blur
   [self.blurView removeFromSuperview];
   self.blurView = nil;
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter* )center willPresentNotification:(UNNotification* )notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler 
+{
+  completionHandler(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound);
+}
+
+// Universal Links
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity
+ restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler
+{
+  return [RCTLinkingManager 
+            application:application
+            continueUserActivity:userActivity
+            restorationHandler:restorationHandler
+         ];
 }
 
 @end

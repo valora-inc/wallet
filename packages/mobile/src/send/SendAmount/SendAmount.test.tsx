@@ -1,13 +1,16 @@
+// @ts-ignore
+import { toBeDisabled } from '@testing-library/jest-native'
+import { fireEvent, render, RenderAPI } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ActivityIndicator } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
-import { fireEvent, render, RenderAPI } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -20,6 +23,8 @@ import {
   mockE164NumberInvite,
   mockTransactionData,
 } from 'test/values'
+
+expect.extend({ toBeDisabled })
 
 jest.mock('src/components/useShowOrHideAnimation')
 
@@ -127,7 +132,7 @@ describe('SendAmount', () => {
       enterAmount(wrapper, AMOUNT_TOO_MUCH)
 
       const reviewButton = wrapper.getByTestId('Review')
-      expect(reviewButton.props.disabled).toBe(false)
+      expect(reviewButton).not.toBeDisabled()
 
       store.clearActions()
       fireEvent.press(reviewButton)
@@ -138,7 +143,11 @@ describe('SendAmount', () => {
           buttonMessage: null,
           dismissAfter: null,
           displayMethod: ErrorDisplayType.BANNER,
-          message: 'needMoreFundsToSend',
+          message: i18n.t('needMoreFundsToSend', {
+            ns: 'global',
+            amountNeeded: '106.9852',
+            currencySymbol: '$',
+          }),
           title: null,
           type: 'ALERT/SHOW',
           underlyingError: 'needMoreFundsToSend',
@@ -156,7 +165,7 @@ describe('SendAmount', () => {
       enterAmount(wrapper, REQUEST_OVER_LIMIT)
 
       const sendButton = wrapper.getByTestId('Review')
-      expect(sendButton.props.disabled).toBe(false)
+      expect(sendButton).not.toBeDisabled()
 
       store.clearActions()
       fireEvent.press(sendButton)
@@ -167,7 +176,7 @@ describe('SendAmount', () => {
           buttonMessage: null,
           dismissAfter: 5000,
           displayMethod: ErrorDisplayType.BANNER,
-          message: 'requestLimitError',
+          message: i18n.t('requestLimitError', { ns: 'global', limit: 1000 }),
           title: null,
           type: 'ALERT/SHOW',
           underlyingError: 'requestLimitError',
@@ -188,7 +197,7 @@ describe('SendAmount', () => {
       enterAmount(wrapper, REQUEST_OVER_LIMIT)
 
       const sendButton = wrapper.getByTestId('Review')
-      expect(sendButton.props.disabled).toBe(false)
+      expect(sendButton).not.toBeDisabled()
 
       store.clearActions()
       fireEvent.press(sendButton)
@@ -199,7 +208,14 @@ describe('SendAmount', () => {
           buttonMessage: null,
           dismissAfter: 5000,
           displayMethod: ErrorDisplayType.BANNER,
-          message: 'paymentLimitReached',
+          message: i18n.t('paymentLimitReached', {
+            ns: 'global',
+            currencySymbol: '$',
+            dailyRemaining: '1330',
+            dailyLimit: '1330',
+            dailyRemainingcUSD: '1000.00',
+            dailyLimitcUSD: 1000,
+          }),
           title: null,
           type: 'ALERT/SHOW',
           underlyingError: 'paymentLimitReached',
@@ -217,7 +233,7 @@ describe('SendAmount', () => {
       enterAmount(wrapper, AMOUNT_ZERO)
 
       const reviewButton = wrapper.getByTestId('Review')
-      expect(reviewButton.props.disabled).toBe(true)
+      expect(reviewButton).toBeDisabled()
     })
 
     it("doesnt allow choosing the currency when there's only balance for one token", () => {
@@ -266,7 +282,7 @@ describe('SendAmount', () => {
       enterAmount(tree, AMOUNT_VALID)
       fireEvent.press(tree.getByTestId('Review'))
 
-      expect(tree.getByType(ActivityIndicator)).toBeTruthy()
+      expect(tree.UNSAFE_getByType(ActivityIndicator)).toBeTruthy()
 
       store = createMockStore({
         identity: {

@@ -5,7 +5,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -54,10 +54,9 @@ function SendAmount(props: Props) {
 
   const [amount, setAmount] = useState('')
   const defaultCurrency = useSelector(defaultCurrencySelector)
-  const [transferCurrency, setTransferCurrency] = useState(defaultCurrency)
+  const { isOutgoingPaymentRequest, recipient, origin, forceCurrency } = props.route.params
+  const [transferCurrency, setTransferCurrency] = useState(forceCurrency ?? defaultCurrency)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
-
-  const { isOutgoingPaymentRequest, recipient, origin } = props.route.params
 
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
@@ -121,12 +120,13 @@ function SendAmount(props: Props) {
         currency={transferCurrency}
         isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
         onChangeCurrency={setTransferCurrency}
+        disallowCurrencyChange={Boolean(forceCurrency)}
       />
       <DisconnectBanner />
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+      <View style={styles.contentContainer}>
         <SendAmountValue amount={amount} />
         <AmountKeypad amount={amount} onAmountChange={setAmount} />
-      </ScrollView>
+      </View>
       <Button
         style={styles.nextBtn}
         size={BtnSizes.FULL}

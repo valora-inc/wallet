@@ -12,6 +12,7 @@ export enum AppEvents {
   redux_keychain_mismatch = 'redux_keychain_mismatch',
   redux_store_recovery_success = 'redux_store_recovery_success',
   push_notification_opened = 'push_notification_opened',
+  android_mobile_services_availability_checked = 'android_mobile_services_availability_checked',
 
   request_tracking_permission_started = 'request_tracking_permission_started',
   request_tracking_permission_declined = 'request_tracking_permission_declined',
@@ -80,8 +81,8 @@ export enum OnboardingEvents {
 
   backup_quiz_start = 'backup_quiz_start',
   backup_quiz_progress = 'backup_quiz_progress', // whenever the backspace is pressed or word is chosen
-  backup_quiz_complete = 'backup_quiz_complete', // (Count # of successful Account Key confirmations Backup_Quiz)
-  backup_quiz_incorrect = 'backup_quiz_incorrect', // (Count # of failed Account Key confirmations Backup_Quiz)
+  backup_quiz_complete = 'backup_quiz_complete', // (Count # of successful Recovery Phrase confirmations Backup_Quiz)
+  backup_quiz_incorrect = 'backup_quiz_incorrect', // (Count # of failed Recovery Phrase confirmations Backup_Quiz)
 
   celo_education_start = 'celo_education_start',
   celo_education_scroll = 'celo_education_scroll',
@@ -98,8 +99,16 @@ export enum OnboardingEvents {
   pin_never_set = 'pin_never_set',
 
   wallet_import_start = 'wallet_import_start',
-  wallet_import_complete = 'wallet_import_complete',
-  wallet_import_cancel = 'wallet_import_cancel', // when a user cancels import of 0 balance wallet
+  wallet_import_phrase_updated = 'wallet_import_phrase_updated',
+  wallet_import_submit = 'wallet_import_submit',
+  wallet_import_cancel = 'wallet_import_cancel', // when a user cancels import of empty wallet or navigates back
+  wallet_import_zero_balance = 'wallet_import_zero_balance', // when the user is informed a wallet has zero balance
+  wallet_import_phrase_invalid = 'wallet_import_phrase_invalid',
+  wallet_import_phrase_correction_attempt = 'wallet_import_phrase_correction_attempt',
+  wallet_import_phrase_correction_success = 'wallet_import_phrase_correction_success',
+  wallet_import_phrase_correction_failed = 'wallet_import_phrase_correction_failed',
+  wallet_import_error = 'wallet_import_error',
+  wallet_import_success = 'wallet_import_success',
 
   invite_redeem_start = 'invite_redeem_start',
   invite_redeem_complete = 'invite_redeem_complete',
@@ -113,7 +122,7 @@ export enum OnboardingEvents {
   initialize_account_complete = 'initialize_account_complete',
   initialize_account_error = 'initialize_account_error',
 
-  escrow_redeem_start = 'escrow_redeem_start', // when escrow redemption starts (only happens on user invite redeemption)
+  escrow_redeem_start = 'escrow_redeem_start', // when escrow redemption starts (only happens on user invite redemption)
   escrow_redeem_complete = 'escrow_redeem_complete',
   escrow_redeem_error = 'escrow_redeem_error',
 
@@ -254,7 +263,7 @@ export enum SendEvents {
   send_secure_incorrect = 'send_secure_incorrect', // when there's been an error validating the account
   send_secure_complete = 'send_secure_complete', // when an account has been validated
 
-  send_secure_edit = 'send_secure_edit', // when "edit" address button is pressed to manually initate secure send flow
+  send_secure_edit = 'send_secure_edit', // when "edit" address button is pressed to manually initiate secure send flow
 
   send_tx_start = 'send_tx_start',
   send_tx_complete = 'send_tx_complete', // when a send or invite transaction has successfully completed
@@ -287,7 +296,7 @@ export enum FeeEvents {
   fetch_tobin_tax_failed = 'fetch_tobin_tax_failed',
 }
 
-// Generic transaction logging to grab tx hashs
+// Generic transaction logging to grab tx hashes
 export enum TransactionEvents {
   transaction_start = 'transaction_start',
   transaction_gas_estimated = 'transaction_gas_estimated',
@@ -345,6 +354,9 @@ export enum FiatExchangeEvents {
   cash_in_success = 'cash_in_success',
 
   cico_add_funds_selected = 'cico_add_funds_selected',
+  // Add fund flow entered through home screen cash in bottom sheet
+  cico_add_funds_bottom_sheet_selected = 'cico_add_funds_bottom_sheet_selected',
+  cico_add_funds_bottom_sheet_impression = 'cico_add_funds_bottom_sheet_impression',
   cico_cash_out_selected = 'cico_cash_out_selected',
   cico_spend_selected = 'cico_spend_selected',
   cico_fund_info = 'cico_fund_info',
@@ -375,6 +387,8 @@ export enum FiatExchangeEvents {
   cico_cash_out_copy_address = 'cico_cash_out_copy_address',
 
   cico_spend_select_provider_back = 'cico_spend_select_provider_back',
+  cico_non_celo_exchange_send_bar_continue = 'cico_non_celo_exchange_send_bar_continue', // When send bar is tapped from cash out for cUSD & cEUR
+  cico_celo_exchange_send_bar_continue = 'cico_celo_exchange_send_bar_continue', // When withdraw bar is tapped from cash out CELO
 }
 
 export enum GethEvents {
@@ -432,6 +446,45 @@ export enum RewardsEvents {
   rewards_screen_cta_pressed = 'rewards_screen_cta_pressed',
 }
 
+export enum WalletConnectEvents {
+  // Events related to WalletConnect pairing (technical: opening up the communication channel via QR code or deeplink)
+  wc_pairing_start = 'wc_pairing_start', // when WC pairing is started (no UI at this point)
+  wc_pairing_success = 'wc_pairing_success', // when WC pairing succeeds
+  wc_pairing_error = 'wc_pairing_error', // when WC pairing fails
+
+  // Events related to WalletConnect sessions (approving/rejecting/removing dapps)
+  wc_session_propose = 'wc_session_propose', // when the WC session screen is displayed to approve/reject a new dapp
+  wc_session_approve_start = 'wc_session_approve_start', // when user presses the button to approve the dapp connection
+  wc_session_approve_success = 'wc_session_approve_success', // when the dapp approval succeeds
+  wc_session_approve_error = 'wc_session_approve_error', // when the dapp approval fails
+  wc_session_reject_start = 'wc_session_reject_start', // when user presses the button to reject the dapp connection
+  wc_session_reject_success = 'wc_session_reject_success', // when the dapp rejection succeeds
+  wc_session_reject_error = 'wc_session_reject_error', // when the dapp rejection fails
+  wc_session_remove_start = 'wc_session_remove_start', // when user presses the button to disconnect the dapp
+  wc_session_remove_success = 'wc_session_remove_success', // when the dapp disconnection succeeds
+  wc_session_remove_error = 'wc_session_remove_error', // when the dapp disconnection fails
+
+  // Events related to WalletConnect requests from approved dapps (signing)
+  wc_request_propose = 'wc_request_propose', // when the WC request screen is displayed to accept/deny a dapp request
+  wc_request_details = 'wc_request_details', // when user presses the button to show details of a dapp request
+  wc_request_accept_start = 'wc_request_accept_start', // when user presses the button to accept a dapp request
+  wc_request_accept_success = 'wc_request_accept_success', // when the dapp request succeeds
+  wc_request_accept_error = 'wc_request_accept_error', // when the dapp request fails
+  wc_request_deny_start = 'wc_request_deny_start', // when user presses the button to accept a dapp request
+  wc_request_deny_success = 'wc_request_deny_success', // when the dapp request denial succeeds
+  wc_request_deny_error = 'wc_request_deny_error', // when the dapp request denial fails
+}
+
+export enum DappKitEvents {
+  dappkit_parse_deeplink_error = 'dappkit_parse_deeplink_error', // when dappkit fails to parse the deeplink
+  dappkit_request_propose = 'dappkit_request_propose', // when the dappkit request screen is displayed to accept/deny a dapp request
+  dappkit_request_cancel = 'dappkit_request_cancel', // when user presses the button to cancel the dapp request
+  dappkit_request_details = 'dappkit_request_details', // when user presses the button to show details of a dapp request
+  dappkit_request_accept_start = 'dappkit_request_accept_start', // when user presses the button to accept a dapp request
+  dappkit_request_accept_success = 'dappkit_request_accept_success', // when the dapp request succeeds
+  dappkit_request_accept_error = 'dappkit_request_accept_error', // when the dapp request fails
+}
+
 export type AnalyticsEventType =
   | AppEvents
   | HomeEvents
@@ -452,3 +505,5 @@ export type AnalyticsEventType =
   | PerformanceEvents
   | NavigationEvents
   | RewardsEvents
+  | WalletConnectEvents
+  | DappKitEvents

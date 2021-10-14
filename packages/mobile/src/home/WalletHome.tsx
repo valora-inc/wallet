@@ -1,4 +1,3 @@
-import SectionHead from '@celo/react-components/components/SectionHead'
 import colors from '@celo/react-components/styles/colors'
 import _ from 'lodash'
 import * as React from 'react'
@@ -9,18 +8,22 @@ import {
   RefreshControl,
   RefreshControlProps,
   SectionList,
-  SectionListData,
   StyleSheet,
 } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ALERT_BANNER_DURATION, DEFAULT_TESTNET, SHOW_TESTNET_BANNER } from 'src/config'
+import {
+  ALERT_BANNER_DURATION,
+  DEFAULT_TESTNET,
+  GOLD_TRANSACTION_MIN_AMOUNT,
+  SHOW_TESTNET_BANNER,
+  STABLE_TRANSACTION_MIN_AMOUNT,
+} from 'src/config'
 import { refreshAllBalances, setLoading } from 'src/home/actions'
+import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import NotificationBox from 'src/home/NotificationBox'
-import { callToActNotificationSelector, getActiveNotificationCount } from 'src/home/selectors'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import { Namespaces, withTranslation } from 'src/i18n'
 import Logo from 'src/icons/Logo'
@@ -29,21 +32,19 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
-import { isAppConnected } from 'src/redux/selectors'
 import { initializeSentryUserContext } from 'src/sentry/actions'
+import { Balances, balancesSelector } from 'src/stableToken/selectors'
 import { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList from 'src/transactions/TransactionsList'
+import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import { checkContactsPermission } from 'src/utils/permissions'
-import { currentAccountSelector } from 'src/web3/selectors'
 
 interface StateProps {
   loading: boolean
-  address?: string | null
-  activeNotificationCount: number
-  callToActNotification: boolean
   recipientCache: NumberToRecipient
-  appConnected: boolean
   numberVerified: boolean
+  cashInButtonExpEnabled: boolean
+  balances: Balances
 }
 
 interface DispatchProps {
@@ -66,12 +67,10 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: RootState): StateProps => ({
   loading: state.home.loading,
-  address: currentAccountSelector(state),
-  activeNotificationCount: getActiveNotificationCount(state),
-  callToActNotification: callToActNotificationSelector(state),
   recipientCache: phoneRecipientCacheSelector(state),
-  appConnected: isAppConnected(state),
   numberVerified: state.app.numberVerified,
+  cashInButtonExpEnabled: state.app.cashInButtonExpEnabled,
+  balances: balancesSelector(state),
 })
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
@@ -89,7 +88,9 @@ export class WalletHome extends React.Component<Props, State> {
 
     this.scrollPosition = new Animated.Value(0)
     this.onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: this.scrollPosition } } }])
-    this.state = { isMigrating: false }
+    this.state = {
+      isMigrating: false,
+    }
   }
 
   onRefresh = async () => {
@@ -103,8 +104,6 @@ export class WalletHome extends React.Component<Props, State> {
       this.showTestnetBanner()
     }
 
-    ValoraAnalytics.setUserAddress(this.props.address)
-
     // TODO: Fire refreshAllBalances when the app state changes to active. It's easier to do that when we
     // transform this into a function component.
     // useEffect(() => {
@@ -116,6 +115,16 @@ export class WalletHome extends React.Component<Props, State> {
     // Waiting 1/2 sec before triggering to allow
     // rest of feed to load unencumbered
     setTimeout(this.tryImportContacts, 500)
+  }
+
+  shouldShowCashInBottomSheet = () => {
+    const hasStable = STABLE_CURRENCIES.some((currency) =>
+      this.props.balances[currency]?.isGreaterThan(STABLE_TRANSACTION_MIN_AMOUNT)
+    )
+    const hasGold = this.props.balances[Currency.Celo]?.isGreaterThan(GOLD_TRANSACTION_MIN_AMOUNT)
+    const isAccountBalanceZero = !hasStable && !hasGold
+
+    return this.props.cashInButtonExpEnabled && isAccountBalanceZero
   }
 
   tryImportContacts = async () => {
@@ -131,13 +140,6 @@ export class WalletHome extends React.Component<Props, State> {
     if (hasGivenContactPermission) {
       this.props.importContacts()
     }
-  }
-
-  renderSection = ({ section: { title } }: { section: SectionListData<any> }) => {
-    if (!title) {
-      return null
-    }
-    return <SectionHead text={title} />
   }
 
   keyExtractor = (_item: any, index: number) => {
@@ -156,8 +158,6 @@ export class WalletHome extends React.Component<Props, State> {
   }
 
   render() {
-    const { activeNotificationCount, callToActNotification } = this.props
-
     const refresh: React.ReactElement<RefreshControlProps> = (
       <RefreshControl
         refreshing={this.props.loading}
@@ -168,12 +168,10 @@ export class WalletHome extends React.Component<Props, State> {
 
     const sections = []
 
-    if (activeNotificationCount > 0 || callToActNotification) {
-      sections.push({
-        data: [{}],
-        renderItem: () => <NotificationBox key={'NotificationBox'} />,
-      })
-    }
+    sections.push({
+      data: [{}],
+      renderItem: () => <NotificationBox key={'NotificationBox'} />,
+    })
 
     sections.push({
       data: [{}],
@@ -191,11 +189,10 @@ export class WalletHome extends React.Component<Props, State> {
           refreshing={this.props.loading}
           style={styles.container}
           sections={sections}
-          stickySectionHeadersEnabled={false}
-          renderSectionHeader={this.renderSection}
           keyExtractor={this.keyExtractor}
         />
         <SendOrRequestBar />
+        {this.shouldShowCashInBottomSheet() && <CashInBottomSheet />}
       </SafeAreaView>
     )
   }

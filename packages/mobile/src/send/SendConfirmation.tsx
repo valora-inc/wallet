@@ -16,7 +16,6 @@ import { FeeEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
@@ -53,7 +52,7 @@ import {
   getLocalCurrencyCode,
   localCurrencyExchangeRatesSelector,
 } from 'src/localCurrency/selectors'
-import { emptyHeader, noHeader } from 'src/navigator/Headers'
+import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
@@ -84,9 +83,8 @@ type Props = OwnProps
 export const sendConfirmationScreenNavOptions = (navOptions: Props) =>
   navOptions.route.name === Screens.SendConfirmationModal
     ? {
+        ...noHeader,
         ...modalScreenOptions(navOptions),
-        emptyHeader,
-        headerLeft: () => <BackButton eventName={SendEvents.send_confirm_back} />,
       }
     : noHeader
 
@@ -360,17 +358,18 @@ function SendConfirmation(props: Props) {
         <View style={styles.encryptionWarningLabelContainer}>
           <Text style={styles.encryptionWarningLabel}>{t('encryption.warningLabel')}</Text>
           <Touchable onPress={onShowEncryptionModal} borderless={true} hitSlop={iconHitslop}>
-            <InfoIcon size={12} />
+            <InfoIcon color={colors.informational} size={14} />
           </Touchable>
         </View>
       ) : null
     }
 
     return (
-      <SafeAreaView style={styles.container}>
-        {props.route.name !== Screens.SendConfirmationModal && (
-          <HeaderWithBackButton eventName={SendEvents.send_confirm_back} />
-        )}
+      <SafeAreaView
+        style={styles.container}
+        edges={props.route.name === Screens.SendConfirmationModal ? ['bottom'] : undefined}
+      >
+        <HeaderWithBackButton eventName={SendEvents.send_confirm_back} />
         <DisconnectBanner />
         <ReviewFrame
           FooterComponent={FeeContainer}
@@ -528,8 +527,8 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   encryptionWarningLabel: {
-    ...fontStyles.small,
-    color: colors.gray4,
+    ...fontStyles.regular,
+    color: colors.informational,
     paddingRight: 8,
   },
 })

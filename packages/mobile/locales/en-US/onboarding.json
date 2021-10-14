@@ -10,22 +10,15 @@
     "restoreAccount": "Restore my account"
   },
   "contacts": {
-    "header": "Connect Contacts",
-    "body": "Adding your contacts makes it easy to send and request payments with your friends. Connecting does not send invites to your contacts.",
-    "findSwitch": "Allow contacts to find you",
-    "syncing": {
-      "loadingHeader": "Syncing...",
-      "loadingStatus0": "Importing contacts",
-      "loadingStatus1": "Processing {{total}} contacts",
-      "loadingStatus2": "Finding friends",
-      "successHeader": "Completed",
-      "successWithMatches": "{{matches}} friends on {{appName}}",
-      "successWithoutMatches": "Syncing complete"
+    "disclosure": {
+      "title": "Import Contacts",
+      "body": "Valora would like to import your contacts. By tapping below, I allow access to my contacts' phone numbers, names and photos for purposes of connecting with them through Valora"
     }
   },
   "createAccount": "Create Account",
   "restoreAccount": "Restore My Account",
-  "step": "Step {{step}} of 5",
+  "createAccountSteps": "Step {{step}} of 3",
+  "restoreAccountSteps": "Step {{step}} of 4",
   "selectCountryCode": "Select Country Code",
   "pincodeSet": {
     "create": "Create a PIN",
@@ -66,11 +59,11 @@
   "verificationPrematureRevealMessage": "Please wait one minute before resending",
   "verificationLearnMoreDialog": {
     "title": "Phone Numbers and {{appName}}",
-    "body": "Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but unconfirmed accounts can only send payments with QR codes or account numbers (addresses).\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
+    "body": "Confirming makes it easy to connect with your friends by allowing you to send and receive funds to your phone number.\n\n<0>Can I do this later?</0>\n\nYes, but unconfirmed accounts can only send payments with QR codes or Account Addresses.\n\n<1>Secure and Private</1>\n\nValora uses state of the art cryptography to keep your phone number private.",
     "dismiss": "Dismiss"
   },
   "importExistingKey": {
-    "explanation": "Your Account Key is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
+    "explanation": "Your Recovery Phrase is a 24-word phrase that you wrote down and saved when you set up your account. Please enter it here to restore your account.",
     "keyPlaceholder": "horse leopard dog monkey ..."
   },
   "verificationInput": {

@@ -28,6 +28,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
         Array [
           Object {
             "flexDirection": "row",
+            "flexWrap": "wrap",
             "justifyContent": "space-between",
             "marginVertical": 5,
           },
@@ -115,6 +116,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -171,7 +173,6 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -222,6 +223,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                   Object {
                     "alignItems": "center",
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                   },
                   undefined,
                 ]
@@ -242,6 +244,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
               <View
                 style={
                   Object {
+                    "marginLeft": 7,
                     "transform": Array [
                       Object {
                         "rotate": "0deg",
@@ -268,6 +271,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -314,7 +318,6 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -339,6 +342,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -395,7 +399,6 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -417,6 +420,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -482,7 +486,6 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -520,7 +523,6 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -595,6 +597,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
         testID="ConfirmWithdrawButton"
       >
         <Text
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",

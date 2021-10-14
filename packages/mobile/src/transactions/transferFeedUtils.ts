@@ -61,7 +61,9 @@ function getRecipient(
   invitees: InviteDetails[],
   address: string,
   recipientInfo: RecipientInfo,
-  providerInfo: ProviderFeedInfo | undefined
+  providerInfo: ProviderFeedInfo | undefined,
+  defaultName?: string,
+  defaultImage?: string
 ): Recipient {
   let phoneNumber = e164PhoneNumber
   let recipient: Recipient
@@ -84,7 +86,8 @@ function getRecipient(
     }
   }
 
-  recipient = getRecipientFromAddress(address, recipientInfo)
+  recipient = getRecipientFromAddress(address, recipientInfo, defaultName, defaultImage)
+
   if (providerInfo) {
     Object.assign(recipient, { name: providerInfo.name, thumbnailPath: providerInfo.icon })
   }
@@ -105,7 +108,11 @@ export function getTransferFeedParams(
   recipientInfo: RecipientInfo,
   isCeloRewardSender: boolean,
   isRewardSender: boolean,
-  providerInfo: ProviderFeedInfo | undefined
+  isInviteRewardSender: boolean,
+  providerInfo: ProviderFeedInfo | undefined,
+  currency: string,
+  defaultName?: string,
+  defaultImage?: string
 ) {
   const e164PhoneNumber = addressToE164Number[address]
   const recipient = getRecipient(
@@ -117,7 +124,9 @@ export function getTransferFeedParams(
     invitees,
     address,
     recipientInfo,
-    providerInfo
+    providerInfo,
+    defaultName,
+    defaultImage
   )
   Object.assign(recipient, { address })
   const nameOrNumber =
@@ -177,6 +186,16 @@ export function getTransferFeedParams(
         title = t('feedItemRewardReceivedTitle')
         info = t('feedItemRewardReceivedInfo')
         Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
+      } else if (isInviteRewardSender) {
+        title = t('feedItemInviteRewardReceivedTitle')
+        info = t('feedItemInviteRewardReceivedInfo')
+        Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
+      } else if (providerInfo) {
+        title = t('feedItemReceivedTitle', { displayName })
+        info =
+          currency.toLowerCase() === 'celo'
+            ? t('fiatExchangeFlow:celoDeposit')
+            : t('fiatExchangeFlow:cUsdDeposit')
       } else {
         title = t('feedItemReceivedTitle', { displayName })
         info = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
@@ -212,7 +231,7 @@ export function getTransferFeedParams(
   return { title, info, recipient }
 }
 
-export function getTxsFromUserTxQuery(data: UserTransactionsQuery | undefined) {
+export function getTxsFromUserTxQuery(data?: UserTransactionsQuery) {
   return data?.tokenTransactions?.edges.map((edge) => edge.node).filter(isPresent) ?? []
 }
 

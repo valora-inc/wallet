@@ -1,15 +1,17 @@
-import { enterPinUi, sleep } from '../utils/utils'
+import { enterPinUi, setUrlDenyList, sleep } from '../utils/utils'
 import { EXAMPLE_NAME } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
+import { launchApp } from '../utils/retries'
 
 export default NewAccountOnboarding = () => {
   beforeAll(async () => {
     await device.terminateApp()
     await sleep(5000)
-    await device.launchApp({
+    await launchApp({
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
+    await setUrlDenyList()
     await sleep(5000)
     await dismissBanners()
   })
@@ -48,31 +50,29 @@ export default NewAccountOnboarding = () => {
 
   // Ideally this wouldn't be dependent on the previous test
   // Skip setup on android for now
-  if (device.getPlatform() === 'ios') {
-    it('Setup Account Key', async () => {
-      await element(by.id('Hamburger')).tap()
-      await element(by.id('DrawerItem/Account Key')).tap()
+  it('Setup Recovery Phrase', async () => {
+    await element(by.id('Hamburger')).tap()
+    await element(by.id('DrawerItem/Recovery Phrase')).tap()
 
-      await enterPinUi()
+    await enterPinUi()
 
-      await element(by.id('SetUpAccountKey')).tap()
+    await element(by.id('SetUpAccountKey')).tap()
 
-      // Go through education
-      for (let i = 0; i < 4; i++) {
-        await element(by.id('Education/progressButton')).tap()
-      }
+    // Go through education
+    for (let i = 0; i < 4; i++) {
+      await element(by.id('Education/progressButton')).tap()
+    }
 
-      await expect(element(by.id('AccountKeyWords'))).toBeVisible()
+    await expect(element(by.id('AccountKeyWords'))).toBeVisible()
 
-      const attributes = await element(by.id('AccountKeyWords')).getAttributes()
-      const accountKey = attributes.text
+    const attributes = await element(by.id('AccountKeyWords')).getAttributes()
+    const accountKey = attributes.text
 
-      await element(by.id('backupKeySavedSwitch')).longPress()
-      await element(by.id('backupKeyContinue')).tap()
-      for (const word of accountKey.split(' ')) {
-        await element(by.id(`backupQuiz/${word}`)).tap()
-      }
-      await element(by.id('QuizSubmit')).tap()
-    })
-  }
+    await element(by.id('backupKeySavedSwitch')).longPress()
+    await element(by.id('backupKeyContinue')).tap()
+    for (const word of accountKey.split(' ')) {
+      await element(by.id(`backupQuiz/${word}`)).tap()
+    }
+    await element(by.id('QuizSubmit')).tap()
+  })
 }

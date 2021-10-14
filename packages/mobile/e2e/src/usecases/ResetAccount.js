@@ -1,14 +1,15 @@
 import { enterPinUiIfNecessary, pixelDiff, waitForElementId, getDeviceModel } from '../utils/utils'
 import { SAMPLE_BACKUP_KEY } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
+import { reloadReactNative } from '../utils/retries'
 
 export default ResetAccount = () => {
   beforeEach(async () => {
-    await device.reloadReactNative()
+    await reloadReactNative()
     await dismissBanners()
   })
 
-  it('Reset Account by doing the Account Key quiz', async () => {
+  it('Reset Account by doing the Recovery Phrase quiz', async () => {
     // This test has very high flakiness on Android. I did my best to fix it, but
     // locally it works every time but on CI it fails 50%+ of the time.
     // TODO: Keep investigating the source of flakiness of this test on Android.

@@ -56,16 +56,14 @@ export function ExchangeFeedItem(props: Props) {
             <Text style={styles.txMode}>
               {isSellGoldTx ? t('feedItemGoldSold') : t('feedItemGoldPurchased')}
             </Text>
-            <>
-              <Text style={styles.exchangeRate}> @ </Text>
-              <CurrencyDisplay
-                amount={exchangeRateAmount}
-                hideSymbol={false}
-                hideCode={true}
-                showLocalAmount={true}
-                style={styles.exchangeRate}
-              />
-            </>
+            <Text style={styles.exchangeRate}> @ </Text>
+            <CurrencyDisplay
+              amount={exchangeRateAmount}
+              hideSymbol={false}
+              hideCode={true}
+              showLocalAmount={true}
+              style={styles.exchangeRate}
+            />
           </View>
           <View>
             <CurrencyDisplay amount={amount} style={styles.amount} />
@@ -90,6 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flex: 1,
     paddingBottom: 2,
+    flexWrap: 'wrap',
   },
   desc: {
     flexDirection: 'row',
@@ -101,6 +100,7 @@ const styles = StyleSheet.create({
   exchangeRate: {
     ...fontStyles.regular500,
     color: colors.dark,
+    flexWrap: 'wrap',
   },
   amount: {
     ...fontStyles.regular500,

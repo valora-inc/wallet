@@ -6,6 +6,11 @@ jest.mock('firebase-functions', () => ({
   https: {
     onRequest: jest.fn,
   },
+  runWith: jest.fn(() => ({
+    https: {
+      onRequest: jest.fn,
+    },
+  })),
   database: {
     ref: () => ({
       onWrite: jest.fn,
@@ -39,6 +44,7 @@ jest.mock('firebase-functions', () => ({
     simplex: {
       widget_url: 'simplex.com',
       checkout_url: 'checkout.simplex.com',
+      event_url: 'events.simplex.com',
       api_key: 'simplex api key',
     },
     xanpool: {
@@ -56,5 +62,24 @@ jest.mock('firebase-functions', () => ({
     ip_api: {
       key: 'IP API KEY',
     },
+    db: {
+      host: 'localhost',
+      database: 'indexer_mainnet',
+      user: 'postgres',
+      password: 'docker',
+    },
+  })),
+}))
+
+jest.mock('./src/bigQuery', () => ({
+  trackEvent: jest.fn(
+    () => new Promise<void>((res) => res())
+  ),
+  getBigQueryInstance: jest.fn(() => ({
+    query: jest.fn(() => ({
+      ipAddress: '1.0.0.0',
+      timestamp: '2021-07-01 12:32',
+      userAgent: 'MAC SOMETHING SOMETHING',
+    })),
   })),
 }))

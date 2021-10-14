@@ -83,7 +83,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
       <Image
         source={
           Object {
-            "testUri": "../../../packages/mobile/src/images/earnMain.png",
+            "testUri": "../../../packages/mobile/src/images/boost-rewards.png",
           }
         }
       />
@@ -113,7 +113,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
           }
         }
       >
-        summary
+        summary, {"currency":"cUSD","percent":5}
       </Text>
       <View
         style={
@@ -227,7 +227,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
               }
             }
           >
-            noMinCommitment.earningText
+            noMinCommitment.earningText, {"minBalance":10,"currency":"cUSD"}
           </Text>
         </View>
       </View>
@@ -285,7 +285,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
               }
             }
           >
-            saveMoreEarnMore.text
+            saveMoreEarnMore.text, {"maxBalance":1000,"currency":"cUSD","percent":5}
           </Text>
         </View>
       </View>
@@ -409,6 +409,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
           testID="ConsumerIncentives/CTA"
         >
           <Text
+            maxFontSizeMultiplier={1}
             style={
               Object {
                 "color": "#FFFFFF",
@@ -418,7 +419,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
               }
             }
           >
-            addCusd
+            cashIn, {"currency":"cUSD"}
           </Text>
         </View>
       </View>

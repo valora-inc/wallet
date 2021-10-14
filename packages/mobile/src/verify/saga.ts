@@ -4,11 +4,14 @@ import {
   ActionableAttestation,
   AttestationsWrapper,
 } from '@celo/contractkit/lib/wrappers/Attestations'
+import { sleep } from '@celo/utils/lib/async'
+import { AttestationsStatus } from '@celo/utils/lib/attestations'
+import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
 import {
   CheckSessionResp,
   GetDistributedBlindedPepperResp,
   StartSessionResp,
-} from '@celo/komencikit/src/actions'
+} from '@komenci/kit/lib/actions'
 import {
   AuthenticationFailed,
   FetchError,
@@ -25,12 +28,9 @@ import {
   TxRevertError,
   TxTimeoutError,
   WalletValidationError,
-} from '@celo/komencikit/src/errors'
-import { KomenciKit } from '@celo/komencikit/src/kit'
-import { verifyWallet } from '@celo/komencikit/src/verifyWallet'
-import { sleep } from '@celo/utils/lib/async'
-import { AttestationsStatus } from '@celo/utils/lib/attestations'
-import { getPhoneHash } from '@celo/utils/lib/phoneNumbers'
+} from '@komenci/kit/lib/errors'
+import { KomenciKit, ProxyType } from '@komenci/kit/lib/kit'
+import { verifyWallet } from '@komenci/kit/lib/verifyWallet'
 import DeviceInfo from 'react-native-device-info'
 import { all, call, delay, put, race, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { VerificationEvents } from 'src/analytics/Events'
@@ -74,6 +74,7 @@ import {
   fetchPhoneNumberDetails,
   isBalanceSufficientForSigRetrievalSelector,
   KomenciAvailable,
+  komenciConfigSelector,
   KomenciContext,
   komenciContextSelector,
   overrideWithoutVerificationSelector,
@@ -94,6 +95,7 @@ import {
 import { getContractKit } from 'src/web3/contracts'
 import { registerWalletAndDekViaKomenci } from 'src/web3/dataEncryptionKey'
 import { getAccount, getConnectedUnlockedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
+import { dataEncryptionKeySelector } from 'src/web3/selectors'
 
 const TAG = 'verify/saga'
 const BALANCE_CHECK_TIMEOUT = 5 * 1000 // 5 seconds
@@ -240,14 +242,17 @@ function* startOrResumeKomenciSessionSaga() {
   yield put(fetchPhoneNumberDetails())
 }
 
-export function getKomenciKit(
+export function* getKomenciKit(
   contractKit: ContractKit,
   walletAddress: Address,
   komenci: KomenciContext
 ) {
+  const komenciConfig = yield select(komenciConfigSelector)
   return new KomenciKit(contractKit, walletAddress, {
     url: komenci.callbackUrl || networkConfig.komenciUrl,
     token: komenci.sessionToken,
+    proxyType: komenciConfig.useLightProxy ? ProxyType.LightProxy : ProxyType.LegacyProxy,
+    allowedDeployers: komenciConfig.allowedDeployers,
   })
 }
 
@@ -372,7 +377,24 @@ export function* fetchPhoneNumberDetailsSaga() {
           const komenci = yield select(komenciContextSelector)
           const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
-          const blsBlindingClient = new ReactBlsBlindingClient(networkConfig.odisPubKey)
+          // Use DEK for deterministic randomness
+          // This allows user to use the same blinded message for the same phone number
+          // which prevents consumption of quota for future duplicate requests
+          const privateDataKey: string | null = yield select(dataEncryptionKeySelector)
+          if (!privateDataKey) {
+            throw new Error('No data key in store. Should never happen.')
+          }
+
+          const blindingFactor = ReactBlsBlindingClient.generateDeterministicBlindingFactor(
+            privateDataKey,
+            e164Number
+          )
+
+          Logger.debug(TAG, '@fetchPhoneNumberDetailsSaga', 'Blinding factor', blindingFactor)
+          const blsBlindingClient = new ReactBlsBlindingClient(
+            networkConfig.odisPubKey,
+            blindingFactor
+          )
           const pepperQueryResult: Result<GetDistributedBlindedPepperResp, FetchError> = yield call(
             [komenciKit, komenciKit.getDistributedBlindedPepper],
             e164Number,

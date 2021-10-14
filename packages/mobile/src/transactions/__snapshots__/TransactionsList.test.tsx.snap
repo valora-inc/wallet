@@ -22,6 +22,8 @@ exports[`ignores failed standby transactions 1`] = `
               "value": "-0.2",
             },
             "comment": "Hi",
+            "defaultImage": null,
+            "defaultName": null,
             "hash": "0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353",
             "status": "Complete",
             "timestamp": 1578530538,
@@ -43,6 +45,8 @@ exports[`ignores failed standby transactions 1`] = `
               "value": "-0.2",
             },
             "comment": null,
+            "defaultImage": null,
+            "defaultName": null,
             "hash": "0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353",
             "status": "Complete",
             "timestamp": 1578630538,
@@ -111,6 +115,7 @@ exports[`ignores failed standby transactions 1`] = `
   renderItem={[Function]}
   scrollEventThrottle={50}
   stickyHeaderIndices={Array []}
+  testID="TransactionList"
   updateCellsBatchingPeriod={50}
   windowSize={21}
 >
@@ -247,26 +252,29 @@ exports[`ignores failed standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       false,
                     ],
@@ -293,7 +301,7 @@ exports[`ignores failed standby transactions 1`] = `
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":null,"comment":"Hi"}
             </Text>
           </View>
         </View>
@@ -398,26 +406,29 @@ exports[`ignores failed standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       false,
                     ],
@@ -444,7 +455,7 @@ exports[`ignores failed standby transactions 1`] = `
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":"noComment","comment":null}
             </Text>
           </View>
         </View>
@@ -526,6 +537,7 @@ exports[`ignores failed standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
@@ -535,17 +547,19 @@ exports[`ignores failed standby transactions 1`] = `
                 feedItemSoldCeloTitle
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       Object {
                         "color": "#1AB775",
@@ -574,7 +588,7 @@ exports[`ignores failed standby transactions 1`] = `
                 }
               }
             >
-              feedItemExchangeCeloInfo
+              feedItemExchangeCeloInfo, {"amount":"0.100","price":"$10.06"}
             </Text>
           </View>
         </View>
@@ -610,6 +624,8 @@ exports[`ignores pending standby transactions that are completed in the response
               "value": "-0.2",
             },
             "comment": "Hi",
+            "defaultImage": null,
+            "defaultName": null,
             "hash": "0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353",
             "status": "Complete",
             "timestamp": 1578530538,
@@ -631,6 +647,8 @@ exports[`ignores pending standby transactions that are completed in the response
               "value": "-0.2",
             },
             "comment": null,
+            "defaultImage": null,
+            "defaultName": null,
             "hash": "0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353",
             "status": "Complete",
             "timestamp": 1578630538,
@@ -699,6 +717,7 @@ exports[`ignores pending standby transactions that are completed in the response
   renderItem={[Function]}
   scrollEventThrottle={50}
   stickyHeaderIndices={Array []}
+  testID="TransactionList"
   updateCellsBatchingPeriod={50}
   windowSize={21}
 >
@@ -835,26 +854,29 @@ exports[`ignores pending standby transactions that are completed in the response
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       false,
                     ],
@@ -881,7 +903,7 @@ exports[`ignores pending standby transactions that are completed in the response
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":null,"comment":"Hi"}
             </Text>
           </View>
         </View>
@@ -986,26 +1008,29 @@ exports[`ignores pending standby transactions that are completed in the response
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       false,
                     ],
@@ -1032,7 +1057,7 @@ exports[`ignores pending standby transactions that are completed in the response
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":"noComment","comment":null}
             </Text>
           </View>
         </View>
@@ -1114,6 +1139,7 @@ exports[`ignores pending standby transactions that are completed in the response
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
@@ -1123,17 +1149,19 @@ exports[`ignores pending standby transactions that are completed in the response
                 feedItemSoldCeloTitle
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       Object {
                         "color": "#1AB775",
@@ -1162,7 +1190,7 @@ exports[`ignores pending standby transactions that are completed in the response
                 }
               }
             >
-              feedItemExchangeCeloInfo
+              feedItemExchangeCeloInfo, {"amount":"0.100","price":"$10.06"}
             </Text>
           </View>
         </View>
@@ -1198,6 +1226,8 @@ exports[`renders the received data along with the standby transactions 1`] = `
               "value": "-0.2",
             },
             "comment": "Hi",
+            "defaultImage": null,
+            "defaultName": null,
             "hash": "0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353",
             "status": "Complete",
             "timestamp": 1578530538,
@@ -1219,6 +1249,8 @@ exports[`renders the received data along with the standby transactions 1`] = `
               "value": "-0.2",
             },
             "comment": null,
+            "defaultImage": null,
+            "defaultName": null,
             "hash": "0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353",
             "status": "Complete",
             "timestamp": 1578630538,
@@ -1283,6 +1315,8 @@ exports[`renders the received data along with the standby transactions 1`] = `
               "value": "-100",
             },
             "comment": "Eye for an Eye",
+            "defaultImage": null,
+            "defaultName": null,
             "hash": "",
             "status": "Pending",
             "timestamp": 1542406110,
@@ -1379,6 +1413,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
   renderItem={[Function]}
   scrollEventThrottle={50}
   stickyHeaderIndices={Array []}
+  testID="TransactionList"
   updateCellsBatchingPeriod={50}
   windowSize={21}
 >
@@ -1515,26 +1550,29 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       false,
                     ],
@@ -1561,7 +1599,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":null,"comment":"Hi"}
             </Text>
           </View>
         </View>
@@ -1666,26 +1704,29 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       false,
                     ],
@@ -1712,7 +1753,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 }
               }
             >
-              feedItemSentInfo
+              feedItemSentInfo, {"context":"noComment","comment":null}
             </Text>
           </View>
         </View>
@@ -1794,6 +1835,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
@@ -1803,17 +1845,19 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 feedItemSoldCeloTitle
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       Object {
                         "color": "#1AB775",
@@ -1842,7 +1886,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 }
               }
             >
-              feedItemExchangeCeloInfo
+              feedItemExchangeCeloInfo, {"amount":"0.100","price":"$10.06"}
             </Text>
           </View>
         </View>
@@ -1984,26 +2028,29 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
                   }
                 }
               >
-                walletFlow5:feedItemAddress
+                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0072bv...o23u\\"}"}
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       false,
                     ],
@@ -2112,6 +2159,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
@@ -2121,17 +2169,19 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 feedItemBoughtCeloTitle
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       false,
                     ],
@@ -2240,6 +2290,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 style={
                   Object {
                     "color": "#2E3338",
+                    "flexShrink": 1,
                     "fontFamily": "Inter-Medium",
                     "fontSize": 16,
                     "lineHeight": 22,
@@ -2249,17 +2300,19 @@ exports[`renders the received data along with the standby transactions 1`] = `
                 feedItemSoldCeloTitle
               </Text>
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     Array [
                       Object {
                         "color": "#2E3338",
+                        "flexWrap": "wrap",
                         "fontFamily": "Inter-Medium",
                         "fontSize": 16,
                         "lineHeight": 22,
                         "marginLeft": "auto",
                         "paddingLeft": 10,
+                        "textAlign": "right",
+                        "width": "40%",
                       },
                       Object {
                         "color": "#1AB775",

@@ -1,9 +1,11 @@
+import { DappKitRequestTypes } from '@celo/utils'
 import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   CeloExchangeEvents,
   ContractKitEvents,
+  DappKitEvents,
   EscrowEvents,
   FeeEvents,
   FiatExchangeEvents,
@@ -21,8 +23,14 @@ import {
   SettingsEvents,
   TransactionEvents,
   VerificationEvents,
+  WalletConnectEvents,
 } from 'src/analytics/Events'
-import { BackQuizProgress, ScrollDirection, SendOrigin } from 'src/analytics/types'
+import {
+  BackQuizProgress,
+  ScrollDirection,
+  SendOrigin,
+  WalletConnectPairingOrigin,
+} from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import {
@@ -80,6 +88,10 @@ interface AppEventsProperties {
     id?: string
     state: NotificationReceiveState
     type?: string
+  }
+  [AppEvents.android_mobile_services_availability_checked]: {
+    googleIsAvailable: boolean | undefined
+    huaweiIsAvailable: boolean | undefined
   }
   [AppEvents.request_tracking_permission_started]: {
     currentPermission: PermissionStatus
@@ -210,8 +222,33 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.pin_never_set]: undefined
 
   [OnboardingEvents.wallet_import_start]: undefined
-  [OnboardingEvents.wallet_import_complete]: undefined
+  [OnboardingEvents.wallet_import_phrase_updated]: {
+    wordCount: number
+    wordCountChange: number
+  }
+  [OnboardingEvents.wallet_import_submit]: {
+    useEmptyWallet: boolean
+  }
   [OnboardingEvents.wallet_import_cancel]: undefined
+  [OnboardingEvents.wallet_import_zero_balance]: {
+    account: string
+  }
+  [OnboardingEvents.wallet_import_phrase_invalid]: {
+    wordCount: number
+    invalidWordCount: number | undefined
+  }
+  [OnboardingEvents.wallet_import_phrase_correction_attempt]: undefined
+  [OnboardingEvents.wallet_import_phrase_correction_success]: {
+    attemptNumber: number
+  }
+  [OnboardingEvents.wallet_import_phrase_correction_failed]: {
+    timeout: boolean
+    error?: string
+  }
+  [OnboardingEvents.wallet_import_error]: {
+    error: string
+  }
+  [OnboardingEvents.wallet_import_success]: undefined
 
   [OnboardingEvents.invite_redeem_start]: undefined
   [OnboardingEvents.invite_redeem_complete]: undefined
@@ -785,10 +822,11 @@ interface FiatExchangeEventsProperties {
     provider: string
   }
   [FiatExchangeEvents.cash_in_success]: {
-    provider: string
-    currency: string
+    provider: string | undefined
   }
   [FiatExchangeEvents.cico_add_funds_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_impression]: undefined
   [FiatExchangeEvents.cico_cash_out_selected]: undefined
   [FiatExchangeEvents.cico_spend_selected]: undefined
   [FiatExchangeEvents.cico_fund_info]: undefined
@@ -821,6 +859,8 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
   [FiatExchangeEvents.cico_spend_select_provider_back]: undefined
+  [FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue]: undefined
+  [FiatExchangeEvents.cico_celo_exchange_send_bar_continue]: undefined
 }
 
 interface GethEventsProperties {
@@ -911,6 +951,99 @@ interface RewardsProperties {
   }
 }
 
+interface WalletConnect1Properties {
+  version: 1
+  dappName: string
+  dappUrl: string
+  dappDescription: string
+  dappIcon: string
+  peerId: string
+  chainId: string
+}
+
+interface WalletConnect2Properties {
+  version: 2
+  dappName: string
+  dappUrl: string
+  dappDescription: string
+  dappIcon: string
+  permissionsBlockchains: string[]
+  permissionsJsonrpcMethods: string[]
+  permissionsNotificationsTypes: string[]
+  relayProtocol: string
+}
+
+type WalletConnectDefaultProperties = WalletConnect1Properties | WalletConnect2Properties
+
+type WalletConnectRequestDefaultProperties = WalletConnectDefaultProperties & {
+  requestChainId: string | undefined
+  requestId: number
+  requestJsonrpc: string
+  requestMethod: string
+  // TODO: add back when we confirm there's no privacy issue with tracking this
+  // requestParams: any
+}
+
+interface WalletConnectProperties {
+  [WalletConnectEvents.wc_pairing_start]: {
+    origin: WalletConnectPairingOrigin
+  }
+  [WalletConnectEvents.wc_pairing_success]: undefined
+  [WalletConnectEvents.wc_pairing_error]: {
+    error: string
+  }
+
+  [WalletConnectEvents.wc_session_propose]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_approve_start]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_approve_success]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_approve_error]: WalletConnectDefaultProperties & {
+    error: string
+  }
+  [WalletConnectEvents.wc_session_reject_start]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_reject_success]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_reject_error]: WalletConnectDefaultProperties & {
+    error: string
+  }
+  [WalletConnectEvents.wc_session_remove_start]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_remove_success]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_remove_error]: WalletConnectDefaultProperties & {
+    error: string
+  }
+
+  [WalletConnectEvents.wc_request_propose]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_details]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_accept_start]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_accept_success]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_accept_error]: WalletConnectRequestDefaultProperties & {
+    error: string
+  }
+  [WalletConnectEvents.wc_request_deny_start]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_deny_success]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_deny_error]: WalletConnectRequestDefaultProperties & {
+    error: string
+  }
+}
+
+interface DappKitRequestDefaultProperties {
+  dappName: string
+  dappUrl: string
+  requestType: DappKitRequestTypes
+  requestCallback: string
+  requestId: string
+}
+
+interface DappKitProperties {
+  [DappKitEvents.dappkit_parse_deeplink_error]: { deeplink: string; error: string }
+  [DappKitEvents.dappkit_request_propose]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_cancel]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_details]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_accept_start]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_accept_success]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_accept_error]: DappKitRequestDefaultProperties & {
+    error: string
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -931,4 +1064,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   ContractKitEventsProperties &
   PerformanceProperties &
   NavigationProperties &
-  RewardsProperties
+  RewardsProperties &
+  WalletConnectProperties &
+  DappKitProperties

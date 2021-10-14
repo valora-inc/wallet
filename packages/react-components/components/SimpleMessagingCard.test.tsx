@@ -1,15 +1,16 @@
 import SimpleMessagingCard from '@celo/react-components/components/SimpleMessagingCard'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { View } from 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 
 describe(SimpleMessagingCard, () => {
   it('renders correctly', () => {
     const onPress = jest.fn()
-    const { getByText, getByTestId, getByName } = render(
+    const { getByText, getByTestId } = render(
       <SimpleMessagingCard
         text="Test"
         icon={<View testID="TestIcon" />}
+        priority={10}
         callToActions={[{ text: 'it goes boom', onPress }]}
       />
     )
@@ -18,7 +19,7 @@ describe(SimpleMessagingCard, () => {
     expect(getByTestId('TestIcon')).toBeDefined()
 
     expect(getByText('it goes boom')).toBeDefined()
-    fireEvent.press(getByName('TextButton'))
+    fireEvent.press(getByText('it goes boom'))
     expect(onPress).toHaveBeenCalled()
   })
 
@@ -28,6 +29,7 @@ describe(SimpleMessagingCard, () => {
       <SimpleMessagingCard
         text="Test"
         icon={{ uri: 'https://example.com/icon.png' }}
+        priority={10}
         callToActions={[{ text: 'it goes boom', onPress }]}
         testID="Card"
       />
@@ -42,6 +44,7 @@ describe(SimpleMessagingCard, () => {
     const { queryByTestId } = render(
       <SimpleMessagingCard
         text="Test"
+        priority={10}
         callToActions={[{ text: 'it goes boom', onPress }]}
         testID="Card"
       />

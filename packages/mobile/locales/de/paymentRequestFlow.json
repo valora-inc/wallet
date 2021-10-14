@@ -1,0 +1,18 @@
+{
+  "requests": "Anfragen",
+  "empty": "Sie haben keine Zahlungsanfragen",
+  "celoDollarBalance": "Celo Dollar Saldo",
+  "requestDeclined": "Anfrage abgelehnt",
+  "requestPaid": "Anfrage bezahlt",
+  "paymentRequestUpdateFailed": "Zahlungsanforderung kann nicht aktualisiert werden",
+  "incomingPaymentRequestNotificationTitle": "{{name}} angefordert",
+  "outgoingPaymentRequestNotificationTitle": "Warte auf {{name}}",
+  "requestUnavailableHeader": "Das Konto von {{displayName}} ist noch nicht verbunden.",
+  "requestUnavailableNoDisplayNameHeader": "Das Konto Ihres Kontakts ist nicht bestätigt",
+  "requestUnavailableBody": "Die Nummer {{e164PhoneNumber}} hat noch kein Konto oder hat es noch nicht bestätigt. Anfragen können nur an bestätigte Nummern gesendet werden.",
+  "requestUnavailableNoNumberBody": "Ihr Kontakt hat noch kein Konto oder hat es noch nicht bestätigt. Anfragen können nur an bestätigte Nummern gesendet werden.",
+  "requesting": "Wird angefordert",
+  "request": "Anfrage",
+  "requestToken": "{{token}} anfordern",
+  "requestSent": "Anfrage gesendet"
+}

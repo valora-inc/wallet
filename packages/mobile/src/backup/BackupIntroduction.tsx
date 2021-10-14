@@ -38,6 +38,11 @@ const mapStateToProps = (state: RootState): StateProps => {
   }
 }
 
+/**
+ * Component displayed to the user when entering Recovery Phrase flow from the settings menu or a
+ * notification. Displays content to the user depending on whether they have set up their account
+ * key backup already.
+ */
 class BackupIntroduction extends React.Component<Props> {
   onPressBackup = () => {
     ValoraAnalytics.track(OnboardingEvents.backup_start)
@@ -64,6 +69,10 @@ interface AccountKeyStartProps {
   onPrimaryPress: () => void
 }
 
+/**
+ * Component displayed to the user when entering Recovery Phrase flow prior to a successful completion.
+ * Introduces the user to the Recovery Phrase and invites them to set it up
+ */
 function AccountKeyIntro({ onPrimaryPress }: AccountKeyStartProps) {
   const { t } = useTranslation(Namespaces.backupKeyFlow6)
   return (
@@ -76,13 +85,18 @@ function AccountKeyIntro({ onPrimaryPress }: AccountKeyStartProps) {
   )
 }
 
+/**
+ * Component displayed to the user when entering the Recovery Phrase flow after having successfully set
+ * up their backup. Displays their Recovery Phrase and provides an option to learn more about the
+ * Recovery Phrase, which brings them to the Recovery Phrase education flow.
+ */
 function AccountKeyPostSetup() {
   const accountKey = useAccountKey()
 
   const { t } = useTranslation(Namespaces.backupKeyFlow6)
 
   return (
-    <ScrollView contentContainerStyle={styles.postSetupContentContainer}>
+    <ScrollView>
       <View style={styles.postSetupContainer}>
         <Text style={styles.postSetupTitle}>{t('postSetupTitle')}</Text>
         <BackupPhraseContainer
@@ -110,15 +124,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
   },
   introContainer: {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: Spacing.Thick24,
     justifyContent: 'center',
   },
-  postSetupContentContainer: {
-    flex: 1,
-  },
   postSetupContainer: {
-    flex: 1,
+    flexGrow: 1,
     paddingTop: Spacing.Thick24,
     paddingHorizontal: Spacing.Regular16,
   },

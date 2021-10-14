@@ -1,5 +1,6 @@
 import URLSearchParamsReal from '@ungap/url-search-params'
-import { AppState } from 'react-native'
+import { AppState, Platform } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import {
   call,
@@ -9,12 +10,13 @@ import {
   spawn,
   take,
   takeEvery,
-  takeLatest,
+  takeLatest
 } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   Actions,
+  androidMobileServicesAvailabilityChecked,
   appLock,
   minAppVersionDetermined,
   OpenDeepLink,
@@ -23,30 +25,31 @@ import {
   SetAppState,
   setAppState,
   setLanguage,
-  updateFeatureFlags,
+  updateFeatureFlags
 } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
 import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
-  walletConnectEnabledSelector,
+  googleMobileServicesAvailableSelector,
+  huaweiMobileServicesAvailableSelector,
+  walletConnectEnabledSelector
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { appRemoteFeatureFlagChannel, appVersionDeprecationChannel } from 'src/firebase/firebase'
+import { appVersionDeprecationChannel, fetchRemoteFeatureFlags } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { handlePaymentDeeplink } from 'src/send/utils'
-import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
 import {
   handleWalletConnectDeepLink,
-  isWalletConnectDeepLink,
+  isWalletConnectDeepLink
 } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 
@@ -96,6 +99,49 @@ export function* appVersionSaga() {
   }
 }
 
+// Check the availability of Google Mobile Services and Huawei Mobile Services, an alternative to
+// that ships with Huawei phones which do not have GMS. Log and report the result to analytics.
+// Note: On iOS, this will be a no-op.
+export function* checkAndroidMobileServicesSaga() {
+  if (Platform.OS !== 'android') {
+    return
+  }
+
+  // Check to see if Google Mobile Services (i.e. Google Play Services) are available on this device.
+  let googleIsAvailable: boolean | undefined
+  try {
+    googleIsAvailable = yield call([DeviceInfo, DeviceInfo.hasGms])
+    Logger.info(TAG, 'Result of check for Google Mobile Services', googleIsAvailable)
+  } catch (e) {
+    Logger.error(TAG, 'Error in check for Google Mobile Services', e)
+  }
+
+  // Check to see if Huawei Mobile Services are available on this device.
+  let huaweiIsAvailable: boolean | undefined
+  try {
+    huaweiIsAvailable = yield call([DeviceInfo, DeviceInfo.hasHms])
+    Logger.info(TAG, `Result of check for Huawei Mobile Services`, huaweiIsAvailable)
+  } catch (e) {
+    Logger.error(TAG, `Error in check for Huawei Mobile Services`, e)
+  }
+
+  // Check if the availability status has changed. If so, log an analytics events.
+  // When this is first run, the status in the state tree will be undefined, ensuring this event is
+  // fired at least once for each client.
+  const updated =
+    googleIsAvailable !== (yield select(googleMobileServicesAvailableSelector)) ||
+    huaweiIsAvailable !== (yield select(huaweiMobileServicesAvailableSelector))
+
+  if (updated) {
+    ValoraAnalytics.track(AppEvents.android_mobile_services_availability_checked, {
+      googleIsAvailable,
+      huaweiIsAvailable,
+    })
+  }
+
+  yield put(androidMobileServicesAvailabilityChecked(googleIsAvailable, huaweiIsAvailable))
+}
+
 export interface RemoteFeatureFlags {
   celoEducationUri: string | null
   celoEuroEnabled: boolean
@@ -111,25 +157,36 @@ export interface RemoteFeatureFlags {
   rewardsStartDate: number
   rewardsMax: number
   logPhoneNumberTypeEnabled: boolean
+  rewardsMin: number
+  komenciUseLightProxy: boolean
+  komenciAllowedDeployers: string[]
+  pincodeUseExpandedBlocklist: boolean
+  rewardPillText: string
+  cashInButtonExpEnabled: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {
-  const remoteFeatureFlagChannel = yield call(appRemoteFeatureFlagChannel)
-  if (!remoteFeatureFlagChannel) {
-    return
-  }
-  try {
-    while (true) {
-      const flags: RemoteFeatureFlags = yield take(remoteFeatureFlagChannel)
-      Logger.info(TAG, 'Updated feature flags', JSON.stringify(flags))
-      yield put(updateFeatureFlags(flags))
+  // Refresh feature flags on process start
+  // and every hour afterwards when the app becomes active.
+  // If the app keep getting killed and restarted we
+  // will load the flags more often, but that should be pretty rare.
+  // if that ever becomes a problem we can save it somewhere persistent.
+  let lastLoadTime = 0
+  let isAppActive = true
+
+  while (true) {
+    const isRefreshTime = Date.now() - lastLoadTime > 60 * 60 * 1000
+
+    if (isAppActive && isRefreshTime) {
+      const flags: RemoteFeatureFlags = yield call(fetchRemoteFeatureFlags)
+      if (flags) {
+        yield put(updateFeatureFlags(flags))
+      }
+      lastLoadTime = Date.now()
     }
-  } catch (error) {
-    Logger.error(`${TAG}@appRemoteFeatureFlagSaga`, error)
-  } finally {
-    if (yield cancelled()) {
-      remoteFeatureFlagChannel.close()
-    }
+
+    const action: SetAppState = yield take(Actions.SET_APP_STATE)
+    isAppActive = action.state === 'active'
   }
 }
 
@@ -174,7 +231,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path === '/cashIn') {
       navigate(Screens.FiatExchangeOptions, { isCashIn: true })
     } else if (rawParams.pathname === '/bidali') {
-      navigate(Screens.BidaliScreen, { currency: Currency.Dollar })
+      navigate(Screens.BidaliScreen, { currency: undefined })
     } else if (rawParams.path.startsWith('/cash-in-success')) {
       // Some providers append transaction information to the redirect links so can't check for strict equality
       const cicoSuccessParam = (rawParams.path.match(/cash-in-success\/(.+)/) || [])[1]

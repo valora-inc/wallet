@@ -1,6 +1,6 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import RestrictedCeloExchange from 'src/exchange/RestrictedCeloExchange'
 import { Currency } from 'src/utils/currencies'

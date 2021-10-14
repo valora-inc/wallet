@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { CeloGoldOverview } from 'src/exchange/CeloGoldOverview'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockI18nProps } from 'test/utils'
@@ -9,7 +9,7 @@ import { createMockStore, getMockI18nProps } from 'test/utils'
 const SAMPLE_BALANCE = '55.00001'
 
 it('renders correctly when ready', () => {
-  const tree = renderer.create(
+  const tree = render(
     <Provider
       store={createMockStore({
         goldToken: { balance: SAMPLE_BALANCE },
@@ -23,7 +23,7 @@ it('renders correctly when ready', () => {
 })
 
 it('renders correctly when not ready', () => {
-  const tree = renderer.create(
+  const tree = render(
     <Provider
       store={createMockStore({
         goldToken: { balance: SAMPLE_BALANCE },

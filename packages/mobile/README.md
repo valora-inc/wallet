@@ -49,14 +49,22 @@ The app uses [React Native][react native] and a geth [light node][light node].
 
 **You must have the [wallet] monorepo successfully set up and built before setting up and running the mobile wallet.** To do this, follow the [setup instructions][setup].
 
-To do this, follow the [setup instructions][setup].
-
 Next, install [watchman][watchman].
 
 ```bash
 # On a mac
 brew install watchman
 ```
+
+#### Google Cloud
+You will need to be added the team keyring on GCP so you can decrypt secrets in the repo. (Ask for an invite to `celo-testnet`.) 
+
+Once you have access, install Google Cloud by running `brew install google-cloud-sdk`.
+Follow instructions [here](https://github.com/celo-org/bootnode/blob/4bdd7e7ecb91db54dc2a307ec45887d73aa75394/engsetup/README.md)
+for logging in with Google credentials.
+
+To test your GCP access, try running `yarn keys:decrypt` from the wallet repo root. You should see something like this: `Encrypted files decrypted`.
+(You will not need to run this command on an ongoing basis, since it is done automatically as part of the `postinstall` script.)
 
 ### iOS
 
@@ -93,10 +101,8 @@ bundle exec pod install
 If your machine does not recognize the `gem` command, you may need to [download Ruby](https://rubyinstaller.org/) first.
 
 1. Run `yarn install` in the monorepo root `/wallet`.
-2. Install Google Cloud by running `brew install google-cloud-sdk`.
-   2a. Follow instructions here for logging in with Google credentials. https://github.com/celo-org/bootnode/blob/4bdd7e7ecb91db54dc2a307ec45887d73aa75394/engsetup/README.md
-3. Run `yarn build:wallet` from the monorepo root `/wallet`.
-4. Run `yarn dev:ios` in the `/wallet/packages/mobile/ios` folder.
+2. Run `yarn build:wallet` from the monorepo root `/wallet`.
+3. Run `yarn dev:ios` in the `/wallet/packages/mobile` folder.
 
 And the app should be running in the simulator! If you run into any issues, see below for troubleshooting.
 
@@ -113,15 +119,16 @@ Install by running the following:
 ```bash
 brew install cask
 brew tap homebrew/cask-versions
-brew cask install homebrew/cask-versions/adoptopenjdk8
+brew install --cask homebrew/cask-versions/adoptopenjdk8
 ```
 
-Alternatively, install Jenv to manage multiple Java versions:
+Optionally, install Jenv to manage multiple Java versions:
 
 ```bash
 brew install jenv
 eval "$(jenv init -)"
-jenv add /Library/Java/JavaVirtualMachines/<java8 version here>/Contents/Home
+# next step assumes openjdk8 already installed
+jenv add /Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home/
 ```
 
 ##### Linux
@@ -139,22 +146,23 @@ sudo apt install openjdk-8-jdk
 Install the Android SDK and platform tools:
 
 ```bash
-brew cask install android-sdk
-brew cask install android-platform-tools
+brew install --cask android-sdk
+brew install --cask android-platform-tools
 ```
 
-Next install [Android Studio][android studio] and add the [Android NDK][android ndk].
+Next install [Android Studio][android studio] and add the [Android NDK][android ndk] (if you run into issues with the toolchain, try using version: 22.x).
 
 Execute the following (and make sure the lines are in your `~/.bash_profile`).
 
 _Note that these paths may differ on your machine. You can find the path to the SDK and NDK via the [Android Studio menu](https://stackoverflow.com/questions/40520324/how-to-find-the-path-to-ndk)._
 
 ```bash
-export ANDROID_HOME=/usr/local/share/android-sdk
-export ANDROID_NDK=/usr/local/share/android-ndk
-export ANDROID_SDK_ROOT=/usr/local/share/android-sdk
+export ANDROID_HOME=${YOUR_ANDROID_SDK_PATH}
+export ANDROID_NDK=$ANDROID_HOME/ndk-bundle
+export ANDROID_SDK_ROOT=$ANDROID_HOME
 # this is an optional gradle configuration that should make builds faster
 export GRADLE_OPTS='-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true -Dorg.gradle.jvmargs="-Xmx4096m -XX:+HeapDumpOnOutOfMemoryError"'
+export TERM_PROGRAM=iterm  # or whatever your favorite terminal program is
 ```
 
 Then install the Android 29 platform:
@@ -210,7 +218,7 @@ Another Android emulator option is Genymotion.
 ###### MacOS
 
 ```bash
-brew cask install genymotion
+brew install --cask genymotion
 ```
 
 Under OSX High Sierra and later, you'll get a message that you need to
@@ -238,7 +246,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 **Note:** We've seen some issues running the metro bundler from iTerm
 
-1. If you haven't already, run `yarn` from the monorepo root to install dependencies.
+1. If you haven't already, run `yarn` and then `yarn build` from the monorepo root to install and build dependencies.
 
 2. Attach your device or start an emulated one.
 
@@ -248,7 +256,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 4. Build the project by pressing the play button in the top left corner or selecting `Product > Build` from the Xcode menu bar.
 
-5. From the `mobile` directory run `yarn run dev:ios`.
+5. From the `packages/mobile` directory run `yarn run dev:ios`.
 
 ### Android
 
@@ -258,7 +266,7 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 5. To confirm your device is properly connected, running `adb devices` from the terminal should reflect your connected device. If it lists a device as "unauthorized", make sure you've accepted the prompt or [troubleshoot here][device unauthorized].
 
-6. From the `mobile` directory run `yarn run dev:android`.
+6. From the `packages/mobile` directory run `yarn run dev:android`.
 
 ### Running in forno (data saver) mode
 
@@ -324,10 +332,12 @@ flag when running the test.
 
 ### React component unit testing
 
-We use [react-native-testing-library][react-native-testing-library] to unit test
+We use [react-native-testing-library][react-native-testing-library] and [@testing-library/jest-native][@testing-library/jest-native] to unit test
 react components. It allows for deep rendering and interaction with the rendered
 tree to assert proper reactions to user interaction and input. See an example at
-[`src/send/SendAmount.test.tsx`] or read more about the [docs][rntl-docs]
+[`src/send/SendAmount.test.tsx`] or read more about the [docs][rntl-docs].
+
+To run a single component test file: `yarn test Send.test.tsx` 
 
 ### Saga testing
 
@@ -340,6 +350,7 @@ We use [Detox][detox] for E2E testing. In order to run the tests locally, you
 must have the proper emulator set up. Follow the instructions in [e2e/README.md][e2e readme].
 
 Once setup is done, you can run the tests with `yarn test:e2e:android` or `yarn test:e2e:ios`.
+If you want to run a single e2e test: `yarn test:e2e:ios -f Exchange.spec.js -t "Then Buy CELO"`
 
 ## Building APKs / Bundles
 
@@ -509,9 +520,9 @@ Make sure to follow the steps [here](https://github.com/celo-org/celo-labs/blob/
 
 ### Branding (for Valora employees only)
 
-Images and icons in Valora are stored in the [branding repo](https://github.com/clabs-co/valora-app-branding). When running `yarn install`, the script `scripts/sync_branding.sh` is run to clone this repo into `branding/valora`, and these assets are then put into `src/images` and `src/icons`. If you do not have access to the branding repo, assets are pulled from `branding/celo`, and are displayed as pink squares instead. The jest tests and CircleCI pipeline also use these default assets.
+Images and icons in Valora are stored in the [branding repo](https://github.com/valora-inc/valora-app-branding). When running `yarn install`, the script `scripts/sync_branding.sh` is run to clone this repo into `branding/valora`, and these assets are then put into `src/images` and `src/icons`. If you do not have access to the branding repo, assets are pulled from `branding/celo`, and are displayed as pink squares instead. The jest tests and CircleCI pipeline also use these default assets.
 
-When adding new images to the [branding repo](https://github.com/clabs-co/valora-app-branding), we also include the 1.5x, 2x, 3x, and 4x versions. The app will automatically download the appropriate size. After making changes to the remote repo, find the commit hash and update it in `scripts/sync_branding.sh`. Make sure to also add the corresponding pink square version of the images to `branding/celo/src/images`. You can do this by copying one of the existing files and renaming it.
+When adding new images to the [branding repo](https://github.com/valora-inc/valora-app-branding), we also include the 1.5x, 2x, 3x, and 4x versions. The app will automatically download the appropriate size. After making changes to the remote repo, find the commit hash and update it in `scripts/sync_branding.sh`. Make sure to also add the corresponding pink square version of the images to `branding/celo/src/images`. You can do this by copying one of the existing files and renaming it.
 
 #### `Activity class {org.celo.mobile.staging/org.celo.mobile.MainActivity} does not exist.`
 
@@ -550,7 +561,8 @@ $ adb kill-server && adb start-server
 [rn running on device]: https://facebook.github.io/react-native/docs/running-on-device
 [setup]: ../../SETUP.md
 [react-native-testing-library]: https://github.com/callstack/react-native-testing-library
-[rntl-docs]: https://callstack.github.io/react-native-testing-library/
+[@testing-library/jest-native]: https://github.com/testing-library/jest-native#readme
+[rntl-docs]: https://callstack.github.io/react-native-testing-library/docs/getting-started
 [jest]: https://jestjs.io/docs/en/snapshot-testing
 [redux-saga-test-plan]: https://github.com/jfairbank/redux-saga-test-plan
 [sms retriever]: https://developers.google.com/identity/sms-retriever/verify#1_construct_a_verification_message

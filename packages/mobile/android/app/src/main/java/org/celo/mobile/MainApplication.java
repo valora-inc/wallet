@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import androidx.multidex.MultiDexApplication;
 import cl.json.ShareApplication;
+import com.clevertap.android.sdk.ActivityLifecycleCallback;
+import com.clevertap.android.sdk.CleverTapAPI;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -12,6 +14,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JSIModulePackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.plaid.PlaidPackage;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 import io.sentry.react.RNSentryPackage;
 import java.lang.reflect.InvocationTargetException;
@@ -22,6 +25,8 @@ import java.util.List;
 public class MainApplication
   extends MultiDexApplication
   implements ShareApplication, ReactApplication {
+  static final String TAG = "MainApplication";
+
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
     @Override
@@ -33,6 +38,7 @@ public class MainApplication
     protected List<ReactPackage> getPackages() {
       @SuppressWarnings("UnnecessaryLocalVariable")
       List<ReactPackage> packages = new PackageList(this).getPackages();
+      packages.add(new PlaidPackage());
       return packages;
     }
 
@@ -54,6 +60,9 @@ public class MainApplication
 
   @Override
   public void onCreate() {
+    // CleverTap setup
+    ActivityLifecycleCallback.register(this);
+
     super.onCreate();
     SoLoader.init(this, /* native exopackage */false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());

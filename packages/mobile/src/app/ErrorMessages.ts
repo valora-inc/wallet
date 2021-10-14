@@ -12,6 +12,7 @@ export enum ErrorMessages {
   INSUFFICIENT_BALANCE = 'insufficientBalance',
   INVALID_AMOUNT = 'invalidAmount',
   INVALID_BACKUP_PHRASE = 'backupKeyFlow6:invalidBackupPhrase',
+  INVALID_WORDS_IN_BACKUP_PHRASE = 'backupKeyFlow6:invalidWordsInBackupPhrase',
   IMPORT_BACKUP_FAILED = 'backupKeyFlow6:importBackupFailed',
   BACKUP_QUIZ_FAILED = 'backupKeyFlow6:backupQuizFailed',
   FAILED_FETCH_MNEMONIC = 'backupKeyFlow6:failedFetchMnemonic',
@@ -84,4 +85,5 @@ export enum ErrorMessages {
   PROVIDER_FETCH_FAILED = 'providerFetchFailed',
   CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',
   RAISE_LIMIT_EMAIL_NOT_SENT = 'accountScreen10:raiseLimitEmailNotSent',
+  WC2_UNSUPPORTED = 'walletConnect:v2Unsupported',
 }

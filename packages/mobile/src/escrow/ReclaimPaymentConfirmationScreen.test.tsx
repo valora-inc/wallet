@@ -1,7 +1,7 @@
+import { render, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ActivityIndicator } from 'react-native'
-import { flushMicrotasksQueue, render, waitForElement } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
@@ -9,7 +9,7 @@ import { getReclaimEscrowFee, reclaimFromEscrow } from 'src/escrow/saga'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, flushMicrotasksQueue, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
   mockAccount2,
@@ -78,7 +78,7 @@ describe('ReclaimPaymentConfirmationScreen', () => {
 
     // Wait for fee to be calculated and displayed as "$0.013"
     // NOTE: Use regex here because the text may be split by a newline.
-    await waitForElement(() => getByText(/-\s*\$\s*0\.0133/s))
+    await waitFor(() => getByText(/-\s*\$\s*0\.0133/s))
     expect(toJSON()).toMatchSnapshot()
     // Query for the total amount, which should deduct the fee.
     expect(queryByText(/\$\s*13\.28/s)).not.toBeNull()
@@ -100,7 +100,7 @@ describe('ReclaimPaymentConfirmationScreen', () => {
 
     // Wait for fee to be calculated and displayed as "0.01"
     // NOTE: Use regex here because the text may be split by a newline.
-    await waitForElement(() => getByText(/-\s*0\.01/s))
+    await waitFor(() => getByText(/-\s*0\.01/s))
     expect(toJSON()).toMatchSnapshot()
     // Query for the total amount, which should deduct the fee.
     expect(queryByText(/\$\s*13\.28/s)).not.toBeNull()
@@ -124,7 +124,7 @@ describe('ReclaimPaymentConfirmationScreen', () => {
     expect(queryAllByText('$10.00')).toHaveLength(1)
 
     // Wait for fee error
-    await waitForElement(() => getByText('---'))
+    await waitFor(() => getByText('---'))
 
     expect(queryAllByText('$10.00')).toHaveLength(1)
     expect(toJSON()).toMatchSnapshot()
@@ -139,7 +139,7 @@ describe('ReclaimPaymentConfirmationScreen', () => {
       </Provider>
     )
 
-    expect(tree.queryByType(ActivityIndicator)).toBeTruthy()
+    expect(tree.UNSAFE_queryByType(ActivityIndicator)).toBeTruthy()
   })
 
   it('clears the activity indicator when a reclaim fails', async () => {
@@ -156,6 +156,6 @@ describe('ReclaimPaymentConfirmationScreen', () => {
 
     await flushMicrotasksQueue()
 
-    expect(tree.queryByType(ActivityIndicator)).toBeFalsy()
+    expect(tree.UNSAFE_queryByType(ActivityIndicator)).toBeFalsy()
   })
 })

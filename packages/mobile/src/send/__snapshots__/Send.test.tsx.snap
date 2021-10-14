@@ -220,7 +220,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             "borderRadius": 18,
             "borderWidth": 1.5,
             "flexDirection": "row",
-            "height": 36,
+            "minHeight": 36,
             "paddingRight": 8,
           },
           undefined,
@@ -963,10 +963,10 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
               style={
                 Object {
                   "alignItems": "center",
-                  "flex": 1,
                   "flexDirection": "row",
-                  "height": 64,
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
+                  "minHeight": 64,
                   "paddingHorizontal": 16,
                 }
               }
@@ -1002,6 +1002,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -1151,10 +1152,10 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 style={
                   Object {
                     "alignItems": "center",
-                    "flex": 1,
                     "flexDirection": "row",
-                    "height": 64,
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
+                    "minHeight": 64,
                     "paddingHorizontal": 16,
                   }
                 }
@@ -1190,6 +1191,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                     }
                   >
                     <Text
+                      allowFontScaling={false}
                       style={
                         Array [
                           Object {
@@ -1305,10 +1307,10 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
               style={
                 Object {
                   "alignItems": "center",
-                  "flex": 1,
                   "flexDirection": "row",
-                  "height": 64,
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
+                  "minHeight": 64,
                   "paddingHorizontal": 16,
                 }
               }
@@ -1344,6 +1346,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {

@@ -1,11 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack'
+import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -17,6 +18,7 @@ import { Currency } from 'src/utils/currencies'
 import {
   amountFromComponent,
   createMockStore,
+  flushMicrotasksQueue,
   getMockStackScreenProps,
   RecursivePartial,
 } from 'test/utils'
@@ -156,7 +158,7 @@ describe('SendConfirmation', () => {
         buttonMessage: null,
         dismissAfter: 5000,
         displayMethod: ErrorDisplayType.BANNER,
-        message: 'calculateFeeFailed',
+        message: i18n.t('calculateFeeFailed', { ns: 'global' }),
         title: null,
         type: 'ALERT/SHOW',
         underlyingError: 'calculateFeeFailed',
@@ -187,7 +189,7 @@ describe('SendConfirmation', () => {
         buttonMessage: null,
         dismissAfter: 5000,
         displayMethod: ErrorDisplayType.BANNER,
-        message: 'insufficientBalance',
+        message: i18n.t('insufficientBalance', { ns: 'global' }),
         title: null,
         type: 'ALERT/SHOW',
         underlyingError: 'insufficientBalance',
@@ -281,10 +283,11 @@ describe('SendConfirmation', () => {
   it('renders correct modal for invitations', async () => {
     mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
 
-    const { queryByTestId, getByTestId } = renderScreen({}, mockInviteScreenProps)
+    const { getByTestId, queryAllByTestId } = renderScreen({}, mockInviteScreenProps)
 
-    expect(queryByTestId('InviteAndSendModal')?.props.isVisible).toBe(false)
-    fireEvent.press(getByTestId('ConfirmButton'))
-    expect(queryByTestId('InviteAndSendModal')?.props.isVisible).toBe(true)
+    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(false)
+    // Fire event press not working here so instead we call the onClick directly
+    getByTestId('ConfirmButton').props.onClick()
+    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(true)
   })
 })

@@ -1,6 +1,6 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Text } from 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import { TopBarIconButton, TopBarTextButton } from 'src/navigator/TopBarButton'
 
 const testID = 'button'

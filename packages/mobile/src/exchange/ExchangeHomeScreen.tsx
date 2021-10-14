@@ -200,6 +200,7 @@ export default ExchangeHomeScreen
 const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
+    paddingBottom: variables.contentPadding,
   },
   header: {
     alignItems: 'center',
@@ -215,6 +216,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 8,
+    flexWrap: 'wrap',
   },
   goldPriceTitle: {
     ...fontStyles.h2,
@@ -223,9 +225,10 @@ const styles = StyleSheet.create({
   goldPriceValues: {
     flexDirection: 'row',
     alignItems: 'flex-end',
+    flexWrap: 'wrap',
   },
   goldPriceCurrentValue: {
-    height: 27,
+    minHeight: 27,
     ...fontStyles.mediumNumber,
   },
   goldPriceCurrentValueHeader: {

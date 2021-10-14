@@ -28,7 +28,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
           <View
             style={
               Object {
-                "flex": 1,
+                "flex": 3,
                 "marginRight": 8,
               }
             }
@@ -70,6 +70,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     undefined,
                   ]
@@ -82,7 +83,6 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                       "fontFamily": "Inter-Regular",
                       "fontSize": 16,
                       "lineHeight": 22,
-                      "marginRight": 7,
                     }
                   }
                 >
@@ -95,6 +95,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     undefined,
                   ]
@@ -107,7 +108,6 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
-                      "marginRight": 7,
                     }
                   }
                 >
@@ -116,6 +116,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                 <View
                   style={
                     Object {
+                      "marginLeft": 7,
                       "transform": Array [
                         Object {
                           "rotate": "0deg",
@@ -142,6 +143,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
           <View
             style={
               Object {
+                "flex": 1,
                 "justifyContent": "center",
               }
             }
@@ -188,6 +190,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -276,6 +279,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -354,6 +358,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -400,7 +405,6 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -449,6 +453,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                   Object {
                     "alignItems": "center",
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                   },
                   undefined,
                 ]
@@ -469,6 +474,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
               <View
                 style={
                   Object {
+                    "marginLeft": 7,
                     "transform": Array [
                       Object {
                         "rotate": "0deg",
@@ -495,6 +501,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -541,7 +548,6 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -566,6 +572,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -622,7 +629,6 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -643,6 +649,7 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -708,7 +715,6 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -746,7 +752,6 @@ exports[`TransferConfirmationCard renders correctly for CELO withdrawal transact
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -789,6 +794,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -845,7 +851,6 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -867,6 +872,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -932,7 +938,6 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -970,7 +975,6 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -1034,7 +1038,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
           <View
             style={
               Object {
-                "flex": 1,
+                "flex": 3,
                 "marginRight": 8,
               }
             }
@@ -1076,6 +1080,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     undefined,
                   ]
@@ -1088,7 +1093,6 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                       "fontFamily": "Inter-Regular",
                       "fontSize": 16,
                       "lineHeight": 22,
-                      "marginRight": 7,
                     }
                   }
                 >
@@ -1101,6 +1105,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     undefined,
                   ]
@@ -1113,7 +1118,6 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
-                      "marginRight": 7,
                     }
                   }
                 >
@@ -1125,6 +1129,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
           <View
             style={
               Object {
+                "flex": 1,
                 "justifyContent": "center",
               }
             }
@@ -1169,6 +1174,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -1257,6 +1263,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -1330,6 +1337,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -1386,7 +1394,6 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -1408,6 +1415,7 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -1473,7 +1481,6 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -1511,7 +1518,6 @@ exports[`TransferConfirmationCard renders correctly for received CELO reward 1`]
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -1561,7 +1567,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
           <View
             style={
               Object {
-                "flex": 1,
+                "flex": 3,
                 "marginRight": 8,
               }
             }
@@ -1603,6 +1609,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     undefined,
                   ]
@@ -1615,7 +1622,6 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                       "fontFamily": "Inter-Regular",
                       "fontSize": 16,
                       "lineHeight": 22,
-                      "marginRight": 7,
                     }
                   }
                 >
@@ -1628,6 +1634,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     undefined,
                   ]
@@ -1640,7 +1647,6 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
-                      "marginRight": 7,
                     }
                   }
                 >
@@ -1649,6 +1655,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                 <View
                   style={
                     Object {
+                      "marginLeft": 7,
                       "transform": Array [
                         Object {
                           "rotate": "0deg",
@@ -1675,6 +1682,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
           <View
             style={
               Object {
+                "flex": 1,
                 "justifyContent": "center",
               }
             }
@@ -1719,6 +1727,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -1807,6 +1816,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -1846,6 +1856,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -1902,7 +1913,6 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -1924,6 +1934,7 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -1989,7 +2000,6 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -2027,7 +2037,6 @@ exports[`TransferConfirmationCard renders correctly for received escrow transact
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -2077,7 +2086,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
           <View
             style={
               Object {
-                "flex": 1,
+                "flex": 3,
                 "marginRight": 8,
               }
             }
@@ -2119,6 +2128,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     undefined,
                   ]
@@ -2131,7 +2141,6 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                       "fontFamily": "Inter-Regular",
                       "fontSize": 16,
                       "lineHeight": 22,
-                      "marginRight": 7,
                     }
                   }
                 >
@@ -2144,6 +2153,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     undefined,
                   ]
@@ -2156,7 +2166,6 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
-                      "marginRight": 7,
                     }
                   }
                 >
@@ -2165,6 +2174,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                 <View
                   style={
                     Object {
+                      "marginLeft": 7,
                       "transform": Array [
                         Object {
                           "rotate": "0deg",
@@ -2191,6 +2201,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
           <View
             style={
               Object {
+                "flex": 1,
                 "justifyContent": "center",
               }
             }
@@ -2235,6 +2246,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -2323,6 +2335,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -2362,6 +2375,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -2418,7 +2432,6 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -2440,6 +2453,7 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -2505,7 +2519,6 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -2543,7 +2556,6 @@ exports[`TransferConfirmationCard renders correctly for received transaction dri
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -2593,7 +2605,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
           <View
             style={
               Object {
-                "flex": 1,
+                "flex": 3,
                 "marginRight": 8,
               }
             }
@@ -2635,6 +2647,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     undefined,
                   ]
@@ -2647,7 +2660,6 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                       "fontFamily": "Inter-Regular",
                       "fontSize": 16,
                       "lineHeight": 22,
-                      "marginRight": 7,
                     }
                   }
                 >
@@ -2660,6 +2672,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     undefined,
                   ]
@@ -2672,7 +2685,6 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
-                      "marginRight": 7,
                     }
                   }
                 >
@@ -2681,6 +2693,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                 <View
                   style={
                     Object {
+                      "marginLeft": 7,
                       "transform": Array [
                         Object {
                           "rotate": "0deg",
@@ -2707,6 +2720,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
           <View
             style={
               Object {
+                "flex": 1,
                 "justifyContent": "center",
               }
             }
@@ -2753,6 +2767,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -2841,6 +2856,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -2919,6 +2935,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -2965,7 +2982,6 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -3014,6 +3030,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                   Object {
                     "alignItems": "center",
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                   },
                   undefined,
                 ]
@@ -3034,6 +3051,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
               <View
                 style={
                   Object {
+                    "marginLeft": 7,
                     "transform": Array [
                       Object {
                         "rotate": "0deg",
@@ -3060,6 +3078,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -3106,7 +3125,6 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -3131,6 +3149,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -3187,7 +3206,6 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -3208,6 +3226,7 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -3273,7 +3292,6 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -3311,7 +3329,6 @@ exports[`TransferConfirmationCard renders correctly for sent escrow transaction 
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -3360,7 +3377,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
           <View
             style={
               Object {
-                "flex": 1,
+                "flex": 3,
                 "marginRight": 8,
               }
             }
@@ -3402,6 +3419,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     undefined,
                   ]
@@ -3414,7 +3432,6 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                       "fontFamily": "Inter-Regular",
                       "fontSize": 16,
                       "lineHeight": 22,
-                      "marginRight": 7,
                     }
                   }
                 >
@@ -3427,6 +3444,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     undefined,
                   ]
@@ -3439,7 +3457,6 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                       "fontFamily": "Inter-Regular",
                       "fontSize": 14,
                       "lineHeight": 18,
-                      "marginRight": 7,
                     }
                   }
                 >
@@ -3448,6 +3465,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                 <View
                   style={
                     Object {
+                      "marginLeft": 7,
                       "transform": Array [
                         Object {
                           "rotate": "0deg",
@@ -3474,6 +3492,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
           <View
             style={
               Object {
+                "flex": 1,
                 "justifyContent": "center",
               }
             }
@@ -3520,6 +3539,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -3608,6 +3628,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                   }
                 >
                   <Text
+                    allowFontScaling={false}
                     style={
                       Array [
                         Object {
@@ -3686,6 +3707,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -3732,7 +3754,6 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -3781,6 +3802,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                   Object {
                     "alignItems": "center",
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                   },
                   undefined,
                 ]
@@ -3801,6 +3823,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
               <View
                 style={
                   Object {
+                    "marginLeft": 7,
                     "transform": Array [
                       Object {
                         "rotate": "0deg",
@@ -3827,6 +3850,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -3873,7 +3897,6 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -3898,6 +3921,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -3954,7 +3978,6 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -3975,6 +3998,7 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -4040,7 +4064,6 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -4078,7 +4101,6 @@ exports[`TransferConfirmationCard renders correctly for sent transaction drilldo
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -4121,6 +4143,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -4177,7 +4200,6 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,
@@ -4198,6 +4220,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -4263,7 +4286,6 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
                 }
               >
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -4301,7 +4323,6 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
           }
         >
           <Text
-            numberOfLines={1}
             style={
               Array [
                 undefined,

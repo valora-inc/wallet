@@ -1,6 +1,6 @@
+import { render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import FiatExchangeOptions from 'src/fiatExchanges/FiatExchangeOptions'
 import { Screens } from 'src/navigator/Screens'

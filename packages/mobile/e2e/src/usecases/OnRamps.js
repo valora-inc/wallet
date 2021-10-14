@@ -1,9 +1,10 @@
 import { dismissBanners } from '../utils/banners'
 import { pixelDiff, getDeviceModel } from '../utils/utils'
+import { reloadReactNative } from '../utils/retries'
 
 export default onRamps = () => {
   beforeEach(async () => {
-    await device.reloadReactNative()
+    await reloadReactNative()
     await dismissBanners()
     await element(by.id('Hamburger')).tap()
     await element(by.id('add-and-withdraw')).tap()
@@ -24,14 +25,10 @@ export default onRamps = () => {
       })
 
       it('Then Should Display Providers', async () => {
-        await waitFor(element(by.id('Provider/Moonpay')))
+        await waitFor(element(by.id('Provider/Simplex')))
           .toBeVisible()
-          .withTimeout(20000)
-        await expect(element(by.id('Provider/Moonpay'))).toBeVisible()
-        await expect(element(by.id('Provider/Simplex'))).toBeVisible()
-        await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
-        await expect(element(by.id('Provider/Ramp'))).toBeVisible()
-        await expect(element(by.id('Provider/Transak'))).toBeVisible()
+          .withTimeout(30 * 1000)
+        await expect(element(by.id('Icon/Simplex'))).toExist()
         const imagePath = await device.takeScreenshot('cUSD In Providers')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD In Providers.png`)
       })
@@ -46,31 +43,22 @@ export default onRamps = () => {
       })
 
       it('Then Should Display Providers', async () => {
-        await waitFor(element(by.id('Provider/Moonpay')))
+        await waitFor(element(by.id('Provider/Simplex')))
           .toBeVisible()
-          .withTimeout(20000)
-        await expect(element(by.id('Provider/Moonpay'))).toBeVisible()
-        await expect(element(by.id('Provider/Simplex'))).toBeVisible()
-        await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
-        await expect(element(by.id('Provider/Ramp'))).toBeVisible()
-        await expect(element(by.id('Provider/Transak'))).toBeVisible()
-        await expect(element(by.id('Icon/Moonpay'))).toExist()
+          .withTimeout(30 * 1000)
         await expect(element(by.id('Icon/Simplex'))).toExist()
-        await expect(element(by.id('Icon/Xanpool'))).toExist()
-        await expect(element(by.id('Icon/Ramp'))).toExist()
-        await expect(element(by.id('Icon/Transak'))).toExist()
         const imagePath = await device.takeScreenshot('cUSD In Providers')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/cUSD In Providers.png`)
       })
     })
 
-    describe('When Cryptocurrency Exchange Selected', () => {
+    describe.skip('When Cryptocurrency Exchange Selected', () => {
       beforeEach(async () => {
         await element(by.id('withExchange')).tap()
         await element(by.text('Next')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Should Display Exchanges & Recovery Phrase', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
           .withTimeout(20000)
@@ -100,17 +88,8 @@ export default onRamps = () => {
       it('Then Should Display Providers', async () => {
         await waitFor(element(by.id('Provider/Simplex')))
           .toBeVisible()
-          .withTimeout(20000)
-        await expect(element(by.id('Provider/Simplex'))).toBeVisible()
-        await expect(element(by.id('Provider/Moonpay'))).toBeVisible()
-        await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
-        await expect(element(by.id('Provider/Ramp'))).toBeVisible()
-        await expect(element(by.id('Provider/Transak'))).toBeVisible()
+          .withTimeout(30 * 1000)
         await expect(element(by.id('Icon/Simplex'))).toExist()
-        await expect(element(by.id('Icon/Moonpay'))).toExist()
-        await expect(element(by.id('Icon/Xanpool'))).toExist()
-        await expect(element(by.id('Icon/Ramp'))).toExist()
-        await expect(element(by.id('Icon/Transak'))).toExist()
         const imagePath = await device.takeScreenshot('CELO In Providers')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO In Providers.png`)
       })
@@ -127,17 +106,8 @@ export default onRamps = () => {
       it('Then Should Display Providers', async () => {
         await waitFor(element(by.id('Provider/Simplex')))
           .toBeVisible()
-          .withTimeout(20000)
-        await expect(element(by.id('Provider/Simplex'))).toBeVisible()
-        await expect(element(by.id('Provider/Moonpay'))).toBeVisible()
-        await expect(element(by.id('Provider/Xanpool'))).toBeVisible()
-        await expect(element(by.id('Provider/Ramp'))).toBeVisible()
-        await expect(element(by.id('Provider/Transak'))).toBeVisible()
+          .withTimeout(30 * 1000)
         await expect(element(by.id('Icon/Simplex'))).toExist()
-        await expect(element(by.id('Icon/Moonpay'))).toExist()
-        await expect(element(by.id('Icon/Xanpool'))).toExist()
-        await expect(element(by.id('Icon/Ramp'))).toExist()
-        await expect(element(by.id('Icon/Transak'))).toExist()
         const imagePath = await device.takeScreenshot('CELO In Providers')
         await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO In Providers.png`)
       })
@@ -149,7 +119,7 @@ export default onRamps = () => {
         await element(by.text('Next')).tap()
       })
 
-      it('Then Should Display Exchanges & Account Key', async () => {
+      it('Then Should Display Exchanges & Recovery Phrase', async () => {
         await waitFor(element(by.id('Binance')))
           .toBeVisible()
           .withTimeout(20000)
@@ -161,8 +131,9 @@ export default onRamps = () => {
         await expect(element(by.id('OKCoin'))).toBeVisible()
         await expect(element(by.id('OKEx'))).toBeVisible()
         await expect(element(by.id('accountBox'))).toBeVisible()
+        // Note(Tom): Set allowed match diff higher to deal with https://github.com/valora-inc/wallet/issues/1136
         const imagePath = await device.takeScreenshot('CELO Exchanges')
-        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO Exchanges.png`)
+        await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/CELO Exchanges.png`, 4.5)
       })
     })
   })

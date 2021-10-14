@@ -1,7 +1,6 @@
 import { AccountAuthRequest, Countries, SignTxRequest, TxToSignParam } from '@celo/utils'
-import { SessionTypes } from '@walletconnect/types'
 import BigNumber from 'bignumber.js'
-import { SendOrigin } from 'src/analytics/types'
+import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmationCard'
 import { PaymentMethod } from 'src/fiatExchanges/FiatExchangeOptions'
@@ -15,6 +14,7 @@ import { CurrencyInfo } from 'src/send/SendConfirmation'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { PendingAction, PendingSession } from 'src/walletConnect/types'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -58,7 +58,7 @@ export type StackParamList = {
     | {
         navigatedFromSettings: boolean
       }
-  [Screens.BidaliScreen]: { currency: Currency }
+  [Screens.BidaliScreen]: { currency?: Currency }
   [Screens.CashInSuccess]: { provider?: string }
   [Screens.ConsumerIncentivesHomeScreen]: undefined
   [Screens.DappKitAccountAuth]: {
@@ -90,6 +90,7 @@ export type StackParamList = {
     buyCelo: boolean
   }
   [Screens.ExternalExchanges]: {
+    isCashIn?: boolean
     currency: Currency
   }
   [Screens.FiatExchange]: undefined
@@ -133,12 +134,6 @@ export type StackParamList = {
         showZeroBalanceModal?: boolean
       }
     | undefined
-
-  [Screens.ImportContacts]:
-    | undefined
-    | {
-        onPressSkip?: () => void
-      }
   [Screens.IncomingPaymentRequestListScreen]: undefined
   [Screens.NameAndPicture]: undefined
   [Screens.Language]:
@@ -172,6 +167,7 @@ export type StackParamList = {
         isVerifying?: boolean
         changePin?: boolean
         komenciAvailable?: boolean
+        choseToRestoreAccount?: boolean
       }
     | undefined
   [Screens.PhoneNumberLookupQuota]: {
@@ -205,6 +201,8 @@ export type StackParamList = {
   [Screens.Send]:
     | {
         isOutgoingPaymentRequest?: boolean
+        skipContactsImport?: boolean
+        forceCurrency?: Currency
       }
     | undefined
   [Screens.SendAmount]: {
@@ -212,6 +210,7 @@ export type StackParamList = {
     isOutgoingPaymentRequest?: boolean
     isFromScan?: boolean
     origin: SendOrigin
+    forceCurrency?: Currency
   }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
@@ -248,18 +247,30 @@ export type StackParamList = {
     origin: SendOrigin
   }
   [Screens.VerificationEducationScreen]:
-    | { showSkipDialog?: boolean; hideOnboardingStep?: boolean; selectedCountryCodeAlpha2?: string }
+    | {
+        showSkipDialog?: boolean
+        hideOnboardingStep?: boolean
+        selectedCountryCodeAlpha2?: string
+        choseToRestoreAccount?: boolean
+      }
     | undefined
-  [Screens.VerificationInputScreen]: { showHelpDialog: boolean } | undefined
+  [Screens.VerificationInputScreen]:
+    | { showHelpDialog?: boolean; choseToRestoreAccount?: boolean }
+    | undefined
   [Screens.VerificationLoadingScreen]: { withoutRevealing: boolean }
   [Screens.OnboardingEducationScreen]: undefined
   [Screens.OnboardingSuccessScreen]: undefined
-  [Screens.WalletConnectSessionRequest]: {
-    session: SessionTypes.Proposal
+  [Screens.WalletConnectLoading]: { origin: WalletConnectPairingOrigin }
+  [Screens.WalletConnectResult]: {
+    title: string
+    subtitle: string
   }
+  [Screens.WalletConnectSessionRequest]: PendingSession
   [Screens.WalletConnectSessions]: undefined
-  [Screens.WalletConnectActionRequest]: {
-    request: SessionTypes.RequestEvent
+  [Screens.WalletConnectActionRequest]: PendingAction & {
+    dappName: string
+    dappUrl: string
+    dappIcon: string
   }
   [Screens.WalletHome]: undefined
   [Screens.WebViewScreen]: { uri: string }

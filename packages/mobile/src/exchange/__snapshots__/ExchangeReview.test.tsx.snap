@@ -51,10 +51,9 @@ exports[`ExchangeReview renders correctly 1`] = `
                 }
               }
             >
-              exchangeAmount
+              exchangeAmount, {"tokenName":"gold"}
             </Text>
             <Text
-              numberOfLines={1}
               style={
                 Array [
                   Object {
@@ -92,6 +91,7 @@ exports[`ExchangeReview renders correctly 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -123,7 +123,6 @@ exports[`ExchangeReview renders correctly 1`] = `
               >
                 Subtotal @ 
                 <Text
-                  numberOfLines={1}
                   style={
                     Array [
                       undefined,
@@ -154,7 +153,6 @@ exports[`ExchangeReview renders correctly 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
@@ -205,6 +203,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                       Object {
                         "alignItems": "center",
                         "flexDirection": "row",
+                        "flexWrap": "wrap",
                       },
                       undefined,
                     ]
@@ -225,6 +224,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                   <View
                     style={
                       Object {
+                        "marginLeft": 7,
                         "transform": Array [
                           Object {
                             "rotate": "0deg",
@@ -251,6 +251,7 @@ exports[`ExchangeReview renders correctly 1`] = `
                     Array [
                       Object {
                         "flexDirection": "row",
+                        "flexWrap": "wrap",
                         "justifyContent": "space-between",
                         "marginVertical": 5,
                       },
@@ -297,7 +298,6 @@ exports[`ExchangeReview renders correctly 1`] = `
                     }
                   >
                     <Text
-                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
@@ -334,6 +334,7 @@ exports[`ExchangeReview renders correctly 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -390,7 +391,6 @@ exports[`ExchangeReview renders correctly 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
@@ -412,6 +412,7 @@ exports[`ExchangeReview renders correctly 1`] = `
               Array [
                 Object {
                   "flexDirection": "row",
+                  "flexWrap": "wrap",
                   "justifyContent": "space-between",
                   "marginVertical": 5,
                 },
@@ -477,7 +478,6 @@ exports[`ExchangeReview renders correctly 1`] = `
                     }
                   >
                     <Text
-                      numberOfLines={1}
                       style={
                         Array [
                           undefined,
@@ -515,7 +515,6 @@ exports[`ExchangeReview renders correctly 1`] = `
               }
             >
               <Text
-                numberOfLines={1}
                 style={
                   Array [
                     undefined,
@@ -592,6 +591,7 @@ exports[`ExchangeReview renders correctly 1`] = `
         testID="ConfirmExchange"
       >
         <Text
+          maxFontSizeMultiplier={1}
           style={
             Object {
               "color": "#FFFFFF",
@@ -601,22 +601,7 @@ exports[`ExchangeReview renders correctly 1`] = `
             }
           }
         >
-          <Text
-            numberOfLines={1}
-            style={
-              Array [
-                undefined,
-                Object {
-                  "color": undefined,
-                },
-              ]
-            }
-            testID="undefined/value"
-          >
-            
-            
-            10.000
-          </Text>
+          10.00
         </Text>
       </View>
     </View>

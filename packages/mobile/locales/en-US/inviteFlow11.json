@@ -3,7 +3,7 @@
   "inviteWithWhatsapp": "Invite with WhatsApp",
   "inviteWithSMS": "Invite with SMS",
   "inviteFee": "Invite Fee",
-  "whySendFees": "This fee covers costs for the new user to confirm their phone number",
+  "whySendFees": "This fee covers costs for the new user to connect their phone number",
   "whyReceiveFees": "You were sent some money to confirm your account",
   "edit": "Edit",
   "to": "To",
@@ -13,7 +13,7 @@
   "redeemInviteTimeout": "Redeem Invite Timed out",
   "accountSetupFailed": "Failed to create your wallet",
   "emptyInviteCode": "Invite code has no funds",
-  "transferDollarsToAccount": "Dollars transferred to your account!",
+  "transferDollarsToAccount": "Funds transferred to your account!",
   "inviteAnyone": "Send easily to your friends by adding your contacts",
   "inviteReceived": "Invite Received",
   "escrowPaymentNotificationTitle": "Invited {{mobile}}",
@@ -29,8 +29,8 @@
     "button": "Invite"
   },
   "inviteRewardsBanner": {
-    "title": "Get ${{amount}} by referring a friend!",
-    "body": "Earn {{amount}} cUSD when you send money to a friend and they join. <0>Learn more</0>"
+    "title": "Get {{amount}} {{currency}} by referring a friend!",
+    "body": "Earn {{amount}} {{currency}} when you send money to a friend and they join. <0>Learn more</0>"
   },
   "getReward": "Get ${{reward}}"
 }
