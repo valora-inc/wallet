@@ -472,8 +472,6 @@ export enum WalletConnectEvents {
   wc_request_deny_start = 'wc_request_deny_start', // when user presses the button to accept a dapp request
   wc_request_deny_success = 'wc_request_deny_success', // when the dapp request denial succeeds
   wc_request_deny_error = 'wc_request_deny_error', // when the dapp request denial fails
-
-  wc_unknown_action = 'wc_unknown_action', // when we receive a request for an unknown action
 }
 
 export enum DappKitEvents {

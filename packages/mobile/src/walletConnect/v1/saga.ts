@@ -26,6 +26,7 @@ import {
   Actions,
   CloseSession,
   DenyRequest,
+  denyRequest as denyRequestAction,
   InitialiseConnection,
   initialiseConnection,
   PayloadRequest,
@@ -216,7 +217,7 @@ function* acceptRequest(r: AcceptRequest) {
 }
 
 function* denyRequest(r: DenyRequest) {
-  const { peerId, request } = r
+  const { peerId, request, reason } = r
 
   const { id } = request
 
@@ -224,6 +225,7 @@ function* denyRequest(r: DenyRequest) {
   const defaultTrackedProperties = {
     ...getDefaultSessionTrackedProperties(session),
     ...getDefaultRequestTrackedProperties(request, session.chainId),
+    denyReason: reason,
   }
 
   try {
@@ -233,7 +235,7 @@ function* denyRequest(r: DenyRequest) {
     if (!connector) {
       throw new Error('missing connector')
     }
-    connector.rejectRequest({ id, error: { message: '' } })
+    connector.rejectRequest({ id, error: { message: reason } })
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_success, defaultTrackedProperties)
   } catch (e) {
     Logger.debug(TAG + '@denyRequest', e?.message)
@@ -292,15 +294,7 @@ function* createWalletConnectChannelWithArgs(connectorOpts: IWalletConnectOption
       emit(sessionRequest(peerId, payload))
     })
     connector.on('call_request', (error: any, payload: WalletConnectPayloadRequest) => {
-      if (isSupportedAction(payload.method)) {
-        emit(payloadRequest(connector.peerId, payload))
-      } else {
-        // TODO: Doing nothing will cause the user to see the timeout screen.
-        // This isn't expected to happen so it's fine for now, but we could
-        // redirect user to another screen if they're in the loading screen
-        // at this point.
-        ValoraAnalytics.track(WalletConnectEvents.wc_unknown_action, { method: payload.method })
-      }
+      emit(payloadRequest(connector.peerId, payload))
     })
     connector.on('disconnect', () => {
       emit(sessionDeleted(connector.peerId))
@@ -332,6 +326,12 @@ function* showSessionRequest(session: WalletConnectSessionRequest) {
 }
 
 function* showActionRequest({ action: request, peerId }: PendingAction) {
+  if (!isSupportedAction(request.method)) {
+    // Directly deny unsupported requests
+    yield put(denyRequestAction(peerId, request, 'JSON RPC method not supported'))
+    return
+  }
+
   const session: WalletConnectSession = yield call(getSessionFromPeerId, peerId)
   ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
     ...getDefaultSessionTrackedProperties(session),
