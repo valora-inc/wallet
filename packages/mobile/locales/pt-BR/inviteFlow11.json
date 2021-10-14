@@ -24,12 +24,12 @@
   },
   "sendAndInvite": "Enviar e convidar",
   "inviteAndSendDialog": {
-    "title": "Convidar e enviar",
-    "body": "Seu pagamento para {{name}} estará esperando por ele(a) assim que o número de celular for confirmado. Compartilhe uma mensagem de convite para ele(a) se inscrever na {{appName}} e resgatar seu pagamento!",
-    "button": "Convidar"
+    "title": "Nós manteremos o seu pagamento para {{name}}",
+    "body": "Compartilhe uma mensagem de convite para {{name}}. Uma vez que ele se inscrever na {{appName}} e conectar seu número de celular, ele receberá o pagamento e você receberá suas recompensas!",
+    "button": "Enviar"
   },
   "inviteRewardsBanner": {
-    "title": "Indique um amigo e ganhe {{amount}} {{currency}}!",
+    "title": "Compartilhe a Valora com um amigo e ganhe {{amount}} {{currency}}!",
     "body": "Envie dinheiro a um amigo e, se ele se inscrever, você ganha {{amount}} {{currency}}. <0>Saiba mais</0>"
   },
   "getReward": "Receba ${{reward}}"
