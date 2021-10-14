@@ -36,3 +36,7 @@ Code owners for each package can be found in [.github/CODEOWNERS](.github/CODEOW
 ## Contributing
 
 We welcome contributions in the form of Issues and PRs. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Community
+
+Have questions or need help?  Join our [Discord Community](https://discord.com/invite/J5XMtMkwC4)
