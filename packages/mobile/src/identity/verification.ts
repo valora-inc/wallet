@@ -1110,23 +1110,10 @@ export function* tryRevealPhoneNumber(
           neededRetry: true,
           issuer,
           feeless: isFeelessVerification,
+          account: logPhoneNumberTypeEnabled ? account : undefined,
+          phoneNumberType: logPhoneNumberTypeEnabled ? body.phoneNumberType : undefined,
+          credentials: logPhoneNumberTypeEnabled ? body.credentials : undefined,
         })
-
-        if (logPhoneNumberTypeEnabled && retryBody.phoneNumberType && retryBody.credentials) {
-          Logger.debug(
-            TAG + '@tryRevealPhoneNumber',
-            'Sending phoneNumberType and credentials to analytics on retry'
-          )
-          ValoraAnalytics.track(
-            VerificationEvents.verification_reveal_attestation_phonenumber_type,
-            {
-              issuer,
-              account,
-              phoneNumberType: retryBody.phoneNumberType,
-              credentials: retryBody.credentials,
-            }
-          )
-        }
 
         return true
       }
