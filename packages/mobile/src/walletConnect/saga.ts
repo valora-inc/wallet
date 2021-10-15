@@ -23,22 +23,19 @@ export function* isWalletConnectEnabled(uri: string) {
 }
 
 export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {
-  const { v1, v2 }: { v1: boolean; v2: boolean } = yield select(walletConnectEnabledSelector)
+  const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, uri)
 
   const [, , version] = uri.split(/[:@?]/)
+  if (!walletConnectEnabled) {
+    Logger.debug('initialiseWalletConnect', `v${version} is disabled, ignoring`)
+    return
+  }
+
   switch (version) {
     case '1':
-      if (!v1) {
-        Logger.debug('initialiseWalletConnect v1 is disabled, ignoring')
-        return
-      }
       yield call(initialiseWalletConnectV1, uri, origin)
       break
     case '2':
-      if (!v2) {
-        Logger.debug('initialiseWalletConnect v2 is disabled, ignoring')
-        return
-      }
       yield call(initialiseWalletConnectV2, uri, origin)
       break
     default:

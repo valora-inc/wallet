@@ -349,9 +349,7 @@ function* createWalletConnectChannel() {
     const onSessionCreated = (session: SessionTypes.Created) => emit(sessionCreated(session))
     const onSessionUpdated = (session: SessionTypes.UpdateParams) => emit(sessionUpdated(session))
     const onSessionDeleted = (session: SessionTypes.DeleteParams) => emit(sessionDeleted(session))
-    const onSessionRequest = (request: SessionTypes.RequestEvent) => {
-      emit(sessionPayload(request))
-    }
+    const onSessionRequest = (request: SessionTypes.RequestEvent) => emit(sessionPayload(request))
 
     if (!client) {
       return () => {
