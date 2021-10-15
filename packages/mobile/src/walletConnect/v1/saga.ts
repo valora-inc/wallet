@@ -294,15 +294,7 @@ function* createWalletConnectChannelWithArgs(connectorOpts: IWalletConnectOption
       emit(sessionRequest(peerId, payload))
     })
     connector.on('call_request', (error: any, payload: WalletConnectPayloadRequest) => {
-      if (isSupportedAction(payload.method)) {
-        emit(payloadRequest(connector.peerId, payload))
-      } else {
-        // TODO: Doing nothing will cause the user to see the timeout screen.
-        // This isn't expected to happen so it's fine for now, but we could
-        // redirect user to another screen if they're in the loading screen
-        // at this point.
-        ValoraAnalytics.track(WalletConnectEvents.wc_unknown_action, { method: payload.method })
-      }
+      emit(payloadRequest(connector.peerId, payload))
     })
     connector.on('disconnect', () => {
       emit(sessionDeleted(connector.peerId))
