@@ -52,7 +52,7 @@
   "requestFromMobileNumber": "Solicitar a número de celular",
   "sendToAddress": "Enviar para o endereço",
   "walletAddress": "Endereço da conta",
-  "inviteWithoutPayment": "Olá! Estou usando o {{appName}} para comprar e poupar cripto. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}} ",
+  "inviteWithoutPayment": "Olá! Estou usando a {{appName}}. É realmente ótima para comprar, poupar e gastar cripto. Baixe-la e conecte seu número de celular para obter o cripto que acabei de enviar: {{link}} ",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para comprar e poupar cripto. Acabei de enviar {{amount}} {{currency}} Celo Dólares para você. Instale o aplicativo da {{appName}} e resgate seus {{currency}} usando este link: {{link}}",
   "inviteSent": "Código de convite enviado!",
   "inviteFailed": "Falha ao enviar convite",
