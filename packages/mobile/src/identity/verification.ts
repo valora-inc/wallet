@@ -1111,8 +1111,8 @@ export function* tryRevealPhoneNumber(
           issuer,
           feeless: isFeelessVerification,
           account: logPhoneNumberTypeEnabled ? account : undefined,
-          phoneNumberType: logPhoneNumberTypeEnabled ? body.phoneNumberType : undefined,
-          credentials: logPhoneNumberTypeEnabled ? body.credentials : undefined,
+          phoneNumberType: logPhoneNumberTypeEnabled ? retryBody.phoneNumberType : undefined,
+          credentials: logPhoneNumberTypeEnabled ? retryBody.credentials : undefined,
         })
 
         return true
