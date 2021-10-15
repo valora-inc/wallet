@@ -52,7 +52,7 @@
   "requestFromMobileNumber": "Solicitar a número de teléfono",
   "sendToAddress": "Enviar a dirección",
   "walletAddress": "Dirección de billetera",
-  "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para comprar y ganar cripto. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
+  "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}}. Es genial para comprar, ahorrar y usar cripto. Descárgala y conecta tu número de teléfono para recibir cripto: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para comprar y ganar cripto. Acabo de enviarte {{amount}} Celo Dólares. Puedes descargar la app de {{appName}} y canjear tus Celo Dólares con este link: {{link}}",
   "inviteSent": "Código de invitación enviado",
   "inviteFailed": "Error al enviar la invitación",
