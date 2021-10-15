@@ -52,7 +52,7 @@
   "requestFromMobileNumber": "Request From Phone Number",
   "sendToAddress": "Send to Address",
   "walletAddress": "Wallet Address",
-  "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to buy and earn crypto. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
+  "inviteWithoutPayment": "Hi! You should check out {{appName}}. It's really great for buying, earning, and spending crypto. Download and connect your phone number to get the crypto I just sent you: {{link}}",
   "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to buy and earn crypto. I just sent you {{amount}} {{currency}}. Please download the {{appName}} App and redeem your {{currency}} using this link: {{link}}",
   "inviteSent": "Invite code sent!",
   "inviteFailed": "Failure sending invite",
