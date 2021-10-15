@@ -13,6 +13,7 @@ import i18n from 'src/i18n'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { isSupportedAction } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import {
   WalletConnectPayloadRequest,
@@ -25,6 +26,7 @@ import {
   Actions,
   CloseSession,
   DenyRequest,
+  denyRequest as denyRequestAction,
   InitialiseConnection,
   initialiseConnection,
   PayloadRequest,
@@ -42,7 +44,7 @@ import {
   selectPendingActions,
   selectSessions,
 } from 'src/walletConnect/v1/selectors'
-import { getAccountAddress } from 'src/web3/saga'
+import { getWalletAddress } from 'src/web3/saga'
 import { default as WalletConnectClient } from 'walletconnect-v1/client'
 import { IWalletConnectOptions } from 'walletconnect-v1/types'
 
@@ -81,7 +83,11 @@ function* getSessionFromPeerId(peerId: string) {
   const session = sessions.find((s) => s.peerId === peerId)
   if (!session) {
     // This should never happen
-    throw new Error(`Unable to find WalletConnect session matching peerId ${peerId}`)
+    Logger.debug(
+      TAG + '@getSessionFromPeerId',
+      `Unable to find WalletConnect session matching peerId ${peerId}`
+    )
+    return null
   }
 
   return session
@@ -98,7 +104,7 @@ function* acceptSession(session: AcceptSession) {
       throw new Error('missing connector')
     }
 
-    const account: string = yield call(getAccountAddress)
+    const account: string = yield call(getWalletAddress)
     const sessionData = {
       accounts: [account],
       chainId: parseInt(networkConfig.networkId),
@@ -167,7 +173,11 @@ function* closeSession({ session }: CloseSession) {
 }
 
 function* showRequestDetails({ request, peerId, infoString }: ShowRequestDetails): any {
-  const session: WalletConnectSession = yield call(getSessionFromPeerId, peerId)
+  const session: WalletConnectSession | null = yield call(getSessionFromPeerId, peerId)
+  if (!session) {
+    yield put(denyRequestAction(peerId, request, `Session not found for peer id ${peerId}`))
+    return
+  }
   ValoraAnalytics.track(WalletConnectEvents.wc_request_details, {
     ...getDefaultSessionTrackedProperties(session),
     ...getDefaultRequestTrackedProperties(request, session.chainId),
@@ -183,7 +193,11 @@ function* acceptRequest(r: AcceptRequest) {
   const { id, jsonrpc, method, params } = request
   const connector = connectors[peerId]
 
-  const session: WalletConnectSession = yield call(getSessionFromPeerId, peerId)
+  const session: WalletConnectSession | null = yield call(getSessionFromPeerId, peerId)
+  if (!session) {
+    yield put(denyRequestAction(peerId, request, `Session not found for peer id ${peerId}`))
+    return
+  }
   const defaultTrackedProperties = {
     ...getDefaultSessionTrackedProperties(session),
     ...getDefaultRequestTrackedProperties(request, session.chainId),
@@ -215,27 +229,52 @@ function* acceptRequest(r: AcceptRequest) {
 }
 
 function* denyRequest(r: DenyRequest) {
-  const { peerId, request } = r
+  const { peerId, request, reason } = r
 
   const { id } = request
 
-  const session: WalletConnectSession = yield call(getSessionFromPeerId, peerId)
-  const defaultTrackedProperties = {
-    ...getDefaultSessionTrackedProperties(session),
-    ...getDefaultRequestTrackedProperties(request, session.chainId),
-  }
-
+  const session: WalletConnectSession | null = yield call(getSessionFromPeerId, peerId)
   try {
+    if (!session) {
+      throw new Error(`Session not found for peer id ${peerId}`)
+    }
+    const defaultTrackedProperties = {
+      ...getDefaultSessionTrackedProperties(session),
+      ...getDefaultRequestTrackedProperties(request, session.chainId),
+      denyReason: reason,
+    }
+
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_start, defaultTrackedProperties)
 
     const connector = connectors[peerId]
     if (!connector) {
       throw new Error('missing connector')
     }
-    connector.rejectRequest({ id, error: { message: '' } })
+    connector.rejectRequest({ id, error: { message: reason } })
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_success, defaultTrackedProperties)
   } catch (e) {
     Logger.debug(TAG + '@denyRequest', e?.message)
+    const defaultTrackedProperties = {
+      ...getDefaultSessionTrackedProperties(
+        session ?? {
+          ...request,
+          params: [
+            {
+              peerId: '',
+              peerMeta: {
+                name: '',
+                url: '',
+                description: '',
+                icons: [''],
+              },
+              chainId: -1,
+            },
+          ],
+        }
+      ),
+      ...getDefaultRequestTrackedProperties(request, session?.chainId ?? -1),
+      denyReason: reason,
+    }
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_error, {
       ...defaultTrackedProperties,
       error: e.message,
@@ -323,7 +362,17 @@ function* showSessionRequest(session: WalletConnectSessionRequest) {
 }
 
 function* showActionRequest({ action: request, peerId }: PendingAction) {
-  const session: WalletConnectSession = yield call(getSessionFromPeerId, peerId)
+  if (!isSupportedAction(request.method)) {
+    // Directly deny unsupported requests
+    yield put(denyRequestAction(peerId, request, 'JSON RPC method not supported'))
+    return
+  }
+
+  const session: WalletConnectSession | null = yield call(getSessionFromPeerId, peerId)
+  if (!session) {
+    yield put(denyRequestAction(peerId, request, `Session not found for peer id ${peerId}`))
+    return
+  }
   ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
     ...getDefaultSessionTrackedProperties(session),
     ...getDefaultRequestTrackedProperties(request, session.chainId),
