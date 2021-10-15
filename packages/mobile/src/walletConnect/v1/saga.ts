@@ -83,7 +83,11 @@ function* getSessionFromPeerId(peerId: string) {
   const session = sessions.find((s) => s.peerId === peerId)
   if (!session) {
     // This should never happen
-    throw new Error(`Unable to find WalletConnect session matching peerId ${peerId}`)
+    Logger.debug(
+      TAG + '@getSessionFromPeerId',
+      `Unable to find WalletConnect session matching peerId ${peerId}`
+    )
+    return null
   }
 
   return session
@@ -169,7 +173,11 @@ function* closeSession({ session }: CloseSession) {
 }
 
 function* showRequestDetails({ request, peerId, infoString }: ShowRequestDetails): any {
-  const session: WalletConnectSession = yield call(getSessionFromPeerId, peerId)
+  const session: WalletConnectSession | null = yield call(getSessionFromPeerId, peerId)
+  if (!session) {
+    yield put(denyRequestAction(peerId, request, `Session not found for peer id ${peerId}`))
+    return
+  }
   ValoraAnalytics.track(WalletConnectEvents.wc_request_details, {
     ...getDefaultSessionTrackedProperties(session),
     ...getDefaultRequestTrackedProperties(request, session.chainId),
@@ -185,7 +193,11 @@ function* acceptRequest(r: AcceptRequest) {
   const { id, jsonrpc, method, params } = request
   const connector = connectors[peerId]
 
-  const session: WalletConnectSession = yield call(getSessionFromPeerId, peerId)
+  const session: WalletConnectSession | null = yield call(getSessionFromPeerId, peerId)
+  if (!session) {
+    yield put(denyRequestAction(peerId, request, `Session not found for peer id ${peerId}`))
+    return
+  }
   const defaultTrackedProperties = {
     ...getDefaultSessionTrackedProperties(session),
     ...getDefaultRequestTrackedProperties(request, session.chainId),
@@ -221,14 +233,17 @@ function* denyRequest(r: DenyRequest) {
 
   const { id } = request
 
-  const session: WalletConnectSession = yield call(getSessionFromPeerId, peerId)
-  const defaultTrackedProperties = {
-    ...getDefaultSessionTrackedProperties(session),
-    ...getDefaultRequestTrackedProperties(request, session.chainId),
-    denyReason: reason,
-  }
-
   try {
+    const session: WalletConnectSession | null = yield call(getSessionFromPeerId, peerId)
+    if (!session) {
+      throw new Error(`Session not found for peer id ${peerId}`)
+    }
+    const defaultTrackedProperties = {
+      ...getDefaultSessionTrackedProperties(session),
+      ...getDefaultRequestTrackedProperties(request, session.chainId),
+      denyReason: reason,
+    }
+
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_start, defaultTrackedProperties)
 
     const connector = connectors[peerId]
@@ -332,7 +347,11 @@ function* showActionRequest({ action: request, peerId }: PendingAction) {
     return
   }
 
-  const session: WalletConnectSession = yield call(getSessionFromPeerId, peerId)
+  const session: WalletConnectSession | null = yield call(getSessionFromPeerId, peerId)
+  if (!session) {
+    yield put(denyRequestAction(peerId, request, `Session not found for peer id ${peerId}`))
+    return
+  }
   ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
     ...getDefaultSessionTrackedProperties(session),
     ...getDefaultRequestTrackedProperties(request, session.chainId),
