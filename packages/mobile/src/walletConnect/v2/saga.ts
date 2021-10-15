@@ -14,6 +14,7 @@ import i18n from 'src/i18n'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { isSupportedAction } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import {
   AcceptRequest,
@@ -22,6 +23,7 @@ import {
   clientInitialised,
   CloseSession,
   DenyRequest,
+  denyRequest as denyRequestAction,
   DenySession,
   initialiseClient,
   InitialisePairing,
@@ -44,7 +46,11 @@ import {
 import { getWalletAddress } from 'src/web3/saga'
 import { CLIENT_EVENTS, default as WalletConnectClient } from 'walletconnect-v2/client'
 import { ClientTypes, SessionTypes } from 'walletconnect-v2/types'
-import { Error as WalletConnectError, ERROR as WalletConnectErrors } from 'walletconnect-v2/utils'
+import {
+  Error as WalletConnectError,
+  ERROR as WalletConnectErrors,
+  ERROR_TYPE as WalletConnectErrorType,
+} from 'walletconnect-v2/utils'
 
 const TAG = 'WalletConnect/saga'
 
@@ -271,16 +277,19 @@ function* acceptRequest({ request }: AcceptRequest): any {
   yield call(handlePendingStateOrNavigateBack)
 }
 
-function* denyRequest({ request }: DenyRequest) {
+function* denyRequest({ request, reason }: DenyRequest) {
   const {
     request: { id, jsonrpc },
     topic,
   } = request
 
+  const errorResponse = WalletConnectErrors[reason].format()
+
   const session: SessionTypes.Created = yield call(getSessionFromRequest, request)
   const defaultTrackedProperties = {
     ...getDefaultSessionTrackedProperties(session),
     ...getDefaultRequestTrackedProperties(request),
+    denyReason: errorResponse.message,
   }
 
   try {
@@ -295,7 +304,7 @@ function* denyRequest({ request }: DenyRequest) {
       response: {
         id,
         jsonrpc,
-        error: WalletConnectErrors.DISAPPROVED_JSONRPC.format(),
+        error: errorResponse,
       },
     })
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_success, defaultTrackedProperties)
@@ -385,6 +394,12 @@ function* showSessionRequest(session: SessionTypes.Proposal) {
 }
 
 function* showActionRequest(request: SessionTypes.RequestEvent) {
+  if (!isSupportedAction(request.request.method)) {
+    // Directly deny unsupported requests
+    yield put(denyRequestAction(request, WalletConnectErrorType.UNKNOWN_JSONRPC_METHOD))
+    return
+  }
+
   const session: SessionTypes.Created = yield call(getSessionFromRequest, request)
   ValoraAnalytics.track(WalletConnectEvents.wc_request_propose, {
     ...getDefaultSessionTrackedProperties(session),
