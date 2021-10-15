@@ -33,7 +33,6 @@ import {
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
-  walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
@@ -47,6 +46,7 @@ import { handlePaymentDeeplink } from 'src/send/utils'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
+import { isWalletConnectEnabled } from 'src/walletConnect/saga'
 import {
   handleWalletConnectDeepLink,
   isWalletConnectDeepLink,
@@ -151,7 +151,8 @@ export interface RemoteFeatureFlags {
   inviteRewardsEnabled: boolean
   hideVerification: boolean
   showRaiseDailyLimitTarget: string | undefined
-  walletConnectEnabled: boolean
+  walletConnectV1Enabled: boolean
+  walletConnectV2Enabled: boolean
   rewardsABTestThreshold: string
   rewardsPercent: number
   rewardsStartDate: number
@@ -253,7 +254,7 @@ export function* watchDeepLinks() {
 
 export function* handleOpenUrl(action: OpenUrlAction) {
   const { url, openExternal, isSecureOrigin } = action
-  const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
+  const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, url)
   Logger.debug(TAG, 'Handling url', url)
   if (url.startsWith('celo:') || (walletConnectEnabled && isWalletConnectDeepLink(url))) {
     // Handle celo links directly, this avoids showing the "Open with App" sheet on Android

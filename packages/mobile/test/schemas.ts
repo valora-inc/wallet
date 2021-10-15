@@ -739,6 +739,8 @@ export const v18Schema = {
   app: {
     ...v17Schema.app,
     cashInButtonExpEnabled: false,
+    walletConnectV1Enabled: false,
+    walletConnectV2Enabled: false,
   },
   walletConnect: {
     v1: {
