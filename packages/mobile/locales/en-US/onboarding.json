@@ -45,7 +45,7 @@
     "feelessBody": "Connecting takes about three minutes. To confirm your number, you’ll receive three messages.",
     "start": "Start",
     "resume": "Resume",
-    "doINeedToConfirm": "Do I need to confirm?",
+    "doINeedToConfirm": "Do I need to connect?",
     "skipForNow": "Skip for now",
     "bodyInsufficientBalance": "Your current balance is not high enough to complete the confirmation process.\n\nPlease try again when you have added funds to your wallet.",
     "bodyAlreadyVerified": "Your number is already confirmed!"
