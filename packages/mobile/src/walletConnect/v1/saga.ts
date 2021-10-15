@@ -233,8 +233,8 @@ function* denyRequest(r: DenyRequest) {
 
   const { id } = request
 
+  const session: WalletConnectSession | null = yield call(getSessionFromPeerId, peerId)
   try {
-    const session: WalletConnectSession | null = yield call(getSessionFromPeerId, peerId)
     if (!session) {
       throw new Error(`Session not found for peer id ${peerId}`)
     }
@@ -254,6 +254,11 @@ function* denyRequest(r: DenyRequest) {
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_success, defaultTrackedProperties)
   } catch (e) {
     Logger.debug(TAG + '@denyRequest', e?.message)
+    const defaultTrackedProperties = {
+      ...getDefaultSessionTrackedProperties(session ?? request),
+      ...getDefaultRequestTrackedProperties(request, session?.chainId ?? -1),
+      denyReason: reason,
+    }
     ValoraAnalytics.track(WalletConnectEvents.wc_request_deny_error, {
       ...defaultTrackedProperties,
       error: e.message,
