@@ -1,12 +1,11 @@
 import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
@@ -21,7 +20,7 @@ import { QrCode, SVG } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { handleSendPaymentData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
-import { initialiseWalletConnect } from 'src/walletConnect/saga'
+import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
 
 export enum BarcodeTypes {
   QR_CODE = 'QR_CODE',
@@ -105,7 +104,7 @@ export function* handleBarcode(
   isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ) {
-  const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
+  const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, barcode.data)
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
     navigate(Screens.WalletConnectLoading, { origin: WalletConnectPairingOrigin.Scan })
     yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
