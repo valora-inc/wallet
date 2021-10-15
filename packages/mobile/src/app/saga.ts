@@ -10,7 +10,7 @@ import {
   spawn,
   take,
   takeEvery,
-  takeLatest
+  takeLatest,
 } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -25,7 +25,7 @@ import {
   SetAppState,
   setAppState,
   setLanguage,
-  updateFeatureFlags
+  updateFeatureFlags,
 } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
 import {
@@ -33,7 +33,7 @@ import {
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
-  walletConnectEnabledSelector
+  walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
@@ -49,7 +49,7 @@ import Logger from 'src/utils/Logger'
 import { clockInSync } from 'src/utils/time'
 import {
   handleWalletConnectDeepLink,
-  isWalletConnectDeepLink
+  isWalletConnectDeepLink,
 } from 'src/walletConnect/walletConnect'
 import { parse } from 'url'
 

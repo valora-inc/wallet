@@ -23,7 +23,7 @@ import {
   fetchSentEscrowPayments,
   reclaimEscrowPaymentFailure,
   reclaimEscrowPaymentSuccess,
-  storeSentEscrowPayments
+  storeSentEscrowPayments,
 } from 'src/escrow/actions'
 import { generateEscrowPaymentIdAndPk, generateUniquePaymentId } from 'src/escrow/utils'
 import { calculateFee } from 'src/fees/saga'
@@ -41,7 +41,7 @@ import {
   getCurrencyAddress,
   getStableCurrencyFromAddress,
   getTokenContract,
-  getTokenContractFromAddress
+  getTokenContractFromAddress,
 } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
@@ -49,7 +49,7 @@ import { sendTransaction } from 'src/transactions/send'
 import {
   newTransactionContext,
   TransactionContext,
-  TransactionStatus
+  TransactionStatus,
 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
