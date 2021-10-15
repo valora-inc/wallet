@@ -30,7 +30,7 @@
   },
   "inviteRewardsBanner": {
     "title": "Compartilhe a Valora com um amigo e ganhe {{amount}} {{currency}}!",
-    "body": "Envie dinheiro a um amigo e, se ele se inscrever, você ganha {{amount}} {{currency}}. <0>Saiba mais</0>"
+    "body": "Ganhe {{amount}}{{currency}} se você enviar dinheiro para um amigo e ele se inscrever. <0>Saiba mais</0>"
   },
   "getReward": "Receba ${{reward}}"
 }
