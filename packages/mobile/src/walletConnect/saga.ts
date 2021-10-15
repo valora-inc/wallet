@@ -15,13 +15,11 @@ export function* walletConnectSaga() {
 export function* isWalletConnectEnabled(uri: string) {
   const { v1, v2 }: { v1: boolean; v2: boolean } = yield select(walletConnectEnabledSelector)
   const [, , version] = uri.split(/[:@?]/)
-  console.log(v1, v2, version)
-  return (
-    {
-      '1': v1,
-      '2': v2,
-    }[version] ?? false
-  )
+  const versionEnabled: { [version: string]: boolean | undefined } = {
+    '1': v1,
+    '2': v2,
+  }
+  return versionEnabled[version] ?? false
 }
 
 export function* initialiseWalletConnect(uri: string, origin: WalletConnectPairingOrigin) {
