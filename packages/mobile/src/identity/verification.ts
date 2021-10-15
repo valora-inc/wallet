@@ -1078,24 +1078,15 @@ export function* tryRevealPhoneNumber(
 
     if (ok) {
       Logger.debug(TAG + '@tryRevealPhoneNumber', `Revealing for issuer ${issuer} successful`)
+
       ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_revealed, {
         neededRetry: false,
         issuer,
         feeless: isFeelessVerification,
+        account: logPhoneNumberTypeEnabled ? account : undefined,
+        phoneNumberType: logPhoneNumberTypeEnabled ? body.phoneNumberType : undefined,
+        credentials: logPhoneNumberTypeEnabled ? body.credentials : undefined,
       })
-
-      if (logPhoneNumberTypeEnabled && body.phoneNumberType && body.credentials) {
-        Logger.debug(
-          TAG + '@tryRevealPhoneNumber',
-          'Sending phoneNumberType and credentials to analytics'
-        )
-        ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_phonenumber_type, {
-          issuer,
-          account,
-          phoneNumberType: body.phoneNumberType,
-          credentials: body.credentials,
-        })
-      }
 
       return true
     }

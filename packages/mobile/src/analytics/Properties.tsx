@@ -395,6 +395,9 @@ interface VerificationEventsProperties {
     issuer: any
     neededRetry: boolean
     feeless?: boolean
+    account?: string
+    phoneNumberType?: string
+    credentials?: string
   }
   [VerificationEvents.verification_reveal_attestation_await_code_start]: {
     issuer: any
@@ -437,12 +440,6 @@ interface VerificationEventsProperties {
     duration: number
     errors: any
     feeless?: boolean
-  }
-  [VerificationEvents.verification_reveal_attestation_phonenumber_type]: {
-    issuer: string
-    account: string
-    phoneNumberType: string
-    credentials: string
   }
   [VerificationEvents.verification_revoke_start]:
     | {
