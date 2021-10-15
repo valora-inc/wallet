@@ -255,7 +255,23 @@ function* denyRequest(r: DenyRequest) {
   } catch (e) {
     Logger.debug(TAG + '@denyRequest', e?.message)
     const defaultTrackedProperties = {
-      ...getDefaultSessionTrackedProperties(session ?? request),
+      ...getDefaultSessionTrackedProperties(
+        session ?? {
+          ...request,
+          params: [
+            {
+              peerId: '',
+              peerMeta: {
+                name: '',
+                url: '',
+                description: '',
+                icons: [''],
+              },
+              chainId: -1,
+            },
+          ],
+        }
+      ),
       ...getDefaultRequestTrackedProperties(request, session?.chainId ?? -1),
       denyReason: reason,
     }
