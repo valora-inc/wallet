@@ -92,6 +92,7 @@ type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
 type Props = StateProps & DispatchProps & WithTranslation & OwnProps
 
 const mapStateToProps = (state: RootState): StateProps => {
+  const { v1, v2 } = walletConnectEnabledSelector(state)
   return {
     backupCompleted: state.account.backupCompleted,
     account: state.web3.account,
@@ -108,7 +109,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     sessionId: sessionIdSelector(state),
     connectedApplications:
       state.walletConnect.v1.sessions.length + state.walletConnect.v2.sessions.length,
-    walletConnectEnabled: walletConnectEnabledSelector(state),
+    walletConnectEnabled: v1 || v2,
   }
 }
 

@@ -736,6 +736,11 @@ export const v18Schema = {
     ...v17Schema._persist,
     version: 18,
   },
+  app: {
+    ...v17Schema.app,
+    walletConnectV1Enabled: false,
+    walletConnectV2Enabled: false,
+  },
   walletConnect: {
     v1: {
       pendingActions: [],
@@ -746,6 +751,14 @@ export const v18Schema = {
   },
 }
 
+export const v19Schema = {
+  ...v18Schema,
+  _persist: {
+    ...v18Schema._persist,
+    version: 19,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v18Schema as Partial<RootState>
+  return v19Schema as Partial<RootState>
 }
