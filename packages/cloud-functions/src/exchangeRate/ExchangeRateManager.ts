@@ -1,11 +1,11 @@
+import { TOKEN_ADDRESSES } from '../config'
 import ExchangesGraph, { Exchange, PriceByAddress } from './ExchangesGraph'
 
 export interface ExchangeProvider {
   getExchanges(): Promise<Exchange[]>
 }
 
-// Mainnet address (TODO: make this configurable)
-const cUSD = '0x765DE816845861e75A25fCA122bb6898B8B1282a'.toLocaleLowerCase()
+const cUSD = TOKEN_ADDRESSES.cUSD.toLowerCase()
 
 export default class ExchangeRateManager {
   private sources: ExchangeProvider[] = []
@@ -19,8 +19,11 @@ export default class ExchangeRateManager {
     for (const source of this.sources) {
       try {
         exchanges.push(...(await source.getExchanges()))
-      } catch (e) {
-        console.warn(`Couldn't obtain exchanges from source: ${JSON.stringify(source)}`, e)
+      } catch (err) {
+        console.warn(
+          `Couldn't obtain exchanges from source: ${JSON.stringify(source)}`,
+          (err as Error).message
+        )
       }
     }
     return exchanges

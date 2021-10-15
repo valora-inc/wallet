@@ -70,7 +70,7 @@ export default class ExchangesGraph {
 
   // This approach uses a Floyd-Wharshall algorithm: https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm
   // Its time complexity is O(n^3) where n is the numbers of tokens
-  // If we expect to have thoudsans of tokens we should try with a different approach.
+  // If we expect to have thousans of tokens we should try with a different approach.
   // Throws an error if there was an arbitrage
   // Given estimated prices are used to filter out exchanges with low liquidity
   getAllExchanges(estimatedPrices: PriceByAddress): ExchangesResult {

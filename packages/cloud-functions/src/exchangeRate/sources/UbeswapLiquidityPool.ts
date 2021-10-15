@@ -1,15 +1,17 @@
 import { ContractKit } from '@celo/contractkit'
 import BigNumber from 'bignumber.js'
 import asyncPool from 'tiny-async-pool'
+import { UBESWAP_DATA } from '../../config'
 import { getContractKit } from '../../contractKit'
 import { ExchangeProvider } from '../ExchangeRateManager'
 import { Exchange } from '../ExchangesGraph'
-import { factoryAbi, pairAbi, standardAbi } from './UbeswapABI'
+import erc20Abi from './abis/ERC20.json'
+import factoryAbi from './abis/Factory.json'
+import pairAbi from './abis/Pair.json'
 
-const MAX_CONCURRENCY = 30
-
-// Mainnet address (TODO: make this configurable)
-const FACTORY_ADDRESS = '0x62d5b84bE28a183aBB507E125B384122D2C25fAE'
+const FACTORY_ADDRESS = UBESWAP_DATA.factory_address?.toLowerCase()
+const MIN_LIQUIDITY = UBESWAP_DATA?.min_liquidity ?? 100000
+const MAX_CONCURRENCY = UBESWAP_DATA?.max_concurrency ?? 30
 
 interface ExchangePair {
   token0: string
@@ -21,8 +23,6 @@ interface DecimalsByToken {
   [token: string]: number
 }
 
-const MIN_LIQUIDITY = 100000
-
 class UbeswapLiquidityPool implements ExchangeProvider {
   async getExchanges(): Promise<Exchange[]> {
     const results: Exchange[] = []
@@ -32,13 +32,16 @@ class UbeswapLiquidityPool implements ExchangeProvider {
 
     const decimals = await this.getDecimalsInfoFromPairs(kit, pairs)
 
-    for (const pair of pairs) {
+    await asyncPool(MAX_CONCURRENCY, pairs, async (pair) => {
       try {
         results.push(...(await this.getExchangesFromPair(kit, pair, decimals)))
-      } catch (e) {
-        console.warn(`Couldn't obtain exchanges from pair: ${JSON.stringify(pair)}`, e)
+      } catch (err) {
+        console.warn(
+          `Couldn't obtain exchanges from pair: ${JSON.stringify(pair)}`,
+          (err as Error).message
+        )
       }
-    }
+    })
 
     return results.filter((exchange) => exchange.rate.isGreaterThan(0))
   }
@@ -68,13 +71,13 @@ class UbeswapLiquidityPool implements ExchangeProvider {
   ): Promise<DecimalsByToken> {
     const decimals: DecimalsByToken = pairs
       .flatMap((pair) => [pair.token0, pair.token1])
-      .reduce((ans, token) => ({ ...ans, [token]: false }), {})
+      .reduce((ans, token) => ({ ...ans, [token]: undefined }), {})
 
     await asyncPool(MAX_CONCURRENCY, Object.keys(decimals), async (token: string) => {
       try {
         decimals[token] = await this.getDecimalsInfo(kit, token)
-      } catch (e) {
-        console.warn(`Couldn't obtain decimals info for: ${token}`, e)
+      } catch (err) {
+        console.warn(`Couldn't obtain decimals info for: ${token}`, (err as Error).message)
       }
     })
 
@@ -83,7 +86,7 @@ class UbeswapLiquidityPool implements ExchangeProvider {
 
   private async getDecimalsInfo(kit: ContractKit, address: string): Promise<number> {
     // @ts-ignore
-    const tokenContract = new kit.web3.eth.Contract(standardAbi, address)
+    const tokenContract = new kit.web3.eth.Contract(erc20Abi, address)
     return tokenContract.methods.decimals().call()
   }
 

@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { TOKEN_ADDRESSES } from '../config'
 import ExchangeRateManager, { ExchangeProvider } from './ExchangeRateManager'
 import { Exchange, PriceByAddress } from './ExchangesGraph'
 
@@ -6,7 +7,7 @@ const addExchangeMock = jest.fn()
 const estimatePricesMock = jest.fn()
 const getAllExchangesMock = jest.fn()
 
-const cUSD = '0x765DE816845861e75A25fCA122bb6898B8B1282a'.toLocaleLowerCase()
+const cUSD = TOKEN_ADDRESSES.cUSD.toLowerCase()
 
 jest.mock('./ExchangesGraph', () =>
   jest.fn().mockImplementation(() => ({

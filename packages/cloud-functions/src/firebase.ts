@@ -38,13 +38,5 @@ export async function fetchFromFirebase(path: string) {
 }
 
 export async function updateFirebase(path: string, value: any) {
-  database()
-    .ref(path)
-    .set(value)
-    .then(() => {
-      console.info(`Updated value in ${path}`)
-    })
-    .catch((err) => {
-      console.error(`There was an unexpected error while updating ${path}`, err)
-    })
+  await database().ref(path).set(value)
 }

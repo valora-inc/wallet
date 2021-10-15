@@ -1,7 +1,8 @@
 import BigNumber from 'bignumber.js'
+import { UBESWAP_DATA } from '../../config'
 import { ubeswapLiquidityPool } from './UbeswapLiquidityPool'
 
-const FACTORY_ADDRESS = '0x62d5b84bE28a183aBB507E125B384122D2C25fAE'
+const FACTORY_ADDRESS = UBESWAP_DATA.factory_address
 
 const mockedFactoryContract = jest.fn((address) => ({
   getPastEvents: (event: string, config: any) => [
