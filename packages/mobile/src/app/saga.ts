@@ -157,6 +157,7 @@ export interface RemoteFeatureFlags {
   rewardsPercent: number
   rewardsStartDate: number
   rewardsMax: number
+  logPhoneNumberTypeEnabled: boolean
   rewardsMin: number
   komenciUseLightProxy: boolean
   komenciAllowedDeployers: string[]

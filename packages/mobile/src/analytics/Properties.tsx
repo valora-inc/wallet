@@ -395,6 +395,9 @@ interface VerificationEventsProperties {
     issuer: any
     neededRetry: boolean
     feeless?: boolean
+    account?: string
+    phoneNumberType?: string
+    credentials?: string
   }
   [VerificationEvents.verification_reveal_attestation_await_code_start]: {
     issuer: any
