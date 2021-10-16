@@ -740,6 +740,8 @@ export const v18Schema = {
   app: {
     ...v17Schema.app,
     cashInButtonExpEnabled: false,
+    walletConnectV1Enabled: false,
+    walletConnectV2Enabled: false,
   },
   walletConnect: {
     v1: {
@@ -751,6 +753,14 @@ export const v18Schema = {
   },
 }
 
+export const v19Schema = {
+  ...v18Schema,
+  _persist: {
+    ...v18Schema._persist,
+    version: 19,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v18Schema as Partial<RootState>
+  return v19Schema as Partial<RootState>
 }
