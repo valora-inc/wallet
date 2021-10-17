@@ -1,5 +1,6 @@
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import { SessionTypes } from 'walletconnect-v2/types'
+import { ErrorType as WalletConnectErrorType } from 'walletconnect-v2/utils'
 
 export enum Actions {
   /**
@@ -68,6 +69,7 @@ export interface AcceptRequest {
 export interface DenyRequest {
   type: Actions.DENY_REQUEST
   request: SessionTypes.RequestEvent
+  reason: WalletConnectErrorType
 }
 
 export interface InitialisePairing {
@@ -153,9 +155,13 @@ export const acceptRequest = (request: SessionTypes.RequestEvent): AcceptRequest
   type: Actions.ACCEPT_REQUEST,
   request,
 })
-export const denyRequest = (request: SessionTypes.RequestEvent): DenyRequest => ({
+export const denyRequest = (
+  request: SessionTypes.RequestEvent,
+  reason: WalletConnectErrorType
+): DenyRequest => ({
   type: Actions.DENY_REQUEST,
   request,
+  reason,
 })
 
 export const clientInitialised = () => ({
