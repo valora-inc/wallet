@@ -13,7 +13,6 @@ beforeAll(async () => {
     newInstance: false,
     permissions: { notifications: 'YES', contacts: 'YES' },
   })
-  // Url blacklist disables detox waiting for this request to complete before considering the app in an idle state
-  // await setUrlDenyList()
+  // Uses demo mode to set a consistent top bar
   await setDemoMode()
 })
