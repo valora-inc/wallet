@@ -275,7 +275,8 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       inviteRewardsEnabled: flags.inviteRewardsEnabled.asBoolean(),
       inviteRewardCusd: flags.inviteRewardCusd.asNumber(),
       inviteRewardWeeklyLimit: flags.inviteRewardWeeklyLimit.asNumber(),
-      walletConnectEnabled: flags.walletConnectEnabled.asBoolean(),
+      walletConnectV1Enabled: flags.walletConnectV1Enabled.asBoolean(),
+      walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
       rewardsABTestThreshold: flags.rewardsABTestThreshold.asString(),
       rewardsPercent: flags.rewardsPercent.asNumber(),
       rewardsStartDate: flags.rewardsStartDate.asNumber(),
@@ -286,6 +287,7 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
       rewardPillText: flags.rewardPillText.asString(),
       cashInButtonExpEnabled: flags.cashInButtonExpEnabled.asBoolean(),
+      logPhoneNumberTypeEnabled: flags.logPhoneNumberTypeEnabled.asBoolean(),
     }
   } else {
     Logger.debug('No new configs were fetched from the backend.')

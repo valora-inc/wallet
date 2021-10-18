@@ -12,12 +12,15 @@ export default offRamps = () => {
     // Waiting for element to be visible for up to 5 seconds before tap
     await waitFor(element(by.id('cashOut')))
       .toBeVisible()
-      .withTimeout(5000)
+      .withTimeout(10 * 1000)
     await element(by.id('cashOut')).tap()
   })
 
   describe('cUSD', () => {
     beforeEach(async () => {
+      await waitFor(element(by.id('radio/cUSD')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
       await element(by.id('radio/cUSD')).tap()
     })
 
@@ -27,6 +30,7 @@ export default offRamps = () => {
         await element(by.text('Next')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Should Be Display No Providers Message', async () => {
         // Enter Amount to Exchange
         await element(by.id('FiatExchangeInput')).replaceText('2')
@@ -53,6 +57,7 @@ export default offRamps = () => {
         await element(by.text('Next')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Bidali Should Display', async () => {
         await expect(element(by.text('Bidali'))).toBeVisible()
         // TODO: Include Check of Screenshot in Nightly Tests
@@ -68,10 +73,11 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Should Display Exchanges', async () => {
         await waitFor(element(by.id('Bittrex')))
           .toBeVisible()
-          .withTimeout(20000)
+          .withTimeout(20 * 1000)
         await expect(element(by.id('Bittrex'))).toBeVisible()
         await expect(element(by.id('CoinList Pro'))).toBeVisible()
         await expect(element(by.id('OKCoin'))).toBeVisible()
@@ -83,9 +89,13 @@ export default offRamps = () => {
 
   describe('cEUR', () => {
     beforeEach(async () => {
+      await waitFor(element(by.id('radio/cEUR')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
       await element(by.id('radio/cEUR')).tap()
     })
 
+    jest.retryTimes(2)
     describe('When Gift Cards and Mobile Top Up Selected', () => {
       beforeEach(async () => {
         await element(by.id('receiveWithBidali')).tap()
@@ -109,6 +119,7 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Should Display No Exchanges Available Text', async () => {
         // Check page elements
         await expect(element(by.id('NoExchanges'))).toHaveText(
@@ -124,6 +135,9 @@ export default offRamps = () => {
 
   describe('CELO', () => {
     beforeEach(async () => {
+      await waitFor(element(by.id('radio/CELO')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
       await element(by.id('radio/CELO')).tap()
     })
 
@@ -140,6 +154,7 @@ export default offRamps = () => {
         await element(by.id('WithdrawReviewButton')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Send To Address', async () => {
         // Confirm withdrawal for randomAmount
         await element(by.id('ConfirmWithdrawButton')).tap()
@@ -160,10 +175,11 @@ export default offRamps = () => {
         await element(by.id('GoToProviderButton')).tap()
       })
 
+      jest.retryTimes(2)
       it('Then Should Display Exchanges & Withdraw CELO Button', async () => {
         await waitFor(element(by.id('Binance')))
           .toBeVisible()
-          .withTimeout(20000)
+          .withTimeout(20 * 1000)
         await expect(element(by.id('Binance'))).toBeVisible()
         await expect(element(by.id('Bittrex'))).toBeVisible()
         await expect(element(by.id('Coinbase (CELO as CGLD)'))).toBeVisible()
