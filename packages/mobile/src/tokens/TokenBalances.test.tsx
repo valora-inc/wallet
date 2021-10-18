@@ -1,8 +1,9 @@
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { Screens } from 'src/navigator/Screens'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
-import { createMockStore } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockTokenBalances } from 'test/values'
 
 const defaultStore = {
@@ -11,13 +12,15 @@ const defaultStore = {
   },
 }
 
+const mockScreenProps = getMockStackScreenProps(Screens.TokenBalances)
+
 describe('TokenBalancesScreen', () => {
   it('renders correctly with invite rewards disabled', async () => {
     const store = createMockStore(defaultStore)
 
     const tree = render(
       <Provider store={store}>
-        <TokenBalancesScreen />
+        <TokenBalancesScreen {...mockScreenProps} />
       </Provider>
     )
 
