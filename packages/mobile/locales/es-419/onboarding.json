@@ -45,7 +45,7 @@
     "feelessBody": "Conectar tu número tomará unos tres minutos. Para confirmar que el número ingresado es tu número, recibirás tres mensajes.",
     "start": "Comenzar",
     "resume": "Reanudar",
-    "doINeedToConfirm": "¿Necesito confirmar mi cuenta?",
+    "doINeedToConfirm": "¿Necesito conectar mi número?",
     "skipForNow": "Saltar por ahora",
     "bodyInsufficientBalance": "Tu saldo actual no es lo suficientemente alto para completar el proceso de confirmación.\n\nIntenta nuevamente cuando hayas agregado fondos a tu app.",
     "bodyAlreadyVerified": "¡Tu número ya está confirmado!"
