@@ -34,6 +34,7 @@ export interface State {
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
   ranVerificationMigrationAt: number | null | undefined
+  logPhoneNumberTypeEnabled: boolean
   googleMobileServicesAvailable: boolean | undefined
   huaweiMobileServicesAvailable: boolean | undefined
   pincodeUseExpandedBlocklist: boolean
@@ -70,6 +71,7 @@ const initialState = {
   rewardsMin: FEATURE_FLAG_DEFAULTS.rewardsMin,
   rewardsABTestThreshold: FEATURE_FLAG_DEFAULTS.rewardsABTestThreshold,
   ranVerificationMigrationAt: null,
+  logPhoneNumberTypeEnabled: false,
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
   pincodeUseExpandedBlocklist: FEATURE_FLAG_DEFAULTS.pincodeUseExpandedBlocklist,
@@ -184,6 +186,7 @@ export const appReducer = (
         rewardsMax: action.flags.rewardsMax,
         rewardsMin: action.flags.rewardsMin,
         rewardsABTestThreshold: action.flags.rewardsABTestThreshold,
+        logPhoneNumberTypeEnabled: action.flags.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.flags.pincodeUseExpandedBlocklist,
         rewardPillText: JSON.parse(action.flags.rewardPillText),
         cashInButtonExpEnabled: action.flags.cashInButtonExpEnabled,

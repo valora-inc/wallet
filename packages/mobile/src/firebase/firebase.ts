@@ -287,6 +287,7 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
       rewardPillText: flags.rewardPillText.asString(),
       cashInButtonExpEnabled: flags.cashInButtonExpEnabled.asBoolean(),
+      logPhoneNumberTypeEnabled: flags.logPhoneNumberTypeEnabled.asBoolean(),
     }
   } else {
     Logger.debug('No new configs were fetched from the backend.')
