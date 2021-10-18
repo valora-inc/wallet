@@ -45,7 +45,7 @@
     "feelessBody": "Die Verbindung dauert etwa drei Minuten. Um deine Nummer zu bestätigen, erhältst Du drei Nachrichten.",
     "start": "Start",
     "resume": "Fortfahren",
-    "doINeedToConfirm": "Muss ich bestätigen?",
+    "doINeedToConfirm": "Muss ich verbinden?",
     "skipForNow": "Vorerst überspringen",
     "bodyInsufficientBalance": "Dein aktueller Saldo ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.\n\nBitte versuchen es erneut, wenn du deinem Wallet Guthaben hinzugefügt hast.",
     "bodyAlreadyVerified": "Deine Nummer ist bereits bestätigt!"
