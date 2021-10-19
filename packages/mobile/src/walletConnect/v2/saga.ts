@@ -332,7 +332,7 @@ function* handleInitialiseWalletConnect() {
 function* createWalletConnectChannel() {
   if (!client) {
     Logger.debug(TAG + '@createWalletConnectChannel', `init start`)
-    client = yield call(WalletConnectClient.init as any, {
+    client = yield call(WalletConnectClient.init, {
       relayProvider: networkConfig.walletConnectEndpoint,
       storageOptions: {
         asyncStorage: AsyncStorage,
