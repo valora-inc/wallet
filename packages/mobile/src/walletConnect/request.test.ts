@@ -8,6 +8,10 @@ import { createMockStore } from 'test/utils'
 import { mockWallet } from 'test/values'
 
 const signTransactionRequest = { method: SupportedActions.eth_signTransaction, params: [] }
+const personalSignRequest = {
+  method: SupportedActions.personal_sign,
+  params: ['Some message', '0xdeadbeef'],
+}
 
 describe(handleRequest, () => {
   it('unlocks the wallet address when a MTW address is set', async () => {
@@ -27,6 +31,18 @@ describe(handleRequest, () => {
       .provide([[call(getWallet), mockWallet]])
       .withState(state)
       .call(unlockAccount, '0xwallet')
+      .run()
+  })
+
+  it('supports personal_sign', async () => {
+    const state = createMockStore({
+      web3: { account: '0xWALLET', mtwAddress: undefined },
+    }).getState()
+    await expectSaga(handleRequest, personalSignRequest)
+      .provide([[call(getWallet), mockWallet]])
+      .withState(state)
+      .call(unlockAccount, '0xwallet')
+      .call([mockWallet, 'signPersonalMessage'], '0xwallet', 'Some message')
       .run()
   })
 })
