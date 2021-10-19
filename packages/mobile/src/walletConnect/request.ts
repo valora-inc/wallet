@@ -88,7 +88,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
       )
       return receipt.transactionHash
     case SupportedActions.personal_sign:
-      return (yield call(wallet.signPersonalMessage.bind(wallet), account, params[1])) as string
+      return (yield call([wallet, 'signPersonalMessage'], account, params[0])) as string
     case SupportedActions.eth_sign:
       const web3: Web3 = yield call(getWeb3)
       return (yield call(web3.eth.sign.bind(web3), params[1], account)) as string
