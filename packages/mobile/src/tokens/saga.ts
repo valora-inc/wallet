@@ -318,7 +318,7 @@ export function* getTokenLocalAmount(tokenInfo: StoredTokenBalance) {
 export function* calculateTotalTokenBalance() {
   const tokenBalances: StoredTokenBalances = yield select(tokenBalancesSelector)
   let totalBalance = new BigNumber(0)
-  for (let token of Object.values(tokenBalances)) {
+  for (const token of Object.values(tokenBalances)) {
     if (token) {
       const balance: BigNumber = yield call(getTokenLocalAmount, token)
       totalBalance = totalBalance.plus(balance)
