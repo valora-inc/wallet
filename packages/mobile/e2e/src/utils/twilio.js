@@ -4,7 +4,7 @@ import { sleep } from './utils'
 
 const MAX_TRIES = 180
 
-export const receiveSms = async (after = new Date(), numCodes = 3, existingCodes = []) => {
+export const receiveSms = async (after = new Date(), numCodes = 3) => {
   try {
     let client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
     let tryNumber = 0
