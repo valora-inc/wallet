@@ -9,6 +9,7 @@ export default Support = () => {
   })
 
   if (device.getPlatform() === 'ios') {
+    jest.retryTimes(2)
     it("Display 'Contact' on Shake", async () => {
       await device.shake()
       await waitFor(element(by.id('HavingTrouble')))
@@ -32,6 +33,7 @@ export default Support = () => {
     })
   }
 
+  jest.retryTimes(2)
   it('Send Message to Support', async () => {
     await waitFor(element(by.id('Hamburger')))
       .toBeVisible()

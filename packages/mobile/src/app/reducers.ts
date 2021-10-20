@@ -24,7 +24,8 @@ export interface State {
   activeScreen: Screens
   hideVerification: boolean
   showRaiseDailyLimitTarget: string | undefined
-  walletConnectEnabled: boolean
+  walletConnectV1Enabled: boolean
+  walletConnectV2Enabled: boolean
   rewardsPercent: number
   rewardsStartDate: number
   rewardsMax: number
@@ -33,6 +34,7 @@ export interface State {
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
   ranVerificationMigrationAt: number | null | undefined
+  logPhoneNumberTypeEnabled: boolean
   googleMobileServicesAvailable: boolean | undefined
   huaweiMobileServicesAvailable: boolean | undefined
   pincodeUseExpandedBlocklist: boolean
@@ -61,13 +63,15 @@ const initialState = {
   activeScreen: Screens.Main,
   hideVerification: FEATURE_FLAG_DEFAULTS.hideVerification,
   showRaiseDailyLimitTarget: undefined,
-  walletConnectEnabled: FEATURE_FLAG_DEFAULTS.walletConnectEnabled,
+  walletConnectV1Enabled: FEATURE_FLAG_DEFAULTS.walletConnectV1Enabled,
+  walletConnectV2Enabled: FEATURE_FLAG_DEFAULTS.walletConnectV2Enabled,
   rewardsPercent: FEATURE_FLAG_DEFAULTS.rewardsPercent,
   rewardsStartDate: FEATURE_FLAG_DEFAULTS.rewardsStartDate,
   rewardsMax: FEATURE_FLAG_DEFAULTS.rewardsMax,
   rewardsMin: FEATURE_FLAG_DEFAULTS.rewardsMin,
   rewardsABTestThreshold: FEATURE_FLAG_DEFAULTS.rewardsABTestThreshold,
   ranVerificationMigrationAt: null,
+  logPhoneNumberTypeEnabled: false,
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
   pincodeUseExpandedBlocklist: FEATURE_FLAG_DEFAULTS.pincodeUseExpandedBlocklist,
@@ -175,12 +179,14 @@ export const appReducer = (
         celoEducationUri: action.flags.celoEducationUri,
         celoEuroEnabled: action.flags.celoEuroEnabled,
         shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
-        walletConnectEnabled: action.flags.walletConnectEnabled,
+        walletConnectV1Enabled: action.flags.walletConnectV1Enabled,
+        walletConnectV2Enabled: action.flags.walletConnectV2Enabled,
         rewardsPercent: action.flags.rewardsPercent,
         rewardsStartDate: action.flags.rewardsStartDate,
         rewardsMax: action.flags.rewardsMax,
         rewardsMin: action.flags.rewardsMin,
         rewardsABTestThreshold: action.flags.rewardsABTestThreshold,
+        logPhoneNumberTypeEnabled: action.flags.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.flags.pincodeUseExpandedBlocklist,
         rewardPillText: JSON.parse(action.flags.rewardPillText),
         cashInButtonExpEnabled: action.flags.cashInButtonExpEnabled,

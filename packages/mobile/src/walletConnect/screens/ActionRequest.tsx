@@ -24,6 +24,7 @@ import {
   denyRequest as denyRequestV2,
   showRequestDetails as showRequestDetailsV2,
 } from 'src/walletConnect/v2/actions'
+import { ERROR_TYPE as WalletConnectErrorType } from 'walletconnect-v2/utils'
 
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectActionRequest>
 
@@ -48,9 +49,9 @@ function acceptRequest(params: Props['route']['params']) {
 function denyRequest(params: Props['route']['params']) {
   switch (params.version) {
     case 1:
-      return denyRequestV1(params.peerId, params.action)
+      return denyRequestV1(params.peerId, params.action, 'User denied')
     case 2:
-      return denyRequestV2(params.action)
+      return denyRequestV2(params.action, WalletConnectErrorType.JSONRPC_REQUEST_METHOD_REJECTED)
   }
 }
 

@@ -268,6 +268,9 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 6. From the `packages/mobile` directory run `yarn run dev:android`.
 
+### Running on Mainnet
+By default, the mobile wallet app runs on celo's testnet `alfajores`. To run the app on `mainnet`, supply an env flag, eg. `yarn run dev:ios -e mainnet`. The command will then run the app with the env file `.env.mainnet`. 
+
 ### Running in forno (data saver) mode
 
 By default, the mobile wallet app runs geth in lightest sync mode where all the epoch headers are fetched. The default sync mode is defined in by `SYNC_DEFAULT_MODE` in the `.env` files in [wallet/packages/mobile](wallet/packages/mobile).
