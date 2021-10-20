@@ -36,15 +36,14 @@ export default class ExchangeRateManager {
   }
 
   async calculateUSDPrices(): Promise<PriceByAddress> {
-    console.log(Date.now())
     const exchanges = await this.getExchangesFromSources()
-    console.log(Date.now())
+
     const graph = this.buildGraph(exchanges)
-    console.log(Date.now())
+
     const estimatedPrices = graph.estimatePrices(cUSD)
-    console.log(Date.now())
+
     const exchangePrices = graph.getAllExchanges(estimatedPrices)
-    console.log(Date.now())
+
     const result: PriceByAddress = {}
     for (const address of Object.keys(exchangePrices)) {
       if (exchangePrices[address][cUSD] && exchangePrices[cUSD][address]) {
