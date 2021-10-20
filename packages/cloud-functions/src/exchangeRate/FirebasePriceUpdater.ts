@@ -31,7 +31,7 @@ export default class FirebasePriceUpdater {
 
     const fetchTime = Date.now()
 
-    asyncPool(
+    await asyncPool(
       MAX_CONCURRENCY,
       Object.entries(tokensInfoRaw),
       async ([key, token]: [string, any]) => {
@@ -59,7 +59,7 @@ async function updatePricesCatched() {
     await updatePrices()
   } catch (err) {
     console.error('There was an error while refreshing token prices:', (err as Error).message)
-    callCloudFunction('updateFirebasePricesByRequest', 0).catch((e) => console.log(e?.message))
+    callCloudFunction('updateFirebasePricesByRequest', 0).catch((e) => console.error(e?.message))
   }
 }
 
@@ -76,7 +76,7 @@ export const updateFirebasePricesByRequest = functions.https.onRequest(async (re
     const msg = (e as Error)?.message
     if (retries < RETRIES_LIMIT) {
       callCloudFunction('updateFirebasePricesByRequest', { retry: retries + 1 }).catch((e) =>
-        console.log(e?.message)
+        console.error(e?.message)
       )
     }
 
