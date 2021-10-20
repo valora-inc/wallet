@@ -20,7 +20,7 @@
   "sentTo": "Sent To",
   "withdrawnTo": "Withdrawn to",
   "receivedFrom": "Received From",
-  "accountNumberLabel": "Account Address",
+  "accountAddressLabel": "Account Address",
   "commentLabel": "Message",
   "amountSent": "Amount Sent",
   "amountCeloWithdrawn": "Amount (CELO)",
