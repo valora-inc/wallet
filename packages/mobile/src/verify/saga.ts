@@ -724,8 +724,10 @@ export function* verifySaga() {
   yield takeEvery(checkIfKomenciAvailable.type, checkIfKomenciAvailableSaga)
   yield takeEvery(start.type, startSaga)
   yield takeEvery(startKomenciSession.type, startOrResumeKomenciSessionSaga)
-  yield takeEvery(fetchPhoneNumberDetails.type, fetchPhoneNumberDetailsSaga)
-  yield takeEvery(fetchMtw.type, fetchOrDeployMtwSaga)
+  yield all([
+    takeEvery(fetchPhoneNumberDetails.type, fetchPhoneNumberDetailsSaga),
+    takeEvery(fetchMtw.type, fetchOrDeployMtwSaga),
+  ])
   yield takeEvery(fetchOnChainData.type, fetchOnChainDataSaga)
   yield takeLatest(doVerificationFlow.type, doVerificationFlowSaga)
   yield takeEvery(fail.type, failSaga)
