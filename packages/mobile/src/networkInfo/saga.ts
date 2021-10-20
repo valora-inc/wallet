@@ -49,8 +49,7 @@ function* fetchUserLocationData() {
   let userLocationData: UserLocationData
   try {
     const response: Response = yield call(fetchWithTimeout, networkConfig.fetchUserLocationDataUrl)
-
-    userLocationData = yield call(response.json)
+    userLocationData = yield response.json()
 
     if (!response.ok) {
       throw new Error(`IP address fetch failed. Error: ${JSON.stringify(userLocationData)}`)
