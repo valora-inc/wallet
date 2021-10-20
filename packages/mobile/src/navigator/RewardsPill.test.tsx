@@ -1,5 +1,5 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import RewardsPill from 'src/navigator/RewardsPill'

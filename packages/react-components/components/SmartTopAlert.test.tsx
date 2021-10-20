@@ -1,6 +1,6 @@
 import SmartTopAlert from '@celo/react-components/components/SmartTopAlert'
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
-import { render } from 'react-native-testing-library'
 
 describe('SmartTopAlert', () => {
   beforeAll(() => {

@@ -72,7 +72,7 @@ export async function getStoredMnemonic(
 export function onGetMnemonicFail(viewError: (error: ErrorMessages) => void, context?: string) {
   viewError(ErrorMessages.FAILED_FETCH_MNEMONIC)
   ValoraAnalytics.track(OnboardingEvents.backup_error, {
-    error: 'Failed to retrieve Account Key',
+    error: 'Failed to retrieve Recovery Phrase',
     context,
   })
 }

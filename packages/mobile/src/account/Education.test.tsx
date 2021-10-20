@@ -1,11 +1,10 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
-import Education, { EducationTopic, EmbeddedNavBar } from 'src/account/Education'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { createMockStore } from 'test/utils'
+import Education, { EducationTopic, EmbeddedNavBar } from '../../src/account/Education'
 
 const BUTTON_TEXT = 'Done'
 
@@ -26,7 +25,7 @@ const educationProps = {
 
 describe('Education', () => {
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={createMockStore({})}>
         <Education {...educationProps} />
       </Provider>
@@ -36,7 +35,7 @@ describe('Education', () => {
 
   it('finishes when pressed', () => {
     const edu = render(<Education {...educationProps} />)
-    fireEvent.press(edu.getByProps({ text: BUTTON_TEXT }))
+    fireEvent.press(edu.UNSAFE_getByProps({ text: BUTTON_TEXT }))
     expect(educationProps.onFinish).toBeCalled()
   })
 

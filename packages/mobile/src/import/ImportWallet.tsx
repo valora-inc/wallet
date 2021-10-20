@@ -39,7 +39,7 @@ import Logger from 'src/utils/Logger'
 
 const AVERAGE_WORD_WIDTH = 80
 const AVERAGE_SEED_WIDTH = AVERAGE_WORD_WIDTH * 24
-// Estimated number of lines needed to enter the account key
+// Estimated number of lines needed to enter the Recovery Phrase
 const NUMBER_OF_LINES = Math.ceil(AVERAGE_SEED_WIDTH / Dimensions.get('window').width)
 
 type Props = StackScreenProps<StackParamList, Screens.ImportWallet>
@@ -231,7 +231,7 @@ ImportWallet.navigationOptions = {
   headerTitle: () => (
     <HeaderTitleWithSubtitle
       title={i18n.t('nuxNamePin1:importIt')}
-      subTitle={i18n.t('onboarding:step', { step: '3' })}
+      subTitle={i18n.t('onboarding:restoreAccountSteps', { step: '3' })}
     />
   ),
 }

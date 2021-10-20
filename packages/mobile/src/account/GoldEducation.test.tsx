@@ -1,13 +1,12 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import GoldEducation from 'src/account/GoldEducation'
 import { createMockStore } from 'test/utils'
 
 it('renders correctly', () => {
-  const tree = renderer.create(
+  const tree = render(
     <Provider store={createMockStore({})}>
       <GoldEducation />
     </Provider>

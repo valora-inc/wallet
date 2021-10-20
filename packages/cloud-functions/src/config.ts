@@ -47,10 +47,10 @@ export const XANPOOL_DATA = {
 }
 
 export const DB_DATA = {
-  host: config.db.host,
-  database: config.db.database,
-  user: config.db.user,
-  password: config.db.password,
+  host: config.db?.host,
+  database: config.db?.database,
+  user: config.db?.user,
+  password: config.db?.password,
 }
 
 export const BLOCKCHAIN_API_URL = config.blockchain_api?.url

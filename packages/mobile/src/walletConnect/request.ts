@@ -9,7 +9,7 @@ import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { getContractKit, getWallet, getWeb3 } from 'src/web3/contracts'
-import { getAccountAddress, unlockAccount } from 'src/web3/saga'
+import { getWalletAddress, unlockAccount } from 'src/web3/saga'
 import Web3 from 'web3'
 
 const TAG = 'WalletConnect/handle-request'
@@ -24,7 +24,7 @@ export interface WalletResponseSuccess {
 }
 
 export function* handleRequest({ method, params }: { method: string; params: any[] }) {
-  const account: string = yield call(getAccountAddress)
+  const account: string = yield call(getWalletAddress)
   const wallet: UnlockableWallet = yield call(getWallet)
   yield call(unlockAccount, account)
 
@@ -88,7 +88,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
       )
       return receipt.transactionHash
     case SupportedActions.personal_sign:
-      return (yield call(wallet.signPersonalMessage.bind(wallet), account, params[1])) as string
+      return (yield call([wallet, 'signPersonalMessage'], account, params[0])) as string
     case SupportedActions.eth_sign:
       const web3: Web3 = yield call(getWeb3)
       return (yield call(web3.eth.sign.bind(web3), params[1], account)) as string

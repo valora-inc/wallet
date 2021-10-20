@@ -1,11 +1,11 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import * as renderer from 'react-test-renderer'
 import AppLoading from 'src/app/AppLoading'
 
 describe('AppLoading', () => {
   it('renders correctly', () => {
-    const tree = renderer.create(<AppLoading />)
+    const tree = render(<AppLoading />)
     expect(tree).toMatchSnapshot()
   })
 })

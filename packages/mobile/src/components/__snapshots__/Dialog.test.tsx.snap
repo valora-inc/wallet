@@ -194,7 +194,7 @@ exports[`renders correctly 1`] = `
                 ]
               }
             >
-              Ppess Me
+              Press Me
             </Text>
           </View>
         </View>

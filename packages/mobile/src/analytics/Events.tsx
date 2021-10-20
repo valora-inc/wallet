@@ -81,8 +81,8 @@ export enum OnboardingEvents {
 
   backup_quiz_start = 'backup_quiz_start',
   backup_quiz_progress = 'backup_quiz_progress', // whenever the backspace is pressed or word is chosen
-  backup_quiz_complete = 'backup_quiz_complete', // (Count # of successful Account Key confirmations Backup_Quiz)
-  backup_quiz_incorrect = 'backup_quiz_incorrect', // (Count # of failed Account Key confirmations Backup_Quiz)
+  backup_quiz_complete = 'backup_quiz_complete', // (Count # of successful Recovery Phrase confirmations Backup_Quiz)
+  backup_quiz_incorrect = 'backup_quiz_incorrect', // (Count # of failed Recovery Phrase confirmations Backup_Quiz)
 
   celo_education_start = 'celo_education_start',
   celo_education_scroll = 'celo_education_scroll',
@@ -353,6 +353,9 @@ export enum FiatExchangeEvents {
   cash_in_success = 'cash_in_success',
 
   cico_add_funds_selected = 'cico_add_funds_selected',
+  // Add fund flow entered through home screen cash in bottom sheet
+  cico_add_funds_bottom_sheet_selected = 'cico_add_funds_bottom_sheet_selected',
+  cico_add_funds_bottom_sheet_impression = 'cico_add_funds_bottom_sheet_impression',
   cico_cash_out_selected = 'cico_cash_out_selected',
   cico_spend_selected = 'cico_spend_selected',
   cico_fund_info = 'cico_fund_info',
@@ -383,6 +386,8 @@ export enum FiatExchangeEvents {
   cico_cash_out_copy_address = 'cico_cash_out_copy_address',
 
   cico_spend_select_provider_back = 'cico_spend_select_provider_back',
+  cico_non_celo_exchange_send_bar_continue = 'cico_non_celo_exchange_send_bar_continue', // When send bar is tapped from cash out for cUSD & cEUR
+  cico_celo_exchange_send_bar_continue = 'cico_celo_exchange_send_bar_continue', // When withdraw bar is tapped from cash out CELO
 }
 
 export enum GethEvents {

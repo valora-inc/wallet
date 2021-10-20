@@ -1,31 +1,30 @@
 import ReviewFrame from '@celo/react-components/components/ReviewFrame'
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Text } from 'react-native'
-import { render } from 'react-native-testing-library'
-import * as renderer from 'react-test-renderer'
 
 const Header = () => <Text>Header</Text>
 const Footer = () => <Text>Footer</Text>
 
 describe('ReviewFrame', () => {
   it('renders correctly', () => {
-    const tree = renderer.create(<ReviewFrame navigateBack={jest.fn()} />)
+    const tree = render(<ReviewFrame navigateBack={jest.fn()} />)
     expect(tree).toMatchSnapshot()
   })
   describe('when Header', () => {
     it('renders with Header', () => {
-      const { getByType } = render(
+      const { UNSAFE_getByType } = render(
         <ReviewFrame HeaderComponent={Header} navigateBack={jest.fn()} />
       )
-      expect(getByType(Header)).toBeTruthy()
+      expect(UNSAFE_getByType(Header)).toBeTruthy()
     })
   })
   describe('when Footer', () => {
     it('renders with Footer', () => {
-      const { getByType } = render(
+      const { UNSAFE_getByType } = render(
         <ReviewFrame FooterComponent={Footer} navigateBack={jest.fn()} />
       )
-      expect(getByType(Footer)).toBeTruthy()
+      expect(UNSAFE_getByType(Footer)).toBeTruthy()
     })
   })
   describe('when has confirmButton', () => {

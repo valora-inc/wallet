@@ -1,6 +1,6 @@
+import { render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
-import { render, waitForElement } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -71,7 +71,7 @@ describe('SimplexScreen', () => {
 
     expect(tree).toMatchSnapshot()
     mockFetch.mockResponseOnce(MOCK_SIMPLEX_PAYMENT_REQUEST_RESPONSE)
-    await waitForElement(() => tree.getByText(/continueToProvider/))
+    await waitFor(() => tree.getByText(/continueToProvider/))
     tree.rerender(
       <Provider store={mockStore}>
         <SimplexScreen {...mockScreenProps()} />

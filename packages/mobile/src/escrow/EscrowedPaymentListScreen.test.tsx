@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentListScreen from 'src/escrow/EscrowedPaymentListScreen'
 import { escrowPaymentDouble } from 'src/escrow/__mocks__'
@@ -21,7 +21,7 @@ describe('EscrowedPaymentListScreen', () => {
   it('renders correctly with payments', () => {
     const store = testStore(payments)
 
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <EscrowedPaymentListScreen />
       </Provider>
@@ -32,7 +32,7 @@ describe('EscrowedPaymentListScreen', () => {
   it('renders correctly with no payments', () => {
     const store = testStore([])
 
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <EscrowedPaymentListScreen />
       </Provider>

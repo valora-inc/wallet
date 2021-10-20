@@ -40,7 +40,10 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { currentLanguageSelector } from 'src/app/reducers'
-import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
+import {
+  logPhoneNumberTypeEnabledSelector,
+  shortVerificationCodesEnabledSelector,
+} from 'src/app/selectors'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
 import { waitForNextBlock } from 'src/geth/saga'
@@ -1038,6 +1041,7 @@ export function* tryRevealPhoneNumber(
   attestation: ActionableAttestation,
   isFeelessVerification: boolean
 ) {
+  const logPhoneNumberTypeEnabled: boolean = yield select(logPhoneNumberTypeEnabledSelector)
   const issuer = attestation.issuer
   Logger.debug(TAG + '@tryRevealPhoneNumber', `Revealing an attestation for issuer: ${issuer}`)
 
@@ -1074,11 +1078,16 @@ export function* tryRevealPhoneNumber(
 
     if (ok) {
       Logger.debug(TAG + '@tryRevealPhoneNumber', `Revealing for issuer ${issuer} successful`)
+
       ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_revealed, {
         neededRetry: false,
         issuer,
         feeless: isFeelessVerification,
+        account: logPhoneNumberTypeEnabled ? account : undefined,
+        phoneNumberType: logPhoneNumberTypeEnabled ? body.phoneNumberType : undefined,
+        credentials: logPhoneNumberTypeEnabled ? body.credentials : undefined,
       })
+
       return true
     }
 
@@ -1088,7 +1097,7 @@ export function* tryRevealPhoneNumber(
 
       yield delay(REVEAL_RETRY_DELAY)
 
-      const { ok: retryOk, status: retryStatus } = yield call(
+      const { ok: retryOk, status: retryStatus, body: retryBody } = yield call(
         postToAttestationService,
         attestationsWrapper,
         attestation.attestationServiceURL,
@@ -1101,7 +1110,11 @@ export function* tryRevealPhoneNumber(
           neededRetry: true,
           issuer,
           feeless: isFeelessVerification,
+          account: logPhoneNumberTypeEnabled ? account : undefined,
+          phoneNumberType: logPhoneNumberTypeEnabled ? retryBody.phoneNumberType : undefined,
+          credentials: logPhoneNumberTypeEnabled ? retryBody.credentials : undefined,
         })
+
         return true
       }
 

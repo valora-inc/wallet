@@ -1,13 +1,17 @@
+// @ts-ignore
+import { toBeDisabled } from '@testing-library/jest-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import WithdrawCeloScreen from 'src/exchange/WithdrawCeloScreen'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+
+expect.extend({ toBeDisabled })
 
 const SAMPLE_ADDRESS = '0xcc642068bdbbdeb91f348213492d2a80ab1ed23c'
 const SAMPLE_BALANCE = '55.00001'
@@ -82,7 +86,7 @@ describe('WithdrawCeloScreen', () => {
       SAMPLE_BALANCE_MINUS_FEES
     )
 
-    expect(getByTestId('WithdrawReviewButton').props.disabled).toBe(false)
+    expect(getByTestId('WithdrawReviewButton')).not.toBeDisabled()
   })
 
   it('decimals with comma separators work correctly', async () => {
@@ -94,7 +98,7 @@ describe('WithdrawCeloScreen', () => {
 
     fireEvent.changeText(getByTestId('AccountAddress'), SAMPLE_ADDRESS)
     fireEvent.changeText(getByTestId('CeloAmount'), '50,1')
-    expect(getByTestId('WithdrawReviewButton').props.disabled).toBe(false)
+    expect(getByTestId('WithdrawReviewButton')).not.toBeDisabled()
 
     fireEvent.press(getByTestId('WithdrawReviewButton'))
 
@@ -117,7 +121,7 @@ describe('WithdrawCeloScreen', () => {
     fireEvent.changeText(getByTestId('AccountAddress'), SAMPLE_ADDRESS)
 
     fireEvent.changeText(getByTestId('CeloAmount'), '55.00002')
-    expect(getByTestId('WithdrawReviewButton').props.disabled).toBe(true)
+    expect(getByTestId('WithdrawReviewButton')).toBeDisabled()
   })
 
   it('disables the review button if the address is not the correct length or format', async () => {
@@ -130,21 +134,22 @@ describe('WithdrawCeloScreen', () => {
 
     // Address is too long
     fireEvent.changeText(getByTestId('AccountAddress'), SAMPLE_ADDRESS + 'a')
-    expect(getByTestId('WithdrawReviewButton').props.disabled).toBe(true)
+    expect(getByTestId('WithdrawReviewButton')).toBeDisabled()
 
     // Address doesn't start with 0x
     fireEvent.changeText(
       getByTestId('AccountAddress'),
       '1xcc642068bdbbdeb91f348213492d2a80ab1ed23c'
     )
-    expect(getByTestId('WithdrawReviewButton').props.disabled).toBe(true)
+    expect(getByTestId('WithdrawReviewButton')).toBeDisabled()
 
     // Address is too short
     fireEvent.changeText(getByTestId('AccountAddress'), '0xcc642068bdbbdeb91f348213492d2a80ab1ed23')
-    expect(getByTestId('WithdrawReviewButton').props.disabled).toBe(true)
+    expect(getByTestId('WithdrawReviewButton')).toBeDisabled()
 
+    // Account address is correct length
     fireEvent.changeText(getByTestId('AccountAddress'), SAMPLE_ADDRESS)
-    expect(getByTestId('WithdrawReviewButton').props.disabled).toBe(false)
+    expect(getByTestId('WithdrawReviewButton')).not.toBeDisabled()
   })
 
   it('populates fields with values received in params', async () => {
@@ -162,6 +167,6 @@ describe('WithdrawCeloScreen', () => {
 
     expect(getByTestId('CeloAmount').props.value).toBe('10.5')
     expect(getByTestId('AccountAddress').props.value).toBe(SAMPLE_ADDRESS)
-    expect(getByTestId('WithdrawReviewButton').props.disabled).toBe(false)
+    expect(getByTestId('WithdrawReviewButton')).not.toBeDisabled()
   })
 })

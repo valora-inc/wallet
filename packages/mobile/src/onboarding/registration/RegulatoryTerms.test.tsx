@@ -1,8 +1,7 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import RegulatoryTerms, {
@@ -17,7 +16,7 @@ jest.mock('src/navigator/NavigationService', () => {
 describe('RegulatoryTermsScreen', () => {
   it('renders correctly', () => {
     const store = createMockStore()
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <RegulatoryTerms />
       </Provider>

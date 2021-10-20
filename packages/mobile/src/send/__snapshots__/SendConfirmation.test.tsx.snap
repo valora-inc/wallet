@@ -278,6 +278,7 @@ exports[`SendConfirmation renders correctly 1`] = `
               ]
             }
             swipeThreshold={100}
+            testID="InviteAndSendModal"
             transparent={true}
             visible={false}
           >
@@ -337,6 +338,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 ]
               }
               swipeThreshold={100}
+              testID="InviteAndSendModal"
             >
               <RNCSafeAreaView>
                 <View

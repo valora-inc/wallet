@@ -1,8 +1,7 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { sendEmail } from 'src/account/emailSender'
 import RaiseLimitScreen from 'src/account/RaiseLimitScreen'
 import { DailyLimitRequestStatus } from 'src/account/reducer'
@@ -25,7 +24,7 @@ describe('RaiseLimitScreen', () => {
   })
 
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={createStore(true)}>
         <RaiseLimitScreen />
       </Provider>

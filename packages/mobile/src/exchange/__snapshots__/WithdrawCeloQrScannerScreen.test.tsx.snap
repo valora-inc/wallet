@@ -2,19 +2,21 @@
 
 exports[`WithdrawCeloQrScannerScreen renders correctly 1`] = `
 <View
+  androidCameraPermissionOptions={null}
+  barCodeTypes={
+    Array [
+      undefined,
+    ]
+  }
+  captureAudio={false}
+  notAuthorizedView={<NotAuthorizedView />}
+  onBarCodeRead={[Function]}
   style={
     Object {
-      "alignItems": "center",
       "flex": 1,
-      "justifyContent": "center",
+      "overflow": "hidden",
     }
   }
->
-  <ActivityIndicator
-    animating={true}
-    color={null}
-    hidesWhenStopped={true}
-    size="small"
-  />
-</View>
+  testID="Camera"
+/>
 `;

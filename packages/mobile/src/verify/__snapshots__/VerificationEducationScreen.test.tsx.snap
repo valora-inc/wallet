@@ -31,6 +31,7 @@ exports[`VerificationEducationScreen allows to skip if verification is loading 1
       ]
     }
     swipeThreshold={100}
+    testID="VerificationSkipDialog"
     transparent={true}
     visible={true}
   >
@@ -90,6 +91,7 @@ exports[`VerificationEducationScreen allows to skip if verification is loading 1
         ]
       }
       swipeThreshold={100}
+      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -863,6 +865,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       ]
     }
     swipeThreshold={100}
+    testID="VerificationSkipDialog"
     transparent={true}
     visible={false}
   >
@@ -922,6 +925,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         ]
       }
       swipeThreshold={100}
+      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -1909,6 +1913,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       ]
     }
     swipeThreshold={100}
+    testID="VerificationSkipDialog"
     transparent={true}
     visible={false}
   >
@@ -1968,6 +1973,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         ]
       }
       swipeThreshold={100}
+      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -2955,6 +2961,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
       ]
     }
     swipeThreshold={100}
+    testID="VerificationSkipDialog"
     transparent={true}
     visible={false}
   >
@@ -3014,6 +3021,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
         ]
       }
       swipeThreshold={100}
+      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -4001,6 +4009,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
       ]
     }
     swipeThreshold={100}
+    testID="VerificationSkipDialog"
     transparent={true}
     visible={false}
   >
@@ -4060,6 +4069,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
         ]
       }
       swipeThreshold={100}
+      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View

@@ -9,7 +9,10 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { currentLanguageSelector } from 'src/app/reducers'
-import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
+import {
+  shortVerificationCodesEnabledSelector,
+  logPhoneNumberTypeEnabledSelector,
+} from 'src/app/selectors'
 import {
   cancelVerification,
   completeAttestationCode,
@@ -350,6 +353,7 @@ describe(doVerificationFlowSaga, () => {
         [select(verificationStatusSelector), mockVerificationState.status],
         [select(komenciContextSelector), mockVerificationState.komenci],
         [select(actionableAttestationsSelector), mockVerificationState.actionableAttestations],
+        [select(logPhoneNumberTypeEnabledSelector), false],
         [select(shortVerificationCodesEnabledSelector), false],
         [call(getConnectedUnlockedAccount), mockAccount],
         [
@@ -421,6 +425,7 @@ describe(doVerificationFlowSaga, () => {
         [select(verificationStatusSelector), mockVerificationStatePartlyVerified.status],
         [select(komenciContextSelector), mockVerificationState.komenci],
         [select(actionableAttestationsSelector), mockVerificationState.actionableAttestations],
+        [select(logPhoneNumberTypeEnabledSelector), false],
         [select(shortVerificationCodesEnabledSelector), false],
         [call(getConnectedUnlockedAccount), mockAccount],
         [
@@ -540,6 +545,7 @@ describe(doVerificationFlowSaga, () => {
         [select(verificationStatusSelector), mockVerificationState.status],
         [select(komenciContextSelector), mockVerificationState.komenci],
         [select(actionableAttestationsSelector), mockActionableAttestations],
+        [select(logPhoneNumberTypeEnabledSelector), false],
         [select(shortVerificationCodesEnabledSelector), false],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(currentLanguageSelector), 'us-en'],
