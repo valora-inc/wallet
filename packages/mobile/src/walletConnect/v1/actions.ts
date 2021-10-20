@@ -72,6 +72,7 @@ export interface DenyRequest {
   type: Actions.DENY_REQUEST_V1
   request: WalletConnectPayloadRequest
   peerId: string
+  reason: string
 }
 
 export interface SessionRequest {
@@ -147,10 +148,15 @@ export const acceptRequest = (
   request,
   peerId,
 })
-export const denyRequest = (peerId: string, request: WalletConnectPayloadRequest): DenyRequest => ({
+export const denyRequest = (
+  peerId: string,
+  request: WalletConnectPayloadRequest,
+  reason: string
+): DenyRequest => ({
   type: Actions.DENY_REQUEST_V1,
   request,
   peerId,
+  reason,
 })
 
 export const sessionRequest = (

@@ -54,8 +54,10 @@ export const verificationPossibleSelector = (state: RootState): boolean => {
 export const numberVerifiedSelector = (state: RootState) => state.app.numberVerified
 
 // this can be called with undefined state in the tests
-export const walletConnectEnabledSelector = (state?: RootState) =>
-  state?.app.walletConnectEnabled ?? false
+export const walletConnectEnabledSelector = (state?: RootState) => ({
+  v1: state?.app.walletConnectV1Enabled ?? false,
+  v2: state?.app.walletConnectV2Enabled ?? false,
+})
 
 export const shortVerificationCodesEnabledSelector = (state: RootState) =>
   state.app.shortVerificationCodesEnabled
@@ -85,6 +87,9 @@ export const rewardsEnabledSelector = createSelector(
     return address! < rewardsThreshold
   }
 )
+
+export const logPhoneNumberTypeEnabledSelector = (state: RootState) =>
+  state.app.logPhoneNumberTypeEnabled
 
 export const celoEuroEnabledSelector = (state: RootState) => state.app.celoEuroEnabled
 

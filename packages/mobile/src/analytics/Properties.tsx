@@ -395,6 +395,9 @@ interface VerificationEventsProperties {
     issuer: any
     neededRetry: boolean
     feeless?: boolean
+    account?: string
+    phoneNumberType?: string
+    credentials?: string
   }
   [VerificationEvents.verification_reveal_attestation_await_code_start]: {
     issuer: any
@@ -978,6 +981,10 @@ type WalletConnectRequestDefaultProperties = WalletConnectDefaultProperties & {
   // requestParams: any
 }
 
+type WalletConnectRequestDenyProperties = WalletConnectRequestDefaultProperties & {
+  denyReason: string
+}
+
 interface WalletConnectProperties {
   [WalletConnectEvents.wc_pairing_start]: {
     origin: WalletConnectPairingOrigin
@@ -1011,9 +1018,9 @@ interface WalletConnectProperties {
   [WalletConnectEvents.wc_request_accept_error]: WalletConnectRequestDefaultProperties & {
     error: string
   }
-  [WalletConnectEvents.wc_request_deny_start]: WalletConnectRequestDefaultProperties
-  [WalletConnectEvents.wc_request_deny_success]: WalletConnectRequestDefaultProperties
-  [WalletConnectEvents.wc_request_deny_error]: WalletConnectRequestDefaultProperties & {
+  [WalletConnectEvents.wc_request_deny_start]: WalletConnectRequestDenyProperties
+  [WalletConnectEvents.wc_request_deny_success]: WalletConnectRequestDenyProperties
+  [WalletConnectEvents.wc_request_deny_error]: WalletConnectRequestDenyProperties & {
     error: string
   }
 }
