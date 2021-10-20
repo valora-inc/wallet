@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions'
 import asyncPool from 'tiny-async-pool'
 import { fetchFromFirebase, updateFirebase } from '../firebase'
+import { callCloudFunction } from '../utils'
 import ExchangeRateManager from './ExchangeRateManager'
 import { PriceByAddress } from './ExchangesGraph'
 import { moolaExchanges } from './sources/MoolaExchanges'
@@ -10,6 +11,8 @@ const FIREBASE_NODE_KEY = '/tokensInfo'
 
 const MAX_CONCURRENCY = 30
 
+const RETRIES_LIMIT = 5
+
 export default class FirebasePriceUpdater {
   manager: ExchangeRateManager
 
@@ -17,9 +20,10 @@ export default class FirebasePriceUpdater {
     this.manager = manager
   }
 
-  async refreshAllPrices() {
+  async refreshAllPrices(): Promise<PriceByAddress> {
     const prices = await this.manager.calculateUSDPrices()
     await this.updatePrices(prices)
+    return prices
   }
 
   private async updatePrices(prices: PriceByAddress) {
@@ -41,17 +45,42 @@ export default class FirebasePriceUpdater {
   }
 }
 
-export async function updatePrices() {
+async function updatePrices() {
   const updater = new FirebasePriceUpdater(
     new ExchangeRateManager([ubeswapLiquidityPool, moolaExchanges])
   )
+  const prices = await updater.refreshAllPrices()
+
+  return prices
+}
+
+async function updatePricesCatched() {
   try {
-    await updater.refreshAllPrices()
+    await updatePrices()
   } catch (err) {
     console.error('There was an error while refreshing token prices:', (err as Error).message)
+    callCloudFunction('updateFirebasePricesByRequest', 0).catch((e) => console.log(e?.message))
   }
 }
 
-export const updateFirebasePrices = functions.pubsub
+export const updateFirebasePricesScheduled = functions.pubsub
   .schedule('*/10 * * * *') // every 10 mins
-  .onRun(updatePrices)
+  .onRun(updatePricesCatched)
+
+export const updateFirebasePricesByRequest = functions.https.onRequest(async (req, res) => {
+  const retries = req.body.retry ?? 0
+  try {
+    const prices = await updatePrices()
+    res.status(200).send(prices)
+  } catch (e) {
+    const msg = (e as Error)?.message
+    if (retries < RETRIES_LIMIT) {
+      callCloudFunction('updateFirebasePricesByRequest', { retry: retries + 1 }).catch((e) =>
+        console.log(e?.message)
+      )
+    }
+
+    console.error('There was an error while refreshing token prices:', msg)
+    res.status(400).send(msg)
+  }
+})

@@ -7,6 +7,9 @@ export { simplexEventPolling } from './cico/simplexEventPolling'
 export { transakWebhook } from './cico/transakWebhook'
 export { xanpoolwebhook } from './cico/xanpoolWebhook'
 export { updateExchangeRates } from './exchangeRate'
-export { updateFirebasePrices } from './exchangeRate/FirebasePriceUpdater'
+export {
+  updateFirebasePricesByRequest,
+  updateFirebasePricesScheduled,
+} from './exchangeRate/FirebasePriceUpdater'
 export { notifyPaymentRequests } from './paymentRequests'
 export { fetchAccountsForWalletAddress } from './walletAddressMapping'
