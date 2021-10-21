@@ -126,5 +126,6 @@
     "title": "Add funds to start using Valora!",
     "subtitle": "Your account is currently empty",
     "addFunds": "Add Funds"
-  }
+  },
+  "balances": "Balances"
 }
