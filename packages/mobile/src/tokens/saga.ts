@@ -321,7 +321,7 @@ export function* calculateTotalTokenBalance() {
   for (const token of Object.values(tokenBalances)) {
     if (token) {
       const balance: BigNumber = yield call(getTokenLocalAmount, token)
-      totalBalance = totalBalance.plus(balance)
+      totalBalance = totalBalance.plus(balance ?? 0)
     }
   }
 

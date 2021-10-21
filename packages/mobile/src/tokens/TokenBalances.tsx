@@ -59,11 +59,13 @@ function TokenBalancesScreen({ navigation }: Props) {
             style={styles.tokenAmt}
             showLocalAmount={false}
             showSymbol={true}
+            testID={`tokenBalance:${token.symbol}`}
           />
           <TokenDisplay
             amount={new BigNumber(token.balance!)}
             tokenAddress={token.address}
             style={styles.subtext}
+            testID={`tokenLocalBalance:${token.symbol}`}
           />
         </View>
       </View>
