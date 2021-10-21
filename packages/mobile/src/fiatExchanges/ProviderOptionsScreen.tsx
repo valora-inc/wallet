@@ -46,6 +46,7 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import { CiCoCurrency, CURRENCIES, Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'ProviderOptionsScreen'
@@ -110,12 +111,12 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
 
   const asyncProviders = useAsync(async () => {
     if (!isFocused) {
-      console.error(TAG, 'Screen is not in focus')
+      Logger.error(TAG, 'Screen is not in focus')
       return
     }
 
     if (!account) {
-      console.error(TAG, 'No account set')
+      Logger.error(TAG, 'No account set')
       return
     }
 
