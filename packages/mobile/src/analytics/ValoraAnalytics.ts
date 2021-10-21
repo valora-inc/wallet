@@ -223,8 +223,8 @@ class ValoraAnalytics {
 let isInitialized = false
 type KeysOfType<T, TProp> = { [P in keyof T]: T[P] extends TProp ? P : never }[keyof T]
 type ValoraAnalyticsKeyFunction = KeysOfType<ValoraAnalytics, Function>
-// Type checked function keys to queue
-let funcsToQueue = new Set<ValoraAnalyticsKeyFunction>([
+// Type checked function keys to queue until `init` has finished
+const funcsToQueue = new Set<ValoraAnalyticsKeyFunction>([
   'startSession',
   'track',
   'identify',
