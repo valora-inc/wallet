@@ -224,11 +224,16 @@ let isInitialized = false
 type KeysOfType<T, TProp> = { [P in keyof T]: T[P] extends TProp ? P : never }[keyof T]
 type ValoraAnalyticsKeyFunction = KeysOfType<ValoraAnalytics, Function>
 // Type checked function keys to queue
-let funcToQueue = new Set<ValoraAnalyticsKeyFunction>(['startSession', 'track', 'identify', 'page'])
+let funcsToQueue = new Set<ValoraAnalyticsKeyFunction>([
+  'startSession',
+  'track',
+  'identify',
+  'page',
+])
 let queuedCalls: Function[] = []
 
 function isFuncToQueue(prop: string | number | symbol): prop is ValoraAnalyticsKeyFunction {
-  return funcToQueue.has(prop as ValoraAnalyticsKeyFunction)
+  return funcsToQueue.has(prop as ValoraAnalyticsKeyFunction)
 }
 
 /**
