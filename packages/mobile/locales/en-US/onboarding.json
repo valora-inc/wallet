@@ -45,7 +45,7 @@
     "feelessBody": "Connecting takes about three minutes. To confirm your number, you’ll receive three messages.",
     "start": "Start",
     "resume": "Resume",
-    "doINeedToConfirm": "Do I need to connect?",
+    "doINeedToConfirm": "Do I need to confirm?",
     "skipForNow": "Skip for now",
     "bodyInsufficientBalance": "Your current balance is not high enough to complete the confirmation process.\n\nPlease try again when you have added funds to your wallet.",
     "bodyAlreadyVerified": "Your number is already confirmed!"
@@ -110,5 +110,5 @@
   "success": {
     "message": "You're all set!"
   },
-  "verificationUnavailable": "Phone number confirmation is currently unavailable. Please enter your phone number and we will notify you when it is possible to confirm again.\n\nIn the meantime, you can continue to use Valora!. Payments sent to your phone number will be safely held until you redeem them by confirming your phone number."
+  "verificationUnavailable": "Phone number confirmation is currently unavailable. Please enter your phone number and we will notify you when it is possible to confirm again.\n\nIn the meantime, you can continue to use Valora! Payments sent to your phone number will be safely held until you redeem them by confirming your phone number."
 }
