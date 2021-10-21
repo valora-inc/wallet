@@ -196,7 +196,7 @@ export default ExchangeCelo = () => {
     // Wait for confirm button
     await waitFor(element(by.id('ConfirmWithdrawButton')))
       .toBeVisible()
-      .withTimeout(1 * 1000)
+      .withTimeout(10 * 1000)
     // Tap Confirm
     await element(by.id('ConfirmWithdrawButton')).tap()
     // Enter PIN
