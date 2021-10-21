@@ -45,7 +45,7 @@
     "feelessBody": "Die Verbindung dauert etwa drei Minuten. Um deine Nummer zu bestätigen, erhältst Du drei Nachrichten.",
     "start": "Start",
     "resume": "Fortfahren",
-    "doINeedToConfirm": "Muss ich verbinden?",
+    "doINeedToConfirm": "Muss ich bestätigen?",
     "skipForNow": "Vorerst überspringen",
     "bodyInsufficientBalance": "Dein aktueller Saldo ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.\n\nBitte versuchen es erneut, wenn du deinem Wallet Guthaben hinzugefügt hast.",
     "bodyAlreadyVerified": "Deine Nummer ist bereits bestätigt!"
@@ -110,5 +110,5 @@
   "success": {
     "message": "Du bist fertig!"
   },
-  "verificationUnavailable": "Die Bestätigung der Telefonnummer ist derzeit nicht verfügbar. Bitte gib deine Telefonnummer ein und wir werden dich benachrichtigen, wenn es möglich ist erneut zu bestätigen.\n\nIn der Zwischenzeit kannst du Valora weiter verwenden! Zahlungen, die an deine Telefonnummer gesendet werden, werden sicher getätigt, bis du diese durch Bestätigung deiner Telefonnummer einlöst."
+  "verificationUnavailable": "Die Telefonnummernbestätigung ist derzeit nicht verfügbar. Bitte gib deine Telefonnummer ein und wir werden dich benachrichtigen, sobald die Bestätigung wieder möglich ist.\n\nIn der Zwischenzeit kannst du Valora weiter nutzen! Zahlungen, die an deine Telefonnummer gesendet werden, werden sicher aufbewahrt, bis du sie einlöst, indem du deine Telefonnummer bestätigst."
 }
