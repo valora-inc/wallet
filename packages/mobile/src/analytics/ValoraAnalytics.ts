@@ -2,7 +2,6 @@ import Analytics, { Analytics as analytics } from '@segment/analytics-react-nati
 import Adjust from '@segment/analytics-react-native-adjust'
 import CleverTapSegment from '@segment/analytics-react-native-clevertap'
 import Firebase from '@segment/analytics-react-native-firebase'
-import CleverTap from 'clevertap-react-native'
 import { sha256 } from 'ethereumjs-util'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -84,8 +83,6 @@ class ValoraAnalytics {
       }
 
       Logger.info(TAG, 'Segment Analytics Integration initialized!')
-
-      CleverTap.enableDeviceNetworkInfoReporting(true)
     } catch (error) {
       Logger.error(TAG, `Segment setup error: ${error.message}\n`, error)
     }

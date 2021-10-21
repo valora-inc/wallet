@@ -1,3 +1,5 @@
+// @ts-ignore
+import { toBeDisabled } from '@testing-library/jest-native'
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
@@ -6,6 +8,8 @@ import { TokenTransactionType } from 'src/apollo/types'
 import GoldTransactionFeedItem from 'src/transactions/GoldTransactionFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
 import { createMockStore, getMockI18nProps } from 'test/utils'
+
+expect.extend({ toBeDisabled })
 
 const localAmount = {
   value: '1.23',
@@ -45,5 +49,24 @@ describe('GoldTransactionFeedItem', () => {
       </Provider>
     )
     expect(tree).toMatchSnapshot()
+  })
+
+  it('tap disabled while pending', () => {
+    const { getByTestId } = render(
+      <Provider store={createMockStore({})}>
+        <GoldTransactionFeedItem
+          status={TransactionStatus.Pending}
+          __typename="TokenExchange"
+          type={TokenTransactionType.Exchange}
+          hash={'0x'}
+          amount={{ value: '-1', currencyCode: 'cUSD', localAmount }}
+          makerAmount={{ value: '1', currencyCode: 'cUSD', localAmount }}
+          takerAmount={{ value: '10', currencyCode: 'cGLD', localAmount }}
+          timestamp={1}
+          {...getMockI18nProps()}
+        />
+      </Provider>
+    )
+    expect(getByTestId('GoldTransactionFeedItem')).toBeDisabled()
   })
 })

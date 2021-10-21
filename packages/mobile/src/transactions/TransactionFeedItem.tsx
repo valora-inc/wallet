@@ -35,7 +35,7 @@ export function TransactionFeedItem(props: Props) {
   const isCeloTx = amount.currencyCode === Currency.Celo
 
   return (
-    <Touchable onPress={onPress}>
+    <Touchable disabled={isPending} onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.iconContainer}>{icon}</View>
         <View style={styles.contentContainer}>
