@@ -27,20 +27,12 @@ describe(fetchUserLocationData, () => {
 
   it('infers location from country code then correctly dispatches the action', async () => {
     const singaporeCallingCode = '+65'
-    const mockCountryCodeAlpha2 = 'SG'
-    const mockIpAddress = '82.100.24.14'
 
     const MOCK_PHONE_LOCATION_DATA = {
-      countryCodeAlpha2: mockCountryCodeAlpha2,
+      countryCodeAlpha2: 'SG',
       region: null,
       ipAddress: null,
     }
-
-    jest.mock('react-native-device-info', () => {
-      return {
-        getIpAddress: async () => new Promise((res) => res(mockIpAddress)),
-      }
-    })
 
     mockFetch.mockReject(new Error('Location data service unavailable'))
 
