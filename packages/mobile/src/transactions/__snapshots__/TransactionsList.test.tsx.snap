@@ -1935,7 +1935,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
     >
       <View
         accessible={true}
-        focusable={true}
+        focusable={false}
         nativeBackgroundAndroid={
           Object {
             "attribute": "selectableItemBackground",
@@ -2089,7 +2089,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
     >
       <View
         accessible={true}
-        focusable={true}
+        focusable={false}
         nativeBackgroundAndroid={
           Object {
             "attribute": "selectableItemBackground",
@@ -2220,7 +2220,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
     >
       <View
         accessible={true}
-        focusable={true}
+        focusable={false}
         nativeBackgroundAndroid={
           Object {
             "attribute": "selectableItemBackground",

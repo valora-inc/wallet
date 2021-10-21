@@ -93,6 +93,7 @@ import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
 import SetClock from 'src/set-clock/SetClock'
+import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TransactionReview from 'src/transactions/TransactionReview'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
@@ -178,6 +179,11 @@ const commonScreens = (Navigator: typeof Stack) => {
         name={Screens.WebViewScreen}
         component={WebViewScreen}
         options={webViewScreenNavOptions}
+      />
+      <Navigator.Screen
+        name={Screens.TokenBalances}
+        component={TokenBalancesScreen}
+        options={TokenBalancesScreen.navigationOptions}
       />
     </>
   )

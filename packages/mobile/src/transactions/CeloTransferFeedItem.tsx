@@ -69,7 +69,7 @@ export function CeloTransferFeedItem(props: Props) {
     formatShortenedAddress(address)
 
   return (
-    <Touchable onPress={onPress}>
+    <Touchable testID="CeloTransferFeedItem" disabled={isPending} onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.firstRow}>
           <Text style={styles.txMode}>
