@@ -126,5 +126,6 @@
     "title": "Füge Guthaben hinzu, um loszulegen!",
     "subtitle": "Dein Konto ist derzeit leer",
     "addFunds": "Guthaben hinzufügen"
-  }
+  },
+  "balances": "Guthaben"
 }
