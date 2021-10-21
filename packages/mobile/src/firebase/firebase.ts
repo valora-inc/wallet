@@ -5,6 +5,8 @@ import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
 import remoteConfig, { FirebaseRemoteConfigTypes } from '@react-native-firebase/remote-config'
+import CleverTap from 'clevertap-react-native'
+import { Platform } from 'react-native'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
 import { currentLanguageSelector } from 'src/app/reducers'
@@ -153,14 +155,31 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
   const fcmToken = yield call([app.messaging(), 'getToken'])
   if (fcmToken) {
     yield call(registerTokenToDb, app, address, fcmToken)
+    if (Platform.OS === 'android') {
+      // @ts-ignore FCM constant missing from types
+      yield call([CleverTap, 'setPushToken'], fcmToken, CleverTap.FCM)
+    }
     // First time setting the fcmToken also set the language selection
     const language = yield select(currentLanguageSelector)
     yield call(setUserLanguage, address, language)
   }
+  if (Platform.OS === 'ios') {
+    const apnsToken = yield call([firebase.messaging(), 'getAPNSToken'])
+    if (apnsToken) {
+      // Note: 2nd argument (type) is ignored on iOS, so we just pass an empty string
+      CleverTap.setPushToken(apnsToken, '')
+    }
+  }
+
+  CleverTap.createNotificationChannel('CleverTapChannelId', 'CleverTap', 'default channel', 5, true)
 
   app.messaging().onTokenRefresh(async (token) => {
     Logger.info(TAG, 'Cloud Messaging token refreshed')
     await registerTokenToDb(app, address, token)
+    if (Platform.OS === 'android') {
+      // @ts-ignore FCM constant missing from types
+      CleverTap.setPushToken(token, CleverTap.FCM)
+    }
   })
 }
 
@@ -256,7 +275,8 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       inviteRewardsEnabled: flags.inviteRewardsEnabled.asBoolean(),
       inviteRewardCusd: flags.inviteRewardCusd.asNumber(),
       inviteRewardWeeklyLimit: flags.inviteRewardWeeklyLimit.asNumber(),
-      walletConnectEnabled: flags.walletConnectEnabled.asBoolean(),
+      walletConnectV1Enabled: flags.walletConnectV1Enabled.asBoolean(),
+      walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
       rewardsABTestThreshold: flags.rewardsABTestThreshold.asString(),
       rewardsPercent: flags.rewardsPercent.asNumber(),
       rewardsStartDate: flags.rewardsStartDate.asNumber(),
@@ -266,6 +286,8 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       komenciAllowedDeployers: flags.komenciAllowedDeployers.asString().split(','),
       pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
       rewardPillText: flags.rewardPillText.asString(),
+      cashInButtonExpEnabled: flags.cashInButtonExpEnabled.asBoolean(),
+      logPhoneNumberTypeEnabled: flags.logPhoneNumberTypeEnabled.asBoolean(),
     }
   } else {
     Logger.debug('No new configs were fetched from the backend.')

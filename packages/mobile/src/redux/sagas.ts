@@ -6,6 +6,7 @@ import { call, select, spawn, takeEvery } from 'redux-saga/effects'
 import { Actions as AccountActions } from 'src/account/actions'
 import { accountSaga } from 'src/account/saga'
 import { devModeSelector } from 'src/account/selectors'
+import { analyticsSaga } from 'src/analytics/saga'
 import {
   appInit,
   appRemoteFeatureFlagSaga,
@@ -37,6 +38,7 @@ import { waitForRehydrate } from 'src/redux/persist-helper'
 import { sendSaga } from 'src/send/saga'
 import { sentrySaga } from 'src/sentry/saga'
 import { stableTokenSaga } from 'src/stableToken/saga'
+import { tokensSaga } from 'src/tokens/saga'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { transactionSaga } from 'src/transactions/saga'
 import { checkAccountExistenceSaga } from 'src/utils/accountChecker'
@@ -102,6 +104,7 @@ export function* rootSaga() {
     yield call(appInit)
 
     // Note, the order of these does matter in certain cases
+    yield spawn(analyticsSaga)
     yield spawn(appVersionSaga)
     yield spawn(appRemoteFeatureFlagSaga)
     yield spawn(loggerSaga)
@@ -131,6 +134,7 @@ export function* rootSaga() {
     yield spawn(fiatExchangesSaga)
     yield spawn(walletConnectSaga)
     yield spawn(checkAndroidMobileServicesSaga)
+    yield spawn(tokensSaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

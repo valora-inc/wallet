@@ -13,6 +13,7 @@ class ValoraAnalytics {
   )
   getSessionId = jest.fn(() => 'this is a session id')
   setUserAddress = jest.fn((address: string | null | undefined) => console.log(address))
+  identify = jest.fn((userID: string) => console.log(userID))
   track = jest.fn(
     <EventName extends keyof AnalyticsPropertiesList>(
       ...args: undefined extends AnalyticsPropertiesList[EventName]

@@ -1,12 +1,16 @@
+// @ts-ignore
+import { toBeDisabled } from '@testing-library/jest-native'
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { TokenTransactionType } from 'src/apollo/types'
 import CeloTransferFeedItem from 'src/transactions/CeloTransferFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
 import { createMockStore, getMockI18nProps } from 'test/utils'
 import { mockAccount } from 'test/values'
+
+expect.extend({ toBeDisabled })
 
 const SAMPLE_ADDRESS = '0xcc642068bdbbdeb91f348213492d2a80ab1ed23c'
 
@@ -32,7 +36,7 @@ describe('CeloTransferFeedItem', () => {
   })
 
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={createMockStore({})}>
         <CeloTransferFeedItem
           status={TransactionStatus.Complete}
@@ -44,6 +48,8 @@ describe('CeloTransferFeedItem', () => {
           account={''}
           comment={''}
           timestamp={1}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -53,7 +59,7 @@ describe('CeloTransferFeedItem', () => {
 
   it("renders correctly when there's a known address", () => {
     const mockName = 'This is a Test'
-    const tree = renderer.create(
+    const tree = render(
       <Provider
         store={createMockStore({
           identity: {
@@ -75,10 +81,57 @@ describe('CeloTransferFeedItem', () => {
           account={''}
           comment={''}
           timestamp={1}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
+  })
+
+  it("renders correctly when there's a default name", () => {
+    const mockName = 'This is a Test'
+    const tree = render(
+      <Provider store={createMockStore({})}>
+        <CeloTransferFeedItem
+          status={TransactionStatus.Complete}
+          __typename="TokenTransfer"
+          type={TokenTransactionType.Received}
+          hash={'0x'}
+          amount={{ value: '1.005', currencyCode: 'cGLD', localAmount }}
+          address={mockAccount}
+          account={''}
+          comment={''}
+          timestamp={1}
+          defaultImage={null}
+          defaultName={mockName}
+          {...getMockI18nProps()}
+        />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('tap disabled while pending', () => {
+    const { getByTestId } = render(
+      <Provider store={createMockStore({})}>
+        <CeloTransferFeedItem
+          status={TransactionStatus.Pending}
+          __typename="TokenTransfer"
+          type={TokenTransactionType.Received}
+          hash={'0x'}
+          amount={{ value: '1.005', currencyCode: 'cGLD', localAmount }}
+          address={mockAccount}
+          account={''}
+          comment={''}
+          timestamp={1}
+          defaultImage={null}
+          defaultName={null}
+          {...getMockI18nProps()}
+        />
+      </Provider>
+    )
+    expect(getByTestId('CeloTransferFeedItem')).toBeDisabled()
   })
 })

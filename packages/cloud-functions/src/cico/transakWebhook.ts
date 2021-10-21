@@ -12,6 +12,7 @@ interface TransakEventPayload {
   createdAt: string
   webhookData: {
     id: string
+    userId: string
     walletAddress: string
     createdAt: string
     status: TransakStatus
@@ -31,7 +32,7 @@ interface TransakEventPayload {
     cryptoAmount: number
     totalFeeInFiat: number
     fiatAmountInUsd: number
-    fromWalletAddress: boolean
+    fromWalletAddress: string | boolean
     fiatliquidityProviderData: {
       reservationData: {
         url: string
@@ -183,9 +184,15 @@ export const parseTransakEvent = async (reqBody: TransakEventPayload) => {
         if (
           key !== 'cryptocurrency' &&
           key !== 'fiatliquidityProviderData' &&
-          key !== 'statusHistories'
+          key !== 'statusHistories' &&
+          key !== 'cardPaymentData'
         ) {
           dataObj[key] = value
+        }
+
+        // `fromWalletAddress` can be null, false, or a string so casting false as null
+        if (key === 'fromWalletAddress' && value === false) {
+          dataObj[key] = null
         }
       }
 

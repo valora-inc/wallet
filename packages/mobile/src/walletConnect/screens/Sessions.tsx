@@ -64,7 +64,7 @@ function Sessions() {
     closeModal()
   }
 
-  const appName =
+  const dappName =
     highlighted && 'topic' in highlighted
       ? highlighted?.peer.metadata.name
       : highlighted?.peerMeta?.name
@@ -72,7 +72,7 @@ function Sessions() {
     <ScrollView testID="WalletConnectSessionsView">
       <Dialog
         title={t('disconnectTitle', {
-          appName,
+          dappName,
         })}
         actionPress={closeSession}
         actionText={t('disconnect')}
@@ -80,7 +80,7 @@ function Sessions() {
         secondaryActionPress={closeModal}
         isVisible={!!highlighted}
       >
-        {t('disconnectBody', { appName })}
+        {t('disconnectBody', { dappName })}
       </Dialog>
 
       <View style={styles.container}>

@@ -1,11 +1,11 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
-import * as renderer from 'react-test-renderer'
 import QRCode, { genMatrix } from 'src/qrcode/QRGen'
 import { UriData, urlFromUriData } from 'src/qrcode/schema'
 
 describe('QRCode', () => {
   it('renders correctly', () => {
-    const tree = renderer.create(<QRCode value="celo" svgRef={{ current: null }} />).toJSON()
+    const tree = render(<QRCode value="celo" svgRef={{ current: null }} />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 
@@ -15,7 +15,7 @@ describe('QRCode', () => {
     const onErrorMock = jest.fn()
     // Rendering with big amount of data that should
     // throw an exception
-    renderer.create(
+    render(
       <QRCode
         value={new Array(1000000).join('123')}
         onError={onErrorMock}
@@ -27,7 +27,7 @@ describe('QRCode', () => {
 
   it('does not call onError in case if value is fine', () => {
     const onErrorMock = jest.fn()
-    renderer.create(<QRCode value="123" onError={onErrorMock} svgRef={{ current: null }} />)
+    render(<QRCode value="123" onError={onErrorMock} svgRef={{ current: null }} />)
     expect(onErrorMock).not.toHaveBeenCalled()
   })
 
@@ -42,9 +42,7 @@ describe('QRCode', () => {
       comment: '92a53156-c0f2-11ea-b3de-0242ac13000',
       token: undefined,
     }
-    renderer.create(
-      <QRCode value={urlFromUriData(data)} onError={onErrorMock} svgRef={{ current: null }} />
-    )
+    render(<QRCode value={urlFromUriData(data)} onError={onErrorMock} svgRef={{ current: null }} />)
     expect(onErrorMock).not.toHaveBeenCalled()
   })
 })

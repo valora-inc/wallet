@@ -1,5 +1,6 @@
 import Analytics, { Analytics as analytics } from '@segment/analytics-react-native'
 import Adjust from '@segment/analytics-react-native-adjust'
+import CleverTapSegment from '@segment/analytics-react-native-clevertap'
 import Firebase from '@segment/analytics-react-native-firebase'
 import { sha256 } from 'ethereumjs-util'
 import { Platform } from 'react-native'
@@ -46,11 +47,12 @@ async function getDeviceInfo() {
 }
 
 const SEGMENT_OPTIONS: analytics.Configuration = {
-  using: [FIREBASE_ENABLED ? Firebase : undefined, Adjust].filter(isPresent),
+  using: [FIREBASE_ENABLED ? Firebase : undefined, Adjust, CleverTapSegment].filter(isPresent),
   flushAt: 20,
   debug: __DEV__,
   trackAppLifecycleEvents: true,
   recordScreenViews: true,
+  trackAttributionData: true,
   ios: {
     trackAdvertising: false,
     trackDeepLinks: true,
@@ -148,6 +150,22 @@ class ValoraAnalytics {
 
     Analytics.track(eventName, props).catch((err) => {
       Logger.error(TAG, `Failed to track event ${eventName}`, err)
+    })
+  }
+
+  identify(userID: string, traits: {}) {
+    if (!this.isEnabled()) {
+      Logger.debug(TAG, `Analytics is disabled, not tracking user ${userID}`)
+      return
+    }
+
+    if (!SEGMENT_API_KEY) {
+      Logger.debug(TAG, `No API key, not tracking user ${userID}`)
+      return
+    }
+
+    Analytics.identify(userID, traits).catch((err) => {
+      Logger.error(TAG, `Failed to identify user ${userID}`, err)
     })
   }
 

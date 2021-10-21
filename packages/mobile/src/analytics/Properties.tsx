@@ -1,9 +1,11 @@
+import { DappKitRequestTypes } from '@celo/utils'
 import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   CeloExchangeEvents,
   ContractKitEvents,
+  DappKitEvents,
   EscrowEvents,
   FeeEvents,
   FiatExchangeEvents,
@@ -393,6 +395,9 @@ interface VerificationEventsProperties {
     issuer: any
     neededRetry: boolean
     feeless?: boolean
+    account?: string
+    phoneNumberType?: string
+    credentials?: string
   }
   [VerificationEvents.verification_reveal_attestation_await_code_start]: {
     issuer: any
@@ -817,6 +822,8 @@ interface FiatExchangeEventsProperties {
     provider: string | undefined
   }
   [FiatExchangeEvents.cico_add_funds_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_impression]: undefined
   [FiatExchangeEvents.cico_cash_out_selected]: undefined
   [FiatExchangeEvents.cico_spend_selected]: undefined
   [FiatExchangeEvents.cico_fund_info]: undefined
@@ -849,6 +856,8 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
   [FiatExchangeEvents.cico_spend_select_provider_back]: undefined
+  [FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue]: undefined
+  [FiatExchangeEvents.cico_celo_exchange_send_bar_continue]: undefined
 }
 
 interface GethEventsProperties {
@@ -972,6 +981,10 @@ type WalletConnectRequestDefaultProperties = WalletConnectDefaultProperties & {
   // requestParams: any
 }
 
+type WalletConnectRequestDenyProperties = WalletConnectRequestDefaultProperties & {
+  denyReason: string
+}
+
 interface WalletConnectProperties {
   [WalletConnectEvents.wc_pairing_start]: {
     origin: WalletConnectPairingOrigin
@@ -1005,9 +1018,29 @@ interface WalletConnectProperties {
   [WalletConnectEvents.wc_request_accept_error]: WalletConnectRequestDefaultProperties & {
     error: string
   }
-  [WalletConnectEvents.wc_request_deny_start]: WalletConnectRequestDefaultProperties
-  [WalletConnectEvents.wc_request_deny_success]: WalletConnectRequestDefaultProperties
-  [WalletConnectEvents.wc_request_deny_error]: WalletConnectRequestDefaultProperties & {
+  [WalletConnectEvents.wc_request_deny_start]: WalletConnectRequestDenyProperties
+  [WalletConnectEvents.wc_request_deny_success]: WalletConnectRequestDenyProperties
+  [WalletConnectEvents.wc_request_deny_error]: WalletConnectRequestDenyProperties & {
+    error: string
+  }
+}
+
+interface DappKitRequestDefaultProperties {
+  dappName: string
+  dappUrl: string
+  requestType: DappKitRequestTypes
+  requestCallback: string
+  requestId: string
+}
+
+interface DappKitProperties {
+  [DappKitEvents.dappkit_parse_deeplink_error]: { deeplink: string; error: string }
+  [DappKitEvents.dappkit_request_propose]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_cancel]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_details]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_accept_start]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_accept_success]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_accept_error]: DappKitRequestDefaultProperties & {
     error: string
   }
 }
@@ -1033,4 +1066,5 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   PerformanceProperties &
   NavigationProperties &
   RewardsProperties &
-  WalletConnectProperties
+  WalletConnectProperties &
+  DappKitProperties

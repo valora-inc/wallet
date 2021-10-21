@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import ExchangeReview from 'src/exchange/ExchangeReview'
 import { ExchangeRates } from 'src/exchange/reducer'
 import { Screens } from 'src/navigator/Screens'
@@ -39,7 +39,7 @@ const mockScreenProps = getMockStackScreenProps(Screens.ExchangeReview, {
 
 describe('ExchangeReview', () => {
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <ExchangeReview {...mockScreenProps} />
       </Provider>

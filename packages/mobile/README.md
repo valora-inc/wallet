@@ -268,6 +268,9 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 6. From the `packages/mobile` directory run `yarn run dev:android`.
 
+### Running on Mainnet
+By default, the mobile wallet app runs on celo's testnet `alfajores`. To run the app on `mainnet`, supply an env flag, eg. `yarn run dev:ios -e mainnet`. The command will then run the app with the env file `.env.mainnet`. 
+
 ### Running in forno (data saver) mode
 
 By default, the mobile wallet app runs geth in lightest sync mode where all the epoch headers are fetched. The default sync mode is defined in by `SYNC_DEFAULT_MODE` in the `.env` files in [wallet/packages/mobile](wallet/packages/mobile).
@@ -332,10 +335,10 @@ flag when running the test.
 
 ### React component unit testing
 
-We use [react-native-testing-library][react-native-testing-library] to unit test
+We use [react-native-testing-library][react-native-testing-library] and [@testing-library/jest-native][@testing-library/jest-native] to unit test
 react components. It allows for deep rendering and interaction with the rendered
 tree to assert proper reactions to user interaction and input. See an example at
-[`src/send/SendAmount.test.tsx`] or read more about the [docs][rntl-docs]
+[`src/send/SendAmount.test.tsx`] or read more about the [docs][rntl-docs].
 
 To run a single component test file: `yarn test Send.test.tsx` 
 
@@ -561,7 +564,8 @@ $ adb kill-server && adb start-server
 [rn running on device]: https://facebook.github.io/react-native/docs/running-on-device
 [setup]: ../../SETUP.md
 [react-native-testing-library]: https://github.com/callstack/react-native-testing-library
-[rntl-docs]: https://callstack.github.io/react-native-testing-library/
+[@testing-library/jest-native]: https://github.com/testing-library/jest-native#readme
+[rntl-docs]: https://callstack.github.io/react-native-testing-library/docs/getting-started
 [jest]: https://jestjs.io/docs/en/snapshot-testing
 [redux-saga-test-plan]: https://github.com/jfairbank/redux-saga-test-plan
 [sms retriever]: https://developers.google.com/identity/sms-retriever/verify#1_construct_a_verification_message

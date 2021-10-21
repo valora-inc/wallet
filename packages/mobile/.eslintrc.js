@@ -1,7 +1,7 @@
 module.exports = {
   extends: ['@valora/eslint-config-typescript'],
   parserOptions: {
-    project: './tsconfig.json',
+    project: './tsconfig.eslint.json',
   },
   ignorePatterns: ['**/__mocks__/**', '**/lcov-report/**', 'vendor', '.bundle'],
 }

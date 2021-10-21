@@ -4,6 +4,7 @@ import { CGLD, CUSD } from '../currencyConversion/consts'
 import { EventTypes, Fee as FormattedFee, MoneyAmount } from '../schema'
 import { Fee, Transaction } from '../transaction/Transaction'
 import { WEI_PER_GOLD } from '../utils'
+import knownAddressesCache from './KnownAddressesCache'
 
 export class EventBuilder {
   static transferEvent(
@@ -20,6 +21,8 @@ export class EventBuilder {
     const comment = transaction.comment
 
     const isOutgoingTransaction = fees !== undefined && fees.length > 0
+
+    const { name, imageUrl } = knownAddressesCache.getDisplayInfoFor(address)
 
     return {
       type: eventType,
@@ -38,6 +41,8 @@ export class EventBuilder {
         currencyCode: transfer.token,
         timestamp,
       },
+      defaultName: name,
+      defaultImage: imageUrl,
       ...(fees && { fees: EventBuilder.formatFees(fees, transaction.timestamp) }),
     }
   }
