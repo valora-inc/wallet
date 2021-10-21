@@ -43,9 +43,15 @@ jobs:
       - name: Create E2E Test .env File
         env:
           TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          VERIFICATION_PHONE_NUMBER: ${{ secrets.VERIFICATION_PHONE_NUMBER }}
         run : |
           cd packages/mobile/e2e
           echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
+          echo TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN >> .env
+          echo TWILIO_ACCOUNT_SID=$TWILIO_ACCOUNT_SID >> .env
+          echo VERIFICATION_PHONE_NUMBER=$VERIFICATION_PHONE_NUMBER >> .env
       - name: Fund E2E accounts
         run : |
           cd packages/mobile/e2e/scripts
@@ -93,9 +99,15 @@ jobs:
       - name: Create E2E Test .env File
         env:
           TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          VERIFICATION_PHONE_NUMBER: ${{ secrets.VERIFICATION_PHONE_NUMBER }}
         run : |
           cd packages/mobile/e2e
           echo TEST_FAUCET_SECRET=$TEST_FAUCET_SECRET >> .env
+          echo TWILIO_AUTH_TOKEN=$TWILIO_AUTH_TOKEN >> .env
+          echo TWILIO_ACCOUNT_SID=$TWILIO_ACCOUNT_SID >> .env
+          echo VERIFICATION_PHONE_NUMBER=$VERIFICATION_PHONE_NUMBER >> .env
       - name: Fund E2E accounts
         run : |
           cd packages/mobile/e2e/scripts
