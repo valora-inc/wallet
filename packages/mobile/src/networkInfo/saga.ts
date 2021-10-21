@@ -45,7 +45,7 @@ function* subscribeToNetworkStatus() {
   }
 }
 
-function* fetchUserLocationData() {
+export function* fetchUserLocationData() {
   let userLocationData: UserLocationData
   try {
     const response: Response = yield call(fetchWithTimeout, networkConfig.fetchUserLocationDataUrl)
