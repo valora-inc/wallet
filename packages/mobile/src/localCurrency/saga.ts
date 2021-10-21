@@ -12,6 +12,7 @@ import {
 } from 'src/localCurrency/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { calculateTotalTokenBalance } from 'src/tokens/saga'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
@@ -86,7 +87,12 @@ export function* watchSelectPreferredCurrency() {
   }
 }
 
+export function* watchFetchCurrentRateSuccess() {
+  yield takeLatest(Actions.FETCH_CURRENT_RATE_SUCCESS, calculateTotalTokenBalance)
+}
+
 export function* localCurrencySaga() {
+  yield spawn(watchFetchCurrentRateSuccess)
   yield spawn(watchFetchCurrentRate)
   yield spawn(watchSelectPreferredCurrency)
 }

@@ -2,6 +2,7 @@ import { createAction, createReducer } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { RehydrateAction } from 'redux-persist'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
+import { RootState } from 'src/redux/reducers'
 
 interface BaseToken {
   address: string
@@ -32,14 +33,17 @@ export interface TokenBalances {
 
 export interface State {
   tokenBalances: StoredTokenBalances
+  totalBalance: string
 }
 
 export const initialState = {
   tokenBalances: {},
+  totalBalance: '-',
 }
 
 const rehydrate = createAction<any>(REHYDRATE)
 export const setTokenBalances = createAction<StoredTokenBalances>('TOKENS/SET_TOKEN_BALANCES')
+export const setTotalTokenBalance = createAction<string>('TOKENS/SET_TOTAL_TOKEN_BALANCE')
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
@@ -55,4 +59,11 @@ export const reducer = createReducer(initialState, (builder) => {
       ...state,
       tokenBalances: action.payload,
     }))
+    .addCase(setTotalTokenBalance, (state, action) => ({
+      ...state,
+      totalBalance: action.payload,
+    }))
 })
+
+export const tokenBalancesSelector = (state: RootState) => state.tokens.tokenBalances
+export const totalTokenBalanceSelector = (state: RootState) => state.tokens.totalBalance
