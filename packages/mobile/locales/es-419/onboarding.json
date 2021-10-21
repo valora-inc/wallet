@@ -45,7 +45,7 @@
     "feelessBody": "Conectar tu número tomará unos tres minutos. Para confirmar que el número ingresado es tu número, recibirás tres mensajes.",
     "start": "Comenzar",
     "resume": "Reanudar",
-    "doINeedToConfirm": "¿Necesito conectar mi número?",
+    "doINeedToConfirm": "¿Necesito confirmar mi cuenta?",
     "skipForNow": "Saltar por ahora",
     "bodyInsufficientBalance": "Tu saldo actual no es lo suficientemente alto para completar el proceso de confirmación.\n\nIntenta nuevamente cuando hayas agregado fondos a tu app.",
     "bodyAlreadyVerified": "¡Tu número ya está confirmado!"
@@ -110,5 +110,5 @@
   "success": {
     "message": "¡Todo listo!"
   },
-  "verificationUnavailable": "La conexión del número de teléfono no está disponible actualmente. Por favor, introduce tu número de teléfono y te notificaremos cuando sea posible conectarlo.\n\nMientras tanto, ¡puedes seguir usando Valora! Los pagos enviados a tu número de teléfono serán retenidos de forma segura hasta que realices la conexión."
+  "verificationUnavailable": "La confirmación del número de teléfono no está disponible actualmente. Por favor, introduce tu número de teléfono y te avisaremos cuando sea posible confirmarlo de nuevo.\n\nMientras tanto, ¡puedes seguir utilizando Valora! Los pagos enviados a tu número de teléfono se retendrán de forma segura hasta que los canjees confirmando tu número de teléfono."
 }
