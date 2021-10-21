@@ -220,4 +220,46 @@ class ValoraAnalytics {
   }
 }
 
-export default new ValoraAnalytics()
+let isInitialized = false
+type KeysOfType<T, TProp> = { [P in keyof T]: T[P] extends TProp ? P : never }[keyof T]
+type ValoraAnalyticsKeyFunction = KeysOfType<ValoraAnalytics, Function>
+// Type checked function keys to queue
+let funcToQueue = new Set<ValoraAnalyticsKeyFunction>(['startSession', 'track', 'identify', 'page'])
+let queuedCalls: Function[] = []
+
+function isFuncToQueue(prop: string | number | symbol): prop is ValoraAnalyticsKeyFunction {
+  return funcToQueue.has(prop as ValoraAnalyticsKeyFunction)
+}
+
+/**
+ * Use a proxy to queue specific calls until async `init` has finished
+ * So all events are sent with the right props to our initialized analytics integrations
+ */
+export default new Proxy(new ValoraAnalytics(), {
+  get: function (target, prop, receiver) {
+    if (!isInitialized) {
+      if (prop === 'init') {
+        return new Proxy(target[prop], {
+          apply: (target, thisArg, argumentsList) => {
+            return Reflect.apply(target, thisArg, argumentsList).finally(() => {
+              isInitialized = true
+              // Init finished, we can now process queued calls
+              for (const fn of queuedCalls) {
+                fn()
+              }
+              queuedCalls = []
+            })
+          },
+        })
+      } else if (isFuncToQueue(prop)) {
+        return new Proxy(target[prop], {
+          apply: (target, thisArg, argumentsList) => {
+            queuedCalls.push(() => Reflect.apply(target, thisArg, argumentsList))
+            Logger.debug(TAG, `Queued call to ${prop}`, ...argumentsList)
+          },
+        })
+      }
+    }
+    return Reflect.get(target, prop, receiver)
+  },
+})
