@@ -10,9 +10,7 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'TokenDisplay'
 
-// TODO: This should depend on the token. For example, wBTC should show more decimals,
-// since 2 is still too big a value so the UI might show 0 for non-zero balances.
-const DISPLAY_DECIMALS = 2
+const DEFAULT_DISPLAY_DECIMALS = 2
 
 interface Props {
   amount: BigNumber.Value
@@ -40,6 +38,15 @@ function useFiatExchangeRates(currencyInfo?: CurrencyInfo) {
       fiatSymbol: localCurrencySymbol,
     }
   }
+}
+
+function calculateDecimalsToShow(value: BigNumber) {
+  const exponent = value?.e ?? 0
+  if (exponent >= 0) {
+    return DEFAULT_DISPLAY_DECIMALS
+  }
+
+  return Math.abs(exponent) + 1
 }
 
 function TokenDisplay({
@@ -76,11 +83,13 @@ function TokenDisplay({
 
   const sign = amountToShow.isNegative() ? '-' : showExplicitPositiveSign ? '+' : ''
 
+  const decimalsToShow = calculateDecimalsToShow(amountToShow)
+
   return (
     <Text style={style} testID={testID}>
       {sign}
       {showLocalAmount && fiatSymbol}
-      {error ? '-' : amountToShow.absoluteValue().toFixed(DISPLAY_DECIMALS)}
+      {error ? '-' : amountToShow.absoluteValue().toFixed(decimalsToShow)}
       {!showLocalAmount && showSymbol && ` ${tokenInfo?.symbol}`}
     </Text>
   )

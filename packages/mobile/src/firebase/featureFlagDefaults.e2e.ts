@@ -15,7 +15,8 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   inviteRewardsEnabled: false,
   inviteRewardCusd: 1,
   inviteRewardWeeklyLimit: 20,
-  walletConnectEnabled: false,
+  walletConnectV1Enabled: false,
+  walletConnectV2Enabled: false,
   rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
   rewardsPercent: 5,
   rewardsStartDate: 1622505600000,
@@ -26,4 +27,5 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   pincodeUseExpandedBlocklist: true,
   rewardPillText: JSON.stringify({ en: 'Earn', pt: 'Ganhar', es: 'Gana' }),
   cashInButtonExpEnabled: false,
+  logPhoneNumberTypeEnabled: false,
 }

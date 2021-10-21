@@ -35,6 +35,19 @@ DappKit docs: https://docs.celo.org/developer-guide/dappkit/usage
 
 ## WalletConnect
 
-WalletConnect docs: https://docs.walletconnect.org/v/2.0/mobile-linking
+Valora v1.20+ supports both WalletConnect [v1](#walletconnect-v1) and [v2](#walletconnect-v2).
+
+Note: v2 is currently still in beta and has some known instabilitiy issues.
+But should but preferred once it goes out of beta.
+
 Supported actions: https://github.com/celo-org/wallet/blob/main/packages/mobile/src/walletConnect/constants.ts#L3
-See https://github.com/celo-tools/use-contractkit for example usage.
+
+### WalletConnect v1
+
+Docs: https://docs.walletconnect.org/v/1.0/mobile-linking
+
+### WalletConnect v2
+
+Docs: https://docs.walletconnect.org/v/2.0/mobile-linking
+
+See https://github.com/celo-org/use-contractkit for example usage.
