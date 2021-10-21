@@ -127,5 +127,7 @@
     "subtitle": "Your account is currently empty",
     "addFunds": "Add Funds"
   },
-  "balances": "Balances"
+  "balances": "Balances",
+  "totalValue": "Total Value",
+  "viewBalances": "View Balances"
 }

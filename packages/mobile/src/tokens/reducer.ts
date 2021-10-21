@@ -33,6 +33,7 @@ export interface TokenBalances {
 
 export interface State {
   tokenBalances: StoredTokenBalances
+  // total balance stored in local currency, rounded to two decimal places
   totalBalance: string
 }
 
