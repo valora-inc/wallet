@@ -9,7 +9,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Currency } from 'src/utils/currencies'
+import { useTokenInfoBySymbol } from 'src/tokens/hooks'
+import { CURRENCIES, Currency } from 'src/utils/currencies'
 
 interface Props {
   selectedCurrency?: Currency
@@ -17,8 +18,15 @@ interface Props {
 }
 
 export default function SendBar({ selectedCurrency, skipImport }: Props) {
+  const selectedTokenInfo = useTokenInfoBySymbol(
+    selectedCurrency ? CURRENCIES[selectedCurrency].symbol : ''
+  )
+
   const onPressSend = () => {
-    navigate(Screens.Send, { skipContactsImport: skipImport, forceCurrency: selectedCurrency })
+    navigate(Screens.Send, {
+      skipContactsImport: skipImport,
+      forceTokenAddress: selectedTokenInfo?.address,
+    })
     ValoraAnalytics.track(FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue)
   }
 

@@ -7,6 +7,7 @@ import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
+import { mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -758,6 +759,37 @@ export const v19Schema = {
   _persist: {
     ...v18Schema._persist,
     version: 19,
+  },
+  tokens: {
+    tokenBalances: {
+      [mockCusdAddress]: {
+        name: 'Celo Dollars',
+        address: mockCusdAddress,
+        symbol: 'cUSD',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '1',
+        balance: '10',
+      },
+      [mockCeurAddress]: {
+        name: 'Celo Euros',
+        address: mockCeurAddress,
+        symbol: 'cEUR',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '1.2',
+        balance: '20',
+      },
+      [mockCeloAddress]: {
+        name: 'Celo',
+        address: mockCeloAddress,
+        symbol: 'CELO',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '5',
+        balance: '0',
+      },
+    },
   },
 }
 

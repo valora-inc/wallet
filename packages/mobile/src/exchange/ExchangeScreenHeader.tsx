@@ -13,6 +13,7 @@ import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { HeaderTitleWithBalance, styles as headerStyles } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
 import { balancesSelector } from 'src/stableToken/selectors'
+import { tokenBalancesSelector } from 'src/tokens/selectors'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
 interface Props {
@@ -23,10 +24,19 @@ interface Props {
 
 function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency }: Props) {
   const [showingTokenPicker, setShowTokenPicker] = useState(false)
+  const tokensInfo = useSelector(tokenBalancesSelector)
 
-  const onCurrencySelected = (currency: Currency) => {
+  const onTokenSelected = (tokenAddress: string) => {
     setShowTokenPicker(false)
-    onChangeCurrency(currency)
+    const tokenInfo = tokensInfo[tokenAddress]
+    // We need this condition because Currency.Celo maps to cGLD.
+    const selectedCurrency: Currency | undefined =
+      tokenInfo?.symbol === 'CELO'
+        ? Currency.Celo
+        : STABLE_CURRENCIES.find((cur) => cur === tokenInfo?.symbol)
+    if (selectedCurrency) {
+      onChangeCurrency(selectedCurrency)
+    }
   }
 
   const closeCurrencyPicker = () => setShowTokenPicker(false)
@@ -77,7 +87,7 @@ function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency 
       <TokenBottomSheet
         isVisible={showingTokenPicker}
         origin={TokenPickerOrigin.Exchange}
-        onCurrencySelected={onCurrencySelected}
+        onTokenSelected={onTokenSelected}
         onClose={closeCurrencyPicker}
       />
     </>

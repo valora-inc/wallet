@@ -21,8 +21,11 @@ import { declinePaymentRequest } from 'src/paymentRequest/actions'
 import { Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { useTokenInfoBySymbol } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+
+const TAG = 'IncomingPaymentRequestListItem'
 
 interface Props {
   id: string
@@ -68,12 +71,19 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
     Logger.showMessage(t('requestDeclined'))
   }
 
+  const cUsdTokenInfo = useTokenInfoBySymbol(Currency.Dollar)
+
   const navigateToNextScreen = () => {
+    if (!cUsdTokenInfo) {
+      Logger.error(TAG, 'Didnt find cUSD token info')
+      return
+    }
+
     const transactionData: TransactionDataInput = {
       reason: comment,
       recipient: requester,
       amount: new BigNumber(amount),
-      currency: Currency.Dollar,
+      tokenAddress: cUsdTokenInfo?.address,
       type: TokenTransactionType.PayRequest,
       firebasePendingRequestUid: id,
     }

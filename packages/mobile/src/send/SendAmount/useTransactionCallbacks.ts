@@ -20,32 +20,27 @@ import {
   convertDollarsToLocalAmount,
   convertToMaxSupportedPrecision,
 } from 'src/localCurrency/convert'
-import {
-  useConvertBetweenCurrencies,
-  useCurrencyToLocalAmount,
-  useLocalAmountToCurrency,
-} from 'src/localCurrency/hooks'
+import { useCurrencyToLocalAmount, useLocalAmountToCurrency } from 'src/localCurrency/hooks'
 import {
   getLocalCurrencyCode,
   getLocalCurrencySymbol,
-  localCurrencyExchangeRatesSelector,
+  localCurrencyToUsdSelector,
 } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useRecipientVerificationStatus } from 'src/recipients/hooks'
 import { Recipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
-import { updateLastUsedCurrency } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { getFeeType, useDailyTransferLimitValidator } from 'src/send/utils'
-import { useBalance } from 'src/stableToken/hooks'
+import { useLocalToTokenAmount, useTokenInfo } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 
 interface Props {
   recipient: Recipient
   localAmount: BigNumber
-  transferCurrency: Currency
+  transferTokenAddress: string
   origin: SendOrigin
   isFromScan: boolean
 }
@@ -54,33 +49,32 @@ interface Props {
 function useTransactionCallbacks({
   recipient,
   localAmount: approximateLocalAmount,
-  transferCurrency,
+  transferTokenAddress,
   origin,
   isFromScan,
 }: Props) {
   const localAmount = useMemo(() => convertToMaxSupportedPrecision(approximateLocalAmount), [
     approximateLocalAmount,
   ])
+  const tokenInfo = useTokenInfo(transferTokenAddress)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const localCurrencyExchangeRate = useSelector(localCurrencyExchangeRatesSelector)[
-    transferCurrency
-  ]
+  const localCurrencyExchangeRate = useSelector(localCurrencyToUsdSelector)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
-  const stableBalance = useBalance(transferCurrency)
-  const amountInStableCurrency = useLocalAmountToCurrency(localAmount, transferCurrency)
+  const amountInToken = useLocalToTokenAmount(localAmount, transferTokenAddress)
+  const amountInUsd = useLocalAmountToCurrency(localAmount, Currency.Dollar)
 
   const dispatch = useDispatch()
 
   const getTransactionData = useCallback(
     (type: TokenTransactionType): TransactionDataInput => ({
       recipient,
-      amount: amountInStableCurrency!,
-      currency: transferCurrency,
+      amount: amountInToken!,
+      tokenAddress: transferTokenAddress,
       type,
       reason: '',
     }),
-    [recipient, amountInStableCurrency, transferCurrency]
+    [recipient, amountInToken, transferTokenAddress]
   )
 
   const continueAnalyticsParams = useMemo(() => {
@@ -91,8 +85,10 @@ function useTransactionCallbacks({
       localCurrencyExchangeRate,
       localCurrency: localCurrencyCode,
       localCurrencyAmount: localAmount.toString(),
-      underlyingCurrency: transferCurrency,
-      underlyingAmount: amountInStableCurrency?.toString() ?? '',
+      underlyingTokenAddress: transferTokenAddress,
+      underlyingTokenSymbol: tokenInfo?.symbol ?? '',
+      underlyingAmount: amountInToken?.toString() ?? '',
+      amountInUsd: amountInUsd?.toString() ?? '',
     }
   }, [
     origin,
@@ -101,8 +97,9 @@ function useTransactionCallbacks({
     localCurrencyExchangeRate,
     localCurrencyCode,
     localAmount,
-    transferCurrency,
-    amountInStableCurrency,
+    transferTokenAddress,
+    amountInToken,
+    amountInUsd,
   ])
 
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
@@ -112,32 +109,26 @@ function useTransactionCallbacks({
   )
 
   const [isTransferLimitReached, showLimitReachedBanner] = useDailyTransferLimitValidator(
-    amountInStableCurrency,
-    transferCurrency
+    amountInUsd,
+    Currency.Dollar
   )
 
   const feeType = getFeeType(recipientVerificationStatus)
   const estimateFeeDollars = useSelector(getFeeEstimateDollars(feeType)) ?? new BigNumber(0)
-  const estimateFeeInStableCurrency = useConvertBetweenCurrencies(
-    estimateFeeDollars,
-    Currency.Dollar,
-    transferCurrency
-  )
-  const minimumAmount = roundUp(amountInStableCurrency?.plus(estimateFeeDollars || 0) ?? 0, 2)
+
+  const minimumAmount = roundUp(estimateFeeDollars ?? 0, 2)
 
   const onSend = useCallback(() => {
-    if (!stableBalance || !amountInStableCurrency) {
+    if (!tokenInfo?.balance || !amountInToken) {
       dispatch(showError(ErrorMessages.FETCH_FAILED))
       return null
     }
-    const newAccountBalance = stableBalance
-      .minus(amountInStableCurrency)
-      .minus(estimateFeeInStableCurrency ?? 0)
 
     const isAmountValid = localAmount.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT)
-    const isStableTokenBalanceSufficient = isAmountValid && newAccountBalance.isGreaterThan(0)
+    const isTokenBalanceSufficient = isAmountValid && amountInToken.lte(tokenInfo.balance)
 
-    if (!isStableTokenBalanceSufficient) {
+    console.log(amountInToken.toString(), tokenInfo.balance.toString())
+    if (!isTokenBalanceSufficient) {
       const localAmountNeeded = convertDollarsToLocalAmount(
         minimumAmount,
         localCurrencyExchangeRate
@@ -162,7 +153,6 @@ function useTransactionCallbacks({
         : getTransactionData(TokenTransactionType.InviteSent)
 
     dispatch(hideAlert())
-    dispatch(updateLastUsedCurrency(transferCurrency))
 
     if (addressValidationType !== AddressValidationType.NONE && !recipient.address) {
       navigate(Screens.ValidateRecipientIntro, {
@@ -182,9 +172,8 @@ function useTransactionCallbacks({
     recipientVerificationStatus,
     addressValidationType,
     localAmount,
-    stableBalance,
-    transferCurrency,
-    estimateFeeInStableCurrency,
+    tokenInfo?.balance,
+    transferTokenAddress,
     getTransactionData,
     origin,
   ])
@@ -195,7 +184,7 @@ function useTransactionCallbacks({
   )
 
   const onRequest = useCallback(() => {
-    if (!stableBalance || !amountInStableCurrency || !defaultDailyLimitInLocalCurrency) {
+    if (!tokenInfo?.balance || !amountInToken || !defaultDailyLimitInLocalCurrency) {
       dispatch(showError(ErrorMessages.FETCH_FAILED))
       return null
     }
@@ -208,7 +197,6 @@ function useTransactionCallbacks({
       )
       return
     }
-    dispatch(updateLastUsedCurrency(transferCurrency))
 
     const transactionData = getTransactionData(TokenTransactionType.PayRequest)
 

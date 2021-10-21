@@ -575,8 +575,10 @@ interface SendEventsProperties {
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
     localCurrencyAmount: string | null
-    underlyingCurrency: Currency
+    underlyingTokenAddress: string
+    underlyingTokenSymbol: string
     underlyingAmount: string | null
+    amountInUsd: string | null
   }
   [SendEvents.send_confirm_back]: undefined
   [SendEvents.send_confirm_send]: {
@@ -652,8 +654,10 @@ interface RequestEventsProperties {
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
     localCurrencyAmount: string | null
-    underlyingCurrency: Currency
+    underlyingTokenAddress: string
+    underlyingTokenSymbol: string
     underlyingAmount: string | null
+    amountInUsd: string | null
   }
   [RequestEvents.request_unavailable]: {
     origin: SendOrigin
@@ -662,8 +666,10 @@ interface RequestEventsProperties {
     localCurrencyExchangeRate?: string | null
     localCurrency: LocalCurrencyCode
     localCurrencyAmount: string | null
-    underlyingCurrency: Currency
+    underlyingTokenAddress: string
+    underlyingTokenSymbol: string
     underlyingAmount: string | null
+    amountInUsd: string | null
   }
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {

@@ -2,20 +2,21 @@ import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
-import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
+import { Image, LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import { Namespaces } from 'src/i18n'
-import { useBalance } from 'src/stableToken/hooks'
-import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
+import useSelector from 'src/redux/useSelector'
+import { useTokenInfo } from 'src/tokens/hooks'
+import { TokenBalance } from 'src/tokens/reducer'
+import { tokenBalancesSelector } from 'src/tokens/selectors'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
@@ -26,35 +27,38 @@ export enum TokenPickerOrigin {
 interface Props {
   isVisible: boolean
   origin: TokenPickerOrigin
-  onCurrencySelected: (currency: Currency) => void
+  onTokenSelected: (token: string) => void
   onClose: () => void
 }
 
-function CurrencyOption({ currency, onPress }: { currency: Currency; onPress: () => void }) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
-  const balance = useBalance(currency)
-  const amount = {
-    value: new BigNumber(balance ?? '0'),
-    currencyCode: currency,
+function TokenOption({ tokenAddress, onPress }: { tokenAddress: string; onPress: () => void }) {
+  const tokenInfo = useTokenInfo(tokenAddress)
+  if (!tokenInfo?.balance) {
+    return null
   }
+
   return (
-    <Touchable onPress={onPress} testID={`${currency}Touchable`}>
-      <View style={styles.currencyOptionContainer}>
-        <Text style={styles.optionName}>{t('stableBalance', { token: currency })}</Text>
-        <View style={styles.currencyBalanceContainer}>
-          <CurrencyDisplay
+    <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
+      <View style={styles.tokenOptionContainer}>
+        <Image source={{ uri: tokenInfo.imageUrl }} style={styles.tokenImage} />
+        <View style={styles.tokenNameContainer}>
+          <Text style={styles.localBalance}>{tokenInfo.symbol}</Text>
+          <Text style={styles.currencyBalance}>{tokenInfo.name}</Text>
+        </View>
+        <View style={styles.tokenBalanceContainer}>
+          <TokenDisplay
             style={styles.localBalance}
-            amount={amount}
+            amount={tokenInfo.balance}
+            tokenAddress={tokenAddress}
             showLocalAmount={true}
-            testID={`Local${currency}Balance`}
+            testID={`Local${tokenInfo.symbol}Balance`}
           />
-          <CurrencyDisplay
+          <TokenDisplay
             style={styles.currencyBalance}
-            amount={amount}
+            amount={tokenInfo.balance}
+            tokenAddress={tokenAddress}
             showLocalAmount={false}
-            hideCode={false}
-            hideSymbol={true}
-            testID={`${currency}Balance`}
+            testID={`${tokenInfo.symbol}Balance`}
           />
         </View>
       </View>
@@ -62,18 +66,26 @@ function CurrencyOption({ currency, onPress }: { currency: Currency; onPress: ()
   )
 }
 
-function TokenBottomSheet({ isVisible, origin, onCurrencySelected, onClose }: Props) {
+function filterZeroBalanceTokens(tokenInfo: TokenBalance | undefined) {
+  if (!tokenInfo?.balance || !tokenInfo?.usdPrice) {
+    return false
+  }
+  return tokenInfo.balance.multipliedBy(tokenInfo.usdPrice).gte(0.01)
+}
+
+function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
+  const tokensInfo = useSelector(tokenBalancesSelector)
 
   const { t } = useTranslation(Namespaces.sendFlow7)
 
-  const onCurrencyPressed = (currency: Currency) => () => {
+  const onTokenPressed = (token: string) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
-      token: currency,
+      token,
     })
-    onCurrencySelected(currency)
+    onTokenSelected(token)
   }
 
   const safeAreaInsets = useSafeAreaInsets()
@@ -119,15 +131,20 @@ function TokenBottomSheet({ isVisible, origin, onCurrencySelected, onClose }: Pr
         ]}
         onLayout={onLayout}
       >
-        <Text style={styles.title}>{t('selectBalance')}</Text>
-        {STABLE_CURRENCIES.map((currency, index) => {
-          return (
-            <>
-              {index > 0 && <View style={styles.separator} />}
-              <CurrencyOption currency={currency} onPress={onCurrencyPressed(currency)} />
-            </>
-          )
-        })}
+        <Text style={styles.title}>{t('selectToken')}</Text>
+        {Object.values(tokensInfo)
+          .filter(filterZeroBalanceTokens)
+          .map((tokenInfo, index) => {
+            return (
+              <>
+                {index > 0 && <View style={styles.separator} />}
+                <TokenOption
+                  tokenAddress={tokenInfo!.address}
+                  onPress={onTokenPressed(tokenInfo!.address)}
+                />
+              </>
+            )
+          })}
       </Animated.View>
     </View>
   )
@@ -170,16 +187,22 @@ const styles = StyleSheet.create({
     ...fontStyles.h2,
     marginBottom: Spacing.Smallest8,
   },
-  currencyOptionContainer: {
+  tokenOptionContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 16,
   },
-  optionName: {
-    flex: 1,
-    ...fontStyles.regular500,
+  tokenImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
   },
-  currencyBalanceContainer: {
+  tokenNameContainer: {
+    alignItems: 'flex-start',
+  },
+  tokenBalanceContainer: {
+    flex: 1,
     alignItems: 'flex-end',
   },
   localBalance: {

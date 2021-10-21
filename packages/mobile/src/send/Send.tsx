@@ -45,7 +45,7 @@ type Props = StackScreenProps<StackParamList, Screens.Send>
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
-  const forceCurrency = route.params?.forceCurrency
+  const forceTokenAddress = route.params?.forceTokenAddress
   const { t } = useTranslation(Namespaces.sendFlow7)
 
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
@@ -129,7 +129,7 @@ function Send({ route }: Props) {
         recipient,
         isOutgoingPaymentRequest,
         origin: SendOrigin.AppSendFlow,
-        forceCurrency,
+        forceTokenAddress,
       })
     },
     [isOutgoingPaymentRequest, searchQuery]

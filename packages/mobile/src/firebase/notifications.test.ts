@@ -9,8 +9,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NotificationReceiveState, NotificationTypes } from 'src/notifications/types'
 import { recipientInfoSelector } from 'src/recipients/reducer'
-import { Currency } from 'src/utils/currencies'
-import { mockRecipientInfo } from 'test/values'
+import { getMockStoreData } from 'test/utils'
+import { mockCusdAddress, mockRecipientInfo } from 'test/values'
 
 describe(handleNotification, () => {
   beforeEach(() => {
@@ -152,6 +152,7 @@ describe(handleNotification, () => {
 
     it('navigates to the send confirmation screen if the app is not already in the foreground', async () => {
       await expectSaga(handleNotification, message, NotificationReceiveState.AppColdStart)
+        .withState(getMockStoreData({}))
         .provide([[select(recipientInfoSelector), mockRecipientInfo]])
         .run()
 
@@ -159,7 +160,7 @@ describe(handleNotification, () => {
         origin: SendOrigin.AppRequestFlow,
         transactionData: {
           amount: new BigNumber('10'),
-          currency: Currency.Dollar,
+          tokenAddress: mockCusdAddress,
           firebasePendingRequestUid: 'abc',
           reason: 'Pizza',
           recipient: { address: '0xTEST' },

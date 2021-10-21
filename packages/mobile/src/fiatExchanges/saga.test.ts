@@ -22,7 +22,8 @@ import {
 } from 'src/send/actions'
 import { NewTransactionsInFeedAction } from 'src/transactions/actions'
 import { Currency } from 'src/utils/currencies'
-import { mockAccount } from 'test/values'
+import { getMockStoreData } from 'test/utils'
+import { mockAccount, mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const now = Date.now()
 Date.now = jest.fn(() => now)
@@ -45,16 +46,17 @@ describe(watchBidaliPaymentRequests, () => {
   })
 
   it.each`
-    currencyCode | expectedCurrency
-    ${'cUSD'}    | ${Currency.Dollar}
-    ${'cEUR'}    | ${Currency.Euro}
+    currencyCode | expectedCurrency   | expectedTokenAddress
+    ${'cUSD'}    | ${Currency.Dollar} | ${mockCusdAddress}
+    ${'cEUR'}    | ${Currency.Euro}   | ${mockCeurAddress}
   `(
     'triggers the payment flow with $currencyCode and calls `onPaymentSent` when successful',
-    async ({ currencyCode, expectedCurrency }) => {
+    async ({ currencyCode, expectedCurrency, expectedTokenAddress }) => {
       const onPaymentSent = jest.fn()
       const onCancelled = jest.fn()
 
       await expectSaga(watchBidaliPaymentRequests)
+        .withState(getMockStoreData({}))
         .put(
           updateKnownAddresses({
             '0xTEST': { name: recipient.name!, imageUrl: recipient.thumbnailPath || null },
@@ -90,7 +92,7 @@ describe(watchBidaliPaymentRequests, () => {
         origin: SendOrigin.Bidali,
         transactionData: {
           amount,
-          currency: expectedCurrency,
+          tokenAddress: expectedTokenAddress,
           reason: 'Some description (TEST_CHARGE_ID)',
           recipient,
           type: TokenTransactionType.PayPrefill,
@@ -106,6 +108,7 @@ describe(watchBidaliPaymentRequests, () => {
     const onCancelled = jest.fn()
 
     await expectSaga(watchBidaliPaymentRequests)
+      .withState(getMockStoreData({}))
       .not.put.actionType(IdentityActions.UPDATE_KNOWN_ADDRESSES)
       .dispatch(
         bidaliPaymentRequested(
@@ -138,7 +141,7 @@ describe(watchBidaliPaymentRequests, () => {
       origin: SendOrigin.Bidali,
       transactionData: {
         amount,
-        currency: Currency.Dollar,
+        tokenAddress: mockCusdAddress,
         reason: 'Some description (TEST_CHARGE_ID)',
         recipient,
         type: TokenTransactionType.PayPrefill,
@@ -154,6 +157,7 @@ describe(watchBidaliPaymentRequests, () => {
 
     await expect(
       expectSaga(watchBidaliPaymentRequests)
+        .withState(getMockStoreData({}))
         .dispatch(
           bidaliPaymentRequested(
             '0xTEST',

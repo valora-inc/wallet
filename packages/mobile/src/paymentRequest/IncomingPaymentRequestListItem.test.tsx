@@ -9,9 +9,8 @@ import { AddressValidationType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import IncomingPaymentRequestListItem from 'src/paymentRequest/IncomingPaymentRequestListItem'
-import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
-import { mockE164Number, mockInvitableRecipient } from 'test/values'
+import { mockCusdAddress, mockE164Number, mockInvitableRecipient } from 'test/values'
 
 const props = {
   id: '1',
@@ -23,7 +22,7 @@ const props = {
 const mockTransactionData = {
   recipient: props.requester,
   amount: new BigNumber(props.amount),
-  currency: Currency.Dollar,
+  tokenAddress: mockCusdAddress,
   reason: props.comment,
   type: TokenTransactionType.PayRequest,
   firebasePendingRequestUid: props.id,

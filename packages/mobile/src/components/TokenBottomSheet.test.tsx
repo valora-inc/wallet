@@ -3,17 +3,34 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore } from 'test/utils'
+import { amountFromComponent, createMockStore } from 'test/utils'
+import { mockCeurAddress, mockCusdAddress } from 'test/values'
 
 jest.mock('src/components/useShowOrHideAnimation')
 
 const mockStore = createMockStore({
   stableToken: {
-    balances: { [Currency.Dollar]: '10', [Currency.Euro]: '20' },
+    balances: { [Currency.Dollar]: '100', [Currency.Euro]: '200' },
+  },
+  tokens: {
+    tokenBalances: {
+      [mockCusdAddress]: {
+        balance: '10',
+        usdPrice: '1',
+        symbol: 'cUSD',
+        address: mockCusdAddress,
+      },
+      [mockCeurAddress]: {
+        balance: '20',
+        usdPrice: '1.2',
+        symbol: 'cEUR',
+        address: mockCeurAddress,
+      },
+    },
   },
 })
 
-const onCurrencySelectedMock = jest.fn()
+const onTokenSelectedMock = jest.fn()
 const onCloseMock = jest.fn()
 
 describe('TokenBottomSheet', () => {
@@ -32,7 +49,7 @@ describe('TokenBottomSheet', () => {
         <TokenBottomSheet
           isVisible={visible}
           origin={TokenPickerOrigin.Send}
-          onCurrencySelected={onCurrencySelectedMock}
+          onTokenSelected={onTokenSelectedMock}
           onClose={onCloseMock}
         />
       </Provider>
@@ -41,23 +58,26 @@ describe('TokenBottomSheet', () => {
 
   it('renders correctly', () => {
     const tree = renderPicker(true)
+    const { getByTestId } = tree
 
     expect(tree.getByTestId('TokenBottomSheetContainer')).toBeTruthy()
-    expect(tree.getByTestId('LocalcUSDBalance/value')).toBeTruthy()
-    expect(tree.getByTestId('cUSDBalance/value')).toBeTruthy()
-    expect(tree.getByTestId('LocalcEURBalance/value')).toBeTruthy()
-    expect(tree.getByTestId('cEURBalance/value')).toBeTruthy()
+
+    expect(amountFromComponent(getByTestId('cUSDBalance'))).toBe('10.00 cUSD')
+    expect(amountFromComponent(getByTestId('LocalcUSDBalance'))).toBe('$13.30')
+    expect(amountFromComponent(getByTestId('cEURBalance'))).toBe('20.00 cEUR')
+    expect(amountFromComponent(getByTestId('LocalcEURBalance'))).toBe('$31.92') // 20 * 1.2 (cEUR price) * 1.33 (MXN price)
+
     expect(tree).toMatchSnapshot()
   })
 
-  it('handles the choosing of a currency correctly', () => {
+  it('handles the choosing of a token correctly', () => {
     const { getByTestId } = renderPicker(true)
 
     fireEvent.press(getByTestId('cUSDTouchable'))
-    expect(onCurrencySelectedMock).toHaveBeenLastCalledWith(Currency.Dollar)
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockCusdAddress)
 
     fireEvent.press(getByTestId('cEURTouchable'))
-    expect(onCurrencySelectedMock).toHaveBeenLastCalledWith(Currency.Euro)
+    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(mockCeurAddress)
   })
 
   it('handles taps on the background correctly', () => {

@@ -16,8 +16,8 @@ import {
   handleSendPaymentData,
   _isPaymentLimitReached,
 } from 'src/send/utils'
-import { Currency } from 'src/utils/currencies'
-import { mockQRCodeRecipient, mockUriData } from 'test/values'
+import { getMockStoreData } from 'test/utils'
+import { mockCusdAddress, mockQRCodeRecipient, mockUriData } from 'test/values'
 
 const dailyLimit = 500
 
@@ -164,12 +164,13 @@ describe('send/utils', () => {
         const mockTransactionData: TransactionDataInput = {
           recipient: mockQRCodeRecipient,
           amount: new BigNumber('.5'),
-          currency: Currency.Dollar,
+          tokenAddress: mockCusdAddress,
           reason: mockUriData[4].comment,
           type: TokenTransactionType.PayPrefill,
         }
 
         await expectSaga(handleSendPaymentData, mockUriData[4])
+          .withState(getMockStoreData({}))
           .provide([[matchers.call.fn(fetchExchangeRate), '2']])
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
@@ -183,12 +184,13 @@ describe('send/utils', () => {
         const mockTransactionData: TransactionDataInput = {
           recipient: mockQRCodeRecipient,
           amount: new BigNumber('.5'),
-          currency: Currency.Dollar,
+          tokenAddress: mockCusdAddress,
           reason: mockUriData[5].comment,
           type: TokenTransactionType.PayPrefill,
         }
 
         await expectSaga(handleSendPaymentData, mockUriData[5])
+          .withState(getMockStoreData({}))
           .provide([[matchers.call.fn(fetchExchangeRate), '2']])
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
@@ -206,6 +208,7 @@ describe('send/utils', () => {
 
       it('should navigate to WithdrawCeloReview screen when address, token = CELO, currencyCode, and amount are given ', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[0])
+          .withState(getMockStoreData({}))
           .provide([[matchers.call.fn(fetchExchangeRate), mockUriData[0].currencyCode]])
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.WithdrawCeloReviewScreen, {
@@ -219,6 +222,7 @@ describe('send/utils', () => {
 
       it('should not navigate to WithdrawCeloReview screen when only address & token = CELO are given ', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[1])
+          .withState(getMockStoreData({}))
           .provide([[matchers.call.fn(fetchExchangeRate), mockUriData[1].currencyCode]])
           .run()
         expect(navigate).not.toHaveBeenCalled()
@@ -226,6 +230,7 @@ describe('send/utils', () => {
 
       it('should not navigate to any screen when an unsupported token is given ', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[2])
+          .withState(getMockStoreData({}))
           .provide([[matchers.call.fn(fetchExchangeRate), mockUriData[2].currencyCode]])
           .run()
         expect(navigate).not.toHaveBeenCalled()

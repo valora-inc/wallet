@@ -1,43 +1,108 @@
+import Touchable from '@celo/react-components/components/Touchable'
+import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
+import BigNumber from 'bignumber.js'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { Namespaces } from 'src/i18n'
+import SwapInput from 'src/icons/SwapInput'
 import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
+import { useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 
 interface Props {
-  amount: string
+  inputAmount: string
+  tokenAmount: BigNumber
+  usingLocalAmount: boolean
+  tokenAddress: string
+  onPressMax: () => void
+  onSwapInput: () => void
 }
 
-function SendAmountValue({ amount }: Props) {
+function SendAmountValue({
+  inputAmount,
+  tokenAmount,
+  usingLocalAmount,
+  tokenAddress,
+  onPressMax,
+  onSwapInput,
+}: Props) {
+  const { t } = useTranslation(Namespaces.sendFlow7)
+
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+  const tokenInfo = useTokenInfo(tokenAddress)
+  const localAmount = useTokenToLocalAmount(tokenAmount, tokenAddress)
 
   return (
     <>
-      <View style={styles.showAmountContainer}>
-        <View style={styles.currencySymbolContainer}>
-          <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.currencySymbol}>
-            {localCurrencySymbol || localCurrencyCode}
-          </Text>
+      <View style={styles.container}>
+        <Touchable style={styles.maxButtonContainer} onPress={onPressMax}>
+          <Text style={styles.maxButton}>{t('max')}</Text>
+        </Touchable>
+        <View style={styles.valuesContainer}>
+          <View style={styles.valueContainer}>
+            {usingLocalAmount && (
+              <View style={styles.symbolContainer}>
+                <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.mainSymbol}>
+                  {localCurrencySymbol || localCurrencyCode}
+                </Text>
+              </View>
+            )}
+            <View style={styles.amountContainer}>
+              <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.mainAmount}>
+                {inputAmount ? inputAmount : '0'}
+              </Text>
+            </View>
+            {!usingLocalAmount && (
+              <View style={styles.symbolContainer}>
+                <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.mainSymbol}>
+                  {tokenInfo?.symbol}
+                </Text>
+              </View>
+            )}
+          </View>
+          <View style={styles.valueContainer}>
+            {!usingLocalAmount && (
+              <View style={styles.symbolContainer}>
+                <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.secondarySymbol}>
+                  {localCurrencySymbol || localCurrencyCode}
+                </Text>
+              </View>
+            )}
+            <View style={styles.amountContainer}>
+              <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.secondaryAmount}>
+                {usingLocalAmount ? tokenAmount.toString() : localAmount?.toFixed(2) ?? ''}
+              </Text>
+            </View>
+            {usingLocalAmount && (
+              <View style={styles.symbolContainer}>
+                <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.secondarySymbol}>
+                  {tokenInfo?.symbol}
+                </Text>
+              </View>
+            )}
+          </View>
         </View>
-        <View style={styles.amountContainer}>
-          <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.amount}>
-            {amount ? amount : '0'}
-          </Text>
-        </View>
-        <View style={styles.currencySymbolContainer}>
-          <Text style={styles.currencySymbolTransparent}>
-            {localCurrencySymbol || localCurrencyCode}
-          </Text>
-        </View>
+        <Touchable style={styles.swapInput} onPress={onSwapInput}>
+          <SwapInput />
+        </Touchable>
       </View>
     </>
   )
 }
 
 const styles = StyleSheet.create({
-  showAmountContainer: {
+  container: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  valuesContainer: {
+    flex: 1,
+  },
+  valueContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
   },
@@ -45,25 +110,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     maxWidth: '75%',
   },
-  currencySymbolContainer: {
+  symbolContainer: {
     justifyContent: 'center',
   },
-  currencySymbol: {
-    ...fontStyles.regular,
-    fontSize: 32,
-    lineHeight: 64,
-    marginRight: 8,
+  maxButtonContainer: {
+    padding: 8,
   },
-  currencySymbolTransparent: {
-    ...fontStyles.regular,
-    color: 'transparent',
-    fontSize: 32,
-    lineHeight: 64,
-    marginLeft: 8,
+  maxButton: {
+    color: colors.gray4,
   },
-  amount: {
+  swapInput: {
+    padding: 8,
+  },
+  mainSymbol: {
+    ...fontStyles.regular,
+    fontSize: 24,
+    lineHeight: 64,
+    marginHorizontal: 2,
+  },
+  secondarySymbol: {
+    ...fontStyles.small,
+    marginHorizontal: 2,
+  },
+  mainAmount: {
     ...fontStyles.regular,
     fontSize: 64,
+    lineHeight: undefined,
+  },
+  secondaryAmount: {
+    ...fontStyles.small,
     lineHeight: undefined,
   },
 })

@@ -13,7 +13,11 @@ import { showError } from 'src/alert/actions'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AmountKeypad from 'src/components/AmountKeypad'
-import { ALERT_BANNER_DURATION, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import {
+  ALERT_BANNER_DURATION,
+  NUMBER_INPUT_MAX_DECIMALS,
+  STABLE_TRANSACTION_MIN_AMOUNT,
+} from 'src/config'
 import { Namespaces } from 'src/i18n'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
@@ -30,7 +34,8 @@ import SendAmountValue from 'src/send/SendAmount/SendAmountValue'
 import useTransactionCallbacks from 'src/send/SendAmount/useTransactionCallbacks'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchStableBalances } from 'src/stableToken/actions'
-import { defaultCurrencySelector } from 'src/stableToken/selectors'
+import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
+import { defaultTokenSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
@@ -38,7 +43,7 @@ const MAX_ESCROW_VALUE = new BigNumber(20)
 export interface TransactionDataInput {
   recipient: Recipient
   amount: BigNumber
-  currency: Currency
+  tokenAddress: string
   type: TokenTransactionType
   reason?: string
   firebasePendingRequestUid?: string | null
@@ -53,13 +58,31 @@ function SendAmount(props: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
 
   const [amount, setAmount] = useState('')
-  const defaultCurrency = useSelector(defaultCurrencySelector)
-  const { isOutgoingPaymentRequest, recipient, origin, forceCurrency } = props.route.params
-  const [transferCurrency, setTransferCurrency] = useState(forceCurrency ?? defaultCurrency)
+  const [usingLocalAmount, setUsingLocalAmount] = useState(true)
+  const { isOutgoingPaymentRequest, recipient, origin, forceTokenAddress } = props.route.params
+  const defaultToken = useSelector(defaultTokenSelector)
+  const [transferTokenAddress, setTransferToken] = useState(forceTokenAddress ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
+  const tokenInfo = useTokenInfo(transferTokenAddress)
 
+  const amountBigNumber = new BigNumber(amount.length ? amount : 0)
+  const localToToken = useLocalToTokenAmount(amountBigNumber, transferTokenAddress)
+  const tokenAmount = usingLocalAmount ? localToToken : amountBigNumber
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
+
+  const maxInLocalCurrency =
+    useTokenToLocalAmount(
+      tokenInfo?.balance ?? new BigNumber(0),
+      transferTokenAddress
+    )?.toString() ?? ''
+  const onPressMax = () => {
+    if (!tokenInfo?.balance) {
+      return
+    }
+    setAmount(usingLocalAmount ? maxInLocalCurrency : tokenInfo.balance.toString())
+  }
+  const onSwapInput = () => setUsingLocalAmount(!usingLocalAmount)
 
   const dispatch = useDispatch()
 
@@ -81,7 +104,7 @@ function SendAmount(props: Props) {
   const { onSend, onRequest } = useTransactionCallbacks({
     recipient,
     localAmount: parsedLocalAmount,
-    transferCurrency,
+    transferTokenAddress,
     origin,
     isFromScan: !!props.route.params?.isFromScan,
   })
@@ -117,15 +140,26 @@ function SendAmount(props: Props) {
   return (
     <SafeAreaView style={styles.container}>
       <SendAmountHeader
-        currency={transferCurrency}
+        tokenAddress={transferTokenAddress}
         isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
-        onChangeCurrency={setTransferCurrency}
-        disallowCurrencyChange={Boolean(forceCurrency)}
+        onChangeToken={setTransferToken}
+        disallowCurrencyChange={Boolean(forceTokenAddress)}
       />
       <DisconnectBanner />
       <View style={styles.contentContainer}>
-        <SendAmountValue amount={amount} />
-        <AmountKeypad amount={amount} onAmountChange={setAmount} />
+        <SendAmountValue
+          inputAmount={amount}
+          tokenAmount={tokenAmount ?? new BigNumber(0)}
+          usingLocalAmount={usingLocalAmount}
+          tokenAddress={transferTokenAddress}
+          onPressMax={onPressMax}
+          onSwapInput={onSwapInput}
+        />
+        <AmountKeypad
+          amount={amount}
+          maxDecimals={usingLocalAmount ? NUMBER_INPUT_MAX_DECIMALS : tokenInfo?.decimals ?? 0}
+          onAmountChange={setAmount}
+        />
       </View>
       <Button
         style={styles.nextBtn}

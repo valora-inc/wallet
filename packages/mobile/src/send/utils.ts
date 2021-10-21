@@ -32,7 +32,9 @@ import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { PaymentInfo } from 'src/send/reducers'
 import { getRecentPayments } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { Currency } from 'src/utils/currencies'
+import { TokenBalances } from 'src/tokens/reducer'
+import { tokenBalancesSelector } from 'src/tokens/selectors'
+import { Currency, resolveCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInHours } from 'src/utils/time'
 
@@ -51,7 +53,8 @@ export interface ConfirmationInput {
 export const getConfirmationInput = (
   transactionData: TransactionDataInput,
   e164NumberToAddress: E164NumberToAddressType,
-  secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
+  secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping,
+  tokenSymbol: string
 ): ConfirmationInput => {
   const { recipient } = transactionData
   let recipientAddress: string | null | undefined
@@ -66,8 +69,9 @@ export const getConfirmationInput = (
       undefined
     )
   }
+  const currency = resolveCurrency(tokenSymbol) ?? Currency.Dollar // The default shouldn't happen.
 
-  return { ...transactionData, recipientAddress }
+  return { ...transactionData, recipientAddress, currency }
 }
 
 export const getFeeType = (
@@ -220,10 +224,18 @@ export function* handleSendPaymentData(
         Logger.warn(TAG, '@handleSendPaymentData null amount')
         return
       }
+      const balances: TokenBalances = yield select(tokenBalancesSelector)
+      const cUsdTokenInfo = Object.values(balances).find(
+        (tokenInfo) => tokenInfo?.symbol === Currency.Dollar
+      )
+      if (!cUsdTokenInfo) {
+        Logger.warn(TAG, '@handleSendPaymentData no token info found for cUSD')
+        return
+      }
       const transactionData: TransactionDataInput = {
         recipient,
         amount: dollarAmount,
-        currency: Currency.Dollar,
+        tokenAddress: cUsdTokenInfo.address,
         reason: data.comment,
         type: TokenTransactionType.PayPrefill,
       }

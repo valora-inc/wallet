@@ -18,6 +18,8 @@ import {
 import { PaymentRequest } from 'src/paymentRequest/types'
 import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
+import { TokenBalances } from 'src/tokens/reducer'
+import { tokenBalancesSelector } from 'src/tokens/selectors'
 import {
   navigateToPaymentTransferReview,
   navigateToRequestedPaymentReview,
@@ -44,11 +46,20 @@ function* handlePaymentRequested(
   const info: RecipientInfo = yield select(recipientInfoSelector)
   const targetRecipient = getRecipientFromAddress(paymentRequest.requesterAddress, info)
 
+  const balances: TokenBalances = yield select(tokenBalancesSelector)
+  const cUsdTokenInfo = Object.values(balances).find(
+    (tokenInfo) => tokenInfo?.symbol === Currency.Dollar
+  )
+  if (!cUsdTokenInfo) {
+    Logger.error(TAG, 'Didnt found cUSD token info')
+    return
+  }
+
   navigateToRequestedPaymentReview({
     firebasePendingRequestUid: paymentRequest.uid,
     recipient: targetRecipient,
     amount: new BigNumber(paymentRequest.amount),
-    currency: Currency.Dollar,
+    tokenAddress: cUsdTokenInfo.address,
     reason: paymentRequest.comment,
     type: TokenTransactionType.PayRequest,
   })

@@ -65,7 +65,8 @@ import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchStableBalances } from 'src/stableToken/actions'
 import { useBalance } from 'src/stableToken/hooks'
-import { Currency } from 'src/utils/currencies'
+import { tokenBalancesSelector } from 'src/tokens/selectors'
+import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector, isDekRegisteredSelector } from 'src/web3/selectors'
 
@@ -102,10 +103,12 @@ function SendConfirmation(props: Props) {
   const { transactionData, addressJustValidated, currencyInfo, origin } = props.route.params
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
+  const tokensInfo = useSelector(tokenBalancesSelector)
   const confirmationInput = getConfirmationInput(
     transactionData,
     e164NumberToAddress,
-    secureSendPhoneNumberMapping
+    secureSendPhoneNumberMapping,
+    tokensInfo[transactionData.tokenAddress]?.symbol ?? ''
   )
   const {
     type,
@@ -162,12 +165,28 @@ function SendConfirmation(props: Props) {
   }
 
   const onCloseTokenPicker = () => showTokenChooser(false)
-  const onTokenChosen = (newCurrency: Currency) => {
+  const onTokenSelected = (tokenAddress: string) => {
     showTokenChooser(false)
-    const newAmount = convertBetweenCurrencies(amount, currency, newCurrency, exchangeRates)
+
+    const tokenInfo = tokensInfo[tokenAddress]
+    // We need this condition because Currency.Celo maps to cGLD.
+    const selectedCurrency: Currency | undefined =
+      tokenInfo?.symbol === 'CELO'
+        ? Currency.Celo
+        : STABLE_CURRENCIES.find((cur) => cur === tokenInfo?.symbol)
+    if (!selectedCurrency) {
+      Logger.error(
+        'SendConfirmation',
+        `Token chosen for payment request (${tokenAddress}) not supported`
+      )
+      dispatch(showError(ErrorMessages.FETCH_FAILED))
+      return
+    }
+
+    const newAmount = convertBetweenCurrencies(amount, currency, selectedCurrency, exchangeRates)
     if (newAmount) {
       setAmount(newAmount)
-      setCurrency(newCurrency)
+      setCurrency(selectedCurrency)
     } else {
       dispatch(showError(ErrorMessages.FETCH_FAILED))
     }
@@ -438,7 +457,7 @@ function SendConfirmation(props: Props) {
         <TokenBottomSheet
           isVisible={showingTokenChooser}
           origin={TokenPickerOrigin.SendConfirmation}
-          onCurrencySelected={onTokenChosen}
+          onTokenSelected={onTokenSelected}
           onClose={onCloseTokenPicker}
         />
       </SafeAreaView>

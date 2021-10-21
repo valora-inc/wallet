@@ -18,11 +18,12 @@ import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, getDisplayName } from 'src/recipients/recipient'
 import { Actions as SendActions } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { TokenBalances } from 'src/tokens/reducer'
+import { tokenBalancesSelector } from 'src/tokens/selectors'
 import {
   Actions as TransactionActions,
   NewTransactionsInFeedAction,
 } from 'src/transactions/actions'
-import { resolveCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { getAccount } from 'src/web3/saga'
 
@@ -41,9 +42,12 @@ function* bidaliPaymentRequest({
     `${TAG}@bidaliPaymentRequest`,
     `Send ${amount} ${currencyString} to ${address} for ${description} (${chargeId})`
   )
-
-  const currency = resolveCurrency(currencyString)
-  if (!currency) {
+  const currencyStringToFind = currencyString.toLowerCase() === 'cgld' ? 'CELO' : currencyString
+  const tokensInfo: TokenBalances = yield select(tokenBalancesSelector)
+  const tokenInfo = Object.values(tokensInfo).find(
+    (tokenInfo) => tokenInfo!.symbol.toLowerCase() === currencyStringToFind.toLowerCase()
+  )
+  if (!tokenInfo) {
     // This is not supposed to happen in production
     throw new Error(`Unsupported payment currency from Bidali: ${currencyString}`)
   }
@@ -57,7 +61,7 @@ function* bidaliPaymentRequest({
   const transactionData: TransactionDataInput = {
     recipient,
     amount: new BigNumber(amount),
-    currency,
+    tokenAddress: tokenInfo.address,
     reason: `${description} (${chargeId})`,
     type: TokenTransactionType.PayPrefill,
   }

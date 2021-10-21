@@ -51,10 +51,12 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): StateProps => {
   const { transactionData, addressJustValidated } = route.params
   const { e164NumberToAddress } = state.identity
   const { secureSendPhoneNumberMapping } = state.identity
+  const tokenInfo = state.tokens.tokenBalances[transactionData.tokenAddress]
   const confirmationInput = getConfirmationInput(
     transactionData,
     e164NumberToAddress,
-    secureSendPhoneNumberMapping
+    secureSendPhoneNumberMapping,
+    tokenInfo?.symbol ?? ''
   )
   return {
     confirmationInput,
