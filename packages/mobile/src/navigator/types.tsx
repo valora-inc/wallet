@@ -289,6 +289,7 @@ export type StackParamList = {
     amount?: BigNumber
     recipientAddress?: string
   }
+  [Screens.TokenBalances]: undefined
 }
 
 export type QRTabParamList = {
