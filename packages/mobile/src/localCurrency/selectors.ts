@@ -69,6 +69,11 @@ export const localCurrencyExchangeRatesSelector = createSelector(
   }
 )
 
+export const localCurrencyToUsdSelector = createSelector(
+  localCurrencyExchangeRatesSelector,
+  (exchangeRates) => exchangeRates[Currency.Dollar]
+)
+
 // deprecated, please use |localCurrencyExchangeRatesSelector| instead.
 export function getLocalCurrencyToDollarsExchangeRate(state: RootState) {
   const exchangeRates = localCurrencyExchangeRatesSelector(state)
