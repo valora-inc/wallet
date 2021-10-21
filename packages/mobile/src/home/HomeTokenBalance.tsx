@@ -25,6 +25,7 @@ function HomeTokenBalance() {
     token?.balance ? new BigNumber(token?.balance).gt(0) : false
   )
   const multipleBalances: boolean = balances.length > 1
+  const noBalances: boolean = balances.length == 0
 
   const onViewBalances = () => {
     ValoraAnalytics.track(HomeEvents.viewTokenBalances)
@@ -36,7 +37,7 @@ function HomeTokenBalance() {
       <View style={styles.title}>
         <View style={styles.row}>
           <Text style={styles.totalValue}>{t('totalValue')}</Text>
-          <InfoIcon size={14} color={Colors.gray3} />
+          {!noBalances && <InfoIcon size={14} color={Colors.gray3} />}
         </View>
         {multipleBalances && (
           <TouchableOpacity style={styles.row} onPress={onViewBalances}>
@@ -50,22 +51,24 @@ function HomeTokenBalance() {
           {localCurrencySymbol}
           {totalBalance}
         </Text>
-      ) : (
-        balances[0] &&
-        balances[0].balance && (
-          <View style={styles.oneBalance}>
-            <Image source={{ uri: balances[0].imageUrl }} style={styles.tokenImg} />
-            <View style={styles.column}>
-              <Text style={styles.balance}>
-                {localCurrencySymbol}
-                {totalBalance}
-              </Text>
-              <Text style={styles.tokenBalance}>
-                {new BigNumber(balances[0].balance).toFixed(2)} {balances[0].name}
-              </Text>
-            </View>
+      ) : balances[0] && balances[0].balance ? (
+        <View style={styles.oneBalance}>
+          <Image source={{ uri: balances[0].imageUrl }} style={styles.tokenImg} />
+          <View style={styles.column}>
+            <Text style={styles.balance}>
+              {localCurrencySymbol}
+              {totalBalance}
+            </Text>
+            <Text style={styles.tokenBalance}>
+              {new BigNumber(balances[0].balance).toFixed(2)} {balances[0].name}
+            </Text>
           </View>
-        )
+        </View>
+      ) : (
+        <Text style={styles.balance}>
+          {localCurrencySymbol}
+          {'0.00'}
+        </Text>
       )}
     </View>
   )
