@@ -60,7 +60,7 @@ jobs:
       - name: Run mobile tests
         run: |
           mkdir -p test-results/jest
-          TZ=UTC yarn --cwd packages/mobile jest --coverage --maxWorkers=3
+          TZ=UTC yarn --cwd packages/mobile jest --coverage --maxWorkers=3 analytics/valora
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v2
         with:
