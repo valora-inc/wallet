@@ -67,8 +67,8 @@ static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
   [self resetKeychainIfNecessary];
   
   // IMPORTANT: Order matters here! This is because both CleverTap and Firebase swizzle AppDelegate/UNUserNotificationCenterDelegate methods
-  // and only this specific order works! Also CleverTap account ID and token needs to be provided via Info.plist
-  // to have push with deep links handled correctly. Instead of via Segment remote config.
+  // and only this specific order works! Also CleverTap account ID and token need to be provided via Info.plist
+  // to have push with deep links handled correctly. Instead of via Segment remote config which happens to late in the init process.
   // 1. UNUserNotificationCenter set delegate
   // 2. CleverTap autoIntegrate
   // 3. Firebase configure
