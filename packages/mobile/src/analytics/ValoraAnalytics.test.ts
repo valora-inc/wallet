@@ -16,11 +16,16 @@ jest.mock('@segment/analytics-react-native-adjust', () => ({}))
 jest.mock('@segment/analytics-react-native-clevertap', () => ({}))
 jest.mock('@segment/analytics-react-native-firebase', () => ({}))
 jest.mock('react-native-permissions', () => ({}))
+jest.mock('@sentry/react-native', () => ({ init: jest.fn() }))
 jest.unmock('src/analytics/ValoraAnalytics')
 
 Date.now = jest.fn(() => 1482363367071)
 
 const mockedAnalytics = mocked(Analytics)
+
+// Disable __DEV__ so analytics is enabled
+// @ts-ignore
+global.__DEV__ = false
 
 describe('ValoraAnalytics', () => {
   let ValoraAnalytics: typeof ValoraAnalyticsModule
