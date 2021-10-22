@@ -302,7 +302,7 @@ describe('SendAmountLegacy', () => {
         </Provider>
       )
 
-      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
         origin: SendOrigin.AppSendFlow,
         isFromScan: false,
         transactionData: mockTransactionData2,
@@ -364,7 +364,7 @@ describe('SendAmountLegacy', () => {
       )
       enterAmount(tree, AMOUNT_VALID)
       fireEvent.press(tree.getByTestId('Review'))
-      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
         origin: SendOrigin.AppSendFlow,
         isFromScan: false,
         transactionData: {

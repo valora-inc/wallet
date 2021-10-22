@@ -17,7 +17,7 @@ import {
   RecipientInfo,
 } from 'src/recipients/recipient'
 import { QrCode, SVG } from 'src/send/actions'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/SendAmountLegacy'
 import { handleSendPaymentData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
@@ -138,7 +138,7 @@ export function* handleBarcode(
         addressJustValidated: true,
       })
     } else {
-      navigate(Screens.SendConfirmation, {
+      navigate(Screens.SendConfirmationLegacy, {
         transactionData: secureSendTxData,
         addressJustValidated: true,
         origin: SendOrigin.AppSendFlow,

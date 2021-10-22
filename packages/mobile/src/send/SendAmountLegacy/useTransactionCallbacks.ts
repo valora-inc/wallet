@@ -172,7 +172,7 @@ function useTransactionCallbacks({
       })
     } else {
       ValoraAnalytics.track(SendEvents.send_amount_continue, continueAnalyticsParams)
-      navigate(Screens.SendConfirmation, {
+      navigate(Screens.SendConfirmationLegacy, {
         transactionData,
         isFromScan,
         origin,
