@@ -21,6 +21,7 @@ import {
 import { Namespaces } from 'src/i18n'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
+import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
 import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
@@ -34,7 +35,12 @@ import SendAmountValue from 'src/send/SendAmount/SendAmountValue'
 import useTransactionCallbacks from 'src/send/SendAmount/useTransactionCallbacks'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchStableBalances } from 'src/stableToken/actions'
-import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
+import {
+  useAmountAsUsd,
+  useLocalToTokenAmount,
+  useTokenInfo,
+  useTokenToLocalAmount,
+} from 'src/tokens/hooks'
 import { defaultTokenSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 
@@ -54,6 +60,23 @@ type Props = RouteProps
 
 const { decimalSeparator } = getNumberFormatSettings()
 
+function useInputAmounts(inputAmount: string, usingLocalAmount: boolean, tokenAddress: string) {
+  const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
+  const localToToken = useLocalToTokenAmount(parsedAmount, tokenAddress)!
+  const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenAddress)!
+
+  const localAmount = convertToMaxSupportedPrecision(usingLocalAmount ? parsedAmount : tokenToLocal)
+  const tokenAmount = convertToMaxSupportedPrecision(usingLocalAmount ? localToToken : parsedAmount)
+
+  const usdAmount = useAmountAsUsd(tokenAmount, tokenAddress)
+
+  return {
+    localAmount,
+    tokenAmount,
+    usdAmount: convertToMaxSupportedPrecision(usdAmount!),
+  }
+}
+
 function SendAmount(props: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
 
@@ -65,9 +88,11 @@ function SendAmount(props: Props) {
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
   const tokenInfo = useTokenInfo(transferTokenAddress)
 
-  const amountBigNumber = new BigNumber(amount.length ? amount : 0)
-  const localToToken = useLocalToTokenAmount(amountBigNumber, transferTokenAddress)
-  const tokenAmount = usingLocalAmount ? localToToken : amountBigNumber
+  const { tokenAmount, localAmount, usdAmount } = useInputAmounts(
+    amount,
+    usingLocalAmount,
+    transferTokenAddress
+  )
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
 
@@ -99,11 +124,11 @@ function SendAmount(props: Props) {
     dispatch(fetchAddressesAndValidate(recipient.e164PhoneNumber))
   }, [])
 
-  const parsedLocalAmount = parseInputAmount(amount, decimalSeparator)
-
   const { onSend, onRequest } = useTransactionCallbacks({
     recipient,
-    localAmount: parsedLocalAmount,
+    localAmount,
+    tokenAmount,
+    usdAmount,
     transferTokenAddress,
     origin,
     isFromScan: !!props.route.params?.isFromScan,
@@ -118,7 +143,7 @@ function SendAmount(props: Props) {
         return
       } else if (
         recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED &&
-        parsedLocalAmount.isGreaterThan(maxEscrowInLocalAmount)
+        localAmount.isGreaterThan(maxEscrowInLocalAmount)
       ) {
         dispatch(
           showError(ErrorMessages.MAX_ESCROW_TRANSFER_EXCEEDED, ALERT_BANNER_DURATION, {
@@ -135,7 +160,7 @@ function SendAmount(props: Props) {
 
   const onReviewButtonPressed = () => setReviewButtonPressed(true)
 
-  const isAmountValid = parsedLocalAmount.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT)
+  const isAmountValid = localAmount.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT)
 
   return (
     <SafeAreaView style={styles.container}>

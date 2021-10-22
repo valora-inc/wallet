@@ -43,6 +43,14 @@ export function useTokenToLocalAmount(
   return tokenAmount.multipliedBy(tokenUsdPrice).multipliedBy(usdExchangeRate)
 }
 
+export function useAmountAsUsd(amount: BigNumber, tokenAddress: string) {
+  const tokenInfo = useTokenInfo(tokenAddress)
+  if (!tokenInfo?.usdPrice) {
+    return null
+  }
+  return amount.multipliedBy(tokenInfo.usdPrice)
+}
+
 export function convertBetweenTokens(
   tokenBalances: TokenBalances,
   amount: BigNumber,
