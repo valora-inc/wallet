@@ -212,6 +212,13 @@ export type StackParamList = {
     origin: SendOrigin
     forceCurrency?: Currency
   }
+  [Screens.SendAmountLegacy]: {
+    recipient: Recipient
+    isOutgoingPaymentRequest?: boolean
+    isFromScan?: boolean
+    origin: SendOrigin
+    forceCurrency?: Currency
+  }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.SetClock]: undefined

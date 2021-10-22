@@ -23,7 +23,7 @@ import Dialog from 'src/components/Dialog'
 import FeeDrawer from 'src/components/FeeDrawer'
 import HeaderWithBackButton from 'src/components/header/HeaderWithBackButton'
 import ShortenedAddress from 'src/components/ShortenedAddress'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheetLegacy, { TokenPickerOrigin } from 'src/components/TokenBottomSheetLegacy'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { FeeType } from 'src/fees/actions'
 import CalculateFee, {
@@ -435,7 +435,7 @@ function SendConfirmation(props: Props) {
             {t('encryption.warningModalBody')}
           </Dialog>
         </ReviewFrame>
-        <TokenBottomSheet
+        <TokenBottomSheetLegacy
           isVisible={showingTokenChooser}
           origin={TokenPickerOrigin.SendConfirmation}
           onCurrencySelected={onTokenChosen}
