@@ -4,12 +4,12 @@ import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
-import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import i18n from 'src/i18n'
 import { HeaderTitleWithTokenBalance, styles as headerStyles } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
 import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
-import { tokenBalancesSelector } from 'src/tokens/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
+import { tokensWithBalanceSelector } from 'src/tokens/selectors'
 
 interface Props {
   tokenAddress: string
@@ -25,8 +25,8 @@ function SendAmountHeader({
   disallowCurrencyChange,
 }: Props) {
   const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
-  const balances = useSelector(tokenBalancesSelector)
-  const tokenInfo = balances[tokenAddress]
+  const tokensWithBalance = useSelector(tokensWithBalanceSelector)
+  const tokenInfo = useTokenInfo(tokenAddress)
 
   const onTokenSelected = (token: string) => {
     setShowCurrencyPicker(false)
@@ -41,13 +41,9 @@ function SendAmountHeader({
     : SendEvents.send_amount_back
 
   const title = useMemo(() => {
-    const tokensWithBalance = Object.values(balances).filter((token) =>
-      token?.balance?.multipliedBy(token.usdPrice ?? 0).gt(STABLE_TRANSACTION_MIN_AMOUNT)
-    ).length
-
     let titleText
     let title
-    if (tokensWithBalance < 2 || isOutgoingPaymentRequest || disallowCurrencyChange) {
+    if (tokensWithBalance.length < 2 || isOutgoingPaymentRequest || disallowCurrencyChange) {
       titleText = isOutgoingPaymentRequest
         ? i18n.t('paymentRequestFlow:request')
         : i18n.t('sendFlow7:sendToken', { token: tokenInfo?.symbol })

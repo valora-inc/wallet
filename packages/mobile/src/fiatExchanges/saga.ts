@@ -18,8 +18,8 @@ import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, getDisplayName } from 'src/recipients/recipient'
 import { Actions as SendActions } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { TokenBalances } from 'src/tokens/reducer'
-import { tokenBalancesSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/reducer'
+import { tokensListSelector } from 'src/tokens/selectors'
 import {
   Actions as TransactionActions,
   NewTransactionsInFeedAction,
@@ -43,9 +43,9 @@ function* bidaliPaymentRequest({
     `Send ${amount} ${currencyString} to ${address} for ${description} (${chargeId})`
   )
   const currencyStringToFind = currencyString.toLowerCase() === 'cgld' ? 'CELO' : currencyString
-  const tokensInfo: TokenBalances = yield select(tokenBalancesSelector)
-  const tokenInfo = Object.values(tokensInfo).find(
-    (tokenInfo) => tokenInfo!.symbol.toLowerCase() === currencyStringToFind.toLowerCase()
+  const tokensInfo: TokenBalance[] = yield select(tokensListSelector)
+  const tokenInfo = tokensInfo.find(
+    (tokenInfo) => tokenInfo.symbol.toLowerCase() === currencyStringToFind.toLowerCase()
   )
   if (!tokenInfo) {
     // This is not supposed to happen in production

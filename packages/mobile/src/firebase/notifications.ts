@@ -19,7 +19,7 @@ import { PaymentRequest } from 'src/paymentRequest/types'
 import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { TokenBalances } from 'src/tokens/reducer'
-import { tokenBalancesSelector } from 'src/tokens/selectors'
+import { tokensByAddressSelector } from 'src/tokens/selectors'
 import {
   navigateToPaymentTransferReview,
   navigateToRequestedPaymentReview,
@@ -46,7 +46,7 @@ function* handlePaymentRequested(
   const info: RecipientInfo = yield select(recipientInfoSelector)
   const targetRecipient = getRecipientFromAddress(paymentRequest.requesterAddress, info)
 
-  const balances: TokenBalances = yield select(tokenBalancesSelector)
+  const balances: TokenBalances = yield select(tokensByAddressSelector)
   const cUsdTokenInfo = Object.values(balances).find(
     (tokenInfo) => tokenInfo?.symbol === Currency.Dollar
   )

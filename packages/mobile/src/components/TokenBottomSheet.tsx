@@ -14,9 +14,8 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import { Namespaces } from 'src/i18n'
 import useSelector from 'src/redux/useSelector'
-import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/reducer'
-import { tokenBalancesSelector } from 'src/tokens/selectors'
+import { tokensWithBalanceSelector } from 'src/tokens/selectors'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
@@ -31,12 +30,7 @@ interface Props {
   onClose: () => void
 }
 
-function TokenOption({ tokenAddress, onPress }: { tokenAddress: string; onPress: () => void }) {
-  const tokenInfo = useTokenInfo(tokenAddress)
-  if (!tokenInfo?.balance) {
-    return null
-  }
-
+function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
   return (
     <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
       <View style={styles.tokenOptionContainer}>
@@ -49,14 +43,14 @@ function TokenOption({ tokenAddress, onPress }: { tokenAddress: string; onPress:
           <TokenDisplay
             style={styles.localBalance}
             amount={tokenInfo.balance}
-            tokenAddress={tokenAddress}
+            tokenAddress={tokenInfo.address}
             showLocalAmount={true}
             testID={`Local${tokenInfo.symbol}Balance`}
           />
           <TokenDisplay
             style={styles.currencyBalance}
             amount={tokenInfo.balance}
-            tokenAddress={tokenAddress}
+            tokenAddress={tokenInfo.address}
             showLocalAmount={false}
             testID={`${tokenInfo.symbol}Balance`}
           />
@@ -66,17 +60,10 @@ function TokenOption({ tokenAddress, onPress }: { tokenAddress: string; onPress:
   )
 }
 
-function filterZeroBalanceTokens(tokenInfo: TokenBalance | undefined) {
-  if (!tokenInfo?.balance || !tokenInfo?.usdPrice) {
-    return false
-  }
-  return tokenInfo.balance.multipliedBy(tokenInfo.usdPrice).gte(0.01)
-}
-
 function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
-  const tokensInfo = useSelector(tokenBalancesSelector)
+  const tokens = useSelector(tokensWithBalanceSelector)
 
   const { t } = useTranslation(Namespaces.sendFlow7)
 
@@ -132,19 +119,14 @@ function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props
         onLayout={onLayout}
       >
         <Text style={styles.title}>{t('selectToken')}</Text>
-        {Object.values(tokensInfo)
-          .filter(filterZeroBalanceTokens)
-          .map((tokenInfo, index) => {
-            return (
-              <>
-                {index > 0 && <View style={styles.separator} />}
-                <TokenOption
-                  tokenAddress={tokenInfo!.address}
-                  onPress={onTokenPressed(tokenInfo!.address)}
-                />
-              </>
-            )
-          })}
+        {tokens.map((tokenInfo, index) => {
+          return (
+            <>
+              {index > 0 && <View style={styles.separator} />}
+              <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
+            </>
+          )
+        })}
       </Animated.View>
     </View>
   )

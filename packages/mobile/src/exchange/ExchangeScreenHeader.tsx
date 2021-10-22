@@ -13,7 +13,7 @@ import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { HeaderTitleWithBalance, styles as headerStyles } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
 import { balancesSelector } from 'src/stableToken/selectors'
-import { tokenBalancesSelector } from 'src/tokens/selectors'
+import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
 interface Props {
@@ -24,7 +24,7 @@ interface Props {
 
 function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency }: Props) {
   const [showingTokenPicker, setShowTokenPicker] = useState(false)
-  const tokensInfo = useSelector(tokenBalancesSelector)
+  const tokensInfo = useSelector(tokensByAddressSelector)
 
   const onTokenSelected = (tokenAddress: string) => {
     setShowTokenPicker(false)

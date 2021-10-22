@@ -65,7 +65,7 @@ import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchStableBalances } from 'src/stableToken/actions'
 import { useBalance } from 'src/stableToken/hooks'
-import { tokenBalancesSelector } from 'src/tokens/selectors'
+import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector, isDekRegisteredSelector } from 'src/web3/selectors'
@@ -103,7 +103,7 @@ function SendConfirmation(props: Props) {
   const { transactionData, addressJustValidated, currencyInfo, origin } = props.route.params
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
-  const tokensInfo = useSelector(tokenBalancesSelector)
+  const tokensInfo = useSelector(tokensByAddressSelector)
   const confirmationInput = getConfirmationInput(
     transactionData,
     e164NumberToAddress,
