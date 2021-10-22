@@ -9,35 +9,35 @@ on:
   pull_request:
 
 jobs:
-  general:
-    name: General
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '12'
-          check-latest: true
-      - uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn
-      - run: yarn build --ignore docs
-      - run: |
-          mkdir -p test-results/jest
-          yarn run lerna --ignore @celo/mobile run test
-      - name: 'Upload Test Results'
-        uses: actions/upload-artifact@v2
-        with:
-          path: test-results
-      - name: 'Upload to Codecov'
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-    
+  # general:
+  #   name: General
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: '12'
+  #         check-latest: true
+  #     - uses: actions/cache@v2
+  #       with:
+  #         path: |
+  #           node_modules
+  #           */*/node_modules
+  #         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+  #     - run: yarn
+  #     - run: yarn build --ignore docs
+  #     - run: |
+  #         mkdir -p test-results/jest
+  #         yarn run lerna --ignore @celo/mobile run test
+  #     - name: 'Upload Test Results'
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         path: test-results
+  #     - name: 'Upload to Codecov'
+  #       uses: codecov/codecov-action@v2
+  #       with:
+  #         token: ${{ secrets.CODECOV_TOKEN }}
+
   mobile:
     name: Mobile
     runs-on: ubuntu-latest
@@ -60,7 +60,7 @@ jobs:
       - name: Run mobile tests
         run: |
           mkdir -p test-results/jest
-          yarn --cwd packages/mobile test:ci
+          export TZ=UTC yarn --cwd packages/mobile jest --coverage --maxWorkers=3
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v2
         with:
