@@ -14,7 +14,7 @@ function TockerPickerSelector({ tokenAddress, onChangeToken }: Props) {
   const tokenInfo = useTokenInfo(tokenAddress)
 
   return (
-    <Touchable style={styles.touchable} onPress={onChangeToken}>
+    <Touchable style={styles.touchable} onPress={onChangeToken} testID="onChangeToken">
       <View style={styles.container}>
         <Text style={styles.token}>{tokenInfo?.symbol}</Text>
         <DownArrowIcon color={colors.greenUI} />

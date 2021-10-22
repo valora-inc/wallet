@@ -4,13 +4,14 @@ import variables from '@celo/react-components/styles/variables'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { useTokenInfoBySymbol } from 'src/tokens/hooks'
-import { CURRENCIES, Currency } from 'src/utils/currencies'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { Currency } from 'src/utils/currencies'
 
 interface Props {
   selectedCurrency?: Currency
@@ -18,14 +19,12 @@ interface Props {
 }
 
 export default function SendBar({ selectedCurrency, skipImport }: Props) {
-  const selectedTokenInfo = useTokenInfoBySymbol(
-    selectedCurrency ? CURRENCIES[selectedCurrency].symbol : ''
-  )
+  const tokensByCurrency = useSelector(tokensByCurrencySelector)
 
   const onPressSend = () => {
     navigate(Screens.Send, {
       skipContactsImport: skipImport,
-      forceTokenAddress: selectedTokenInfo?.address,
+      forceTokenAddress: selectedCurrency ? tokensByCurrency[selectedCurrency]?.address : undefined,
     })
     ValoraAnalytics.track(FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue)
   }

@@ -60,6 +60,7 @@ function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress:
   )
 }
 
+// TODO: In the exchange flow or when requesting a payment, only show CELO & stable tokens.
 function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)

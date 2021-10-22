@@ -86,7 +86,7 @@ function SendAmount(props: Props) {
   const defaultToken = useSelector(defaultTokenSelector)
   const [transferTokenAddress, setTransferToken] = useState(forceTokenAddress ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
-  const tokenInfo = useTokenInfo(transferTokenAddress)
+  const tokenInfo = useTokenInfo(transferTokenAddress)!
 
   const { tokenAmount, localAmount, usdAmount } = useInputAmounts(
     amount,
@@ -97,14 +97,9 @@ function SendAmount(props: Props) {
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
 
   const maxInLocalCurrency =
-    useTokenToLocalAmount(
-      tokenInfo?.balance ?? new BigNumber(0),
-      transferTokenAddress
-    )?.toString() ?? ''
+    useTokenToLocalAmount(tokenInfo.balance, transferTokenAddress)?.toString() ?? ''
   const onPressMax = () => {
-    if (!tokenInfo?.balance) {
-      return
-    }
+    // TODO: Take into account fee amount if only one fee token has a balance.
     setAmount(usingLocalAmount ? maxInLocalCurrency : tokenInfo.balance.toString())
   }
   const onSwapInput = () => setUsingLocalAmount(!usingLocalAmount)
@@ -174,7 +169,7 @@ function SendAmount(props: Props) {
       <View style={styles.contentContainer}>
         <SendAmountValue
           inputAmount={amount}
-          tokenAmount={tokenAmount ?? new BigNumber(0)}
+          tokenAmount={tokenAmount}
           usingLocalAmount={usingLocalAmount}
           tokenAddress={transferTokenAddress}
           onPressMax={onPressMax}

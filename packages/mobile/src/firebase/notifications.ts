@@ -18,8 +18,8 @@ import {
 import { PaymentRequest } from 'src/paymentRequest/types'
 import { getRecipientFromAddress, RecipientInfo } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
-import { TokenBalances } from 'src/tokens/reducer'
-import { tokensByAddressSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/reducer'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import {
   navigateToPaymentTransferReview,
   navigateToRequestedPaymentReview,
@@ -46,12 +46,12 @@ function* handlePaymentRequested(
   const info: RecipientInfo = yield select(recipientInfoSelector)
   const targetRecipient = getRecipientFromAddress(paymentRequest.requesterAddress, info)
 
-  const balances: TokenBalances = yield select(tokensByAddressSelector)
-  const cUsdTokenInfo = Object.values(balances).find(
-    (tokenInfo) => tokenInfo?.symbol === Currency.Dollar
+  const tokensByCurrency: Record<Currency, TokenBalance | undefined> = yield select(
+    tokensByCurrencySelector
   )
+  const cUsdTokenInfo = tokensByCurrency[Currency.Dollar]
   if (!cUsdTokenInfo) {
-    Logger.error(TAG, 'Didnt found cUSD token info')
+    Logger.error(TAG, 'Didnt find cUSD token info')
     return
   }
 

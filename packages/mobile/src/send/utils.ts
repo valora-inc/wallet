@@ -33,7 +33,7 @@ import { PaymentInfo } from 'src/send/reducers'
 import { getRecentPayments } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { TokenBalance } from 'src/tokens/reducer'
-import { tokensListSelector } from 'src/tokens/selectors'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { Currency, resolveCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInHours } from 'src/utils/time'
@@ -224,8 +224,10 @@ export function* handleSendPaymentData(
         Logger.warn(TAG, '@handleSendPaymentData null amount')
         return
       }
-      const tokens: TokenBalance[] = yield select(tokensListSelector)
-      const cUsdTokenInfo = tokens.find((token) => token.symbol === Currency.Dollar)
+      const tokensByCurrency: Record<Currency, TokenBalance | undefined> = yield select(
+        tokensByCurrencySelector
+      )
+      const cUsdTokenInfo = tokensByCurrency[Currency.Dollar]
       if (!cUsdTokenInfo) {
         Logger.warn(TAG, '@handleSendPaymentData no token info found for cUSD')
         return

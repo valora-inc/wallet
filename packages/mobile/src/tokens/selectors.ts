@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { RootState } from 'src/redux/reducers'
 import { TokenBalances } from 'src/tokens/reducer'
+import { Currency } from 'src/utils/currencies'
 import { isDefined } from 'src/utils/utils'
 
 // This selector maps usdPrice and balance fields from string to BigNumber and filters tokens without those values
@@ -35,20 +36,23 @@ export const tokensWithBalanceSelector = createSelector(tokensListSelector, (tok
   )
 })
 
-export const defaultTokenSelector = createSelector(tokensListSelector, (tokens) => {
-  const usdTokenInfo = tokens.find((tokenInfo) => tokenInfo.symbol === 'cUSD')
-  if (!usdTokenInfo) {
-    throw new Error("cUSD token info not found. Shouldn't happen")
+export const tokensByCurrencySelector = createSelector(tokensListSelector, (tokens) => {
+  const cUsdTokenInfo = tokens.find((token) => token?.symbol === Currency.Dollar)
+  const cEurTokenInfo = tokens.find((token) => token?.symbol === Currency.Euro)
+  // Currency.Celo === 'cGLD' for legacy reasons, so we just use a hard-coded string.
+  const celoTokenInfo = tokens.find((token) => token?.symbol === 'CELO')
+  return {
+    [Currency.Dollar]: cUsdTokenInfo,
+    [Currency.Euro]: cEurTokenInfo,
+    [Currency.Celo]: celoTokenInfo,
   }
-  let maxTokenAddress: string = usdTokenInfo.address
-  let maxBalance: BigNumber = usdTokenInfo.balance ?? new BigNumber(0)
+})
+
+export const defaultTokenSelector = createSelector(tokensListSelector, (tokens) => {
+  let maxTokenAddress: string = tokens[0].address
+  let maxBalance: BigNumber = tokens[0].balance.multipliedBy(tokens[0].usdPrice)
   for (const token of tokens) {
-    const tokenUsdPrice = token.usdPrice
-    const tokenBalance = token.balance
-    if (!tokenUsdPrice || !tokenBalance) {
-      continue
-    }
-    const usdBalance = tokenBalance.multipliedBy(tokenUsdPrice)
+    const usdBalance = token.balance.multipliedBy(token.usdPrice)
     if (usdBalance.gt(maxBalance)) {
       maxTokenAddress = token.address
       maxBalance = usdBalance

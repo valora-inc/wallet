@@ -17,6 +17,7 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { useBalance } from 'src/stableToken/hooks'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
+import { isDefined } from 'src/utils/utils'
 
 export const noHeader: StackNavigationOptions = {
   headerShown: false,
@@ -166,12 +167,11 @@ interface TokenBalanceProps {
 
 export function HeaderTitleWithTokenBalance({ title, token }: TokenBalanceProps) {
   const tokenInfo = useTokenInfo(token)
+  const hasBalance = tokenInfo && isDefined(tokenInfo?.balance)
 
-  const balance = tokenInfo?.balance ?? -1
-  const hasBalance = balance >= 0
   const subTitle = hasBalance ? (
     <Trans i18nKey="balanceAvailable" ns={Namespaces.global}>
-      <TokenDisplay style={styles.headerSubTitle} tokenAddress={token} amount={balance} />
+      <TokenDisplay style={styles.headerSubTitle} tokenAddress={token} amount={tokenInfo.balance} />
     </Trans>
   ) : (
     // TODO: a null/undefined balance doesn't necessarily mean it's loading
