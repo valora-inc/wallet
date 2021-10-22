@@ -28,6 +28,30 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
       style={
         Object {
           "alignItems": "center",
+          "justifyContent": "center",
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "fontFamily": "Jost-Medium",
+            "fontSize": 16,
+            "lineHeight": 20,
+          }
+        }
+      >
+        sendFlow7:send
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
           "height": "100%",
           "justifyContent": "center",
         }
@@ -176,30 +200,6 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
           />
         </svg>
       </View>
-    </View>
-    <View
-      style={
-        Object {
-          "alignItems": "center",
-          "justifyContent": "center",
-          "left": 60,
-          "position": "absolute",
-          "right": 60,
-        }
-      }
-    >
-      <Text
-        style={
-          Object {
-            "color": "#2E3338",
-            "fontFamily": "Jost-Medium",
-            "fontSize": 16,
-            "lineHeight": 20,
-          }
-        }
-      >
-        sendFlow7:send
-      </Text>
     </View>
   </View>
   <View

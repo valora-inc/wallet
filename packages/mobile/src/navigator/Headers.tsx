@@ -9,11 +9,13 @@ import { PixelRatio, Platform, StyleSheet, Text, View } from 'react-native'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
 import i18n, { Namespaces } from 'src/i18n'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { useBalance } from 'src/stableToken/hooks'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 
 export const noHeader: StackNavigationOptions = {
@@ -155,6 +157,26 @@ export function HeaderTitleWithBalance({ title, token, switchTitleAndSubtitle = 
       subTitle={switchTitleAndSubtitle ? title : subTitle}
     />
   )
+}
+
+interface TokenBalanceProps {
+  title: string | JSX.Element
+  token: string
+}
+
+export function HeaderTitleWithTokenBalance({ title, token }: TokenBalanceProps) {
+  const tokenInfo = useTokenInfo(token)
+
+  const subTitle = tokenInfo ? (
+    <Trans i18nKey="balanceAvailable" ns={Namespaces.global}>
+      <TokenDisplay style={styles.headerSubTitle} tokenAddress={token} amount={tokenInfo.balance} />
+    </Trans>
+  ) : (
+    // TODO: a null/undefined tokenInfo doesn't necessarily mean it's loading
+    i18n.t('global:loading')
+  )
+
+  return <HeaderTitleWithSubtitle title={title} subTitle={subTitle} />
 }
 
 export function HeaderTitleWithSubtitle({

@@ -10,7 +10,10 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
+import {
+  TransactionDataInput as LegacyTransactionDataInput,
+  TransactionDataInput as TransactionDataInputLegacy,
+} from 'src/send/SendAmountLegacy'
 import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
@@ -23,6 +26,14 @@ type NestedNavigatorParams<ParamList> = {
     ? { screen: K; params?: ParamList[K] }
     : { screen: K; params: ParamList[K] }
 }[keyof ParamList]
+
+interface SendConfirmationLegacyParams {
+  origin: SendOrigin
+  transactionData: LegacyTransactionDataInput
+  addressJustValidated?: boolean
+  isFromScan?: boolean
+  currencyInfo?: CurrencyInfo
+}
 
 interface SendConfirmationParams {
   origin: SendOrigin
@@ -219,7 +230,7 @@ export type StackParamList = {
     isOutgoingPaymentRequest?: boolean
     isFromScan?: boolean
     origin: SendOrigin
-    forceCurrency?: Currency
+    forceTokenAddress?: string
   }
   [Screens.SendAmountLegacy]: {
     recipient: Recipient
@@ -251,14 +262,14 @@ export type StackParamList = {
   }
   [Screens.UpgradeScreen]: undefined
   [Screens.ValidateRecipientIntro]: {
-    transactionData: TransactionDataInputLegacy
+    transactionData: TransactionDataInputLegacy | TransactionDataInput
     addressValidationType: AddressValidationType
     isOutgoingPaymentRequest?: true
     requesterAddress?: string
     origin: SendOrigin
   }
   [Screens.ValidateRecipientAccount]: {
-    transactionData: TransactionDataInputLegacy
+    transactionData: TransactionDataInputLegacy | TransactionDataInput
     addressValidationType: AddressValidationType
     isOutgoingPaymentRequest?: true
     requesterAddress?: string
@@ -315,7 +326,7 @@ export type QRTabParamList = {
   [Screens.QRScanner]:
     | {
         scanIsForSecureSend?: true
-        transactionData?: TransactionDataInputLegacy
+        transactionData?: TransactionDataInputLegacy | TransactionDataInput
         isOutgoingPaymentRequest?: boolean
         requesterAddress?: string
       }

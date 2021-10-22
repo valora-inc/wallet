@@ -9,7 +9,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, urlFromUriData } from 'src/qrcode/schema'
 import { PaymentInfo } from 'src/send/reducers'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/SendAmountLegacy'
 import {
   dailyAmountRemaining,
   handlePaymentDeeplink,

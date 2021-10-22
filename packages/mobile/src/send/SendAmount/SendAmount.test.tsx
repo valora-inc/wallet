@@ -20,6 +20,8 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount2Invite,
   mockAccountInvite,
+  mockCeurAddress,
+  mockCusdAddress,
   mockE164NumberInvite,
   mockTransactionData,
 } from 'test/values'
@@ -36,7 +38,22 @@ const REQUEST_OVER_LIMIT = (DEFAULT_DAILY_PAYMENT_LIMIT_CUSD * 2).toString()
 const LARGE_BALANCE = (DEFAULT_DAILY_PAYMENT_LIMIT_CUSD * 10).toString()
 
 const storeData = {
-  stableToken: { balances: { [Currency.Dollar]: BALANCE_VALID, [Currency.Euro]: '10' } },
+  tokens: {
+    tokenBalances: {
+      [mockCusdAddress]: {
+        address: mockCusdAddress,
+        symbol: 'cUSD',
+        usdPrice: '1',
+        balance: BALANCE_VALID,
+      },
+      [mockCeurAddress]: {
+        address: mockCeurAddress,
+        symbol: 'cEUR',
+        usdPrice: '1.2',
+        balance: '10',
+      },
+    },
+  },
 
   fees: {
     estimates: {
@@ -58,15 +75,16 @@ const mockTransactionData2 = {
   type: mockTransactionData.type,
   recipient: mockTransactionData.recipient,
   amount: new BigNumber('3.70676691729323308271'),
-  currency: Currency.Dollar,
+  tokenAddress: mockCusdAddress,
   reason: '',
 }
 
-const mockScreenProps = (isOutgoingPaymentRequest?: true) =>
+const mockScreenProps = (isOutgoingPaymentRequest?: boolean, forceTokenAddress?: string) =>
   getMockStackScreenProps(Screens.SendAmount, {
     recipient: mockTransactionData.recipient,
     isOutgoingPaymentRequest,
     origin: SendOrigin.AppSendFlow,
+    forceTokenAddress,
   })
 
 const enterAmount = (wrapper: RenderAPI, text: string) => {
@@ -122,7 +140,7 @@ describe('SendAmount', () => {
   })
 
   describe('enter amount', () => {
-    it('shows an error when tapping the send button with not enough balance', () => {
+    it.only('shows an error when tapping the send button with not enough balance', () => {
       const store = createMockStore(storeData)
       const wrapper = render(
         <Provider store={store}>
@@ -187,7 +205,16 @@ describe('SendAmount', () => {
     it('shows an error when tapping the send button with an amount over the limit', () => {
       const store = createMockStore({
         ...storeData,
-        stableToken: { balances: { [Currency.Dollar]: LARGE_BALANCE } },
+        tokens: {
+          tokenBalances: {
+            [mockCusdAddress]: {
+              address: mockCusdAddress,
+              symbol: 'cUSD',
+              usdPrice: '1',
+              balance: LARGE_BALANCE,
+            },
+          },
+        },
       })
       const wrapper = render(
         <Provider store={store}>
@@ -239,7 +266,22 @@ describe('SendAmount', () => {
     it("doesnt allow choosing the currency when there's only balance for one token", () => {
       const store = createMockStore({
         ...storeData,
-        stableToken: { balances: { [Currency.Dollar]: '0', [Currency.Euro]: '10.12' } },
+        tokens: {
+          tokenBalances: {
+            [mockCusdAddress]: {
+              address: mockCusdAddress,
+              symbol: 'cUSD',
+              usdPrice: '1',
+              balance: '0',
+            },
+            [mockCeurAddress]: {
+              address: mockCeurAddress,
+              symbol: 'cEUR',
+              usdPrice: '1.2',
+              balance: '10.12',
+            },
+          },
+        },
       })
       const { queryByTestId } = render(
         <Provider store={store}>
@@ -349,9 +391,6 @@ describe('SendAmount', () => {
           },
         },
         ...storeData,
-        stableToken: {
-          balances: { [Currency.Dollar]: BALANCE_VALID, [Currency.Euro]: BALANCE_VALID },
-        },
         send: {
           lastUsedCurrency: Currency.Euro,
         },
@@ -359,7 +398,7 @@ describe('SendAmount', () => {
 
       const tree = render(
         <Provider store={store}>
-          <SendAmount {...mockScreenProps()} />
+          <SendAmount {...mockScreenProps(undefined, mockCeurAddress)} />
         </Provider>
       )
       enterAmount(tree, AMOUNT_VALID)
@@ -369,8 +408,8 @@ describe('SendAmount', () => {
         isFromScan: false,
         transactionData: {
           ...mockTransactionData2,
-          amount: new BigNumber('2.465'),
-          currency: Currency.Euro,
+          amount: new BigNumber('3.08897243107769423559'),
+          tokenAddress: mockCeurAddress,
         },
       })
     })

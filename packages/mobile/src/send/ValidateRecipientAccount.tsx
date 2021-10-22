@@ -31,13 +31,15 @@ import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
+import { isLegacyTransactionData } from 'src/send/utils'
 
 const FULL_ADDRESS_PLACEHOLDER = '0xf1b1d5a6e7728g309c4a025k122d71ad75a61976'
 const PARTIAL_ADDRESS_PLACEHOLDER = ['k', '0', 'F', '4']
 
 interface StateProps {
   recipient: Recipient
-  transactionData: TransactionDataInput
+  transactionData: TransactionDataInput | TransactionDataInputLegacy
   addressValidationType: AddressValidationType
   validationSuccessful: boolean
   isOutgoingPaymentRequest?: true
@@ -106,17 +108,26 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
     const { validationSuccessful, isOutgoingPaymentRequest, transactionData, route } = this.props
 
     if (validationSuccessful && prevProps.validationSuccessful === false) {
-      if (isOutgoingPaymentRequest) {
+      const isLegacy = isLegacyTransactionData(transactionData)
+      if (isOutgoingPaymentRequest && isLegacy) {
         navigate(Screens.PaymentRequestConfirmation, {
-          transactionData,
+          transactionData: transactionData as TransactionDataInputLegacy,
           addressJustValidated: true,
         })
       } else {
-        navigate(Screens.SendConfirmation, {
-          transactionData,
-          addressJustValidated: true,
-          origin: route.params.origin,
-        })
+        if (isLegacy) {
+          navigate(Screens.SendConfirmationLegacy, {
+            transactionData: transactionData as TransactionDataInputLegacy,
+            addressJustValidated: true,
+            origin: route.params.origin,
+          })
+        } else {
+          navigate(Screens.SendConfirmation, {
+            transactionData: transactionData as TransactionDataInput,
+            addressJustValidated: true,
+            origin: route.params.origin,
+          })
+        }
       }
     }
   }

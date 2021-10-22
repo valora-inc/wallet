@@ -31,7 +31,8 @@ import { AddressRecipient, Recipient } from 'src/recipients/recipient'
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { PaymentInfo } from 'src/send/reducers'
 import { getRecentPayments } from 'src/send/selectors'
-import { TransactionDataInput } from 'src/send/SendAmountLegacy'
+import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInHours } from 'src/utils/time'
@@ -49,7 +50,7 @@ export interface ConfirmationInput {
 }
 
 export const getConfirmationInput = (
-  transactionData: TransactionDataInput,
+  transactionData: TransactionDataInputLegacy,
   e164NumberToAddress: E164NumberToAddressType,
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
 ): ConfirmationInput => {
@@ -220,7 +221,7 @@ export function* handleSendPaymentData(
         Logger.warn(TAG, '@handleSendPaymentData null amount')
         return
       }
-      const transactionData: TransactionDataInput = {
+      const transactionData: TransactionDataInputLegacy = {
         recipient,
         amount: dollarAmount,
         currency: Currency.Dollar,
@@ -256,4 +257,10 @@ export function* handlePaymentDeeplink(deeplink: string) {
   } catch (e) {
     Logger.warn('handlePaymentDeepLink', `deeplink ${deeplink} failed with ${e}`)
   }
+}
+
+export function isLegacyTransactionData(
+  transactionData: TransactionDataInput | TransactionDataInputLegacy
+): transactionData is TransactionDataInputLegacy {
+  return transactionData && 'currency' in transactionData
 }
