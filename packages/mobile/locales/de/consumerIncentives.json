@@ -7,8 +7,8 @@
   },
   "noMinCommitment": {
     "header": "Automatische Belohnungen",
-    "earningText": "Du brauchst nur einen Saldo von mindestens {{minBalance}} {{currency}} mit Belohnungen zu starten.",
-    "connectText": "Du brauchst nur einen Saldo von mindestens {{minBalance}} {{currency}} und verbinde deine Telefonnummer um mit Belohnungen zu starten."
+    "earningText": "Du brauchst nur einen Saldo von mindestens {{minBalance}} {{currency}}, um Belohnungen zu bekommen.",
+    "connectText": "Du brauchst nur einen Saldo von mindestens {{minBalance}} {{currency}} und deine Telefonnummer zu bestätigen, um Belohnungen zu bekommen."
   },
   "saveMoreEarnMore": {
     "header": "Erhöhe dein Saldo",
