@@ -65,6 +65,22 @@ static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
   // Note: react-native-secure-key-store also does that but is run too late
   // and hence can't clear Firebase credentials
   [self resetKeychainIfNecessary];
+  
+  // IMPORTANT: Order matters here! This is because both CleverTap and Firebase swizzle AppDelegate/UNUserNotificationCenterDelegate methods
+  // and only this specific order works! Also CleverTap account ID and token needs to be provided via Info.plist
+  // to have push with deep links handled correctly. Instead of via Segment remote config.
+  // 1. UNUserNotificationCenter set delegate
+  // 2. CleverTap autoIntegrate
+  // 3. Firebase configure
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+  center.delegate = self;
+  
+#if DEBUG
+  [CleverTap setDebugLevel:CleverTapLogDebug];
+#endif
+  [CleverTap autoIntegrate];
+  [[CleverTapReactManager sharedInstance] applicationDidLaunchWithOptions:launchOptions];
+  
   NSString *env = [ReactNativeConfig envFor:@"FIREBASE_ENABLED"];
   if (env.boolValue) {
     [FIROptions defaultOptions].deepLinkURLScheme = @"celo";
@@ -89,14 +105,6 @@ static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  
-  [CleverTap autoIntegrate];
-  [[CleverTapReactManager sharedInstance] applicationDidLaunchWithOptions:launchOptions];
-  #if DEBUG
-    [CleverTap setDebugLevel:CleverTapLogDebug];
-  #endif
-  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];    
-  center.delegate = self;
 
   return YES;
 }
@@ -166,9 +174,17 @@ static NSString * const kHasRunBeforeKey = @"RnSksIsAppInstalled";
   self.blurView = nil;
 }
 
+// This is needed for CleverTap push to appear while the app is in foreground, using the system banner
+// Note: this doesn't apply to push sent via FCM, which are handled on the React Native side
+// See https://github.com/invertase/react-native-firebase/blob/0d22eadfbb2f4a9229c63393bc87dc838511a617/packages/messaging/ios/RNFBMessaging/RNFBMessaging%2BUNUserNotificationCenter.m#L86
 - (void)userNotificationCenter:(UNUserNotificationCenter* )center willPresentNotification:(UNNotification* )notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler 
 {
   completionHandler(UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound);
+}
+
+// This is also needed for CleverTap to have correct push actions handling, because of the swizzling competition between CleverTap and Firebase
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+  completionHandler();
 }
 
 // Universal Links
