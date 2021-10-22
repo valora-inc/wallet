@@ -40,7 +40,7 @@ function useFiatExchangeRates(currencyInfo?: CurrencyInfo) {
   }
 }
 
-function calculateDecimalsToShow(value: BigNumber) {
+export function calculateDecimalsToShow(value: BigNumber) {
   const exponent = value?.e ?? 0
   if (exponent >= 0) {
     return DEFAULT_DISPLAY_DECIMALS

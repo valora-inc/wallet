@@ -40,10 +40,13 @@ function SendAmountHeader({
     ? RequestEvents.request_amount_back
     : SendEvents.send_amount_back
 
+  const canChangeToken =
+    tokensWithBalance.length >= 2 && !isOutgoingPaymentRequest && !disallowCurrencyChange
+
   const title = useMemo(() => {
     let titleText
     let title
-    if (tokensWithBalance.length < 2 || isOutgoingPaymentRequest || disallowCurrencyChange) {
+    if (!canChangeToken) {
       titleText = isOutgoingPaymentRequest
         ? i18n.t('paymentRequestFlow:request')
         : i18n.t('sendFlow7:sendToken', { token: tokenInfo?.symbol })
@@ -69,7 +72,9 @@ function SendAmountHeader({
         left={<BackButton eventName={backButtonEventName} />}
         title={title}
         right={
-          <TokenPickerSelector tokenAddress={tokenAddress} onChangeToken={openCurrencyPicker} />
+          canChangeToken && (
+            <TokenPickerSelector tokenAddress={tokenAddress} onChangeToken={openCurrencyPicker} />
+          )
         }
       />
       <TokenBottomSheet
