@@ -163,13 +163,6 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     const language = yield select(currentLanguageSelector)
     yield call(setUserLanguage, address, language)
   }
-  if (Platform.OS === 'ios') {
-    const apnsToken = yield call([firebase.messaging(), 'getAPNSToken'])
-    if (apnsToken) {
-      // Note: 2nd argument (type) is ignored on iOS, so we just pass an empty string
-      CleverTap.setPushToken(apnsToken, '')
-    }
-  }
 
   CleverTap.createNotificationChannel('CleverTapChannelId', 'CleverTap', 'default channel', 5, true)
 
