@@ -125,11 +125,11 @@ function Send({ route }: Props) {
         }
       )
 
-      navigate(Screens.SendAmountLegacy, {
+      navigate(Screens.SendAmount, {
         recipient,
         isOutgoingPaymentRequest,
         origin: SendOrigin.AppSendFlow,
-        forceCurrency,
+        // forceCurrency,
       })
     },
     [isOutgoingPaymentRequest, searchQuery]
