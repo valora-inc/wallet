@@ -1,13 +1,13 @@
 {
   "education": {
     "step1": "{{appName}} es una nueva forma de enviar y recibir valor en todo el mundo",
-    "step2": "Envía fondos a través de las fronteras",
+    "step2": "Envía fondos sin fronteras",
     "step3": "Conveniente, confiable y seguro. Tu teléfono es tu billetera"
   },
   "welcome": {
     "title": "Comparte dinero con quienes valoras",
     "createAccount": "Crear una cuenta",
-    "restoreAccount": "Tengo una cuenta"
+    "restoreAccount": "Restaurar cuenta existente"
   },
   "contacts": {
     "disclosure": {
@@ -16,7 +16,7 @@
     }
   },
   "createAccount": "Crear Cuenta",
-  "restoreAccount": "Restaurar conta existente",
+  "restoreAccount": "Restaurar cuenta existente",
   "createAccountSteps": "Paso {{step}} de 3",
   "restoreAccountSteps": "Paso {{step}} de 4",
   "selectCountryCode": "Seleccionar código de país",
@@ -110,5 +110,5 @@
   "success": {
     "message": "¡Todo listo!"
   },
-  "verificationUnavailable": "La conexión del número de teléfono no está disponible actualmente. Por favor, introduce tu número de teléfono y te notificaremos cuando sea posible conectarlo.\n\nMientras tanto, ¡puedes seguir usando Valora! Los pagos enviados a tu número de teléfono serán retenidos de forma segura hasta que realices la conexión."
+  "verificationUnavailable": "La confirmación del número de teléfono no está disponible actualmente. Por favor, introduce tu número de teléfono y te avisaremos cuando sea posible confirmarlo de nuevo.\n\nMientras tanto, ¡puedes seguir utilizando Valora! Los pagos enviados a tu número de teléfono se retendrán de forma segura hasta que los canjees confirmando tu número de teléfono."
 }
