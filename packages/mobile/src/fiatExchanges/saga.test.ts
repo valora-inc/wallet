@@ -86,7 +86,7 @@ describe(watchBidaliPaymentRequests, () => {
         .dispatch(sendPaymentOrInviteSuccess(amount))
         .run()
 
-      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationModal, {
+      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacyModal, {
         origin: SendOrigin.Bidali,
         transactionData: {
           amount,
@@ -134,7 +134,7 @@ describe(watchBidaliPaymentRequests, () => {
       .dispatch(activeScreenChanged(Screens.BidaliScreen))
       .run()
 
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationModal, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacyModal, {
       origin: SendOrigin.Bidali,
       transactionData: {
         amount,

@@ -10,7 +10,8 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { CurrencyInfo } from 'src/send/SendConfirmation'
+import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
+import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
@@ -26,6 +27,14 @@ type NestedNavigatorParams<ParamList> = {
 interface SendConfirmationParams {
   origin: SendOrigin
   transactionData: TransactionDataInput
+  addressJustValidated?: boolean
+  isFromScan?: boolean
+  currencyInfo?: CurrencyInfo
+}
+
+interface SendConfirmationLegacyParams {
+  origin: SendOrigin
+  transactionData: TransactionDataInputLegacy
   addressJustValidated?: boolean
   isFromScan?: boolean
   currencyInfo?: CurrencyInfo
@@ -150,10 +159,10 @@ export type StackParamList = {
   [Screens.Main]: undefined
   [Screens.OutgoingPaymentRequestListScreen]: undefined
   [Screens.PaymentRequestUnavailable]: {
-    transactionData: TransactionDataInput
+    transactionData: TransactionDataInputLegacy
   }
   [Screens.PaymentRequestConfirmation]: {
-    transactionData: TransactionDataInput
+    transactionData: TransactionDataInputLegacy
     addressJustValidated?: boolean
   }
   [Screens.PincodeEnter]: {
@@ -212,8 +221,17 @@ export type StackParamList = {
     origin: SendOrigin
     forceCurrency?: Currency
   }
+  [Screens.SendAmountLegacy]: {
+    recipient: Recipient
+    isOutgoingPaymentRequest?: boolean
+    isFromScan?: boolean
+    origin: SendOrigin
+    forceCurrency?: Currency
+  }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
+  [Screens.SendConfirmationLegacy]: SendConfirmationLegacyParams
+  [Screens.SendConfirmationLegacyModal]: SendConfirmationLegacyParams
   [Screens.SetClock]: undefined
   [Screens.Settings]:
     | { promptFornoModal?: boolean; promptConfirmRemovalModal?: boolean }
@@ -233,14 +251,14 @@ export type StackParamList = {
   }
   [Screens.UpgradeScreen]: undefined
   [Screens.ValidateRecipientIntro]: {
-    transactionData: TransactionDataInput
+    transactionData: TransactionDataInputLegacy
     addressValidationType: AddressValidationType
     isOutgoingPaymentRequest?: true
     requesterAddress?: string
     origin: SendOrigin
   }
   [Screens.ValidateRecipientAccount]: {
-    transactionData: TransactionDataInput
+    transactionData: TransactionDataInputLegacy
     addressValidationType: AddressValidationType
     isOutgoingPaymentRequest?: true
     requesterAddress?: string
@@ -297,7 +315,7 @@ export type QRTabParamList = {
   [Screens.QRScanner]:
     | {
         scanIsForSecureSend?: true
-        transactionData?: TransactionDataInput
+        transactionData?: TransactionDataInputLegacy
         isOutgoingPaymentRequest?: boolean
         requesterAddress?: string
       }

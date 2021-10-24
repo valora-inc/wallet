@@ -125,7 +125,7 @@ function Send({ route }: Props) {
         }
       )
 
-      navigate(Screens.SendAmount, {
+      navigate(Screens.SendAmountLegacy, {
         recipient,
         isOutgoingPaymentRequest,
         origin: SendOrigin.AppSendFlow,

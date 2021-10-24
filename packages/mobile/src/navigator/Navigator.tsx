@@ -85,7 +85,11 @@ import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
 import SendAmount from 'src/send/SendAmount'
+import SendAmountLegacy from 'src/send/SendAmountLegacy'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
+import SendConfirmationLegacy, {
+  sendConfirmationLegacyScreenNavOptions,
+} from 'src/send/SendConfirmationLegacy'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
 } from 'src/send/ValidateRecipientAccount'
@@ -255,9 +259,19 @@ const sendScreens = (Navigator: typeof Stack) => (
       options={SendAmount.navigationOptions}
     />
     <Navigator.Screen
+      name={Screens.SendAmountLegacy}
+      component={SendAmountLegacy}
+      options={SendAmountLegacy.navigationOptions}
+    />
+    <Navigator.Screen
       name={Screens.SendConfirmation}
       component={SendConfirmation}
       options={sendConfirmationScreenNavOptions}
+    />
+    <Navigator.Screen
+      name={Screens.SendConfirmationLegacy}
+      component={SendConfirmationLegacy}
+      options={sendConfirmationLegacyScreenNavOptions}
     />
     <Navigator.Screen
       name={Screens.ValidateRecipientIntro}

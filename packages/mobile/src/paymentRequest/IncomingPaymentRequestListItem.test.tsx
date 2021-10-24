@@ -97,7 +97,7 @@ describe('IncomingPaymentRequestListItem', () => {
       </Provider>
     )
 
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
       origin: SendOrigin.AppRequestFlow,
       transactionData: mockTransactionData,
     })

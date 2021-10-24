@@ -155,7 +155,7 @@ describe(handleNotification, () => {
         .provide([[select(recipientInfoSelector), mockRecipientInfo]])
         .run()
 
-      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
         origin: SendOrigin.AppRequestFlow,
         transactionData: {
           amount: new BigNumber('10'),
