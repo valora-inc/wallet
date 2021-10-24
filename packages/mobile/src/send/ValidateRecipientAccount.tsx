@@ -112,7 +112,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
           addressJustValidated: true,
         })
       } else {
-        navigate(Screens.SendConfirmation, {
+        navigate(Screens.SendConfirmationLegacy, {
           transactionData,
           addressJustValidated: true,
           origin: route.params.origin,
