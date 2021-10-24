@@ -19,8 +19,8 @@ export interface StoredTokenBalance extends BaseToken {
 }
 
 export interface TokenBalance extends BaseToken {
-  balance: BigNumber | null
-  usdPrice?: BigNumber
+  balance: BigNumber
+  usdPrice: BigNumber
 }
 
 export interface StoredTokenBalances {
