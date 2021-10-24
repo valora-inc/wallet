@@ -10,10 +10,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import {
-  TransactionDataInput as LegacyTransactionDataInput,
-  TransactionDataInput as TransactionDataInputLegacy,
-} from 'src/send/SendAmountLegacy'
+import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
 import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { ReviewProps } from 'src/transactions/TransactionReview'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
@@ -29,7 +26,7 @@ type NestedNavigatorParams<ParamList> = {
 
 interface SendConfirmationLegacyParams {
   origin: SendOrigin
-  transactionData: LegacyTransactionDataInput
+  transactionData: TransactionDataInputLegacy
   addressJustValidated?: boolean
   isFromScan?: boolean
   currencyInfo?: CurrencyInfo
@@ -231,6 +228,13 @@ export type StackParamList = {
     isFromScan?: boolean
     origin: SendOrigin
     forceTokenAddress?: string
+  }
+  [Screens.SendAmountLegacy]: {
+    recipient: Recipient
+    isOutgoingPaymentRequest?: boolean
+    isFromScan?: boolean
+    origin: SendOrigin
+    forceCurrency?: Currency
   }
   [Screens.SendAmountLegacy]: {
     recipient: Recipient
