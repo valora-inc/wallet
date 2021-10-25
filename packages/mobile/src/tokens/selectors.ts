@@ -4,16 +4,14 @@ import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { RootState } from 'src/redux/reducers'
 import { TokenBalances } from 'src/tokens/reducer'
 import { Currency } from 'src/utils/currencies'
-import { isDefined } from 'src/utils/utils'
 
 // This selector maps usdPrice and balance fields from string to BigNumber and filters tokens without those values
 export const tokensByAddressSelector = createSelector(
   (state: RootState) => state.tokens.tokenBalances,
   (storedBalances) => {
     const tokenBalances: TokenBalances = {}
-    for (const tokenAddress of Object.keys(storedBalances)) {
-      const storedState = storedBalances[tokenAddress]
-      if (!storedState || !isDefined(storedState.balance) || !isDefined(storedState.usdPrice)) {
+    for (const [tokenAddress, storedState] of Object.entries(storedBalances)) {
+      if (!storedState || storedState.balance === null) {
         continue
       }
       tokenBalances[tokenAddress] = {
@@ -49,8 +47,8 @@ export const tokensByCurrencySelector = createSelector(tokensListSelector, (toke
 })
 
 export const defaultTokenSelector = createSelector(tokensListSelector, (tokens) => {
-  let maxTokenAddress: string = tokens[0].address
-  let maxBalance: BigNumber = tokens[0].balance.multipliedBy(tokens[0].usdPrice)
+  let maxTokenAddress: string = ''
+  let maxBalance: BigNumber = new BigNumber(-1)
   for (const token of tokens) {
     const usdBalance = token.balance.multipliedBy(token.usdPrice)
     if (usdBalance.gt(maxBalance)) {
