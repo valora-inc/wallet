@@ -1,12 +1,12 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
-import { setTokenBalances } from 'src/tokens/reducer'
+import { setTokenBalances, StoredTokenBalance } from 'src/tokens/reducer'
 import { getERC20TokenBalance, importTokenInfo } from 'src/tokens/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockTokenBalances, mockTokenBalances2 } from 'test/values'
 
-const firebaseTokenInfo = [
+const firebaseTokenInfo: StoredTokenBalance[] = [
   {
     usdPrice: '0.1',
     address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
@@ -15,6 +15,7 @@ const firebaseTokenInfo = [
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_POOF.png',
     name: 'Poof Governance Token',
     decimals: 18,
+    balance: null,
   },
   {
     usdPrice: '1.16',
@@ -24,6 +25,7 @@ const firebaseTokenInfo = [
       'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cEUR.png',
     name: 'Celo Euro',
     decimals: 18,
+    balance: null,
   },
 ]
 

@@ -14,8 +14,8 @@ interface BaseToken {
 
 // Stored variant stores numbers as strings because BigNumber is not serializable.
 export interface StoredTokenBalance extends BaseToken {
-  balance?: string | null
-  usdPrice?: string
+  balance: string | null
+  usdPrice: string
 }
 
 export interface TokenBalance extends BaseToken {
