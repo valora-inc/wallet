@@ -142,7 +142,11 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
     const { validationSuccessful, isOutgoingPaymentRequest, transactionData, route } = this.props
 
     if (validationSuccessful && prevProps.validationSuccessful === false) {
-      navigateToConfirmationScreen(transactionData, isOutgoingPaymentRequest, route.params.origin)
+      navigateToConfirmationScreen(
+        transactionData,
+        isOutgoingPaymentRequest ?? false,
+        route.params.origin
+      )
     }
   }
 
