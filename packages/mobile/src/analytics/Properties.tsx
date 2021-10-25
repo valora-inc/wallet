@@ -592,17 +592,29 @@ interface SendEventsProperties {
         amountInUsd: string | null
       }
   [SendEvents.send_confirm_back]: undefined
-  [SendEvents.send_confirm_send]: {
-    origin: SendOrigin
-    isScan: boolean
-    isInvite: boolean
-    isRequest: boolean
-    localCurrencyExchangeRate?: string | null
-    localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
-    localCurrencyAmount: string | null
-    commentLength: number
-  }
+  [SendEvents.send_confirm_send]:
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        isRequest: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        dollarAmount: string | null
+        localCurrencyAmount: string | null
+        commentLength: number
+      }
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrency: LocalCurrencyCode
+        usdAmount: string
+        localCurrencyAmount: string
+        tokenAmount: string
+        tokenSymbol: string
+        commentLength: number
+      }
 
   [SendEvents.send_secure_start]: {
     confirmByScan: boolean
