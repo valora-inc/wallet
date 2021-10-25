@@ -8,7 +8,6 @@ import * as RNLocalize from 'react-native-localize'
 import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
-import { TokenTransactionType } from 'src/apollo/types'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
 import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
@@ -74,7 +73,7 @@ const mockE164NumberToAddress: E164NumberToAddressType = {
 const mockTransactionData2 = {
   type: mockTransactionData.type,
   recipient: mockTransactionData.recipient,
-  amount: new BigNumber('3.70676691729323308271'),
+  amount: new BigNumber('3.706766917293233083'),
   tokenAddress: mockCusdAddress,
   reason: '',
 }
@@ -140,7 +139,7 @@ describe('SendAmount', () => {
   })
 
   describe('enter amount', () => {
-    it.only('shows an error when tapping the send button with not enough balance', () => {
+    it('shows an error when tapping the send button with not enough balance', () => {
       const store = createMockStore(storeData)
       const wrapper = render(
         <Provider store={store}>
@@ -169,35 +168,6 @@ describe('SendAmount', () => {
           title: null,
           type: 'ALERT/SHOW',
           underlyingError: 'needMoreFundsToSend',
-        },
-      ])
-    })
-
-    it('shows an error when requesting more than the daily limit', () => {
-      const store = createMockStore(storeData)
-      const wrapper = render(
-        <Provider store={store}>
-          <SendAmount {...mockScreenProps(true)} />
-        </Provider>
-      )
-      enterAmount(wrapper, REQUEST_OVER_LIMIT)
-
-      const sendButton = wrapper.getByTestId('Review')
-      expect(sendButton).not.toBeDisabled()
-
-      store.clearActions()
-      fireEvent.press(sendButton)
-      expect(store.getActions()).toEqual([
-        {
-          action: null,
-          alertType: 'error',
-          buttonMessage: null,
-          dismissAfter: 5000,
-          displayMethod: ErrorDisplayType.BANNER,
-          message: i18n.t('requestLimitError', { ns: 'global', limit: 1000 }),
-          title: null,
-          type: 'ALERT/SHOW',
-          underlyingError: 'requestLimitError',
         },
       ])
     })
@@ -408,90 +378,9 @@ describe('SendAmount', () => {
         isFromScan: false,
         transactionData: {
           ...mockTransactionData2,
-          amount: new BigNumber('3.08897243107769423559'),
+          amount: new BigNumber('3.088972431077694236'),
           tokenAddress: mockCeurAddress,
         },
-      })
-    })
-
-    it('navigates to ValidatRecipientIntro screen on Request click when a manual address check is needed', () => {
-      const store = createMockStore({
-        identity: {
-          e164NumberToAddress: mockE164NumberToAddress,
-          secureSendPhoneNumberMapping: {
-            [mockE164NumberInvite]: {
-              addressValidationType: AddressValidationType.FULL,
-            },
-          },
-        },
-        ...storeData,
-      })
-      mockTransactionData2.type = TokenTransactionType.PayRequest
-
-      const tree = render(
-        <Provider store={store}>
-          <SendAmount {...mockScreenProps(true)} />
-        </Provider>
-      )
-
-      enterAmount(tree, AMOUNT_VALID)
-      fireEvent.press(tree.getByTestId('Review'))
-
-      expect(navigate).toHaveBeenCalledWith(Screens.ValidateRecipientIntro, {
-        origin: SendOrigin.AppSendFlow,
-        transactionData: mockTransactionData2,
-        addressValidationType: AddressValidationType.FULL,
-        isOutgoingPaymentRequest: true,
-      })
-    })
-
-    it('navigates to PaymentRequestUnavailable screen on Request click when address is unverified', () => {
-      const store = createMockStore({
-        identity: {
-          e164NumberToAddress: {
-            [mockE164NumberInvite]: null,
-          },
-          secureSendPhoneNumberMapping: {},
-        },
-        ...storeData,
-      })
-      mockTransactionData2.type = TokenTransactionType.PayRequest
-
-      const tree = render(
-        <Provider store={store}>
-          <SendAmount {...mockScreenProps(true)} />
-        </Provider>
-      )
-      enterAmount(tree, AMOUNT_VALID)
-      fireEvent.press(tree.getByTestId('Review'))
-      expect(navigate).toHaveBeenCalledWith(Screens.PaymentRequestUnavailable, {
-        transactionData: mockTransactionData2,
-      })
-    })
-
-    it('navigates to PaymentRequestConfirmation screen on Request click when a manual address check is not needed', () => {
-      const store = createMockStore({
-        identity: {
-          e164NumberToAddress: mockE164NumberToAddress,
-          secureSendPhoneNumberMapping: {
-            [mockE164NumberInvite]: {
-              addressValidationType: AddressValidationType.NONE,
-            },
-          },
-        },
-        ...storeData,
-      })
-      mockTransactionData2.type = TokenTransactionType.PayRequest
-
-      const tree = render(
-        <Provider store={store}>
-          <SendAmount {...mockScreenProps(true)} />
-        </Provider>
-      )
-      enterAmount(tree, AMOUNT_VALID)
-      fireEvent.press(tree.getByTestId('Review'))
-      expect(navigate).toHaveBeenCalledWith(Screens.PaymentRequestConfirmation, {
-        transactionData: mockTransactionData2,
       })
     })
   })
