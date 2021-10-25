@@ -46,10 +46,11 @@ export interface UserContactDetails {
 }
 
 export enum KycStatus {
-  AccountCreated = 'AccountCreated',
-  Verified = 'Verified',
-  Denied = 'Denied',
-  PendingReview = 'PendingReview',
+  Created = 'created',
+  Completed = 'completed',
+  Failed = 'failed',
+  Pending = 'pending',
+  Expired = 'expired',
 }
 
 export const initialState: State = {

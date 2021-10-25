@@ -39,7 +39,7 @@ const RaiseLimitScreen = () => {
 
   const dispatch = useDispatch()
 
-  const kycAttemptAllowed = !kycStatus || kycStatus === KycStatus.AccountCreated
+  const kycAttemptAllowed = !kycStatus || kycStatus === KycStatus.Created
 
   const sendSupportEmail = async () => {
     try {
@@ -58,31 +58,36 @@ const RaiseLimitScreen = () => {
   }
 
   const applicationStatusTexts = useMemo(() => {
-    if (!kycStatus || kycStatus === KycStatus.AccountCreated) {
+    if (!kycStatus || kycStatus === KycStatus.Created) {
       return null
     }
 
     return {
-      [KycStatus.PendingReview]: {
+      [KycStatus.Pending]: {
         title: t('applicationInReview'),
         description: t('applicationInReviewDescription'),
         icon: <InProgressIcon />,
       },
-      [KycStatus.Denied]: {
+      [KycStatus.Failed]: {
         title: t('applicationDenied'),
         description: t('applicationDeniedDescription'),
         icon: <DeniedIcon />,
       },
-      [KycStatus.Verified]: {
+      [KycStatus.Completed]: {
         title: t('applicationCompleted'),
         description: t('applicationCompletedDescription'),
         icon: <ApprovedIcon />,
+      },
+      [KycStatus.Expired]: {
+        title: t('applicationCompleted'),
+        description: t('applicationCompletedDescription'),
+        icon: <DeniedIcon />, // TODO Lisa: change the title and description here
       },
     }[kycStatus]
   }, [kycStatus])
 
   const renderButton = () => {
-    if (kycStatus === KycStatus.Denied) {
+    if (kycStatus === KycStatus.Failed) {
       return (
         <Button
           onPress={sendSupportEmail}
@@ -95,7 +100,7 @@ const RaiseLimitScreen = () => {
       )
     }
 
-    if (!kycStatus || kycStatus === KycStatus.AccountCreated) {
+    if (!kycStatus || kycStatus === KycStatus.Created) {
       return numberIsVerified ? (
         <Persona kycStatus={kycStatus} />
       ) : (
@@ -117,7 +122,7 @@ const RaiseLimitScreen = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.dailyLimitContainer}>
         <Text style={styles.labelText}>{t('dailyLimitLabel')}</Text>
-        {kycStatus === KycStatus.Verified ? (
+        {kycStatus === KycStatus.Completed ? (
           <Text style={styles.dailyLimit}>{t('noDailyLimit')} </Text>
         ) : (
           <>

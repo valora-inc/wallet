@@ -55,7 +55,7 @@ describe('RaiseLimitScreen', () => {
 
   it("shows the Persona 'Verify Identity' button when the user hasn't completed KYC and has a confirmed phonen number", async () => {
     const { queryByTestId } = render(
-      <Provider store={createStore(true, KycStatus.AccountCreated)}>
+      <Provider store={createStore(true, KycStatus.Created)}>
         <RaiseLimitScreen />
       </Provider>
     )
@@ -65,7 +65,7 @@ describe('RaiseLimitScreen', () => {
 
   it("shows the 'Contact Support' button and perpares an email to be sent when the user's KYC submission has been denied", async () => {
     const { queryByTestId, getByTestId } = render(
-      <Provider store={createStore(true, KycStatus.Denied)}>
+      <Provider store={createStore(true, KycStatus.Failed)}>
         <RaiseLimitScreen />
       </Provider>
     )
@@ -77,7 +77,7 @@ describe('RaiseLimitScreen', () => {
 
   it('shows no buttons when the user has completed KYC or has a pending status', async () => {
     const tree = render(
-      <Provider store={createStore(true, KycStatus.Verified)}>
+      <Provider store={createStore(true, KycStatus.Completed)}>
         <RaiseLimitScreen />
       </Provider>
     )
@@ -85,7 +85,7 @@ describe('RaiseLimitScreen', () => {
     expect(tree.queryByType(Button)).toBeFalsy()
 
     tree.rerender(
-      <Provider store={createStore(true, KycStatus.PendingReview)}>
+      <Provider store={createStore(true, KycStatus.Pending)}>
         <RaiseLimitScreen />
       </Provider>
     )
@@ -129,7 +129,7 @@ describe('RaiseLimitScreen', () => {
 
     const tree = render(
       <Provider
-        store={createStore(true, KycStatus.Verified, [
+        store={createStore(true, KycStatus.Completed, [
           {
             timestamp: Date.now(),
             amount: recentPaymentAmount,

@@ -30,7 +30,7 @@ export const pincodeTypeSelector = (state: RootState) => state.account.pincodeTy
 export const promptFornoIfNeededSelector = (state: RootState) => state.account.promptFornoIfNeeded
 export const isProfileUploadedSelector = (state: RootState) => state.account.profileUploaded
 export const cUsdDailyLimitSelector = (state: RootState) =>
-  state.account.kycStatus === KycStatus.Verified
+  state.account.kycStatus === KycStatus.Completed
     ? UNLIMITED_TRANSFER_THRESHOLD
     : DEFAULT_DAILY_PAYMENT_LIMIT_CUSD
 
