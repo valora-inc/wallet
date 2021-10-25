@@ -36,11 +36,6 @@ describe('TokenDisplay', () => {
             balance: '10',
             usdPrice: '5',
           },
-          ['0xnoUsdPrice']: {
-            address: '0xnoUsdPrice',
-            symbol: 'NoUsd',
-            balance: '10',
-          },
         },
       },
       ...storeOverrides,
@@ -164,15 +159,6 @@ describe('TokenDisplay', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
           <TokenDisplay amount={10} tokenAddress={'0xdoesntexist'} testID="test" />
-        </Provider>
-      )
-      expect(amountFromComponent(getByTestId('test'))).toEqual('R$-')
-    })
-
-    it('shows a dash when the token doesnt have a usd price', () => {
-      const { getByTestId } = render(
-        <Provider store={store()}>
-          <TokenDisplay amount={10} tokenAddress={'0xnoUsdPrice'} testID="test" />
         </Provider>
       )
       expect(amountFromComponent(getByTestId('test'))).toEqual('R$-')
