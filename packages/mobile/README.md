@@ -39,7 +39,7 @@
 ## Overview
 
 This package contains the code for the Valora mobile apps for Android and iOS.
-Valora is a self-soverign wallet that enables anyone to onboard onto the Celo network, manage their currencies, and send payments.
+Valora is a self-sovereign wallet that enables anyone to onboard onto the Celo network, manage their currencies, and send payments.
 
 ## Architecture
 
@@ -47,7 +47,7 @@ The app uses [React Native][react native] and a geth [light node][light node].
 
 ## Setup
 
-**You must have the [monorepo](https://github.com/celo-org/celo-monorepo) successfully set up and built before setting up and running the mobile wallet.** To do this, follow the [setup instructions][https://github.com/celo-org/celo-monorepo/blob/master/SETUP.md].
+**You must have the [monorepo](https://github.com/celo-org/celo-monorepo) successfully set up and built before setting up and running the mobile wallet.** To do this, follow the [setup instructions](https://github.com/celo-org/celo-monorepo/blob/master/SETUP.md).
 
 Next, install [watchman][watchman] and [jq][jq]
 
@@ -243,7 +243,7 @@ sudo ./genymotion-3.0.2-linux_x64.bin
 
 ## Running the mobile wallet
 
-The below steps should help you successfully run the mobile wallet on either a USB connected or emulated device. For additional information and troublshooting see the [React Native docs][rn running on device].
+The below steps should help you successfully run the mobile wallet on either a USB connected or emulated device. For additional information and troubleshooting see the [React Native docs][rn running on device].
 
 **Note:** We've seen some issues running the metro bundler from iTerm
 
