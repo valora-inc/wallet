@@ -26,7 +26,7 @@ import { persistor } from 'src/redux/store'
 import { restartApp } from 'src/utils/AppRestart'
 import Logger from 'src/utils/Logger'
 import { registerAccountDek } from 'src/web3/dataEncryptionKey'
-import { getAccount, getOrCreateAccount } from 'src/web3/saga'
+import { getOrCreateAccount, getWalletAddress } from 'src/web3/saga'
 
 const TAG = 'account/saga'
 
@@ -89,7 +89,7 @@ function* initializeAccount() {
 }
 
 export function* watchKycStatus() {
-  const account = yield call(getAccount)
+  const account = yield call(getWalletAddress)
   const channel = yield call(kycStatusChannel, account)
   if (!channel) {
     return
