@@ -49,11 +49,12 @@ The app uses [React Native][react native] and a geth [light node][light node].
 
 **You must have the [wallet] monorepo successfully set up and built before setting up and running the mobile wallet.** To do this, follow the [setup instructions][setup].
 
-Next, install [watchman][watchman].
+Next, install [watchman][watchman] and [jq][jq]
 
 ```bash
 # On a mac
 brew install watchman
+brew install jq
 ```
 
 #### Google Cloud
@@ -576,3 +577,4 @@ $ adb kill-server && adb start-server
 [oracle being oracle]: https://github.com/Homebrew/homebrew-cask-versions/issues/7253
 [device unauthorized]: https://stackoverflow.com/questions/23081263/adb-android-device-unauthorized
 [watchman]: https://facebook.github.io/watchman/docs/install/
+[jq]: https://stedolan.github.io/jq/
