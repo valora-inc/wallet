@@ -12,7 +12,7 @@ First install the emulator as described in the [mobile readme](../README.md#opti
 
 By default, the e2e scripts will assume the VM name of `Pixel_API_29_AOSP_x86_64` recommended in the instructions but you can rename the VM as you like.
 
-Next, to improve reliability of the tests, configure the VM as described in the [Detox best practices doc](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidEmulatorsBestPractices.md).
+Next, to improve reliability of the tests, configure the VM as described in the [Setting Up an Android Development & Testing Environment](https://github.com/wix/Detox/blob/master/docs/Introduction.AndroidDevEnv.md).
 
 ### iOS
 
@@ -32,7 +32,7 @@ The run_e2e.sh script will take care of configuring and building the app for you
 For most e2e tests you need to do three things:
 
 - Find elements using `element(by.id('SomeTestID'))`: Give the element you want to find a testID so they can be reliably found on the screen
-- Perform actions on the element, such as `element.tap()` or `element.typeText('Some Text ')`. Detox will automatically wait for these actions to finish.
+- Perform actions on the element, such as `element.tap()` or `element.typeText('Some Text')`. Detox will automatically wait for these actions to finish.
 - Test properties of the element using expectations, such as `expect(element).toBeVisible()`. You will mostly need `.toBeVisible()` and `.toHaveText()`.
 
 ```javascript
@@ -60,9 +60,9 @@ If creating a suite of tests, add a new `<TestSuiteName>.spec.js` file following
 
 While developing and adding new tests, it's useful to run only the ones we are working on and not go through the onboarding on each run. To do this, use the following strategy:
 
-- For the first test run `yarn test:e2e:ios -w 1 -t \<Test Name>.spec.js$` this will install the application on your device and run the targeted test suite.
+- For the first test run `yarn test:e2e:ios -w 1 -t <Test Name>.spec.js` this will install the application on your device and run the targeted test suite.
 
-- For subsequent test runs run `yarn test:e2e:ios -d -w 1 -f \<Test Name>.spec.js$ -t Display Providers`. The `-d` flag will prevent the app from reinstalling and reuse the previous install and will not restart the packager. The `-w` flag will specify how many emulators to run in parallel. The `-f` flag will run matching test files. The `-t` flag will run only tests with matching regex patterns; the regex is matched against the full name, which is a combination of the test name and all its surrounding describe blocks.
+- For subsequent test runs run `yarn test:e2e:ios -d -w 1 -f <Test Name>.spec.js -t Display Providers`. The `-d` flag will prevent the app from reinstalling and reuse the previous install and will not restart the packager. The `-w` flag will specify how many emulators to run in parallel. The `-f` flag will run matching test files. The `-t` flag will run only tests with matching regex patterns; the regex is matched against the full name, which is a combination of the test name and all its surrounding describe blocks.
 
 Use a similar process to run and develop other test files.
 
@@ -137,7 +137,7 @@ On macOS it is possible to record a test using [Detox Recorder](https://github.c
 3. Run the Detox Recorder.
 
 ```sh
-# Running Detox Recorder from the wallet directory
+# Running Detox Recorder from the wallet directory - It may take several tries to launch the recorder
 detox recorder --bundleId "org.celo.mobile.alfajores.dev" --simulatorId booted --outputTestFile "~/Desktop/RecordedTest.js" --testName "My Recorded Test" --record
 ```
 
