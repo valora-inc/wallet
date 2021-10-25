@@ -8,8 +8,7 @@ import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 
 const tokenAddressWithPriceAndBalance = '0x001'
-const tokenAddressWithoutPrice = '0x002'
-const tokenAddressWithoutBalance = '0x003'
+const tokenAddressWithoutBalance = '0x002'
 
 function TestComponent({ tokenAddress }: { tokenAddress: string }) {
   const tokenAmount = useLocalToTokenAmount(new BigNumber(1), tokenAddress)
