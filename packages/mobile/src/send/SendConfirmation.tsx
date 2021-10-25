@@ -10,7 +10,6 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CommentTextInput from 'src/components/CommentTextInput'
@@ -85,8 +84,6 @@ function SendConfirmation(props: Props) {
     tokenAddress
   )
 
-  const dispatch = useDispatch()
-
   const isInvite = !recipient.address
   const { loading: feeLoading, error: feeError, result: feeInfo } = useEstimateGasFee(
     isInvite ? FeeType.INVITE : FeeType.SEND,
@@ -110,8 +107,6 @@ function SendConfirmation(props: Props) {
       dekFee = feeInfo.fee.dividedBy(2)
     }
 
-    console.log(securityFee?.toString(), dekFee?.toString())
-
     const currencyInfo = {
       localCurrencyCode,
       localExchangeRate: localToFeeExchangeRate?.toString() ?? '',
@@ -130,6 +125,7 @@ function SendConfirmation(props: Props) {
           feeHasError={!!feeError}
           totalFee={feeInfo?.fee}
           currencyInfo={currencyInfo}
+          showLocalAmount={true}
         />
         <TokenTotalLineItem tokenAmount={tokenAmount} tokenAddress={tokenAddress} />
       </View>
@@ -330,10 +326,6 @@ const styles = StyleSheet.create({
   amount: {
     paddingVertical: 8,
     ...fontStyles.largeNumber,
-  },
-  paymentComment: {
-    ...fontStyles.large,
-    color: colors.gray5,
   },
   encryptionWarningLabelContainer: {
     flexDirection: 'row',

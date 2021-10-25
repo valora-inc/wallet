@@ -109,7 +109,6 @@ function* getOrSetFee(feeType: FeeType, gasGetter: CallEffect) {
 
 export async function calculateFee(gas: BigNumber, currency: Currency): Promise<FeeInfo> {
   const gasPrice = await getGasPrice(currency)
-  console.log('QQQQ', gasPrice)
   const feeInWei = gas.multipliedBy(gasPrice)
   Logger.debug(`${TAG}/calculateFee`, `Calculated ${currency} fee is: ${feeInWei.toString()}`)
   return { gas, currency, gasPrice, fee: feeInWei }

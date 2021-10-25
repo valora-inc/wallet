@@ -12,6 +12,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import SendConfirmation from 'src/send/SendConfirmation'
+import { getGasPrice } from 'src/web3/gas'
 import {
   createMockStore,
   flushMicrotasksQueue,
@@ -31,9 +32,10 @@ import {
 
 const mockGasPrice = new BigNumber(50000000000)
 const mockDekFeeGas = new BigNumber(100000)
-jest.mock('src/web3/gas', () => ({
-  getGasPrice: () => mockGasPrice,
-}))
+
+jest.mock('src/web3/gas')
+const mockGetGasPrice = getGasPrice as jest.Mock
+
 jest.mock('src/web3/dataEncryptionKey', () => ({
   getRegisterDekTxGas: () => mockDekFeeGas,
 }))
@@ -56,6 +58,7 @@ type ScreenProps = StackScreenProps<
 describe('SendConfirmation', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    mockGetGasPrice.mockImplementation(() => mockGasPrice)
   })
 
   function renderScreen(
@@ -97,7 +100,7 @@ describe('SendConfirmation', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it.only('renders correctly for send payment confirmation with CELO fees', async () => {
+  it('renders correctly for send payment confirmation with CELO fees', async () => {
     const { getByText, getByTestId } = renderScreen()
 
     fireEvent.press(getByText('feeEstimate'))
@@ -106,7 +109,7 @@ describe('SendConfirmation', () => {
     await flushMicrotasksQueue()
 
     const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
-    expect(getElementText(feeComponent)).toEqual('0.01')
+    expect(getElementText(feeComponent)).toEqual('$0.0466')
 
     // NOTE: CELO fees are currently not combined into the total.
     // TODO: This should equal more than $1.33, depending on the CELO fee value.
@@ -115,10 +118,13 @@ describe('SendConfirmation', () => {
   })
 
   it('shows a generic `calculateFeeFailed` error when fee estimate fails due to an unknown error', async () => {
-    const { store, getByText, queryByTestId } = renderScreen()
+    mockGetGasPrice.mockImplementation(() => {
+      throw new Error('Error while getting gas price')
+    })
+
+    const { store, queryByTestId, getByText } = renderScreen()
 
     store.clearActions()
-
     jest.runAllTimers()
     await flushMicrotasksQueue()
 
