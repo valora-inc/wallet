@@ -61,7 +61,7 @@ function* bidaliPaymentRequest({
     reason: `${description} (${chargeId})`,
     type: TokenTransactionType.PayPrefill,
   }
-  navigate(Screens.SendConfirmationModal, {
+  navigate(Screens.SendConfirmationLegacyModal, {
     transactionData,
     origin: SendOrigin.Bidali,
   })

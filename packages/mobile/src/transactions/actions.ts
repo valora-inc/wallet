@@ -5,7 +5,7 @@ import { ExchangeConfirmationCardProps } from 'src/exchange/ExchangeConfirmation
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { NumberToRecipient } from 'src/recipients/recipient'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/SendAmountLegacy'
 import { TransferConfirmationCardProps } from 'src/transactions/TransferConfirmationCard'
 import { StandbyTransaction } from 'src/transactions/types'
 
@@ -151,5 +151,5 @@ export const navigateToExchangeReview = (
 }
 
 export const navigateToRequestedPaymentReview = (transactionData: TransactionDataInput) => {
-  navigate(Screens.SendConfirmation, { transactionData, origin: SendOrigin.AppRequestFlow })
+  navigate(Screens.SendConfirmationLegacy, { transactionData, origin: SendOrigin.AppRequestFlow })
 }
