@@ -172,8 +172,7 @@ export function HeaderTitleWithTokenBalance({ title, token }: TokenBalanceProps)
       <TokenDisplay style={styles.headerSubTitle} tokenAddress={token} amount={tokenInfo.balance} />
     </Trans>
   ) : (
-    // TODO: a null/undefined tokenInfo doesn't necessarily mean it's loading
-    i18n.t('global:loading')
+    '-'
   )
 
   return <HeaderTitleWithSubtitle title={title} subTitle={subTitle} />

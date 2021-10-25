@@ -11,6 +11,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
+import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AccountNumberCard from 'src/components/AccountNumberCard'
@@ -25,7 +26,7 @@ import InfoIcon from 'src/icons/InfoIcon'
 import { validateRecipientAddress, validateRecipientAddressReset } from 'src/identity/actions'
 import { AddressValidationType } from 'src/identity/reducer'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
@@ -90,6 +91,39 @@ export const validateRecipientAccountScreenNavOptions = () => ({
   headerLeft: () => <BackButton eventName={SendEvents.send_secure_back} />,
 })
 
+function navigateToConfirmationScreen(
+  transactionData: TransactionDataInput | TransactionDataInputLegacy,
+  isOutgoingPaymentRequest: boolean,
+  origin: SendOrigin
+) {
+  const isLegacy = isLegacyTransactionData(transactionData)
+  if (isLegacy) {
+    if (isOutgoingPaymentRequest) {
+      navigate(Screens.PaymentRequestConfirmation, {
+        transactionData: transactionData as TransactionDataInputLegacy,
+        addressJustValidated: true,
+      })
+    } else {
+      navigate(Screens.SendConfirmationLegacy, {
+        transactionData: transactionData as TransactionDataInputLegacy,
+        addressJustValidated: true,
+        origin,
+      })
+    }
+  } else {
+    if (isOutgoingPaymentRequest) {
+      // This case should never happen yet.
+      navigateHome()
+    } else {
+      navigate(Screens.SendConfirmation, {
+        transactionData: transactionData as TransactionDataInput,
+        addressJustValidated: true,
+        origin,
+      })
+    }
+  }
+}
+
 export class ValidateRecipientAccount extends React.Component<Props, State> {
   state: State = {
     inputValue: '',
@@ -108,27 +142,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
     const { validationSuccessful, isOutgoingPaymentRequest, transactionData, route } = this.props
 
     if (validationSuccessful && prevProps.validationSuccessful === false) {
-      const isLegacy = isLegacyTransactionData(transactionData)
-      if (isOutgoingPaymentRequest && isLegacy) {
-        navigate(Screens.PaymentRequestConfirmation, {
-          transactionData: transactionData as TransactionDataInputLegacy,
-          addressJustValidated: true,
-        })
-      } else {
-        if (isLegacy) {
-          navigate(Screens.SendConfirmationLegacy, {
-            transactionData: transactionData as TransactionDataInputLegacy,
-            addressJustValidated: true,
-            origin: route.params.origin,
-          })
-        } else {
-          navigate(Screens.SendConfirmation, {
-            transactionData: transactionData as TransactionDataInput,
-            addressJustValidated: true,
-            origin: route.params.origin,
-          })
-        }
-      }
+      navigateToConfirmationScreen(transactionData, isOutgoingPaymentRequest, route.params.origin)
     }
   }
 
