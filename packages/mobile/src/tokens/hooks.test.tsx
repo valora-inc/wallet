@@ -34,13 +34,10 @@ const store = (dollarExchange: string | null = '2') =>
           balance: '0',
           usdPrice: '5',
         },
-        [tokenAddressWithoutPrice]: {
-          symbol: 'T2',
-          balance: '1',
-        },
         [tokenAddressWithoutBalance]: {
-          symbol: 'T3',
+          symbol: 'T2',
           usdPrice: '5',
+          balance: null,
         },
       },
     },
@@ -65,21 +62,6 @@ describe('token to fiat exchanges', () => {
     expect(localAmount.props.children).toEqual(10)
     const usdAmount = getByTestId('usdAmount')
     expect(usdAmount.props.children).toEqual(5)
-  })
-
-  it('returns undefined if there is no token price', async () => {
-    const { getByTestId } = render(
-      <Provider store={store()}>
-        <TestComponent tokenAddress={tokenAddressWithoutPrice} />
-      </Provider>
-    )
-
-    const tokenAmount = getByTestId('tokenAmount')
-    expect(tokenAmount.props.children).toBeUndefined()
-    const localAmount = getByTestId('localAmount')
-    expect(localAmount.props.children).toBeUndefined()
-    const usdAmount = getByTestId('usdAmount')
-    expect(usdAmount.props.children).toBeUndefined()
   })
 
   it('returns undefined if there is no balance set', async () => {

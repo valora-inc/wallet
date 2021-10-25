@@ -24,13 +24,10 @@ const state: any = {
         balance: '10',
         usdPrice: '10',
       },
-      ['0x2']: {
-        address: '0x2',
-        balance: '100',
-      },
       ['0x3']: {
         address: '0x2',
         usdPrice: '100',
+        balance: null,
       },
     },
   },
