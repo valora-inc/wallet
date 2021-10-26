@@ -711,7 +711,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../../../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-blind-threshold-bls (from `../../../node_modules/react-native-blind-threshold-bls`)
   - react-native-camera (from `../../../node_modules/react-native-camera`)
-  - react-native-config (from `../../../node_modules/react-native-config`)
+  - react-native-config (from `../../../node_modules/react-native-config/react-native-config.podspec`)
   - react-native-contacts (from `../../../node_modules/react-native-contacts`)
   - react-native-fast-crypto (from `../../../node_modules/react-native-fast-crypto`)
   - react-native-flipper (from `../../../node_modules/react-native-flipper`)
@@ -867,7 +867,7 @@ EXTERNAL SOURCES:
   react-native-camera:
     :path: "../../../node_modules/react-native-camera"
   react-native-config:
-    :path: "../../../node_modules/react-native-config"
+    :path: "../../../node_modules/react-native-config/react-native-config.podspec"
   react-native-contacts:
     :path: "../../../node_modules/react-native-contacts"
   react-native-fast-crypto:
@@ -1114,6 +1114,6 @@ SPEC CHECKSUMS:
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: d88bd91187a580924250d0d0c8281a6e164b4a68
+PODFILE CHECKSUM: 975db0671d647d09b23e2ad23226e23524646b87
 
 COCOAPODS: 1.10.1
