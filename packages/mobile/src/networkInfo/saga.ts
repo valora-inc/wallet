@@ -17,6 +17,10 @@ export interface UserLocationData {
   ipAddress: string | null
 }
 
+interface ErrorResponse {
+  error: string
+}
+
 function createNetworkStatusChannel() {
   return eventChannel((emit) => {
     return NetInfo.addEventListener((state) => emit(state))
@@ -26,6 +30,9 @@ function createNetworkStatusChannel() {
 const isConnected = (connectionInfo: NetInfoState) => {
   return connectionInfo.type !== 'none'
 }
+
+const isErrorResponse = (response: UserLocationData | ErrorResponse): response is ErrorResponse =>
+  !!(response as ErrorResponse).error
 
 function* subscribeToNetworkStatus() {
   const networkStatusChannel = yield createNetworkStatusChannel()
@@ -46,14 +53,16 @@ function* subscribeToNetworkStatus() {
 }
 
 export function* fetchUserLocationData() {
-  let userLocationData: UserLocationData
+  let userLocationData: UserLocationData | ErrorResponse
   try {
     const response: Response = yield call(fetchWithTimeout, networkConfig.fetchUserLocationDataUrl)
-    if (!response.ok) {
-      throw new Error(`IP address fetch failed with status code ${response.status}`)
-    }
-
     userLocationData = yield call([response, 'json'])
+
+    if (isErrorResponse(userLocationData)) {
+      throw new Error(
+        `IP address fetch failed with status code ${response.status}. Error: ${userLocationData?.error}}`
+      )
+    }
   } catch (error) {
     Logger.error(`${TAG}:fetchUserLocationData`, error.message)
     // If endpoint fails then use country code to determine location

@@ -143,14 +143,21 @@ export const fetchUserLocationData = functions.https.onRequest(async (req, res) 
     req.headers['x-forwarded-for'] ||
     req.connection.remoteAddress
 
-  const rawResponse = await fetchWithTimeout(
-    `http://api.ipapi.com/api/${ipAddress}?access_key=${IP_API_KEY}`
-  )
-
-  const response = await rawResponse.json()
+  let response
+  try {
+    const rawResponse = await fetchWithTimeout(
+      `http://api.ipapi.com/api/${ipAddress}?access_key=${IP_API_KEY}`
+    )
+    response = await rawResponse.json()
+  } catch (error) {
+    res.status(503).send({ error: 'Fetch to IP location service API timed out' })
+    return
+  }
 
   if (!validIpApiResponse(response)) {
-    res.status(503).send()
+    res
+      .status(503)
+      .send({ error: 'Fetch to IP location service API returned an expected response' })
     return
   }
 
