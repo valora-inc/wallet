@@ -49,11 +49,11 @@ export function* fetchUserLocationData() {
   let userLocationData: UserLocationData
   try {
     const response: Response = yield call(fetchWithTimeout, networkConfig.fetchUserLocationDataUrl)
-    userLocationData = yield call([response, 'json'])
-
     if (!response.ok) {
-      throw new Error(`IP address fetch failed. Error: ${JSON.stringify(userLocationData)}`)
+      throw new Error(`IP address fetch failed with status code ${response.status}`)
     }
+
+    userLocationData = yield call([response, 'json'])
   } catch (error) {
     Logger.error(`${TAG}:fetchUserLocationData`, error.message)
     // If endpoint fails then use country code to determine location
