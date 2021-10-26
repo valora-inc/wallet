@@ -187,6 +187,7 @@ function SendConfirmation(props: Props) {
       localCurrencyAmount: localAmount.toString(),
       tokenAmount: tokenAmount.toString(),
       tokenSymbol: tokenInfo?.symbol ?? '',
+      tokenAddress,
       commentLength: comment.length,
     })
 

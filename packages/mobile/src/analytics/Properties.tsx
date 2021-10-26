@@ -613,6 +613,7 @@ interface SendEventsProperties {
         localCurrencyAmount: string
         tokenAmount: string
         tokenSymbol: string
+        tokenAddress: string
         commentLength: number
       }
 
