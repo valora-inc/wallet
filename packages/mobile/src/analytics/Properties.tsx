@@ -642,7 +642,7 @@ interface SendEventsProperties {
   }
   [SendEvents.token_selected]: {
     origin: TokenPickerOrigin
-    token: string
+    tokenAddress: string
   }
   [SendEvents.check_account_alert_shown]: undefined
   [SendEvents.check_account_do_not_ask_selected]: undefined

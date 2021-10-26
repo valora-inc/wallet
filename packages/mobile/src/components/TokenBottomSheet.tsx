@@ -26,7 +26,7 @@ export enum TokenPickerOrigin {
 interface Props {
   isVisible: boolean
   origin: TokenPickerOrigin
-  onTokenSelected: (token: string) => void
+  onTokenSelected: (tokenAddress: string) => void
   onClose: () => void
 }
 
@@ -68,12 +68,12 @@ function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props
 
   const { t } = useTranslation(Namespaces.sendFlow7)
 
-  const onTokenPressed = (token: string) => () => {
+  const onTokenPressed = (tokenAddress: string) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
-      token,
+      tokenAddress,
     })
-    onTokenSelected(token)
+    onTokenSelected(tokenAddress)
   }
 
   const safeAreaInsets = useSafeAreaInsets()

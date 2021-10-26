@@ -70,7 +70,7 @@ describe('SendAmountHeader', () => {
     expect(getByText('sendFlow7:sendToken, {"token":"cEUR"}')).toBeDefined()
   })
 
-  it("allows chenging the token if there's more than one token with balance", () => {
+  it("allows changing the token if there's more than one token with balance", () => {
     const { getByTestId, findByTestId, getByText } = renderComponent({
       tokenAddress: mockCeurAddress,
     })
