@@ -53,7 +53,7 @@ describe('RaiseLimitScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationEducationScreen)
   })
 
-  it("shows the Persona 'Verify Identity' button when the user hasn't completed KYC and has a confirmed phonen number", async () => {
+  it("shows the Persona 'Verify Identity' button when the user hasn't completed KYC and has a confirmed phone number", async () => {
     const { queryByTestId } = render(
       <Provider store={createStore(true, KycStatus.Created)}>
         <RaiseLimitScreen />
@@ -64,33 +64,40 @@ describe('RaiseLimitScreen', () => {
   })
 
   it("shows the 'Contact Support' button and perpares an email to be sent when the user's KYC submission has been denied", async () => {
-    const { queryByTestId, getByTestId } = render(
+    const { queryByTestId, getByTestId, queryByText } = render(
       <Provider store={createStore(true, KycStatus.Failed)}>
         <RaiseLimitScreen />
       </Provider>
     )
 
+    expect(queryByText('Verification Denied')).toBeDefined()
     expect(queryByTestId('ContactSupportButton')).toBeDefined()
     fireEvent.press(getByTestId('ContactSupportButton'))
     expect(sendEmail).toHaveBeenCalled()
   })
 
-  it('shows no buttons when the user has completed KYC or has a pending status', async () => {
+  it('shows correct UI when the user has completed KYC', async () => {
     const tree = render(
       <Provider store={createStore(true, KycStatus.Completed)}>
         <RaiseLimitScreen />
       </Provider>
     )
 
-    expect(tree.queryByType(Button)).toBeFalsy()
+    // Current Daily Limit should be `unlimited`
+    expect(tree.queryByText('Unlimited')).toBeDefined()
+    expect(tree.queryByType(Button)).toBeNull()
+    expect(tree.queryByText('Verification Complete')).toBeDefined()
+  })
 
-    tree.rerender(
+  it('shows correct UI when the user has pending KYC', async () => {
+    const tree = render(
       <Provider store={createStore(true, KycStatus.Pending)}>
         <RaiseLimitScreen />
       </Provider>
     )
 
-    expect(tree.queryByType(Button)).toBeFalsy()
+    expect(tree.queryByType(Button)).toBeNull()
+    expect(tree.queryByText('Verification In Progress')).toBeDefined()
   })
 
   it('shows the correct remaining transfer limit when a user has made no recent payments', async () => {
