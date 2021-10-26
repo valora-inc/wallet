@@ -66,7 +66,7 @@ async function updateUsers(lastKey: string = '', iteration: number = 0, records:
     })
   } else {
     console.log(`Finished: ${iteration} iterations, ${counter + records} records updated.`)
-    // Allows the node process to exit otherwise it keeps it's database connection
+    // Allows the node process to exit otherwise it keeps its database connection
     app.delete()
   }
 }
