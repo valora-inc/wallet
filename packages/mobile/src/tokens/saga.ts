@@ -21,8 +21,9 @@ import {
   setTotalTokenBalance,
   StoredTokenBalance,
   StoredTokenBalances,
-  tokenBalancesSelector,
+  TokenBalance,
 } from 'src/tokens/reducer'
+import { tokensListSelector } from 'src/tokens/selectors'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
@@ -303,26 +304,25 @@ export function* importTokenInfo() {
   yield put(setTokenBalances(balances))
 }
 
-export function* getTokenLocalAmount(tokenInfo: StoredTokenBalance) {
-  const tokenUsdPrice = tokenInfo.usdPrice
-  const exchangeRate = yield select(localCurrencyExchangeRatesSelector)
+export function* getTokenLocalAmount(tokenInfo: TokenBalance) {
+  const exchangeRate: Record<Currency, string | null> = yield select(
+    localCurrencyExchangeRatesSelector
+  )
   const usdRate = exchangeRate[Currency.Dollar]
-  if (!tokenUsdPrice || !usdRate) {
+  if (!usdRate) {
     return null
   }
   const tokenAmount = new BigNumber(tokenInfo.balance ?? 0)
 
-  return tokenAmount.multipliedBy(tokenUsdPrice).multipliedBy(usdRate)
+  return tokenAmount.multipliedBy(tokenInfo.usdPrice).multipliedBy(usdRate)
 }
 
 export function* calculateTotalTokenBalance() {
-  const tokenBalances: StoredTokenBalances = yield select(tokenBalancesSelector)
+  const tokenBalances: TokenBalance[] = yield select(tokensListSelector)
   let totalBalance = new BigNumber(0)
-  for (const token of Object.values(tokenBalances)) {
-    if (token) {
-      const balance: BigNumber = yield call(getTokenLocalAmount, token)
-      totalBalance = totalBalance.plus(balance ?? 0)
-    }
+  for (const token of tokenBalances) {
+    const balance: BigNumber | null = yield call(getTokenLocalAmount, token)
+    totalBalance = totalBalance.plus(balance ?? 0)
   }
 
   yield put(setTotalTokenBalance(totalBalance.toFixed(2).toString()))
