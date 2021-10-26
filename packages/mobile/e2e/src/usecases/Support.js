@@ -55,4 +55,19 @@ export default Support = () => {
     const imagePath = await device.takeScreenshot('Support')
     await pixelDiff(imagePath, `./e2e/assets/${await getDeviceModel()}/Support.png`)
   })
+
+  it('It calls Persona endpoint when trying to raise transaction limit', async () => {
+    await waitFor(element(by.id('Hamburger')))
+      .toBeVisible()
+      .withTimeout(5000)
+    await element(by.id('Hamburger')).tap()
+    await scrollIntoView('Help', 'SettingsScrollView')
+    await waitFor(element(by.id('Help')))
+      .toExist()
+      .withTimeout(5000)
+    await element(by.id('Help')).tap()
+    await element(by.id('RaiseLimit')).tap()
+    // when the number is verified, should show PersonaEntryPoint
+    // if the number is not verified, should show the button to
+  })
 }

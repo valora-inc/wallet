@@ -89,6 +89,17 @@ export const EncryptionFeeIcon = () => {
   )
 }
 
+export const DailyLimitIcon = () => {
+  const { t } = useTranslation(Namespaces.accountScreen10)
+  return (
+    <FeeIcon
+      title={t('dailyLimitModal.header')}
+      description={t('dailyLimitModal.body')}
+      dismissText={t('global:dismiss')}
+    />
+  )
+}
+
 const styles = StyleSheet.create({
   area: {
     paddingHorizontal: 5,

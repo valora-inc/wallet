@@ -296,5 +296,63 @@
         "app": "android.release"
       }
     }
+  },
+  "persona": {
+    "androidTheme": {
+      "backgroundColor": null,
+      "primaryColor": "#1AB775",
+      "darkPrimaryColor": null,
+      "accentColor": "#1AB775",
+      "titleTextColor": "#2E3338",
+      "titleTextFont": "26px",
+      "bodyTextColor": "#2E3338",
+      "bodyTextFont": "16px",
+      "footnoteTextColor": null,
+      "footnoteTextFont": null,
+      "textFieldTextColor": null,
+      "textFieldTextFont": null,
+      "pickerTextColor": null,
+      "pickerTextFont": null,
+      "buttonBackgroundColor": "#1AB775",
+      "buttonDisabledBackgroundColor": "#97DFC1",
+      "buttonTouchedBackgroundColor": null,
+      "buttonTextColor": "#FFFFFF",
+      "buttonDisabledTextColor": "#FFFFFF",
+      "buttonCornerRadius": "30px",
+      "buttonFont": null,
+      "progressColor": null
+    },
+    "iosTheme": {
+      "backgroundColor": null,
+      "primaryColor": null,
+      "darkPrimaryColor": null,
+      "accentColor": null,
+      "overlayBackgroundColor": null,
+      "titleTextColor": null,
+      "titleTextFont": null,
+      "bodyTextColor": null,
+      "bodyTextFont": null,
+      "footnoteTextColor": null,
+      "footnoteTextFont": null,
+      "formLabelTextColor": null,
+      "formLabelTextFont": null,
+      "textFieldTextColor": null,
+      "textFieldBackgroundColor": null,
+      "textFieldBorderColor": null,
+      "pickerTextColor": null,
+      "pickerTextFont": null,
+      "buttonBackgroundColor": null,
+      "buttonDisabledBackgroundColor": null,
+      "buttonTouchedBackgroundColor": null,
+      "buttonTextColor": null,
+      "buttonDisabledTextColor": null,
+      "buttonTextAlignment": null,
+      "buttonCornerRadius": null,
+      "buttonFont": null,
+      "selectedCellBackgroundColor": null,
+      "closeButtonTintColor": null,
+      "cancelButtonBackgroundColor": null,
+      "progressColor": null
+    }
   }
 }

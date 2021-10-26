@@ -14,6 +14,7 @@ import { cUsdDailyLimitSelector, kycStatusSelector } from 'src/account/selectors
 import { showError, showMessage } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
+import { DailyLimitIcon } from 'src/components/FeeIcon'
 import { CELO_SUPPORT_EMAIL_ADDRESS } from 'src/config'
 import i18n, { Namespaces } from 'src/i18n'
 import ApprovedIcon from 'src/icons/ApprovedIcon'
@@ -33,7 +34,8 @@ const RaiseLimitScreen = () => {
   const { t } = useTranslation(Namespaces.accountScreen10)
   const dailyLimit = useSelector(cUsdDailyLimitSelector)
   const kycStatus = useSelector(kycStatusSelector)
-  const numberIsVerified = useSelector((state) => state.app.numberVerified)
+  const numberIsVerified = true
+  // todo: lisa modify ^ to not hard code it as true
   const recentPayments = useSelector(getRecentPayments)
   const accountAddress = useSelector(accountAddressSelector)
 
@@ -120,16 +122,19 @@ const RaiseLimitScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.dailyLimitContainer}>
+      <View style={styles.dailyLimitContainer} testID="DailyLimitContainer">
         <Text style={styles.labelText}>{t('dailyLimitLabel')}</Text>
         {kycStatus === KycStatus.Completed ? (
           <Text style={styles.dailyLimit}>{t('noDailyLimit')} </Text>
         ) : (
           <>
-            <CurrencyDisplay
-              amount={{ value: dailyLimit, currencyCode: Currency.Dollar }}
-              style={styles.dailyLimit}
-            />
+            <View style={styles.dailyLimitDisplay}>
+              <CurrencyDisplay
+                amount={{ value: dailyLimit, currencyCode: Currency.Dollar }}
+                style={styles.dailyLimit}
+              />
+              <DailyLimitIcon />
+            </View>
             <Text style={styles.dailyLimitSubtext}>{t('dailyLimitValue', { dailyLimit })}</Text>
             <Text style={styles.bodyText}>
               <Trans i18nKey={'dailyLimitExplainer'} ns={Namespaces.accountScreen10}>
@@ -192,6 +197,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 24,
   },
+  dailyLimitDisplay: {},
   bodyText: {
     ...fontStyles.small,
     marginTop: 8,

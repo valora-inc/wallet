@@ -81,6 +81,10 @@
   "dailyLimitValue": "Equal to {{dailyLimit}} cUSD",
   "noDailyLimit": "Unlimited",
   "dailyLimitExplainer": "This is the total amount you can send and withdraw. You still have <0></0> available today.",
+  "dailyLimitModal": {
+    "header": "Why is there a Daily Transaction Limit?",
+    "body": "This is total amount you can send and withdraw per day. The limit exist so that we can protect our funds.\n\nYour limit is currently 1000 cUSD or 820.90 cEUR. You can remove this limit anytime by verifying your identity"
+  },
   "verifyNumberToRaiseLimit": "Connect your phone number and verify your identify to lift the daily limit.",
   "verifyIdentityToRaiseLimit": "Verify your identify to lift the daily limit.",
   "applicationInReview": "Verification In Progress",
