@@ -1,4 +1,8 @@
-import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, VERIFICATION_PHONE_NUMBER } from '@env'
+import {
+  TWILIO_ACCOUNT_SID,
+  TWILIO_AUTH_TOKEN,
+  VERIFICATION_PHONE_NUMBER,
+} from 'react-native-dotenv'
 import twilio from 'twilio'
 import { sleep } from './utils'
 
