@@ -13,9 +13,9 @@ function CustomHeader({ left, right, title }: Props) {
     typeof title === 'string' ? <Text style={headerStyles.headerTitle}>{title}</Text> : title
   return (
     <View style={styles.container}>
+      {title && <View style={styles.titleContainer}>{titleComponent}</View>}
       {left && <View style={styles.buttonContainer}>{left}</View>}
       {right && <View style={styles.buttonContainer}>{right}</View>}
-      {title && <View style={styles.titleContainer}>{titleComponent}</View>}
     </View>
   )
 }
@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
-    left: 60,
-    right: 60,
+    left: 0,
+    right: 0,
   },
 })
 
