@@ -47,7 +47,7 @@ The app uses [React Native][react native] and a geth [light node][light node].
 
 ## Setup
 
-**You must have the [wallet] monorepo successfully set up and built before setting up and running the mobile wallet.** To do this, follow the [setup instructions][setup].
+**You must have the [monorepo](https://github.com/celo-org/celo-monorepo) successfully set up and built before setting up and running the mobile wallet.** To do this, follow the [setup instructions][https://github.com/celo-org/celo-monorepo/blob/master/SETUP.md].
 
 Next, install [watchman][watchman].
 
