@@ -60,7 +60,7 @@ export function* fetchUserLocationData() {
 
     if (isErrorResponse(userLocationData)) {
       throw new Error(
-        `IP address fetch failed with status code ${response.status}. Error: ${userLocationData?.error}}`
+        `IP address fetch failed with status code ${response.status}. Error: ${userLocationData.error}}`
       )
     }
   } catch (error) {
