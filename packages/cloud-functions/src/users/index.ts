@@ -2,6 +2,7 @@ import * as functions from 'firebase-functions'
 import { database } from '../firebase'
 
 // Lift the daily limit for now
+// See also ./scripts/updateDailyLimit.ts
 export const onWriteUserAddress = functions.database
   .ref('users/{uid}/address')
   .onWrite(async (change, context) => {
