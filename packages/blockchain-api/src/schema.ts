@@ -73,9 +73,9 @@ export interface TokenTransactionArgs {
 }
 
 export interface TokenTransactionV2Args {
-  // Address to fetch transaction from.
+  // Address to fetch transactions from.
   address: string
-  // Filter all transaction in given tokens. If not present, no filtering is done.
+  // Filter all the transactions in given tokens. If not present, no filtering is done.
   tokens?: [string]
   // If present, every TokenAmount will contain the field localAmount with the estimated amount in given currency
   localCurrencyCode?: string
