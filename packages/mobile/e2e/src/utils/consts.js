@@ -4,3 +4,4 @@ export const SAMPLE_BACKUP_KEY =
 export const DEFAULT_PIN = '323122'
 export const ALTERNATIVE_PIN = '223121'
 export const EXAMPLE_NAME = 'Test Name'
+export const EXAMPLE_PHONE_NUMBER = '+1 306-555-5555'

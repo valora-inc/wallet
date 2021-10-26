@@ -4,6 +4,7 @@ import { AttestationsStatus } from '@celo/utils/lib/attestations'
 import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { Actions as AppActions, UpdateFeatureFlagsAction } from 'src/app/actions'
+import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
@@ -182,7 +183,7 @@ const initialState: State = {
   TEMPORARY_override_withoutVerification: undefined,
   komenciConfig: {
     useLightProxy: false,
-    allowedDeployers: [],
+    allowedDeployers: FEATURE_FLAG_DEFAULTS.komenciAllowedDeployers.split(','),
   },
 }
 

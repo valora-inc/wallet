@@ -8,7 +8,7 @@ import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
-import { CurrencyInfo } from 'src/send/SendConfirmation'
+import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import {
   getCentAwareMoneyDisplay,

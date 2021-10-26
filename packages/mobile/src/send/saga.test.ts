@@ -186,7 +186,7 @@ describe(watchQrCodeDetections, () => {
       .dispatch(qrAction)
       .put(validateRecipientAddressSuccess(mockE164NumberInvite, mockAccount2Invite.toLowerCase()))
       .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
       origin: SendOrigin.AppSendFlow,
       transactionData: mockTransactionData,
       addressJustValidated: true,

@@ -4,6 +4,7 @@
   "dollarsSent": "Gesendete Dollar",
   "to": "Zu",
   "send": "Senden",
+  "withdrawToken": "{{token}} abheben",
   "sendToken": "{{token}} senden",
   "payment": "Zahlung",
   "sendOrRequest": "Senden oder anfordern",
@@ -27,17 +28,17 @@
   "securityFee": "Sicherheitsgebühr",
   "inviteFee": "Einladungsgebühr",
   "feeEducation": "Der Versand von Zahlungen und Umtausch beinhaltet eine geringe Gebühr für die Sicherheit und Wartung von Dienstleistungen.",
-  "learnMore": "Weitere Informationen",
+  "learnMore": "Mehr Infos",
   "inviteMoneyEscrow": "Wir werden diesen Kontakt einladen und ihr Guthaben sicher halten, bis sie ihr Konto bestätigen.",
-  "reviewPayment": "Zahlung prüfen",
+  "reviewPayment": "Zahlung überprüfen",
   "requestPayment": "Zahlung anfordern",
   "continue": "Weiter",
   "edit": "Bearbeiten",
   "activity": "Aktivität",
-  "exchange": "Umtausch",
+  "exchange": "Umtauschen",
   "inviteSendTo": "Laden & senden an",
-  "keepMoneySafe": "Wir werden dieses Geld sicher halten, bis Ihr Freund ein {{appName}}-Konto erstellt",
-  "searchFriends": "Versuchen Sie eine Telefonnummer einzugeben, wenn Sie nicht finden können, nach wem Sie suchen",
+  "keepMoneySafe": "Wir werden dieses Krypto sicher halten, bis dein Freund ein {{appName}}-Konto erstellt",
+  "searchFriends": "Versuche eine Telefonnummer einzugeben, wenn du nicht finden kannst, nach wem du suchst",
   "inviteVerifyPayment": "Einladen & Zahlung bestätigen",
   "inviteFriends": "Freunde einladen",
   "noResultsFor": "Keine Ergebnisse für",
@@ -45,17 +46,17 @@
   "searchForSomeone": "Suche nach jemandem mit Namen, Telefonnummer oder Adresse",
   "pending": "Ausstehend",
   "sentPayment": "Zahlung gesendet",
-  "sentEscrowPayment": "Gesendete Escrow-Zahlung",
+  "sentEscrowPayment": "Escrow-Zahlung gesendet",
   "mobileNumber": "Handy #",
   "sendToMobileNumber": "An Telefonnummer senden",
   "requestFromMobileNumber": "Anfrage von Telefonnummer",
   "sendToAddress": "An Adresse senden",
-  "walletAddress": "Geldbörse-Adresse",
-  "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Geld weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte Sie einladen, es mit diesem Link zu sehen: {{link}}",
-  "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Geld weltweit zu überweisen. Ich habe Ihnen gerade {{amount}} {{currency}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{currency}} mit diesem Link ein: {{link}}",
+  "walletAddress": "Wallet-Adresse",
+  "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
+  "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{currency}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{currency}} mit diesem Link ein: {{link}}",
   "inviteSent": "Einladungscode gesendet!",
   "inviteFailed": "Senden der Einladung fehlgeschlagen",
-  "loadingContacts": "Ihre Kontakte finden",
+  "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
   "scanQRCode": "Scan QR-Code",
@@ -63,7 +64,7 @@
   "writeStorageNeededForQrDownload": "Speicher-Schreibberechtigung wird benötigt, um den QR-Code herunterzuladen",
   "cameraScanInfo": "Code in der Box oben zentrieren",
   "cameraNotAuthorizedTitle": "Kamera aktivieren",
-  "cameraNotAuthorizedDescription": "Bitte aktivieren Sie die Kamera in den Einstellungen Ihres Telefons. Sie brauchen sie um QR-Codes zu scannen.",
+  "cameraNotAuthorizedDescription": "Bitte aktiviere die Kamera in den Einstellungen deines Telefons. Du brauchst die Kamera um QR-Codes zu scannen.",
   "cameraSettings": "Einstellungen",
   "toSentOrRequestPayment": "um Zahlung zu senden oder anzufordern",
   "reminderSent": "Erinnerung gesendet",
@@ -71,19 +72,19 @@
   "totalRefunded": "Insgesamt erstattet",
   "loadingVerificationStatus": "Überprüfe Empfängerbestätigung",
   "askForContactsPermissionAction": "Meine Kontakte erhalten",
-  "newAccountBalance": "Neuer Kontostand: ",
+  "newAccountBalance": "Neuer Saldo: ",
   "estimatingFee": "Kostenvoranschlag ",
   "estimatedFee": "Geschätzte Gebühr: ",
   "selectBalance": "Saldo auswählen",
-  "stableBalance": "{{token}} Guthaben",
+  "stableBalance": "{{token}} Saldo",
   "verificationCta": {
     "header": "An einen Freund senden?",
-    "body": "Bestätigen Sie Ihr Telefon und synchronisieren Sie Ihre Kontakte, um schnell an Ihre Freunde zu senden.",
+    "body": "Verbinde dein Telefon und synchronisiere deine Kontakte, um schnell an deine Freunde zu senden.",
     "cta": "Startbestätigung"
   },
   "importContactsCta": {
     "header": "Kontakte importieren",
-    "body": "Bitte aktivieren Sie die Kontakte in den Einstellungen Ihres Telefons, um Ihre Freunde mit Namen zu finden.",
+    "body": "Bitte aktiviere die Kontakte in den Einstellungen deines Telefons, um deine Freunde mit Namen zu finden.",
     "cta": "Einstellungen"
   },
   "contactSyncProgress": {
@@ -92,22 +93,22 @@
     "importing": "Importieren..."
   },
   "confirmAccount": {
-    "header": "Bitte bestätigen Sie das Konto von {{displayName}}",
-    "headerNoDisplayName": "Bitte bestätigen Sie das Konto Ihres Kontakts",
+    "header": "Bitte bestätige das Konto von {{displayName}}",
+    "headerNoDisplayName": "Bitte bestätige das Konto deines Kontakts",
     "button": "Konto-Adresse bestätigen"
   },
   "secureSendExplanation": {
     "body1": "{{e164PhoneNumber}} hat mehrere Accounts damit verknüpft. {{displayName}} könnte ein neues {{appName}} Konto erstellt haben, oder sein Telefon verloren haben oder sein Konto kompromittiert haben.",
-    "body1NoDisplayName": "Ihr Kontakt hat mehrere Accounts zugeordnet. Ihr Kontakt könnte ein neues {{appName}}-Konto erstellt haben, oder sein Telefon verloren haben oder sein Konto kompromittiert haben.",
-    "body2": "Sie müssen ihren QR-Code scannen oder ihre Konto-Adresse vor der Transaktion bestätigen."
+    "body1NoDisplayName": "Dein Kontakt hat mehrere Accounts zugeordnet. Dein Kontakt könnte ein neues {{appName}}-Konto erstellt haben, oder sein Telefon verloren haben oder sein Konto kompromittiert haben.",
+    "body2": "Du musst ihren QR-Code scannen oder ihre Konto-Adresse vor der Transaktion bestätigen."
   },
   "confirmAccountNumber": {
     "title": "Konto-Adresse bestätigen",
-    "bodyPartial": "Bitte fragen Sie {{displayName}} nach den letzten vier Ziffern Ihrer Konto-Adresse. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
-    "bodyPartialNoDisplayName": "Bitte fragen Sie Ihren Kontakt nach den letzten vier Ziffern Ihrer Konto-Adresse. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
-    "body1Full": "Bitte fragen Sie {{displayName}} nach der Konto-Adresse.",
-    "body1FullNoDisplayName": "Bitte fragen Sie Ihren Kontakt nach der Konto-Adresse.",
-    "body2Full": "Wir empfehlen dringend, persönlich oder telefonisch über WhatsApp oder Messenger oder per E-Mail zu fragen. Zur Sicherheit verwenden Sie bitte keine Textnachrichten (SMS).",
+    "bodyPartial": "Bitte frag {{displayName}} nach den letzten vier Ziffern ihrer Konto-Adresse. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
+    "bodyPartialNoDisplayName": "Bitte frage deinen Kontakt nach den letzten vier Ziffern ihrer Konto-Adresse. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
+    "body1Full": "Bitte frage {{displayName}} nach der Konto-Adresse.",
+    "body1FullNoDisplayName": "Bitte frage deinen Kontakt nach der Konto-Adresse.",
+    "body2Full": "Wir empfehlen dringend, persönlich oder telefonisch über WhatsApp oder Messenger oder per E-Mail zu fragen. Zur Sicherheit verwende bitte keine Textnachrichten (SMS).",
     "help": "Hilfe beim Auffinden einer Konto-Adresse",
     "submit": "Versenden"
   },
@@ -115,7 +116,7 @@
   "accountInputHeaderFull": "Konto-Adresse",
   "helpModal": {
     "header": "Lokalisierung einer Konto-Adresse",
-    "body1": "Konto-Adressen (auch als Adressen bekannt) befinden sich im Menü. Öffnen Sie das Menü vom Startbildschirm, indem Sie auf das Symbol in der oberen linken Ecke tippen.",
+    "body1": "Konto-Adressen (auch als Adressen bekannt) befinden sich im Menü. Öffne das Menü vom Startbildschirm, indem du auf das Symbol in der oberen linken Ecke tippst.",
     "body2": "Die Konto-Adresse befindet sich am unteren Ende des Menüs.",
     "body3": "Konto-Adressen beginnen mit \"0x\" und sind 42 Zeichen lang"
   },
@@ -127,14 +128,14 @@
   "encryption": {
     "warningLabel": "Dieser Kommentar wird nicht verschlüsselt",
     "warningModalHeader": "Über Verschlüsselung",
-    "warningModalBody": "Verschlüsselung stellt sicher, dass Ihre Kommentare privat bleiben. {{appName}} verwendet Verschlüsselung bei Kommentaren von Transaktionen, wenn sowohl Absender als auch Empfänger diese Funktion eingerichtet haben. Die Einrichtung erfolgt in der Regel automatisch, sobald ein Benutzer seine erste Transaktion abschickt.",
+    "warningModalBody": "Die Verschlüsselung stellt sicher, dass deine Kommentare privat bleiben. {{appName}} verwendet Verschlüsselung bei Kommentaren von Transaktionen, wenn sowohl Absender als auch Empfänger diese Funktion eingerichtet haben. Die Einrichtung erfolgt in der Regel automatisch, sobald ein Benutzer seine erste Transaktion sendet.",
     "feeLabel": "Einmalige Verschlüsselungsgebühr",
     "feeModalHeader": "Einmalige Verschlüsselungsgebühr",
-    "feeModalBody": "Verschlüsselung hilft, Ihre sensiblen Daten vertraulich zu halten. Eine kleine einmalige Gebühr wird Ihrer ersten Transaktion hinzugefügt, um Verschlüsselung einzurichten. Dies stellt sicher, dass Ihre Kommentare sicher und privat gesendet werden."
+    "feeModalBody": "Verschlüsselung hilft, deine sensiblen Daten vertraulich zu halten. Eine kleine einmalige Gebühr wird deiner ersten Transaktion hinzugefügt, um Verschlüsselung einzurichten. Dies stellt sicher, dass deine Kommentare sicher und privat gesendet werden."
   },
   "sendToAddressWarning": {
     "title": "An eine Adresse senden",
-    "body": "Bitte stellen Sie sicher, dass die Adresse cUSD unterstützt. An ungültige Adressen gesendete Gelder sind möglicherweise nicht wiederherstellbar.\n\nSie können auch erwägen, zuerst eine kleine Testzahlung zu senden.",
+    "body": "Bitte stelle sicher, dass die Adresse cUSD unterstützt. An ungültige Adressen gesendete Guthaben sind möglicherweise nicht wiederherstellbar.\n\nDu kannst auch erwägen, zuerst eine kleine Testzahlung zu senden.",
     "toggle": "Immer fragen"
   }
 }

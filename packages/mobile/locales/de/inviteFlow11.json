@@ -4,33 +4,33 @@
   "inviteWithSMS": "Per SMS einladen",
   "inviteFee": "Einladungsgebühr",
   "whySendFees": "Diese Gebühr deckt die Kosten für den neuen Benutzer, um seine Telefonnummer zu verbinden",
-  "whyReceiveFees": "Ihnen wurde etwas Geld zur Bestätigung Ihres Kontos geschickt",
+  "whyReceiveFees": "Dir wurde etwas Krypto zur Bestätigung deines Kontos geschickt",
   "edit": "Bearbeiten",
   "to": "Zu",
   "inviteSent": "Einladung gesendet",
   "searchForSomeone": "Suche nach jemandem mit seinem Namen oder seiner Telefonnummer",
   "redeemFailed": "Fehler beim Einlösen des Codes ",
   "redeemInviteTimeout": "Zeitüberschreitung für Einladung einlösen",
-  "accountSetupFailed": "Fehler beim Erstellen Ihrer Geldbörse",
+  "accountSetupFailed": "Fehler beim Erstellen deines Wallets",
   "emptyInviteCode": "Einladungscode hat kein Guthaben",
-  "transferDollarsToAccount": "Guthaben auf Ihr Konto überwiesen!",
-  "inviteAnyone": "Senden Sie einfach an Ihre Freunde, indem Sie Ihre Kontakte hinzufügen",
+  "transferDollarsToAccount": "Guthaben auf dein Konto überwiesen!",
+  "inviteAnyone": "Sende einfach an deine Freunde, indem Du deine Kontakte hinzufügst",
   "inviteReceived": "Einladung erhalten",
   "escrowPaymentNotificationTitle": "{{mobile}} eingeladen",
   "inviteDialog": {
     "title": "Einen Freund einladen",
-    "body": "Verbinden und teilen Sie Wert mit Ihren Freunden und Familie auf Valora.",
+    "body": "Verbinde und teile Wert mit deinen Freunden und Familie auf Valora.",
     "button": "Einladen"
   },
   "sendAndInvite": "Senden & Einladen",
   "inviteAndSendDialog": {
-    "title": "Einladen und Senden",
-    "body": "Ihre Zahlung an {{name}} wird auf sie warten, sobald sie ihre Telefonnummer bestätigen. Teilen Sie ihnen eine Einladungsnachricht, um {{appName}} beizutreten und Ihre Zahlung einlösen!",
-    "button": "Einladen"
+    "title": "Wir bewahren deine Zahlung an {{name}}",
+    "body": "Teile eine Einladungsnachricht an {{name}}. Sobald dein Freund beitritt und seine Telefonnummer verbindet, erhält er die Zahlung und du bekommst deine Belohnungen!",
+    "button": "Senden"
   },
   "inviteRewardsBanner": {
-    "title": "Erhalten Sie ${{amount}}, indem Sie einen Freund empfehlen!",
-    "body": "Verdienen Sie {{amount}} cUSD wenn Sie Geld an einen Freund überweisen und diese beitreten. <0>Mehr erfahren</0>"
+    "title": "Erhalte {{amount}} {{currency}}, indem du einen Freund wirbst!",
+    "body": "Erhalte {{amount}} {{currency}}, wenn du Krypto an einen Freund sendest und dieser beitritt. <0>Mehr Infos</0>"
   },
-  "getReward": "Erhalten Sie ${{reward}}"
+  "getReward": "Erhalte ${{reward}}"
 }

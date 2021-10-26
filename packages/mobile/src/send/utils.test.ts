@@ -9,7 +9,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, urlFromUriData } from 'src/qrcode/schema'
 import { PaymentInfo } from 'src/send/reducers'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/SendAmountLegacy'
 import {
   dailyAmountRemaining,
   handlePaymentDeeplink,
@@ -172,7 +172,7 @@ describe('send/utils', () => {
         await expectSaga(handleSendPaymentData, mockUriData[4])
           .provide([[matchers.call.fn(fetchExchangeRate), '2']])
           .run()
-        expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+        expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
           origin: SendOrigin.AppSendFlow,
           transactionData: mockTransactionData,
           currencyInfo: { localCurrencyCode: mockUriData[4].currencyCode, localExchangeRate: '2' },
@@ -191,7 +191,7 @@ describe('send/utils', () => {
         await expectSaga(handleSendPaymentData, mockUriData[5])
           .provide([[matchers.call.fn(fetchExchangeRate), '2']])
           .run()
-        expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+        expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
           origin: SendOrigin.AppSendFlow,
           transactionData: mockTransactionData,
           currencyInfo: { localCurrencyCode: mockUriData[5].currencyCode, localExchangeRate: '2' },

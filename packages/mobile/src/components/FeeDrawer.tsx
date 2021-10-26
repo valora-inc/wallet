@@ -10,7 +10,7 @@ import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import { EncryptionFeeIcon, ExchangeFeeIcon, SecurityFeeIcon } from 'src/components/FeeIcon'
 import LineItemRow from 'src/components/LineItemRow'
 import { Namespaces } from 'src/i18n'
-import { CurrencyInfo } from 'src/send/SendConfirmation'
+import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { Currency } from 'src/utils/currencies'
 
 interface Props {

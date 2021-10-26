@@ -31,7 +31,7 @@ import { AddressRecipient, Recipient } from 'src/recipients/recipient'
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { PaymentInfo } from 'src/send/reducers'
 import { getRecentPayments } from 'src/send/selectors'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/SendAmountLegacy'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInHours } from 'src/utils/time'
@@ -227,7 +227,7 @@ export function* handleSendPaymentData(
         reason: data.comment,
         type: TokenTransactionType.PayPrefill,
       }
-      navigate(Screens.SendConfirmation, {
+      navigate(Screens.SendConfirmationLegacy, {
         transactionData,
         isFromScan,
         currencyInfo: { localCurrencyCode: currency, localExchangeRate: exchangeRate },

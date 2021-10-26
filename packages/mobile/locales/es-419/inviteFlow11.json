@@ -3,14 +3,14 @@
   "inviteWithWhatsapp": "Invitar por WhatsApp",
   "inviteWithSMS": "Invitar por SMS",
   "inviteFee": "Tarifa de invitación",
-  "whySendFees": "Esta tarifa cubre los costos de conexión del número de teléfono del usuario nuevo.",
+  "whySendFees": "Esta tarifa cubre los costos de conexión del número de teléfono del nuevo usuario",
   "whyReceiveFees": "Te enviaron dinero para confirmar tu cuenta.",
   "edit": "Editar",
   "to": "Para",
   "inviteSent": "Invitación enviada",
   "searchForSomeone": "Busca a alguien por el nombre o número de teléfono",
-  "redeemFailed": "No pudimos validar el código de invitación",
-  "redeemInviteTimeout": "La invitación ha expirado",
+  "redeemFailed": "No pudimos canjear el código de invitación",
+  "redeemInviteTimeout": "El canje de invitación ha expirado",
   "accountSetupFailed": "Error al crear la cuenta",
   "emptyInviteCode": "El código de invitación no tiene fondos",
   "transferDollarsToAccount": "¡Hemos transferidos los fondos a tu cuenta!",
@@ -24,13 +24,13 @@
   },
   "sendAndInvite": "Envía e invita",
   "inviteAndSendDialog": {
-    "title": "Invita y envía",
-    "body": "Tu pago estará pendiente hasta que {{name}} conecte su número de teléfono. Envíale un mensaje de invitación para que se registre en {{appName}} y reciba tu pago.",
-    "button": "Invitar"
+    "title": "Guardaremos tu pago ara {{name}}",
+    "body": "Envía un mensaje de invitación a {{name}}. Una vez que se una a {{appname}} y conecte su número de teléfono, recibirá el pago y tu recibirás tus recompensas.",
+    "button": "Enviar"
   },
   "inviteRewardsBanner": {
-    "title": "¡Obtén ${{amount}} por referir a un amigo!",
-    "body": "Gana {{amount}} cUSD cuando envíes dinero a un amigo y se una. <0>Más información</0>"
+    "title": "¡Obtén {{amount}} {{currency}} por compartir Valora con tus amigos!",
+    "body": "Gana {{amount}} {{currency}} cuando envíes dinero a un amigo y se una. <0>Más información</0>"
   },
   "getReward": "Obtén ${{reward}}"
 }

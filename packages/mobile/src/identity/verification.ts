@@ -45,7 +45,7 @@ import {
   shortVerificationCodesEnabledSelector,
 } from 'src/app/selectors'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import { SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
+import { isE2EEnv, SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
 import { waitForNextBlock } from 'src/geth/saga'
 import {
   Actions,
@@ -250,7 +250,7 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
 
       let attestations = actionableAttestations
 
-      if (Platform.OS === 'android') {
+      if (Platform.OS === 'android' && !isE2EEnv) {
         autoRetrievalTask = yield fork(startAutoSmsRetrieval)
       }
 
@@ -350,7 +350,7 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
       }
 
       receiveMessageTask?.cancel()
-      if (Platform.OS === 'android') {
+      if (Platform.OS === 'android' && !isE2EEnv) {
         autoRetrievalTask?.cancel()
       }
 
@@ -373,7 +373,7 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
     yield put(fail(error.message))
   } finally {
     receiveMessageTask?.cancel()
-    if (Platform.OS === 'android') {
+    if (Platform.OS === 'android' && !isE2EEnv) {
       autoRetrievalTask?.cancel()
     }
   }
@@ -1049,7 +1049,9 @@ export function* tryRevealPhoneNumber(
 
   try {
     // Only include retriever app sig for android, iOS doesn't support auto-read
-    const smsRetrieverAppSig = Platform.OS === 'android' ? SMS_RETRIEVER_APP_SIGNATURE : undefined
+    // Skip SMS_RETRIEVER_APP_SIGNATURE for e2e tests
+    const smsRetrieverAppSig =
+      Platform.OS === 'android' && !isE2EEnv ? SMS_RETRIEVER_APP_SIGNATURE : undefined
 
     // Proxy required for any network where attestation service domains are not static
     // This works around TLS issues
@@ -1124,7 +1126,7 @@ export function* tryRevealPhoneNumber(
       )
     }
 
-    // Reveal is unsuccessfull, so asking the status of it from validator
+    // Reveal is unsuccessful, so asking the status of it from validator
     yield put(
       reportRevealStatus(
         attestation.attestationServiceURL,

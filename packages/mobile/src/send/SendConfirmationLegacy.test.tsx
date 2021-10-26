@@ -13,7 +13,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import { getSendFee } from 'src/send/saga'
-import SendConfirmation from 'src/send/SendConfirmation'
+import SendConfirmationLegacy from 'src/send/SendConfirmationLegacy'
 import { Currency } from 'src/utils/currencies'
 import {
   amountFromComponent,
@@ -51,22 +51,22 @@ jest.mock('src/send/saga')
 
 const mockedGetSendFee = getSendFee as jest.Mock
 
-const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
+const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmationLegacy, {
   transactionData: mockTransactionData,
   origin: SendOrigin.AppSendFlow,
 })
 
-const mockInviteScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
+const mockInviteScreenProps = getMockStackScreenProps(Screens.SendConfirmationLegacy, {
   transactionData: mockInviteTransactionData,
   origin: SendOrigin.AppSendFlow,
 })
 
 type ScreenProps = StackScreenProps<
   StackParamList,
-  Screens.SendConfirmation | Screens.SendConfirmationModal
+  Screens.SendConfirmationLegacy | Screens.SendConfirmationLegacyModal
 >
 
-describe('SendConfirmation', () => {
+describe('SendConfirmationLegacy', () => {
   beforeEach(() => {
     mockedGetSendFee.mockClear()
   })
@@ -84,7 +84,7 @@ describe('SendConfirmation', () => {
 
     const tree = render(
       <Provider store={store}>
-        <SendConfirmation {...(screenProps ? screenProps : mockScreenProps)} />
+        <SendConfirmationLegacy {...(screenProps ? screenProps : mockScreenProps)} />
       </Provider>
     )
 

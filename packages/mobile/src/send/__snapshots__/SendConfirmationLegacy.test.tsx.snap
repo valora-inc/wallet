@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SendConfirmation renders correctly 1`] = `
+exports[`SendConfirmationLegacy renders correctly 1`] = `
 <RNCSafeAreaView
   style={
     Object {
