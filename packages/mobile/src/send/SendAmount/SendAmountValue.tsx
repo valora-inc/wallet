@@ -1,3 +1,4 @@
+import BorderlessButton from '@celo/react-components/components/BorderlessButton'
 import Touchable from '@celo/react-components/components/Touchable'
 import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
@@ -42,9 +43,9 @@ function SendAmountValue({
   return (
     <>
       <View style={styles.container}>
-        <Touchable style={styles.maxButtonContainer} onPress={onPressMax}>
+        <BorderlessButton style={styles.maxButtonContainer} onPress={onPressMax}>
           <Text style={styles.maxButton}>{t('max')}</Text>
-        </Touchable>
+        </BorderlessButton>
         <View style={styles.valuesContainer}>
           <View style={styles.valueContainer}>
             {usingLocalAmount && (
@@ -89,7 +90,7 @@ function SendAmountValue({
             )}
           </View>
         </View>
-        <Touchable style={styles.swapInput} onPress={onSwapInput}>
+        <Touchable style={styles.swapInput} onPress={onSwapInput} borderless={true}>
           <SwapInput />
         </Touchable>
       </View>

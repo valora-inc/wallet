@@ -46,6 +46,7 @@ export const tokensByCurrencySelector = createSelector(tokensListSelector, (toke
   }
 })
 
+// Returns the token with the highest usd balance to use as default.
 export const defaultTokenSelector = createSelector(tokensListSelector, (tokens) => {
   let maxTokenAddress: string = ''
   let maxBalance: BigNumber = new BigNumber(-1)
