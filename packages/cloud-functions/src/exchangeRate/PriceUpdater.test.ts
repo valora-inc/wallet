@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import FirebasePriceUpdater from './FirebasePriceUpdater'
+import PriceUpdater from './PriceUpdater'
 
 const updateFirebaseMock = jest.fn()
 const fetchFromFirebaseMock = jest.fn()
@@ -17,14 +17,14 @@ const FIREBASE_NODE = '/tokensInfo'
 
 const MOCKED_DATE = 1487076708000
 
-describe('FirebasePriceUpdater', () => {
-  let firebasePriceUpdater: FirebasePriceUpdater
+describe('PriceUpdater', () => {
+  let firebasePriceUpdater: PriceUpdater
   let dateNowSpy: any
 
   beforeEach(() => {
     jest.clearAllMocks()
     // @ts-ignore
-    firebasePriceUpdater = new FirebasePriceUpdater(mockedManager)
+    firebasePriceUpdater = new PriceUpdater(mockedManager)
     fetchFromFirebaseMock.mockReturnValue({
       key1: {
         address: 'address1',

@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions'
-import { initDatabase, knexDb } from '../database/db'
+import { DB_DATA } from 'src/config'
+import { initDatabase } from '../database/db'
 
 export const fetchAccountsForWalletAddress = functions.https.onRequest(async (req, res) => {
   try {
@@ -9,7 +10,7 @@ export const fetchAccountsForWalletAddress = functions.https.onRequest(async (re
       res.status(400).end()
       return
     }
-    await initDatabase()
+    const knexDb = await initDatabase(DB_DATA)
     const accountAddresses = await knexDb('account_wallet_mappings')
       .whereRaw('LOWER("walletAddress") = ?', [walletAddress.toLowerCase()])
       .pluck('accountAddress')

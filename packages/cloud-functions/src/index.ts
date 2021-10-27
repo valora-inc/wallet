@@ -10,6 +10,6 @@ export { updateExchangeRates } from './exchangeRate'
 export {
   updateFirebasePricesByRequest,
   updateFirebasePricesScheduled,
-} from './exchangeRate/FirebasePriceUpdater'
+} from './exchangeRate/PriceUpdater'
 export { notifyPaymentRequests } from './paymentRequests'
 export { fetchAccountsForWalletAddress } from './walletAddressMapping'

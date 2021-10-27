@@ -46,11 +46,19 @@ export const XANPOOL_DATA = {
   supported_currencies: ['IDR', 'VND', 'SGD', 'HKD', 'TBH', 'INR', 'MYR', 'PHP'],
 }
 
+// Indexer DB Data
 export const DB_DATA = {
   host: config.db?.host,
   database: config.db?.database,
   user: config.db?.user,
   password: config.db?.password,
+}
+
+export const BLOCKCHAIN_API_DB_DATA = {
+  host: config.blockchain_api?.db?.host,
+  database: config.blockchain_api?.db?.database,
+  user: config.blockchain_api?.db?.user,
+  password: config.blockchain_api?.db?.password,
 }
 
 export const BLOCKCHAIN_API_URL = config.blockchain_api?.url

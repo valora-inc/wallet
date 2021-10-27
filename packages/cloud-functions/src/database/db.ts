@@ -1,11 +1,16 @@
 import { Knex, knex } from 'knex'
-import { DB_DATA } from '../config'
 
-export let knexDb: Knex
-export async function initDatabase() {
-  knexDb = knex({
+interface DBConnectionArgs {
+  host: string
+  database: string
+  user: string
+  password: string
+}
+
+export async function initDatabase(connectionArgs: DBConnectionArgs): Promise<Knex> {
+  const knexDb = knex({
     client: 'pg',
-    connection: DB_DATA,
+    connection: connectionArgs,
   })
 
   console.info('Database initialized successfully')

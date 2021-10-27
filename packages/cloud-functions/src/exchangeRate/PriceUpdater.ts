@@ -1,5 +1,7 @@
 import * as functions from 'firebase-functions'
 import asyncPool from 'tiny-async-pool'
+import { BLOCKCHAIN_API_DB_DATA } from '../config'
+import { initDatabase } from '../database/db'
 import { fetchFromFirebase, updateFirebase } from '../firebase'
 import { callCloudFunction } from '../utils'
 import ExchangeRateManager from './ExchangeRateManager'
@@ -13,7 +15,7 @@ const MAX_CONCURRENCY = 30
 
 const RETRIES_LIMIT = 5
 
-export default class FirebasePriceUpdater {
+export default class PriceUpdater {
   manager: ExchangeRateManager
 
   constructor(manager: ExchangeRateManager) {
@@ -22,14 +24,23 @@ export default class FirebasePriceUpdater {
 
   async refreshAllPrices(): Promise<PriceByAddress> {
     const prices = await this.manager.calculateUSDPrices()
-    await this.updatePrices(prices)
+    await this.updatePricesFromFirebaseTokens(prices)
     return prices
   }
 
-  private async updatePrices(prices: PriceByAddress) {
+  private async updatePricesFromFirebaseTokens(prices: PriceByAddress) {
     const tokensInfoRaw = await fetchFromFirebase(FIREBASE_NODE_KEY)
+    const fetchTime = new Date()
 
-    const fetchTime = Date.now()
+    // @ts-ignore
+    const cUSDAddress = Object.values(tokensInfoRaw)
+      .find((token) => token.symbol === 'cUSD')
+      .address?.toLowerCase()
+    if (!cUSDAddress) {
+      throw new Error(`Couldn't obtain cUSD address from firebase`)
+    }
+
+    const db = await initDatabase(BLOCKCHAIN_API_DB_DATA)
 
     await asyncPool(
       MAX_CONCURRENCY,
@@ -39,6 +50,12 @@ export default class FirebasePriceUpdater {
         if (address && prices[address]) {
           await updateFirebase(`${FIREBASE_NODE_KEY}/${key}/usdPrice`, prices[address].toString())
           await updateFirebase(`${FIREBASE_NODE_KEY}/${key}/priceFetchedAt`, fetchTime)
+          db('historical_token_prices').insert({
+            token: address,
+            comparedToken: cUSDAddress,
+            price: prices[address].toNumber,
+            at: fetchTime,
+          })
         }
       }
     )
@@ -46,9 +63,7 @@ export default class FirebasePriceUpdater {
 }
 
 async function updatePrices() {
-  const updater = new FirebasePriceUpdater(
-    new ExchangeRateManager([ubeswapLiquidityPool, moolaExchanges])
-  )
+  const updater = new PriceUpdater(new ExchangeRateManager([ubeswapLiquidityPool, moolaExchanges]))
   const prices = await updater.refreshAllPrices()
 
   return prices
