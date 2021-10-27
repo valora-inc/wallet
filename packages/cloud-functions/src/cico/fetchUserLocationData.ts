@@ -148,15 +148,23 @@ export const fetchUserLocationData = functions.https.onRequest(async (req, res) 
     const rawResponse = await fetchWithTimeout(
       `http://api.ipapi.com/api/${ipAddress}?access_key=${IP_API_KEY}`
     )
+
+    if (!rawResponse.ok) {
+      throw new Error(`Fetch to IP location service errored with status ${rawResponse.status}`)
+    }
+
     response = await rawResponse.json()
   } catch (error) {
-    res.status(503).send({ error: 'Fetch to IP location service API timed out' })
+    const errorMessage = error.message.toLowerCase().includes('request timed out')
+      ? 'Fetch to IP location service API timed out'
+      : error.message
+    res.status(503).send({ error: errorMessage })
     return
   }
 
   if (!validIpApiResponse(response)) {
     res
-      .status(503)
+      .status(500)
       .send({ error: 'Fetch to IP location service API returned an expected response' })
     return
   }
