@@ -10,7 +10,6 @@ import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
-import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AmountKeypad from 'src/components/AmountKeypad'
 import {
@@ -48,11 +47,9 @@ const MAX_ESCROW_VALUE = new BigNumber(20)
 
 export interface TransactionDataInput {
   recipient: Recipient
-  amount: BigNumber
+  inputAmount: BigNumber
+  amountIsInLocalCurrency: boolean
   tokenAddress: string
-  type: TokenTransactionType
-  reason?: string
-  firebasePendingRequestUid?: string | null
 }
 
 type RouteProps = StackScreenProps<StackParamList, Screens.SendAmount>
@@ -60,7 +57,11 @@ type Props = RouteProps
 
 const { decimalSeparator } = getNumberFormatSettings()
 
-function useInputAmounts(inputAmount: string, usingLocalAmount: boolean, tokenAddress: string) {
+export function useInputAmounts(
+  inputAmount: string,
+  usingLocalAmount: boolean,
+  tokenAddress: string
+) {
   const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
   const localToToken = useLocalToTokenAmount(parsedAmount, tokenAddress)!
   const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenAddress)!
@@ -124,6 +125,7 @@ function SendAmount(props: Props) {
     localAmount,
     tokenAmount,
     usdAmount,
+    inputIsInLocalCurrency: usingLocalAmount,
     transferTokenAddress,
     origin,
     isFromScan: !!props.route.params?.isFromScan,
