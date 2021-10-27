@@ -568,16 +568,29 @@ interface SendEventsProperties {
   }
   [SendEvents.send_cancel]: undefined
   [SendEvents.send_amount_back]: undefined
-  [SendEvents.send_amount_continue]: {
-    origin: SendOrigin
-    isScan: boolean
-    isInvite: boolean
-    localCurrencyExchangeRate?: string | null
-    localCurrency: LocalCurrencyCode
-    localCurrencyAmount: string | null
-    underlyingCurrency: Currency
-    underlyingAmount: string | null
-  }
+  [SendEvents.send_amount_continue]:
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingCurrency: Currency
+        underlyingAmount: string | null
+      }
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingTokenAddress: string
+        underlyingTokenSymbol: string
+        underlyingAmount: string | null
+        amountInUsd: string | null
+      }
   [SendEvents.send_confirm_back]: undefined
   [SendEvents.send_confirm_send]: {
     origin: SendOrigin
@@ -629,7 +642,7 @@ interface SendEventsProperties {
   }
   [SendEvents.token_selected]: {
     origin: TokenPickerOrigin
-    token: string
+    tokenAddress: string
   }
   [SendEvents.check_account_alert_shown]: undefined
   [SendEvents.check_account_do_not_ask_selected]: undefined
@@ -645,26 +658,52 @@ interface RequestEventsProperties {
     // TODO: decide what recipient info to collect, now that RecipientKind doesn't exist
     usedSearchBar: boolean
   }
-  [RequestEvents.request_amount_continue]: {
-    origin: SendOrigin
-    isScan: boolean
-    isInvite: boolean
-    localCurrencyExchangeRate?: string | null
-    localCurrency: LocalCurrencyCode
-    localCurrencyAmount: string | null
-    underlyingCurrency: Currency
-    underlyingAmount: string | null
-  }
-  [RequestEvents.request_unavailable]: {
-    origin: SendOrigin
-    isScan: boolean
-    isInvite: boolean
-    localCurrencyExchangeRate?: string | null
-    localCurrency: LocalCurrencyCode
-    localCurrencyAmount: string | null
-    underlyingCurrency: Currency
-    underlyingAmount: string | null
-  }
+  [RequestEvents.request_amount_continue]:
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingCurrency: Currency
+        underlyingAmount: string | null
+      }
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingTokenAddress: string
+        underlyingTokenSymbol: string
+        underlyingAmount: string | null
+        amountInUsd: string | null
+      }
+  [RequestEvents.request_unavailable]:
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingCurrency: Currency
+        underlyingAmount: string | null
+      }
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingTokenAddress: string
+        underlyingTokenSymbol: string
+        underlyingAmount: string | null
+        amountInUsd: string | null
+      }
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {
     requesteeAddress: string
