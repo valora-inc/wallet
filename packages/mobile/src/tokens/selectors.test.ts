@@ -38,7 +38,6 @@ describe(tokensByAddressSelector, () => {
     it('returns the right tokens', () => {
       const tokensByAddress = tokensByAddressSelector(state)
       expect(Object.keys(tokensByAddress).length).toEqual(3)
-
       expect(tokensByAddress['0xusd']?.symbol).toEqual('cUSD')
       expect(tokensByAddress['0xeur']?.symbol).toEqual('cEUR')
     })
