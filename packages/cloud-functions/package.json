@@ -14,7 +14,8 @@
     "clean": "tsc -b . --clean",
     "build": "tsc -b .",
     "lint": "eslint --ext=.tsx,.ts src/",
-    "test": "jest"
+    "test": "jest",
+    "local": "tsc -b . && node dist/local.js"
   },
   "dependencies": {
     "@celo/contractkit": "1.2.2-beta",

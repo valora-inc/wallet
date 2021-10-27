@@ -55,10 +55,10 @@ export const DB_DATA = {
 }
 
 export const BLOCKCHAIN_API_DB_DATA = {
-  host: config.blockchain_api?.db?.host,
-  database: config.blockchain_api?.db?.database,
-  user: config.blockchain_api?.db?.user,
-  password: config.blockchain_api?.db?.password,
+  host: config.blockchain_api?.db?.host ?? 'locahost',
+  database: config.blockchain_api?.db?.database ?? 'blockchain-api',
+  user: config.blockchain_api?.db?.user ?? 'postgres',
+  password: config.blockchain_api?.db?.password ?? 'pass',
 }
 
 export const BLOCKCHAIN_API_URL = config.blockchain_api?.url

@@ -13,6 +13,14 @@ export async function initDatabase(connectionArgs: DBConnectionArgs): Promise<Kn
     connection: connectionArgs,
   })
 
-  console.info('Database initialized successfully')
+  // Checking connection
+  try {
+    await knexDb.raw('select 1')
+    console.info('Database initialized successfully')
+  } catch (e) {
+    console.error(`Database couldn't be initialized successfully ${(e as Error)?.message}`)
+    throw e
+  }
+
   return knexDb
 }

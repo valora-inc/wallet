@@ -23,7 +23,9 @@ export default class PriceUpdater {
   }
 
   async refreshAllPrices(): Promise<PriceByAddress> {
+    console.log('Fetching prices')
     const prices = await this.manager.calculateUSDPrices()
+    console.log('Uploading prices')
     await this.updatePricesFromFirebaseTokens(prices)
     return prices
   }
@@ -48,21 +50,27 @@ export default class PriceUpdater {
       async ([key, token]: [string, any]) => {
         const address = token?.address?.toLowerCase()
         if (address && prices[address]) {
+          console.log('Uploading prices to firebase')
           await updateFirebase(`${FIREBASE_NODE_KEY}/${key}/usdPrice`, prices[address].toString())
           await updateFirebase(`${FIREBASE_NODE_KEY}/${key}/priceFetchedAt`, fetchTime)
-          db('historical_token_prices').insert({
-            token: address,
-            comparedToken: cUSDAddress,
-            price: prices[address].toNumber,
-            at: fetchTime,
-          })
+          console.log('Uploading prices to db')
+          db('historical_token_prices')
+            .insert({
+              token: address,
+              comparedToken: cUSDAddress,
+              price: prices[address].toString(),
+              at: fetchTime,
+            })
+            .catch((e) => {
+              console.error(`Prices couldn't be stored in DB: ${(e as Error)?.message}`)
+            })
         }
       }
     )
   }
 }
 
-async function updatePrices() {
+export async function updatePrices() {
   const updater = new PriceUpdater(new ExchangeRateManager([ubeswapLiquidityPool, moolaExchanges]))
   const prices = await updater.refreshAllPrices()
 

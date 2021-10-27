@@ -7,7 +7,7 @@ Before deploying you need to make sure the `yarn.lock` file is up to date. To do
 ## Running locally
 
 Since all these functions are expected to run as firebase cloud functions, we don't have a easy way to run them locally, but we can do some hack.
-Create a file `local.ts` on the root that is calling the function that you want to run locally and then you can run: `yarn build && node dist/local.js`.
+Create a file `local.ts` on the root that is calling the function that you want to run locally and then you can run: `yarn local`.
 You might need to download `.runtimeconfig.json`. To do so, you have to:
 
 ```bash
