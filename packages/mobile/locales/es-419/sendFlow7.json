@@ -32,6 +32,7 @@
   "inviteMoneyEscrow": "Invitaremos a este contacto y mantendremos seguros tus fondos hasta que confirme su cuenta.",
   "reviewPayment": "Revisar pago",
   "requestPayment": "Solicitar pago",
+  "max": "MAX",
   "continue": "Continuar",
   "edit": "Editar",
   "activity": "Actividad",
@@ -77,6 +78,7 @@
   "estimatedFee": "Tarifa estimada: ",
   "selectBalance": "Seleccionar saldo",
   "stableBalance": "Saldo en {{token}}",
+  "selectToken": "Selecciona la ficha",
   "verificationCta": {
     "header": "¿Quieres enviar saldo a un amigo?",
     "body": "Conecta tu número de teléfono y sincroniza tus contactos para enviar dinero rápidamente a tus amigos.",
