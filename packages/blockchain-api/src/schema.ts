@@ -224,6 +224,15 @@ export const typeDefs = gql`
     localAmount: LocalMoneyAmount
   }
 
+  enum TokenTransactionTypeV2 {
+    EXCHANGE
+    RECEIVED
+    SENT
+    ESCROW_SENT
+    ESCROW_RECEIVED
+    PAY_REQUEST
+  }
+
   type FeeV2 {
     type: FeeType!
     amount: TokenAmount!
@@ -237,7 +246,7 @@ export const typeDefs = gql`
   }
 
   interface TokenTransactionV2 {
-    type: TokenTransactionType!
+    type: TokenTransactionTypeV2!
     timestamp: Timestamp!
     block: String!
     transactionHash: String!
@@ -246,7 +255,7 @@ export const typeDefs = gql`
   }
 
   type TokenTransferV2 implements TokenTransactionV2 {
-    type: TokenTransactionType!
+    type: TokenTransactionTypeV2!
     timestamp: Timestamp!
     block: String!
     amount: TokenAmount!
@@ -259,7 +268,7 @@ export const typeDefs = gql`
   }
 
   type TokenExchangeV2 implements TokenTransactionV2 {
-    type: TokenTransactionType!
+    type: TokenTransactionTypeV2!
     timestamp: Timestamp!
     block: String!
     inAmount: TokenAmount!
