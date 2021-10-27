@@ -240,7 +240,7 @@ export function* handleSendPaymentData(
       Logger.warn(TAG, '@handleSendPaymentData no amount given in CELO withdrawal')
       return
     } else if (data.token === 'cUSD' || !data.token) {
-      navigate(Screens.SendAmount, {
+      navigate(Screens.SendAmountLegacy, {
         recipient,
         isFromScan,
         isOutgoingPaymentRequest,
