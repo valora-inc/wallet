@@ -4,6 +4,7 @@
   "dollarsSent": "Dólares enviados",
   "to": "Para",
   "send": "Enviar",
+  "withdrawToken": "Transferir {{token}}",
   "sendToken": "Enviar {{token}}",
   "payment": "Pago",
   "sendOrRequest": "Enviar o solicitar",
@@ -45,14 +46,14 @@
   "searchForSomeone": "Busca a alguien por su nombre, número de teléfono o dirección",
   "pending": "Pendiente",
   "sentPayment": "Pago enviado",
-  "sentEscrowPayment": "Pago de depósito enviado",
+  "sentEscrowPayment": "Pago de garantía enviado",
   "mobileNumber": "Número de teléfono",
   "sendToMobileNumber": "Enviar a número de teléfono",
   "requestFromMobileNumber": "Solicitar a número de teléfono",
   "sendToAddress": "Enviar a dirección",
   "walletAddress": "Dirección de billetera",
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
-  "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} Celo Dólares. Puedes descargar la app de {{appName}} y usar tus Celo Dólares con este link: {{link}}",
+  "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{currency}}. Puedes descargar la app de {{appName}} y canjear tus {{currency}} con este link: {{link}}",
   "inviteSent": "Código de invitación enviado",
   "inviteFailed": "Error al enviar la invitación",
   "loadingContacts": "Estamos encontrando tus contactos",
@@ -130,7 +131,7 @@
     "warningModalBody": "El cifrado garantiza que tus comentarios se mantengan privados. {{appName}} utiliza el cifrado en los comentarios de transacciones cuando el remitente y el receptor tienen esta función configurada. Normalmente, esta configuración se activa de forma automática cuando el usuario envía su primera transacción.",
     "feeLabel": "Tarifa de cifrado única",
     "feeModalHeader": "Tarifa de cifrado única",
-    "feeModalBody": "El cifrado ayuda a mantener la privacidad de tus datos confidenciales. Se agregará una pequeña tarifa a tu primera transacción únicamente para configurar el cifrado. Esto garantiza que tus comentarios se envíen de forma segura y privada. "
+    "feeModalBody": "El cifrado ayuda a mantener la privacidad de tus datos confidenciales. Se agregará una pequeña tarifa a tu primera transacción únicamente para configurar el cifrado. Esto garantiza que tus comentarios se envíen de forma segura y privada."
   },
   "sendToAddressWarning": {
     "title": "Enviar a una dirección",

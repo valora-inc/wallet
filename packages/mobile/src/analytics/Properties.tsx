@@ -396,6 +396,9 @@ interface VerificationEventsProperties {
     issuer: any
     neededRetry: boolean
     feeless?: boolean
+    account?: string
+    phoneNumberType?: string
+    credentials?: string
   }
   [VerificationEvents.verification_reveal_attestation_await_code_start]: {
     issuer: any
@@ -566,28 +569,54 @@ interface SendEventsProperties {
   }
   [SendEvents.send_cancel]: undefined
   [SendEvents.send_amount_back]: undefined
-  [SendEvents.send_amount_continue]: {
-    origin: SendOrigin
-    isScan: boolean
-    isInvite: boolean
-    localCurrencyExchangeRate?: string | null
-    localCurrency: LocalCurrencyCode
-    localCurrencyAmount: string | null
-    underlyingCurrency: Currency
-    underlyingAmount: string | null
-  }
+  [SendEvents.send_amount_continue]:
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingCurrency: Currency
+        underlyingAmount: string | null
+      }
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingTokenAddress: string
+        underlyingTokenSymbol: string
+        underlyingAmount: string | null
+        amountInUsd: string | null
+      }
   [SendEvents.send_confirm_back]: undefined
-  [SendEvents.send_confirm_send]: {
-    origin: SendOrigin
-    isScan: boolean
-    isInvite: boolean
-    isRequest: boolean
-    localCurrencyExchangeRate?: string | null
-    localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
-    localCurrencyAmount: string | null
-    commentLength: number
-  }
+  [SendEvents.send_confirm_send]:
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        isRequest: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        dollarAmount: string | null
+        localCurrencyAmount: string | null
+        commentLength: number
+      }
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrency: LocalCurrencyCode
+        usdAmount: string
+        localCurrencyAmount: string
+        tokenAmount: string
+        tokenSymbol: string
+        tokenAddress: string
+        commentLength: number
+      }
 
   [SendEvents.send_secure_start]: {
     confirmByScan: boolean
@@ -627,7 +656,7 @@ interface SendEventsProperties {
   }
   [SendEvents.token_selected]: {
     origin: TokenPickerOrigin
-    token: string
+    tokenAddress: string
   }
   [SendEvents.check_account_alert_shown]: undefined
   [SendEvents.check_account_do_not_ask_selected]: undefined
@@ -643,26 +672,52 @@ interface RequestEventsProperties {
     // TODO: decide what recipient info to collect, now that RecipientKind doesn't exist
     usedSearchBar: boolean
   }
-  [RequestEvents.request_amount_continue]: {
-    origin: SendOrigin
-    isScan: boolean
-    isInvite: boolean
-    localCurrencyExchangeRate?: string | null
-    localCurrency: LocalCurrencyCode
-    localCurrencyAmount: string | null
-    underlyingCurrency: Currency
-    underlyingAmount: string | null
-  }
-  [RequestEvents.request_unavailable]: {
-    origin: SendOrigin
-    isScan: boolean
-    isInvite: boolean
-    localCurrencyExchangeRate?: string | null
-    localCurrency: LocalCurrencyCode
-    localCurrencyAmount: string | null
-    underlyingCurrency: Currency
-    underlyingAmount: string | null
-  }
+  [RequestEvents.request_amount_continue]:
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingCurrency: Currency
+        underlyingAmount: string | null
+      }
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingTokenAddress: string
+        underlyingTokenSymbol: string
+        underlyingAmount: string | null
+        amountInUsd: string | null
+      }
+  [RequestEvents.request_unavailable]:
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingCurrency: Currency
+        underlyingAmount: string | null
+      }
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingTokenAddress: string
+        underlyingTokenSymbol: string
+        underlyingAmount: string | null
+        amountInUsd: string | null
+      }
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {
     requesteeAddress: string
@@ -979,6 +1034,10 @@ type WalletConnectRequestDefaultProperties = WalletConnectDefaultProperties & {
   // requestParams: any
 }
 
+type WalletConnectRequestDenyProperties = WalletConnectRequestDefaultProperties & {
+  denyReason: string
+}
+
 interface WalletConnectProperties {
   [WalletConnectEvents.wc_pairing_start]: {
     origin: WalletConnectPairingOrigin
@@ -1012,9 +1071,9 @@ interface WalletConnectProperties {
   [WalletConnectEvents.wc_request_accept_error]: WalletConnectRequestDefaultProperties & {
     error: string
   }
-  [WalletConnectEvents.wc_request_deny_start]: WalletConnectRequestDefaultProperties
-  [WalletConnectEvents.wc_request_deny_success]: WalletConnectRequestDefaultProperties
-  [WalletConnectEvents.wc_request_deny_error]: WalletConnectRequestDefaultProperties & {
+  [WalletConnectEvents.wc_request_deny_start]: WalletConnectRequestDenyProperties
+  [WalletConnectEvents.wc_request_deny_success]: WalletConnectRequestDenyProperties
+  [WalletConnectEvents.wc_request_deny_error]: WalletConnectRequestDenyProperties & {
     error: string
   }
 }

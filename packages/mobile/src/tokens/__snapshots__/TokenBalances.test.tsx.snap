@@ -93,6 +93,10 @@ exports[`TokenBalancesScreen renders correctly with invite rewards disabled 1`] 
               "lineHeight": 24,
             }
           }
+<<<<<<< HEAD
+=======
+          testID="tokenBalance:POOF"
+>>>>>>> main
         >
           
           5.00
@@ -107,6 +111,10 @@ exports[`TokenBalancesScreen renders correctly with invite rewards disabled 1`] 
               "lineHeight": 18,
             }
           }
+<<<<<<< HEAD
+=======
+          testID="tokenLocalBalance:POOF"
+>>>>>>> main
         >
           
           $

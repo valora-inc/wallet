@@ -2,7 +2,6 @@ import Analytics, { Analytics as analytics } from '@segment/analytics-react-nati
 import Adjust from '@segment/analytics-react-native-adjust'
 import CleverTapSegment from '@segment/analytics-react-native-clevertap'
 import Firebase from '@segment/analytics-react-native-firebase'
-import CleverTap from 'clevertap-react-native'
 import { sha256 } from 'ethereumjs-util'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -84,8 +83,6 @@ class ValoraAnalytics {
       }
 
       Logger.info(TAG, 'Segment Analytics Integration initialized!')
-
-      CleverTap.enableDeviceNetworkInfoReporting(true)
     } catch (error) {
       Logger.error(TAG, `Segment setup error: ${error.message}\n`, error)
     }
@@ -223,4 +220,51 @@ class ValoraAnalytics {
   }
 }
 
-export default new ValoraAnalytics()
+let isInitialized = false
+type KeysOfType<T, TProp> = { [P in keyof T]: T[P] extends TProp ? P : never }[keyof T]
+type ValoraAnalyticsKeyFunction = KeysOfType<ValoraAnalytics, Function>
+// Type checked function keys to queue until `init` has finished
+const funcsToQueue = new Set<ValoraAnalyticsKeyFunction>([
+  'startSession',
+  'track',
+  'identify',
+  'page',
+])
+let queuedCalls: Function[] = []
+
+function isFuncToQueue(prop: string | number | symbol): prop is ValoraAnalyticsKeyFunction {
+  return funcsToQueue.has(prop as ValoraAnalyticsKeyFunction)
+}
+
+/**
+ * Use a proxy to queue specific calls until async `init` has finished
+ * So all events are sent with the right props to our initialized analytics integrations
+ */
+export default new Proxy(new ValoraAnalytics(), {
+  get: function (target, prop, receiver) {
+    if (!isInitialized) {
+      if (prop === 'init') {
+        return new Proxy(target[prop], {
+          apply: (target, thisArg, argumentsList) => {
+            return Reflect.apply(target, thisArg, argumentsList).finally(() => {
+              isInitialized = true
+              // Init finished, we can now process queued calls
+              for (const fn of queuedCalls) {
+                fn()
+              }
+              queuedCalls = []
+            })
+          },
+        })
+      } else if (isFuncToQueue(prop)) {
+        return new Proxy(target[prop], {
+          apply: (target, thisArg, argumentsList) => {
+            queuedCalls.push(() => Reflect.apply(target, thisArg, argumentsList))
+            Logger.debug(TAG, `Queued call to ${prop}`, ...argumentsList)
+          },
+        })
+      }
+    }
+    return Reflect.get(target, prop, receiver)
+  },
+})

@@ -43,7 +43,7 @@
   "soldGold": "Sold CELO",
   "exchangeRateInfo": "CELO prices are approximate",
   "rateInfoTitle": "CELO prices are approximate",
-  "rateInfoBody": "Your amount could change depending on market conditions. Your final amount will be no more than 1% different than the estimate shown.",
+  "rateInfoBody": "Your amount could change depending on market conditions. Your final amount will be no more than 1% different from the estimate shown.",
   "accountAddressLabel": "Account Address",
   "celoAmountLabel": "Amount (CELO)",
   "maxSymbol": "Max",

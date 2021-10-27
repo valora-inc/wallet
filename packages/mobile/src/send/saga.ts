@@ -40,7 +40,7 @@ import { estimateGas } from 'src/web3/utils'
 const TAG = 'send/saga'
 
 // All observed cUSD and CELO transfers take less than 200000 gas.
-const STATIC_SEND_TOKEN_GAS_ESTIMATE = 200000
+export const STATIC_SEND_TOKEN_GAS_ESTIMATE = 200000
 
 export async function getSendTxGas(
   account: string,

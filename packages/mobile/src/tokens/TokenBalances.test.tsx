@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { amountFromComponent, createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockTokenBalances } from 'test/values'
 
 const defaultStore = {
@@ -25,6 +25,7 @@ describe('TokenBalancesScreen', () => {
     )
 
     expect(tree).toMatchSnapshot()
-    expect(tree.queryByTestId('InviteRewardsBanner')).toBeFalsy()
+    expect(amountFromComponent(tree.getByTestId('tokenBalance:POOF'))).toBe('5.00 POOF')
+    expect(amountFromComponent(tree.getByTestId('tokenLocalBalance:POOF'))).toBe('$0.67')
   })
 })

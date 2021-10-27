@@ -125,6 +125,7 @@ export default function PhoneNumberInput({
           onFocus={requestPhoneNumberIfNecessary}
           onChangeText={onChangePhoneNumber}
           editable={editable}
+          showClearButton={false}
         />
       </View>
     </FormField>

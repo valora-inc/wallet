@@ -9,6 +9,7 @@ export default Support = () => {
   })
 
   if (device.getPlatform() === 'ios') {
+    jest.retryTimes(2)
     it("Display 'Contact' on Shake", async () => {
       await device.shake()
       await waitFor(element(by.id('HavingTrouble')))
@@ -32,6 +33,7 @@ export default Support = () => {
     })
   }
 
+  jest.retryTimes(2)
   it('Send Message to Support', async () => {
     await waitFor(element(by.id('Hamburger')))
       .toBeVisible()
@@ -40,15 +42,15 @@ export default Support = () => {
     await scrollIntoView('Help', 'SettingsScrollView')
     await waitFor(element(by.id('Help')))
       .toExist()
-      .withTimeout(5000)
+      .withTimeout(10000)
     await element(by.id('Help')).tap()
     await waitFor(element(by.id('SupportContactLink')))
-      .toExist()
-      .withTimeout(5000)
+      .toBeVisible()
+      .withTimeout(10000)
     await element(by.id('SupportContactLink')).tap()
     await waitFor(element(by.id('MessageEntry')))
       .toBeVisible()
-      .withTimeout(5000)
+      .withTimeout(10000)
     await element(by.id('MessageEntry')).tap()
     await element(by.id('MessageEntry')).typeText('This is a test from Valora')
     await expect(element(by.id('MessageEntry'))).toHaveText('This is a test from Valora')

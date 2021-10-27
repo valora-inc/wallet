@@ -10,7 +10,7 @@ import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import LineItemRow from 'src/components/LineItemRow'
 import { Namespaces } from 'src/i18n'
 import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
-import { CurrencyInfo } from 'src/send/SendConfirmation'
+import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { Currency } from 'src/utils/currencies'
 
 interface Props {

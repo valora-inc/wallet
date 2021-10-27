@@ -17,7 +17,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, getDisplayName } from 'src/recipients/recipient'
 import { Actions as SendActions } from 'src/send/actions'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/SendAmountLegacy'
 import {
   Actions as TransactionActions,
   NewTransactionsInFeedAction,
@@ -61,7 +61,7 @@ function* bidaliPaymentRequest({
     reason: `${description} (${chargeId})`,
     type: TokenTransactionType.PayPrefill,
   }
-  navigate(Screens.SendConfirmationModal, {
+  navigate(Screens.SendConfirmationLegacyModal, {
     transactionData,
     origin: SendOrigin.Bidali,
   })

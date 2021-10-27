@@ -163,13 +163,6 @@ export function* initializeCloudMessaging(app: ReactNativeFirebase.Module, addre
     const language = yield select(currentLanguageSelector)
     yield call(setUserLanguage, address, language)
   }
-  if (Platform.OS === 'ios') {
-    const apnsToken = yield call([firebase.messaging(), 'getAPNSToken'])
-    if (apnsToken) {
-      // Note: 2nd argument (type) is ignored on iOS, so we just pass an empty string
-      CleverTap.setPushToken(apnsToken, '')
-    }
-  }
 
   CleverTap.createNotificationChannel('CleverTapChannelId', 'CleverTap', 'default channel', 5, true)
 
@@ -275,7 +268,8 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       inviteRewardsEnabled: flags.inviteRewardsEnabled.asBoolean(),
       inviteRewardCusd: flags.inviteRewardCusd.asNumber(),
       inviteRewardWeeklyLimit: flags.inviteRewardWeeklyLimit.asNumber(),
-      walletConnectEnabled: flags.walletConnectEnabled.asBoolean(),
+      walletConnectV1Enabled: flags.walletConnectV1Enabled.asBoolean(),
+      walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
       rewardsABTestThreshold: flags.rewardsABTestThreshold.asString(),
       rewardsPercent: flags.rewardsPercent.asNumber(),
       rewardsStartDate: flags.rewardsStartDate.asNumber(),
@@ -286,6 +280,7 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
       rewardPillText: flags.rewardPillText.asString(),
       cashInButtonExpEnabled: flags.cashInButtonExpEnabled.asBoolean(),
+      logPhoneNumberTypeEnabled: flags.logPhoneNumberTypeEnabled.asBoolean(),
     }
   } else {
     Logger.debug('No new configs were fetched from the backend.')

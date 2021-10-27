@@ -2,7 +2,7 @@
   "getVerified": "Conectar número de teléfono",
   "notReadyForCode": "Aún no estoy listo para ingresar el código",
   "emptyVerificationCode": "No encontramos el código en el portapapeles",
-  "invalidVerificationCode": "Código de confirmación inválido",
+  "invalidVerificationCode": "Código de conexión inválido",
   "repeatVerificationCode": "Código de conexión repetido",
   "revealAttestationFailure": "Error al solicitar mensaje SMS",
   "verificationFailure": "Error de conexión",

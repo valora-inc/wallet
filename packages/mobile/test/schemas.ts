@@ -7,6 +7,7 @@ import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
+import { mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -567,6 +568,7 @@ export const v9Schema = {
     rewardsStartDate: 1622505600000,
     rewardsMax: 1000,
     ranVerificationMigrationAt: null,
+    logPhoneNumberTypeEnabled: false,
   },
   walletConnect: {
     pairings: [],
@@ -739,6 +741,8 @@ export const v18Schema = {
   app: {
     ...v17Schema.app,
     cashInButtonExpEnabled: false,
+    walletConnectV1Enabled: false,
+    walletConnectV2Enabled: false,
   },
   walletConnect: {
     v1: {
@@ -750,6 +754,46 @@ export const v18Schema = {
   },
 }
 
+export const v19Schema = {
+  ...v18Schema,
+  _persist: {
+    ...v18Schema._persist,
+    version: 19,
+  },
+  tokens: {
+    tokenBalances: {
+      [mockCusdAddress]: {
+        name: 'Celo Dollars',
+        address: mockCusdAddress,
+        symbol: 'cUSD',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '1',
+        balance: '10',
+      },
+      [mockCeurAddress]: {
+        name: 'Celo Euros',
+        address: mockCeurAddress,
+        symbol: 'cEUR',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '1.2',
+        balance: '20',
+      },
+      [mockCeloAddress]: {
+        name: 'Celo',
+        address: mockCeloAddress,
+        symbol: 'CELO',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '5',
+        balance: '0',
+      },
+    },
+    totalBalance: '40',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v18Schema as Partial<RootState>
+  return v19Schema as Partial<RootState>
 }
