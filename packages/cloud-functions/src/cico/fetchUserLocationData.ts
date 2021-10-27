@@ -135,7 +135,7 @@ const schema: JSONSchemaType<IpAddressData> = {
 }
 
 const ajv = new Ajv()
-const validIpApiResponse = ajv.compile(schema)
+const validIpAddressData = ajv.compile(schema)
 
 export const fetchUserLocationData = functions.https.onRequest(async (req, res) => {
   const ipAddress =
@@ -162,10 +162,10 @@ export const fetchUserLocationData = functions.https.onRequest(async (req, res) 
     return
   }
 
-  if (!validIpApiResponse(response)) {
+  if (!validIpAddressData(response)) {
     res
       .status(500)
-      .send({ error: 'Fetch to IP location service API returned an expected response' })
+      .send({ error: 'Fetch to IP location service API returned an unexpected response' })
     return
   }
 
