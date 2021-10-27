@@ -1,91 +1,86 @@
-import Touchable from '@celo/react-components/components/Touchable'
-import DownArrowIcon from '@celo/react-components/icons/DownArrowIcon'
-import colors from '@celo/react-components/styles/colors'
 import React, { useMemo, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
-import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import i18n from 'src/i18n'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
-import { HeaderTitleWithBalance, styles as headerStyles } from 'src/navigator/Headers'
+import { HeaderTitleWithTokenBalance, styles as headerStyles } from 'src/navigator/Headers'
 import useSelector from 'src/redux/useSelector'
-import { balancesSelector } from 'src/stableToken/selectors'
-import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
+import TokenPickerSelector from 'src/send/SendAmount/TokenPickerSelector'
+import { useTokenInfo } from 'src/tokens/hooks'
+import { tokensWithBalanceSelector } from 'src/tokens/selectors'
 
 interface Props {
-  currency: Currency
+  tokenAddress: string
   isOutgoingPaymentRequest: boolean
-  onChangeCurrency: (currency: Currency) => void
+  onChangeToken: (token: string) => void
   disallowCurrencyChange: boolean
 }
 
 function SendAmountHeader({
-  currency,
+  tokenAddress,
   isOutgoingPaymentRequest,
-  onChangeCurrency,
+  onChangeToken,
   disallowCurrencyChange,
 }: Props) {
   const [showingCurrencyPicker, setShowCurrencyPicker] = useState(false)
-  const balances = useSelector(balancesSelector)
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const tokensWithBalance = useSelector(tokensWithBalanceSelector)
+  const tokenInfo = useTokenInfo(tokenAddress)
 
-  const onCurrencySelected = (currency: Currency) => {
+  const onTokenSelected = (token: string) => {
     setShowCurrencyPicker(false)
-    onChangeCurrency(currency)
+    onChangeToken(token)
   }
 
+  const openCurrencyPicker = () => setShowCurrencyPicker(true)
   const closeCurrencyPicker = () => setShowCurrencyPicker(false)
 
   const backButtonEventName = isOutgoingPaymentRequest
     ? RequestEvents.request_amount_back
     : SendEvents.send_amount_back
 
-  const title = useMemo(() => {
-    const currenciesWithBalance = STABLE_CURRENCIES.filter(
-      (currency) =>
-        balances[currency]?.gt(STABLE_TRANSACTION_MIN_AMOUNT) && exchangeRates[currency] !== null
-    ).length
+  const canChangeToken =
+    tokensWithBalance.length >= 2 && !isOutgoingPaymentRequest && !disallowCurrencyChange
 
+  const title = useMemo(() => {
     let titleText
     let title
-    if (currenciesWithBalance < 2 || isOutgoingPaymentRequest) {
+    if (!canChangeToken) {
       titleText = isOutgoingPaymentRequest
         ? i18n.t('paymentRequestFlow:request')
-        : i18n.t('sendFlow7:send')
+        : i18n.t('sendFlow7:sendToken', { token: tokenInfo?.symbol })
       title = titleText
     } else {
-      titleText = i18n.t('sendFlow7:sendToken', { token: currency })
+      titleText = i18n.t('sendFlow7:send')
       title = (
         <View style={styles.titleContainer} testID="HeaderCurrencyPicker">
           <Text style={headerStyles.headerTitle}>{titleText}</Text>
-          {!disallowCurrencyChange ? <DownArrowIcon color={colors.dark} /> : null}
         </View>
       )
     }
-    return (
-      <Touchable
-        disabled={currenciesWithBalance < 2 || disallowCurrencyChange}
-        onPress={() => setShowCurrencyPicker(true)}
-      >
-        {isOutgoingPaymentRequest ? (
-          <Text style={headerStyles.headerTitle}>{titleText}</Text>
-        ) : (
-          <HeaderTitleWithBalance title={title} token={currency} />
-        )}
-      </Touchable>
+    return isOutgoingPaymentRequest ? (
+      <Text style={headerStyles.headerTitle}>{titleText}</Text>
+    ) : (
+      <HeaderTitleWithTokenBalance title={title} token={tokenInfo!.address} />
     )
-  }, [isOutgoingPaymentRequest, currency])
+  }, [isOutgoingPaymentRequest, tokenInfo])
 
   return (
     <>
-      <CustomHeader left={<BackButton eventName={backButtonEventName} />} title={title} />
+      <CustomHeader
+        left={<BackButton eventName={backButtonEventName} />}
+        title={title}
+        right={
+          canChangeToken && (
+            <TokenPickerSelector tokenAddress={tokenAddress} onChangeToken={openCurrencyPicker} />
+          )
+        }
+      />
       <TokenBottomSheet
         isVisible={showingCurrencyPicker}
         origin={TokenPickerOrigin.Send}
-        onCurrencySelected={onCurrencySelected}
+        onTokenSelected={onTokenSelected}
         onClose={closeCurrencyPicker}
       />
     </>

@@ -24,6 +24,14 @@ type NestedNavigatorParams<ParamList> = {
     : { screen: K; params: ParamList[K] }
 }[keyof ParamList]
 
+interface SendConfirmationLegacyParams {
+  origin: SendOrigin
+  transactionData: TransactionDataInputLegacy
+  addressJustValidated?: boolean
+  isFromScan?: boolean
+  currencyInfo?: CurrencyInfo
+}
+
 interface SendConfirmationParams {
   origin: SendOrigin
   transactionData: TransactionDataInput
@@ -219,6 +227,13 @@ export type StackParamList = {
     isOutgoingPaymentRequest?: boolean
     isFromScan?: boolean
     origin: SendOrigin
+    forceTokenAddress?: string
+  }
+  [Screens.SendAmountLegacy]: {
+    recipient: Recipient
+    isOutgoingPaymentRequest?: boolean
+    isFromScan?: boolean
+    origin: SendOrigin
     forceCurrency?: Currency
   }
   [Screens.SendAmountLegacy]: {
@@ -251,14 +266,14 @@ export type StackParamList = {
   }
   [Screens.UpgradeScreen]: undefined
   [Screens.ValidateRecipientIntro]: {
-    transactionData: TransactionDataInputLegacy
+    transactionData: TransactionDataInputLegacy | TransactionDataInput
     addressValidationType: AddressValidationType
     isOutgoingPaymentRequest?: true
     requesterAddress?: string
     origin: SendOrigin
   }
   [Screens.ValidateRecipientAccount]: {
-    transactionData: TransactionDataInputLegacy
+    transactionData: TransactionDataInputLegacy | TransactionDataInput
     addressValidationType: AddressValidationType
     isOutgoingPaymentRequest?: true
     requesterAddress?: string
@@ -315,7 +330,7 @@ export type QRTabParamList = {
   [Screens.QRScanner]:
     | {
         scanIsForSecureSend?: true
-        transactionData?: TransactionDataInputLegacy
+        transactionData?: TransactionDataInputLegacy | TransactionDataInput
         isOutgoingPaymentRequest?: boolean
         requesterAddress?: string
       }
