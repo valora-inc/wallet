@@ -153,7 +153,7 @@ describe('send/utils', () => {
         await expectSaga(handleSendPaymentData, mockUriData[3])
           .provide([[matchers.call.fn(fetchExchangeRate), mockUriData[3].currencyCode]])
           .run()
-        expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+        expect(navigate).toHaveBeenCalledWith(Screens.SendAmountLegacy, {
           origin: SendOrigin.AppSendFlow,
           recipient: mockQRCodeRecipient,
           isOutgoingPaymentRequest: undefined,

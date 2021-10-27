@@ -30,6 +30,7 @@ export enum Colors {
 
   greenBackground = '#DEF8EA',
   greenStrong = '#08CB7A',
+  lightGreen = '#E6F7EC',
 }
 
 export default Colors
