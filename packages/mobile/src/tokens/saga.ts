@@ -328,6 +328,17 @@ export function* calculateTotalTokenBalance() {
   yield put(setTotalTokenBalance(totalBalance.toFixed(2).toString()))
 }
 
+export function* tokenAmountInWei(amount: BigNumber, tokenAddress: string) {
+  const tokens: TokenBalance[] = yield select(tokensListSelector)
+  const tokenInfo = tokens.find((token) => token.address === tokenAddress)
+  if (!tokenInfo) {
+    throw Error(`Couldnt find token info for address ${tokenAddress}.`)
+  }
+
+  const decimalFactor = new BigNumber(10).pow(tokenInfo.decimals)
+  return amount.multipliedBy(decimalFactor).toFixed(0)
+}
+
 export function* tokensSaga() {
   yield takeLatest(setTokenBalances.type, calculateTotalTokenBalance)
   yield spawn(importTokenInfo)

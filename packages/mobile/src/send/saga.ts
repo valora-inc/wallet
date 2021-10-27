@@ -1,3 +1,6 @@
+import { CeloTransactionObject, Contract, toTransactionObject } from '@celo/connect'
+import { ContractKit } from '@celo/contractkit'
+import { CeloTokenWrapper } from '@celo/contractkit/lib/wrappers/CeloTokenWrapper'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeLeading } from 'redux-saga/effects'
 import { giveProfileAccess } from 'src/account/profileInfo'
@@ -19,23 +22,32 @@ import {
   Actions,
   HandleBarcodeDetectedAction,
   SendPaymentOrInviteAction,
+  SendPaymentOrInviteActionLegacy,
   sendPaymentOrInviteFailure,
   sendPaymentOrInviteSuccess,
   ShareQRCodeAction,
 } from 'src/send/actions'
 import { transferStableToken } from 'src/stableToken/actions'
+import { TokenBalance } from 'src/tokens/reducer'
 import {
   BasicTokenTransfer,
   createTokenTransferTransaction,
   getCurrencyAddress,
+  getERC20TokenContract,
+  getTokenContractFromAddress,
+  tokenAmountInWei,
 } from 'src/tokens/saga'
+import { tokensByCurrencySelector } from 'src/tokens/selectors'
+import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { newTransactionContext } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { getContractKit } from 'src/web3/contracts'
 import { getRegisterDekTxGas } from 'src/web3/dataEncryptionKey'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
+import * as utf8 from 'utf8'
 
 const TAG = 'send/saga'
 
@@ -138,7 +150,7 @@ export function* watchQrCodeShare() {
   }
 }
 
-function* sendPayment(
+function* sendPaymentLegacy(
   recipientAddress: string,
   amount: BigNumber,
   comment: string,
@@ -188,17 +200,125 @@ function* sendPayment(
       txId: context.id,
       recipientAddress,
       amount: amount.toString(),
-      currency,
+      tokenAddress: currency,
+      usdAmount: '',
     })
     yield call(giveProfileAccess, recipientAddress)
   } catch (error) {
-    Logger.error(`${TAG}/sendPayment`, 'Could not send payment', error)
+    Logger.error(`${TAG}/sendPaymentLegacy`, 'Could not send payment', error.message)
     ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })
     throw error
   }
 }
 
-export function* sendPaymentOrInviteSaga({
+function* buildSendTx(
+  tokenAddress: string,
+  amount: BigNumber,
+  recipientAddress: string,
+  comment: string
+) {
+  const contract: Contract = yield call(getERC20TokenContract, tokenAddress)
+  const coreContract: CeloTokenWrapper<any> | undefined = yield call(
+    getTokenContractFromAddress,
+    tokenAddress
+  )
+
+  const convertedAmount: string = yield call(tokenAmountInWei, amount, tokenAddress)
+
+  const kit: ContractKit = yield call(getContractKit)
+  return coreContract
+    ? coreContract.transferWithComment(recipientAddress, convertedAmount, utf8.encode(comment))
+    : toTransactionObject(
+        kit.connection,
+        contract.methods.transfer(recipientAddress, convertedAmount)
+      )
+}
+
+function* sendPayment(
+  recipientAddress: string,
+  amount: BigNumber,
+  amountInLocalCurrency: BigNumber,
+  usdAmount: BigNumber,
+  tokenAddress: string,
+  comment: string,
+  feeInfo?: FeeInfo
+) {
+  const context = newTransactionContext(TAG, 'Send payment')
+
+  try {
+    ValoraAnalytics.track(SendEvents.send_tx_start)
+
+    const userAddress: string = yield call(getConnectedUnlockedAccount)
+
+    const encryptedComment: string = yield call(
+      encryptComment,
+      comment,
+      recipientAddress,
+      userAddress,
+      true
+    )
+
+    Logger.debug(
+      TAG,
+      'Transferring token',
+      context.description ?? 'No description',
+      context.id,
+      tokenAddress,
+      amount,
+      feeInfo ? JSON.stringify(feeInfo) : 'undefined'
+    )
+
+    // TODO: Add temporary tx to feed.
+    // yield put(
+    //   addStandbyTransaction({
+    //     context,
+    //     type: TokenTransactionType.Sent,
+    //     comment,
+    //     status: TransactionStatus.Pending,
+    //     value: amount.toString(),
+    //     tokenAddress,
+    //     timestamp: Math.floor(Date.now() / 1000),
+    //     address: recipientAddress,
+    //   })
+    // )
+
+    const tx: CeloTransactionObject<boolean> = yield call(
+      buildSendTx,
+      tokenAddress,
+      amount,
+      recipientAddress,
+      encryptedComment
+    )
+
+    yield call(
+      sendAndMonitorTransaction,
+      tx,
+      userAddress,
+      context,
+      undefined,
+      feeInfo?.currency,
+      feeInfo?.gas?.toNumber(),
+      feeInfo?.gasPrice
+    )
+
+    ValoraAnalytics.track(SendEvents.send_tx_complete, {
+      txId: context.id,
+      recipientAddress,
+      amount: amount.toString(),
+      usdAmount: usdAmount.toString(),
+      tokenAddress,
+    })
+    yield call(giveProfileAccess, recipientAddress)
+  } catch (error) {
+    Logger.error(`${TAG}/sendPayment`, 'Could not make token transfer', error.message)
+    ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })
+    yield put(showErrorOrFallback(error, ErrorMessages.TRANSACTION_FAILED))
+    // TODO: Uncomment this when the transaction feed supports multiple tokens.
+    // yield put(removeStandbyTransaction(context.id))
+  }
+}
+
+export function* sendPaymentOrInviteSagaLegacy({
   amount,
   currency,
   comment,
@@ -207,18 +327,72 @@ export function* sendPaymentOrInviteSaga({
   feeInfo,
   firebasePendingRequestUid,
   fromModal,
-}: SendPaymentOrInviteAction) {
+}: SendPaymentOrInviteActionLegacy) {
   try {
     yield call(getConnectedUnlockedAccount)
 
+    const tokenByCurrency: Record<Currency, TokenBalance | undefined> = yield select(
+      tokensByCurrencySelector
+    )
+    const tokenAddress = tokenByCurrency[currency]?.address
+    if (!tokenAddress) {
+      throw new Error(`No token info found for ${currency}`)
+    }
+
     if (recipientAddress) {
-      yield call(sendPayment, recipientAddress, amount, comment, currency, feeInfo)
+      yield call(sendPaymentLegacy, recipientAddress, amount, comment, currency, feeInfo)
     } else if (recipientHasNumber(recipient)) {
-      yield call(sendInvite, recipient.e164PhoneNumber, amount, currency, feeInfo)
+      yield call(sendInvite, recipient.e164PhoneNumber, amount, tokenAddress, feeInfo)
     }
 
     if (firebasePendingRequestUid) {
       yield put(completePaymentRequest(firebasePendingRequestUid))
+    }
+
+    if (fromModal) {
+      navigateBack()
+    } else {
+      navigateHome()
+    }
+
+    yield put(sendPaymentOrInviteSuccess(amount))
+  } catch (e) {
+    yield put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))
+    yield put(sendPaymentOrInviteFailure())
+  }
+}
+
+export function* watchSendPaymentOrInviteLegacy() {
+  yield takeLeading(Actions.SEND_PAYMENT_OR_INVITE_LEGACY, sendPaymentOrInviteSagaLegacy)
+}
+
+export function* sendPaymentOrInviteSaga({
+  amount,
+  tokenAddress,
+  amountInLocalCurrency,
+  usdAmount,
+  comment,
+  recipient,
+  feeInfo,
+  fromModal,
+}: SendPaymentOrInviteAction) {
+  try {
+    yield call(getConnectedUnlockedAccount)
+    if (recipient.address) {
+      yield call(
+        sendPayment,
+        recipient.address,
+        amount,
+        amountInLocalCurrency,
+        usdAmount,
+        tokenAddress,
+        comment,
+        feeInfo
+      )
+    } else if (recipientHasNumber(recipient)) {
+      yield call(sendInvite, recipient.e164PhoneNumber, amount, tokenAddress, feeInfo)
+    } else {
+      throw new Error('')
     }
 
     if (fromModal) {
@@ -242,4 +416,5 @@ export function* sendSaga() {
   yield spawn(watchQrCodeDetections)
   yield spawn(watchQrCodeShare)
   yield spawn(watchSendPaymentOrInvite)
+  yield spawn(watchSendPaymentOrInviteLegacy)
 }

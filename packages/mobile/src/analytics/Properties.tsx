@@ -517,16 +517,16 @@ interface InviteEventsProperties {
     error: string
   }
   [InviteEvents.invite_start]: {
-    escrowIncluded: boolean
-    amount: string | undefined
+    amount: string
+    tokenAddress: string
   }
   [InviteEvents.invite_complete]: {
-    escrowIncluded: boolean
-    amount: string | undefined
+    amount: string
+    tokenAddress: string
   }
   [InviteEvents.invite_error]: {
-    escrowIncluded: boolean
-    amount: string | undefined
+    amount: string
+    tokenAddress: string
     error: string
   }
   [InviteEvents.invite_method_sms]: undefined
@@ -648,7 +648,8 @@ interface SendEventsProperties {
     txId: string
     recipientAddress: string
     amount: string
-    currency: string
+    usdAmount: string | undefined
+    tokenAddress: string
   }
   [SendEvents.send_tx_error]: {
     error: string
