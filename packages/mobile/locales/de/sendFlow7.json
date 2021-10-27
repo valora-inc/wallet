@@ -32,6 +32,7 @@
   "inviteMoneyEscrow": "Wir werden diesen Kontakt einladen und ihr Guthaben sicher halten, bis sie ihr Konto bestätigen.",
   "reviewPayment": "Zahlung überprüfen",
   "requestPayment": "Zahlung anfordern",
+  "max": "MAX",
   "continue": "Weiter",
   "edit": "Bearbeiten",
   "activity": "Aktivität",
@@ -77,6 +78,7 @@
   "estimatedFee": "Geschätzte Gebühr: ",
   "selectBalance": "Saldo auswählen",
   "stableBalance": "{{token}} Saldo",
+  "selectToken": "Token auswählen",
   "verificationCta": {
     "header": "An einen Freund senden?",
     "body": "Verbinde dein Telefon und synchronisiere deine Kontakte, um schnell an deine Freunde zu senden.",
