@@ -1,4 +1,8 @@
-import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, VERIFICATION_PHONE_NUMBER } from '@env'
+import {
+  TWILIO_ACCOUNT_SID,
+  TWILIO_AUTH_TOKEN,
+  VERIFICATION_PHONE_NUMBER,
+} from 'react-native-dotenv'
 import { dismissBanners } from '../utils/banners'
 import { EXAMPLE_NAME, EXAMPLE_PHONE_NUMBER } from '../utils/consts'
 import { checkBalance, receiveSms } from '../utils/twilio'
@@ -63,8 +67,9 @@ export default NewAccountPhoneVerification = () => {
     // Conditionally skipping jest tests with an async request is currently possible
     // https://github.com/facebook/jest/issues/7245
     // https://github.com/facebook/jest/issues/11489
-    jest.retryTimes(1)
-    it('Then should be able to verify phone number', async () => {
+    // Either fix or move to nightly tests when present
+    // jest.retryTimes(1)
+    it.skip('Then should be able to verify phone number', async () => {
       // Get Date at start
       let date = new Date()
       // Start verification
@@ -163,6 +168,7 @@ export default NewAccountPhoneVerification = () => {
   }
 
   // Assert correct content is visible on the phone verification screen
+  jest.retryTimes(1)
   it('Then should have correct phone verification screen', async () => {
     await dismissBanners()
     await expect(element(by.text('Connect your phone number'))).toBeVisible()
