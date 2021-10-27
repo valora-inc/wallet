@@ -240,9 +240,7 @@ export const typeDefs = gql`
     type: TokenTransactionType!
     timestamp: Timestamp!
     block: String!
-    # signed amount (+/-)
-    amount: TokenAmount!
-    hash: String!
+    transactionHash: String!
     fees: [FeeV2]
     metadata: TokenTransactionMetadata
   }
@@ -251,12 +249,11 @@ export const typeDefs = gql`
     type: TokenTransactionType!
     timestamp: Timestamp!
     block: String!
-    # signed amount (+/-)
     amount: TokenAmount!
     address: Address!
-    account: Address!
-    token: Token!
-    hash: String!
+    valoraAccount: Address!
+    tokenAddress: Address!
+    transactionHash: String!
     fees: [FeeV2]
     metadata: TokenTransactionMetadata
   }
@@ -265,23 +262,15 @@ export const typeDefs = gql`
     type: TokenTransactionType!
     timestamp: Timestamp!
     block: String!
-    # signed amount (+/-)
-    amount: TokenAmount!
-    takerAmount: TokenAmount!
-    makerAmount: TokenAmount!
-    hash: String!
+    inAmount: TokenAmount!
+    outAmount: TokenAmount!
+    transactionHash: String!
     fees: [FeeV2]
     metadata: TokenTransactionMetadata
   }
 
-  type TokenTransactionConnectionV2 {
-    edges: [TokenTransactionEdgeV2!]!
-    pageInfo: PageInfo!
-  }
-
-  type TokenTransactionEdgeV2 {
-    node: TokenTransactionV2
-    cursor: String!
+  type TokenTransactionsV2 {
+    tokens: [TokenTransactionV2]!
   }
 
   type PageInfo {
@@ -296,12 +285,7 @@ export const typeDefs = gql`
       address: Address!
       tokens: [Address]
       localCurrencyCode: String
-      # pagination
-      before: String
-      last: Int
-      after: String
-      first: Int
-    ): TokenTransactionConnectionV2
+    ): TokenTransactionsV2
 
     tokenTransactions(
       address: Address!
