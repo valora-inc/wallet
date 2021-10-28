@@ -49,7 +49,7 @@ export function ExchangeFeedItem(props: Props) {
   }
 
   return (
-    <Touchable onPress={onPress}>
+    <Touchable testID="GoldTransactionFeedItem" disabled={isPending} onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.firstRow}>
           <View style={styles.desc}>
