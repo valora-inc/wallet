@@ -35,9 +35,7 @@ interface SendConfirmationLegacyParams {
 interface SendConfirmationParams {
   origin: SendOrigin
   transactionData: TransactionDataInput
-  addressJustValidated?: boolean
   isFromScan?: boolean
-  currencyInfo?: CurrencyInfo
 }
 
 interface SendConfirmationLegacyParams {

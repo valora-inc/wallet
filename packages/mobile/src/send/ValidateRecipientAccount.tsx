@@ -117,7 +117,6 @@ function navigateToConfirmationScreen(
     } else {
       navigate(Screens.SendConfirmation, {
         transactionData: transactionData as TransactionDataInput,
-        addressJustValidated: true,
         origin,
       })
     }

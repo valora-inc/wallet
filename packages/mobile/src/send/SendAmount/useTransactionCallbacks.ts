@@ -34,6 +34,7 @@ interface Props {
   localAmount: BigNumber
   tokenAmount: BigNumber
   usdAmount: BigNumber
+  inputIsInLocalCurrency: boolean
   transferTokenAddress: string
   origin: SendOrigin
   isFromScan: boolean
@@ -45,6 +46,7 @@ function useTransactionCallbacks({
   localAmount,
   tokenAmount,
   usdAmount,
+  inputIsInLocalCurrency,
   transferTokenAddress,
   origin,
   isFromScan,
@@ -60,10 +62,9 @@ function useTransactionCallbacks({
   const getTransactionData = useCallback(
     (type: TokenTransactionType): TransactionDataInput => ({
       recipient,
-      amount: tokenAmount,
+      inputAmount: inputIsInLocalCurrency ? localAmount : tokenAmount,
+      amountIsInLocalCurrency: inputIsInLocalCurrency,
       tokenAddress: transferTokenAddress,
-      type,
-      reason: '',
     }),
     [recipient, tokenAmount, transferTokenAddress]
   )
