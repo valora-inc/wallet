@@ -21,6 +21,7 @@ import {
   NumberToRecipient,
   RecipientInfo,
 } from 'src/recipients/recipient'
+import { TransactionDataInput } from 'src/send/SendAmount'
 import { Currency } from 'src/utils/currencies'
 
 export const nullAddress = '0x0'
@@ -152,6 +153,20 @@ export const mockInvitableRecipient3: ContactRecipient = {
   displayNumber: mockDisplayNumber2Invite,
   e164PhoneNumber: mockE164Number2Invite,
   contactId: 'contactId',
+}
+
+export const mockTokenTransactionData: TransactionDataInput = {
+  recipient: { address: mockAccount },
+  inputAmount: new BigNumber(1),
+  amountIsInLocalCurrency: false,
+  tokenAddress: mockCusdAddress,
+}
+
+export const mockTokenInviteTransactionData: TransactionDataInput = {
+  recipient: mockInvitableRecipient,
+  inputAmount: new BigNumber(1),
+  amountIsInLocalCurrency: false,
+  tokenAddress: mockCusdAddress,
 }
 
 export const mockRecipient: ContactRecipient & AddressRecipient = {

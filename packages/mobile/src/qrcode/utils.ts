@@ -148,7 +148,6 @@ export function* handleBarcode(
     } else {
       navigate(Screens.SendConfirmation, {
         transactionData: secureSendTxData as TransactionDataInput,
-        addressJustValidated: true,
         origin: SendOrigin.AppSendFlow,
       })
     }

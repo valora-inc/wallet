@@ -317,7 +317,12 @@ describe('SendAmount', () => {
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
         origin: SendOrigin.AppSendFlow,
         isFromScan: false,
-        transactionData: mockTransactionData2,
+        transactionData: {
+          inputAmount: new BigNumber(AMOUNT_VALID),
+          amountIsInLocalCurrency: true,
+          recipient: mockTransactionData.recipient,
+          tokenAddress: mockCusdAddress,
+        },
       })
     })
   })
@@ -345,7 +350,12 @@ describe('SendAmount', () => {
       fireEvent.press(tree.getByTestId('Review'))
       expect(navigate).toHaveBeenCalledWith(Screens.ValidateRecipientIntro, {
         origin: SendOrigin.AppSendFlow,
-        transactionData: mockTransactionData2,
+        transactionData: {
+          inputAmount: new BigNumber(AMOUNT_VALID),
+          amountIsInLocalCurrency: true,
+          recipient: mockTransactionData2.recipient,
+          tokenAddress: mockCusdAddress,
+        },
         addressValidationType: AddressValidationType.FULL,
       })
     })
@@ -377,8 +387,9 @@ describe('SendAmount', () => {
         origin: SendOrigin.AppSendFlow,
         isFromScan: false,
         transactionData: {
-          ...mockTransactionData2,
-          amount: new BigNumber('3.088972431077694236'),
+          inputAmount: new BigNumber(AMOUNT_VALID),
+          amountIsInLocalCurrency: true,
+          recipient: mockTransactionData2.recipient,
           tokenAddress: mockCeurAddress,
         },
       })
