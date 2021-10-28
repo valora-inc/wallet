@@ -3,6 +3,7 @@
 [![e2e test status](https://storage.googleapis.com/celo-e2e-data/e2e-banner.svg)](https://console.cloud.google.com/storage/browser/celo-e2e-data?project=celo-testnet)
 
 These are the End-to-End (e2e) tests for the wallet mobile app. They run an emulator and simulate a user clicking through the app.
+This is a text change to create a commit - Do not merge into main.
 
 ## Setting up the VM
 
