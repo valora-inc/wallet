@@ -10,7 +10,7 @@ import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
 import { EncryptionFeeIcon, ExchangeFeeIcon, SecurityFeeIcon } from 'src/components/FeeIcon'
 import LineItemRow from 'src/components/LineItemRow'
 import { Namespaces } from 'src/i18n'
-import { CurrencyInfo } from 'src/send/SendConfirmation'
+import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { Currency } from 'src/utils/currencies'
 
 interface Props {
@@ -26,6 +26,7 @@ interface Props {
   totalFee?: BigNumber
   testID?: string
   currencyInfo?: CurrencyInfo
+  showLocalAmount?: boolean
 }
 
 export default function FeeDrawer({
@@ -41,6 +42,7 @@ export default function FeeDrawer({
   totalFee,
   testID,
   currencyInfo,
+  showLocalAmount,
 }: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
   const [expanded, setExpanded] = useState(false)
@@ -92,6 +94,7 @@ export default function FeeDrawer({
                   amount={totalFeeAmount}
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
+                  showLocalAmount={showLocalAmount}
                   testID={`${testID}/totalFee`}
                 />
               )
@@ -113,6 +116,7 @@ export default function FeeDrawer({
                     amount={exchangeAmount}
                     formatType={FormatType.Fee}
                     currencyInfo={currencyInfo}
+                    showLocalAmount={showLocalAmount}
                     testID={`${testID}/exchangeFee`}
                   />
                 )
@@ -129,6 +133,7 @@ export default function FeeDrawer({
                   amount={dekFeeAmount}
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
+                  showLocalAmount={showLocalAmount}
                   testID={`${testID}/dekFee`}
                 />
               }
@@ -145,6 +150,7 @@ export default function FeeDrawer({
                   amount={securityAmount}
                   formatType={FormatType.Fee}
                   currencyInfo={currencyInfo}
+                  showLocalAmount={showLocalAmount}
                   testID={`${testID}/securityFee`}
                 />
               )

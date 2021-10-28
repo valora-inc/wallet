@@ -102,7 +102,7 @@
   "feedItemEscrowReceivedTitle": "{{nameOrNumber}}",
   "feedItemEscrowReceivedTitle_noSenderDetails": "Desconocido",
   "feedItemEscrowReceivedInfo": "{{comment}}",
-  "feedItemEscrowReceivedInfo_noComment": "Pago de depósito recibido",
+  "feedItemEscrowReceivedInfo_noComment": "Pago de garantía recibido",
   "feedItemGenericTitle": "{{nameOrNumber}}",
   "feedItemGenericTitle_noRecipientDetails": "Desconocido",
   "feedItemGoldSold": "Vendidos",
@@ -116,10 +116,16 @@
   "transactionHeaderInviteReceived": "$t(inviteFlow11:inviteReceived)",
   "transactionHeaderSent": "Pago enviado",
   "transactionHeaderWithdrewCelo": "Transferencia de CELO",
-  "transactionHeaderEscrowSent": "Pago de depósito enviado",
+  "transactionHeaderEscrowSent": "Pago de garantía enviado",
   "transactionHeaderReceived": "Pago recibido",
   "transactionHeaderCeloDeposit": "Depósito recibido",
   "transactionHeaderCeloReward": "Recompensa recibida",
-  "transactionHeaderEscrowReceived": "Pago de depósito recibido",
-  "feedSectionHeaderRecent": "Recientes"
+  "transactionHeaderEscrowReceived": "Pago de garantía recibido",
+  "feedSectionHeaderRecent": "Recientes",
+  "cashInBottomSheet": {
+    "title": "¡Agrega fondos para empezar a usar Valora!",
+    "subtitle": "Actualmente tu cuenta está vacía",
+    "addFunds": "Agregar fondos"
+  },
+  "balances": "Saldo"
 }

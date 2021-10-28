@@ -1,6 +1,6 @@
 {
   "requests": "Anfragen",
-  "empty": "Sie haben keine Zahlungsanfragen",
+  "empty": "Du hast keine Zahlungsanfragen",
   "celoDollarBalance": "Celo Dollar Saldo",
   "requestDeclined": "Anfrage abgelehnt",
   "requestPaid": "Anfrage bezahlt",
@@ -8,11 +8,11 @@
   "incomingPaymentRequestNotificationTitle": "{{name}} angefordert",
   "outgoingPaymentRequestNotificationTitle": "Warte auf {{name}}",
   "requestUnavailableHeader": "Das Konto von {{displayName}} ist noch nicht verbunden.",
-  "requestUnavailableNoDisplayNameHeader": "Das Konto Ihres Kontakts ist nicht bestätigt",
-  "requestUnavailableBody": "Die Nummer {{e164PhoneNumber}} hat noch kein Konto oder hat es noch nicht bestätigt. Anfragen können nur an bestätigte Nummern gesendet werden.",
-  "requestUnavailableNoNumberBody": "Ihr Kontakt hat noch kein Konto oder hat es noch nicht bestätigt. Anfragen können nur an bestätigte Nummern gesendet werden.",
+  "requestUnavailableNoDisplayNameHeader": "Das Konto deines Kontakts ist nicht bestätigt",
+  "requestUnavailableBody": "Die Nummer {{e164PhoneNumber}} hat noch kein Konto oder hat es noch nicht verbunden. Anfragen können nur an bestätigte Nummern gesendet werden.",
+  "requestUnavailableNoNumberBody": "Dein Kontakt hat noch kein Konto oder hat es noch nicht verbunden. Anfragen können nur an verbundene Nummern gesendet werden.",
   "requesting": "Wird angefordert",
-  "request": "Anfrage",
+  "request": "Anfragen",
   "requestToken": "{{token}} anfordern",
   "requestSent": "Anfrage gesendet"
 }

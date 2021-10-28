@@ -18,7 +18,8 @@ import {
 } from 'src/recipients/recipient'
 import { QrCode, SVG } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { handleSendPaymentData } from 'src/send/utils'
+import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
+import { handleSendPaymentData, isLegacyTransactionData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
 
@@ -57,7 +58,7 @@ export async function shareSVGImage(svg: SVG) {
 function* handleSecureSend(
   address: string,
   e164NumberToAddress: E164NumberToAddressType,
-  secureSendTxData: TransactionDataInput,
+  secureSendTxData: TransactionDataInput | TransactionDataInputLegacy,
   requesterAddress?: string
 ) {
   if (!recipientHasNumber(secureSendTxData.recipient)) {
@@ -100,7 +101,7 @@ export function* handleBarcode(
   barcode: QrCode,
   e164NumberToAddress: E164NumberToAddressType,
   recipientInfo: RecipientInfo,
-  secureSendTxData?: TransactionDataInput,
+  secureSendTxData?: TransactionDataInput | TransactionDataInputLegacy,
   isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ) {
@@ -132,19 +133,24 @@ export function* handleBarcode(
       return
     }
 
-    if (isOutgoingPaymentRequest) {
+    const isLegacy = isLegacyTransactionData(secureSendTxData)
+    if (isOutgoingPaymentRequest && isLegacy) {
       navigate(Screens.PaymentRequestConfirmation, {
-        transactionData: secureSendTxData,
+        transactionData: secureSendTxData as TransactionDataInputLegacy,
         addressJustValidated: true,
       })
-    } else {
-      navigate(Screens.SendConfirmation, {
-        transactionData: secureSendTxData,
+    } else if (isLegacy) {
+      navigate(Screens.SendConfirmationLegacy, {
+        transactionData: secureSendTxData as TransactionDataInputLegacy,
         addressJustValidated: true,
         origin: SendOrigin.AppSendFlow,
       })
+    } else {
+      navigate(Screens.SendConfirmation, {
+        transactionData: secureSendTxData as TransactionDataInput,
+        origin: SendOrigin.AppSendFlow,
+      })
     }
-
     return
   }
 

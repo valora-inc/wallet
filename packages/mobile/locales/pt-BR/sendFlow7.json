@@ -4,6 +4,7 @@
   "dollarsSent": "Dólares Enviados",
   "to": "Para",
   "send": "Enviar",
+  "withdrawToken": "Sacar {{token}}",
   "sendToken": "Enviar {{token}}",
   "payment": "Pagamento",
   "sendOrRequest": "Enviar ou solicitar",
@@ -45,14 +46,14 @@
   "searchForSomeone": "Pesquise alguém por nome, número de celular ou endereço de conta",
   "pending": "Pendente",
   "sentPayment": "Pagamento enviado",
-  "sentEscrowPayment": "Pagamento da caução enviado",
+  "sentEscrowPayment": "Pagamento de caução enviado",
   "mobileNumber": "Número do celular",
   "sendToMobileNumber": "Enviar para o número de celular",
   "requestFromMobileNumber": "Solicitar a número de celular",
   "sendToAddress": "Enviar para o endereço",
   "walletAddress": "Endereço da conta",
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar dinheiro para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
-  "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar dinheiro para o mundo inteiro. Acabei de enviar {{amount}} {{currency}} Celo Dólares para você. Instale o aplicativo da {{appName}} e resgate seus {{currency}} usando este link: {{link}}",
+  "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar dinheiro para o mundo inteiro. Acabei de enviar {{amount}} {{currency}} para você. Instale o aplicativo da {{appName}} e resgate seus {{currency}} usando este link: {{link}}",
   "inviteSent": "Código de convite enviado!",
   "inviteFailed": "Falha ao enviar convite",
   "loadingContacts": "Encontrar seus contatos",
@@ -78,7 +79,7 @@
   "stableBalance": "Saldo de {{token}}",
   "verificationCta": {
     "header": "Enviando para um amigo?",
-    "body": "Confirme seu celular e sincronize seus contatos para enviar rapidamente para seus amigos.",
+    "body": "Conecte seu celular e sincronize seus contatos para enviar fundos para seus amigos.",
     "cta": "Iniciar confirmação"
   },
   "importContactsCta": {

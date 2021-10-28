@@ -6,7 +6,7 @@ import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { CeloExchangeEvents } from 'src/analytics/Events'
 import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheetLegacy, { TokenPickerOrigin } from 'src/components/TokenBottomSheetLegacy'
 import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import i18n from 'src/i18n'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
@@ -74,7 +74,7 @@ function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency 
   return (
     <>
       <CustomHeader left={<BackButton eventName={cancelEventName} />} title={title} />
-      <TokenBottomSheet
+      <TokenBottomSheetLegacy
         isVisible={showingTokenPicker}
         origin={TokenPickerOrigin.Exchange}
         onCurrencySelected={onCurrencySelected}

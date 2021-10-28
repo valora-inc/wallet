@@ -7,7 +7,7 @@
   "transaction": {
     "operation": "Operation",
     "data": "Daten",
-    "signTX": "TX signieren",
+    "signTX": "Signieren eine TX",
     "details": "Details anzeigen"
   },
   "shareInfo": "Diese Anwendung wird auf folgende Informationen zugreifen können:",

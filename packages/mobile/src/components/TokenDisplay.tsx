@@ -4,7 +4,7 @@ import { StyleProp, Text, TextStyle } from 'react-native'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol, localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
-import { CurrencyInfo } from 'src/send/SendConfirmation'
+import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { useTokenInfo } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
 
@@ -40,7 +40,7 @@ function useFiatExchangeRates(currencyInfo?: CurrencyInfo) {
   }
 }
 
-function calculateDecimalsToShow(value: BigNumber) {
+export function calculateDecimalsToShow(value: BigNumber) {
   const exponent = value?.e ?? 0
   if (exponent >= 0) {
     return DEFAULT_DISPLAY_DECIMALS
