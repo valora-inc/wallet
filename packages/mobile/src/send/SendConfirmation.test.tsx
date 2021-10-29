@@ -11,6 +11,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
+import { sendPaymentOrInvite } from 'src/send/actions'
 import SendConfirmation from 'src/send/SendConfirmation'
 import { getGasPrice } from 'src/web3/gas'
 import {
@@ -239,9 +240,38 @@ describe('SendConfirmation', () => {
   it('renders correct modal for invitations', async () => {
     const { getByTestId, queryAllByTestId } = renderScreen({}, mockInviteScreenProps)
 
-    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(false)
-    // Fire event press not working here so instead we call the onClick directly
-    getByTestId('ConfirmButton').props.onClick()
+    fireEvent.press(getByTestId('ConfirmButton'))
+
     expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(true)
+  })
+
+  it('dispatches an action when the confirm button is pressed', async () => {
+    const { store, getByTestId } = renderScreen({})
+
+    expect(store.getActions().length).toEqual(0)
+
+    fireEvent.press(getByTestId('ConfirmButton'))
+
+    const {
+      route: {
+        params: {
+          transactionData: { inputAmount, tokenAddress, recipient },
+        },
+      },
+    } = mockScreenProps
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        sendPaymentOrInvite(
+          inputAmount,
+          tokenAddress,
+          inputAmount.multipliedBy(1.33), // 1.33 is the default local currency exchange rate in tests
+          inputAmount,
+          '',
+          recipient,
+          undefined,
+          false
+        ),
+      ])
+    )
   })
 })

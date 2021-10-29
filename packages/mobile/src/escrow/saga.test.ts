@@ -12,9 +12,14 @@ import {
 } from 'src/escrow/actions'
 import { reclaimFromEscrow, transferToEscrow } from 'src/escrow/saga'
 import { newTransactionContext } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import { getConnectedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
-import { mockAccount, mockE164Number, mockE164NumberHash, mockE164NumberPepper } from 'test/values'
+import {
+  mockAccount,
+  mockCusdAddress,
+  mockE164Number,
+  mockE164NumberHash,
+  mockE164NumberPepper,
+} from 'test/values'
 
 describe(transferToEscrow, () => {
   it('fails if user cancels PIN input', async () => {
@@ -27,7 +32,7 @@ describe(transferToEscrow, () => {
       type: Actions.TRANSFER_PAYMENT,
       phoneHashDetails,
       amount: new BigNumber(10),
-      currency: Currency.Dollar,
+      tokenAddress: mockCusdAddress,
       context: newTransactionContext('Escrow', 'Transfer'),
     }
     await expectSaga(transferToEscrow, escrowTransferAction)

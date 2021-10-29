@@ -292,10 +292,10 @@ export function* fetchReadableTokenBalance(address: string, token: StoredTokenBa
 }
 
 export function* importTokenInfo() {
-  const tokens: StoredTokenBalance[] = yield call(readOnceFromFirebase, 'tokensInfo')
+  const tokens: StoredTokenBalances = yield call(readOnceFromFirebase, 'tokensInfo')
   const address: string = yield select(walletAddressSelector)
   const fetchedTokenBalances: StoredTokenBalance[] = yield all(
-    tokens.map((token) => call(fetchReadableTokenBalance, address, token))
+    Object.values(tokens).map((token) => call(fetchReadableTokenBalance, address, token!))
   )
   const balances: StoredTokenBalances = {}
   for (const tokenBalance of fetchedTokenBalances) {

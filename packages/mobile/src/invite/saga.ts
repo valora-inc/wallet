@@ -70,7 +70,7 @@ export function* sendInvite(
       amount: amount.toString(),
       tokenAddress,
     })
-  } catch (e: any) {
+  } catch (e) {
     ValoraAnalytics.track(InviteEvents.invite_error, {
       error: e.message,
       amount: amount.toString(),

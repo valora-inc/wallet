@@ -222,7 +222,6 @@ function* buildSendTx(
     getTokenContractFromAddress,
     tokenAddress
   )
-
   const convertedAmount: string = yield call(tokenAmountInWei, amount, tokenAddress)
 
   const kit: ContractKit = yield call(getContractKit)
@@ -330,7 +329,6 @@ export function* sendPaymentOrInviteSagaLegacy({
 }: SendPaymentOrInviteActionLegacy) {
   try {
     yield call(getConnectedUnlockedAccount)
-
     const tokenByCurrency: Record<Currency, TokenBalance | undefined> = yield select(
       tokensByCurrencySelector
     )

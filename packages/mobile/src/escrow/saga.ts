@@ -153,10 +153,10 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
       transferTx,
       walletAddress,
       context,
-      undefined
-      // feeInfo?.currency,
-      // feeInfo?.gas.minus(approvalReceipt.gasUsed).toNumber(),
-      // feeInfo?.gasPrice
+      undefined,
+      feeInfo?.currency,
+      feeInfo?.gas.minus(approvalReceipt.gasUsed).toNumber(),
+      feeInfo?.gasPrice
     )
     if (receipt) {
       yield put(fetchSentEscrowPayments())
