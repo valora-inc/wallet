@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { FeeInfo } from 'src/fees/saga'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
 import { Currency } from 'src/utils/currencies'
 import { Svg } from 'svgs'
 
@@ -26,7 +27,7 @@ export interface HandleBarcodeDetectedAction {
   type: Actions.BARCODE_DETECTED
   data: QrCode
   scanIsForSecureSend?: boolean
-  transactionData?: TransactionDataInput
+  transactionData?: TransactionDataInput | TransactionDataInputLegacy
   isOutgoingPaymentRequest?: boolean
   requesterAddress?: string
 }
@@ -79,7 +80,7 @@ export type ActionTypes =
 export const handleBarcodeDetected = (
   data: QrCode,
   scanIsForSecureSend?: boolean,
-  transactionData?: TransactionDataInput,
+  transactionData?: TransactionDataInput | TransactionDataInputLegacy,
   isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ): HandleBarcodeDetectedAction => ({

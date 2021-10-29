@@ -79,12 +79,13 @@ export function* sendAndMonitorTransaction<T>(
   currency?: Currency,
   feeCurrency?: Currency,
   gas?: number,
-  gasPrice?: BigNumber
+  gasPrice?: BigNumber,
+  nonce?: number
 ) {
   try {
     Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
-    const sendTxMethod = function* (nonce?: number) {
+    const sendTxMethod = function* () {
       const { transactionHash, receipt }: TxPromises = yield call(
         sendTransactionPromises,
         tx.txo,

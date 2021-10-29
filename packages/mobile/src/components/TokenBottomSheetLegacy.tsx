@@ -71,7 +71,7 @@ function TokenBottomSheet({ isVisible, origin, onCurrencySelected, onClose }: Pr
   const onCurrencyPressed = (currency: Currency) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
-      token: currency,
+      tokenAddress: currency,
     })
     onCurrencySelected(currency)
   }

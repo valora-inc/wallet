@@ -9,7 +9,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, urlFromUriData } from 'src/qrcode/schema'
 import { PaymentInfo } from 'src/send/reducers'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/SendAmountLegacy'
 import {
   dailyAmountRemaining,
   handlePaymentDeeplink,
@@ -153,7 +153,7 @@ describe('send/utils', () => {
         await expectSaga(handleSendPaymentData, mockUriData[3])
           .provide([[matchers.call.fn(fetchExchangeRate), mockUriData[3].currencyCode]])
           .run()
-        expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+        expect(navigate).toHaveBeenCalledWith(Screens.SendAmountLegacy, {
           origin: SendOrigin.AppSendFlow,
           recipient: mockQRCodeRecipient,
           isOutgoingPaymentRequest: undefined,
