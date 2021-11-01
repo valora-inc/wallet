@@ -4,7 +4,7 @@ import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrappe
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import { retryAsync } from '@celo/utils/lib/async'
 import BigNumber from 'bignumber.js'
-import { all, call, put, select, spawn, take, takeLatest } from 'redux-saga/effects'
+import { all, call, put, select, spawn, take } from 'redux-saga/effects'
 import * as erc20 from 'src/abis/IERC20.json'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
@@ -15,15 +15,7 @@ import { WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
-import {
-  setTokenBalances,
-  setTotalTokenBalance,
-  StoredTokenBalance,
-  StoredTokenBalances,
-  TokenBalance,
-} from 'src/tokens/reducer'
-import { tokensListSelector } from 'src/tokens/selectors'
+import { setTokenBalances, StoredTokenBalance, StoredTokenBalances } from 'src/tokens/reducer'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
@@ -304,31 +296,6 @@ export function* importTokenInfo() {
   yield put(setTokenBalances(balances))
 }
 
-export function* getTokenLocalAmount(tokenInfo: TokenBalance) {
-  const exchangeRate: Record<Currency, string | null> = yield select(
-    localCurrencyExchangeRatesSelector
-  )
-  const usdRate = exchangeRate[Currency.Dollar]
-  if (!usdRate) {
-    return null
-  }
-  const tokenAmount = new BigNumber(tokenInfo.balance ?? 0)
-
-  return tokenAmount.multipliedBy(tokenInfo.usdPrice).multipliedBy(usdRate)
-}
-
-export function* calculateTotalTokenBalance() {
-  const tokenBalances: TokenBalance[] = yield select(tokensListSelector)
-  let totalBalance = new BigNumber(0)
-  for (const token of tokenBalances) {
-    const balance: BigNumber | null = yield call(getTokenLocalAmount, token)
-    totalBalance = totalBalance.plus(balance ?? 0)
-  }
-
-  yield put(setTotalTokenBalance(totalBalance.toFixed(2).toString()))
-}
-
 export function* tokensSaga() {
-  yield takeLatest(setTokenBalances.type, calculateTotalTokenBalance)
   yield spawn(importTokenInfo)
 }
