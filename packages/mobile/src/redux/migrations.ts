@@ -302,4 +302,29 @@ export const migrations = {
       sentEscrowedPayments: [],
     },
   }),
+  17: (state: any) => ({
+    ...state,
+    fiatExchanges: _.omit(state.fiatExchanges, 'lastUsedProvider'),
+  }),
+  18: (state: any) => ({
+    ...state,
+    walletConnect: {
+      v2: _.omit(state.walletConnect, 'pairings'),
+    },
+  }),
+  19: (state: any) => {
+    // Fixes migration 18 when state.walletConnect is undefined and results
+    // in state.walletConnect.v2 to be an empty object and hence not using the reducer initial state
+    // See https://github.com/valora-inc/wallet/issues/1270
+    if (state.walletConnect?.v2?.sessions === undefined) {
+      return {
+        ...state,
+        walletConnect: {
+          ...state.walletConnect,
+          v2: undefined,
+        },
+      }
+    }
+    return state
+  },
 }

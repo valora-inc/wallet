@@ -14,8 +14,156 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
     onScroll={[Function]}
     pagingEnabled={true}
     showsHorizontalScrollIndicator={false}
+    testID="CTA/ScrollContainer"
   >
     <View>
+      <View
+        style={
+          Object {
+            "margin": 16,
+            "marginBottom": 24,
+            "width": 718,
+          }
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "padding": 16,
+              },
+              Object {
+                "borderRadius": 8,
+              },
+              Object {
+                "elevation": 12,
+                "shadowColor": "rgba(156, 164, 169, 0.4)",
+                "shadowOffset": Object {
+                  "height": 2,
+                  "width": 0,
+                },
+                "shadowOpacity": 1,
+                "shadowRadius": 12,
+              },
+              Array [
+                Object {
+                  "flex": 1,
+                  "minHeight": 144,
+                },
+                Object {},
+              ],
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "justifyContent": "space-between",
+                }
+              }
+            >
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 18,
+                      "lineHeight": 24,
+                    },
+                    Object {},
+                  ]
+                }
+                testID="undefined/Text"
+              >
+                backupKeyFlow6:backupKeyNotification
+              </Text>
+              <View
+                style={
+                  Object {
+                    "flexDirection": "row",
+                    "flexWrap": "wrap",
+                    "justifyContent": "flex-start",
+                  }
+                }
+                testID="undefined/CallToActions"
+              >
+                <View
+                  accessible={true}
+                  focusable={true}
+                  nativeBackgroundAndroid={
+                    Object {
+                      "attribute": "selectableItemBackgroundBorderless",
+                      "rippleRadius": undefined,
+                      "type": "ThemeAttrAndroid",
+                    }
+                  }
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  testID="undefined/CallToActions/backupKeyFlow6:introPrimaryAction/Button"
+                >
+                  <Text
+                    style={
+                      Array [
+                        Object {
+                          "color": "#1AB775",
+                          "fontFamily": "Inter-SemiBold",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        Object {
+                          "fontSize": 14,
+                          "lineHeight": 16,
+                          "marginRight": 24,
+                          "minHeight": 16,
+                          "minWidth": 48,
+                        },
+                      ]
+                    }
+                  >
+                    backupKeyFlow6:introPrimaryAction
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                  "marginLeft": 12,
+                  "width": 80,
+                }
+              }
+            >
+              <Image
+                resizeMode="contain"
+                source={
+                  Object {
+                    "testUri": "../../../packages/mobile/src/images/backup-key.png",
+                  }
+                }
+                testID="undefined/Icon"
+              />
+            </View>
+          </View>
+        </View>
+      </View>
       <View
         style={
           Object {
@@ -167,153 +315,6 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   </Text>
                 </View>
               </View>
-            </View>
-          </View>
-        </View>
-      </View>
-      <View
-        style={
-          Object {
-            "margin": 16,
-            "marginBottom": 24,
-            "width": 718,
-          }
-        }
-      >
-        <View
-          style={
-            Array [
-              Object {
-                "backgroundColor": "#FFFFFF",
-                "padding": 16,
-              },
-              Object {
-                "borderRadius": 8,
-              },
-              Object {
-                "elevation": 12,
-                "shadowColor": "rgba(156, 164, 169, 0.4)",
-                "shadowOffset": Object {
-                  "height": 2,
-                  "width": 0,
-                },
-                "shadowOpacity": 1,
-                "shadowRadius": 12,
-              },
-              Array [
-                Object {
-                  "flex": 1,
-                  "minHeight": 144,
-                },
-                Object {},
-              ],
-            ]
-          }
-        >
-          <View
-            style={
-              Object {
-                "flex": 1,
-                "flexDirection": "row",
-              }
-            }
-          >
-            <View
-              style={
-                Object {
-                  "flex": 1,
-                  "justifyContent": "space-between",
-                }
-              }
-            >
-              <Text
-                style={
-                  Array [
-                    Object {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 18,
-                      "lineHeight": 24,
-                    },
-                    Object {},
-                  ]
-                }
-                testID="undefined/Text"
-              >
-                backupKeyFlow6:backupKeyNotification
-              </Text>
-              <View
-                style={
-                  Object {
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "justifyContent": "flex-start",
-                  }
-                }
-                testID="undefined/CallToActions"
-              >
-                <View
-                  accessible={true}
-                  focusable={true}
-                  nativeBackgroundAndroid={
-                    Object {
-                      "attribute": "selectableItemBackgroundBorderless",
-                      "rippleRadius": undefined,
-                      "type": "ThemeAttrAndroid",
-                    }
-                  }
-                  onClick={[Function]}
-                  onResponderGrant={[Function]}
-                  onResponderMove={[Function]}
-                  onResponderRelease={[Function]}
-                  onResponderTerminate={[Function]}
-                  onResponderTerminationRequest={[Function]}
-                  onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/backupKeyFlow6:introPrimaryAction/Button"
-                >
-                  <Text
-                    style={
-                      Array [
-                        Object {
-                          "color": "#1AB775",
-                          "fontFamily": "Inter-SemiBold",
-                          "fontSize": 16,
-                          "lineHeight": 22,
-                        },
-                        Object {
-                          "fontSize": 14,
-                          "lineHeight": 16,
-                          "marginRight": 24,
-                          "minHeight": 16,
-                          "minWidth": 48,
-                        },
-                      ]
-                    }
-                  >
-                    backupKeyFlow6:introPrimaryAction
-                  </Text>
-                </View>
-              </View>
-            </View>
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                  "marginLeft": 12,
-                  "width": 80,
-                }
-              }
-            >
-              <Image
-                resizeMode="contain"
-                source={
-                  Object {
-                    "testUri": "../../../packages/mobile/src/images/backup-key.png",
-                  }
-                }
-                testID="undefined/Icon"
-              />
             </View>
           </View>
         </View>

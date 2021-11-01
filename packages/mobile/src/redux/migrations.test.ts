@@ -7,6 +7,9 @@ import {
   v13Schema,
   v14Schema,
   v15Schema,
+  v16Schema,
+  v17Schema,
+  v18Schema,
   v1Schema,
   v2Schema,
   v7Schema,
@@ -353,5 +356,33 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema.stableToken.balances[Currency.Dollar]).toEqual('150')
     expect(migratedSchema.escrow.isReclaiming).toBeFalsy()
     expect(migratedSchema.escrow.sentEscrowedPayments.length).toEqual(0)
+  })
+  it('works for v16 to v17', () => {
+    const migratedSchema = migrations[17](v16Schema)
+    expect(migratedSchema.fiatExchanges.lastUsedProvider).not.toBeDefined()
+  })
+  it('works for v17 to v18', () => {
+    expect(v17Schema.walletConnect.pairings).toBeDefined()
+    const migratedSchema = migrations[18](v17Schema)
+    expect(migratedSchema.walletConnect.v2.pairings).not.toBeDefined()
+  })
+  it('works for v18 to v19', () => {
+    // Test normal case
+    const migratedSchema = migrations[19](v18Schema)
+    // No changes expected
+    expect(migratedSchema).toBe(v18Schema)
+
+    // Test incorrect migrated state from v18 where v2 became an empty object
+    // if state.walletConnect was previously undefined
+    const v18Stub = {
+      ...v18Schema,
+      walletConnect: {
+        ...v18Schema.walletConnect,
+        v2: {},
+      },
+    }
+    const migratedSchema2 = migrations[19](v18Stub)
+    expect(migratedSchema2.walletConnect.v1).toBe(v18Schema.walletConnect.v1)
+    expect(migratedSchema2.walletConnect.v2).toBeUndefined()
   })
 })

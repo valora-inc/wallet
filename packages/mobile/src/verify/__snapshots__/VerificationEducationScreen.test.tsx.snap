@@ -31,6 +31,7 @@ exports[`VerificationEducationScreen allows to skip if verification is loading 1
       ]
     }
     swipeThreshold={100}
+    testID="VerificationSkipDialog"
     transparent={true}
     visible={true}
   >
@@ -90,6 +91,7 @@ exports[`VerificationEducationScreen allows to skip if verification is loading 1
         ]
       }
       swipeThreshold={100}
+      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -388,6 +390,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     Object {
                       "justifyContent": "center",
@@ -399,7 +402,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                   style={
                     Object {
                       "fontSize": 20,
-                      "marginRight": 4,
                     }
                   }
                   testID="countryCodeFlag"
@@ -409,6 +411,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 <View
                   style={
                     Object {
+                      "marginLeft": 7,
                       "transform": Array [
                         Object {
                           "rotate": "0deg",
@@ -862,6 +865,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       ]
     }
     swipeThreshold={100}
+    testID="VerificationSkipDialog"
     transparent={true}
     visible={false}
   >
@@ -921,6 +925,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         ]
       }
       swipeThreshold={100}
+      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -1433,6 +1438,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     Object {
                       "justifyContent": "center",
@@ -1444,7 +1450,6 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                   style={
                     Object {
                       "fontSize": 20,
-                      "marginRight": 4,
                     }
                   }
                   testID="countryCodeFlag"
@@ -1454,6 +1459,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
                 <View
                   style={
                     Object {
+                      "marginLeft": 7,
                       "transform": Array [
                         Object {
                           "rotate": "0deg",
@@ -1907,6 +1913,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
       ]
     }
     swipeThreshold={100}
+    testID="VerificationSkipDialog"
     transparent={true}
     visible={false}
   >
@@ -1966,6 +1973,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
         ]
       }
       swipeThreshold={100}
+      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -2478,6 +2486,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     Object {
                       "justifyContent": "center",
@@ -2489,7 +2498,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                   style={
                     Object {
                       "fontSize": 20,
-                      "marginRight": 4,
                     }
                   }
                   testID="countryCodeFlag"
@@ -2499,6 +2507,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                 <View
                   style={
                     Object {
+                      "marginLeft": 7,
                       "transform": Array [
                         Object {
                           "rotate": "0deg",
@@ -2952,6 +2961,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
       ]
     }
     swipeThreshold={100}
+    testID="VerificationSkipDialog"
     transparent={true}
     visible={false}
   >
@@ -3011,6 +3021,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
         ]
       }
       swipeThreshold={100}
+      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View
@@ -3523,6 +3534,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                     Object {
                       "alignItems": "center",
                       "flexDirection": "row",
+                      "flexWrap": "wrap",
                     },
                     Object {
                       "justifyContent": "center",
@@ -3534,7 +3546,6 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                   style={
                     Object {
                       "fontSize": 20,
-                      "marginRight": 4,
                     }
                   }
                   testID="countryCodeFlag"
@@ -3544,6 +3555,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
                 <View
                   style={
                     Object {
+                      "marginLeft": 7,
                       "transform": Array [
                         Object {
                           "rotate": "0deg",
@@ -3997,6 +4009,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
       ]
     }
     swipeThreshold={100}
+    testID="VerificationSkipDialog"
     transparent={true}
     visible={false}
   >
@@ -4056,6 +4069,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
         ]
       }
       swipeThreshold={100}
+      testID="VerificationSkipDialog"
     >
       <RNCSafeAreaView>
         <View

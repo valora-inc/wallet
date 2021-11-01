@@ -1,0 +1,73 @@
+{
+  "getVerified": "Bestätige Telefonnummer",
+  "notReadyForCode": "Noch nicht bereit für Codeeintrag",
+  "emptyVerificationCode": "Kein Verbindungscode in der Zwischenablage",
+  "invalidVerificationCode": "Ungültiger Verbindungscode",
+  "repeatVerificationCode": "Wiederholter Verbindungscode",
+  "revealAttestationFailure": "Fehler beim Anfordern der SMS Nachricht",
+  "verificationFailure": "Bestätigung fehlgeschlagen",
+  "cantVerifyRevokedAccount": "Dieses Konto wurde zuvor widerrufen. Bitte erstelle ein neues Konto und versuche es erneut.",
+  "verificationTimeout": "Zeitüberschreitung der Bestätigung",
+  "errorRequestCode": "Fehler beim Abfragen der Codes.",
+  "errorRedeemingCode": "Fehler beim Einlösen des Codes.",
+  "pleaseRetry": "Bitte bestätige erneut.",
+  "retryVerification": "Bestätigung wiederholen",
+  "education": {
+    "header": "Bestätige dein Telefon",
+    "body1": "Als nächstes bestätigst Du bitte deine Telefonnummer.",
+    "body2": "Verbinden macht es einfacher, mit Freunden zu senden und zu empfangen. Du kannst diesen Schritt auch überspringen und später wieder darauf zurückkommen.",
+    "learnMore": "Erfahre mehr über die Telefonbestätigung",
+    "start": "Startbestätigung",
+    "skip": "Vorerst überspringen"
+  },
+  "learnMore": {
+    "header": "Bestätigung der Telefonnummer",
+    "intro": "Die Bestätigung der Telefonnummer funktioniert dadurch, dass du dein {{appName}}-Konto mit deiner Telefonnummer verknüpfst.",
+    "section1Header": "Muss ich das vervollständigen?",
+    "section1Body": "Eine Bestätigung ist nicht erforderlich. Ohne Bestätigung ist es jedoch nur möglich, den Wert mittels QR-Codes oder Adressen zu senden und zu empfangen.",
+    "section2Header": "Sicherheit und Datenschutz",
+    "section2Body": "Um deine Privatsphäre zu schützen, wird nur eine verschleierte Version deiner Telefonnummer auf der Celo-Blockchain gespeichert."
+  },
+  "loading": {
+    "confirming": "Bestätige Telefonnummer…",
+    "pleaseKeepAppOpen": "Bitte verlasse diesen Bildschirm nicht oder Du musst neu starten",
+    "learnMore": "Mehr Infos",
+    "card1": "Um sicherzustellen, dass deine Telefonnummer wirklich deine ist, senden wir dir drei Nachrichten.",
+    "card2": "Sobald deine Nummer bestätigt ist, kannst du Krypto einfach an deine Telefonnummer senden und empfangen.",
+    "card3": "Bestätigen erlaubt dir auch, zu sehen, welche deiner Freunde auf {{appName}} sind.",
+    "card4": "Wir benötigen drei Bestätigungsnachrichten, um dein Konto sicherer zu halten."
+  },
+  "skipModal": {
+    "header": "Bestätigung überspringen?",
+    "body1": "Bestätigen erlaubt es anderen, Wert an deine Telefonnummer zu senden.",
+    "body2": "Ohne Bestätigung kannst du immer noch Zahlungen versenden, aber nur mit Konto-Adressen oder QR-Codes."
+  },
+  "failModal": {
+    "header": "Bestätigungsfehler",
+    "body1": "Beim Bestätigen deiner Telefonnummer ist ein Problem aufgetreten.",
+    "body2": "Du kannst jetzt die Bestätigung überspringen und später erneut versuchen.",
+    "body1InsufficientBalance": "Dein aktueller Saldo ist nicht hoch genug, um den Bestätigungsprozess abzuschließen.",
+    "body2InsufficientBalance": "Bitte versuche es erneut, wenn du deinem Wallet Guthaben hinzugefügt hast.",
+    "body1SaltQuotaExceeded": "Dein Telefonnummer-Suchkontingent ist aufgebraucht",
+    "body2SaltQuotaExceeded": "Bitte versuche es erneut, wenn Du mehr Lookups gekauft hast",
+    "enterCodesBody": "Wenn Du bereits drei Codes per SMS erhalten hast, kannst Du diese trotzdem eingeben.",
+    "enterCodesButton": "Codes eingeben"
+  },
+  "retryWithFornoModal": {
+    "header": "Bestätigung mit Datensparer wiederholen?",
+    "body1": "Beim Bestätigen deiner Telefonnummer ist ein Fehler aufgetreten. Wir empfehlen, es erneut zu versuchen, wenn der Datensparmodus aktiviert ist.",
+    "body2": "Der Data Saver-Modus ermöglicht es dir, über eine vertrauenswürdige Verbindung mit dem Celo-Netzwerk zu kommunizieren.",
+    "retryButton": "Mit Datensparmodus wiederholen"
+  },
+  "congratsVerified": "Herzlichen Glückwunsch, Du bist jetzt bestätigt!",
+  "notification": {
+    "body": "Zahlungen direkt an deine Telefonnummer erhalten",
+    "cta": "Jetzt verbinden"
+  },
+  "quotaLookup": {
+    "title": "Suchquote überschritten",
+    "body1": "Um deine Telefonnummer sicher und privat zu halten, begrenzt {{appName}} die Anzahl der Telefonnummern, die Nutzer nachschlagen können.",
+    "body2": "Du kannst mehr Lookups gegen eine geringe Gebühr kaufen.",
+    "cta": "Kaufe Lookups (2)"
+  }
+}

@@ -125,6 +125,7 @@ export default function PhoneNumberInput({
           onFocus={requestPhoneNumberIfNecessary}
           onChangeText={onChangePhoneNumber}
           editable={editable}
+          showClearButton={false}
         />
       </View>
     </FormField>
@@ -153,7 +154,6 @@ const styles = StyleSheet.create({
   },
   flag: {
     fontSize: 20,
-    marginRight: 4,
   },
   phoneNumberInput: {
     flex: 1,

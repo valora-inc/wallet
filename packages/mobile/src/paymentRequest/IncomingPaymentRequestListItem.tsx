@@ -20,7 +20,7 @@ import { Screens } from 'src/navigator/Screens'
 import { declinePaymentRequest } from 'src/paymentRequest/actions'
 import { Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/SendAmountLegacy'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
@@ -83,7 +83,7 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
 
     const origin = SendOrigin.AppRequestFlow
     if (addressValidationType === AddressValidationType.NONE) {
-      navigate(Screens.SendConfirmation, { transactionData, origin })
+      navigate(Screens.SendConfirmationLegacy, { transactionData, origin })
     } else {
       navigate(Screens.ValidateRecipientIntro, {
         transactionData,

@@ -18,16 +18,15 @@ jobs:
         with:
           node-version: '12'
           check-latest: true
+      - uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       - run: yarn
       - run: yarn build --ignore docs
       - run: ./scripts/ci_check_vulnerabilities.sh
-      - run: |
-          mkdir -p test-results/jest
-          yarn run lerna --ignore @celo/mobile run test
-      - name: 'Upload Test Results'
-        uses: actions/upload-artifact@v2
-        with:
-          path: test-results
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -47,3 +46,21 @@ jobs:
       - run: yarn
       - run: yarn run prettify:diff
       - run: yarn run lint
+  yarn-lock:
+    name: 'yarn.lock Up-to-date'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          check-latest: true
+      # https://github.com/actions/cache/blob/main/examples.md#node---lerna
+      - uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn
+      - run: git diff --exit-code

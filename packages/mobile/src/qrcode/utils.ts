@@ -1,12 +1,11 @@
 import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
-import { SendOrigin } from 'src/analytics/types'
+import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { walletConnectEnabledSelector } from 'src/app/selectors'
 import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
@@ -19,9 +18,10 @@ import {
 } from 'src/recipients/recipient'
 import { QrCode, SVG } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { handleSendPaymentData } from 'src/send/utils'
+import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
+import { handleSendPaymentData, isLegacyTransactionData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
-import { initialiseWalletConnect } from 'src/walletConnect/saga'
+import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
 
 export enum BarcodeTypes {
   QR_CODE = 'QR_CODE',
@@ -58,7 +58,7 @@ export async function shareSVGImage(svg: SVG) {
 function* handleSecureSend(
   address: string,
   e164NumberToAddress: E164NumberToAddressType,
-  secureSendTxData: TransactionDataInput,
+  secureSendTxData: TransactionDataInput | TransactionDataInputLegacy,
   requesterAddress?: string
 ) {
   if (!recipientHasNumber(secureSendTxData.recipient)) {
@@ -101,13 +101,14 @@ export function* handleBarcode(
   barcode: QrCode,
   e164NumberToAddress: E164NumberToAddressType,
   recipientInfo: RecipientInfo,
-  secureSendTxData?: TransactionDataInput,
+  secureSendTxData?: TransactionDataInput | TransactionDataInputLegacy,
   isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ) {
-  const walletConnectEnabled: boolean = yield select(walletConnectEnabledSelector)
+  const walletConnectEnabled: boolean = yield call(isWalletConnectEnabled, barcode.data)
   if (barcode.data.startsWith('wc:') && walletConnectEnabled) {
-    yield call(initialiseWalletConnect, barcode.data)
+    navigate(Screens.WalletConnectLoading, { origin: WalletConnectPairingOrigin.Scan })
+    yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
     return
   }
 
@@ -132,19 +133,24 @@ export function* handleBarcode(
       return
     }
 
-    if (isOutgoingPaymentRequest) {
+    const isLegacy = isLegacyTransactionData(secureSendTxData)
+    if (isOutgoingPaymentRequest && isLegacy) {
       navigate(Screens.PaymentRequestConfirmation, {
-        transactionData: secureSendTxData,
+        transactionData: secureSendTxData as TransactionDataInputLegacy,
         addressJustValidated: true,
       })
-    } else {
-      navigate(Screens.SendConfirmation, {
-        transactionData: secureSendTxData,
+    } else if (isLegacy) {
+      navigate(Screens.SendConfirmationLegacy, {
+        transactionData: secureSendTxData as TransactionDataInputLegacy,
         addressJustValidated: true,
         origin: SendOrigin.AppSendFlow,
       })
+    } else {
+      navigate(Screens.SendConfirmation, {
+        transactionData: secureSendTxData as TransactionDataInput,
+        origin: SendOrigin.AppSendFlow,
+      })
     }
-
     return
   }
 

@@ -41,7 +41,7 @@ import {
 } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import SessionId from 'src/components/SessionId'
-import { TOS_LINK } from 'src/config'
+import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { Namespaces, withTranslation } from 'src/i18n'
 import { revokeVerification } from 'src/identity/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -92,6 +92,7 @@ type OwnProps = StackScreenProps<StackParamList, Screens.Settings>
 type Props = StateProps & DispatchProps & WithTranslation & OwnProps
 
 const mapStateToProps = (state: RootState): StateProps => {
+  const { v1, v2 } = walletConnectEnabledSelector(state)
   return {
     backupCompleted: state.account.backupCompleted,
     account: state.web3.account,
@@ -106,8 +107,9 @@ const mapStateToProps = (state: RootState): StateProps => {
     gethStartedThisSession: state.geth.gethStartedThisSession,
     preferredCurrencyCode: getLocalCurrencyCode(state),
     sessionId: sessionIdSelector(state),
-    connectedApplications: state.walletConnect.sessions.length,
-    walletConnectEnabled: walletConnectEnabledSelector(state),
+    connectedApplications:
+      state.walletConnect.v1.sessions.length + state.walletConnect.v2.sessions.length,
+    walletConnectEnabled: v1 || v2,
   }
 }
 
@@ -306,6 +308,10 @@ export class Account extends React.Component<Props, State> {
     ValoraAnalytics.track(SettingsEvents.tos_view)
   }
 
+  onPrivacyPolicyPress() {
+    navigateToURI(PRIVACY_LINK)
+  }
+
   onRemoveAccountPress = () => {
     this.setState({ showAccountKeyModal: true })
   }
@@ -409,6 +415,7 @@ export class Account extends React.Component<Props, State> {
               title={t('requirePinOnAppOpen')}
               value={this.props.requirePinOnAppOpen}
               onValueChange={this.handleRequirePinToggle}
+              testID="requirePinOnAppOpenToggle"
             />
             <SettingsItemSwitch
               title={t('enableDataSaver')}
@@ -425,6 +432,7 @@ export class Account extends React.Component<Props, State> {
             <SectionHead text={t('legal')} style={styles.sectionTitle} />
             <SettingsItemTextValue title={t('licenses')} onPress={this.goToLicenses} />
             <SettingsItemTextValue title={t('termsOfServiceLink')} onPress={this.onTermsPress} />
+            <SettingsItemTextValue title={t('privacyPolicy')} onPress={this.onPrivacyPolicyPress} />
             <SectionHead text={''} style={styles.sectionTitle} />
             <SettingsExpandedItem
               title={t('removeAccountTitle')}

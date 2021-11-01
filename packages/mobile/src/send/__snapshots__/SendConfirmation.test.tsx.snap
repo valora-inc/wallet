@@ -153,24 +153,13 @@ exports[`SendConfirmation renders correctly 1`] = `
                     ]
                   }
                 >
-                  <Text
-                    allowFontScaling={false}
-                    style={
-                      Array [
-                        Object {
-                          "color": "#FFFFFF",
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 16,
-                        },
-                        Object {
-                          "color": "hsl(0, 67%, 24%)",
-                          "fontSize": 20,
-                        },
-                      ]
-                    }
-                  >
-                    J
-                  </Text>
+                  <svg
+                    fill="hsl(0, 53%, 93%)"
+                    height="40"
+                    style={Object {}}
+                    viewBox="0 0 40 40"
+                    width="40"
+                  />
                 </View>
               </View>
               <View
@@ -203,30 +192,24 @@ exports[`SendConfirmation renders correctly 1`] = `
                     }
                   }
                 >
-                  Jane Doe
+                  walletFlow5:feedItemAddress, {"address":"0x0000...7E57"}
                 </Text>
               </View>
             </View>
             <Text
               style={
-                Array [
-                  Object {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-SemiBold",
-                    "fontSize": 32,
-                    "lineHeight": 40,
-                    "paddingVertical": 8,
-                  },
-                  Object {
-                    "color": "#2E3338",
-                  },
-                ]
+                Object {
+                  "color": "#2E3338",
+                  "fontFamily": "Inter-SemiBold",
+                  "fontSize": 32,
+                  "lineHeight": 40,
+                  "paddingVertical": 8,
+                }
               }
-              testID="undefined/value"
             >
               
-              $
-              1.33
+              1.00
+               cUSD
             </Text>
             <TextInput
               allowFontScaling={true}
@@ -278,6 +261,7 @@ exports[`SendConfirmation renders correctly 1`] = `
               ]
             }
             swipeThreshold={100}
+            testID="InviteAndSendModal"
             transparent={true}
             visible={false}
           >
@@ -337,6 +321,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 ]
               }
               swipeThreshold={100}
+              testID="InviteAndSendModal"
             >
               <RNCSafeAreaView>
                 <View
@@ -419,7 +404,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                           }
                         }
                       >
-                        inviteAndSendDialog.body, {"name":"Jane Doe"}
+                        inviteAndSendDialog.body, {"name":"walletFlow5:feedItemAddress, {\\"address\\":\\"0x0000...7E57\\"}"}
                       </Text>
                     </View>
                   </RCTScrollView>
@@ -759,6 +744,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                   Object {
                     "alignItems": "center",
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                   },
                   undefined,
                 ]
@@ -779,6 +765,7 @@ exports[`SendConfirmation renders correctly 1`] = `
               <View
                 style={
                   Object {
+                    "marginLeft": 7,
                     "transform": Array [
                       Object {
                         "rotate": "0deg",
@@ -805,6 +792,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 Array [
                   Object {
                     "flexDirection": "row",
+                    "flexWrap": "wrap",
                     "justifyContent": "space-between",
                     "marginVertical": 5,
                   },
@@ -837,6 +825,24 @@ exports[`SendConfirmation renders correctly 1`] = `
                   
                 </Text>
               </View>
+              <View
+                style={
+                  Object {
+                    "transform": Array [
+                      Object {
+                        "scale": 0.7,
+                      },
+                    ],
+                  }
+                }
+              >
+                <ActivityIndicator
+                  animating={true}
+                  color="#42D689"
+                  hidesWhenStopped={true}
+                  size="small"
+                />
+              </View>
             </View>
           </View>
         </View>
@@ -846,6 +852,7 @@ exports[`SendConfirmation renders correctly 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -902,15 +909,7 @@ exports[`SendConfirmation renders correctly 1`] = `
           }
         >
           <Text
-            style={
-              Array [
-                undefined,
-                Object {
-                  "color": undefined,
-                },
-              ]
-            }
-            testID="TotalLineItem/Total/value"
+            testID="TotalLineItem/Total"
           >
             
             $
@@ -923,6 +922,7 @@ exports[`SendConfirmation renders correctly 1`] = `
           Array [
             Object {
               "flexDirection": "row",
+              "flexWrap": "wrap",
               "justifyContent": "space-between",
               "marginVertical": 5,
             },
@@ -959,51 +959,25 @@ exports[`SendConfirmation renders correctly 1`] = `
               ]
             }
           >
-            <View
-              accessible={true}
-              focusable={false}
-              nativeBackgroundAndroid={
+            <Text
+              style={
                 Object {
-                  "attribute": "selectableItemBackground",
-                  "rippleRadius": undefined,
-                  "type": "ThemeAttrAndroid",
+                  "color": "#9CA4A9",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 14,
+                  "lineHeight": 18,
                 }
               }
-              onClick={[Function]}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
+              testID="TotalLineItem/ExchangeRate"
             >
-              <Text
-                style={
-                  Object {
-                    "color": "#9CA4A9",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 14,
-                    "lineHeight": 18,
-                  }
-                }
-              >
-                <Text
-                  style={
-                    Array [
-                      undefined,
-                      Object {
-                        "color": undefined,
-                      },
-                    ]
-                  }
-                  testID="TotalLineItem/ExchangeRate/value"
-                >
-                  
-                  $
-                  0.75
-                </Text>
+              cUSD
+               @ 
+              <Text>
+                
+                $
+                1.33
               </Text>
-            </View>
+            </Text>
           </Text>
         </View>
         <Text
@@ -1025,19 +999,11 @@ exports[`SendConfirmation renders correctly 1`] = `
           }
         >
           <Text
-            style={
-              Array [
-                undefined,
-                Object {
-                  "color": undefined,
-                },
-              ]
-            }
-            testID="TotalLineItem/Subtotal/value"
+            testID="TotalLineItem/Subtotal"
           >
             
-            $
             1.00
+             cUSD
           </Text>
         </Text>
       </View>

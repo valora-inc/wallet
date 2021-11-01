@@ -1,20 +1,19 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { appUnlock } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { Namespaces } from 'src/i18n'
 import { checkPin } from 'src/pincode/authentication'
 import PincodeLock from 'src/pincode/PincodeLock'
-import { createMockStore } from 'test/utils'
+import { createMockStore, flushMicrotasksQueue } from 'test/utils'
 
 const pin = '123456'
 
 describe('PincodeLock', () => {
   it('renders correctly', () => {
     const store = createMockStore()
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={store}>
         <PincodeLock />
       </Provider>
@@ -32,7 +31,7 @@ describe('PincodeLock', () => {
       </Provider>
     )
     pin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runAllTimers()
+    jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
     expect(store.getActions()).toEqual([appUnlock()])
   })
@@ -47,7 +46,7 @@ describe('PincodeLock', () => {
       </Provider>
     )
     pin.split('').forEach((number) => fireEvent.press(getByTestId(`digit${number}`)))
-    jest.runAllTimers()
+    jest.runOnlyPendingTimers()
     await flushMicrotasksQueue()
     expect(getByText(`${Namespaces.global}:${ErrorMessages.INCORRECT_PIN}`)).toBeDefined()
     expect(store.getActions()).toEqual([])

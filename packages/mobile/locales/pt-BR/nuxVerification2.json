@@ -1,9 +1,9 @@
 {
   "getVerified": "Confirme o número de celular",
   "notReadyForCode": "Ainda não está pronto para inserir o código",
-  "emptyVerificationCode": "Nenhum código de confirmação na área de transferência",
-  "invalidVerificationCode": "Código de confirmação inválido",
-  "repeatVerificationCode": "Código de confirmação repetido",
+  "emptyVerificationCode": "Nenhum código de conexão na área de transferência",
+  "invalidVerificationCode": "Código de conexão inválido",
+  "repeatVerificationCode": "Código de conexão repetido",
   "revealAttestationFailure": "Erro ao solicitar mensagem de SMS",
   "verificationFailure": "Falha na confirmação",
   "cantVerifyRevokedAccount": "Essa conta já foi revogada uma vez. Por favor, crie uma nova conta e tente novamente.",
@@ -15,7 +15,7 @@
   "education": {
     "header": "Confirme seu celular",
     "body1": "Em seguida, confirme seu número de celular.",
-    "body2": "A confirmação facilita enviar e receber de amigos. Você também pode pular esta etapa e retornar a ela mais tarde.",
+    "body2": "A conexão facilita enviar e receber de amigos. Você também pode pular esta etapa e retornar a ela mais tarde.",
     "learnMore": "Saiba mais sobre a confirmação de celular",
     "start": "Iniciar confirmação",
     "skip": "Pular por enquanto"
@@ -24,13 +24,13 @@
     "header": "Confirmação do número de celular",
     "intro": "A confirmação do número de celular funciona associando sua conta da {{appName}} ao seu número de celular.",
     "section1Header": "Eu preciso completar essa etapa?",
-    "section1Body": "A confirmação não é necessária. No entanto, sem confirmar, só é possível enviar e receber valores usando QR codes ou endereços.",
+    "section1Body": "A conexão não é necessária. No entanto, sem conectar, só é possível enviar e receber valores usando códigos QR ou endereços.",
     "section2Header": "Segurança e Privacidade",
     "section2Body": "Para proteger sua privacidade, apenas uma versão ofuscada do seu número de celular é armazenada no blockchain da Celo."
   },
   "loading": {
-    "confirming": "Confirmando...",
-    "pleaseKeepAppOpen": "Mantenha o aplicativo aberto",
+    "confirming": "Confirmando número de telefone…",
+    "pleaseKeepAppOpen": "Por favor não saia desta tela ou você terá que reiniciar",
     "learnMore": "Saiba mais",
     "card1": "Para garantirmos que o número de celular informado seja realmente seu, estamos enviando três mensagens para você.",
     "card2": "Assim que o seu número for confirmado, você pode enviar e receber fundos facilmente em seu número de celular.",
@@ -40,7 +40,7 @@
   "skipModal": {
     "header": "Pular confirmação?",
     "body1": "A confirmação permite que outras pessoas enviem valores para o seu número de celular.",
-    "body2": "Sem confirmação, você ainda pode enviar pagamentos, mas apenas usando endereços de conta ou códigos QR."
+    "body2": "Sem conexão, você ainda pode enviar pagamentos, mas apenas usando Endereços de Conta ou códigos QR."
   },
   "failModal": {
     "header": "Erro de confirmação",
@@ -62,7 +62,7 @@
   "congratsVerified": "Parabéns, você já foi confirmado!",
   "notification": {
     "body": "Receba pagamentos diretamente no seu celular",
-    "cta": "Confirmar agora"
+    "cta": "Conectar"
   },
   "quotaLookup": {
     "title": "Limite de busca excedido",

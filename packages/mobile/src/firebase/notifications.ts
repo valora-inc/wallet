@@ -70,9 +70,14 @@ function* handlePaymentReceived(
           value: divideByWei(transferNotification.value),
           currencyCode: mapOldCurrencyToNew(transferNotification.currency),
         },
-        address: transferNotification.sender.toLowerCase(),
+        address,
         comment: transferNotification.comment,
-        recipient: getRecipientFromAddress(address, info),
+        recipient: getRecipientFromAddress(
+          address,
+          info,
+          transferNotification.name,
+          transferNotification.imageUrl
+        ),
         type: TokenTransactionType.Received,
       }
     )

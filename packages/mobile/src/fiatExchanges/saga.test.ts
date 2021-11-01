@@ -1,14 +1,17 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
-import { select } from 'redux-saga/effects'
+import { call, select } from 'redux-saga/effects'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { activeScreenChanged } from 'src/app/actions'
 import { assignProviderToTxHash, bidaliPaymentRequested } from 'src/fiatExchanges/actions'
-import { lastUsedProviderSelector } from 'src/fiatExchanges/reducer'
-import { searchNewItemsForProviderTxs, watchBidaliPaymentRequests } from 'src/fiatExchanges/saga'
+import { providerLogosSelector } from 'src/fiatExchanges/reducer'
+import {
+  fetchTxHashesToProviderMapping,
+  tagTxsWithProviderInfo,
+  watchBidaliPaymentRequests,
+} from 'src/fiatExchanges/saga'
 import { Actions as IdentityActions, updateKnownAddresses } from 'src/identity/actions'
-import { providerAddressesSelector } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient } from 'src/recipients/recipient'
@@ -17,6 +20,7 @@ import {
   sendPaymentOrInviteFailure,
   sendPaymentOrInviteSuccess,
 } from 'src/send/actions'
+import { NewTransactionsInFeedAction } from 'src/transactions/actions'
 import { Currency } from 'src/utils/currencies'
 import { mockAccount } from 'test/values'
 
@@ -40,55 +44,62 @@ describe(watchBidaliPaymentRequests, () => {
     jest.clearAllMocks()
   })
 
-  it('triggers the payment flow and calls `onPaymentSent` when successful', async () => {
-    const onPaymentSent = jest.fn()
-    const onCancelled = jest.fn()
+  it.each`
+    currencyCode | expectedCurrency
+    ${'cUSD'}    | ${Currency.Dollar}
+    ${'cEUR'}    | ${Currency.Euro}
+  `(
+    'triggers the payment flow with $currencyCode and calls `onPaymentSent` when successful',
+    async ({ currencyCode, expectedCurrency }) => {
+      const onPaymentSent = jest.fn()
+      const onCancelled = jest.fn()
 
-    await expectSaga(watchBidaliPaymentRequests)
-      .put(
-        updateKnownAddresses({
-          '0xTEST': { name: recipient.name!, imageUrl: recipient.thumbnailPath || null },
-        })
-      )
-      .dispatch(
-        bidaliPaymentRequested(
-          '0xTEST',
-          '20',
-          'cUSD',
-          'Some description',
-          'TEST_CHARGE_ID',
-          onPaymentSent,
-          onCancelled
+      await expectSaga(watchBidaliPaymentRequests)
+        .put(
+          updateKnownAddresses({
+            '0xTEST': { name: recipient.name!, imageUrl: recipient.thumbnailPath || null },
+          })
         )
-      )
-      .dispatch(
-        sendPaymentOrInvite(
+        .dispatch(
+          bidaliPaymentRequested(
+            '0xTEST',
+            '20',
+            currencyCode,
+            'Some description',
+            'TEST_CHARGE_ID',
+            onPaymentSent,
+            onCancelled
+          )
+        )
+        .dispatch(
+          sendPaymentOrInvite(
+            amount,
+            expectedCurrency,
+            'Some description (TEST_CHARGE_ID)',
+            recipient,
+            '0xTEST',
+            undefined,
+            undefined,
+            true
+          )
+        )
+        .dispatch(sendPaymentOrInviteSuccess(amount))
+        .run()
+
+      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacyModal, {
+        origin: SendOrigin.Bidali,
+        transactionData: {
           amount,
-          Currency.Dollar,
-          'Some description (TEST_CHARGE_ID)',
+          currency: expectedCurrency,
+          reason: 'Some description (TEST_CHARGE_ID)',
           recipient,
-          '0xTEST',
-          undefined,
-          undefined,
-          true
-        )
-      )
-      .dispatch(sendPaymentOrInviteSuccess(amount))
-      .run()
-
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationModal, {
-      origin: SendOrigin.Bidali,
-      transactionData: {
-        amount,
-        currency: Currency.Dollar,
-        reason: 'Some description (TEST_CHARGE_ID)',
-        recipient,
-        type: TokenTransactionType.PayPrefill,
-      },
-    })
-    expect(onPaymentSent).toHaveBeenCalledTimes(1)
-    expect(onCancelled).not.toHaveBeenCalled()
-  })
+          type: TokenTransactionType.PayPrefill,
+        },
+      })
+      expect(onPaymentSent).toHaveBeenCalledTimes(1)
+      expect(onCancelled).not.toHaveBeenCalled()
+    }
+  )
 
   it('triggers the payment flow and calls `onCancelled` when navigating back to the Bidali screen after a failure', async () => {
     const onPaymentSent = jest.fn()
@@ -123,7 +134,7 @@ describe(watchBidaliPaymentRequests, () => {
       .dispatch(activeScreenChanged(Screens.BidaliScreen))
       .run()
 
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationModal, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacyModal, {
       origin: SendOrigin.Bidali,
       transactionData: {
         amount,
@@ -147,7 +158,7 @@ describe(watchBidaliPaymentRequests, () => {
           bidaliPaymentRequested(
             '0xTEST',
             '20',
-            'CELO',
+            'ETH',
             'Some description',
             'TEST_CHARGE_ID',
             onPaymentSent,
@@ -155,7 +166,7 @@ describe(watchBidaliPaymentRequests, () => {
           )
         )
         .run()
-    ).rejects.toThrowErrorMatchingInlineSnapshot(`"Unsupported payment currency from Bidali: CELO"`)
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`"Unsupported payment currency from Bidali: ETH"`)
 
     expect(navigate).not.toHaveBeenCalled()
     expect(onPaymentSent).not.toHaveBeenCalled()
@@ -163,7 +174,7 @@ describe(watchBidaliPaymentRequests, () => {
   })
 })
 
-describe(searchNewItemsForProviderTxs, () => {
+describe(tagTxsWithProviderInfo, () => {
   const mockAmount = {
     __typename: 'MoneyAmount',
     value: '-0.2',
@@ -176,43 +187,53 @@ describe(searchNewItemsForProviderTxs, () => {
     },
   }
 
-  it('assigns new txs to known providers', async () => {
-    const providerTransferHash =
-      '0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353'
-    const exchangeHash = '0x16fbd53c4871f0657f40e1b4515184be04bed8912c6e2abc2cda549e4ad8f852'
-    const nonProviderTransferHash =
-      '0x28147e5953639687915e9b152173076611cc9e51e8634fad3850374ccc87d7aa'
-    const mockProviderAccount = '0x30d5ca2a263e0c0d11e7a668ccf30b38f1482251'
-    const transactions: TransactionFeedFragment[] = [
-      {
-        __typename: 'TokenTransfer',
-        type: TokenTransactionType.Received,
-        hash: providerTransferHash,
-        amount: mockAmount,
-        timestamp: 1578530538,
-        address: mockProviderAccount,
-      },
-      {
-        __typename: 'TokenExchange',
-        type: TokenTransactionType.Exchange,
-        hash: exchangeHash,
-      } as any,
-      {
-        __typename: 'TokenTransfer',
-        type: TokenTransactionType.Received,
-        hash: nonProviderTransferHash,
-        amount: mockAmount,
-        timestamp: 1578530602,
-        address: mockAccount,
-      },
-    ]
+  const providerTransferHash = '0x4607df6d11e63bb024cf1001956de7b6bd7adc253146f8412e8b3756752b8353'
+  const exchangeHash = '0x16fbd53c4871f0657f40e1b4515184be04bed8912c6e2abc2cda549e4ad8f852'
+  const nonProviderTransferHash =
+    '0x28147e5953639687915e9b152173076611cc9e51e8634fad3850374ccc87d7aa'
+  const mockProviderAccount = '0x30d5ca2a263e0c0d11e7a668ccf30b38f1482251'
 
-    await expectSaga(searchNewItemsForProviderTxs, { transactions })
+  const transactions: TransactionFeedFragment[] = [
+    {
+      __typename: 'TokenTransfer',
+      type: TokenTransactionType.Received,
+      hash: providerTransferHash,
+      amount: mockAmount,
+      timestamp: 1578530538,
+      address: mockProviderAccount,
+    },
+    {
+      __typename: 'TokenExchange',
+      type: TokenTransactionType.Exchange,
+      hash: exchangeHash,
+    } as any,
+    {
+      __typename: 'TokenTransfer',
+      type: TokenTransactionType.Received,
+      hash: nonProviderTransferHash,
+      amount: mockAmount,
+      timestamp: 1578530602,
+      address: mockAccount,
+    },
+  ]
+
+  it('assigns specific display info for providers with tx hashes associated with the user', async () => {
+    const providerName = 'Provider'
+    const mockProviderLogo = 'www.provider.com/logo'
+    const mockDisplayInfo = {
+      name: providerName,
+      icon: mockProviderLogo,
+    }
+
+    const mockTxHashesToProvider = { [providerTransferHash]: providerName }
+    const mockProviderLogos = { [providerName]: mockProviderLogo }
+
+    await expectSaga(tagTxsWithProviderInfo, { transactions } as NewTransactionsInFeedAction)
       .provide([
-        [select(providerAddressesSelector), [mockProviderAccount]],
-        [select(lastUsedProviderSelector), [null]],
+        [select(providerLogosSelector), mockProviderLogos],
+        [call(fetchTxHashesToProviderMapping), mockTxHashesToProvider],
       ])
-      .put(assignProviderToTxHash(providerTransferHash, 'cUSD'))
+      .put(assignProviderToTxHash(providerTransferHash, mockDisplayInfo))
       .run()
   })
 })

@@ -1,18 +1,16 @@
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
 import BigNumber from 'bignumber.js'
 import { Share } from 'react-native'
-import DeviceInfo from 'react-native-device-info'
 import { generateSecureRandom } from 'react-native-securerandom'
 import { call, put } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { APP_STORE_ID, DYNAMIC_DOWNLOAD_LINK, WEB_LINK } from 'src/config'
+import { DYNAMIC_DOWNLOAD_LINK } from 'src/config'
 import { transferEscrowedPayment } from 'src/escrow/actions'
 import { getEscrowTxGas } from 'src/escrow/saga'
 import { calculateFee, FeeInfo } from 'src/fees/saga'
-import { generateShortInviteLink } from 'src/firebase/dynamicLinks'
 import i18n from 'src/i18n'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import { InviteDetails, storeInviteeData } from 'src/invite/actions'
@@ -47,19 +45,6 @@ export async function getInviteFee(
   }
 }
 
-export async function generateInviteLink() {
-  let bundleId = DeviceInfo.getBundleId()
-  bundleId = bundleId.replace(/\.(debug|dev)$/g, '.alfajores')
-
-  const shortUrl = await generateShortInviteLink({
-    link: WEB_LINK,
-    appStoreId: APP_STORE_ID,
-    bundleId,
-  })
-
-  return shortUrl
-}
-
 export function* sendInvite(
   e164Number: string,
   amount: BigNumber,
@@ -69,7 +54,7 @@ export function* sendInvite(
   try {
     ValoraAnalytics.track(InviteEvents.invite_start, {
       escrowIncluded: true,
-      amount: amount?.toString(),
+      amount: amount.toString(),
     })
 
     const web3: Web3 = yield call(getWeb3)
@@ -86,7 +71,9 @@ export function* sendInvite(
       ? 'sendFlow7:inviteWithEscrowedPayment'
       : 'sendFlow7:inviteWithoutPayment'
     const message = i18n.t(messageProp, {
-      amount: amount?.toString(),
+      amount: amount.toFixed(2),
+      currency:
+        currency === Currency.Dollar ? i18n.t('global:celoDollars') : i18n.t('global:celoEuros'),
       link,
     })
 

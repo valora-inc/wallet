@@ -1,5 +1,5 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
-import { render } from 'react-native-testing-library'
 import ErrorBoundary from 'src/app/ErrorBoundary'
 
 const ErrorComponent = () => {

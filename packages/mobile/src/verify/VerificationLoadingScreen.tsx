@@ -78,7 +78,7 @@ export default function VerificationLoadingScreen({ route }: Props) {
     if (verificationStatus === VerificationStatus.CompletingAttestations) {
       navigate(Screens.VerificationInputScreen)
     } else if (verificationStatus === VerificationStatus.Done) {
-      navigate(Screens.ImportContacts)
+      navigate(Screens.OnboardingSuccessScreen)
     }
   }, [verificationStatus, isFocused])
 
@@ -283,6 +283,8 @@ const styles = StyleSheet.create({
     ...fontStyles.h2,
     color: colors.onboardingBrownLight,
     marginBottom: 40,
+    textAlign: 'center',
+    paddingHorizontal: 24,
   },
   upHandleContainer: {
     alignItems: 'center',

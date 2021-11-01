@@ -9,7 +9,10 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { currentLanguageSelector } from 'src/app/reducers'
-import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
+import {
+  shortVerificationCodesEnabledSelector,
+  logPhoneNumberTypeEnabledSelector,
+} from 'src/app/selectors'
 import {
   cancelVerification,
   completeAttestationCode,
@@ -38,6 +41,7 @@ import {
   fail,
   idle,
   KomenciAvailable,
+  komenciConfigSelector,
   komenciContextSelector,
   phoneHashSelector,
   setOverrideWithoutVerification,
@@ -223,6 +227,10 @@ const mockVerificationState: VerificationState = {
   phoneHash: mockE164NumberHash,
   withoutRevealing: false,
   e164Number: mockE164Number,
+  komenciConfig: {
+    useLightProxy: false,
+    allowedDeployers: [],
+  },
 }
 
 beforeEach(() => {
@@ -338,12 +346,14 @@ describe(doVerificationFlowSaga, () => {
     await expectSaga(doVerificationFlowSaga, doVerificationFlow(false))
       .provide([
         [select(shouldUseKomenciSelector), false],
+        [select(komenciConfigSelector), { useLightProxy: false, allowedDeployers: [] }],
         [select(e164NumberToSaltSelector), mockE164NumberToSalt],
         [select(e164NumberSelector), mockE164Number],
         [select(phoneHashSelector), mockE164NumberHash],
         [select(verificationStatusSelector), mockVerificationState.status],
         [select(komenciContextSelector), mockVerificationState.komenci],
         [select(actionableAttestationsSelector), mockVerificationState.actionableAttestations],
+        [select(logPhoneNumberTypeEnabledSelector), false],
         [select(shortVerificationCodesEnabledSelector), false],
         [call(getConnectedUnlockedAccount), mockAccount],
         [
@@ -408,12 +418,14 @@ describe(doVerificationFlowSaga, () => {
     await expectSaga(doVerificationFlowSaga, doVerificationFlow(false))
       .provide([
         [select(shouldUseKomenciSelector), false],
+        [select(komenciConfigSelector), { useLightProxy: false, allowedDeployers: [] }],
         [select(e164NumberToSaltSelector), mockE164NumberToSalt],
         [select(e164NumberSelector), mockE164Number],
         [select(phoneHashSelector), mockE164NumberHash],
         [select(verificationStatusSelector), mockVerificationStatePartlyVerified.status],
         [select(komenciContextSelector), mockVerificationState.komenci],
         [select(actionableAttestationsSelector), mockVerificationState.actionableAttestations],
+        [select(logPhoneNumberTypeEnabledSelector), false],
         [select(shortVerificationCodesEnabledSelector), false],
         [call(getConnectedUnlockedAccount), mockAccount],
         [
@@ -533,6 +545,7 @@ describe(doVerificationFlowSaga, () => {
         [select(verificationStatusSelector), mockVerificationState.status],
         [select(komenciContextSelector), mockVerificationState.komenci],
         [select(actionableAttestationsSelector), mockActionableAttestations],
+        [select(logPhoneNumberTypeEnabledSelector), false],
         [select(shortVerificationCodesEnabledSelector), false],
         [call(getConnectedUnlockedAccount), mockAccount],
         [select(currentLanguageSelector), 'us-en'],

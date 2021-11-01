@@ -40,9 +40,11 @@ interface Props {
 
 function TransactionFeed({ kind, loading, error, data }: Props) {
   const commentKey = useSelector(dataEncryptionKeySelector)
+  // Diego: I think we can remove these line because we already have that info in recipientInfo.
   const addressToE164Number = useSelector((state: RootState) => state.identity.addressToE164Number)
   const phoneRecipientCache = useSelector(phoneRecipientCacheSelector)
   const recentTxRecipientsCache = useSelector(recentTxRecipientsCacheSelector)
+
   const invitees = useSelector(inviteesSelector)
   const recipientInfo: RecipientInfo = useSelector(recipientInfoSelector)
 
@@ -106,10 +108,18 @@ function TransactionFeed({ kind, loading, error, data }: Props) {
         sections={sections}
         keyExtractor={keyExtractor}
         keyboardShouldPersistTaps="always"
+        testID="TransactionList"
       />
     )
   } else {
-    return <FlatList data={data} keyExtractor={keyExtractor} renderItem={renderItem} />
+    return (
+      <FlatList
+        testID="TransactionList"
+        data={data}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
+      />
+    )
   }
 }
 

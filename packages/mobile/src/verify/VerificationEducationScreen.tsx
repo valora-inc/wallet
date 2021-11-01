@@ -23,7 +23,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { hideVerificationSelector, numberVerifiedSelector } from 'src/app/selectors'
 import BackButton from 'src/components/BackButton'
-import { WEB_LINK } from 'src/config'
+import { isE2EEnv, WEB_LINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
 import i18n, { Namespaces } from 'src/i18n'
 import { setHasSeenVerificationNux, startVerification } from 'src/identity/actions'
@@ -87,6 +87,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const currentState = useSelector(currentStateSelector)
   const shouldUseKomenci = useSelector(shouldUseKomenciSelector)
   const verificationStatus = useSelector(verificationStatusSelector)
+  const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
 
   const onPressStart = async () => {
     if (!canUsePhoneNumber()) {
@@ -108,7 +109,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const onPressContinue = () => {
     dispatch(setHasSeenVerificationNux(true))
     if (partOfOnboarding) {
-      navigation.navigate(Screens.ImportContacts)
+      navigate(Screens.OnboardingSuccessScreen)
     } else {
       navigateHome()
     }
@@ -150,6 +151,10 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       )
     }
   }, [route.params?.selectedCountryCodeAlpha2])
+
+  useEffect(() => {
+    navigation.setParams({ choseToRestoreAccount })
+  }, [choseToRestoreAccount])
 
   useAsync(async () => {
     await waitUntilSagasFinishLoading()
@@ -209,6 +214,16 @@ function VerificationEducationScreen({ route, navigation }: Props) {
       ValoraAnalytics.track(VerificationEvents.verification_recaptcha_failure)
     }
   }
+
+  useEffect(() => {
+    if (isE2EEnv && currentState.type === StateType.EnsuringRealHumanUser) {
+      handleCaptchaResolved({
+        nativeEvent: {
+          data: 'special-captcha-bypass-token',
+        },
+      })
+    }
+  }, [currentState.type])
 
   const onPressCountry = () => {
     navigate(Screens.SelectCountry, {
@@ -374,7 +389,12 @@ VerificationEducationScreen.navigationOptions = ({ navigation, route }: ScreenPr
     : () => (
         <HeaderTitleWithSubtitle
           title={i18n.t('onboarding:verificationEducation.title')}
-          subTitle={i18n.t('onboarding:step', { step: '4' })}
+          subTitle={i18n.t(
+            route.params?.choseToRestoreAccount
+              ? 'onboarding:restoreAccountSteps'
+              : 'onboarding:createAccountSteps',
+            { step: route.params?.choseToRestoreAccount ? '4' : '3' }
+          )}
         />
       )
   return {

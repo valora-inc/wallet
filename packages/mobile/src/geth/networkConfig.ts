@@ -102,7 +102,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     simplexApiUrl: SIMPLEX_API_URL_STAGING,
     fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_STAGING,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_STAGING,
-    walletConnectEndpoint: 'wss://walletconnect.celo-networks-dev.org',
+    walletConnectEndpoint: 'wss://relay.walletconnect.org',
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -125,7 +125,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     simplexApiUrl: SIMPLEX_API_URL_PROD,
     fetchUserLocationDataUrl: FETCH_USER_LOCATION_DATA_PROD,
     komenciLoadCheckEndpoint: KOMENCI_LOAD_CHECK_ENDPOINT_PROD,
-    walletConnectEndpoint: 'wss://walletconnect.celo.org',
+    walletConnectEndpoint: 'wss://relay.walletconnect.org',
   },
 }
 

@@ -10,221 +10,600 @@ exports[`PincodeLock renders correctly 1`] = `
     }
   }
 >
-  <RCTScrollView
-    contentContainerStyle={
-      Object {
-        "flexGrow": 1,
-      }
-    }
+  <View
     style={
       Object {
-        "marginTop": 40,
+        "flex": 1,
       }
     }
   >
-    <View>
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "color": "#2E3338",
+          "fontFamily": "Inter-Regular",
+          "fontSize": 16,
+          "lineHeight": 22,
+          "marginBottom": 24,
+          "textAlign": "center",
+        }
+      }
+    >
+      confirmPin.title
+    </Text>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "marginBottom": 24,
+          "paddingHorizontal": "15%",
+        }
+      }
+    >
       <View
         style={
           Object {
-            "flex": 1,
-          }
-        }
-      />
-      <Text
-        style={
-          Object {
-            "color": "#2E3338",
-            "fontFamily": "Inter-Regular",
-            "fontSize": 16,
-            "lineHeight": 22,
-            "marginBottom": 24,
-            "textAlign": "center",
-          }
-        }
-      >
-        confirmPin.title
-      </Text>
-      <View
-        style={
-          Object {
-            "alignItems": "center",
-            "marginBottom": 24,
-            "paddingHorizontal": "15%",
+            "flexDirection": "row",
           }
         }
       >
         <View
           style={
             Object {
-              "flexDirection": "row",
+              "alignItems": "center",
+              "flex": 1,
+              "height": 32,
+              "justifyContent": "center",
             }
           }
         >
           <View
             style={
-              Object {
-                "alignItems": "center",
-                "flex": 1,
-                "height": 32,
-                "justifyContent": "center",
-              }
+              Array [
+                Object {
+                  "borderColor": "#2E3338",
+                  "borderRadius": 4,
+                  "borderWidth": 1,
+                  "height": 8,
+                  "width": 8,
+                },
+                false,
+              ]
             }
-          >
-            <View
-              style={
-                Array [
-                  Object {
-                    "borderColor": "#2E3338",
-                    "borderRadius": 4,
-                    "borderWidth": 1,
-                    "height": 8,
-                    "width": 8,
-                  },
-                  false,
-                ]
-              }
-            />
-          </View>
+          />
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+              "height": 32,
+              "justifyContent": "center",
+            }
+          }
+        >
           <View
+            style={
+              Array [
+                Object {
+                  "borderColor": "#2E3338",
+                  "borderRadius": 4,
+                  "borderWidth": 1,
+                  "height": 8,
+                  "width": 8,
+                },
+                false,
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+              "height": 32,
+              "justifyContent": "center",
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "borderColor": "#2E3338",
+                  "borderRadius": 4,
+                  "borderWidth": 1,
+                  "height": 8,
+                  "width": 8,
+                },
+                false,
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+              "height": 32,
+              "justifyContent": "center",
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "borderColor": "#2E3338",
+                  "borderRadius": 4,
+                  "borderWidth": 1,
+                  "height": 8,
+                  "width": 8,
+                },
+                false,
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+              "height": 32,
+              "justifyContent": "center",
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "borderColor": "#2E3338",
+                  "borderRadius": 4,
+                  "borderWidth": 1,
+                  "height": 8,
+                  "width": 8,
+                },
+                false,
+              ]
+            }
+          />
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+              "height": 32,
+              "justifyContent": "center",
+            }
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "borderColor": "#2E3338",
+                  "borderRadius": 4,
+                  "borderWidth": 1,
+                  "height": 8,
+                  "width": 8,
+                },
+                false,
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "justifyContent": "center",
+          "paddingHorizontal": 12,
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "space-around",
+            "width": "100%",
+          }
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="digit1"
+        >
+          <Text
+            allowFontScaling={false}
             style={
               Object {
                 "alignItems": "center",
-                "flex": 1,
-                "height": 32,
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 22,
                 "justifyContent": "center",
+                "lineHeight": 28,
+                "padding": 24,
+                "textAlign": "center",
+                "width": 64,
               }
             }
           >
-            <View
-              style={
-                Array [
-                  Object {
-                    "borderColor": "#2E3338",
-                    "borderRadius": 4,
-                    "borderWidth": 1,
-                    "height": 8,
-                    "width": 8,
-                  },
-                  false,
-                ]
-              }
-            />
-          </View>
-          <View
+            1
+          </Text>
+        </View>
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="digit2"
+        >
+          <Text
+            allowFontScaling={false}
             style={
               Object {
                 "alignItems": "center",
-                "flex": 1,
-                "height": 32,
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 22,
                 "justifyContent": "center",
+                "lineHeight": 28,
+                "padding": 24,
+                "textAlign": "center",
+                "width": 64,
               }
             }
           >
-            <View
-              style={
-                Array [
-                  Object {
-                    "borderColor": "#2E3338",
-                    "borderRadius": 4,
-                    "borderWidth": 1,
-                    "height": 8,
-                    "width": 8,
-                  },
-                  false,
-                ]
-              }
-            />
-          </View>
-          <View
+            2
+          </Text>
+        </View>
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="digit3"
+        >
+          <Text
+            allowFontScaling={false}
             style={
               Object {
                 "alignItems": "center",
-                "flex": 1,
-                "height": 32,
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 22,
                 "justifyContent": "center",
+                "lineHeight": 28,
+                "padding": 24,
+                "textAlign": "center",
+                "width": 64,
               }
             }
           >
-            <View
-              style={
-                Array [
-                  Object {
-                    "borderColor": "#2E3338",
-                    "borderRadius": 4,
-                    "borderWidth": 1,
-                    "height": 8,
-                    "width": 8,
-                  },
-                  false,
-                ]
-              }
-            />
-          </View>
-          <View
-            style={
-              Object {
-                "alignItems": "center",
-                "flex": 1,
-                "height": 32,
-                "justifyContent": "center",
-              }
-            }
-          >
-            <View
-              style={
-                Array [
-                  Object {
-                    "borderColor": "#2E3338",
-                    "borderRadius": 4,
-                    "borderWidth": 1,
-                    "height": 8,
-                    "width": 8,
-                  },
-                  false,
-                ]
-              }
-            />
-          </View>
-          <View
-            style={
-              Object {
-                "alignItems": "center",
-                "flex": 1,
-                "height": 32,
-                "justifyContent": "center",
-              }
-            }
-          >
-            <View
-              style={
-                Array [
-                  Object {
-                    "borderColor": "#2E3338",
-                    "borderRadius": 4,
-                    "borderWidth": 1,
-                    "height": 8,
-                    "width": 8,
-                  },
-                  false,
-                ]
-              }
-            />
-          </View>
+            3
+          </Text>
         </View>
       </View>
       <View
         style={
           Object {
-            "flex": 1,
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "space-around",
+            "width": "100%",
           }
         }
-      />
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="digit4"
+        >
+          <Text
+            allowFontScaling={false}
+            style={
+              Object {
+                "alignItems": "center",
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 22,
+                "justifyContent": "center",
+                "lineHeight": 28,
+                "padding": 24,
+                "textAlign": "center",
+                "width": 64,
+              }
+            }
+          >
+            4
+          </Text>
+        </View>
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="digit5"
+        >
+          <Text
+            allowFontScaling={false}
+            style={
+              Object {
+                "alignItems": "center",
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 22,
+                "justifyContent": "center",
+                "lineHeight": 28,
+                "padding": 24,
+                "textAlign": "center",
+                "width": 64,
+              }
+            }
+          >
+            5
+          </Text>
+        </View>
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="digit6"
+        >
+          <Text
+            allowFontScaling={false}
+            style={
+              Object {
+                "alignItems": "center",
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 22,
+                "justifyContent": "center",
+                "lineHeight": 28,
+                "padding": 24,
+                "textAlign": "center",
+                "width": 64,
+              }
+            }
+          >
+            6
+          </Text>
+        </View>
+      </View>
       <View
         style={
           Object {
             "alignItems": "center",
-            "justifyContent": "center",
-            "paddingHorizontal": 12,
+            "flexDirection": "row",
+            "justifyContent": "space-around",
+            "width": "100%",
+          }
+        }
+      >
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="digit7"
+        >
+          <Text
+            allowFontScaling={false}
+            style={
+              Object {
+                "alignItems": "center",
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 22,
+                "justifyContent": "center",
+                "lineHeight": 28,
+                "padding": 24,
+                "textAlign": "center",
+                "width": 64,
+              }
+            }
+          >
+            7
+          </Text>
+        </View>
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="digit8"
+        >
+          <Text
+            allowFontScaling={false}
+            style={
+              Object {
+                "alignItems": "center",
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 22,
+                "justifyContent": "center",
+                "lineHeight": 28,
+                "padding": 24,
+                "textAlign": "center",
+                "width": 64,
+              }
+            }
+          >
+            8
+          </Text>
+        </View>
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="digit9"
+        >
+          <Text
+            allowFontScaling={false}
+            style={
+              Object {
+                "alignItems": "center",
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 22,
+                "justifyContent": "center",
+                "lineHeight": 28,
+                "padding": 24,
+                "textAlign": "center",
+                "width": 64,
+              }
+            }
+          >
+            9
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "space-around",
             "width": "100%",
           }
         }
@@ -233,377 +612,72 @@ exports[`PincodeLock renders correctly 1`] = `
           style={
             Object {
               "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "space-around",
-              "width": "100%",
+              "color": "#2E3338",
+              "fontFamily": "Inter-Medium",
+              "fontSize": 22,
+              "justifyContent": "center",
+              "lineHeight": 28,
+              "padding": 24,
+              "textAlign": "center",
+              "width": 64,
             }
           }
+        />
+        <View
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
+            Object {
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
+            }
+          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          testID="digit0"
         >
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
+          <Text
+            allowFontScaling={false}
+            style={
               Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
+                "alignItems": "center",
+                "color": "#2E3338",
+                "fontFamily": "Inter-Medium",
+                "fontSize": 22,
+                "justifyContent": "center",
+                "lineHeight": 28,
+                "padding": 24,
+                "textAlign": "center",
+                "width": 64,
               }
             }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            testID="digit1"
           >
-            <Text
-              style={
-                Object {
-                  "alignItems": "center",
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 22,
-                  "justifyContent": "center",
-                  "lineHeight": 28,
-                  "padding": 24,
-                  "textAlign": "center",
-                  "width": 64,
-                }
-              }
-            >
-              1
-            </Text>
-          </View>
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            testID="digit2"
-          >
-            <Text
-              style={
-                Object {
-                  "alignItems": "center",
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 22,
-                  "justifyContent": "center",
-                  "lineHeight": 28,
-                  "padding": 24,
-                  "textAlign": "center",
-                  "width": 64,
-                }
-              }
-            >
-              2
-            </Text>
-          </View>
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            testID="digit3"
-          >
-            <Text
-              style={
-                Object {
-                  "alignItems": "center",
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 22,
-                  "justifyContent": "center",
-                  "lineHeight": 28,
-                  "padding": 24,
-                  "textAlign": "center",
-                  "width": 64,
-                }
-              }
-            >
-              3
-            </Text>
-          </View>
+            0
+          </Text>
         </View>
         <View
-          style={
+          accessible={true}
+          focusable={true}
+          nativeBackgroundAndroid={
             Object {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "space-around",
-              "width": "100%",
+              "attribute": "selectableItemBackgroundBorderless",
+              "rippleRadius": undefined,
+              "type": "ThemeAttrAndroid",
             }
           }
-        >
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            testID="digit4"
-          >
-            <Text
-              style={
-                Object {
-                  "alignItems": "center",
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 22,
-                  "justifyContent": "center",
-                  "lineHeight": 28,
-                  "padding": 24,
-                  "textAlign": "center",
-                  "width": 64,
-                }
-              }
-            >
-              4
-            </Text>
-          </View>
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            testID="digit5"
-          >
-            <Text
-              style={
-                Object {
-                  "alignItems": "center",
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 22,
-                  "justifyContent": "center",
-                  "lineHeight": 28,
-                  "padding": 24,
-                  "textAlign": "center",
-                  "width": 64,
-                }
-              }
-            >
-              5
-            </Text>
-          </View>
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            testID="digit6"
-          >
-            <Text
-              style={
-                Object {
-                  "alignItems": "center",
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 22,
-                  "justifyContent": "center",
-                  "lineHeight": 28,
-                  "padding": 24,
-                  "textAlign": "center",
-                  "width": 64,
-                }
-              }
-            >
-              6
-            </Text>
-          </View>
-        </View>
-        <View
-          style={
-            Object {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "space-around",
-              "width": "100%",
-            }
-          }
-        >
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            testID="digit7"
-          >
-            <Text
-              style={
-                Object {
-                  "alignItems": "center",
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 22,
-                  "justifyContent": "center",
-                  "lineHeight": 28,
-                  "padding": 24,
-                  "textAlign": "center",
-                  "width": 64,
-                }
-              }
-            >
-              7
-            </Text>
-          </View>
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            testID="digit8"
-          >
-            <Text
-              style={
-                Object {
-                  "alignItems": "center",
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 22,
-                  "justifyContent": "center",
-                  "lineHeight": 28,
-                  "padding": 24,
-                  "textAlign": "center",
-                  "width": 64,
-                }
-              }
-            >
-              8
-            </Text>
-          </View>
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            testID="digit9"
-          >
-            <Text
-              style={
-                Object {
-                  "alignItems": "center",
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 22,
-                  "justifyContent": "center",
-                  "lineHeight": 28,
-                  "padding": 24,
-                  "textAlign": "center",
-                  "width": 64,
-                }
-              }
-            >
-              9
-            </Text>
-          </View>
-        </View>
-        <View
-          style={
-            Object {
-              "alignItems": "center",
-              "flexDirection": "row",
-              "justifyContent": "space-around",
-              "width": "100%",
-            }
-          }
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
         >
           <View
             style={
@@ -619,103 +693,32 @@ exports[`PincodeLock renders correctly 1`] = `
                 "width": 64,
               }
             }
-          />
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            testID="digit0"
           >
-            <Text
-              style={
-                Object {
-                  "alignItems": "center",
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 22,
-                  "justifyContent": "center",
-                  "lineHeight": 28,
-                  "padding": 24,
-                  "textAlign": "center",
-                  "width": 64,
-                }
-              }
+            <svg
+              fill="none"
+              height={30}
+              style={Object {}}
+              viewBox="0 0 35 18"
+              width={30}
+              xmlns="http://www.w3.org/2000/svg"
             >
-              0
-            </Text>
-          </View>
-          <View
-            accessible={true}
-            focusable={true}
-            nativeBackgroundAndroid={
-              Object {
-                "attribute": "selectableItemBackgroundBorderless",
-                "rippleRadius": undefined,
-                "type": "ThemeAttrAndroid",
-              }
-            }
-            onClick={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-          >
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Medium",
-                  "fontSize": 22,
-                  "justifyContent": "center",
-                  "lineHeight": 28,
-                  "padding": 24,
-                  "textAlign": "center",
-                  "width": 64,
-                }
-              }
-            >
-              <svg
-                fill="none"
-                height={30}
+              <path
+                d="M1.82198 9.7422L9.57436 16.7422C9.75813 16.9081 9.99693 17 10.2445 17H33C33.5523 17 34 16.5523 34 16V2C34 1.44772 33.5523 1 33 1H10.2445C9.99693 1 9.75813 1.09186 9.57436 1.25779L1.82198 8.25779C1.38221 8.65488 1.38221 9.34512 1.82198 9.7422Z"
+                stroke="#2E3338"
+                strokeWidth="3"
                 style={Object {}}
-                viewBox="0 0 35 18"
-                width={30}
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.82198 9.7422L9.57436 16.7422C9.75813 16.9081 9.99693 17 10.2445 17H33C33.5523 17 34 16.5523 34 16V2C34 1.44772 33.5523 1 33 1H10.2445C9.99693 1 9.75813 1.09186 9.57436 1.25779L1.82198 8.25779C1.38221 8.65488 1.38221 9.34512 1.82198 9.7422Z"
-                  stroke="#2E3338"
-                  strokeWidth="3"
-                  style={Object {}}
-                />
-                <path
-                  d="M17 5L25 13M17 13L25 5"
-                  stroke="#2E3338"
-                  strokeWidth="3"
-                  style={Object {}}
-                />
-              </svg>
-            </View>
+              />
+              <path
+                d="M17 5L25 13M17 13L25 5"
+                stroke="#2E3338"
+                strokeWidth="3"
+                style={Object {}}
+              />
+            </svg>
           </View>
         </View>
       </View>
     </View>
-  </RCTScrollView>
+  </View>
 </RNCSafeAreaView>
 `;

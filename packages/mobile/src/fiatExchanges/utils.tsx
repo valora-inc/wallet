@@ -175,19 +175,11 @@ export const sortProviders = (provider1: CicoProvider, provider2: CicoProvider) 
     return -1
   }
 
-  if (provider1.restricted) {
+  if (provider1.restricted && !provider2.restricted) {
     return 1
   }
 
-  if (provider2.restricted) {
-    return -1
-  }
-
-  if (!provider1.quote) {
-    return 1
-  }
-
-  if (!provider2.quote) {
+  if (provider2.restricted && !provider1.restricted) {
     return -1
   }
 

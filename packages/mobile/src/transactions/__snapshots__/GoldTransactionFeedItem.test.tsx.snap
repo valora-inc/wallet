@@ -18,12 +18,12 @@ exports[`GoldTransactionFeedItem renders correctly 1`] = `
   onResponderTerminate={[Function]}
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
+  testID="GoldTransactionFeedItem"
 >
   <View
     style={
       Object {
         "flex": 1,
-        "flexWrap": "wrap",
         "justifyContent": "space-between",
         "padding": 16,
       }
@@ -44,7 +44,6 @@ exports[`GoldTransactionFeedItem renders correctly 1`] = `
         style={
           Object {
             "flexDirection": "row",
-            "flexWrap": "wrap",
           }
         }
       >

@@ -423,12 +423,6 @@ export const matchedContactsSelector = (state: RootState) => state.identity.matc
 export const addressToDisplayNameSelector = (state: RootState) =>
   state.identity.addressToDisplayName
 
-export const providerAddressesSelector = ({ identity: { addressToDisplayName } }: RootState) => {
-  return Object.entries(addressToDisplayName)
-    .filter(([_, info]) => info?.isProviderAddress)
-    .map(([address, _]) => address)
-}
-
 export const identifierToE164NumberSelector = createSelector(
   e164NumberToSaltSelector,
   (e164NumberToSalt) => {

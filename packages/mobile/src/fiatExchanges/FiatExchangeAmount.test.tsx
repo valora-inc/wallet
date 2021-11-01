@@ -1,6 +1,8 @@
+// @ts-ignore
+import { toBeDisabled } from '@testing-library/jest-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
@@ -22,11 +24,20 @@ import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
+expect.extend({ toBeDisabled })
+
 const usdExchangeRates = {
   [Currency.Dollar]: '1',
   [Currency.Euro]: '1.2',
   [Currency.Celo]: '3',
 }
+
+const eurExchangeRates = {
+  [Currency.Dollar]: '0.862',
+  [Currency.Euro]: '1',
+  [Currency.Celo]: '2.5',
+}
+
 const phpExchangeRates = {
   [Currency.Dollar]: '50',
   [Currency.Euro]: '60',
@@ -44,6 +55,20 @@ const storeWithUSD = createMockStore({
     fetchedCurrencyCode: LocalCurrencyCode.USD,
     preferredCurrencyCode: LocalCurrencyCode.USD,
     exchangeRates: usdExchangeRates,
+  },
+})
+
+const storeWithEUR = createMockStore({
+  stableToken: {
+    balances: { [Currency.Dollar]: '1000.00', [Currency.Euro]: '500.00' },
+  },
+  goldToken: {
+    balance: '5.5',
+  },
+  localCurrency: {
+    fetchedCurrencyCode: LocalCurrencyCode.EUR,
+    preferredCurrencyCode: LocalCurrencyCode.EUR,
+    exchangeRates: eurExchangeRates,
   },
 })
 
@@ -69,7 +94,7 @@ describe('FiatExchangeAmount cashIn', () => {
     storeWithPHP.clearActions()
   })
 
-  it('renders correctly', () => {
+  it('renders correctly with USD as app currency', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       currency: Currency.Dollar,
       paymentMethod: PaymentMethod.Bank,
@@ -77,6 +102,20 @@ describe('FiatExchangeAmount cashIn', () => {
     })
     const tree = render(
       <Provider store={storeWithUSD}>
+        <FiatExchangeAmount {...mockScreenProps} />
+      </Provider>
+    )
+    expect(tree).toMatchSnapshot()
+  })
+
+  it('renders correctly with EUR as app currency', () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
+      currency: Currency.Dollar,
+      paymentMethod: PaymentMethod.Bank,
+      isCashIn: true,
+    })
+    const tree = render(
+      <Provider store={storeWithEUR}>
         <FiatExchangeAmount {...mockScreenProps} />
       </Provider>
     )
@@ -96,7 +135,7 @@ describe('FiatExchangeAmount cashIn', () => {
     )
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '0')
-    expect(tree.getByTestId('FiatExchangeNextButton').props.disabled).toBe(true)
+    expect(tree.getByTestId('FiatExchangeNextButton')).toBeDisabled()
   })
 
   it('disables the next button if the cEUR amount is 0', () => {
@@ -112,7 +151,7 @@ describe('FiatExchangeAmount cashIn', () => {
     )
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '0')
-    expect(tree.getByTestId('FiatExchangeNextButton').props.disabled).toBe(true)
+    expect(tree.getByTestId('FiatExchangeNextButton')).toBeDisabled()
   })
 
   it('enables the next button if the cUSD amount is greater than 0', () => {
@@ -128,7 +167,7 @@ describe('FiatExchangeAmount cashIn', () => {
     )
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '5')
-    expect(tree.getByTestId('FiatExchangeNextButton').props.disabled).toBe(false)
+    expect(tree.getByTestId('FiatExchangeNextButton')).not.toBeDisabled()
   })
 
   it('enables the next button if the cEUR amount is greater than 0', () => {
@@ -144,7 +183,7 @@ describe('FiatExchangeAmount cashIn', () => {
     )
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '5')
-    expect(tree.getByTestId('FiatExchangeNextButton').props.disabled).toBe(false)
+    expect(tree.getByTestId('FiatExchangeNextButton')).not.toBeDisabled()
   })
 
   it('opens a dialog when the cUSD amount is lower than the limit', () => {
@@ -409,7 +448,7 @@ describe('FiatExchangeAmount cashOut', () => {
     )
 
     fireEvent.changeText(tree.getByTestId('FiatExchangeInput'), '0')
-    expect(tree.getByTestId('FiatExchangeNextButton').props.disabled).toBe(true)
+    expect(tree.getByTestId('FiatExchangeNextButton')).toBeDisabled()
   })
 
   it('shows an error banner if the user balance is less than the requested cash-out amount', () => {

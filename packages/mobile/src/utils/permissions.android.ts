@@ -1,23 +1,15 @@
 import { Permission, PermissionsAndroid } from 'react-native'
+import { PRIVACY_LINK } from 'src/brandingConfig'
+import i18n from 'src/i18n'
 import Logger from 'src/utils/Logger'
 
-// TODO(Rossy) i18n in this file
-
 const TAG = 'utils/permissions.android'
-
-export async function requestPhoneStatePermission() {
-  return requestPermission(
-    PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
-    'Phone State',
-    'Celo would like to read your phone state to retrieve your phone number.'
-  )
-}
 
 export async function requestContactsPermission() {
   return requestPermission(
     PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
-    'View Contacts',
-    'Celo would like to view your contacts'
+    i18n.t('onboarding:contacts.disclosure.title'),
+    i18n.t('onboarding:contacts.disclosure.body', { privacyLink: PRIVACY_LINK })
   )
 }
 
@@ -33,7 +25,8 @@ async function requestPermission(permission: Permission, title?: string, message
         ? {
             title,
             message,
-            buttonPositive: 'OK',
+            buttonPositive: i18n.t('global:continue'),
+            buttonNegative: i18n.t('global:notNow'),
           }
         : undefined
     )

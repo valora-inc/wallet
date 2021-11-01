@@ -1,7 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ExchangeFeedItem } from 'src/transactions/ExchangeFeedItem'
 import { TransactionStatus } from 'src/transactions/types'
@@ -23,7 +23,7 @@ describe('ExchangeFeedItem', () => {
   })
 
   it('renders correctly', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={createMockStore({})}>
         <ExchangeFeedItem
           status={TransactionStatus.Complete}

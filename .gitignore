@@ -91,3 +91,7 @@ packages/docs/_book/
 .env.local
 
 packages/provider-url-service/*
+packages/moonpay-auth/*
+packages/komencikit/*
+packages/indexer/*
+packages/blockchain-api/*

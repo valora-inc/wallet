@@ -4,9 +4,9 @@ import colors from '@celo/react-components/styles/colors'
 import React, { useMemo, useState } from 'react'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { CeloExchangeEvents } from 'src/analytics/Events'
-import CancelButton from 'src/components/CancelButton'
+import BackButton from 'src/components/BackButton'
 import CustomHeader from 'src/components/header/CustomHeader'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheetLegacy, { TokenPickerOrigin } from 'src/components/TokenBottomSheetLegacy'
 import { STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import i18n from 'src/i18n'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
@@ -73,8 +73,8 @@ function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency 
 
   return (
     <>
-      <CustomHeader left={<CancelButton eventName={cancelEventName} />} title={title} />
-      <TokenBottomSheet
+      <CustomHeader left={<BackButton eventName={cancelEventName} />} title={title} />
+      <TokenBottomSheetLegacy
         isVisible={showingTokenPicker}
         origin={TokenPickerOrigin.Exchange}
         onCurrencySelected={onCurrencySelected}

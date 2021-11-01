@@ -247,7 +247,7 @@ export function* sendTransaction(
 }
 
 // SendTransactionMethod is a redux saga generator that takes a nonce and returns a receipt.
-type SendTransactionMethod = (nonce?: number) => Generator<any, CeloTxReceipt, any>
+export type SendTransactionMethod = (nonce?: number) => Generator<any, CeloTxReceipt, any>
 
 export function* wrapSendTransactionWithRetry(
   sendTxMethod: SendTransactionMethod,

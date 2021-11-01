@@ -6,8 +6,14 @@ import {
   FiatCurrency,
   SIMPLEX_DATA,
 } from '../config'
-import { UserDeviceInfo } from './composeCicoProviderUrl'
-import { fetchWithTimeout, getOrCreateUuid, getUserInitData } from './utils'
+import { Providers } from './Providers'
+import {
+  fetchWithTimeout,
+  getOrCreateUuid,
+  getUserInitData,
+  storeTransactionId,
+  UserDeviceInfo,
+} from './utils'
 
 export interface SimplexQuote {
   user_id: string
@@ -54,6 +60,11 @@ export const Simplex = {
         throw Error('No purchase amount provided')
       }
 
+      if (currencyToBuy === DigitalAsset.CEUR) {
+        console.info('Simplex does not yet support cEUR')
+        return
+      }
+
       const userUuid = await getOrCreateUuid(userAddress)
       const simplexQuote: SimplexQuote = await Simplex.post(
         `${SIMPLEX_DATA.api_url}/wallet/merchant/v2/quote`,
@@ -71,7 +82,7 @@ export const Simplex = {
 
       return simplexQuote
     } catch (error) {
-      console.error('Error fetching Simplex quote: ', error)
+      console.error(`Error fetching Simplex quote for address ${userAddress}: `, error)
     }
   },
   fetchPaymentRequest: async (
@@ -89,6 +100,7 @@ export const Simplex = {
       const { id, appVersion, userAgent } = deviceInfo
       const accountCreationData = await getUserInitData(currentIpAddress, id, userAgent)
       const userUuid = await getOrCreateUuid(userAddress)
+      await storeTransactionId(userAddress, paymentId, Providers.Simplex)
 
       const simplexPaymentRequestResponse: SimplexPaymentRequestResponse = await Simplex.post(
         `${SIMPLEX_DATA.api_url}/wallet/merchant/v2/payments/partner/data`,
@@ -134,7 +146,7 @@ export const Simplex = {
       const simplexPaymentData: SimplexPaymentData = { paymentId, orderId, checkoutHtml }
       return simplexPaymentData
     } catch (error) {
-      console.error('Error fetching Simplex payment request: ', error)
+      console.error(`Error fetching Simplex payment request for address ${userAddress}: `, error)
     }
   },
   generateCheckoutForm: (paymentId: string) => `
@@ -167,12 +179,20 @@ export const Simplex = {
 
       const data = await response.json()
       if (!response.ok) {
-        throw Error(`Response body ${JSON.stringify(data)}`)
+        throw new Error(`Response body ${JSON.stringify(data)}`)
+      }
+
+      // Need to manually check for an error field because Simplex doesn't change the status code
+      if (data?.error) {
+        throw new Error(data.error)
       }
 
       return data
     } catch (error) {
-      console.error(`Simplex post request failed.\nURL: ${path}\n`, error)
+      console.info(
+        `Simplex post request failed.\nURL: ${path} Body: ${JSON.stringify(body)}\n`,
+        error
+      )
       throw error
     }
   },

@@ -1,0 +1,40 @@
+{
+  "connectToWallet": "{{dappName}} möchte sich mit {{appName}} verbinden",
+  "cancel": "Abbrechen",
+  "allow": "Erlauben",
+  "loadingFromScan": "Scannen",
+  "loadingFromDeeplink": "Verbindungsaufbau",
+  "action": {
+    "asking": "Diese Anwendung verlangt folgende Aktion",
+    "operation": "Operation",
+    "data": "Daten",
+    "sign": "Signiere eine Daten-Nutzlast",
+    "signTransaction": "Signieren eine Celo TX",
+    "sendTransaction": "Senden eine Celo TX",
+    "decrypt": "Daten-Payload entschlüsseln",
+    "accounts": "Lese deine {{appName}} Konto-Adresse",
+    "details": "Details anzeigen",
+    "computeSharedSecret": "Geheimnisse generieren"
+  },
+  "sessionInfo": "Diese Anwendung kann folgende Aktionen fordern:",
+  "description": {
+    "sign": "Payloads unterschreiben",
+    "signTransaction": "Guthaben senden",
+    "sendTransaction": "Guthaben senden",
+    "accounts": "Adresse lesen",
+    "decrypt": "Daten entschlüsseln",
+    "computeSharedSecret": "Geheimnis generieren"
+  },
+  "tapToDisconnect": "Antippen zum Trennen der Verbindung",
+  "moreInfo": "Irgendwas hier verwirrt dich hier?",
+  "sessionsTitle": "Verknüpfte Apps",
+  "sessionsSubTitle": "Die folgenden Apps sind mit {{appName}} verbunden. Du kannst dich mit weiteren Apps verbinden, indem du ihren QR-Code scannst.",
+  "disconnect": "Verbindung trennen",
+  "disconnectTitle": "Soll {{dappName}} getrennt werden?",
+  "disconnectBody": "Bist Du sicher, dass Du die Verbindung zu {{dappName}} trennen möchtest?",
+  "connectionSuccess": "Erfolgreich! Bitte gehe zurück zu {{dappName}}, um fortzufahren",
+  "timeoutTitle": "Zeitüberschreitung!",
+  "timeoutSubtitle": "Zeitüberschreitung bei der Verbindung. Bitte prüfe deine Internetverbindung und versuche es erneut",
+  "goBackButton": "Zurück",
+  "v2Unsupported": "Dieser QR-Code wird nicht unterstützt"
+}

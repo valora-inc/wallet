@@ -1,5 +1,6 @@
 import Analytics, { Analytics as analytics } from '@segment/analytics-react-native'
 import Adjust from '@segment/analytics-react-native-adjust'
+import CleverTapSegment from '@segment/analytics-react-native-clevertap'
 import Firebase from '@segment/analytics-react-native-firebase'
 import { sha256 } from 'ethereumjs-util'
 import { Platform } from 'react-native'
@@ -46,11 +47,12 @@ async function getDeviceInfo() {
 }
 
 const SEGMENT_OPTIONS: analytics.Configuration = {
-  using: [FIREBASE_ENABLED ? Firebase : undefined, Adjust].filter(isPresent),
+  using: [FIREBASE_ENABLED ? Firebase : undefined, Adjust, CleverTapSegment].filter(isPresent),
   flushAt: 20,
   debug: __DEV__,
   trackAppLifecycleEvents: true,
   recordScreenViews: true,
+  trackAttributionData: true,
   ios: {
     trackAdvertising: false,
     trackDeepLinks: true,
@@ -151,6 +153,22 @@ class ValoraAnalytics {
     })
   }
 
+  identify(userID: string, traits: {}) {
+    if (!this.isEnabled()) {
+      Logger.debug(TAG, `Analytics is disabled, not tracking user ${userID}`)
+      return
+    }
+
+    if (!SEGMENT_API_KEY) {
+      Logger.debug(TAG, `No API key, not tracking user ${userID}`)
+      return
+    }
+
+    Analytics.identify(userID, traits).catch((err) => {
+      Logger.error(TAG, `Failed to identify user ${userID}`, err)
+    })
+  }
+
   page(page: string, eventProperties = {}) {
     if (!SEGMENT_API_KEY) {
       return
@@ -202,4 +220,51 @@ class ValoraAnalytics {
   }
 }
 
-export default new ValoraAnalytics()
+let isInitialized = false
+type KeysOfType<T, TProp> = { [P in keyof T]: T[P] extends TProp ? P : never }[keyof T]
+type ValoraAnalyticsKeyFunction = KeysOfType<ValoraAnalytics, Function>
+// Type checked function keys to queue until `init` has finished
+const funcsToQueue = new Set<ValoraAnalyticsKeyFunction>([
+  'startSession',
+  'track',
+  'identify',
+  'page',
+])
+let queuedCalls: Function[] = []
+
+function isFuncToQueue(prop: string | number | symbol): prop is ValoraAnalyticsKeyFunction {
+  return funcsToQueue.has(prop as ValoraAnalyticsKeyFunction)
+}
+
+/**
+ * Use a proxy to queue specific calls until async `init` has finished
+ * So all events are sent with the right props to our initialized analytics integrations
+ */
+export default new Proxy(new ValoraAnalytics(), {
+  get: function (target, prop, receiver) {
+    if (!isInitialized) {
+      if (prop === 'init') {
+        return new Proxy(target[prop], {
+          apply: (target, thisArg, argumentsList) => {
+            return Reflect.apply(target, thisArg, argumentsList).finally(() => {
+              isInitialized = true
+              // Init finished, we can now process queued calls
+              for (const fn of queuedCalls) {
+                fn()
+              }
+              queuedCalls = []
+            })
+          },
+        })
+      } else if (isFuncToQueue(prop)) {
+        return new Proxy(target[prop], {
+          apply: (target, thisArg, argumentsList) => {
+            queuedCalls.push(() => Reflect.apply(target, thisArg, argumentsList))
+            Logger.debug(TAG, `Queued call to ${prop}`, ...argumentsList)
+          },
+        })
+      }
+    }
+    return Reflect.get(target, prop, receiver)
+  },
+})

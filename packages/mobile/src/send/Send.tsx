@@ -14,6 +14,7 @@ import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { verificationPossibleSelector } from 'src/app/selectors'
 import { estimateFee, FeeType } from 'src/fees/actions'
+import { features } from 'src/flags'
 import { Namespaces } from 'src/i18n'
 import ContactPermission from 'src/icons/ContactPermission'
 import { importContacts } from 'src/identity/actions'
@@ -43,7 +44,9 @@ interface Section {
 type Props = StackScreenProps<StackParamList, Screens.Send>
 
 function Send({ route }: Props) {
+  const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
+  const forceCurrency = route.params?.forceCurrency
   const { t } = useTranslation(Namespaces.sendFlow7)
 
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
@@ -97,7 +100,10 @@ function Send({ route }: Props) {
     }
 
     const permissionGranted = await requestContactsPermission()
-    dispatch(importContacts())
+    if (permissionGranted) {
+      dispatch(importContacts())
+    }
+
     return permissionGranted
   }, [])
 
@@ -120,11 +126,20 @@ function Send({ route }: Props) {
         }
       )
 
-      navigate(Screens.SendAmount, {
-        recipient,
-        isOutgoingPaymentRequest,
-        origin: SendOrigin.AppSendFlow,
-      })
+      if (features.USE_TOKEN_SEND_FLOW) {
+        navigate(Screens.SendAmount, {
+          recipient,
+          isOutgoingPaymentRequest,
+          origin: SendOrigin.AppSendFlow,
+        })
+      } else {
+        navigate(Screens.SendAmountLegacy, {
+          recipient,
+          isOutgoingPaymentRequest,
+          origin: SendOrigin.AppSendFlow,
+          forceCurrency,
+        })
+      }
     },
     [isOutgoingPaymentRequest, searchQuery]
   )
@@ -149,7 +164,7 @@ function Send({ route }: Props) {
   }
 
   const renderListHeader = () => {
-    if (!numberVerified && verificationPossible) {
+    if (!numberVerified && verificationPossible && !skipContactsImport) {
       return (
         <SendCallToAction
           icon={<VerifyPhone height={49} />}
@@ -189,6 +204,7 @@ function Send({ route }: Props) {
         defaultCountryCode={defaultCountryCode}
         listHeaderComponent={renderListHeader}
         onSelectRecipient={onSelectRecipient}
+        isOutgoingPaymentRequest={isOutgoingPaymentRequest}
       />
     </SafeAreaView>
   )

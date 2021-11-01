@@ -1,0 +1,58 @@
+{
+  "headerTitle": "Wiederherstellungsphrase",
+  "introTitle": "Deine Wiederherstellungsphrase",
+  "introBody": "Deine Wiederherstellungsphrase ist der wichtigste Teil deines Kontos.\n\nBitte finde einen privaten Ort, um deine Phrase einzurichten. Es dauert etwa fünf Minuten.",
+  "introPrimaryAction": "Jetzt einrichten",
+  "backupSetupTitle": "Wiederherstellungsphrase einrichten",
+  "backupSetupBody": "Um dein Guthaben zu schützen, musst du deine Wiederherstellungsphrase einrichten, bevor du mit {{appName}} fortfahren kannst.",
+  "delayBackup": "Warte eine Stunde",
+  "postSetupTitle": "Deine Wiederherstellungsphrase",
+  "postSetupBody": "Wenn du deine Wiederherstellungsphrase verlierst, verlierst du den Zugriff auf alle deine Celo Dollar und CELO. Niemand, nicht einmal {{appName}}, wird dir helfen können, dein Konto ohne deine Wiederherstellungsphrase wiederherzustellen. Bewahre es an einem sicheren Ort und teile es nicht.",
+  "postSetupCTA": "Erfahre mehr über deine Wiederherstellungsphrase",
+  "failedFetchMnemonic": "Fehler beim Abrufen der Wiederherstellungsphrase",
+  "backupAndRecovery": "Sicherung und Wiederherstellung",
+  "writeDownKey": "Bitte schreibe deine Phrase auf",
+  "completeEducation": "Ich verstehe",
+  "yourAccountKey": "Deine Wiederherstellungsphrase",
+  "backupKeyNotification": "Deine Wiederherstellungsphrase ist der wichtigste Teil deines Kontos",
+  "backupKeySummary": "Finde einen privaten Ort und schreibe deine Wiederherstellungsphrase auf. Bitte speichere ihn an einem sicheren Ort. Speichere ihn nicht in deinem Telefon.",
+  "copied": "Phrase in die Zwischenablage kopiert",
+  "moreInfo": "Weitere Infos",
+  "savedConfirmation": "Ja, ich habe meine Phrase aufgeschrieben.",
+  "backupQuizWordCount": "Was ist das <0>{{ordinal}}</0> Wort deiner Wiederherstellungsphrase?",
+  "importBackupFailed": "Import des Wallets fehlgeschlagen",
+  "backupQuizFailed": "Die Wiederherstellungsphrase ist falsch. Bitte versuche es erneut.",
+  "invalidBackupPhrase": "Wiederherstellungsphrase ungültig",
+  "invalidWordsInBackupPhrase": "Einige Wörter in der Wiederherstellungsphrase sind ungültig: {{ invalidWords }}",
+  "backupComplete": {
+    "header": "Sicherung abgeschlossen",
+    "0": "Erfolg!",
+    "1": "Als nächstes kannst du Safeguards einrichten.",
+    "2": "Du bist fertig!"
+  },
+  "cancelDialog": {
+    "title": "Schließe das Einrichten deiner Wiederherstellungsphrase ab",
+    "body": "Deine Wiederherstellungsphrase ist extrem wichtig. Ohne eine Phrase kannst du den Zugriff auf dein Wallet für immer verlieren.\nDu wirst vom Senden von Transaktionen blockiert, bis du die Einrichtung deiner Wiederherstellungsphrase abgeschlossen hast.",
+    "action": "Jetzt abschließen",
+    "secondary": "Später einrichten"
+  },
+  "backupPhrasePlaceholder": "horse leopard dog monkey shark tiger lemur whale squid wolf squirrel mouse lion elephant cat shrimp bear penguin deer turtle fox zebra goat giraffe",
+  "guide": [
+    {
+      "title": "Deine Wiederherstellungsphrase ist eine spezielle Art von Passwort",
+      "text": "Deine Wiederherstellungsphrase ist die einzige Möglichkeit, auf dein Konto zuzugreifen."
+    },
+    {
+      "title": "Ohne deine Wiederherstellungsphrase kannst Du den Zugriff für immer verlieren",
+      "text": "Wenn Du dein Telefon verlierst, musst du deine Wiederherstellungsphrase haben, um dein Konto zurück zu bekommen. Niemand, nicht einmal {{appName}}, wird in der Lage sein, dein Saldo ohne es wiederherzustellen."
+    },
+    {
+      "title": "Notiere es",
+      "text": "Schreibe deine Wiederherstellungsphrase auf und speichere sie an einem sicheren Ort. Speichere sie nicht auf deinem Telefon."
+    },
+    {
+      "title": "Behalte deine Phrase privat",
+      "text": "Jeder mit deiner Phrase hat Zugriff auf dein Konto und alle Guthaben. Teile es nicht mit anderen."
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import { Platform } from 'react-native'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
+import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
 import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
@@ -23,14 +24,24 @@ export interface State {
   activeScreen: Screens
   hideVerification: boolean
   showRaiseDailyLimitTarget: string | undefined
-  walletConnectEnabled: boolean
+  walletConnectV1Enabled: boolean
+  walletConnectV2Enabled: boolean
   rewardsPercent: number
   rewardsStartDate: number
   rewardsMax: number
+  rewardsMin: number
   rewardsABTestThreshold: string
   // In 1.13 we had a critical error which requires a migration to fix. See |verificationMigration.ts|
   // for the migration code. We can remove all the code associated with this after some time has passed.
   ranVerificationMigrationAt: number | null | undefined
+  logPhoneNumberTypeEnabled: boolean
+  googleMobileServicesAvailable: boolean | undefined
+  huaweiMobileServicesAvailable: boolean | undefined
+  pincodeUseExpandedBlocklist: boolean
+  rewardPillText?: {
+    [lang: string]: string
+  }
+  cashInButtonExpEnabled: boolean
 }
 
 const initialState = {
@@ -45,19 +56,27 @@ const initialState = {
   lastTimeBackgrounded: 0,
   sessionId: '',
   minVersion: null,
-  shortVerificationCodesEnabled: false,
+  shortVerificationCodesEnabled: FEATURE_FLAG_DEFAULTS.shortVerificationCodesEnabled,
   celoEducationUri: null,
-  celoEuroEnabled: false,
+  celoEuroEnabled: FEATURE_FLAG_DEFAULTS.celoEuroEnabled,
   inviteModalVisible: false,
   activeScreen: Screens.Main,
-  hideVerification: false,
+  hideVerification: FEATURE_FLAG_DEFAULTS.hideVerification,
   showRaiseDailyLimitTarget: undefined,
-  walletConnectEnabled: false,
-  rewardsPercent: 5,
-  rewardsStartDate: 1622505600000,
-  rewardsMax: 1000,
-  rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
+  walletConnectV1Enabled: FEATURE_FLAG_DEFAULTS.walletConnectV1Enabled,
+  walletConnectV2Enabled: FEATURE_FLAG_DEFAULTS.walletConnectV2Enabled,
+  rewardsPercent: FEATURE_FLAG_DEFAULTS.rewardsPercent,
+  rewardsStartDate: FEATURE_FLAG_DEFAULTS.rewardsStartDate,
+  rewardsMax: FEATURE_FLAG_DEFAULTS.rewardsMax,
+  rewardsMin: FEATURE_FLAG_DEFAULTS.rewardsMin,
+  rewardsABTestThreshold: FEATURE_FLAG_DEFAULTS.rewardsABTestThreshold,
   ranVerificationMigrationAt: null,
+  logPhoneNumberTypeEnabled: false,
+  googleMobileServicesAvailable: undefined,
+  huaweiMobileServicesAvailable: undefined,
+  pincodeUseExpandedBlocklist: FEATURE_FLAG_DEFAULTS.pincodeUseExpandedBlocklist,
+  rewardPillText: JSON.parse(FEATURE_FLAG_DEFAULTS.rewardPillText),
+  cashInButtonExpEnabled: false,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -160,11 +179,17 @@ export const appReducer = (
         celoEducationUri: action.flags.celoEducationUri,
         celoEuroEnabled: action.flags.celoEuroEnabled,
         shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
-        walletConnectEnabled: action.flags.walletConnectEnabled,
+        walletConnectV1Enabled: action.flags.walletConnectV1Enabled,
+        walletConnectV2Enabled: action.flags.walletConnectV2Enabled,
         rewardsPercent: action.flags.rewardsPercent,
         rewardsStartDate: action.flags.rewardsStartDate,
         rewardsMax: action.flags.rewardsMax,
+        rewardsMin: action.flags.rewardsMin,
         rewardsABTestThreshold: action.flags.rewardsABTestThreshold,
+        logPhoneNumberTypeEnabled: action.flags.logPhoneNumberTypeEnabled,
+        pincodeUseExpandedBlocklist: action.flags.pincodeUseExpandedBlocklist,
+        rewardPillText: JSON.parse(action.flags.rewardPillText),
+        cashInButtonExpEnabled: action.flags.cashInButtonExpEnabled,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
@@ -181,6 +206,12 @@ export const appReducer = (
         ...state,
         ranVerificationMigrationAt: action.now,
         numberVerified: action.isVerified,
+      }
+    case Actions.ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED:
+      return {
+        ...state,
+        googleMobileServicesAvailable: action.googleIsAvailable,
+        huaweiMobileServicesAvailable: action.huaweiIsAvailable,
       }
     default:
       return state

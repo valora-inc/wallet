@@ -1,81 +1,85 @@
 {
   "addFunds": "Agregar fondos",
   "addFundsSubtitle": "Agrega fondos a tu cuenta de Valora",
-  "exchanges": "Intercambiar",
-  "buySellOnExchanges": "Comprar/Vender en Intercambios",
-  "cashOut": "Retirar",
+  "exchanges": "Exchanges cripto",
+  "noExchanges": "No hay exchanges disponibles para {{digitalAsset}} en tu país.",
+  "buySellOnExchanges": "Comprar o vender en exchanges cripto",
+  "cashOut": "Retirar fondos",
   "cashOutSubtitle": "Adquiere tarjetas de regalo, haz compras o envía fondos a un exchange de criptomonedas",
-  "cashOutComingSoon": "Retirar (Muy Pronto)",
+  "cashOutComingSoon": "Retirar fondos (próximamente)",
   "spend": "Usar",
-  "spendSubtitle": "Usa tu balance con comercios asociados",
+  "spendSubtitle": "Usa tu saldo para pagar en comercios asociados",
   "amountCelo": "Monto (CELO)",
   "onlyCeloDollars": "Solo cUSD",
   "onlyCelo": "Solo CELO",
   "celoDollar": "Celo Dólar",
   "celoEuro": "Celo Euro",
   "celoDollars": "Celo Dólares",
-  "tapToCopyCeloDollarsAddress": "`Toca para copiar tu dirección de {{appName}} cUSD",
-  "disclaimerFiat": "{{currency}} valores son estimados.",
-  "dollarsNotYetEnabledNote": "Los Celo Dólares aún no están disponibles en ningún proveedor. Para obtener Celo Dólares, compra CELO y cámbialos por Celo Dólares dentro de Valora, bajo la pestaña CELO.",
+  "tapToCopyCeloDollarsAddress": "`Toca para copiar tu dirección de cUSD de {{appName}}",
+  "disclaimerFiat": "Los valores en {{currency}} son estimativos.",
+  "dollarsNotYetEnabledNote": "Los Celo Dólares aún no están disponibles en ningún proveedor. Para obtener Celo Dólares, compra CELO y cámbialos por Celo Dólares directamente en Valora, desde la pestaña CELO.",
   "selectDigitalCurrency": "Selecciona una moneda digital",
-  "selectPaymentMethod": "Pague con:",
-  "payWithBank": "Cuenta de banco",
+  "selectPaymentMethod": "Paga con:",
+  "payWithBank": "Cuenta bancaria",
   "payWithCard": "Tarjeta de débito",
   "payWithExchange": "Exchange de criptomonedas",
   "selectCashOutMethod": "Recibe los fondos en:",
-  "receiveOnAddress": "Dirección de cUSD/CELO",
+  "receiveOnAddress": "Dirección Celo",
   "receiveWithBidali": "Tarjetas de regalo y recargas móviles",
   "fundingEducationDialog": {
     "title": "Agregar fondos a {{appName}}",
-    "body": "{{appName}} corre sobre la Red Celo. {{appName}} funciona con Celo Dólares (cUSD), una moneda digital estable vinculada al dólar estadounidense.\n\nPara agregar fondos a {{appName}}, compra cUSD de uno de los proveedores disponibles en tu ubicación. Para más información por favor visita <0>{{link}}</0>",
+    "body": "{{appName}} corre sobre la Red Celo. {{appName}} funciona con Celo Dólares (cUSD), una moneda digital estable sujeta al dólar estadounidense.\n\nPara agregar fondos a tu cuenta de {{appName}}, compra cUSD de uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
-    "title": "Retira de {{appName}}",
-    "body": "{{appName}} corre sobre la Red Celo. {{appName}} funciona con Celo Dólares (cUSD), una moneda digital estable vinculada al dólar estadounidense.\n\nPara retirar tu balance de {{appName}}, vende cUSD en uno de los proveedores disponibles en tu ubicación. Para más información por favor visita <0>{{link}}</0>",
+    "title": "Retira fondos de {{appName}}",
+    "body": "{{appName}} corre sobre la Red Celo. {{appName}} funciona con Celo Dólares (cUSD), una moneda digital estable sujeta al dólar estadounidense.\n\nPara retirar el saldo de tu cuenta de {{appName}}, vende cUSD a uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "explanationModal": {
-    "title": "Sobre proveedores",
-    "body": "Estos proveedores te permiten agregar o retirar fondos de tu cuenta. Los proveedores determinan sus propias tarifas y restricciones, dependiendo de varios factores. Visita la web del proveedor para obtener ayuda."
+    "title": "Proveedores",
+    "body": "Los proveedores integrados te permiten agregar o retirar fondos de tu cuenta. Los proveedores determinan sus propias tarifas y restricciones, en función de diversos factores. Visita la web del proveedor para obtener ayuda específica."
   },
   "invalidAmountDialog": {
-    "minAmount": "Nuestros proveedores no soportan cantidades menores a {{limit}}. Por favor, ingresa un monto mayor.",
-    "maxAmount": "Nuestros proveedores no soportan cantidades superiores a {{limit}}. Por favor, ingresa un monto menor.",
+    "minAmount": "Nuestros proveedores no permiten montos totales inferiores a {{usdLimit}}{{localLimit}}. Por favor, ingresa un monto mayor.",
+    "maxAmount": "Nuestros proveedores no permiten montos totales superiores a {{usdLimit}}{{localLimit}}. Por favor, ingresa un monto más pequeño.",
     "dismiss": "OK"
   },
   "dailyLimitDialog": {
-    "body": "Estás por comprar una cantidad mayor a tu límite de envío diario de {{limit}}. Por favor contacta a <0>{{contactEmail}}</0> si quieres aumentar tu límite.",
+    "body": "Estás por comprar una cantidad superior al límite de envío diario de {{limit}}. Escríbenos a <0>{{contactEmail}}</0> si quieres aumentar tu límite diario.",
     "contact": "Contactar",
-    "continue": "Entendido"
+    "continue": "Entiendo"
   },
   "providerFeesDialog": {
-    "title": "Tasas de proveedores",
-    "body1": "Las comisiones de proveedores son fijadas por cada proveedor de forma individual e incluyen una tasa de cambio y una tasa de liquidez, entre otras. Para obtener más información, visita ",
-    "body2": "Sitio web de {{providerName}}"
+    "title": "Tarifas de proveedores",
+    "body1": "Cada proveedor fija sus tarifas de forma individual, y estas incluyen una tasa de cambio y una tasa de liquidez, entre otras. Para obtener más información, visita ",
+    "body2": "la web de {{providerName}}."
   },
   "providerFeeDiscountDialog": {
-    "title": "Descuento de comisión",
-    "body": "¡Como promoción, las tarifas están temporalmente subvencionadas para celebrar el lanzamiento de Valora!"
+    "title": "Descuento de tarifa",
+    "body": "Como promoción, las tarifas están temporalmente subvencionadas para celebrar el lanzamiento de Valora."
   },
-  "dailyLimitRequest": "Hola! Me gustaría aumentar mi límite de envío diario por favor.",
-  "pleaseSelectProvider": "Por favor selecciona un proveedor. Estos enlaces te conectarán a servicios de terceros.",
-  "otherFundingOptions": "Para conocer más formas de agregar y retirar fondos, a <0>Cómo depositar fondos en mi cuenta</0>",
-  "youCanTransfer": "Puedes transferir {{currency}} a o desde los siguientes intercambio. Necesitarás tu dirección de cuenta.",
-  "useBalanceWithMerchants": "Usa tu balance con comercios asociados",
-  "findMerchants": "Encuentra comercios asociados cerca de ti",
+  "dailyLimitRequest": "¡Hola! Me gustaría aumentar mi límite de envío diario.",
+  "pleaseSelectProvider": "Selecciona un proveedor de la lista a continuación. Estos enlaces te conectarán a servicios proporcionados por terceros.",
+  "otherFundingOptions": "Para conocer más formas de agregar y retirar fondos, consulta <0>¿Cómo puedo agregar fondos a mi cuenta de Valora?</0>",
+  "youCanTransferIn": "Puedes transferir {{digitalAsset}} desde cualquier exchange que admita {{digitalAsset}}. Necesitarás tu Dirección de cuenta.",
+  "youCanTransferOut": "Puedes transferir {{digitalAsset}} a cualquier exchange que admita {{digitalAsset}}. Una vez que tengas tu dirección, puedes continuar con el siguiente paso.",
+  "useBalanceWithMerchants": "Usa tu saldo para pagar en comercios asociados",
+  "findMerchants": "Encuentra comercios asociados cerca tuyo",
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
   "providerUnavailable": "No disponible actualmente",
   "pricePer": "Precio por {{coin}}",
-  "feeDiscount": "Descuento de comisión",
+  "feeDiscount": "Descuento de tarifa",
   "free": "GRATIS",
   "continueToProvider": "Continuar a {{provider}}",
   "cicoSuccess": {
-    "title": "¡Orden enviada!",
+    "title": "Orden enviada",
     "bodyWithProvider": "{{provider}} está procesando tu orden. Recibirás tus fondos en un par de días.",
     "bodyWithoutProvider": "El proveedor de servicios está procesando tu orden. Recibirás tus fondos dentro de un par de días."
   },
   "restrictedRegion": "Soporte limitado en la región",
-  "unsupportedPaymentMethod": "Pagar con {{paymentMethod}} no es compatible en tu región"
+  "unsupportedPaymentMethod": "No es posible pagar con {{paymentMethod}} en tu región.",
+  "noProviders": "No hay proveedores disponibles para {{digitalAsset}} en tu país.",
+  "switchCurrency": "Cambiar moneda"
 }

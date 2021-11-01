@@ -13,7 +13,7 @@
   "redeemInviteTimeout": "Redeem Invite Timed out",
   "accountSetupFailed": "Failed to create your wallet",
   "emptyInviteCode": "Invite code has no funds",
-  "transferDollarsToAccount": "Dollars transferred to your account!",
+  "transferDollarsToAccount": "Funds transferred to your account!",
   "inviteAnyone": "Send easily to your friends by adding your contacts",
   "inviteReceived": "Invite Received",
   "escrowPaymentNotificationTitle": "Invited {{mobile}}",
@@ -24,13 +24,13 @@
   },
   "sendAndInvite": "Send & Invite",
   "inviteAndSendDialog": {
-    "title": "Invite and Send",
-    "body": "Your payment to {{name}} will be waiting for them once they confirm their phone number. Share an invitation message with them to join {{appName}} and redeem your payment!",
-    "button": "Invite"
+    "title": "We'll hold on to your payment to {{name}}",
+    "body": "Share an invitation message with {{name}} to join Valora. Once they join & connect a phone number, they'll receive payment and you will receive your rewards!",
+    "button": "Finish sending"
   },
   "inviteRewardsBanner": {
-    "title": "Get ${{amount}} by referring a friend!",
-    "body": "Earn {{amount}} cUSD when you send money to a friend and they join. <0>Learn more</0>"
+    "title": "Get {{amount}} {{currency}} by sharing Valora with a friend!",
+    "body": "Earn {{amount}} {{currency}} when you send money to a friend and they join. <0>Learn more</0>"
   },
   "getReward": "Get ${{reward}}"
 }

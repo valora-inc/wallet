@@ -17,6 +17,8 @@ import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
 import { Namespaces } from 'src/i18n'
 import { addressToDisplayNameSelector } from 'src/identity/reducer'
+import { getRecipientFromAddress } from 'src/recipients/recipient'
+import { recipientInfoSelector } from 'src/recipients/reducer'
 import { navigateToPaymentTransferReview } from 'src/transactions/actions'
 import { TransactionStatus } from 'src/transactions/types'
 import { getDatetimeDisplayString } from 'src/utils/time'
@@ -29,8 +31,20 @@ export function CeloTransferFeedItem(props: Props) {
   const { t, i18n } = useTranslation(Namespaces.walletFlow5)
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
-  const { address, amount, hash, comment, status, timestamp, type } = props
-  const txInfo = txHashToFeedInfo[hash]
+  const recipientInfo = useSelector(recipientInfoSelector)
+  const {
+    address,
+    amount,
+    hash,
+    comment,
+    status,
+    timestamp,
+    type,
+    defaultName,
+    defaultImage,
+  } = props
+
+  const recipient = getRecipientFromAddress(address, recipientInfo, defaultName, defaultImage)
 
   const onPress = () => {
     ValoraAnalytics.track(CeloExchangeEvents.celo_transaction_select)
@@ -40,6 +54,7 @@ export function CeloTransferFeedItem(props: Props) {
       comment,
       amount,
       type,
+      recipient,
       // fee TODO: add fee here.
     })
   }
@@ -48,26 +63,21 @@ export function CeloTransferFeedItem(props: Props) {
   const isPending = status === TransactionStatus.Pending
   const isWithdrawal = new BigNumber(amount.value).isNegative()
   const displayName =
-    txInfo?.name || addressToDisplayName[address]?.name || formatShortenedAddress(address)
+    txHashToFeedInfo[hash]?.name ||
+    addressToDisplayName[address]?.name ||
+    recipient.name ||
+    formatShortenedAddress(address)
 
   return (
-    <Touchable onPress={onPress}>
+    <Touchable testID="CeloTransferFeedItem" disabled={isPending} onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.firstRow}>
-          <View style={styles.desc}>
-            <Text style={styles.txMode}>
-              {t(isWithdrawal ? 'feedItemGoldWithdrawal' : 'feedItemGoldReceived', {
-                displayName,
-              })}
-            </Text>
-          </View>
-          <View>
-            <CurrencyDisplay
-              amount={amount}
-              style={styles.amount}
-              showExplicitPositiveSign={true}
-            />
-          </View>
+          <Text style={styles.txMode}>
+            {t(isWithdrawal ? 'feedItemGoldWithdrawal' : 'feedItemGoldReceived', {
+              displayName,
+            })}
+          </Text>
+          <CurrencyDisplay amount={amount} style={styles.amount} showExplicitPositiveSign={true} />
         </View>
         <View style={styles.secondRow}>
           <Text style={styles.time}>{isPending ? t('confirmingExchange') : dateTimeFormatted}</Text>
@@ -86,18 +96,17 @@ const styles = StyleSheet.create({
   firstRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flex: 1,
     paddingBottom: 2,
     flexWrap: 'wrap',
   },
-  desc: {
-    flexDirection: 'row',
-  },
   txMode: {
+    flex: 3,
     ...fontStyles.regular500,
     color: colors.dark,
   },
   amount: {
+    flex: 1,
+    textAlign: 'right',
     ...fontStyles.regular500,
     color: colors.dark,
   },

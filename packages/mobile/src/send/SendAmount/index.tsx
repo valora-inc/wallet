@@ -5,18 +5,22 @@ import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
-import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AmountKeypad from 'src/components/AmountKeypad'
-import { ALERT_BANNER_DURATION, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import {
+  ALERT_BANNER_DURATION,
+  NUMBER_INPUT_MAX_DECIMALS,
+  STABLE_TRANSACTION_MIN_AMOUNT,
+} from 'src/config'
 import { Namespaces } from 'src/i18n'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
+import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
 import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
@@ -30,18 +34,22 @@ import SendAmountValue from 'src/send/SendAmount/SendAmountValue'
 import useTransactionCallbacks from 'src/send/SendAmount/useTransactionCallbacks'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { fetchStableBalances } from 'src/stableToken/actions'
-import { defaultCurrencySelector } from 'src/stableToken/selectors'
+import {
+  useAmountAsUsd,
+  useLocalToTokenAmount,
+  useTokenInfo,
+  useTokenToLocalAmount,
+} from 'src/tokens/hooks'
+import { defaultTokenSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
 
 export interface TransactionDataInput {
   recipient: Recipient
-  amount: BigNumber
-  currency: Currency
-  type: TokenTransactionType
-  reason?: string
-  firebasePendingRequestUid?: string | null
+  inputAmount: BigNumber
+  amountIsInLocalCurrency: boolean
+  tokenAddress: string
 }
 
 type RouteProps = StackScreenProps<StackParamList, Screens.SendAmount>
@@ -49,18 +57,53 @@ type Props = RouteProps
 
 const { decimalSeparator } = getNumberFormatSettings()
 
+export function useInputAmounts(
+  inputAmount: string,
+  usingLocalAmount: boolean,
+  tokenAddress: string
+) {
+  const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
+  const localToToken = useLocalToTokenAmount(parsedAmount, tokenAddress)!
+  const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenAddress)!
+
+  const localAmount = convertToMaxSupportedPrecision(usingLocalAmount ? parsedAmount : tokenToLocal)
+  const tokenAmount = convertToMaxSupportedPrecision(usingLocalAmount ? localToToken : parsedAmount)
+
+  const usdAmount = useAmountAsUsd(tokenAmount, tokenAddress)
+
+  return {
+    localAmount,
+    tokenAmount,
+    usdAmount: convertToMaxSupportedPrecision(usdAmount!),
+  }
+}
+
 function SendAmount(props: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
 
   const [amount, setAmount] = useState('')
-  const defaultCurrency = useSelector(defaultCurrencySelector)
-  const [transferCurrency, setTransferCurrency] = useState(defaultCurrency)
+  const [usingLocalAmount, setUsingLocalAmount] = useState(true)
+  const { isOutgoingPaymentRequest, recipient, origin, forceTokenAddress } = props.route.params
+  const defaultToken = useSelector(defaultTokenSelector)
+  const [transferTokenAddress, setTransferToken] = useState(forceTokenAddress ?? defaultToken)
   const [reviewButtonPressed, setReviewButtonPressed] = useState(false)
+  const tokenInfo = useTokenInfo(transferTokenAddress)!
 
-  const { isOutgoingPaymentRequest, recipient, origin } = props.route.params
-
+  const { tokenAmount, localAmount, usdAmount } = useInputAmounts(
+    amount,
+    usingLocalAmount,
+    transferTokenAddress
+  )
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
+
+  const maxInLocalCurrency =
+    useTokenToLocalAmount(tokenInfo.balance, transferTokenAddress)?.toString() ?? ''
+  const onPressMax = () => {
+    // TODO: Take into account fee amount if only one fee token has a balance.
+    setAmount(usingLocalAmount ? maxInLocalCurrency : tokenInfo.balance.toString())
+  }
+  const onSwapInput = () => setUsingLocalAmount(!usingLocalAmount)
 
   const dispatch = useDispatch()
 
@@ -77,12 +120,13 @@ function SendAmount(props: Props) {
     dispatch(fetchAddressesAndValidate(recipient.e164PhoneNumber))
   }, [])
 
-  const parsedLocalAmount = parseInputAmount(amount, decimalSeparator)
-
   const { onSend, onRequest } = useTransactionCallbacks({
     recipient,
-    localAmount: parsedLocalAmount,
-    transferCurrency,
+    localAmount,
+    tokenAmount,
+    usdAmount,
+    inputIsInLocalCurrency: usingLocalAmount,
+    transferTokenAddress,
     origin,
     isFromScan: !!props.route.params?.isFromScan,
   })
@@ -96,7 +140,7 @@ function SendAmount(props: Props) {
         return
       } else if (
         recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED &&
-        parsedLocalAmount.isGreaterThan(maxEscrowInLocalAmount)
+        localAmount.isGreaterThan(maxEscrowInLocalAmount)
       ) {
         dispatch(
           showError(ErrorMessages.MAX_ESCROW_TRANSFER_EXCEEDED, ALERT_BANNER_DURATION, {
@@ -113,20 +157,32 @@ function SendAmount(props: Props) {
 
   const onReviewButtonPressed = () => setReviewButtonPressed(true)
 
-  const isAmountValid = parsedLocalAmount.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT)
+  const isAmountValid = localAmount.isGreaterThanOrEqualTo(STABLE_TRANSACTION_MIN_AMOUNT)
 
   return (
     <SafeAreaView style={styles.container}>
       <SendAmountHeader
-        currency={transferCurrency}
+        tokenAddress={transferTokenAddress}
         isOutgoingPaymentRequest={!!props.route.params?.isOutgoingPaymentRequest}
-        onChangeCurrency={setTransferCurrency}
+        onChangeToken={setTransferToken}
+        disallowCurrencyChange={Boolean(forceTokenAddress)}
       />
       <DisconnectBanner />
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-        <SendAmountValue amount={amount} />
-        <AmountKeypad amount={amount} onAmountChange={setAmount} />
-      </ScrollView>
+      <View style={styles.contentContainer}>
+        <SendAmountValue
+          inputAmount={amount}
+          tokenAmount={tokenAmount}
+          usingLocalAmount={usingLocalAmount}
+          tokenAddress={transferTokenAddress}
+          onPressMax={onPressMax}
+          onSwapInput={onSwapInput}
+        />
+        <AmountKeypad
+          amount={amount}
+          maxDecimals={usingLocalAmount ? NUMBER_INPUT_MAX_DECIMALS : tokenInfo?.decimals ?? 0}
+          onAmountChange={setAmount}
+        />
+      </View>
       <Button
         style={styles.nextBtn}
         size={BtnSizes.FULL}

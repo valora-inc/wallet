@@ -1,4 +1,4 @@
-import { enterPinUi, sleep } from '../utils/utils'
+import { enterPinUi, setUrlDenyList, sleep } from '../utils/utils'
 import { EXAMPLE_NAME } from '../utils/consts'
 import { dismissBanners } from '../utils/banners'
 import { launchApp } from '../utils/retries'
@@ -11,7 +11,7 @@ export default NewAccountOnboarding = () => {
       delete: true,
       permissions: { notifications: 'YES', contacts: 'YES' },
     })
-    await device.setURLBlacklist(['.*blockchain-api-dot-celo-mobile-alfajores.appspot.com.*'])
+    await setUrlDenyList()
     await sleep(5000)
     await dismissBanners()
   })
@@ -50,9 +50,9 @@ export default NewAccountOnboarding = () => {
 
   // Ideally this wouldn't be dependent on the previous test
   // Skip setup on android for now
-  it('Setup Account Key', async () => {
+  it('Setup Recovery Phrase', async () => {
     await element(by.id('Hamburger')).tap()
-    await element(by.id('DrawerItem/Account Key')).tap()
+    await element(by.id('DrawerItem/Recovery Phrase')).tap()
 
     await enterPinUi()
 

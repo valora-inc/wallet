@@ -1,7 +1,7 @@
 import SegmentedControl from '@celo/react-components/components/SegmentedControl'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import Animated from 'react-native-reanimated'
-import { fireEvent, render } from 'react-native-testing-library'
 
 jest.mock('react-native-reanimated', () => require('react-native-reanimated/mock'))
 

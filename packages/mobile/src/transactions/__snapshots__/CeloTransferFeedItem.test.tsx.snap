@@ -18,6 +18,7 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
   onResponderTerminate={[Function]}
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
+  testID="CeloTransferFeedItem"
 >
   <View
     style={
@@ -31,7 +32,6 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
     <View
       style={
         Object {
-          "flex": 1,
           "flexDirection": "row",
           "flexWrap": "wrap",
           "justifyContent": "space-between",
@@ -39,48 +39,136 @@ exports[`CeloTransferFeedItem renders correctly 1`] = `
         }
       }
     >
-      <View
+      <Text
         style={
           Object {
-            "flexDirection": "row",
+            "color": "#2E3338",
+            "flex": 3,
+            "fontFamily": "Inter-Medium",
+            "fontSize": 16,
+            "lineHeight": 22,
           }
         }
       >
-        <Text
-          style={
+        feedItemGoldWithdrawal, {"displayName":"0xcc64...d23c"}
+      </Text>
+      <Text
+        style={
+          Array [
             Object {
               "color": "#2E3338",
+              "flex": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
-            }
+              "textAlign": "right",
+            },
+            Object {
+              "color": "#2E3338",
+            },
+          ]
+        }
+        testID="undefined/value"
+      >
+        -
+        
+        1.005
+      </Text>
+    </View>
+    <View
+      style={Object {}}
+    >
+      <Text
+        style={
+          Object {
+            "color": "#9CA4A9",
+            "fontFamily": "Inter-Regular",
+            "fontSize": 14,
+            "lineHeight": 18,
           }
-        >
-          feedItemGoldWithdrawal, {"displayName":"0xcc64...d23c"}
-        </Text>
-      </View>
-      <View>
-        <Text
-          style={
-            Array [
-              Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Medium",
-                "fontSize": 16,
-                "lineHeight": 22,
-              },
-              Object {
-                "color": "#2E3338",
-              },
-            ]
+        }
+      >
+        Dec 31 global:at 5:00 PM
+      </Text>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`CeloTransferFeedItem renders correctly when there's a default name 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  nativeBackgroundAndroid={
+    Object {
+      "attribute": "selectableItemBackground",
+      "rippleRadius": undefined,
+      "type": "ThemeAttrAndroid",
+    }
+  }
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  testID="CeloTransferFeedItem"
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "justifyContent": "space-between",
+        "padding": 16,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+          "justifyContent": "space-between",
+          "paddingBottom": 2,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#2E3338",
+            "flex": 3,
+            "fontFamily": "Inter-Medium",
+            "fontSize": 16,
+            "lineHeight": 22,
           }
-          testID="undefined/value"
-        >
-          -
-          
-          1.005
-        </Text>
-      </View>
+        }
+      >
+        feedItemGoldReceived, {"displayName":"John Doe"}
+      </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#2E3338",
+              "flex": 1,
+              "fontFamily": "Inter-Medium",
+              "fontSize": 16,
+              "lineHeight": 22,
+              "textAlign": "right",
+            },
+            Object {
+              "color": "#2E3338",
+            },
+          ]
+        }
+        testID="undefined/value"
+      >
+        +
+        
+        1.005
+      </Text>
     </View>
     <View
       style={Object {}}
@@ -120,6 +208,7 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
   onResponderTerminate={[Function]}
   onResponderTerminationRequest={[Function]}
   onStartShouldSetResponder={[Function]}
+  testID="CeloTransferFeedItem"
 >
   <View
     style={
@@ -133,7 +222,6 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
     <View
       style={
         Object {
-          "flex": 1,
           "flexDirection": "row",
           "flexWrap": "wrap",
           "justifyContent": "space-between",
@@ -141,48 +229,41 @@ exports[`CeloTransferFeedItem renders correctly when there's a known address 1`]
         }
       }
     >
-      <View
+      <Text
         style={
           Object {
-            "flexDirection": "row",
+            "color": "#2E3338",
+            "flex": 3,
+            "fontFamily": "Inter-Medium",
+            "fontSize": 16,
+            "lineHeight": 22,
           }
         }
       >
-        <Text
-          style={
+        feedItemGoldReceived, {"displayName":"This is a Test"}
+      </Text>
+      <Text
+        style={
+          Array [
             Object {
               "color": "#2E3338",
+              "flex": 1,
               "fontFamily": "Inter-Medium",
               "fontSize": 16,
               "lineHeight": 22,
-            }
-          }
-        >
-          feedItemGoldReceived, {"displayName":"This is a Test"}
-        </Text>
-      </View>
-      <View>
-        <Text
-          style={
-            Array [
-              Object {
-                "color": "#2E3338",
-                "fontFamily": "Inter-Medium",
-                "fontSize": 16,
-                "lineHeight": 22,
-              },
-              Object {
-                "color": "#2E3338",
-              },
-            ]
-          }
-          testID="undefined/value"
-        >
-          +
-          
-          1.005
-        </Text>
-      </View>
+              "textAlign": "right",
+            },
+            Object {
+              "color": "#2E3338",
+            },
+          ]
+        }
+        testID="undefined/value"
+      >
+        +
+        
+        1.005
+      </Text>
     </View>
     <View
       style={Object {}}

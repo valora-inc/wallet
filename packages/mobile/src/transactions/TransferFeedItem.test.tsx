@@ -1,8 +1,7 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import * as renderer from 'react-test-renderer'
 import { TokenTransactionType } from 'src/apollo/types'
 import { RecipientInfo } from 'src/recipients/recipient'
 import { TransferFeedItem } from 'src/transactions/TransferFeedItem'
@@ -31,7 +30,7 @@ const mockStore = createMockStore()
 
 describe('transfer feed item renders correctly', () => {
   it('for sent transaction', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -49,6 +48,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -56,7 +57,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for sent with encrypted comment', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -74,6 +75,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -81,7 +84,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for received with encrypted comment', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -99,6 +102,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -106,7 +111,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for verification fee', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -124,6 +129,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -131,7 +138,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for network fee', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -149,6 +156,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -156,7 +165,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for <0.000001 network fee', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -174,6 +183,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -181,7 +192,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for verification reward', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -199,6 +210,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -206,7 +219,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for faucet', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -224,6 +237,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -231,7 +246,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for sent invite', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -249,6 +264,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -265,7 +282,7 @@ describe('transfer feed item renders correctly', () => {
       inviteCode: 'join me!',
       inviteLink: 'joinme.com',
     }
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -283,6 +300,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[mockStoredInviteDetails]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -290,7 +309,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for received invite', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -308,6 +327,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -315,7 +336,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for received', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -333,6 +354,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -340,7 +363,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for known received', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -358,6 +381,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -365,7 +390,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for sent', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -383,6 +408,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -390,7 +417,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for known sent', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -408,6 +435,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -415,7 +444,7 @@ describe('transfer feed item renders correctly', () => {
     expect(tree).toMatchSnapshot()
   })
   it('for known sent without recipient cache populated', () => {
-    const tree = renderer.create(
+    const tree = render(
       <Provider store={mockStore}>
         <TransferFeedItem
           __typename="TokenTransfer"
@@ -433,13 +462,20 @@ describe('transfer feed item renders correctly', () => {
           invitees={[]}
           recipientInfo={mockRecipientInfo}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
     )
     expect(tree).toMatchSnapshot()
   })
-  const renderFeedItemForSendWithoutCaches = (address: string, recipientInfo: RecipientInfo) => (
+  const renderFeedItemForSendWithoutCaches = (
+    address: string,
+    recipientInfo: RecipientInfo,
+    defaultName?: string,
+    defaultImage?: string
+  ) => (
     <TransferFeedItem
       __typename="TokenTransfer"
       status={TransactionStatus.Complete}
@@ -456,6 +492,8 @@ describe('transfer feed item renders correctly', () => {
       recentTxRecipientsCache={{}}
       account={''}
       invitees={[]}
+      defaultName={defaultName || null}
+      defaultImage={defaultImage || null}
     />
   )
   it('for known address display name show stored name on feed item', () => {
@@ -500,6 +538,22 @@ describe('transfer feed item renders correctly', () => {
     expect(tree.queryByText(new RegExp(contactName))).toBeFalsy()
     expect(tree.queryByText(new RegExp(mockE164Number.replace('+', '\\+')))).toBeTruthy()
   })
+  it('should show default name when transaction contains one', () => {
+    const contactName = 'Some name'
+    const recipientInfo = {
+      phoneRecipientCache: {},
+      valoraRecipientCache: {},
+      addressToE164Number: {},
+      addressToDisplayName: {},
+    }
+    const tree = render(
+      <Provider store={createMockStore({})}>
+        {renderFeedItemForSendWithoutCaches(mockAccount, recipientInfo, contactName)}
+      </Provider>
+    )
+    expect(tree.queryByText(new RegExp(contactName))).toBeTruthy()
+    expect(tree.queryByText(new RegExp(mockE164Number.replace('+', '\\+')))).toBeFalsy()
+  })
   it('for received with a value between 0.01 and 0.001', () => {
     const { getByTestId } = render(
       <Provider store={mockStore}>
@@ -519,6 +573,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -545,6 +601,8 @@ describe('transfer feed item renders correctly', () => {
           recentTxRecipientsCache={{}}
           invitees={[]}
           account={''}
+          defaultImage={null}
+          defaultName={null}
           {...getMockI18nProps()}
         />
       </Provider>

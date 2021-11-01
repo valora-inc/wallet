@@ -49,23 +49,21 @@ export function ExchangeFeedItem(props: Props) {
   }
 
   return (
-    <Touchable onPress={onPress}>
+    <Touchable testID="GoldTransactionFeedItem" disabled={isPending} onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.firstRow}>
           <View style={styles.desc}>
             <Text style={styles.txMode}>
               {isSellGoldTx ? t('feedItemGoldSold') : t('feedItemGoldPurchased')}
             </Text>
-            <>
-              <Text style={styles.exchangeRate}> @ </Text>
-              <CurrencyDisplay
-                amount={exchangeRateAmount}
-                hideSymbol={false}
-                hideCode={true}
-                showLocalAmount={true}
-                style={styles.exchangeRate}
-              />
-            </>
+            <Text style={styles.exchangeRate}> @ </Text>
+            <CurrencyDisplay
+              amount={exchangeRateAmount}
+              hideSymbol={false}
+              hideCode={true}
+              showLocalAmount={true}
+              style={styles.exchangeRate}
+            />
           </View>
           <View>
             <CurrencyDisplay amount={amount} style={styles.amount} />
@@ -84,7 +82,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flex: 1,
     padding: variables.contentPadding,
-    flexWrap: 'wrap',
   },
   firstRow: {
     flexDirection: 'row',
@@ -95,7 +92,6 @@ const styles = StyleSheet.create({
   },
   desc: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
   },
   txMode: {
     ...fontStyles.regular500,

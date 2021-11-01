@@ -1,4 +1,5 @@
 import { Actions as AppActions, UpdateFeatureFlagsAction } from 'src/app/actions'
+import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
 import { areRecipientsEquivalent, Recipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { Actions, ActionTypes } from 'src/send/actions'
@@ -30,9 +31,9 @@ const initialState = {
   isSending: false,
   recentRecipients: [],
   recentPayments: [],
-  inviteRewardsEnabled: false,
-  inviteRewardCusd: 0,
-  inviteRewardWeeklyLimit: 0,
+  inviteRewardsEnabled: FEATURE_FLAG_DEFAULTS.inviteRewardsEnabled,
+  inviteRewardCusd: FEATURE_FLAG_DEFAULTS.inviteRewardCusd,
+  inviteRewardWeeklyLimit: FEATURE_FLAG_DEFAULTS.inviteRewardWeeklyLimit,
   lastUsedCurrency: Currency.Dollar,
   showSendToAddressWarning: true,
 }

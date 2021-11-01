@@ -1,62 +1,52 @@
 import { StackScreenProps } from '@react-navigation/stack'
+import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { fireEvent, flushMicrotasksQueue, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
-import { getSendFee } from 'src/send/saga'
 import SendConfirmation from 'src/send/SendConfirmation'
-import { Currency } from 'src/utils/currencies'
+import { getGasPrice } from 'src/web3/gas'
 import {
-  amountFromComponent,
   createMockStore,
+  flushMicrotasksQueue,
+  getElementText,
   getMockStackScreenProps,
   RecursivePartial,
 } from 'test/utils'
 import {
   mockAccount2Invite,
   mockAccountInvite,
-  mockE164NumberInvite,
-  mockInviteTransactionData,
-  mockTransactionData,
+  mockCeurAddress,
+  mockCusdAddress,
+  mockE164Number,
+  mockTokenInviteTransactionData,
+  mockTokenTransactionData,
 } from 'test/values'
 
-// A fee of 0.01 cUSD.
-const TEST_FEE_INFO_CUSD = {
-  fee: new BigNumber(10).pow(16),
-  gas: new BigNumber(200000),
-  gasPrice: new BigNumber(10).pow(10).times(5),
-  currency: Currency.Dollar,
-}
+const mockGasPrice = new BigNumber(50000000000)
+const mockDekFeeGas = new BigNumber(100000)
 
-// A fee of 0.01 CELO.
-const TEST_FEE_INFO_CELO = {
-  fee: new BigNumber(10).pow(16),
-  gas: new BigNumber(200000),
-  gasPrice: new BigNumber(10).pow(10).times(5),
-  currency: Currency.Celo,
-}
+jest.mock('src/web3/gas')
+const mockGetGasPrice = getGasPrice as jest.Mock
 
-jest.mock('src/components/useShowOrHideAnimation')
-jest.mock('src/send/saga')
-
-const mockedGetSendFee = getSendFee as jest.Mock
+jest.mock('src/web3/dataEncryptionKey', () => ({
+  getRegisterDekTxGas: () => mockDekFeeGas,
+}))
 
 const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-  transactionData: mockTransactionData,
+  transactionData: mockTokenTransactionData,
   origin: SendOrigin.AppSendFlow,
 })
 
 const mockInviteScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-  transactionData: mockInviteTransactionData,
+  transactionData: mockTokenInviteTransactionData,
   origin: SendOrigin.AppSendFlow,
 })
 
@@ -67,7 +57,8 @@ type ScreenProps = StackScreenProps<
 
 describe('SendConfirmation', () => {
   beforeEach(() => {
-    mockedGetSendFee.mockClear()
+    jest.clearAllMocks()
+    mockGetGasPrice.mockImplementation(() => mockGasPrice)
   })
 
   function renderScreen(
@@ -75,8 +66,19 @@ describe('SendConfirmation', () => {
     screenProps?: ScreenProps
   ) {
     const store = createMockStore({
-      stableToken: {
-        balances: { [Currency.Dollar]: '200', [Currency.Euro]: '100' },
+      tokens: {
+        tokenBalances: {
+          [mockCusdAddress]: {
+            symbol: 'cUSD',
+            balance: '200',
+            usdPrice: '1',
+          },
+          [mockCeurAddress]: {
+            symbol: 'cEUR',
+            balance: '100',
+            usdPrice: '1.2',
+          },
+        },
       },
       ...storeOverrides,
     })
@@ -98,26 +100,7 @@ describe('SendConfirmation', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('renders correctly for send payment confirmation with cUSD fees', async () => {
-    mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
-
-    const { getByText, getByTestId } = renderScreen()
-
-    fireEvent.press(getByText('feeEstimate'))
-
-    jest.runAllTimers()
-    await flushMicrotasksQueue()
-
-    const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
-    expect(amountFromComponent(feeComponent)).toEqual('$0.0133')
-
-    const totalComponent = getByTestId('TotalLineItem/Total/value')
-    expect(amountFromComponent(totalComponent)).toEqual('$1.34')
-  })
-
   it('renders correctly for send payment confirmation with CELO fees', async () => {
-    mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CELO)
-
     const { getByText, getByTestId } = renderScreen()
 
     fireEvent.press(getByText('feeEstimate'))
@@ -126,23 +109,22 @@ describe('SendConfirmation', () => {
     await flushMicrotasksQueue()
 
     const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
-    expect(amountFromComponent(feeComponent)).toEqual('0.01')
+    expect(getElementText(feeComponent)).toEqual('$0.0466')
 
     // NOTE: CELO fees are currently not combined into the total.
     // TODO: This should equal more than $1.33, depending on the CELO fee value.
-    const totalComponent = getByTestId('TotalLineItem/Total/value')
-    expect(amountFromComponent(totalComponent)).toEqual('$1.33')
+    const totalComponent = getByTestId('TotalLineItem/Total')
+    expect(getElementText(totalComponent)).toEqual('$1.33')
   })
 
   it('shows a generic `calculateFeeFailed` error when fee estimate fails due to an unknown error', async () => {
-    mockedGetSendFee.mockImplementation(async () => {
-      throw new Error('Unknown error message')
+    mockGetGasPrice.mockImplementation(() => {
+      throw new Error('Error while getting gas price')
     })
 
-    const { store, getByText, queryByTestId } = renderScreen()
+    const { store, queryByTestId, getByText } = renderScreen()
 
     store.clearActions()
-
     jest.runAllTimers()
     await flushMicrotasksQueue()
 
@@ -165,53 +147,25 @@ describe('SendConfirmation', () => {
     ])
   })
 
-  it('shows an `insufficientBalance` error when fee estimate fails due insufficient user balance', async () => {
-    mockedGetSendFee.mockImplementation(async () => {
-      throw new Error(ErrorMessages.INSUFFICIENT_BALANCE)
-    })
-
-    const { store, getByText, queryByTestId } = renderScreen()
-
-    store.clearActions()
-
-    jest.runAllTimers()
-    await flushMicrotasksQueue()
-
-    const feeComponent = queryByTestId('feeDrawer/SendConfirmation/totalFee/value')
-    expect(feeComponent).toBeFalsy()
-    expect(getByText('---')).toBeTruthy()
-
-    expect(store.getActions()).toEqual([
-      {
-        action: null,
-        alertType: 'error',
-        buttonMessage: null,
-        dismissAfter: 5000,
-        displayMethod: ErrorDisplayType.BANNER,
-        message: i18n.t('insufficientBalance', { ns: 'global' }),
-        title: null,
-        type: 'ALERT/SHOW',
-        underlyingError: 'insufficientBalance',
-      },
-    ])
-  })
-
   it('renders correctly when there are multiple user addresses (should show edit button)', async () => {
     const mockE164NumberToAddress: E164NumberToAddressType = {
-      [mockE164NumberInvite]: [mockAccountInvite, mockAccount2Invite],
+      [mockE164Number]: [mockAccountInvite, mockAccount2Invite],
     }
 
-    const { getByTestId } = renderScreen({
-      identity: {
-        e164NumberToAddress: mockE164NumberToAddress,
-        secureSendPhoneNumberMapping: {
-          [mockE164NumberInvite]: {
-            addressValidationType: AddressValidationType.FULL,
-            address: mockAccount2Invite,
+    const { getByTestId } = renderScreen(
+      {
+        identity: {
+          e164NumberToAddress: mockE164NumberToAddress,
+          secureSendPhoneNumberMapping: {
+            [mockE164Number]: {
+              addressValidationType: AddressValidationType.FULL,
+              address: mockAccount2Invite,
+            },
           },
         },
       },
-    })
+      mockInviteScreenProps
+    )
 
     expect(getByTestId('accountEditButton')).toBeTruthy()
   })
@@ -235,40 +189,43 @@ describe('SendConfirmation', () => {
 
   it('navigates to ValidateRecipientIntro when "edit" button is pressed', async () => {
     const mockE164NumberToAddress: E164NumberToAddressType = {
-      [mockE164NumberInvite]: [mockAccountInvite, mockAccount2Invite],
+      [mockE164Number]: [mockAccountInvite, mockAccount2Invite],
     }
     const mockAddressValidationType = AddressValidationType.PARTIAL
 
-    const { getByTestId } = renderScreen({
-      identity: {
-        e164NumberToAddress: mockE164NumberToAddress,
-        secureSendPhoneNumberMapping: {
-          [mockE164NumberInvite]: {
-            addressValidationType: mockAddressValidationType,
-            address: mockAccount2Invite,
+    const { getByTestId } = renderScreen(
+      {
+        identity: {
+          e164NumberToAddress: mockE164NumberToAddress,
+          secureSendPhoneNumberMapping: {
+            [mockE164Number]: {
+              addressValidationType: mockAddressValidationType,
+              address: mockAccount2Invite,
+            },
           },
         },
       },
-    })
+      mockInviteScreenProps
+    )
 
     fireEvent.press(getByTestId('accountEditButton'))
     expect(navigate).toHaveBeenCalledWith(Screens.ValidateRecipientIntro, {
       origin: SendOrigin.AppSendFlow,
-      transactionData: mockTransactionData,
+      transactionData: mockTokenInviteTransactionData,
       addressValidationType: mockAddressValidationType,
     })
   })
 
   it('does nothing when trying to press "edit" when user has not gone through Secure Send', async () => {
     const mockE164NumberToAddress: E164NumberToAddressType = {
-      [mockE164NumberInvite]: [mockAccount2Invite],
+      [mockE164Number]: [mockAccount2Invite],
     }
 
     const { queryByTestId } = renderScreen({
       identity: {
         e164NumberToAddress: mockE164NumberToAddress,
         secureSendPhoneNumberMapping: {
-          [mockE164NumberInvite]: {
+          [mockE164Number]: {
             addressValidationType: AddressValidationType.NONE,
             address: undefined,
           },
@@ -280,12 +237,11 @@ describe('SendConfirmation', () => {
   })
 
   it('renders correct modal for invitations', async () => {
-    mockedGetSendFee.mockImplementation(async () => TEST_FEE_INFO_CUSD)
+    const { getByTestId, queryAllByTestId } = renderScreen({}, mockInviteScreenProps)
 
-    const { queryByTestId, getByTestId } = renderScreen({}, mockInviteScreenProps)
-
-    expect(queryByTestId('InviteAndSendModal')?.props.isVisible).toBe(false)
-    fireEvent.press(getByTestId('ConfirmButton'))
-    expect(queryByTestId('InviteAndSendModal')?.props.isVisible).toBe(true)
+    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(false)
+    // Fire event press not working here so instead we call the onClick directly
+    getByTestId('ConfirmButton').props.onClick()
+    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(true)
   })
 })

@@ -1,7 +1,7 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import { localesList } from 'locales'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import Language from 'src/language/Language'
 import { navigate } from 'src/navigator/NavigationService'
@@ -21,8 +21,8 @@ describe('Language', () => {
       expect(getByText(name)).toBeDefined()
     })
 
-    fireEvent.press(getByText('Español (América Latina)'))
-    jest.runAllTimers()
+    fireEvent.press(getByText('Español'))
+    jest.runOnlyPendingTimers()
     expect(navigate).toHaveBeenCalledWith(Screens.OnboardingEducationScreen)
     expect(store.getActions()).toMatchInlineSnapshot(`
       Array [

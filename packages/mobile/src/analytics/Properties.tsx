@@ -1,9 +1,11 @@
+import { DappKitRequestTypes } from '@celo/utils'
 import { check } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   CeloExchangeEvents,
   ContractKitEvents,
+  DappKitEvents,
   EscrowEvents,
   FeeEvents,
   FiatExchangeEvents,
@@ -21,8 +23,14 @@ import {
   SettingsEvents,
   TransactionEvents,
   VerificationEvents,
+  WalletConnectEvents,
 } from 'src/analytics/Events'
-import { BackQuizProgress, ScrollDirection, SendOrigin } from 'src/analytics/types'
+import {
+  BackQuizProgress,
+  ScrollDirection,
+  SendOrigin,
+  WalletConnectPairingOrigin,
+} from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import {
@@ -80,6 +88,10 @@ interface AppEventsProperties {
     id?: string
     state: NotificationReceiveState
     type?: string
+  }
+  [AppEvents.android_mobile_services_availability_checked]: {
+    googleIsAvailable: boolean | undefined
+    huaweiIsAvailable: boolean | undefined
   }
   [AppEvents.request_tracking_permission_started]: {
     currentPermission: PermissionStatus
@@ -383,6 +395,9 @@ interface VerificationEventsProperties {
     issuer: any
     neededRetry: boolean
     feeless?: boolean
+    account?: string
+    phoneNumberType?: string
+    credentials?: string
   }
   [VerificationEvents.verification_reveal_attestation_await_code_start]: {
     issuer: any
@@ -553,28 +568,54 @@ interface SendEventsProperties {
   }
   [SendEvents.send_cancel]: undefined
   [SendEvents.send_amount_back]: undefined
-  [SendEvents.send_amount_continue]: {
-    origin: SendOrigin
-    isScan: boolean
-    isInvite: boolean
-    localCurrencyExchangeRate?: string | null
-    localCurrency: LocalCurrencyCode
-    localCurrencyAmount: string | null
-    underlyingCurrency: Currency
-    underlyingAmount: string | null
-  }
+  [SendEvents.send_amount_continue]:
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingCurrency: Currency
+        underlyingAmount: string | null
+      }
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingTokenAddress: string
+        underlyingTokenSymbol: string
+        underlyingAmount: string | null
+        amountInUsd: string | null
+      }
   [SendEvents.send_confirm_back]: undefined
-  [SendEvents.send_confirm_send]: {
-    origin: SendOrigin
-    isScan: boolean
-    isInvite: boolean
-    isRequest: boolean
-    localCurrencyExchangeRate?: string | null
-    localCurrency: LocalCurrencyCode
-    dollarAmount: string | null
-    localCurrencyAmount: string | null
-    commentLength: number
-  }
+  [SendEvents.send_confirm_send]:
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        isRequest: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        dollarAmount: string | null
+        localCurrencyAmount: string | null
+        commentLength: number
+      }
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrency: LocalCurrencyCode
+        usdAmount: string
+        localCurrencyAmount: string
+        tokenAmount: string
+        tokenSymbol: string
+        tokenAddress: string
+        commentLength: number
+      }
 
   [SendEvents.send_secure_start]: {
     confirmByScan: boolean
@@ -614,7 +655,7 @@ interface SendEventsProperties {
   }
   [SendEvents.token_selected]: {
     origin: TokenPickerOrigin
-    token: string
+    tokenAddress: string
   }
   [SendEvents.check_account_alert_shown]: undefined
   [SendEvents.check_account_do_not_ask_selected]: undefined
@@ -630,26 +671,52 @@ interface RequestEventsProperties {
     // TODO: decide what recipient info to collect, now that RecipientKind doesn't exist
     usedSearchBar: boolean
   }
-  [RequestEvents.request_amount_continue]: {
-    origin: SendOrigin
-    isScan: boolean
-    isInvite: boolean
-    localCurrencyExchangeRate?: string | null
-    localCurrency: LocalCurrencyCode
-    localCurrencyAmount: string | null
-    underlyingCurrency: Currency
-    underlyingAmount: string | null
-  }
-  [RequestEvents.request_unavailable]: {
-    origin: SendOrigin
-    isScan: boolean
-    isInvite: boolean
-    localCurrencyExchangeRate?: string | null
-    localCurrency: LocalCurrencyCode
-    localCurrencyAmount: string | null
-    underlyingCurrency: Currency
-    underlyingAmount: string | null
-  }
+  [RequestEvents.request_amount_continue]:
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingCurrency: Currency
+        underlyingAmount: string | null
+      }
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingTokenAddress: string
+        underlyingTokenSymbol: string
+        underlyingAmount: string | null
+        amountInUsd: string | null
+      }
+  [RequestEvents.request_unavailable]:
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingCurrency: Currency
+        underlyingAmount: string | null
+      }
+    | {
+        origin: SendOrigin
+        isScan: boolean
+        isInvite: boolean
+        localCurrencyExchangeRate?: string | null
+        localCurrency: LocalCurrencyCode
+        localCurrencyAmount: string | null
+        underlyingTokenAddress: string
+        underlyingTokenSymbol: string
+        underlyingAmount: string | null
+        amountInUsd: string | null
+      }
   [RequestEvents.request_confirm_back]: undefined
   [RequestEvents.request_confirm_request]: {
     requesteeAddress: string
@@ -807,6 +874,8 @@ interface FiatExchangeEventsProperties {
     provider: string | undefined
   }
   [FiatExchangeEvents.cico_add_funds_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_selected]: undefined
+  [FiatExchangeEvents.cico_add_funds_bottom_sheet_impression]: undefined
   [FiatExchangeEvents.cico_cash_out_selected]: undefined
   [FiatExchangeEvents.cico_spend_selected]: undefined
   [FiatExchangeEvents.cico_fund_info]: undefined
@@ -839,6 +908,8 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
   [FiatExchangeEvents.cico_spend_select_provider_back]: undefined
+  [FiatExchangeEvents.cico_non_celo_exchange_send_bar_continue]: undefined
+  [FiatExchangeEvents.cico_celo_exchange_send_bar_continue]: undefined
 }
 
 interface GethEventsProperties {
@@ -929,6 +1000,103 @@ interface RewardsProperties {
   }
 }
 
+interface WalletConnect1Properties {
+  version: 1
+  dappName: string
+  dappUrl: string
+  dappDescription: string
+  dappIcon: string
+  peerId: string
+  chainId: string
+}
+
+interface WalletConnect2Properties {
+  version: 2
+  dappName: string
+  dappUrl: string
+  dappDescription: string
+  dappIcon: string
+  permissionsBlockchains: string[]
+  permissionsJsonrpcMethods: string[]
+  permissionsNotificationsTypes: string[]
+  relayProtocol: string
+}
+
+type WalletConnectDefaultProperties = WalletConnect1Properties | WalletConnect2Properties
+
+type WalletConnectRequestDefaultProperties = WalletConnectDefaultProperties & {
+  requestChainId: string | undefined
+  requestId: number
+  requestJsonrpc: string
+  requestMethod: string
+  // TODO: add back when we confirm there's no privacy issue with tracking this
+  // requestParams: any
+}
+
+type WalletConnectRequestDenyProperties = WalletConnectRequestDefaultProperties & {
+  denyReason: string
+}
+
+interface WalletConnectProperties {
+  [WalletConnectEvents.wc_pairing_start]: {
+    origin: WalletConnectPairingOrigin
+  }
+  [WalletConnectEvents.wc_pairing_success]: undefined
+  [WalletConnectEvents.wc_pairing_error]: {
+    error: string
+  }
+
+  [WalletConnectEvents.wc_session_propose]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_approve_start]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_approve_success]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_approve_error]: WalletConnectDefaultProperties & {
+    error: string
+  }
+  [WalletConnectEvents.wc_session_reject_start]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_reject_success]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_reject_error]: WalletConnectDefaultProperties & {
+    error: string
+  }
+  [WalletConnectEvents.wc_session_remove_start]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_remove_success]: WalletConnectDefaultProperties
+  [WalletConnectEvents.wc_session_remove_error]: WalletConnectDefaultProperties & {
+    error: string
+  }
+
+  [WalletConnectEvents.wc_request_propose]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_details]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_accept_start]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_accept_success]: WalletConnectRequestDefaultProperties
+  [WalletConnectEvents.wc_request_accept_error]: WalletConnectRequestDefaultProperties & {
+    error: string
+  }
+  [WalletConnectEvents.wc_request_deny_start]: WalletConnectRequestDenyProperties
+  [WalletConnectEvents.wc_request_deny_success]: WalletConnectRequestDenyProperties
+  [WalletConnectEvents.wc_request_deny_error]: WalletConnectRequestDenyProperties & {
+    error: string
+  }
+}
+
+interface DappKitRequestDefaultProperties {
+  dappName: string
+  dappUrl: string
+  requestType: DappKitRequestTypes
+  requestCallback: string
+  requestId: string
+}
+
+interface DappKitProperties {
+  [DappKitEvents.dappkit_parse_deeplink_error]: { deeplink: string; error: string }
+  [DappKitEvents.dappkit_request_propose]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_cancel]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_details]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_accept_start]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_accept_success]: DappKitRequestDefaultProperties
+  [DappKitEvents.dappkit_request_accept_error]: DappKitRequestDefaultProperties & {
+    error: string
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -949,4 +1117,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   ContractKitEventsProperties &
   PerformanceProperties &
   NavigationProperties &
-  RewardsProperties
+  RewardsProperties &
+  WalletConnectProperties &
+  DappKitProperties

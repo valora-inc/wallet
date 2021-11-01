@@ -1,5 +1,5 @@
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
 import { DAYS_TO_BACKUP } from 'src/backup/utils'
@@ -15,6 +15,7 @@ const EXPIRED_BACKUP_TIME = RECENT_BACKUP_TIME - DAYS_TO_BACKUP
 const testNotification = {
   ctaUri: 'https://celo.org',
   darkMode: true,
+  priority: 20,
   content: {
     en: {
       body: 'Body Text',
@@ -28,7 +29,6 @@ const storeDataNotificationsEnabled = {
   goldToken: { educationCompleted: false },
   account: {
     backupCompleted: false,
-    dismissedInviteFriends: false,
     dismissedGetVerified: false,
     accountCreationTime: EXPIRED_BACKUP_TIME,
   },
@@ -105,10 +105,6 @@ describe('NotificationBox', () => {
     const store = createMockStore({
       ...storeDataNotificationsDisabled,
       goldToken: { educationCompleted: false },
-      account: {
-        ...storeDataNotificationsDisabled.account,
-        dismissedInviteFriends: false,
-      },
     })
     const { getByText } = render(
       <Provider store={store}>

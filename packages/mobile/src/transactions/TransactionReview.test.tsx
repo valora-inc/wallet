@@ -1,5 +1,5 @@
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
-import { render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
 import { TokenTransactionType } from 'src/apollo/types'
 import { AddressValidationType } from 'src/identity/reducer'
@@ -23,14 +23,16 @@ describe('TransactionReview', () => {
 
     const mockScreenProps = getMockStackScreenProps(Screens.TransactionReview, {
       confirmationProps: {
-        address: mockAccount,
         comment: 'Pay up!',
         amount: {
           value: '1.0',
           currencyCode: 'cUSD',
         },
         type: TokenTransactionType.Sent,
-        e164PhoneNumber: mockE164NumberInvite,
+        recipient: {
+          address: mockAccount,
+          e164PhoneNumber: mockE164NumberInvite,
+        },
       },
       reviewProps: {
         timestamp: Date.now(),

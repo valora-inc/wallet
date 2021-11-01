@@ -8,8 +8,6 @@ import {
   UnselectedRequest,
 } from '@celo/contractkit/lib/wrappers/Attestations'
 import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-identifier'
-import { FetchError, TxError } from '@celo/komencikit/src/errors'
-import { KomenciKit } from '@celo/komencikit/src/kit'
 import { retryAsync } from '@celo/utils/lib/async'
 import {
   AttestationsStatus,
@@ -17,6 +15,8 @@ import {
   extractSecurityCodeWithPrefix,
 } from '@celo/utils/lib/attestations'
 import { AttestationRequest } from '@celo/utils/lib/io'
+import { FetchError, TxError } from '@komenci/kit/lib/errors'
+import { KomenciKit } from '@komenci/kit/lib/kit'
 import AwaitLock from 'await-lock'
 import { Platform } from 'react-native'
 import { Task } from 'redux-saga'
@@ -40,10 +40,12 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { currentLanguageSelector } from 'src/app/reducers'
-import { shortVerificationCodesEnabledSelector } from 'src/app/selectors'
+import {
+  logPhoneNumberTypeEnabledSelector,
+  shortVerificationCodesEnabledSelector,
+} from 'src/app/selectors'
 import { CodeInputStatus } from 'src/components/CodeInput'
-import { SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
-import networkConfig from 'src/geth/networkConfig'
+import { isE2EEnv, SMS_RETRIEVER_APP_SIGNATURE } from 'src/config'
 import { waitForNextBlock } from 'src/geth/saga'
 import {
   Actions,
@@ -90,6 +92,7 @@ import {
   succeed,
   verificationStatusSelector,
 } from 'src/verify/reducer'
+import { getKomenciKit } from 'src/verify/saga'
 import { indexReadyForInput } from 'src/verify/utils'
 import { setMtwAddress } from 'src/web3/actions'
 import { getContractKit } from 'src/web3/contracts'
@@ -247,7 +250,7 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
 
       let attestations = actionableAttestations
 
-      if (Platform.OS === 'android') {
+      if (Platform.OS === 'android' && !isE2EEnv) {
         autoRetrievalTask = yield fork(startAutoSmsRetrieval)
       }
 
@@ -347,7 +350,7 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
       }
 
       receiveMessageTask?.cancel()
-      if (Platform.OS === 'android') {
+      if (Platform.OS === 'android' && !isE2EEnv) {
         autoRetrievalTask?.cancel()
       }
 
@@ -370,7 +373,7 @@ export function* doVerificationFlowSaga(action: ReturnType<typeof doVerification
     yield put(fail(error.message))
   } finally {
     receiveMessageTask?.cancel()
-    if (Platform.OS === 'android') {
+    if (Platform.OS === 'android' && !isE2EEnv) {
       autoRetrievalTask?.cancel()
     }
   }
@@ -511,10 +514,7 @@ function* requestAttestations(
   const contractKit = yield call(getContractKit)
   const walletAddress = yield call(getConnectedUnlockedAccount)
   const komenci = yield select(komenciContextSelector)
-  const komenciKit = new KomenciKit(contractKit, walletAddress, {
-    url: komenci.callbackUrl || networkConfig.komenciUrl,
-    token: komenci.sessionToken,
-  })
+  const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
   if (numAttestationsRequestsNeeded <= 0) {
     Logger.debug(`${TAG}@requestAttestations`, 'No additional attestations requests needed')
@@ -854,10 +854,7 @@ export function* completeAttestations(
   const contractKit = yield call(getContractKit)
   const komenci = yield select(komenciContextSelector)
   const walletAddress = yield call(getConnectedUnlockedAccount)
-  const komenciKit = new KomenciKit(contractKit, walletAddress, {
-    url: komenci.callbackUrl || networkConfig.komenciUrl,
-    token: komenci.sessionToken,
-  })
+  const komenciKit = yield call(getKomenciKit, contractKit, walletAddress, komenci)
 
   yield all(
     attestations.map((attestation) => {
@@ -1044,6 +1041,7 @@ export function* tryRevealPhoneNumber(
   attestation: ActionableAttestation,
   isFeelessVerification: boolean
 ) {
+  const logPhoneNumberTypeEnabled: boolean = yield select(logPhoneNumberTypeEnabledSelector)
   const issuer = attestation.issuer
   Logger.debug(TAG + '@tryRevealPhoneNumber', `Revealing an attestation for issuer: ${issuer}`)
 
@@ -1051,7 +1049,9 @@ export function* tryRevealPhoneNumber(
 
   try {
     // Only include retriever app sig for android, iOS doesn't support auto-read
-    const smsRetrieverAppSig = Platform.OS === 'android' ? SMS_RETRIEVER_APP_SIGNATURE : undefined
+    // Skip SMS_RETRIEVER_APP_SIGNATURE for e2e tests
+    const smsRetrieverAppSig =
+      Platform.OS === 'android' && !isE2EEnv ? SMS_RETRIEVER_APP_SIGNATURE : undefined
 
     // Proxy required for any network where attestation service domains are not static
     // This works around TLS issues
@@ -1080,11 +1080,16 @@ export function* tryRevealPhoneNumber(
 
     if (ok) {
       Logger.debug(TAG + '@tryRevealPhoneNumber', `Revealing for issuer ${issuer} successful`)
+
       ValoraAnalytics.track(VerificationEvents.verification_reveal_attestation_revealed, {
         neededRetry: false,
         issuer,
         feeless: isFeelessVerification,
+        account: logPhoneNumberTypeEnabled ? account : undefined,
+        phoneNumberType: logPhoneNumberTypeEnabled ? body.phoneNumberType : undefined,
+        credentials: logPhoneNumberTypeEnabled ? body.credentials : undefined,
       })
+
       return true
     }
 
@@ -1094,7 +1099,7 @@ export function* tryRevealPhoneNumber(
 
       yield delay(REVEAL_RETRY_DELAY)
 
-      const { ok: retryOk, status: retryStatus } = yield call(
+      const { ok: retryOk, status: retryStatus, body: retryBody } = yield call(
         postToAttestationService,
         attestationsWrapper,
         attestation.attestationServiceURL,
@@ -1107,7 +1112,11 @@ export function* tryRevealPhoneNumber(
           neededRetry: true,
           issuer,
           feeless: isFeelessVerification,
+          account: logPhoneNumberTypeEnabled ? account : undefined,
+          phoneNumberType: logPhoneNumberTypeEnabled ? retryBody.phoneNumberType : undefined,
+          credentials: logPhoneNumberTypeEnabled ? retryBody.credentials : undefined,
         })
+
         return true
       }
 
@@ -1117,7 +1126,7 @@ export function* tryRevealPhoneNumber(
       )
     }
 
-    // Reveal is unsuccessfull, so asking the status of it from validator
+    // Reveal is unsuccessful, so asking the status of it from validator
     yield put(
       reportRevealStatus(
         attestation.attestationServiceURL,

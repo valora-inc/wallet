@@ -1,11 +1,12 @@
 import mockButton from '@celo/react-components/components/Button'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
-import { fireEvent, render } from 'react-native-testing-library'
 import { Provider } from 'react-redux'
-import ImportWallet, { ImportWallet as ImportWalletClass } from 'src/import/ImportWallet'
+import { Actions } from 'src/import/actions'
+import ImportWallet from 'src/import/ImportWallet'
 import { Screens } from 'src/navigator/Screens'
-import { createMockStore, getMockI18nProps, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockMnemonic } from 'test/values'
 
 jest.mock('src/geth/GethAwareButton', () => {
@@ -23,29 +24,24 @@ describe('ImportWallet', () => {
     )
 
     expect(wrapper.toJSON()).toMatchSnapshot()
-    expect(wrapper.queryAllByProps({ disabled: true }).length).toBeGreaterThan(0)
+    expect(wrapper.UNSAFE_getAllByProps({ disabled: true }).length).toBeGreaterThan(0)
   })
 
   it('calls import with the mnemonic', () => {
-    const importFn = jest.fn()
+    const store = createMockStore()
 
     const wrapper = render(
-      <Provider store={createMockStore()}>
-        <ImportWalletClass
-          importBackupPhrase={importFn}
-          hideAlert={jest.fn()}
-          isImportingWallet={false}
-          connected={true}
-          isRecoveringFromStoreWipe={false}
-          accountToRecoverFromStoreWipe={undefined}
-          {...mockScreenProps}
-          {...getMockI18nProps()}
-        />
+      <Provider store={store}>
+        <ImportWallet {...mockScreenProps} />
       </Provider>
     )
 
     fireEvent(wrapper.getByTestId('ImportWalletBackupKeyInputField'), 'inputChange', mockMnemonic)
     fireEvent.press(wrapper.getByTestId('ImportWalletButton'))
-    expect(importFn).toHaveBeenCalledWith(mockMnemonic, false)
+
+    const allActions = store.getActions()
+    const importAction = allActions.filter((action) => action.type === Actions.IMPORT_BACKUP_PHRASE)
+    // expecting importBackupPhrases function to be called once
+    expect(importAction.length).toBe(1)
   })
 })
