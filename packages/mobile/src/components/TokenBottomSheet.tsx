@@ -4,7 +4,7 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import { Spacing } from '@celo/react-components/styles/styles'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -102,6 +102,9 @@ function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props
     setPickerHeight(height)
   }
 
+  const maxHeight = Dimensions.get('window').height - 100
+  const paddingBottom = Math.max(safeAreaInsets.bottom, Spacing.Thick24)
+
   return (
     <View style={styles.container} testID="TokenBottomSheetContainer">
       <Animated.View style={[styles.background, animatedOpacity]}>
@@ -111,24 +114,21 @@ function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props
           testID={'BackgroundTouchable'}
         />
       </Animated.View>
-      <Animated.View
-        style={[
-          styles.contentContainer,
-          { paddingBottom: Math.max(safeAreaInsets.bottom, Spacing.Thick24) },
-          animatedPickerPosition,
-        ]}
+      <Animated.ScrollView
+        style={[styles.contentContainer, { paddingBottom, maxHeight }, animatedPickerPosition]}
+        contentContainerStyle={{ paddingBottom: pickerHeight >= maxHeight ? 50 : 0 }}
         onLayout={onLayout}
       >
         <Text style={styles.title}>{t('selectToken')}</Text>
         {tokens.map((tokenInfo, index) => {
           return (
-            <>
+            <React.Fragment key={`token-${tokenInfo.address}`}>
               {index > 0 && <View style={styles.separator} />}
               <TokenOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo.address)} />
-            </>
+            </React.Fragment>
           )
         })}
-      </Animated.View>
+      </Animated.ScrollView>
     </View>
   )
 }
