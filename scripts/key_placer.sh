@@ -4,7 +4,6 @@ echo "Processing encrypted files"
 
 # Set list of secret files to encrypt and decrypt.
 files=(
-  "packages/blockchain-api/src/secrets.json:celo-testnet"
   "packages/mobile/android/app/src/alfajores/google-services.json:celo-testnet"
   "packages/mobile/android/app/src/alfajoresdev/google-services.json:celo-testnet"
   "packages/mobile/android/app/src/mainnet/google-services.json:celo-testnet"
