@@ -192,10 +192,17 @@ export function getTransferFeedParams(
         Object.assign(recipient, { thumbnailPath: CELO_LOGO_URL })
       } else if (providerInfo) {
         title = t('feedItemReceivedTitle', { displayName })
-        info =
-          currency.toLowerCase() === 'celo'
-            ? t('fiatExchangeFlow:celoDeposit')
-            : t('fiatExchangeFlow:cUsdDeposit')
+        switch (currency.toLowerCase()) {
+          case 'cusd':
+            info = t('fiatExchangeFlow:cUsdDeposit')
+            break
+          case 'ceur':
+            info = t('fiatExchangeFlow:cEurDeposit')
+            break
+          default:
+            info = t('fiatExchangeFlow:celoDeposit')
+            break
+        }
       } else {
         title = t('feedItemReceivedTitle', { displayName })
         info = t('feedItemReceivedInfo', { context: !comment ? 'noComment' : null, comment })
