@@ -18,7 +18,7 @@
     "strictNullChecks": true,
     "skipLibCheck": true,
     "target": "es2017",
-    "strict": true
+    "strict": true,
   },
   "include": ["src", "locales"],
   "exclude": ["node_modules", ".bundle"]

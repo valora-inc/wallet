@@ -69,6 +69,10 @@ export const TOKEN_ADDRESSES = {
   mcEUR: config.token_addresses?.mceur ?? 'test_mcEUR',
 }
 
+export const EXCHANGES = {
+  env: config.exchanges?.env ?? 'test',
+}
+
 export const VALORA_LOGO_URL =
   'https://storage.googleapis.com/celo-mobile-mainnet.appspot.com/images/valora-icon.png'
 

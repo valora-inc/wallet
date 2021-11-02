@@ -49,3 +49,5 @@ token_addresses.cusd=$(grep TOKEN_ADDRESSES_CUSD "$ENV_FILENAME" | cut -d '=' -f
 token_addresses.ceur=$(grep TOKEN_ADDRESSES_CEUR "$ENV_FILENAME" | cut -d '=' -f 2-) \
 token_addresses.mcusd=$(grep TOKEN_ADDRESSES_MCUSD "$ENV_FILENAME" | cut -d '=' -f 2-) \
 token_addresses.mceur=$(grep TOKEN_ADDRESSES_MCEUR "$ENV_FILENAME" | cut -d '=' -f 2-) \
+exchanges.env=$(grep EXCHANGE_RATE_ENV "$ENV_FILENAME" | cut -d '=' -f 2-) \
+

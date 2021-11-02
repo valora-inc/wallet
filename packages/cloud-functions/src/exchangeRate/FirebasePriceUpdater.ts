@@ -1,11 +1,14 @@
+import {
+  createNewManager,
+  ExchangeRateManager,
+  loadConfig,
+  PriceByAddress,
+} from '@valora/exchanges'
 import * as functions from 'firebase-functions'
 import asyncPool from 'tiny-async-pool'
+import { EXCHANGES } from '../config'
 import { fetchFromFirebase, updateFirebase } from '../firebase'
 import { callCloudFunction } from '../utils'
-import ExchangeRateManager from './ExchangeRateManager'
-import { PriceByAddress } from './ExchangesGraph'
-import { moolaExchanges } from './sources/MoolaExchanges'
-import { ubeswapLiquidityPool } from './sources/UbeswapLiquidityPool'
 
 const FIREBASE_NODE_KEY = '/tokensInfo'
 
@@ -45,16 +48,15 @@ export default class FirebasePriceUpdater {
   }
 }
 
-async function updatePrices() {
-  const updater = new FirebasePriceUpdater(
-    new ExchangeRateManager([ubeswapLiquidityPool, moolaExchanges])
-  )
+export async function updatePrices() {
+  loadConfig(EXCHANGES.env)
+  const updater = new FirebasePriceUpdater(createNewManager())
   const prices = await updater.refreshAllPrices()
 
   return prices
 }
 
-async function updatePricesCatched() {
+async function updatePricesWithRetry() {
   try {
     await updatePrices()
   } catch (err) {
@@ -65,7 +67,7 @@ async function updatePricesCatched() {
 
 export const updateFirebasePricesScheduled = functions.pubsub
   .schedule('*/10 * * * *') // every 10 mins
-  .onRun(updatePricesCatched)
+  .onRun(updatePricesWithRetry)
 
 export const updateFirebasePricesByRequest = functions.https.onRequest(async (req, res) => {
   const retries = req.body.retry ?? 0
