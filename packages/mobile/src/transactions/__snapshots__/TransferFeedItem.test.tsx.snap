@@ -407,7 +407,7 @@ exports[`transfer feed item renders correctly for known received cEUR 1`] = `
         >
           +
           $
-          2.00
+          200.00
         </Text>
       </View>
       <Text
