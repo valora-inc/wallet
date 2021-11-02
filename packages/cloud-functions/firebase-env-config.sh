@@ -49,7 +49,7 @@ token_addresses.cusd=$(grep TOKEN_ADDRESSES_CUSD "$ENV_FILENAME" | cut -d '=' -f
 token_addresses.ceur=$(grep TOKEN_ADDRESSES_CEUR "$ENV_FILENAME" | cut -d '=' -f 2-) \
 token_addresses.mcusd=$(grep TOKEN_ADDRESSES_MCUSD "$ENV_FILENAME" | cut -d '=' -f 2-) \
 token_addresses.mceur=$(grep TOKEN_ADDRESSES_MCEUR "$ENV_FILENAME" | cut -d '=' -f 2-) \
-blockchain_api.db.host=$(grep BLOCKCHAIN_API_DB_HOST "$ENV_FILENAME" | cut -d '=' -f 2-) \
-blockchain_api.db.database=$(grep BLOCKCHAIN_API_DB_DATABASE "$ENV_FILENAME" | cut -d '=' -f 2-) \
-blockchain_api.db.user=$(grep BLOCKCHAIN_API_DB_USERNAME "$ENV_FILENAME" | cut -d '=' -f 2-) \
-blockchain_api.db.password=$(grep BLOCKCHAIN_API_DB_PASSWORD "$ENV_FILENAME" | cut -d '=' -f 2-)
+blockchain_api.db.host=$(grep BLOCKCHAIN_API_DATABASE_HOST "$ENV_FILENAME" | cut -d '=' -f 2-) \
+blockchain_api.db.database=$(grep BLOCKCHAIN_API_DATABASE_DATABASE "$ENV_FILENAME" | cut -d '=' -f 2-) \
+blockchain_api.db.user=$(grep BLOCKCHAIN_API_DATABASE_USERNAME "$ENV_FILENAME" | cut -d '=' -f 2-) \
+blockchain_api.db.password=$(grep BLOCKCHAIN_API_DATABASE_PASSWORD "$ENV_FILENAME" | cut -d '=' -f 2-) \

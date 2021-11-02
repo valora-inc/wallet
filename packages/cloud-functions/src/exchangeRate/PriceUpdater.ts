@@ -82,7 +82,9 @@ async function updatePricesCatched() {
     await updatePrices()
   } catch (err) {
     console.error('There was an error while refreshing token prices:', (err as Error).message)
-    callCloudFunction('updateFirebasePricesByRequest', 0).catch((e) => console.error(e?.message))
+    callCloudFunction('updateFirebasePricesByRequest', { retry: 0 }).catch((e) =>
+      console.error(e?.message)
+    )
   }
 }
 
