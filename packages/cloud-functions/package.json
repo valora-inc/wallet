@@ -20,7 +20,7 @@
     "@celo/contractkit": "1.2.2-beta",
     "@celo/utils": "1.2.2-beta",
     "@google-cloud/bigquery": "~5.5.0",
-    "@valora/exchanges": "^1.0.3-beta-0",
+    "@valora/exchanges": "^1.0.4",
     "ajv": "^8.6.3",
     "bignumber.js": "^9.0.0",
     "fast-json-stable-stringify": "~2.1.0",

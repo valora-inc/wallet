@@ -6533,10 +6533,10 @@
   dependencies:
     "@typescript-eslint/parser" "^4.25.0"
 
-"@valora/exchanges@^1.0.3-beta-0":
-  version "1.0.3-beta-0"
-  resolved "https://registry.yarnpkg.com/@valora/exchanges/-/exchanges-1.0.3-beta-0.tgz#7233b3f02f3e1c5240a75fefbf3304192d38f11f"
-  integrity sha512-crqvwzxtB8sWiV4FWaAWj+IA0nzb2zOfsKa3marLrIEiOTSava2RCfgq83S7awbFEnEiUFWbMk7fjxNXTHdXzg==
+"@valora/exchanges@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@valora/exchanges/-/exchanges-1.0.4.tgz#94fa50aa6af14b2842942ac93293014a87d36442"
+  integrity sha512-N3yNF3DyBJfvp50oi+71GtfRjM+MBZB5wGHmOAEWIxFyZZRmUldlkfbthojO8rhtDulaaddF2LvvoY5YPrwsbg==
   dependencies:
     "@celo/contractkit" "1.2.2-beta"
     "@types/jest" "^27.0.2"
