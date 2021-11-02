@@ -68,6 +68,7 @@
   "findMerchants": "Encuentra comercios asociados cerca tuyo",
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
+  "cEurDeposit": "cEUR Purchase",
   "providerUnavailable": "No disponible actualmente",
   "pricePer": "Precio por {{coin}}",
   "feeDiscount": "Descuento de tarifa",
