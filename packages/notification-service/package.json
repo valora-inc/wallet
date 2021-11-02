@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "gcp-build": "npm run build",
-    "test": "cp config/config.test.env .env; export TZ=UTC && jest",
+    "test": "cp config/config.test.env .env; export TZ=UTC && jest --ci --silent --coverage --maxWorkers=3",
     "test:watch": "yarn test --watch",
     "lint": "eslint --ext=.tsx,.ts src/ test/",
     "start": "node ./dist/index.js",
