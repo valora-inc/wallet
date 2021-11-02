@@ -125,7 +125,7 @@ interface HomeEventsProperties {
   }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
-  [HomeEvents.viewTokenBalances]: undefined
+  [HomeEvents.viewTokenBalances]: string
 }
 
 interface SettingsEventsProperties {
