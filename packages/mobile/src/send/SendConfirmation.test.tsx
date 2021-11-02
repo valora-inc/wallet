@@ -22,6 +22,8 @@ import {
   RecursivePartial,
 } from 'test/utils'
 import {
+  mockAccount,
+  mockAccount2,
   mockAccount2Invite,
   mockAccountInvite,
   mockCeurAddress,
@@ -238,7 +240,10 @@ describe('SendConfirmation', () => {
   })
 
   it('renders correct modal for invitations', async () => {
-    const { getByTestId, queryAllByTestId } = renderScreen({}, mockInviteScreenProps)
+    const { getByTestId, queryAllByTestId } = renderScreen(
+      { identity: { e164NumberToAddress: {} } },
+      mockInviteScreenProps
+    )
 
     fireEvent.press(getByTestId('ConfirmButton'))
 
@@ -252,13 +257,7 @@ describe('SendConfirmation', () => {
 
     fireEvent.press(getByTestId('ConfirmButton'))
 
-    const {
-      route: {
-        params: {
-          transactionData: { inputAmount, tokenAddress, recipient },
-        },
-      },
-    } = mockScreenProps
+    const { inputAmount, tokenAddress, recipient } = mockTokenTransactionData
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
         sendPaymentOrInvite(
@@ -268,6 +267,51 @@ describe('SendConfirmation', () => {
           inputAmount,
           '',
           recipient,
+          undefined,
+          false
+        ),
+      ])
+    )
+  })
+
+  it('dispatches the send action with the right address when going through Secure Send', async () => {
+    const { store, getByTestId } = renderScreen(
+      {
+        identity: {
+          e164NumberToAddress: {
+            [mockE164Number]: [mockAccount, mockAccount2],
+          },
+          secureSendPhoneNumberMapping: {
+            [mockE164Number]: {
+              address: mockAccount2,
+              addressValidationType: AddressValidationType.FULL,
+            },
+          },
+        },
+      },
+      getMockStackScreenProps(Screens.SendConfirmation, {
+        transactionData: {
+          ...mockTokenTransactionData,
+          recipient: { e164PhoneNumber: mockE164Number },
+        },
+        origin: SendOrigin.AppSendFlow,
+      })
+    )
+
+    expect(store.getActions().length).toEqual(0)
+
+    fireEvent.press(getByTestId('ConfirmButton'))
+
+    const { inputAmount, tokenAddress } = mockTokenTransactionData
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        sendPaymentOrInvite(
+          inputAmount,
+          tokenAddress,
+          inputAmount.multipliedBy(1.33), // 1.33 is the default local currency exchange rate in tests
+          inputAmount,
+          '',
+          { address: mockAccount2, e164PhoneNumber: mockE164Number },
           undefined,
           false
         ),
