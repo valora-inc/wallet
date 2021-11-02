@@ -14,12 +14,13 @@
     "clean": "tsc -b . --clean",
     "build": "tsc -b .",
     "lint": "eslint --ext=.tsx,.ts src/",
-    "test": "jest"
+    "test": "export TZ=UTC && jest --ci --silent --coverage --maxWorkers=3"
   },
   "dependencies": {
     "@celo/contractkit": "1.2.2-beta",
     "@celo/utils": "1.2.2-beta",
     "@google-cloud/bigquery": "~5.5.0",
+    "ajv": "^8.6.3",
     "bignumber.js": "^9.0.0",
     "fast-json-stable-stringify": "~2.1.0",
     "firebase-admin": "^9.5.0",
