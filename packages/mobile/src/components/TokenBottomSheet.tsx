@@ -30,6 +30,8 @@ interface Props {
   onClose: () => void
 }
 
+const MIN_EMPTY_SPACE = 100
+
 function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress: () => void }) {
   return (
     <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
@@ -102,7 +104,7 @@ function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props
     setPickerHeight(height)
   }
 
-  const maxHeight = Dimensions.get('window').height - 100
+  const maxHeight = Dimensions.get('window').height - MIN_EMPTY_SPACE
   const paddingBottom = Math.max(safeAreaInsets.bottom, Spacing.Thick24)
 
   return (
@@ -116,7 +118,7 @@ function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props
       </Animated.View>
       <Animated.ScrollView
         style={[styles.contentContainer, { paddingBottom, maxHeight }, animatedPickerPosition]}
-        contentContainerStyle={{ paddingBottom: pickerHeight >= maxHeight ? 50 : 0 }}
+        contentContainerStyle={pickerHeight >= maxHeight ? styles.fullHeightScrollView : undefined}
         onLayout={onLayout}
       >
         <Text style={styles.title}>{t('selectToken')}</Text>
@@ -199,6 +201,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 1,
     backgroundColor: colors.gray2,
+  },
+  fullHeightScrollView: {
+    paddingBottom: 50,
   },
 })
 
