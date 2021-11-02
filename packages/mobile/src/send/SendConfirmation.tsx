@@ -6,73 +6,45 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import { iconHitslop } from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
-import { showError } from 'src/alert/actions'
-import { FeeEvents, SendEvents } from 'src/analytics/Events'
+import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { TokenTransactionType } from 'src/apollo/types'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
-import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import FeeDrawer from 'src/components/FeeDrawer'
 import HeaderWithBackButton from 'src/components/header/HeaderWithBackButton'
 import ShortenedAddress from 'src/components/ShortenedAddress'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
-import TotalLineItem from 'src/components/TotalLineItem'
+import TokenDisplay from 'src/components/TokenDisplay'
+import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { FeeType } from 'src/fees/actions'
-import CalculateFee, {
-  CalculateFeeChildren,
-  PropsWithoutChildren as CalculateFeeProps,
-} from 'src/fees/CalculateFee'
-import { FeeInfo } from 'src/fees/saga'
-import { getFeeInTokens } from 'src/fees/selectors'
-import i18n, { Namespaces } from 'src/i18n'
+import { useEstimateGasFee } from 'src/fees/hooks'
+import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
-import { fetchDataEncryptionKey } from 'src/identity/actions'
 import {
   addressToDataEncryptionKeySelector,
-  e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/reducer'
 import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
 import InviteAndSendModal from 'src/invite/InviteAndSendModal'
-import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
-import {
-  convertBetweenCurrencies,
-  useCurrencyToLocalAmountExchangeRate,
-} from 'src/localCurrency/hooks'
-import {
-  getLocalCurrencyCode,
-  localCurrencyExchangeRatesSelector,
-} from 'src/localCurrency/selectors'
+import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
+import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName } from 'src/recipients/recipient'
-import { isAppConnected } from 'src/redux/selectors'
-import { sendPaymentOrInvite } from 'src/send/actions'
+import useSelector from 'src/redux/useSelector'
 import { isSendingSelector } from 'src/send/selectors'
-import { getConfirmationInput } from 'src/send/utils'
+import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { fetchStableBalances } from 'src/stableToken/actions'
-import { useBalance } from 'src/stableToken/hooks'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
-import Logger from 'src/utils/Logger'
-import { currentAccountSelector, isDekRegisteredSelector } from 'src/web3/selectors'
-
-export interface CurrencyInfo {
-  localCurrencyCode: LocalCurrencyCode
-  localExchangeRate: string | null
-}
+import { isDekRegisteredSelector } from 'src/web3/selectors'
 
 type OwnProps = StackScreenProps<
   StackParamList,
@@ -89,381 +61,221 @@ export const sendConfirmationScreenNavOptions = (navOptions: Props) =>
     : noHeader
 
 function SendConfirmation(props: Props) {
-  const [modalVisible, setModalVisible] = useState(false)
-  const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
-  const [comment, setComment] = useState('')
-  const [feeInfo, setFeeInfo] = useState(undefined as FeeInfo | undefined)
-  const [showingTokenChooser, showTokenChooser] = useState(false)
-
-  const dispatch = useDispatch()
   const { t } = useTranslation(Namespaces.sendFlow7)
 
-  const fromModal = props.route.name === Screens.SendConfirmationModal
-  const { transactionData, addressJustValidated, currencyInfo, origin } = props.route.params
-  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
-  const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
-  const confirmationInput = getConfirmationInput(
-    transactionData,
-    e164NumberToAddress,
-    secureSendPhoneNumberMapping
-  )
   const {
-    type,
-    amount: originalAmount,
-    currency: originalCurrency,
-    recipient,
-    recipientAddress,
-    firebasePendingRequestUid,
-    reason,
-  } = confirmationInput
+    origin,
+    transactionData: { recipient, inputAmount, amountIsInLocalCurrency, tokenAddress },
+  } = props.route.params
 
-  const [amount, setAmount] = useState(originalAmount)
-  const [currency, setCurrency] = useState(originalCurrency)
+  const [inviteModalVisible, setInviteModalVisible] = useState(false)
+  const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
+  const [comment, setComment] = useState('')
 
-  const addressValidationType = getAddressValidationType(
-    transactionData.recipient,
-    secureSendPhoneNumberMapping
-  )
-  // Undefined or null means no addresses ever validated through secure send
-  const validatedRecipientAddress = getSecureSendAddress(
-    transactionData.recipient,
-    secureSendPhoneNumberMapping
-  )
-  const account = useSelector(currentAccountSelector)
-  const isSending = useSelector(isSendingSelector)
-  const balance = useBalance(currency)
-  const celoBalance = useBalance(Currency.Celo)
-  const appConnected = useSelector(isAppConnected)
+  const tokenInfo = useTokenInfo(tokenAddress)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
-  const exchangeRates = useSelector(localCurrencyExchangeRatesSelector)
+  const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
+  const isSending = useSelector(isSendingSelector)
+  const localCurrencyCode = useSelector(getLocalCurrencyCode)
+  const { localAmount, tokenAmount, usdAmount } = useInputAmounts(
+    inputAmount.toString(),
+    amountIsInLocalCurrency,
+    tokenAddress
+  )
 
-  let newCurrencyInfo: CurrencyInfo = {
-    localCurrencyCode: useSelector(getLocalCurrencyCode),
-    localExchangeRate: useCurrencyToLocalAmountExchangeRate(currency),
-  }
-  if (currencyInfo) {
-    newCurrencyInfo = currencyInfo
-  }
+  const isInvite = !recipient.address
+  const { loading: feeLoading, error: feeError, result: feeInfo } = useEstimateGasFee(
+    isInvite ? FeeType.INVITE : FeeType.SEND,
+    tokenAddress,
+    recipient.address,
+    tokenAmount,
+    !isDekRegistered
+  )
+  const localToFeeExchangeRate = useCurrencyToLocalAmount(
+    new BigNumber(1),
+    feeInfo?.currency ?? Currency.Dollar
+  )
 
-  useEffect(() => {
-    dispatch(fetchStableBalances())
-    if (addressJustValidated) {
-      Logger.showMessage(t('sendFlow7:addressConfirmed'))
+  const FeeContainer = () => {
+    let securityFee = feeInfo?.fee
+    let dekFee
+    if (!isDekRegistered && feeInfo?.fee) {
+      // 'fee' contains cost for both DEK registration and
+      // send payment so we adjust it here
+      securityFee = feeInfo.fee.dividedBy(2)
+      dekFee = feeInfo.fee.dividedBy(2)
     }
-    triggerFetchDataEncryptionKey()
-  }, [])
 
-  const triggerFetchDataEncryptionKey = () => {
-    const address = confirmationInput.recipientAddress
-    if (address) {
-      dispatch(fetchDataEncryptionKey(address))
+    const currencyInfo = {
+      localCurrencyCode,
+      localExchangeRate: localToFeeExchangeRate?.toString() ?? '',
     }
-  }
 
-  const onCloseTokenPicker = () => showTokenChooser(false)
-  const onTokenChosen = (newCurrency: Currency) => {
-    showTokenChooser(false)
-    const newAmount = convertBetweenCurrencies(amount, currency, newCurrency, exchangeRates)
-    if (newAmount) {
-      setAmount(newAmount)
-      setCurrency(newCurrency)
-    } else {
-      dispatch(showError(ErrorMessages.FETCH_FAILED))
-    }
-  }
-
-  const onSendClick = () => {
-    if (type === TokenTransactionType.InviteSent) {
-      setModalVisible(true)
-    } else {
-      sendOrInvite()
-    }
-  }
-
-  const sendOrInvite = () => {
-    const finalComment =
-      type === TokenTransactionType.PayRequest || type === TokenTransactionType.PayPrefill
-        ? reason || ''
-        : comment
-
-    const localCurrencyAmount = convertCurrencyToLocalAmount(
-      amount,
-      newCurrencyInfo.localExchangeRate
-    )
-
-    ValoraAnalytics.track(SendEvents.send_confirm_send, {
-      origin,
-      isScan: !!props.route.params?.isFromScan,
-      isInvite: !recipientAddress,
-      isRequest: type === TokenTransactionType.PayRequest,
-      localCurrencyExchangeRate: newCurrencyInfo.localExchangeRate,
-      localCurrency: newCurrencyInfo.localCurrencyCode,
-      dollarAmount: amount.toString(),
-      localCurrencyAmount: localCurrencyAmount?.toString() ?? null,
-      commentLength: finalComment.length,
-    })
-
-    dispatch(
-      sendPaymentOrInvite(
-        amount,
-        currency,
-        finalComment,
-        recipient,
-        recipientAddress,
-        feeInfo,
-        firebasePendingRequestUid,
-        fromModal
-      )
+    return (
+      <View style={styles.feeContainer}>
+        <FeeDrawer
+          testID={'feeDrawer/SendConfirmation'}
+          isEstimate={true}
+          currency={feeInfo?.currency}
+          securityFee={securityFee}
+          showDekfee={!isDekRegistered}
+          dekFee={dekFee}
+          feeLoading={feeLoading}
+          feeHasError={!!feeError}
+          totalFee={feeInfo?.fee}
+          currencyInfo={currencyInfo}
+          showLocalAmount={true}
+        />
+        <TokenTotalLineItem tokenAmount={tokenAmount} tokenAddress={tokenAddress} />
+      </View>
     )
   }
 
-  const onEditAddressClick = () => {
-    ValoraAnalytics.track(SendEvents.send_secure_edit)
-    navigate(Screens.ValidateRecipientIntro, {
-      transactionData,
-      addressValidationType,
-      origin: props.route.params.origin,
-    })
-  }
+  const onShowEncryptionModal = () => setEncryptionDialogVisible(true)
+  const onDismissEncryptionModal = () => setEncryptionDialogVisible(false)
+  const onCloseInviteModal = () => setInviteModalVisible(false)
 
-  const cancelModal = () => {
-    setModalVisible(false)
-  }
+  const EncryptionWarningLabel = () => {
+    const showLabel = !recipient.address || addressToDataEncryptionKey[recipient.address] === null
 
-  const sendInvite = () => {
-    setModalVisible(false)
-    sendOrInvite()
+    return showLabel ? (
+      <View style={styles.encryptionWarningLabelContainer}>
+        <Text style={styles.encryptionWarningLabel}>{t('encryption.warningLabel')}</Text>
+        <Touchable onPress={onShowEncryptionModal} borderless={true} hitSlop={iconHitslop}>
+          <InfoIcon color={colors.informational} size={14} />
+        </Touchable>
+      </View>
+    ) : null
   }
 
   const onBlur = () => {
     const trimmedComment = comment.trim()
     setComment(trimmedComment)
   }
-
-  const onShowEncryptionModal = () => {
-    setEncryptionDialogVisible(true)
+  const addressValidationType = getAddressValidationType(recipient, secureSendPhoneNumberMapping)
+  const validatedRecipientAddress = getSecureSendAddress(recipient, secureSendPhoneNumberMapping)
+  const onEditAddressClick = () => {
+    ValoraAnalytics.track(SendEvents.send_secure_edit)
+    navigate(Screens.ValidateRecipientIntro, {
+      transactionData: props.route.params.transactionData,
+      addressValidationType,
+      origin: props.route.params.origin,
+    })
   }
 
-  const onDismissEncryptionModal = () => {
-    setEncryptionDialogVisible(false)
-  }
-
-  const renderWithAsyncFee: CalculateFeeChildren = (asyncFee) => {
-    if (!balance) {
-      // Should never happen. This check is made in previous screens.
-      dispatch(showError(ErrorMessages.FETCH_FAILED))
-      navigate(Screens.WalletHome)
-      return null
-    }
-    const fee = getFeeInTokens(asyncFee.result?.fee)
-
-    // Check if the fee info has been updated and set it in the component state for use in sending.
-    const feeInfoUpdated = feeInfo?.fee !== asyncFee.result?.fee
-    if (asyncFee.result) {
-      setFeeInfo(asyncFee.result)
-    }
-
-    // TODO(victor): If CELO is used to pay fees, it cannot be added to the cUSD ammount. We should
-    // fix this at some point, but because only cUSD is used for fees right now, it is not an issue.
-    const amountWithFee =
-      asyncFee.result?.currency !== Currency.Celo ? amount.plus(fee ?? 0) : amount
-    const userHasEnough =
-      !asyncFee.loading &&
-      amountWithFee.isLessThanOrEqualTo(balance) &&
-      (asyncFee.result?.currency !== Currency.Celo ||
-        !fee ||
-        fee?.isLessThanOrEqualTo(celoBalance ?? new BigNumber(0)))
-    const isPrimaryButtonDisabled = isSending || !userHasEnough || !appConnected || !!asyncFee.error
-
-    const isInvite = type === TokenTransactionType.InviteSent
-
-    const subtotalAmount = {
-      value: amount,
-      currencyCode: currency,
-    }
-
-    let primaryBtnInfo
-    if (type === TokenTransactionType.PayRequest || type === TokenTransactionType.PayPrefill) {
-      primaryBtnInfo = {
-        action: sendOrInvite,
-        text: i18n.t('global:pay'),
-        disabled: isPrimaryButtonDisabled,
-      }
+  const onSendClick = () => {
+    if (isInvite) {
+      setInviteModalVisible(true)
     } else {
-      primaryBtnInfo = {
-        action: onSendClick,
-        text: isInvite ? t('inviteFlow11:sendAndInvite') : t('global:send'),
-        disabled: isPrimaryButtonDisabled,
-      }
+      sendOrInvite()
     }
-
-    const paymentComment = reason || ''
-
-    const FeeContainer = () => {
-      let securityFee
-      let dekFee
-      if (!isDekRegistered && fee) {
-        // 'fee' contains cost for both DEK registration and
-        // send payment so we adjust it here
-        securityFee = fee.dividedBy(2)
-        dekFee = fee.dividedBy(2)
-      }
-
-      if (feeInfoUpdated) {
-        ValoraAnalytics.track(FeeEvents.fee_rendered, {
-          feeType: 'Security',
-          fee: securityFee?.toString(),
-        })
-      }
-      const totalAmount = {
-        value: amountWithFee,
-        currencyCode: currency,
-      }
-
-      const onEditCurrency = () => {
-        showTokenChooser(true)
-      }
-
-      return (
-        <View style={styles.feeContainer}>
-          <FeeDrawer
-            testID={'feeDrawer/SendConfirmation'}
-            isEstimate={true}
-            currency={asyncFee.result?.currency}
-            securityFee={securityFee}
-            showDekfee={!isDekRegistered}
-            dekFee={dekFee}
-            feeLoading={asyncFee.loading}
-            feeHasError={!!asyncFee.error}
-            totalFee={fee}
-            currencyInfo={newCurrencyInfo}
-          />
-          <TotalLineItem
-            amount={totalAmount}
-            currencyInfo={newCurrencyInfo}
-            canEditCurrency={
-              type === TokenTransactionType.PayRequest && !!firebasePendingRequestUid
-            }
-            onEditCurrency={onEditCurrency}
-          />
-        </View>
-      )
-    }
-
-    const EncryptionWarningLabel = () => {
-      const showLabel = !recipientAddress || addressToDataEncryptionKey[recipientAddress] === null
-
-      return showLabel ? (
-        <View style={styles.encryptionWarningLabelContainer}>
-          <Text style={styles.encryptionWarningLabel}>{t('encryption.warningLabel')}</Text>
-          <Touchable onPress={onShowEncryptionModal} borderless={true} hitSlop={iconHitslop}>
-            <InfoIcon color={colors.informational} size={14} />
-          </Touchable>
-        </View>
-      ) : null
-    }
-
-    return (
-      <SafeAreaView
-        style={styles.container}
-        edges={props.route.name === Screens.SendConfirmationModal ? ['bottom'] : undefined}
-      >
-        <HeaderWithBackButton eventName={SendEvents.send_confirm_back} />
-        <DisconnectBanner />
-        <ReviewFrame
-          FooterComponent={FeeContainer}
-          LabelAboveKeyboard={EncryptionWarningLabel}
-          confirmButton={primaryBtnInfo}
-          isSending={isSending}
-        >
-          <View style={styles.transferContainer}>
-            {isInvite && <Text style={styles.inviteText}>{t('inviteMoneyEscrow')}</Text>}
-            <View style={styles.headerContainer}>
-              <ContactCircle recipient={recipient} />
-              <View style={styles.recipientInfoContainer}>
-                <Text style={styles.headerText} testID="HeaderText">
-                  {t('sending')}
-                </Text>
-                <Text style={styles.displayName}>{getDisplayName(recipient, t)}</Text>
-                {validatedRecipientAddress && (
-                  <View style={styles.editContainer}>
-                    <ShortenedAddress style={styles.address} address={validatedRecipientAddress} />
-                    <TextButton
-                      style={styles.editButton}
-                      testID={'accountEditButton'}
-                      onPress={onEditAddressClick}
-                    >
-                      {t('edit')}
-                    </TextButton>
-                  </View>
-                )}
-              </View>
-            </View>
-            <CurrencyDisplay
-              style={styles.amount}
-              amount={subtotalAmount}
-              currencyInfo={newCurrencyInfo}
-            />
-            {type === TokenTransactionType.PayRequest ||
-            type === TokenTransactionType.PayPrefill ? (
-              <View>
-                <Text style={styles.paymentComment}>{paymentComment}</Text>
-              </View>
-            ) : (
-              <CommentTextInput
-                testID={'send'}
-                onCommentChange={setComment}
-                comment={comment}
-                onBlur={onBlur}
-              />
-            )}
-          </View>
-          <InviteAndSendModal
-            isVisible={modalVisible}
-            name={getDisplayName(transactionData.recipient, t)}
-            onInvite={sendInvite}
-            onCancel={cancelModal}
-          />
-          {/** Encryption warning dialog */}
-          <Dialog
-            title={t('encryption.warningModalHeader')}
-            isVisible={encryptionDialogVisible}
-            actionText={t('global:dismiss')}
-            actionPress={onDismissEncryptionModal}
-          >
-            {t('encryption.warningModalBody')}
-          </Dialog>
-        </ReviewFrame>
-        <TokenBottomSheet
-          isVisible={showingTokenChooser}
-          origin={TokenPickerOrigin.SendConfirmation}
-          onCurrencySelected={onTokenChosen}
-          onClose={onCloseTokenPicker}
-        />
-      </SafeAreaView>
-    )
   }
 
-  if (!account || !balance) {
-    throw Error('Account is required')
+  const sendInvite = () => {
+    setInviteModalVisible(false)
+    sendOrInvite()
   }
-  const feeProps: CalculateFeeProps = recipientAddress
-    ? {
-        feeType: FeeType.SEND,
-        account,
-        recipientAddress,
-        amount: amount.valueOf(),
-        currency,
-        balance: balance.toString(),
-        includeDekFee: !isDekRegistered,
-      }
-    : { feeType: FeeType.INVITE, account, amount, currency, balance: balance.toString() }
+
+  const sendOrInvite = () => {
+    ValoraAnalytics.track(SendEvents.send_confirm_send, {
+      origin,
+      isScan: !!props.route.params?.isFromScan,
+      isInvite,
+      localCurrency: localCurrencyCode,
+      usdAmount: usdAmount.toString(),
+      localCurrencyAmount: localAmount.toString(),
+      tokenAmount: tokenAmount.toString(),
+      tokenSymbol: tokenInfo?.symbol ?? '',
+      tokenAddress,
+      commentLength: comment.length,
+    })
+
+    // TODO: Send
+    // dispatch(
+    //   sendPaymentOrInvite(
+    //     amount,
+    //     currency,
+    //     finalComment,
+    //     recipient,
+    //     recipientAddress,
+    //     feeInfo,
+    //     firebasePendingRequestUid,
+    //     fromModal
+    //   )
+    // )
+  }
 
   return (
-    // Note: intentionally passing a new child func here otherwise
-    // it doesn't re-render on state change since CalculateFee is a pure component
-    <CalculateFee {...feeProps}>{(asyncFee) => renderWithAsyncFee(asyncFee)}</CalculateFee>
+    <SafeAreaView
+      style={styles.container}
+      edges={props.route.name === Screens.SendConfirmationModal ? ['bottom'] : undefined}
+    >
+      <HeaderWithBackButton eventName={SendEvents.send_confirm_back} />
+      <DisconnectBanner />
+      <ReviewFrame
+        FooterComponent={FeeContainer}
+        LabelAboveKeyboard={EncryptionWarningLabel}
+        confirmButton={{
+          action: onSendClick,
+          text: isInvite ? t('inviteFlow11:sendAndInvite') : t('global:send'),
+          disabled: isSending || !!feeError,
+        }}
+        isSending={isSending}
+      >
+        <View style={styles.transferContainer}>
+          {isInvite && <Text style={styles.inviteText}>{t('inviteMoneyEscrow')}</Text>}
+          <View style={styles.headerContainer}>
+            <ContactCircle recipient={recipient} />
+            <View style={styles.recipientInfoContainer}>
+              <Text style={styles.headerText} testID="HeaderText">
+                {t('sending')}
+              </Text>
+              <Text style={styles.displayName}>{getDisplayName(recipient, t)}</Text>
+              {validatedRecipientAddress && (
+                <View style={styles.editContainer}>
+                  <ShortenedAddress style={styles.address} address={validatedRecipientAddress} />
+                  <TextButton
+                    style={styles.editButton}
+                    testID={'accountEditButton'}
+                    onPress={onEditAddressClick}
+                  >
+                    {t('edit')}
+                  </TextButton>
+                </View>
+              )}
+            </View>
+          </View>
+          <TokenDisplay
+            style={styles.amount}
+            amount={tokenAmount}
+            tokenAddress={tokenAddress}
+            showLocalAmount={amountIsInLocalCurrency}
+          />
+          <CommentTextInput
+            testID={'send'}
+            onCommentChange={setComment}
+            comment={comment}
+            onBlur={onBlur}
+          />
+        </View>
+        <InviteAndSendModal
+          isVisible={inviteModalVisible}
+          name={getDisplayName(recipient, t)}
+          onInvite={sendInvite}
+          onCancel={onCloseInviteModal}
+        />
+        {/** Encryption warning dialog */}
+        <Dialog
+          title={t('encryption.warningModalHeader')}
+          isVisible={encryptionDialogVisible}
+          actionText={t('global:dismiss')}
+          actionPress={onDismissEncryptionModal}
+        >
+          {t('encryption.warningModalBody')}
+        </Dialog>
+      </ReviewFrame>
+    </SafeAreaView>
   )
 }
 
@@ -515,10 +327,6 @@ const styles = StyleSheet.create({
   amount: {
     paddingVertical: 8,
     ...fontStyles.largeNumber,
-  },
-  paymentComment: {
-    ...fontStyles.large,
-    color: colors.gray5,
   },
   encryptionWarningLabelContainer: {
     flexDirection: 'row',

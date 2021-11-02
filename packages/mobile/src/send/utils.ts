@@ -32,6 +32,7 @@ import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { PaymentInfo } from 'src/send/reducers'
 import { getRecentPayments } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInHours } from 'src/utils/time'
@@ -49,7 +50,7 @@ export interface ConfirmationInput {
 }
 
 export const getConfirmationInput = (
-  transactionData: TransactionDataInput,
+  transactionData: TransactionDataInputLegacy,
   e164NumberToAddress: E164NumberToAddressType,
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
 ): ConfirmationInput => {
@@ -220,14 +221,14 @@ export function* handleSendPaymentData(
         Logger.warn(TAG, '@handleSendPaymentData null amount')
         return
       }
-      const transactionData: TransactionDataInput = {
+      const transactionData: TransactionDataInputLegacy = {
         recipient,
         amount: dollarAmount,
         currency: Currency.Dollar,
         reason: data.comment,
         type: TokenTransactionType.PayPrefill,
       }
-      navigate(Screens.SendConfirmation, {
+      navigate(Screens.SendConfirmationLegacy, {
         transactionData,
         isFromScan,
         currencyInfo: { localCurrencyCode: currency, localExchangeRate: exchangeRate },
@@ -239,7 +240,7 @@ export function* handleSendPaymentData(
       Logger.warn(TAG, '@handleSendPaymentData no amount given in CELO withdrawal')
       return
     } else if (data.token === 'cUSD' || !data.token) {
-      navigate(Screens.SendAmount, {
+      navigate(Screens.SendAmountLegacy, {
         recipient,
         isFromScan,
         isOutgoingPaymentRequest,
@@ -256,4 +257,10 @@ export function* handlePaymentDeeplink(deeplink: string) {
   } catch (e) {
     Logger.warn('handlePaymentDeepLink', `deeplink ${deeplink} failed with ${e}`)
   }
+}
+
+export function isLegacyTransactionData(
+  transactionData: TransactionDataInput | TransactionDataInputLegacy
+): transactionData is TransactionDataInputLegacy {
+  return transactionData && 'currency' in transactionData
 }

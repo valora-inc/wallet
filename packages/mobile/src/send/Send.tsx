@@ -14,6 +14,7 @@ import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { verificationPossibleSelector } from 'src/app/selectors'
 import { estimateFee, FeeType } from 'src/fees/actions'
+import { features } from 'src/flags'
 import { Namespaces } from 'src/i18n'
 import ContactPermission from 'src/icons/ContactPermission'
 import { importContacts } from 'src/identity/actions'
@@ -125,12 +126,20 @@ function Send({ route }: Props) {
         }
       )
 
-      navigate(Screens.SendAmount, {
-        recipient,
-        isOutgoingPaymentRequest,
-        origin: SendOrigin.AppSendFlow,
-        forceCurrency,
-      })
+      if (features.USE_TOKEN_SEND_FLOW) {
+        navigate(Screens.SendAmount, {
+          recipient,
+          isOutgoingPaymentRequest,
+          origin: SendOrigin.AppSendFlow,
+        })
+      } else {
+        navigate(Screens.SendAmountLegacy, {
+          recipient,
+          isOutgoingPaymentRequest,
+          origin: SendOrigin.AppSendFlow,
+          forceCurrency,
+        })
+      }
     },
     [isOutgoingPaymentRequest, searchQuery]
   )

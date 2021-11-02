@@ -12,4 +12,5 @@ export {
   updateFirebasePricesScheduled,
 } from './exchangeRate/FirebasePriceUpdater'
 export { notifyPaymentRequests } from './paymentRequests'
+export { onWriteUserAddress } from './users'
 export { fetchAccountsForWalletAddress } from './walletAddressMapping'
