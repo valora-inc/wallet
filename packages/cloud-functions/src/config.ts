@@ -56,19 +56,6 @@ export const DB_DATA = {
 export const BLOCKCHAIN_API_URL = config.blockchain_api?.url
 export const FULL_NODE_URL = config.full_node?.url
 
-export const UBESWAP_DATA = {
-  factory_address: config.ubeswap?.factory_address ?? 'test_factory_address',
-  min_liquidity: config.ubeswap?.min_liquidity,
-  max_concurrency: config.ubeswap?.max_concurrency,
-}
-
-export const TOKEN_ADDRESSES = {
-  cUSD: config.token_addresses?.cusd ?? 'test_cUSD',
-  cEUR: config.token_addresses?.ceur ?? 'test_cEUR',
-  mcUSD: config.token_addresses?.mcusd ?? 'test_mcUSD',
-  mcEUR: config.token_addresses?.mceur ?? 'test_mcEUR',
-}
-
 export const EXCHANGES = {
   env: config.exchanges?.env ?? 'test',
 }
