@@ -21,19 +21,21 @@ function TokenBalance() {
   const tokenBalances = useSelector(tokensWithBalanceSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalBalance = useSelector(totalTokenBalanceSelector)
-  if (tokenBalances.length == 0) {
+  if (tokenBalances.length === 0) {
     return (
-      <Text style={styles.balance}>
+      <Text style={styles.balance} testID={'TotalTokenBalance'}>
         {localCurrencySymbol}
         {'0.00'}
       </Text>
     )
-  } else if (tokenBalances.length == 1) {
+  } else if (tokenBalances.length === 1) {
+    console.log('ONE')
+    console.log(totalBalance)
     return (
       <View style={styles.oneBalance}>
         <Image source={{ uri: tokenBalances[0].imageUrl }} style={styles.tokenImg} />
         <View style={styles.column}>
-          <Text style={styles.balance}>
+          <Text style={styles.balance} testID={'TotalTokenBalance'}>
             {localCurrencySymbol}
             {totalBalance}
           </Text>
@@ -45,7 +47,7 @@ function TokenBalance() {
     )
   } else {
     return (
-      <Text style={styles.balance}>
+      <Text style={styles.balance} testID={'TotalTokenBalance'}>
         {localCurrencySymbol}
         {totalBalance}
       </Text>
