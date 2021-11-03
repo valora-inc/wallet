@@ -131,7 +131,7 @@ describe('send/utils', () => {
   })
 
   describe('handlePaymentDeeplink', () => {
-    let useTokenSendFlow = features.USE_TOKEN_SEND_FLOW
+    const useTokenSendFlow = features.USE_TOKEN_SEND_FLOW
     beforeAll(() => {
       features.USE_TOKEN_SEND_FLOW = true
     })
@@ -218,7 +218,7 @@ describe('send/utils', () => {
   })
 
   describe('handlePaymentDeeplinkLegacy', () => {
-    let useTokenSendFlow = features.USE_TOKEN_SEND_FLOW
+    const useTokenSendFlow = features.USE_TOKEN_SEND_FLOW
     beforeAll(() => {
       features.USE_TOKEN_SEND_FLOW = false
     })
