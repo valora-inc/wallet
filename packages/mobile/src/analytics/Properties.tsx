@@ -76,6 +76,10 @@ interface AppEventsProperties {
   [AppEvents.redux_store_recovery_success]: {
     account: string
   }
+  [AppEvents.push_notification_sent]: {
+    id?: string
+    type?: string
+  }
   [AppEvents.push_notification_opened]: {
     id?: string
     state: NotificationReceiveState

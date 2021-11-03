@@ -2,6 +2,8 @@ import * as admin from 'firebase-admin'
 import i18next, { TFunction } from 'i18next'
 import { NOTIFICATIONS_TTL_MS } from '../config'
 import { database, messaging } from '../firebase'
+import ValoraAnalytics from '@celo/mobile/src/analytics/ValoraAnalytics'
+import { AppEvents } from '@celo/mobile/src/analytics/Events'
 
 const TAG = 'Notifications'
 
@@ -82,6 +84,10 @@ export async function sendNotification(
         latency: data.timestamp ? Date.now() - Number(data.timestamp) : null,
       })
     )
+    ValoraAnalytics.track(AppEvents.push_notification_opened, {
+      id: data.id,
+      type: data.type,
+    })
   } catch (error) {
     console.error(
       JSON.stringify({
