@@ -32,7 +32,10 @@ jobs:
       - name: 'Upload Test Results'
         uses: actions/upload-artifact@v2
         with:
-          path: test-results
+          path: |
+            packages/notification-service/coverage/lcov-report
+            packages/cloud-functions/coverage/lcov-report
+            packages/react-components/coverage/lcov-report
       - name: 'Upload to Codecov'
         uses: codecov/codecov-action@v2
         with:
