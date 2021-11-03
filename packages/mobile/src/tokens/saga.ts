@@ -11,11 +11,12 @@ import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { WALLET_BALANCE_UPPER_BOUND } from 'src/config'
+import { isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
+import { e2eTokens } from 'src/tokens/e2eTokens'
 import {
   setTokenBalances,
   setTotalTokenBalance,
@@ -292,7 +293,10 @@ export function* fetchReadableTokenBalance(address: string, token: StoredTokenBa
 }
 
 export function* importTokenInfo() {
-  const tokens: StoredTokenBalances = yield call(readOnceFromFirebase, 'tokensInfo')
+  // In e2e environment we use a statis token list since we can't access Firebase.
+  const tokens: StoredTokenBalances = isE2EEnv
+    ? e2eTokens()
+    : yield call(readOnceFromFirebase, 'tokensInfo')
   const address: string = yield select(walletAddressSelector)
   const fetchedTokenBalances: StoredTokenBalance[] = yield all(
     Object.values(tokens).map((token) => call(fetchReadableTokenBalance, address, token!))
