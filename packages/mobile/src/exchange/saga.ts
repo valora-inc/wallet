@@ -51,6 +51,7 @@ import { roundDown } from 'src/utils/formatting'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
+import { getLatestNonce } from 'src/web3/utils'
 import * as util from 'util'
 
 const TAG = 'exchange/saga'
@@ -339,13 +340,17 @@ export function* exchangeGoldAndStableTokens(action: ExchangeTokensAction) {
       Logger.error(TAG, 'No transaction ID. Did not exchange.')
       return
     }
+    const nonce: number = yield call(getLatestNonce, account)
     const { receipt, error } = yield call(
       sendAndMonitorTransaction,
       tx,
       account,
       context,
       undefined, // currency, undefined because it's an exchange and we need both.
-      makerToken
+      makerToken,
+      undefined, // gas
+      undefined, // gasPrice
+      nonce + 1
     )
     if (receipt) {
       ValoraAnalytics.track(CeloExchangeEvents.celo_exchange_complete, {

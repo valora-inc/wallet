@@ -29,7 +29,6 @@ To setup Valora locally, follow [setup instructions](https://github.com/valora-i
 The repository has the following packages (sub projects):
 
 - [mobile](packages/mobile) - React Native Android and iOS app
-- [blockchain-api](packages/blockchain-api) - service that uses Blockscout to present view of transactions by account for Celo Wallet activity feed
 - [notification-service](packages/notification-service) - service for managing push notifications for Celo Wallet
 
 Code owners for each package can be found in [.github/CODEOWNERS](.github/CODEOWNERS).
