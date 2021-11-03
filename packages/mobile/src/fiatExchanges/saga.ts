@@ -68,14 +68,13 @@ function* bidaliPaymentRequest({
 
   while (true) {
     const { cancel } = yield race({
-      sendStart: take(SendActions.SEND_PAYMENT_OR_INVITE),
+      sendStart: take(SendActions.SEND_PAYMENT_OR_INVITE_LEGACY),
       cancel: take(
         (action: AppActionTypes) =>
           action.type === AppActions.ACTIVE_SCREEN_CHANGED &&
           action.activeScreen === Screens.BidaliScreen
       ),
     })
-
     if (cancel) {
       Logger.debug(`${TAG}@bidaliPaymentRequest`, 'Cancelled')
       yield call(onCancelled)

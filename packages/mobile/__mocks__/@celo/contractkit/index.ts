@@ -61,6 +61,11 @@ const Exchange = {
   exchange: jest.fn(),
 }
 
+const Escrow = {
+  getReceivedPaymentIds: jest.fn(() => []),
+  transfer: jest.fn(),
+}
+
 const web3 = new Web3()
 
 const connection = { web3: web3 }
@@ -74,6 +79,7 @@ const kit = {
     getAccounts: jest.fn(async () => Accounts),
     getReserve: jest.fn(async () => Reserve),
     getExchange: jest.fn(async () => Exchange),
+    getEscrow: jest.fn(async () => Escrow),
   },
   registry: {
     addressFor: async (address: string) => 1000,
