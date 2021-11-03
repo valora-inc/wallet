@@ -74,7 +74,7 @@ describe(tokenAmountInSmallestUnit, () => {
           },
         }).getState()
       )
-      .returns('100000')
+      .returns('1000000')
       .run()
   })
 
