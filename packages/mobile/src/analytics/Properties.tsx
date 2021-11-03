@@ -87,6 +87,7 @@ interface AppEventsProperties {
   [AppEvents.push_notification_sent]: {
     id?: string
     type?: string
+    address: string
   }
   [AppEvents.push_notification_opened]: {
     id?: string

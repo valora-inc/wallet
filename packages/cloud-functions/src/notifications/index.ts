@@ -87,6 +87,7 @@ export async function sendNotification(
     ValoraAnalytics.track(AppEvents.push_notification_opened, {
       id: data.id,
       type: data.type,
+      address,
     })
   } catch (error) {
     console.error(
