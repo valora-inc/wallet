@@ -84,7 +84,7 @@ export async function sendNotification(
         latency: data.timestamp ? Date.now() - Number(data.timestamp) : null,
       })
     )
-    ValoraAnalytics.track(AppEvents.push_notification_opened, {
+    ValoraAnalytics.track(AppEvents.push_notification_sent, {
       id: data.id,
       type: data.type,
       address,
