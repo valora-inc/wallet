@@ -49,7 +49,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
       />
     </RNGestureHandlerButton>
   </View>
-  <View
+  <RCTScrollView
     onLayout={[Function]}
     style={
       Array [
@@ -64,6 +64,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
           "width": "100%",
         },
         Object {
+          "maxHeight": 1234,
           "paddingBottom": 24,
         },
         undefined,
@@ -320,6 +321,6 @@ exports[`TokenBottomSheet renders correctly 1`] = `
         </View>
       </View>
     </View>
-  </View>
+  </RCTScrollView>
 </View>
 `;
