@@ -11,6 +11,7 @@ export enum AppEvents {
   fetch_balance_error = 'fetch_balance_error',
   redux_keychain_mismatch = 'redux_keychain_mismatch',
   redux_store_recovery_success = 'redux_store_recovery_success',
+  push_notification_sent = 'push_notification_sent',
   push_notification_opened = 'push_notification_opened',
   android_mobile_services_availability_checked = 'android_mobile_services_availability_checked',
 
