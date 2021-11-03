@@ -64,6 +64,28 @@ export const sendConfirmationScreenNavOptions = (navOptions: Props) =>
       }
     : noHeader
 
+function useRecipientToSendTo(paramRecipient: Recipient) {
+  const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
+  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
+  return useMemo(() => {
+    if (!paramRecipient.address && paramRecipient.e164PhoneNumber) {
+      const recipientAddress = getAddressFromPhoneNumber(
+        paramRecipient.e164PhoneNumber,
+        e164NumberToAddress,
+        secureSendPhoneNumberMapping,
+        undefined
+      )
+      return {
+        ...paramRecipient,
+        // Setting the phone number explicitly so Typescript doesn't complain
+        e164PhoneNumber: paramRecipient.e164PhoneNumber,
+        address: recipientAddress ?? undefined,
+      }
+    }
+    return paramRecipient
+  }, [paramRecipient])
+}
+
 function SendConfirmation(props: Props) {
   const { t } = useTranslation(Namespaces.sendFlow7)
 
@@ -96,7 +118,6 @@ function SendConfirmation(props: Props) {
   const dispatch = useDispatch()
 
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
-  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
 
   const addressValidationType = getAddressValidationType(
     paramRecipient,
@@ -106,23 +127,7 @@ function SendConfirmation(props: Props) {
     paramRecipient,
     secureSendPhoneNumberMapping
   )
-  const recipient: Recipient = useMemo(() => {
-    if (!paramRecipient.address && paramRecipient.e164PhoneNumber) {
-      const recipientAddress = getAddressFromPhoneNumber(
-        paramRecipient.e164PhoneNumber,
-        e164NumberToAddress,
-        secureSendPhoneNumberMapping,
-        undefined
-      )
-      return {
-        ...paramRecipient,
-        // Setting it explicitly so Typescript doesn't complain
-        e164PhoneNumber: paramRecipient.e164PhoneNumber,
-        address: recipientAddress ?? undefined,
-      }
-    }
-    return paramRecipient
-  }, [paramRecipient])
+  const recipient = useRecipientToSendTo(paramRecipient)
 
   const onEditAddressClick = () => {
     ValoraAnalytics.track(SendEvents.send_secure_edit)
