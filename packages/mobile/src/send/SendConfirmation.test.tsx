@@ -240,6 +240,8 @@ describe('SendConfirmation', () => {
   it('renders correct modal for invitations', async () => {
     const { getByTestId, queryAllByTestId } = renderScreen({}, mockInviteScreenProps)
 
+    expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(false)
+
     fireEvent.press(getByTestId('ConfirmButton'))
 
     expect(queryAllByTestId('InviteAndSendModal')[0].props.visible).toBe(true)

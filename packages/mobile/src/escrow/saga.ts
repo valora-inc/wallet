@@ -47,7 +47,7 @@ import {
   getERC20TokenContract,
   getStableCurrencyFromAddress,
   getTokenContractFromAddress,
-  tokenAmountInWei,
+  tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { addStandbyTransaction } from 'src/transactions/actions'
@@ -116,7 +116,7 @@ export function* transferToEscrow(action: EscrowTransferPaymentAction) {
       throw Error(`Couldnt find token info for address ${tokenAddress}. Should never happen`)
     }
     // Approve a transfer of funds to the Escrow contract.
-    const convertedAmount: string = yield call(tokenAmountInWei, amount, tokenAddress)
+    const convertedAmount: string = yield call(tokenAmountInSmallestUnit, amount, tokenAddress)
 
     Logger.debug(TAG + '@transferToEscrow', 'Approving escrow transfer')
 

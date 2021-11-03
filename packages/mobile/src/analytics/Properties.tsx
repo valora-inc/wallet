@@ -519,14 +519,17 @@ interface InviteEventsProperties {
   [InviteEvents.invite_start]: {
     amount: string
     tokenAddress: string
+    usdAmount: string
   }
   [InviteEvents.invite_complete]: {
     amount: string
     tokenAddress: string
+    usdAmount: string
   }
   [InviteEvents.invite_error]: {
     amount: string
     tokenAddress: string
+    usdAmount: string
     error: string
   }
   [InviteEvents.invite_method_sms]: undefined

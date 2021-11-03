@@ -476,6 +476,7 @@ export const mockTokenBalances2 = {
 
 export const mockContract = {
   methods: {
+    approve: jest.fn(),
     transfer: jest.fn(),
   },
 }

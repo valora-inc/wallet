@@ -332,7 +332,7 @@ export function* calculateTotalTokenBalance() {
   yield put(setTotalTokenBalance(totalBalance.toFixed(2).toString()))
 }
 
-export function* tokenAmountInWei(amount: BigNumber, tokenAddress: string) {
+export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: string) {
   const tokens: TokenBalance[] = yield select(tokensListSelector)
   const tokenInfo = tokens.find((token) => token.address === tokenAddress)
   if (!tokenInfo) {

@@ -3,7 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga/effects'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { setTokenBalances, StoredTokenBalance } from 'src/tokens/reducer'
-import { getERC20TokenBalance, importTokenInfo, tokenAmountInWei } from 'src/tokens/saga'
+import { getERC20TokenBalance, importTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockTokenBalances, mockTokenBalances2 } from 'test/values'
@@ -57,11 +57,11 @@ describe(importTokenInfo, () => {
   })
 })
 
-describe(tokenAmountInWei, () => {
+describe(tokenAmountInSmallestUnit, () => {
   const mockAddress = '0xMockAddress'
 
   it('map to token amount successfully', async () => {
-    await expectSaga(tokenAmountInWei, new BigNumber(10), mockAddress)
+    await expectSaga(tokenAmountInSmallestUnit, new BigNumber(10), mockAddress)
       .withState(
         createMockStore({
           tokens: {
@@ -74,13 +74,13 @@ describe(tokenAmountInWei, () => {
           },
         }).getState()
       )
-      .returns((10e5).toFixed(0))
+      .returns('100000')
       .run()
   })
 
   it('throw error if token doenst have info', async () => {
     await expect(
-      expectSaga(tokenAmountInWei, new BigNumber(10), mockAddress)
+      expectSaga(tokenAmountInSmallestUnit, new BigNumber(10), mockAddress)
         .withState(createMockStore({}).getState())
         .run()
     ).rejects.toThrowError(`Couldnt find token info for address ${mockAddress}.`)
