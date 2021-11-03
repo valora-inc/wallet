@@ -54,7 +54,7 @@
   "sendToAddress": "Enviar para o endereço",
   "walletAddress": "Endereço da conta",
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar dinheiro para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
-  "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar dinheiro para o mundo inteiro. Acabei de enviar {{amount}} {{currency}} para você. Instale o aplicativo da {{appName}} e resgate seus {{currency}} usando este link: {{link}}",
+  "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar dinheiro para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
   "inviteSent": "Código de convite enviado!",
   "inviteFailed": "Falha ao enviar convite",
   "loadingContacts": "Encontrar seus contatos",
