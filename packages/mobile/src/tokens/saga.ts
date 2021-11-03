@@ -293,7 +293,7 @@ export function* fetchReadableTokenBalance(address: string, token: StoredTokenBa
 }
 
 export function* importTokenInfo() {
-  // In e2e environment we use a statis token list since we can't access Firebase.
+  // In e2e environment we use a static token list since we can't access Firebase.
   const tokens: StoredTokenBalances = isE2EEnv
     ? e2eTokens()
     : yield call(readOnceFromFirebase, 'tokensInfo')
