@@ -3,6 +3,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
+import { features } from 'src/flags'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { fetchExchangeRate } from 'src/localCurrency/saga'
 import { navigate } from 'src/navigator/NavigationService'
@@ -17,7 +18,14 @@ import {
   _isPaymentLimitReached,
 } from 'src/send/utils'
 import { Currency } from 'src/utils/currencies'
-import { mockQRCodeRecipient, mockUriData } from 'test/values'
+import { createMockStore } from 'test/utils'
+import {
+  mockAccount2,
+  mockCeurAddress,
+  mockCusdAddress,
+  mockQRCodeRecipient,
+  mockUriData,
+} from 'test/values'
 
 const dailyLimit = 500
 
@@ -122,7 +130,103 @@ describe('send/utils', () => {
     })
   })
 
-  describe('paymentDeepLinks', () => {
+  describe('handlePaymentDeeplink', () => {
+    let useTokenSendFlow = features.USE_TOKEN_SEND_FLOW
+    beforeAll(() => {
+      features.USE_TOKEN_SEND_FLOW = true
+    })
+
+    afterAll(() => {
+      features.USE_TOKEN_SEND_FLOW = useTokenSendFlow
+    })
+
+    const mockData = {
+      address: mockAccount2.toLowerCase(),
+      currencyCode: 'USD' as LocalCurrencyCode,
+    }
+
+    it('should navigate to SendAmount screen when no amount nor token is sent', async () => {
+      await expectSaga(handleSendPaymentData, mockData)
+        .withState(createMockStore({}).getState())
+        .provide([[matchers.call.fn(fetchExchangeRate), mockData.currencyCode]])
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+        origin: SendOrigin.AppSendFlow,
+        recipient: { address: mockData.address },
+        isOutgoingPaymentRequest: undefined,
+        forceTokenAddress: undefined,
+      })
+    })
+
+    it('should navigate to SendAmount screen when no amount is sent but token is', async () => {
+      await expectSaga(handleSendPaymentData, { ...mockData, token: 'cEUR' })
+        .withState(createMockStore({}).getState())
+        .provide([[matchers.call.fn(fetchExchangeRate), mockData.currencyCode]])
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+        origin: SendOrigin.AppSendFlow,
+        recipient: { address: mockData.address },
+        isOutgoingPaymentRequest: undefined,
+        forceTokenAddress: mockCeurAddress,
+      })
+    })
+
+    it('should navigate to SendAmount screen when amount and token are sent but not recognized', async () => {
+      await expectSaga(handleSendPaymentData, { ...mockData, amount: 1, token: 'NOT_A_TOKEN' })
+        .withState(createMockStore({}).getState())
+        .provide([[matchers.call.fn(fetchExchangeRate), mockData.currencyCode]])
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+        origin: SendOrigin.AppSendFlow,
+        recipient: { address: mockData.address },
+        isOutgoingPaymentRequest: undefined,
+        forceTokenAddress: undefined,
+      })
+    })
+
+    it('should navigate to SendConfirmation screen when amount and token are sent', async () => {
+      await expectSaga(handleSendPaymentData, { ...mockData, amount: 1, token: 'cEUR' })
+        .withState(createMockStore({}).getState())
+        .provide([[matchers.call.fn(fetchExchangeRate), mockData.currencyCode]])
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+        transactionData: {
+          recipient: { address: mockData.address },
+          inputAmount: new BigNumber(1),
+          amountIsInLocalCurrency: false,
+          tokenAddress: mockCeurAddress,
+        },
+        origin: SendOrigin.AppSendFlow,
+      })
+    })
+
+    it('should navigate to SendConfirmation screen defaulting to cUSD when amount is sent but token isnt', async () => {
+      await expectSaga(handleSendPaymentData, { ...mockData, amount: 1 })
+        .withState(createMockStore({}).getState())
+        .provide([[matchers.call.fn(fetchExchangeRate), mockData.currencyCode]])
+        .run()
+      expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+        transactionData: {
+          recipient: { address: mockData.address },
+          inputAmount: new BigNumber(1),
+          amountIsInLocalCurrency: false,
+          tokenAddress: mockCusdAddress,
+        },
+        origin: SendOrigin.AppSendFlow,
+      })
+    })
+  })
+
+  describe('handlePaymentDeeplinkLegacy', () => {
+    let useTokenSendFlow = features.USE_TOKEN_SEND_FLOW
+    beforeAll(() => {
+      features.USE_TOKEN_SEND_FLOW = false
+    })
+
+    afterAll(() => {
+      features.USE_TOKEN_SEND_FLOW = useTokenSendFlow
+    })
+
     const data = {
       address: '0xf7f551752A78Ce650385B58364225e5ec18D96cB',
       displayName: 'Super 8',
