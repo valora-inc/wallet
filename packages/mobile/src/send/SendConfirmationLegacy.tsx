@@ -59,7 +59,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName } from 'src/recipients/recipient'
 import { isAppConnected } from 'src/redux/selectors'
-import { sendPaymentOrInvite } from 'src/send/actions'
+import { sendPaymentOrInviteLegacy } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -205,7 +205,7 @@ function SendConfirmationLegacy(props: Props) {
     })
 
     dispatch(
-      sendPaymentOrInvite(
+      sendPaymentOrInviteLegacy(
         amount,
         currency,
         finalComment,

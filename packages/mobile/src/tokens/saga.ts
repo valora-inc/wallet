@@ -11,11 +11,22 @@ import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { WALLET_BALANCE_UPPER_BOUND } from 'src/config'
+import { isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
+<<<<<<< HEAD
 import { setTokenBalances, StoredTokenBalance, StoredTokenBalances } from 'src/tokens/reducer'
+=======
+import { e2eTokens } from 'src/tokens/e2eTokens'
+import {
+  setTokenBalances,
+  StoredTokenBalance,
+  StoredTokenBalances,
+  TokenBalance,
+} from 'src/tokens/reducer'
+import { tokensListSelector } from 'src/tokens/selectors'
+>>>>>>> cc8ccdccd02fe86690c2b3145f747a8b284c07da
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
@@ -284,10 +295,13 @@ export function* fetchReadableTokenBalance(address: string, token: StoredTokenBa
 }
 
 export function* importTokenInfo() {
-  const tokens: StoredTokenBalance[] = yield call(readOnceFromFirebase, 'tokensInfo')
+  // In e2e environment we use a static token list since we can't access Firebase.
+  const tokens: StoredTokenBalances = isE2EEnv
+    ? e2eTokens()
+    : yield call(readOnceFromFirebase, 'tokensInfo')
   const address: string = yield select(walletAddressSelector)
   const fetchedTokenBalances: StoredTokenBalance[] = yield all(
-    tokens.map((token) => call(fetchReadableTokenBalance, address, token))
+    Object.values(tokens).map((token) => call(fetchReadableTokenBalance, address, token!))
   )
   const balances: StoredTokenBalances = {}
   for (const tokenBalance of fetchedTokenBalances) {
@@ -296,6 +310,20 @@ export function* importTokenInfo() {
   yield put(setTokenBalances(balances))
 }
 
+<<<<<<< HEAD
+=======
+export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: string) {
+  const tokens: TokenBalance[] = yield select(tokensListSelector)
+  const tokenInfo = tokens.find((token) => token.address === tokenAddress)
+  if (!tokenInfo) {
+    throw Error(`Couldnt find token info for address ${tokenAddress}.`)
+  }
+
+  const decimalFactor = new BigNumber(10).pow(tokenInfo.decimals)
+  return amount.multipliedBy(decimalFactor).toFixed(0)
+}
+
+>>>>>>> cc8ccdccd02fe86690c2b3145f747a8b284c07da
 export function* tokensSaga() {
   yield spawn(importTokenInfo)
 }
