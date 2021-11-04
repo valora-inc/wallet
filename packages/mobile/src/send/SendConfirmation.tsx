@@ -10,6 +10,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CommentTextInput from 'src/components/CommentTextInput'
@@ -39,6 +40,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
+import { sendPaymentOrInvite } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -77,12 +79,15 @@ function SendConfirmation(props: Props) {
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
   const isSending = useSelector(isSendingSelector)
+  const fromModal = props.route.name === Screens.SendConfirmationModal
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const { localAmount, tokenAmount, usdAmount } = useInputAmounts(
     inputAmount.toString(),
     amountIsInLocalCurrency,
     tokenAddress
   )
+
+  const dispatch = useDispatch()
 
   const isInvite = !recipient.address
   const { loading: feeLoading, error: feeError, result: feeInfo } = useEstimateGasFee(
@@ -191,19 +196,18 @@ function SendConfirmation(props: Props) {
       commentLength: comment.length,
     })
 
-    // TODO: Send
-    // dispatch(
-    //   sendPaymentOrInvite(
-    //     amount,
-    //     currency,
-    //     finalComment,
-    //     recipient,
-    //     recipientAddress,
-    //     feeInfo,
-    //     firebasePendingRequestUid,
-    //     fromModal
-    //   )
-    // )
+    dispatch(
+      sendPaymentOrInvite(
+        tokenAmount,
+        tokenAddress,
+        localAmount,
+        usdAmount,
+        comment,
+        recipient,
+        feeInfo,
+        fromModal
+      )
+    )
   }
 
   return (

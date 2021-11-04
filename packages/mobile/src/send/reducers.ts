@@ -53,6 +53,7 @@ export const sendReducer = (
       }
     }
     case Actions.SEND_PAYMENT_OR_INVITE:
+    case Actions.SEND_PAYMENT_OR_INVITE_LEGACY:
       return {
         ...storeLatestRecentReducer(state, action.recipient),
         isSending: true,
