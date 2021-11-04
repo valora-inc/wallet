@@ -1,7 +1,7 @@
 import {
   createNewManager,
   ExchangeRateManager,
-  loadConfig,
+  getConfigForEnv,
   PriceByAddress,
 } from '@valora/exchanges'
 import * as functions from 'firebase-functions'
@@ -24,7 +24,7 @@ export default class FirebasePriceUpdater {
   }
 
   async refreshAllPrices(): Promise<PriceByAddress> {
-    const prices = await this.manager.calculateUSDPrices()
+    const prices = await this.manager.calculatecUSDPrices()
     await this.updatePrices(prices)
     return prices
   }
@@ -51,8 +51,7 @@ export default class FirebasePriceUpdater {
 }
 
 export async function updatePrices() {
-  loadConfig(EXCHANGES.env)
-  const updater = new FirebasePriceUpdater(createNewManager())
+  const updater = new FirebasePriceUpdater(createNewManager(getConfigForEnv(EXCHANGES.env)))
   const prices = await updater.refreshAllPrices()
 
   return prices

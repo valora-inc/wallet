@@ -42,12 +42,5 @@ db.host=$(grep DB_HOST "$ENV_FILENAME" | cut -d '=' -f 2-) \
 db.database=$(grep DB_DATABASE "$ENV_FILENAME" | cut -d '=' -f 2-) \
 db.user=$(grep DB_USERNAME "$ENV_FILENAME" | cut -d '=' -f 2-) \
 db.password=$(grep DB_PASSWORD "$ENV_FILENAME" | cut -d '=' -f 2-) \
-ubeswap.factory_address=$(grep UBESWAP_FACTORY_ADDRESS "$ENV_FILENAME" | cut -d '=' -f 2-) \
-ubeswap.min_liquidity=$(grep UBESWAP_MIN_LIQUIDITY "$ENV_FILENAME" | cut -d '=' -f 2-) \
-ubeswap.max_concurrency=$(grep UBESWAP_MAX_CONCURRENCY "$ENV_FILENAME" | cut -d '=' -f 2-) \
-token_addresses.cusd=$(grep TOKEN_ADDRESSES_CUSD "$ENV_FILENAME" | cut -d '=' -f 2-) \
-token_addresses.ceur=$(grep TOKEN_ADDRESSES_CEUR "$ENV_FILENAME" | cut -d '=' -f 2-) \
-token_addresses.mcusd=$(grep TOKEN_ADDRESSES_MCUSD "$ENV_FILENAME" | cut -d '=' -f 2-) \
-token_addresses.mceur=$(grep TOKEN_ADDRESSES_MCEUR "$ENV_FILENAME" | cut -d '=' -f 2-) \
 exchanges.env=$(grep EXCHANGE_RATE_ENV "$ENV_FILENAME" | cut -d '=' -f 2-) \
 

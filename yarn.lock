@@ -6533,17 +6533,22 @@
   dependencies:
     "@typescript-eslint/parser" "^4.25.0"
 
-"@valora/exchanges@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@valora/exchanges/-/exchanges-1.0.4.tgz#94fa50aa6af14b2842942ac93293014a87d36442"
-  integrity sha512-N3yNF3DyBJfvp50oi+71GtfRjM+MBZB5wGHmOAEWIxFyZZRmUldlkfbthojO8rhtDulaaddF2LvvoY5YPrwsbg==
+"@valora/exchanges@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@valora/exchanges/-/exchanges-1.0.5.tgz#2696f0f85d6ebf0212faff48dd3aaf8994fd2738"
+  integrity sha512-qQnb9jLY2Hf9SxCK2SiGLMFbcSAN5Fe4tGdo2BJkhUv3PUVajDIv0flausz4dzgdJmzDwSAFRfe7wZVKvJwMNQ==
   dependencies:
     "@celo/contractkit" "1.2.2-beta"
     "@types/jest" "^27.0.2"
+    "@typescript-eslint/eslint-plugin" "^4.32.0"
     "@typescript-eslint/parser" "^4.33.0"
+    "@valora/eslint-config-typescript" "^0.0.1"
     bignumber.js "^9.0.0"
     eslint "^7.32.0"
-    eslint-utils "^3.0.0"
+    eslint-plugin-import "^2.24.2"
+    eslint-plugin-react "^7.26.0"
+    eslint-plugin-react-hooks "^4.2.0"
+    eslint-plugin-react-native "^3.11.0"
     jest "^27.3.1"
     tiny-async-pool "^1.2.0"
     ts-jest "^27.0.7"

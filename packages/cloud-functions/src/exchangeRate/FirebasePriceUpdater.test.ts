@@ -8,9 +8,9 @@ jest.mock('../firebase', () => ({
   fetchFromFirebase: (path: string) => fetchFromFirebaseMock(path),
 }))
 
-const calculateUSDPricesMock = jest.fn()
+const calculatecUSDPricesMock = jest.fn()
 const mockedManager = {
-  calculateUSDPrices: () => calculateUSDPricesMock(),
+  calculatecUSDPrices: () => calculatecUSDPricesMock(),
 }
 
 const FIREBASE_NODE = '/tokensInfo'
@@ -34,7 +34,7 @@ describe('FirebasePriceUpdater', () => {
       },
     })
 
-    calculateUSDPricesMock.mockReturnValue({
+    calculatecUSDPricesMock.mockReturnValue({
       address1: new BigNumber(1.5),
       address2: new BigNumber(1.7),
     })
