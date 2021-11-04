@@ -50,16 +50,14 @@ describe('FirebasePriceUpdater', () => {
   it('refreshes all prices correctly', async () => {
     await firebasePriceUpdater.refreshAllPrices()
 
-    expect(updateFirebaseMock).toHaveBeenCalledTimes(4)
-    expect(updateFirebaseMock).toHaveBeenCalledWith(`${FIREBASE_NODE}/key1/usdPrice`, '1.5')
-    expect(updateFirebaseMock).toHaveBeenCalledWith(
-      `${FIREBASE_NODE}/key1/priceFetchedAt`,
-      MOCKED_DATE
-    )
-    expect(updateFirebaseMock).toHaveBeenCalledWith(`${FIREBASE_NODE}/key2/usdPrice`, '1.7')
-    expect(updateFirebaseMock).toHaveBeenCalledWith(
-      `${FIREBASE_NODE}/key2/priceFetchedAt`,
-      MOCKED_DATE
-    )
+    expect(updateFirebaseMock).toHaveBeenCalledTimes(2)
+    expect(updateFirebaseMock).toHaveBeenCalledWith(`${FIREBASE_NODE}/key1`, {
+      usdPrice: '1.5',
+      priceFetchedAt: MOCKED_DATE,
+    })
+    expect(updateFirebaseMock).toHaveBeenCalledWith(`${FIREBASE_NODE}/key2`, {
+      usdPrice: '1.7',
+      priceFetchedAt: MOCKED_DATE,
+    })
   })
 })

@@ -38,5 +38,5 @@ export async function fetchFromFirebase(path: string) {
 }
 
 export async function updateFirebase(path: string, value: any) {
-  await database().ref(path).set(value)
+  await database().ref(path).update(value)
 }

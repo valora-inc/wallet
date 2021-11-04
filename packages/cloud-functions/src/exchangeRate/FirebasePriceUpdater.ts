@@ -40,8 +40,10 @@ export default class FirebasePriceUpdater {
       async ([key, token]: [string, any]) => {
         const address = token?.address?.toLowerCase()
         if (address && prices[address]) {
-          await updateFirebase(`${FIREBASE_NODE_KEY}/${key}/usdPrice`, prices[address].toString())
-          await updateFirebase(`${FIREBASE_NODE_KEY}/${key}/priceFetchedAt`, fetchTime)
+          await updateFirebase(`${FIREBASE_NODE_KEY}/${key}`, {
+            usdPrice: prices[address].toString(),
+            priceFetchedAt: fetchTime,
+          })
         }
       }
     )
@@ -66,7 +68,7 @@ async function updatePricesWithRetry() {
 }
 
 export const updateFirebasePricesScheduled = functions.pubsub
-  .schedule('*/10 * * * *') // every 10 mins
+  .schedule('*/1 * * * *') // every minute
   .onRun(updatePricesWithRetry)
 
 export const updateFirebasePricesByRequest = functions.https.onRequest(async (req, res) => {
