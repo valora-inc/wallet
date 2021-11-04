@@ -16,8 +16,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient } from 'src/recipients/recipient'
 import {
-  sendPaymentOrInvite,
   sendPaymentOrInviteFailure,
+  sendPaymentOrInviteLegacy,
   sendPaymentOrInviteSuccess,
 } from 'src/send/actions'
 import { NewTransactionsInFeedAction } from 'src/transactions/actions'
@@ -72,7 +72,7 @@ describe(watchBidaliPaymentRequests, () => {
           )
         )
         .dispatch(
-          sendPaymentOrInvite(
+          sendPaymentOrInviteLegacy(
             amount,
             expectedCurrency,
             'Some description (TEST_CHARGE_ID)',
@@ -119,7 +119,7 @@ describe(watchBidaliPaymentRequests, () => {
         )
       )
       .dispatch(
-        sendPaymentOrInvite(
+        sendPaymentOrInviteLegacy(
           amount,
           Currency.Dollar,
           'Some description (TEST_CHARGE_ID)',
