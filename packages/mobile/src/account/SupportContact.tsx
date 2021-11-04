@@ -59,7 +59,7 @@ function SupportContact({ route }: Props) {
       network: DEFAULT_TESTNET,
     }
     const userId = e164PhoneNumber ? anonymizedPhone(e164PhoneNumber) : 'unknown'
-    const emailSubject = 'Celo support for ' + (userId || 'unknownUser')
+    const emailSubject = 'Valora support for ' + (userId || 'unknownUser')
     const email: Email = {
       subject: emailSubject,
       recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
