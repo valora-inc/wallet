@@ -60,7 +60,7 @@ function HomeTokenBalance() {
   const tokenBalances = useSelector(tokensWithBalanceSelector)
 
   const onViewBalances = () => {
-    ValoraAnalytics.track(HomeEvents.view_token_balances, totalBalance)
+    ValoraAnalytics.track(HomeEvents.view_token_balances, { totalBalance })
     navigate(Screens.TokenBalances)
   }
 
