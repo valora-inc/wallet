@@ -1,24 +1,79 @@
 import { createSelector } from 'reselect'
 import { nameSelector } from 'src/account/selectors'
+import { currentLanguageSelector } from 'src/app/reducers'
+import { numberVerifiedSelector } from 'src/app/selectors'
+import { backupCompletedSelector } from 'src/backup/selectors'
+import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { defaultCurrencySelector } from 'src/stableToken/selectors'
-import { accountAddressSelector, currentAccountSelector } from 'src/web3/selectors'
+import {
+  tokensByCurrencySelector,
+  tokensByUsdBalanceSelector,
+  totalTokenBalanceSelector,
+} from 'src/tokens/selectors'
+import { Currency } from 'src/utils/currencies'
+import { accountAddressSelector, walletAddressSelector } from 'src/web3/selectors'
 
 export const getCurrentUserTraits = createSelector(
   [
-    currentAccountSelector,
+    walletAddressSelector,
     accountAddressSelector,
     defaultCurrencySelector,
     nameSelector,
     userLocationDataSelector,
+    currentLanguageSelector,
+    totalTokenBalanceSelector,
+    tokensByUsdBalanceSelector,
+    tokensByCurrencySelector,
+    getLocalCurrencyCode,
+    numberVerifiedSelector,
+    backupCompletedSelector,
   ],
-  (walletAddress, accountAddress, currency, name, { countryCodeAlpha2 }) => {
+  (
+    walletAddress,
+    accountAddress,
+    currency,
+    name,
+    { countryCodeAlpha2 },
+    language,
+    totalBalanceUsd,
+    tokensByUsdBalance,
+    tokensByCurrency,
+    localCurrencyCode,
+    hasVerifiedNumber,
+    hasCompletedBackup
+  ) => {
+    const currencyAddresses = new Set(
+      Object.values(tokensByCurrency).map((token) => token?.address)
+    )
+
+    // Don't rename these unless you have a really good reason!
+    // They are used in users analytics profiles + super properties
     return {
       accountAddress,
       walletAddress,
-      currency,
+      currency, // TODO: is this the right name in multi token context?
       name,
       countryCodeAlpha2,
+      language,
+      totalBalanceUsd,
+      tokenCount: tokensByUsdBalance.length,
+      otherTenTokens: tokensByUsdBalance
+        .filter((token) => !currencyAddresses.has(token.address))
+        .slice(0, 10)
+        .map((token) => `${token.symbol || token.address}:${token.balance}`)
+        .join(','),
+      // Maps balances
+      // Example: [Celo, cUSD, cEUR] to { celoBalance: X, cusdBalance: Y, ceurBalance: Z }
+      ...Object.fromEntries(
+        (Object.keys(tokensByCurrency) as Currency[]).map((currency) => [
+          `${currency === Currency.Celo ? 'celo' : currency.toLowerCase()}Balance`,
+          tokensByCurrency[currency]?.balance,
+        ])
+      ),
+      localCurrencyCode,
+      hasVerifiedNumber,
+      hasCompletedBackup,
     }
   }
 )
