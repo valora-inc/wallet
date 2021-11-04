@@ -4,11 +4,11 @@ codecov:
 coverage:
   precision: 2
   round: down
-  range: "70...100" # Range in which checks are green
+  range: "75...100" # Range in which checks are green
   status:
     project:
       default:
-        target: 70%    # the required coverage value
+        target: 75%    # the required coverage value
         threshold: 5%  # the leniency in hitting the target
         base: auto
 
