@@ -345,6 +345,7 @@ describe(sendPaymentOrInviteSaga, () => {
     expect(sendInvite).toHaveBeenCalledWith(
       mockInvitableRecipient.e164PhoneNumber,
       amount,
+      amount,
       mockCusdAddress,
       undefined
     )

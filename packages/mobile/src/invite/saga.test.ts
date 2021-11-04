@@ -65,7 +65,7 @@ describe(sendInvite, () => {
   it('sends an invite as expected', async () => {
     i18n.t = jest.fn((key) => key)
 
-    await expectSaga(sendInvite, mockE164Number, AMOUNT_TO_SEND, mockCusdAddress)
+    await expectSaga(sendInvite, mockE164Number, AMOUNT_TO_SEND, AMOUNT_TO_SEND, mockCusdAddress)
       .provide([
         [call(waitWeb3LastBlock), true],
         [call(getConnectedUnlockedAccount), mockAccount],

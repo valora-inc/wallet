@@ -35,7 +35,7 @@ import {
   getCurrencyAddress,
   getERC20TokenContract,
   getTokenContractFromAddress,
-  tokenAmountInWei,
+  tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
@@ -222,7 +222,7 @@ function* buildSendTx(
     getTokenContractFromAddress,
     tokenAddress
   )
-  const convertedAmount: string = yield call(tokenAmountInWei, amount, tokenAddress)
+  const convertedAmount: string = yield call(tokenAmountInSmallestUnit, amount, tokenAddress)
 
   const kit: ContractKit = yield call(getContractKit)
   return coreContract
@@ -332,15 +332,22 @@ export function* sendPaymentOrInviteSagaLegacy({
     const tokenByCurrency: Record<Currency, TokenBalance | undefined> = yield select(
       tokensByCurrencySelector
     )
-    const tokenAddress = tokenByCurrency[currency]?.address
-    if (!tokenAddress) {
+    const tokenInfo = tokenByCurrency[currency]
+    if (!tokenInfo) {
       throw new Error(`No token info found for ${currency}`)
     }
 
     if (recipientAddress) {
       yield call(sendPaymentLegacy, recipientAddress, amount, comment, currency, feeInfo)
     } else if (recipientHasNumber(recipient)) {
-      yield call(sendInvite, recipient.e164PhoneNumber, amount, tokenAddress, feeInfo)
+      yield call(
+        sendInvite,
+        recipient.e164PhoneNumber,
+        amount,
+        amount.multipliedBy(tokenInfo.usdPrice),
+        tokenInfo.address,
+        feeInfo
+      )
     }
 
     if (firebasePendingRequestUid) {
@@ -388,7 +395,7 @@ export function* sendPaymentOrInviteSaga({
         feeInfo
       )
     } else if (recipientHasNumber(recipient)) {
-      yield call(sendInvite, recipient.e164PhoneNumber, amount, tokenAddress, feeInfo)
+      yield call(sendInvite, recipient.e164PhoneNumber, amount, usdAmount, tokenAddress, feeInfo)
     } else {
       throw new Error('')
     }

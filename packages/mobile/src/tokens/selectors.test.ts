@@ -1,8 +1,11 @@
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   defaultTokenSelector,
   tokensByAddressSelector,
   tokensListSelector,
+  totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
+import { Currency } from 'src/utils/currencies'
 
 const state: any = {
   tokens: {
@@ -29,6 +32,15 @@ const state: any = {
         usdPrice: '100',
         balance: null,
       },
+    },
+  },
+  localCurrency: {
+    preferredCurrencyCode: LocalCurrencyCode.EUR,
+    fetchedCurrencyCode: LocalCurrencyCode.EUR,
+    exchangeRates: {
+      [Currency.Dollar]: '0.86',
+      [Currency.Euro]: null,
+      [Currency.Celo]: null,
     },
   },
 }
@@ -59,6 +71,14 @@ describe(defaultTokenSelector, () => {
   describe('when fetching the token with the highest balance', () => {
     it('returns the right token', () => {
       expect(defaultTokenSelector(state)).toEqual('0x1')
+    })
+  })
+})
+
+describe(totalTokenBalanceSelector, () => {
+  describe('when fetching the total token balance', () => {
+    it('returns the right amount', () => {
+      expect(totalTokenBalanceSelector(state)).toEqual('107.50')
     })
   })
 })

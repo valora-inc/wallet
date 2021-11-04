@@ -118,7 +118,6 @@ function SendConfirmation(props: Props) {
   const dispatch = useDispatch()
 
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
-
   const addressValidationType = getAddressValidationType(
     paramRecipient,
     secureSendPhoneNumberMapping

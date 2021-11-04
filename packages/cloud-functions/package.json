@@ -14,7 +14,7 @@
     "clean": "tsc -b . --clean",
     "build": "tsc -b .",
     "lint": "eslint --ext=.tsx,.ts src/",
-    "test": "jest"
+    "test": "export TZ=UTC && jest --ci --silent --coverage --maxWorkers=3"
   },
   "dependencies": {
     "@celo/contractkit": "1.2.2-beta",
