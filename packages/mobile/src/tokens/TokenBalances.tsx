@@ -12,8 +12,8 @@ import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { TokenBalance, totalTokenBalanceSelector } from 'src/tokens/reducer'
-import { tokensWithBalanceSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/reducer'
+import { tokensWithBalanceSelector, totalTokenBalanceSelector } from 'src/tokens/selectors'
 
 type Props = StackScreenProps<StackParamList, Screens.TokenBalances>
 function TokenBalancesScreen({ navigation }: Props) {

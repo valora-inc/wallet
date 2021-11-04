@@ -5,18 +5,76 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { call } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { ESCROW_PAYMENT_EXPIRY_SECONDS } from 'src/config'
 import {
   Actions,
   EscrowReclaimPaymentAction,
   EscrowTransferPaymentAction,
+  fetchSentEscrowPayments,
 } from 'src/escrow/actions'
 import { reclaimFromEscrow, transferToEscrow } from 'src/escrow/saga'
+import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
+import { getERC20TokenContract } from 'src/tokens/saga'
+import { sendAndMonitorTransaction } from 'src/transactions/saga'
+import { sendTransaction } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
-import { getConnectedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
-import { mockAccount, mockE164Number, mockE164NumberHash, mockE164NumberPepper } from 'test/values'
+import { getContractKitAsync } from 'src/web3/contracts'
+import {
+  getConnectedAccount,
+  getConnectedUnlockedAccount,
+  unlockAccount,
+  UnlockResult,
+} from 'src/web3/saga'
+import { createMockStore } from 'test/utils'
+import {
+  mockAccount,
+  mockContract,
+  mockCusdAddress,
+  mockE164Number,
+  mockE164NumberHash,
+  mockE164NumberPepper,
+} from 'test/values'
 
 describe(transferToEscrow, () => {
+  it.only('transfers successfully if all parameters are right', async () => {
+    const kit = await getContractKitAsync()
+    const phoneHashDetails: PhoneNumberHashDetails = {
+      e164Number: mockE164Number,
+      phoneHash: mockE164NumberHash,
+      pepper: mockE164NumberPepper,
+    }
+    const escrowTransferAction: EscrowTransferPaymentAction = {
+      type: Actions.TRANSFER_PAYMENT,
+      phoneHashDetails,
+      amount: new BigNumber(10),
+      tokenAddress: mockCusdAddress,
+      context: newTransactionContext('Escrow', 'Transfer'),
+    }
+    await expectSaga(transferToEscrow, escrowTransferAction)
+      .withState(createMockStore().getState())
+      .provide([
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [call(getERC20TokenContract, mockCusdAddress), mockContract],
+        [matchers.call.fn(sendTransaction), true],
+        [matchers.call.fn(sendAndMonitorTransaction), { receipt: true, error: undefined }],
+      ])
+      .put(fetchSentEscrowPayments())
+      .run()
+    const escrowContract = await kit.contracts.getEscrow()
+    expect(mockContract.methods.approve).toHaveBeenCalledWith(
+      escrowContract.address,
+      '10000000000000000000'
+    )
+    expect(escrowContract.transfer).toHaveBeenCalledWith(
+      mockE164NumberHash,
+      mockCusdAddress,
+      '10000000000000000000',
+      ESCROW_PAYMENT_EXPIRY_SECONDS,
+      expect.any(String),
+      NUM_ATTESTATIONS_REQUIRED
+    )
+  })
+
   it('fails if user cancels PIN input', async () => {
     const phoneHashDetails: PhoneNumberHashDetails = {
       e164Number: mockE164Number,
@@ -27,7 +85,7 @@ describe(transferToEscrow, () => {
       type: Actions.TRANSFER_PAYMENT,
       phoneHashDetails,
       amount: new BigNumber(10),
-      currency: Currency.Dollar,
+      tokenAddress: mockCusdAddress,
       context: newTransactionContext('Escrow', 'Transfer'),
     }
     await expectSaga(transferToEscrow, escrowTransferAction)

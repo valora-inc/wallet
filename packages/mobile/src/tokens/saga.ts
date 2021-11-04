@@ -4,21 +4,20 @@ import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrappe
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import { retryAsync } from '@celo/utils/lib/async'
 import BigNumber from 'bignumber.js'
-import { all, call, put, select, spawn, take, takeLatest } from 'redux-saga/effects'
+import { all, call, put, select, spawn, take } from 'redux-saga/effects'
 import * as erc20 from 'src/abis/IERC20.json'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { WALLET_BALANCE_UPPER_BOUND } from 'src/config'
+import { isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
-import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
+import { e2eTokens } from 'src/tokens/e2eTokens'
 import {
   setTokenBalances,
-  setTotalTokenBalance,
   StoredTokenBalance,
   StoredTokenBalances,
   TokenBalance,
@@ -292,10 +291,13 @@ export function* fetchReadableTokenBalance(address: string, token: StoredTokenBa
 }
 
 export function* importTokenInfo() {
-  const tokens: StoredTokenBalance[] = yield call(readOnceFromFirebase, 'tokensInfo')
+  // In e2e environment we use a static token list since we can't access Firebase.
+  const tokens: StoredTokenBalances = isE2EEnv
+    ? e2eTokens()
+    : yield call(readOnceFromFirebase, 'tokensInfo')
   const address: string = yield select(walletAddressSelector)
   const fetchedTokenBalances: StoredTokenBalance[] = yield all(
-    tokens.map((token) => call(fetchReadableTokenBalance, address, token))
+    Object.values(tokens).map((token) => call(fetchReadableTokenBalance, address, token!))
   )
   const balances: StoredTokenBalances = {}
   for (const tokenBalance of fetchedTokenBalances) {
@@ -304,31 +306,17 @@ export function* importTokenInfo() {
   yield put(setTokenBalances(balances))
 }
 
-export function* getTokenLocalAmount(tokenInfo: TokenBalance) {
-  const exchangeRate: Record<Currency, string | null> = yield select(
-    localCurrencyExchangeRatesSelector
-  )
-  const usdRate = exchangeRate[Currency.Dollar]
-  if (!usdRate) {
-    return null
-  }
-  const tokenAmount = new BigNumber(tokenInfo.balance ?? 0)
-
-  return tokenAmount.multipliedBy(tokenInfo.usdPrice).multipliedBy(usdRate)
-}
-
-export function* calculateTotalTokenBalance() {
-  const tokenBalances: TokenBalance[] = yield select(tokensListSelector)
-  let totalBalance = new BigNumber(0)
-  for (const token of tokenBalances) {
-    const balance: BigNumber | null = yield call(getTokenLocalAmount, token)
-    totalBalance = totalBalance.plus(balance ?? 0)
+export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: string) {
+  const tokens: TokenBalance[] = yield select(tokensListSelector)
+  const tokenInfo = tokens.find((token) => token.address === tokenAddress)
+  if (!tokenInfo) {
+    throw Error(`Couldnt find token info for address ${tokenAddress}.`)
   }
 
-  yield put(setTotalTokenBalance(totalBalance.toFixed(2).toString()))
+  const decimalFactor = new BigNumber(10).pow(tokenInfo.decimals)
+  return amount.multipliedBy(decimalFactor).toFixed(0)
 }
 
 export function* tokensSaga() {
-  yield takeLatest(setTokenBalances.type, calculateTotalTokenBalance)
   yield spawn(importTokenInfo)
 }
