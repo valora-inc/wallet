@@ -15,9 +15,6 @@ import { isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
-<<<<<<< HEAD
-import { setTokenBalances, StoredTokenBalance, StoredTokenBalances } from 'src/tokens/reducer'
-=======
 import { e2eTokens } from 'src/tokens/e2eTokens'
 import {
   setTokenBalances,
@@ -26,7 +23,6 @@ import {
   TokenBalance,
 } from 'src/tokens/reducer'
 import { tokensListSelector } from 'src/tokens/selectors'
->>>>>>> cc8ccdccd02fe86690c2b3145f747a8b284c07da
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
@@ -310,8 +306,6 @@ export function* importTokenInfo() {
   yield put(setTokenBalances(balances))
 }
 
-<<<<<<< HEAD
-=======
 export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: string) {
   const tokens: TokenBalance[] = yield select(tokensListSelector)
   const tokenInfo = tokens.find((token) => token.address === tokenAddress)
@@ -323,7 +317,6 @@ export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: stri
   return amount.multipliedBy(decimalFactor).toFixed(0)
 }
 
->>>>>>> cc8ccdccd02fe86690c2b3145f747a8b284c07da
 export function* tokensSaga() {
   yield spawn(importTokenInfo)
 }
