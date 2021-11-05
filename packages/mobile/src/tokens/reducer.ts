@@ -40,6 +40,7 @@ export const initialState = {
 
 const rehydrate = createAction<any>(REHYDRATE)
 export const setTokenBalances = createAction<StoredTokenBalances>('TOKENS/SET_TOKEN_BALANCES')
+export const fetchTokenBalances = createAction('TOKENS/FETCH_TOKEN_BALANCES')
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
