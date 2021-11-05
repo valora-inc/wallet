@@ -312,6 +312,9 @@ export function* importTokenInfo() {
     yield put(setTokenBalances(tokens))
   } catch (error) {
     Logger.error(TAG, 'error fetching user balances', error.message)
+    ValoraAnalytics.track(AppEvents.fetch_balance_error, {
+      error: error.message,
+    })
   }
 }
 

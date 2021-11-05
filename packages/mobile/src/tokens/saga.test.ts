@@ -1,6 +1,9 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
+import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
+import { AppEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { setTokenBalances, StoredTokenBalances } from 'src/tokens/reducer'
 import { fetchTokenBalances, importTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
@@ -68,6 +71,20 @@ describe(importTokenInfo, () => {
       ])
       .put(setTokenBalances(mockTokenBalances))
       .run()
+  })
+
+  it("fires an event if there's an error", async () => {
+    await expectSaga(importTokenInfo)
+      .provide([
+        [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
+        [select(walletAddressSelector), mockAccount],
+        [call(fetchTokenBalances, mockAccount), throwError(new Error('Error message'))],
+      ])
+      .not.put(setTokenBalances(mockTokenBalances))
+      .run()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.fetch_balance_error, {
+      error: 'Error message',
+    })
   })
 })
 
