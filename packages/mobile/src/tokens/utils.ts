@@ -24,7 +24,6 @@ export function getHigherBalanceCurrency(
 
 export function useIsCoreToken(tokenAddress: string) {
   const tokens = useSelector(tokensListSelector)
-  console.log(tokens, tokenAddress)
   const token = tokens.find((token) => token.address === tokenAddress)
   if (!token) return false
   return ['cUSD', 'cEUR', 'CELO'].includes(token.symbol)

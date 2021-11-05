@@ -203,7 +203,7 @@ describe('SendConfirmation', () => {
       getMockStackScreenProps(Screens.SendConfirmation, {
         transactionData: {
           ...mockTokenTransactionData,
-          tokenAddress: testTokenAddress,
+          tokenAddress: mockTestTokenAddress,
         },
         origin: SendOrigin.AppSendFlow,
       })
