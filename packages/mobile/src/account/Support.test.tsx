@@ -43,10 +43,4 @@ describe('Support', () => {
     fireEvent.press(contact.getByTestId('SupportContactLink'))
     expect(navigate).toBeCalledWith(Screens.SupportContact)
   })
-
-  it('navigates to Raise Limit', () => {
-    const contact = renderSupport()
-    fireEvent.press(contact.getByTestId('RaiseLimit'))
-    expect(navigate).toBeCalledWith(Screens.RaiseLimitScreen)
-  })
 })
