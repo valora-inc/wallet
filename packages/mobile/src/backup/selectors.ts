@@ -1,4 +1,4 @@
-import { DAYS_TO_BACKUP } from 'src/backup/utils'
+import { DAYS_TO_BACKUP } from 'src/backup/consts'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
