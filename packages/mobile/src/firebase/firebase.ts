@@ -243,7 +243,7 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
   await remoteConfig().setDefaults(FEATURE_FLAG_DEFAULTS)
   // Cache values for 1 hour. The default is 12 hours.
   // https://rnfirebase.io/remote-config/usage
-  await remoteConfig().setConfigSettings({ minimumFetchIntervalMillis: 60 * 60 * 1000 })
+  await remoteConfig().setConfigSettings({ minimumFetchIntervalMillis: 0 })
   const fetchedRemotely = await remoteConfig().fetchAndActivate()
 
   if (fetchedRemotely) {
