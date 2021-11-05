@@ -45,6 +45,7 @@ import { isSendingSelector } from 'src/send/selectors'
 import { useInputAmounts } from 'src/send/SendAmount'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { useTokenInfo } from 'src/tokens/hooks'
+import { useIsCoreToken } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
 
@@ -210,6 +211,9 @@ function SendConfirmation(props: Props) {
     )
   }
 
+  const isCoreToken = useIsCoreToken(tokenAddress)
+  const allowComment = !isInvite && isCoreToken
+
   return (
     <SafeAreaView
       style={styles.container}
@@ -256,12 +260,14 @@ function SendConfirmation(props: Props) {
             tokenAddress={tokenAddress}
             showLocalAmount={amountIsInLocalCurrency}
           />
-          <CommentTextInput
-            testID={'send'}
-            onCommentChange={setComment}
-            comment={comment}
-            onBlur={onBlur}
-          />
+          {allowComment && (
+            <CommentTextInput
+              testID={'send'}
+              onCommentChange={setComment}
+              comment={comment}
+              onBlur={onBlur}
+            />
+          )}
         </View>
         <InviteAndSendModal
           isVisible={inviteModalVisible}
