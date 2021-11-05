@@ -8,12 +8,12 @@ import { StyleProp, ViewStyle } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import { setAttestationInputStatus } from 'src/identity/actions'
+import { ATTESTATION_CODE_PLACEHOLDER } from 'src/identity/reducer'
 import {
   acceptedAttestationCodesSelector,
-  ATTESTATION_CODE_PLACEHOLDER,
   attestationCodesSelector,
   attestationInputStatusSelector,
-} from 'src/identity/reducer'
+} from 'src/identity/selectors'
 import { AttestationCode } from 'src/identity/verification'
 import Logger from 'src/utils/Logger'
 import { indexReadyForInput } from 'src/verify/utils'

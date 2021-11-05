@@ -50,7 +50,8 @@ import {
   storeTimestampIfKomenciError,
 } from 'src/identity/feelessVerificationErrors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { e164NumberToSaltSelector, E164NumberToSaltType } from 'src/identity/reducer'
+import { E164NumberToSaltType } from 'src/identity/reducer'
+import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { VerificationStatus } from 'src/identity/types'
 import {
   doVerificationFlowSaga,

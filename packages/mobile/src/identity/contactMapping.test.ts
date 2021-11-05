@@ -15,11 +15,11 @@ import {
 } from 'src/identity/actions'
 import { doImportContactsWrapper, fetchAddressesAndValidateSaga } from 'src/identity/contactMapping'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
+import { AddressValidationType } from 'src/identity/reducer'
 import {
-  AddressValidationType,
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
-} from 'src/identity/reducer'
+} from 'src/identity/selectors'
 import { contactsToRecipients } from 'src/recipients/recipient'
 import { setPhoneRecipientCache } from 'src/recipients/reducer'
 import { getAllContacts } from 'src/utils/contacts'

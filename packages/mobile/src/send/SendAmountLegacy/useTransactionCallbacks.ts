@@ -13,8 +13,9 @@ import {
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
 import { getFeeEstimateDollars } from 'src/fees/selectors'
-import { AddressValidationType, secureSendPhoneNumberMappingSelector } from 'src/identity/reducer'
+import { AddressValidationType } from 'src/identity/reducer'
 import { getAddressValidationType } from 'src/identity/secureSend'
+import { secureSendPhoneNumberMappingSelector } from 'src/identity/selectors'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import {
   convertDollarsToLocalAmount,

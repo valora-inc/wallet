@@ -26,12 +26,12 @@ import { useEstimateGasFee } from 'src/fees/hooks'
 import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
+import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
 import {
   addressToDataEncryptionKeySelector,
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
-} from 'src/identity/reducer'
-import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
+} from 'src/identity/selectors'
 import InviteAndSendModal from 'src/invite/InviteAndSendModal'
 import { useCurrencyToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'

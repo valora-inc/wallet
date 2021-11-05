@@ -1,6 +1,6 @@
 import { isE164Number } from '@celo/utils/lib/phoneNumbers'
 import { Actions, ActionTypes } from 'src/account/actions'
-import { DAYS_TO_DELAY } from 'src/backup/utils'
+import { DAYS_TO_DELAY } from 'src/backup/consts'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, DEV_SETTINGS_ACTIVE_INITIALLY } from 'src/config'
 import { features } from 'src/flags'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'

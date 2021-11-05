@@ -7,8 +7,9 @@ import {
   ValidateRecipientAddressAction,
   validateRecipientAddressSuccess,
 } from 'src/identity/actions'
-import { AddressValidationType, e164NumberToAddressSelector } from 'src/identity/reducer'
+import { AddressValidationType } from 'src/identity/reducer'
 import { watchValidateRecipientAddress } from 'src/identity/saga'
+import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   mockAccount,
