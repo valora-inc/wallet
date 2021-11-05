@@ -48,6 +48,7 @@ describe(watchBidaliPaymentRequests, () => {
     currencyCode | expectedCurrency
     ${'cUSD'}    | ${Currency.Dollar}
     ${'cEUR'}    | ${Currency.Euro}
+    ${'cBRL'}    | ${Currency.Real}
   `(
     'triggers the payment flow with $currencyCode and calls `onPaymentSent` when successful',
     async ({ currencyCode, expectedCurrency }) => {

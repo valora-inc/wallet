@@ -26,7 +26,13 @@ describe(BidaliScreen, () => {
   it('renders correctly when no phone number is provided', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: null },
-      stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '5' } },
+      stableToken: {
+        balances: {
+          [Currency.Dollar]: '10',
+          [Currency.Euro]: '5',
+          [Currency.Real]: '15',
+        },
+      },
     })
 
     const { UNSAFE_getByType } = render(
@@ -44,6 +50,7 @@ describe(BidaliScreen, () => {
         "balances": Object {
           "CEUR": "5",
           "CUSD": "10",
+          "CBRL": "15"
         },
         "onPaymentRequest": [Function],
         "openUrl": [Function],
@@ -73,6 +80,7 @@ describe(BidaliScreen, () => {
         "balances": Object {
           "CEUR": "5",
           "CUSD": "10",
+          "CBRL": "3"
         },
         "onPaymentRequest": [Function],
         "openUrl": [Function],
@@ -85,7 +93,13 @@ describe(BidaliScreen, () => {
   it('renders correctly when no currency is passed', () => {
     const mockStore = createMockStore({
       account: { e164PhoneNumber: '+14155556666' },
-      stableToken: { balances: { [Currency.Dollar]: '10', [Currency.Euro]: '9' } },
+      stableToken: {
+        balances: {
+          [Currency.Dollar]: '10',
+          [Currency.Euro]: '9',
+          [Currency.Real]: '3',
+        },
+      },
     })
 
     const { UNSAFE_getByType } = render(
@@ -107,6 +121,7 @@ describe(BidaliScreen, () => {
         "balances": Object {
           "CEUR": "9",
           "CUSD": "10",
+          "CBRL": "7"
         },
         "onPaymentRequest": [Function],
         "openUrl": [Function],

@@ -23,7 +23,7 @@ import { getHigherBalanceCurrency } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 
 // Note for later when adding CELO: make sure that Currency.Celo maps to CELO and not cGLD
-export const BIDALI_CURRENCIES = [Currency.Dollar, Currency.Euro]
+export const BIDALI_CURRENCIES = [Currency.Dollar, Currency.Euro, Currency.Real]
 
 function useInitialJavaScript(
   currency: Currency,
@@ -117,7 +117,7 @@ function BidaliScreen({ route, navigation }: Props) {
     () =>
       JSON.stringify(
         // Maps supported currencies to an object with their balance
-        // Example: [cUSD, cEUR] to { CUSD: X, CEUR: Y }
+        // Example: [cUSD, cEUR, cBRL] to { CUSD: X, CEUR: Y, CBRL: Z }
         Object.fromEntries(
           BIDALI_CURRENCIES.map((currency) => [currency.toUpperCase(), balances[currency]])
         )
