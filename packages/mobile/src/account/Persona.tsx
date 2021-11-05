@@ -33,7 +33,7 @@ const Persona = ({ kycStatus }: Props) => {
 
   const templateIdResponse = useAsync(async () => readOnceFromFirebase('persona/templateId'), [])
   const templateId = templateIdResponse.result
-
+  debugger
   const launchPersonaInquiry = useCallback(() => {
     if (typeof templateId !== 'string') {
       Logger.error(TAG, `Attempted to initiate Persona with invalid templateId: ${templateId}`)
