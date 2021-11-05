@@ -15,7 +15,7 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   inviteRewardsEnabled: false,
   inviteRewardCusd: 1,
   inviteRewardWeeklyLimit: 20,
-  walletConnectV1Enabled: false,
+  walletConnectV1Enabled: true,
   walletConnectV2Enabled: false,
   rewardsABTestThreshold: '0xffffffffffffffffffffffffffffffffffffffff',
   rewardsPercent: 5,

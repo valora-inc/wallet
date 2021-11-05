@@ -283,3 +283,13 @@ export function padTrailingZeros(num, size = 5) {
   while (s.length < size) s = s + '0'
   return s
 }
+
+export function utf8ToHex(string) {
+  const utf8encoder = new TextEncoder()
+  const encoded = utf8encoder.encode(string)
+  let result = ''
+  for (const char of encoded) {
+    result += ('0' + char.toString(16)).slice(-2)
+  }
+  return result
+}
