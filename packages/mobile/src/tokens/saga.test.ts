@@ -5,7 +5,7 @@ import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
-import { setTokenBalances, StoredTokenBalances } from 'src/tokens/reducer'
+import { setTokenBalances, StoredTokenBalances, tokenBalanceFetchError } from 'src/tokens/reducer'
 import { fetchTokenBalances, importTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
@@ -81,6 +81,7 @@ describe(importTokenInfo, () => {
         [call(fetchTokenBalances, mockAccount), throwError(new Error('Error message'))],
       ])
       .not.put(setTokenBalances(mockTokenBalances))
+      .put(tokenBalanceFetchError())
       .run()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.fetch_balance_error, {
       error: 'Error message',

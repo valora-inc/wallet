@@ -22,6 +22,7 @@ import {
   StoredTokenBalance,
   StoredTokenBalances,
   TokenBalance,
+  tokenBalanceFetchError,
 } from 'src/tokens/reducer'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
@@ -311,6 +312,7 @@ export function* importTokenInfo() {
     }
     yield put(setTokenBalances(tokens))
   } catch (error) {
+    yield put(tokenBalanceFetchError())
     Logger.error(TAG, 'error fetching user balances', error.message)
     ValoraAnalytics.track(AppEvents.fetch_balance_error, {
       error: error.message,
