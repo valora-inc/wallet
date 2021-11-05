@@ -6,7 +6,11 @@ import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { setTokenBalances, StoredTokenBalances, tokenBalanceFetchError } from 'src/tokens/reducer'
-import { fetchTokenBalances, importTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
+import {
+  fetchTokenBalancesFromBlockscout,
+  importTokenInfo,
+  tokenAmountInSmallestUnit,
+} from 'src/tokens/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockTokenBalances } from 'test/values'
@@ -67,7 +71,7 @@ describe(importTokenInfo, () => {
       .provide([
         [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
         [select(walletAddressSelector), mockAccount],
-        [call(fetchTokenBalances, mockAccount), blockscoutResponse],
+        [call(fetchTokenBalancesFromBlockscout, mockAccount), blockscoutResponse],
       ])
       .put(setTokenBalances(mockTokenBalances))
       .run()
@@ -78,7 +82,10 @@ describe(importTokenInfo, () => {
       .provide([
         [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
         [select(walletAddressSelector), mockAccount],
-        [call(fetchTokenBalances, mockAccount), throwError(new Error('Error message'))],
+        [
+          call(fetchTokenBalancesFromBlockscout, mockAccount),
+          throwError(new Error('Error message')),
+        ],
       ])
       .not.put(setTokenBalances(mockTokenBalances))
       .put(tokenBalanceFetchError())

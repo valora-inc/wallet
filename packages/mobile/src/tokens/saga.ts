@@ -17,7 +17,7 @@ import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { e2eTokens } from 'src/tokens/e2eTokens'
 import {
-  fetchBalances,
+  fetchTokenBalances,
   setTokenBalances,
   StoredTokenBalance,
   StoredTokenBalances,
@@ -278,7 +278,7 @@ interface BlockscoutTokenBalance {
   type: string
 }
 
-export function* fetchTokenBalances(address: string) {
+export function* fetchTokenBalancesFromBlockscout(address: string) {
   const response: Response = yield call(
     fetchWithTimeout,
     `${BLOCKSCOUT_BASE_URL}?module=account&action=tokenlist&address=${address}`
@@ -297,7 +297,10 @@ export function* importTokenInfo() {
       ? e2eTokens()
       : yield call(readOnceFromFirebase, 'tokensInfo')
     const address: string = yield select(walletAddressSelector)
-    const tokenBalances: BlockscoutTokenBalance[] = yield call(fetchTokenBalances, address)
+    const tokenBalances: BlockscoutTokenBalance[] = yield call(
+      fetchTokenBalancesFromBlockscout,
+      address
+    )
     for (const token of Object.values(tokens) as StoredTokenBalance[]) {
       const tokenBalance = tokenBalances.find(
         (t) => t.contractAddress.toLowerCase() === token.address.toLowerCase()
@@ -332,9 +335,9 @@ export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: stri
 }
 
 export function* watchFetchBalance() {
-  yield takeEvery(fetchBalances.type, importTokenInfo)
+  yield takeEvery(fetchTokenBalances.type, importTokenInfo)
 }
 
 export function* tokensSaga() {
-  yield spawn(importTokenInfo)
+  yield spawn(watchFetchBalance)
 }
