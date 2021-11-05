@@ -30,14 +30,16 @@ import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
 import {
   AddressToE164NumberType,
   AddressValidationType,
-  e164NumberToAddressSelector,
   E164NumberToAddressType,
-  matchedContactsSelector,
   SecureSendPhoneNumberMapping,
-  secureSendPhoneNumberMappingSelector,
   WalletToAccountAddressType,
 } from 'src/identity/reducer'
 import { checkIfValidationRequired } from 'src/identity/secureSend'
+import {
+  e164NumberToAddressSelector,
+  matchedContactsSelector,
+  secureSendPhoneNumberMappingSelector,
+} from 'src/identity/selectors'
 import { ImportContactsStatus } from 'src/identity/types'
 import { contactsToRecipients, NumberToRecipient } from 'src/recipients/recipient'
 import { setPhoneRecipientCache } from 'src/recipients/reducer'

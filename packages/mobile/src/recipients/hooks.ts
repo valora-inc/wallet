@@ -1,4 +1,4 @@
-import { e164NumberToAddressSelector } from 'src/identity/reducer'
+import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { getRecipientVerificationStatus, Recipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 
