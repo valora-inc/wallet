@@ -11,7 +11,7 @@ import {
   uploadNameAndPicture,
 } from 'src/account/profileInfo'
 import { isProfileUploadedSelector, nameSelector, pictureSelector } from 'src/account/selectors'
-import { walletToAccountAddressSelector } from 'src/identity/reducer'
+import { walletToAccountAddressSelector } from 'src/identity/selectors'
 import { DEK, retrieveOrGeneratePepper } from 'src/pincode/authentication'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import { getAccountAddress, getConnectedUnlockedAccount } from 'src/web3/saga'

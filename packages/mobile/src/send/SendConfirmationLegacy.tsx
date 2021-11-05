@@ -35,12 +35,12 @@ import { getFeeInTokens } from 'src/fees/selectors'
 import i18n, { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { fetchDataEncryptionKey } from 'src/identity/actions'
+import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
 import {
   addressToDataEncryptionKeySelector,
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
-} from 'src/identity/reducer'
-import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
+} from 'src/identity/selectors'
 import InviteAndSendModal from 'src/invite/InviteAndSendModal'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'

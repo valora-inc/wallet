@@ -15,7 +15,7 @@ import {
 } from 'src/identity/actions'
 import { KomenciErrorQuotaExceeded } from 'src/identity/feelessVerificationErrors'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { e164NumberToSaltSelector } from 'src/identity/reducer'
+import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { VerificationStatus } from 'src/identity/types'
 import { BALANCE_CHECK_TIMEOUT, getActionableAttestations } from 'src/identity/verification'
 import { navigate } from 'src/navigator/NavigationService'
