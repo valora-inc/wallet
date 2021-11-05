@@ -281,6 +281,9 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       rewardPillText: flags.rewardPillText.asString(),
       cashInButtonExpEnabled: flags.cashInButtonExpEnabled.asBoolean(),
       logPhoneNumberTypeEnabled: flags.logPhoneNumberTypeEnabled.asBoolean(),
+      multiTokenShowHomeBalances: flags.multiTokenShowHomeBalances.asBoolean(),
+      multiTokenUseSendFlow: flags.multiTokenUseSendFlow.asBoolean(),
+      multiTokenUseUpdatedFeed: flags.multiTokenUseUpdatedFeed.asBoolean(),
     }
   } else {
     Logger.debug('No new configs were fetched from the backend.')
