@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { calculateDecimalsToShow } from 'src/components/TokenDisplay'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { Namespaces } from 'src/i18n'
 import SwapInput from 'src/icons/SwapInput'
 import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -38,7 +38,6 @@ function SendAmountValue({
   const localAmount = useTokenToLocalAmount(tokenAmount, tokenAddress)
 
   const secondaryAmount = usingLocalAmount ? tokenAmount : localAmount ?? new BigNumber(0)
-  const decimalsForSecondaryAmount = calculateDecimalsToShow(secondaryAmount)
 
   return (
     <>
@@ -78,7 +77,7 @@ function SendAmountValue({
             )}
             <View style={styles.amountContainer}>
               <Text adjustsFontSizeToFit={true} numberOfLines={1} style={styles.secondaryAmount}>
-                ~{secondaryAmount.toFixed(decimalsForSecondaryAmount)}
+                ~{formatValueToDisplay(secondaryAmount)}
               </Text>
             </View>
             {usingLocalAmount && (
