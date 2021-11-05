@@ -132,7 +132,7 @@ function SendConfirmationLegacy(props: Props) {
   const account = useSelector(currentAccountSelector)
   const isSending = useSelector(isSendingSelector)
   // Only load the balance once to prevent race conditions with transactions updating balance
-  const [balance, _] = useState(useBalance(currency))
+  const [balance] = useState(useBalance(currency))
   const celoBalance = useBalance(Currency.Celo)
   const appConnected = useSelector(isAppConnected)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
