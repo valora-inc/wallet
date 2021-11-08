@@ -1,6 +1,7 @@
 import Colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import variables from '@celo/react-components/styles/variables'
+import BigNumber from 'bignumber.js'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
@@ -8,7 +9,7 @@ import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
-import { calculateDecimalsToShow } from 'src/components/TokenDisplay'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import ProgressArrow from 'src/icons/ProgressArrow'
@@ -25,7 +26,7 @@ function TokenBalance() {
     return (
       <Text style={styles.balance} testID={'TotalTokenBalance'}>
         {localCurrencySymbol}
-        {'0.00'}
+        {new BigNumber(0).toFixed(2)}
       </Text>
     )
   } else if (tokenBalances.length === 1) {
@@ -39,7 +40,7 @@ function TokenBalance() {
             {totalBalance}
           </Text>
           <Text style={styles.tokenBalance}>
-            {tokenBalance.toFixed(calculateDecimalsToShow(tokenBalance))} {tokenBalances[0].name}
+            {formatValueToDisplay(tokenBalance)} {tokenBalances[0].symbol}
           </Text>
         </View>
       </View>
