@@ -14,7 +14,7 @@ import {
   extractPhoneNumberMetadata,
 } from 'src/identity/commentEncryption'
 import { lookupAccountAddressesForIdentifier } from 'src/identity/contactMapping'
-import { e164NumberToAddressSelector, e164NumberToSaltSelector } from 'src/identity/reducer'
+import { e164NumberToAddressSelector, e164NumberToSaltSelector } from 'src/identity/selectors'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'

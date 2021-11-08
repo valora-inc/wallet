@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { e164NumberSelector } from 'src/account/selectors'
 import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
-import { e164NumberToSaltSelector } from 'src/identity/reducer'
+import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { RootState } from 'src/redux/reducers'
 import {
   isBalanceSufficientForSigRetrievalSelector,
