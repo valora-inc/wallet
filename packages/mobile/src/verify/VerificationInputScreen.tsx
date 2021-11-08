@@ -31,7 +31,7 @@ import {
   resendAttestations,
   setAttestationInputStatus,
 } from 'src/identity/actions'
-import { attestationInputStatusSelector } from 'src/identity/reducer'
+import { attestationInputStatusSelector } from 'src/identity/selectors'
 import { VerificationStatus } from 'src/identity/types'
 import { CodeInputType, NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'

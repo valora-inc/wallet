@@ -65,13 +65,13 @@ import {
   StartVerificationAction,
 } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
+import { getAttestationCodeForSecurityCode } from 'src/identity/securityCode'
 import {
   acceptedAttestationCodesSelector,
   attestationCodesSelector,
   attestationInputStatusSelector,
   e164NumberToSaltSelector,
-} from 'src/identity/reducer'
-import { getAttestationCodeForSecurityCode } from 'src/identity/securityCode'
+} from 'src/identity/selectors'
 import { startAutoSmsRetrieval } from 'src/identity/smsRetrieval'
 import { VerificationStatus } from 'src/identity/types'
 import { sendTransaction } from 'src/transactions/send'

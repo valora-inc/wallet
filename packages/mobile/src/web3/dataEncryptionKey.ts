@@ -33,7 +33,8 @@ import {
   updateAddressDekMap,
   updateWalletToAccountAddress,
 } from 'src/identity/actions'
-import { walletToAccountAddressSelector, WalletToAccountAddressType } from 'src/identity/reducer'
+import { WalletToAccountAddressType } from 'src/identity/reducer'
+import { walletToAccountAddressSelector } from 'src/identity/selectors'
 import { cUsdBalanceSelector } from 'src/stableToken/selectors'
 import { getCurrencyAddress } from 'src/tokens/saga'
 import { sendTransaction } from 'src/transactions/send'

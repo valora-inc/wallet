@@ -10,8 +10,8 @@ import { setNumberVerified } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { currentLanguageSelector } from 'src/app/reducers'
 import {
-  shortVerificationCodesEnabledSelector,
   logPhoneNumberTypeEnabledSelector,
+  shortVerificationCodesEnabledSelector,
 } from 'src/app/selectors'
 import {
   cancelVerification,
@@ -23,7 +23,7 @@ import {
   startVerification,
 } from 'src/identity/actions'
 import { fetchPhoneHashPrivate } from 'src/identity/privateHashing'
-import { attestationCodesSelector, e164NumberToSaltSelector } from 'src/identity/reducer'
+import { attestationCodesSelector, e164NumberToSaltSelector } from 'src/identity/selectors'
 import { VerificationStatus } from 'src/identity/types'
 import {
   AttestationCode,
