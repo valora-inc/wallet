@@ -7,7 +7,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { setTokenBalances, StoredTokenBalances, tokenBalanceFetchError } from 'src/tokens/reducer'
 import {
-  fetchTokenBalancesFromBlockscout,
+  fetchTokenBalancesForAddress,
   importTokenInfo,
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
@@ -51,14 +51,14 @@ const firebaseTokenInfo: StoredTokenBalances = {
   },
 }
 
-const blockscoutResponse = [
+const fetchBalancesResponse = [
   {
-    contractAddress: poofAddress,
+    tokenAddress: poofAddress,
     balance: (5 * Math.pow(10, 18)).toString(),
     decimals: '18',
   },
   {
-    contractAddress: cUsdAddress,
+    tokenAddress: cUsdAddress,
     balance: '0',
     decimals: '18',
   },
@@ -71,7 +71,7 @@ describe(importTokenInfo, () => {
       .provide([
         [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
         [select(walletAddressSelector), mockAccount],
-        [call(fetchTokenBalancesFromBlockscout, mockAccount), blockscoutResponse],
+        [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
       ])
       .put(setTokenBalances(mockTokenBalances))
       .run()
@@ -82,10 +82,7 @@ describe(importTokenInfo, () => {
       .provide([
         [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
         [select(walletAddressSelector), mockAccount],
-        [
-          call(fetchTokenBalancesFromBlockscout, mockAccount),
-          throwError(new Error('Error message')),
-        ],
+        [call(fetchTokenBalancesForAddress, mockAccount), throwError(new Error('Error message'))],
       ])
       .not.put(setTokenBalances(mockTokenBalances))
       .put(tokenBalanceFetchError())
