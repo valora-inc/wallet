@@ -3,7 +3,8 @@ import { BigQuery } from '@google-cloud/bigquery'
 const gcloudProject = process.env.GCLOUD_PROJECT
 export const bigQueryProjectId = gcloudProject
 export const bigQueryExternalDataset = 'external_data_stream' // Dataset used for storing events sourced from external providers
-export const bigQueryInternalDataset = bigQueryProjectId === 'celo-mobile-alfajores' ? 'mobile_wallet_dev' : 'mobile_wallet_production'
+export const bigQueryInternalDataset =
+  bigQueryProjectId === 'celo-mobile-alfajores' ? 'mobile_wallet_dev' : 'mobile_wallet_production'
 
 const bigQuery = new BigQuery({ projectId: `${bigQueryProjectId}` })
 
