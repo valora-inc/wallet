@@ -106,7 +106,7 @@ describe('getCurrentUserTraits', () => {
             decimals: 18,
             imageUrl: '',
             usdPrice: '5',
-            balance: '9',
+            balance: '9.123456789',
           },
           '0xi': {
             name: 'i',
@@ -150,9 +150,9 @@ describe('getCurrentUserTraits', () => {
         "language": "es-419",
         "localCurrencyCode": "MXN",
         "name": "John Doe",
-        "otherTenTokens": "I:1000,K:80,0xi:11.003,G:10,H:9,E:7,F:6,B:3,C:2,A:1",
+        "otherTenTokens": "I:1000,K:80,0xi:11.003,G:10,H:9.12345,E:7,F:6,B:3,C:2,A:1",
         "tokenCount": 14,
-        "totalBalanceUsd": "7553.16",
+        "totalBalanceUsd": "7553.98",
         "walletAddress": "0x0000000000000000000000000000000000007e57",
       }
     `)
