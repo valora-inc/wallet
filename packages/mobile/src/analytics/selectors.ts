@@ -52,7 +52,6 @@ export const getCurrentUserTraits = createSelector(
     return {
       accountAddress,
       walletAddress,
-      currency, // TODO: is this the right name in multi token context?
       name,
       countryCodeAlpha2,
       language,

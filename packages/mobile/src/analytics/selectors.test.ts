@@ -144,7 +144,6 @@ describe('getCurrentUserTraits', () => {
         "celoBalance": "0",
         "ceurBalance": "20",
         "countryCodeAlpha2": "US",
-        "currency": "cUSD",
         "cusdBalance": "10",
         "hasCompletedBackup": false,
         "hasVerifiedNumber": false,
