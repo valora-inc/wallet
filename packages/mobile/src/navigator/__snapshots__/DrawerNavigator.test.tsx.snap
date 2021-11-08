@@ -202,7 +202,7 @@ exports[`DrawerNavigator renders correctly  1`] = `
           }
           descriptors={
             Object {
-              "BackupIntroduction-9j19lG2Ke1GGr2SzcNXCj": Object {
+              "BackupIntroduction-lN-DRbhbnSgNkxPCHQx_x": Object {
                 "navigation": Object {
                   "addListener": [Function],
                   "canGoBack": [Function],
@@ -227,7 +227,7 @@ exports[`DrawerNavigator renders correctly  1`] = `
                 },
                 "render": [Function],
               },
-              "FiatExchange-M-pfi18LBR9OfhsccIJRb": Object {
+              "FiatExchange-0W9aXDFHrvn7kLIyUSwuf": Object {
                 "navigation": Object {
                   "addListener": [Function],
                   "canGoBack": [Function],
@@ -252,7 +252,7 @@ exports[`DrawerNavigator renders correctly  1`] = `
                 },
                 "render": [Function],
               },
-              "GoldEducation-iExDu_0Mp4h00MYrw_shX": Object {
+              "GoldEducation-KiBXgL06bTNMf9R6LCRh5": Object {
                 "navigation": Object {
                   "addListener": [Function],
                   "canGoBack": [Function],
@@ -296,7 +296,7 @@ exports[`DrawerNavigator renders correctly  1`] = `
                 },
                 "render": [Function],
               },
-              "Settings-5qGatlbK4dW-3R1tAhERQ": Object {
+              "Settings-gWARDhmqC1prvAu5Co2-E": Object {
                 "navigation": Object {
                   "addListener": [Function],
                   "canGoBack": [Function],
@@ -321,7 +321,7 @@ exports[`DrawerNavigator renders correctly  1`] = `
                 },
                 "render": [Function],
               },
-              "Support-hYht5ZELoIjWizdbohWfw": Object {
+              "Support-SPJZYfsy2N9tHHbIgmFDa": Object {
                 "navigation": Object {
                   "addListener": [Function],
                   "canGoBack": [Function],
@@ -346,7 +346,7 @@ exports[`DrawerNavigator renders correctly  1`] = `
                 },
                 "render": [Function],
               },
-              "WalletHome-Ag1zCIS7SasFu4b9HdYub": Object {
+              "WalletHome-nlnO_2xeqhbjB2arszjuJ": Object {
                 "navigation": Object {
                   "addListener": [Function],
                   "canGoBack": [Function],
@@ -410,12 +410,12 @@ exports[`DrawerNavigator renders correctly  1`] = `
             Object {
               "history": Array [
                 Object {
-                  "key": "WalletHome-Ag1zCIS7SasFu4b9HdYub",
+                  "key": "WalletHome-nlnO_2xeqhbjB2arszjuJ",
                   "type": "route",
                 },
               ],
               "index": 0,
-              "key": "drawer-QHqOugZkTQGULwUWwSOyx",
+              "key": "drawer-UaGyMpqZqISO9uql8igjf",
               "routeNames": Array [
                 "WalletHome",
                 "GoldEducation",
@@ -426,32 +426,32 @@ exports[`DrawerNavigator renders correctly  1`] = `
               ],
               "routes": Array [
                 Object {
-                  "key": "WalletHome-Ag1zCIS7SasFu4b9HdYub",
+                  "key": "WalletHome-nlnO_2xeqhbjB2arszjuJ",
                   "name": "WalletHome",
                   "params": undefined,
                 },
                 Object {
-                  "key": "GoldEducation-iExDu_0Mp4h00MYrw_shX",
+                  "key": "GoldEducation-KiBXgL06bTNMf9R6LCRh5",
                   "name": "GoldEducation",
                   "params": undefined,
                 },
                 Object {
-                  "key": "BackupIntroduction-9j19lG2Ke1GGr2SzcNXCj",
+                  "key": "BackupIntroduction-lN-DRbhbnSgNkxPCHQx_x",
                   "name": "BackupIntroduction",
                   "params": undefined,
                 },
                 Object {
-                  "key": "FiatExchange-M-pfi18LBR9OfhsccIJRb",
+                  "key": "FiatExchange-0W9aXDFHrvn7kLIyUSwuf",
                   "name": "FiatExchange",
                   "params": undefined,
                 },
                 Object {
-                  "key": "Settings-5qGatlbK4dW-3R1tAhERQ",
+                  "key": "Settings-gWARDhmqC1prvAu5Co2-E",
                   "name": "Settings",
                   "params": undefined,
                 },
                 Object {
-                  "key": "Support-hYht5ZELoIjWizdbohWfw",
+                  "key": "Support-SPJZYfsy2N9tHHbIgmFDa",
                   "name": "Support",
                   "params": undefined,
                 },
@@ -656,6 +656,58 @@ exports[`DrawerNavigator renders correctly  1`] = `
                     "height": 1,
                     "marginBottom": 12,
                     "marginTop": 20,
+                  }
+                }
+              />
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Medium",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                    },
+                    Object {
+                      "color": "#2E3338",
+                    },
+                  ]
+                }
+                testID="LocalDollarBalance/value"
+              >
+                
+                $
+                0.00
+              </Text>
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "#9CA4A9",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                      "marginTop": 2,
+                    },
+                    Object {
+                      "color": "#9CA4A9",
+                    },
+                  ]
+                }
+                testID="DollarBalance/value"
+              >
+                
+                0.00
+                 global:celoDollars
+              </Text>
+              <View
+                style={
+                  Object {
+                    "alignSelf": "stretch",
+                    "backgroundColor": "#EDEEEF",
+                    "height": 1,
+                    "marginBottom": 12,
+                    "marginTop": 12,
                   }
                 }
               />
