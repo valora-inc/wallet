@@ -292,6 +292,7 @@ export enum RequestEvents {
 export enum FeeEvents {
   fee_rendered = 'fee_rendered',
   estimate_fee_failed = 'estimate_fee_failed',
+  estimate_fee_success = 'estimate_fee_success',
   fetch_tobin_tax_failed = 'fetch_tobin_tax_failed',
 }
 

@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { FeeType } from 'src/fees/reducer'
 import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
@@ -25,6 +26,7 @@ import {
 import {
   mockAccount2Invite,
   mockAccountInvite,
+  mockCusdAddress,
   mockE164NumberInvite,
   mockInviteTransactionData,
   mockTransactionData,
@@ -221,8 +223,10 @@ describe('SendConfirmationLegacy', () => {
     const { getByTestId, queryAllByDisplayValue } = renderScreen({
       fees: {
         estimates: {
-          send: {
-            feeInWei: '1',
+          [mockCusdAddress]: {
+            [FeeType.SEND]: {
+              usdFee: '1',
+            },
           },
         },
       },

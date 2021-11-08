@@ -71,7 +71,7 @@ const TAG = 'escrow/saga'
 
 // Observed approve and escrow transfer transactions take less than 150k and 550k gas respectively.
 const STATIC_APPROVE_TRANSFER_GAS_ESTIMATE = 150000
-const STATIC_ESCROW_TRANSFER_GAS_ESTIMATE = 550000
+export const STATIC_ESCROW_TRANSFER_GAS_ESTIMATE = 550000
 
 // NOTE: Only supports static estimation as that is what is expected to be used.
 // This function can be extended to use online estimation is needed.
@@ -333,7 +333,7 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
   }
 }
 
-async function createReclaimTransaction(paymentID: string) {
+export async function createReclaimTransaction(paymentID: string) {
   const contractKit = await getContractKitAsync()
 
   const escrow = await contractKit.contracts.getEscrow()

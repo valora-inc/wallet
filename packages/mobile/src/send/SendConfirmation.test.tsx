@@ -5,6 +5,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { SendOrigin } from 'src/analytics/types'
+import { FeeType } from 'src/fees/reducer'
 import i18n from 'src/i18n'
 import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
@@ -177,8 +178,10 @@ describe('SendConfirmation', () => {
     const { getByTestId, queryAllByDisplayValue } = renderScreen({
       fees: {
         estimates: {
-          send: {
-            feeInWei: '1',
+          [mockCusdAddress]: {
+            [FeeType.SEND]: {
+              usdFee: '1',
+            },
           },
         },
       },

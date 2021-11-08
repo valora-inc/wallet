@@ -22,7 +22,7 @@ const persistConfig: any = {
   version: 19, // default is -1, increment as we make migrations
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
-  blacklist: ['geth', 'networkInfo', 'alert', 'fees', 'imports'],
+  blacklist: ['geth', 'networkInfo', 'alert', 'imports'],
   stateReconciler: autoMergeLevel2,
   migrate: createMigrate(migrations),
   serialize: (data: any) => {

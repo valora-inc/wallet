@@ -792,6 +792,9 @@ export const v19Schema = {
     },
     totalBalance: '40',
   },
+  fees: {
+    estimates: {},
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {

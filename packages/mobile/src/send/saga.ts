@@ -211,7 +211,7 @@ function* sendPaymentLegacy(
   }
 }
 
-function* buildSendTx(
+export function* buildSendTx(
   tokenAddress: string,
   amount: BigNumber,
   recipientAddress: string,

@@ -25,11 +25,11 @@ import HeaderWithBackButton from 'src/components/header/HeaderWithBackButton'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TokenBottomSheetLegacy, { TokenPickerOrigin } from 'src/components/TokenBottomSheetLegacy'
 import TotalLineItem from 'src/components/TotalLineItem'
-import { FeeType } from 'src/fees/actions'
 import CalculateFee, {
   CalculateFeeChildren,
   PropsWithoutChildren as CalculateFeeProps,
 } from 'src/fees/CalculateFee'
+import { FeeType } from 'src/fees/reducer'
 import { FeeInfo } from 'src/fees/saga'
 import { getFeeInTokens } from 'src/fees/selectors'
 import i18n, { Namespaces } from 'src/i18n'

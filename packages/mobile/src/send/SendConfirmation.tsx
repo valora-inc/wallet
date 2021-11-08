@@ -6,7 +6,7 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import { iconHitslop } from '@celo/react-components/styles/variables'
 import { StackScreenProps } from '@react-navigation/stack'
 import BigNumber from 'bignumber.js'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -21,8 +21,9 @@ import HeaderWithBackButton from 'src/components/header/HeaderWithBackButton'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
-import { FeeType } from 'src/fees/actions'
-import { useEstimateGasFee } from 'src/fees/hooks'
+import { useFeeCurrency } from 'src/fees/hooks'
+import { estimateFee, FeeType } from 'src/fees/reducer'
+import { feeEstimatesSelector } from 'src/fees/selectors'
 import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
@@ -138,28 +139,23 @@ function SendConfirmation(props: Props) {
   }
 
   const isInvite = !recipient.address
-  const { loading: feeLoading, error: feeError, result: feeInfo } = useEstimateGasFee(
-    isInvite ? FeeType.INVITE : FeeType.SEND,
-    tokenAddress,
-    recipient.address,
-    tokenAmount,
-    !isDekRegistered
-  )
-  const localToFeeExchangeRate = useCurrencyToLocalAmount(
-    new BigNumber(1),
-    feeInfo?.currency ?? Currency.Dollar
-  )
+  const feeEstimates = useSelector(feeEstimatesSelector)
+  const feeCurrency = useFeeCurrency()
+  const localToFeeExchangeRate = useCurrencyToLocalAmount(new BigNumber(1), feeCurrency)
+  const feeEstimate = feeEstimates[tokenAddress]?.[isInvite ? FeeType.INVITE : FeeType.SEND]
+
+  useEffect(() => {
+    if (!isDekRegistered) {
+      dispatch(estimateFee({ feeType: FeeType.REGISTER_DEK, tokenAddress }))
+    }
+  }, [isDekRegistered])
+
+  const securityFee = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
+  const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
+  const dekFee = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
+  const totalFee = securityFee?.plus(dekFee ?? 0)
 
   const FeeContainer = () => {
-    let securityFee = feeInfo?.fee
-    let dekFee
-    if (!isDekRegistered && feeInfo?.fee) {
-      // 'fee' contains cost for both DEK registration and
-      // send payment so we adjust it here
-      securityFee = feeInfo.fee.dividedBy(2)
-      dekFee = feeInfo.fee.dividedBy(2)
-    }
-
     const currencyInfo = {
       localCurrencyCode,
       localExchangeRate: localToFeeExchangeRate?.toString() ?? '',
@@ -170,17 +166,21 @@ function SendConfirmation(props: Props) {
         <FeeDrawer
           testID={'feeDrawer/SendConfirmation'}
           isEstimate={true}
-          currency={feeInfo?.currency}
+          currency={Currency.Dollar}
           securityFee={securityFee}
           showDekfee={!isDekRegistered}
           dekFee={dekFee}
-          feeLoading={feeLoading}
-          feeHasError={!!feeError}
-          totalFee={feeInfo?.fee}
+          feeLoading={feeEstimate?.loading || storedDekFee?.loading}
+          feeHasError={feeEstimate?.error || storedDekFee?.error}
+          totalFee={totalFee}
           currencyInfo={currencyInfo}
           showLocalAmount={true}
         />
-        <TokenTotalLineItem tokenAmount={tokenAmount} tokenAddress={tokenAddress} />
+        <TokenTotalLineItem
+          tokenAmount={tokenAmount}
+          tokenAddress={tokenAddress}
+          feeToAddInUsd={totalFee}
+        />
       </View>
     )
   }
@@ -242,7 +242,7 @@ function SendConfirmation(props: Props) {
         usdAmount,
         comment,
         recipient,
-        feeInfo,
+        feeEstimate?.feeInfo,
         fromModal
       )
     )
@@ -261,7 +261,7 @@ function SendConfirmation(props: Props) {
         confirmButton={{
           action: onSendClick,
           text: isInvite ? t('inviteFlow11:sendAndInvite') : t('global:send'),
-          disabled: isSending || !!feeError,
+          disabled: isSending,
         }}
         isSending={isSending}
       >

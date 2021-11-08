@@ -20,11 +20,13 @@ describe('TokenTotalLineItem', () => {
     tokenAddress = defaultTokenAddress,
     localCurrencyCode = LocalCurrencyCode.BRL,
     localCurrencyExchangeRate = '1.5',
+    feeToAddInUsd = undefined,
   }: {
     amount?: BigNumber
     tokenAddress?: string
     localCurrencyCode?: LocalCurrencyCode
     localCurrencyExchangeRate?: string
+    feeToAddInUsd?: BigNumber
   }) {
     return render(
       <Provider
@@ -50,7 +52,11 @@ describe('TokenTotalLineItem', () => {
           },
         })}
       >
-        <TokenTotalLineItem tokenAmount={amount} tokenAddress={tokenAddress} />
+        <TokenTotalLineItem
+          tokenAmount={amount}
+          tokenAddress={tokenAddress}
+          feeToAddInUsd={feeToAddInUsd}
+        />
       </Provider>
     )
   }

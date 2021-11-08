@@ -17,6 +17,8 @@ import {
   NUMBER_INPUT_MAX_DECIMALS,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
+import { estimateFee, FeeType } from 'src/fees/reducer'
+import { feeEstimatesSelector } from 'src/fees/selectors'
 import { Namespaces } from 'src/i18n'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
@@ -42,6 +44,7 @@ import {
 } from 'src/tokens/hooks'
 import { defaultTokenSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
+import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
 
@@ -154,6 +157,26 @@ function SendAmount(props: Props) {
       setReviewButtonPressed(false)
     }
   }, [reviewButtonPressed, recipientVerificationStatus])
+
+  const feeEstimates = useSelector(feeEstimatesSelector)
+  useEffect(() => {
+    if (recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
+      // Wait until the recipient status is fetched.
+      return
+    }
+    const feeType =
+      recipientVerificationStatus === RecipientVerificationStatus.VERIFIED
+        ? FeeType.SEND
+        : FeeType.INVITE
+    const feeEstimate = feeEstimates[transferTokenAddress]?.[feeType]
+    if (
+      !feeEstimate ||
+      feeEstimate.error ||
+      feeEstimate.lastUpdated < Date.now() - ONE_DAY_IN_MILLIS
+    ) {
+      dispatch(estimateFee({ feeType, tokenAddress: transferTokenAddress }))
+    }
+  }, [recipientVerificationStatus, transferTokenAddress])
 
   const onReviewButtonPressed = () => setReviewButtonPressed(true)
 
