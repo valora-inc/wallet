@@ -75,12 +75,14 @@ describe('SendConfirmation', () => {
             symbol: 'cUSD',
             balance: '200',
             usdPrice: '1',
+            isCoreToken: true,
           },
           [mockCeurAddress]: {
             address: mockCeurAddress,
             symbol: 'cEUR',
             balance: '100',
             usdPrice: '1.2',
+            isCoreToken: true,
           },
           [mockTestTokenAddress]: {
             address: mockTestTokenAddress,

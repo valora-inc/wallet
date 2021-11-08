@@ -775,6 +775,7 @@ export const v19Schema = {
         imageUrl: '',
         usdPrice: '1',
         balance: '10',
+        isCoreToken: true,
       },
       [mockCeurAddress]: {
         name: 'Celo Euros',
@@ -784,6 +785,7 @@ export const v19Schema = {
         imageUrl: '',
         usdPrice: '1.2',
         balance: '20',
+        isCoreToken: true,
       },
       [mockCeloAddress]: {
         name: 'Celo',
@@ -793,6 +795,7 @@ export const v19Schema = {
         imageUrl: '',
         usdPrice: '5',
         balance: '0',
+        isCoreToken: true,
       },
       [mockTestTokenAddress]: {
         name: 'Test Token',
