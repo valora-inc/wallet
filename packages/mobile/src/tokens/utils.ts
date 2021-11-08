@@ -1,8 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
-import useSelector from 'src/redux/useSelector'
 import { Balances } from 'src/stableToken/selectors'
-import { tokensListSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 
 export function getHigherBalanceCurrency(
@@ -20,11 +18,4 @@ export function getHigherBalanceCurrency(
     }
   }
   return maxCurrency
-}
-
-export function useIsCoreToken(tokenAddress: string) {
-  const tokens = useSelector(tokensListSelector)
-  const token = tokens.find((token) => token.address === tokenAddress)
-  if (!token) return false
-  return ['cUSD', 'cEUR', 'CELO'].includes(token.symbol)
 }

@@ -9,6 +9,7 @@ interface BaseToken {
   imageUrl: string
   name: string
   symbol: string
+  isCoreToken?: boolean
 }
 
 // Stored variant stores numbers as strings because BigNumber is not serializable.

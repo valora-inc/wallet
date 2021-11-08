@@ -1,17 +1,6 @@
-import { render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
-import React from 'react'
-import { Text, View } from 'react-native'
-import { Provider } from 'react-redux'
-import { getHigherBalanceCurrency, useIsCoreToken } from 'src/tokens/utils'
+import { getHigherBalanceCurrency } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
-import { createMockStore } from 'test/utils'
-import {
-  mockCeloAddress,
-  mockCeurAddress,
-  mockCusdAddress,
-  mockTestTokenAddress,
-} from 'test/values'
 
 describe(getHigherBalanceCurrency, () => {
   it('should return the currency with the higher balance in the local currency', () => {
@@ -71,41 +60,5 @@ describe(getHigherBalanceCurrency, () => {
     expect(
       getHigherBalanceCurrency([Currency.Dollar, Currency.Euro], balances, exchangesRates)
     ).toEqual(undefined)
-  })
-})
-
-describe('token to fiat exchanges', () => {
-  function TestComponent({ tokenAddress }: { tokenAddress: string }) {
-    const isCoreToken = useIsCoreToken(tokenAddress)
-
-    return (
-      <View>
-        <Text testID="isCoreToken">{isCoreToken}</Text>
-      </View>
-    )
-  }
-
-  it('cUSD, cEUR and CELO are core tokens', async () => {
-    ;[mockCusdAddress, mockCeurAddress, mockCeloAddress].map((tokenAddress) => {
-      const { getByTestId } = render(
-        <Provider store={createMockStore()}>
-          <TestComponent tokenAddress={tokenAddress} />
-        </Provider>
-      )
-
-      const tokenAmount = getByTestId('isCoreToken')
-      expect(tokenAmount.props.children).toEqual(true)
-    })
-  })
-
-  it('TT is not a core token', async () => {
-    const { getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <TestComponent tokenAddress={mockTestTokenAddress} />
-      </Provider>
-    )
-
-    const tokenAmount = getByTestId('isCoreToken')
-    expect(tokenAmount.props.children).toEqual(false)
   })
 })
