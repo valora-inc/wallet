@@ -3,15 +3,17 @@ import { CeloContract, StableToken } from '@celo/contractkit'
 import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import { retryAsync } from '@celo/utils/lib/async'
+import { gql } from 'apollo-boost'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
 import * as erc20 from 'src/abis/IERC20.json'
 import { showErrorOrFallback } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { apolloClient } from 'src/apollo'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { BLOCKSCOUT_BASE_URL, isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
+import { isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
@@ -29,7 +31,6 @@ import { addStandbyTransaction, removeStandbyTransaction } from 'src/transaction
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { TransactionContext, TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
-import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
 import { getContractKitAsync } from 'src/web3/contracts'
 import { getConnectedAccount, getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -269,25 +270,37 @@ export async function getERC20TokenContract(tokenAddress: string) {
   return new kit.web3.eth.Contract(erc20.abi, tokenAddress)
 }
 
-interface BlockscoutTokenBalance {
+interface TokenBalance {
+  tokenAddress: string
   balance: string
-  contractAddress: string
-  decimals: string
-  name: string
-  symbol: string
-  type: string
 }
 
-export function* fetchTokenBalancesFromBlockscout(address: string) {
-  const response: Response = yield call(
-    fetchWithTimeout,
-    `${BLOCKSCOUT_BASE_URL}?module=account&action=tokenlist&address=${address}`
-  )
-  if (!response.ok) {
-    throw new Error('Failed request to get user balances from Blockscout')
+interface UserBalancesResponse {
+  userBalances: {
+    balances: TokenBalance[]
   }
-  const json: any = yield call([response, response.json])
-  return json.result
+}
+
+export async function fetchTokenBalancesForAddress(address: string): Promise<TokenBalance[]> {
+  const response = await apolloClient.query<UserBalancesResponse, { address: string }>({
+    query: gql`
+      query FetchUserBalances($address: Address!) {
+        userBalances(address: $address) {
+          balances {
+            tokenAddress
+            balance
+          }
+        }
+      }
+    `,
+    variables: {
+      address,
+    },
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+  })
+
+  return response.data.userBalances.balances
 }
 
 export function* importTokenInfo() {
@@ -297,19 +310,16 @@ export function* importTokenInfo() {
       ? e2eTokens()
       : yield call(readOnceFromFirebase, 'tokensInfo')
     const address: string = yield select(walletAddressSelector)
-    const tokenBalances: BlockscoutTokenBalance[] = yield call(
-      fetchTokenBalancesFromBlockscout,
-      address
-    )
+    const tokenBalances: TokenBalance[] = yield call(fetchTokenBalancesForAddress, address)
     for (const token of Object.values(tokens) as StoredTokenBalance[]) {
       const tokenBalance = tokenBalances.find(
-        (t) => t.contractAddress.toLowerCase() === token.address.toLowerCase()
+        (t) => t.tokenAddress.toLowerCase() === token.address.toLowerCase()
       )
       if (!tokenBalance) {
         token.balance = '0'
       } else {
         token.balance = new BigNumber(tokenBalance.balance)
-          .dividedBy(new BigNumber(10).pow(tokenBalance.decimals))
+          .dividedBy(new BigNumber(10).pow(token.decimals))
           .toString()
       }
     }
