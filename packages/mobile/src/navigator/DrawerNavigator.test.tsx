@@ -21,6 +21,7 @@ describe('DrawerNavigator', () => {
     )
 
     expect(tree).toMatchSnapshot()
+    // tests for displaying balances moved to BalancesDisplay.test.tsx
     // TODO: need to add tests here now that the DrawerNavigator no longer displays balances
   })
 })

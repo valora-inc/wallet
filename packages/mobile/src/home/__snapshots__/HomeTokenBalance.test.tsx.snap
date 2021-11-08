@@ -974,7 +974,7 @@ exports[`HomeTokenBalance renders correctly with one balance 1`] = `
       >
         5.00
          
-        Poof Governance Token
+        POOF
       </Text>
     </View>
   </View>
