@@ -270,18 +270,20 @@ export async function getERC20TokenContract(tokenAddress: string) {
   return new kit.web3.eth.Contract(erc20.abi, tokenAddress)
 }
 
-interface TokenBalance {
+interface FetchedTokenBalance {
   tokenAddress: string
   balance: string
 }
 
 interface UserBalancesResponse {
   userBalances: {
-    balances: TokenBalance[]
+    balances: FetchedTokenBalance[]
   }
 }
 
-export async function fetchTokenBalancesForAddress(address: string): Promise<TokenBalance[]> {
+export async function fetchTokenBalancesForAddress(
+  address: string
+): Promise<FetchedTokenBalance[]> {
   const response = await apolloClient.query<UserBalancesResponse, { address: string }>({
     query: gql`
       query FetchUserBalances($address: Address!) {
@@ -310,7 +312,7 @@ export function* importTokenInfo() {
       ? e2eTokens()
       : yield call(readOnceFromFirebase, 'tokensInfo')
     const address: string = yield select(walletAddressSelector)
-    const tokenBalances: TokenBalance[] = yield call(fetchTokenBalancesForAddress, address)
+    const tokenBalances: FetchedTokenBalance[] = yield call(fetchTokenBalancesForAddress, address)
     for (const token of Object.values(tokens) as StoredTokenBalance[]) {
       const tokenBalance = tokenBalances.find(
         (t) => t.tokenAddress.toLowerCase() === token.address.toLowerCase()
