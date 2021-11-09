@@ -7,9 +7,9 @@ import { showError } from 'src/alert/actions'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { multiTokenUseSendFlowSelector } from 'src/app/selectors'
 import { ALERT_BANNER_DURATION } from 'src/config'
 import { FeeType } from 'src/fees/reducer'
-import { features } from 'src/flags'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
 import { E164NumberToAddressType, SecureSendPhoneNumberMapping } from 'src/identity/reducer'
 import { RecipientVerificationStatus } from 'src/identity/types'
@@ -259,7 +259,8 @@ export function* handleSendPaymentData(
     })
   )
 
-  if (!features.USE_TOKEN_SEND_FLOW) {
+  const useTokenSendFlow: boolean = yield select(multiTokenUseSendFlowSelector)
+  if (!useTokenSendFlow) {
     yield call(handleSendPaymentDataLegacy, data, recipient, isOutgoingPaymentRequest, isFromScan)
     return
   }
