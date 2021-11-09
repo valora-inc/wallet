@@ -39,6 +39,7 @@ app.get('/status', async (req, res) => {
         status: 'permanently disabled',
       })
     default:
+      console.error(`Unexpected key state: ${keyState}`)
       return res.status(200).json({
         status: 'unknown',
       })
@@ -80,6 +81,7 @@ app.post('/unwrapKey', async (req, res) => {
     case 'DESTROYED':
       return res.status(410)
     default:
+      console.error(`Unexpected key state: ${keyState}`)
       return res.status(404)
   }
 })
