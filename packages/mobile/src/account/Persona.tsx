@@ -64,7 +64,6 @@ const Persona = ({ kycStatus }: Props) => {
   }, [templateId])
 
   const getPrivateKey = async (): Promise<string> => {
-    debugger
     const mnemonic = await getStoredMnemonic(accountAddress)
     if (!mnemonic) {
       throw new Error('Unable to fetch mnemonic from the store')
@@ -77,7 +76,6 @@ const Persona = ({ kycStatus }: Props) => {
   useAsync(async () => {
     if (!personaAccountCreated) {
       if (!accountAddress) {
-        // TODO: Lisa - Is this the right pattern for forcing accountAddress to be not null?
         Logger.error(TAG, "Can't render Persona because accountAddress is null")
         return
       }
