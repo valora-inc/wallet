@@ -83,3 +83,4 @@ export const totalTokenBalanceSelector = createSelector(
 )
 
 export const tokenErrorSelector = (state: RootState) => state.tokens.error
+export const tokenLoadingSelector = (state: RootState) => state.tokens.loading
