@@ -100,3 +100,9 @@ export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
   state.app.huaweiMobileServicesAvailable
 
 export const rewardPillTextSelector = (state: RootState) => state.app.rewardPillText
+
+export const multiTokenShowHomeBalancesSelector = (state: RootState) =>
+  state.app.multiTokenShowHomeBalances
+export const multiTokenUseSendFlowSelector = (state: RootState) => state.app.multiTokenUseSendFlow
+export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
+  state.app.multiTokenUseUpdatedFeed

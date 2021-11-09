@@ -811,6 +811,20 @@ export const v19Schema = {
   },
 }
 
+export const v20Schema = {
+  ...v19Schema,
+  _persist: {
+    ...v19Schema._persist,
+    version: 20,
+  },
+  app: {
+    ...v19Schema.app,
+    multiTokenShowHomeBalances: false,
+    multiTokenUseSendFlow: false,
+    multiTokenUseUpdatedFeed: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v19Schema as Partial<RootState>
+  return v20Schema as Partial<RootState>
 }
