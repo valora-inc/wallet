@@ -124,19 +124,15 @@ export class WalletHome extends React.Component<Props, State> {
     // rest of feed to load unencumbered
     setTimeout(this.tryImportContacts, 500)
     if (tokenBalancesError || tokenBalancesLoading) {
-      // @ts-ignore
       this.props.showMessage(
         t('outOfSyncBanner.message'),
         null,
         t('outOfSyncBanner.button'),
+        // @ts-ignore
         refreshAllBalances(),
         t('outOfSyncBanner.title')
       )
     }
-  }
-
-  componentWillUnmount() {
-    this.props.hideAlert()
   }
 
   shouldShowCashInBottomSheet = () => {
