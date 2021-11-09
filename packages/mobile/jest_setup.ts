@@ -1,4 +1,3 @@
-import mockRNDeviceInfo from 'react-native-device-info/jest/react-native-device-info-mock'
 // @ts-ignore
 const svgMock = require('react-native-svg-mock')
 
@@ -39,5 +38,3 @@ jest.mock('react-native/Libraries/Utilities/PixelRatio.js', () => ({
   getPixelSizeForLayoutSize: jest.fn(() => 1),
   getFontScale: jest.fn(() => 1),
 }))
-
-jest.mock('react-native-device-info', () => mockRNDeviceInfo)
