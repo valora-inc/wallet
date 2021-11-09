@@ -202,7 +202,7 @@ exports[`DrawerNavigator renders correctly  1`] = `
           }
           descriptors={
             Object {
-              "BackupIntroduction-lN-DRbhbnSgNkxPCHQx_x": Object {
+              "BackupIntroduction-jDJmiXxr49XhBVuYAmD-M": Object {
                 "navigation": Object {
                   "addListener": [Function],
                   "canGoBack": [Function],
@@ -227,7 +227,7 @@ exports[`DrawerNavigator renders correctly  1`] = `
                 },
                 "render": [Function],
               },
-              "FiatExchange-0W9aXDFHrvn7kLIyUSwuf": Object {
+              "FiatExchange-pcYwFlgBdB0OC6rHMXVVB": Object {
                 "navigation": Object {
                   "addListener": [Function],
                   "canGoBack": [Function],
@@ -252,7 +252,7 @@ exports[`DrawerNavigator renders correctly  1`] = `
                 },
                 "render": [Function],
               },
-              "GoldEducation-KiBXgL06bTNMf9R6LCRh5": Object {
+              "GoldEducation-5CHOYTJ67bMvwIdsO0RJN": Object {
                 "navigation": Object {
                   "addListener": [Function],
                   "canGoBack": [Function],
@@ -296,7 +296,7 @@ exports[`DrawerNavigator renders correctly  1`] = `
                 },
                 "render": [Function],
               },
-              "Settings-gWARDhmqC1prvAu5Co2-E": Object {
+              "Settings-Q1LW-Sih5JfD-PtwwyD1T": Object {
                 "navigation": Object {
                   "addListener": [Function],
                   "canGoBack": [Function],
@@ -321,7 +321,7 @@ exports[`DrawerNavigator renders correctly  1`] = `
                 },
                 "render": [Function],
               },
-              "Support-SPJZYfsy2N9tHHbIgmFDa": Object {
+              "Support-shWixEE0FH6w8CyFsRki-": Object {
                 "navigation": Object {
                   "addListener": [Function],
                   "canGoBack": [Function],
@@ -346,7 +346,7 @@ exports[`DrawerNavigator renders correctly  1`] = `
                 },
                 "render": [Function],
               },
-              "WalletHome-nlnO_2xeqhbjB2arszjuJ": Object {
+              "WalletHome-qRoYwhBujoJtZHlakqyjy": Object {
                 "navigation": Object {
                   "addListener": [Function],
                   "canGoBack": [Function],
@@ -410,12 +410,12 @@ exports[`DrawerNavigator renders correctly  1`] = `
             Object {
               "history": Array [
                 Object {
-                  "key": "WalletHome-nlnO_2xeqhbjB2arszjuJ",
+                  "key": "WalletHome-qRoYwhBujoJtZHlakqyjy",
                   "type": "route",
                 },
               ],
               "index": 0,
-              "key": "drawer-UaGyMpqZqISO9uql8igjf",
+              "key": "drawer-J4ukI3U5QYdb1OqKb880k",
               "routeNames": Array [
                 "WalletHome",
                 "GoldEducation",
@@ -426,32 +426,32 @@ exports[`DrawerNavigator renders correctly  1`] = `
               ],
               "routes": Array [
                 Object {
-                  "key": "WalletHome-nlnO_2xeqhbjB2arszjuJ",
+                  "key": "WalletHome-qRoYwhBujoJtZHlakqyjy",
                   "name": "WalletHome",
                   "params": undefined,
                 },
                 Object {
-                  "key": "GoldEducation-KiBXgL06bTNMf9R6LCRh5",
+                  "key": "GoldEducation-5CHOYTJ67bMvwIdsO0RJN",
                   "name": "GoldEducation",
                   "params": undefined,
                 },
                 Object {
-                  "key": "BackupIntroduction-lN-DRbhbnSgNkxPCHQx_x",
+                  "key": "BackupIntroduction-jDJmiXxr49XhBVuYAmD-M",
                   "name": "BackupIntroduction",
                   "params": undefined,
                 },
                 Object {
-                  "key": "FiatExchange-0W9aXDFHrvn7kLIyUSwuf",
+                  "key": "FiatExchange-pcYwFlgBdB0OC6rHMXVVB",
                   "name": "FiatExchange",
                   "params": undefined,
                 },
                 Object {
-                  "key": "Settings-gWARDhmqC1prvAu5Co2-E",
+                  "key": "Settings-Q1LW-Sih5JfD-PtwwyD1T",
                   "name": "Settings",
                   "params": undefined,
                 },
                 Object {
-                  "key": "Support-SPJZYfsy2N9tHHbIgmFDa",
+                  "key": "Support-shWixEE0FH6w8CyFsRki-",
                   "name": "Support",
                   "params": undefined,
                 },
