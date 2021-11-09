@@ -792,12 +792,6 @@ export const v19Schema = {
     },
     totalBalance: '40',
   },
-  app: {
-    ...v18Schema.app,
-    multiTokenShowHomeBalances: false,
-    multiTokenUseSendFlow: false,
-    multiTokenUseUpdatedFeed: false,
-  },
 }
 
 export const v20Schema = {
