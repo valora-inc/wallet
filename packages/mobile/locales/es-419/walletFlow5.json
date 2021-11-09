@@ -128,11 +128,11 @@
     "addFunds": "Agregar fondos"
   },
   "balances": "Saldo",
-  "totalValue": "Total Value",
-  "viewBalances": "View Balances",
+  "totalValue": "Valor total",
+  "viewBalances": "Ver saldos",
   "whatTotalValue": {
-    "title": "What does Total Value mean?",
-    "body": "Your Total Value is an approximate sum of all your Valora assets. Total Value will change as prices fluctuate. It is updated every 10 minutes. \n\nSome tokens may not be shown in the Total Value because the price is unavailable at the time of calculation.",
+    "title": "¿Qué significa Valor total?",
+    "body": "Tu Valor Total es una suma aproximada de todos tus activos de Valora. El Valor Total cambiará según las fluctuaciones de los precios. Se actualiza cada 10 minutos. \n\nAlgunas fichas pueden no aparecer en el Valor Total porque el precio no está disponible en el momento del cálculo.",
     "dismiss": "Descartar"
   }
 }
