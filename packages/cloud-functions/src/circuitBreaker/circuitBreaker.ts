@@ -82,7 +82,7 @@ app.post('/unwrapKey', async (req, res) => {
       return res.status(410)
     default:
       console.error(`Unexpected key state: ${keyState}`)
-      return res.status(404)
+      return res.status(503)
   }
 })
 
