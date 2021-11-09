@@ -1,6 +1,7 @@
+import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import BigNumber from 'bignumber.js'
 import { createSelector } from 'reselect'
-import { nameSelector } from 'src/account/selectors'
+import { defaultCountryCodeSelector, nameSelector } from 'src/account/selectors'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { numberVerifiedSelector } from 'src/app/selectors'
 import { backupCompletedSelector } from 'src/backup/selectors'
@@ -19,6 +20,7 @@ export const getCurrentUserTraits = createSelector(
     walletAddressSelector,
     accountAddressSelector,
     nameSelector,
+    defaultCountryCodeSelector,
     userLocationDataSelector,
     currentLanguageSelector,
     totalTokenBalanceSelector,
@@ -32,6 +34,7 @@ export const getCurrentUserTraits = createSelector(
     walletAddress,
     accountAddress,
     name,
+    phoneCountryCallingCode,
     { countryCodeAlpha2 },
     language,
     totalBalanceUsd,
@@ -51,6 +54,10 @@ export const getCurrentUserTraits = createSelector(
       accountAddress,
       walletAddress,
       name,
+      phoneCountryCallingCode, // Example: +33
+      phoneCountryCodeAlpha2: phoneCountryCallingCode
+        ? getRegionCodeFromCountryCode(phoneCountryCallingCode)
+        : undefined,
       countryCodeAlpha2,
       language,
       totalBalanceUsd,
