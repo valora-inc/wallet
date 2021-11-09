@@ -52,11 +52,9 @@ const Persona = ({ kycStatus }: Props) => {
         console.log(
           `Inquiry completed for ${inquiryId} with attributes: ${JSON.stringify(attributes)}`
         )
-        // show inquiry completed screen here
       })
       .onCancelled(() => {
         console.log('Inquiry #{inquiryId} canceled.')
-        // show inquiry cancelled screen here
       })
       .onError((error: Error) => {
         console.error(`Error: ${error.message}`)
