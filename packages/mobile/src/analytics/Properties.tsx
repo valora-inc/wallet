@@ -195,6 +195,8 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.backup_quiz_complete]: undefined
   [OnboardingEvents.backup_quiz_incorrect]: undefined
 
+  [OnboardingEvents.terms_and_conditions_accepted]: undefined
+
   [OnboardingEvents.celo_education_start]: undefined
   [OnboardingEvents.celo_education_scroll]: {
     currentStep: number
