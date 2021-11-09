@@ -6,7 +6,6 @@ import { numberVerifiedSelector } from 'src/app/selectors'
 import { backupCompletedSelector } from 'src/backup/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import { defaultCurrencySelector } from 'src/stableToken/selectors'
 import {
   tokensByCurrencySelector,
   tokensByUsdBalanceSelector,
@@ -19,7 +18,6 @@ export const getCurrentUserTraits = createSelector(
   [
     walletAddressSelector,
     accountAddressSelector,
-    defaultCurrencySelector,
     nameSelector,
     userLocationDataSelector,
     currentLanguageSelector,
@@ -33,7 +31,6 @@ export const getCurrentUserTraits = createSelector(
   (
     walletAddress,
     accountAddress,
-    currency,
     name,
     { countryCodeAlpha2 },
     language,
