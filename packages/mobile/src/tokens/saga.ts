@@ -284,6 +284,7 @@ export function* fetchTokenBalancesFromBlockscout(address: string) {
     `${BLOCKSCOUT_BASE_URL}?module=account&action=tokenlist&address=${address}`
   )
   if (!response.ok) {
+    yield put(tokenBalanceFetchError())
     throw new Error('Failed request to get user balances from Blockscout')
   }
   const json: any = yield call([response, response.json])

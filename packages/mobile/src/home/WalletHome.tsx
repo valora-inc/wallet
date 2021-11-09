@@ -13,7 +13,7 @@ import {
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
-import { showMessage } from 'src/alert/actions'
+import { hideAlert, showMessage } from 'src/alert/actions'
 import {
   ALERT_BANNER_DURATION,
   DEFAULT_TESTNET,
@@ -34,6 +34,7 @@ import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { initializeSentryUserContext } from 'src/sentry/actions'
 import { Balances, balancesSelector } from 'src/stableToken/selectors'
+import { tokenErrorSelector } from 'src/tokens/selectors'
 import { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList from 'src/transactions/TransactionsList'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
@@ -45,6 +46,7 @@ interface StateProps {
   numberVerified: boolean
   cashInButtonExpEnabled: boolean
   balances: Balances
+  tokenBalancesError: boolean
 }
 
 interface DispatchProps {
@@ -53,6 +55,7 @@ interface DispatchProps {
   setLoading: typeof setLoading
   showMessage: typeof showMessage
   importContacts: typeof importContacts
+  hideAlert: typeof hideAlert
 }
 
 type Props = StateProps & DispatchProps & WithTranslation
@@ -63,6 +66,7 @@ const mapDispatchToProps = {
   setLoading,
   showMessage,
   importContacts,
+  hideAlert,
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
@@ -71,6 +75,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   numberVerified: state.app.numberVerified,
   cashInButtonExpEnabled: state.app.cashInButtonExpEnabled,
   balances: balancesSelector(state),
+  tokenBalancesError: tokenErrorSelector(state),
 })
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
@@ -115,6 +120,15 @@ export class WalletHome extends React.Component<Props, State> {
     // Waiting 1/2 sec before triggering to allow
     // rest of feed to load unencumbered
     setTimeout(this.tryImportContacts, 500)
+    if (this.props.tokenBalancesError) {
+      const alert = { message: 'asdfjaldksf', buttonMessage: 'Refresh', onPress: this.onRefresh }
+      // @ts-ignore
+      this.props.showMessage('asdfasd', null, 'Refresh', refreshAllBalances, 'title')
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.hideAlert()
   }
 
   shouldShowCashInBottomSheet = () => {

@@ -81,3 +81,5 @@ export const totalTokenBalanceSelector = createSelector(
     return totalBalance.toFixed(2)
   }
 )
+
+export const tokenErrorSelector = (state: RootState) => state.tokens.error
