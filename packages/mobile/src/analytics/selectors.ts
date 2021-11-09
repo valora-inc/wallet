@@ -1,5 +1,6 @@
 import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import BigNumber from 'bignumber.js'
+import DeviceInfo from 'react-native-device-info'
 import { createSelector } from 'reselect'
 import { defaultCountryCodeSelector, nameSelector } from 'src/account/selectors'
 import { currentLanguageSelector } from 'src/app/reducers'
@@ -84,6 +85,9 @@ export const getCurrentUserTraits = createSelector(
       localCurrencyCode,
       hasVerifiedNumber,
       hasCompletedBackup,
+      deviceId: DeviceInfo.getUniqueId(),
+      appVersion: DeviceInfo.getVersion(),
+      appBuildNumber: DeviceInfo.getBuildNumber(),
     }
   }
 )

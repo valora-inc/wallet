@@ -142,10 +142,13 @@ describe('getCurrentUserTraits', () => {
     expect(getCurrentUserTraits(state)).toMatchInlineSnapshot(`
       Object {
         "accountAddress": "0x0000000000000000000000000000000000007E57",
+        "appBuildNumber": "unknown",
+        "appVersion": "unknown",
         "celoBalance": "0",
         "ceurBalance": "20",
         "countryCodeAlpha2": "US",
         "cusdBalance": "10",
+        "deviceId": "unknown",
         "hasCompletedBackup": false,
         "hasVerifiedNumber": false,
         "language": "es-419",
