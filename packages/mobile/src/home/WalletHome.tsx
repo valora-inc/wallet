@@ -186,6 +186,11 @@ export class WalletHome extends React.Component<Props, State> {
 
     sections.push({
       data: [{}],
+      renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
+    })
+
+    sections.push({
+      data: [{}],
       renderItem: () => <TransactionsList key={'TransactionList'} feedType={FeedType.HOME} />,
     })
 
