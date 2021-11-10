@@ -42,6 +42,9 @@ export interface State {
     [lang: string]: string
   }
   cashInButtonExpEnabled: boolean
+  multiTokenShowHomeBalances: boolean
+  multiTokenUseSendFlow: boolean
+  multiTokenUseUpdatedFeed: boolean
 }
 
 const initialState = {
@@ -77,6 +80,9 @@ const initialState = {
   pincodeUseExpandedBlocklist: FEATURE_FLAG_DEFAULTS.pincodeUseExpandedBlocklist,
   rewardPillText: JSON.parse(FEATURE_FLAG_DEFAULTS.rewardPillText),
   cashInButtonExpEnabled: false,
+  multiTokenShowHomeBalances: FEATURE_FLAG_DEFAULTS.multiTokenShowHomeBalances,
+  multiTokenUseSendFlow: FEATURE_FLAG_DEFAULTS.multiTokenUseSendFlow,
+  multiTokenUseUpdatedFeed: FEATURE_FLAG_DEFAULTS.multiTokenUseUpdatedFeed,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
@@ -190,6 +196,9 @@ export const appReducer = (
         pincodeUseExpandedBlocklist: action.flags.pincodeUseExpandedBlocklist,
         rewardPillText: JSON.parse(action.flags.rewardPillText),
         cashInButtonExpEnabled: action.flags.cashInButtonExpEnabled,
+        multiTokenShowHomeBalances: action.flags.multiTokenShowHomeBalances,
+        multiTokenUseSendFlow: action.flags.multiTokenUseSendFlow,
+        multiTokenUseUpdatedFeed: action.flags.multiTokenUseUpdatedFeed,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

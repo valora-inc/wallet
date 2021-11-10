@@ -3,7 +3,6 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
-import { features } from 'src/flags'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { fetchExchangeRate } from 'src/localCurrency/saga'
 import { navigate } from 'src/navigator/NavigationService'
@@ -131,15 +130,6 @@ describe('send/utils', () => {
   })
 
   describe('handlePaymentDeeplink', () => {
-    const useTokenSendFlow = features.USE_TOKEN_SEND_FLOW
-    beforeAll(() => {
-      features.USE_TOKEN_SEND_FLOW = true
-    })
-
-    afterAll(() => {
-      features.USE_TOKEN_SEND_FLOW = useTokenSendFlow
-    })
-
     const mockData = {
       address: mockAccount2.toLowerCase(),
       currencyCode: 'USD' as LocalCurrencyCode,
@@ -147,7 +137,7 @@ describe('send/utils', () => {
 
     it('should navigate to SendAmount screen when no amount nor token is sent', async () => {
       await expectSaga(handleSendPaymentData, mockData)
-        .withState(createMockStore({}).getState())
+        .withState(createMockStore({ app: { multiTokenUseSendFlow: true } }).getState())
         .provide([[matchers.call.fn(fetchExchangeRate), mockData.currencyCode]])
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
@@ -160,7 +150,7 @@ describe('send/utils', () => {
 
     it('should navigate to SendAmount screen when no amount is sent but token is', async () => {
       await expectSaga(handleSendPaymentData, { ...mockData, token: 'cEUR' })
-        .withState(createMockStore({}).getState())
+        .withState(createMockStore({ app: { multiTokenUseSendFlow: true } }).getState())
         .provide([[matchers.call.fn(fetchExchangeRate), mockData.currencyCode]])
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
@@ -186,7 +176,7 @@ describe('send/utils', () => {
 
     it('should navigate to SendConfirmation screen when amount and token are sent', async () => {
       await expectSaga(handleSendPaymentData, { ...mockData, amount: 1, token: 'cEUR' })
-        .withState(createMockStore({}).getState())
+        .withState(createMockStore({ app: { multiTokenUseSendFlow: true } }).getState())
         .provide([[matchers.call.fn(fetchExchangeRate), mockData.currencyCode]])
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
@@ -202,7 +192,7 @@ describe('send/utils', () => {
 
     it('should navigate to SendConfirmation screen defaulting to cUSD when amount is sent but token isnt', async () => {
       await expectSaga(handleSendPaymentData, { ...mockData, amount: 1 })
-        .withState(createMockStore({}).getState())
+        .withState(createMockStore({ app: { multiTokenUseSendFlow: true } }).getState())
         .provide([[matchers.call.fn(fetchExchangeRate), mockData.currencyCode]])
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
@@ -218,15 +208,6 @@ describe('send/utils', () => {
   })
 
   describe('handlePaymentDeeplinkLegacy', () => {
-    const useTokenSendFlow = features.USE_TOKEN_SEND_FLOW
-    beforeAll(() => {
-      features.USE_TOKEN_SEND_FLOW = false
-    })
-
-    afterAll(() => {
-      features.USE_TOKEN_SEND_FLOW = useTokenSendFlow
-    })
-
     const data = {
       address: '0xf7f551752A78Ce650385B58364225e5ec18D96cB',
       displayName: 'Super 8',
@@ -244,6 +225,7 @@ describe('send/utils', () => {
         token: undefined,
       }
       await expectSaga(handlePaymentDeeplink, deeplink)
+        .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
         .provide([[matchers.call.fn(handleSendPaymentData), parsed]])
         .run()
     })
@@ -255,6 +237,7 @@ describe('send/utils', () => {
 
       it('should navigate to SendAmount screen when address & currencyCode are given ', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[3])
+          .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
           .provide([[matchers.call.fn(fetchExchangeRate), mockUriData[3].currencyCode]])
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.SendAmountLegacy, {
@@ -274,6 +257,7 @@ describe('send/utils', () => {
         }
 
         await expectSaga(handleSendPaymentData, mockUriData[4])
+          .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
           .provide([[matchers.call.fn(fetchExchangeRate), '2']])
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
@@ -293,6 +277,7 @@ describe('send/utils', () => {
         }
 
         await expectSaga(handleSendPaymentData, mockUriData[5])
+          .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
           .provide([[matchers.call.fn(fetchExchangeRate), '2']])
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationLegacy, {
@@ -310,6 +295,7 @@ describe('send/utils', () => {
 
       it('should navigate to WithdrawCeloReview screen when address, token = CELO, currencyCode, and amount are given ', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[0])
+          .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
           .provide([[matchers.call.fn(fetchExchangeRate), mockUriData[0].currencyCode]])
           .run()
         expect(navigate).toHaveBeenCalledWith(Screens.WithdrawCeloReviewScreen, {
@@ -323,6 +309,7 @@ describe('send/utils', () => {
 
       it('should not navigate to WithdrawCeloReview screen when only address & token = CELO are given ', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[1])
+          .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
           .provide([[matchers.call.fn(fetchExchangeRate), mockUriData[1].currencyCode]])
           .run()
         expect(navigate).not.toHaveBeenCalled()
@@ -330,6 +317,7 @@ describe('send/utils', () => {
 
       it('should not navigate to any screen when an unsupported token is given ', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[2])
+          .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
           .provide([[matchers.call.fn(fetchExchangeRate), mockUriData[2].currencyCode]])
           .run()
         expect(navigate).not.toHaveBeenCalled()

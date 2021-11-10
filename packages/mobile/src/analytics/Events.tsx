@@ -29,6 +29,7 @@ export enum HomeEvents {
   notification_select = 'notification_select',
   transaction_feed_item_select = 'transaction_feed_item_select',
   transaction_feed_address_copy = 'transaction_feed_address_copy',
+  view_token_balances = 'view_token_balances',
 }
 
 export enum SettingsEvents {
