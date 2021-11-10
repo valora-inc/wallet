@@ -45,7 +45,12 @@ export function SettingsItemTextValue({
       <View style={styles.container}>
         <Title value={title} />
         <View style={styles.right}>
-          {value && <Text style={styles.value}>{value}</Text>}
+          {value && Boolean(testID) && (
+            <Text testID={`${testID}/value`} style={styles.value}>
+              {value}
+            </Text>
+          )}
+          {value && !Boolean(testID) && <Text style={styles.value}>{value}</Text>}
           {(value || showChevron) && <ForwardChevron />}
         </View>
       </View>

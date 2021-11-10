@@ -13,7 +13,13 @@ export interface Props {
 
 function Times({ color, height, strokeWidth }: Props) {
   return (
-    <Svg xmlns="http://www.w3.org/2000/svg" height={height} width={height} viewBox="0 0 16 16">
+    <Svg
+      testID="Times"
+      xmlns="http://www.w3.org/2000/svg"
+      height={height}
+      width={height}
+      viewBox="0 0 16 16"
+    >
       <AnimatedPath
         // @ts-ignore
         d="M13.9999 2.00146L1.99994 14.0015"

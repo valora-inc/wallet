@@ -964,6 +964,7 @@ exports[`Testnet banner Renders cash in bottom sheet when experiment flag is tur
           <svg
             height={16}
             style={Object {}}
+            testID="Times"
             viewBox="0 0 16 16"
             width={16}
             xmlns="http://www.w3.org/2000/svg"

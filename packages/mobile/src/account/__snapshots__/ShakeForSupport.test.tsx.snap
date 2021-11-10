@@ -128,6 +128,7 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
         <svg
           height={16}
           style={Object {}}
+          testID="Times"
           viewBox="0 0 16 16"
           width={16}
           xmlns="http://www.w3.org/2000/svg"
@@ -382,6 +383,7 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
         <svg
           height={16}
           style={Object {}}
+          testID="Times"
           viewBox="0 0 16 16"
           width={16}
           xmlns="http://www.w3.org/2000/svg"
