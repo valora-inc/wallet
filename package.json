@@ -72,6 +72,11 @@
     "typescript": "4.1.6"
   },
   "resolutions": {
+    "@celo/contractkit": "1.3.1",
+    "@celo/base": "1.3.1",
+    "@celo/connect": "1.3.1",
+    "@celo/utils": "1.3.1",
+    "@celo/wallet-local": "1.3.1",
     "ethers": "5.0.5",
     "**/truffle/mocha": "^6.2.2",
     "**/truffle-security/mocha": "^6.2.2",

@@ -2,6 +2,11 @@ import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 
+export enum PaymentDeepLinkHandler {
+  Disabled = '',
+  Merchant = 'merchant',
+}
+
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
   | 'showRaiseDailyLimitTarget'
@@ -65,4 +70,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   maxNumRecentDapps: 0,
   skipVerification: false,
   showPriceChangeIndicatorInBalances: false,
+  paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
 }
