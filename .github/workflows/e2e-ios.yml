@@ -21,7 +21,7 @@ on:
 jobs:
   ios:
     name: iOS
-    runs-on: ios-e2e-group
+    runs-on: ios-e2e-group-isolation
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
