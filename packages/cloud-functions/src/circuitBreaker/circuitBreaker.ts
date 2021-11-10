@@ -46,13 +46,12 @@ app.get('/status', async (req, res) => {
   }
 })
 
-app.post('/unwrapKey', async (req, res) => {
+app.post('/unwrap-key', async (req, res) => {
   const ciphertext = req.body?.ciphertext
   if (!ciphertext) {
-    res.status(400).json({
+    return res.status(400).json({
       error: '"ciphertext" parameter must be provided',
     })
-    return
   }
 
   const keyState = await getKeyState()
@@ -65,7 +64,7 @@ app.post('/unwrapKey', async (req, res) => {
           ciphertext,
         })
       } catch (error) {
-        console.error(`Error while decrypting ciphertext: ${error}`)
+        console.error(`Error while decrypting ciphertext: ${error.message}`)
         return res.status(500).json({
           error: 'Error while decrypting ciphertext',
         })
@@ -77,12 +76,12 @@ app.post('/unwrapKey', async (req, res) => {
       })
 
     case 'DISABLED':
-      return res.status(503)
+      return res.status(503).send()
     case 'DESTROYED':
-      return res.status(410)
+      return res.status(410).send()
     default:
       console.error(`Unexpected key state: ${keyState}`)
-      return res.status(503)
+      return res.status(503).send()
   }
 })
 
