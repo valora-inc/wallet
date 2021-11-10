@@ -349,6 +349,7 @@ export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: stri
 
 export function* watchFetchBalance() {
   yield takeEvery(fetchTokenBalances.type, fetchTokenBalancesSaga)
+  yield call(fetchTokenBalancesSaga)
 }
 
 export function* tokensSaga() {
