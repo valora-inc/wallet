@@ -88,6 +88,7 @@ export const getCurrentUserTraits = createSelector(
       deviceId: DeviceInfo.getUniqueId(),
       appVersion: DeviceInfo.getVersion(),
       appBuildNumber: DeviceInfo.getBuildNumber(),
+      appBundleId: DeviceInfo.getBundleId(),
     }
   }
 )
