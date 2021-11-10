@@ -449,28 +449,15 @@ export const mockTokenBalances = {
     decimals: 18,
     balance: '0',
   },
-}
-
-export const mockTokenBalances2 = {
-  '0x00400FcbF0816bebB94654259de7273f4A05c762': {
-    usdPrice: '0.1',
-    address: '0x00400FcbF0816bebB94654259de7273f4A05c762',
-    symbol: 'POOF',
+  '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1': {
+    usdPrice: '1.001',
+    address: '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1',
+    symbol: 'cUSD',
     imageUrl:
-      'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_POOF.png',
-    name: 'Poof Governance Token',
+      'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cUSD.png',
+    name: 'Celo Dollar',
     decimals: 18,
-    balance: '5',
-  },
-  '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
-    usdPrice: '1.16',
-    address: '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F',
-    symbol: 'cEUR',
-    imageUrl:
-      'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_cEUR.png',
-    name: 'Celo Euro',
-    decimals: 18,
-    balance: null,
+    balance: '0',
   },
 }
 

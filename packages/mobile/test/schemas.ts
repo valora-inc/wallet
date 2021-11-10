@@ -799,7 +799,8 @@ export const v19Schema = {
         balance: '0',
       },
     },
-    totalBalance: '40',
+    loading: false,
+    error: false,
   },
 }
 

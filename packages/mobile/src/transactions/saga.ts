@@ -18,6 +18,7 @@ import { addressToE164NumberSelector } from 'src/identity/selectors'
 import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector, updateValoraRecipientCache } from 'src/recipients/reducer'
 import { fetchStableBalances } from 'src/stableToken/actions'
+import { fetchTokenBalances } from 'src/tokens/reducer'
 import {
   Actions,
   addHashToStandbyTransaction,
@@ -115,6 +116,8 @@ export function* sendAndMonitorTransaction<T>(
     if (STABLE_CURRENCIES.some((stableCurrency) => balancesAffected.has(stableCurrency))) {
       yield put(fetchStableBalances())
     }
+    // TODO: Consider only fetching the balance of the used token.
+    yield put(fetchTokenBalances())
     return { receipt: txReceipt }
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
