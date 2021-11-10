@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import * as admin from 'firebase-admin'
 import { v4 as uuidv4 } from 'uuid'
-import { bigQueryDataset, bigQueryProjectId, getBigQueryInstance } from '../bigQuery'
+import { bigQueryInternalDataset, bigQueryProjectId, getBigQueryInstance } from '../bigQuery'
 import { BLOCKCHAIN_API_URL, FETCH_TIMEOUT_DURATION } from '../config'
 import { countryToCurrency } from './providerAvailability'
 import { Providers } from './Providers'
@@ -38,10 +38,10 @@ export const getUserInitData = async (
 ): Promise<UserInitData> => {
   const [data] = await bigQuery.query(`
     SELECT context_ip, device_info_user_agent, timestamp
-    FROM ${bigQueryProjectId}.${bigQueryDataset}.app_launched
+    FROM ${bigQueryProjectId}.${bigQueryInternalDataset}.app_launched
     WHERE user_address = (
         SELECT user_address
-        FROM ${bigQueryProjectId}.${bigQueryDataset}.app_launched
+        FROM ${bigQueryProjectId}.${bigQueryInternalDataset}.app_launched
         WHERE device_info_unique_id= "${deviceId}"
         AND user_address IS NOT NULL
         ORDER BY timestamp DESC
