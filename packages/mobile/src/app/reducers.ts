@@ -44,6 +44,7 @@ export interface State {
   multiTokenShowHomeBalances: boolean
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
+  otaTranslationsLastUpdate: number
 }
 
 const initialState = {
@@ -82,6 +83,7 @@ const initialState = {
   multiTokenShowHomeBalances: FEATURE_FLAG_DEFAULTS.multiTokenShowHomeBalances,
   multiTokenUseSendFlow: FEATURE_FLAG_DEFAULTS.multiTokenUseSendFlow,
   multiTokenUseUpdatedFeed: FEATURE_FLAG_DEFAULTS.multiTokenUseUpdatedFeed,
+  otaTranslationsLastUpdate: 0,
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language
@@ -220,6 +222,11 @@ export const appReducer = (
         ...state,
         googleMobileServicesAvailable: action.googleIsAvailable,
         huaweiMobileServicesAvailable: action.huaweiIsAvailable,
+      }
+    case Actions.SET_OTA_TRANSLATIONS_LAST_UPDATE:
+      return {
+        ...state,
+        otaTranslationsLastUpdate: action.otaTranslationsLastUpdate,
       }
     default:
       return state

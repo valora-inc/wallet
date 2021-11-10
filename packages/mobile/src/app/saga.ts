@@ -1,6 +1,10 @@
+import OtaClient from '@crowdin/ota-client'
 import URLSearchParamsReal from '@ungap/url-search-params'
+import i18n from 'i18next'
+import _ from 'lodash'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import * as RNFS from 'react-native-fs'
 import { eventChannel } from 'redux-saga'
 import {
   call,
@@ -24,15 +28,19 @@ import {
   OpenUrlAction,
   SetAppState,
   setAppState,
+  setOtaTranslationsLastUpdate,
   updateFeatureFlags,
 } from 'src/app/actions'
+import { currentLanguageSelector } from 'src/app/reducers'
 import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
+  otaTranslationsLastUpdateSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
+import { CROWDIN_DISTRIBUTION_HASH } from 'src/config'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { appVersionDeprecationChannel, fetchRemoteFeatureFlags } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
@@ -67,6 +75,36 @@ export function* appInit() {
   if (!inSync) {
     navigate(Screens.SetClock)
     return
+  }
+
+  yield spawn(otaTranslationsSaga)
+}
+
+function* otaTranslationsSaga() {
+  const otaClient = new OtaClient(CROWDIN_DISTRIBUTION_HASH)
+
+  const lastFetchTime = yield select(otaTranslationsLastUpdateSelector)
+  try {
+    const timestamp = yield otaClient.getManifestTimestamp()
+
+    if (lastFetchTime < timestamp) {
+      const languageMappings = yield otaClient.getLanguageMappings()
+      const locale = yield select(currentLanguageSelector)
+      // otaClient expects language value like "es", while the locale value is like "es-419"
+      const language = _.findKey(languageMappings, { locale })
+
+      const translations = yield otaClient.getStringsByLocale(undefined, language)
+      i18n.addResources(locale, 'global', translations)
+
+      yield RNFS.unlink(`file://${RNFS.DocumentDirectoryPath}/translations`)
+      yield RNFS.writeFile(
+        `file://${RNFS.DocumentDirectoryPath}/translations`,
+        JSON.stringify(translations)
+      )
+      yield put(setOtaTranslationsLastUpdate(timestamp))
+    }
+  } catch (error) {
+    Logger.error(`${TAG}@otaTranslationsSaga`, error)
   }
 }
 

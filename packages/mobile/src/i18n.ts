@@ -1,11 +1,12 @@
 import locales from '@celo/mobile/locales'
 import hoistStatics from 'hoist-non-react-statics'
-import i18n from 'i18next'
+import i18n, { Resource } from 'i18next'
 import {
   initReactI18next,
   WithTranslation,
   withTranslation as withTranslationI18Next,
 } from 'react-i18next'
+import * as RNFS from 'react-native-fs'
 import { APP_NAME, DEFAULT_APP_LANGUAGE, TOS_LINK } from 'src/config'
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
@@ -31,27 +32,36 @@ export enum Namespaces {
   walletConnect = 'walletConnect',
 }
 
-function getAvailableResources() {
-  const resources = {}
+async function getAvailableResources() {
+  let cachedTranslations = ''
+  if (await RNFS.exists(`file://${RNFS.DocumentDirectoryPath}/translations`)) {
+    cachedTranslations = await RNFS.readFile(`file://${RNFS.DocumentDirectoryPath}/translations`)
+  }
+
+  const resources: Resource = {}
   for (const [key, value] of Object.entries(locales)) {
     Object.defineProperty(resources, key, {
-      get: () => value!.strings,
+      get: () => ({
+        ...value!.strings,
+        global: cachedTranslations ? JSON.parse(cachedTranslations) : value!.strings.global,
+      }),
       enumerable: true,
     })
   }
+
   return resources
 }
 
-const availableResources = getAvailableResources()
-
 export const initI18n = async (lng: string) => {
+  const resources = await getAvailableResources()
+
   await i18n.use(initReactI18next).init({
     fallbackLng: {
       default: [DEFAULT_APP_LANGUAGE],
       'es-US': ['es-LA'],
     },
     lng,
-    resources: availableResources,
+    resources,
     ns: ['common', ...Object.keys(Namespaces)],
     defaultNS: 'common',
     // Only enable for debugging as it forces evaluation of all our lazy loaded locales

@@ -2454,6 +2454,13 @@
   dependencies:
     arrify "^1.0.1"
 
+"@crowdin/ota-client@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@crowdin/ota-client/-/ota-client-0.3.2.tgz#0659ece7e6cb1be9e952bb42bf2f805357ce5c21"
+  integrity sha512-N2KIY8Tit08EXfqpJRgKoDTCBCvXaFJ9Ydtv4jbxCq5Ns/yK7Ukh0/zWbYsWClQSWkE1xF8GStpLyBK2Msn1vg==
+  dependencies:
+    axios "0.21.3"
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
@@ -7294,6 +7301,13 @@ axios-retry@^3.0.2:
   integrity sha512-NFCoNIHq8lYkJa6ku4m+V1837TP6lCa7n79Iuf8/AqATAHYB0ISaAS1eyIenDOfHOLtym34W65Sjke2xjg2fsA==
   dependencies:
     is-retry-allowed "^1.1.0"
+
+axios@0.21.3:
+  version "0.21.3"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.3.tgz#f85d9b747f9b66d59ca463605cedf1844872b82e"
+  integrity sha512-JtoZ3Ndke/+Iwt5n+BgSli/3idTvpt5OjKyoCmz4LX5+lPiY5l7C1colYezhlxThjNa/NhngCUWZSZFypIFuaA==
+  dependencies:
+    follow-redirects "^1.14.0"
 
 axios@^0.21.1:
   version "0.21.4"

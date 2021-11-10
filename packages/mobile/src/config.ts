@@ -156,6 +156,7 @@ export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
 
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
+export const CROWDIN_DISTRIBUTION_HASH = Config.CROWDIN_DISTRIBUTION_HASH
 
 export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
 

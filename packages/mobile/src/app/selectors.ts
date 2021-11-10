@@ -106,3 +106,6 @@ export const multiTokenShowHomeBalancesSelector = (state: RootState) =>
 export const multiTokenUseSendFlowSelector = (state: RootState) => state.app.multiTokenUseSendFlow
 export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
   state.app.multiTokenUseUpdatedFeed
+
+export const otaTranslationsLastUpdateSelector = (state: RootState) =>
+  state.app.otaTranslationsLastUpdate

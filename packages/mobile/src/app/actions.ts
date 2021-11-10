@@ -34,6 +34,7 @@ export enum Actions {
   APP_UNMOUNTED = 'APP/APP_UNMOUNTED',
   VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
   ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
+  SET_OTA_TRANSLATIONS_LAST_UPDATE = 'SET_OTA_TRANSLATIONS_LAST_UPDATE',
 }
 
 export interface SetAppState {
@@ -137,6 +138,11 @@ export interface AndroidMobileServicesAvailabilityChecked {
   huaweiIsAvailable: boolean | undefined
 }
 
+export interface SetOtaTranslationsLastUpdateAction {
+  type: Actions.SET_OTA_TRANSLATIONS_LAST_UPDATE
+  otaTranslationsLastUpdate: number
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -158,6 +164,7 @@ export type ActionTypes =
   | AppUnmounted
   | VerificationMigrationRanAction
   | AndroidMobileServicesAvailabilityChecked
+  | SetOtaTranslationsLastUpdateAction
 
 export const setAppState = (state: string) => ({
   type: Actions.SET_APP_STATE,
@@ -278,4 +285,11 @@ export const androidMobileServicesAvailabilityChecked = (
   type: Actions.ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED,
   googleIsAvailable,
   huaweiIsAvailable,
+})
+
+export const setOtaTranslationsLastUpdate = (
+  otaTranslationsLastUpdate: number
+): SetOtaTranslationsLastUpdateAction => ({
+  type: Actions.SET_OTA_TRANSLATIONS_LAST_UPDATE,
+  otaTranslationsLastUpdate,
 })
