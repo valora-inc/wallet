@@ -64,6 +64,10 @@ class ValoraAnalytics {
   userAddress: string = ''
   deviceInfo: object = {}
 
+  private traits: Record<string, any> = {}
+  private currentScreenId: string | undefined
+  private prevScreenId: string | undefined
+
   async init() {
     try {
       if (!SEGMENT_API_KEY) {
@@ -139,10 +143,7 @@ class ValoraAnalytics {
     }
 
     const props: {} = {
-      timestamp: Date.now(),
-      sessionId: this.sessionId,
-      userAddress: this.userAddress,
-      celoNetwork: DEFAULT_TESTNET,
+      ...this.getSuperProps(),
       ...eventProperties,
     }
 
@@ -164,23 +165,36 @@ class ValoraAnalytics {
       return
     }
 
+    this.traits = traits
+
     Analytics.identify(userID, traits).catch((err) => {
       Logger.error(TAG, `Failed to identify user ${userID}`, err)
     })
   }
 
-  page(page: string, eventProperties = {}) {
-    if (!SEGMENT_API_KEY) {
+  page(screenId: string, eventProperties = {}) {
+    if (!this.isEnabled || !SEGMENT_API_KEY) {
       return
     }
 
-    Analytics.screen(page, eventProperties).catch((err) => {
+    if (screenId !== this.currentScreenId) {
+      this.prevScreenId = this.currentScreenId
+      this.currentScreenId = screenId
+    }
+
+    const props: {} = {
+      ...this.getSuperProps(),
+      ...eventProperties,
+    }
+
+    Analytics.screen(screenId, props).catch((err) => {
       Logger.error(TAG, 'Error tracking page', err)
     })
   }
 
   async reset() {
     try {
+      this.traits = {}
       await Analytics.flush()
       await Analytics.reset()
     } catch (error) {
@@ -216,6 +230,30 @@ class ValoraAnalytics {
       this.track(AppEvents.request_tracking_permission_declined, {
         newPermission: newAppTrackingPermission,
       })
+    }
+  }
+
+  // Super props, i.e. props sent with all events
+  private getSuperProps() {
+    // Leave out name
+    const { name, ...otherTraits } = this.traits
+    // Prefix super props with `s` so they don't clash with events props
+    const prefixedSuperProps = Object.fromEntries(
+      Object.entries({
+        ...otherTraits,
+        currentScreenId: this.currentScreenId,
+        prevScreenId: this.prevScreenId,
+      }).map(([key, value]) => [`s${key.charAt(0).toUpperCase() + key.slice(1)}`, value])
+    )
+
+    return {
+      // Legacy super props
+      timestamp: Date.now(),
+      sessionId: this.sessionId,
+      userAddress: this.userAddress,
+      celoNetwork: DEFAULT_TESTNET,
+      // Prefixed super props
+      ...prefixedSuperProps,
     }
   }
 }
