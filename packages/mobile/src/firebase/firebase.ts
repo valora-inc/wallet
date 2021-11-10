@@ -11,7 +11,7 @@ import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { RemoteFeatureFlags } from 'src/app/saga'
-import { FIREBASE_ENABLED } from 'src/config'
+import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
 import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
 import { handleNotification } from 'src/firebase/notifications'
 import { NotificationReceiveState } from 'src/notifications/types'
@@ -378,6 +378,19 @@ export async function readOnceFromFirebase(path: string) {
     .ref(path)
     .once('value')
     .then((snapshot) => snapshot.val())
+}
+
+export async function readOnceFromFirebaseWithTimeout(path: string) {
+  const timeout = new Promise<undefined>((resolve, reject) => {
+    const id = setTimeout(() => {
+      clearTimeout(id)
+      reject(Error(`Request timed out after ${FETCH_TIMEOUT_DURATION}ms`))
+    }, FETCH_TIMEOUT_DURATION)
+  })
+
+  const response = await Promise.race([firebase.database().ref(path).once('value'), timeout])
+
+  return response
 }
 
 export async function setUserLanguage(address: string, language: string) {

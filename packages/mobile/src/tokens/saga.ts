@@ -13,7 +13,7 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { BLOCKSCOUT_BASE_URL, isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
-import { readOnceFromFirebase } from 'src/firebase/firebase'
+import { readOnceFromFirebaseWithTimeout } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import { e2eTokens } from 'src/tokens/e2eTokens'
 import {
@@ -296,7 +296,7 @@ export function* importTokenInfo() {
     // In e2e environment we use a static token list since we can't access Firebase.
     const tokens: StoredTokenBalances = isE2EEnv
       ? e2eTokens()
-      : yield call(readOnceFromFirebase, 'tokensInfo')
+      : yield call(readOnceFromFirebaseWithTimeout, 'tokensInfo')
     const address: string = yield select(walletAddressSelector)
     const tokenBalances: BlockscoutTokenBalance[] = yield call(
       fetchTokenBalancesFromBlockscout,
