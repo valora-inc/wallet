@@ -94,13 +94,6 @@ export function* estimateFeeSaga({
     if (feeInfo) {
       const usdFee: BigNumber = yield call(mapFeeInfoToUsdFee, feeInfo)
       Logger.debug(`${TAG}/estimateFeeSaga`, `New fee is: ${usdFee.toString()}`)
-      console.log('actual', {
-        usdFee: usdFee.toString(),
-        feeInfo,
-        lastUpdated: Date.now(),
-        error: false,
-        loading: false,
-      })
       yield put(
         feeEstimated({
           feeType,

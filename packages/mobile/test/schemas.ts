@@ -792,9 +792,6 @@ export const v19Schema = {
     },
     totalBalance: '40',
   },
-  fees: {
-    estimates: {},
-  },
 }
 
 export const v20Schema = {
@@ -811,6 +808,35 @@ export const v20Schema = {
   },
 }
 
+export const v21Schema = {
+  ...v20Schema,
+  _persist: {
+    ...v20Schema._persist,
+    version: 20,
+  },
+  fees: {
+    estimates: {
+      [mockCusdAddress]: {
+        ['send']: {
+          usdFee: '0.02',
+          lastUpdated: 500,
+          loading: false,
+          error: false,
+        },
+        ['invite']: {
+          usdFee: '0.04',
+          lastUpdated: 500,
+          loading: false,
+          error: false,
+        },
+        ['exchange']: undefined,
+        ['reclaim-escrow']: undefined,
+        ['register-dek']: undefined,
+      },
+    },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v20Schema as Partial<RootState>
+  return v21Schema as Partial<RootState>
 }

@@ -167,7 +167,7 @@ describe('TokenDisplay', () => {
   })
 })
 
-describe.only('formatValueToDisplay', () => {
+describe('formatValueToDisplay', () => {
   it('adds at least two decimal places', () => {
     expect(formatValueToDisplay(new BigNumber(1234))).toEqual('1234.00')
   })
