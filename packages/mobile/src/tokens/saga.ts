@@ -305,7 +305,7 @@ export async function fetchTokenBalancesForAddress(
   return response.data.userBalances.balances
 }
 
-export function* importTokenInfo() {
+export function* fetchTokenBalancesSaga() {
   try {
     // In e2e environment we use a static token list since we can't access Firebase.
     const tokens: StoredTokenBalances = isE2EEnv
@@ -326,6 +326,7 @@ export function* importTokenInfo() {
       }
     }
     yield put(setTokenBalances(tokens))
+    ValoraAnalytics.track(AppEvents.fetch_balance, {})
   } catch (error) {
     yield put(tokenBalanceFetchError())
     Logger.error(TAG, 'error fetching user balances', error.message)
@@ -347,7 +348,7 @@ export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: stri
 }
 
 export function* watchFetchBalance() {
-  yield takeEvery(fetchTokenBalances.type, importTokenInfo)
+  yield takeEvery(fetchTokenBalances.type, fetchTokenBalancesSaga)
 }
 
 export function* tokensSaga() {
