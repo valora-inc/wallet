@@ -2,6 +2,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   defaultTokenSelector,
   tokensByAddressSelector,
+  tokensByUsdBalanceSelector,
   tokensListSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
@@ -64,6 +65,33 @@ describe(tokensListSelector, () => {
       expect(tokens.find((t) => t.address === '0xusd')?.symbol).toEqual('cUSD')
       expect(tokens.find((t) => t.address === '0xeur')?.symbol).toEqual('cEUR')
     })
+  })
+})
+
+describe('tokensByUsdBalanceSelector', () => {
+  it('returns the tokens sorted by USD balance in descending order', () => {
+    const tokens = tokensByUsdBalanceSelector(state)
+    expect(tokens).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "address": "0x1",
+          "balance": "10",
+          "usdPrice": "10",
+        },
+        Object {
+          "address": "0xeur",
+          "balance": "50",
+          "symbol": "cEUR",
+          "usdPrice": "0.5",
+        },
+        Object {
+          "address": "0xusd",
+          "balance": "0",
+          "symbol": "cUSD",
+          "usdPrice": "1",
+        },
+      ]
+    `)
   })
 })
 
