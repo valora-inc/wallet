@@ -1,6 +1,6 @@
 import * as RNFS from 'react-native-fs'
 import Share from 'react-native-share'
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import { showError, showMessage } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
@@ -22,6 +22,10 @@ import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/Sen
 import { handleSendPaymentData, isLegacyTransactionData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
+import i18n from 'src/i18n'
+import { paymentDeepLinkHandlerSelector, numberVerifiedSelector } from 'src/app/selectors'
+import { PaymentDeepLinkHandler } from 'src/app/reducers'
+import { parse } from 'url'
 
 export enum BarcodeTypes {
   QR_CODE = 'QR_CODE',
@@ -111,6 +115,12 @@ export function* handleBarcode(
     yield call(initialiseWalletConnect, barcode.data, WalletConnectPairingOrigin.Scan)
     return
   }
+  if (barcode.data.startsWith('celo://wallet/payment')) {
+    const handler = 'merchant'
+    // const handler: PaymentDeepLinkHandler = yield select(paymentDeepLinkHandlerSelector)
+    yield call(paymentDeepLinkHandlers[handler], barcode)
+    return
+  }
 
   let qrData: UriData
   try {
@@ -165,4 +175,32 @@ export function* handleBarcode(
   const cachedRecipient = getRecipientFromAddress(qrData.address, recipientInfo)
 
   yield call(handleSendPaymentData, qrData, cachedRecipient, isOutgoingPaymentRequest, true)
+}
+
+type PaymentDeepLinkHandlers = {
+  [key in PaymentDeepLinkHandler]: (barcode: QrCode) => Generator
+}
+
+const paymentDeepLinkHandlers: PaymentDeepLinkHandlers = {
+  '': paymentDeepLinkHandlerDefault,
+  merchant: paymentDeepLinkHandlerMerchant,
+}
+
+function* paymentDeepLinkHandlerDefault(barcode: QrCode) {
+  yield put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
+  Logger.error('A payment deep link was scanned without a set handler', barcode.data)
+}
+
+function* paymentDeepLinkHandlerMerchant(barcode: QrCode) {
+  // const numberVerified: PaymentDeepLinkHandler = yield select(numberVerifiedSelector)
+  const numberVerified = true
+  if (numberVerified) {
+    const { api_base: apiBase, reference_id: referenceId } = parse(barcode.data, true).query
+    if (typeof apiBase === 'string' && typeof referenceId === 'string') {
+      navigate(Screens.MerchantPayment, { apiBase, referenceId })
+    }
+  } else {
+    yield put(showMessage(i18n.t('merchantPaymentNumberVerificationMessage')))
+    navigate(Screens.VerificationEducationScreen)
+  }
 }

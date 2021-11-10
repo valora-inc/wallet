@@ -1139,5 +1139,8 @@
   "rewards": "Rewards",
   "supercharge": "Supercharge",
   "celoDollarAmount": "<0></0> Celo Dollar",
-  "celoDollarAmount_plural": "<0></0> Celo Dollars"
+  "celoDollarAmount_plural": "<0></0> Celo Dollars",
+  "merchantPaymentNumberVerificationMessage": "You need to connect your number",
+  "merchantPaymentSubmitFail": "Your payment failed to submit",
+  "merchantPaymentSubmitSuccess": "Your payment successfully submitted"
 }

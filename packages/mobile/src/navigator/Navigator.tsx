@@ -116,6 +116,7 @@ import WalletConnectLoading from 'src/walletConnect/screens/Loading'
 import WalletConnectResult from 'src/walletConnect/screens/Result'
 import WalletConnectSessionRequestScreen from 'src/walletConnect/screens/SessionRequest'
 import WalletConnectSessionsScreen from 'src/walletConnect/screens/Sessions'
+import MerchantPaymentScreen from 'src/merchantPayment/MerchantPaymentScreen'
 
 const TAG = 'Navigator'
 
@@ -322,6 +323,11 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.ReclaimPaymentConfirmationScreen}
       component={ReclaimPaymentConfirmationScreen}
+      options={headerWithBackButton}
+    />
+    <Navigator.Screen
+      name={Screens.MerchantPayment}
+      component={MerchantPaymentScreen}
       options={headerWithBackButton}
     />
   </>

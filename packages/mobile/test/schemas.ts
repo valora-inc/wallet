@@ -745,6 +745,7 @@ export const v23Schema = {
   app: {
     ...v22Schema.app,
     linkBankAccountEnabled: false,
+    paymentDeepLinkHandler: '',
   },
   fees: {
     estimates: {

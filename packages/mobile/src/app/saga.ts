@@ -28,6 +28,7 @@ import {
   setAppState,
   updateRemoteConfigValues,
 } from 'src/app/actions'
+import { PaymentDeepLinkHandler } from 'src/app/reducers'
 import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
@@ -172,6 +173,7 @@ export interface RemoteConfigValues {
   linkBankAccountEnabled: boolean
   sentryTracesSampleRate: number
   superchargeButtonType: SuperchargeButtonType
+  paymentDeepLinkHandler: PaymentDeepLinkHandler
 }
 
 export function* appRemoteFeatureFlagSaga() {

@@ -45,9 +45,15 @@ export interface State {
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
   linkBankAccountEnabled: boolean
+<<<<<<< HEAD
   sentryTracesSampleRate: number
   superchargeButtonType: SuperchargeButtonType
+=======
+  paymentDeepLinkHandler: PaymentDeepLinkHandler
+>>>>>>> d49ceaaa6 (Starts work for merchant payments)
 }
+
+export type PaymentDeepLinkHandler = '' | 'merchant'
 
 const initialState = {
   loading: false,
@@ -88,6 +94,7 @@ const initialState = {
   linkBankAccountEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.linkBankAccountEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   superchargeButtonType: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeButtonType,
+  paymentDeepLinkHandler: '' as PaymentDeepLinkHandler,
 }
 
 export const appReducer = (
@@ -198,8 +205,12 @@ export const appReducer = (
         multiTokenUseSendFlow: action.configValues.multiTokenUseSendFlow,
         multiTokenUseUpdatedFeed: action.configValues.multiTokenUseUpdatedFeed,
         linkBankAccountEnabled: action.configValues.linkBankAccountEnabled,
+<<<<<<< HEAD
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         superchargeButtonType: action.configValues.superchargeButtonType,
+=======
+        paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
+>>>>>>> d49ceaaa6 (Starts work for merchant payments)
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
