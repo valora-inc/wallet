@@ -44,7 +44,7 @@ import {
 } from 'src/tokens/hooks'
 import { defaultTokenSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
-import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
 const MAX_ESCROW_VALUE = new BigNumber(20)
 
@@ -172,7 +172,7 @@ function SendAmount(props: Props) {
     if (
       !feeEstimate ||
       feeEstimate.error ||
-      feeEstimate.lastUpdated < Date.now() - ONE_DAY_IN_MILLIS
+      feeEstimate.lastUpdated < Date.now() - ONE_HOUR_IN_MILLIS
     ) {
       dispatch(estimateFee({ feeType, tokenAddress: transferTokenAddress }))
     }

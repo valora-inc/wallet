@@ -44,7 +44,6 @@ export const feeEstimated = createAction<{
   estimation: FeeEstimateState
 }>('FEES/FEE_ESTIMATED')
 
-// Note that all the fees stored here are in cUSD.
 export const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(rehydrate, (state, action) => {
