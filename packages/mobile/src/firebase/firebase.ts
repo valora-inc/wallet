@@ -10,6 +10,7 @@ import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { eventChannel } from 'redux-saga'
 import { call, select, take } from 'redux-saga/effects'
+import { PaymentDeepLinkHandler } from 'src/app/reducers'
 import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
 import { FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
@@ -281,6 +282,7 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     maxNumRecentDapps: flags.maxNumRecentDapps.asNumber(),
     skipVerification: flags.skipVerification.asBoolean(),
     showPriceChangeIndicatorInBalances: flags.showPriceChangeIndicatorInBalances.asBoolean(),
+    paymentDeepLinkHandler: flags.paymentDeepLinkHandler.asString() as PaymentDeepLinkHandler,
   }
 }
 

@@ -4,6 +4,7 @@ import { AppState } from 'src/app/actions'
 import { SuperchargeButtonType } from 'src/app/types'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD } from 'src/config'
+import { PaymentDeepLinkHandler } from 'src/firebase/remoteConfigValuesDefaults'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
@@ -1035,6 +1036,18 @@ export const v38Schema = {
   },
 }
 
+export const v39Schema = {
+  ...v38Schema,
+  _persist: {
+    ...v38Schema._persist,
+    version: 38,
+  },
+  app: {
+    ...v38Schema.app,
+    paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v38Schema as Partial<RootState>
+  return v39Schema as Partial<RootState>
 }

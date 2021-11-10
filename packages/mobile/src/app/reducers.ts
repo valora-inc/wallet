@@ -54,6 +54,7 @@ export interface State {
   recentDapps: Dapp[]
   skipVerification: boolean
   showPriceChangeIndicatorInBalances: boolean
+  paymentDeepLinkHandler: PaymentDeepLinkHandler
 }
 
 const initialState = {
@@ -101,6 +102,7 @@ const initialState = {
   skipVerification: REMOTE_CONFIG_VALUES_DEFAULTS.skipVerification,
   showPriceChangeIndicatorInBalances:
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
+  paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
 }
 
 export const appReducer = (
@@ -216,6 +218,7 @@ export const appReducer = (
         maxNumRecentDapps: action.configValues.maxNumRecentDapps,
         skipVerification: action.configValues.skipVerification,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
+        paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {
