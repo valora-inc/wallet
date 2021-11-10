@@ -77,6 +77,7 @@ interface AppEventsProperties {
   [AppEvents.fetch_balance_error]: {
     dollarBalance?: string
     goldBalance?: string
+    error?: string
   }
   [AppEvents.redux_keychain_mismatch]: {
     account: string
@@ -125,6 +126,7 @@ interface HomeEventsProperties {
   }
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
+  [HomeEvents.view_token_balances]: { totalBalance: string }
 }
 
 interface SettingsEventsProperties {

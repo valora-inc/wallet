@@ -1,4 +1,4 @@
-import { DAYS_TO_BACKUP } from 'src/backup/utils'
+import { DAYS_TO_BACKUP } from 'src/backup/consts'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -29,3 +29,5 @@ const accountKeyScreens: string[] = [
 export const doingBackupFlowSelector = (state: RootState) => {
   return accountKeyScreens.indexOf(state.app.activeScreen) >= 0
 }
+
+export const backupCompletedSelector = (state: RootState) => state.account.backupCompleted

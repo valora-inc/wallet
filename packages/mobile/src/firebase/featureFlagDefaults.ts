@@ -28,4 +28,7 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   rewardPillText: JSON.stringify({ en: 'Earn', pt: 'Ganhar', es: 'Gana' }),
   cashInButtonExpEnabled: false,
   logPhoneNumberTypeEnabled: false,
+  multiTokenShowHomeBalances: false,
+  multiTokenUseSendFlow: false,
+  multiTokenUseUpdatedFeed: false,
 }

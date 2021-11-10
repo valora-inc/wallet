@@ -35,12 +35,12 @@ import { getFeeInTokens } from 'src/fees/selectors'
 import i18n, { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { fetchDataEncryptionKey } from 'src/identity/actions'
+import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
 import {
   addressToDataEncryptionKeySelector,
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
-} from 'src/identity/reducer'
-import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
+} from 'src/identity/selectors'
 import InviteAndSendModal from 'src/invite/InviteAndSendModal'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
@@ -131,7 +131,8 @@ function SendConfirmationLegacy(props: Props) {
   )
   const account = useSelector(currentAccountSelector)
   const isSending = useSelector(isSendingSelector)
-  const balance = useBalance(currency)
+  // Only load the balance once to prevent race conditions with transactions updating balance
+  const [balance] = useState(useBalance(currency))
   const celoBalance = useBalance(Currency.Celo)
   const appConnected = useSelector(isAppConnected)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false

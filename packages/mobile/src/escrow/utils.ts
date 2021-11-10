@@ -2,7 +2,7 @@ import { ensureLeading0x } from '@celo/base'
 import { generateDeterministicInviteCode } from '@celo/utils/lib/account'
 import { publicKeyToAddress } from '@celo/utils/lib/address'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { identifierToE164NumberSelector } from 'src/identity/reducer'
+import { identifierToE164NumberSelector } from 'src/identity/selectors'
 import { ContactRecipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 

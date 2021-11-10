@@ -36,12 +36,12 @@ import { waitForNextBlock } from 'src/geth/saga'
 import i18n from 'src/i18n'
 import { Actions as IdentityActions, SetVerificationStatusAction } from 'src/identity/actions'
 import { getUserSelfPhoneHashDetails } from 'src/identity/privateHashing'
-import { identifierToE164NumberSelector } from 'src/identity/reducer'
+import { identifierToE164NumberSelector } from 'src/identity/selectors'
 import { VerificationStatus } from 'src/identity/types'
 import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { fetchStableBalances } from 'src/stableToken/actions'
-import { TokenBalance } from 'src/tokens/reducer'
+import { fetchTokenBalances, TokenBalance } from 'src/tokens/reducer'
 import {
   getCurrencyAddress,
   getERC20TokenContract,
@@ -324,6 +324,7 @@ function* withdrawFromEscrow(komenciActive: boolean = false) {
     }
 
     yield put(fetchStableBalances())
+    yield put(fetchTokenBalances())
     Logger.showMessage(i18n.t('inviteFlow11:transferDollarsToAccount'))
     ValoraAnalytics.track(OnboardingEvents.escrow_redeem_complete)
   } catch (e) {

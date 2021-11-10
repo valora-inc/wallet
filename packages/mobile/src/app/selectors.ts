@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { e164NumberSelector } from 'src/account/selectors'
 import { hasExceededKomenciErrorQuota } from 'src/identity/feelessVerificationErrors'
-import { e164NumberToSaltSelector } from 'src/identity/reducer'
+import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { RootState } from 'src/redux/reducers'
 import {
   isBalanceSufficientForSigRetrievalSelector,
@@ -100,3 +100,9 @@ export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
   state.app.huaweiMobileServicesAvailable
 
 export const rewardPillTextSelector = (state: RootState) => state.app.rewardPillText
+
+export const multiTokenShowHomeBalancesSelector = (state: RootState) =>
+  state.app.multiTokenShowHomeBalances
+export const multiTokenUseSendFlowSelector = (state: RootState) => state.app.multiTokenUseSendFlow
+export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
+  state.app.multiTokenUseUpdatedFeed

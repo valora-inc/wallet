@@ -789,11 +789,35 @@ export const v19Schema = {
         usdPrice: '5',
         balance: '0',
       },
+      '0x17700282592D6917F6A73D0bF8AcCf4D578c131e': {
+        name: 'Moola',
+        address: '0x17700282592D6917F6A73D0bF8AcCf4D578c131e',
+        symbol: 'MOO',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '4',
+        balance: '0',
+      },
     },
-    totalBalance: '40',
+    loading: false,
+    error: false,
+  },
+}
+
+export const v20Schema = {
+  ...v19Schema,
+  _persist: {
+    ...v19Schema._persist,
+    version: 20,
+  },
+  app: {
+    ...v19Schema.app,
+    multiTokenShowHomeBalances: false,
+    multiTokenUseSendFlow: false,
+    multiTokenUseUpdatedFeed: false,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v19Schema as Partial<RootState>
+  return v20Schema as Partial<RootState>
 }
