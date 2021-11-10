@@ -47,7 +47,7 @@ interface StateProps {
   numberVerified: boolean
   cashInButtonExpEnabled: boolean
   balances: Balances
-  showTokensinHome: boolean
+  showTokensInHome: boolean
 }
 
 interface DispatchProps {
@@ -74,7 +74,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   numberVerified: state.app.numberVerified,
   cashInButtonExpEnabled: state.app.cashInButtonExpEnabled,
   balances: balancesSelector(state),
-  showTokensinHome: multiTokenShowHomeBalancesSelector(state),
+  showTokensInHome: multiTokenShowHomeBalancesSelector(state),
 })
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
@@ -177,7 +177,7 @@ export class WalletHome extends React.Component<Props, State> {
       renderItem: () => <NotificationBox key={'NotificationBox'} />,
     })
 
-    if (this.props.showTokensinHome) {
+    if (this.props.showTokensInHome) {
       sections.push({
         data: [{}],
         renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
