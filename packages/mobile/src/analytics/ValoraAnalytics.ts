@@ -8,6 +8,7 @@ import DeviceInfo from 'react-native-device-info'
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 import { AppEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
+import { getCurrentUserTraits } from 'src/analytics/selectors'
 import { DEFAULT_TESTNET, FIREBASE_ENABLED, isE2EEnv, SEGMENT_API_KEY } from 'src/config'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
@@ -61,10 +62,8 @@ const SEGMENT_OPTIONS: analytics.Configuration = {
 
 class ValoraAnalytics {
   sessionId: string = ''
-  userAddress: string = ''
   deviceInfo: object = {}
 
-  private traits: Record<string, any> = {}
   private currentScreenId: string | undefined
   private prevScreenId: string | undefined
 
@@ -115,16 +114,6 @@ class ValoraAnalytics {
     return this.sessionId
   }
 
-  setUserAddress(address?: string | null) {
-    if (address) {
-      this.userAddress = address.toLowerCase()
-    } else if (address === null) {
-      this.userAddress = 'unverified'
-    } else {
-      this.userAddress = 'unknown'
-    }
-  }
-
   track<EventName extends keyof AnalyticsPropertiesList>(
     ...args: undefined extends AnalyticsPropertiesList[EventName]
       ? [EventName] | [EventName, AnalyticsPropertiesList[EventName]]
@@ -154,7 +143,7 @@ class ValoraAnalytics {
     })
   }
 
-  identify(userID: string, traits: {}) {
+  identify(userID: string | null, traits: {}) {
     if (!this.isEnabled()) {
       Logger.debug(TAG, `Analytics is disabled, not tracking user ${userID}`)
       return
@@ -165,7 +154,10 @@ class ValoraAnalytics {
       return
     }
 
-    this.traits = traits
+    // Only identify user if userID (walletAddress) is set
+    if (!userID) {
+      return
+    }
 
     Analytics.identify(userID, traits).catch((err) => {
       Logger.error(TAG, `Failed to identify user ${userID}`, err)
@@ -194,7 +186,6 @@ class ValoraAnalytics {
 
   async reset() {
     try {
-      this.traits = {}
       await Analytics.flush()
       await Analytics.reset()
     } catch (error) {
@@ -236,7 +227,7 @@ class ValoraAnalytics {
   // Super props, i.e. props sent with all events
   private getSuperProps() {
     // Leave out name
-    const { name, ...otherTraits } = this.traits
+    const { name, ...otherTraits } = getCurrentUserTraits(store.getState())
     // Prefix super props with `s` so they don't clash with events props
     const prefixedSuperProps = Object.fromEntries(
       Object.entries({
@@ -250,7 +241,7 @@ class ValoraAnalytics {
       // Legacy super props
       timestamp: Date.now(),
       sessionId: this.sessionId,
-      userAddress: this.userAddress,
+      userAddress: otherTraits.walletAddress,
       celoNetwork: DEFAULT_TESTNET,
       // Prefixed super props
       ...prefixedSuperProps,

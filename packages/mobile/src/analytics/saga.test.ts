@@ -35,13 +35,7 @@ describe(updateUserTraits, () => {
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .silentRun()
 
-    expect(ValoraAnalytics.setUserAddress).toHaveBeenCalledTimes(3)
-    expect(ValoraAnalytics.setUserAddress).toHaveBeenNthCalledWith(1, '0xABC')
-    expect(ValoraAnalytics.setUserAddress).toHaveBeenNthCalledWith(2, '0xABC')
-    expect(ValoraAnalytics.setUserAddress).toHaveBeenNthCalledWith(3, null)
-
-    // Note: identify is not called when the wallet address is null, unlike setUserAddress
-    expect(ValoraAnalytics.identify).toHaveBeenCalledTimes(2)
+    expect(ValoraAnalytics.identify).toHaveBeenCalledTimes(3)
     expect(ValoraAnalytics.identify).toHaveBeenNthCalledWith(1, '0xABC', {
       walletAddress: '0xABC',
       someUserProp: 'testValue',
@@ -49,6 +43,10 @@ describe(updateUserTraits, () => {
     expect(ValoraAnalytics.identify).toHaveBeenNthCalledWith(2, '0xABC', {
       walletAddress: '0xABC',
       someUserProp: 'changed',
+    })
+    expect(ValoraAnalytics.identify).toHaveBeenNthCalledWith(3, null, {
+      walletAddress: null,
+      someUserProp: 'changed2',
     })
   })
 })

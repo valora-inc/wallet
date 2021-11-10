@@ -1,7 +1,7 @@
 import Analytics from '@segment/analytics-react-native'
 import { HomeEvents } from 'src/analytics/Events'
-import { getCurrentUserTraits } from 'src/analytics/selectors'
 import ValoraAnalyticsModule from 'src/analytics/ValoraAnalytics'
+import { store } from 'src/redux/store'
 import { getMockStoreData } from 'test/utils'
 import { mocked } from 'ts-jest/utils'
 
@@ -19,10 +19,15 @@ jest.mock('@segment/analytics-react-native-clevertap', () => ({}))
 jest.mock('@segment/analytics-react-native-firebase', () => ({}))
 jest.mock('react-native-permissions', () => ({}))
 jest.mock('@sentry/react-native', () => ({ init: jest.fn() }))
+jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 
 Date.now = jest.fn(() => 1482363367071)
 
 const mockedAnalytics = mocked(Analytics)
+
+const mockStore = mocked(store)
+const state = getMockStoreData()
+mockStore.getState.mockImplementation(() => state)
 
 // Disable __DEV__ so analytics is enabled
 // @ts-ignore
@@ -59,61 +64,44 @@ describe('ValoraAnalytics', () => {
 
     await ValoraAnalytics.init()
     // Now that init has finished track should have been called
-    expect(mockedAnalytics.track).toHaveBeenCalledWith('drawer_navigation', {
-      navigateTo: 'somewhere',
-      celoNetwork: 'alfajores',
-      sessionId: '',
-      timestamp: 1482363367071,
-      userAddress: '',
-    })
+    expect(mockedAnalytics.track.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "drawer_navigation",
+          Object {
+            "celoNetwork": "alfajores",
+            "navigateTo": "somewhere",
+            "sAccountAddress": "0x0000000000000000000000000000000000007E57",
+            "sAppBuildNumber": "1",
+            "sAppBundleId": "org.celo.mobile.debug",
+            "sAppVersion": "0.0.1",
+            "sCeloBalance": "0",
+            "sCeurBalance": "20",
+            "sCountryCodeAlpha2": "US",
+            "sCurrentScreenId": undefined,
+            "sCusdBalance": "10",
+            "sDeviceId": "unknown",
+            "sHasCompletedBackup": false,
+            "sHasVerifiedNumber": false,
+            "sLanguage": "es-419",
+            "sLocalCurrencyCode": "MXN",
+            "sOtherTenTokens": "MOO:0",
+            "sPhoneCountryCallingCode": "+1",
+            "sPhoneCountryCodeAlpha2": "US",
+            "sPrevScreenId": undefined,
+            "sTokenCount": 4,
+            "sTotalBalanceUsd": "45.22",
+            "sWalletAddress": "0x0000000000000000000000000000000000007e57",
+            "sessionId": "",
+            "timestamp": 1482363367071,
+            "userAddress": "0x0000000000000000000000000000000000007e57",
+          },
+        ],
+      ]
+    `)
 
     // And now test that track calls go trough directly
     mockedAnalytics.track.mockClear()
-    ValoraAnalytics.track(HomeEvents.drawer_navigation, { navigateTo: 'somewhere else' })
-    expect(mockedAnalytics.track).toHaveBeenCalledWith('drawer_navigation', {
-      navigateTo: 'somewhere else',
-      celoNetwork: 'alfajores',
-      sessionId: '',
-      timestamp: 1482363367071,
-      userAddress: '',
-    })
-  })
-
-  it('delays screen calls until async init has finished', async () => {
-    ValoraAnalytics.page('Some Page', { someProp: 'testValue' })
-    expect(mockedAnalytics.screen).not.toHaveBeenCalled()
-
-    await ValoraAnalytics.init()
-    // Now that init has finished identify should have been called
-    expect(mockedAnalytics.screen).toHaveBeenCalledWith('Some Page', {
-      someProp: 'testValue',
-      celoNetwork: 'alfajores',
-      sCurrentScreenId: 'Some Page',
-      sPrevScreenId: undefined,
-      sessionId: '',
-      timestamp: 1482363367071,
-      userAddress: '',
-    })
-
-    // And now test that page calls go trough directly
-    mockedAnalytics.screen.mockClear()
-    ValoraAnalytics.page('Some Page2', { someProp: 'testValue2' })
-    expect(mockedAnalytics.screen).toHaveBeenCalledWith('Some Page2', {
-      someProp: 'testValue2',
-      celoNetwork: 'alfajores',
-      sCurrentScreenId: 'Some Page2',
-      sPrevScreenId: 'Some Page',
-      sessionId: '',
-      timestamp: 1482363367071,
-      userAddress: '',
-    })
-  })
-
-  it('adds super properties to all tracked events', async () => {
-    await ValoraAnalytics.init()
-    const state = getMockStoreData()
-    const traits = getCurrentUserTraits(state)
-    ValoraAnalytics.identify('0xUSER', traits)
     ValoraAnalytics.track(HomeEvents.drawer_navigation, { navigateTo: 'somewhere else' })
     expect(mockedAnalytics.track.mock.calls).toMatchInlineSnapshot(`
       Array [
@@ -145,7 +133,129 @@ describe('ValoraAnalytics', () => {
             "sWalletAddress": "0x0000000000000000000000000000000000007e57",
             "sessionId": "",
             "timestamp": 1482363367071,
-            "userAddress": "",
+            "userAddress": "0x0000000000000000000000000000000000007e57",
+          },
+        ],
+      ]
+    `)
+  })
+
+  it('delays screen calls until async init has finished', async () => {
+    ValoraAnalytics.page('Some Page', { someProp: 'testValue' })
+    expect(mockedAnalytics.screen).not.toHaveBeenCalled()
+
+    await ValoraAnalytics.init()
+    // Now that init has finished identify should have been called
+    expect(mockedAnalytics.screen.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "Some Page",
+          Object {
+            "celoNetwork": "alfajores",
+            "sAccountAddress": "0x0000000000000000000000000000000000007E57",
+            "sAppBuildNumber": "1",
+            "sAppBundleId": "org.celo.mobile.debug",
+            "sAppVersion": "0.0.1",
+            "sCeloBalance": "0",
+            "sCeurBalance": "20",
+            "sCountryCodeAlpha2": "US",
+            "sCurrentScreenId": "Some Page",
+            "sCusdBalance": "10",
+            "sDeviceId": "unknown",
+            "sHasCompletedBackup": false,
+            "sHasVerifiedNumber": false,
+            "sLanguage": "es-419",
+            "sLocalCurrencyCode": "MXN",
+            "sOtherTenTokens": "MOO:0",
+            "sPhoneCountryCallingCode": "+1",
+            "sPhoneCountryCodeAlpha2": "US",
+            "sPrevScreenId": undefined,
+            "sTokenCount": 4,
+            "sTotalBalanceUsd": "45.22",
+            "sWalletAddress": "0x0000000000000000000000000000000000007e57",
+            "sessionId": "",
+            "someProp": "testValue",
+            "timestamp": 1482363367071,
+            "userAddress": "0x0000000000000000000000000000000000007e57",
+          },
+        ],
+      ]
+    `)
+
+    // And now test that page calls go trough directly
+    mockedAnalytics.screen.mockClear()
+    ValoraAnalytics.page('Some Page2', { someProp: 'testValue2' })
+    expect(mockedAnalytics.screen.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "Some Page2",
+          Object {
+            "celoNetwork": "alfajores",
+            "sAccountAddress": "0x0000000000000000000000000000000000007E57",
+            "sAppBuildNumber": "1",
+            "sAppBundleId": "org.celo.mobile.debug",
+            "sAppVersion": "0.0.1",
+            "sCeloBalance": "0",
+            "sCeurBalance": "20",
+            "sCountryCodeAlpha2": "US",
+            "sCurrentScreenId": "Some Page2",
+            "sCusdBalance": "10",
+            "sDeviceId": "unknown",
+            "sHasCompletedBackup": false,
+            "sHasVerifiedNumber": false,
+            "sLanguage": "es-419",
+            "sLocalCurrencyCode": "MXN",
+            "sOtherTenTokens": "MOO:0",
+            "sPhoneCountryCallingCode": "+1",
+            "sPhoneCountryCodeAlpha2": "US",
+            "sPrevScreenId": "Some Page",
+            "sTokenCount": 4,
+            "sTotalBalanceUsd": "45.22",
+            "sWalletAddress": "0x0000000000000000000000000000000000007e57",
+            "sessionId": "",
+            "someProp": "testValue2",
+            "timestamp": 1482363367071,
+            "userAddress": "0x0000000000000000000000000000000000007e57",
+          },
+        ],
+      ]
+    `)
+  })
+
+  it('adds super properties to all tracked events', async () => {
+    await ValoraAnalytics.init()
+    ValoraAnalytics.track(HomeEvents.drawer_navigation, { navigateTo: 'somewhere else' })
+    expect(mockedAnalytics.track.mock.calls).toMatchInlineSnapshot(`
+      Array [
+        Array [
+          "drawer_navigation",
+          Object {
+            "celoNetwork": "alfajores",
+            "navigateTo": "somewhere else",
+            "sAccountAddress": "0x0000000000000000000000000000000000007E57",
+            "sAppBuildNumber": "1",
+            "sAppBundleId": "org.celo.mobile.debug",
+            "sAppVersion": "0.0.1",
+            "sCeloBalance": "0",
+            "sCeurBalance": "20",
+            "sCountryCodeAlpha2": "US",
+            "sCurrentScreenId": undefined,
+            "sCusdBalance": "10",
+            "sDeviceId": "unknown",
+            "sHasCompletedBackup": false,
+            "sHasVerifiedNumber": false,
+            "sLanguage": "es-419",
+            "sLocalCurrencyCode": "MXN",
+            "sOtherTenTokens": "MOO:0",
+            "sPhoneCountryCallingCode": "+1",
+            "sPhoneCountryCodeAlpha2": "US",
+            "sPrevScreenId": undefined,
+            "sTokenCount": 4,
+            "sTotalBalanceUsd": "45.22",
+            "sWalletAddress": "0x0000000000000000000000000000000000007e57",
+            "sessionId": "",
+            "timestamp": 1482363367071,
+            "userAddress": "0x0000000000000000000000000000000000007e57",
           },
         ],
       ]
@@ -154,41 +264,40 @@ describe('ValoraAnalytics', () => {
 
   it('adds super properties to all screen events', async () => {
     await ValoraAnalytics.init()
-    const state = getMockStoreData()
-    const traits = getCurrentUserTraits(state)
-    ValoraAnalytics.identify('0xUSER', traits)
     ValoraAnalytics.page('ScreenA', { someProp: 'someValue' })
-    expect(mockedAnalytics.screen.mock.calls[0]).toMatchInlineSnapshot(`
+    expect(mockedAnalytics.screen.mock.calls).toMatchInlineSnapshot(`
       Array [
-        "ScreenA",
-        Object {
-          "celoNetwork": "alfajores",
-          "sAccountAddress": "0x0000000000000000000000000000000000007E57",
-          "sAppBuildNumber": "1",
-          "sAppBundleId": "org.celo.mobile.debug",
-          "sAppVersion": "0.0.1",
-          "sCeloBalance": "0",
-          "sCeurBalance": "20",
-          "sCountryCodeAlpha2": "US",
-          "sCurrentScreenId": "ScreenA",
-          "sCusdBalance": "10",
-          "sDeviceId": "unknown",
-          "sHasCompletedBackup": false,
-          "sHasVerifiedNumber": false,
-          "sLanguage": "es-419",
-          "sLocalCurrencyCode": "MXN",
-          "sOtherTenTokens": "MOO:0",
-          "sPhoneCountryCallingCode": "+1",
-          "sPhoneCountryCodeAlpha2": "US",
-          "sPrevScreenId": undefined,
-          "sTokenCount": 4,
-          "sTotalBalanceUsd": "45.22",
-          "sWalletAddress": "0x0000000000000000000000000000000000007e57",
-          "sessionId": "",
-          "someProp": "someValue",
-          "timestamp": 1482363367071,
-          "userAddress": "",
-        },
+        Array [
+          "ScreenA",
+          Object {
+            "celoNetwork": "alfajores",
+            "sAccountAddress": "0x0000000000000000000000000000000000007E57",
+            "sAppBuildNumber": "1",
+            "sAppBundleId": "org.celo.mobile.debug",
+            "sAppVersion": "0.0.1",
+            "sCeloBalance": "0",
+            "sCeurBalance": "20",
+            "sCountryCodeAlpha2": "US",
+            "sCurrentScreenId": "ScreenA",
+            "sCusdBalance": "10",
+            "sDeviceId": "unknown",
+            "sHasCompletedBackup": false,
+            "sHasVerifiedNumber": false,
+            "sLanguage": "es-419",
+            "sLocalCurrencyCode": "MXN",
+            "sOtherTenTokens": "MOO:0",
+            "sPhoneCountryCallingCode": "+1",
+            "sPhoneCountryCodeAlpha2": "US",
+            "sPrevScreenId": undefined,
+            "sTokenCount": 4,
+            "sTotalBalanceUsd": "45.22",
+            "sWalletAddress": "0x0000000000000000000000000000000000007e57",
+            "sessionId": "",
+            "someProp": "someValue",
+            "timestamp": 1482363367071,
+            "userAddress": "0x0000000000000000000000000000000000007e57",
+          },
+        ],
       ]
     `)
   })
