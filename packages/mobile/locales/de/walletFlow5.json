@@ -128,11 +128,11 @@
     "addFunds": "Guthaben hinzufügen"
   },
   "balances": "Saldo",
-  "totalValue": "Total Value",
-  "viewBalances": "View Balances",
+  "totalValue": "Gesamtwert",
+  "viewBalances": "Salden ansehen",
   "whatTotalValue": {
-    "title": "What does Total Value mean?",
-    "body": "Your Total Value is an approximate sum of all your Valora assets. Total Value will change as prices fluctuate. It is updated every 10 minutes. \n\nSome tokens may not be shown in the Total Value because the price is unavailable at the time of calculation.",
+    "title": "Was bedeutet Gesamtwert?",
+    "body": "Dein Gesamtwert ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtwert ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Token können möglicherweise nicht im Gesamtwert angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
     "dismiss": "Verwerfen"
   }
 }
