@@ -23,6 +23,7 @@ import {
 } from 'src/config'
 import { refreshAllBalances, setLoading } from 'src/home/actions'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
+import HomeTokenBalance from 'src/home/HomeTokenBalance'
 import NotificationBox from 'src/home/NotificationBox'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
 import { Namespaces, withTranslation } from 'src/i18n'
@@ -189,6 +190,11 @@ export class WalletHome extends React.Component<Props, State> {
     sections.push({
       data: [{}],
       renderItem: () => <NotificationBox key={'NotificationBox'} />,
+    })
+
+    sections.push({
+      data: [{}],
+      renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
     })
 
     sections.push({

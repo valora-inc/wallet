@@ -335,6 +335,17 @@ export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: stri
   return amount.multipliedBy(decimalFactor).toFixed(0)
 }
 
+export function* tokenAmountInWei(amount: BigNumber, tokenAddress: string) {
+  const tokens: TokenBalance[] = yield select(tokensListSelector)
+  const tokenInfo = tokens.find((token) => token.address === tokenAddress)
+  if (!tokenInfo) {
+    throw Error(`Couldnt find token info for address ${tokenAddress}.`)
+  }
+
+  const decimalFactor = new BigNumber(10).pow(tokenInfo.decimals)
+  return amount.multipliedBy(decimalFactor).toFixed(0)
+}
+
 export function* watchFetchBalance() {
   yield takeEvery(fetchTokenBalances.type, importTokenInfo)
 }

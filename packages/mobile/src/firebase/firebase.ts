@@ -243,7 +243,7 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
   await remoteConfig().setDefaults(FEATURE_FLAG_DEFAULTS)
   // Cache values for 1 hour. The default is 12 hours.
   // https://rnfirebase.io/remote-config/usage
-  await remoteConfig().setConfigSettings({ minimumFetchIntervalMillis: 60 * 60 * 1000 })
+  await remoteConfig().setConfigSettings({ minimumFetchIntervalMillis: 0 })
   const fetchedRemotely = await remoteConfig().fetchAndActivate()
 
   if (fetchedRemotely) {
@@ -281,6 +281,9 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       rewardPillText: flags.rewardPillText.asString(),
       cashInButtonExpEnabled: flags.cashInButtonExpEnabled.asBoolean(),
       logPhoneNumberTypeEnabled: flags.logPhoneNumberTypeEnabled.asBoolean(),
+      multiTokenShowHomeBalances: flags.multiTokenShowHomeBalances.asBoolean(),
+      multiTokenUseSendFlow: flags.multiTokenUseSendFlow.asBoolean(),
+      multiTokenUseUpdatedFeed: flags.multiTokenUseUpdatedFeed.asBoolean(),
     }
   } else {
     Logger.debug('No new configs were fetched from the backend.')
