@@ -69,11 +69,7 @@ function TokenBalancesScreen({ navigation }: Props) {
     )
   }
 
-  return (
-    <ScrollView style={styles.scrollContainer}>
-      {tokens.map((token) => getTokenDisplay(token))}
-    </ScrollView>
-  )
+  return <ScrollView style={styles.scrollContainer}>{tokens.map(getTokenDisplay)}</ScrollView>
 }
 
 TokenBalancesScreen.navigationOptions = {
