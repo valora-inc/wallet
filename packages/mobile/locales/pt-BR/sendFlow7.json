@@ -78,7 +78,7 @@
   "estimatedFee": "Taxa estimada: ",
   "selectBalance": "Selecionar Saldo",
   "stableBalance": "Saldo de {{token}}",
-  "selectToken": "Selecionar ativo",
+  "selectToken": "Selecionar token",
   "verificationCta": {
     "header": "Enviando para um amigo?",
     "body": "Conecte seu celular e sincronize seus contatos para enviar fundos para seus amigos.",
