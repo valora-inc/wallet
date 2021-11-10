@@ -1,6 +1,7 @@
 import { stringToBoolean } from '@celo/utils/lib/parsing'
 import BigNumber from 'bignumber.js'
 import Config from 'react-native-config'
+import { DocumentDirectoryPath } from 'react-native-fs'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { SpendMerchant } from 'src/fiatExchanges/Spend'
 import { GethSyncMode } from 'src/geth/consts'
@@ -157,6 +158,7 @@ export const CASH_IN_FAILURE_DEEPLINK = 'celo://wallet/cash-in-failure'
 export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 export const CROWDIN_DISTRIBUTION_HASH = Config.CROWDIN_DISTRIBUTION_HASH
+export const OTA_TRANSLATIONS_FILE = `file://${DocumentDirectoryPath}/translations`
 
 export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
 

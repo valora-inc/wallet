@@ -7,7 +7,7 @@ import {
   withTranslation as withTranslationI18Next,
 } from 'react-i18next'
 import * as RNFS from 'react-native-fs'
-import { APP_NAME, DEFAULT_APP_LANGUAGE, TOS_LINK } from 'src/config'
+import { APP_NAME, DEFAULT_APP_LANGUAGE, OTA_TRANSLATIONS_FILE, TOS_LINK } from 'src/config'
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
@@ -34,8 +34,8 @@ export enum Namespaces {
 
 async function getAvailableResources() {
   let cachedTranslations = ''
-  if (await RNFS.exists(`file://${RNFS.DocumentDirectoryPath}/translations`)) {
-    cachedTranslations = await RNFS.readFile(`file://${RNFS.DocumentDirectoryPath}/translations`)
+  if (await RNFS.exists(OTA_TRANSLATIONS_FILE)) {
+    cachedTranslations = await RNFS.readFile(OTA_TRANSLATIONS_FILE)
   }
 
   const resources: Resource = {}

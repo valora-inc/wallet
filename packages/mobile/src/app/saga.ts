@@ -40,7 +40,7 @@ import {
   otaTranslationsLastUpdateSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
-import { CROWDIN_DISTRIBUTION_HASH } from 'src/config'
+import { CROWDIN_DISTRIBUTION_HASH, OTA_TRANSLATIONS_FILE } from 'src/config'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { appVersionDeprecationChannel, fetchRemoteFeatureFlags } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
@@ -96,11 +96,8 @@ function* otaTranslationsSaga() {
       const translations = yield otaClient.getStringsByLocale(undefined, language)
       i18n.addResources(locale, 'global', translations)
 
-      yield RNFS.unlink(`file://${RNFS.DocumentDirectoryPath}/translations`)
-      yield RNFS.writeFile(
-        `file://${RNFS.DocumentDirectoryPath}/translations`,
-        JSON.stringify(translations)
-      )
+      yield RNFS.unlink(OTA_TRANSLATIONS_FILE)
+      yield RNFS.writeFile(OTA_TRANSLATIONS_FILE, JSON.stringify(translations))
       yield put(setOtaTranslationsLastUpdate(timestamp))
     }
   } catch (error) {
