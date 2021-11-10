@@ -131,8 +131,8 @@
   "totalValue": "Valor total",
   "viewBalances": "Ver saldos",
   "whatTotalValue": {
-    "title": "¿Qué significa Valor total?",
-    "body": "Tu Valor Total es una suma aproximada de todos tus activos de Valora. El Valor Total cambiará según las fluctuaciones de los precios. Se actualiza cada 10 minutos. \n\nAlgunas fichas pueden no aparecer en el Valor Total porque el precio no está disponible en el momento del cálculo.",
+    "title": "¿Qué es el valor total?",
+    "body": "Tu Valor total es la suma aproximada de todos tus activos en Valora. El Valor total cambia según las fluctuaciones de precio de los activos, y se actualiza cada 10 minutos. \n\nEs posible que algunos activos no se reflejen en el Valor total si su precio no está disponible al realizar el cálculo.",
     "dismiss": "Descartar"
   }
 }
