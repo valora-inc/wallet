@@ -8,7 +8,7 @@ import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { setTokenBalances, StoredTokenBalances, tokenBalanceFetchError } from 'src/tokens/reducer'
 import {
   fetchTokenBalancesForAddress,
-  importTokenInfo,
+  fetchTokenBalancesSaga,
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -65,9 +65,9 @@ const fetchBalancesResponse = [
   // cEUR intentionally missing
 ]
 
-describe(importTokenInfo, () => {
+describe(fetchTokenBalancesSaga, () => {
   it('get token info successfully', async () => {
-    await expectSaga(importTokenInfo)
+    await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
         [select(walletAddressSelector), mockAccount],
@@ -78,7 +78,7 @@ describe(importTokenInfo, () => {
   })
 
   it("fires an event if there's an error", async () => {
-    await expectSaga(importTokenInfo)
+    await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
         [select(walletAddressSelector), mockAccount],
