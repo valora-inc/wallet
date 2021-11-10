@@ -78,7 +78,7 @@
   "estimatedFee": "Tarifa estimada: ",
   "selectBalance": "Seleccionar saldo",
   "stableBalance": "Saldo en {{token}}",
-  "selectToken": "Seleccionar activo",
+  "selectToken": "Seleccionar token",
   "verificationCta": {
     "header": "¿Quieres enviar saldo a un amigo?",
     "body": "Conecta tu número de teléfono y sincroniza tus contactos para enviar dinero rápidamente a tus amigos.",
