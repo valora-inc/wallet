@@ -29,3 +29,5 @@ const accountKeyScreens: string[] = [
 export const doingBackupFlowSelector = (state: RootState) => {
   return accountKeyScreens.indexOf(state.app.activeScreen) >= 0
 }
+
+export const backupCompletedSelector = (state: RootState) => state.account.backupCompleted
