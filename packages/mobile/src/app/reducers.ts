@@ -53,6 +53,7 @@ export interface State {
   maxNumRecentDapps: number
   recentDapps: Dapp[]
   showPriceChangeIndicatorInBalances: boolean
+  paymentDeepLinkHandler: PaymentDeepLinkHandler
 }
 
 const initialState = {
@@ -99,6 +100,7 @@ const initialState = {
   recentDapps: [],
   showPriceChangeIndicatorInBalances:
     REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
+  paymentDeepLinkHandler: REMOTE_CONFIG_VALUES_DEFAULTS.paymentDeepLinkHandler,
 }
 
 export const appReducer = (
@@ -213,6 +215,7 @@ export const appReducer = (
         superchargeButtonType: action.configValues.superchargeButtonType,
         maxNumRecentDapps: action.configValues.maxNumRecentDapps,
         showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
+        paymentDeepLinkHandler: action.configValues.paymentDeepLinkHandler,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

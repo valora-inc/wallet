@@ -1,5 +1,6 @@
 import { RemoteConfigValues } from 'src/app/saga'
 import { SuperchargeButtonType } from 'src/app/types'
+import { PaymentDeepLinkHandler } from 'src/firebase/remoteConfigValuesDefaults'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
@@ -51,4 +52,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargeButtonType: SuperchargeButtonType.PillRewards,
   maxNumRecentDapps: 4,
   showPriceChangeIndicatorInBalances: false,
+  paymentDeepLinkHandler: PaymentDeepLinkHandler.Disabled,
 }
