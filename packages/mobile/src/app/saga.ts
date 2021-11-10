@@ -60,6 +60,7 @@ import {
 import { parse } from 'url'
 
 const TAG = 'app/saga'
+const otaClient = new OtaClient(CROWDIN_DISTRIBUTION_HASH)
 
 // There are cases, when user will put the app into `background` state,
 // but we do not want to lock it immeditely. Here are some examples:
@@ -77,29 +78,28 @@ export function* appInit() {
     return
   }
 
-  yield spawn(otaTranslationsSaga)
+  const lastFetchTime = yield select(otaTranslationsLastUpdateSelector)
+  const timestamp = yield otaClient.getManifestTimestamp()
+  if (lastFetchTime < timestamp) {
+    yield spawn(otaTranslationsSaga)
+  }
 }
 
 function* otaTranslationsSaga() {
-  const otaClient = new OtaClient(CROWDIN_DISTRIBUTION_HASH)
-
-  const lastFetchTime = yield select(otaTranslationsLastUpdateSelector)
   try {
     const timestamp = yield otaClient.getManifestTimestamp()
 
-    if (lastFetchTime < timestamp) {
-      const languageMappings = yield otaClient.getLanguageMappings()
-      const locale = yield select(currentLanguageSelector)
-      // otaClient expects language value like "es", while the locale value is like "es-419"
-      const language = _.findKey(languageMappings, { locale })
+    const languageMappings = yield otaClient.getLanguageMappings()
+    const locale = yield select(currentLanguageSelector)
+    // otaClient expects language value like "es", while the locale value is like "es-419"
+    const language = _.findKey(languageMappings, { locale })
 
-      const translations = yield otaClient.getStringsByLocale(undefined, language)
-      i18n.addResources(locale, 'global', translations)
+    const translations = yield otaClient.getStringsByLocale(undefined, language)
+    i18n.addResources(locale, 'global', translations)
 
-      yield RNFS.unlink(OTA_TRANSLATIONS_FILE)
-      yield RNFS.writeFile(OTA_TRANSLATIONS_FILE, JSON.stringify(translations))
-      yield put(setOtaTranslationsLastUpdate(timestamp))
-    }
+    yield RNFS.unlink(OTA_TRANSLATIONS_FILE)
+    yield RNFS.writeFile(OTA_TRANSLATIONS_FILE, JSON.stringify(translations))
+    yield put(setOtaTranslationsLastUpdate(timestamp))
   } catch (error) {
     Logger.error(`${TAG}@otaTranslationsSaga`, error)
   }
