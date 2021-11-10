@@ -214,7 +214,6 @@
     "eslint-plugin-react-native": "^3.11.0",
     "faker": "^5.5.3",
     "jest-fetch-mock": "^3.0.3",
-    "keccak256": "^1.0.3",
     "metro-react-native-babel-preset": "^0.59.0",
     "mocha": "^7.1.1",
     "patch-package": "^5.1.1",
