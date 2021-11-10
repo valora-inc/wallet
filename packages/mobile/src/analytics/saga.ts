@@ -8,13 +8,7 @@ export function* updateUserTraits() {
     const traits: ReturnType<typeof getCurrentUserTraits> = yield select(getCurrentUserTraits)
     if (traits !== prevTraits) {
       const { walletAddress } = traits
-
-      yield call([ValoraAnalytics, 'setUserAddress'], walletAddress)
-
-      // Only identify user if the wallet address is set
-      if (walletAddress) {
-        yield call([ValoraAnalytics, 'identify'], walletAddress, traits)
-      }
+      yield call([ValoraAnalytics, 'identify'], walletAddress, traits)
       prevTraits = traits
     }
 
