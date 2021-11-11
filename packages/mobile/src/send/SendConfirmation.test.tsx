@@ -29,6 +29,7 @@ import {
   mockCeurAddress,
   mockCusdAddress,
   mockE164Number,
+  mockInvitableRecipient,
   mockTestTokenAddress,
   mockTokenInviteTransactionData,
   mockTokenTransactionData,
@@ -217,7 +218,19 @@ describe('SendConfirmation', () => {
   })
 
   it('doesnt show the comment for invites', () => {
-    const { queryByTestId } = renderScreen({}, mockInviteScreenProps)
+    const { queryByTestId } = renderScreen(
+      {},
+      getMockStackScreenProps(Screens.SendConfirmation, {
+        transactionData: {
+          ...mockTokenInviteTransactionData,
+          recipient: {
+            ...mockInvitableRecipient,
+            e164PhoneNumber: '+14155550001',
+          },
+        },
+        origin: SendOrigin.AppSendFlow,
+      })
+    )
     expect(queryByTestId('commentInput/send')).toBeFalsy()
   })
 

@@ -75,6 +75,7 @@ function useRecipientToSendTo(paramRecipient: Recipient) {
         secureSendPhoneNumberMapping,
         undefined
       )
+
       return {
         ...paramRecipient,
         // Setting the phone number explicitly so Typescript doesn't complain
