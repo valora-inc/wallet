@@ -86,4 +86,5 @@ export enum ErrorMessages {
   CASH_OUT_LIMIT_EXCEEDED = 'cashOutLimitExceeded',
   RAISE_LIMIT_EMAIL_NOT_SENT = 'accountScreen10:raiseLimitEmailNotSent',
   WC2_UNSUPPORTED = 'walletConnect:v2Unsupported',
+  PERSONA_ACCOUNT_ENDPOINT_FAIL = 'personaAccountEndpointFail',
 }
