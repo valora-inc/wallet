@@ -1,4 +1,5 @@
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
+import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import 'react-native'
 import Inquiry from 'react-native-persona'
@@ -25,10 +26,12 @@ jest.mock('@celo/utils/lib/signatureUtils', () => {
 })
 
 describe('Persona', () => {
+  const mockFetch = fetch as FetchMock
   const store = createMockStore({})
 
   beforeEach(() => {
     jest.clearAllMocks()
+    mockFetch.resetMocks()
   })
 
   it('renders correctly', () => {
@@ -45,8 +48,7 @@ describe('Persona', () => {
   })
 
   it('calls IHL to create a persona account if launching the first time', async () => {
-    const fetchSpy = jest.spyOn(global, 'fetch')
-
+    mockFetch.mockResponseOnce(JSON.stringify({}))
     const personaProps: Props = {
       kycStatus: undefined,
     }
@@ -56,7 +58,7 @@ describe('Persona', () => {
       </Provider>
     )
 
-    await waitFor(() => expect(fetchSpy).toHaveBeenCalled())
+    expect(mockFetch).toBeCalled()
   })
 
   it('launches persona on button press', () => {
@@ -69,8 +71,7 @@ describe('Persona', () => {
         <Persona {...personaProps} />
       </Provider>
     )
-
     fireEvent.press(tree.getByTestId('PersonaButton'))
-    expect(Inquiry).toHaveBeenCalled()
+    expect(Inquiry.fromTemplate).toHaveBeenCalled()
   })
 })
