@@ -68,7 +68,7 @@ function HomeTokenBalance() {
   const [infoVisible, setInfoVisible] = useState(false)
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="HomeTokenBalance">
       <View style={styles.title}>
         <View style={styles.row}>
           <Text style={styles.totalValue}>{t('totalValue')}</Text>
