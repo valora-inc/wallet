@@ -7,8 +7,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
 import { setTokenBalances, StoredTokenBalances, tokenBalanceFetchError } from 'src/tokens/reducer'
 import {
-  fetchTokenBalancesFromBlockscout,
-  importTokenInfo,
+  fetchTokenBalancesForAddress,
+  fetchTokenBalancesSaga,
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -51,41 +51,38 @@ const firebaseTokenInfo: StoredTokenBalances = {
   },
 }
 
-const blockscoutResponse = [
+const fetchBalancesResponse = [
   {
-    contractAddress: poofAddress,
+    tokenAddress: poofAddress,
     balance: (5 * Math.pow(10, 18)).toString(),
     decimals: '18',
   },
   {
-    contractAddress: cUsdAddress,
+    tokenAddress: cUsdAddress,
     balance: '0',
     decimals: '18',
   },
   // cEUR intentionally missing
 ]
 
-describe(importTokenInfo, () => {
+describe(fetchTokenBalancesSaga, () => {
   it('get token info successfully', async () => {
-    await expectSaga(importTokenInfo)
+    await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
         [select(walletAddressSelector), mockAccount],
-        [call(fetchTokenBalancesFromBlockscout, mockAccount), blockscoutResponse],
+        [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
       ])
       .put(setTokenBalances(mockTokenBalances))
       .run()
   })
 
   it("fires an event if there's an error", async () => {
-    await expectSaga(importTokenInfo)
+    await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
         [select(walletAddressSelector), mockAccount],
-        [
-          call(fetchTokenBalancesFromBlockscout, mockAccount),
-          throwError(new Error('Error message')),
-        ],
+        [call(fetchTokenBalancesForAddress, mockAccount), throwError(new Error('Error message'))],
       ])
       .not.put(setTokenBalances(mockTokenBalances))
       .put(tokenBalanceFetchError())

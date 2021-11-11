@@ -14,6 +14,7 @@ import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { hideAlert, showMessage } from 'src/alert/actions'
+import { multiTokenShowHomeBalancesSelector } from 'src/app/selectors'
 import {
   ALERT_BANNER_DURATION,
   DEFAULT_TESTNET,
@@ -48,6 +49,7 @@ interface StateProps {
   cashInButtonExpEnabled: boolean
   balances: Balances
   tokenBalancesError: boolean
+  showTokensInHome: boolean
 }
 
 interface DispatchProps {
@@ -77,6 +79,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
   cashInButtonExpEnabled: state.app.cashInButtonExpEnabled,
   balances: balancesSelector(state),
   tokenBalancesError: tokenErrorSelector(state),
+  showTokensInHome: multiTokenShowHomeBalancesSelector(state),
 })
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
@@ -190,10 +193,12 @@ export class WalletHome extends React.Component<Props, State> {
       renderItem: () => <NotificationBox key={'NotificationBox'} />,
     })
 
-    sections.push({
-      data: [{}],
-      renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
-    })
+    if (this.props.showTokensInHome) {
+      sections.push({
+        data: [{}],
+        renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
+      })
+    }
 
     sections.push({
       data: [{}],
