@@ -6,18 +6,6 @@ import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, RecursivePartial } from 'test/utils'
 
-const TWO_DAYS_MS = 2 * 24 * 60 * 1000
-
-const storeData = {
-  goldToken: { educationCompleted: true },
-  account: {
-    backupCompleted: true,
-    dismissedInviteFriends: true,
-    accountCreationTime: new Date().getTime() - TWO_DAYS_MS,
-    paymentRequests: [],
-  },
-}
-
 const balances = {
   stableToken: {
     balances: {
