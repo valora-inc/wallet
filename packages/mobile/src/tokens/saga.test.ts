@@ -4,7 +4,7 @@ import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { readOnceFromFirebase } from 'src/firebase/firebase'
+import { readOnceFromFirebaseWithTimeout } from 'src/firebase/firebase'
 import { setTokenBalances, StoredTokenBalances, tokenBalanceFetchError } from 'src/tokens/reducer'
 import {
   fetchTokenBalancesForAddress,
@@ -69,7 +69,7 @@ describe(fetchTokenBalancesSaga, () => {
   it('get token info successfully', async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
+        [call(readOnceFromFirebaseWithTimeout, 'tokensInfo'), firebaseTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
       ])
@@ -80,7 +80,7 @@ describe(fetchTokenBalancesSaga, () => {
   it("fires an event if there's an error", async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
+        [call(readOnceFromFirebaseWithTimeout, 'tokensInfo'), firebaseTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddress, mockAccount), throwError(new Error('Error message'))],
       ])

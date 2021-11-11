@@ -15,6 +15,7 @@ import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
+import { readOnceFromFirebaseWithTimeout } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
 import i18n from 'src/i18n'
 import { e2eTokens } from 'src/tokens/e2eTokens'
@@ -311,7 +312,7 @@ export function* fetchTokenBalancesSaga() {
     // In e2e environment we use a static token list since we can't access Firebase.
     const tokens: StoredTokenBalances = isE2EEnv
       ? e2eTokens()
-      : yield call(readOnceFromFirebase, 'tokensInfo')
+      : yield call(readOnceFromFirebaseWithTimeout, 'tokensInfo')
     const address: string = yield select(walletAddressSelector)
     const tokenBalances: FetchedTokenBalance[] = yield call(fetchTokenBalancesForAddress, address)
     for (const token of Object.values(tokens) as StoredTokenBalance[]) {
