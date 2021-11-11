@@ -19,7 +19,7 @@ import { accountAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'PERSONA'
 
-interface Props {
+export interface Props {
   kycStatus: KycStatus | undefined
 }
 

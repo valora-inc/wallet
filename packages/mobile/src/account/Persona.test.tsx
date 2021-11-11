@@ -3,7 +3,7 @@ import * as React from 'react'
 import 'react-native'
 import Inquiry from 'react-native-persona'
 import { Provider } from 'react-redux'
-import Persona from 'src/account/Persona'
+import Persona, { Props } from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import { createMockStore } from 'test/utils'
 import { mockMnemonic } from 'test/values'
@@ -32,9 +32,10 @@ describe('Persona', () => {
   })
 
   it('renders correctly', () => {
-    const personaProps = {
-      KycStatus: KycStatus.Created,
+    const personaProps: Props = {
+      kycStatus: KycStatus.Created,
     }
+
     const { toJSON } = render(
       <Provider store={store}>
         <Persona {...personaProps} />
@@ -46,10 +47,10 @@ describe('Persona', () => {
   it('calls IHL to create a persona account if launching the first time', async () => {
     const fetchSpy = jest.spyOn(global, 'fetch')
 
-    const personaProps = {
-      KycStatus: undefined,
+    const personaProps: Props = {
+      kycStatus: undefined,
     }
-    const tree = render(
+    render(
       <Provider store={store}>
         <Persona {...personaProps} />
       </Provider>
@@ -59,8 +60,8 @@ describe('Persona', () => {
   })
 
   it('launches persona on button press', () => {
-    const personaProps = {
-      KycStatus: KycStatus.Created,
+    const personaProps: Props = {
+      kycStatus: KycStatus.Created,
     }
 
     const tree = render(
