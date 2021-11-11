@@ -8,6 +8,7 @@ import DeviceInfo from 'react-native-device-info'
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 import { AppEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
+import { getCurrentUserTraits } from 'src/analytics/selectors'
 import { DEFAULT_TESTNET, FIREBASE_ENABLED, isE2EEnv, SEGMENT_API_KEY } from 'src/config'
 import { store } from 'src/redux/store'
 import Logger from 'src/utils/Logger'
@@ -61,8 +62,10 @@ const SEGMENT_OPTIONS: analytics.Configuration = {
 
 class ValoraAnalytics {
   sessionId: string = ''
-  userAddress: string = ''
   deviceInfo: object = {}
+
+  private currentScreenId: string | undefined
+  private prevScreenId: string | undefined
 
   async init() {
     try {
@@ -111,16 +114,6 @@ class ValoraAnalytics {
     return this.sessionId
   }
 
-  setUserAddress(address?: string | null) {
-    if (address) {
-      this.userAddress = address.toLowerCase()
-    } else if (address === null) {
-      this.userAddress = 'unverified'
-    } else {
-      this.userAddress = 'unknown'
-    }
-  }
-
   track<EventName extends keyof AnalyticsPropertiesList>(
     ...args: undefined extends AnalyticsPropertiesList[EventName]
       ? [EventName] | [EventName, AnalyticsPropertiesList[EventName]]
@@ -139,10 +132,7 @@ class ValoraAnalytics {
     }
 
     const props: {} = {
-      timestamp: Date.now(),
-      sessionId: this.sessionId,
-      userAddress: this.userAddress,
-      celoNetwork: DEFAULT_TESTNET,
+      ...this.getSuperProps(),
       ...eventProperties,
     }
 
@@ -153,7 +143,7 @@ class ValoraAnalytics {
     })
   }
 
-  identify(userID: string, traits: {}) {
+  identify(userID: string | null, traits: {}) {
     if (!this.isEnabled()) {
       Logger.debug(TAG, `Analytics is disabled, not tracking user ${userID}`)
       return
@@ -164,17 +154,32 @@ class ValoraAnalytics {
       return
     }
 
+    // Only identify user if userID (walletAddress) is set
+    if (!userID) {
+      return
+    }
+
     Analytics.identify(userID, traits).catch((err) => {
       Logger.error(TAG, `Failed to identify user ${userID}`, err)
     })
   }
 
-  page(page: string, eventProperties = {}) {
-    if (!SEGMENT_API_KEY) {
+  page(screenId: string, eventProperties = {}) {
+    if (!this.isEnabled || !SEGMENT_API_KEY) {
       return
     }
 
-    Analytics.screen(page, eventProperties).catch((err) => {
+    if (screenId !== this.currentScreenId) {
+      this.prevScreenId = this.currentScreenId
+      this.currentScreenId = screenId
+    }
+
+    const props: {} = {
+      ...this.getSuperProps(),
+      ...eventProperties,
+    }
+
+    Analytics.screen(screenId, props).catch((err) => {
       Logger.error(TAG, 'Error tracking page', err)
     })
   }
@@ -216,6 +221,29 @@ class ValoraAnalytics {
       this.track(AppEvents.request_tracking_permission_declined, {
         newPermission: newAppTrackingPermission,
       })
+    }
+  }
+
+  // Super props, i.e. props sent with all events
+  private getSuperProps() {
+    const traits = getCurrentUserTraits(store.getState())
+    // Prefix super props with `s` so they don't clash with events props
+    const prefixedSuperProps = Object.fromEntries(
+      Object.entries({
+        ...traits,
+        currentScreenId: this.currentScreenId,
+        prevScreenId: this.prevScreenId,
+      }).map(([key, value]) => [`s${key.charAt(0).toUpperCase() + key.slice(1)}`, value])
+    )
+
+    return {
+      // Legacy super props
+      timestamp: Date.now(),
+      sessionId: this.sessionId,
+      userAddress: traits.walletAddress,
+      celoNetwork: DEFAULT_TESTNET,
+      // Prefixed super props
+      ...prefixedSuperProps,
     }
   }
 }

@@ -35,14 +35,20 @@ export interface TokenBalances {
 
 export interface State {
   tokenBalances: StoredTokenBalances
+  loading: boolean
+  error: boolean
 }
 
 export const initialState = {
   tokenBalances: {},
+  error: false,
+  loading: false,
 }
 
 const rehydrate = createAction<any>(REHYDRATE)
 export const setTokenBalances = createAction<StoredTokenBalances>('TOKENS/SET_TOKEN_BALANCES')
+export const fetchTokenBalances = createAction('TOKENS/FETCH_TOKEN_BALANCES')
+export const tokenBalanceFetchError = createAction('TOKENS/TOKEN_BALANCES_FETCH_ERROR')
 
 export const reducer = createReducer(initialState, (builder) => {
   builder
@@ -57,5 +63,17 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setTokenBalances, (state, action) => ({
       ...state,
       tokenBalances: action.payload,
+      loading: false,
+      error: false,
+    }))
+    .addCase(fetchTokenBalances, (state, action) => ({
+      ...state,
+      loading: true,
+      error: false,
+    }))
+    .addCase(tokenBalanceFetchError, (state, action) => ({
+      ...state,
+      loading: false,
+      error: true,
     }))
 })

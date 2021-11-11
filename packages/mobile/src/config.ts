@@ -64,6 +64,7 @@ export const DEFAULT_FORNO_URL =
   DEFAULT_TESTNET === 'mainnet'
     ? 'https://forno.celo.org/'
     : 'https://alfajores-forno.celo-testnet.org/'
+export const BLOCKSCOUT_BASE_URL = Config.BLOCKSCOUT_BASE_URL
 
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')

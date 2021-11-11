@@ -806,8 +806,18 @@ export const v19Schema = {
         usdPrice: '0.1234',
         balance: '0',
       },
+      '0x17700282592D6917F6A73D0bF8AcCf4D578c131e': {
+        name: 'Moola',
+        address: '0x17700282592D6917F6A73D0bF8AcCf4D578c131e',
+        symbol: 'MOO',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '4',
+        balance: '0',
+      },
     },
-    totalBalance: '40',
+    loading: false,
+    error: false,
   },
 }
 
