@@ -6,7 +6,7 @@ import { retryAsync } from '@celo/utils/lib/async'
 import BigNumber from 'bignumber.js'
 import { call, put, select, spawn, take, takeEvery } from 'redux-saga/effects'
 import * as erc20 from 'src/abis/IERC20.json'
-import { showErrorOrFallback } from 'src/alert/actions'
+import { hideAlert, showErrorOrFallback, showMessage } from 'src/alert/actions'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType } from 'src/apollo/types'
@@ -15,6 +15,7 @@ import { BLOCKSCOUT_BASE_URL, isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/c
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebaseWithTimeout } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
+import i18n from 'src/i18n'
 import { e2eTokens } from 'src/tokens/e2eTokens'
 import {
   fetchTokenBalances,
@@ -292,6 +293,7 @@ export function* fetchTokenBalancesFromBlockscout(address: string) {
 }
 
 export function* importTokenInfo() {
+  yield put(hideAlert())
   try {
     // In e2e environment we use a static token list since we can't access Firebase.
     const tokens: StoredTokenBalances = isE2EEnv
@@ -346,10 +348,29 @@ export function* tokenAmountInWei(amount: BigNumber, tokenAddress: string) {
   return amount.multipliedBy(decimalFactor).toFixed(0)
 }
 
+function* showOutOfSyncBanner() {
+  console.log('fetch error')
+  yield put(
+    showMessage(
+      i18n.t('walletFlow5:outOfSyncBanner.message'),
+      null,
+      i18n.t('walletFlow5:outOfSyncBanner.button'),
+      // @ts-ignore
+      refreshAllBalances(),
+      i18n.t('walletFlow5:outOfSyncBanner.title')
+    )
+  )
+}
+
 export function* watchFetchBalance() {
   yield takeEvery(fetchTokenBalances.type, importTokenInfo)
 }
 
+export function* watchFetchBalanceError() {
+  yield takeEvery(tokenBalanceFetchError.type, showOutOfSyncBanner)
+}
+
 export function* tokensSaga() {
   yield spawn(watchFetchBalance)
+  yield spawn(watchFetchBalanceError)
 }

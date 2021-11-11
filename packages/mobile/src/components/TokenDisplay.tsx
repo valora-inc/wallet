@@ -1,11 +1,17 @@
 import BigNumber from 'bignumber.js'
-import * as React from 'react'
+import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleProp, Text, TextStyle } from 'react-native'
+import { useDispatch } from 'react-redux'
+import { showMessage } from 'src/alert/actions'
+import { refreshAllBalances } from 'src/home/actions'
+import { Namespaces } from 'src/i18n'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol, localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { useTokenInfo } from 'src/tokens/hooks'
+import { tokenErrorSelector } from 'src/tokens/selectors'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'TokenDisplay'
@@ -69,6 +75,23 @@ function TokenDisplay({
   style,
   testID,
 }: Props) {
+  const { t } = useTranslation(Namespaces.walletFlow5)
+  const tokensError = useSelector(tokenErrorSelector)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    if (tokensError) {
+      dispatch(
+        showMessage(
+          t('outOfSyncBanner.message'),
+          null,
+          t('outOfSyncBanner.button'),
+          // @ts-ignore
+          refreshAllBalances(),
+          t('outOfSyncBanner.title')
+        )
+      )
+    }
+  })
   const tokenInfo = useTokenInfo(tokenAddress)
 
   const { fiatExchangeRate, fiatSymbol } = useFiatExchangeRates(currencyInfo)

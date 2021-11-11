@@ -35,7 +35,7 @@ import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { RootState } from 'src/redux/reducers'
 import { initializeSentryUserContext } from 'src/sentry/actions'
 import { Balances, balancesSelector } from 'src/stableToken/selectors'
-import { tokenErrorSelector, tokenLoadingSelector } from 'src/tokens/selectors'
+import { tokenErrorSelector } from 'src/tokens/selectors'
 import { FeedType } from 'src/transactions/TransactionFeed'
 import TransactionsList from 'src/transactions/TransactionsList'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
@@ -48,7 +48,6 @@ interface StateProps {
   cashInButtonExpEnabled: boolean
   balances: Balances
   tokenBalancesError: boolean
-  tokenBalancesLoading: boolean
 }
 
 interface DispatchProps {
@@ -78,7 +77,6 @@ const mapStateToProps = (state: RootState): StateProps => ({
   cashInButtonExpEnabled: state.app.cashInButtonExpEnabled,
   balances: balancesSelector(state),
   tokenBalancesError: tokenErrorSelector(state),
-  tokenBalancesLoading: tokenLoadingSelector(state),
 })
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
@@ -102,11 +100,21 @@ export class WalletHome extends React.Component<Props, State> {
   }
 
   onRefresh = async () => {
-    this.props.refreshAllBalances()
+    const { t, tokenBalancesError, refreshAllBalances } = this.props
+    refreshAllBalances()
+    if (tokenBalancesError) {
+      this.props.showMessage(
+        t('outOfSyncBanner.message'),
+        null,
+        t('outOfSyncBanner.button'),
+        // @ts-ignore
+        refreshAllBalances(),
+        t('outOfSyncBanner.title')
+      )
+    }
   }
 
   componentDidMount = () => {
-    const { t, tokenBalancesError, tokenBalancesLoading } = this.props
     // TODO find a better home for this, its unrelated to wallet home
     this.props.initializeSentryUserContext()
     if (SHOW_TESTNET_BANNER) {
@@ -120,20 +128,10 @@ export class WalletHome extends React.Component<Props, State> {
     //     dispatch(refreshAllBalances())
     //   }
     // }, [appState])
-    this.props.refreshAllBalances()
+    this.onRefresh()
     // Waiting 1/2 sec before triggering to allow
     // rest of feed to load unencumbered
     setTimeout(this.tryImportContacts, 500)
-    if (tokenBalancesError || tokenBalancesLoading) {
-      this.props.showMessage(
-        t('outOfSyncBanner.message'),
-        null,
-        t('outOfSyncBanner.button'),
-        // @ts-ignore
-        refreshAllBalances(),
-        t('outOfSyncBanner.title')
-      )
-    }
   }
 
   shouldShowCashInBottomSheet = () => {
