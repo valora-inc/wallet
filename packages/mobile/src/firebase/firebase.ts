@@ -349,6 +349,10 @@ export async function cUsdDailyLimitChannel(address: string) {
   return simpleReadChannel(`registrations/${address}/dailyLimitCusd`)
 }
 
+export async function kycStatusChannel(address: string) {
+  return simpleReadChannel(`inHouseLiquidity/${address}/kycStatus`)
+}
+
 export function simpleReadChannel(key: string) {
   if (!FIREBASE_ENABLED) {
     return null

@@ -204,5 +204,6 @@
   "earn": "Earn",
   "free": "Free",
   "notNow": "Not Now",
-  "contactSupport": "Contact Support"
+  "contactSupport": "Contact Support",
+  "personaAccountEndpointFail": "Identity verification is not currently available. Please try again later"
 }
