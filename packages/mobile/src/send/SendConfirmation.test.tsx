@@ -29,6 +29,8 @@ import {
   mockCeurAddress,
   mockCusdAddress,
   mockE164Number,
+  mockInvitableRecipient,
+  mockTestTokenAddress,
   mockTokenInviteTransactionData,
   mockTokenTransactionData,
 } from 'test/values'
@@ -72,14 +74,24 @@ describe('SendConfirmation', () => {
       tokens: {
         tokenBalances: {
           [mockCusdAddress]: {
+            address: mockCusdAddress,
             symbol: 'cUSD',
             balance: '200',
             usdPrice: '1',
+            isCoreToken: true,
           },
           [mockCeurAddress]: {
+            address: mockCeurAddress,
             symbol: 'cEUR',
             balance: '100',
             usdPrice: '1.2',
+            isCoreToken: true,
+          },
+          [mockTestTokenAddress]: {
+            address: mockTestTokenAddress,
+            symbol: 'TT',
+            balance: '10',
+            usdPrice: '0.1234',
           },
         },
       },
@@ -188,6 +200,38 @@ describe('SendConfirmation', () => {
     const comment = 'A comment!'
     fireEvent.changeText(input, comment)
     expect(queryAllByDisplayValue(comment)).toHaveLength(1)
+  })
+
+  it('doesnt show the comment for non core tokens', () => {
+    const { queryByTestId } = renderScreen(
+      {},
+      getMockStackScreenProps(Screens.SendConfirmation, {
+        transactionData: {
+          ...mockTokenTransactionData,
+          tokenAddress: mockTestTokenAddress,
+        },
+        origin: SendOrigin.AppSendFlow,
+      })
+    )
+
+    expect(queryByTestId('commentInput/send')).toBeFalsy()
+  })
+
+  it('doesnt show the comment for invites', () => {
+    const { queryByTestId } = renderScreen(
+      {},
+      getMockStackScreenProps(Screens.SendConfirmation, {
+        transactionData: {
+          ...mockTokenInviteTransactionData,
+          recipient: {
+            ...mockInvitableRecipient,
+            e164PhoneNumber: '+14155550001',
+          },
+        },
+        origin: SendOrigin.AppSendFlow,
+      })
+    )
+    expect(queryByTestId('commentInput/send')).toBeFalsy()
   })
 
   it('navigates to ValidateRecipientIntro when "edit" button is pressed', async () => {

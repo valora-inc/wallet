@@ -9,6 +9,9 @@ interface BaseToken {
   imageUrl: string
   name: string
   symbol: string
+  // This field is for tokens that are part of the core contracts that allow paying for fees and
+  // making transfers with a comment.
+  isCoreToken?: boolean
 }
 
 // Stored variant stores numbers as strings because BigNumber is not serializable.
