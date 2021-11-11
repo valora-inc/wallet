@@ -68,7 +68,6 @@ const Persona = ({ kycStatus }: Props) => {
     if (!mnemonic) {
       throw new Error('Unable to fetch mnemonic from the store')
     }
-
     const keys = await generateKeys(mnemonic)
     return keys?.privateKey
   }
@@ -79,7 +78,6 @@ const Persona = ({ kycStatus }: Props) => {
         Logger.error(TAG, "Can't render Persona because accountAddress is null")
         return
       }
-
       const privateKey = await getPrivateKey()
       const signature = signMessage(
         `post /account/create ${JSON.stringify({ accountAddress })}`,
