@@ -8,10 +8,9 @@ import i18n from 'src/i18n'
 import { storeInviteeData } from 'src/invite/actions'
 import { initiateEscrowTransfer, sendInvite } from 'src/invite/saga'
 import { transactionConfirmed } from 'src/transactions/actions'
-import { Currency } from 'src/utils/currencies'
 import { getConnectedUnlockedAccount, waitWeb3LastBlock } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockE164Number, mockInviteDetails } from 'test/values'
+import { mockAccount, mockCusdAddress, mockE164Number, mockInviteDetails } from 'test/values'
 
 const mockReceipt: CeloTxReceipt = {
   status: true,
@@ -66,11 +65,11 @@ describe(sendInvite, () => {
   it('sends an invite as expected', async () => {
     i18n.t = jest.fn((key) => key)
 
-    await expectSaga(sendInvite, mockE164Number, AMOUNT_TO_SEND, Currency.Dollar)
+    await expectSaga(sendInvite, mockE164Number, AMOUNT_TO_SEND, AMOUNT_TO_SEND, mockCusdAddress)
       .provide([
         [call(waitWeb3LastBlock), true],
         [call(getConnectedUnlockedAccount), mockAccount],
-        [call(initiateEscrowTransfer, mockE164Number, AMOUNT_TO_SEND, Currency.Dollar), undefined],
+        [call(initiateEscrowTransfer, mockE164Number, AMOUNT_TO_SEND, mockCusdAddress), undefined],
       ])
       .withState(state)
       .dispatch(storeInviteeData(mockInviteDetails))
@@ -79,7 +78,7 @@ describe(sendInvite, () => {
 
     expect(i18n.t).toHaveBeenCalledWith('sendFlow7:inviteWithEscrowedPayment', {
       amount: AMOUNT_TO_SEND.toFixed(2).toString(),
-      currency: 'global:celoDollars',
+      token: 'cUSD',
       link: DYNAMIC_DOWNLOAD_LINK,
     })
     expect(Share.share).toHaveBeenCalledWith({ message: 'sendFlow7:inviteWithEscrowedPayment' })

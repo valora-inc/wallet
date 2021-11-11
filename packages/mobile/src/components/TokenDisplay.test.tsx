@@ -1,8 +1,9 @@
 import { render } from '@testing-library/react-native'
+import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import TokenDisplay from 'src/components/TokenDisplay'
+import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
@@ -35,11 +36,6 @@ describe('TokenDisplay', () => {
             symbol: 'CELO',
             balance: '10',
             usdPrice: '5',
-          },
-          ['0xnoUsdPrice']: {
-            address: '0xnoUsdPrice',
-            symbol: 'NoUsd',
-            balance: '10',
           },
         },
       },
@@ -168,14 +164,19 @@ describe('TokenDisplay', () => {
       )
       expect(amountFromComponent(getByTestId('test'))).toEqual('R$-')
     })
+  })
+})
 
-    it('shows a dash when the token doesnt have a usd price', () => {
-      const { getByTestId } = render(
-        <Provider store={store()}>
-          <TokenDisplay amount={10} tokenAddress={'0xnoUsdPrice'} testID="test" />
-        </Provider>
-      )
-      expect(amountFromComponent(getByTestId('test'))).toEqual('R$-')
-    })
+describe.only('formatValueToDisplay', () => {
+  it('adds at least two decimal places', () => {
+    expect(formatValueToDisplay(new BigNumber(1234))).toEqual('1234.00')
+  })
+
+  it('shows at least two significant figures', () => {
+    expect(formatValueToDisplay(new BigNumber(0.00000012345))).toEqual('0.00000012')
+  })
+
+  it('doesnt show trailing zeros', () => {
+    expect(formatValueToDisplay(new BigNumber(0.01))).toEqual('0.01')
   })
 })

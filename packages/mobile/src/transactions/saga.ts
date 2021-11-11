@@ -13,10 +13,12 @@ import {
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { fetchGoldBalance } from 'src/goldToken/actions'
 import { Actions as IdentityActions } from 'src/identity/actions'
-import { addressToE164NumberSelector, AddressToE164NumberType } from 'src/identity/reducer'
+import { AddressToE164NumberType } from 'src/identity/reducer'
+import { addressToE164NumberSelector } from 'src/identity/selectors'
 import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector, updateValoraRecipientCache } from 'src/recipients/reducer'
 import { fetchStableBalances } from 'src/stableToken/actions'
+import { fetchTokenBalances } from 'src/tokens/reducer'
 import {
   Actions,
   addHashToStandbyTransaction,
@@ -79,12 +81,13 @@ export function* sendAndMonitorTransaction<T>(
   currency?: Currency,
   feeCurrency?: Currency,
   gas?: number,
-  gasPrice?: BigNumber
+  gasPrice?: BigNumber,
+  nonce?: number
 ) {
   try {
     Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
-    const sendTxMethod = function* (nonce?: number) {
+    const sendTxMethod = function* () {
       const { transactionHash, receipt }: TxPromises = yield call(
         sendTransactionPromises,
         tx.txo,
@@ -113,6 +116,8 @@ export function* sendAndMonitorTransaction<T>(
     if (STABLE_CURRENCIES.some((stableCurrency) => balancesAffected.has(stableCurrency))) {
       yield put(fetchStableBalances())
     }
+    // TODO: Consider only fetching the balance of the used token.
+    yield put(fetchTokenBalances())
     return { receipt: txReceipt }
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)

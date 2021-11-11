@@ -164,6 +164,9 @@ export interface RemoteFeatureFlags {
   pincodeUseExpandedBlocklist: boolean
   rewardPillText: string
   cashInButtonExpEnabled: boolean
+  multiTokenShowHomeBalances: boolean
+  multiTokenUseSendFlow: boolean
+  multiTokenUseUpdatedFeed: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

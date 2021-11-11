@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { FeeInfo } from 'src/fees/saga'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
 import { Currency } from 'src/utils/currencies'
 import { Svg } from 'svgs'
 
@@ -16,6 +17,7 @@ export enum Actions {
   BARCODE_DETECTED = 'SEND/BARCODE_DETECTED',
   QRCODE_SHARE = 'SEND/QRCODE_SHARE',
   SEND_PAYMENT_OR_INVITE = 'SEND/SEND_PAYMENT_OR_INVITE',
+  SEND_PAYMENT_OR_INVITE_LEGACY = 'SEND/SEND_PAYMENT_OR_INVITE_LEGACY',
   SEND_PAYMENT_OR_INVITE_SUCCESS = 'SEND/SEND_PAYMENT_OR_INVITE_SUCCESS',
   SEND_PAYMENT_OR_INVITE_FAILURE = 'SEND/SEND_PAYMENT_OR_INVITE_FAILURE',
   UPDATE_LAST_USED_CURRENCY = 'SEND/UPDATE_LAST_USED_CURRENCY',
@@ -26,7 +28,7 @@ export interface HandleBarcodeDetectedAction {
   type: Actions.BARCODE_DETECTED
   data: QrCode
   scanIsForSecureSend?: boolean
-  transactionData?: TransactionDataInput
+  transactionData?: TransactionDataInput | TransactionDataInputLegacy
   isOutgoingPaymentRequest?: boolean
   requesterAddress?: string
 }
@@ -36,8 +38,8 @@ export interface ShareQRCodeAction {
   qrCodeSvg: SVG
 }
 
-export interface SendPaymentOrInviteAction {
-  type: Actions.SEND_PAYMENT_OR_INVITE
+export interface SendPaymentOrInviteActionLegacy {
+  type: Actions.SEND_PAYMENT_OR_INVITE_LEGACY
   amount: BigNumber
   currency: Currency
   comment: string
@@ -45,6 +47,18 @@ export interface SendPaymentOrInviteAction {
   recipientAddress?: string | null
   feeInfo?: FeeInfo
   firebasePendingRequestUid: string | null | undefined
+  fromModal: boolean
+}
+
+export interface SendPaymentOrInviteAction {
+  type: Actions.SEND_PAYMENT_OR_INVITE
+  amount: BigNumber
+  tokenAddress: string
+  amountInLocalCurrency: BigNumber
+  usdAmount: BigNumber
+  comment: string
+  recipient: Recipient
+  feeInfo?: FeeInfo
   fromModal: boolean
 }
 
@@ -71,6 +85,7 @@ export type ActionTypes =
   | HandleBarcodeDetectedAction
   | ShareQRCodeAction
   | SendPaymentOrInviteAction
+  | SendPaymentOrInviteActionLegacy
   | SendPaymentOrInviteSuccessAction
   | SendPaymentOrInviteFailureAction
   | UpdateLastUsedCurrencyAction
@@ -79,7 +94,7 @@ export type ActionTypes =
 export const handleBarcodeDetected = (
   data: QrCode,
   scanIsForSecureSend?: boolean,
-  transactionData?: TransactionDataInput,
+  transactionData?: TransactionDataInput | TransactionDataInputLegacy,
   isOutgoingPaymentRequest?: boolean,
   requesterAddress?: string
 ): HandleBarcodeDetectedAction => ({
@@ -96,7 +111,7 @@ export const shareQRCode = (qrCodeSvg: SVG): ShareQRCodeAction => ({
   qrCodeSvg,
 })
 
-export const sendPaymentOrInvite = (
+export const sendPaymentOrInviteLegacy = (
   amount: BigNumber,
   currency: Currency,
   comment: string,
@@ -105,8 +120,8 @@ export const sendPaymentOrInvite = (
   feeInfo: FeeInfo | undefined,
   firebasePendingRequestUid: string | null | undefined,
   fromModal: boolean
-): SendPaymentOrInviteAction => ({
-  type: Actions.SEND_PAYMENT_OR_INVITE,
+): SendPaymentOrInviteActionLegacy => ({
+  type: Actions.SEND_PAYMENT_OR_INVITE_LEGACY,
   amount,
   currency,
   comment,
@@ -114,6 +129,27 @@ export const sendPaymentOrInvite = (
   recipientAddress,
   feeInfo,
   firebasePendingRequestUid,
+  fromModal,
+})
+
+export const sendPaymentOrInvite = (
+  amount: BigNumber,
+  tokenAddress: string,
+  amountInLocalCurrency: BigNumber,
+  usdAmount: BigNumber,
+  comment: string,
+  recipient: Recipient,
+  feeInfo: FeeInfo | undefined,
+  fromModal: boolean
+): SendPaymentOrInviteAction => ({
+  type: Actions.SEND_PAYMENT_OR_INVITE,
+  amount,
+  tokenAddress,
+  amountInLocalCurrency,
+  usdAmount,
+  comment,
+  recipient,
+  feeInfo,
   fromModal,
 })
 

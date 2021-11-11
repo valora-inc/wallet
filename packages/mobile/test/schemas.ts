@@ -7,6 +7,7 @@ import { NUM_ATTESTATIONS_REQUIRED } from 'src/identity/verification'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { idle, KomenciAvailable } from 'src/verify/reducer'
+import { mockCeloAddress, mockCeurAddress, mockCusdAddress } from 'test/values'
 
 // Default (version -1 schema)
 export const vNeg1Schema = {
@@ -759,8 +760,64 @@ export const v19Schema = {
     ...v18Schema._persist,
     version: 19,
   },
+  tokens: {
+    tokenBalances: {
+      [mockCusdAddress]: {
+        name: 'Celo Dollars',
+        address: mockCusdAddress,
+        symbol: 'cUSD',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '1',
+        balance: '10',
+      },
+      [mockCeurAddress]: {
+        name: 'Celo Euros',
+        address: mockCeurAddress,
+        symbol: 'cEUR',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '1.2',
+        balance: '20',
+      },
+      [mockCeloAddress]: {
+        name: 'Celo',
+        address: mockCeloAddress,
+        symbol: 'CELO',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '5',
+        balance: '0',
+      },
+      '0x17700282592D6917F6A73D0bF8AcCf4D578c131e': {
+        name: 'Moola',
+        address: '0x17700282592D6917F6A73D0bF8AcCf4D578c131e',
+        symbol: 'MOO',
+        decimals: 18,
+        imageUrl: '',
+        usdPrice: '4',
+        balance: '0',
+      },
+    },
+    loading: false,
+    error: false,
+  },
+}
+
+export const v20Schema = {
+  ...v19Schema,
+  _persist: {
+    ...v19Schema._persist,
+    version: 20,
+  },
+  app: {
+    ...v19Schema.app,
+    multiTokenShowHomeBalances: false,
+    multiTokenUseSendFlow: false,
+    multiTokenUseUpdatedFeed: false,
+  },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v19Schema as Partial<RootState>
+  return v20Schema as Partial<RootState>
 }

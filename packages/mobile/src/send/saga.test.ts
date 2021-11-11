@@ -8,7 +8,9 @@ import { SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
-import { e164NumberToAddressSelector, E164NumberToAddressType } from 'src/identity/reducer'
+import { E164NumberToAddressType } from 'src/identity/reducer'
+import { e164NumberToAddressSelector } from 'src/identity/selectors'
+import { sendInvite } from 'src/invite/saga'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { urlFromUriData } from 'src/qrcode/schema'
@@ -19,17 +21,33 @@ import {
   HandleBarcodeDetectedAction,
   QrCode,
   SendPaymentOrInviteAction,
+  SendPaymentOrInviteActionLegacy,
 } from 'src/send/actions'
-import { sendPaymentOrInviteSaga, watchQrCodeDetections } from 'src/send/saga'
+import {
+  sendPaymentOrInviteSaga,
+  sendPaymentOrInviteSagaLegacy,
+  watchQrCodeDetections,
+} from 'src/send/saga'
+import { getERC20TokenContract } from 'src/tokens/saga'
+import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { Currency } from 'src/utils/currencies'
-import { getConnectedAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
+import {
+  getConnectedAccount,
+  getConnectedUnlockedAccount,
+  unlockAccount,
+  UnlockResult,
+} from 'src/web3/saga'
 import { currentAccountSelector } from 'src/web3/selectors'
+import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockAccount2Invite,
   mockAccountInvite,
+  mockContract,
+  mockCusdAddress,
   mockE164Number,
   mockE164NumberInvite,
+  mockInvitableRecipient,
   mockName,
   mockQrCodeData,
   mockQrCodeData2,
@@ -40,6 +58,10 @@ import {
 
 jest.mock('src/utils/time', () => ({
   clockInSync: () => true,
+}))
+
+jest.mock('src/invite/saga', () => ({
+  sendInvite: jest.fn(),
 }))
 
 const mockE164NumberToAddress: E164NumberToAddressType = {
@@ -59,13 +81,14 @@ describe(watchQrCodeDetections, () => {
     const data: QrCode = { type: BarcodeTypes.QR_CODE, data: urlFromUriData(mockQrCodeData) }
 
     await expectSaga(watchQrCodeDetections)
+      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
         [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendAmountLegacy, {
       origin: SendOrigin.AppSendFlow,
       isFromScan: true,
       recipient: {
@@ -88,13 +111,14 @@ describe(watchQrCodeDetections, () => {
     }
 
     await expectSaga(watchQrCodeDetections)
+      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
       .provide([
         [select(e164NumberToAddressSelector), {}],
         [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendAmountLegacy, {
       origin: SendOrigin.AppSendFlow,
       isFromScan: true,
       recipient: {
@@ -116,13 +140,14 @@ describe(watchQrCodeDetections, () => {
     }
 
     await expectSaga(watchQrCodeDetections)
+      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
       .provide([
         [select(e164NumberToAddressSelector), {}],
         [select(recipientInfoSelector), mockRecipientInfo],
       ])
       .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendAmountLegacy, {
       origin: SendOrigin.AppSendFlow,
       isFromScan: true,
       recipient: {
@@ -141,6 +166,7 @@ describe(watchQrCodeDetections, () => {
     const data: QrCode = { type: BarcodeTypes.QR_CODE, data: INVALID_QR }
 
     await expectSaga(watchQrCodeDetections)
+      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
       .provide([
         [select(e164NumberToAddressSelector), {}],
         [select(recipientInfoSelector), mockRecipientInfo],
@@ -160,6 +186,7 @@ describe(watchQrCodeDetections, () => {
     const data: QrCode = { type: BarcodeTypes.QR_CODE, data: urlFromUriData(INVALID_QR_ADDRESS) }
 
     await expectSaga(watchQrCodeDetections)
+      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
       .provide([
         [select(e164NumberToAddressSelector), {}],
         [select(recipientInfoSelector), mockRecipientInfo],
@@ -179,6 +206,7 @@ describe(watchQrCodeDetections, () => {
       transactionData: mockTransactionData,
     }
     await expectSaga(watchQrCodeDetections)
+      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
         [select(recipientInfoSelector), mockRecipientInfo],
@@ -203,6 +231,7 @@ describe(watchQrCodeDetections, () => {
       transactionData: mockTransactionData,
     }
     await expectSaga(watchQrCodeDetections)
+      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
         [select(recipientInfoSelector), mockRecipientInfo],
@@ -225,6 +254,7 @@ describe(watchQrCodeDetections, () => {
       transactionData: mockTransactionData,
     }
     await expectSaga(watchQrCodeDetections)
+      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
         [select(recipientInfoSelector), mockRecipientInfo],
@@ -236,11 +266,11 @@ describe(watchQrCodeDetections, () => {
   })
 })
 
-describe(sendPaymentOrInviteSaga, () => {
+describe(sendPaymentOrInviteSagaLegacy, () => {
   it('fails if user cancels PIN input', async () => {
     const account = '0x000123'
-    const sendPaymentOrInviteAction: SendPaymentOrInviteAction = {
-      type: Actions.SEND_PAYMENT_OR_INVITE,
+    const sendPaymentOrInviteAction: SendPaymentOrInviteActionLegacy = {
+      type: Actions.SEND_PAYMENT_OR_INVITE_LEGACY,
       amount: new BigNumber(10),
       currency: Currency.Dollar,
       comment: '',
@@ -248,7 +278,8 @@ describe(sendPaymentOrInviteSaga, () => {
       firebasePendingRequestUid: null,
       fromModal: false,
     }
-    await expectSaga(sendPaymentOrInviteSaga, sendPaymentOrInviteAction)
+    await expectSaga(sendPaymentOrInviteSagaLegacy, sendPaymentOrInviteAction)
+      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
       .provide([
         [call(getConnectedAccount), account],
         [matchers.call.fn(unlockAccount), UnlockResult.CANCELED],
@@ -259,8 +290,8 @@ describe(sendPaymentOrInviteSaga, () => {
 
   it('uploads symmetric keys if transaction sent successfully', async () => {
     const account = '0x000123'
-    const sendPaymentOrInviteAction: SendPaymentOrInviteAction = {
-      type: Actions.SEND_PAYMENT_OR_INVITE,
+    const sendPaymentOrInviteAction: SendPaymentOrInviteActionLegacy = {
+      type: Actions.SEND_PAYMENT_OR_INVITE_LEGACY,
       amount: new BigNumber(10),
       currency: Currency.Dollar,
       comment: '',
@@ -269,12 +300,88 @@ describe(sendPaymentOrInviteSaga, () => {
       firebasePendingRequestUid: null,
       fromModal: false,
     }
-    await expectSaga(sendPaymentOrInviteSaga, sendPaymentOrInviteAction)
+    await expectSaga(sendPaymentOrInviteSagaLegacy, sendPaymentOrInviteAction)
+      .withState(createMockStore({ app: { multiTokenUseSendFlow: false } }).getState())
       .provide([
         [call(getConnectedAccount), account],
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
         [select(currentAccountSelector), account],
         [call(encryptComment, 'asdf', 'asdf', 'asdf', true), 'Asdf'],
+      ])
+      .call.fn(giveProfileAccess)
+      .run()
+  })
+})
+
+describe(sendPaymentOrInviteSaga, () => {
+  const amount = new BigNumber(10)
+  const sendAction: SendPaymentOrInviteAction = {
+    type: Actions.SEND_PAYMENT_OR_INVITE,
+    amount,
+    tokenAddress: mockCusdAddress,
+    amountInLocalCurrency: amount.multipliedBy(1.33),
+    usdAmount: amount,
+    comment: '',
+    recipient: mockQRCodeRecipient,
+    fromModal: false,
+  }
+
+  it('sends a payment successfully', async () => {
+    await expectSaga(sendPaymentOrInviteSaga, sendAction)
+      .withState(createMockStore({}).getState())
+      .provide([
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [call(encryptComment, 'asdf', 'asdf', 'asdf', true), 'Asdf'],
+        [call(getERC20TokenContract, mockCusdAddress), mockContract],
+      ])
+      .call.fn(sendAndMonitorTransaction)
+      .run()
+
+    expect(mockContract.methods.transfer).toHaveBeenCalledWith(
+      mockQRCodeRecipient.address,
+      amount.times(1e18).toFixed(0)
+    )
+  })
+
+  it('sends an invite successfully', async () => {
+    await expectSaga(sendPaymentOrInviteSaga, {
+      ...sendAction,
+      recipient: mockInvitableRecipient,
+    })
+      .withState(createMockStore({}).getState())
+      .provide([[call(getConnectedUnlockedAccount), mockAccount]])
+      .run()
+
+    expect(sendInvite).toHaveBeenCalledWith(
+      mockInvitableRecipient.e164PhoneNumber,
+      amount,
+      amount,
+      mockCusdAddress,
+      undefined
+    )
+  })
+
+  it('fails if user cancels PIN input', async () => {
+    const account = '0x000123'
+    await expectSaga(sendPaymentOrInviteSaga, sendAction)
+      .provide([
+        [call(getConnectedAccount), account],
+        [matchers.call.fn(unlockAccount), UnlockResult.CANCELED],
+      ])
+      .put(showError(ErrorMessages.PIN_INPUT_CANCELED))
+      .run()
+  })
+
+  it('uploads symmetric keys if transaction sent successfully', async () => {
+    const account = '0x000123'
+    await expectSaga(sendPaymentOrInviteSaga, sendAction)
+      .withState(createMockStore({}).getState())
+      .provide([
+        [call(getConnectedAccount), account],
+        [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
+        [select(currentAccountSelector), account],
+        [call(encryptComment, 'asdf', 'asdf', 'asdf', true), 'Asdf'],
+        [call(getERC20TokenContract, mockCusdAddress), mockContract],
       ])
       .call.fn(giveProfileAccess)
       .run()

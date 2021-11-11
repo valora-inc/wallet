@@ -49,7 +49,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
       />
     </RNGestureHandlerButton>
   </View>
-  <View
+  <RCTScrollView
     onLayout={[Function]}
     style={
       Array [
@@ -64,6 +64,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
           "width": "100%",
         },
         Object {
+          "maxHeight": 1234,
           "paddingBottom": 24,
         },
         undefined,
@@ -81,7 +82,7 @@ exports[`TokenBottomSheet renders correctly 1`] = `
         }
       }
     >
-      selectBalance
+      selectToken
     </Text>
     <View
       accessible={true}
@@ -111,41 +112,69 @@ exports[`TokenBottomSheet renders correctly 1`] = `
           }
         }
       >
-        <Text
-          style={
+        <Image
+          source={
             Object {
-              "color": "#2E3338",
-              "flex": 1,
-              "fontFamily": "Inter-Medium",
-              "fontSize": 16,
-              "lineHeight": 22,
+              "uri": undefined,
             }
           }
-        >
-          stableBalance, {"token":"cUSD"}
-        </Text>
+          style={
+            Object {
+              "borderRadius": 20,
+              "height": 40,
+              "marginRight": 10,
+              "width": 40,
+            }
+          }
+        />
         <View
           style={
             Object {
-              "alignItems": "flex-end",
+              "alignItems": "flex-start",
             }
           }
         >
           <Text
             style={
-              Array [
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
-                  "lineHeight": 22,
-                },
-                Object {
-                  "color": "#2E3338",
-                },
-              ]
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
             }
-            testID="LocalcUSDBalance/value"
+          >
+            cUSD
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+          />
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-end",
+              "flex": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+            testID="LocalcUSDBalance"
           >
             
             $
@@ -153,19 +182,14 @@ exports[`TokenBottomSheet renders correctly 1`] = `
           </Text>
           <Text
             style={
-              Array [
-                Object {
-                  "color": "#9CA4A9",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 14,
-                  "lineHeight": 18,
-                },
-                Object {
-                  "color": "#9CA4A9",
-                },
-              ]
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
             }
-            testID="cUSDBalance/value"
+            testID="cUSDBalance"
           >
             
             10.00
@@ -211,61 +235,84 @@ exports[`TokenBottomSheet renders correctly 1`] = `
           }
         }
       >
-        <Text
+        <Image
+          source={
+            Object {
+              "uri": undefined,
+            }
+          }
           style={
             Object {
-              "color": "#2E3338",
-              "flex": 1,
-              "fontFamily": "Inter-Medium",
-              "fontSize": 16,
-              "lineHeight": 22,
+              "borderRadius": 20,
+              "height": 40,
+              "marginRight": 10,
+              "width": 40,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "flex-start",
             }
           }
         >
-          stableBalance, {"token":"cEUR"}
-        </Text>
+          <Text
+            style={
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
+            }
+          >
+            cEUR
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
+            }
+          />
+        </View>
         <View
           style={
             Object {
               "alignItems": "flex-end",
+              "flex": 1,
             }
           }
         >
           <Text
             style={
-              Array [
-                Object {
-                  "color": "#2E3338",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
-                  "lineHeight": 22,
-                },
-                Object {
-                  "color": "#2E3338",
-                },
-              ]
+              Object {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              }
             }
-            testID="LocalcEURBalance/value"
+            testID="LocalcEURBalance"
           >
             
             $
-            40.00
+            31.92
           </Text>
           <Text
             style={
-              Array [
-                Object {
-                  "color": "#9CA4A9",
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 14,
-                  "lineHeight": 18,
-                },
-                Object {
-                  "color": "#9CA4A9",
-                },
-              ]
+              Object {
+                "color": "#9CA4A9",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+              }
             }
-            testID="cEURBalance/value"
+            testID="cEURBalance"
           >
             
             20.00
@@ -274,6 +321,6 @@ exports[`TokenBottomSheet renders correctly 1`] = `
         </View>
       </View>
     </View>
-  </View>
+  </RCTScrollView>
 </View>
 `;

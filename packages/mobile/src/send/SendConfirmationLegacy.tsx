@@ -35,12 +35,12 @@ import { getFeeInTokens } from 'src/fees/selectors'
 import i18n, { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { fetchDataEncryptionKey } from 'src/identity/actions'
+import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
 import {
   addressToDataEncryptionKeySelector,
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
-} from 'src/identity/reducer'
-import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
+} from 'src/identity/selectors'
 import InviteAndSendModal from 'src/invite/InviteAndSendModal'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
@@ -59,7 +59,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName } from 'src/recipients/recipient'
 import { isAppConnected } from 'src/redux/selectors'
-import { sendPaymentOrInvite } from 'src/send/actions'
+import { sendPaymentOrInviteLegacy } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import { getConfirmationInput } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -131,7 +131,8 @@ function SendConfirmationLegacy(props: Props) {
   )
   const account = useSelector(currentAccountSelector)
   const isSending = useSelector(isSendingSelector)
-  const balance = useBalance(currency)
+  // Only load the balance once to prevent race conditions with transactions updating balance
+  const [balance] = useState(useBalance(currency))
   const celoBalance = useBalance(Currency.Celo)
   const appConnected = useSelector(isAppConnected)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
@@ -205,7 +206,7 @@ function SendConfirmationLegacy(props: Props) {
     })
 
     dispatch(
-      sendPaymentOrInvite(
+      sendPaymentOrInviteLegacy(
         amount,
         currency,
         finalComment,

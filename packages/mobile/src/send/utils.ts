@@ -7,6 +7,7 @@ import { showError } from 'src/alert/actions'
 import { SendOrigin } from 'src/analytics/types'
 import { TokenTransactionType } from 'src/apollo/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { multiTokenUseSendFlowSelector } from 'src/app/selectors'
 import { ALERT_BANNER_DURATION } from 'src/config'
 import { FeeType } from 'src/fees/actions'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
@@ -31,7 +32,10 @@ import { AddressRecipient, Recipient } from 'src/recipients/recipient'
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { PaymentInfo } from 'src/send/reducers'
 import { getRecentPayments } from 'src/send/selectors'
-import { TransactionDataInput } from 'src/send/SendAmountLegacy'
+import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput as TransactionDataInputLegacy } from 'src/send/SendAmountLegacy'
+import { TokenBalance } from 'src/tokens/reducer'
+import { tokensListSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { timeDeltaInHours } from 'src/utils/time'
@@ -49,7 +53,7 @@ export interface ConfirmationInput {
 }
 
 export const getConfirmationInput = (
-  transactionData: TransactionDataInput,
+  transactionData: TransactionDataInputLegacy,
   e164NumberToAddress: E164NumberToAddressType,
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
 ): ConfirmationInput => {
@@ -182,6 +186,59 @@ export function showLimitReachedError(
   return showError(ErrorMessages.PAYMENT_LIMIT_REACHED, ALERT_BANNER_DURATION, translationParams)
 }
 
+function* handleSendPaymentDataLegacy(
+  data: UriData,
+  recipient: Recipient,
+  isOutgoingPaymentRequest?: boolean,
+  isFromScan?: boolean
+) {
+  if (data.amount) {
+    if (data.token === 'CELO') {
+      navigate(Screens.WithdrawCeloReviewScreen, {
+        amount: new BigNumber(data.amount),
+        recipientAddress: data.address.toLowerCase(),
+        feeEstimate: new BigNumber(0),
+        isCashOut: false,
+      })
+    } else if (data.token === 'cUSD' || !data.token) {
+      const currency: LocalCurrencyCode = data.currencyCode
+        ? (data.currencyCode as LocalCurrencyCode)
+        : yield select(getLocalCurrencyCode)
+      const exchangeRate: string = yield call(fetchExchangeRate, Currency.Dollar, currency)
+      const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
+      if (!dollarAmount) {
+        Logger.warn(TAG, '@handleSendPaymentData null amount')
+        return
+      }
+      const transactionData: TransactionDataInputLegacy = {
+        recipient,
+        amount: dollarAmount,
+        currency: Currency.Dollar,
+        reason: data.comment,
+        type: TokenTransactionType.PayPrefill,
+      }
+      navigate(Screens.SendConfirmationLegacy, {
+        transactionData,
+        isFromScan,
+        currencyInfo: { localCurrencyCode: currency, localExchangeRate: exchangeRate },
+        origin: SendOrigin.AppSendFlow,
+      })
+    }
+  } else {
+    if (data.token === 'CELO') {
+      Logger.warn(TAG, '@handleSendPaymentData no amount given in CELO withdrawal')
+      return
+    } else if (data.token === 'cUSD' || !data.token) {
+      navigate(Screens.SendAmountLegacy, {
+        recipient,
+        isFromScan,
+        isOutgoingPaymentRequest,
+        origin: SendOrigin.AppSendFlow,
+      })
+    }
+  }
+}
+
 export function* handleSendPaymentData(
   data: UriData,
   cachedRecipient?: Recipient,
@@ -202,50 +259,44 @@ export function* handleSendPaymentData(
     })
   )
 
-  if (data.amount) {
-    if (data.token === 'CELO') {
-      navigate(Screens.WithdrawCeloReviewScreen, {
-        amount: new BigNumber(data.amount),
-        recipientAddress: data.address.toLowerCase(),
-        feeEstimate: new BigNumber(0),
-        isCashOut: false,
-      })
-    } else if (data.token === 'cUSD' || !data.token) {
-      const currency = data.currencyCode
-        ? (data.currencyCode as LocalCurrencyCode)
-        : yield select(getLocalCurrencyCode)
-      const exchangeRate: string = yield call(fetchExchangeRate, Currency.Dollar, currency)
-      const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
-      if (!dollarAmount) {
-        Logger.warn(TAG, '@handleSendPaymentData null amount')
-        return
-      }
-      const transactionData: TransactionDataInput = {
-        recipient,
-        amount: dollarAmount,
-        currency: Currency.Dollar,
-        reason: data.comment,
-        type: TokenTransactionType.PayPrefill,
-      }
-      navigate(Screens.SendConfirmationLegacy, {
-        transactionData,
-        isFromScan,
-        currencyInfo: { localCurrencyCode: currency, localExchangeRate: exchangeRate },
-        origin: SendOrigin.AppSendFlow,
-      })
-    }
-  } else {
-    if (data.token === 'CELO') {
-      Logger.warn(TAG, '@handleSendPaymentData no amount given in CELO withdrawal')
+  const useTokenSendFlow: boolean = yield select(multiTokenUseSendFlowSelector)
+  if (!useTokenSendFlow) {
+    yield call(handleSendPaymentDataLegacy, data, recipient, isOutgoingPaymentRequest, isFromScan)
+    return
+  }
+
+  const tokens: TokenBalance[] = yield select(tokensListSelector)
+  const tokenInfo = tokens.find((token) => token?.symbol === (data.token ?? Currency.Dollar))
+
+  if (data.amount && tokenInfo?.address) {
+    const currency: LocalCurrencyCode = data.currencyCode
+      ? (data.currencyCode as LocalCurrencyCode)
+      : yield select(getLocalCurrencyCode)
+    const exchangeRate: string = yield call(fetchExchangeRate, Currency.Dollar, currency)
+    const dollarAmount = convertLocalAmountToDollars(data.amount, exchangeRate)
+    if (!dollarAmount) {
+      Logger.warn(TAG, '@handleSendPaymentData null amount')
       return
-    } else if (data.token === 'cUSD' || !data.token) {
-      navigate(Screens.SendAmount, {
-        recipient,
-        isFromScan,
-        isOutgoingPaymentRequest,
-        origin: SendOrigin.AppSendFlow,
-      })
     }
+    const transactionData: TransactionDataInput = {
+      recipient,
+      inputAmount: new BigNumber(data.amount),
+      amountIsInLocalCurrency: false,
+      tokenAddress: tokenInfo.address,
+    }
+    navigate(Screens.SendConfirmation, {
+      transactionData,
+      isFromScan,
+      origin: SendOrigin.AppSendFlow,
+    })
+  } else {
+    navigate(Screens.SendAmount, {
+      recipient,
+      isFromScan,
+      isOutgoingPaymentRequest,
+      origin: SendOrigin.AppSendFlow,
+      forceTokenAddress: data.token ? tokenInfo?.address : undefined,
+    })
   }
 }
 
@@ -256,4 +307,10 @@ export function* handlePaymentDeeplink(deeplink: string) {
   } catch (e) {
     Logger.warn('handlePaymentDeepLink', `deeplink ${deeplink} failed with ${e}`)
   }
+}
+
+export function isLegacyTransactionData(
+  transactionData: TransactionDataInput | TransactionDataInputLegacy
+): transactionData is TransactionDataInputLegacy {
+  return transactionData && 'currency' in transactionData
 }

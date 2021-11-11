@@ -64,6 +64,7 @@ export const DEFAULT_FORNO_URL =
   DEFAULT_TESTNET === 'mainnet'
     ? 'https://forno.celo.org/'
     : 'https://alfajores-forno.celo-testnet.org/'
+export const BLOCKSCOUT_BASE_URL = Config.BLOCKSCOUT_BASE_URL
 
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')
@@ -86,7 +87,7 @@ export const GETH_START_HTTP_RPC_SERVER = stringToBoolean(
 
 // SECRETS
 export const SEGMENT_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SEGMENT_API_KEY')
-export const SENTRY_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SENTRY_URL')
+export const SENTRY_CLIENT_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SENTRY_CLIENT_URL')
 export const RECAPTCHA_SITE_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'RECAPTCHA_SITE_KEY')
 export const SAFETYNET_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'SAFETYNET_KEY')
 export const BIDALI_URL = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'BIDALI_URL')

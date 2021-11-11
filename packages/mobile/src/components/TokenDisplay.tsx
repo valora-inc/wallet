@@ -49,6 +49,16 @@ function calculateDecimalsToShow(value: BigNumber) {
   return Math.abs(exponent) + 1
 }
 
+// Formats |value| so that it shows at least 2 significant figures and at least 2 decimal places without trailing zeros.
+export function formatValueToDisplay(value: BigNumber) {
+  let decimals = calculateDecimalsToShow(value)
+  let text = value.toFixed(decimals)
+  while (text[text.length - 1] === '0' && decimals-- > 2) {
+    text = text.substring(0, text.length - 1)
+  }
+  return text
+}
+
 function TokenDisplay({
   amount,
   tokenAddress,
@@ -83,13 +93,11 @@ function TokenDisplay({
 
   const sign = amountToShow.isNegative() ? '-' : showExplicitPositiveSign ? '+' : ''
 
-  const decimalsToShow = calculateDecimalsToShow(amountToShow)
-
   return (
     <Text style={style} testID={testID}>
       {sign}
       {showLocalAmount && fiatSymbol}
-      {error ? '-' : amountToShow.absoluteValue().toFixed(decimalsToShow)}
+      {error ? '-' : formatValueToDisplay(amountToShow.absoluteValue())}
       {!showLocalAmount && showSymbol && ` ${tokenInfo?.symbol}`}
     </Text>
   )

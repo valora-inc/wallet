@@ -1,8 +1,9 @@
 # Valora Mobile App
 
-![example workflow](https://github.com/valora-inc/wallet/actions/workflows/check.yml/badge.svg)
-![example workflow](https://github.com/valora-inc/wallet/actions/workflows/e2e.yml/badge.svg)
-![example workflow](https://github.com/valora-inc/wallet/actions/workflows/test.yml/badge.svg)
+![Checks](https://github.com/valora-inc/wallet/actions/workflows/check.yml/badge.svg)
+![Android E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-android.yml/badge.svg)
+![iOS E2E](https://github.com/valora-inc/wallet/actions/workflows/e2e-ios.yml/badge.svg)
+![Mobile Tests](https://github.com/valora-inc/wallet/actions/workflows/test.yml/badge.svg)
 [![Codecov](https://img.shields.io/codecov/c/github/valora-inc/wallet)](https://codecov.io/gh/valora-inc/wallet)
 [![GitHub contributors](https://img.shields.io/github/contributors/valora-inc/wallet)](https://github.com/valora-inc/wallet/graphs/contributors)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/valora-inc/wallet)](https://github.com/valora-inc/wallet/graphs/contributors)
@@ -28,7 +29,6 @@ To setup Valora locally, follow [setup instructions](https://github.com/valora-i
 The repository has the following packages (sub projects):
 
 - [mobile](packages/mobile) - React Native Android and iOS app
-- [blockchain-api](packages/blockchain-api) - service that uses Blockscout to present view of transactions by account for Celo Wallet activity feed
 - [notification-service](packages/notification-service) - service for managing push notifications for Celo Wallet
 
 Code owners for each package can be found in [.github/CODEOWNERS](.github/CODEOWNERS).

@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/react-native'
 import DeviceInfo from 'react-native-device-info'
 import { select } from 'redux-saga/effects'
-import { SENTRY_URL } from 'src/config'
+import { SENTRY_CLIENT_URL } from 'src/config'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -18,12 +18,12 @@ if (SENTRY_ENABLED) {
 
 // This should be called as early in the lifecycle of the app as possible.
 function installSentry() {
-  if (!SENTRY_URL) {
+  if (!SENTRY_CLIENT_URL) {
     Logger.info(TAG, 'installSentry', 'Sentry URL not found, skiping instalation')
     return
   }
   Sentry.init({
-    dsn: SENTRY_URL,
+    dsn: SENTRY_CLIENT_URL,
     environment: DeviceInfo.getBundleId(),
     enableAutoSessionTracking: true,
   })

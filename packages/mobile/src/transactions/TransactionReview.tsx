@@ -6,7 +6,8 @@ import ExchangeConfirmationCard, {
   ExchangeConfirmationCardProps,
 } from 'src/exchange/ExchangeConfirmationCard'
 import i18n from 'src/i18n'
-import { addressToDisplayNameSelector, SecureSendPhoneNumberMapping } from 'src/identity/reducer'
+import { SecureSendPhoneNumberMapping } from 'src/identity/reducer'
+import { addressToDisplayNameSelector } from 'src/identity/selectors'
 import { HeaderTitleWithSubtitle, headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'

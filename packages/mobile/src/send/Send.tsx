@@ -12,7 +12,7 @@ import { hideAlert } from 'src/alert/actions'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { verificationPossibleSelector } from 'src/app/selectors'
+import { multiTokenUseSendFlowSelector, verificationPossibleSelector } from 'src/app/selectors'
 import { estimateFee, FeeType } from 'src/fees/actions'
 import { Namespaces } from 'src/i18n'
 import ContactPermission from 'src/icons/ContactPermission'
@@ -64,6 +64,7 @@ function Send({ route }: Props) {
   const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
 
   const verificationPossible = useSelector(verificationPossibleSelector)
+  const multiTokenUseSendFlow = useSelector(multiTokenUseSendFlowSelector)
 
   const dispatch = useDispatch()
 
@@ -125,12 +126,21 @@ function Send({ route }: Props) {
         }
       )
 
-      navigate(Screens.SendAmountLegacy, {
-        recipient,
-        isOutgoingPaymentRequest,
-        origin: SendOrigin.AppSendFlow,
-        forceCurrency,
-      })
+      // TODO: Add payment request support in the new flow.
+      if (multiTokenUseSendFlow && !isOutgoingPaymentRequest) {
+        navigate(Screens.SendAmount, {
+          recipient,
+          isOutgoingPaymentRequest,
+          origin: SendOrigin.AppSendFlow,
+        })
+      } else {
+        navigate(Screens.SendAmountLegacy, {
+          recipient,
+          isOutgoingPaymentRequest,
+          origin: SendOrigin.AppSendFlow,
+          forceCurrency,
+        })
+      }
     },
     [isOutgoingPaymentRequest, searchQuery]
   )

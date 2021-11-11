@@ -17,7 +17,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, getDisplayName } from 'src/recipients/recipient'
 import { Actions as SendActions } from 'src/send/actions'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/SendAmountLegacy'
 import {
   Actions as TransactionActions,
   NewTransactionsInFeedAction,
@@ -68,14 +68,13 @@ function* bidaliPaymentRequest({
 
   while (true) {
     const { cancel } = yield race({
-      sendStart: take(SendActions.SEND_PAYMENT_OR_INVITE),
+      sendStart: take(SendActions.SEND_PAYMENT_OR_INVITE_LEGACY),
       cancel: take(
         (action: AppActionTypes) =>
           action.type === AppActions.ACTIVE_SCREEN_CHANGED &&
           action.activeScreen === Screens.BidaliScreen
       ),
     })
-
     if (cancel) {
       Logger.debug(`${TAG}@bidaliPaymentRequest`, 'Cancelled')
       yield call(onCancelled)
