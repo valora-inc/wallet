@@ -13,7 +13,7 @@ import {
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
-import { hideAlert, showMessage } from 'src/alert/actions'
+import { showMessage } from 'src/alert/actions'
 import { multiTokenShowHomeBalancesSelector } from 'src/app/selectors'
 import {
   ALERT_BANNER_DURATION,
@@ -58,7 +58,6 @@ interface DispatchProps {
   setLoading: typeof setLoading
   showMessage: typeof showMessage
   importContacts: typeof importContacts
-  hideAlert: typeof hideAlert
 }
 
 type Props = StateProps & DispatchProps & WithTranslation
@@ -69,7 +68,6 @@ const mapDispatchToProps = {
   setLoading,
   showMessage,
   importContacts,
-  hideAlert,
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
