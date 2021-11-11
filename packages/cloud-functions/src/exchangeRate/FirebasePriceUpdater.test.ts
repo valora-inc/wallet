@@ -47,6 +47,10 @@ describe('FirebasePriceUpdater', () => {
     dateNowSpy.mockRestore()
   })
 
+  afterEach(() => {
+    jest.restoreAllMocks()
+  })
+
   it('refreshes all prices correctly', async () => {
     await firebasePriceUpdater.refreshAllPrices()
 
