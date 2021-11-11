@@ -226,12 +226,11 @@ class ValoraAnalytics {
 
   // Super props, i.e. props sent with all events
   private getSuperProps() {
-    // Leave out name
-    const { name, ...otherTraits } = getCurrentUserTraits(store.getState())
+    const traits = getCurrentUserTraits(store.getState())
     // Prefix super props with `s` so they don't clash with events props
     const prefixedSuperProps = Object.fromEntries(
       Object.entries({
-        ...otherTraits,
+        ...traits,
         currentScreenId: this.currentScreenId,
         prevScreenId: this.prevScreenId,
       }).map(([key, value]) => [`s${key.charAt(0).toUpperCase() + key.slice(1)}`, value])
@@ -241,7 +240,7 @@ class ValoraAnalytics {
       // Legacy super props
       timestamp: Date.now(),
       sessionId: this.sessionId,
-      userAddress: otherTraits.walletAddress,
+      userAddress: traits.walletAddress,
       celoNetwork: DEFAULT_TESTNET,
       // Prefixed super props
       ...prefixedSuperProps,

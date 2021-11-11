@@ -33,13 +33,13 @@ import SendAmountHeader from 'src/send/SendAmount/SendAmountHeader'
 import SendAmountValue from 'src/send/SendAmount/SendAmountValue'
 import useTransactionCallbacks from 'src/send/SendAmount/useTransactionCallbacks'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { fetchStableBalances } from 'src/stableToken/actions'
 import {
   useAmountAsUsd,
   useLocalToTokenAmount,
   useTokenInfo,
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
+import { fetchTokenBalances } from 'src/tokens/reducer'
 import { defaultTokenSelector } from 'src/tokens/selectors'
 import { Currency } from 'src/utils/currencies'
 
@@ -108,7 +108,7 @@ function SendAmount(props: Props) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchStableBalances())
+    dispatch(fetchTokenBalances())
     if (recipient.address) {
       return
     }
