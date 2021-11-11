@@ -101,6 +101,7 @@ exports[`SettingsItemInput renders correctly 1`] = `
               ],
             ]
           }
+          testID="testID"
           underlineColorAndroid="transparent"
           value="value"
         />
@@ -243,6 +244,7 @@ exports[`SettingsItemTextValue renders correctly 1`] = `
               "marginRight": 8,
             }
           }
+          testID="testID/value"
         >
           value
         </Text>
