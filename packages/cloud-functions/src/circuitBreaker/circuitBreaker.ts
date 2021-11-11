@@ -7,6 +7,15 @@ type CryptoKeyVersionState = keyof typeof protos.google.cloud.kms.v1.CryptoKeyVe
 
 const client = new KeyManagementServiceClient()
 
+export enum KeyStatus {
+  Enabled = 'ENABLED',
+  Disabled = 'DISABLED',
+  Destroyed = 'DESTROYED',
+  Unknown = 'UNKNOWN',
+}
+
+const BASE64_REGEXP = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/
+
 const app = express()
 app.use(express.json())
 
@@ -28,20 +37,20 @@ app.get('/status', async (req, res) => {
   switch (keyState) {
     case 'ENABLED':
       return res.status(200).json({
-        status: 'enabled',
+        status: KeyStatus.Enabled,
       })
     case 'DISABLED':
       return res.status(200).json({
-        status: 'temporarily disabled',
+        status: KeyStatus.Disabled,
       })
     case 'DESTROYED':
       return res.status(200).json({
-        status: 'permanently disabled',
+        status: KeyStatus.Destroyed,
       })
     default:
       console.error(`Unexpected key state: ${keyState}`)
       return res.status(200).json({
-        status: 'unknown',
+        status: KeyStatus.Unknown,
       })
   }
 })
@@ -51,6 +60,10 @@ app.post('/unwrap-key', async (req, res) => {
   if (!ciphertext) {
     return res.status(400).json({
       error: '"ciphertext" parameter must be provided',
+    })
+  } else if (!BASE64_REGEXP.test(ciphertext)) {
+    return res.status(400).json({
+      error: '"ciphertext" parameter must be a base64 encoded buffer',
     })
   }
 
@@ -70,18 +83,24 @@ app.post('/unwrap-key', async (req, res) => {
         })
       }
 
-      const plaintext = decryptResponse[0].plaintext as string
+      const plaintext = decryptResponse[0].plaintext as Buffer
       return res.status(200).json({
-        plaintext: plaintext.toString(),
+        plaintext: plaintext.toString('base64'),
       })
 
     case 'DISABLED':
-      return res.status(503).send()
+      return res.status(503).json({
+        status: KeyStatus.Disabled,
+      })
     case 'DESTROYED':
-      return res.status(410).send()
+      return res.status(503).json({
+        status: KeyStatus.Destroyed,
+      })
     default:
       console.error(`Unexpected key state: ${keyState}`)
-      return res.status(503).send()
+      return res.status(503).json({
+        status: KeyStatus.Unknown,
+      })
   }
 })
 
