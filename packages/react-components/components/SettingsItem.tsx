@@ -50,7 +50,7 @@ export function SettingsItemTextValue({
               {value}
             </Text>
           )}
-          {value && !Boolean(testID) && <Text style={styles.value}>{value}</Text>}
+          {value && !testID && <Text style={styles.value}>{value}</Text>}
           {(value || showChevron) && <ForwardChevron />}
         </View>
       </View>
