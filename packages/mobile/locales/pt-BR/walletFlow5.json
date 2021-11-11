@@ -125,7 +125,14 @@
   "cashInBottomSheet": {
     "title": "Adicione fundos para começar a usar Valora!",
     "subtitle": "Atualmente sua conta está vazia",
-    "addFunds": "Adicionar Fundos"
+    "addFunds": "Add Funds"
   },
-  "balances": "Saldo"
+  "balances": "Saldo",
+  "totalValue": "Valor Total",
+  "viewBalances": "Ver saldos",
+  "whatTotalValue": {
+    "title": "O que significa Valor Total?",
+    "body": "O seu Valor Total é uma soma aproximada de todos os seus ativos na Valora. O Valor Total irá mudar conforme os preços flutuarem. Ele é atualizado a cada 10 minutos. \n\nÉ possível que alguns tokens não sejam refletidos no Valor Total porque o preço não está disponível no momento do cálculo.",
+    "dismiss": "Dismiss"
+  }
 }
