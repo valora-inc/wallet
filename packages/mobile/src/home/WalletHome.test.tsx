@@ -55,7 +55,7 @@ describe('Testnet banner', () => {
           importContacts={jest.fn()}
           balances={balances}
           cashInButtonExpEnabled={false}
-          showTokensinHome={false}
+          showTokensInHome={false}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -85,7 +85,7 @@ describe('Testnet banner', () => {
           importContacts={jest.fn()}
           balances={balances}
           cashInButtonExpEnabled={false}
-          showTokensinHome={false}
+          showTokensInHome={false}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -107,7 +107,7 @@ describe('Testnet banner', () => {
           importContacts={jest.fn()}
           balances={balances}
           cashInButtonExpEnabled={false}
-          showTokensinHome={false}
+          showTokensInHome={false}
           {...getMockI18nProps()}
         />
       </Provider>
@@ -129,7 +129,7 @@ describe('Testnet banner', () => {
           importContacts={jest.fn()}
           balances={zeroBalances}
           cashInButtonExpEnabled={true}
-          showTokensinHome={false}
+          showTokensInHome={false}
           {...getMockI18nProps()}
         />
       </Provider>
