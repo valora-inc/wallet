@@ -342,8 +342,13 @@ export async function cUsdDailyLimitChannel(address: string) {
   return simpleReadChannel(`registrations/${address}/dailyLimitCusd`)
 }
 
+<<<<<<< HEAD
 export async function kycStatusChannel(mtwAddress: string) {
   return simpleReadChannel(`inHouseLiquidity/${mtwAddress}/kycStatus`)
+=======
+export async function kycStatusChannel(address: string) {
+  return simpleReadChannel(`inHouseLiquidity/${address}/kycStatus`)
+>>>>>>> fix the build
 }
 
 export function simpleReadChannel(key: string) {

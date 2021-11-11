@@ -8,9 +8,6 @@ import Persona, { Props } from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockMnemonic } from 'test/values'
-<<<<<<< HEAD
-=======
->>>>>>> added some tests
 
 const FAKE_TEMPLATE_ID = 'fake template id'
 jest.mock('react-native-persona')
