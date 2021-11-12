@@ -77,6 +77,18 @@ describe(fetchTokenBalancesSaga, () => {
       .run()
   })
 
+  it("nothing happens if there's no address in the store", async () => {
+    await expectSaga(fetchTokenBalancesSaga)
+      .provide([
+        [select(walletAddressSelector), null],
+        [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
+        [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
+      ])
+      .not.call(readOnceFromFirebase, 'tokensInfo')
+      .not.put(setTokenBalances(mockTokenBalances))
+      .run()
+  })
+
   it("fires an event if there's an error", async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
