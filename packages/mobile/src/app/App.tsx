@@ -13,6 +13,7 @@ import { apolloClient } from 'src/apollo/index'
 import { appMounted, appUnmounted, openDeepLink } from 'src/app/actions'
 import AppLoading from 'src/app/AppLoading'
 import ErrorBoundary from 'src/app/ErrorBoundary'
+import I18nGate from 'src/app/I18nGate'
 import { isE2EEnv } from 'src/config'
 import i18n from 'src/i18n'
 import NavigatorWrapper from 'src/navigator/NavigatorWrapper'
@@ -111,7 +112,9 @@ export class App extends React.Component<Props> {
             <PersistGate loading={<AppLoading />} persistor={persistor}>
               <StatusBar backgroundColor="transparent" barStyle="dark-content" />
               <ErrorBoundary>
-                <NavigatorWrapper />
+                <I18nGate fallback={<AppLoading />}>
+                  <NavigatorWrapper />
+                </I18nGate>
               </ErrorBoundary>
             </PersistGate>
           </Provider>

@@ -1,0 +1,86 @@
+import { act, render } from '@testing-library/react-native'
+import * as React from 'react'
+import 'react-native'
+import { Text } from 'react-native'
+import * as RNLocalize from 'react-native-localize'
+import { Provider } from 'react-redux'
+import * as AppActions from 'src/app/actions'
+import I18nGate from 'src/app/I18nGate'
+import * as I18n from 'src/i18n'
+import { createMockStore, flushMicrotasksQueue } from 'test/utils'
+
+jest.mock('src/i18n', () => ({
+  initI18n: jest.fn(),
+  changeLanguage: jest.fn(() => new Promise(setImmediate)),
+  t: jest.fn(),
+}))
+
+const mockedI18n = I18n as jest.Mocked<typeof I18n>
+const setLanguageSpy = jest.spyOn(AppActions, 'setLanguage')
+
+const renderI18nGate = (language: string | null) =>
+  render(
+    <Provider store={createMockStore({ app: { language } })}>
+      <I18nGate fallback={<Text>Loading component</Text>}>
+        <Text>App</Text>
+      </I18nGate>
+    </Provider>
+  )
+
+describe('I18nGate', () => {
+  const initI18nPromise = Promise.resolve()
+  mockedI18n.initI18n.mockImplementation(jest.fn(() => initI18nPromise))
+
+  afterEach(async () => {
+    jest.clearAllMocks()
+  })
+
+  it('should render the fallback before i18n is initialised, and the app after initialisation', async () => {
+    const { getByText, queryByText } = renderI18nGate(null)
+
+    expect(getByText('Loading component')).toBeTruthy()
+    expect(queryByText('App')).toBeFalsy()
+
+    await act(() => initI18nPromise)
+
+    expect(getByText('App')).toBeTruthy()
+    expect(queryByText('Loading component')).toBeFalsy()
+  })
+
+  it('should initialise i18n with the store language if it exists', async () => {
+    renderI18nGate('pt-BR')
+    await act(() => initI18nPromise)
+
+    expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
+    expect(mockedI18n.initI18n).toHaveBeenCalledWith('pt-BR')
+    expect(setLanguageSpy).not.toHaveBeenCalled()
+  })
+
+  it('should initialise i18n with the best language available and set the store language', async () => {
+    jest
+      .spyOn(RNLocalize, 'findBestAvailableLanguage')
+      .mockReturnValue({ languageTag: 'de', isRTL: true })
+
+    renderI18nGate(null)
+    await act(() => initI18nPromise)
+    await act(async () => {
+      // flush promises as we are calling i18n.changeLanguage inside the setLanguage action
+      await flushMicrotasksQueue()
+    })
+
+    expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
+    expect(mockedI18n.initI18n).toHaveBeenCalledWith('de')
+    expect(setLanguageSpy).toHaveBeenCalledWith('de')
+  })
+
+  it('should initialise i18n with the default fallback language', async () => {
+    jest.spyOn(RNLocalize, 'findBestAvailableLanguage').mockReturnValueOnce(undefined)
+
+    renderI18nGate(null)
+    await act(() => initI18nPromise)
+
+    expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
+    expect(mockedI18n.initI18n).toHaveBeenCalledWith('en-US')
+    expect(setLanguageSpy).not.toHaveBeenCalled()
+  })
+})
