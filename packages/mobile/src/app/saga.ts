@@ -85,20 +85,24 @@ export function* appInit() {
   }
 }
 
-function* otaTranslationsSaga() {
+export function* otaTranslationsSaga() {
   try {
     const timestamp = yield otaClient.getManifestTimestamp()
 
     const languageMappings = yield otaClient.getLanguageMappings()
-    const locale = yield select(currentLanguageSelector)
+    const currentLanguage = yield select(currentLanguageSelector)
     // otaClient expects language value like "es", while the locale value is like "es-419"
-    const language = _.findKey(languageMappings, { locale })
+    const language = _.findKey(languageMappings, { locale: currentLanguage })
 
     const translations = yield otaClient.getStringsByLocale(undefined, language)
-    i18n.addResources(locale, 'global', translations)
+    i18n.addResources(currentLanguage, 'global', translations)
 
-    yield RNFS.unlink(OTA_TRANSLATIONS_FILE)
-    yield RNFS.writeFile(OTA_TRANSLATIONS_FILE, JSON.stringify(translations))
+    const hasPreviouslyFetchedTranslations = yield RNFS.exists(OTA_TRANSLATIONS_FILE)
+    if (hasPreviouslyFetchedTranslations) {
+      yield RNFS.unlink(OTA_TRANSLATIONS_FILE)
+    }
+
+    yield RNFS.writeFile(OTA_TRANSLATIONS_FILE, JSON.stringify({ [currentLanguage]: translations }))
     yield put(setOtaTranslationsLastUpdate(timestamp))
   } catch (error) {
     Logger.error(`${TAG}@otaTranslationsSaga`, error)
