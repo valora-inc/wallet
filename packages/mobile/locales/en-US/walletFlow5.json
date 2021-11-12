@@ -129,7 +129,7 @@
   },
   "balances": "Balances",
   "totalValue": "Total Value",
-  "viewBalances": "View Balances",
+  "viewBalances": "View Assets",
   "whatTotalValue": {
     "title": "What does Total Value mean?",
     "body": "Your Total Value is an approximate sum of all your Valora assets. Total Value will change as prices fluctuate. It is updated every 10 minutes. \n\nSome tokens may not be shown in the Total Value because the price is unavailable at the time of calculation.",
