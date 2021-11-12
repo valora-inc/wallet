@@ -16,6 +16,7 @@ import { showError } from 'src/alert/actions'
 import { Actions as AppActions, SetLanguage } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { otaTranslationsSaga } from 'src/app/saga'
+import { allowOtaTranslationsSelector } from 'src/app/selectors'
 import { FIREBASE_ENABLED } from 'src/config'
 import { updateCeloGoldExchangeRateHistory } from 'src/exchange/actions'
 import { exchangeHistorySelector, ExchangeRate, MAX_HISTORY_RETENTION } from 'src/exchange/reducer'
@@ -83,8 +84,12 @@ function* initializeFirebase() {
 }
 
 export function* syncLanguageSelection({ language }: SetLanguage) {
+  const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
+  if (allowOtaTranslations) {
+    yield spawn(otaTranslationsSaga)
+  }
+
   yield call(waitForFirebaseAuth)
-  yield spawn(otaTranslationsSaga)
   const address = yield select(currentAccountSelector)
   try {
     yield call(setUserLanguage, address, language)

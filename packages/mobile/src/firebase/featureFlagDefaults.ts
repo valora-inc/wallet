@@ -31,4 +31,5 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   multiTokenShowHomeBalances: false,
   multiTokenUseSendFlow: false,
   multiTokenUseUpdatedFeed: false,
+  allowOtaTranslations: false,
 }

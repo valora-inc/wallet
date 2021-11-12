@@ -32,7 +32,7 @@ describe('i18n', () => {
     jest.unmock('src/i18n')
     const I18n = require('src/i18n')
     i18n = I18n.default
-    await I18n.initI18n('en-US')
+    await I18n.initI18n('en-US', false)
   })
 
   it('only loads the default language (en-US)', () => {

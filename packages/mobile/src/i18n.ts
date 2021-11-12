@@ -32,9 +32,10 @@ export enum Namespaces {
   walletConnect = 'walletConnect',
 }
 
-async function getAvailableResources() {
+async function getAvailableResources(allowOtaTranslations: boolean) {
   let cachedTranslations: Resource = {}
-  if (await RNFS.exists(OTA_TRANSLATIONS_FILE)) {
+
+  if (allowOtaTranslations && (await RNFS.exists(OTA_TRANSLATIONS_FILE))) {
     cachedTranslations = JSON.parse(await RNFS.readFile(OTA_TRANSLATIONS_FILE))
   }
 
@@ -54,8 +55,8 @@ async function getAvailableResources() {
   return resources
 }
 
-export const initI18n = async (lng: string) => {
-  const resources = await getAvailableResources()
+export const initI18n = async (lng: string, allowOtaTranslations: boolean) => {
+  const resources = await getAvailableResources(allowOtaTranslations)
 
   await i18n.use(initReactI18next).init({
     fallbackLng: {

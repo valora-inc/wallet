@@ -33,6 +33,7 @@ import {
 } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
 import {
+  allowOtaTranslationsSelector,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
@@ -78,10 +79,13 @@ export function* appInit() {
     return
   }
 
-  const lastFetchTime = yield select(otaTranslationsLastUpdateSelector)
-  const timestamp = yield otaClient.getManifestTimestamp()
-  if (lastFetchTime < timestamp) {
-    yield spawn(otaTranslationsSaga)
+  const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
+  if (allowOtaTranslations) {
+    const lastFetchTime = yield select(otaTranslationsLastUpdateSelector)
+    const timestamp = yield otaClient.getManifestTimestamp()
+    if (lastFetchTime < timestamp) {
+      yield spawn(otaTranslationsSaga)
+    }
   }
 }
 
@@ -199,6 +203,7 @@ export interface RemoteFeatureFlags {
   multiTokenShowHomeBalances: boolean
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
+  allowOtaTranslations: boolean
 }
 
 export function* appRemoteFeatureFlagSaga() {

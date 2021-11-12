@@ -44,6 +44,7 @@ export interface State {
   multiTokenShowHomeBalances: boolean
   multiTokenUseSendFlow: boolean
   multiTokenUseUpdatedFeed: boolean
+  allowOtaTranslations: boolean
   otaTranslationsLastUpdate: number
 }
 
@@ -83,6 +84,7 @@ const initialState = {
   multiTokenShowHomeBalances: FEATURE_FLAG_DEFAULTS.multiTokenShowHomeBalances,
   multiTokenUseSendFlow: FEATURE_FLAG_DEFAULTS.multiTokenUseSendFlow,
   multiTokenUseUpdatedFeed: FEATURE_FLAG_DEFAULTS.multiTokenUseUpdatedFeed,
+  allowOtaTranslations: FEATURE_FLAG_DEFAULTS.allowOtaTranslations,
   otaTranslationsLastUpdate: 0,
 }
 
@@ -200,6 +202,7 @@ export const appReducer = (
         multiTokenShowHomeBalances: action.flags.multiTokenShowHomeBalances,
         multiTokenUseSendFlow: action.flags.multiTokenUseSendFlow,
         multiTokenUseUpdatedFeed: action.flags.multiTokenUseUpdatedFeed,
+        allowOtaTranslations: action.flags.allowOtaTranslations,
       }
     case Actions.TOGGLE_INVITE_MODAL:
       return {

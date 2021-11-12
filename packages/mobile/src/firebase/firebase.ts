@@ -284,6 +284,7 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
       multiTokenShowHomeBalances: flags.multiTokenShowHomeBalances.asBoolean(),
       multiTokenUseSendFlow: flags.multiTokenUseSendFlow.asBoolean(),
       multiTokenUseUpdatedFeed: flags.multiTokenUseUpdatedFeed.asBoolean(),
+      allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
     }
   } else {
     Logger.debug('No new configs were fetched from the backend.')

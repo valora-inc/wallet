@@ -815,6 +815,8 @@ export const v20Schema = {
     multiTokenShowHomeBalances: false,
     multiTokenUseSendFlow: false,
     multiTokenUseUpdatedFeed: false,
+    allowOtaTranslations: false,
+    otaTranslationsLastUpdate: 0,
   },
 }
 

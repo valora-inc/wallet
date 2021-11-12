@@ -107,5 +107,6 @@ export const multiTokenUseSendFlowSelector = (state: RootState) => state.app.mul
 export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
   state.app.multiTokenUseUpdatedFeed
 
+export const allowOtaTranslationsSelector = (state: RootState) => state.app.allowOtaTranslations
 export const otaTranslationsLastUpdateSelector = (state: RootState) =>
   state.app.otaTranslationsLastUpdate
