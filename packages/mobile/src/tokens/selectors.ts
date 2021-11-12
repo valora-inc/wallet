@@ -35,6 +35,13 @@ export const tokensWithBalanceSelector = createSelector(tokensListSelector, (tok
   )
 })
 
+// Tokens sorted by usd balance (descending)
+export const tokensByUsdBalanceSelector = createSelector(tokensListSelector, (tokensList) => {
+  return tokensList.sort((a, b) =>
+    b.balance.multipliedBy(b.usdPrice).comparedTo(a.balance.multipliedBy(a.usdPrice))
+  )
+})
+
 export const tokensByCurrencySelector = createSelector(tokensListSelector, (tokens) => {
   const cUsdTokenInfo = tokens.find((token) => token?.symbol === Currency.Dollar)
   const cEurTokenInfo = tokens.find((token) => token?.symbol === Currency.Euro)

@@ -20,7 +20,7 @@ exports[`Debug renders correctly 1`] = `
       }
     }
   >
-    Device Id: undefined | Phone Number: +14155556666
+    Device Id: unknown | Phone Number: +14155556666
   </Text>
   <Text
     onPress={[Function]}
@@ -31,7 +31,7 @@ exports[`Debug renders correctly 1`] = `
       }
     }
   >
-    Version: appVersion | Build Number: undefined | Api Level: undefined
+    Version: 0.0.1 | Build Number: 1 | Api Level: -1
   </Text>
   <Text
     style={
