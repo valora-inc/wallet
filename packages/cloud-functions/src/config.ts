@@ -91,6 +91,8 @@ export enum DigitalAsset {
 export const FETCH_TIMEOUT_DURATION = 10000 // 10 seconds
 export const NOTIFICATIONS_TTL_MS = 3600 * 1000 * 24 * 7 // 1 week in milliseconds
 
+export const CIRCUIT_BREAKER_KEY_PATH = config.circuit_breaker?.key_path
+
 const en = require('../locales/en.json')
 const es = require('../locales/es.json')
 const pt = require('../locales/pt.json')
