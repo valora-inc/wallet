@@ -85,7 +85,7 @@ export default WalletConnect = () => {
     // Verify WC page
     await waitFor(element(by.text('WalletConnectV1 E2E would like to connect to Valora')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(30 * 1000)
 
     // Allow and verify UI behavior
     await element(by.text('Allow')).tap()
@@ -94,7 +94,7 @@ export default WalletConnect = () => {
       .withTimeout(15 * 1000)
     await waitFor(element(by.id('SendOrRequestBar')))
       .toBeVisible()
-      .withTimeout(10 * 1000)
+      .withTimeout(15 * 1000)
   })
 
   it('Then is able to send a transaction (eth_sendTransaction)', async () => {
