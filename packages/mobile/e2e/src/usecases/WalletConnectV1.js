@@ -4,7 +4,7 @@ import NodeWalletConnect from '@walletconnect/node'
 import { dismissBanners } from '../utils/banners'
 import { launchApp } from '../utils/retries'
 import { enterPinUiIfNecessary, isElementVisible, scrollIntoView, sleep } from '../utils/utils'
-import { utf8ToHex } from '../utils/walletConnect'
+import { utf8ToHex, formatUri } from '../utils/encoding'
 
 const fromAddress = (
   process.env.E2E_WALLET_ADDRESS || '0x6131a6d616a4be3737b38988847270a64bc10caa'
@@ -37,8 +37,7 @@ export default WalletConnect = () => {
 
     await walletConnector.createSession()
     // Shared across tests specs
-    uri =
-      device.getPlatform() === 'ios' ? walletConnector.uri : encodeURIComponent(walletConnector.uri)
+    uri = formatUri(walletConnector.uri)
     tx = {
       from: fromAddress, // Required
       to: toAddress, // Required (for non contract deployments)
@@ -265,7 +264,7 @@ export default WalletConnect = () => {
     // Wait for signature
     let signature = await result
 
-    // Verify the signature
+    // Verify the signature - currently both return valid
     const valid = verifySignature(JSON.stringify(typedData), signature, fromAddress)
     const invalid = verifySignature(JSON.stringify(typedData), signature, toAddress)
     jestExpect(valid).toStrictEqual(true)

@@ -7,3 +7,7 @@ export function utf8ToHex(string) {
   }
   return result
 }
+
+export function formatUri(string) {
+  return device.getPlatform() === 'ios' ? string : encodeURIComponent(string)
+}
