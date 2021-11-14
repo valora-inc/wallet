@@ -23,6 +23,7 @@ jobs:
         with:
           packages: system-images;android-29;default;x86_64
       - run: brew install tree coreutils
+      - run: /Users/runner/Library/Android/sdk/emulator/emulator -list-avds
       - run: avdmanager create avd --force --name Pixel_API_29_AOSP_x86_64 --package "system-images;android-29;default;x86_64" --device pixel
       - run: yarn
       - run: yarn build --scope @celo/mobile --include-filtered-dependencies
