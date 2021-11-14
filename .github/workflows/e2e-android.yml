@@ -22,5 +22,6 @@ jobs:
         uses: maxim-lobanov/setup-android-tools@v1
         with:
           packages: system-images;android-29;default;x86_64
-      - run: pwd && ls
+      - run: brew install tree coreutils
       - run: yarn
+      - run: yarn build --scope @celo/mobile --include-filtered-dependencies
