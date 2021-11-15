@@ -44,13 +44,13 @@ function getAvailableResources() {
 
 const availableResources = getAvailableResources()
 
-export const initI18n = async (lng: string) => {
-  await i18n.use(initReactI18next).init({
+export function initI18n(language: string) {
+  return i18n.use(initReactI18next).init({
     fallbackLng: {
       default: [DEFAULT_APP_LANGUAGE],
       'es-US': ['es-LA'],
     },
-    lng,
+    lng: language,
     resources: availableResources,
     ns: ['common', ...Object.keys(Namespaces)],
     defaultNS: 'common',
