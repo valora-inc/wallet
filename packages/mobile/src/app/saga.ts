@@ -79,26 +79,30 @@ export function* appInit() {
     return
   }
 
-  const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
-  if (allowOtaTranslations) {
-    const lastFetchTime = yield select(otaTranslationsLastUpdateSelector)
-    const timestamp = yield otaClient.getManifestTimestamp()
-    if (lastFetchTime < timestamp) {
-      yield spawn(otaTranslationsSaga)
+  try {
+    const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
+    if (allowOtaTranslations) {
+      const lastFetchTime = yield select(otaTranslationsLastUpdateSelector)
+      const timestamp = yield call(() => otaClient.getManifestTimestamp())
+      if (lastFetchTime < timestamp) {
+        yield spawn(otaTranslationsSaga)
+      }
     }
+  } catch (error) {
+    Logger.error(`${TAG}@appInit`, error)
   }
 }
 
 export function* otaTranslationsSaga() {
   try {
-    const timestamp = yield otaClient.getManifestTimestamp()
+    const timestamp = yield call(() => otaClient.getManifestTimestamp())
 
-    const languageMappings = yield otaClient.getLanguageMappings()
+    const languageMappings = yield call(() => otaClient.getLanguageMappings())
     const currentLanguage = yield select(currentLanguageSelector)
     // otaClient expects language value like "es", while the locale value is like "es-419"
     const language = _.findKey(languageMappings, { locale: currentLanguage })
 
-    const translations = yield otaClient.getStringsByLocale(undefined, language)
+    const translations = yield call(() => otaClient.getStringsByLocale(undefined, language))
     i18n.addResources(currentLanguage, 'global', translations)
 
     const hasPreviouslyFetchedTranslations = yield RNFS.exists(OTA_TRANSLATIONS_FILE)
