@@ -156,7 +156,7 @@ if [ $PLATFORM = "android" ]; then
 
     startPackager
     
-    NUM_DEVICES=`/usr/local/lib/android/sdk/platform-tools/adb devices -l | wc -l`
+    NUM_DEVICES=`/Users/runner/Library/Android/sdk/platform-tools/adb devices -l | wc -l`
     if [ $NUM_DEVICES -gt 2 ]; then
       echo "Emulator already running or device attached. Please shutdown / remove first"
       exit 1
@@ -173,7 +173,7 @@ if [ $PLATFORM = "android" ]; then
       &
 
     echo "Waiting for device to connect to Wifi, this is a good proxy the device is ready"
-    until [ `/usr/local/lib/android/sdk/platform-tools/adb shell dumpsys wifi | grep "mNetworkInfo" | grep "state: CONNECTED" | wc -l` -gt 0 ]
+    until [ `/Users/runner/Library/Android/sdk/platform-tools/adb shell dumpsys wifi | grep "mNetworkInfo" | grep "state: CONNECTED" | wc -l` -gt 0 ]
     do
       sleep 3
     done
@@ -185,7 +185,7 @@ if [ $PLATFORM = "android" ]; then
   # Close active emulators 
   if [ $DEV_MODE = false ]; then
     echo "Closing emulator (if active)"
-    /usr/local/lib/android/sdk/platform-tools/adb devices | grep emulator | cut -f1 | while read line; do /usr/local/lib/android/sdk/platform-tools/adb -s $line emu kill; done
+    /Users/runner/Library/Android/sdk/platform-tools/adb devices | grep emulator | cut -f1 | while read line; do /Users/runner/Library/Android/sdk/platform-tools/adb -s $line emu kill; done
   fi
 
 elif [ $PLATFORM = "ios" ]; then
