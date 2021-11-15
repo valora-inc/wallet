@@ -7,7 +7,7 @@ on:
 jobs:
   android:
     name: Android
-    runs-on: macos-11
+    runs-on: ubuntu-latest
     env:
       ANDROID_NDK_LATEST_HOME: /Users/runner/Library/Android/sdk/ndk/23.1.7779620
       ANDROID_NDK_HOME: /Users/runner/Library/Android/sdk/ndk/23.1.7779620
