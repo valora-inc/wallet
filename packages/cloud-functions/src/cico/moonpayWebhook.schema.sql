@@ -74,4 +74,4 @@ rejectType: STRING,
 resultDescription: STRING,
 level: INTEGER,
 rejections: INTEGER,
-isRecurring: BOOLEAN,
+isRecurring: BOOLEAN
