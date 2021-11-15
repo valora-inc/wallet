@@ -52,9 +52,7 @@ export default class FirebasePriceUpdater {
 
 export async function updatePrices() {
   const updater = new FirebasePriceUpdater(createNewManager(getConfigForEnv(EXCHANGES.env)))
-  const prices = await updater.refreshAllPrices()
-
-  return prices
+  return await updater.refreshAllPrices()
 }
 
 async function updatePricesWithRetry() {
@@ -73,8 +71,7 @@ export const updateFirebasePricesScheduled = functions.pubsub
 export const updateFirebasePricesByRequest = functions.https.onRequest(async (req, res) => {
   const retries = req.body.retry ?? 0
   try {
-    const prices = await updatePrices()
-    res.status(200).send(prices)
+    res.status(200).send(await updatePrices())
   } catch (e) {
     const msg = (e as Error)?.message
     if (retries < RETRIES_LIMIT) {
