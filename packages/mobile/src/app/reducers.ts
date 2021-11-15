@@ -47,6 +47,7 @@ export interface State {
   allowOtaTranslations: boolean
   otaTranslationsLastUpdate: number
   otaTranslationsAppVersion: string
+  otaTranslationsLanguage: string
 }
 
 const initialState = {
@@ -88,6 +89,7 @@ const initialState = {
   allowOtaTranslations: FEATURE_FLAG_DEFAULTS.allowOtaTranslations,
   otaTranslationsLastUpdate: 0,
   otaTranslationsAppVersion: '0',
+  otaTranslationsLanguage: '',
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language
@@ -233,6 +235,7 @@ export const appReducer = (
         ...state,
         otaTranslationsLastUpdate: action.otaTranslationsLastUpdate,
         otaTranslationsAppVersion: action.otaTranslationsAppVersion,
+        otaTranslationsLanguage: action.otaTranslationsLanguage,
       }
     default:
       return state

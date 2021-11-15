@@ -818,6 +818,7 @@ export const v20Schema = {
     allowOtaTranslations: false,
     otaTranslationsLastUpdate: 0,
     otaTranslationsAppVersion: '0',
+    otaTranslationsLanguage: '',
   },
 }
 

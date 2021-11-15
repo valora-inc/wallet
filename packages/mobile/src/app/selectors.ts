@@ -113,3 +113,6 @@ export const otaTranslationsLastUpdateSelector = (state: RootState) =>
 
 export const otaTranslationsAppVersionSelector = (state: RootState) =>
   state.app.otaTranslationsAppVersion
+
+export const otaTranslationsLanguageSelector = (state: RootState) =>
+  state.app.otaTranslationsLanguage

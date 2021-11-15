@@ -35,6 +35,7 @@ export enum Actions {
   VERIFICATION_MIGRATION_RAN = 'APP/VERIFICATION_MIGRATION_RAN',
   ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED = 'APP/ANDROID_MOBILE_SERVICES_AVAILABILITY_CHECKED',
   SET_OTA_TRANSLATIONS_LAST_UPDATE = 'APP/SET_OTA_TRANSLATIONS_LAST_UPDATE',
+  FETCH_OTA_TRANSLATIONS = 'APP/FETCH_OTA_TRANSLATIONS',
 }
 
 export interface SetAppState {
@@ -103,6 +104,10 @@ export interface AppUnmounted {
   type: Actions.APP_UNMOUNTED
 }
 
+export interface FetchOtaTranslationsAction {
+  type: Actions.FETCH_OTA_TRANSLATIONS
+}
+
 export interface SetSessionId {
   type: Actions.SET_SESSION_ID
   sessionId: string
@@ -142,6 +147,7 @@ export interface SetOtaTranslationsLastUpdateAction {
   type: Actions.SET_OTA_TRANSLATIONS_LAST_UPDATE
   otaTranslationsLastUpdate: number
   otaTranslationsAppVersion: string
+  otaTranslationsLanguage: string
 }
 
 export type ActionTypes =
@@ -231,6 +237,10 @@ export const appUnmounted = (): AppUnmounted => ({
   type: Actions.APP_UNMOUNTED,
 })
 
+export const fetchOtaTranslations = (): FetchOtaTranslationsAction => ({
+  type: Actions.FETCH_OTA_TRANSLATIONS,
+})
+
 export const setSessionId = (sessionId: string) => ({
   type: Actions.SET_SESSION_ID,
   sessionId,
@@ -290,9 +300,11 @@ export const androidMobileServicesAvailabilityChecked = (
 
 export const setOtaTranslationsLastUpdate = (
   otaTranslationsLastUpdate: number,
-  otaTranslationsAppVersion: string
+  otaTranslationsAppVersion: string,
+  otaTranslationsLanguage: string
 ): SetOtaTranslationsLastUpdateAction => ({
   type: Actions.SET_OTA_TRANSLATIONS_LAST_UPDATE,
   otaTranslationsLastUpdate,
   otaTranslationsAppVersion,
+  otaTranslationsLanguage,
 })

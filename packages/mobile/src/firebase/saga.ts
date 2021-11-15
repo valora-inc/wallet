@@ -13,10 +13,8 @@ import {
   takeLatest,
 } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
-import { Actions as AppActions, SetLanguage } from 'src/app/actions'
+import { Actions as AppActions, fetchOtaTranslations, SetLanguage } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { otaTranslationsSaga } from 'src/app/saga'
-import { allowOtaTranslationsSelector } from 'src/app/selectors'
 import { FIREBASE_ENABLED } from 'src/config'
 import { updateCeloGoldExchangeRateHistory } from 'src/exchange/actions'
 import { exchangeHistorySelector, ExchangeRate, MAX_HISTORY_RETENTION } from 'src/exchange/reducer'
@@ -84,10 +82,7 @@ function* initializeFirebase() {
 }
 
 export function* syncLanguageSelection({ language }: SetLanguage) {
-  const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
-  if (allowOtaTranslations) {
-    yield spawn(otaTranslationsSaga)
-  }
+  yield put(fetchOtaTranslations())
 
   yield call(waitForFirebaseAuth)
   const address = yield select(currentAccountSelector)

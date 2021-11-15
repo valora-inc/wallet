@@ -39,7 +39,7 @@ const I18nGate = ({ fallback, children }: Props) => {
       }
     }
     void i18nInit()
-  }, [allowOtaTranslations])
+  }, [])
 
   return isInitialised ? children : fallback
 }

@@ -1,6 +1,6 @@
 import OtaClient from '@crowdin/ota-client'
 import URLSearchParamsReal from '@ungap/url-search-params'
-import i18n from 'i18next'
+import i18n, { Resource } from 'i18next'
 import _ from 'lodash'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -22,6 +22,7 @@ import {
   Actions,
   androidMobileServicesAvailabilityChecked,
   appLock,
+  fetchOtaTranslations,
   minAppVersionDetermined,
   OpenDeepLink,
   openDeepLink,
@@ -38,6 +39,7 @@ import {
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
+  otaTranslationsLanguageSelector,
   otaTranslationsLastUpdateSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
@@ -77,43 +79,6 @@ export function* appInit() {
   if (!inSync) {
     navigate(Screens.SetClock)
     return
-  }
-
-  try {
-    const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
-    if (allowOtaTranslations) {
-      const lastFetchTime = yield select(otaTranslationsLastUpdateSelector)
-      const timestamp = yield call([otaClient, otaClient.getManifestTimestamp])
-      if (lastFetchTime < timestamp) {
-        yield spawn(otaTranslationsSaga)
-      }
-    }
-  } catch (error) {
-    Logger.error(`${TAG}@appInit`, error)
-  }
-}
-
-export function* otaTranslationsSaga() {
-  try {
-    const timestamp = yield call([otaClient, otaClient.getManifestTimestamp])
-
-    const languageMappings = yield call([otaClient, otaClient.getLanguageMappings])
-    const currentLanguage = yield select(currentLanguageSelector)
-    // otaClient expects language value like "es", while the locale value is like "es-419"
-    const language = _.findKey(languageMappings, { locale: currentLanguage })
-
-    const translations = yield call([otaClient, otaClient.getStringsByLocale], undefined, language)
-    i18n.addResources(currentLanguage, 'global', translations)
-
-    const hasPreviouslyFetchedTranslations = yield RNFS.exists(OTA_TRANSLATIONS_FILE)
-    if (hasPreviouslyFetchedTranslations) {
-      yield RNFS.unlink(OTA_TRANSLATIONS_FILE)
-    }
-
-    yield RNFS.writeFile(OTA_TRANSLATIONS_FILE, JSON.stringify({ [currentLanguage]: translations }))
-    yield put(setOtaTranslationsLastUpdate(timestamp, DeviceInfo.getVersion()))
-  } catch (error) {
-    Logger.error(`${TAG}@otaTranslationsSaga`, error)
   }
 }
 
@@ -226,6 +191,9 @@ export function* appRemoteFeatureFlagSaga() {
       const flags: RemoteFeatureFlags = yield call(fetchRemoteFeatureFlags)
       if (flags) {
         yield put(updateFeatureFlags(flags))
+        if (flags.allowOtaTranslations) {
+          yield put(fetchOtaTranslations())
+        }
       }
       lastLoadTime = Date.now()
     }
@@ -358,10 +326,55 @@ export function* handleSetAppState(action: SetAppState) {
   }
 }
 
+export function* handleSaveOtaTranslations(currentLanguage: string, translations: Resource) {
+  const hasPreviouslyFetchedTranslations = yield RNFS.exists(OTA_TRANSLATIONS_FILE)
+  if (hasPreviouslyFetchedTranslations) {
+    yield RNFS.unlink(OTA_TRANSLATIONS_FILE)
+  }
+
+  yield RNFS.writeFile(OTA_TRANSLATIONS_FILE, JSON.stringify({ [currentLanguage]: translations }))
+}
+
+export function* handleFetchOtaTranslations() {
+  const allowOtaTranslations = yield select(allowOtaTranslationsSelector)
+  if (allowOtaTranslations) {
+    try {
+      const lastFetchLanguage = yield select(otaTranslationsLanguageSelector)
+      const currentLanguage = yield select(currentLanguageSelector)
+      const lastFetchTime = yield select(otaTranslationsLastUpdateSelector)
+      const timestamp = yield call([otaClient, otaClient.getManifestTimestamp])
+
+      if (lastFetchLanguage !== currentLanguage || lastFetchTime < timestamp) {
+        const languageMappings = yield call([otaClient, otaClient.getLanguageMappings])
+
+        // otaClient expects language value like "es", while the locale value is like "es-419"
+        const language = _.findKey(languageMappings, { locale: currentLanguage })
+
+        const translations = yield call(
+          [otaClient, otaClient.getStringsByLocale],
+          undefined,
+          language
+        )
+        i18n.addResources(currentLanguage, 'global', translations)
+
+        yield call(handleSaveOtaTranslations, currentLanguage, translations)
+        yield put(setOtaTranslationsLastUpdate(timestamp, DeviceInfo.getVersion(), currentLanguage))
+      }
+    } catch (error) {
+      Logger.error(`${TAG}@handleFetchOtaTranslations`, error)
+    }
+  }
+}
+
+export function* watchOtaTranslations() {
+  yield takeLatest(Actions.FETCH_OTA_TRANSLATIONS, handleFetchOtaTranslations)
+}
+
 export function* appSaga() {
   yield spawn(watchDeepLinks)
   yield spawn(watchOpenUrl)
   yield spawn(watchAppState)
   yield spawn(runVerificationMigration)
+  yield spawn(watchOtaTranslations)
   yield takeLatest(Actions.SET_APP_STATE, handleSetAppState)
 }
