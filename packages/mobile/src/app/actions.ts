@@ -141,6 +141,7 @@ export interface AndroidMobileServicesAvailabilityChecked {
 export interface SetOtaTranslationsLastUpdateAction {
   type: Actions.SET_OTA_TRANSLATIONS_LAST_UPDATE
   otaTranslationsLastUpdate: number
+  otaTranslationsAppVersion: string
 }
 
 export type ActionTypes =
@@ -288,8 +289,10 @@ export const androidMobileServicesAvailabilityChecked = (
 })
 
 export const setOtaTranslationsLastUpdate = (
-  otaTranslationsLastUpdate: number
+  otaTranslationsLastUpdate: number,
+  otaTranslationsAppVersion: string
 ): SetOtaTranslationsLastUpdateAction => ({
   type: Actions.SET_OTA_TRANSLATIONS_LAST_UPDATE,
   otaTranslationsLastUpdate,
+  otaTranslationsAppVersion,
 })

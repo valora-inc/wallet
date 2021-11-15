@@ -111,7 +111,7 @@ export function* otaTranslationsSaga() {
     }
 
     yield RNFS.writeFile(OTA_TRANSLATIONS_FILE, JSON.stringify({ [currentLanguage]: translations }))
-    yield put(setOtaTranslationsLastUpdate(timestamp))
+    yield put(setOtaTranslationsLastUpdate(timestamp, DeviceInfo.getVersion()))
   } catch (error) {
     Logger.error(`${TAG}@otaTranslationsSaga`, error)
   }

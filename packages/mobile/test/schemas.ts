@@ -817,6 +817,7 @@ export const v20Schema = {
     multiTokenUseUpdatedFeed: false,
     allowOtaTranslations: false,
     otaTranslationsLastUpdate: 0,
+    otaTranslationsAppVersion: '0',
   },
 }
 

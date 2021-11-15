@@ -46,6 +46,7 @@ export interface State {
   multiTokenUseUpdatedFeed: boolean
   allowOtaTranslations: boolean
   otaTranslationsLastUpdate: number
+  otaTranslationsAppVersion: string
 }
 
 const initialState = {
@@ -86,6 +87,7 @@ const initialState = {
   multiTokenUseUpdatedFeed: FEATURE_FLAG_DEFAULTS.multiTokenUseUpdatedFeed,
   allowOtaTranslations: FEATURE_FLAG_DEFAULTS.allowOtaTranslations,
   otaTranslationsLastUpdate: 0,
+  otaTranslationsAppVersion: '0',
 }
 
 export const currentLanguageSelector = (state: RootState) => state.app.language
@@ -230,6 +232,7 @@ export const appReducer = (
       return {
         ...state,
         otaTranslationsLastUpdate: action.otaTranslationsLastUpdate,
+        otaTranslationsAppVersion: action.otaTranslationsAppVersion,
       }
     default:
       return state

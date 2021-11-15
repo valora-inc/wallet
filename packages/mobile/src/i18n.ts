@@ -6,6 +6,7 @@ import {
   WithTranslation,
   withTranslation as withTranslationI18Next,
 } from 'react-i18next'
+import DeviceInfo from 'react-native-device-info'
 import * as RNFS from 'react-native-fs'
 import { APP_NAME, DEFAULT_APP_LANGUAGE, OTA_TRANSLATIONS_FILE, TOS_LINK } from 'src/config'
 
@@ -32,10 +33,17 @@ export enum Namespaces {
   walletConnect = 'walletConnect',
 }
 
-async function getAvailableResources(allowOtaTranslations: boolean) {
+async function getAvailableResources(
+  allowOtaTranslations: boolean,
+  otaTranslationsAppVersion: string
+) {
   let cachedTranslations: Resource = {}
 
-  if (allowOtaTranslations && (await RNFS.exists(OTA_TRANSLATIONS_FILE))) {
+  if (
+    allowOtaTranslations &&
+    DeviceInfo.getVersion() === otaTranslationsAppVersion &&
+    (await RNFS.exists(OTA_TRANSLATIONS_FILE))
+  ) {
     cachedTranslations = JSON.parse(await RNFS.readFile(OTA_TRANSLATIONS_FILE))
   }
 
@@ -55,8 +63,12 @@ async function getAvailableResources(allowOtaTranslations: boolean) {
   return resources
 }
 
-export const initI18n = async (lng: string, allowOtaTranslations: boolean) => {
-  const resources = await getAvailableResources(allowOtaTranslations)
+export const initI18n = async (
+  lng: string,
+  allowOtaTranslations: boolean,
+  otaTranslationsAppVersion: string
+) => {
+  const resources = await getAvailableResources(allowOtaTranslations, otaTranslationsAppVersion)
 
   await i18n.use(initReactI18next).init({
     fallbackLng: {
