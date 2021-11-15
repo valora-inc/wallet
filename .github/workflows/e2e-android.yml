@@ -38,6 +38,7 @@ jobs:
          $ANDROID_HOME/tools/bin/avdmanager list avd
          mkdir -p ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/ && cp packages/mobile/e2e/conf/avd_conf.ini ~/.android/avd/Pixel_API_29_AOSP_x86_64.avd/config.ini
          $ANDROID_HOME/emulator/emulator -list-avds
+         $ANDROID_HOME/emulator/emulator -accel-check
       - run: yarn
       - run: yarn build --scope @celo/mobile --include-filtered-dependencies
       - run: |
