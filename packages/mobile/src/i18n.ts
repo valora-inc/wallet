@@ -63,19 +63,19 @@ async function getAvailableResources(
   return resources
 }
 
-export const initI18n = async (
-  lng: string,
+export async function initI18n(
+  language: string,
   allowOtaTranslations: boolean,
   otaTranslationsAppVersion: string
-) => {
+) {
   const resources = await getAvailableResources(allowOtaTranslations, otaTranslationsAppVersion)
 
-  await i18n.use(initReactI18next).init({
+  return i18n.use(initReactI18next).init({
     fallbackLng: {
       default: [DEFAULT_APP_LANGUAGE],
       'es-US': ['es-LA'],
     },
-    lng,
+    lng: language,
     resources,
     ns: ['common', ...Object.keys(Namespaces)],
     defaultNS: 'common',

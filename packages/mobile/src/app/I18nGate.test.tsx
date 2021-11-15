@@ -1,4 +1,5 @@
 import { act, render } from '@testing-library/react-native'
+import { TFunction } from 'i18next'
 import * as React from 'react'
 import 'react-native'
 import { Text } from 'react-native'
@@ -7,12 +8,17 @@ import { Provider } from 'react-redux'
 import * as AppActions from 'src/app/actions'
 import I18nGate from 'src/app/I18nGate'
 import * as I18n from 'src/i18n'
+import { navigateToError } from 'src/navigator/NavigationService'
 import { createMockStore, flushMicrotasksQueue } from 'test/utils'
 
 jest.mock('src/i18n', () => ({
   initI18n: jest.fn(),
   changeLanguage: jest.fn(() => new Promise(setImmediate)),
   t: jest.fn(),
+}))
+
+jest.mock('src/navigator/NavigationService', () => ({
+  navigateToError: jest.fn().mockReturnValueOnce(undefined),
 }))
 
 const mockedI18n = I18n as jest.Mocked<typeof I18n>
@@ -28,10 +34,10 @@ const renderI18nGate = (language: string | null) =>
   )
 
 describe('I18nGate', () => {
-  const initI18nPromise = Promise.resolve()
+  const initI18nPromise = Promise.resolve<TFunction>(jest.fn())
   mockedI18n.initI18n.mockImplementation(jest.fn(() => initI18nPromise))
 
-  afterEach(async () => {
+  afterEach(() => {
     jest.clearAllMocks()
   })
 
@@ -63,10 +69,8 @@ describe('I18nGate', () => {
 
     renderI18nGate(null)
     await act(() => initI18nPromise)
-    await act(async () => {
-      // flush promises as we are calling i18n.changeLanguage inside the setLanguage action
-      await flushMicrotasksQueue()
-    })
+    // flush promises as we are calling i18n.changeLanguage inside the setLanguage action
+    await act(flushMicrotasksQueue)
 
     expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
     expect(mockedI18n.initI18n).toHaveBeenCalledWith('de')
@@ -82,5 +86,16 @@ describe('I18nGate', () => {
     expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
     expect(mockedI18n.initI18n).toHaveBeenCalledWith('en-US')
     expect(setLanguageSpy).not.toHaveBeenCalled()
+  })
+
+  it('should show error screen in case of failed i18n init', async () => {
+    const initI18nPromise = Promise.reject('some error')
+    mockedI18n.initI18n.mockImplementationOnce(jest.fn(() => initI18nPromise))
+    renderI18nGate(null)
+
+    await act(flushMicrotasksQueue)
+
+    expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
+    expect(navigateToError).toHaveBeenCalledWith('appInitFailed')
   })
 })
