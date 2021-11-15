@@ -14,3 +14,4 @@ export {
 export { notifyPaymentRequests } from './paymentRequests'
 export { onWriteUserAddress } from './users'
 export { fetchAccountsForWalletAddress } from './walletAddressMapping'
+export { circuitBreaker } from './circuitBreaker/circuitBreaker'
