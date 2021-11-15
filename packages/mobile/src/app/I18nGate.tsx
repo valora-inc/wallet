@@ -6,6 +6,7 @@ import { setLanguage } from 'src/app/actions'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { DEFAULT_APP_LANGUAGE } from 'src/config'
 import { initI18n } from 'src/i18n'
+import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
 
 const I18nGate = ({ fallback, children }: Props) => {
   const [isInitialised, setIsInitialised] = useState(false)
+  const [initFailure, setInitFailure] = useState(false)
   const dispatch = useDispatch()
   const language = useSelector(currentLanguageSelector)
   const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
@@ -29,12 +31,14 @@ const I18nGate = ({ fallback, children }: Props) => {
         setIsInitialised(true)
       } catch (reason) {
         Logger.error('i18n', 'Failed init i18n', reason)
+        setInitFailure(true)
+        navigateToError('appInitFailed')
       }
     }
     void i18nInit()
   }, [])
 
-  return isInitialised ? children : fallback
+  return isInitialised || initFailure ? children : fallback
 }
 
 export default I18nGate
