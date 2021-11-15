@@ -7,11 +7,11 @@ on:
 jobs:
   android:
     name: Android
-    runs-on: ubuntu-latest
+    runs-on: macos-11
     env:
-      ANDROID_NDK_LATEST_HOME: /usr/local/lib/android/sdk/ndk/23.1.7779620
-      ANDROID_NDK_HOME: /usr/local/lib/android/sdk/ndk/23.1.7779620
-      ANDROID_NDK_ROOT: /usr/local/lib/android/sdk/ndk/23.1.7779620
+      ANDROID_NDK_LATEST_HOME: /Users/runner/Library/Android/sdk/ndk/23.1.7779620
+      ANDROID_NDK_HOME: /Users/runner/Library/Android/sdk/ndk/23.1.7779620
+      ANDROID_NDK_ROOT: /Users/runner/Library/Android/sdk/ndk/23.1.7779620
     steps:
       - run: ls /usr/local/lib/android/sdk/platform-tools/adb
       - uses: actions/checkout@v2
@@ -28,10 +28,10 @@ jobs:
         with:
           packages: system-images;android-29;default;x86_64
       - run: |
-         cp -R /usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/arm-linux-androideabi-4.9 $ANDROID_NDK_HOME/toolchains
-         cp -R /usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/aarch64-linux-android-4.9 $ANDROID_NDK_HOME/toolchains
-         cp -R /usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/x86-4.9 $ANDROID_NDK_HOME/toolchains
-         cp -R /usr/local/lib/android/sdk/ndk/21.4.7075529/toolchains/x86_64-4.9 $ANDROID_NDK_HOME/toolchains
+         cp -R /Users/runner/Library/Android/sdk/ndk/21.4.7075529/toolchains/arm-linux-androideabi-4.9 $ANDROID_NDK_HOME/toolchains
+         cp -R /Users/runner/Library/Android/sdk/ndk/21.4.7075529/toolchains/aarch64-linux-android-4.9 $ANDROID_NDK_HOME/toolchains
+         cp -R /Users/runner/Library/Android/sdk/ndk/21.4.7075529/toolchains/x86-4.9 $ANDROID_NDK_HOME/toolchains
+         cp -R /Users/runner/Library/Android/sdk/ndk/21.4.7075529/toolchains/x86_64-4.9 $ANDROID_NDK_HOME/toolchains
       - run: brew install tree coreutils
       - run: |
          $ANDROID_HOME/tools/bin/avdmanager create avd --force --name Pixel_API_29_AOSP_x86_64 --package "system-images;android-29;default;x86_64" --device pixel
