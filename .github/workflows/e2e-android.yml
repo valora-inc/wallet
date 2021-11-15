@@ -13,7 +13,6 @@ jobs:
       ANDROID_NDK_HOME: /Users/runner/Library/Android/sdk/ndk/23.1.7779620
       ANDROID_NDK_ROOT: /Users/runner/Library/Android/sdk/ndk/23.1.7779620
     steps:
-      - run: ls /usr/local/lib/android/sdk/platform-tools/adb
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
