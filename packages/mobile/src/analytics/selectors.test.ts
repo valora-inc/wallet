@@ -157,7 +157,7 @@ describe('getCurrentUserTraits', () => {
       phoneCountryCallingCode: '+33',
       phoneCountryCodeAlpha2: 'FR',
       tokenCount: 14,
-      totalBalanceUsd: '7553.98',
+      totalBalanceUsd: '7553.97743764685',
       walletAddress: '0x0000000000000000000000000000000000007e57',
     })
   })
