@@ -13,11 +13,11 @@ function DeniedIcon({ color = colors.warning }: Props) {
       <Path
         d="M8 3V8H12"
         stroke="#FFA500"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      <Circle cx="8" cy="8" r="7.25" stroke="#FFA500" stroke-width="1.5" />
+      <Circle cx="8" cy="8" r="7.25" stroke="#FFA500" strokeWidth="1.5" />
     </Svg>
   )
 }
