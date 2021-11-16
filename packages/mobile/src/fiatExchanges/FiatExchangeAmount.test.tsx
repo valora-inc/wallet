@@ -89,7 +89,6 @@ const storeWithPHP = createMockStore({
 describe('FiatExchangeAmount cashIn', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.useRealTimers()
     storeWithUSD.clearActions()
     storeWithPHP.clearActions()
   })
@@ -435,7 +434,6 @@ describe('FiatExchangeAmount cashOut', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.useRealTimers()
     storeWithUSD.clearActions()
     storeWithPHP.clearActions()
   })
