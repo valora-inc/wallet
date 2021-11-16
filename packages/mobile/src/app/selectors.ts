@@ -15,7 +15,7 @@ export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
 }
 
-export const getAppState = (state: RootState) => {
+export const appStateSelector = (state: RootState) => {
   return state.app.appState
 }
 
@@ -100,3 +100,9 @@ export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
   state.app.huaweiMobileServicesAvailable
 
 export const rewardPillTextSelector = (state: RootState) => state.app.rewardPillText
+
+export const multiTokenShowHomeBalancesSelector = (state: RootState) =>
+  state.app.multiTokenShowHomeBalances
+export const multiTokenUseSendFlowSelector = (state: RootState) => state.app.multiTokenUseSendFlow
+export const multiTokenUseUpdatedFeedSelector = (state: RootState) =>
+  state.app.multiTokenUseUpdatedFeed

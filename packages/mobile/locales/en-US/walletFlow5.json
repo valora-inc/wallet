@@ -127,5 +127,12 @@
     "subtitle": "Your account is currently empty",
     "addFunds": "Add Funds"
   },
-  "balances": "Balances"
+  "balances": "Balances",
+  "totalValue": "Total Balance",
+  "viewBalances": "View Assets",
+  "whatTotalValue": {
+    "title": "What does Total Balance mean?",
+    "body": "Your Total Balance is an approximate sum of all your Valora assets. Your Total Balance will change as prices fluctuate. It is updated every 10 minutes.\nSome tokens may not be shown in the Total Balance because the price is unavailable at the time of calculation.",
+    "dismiss": "Dismiss"
+  }
 }

@@ -7,6 +7,8 @@ import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaInsetsContext, SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { acceptTerms } from 'src/account/actions'
+import { OnboardingEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { DEFAULT_DAILY_PAYMENT_LIMIT_CUSD, PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { Namespaces, withTranslation } from 'src/i18n'
@@ -36,6 +38,8 @@ export class RegulatoryTerms extends React.Component<Props> {
   }
 
   onPressAccept = () => {
+    ValoraAnalytics.track(OnboardingEvents.terms_and_conditions_accepted)
+
     this.props.acceptTerms()
     this.goToNextScreen()
   }
