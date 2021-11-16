@@ -58,7 +58,7 @@ export const getCurrentUserTraits = createSelector(
         : undefined,
       countryCodeAlpha2,
       language,
-      totalBalanceUsd,
+      totalBalanceUsd: totalBalanceUsd?.toString(),
       tokenCount: tokensByUsdBalance.length,
       otherTenTokens: tokensByUsdBalance
         .filter((token) => !currencyAddresses.has(token.address))
