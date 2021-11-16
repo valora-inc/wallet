@@ -76,7 +76,7 @@ export const getCurrentUserTraits = createSelector(
       ...Object.fromEntries(
         (Object.keys(tokensByCurrency) as Currency[]).map((currency) => [
           `${currency === Currency.Celo ? 'celo' : currency.toLowerCase()}Balance`,
-          tokensByCurrency[currency]?.balance,
+          tokensByCurrency[currency]?.balance.toString(),
         ])
       ),
       localCurrencyCode,
