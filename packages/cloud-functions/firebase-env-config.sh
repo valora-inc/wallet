@@ -42,3 +42,4 @@ db.host=$(grep DB_HOST "$ENV_FILENAME" | cut -d '=' -f 2-) \
 db.database=$(grep DB_DATABASE "$ENV_FILENAME" | cut -d '=' -f 2-) \
 db.user=$(grep DB_USERNAME "$ENV_FILENAME" | cut -d '=' -f 2-) \
 db.password=$(grep DB_PASSWORD "$ENV_FILENAME" | cut -d '=' -f 2-) \
+circuit_breaker.key_path=$(grep CIRCUIT_BREAKER_KEY_PATH "$ENV_FILENAME" | cut -d '=' -f 2-) \
