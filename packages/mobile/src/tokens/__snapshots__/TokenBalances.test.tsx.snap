@@ -97,7 +97,6 @@ exports[`TokenBalancesScreen renders correctly with invite rewards disabled 1`] 
         >
           
           5.00
-           POOF
         </Text>
         <Text
           style={
