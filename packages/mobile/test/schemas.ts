@@ -841,8 +841,8 @@ export const v21Schema = {
     ...v20Schema._persist,
     version: 21,
   },
-  app: {
-    ...v20Schema.app,
+  account: {
+    ...v20Schema.account,
     kycStatus: undefined,
   },
 }
