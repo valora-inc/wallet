@@ -49,15 +49,17 @@ const Persona = ({ kycStatus }: Props) => {
       .referenceId(accountAddress)
       .environment(networkConfig.personaEnvironment)
       .onSuccess((inquiryId: string, attributes: InquiryAttributes) => {
-        console.log(
+        Logger.info(
+          TAG,
           `Inquiry completed for ${inquiryId} with attributes: ${JSON.stringify(attributes)}`
         )
+        // TODO [Lisa]: Add event handling for KYC approval when Persona component is integrated
       })
       .onCancelled(() => {
-        console.log('Inquiry #{inquiryId} canceled.')
+        Logger.info(TAG, 'Inquiry is canceled by the user.')
       })
       .onError((error: Error) => {
-        console.error(`Error: ${error.message}`)
+        Logger.error(TAG, `Error: ${error.message}`)
       })
       .build()
       .start()
