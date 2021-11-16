@@ -16,8 +16,8 @@ function ProgressArrowIcon({ color = colors.dark, style }: Props) {
           d="M1.5 1L6.5 6L1.5 11"
           stroke={color}
           strokeWidth="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </Svg>
     </View>

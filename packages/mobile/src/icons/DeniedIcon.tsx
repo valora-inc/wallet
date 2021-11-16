@@ -1,6 +1,6 @@
 import colors from '@celo/react-components/styles/colors'
 import * as React from 'react'
-import Svg, { Circle, Path } from 'svgs'
+import Svg, { Circle, Path } from 'react-native-svg'
 
 interface Props {
   size?: number
@@ -9,21 +9,21 @@ interface Props {
 
 function DeniedIcon({ color = colors.warning }: Props) {
   return (
-    <Svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Svg width="16" height="16" viewBox="0 0 16 16" fill="none">
       <Circle cx="8" cy="8" r="7.25" stroke={color} strokeWidth="1.5" />
       <Path
         d="M11 5L5.00002 11"
         stroke={color}
         strokeWidth="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <Path
         d="M11 11L5.00002 5.00002"
         stroke={color}
         strokeWidth="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </Svg>
   )

@@ -339,8 +339,8 @@ exports[`HomeTokenBalance renders correctly with multiple balances 1`] = `
           <path
             d="M1.5 1L6.5 6L1.5 11"
             stroke="#1AB775"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             strokeWidth="2"
             style={Object {}}
           />

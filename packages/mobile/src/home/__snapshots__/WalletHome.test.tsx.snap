@@ -255,15 +255,12 @@ exports[`Testnet banner Renders cash in bottom sheet when experiment flag is tur
                     >
                       <Text
                         style={
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Regular",
-                              "fontSize": 18,
-                              "lineHeight": 24,
-                            },
-                            Object {},
-                          ]
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 18,
+                            "lineHeight": 24,
+                          }
                         }
                         testID="undefined/Text"
                       >
@@ -402,15 +399,12 @@ exports[`Testnet banner Renders cash in bottom sheet when experiment flag is tur
                     >
                       <Text
                         style={
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Regular",
-                              "fontSize": 18,
-                              "lineHeight": 24,
-                            },
-                            Object {},
-                          ]
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 18,
+                            "lineHeight": 24,
+                          }
                         }
                         testID="undefined/Text"
                       >
@@ -496,6 +490,7 @@ exports[`Testnet banner Renders cash in bottom sheet when experiment flag is tur
                                   "lineHeight": 22,
                                 },
                                 Object {
+                                  "color": "#9CA4A9",
                                   "fontSize": 14,
                                   "lineHeight": 16,
                                   "marginRight": 24,
@@ -1347,15 +1342,12 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
                     >
                       <Text
                         style={
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Regular",
-                              "fontSize": 18,
-                              "lineHeight": 24,
-                            },
-                            Object {},
-                          ]
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 18,
+                            "lineHeight": 24,
+                          }
                         }
                         testID="undefined/Text"
                       >
@@ -1494,15 +1486,12 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
                     >
                       <Text
                         style={
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Regular",
-                              "fontSize": 18,
-                              "lineHeight": 24,
-                            },
-                            Object {},
-                          ]
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 18,
+                            "lineHeight": 24,
+                          }
                         }
                         testID="undefined/Text"
                       >
@@ -1588,6 +1577,7 @@ exports[`Testnet banner Renders when connected with backup complete 1`] = `
                                   "lineHeight": 22,
                                 },
                                 Object {
+                                  "color": "#9CA4A9",
                                   "fontSize": 14,
                                   "lineHeight": 16,
                                   "marginRight": 24,
@@ -2171,15 +2161,12 @@ exports[`Testnet banner Renders when disconnected 1`] = `
                     >
                       <Text
                         style={
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Regular",
-                              "fontSize": 18,
-                              "lineHeight": 24,
-                            },
-                            Object {},
-                          ]
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 18,
+                            "lineHeight": 24,
+                          }
                         }
                         testID="undefined/Text"
                       >
@@ -2318,15 +2305,12 @@ exports[`Testnet banner Renders when disconnected 1`] = `
                     >
                       <Text
                         style={
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Regular",
-                              "fontSize": 18,
-                              "lineHeight": 24,
-                            },
-                            Object {},
-                          ]
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 18,
+                            "lineHeight": 24,
+                          }
                         }
                         testID="undefined/Text"
                       >
@@ -2412,6 +2396,7 @@ exports[`Testnet banner Renders when disconnected 1`] = `
                                   "lineHeight": 22,
                                 },
                                 Object {
+                                  "color": "#9CA4A9",
                                   "fontSize": 14,
                                   "lineHeight": 16,
                                   "marginRight": 24,
@@ -2995,15 +2980,12 @@ exports[`Testnet banner Shows testnet banner for 5 seconds 1`] = `
                     >
                       <Text
                         style={
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Regular",
-                              "fontSize": 18,
-                              "lineHeight": 24,
-                            },
-                            Object {},
-                          ]
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 18,
+                            "lineHeight": 24,
+                          }
                         }
                         testID="undefined/Text"
                       >
