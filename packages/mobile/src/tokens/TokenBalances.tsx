@@ -27,7 +27,7 @@ function TokenBalancesScreen({ navigation }: Props) {
         <Text style={fontStyles.navigationHeader}>{i18n.t('walletFlow5:balances')}</Text>
         <Text style={styles.subtext}>
           {localCurrencySymbol}
-          {totalBalance}
+          {totalBalance?.toFormat(2)}
         </Text>
       </View>
     )
@@ -41,7 +41,7 @@ function TokenBalancesScreen({ navigation }: Props) {
 
   function getTokenDisplay(token: TokenBalance) {
     return (
-      <View style={styles.tokenContainer}>
+      <View key={`Token${token.address}`} style={styles.tokenContainer}>
         <View style={styles.row}>
           <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
           <View style={styles.tokenLabels}>

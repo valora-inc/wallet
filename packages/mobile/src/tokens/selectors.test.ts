@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   defaultTokenSelector,
@@ -106,7 +107,7 @@ describe(defaultTokenSelector, () => {
 describe(totalTokenBalanceSelector, () => {
   describe('when fetching the total token balance', () => {
     it('returns the right amount', () => {
-      expect(totalTokenBalanceSelector(state)).toEqual('107.50')
+      expect(totalTokenBalanceSelector(state)).toEqual(new BigNumber(107.5))
     })
   })
 })
