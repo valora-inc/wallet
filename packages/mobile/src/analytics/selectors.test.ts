@@ -139,28 +139,26 @@ describe('getCurrentUserTraits', () => {
         },
       },
     })
-    expect(getCurrentUserTraits(state)).toMatchInlineSnapshot(`
-      Object {
-        "accountAddress": "0x0000000000000000000000000000000000007E57",
-        "appBuildNumber": "1",
-        "appBundleId": "org.celo.mobile.debug",
-        "appVersion": "0.0.1",
-        "celoBalance": "0",
-        "ceurBalance": "20",
-        "countryCodeAlpha2": "US",
-        "cusdBalance": "10",
-        "deviceId": "unknown",
-        "hasCompletedBackup": false,
-        "hasVerifiedNumber": false,
-        "language": "es-419",
-        "localCurrencyCode": "MXN",
-        "otherTenTokens": "I:1000,K:80,0xi:11.003,G:10,H:9.12345,E:7,F:6,B:3,C:2,A:1",
-        "phoneCountryCallingCode": "+33",
-        "phoneCountryCodeAlpha2": "FR",
-        "tokenCount": 14,
-        "totalBalanceUsd": "7553.97743764685",
-        "walletAddress": "0x0000000000000000000000000000000000007e57",
-      }
-    `)
+    expect(getCurrentUserTraits(state)).toStrictEqual({
+      accountAddress: '0x0000000000000000000000000000000000007E57',
+      appBuildNumber: '1',
+      appBundleId: 'org.celo.mobile.debug',
+      appVersion: '0.0.1',
+      celoBalance: '0',
+      ceurBalance: '20',
+      countryCodeAlpha2: 'US',
+      cusdBalance: '10',
+      deviceId: 'unknown',
+      hasCompletedBackup: false,
+      hasVerifiedNumber: false,
+      language: 'es-419',
+      localCurrencyCode: 'MXN',
+      otherTenTokens: 'I:1000,K:80,0xi:11.003,G:10,H:9.12345,E:7,F:6,B:3,C:2,A:1',
+      phoneCountryCallingCode: '+33',
+      phoneCountryCodeAlpha2: 'FR',
+      tokenCount: 14,
+      totalBalanceUsd: '7553.97743764685',
+      walletAddress: '0x0000000000000000000000000000000000007e57',
+    })
   })
 })
