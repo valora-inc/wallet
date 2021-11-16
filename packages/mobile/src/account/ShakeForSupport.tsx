@@ -10,7 +10,7 @@ import Modal from 'react-native-modal'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import RNShake from 'react-native-shake'
 import { AppState } from 'src/app/actions'
-import { getAppState } from 'src/app/selectors'
+import { appStateSelector } from 'src/app/selectors'
 import i18n from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -18,7 +18,7 @@ import useTypedSelector from 'src/redux/useSelector'
 import Logger from 'src/utils/Logger'
 
 export default function ShakeForSupport() {
-  const appState = useTypedSelector(getAppState)
+  const appState = useTypedSelector(appStateSelector)
   const [isVisible, setIsVisible] = React.useState(false)
 
   React.useEffect(() => {

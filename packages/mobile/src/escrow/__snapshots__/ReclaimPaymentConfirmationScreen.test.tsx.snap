@@ -415,24 +415,20 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                   <svg
                     fill="none"
                     height={12}
-                    style={Object {}}
                     viewBox="0 0 16 16"
                     width={12}
-                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <circle
                       cx="8"
                       cy="8"
                       r="7"
                       stroke="#2E3338"
-                      stroke-width="1.25"
-                      style={Object {}}
+                      strokeWidth="1.25"
                     />
                     <path
                       d="M8 12V7M8 6V5"
                       stroke="#2E3338"
-                      stroke-width="1.25"
-                      style={Object {}}
+                      strokeWidth="1.25"
                     />
                   </svg>
                 </View>
@@ -1462,24 +1458,20 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                   <svg
                     fill="none"
                     height={12}
-                    style={Object {}}
                     viewBox="0 0 16 16"
                     width={12}
-                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <circle
                       cx="8"
                       cy="8"
                       r="7"
                       stroke="#2E3338"
-                      stroke-width="1.25"
-                      style={Object {}}
+                      strokeWidth="1.25"
                     />
                     <path
                       d="M8 12V7M8 6V5"
                       stroke="#2E3338"
-                      stroke-width="1.25"
-                      style={Object {}}
+                      strokeWidth="1.25"
                     />
                   </svg>
                 </View>
@@ -2520,24 +2512,20 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                   <svg
                     fill="none"
                     height={12}
-                    style={Object {}}
                     viewBox="0 0 16 16"
                     width={12}
-                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <circle
                       cx="8"
                       cy="8"
                       r="7"
                       stroke="#2E3338"
-                      stroke-width="1.25"
-                      style={Object {}}
+                      strokeWidth="1.25"
                     />
                     <path
                       d="M8 12V7M8 6V5"
                       stroke="#2E3338"
-                      stroke-width="1.25"
-                      style={Object {}}
+                      strokeWidth="1.25"
                     />
                   </svg>
                 </View>
@@ -3567,24 +3555,20 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                   <svg
                     fill="none"
                     height={12}
-                    style={Object {}}
                     viewBox="0 0 16 16"
                     width={12}
-                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <circle
                       cx="8"
                       cy="8"
                       r="7"
                       stroke="#2E3338"
-                      stroke-width="1.25"
-                      style={Object {}}
+                      strokeWidth="1.25"
                     />
                     <path
                       d="M8 12V7M8 6V5"
                       stroke="#2E3338"
-                      stroke-width="1.25"
-                      style={Object {}}
+                      strokeWidth="1.25"
                     />
                   </svg>
                 </View>
@@ -4611,24 +4595,20 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                   <svg
                     fill="none"
                     height={12}
-                    style={Object {}}
                     viewBox="0 0 16 16"
                     width={12}
-                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <circle
                       cx="8"
                       cy="8"
                       r="7"
                       stroke="#2E3338"
-                      stroke-width="1.25"
-                      style={Object {}}
+                      strokeWidth="1.25"
                     />
                     <path
                       d="M8 12V7M8 6V5"
                       stroke="#2E3338"
-                      stroke-width="1.25"
-                      style={Object {}}
+                      strokeWidth="1.25"
                     />
                   </svg>
                 </View>
@@ -5658,24 +5638,20 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                   <svg
                     fill="none"
                     height={12}
-                    style={Object {}}
                     viewBox="0 0 16 16"
                     width={12}
-                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <circle
                       cx="8"
                       cy="8"
                       r="7"
                       stroke="#2E3338"
-                      stroke-width="1.25"
-                      style={Object {}}
+                      strokeWidth="1.25"
                     />
                     <path
                       d="M8 12V7M8 6V5"
                       stroke="#2E3338"
-                      stroke-width="1.25"
-                      style={Object {}}
+                      strokeWidth="1.25"
                     />
                   </svg>
                 </View>

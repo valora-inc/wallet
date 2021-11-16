@@ -138,6 +138,7 @@ function useSimpleActions() {
         },
         {
           text: t('global:dismiss'),
+          isSecondary: true,
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationBannerTypes.verification_prompt,
@@ -165,7 +166,6 @@ function useSimpleActions() {
     actions.push({
       text: texts.body,
       icon: notification.iconUrl ? { uri: notification.iconUrl } : undefined,
-      darkMode: notification.darkMode,
       priority: notification.priority ?? DEFAULT_PRIORITY,
       callToActions: [
         {
@@ -182,7 +182,7 @@ function useSimpleActions() {
         },
         {
           text: texts.dismiss,
-          dim: notification.darkMode,
+          isSecondary: true,
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationBannerTypes.remote_notification,
@@ -214,6 +214,7 @@ function useSimpleActions() {
         },
         {
           text: t('global:dismiss'),
+          isSecondary: true,
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationBannerTypes.celo_asset_education,
