@@ -55,7 +55,7 @@ function TokenBalancesScreen({ navigation }: Props) {
             tokenAddress={token.address}
             style={styles.tokenAmt}
             showLocalAmount={false}
-            showSymbol={true}
+            showSymbol={false}
             testID={`tokenBalance:${token.symbol}`}
           />
           <TokenDisplay
