@@ -8,6 +8,7 @@ exports[`HomeTokenBalance renders correctly with multiple balances 1`] = `
       "margin": 16,
     }
   }
+  testID="HomeTokenBalance"
 >
   <View
     style={
@@ -377,6 +378,7 @@ exports[`HomeTokenBalance renders correctly with no balance 1`] = `
       "margin": 16,
     }
   }
+  testID="HomeTokenBalance"
 >
   <View
     style={
@@ -635,6 +637,7 @@ exports[`HomeTokenBalance renders correctly with one balance 1`] = `
       "margin": 16,
     }
   }
+  testID="HomeTokenBalance"
 >
   <View
     style={
