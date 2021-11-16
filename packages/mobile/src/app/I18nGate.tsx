@@ -10,11 +10,11 @@ import { navigateToError } from 'src/navigator/NavigationService'
 import Logger from 'src/utils/Logger'
 
 interface Props {
-  fallback: JSX.Element
-  children: JSX.Element
+  loading: React.ReactNode
+  children: React.ReactNode
 }
 
-const I18nGate = ({ fallback, children }: Props) => {
+const I18nGate = ({ loading, children }: Props) => {
   const [isInitialised, setIsInitialised] = useState(false)
   const [initFailure, setInitFailure] = useState(false)
   const dispatch = useDispatch()
@@ -38,7 +38,8 @@ const I18nGate = ({ fallback, children }: Props) => {
     void i18nInit()
   }, [])
 
-  return isInitialised || initFailure ? children : fallback
+  // type assertion here because https://github.com/DefinitelyTyped/DefinitelyTyped/issues/44572
+  return isInitialised || initFailure ? (children as JSX.Element) : (loading as JSX.Element)
 }
 
 export default I18nGate
