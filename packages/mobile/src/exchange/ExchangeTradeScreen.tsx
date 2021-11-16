@@ -22,7 +22,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import CurrencyDisplay, { getFullCurrencyName } from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import LineItemRow from 'src/components/LineItemRow'
-import { GOLD_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeTradeScreenHeader from 'src/exchange/ExchangeScreenHeader'
 import { ExchangeRates, exchangeRatesSelector } from 'src/exchange/reducer'
@@ -240,7 +240,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
     const amountIsInvalid =
       !this.inputAmountIsValid(tokenAmount) ||
       tokenAmount.isLessThan(
-        this.isLocalCurrencyInput() ? STABLE_TRANSACTION_MIN_AMOUNT : GOLD_TRANSACTION_MIN_AMOUNT
+        this.isLocalCurrencyInput() ? STABLE_TRANSACTION_MIN_AMOUNT : CELO_TRANSACTION_MIN_AMOUNT
       )
 
     const exchangeRate = getRateForMakerToken(
