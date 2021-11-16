@@ -19,7 +19,6 @@
     "skipLibCheck": true,
     "target": "es2017",
     "strict": true,
-    "composite": true
   },
   "include": ["src", "locales"],
   "exclude": ["node_modules", ".bundle"]

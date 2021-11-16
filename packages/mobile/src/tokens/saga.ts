@@ -307,11 +307,15 @@ export async function fetchTokenBalancesForAddress(
 
 export function* fetchTokenBalancesSaga() {
   try {
+    const address: string | null = yield select(walletAddressSelector)
+    if (!address) {
+      Logger.debug(TAG, 'Skipping fetching tokens since no address was found')
+      return
+    }
     // In e2e environment we use a static token list since we can't access Firebase.
     const tokens: StoredTokenBalances = isE2EEnv
       ? e2eTokens()
       : yield call(readOnceFromFirebase, 'tokensInfo')
-    const address: string = yield select(walletAddressSelector)
     const tokenBalances: FetchedTokenBalance[] = yield call(fetchTokenBalancesForAddress, address)
     for (const token of Object.values(tokens) as StoredTokenBalance[]) {
       const tokenBalance = tokenBalances.find(
