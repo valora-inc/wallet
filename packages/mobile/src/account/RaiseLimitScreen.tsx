@@ -101,8 +101,9 @@ const RaiseLimitScreen = () => {
         />
       )
     }
-
+    console.log('lisa kycStatus', kycStatus, numberIsVerified)
     if (!kycStatus || kycStatus === KycStatus.Created) {
+      console.log('lisa numberIsVerified')
       return numberIsVerified ? (
         <Persona kycStatus={kycStatus} />
       ) : (

@@ -16,6 +16,7 @@ import networkConfig from 'src/geth/networkConfig'
 import { Namespaces } from 'src/i18n'
 import Logger from 'src/utils/Logger'
 import { accountAddressSelector } from 'src/web3/selectors'
+import pjson from '../../package.json'
 
 const TAG = 'PERSONA'
 
@@ -33,8 +34,9 @@ const Persona = ({ kycStatus }: Props) => {
 
   const templateIdResponse = useAsync(async () => readOnceFromFirebase('persona/templateId'), [])
   const templateId = templateIdResponse.result
-  debugger
+  console.log('lisa templateId', templateId)
   const launchPersonaInquiry = useCallback(() => {
+    console.log('lisa launchPersonaInquiry')
     if (typeof templateId !== 'string') {
       Logger.error(TAG, `Attempted to initiate Persona with invalid templateId: ${templateId}`)
       return
@@ -44,10 +46,10 @@ const Persona = ({ kycStatus }: Props) => {
       Logger.error(TAG, "Can't render Persona because accountAddress is null")
       return
     }
-
     Inquiry.fromTemplate(templateId)
       .referenceId(accountAddress)
       .environment(networkConfig.personaEnvironment)
+      .iosTheme(pjson.persona.iosTheme)
       .onSuccess((inquiryId: string, attributes: InquiryAttributes) => {
         console.log(
           `Inquiry completed for ${inquiryId} with attributes: ${JSON.stringify(attributes)}`
@@ -66,7 +68,6 @@ const Persona = ({ kycStatus }: Props) => {
   }, [templateId])
 
   const getPrivateKey = async (): Promise<string> => {
-    debugger
     const mnemonic = await getStoredMnemonic(accountAddress)
     if (!mnemonic) {
       throw new Error('Unable to fetch mnemonic from the store')
@@ -78,6 +79,7 @@ const Persona = ({ kycStatus }: Props) => {
 
   useAsync(async () => {
     if (!personaAccountCreated) {
+      console.log('lisa !personaAccountCreated')
       if (!accountAddress) {
         // TODO: Lisa - Is this the right pattern for forcing accountAddress to be not null?
         Logger.error(TAG, "Can't render Persona because accountAddress is null")
@@ -91,7 +93,7 @@ const Persona = ({ kycStatus }: Props) => {
         accountAddress
       )
       const serializedSignature = serializeSignature(signature)
-
+      console.log('lisa serializedSignature', serializedSignature)
       const response = await fetch(`${networkConfig.inhouseLiquditiyUrl}/persona/account/create`, {
         method: 'POST',
         headers: {
@@ -102,8 +104,10 @@ const Persona = ({ kycStatus }: Props) => {
       })
 
       if (response.status === 201 || response.status === 409) {
+        console.log('lisa setPersonaAccountCreated', true)
         setPersonaAccountCreated(true)
       } else {
+        console.log('lisa setPersonaAccountCreated', false)
         dispatch(showError(ErrorMessages.PERSONA_ACCOUNT_ENDPOINT_FAIL))
       }
     }
@@ -116,7 +120,7 @@ const Persona = ({ kycStatus }: Props) => {
       type={BtnTypes.PRIMARY}
       size={BtnSizes.FULL}
       testID="PersonaButton"
-      disabled={!personaAccountCreated || !templateId}
+      disabled={!templateId}
     />
   )
 }
