@@ -110,12 +110,14 @@ export class App extends React.Component<Props> {
         <ApolloProvider client={apolloClient}>
           <Provider store={store}>
             <PersistGate loading={<AppLoading />} persistor={persistor}>
-              <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-              <ErrorBoundary>
-                <I18nGate fallback={<AppLoading />}>
-                  <NavigatorWrapper />
-                </I18nGate>
-              </ErrorBoundary>
+              <I18nGate fallback={<AppLoading />}>
+                <>
+                  <StatusBar backgroundColor="transparent" barStyle="dark-content" />
+                  <ErrorBoundary>
+                    <NavigatorWrapper />
+                  </ErrorBoundary>
+                </>
+              </I18nGate>
             </PersistGate>
           </Provider>
         </ApolloProvider>
