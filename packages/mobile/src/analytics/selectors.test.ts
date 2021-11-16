@@ -144,10 +144,10 @@ describe('getCurrentUserTraits', () => {
       appBuildNumber: '1',
       appBundleId: 'org.celo.mobile.debug',
       appVersion: '0.0.1',
-      celoBalance: '0',
-      ceurBalance: '20',
+      celoBalance: 0,
+      ceurBalance: 20,
       countryCodeAlpha2: 'US',
-      cusdBalance: '10',
+      cusdBalance: 10,
       deviceId: 'unknown',
       hasCompletedBackup: false,
       hasVerifiedNumber: false,
@@ -157,7 +157,7 @@ describe('getCurrentUserTraits', () => {
       phoneCountryCallingCode: '+33',
       phoneCountryCodeAlpha2: 'FR',
       tokenCount: 14,
-      totalBalanceUsd: '7553.98',
+      totalBalanceUsd: 7553.98,
       walletAddress: '0x0000000000000000000000000000000000007e57',
     })
   })
