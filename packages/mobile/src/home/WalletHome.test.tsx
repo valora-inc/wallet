@@ -2,6 +2,7 @@ import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import WalletHome from 'src/home/WalletHome'
+import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore, RecursivePartial } from 'test/utils'
@@ -61,6 +62,9 @@ describe('WalletHome', () => {
   it('Renders correctly and fires initial actions', async () => {
     const { store, tree } = renderScreen({
       ...balances,
+      app: {
+        numberVerified: true,
+      },
       recipients: {
         phoneRecipientCache: {},
       },
@@ -96,6 +100,25 @@ describe('WalletHome', () => {
         },
       ]
     `)
+  })
+
+  it("doesn't import contacts if number isn't verified", async () => {
+    const { store } = renderScreen({
+      ...balances,
+      app: {
+        numberVerified: false,
+      },
+      recipients: {
+        phoneRecipientCache: {},
+      },
+    })
+
+    jest.runAllTimers()
+
+    const importContactsAction = store
+      .getActions()
+      .find((action) => action.type === IdentityActions.IMPORT_CONTACTS)
+    expect(importContactsAction).toBeFalsy()
   })
 
   it('Renders balances in home if feature flag is enabled', async () => {

@@ -42,6 +42,7 @@ function WalletHome() {
   const appState = useSelector(appStateSelector)
   const isLoading = useSelector((state) => state.home.loading)
   const recipientCache = useSelector(phoneRecipientCacheSelector)
+  const isNumberVerified = useSelector((state) => state.app.numberVerified)
   const showTokensInHome = useSelector(multiTokenShowHomeBalancesSelector)
   const balances = useSelector(balancesSelector)
   const cashInButtonExpEnabled = useSelector((state) => state.app.cashInButtonExpEnabled)
@@ -64,8 +65,8 @@ function WalletHome() {
   }
 
   const tryImportContacts = async () => {
-    // Skip if contacts have already been imported
-    if (Object.keys(recipientCache).length) {
+    // Skip if contacts have already been imported or the user hasn't verified their phone number.
+    if (Object.keys(recipientCache).length || !isNumberVerified) {
       return
     }
 

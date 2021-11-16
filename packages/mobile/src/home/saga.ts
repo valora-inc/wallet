@@ -71,6 +71,7 @@ export function* autoRefreshWatcher() {
 }
 
 export function* watchRefreshBalances() {
+  yield call(refreshBalances)
   yield takeLeading(
     Actions.REFRESH_BALANCES,
     withLoading(withTimeout(REFRESH_TIMEOUT, refreshBalances))
