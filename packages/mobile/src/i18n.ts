@@ -33,12 +33,22 @@ export enum Namespaces {
   walletConnect = 'walletConnect',
 }
 
+function getBundledResources() {
+  const resources: Resource = {}
+  for (const [lng, value] of Object.entries(locales)) {
+    Object.defineProperty(resources, lng, {
+      get: () => value!.strings,
+      enumerable: true,
+    })
+  }
+  return resources
+}
+
 async function getAvailableResources(
   allowOtaTranslations: boolean,
   otaTranslationsAppVersion: string
 ) {
   let cachedTranslations: Resource = {}
-
   if (
     allowOtaTranslations &&
     DeviceInfo.getVersion() === otaTranslationsAppVersion &&
@@ -47,18 +57,16 @@ async function getAvailableResources(
     cachedTranslations = JSON.parse(await RNFS.readFile(OTA_TRANSLATIONS_FILE))
   }
 
-  const resources: Resource = {}
-  for (const [lng, value] of Object.entries(locales)) {
-    // use only the global file for now
-    const global = cachedTranslations[lng] || value!.strings.global
-    Object.defineProperty(resources, lng, {
-      get: () => ({
-        ...value!.strings,
-        global,
-      }),
-      enumerable: true,
-    })
-  }
+  const resources = Object.entries(getBundledResources()).reduce((acc, [language, bundle]) => {
+    return {
+      ...acc,
+      [language]: {
+        ...bundle,
+        // use only the global bundle for now
+        global: cachedTranslations[language] || bundle.global,
+      },
+    }
+  }, {})
 
   return resources
 }

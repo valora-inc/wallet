@@ -1,11 +1,32 @@
+import DeviceInfo from 'react-native-device-info'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { select } from 'redux-saga/effects'
+import { call, select } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { appLock, openDeepLink, openUrl, setAppState } from 'src/app/actions'
-import { handleDeepLink, handleOpenUrl, handleSetAppState } from 'src/app/saga'
-import { getAppLocked, getLastTimeBackgrounded, getRequirePinOnAppOpen } from 'src/app/selectors'
+import {
+  appLock,
+  openDeepLink,
+  openUrl,
+  setAppState,
+  setOtaTranslationsLastUpdate,
+} from 'src/app/actions'
+import { currentLanguageSelector } from 'src/app/reducers'
+import {
+  handleDeepLink,
+  handleFetchOtaTranslations,
+  handleOpenUrl,
+  handleSaveOtaTranslations,
+  handleSetAppState,
+} from 'src/app/saga'
+import {
+  allowOtaTranslationsSelector,
+  getAppLocked,
+  getLastTimeBackgrounded,
+  getRequirePinOnAppOpen,
+  otaTranslationsLanguageSelector,
+  otaTranslationsLastUpdateSelector,
+} from 'src/app/selectors'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { receiveAttestationMessage } from 'src/identity/actions'
 import { CodeInputType } from 'src/identity/verification'
@@ -16,6 +37,20 @@ import { navigateToURI } from 'src/utils/linking'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
 import { handleWalletConnectDeepLink } from 'src/walletConnect/walletConnect'
+
+jest.mock('@crowdin/ota-client', () => {
+  return function () {
+    return {
+      getManifestTimestamp: jest.fn(() => 123456),
+      getLanguageMappings: jest.fn(),
+      getStringsByLocale: jest.fn(() => ({ someKey: 'someValue' })),
+    }
+  }
+})
+
+jest.mock('i18next', () => ({
+  addResourceBundle: jest.fn(),
+}))
 
 jest.mock('src/utils/time', () => ({
   clockInSync: () => true,
@@ -277,6 +312,36 @@ describe('App saga', () => {
         [select(getLastTimeBackgrounded), 0],
         [select(getRequirePinOnAppOpen), true],
       ])
+      .run()
+  })
+
+  it('Handles fetching over the air translations', async () => {
+    const translations = { someKey: 'someValue' }
+    const timestamp = 123456
+    const appVersion = '1.0.0'
+    const mockedVersion = DeviceInfo.getVersion as jest.MockedFunction<typeof DeviceInfo.getVersion>
+    mockedVersion.mockImplementation(() => appVersion)
+
+    await expectSaga(handleFetchOtaTranslations)
+      .provide([
+        [select(allowOtaTranslationsSelector), true],
+        [select(otaTranslationsLanguageSelector), 'en-US'],
+        [select(currentLanguageSelector), 'en-US'],
+        [select(otaTranslationsLastUpdateSelector), 0],
+        [call(handleSaveOtaTranslations, 'en-US', translations), undefined],
+      ])
+      .put(setOtaTranslationsLastUpdate(timestamp, appVersion, 'en-US'))
+      .run()
+
+    await expectSaga(handleFetchOtaTranslations)
+      .provide([
+        [select(allowOtaTranslationsSelector), true],
+        [select(otaTranslationsLanguageSelector), 'en-US'],
+        [select(currentLanguageSelector), 'de'],
+        [select(otaTranslationsLastUpdateSelector), timestamp],
+        [call(handleSaveOtaTranslations, 'de', translations), undefined],
+      ])
+      .put(setOtaTranslationsLastUpdate(timestamp, appVersion, 'de'))
       .run()
   })
 })

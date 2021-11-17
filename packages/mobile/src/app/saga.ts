@@ -346,7 +346,6 @@ export function* handleFetchOtaTranslations() {
 
       if (lastFetchLanguage !== currentLanguage || lastFetchTime < timestamp) {
         const languageMappings = yield call([otaClient, otaClient.getLanguageMappings])
-
         // otaClient expects language value like "es", while the locale value is like "es-419"
         const language = _.findKey(languageMappings, { locale: currentLanguage })
 
@@ -355,7 +354,7 @@ export function* handleFetchOtaTranslations() {
           undefined,
           language
         )
-        i18n.addResources(currentLanguage, 'global', translations)
+        i18n.addResourceBundle(currentLanguage, 'global', translations, true, true)
 
         yield call(handleSaveOtaTranslations, currentLanguage, translations)
         yield put(setOtaTranslationsLastUpdate(timestamp, DeviceInfo.getVersion(), currentLanguage))
