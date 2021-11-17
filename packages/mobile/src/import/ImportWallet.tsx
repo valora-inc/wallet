@@ -230,7 +230,7 @@ ImportWallet.navigationOptions = {
   ),
   headerTitle: () => (
     <HeaderTitleWithSubtitle
-      title={i18n.t('nuxNamePin1:importIt')}
+      title={i18n.t('importIt')}
       subTitle={i18n.t('onboarding:restoreAccountSteps', { step: '3' })}
     />
   ),

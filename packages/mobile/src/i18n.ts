@@ -16,7 +16,6 @@ const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 export enum Namespaces {
   translation = 'translation',
   index = 'index',
-  nuxNamePin1 = 'nuxNamePin1',
   nuxVerification2 = 'nuxVerification2',
   receiveFlow8 = 'receiveFlow8',
   sendFlow7 = 'sendFlow7',

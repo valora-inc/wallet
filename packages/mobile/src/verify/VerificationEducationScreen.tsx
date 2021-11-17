@@ -334,7 +334,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
         </Text>
         <Text style={styles.body}>{bodyText}</Text>
         <PhoneNumberInput
-          label={t('nuxNamePin1:phoneNumber')}
+          label={t('phoneNumber')}
           style={styles.phoneNumber}
           country={country}
           internationalPhoneNumber={phoneNumberInfo.internationalPhoneNumber}

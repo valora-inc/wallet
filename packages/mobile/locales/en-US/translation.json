@@ -376,7 +376,6 @@
   "incorrectPin": "Incorrect PIN",
   "pinInputCanceled": "The PIN is necessary. Please try again.",
   "setPinFailed": "Failed to set PIN",
-  "createPin": "Create Pin",
   "optIn": "Opt In",
   "invalidInvite": "Invalid Invitation Code",
   "inviteFriends": "Invite Friends",
@@ -569,5 +568,35 @@
     "title": "Get {{amount}} {{currency}} by sharing Valora with a friend!",
     "body": "Earn {{amount}} {{currency}} when you send money to a friend and they join. <0>Learn more</0>"
   },
-  "getReward": "Get ${{reward}}"
+  "getReward": "Get ${{reward}}",
+  "welcomeCelo": "Welcome to {{appName}}",
+  "chooseCountryCode": "Country Code",
+  "chooseCountry": "Country",
+  "joinText": "{{appName}} helps you to send, receive, and save value on the Celo Network.",
+  "terms": {
+    "title": "Terms and Conditions",
+    "heading1": "Data and Privacy",
+    "heading2": "Celo Assets and {{appName}} Account",
+    "info": "In order to use our services, please read and accept our <0>User Agreement and Terms</0> by clicking the accept button below.",
+    "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored on the Celo Network. If you grant Valora access to your contact list, Valora will import each contact's name, phone number and profile picture to allow users to connect through the Valora app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
+    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset. You can only send up to {{dailyLimitCUSD}} cUSD per day through Valora (the \"Daily Limit\"). You must contact support@valoraapp.com and provide additional, personal information to request increasing this Daily Limit. There could be a delay to conduct required compliance."
+  },
+  "fullName": "Full Name",
+  "fullNamePlaceholder": "First & Last name",
+  "importIt": "Restore Wallet",
+  "important": "Important",
+  "confirmPin": {
+    "title": "Enter PIN"
+  },
+  "goToSystemSecuritySettingsActionLabel": "Go to security",
+  "enableSystemScreenLockFailedMessage": "Failed to enable screen lock",
+  "initKeystoreFailureMessage": "Failed to init keystore",
+  "pinLostForeverMessage": "You removed the screen lock, the PIN is lost",
+  "importContactsPermission": {
+    "title": "Import Contacts",
+    "0": "Connecting your address book makes it easy to send and request payments with your friends. Otherwise, you’ll have to enter their info individually.",
+    "1": "Don’t worry—connecting does not send invites to your contacts.",
+    "enable": "Enable Contact Access",
+    "loading": "Finding friends on {{appName}}..."
+  }
 }

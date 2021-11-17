@@ -1,4 +1,3 @@
-import nuxNamePin1 from './nuxNamePin1.json'
 import nuxVerification2 from './nuxVerification2.json'
 import onboarding from './onboarding.json'
 import paymentRequestFlow from './paymentRequestFlow.json'
@@ -10,7 +9,6 @@ import walletFlow5 from './walletFlow5.json'
 
 export default {
   translation,
-  nuxNamePin1,
   nuxVerification2,
   paymentRequestFlow,
   receiveFlow8,

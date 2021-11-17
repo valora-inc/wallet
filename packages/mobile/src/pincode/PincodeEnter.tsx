@@ -9,7 +9,7 @@ import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
@@ -115,6 +115,4 @@ const mapStateToProps = (state: RootState): StateProps => ({
   currentAccount: currentAccountSelector(state),
 })
 
-export default connect(mapStateToProps)(
-  withTranslation<Props>(Namespaces.nuxNamePin1)(PincodeEnter)
-)
+export default connect(mapStateToProps)(withTranslation<Props>()(PincodeEnter))

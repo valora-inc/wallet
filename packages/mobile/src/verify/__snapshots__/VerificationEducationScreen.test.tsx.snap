@@ -338,7 +338,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
             ]
           }
         >
-          nuxNamePin1:phoneNumber
+          phoneNumber
         </Text>
         <View
           style={
@@ -1386,7 +1386,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
             ]
           }
         >
-          nuxNamePin1:phoneNumber
+          phoneNumber
         </Text>
         <View
           style={
@@ -2434,7 +2434,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
             ]
           }
         >
-          nuxNamePin1:phoneNumber
+          phoneNumber
         </Text>
         <View
           style={
@@ -3482,7 +3482,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
             ]
           }
         >
-          nuxNamePin1:phoneNumber
+          phoneNumber
         </Text>
         <View
           style={
