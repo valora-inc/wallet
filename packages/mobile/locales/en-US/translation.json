@@ -789,5 +789,8 @@
   "requesting": "Requesting",
   "request": "Request",
   "requestToken": "Request {{token}}",
-  "requestSent": "Request Sent"
+  "requestSent": "Request Sent",
+  "from": "from",
+  "verificationMessage": "You paid a fee to connect your account. Welcome to {{appName}}!",
+  "receivedAmountFromCelo": "You received this amount from the Faucet!"
 }

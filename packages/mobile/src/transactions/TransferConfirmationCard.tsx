@@ -60,7 +60,7 @@ function FaucetContent({ amount }: Props) {
   return (
     <>
       <TotalLineItem amount={totalAmount} />
-      <BottomText>{t('receiveFlow8:receivedAmountFromCelo')}</BottomText>
+      <BottomText>{t('receivedAmountFromCelo')}</BottomText>
     </>
   )
 }
@@ -72,7 +72,7 @@ function VerificationContent({ amount }: Props) {
   return (
     <>
       <TotalLineItem amount={totalAmount} hideSign={true} />
-      <BottomText>{t('receiveFlow8:verificationMessage')}</BottomText>
+      <BottomText>{t('verificationMessage')}</BottomText>
     </>
   )
 }
