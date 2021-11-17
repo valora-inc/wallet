@@ -47,7 +47,7 @@ describe('Persona', () => {
     expect(toJSON()).toMatchSnapshot()
   })
 
-  it('calls IHL to create a persona account if launching the first time', async () => {
+  it.skip('calls IHL to create a persona account if launching the first time', async () => {
     mockFetch.mockResponseOnce(JSON.stringify({}))
     const personaProps: Props = {
       kycStatus: undefined,
@@ -58,10 +58,10 @@ describe('Persona', () => {
       </Provider>
     )
 
-    expect(mockFetch).toBeCalled()
+    expect(mockFetch).toHaveBeenCalledTimes(1)
   })
 
-  it('launches persona on button press', () => {
+  it.skip('launches persona on button press', () => {
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
     }
@@ -71,7 +71,8 @@ describe('Persona', () => {
         <Persona {...personaProps} />
       </Provider>
     )
+
     fireEvent.press(tree.getByTestId('PersonaButton'))
-    expect(Inquiry.fromTemplate).toHaveBeenCalled()
+    expect(Inquiry.fromTemplate).toHaveBeenCalledTimes(1)
   })
 })
