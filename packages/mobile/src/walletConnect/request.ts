@@ -31,12 +31,9 @@ export function* handleRequest({ method, params }: { method: string; params: any
   switch (method) {
     case SupportedActions.eth_signTransaction:
       return (yield call(wallet.signTransaction.bind(wallet), params[0])) as EncodedTransaction
+    case SupportedActions.eth_signTypedData_v4:
     case SupportedActions.eth_signTypedData:
-      return (yield call(
-        wallet.signTypedData.bind(wallet),
-        account,
-        JSON.parse(params[1])
-      )) as string
+      return (yield call([wallet, 'signTypedData'], account, JSON.parse(params[1]))) as string
     case SupportedActions.personal_decrypt:
       return (yield call(wallet.decrypt.bind(wallet), account, Buffer.from(params[1]))) as string
     case SupportedActions.eth_sendTransaction:
