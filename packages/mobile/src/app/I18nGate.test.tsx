@@ -27,7 +27,7 @@ const setLanguageSpy = jest.spyOn(AppActions, 'setLanguage')
 const renderI18nGate = (language: string | null) =>
   render(
     <Provider store={createMockStore({ app: { language } })}>
-      <I18nGate fallback={<Text>Loading component</Text>}>
+      <I18nGate loading={<Text>Loading component</Text>}>
         <Text>App</Text>
       </I18nGate>
     </Provider>
@@ -96,6 +96,6 @@ describe('I18nGate', () => {
     await act(flushMicrotasksQueue)
 
     expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
-    expect(navigateToError).toHaveBeenCalledWith('appInitFailed')
+    expect(navigateToError).toHaveBeenCalledWith('appInitFailed', 'some error')
   })
 })
