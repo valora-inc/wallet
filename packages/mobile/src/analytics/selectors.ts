@@ -2,7 +2,7 @@ import { getRegionCodeFromCountryCode } from '@celo/utils/lib/phoneNumbers'
 import BigNumber from 'bignumber.js'
 import DeviceInfo from 'react-native-device-info'
 import { createSelector } from 'reselect'
-import { defaultCountryCodeSelector, nameSelector } from 'src/account/selectors'
+import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { currentLanguageSelector } from 'src/app/reducers'
 import { numberVerifiedSelector } from 'src/app/selectors'
 import { backupCompletedSelector } from 'src/backup/selectors'
@@ -20,7 +20,6 @@ export const getCurrentUserTraits = createSelector(
   [
     walletAddressSelector,
     accountAddressSelector,
-    nameSelector,
     defaultCountryCodeSelector,
     userLocationDataSelector,
     currentLanguageSelector,
@@ -34,7 +33,6 @@ export const getCurrentUserTraits = createSelector(
   (
     walletAddress,
     accountAddress,
-    name,
     phoneCountryCallingCode,
     { countryCodeAlpha2 },
     language,
@@ -54,14 +52,13 @@ export const getCurrentUserTraits = createSelector(
     return {
       accountAddress,
       walletAddress,
-      name,
       phoneCountryCallingCode, // Example: +33
       phoneCountryCodeAlpha2: phoneCountryCallingCode
         ? getRegionCodeFromCountryCode(phoneCountryCallingCode)
         : undefined,
       countryCodeAlpha2,
       language,
-      totalBalanceUsd,
+      totalBalanceUsd: totalBalanceUsd?.toNumber(),
       tokenCount: tokensByUsdBalance.length,
       otherTenTokens: tokensByUsdBalance
         .filter((token) => !currencyAddresses.has(token.address))
@@ -79,7 +76,7 @@ export const getCurrentUserTraits = createSelector(
       ...Object.fromEntries(
         (Object.keys(tokensByCurrency) as Currency[]).map((currency) => [
           `${currency === Currency.Celo ? 'celo' : currency.toLowerCase()}Balance`,
-          tokensByCurrency[currency]?.balance,
+          tokensByCurrency[currency]?.balance.toNumber(),
         ])
       ),
       localCurrencyCode,

@@ -60,16 +60,16 @@ const schema: JSONSchemaType<IpAddressData> = {
     continent_name: { type: 'string' },
     country_code: { type: 'string' },
     country_name: { type: 'string' },
-    region_code: { type: 'string' },
-    region_name: { type: 'string' },
-    city: { type: 'string' },
+    region_code: { type: 'string', nullable: true },
+    region_name: { type: 'string', nullable: true },
+    city: { type: 'string', nullable: true },
     zip: { type: 'string', nullable: true },
     latitude: { type: 'number' },
     longitude: { type: 'number' },
     location: {
       type: 'object',
       properties: {
-        geoname_id: { type: 'number' },
+        geoname_id: { type: 'number', nullable: true },
         capital: { type: 'string' },
         languages: {
           type: 'array',

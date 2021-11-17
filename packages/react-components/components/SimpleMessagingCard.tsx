@@ -1,6 +1,5 @@
 import CallToActionsBar, { CallToAction } from '@celo/react-components/components/CallToActionsBar'
 import MessagingCard from '@celo/react-components/components/MessagingCard'
-import colors from '@celo/react-components/styles/colors'
 import fontStyles from '@celo/react-components/styles/fonts'
 import React from 'react'
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
@@ -8,7 +7,6 @@ import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native
 export interface Props {
   text: string
   icon?: ImageSourcePropType | React.ReactNode
-  darkMode?: boolean
   callToActions: CallToAction[]
   priority: number
   testID?: string
@@ -17,7 +15,6 @@ export interface Props {
 export default function SimpleMessagingCard({
   text,
   icon: iconProp,
-  darkMode = false,
   callToActions,
   testID,
 }: Props) {
@@ -38,20 +35,13 @@ export default function SimpleMessagingCard({
   ) : undefined
 
   return (
-    <MessagingCard style={darkMode ? styles.darkModeContainer : styles.container} testID={testID}>
+    <MessagingCard style={styles.container} testID={testID}>
       <View style={styles.innerContainer}>
         <View style={styles.content}>
-          <Text
-            style={[styles.text, darkMode ? styles.darkModeText : {}]}
-            testID={`${testID}/Text`}
-          >
+          <Text style={styles.text} testID={`${testID}/Text`}>
             {text}
           </Text>
-          <CallToActionsBar
-            callToActions={callToActions}
-            darkMode={darkMode}
-            testID={`${testID}/CallToActions`}
-          />
+          <CallToActionsBar callToActions={callToActions} testID={`${testID}/CallToActions`} />
         </View>
         {!!icon && <View style={styles.iconContainer}>{icon}</View>}
       </View>
@@ -61,9 +51,6 @@ export default function SimpleMessagingCard({
 
 const styles = StyleSheet.create({
   container: {},
-  darkModeContainer: {
-    backgroundColor: '#2C3D47',
-  },
   innerContainer: {
     flexDirection: 'row',
     flex: 1,
@@ -74,9 +61,6 @@ const styles = StyleSheet.create({
   },
   text: {
     ...fontStyles.large,
-  },
-  darkModeText: {
-    color: colors.light,
   },
   iconContainer: {
     marginLeft: 12,

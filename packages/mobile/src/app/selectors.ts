@@ -15,7 +15,7 @@ export const getRequirePinOnAppOpen = (state: RootState) => {
   return state.app.requirePinOnAppOpen
 }
 
-export const getAppState = (state: RootState) => {
+export const appStateSelector = (state: RootState) => {
   return state.app.appState
 }
 
