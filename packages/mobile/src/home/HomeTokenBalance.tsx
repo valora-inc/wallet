@@ -26,7 +26,7 @@ function TokenBalance() {
     return (
       <Text style={styles.balance} testID={'TotalTokenBalance'}>
         {localCurrencySymbol}
-        {new BigNumber(0).toFixed(2)}
+        {new BigNumber(0).toFormat(2)}
       </Text>
     )
   } else if (tokenBalances.length === 1) {
@@ -37,7 +37,7 @@ function TokenBalance() {
         <View style={styles.column}>
           <Text style={styles.balance} testID={'TotalTokenBalance'}>
             {localCurrencySymbol}
-            {totalBalance}
+            {totalBalance?.toFormat(2)}
           </Text>
           <Text style={styles.tokenBalance}>
             {formatValueToDisplay(tokenBalance)} {tokenBalances[0].symbol}
@@ -49,7 +49,7 @@ function TokenBalance() {
     return (
       <Text style={styles.balance} testID={'TotalTokenBalance'}>
         {localCurrencySymbol}
-        {totalBalance}
+        {totalBalance?.toFormat(2)}
       </Text>
     )
   }
@@ -61,14 +61,14 @@ function HomeTokenBalance() {
   const tokenBalances = useSelector(tokensWithBalanceSelector)
 
   const onViewBalances = () => {
-    ValoraAnalytics.track(HomeEvents.view_token_balances, { totalBalance })
+    ValoraAnalytics.track(HomeEvents.view_token_balances, { totalBalance: totalBalance.toString() })
     navigate(Screens.TokenBalances)
   }
 
   const [infoVisible, setInfoVisible] = useState(false)
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="HomeTokenBalance">
       <View style={styles.title}>
         <View style={styles.row}>
           <Text style={styles.totalValue}>{t('totalValue')}</Text>

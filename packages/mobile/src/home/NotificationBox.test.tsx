@@ -14,7 +14,6 @@ const EXPIRED_BACKUP_TIME = RECENT_BACKUP_TIME - DAYS_TO_BACKUP
 
 const testNotification = {
   ctaUri: 'https://celo.org',
-  darkMode: true,
   priority: 20,
   content: {
     en: {

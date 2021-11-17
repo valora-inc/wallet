@@ -183,7 +183,7 @@ describe(ExchangeTradeScreen, () => {
     fireEvent.changeText(getByTestId('ExchangeInput'), '0.0001')
     expect(getByTestId('ExchangeReviewButton')).toBeDisabled()
 
-    // This is the minimum amount when exchanging gold (see GOLD_TRANSACTION_MIN_AMOUNT)
+    // This is the minimum amount when exchanging gold (see CELO_TRANSACTION_MIN_AMOUNT)
     // 0.001 is the actual minimum but when exchanging 0.001 at 0.11 rate it gives ~0.009 cUSD
     // which is 0 when rounded to the 2 decimals we support for cUSD
     fireEvent.changeText(getByTestId('ExchangeInput'), '0.002')
