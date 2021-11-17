@@ -168,7 +168,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
       </View>
       <CustomDrawerItemList {...props} protectedRoutes={[Screens.BackupIntroduction]} />
       <View style={styles.drawerBottom}>
-        <Text style={fontStyles.label}>{i18n.t('dappkit:address')}</Text>
+        <Text style={fontStyles.label}>{i18n.t('address')}</Text>
         <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
         <Text style={styles.smallLabel}>{`Version ${appVersion}`}</Text>
       </View>

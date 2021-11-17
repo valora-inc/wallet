@@ -1,4 +1,3 @@
-import dappkit from './dappkit.json'
 import dev from './dev.json'
 import exchangeFlow9 from './exchangeFlow9.json'
 import fiatExchangeFlow from './fiatExchangeFlow.json'
@@ -28,7 +27,6 @@ export default {
   sendFlow7,
   walletFlow5,
   dev,
-  dappkit,
   onboarding,
   fiatExchangeFlow,
   walletConnect,

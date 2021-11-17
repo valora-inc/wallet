@@ -178,5 +178,17 @@
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
   "cashIn": "Add {{currency}}",
-  "connectNumber": "Connect Number"
+  "connectNumber": "Connect Number",
+  "connectToWallet": "{{dappName}} would like to connect to {{appName}}",
+  "allow": "Allow",
+  "address": "Account Address",
+  "phoneNumber": "Phone Number",
+  "transaction": {
+    "operation": "Operation",
+    "data": "Data",
+    "signTX": "Sign TX",
+    "details": "Show details"
+  },
+  "shareInfo": "This application will be able to access the following information:",
+  "data": "Data"
 }

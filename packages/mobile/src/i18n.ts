@@ -26,7 +26,6 @@ export enum Namespaces {
   sendFlow7 = 'sendFlow7',
   paymentRequestFlow = 'paymentRequestFlow',
   walletFlow5 = 'walletFlow5',
-  dappkit = 'dappkit',
   onboarding = 'onboarding',
   fiatExchangeFlow = 'fiatExchangeFlow',
   walletConnect = 'walletConnect',
