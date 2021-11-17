@@ -10,7 +10,6 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
-import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import ProgressArrow from 'src/icons/ProgressArrow'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
@@ -56,7 +55,7 @@ function TokenBalance() {
 }
 
 function HomeTokenBalance() {
-  const { t } = useTranslation(Namespaces.walletFlow5)
+  const { t } = useTranslation()
   const totalBalance = useSelector(totalTokenBalanceSelector) ?? '-'
   const tokenBalances = useSelector(tokensWithBalanceSelector)
 

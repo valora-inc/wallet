@@ -23,7 +23,6 @@ import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
 import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
-import { Namespaces } from 'src/i18n'
 import { backupKey, getVerified, learnCelo } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -85,7 +84,7 @@ function useSimpleActions() {
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
-  const { t } = useTranslation(Namespaces.walletFlow5)
+  const { t } = useTranslation()
 
   const dispatch = useDispatch()
 

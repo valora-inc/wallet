@@ -33,7 +33,7 @@ function EscrowedPaymentListItem({ payment }: Props) {
 
     try {
       await Share.share({
-        message: t('walletFlow5:escrowedPaymentReminderSmsNoData', {
+        message: t('escrowedPaymentReminderSmsNoData', {
           currency: payment.currency === Currency.Dollar ? t('celoDollars') : t('celoEuros'),
         }),
       })

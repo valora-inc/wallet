@@ -129,8 +129,8 @@ function NetworkFeeContent({ amount }: Props) {
     <>
       <TotalLineItem amount={totalAmount} hideSign={true} />
       <BottomText>
-        {t('walletFlow5:networkFeeExplanation.0')}
-        <Link onPress={onPressGoToFaq}>{t('walletFlow5:networkFeeExplanation.1')}</Link>
+        {t('networkFeeExplanation.0')}
+        <Link onPress={onPressGoToFaq}>{t('networkFeeExplanation.1')}</Link>
       </BottomText>
     </>
   )

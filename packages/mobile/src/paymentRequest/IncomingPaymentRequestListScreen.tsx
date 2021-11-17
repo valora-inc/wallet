@@ -45,10 +45,7 @@ export const listItemRenderer = (props: { recipientInfo: RecipientInfo }) => (
 class IncomingPaymentRequestListScreen extends React.Component<Props> {
   static navigationOptions = () => ({
     headerTitle: (
-      <HeaderTitleWithBalance
-        title={i18n.t('walletFlow5:incomingPaymentRequests')}
-        token={Currency.Dollar}
-      />
+      <HeaderTitleWithBalance title={i18n.t('incomingPaymentRequests')} token={Currency.Dollar} />
     ),
   })
 

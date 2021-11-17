@@ -16,7 +16,6 @@ const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 export enum Namespaces {
   translation = 'translation',
   index = 'index',
-  walletFlow5 = 'walletFlow5',
 }
 
 function getAvailableResources() {

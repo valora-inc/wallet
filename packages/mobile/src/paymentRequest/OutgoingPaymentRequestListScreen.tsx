@@ -70,7 +70,7 @@ const OutgoingPaymentRequestListScreen = (props: Props) => {
 }
 
 OutgoingPaymentRequestListScreen.navigationOptions = titleWithBalanceNavigationOptions(
-  i18n.t('walletFlow5:outgoingPaymentRequests')
+  i18n.t('outgoingPaymentRequests')
 )
 
 export default connect<StateProps, DispatchProps, {}, RootState>(mapStateToProps, {

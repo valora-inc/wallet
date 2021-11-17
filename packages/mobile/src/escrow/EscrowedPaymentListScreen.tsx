@@ -42,7 +42,7 @@ const EscrowedPaymentListScreen = (props: Props) => (
 )
 
 EscrowedPaymentListScreen.navigationOptions = titleWithBalanceNavigationOptions(
-  i18n.t('walletFlow5:escrowedPaymentReminder')
+  i18n.t('escrowedPaymentReminder')
 )
 
 export default connect<StateProps, {}, {}, RootState>(mapStateToProps)(

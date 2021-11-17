@@ -11,12 +11,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import Modal from 'react-native-modal'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 
 function CashInBottomSheet() {
-  const { t } = useTranslation(Namespaces.walletFlow5)
+  const { t } = useTranslation()
   const [isModalVisible, setModalVisible] = useState(true)
 
   useEffect(() => {
