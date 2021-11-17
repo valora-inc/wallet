@@ -6,7 +6,6 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CancelButton from 'src/components/CancelButton'
 import Dialog from 'src/components/Dialog'
-import { Namespaces } from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
 
 interface Props {
@@ -15,7 +14,7 @@ interface Props {
 
 export default function CancelConfirm({ screen }: Props) {
   const [isOpen, setOpenState] = React.useState(false)
-  const { t } = useTranslation(Namespaces.backupKeyFlow6)
+  const { t } = useTranslation()
 
   const actionText = t('cancelDialog.action')
   const secondaryText = t('cancelDialog.secondary')

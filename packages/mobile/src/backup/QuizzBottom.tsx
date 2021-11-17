@@ -5,7 +5,6 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { Mode } from 'src/backup/BackupQuiz'
-import { Namespaces } from 'src/i18n'
 import LoadingSpinner from 'src/icons/LoadingSpinner'
 
 interface Props {
@@ -15,7 +14,7 @@ interface Props {
 }
 
 export function QuizzBottom({ onPressSubmit, isQuizComplete, mode }: Props) {
-  const { t } = useTranslation(Namespaces.backupKeyFlow6)
+  const { t } = useTranslation()
   if (!isQuizComplete) {
     return null
   }

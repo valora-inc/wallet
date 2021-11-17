@@ -1,4 +1,3 @@
-import backupKeyFlow6 from './backupKeyFlow6.json'
 import consumerIncentives from './consumerIncentives.json'
 import dappkit from './dappkit.json'
 import dev from './dev.json'
@@ -19,7 +18,6 @@ import walletFlow5 from './walletFlow5.json'
 
 export default {
   translation,
-  backupKeyFlow6,
   consumerIncentives,
   exchangeFlow9,
   global,

@@ -20,7 +20,7 @@ import { QuizzBottom } from 'src/backup/QuizzBottom'
 import { getStoredMnemonic, onGetMnemonicFail } from 'src/backup/utils'
 import CancelButton from 'src/components/CancelButton'
 import DevSkipButton from 'src/components/DevSkipButton'
-import i18n, { Namespaces, withTranslation } from 'src/i18n'
+import i18n, { withTranslation } from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -86,7 +86,7 @@ export const navOptionsForQuiz = ({ route }: OwnProps) => {
         <CancelConfirm screen={TAG} />
       )
     },
-    headerTitle: i18n.t(`${Namespaces.backupKeyFlow6}:headerTitle`),
+    headerTitle: i18n.t(`headerTitle`),
   }
 }
 
@@ -247,7 +247,6 @@ export class BackupQuiz extends React.Component<Props, State> {
                 <Text style={styles.bodyText}>
                   <Trans
                     i18nKey={'backupQuizWordCount'}
-                    ns={Namespaces.backupKeyFlow6}
                     tOptions={{ ordinal: t(`global:ordinals.${currentWordIndex}`) }}
                   >
                     <Text style={styles.bodyTextBold}>X</Text>
@@ -428,4 +427,4 @@ const styles = StyleSheet.create({
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(mapStateToProps, {
   setBackupCompleted,
   showError,
-})(withTranslation<Props>(Namespaces.backupKeyFlow6)(BackupQuiz))
+})(withTranslation<Props>()(BackupQuiz))
