@@ -10,7 +10,6 @@ import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { FeeInfo } from 'src/fees/saga'
 import { getFeeInTokens } from 'src/fees/selectors'
-import { Namespaces } from 'src/i18n'
 import { MobileRecipient } from 'src/recipients/recipient'
 import { Currency } from 'src/utils/currencies'
 
@@ -33,7 +32,7 @@ export default function ReclaimPaymentConfirmationCard({
   feeError,
   currency,
 }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const amount = {
     value: amountProp,
     currencyCode: currency,

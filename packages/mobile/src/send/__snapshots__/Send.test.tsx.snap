@@ -45,7 +45,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
           }
         }
       >
-        sendFlow7:send
+        send
       </Text>
     </View>
     <View

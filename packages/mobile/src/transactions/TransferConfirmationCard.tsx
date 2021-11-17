@@ -20,7 +20,6 @@ import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { FAQ_LINK } from 'src/config'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
-import { Namespaces } from 'src/i18n'
 import { addressToDisplayNameSelector } from 'src/identity/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -54,7 +53,7 @@ const onPressGoToFaq = () => {
 }
 
 function FaucetContent({ amount }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const totalAmount = amount
 
   return (
@@ -66,7 +65,7 @@ function FaucetContent({ amount }: Props) {
 }
 
 function VerificationContent({ amount }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const totalAmount = amount
 
   return (
@@ -78,7 +77,7 @@ function VerificationContent({ amount }: Props) {
 }
 
 function InviteSentContent({ addressHasChanged, recipient, amount }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const totalAmount = amount
   // TODO: Use real fee
   const totalFee = new BigNumber(0)
@@ -104,7 +103,7 @@ function InviteSentContent({ addressHasChanged, recipient, amount }: Props) {
 }
 
 function InviteReceivedContent({ addressHasChanged, recipient, amount }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const totalAmount = amount
 
   return (
@@ -123,7 +122,7 @@ function InviteReceivedContent({ addressHasChanged, recipient, amount }: Props) 
 }
 
 function NetworkFeeContent({ amount }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const totalAmount = amount
 
   return (
@@ -138,7 +137,7 @@ function NetworkFeeContent({ amount }: Props) {
 }
 
 function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const sentAmount = amount
   // TODO: Use real fee
   const securityFee = new BigNumber(0)
@@ -172,7 +171,7 @@ function PaymentSentContent({ addressHasChanged, recipient, amount, comment }: P
 }
 
 function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, comment }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const totalAmount = amount
   const isCeloTx = amount.currencyCode === Currency.Celo
   const celoEducationUri = useTypedSelector((state) => state.app.celoEducationUri)
@@ -201,7 +200,7 @@ function PaymentReceivedContent({ address, recipient, e164PhoneNumber, amount, c
 }
 
 function RewardContent({ amount, recipient }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const rewardsEnabled = useTypedSelector(rewardsEnabledSelector)
 
   const openLearnMore = () => {

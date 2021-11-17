@@ -103,7 +103,7 @@ function ExternalExchanges({ route }: Props) {
             })}
           </Text>
           <View testID="accountBox" style={styles.accountBox}>
-            <Text style={styles.accountLabel}>{t('sendFlow7:accountAddressLabel')}</Text>
+            <Text style={styles.accountLabel}>{t('accountAddressLabel')}</Text>
             <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
           </View>
         </>
@@ -135,7 +135,7 @@ function ExternalExchanges({ route }: Props) {
             <Button
               testID="WithdrawCeloButton"
               style={styles.celoOutButton}
-              text={t('sendFlow7:withdrawToken', {
+              text={t('withdrawToken', {
                 token: CURRENCIES[route.params.currency].cashTag,
               })}
               onPress={() => goToCashOut()}

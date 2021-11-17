@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Modal from 'src/components/Modal'
-import { Namespaces } from 'src/i18n'
 import { Recipient } from 'src/recipients/recipient'
 import { setShowWarning } from 'src/send/actions'
 
@@ -25,7 +24,7 @@ export default function SendToAddressWarning({
   isVisible,
   recipient,
 }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const dispatch = useDispatch()
 
   const onContinue = () => {

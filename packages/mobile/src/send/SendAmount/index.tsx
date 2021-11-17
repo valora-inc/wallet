@@ -17,7 +17,6 @@ import {
   NUMBER_INPUT_MAX_DECIMALS,
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
-import { Namespaces } from 'src/i18n'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
@@ -79,7 +78,7 @@ export function useInputAmounts(
 }
 
 function SendAmount(props: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const [amount, setAmount] = useState('')
   const [usingLocalAmount, setUsingLocalAmount] = useState(true)

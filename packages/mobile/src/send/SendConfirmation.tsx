@@ -23,7 +23,6 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import { FeeType } from 'src/fees/actions'
 import { useEstimateGasFee } from 'src/fees/hooks'
-import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
 import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
@@ -88,7 +87,7 @@ function useRecipientToSendTo(paramRecipient: Recipient) {
 }
 
 function SendConfirmation(props: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const {
     origin,

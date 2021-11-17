@@ -4,7 +4,6 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import Dialog from 'src/components/Dialog'
-import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 
 interface Props {
@@ -68,14 +67,14 @@ export const ExchangeFeeIcon = () => {
 }
 
 export const SecurityFeeIcon = () => {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   return (
     <FeeIcon title={t('securityFee')} description={t('feeEducation')} dismissText={t('dismiss')} />
   )
 }
 
 export const EncryptionFeeIcon = () => {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   return (
     <FeeIcon
       title={t('encryption.feeLabel')}

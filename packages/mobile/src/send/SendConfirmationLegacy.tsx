@@ -32,7 +32,7 @@ import CalculateFee, {
 } from 'src/fees/CalculateFee'
 import { FeeInfo } from 'src/fees/saga'
 import { getFeeInTokens } from 'src/fees/selectors'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { fetchDataEncryptionKey } from 'src/identity/actions'
 import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
@@ -96,7 +96,7 @@ function SendConfirmationLegacy(props: Props) {
   const [showingTokenChooser, showTokenChooser] = useState(false)
 
   const dispatch = useDispatch()
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const fromModal = props.route.name === Screens.SendConfirmationLegacyModal
   const { transactionData, addressJustValidated, currencyInfo, origin } = props.route.params
@@ -150,7 +150,7 @@ function SendConfirmationLegacy(props: Props) {
   useEffect(() => {
     dispatch(fetchStableBalances())
     if (addressJustValidated) {
-      Logger.showMessage(t('sendFlow7:addressConfirmed'))
+      Logger.showMessage(t('addressConfirmed'))
     }
     triggerFetchDataEncryptionKey()
   }, [])

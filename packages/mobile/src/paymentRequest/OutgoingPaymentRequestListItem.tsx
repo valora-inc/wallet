@@ -32,7 +32,7 @@ export class OutgoingPaymentRequestListItem extends React.Component<Props> {
       notificationType: NotificationBannerTypes.outgoing_tx_request,
       selectedAction: NotificationBannerCTATypes.remind,
     })
-    Logger.showMessage(t('sendFlow7:reminderSent'))
+    Logger.showMessage(t('reminderSent'))
   }
 
   onCancel = () => {

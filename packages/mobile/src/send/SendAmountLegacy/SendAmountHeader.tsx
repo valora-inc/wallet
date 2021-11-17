@@ -52,10 +52,10 @@ function SendAmountHeader({
     let titleText
     let title
     if (currenciesWithBalance < 2 || isOutgoingPaymentRequest) {
-      titleText = isOutgoingPaymentRequest ? i18n.t('request') : i18n.t('sendFlow7:send')
+      titleText = isOutgoingPaymentRequest ? i18n.t('request') : i18n.t('send')
       title = titleText
     } else {
-      titleText = i18n.t('sendFlow7:sendToken', { token: currency })
+      titleText = i18n.t('sendToken', { token: currency })
       title = (
         <View style={styles.titleContainer} testID="HeaderCurrencyPicker">
           <Text style={headerStyles.headerTitle}>{titleText}</Text>
