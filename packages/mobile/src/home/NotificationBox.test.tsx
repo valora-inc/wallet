@@ -217,7 +217,7 @@ describe('NotificationBox', () => {
         <NotificationBox />
       </Provider>
     )
-    expect(getByText('nuxVerification2:notification.body')).toBeTruthy()
+    expect(getByText('notification.body')).toBeTruthy()
   })
 
   it('does not render verification reminder when insufficient balance', () => {
@@ -229,7 +229,7 @@ describe('NotificationBox', () => {
         <NotificationBox />
       </Provider>
     )
-    expect(queryByText('nuxVerification2:notification.body')).toBeFalsy()
+    expect(queryByText('notification.body')).toBeFalsy()
   })
 
   it('renders all remote notifications that were not dismissed', () => {

@@ -382,7 +382,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 }
                 testID="undefined/Text"
               >
-                nuxVerification2:notification.body
+                notification.body
               </Text>
               <View
                 style={
@@ -411,7 +411,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/nuxVerification2:notification.cta/Button"
+                  testID="undefined/CallToActions/notification.cta/Button"
                 >
                   <Text
                     style={
@@ -432,7 +432,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                       ]
                     }
                   >
-                    nuxVerification2:notification.cta
+                    notification.cta
                   </Text>
                 </View>
                 <View

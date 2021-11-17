@@ -120,12 +120,12 @@ function useSimpleActions() {
 
   if (!dismissedGetVerified && !numberVerified && verificationPossible) {
     actions.push({
-      text: t('nuxVerification2:notification.body'),
+      text: t('notification.body'),
       icon: getVerified,
       priority: VERIFICATION_PRIORITY,
       callToActions: [
         {
-          text: t('nuxVerification2:notification.cta'),
+          text: t('notification.cta'),
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationBannerTypes.verification_prompt,
