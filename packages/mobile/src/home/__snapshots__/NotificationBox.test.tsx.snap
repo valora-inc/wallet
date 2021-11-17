@@ -74,15 +74,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Array [
-                    Object {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 18,
-                      "lineHeight": 24,
-                    },
-                    Object {},
-                  ]
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
                 }
                 testID="undefined/Text"
               >
@@ -376,15 +373,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Array [
-                    Object {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 18,
-                      "lineHeight": 24,
-                    },
-                    Object {},
-                  ]
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
                 }
                 testID="undefined/Text"
               >
@@ -470,6 +464,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
+                          "color": "#9CA4A9",
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
@@ -541,9 +536,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   "flex": 1,
                   "minHeight": 144,
                 },
-                Object {
-                  "backgroundColor": "#2C3D47",
-                },
+                Object {},
               ],
             ]
           }
@@ -566,17 +559,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Array [
-                    Object {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 18,
-                      "lineHeight": 24,
-                    },
-                    Object {
-                      "color": "#FFFFFF",
-                    },
-                  ]
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
                 }
                 testID="undefined/Text"
               >
@@ -621,7 +609,6 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#FFFFFF",
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
@@ -663,13 +650,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#FFFFFF",
+                          "color": "#9CA4A9",
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
                           "minWidth": 48,
-                          "opacity": 0.33,
                         },
                       ]
                     }
@@ -739,15 +725,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Array [
-                    Object {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 18,
-                      "lineHeight": 24,
-                    },
-                    Object {},
-                  ]
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
                 }
                 testID="undefined/Text"
               >
@@ -833,6 +816,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
+                          "color": "#9CA4A9",
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,

@@ -736,24 +736,20 @@ exports[`ReviewFees renders correctly 1`] = `
         <svg
           fill="none"
           height={14}
-          style={Object {}}
           viewBox="0 0 16 16"
           width={14}
-          xmlns="http://www.w3.org/2000/svg"
         >
           <circle
             cx="8"
             cy="8"
             r="7"
             stroke="#B4B9BD"
-            stroke-width="1.25"
-            style={Object {}}
+            strokeWidth="1.25"
           />
           <path
             d="M8 12V7M8 6V5"
             stroke="#B4B9BD"
-            stroke-width="1.25"
-            style={Object {}}
+            strokeWidth="1.25"
           />
         </svg>
       </View>
@@ -1598,24 +1594,20 @@ exports[`ReviewFees renders correctly 2`] = `
         <svg
           fill="none"
           height={14}
-          style={Object {}}
           viewBox="0 0 16 16"
           width={14}
-          xmlns="http://www.w3.org/2000/svg"
         >
           <circle
             cx="8"
             cy="8"
             r="7"
             stroke="#B4B9BD"
-            stroke-width="1.25"
-            style={Object {}}
+            strokeWidth="1.25"
           />
           <path
             d="M8 12V7M8 6V5"
             stroke="#B4B9BD"
-            stroke-width="1.25"
-            style={Object {}}
+            strokeWidth="1.25"
           />
         </svg>
       </View>

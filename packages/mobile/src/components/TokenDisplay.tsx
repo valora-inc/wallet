@@ -52,7 +52,7 @@ function calculateDecimalsToShow(value: BigNumber) {
 // Formats |value| so that it shows at least 2 significant figures and at least 2 decimal places without trailing zeros.
 export function formatValueToDisplay(value: BigNumber) {
   let decimals = calculateDecimalsToShow(value)
-  let text = value.toFixed(decimals)
+  let text = value.toFormat(decimals)
   while (text[text.length - 1] === '0' && decimals-- > 2) {
     text = text.substring(0, text.length - 1)
   }

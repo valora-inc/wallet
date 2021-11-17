@@ -169,7 +169,7 @@ describe('TokenDisplay', () => {
 
 describe.only('formatValueToDisplay', () => {
   it('adds at least two decimal places', () => {
-    expect(formatValueToDisplay(new BigNumber(1234))).toEqual('1234.00')
+    expect(formatValueToDisplay(new BigNumber(1234))).toEqual('1,234.00')
   })
 
   it('shows at least two significant figures', () => {
