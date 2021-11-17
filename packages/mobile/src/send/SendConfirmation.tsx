@@ -263,7 +263,7 @@ function SendConfirmation(props: Props) {
         LabelAboveKeyboard={EncryptionWarningLabel}
         confirmButton={{
           action: onSendClick,
-          text: isInvite ? t('inviteFlow11:sendAndInvite') : t('send'),
+          text: isInvite ? t('sendAndInvite') : t('send'),
           disabled: isSending || !!feeError,
         }}
         isSending={isSending}

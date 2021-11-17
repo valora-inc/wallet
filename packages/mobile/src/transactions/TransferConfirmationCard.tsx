@@ -98,7 +98,7 @@ function InviteSentContent({ addressHasChanged, recipient, amount }: Props) {
         totalFee={totalFee}
       />
       <TotalLineItem amount={totalAmount} hideSign={true} />
-      <BottomText>{t('inviteFlow11:whySendFees')}</BottomText>
+      <BottomText>{t('whySendFees')}</BottomText>
     </>
   )
 }
@@ -117,7 +117,7 @@ function InviteReceivedContent({ addressHasChanged, recipient, amount }: Props) 
       />
       <HorizontalLine />
       <TotalLineItem amount={totalAmount} />
-      <BottomText>{t('inviteFlow11:whyReceiveFees')}</BottomText>
+      <BottomText>{t('whyReceiveFees')}</BottomText>
     </>
   )
 }

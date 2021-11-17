@@ -538,5 +538,36 @@
       "title": "Please buy and sell responsibly",
       "text": "{{appName}} allows you to buy and sell CELO. CELO presents a risk of financial loss, please exercise caution."
     }
-  ]
+  ],
+  "inviteWithWhatsapp": "Invite with WhatsApp",
+  "inviteWithSMS": "Invite with SMS",
+  "inviteFee": "Invite Fee",
+  "whySendFees": "This fee covers costs for the new user to connect their phone number",
+  "whyReceiveFees": "You were sent some money to confirm your account",
+  "inviteSent": "Invite Sent",
+  "searchForSomeone": "Search for someone using their name or phone number",
+  "redeemFailed": "Failure redeeming code ",
+  "redeemInviteTimeout": "Redeem Invite Timed out",
+  "accountSetupFailed": "Failed to create your wallet",
+  "emptyInviteCode": "Invite code has no funds",
+  "transferDollarsToAccount": "Funds transferred to your account!",
+  "inviteAnyone": "Send easily to your friends by adding your contacts",
+  "inviteReceived": "Invite Received",
+  "escrowPaymentNotificationTitle": "Invited {{mobile}}",
+  "inviteDialog": {
+    "title": "Invite a Friend",
+    "body": "Connect and share value with your friends and family on Valora.",
+    "button": "Invite"
+  },
+  "sendAndInvite": "Send & Invite",
+  "inviteAndSendDialog": {
+    "title": "We'll hold on to your payment to {{name}}",
+    "body": "Share an invitation message with {{name}} to join Valora. Once they join & connect a phone number, they'll receive payment and you will receive your rewards!",
+    "button": "Finish sending"
+  },
+  "inviteRewardsBanner": {
+    "title": "Get {{amount}} {{currency}} by sharing Valora with a friend!",
+    "body": "Earn {{amount}} {{currency}} when you send money to a friend and they join. <0>Learn more</0>"
+  },
+  "getReward": "Get ${{reward}}"
 }

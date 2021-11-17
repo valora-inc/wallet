@@ -1,7 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Dialog from 'src/components/Dialog'
-import { Namespaces } from 'src/i18n'
 import { inviteModal } from 'src/images/Images'
 
 interface Props {
@@ -12,7 +11,7 @@ interface Props {
 }
 
 export default function InviteAndSendModal({ isVisible, name, onInvite, onCancel }: Props) {
-  const { t } = useTranslation(Namespaces.inviteFlow11)
+  const { t } = useTranslation()
 
   return (
     <Dialog

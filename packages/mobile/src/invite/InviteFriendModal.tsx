@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { toggleInviteModal } from 'src/app/actions'
 import Dialog from 'src/components/Dialog'
-import { Namespaces } from 'src/i18n'
 import { inviteModal } from 'src/images/Images'
 import Logger from 'src/utils/Logger'
 
@@ -14,7 +13,7 @@ interface Props {
 }
 
 const InviteFriendModal = ({ isVisible, onInvite, onCancel }: Props) => {
-  const { t } = useTranslation(Namespaces.inviteFlow11)
+  const { t } = useTranslation()
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
 

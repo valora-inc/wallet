@@ -4,7 +4,6 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import Modal from 'src/components/Modal'
-import { Namespaces } from 'src/i18n'
 import SmsIcon from 'src/icons/SmsIcon'
 import WhatsAppLogo from 'src/icons/WhatsAppLogo'
 
@@ -16,7 +15,7 @@ interface Props {
 }
 
 const InviteOptionsModal = ({ onCancel, onWhatsApp, onSMS, isVisible }: Props) => {
-  const { t } = useTranslation(Namespaces.inviteFlow11)
+  const { t } = useTranslation()
 
   return (
     <Modal isVisible={isVisible} style={styles.container}>

@@ -112,7 +112,7 @@ describe('NotificationBox', () => {
     )
     expect(getByText('whatIsGold')).toBeTruthy()
     // Functionality disabled for now
-    // expect(getByText('inviteFlow11:inviteAnyone')).toBeTruthy()
+    // expect(getByText('inviteAnyone')).toBeTruthy()
   })
 
   it('renders incoming payment request when they exist', () => {

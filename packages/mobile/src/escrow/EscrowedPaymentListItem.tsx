@@ -9,7 +9,6 @@ import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { useEscrowPaymentRecipient } from 'src/escrow/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
-import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
@@ -23,7 +22,7 @@ interface Props {
 const TAG = 'EscrowedPaymentListItem'
 
 function EscrowedPaymentListItem({ payment }: Props) {
-  const { t } = useTranslation(Namespaces.inviteFlow11)
+  const { t } = useTranslation()
   const recipient = useEscrowPaymentRecipient(payment)
 
   const onRemind = async () => {

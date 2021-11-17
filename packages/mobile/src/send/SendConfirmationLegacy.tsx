@@ -294,7 +294,7 @@ function SendConfirmationLegacy(props: Props) {
     } else {
       primaryBtnInfo = {
         action: onSendClick,
-        text: isInvite ? t('inviteFlow11:sendAndInvite') : t('send'),
+        text: isInvite ? t('sendAndInvite') : t('send'),
         disabled: isPrimaryButtonDisabled,
       }
     }
