@@ -40,7 +40,7 @@ const InviteFriendModal = ({ isVisible, onInvite, onCancel }: Props) => {
       isVisible={isVisible}
       actionText={t('inviteDialog.button')}
       actionPress={onPressInvite}
-      secondaryActionText={t('global:cancel')}
+      secondaryActionText={t('cancel')}
       secondaryActionPress={closeModal}
       image={inviteModal}
       showLoading={loading}

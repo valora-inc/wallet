@@ -80,7 +80,7 @@ export class BackupPhraseContainer extends React.Component<Props> {
           )}
           {showCopy && (
             <Touchable borderless={true} onPress={this.onPressCopy}>
-              <Text style={styles.headerButton}>{this.props.t('global:copy')}</Text>
+              <Text style={styles.headerButton}>{this.props.t('copy')}</Text>
             </Touchable>
           )}
         </View>

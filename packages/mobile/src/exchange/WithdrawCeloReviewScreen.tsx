@@ -71,7 +71,7 @@ function WithdrawCeloReviewScreen({ route }: Props) {
       <Button
         disabled={isLoading}
         onPress={onConfirmWithdraw}
-        text={t(`global:withdraw`)}
+        text={t(`withdraw`)}
         type={BtnTypes.TERTIARY}
         size={BtnSizes.FULL}
         style={styles.reviewBtn}

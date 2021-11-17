@@ -77,7 +77,7 @@ function FiatExchange() {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.headerContainer}>
           <View style={styles.balanceSheet}>
-            <Text style={styles.currentBalance}>{t('global:currentBalance')}</Text>
+            <Text style={styles.currentBalance}>{t('currentBalance')}</Text>
             <CurrencyDisplay style={styles.localBalance} amount={dollarAmount} />
           </View>
           <Image source={fiatExchange} style={styles.image} resizeMode={'contain'} />

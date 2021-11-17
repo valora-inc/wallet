@@ -15,7 +15,6 @@ const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
 export enum Namespaces {
   translation = 'translation',
-  global = 'global',
   index = 'index',
   inviteFlow11 = 'inviteFlow11',
   goldEducation = 'goldEducation',

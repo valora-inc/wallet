@@ -345,7 +345,7 @@ function FiatExchangeOptions({ route, navigation }: Props) {
           style={styles.goToProvider}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
-          text={t('global:next')}
+          text={t('next')}
           onPress={goToProvider}
           testID={'GoToProviderButton'}
         />

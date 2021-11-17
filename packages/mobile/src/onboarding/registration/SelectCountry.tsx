@@ -51,11 +51,7 @@ export default function SelectCountry({ navigation, route }: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.searchInputContainer}>
-        <SearchInput
-          placeholder={t('global:search')}
-          value={searchText}
-          onChangeText={setSearchText}
-        />
+        <SearchInput placeholder={t('search')} value={searchText} onChangeText={setSearchText} />
       </View>
       <FlatList
         contentContainerStyle={{ paddingBottom: inset.bottom }}

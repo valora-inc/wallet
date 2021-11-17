@@ -194,7 +194,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     }
 
     if (feeAmount === 0) {
-      return t('global:free')
+      return t('free')
     }
 
     return (
@@ -241,7 +241,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
               style={styles.contactSupport}
               onPress={supportOnPress}
             >
-              {t('global:contactSupport')}
+              {t('contactSupport')}
             </TextButton>
           </View>
         ) : (
@@ -298,7 +298,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
             <Dialog
               title={t('explanationModal.title')}
               isVisible={showingExplanation}
-              actionText={t('global:dismiss')}
+              actionText={t('dismiss')}
               actionPress={onDismissExplanation}
             >
               {t('explanationModal.body')}

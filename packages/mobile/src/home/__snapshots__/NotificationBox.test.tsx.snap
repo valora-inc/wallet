@@ -452,7 +452,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/global:dismiss/Button"
+                  testID="undefined/CallToActions/dismiss/Button"
                 >
                   <Text
                     style={
@@ -474,7 +474,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                       ]
                     }
                   >
-                    global:dismiss
+                    dismiss
                   </Text>
                 </View>
               </View>
@@ -804,7 +804,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/global:dismiss/Button"
+                  testID="undefined/CallToActions/dismiss/Button"
                 >
                   <Text
                     style={
@@ -826,7 +826,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                       ]
                     }
                   >
-                    global:dismiss
+                    dismiss
                   </Text>
                 </View>
               </View>

@@ -248,7 +248,7 @@ Array [
                   ]
                 }
               >
-                global:dismiss
+                dismiss
               </Text>
             </View>
           </View>
@@ -507,7 +507,7 @@ Array [
                   ]
                 }
               >
-                global:dismiss
+                dismiss
               </Text>
             </View>
           </View>

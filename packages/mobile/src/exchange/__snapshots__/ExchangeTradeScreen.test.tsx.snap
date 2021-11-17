@@ -73,7 +73,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
               }
             }
           >
-            global:loading
+            loading
           </Text>
           <Text
             style={
@@ -208,7 +208,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
               }
             }
           >
-            exchangeAmount, {"tokenName":"global:gold"}
+            exchangeAmount, {"tokenName":"gold"}
           </Text>
           <View
             accessible={true}
@@ -521,7 +521,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
             }
           }
         >
-          global:review
+          review
         </Text>
       </View>
     </View>
@@ -719,7 +719,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
                   ]
                 }
               >
-                global:dismiss
+                dismiss
               </Text>
             </View>
           </View>

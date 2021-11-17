@@ -295,7 +295,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
             <Text style={styles.modalBody2}>{t('helpModal.body3')}</Text>
           </View>
           <View style={styles.modalButtonContainer}>
-            <TextButton onPress={this.toggleModal}>{t('global:dismiss')}</TextButton>
+            <TextButton onPress={this.toggleModal}>{t('dismiss')}</TextButton>
           </View>
         </Modal>
       </SafeAreaView>

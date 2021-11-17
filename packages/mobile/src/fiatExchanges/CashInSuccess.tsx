@@ -48,8 +48,8 @@ function CashInSuccessScreen({ route }: Props) {
       <View style={styles.buttonContainer}>
         <Button
           style={styles.button}
-          text={t('global:continue')}
-          accessibilityLabel={t('global:continue')}
+          text={t('continue')}
+          accessibilityLabel={t('continue')}
           onPress={navigateHome}
           testID={'SuccessContinue'}
         />

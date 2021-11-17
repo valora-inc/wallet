@@ -293,11 +293,11 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
   }
 
   getInputTokenDisplayText = () => {
-    return this.isLocalCurrencyInput() ? this.props.localCurrencyCode : this.props.t('global:gold')
+    return this.isLocalCurrencyInput() ? this.props.localCurrencyCode : this.props.t('gold')
   }
 
   getOppositeInputTokenDisplayText = () => {
-    return this.isLocalCurrencyInput() ? this.props.t('global:gold') : this.props.localCurrencyCode
+    return this.isLocalCurrencyInput() ? this.props.t('gold') : this.props.localCurrencyCode
   }
 
   getOppositeInputToken = () => {
@@ -409,7 +409,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
         </TouchableOpacity>
         <Button
           onPress={this.goToReview}
-          text={t(`global:review`)}
+          text={t(`review`)}
           accessibilityLabel={t('continue')}
           disabled={this.isExchangeInvalid()}
           type={BtnTypes.SECONDARY}
@@ -420,7 +420,7 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
         <Dialog
           title={t('rateInfoTitle')}
           isVisible={exchangeRateInfoDialogVisible}
-          actionText={t('global:dismiss')}
+          actionText={t('dismiss')}
           actionPress={this.toggleExchangeRateInfoDialog}
         >
           {t('rateInfoBody')}

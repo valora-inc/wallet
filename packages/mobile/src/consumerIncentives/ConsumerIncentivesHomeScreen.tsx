@@ -101,7 +101,7 @@ export default function ConsumerIncentivesHomeScreen(props: Props) {
         </View>
         <Text style={[styles.description, { marginTop: 24 }]}>{t('conclusion')}</Text>
         <TouchableOpacity onPress={onLearnMore} testID="ConsumerIncentives/learnMore">
-          <Text style={styles.learnMore}>{t('global:learnMore')}</Text>
+          <Text style={styles.learnMore}>{t('learnMore')}</Text>
         </TouchableOpacity>
       </ScrollView>
       <View style={styles.buttonContainer}>

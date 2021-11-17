@@ -127,7 +127,7 @@ function NameAndPicture({ navigation }: Props) {
         />
         <Button
           onPress={onPressContinue}
-          text={t('global:next')}
+          text={t('next')}
           size={BtnSizes.MEDIUM}
           type={BtnTypes.ONBOARDING}
           disabled={!nameInput.trim()}

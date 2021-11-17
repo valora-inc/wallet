@@ -58,7 +58,7 @@ export function getDisplayName(recipient: Recipient, t: TFunction) {
   } else if (recipient.address) {
     return t('walletFlow5:feedItemAddress', { address: formatShortenedAddress(recipient.address) })
   } else {
-    return t('global:unknown')
+    return t('unknown')
   }
 }
 

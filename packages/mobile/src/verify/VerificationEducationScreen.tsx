@@ -274,7 +274,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     bodyText = t('verificationEducation.bodyAlreadyVerified')
     firstButton = (
       <Button
-        text={partOfOnboarding ? t('global:continue') : t('global:goBack')}
+        text={partOfOnboarding ? t('continue') : t('goBack')}
         onPress={onPressContinue}
         type={BtnTypes.ONBOARDING}
         style={styles.startButton}
@@ -286,7 +286,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
     bodyText = t('verificationUnavailable')
     firstButton = (
       <Button
-        text={t('global:continue')}
+        text={t('continue')}
         onPress={onPressContinueWhenVerificationUnavailable}
         type={BtnTypes.ONBOARDING}
         style={styles.startButton}
@@ -360,7 +360,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
             },
             styles.recaptchaClose,
           ]}
-          title={t('global:close')}
+          title={t('close')}
         />
         <GoogleReCaptcha
           siteKey={networkConfig.recaptchaSiteKey}
@@ -403,7 +403,7 @@ VerificationEducationScreen.navigationOptions = ({ navigation, route }: ScreenPr
     headerRight: () =>
       !route.params?.hideOnboardingStep && (
         <TopBarTextButton
-          title={i18n.t('global:skip')}
+          title={i18n.t('skip')}
           testID="VerificationEducationSkipHeader"
           onPress={() => navigation.setParams({ showSkipDialog: true })}
           titleStyle={{ color: colors.goldDark }}

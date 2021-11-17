@@ -607,7 +607,7 @@ exports[`WithdrawCeloReviewScreen renders correctly 1`] = `
             }
           }
         >
-          global:withdraw
+          withdraw
         </Text>
       </View>
     </View>

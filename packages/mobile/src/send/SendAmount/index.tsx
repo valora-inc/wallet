@@ -186,7 +186,7 @@ function SendAmount(props: Props) {
       <Button
         style={styles.nextBtn}
         size={BtnSizes.FULL}
-        text={t('global:review')}
+        text={t('review')}
         showLoading={
           recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN && reviewButtonPressed
         }

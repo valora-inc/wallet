@@ -45,7 +45,7 @@ function useStep() {
 }
 
 export default function OnboardingEducationScreen() {
-  const { t } = useTranslation(Namespaces.global)
+  const { t } = useTranslation()
 
   const headerHeight = useHeaderHeight()
   const stepInfo = useStep()
@@ -66,9 +66,9 @@ export default function OnboardingEducationScreen() {
       embeddedNavBar={null}
       stepInfo={stepInfo}
       finalButtonType={BtnTypes.ONBOARDING}
-      finalButtonText={t('global:getStarted')}
+      finalButtonText={t('getStarted')}
       buttonType={BtnTypes.ONBOARDING_SECONDARY}
-      buttonText={t('global:next')}
+      buttonText={t('next')}
       dotStyle={progressDots.circlePassiveOnboarding}
       activeDotStyle={progressDots.circleActiveOnboarding}
       onFinish={onFinish}

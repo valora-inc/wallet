@@ -71,7 +71,7 @@ function PhoneNumberLookupQuotaScreen(props: Props) {
         <Button
           onPress={onSkip}
           disabled={isSending}
-          text={t('global:skip')}
+          text={t('skip')}
           type={BtnTypes.SECONDARY}
           testID="QuotaSkipButton"
         />

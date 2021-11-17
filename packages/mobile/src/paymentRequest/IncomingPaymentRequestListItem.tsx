@@ -145,12 +145,12 @@ export default function IncomingPaymentRequestListItem({ id, amount, comment, re
             text: payButtonPressed ? (
               <ActivityIndicator testID={'loading/paymentRequest'} />
             ) : (
-              t('global:send')
+              t('send')
             ),
             onPress: onPayButtonPressed,
           },
           {
-            text: t('global:decline'),
+            text: t('decline'),
             onPress: onDeclineButtonPressed,
           },
         ]}

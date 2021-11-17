@@ -35,8 +35,7 @@ function EscrowedPaymentListItem({ payment }: Props) {
     try {
       await Share.share({
         message: t('walletFlow5:escrowedPaymentReminderSmsNoData', {
-          currency:
-            payment.currency === Currency.Dollar ? t('global:celoDollars') : t('global:celoEuros'),
+          currency: payment.currency === Currency.Dollar ? t('celoDollars') : t('celoEuros'),
         }),
       })
     } catch (error) {
@@ -57,18 +56,18 @@ function EscrowedPaymentListItem({ payment }: Props) {
     const ctas = []
     if (recipient.e164PhoneNumber) {
       ctas.push({
-        text: t('global:remind'),
+        text: t('remind'),
         onPress: onRemind,
       })
     }
     ctas.push({
-      text: t('global:reclaim'),
+      text: t('reclaim'),
       onPress: onReclaimPayment,
     })
     return ctas
   }
 
-  const nameToShow = recipient.name ?? t('global:unknown')
+  const nameToShow = recipient.name ?? t('unknown')
   const amount = {
     value: divideByWei(payment.amount),
     currencyCode: payment.currency,

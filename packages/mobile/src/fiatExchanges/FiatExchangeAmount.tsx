@@ -81,7 +81,7 @@ function FiatExchangeAmount({ route }: Props) {
 
   const displayCurrencyKey =
     currency === Currency.Celo
-      ? 'global:subtotal'
+      ? 'subtotal'
       : currency === Currency.Dollar
       ? 'celoDollar'
       : 'celoEuro'
@@ -277,7 +277,7 @@ function FiatExchangeAmount({ route }: Props) {
       >
         <View style={styles.amountInputContainer}>
           <View>
-            <Text style={styles.exchangeBodyText}>{`${t('global:amount')} ${
+            <Text style={styles.exchangeBodyText}>{`${t('amount')} ${
               currency === Currency.Celo ? '(CELO)' : ''
             }`}</Text>
           </View>
@@ -324,9 +324,9 @@ function FiatExchangeAmount({ route }: Props) {
       <Button
         onPress={onPressContinue}
         showLoading={exchangeRates[Currency.Dollar] === null}
-        text={t('global:next')}
+        text={t('next')}
         type={BtnTypes.PRIMARY}
-        accessibilityLabel={t('global:next')}
+        accessibilityLabel={t('next')}
         disabled={!isNextButtonValid()}
         size={BtnSizes.FULL}
         style={styles.reviewBtn}

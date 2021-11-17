@@ -132,7 +132,7 @@ exports[`FiatExchange renders correctly 1`] = `
               }
             }
           >
-            global:currentBalance
+            currentBalance
           </Text>
           <Text
             style={

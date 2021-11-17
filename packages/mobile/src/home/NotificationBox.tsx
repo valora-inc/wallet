@@ -137,7 +137,7 @@ function useSimpleActions() {
           },
         },
         {
-          text: t('global:dismiss'),
+          text: t('dismiss'),
           isSecondary: true,
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
@@ -213,7 +213,7 @@ function useSimpleActions() {
           },
         },
         {
-          text: t('global:dismiss'),
+          text: t('dismiss'),
           isSecondary: true,
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {

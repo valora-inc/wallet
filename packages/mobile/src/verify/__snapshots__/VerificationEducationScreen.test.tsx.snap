@@ -747,7 +747,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
             ]
           }
         >
-          global:close
+          close
         </Text>
       </View>
       <View
@@ -1795,7 +1795,7 @@ exports[`VerificationEducationScreen shows the \`continue\` button when the user
             ]
           }
         >
-          global:close
+          close
         </Text>
       </View>
       <View
@@ -2662,7 +2662,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
                 }
               }
             >
-              global:continue
+              continue
             </Text>
           </View>
         </View>
@@ -2843,7 +2843,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when already veri
             ]
           }
         >
-          global:close
+          close
         </Text>
       </View>
       <View
@@ -3891,7 +3891,7 @@ exports[`VerificationEducationScreen shows the \`skip\` button when user is not 
             ]
           }
         >
-          global:close
+          close
         </Text>
       </View>
       <View

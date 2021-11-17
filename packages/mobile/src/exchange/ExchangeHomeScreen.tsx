@@ -186,7 +186,7 @@ function ExchangeHomeScreen({ navigation }: Props) {
               showChevron={true}
             />
           )}
-          <SectionHead text={t('global:activity')} />
+          <SectionHead text={t('activity')} />
           <TransactionsList feedType={FeedType.EXCHANGE} />
         </SafeAreaView>
       </Animated.ScrollView>

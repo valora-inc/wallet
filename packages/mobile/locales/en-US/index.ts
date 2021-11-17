@@ -1,4 +1,3 @@
-import global from './global.json'
 import goldEducation from './goldEducation.json'
 import inviteFlow11 from './inviteFlow11.json'
 import nuxNamePin1 from './nuxNamePin1.json'
@@ -13,7 +12,6 @@ import walletFlow5 from './walletFlow5.json'
 
 export default {
   translation,
-  global,
   inviteFlow11,
   goldEducation,
   nuxNamePin1,

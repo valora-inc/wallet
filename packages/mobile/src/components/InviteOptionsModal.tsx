@@ -33,7 +33,7 @@ const InviteOptionsModal = ({ onCancel, onWhatsApp, onSMS, isVisible }: Props) =
         </TextButton>
       </View>
       <View style={styles.buttonContainer}>
-        <TextButton onPress={onCancel}>{t('global:cancel')}</TextButton>
+        <TextButton onPress={onCancel}>{t('cancel')}</TextButton>
       </View>
     </Modal>
   )

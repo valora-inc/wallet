@@ -40,7 +40,7 @@ import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { features } from 'src/flags'
 import WalletHome from 'src/home/WalletHome'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { AddWithdraw } from 'src/icons/navigator/AddWithdraw'
 import { Gold } from 'src/icons/navigator/Gold'
@@ -177,7 +177,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
 }
 
 export default function DrawerNavigator() {
-  const { t } = useTranslation(Namespaces.global)
+  const { t } = useTranslation()
   const isCeloEducationComplete = useSelector((state) => state.goldToken.educationCompleted)
   const dispatch = useDispatch()
 

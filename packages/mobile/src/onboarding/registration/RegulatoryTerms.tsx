@@ -91,7 +91,7 @@ export class RegulatoryTerms extends React.Component<Props> {
               style={[styles.button, insets && insets.bottom <= MARGIN && { marginBottom: MARGIN }]}
               type={BtnTypes.ONBOARDING}
               size={BtnSizes.FULL}
-              text={t('global:accept')}
+              text={t('accept')}
               onPress={this.onPressAccept}
               testID={'AcceptTermsButton'}
             />

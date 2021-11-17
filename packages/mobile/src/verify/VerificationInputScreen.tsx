@@ -136,7 +136,7 @@ class VerificationInputScreen extends React.Component<Props, State> {
     ),
     headerRight: () => (
       <TopBarTextButtonOnboarding
-        title={i18n.t('global:help')}
+        title={i18n.t('help')}
         testID="VerificationInputHelp"
         onPress={() => navigation.setParams({ showHelpDialog: true })}
       />

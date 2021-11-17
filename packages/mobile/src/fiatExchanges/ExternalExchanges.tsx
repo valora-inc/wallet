@@ -92,7 +92,7 @@ function ExternalExchanges({ route }: Props) {
             style={styles.contactSupport}
             onPress={supportOnPress}
           >
-            {t('global:contactSupport')}
+            {t('contactSupport')}
           </TextButton>
         </View>
       ) : isCashIn ? (

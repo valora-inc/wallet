@@ -47,11 +47,11 @@ export class OutgoingPaymentRequestListItem extends React.Component<Props> {
   getCTA = () => {
     return [
       {
-        text: this.props.t('global:remind'),
+        text: this.props.t('remind'),
         onPress: this.onRemind,
       },
       {
-        text: this.props.t('global:cancel'),
+        text: this.props.t('cancel'),
         onPress: this.onCancel,
       },
     ]

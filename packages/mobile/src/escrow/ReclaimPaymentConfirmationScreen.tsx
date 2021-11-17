@@ -138,7 +138,7 @@ class ReclaimPaymentConfirmationScreen extends React.Component<Props> {
           FooterComponent={this.renderFooter}
           confirmButton={{
             action: this.onConfirm,
-            text: t('global:confirm'),
+            text: t('confirm'),
             disabled:
               isReclaiming ||
               !userHasEnough ||

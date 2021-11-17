@@ -486,7 +486,7 @@ exports[`renders correctly 1`] = `
               }
             }
           >
-            global:next
+            next
           </Text>
         </View>
       </View>

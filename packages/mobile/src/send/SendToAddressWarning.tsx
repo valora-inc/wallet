@@ -62,7 +62,7 @@ export default function SendToAddressWarning({
           onPress={closeWarning}
           testID={'SendToAddressWarning/Back'}
         >
-          {t('global:goBack')}
+          {t('goBack')}
         </TextButton>
         <TextButton onPress={onContinue} testID={'SendToAddressWarning/Continue'}>
           {t('continue')}

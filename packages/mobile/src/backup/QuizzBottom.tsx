@@ -35,7 +35,7 @@ export function QuizzBottom({ onPressSubmit, isQuizComplete, mode }: Props) {
       return (
         <Button
           onPress={onPressSubmit}
-          text={t('global:submit')}
+          text={t('submit')}
           size={BtnSizes.FULL}
           type={BtnTypes.PRIMARY}
           testID={'QuizSubmit'}

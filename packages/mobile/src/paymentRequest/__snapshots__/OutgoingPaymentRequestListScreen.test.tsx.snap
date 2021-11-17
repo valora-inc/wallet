@@ -24,7 +24,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with no requests 1`]
       ]
     }
   >
-    global:emptyList
+    emptyList
   </Text>
 </RNCSafeAreaView>
 `;
@@ -228,7 +228,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="OutgoingPaymentRequestNotification/7363bvby2ba8270273/CallToActions/global:remind/Button"
+                  testID="OutgoingPaymentRequestNotification/7363bvby2ba8270273/CallToActions/remind/Button"
                 >
                   <Text
                     style={
@@ -249,7 +249,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                       ]
                     }
                   >
-                    global:remind
+                    remind
                   </Text>
                 </View>
                 <View
@@ -269,7 +269,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="OutgoingPaymentRequestNotification/7363bvby2ba8270273/CallToActions/global:cancel/Button"
+                  testID="OutgoingPaymentRequestNotification/7363bvby2ba8270273/CallToActions/cancel/Button"
                 >
                   <Text
                     style={
@@ -290,7 +290,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
               </View>
@@ -479,7 +479,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="OutgoingPaymentRequestNotification/7363bvby2ba8270273/CallToActions/global:remind/Button"
+                  testID="OutgoingPaymentRequestNotification/7363bvby2ba8270273/CallToActions/remind/Button"
                 >
                   <Text
                     style={
@@ -500,7 +500,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                       ]
                     }
                   >
-                    global:remind
+                    remind
                   </Text>
                 </View>
                 <View
@@ -520,7 +520,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="OutgoingPaymentRequestNotification/7363bvby2ba8270273/CallToActions/global:cancel/Button"
+                  testID="OutgoingPaymentRequestNotification/7363bvby2ba8270273/CallToActions/cancel/Button"
                 >
                   <Text
                     style={
@@ -541,7 +541,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
               </View>
@@ -730,7 +730,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="OutgoingPaymentRequestNotification/7363bvby2ba8270273/CallToActions/global:remind/Button"
+                  testID="OutgoingPaymentRequestNotification/7363bvby2ba8270273/CallToActions/remind/Button"
                 >
                   <Text
                     style={
@@ -751,7 +751,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                       ]
                     }
                   >
-                    global:remind
+                    remind
                   </Text>
                 </View>
                 <View
@@ -771,7 +771,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="OutgoingPaymentRequestNotification/7363bvby2ba8270273/CallToActions/global:cancel/Button"
+                  testID="OutgoingPaymentRequestNotification/7363bvby2ba8270273/CallToActions/cancel/Button"
                 >
                   <Text
                     style={
@@ -792,7 +792,7 @@ exports[`OutgoingPaymentRequestListScreen renders correctly with requests 1`] = 
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
               </View>

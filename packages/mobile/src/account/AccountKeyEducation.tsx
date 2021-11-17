@@ -37,7 +37,7 @@ export default function AccountKeyEducation(props: Props) {
       stepInfo={steps}
       onFinish={onComplete}
       finalButtonText={t('completeEducation')}
-      buttonText={t('global:next')}
+      buttonText={t('next')}
       finalButtonType={BtnTypes.PRIMARY}
     />
   )

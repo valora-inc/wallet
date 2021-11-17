@@ -239,7 +239,7 @@ export class BackupQuiz extends React.Component<Props, State> {
             </View>
             {this.state.mode === Mode.Failed && (
               <View style={styles.resetButton}>
-                <TextButton onPress={this.onPressReset}>{t('global:reset')}</TextButton>
+                <TextButton onPress={this.onPressReset}>{t('reset')}</TextButton>
               </View>
             )}
             <View style={styles.bottomHalf}>
@@ -247,7 +247,7 @@ export class BackupQuiz extends React.Component<Props, State> {
                 <Text style={styles.bodyText}>
                   <Trans
                     i18nKey={'backupQuizWordCount'}
-                    tOptions={{ ordinal: t(`global:ordinals.${currentWordIndex}`) }}
+                    tOptions={{ ordinal: t(`ordinals.${currentWordIndex}`) }}
                   >
                     <Text style={styles.bodyTextBold}>X</Text>
                   </Trans>

@@ -146,7 +146,7 @@ class BackupPhrase extends React.Component<Props, State> {
             <Button
               disabled={!isConfirmChecked}
               onPress={this.onPressContinue}
-              text={t('global:continue')}
+              text={t('continue')}
               size={BtnSizes.FULL}
               type={BtnTypes.SECONDARY}
               testID="backupKeyContinue"

@@ -25,7 +25,7 @@ function PincodeLock() {
 
   const onWrongPin = () => {
     setPin('')
-    setErrorText(t(`${Namespaces.global}:${ErrorMessages.INCORRECT_PIN}`))
+    setErrorText(t(`${ErrorMessages.INCORRECT_PIN}`))
   }
 
   const onCorrectPin = () => {

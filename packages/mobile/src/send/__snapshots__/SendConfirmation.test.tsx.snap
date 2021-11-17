@@ -453,7 +453,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                           ]
                         }
                       >
-                        global:cancel
+                        cancel
                       </Text>
                     </View>
                     <View
@@ -691,7 +691,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                           ]
                         }
                       >
-                        global:dismiss
+                        dismiss
                       </Text>
                     </View>
                   </View>
@@ -1072,7 +1072,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             testID="ConfirmButton"
           >
             <Text
-              accessibilityLabel="global:send"
+              accessibilityLabel="send"
               maxFontSizeMultiplier={1}
               style={
                 Object {
@@ -1083,7 +1083,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                 }
               }
             >
-              global:send
+              send
             </Text>
           </View>
         </View>

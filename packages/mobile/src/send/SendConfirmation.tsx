@@ -263,7 +263,7 @@ function SendConfirmation(props: Props) {
         LabelAboveKeyboard={EncryptionWarningLabel}
         confirmButton={{
           action: onSendClick,
-          text: isInvite ? t('inviteFlow11:sendAndInvite') : t('global:send'),
+          text: isInvite ? t('inviteFlow11:sendAndInvite') : t('send'),
           disabled: isSending || !!feeError,
         }}
         isSending={isSending}
@@ -316,7 +316,7 @@ function SendConfirmation(props: Props) {
         <Dialog
           title={t('encryption.warningModalHeader')}
           isVisible={encryptionDialogVisible}
-          actionText={t('global:dismiss')}
+          actionText={t('dismiss')}
           actionPress={onDismissEncryptionModal}
         >
           {t('encryption.warningModalBody')}

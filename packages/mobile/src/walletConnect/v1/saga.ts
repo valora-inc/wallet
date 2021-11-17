@@ -314,7 +314,7 @@ function* createWalletConnectChannelWithArgs(connectorOpts: IWalletConnectOption
       ...connectorOpts,
       clientMeta: {
         name: APP_NAME,
-        description: i18n.t('global:appDescription'),
+        description: i18n.t('appDescription'),
         url: WEB_LINK,
         icons: [appendPath(WEB_LINK, '/favicon.ico')],
       },

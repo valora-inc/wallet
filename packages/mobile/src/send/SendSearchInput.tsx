@@ -22,10 +22,10 @@ export function SendSearchInput({ input, onChangeText }: SendSearchInputProps) {
     <View style={styles.textInputContainer}>
       <SearchInput
         shouldShowClipboard={isValidAddress}
-        placeholder={t('global:namePhoneAddress')}
+        placeholder={t('namePhoneAddress')}
         value={input}
         onChangeText={onChangeText}
-        leftIcon={<Text style={styles.leftIcon}>{i18n.t('global:to')}</Text>}
+        leftIcon={<Text style={styles.leftIcon}>{i18n.t('to')}</Text>}
       />
     </View>
   )

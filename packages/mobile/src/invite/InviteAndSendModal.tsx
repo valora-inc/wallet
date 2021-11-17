@@ -20,7 +20,7 @@ export default function InviteAndSendModal({ isVisible, name, onInvite, onCancel
       isVisible={isVisible}
       actionText={t('inviteAndSendDialog.button')}
       actionPress={onInvite}
-      secondaryActionText={t('global:cancel')}
+      secondaryActionText={t('cancel')}
       secondaryActionPress={onCancel}
       image={inviteModal}
       testID="InviteAndSendModal"

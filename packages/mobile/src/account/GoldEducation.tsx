@@ -15,7 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
 
 export default function GoldEducation() {
-  const { t } = useTranslation(Namespaces.global)
+  const { t } = useTranslation()
 
   const dispatch = useDispatch()
 
@@ -44,8 +44,8 @@ export default function GoldEducation() {
       stepInfo={stepInfo}
       onFinish={onFinish}
       finalButtonType={BtnTypes.TERTIARY}
-      finalButtonText={t('global:done')}
-      buttonText={t('global:next')}
+      finalButtonText={t('done')}
+      buttonText={t('next')}
     />
   )
 }

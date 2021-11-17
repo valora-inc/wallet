@@ -288,13 +288,13 @@ function SendConfirmationLegacy(props: Props) {
     if (type === TokenTransactionType.PayRequest || type === TokenTransactionType.PayPrefill) {
       primaryBtnInfo = {
         action: sendOrInvite,
-        text: i18n.t('global:pay'),
+        text: i18n.t('pay'),
         disabled: isPrimaryButtonDisabled,
       }
     } else {
       primaryBtnInfo = {
         action: onSendClick,
-        text: isInvite ? t('inviteFlow11:sendAndInvite') : t('global:send'),
+        text: isInvite ? t('inviteFlow11:sendAndInvite') : t('send'),
         disabled: isPrimaryButtonDisabled,
       }
     }
@@ -430,7 +430,7 @@ function SendConfirmationLegacy(props: Props) {
           <Dialog
             title={t('encryption.warningModalHeader')}
             isVisible={encryptionDialogVisible}
-            actionText={t('global:dismiss')}
+            actionText={t('dismiss')}
             actionPress={onDismissEncryptionModal}
           >
             {t('encryption.warningModalBody')}

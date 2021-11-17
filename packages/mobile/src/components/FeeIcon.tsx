@@ -62,7 +62,7 @@ export const ExchangeFeeIcon = () => {
     <FeeIcon
       title={t('exchangeFee')}
       description={t('feeExchangeEducation')}
-      dismissText={t('global:dismiss')}
+      dismissText={t('dismiss')}
     />
   )
 }
@@ -70,11 +70,7 @@ export const ExchangeFeeIcon = () => {
 export const SecurityFeeIcon = () => {
   const { t } = useTranslation(Namespaces.sendFlow7)
   return (
-    <FeeIcon
-      title={t('securityFee')}
-      description={t('feeEducation')}
-      dismissText={t('global:dismiss')}
-    />
+    <FeeIcon title={t('securityFee')} description={t('feeEducation')} dismissText={t('dismiss')} />
   )
 }
 
@@ -84,7 +80,7 @@ export const EncryptionFeeIcon = () => {
     <FeeIcon
       title={t('encryption.feeLabel')}
       description={t('encryption.feeModalBody')}
-      dismissText={t('global:dismiss')}
+      dismissText={t('dismiss')}
     />
   )
 }

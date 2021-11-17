@@ -62,7 +62,7 @@
     "0": "{{testnet}}",
     "1": "A friendly reminder you're using the {{testnet}} network build - the balances are not real"
   },
-  "dollarBalance": "<0></0> $t(global:celoDollars)",
+  "dollarBalance": "<0></0> $t(celoDollars)",
   "feedItemAddress": "Account {{address}}",
   "feedItemExchangeTitle": "CELO",
   "feedItemExchangeInfo_boughtGold": "Bought <0></0> CELO",

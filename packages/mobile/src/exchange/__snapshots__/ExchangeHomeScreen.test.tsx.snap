@@ -455,7 +455,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for CP-DOTO restricted
             }
           }
         >
-          global:activity
+          activity
         </Text>
       </View>
     </RNCSafeAreaView>
@@ -1095,7 +1095,7 @@ exports[`ExchangeHomeScreen renders and behaves correctly for non CP-DOTO restri
             }
           }
         >
-          global:activity
+          activity
         </Text>
       </View>
     </RNCSafeAreaView>

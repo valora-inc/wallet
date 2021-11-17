@@ -114,7 +114,7 @@ function WithdrawCeloScreen({ route }: Props) {
       </KeyboardAwareScrollView>
       <Button
         onPress={onConfirm}
-        text={t(`global:review`)}
+        text={t(`review`)}
         accessibilityLabel={t('continue')}
         disabled={!readyToReview}
         type={BtnTypes.SECONDARY}

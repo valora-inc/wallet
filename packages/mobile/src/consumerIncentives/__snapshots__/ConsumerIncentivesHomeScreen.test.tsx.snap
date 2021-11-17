@@ -339,7 +339,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
               }
             }
           >
-            global:learnMore
+            learnMore
           </Text>
         </View>
       </RNGestureHandlerButton>

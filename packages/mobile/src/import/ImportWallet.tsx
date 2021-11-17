@@ -166,7 +166,7 @@ function ImportWallet({ navigation, route }: Props) {
                 <CodeInput
                   // TODO: Use a special component instead of CodeInput here,
                   // cause it should be used for entering verification codes only
-                  label={t('global:accountKey')}
+                  label={t('accountKey')}
                   status={codeStatus}
                   inputValue={backupPhrase}
                   inputPlaceholder={t('importExistingKey.keyPlaceholder')}
@@ -182,7 +182,7 @@ function ImportWallet({ navigation, route }: Props) {
                   style={styles.button}
                   testID="ImportWalletButton"
                   onPress={onPressRestore}
-                  text={t('global:restore')}
+                  text={t('restore')}
                   type={BtnTypes.ONBOARDING}
                   disabled={
                     isImportingWallet || !isValidBackupPhrase(backupPhrase) || !appConnected
@@ -207,7 +207,7 @@ function ImportWallet({ navigation, route }: Props) {
                 actionText={t('emptyAccount.useAccount')}
                 actionPress={onPressRestore}
                 secondaryActionPress={onPressTryAnotherKey}
-                secondaryActionText={t('global:goBack')}
+                secondaryActionText={t('goBack')}
               >
                 {t('emptyAccount.description')}
               </Dialog>
@@ -223,7 +223,7 @@ ImportWallet.navigationOptions = {
   ...nuxNavigationOptions,
   headerLeft: () => (
     <TopBarTextButtonOnboarding
-      title={i18n.t('global:cancel')}
+      title={i18n.t('cancel')}
       // Note: redux state reset is handled by UseBackToWelcomeScreen
       onPress={() => navigate(Screens.Welcome)}
     />

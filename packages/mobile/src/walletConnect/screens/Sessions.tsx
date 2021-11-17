@@ -106,7 +106,7 @@ function HeaderRight() {
       screen: Screens.QRScanner,
     })
 
-  return <TopBarTextButton title={i18n.t('global:scan')} testID="ScanButton" onPress={onPress} />
+  return <TopBarTextButton title={i18n.t('scan')} testID="ScanButton" onPress={onPress} />
 }
 
 Sessions.navigationOptions = () => {

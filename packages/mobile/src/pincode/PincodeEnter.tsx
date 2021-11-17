@@ -67,7 +67,7 @@ class PincodeEnter extends React.Component<Props, State> {
   onWrongPin = () => {
     this.setState({
       pin: '',
-      errorText: this.props.t(`${Namespaces.global}:${ErrorMessages.INCORRECT_PIN}`),
+      errorText: this.props.t(`${ErrorMessages.INCORRECT_PIN}`),
     })
   }
 
