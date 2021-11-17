@@ -1,4 +1,3 @@
-import consumerIncentives from './consumerIncentives.json'
 import dappkit from './dappkit.json'
 import dev from './dev.json'
 import exchangeFlow9 from './exchangeFlow9.json'
@@ -18,7 +17,6 @@ import walletFlow5 from './walletFlow5.json'
 
 export default {
   translation,
-  consumerIncentives,
   exchangeFlow9,
   global,
   inviteFlow11,
