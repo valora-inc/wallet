@@ -17,7 +17,6 @@ export enum Namespaces {
   translation = 'translation',
   index = 'index',
   walletFlow5 = 'walletFlow5',
-  walletConnect = 'walletConnect',
 }
 
 function getAvailableResources() {

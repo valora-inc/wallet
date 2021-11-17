@@ -7,7 +7,7 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { useDispatch, useSelector } from 'react-redux'
 import Dialog from 'src/components/Dialog'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -23,7 +23,7 @@ type Session = WalletConnectSession | SessionTypes.Created
 
 const App = ({ metadata, onPress }: { metadata: AppMetadata | null; onPress: () => void }) => {
   const icon = metadata?.icons[0] || `${metadata?.url}/favicon.ico`
-  const { t } = useTranslation(Namespaces.walletConnect)
+  const { t } = useTranslation()
 
   return (
     <TouchableOpacity onPress={onPress}>
@@ -39,7 +39,7 @@ const App = ({ metadata, onPress }: { metadata: AppMetadata | null; onPress: () 
 }
 
 function Sessions() {
-  const { t } = useTranslation(Namespaces.walletConnect)
+  const { t } = useTranslation()
   const { sessions: sessionsV1 } = useSelector(selectSessionsV1)
   const { sessions: sessionsV2 } = useSelector(selectSessionsV2)
   const [highlighted, setHighlighted] = useState<Session | null>(null)

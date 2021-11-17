@@ -8,7 +8,6 @@ import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { Namespaces } from 'src/i18n'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -76,7 +75,7 @@ function getRequestInfo(params: Props['route']['params']) {
   }
 }
 function ActionRequest({ navigation, route: { params: routeParams } }: Props) {
-  const { t } = useTranslation(Namespaces.walletConnect)
+  const { t } = useTranslation()
   const [isAccepting, setIsAccepting] = useStateWithCallback(false)
   const [isDenying, setIsDenying] = useStateWithCallback(false)
   const dispatch = useDispatch()
