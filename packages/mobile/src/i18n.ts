@@ -17,7 +17,6 @@ export enum Namespaces {
   translation = 'translation',
   index = 'index',
   inviteFlow11 = 'inviteFlow11',
-  goldEducation = 'goldEducation',
   nuxNamePin1 = 'nuxNamePin1',
   nuxVerification2 = 'nuxVerification2',
   receiveFlow8 = 'receiveFlow8',

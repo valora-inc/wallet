@@ -520,5 +520,23 @@
   "appDescription": "A mobile payments wallet that works worldwide",
   "earn": "Earn",
   "free": "Free",
-  "notNow": "Not Now"
+  "notNow": "Not Now",
+  "goldEducationSteps": [
+    {
+      "title": "What is CELO?",
+      "text": "CELO is a digital currency that keeps the Celo Dollar (cUSD) stable."
+    },
+    {
+      "title": "CELO’s price changes",
+      "text": "If more people use the Celo Dollar, the value of CELO increases. Unlike CELO, the Celo Dollar doesn't change in value. "
+    },
+    {
+      "title": "Shape the Celo Network",
+      "text": "By holding CELO, you have the ability to vote for changes and features you’d like to see on the Celo Network."
+    },
+    {
+      "title": "Please buy and sell responsibly",
+      "text": "{{appName}} allows you to buy and sell CELO. CELO presents a risk of financial loss, please exercise caution."
+    }
+  ]
 }
