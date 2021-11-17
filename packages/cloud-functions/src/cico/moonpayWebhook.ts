@@ -108,6 +108,7 @@ interface MoonpayTransaction {
   resultDescription: string
   level: number
   rejections: number
+  isRecurring: boolean
 }
 
 enum MoonpayTxStatus {
