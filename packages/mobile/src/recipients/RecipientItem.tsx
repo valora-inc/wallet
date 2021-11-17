@@ -6,7 +6,6 @@ import React, { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
-import { Namespaces } from 'src/i18n'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { getDisplayDetail, getDisplayName, Recipient } from 'src/recipients/recipient'
 
@@ -16,7 +15,7 @@ interface Props {
 }
 
 function RecipientItem({ recipient, onSelectRecipient }: Props) {
-  const { t } = useTranslation(Namespaces.paymentRequestFlow)
+  const { t } = useTranslation()
 
   const onPress = () => {
     onSelectRecipient(recipient)

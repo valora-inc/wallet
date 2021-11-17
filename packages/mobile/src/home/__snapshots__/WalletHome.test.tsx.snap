@@ -746,7 +746,7 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
               }
             }
           >
-            paymentRequestFlow:request
+            request
           </Text>
         </View>
       </View>

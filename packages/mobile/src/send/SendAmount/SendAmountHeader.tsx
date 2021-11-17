@@ -48,7 +48,7 @@ function SendAmountHeader({
     let title
     if (!canChangeToken) {
       titleText = isOutgoingPaymentRequest
-        ? i18n.t('paymentRequestFlow:request')
+        ? i18n.t('request')
         : i18n.t('sendFlow7:sendToken', { token: tokenInfo?.symbol })
       title = titleText
     } else {

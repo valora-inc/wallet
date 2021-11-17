@@ -18,7 +18,6 @@ export enum Namespaces {
   index = 'index',
   receiveFlow8 = 'receiveFlow8',
   sendFlow7 = 'sendFlow7',
-  paymentRequestFlow = 'paymentRequestFlow',
   walletFlow5 = 'walletFlow5',
   walletConnect = 'walletConnect',
 }

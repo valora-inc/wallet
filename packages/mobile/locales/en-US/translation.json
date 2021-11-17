@@ -773,5 +773,21 @@
   "success": {
     "message": "You're all set!"
   },
-  "verificationUnavailable": "Phone number confirmation is currently unavailable. Please enter your phone number and we will notify you when it is possible to confirm again.\n\nIn the meantime, you can continue to use Valora! Payments sent to your phone number will be safely held until you redeem them by confirming your phone number."
+  "verificationUnavailable": "Phone number confirmation is currently unavailable. Please enter your phone number and we will notify you when it is possible to confirm again.\n\nIn the meantime, you can continue to use Valora! Payments sent to your phone number will be safely held until you redeem them by confirming your phone number.",
+  "requests": "Requests",
+  "empty": "You have no Payment Requests",
+  "celoDollarBalance": "Celo Dollar Balance",
+  "requestDeclined": "Request Declined",
+  "requestPaid": "Request Paid",
+  "paymentRequestUpdateFailed": "Cannot update payment request",
+  "incomingPaymentRequestNotificationTitle": "{{name}} requested",
+  "outgoingPaymentRequestNotificationTitle": "Waiting for {{name}}",
+  "requestUnavailableHeader": "{{displayName}}'s account is not connected yet.",
+  "requestUnavailableNoDisplayNameHeader": "Your contact's account is unconfirmed",
+  "requestUnavailableBody": "The number {{e164PhoneNumber}} doesn't have an account or hasn't connected it yet. Requests can only be sent to connected numbers.",
+  "requestUnavailableNoNumberBody": "Your contact doesn't have an account or hasn't connected it yet. Requests can only be sent to connected numbers.",
+  "requesting": "Requesting",
+  "request": "Request",
+  "requestToken": "Request {{token}}",
+  "requestSent": "Request Sent"
 }

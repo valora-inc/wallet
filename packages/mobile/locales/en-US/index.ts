@@ -1,4 +1,3 @@
-import paymentRequestFlow from './paymentRequestFlow.json'
 import receiveFlow8 from './receiveFlow8.json'
 import sendFlow7 from './sendFlow7.json'
 import translation from './translation.json'
@@ -7,7 +6,6 @@ import walletFlow5 from './walletFlow5.json'
 
 export default {
   translation,
-  paymentRequestFlow,
   receiveFlow8,
   sendFlow7,
   walletFlow5,

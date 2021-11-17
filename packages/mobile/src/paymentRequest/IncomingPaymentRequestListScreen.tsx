@@ -2,7 +2,7 @@ import React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { connect } from 'react-redux'
-import i18n, { Namespaces, withTranslation } from 'src/i18n'
+import i18n, { withTranslation } from 'src/i18n'
 import { HeaderTitleWithBalance } from 'src/navigator/Headers'
 import { NotificationList } from 'src/notifications/NotificationList'
 import IncomingPaymentRequestListItem from 'src/paymentRequest/IncomingPaymentRequestListItem'
@@ -66,4 +66,4 @@ class IncomingPaymentRequestListScreen extends React.Component<Props> {
 export default connect<StateProps, {}, {}, RootState>(
   mapStateToProps,
   {}
-)(withTranslation<Props>(Namespaces.paymentRequestFlow)(IncomingPaymentRequestListScreen))
+)(withTranslation<Props>()(IncomingPaymentRequestListScreen))

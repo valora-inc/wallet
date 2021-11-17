@@ -42,7 +42,7 @@ export default function SendOrRequestBar() {
       <Button
         style={[styles.button, styles.requestButton]}
         size={BtnSizes.MEDIUM}
-        text={t('paymentRequestFlow:request')}
+        text={t('request')}
         onPress={onPressRequest}
         testID="SendOrRequestBar/RequestButton"
       />

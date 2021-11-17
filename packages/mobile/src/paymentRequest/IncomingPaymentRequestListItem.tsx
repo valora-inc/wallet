@@ -12,7 +12,6 @@ import { TokenTransactionType } from 'src/apollo/types'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
-import { Namespaces } from 'src/i18n'
 import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { AddressValidationType, SecureSendDetails } from 'src/identity/reducer'
 import { navigate } from 'src/navigator/NavigationService'
@@ -32,7 +31,7 @@ interface Props {
 }
 
 export default function IncomingPaymentRequestListItem({ id, amount, comment, requester }: Props) {
-  const { t } = useTranslation(Namespaces.paymentRequestFlow)
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const [payButtonPressed, setPayButtonPressed] = useState(false)
   const [addressesFetched, setAddressesFetched] = useState(false)

@@ -52,9 +52,7 @@ function SendAmountHeader({
     let titleText
     let title
     if (currenciesWithBalance < 2 || isOutgoingPaymentRequest) {
-      titleText = isOutgoingPaymentRequest
-        ? i18n.t('paymentRequestFlow:request')
-        : i18n.t('sendFlow7:send')
+      titleText = isOutgoingPaymentRequest ? i18n.t('request') : i18n.t('sendFlow7:send')
       title = titleText
     } else {
       titleText = i18n.t('sendFlow7:sendToken', { token: currency })
