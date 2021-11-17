@@ -96,6 +96,6 @@ describe('I18nGate', () => {
     await act(flushMicrotasksQueue)
 
     expect(mockedI18n.initI18n).toHaveBeenCalledTimes(1)
-    expect(navigateToError).toHaveBeenCalledWith('appInitFailed')
+    expect(navigateToError).toHaveBeenCalledWith('appInitFailed', 'some error')
   })
 })

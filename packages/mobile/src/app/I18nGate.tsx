@@ -1,5 +1,4 @@
 import locales from 'locales'
-import React, { useEffect } from 'react'
 import { useAsync } from 'react-async-hook'
 import { findBestAvailableLanguage } from 'react-native-localize'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,27 +19,24 @@ const I18nGate = ({ loading, children }: Props) => {
   const language = useSelector(currentLanguageSelector)
   const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
 
-  const i18nInitResult = useAsync(async () => {
-    await initI18n(language || bestLanguage || DEFAULT_APP_LANGUAGE)
-    if (!language && bestLanguage) {
-      dispatch(setLanguage(bestLanguage))
+  const i18nInitResult = useAsync(
+    async () => {
+      await initI18n(language || bestLanguage || DEFAULT_APP_LANGUAGE)
+      if (!language && bestLanguage) {
+        dispatch(setLanguage(bestLanguage))
+      }
+    },
+    [],
+    {
+      onError: (error) => {
+        Logger.error('i18n', 'Failed init i18n', error)
+        navigateToError('appInitFailed', error)
+      },
     }
-    return true
-  }, [])
-
-  useEffect(() => {
-    if (i18nInitResult.error) {
-      Logger.error('i18n', 'Failed init i18n', i18nInitResult.error)
-      navigateToError('appInitFailed')
-    }
-  }, [i18nInitResult.error])
-
-  return (
-    <>
-      {i18nInitResult.loading && loading}
-      {i18nInitResult.result && children}
-    </>
   )
+
+  // type assertion here because https://github.com/DefinitelyTyped/DefinitelyTyped/issues/44572
+  return i18nInitResult.loading ? (loading as JSX.Element) : (children as JSX.Element)
 }
 
 export default I18nGate
