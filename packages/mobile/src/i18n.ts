@@ -20,7 +20,6 @@ export enum Namespaces {
   sendFlow7 = 'sendFlow7',
   paymentRequestFlow = 'paymentRequestFlow',
   walletFlow5 = 'walletFlow5',
-  onboarding = 'onboarding',
   walletConnect = 'walletConnect',
 }
 

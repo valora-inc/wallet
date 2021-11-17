@@ -25,7 +25,7 @@ import { hideVerificationSelector, numberVerifiedSelector } from 'src/app/select
 import BackButton from 'src/components/BackButton'
 import { isE2EEnv, WEB_LINK } from 'src/config'
 import networkConfig from 'src/geth/networkConfig'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import { setHasSeenVerificationNux, startVerification } from 'src/identity/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
@@ -64,7 +64,7 @@ function VerificationEducationScreen({ route, navigation }: Props) {
   const showSkipDialog = route.params?.showSkipDialog || false
   const account = useTypedSelector(currentAccountSelector)
   const [showLearnMoreDialog, setShowLearnMoreDialog] = useState(false)
-  const { t } = useTranslation(Namespaces.onboarding)
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const headerHeight = useHeaderHeight()
   const insets = useSafeAreaInsets()
@@ -385,14 +385,12 @@ function VerificationEducationScreen({ route, navigation }: Props) {
 
 VerificationEducationScreen.navigationOptions = ({ navigation, route }: ScreenProps) => {
   const title = route.params?.hideOnboardingStep
-    ? i18n.t('onboarding:verificationEducation.title')
+    ? i18n.t('verificationEducation.title')
     : () => (
         <HeaderTitleWithSubtitle
-          title={i18n.t('onboarding:verificationEducation.title')}
+          title={i18n.t('verificationEducation.title')}
           subTitle={i18n.t(
-            route.params?.choseToRestoreAccount
-              ? 'onboarding:restoreAccountSteps'
-              : 'onboarding:createAccountSteps',
+            route.params?.choseToRestoreAccount ? 'restoreAccountSteps' : 'createAccountSteps',
             { step: route.params?.choseToRestoreAccount ? '4' : '3' }
           )}
         />

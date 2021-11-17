@@ -1,4 +1,3 @@
-import onboarding from './onboarding.json'
 import paymentRequestFlow from './paymentRequestFlow.json'
 import receiveFlow8 from './receiveFlow8.json'
 import sendFlow7 from './sendFlow7.json'
@@ -12,6 +11,5 @@ export default {
   receiveFlow8,
   sendFlow7,
   walletFlow5,
-  onboarding,
   walletConnect,
 }

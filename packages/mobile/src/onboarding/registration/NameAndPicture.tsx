@@ -44,15 +44,10 @@ function NameAndPicture({ navigation }: Props) {
     navigation.setOptions({
       headerTitle: () => (
         <HeaderTitleWithSubtitle
-          title={i18n.t(
-            choseToRestoreAccount ? 'onboarding:restoreAccount' : 'onboarding:createAccount'
-          )}
-          subTitle={i18n.t(
-            choseToRestoreAccount
-              ? 'onboarding:restoreAccountSteps'
-              : 'onboarding:createAccountSteps',
-            { step: '1' }
-          )}
+          title={i18n.t(choseToRestoreAccount ? 'restoreAccount' : 'createAccount')}
+          subTitle={i18n.t(choseToRestoreAccount ? 'restoreAccountSteps' : 'createAccountSteps', {
+            step: '1',
+          })}
         />
       ),
     })

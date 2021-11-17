@@ -24,7 +24,7 @@ import {
 import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import { importBackupPhrase } from 'src/import/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -58,7 +58,7 @@ function ImportWallet({ navigation, route }: Props) {
   const accountToRecoverFromStoreWipe = useTypedSelector(accountToRecoverSelector)
 
   const dispatch = useDispatch()
-  const { t } = useTranslation(Namespaces.onboarding)
+  const { t } = useTranslation()
 
   async function autocompleteSavedMnemonic() {
     if (!accountToRecoverFromStoreWipe) {
@@ -194,7 +194,7 @@ function ImportWallet({ navigation, route }: Props) {
               <KeyboardSpacer onToggle={onToggleKeyboard} />
               <Dialog
                 title={
-                  <Trans i18nKey="emptyAccount.title" ns={Namespaces.onboarding}>
+                  <Trans i18nKey="emptyAccount.title">
                     <CurrencyDisplay
                       amount={{
                         value: new BigNumber(0),
@@ -231,7 +231,7 @@ ImportWallet.navigationOptions = {
   headerTitle: () => (
     <HeaderTitleWithSubtitle
       title={i18n.t('importIt')}
-      subTitle={i18n.t('onboarding:restoreAccountSteps', { step: '3' })}
+      subTitle={i18n.t('restoreAccountSteps', { step: '3' })}
     />
   ),
 }
