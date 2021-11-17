@@ -1,5 +1,6 @@
 import locales from 'locales'
-import { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useAsync } from 'react-async-hook'
 import { findBestAvailableLanguage } from 'react-native-localize'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLanguage } from 'src/app/actions'
@@ -15,31 +16,31 @@ interface Props {
 }
 
 const I18nGate = ({ loading, children }: Props) => {
-  const [isInitialised, setIsInitialised] = useState(false)
-  const [initFailure, setInitFailure] = useState(false)
   const dispatch = useDispatch()
   const language = useSelector(currentLanguageSelector)
   const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
 
-  useEffect(() => {
-    const i18nInit = async () => {
-      try {
-        await initI18n(language || bestLanguage || DEFAULT_APP_LANGUAGE)
-        if (!language && bestLanguage) {
-          dispatch(setLanguage(bestLanguage))
-        }
-        setIsInitialised(true)
-      } catch (reason) {
-        Logger.error('i18n', 'Failed init i18n', reason)
-        setInitFailure(true)
-        navigateToError('appInitFailed')
-      }
+  const i18nInitResult = useAsync(async () => {
+    await initI18n(language || bestLanguage || DEFAULT_APP_LANGUAGE)
+    if (!language && bestLanguage) {
+      dispatch(setLanguage(bestLanguage))
     }
-    void i18nInit()
+    return true
   }, [])
 
-  // type assertion here because https://github.com/DefinitelyTyped/DefinitelyTyped/issues/44572
-  return isInitialised || initFailure ? (children as JSX.Element) : (loading as JSX.Element)
+  useEffect(() => {
+    if (i18nInitResult.error) {
+      Logger.error('i18n', 'Failed init i18n', i18nInitResult.error)
+      navigateToError('appInitFailed')
+    }
+  }, [i18nInitResult.error])
+
+  return (
+    <>
+      {i18nInitResult.loading && loading}
+      {i18nInitResult.result && children}
+    </>
+  )
 }
 
 export default I18nGate
