@@ -2,7 +2,7 @@
   "addFunds": "Add Funds",
   "addFundsSubtitle": "Fund your Valora account",
   "exchanges": "Exchanges",
-  "noExchanges": "There are no exchanges available for {{digitalAsset}} in your country.",
+  "noExchanges": "There are no exchanges available for {{digitalAsset}} in your region.",
   "buySellOnExchanges": "Buy/Sell on Exchanges",
   "cashOut": "Withdraw Funds",
   "cashOutSubtitle": "Spend on gift cards and other purchases or send funds to a crypto exchange",
@@ -81,6 +81,6 @@
   },
   "restrictedRegion": "Limited support in region",
   "unsupportedPaymentMethod": "Paying with a {{paymentMethod}} is not supported in your region",
-  "noProviders": "There are no providers available for {{digitalAsset}} in your country.",
+  "noProviders": "There are no providers available for {{digitalAsset}} in your region.",
   "switchCurrency": "Switch Currency"
 }
