@@ -8,6 +8,9 @@ import Persona, { Props } from 'src/account/Persona'
 import { KycStatus } from 'src/account/reducer'
 import { createMockStore } from 'test/utils'
 import { mockMnemonic } from 'test/values'
+import { createAccount } from 'src/account/persona-helpers'
+
+jest.mock('src/account/persona-helpers')
 
 jest.mock('react-native-persona')
 
@@ -47,7 +50,7 @@ describe('Persona', () => {
     expect(toJSON()).toMatchSnapshot()
   })
 
-  it.skip('calls IHL to create a persona account if launching the first time', async () => {
+  it('calls IHL to create a persona account if launching the first time', async () => {
     mockFetch.mockResponseOnce(JSON.stringify({}))
     const personaProps: Props = {
       kycStatus: undefined,
@@ -57,8 +60,7 @@ describe('Persona', () => {
         <Persona {...personaProps} />
       </Provider>
     )
-
-    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(createAccount).toHaveBeenCalledTimes(1) // todo now need unit test confirming that calling the real createAccount does what we want (calls ihl, ...)
   })
 
   it.skip('launches persona on button press', () => {
