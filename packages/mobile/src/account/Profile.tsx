@@ -12,7 +12,7 @@ import { nameSelector, pictureSelector } from 'src/account/selectors'
 import { showError, showMessage } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import CancelButton from 'src/components/CancelButton'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -24,7 +24,7 @@ import Logger from 'src/utils/Logger'
 type Props = StackScreenProps<StackParamList, Screens.Profile>
 
 function Profile({ navigation, route }: Props) {
-  const { t } = useTranslation(Namespaces.accountScreen10)
+  const { t } = useTranslation()
   const [newName, setNewName] = useState(useSelector(nameSelector) ?? '')
   const picturePath = useSelector(pictureSelector)
   const [newPictureUri, setNewPictureUri] = useState(picturePath || null)
@@ -97,7 +97,7 @@ Profile.navigationOptions = ({ navigation }: Props) => {
   }
   return {
     ...emptyHeader,
-    headerTitle: i18n.t('accountScreen10:editProfile'),
+    headerTitle: i18n.t('editProfile'),
     headerLeft: () => <CancelButton onCancel={onCancel} />,
   }
 }

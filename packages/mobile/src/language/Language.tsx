@@ -10,7 +10,6 @@ import { useDispatch } from 'react-redux'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setLanguage } from 'src/app/actions'
-import { Namespaces } from 'src/i18n'
 import { emptyHeader, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -30,7 +29,7 @@ function keyExtractor(item: Language) {
 
 function LanguageScreen({ route }: Props) {
   const dispatch = useDispatch()
-  const { t, i18n } = useTranslation(Namespaces.accountScreen10)
+  const { t, i18n } = useTranslation()
   const nextScreen = route.params?.nextScreen
 
   const onSelect = (language: string, code: string) => {

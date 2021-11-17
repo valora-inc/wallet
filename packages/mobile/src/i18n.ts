@@ -14,7 +14,7 @@ const TAG = 'i18n'
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
 export enum Namespaces {
-  accountScreen10 = 'accountScreen10',
+  translation = 'translation',
   backupKeyFlow6 = 'backupKeyFlow6',
   exchangeFlow9 = 'exchangeFlow9',
   global = 'global',
@@ -76,8 +76,8 @@ i18n
       'es-US': ['es-LA'],
     },
     resources: availableResources,
-    ns: ['common', ...Object.keys(Namespaces)],
-    defaultNS: 'common',
+    ns: ['translation', ...Object.keys(Namespaces)],
+    defaultNS: 'translation',
     // Only enable for debugging as it forces evaluation of all our lazy loaded locales
     // and prints out all strings when initializing
     debug: false,
@@ -99,7 +99,7 @@ i18n
 
 // Create HOC wrapper that hoists statics
 // https://react.i18next.com/latest/withtranslation-hoc#hoist-non-react-statics
-export const withTranslation = <P extends WithTranslation>(namespace: Namespaces) => <
+export const withTranslation = <P extends WithTranslation>(namespace?: Namespaces) => <
   C extends React.ComponentType<P>
 >(
   component: C
