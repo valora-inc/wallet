@@ -110,7 +110,7 @@ describe('NotificationBox', () => {
         <NotificationBox />
       </Provider>
     )
-    expect(getByText('exchangeFlow9:whatIsGold')).toBeTruthy()
+    expect(getByText('whatIsGold')).toBeTruthy()
     // Functionality disabled for now
     // expect(getByText('inviteFlow11:inviteAnyone')).toBeTruthy()
   })

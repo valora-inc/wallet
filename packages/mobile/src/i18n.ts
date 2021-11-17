@@ -15,7 +15,6 @@ const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
 export enum Namespaces {
   translation = 'translation',
-  exchangeFlow9 = 'exchangeFlow9',
   global = 'global',
   index = 'index',
   inviteFlow11 = 'inviteFlow11',
@@ -27,7 +26,6 @@ export enum Namespaces {
   paymentRequestFlow = 'paymentRequestFlow',
   walletFlow5 = 'walletFlow5',
   onboarding = 'onboarding',
-  fiatExchangeFlow = 'fiatExchangeFlow',
   walletConnect = 'walletConnect',
 }
 

@@ -34,7 +34,7 @@ import {
   SimplexQuote,
   sortProviders,
 } from 'src/fiatExchanges/utils'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import QuestionIcon from 'src/icons/QuestionIcon'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
@@ -76,7 +76,7 @@ function ProviderOptionsScreen({ route, navigation }: Props) {
     setShowExplanation(false)
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_funds_select_provider_info_cancel)
   }
-  const { t } = useTranslation(Namespaces.fiatExchangeFlow)
+  const { t } = useTranslation()
   const userLocation = useSelector(userLocationDataSelector)
   const account = useSelector(currentAccountSelector)
   const localCurrency = useSelector(getLocalCurrencyCode)
@@ -322,7 +322,7 @@ ProviderOptionsScreen.navigationOptions = ({
   return {
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={eventName} />,
-    headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
+    headerTitle: i18n.t(`${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
   }
 }
 

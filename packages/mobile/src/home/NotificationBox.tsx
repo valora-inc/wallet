@@ -198,7 +198,7 @@ function useSimpleActions() {
 
   if (!dismissedGoldEducation && !goldEducationCompleted) {
     actions.push({
-      text: t('exchangeFlow9:whatIsGold'),
+      text: t('whatIsGold'),
       icon: learnCelo,
       priority: CELO_EDUCATION_PRIORITY,
       callToActions: [

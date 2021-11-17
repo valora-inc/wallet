@@ -225,7 +225,7 @@ exports[`FiatExchange renders correctly 1`] = `
                 }
                 testID="addFunds"
               >
-                fiatExchangeFlow:addFunds
+                addFunds
               </Text>
               <Text
                 style={
@@ -238,7 +238,7 @@ exports[`FiatExchange renders correctly 1`] = `
                   }
                 }
               >
-                fiatExchangeFlow:addFundsSubtitle
+                addFundsSubtitle
               </Text>
             </View>
           </View>
@@ -289,7 +289,7 @@ exports[`FiatExchange renders correctly 1`] = `
                 }
                 testID="cashOut"
               >
-                fiatExchangeFlow:cashOut
+                cashOut
               </Text>
               <Text
                 style={
@@ -302,7 +302,7 @@ exports[`FiatExchange renders correctly 1`] = `
                   }
                 }
               >
-                fiatExchangeFlow:cashOutSubtitle
+                cashOutSubtitle
               </Text>
             </View>
           </View>

@@ -408,7 +408,7 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                         }
                         testID="undefined/Text"
                       >
-                        exchangeFlow9:whatIsGold
+                        whatIsGold
                       </Text>
                       <View
                         style={

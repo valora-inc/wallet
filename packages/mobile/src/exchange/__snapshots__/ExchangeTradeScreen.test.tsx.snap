@@ -97,7 +97,7 @@ exports[`ExchangeTradeScreen renders correctly 1`] = `
                   }
                 }
               >
-                exchangeFlow9:tokenBalance, {"token":"cUSD"}
+                tokenBalance, {"token":"cUSD"}
               </Text>
               <svg
                 fill="none"

@@ -31,7 +31,7 @@ import {
   getAvailableLocalProviders,
   LocalCicoProvider,
 } from 'src/fiatExchanges/utils'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
@@ -65,7 +65,7 @@ export const fiatExchangesOptionsScreenOptions = ({
   return {
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={eventName} />,
-    headerTitle: i18n.t(`fiatExchangeFlow:${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
+    headerTitle: i18n.t(`${route.params?.isCashIn ? 'addFunds' : 'cashOut'}`),
     headerRightContainerStyle: { paddingRight: 16 },
   }
 }
@@ -136,7 +136,7 @@ function PaymentMethodRadioItem({
 }
 
 function FiatExchangeOptions({ route, navigation }: Props) {
-  const { t } = useTranslation(Namespaces.fiatExchangeFlow)
+  const { t } = useTranslation()
   const isCashIn = route.params?.isCashIn ?? true
   const userLocationData = useSelector(userLocationDataSelector)
   const celoEuroEnabled = useSelector(celoEuroEnabledSelector)

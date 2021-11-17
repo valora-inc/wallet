@@ -734,7 +734,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 }
                 testID="undefined/Text"
               >
-                exchangeFlow9:whatIsGold
+                whatIsGold
               </Text>
               <View
                 style={

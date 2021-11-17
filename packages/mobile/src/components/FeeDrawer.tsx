@@ -108,7 +108,7 @@ export default function FeeDrawer({
         <View>
           {isExchange && (
             <LineItemRow
-              title={t('exchangeFlow9:exchangeFee')}
+              title={t('exchangeFee')}
               titleIcon={<ExchangeFeeIcon />}
               amount={
                 exchangeAmount && (

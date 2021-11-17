@@ -1,6 +1,3 @@
-import dev from './dev.json'
-import exchangeFlow9 from './exchangeFlow9.json'
-import fiatExchangeFlow from './fiatExchangeFlow.json'
 import global from './global.json'
 import goldEducation from './goldEducation.json'
 import inviteFlow11 from './inviteFlow11.json'
@@ -16,7 +13,6 @@ import walletFlow5 from './walletFlow5.json'
 
 export default {
   translation,
-  exchangeFlow9,
   global,
   inviteFlow11,
   goldEducation,
@@ -26,8 +22,6 @@ export default {
   receiveFlow8,
   sendFlow7,
   walletFlow5,
-  dev,
   onboarding,
-  fiatExchangeFlow,
   walletConnect,
 }

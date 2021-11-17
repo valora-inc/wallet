@@ -31,7 +31,7 @@ export const externalExchangesScreenOptions = () => {
   return {
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={eventName} />,
-    headerTitle: i18n.t('fiatExchangeFlow:exchanges'),
+    headerTitle: i18n.t('exchanges'),
   }
 }
 
@@ -66,7 +66,7 @@ function ExternalExchanges({ route }: Props) {
     navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
     ValoraAnalytics.track(FiatExchangeEvents.cico_celo_exchange_send_bar_continue)
   }
-  const { t } = useTranslation('fiatExchangeFlow')
+  const { t } = useTranslation()
 
   // TODO Dynamically fetch exchange provider links so they can be updated between releases
   const providers: ExternalExchangeProvider[] = EXCHANGE_PROVIDER_LINKS.filter(

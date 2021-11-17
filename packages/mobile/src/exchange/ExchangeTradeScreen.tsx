@@ -26,7 +26,7 @@ import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/
 import { fetchExchangeRate } from 'src/exchange/actions'
 import ExchangeTradeScreenHeader from 'src/exchange/ExchangeScreenHeader'
 import { ExchangeRates, exchangeRatesSelector } from 'src/exchange/reducer'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
@@ -386,7 +386,6 @@ export class ExchangeTradeScreen extends React.Component<Props, State> {
               <Trans
                 i18nKey="inputSubtotal"
                 tOptions={{ context: this.isLocalCurrencyInput() ? 'gold' : null }}
-                ns={Namespaces.exchangeFlow9}
               >
                 Subtotal @{' '}
                 <CurrencyDisplay
@@ -437,7 +436,7 @@ export default connect<StateProps, DispatchProps, OwnProps, RootState>(mapStateT
   showError,
   hideAlert,
   updateLastUsedCurrency,
-})(withTranslation<Props>(Namespaces.exchangeFlow9)(ExchangeTradeScreen))
+})(withTranslation<Props>()(ExchangeTradeScreen))
 
 const styles = StyleSheet.create({
   container: {

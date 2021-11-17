@@ -46,7 +46,7 @@ export const groupFeedItemsInSections = (feedItems: FeedItem[]) => {
 export const exchangeReviewHeader = (confirmationProps: ExchangeConfirmationCardProps) => {
   const { makerAmount } = confirmationProps
   const isSold = makerAmount.currencyCode === Currency.Celo
-  return isSold ? i18n.t('exchangeFlow9:soldGold') : i18n.t('exchangeFlow9:purchasedGold')
+  return isSold ? i18n.t('soldGold') : i18n.t('purchasedGold')
 }
 
 export const transferReviewHeader = (

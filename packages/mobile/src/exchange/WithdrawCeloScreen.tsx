@@ -24,7 +24,7 @@ import CeloAmountInput from 'src/components/CeloAmountInput'
 import { exchangeRatesSelector } from 'src/exchange/reducer'
 import { FeeType } from 'src/fees/actions'
 import { useSendFee } from 'src/fees/CalculateFee'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import { HeaderTitleWithBalance, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -47,7 +47,7 @@ function WithdrawCeloScreen({ route }: Props) {
   const celoToTransfer = parseInputAmount(celoInput, decimalSeparator)
 
   const celoBalance = useBalance(Currency.Celo) ?? new BigNumber(0)
-  const { t } = useTranslation(Namespaces.exchangeFlow9)
+  const { t } = useTranslation()
 
   const readyToReview =
     isAddressFormat(accountAddress) &&
@@ -137,9 +137,7 @@ WithdrawCeloScreen.navigationOptions = ({
     ...headerWithBackButton,
     headerTitle: () => (
       <HeaderTitleWithBalance
-        title={i18n.t(
-          route.params?.isCashOut ? 'fiatExchangeFlow:cashOut' : 'exchangeFlow9:withdrawCelo'
-        )}
+        title={i18n.t(route.params?.isCashOut ? 'cashOut' : 'withdrawCelo')}
         token={Currency.Celo}
       />
     ),

@@ -30,7 +30,7 @@ import {
   DOLLAR_ADD_FUNDS_MIN_AMOUNT,
 } from 'src/config'
 import { fetchExchangeRate } from 'src/exchange/actions'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import {
   useConvertBetweenCurrencies,
@@ -61,7 +61,7 @@ const oneUnitAmount = (currency: Currency) => ({
 })
 
 function FiatExchangeAmount({ route }: Props) {
-  const { t } = useTranslation(Namespaces.fiatExchangeFlow)
+  const { t } = useTranslation()
 
   const [showingInvalidAmountDialog, setShowingInvalidAmountDialog] = useState(false)
   const closeInvalidAmountDialog = () => {
@@ -261,7 +261,6 @@ function FiatExchangeAmount({ route }: Props) {
         {
           <Trans
             i18nKey={'dailyLimitDialog.body'}
-            ns={Namespaces.fiatExchangeFlow}
             tOptions={{
               limit: `${localCurrencySymbol}${roundDown(localCurrencyDailyLimitAmount)}`,
               contactEmail: CELO_SUPPORT_EMAIL_ADDRESS,
@@ -347,12 +346,9 @@ FiatExchangeAmount.navOptions = ({
   headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_add_funds_amount_back} />,
   headerTitle: () =>
     route.params?.isCashIn ? (
-      <HeaderTitleWithSubtitle title={i18n.t('fiatExchangeFlow:addFunds')} />
+      <HeaderTitleWithSubtitle title={i18n.t('addFunds')} />
     ) : (
-      <HeaderTitleWithBalance
-        title={i18n.t('fiatExchangeFlow:cashOut')}
-        token={route.params.currency}
-      />
+      <HeaderTitleWithBalance title={i18n.t('cashOut')} token={route.params.currency} />
     ),
 })
 

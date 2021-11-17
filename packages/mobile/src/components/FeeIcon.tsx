@@ -57,7 +57,7 @@ class FeeIcon extends React.Component<Props, State> {
 }
 
 export const ExchangeFeeIcon = () => {
-  const { t } = useTranslation(Namespaces.exchangeFlow9)
+  const { t } = useTranslation()
   return (
     <FeeIcon
       title={t('exchangeFee')}

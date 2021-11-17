@@ -696,7 +696,7 @@ exports[`ReviewFees renders correctly 1`] = `
       >
         Simplex
          
-        exchangeFlow9:fee
+        fee
       </Text>
       <View
         accessible={true}

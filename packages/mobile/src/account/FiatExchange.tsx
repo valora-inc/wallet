@@ -13,7 +13,6 @@ import { AppState } from 'src/app/actions'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { FUNDING_LINK } from 'src/config'
 import { features } from 'src/flags'
-import { Namespaces } from 'src/i18n'
 import { fiatExchange } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
@@ -86,34 +85,32 @@ function FiatExchange() {
         <View style={styles.optionsListContainer}>
           <ListItem onPress={goToAddFunds}>
             <Text testID="addFunds" style={styles.optionTitle}>
-              {t('fiatExchangeFlow:addFunds')}
+              {t('addFunds')}
             </Text>
-            <Text style={styles.optionSubtitle}>{t('fiatExchangeFlow:addFundsSubtitle')}</Text>
+            <Text style={styles.optionSubtitle}>{t('addFundsSubtitle')}</Text>
           </ListItem>
           {features.SHOW_CASH_OUT ? (
             <ListItem onPress={goToCashOut}>
               <Text testID="cashOut" style={styles.optionTitle}>
-                {t('fiatExchangeFlow:cashOut')}
+                {t('cashOut')}
               </Text>
-              <Text style={styles.optionSubtitle}>{t('fiatExchangeFlow:cashOutSubtitle')}</Text>
+              <Text style={styles.optionSubtitle}>{t('cashOutSubtitle')}</Text>
             </ListItem>
           ) : (
             <ListItem>
-              <Text style={styles.optionTitleComingSoon}>
-                {t('fiatExchangeFlow:cashOutComingSoon')}
-              </Text>
+              <Text style={styles.optionTitleComingSoon}>{t('cashOutComingSoon')}</Text>
             </ListItem>
           )}
           {FIAT_SPEND_ENABLED && (
             <ListItem onPress={goToSpend}>
-              <Text style={styles.optionTitle}>{t('fiatExchangeFlow:spend')}</Text>
-              <Text style={styles.optionSubtitle}>{t('fiatExchangeFlow:spendSubtitle')}</Text>
+              <Text style={styles.optionTitle}>{t('spend')}</Text>
+              <Text style={styles.optionSubtitle}>{t('spendSubtitle')}</Text>
             </ListItem>
           )}
         </View>
         <View style={styles.moreWaysContainer}>
           <Text style={styles.moreWays}>
-            <Trans i18nKey="otherFundingOptions" ns={Namespaces.fiatExchangeFlow}>
+            <Trans i18nKey="otherFundingOptions">
               <Text onPress={onOpenOtherFundingOptions} style={styles.fundingOptionsLink} />
             </Trans>
           </Text>

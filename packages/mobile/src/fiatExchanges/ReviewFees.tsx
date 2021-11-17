@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
-import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { CiCoCurrency } from 'src/utils/currencies'
@@ -39,7 +38,7 @@ export default function ReviewFees({
 }: Props) {
   const [showFeeExplanation, setShowFeeExplanation] = useState(false)
   const [showFeeDiscountExplanation, setShowFeeDiscountExplanation] = useState(false)
-  const { t } = useTranslation(Namespaces.fiatExchangeFlow)
+  const { t } = useTranslation()
 
   const openFeeExplanation = () => setShowFeeExplanation(true)
   const closeFeeExplanation = () => setShowFeeExplanation(false)
@@ -115,7 +114,7 @@ export default function ReviewFees({
         <View style={[styles.reviewLine]}>
           <View style={[styles.reviewLineInfo]}>
             <Text style={[styles.reviewLineText]}>
-              {provider} {t('exchangeFlow9:fee')}
+              {provider} {t('fee')}
             </Text>
             <Touchable
               style={[styles.icon]}
