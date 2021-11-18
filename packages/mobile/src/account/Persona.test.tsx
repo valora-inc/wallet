@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import 'react-native'
@@ -30,6 +30,7 @@ describe('Persona', () => {
   const store = createMockStore({})
 
   beforeEach(() => {
+    jest.useRealTimers()
     jest.clearAllMocks()
     mockFetch.resetMocks()
   })
@@ -47,17 +48,20 @@ describe('Persona', () => {
     expect(toJSON()).toMatchSnapshot()
   })
 
-  it.skip('calls IHL to create a persona account if launching the first time', async () => {
-    mockFetch.mockResponseOnce(JSON.stringify({}))
+  it('calls IHL to create a persona account if launching the first time', async () => {
+    mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
     const personaProps: Props = {
       kycStatus: undefined,
     }
-    render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <Persona {...personaProps} />
       </Provider>
     )
+    // Should be disabled to start because we don't know if they have an account until the IHL call happens
+    expect(getByTestId('PersonaButton')).toBeDisabled()
 
+    await waitFor(() => expect(getByTestId('PersonaButton')).not.toBeDisabled())
     expect(mockFetch).toHaveBeenCalledTimes(1)
   })
 

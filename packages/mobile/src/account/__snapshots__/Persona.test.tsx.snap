@@ -1,77 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Persona calls IHL to create a persona account if launching the first time 1`] = `
-<View
-  style={
-    Array [
-      Object {
-        "flexDirection": "column",
-      },
-      undefined,
-    ]
-  }
->
-  <View
-    style={
-      Array [
-        Object {
-          "overflow": "hidden",
-        },
-        Object {
-          "borderRadius": 100,
-        },
-      ]
-    }
-  >
-    <View
-      accessible={true}
-      focusable={false}
-      nativeBackgroundAndroid={
-        Object {
-          "attribute": "selectableItemBackground",
-          "rippleRadius": undefined,
-          "type": "ThemeAttrAndroid",
-        }
-      }
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      style={
-        Object {
-          "alignItems": "center",
-          "backgroundColor": "#97DFC1",
-          "flexGrow": 1,
-          "height": 48,
-          "justifyContent": "center",
-          "opacity": undefined,
-          "paddingHorizontal": 24,
-          "paddingVertical": 5,
-        }
-      }
-      testID="PersonaButton"
-    >
-      <Text
-        maxFontSizeMultiplier={1}
-        style={
-          Object {
-            "color": "#FFFFFF",
-            "fontFamily": "Inter-SemiBold",
-            "fontSize": 16,
-            "lineHeight": 22,
-          }
-        }
-      >
-        raiseLimitBegin
-      </Text>
-    </View>
-  </View>
-</View>
-`;
-
 exports[`Persona renders correctly 1`] = `
 <View
   style={
@@ -97,7 +25,7 @@ exports[`Persona renders correctly 1`] = `
   >
     <View
       accessible={true}
-      focusable={false}
+      focusable={true}
       nativeBackgroundAndroid={
         Object {
           "attribute": "selectableItemBackground",
@@ -115,7 +43,7 @@ exports[`Persona renders correctly 1`] = `
       style={
         Object {
           "alignItems": "center",
-          "backgroundColor": "#97DFC1",
+          "backgroundColor": "#1AB775",
           "flexGrow": 1,
           "height": 48,
           "justifyContent": "center",
