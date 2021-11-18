@@ -75,6 +75,7 @@ function useRecipientToSendTo(paramRecipient: Recipient) {
         secureSendPhoneNumberMapping,
         undefined
       )
+
       return {
         ...paramRecipient,
         // Setting the phone number explicitly so Typescript doesn't complain
@@ -248,6 +249,8 @@ function SendConfirmation(props: Props) {
     )
   }
 
+  const allowComment = !isInvite && tokenInfo?.isCoreToken
+
   return (
     <SafeAreaView
       style={styles.container}
@@ -294,12 +297,14 @@ function SendConfirmation(props: Props) {
             tokenAddress={tokenAddress}
             showLocalAmount={amountIsInLocalCurrency}
           />
-          <CommentTextInput
-            testID={'send'}
-            onCommentChange={setComment}
-            comment={comment}
-            onBlur={onBlur}
-          />
+          {allowComment && (
+            <CommentTextInput
+              testID={'send'}
+              onCommentChange={setComment}
+              comment={comment}
+              onBlur={onBlur}
+            />
+          )}
         </View>
         <InviteAndSendModal
           isVisible={inviteModalVisible}

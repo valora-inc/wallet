@@ -46,7 +46,7 @@ export const DOLLAR_ADD_FUNDS_MAX_AMOUNT = 5000
 export const DOLLAR_CASH_OUT_MIN_AMOUNT = 0.01
 // The minimum allowed value for a transaction such as a transfer
 export const STABLE_TRANSACTION_MIN_AMOUNT = 0.01
-export const GOLD_TRANSACTION_MIN_AMOUNT = 0.001
+export const CELO_TRANSACTION_MIN_AMOUNT = 0.001
 // The number of seconds before the sender can reclaim the payment.
 export const ESCROW_PAYMENT_EXPIRY_SECONDS = 1 // The contract doesn't allow 0 seconds.
 export const DEFAULT_TESTNET = Config.DEFAULT_TESTNET

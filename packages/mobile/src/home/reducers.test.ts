@@ -3,7 +3,6 @@ import { DEFAULT_PRIORITY, homeReducer as reducer, initialState } from 'src/home
 
 const createTestNotification = (body: string) => ({
   ctaUri: 'https://celo.org',
-  darkMode: true,
   priority: DEFAULT_PRIORITY,
   content: {
     en: {

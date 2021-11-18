@@ -68,6 +68,9 @@ jest.mock('firebase-functions', () => ({
       user: 'postgres',
       password: 'docker',
     },
+    circuit_breaker: {
+      key_path: 'some/key/path',
+    },
   })),
 }))
 
