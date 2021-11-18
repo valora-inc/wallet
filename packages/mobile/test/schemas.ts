@@ -839,7 +839,7 @@ export const v21Schema = {
   ...v20Schema,
   _persist: {
     ...v20Schema._persist,
-    version: 20,
+    version: 21,
   },
   fees: {
     estimates: {
