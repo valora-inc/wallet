@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-<<<<<<< HEAD
-=======
 exports[`Persona calls IHL to create a persona account if launching the first time 1`] = `
 <View
   style={
@@ -74,7 +72,6 @@ exports[`Persona calls IHL to create a persona account if launching the first ti
 </View>
 `;
 
->>>>>>> added some tests
 exports[`Persona renders correctly 1`] = `
 <View
   style={
@@ -100,7 +97,7 @@ exports[`Persona renders correctly 1`] = `
   >
     <View
       accessible={true}
-      focusable={false}
+      focusable={true}
       nativeBackgroundAndroid={
         Object {
           "attribute": "selectableItemBackground",
@@ -118,7 +115,7 @@ exports[`Persona renders correctly 1`] = `
       style={
         Object {
           "alignItems": "center",
-          "backgroundColor": "#97DFC1",
+          "backgroundColor": "#1AB775",
           "flexGrow": 1,
           "height": 48,
           "justifyContent": "center",
