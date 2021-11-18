@@ -10,6 +10,9 @@ import { createMockStore } from 'test/utils'
 import { mockMnemonic } from 'test/values'
 
 jest.mock('react-native-persona')
+jest.mock('src/firebase/firebase', () => ({
+  readOnceFromFirebase: jest.fn(() => 'fake template Id'),
+}))
 
 jest.mock('src/backup/utils', () => ({
   ...(jest.requireActual('src/backup/utils') as any),

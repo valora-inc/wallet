@@ -112,11 +112,7 @@ const Persona = ({ kycStatus }: Props) => {
       type={BtnTypes.PRIMARY}
       size={BtnSizes.FULL}
       testID="PersonaButton"
-      disabled={
-        !personaAccountCreated
-        // ONLY FOR TESTING PURPOSES
-        // || !templateId
-      }
+      disabled={!personaAccountCreated || !templateId}
     />
   )
 }
