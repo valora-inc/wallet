@@ -114,6 +114,7 @@
   "contractKitInitFailed": "Fehler beim Initialisieren des Vertragskits, bitte versuche die App neu zu starten oder dem Support eine E-Mail zu senden.",
   "web3FailedToSync": "Synchronisieren fehlgeschlagen, überprüfe deine Netzwerkverbindung",
   "errorDuringSync": "Fehler beim Synchronisieren aufgetreten, bitte versuche es später erneut",
+  "appInitFailed": "Beim Laden der App ist ein Fehler aufgetreten",
   "accountUnlockFailed": "Dein Konto konnte nicht entsperrt werden",
   "calculateFeeFailed": "Gebühr konnte nicht berechnet werden",
   "failedToSwitchSyncModes": "Fehler beim Wechseln der Sync-Modi",
