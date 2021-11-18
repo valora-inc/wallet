@@ -16,7 +16,7 @@ import { showError, showMessage } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { CELO_SUPPORT_EMAIL_ADDRESS } from 'src/config'
 import { readOnceFromFirebase } from 'src/firebase/firebase'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import ApprovedIcon from 'src/icons/ApprovedIcon'
 import DeniedIcon from 'src/icons/DeniedIcon'
 import InProgressIcon from 'src/icons/InProgressIcon'
@@ -30,7 +30,7 @@ import { currentAccountSelector } from 'src/web3/selectors'
 const UNLIMITED_THRESHOLD = 99999999
 
 const RaiseLimitScreen = () => {
-  const { t } = useTranslation(Namespaces.accountScreen10)
+  const { t } = useTranslation()
   const dailyLimit = useSelector(cUsdDailyLimitSelector)
   const dailyLimitRequestStatus = useSelector(dailyLimitRequestStatusSelector)
   const numberIsVerified = useSelector((state) => state.app.numberVerified)
@@ -167,7 +167,7 @@ const RaiseLimitScreen = () => {
 
 RaiseLimitScreen.navOptions = () => ({
   ...headerWithBackButton,
-  headerTitle: i18n.t('accountScreen10:accountSendLimit'),
+  headerTitle: i18n.t('accountSendLimit'),
 })
 
 const styles = StyleSheet.create({

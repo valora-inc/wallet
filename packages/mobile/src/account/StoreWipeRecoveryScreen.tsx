@@ -8,7 +8,6 @@ import { StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { startStoreWipeRecovery } from 'src/account/actions'
-import { Namespaces } from 'src/i18n'
 import { noHeaderGestureDisabled } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -22,7 +21,7 @@ type Props = StackScreenProps<StackParamList, Screens.StoreWipeRecoveryScreen>
 const TAG = 'StoreWipeRecoveryScreen'
 
 function StoreWipeRecoveryScreen({ route }: Props) {
-  const { t } = useTranslation(Namespaces.accountScreen10)
+  const { t } = useTranslation()
   const dispatch = useDispatch()
 
   const goToOnboarding = async () => {
