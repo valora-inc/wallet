@@ -114,7 +114,7 @@
   "contractKitInitFailed": "Hubo un error al inicializar el kit de contrato, intenta reiniciar la aplicación o enviar un correo electrónico al equipo de soporte.",
   "web3FailedToSync": "Error de sincronización, verifica tu conexión.",
   "errorDuringSync": "Error de sincronización, inténtalo de nuevo más tarde.",
-  "appInitFailed": "Se ha producido un error durante la carga de la aplicación",
+  "appInitFailed": "Se ha producido un error al cargar la aplicación",
   "accountUnlockFailed": "Error al desbloquear tu cuenta",
   "calculateFeeFailed": "No se pudo calcular la tarifa",
   "failedToSwitchSyncModes": "Error al cambiar el modo de sincronización",
