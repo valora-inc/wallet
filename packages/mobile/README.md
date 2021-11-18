@@ -58,10 +58,10 @@ brew install jq
 ```
 
 #### Google Cloud
-You will need to be added the team keyring on GCP so you can decrypt secrets in the repo. (Ask for an invite to `celo-testnet`.) 
+You will need to be added the team keyring on GCP so you can decrypt secrets in the repo. (Ask for an invite to `celo-mobile-alfajores`.)
 
 Once you have access, install Google Cloud by running `brew install google-cloud-sdk`.
-Follow instructions [here](https://github.com/celo-org/bootnode/blob/4bdd7e7ecb91db54dc2a307ec45887d73aa75394/engsetup/README.md)
+Follow instructions [here](https://cloud.google.com/sdk/gcloud/reference/auth/login)
 for logging in with Google credentials.
 
 To test your GCP access, try running `yarn keys:decrypt` from the wallet repo root. You should see something like this: `Encrypted files decrypted`.
