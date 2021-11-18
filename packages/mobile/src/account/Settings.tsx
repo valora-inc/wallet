@@ -42,7 +42,7 @@ import {
 import Dialog from 'src/components/Dialog'
 import SessionId from 'src/components/SessionId'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { revokeVerification } from 'src/identity/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
@@ -535,4 +535,4 @@ const styles = StyleSheet.create({
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslation<Props>(Namespaces.accountScreen10)(Account))
+)(withTranslation<Props>()(Account))

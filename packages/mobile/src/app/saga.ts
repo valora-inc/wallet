@@ -24,10 +24,8 @@ import {
   OpenUrlAction,
   SetAppState,
   setAppState,
-  setLanguage,
   updateFeatureFlags,
 } from 'src/app/actions'
-import { currentLanguageSelector } from 'src/app/reducers'
 import {
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
@@ -65,11 +63,6 @@ const DO_NOT_LOCK_PERIOD = 30000 // 30 sec
 // Work that's done before other sagas are initalized
 // Be mindful to not put long blocking tasks here
 export function* appInit() {
-  const language = yield select(currentLanguageSelector)
-  if (language) {
-    yield put(setLanguage(language))
-  }
-
   const inSync = yield call(clockInSync)
   if (!inSync) {
     navigate(Screens.SetClock)
