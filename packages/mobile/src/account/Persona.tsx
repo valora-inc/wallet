@@ -24,7 +24,7 @@ export interface Props {
 }
 
 const Persona = ({ kycStatus }: Props) => {
-  const { t } = useTranslation(Namespaces.accountScreen10)
+  const { t } = useTranslation(Namespaces.translation)
   const [personaAccountCreated, setPersonaAccountCreated] = useState(!!kycStatus)
 
   const accountAddress = useSelector(accountAddressSelector)
