@@ -110,5 +110,5 @@
   "success": {
     "message": "Tudo pronto!"
   },
-  "verificationUnavailable": "A confirmação do número de telefone está indisponível no momento. Por favor, digite seu número de telefone e nós iremos notificá-lo quando for possível confirmar novamente.\n\nEnquanto isso, você pode continuar a usar Valora! Os pagamentos enviados ao seu número de telefone serão retidos com segurança até que você os resgate, confirmando seu número de telefone."
+  "verificationUnavailable": "A confirmação do número de celular está indisponível no momento. Por favor, digite seu número de celular e nós o notificaremos quando for possível confirmar novamente.\n\nEnquanto isso, você pode continuar usando a Valora! Os pagamentos enviados para seu número de celular serão mantidos com segurança até você resgatá-los confirmando seu número de celular."
 }

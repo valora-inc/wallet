@@ -77,6 +77,7 @@ interface AppEventsProperties {
   [AppEvents.fetch_balance_error]: {
     dollarBalance?: string
     goldBalance?: string
+    error?: string
   }
   [AppEvents.redux_keychain_mismatch]: {
     account: string
@@ -195,6 +196,8 @@ interface OnboardingEventsProperties {
   }
   [OnboardingEvents.backup_quiz_complete]: undefined
   [OnboardingEvents.backup_quiz_incorrect]: undefined
+
+  [OnboardingEvents.terms_and_conditions_accepted]: undefined
 
   [OnboardingEvents.celo_education_start]: undefined
   [OnboardingEvents.celo_education_scroll]: {

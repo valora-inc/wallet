@@ -89,7 +89,9 @@ describe('TokenTotalLineItem', () => {
         localCurrencyExchangeRate: '1',
       })
       expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('R$8.02')
-      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual('WBTC @ R$65000.00')
+      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual(
+        'WBTC @ R$65,000.00'
+      )
       expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('0.00012 WBTC')
     })
   })

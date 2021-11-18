@@ -85,6 +85,8 @@ export enum OnboardingEvents {
   backup_quiz_complete = 'backup_quiz_complete', // (Count # of successful Recovery Phrase confirmations Backup_Quiz)
   backup_quiz_incorrect = 'backup_quiz_incorrect', // (Count # of failed Recovery Phrase confirmations Backup_Quiz)
 
+  terms_and_conditions_accepted = 'terms_and_conditions_accepted',
+
   celo_education_start = 'celo_education_start',
   celo_education_scroll = 'celo_education_scroll',
   celo_education_complete = 'celo_education_complete',

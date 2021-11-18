@@ -32,6 +32,7 @@ import Support from 'src/account/Support'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { toggleInviteModal } from 'src/app/actions'
+import { multiTokenShowHomeBalancesSelector } from 'src/app/selectors'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
@@ -48,6 +49,7 @@ import { Home } from 'src/icons/navigator/Home'
 import { Invite } from 'src/icons/navigator/Invite'
 import { Settings } from 'src/icons/navigator/Settings'
 import InviteFriendModal from 'src/invite/InviteFriendModal'
+import BalancesDisplay from 'src/navigator/BalancesDisplay'
 import DrawerItem from 'src/navigator/DrawerItem'
 import { ensurePincode } from 'src/navigator/NavigationService'
 import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
@@ -139,6 +141,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const account = useSelector(currentAccountSelector)
   const appVersion = deviceInfoModule.getVersion()
+  const showBalances = !useSelector(multiTokenShowHomeBalancesSelector)
 
   const dispatch = useDispatch()
   useEffect(() => {
@@ -161,6 +164,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps<DrawerContentOpt
           />
         )}
         <View style={styles.border} />
+        {showBalances && <BalancesDisplay />}
       </View>
       <CustomDrawerItemList {...props} protectedRoutes={[Screens.BackupIntroduction]} />
       <View style={styles.drawerBottom}>

@@ -45,7 +45,7 @@ export const DOLLAR_ADD_FUNDS_MAX_AMOUNT = 5000
 export const DOLLAR_CASH_OUT_MIN_AMOUNT = 0.01
 // The minimum allowed value for a transaction such as a transfer
 export const STABLE_TRANSACTION_MIN_AMOUNT = 0.01
-export const GOLD_TRANSACTION_MIN_AMOUNT = 0.001
+export const CELO_TRANSACTION_MIN_AMOUNT = 0.001
 // The number of seconds before the sender can reclaim the payment.
 export const ESCROW_PAYMENT_EXPIRY_SECONDS = 1 // The contract doesn't allow 0 seconds.
 export const DEFAULT_TESTNET = Config.DEFAULT_TESTNET
@@ -64,6 +64,7 @@ export const DEFAULT_FORNO_URL =
   DEFAULT_TESTNET === 'mainnet'
     ? 'https://forno.celo.org/'
     : 'https://alfajores-forno.celo-testnet.org/'
+export const BLOCKSCOUT_BASE_URL = Config.BLOCKSCOUT_BASE_URL
 
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')
@@ -157,3 +158,5 @@ export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 
 export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
+
+export const DEFAULT_APP_LANGUAGE = 'en-US'

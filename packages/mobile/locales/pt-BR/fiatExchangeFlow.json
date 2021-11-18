@@ -2,7 +2,7 @@
   "addFunds": "Adicionar Fundos",
   "addFundsSubtitle": "Adicione fundos à sua conta da Valora",
   "exchanges": "Exchanges",
-  "noExchanges": "Não há exchanges disponíveis para {{digitalAsset}} em seu país.",
+  "noExchanges": "Não há exchanges disponíveis para {{digitalAsset}} em sua região.",
   "buySellOnExchanges": "Comprar/Vender em exchanges",
   "cashOut": "Sacar Fundos",
   "cashOutSubtitle": "Adquira vales-presente, faça compras ou envie fundos para um exchange de criptomoedas.",
@@ -68,6 +68,7 @@
   "findMerchants": "Encontre comerciantes locais perto de você",
   "celoDeposit": "Compra de CELO",
   "cUsdDeposit": "Compra de cUSD",
+  "cEurDeposit": "Compra de cEUR",
   "providerUnavailable": "Não disponível no momento",
   "pricePer": "Preço por {{coin}}",
   "feeDiscount": "Desconto da taxa",
@@ -80,6 +81,6 @@
   },
   "restrictedRegion": "Suporte limitado na região",
   "unsupportedPaymentMethod": "Não é possível pagar com {{paymentMethod}} na sua região",
-  "noProviders": "Não há fornecedores disponíveis para {{digitalAsset}} em seu país.",
+  "noProviders": "Não há fornecedores disponíveis para {{digitalAsset}} em sua região.",
   "switchCurrency": "Trocar moeda"
 }

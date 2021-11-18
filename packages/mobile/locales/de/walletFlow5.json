@@ -127,5 +127,12 @@
     "subtitle": "Dein Konto ist derzeit leer",
     "addFunds": "Guthaben hinzufügen"
   },
-  "balances": "Saldo"
+  "balances": "Saldo",
+  "totalValue": "Gesamtwert",
+  "viewBalances": "Salden ansehen",
+  "whatTotalValue": {
+    "title": "Was bedeutet Gesamtwert?",
+    "body": "Dein Gesamtwert ist eine ungefähre Summe deines gesamten Valora-Vermögens. Der Gesamtwert ändert sich bei Preisschwankungen. Er wird alle 10 Minuten aktualisiert. \n\nEinige Token können möglicherweise nicht im Gesamtwert angezeigt werden, da der Preis zum Berechnungszeitpunkt nicht verfügbar ist.",
+    "dismiss": "Verwerfen"
+  }
 }
