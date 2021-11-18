@@ -114,6 +114,7 @@
   "contractKitInitFailed": "Failed to initialize the contract kit, please try restarting the app or emailing support.",
   "web3FailedToSync": "Failing to sync, check your network connection",
   "errorDuringSync": "Error occurred during sync, please try again later",
+  "appInitFailed": "An error occurred during app load",
   "accountUnlockFailed": "Unable to unlock your account",
   "calculateFeeFailed": "Could not calculate fee",
   "failedToSwitchSyncModes": "Failed to switch sync modes",
