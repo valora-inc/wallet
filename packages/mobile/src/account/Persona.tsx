@@ -74,6 +74,17 @@ const Persona = ({ kycStatus }: Props) => {
     return keys?.privateKey
   }
 
+  const createAccountWithIHL = async (serializedSignature: string): Promise<Response> => {
+    return await fetch(`${networkConfig.inhouseLiquditiyUrl}/persona/account/create`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora ${accountAddress}:${serializedSignature}`,
+      },
+      body: JSON.stringify({ accountAddress }),
+    })
+  }
+
   useAsync(async () => {
     if (!personaAccountCreated) {
       if (!accountAddress) {
@@ -88,16 +99,9 @@ const Persona = ({ kycStatus }: Props) => {
       )
       const serializedSignature = serializeSignature(signature)
 
-      const response = await fetch(`${networkConfig.inhouseLiquditiyUrl}/persona/account/create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Valora ${accountAddress}:${serializedSignature}`,
-        },
-        body: JSON.stringify({ accountAddress }),
-      })
+      const IHLResponse = await createAccountWithIHL(serializedSignature)
 
-      if (response.status === 201 || response.status === 409) {
+      if (IHLResponse.status === 201 || IHLResponse.status === 409) {
         setPersonaAccountCreated(true)
       } else {
         dispatch(showError(ErrorMessages.PERSONA_ACCOUNT_ENDPOINT_FAIL))
