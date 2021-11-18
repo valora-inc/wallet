@@ -88,9 +88,9 @@
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Pago enviado",
   "feedItemCeloRewardReceivedTitle": "CELO ganados",
-  "feedItemRewardReceivedTitle": "Red CELO",
-  "feedItemRewardReceivedInfo": "Ganancias semanales",
-  "feedItemInviteRewardReceivedTitle": "Red CELO",
+  "feedItemRewardReceivedTitle": "Red Celo",
+  "feedItemRewardReceivedInfo": "Recompensas semanales",
+  "feedItemInviteRewardReceivedTitle": "Red Celo",
   "feedItemInviteRewardReceivedInfo": "Recompensa recibida",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
@@ -128,11 +128,11 @@
     "addFunds": "Agregar fondos"
   },
   "balances": "Saldo",
-  "totalValue": "Valor total",
-  "viewBalances": "Ver saldos",
+  "totalValue": "Saldo total",
+  "viewBalances": "Ver activos",
   "whatTotalValue": {
-    "title": "¿Qué es el valor total?",
-    "body": "Tu Valor total es la suma aproximada de todos tus activos en Valora. El Valor total cambia según las fluctuaciones de precio de los activos, y se actualiza cada 10 minutos. \n\nEs posible que algunos tokens no se reflejen en el Valor total si su precio no está disponible al realizar el cálculo.",
+    "title": "¿Qué es el saldo total?",
+    "body": "Tu saldo total es la suma aproximada de todos tus activos en Valora. El saldo total cambia según las fluctuaciones de precio de los activos, y se actualiza cada 10 minutos. \n\nEs posible que algunos tokens no se reflejen en el saldo total si su precio no está disponible al realizar el cálculo.",
     "dismiss": "Descartar"
   }
 }
