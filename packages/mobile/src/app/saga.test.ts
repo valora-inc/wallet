@@ -326,11 +326,11 @@ describe('App saga', () => {
 
     await expectSaga(handleFetchOtaTranslations)
       .provide([
-        [call(handleSaveOtaTranslations, 'en-US', translations), null],
         [select(allowOtaTranslationsSelector), true],
         [select(otaTranslationsLanguageSelector), 'en-US'],
         [select(currentLanguageSelector), 'en-US'],
         [select(otaTranslationsLastUpdateSelector), 0],
+        [call(handleSaveOtaTranslations, 'en-US', translations), null],
       ])
       .put(setOtaTranslationsLastUpdate(timestamp, appVersion, 'en-US'))
       .run()
