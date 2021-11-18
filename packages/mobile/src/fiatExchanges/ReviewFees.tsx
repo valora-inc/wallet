@@ -134,7 +134,7 @@ export default function ReviewFees({
               <InfoIcon color={colors.gray3} size={14} />
             </Touchable>
           </View>
-          <Text style={styles.feeWaivedText}>{t('free').toUpperCase()}</Text>
+          <Text style={styles.feeWaivedText}>{t('free')}</Text>
         </View>
       )}
       <View style={[styles.reviewLine]}>

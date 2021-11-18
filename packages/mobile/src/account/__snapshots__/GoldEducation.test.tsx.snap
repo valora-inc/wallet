@@ -185,7 +185,7 @@ exports[`renders correctly 1`] = `
                 }
               }
             >
-              steps.0.title
+              goldEducationSteps.0.title
             </Text>
             <Text
               style={
@@ -200,7 +200,7 @@ exports[`renders correctly 1`] = `
                 }
               }
             >
-              steps.0.text
+              goldEducationSteps.0.text
             </Text>
           </View>
         </View>
@@ -257,7 +257,7 @@ exports[`renders correctly 1`] = `
                 }
               }
             >
-              steps.1.title
+              goldEducationSteps.1.title
             </Text>
             <Text
               style={
@@ -272,7 +272,7 @@ exports[`renders correctly 1`] = `
                 }
               }
             >
-              steps.1.text
+              goldEducationSteps.1.text
             </Text>
           </View>
         </View>
@@ -329,7 +329,7 @@ exports[`renders correctly 1`] = `
                 }
               }
             >
-              steps.2.title
+              goldEducationSteps.2.title
             </Text>
             <Text
               style={
@@ -344,7 +344,7 @@ exports[`renders correctly 1`] = `
                 }
               }
             >
-              steps.2.text
+              goldEducationSteps.2.text
             </Text>
           </View>
         </View>
@@ -401,7 +401,7 @@ exports[`renders correctly 1`] = `
                 }
               }
             >
-              steps.3.title
+              goldEducationSteps.3.title
             </Text>
             <Text
               style={
@@ -416,7 +416,7 @@ exports[`renders correctly 1`] = `
                 }
               }
             >
-              steps.3.text
+              goldEducationSteps.3.text
             </Text>
           </View>
         </View>

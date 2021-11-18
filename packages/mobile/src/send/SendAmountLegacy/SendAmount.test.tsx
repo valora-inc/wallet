@@ -208,7 +208,6 @@ describe('SendAmountLegacy', () => {
           dismissAfter: 5000,
           displayMethod: ErrorDisplayType.BANNER,
           message: i18n.t('paymentLimitReached', {
-            ns: 'global',
             currencySymbol: '$',
             dailyRemaining: '1330',
             dailyLimit: '1330',
