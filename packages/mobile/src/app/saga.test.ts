@@ -43,7 +43,9 @@ jest.mock('@crowdin/ota-client', () => {
     return {
       getManifestTimestamp: jest.fn(() => 123456),
       getLanguageMappings: jest.fn(),
-      getStringsByLocale: jest.fn(() => ({ someKey: 'someValue' })),
+      getStringsByLocale: jest.fn(() => ({
+        someLang: { someNamespace: { someKey: 'someValue ' } },
+      })),
     }
   }
 })
@@ -316,7 +318,7 @@ describe('App saga', () => {
   })
 
   it('Handles fetching over the air translations', async () => {
-    const translations = { someKey: 'someValue' }
+    const translations = { someLang: { someNamespace: { someKey: 'someValue ' } } }
     const timestamp = 123456
     const appVersion = '1.0.0'
     const mockedVersion = DeviceInfo.getVersion as jest.MockedFunction<typeof DeviceInfo.getVersion>
@@ -324,11 +326,11 @@ describe('App saga', () => {
 
     await expectSaga(handleFetchOtaTranslations)
       .provide([
+        [call(handleSaveOtaTranslations, 'en-US', translations), null],
         [select(allowOtaTranslationsSelector), true],
         [select(otaTranslationsLanguageSelector), 'en-US'],
         [select(currentLanguageSelector), 'en-US'],
         [select(otaTranslationsLastUpdateSelector), 0],
-        [call(handleSaveOtaTranslations, 'en-US', translations), undefined],
       ])
       .put(setOtaTranslationsLastUpdate(timestamp, appVersion, 'en-US'))
       .run()
