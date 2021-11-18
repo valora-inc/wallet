@@ -33,13 +33,13 @@ function CeloDollarsOverview({ t }: Props) {
       )}
       {!isUsdLocalCurrency && dollarBalanceAmount && (
         <Text style={styles.dollarBalance} testID="GoldBalance">
-          <Trans i18nKey="dollarBalance" ns={}>
+          <Trans i18nKey="dollarBalance">
             <CurrencyDisplay
               amount={dollarBalanceAmount}
               showLocalAmount={false}
               hideSymbol={true}
             />{' '}
-            Celo Dollars
+            {t('celoDollars')}
           </Trans>
         </Text>
       )}
