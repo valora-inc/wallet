@@ -14,19 +14,19 @@ describe('i18n', () => {
 
     jest.resetModules()
 
-    jest.mock('../locales/en-US', () => {
+    jest.mock('../locales/en-US/translation.json', () => {
       enLoaded = true
-      return { default: { translation: { someKey: 'Hi!' } } }
+      return { someKey: 'Hi!' }
     })
 
-    jest.mock('../locales/es-419', () => {
+    jest.mock('../locales/es-419/translation.json', () => {
       esLoaded = true
-      return { default: { translation: { someKey: '¡Hola!' } } }
+      return { someKey: '¡Hola!' }
     })
 
-    jest.mock('../locales/pt-BR', () => {
+    jest.mock('../locales/pt-BR/translation.json', () => {
       ptLoaded = true
-      return { default: { translation: { someKey: 'Oi!' } } }
+      return { someKey: 'Oi!' }
     })
 
     jest.unmock('src/i18n')
