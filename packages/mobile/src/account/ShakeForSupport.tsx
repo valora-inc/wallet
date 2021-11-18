@@ -57,14 +57,14 @@ export default function ShakeForSupport() {
           <Times />
         </Touchable>
         <Text testID="HavingTrouble" style={styles.supportTitle}>
-          {i18n.t('accountScreen10:havingTrouble')}
+          {i18n.t('havingTrouble')}
         </Text>
         <Text testID="ShakeForSupport" style={styles.supportSubtitle}>
-          {i18n.t('accountScreen10:shakeForSupport')}
+          {i18n.t('shakeForSupport')}
         </Text>
         <Button
           onPress={onContactSupport}
-          text={i18n.t('accountScreen10:contactSupport')}
+          text={i18n.t('contactSupport')}
           type={BtnTypes.PRIMARY}
           testID="ContactSupportFromShake"
         />

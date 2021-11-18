@@ -7,7 +7,7 @@ let esLoaded = false
 let ptLoaded = false
 
 describe('i18n', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     enLoaded = false
     esLoaded = false
     ptLoaded = false
@@ -30,7 +30,9 @@ describe('i18n', () => {
     })
 
     jest.unmock('src/i18n')
-    i18n = require('src/i18n').default
+    const I18n = require('src/i18n')
+    i18n = I18n.default
+    await I18n.initI18n('en-US')
   })
 
   it('only loads the default language (en-US)', () => {

@@ -158,3 +158,5 @@ export const APP_STORE_ID = Config.APP_STORE_ID
 export const DYNAMIC_DOWNLOAD_LINK = Config.DYNAMIC_DOWNLOAD_LINK
 
 export const FETCH_TIMEOUT_DURATION = 15000 // 15 seconds
+
+export const DEFAULT_APP_LANGUAGE = 'en-US'
