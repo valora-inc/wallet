@@ -50,9 +50,7 @@ async function getAvailableResources(
   for (const [lng, value] of Object.entries(locales)) {
     Object.defineProperty(resources, lng, {
       get: () => ({
-        ...value!.strings,
-        // use only the global bundle for now
-        global: cachedTranslations[lng] || value!.strings.global,
+        translation: cachedTranslations[lng] || value!.strings.translation,
       }),
       enumerable: true,
     })

@@ -326,13 +326,13 @@ export function* handleSetAppState(action: SetAppState) {
   }
 }
 
-export function* handleSaveOtaTranslations(currentLanguage: string, translations: Resource) {
+export function* handleSaveOtaTranslations(language: string, translations: Resource) {
   const hasPreviouslyFetchedTranslations = yield RNFS.exists(OTA_TRANSLATIONS_FILE)
   if (hasPreviouslyFetchedTranslations) {
     yield RNFS.unlink(OTA_TRANSLATIONS_FILE)
   }
 
-  yield RNFS.writeFile(OTA_TRANSLATIONS_FILE, JSON.stringify({ [currentLanguage]: translations }))
+  yield RNFS.writeFile(OTA_TRANSLATIONS_FILE, JSON.stringify({ [language]: translations }))
 }
 
 export function* handleFetchOtaTranslations() {
@@ -353,7 +353,7 @@ export function* handleFetchOtaTranslations() {
           undefined,
           customMappedLanguage || currentLanguage
         )
-        i18n.addResourceBundle(currentLanguage, 'global', translations, true, true)
+        i18n.addResourceBundle(currentLanguage, 'translation', translations, true, true)
 
         yield call(handleSaveOtaTranslations, currentLanguage, translations)
         yield put(setOtaTranslationsLastUpdate(timestamp, DeviceInfo.getVersion(), currentLanguage))
