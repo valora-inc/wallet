@@ -14,7 +14,6 @@ import {
   ViewStyle,
 } from 'react-native'
 import { useSelector } from 'react-redux'
-import { Namespaces } from 'src/i18n'
 import { RootState } from 'src/redux/reducers'
 
 interface Props {
@@ -34,7 +33,7 @@ export default function CeloAmountInput({
   color = colors.goldUI,
   feeEstimate,
 }: Props) {
-  const { t } = useTranslation(Namespaces.exchangeFlow9)
+  const { t } = useTranslation()
   const goldBalance = useSelector((state: RootState) => state.goldToken.balance)
 
   const setMaxAmount = () => {

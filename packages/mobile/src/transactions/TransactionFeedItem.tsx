@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { MoneyAmount, TokenTransactionType } from 'src/apollo/types'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
-import { Namespaces } from 'src/i18n'
 import { TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 
@@ -24,7 +23,7 @@ interface Props {
 }
 
 export function TransactionFeedItem(props: Props) {
-  const { t } = useTranslation(Namespaces.walletFlow5)
+  const { t } = useTranslation()
 
   const { type, amount, title, info, icon, status, onPress } = props
 

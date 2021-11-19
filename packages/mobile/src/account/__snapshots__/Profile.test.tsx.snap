@@ -359,7 +359,7 @@ exports[`Profile renders correctly 1`] = `
                       ]
                     }
                   >
-                    global:cancel
+                    cancel
                   </Text>
                 </View>
               </View>

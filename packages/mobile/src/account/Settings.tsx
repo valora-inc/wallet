@@ -375,7 +375,7 @@ export class Account extends React.Component<Props, State> {
         <ScrollView testID="SettingsScrollView">
           <TouchableWithoutFeedback onPress={this.onDevSettingsTriggerPress}>
             <Text style={styles.title} testID={'SettingsTitle'}>
-              {t('global:settings')}
+              {t('settings')}
             </Text>
           </TouchableWithoutFeedback>
           <View style={styles.containerList}>
@@ -389,7 +389,7 @@ export class Account extends React.Component<Props, State> {
             )}
             <SettingsItemTextValue
               title={t('languageSettings')}
-              value={currentLanguage?.name ?? t('global:unknown')}
+              value={currentLanguage?.name ?? t('unknown')}
               onPress={this.goToLanguageSetting}
             />
             <SettingsItemTextValue
@@ -447,7 +447,7 @@ export class Account extends React.Component<Props, State> {
             title={t('restartModalSwitchOff.header')}
             actionText={t('restartModalSwitchOff.restart')}
             actionPress={this.disableFornoMode}
-            secondaryActionText={t('global:cancel')}
+            secondaryActionText={t('cancel')}
             secondaryActionPress={this.hideFornoSwitchOffWarning}
           >
             {t('restartModalSwitchOff.body')}
@@ -457,7 +457,7 @@ export class Account extends React.Component<Props, State> {
             title={t('promptFornoModal.header')}
             actionText={t('promptFornoModal.switchToDataSaver')}
             actionPress={this.onPressPromptModal}
-            secondaryActionText={t('global:goBack')}
+            secondaryActionText={t('goBack')}
             secondaryActionPress={this.hidePromptModal}
           >
             {t('promptFornoModal.body')}
@@ -465,9 +465,9 @@ export class Account extends React.Component<Props, State> {
           <Dialog
             isVisible={this.state?.showAccountKeyModal}
             title={t('accountKeyModal.header')}
-            actionText={t('global:continue')}
+            actionText={t('continue')}
             actionPress={this.onPressContinueWithAccountRemoval}
-            secondaryActionText={t('global:cancel')}
+            secondaryActionText={t('cancel')}
             secondaryActionPress={this.hideRemoveAccountModal}
             testID="RemoveAccountModal"
           >
@@ -480,7 +480,7 @@ export class Account extends React.Component<Props, State> {
             title={t('promptConfirmRemovalModal.header')}
             actionText={t('promptConfirmRemovalModal.resetNow')}
             actionPress={this.confirmAccountRemoval}
-            secondaryActionText={t('global:cancel')}
+            secondaryActionText={t('cancel')}
             secondaryActionPress={this.hideConfirmRemovalModal}
             testID="ConfirmAccountRemovalModal"
           >
@@ -491,7 +491,7 @@ export class Account extends React.Component<Props, State> {
             title={t('promptConfirmRevokeModal.header')}
             actionText={t('promptConfirmRevokeModal.revoke')}
             actionPress={this.revokeNumberVerification}
-            secondaryActionText={t('global:cancel')}
+            secondaryActionText={t('cancel')}
             secondaryActionPress={this.hideConfirmRevokeModal}
             testID="ConfirmAccountRevokeModal"
           >

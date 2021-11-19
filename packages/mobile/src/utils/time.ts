@@ -272,7 +272,7 @@ export const formatFeedSectionTitle = (timestamp: number, i18next: i18nType) => 
 export const getDatetimeDisplayString = (timestamp: number, i18next: i18nType) => {
   const timeFormatted = formatFeedTime(timestamp, i18next)
   const dateFormatted = formatFeedDate(timestamp, i18next)
-  return `${dateFormatted} ${i18n.t('global:at')} ${timeFormatted}`
+  return `${dateFormatted} ${i18n.t('at')} ${timeFormatted}`
 }
 
 export const getRemoteTime = async () => {

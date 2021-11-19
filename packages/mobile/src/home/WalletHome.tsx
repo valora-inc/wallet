@@ -21,7 +21,6 @@ import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import HomeTokenBalance from 'src/home/HomeTokenBalance'
 import NotificationBox from 'src/home/NotificationBox'
 import SendOrRequestBar from 'src/home/SendOrRequestBar'
-import { Namespaces } from 'src/i18n'
 import Logo from 'src/icons/Logo'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -37,7 +36,7 @@ import { checkContactsPermission } from 'src/utils/permissions'
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
 function WalletHome() {
-  const { t } = useTranslation(Namespaces.walletFlow5)
+  const { t } = useTranslation()
 
   const appState = useSelector(appStateSelector)
   const isLoading = useSelector((state) => state.home.loading)

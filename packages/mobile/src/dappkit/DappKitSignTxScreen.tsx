@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { getDefaultRequestTrackedProperties, requestTxSignature } from 'src/dappkit/dappkit'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -165,4 +165,4 @@ const styles = StyleSheet.create({
 export default connect<null, DispatchProps>(
   null,
   mapDispatchToProps
-)(withTranslation<Props>(Namespaces.dappkit)(DappKitSignTxScreen))
+)(withTranslation<Props>()(DappKitSignTxScreen))

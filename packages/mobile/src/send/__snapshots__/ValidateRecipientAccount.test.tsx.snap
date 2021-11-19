@@ -613,7 +613,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                   }
                 }
               >
-                global:dismiss
+                dismiss
               </Text>
             </View>
           </View>
@@ -1416,7 +1416,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                   }
                 }
               >
-                global:dismiss
+                dismiss
               </Text>
             </View>
           </View>

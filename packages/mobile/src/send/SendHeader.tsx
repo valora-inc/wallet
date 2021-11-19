@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { RequestEvents, SendEvents } from 'src/analytics/Events'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { Namespaces } from 'src/i18n'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
@@ -16,7 +15,7 @@ interface Props {
   isOutgoingPaymentRequest: boolean
 }
 function SendHeader({ isOutgoingPaymentRequest }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const goToQRScanner = () =>
     navigate(Screens.QRNavigator, {
@@ -38,7 +37,7 @@ function SendHeader({ isOutgoingPaymentRequest }: Props) {
           style={styles.buttonContainer}
         />
       }
-      title={isOutgoingPaymentRequest ? t('paymentRequestFlow:request') : t('sendFlow7:send')}
+      title={isOutgoingPaymentRequest ? t('request') : t('send')}
       right={
         <TopBarIconButton
           icon={<QRCodeBorderlessIcon height={32} color={colors.greenUI} />}

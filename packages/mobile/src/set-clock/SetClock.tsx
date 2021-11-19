@@ -7,7 +7,7 @@ import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { AppState, Image, Platform, StyleSheet, Text, View } from 'react-native'
 import * as AndroidOpenSettings from 'react-native-android-open-settings'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { clockIcon } from 'src/images/Images'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -125,4 +125,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>(Namespaces.global)(SetClock)
+export default withTranslation<Props>()(SetClock)

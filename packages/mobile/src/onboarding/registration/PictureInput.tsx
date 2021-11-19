@@ -29,8 +29,8 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
         cropping: true,
         includeBase64: true,
         cropperCircleOverlay: true,
-        cropperChooseText: t('global:choose'),
-        cropperCancelText: t('global:cancel'),
+        cropperChooseText: t('choose'),
+        cropperCancelText: t('cancel'),
       })
       // @ts-ignore
       onPhotoChosen(getDataURL(image.mime, image.data))

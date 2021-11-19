@@ -6,9 +6,11 @@ import React, { useCallback, useState } from 'react'
 import { WithTranslation } from 'react-i18next'
 import { ActivityIndicator, LayoutChangeEvent, StyleSheet, Text, View } from 'react-native'
 import { Circle, G, Line, Text as SvgText } from 'react-native-svg'
+import { CeloExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { useDollarToCeloExchangeRate } from 'src/exchange/hooks'
 import { exchangeHistorySelector } from 'src/exchange/reducer'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
 import { getLocalCurrencyToDollarsExchangeRate } from 'src/localCurrency/selectors'
@@ -17,8 +19,6 @@ import { goldToDollarAmount } from 'src/utils/currencyExchange'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
 import { formatFeedDate } from 'src/utils/time'
 import { VictoryGroup, VictoryLine, VictoryScatter } from 'victory-native'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { CeloExchangeEvents } from 'src/analytics/Events'
 
 const CHART_WIDTH = variables.width
 const CHART_HEIGHT = 180
@@ -287,4 +287,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>(Namespaces.exchangeFlow9)(CeloGoldHistoryChart)
+export default withTranslation<Props>()(CeloGoldHistoryChart)
