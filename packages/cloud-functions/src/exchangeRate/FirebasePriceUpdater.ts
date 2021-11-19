@@ -4,13 +4,18 @@ import {
   getConfigForEnv,
   PriceByAddress,
 } from '@valora/exchanges'
+import axios from 'axios'
 import * as functions from 'firebase-functions'
 import asyncPool from 'tiny-async-pool'
 import { EXCHANGES } from '../config'
+import { getContractKit } from '../contractKit'
 import { fetchFromFirebase, updateFirebase } from '../firebase'
 import { callCloudFunction } from '../utils'
+import erc20Abi from './ERC20.json'
 
 const FIREBASE_NODE_KEY = '/tokensInfo'
+const UBESWAP_TOKEN_LIST =
+  'https://raw.githubusercontent.com/Ubeswap/default-token-list/master/ubeswap.token-list.json'
 
 const MAX_CONCURRENCY = 30
 
@@ -30,10 +35,23 @@ export default class FirebasePriceUpdater {
   }
 
   private async updatePrices(prices: PriceByAddress) {
-    const tokensInfoRaw = await fetchFromFirebase(FIREBASE_NODE_KEY)
-
     const fetchTime = Date.now()
 
+    const tokensInfoRaw = await fetchFromFirebase(FIREBASE_NODE_KEY)
+
+    await this.updatePresentTokens(prices, tokensInfoRaw, fetchTime)
+
+    const tokenAddresses = Object.values(tokensInfoRaw).map((tokenInfo: any) =>
+      tokenInfo.address?.toLowerCase()
+    )
+    const notAddedTokens = Object.keys(prices).filter(
+      (tokenAddress: string) => !tokenAddresses.includes(tokenAddress)
+    )
+
+    await this.updateNotPresentTokens(prices, notAddedTokens, fetchTime)
+  }
+
+  private async updatePresentTokens(prices: PriceByAddress, tokensInfoRaw: any, fetchTime: number) {
     await asyncPool(
       MAX_CONCURRENCY,
       Object.entries(tokensInfoRaw),
@@ -46,6 +64,41 @@ export default class FirebasePriceUpdater {
           })
         }
       }
+    )
+  }
+
+  private async updateNotPresentTokens(
+    prices: PriceByAddress,
+    tokenAddresses: string[],
+    fetchTime: number
+  ) {
+    const imagesUrls = await this.getImagesUrlInfo()
+
+    await asyncPool(MAX_CONCURRENCY, tokenAddresses, async (token: string) => {
+      const kit = await getContractKit()
+      // @ts-ignore
+      const tokenContract = new kit.web3.eth.Contract(erc20Abi, token)
+      const decimals = await tokenContract.methods.decimals().call()
+      const symbol = await tokenContract.methods.symbol().call()
+      const name = await tokenContract.methods.name().call()
+      await updateFirebase(`${FIREBASE_NODE_KEY}/${token}`, {
+        decimals,
+        symbol,
+        name,
+        usdPrice: prices[token].toString(),
+        priceFetchedAt: fetchTime,
+        address: token,
+        imageUrl: imagesUrls[token],
+      })
+    })
+  }
+
+  // This will change on #1500
+  private async getImagesUrlInfo() {
+    const rawTokens = await axios.get(UBESWAP_TOKEN_LIST)
+    return rawTokens.data.tokens.reduce(
+      (acc: any, token: any) => ({ ...acc, [token.address.toLowerCase()]: token.logoURI }),
+      {}
     )
   }
 }

@@ -13,6 +13,52 @@ const mockedManager = {
   calculatecUSDPrices: () => calculatecUSDPricesMock(),
 }
 
+const decimalCallMock = jest.fn()
+const nameCallMock = jest.fn()
+const symbolCallMock = jest.fn()
+const contractMock = jest.fn((abi, address) => ({
+  methods: {
+    decimals: () => ({
+      call: () => decimalCallMock(),
+    }),
+    name: () => ({
+      call: () => nameCallMock(),
+    }),
+    symbol: () => ({
+      call: () => symbolCallMock(),
+    }),
+  },
+}))
+
+jest.mock('../contractKit', () => ({
+  getContractKit: () => ({
+    web3: {
+      eth: {
+        Contract: jest
+          .fn()
+          .mockImplementation((abi: any, address: string) => contractMock(abi, address)),
+      },
+    },
+  }),
+}))
+
+jest.mock('axios', () => ({
+  get: (path: string) => ({
+    data: {
+      tokens: [
+        {
+          address: 'not_Added_Address',
+          logoURI: 'notAddedAddressUri',
+        },
+        {
+          address: 'address1',
+          logoURI: 'address1Uri',
+        },
+      ],
+    },
+  }),
+}))
+
 const FIREBASE_NODE = '/tokensInfo'
 
 const MOCKED_DATE = 1487076708000
@@ -37,7 +83,12 @@ describe('FirebasePriceUpdater', () => {
     calculatecUSDPricesMock.mockReturnValue({
       address1: new BigNumber(1.5),
       address2: new BigNumber(1.7),
+      not_added_address: new BigNumber(2),
     })
+
+    decimalCallMock.mockReturnValue(18)
+    nameCallMock.mockReturnValue('fakeToken')
+    symbolCallMock.mockReturnValue('FT')
 
     dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => MOCKED_DATE)
   })
@@ -50,7 +101,7 @@ describe('FirebasePriceUpdater', () => {
   it('refreshes all prices correctly', async () => {
     await firebasePriceUpdater.refreshAllPrices()
 
-    expect(updateFirebaseMock).toHaveBeenCalledTimes(2)
+    expect(updateFirebaseMock).toHaveBeenCalledTimes(3)
     expect(updateFirebaseMock).toHaveBeenCalledWith(`${FIREBASE_NODE}/key1`, {
       usdPrice: '1.5',
       priceFetchedAt: MOCKED_DATE,
@@ -58,6 +109,15 @@ describe('FirebasePriceUpdater', () => {
     expect(updateFirebaseMock).toHaveBeenCalledWith(`${FIREBASE_NODE}/key2`, {
       usdPrice: '1.7',
       priceFetchedAt: MOCKED_DATE,
+    })
+    expect(updateFirebaseMock).toHaveBeenCalledWith(`${FIREBASE_NODE}/not_added_address`, {
+      decimals: 18,
+      name: 'fakeToken',
+      symbol: 'FT',
+      usdPrice: '2',
+      priceFetchedAt: MOCKED_DATE,
+      imageUrl: 'notAddedAddressUri',
+      address: 'not_added_address',
     })
   })
 })
