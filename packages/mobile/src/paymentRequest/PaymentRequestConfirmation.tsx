@@ -4,7 +4,7 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import { firebase } from '@react-native-firebase/database'
 import { StackScreenProps } from '@react-navigation/stack'
 import React, { useEffect, useState } from 'react'
-import { useTranslation, WithTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -16,7 +16,6 @@ import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay, { DisplayType } from 'src/components/CurrencyDisplay'
 import TotalLineItem from 'src/components/TotalLineItem'
-import { withTranslation } from 'src/i18n'
 import {
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
@@ -36,9 +35,7 @@ import { walletAddressSelector } from 'src/web3/selectors'
 // @ts-ignore
 const TAG = 'paymentRequest/confirmation'
 
-type OwnProps = StackScreenProps<StackParamList, Screens.PaymentRequestConfirmation>
-
-type Props = WithTranslation & OwnProps
+type Props = StackScreenProps<StackParamList, Screens.PaymentRequestConfirmation>
 
 export const paymentConfirmationScreenNavOptions = () => ({
   ...emptyHeader,
@@ -185,4 +182,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>()(PaymentRequestConfirmation)
+export default PaymentRequestConfirmation
