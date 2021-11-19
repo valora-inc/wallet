@@ -18,7 +18,7 @@ import CurrencyDisplay, { DisplayType } from 'src/components/CurrencyDisplay'
 import TotalLineItem from 'src/components/TotalLineItem'
 import {
   e164NumberToAddressSelector,
-  secureSendPhoneNumberMappingSelector,
+  secureSendPhoneNumberMappingSelector
 } from 'src/identity/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
