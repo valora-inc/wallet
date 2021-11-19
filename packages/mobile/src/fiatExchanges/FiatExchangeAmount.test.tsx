@@ -461,7 +461,6 @@ describe('FiatExchangeAmount cashOut', () => {
     expect(storeWithUSD.getActions()).toEqual(
       expect.arrayContaining([
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, undefined, {
-          ns: 'global',
           balance: '1000.00',
           currency: 'USD',
         }),
@@ -481,7 +480,6 @@ describe('FiatExchangeAmount cashOut', () => {
     expect(storeWithPHP.getActions()).toEqual(
       expect.arrayContaining([
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, undefined, {
-          ns: 'global',
           balance: '50000.00',
           currency: 'PHP',
         }),

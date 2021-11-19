@@ -1003,7 +1003,7 @@ exports[`TransferConfirmationCard renders correctly for faucet drilldown 1`] = `
           }
         }
       >
-        receiveFlow8:receivedAmountFromCelo
+        receivedAmountFromCelo
       </Text>
     </RNCSafeAreaView>
   </View>
@@ -4350,7 +4350,7 @@ exports[`TransferConfirmationCard renders correctly for verification fee drilldo
           }
         }
       >
-        receiveFlow8:verificationMessage
+        verificationMessage
       </Text>
     </RNCSafeAreaView>
   </View>

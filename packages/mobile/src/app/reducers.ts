@@ -1,7 +1,6 @@
 import { Platform } from 'react-native'
 import { Actions, ActionTypes, AppState } from 'src/app/actions'
 import { FEATURE_FLAG_DEFAULTS } from 'src/firebase/featureFlagDefaults'
-import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
@@ -85,7 +84,7 @@ const initialState = {
   multiTokenUseUpdatedFeed: FEATURE_FLAG_DEFAULTS.multiTokenUseUpdatedFeed,
 }
 
-export const currentLanguageSelector = (state: RootState) => state.app.language || i18n.language
+export const currentLanguageSelector = (state: RootState) => state.app.language
 
 export const appReducer = (
   state: State | undefined = initialState,

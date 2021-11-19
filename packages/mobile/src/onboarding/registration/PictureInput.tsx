@@ -5,7 +5,6 @@ import { Image, Platform, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import ImagePicker from 'react-native-image-crop-picker'
 import OptionsChooser from 'src/components/OptionsChooser'
-import { Namespaces } from 'src/i18n'
 import Photo from 'src/icons/Photo'
 import { getDataURL } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
@@ -20,7 +19,7 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
   const [showOptions, setShowOptions] = useState(false)
   const updateShowOptions = (show: boolean) => () => setShowOptions(show)
 
-  const { t } = useTranslation(Namespaces.accountScreen10)
+  const { t } = useTranslation()
 
   const pickPhoto = async (pickerFunction: typeof ImagePicker.openPicker) => {
     try {
@@ -30,8 +29,8 @@ function PictureInput({ picture, onPhotoChosen, backgroundColor }: Props) {
         cropping: true,
         includeBase64: true,
         cropperCircleOverlay: true,
-        cropperChooseText: t('global:choose'),
-        cropperCancelText: t('global:cancel'),
+        cropperChooseText: t('choose'),
+        cropperCancelText: t('cancel'),
       })
       // @ts-ignore
       onPhotoChosen(getDataURL(image.mime, image.data))

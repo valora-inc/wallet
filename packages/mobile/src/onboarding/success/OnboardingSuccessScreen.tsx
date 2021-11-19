@@ -4,7 +4,6 @@ import { Spacing } from '@celo/react-components/styles/styles'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { Namespaces } from 'src/i18n'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { background } from 'src/images/Images'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
@@ -17,7 +16,7 @@ function OnboardingSuccessScreen() {
     return () => clearTimeout(timeout)
   }, [])
 
-  const { t } = useTranslation(Namespaces.onboarding)
+  const { t } = useTranslation()
 
   return (
     <View style={styles.container}>

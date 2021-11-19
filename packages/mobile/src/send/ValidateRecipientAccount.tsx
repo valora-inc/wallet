@@ -20,7 +20,7 @@ import CodeRow, { CodeRowStatus } from 'src/components/CodeRow'
 import ErrorMessageInline from 'src/components/ErrorMessageInline'
 import Modal from 'src/components/Modal'
 import { SingleDigitInput } from 'src/components/SingleDigitInput'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import HamburgerCard from 'src/icons/HamburgerCard'
 import InfoIcon from 'src/icons/InfoIcon'
 import { validateRecipientAddress, validateRecipientAddressReset } from 'src/identity/actions'
@@ -295,7 +295,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
             <Text style={styles.modalBody2}>{t('helpModal.body3')}</Text>
           </View>
           <View style={styles.modalButtonContainer}>
-            <TextButton onPress={this.toggleModal}>{t('global:dismiss')}</TextButton>
+            <TextButton onPress={this.toggleModal}>{t('dismiss')}</TextButton>
           </View>
         </Modal>
       </SafeAreaView>
@@ -390,4 +390,4 @@ const styles = StyleSheet.create({
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslation<Props>(Namespaces.sendFlow7)(ValidateRecipientAccount))
+)(withTranslation<Props>()(ValidateRecipientAccount))

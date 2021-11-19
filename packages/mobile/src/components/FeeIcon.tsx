@@ -4,7 +4,6 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import Dialog from 'src/components/Dialog'
-import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 
 interface Props {
@@ -57,34 +56,30 @@ class FeeIcon extends React.Component<Props, State> {
 }
 
 export const ExchangeFeeIcon = () => {
-  const { t } = useTranslation(Namespaces.exchangeFlow9)
+  const { t } = useTranslation()
   return (
     <FeeIcon
       title={t('exchangeFee')}
       description={t('feeExchangeEducation')}
-      dismissText={t('global:dismiss')}
+      dismissText={t('dismiss')}
     />
   )
 }
 
 export const SecurityFeeIcon = () => {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   return (
-    <FeeIcon
-      title={t('securityFee')}
-      description={t('feeEducation')}
-      dismissText={t('global:dismiss')}
-    />
+    <FeeIcon title={t('securityFee')} description={t('feeEducation')} dismissText={t('dismiss')} />
   )
 }
 
 export const EncryptionFeeIcon = () => {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   return (
     <FeeIcon
       title={t('encryption.feeLabel')}
       description={t('encryption.feeModalBody')}
-      dismissText={t('global:dismiss')}
+      dismissText={t('dismiss')}
     />
   )
 }

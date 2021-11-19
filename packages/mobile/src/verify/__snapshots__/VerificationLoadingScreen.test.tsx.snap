@@ -173,7 +173,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
             }
           }
         >
-          loading.confirming
+          verificationLoading.confirming
         </Text>
         <View>
           <Image
@@ -335,7 +335,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
                   }
                 }
               >
-                loading.learnMore
+                verificationLoading.learnMore
               </Text>
             </View>
           </View>
@@ -419,7 +419,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
                 }
               }
             >
-              loading.card1
+              verificationLoading.card1
             </Text>
           </View>
           <View
@@ -472,7 +472,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
                 }
               }
             >
-              loading.card2
+              verificationLoading.card2
             </Text>
           </View>
           <View
@@ -525,7 +525,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
                 }
               }
             >
-              loading.card3
+              verificationLoading.card3
             </Text>
           </View>
           <View
@@ -578,7 +578,7 @@ exports[`VerificationLoadingScreen renders correctly 1`] = `
                 }
               }
             >
-              loading.card4
+              verificationLoading.card4
             </Text>
           </View>
         </View>
@@ -1067,7 +1067,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
             }
           }
         >
-          loading.confirming
+          verificationLoading.confirming
         </Text>
         <View>
           <Image
@@ -1229,7 +1229,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
                   }
                 }
               >
-                loading.learnMore
+                verificationLoading.learnMore
               </Text>
             </View>
           </View>
@@ -1313,7 +1313,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
                 }
               }
             >
-              loading.card1
+              verificationLoading.card1
             </Text>
           </View>
           <View
@@ -1366,7 +1366,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
                 }
               }
             >
-              loading.card2
+              verificationLoading.card2
             </Text>
           </View>
           <View
@@ -1419,7 +1419,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
                 }
               }
             >
-              loading.card3
+              verificationLoading.card3
             </Text>
           </View>
           <View
@@ -1472,7 +1472,7 @@ exports[`VerificationLoadingScreen renders correctly with fail modal 1`] = `
                 }
               }
             >
-              loading.card4
+              verificationLoading.card4
             </Text>
           </View>
         </View>

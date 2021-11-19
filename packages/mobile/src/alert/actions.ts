@@ -5,7 +5,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { OpenUrlAction } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { ALERT_BANNER_DURATION } from 'src/config'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 
 export enum Actions {
   SHOW = 'ALERT/SHOW',
@@ -52,7 +52,7 @@ export const showError = (
   ValoraAnalytics.track(AppEvents.error_displayed, { error })
   return showAlert(
     AlertTypes.ERROR,
-    i18n.t(error, { ns: 'global', ...(i18nOptions || {}) }),
+    i18n.t(error, { ...(i18nOptions || {}) }),
     dismissAfter,
     null,
     null,
@@ -65,7 +65,7 @@ export const showErrorInline = (error: ErrorMessages, i18nOptions?: TOptions): S
   type: Actions.SHOW,
   alertType: AlertTypes.ERROR,
   displayMethod: ErrorDisplayType.INLINE,
-  message: i18n.t(error, { ns: Namespaces.global, ...(i18nOptions || {}) }),
+  message: i18n.t(error, { ...(i18nOptions || {}) }),
   underlyingError: error,
 })
 

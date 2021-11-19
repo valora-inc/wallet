@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { notificationIncomingRequest } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -63,7 +63,7 @@ export class IncomingPaymentRequestSummaryNotification extends React.Component<P
       <SummaryNotification<PaymentRequest>
         items={requests}
         title={t('incomingPaymentRequestsSummaryTitle', { count: requests.length })}
-        detailsI18nKey="walletFlow5:incomingPaymentRequestsSummaryDetails"
+        detailsI18nKey="incomingPaymentRequestsSummaryDetails"
         icon={<Image source={notificationIncomingRequest} resizeMode="contain" />}
         onReview={this.onReview}
         itemRenderer={this.itemRenderer}
@@ -75,4 +75,4 @@ export class IncomingPaymentRequestSummaryNotification extends React.Component<P
 export default connect<StateProps, {}, {}, RootState>(
   mapStateToProps,
   {}
-)(withTranslation<Props>(Namespaces.walletFlow5)(IncomingPaymentRequestSummaryNotification))
+)(withTranslation<Props>()(IncomingPaymentRequestSummaryNotification))

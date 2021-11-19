@@ -194,7 +194,7 @@ exports[`OutgoingPaymentRequestSummaryNotification renders a number when the add
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          testID="OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/global:remind/Button"
+          testID="OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/remind/Button"
         >
           <Text
             style={
@@ -215,7 +215,7 @@ exports[`OutgoingPaymentRequestSummaryNotification renders a number when the add
               ]
             }
           >
-            global:remind
+            remind
           </Text>
         </View>
         <View
@@ -235,7 +235,7 @@ exports[`OutgoingPaymentRequestSummaryNotification renders a number when the add
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          testID="OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/global:cancel/Button"
+          testID="OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/cancel/Button"
         >
           <Text
             style={
@@ -256,7 +256,7 @@ exports[`OutgoingPaymentRequestSummaryNotification renders a number when the add
               ]
             }
           >
-            global:cancel
+            cancel
           </Text>
         </View>
       </View>
@@ -459,7 +459,7 @@ exports[`OutgoingPaymentRequestSummaryNotification renders correctly for just on
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          testID="OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/global:remind/Button"
+          testID="OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/remind/Button"
         >
           <Text
             style={
@@ -480,7 +480,7 @@ exports[`OutgoingPaymentRequestSummaryNotification renders correctly for just on
               ]
             }
           >
-            global:remind
+            remind
           </Text>
         </View>
         <View
@@ -500,7 +500,7 @@ exports[`OutgoingPaymentRequestSummaryNotification renders correctly for just on
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          testID="OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/global:cancel/Button"
+          testID="OutgoingPaymentRequestNotification/FAKE_ID_1/CallToActions/cancel/Button"
         >
           <Text
             style={
@@ -521,7 +521,7 @@ exports[`OutgoingPaymentRequestSummaryNotification renders correctly for just on
               ]
             }
           >
-            global:cancel
+            cancel
           </Text>
         </View>
       </View>

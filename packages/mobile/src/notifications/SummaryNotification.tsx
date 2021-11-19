@@ -1,7 +1,6 @@
 import AggregatedRequestsMessagingCard from '@celo/react-components/components/AggregatedRequestsMessagingCard'
 import * as React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Namespaces } from 'src/i18n'
 
 interface Props<T> {
   title: string
@@ -29,7 +28,7 @@ function getContext(count: number) {
 
 // Summary notification for the notification center on home screen
 export default function SummaryNotification<T>(props: Props<T>) {
-  const { t } = useTranslation(Namespaces.walletFlow5)
+  const { t } = useTranslation()
   const { items, title, detailsI18nKey, icon, onReview, itemRenderer } = props
 
   return (

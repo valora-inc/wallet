@@ -1,9 +1,9 @@
+import { createMockTask } from '@redux-saga/testing-utils'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { dynamic } from 'redux-saga-test-plan/providers'
-import { call, fork, delay, select } from 'redux-saga/effects'
-import { createMockTask } from '@redux-saga/testing-utils'
+import { call, delay, fork, select } from 'redux-saga/effects'
 import { setBackupCompleted } from 'src/account/actions'
 import { uploadNameAndPicture } from 'src/account/profileInfo'
 import { recoveringFromStoreWipeSelector } from 'src/account/selectors'
@@ -136,7 +136,6 @@ describe('Import wallet saga', () => {
       ])
       .put(
         showError(ErrorMessages.INVALID_WORDS_IN_BACKUP_PHRASE, null, {
-          ns: 'global',
           invalidWords: 'surfer, spectical, wade, swig, frosty',
         })
       )

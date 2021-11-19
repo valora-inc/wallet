@@ -54,7 +54,7 @@ describe('IncomingPaymentRequestListItem', () => {
         <IncomingPaymentRequestListItem {...props} />
       </Provider>
     )
-    fireEvent.press(tree.getByText('global:send'))
+    fireEvent.press(tree.getByText('send'))
     expect(tree.queryByTestId('loading/paymentRequest')).not.toBeNull()
   })
 
@@ -77,7 +77,7 @@ describe('IncomingPaymentRequestListItem', () => {
       </Provider>
     )
 
-    fireEvent.press(tree.getByText('global:send'))
+    fireEvent.press(tree.getByText('send'))
 
     const updatedStore = createMockStore({
       identity: {
@@ -122,7 +122,7 @@ describe('IncomingPaymentRequestListItem', () => {
       </Provider>
     )
 
-    fireEvent.press(tree.getByText('global:send'))
+    fireEvent.press(tree.getByText('send'))
 
     const updatedStore = createMockStore({
       identity: {
@@ -168,7 +168,7 @@ describe('IncomingPaymentRequestListItem', () => {
       </Provider>
     )
 
-    fireEvent.press(tree.getByText('global:send'))
+    fireEvent.press(tree.getByText('send'))
 
     const updatedStore = createMockStore({
       identity: {

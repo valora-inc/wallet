@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Namespaces } from 'src/i18n'
 import { fiatExchange } from 'src/images/Images'
 import { noHeaderGestureDisabled } from 'src/navigator/Headers'
 import { navigateHome } from 'src/navigator/NavigationService'
@@ -25,7 +24,7 @@ const capitalizeProvider = (provider?: string) => {
 }
 
 function CashInSuccessScreen({ route }: Props) {
-  const { t } = useTranslation(Namespaces.fiatExchangeFlow)
+  const { t } = useTranslation()
 
   const { provider } = route.params
 
@@ -49,8 +48,8 @@ function CashInSuccessScreen({ route }: Props) {
       <View style={styles.buttonContainer}>
         <Button
           style={styles.button}
-          text={t('global:continue')}
-          accessibilityLabel={t('global:continue')}
+          text={t('continue')}
+          accessibilityLabel={t('continue')}
           onPress={navigateHome}
           testID={'SuccessContinue'}
         />

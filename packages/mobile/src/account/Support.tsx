@@ -6,7 +6,6 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { showRaiseDailyLimitSelector } from 'src/app/selectors'
 import { FAQ_LINK, FORUM_LINK } from 'src/config'
-import { Namespaces } from 'src/i18n'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -24,7 +23,7 @@ const onPressRaiseLimit = () => {
 }
 
 const Support = () => {
-  const { t } = useTranslation(Namespaces.accountScreen10)
+  const { t } = useTranslation()
   const showRaiseDailyLimit = useSelector(showRaiseDailyLimitSelector)
 
   return (
@@ -32,7 +31,7 @@ const Support = () => {
       <DrawerTopBar />
       <ScrollView>
         <Text style={styles.title} testID={'SettingsTitle'}>
-          {t('global:help')}
+          {t('help')}
         </Text>
         <View style={styles.containerList}>
           <SettingsItemTextValue

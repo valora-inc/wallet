@@ -22,4 +22,5 @@ module.exports = {
     groupingSeparator: ',',
   })),
   getTimeZone: jest.fn(() => 'America/New_York'),
+  findBestAvailableLanguage: jest.fn(() => ({ languageTag: 'en-US', isRTL: true })),
 }
