@@ -1,16 +1,13 @@
 import locales from '@celo/mobile/locales'
 import hoistStatics from 'hoist-non-react-statics'
-import i18n, { LanguageDetectorModule } from 'i18next'
+import i18n from 'i18next'
 import {
   initReactI18next,
   WithTranslation,
   withTranslation as withTranslationI18Next,
 } from 'react-i18next'
-import * as RNLocalize from 'react-native-localize'
-import { APP_NAME, TOS_LINK } from 'src/config'
-import Logger from 'src/utils/Logger'
+import { APP_NAME, DEFAULT_APP_LANGUAGE, TOS_LINK } from 'src/config'
 
-const TAG = 'i18n'
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
 export enum Namespaces {
@@ -31,34 +28,13 @@ function getAvailableResources() {
 
 const availableResources = getAvailableResources()
 
-function getLanguage() {
-  // We fallback to `undefined` to know we couldn't find the best language
-  // In that case i18n.language will report `undefined` but will use fallbackLng internally
-  const fallback = { languageTag: undefined }
-  const { languageTag } =
-    RNLocalize.findBestAvailableLanguage(Object.keys(availableResources)) || fallback
-  return languageTag
-}
-
-const languageDetector: LanguageDetectorModule = {
-  type: 'languageDetector',
-  detect: getLanguage,
-  init: () => {
-    Logger.debug(TAG, 'Initing language detector')
-  },
-  cacheUserLanguage: (lng: string) => {
-    Logger.debug(TAG, `Skipping user language cache ${lng}`)
-  },
-}
-
-i18n
-  .use(languageDetector)
-  .use(initReactI18next)
-  .init({
+export function initI18n(language: string) {
+  return i18n.use(initReactI18next).init({
     fallbackLng: {
-      default: ['en-US'],
+      default: [DEFAULT_APP_LANGUAGE],
       'es-US': ['es-LA'],
     },
+    lng: language,
     resources: availableResources,
     ns: ['translation', ...Object.keys(Namespaces)],
     defaultNS: 'translation',
@@ -70,7 +46,7 @@ i18n
       defaultVariables: { appName: APP_NAME, tosLink: TOS_LINK_DISPLAY },
     },
   })
-  .catch((reason: any) => Logger.error(TAG, 'Failed init i18n', reason))
+}
 
 // Disabling this for now as we have our own language selection within the app
 // and this will change the displayed language only for the current session

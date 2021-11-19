@@ -38,7 +38,7 @@ export default offRamps = () => {
         await element(by.id('FiatExchangeNextButton')).tap()
         // Check Page Elements
         await expect(element(by.id('noProviders'))).toHaveText(
-          'There are no providers available for cUSD in your country.'
+          'There are no providers available for cUSD in your region.'
         )
         await expect(element(by.id('ContactSupport'))).toBeVisible()
 
@@ -123,7 +123,7 @@ export default offRamps = () => {
       it('Then Should Display No Exchanges Available Text', async () => {
         // Check page elements
         await expect(element(by.id('NoExchanges'))).toHaveText(
-          'There are no exchanges available for cEUR in your country.'
+          'There are no exchanges available for cEUR in your region.'
         )
 
         // Check presence of buttons
