@@ -163,7 +163,7 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
         }
         testID="HavingTrouble"
       >
-        accountScreen10:havingTrouble
+        havingTrouble
       </Text>
       <Text
         style={
@@ -179,7 +179,7 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
         }
         testID="ShakeForSupport"
       >
-        accountScreen10:shakeForSupport
+        shakeForSupport
       </Text>
       <View
         style={
@@ -245,7 +245,7 @@ exports[`ShakeForSupport does not render when App not active 1`] = `
                 }
               }
             >
-              accountScreen10:contactSupport
+              contactSupport
             </Text>
           </View>
         </View>
@@ -418,7 +418,7 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
         }
         testID="HavingTrouble"
       >
-        accountScreen10:havingTrouble
+        havingTrouble
       </Text>
       <Text
         style={
@@ -434,7 +434,7 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
         }
         testID="ShakeForSupport"
       >
-        accountScreen10:shakeForSupport
+        shakeForSupport
       </Text>
       <View
         style={
@@ -500,7 +500,7 @@ exports[`ShakeForSupport renders correctly when App is active 1`] = `
                 }
               }
             >
-              accountScreen10:contactSupport
+              contactSupport
             </Text>
           </View>
         </View>
