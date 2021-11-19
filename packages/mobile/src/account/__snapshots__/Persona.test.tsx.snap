@@ -97,7 +97,7 @@ exports[`Persona renders correctly 1`] = `
   >
     <View
       accessible={true}
-      focusable={true}
+      focusable={false}
       nativeBackgroundAndroid={
         Object {
           "attribute": "selectableItemBackground",
@@ -115,7 +115,7 @@ exports[`Persona renders correctly 1`] = `
       style={
         Object {
           "alignItems": "center",
-          "backgroundColor": "#1AB775",
+          "backgroundColor": "#97DFC1",
           "flexGrow": 1,
           "height": 48,
           "justifyContent": "center",
