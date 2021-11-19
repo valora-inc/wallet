@@ -43,7 +43,7 @@ Note: There is an experimental support for [WalletConnect v2](https://docs.walle
 
 Supported actions: https://github.com/celo-org/wallet/blob/main/packages/mobile/src/walletConnect/constants.ts#L3
 
-Docs: https://docs.walletconnect.org/v/1.0/mobile-linking
+Docs: https://docs.walletconnect.com/1.0/mobile-linking
 
 Example: https://docs.celo.org/developer-resources/walkthroughs/valora-wc-v1
 
