@@ -8,6 +8,7 @@ import { useTranslation, WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import { e164NumberSelector } from 'src/account/selectors'
 import { RequestEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
@@ -16,6 +17,10 @@ import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay, { DisplayType } from 'src/components/CurrencyDisplay'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { withTranslation } from 'src/i18n'
+import {
+  e164NumberToAddressSelector,
+  secureSendPhoneNumberMappingSelector,
+} from 'src/identity/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -42,25 +47,17 @@ export const paymentConfirmationScreenNavOptions = () => ({
 
 function PaymentRequestConfirmation({ route }: Props) {
   const [comment, setComment] = useState('')
-  const [transactionData] = useState(route.params.transactionData)
-  const [addressJustValidated] = useState(route.params.addressJustValidated)
-
-  const e164NumberToAddress = useSelector((state) => state.identity.e164NumberToAddress)
-  const secureSendPhoneNumberMapping = useSelector(
-    (state) => state.identity.secureSendPhoneNumberMapping
-  )
-  const account = useSelector(walletAddressSelector)
+  const { transactionData, addressJustValidated } = route.params
+  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
+  const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
+  const walletAddress = useSelector(walletAddressSelector)
+  const requesterE164Number = useSelector(e164NumberSelector)
 
   const confirmationInput = getConfirmationInput(
     transactionData,
     e164NumberToAddress,
     secureSendPhoneNumberMapping
   )
-
-  const amount = {
-    value: confirmationInput.amount,
-    currencyCode: confirmationInput.currency,
-  }
 
   const { t } = useTranslation()
 
@@ -84,7 +81,7 @@ function PaymentRequestConfirmation({ route }: Props) {
       throw new Error("Can't request without valid recipient")
     }
 
-    if (!account) {
+    if (!walletAddress) {
       throw new Error("Can't request without a valid account")
     }
 
@@ -96,8 +93,8 @@ function PaymentRequestConfirmation({ route }: Props) {
       amount: amount.toString(),
       comment: comment || undefined,
       createdAt: firebase.database.ServerValue.TIMESTAMP,
-      requesterAddress: account,
-      requesterE164Number: confirmationInput.recipient.e164PhoneNumber ?? undefined,
+      requesterAddress: walletAddress,
+      requesterE164Number: requesterE164Number ?? undefined,
       requesteeAddress: requesteeAddress.toLowerCase(),
       status: PaymentRequestStatus.REQUESTED,
       notified: false,
@@ -106,6 +103,11 @@ function PaymentRequestConfirmation({ route }: Props) {
     ValoraAnalytics.track(RequestEvents.request_confirm_request, { requesteeAddress })
     dispatch(writePaymentRequest(paymentInfo))
     Logger.showMessage(t('requestSent'))
+  }
+
+  const amount = {
+    value: confirmationInput.amount,
+    currencyCode: confirmationInput.currency,
   }
 
   const renderFooter = () => {
