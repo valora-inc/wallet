@@ -559,7 +559,7 @@
   "sendAndInvite": "Enviar e convidar",
   "inviteAndSendDialog": {
     "title": "Nós manteremos o seu pagamento para {{name}}",
-    "body": "Share an invitation message with {{name}} to join Valora. Once they join & connect a phone number, they'll receive your payment.",
+    "body": "Compartilhe uma mensagem de convite para {{name}}. Uma vez que ele se inscrever na {{appName}} e conectar seu número de celular, ele receberá o pagamento.",
     "button": "Enviar"
   },
   "inviteRewardsBanner": {
