@@ -31,7 +31,7 @@ const Support = () => {
       <DrawerTopBar />
       <ScrollView>
         <Text style={styles.title} testID={'SettingsTitle'}>
-          {t('global:help')}
+          {t('help')}
         </Text>
         <View style={styles.containerList}>
           <SettingsItemTextValue

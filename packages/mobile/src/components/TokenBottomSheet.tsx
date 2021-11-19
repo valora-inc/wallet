@@ -12,7 +12,6 @@ import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenDisplay from 'src/components/TokenDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
-import { Namespaces } from 'src/i18n'
 import useSelector from 'src/redux/useSelector'
 import { TokenBalance } from 'src/tokens/reducer'
 import { tokensWithBalanceSelector } from 'src/tokens/selectors'
@@ -68,7 +67,7 @@ function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props
   const [pickerHeight, setPickerHeight] = useState(0)
   const tokens = useSelector(tokensWithBalanceSelector)
 
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const onTokenPressed = (tokenAddress: string) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {

@@ -10,7 +10,6 @@ import { useDispatch } from 'react-redux'
 import { chooseCreateAccount, chooseRestoreAccount } from 'src/account/actions'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Namespaces } from 'src/i18n'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import { welcomeBackground } from 'src/images/Images'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
@@ -20,7 +19,7 @@ import LanguageButton from 'src/onboarding/LanguageButton'
 import useSelector from 'src/redux/useSelector'
 
 export default function Welcome() {
-  const { t } = useTranslation(Namespaces.onboarding)
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const acceptedTerms = useSelector((state) => state.account.acceptedTerms)
   const insets = useSafeAreaInsets()

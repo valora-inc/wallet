@@ -5,7 +5,7 @@ import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>(Namespaces.dappkit)(DappKitTxDataScreen)
+export default withTranslation<Props>()(DappKitTxDataScreen)

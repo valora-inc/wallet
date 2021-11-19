@@ -16,7 +16,7 @@ import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay, { DisplayType } from 'src/components/CurrencyDisplay'
 import TotalLineItem from 'src/components/TotalLineItem'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -81,7 +81,7 @@ class PaymentRequestConfirmation extends React.Component<Props> {
   componentDidMount() {
     const { addressJustValidated, t } = this.props
     if (addressJustValidated) {
-      Logger.showMessage(t('sendFlow7:addressConfirmed'))
+      Logger.showMessage(t('addressConfirmed'))
     }
   }
 
@@ -216,4 +216,4 @@ const styles = StyleSheet.create({
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslation<Props>(Namespaces.paymentRequestFlow)(PaymentRequestConfirmation))
+)(withTranslation<Props>()(PaymentRequestConfirmation))

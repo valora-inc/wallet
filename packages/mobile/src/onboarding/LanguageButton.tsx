@@ -18,7 +18,7 @@ export default function LanguageButton() {
 
   return (
     <TopBarTextButtonOnboarding
-      title={currentLanguage?.name ?? t('global:unknown')}
+      title={currentLanguage?.name ?? t('unknown')}
       testID="LanguageButton"
       onPress={onPress}
     />

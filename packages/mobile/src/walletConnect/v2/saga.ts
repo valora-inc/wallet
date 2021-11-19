@@ -115,7 +115,7 @@ function* acceptSession({ session }: AcceptSession) {
       response: {
         metadata: {
           name: APP_NAME,
-          description: i18n.t('global:appDescription'),
+          description: i18n.t('appDescription'),
           url: WEB_LINK,
           icons: [appendPath(WEB_LINK, '/favicon.ico')],
         },
@@ -133,9 +133,7 @@ function* acceptSession({ session }: AcceptSession) {
     yield call(client.approve.bind(client), response)
     ValoraAnalytics.track(WalletConnectEvents.wc_session_approve_success, defaultTrackedProperties)
     yield put(
-      showMessage(
-        i18n.t('walletConnect:connectionSuccess', { dappName: session.proposer.metadata.name })
-      )
+      showMessage(i18n.t('connectionSuccess', { dappName: session.proposer.metadata.name }))
     )
   } catch (e) {
     Logger.debug(TAG + '@acceptSession', e.message)
@@ -259,11 +257,7 @@ function* acceptRequest({ request }: AcceptRequest): any {
         error: error.type,
       })
     } else {
-      yield put(
-        showMessage(
-          i18n.t('walletConnect:connectionSuccess', { dappName: session.peer.metadata.name })
-        )
-      )
+      yield put(showMessage(i18n.t('connectionSuccess', { dappName: session.peer.metadata.name })))
       ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defaultTrackedProperties)
     }
   } catch (e) {

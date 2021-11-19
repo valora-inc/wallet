@@ -24,7 +24,7 @@ import BackButton from 'src/components/BackButton'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import DevSkipButton from 'src/components/DevSkipButton'
 import { ALERT_BANNER_DURATION, ATTESTATION_REVEAL_TIMEOUT_SECONDS } from 'src/config'
-import i18n, { Namespaces, withTranslation } from 'src/i18n'
+import i18n, { withTranslation } from 'src/i18n'
 import {
   cancelVerification,
   receiveAttestationMessage,
@@ -125,18 +125,16 @@ class VerificationInputScreen extends React.Component<Props, State> {
     },
     headerTitle: () => (
       <HeaderTitleWithSubtitle
-        title={i18n.t('onboarding:verificationInput.title')}
+        title={i18n.t('verificationInput.title')}
         subTitle={i18n.t(
-          route.params?.choseToRestoreAccount
-            ? 'onboarding:restoreAccountSteps'
-            : 'onboarding:createAccountSteps',
+          route.params?.choseToRestoreAccount ? 'restoreAccountSteps' : 'createAccountSteps',
           { step: route.params?.choseToRestoreAccount ? '4' : '3' }
         )}
       />
     ),
     headerRight: () => (
       <TopBarTextButtonOnboarding
-        title={i18n.t('global:help')}
+        title={i18n.t('help')}
         testID="VerificationInputHelp"
         onPress={() => navigation.setParams({ showHelpDialog: true })}
       />
@@ -352,4 +350,4 @@ const styles = StyleSheet.create({
 export default connect<StateProps, DispatchProps, {}, RootState>(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslation<Props>(Namespaces.onboarding)(VerificationInputScreen))
+)(withTranslation<Props>()(VerificationInputScreen))
