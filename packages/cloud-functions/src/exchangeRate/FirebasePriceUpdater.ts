@@ -66,11 +66,10 @@ export default class FirebasePriceUpdater {
     fetchTime: number
   ) {
     const imagesUrls = await this.getImagesUrlInfo()
+    const kit = await getContractKit()
 
     await asyncPool(MAX_CONCURRENCY, tokenAddresses, async (token: string) => {
       try {
-        const kit = await getContractKit()
-
         // @ts-ignore
         const tokenContract = new kit.web3.eth.Contract(erc20Abi, token)
         const symbol = await tokenContract.methods.symbol().call()
