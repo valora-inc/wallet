@@ -114,6 +114,7 @@
   "contractKitInitFailed": "Falha ao inicializar o kit do contrato, tente reiniciar o aplicativo ou envie um e-mail para o suporte.",
   "web3FailedToSync": "Falha ao sincronizar, verifique sua conexão de rede",
   "errorDuringSync": "Ocorreu um erro durante a sincronização, tente novamente mais tarde",
+  "appInitFailed": "Ocorreu um erro durante a carga do aplicativo",
   "accountUnlockFailed": "Não foi possível desbloquear sua conta",
   "calculateFeeFailed": "Não foi possível calcular a taxa",
   "failedToSwitchSyncModes": "Falha ao alterar os modos de sincronização",

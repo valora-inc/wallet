@@ -183,10 +183,10 @@ export class PincodeSet extends React.Component<Props, State> {
         const updated = await updatePin(this.props.account, this.state.oldPin, pin2)
         if (updated) {
           ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_confirmed)
-          Logger.showMessage(i18n.t('accountScreen10:pinChanged'))
+          Logger.showMessage(i18n.t('pinChanged'))
         } else {
           ValoraAnalytics.track(SettingsEvents.change_pin_new_pin_error)
-          Logger.showMessage(i18n.t('accountScreen10:pinChangeFailed'))
+          Logger.showMessage(i18n.t('pinChangeFailed'))
         }
       } else {
         setCachedPin(DEFAULT_CACHE_ACCOUNT, pin1)

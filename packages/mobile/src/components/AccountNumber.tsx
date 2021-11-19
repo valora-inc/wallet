@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Namespaces } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 
@@ -18,7 +17,7 @@ interface Props {
 }
 
 export default function AccountNumber({ address, touchDisabled, location }: Props) {
-  const { t } = useTranslation(Namespaces.accountScreen10)
+  const { t } = useTranslation()
   const onPressAddress = () => {
     if (!address.length) {
       return

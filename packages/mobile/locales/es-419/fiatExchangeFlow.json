@@ -2,7 +2,7 @@
   "addFunds": "Agregar fondos",
   "addFundsSubtitle": "Agrega fondos a tu cuenta de Valora",
   "exchanges": "Exchanges cripto",
-  "noExchanges": "No hay exchanges disponibles para {{digitalAsset}} en tu país.",
+  "noExchanges": "No hay exchanges disponibles para {{digitalAsset}} en tu región.",
   "buySellOnExchanges": "Comprar o vender en exchanges cripto",
   "cashOut": "Retirar fondos",
   "cashOutSubtitle": "Adquiere tarjetas de regalo, haz compras o envía fondos a un exchange de criptomonedas",
@@ -81,6 +81,6 @@
   },
   "restrictedRegion": "Soporte limitado en la región",
   "unsupportedPaymentMethod": "No es posible pagar con {{paymentMethod}} en tu región.",
-  "noProviders": "No hay proveedores disponibles para {{digitalAsset}} en tu país.",
+  "noProviders": "No hay proveedores disponibles para {{digitalAsset}} en tu región.",
   "switchCurrency": "Cambiar moneda"
 }

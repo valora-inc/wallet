@@ -5,9 +5,9 @@ import { useTranslation } from 'react-i18next'
 import { FlatList, ListRenderItemInfo, ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import { selectPreferredCurrency } from 'src/localCurrency/actions'
-import { LOCAL_CURRENCY_CODES, LocalCurrencyCode } from 'src/localCurrency/consts'
+import { LocalCurrencyCode, LOCAL_CURRENCY_CODES } from 'src/localCurrency/consts'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
@@ -21,7 +21,7 @@ function keyExtractor(item: LocalCurrencyCode) {
 function SelectLocalCurrency() {
   const selectedCurrencyCode = useLocalCurrencyCode() || DEFAULT_CURRENCY_CODE
   const dispatch = useDispatch()
-  const { t } = useTranslation(Namespaces.accountScreen10)
+  const { t } = useTranslation()
 
   const onSelect = (code: string) => {
     dispatch(selectPreferredCurrency(code as LocalCurrencyCode))
