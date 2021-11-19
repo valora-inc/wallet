@@ -1,21 +1,14 @@
-import {
-  createNewManager,
-  ExchangeRateManager,
-  getConfigForEnv,
-  PriceByAddress,
-} from '@valora/exchanges'
+import { configs, createNewManager, ExchangeRateManager, PriceByAddress } from '@valora/exchanges'
 import axios from 'axios'
 import * as functions from 'firebase-functions'
 import asyncPool from 'tiny-async-pool'
-import { EXCHANGES } from '../config'
+import { EXCHANGES, UBESWAP } from '../config'
 import { getContractKit } from '../contractKit'
 import { fetchFromFirebase, updateFirebase } from '../firebase'
 import { callCloudFunction } from '../utils'
 import erc20Abi from './ERC20.json'
 
 const FIREBASE_NODE_KEY = '/tokensInfo'
-const UBESWAP_TOKEN_LIST =
-  'https://raw.githubusercontent.com/Ubeswap/default-token-list/master/ubeswap.token-list.json'
 
 const MAX_CONCURRENCY = 30
 
@@ -28,7 +21,7 @@ export default class FirebasePriceUpdater {
     this.manager = manager
   }
 
-  async refreshAllPrices(): Promise<PriceByAddress> {
+  async updateAllPrices(): Promise<PriceByAddress> {
     const prices = await this.manager.calculatecUSDPrices()
     await this.updatePrices(prices)
     return prices
@@ -75,27 +68,34 @@ export default class FirebasePriceUpdater {
     const imagesUrls = await this.getImagesUrlInfo()
 
     await asyncPool(MAX_CONCURRENCY, tokenAddresses, async (token: string) => {
-      const kit = await getContractKit()
-      // @ts-ignore
-      const tokenContract = new kit.web3.eth.Contract(erc20Abi, token)
-      const decimals = await tokenContract.methods.decimals().call()
-      const symbol = await tokenContract.methods.symbol().call()
-      const name = await tokenContract.methods.name().call()
-      await updateFirebase(`${FIREBASE_NODE_KEY}/${token}`, {
-        decimals,
-        symbol,
-        name,
-        usdPrice: prices[token].toString(),
-        priceFetchedAt: fetchTime,
-        address: token,
-        imageUrl: imagesUrls[token],
-      })
+      try {
+        const kit = await getContractKit()
+
+        // @ts-ignore
+        const tokenContract = new kit.web3.eth.Contract(erc20Abi, token)
+        const symbol = await tokenContract.methods.symbol().call()
+        const name = await tokenContract.methods.name().call()
+        const decimals = await tokenContract.methods.decimals().call()
+
+        await updateFirebase(`${FIREBASE_NODE_KEY}/${token}`, {
+          decimals,
+          symbol,
+          name,
+          usdPrice: prices[token].toString(),
+          priceFetchedAt: fetchTime,
+          address: token,
+          imageUrl: imagesUrls[token],
+        })
+        console.log(`New token added: ${token}`)
+      } catch (e) {
+        console.warn(`Couldn't add new token: ${token}`, (e as Error)?.message)
+      }
     })
   }
 
   // This will change on #1500
   private async getImagesUrlInfo() {
-    const rawTokens = await axios.get(UBESWAP_TOKEN_LIST)
+    const rawTokens = await axios.get(UBESWAP.token_list)
     return rawTokens.data.tokens.reduce(
       (acc: any, token: any) => ({ ...acc, [token.address.toLowerCase()]: token.logoURI }),
       {}
@@ -103,9 +103,13 @@ export default class FirebasePriceUpdater {
   }
 }
 
-export async function updatePrices() {
-  const updater = new FirebasePriceUpdater(createNewManager(getConfigForEnv(EXCHANGES.env)))
-  return await updater.refreshAllPrices()
+async function updatePrices() {
+  const config = configs[EXCHANGES.env]
+  if (!config) {
+    throw Error("Couldn't obtain exchanges library config")
+  }
+  const updater = new FirebasePriceUpdater(createNewManager(config))
+  return await updater.updateAllPrices()
 }
 
 async function updatePricesWithRetry() {

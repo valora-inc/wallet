@@ -99,7 +99,7 @@ describe('FirebasePriceUpdater', () => {
   })
 
   it('refreshes all prices correctly', async () => {
-    await firebasePriceUpdater.refreshAllPrices()
+    await firebasePriceUpdater.updateAllPrices()
 
     expect(updateFirebaseMock).toHaveBeenCalledTimes(3)
     expect(updateFirebaseMock).toHaveBeenCalledWith(`${FIREBASE_NODE}/key1`, {
