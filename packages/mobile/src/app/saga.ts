@@ -5,7 +5,9 @@ import { eventChannel } from 'redux-saga'
 import {
   call,
   cancelled,
+  delay,
   put,
+  race,
   select,
   spawn,
   take,
@@ -33,6 +35,7 @@ import {
   huaweiMobileServicesAvailableSelector,
 } from 'src/app/selectors'
 import { runVerificationMigration } from 'src/app/verificationMigration'
+import { FETCH_TIMEOUT_DURATION } from 'src/config'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { appVersionDeprecationChannel, fetchRemoteFeatureFlags } from 'src/firebase/firebase'
 import { receiveAttestationMessage } from 'src/identity/actions'
@@ -138,7 +141,6 @@ export function* checkAndroidMobileServicesSaga() {
 export interface RemoteFeatureFlags {
   celoEducationUri: string | null
   celoEuroEnabled: boolean
-  shortVerificationCodesEnabled: boolean
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
   inviteRewardsEnabled: boolean
@@ -175,11 +177,14 @@ export function* appRemoteFeatureFlagSaga() {
     const isRefreshTime = Date.now() - lastLoadTime > 60 * 60 * 1000
 
     if (isAppActive && isRefreshTime) {
-      const flags: RemoteFeatureFlags = yield call(fetchRemoteFeatureFlags)
+      const { flags }: { flags: RemoteFeatureFlags | undefined } = yield race({
+        flags: call(fetchRemoteFeatureFlags),
+        timeout: delay(FETCH_TIMEOUT_DURATION),
+      })
       if (flags) {
         yield put(updateFeatureFlags(flags))
+        lastLoadTime = Date.now()
       }
-      lastLoadTime = Date.now()
     }
 
     const action: SetAppState = yield take(Actions.SET_APP_STATE)

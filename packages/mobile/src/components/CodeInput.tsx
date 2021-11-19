@@ -39,7 +39,7 @@ export interface Props {
   numberOfLines?: number
   testID?: string
   style?: StyleProp<ViewStyle>
-  shortVerificationCodesEnabled: boolean
+  shortVerificationCodesEnabled?: boolean
 }
 
 export default function CodeInput({
@@ -54,7 +54,7 @@ export default function CodeInput({
   numberOfLines,
   testID,
   style,
-  shortVerificationCodesEnabled,
+  shortVerificationCodesEnabled = true,
 }: Props) {
   const [forceShowingPasteIcon, clipboardContent, getFreshClipboardContent] = useClipboard()
 

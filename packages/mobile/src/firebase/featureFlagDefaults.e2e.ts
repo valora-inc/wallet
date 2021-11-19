@@ -11,7 +11,6 @@ export const FEATURE_FLAG_DEFAULTS: Omit<
   // same here
   // celoEducationUri: null,
   celoEuroEnabled: true,
-  shortVerificationCodesEnabled: true,
   inviteRewardsEnabled: false,
   inviteRewardCusd: 1,
   inviteRewardWeeklyLimit: 20,

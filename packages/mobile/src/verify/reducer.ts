@@ -182,7 +182,7 @@ const initialState: State = {
   withoutRevealing: false,
   TEMPORARY_override_withoutVerification: undefined,
   komenciConfig: {
-    useLightProxy: false,
+    useLightProxy: FEATURE_FLAG_DEFAULTS.komenciUseLightProxy,
     allowedDeployers: FEATURE_FLAG_DEFAULTS.komenciAllowedDeployers.split(','),
   },
 }

@@ -18,7 +18,6 @@ export interface State {
   minVersion: string | null
   celoEducationUri: string | null
   celoEuroEnabled: boolean
-  shortVerificationCodesEnabled: boolean
   inviteModalVisible: boolean
   activeScreen: Screens
   hideVerification: boolean
@@ -58,7 +57,6 @@ const initialState = {
   lastTimeBackgrounded: 0,
   sessionId: '',
   minVersion: null,
-  shortVerificationCodesEnabled: FEATURE_FLAG_DEFAULTS.shortVerificationCodesEnabled,
   celoEducationUri: null,
   celoEuroEnabled: FEATURE_FLAG_DEFAULTS.celoEuroEnabled,
   inviteModalVisible: false,
@@ -73,12 +71,12 @@ const initialState = {
   rewardsMin: FEATURE_FLAG_DEFAULTS.rewardsMin,
   rewardsABTestThreshold: FEATURE_FLAG_DEFAULTS.rewardsABTestThreshold,
   ranVerificationMigrationAt: null,
-  logPhoneNumberTypeEnabled: false,
+  logPhoneNumberTypeEnabled: FEATURE_FLAG_DEFAULTS.logPhoneNumberTypeEnabled,
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
   pincodeUseExpandedBlocklist: FEATURE_FLAG_DEFAULTS.pincodeUseExpandedBlocklist,
   rewardPillText: JSON.parse(FEATURE_FLAG_DEFAULTS.rewardPillText),
-  cashInButtonExpEnabled: false,
+  cashInButtonExpEnabled: FEATURE_FLAG_DEFAULTS.cashInButtonExpEnabled,
   multiTokenShowHomeBalances: FEATURE_FLAG_DEFAULTS.multiTokenShowHomeBalances,
   multiTokenUseSendFlow: FEATURE_FLAG_DEFAULTS.multiTokenUseSendFlow,
   multiTokenUseUpdatedFeed: FEATURE_FLAG_DEFAULTS.multiTokenUseUpdatedFeed,
@@ -183,7 +181,6 @@ export const appReducer = (
         showRaiseDailyLimitTarget: action.flags.showRaiseDailyLimitTarget,
         celoEducationUri: action.flags.celoEducationUri,
         celoEuroEnabled: action.flags.celoEuroEnabled,
-        shortVerificationCodesEnabled: action.flags.shortVerificationCodesEnabled,
         walletConnectV1Enabled: action.flags.walletConnectV1Enabled,
         walletConnectV2Enabled: action.flags.walletConnectV2Enabled,
         rewardsPercent: action.flags.rewardsPercent,

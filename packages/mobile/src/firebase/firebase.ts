@@ -262,7 +262,6 @@ export async function fetchRemoteFeatureFlags(): Promise<RemoteFeatureFlags | nu
     showRaiseDailyLimitTarget: flags.showRaiseDailyLimitTargetV2?.asString(),
     celoEducationUri: flags.celoEducationUri?.asString() ?? null,
     celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
-    shortVerificationCodesEnabled: flags.shortVerificationCodesEnabled.asBoolean(),
     inviteRewardsEnabled: flags.inviteRewardsEnabled.asBoolean(),
     inviteRewardCusd: flags.inviteRewardCusd.asNumber(),
     inviteRewardWeeklyLimit: flags.inviteRewardWeeklyLimit.asNumber(),
