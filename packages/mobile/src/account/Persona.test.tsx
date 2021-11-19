@@ -9,9 +9,10 @@ import { KycStatus } from 'src/account/reducer'
 import { createMockStore } from 'test/utils'
 import { mockMnemonic } from 'test/values'
 
+const FAKE_TEMPLATE_ID = 'fake template id'
 jest.mock('react-native-persona')
 jest.mock('src/firebase/firebase', () => ({
-  readOnceFromFirebase: jest.fn(() => 'fake template Id'),
+  readOnceFromFirebase: jest.fn(() => FAKE_TEMPLATE_ID),
 }))
 
 jest.mock('src/backup/utils', () => ({
@@ -68,18 +69,21 @@ describe('Persona', () => {
     expect(mockFetch).toHaveBeenCalledTimes(1)
   })
 
-  it.skip('launches persona on button press', () => {
+  it('launches persona on button press', async () => {
+    mockFetch.mockResponseOnce(JSON.stringify({}), { status: 201 })
     const personaProps: Props = {
       kycStatus: KycStatus.Created,
     }
 
-    const tree = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <Persona {...personaProps} />
       </Provider>
     )
 
-    fireEvent.press(tree.getByTestId('PersonaButton'))
-    expect(Inquiry.fromTemplate).toHaveBeenCalledTimes(1)
+    await waitFor(() => expect(getByTestId('PersonaButton')).not.toBeDisabled())
+
+    fireEvent.press(getByTestId('PersonaButton'))
+    expect(Inquiry.fromTemplate).toHaveBeenCalledWith(FAKE_TEMPLATE_ID)
   })
 })
