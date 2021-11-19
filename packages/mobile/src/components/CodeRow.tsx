@@ -6,7 +6,7 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 
 const CodeInput = withTextInputPasteAware(TextInput)
 
@@ -153,4 +153,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>(Namespaces.global)(CodeRow)
+export default withTranslation<Props>()(CodeRow)

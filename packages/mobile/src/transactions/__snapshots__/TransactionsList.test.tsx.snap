@@ -259,7 +259,7 @@ exports[`ignores failed standby transactions 1`] = `
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -413,7 +413,7 @@ exports[`ignores failed standby transactions 1`] = `
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -861,7 +861,7 @@ exports[`ignores pending standby transactions that are completed in the response
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -1015,7 +1015,7 @@ exports[`ignores pending standby transactions that are completed in the response
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -1557,7 +1557,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -1711,7 +1711,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xce10...ce10\\"}"}
               </Text>
               <Text
                 style={
@@ -2035,7 +2035,7 @@ exports[`renders the received data along with the standby transactions 1`] = `
                   }
                 }
               >
-                feedItemSentTitle, {"displayName":"walletFlow5:feedItemAddress, {\\"address\\":\\"0072bv...o23u\\"}"}
+                feedItemSentTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0072bv...o23u\\"}"}
               </Text>
               <Text
                 style={

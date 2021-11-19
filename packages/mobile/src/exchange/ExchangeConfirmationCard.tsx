@@ -10,7 +10,6 @@ import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import FeeDrawer from 'src/components/FeeDrawer'
 import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
-import { Namespaces } from 'src/i18n'
 import { Currency } from 'src/utils/currencies'
 
 export interface ExchangeConfirmationCardProps {
@@ -21,7 +20,7 @@ export interface ExchangeConfirmationCardProps {
 type Props = ExchangeConfirmationCardProps
 
 export default function ExchangeConfirmationCard(props: Props) {
-  const { t } = useTranslation(Namespaces.exchangeFlow9)
+  const { t } = useTranslation()
   const { makerAmount, takerAmount } = props
   const isSellGoldTx = makerAmount.currencyCode === Currency.Celo
   const stableToken = isSellGoldTx ? takerAmount.currencyCode : makerAmount.currencyCode
@@ -74,7 +73,7 @@ export default function ExchangeConfirmationCard(props: Props) {
             <HorizontalLine />
             <LineItemRow
               title={
-                <Trans i18nKey="subtotalAmount" ns={Namespaces.exchangeFlow9}>
+                <Trans i18nKey="subtotalAmount">
                   Subtotal @ <CurrencyDisplay amount={exchangeRateAmount} showLocalAmount={true} />
                 </Trans>
               }

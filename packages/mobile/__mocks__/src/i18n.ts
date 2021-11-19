@@ -14,7 +14,5 @@ export default {
   changeLanguage: jest.fn().mockResolvedValue(t),
 }
 
-export enum Namespaces {}
-
 export const withTranslation = (namespace: any) => (component: React.ComponentType<any>) =>
   hoistStatics(withTranslationI18Next(namespace)(component), component)

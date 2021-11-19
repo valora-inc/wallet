@@ -7,7 +7,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
 import useBalanceAutoRefresh from 'src/home/useBalanceAutoRefresh'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import useSelector from 'src/redux/useSelector'
 import { Currency } from 'src/utils/currencies'
 
@@ -31,7 +31,7 @@ export function CeloGoldOverview({ t, testID }: Props) {
       </Text>
       <Text style={styles.localBalance}>
         {celoBalanceAmount ? (
-          <Trans i18nKey="equalToAmount" ns={Namespaces.exchangeFlow9}>
+          <Trans i18nKey="equalToAmount">
             Equal to <CurrencyDisplay amount={celoBalanceAmount} showLocalAmount={true} />
           </Trans>
         ) : (
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>(Namespaces.exchangeFlow9)(CeloGoldOverview)
+export default withTranslation<Props>()(CeloGoldOverview)

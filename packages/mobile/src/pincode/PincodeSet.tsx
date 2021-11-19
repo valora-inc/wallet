@@ -13,7 +13,7 @@ import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents, SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DevSkipButton from 'src/components/DevSkipButton'
-import i18n, { Namespaces, withTranslation } from 'src/i18n'
+import i18n, { withTranslation } from 'src/i18n'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -71,9 +71,7 @@ const mapDispatchToProps = {
 export class PincodeSet extends React.Component<Props, State> {
   static navigationOptions = ({ route }: ScreenProps) => {
     const changePin = route.params?.changePin
-    const title = changePin
-      ? i18n.t('onboarding:pincodeSet.changePIN')
-      : i18n.t('onboarding:pincodeSet.create')
+    const title = changePin ? i18n.t('pincodeSet.changePIN') : i18n.t('pincodeSet.create')
 
     return {
       ...nuxNavigationOptions,
@@ -85,8 +83,8 @@ export class PincodeSet extends React.Component<Props, State> {
               ? ' '
               : i18n.t(
                   route.params?.choseToRestoreAccount
-                    ? 'onboarding:restoreAccountSteps'
-                    : 'onboarding:createAccountSteps',
+                    ? 'restoreAccountSteps'
+                    : 'createAccountSteps',
                   { step: '2' }
                 )
           }
@@ -219,7 +217,7 @@ export class PincodeSet extends React.Component<Props, State> {
         <DevSkipButton onSkip={this.navigateToNextScreen} />
         {isVerifying ? (
           <Pincode
-            title={i18n.t('onboarding:pincodeSet.verify')}
+            title={i18n.t('pincodeSet.verify')}
             errorText={errorText}
             pin={pin2}
             onChangePin={this.onChangePin2}
@@ -227,7 +225,7 @@ export class PincodeSet extends React.Component<Props, State> {
           />
         ) : (
           <Pincode
-            title={changingPin ? i18n.t('onboarding:pincodeSet.createNew') : ' '}
+            title={changingPin ? i18n.t('pincodeSet.createNew') : ' '}
             errorText={errorText}
             pin={pin1}
             onChangePin={this.onChangePin1}
@@ -255,4 +253,4 @@ const styles = StyleSheet.create({
 export default connect<StateProps, DispatchProps, {}, RootState>(
   mapStateToProps,
   mapDispatchToProps
-)(withTranslation<Props>(Namespaces.onboarding)(PincodeSet))
+)(withTranslation<Props>()(PincodeSet))

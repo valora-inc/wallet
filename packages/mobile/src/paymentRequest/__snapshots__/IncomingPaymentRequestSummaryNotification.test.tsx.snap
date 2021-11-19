@@ -183,7 +183,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          testID="IncomingPaymentRequestNotification/FAKE_ID_1/CallToActions/global:send/Button"
+          testID="IncomingPaymentRequestNotification/FAKE_ID_1/CallToActions/send/Button"
         >
           <Text
             style={
@@ -204,7 +204,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
               ]
             }
           >
-            global:send
+            send
           </Text>
         </View>
         <View
@@ -224,7 +224,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          testID="IncomingPaymentRequestNotification/FAKE_ID_1/CallToActions/global:decline/Button"
+          testID="IncomingPaymentRequestNotification/FAKE_ID_1/CallToActions/decline/Button"
         >
           <Text
             style={
@@ -245,7 +245,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders a number when the add
               ]
             }
           >
-            global:decline
+            decline
           </Text>
         </View>
       </View>
@@ -437,7 +437,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          testID="IncomingPaymentRequestNotification/FAKE_ID_1/CallToActions/global:send/Button"
+          testID="IncomingPaymentRequestNotification/FAKE_ID_1/CallToActions/send/Button"
         >
           <Text
             style={
@@ -458,7 +458,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
               ]
             }
           >
-            global:send
+            send
           </Text>
         </View>
         <View
@@ -478,7 +478,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
           onResponderTerminate={[Function]}
           onResponderTerminationRequest={[Function]}
           onStartShouldSetResponder={[Function]}
-          testID="IncomingPaymentRequestNotification/FAKE_ID_1/CallToActions/global:decline/Button"
+          testID="IncomingPaymentRequestNotification/FAKE_ID_1/CallToActions/decline/Button"
         >
           <Text
             style={
@@ -499,7 +499,7 @@ exports[`IncomingPaymentRequestSummaryNotification renders correctly for just on
               ]
             }
           >
-            global:decline
+            decline
           </Text>
         </View>
       </View>

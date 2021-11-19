@@ -3,7 +3,7 @@ import fontStyles from '@celo/react-components/styles/fonts'
 import * as React from 'react'
 import { StyleSheet, TextInput } from 'react-native'
 import { MAX_COMMENT_LENGTH } from 'src/config'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 
 interface Props {
   testID?: string
@@ -23,7 +23,7 @@ export default function CommentTextInput({ testID, onCommentChange, comment, onB
       maxLength={MAX_COMMENT_LENGTH}
       onChangeText={onCommentChange}
       value={comment}
-      placeholder={i18n.t('addDescription', { ns: Namespaces.sendFlow7 })}
+      placeholder={i18n.t('addDescription')}
       placeholderTextColor={colors.greenUI}
       returnKeyType={'done'}
       onBlur={onBlur}

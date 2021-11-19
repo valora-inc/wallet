@@ -10,7 +10,6 @@ import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CELO_TRANSACTION_MIN_AMOUNT, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { exchangeRatesSelector } from 'src/exchange/reducer'
-import { Namespaces } from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { balancesSelector } from 'src/stableToken/selectors'
@@ -21,7 +20,7 @@ interface Props {
 }
 
 export default function CeloExchangeButtons({ navigation }: Props) {
-  const { t } = useTranslation(Namespaces.exchangeFlow9)
+  const { t } = useTranslation()
 
   const balances = useSelector(balancesSelector)
   const exchangeRates = useSelector(exchangeRatesSelector)

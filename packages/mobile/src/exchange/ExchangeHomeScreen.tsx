@@ -22,7 +22,6 @@ import CeloGoldOverview from 'src/exchange/CeloGoldOverview'
 import { useDollarToCeloExchangeRate } from 'src/exchange/hooks'
 import { exchangeHistorySelector } from 'src/exchange/reducer'
 import RestrictedCeloExchange from 'src/exchange/RestrictedCeloExchange'
-import { Namespaces } from 'src/i18n'
 import InfoIcon from 'src/icons/InfoIcon'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
@@ -86,7 +85,7 @@ function ExchangeHomeScreen({ navigation }: Props) {
     dispatch(fetchExchangeRate())
   }, [])
 
-  const { t } = useTranslation(Namespaces.exchangeFlow9)
+  const { t } = useTranslation()
 
   const { RESTRICTED_CP_DOTO } = useCountryFeatures()
 
@@ -187,7 +186,7 @@ function ExchangeHomeScreen({ navigation }: Props) {
               showChevron={true}
             />
           )}
-          <SectionHead text={t('global:activity')} />
+          <SectionHead text={t('activity')} />
           <TransactionsList feedType={FeedType.EXCHANGE} />
         </SafeAreaView>
       </Animated.ScrollView>

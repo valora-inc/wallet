@@ -9,7 +9,6 @@ import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { useEscrowPaymentRecipient } from 'src/escrow/utils'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
-import { Namespaces } from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Currency } from 'src/utils/currencies'
@@ -23,7 +22,7 @@ interface Props {
 const TAG = 'EscrowedPaymentListItem'
 
 function EscrowedPaymentListItem({ payment }: Props) {
-  const { t } = useTranslation(Namespaces.inviteFlow11)
+  const { t } = useTranslation()
   const recipient = useEscrowPaymentRecipient(payment)
 
   const onRemind = async () => {
@@ -34,9 +33,8 @@ function EscrowedPaymentListItem({ payment }: Props) {
 
     try {
       await Share.share({
-        message: t('walletFlow5:escrowedPaymentReminderSmsNoData', {
-          currency:
-            payment.currency === Currency.Dollar ? t('global:celoDollars') : t('global:celoEuros'),
+        message: t('escrowedPaymentReminderSmsNoData', {
+          currency: payment.currency === Currency.Dollar ? t('celoDollars') : t('celoEuros'),
         }),
       })
     } catch (error) {
@@ -57,18 +55,18 @@ function EscrowedPaymentListItem({ payment }: Props) {
     const ctas = []
     if (recipient.e164PhoneNumber) {
       ctas.push({
-        text: t('global:remind'),
+        text: t('remind'),
         onPress: onRemind,
       })
     }
     ctas.push({
-      text: t('global:reclaim'),
+      text: t('reclaim'),
       onPress: onReclaimPayment,
     })
     return ctas
   }
 
-  const nameToShow = recipient.name ?? t('global:unknown')
+  const nameToShow = recipient.name ?? t('unknown')
   const amount = {
     value: divideByWei(payment.amount),
     currencyCode: payment.currency,

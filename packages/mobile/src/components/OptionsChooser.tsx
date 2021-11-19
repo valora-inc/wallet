@@ -28,7 +28,7 @@ function OptionsChooser({
   onOptionChosen,
   onCancel,
 }: Props) {
-  const fullOptions = includeCancelButton ? [...options, i18n.t('global:cancel')] : options
+  const fullOptions = includeCancelButton ? [...options, i18n.t('cancel')] : options
   const cancelButtonIndex = includeCancelButton ? fullOptions.length - 1 : undefined
   const destructiveButtonIndex = isLastOptionDestructive
     ? (cancelButtonIndex || options.length) - 1

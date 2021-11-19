@@ -31,7 +31,7 @@ function RewardsPill() {
     <TouchableOpacity style={styles.rewardsContainer} onPress={onOpenRewards} testID="EarnRewards">
       <Rings />
       <Text style={styles.earnRewardsText}>
-        {rewardPillText ? getContentForCurrentLang(rewardPillText) : i18n.t('global:earn')}
+        {rewardPillText ? getContentForCurrentLang(rewardPillText) : i18n.t('earn')}
       </Text>
     </TouchableOpacity>
   )
