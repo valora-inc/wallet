@@ -7,7 +7,6 @@ import { EscrowedPayment } from 'src/escrow/actions'
 import EscrowedPaymentLineItem from 'src/escrow/EscrowedPaymentLineItem'
 import { listItemRenderer } from 'src/escrow/EscrowedPaymentListScreen'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
-import { Namespaces } from 'src/i18n'
 import { notificationInvite } from 'src/images/Images'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -18,7 +17,7 @@ interface Props {
 }
 
 function EscrowedPaymentReminderSummaryNotification({ payments }: Props) {
-  const { t } = useTranslation(Namespaces.walletFlow5)
+  const { t } = useTranslation()
 
   const onReview = () => {
     ValoraAnalytics.track(HomeEvents.notification_select, {
@@ -40,7 +39,7 @@ function EscrowedPaymentReminderSummaryNotification({ payments }: Props) {
     <SummaryNotification<EscrowedPayment>
       items={payments}
       title={t('escrowedPaymentReminderSummaryTitle', { count: payments.length })}
-      detailsI18nKey="walletFlow5:escrowedPaymentReminderSummaryDetails"
+      detailsI18nKey="escrowedPaymentReminderSummaryDetails"
       icon={<Image source={notificationInvite} resizeMode="contain" />}
       onReview={onReview}
       itemRenderer={itemRenderer}

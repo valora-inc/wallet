@@ -85,7 +85,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
                   }
                 }
               >
-                global:accountKey
+                accountKey
               </Text>
               <View
                 style={
@@ -220,7 +220,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
                 }
               }
             >
-              global:restore
+              restore
             </Text>
           </View>
         </View>
@@ -467,7 +467,7 @@ exports[`ImportWallet renders correctly and is disabled with no text 1`] = `
                   ]
                 }
               >
-                global:goBack
+                goBack
               </Text>
             </View>
             <View

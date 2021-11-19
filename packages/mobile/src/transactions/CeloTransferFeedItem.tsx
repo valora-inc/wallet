@@ -15,7 +15,6 @@ import { TransferItemFragment } from 'src/apollo/types'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
-import { Namespaces } from 'src/i18n'
 import { addressToDisplayNameSelector } from 'src/identity/selectors'
 import { getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
@@ -28,7 +27,7 @@ type Props = TransferItemFragment & {
 }
 
 export function CeloTransferFeedItem(props: Props) {
-  const { t, i18n } = useTranslation(Namespaces.walletFlow5)
+  const { t, i18n } = useTranslation()
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const txHashToFeedInfo = useSelector(txHashToFeedInfoSelector)
   const recipientInfo = useSelector(recipientInfoSelector)

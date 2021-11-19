@@ -4,7 +4,6 @@ import { StackScreenProps } from '@react-navigation/stack'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
-import { Namespaces } from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -24,7 +23,7 @@ export const paymentRequestUnavailableScreenNavOptions = () => ({
 })
 
 const PaymentRequestUnavailable = (props: Props) => {
-  const { t } = useTranslation(Namespaces.paymentRequestFlow)
+  const { t } = useTranslation()
   const { recipient } = props.route.params.transactionData
   const displayName = getDisplayName(recipient, t)
 

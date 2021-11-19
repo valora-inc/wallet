@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import Education, { EducationTopic, EmbeddedNavBar } from 'src/account/Education'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { Namespaces } from 'src/i18n'
 import { accountKey1, accountKey2, accountKey3, accountKey4 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -24,7 +23,7 @@ export default function AccountKeyEducation(props: Props) {
     }
   }
 
-  const { t } = useTranslation(Namespaces.backupKeyFlow6)
+  const { t } = useTranslation()
 
   const steps = useSteps()
 
@@ -38,7 +37,7 @@ export default function AccountKeyEducation(props: Props) {
       stepInfo={steps}
       onFinish={onComplete}
       finalButtonText={t('completeEducation')}
-      buttonText={t('global:next')}
+      buttonText={t('next')}
       finalButtonType={BtnTypes.PRIMARY}
     />
   )
@@ -50,7 +49,7 @@ AccountKeyEducation.navigationOptions = {
 }
 
 function useSteps() {
-  const { t } = useTranslation(Namespaces.backupKeyFlow6)
+  const { t } = useTranslation()
   return React.useMemo(
     () =>
       [

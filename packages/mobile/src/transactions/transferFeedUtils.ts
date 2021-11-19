@@ -194,13 +194,13 @@ export function getTransferFeedParams(
         title = t('feedItemReceivedTitle', { displayName })
         switch (currency.toLowerCase()) {
           case 'cusd':
-            info = t('fiatExchangeFlow:cUsdDeposit')
+            info = t('cUsdDeposit')
             break
           case 'ceur':
-            info = t('fiatExchangeFlow:cEurDeposit')
+            info = t('cEurDeposit')
             break
           default:
-            info = t('fiatExchangeFlow:celoDeposit')
+            info = t('celoDeposit')
             break
         }
       } else {

@@ -8,7 +8,7 @@ import { WithTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, TextInput, View, ViewStyle } from 'react-native'
 import FlagSecure from 'react-native-flag-secure-android'
 import { isValidBackupPhrase } from 'src/backup/utils'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import Logger from 'src/utils/Logger'
 
 const PhraseInput = withTextInputPasteAware(TextInput, { top: undefined, right: 12, bottom: 12 })
@@ -80,7 +80,7 @@ export class BackupPhraseContainer extends React.Component<Props> {
           )}
           {showCopy && (
             <Touchable borderless={true} onPress={this.onPressCopy}>
-              <Text style={styles.headerButton}>{this.props.t('global:copy')}</Text>
+              <Text style={styles.headerButton}>{this.props.t('copy')}</Text>
             </Touchable>
           )}
         </View>
@@ -159,4 +159,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>(Namespaces.backupKeyFlow6)(BackupPhraseContainer)
+export default withTranslation<Props>()(BackupPhraseContainer)

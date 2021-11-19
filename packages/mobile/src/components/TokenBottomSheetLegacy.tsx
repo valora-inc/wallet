@@ -13,7 +13,6 @@ import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
-import { Namespaces } from 'src/i18n'
 import { useBalance } from 'src/stableToken/hooks'
 import { Currency, STABLE_CURRENCIES } from 'src/utils/currencies'
 
@@ -31,7 +30,7 @@ interface Props {
 }
 
 function CurrencyOption({ currency, onPress }: { currency: Currency; onPress: () => void }) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const balance = useBalance(currency)
   const amount = {
     value: new BigNumber(balance ?? '0'),
@@ -66,7 +65,7 @@ function TokenBottomSheet({ isVisible, origin, onCurrencySelected, onClose }: Pr
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
 
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const onCurrencyPressed = (currency: Currency) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {

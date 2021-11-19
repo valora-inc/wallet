@@ -30,7 +30,7 @@ const errorAction = (error: ErrorMessages): ShowAlertAction => ({
   type: Actions.SHOW,
   alertType: AlertTypes.ERROR,
   displayMethod: ErrorDisplayType.BANNER,
-  message: i18n.t(error, { ns: 'global' }),
+  message: i18n.t(error),
   dismissAfter: ALERT_BANNER_DURATION,
   buttonMessage: null,
   title: null,

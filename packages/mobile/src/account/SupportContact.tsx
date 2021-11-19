@@ -94,7 +94,7 @@ function SupportContact({ route }: Props) {
         <Text style={styles.title} testID={'ContactTitle'}>
           {t('contact')}
         </Text>
-        <Text style={styles.headerText}>{t('global:message')}</Text>
+        <Text style={styles.headerText}>{t('message')}</Text>
         <TextInput
           onChangeText={setMessage}
           value={message}
@@ -130,7 +130,7 @@ function SupportContact({ route }: Props) {
         <Button
           disabled={!message || inProgress}
           onPress={onPressSendEmail}
-          text={t('global:submit')}
+          text={t('submit')}
           type={BtnTypes.PRIMARY}
           testID="SubmitContactForm"
         />

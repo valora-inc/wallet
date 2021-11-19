@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { Namespaces } from 'src/i18n'
 import { useTokenInfo } from 'src/tokens/hooks'
 
 interface Props {
@@ -15,7 +14,7 @@ interface Props {
 }
 
 export default function TokenTotalLineItem({ tokenAmount, tokenAddress }: Props) {
-  const { t } = useTranslation(Namespaces.global)
+  const { t } = useTranslation()
   const tokenInfo = useTokenInfo(tokenAddress)
 
   return (
