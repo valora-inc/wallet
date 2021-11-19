@@ -4,7 +4,7 @@
   "dollarsSent": "Dólares Enviados",
   "to": "Para",
   "send": "Enviar",
-  "withdrawToken": "Sacar {{token}}",
+  "withdrawToken": "Transferir {{token}}",
   "sendToken": "Enviar {{token}}",
   "payment": "Pagamento",
   "sendOrRequest": "Enviar ou solicitar",

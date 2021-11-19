@@ -57,7 +57,7 @@
   "escrowedPaymentReminderSummaryDetails_exactly2Items": "<0></0> y <1></1> no han aceptado tus invitaciones aún",
   "escrowedPaymentReminderSummaryDetails_exactly3Items": "<0></0>, <1></1> y alguien más no han aceptado tus invitaciones aún",
   "escrowedPaymentReminderSummaryDetails_moreThan3Items": "<0></0>, <1></1> y otros no han aceptado tus invitaciones aún",
-  "escrowedPaymentReminderSmsNoData": "Un recordatorio amigable de que aún no has canjeado tu {{currency}} con {{appName}}. ¡Descarga la aplicación móvil para empezar!",
+  "escrowedPaymentReminderSmsNoData": "Un recordatorio amigable de que aún no has reclamado tus {{currency}} con {{appName}}. ¡Descarga la aplicación móvil para empezar!",
   "testnetAlert": {
     "0": "{{testnet}}",
     "1": "Te recordamos que estás utilizando la compilación de red {{testnet}} - los saldos que se muestran no son reales."
@@ -88,9 +88,9 @@
   "feedItemSentInfo": "{{comment}}",
   "feedItemSentInfo_noComment": "Pago enviado",
   "feedItemCeloRewardReceivedTitle": "CELO ganados",
-  "feedItemRewardReceivedTitle": "Red CELO",
-  "feedItemRewardReceivedInfo": "Ganancias semanales",
-  "feedItemInviteRewardReceivedTitle": "Red CELO",
+  "feedItemRewardReceivedTitle": "Red Celo",
+  "feedItemRewardReceivedInfo": "Recompensas semanales",
+  "feedItemInviteRewardReceivedTitle": "Red Celo",
   "feedItemInviteRewardReceivedInfo": "Recompensa recibida",
   "feedItemReceivedTitle": "{{displayName}}",
   "feedItemReceivedInfo": "{{comment}}",
@@ -128,11 +128,11 @@
     "addFunds": "Agregar fondos"
   },
   "balances": "Saldo",
-  "totalValue": "Valor total",
-  "viewBalances": "Ver saldos",
+  "totalValue": "Saldo total",
+  "viewBalances": "Ver activos",
   "whatTotalValue": {
-    "title": "¿Qué es el valor total?",
-    "body": "Tu Valor total es la suma aproximada de todos tus activos en Valora. El Valor total cambia según las fluctuaciones de precio de los activos, y se actualiza cada 10 minutos. \n\nEs posible que algunos tokens no se reflejen en el Valor total si su precio no está disponible al realizar el cálculo.",
+    "title": "¿Qué es el saldo total?",
+    "body": "Tu saldo total es la suma aproximada de todos tus activos en Valora. El saldo total cambia según las fluctuaciones de precio de los activos, y se actualiza cada 10 minutos. \n\nEs posible que algunos tokens no se reflejen en el saldo total si su precio no está disponible al realizar el cálculo.",
     "dismiss": "Descartar"
   }
 }

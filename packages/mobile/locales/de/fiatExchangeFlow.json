@@ -2,7 +2,7 @@
   "addFunds": "Guthaben hinzufügen",
   "addFundsSubtitle": "Dein Valora-Konto finanzieren",
   "exchanges": "Kryptobörsen",
-  "noExchanges": "Es gibt keine Börsen für {{digitalAsset}} in deinem Land.",
+  "noExchanges": "Es gibt keine Börsen für {{digitalAsset}} in deiner Region",
   "buySellOnExchanges": "Kaufen/Verkaufen bei Kryptobörsen",
   "cashOut": "Guthaben abheben",
   "cashOutSubtitle": "Gib für Geschenkgutscheine und andere Käufe aus oder sende Krypto an einen Kryptobörse",
@@ -81,6 +81,6 @@
   },
   "restrictedRegion": "Begrenzte Unterstützung in der Region",
   "unsupportedPaymentMethod": "Die Bezahlung mit {{paymentMethod}} wird in deinem Land nicht unterstützt",
-  "noProviders": "Es gibt keine Anbieter für {{digitalAsset}} in deinem Land.",
+  "noProviders": "Es gibt keine Anbieter für {{digitalAsset}} in deiner Region.",
   "switchCurrency": "Währung wechseln"
 }
