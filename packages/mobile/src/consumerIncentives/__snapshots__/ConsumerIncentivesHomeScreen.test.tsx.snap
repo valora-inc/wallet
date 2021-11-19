@@ -99,7 +99,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
           }
         }
       >
-        title
+        consumerIncentivesTitle
       </Text>
       <Text
         style={
@@ -113,7 +113,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
           }
         }
       >
-        summary, {"currency":"cUSD","percent":5}
+        consumerIncentivesSummary, {"currency":"cUSD","percent":5}
       </Text>
       <View
         style={
@@ -339,7 +339,7 @@ exports[`ConsumerIncentivesHomeScreen renders correctly 1`] = `
               }
             }
           >
-            global:learnMore
+            learnMore
           </Text>
         </View>
       </RNGestureHandlerButton>

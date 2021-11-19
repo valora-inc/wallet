@@ -21,7 +21,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import { withdrawCelo } from 'src/exchange/actions'
 import WithdrawCeloSummary from 'src/exchange/WithdrawCeloSummary'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import BackButton from 'src/navigator/BackButton'
 import { HeaderTitleWithBalance, headerWithBackEditButtons } from 'src/navigator/Headers'
 import {
@@ -41,7 +41,7 @@ type Props = StackScreenProps<StackParamList, Screens.WithdrawCeloReviewScreen>
 
 function WithdrawCeloReviewScreen({ route }: Props) {
   const { amount, recipientAddress, feeEstimate, isCashOut } = route.params
-  const { t } = useTranslation(Namespaces.exchangeFlow9)
+  const { t } = useTranslation()
   const isLoading = useTypedSelector((state) => state.exchange.isLoading)
   const dispatch = useDispatch()
 
@@ -57,7 +57,7 @@ function WithdrawCeloReviewScreen({ route }: Props) {
       <DisconnectBanner />
       <View style={styles.contentContainer}>
         <LineItemRow
-          title={t('exchangeFlow9:withdrawCeloTo')}
+          title={t('withdrawCeloTo')}
           textStyle={fontStyles.regular}
           amount={<ShortenedAddress style={styles.withdrawAddress} address={recipientAddress} />}
         />
@@ -71,7 +71,7 @@ function WithdrawCeloReviewScreen({ route }: Props) {
       <Button
         disabled={isLoading}
         onPress={onConfirmWithdraw}
-        text={t(`global:withdraw`)}
+        text={t(`withdraw`)}
         type={BtnTypes.TERTIARY}
         size={BtnSizes.FULL}
         style={styles.reviewBtn}
@@ -117,10 +117,7 @@ WithdrawCeloReviewScreen.navigationOptions = ({
   return {
     ...headerWithBackEditButtons,
     headerTitle: () => (
-      <HeaderTitleWithBalance
-        title={i18n.t('exchangeFlow9:withdrawCeloReview')}
-        token={Currency.Celo}
-      />
+      <HeaderTitleWithBalance title={i18n.t('withdrawCeloReview')} token={Currency.Celo} />
     ),
     headerLeft: () => (
       <TopBarIconButton

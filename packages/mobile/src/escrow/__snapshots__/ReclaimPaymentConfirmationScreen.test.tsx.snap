@@ -309,7 +309,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     ]
                   }
                 >
-                  global:amount
+                  amount
                 </Text>
               </View>
               <Text
@@ -625,7 +625,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                                 ]
                               }
                             >
-                              global:dismiss
+                              dismiss
                             </Text>
                           </View>
                         </View>
@@ -935,7 +935,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
             testID="ConfirmButton"
           >
             <Text
-              accessibilityLabel="global:confirm"
+              accessibilityLabel="confirm"
               maxFontSizeMultiplier={1}
               style={
                 Object {
@@ -946,7 +946,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 }
               }
             >
-              global:confirm
+              confirm
             </Text>
           </View>
         </View>
@@ -1352,7 +1352,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                     ]
                   }
                 >
-                  global:amount
+                  amount
                 </Text>
               </View>
               <Text
@@ -1668,7 +1668,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                                 ]
                               }
                             >
-                              global:dismiss
+                              dismiss
                             </Text>
                           </View>
                         </View>
@@ -1989,7 +1989,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
             testID="ConfirmButton"
           >
             <Text
-              accessibilityLabel="global:confirm"
+              accessibilityLabel="confirm"
               maxFontSizeMultiplier={1}
               style={
                 Object {
@@ -2000,7 +2000,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly in with fee in CELO 
                 }
               }
             >
-              global:confirm
+              confirm
             </Text>
           </View>
         </View>
@@ -2406,7 +2406,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     ]
                   }
                 >
-                  global:amount
+                  amount
                 </Text>
               </View>
               <Text
@@ -2722,7 +2722,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                                 ]
                               }
                             >
-                              global:dismiss
+                              dismiss
                             </Text>
                           </View>
                         </View>
@@ -3032,7 +3032,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
             testID="ConfirmButton"
           >
             <Text
-              accessibilityLabel="global:confirm"
+              accessibilityLabel="confirm"
               maxFontSizeMultiplier={1}
               style={
                 Object {
@@ -3043,7 +3043,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 }
               }
             >
-              global:confirm
+              confirm
             </Text>
           </View>
         </View>
@@ -3449,7 +3449,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                     ]
                   }
                 >
-                  global:amount
+                  amount
                 </Text>
               </View>
               <Text
@@ -3765,7 +3765,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                                 ]
                               }
                             >
-                              global:dismiss
+                              dismiss
                             </Text>
                           </View>
                         </View>
@@ -4072,7 +4072,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
             testID="ConfirmButton"
           >
             <Text
-              accessibilityLabel="global:confirm"
+              accessibilityLabel="confirm"
               maxFontSizeMultiplier={1}
               style={
                 Object {
@@ -4083,7 +4083,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly when fee calculation
                 }
               }
             >
-              global:confirm
+              confirm
             </Text>
           </View>
         </View>
@@ -4489,7 +4489,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     ]
                   }
                 >
-                  global:amount
+                  amount
                 </Text>
               </View>
               <Text
@@ -4805,7 +4805,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                                 ]
                               }
                             >
-                              global:dismiss
+                              dismiss
                             </Text>
                           </View>
                         </View>
@@ -5115,7 +5115,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
             testID="ConfirmButton"
           >
             <Text
-              accessibilityLabel="global:confirm"
+              accessibilityLabel="confirm"
               maxFontSizeMultiplier={1}
               style={
                 Object {
@@ -5126,7 +5126,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 }
               }
             >
-              global:confirm
+              confirm
             </Text>
           </View>
         </View>
@@ -5532,7 +5532,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                     ]
                   }
                 >
-                  global:amount
+                  amount
                 </Text>
               </View>
               <Text
@@ -5848,7 +5848,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                                 ]
                               }
                             >
-                              global:dismiss
+                              dismiss
                             </Text>
                           </View>
                         </View>
@@ -6169,7 +6169,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
             testID="ConfirmButton"
           >
             <Text
-              accessibilityLabel="global:confirm"
+              accessibilityLabel="confirm"
               maxFontSizeMultiplier={1}
               style={
                 Object {
@@ -6180,7 +6180,7 @@ exports[`ReclaimPaymentConfirmationScreen renders correctly with fee in Celo dol
                 }
               }
             >
-              global:confirm
+              confirm
             </Text>
           </View>
         </View>

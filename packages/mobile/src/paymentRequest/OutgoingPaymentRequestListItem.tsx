@@ -7,7 +7,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ContactCircle from 'src/components/ContactCircle'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import { NotificationBannerCTATypes, NotificationBannerTypes } from 'src/home/NotificationBox'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { cancelPaymentRequest, updatePaymentRequestNotified } from 'src/paymentRequest/actions'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import { Currency } from 'src/utils/currencies'
@@ -32,7 +32,7 @@ export class OutgoingPaymentRequestListItem extends React.Component<Props> {
       notificationType: NotificationBannerTypes.outgoing_tx_request,
       selectedAction: NotificationBannerCTATypes.remind,
     })
-    Logger.showMessage(t('sendFlow7:reminderSent'))
+    Logger.showMessage(t('reminderSent'))
   }
 
   onCancel = () => {
@@ -47,11 +47,11 @@ export class OutgoingPaymentRequestListItem extends React.Component<Props> {
   getCTA = () => {
     return [
       {
-        text: this.props.t('global:remind'),
+        text: this.props.t('remind'),
         onPress: this.onRemind,
       },
       {
-        text: this.props.t('global:cancel'),
+        text: this.props.t('cancel'),
         onPress: this.onCancel,
       },
     ]
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>(Namespaces.paymentRequestFlow)(OutgoingPaymentRequestListItem)
+export default withTranslation<Props>()(OutgoingPaymentRequestListItem)

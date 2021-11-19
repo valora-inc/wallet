@@ -5,11 +5,10 @@ import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import * as AndroidOpenSettings from 'react-native-android-open-settings'
-import { Namespaces } from 'src/i18n'
 import { navigateToURI } from 'src/utils/linking'
 
 export default function NotAuthorizedView() {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
   const onPressSettings = useCallback(() => {
     if (Platform.OS === 'ios') {
       navigateToURI('app-settings:')

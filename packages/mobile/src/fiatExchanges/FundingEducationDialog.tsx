@@ -6,7 +6,6 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import { HELP_LINK } from 'src/config'
-import { Namespaces } from 'src/i18n'
 import { navigateToURI } from 'src/utils/linking'
 
 interface Props {
@@ -16,7 +15,7 @@ interface Props {
 }
 
 export default function FundingEducationDialog({ isVisible, onPressDismiss, isCashIn }: Props) {
-  const { t } = useTranslation(Namespaces.fiatExchangeFlow)
+  const { t } = useTranslation()
 
   const link = HELP_LINK
 
@@ -42,7 +41,6 @@ export default function FundingEducationDialog({ isVisible, onPressDismiss, isCa
     >
       <Trans
         i18nKey={`${textBase}.body`}
-        ns={Namespaces.fiatExchangeFlow}
         values={{
           // Don't show the scheme in the link
           link: link.replace(/^https?:\/\//, ''),

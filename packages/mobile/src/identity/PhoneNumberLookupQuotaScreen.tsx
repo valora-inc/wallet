@@ -11,7 +11,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import ErrorMessageInline from 'src/components/ErrorMessageInline'
-import { Namespaces } from 'src/i18n'
 import LoadingSpinner from 'src/icons/LoadingSpinner'
 import { LOOKUP_GAS_FEE_ESTIMATE } from 'src/identity/privateHashing'
 import { isUserBalanceSufficient } from 'src/identity/utils'
@@ -24,7 +23,7 @@ type Props = StackScreenProps<StackParamList, Screens.PhoneNumberLookupQuota>
 function PhoneNumberLookupQuotaScreen(props: Props) {
   const [isSending, setIsSending] = useState(false)
   const userBalance = useSelector(cUsdBalanceSelector) ?? null
-  const { t } = useTranslation(Namespaces.nuxVerification2)
+  const { t } = useTranslation()
 
   const userBalanceIsSufficient = isUserBalanceSufficient(userBalance, LOOKUP_GAS_FEE_ESTIMATE)
 
@@ -71,7 +70,7 @@ function PhoneNumberLookupQuotaScreen(props: Props) {
         <Button
           onPress={onSkip}
           disabled={isSending}
-          text={t('global:skip')}
+          text={t('skip')}
           type={BtnTypes.SECONDARY}
           testID="QuotaSkipButton"
         />

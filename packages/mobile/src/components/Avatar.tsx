@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import ContactCircle from 'src/components/ContactCircle'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 
 const DEFAULT_ICON_SIZE = 40
@@ -68,4 +68,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withTranslation<Props>(Namespaces.sendFlow7)(Avatar)
+export default withTranslation<Props>()(Avatar)

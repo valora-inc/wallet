@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import Dialog from 'src/components/Dialog'
-import { Namespaces } from 'src/i18n'
 
 interface Props {
   isVisible: boolean
@@ -14,7 +13,7 @@ export default function VerificationSkipDialog({
   onPressCancel,
   onPressConfirm,
 }: Props) {
-  const { t } = useTranslation(Namespaces.onboarding)
+  const { t } = useTranslation()
   return (
     <Dialog
       title={t('verificationSkipDialog.title')}

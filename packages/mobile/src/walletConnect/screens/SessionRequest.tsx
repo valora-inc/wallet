@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
-import { Namespaces } from 'src/i18n'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -84,7 +83,7 @@ function ActionList({ actions }: { actions: string[] }) {
 }
 
 function SessionRequest({ navigation, route: { params } }: Props) {
-  const { t } = useTranslation(Namespaces.walletConnect)
+  const { t } = useTranslation()
   const [isAccepting, setIsAccepting] = useStateWithCallback(false)
   const [isDenying, setIsDenying] = useStateWithCallback(false)
   const dispatch = useDispatch()

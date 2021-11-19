@@ -14,7 +14,6 @@ import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { multiTokenUseSendFlowSelector, verificationPossibleSelector } from 'src/app/selectors'
 import { estimateFee, FeeType } from 'src/fees/actions'
-import { Namespaces } from 'src/i18n'
 import ContactPermission from 'src/icons/ContactPermission'
 import { importContacts } from 'src/identity/actions'
 import { noHeader } from 'src/navigator/Headers'
@@ -46,7 +45,7 @@ function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const isOutgoingPaymentRequest = route.params?.isOutgoingPaymentRequest ?? false
   const forceCurrency = route.params?.forceCurrency
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const numberVerified = useSelector((state) => state.app.numberVerified)

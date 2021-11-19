@@ -411,7 +411,7 @@ describe('ProviderOptionsScreen', () => {
 
     await waitFor(() => tree.getByText('pleaseSelectProvider'))
 
-    const freeElement = tree.queryByText('global:free')
+    const freeElement = tree.queryByText('free')
     expect(freeElement).toBeTruthy()
   })
 })

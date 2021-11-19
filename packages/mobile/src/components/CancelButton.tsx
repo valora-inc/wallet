@@ -4,7 +4,6 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, TextStyle } from 'react-native'
 import { AnalyticsEventType } from 'src/analytics/Events'
-import { Namespaces } from 'src/i18n'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton, TopBarTextButton } from 'src/navigator/TopBarButton'
 
@@ -24,7 +23,7 @@ export default function CancelButton({ eventName, onCancel, style, buttonType = 
     }
   }
 
-  const { t } = useTranslation(Namespaces.global)
+  const { t } = useTranslation()
   return buttonType !== 'icon' ? (
     <TopBarTextButton
       testID="CancelButton"
