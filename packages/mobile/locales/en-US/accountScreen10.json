@@ -104,5 +104,6 @@
   "havingTrouble": "Having Trouble?",
   "shakeForSupport": "This menu appears when you shake your device.",
   "contactSupport": "Contact Support",
-  "tapToCopy": "Tap to Copy"
+  "tapToCopy": "Tap to Copy",
+  "supportEmailSubject": "{{appName}} support for {{user}}"
 }
