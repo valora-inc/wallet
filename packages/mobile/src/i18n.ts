@@ -10,11 +10,6 @@ import { APP_NAME, DEFAULT_APP_LANGUAGE, TOS_LINK } from 'src/config'
 
 const TOS_LINK_DISPLAY = TOS_LINK.replace(/^https?:\/\//i, '')
 
-export enum Namespaces {
-  translation = 'translation',
-  index = 'index',
-}
-
 function getAvailableResources() {
   const resources = {}
   for (const [key, value] of Object.entries(locales)) {
@@ -36,8 +31,6 @@ export function initI18n(language: string) {
     },
     lng: language,
     resources: availableResources,
-    ns: ['translation', ...Object.keys(Namespaces)],
-    defaultNS: 'translation',
     // Only enable for debugging as it forces evaluation of all our lazy loaded locales
     // and prints out all strings when initializing
     debug: false,
@@ -59,10 +52,8 @@ export function initI18n(language: string) {
 
 // Create HOC wrapper that hoists statics
 // https://react.i18next.com/latest/withtranslation-hoc#hoist-non-react-statics
-export const withTranslation = <P extends WithTranslation>(namespace?: Namespaces) => <
-  C extends React.ComponentType<P>
->(
+export const withTranslation = <P extends WithTranslation>() => <C extends React.ComponentType<P>>(
   component: C
-) => hoistStatics(withTranslationI18Next(namespace)(component), component)
+) => hoistStatics(withTranslationI18Next()(component), component)
 
 export default i18n
