@@ -85,7 +85,7 @@ export const totalTokenBalanceSelector = createSelector(
       totalBalance = totalBalance.plus(tokenAmount)
     }
 
-    return totalBalance.toFixed(2)
+    return totalBalance
   }
 )
 

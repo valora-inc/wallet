@@ -4,7 +4,7 @@ import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { connect } from 'react-redux'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { RootState } from 'src/redux/reducers'
 import { isAppConnected, isAppSynced } from 'src/redux/selectors'
 
@@ -90,5 +90,5 @@ const styles = StyleSheet.create({
 })
 
 export default connect<StateProps, {}, {}, RootState>(mapStateToProps)(
-  withTranslation<Props>(Namespaces.global)(DisconnectBanner)
+  withTranslation<Props>()(DisconnectBanner)
 )

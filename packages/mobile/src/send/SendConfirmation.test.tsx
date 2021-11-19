@@ -154,7 +154,7 @@ describe('SendConfirmation', () => {
         buttonMessage: null,
         dismissAfter: 5000,
         displayMethod: ErrorDisplayType.BANNER,
-        message: i18n.t('calculateFeeFailed', { ns: 'global' }),
+        message: i18n.t('calculateFeeFailed'),
         title: null,
         type: 'ALERT/SHOW',
         underlyingError: 'calculateFeeFailed',

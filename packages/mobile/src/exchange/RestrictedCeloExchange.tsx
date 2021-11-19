@@ -5,9 +5,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import { useSelector } from 'react-redux'
-import { GOLD_TRANSACTION_MIN_AMOUNT } from 'src/config'
+import { CELO_TRANSACTION_MIN_AMOUNT } from 'src/config'
 import { celoTokenBalanceSelector } from 'src/goldToken/selectors'
-import { Namespaces } from 'src/i18n'
 
 interface Props {
   onPressWithdraw: () => void
@@ -15,13 +14,13 @@ interface Props {
 
 // Actions container for CP-DOTO restricted countries
 export default function RestrictedCeloExchange({ onPressWithdraw }: Props) {
-  const { t } = useTranslation(Namespaces.exchangeFlow9)
+  const { t } = useTranslation()
 
-  const goldBalance = useSelector(celoTokenBalanceSelector)
+  const celoBalance = useSelector(celoTokenBalanceSelector)
 
-  const hasGold = new BigNumber(goldBalance || 0).isGreaterThan(GOLD_TRANSACTION_MIN_AMOUNT)
+  const hasCelo = new BigNumber(celoBalance || 0).isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT)
 
-  if (!hasGold) {
+  if (!hasCelo) {
     return <View style={styles.emptyContainer} />
   }
 

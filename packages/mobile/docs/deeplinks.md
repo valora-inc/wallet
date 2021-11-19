@@ -2,7 +2,7 @@
 
 There are three different types of deeplinks that we support:
 - [Payments](#payment)
-- [DappKit](#dappkit)
+- [DAppKit](#dappkit)
 - [WalletConnect](#walletconnect)
 
 ## Payment
@@ -29,25 +29,21 @@ Smallest possible payment deeplink:
 
 `celo://wallet/pay?address=0x4b371df8d05abd2954564b54faf10b8c8f1bc3a2`
 
-## DappKit
+## DAppKit
 
-DappKit docs: https://docs.celo.org/developer-guide/dappkit/usage
+DAppKit docs: https://docs.celo.org/developer-guide/dappkit
+
+> ⚠️ While DAppKit is functional, it is no longer being actively maintained in favor of [WalletConnect](#walletconnect).
 
 ## WalletConnect
 
-Valora v1.20+ supports both WalletConnect [v1](#walletconnect-v1) and [v2](#walletconnect-v2).
+Valora v1.20+ supports [WalletConnect v1](https://docs.walletconnect.com/1.0/).
 
-Note: v2 is currently still in beta and has some known instabilitiy issues.
-But should but preferred once it goes out of beta.
+Note: There is an experimental support for [WalletConnect v2](https://docs.walletconnect.com/) but it is currently disabled behind a feature flag as it has some known instabilities issues. WalletConnect v2 is still in beta, Valora will officially support it once it goes out of beta.
 
 Supported actions: https://github.com/celo-org/wallet/blob/main/packages/mobile/src/walletConnect/constants.ts#L3
 
-### WalletConnect v1
+Docs: https://docs.walletconnect.com/1.0/mobile-linking
 
-Docs: https://docs.walletconnect.org/v/1.0/mobile-linking
+Example: https://docs.celo.org/developer-resources/walkthroughs/valora-wc-v1
 
-### WalletConnect v2
-
-Docs: https://docs.walletconnect.org/v/2.0/mobile-linking
-
-See https://github.com/celo-org/use-contractkit for example usage.

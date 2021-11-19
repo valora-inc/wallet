@@ -129,7 +129,7 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
           testID="SuccessContinue"
         >
           <Text
-            accessibilityLabel="global:continue"
+            accessibilityLabel="continue"
             maxFontSizeMultiplier={1}
             style={
               Object {
@@ -140,7 +140,7 @@ exports[`CashinInSuccess renders correctly with a provider 1`] = `
               }
             }
           >
-            global:continue
+            continue
           </Text>
         </View>
       </View>
@@ -278,7 +278,7 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
           testID="SuccessContinue"
         >
           <Text
-            accessibilityLabel="global:continue"
+            accessibilityLabel="continue"
             maxFontSizeMultiplier={1}
             style={
               Object {
@@ -289,7 +289,7 @@ exports[`CashinInSuccess renders correctly without a provider 1`] = `
               }
             }
           >
-            global:continue
+            continue
           </Text>
         </View>
       </View>

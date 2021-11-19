@@ -58,7 +58,7 @@ export const getCurrentUserTraits = createSelector(
         : undefined,
       countryCodeAlpha2,
       language,
-      totalBalanceUsd,
+      totalBalanceUsd: totalBalanceUsd?.toNumber(),
       tokenCount: tokensByUsdBalance.length,
       otherTenTokens: tokensByUsdBalance
         .filter((token) => !currencyAddresses.has(token.address))
@@ -76,7 +76,7 @@ export const getCurrentUserTraits = createSelector(
       ...Object.fromEntries(
         (Object.keys(tokensByCurrency) as Currency[]).map((currency) => [
           `${currency === Currency.Celo ? 'celo' : currency.toLowerCase()}Balance`,
-          tokensByCurrency[currency]?.balance,
+          tokensByCurrency[currency]?.balance.toNumber(),
         ])
       ),
       localCurrencyCode,

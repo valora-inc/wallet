@@ -15,9 +15,9 @@ function ProgressArrowIcon({ color = colors.dark, style }: Props) {
         <Path
           d="M1.5 1L6.5 6L1.5 11"
           stroke={color}
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </Svg>
     </View>

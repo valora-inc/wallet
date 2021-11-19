@@ -193,7 +193,7 @@ exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        testID="IncomingPaymentRequestNotification/1/CallToActions/global:send/Button"
+        testID="IncomingPaymentRequestNotification/1/CallToActions/send/Button"
       >
         <Text
           style={
@@ -214,7 +214,7 @@ exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
             ]
           }
         >
-          global:send
+          send
         </Text>
       </View>
       <View
@@ -234,7 +234,7 @@ exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
         onResponderTerminate={[Function]}
         onResponderTerminationRequest={[Function]}
         onStartShouldSetResponder={[Function]}
-        testID="IncomingPaymentRequestNotification/1/CallToActions/global:decline/Button"
+        testID="IncomingPaymentRequestNotification/1/CallToActions/decline/Button"
       >
         <Text
           style={
@@ -255,7 +255,7 @@ exports[`IncomingPaymentRequestListItem renders correctly 1`] = `
             ]
           }
         >
-          global:decline
+          decline
         </Text>
       </View>
     </View>

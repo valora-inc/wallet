@@ -14,5 +14,5 @@ export default function EscrowedPaymentLineItem({ payment }: Props) {
   // Using a fragment to suppress a limitation with TypeScript and functional
   // components returning a string
   // See https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20544
-  return <>{recipient.name ?? t('global:unknown').toLowerCase()}</>
+  return <>{recipient.name ?? t('unknown').toLowerCase()}</>
 }

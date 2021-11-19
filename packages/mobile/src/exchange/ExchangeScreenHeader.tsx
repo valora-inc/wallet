@@ -44,9 +44,9 @@ function ExchangeTradeScreenHeader({ currency, isCeloPurchase, onChangeCurrency 
     let title
     const tokenPickerEnabled = currenciesWithBalance >= 2 || !isCeloPurchase
     if (!tokenPickerEnabled) {
-      title = i18n.t('exchangeFlow9:buyGold')
+      title = i18n.t('buyGold')
     } else {
-      titleText = i18n.t('exchangeFlow9:tokenBalance', { token: currency })
+      titleText = i18n.t('tokenBalance', { token: currency })
       title = (
         <View style={styles.titleContainer} testID="HeaderCurrencyPicker">
           <Text style={headerStyles.headerSubTitle}>{titleText}</Text>

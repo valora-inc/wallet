@@ -16,7 +16,6 @@ import BackupPhraseContainer, {
   BackupPhraseType,
 } from 'src/backup/BackupPhraseContainer'
 import { useAccountKey } from 'src/backup/utils'
-import { Namespaces } from 'src/i18n'
 import Logo from 'src/icons/Logo'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
@@ -74,7 +73,7 @@ interface AccountKeyStartProps {
  * Introduces the user to the Recovery Phrase and invites them to set it up
  */
 function AccountKeyIntro({ onPrimaryPress }: AccountKeyStartProps) {
-  const { t } = useTranslation(Namespaces.backupKeyFlow6)
+  const { t } = useTranslation()
   return (
     <ScrollView contentContainerStyle={styles.introContainer}>
       <Logo height={32} />
@@ -93,7 +92,7 @@ function AccountKeyIntro({ onPrimaryPress }: AccountKeyStartProps) {
 function AccountKeyPostSetup() {
   const accountKey = useAccountKey()
 
-  const { t } = useTranslation(Namespaces.backupKeyFlow6)
+  const { t } = useTranslation()
 
   return (
     <ScrollView>

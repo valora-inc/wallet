@@ -13,7 +13,6 @@ import { check, PERMISSIONS, RESULTS } from 'react-native-permissions'
 import Animated, { call, greaterThan, onChange } from 'react-native-reanimated'
 import { ScrollPager } from 'react-native-tab-view'
 import { useDispatch } from 'react-redux'
-import { Namespaces } from 'src/i18n'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { QRTabParamList } from 'src/navigator/types'
@@ -127,7 +126,7 @@ const pager: ExtractProps<typeof Tab.Navigator>['pager'] =
 export default function QRNavigator() {
   const position = useRef(new Animated.Value(0)).current
   const qrSvgRef = useRef<SVG>()
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const tabBar = (props: MaterialTopTabBarProps) => <QRTabBar {...props} qrSvgRef={qrSvgRef} />
 

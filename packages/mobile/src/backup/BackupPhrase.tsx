@@ -18,7 +18,7 @@ import BackupPhraseContainer, {
 import CancelConfirm from 'src/backup/CancelConfirm'
 import { getStoredMnemonic, onGetMnemonicFail } from 'src/backup/utils'
 import CancelButton from 'src/components/CancelButton'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { navigate, pushToStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -146,7 +146,7 @@ class BackupPhrase extends React.Component<Props, State> {
             <Button
               disabled={!isConfirmChecked}
               onPress={this.onPressContinue}
-              text={t('global:continue')}
+              text={t('continue')}
               size={BtnSizes.FULL}
               type={BtnTypes.SECONDARY}
               testID="backupKeyContinue"
@@ -159,7 +159,7 @@ class BackupPhrase extends React.Component<Props, State> {
 }
 
 function HeaderRight() {
-  const { t } = useTranslation(Namespaces.backupKeyFlow6)
+  const { t } = useTranslation()
   const onMoreInfoPressed = () => {
     ValoraAnalytics.track(OnboardingEvents.backup_more_info)
     pushToStack(Screens.AccountKeyEducation)
@@ -199,4 +199,4 @@ const styles = StyleSheet.create({
 export default connect<StateProps, DispatchProps, {}, RootState>(mapStateToProps, {
   showError,
   hideAlert,
-})(withTranslation<Props>(Namespaces.backupKeyFlow6)(BackupPhrase))
+})(withTranslation<Props>()(BackupPhrase))

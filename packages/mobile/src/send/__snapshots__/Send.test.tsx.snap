@@ -45,7 +45,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
           }
         }
       >
-        sendFlow7:send
+        send
       </Text>
     </View>
     <View
@@ -242,7 +242,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
             }
           }
         >
-          global:to
+          to
         </Text>
       </View>
       <View
@@ -269,14 +269,14 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                 }
               }
             >
-              global:to
+              to
             </Text>
           }
           onBlur={[Function]}
           onChangeText={[Function]}
           onFocus={[Function]}
           onPressPaste={[Function]}
-          placeholder="global:namePhoneAddress"
+          placeholder="namePhoneAddress"
           rejectResponderTermination={true}
           shouldShowClipboard={[Function]}
           style={
@@ -549,7 +549,7 @@ exports[`Send renders correctly with invite rewards disabled 1`] = `
                     ]
                   }
                 >
-                  global:goBack
+                  goBack
                 </Text>
               </View>
               <View

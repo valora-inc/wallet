@@ -31,7 +31,7 @@ export const externalExchangesScreenOptions = () => {
   return {
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={eventName} />,
-    headerTitle: i18n.t('fiatExchangeFlow:exchanges'),
+    headerTitle: i18n.t('exchanges'),
   }
 }
 
@@ -66,7 +66,7 @@ function ExternalExchanges({ route }: Props) {
     navigate(Screens.WithdrawCeloScreen, { isCashOut: true })
     ValoraAnalytics.track(FiatExchangeEvents.cico_celo_exchange_send_bar_continue)
   }
-  const { t } = useTranslation('fiatExchangeFlow')
+  const { t } = useTranslation()
 
   // TODO Dynamically fetch exchange provider links so they can be updated between releases
   const providers: ExternalExchangeProvider[] = EXCHANGE_PROVIDER_LINKS.filter(
@@ -92,7 +92,7 @@ function ExternalExchanges({ route }: Props) {
             style={styles.contactSupport}
             onPress={supportOnPress}
           >
-            {t('global:contactSupport')}
+            {t('contactSupport')}
           </TextButton>
         </View>
       ) : isCashIn ? (
@@ -103,7 +103,7 @@ function ExternalExchanges({ route }: Props) {
             })}
           </Text>
           <View testID="accountBox" style={styles.accountBox}>
-            <Text style={styles.accountLabel}>{t('sendFlow7:accountAddressLabel')}</Text>
+            <Text style={styles.accountLabel}>{t('accountAddressLabel')}</Text>
             <AccountNumber address={account || ''} location={Screens.ExternalExchanges} />
           </View>
         </>
@@ -135,7 +135,7 @@ function ExternalExchanges({ route }: Props) {
             <Button
               testID="WithdrawCeloButton"
               style={styles.celoOutButton}
-              text={t('sendFlow7:withdrawToken', {
+              text={t('withdrawToken', {
                 token: CURRENCIES[route.params.currency].cashTag,
               })}
               onPress={() => goToCashOut()}

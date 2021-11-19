@@ -5,6 +5,7 @@ export enum SupportedActions {
   eth_signTransaction = 'eth_signTransaction',
   eth_sendTransaction = 'eth_sendTransaction',
   eth_signTypedData = 'eth_signTypedData',
+  eth_signTypedData_v4 = 'eth_signTypedData_v4',
   eth_sign = 'eth_sign',
   personal_sign = 'personal_sign',
   personal_decrypt = 'personal_decrypt',
@@ -12,25 +13,27 @@ export enum SupportedActions {
 }
 
 const actionDescriptionTranslations: { [action in SupportedActions]: string } = {
-  [SupportedActions.eth_accounts]: i18n.t('walletConnect:description.accounts'),
-  [SupportedActions.eth_signTransaction]: i18n.t('walletConnect:description.signTransaction'),
-  [SupportedActions.eth_sendTransaction]: i18n.t('walletConnect:description.sendTransaction'),
-  [SupportedActions.eth_signTypedData]: i18n.t('walletConnect:description.sign'),
-  [SupportedActions.eth_sign]: i18n.t('walletConnect:description.sign'),
-  [SupportedActions.personal_sign]: i18n.t('walletConnect:description.sign'),
-  [SupportedActions.personal_decrypt]: i18n.t('walletConnect:description.decrypt'),
-  [SupportedActions.computeSharedSecret]: i18n.t('walletConnect:description.computeSharedSecret'),
+  [SupportedActions.eth_accounts]: i18n.t('description.accounts'),
+  [SupportedActions.eth_signTransaction]: i18n.t('description.signTransaction'),
+  [SupportedActions.eth_sendTransaction]: i18n.t('description.sendTransaction'),
+  [SupportedActions.eth_signTypedData]: i18n.t('description.sign'),
+  [SupportedActions.eth_signTypedData_v4]: i18n.t('description.sign'),
+  [SupportedActions.eth_sign]: i18n.t('description.sign'),
+  [SupportedActions.personal_sign]: i18n.t('description.sign'),
+  [SupportedActions.personal_decrypt]: i18n.t('description.decrypt'),
+  [SupportedActions.computeSharedSecret]: i18n.t('description.computeSharedSecret'),
 }
 
 const actionTranslations: { [x in SupportedActions]: string } = {
-  [SupportedActions.eth_accounts]: i18n.t('walletConnect:action.accounts'),
-  [SupportedActions.eth_signTransaction]: i18n.t('walletConnect:action.signTransaction'),
-  [SupportedActions.eth_sendTransaction]: i18n.t('walletConnect:action.sendTransaction'),
-  [SupportedActions.eth_signTypedData]: i18n.t('walletConnect:action.sign'),
-  [SupportedActions.eth_sign]: i18n.t('walletConnect:action.sign'),
-  [SupportedActions.personal_sign]: i18n.t('walletConnect:action.sign'),
-  [SupportedActions.personal_decrypt]: i18n.t('walletConnect:action.decrypt'),
-  [SupportedActions.computeSharedSecret]: i18n.t('walletConnect:action.computeSharedSecret'),
+  [SupportedActions.eth_accounts]: i18n.t('action.accounts'),
+  [SupportedActions.eth_signTransaction]: i18n.t('action.signTransaction'),
+  [SupportedActions.eth_sendTransaction]: i18n.t('action.sendTransaction'),
+  [SupportedActions.eth_signTypedData]: i18n.t('action.sign'),
+  [SupportedActions.eth_signTypedData_v4]: i18n.t('action.sign'),
+  [SupportedActions.eth_sign]: i18n.t('action.sign'),
+  [SupportedActions.personal_sign]: i18n.t('action.sign'),
+  [SupportedActions.personal_decrypt]: i18n.t('action.decrypt'),
+  [SupportedActions.computeSharedSecret]: i18n.t('action.computeSharedSecret'),
 }
 
 export function isSupportedAction(action: string) {

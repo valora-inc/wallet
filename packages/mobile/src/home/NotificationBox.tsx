@@ -23,7 +23,6 @@ import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { dismissNotification } from 'src/home/actions'
 import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
-import { Namespaces } from 'src/i18n'
 import { backupKey, getVerified, learnCelo } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -85,7 +84,7 @@ function useSimpleActions() {
 
   const rewardsEnabled = useSelector(rewardsEnabledSelector)
 
-  const { t } = useTranslation(Namespaces.walletFlow5)
+  const { t } = useTranslation()
 
   const dispatch = useDispatch()
 
@@ -120,12 +119,12 @@ function useSimpleActions() {
 
   if (!dismissedGetVerified && !numberVerified && verificationPossible) {
     actions.push({
-      text: t('nuxVerification2:notification.body'),
+      text: t('notification.body'),
       icon: getVerified,
       priority: VERIFICATION_PRIORITY,
       callToActions: [
         {
-          text: t('nuxVerification2:notification.cta'),
+          text: t('notification.cta'),
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationBannerTypes.verification_prompt,
@@ -137,7 +136,8 @@ function useSimpleActions() {
           },
         },
         {
-          text: t('global:dismiss'),
+          text: t('dismiss'),
+          isSecondary: true,
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationBannerTypes.verification_prompt,
@@ -165,7 +165,6 @@ function useSimpleActions() {
     actions.push({
       text: texts.body,
       icon: notification.iconUrl ? { uri: notification.iconUrl } : undefined,
-      darkMode: notification.darkMode,
       priority: notification.priority ?? DEFAULT_PRIORITY,
       callToActions: [
         {
@@ -182,7 +181,7 @@ function useSimpleActions() {
         },
         {
           text: texts.dismiss,
-          dim: notification.darkMode,
+          isSecondary: true,
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationBannerTypes.remote_notification,
@@ -198,7 +197,7 @@ function useSimpleActions() {
 
   if (!dismissedGoldEducation && !goldEducationCompleted) {
     actions.push({
-      text: t('exchangeFlow9:whatIsGold'),
+      text: t('whatIsGold'),
       icon: learnCelo,
       priority: CELO_EDUCATION_PRIORITY,
       callToActions: [
@@ -213,7 +212,8 @@ function useSimpleActions() {
           },
         },
         {
-          text: t('global:dismiss'),
+          text: t('dismiss'),
+          isSecondary: true,
           onPress: () => {
             ValoraAnalytics.track(HomeEvents.notification_select, {
               notificationType: NotificationBannerTypes.celo_asset_education,

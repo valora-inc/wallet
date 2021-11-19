@@ -6,7 +6,6 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { TokenTransactionType, TransferItemFragment } from 'src/apollo/types'
 import { txHashToFeedInfoSelector } from 'src/fiatExchanges/reducer'
-import { Namespaces } from 'src/i18n'
 import { AddressToE164NumberType } from 'src/identity/reducer'
 import { addressToDisplayNameSelector } from 'src/identity/selectors'
 import { InviteDetails } from 'src/invite/actions'
@@ -60,7 +59,7 @@ function navigateToTransactionReview({
 }
 
 export function TransferFeedItem(props: Props) {
-  const { t } = useTranslation(Namespaces.walletFlow5)
+  const { t } = useTranslation()
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const rewardsSenders = useSelector(rewardsSendersSelector)
   const inviteRewardSenders = useSelector(inviteRewardsSendersSelector)

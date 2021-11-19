@@ -344,7 +344,7 @@ exports[`PhoneNumberLookupQuotaScreen renders correctly 1`] = `
               }
             }
           >
-            global:skip
+            skip
           </Text>
         </View>
       </View>

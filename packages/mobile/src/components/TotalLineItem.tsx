@@ -8,7 +8,6 @@ import { StyleSheet, Text } from 'react-native'
 import { MoneyAmount } from 'src/apollo/types'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import LineItemRow from 'src/components/LineItemRow'
-import { Namespaces } from 'src/i18n'
 import { useLocalCurrencyToShow } from 'src/localCurrency/hooks'
 import { CurrencyInfo } from 'src/send/SendConfirmationLegacy'
 import { Currency } from 'src/utils/currencies'
@@ -43,7 +42,7 @@ export default function TotalLineItem({
     currencyInfo
   )
 
-  const { t } = useTranslation(Namespaces.global)
+  const { t } = useTranslation()
 
   return (
     <>
@@ -64,7 +63,7 @@ export default function TotalLineItem({
           title={
             <Touchable disabled={!canEditCurrency} onPress={onEditCurrency}>
               <Text style={styles.exchangeRate}>
-                <Trans i18nKey={totalAmountKey[amountCurrency]} ns={Namespaces.global}>
+                <Trans i18nKey={totalAmountKey[amountCurrency]}>
                   <CurrencyDisplay
                     amount={{
                       value: new BigNumber(exchangeRate).pow(
@@ -80,7 +79,7 @@ export default function TotalLineItem({
                 {canEditCurrency && (
                   <>
                     {' '}
-                    <Text style={styles.edit}>{t('global:edit')}</Text>
+                    <Text style={styles.edit}>{t('edit')}</Text>
                   </>
                 )}
               </Text>

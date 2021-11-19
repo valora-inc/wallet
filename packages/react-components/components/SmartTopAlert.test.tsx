@@ -3,10 +3,6 @@ import { render } from '@testing-library/react-native'
 import * as React from 'react'
 
 describe('SmartTopAlert', () => {
-  beforeAll(() => {
-    jest.useRealTimers()
-  })
-
   it('renders correctly', async () => {
     const { toJSON } = render(
       <SmartTopAlert

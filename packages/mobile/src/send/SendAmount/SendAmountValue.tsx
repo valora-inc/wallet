@@ -7,7 +7,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
-import { Namespaces } from 'src/i18n'
 import SwapInput from 'src/icons/SwapInput'
 import { getLocalCurrencyCode, getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
@@ -30,7 +29,7 @@ function SendAmountValue({
   onPressMax,
   onSwapInput,
 }: Props) {
-  const { t } = useTranslation(Namespaces.sendFlow7)
+  const { t } = useTranslation()
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)

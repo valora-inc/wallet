@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import { hideAlert } from 'src/alert/actions'
 import { ErrorDisplayType } from 'src/alert/reducer'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { RootState } from 'src/redux/reducers'
 
 const DISMISS_DEFAULT = 5
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
 export default connect<StateProps, DispatchProps, OwnProps, RootState>(
   (state: RootState) => mapStateToProps,
   mapDispatchToProps
-)(withTranslation<Props>(Namespaces.global)(ErrorMessageInline))
+)(withTranslation<Props>()(ErrorMessageInline))

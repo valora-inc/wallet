@@ -74,15 +74,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Array [
-                    Object {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 18,
-                      "lineHeight": 24,
-                    },
-                    Object {},
-                  ]
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
                 }
                 testID="undefined/Text"
               >
@@ -376,19 +373,16 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Array [
-                    Object {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 18,
-                      "lineHeight": 24,
-                    },
-                    Object {},
-                  ]
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
                 }
                 testID="undefined/Text"
               >
-                nuxVerification2:notification.body
+                notification.body
               </Text>
               <View
                 style={
@@ -417,7 +411,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/nuxVerification2:notification.cta/Button"
+                  testID="undefined/CallToActions/notification.cta/Button"
                 >
                   <Text
                     style={
@@ -438,7 +432,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                       ]
                     }
                   >
-                    nuxVerification2:notification.cta
+                    notification.cta
                   </Text>
                 </View>
                 <View
@@ -458,7 +452,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/global:dismiss/Button"
+                  testID="undefined/CallToActions/dismiss/Button"
                 >
                   <Text
                     style={
@@ -470,6 +464,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
+                          "color": "#9CA4A9",
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
@@ -479,7 +474,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                       ]
                     }
                   >
-                    global:dismiss
+                    dismiss
                   </Text>
                 </View>
               </View>
@@ -541,9 +536,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   "flex": 1,
                   "minHeight": 144,
                 },
-                Object {
-                  "backgroundColor": "#2C3D47",
-                },
+                Object {},
               ],
             ]
           }
@@ -566,17 +559,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Array [
-                    Object {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 18,
-                      "lineHeight": 24,
-                    },
-                    Object {
-                      "color": "#FFFFFF",
-                    },
-                  ]
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
                 }
                 testID="undefined/Text"
               >
@@ -621,7 +609,6 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#FFFFFF",
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
@@ -663,13 +650,12 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
-                          "color": "#FFFFFF",
+                          "color": "#9CA4A9",
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
                           "minWidth": 48,
-                          "opacity": 0.33,
                         },
                       ]
                     }
@@ -739,19 +725,16 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
             >
               <Text
                 style={
-                  Array [
-                    Object {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 18,
-                      "lineHeight": 24,
-                    },
-                    Object {},
-                  ]
+                  Object {
+                    "color": "#2E3338",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 18,
+                    "lineHeight": 24,
+                  }
                 }
                 testID="undefined/Text"
               >
-                exchangeFlow9:whatIsGold
+                whatIsGold
               </Text>
               <View
                 style={
@@ -821,7 +804,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                   onResponderTerminate={[Function]}
                   onResponderTerminationRequest={[Function]}
                   onStartShouldSetResponder={[Function]}
-                  testID="undefined/CallToActions/global:dismiss/Button"
+                  testID="undefined/CallToActions/dismiss/Button"
                 >
                   <Text
                     style={
@@ -833,6 +816,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         Object {
+                          "color": "#9CA4A9",
                           "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
@@ -842,7 +826,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                       ]
                     }
                   >
-                    global:dismiss
+                    dismiss
                   </Text>
                 </View>
               </View>
