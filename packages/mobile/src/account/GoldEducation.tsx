@@ -7,7 +7,6 @@ import Education, { EducationTopic, EmbeddedNavBar } from 'src/account/Education
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { setEducationCompleted } from 'src/goldToken/actions'
-import { Namespaces } from 'src/i18n'
 import { celoEducation1, celoEducation2, celoEducation3, celoEducation4 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -15,7 +14,7 @@ import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
 
 export default function GoldEducation() {
-  const { t } = useTranslation(Namespaces.global)
+  const { t } = useTranslation()
 
   const dispatch = useDispatch()
 
@@ -44,8 +43,8 @@ export default function GoldEducation() {
       stepInfo={stepInfo}
       onFinish={onFinish}
       finalButtonType={BtnTypes.TERTIARY}
-      finalButtonText={t('global:done')}
-      buttonText={t('global:next')}
+      finalButtonText={t('done')}
+      buttonText={t('next')}
     />
   )
 }
@@ -56,7 +55,7 @@ GoldEducation.navigationOptions = {
 }
 
 function useStep() {
-  const { t } = useTranslation(Namespaces.goldEducation)
+  const { t } = useTranslation()
 
   return React.useMemo(() => {
     return [
@@ -79,8 +78,8 @@ function useStep() {
     ].map((step, index) => {
       return {
         ...step,
-        title: t(`steps.${index}.title`),
-        text: t(`steps.${index}.text`),
+        title: t(`goldEducationSteps.${index}.title`),
+        text: t(`goldEducationSteps.${index}.text`),
       }
     })
   }, [])

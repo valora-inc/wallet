@@ -17,7 +17,6 @@ import { showMessage } from 'src/alert/actions'
 import { sessionIdSelector } from 'src/app/selectors'
 import { APP_NAME } from 'src/brandingConfig'
 import { CELO_SUPPORT_EMAIL_ADDRESS, DEFAULT_TESTNET } from 'src/config'
-import { Namespaces } from 'src/i18n'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -27,7 +26,7 @@ import { currentAccountSelector } from 'src/web3/selectors'
 type Props = StackScreenProps<StackParamList, Screens.SupportContact>
 
 function SupportContact({ route }: Props) {
-  const { t } = useTranslation(Namespaces.accountScreen10)
+  const { t } = useTranslation()
   const [message, setMessage] = useState('')
   const [attachLogs, setAttachLogs] = useState(true)
   const [inProgress, setInProgress] = useState(false)
@@ -95,7 +94,7 @@ function SupportContact({ route }: Props) {
         <Text style={styles.title} testID={'ContactTitle'}>
           {t('contact')}
         </Text>
-        <Text style={styles.headerText}>{t('global:message')}</Text>
+        <Text style={styles.headerText}>{t('message')}</Text>
         <TextInput
           onChangeText={setMessage}
           value={message}
@@ -131,7 +130,7 @@ function SupportContact({ route }: Props) {
         <Button
           disabled={!message || inProgress}
           onPress={onPressSendEmail}
-          text={t('global:submit')}
+          text={t('submit')}
           type={BtnTypes.PRIMARY}
           testID="SubmitContactForm"
         />

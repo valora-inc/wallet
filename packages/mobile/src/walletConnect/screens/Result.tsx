@@ -6,7 +6,6 @@ import { StackScreenProps } from '@react-navigation/stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { Namespaces } from 'src/i18n'
 import { noHeader } from 'src/navigator/Headers'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -15,7 +14,7 @@ import { StackParamList } from 'src/navigator/types'
 type Props = StackScreenProps<StackParamList, Screens.WalletConnectResult>
 
 function Result({ route }: Props) {
-  const { t } = useTranslation(Namespaces.walletConnect)
+  const { t } = useTranslation()
   const { title, subtitle } = route.params
 
   return (

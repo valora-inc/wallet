@@ -215,24 +215,20 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
         <svg
           fill="none"
           height={16}
-          style={Object {}}
           viewBox="0 0 16 16"
           width={16}
-          xmlns="http://www.w3.org/2000/svg"
         >
           <circle
             cx="8"
             cy="8"
             r="7"
             stroke="#2E3338"
-            stroke-width="1.25"
-            style={Object {}}
+            strokeWidth="1.25"
           />
           <path
             d="M8 12V7M8 6V5"
             stroke="#2E3338"
-            stroke-width="1.25"
-            style={Object {}}
+            strokeWidth="1.25"
           />
         </svg>
         <Text
@@ -617,7 +613,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                   }
                 }
               >
-                global:dismiss
+                dismiss
               </Text>
             </View>
           </View>
@@ -1022,24 +1018,20 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
         <svg
           fill="none"
           height={16}
-          style={Object {}}
           viewBox="0 0 16 16"
           width={16}
-          xmlns="http://www.w3.org/2000/svg"
         >
           <circle
             cx="8"
             cy="8"
             r="7"
             stroke="#2E3338"
-            stroke-width="1.25"
-            style={Object {}}
+            strokeWidth="1.25"
           />
           <path
             d="M8 12V7M8 6V5"
             stroke="#2E3338"
-            stroke-width="1.25"
-            style={Object {}}
+            strokeWidth="1.25"
           />
         </svg>
         <Text
@@ -1424,7 +1416,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                   }
                 }
               >
-                global:dismiss
+                dismiss
               </Text>
             </View>
           </View>

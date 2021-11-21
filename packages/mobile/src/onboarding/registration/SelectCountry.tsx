@@ -7,7 +7,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import i18n, { Namespaces } from 'src/i18n'
+import i18n from 'src/i18n'
 import { headerWithCloseButton } from 'src/navigator/Headers'
 import { modalScreenOptions } from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
@@ -20,7 +20,7 @@ type Props = StackScreenProps<StackParamList, Screens.SelectCountry>
 
 export default function SelectCountry({ navigation, route }: Props) {
   const { countries, selectedCountryCodeAlpha2 } = route.params
-  const { t } = useTranslation(Namespaces.accountScreen10)
+  const { t } = useTranslation()
   const [searchText, setSearchText] = useState('')
 
   const filteredCountries = useMemo(() => countries.getFilteredCountries(searchText), [
@@ -51,11 +51,7 @@ export default function SelectCountry({ navigation, route }: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.searchInputContainer}>
-        <SearchInput
-          placeholder={t('global:search')}
-          value={searchText}
-          onChangeText={setSearchText}
-        />
+        <SearchInput placeholder={t('search')} value={searchText} onChangeText={setSearchText} />
       </View>
       <FlatList
         contentContainerStyle={{ paddingBottom: inset.bottom }}
@@ -74,7 +70,7 @@ export default function SelectCountry({ navigation, route }: Props) {
 SelectCountry.navigationOptions = (navOptions: Props) => ({
   ...modalScreenOptions(navOptions),
   ...headerWithCloseButton,
-  headerTitle: i18n.t('onboarding:selectCountryCode'),
+  headerTitle: i18n.t('selectCountryCode'),
   headerTransparent: false,
 })
 

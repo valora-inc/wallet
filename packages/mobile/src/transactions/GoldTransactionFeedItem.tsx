@@ -10,7 +10,6 @@ import { CeloExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ExchangeItemFragment } from 'src/apollo/types'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
-import { Namespaces } from 'src/i18n'
 import { navigateToExchangeReview } from 'src/transactions/actions'
 import { TransactionStatus } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -21,7 +20,7 @@ type Props = ExchangeItemFragment & {
 }
 
 export function ExchangeFeedItem(props: Props) {
-  const { t, i18n } = useTranslation(Namespaces.walletFlow5)
+  const { t, i18n } = useTranslation()
   const { amount, makerAmount, takerAmount, status, timestamp } = props
   const onPress = () => {
     ValoraAnalytics.track(CeloExchangeEvents.celo_transaction_select)

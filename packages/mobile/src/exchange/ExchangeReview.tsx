@@ -17,7 +17,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import TotalLineItem from 'src/components/TotalLineItem'
 import { exchangeTokens, fetchExchangeRate, fetchTobinTax } from 'src/exchange/actions'
 import { ExchangeRates } from 'src/exchange/reducer'
-import { Namespaces, withTranslation } from 'src/i18n'
+import { withTranslation } from 'src/i18n'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
 import { localCurrencyExchangeRatesSelector } from 'src/localCurrency/selectors'
 import { Screens } from 'src/navigator/Screens'
@@ -143,7 +143,7 @@ export class ExchangeReview extends React.Component<Props, State> {
               <HorizontalLine />
               <LineItemRow
                 title={
-                  <Trans i18nKey="subtotalAmount" ns={Namespaces.exchangeFlow9}>
+                  <Trans i18nKey="subtotalAmount">
                     Subtotal @ <CurrencyDisplay amount={exchangeRateAmount} />
                   </Trans>
                 }
@@ -167,10 +167,7 @@ export class ExchangeReview extends React.Component<Props, State> {
           onPress={this.onPressConfirm}
           size={BtnSizes.FULL}
           text={
-            <Trans
-              i18nKey={makerToken === Currency.Celo ? 'sellGoldAmount' : 'buyGoldAmount'}
-              ns={Namespaces.exchangeFlow9}
-            >
+            <Trans i18nKey={makerToken === Currency.Celo ? 'sellGoldAmount' : 'buyGoldAmount'}>
               {/* Used instead of Currency Display to deal with large text - CELO only exchanged here */}
               {celoAmount.toFixed(2).toString()}
             </Trans>
@@ -218,4 +215,4 @@ export default connect<StateProps, DispatchProps, OwnProps, RootState>(mapStateT
   exchangeTokens,
   fetchExchangeRate,
   fetchTobinTax,
-})(withTranslation<Props>(Namespaces.exchangeFlow9)(ExchangeReview))
+})(withTranslation<Props>()(ExchangeReview))

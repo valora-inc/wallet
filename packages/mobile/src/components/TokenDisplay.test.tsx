@@ -167,7 +167,7 @@ describe('TokenDisplay', () => {
   })
 })
 
-describe.only('formatValueToDisplay', () => {
+describe('formatValueToDisplay', () => {
   it('adds at least two decimal places', () => {
     expect(formatValueToDisplay(new BigNumber(1234))).toEqual('1,234.00')
   })
@@ -176,7 +176,7 @@ describe.only('formatValueToDisplay', () => {
     expect(formatValueToDisplay(new BigNumber(0.00000012345))).toEqual('0.00000012')
   })
 
-  it('doesnt show trailing zeros', () => {
+  it('does not show trailing zeros', () => {
     expect(formatValueToDisplay(new BigNumber(0.01))).toEqual('0.01')
   })
 })

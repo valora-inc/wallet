@@ -255,15 +255,12 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                     >
                       <Text
                         style={
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Regular",
-                              "fontSize": 18,
-                              "lineHeight": 24,
-                            },
-                            Object {},
-                          ]
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 18,
+                            "lineHeight": 24,
+                          }
                         }
                         testID="undefined/Text"
                       >
@@ -402,19 +399,16 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                     >
                       <Text
                         style={
-                          Array [
-                            Object {
-                              "color": "#2E3338",
-                              "fontFamily": "Inter-Regular",
-                              "fontSize": 18,
-                              "lineHeight": 24,
-                            },
-                            Object {},
-                          ]
+                          Object {
+                            "color": "#2E3338",
+                            "fontFamily": "Inter-Regular",
+                            "fontSize": 18,
+                            "lineHeight": 24,
+                          }
                         }
                         testID="undefined/Text"
                       >
-                        exchangeFlow9:whatIsGold
+                        whatIsGold
                       </Text>
                       <View
                         style={
@@ -484,7 +478,7 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                           onResponderTerminate={[Function]}
                           onResponderTerminationRequest={[Function]}
                           onStartShouldSetResponder={[Function]}
-                          testID="undefined/CallToActions/global:dismiss/Button"
+                          testID="undefined/CallToActions/dismiss/Button"
                         >
                           <Text
                             style={
@@ -496,6 +490,7 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                                   "lineHeight": 22,
                                 },
                                 Object {
+                                  "color": "#9CA4A9",
                                   "fontSize": 14,
                                   "lineHeight": 16,
                                   "marginRight": 24,
@@ -505,7 +500,7 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
                               ]
                             }
                           >
-                            global:dismiss
+                            dismiss
                           </Text>
                         </View>
                       </View>
@@ -751,7 +746,7 @@ exports[`WalletHome Renders correctly and fires initial actions 1`] = `
               }
             }
           >
-            paymentRequestFlow:request
+            request
           </Text>
         </View>
       </View>
