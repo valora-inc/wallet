@@ -81,10 +81,10 @@ describe(fetchTokenBalancesSaga, () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [select(walletAddressSelector), null],
-        [call(readOnceFromFirebase, 'tokensInfo'), firebaseTokenInfo],
+        [call(readOnceFromFirebaseWithTimeout, 'tokensInfo'), firebaseTokenInfo],
         [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
       ])
-      .not.call(readOnceFromFirebase, 'tokensInfo')
+      .not.call(readOnceFromFirebaseWithTimeout, 'tokensInfo')
       .not.put(setTokenBalances(mockTokenBalances))
       .run()
   })

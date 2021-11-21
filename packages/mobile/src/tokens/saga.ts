@@ -17,6 +17,7 @@ import { isE2EEnv, WALLET_BALANCE_UPPER_BOUND } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { readOnceFromFirebaseWithTimeout } from 'src/firebase/firebase'
 import { WEI_PER_TOKEN } from 'src/geth/consts'
+import { refreshAllBalances } from 'src/home/actions'
 import i18n from 'src/i18n'
 import { e2eTokens } from 'src/tokens/e2eTokens'
 import {
@@ -354,15 +355,14 @@ export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: stri
 }
 
 function* showOutOfSyncBanner() {
-  console.log('fetch error')
   yield put(
     showMessage(
-      i18n.t('walletFlow5:outOfSyncBanner.message'),
+      i18n.t('outOfSyncBanner.message'),
       null,
-      i18n.t('walletFlow5:outOfSyncBanner.button'),
+      i18n.t('outOfSyncBanner.button'),
       // @ts-ignore
       refreshAllBalances(),
-      i18n.t('walletFlow5:outOfSyncBanner.title')
+      i18n.t('outOfSyncBanner.title')
     )
   )
 }

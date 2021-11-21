@@ -89,21 +89,8 @@ function WalletHome() {
     setTimeout(tryImportContacts, 500)
   }, [])
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
     dispatch(refreshAllBalances())
-
-    if (tokenBalancesError) {
-      dispatch(
-        showMessage(
-          t('outOfSyncBanner.message'),
-          null,
-          t('outOfSyncBanner.button'),
-          // @ts-ignore
-          refreshAllBalances(),
-          t('outOfSyncBanner.title')
-        )
-      )
-    }
   }
 
   useEffect(() => {

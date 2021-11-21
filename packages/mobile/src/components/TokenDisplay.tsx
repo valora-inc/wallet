@@ -5,7 +5,6 @@ import { StyleProp, Text, TextStyle } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
 import { refreshAllBalances } from 'src/home/actions'
-import { Namespaces } from 'src/i18n'
 import { LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { getLocalCurrencySymbol, localCurrencyToUsdSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
@@ -75,7 +74,7 @@ function TokenDisplay({
   style,
   testID,
 }: Props) {
-  const { t } = useTranslation(Namespaces.walletFlow5)
+  const { t } = useTranslation()
   const tokensError = useSelector(tokenErrorSelector)
   const dispatch = useDispatch()
   useEffect(() => {
