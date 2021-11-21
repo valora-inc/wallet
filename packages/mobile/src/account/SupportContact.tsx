@@ -58,7 +58,7 @@ function SupportContact({ route }: Props) {
       sessionId,
       network: DEFAULT_TESTNET,
     }
-    const userId = e164PhoneNumber ? anonymizedPhone(e164PhoneNumber) : t('global:unknown')
+    const userId = e164PhoneNumber ? anonymizedPhone(e164PhoneNumber) : t('unknown')
     const email: Email = {
       subject: t('supportEmailSubject', { appName: APP_NAME, user: userId }),
       recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
