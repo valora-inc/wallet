@@ -55,6 +55,12 @@ export function _setKnownAddressesCache(testKnownAddressesCache: KnownAddressesC
   knownAddressesCache = testKnownAddressesCache
 }
 
+function firebaseFetchError(nodeKey: string) {
+  return (errorObject: any) => {
+    console.error(`${nodeKey} data read failed:`, errorObject.code)
+  }
+}
+
 export function initializeDb() {
   database = admin.database()
   registrationsRef = database.ref('/registrations')
@@ -79,9 +85,7 @@ export function initializeDb() {
       }
       metrics.setLastBlockNotified(lastBlockNotified)
     },
-    (errorObject: any) => {
-      console.error('Latest block data read failed:', errorObject.code)
-    }
+    firebaseFetchError('Latest block')
   )
 
   lastInviteBlockRef.on(
@@ -91,9 +95,7 @@ export function initializeDb() {
       console.debug('Latest invite block updated: ', lastBlock)
       lastInviteBlockNotified = lastBlock
     },
-    (errorObject: any) => {
-      console.error('Latest invite block read failed:', errorObject.code)
-    }
+    firebaseFetchError('Latest invite block')
   )
 
   database.ref('/rewardsSenders').on(
@@ -102,9 +104,7 @@ export function initializeDb() {
       rewardsSenders = snapshot?.val() ?? []
       console.debug('Rewards senders updated: ', rewardsSenders)
     },
-    (errorObject: any) => {
-      console.error('Rewards senders data read failed:', errorObject.code)
-    }
+    firebaseFetchError('Rewards senders')
   )
 
   database.ref('/inviteRewardAddresses').on('value', (snapshot) => {
@@ -126,9 +126,7 @@ export async function getRegistration(address: string) {
     (snapshot) => {
       registration = (snapshot?.val() || {})[address]
     },
-    (errorObject: any) => {
-      console.error('Get registration for address failed failed:', errorObject.code)
-    }
+    firebaseFetchError('Registration')
   )
   return registration
 }
