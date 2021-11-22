@@ -2660,10 +2660,10 @@
   dependencies:
     arrify "^1.0.1"
 
-"@crowdin/ota-client@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@crowdin/ota-client/-/ota-client-0.3.2.tgz#0659ece7e6cb1be9e952bb42bf2f805357ce5c21"
-  integrity sha512-N2KIY8Tit08EXfqpJRgKoDTCBCvXaFJ9Ydtv4jbxCq5Ns/yK7Ukh0/zWbYsWClQSWkE1xF8GStpLyBK2Msn1vg==
+"@crowdin/ota-client@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@crowdin/ota-client/-/ota-client-0.4.0.tgz#6e0c886642edfc4e2349039bc6faf2cbc12d4ce0"
+  integrity sha512-tYDEdQH9i7LGKcIuxDFta8ev2MlG2nO2k/0xmbHMyZoDOo9bkpKG1BnO224B2giBMq9J8To3prBdnWlSQSHYRg==
   dependencies:
     axios "0.21.3"
 
