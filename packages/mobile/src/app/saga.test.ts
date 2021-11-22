@@ -1,6 +1,8 @@
+import i18n from 'i18next'
 import DeviceInfo from 'react-native-device-info'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
+import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -24,6 +26,7 @@ import {
   getAppLocked,
   getLastTimeBackgrounded,
   getRequirePinOnAppOpen,
+  otaTranslationsAppVersionSelector,
   otaTranslationsLanguageSelector,
   otaTranslationsLastUpdateSelector,
 } from 'src/app/selectors'
@@ -60,7 +63,8 @@ jest.mock('src/utils/time', () => ({
 
 jest.mock('src/dappkit/dappkit')
 
-const MockedAnalytics = ValoraAnalytics as any
+const MockedAnalytics = ValoraAnalytics as jest.Mocked<typeof ValoraAnalytics>
+const MockedI18n = i18n as jest.Mocked<typeof i18n>
 
 describe('App saga', () => {
   beforeEach(() => {
@@ -323,27 +327,34 @@ describe('App saga', () => {
     const appVersion = '1.0.0'
     const mockedVersion = DeviceInfo.getVersion as jest.MockedFunction<typeof DeviceInfo.getVersion>
     mockedVersion.mockImplementation(() => appVersion)
+    const defaultProviders: (EffectProviders | StaticProvider)[] = [
+      [select(allowOtaTranslationsSelector), true],
+      [select(otaTranslationsAppVersionSelector), appVersion],
+      [select(otaTranslationsLanguageSelector), 'en-US'],
+      [select(currentLanguageSelector), 'en-US'],
+      [select(otaTranslationsLastUpdateSelector), timestamp],
+      [call(handleSaveOtaTranslations, 'en-US', translations), null],
+    ]
 
     await expectSaga(handleFetchOtaTranslations)
-      .provide([
-        [select(allowOtaTranslationsSelector), true],
-        [select(otaTranslationsLanguageSelector), 'en-US'],
-        [select(currentLanguageSelector), 'en-US'],
-        [select(otaTranslationsLastUpdateSelector), 0],
-        [call(handleSaveOtaTranslations, 'en-US', translations), null],
-      ])
+      .provide([[select(otaTranslationsLastUpdateSelector), 0], ...defaultProviders])
       .put(setOtaTranslationsLastUpdate(timestamp, appVersion, 'en-US'))
       .run()
 
     await expectSaga(handleFetchOtaTranslations)
       .provide([
-        [select(allowOtaTranslationsSelector), true],
-        [select(otaTranslationsLanguageSelector), 'en-US'],
         [select(currentLanguageSelector), 'de'],
-        [select(otaTranslationsLastUpdateSelector), timestamp],
-        [call(handleSaveOtaTranslations, 'de', translations), undefined],
+        [call(handleSaveOtaTranslations, 'de', translations), null],
+        ...defaultProviders,
       ])
       .put(setOtaTranslationsLastUpdate(timestamp, appVersion, 'de'))
       .run()
+
+    await expectSaga(handleFetchOtaTranslations)
+      .provide([[select(otaTranslationsAppVersionSelector), '0.9.0'], ...defaultProviders])
+      .put(setOtaTranslationsLastUpdate(timestamp, appVersion, 'en-US'))
+      .run()
+
+    expect(MockedI18n.addResourceBundle).toHaveBeenCalledTimes(3)
   })
 })

@@ -39,6 +39,7 @@ import {
   getRequirePinOnAppOpen,
   googleMobileServicesAvailableSelector,
   huaweiMobileServicesAvailableSelector,
+  otaTranslationsAppVersionSelector,
   otaTranslationsLanguageSelector,
   otaTranslationsLastUpdateSelector,
 } from 'src/app/selectors'
@@ -343,8 +344,13 @@ export function* handleFetchOtaTranslations() {
       const currentLanguage = yield select(currentLanguageSelector)
       const lastFetchTime = yield select(otaTranslationsLastUpdateSelector)
       const timestamp = yield call([otaClient, otaClient.getManifestTimestamp])
+      const lastFetchAppVersion = yield select(otaTranslationsAppVersionSelector)
 
-      if (lastFetchLanguage !== currentLanguage || lastFetchTime < timestamp) {
+      if (
+        lastFetchLanguage !== currentLanguage ||
+        lastFetchTime !== timestamp ||
+        DeviceInfo.getVersion() !== lastFetchAppVersion
+      ) {
         const languageMappings = yield call([otaClient, otaClient.getLanguageMappings])
         const customMappedLanguage = _.findKey(languageMappings, { locale: currentLanguage })
 
