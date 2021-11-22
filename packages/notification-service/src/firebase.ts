@@ -107,13 +107,17 @@ export function initializeDb() {
     firebaseFetchError('Rewards senders')
   )
 
-  database.ref('/inviteRewardAddresses').on('value', (snapshot) => {
-    const addresses = snapshot?.val() ?? []
-    console.debug(`inviteRewardAddresses fetched: ${addresses}`)
-    if (addresses.length) {
-      inviteRewardsSenders = addresses
-    }
-  })
+  database.ref('/inviteRewardAddresses').on(
+    'value',
+    (snapshot) => {
+      const addresses = snapshot?.val() ?? []
+      console.debug(`inviteRewardAddresses fetched: ${addresses}`)
+      if (addresses.length) {
+        inviteRewardsSenders = addresses
+      }
+    },
+    firebaseFetchError('Invite rewards addresses')
+  )
 
   knownAddressesCache = new KnownAddressesCache()
   knownAddressesCache.startListening(database)
