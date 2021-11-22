@@ -68,6 +68,11 @@ subprojects {
             android {
                 compileSdkVersion rootProject.ext.compileSdkVersion
                 buildToolsVersion rootProject.ext.buildToolsVersion
+                
+                lintOptions {
+                  checkReleaseBuilds false
+                  abortOnError false
+                }
             }
         }
     }
