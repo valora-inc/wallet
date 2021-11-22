@@ -14,7 +14,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import useSelector from 'src/redux/useSelector'
 import { TokenBalance } from 'src/tokens/reducer'
-import { tokensWithBalanceSelector } from 'src/tokens/selectors'
+import { coreTokensSelector, tokensWithBalanceSelector } from 'src/tokens/selectors'
 
 export enum TokenPickerOrigin {
   Send = 'Send',
@@ -27,6 +27,7 @@ interface Props {
   origin: TokenPickerOrigin
   onTokenSelected: (tokenAddress: string) => void
   onClose: () => void
+  isOutgoingPaymentRequest?: boolean
 }
 
 const MIN_EMPTY_SPACE = 100
@@ -60,12 +61,20 @@ function TokenOption({ tokenInfo, onPress }: { tokenInfo: TokenBalance; onPress:
     </Touchable>
   )
 }
-
 // TODO: In the exchange flow or when requesting a payment, only show CELO & stable tokens.
-function TokenBottomSheet({ isVisible, origin, onTokenSelected, onClose }: Props) {
+function TokenBottomSheet({
+  isVisible,
+  origin,
+  onTokenSelected,
+  onClose,
+  isOutgoingPaymentRequest,
+}: Props) {
   const [showingOptions, setOptionsVisible] = useState(isVisible)
   const [pickerHeight, setPickerHeight] = useState(0)
-  const tokens = useSelector(tokensWithBalanceSelector)
+
+  const tokens = !isOutgoingPaymentRequest
+    ? useSelector(tokensWithBalanceSelector)
+    : useSelector(coreTokensSelector)
 
   const { t } = useTranslation()
 
