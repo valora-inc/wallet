@@ -2,7 +2,7 @@
   "paymentReceivedTitle": "Payment Received",
   "paymentReceivedBody": "You've received {{amount}} {{currency}}",
   "celoReceivedTitle": "CELO deposit received",
-  "celoReceivedBody": "You just received {{amount}} CELO! You can save, send, and spend in Valora. Tap to learn more.",
+  "celoReceivedBody": "You just received {{amount}} CELO! You can earn, save and spend in Valora. Tap to learn more.",
   "dollar": "cUSD",
   "euro": "cEUR",
   "gold": "CELO",
