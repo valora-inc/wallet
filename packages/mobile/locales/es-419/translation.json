@@ -160,8 +160,8 @@
       "text": "Cualquier persona que acceda a tu frase tendrá acceso a tu cuenta y a todos tus fondos. No la compartas con nadie."
     }
   ],
-  "customerIncentivesTitle": "Boost your Rewards",
-  "customerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your {{currency}} balance. Available for a limited time so start cashing in!",
+  "customerIncentivesTitle": "Aumenta tus recompensas",
+  "customerIncentivesSummary": "¡Supercharge está aquí! Obtén un {{percent}}% de recompensas anuales sobre tu saldo en {{currency}}. Disponible por tiempo limitado, ¡empieza a agregar fondos!",
   "earnWeekly": {
     "header": "Pago semanal",
     "text": "Envía y gasta como siempre, obtendrás recompensas en el saldo restante."
@@ -209,8 +209,8 @@
   "subtotalAmount": "Subtotal @ <1></1>",
   "inputSubtotal": "Subtotal @ <2></2>",
   "inputSubtotal_gold": "$t(celoGold) @ <2></2>",
-  "buyGoldAmount": "Buy <0></0> $t(gold)",
-  "sellGoldAmount": "Sell <0></0> $t(gold)",
+  "buyGoldAmount": "Comprar <0></0> $t(gold)",
+  "sellGoldAmount": "Vender <0></0> $t(gold)",
   "includeExchangeFee": "*incluye tarifa de cambio",
   "available": "Disponible",
   "newBalance": "Saldo nuevo",
@@ -522,20 +522,20 @@
   "notNow": "Omitir",
   "goldEducationSteps": [
     {
-      "title": "What is CELO?",
-      "text": "CELO is a digital currency that keeps the Celo Dollar (cUSD) stable."
+      "title": "¿Qué es CELO?",
+      "text": "El CELO es una moneda digital que ayuda a mantener el Celo Dólar (cUSD) estable."
     },
     {
-      "title": "CELO’s price changes",
-      "text": "If more people use the Celo Dollar, the value of CELO increases. Unlike CELO, the Celo Dollar doesn't change in value. "
+      "title": "El precio del CELO cambia.",
+      "text": "Cuantas más personas usen Celo Dólares, más aumenta el valor del CELO. A diferencia del CELO, el valor del Celo Dólar no cambia."
     },
     {
-      "title": "Shape the Celo Network",
-      "text": "By holding CELO, you have the ability to vote for changes and features you’d like to see on the Celo Network."
+      "title": "Ayuda a dar forma a la Red Celo",
+      "text": "Si tienes CELO, tienes la posibilidad de elegir los cambios y las funciones que te gustaría ver en la Red Celo."
     },
     {
-      "title": "Please buy and sell responsibly",
-      "text": "{{appName}} allows you to buy and sell CELO. CELO presents a risk of financial loss, please exercise caution."
+      "title": "Por favor, compra y vende activos con responsabilidad.",
+      "text": "{{appName}} te permite comprar y vender CELO. El CELO supone un riesgo de pérdida financiera, por favor participa en la comunidad de manera responsable."
     }
   ],
   "inviteWithWhatsapp": "Invitar por WhatsApp",
@@ -619,10 +619,10 @@
     "skip": "Omitir por ahora"
   },
   "verificationLoading": {
-    "confirming": "Confirming phone number…",
-    "pleaseKeepAppOpen": "Please don't leave this screen or you'll have to restart",
-    "learnMore": "Learn more",
-    "card1": "To make sure your phone number is really yours, we're sending you three messages.",
+    "confirming": "Confirmando número de teléfono…",
+    "pleaseKeepAppOpen": "Por favor, no salgas de esta pantalla o tendrás que reiniciar",
+    "learnMore": "Más información",
+    "card1": "Para asegurarnos de que tu número sea realmente tuyo, te enviaremos tres mensajes de texto.",
     "card2": "Once your number is confirmed, you can send and receive funds easily to your phone number.",
     "card3": "Confirming also allows you to see which of your friends are on {{appName}}.",
     "card4": "We require three confirmation messages to keep your account more secure."
