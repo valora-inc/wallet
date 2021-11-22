@@ -4,6 +4,7 @@ import 'react-native'
 import Mailer from 'react-native-mail'
 import { Provider } from 'react-redux'
 import SupportContact from 'src/account/SupportContact'
+import { APP_NAME, CELO_SUPPORT_EMAIL_ADDRESS } from 'src/brandingConfig'
 import i18n from 'src/i18n'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
@@ -41,8 +42,8 @@ describe('Contact', () => {
           isHTML: true,
           body:
             'Test Message<br/><br/><b>{"version":"0.0.1","buildNumber":"1","apiLevel":-1,"deviceId":"unknown","address":"0x0000000000000000000000000000000000007e57","sessionId":"","network":"alfajores"}</b><br/><br/><b>Support logs are attached...</b>',
-          recipients: ['support@valoraapp.com'],
-          subject: i18n.t('supportEmailSubject', { appName: 'Valora', user: '+1415555XXXX' }),
+          recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
+          subject: i18n.t('supportEmailSubject', { appName: APP_NAME, user: '+1415555XXXX' }),
           attachments: [
             {
               path: combinedLogsPath,
