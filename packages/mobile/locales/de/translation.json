@@ -18,7 +18,7 @@
   "shareAnalytics_detail": "Wir sammeln anonymisierte Daten darüber, wie du {{appName}} verwendest, um die Anwendung für alle zu verbessern.",
   "dataSaver": "Datensparmodus",
   "enableDataSaver": "Datensparmodus aktivieren",
-  "dataSaverDetail": "Der Datensparmodus ermöglicht die Kommunikation mit dem Celo Netzwerk über einen vertrauenswürdigen Knoten. Du kannst diesen Modus jederzeit in den App-Einstellungen ändern.",
+  "dataSaverDetail": "Der Datensparmodus ermöglicht die Kommunikation mit dem Celo-Netzwerk über einen vertrauenswürdigen Knoten. Du kannst diesen Modus jederzeit in den App-Einstellungen ändern.",
   "restartModalSwitchOff": {
     "header": "Neustarten, um Datensparmodus auszuschalten",
     "body": "Um Datensparmodus immer wieder ein- und auszuschalten, musst du die App neu starten und zu diesem Bildschirm zurückkehren.",
@@ -526,7 +526,7 @@
       "text": "CELO ist eine digitale Währung, die den Celo Dollar (cUSD) stabil hält."
     },
     {
-      "title": "Preisänderungen bei CELO",
+      "title": "CELO Preisveränderungen",
       "text": "Wenn mehr Menschen den Celo Dollar verwenden, steigt der Wert von Celo. Im Gegensatz zu CELO ändert sich der Celo Dollar nicht."
     },
     {
